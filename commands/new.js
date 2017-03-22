@@ -42,18 +42,22 @@ function installDependencies(dir) {
   }, function(err) { if (err) return console.log(err) })
 }
 
+function themeName(projectName) {
+  return yaml.safeLoad(fs.readFileSync(`${projectName}/config.yml`, 'utf8')).theme
+}
+
 // command body
 //
 module.exports = function(projectName) {
   // Clone the starter repo & theme repo
   console.log('Installing starter kit...')
   cloneRepo(STARTER_REPO, projectName)
-  let themeName = yaml.safeLoad(fs.readFileSync(`${projectName}/config.yml`, 'utf8')).theme
-  cloneRepo(THEME_REPO, `${projectName}/themes/${themeName}`)
+  cloneRepo(THEME_REPO, `${projectName}/themes/${themeName(projectName)}`)
   console.log(chalk.green('Starter kit successfully installed.'))
 
   // Install starter repo deps & theme repo deps
-  // Some starter-repo dependencies can be shifted into Quire-CLI deps for faster download
+  // Some starter-repo dependencies can be shifted into Quire-CLI deps for
+  // faster download
   console.log('Installing dependencies...')
   installDependencies(projectName)
   installDependencies(`${projectName}/themes/${themeName}`)
