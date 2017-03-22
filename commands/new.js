@@ -2,13 +2,16 @@
 //
 // Accepts a projectName argument, required
 //
+const chalk = require('chalk')
+const checkCmd = require('../util/check_cmd')
+const exec = require('child_process').exec
+const fs = require('fs')
 const GIT_REPO = "https://github.com/gettypubs/quire-catalogue"
 
 module.exports = function(projectName) {
-
-  // If 'git' command not found, throw an error, tell user to install git
-  // If not able to connect with git repo, throw an error
-  // Run `git clone GIT_REPO projectName` and when finished, run a setup script
-
-  console.log(`Cloning from ${GIT_REPO} into ${projectName}`)
+  if (checkCmd('git')) {
+    console.log('Git is installed')
+  } else {
+    console.log('Please install git')
+  }
 }

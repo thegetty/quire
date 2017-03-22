@@ -1,6 +1,6 @@
 // Build command
 //
-const exists = require('command-exists')
+const checkCmd = require('../util/check_cmd')
 const exec = require('child_process').exec
 
 module.exports = function() {
