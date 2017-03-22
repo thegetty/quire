@@ -4,7 +4,7 @@
   "description": "Command-line interface for Quire projects.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/mocha"
   },
   "author": "Eric Gardner",
   "license": "MIT",
@@ -14,5 +14,8 @@
   "dependencies": {
     "command-exists": "^1.2.2",
     "commander": "^2.9.0"
+  },
+  "devDependencies": {
+    "mocha": "^3.2.0"
   }
 }
