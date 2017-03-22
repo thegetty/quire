@@ -4,11 +4,11 @@ const program = require('commander')
 
 // Subcommands
 //
-const newcmd = require('./new')  // 'new' is a keyword
-const build = require('./build')
-const preview = require('./preview')
-const epub = require('./epub')
-const pdf = require('./pdf')
+const newcmd = require('./commands/new')  // 'new' is a keyword
+const build = require('./commands/build')
+const preview = require('./commands/preview')
+const epub = require('./commands/epub')
+const pdf = require('./commands/pdf')
 
 // Version
 //
