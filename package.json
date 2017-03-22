@@ -1,0 +1,17 @@
+{
+  "name": "quire-cli",
+  "version": "0.1.0",
+  "description": "Command-line interface for Quire projects.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Eric Gardner",
+  "license": "MIT",
+  "bin": {
+    "quire": "./index.js"
+  },
+  "dependencies": {
+    "commander": "^2.9.0"
+  }
+}
