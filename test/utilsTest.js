@@ -11,4 +11,13 @@ describe('Utility functions', function() {
       assert.equal(util.commandMissing('foo'), true)
     })
   })
+
+  describe('dirIsValidProject()', function() {
+    it('should return true when a config.yml file is present')
+    it('should return false when a config.yml file is not present')
+  })
+
+  describe('themeName()', function() {
+    it('should read the value of "theme" property from config.yml and return it')
+  })
 })

@@ -1,5 +1,6 @@
 // Utility functions
 
+const cwd = require('cwd')
 const config = require('./config')
 const chalk = require('chalk')
 const exists = require('command-exists').sync
@@ -42,6 +43,8 @@ exports.cloneRepo = function(url, destination) {
  * @return {Boolean}
  */
 exports.dirIsValidProject = function(directory) {
+  directory = directory || cwd()
+
   if (fs.existsSync(path.join(directory, 'config.yml'))) {
     return true
   } else {
@@ -54,13 +57,15 @@ exports.dirIsValidProject = function(directory) {
  *
  * @param {String} dir
  */
-exports.installDependencies = function(dir) {
+exports.installDependencies = function(directory) {
+  directory = directory || cwd()
+
   if (exports.commandMissing('npm')) {
     console.log(chalk.yellow('Please install npm before continuing.'))
     process.exit(1)
   }
   spawnSync('npm', ['install'], {
-    cwd: dir, stdio: 'inherit'
+    cwd: directory, stdio: 'inherit'
   }, function(err) { if (err) return console.log(err) })
 }
 
