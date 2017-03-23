@@ -1,5 +1,5 @@
 // PDF command
 //
 module.exports = function() {
-  console.log("Generating new pdf")
+  console.log('Generating new pdf')
 }

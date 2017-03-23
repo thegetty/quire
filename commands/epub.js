@@ -1,5 +1,5 @@
 // Epub command
 //
 module.exports = function() {
-  console.log("Generating new epub")
+  console.log('Generating new epub')
 }

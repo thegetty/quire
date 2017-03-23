@@ -1,13 +1,24 @@
-// Build command
-//
-const exec = require('child_process').exec
+/**
+ * @fileOverview `build` command
+ * @author Eric Gardner / Getty Publications
+ * @license MIT
+ */
+
+const chalk = require('chalk')
+const cwd = require('cwd')
+const execSync = require('child_process').execSync
+const path = require('path')
 const util = require('../util/util')
 
+const WEBPACK_BIN = './node_modules/.bin/webpack'
+
 module.exports = function() {
-  if (util.commandMissing('hugo')) {
-    console.log(chalk.yellow('Please install hugo before continuing.'))
+  if (util.dirIsValidProject(cwd())) {
+    let themePath = path.join(cwd(), 'themes', util.themeName(cwd()))
+    execSync(WEBPACK_BIN, { cwd: themePath, stdio: 'inherit' })
+    execSync('hugo', { stdio: 'inherit' })
+  } else {
+    console.log(chalk.yellow('No valid project exists at this location.'))
     process.exit(1)
   }
-  // If not in a project directory, throw an error
-  // If in a project directory, run `hugo build` and pass any options
 }

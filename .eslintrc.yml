@@ -1,0 +1,13 @@
+extends: standard
+installedESLint: true
+env:
+  node: true
+  mocha: true
+plugins:
+  - standard
+  - promise
+rules:
+  space-before-function-paren:
+    - "warn"
+    - "never"
+

@@ -1,7 +1,7 @@
 // Utility functions
 
-const config = require('../util/config')
-const exec = require('child_process').exec
+const config = require('./config')
+const chalk = require('chalk')
 const exists = require('command-exists').sync
 const fs = require('fs')
 const path = require('path')
@@ -29,7 +29,7 @@ exports.cloneRepo = function(url, destination) {
     console.log(chalk.yellow('Please install git before continuing.'))
     process.exit(1)
   }
-  destination = destination || DEFAULT_PROJECT_NAME
+  destination = destination || config.DEFAULT_PROJECT_NAME
   spawnSync('git', ['clone', url, destination], {
     stdio: 'inherit'
   }, function(err) { if (err) return console.log(err) })

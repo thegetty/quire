@@ -45,7 +45,6 @@ program
     preview()
   })
 
-
 // quire build
 //
 // run the build command in the current directory
@@ -84,4 +83,4 @@ program
 
 // Run the program
 //
-program.parse(process.argv);
+program.parse(process.argv)
