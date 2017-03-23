@@ -18,8 +18,9 @@ module.exports = function() {
     let themePath = path.join(cwd(), 'themes', util.themeName())
     spawn(WEBPACK_BIN, ['--watch'], { cwd: themePath, stdio: 'inherit' })
     spawn('hugo', ['server'], { stdio: 'inherit' })
+    return true
   } else {
     console.log(chalk.yellow('No valid project exists at this location.'))
-    process.exit(1)
+    return false
   }
 }
