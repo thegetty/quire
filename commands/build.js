@@ -12,6 +12,7 @@ const util = require('../util/util')
 
 const WEBPACK_BIN = './node_modules/.bin/webpack'
 
+/** @module build */
 module.exports = function() {
   if (util.dirIsValidProject(cwd())) {
     let themePath = path.join(cwd(), 'themes', util.themeName(cwd()))

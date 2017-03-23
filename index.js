@@ -4,6 +4,7 @@
  * @fileOverview Quire CLI
  * @author Eric Gardner / Getty Publications
  * @license MIT
+ *
  */
 
 const program = require('commander')
