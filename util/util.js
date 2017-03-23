@@ -76,6 +76,7 @@ exports.installDependencies = function(directory) {
  * @return {String} themeName
  */
 exports.themeName = function(projectName) {
+  projectName = projectName || cwd()
   return yaml.safeLoad(fs.readFileSync(path.join(projectName, 'config.yml'), 'utf8')).theme
 }
 

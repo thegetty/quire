@@ -14,8 +14,8 @@ const WEBPACK_BIN = './node_modules/.bin/webpack'
 
 /** @module preview */
 module.exports = function() {
-  if (util.dirIsValidProject(cwd())) {
-    let themePath = path.join(cwd(), 'themes', util.themeName(cwd()))
+  if (util.dirIsValidProject() {
+    let themePath = path.join(cwd(), 'themes', util.themeName())
     spawn(WEBPACK_BIN, ['--watch'], { cwd: themePath, stdio: 'inherit' })
     spawn('hugo', ['server'], { stdio: 'inherit' })
   } else {
