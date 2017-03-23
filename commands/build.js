@@ -1,10 +1,10 @@
 // Build command
 //
-const commandMissing = require('../util/cmd_missing')
 const exec = require('child_process').exec
+const util = require('../util/util')
 
 module.exports = function() {
-  if (commandMissing('hugo')) {
+  if (util.commandMissing('hugo')) {
     console.log(chalk.yellow('Please install hugo before continuing.'))
     process.exit(1)
   }
