@@ -20,7 +20,6 @@ module.exports = function(projectName) {
 
   /** @todo remove some dependencies from template and handle them here instead */
   console.log('Installing dependencies...')
-  util.installDependencies(projectName)
   util.installDependencies(themePath)
   console.log(chalk.green('Dependencies successfully installed.'))
 
