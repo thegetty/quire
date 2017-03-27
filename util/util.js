@@ -80,3 +80,13 @@ exports.themeName = function(projectName) {
   return yaml.safeLoad(fs.readFileSync(path.join(projectName, 'config.yml'), 'utf8')).theme
 }
 
+exports.isWebpackTheme = function(directory) {
+  directory = directory || cwd()
+
+  if (fs.existsSync(path.join(directory, 'webpack.config.js'))) {
+    return true
+  } else {
+    return false
+  }
+}
+
