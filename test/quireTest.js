@@ -2,9 +2,9 @@ const assert = require('assert')
 const path = require('path')
 const QuireCLI = require(path.join(__dirname, '..', 'lib', 'quire'))
 
-let defaultLocation = __dirname
-let validProjectDir = path.join(__dirname, 'fixtures', 'has-config-file')
-let invalidProjectDir = path.join(__dirname, 'fixtures', 'no-config-file')
+const defaultLocation = process.cwd()
+const validProjectDir = path.join(defaultLocation, 'test', 'fixtures', 'has-config-file')
+const invalidProjectDir = path.join(defaultLocation, 'test', 'fixtures', 'no-config-file')
 
 describe('QuireCLI', function() {
   let quire
@@ -51,17 +51,56 @@ describe('QuireCLI', function() {
   })
 
   describe('_preflight()', function() {
-    it('should raise an error in an invalid project folder.')
-    it('should return an object with `name` and `path` properties')
+    afterEach(function() {
+      process.chdir(defaultLocation)
+    })
+
+    it('should raise an error in an invalid project folder.', function() {
+      process.chdir(invalidProjectDir)
+      quire = new QuireCLI()
+      assert.throws(quire._preflight, Error)
+    })
+
+    it('should read the contents of config.yml in a valid project folder.', function() {
+      process.chdir(validProjectDir)
+      quire = new QuireCLI()
+      assert.equal(quire._preflight().name, 'hemingway')
+    })
   })
 
   describe('preview()', function() {
-    it('should raise an error in an invalid project folder.')
-    it('should spawn child processes for `hugo` and `webpack`')
+    afterEach(function() {
+      quire.emit('shutdown')
+      process.chdir(defaultLocation)
+    })
+
+    it('should raise an error in an invalid project folder.', function() {
+      process.chdir(invalidProjectDir)
+      quire = new QuireCLI()
+      assert.throws(quire.preview, Error)
+    })
+
+    it('should spawn child processes for `hugo` and `webpack`', function() {
+      process.chdir(validProjectDir)
+      quire = new QuireCLI()
+      quire.preview()
+      assert('hugo' in quire)
+      assert('webpack' in quire)
+    })
   })
 
   describe('build()', function() {
-    it('should raise an error in an invalid project folder.')
+    afterEach(function() {
+      quire.emit('shutdown')
+      process.chdir(defaultLocation)
+    })
+
+    it('should raise an error in an invalid project folder.', function() {
+      process.chdir(invalidProjectDir)
+      quire = new QuireCLI()
+      assert.throws(quire.build, Error)
+    })
+
     it('should pick up the output dir if user has specified a custom folder')
     it('should raise an error if the site does not build successfully')
   })
