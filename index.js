@@ -11,6 +11,9 @@ const program = require('commander')
 const QuireCLI = require('./lib/quire')
 const cli = new QuireCLI()
 
+// Shut down child processes on program exit
+process.on('SIGINT', function() { cli.emit('shutdown') })
+
 // Version
 //
 program
@@ -49,7 +52,7 @@ program
   .command('build [options]')
   .description('Run the build command in the current directory')
   .action(function(options) {
-    build()
+    cli.emit('build')
   })
 
 // quire pdf
@@ -61,7 +64,7 @@ program
   .command('pdf')
   .description('Generate a PDF version of the current project')
   .action(function() {
-    pdf()
+    cli.emit('pdf')
   })
 
 // quire epub
@@ -73,7 +76,7 @@ program
   .command('epub')
   .description('Generate an EPUB version of the current project')
   .action(function() {
-    epub()
+    cli.emit('epub')
   })
 
 // Run the program
