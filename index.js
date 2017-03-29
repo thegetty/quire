@@ -8,14 +8,8 @@
  */
 
 const program = require('commander')
-
-// Subcommands
-//
-const newcmd = require('./commands/new')  // 'new' is a keyword
-const build = require('./commands/build')
-const preview = require('./commands/preview')
-const epub = require('./commands/epub')
-const pdf = require('./commands/pdf')
+const QuireCLI = require('./lib/quire')
+const cli = new QuireCLI()
 
 // Version
 //
@@ -31,7 +25,7 @@ program
   .command('new <projectName>')
   .description('Create a new Quire project in the current directory.')
   .action(function(projectName) {
-    newcmd(projectName)
+    cli.emit('new', projectName)
   })
 
 // quire preview
@@ -43,7 +37,7 @@ program
   .command('preview [options]')
   .description('Run the preview server in the current directory')
   .action(function() {
-    preview()
+    cli.emit('preview')
   })
 
 // quire build
