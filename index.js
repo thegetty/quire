@@ -8,14 +8,11 @@
  */
 
 const program = require('commander')
+const QuireCLI = require('./lib/quire')
+const cli = new QuireCLI()
 
-// Subcommands
-//
-const newcmd = require('./commands/new')  // 'new' is a keyword
-const build = require('./commands/build')
-const preview = require('./commands/preview')
-const epub = require('./commands/epub')
-const pdf = require('./commands/pdf')
+// Shut down child processes on program exit
+process.on('SIGINT', function() { cli.emit('shutdown') })
 
 // Version
 //
@@ -31,7 +28,7 @@ program
   .command('new <projectName>')
   .description('Create a new Quire project in the current directory.')
   .action(function(projectName) {
-    newcmd(projectName)
+    cli.emit('new', projectName)
   })
 
 // quire preview
@@ -43,7 +40,7 @@ program
   .command('preview [options]')
   .description('Run the preview server in the current directory')
   .action(function() {
-    preview()
+    cli.emit('preview')
   })
 
 // quire build
@@ -55,7 +52,7 @@ program
   .command('build [options]')
   .description('Run the build command in the current directory')
   .action(function(options) {
-    build()
+    cli.emit('build')
   })
 
 // quire pdf
@@ -67,7 +64,7 @@ program
   .command('pdf')
   .description('Generate a PDF version of the current project')
   .action(function() {
-    pdf()
+    cli.emit('pdf')
   })
 
 // quire epub
@@ -79,7 +76,7 @@ program
   .command('epub')
   .description('Generate an EPUB version of the current project')
   .action(function() {
-    epub()
+    cli.emit('epub')
   })
 
 // Run the program
