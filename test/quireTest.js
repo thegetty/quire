@@ -1,7 +1,7 @@
 const assert = require('assert')
 const path = require('path')
+const QuireCLI = require(path.join(__dirname, '..', 'lib', 'quire'))
 
-let QuireCLI = require(path.join(__dirname, '..', 'lib', 'quire'))
 let defaultLocation = __dirname
 let validProjectDir = path.join(__dirname, 'fixtures', 'has-config-file')
 let invalidProjectDir = path.join(__dirname, 'fixtures', 'no-config-file')
