@@ -1,0 +1,49 @@
+# ==============================================================================
+# Config.yml
+# ------------------------------------------------------------------------------
+#
+# This is the main configuration file for the website. The 'theme' value should
+# match the name of the folder in /themes that contains your theme files; if
+# you've copied the default theme and given it a different name make sure to
+# update the value here too.
+
+# Use these settings for serving/building to a path other than root
+# baseurl: "https://gettypubs.github.io/quire-catalogue"
+# canonifyURLs: true
+
+# Use these settings for serving/building to the root path
+baseurl: "https://gettypubs.github.io/quire-starter"
+relativeURLs: true
+
+title: "Quire Starter"
+languageCode: "en-us"
+theme: "quire-starter-theme"
+footnoteReturnLinkContents: "↩"
+metaDataFormat: "yaml"
+
+# These values can be accessed in templates via .Site.Params
+params:
+  searchEnabled: true
+  imageLabelContentBefore: "Figure "
+  imageLabelContentAfter: ". "
+  displayBiblioShort: "true"
+
+# Menu: the 'main' menu will be picked up in the sidebar navigation menu in the
+# default theme. Other menus can be defined here as well for use with custom
+# theme files. To control order, give items a weight; lower numbers will appear
+# first. Negative values are allowed.
+#
+menu:
+  main:
+    - Name: "Contents"
+      URL: "/contents/"
+      weight: 1
+    - Name: "Catalogue"
+      URL: "/catalogue/"
+      weight: 2
+    - Name: "Bibliography"
+      URL: "/bibliography/"
+      weight: 3
+    - Name: "About"
+      URL: "/about/"
+      weight: 4

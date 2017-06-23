@@ -1,0 +1,14 @@
+# Book.yml Data File
+#
+# This file houses the bibliographic info and general metadata for the digital
+# publication. New fields can be added arbitrarily, but the Quire themes will
+# expect this file to follow the general structure shown here. Templates can
+# access values stored in this file in the following way:
+#
+# {{ .Site.Data.book.title.main }} => "Catalogue Template"
+#
+title: Keep It Moving?
+subtitle: Conserving Kinetic Art
+edition: # First, revised, etc.
+short_title: Kinetic Art
+pub_date: 2017-01-01
