@@ -2,6 +2,6 @@
 .bundle
 .cache
 .sass-cache
-public
+# public
 node_modules
 .tmp
