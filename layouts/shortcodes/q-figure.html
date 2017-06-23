@@ -1,0 +1,117 @@
+{{ if .Get "id" }}
+  {{ if .Get "src" }}
+  {{/*
+    ----------------------------------------------------------------------------
+    If the shortcode has both an id and a src, ignore any figures.yml
+    document and render only the values given in the shortcode
+    ----------------------------------------------------------------------------
+  */}}
+
+  <figure class='quire-figure {{ with .Get "class" }}{{ . }}{{ end }}'
+          id='{{ with .Get "id" }}{{ . }}{{ end }}' >
+
+    <img src='/img/figures/{{ .Get "src" }}'
+         class="quire-figure__image"
+         alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
+
+    {{ with .Get "label" }}
+    <span class="quire-figure__label">{{ . }}</span>
+    {{ end }}
+
+    {{ with .Get "caption" }}
+    <figcaption class="quire-figure__caption">{{ . | markdownify }}</figcaption>
+    {{ end }}
+  </figure>
+
+  {{ else }}
+  {{/*
+    ------------------------------------------------------------------------------
+    If the shortcode has an id, but no src, look for figures.yml document and
+    render the figure from matching values found ther
+    ------------------------------------------------------------------------------
+  */}}
+
+  {{ $x := .Get "id" | string }}
+  {{ range where .Site.Data.figures.figure_list "id" "eq" $x }}
+    <figure
+      class='quire-figure {{ with $.Get "class" }}{{ . }}{{ end }}'
+      id='{{ .id }}' >
+
+      {{ if eq .media_type "inline-svg" }}
+        {{ .src | safeHTML }}
+      {{ else }}
+      <img src="/img/figures/{{ .src }}"
+           class="quire-figure__image"
+           alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else }}{{ .alt }}{{ end }}' />
+      {{ end }}
+
+      {{ if $.Get "label" }}
+        {{ if eq ($.Get "label") "true" }}
+          {{ if .label }}
+            <span class="quire-figure__label">
+              {{ .label | markdownify }}
+            </span>
+          {{ else }}
+            <span class="quire-figure__label">
+              {{ $.Site.Params.imageLabelContentBefore }}{{ .id }}
+            </span>
+          {{ end }}
+        {{ else }}
+          <span class="quire-figure__label">
+            {{ $.Get "label" | markdownify }}
+          </span>
+        {{ end }}
+      {{ end }}
+
+      {{ if $.Get "caption" }}
+        <figcaption class="quire-figure__caption">
+          {{ $.Get "caption" }}
+        </figcaption>
+      {{ else }}
+        {{ if .caption }}
+          <figcaption class="quire-figure__caption">
+            <span class="quire-figure__label">
+              {{ $.Site.Params.imageLabelContentBefore -}}
+              {{ .id }}
+              {{- $.Site.Params.imageLabelContentAfter }}
+            </span>
+            {{ .caption | markdownify }}
+          </figcaption>
+        {{ end }}
+      {{ end }}
+    </figure>
+    {{ end }}
+  {{ end }}
+
+  {{ else }}
+  {{/*
+    ------------------------------------------------------------------------------
+    If the shortcode has a src, but no id, render the figure from the values
+    given in the shortcode.
+    ------------------------------------------------------------------------------
+  */}}
+    {{ if .Get "src" }}
+    <figure class='quire-figure {{ with .Get "class" }}{{ . }}{{ end }}'>
+      {{ if eq .media_type "inline-svg" }}
+      {{ .src | safeHTML }}
+      {{ else }}
+      <img src='/img/figures/{{ .src }}'
+           class="quire-figure__image"
+           alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else }}{{ .alt }}{{ end }}' />
+      {{ end }}
+      {{ with .Get "label" }}
+      <span class="quire-figure__label">{{ . }}</span>
+      {{ end }}
+      {{ with .Get "caption" }}
+      <figcaption class="quire-figure__caption">{{ . | markdownify }}</figcaption>
+      {{ end }}
+    </figure>
+
+    {{ else }}
+    {{/*
+      --------------------------------------------------------------------------
+      If the shortcode has no src, and no id, render nothing.
+      --------------------------------------------------------------------------
+    */}}
+    {{ end }}
+{{ end }}

@@ -1,0 +1,74 @@
+// Breakpoints
+$medium-screen: 600px !default;
+$large-screen:  900px !default;
+
+// Typography
+$base-font-family:    $font-stack-system !default;
+$heading-font-family: $base-font-family  !default;
+
+$base-h1-size:   2.25em  !default;
+$base-h2-size:   1.75em  !default;
+$base-h3-size:   1.5em   !default;
+$base-h4-size:   1.25em  !default;
+$base-h5-size:   1em     !default;
+$base-h6-size:   0.875em !default;
+
+// Line height
+$base-line-height:    1.5 !default;
+$heading-line-height: 1.2 !default;
+
+// Other Sizes
+$base-border-radius: 3px !default;
+
+$base-spacing:  $base-line-height * 1em !default;
+$small-spacing: $base-spacing / 2       !default;
+$base-z-index:  0                       !default;
+
+// Colors
+$blue:        #1565c0 !default;
+$dark-gray:   #333    !default;
+$medium-gray: #999    !default;
+$light-gray:  #ddd    !default;
+
+// Font Colors
+$base-font-color: $dark-gray !default;
+$action-color:    $blue      !default;
+
+// Border
+$base-border-color: $light-gray                  !default;
+$base-border:       1px solid $base-border-color !default;
+
+// Background Colors
+$base-background-color:      #fff                          !default;
+$secondary-background-color: tint($base-border-color, 75%) !default;
+
+// Focus
+$focus-outline-color:  transparentize($action-color, 0.4)              !default;
+$focus-outline-width:  3px                                             !default;
+$focus-outline:        $focus-outline-width solid $focus-outline-color !default;
+$focus-outline-offset: 2px                                             !default;
+
+// Animations
+$base-duration: 150ms !default;
+$base-timing:   ease  !default;
+
+// Layout & Component values
+
+$body-text-font-size: 18px !default;
+$body-text-paragraph-separator: "break" !default; // this also supports "indent"
+$cover-bg-image: url("../img/cover_bg.jpg") !default;
+$cover-bg-position: center center !default;
+
+$max-width: 1000px !default;
+
+$menu-max-width: 350px !default;
+$menu-position: "left" !default; // also supports "right"
+
+$nav-bg-color:  #eee   !default;
+$nav-height:     50px   !default;
+$nav-text-color: $base-font-color !default;
+
+$page-header-background-color: $base-background-color !default;
+$page-max-width: 900px !default;
+$page-subtext-color: $medium-gray !default;
+$page-title-color: $base-font-color !default;

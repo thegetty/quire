@@ -1,0 +1,108 @@
+{{/*
+  This controls the various navigation elements (nav, skip-link, menu and
+  search icons, and search results if enabled). It is visible on all pages.
+*/}}
+
+<div class="quire-controls" role="banner">
+  <a href="#main" class="quire-controls__skip-link" tabindex="1">
+    Skip to Main Content
+  </a>
+
+  <button class="quire-controls__button"
+          id="quire-controls-menu-button"
+          onclick="toggleMenu()"
+          aria-expanded="true"
+          aria-controls="quire-menu"
+          tabindex="2" >
+    <svg width="1em" height="1em">
+      <switch>
+        <use xlink:href="#nav-icon"></use>
+        <foreignObject><img src="path/to/nav-icon.png" alt="" /></foreignObject>
+      </switch>
+    </svg>
+    <span class="visually-hidden">Table of Contents</span>
+  </button>
+
+  <nav class="quire-controls__nav" role="navigation" aria-label="quick">
+    {{ with .Prev }}
+    <div class="quire-controls__nav__item quire-controls__nav__item--prev">
+      <a href="{{ .Permalink }}" rel="prev" id="js-prev" >
+        <svg height="1em" width="1em">
+          <switch>
+            <use xlink:href="#left-arrow-icon"></use>
+            <foreignObject>
+              <img src="path/to/left-arrow-icon.png" alt="" />
+            </foreignObject>
+          </switch>
+        </svg>
+        <span class="visually-hidden">Previous Page (left keyboard arrow or swipe)</span>
+      </a>
+    </div>
+    {{ end }}
+
+    {{ if eq .Type "cover" }}
+    <div class="quire-controls__nav__item">
+      <a href='{{ relref . "index.md" }}' rel="start">
+        <span class="visually-hidden">Home Page: </span>
+        {{ if .Site.Data.publication.short_title }}
+        {{ .Site.Data.publication.short_title | markdownify }}
+        {{ else }}
+        {{ .Site.Data.publication.title | markdownify }}
+        {{ end }}
+      </a>
+    </div>
+    {{ else }}
+    <div class="quire-controls__nav__item quire-controls__nav__item--home">
+      <a href='{{ relref . "index.md" }}'>
+        <span class="visually-hidden">Home Page: </span>
+        {{ if .Site.Data.publication.short_title | markdownify }}
+        {{ .Site.Data.publication.short_title | markdownify }}
+        {{ else }}
+        {{ .Site.Data.publication.title | markdownify }}
+        {{ end }}
+      </a>
+    </div>
+    {{ if .Section }}
+    {{ if ne .Type "section-head"}}
+    <div class="quire-controls__nav__item quire-controls__nav__item--section">
+      <a href='{{ .Permalink }}'>
+        <span class="visually-hidden">Section: </span>
+        {{ .Section | humanize | title }}
+      </a>
+    </div>
+    {{ end }}
+    {{ end }}
+    <div class="quire-controls__nav__item quire-controls__nav__item--current">
+      <span class="visually-hidden">Current Page: </span>
+      <em>{{ .Title | markdownify | truncate 40 }}</em>
+    </div>
+    {{ end }}
+
+    {{ with .Next }}
+    <div class="quire-controls__nav__item quire-controls__nav__item--next">
+      <a href="{{ .Permalink }}" rel="next" id="js-next">
+        <svg width="1em" height="1em">
+          <switch>
+            <use xlink:href="#right-arrow-icon"></use>
+            <foreignObject>
+              <img src="path/to/right-arrow-icon.png" alt="" />
+            </foreignObject>
+          </switch>
+        </svg>
+        <span class="visually-hidden">Next Page (right keyboard arrow or swipe)</span>
+      </a>
+    </div>
+    {{ end }}
+  </nav>
+
+  <button class="quire-controls__button" onclick="toggleMenu()">
+    <svg width="1em" height="1em">
+      <switch>
+        <use xlink:href="#search-icon"></use>
+        <foreignObject><img src="path/to/nav-icon.png" alt="" /></foreignObject>
+      </switch>
+    </svg>
+    <span class="visually-hidden">Search</span>
+  </button>
+</div>
+

@@ -1,0 +1,55 @@
+{{/*
+  This controlls the global table of contents for the publication, which is
+  available on all pages. For users with Javascript enabled, this menu is hidden
+  by default. Users with JS disabled will alwasy see the menu in its expanded state.
+*/}}
+
+<div class="quire-menu quire-menu--is-visible"
+     id="quire-menu"
+     aria-expanded="true"
+     role="contentinfo">
+  <div class="quire-menu__inner">
+    {{- partial "menu-header.html" . -}}
+    <nav class="quire-menu__body">
+      <h3 class="visually-hidden">Table of Contents</h3>
+      <ul class="quire-menu__body__contents" role="navigation" aria-label="site">
+        {{- range .Site.Pages -}}
+          <!-- Section pages -->
+          {{- if .Section -}}
+            {{- if eq .Type "section-head" -}}
+              <li class="quire-menu__body__contents__section">
+                <a href="{{ .Permalink }}">
+                  {{ .Params.id }}. {{ .Title | markdownify }}
+                </a>
+              </li>
+            {{- end -}}
+          <!-- Non-section pages with "menu" frontmatter -->
+          {{- else -}}
+            {{- if eq .Params.menu true -}}
+              <li><a href="{{ .Permalink }}">{{ .Title | markdownify }}</a></li>
+            {{- end -}}
+          {{- end -}}
+        {{- end -}}
+      </ul>
+    </nav>
+
+    {{- with .Site.Data.publication.formats -}}
+    <div class="quire-menu__links" role="complementary" aria-label="downloads">
+      <h3><button class="heading-expander">Other Formats</button></h3>
+      {{ partial "menu-link-list.html" . -}}
+    </div>
+    {{- end }}
+
+    {{- with .Site.Data.publication.related_resources -}}
+    <div class="quire-menu__links" role="complementary" aria-label="other resources">
+      <h3><button class="heading-expander">Related Resources</button></h3>
+      {{ partial "menu-link-list.html" . }}
+    </div>
+    {{- end -}}
+
+    <footer class="quire-menu__footer" role="contentinfo">
+      <h3 class="visually-hidden">About</h3>
+      {{ partial "menu-footer.html" . }}
+    </footer>
+  </div>
+</div>

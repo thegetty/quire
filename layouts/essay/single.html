@@ -1,0 +1,34 @@
+{{/*
+  Essay layout. This layout describes a single-page template that has been
+  augmented with the ability to display a frontmatter-defined abstract (in
+  markdown format) as well as bibliography references.
+*/}}
+
+{{ define "main" }}
+
+{{- range .Site.Data.bibliography.biblio_list -}}
+  {{ $refs := replace .reference_for " " "" }} {{ $refslist := split $refs "," }}
+  {{- range $refslist -}}
+    {{- if eq . $.Params.id  }}{{ $.Scratch.Add "a" . }}{{ end -}}
+  {{- end -}}
+{{- end -}}
+{{ $pagebiblio := $.Scratch.Get "a" }}
+
+<article class="quire-page" id="main" role="main">
+  {{ partial "page-header.html" . }}
+  {{ partial "page-abstract.html" . }}
+
+  <div class="quire-page__content" id="essay-text">
+    <section class="quire-page__content__main">
+      {{ .Content }}
+    </section>
+  </div>
+
+  <div class="quire-page__footer">
+    {{ if $pagebiblio }}
+    {{ partial "references.html" . }}
+    {{ end }}
+  </div>
+</article>
+
+{{ end }}

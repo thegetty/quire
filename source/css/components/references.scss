@@ -1,0 +1,13 @@
+.quire-references {
+  @extend %section-block;
+  @extend %small-text;
+
+  &__title {
+    border-top: $base-border;
+    font-size: 1.5rem;
+    margin-top: $base-spacing;
+    padding-top: $small-spacing;
+  }
+
+  dd { margin-bottom: $small-spacing; }
+}

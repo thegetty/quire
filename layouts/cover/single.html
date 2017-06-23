@@ -1,0 +1,48 @@
+{{/*
+  Cover page layout. This controls the home page of the publication.
+*/}}
+
+{{ define "main" }}
+<div class="quire-cover">
+  <div class="quire-cover__inner">
+
+    {{ if .Site.Data.publication }}
+      <h1 class="quire-cover__inner__title">
+        {{ .Site.Data.publication.title | markdownify }}
+        {{ with .Site.Data.publication.subtitle }}
+          <span class="quire-cover__inner__subtitle">{{ . | markdownify }}</span>
+        {{ end }}
+        {{ with .Site.Data.publication.reading_line }}
+          <span class="quire-cover__inner__reading-line">{{ . | markdownify }}</span>
+        {{ end }}
+      </h1>
+    {{ else }}
+      <h1 class="quire-cover__inner__title">{{ .Site.Title }}</h1>
+    {{ end }}
+
+    <div class="quire-cover__inner__contributor">
+      <p>Edited by</p>
+      <ul>
+        {{ range .Site.Data.publication.primary_contributor }}
+        <li>{{ .first_name }} {{ .last_name }}</li>
+        {{ end }}
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+{{/* Below the fold / "jacket" content goes here */}}
+<div>
+  {{ .Content }}
+  <ul>
+    <li><strong>[ kind: type ] Title URL</strong></li>
+  {{ range .Site.Pages }}
+    <li>
+      [{{ .Kind }}{{ with .Params.Type }}: {{ .}}{{ end }}] {{ .Title }} {{ .URL }}
+    </li>
+  {{ end }}
+  </ul>
+</div>
+
+{{ end }}

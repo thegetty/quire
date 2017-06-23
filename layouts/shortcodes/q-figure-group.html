@@ -1,0 +1,49 @@
+{{ if .Get "id" }}
+{{ $idstring := replace (.Get "id") " " "" }}
+{{ $idlist := split $idstring "," }}
+
+<figure class='quire-figure quire-figure--group {{ with .Get "class" }}{{ . }}{{ end }} '>
+  {{ range $idlist }}
+  {{ $x := . | string }}
+  {{ range where $.Site.Data.figures.figure_list "id" "eq" $x }}
+  <figure class='quire-figure--group__item'
+          id='{{ .id }}'>
+
+    <img src='/img/figures/{{ .src }}'
+         alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else }}{{ .alt }}{{ end }}' />
+
+    {{ if eq ($.Get "label") "true" }}
+    {{ if .label }}
+    <span class="quire-figure__label">
+      {{ .label | markdownify }}
+    </span>
+    {{ else }}
+    <span class="quire-figure__label">
+      {{ $.Site.Params.imageLabelContentBefore }}{{ .id }}
+    </span>
+    {{ end }}
+    {{ end }}
+
+    {{ if $.Get "caption" }}
+    {{ else }}
+    <figcaption class="quire-figure__caption">
+      <span class="quire-figure__label">
+        {{ $.Site.Params.imageLabelContentBefore -}}
+        {{ .id }}
+        {{- $.Site.Params.imageLabelContentAfter }}
+      </span>
+      {{ .caption | markdownify }}
+    </figcaption>
+    {{ end }}
+  </figure>
+  {{ end }}
+
+  {{ end }}
+  {{ with .Get "caption" }}
+  <figcaption class="quire-figure--group__caption">
+    {{ . | markdownify }}
+  </figcaption>
+
+  {{ end }}
+</figure>
+{{ end }}

@@ -1,0 +1,25 @@
+{{/*
+
+  Usage notes TK ....
+
+*/}}
+{{- if eq (len .Params) 3 -}}
+  {{- $.Scratch.Add "short" (.Get 2) -}}
+{{- else -}}
+  {{- $.Scratch.Add "short" (.Get 0) -}}
+{{- end -}}
+{{- $shortDisplay := $.Scratch.Get "short" -}}
+{{- $short := .Get 0 -}}
+{{- range .Site.Data.bibliography.entries -}}
+    {{- if eq .short $short -}}
+        {{- $.Scratch.Add "full" .full -}}
+        {{- $.Scratch.Add "full" " " -}}
+    {{- end -}}
+{{- end -}}
+{{- $full := .Scratch.Get "full" -}}
+{{- $.Page.Scratch.SetInMap "entry" "0" $short -}}
+{{- $.Page.Scratch.SetInMap "entry" "1" $full -}}
+{{ $entry := ($.Page.Scratch.GetSortedMapValues "entry") }}
+{{- $shortId := .Get 0 | urlize -}}
+{{- $.Page.Scratch.SetInMap "cited" $shortId $entry -}}
+<a href="#{{ $short | urlize }}" class="quire-citation"><span class="visually-hidden">Citation: </span>{{- markdownify $shortDisplay -}}{{ with .Get 1 }}, {{ . }}{{ end }}</a><span class="quire-citation-content"><span class="quire-citation-content__no-css"> [</span>{{- markdownify ($.Scratch.Get "full") -}}<span class="quire-citation-content__no-css">]</span></span>

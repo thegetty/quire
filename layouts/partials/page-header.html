@@ -1,0 +1,39 @@
+{{ $bylineOptions := .Params.contributor_byline }}
+{{- range .Site.Data.bibliography.biblio_list -}}
+  {{ $refs := replace .reference_for " " "" }} {{ $refslist := split $refs "," }}
+  {{- range $refslist -}}
+    {{- if (eq . $.Params.id)  }}{{ $.Scratch.Add "a" . }}{{- end -}}
+  {{- end -}}
+{{- end -}}
+{{ $pagebiblio := $.Scratch.Get "a" }}
+
+<header class="quire-page__header">
+  <div class="quire-page__header__inner">
+    <h1 class="quire-page__header__title">
+      {{- with .Params.id }}
+      <span class="quire-page__header__title__id">{{ . }}. </span>
+      {{ end -}}
+      {{ .Title | markdownify }}
+      {{- with .Params.subtitle }}:
+      <span class="quire-page__header__title__subtitle">{{ . | markdownify }}</span>
+      {{ end -}}
+    </h1>
+    {{ if or (eq $bylineOptions "top") ( eq $bylineOptions nil) }}
+      {{ partial "byline.html" (dict "contributorInfo" .Params.contributor "break" ", ") }}
+    {{ end }}
+
+    {{ if (eq .Type "essay") }}
+    <ul class="quire-page__header__navigation"
+        role="navigation"
+        aria-label="page">
+      <li class="quire-page__header__navigation__item">Jump to: <a href="#essay-text">Main Text</a></li>
+      <li class="quire-page__header__navigation__item"><a href="#notes">Notes</a></li>
+      {{ if $pagebiblio }}
+      <li class="quire-page__header__navigation__item">
+        <a href="#bibliography">Bibliography</a>
+      </li>
+      {{ end }}
+    </ul>
+    {{ end }}
+  </div>
+</header>

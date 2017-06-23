@@ -1,0 +1,102 @@
+// Layout
+// =============================================================================
+// These rules should define top-level positioning, sizing, etc.
+
+html {
+  background-color: $nav-bg-color;
+  // height: 100%;
+  // overflow: hidden;
+  // position: fixed;
+  // width: 100%;
+}
+
+body {
+  // display: flex;
+  // flex-direction: column;
+  // height: 100vh;
+  // overflow: hidden;
+}
+
+%container {
+  @extend %fade-in;
+
+  animation-delay: $base-duration;
+  display: flex;
+  flex-direction: column;
+  // height: 100%;
+
+  @media screen and (min-width: $medium-screen) {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  &__main {
+    flex: 1;
+    order: 2;
+    -webkit-overflow-scrolling: touch;
+    overflow-y: scroll;
+    transition: all $base-duration;
+
+    @media screen and (min-width: $medium-screen) { flex: 3; }
+  }
+
+  &__aside {
+    flex: 0;
+    order: 1;
+    -webkit-overflow-scrolling: touch;
+    overflow-y: scroll;
+    transition: all $base-duration;
+
+    @media screen and (min-width: $medium-screen) {
+      @if ($menu-position == "right") { order: 3; }
+    }
+
+    * { display: none; }
+
+    &--is-visible {
+      flex: 1;
+
+      * { display: inherit; }
+    }
+  }
+}
+
+
+// Page content layout
+// -----------------------------------------------------------------------------
+%page-layout {
+  padding-bottom: $base-spacing;
+  padding-left: $base-spacing;
+  padding-right: $base-spacing;
+  padding-top: 0;
+
+  @media screen and (min-width: $medium-screen) {
+    margin: 0 auto;
+    max-width: $page-max-width;
+  }
+
+  @media screen and (min-width: $large-screen) {
+    padding-bottom: $base-spacing;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+  }
+}
+
+%cover-layout {
+  align-items: center;
+  background-image: $cover-bg-image;
+  background-position: $cover-bg-position;
+  background-size: cover;
+  display: flex;
+  height: calc(100vh - #{$nav-height});
+  justify-content: center;
+}
+
+.quire-container {
+  @extend %container;
+
+  &__main {
+    @extend %container__main;
+  }
+}

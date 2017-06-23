@@ -1,0 +1,33 @@
+<section class="quire-page__content__references">
+{{ if .Get "sort" }}
+  {{ if eq .Site.Params.displayBiblioShort "true" }}
+  <dl>
+  {{ range sort .Site.Data.bibliography.entries ($.Get "sort") }}
+      <dt>{{ .short | markdownify }}</dt>
+      <dd id="{{ .short | urlize }}">{{ .full | markdownify }}</dd>
+  {{ end }}
+  </dl>
+  {{ else }}
+  <ul>
+  {{ range sort .Site.Data.bibliography.entries ($.Get "sort") }}
+      <li id="{{ .short | urlize }}">{{ .full | markdownify }}</li>
+  {{ end }}
+  </ul>
+  {{ end }}
+{{ else }}
+  {{ if eq .Site.Params.displayBiblioShort "true" }}
+  <dl>
+  {{ range .Site.Data.bibliography.entries }}
+      <dt>{{ .short | markdownify }}</dt>
+      <dd id="{{ .short | urlize }}">{{ .full | markdownify }}</dd>
+  {{ end }}
+  </dl>
+  {{ else }}
+  <ul>
+  {{ range .Site.Data.bibliography.entries }}
+      <li id="{{ .short | urlize }}">{{ .full | markdownify }}</li>
+  {{ end }}
+  </ul>
+  {{ end }}
+{{ end }}
+</section>

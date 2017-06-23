@@ -1,0 +1,155 @@
+{{/*
+
+  More complete usage notes TK ....
+
+  Currently
+  • can only use this shortcode once on a page
+  • doesn't inlcude the full range of possible bio attributes, like url, title, affiliation, etc.
+  • doesn't support the short or long format attribute below
+  • does support a file_as attribute that could be added to a name to alphabize it correctly
+
+  range="page, essays, all, primary, secondary"
+  format="short, long"
+
+*/}}
+
+{{- if or (eq ($.Get "range") "all") (eq ($.Get "range") "essays") -}}
+
+  {{- if eq ($.Get "range") "all" -}}
+    {{- $.Scratch.Add "range" (.Site.Pages) -}}
+  {{- else -}}
+    {{- $.Scratch.Add "range" (where .Site.Pages "Type" "essay") -}}
+  {{- end -}}
+  {{- $contributorrange := $.Scratch.Get "range" -}}
+  {{- range $contributorrange -}}
+    {{- $title := .Params.title -}}
+    {{- $subtitle := .Params.subtitle -}}
+    {{- $paperid := .Params.id -}}
+    {{- $link := .Permalink -}}
+    {{- range .Params.contributor -}}
+      {{- $.Page.Scratch.SetInMap "contributor" "0" .first_name -}}
+      {{- $.Page.Scratch.SetInMap "contributor" "1" .last_name -}}
+      {{- if .bio -}}
+      {{- $.Page.Scratch.SetInMap "contributor" "2" .bio -}}
+      {{- else -}}
+      {{- $.Page.Scratch.SetInMap "contributor" "2" "n/a" -}}
+      {{- end -}}
+      {{- if $paperid -}}
+      {{- $.Page.Scratch.SetInMap "contributor" "3" $paperid -}}
+      {{- else -}}
+      {{- $.Page.Scratch.SetInMap "contributor" "3" "n/a" -}}
+      {{- end -}}
+      {{- $.Page.Scratch.SetInMap "contributor" "4" $title -}}
+      {{- if $subtitle -}}
+      {{- $.Page.Scratch.SetInMap "contributor" "5" $subtitle -}}
+      {{- else -}}
+      {{- $.Page.Scratch.SetInMap "contributor" "5" "n/a" -}}
+      {{- end -}}
+      {{- $.Page.Scratch.SetInMap "contributor" "6" $link -}}
+      {{- $contributor := ($.Page.Scratch.GetSortedMapValues "contributor") -}}
+      {{- if .file_as -}}
+        {{- $name := lower (replace .file_as " " "") -}}
+        {{- $.Page.Scratch.SetInMap "contributorlist" $name $contributor -}}
+      {{- else -}}
+        {{- $name := lower (replace (add .last_name .first_name) " " "") -}}
+        {{- $.Page.Scratch.SetInMap "contributorlist" $name $contributor -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+
+{{- else if eq ($.Get "range") "page" -}}
+
+  {{- $title := .Page.Params.title -}}
+  {{- $subtitle := .Page.Params.subtitle -}}
+  {{- $paperid := .Page.Params.id -}}
+  {{- $link := .Page.Permalink -}}
+  {{- range .Page.Params.contributor -}}
+    {{- $.Page.Scratch.SetInMap "contributor" "0" .first_name -}}
+    {{- $.Page.Scratch.SetInMap "contributor" "1" .last_name -}}
+    {{- if .bio -}}
+    {{- $.Page.Scratch.SetInMap "contributor" "2" .bio -}}
+    {{- else -}}
+    {{- $.Page.Scratch.SetInMap "contributor" "2" "n/a" -}}
+    {{- end -}}
+    {{- if $paperid -}}
+    {{- $.Page.Scratch.SetInMap "contributor" "3" $paperid -}}
+    {{- else -}}
+    {{- $.Page.Scratch.SetInMap "contributor" "3" "n/a" -}}
+    {{- end -}}
+    {{- $.Page.Scratch.SetInMap "contributor" "4" $title -}}
+    {{- if $subtitle -}}
+    {{- $.Page.Scratch.SetInMap "contributor" "5" $subtitle -}}
+    {{- else -}}
+    {{- $.Page.Scratch.SetInMap "contributor" "5" "n/a" -}}
+    {{- end -}}
+    {{- $.Page.Scratch.SetInMap "contributor" "6" $link -}}
+    {{- $contributor := ($.Page.Scratch.GetSortedMapValues "contributor") -}}
+    {{- if .file_as -}}
+      {{- $name := lower (replace .file_as " " "") -}}
+      {{- $.Page.Scratch.SetInMap "contributorlist" $name $contributor -}}
+    {{- else -}}
+      {{- $name := lower (replace (add .last_name .first_name) " " "") -}}
+      {{- $.Page.Scratch.SetInMap "contributorlist" $name $contributor -}}
+    {{- end -}}
+  {{- end -}}
+
+{{- else if or (eq ($.Get "range") "primary") (eq ($.Get "range") "secondary") -}}
+
+  {{- if eq ($.Get "range") "primary" -}}
+    {{- $.Scratch.Add "range" (.Site.Data.publication.primary_contributor) -}}
+  {{- else -}}
+    {{- $.Scratch.Add "range" (.Site.Data.publication.secondary_contributor) -}}
+  {{- end -}}
+  {{- $contributorrange := $.Scratch.Get "range" -}}
+  {{- $title := "" -}}
+  {{- $subtitle := "" -}}
+  {{- $paperid := "" -}}
+  {{- $link := "" -}}
+  {{- range $contributorrange -}}
+    {{- $.Page.Scratch.SetInMap "contributor" "0" .first_name -}}
+    {{- $.Page.Scratch.SetInMap "contributor" "1" .last_name -}}
+    {{- if .bio -}}
+    {{- $.Page.Scratch.SetInMap "contributor" "2" .bio -}}
+    {{- else -}}
+    {{- $.Page.Scratch.SetInMap "contributor" "2" "n/a" -}}
+    {{- end -}}
+    {{- if $paperid -}}
+    {{- $.Page.Scratch.SetInMap "contributor" "3" $paperid -}}
+    {{- else -}}
+    {{- $.Page.Scratch.SetInMap "contributor" "3" "n/a" -}}
+    {{- end -}}
+    {{- $.Page.Scratch.SetInMap "contributor" "4" $title -}}
+    {{- if $subtitle -}}
+    {{- $.Page.Scratch.SetInMap "contributor" "5" $subtitle -}}
+    {{- else -}}
+    {{- $.Page.Scratch.SetInMap "contributor" "5" "n/a" -}}
+    {{- end -}}
+    {{- $.Page.Scratch.SetInMap "contributor" "6" $link -}}
+    {{- $contributor := ($.Page.Scratch.GetSortedMapValues "contributor") -}}
+    {{- if .file_as -}}
+      {{- $name := lower (replace .file_as " " "") -}}
+      {{- $.Page.Scratch.SetInMap "contributorlist" $name $contributor -}}
+    {{- else -}}
+      {{- $name := lower (replace (add .last_name .first_name) " " "") -}}
+      {{- $.Page.Scratch.SetInMap "contributorlist" $name $contributor -}}
+    {{- end -}}
+  {{- end -}}
+
+{{- else -}}
+
+  <p><strong>ERROR: `q-contributors` shortcode range value must be "page", "essays", or "all".</strong></p>
+
+{{- end -}}
+
+<ul class="q-contributors__list">
+{{ range ($.Page.Scratch.GetSortedMapValues "contributorlist") }}
+  {{ $nameid := urlize (replace (add (index . 0) (add " " (index . 1)) ) " " "-") }}
+    <li class="q-contributors__list__item" id="{{ $nameid }}">
+      <p><strong>{{ index . 0 }} {{ index . 1 }}</strong></p>
+      <p>{{ if ne (index . 2) "n/a" }}{{ markdownify (index . 2) }}{{ end }}</p>
+      {{- if ne ($.Get "range") "page" -}}
+      <p><a href="{{ index . 6 }}">{{ if ne (index . 3) "n/a" }}{{ index . 3 }}. {{ end }}{{ markdownify (index . 4) }}{{ if ne (index . 5) "n/a" }}: {{ markdownify (index . 5) }}{{ end }}</a></p>
+      {{- end -}}
+    </li>
+{{ end }}
+</ul>

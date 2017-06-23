@@ -1,0 +1,14 @@
+<section class="quire-references" id="bibliography">
+  <h2 class="quire-references__title">Bibliography</h2>
+  <dl>
+  {{- range .Site.Data.bibliography.biblio_list -}}
+    {{ $refs := replace .reference_for " " "" }} {{ $refslist := split $refs "," }} {{ $s := .short }} {{ $f := .full }}
+    {{- range $refslist -}}
+      {{- if eq . $.Params.id  }}
+          <dt>{{ $s | markdownify }}</dt>
+          <dd>{{ $f | markdownify }}</dd>
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  </dl>
+</section>

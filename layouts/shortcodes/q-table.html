@@ -1,0 +1,42 @@
+{{ $x := .Get "id" | string }}
+{{ range where .Site.Data.tables.table_list "id" "eq" $x }}
+<figure
+  class='q-figure{{ with $.Get "class" }} q-{{ . }}{{ end }}'
+  {{ with $.Get "id" }}id='table-{{ . }}'{{ end }} >
+
+  {{ $borderstring := replace ($.Get "border") " " "" }}
+  {{ $borderlist := split $borderstring "," }}
+  {{ $centertextstring := replace ($.Get "center-text") " " "" }}
+  {{ $centertextlist := split $centertextstring "," }}
+
+  <div
+    class='q-figure__table-wrapper
+           {{ with $.Get "border" }}
+           {{ range $borderlist }} q-border-{{ . }}{{ end }}
+           {{ end }}
+           {{ with $.Get "center-text" }}
+           {{ range $centertextlist }} q-center-{{ . }}{{ end }}
+           {{ end }}'
+    {{ with $.Get "scale" }}
+      style='font-size: calc( (1rem * {{.}}));'
+    {{ end }} >
+
+  {{ if eq .media_type "md" }}
+  {{ .table | markdownify }}
+  {{ else }}
+  {{ .table | safeHTML }}
+  {{ end }}
+  </div>
+
+  <figcaption>
+    <span class="q-figure-label">
+      {{ $.Site.Params.tableLabelContentBefore }}
+      {{ .id }}
+      {{ $.Site.Params.tableLabelContentAfter }}
+    </span>
+    {{ if .caption }}
+    {{ .caption | safeHTML }}
+    {{ end }}
+  </figcaption>
+</figure>
+{{ end }}

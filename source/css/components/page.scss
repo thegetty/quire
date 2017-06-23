@@ -1,0 +1,98 @@
+// Page component
+// =============================================================================
+// These rules control the body text styles in the main content area of the
+// layout.
+
+
+// Page top-level component
+// -----------------------------------------------------------------------------
+.quire-page {
+  background-color: $base-background-color;
+  min-height: calc(100vh - #{$nav-height});
+
+  .attribution {
+    @extend %subtext;
+    @extend %section-block;
+    @extend %zeroed-list;
+  }
+
+  .footnotes {
+    @extend %section-block;
+    @extend %small-text;
+    @extend %force-wrap;
+
+    // Overrides for Blackfriday defaults
+    hr:first-child { display: none; }
+  }
+
+  // Override for Blackfriday defaults
+  // scss-lint:disable IdSelector, QualifyingElement
+  h2#notes {
+    border-top: $base-border;
+    font-size: 1.5rem;
+    margin-top: $base-spacing;
+    padding-top: $small-spacing;
+  }
+  // scss-lint:enable IdSelector, QualifyingElement
+}
+
+// Page Header sub-component
+// -----------------------------------------------------------------------------
+.quire-page__header {
+  @extend %vertically-centered-block;
+  background-color: $page-header-background-color;
+  padding: ($base-spacing * 1.5) 0;
+
+  &__inner {
+    @extend %page-layout;
+  }
+
+  &__id { display: block; }
+
+  &__title {
+    color: $page-title-color;
+    margin-bottom: 0;
+  }
+
+  &__navigation {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    &__item { margin: 0 $small-spacing / 2; }
+  }
+}
+
+// Page Abstract sub-component
+// -----------------------------------------------------------------------------
+.quire-page__abstract {
+  @extend %page-layout;
+
+  &__inner {
+    @extend %call-out-block;
+    @extend %section-block;
+    @extend %small-text;
+  }
+}
+
+// Page Content sub-component
+// -----------------------------------------------------------------------------
+.quire-page__content {
+  @extend %page-layout;
+
+  &__main {
+    @extend %body-text;
+    font-size: $body-text-font-size;
+  }
+}
+
+.quire-page__footer {
+  @extend %page-layout;
+}
+
+// Page Contributor sub-component
+// -----------------------------------------------------------------------------
+.quire-page__contributor {
+  @extend %subtext;
+  @extend %section-block;
+}

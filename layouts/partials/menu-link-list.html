@@ -1,0 +1,13 @@
+{{/*
+  Reusable partial to display a list of links.
+*/}}
+
+<ul class="quire-menu__link-list">
+  {{ range . }}
+  <li>
+    <a href="{{ .url }}" target="_blank" rel="{{ .link_relation }}" type="{{ .media_type }}">
+      {{ .name }}{{ with .file_size_mb }} ({{ . }} MB){{ end }}
+    </a>
+  </li>
+  {{ end }}
+</ul>
