@@ -1,0 +1,319 @@
+
+
+<!DOCTYPE html>
+<html lang="">
+  
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title> Conserving a Kinetic “Rotor” || Keep It Moving? </title>
+  <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+<meta name="dcterms.date" content="2017-01-01">
+
+  <link rel="stylesheet" href="https://gettypubs.github.io/quire-starter/css/application.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous">
+  </script>
+</head>
+
+  <body class="">
+    
+
+<svg style="display:none">
+  <symbol id="left-arrow-icon" viewBox="0 0 18 32">
+    <path d="M6,16l11.7,12.4c0.4,0.4,0.4,0.8,0,1.1l-2.1,2.1c-0.4,0.4-0.8,0.4-1.1,0.1L0.2,16.6C0.1,16.5,0,16.3,0,16c0-0.2,0.1-0.4,0.2-0.6L14.5,0.3c0.4-0.4,0.7-0.4,1.1,0l2.1,2.2c0.4,0.4,0.4,0.8,0,1.1L6,16z"/>
+  </symbol>
+  <symbol id="right-arrow-icon" viewBox="0 0 18 32">
+    <path d="M12,16L0.3,3.6c-0.4-0.4-0.4-0.8,0-1.1l2.1-2.1c0.4-0.4,0.8-0.4,1.1-0.1l14.3,15.2c0.1,0.1,0.2,0.3,0.2,0.6c0,0.2-0.1,0.4-0.2,0.6L3.5,31.7c-0.4,0.4-0.7,0.4-1.1,0l-2.1-2.2c-0.4-0.4-0.4-0.8,0-1.1L12,16z"/>
+  </symbol>
+  <symbol id="search-icon" viewBox="0 0 32 32">
+    <path d="M31.7,26.9c0.4,0.4,0.4,0.8,0,1.2l-3.6,3.7C28,31.9,27.7,32,27.5,32c-0.2,0-0.4-0.1-0.6-0.2l-7-7.2c-2.1,1.3-4.3,1.9-6.7,1.9c-3.6,0-6.7-1.3-9.3-3.9C1.3,20,0,16.9,0,13.2s1.3-6.8,3.9-9.4C6.5,1.3,9.6,0,13.2,0c3.6,0,6.7,1.3,9.3,3.9s3.9,5.7,3.9,9.4c0,2.3-0.6,4.5-1.7,6.5L31.7,26.9z M18.9,7.5c-1.6-1.6-3.4-2.4-5.7-2.4C11,5.2,9.1,6,7.5,7.5S5.2,11,5.2,13.2c0,2.2,0.8,4.1,2.4,5.7c1.6,1.6,3.5,2.4,5.7,2.4c2.2,0,4.1-0.8,5.7-2.4c1.6-1.6,2.3-3.5,2.3-5.7C21.2,11,20.4,9.1,18.9,7.5z"/>
+  </symbol>
+  <symbol id="nav-icon" viewBox="0 0 32 32">
+    <path d="M29.4,2.5c0.7,0,1.3,0.3,1.8,0.8C31.8,3.8,32,4.5,32,5.2c0,0.7-0.2,1.4-0.8,1.9c-0.5,0.5-1.1,0.8-1.8,0.8H2.6c-0.7,0-1.3-0.3-1.8-0.8C0.2,6.6,0,5.9,0,5.2c0-0.7,0.2-1.4,0.8-1.9c0.5-0.5,1.1-0.8,1.8-0.8H29.4z M29.4,13.3c0.7,0,1.3,0.3,1.8,0.8c0.5,0.5,0.8,1.2,0.8,1.9c0,0.7-0.2,1.4-0.8,1.9c-0.5,0.5-1.1,0.8-1.8,0.8H2.6c-0.7,0-1.3-0.3-1.8-0.8C0.2,17.4,0,16.7,0,16c0-0.7,0.2-1.4,0.8-1.9c0.5-0.5,1.1-0.8,1.8-0.8H29.4z M29.4,24.1c0.7,0,1.3,0.3,1.8,0.8c0.5,0.5,0.8,1.2,0.8,1.9c0,0.7-0.2,1.4-0.8,1.9c-0.5,0.5-1.1,0.8-1.8,0.8H2.6c-0.7,0-1.3-0.3-1.8-0.8C0.2,28.2,0,27.5,0,26.8c0-0.7,0.2-1.4,0.8-1.9c0.5-0.5,1.1-0.8,1.8-0.8H29.4z"/>
+  </symbol>
+  <symbol id="location-icon" viewBox="0 0 20 32">
+    <path d="M2.9,2.9C4.9,1,7.2,0,10,0C12.7,0,15,1,17,2.9c2,1.9,3,4.3,3,7.1c0,2.8-0.8,6.1-2.5,9.8s-3.3,6.6-5,8.9L10,32c-0.3-0.3-0.6-0.8-1.1-1.4C8.4,30,7.6,28.8,6.5,27c-1.1-1.8-2.1-3.5-3-5.2c-0.9-1.7-1.7-3.7-2.4-5.9C0.4,13.8,0,11.8,0,10C0,7.2,1,4.9,2.9,2.9z M6.7,13.5c0.9,0.9,2,1.4,3.3,1.4c1.3,0,2.4-0.5,3.3-1.4c0.9-0.9,1.4-2,1.4-3.3c0-1.3-0.5-2.4-1.4-3.3c-0.9-0.9-2.1-1.4-3.3-1.4c-1.3,0-2.4,0.5-3.3,1.4c-0.9,0.9-1.4,2.1-1.4,3.3C5.3,11.4,5.7,12.5,6.7,13.5z"/>
+  </symbol>
+  <symbol id="link-icon" viewBox="0 0 32 16">
+    <path d="M22.2,4c0.3,0.8,0.5,1.7,0.5,2.7v2.7h-4V6.7c0-0.8-0.2-1.4-0.8-1.9S16.8,4,16,4H6.7C5.9,4,5.2,4.2,4.8,4.8S4,5.9,4,6.7v2.7c0,0.8,0.2,1.4,0.8,1.9S5.9,12,6.7,12H8c0.2,0.8,0.5,1.5,0.9,2.2c0.4,0.7,0.9,1.1,1.2,1.4l0.5,0.4h-4c-1.8,0-3.4-0.7-4.7-2c-1.3-1.3-2-2.9-2-4.7V6.7C0,4.8,0.7,3.3,2,2c1.3-1.3,2.9-2,4.7-2H16c1.3,0,2.6,0.4,3.7,1.1C20.8,1.9,21.7,2.8,22.2,4z M25.3,0c1.8,0,3.4,0.7,4.7,2c1.3,1.3,2,2.9,2,4.7v2.7c0,1.8-0.7,3.4-2,4.7c-1.3,1.3-2.9,2-4.7,2H16c-2.8,0-4.9-1.3-6.1-4c-0.4-0.9-0.6-1.8-0.6-2.7V6.7h4v2.7c0,0.8,0.2,1.4,0.8,1.9S15.2,12,16,12h9.3c0.8,0,1.4-0.2,1.9-0.8S28,10.1,28,9.3V6.7c0-0.8-0.2-1.4-0.8-1.9S26.1,4,25.3,4H24c-0.2-0.8-0.5-1.5-0.9-2.2c-0.4-0.7-0.9-1.1-1.2-1.4L21.3,0H25.3z"/>
+  </symbol>
+</svg>
+
+    <div class="quire-container">
+      
+
+<div class="quire-menu quire-menu--is-visible"
+     id="quire-menu"
+     aria-expanded="true"
+     role="contentinfo">
+  <div class="quire-menu__inner">
+
+<header class="quire-menu__header">
+  <div class="quire-menu__header__title">
+    <h2>
+      <a href="https://gettypubs.github.io/quire-starter">
+      <span class="visually-hidden">Publication Info: </span>Keep It Moving?:
+      <span class="quire-menu__header__subtitle">
+      Conserving Kinetic Art
+      </span></a><span class="quire-menu__header__reading-line"></span>
+    </h2>
+  </div>
+
+  <div class="quire-menu__header__contributors">
+    <span class="visually-hidden">Contributors: </span></div>
+</header>
+<nav class="quire-menu__body">
+      <h3 class="visually-hidden">Table of Contents</h3>
+      <ul class="quire-menu__body__contents" role="navigation" aria-label="site"><li><a href="https://gettypubs.github.io/quire-starter/contents/">Contents</a></li><li><a href="https://gettypubs.github.io/quire-starter/foreword/">Foreword</a></li><li><a href="https://gettypubs.github.io/quire-starter/preface/">Preface</a></li><li><a href="https://gettypubs.github.io/quire-starter/opening-remarks/">Opening Remarks</a></li><li class="quire-menu__body__contents__section">
+                <a href="https://gettypubs.github.io/quire-starter/keynotes/">
+                  1. Keynotes
+                </a>
+              </li><li class="quire-menu__body__contents__section">
+                <a href="https://gettypubs.github.io/quire-starter/case-studies/">
+                  2. Case Studies
+                </a>
+              </li><li class="quire-menu__body__contents__section">
+                <a href="https://gettypubs.github.io/quire-starter/collections/">
+                  3. Collections/Artists’ Oeuvres
+                </a>
+              </li><li class="quire-menu__body__contents__section">
+                <a href="https://gettypubs.github.io/quire-starter/theoretical-issues/">
+                  4. Theoretical Issues
+                </a>
+              </li><li class="quire-menu__body__contents__section">
+                <a href="https://gettypubs.github.io/quire-starter/posters/">
+                  5. Posters
+                </a>
+              </li><li><a href="https://gettypubs.github.io/quire-starter/contributors/">Contributors</a></li><li><a href="https://gettypubs.github.io/quire-starter/participants/">Symposium Participants</a></li><li><a href="https://gettypubs.github.io/quire-starter/bibliography/">Bibliography</a></li><li><a href="https://gettypubs.github.io/quire-starter/about/">About</a></li></ul>
+    </nav><footer class="quire-menu__footer" role="contentinfo">
+      <h3 class="visually-hidden">About</h3>
+      
+
+    </footer>
+  </div>
+</div>
+
+      <div class="quire-container__main">
+        
+
+<div class="quire-controls" role="banner">
+  <a href="#main" class="quire-controls__skip-link" tabindex="1">
+    Skip to Main Content
+  </a>
+
+  <button class="quire-controls__button"
+          id="quire-controls-menu-button"
+          onclick="toggleMenu()"
+          aria-expanded="true"
+          aria-controls="quire-menu"
+          tabindex="2" >
+    <svg width="1em" height="1em">
+      <switch>
+        <use xlink:href="#nav-icon"></use>
+        <foreignObject><img src="path/to/nav-icon.png" alt="" /></foreignObject>
+      </switch>
+    </svg>
+    <span class="visually-hidden">Table of Contents</span>
+  </button>
+
+  <nav class="quire-controls__nav" role="navigation" aria-label="quick">
+    
+    <div class="quire-controls__nav__item quire-controls__nav__item--prev">
+      <a href="https://gettypubs.github.io/quire-starter/posters/17-erhan/" rel="prev" id="js-prev" >
+        <svg height="1em" width="1em">
+          <switch>
+            <use xlink:href="#left-arrow-icon"></use>
+            <foreignObject>
+              <img src="path/to/left-arrow-icon.png" alt="" />
+            </foreignObject>
+          </switch>
+        </svg>
+        <span class="visually-hidden">Previous Page (left keyboard arrow or swipe)</span>
+      </a>
+    </div>
+    
+
+    
+    <div class="quire-controls__nav__item quire-controls__nav__item--home">
+      <a href='../../quire-starter/'>
+        <span class="visually-hidden">Home Page: </span>
+        
+        Kinetic Art
+        
+      </a>
+    </div>
+    
+    
+    <div class="quire-controls__nav__item quire-controls__nav__item--section">
+      <a href='https://gettypubs.github.io/quire-starter/posters/18-iazurlo/'>
+        <span class="visually-hidden">Section: </span>
+        Posters
+      </a>
+    </div>
+    
+    
+    <div class="quire-controls__nav__item quire-controls__nav__item--current">
+      <span class="visually-hidden">Current Page: </span>
+      <em>Conserving a Kinetic “Rotor”</em>
+    </div>
+    
+
+    
+    <div class="quire-controls__nav__item quire-controls__nav__item--next">
+      <a href="https://gettypubs.github.io/quire-starter/posters/19-mack/" rel="next" id="js-next">
+        <svg width="1em" height="1em">
+          <switch>
+            <use xlink:href="#right-arrow-icon"></use>
+            <foreignObject>
+              <img src="path/to/right-arrow-icon.png" alt="" />
+            </foreignObject>
+          </switch>
+        </svg>
+        <span class="visually-hidden">Next Page (right keyboard arrow or swipe)</span>
+      </a>
+    </div>
+    
+  </nav>
+
+  <button class="quire-controls__button" onclick="toggleMenu()">
+    <svg width="1em" height="1em">
+      <switch>
+        <use xlink:href="#search-icon"></use>
+        <foreignObject><img src="path/to/nav-icon.png" alt="" /></foreignObject>
+      </switch>
+    </svg>
+    <span class="visually-hidden">Search</span>
+  </button>
+</div>
+
+
+        
+
+<article class="quire-page" id="main" role="main">
+  
+
+<header class="quire-page__header">
+  <div class="quire-page__header__inner">
+    <h1 class="quire-page__header__title">
+      <span class="quire-page__header__title__id">18. </span>
+      Conserving a Kinetic “Rotor”:
+      <span class="quire-page__header__title__subtitle"><em>Light Dynamo</em> by Heinz Mack</span>
+      </h1>
+    
+      
+
+
+
+<ul
+  class="quire-page__contributor"
+  role="contentinfo"
+  aria-label="authors">
+
+  <li>Paola Iazurlo
+  </li>
+
+  <li>Grazia De Cesare
+  </li>
+
+  <li>Mariastella Margozzi
+  </li>
+
+</ul>
+
+    
+
+    
+    <ul class="quire-page__header__navigation"
+        role="navigation"
+        aria-label="page">
+      <li class="quire-page__header__navigation__item">Jump to: <a href="#essay-text">Main Text</a></li>
+      <li class="quire-page__header__navigation__item"><a href="#notes">Notes</a></li>
+      
+    </ul>
+    
+  </div>
+</header>
+
+  <section class="quire-page__abstract">
+  <div class="quire-page__abstract__inner">
+    <h2>Abstract</h2>
+    This paper presents the study and treatment of <em>Light Dynamo</em>, a Rotor by Heinz Mack (b. 1931), which was carried out by the Laboratorio di Restauro Materiali dell’Arte Contemporanea (Conservation Department of Contemporary Art Materials) of the Istituto Superiore per la Conservazione e il Restauro (ISCR) in Rome. <em>Light Dynamo</em> is an assemblage of wooden panels forming a box. Inside is an aluminum-coated disk connected to an electric mechanism, which allows its slow rotation. The work is in the collection of the Galleria Nazionale d’Arte Moderna e Contemporanea (GNAM), which acquired it from the Salita gallery in Rome in 1986. It had never been exhibited because of its poor condition. The treatment focused on the conservation of the constituent materials and the refunctionalization of the kinetic system, made possible with the collaboration of the artist’s studio.
+  </div>
+</section>
+
+
+  <div class="quire-page__content" id="essay-text">
+    <section class="quire-page__content__main">
+      <p>During the second half of the 1950s, artist Heinz Mack (b. 1931) developed his interest in lighting and kinetic phenomena with his Rotors. This series of works is laminated with shiny metal and creates moving light reflections via movement produced by a small motor housed on the back. <em>Light Dynamo</em> belongs to this phase of the artist’s production; it was recently identified as a work realized by Mack in 1960 for the ZERO group’s only exhibition in Rome: <em>Mack + Klein + Piene + Uecker + Lo Savio = 0</em>, of 1961.</p>
+
+<p>The kinetic play is produced by a rotating disk inside a mirroring box, observed through corrugated glass to amplify the optical effect and the reflection of lighting. The interiors of the box and the disk, which are covered with little parallel wings differently oriented, are made of wood and laminated with sheets of aluminum.</p>
+
+<p>A condition assessment revealed that the work appeared to be seriously deteriorated. The particleboard panels were very flaky, and their external faces, painted with white acryl-vinyl copolymer, were covered with a thick deposit of dirt. The aluminum sheets were covered with a passivating oxide layer, and the two cellulose acetate strips that originally held the glass pane were deformed and broken. Furthermore, functionality was limited because the corrugated glass, which was a fundamental screen to modify and extend the kinetic play of the work, was missing.</p>
+
+<p>As for most kinetic works, the treatment presented two sets of problems: how to balance the exigency of preservation of the original materials with the exigency of functionality.</p>
+
+<p>The first concern was addressed according to a strictly conservative approach in terms of compatibility and reversibility. The particleboard panels were consolidated with a hydrocarbon resin (Regalrez™ 1126), the paint layer and the aluminum sheets were cleaned with a solution of triammonium citrate, and the small lacunae were filled with synthetic stucco and inpainted with a cellulose ether medium, to respect the opacity and solubility of the original paint layer.</p>
+
+
+  
+  
+
+  
+  
+    <figure
+      class='quire-figure '
+      id='18.1' >
+
+      
+      <img src="../../img/figures/fig-18-1-iazurlo.jpg"
+           class="quire-figure__image"
+           alt='' />
+      
+
+      
+
+      
+        
+          <figcaption class="quire-figure__caption">
+            <span class="quire-figure__label">
+              Figure 18.1. 
+            </span>
+            Heinz Mack’s <em>Light Dynamo</em>, 1960, after conservation treatment. Atelier/Studio Mack.
+          </figcaption>
+        
+      
+    </figure>
+    
+  
+
+  
+
+
+<p>Reestablishing functionality was a key issue to avoid the risk of the work being reduced to a relic, and required the substitution of the elements that were lost or damaged. This critical phase was carried out with the collaboration of the artist. He confirmed the correct functioning of the motor, which was still operational; it had come from a wall clock, and it moved slowly, with approximately three revolutions per minute. Moreover, the artist’s studio provided a sample of the glass used by Mack in that period. This allowed us to replace the lost pane with a new one similar to the original, which we had found after a long search among glass factories (<a href="#18.1">fig. 18.1</a>). It was installed onto the work with two polymethyl methacrylate (PMMA) bars, similar in appearance to the originals made from cellulose acetate. Finally, the elastic band on the back, which allowed the transmission of the movement from the motor to the disk, was replaced with an identical new elastic band.</p>
+
+<p>The treatment restored the kinetic function and enabled us to preserve the original materials, a necessity considering the singularity of <em>Light Dynamo</em> when compared to others in the artist’s series of Rotors, which are completely covered with shiny metal. <em>Light Dynamo</em> could be considered a sort of sketch, quickly executed with makeshift materials, easily perishable, but always characterized by a rigorous planning of the kinetic movement under lighting effects.</p>
+
+    </section>
+  </div>
+
+  <div class="quire-page__footer">
+    
+  </div>
+</article>
+
+
+      </div>
+    </div>
+
+    <script src="https://gettypubs.github.io/quire-starter/js/application.js"></script>
+    <script type="text/javascript">
+     
+     
+    </script>
+    
+  </body>
+</html>

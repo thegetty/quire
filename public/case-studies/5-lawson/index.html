@@ -1,0 +1,510 @@
+
+
+<!DOCTYPE html>
+<html lang="">
+  
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title> Cybernetic *Umbrella* || Keep It Moving? </title>
+  <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+<meta name="dcterms.date" content="2017-01-01">
+
+  <link rel="stylesheet" href="https://gettypubs.github.io/quire-starter/css/application.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous">
+  </script>
+</head>
+
+  <body class="">
+    
+
+<svg style="display:none">
+  <symbol id="left-arrow-icon" viewBox="0 0 18 32">
+    <path d="M6,16l11.7,12.4c0.4,0.4,0.4,0.8,0,1.1l-2.1,2.1c-0.4,0.4-0.8,0.4-1.1,0.1L0.2,16.6C0.1,16.5,0,16.3,0,16c0-0.2,0.1-0.4,0.2-0.6L14.5,0.3c0.4-0.4,0.7-0.4,1.1,0l2.1,2.2c0.4,0.4,0.4,0.8,0,1.1L6,16z"/>
+  </symbol>
+  <symbol id="right-arrow-icon" viewBox="0 0 18 32">
+    <path d="M12,16L0.3,3.6c-0.4-0.4-0.4-0.8,0-1.1l2.1-2.1c0.4-0.4,0.8-0.4,1.1-0.1l14.3,15.2c0.1,0.1,0.2,0.3,0.2,0.6c0,0.2-0.1,0.4-0.2,0.6L3.5,31.7c-0.4,0.4-0.7,0.4-1.1,0l-2.1-2.2c-0.4-0.4-0.4-0.8,0-1.1L12,16z"/>
+  </symbol>
+  <symbol id="search-icon" viewBox="0 0 32 32">
+    <path d="M31.7,26.9c0.4,0.4,0.4,0.8,0,1.2l-3.6,3.7C28,31.9,27.7,32,27.5,32c-0.2,0-0.4-0.1-0.6-0.2l-7-7.2c-2.1,1.3-4.3,1.9-6.7,1.9c-3.6,0-6.7-1.3-9.3-3.9C1.3,20,0,16.9,0,13.2s1.3-6.8,3.9-9.4C6.5,1.3,9.6,0,13.2,0c3.6,0,6.7,1.3,9.3,3.9s3.9,5.7,3.9,9.4c0,2.3-0.6,4.5-1.7,6.5L31.7,26.9z M18.9,7.5c-1.6-1.6-3.4-2.4-5.7-2.4C11,5.2,9.1,6,7.5,7.5S5.2,11,5.2,13.2c0,2.2,0.8,4.1,2.4,5.7c1.6,1.6,3.5,2.4,5.7,2.4c2.2,0,4.1-0.8,5.7-2.4c1.6-1.6,2.3-3.5,2.3-5.7C21.2,11,20.4,9.1,18.9,7.5z"/>
+  </symbol>
+  <symbol id="nav-icon" viewBox="0 0 32 32">
+    <path d="M29.4,2.5c0.7,0,1.3,0.3,1.8,0.8C31.8,3.8,32,4.5,32,5.2c0,0.7-0.2,1.4-0.8,1.9c-0.5,0.5-1.1,0.8-1.8,0.8H2.6c-0.7,0-1.3-0.3-1.8-0.8C0.2,6.6,0,5.9,0,5.2c0-0.7,0.2-1.4,0.8-1.9c0.5-0.5,1.1-0.8,1.8-0.8H29.4z M29.4,13.3c0.7,0,1.3,0.3,1.8,0.8c0.5,0.5,0.8,1.2,0.8,1.9c0,0.7-0.2,1.4-0.8,1.9c-0.5,0.5-1.1,0.8-1.8,0.8H2.6c-0.7,0-1.3-0.3-1.8-0.8C0.2,17.4,0,16.7,0,16c0-0.7,0.2-1.4,0.8-1.9c0.5-0.5,1.1-0.8,1.8-0.8H29.4z M29.4,24.1c0.7,0,1.3,0.3,1.8,0.8c0.5,0.5,0.8,1.2,0.8,1.9c0,0.7-0.2,1.4-0.8,1.9c-0.5,0.5-1.1,0.8-1.8,0.8H2.6c-0.7,0-1.3-0.3-1.8-0.8C0.2,28.2,0,27.5,0,26.8c0-0.7,0.2-1.4,0.8-1.9c0.5-0.5,1.1-0.8,1.8-0.8H29.4z"/>
+  </symbol>
+  <symbol id="location-icon" viewBox="0 0 20 32">
+    <path d="M2.9,2.9C4.9,1,7.2,0,10,0C12.7,0,15,1,17,2.9c2,1.9,3,4.3,3,7.1c0,2.8-0.8,6.1-2.5,9.8s-3.3,6.6-5,8.9L10,32c-0.3-0.3-0.6-0.8-1.1-1.4C8.4,30,7.6,28.8,6.5,27c-1.1-1.8-2.1-3.5-3-5.2c-0.9-1.7-1.7-3.7-2.4-5.9C0.4,13.8,0,11.8,0,10C0,7.2,1,4.9,2.9,2.9z M6.7,13.5c0.9,0.9,2,1.4,3.3,1.4c1.3,0,2.4-0.5,3.3-1.4c0.9-0.9,1.4-2,1.4-3.3c0-1.3-0.5-2.4-1.4-3.3c-0.9-0.9-2.1-1.4-3.3-1.4c-1.3,0-2.4,0.5-3.3,1.4c-0.9,0.9-1.4,2.1-1.4,3.3C5.3,11.4,5.7,12.5,6.7,13.5z"/>
+  </symbol>
+  <symbol id="link-icon" viewBox="0 0 32 16">
+    <path d="M22.2,4c0.3,0.8,0.5,1.7,0.5,2.7v2.7h-4V6.7c0-0.8-0.2-1.4-0.8-1.9S16.8,4,16,4H6.7C5.9,4,5.2,4.2,4.8,4.8S4,5.9,4,6.7v2.7c0,0.8,0.2,1.4,0.8,1.9S5.9,12,6.7,12H8c0.2,0.8,0.5,1.5,0.9,2.2c0.4,0.7,0.9,1.1,1.2,1.4l0.5,0.4h-4c-1.8,0-3.4-0.7-4.7-2c-1.3-1.3-2-2.9-2-4.7V6.7C0,4.8,0.7,3.3,2,2c1.3-1.3,2.9-2,4.7-2H16c1.3,0,2.6,0.4,3.7,1.1C20.8,1.9,21.7,2.8,22.2,4z M25.3,0c1.8,0,3.4,0.7,4.7,2c1.3,1.3,2,2.9,2,4.7v2.7c0,1.8-0.7,3.4-2,4.7c-1.3,1.3-2.9,2-4.7,2H16c-2.8,0-4.9-1.3-6.1-4c-0.4-0.9-0.6-1.8-0.6-2.7V6.7h4v2.7c0,0.8,0.2,1.4,0.8,1.9S15.2,12,16,12h9.3c0.8,0,1.4-0.2,1.9-0.8S28,10.1,28,9.3V6.7c0-0.8-0.2-1.4-0.8-1.9S26.1,4,25.3,4H24c-0.2-0.8-0.5-1.5-0.9-2.2c-0.4-0.7-0.9-1.1-1.2-1.4L21.3,0H25.3z"/>
+  </symbol>
+</svg>
+
+    <div class="quire-container">
+      
+
+<div class="quire-menu quire-menu--is-visible"
+     id="quire-menu"
+     aria-expanded="true"
+     role="contentinfo">
+  <div class="quire-menu__inner">
+
+<header class="quire-menu__header">
+  <div class="quire-menu__header__title">
+    <h2>
+      <a href="https://gettypubs.github.io/quire-starter">
+      <span class="visually-hidden">Publication Info: </span>Keep It Moving?:
+      <span class="quire-menu__header__subtitle">
+      Conserving Kinetic Art
+      </span></a><span class="quire-menu__header__reading-line"></span>
+    </h2>
+  </div>
+
+  <div class="quire-menu__header__contributors">
+    <span class="visually-hidden">Contributors: </span></div>
+</header>
+<nav class="quire-menu__body">
+      <h3 class="visually-hidden">Table of Contents</h3>
+      <ul class="quire-menu__body__contents" role="navigation" aria-label="site"><li><a href="https://gettypubs.github.io/quire-starter/contents/">Contents</a></li><li><a href="https://gettypubs.github.io/quire-starter/foreword/">Foreword</a></li><li><a href="https://gettypubs.github.io/quire-starter/preface/">Preface</a></li><li><a href="https://gettypubs.github.io/quire-starter/opening-remarks/">Opening Remarks</a></li><li class="quire-menu__body__contents__section">
+                <a href="https://gettypubs.github.io/quire-starter/keynotes/">
+                  1. Keynotes
+                </a>
+              </li><li class="quire-menu__body__contents__section">
+                <a href="https://gettypubs.github.io/quire-starter/case-studies/">
+                  2. Case Studies
+                </a>
+              </li><li class="quire-menu__body__contents__section">
+                <a href="https://gettypubs.github.io/quire-starter/collections/">
+                  3. Collections/Artists’ Oeuvres
+                </a>
+              </li><li class="quire-menu__body__contents__section">
+                <a href="https://gettypubs.github.io/quire-starter/theoretical-issues/">
+                  4. Theoretical Issues
+                </a>
+              </li><li class="quire-menu__body__contents__section">
+                <a href="https://gettypubs.github.io/quire-starter/posters/">
+                  5. Posters
+                </a>
+              </li><li><a href="https://gettypubs.github.io/quire-starter/contributors/">Contributors</a></li><li><a href="https://gettypubs.github.io/quire-starter/participants/">Symposium Participants</a></li><li><a href="https://gettypubs.github.io/quire-starter/bibliography/">Bibliography</a></li><li><a href="https://gettypubs.github.io/quire-starter/about/">About</a></li></ul>
+    </nav><footer class="quire-menu__footer" role="contentinfo">
+      <h3 class="visually-hidden">About</h3>
+      
+
+    </footer>
+  </div>
+</div>
+
+      <div class="quire-container__main">
+        
+
+<div class="quire-controls" role="banner">
+  <a href="#main" class="quire-controls__skip-link" tabindex="1">
+    Skip to Main Content
+  </a>
+
+  <button class="quire-controls__button"
+          id="quire-controls-menu-button"
+          onclick="toggleMenu()"
+          aria-expanded="true"
+          aria-controls="quire-menu"
+          tabindex="2" >
+    <svg width="1em" height="1em">
+      <switch>
+        <use xlink:href="#nav-icon"></use>
+        <foreignObject><img src="path/to/nav-icon.png" alt="" /></foreignObject>
+      </switch>
+    </svg>
+    <span class="visually-hidden">Table of Contents</span>
+  </button>
+
+  <nav class="quire-controls__nav" role="navigation" aria-label="quick">
+    
+    <div class="quire-controls__nav__item quire-controls__nav__item--prev">
+      <a href="https://gettypubs.github.io/quire-starter/case-studies/4-snow/" rel="prev" id="js-prev" >
+        <svg height="1em" width="1em">
+          <switch>
+            <use xlink:href="#left-arrow-icon"></use>
+            <foreignObject>
+              <img src="path/to/left-arrow-icon.png" alt="" />
+            </foreignObject>
+          </switch>
+        </svg>
+        <span class="visually-hidden">Previous Page (left keyboard arrow or swipe)</span>
+      </a>
+    </div>
+    
+
+    
+    <div class="quire-controls__nav__item quire-controls__nav__item--home">
+      <a href='../../quire-starter/'>
+        <span class="visually-hidden">Home Page: </span>
+        
+        Kinetic Art
+        
+      </a>
+    </div>
+    
+    
+    <div class="quire-controls__nav__item quire-controls__nav__item--section">
+      <a href='https://gettypubs.github.io/quire-starter/case-studies/5-lawson/'>
+        <span class="visually-hidden">Section: </span>
+        Case Studies
+      </a>
+    </div>
+    
+    
+    <div class="quire-controls__nav__item quire-controls__nav__item--current">
+      <span class="visually-hidden">Current Page: </span>
+      <em>Cybernetic <em>Umbrella</em></em>
+    </div>
+    
+
+    
+    <div class="quire-controls__nav__item quire-controls__nav__item--next">
+      <a href="https://gettypubs.github.io/quire-starter/case-studies/6-phillips/" rel="next" id="js-next">
+        <svg width="1em" height="1em">
+          <switch>
+            <use xlink:href="#right-arrow-icon"></use>
+            <foreignObject>
+              <img src="path/to/right-arrow-icon.png" alt="" />
+            </foreignObject>
+          </switch>
+        </svg>
+        <span class="visually-hidden">Next Page (right keyboard arrow or swipe)</span>
+      </a>
+    </div>
+    
+  </nav>
+
+  <button class="quire-controls__button" onclick="toggleMenu()">
+    <svg width="1em" height="1em">
+      <switch>
+        <use xlink:href="#search-icon"></use>
+        <foreignObject><img src="path/to/nav-icon.png" alt="" /></foreignObject>
+      </switch>
+    </svg>
+    <span class="visually-hidden">Search</span>
+  </button>
+</div>
+
+
+        
+
+<article class="quire-page" id="main" role="main">
+  
+
+<header class="quire-page__header">
+  <div class="quire-page__header__inner">
+    <h1 class="quire-page__header__title">
+      <span class="quire-page__header__title__id">5. </span>
+      Cybernetic <em>Umbrella</em>:
+      <span class="quire-page__header__title__subtitle">A Case Study of Collaboration</span>
+      </h1>
+    
+      
+
+
+
+<ul
+  class="quire-page__contributor"
+  role="contentinfo"
+  aria-label="authors">
+
+  <li>Carla Flack
+  </li>
+
+  <li>Louise Lawson
+  </li>
+
+  <li>Jack McConchie
+  </li>
+
+  <li>Ming-Yi Tsai
+  </li>
+
+</ul>
+
+    
+
+    
+    <ul class="quire-page__header__navigation"
+        role="navigation"
+        aria-label="page">
+      <li class="quire-page__header__navigation__item">Jump to: <a href="#essay-text">Main Text</a></li>
+      <li class="quire-page__header__navigation__item"><a href="#notes">Notes</a></li>
+      
+    </ul>
+    
+  </div>
+</header>
+
+  <section class="quire-page__abstract">
+  <div class="quire-page__abstract__inner">
+    <h2>Abstract</h2>
+    Tate has a long history of displaying and treating kinetic works of art, each of which generates its own unique and challenging technical and ethical questions. Wen-Ying Tsai’s <em>Umbrella</em>[^1] highlights the many philosophical and ethical questions raised by the conservation treatment of kinetic artworks. In this paper we consider both the sculptural and technical aspects of the artwork as well as the need to determine the significant characteristics and properties, physical as well as behavioral, to be conserved. We also examine the philosophical and ethical challenges presented by the preservation of kinetic artworks when reviewed against the need for longevity and functionality.</p>
+
+<p>These are complex questions, and we decided that a collaborative approach would lead to a successful decision-making process and informed outcomes. We discuss the collaboration between the institution and the artist’s foundation, and its role in maintaining the difficult balance between artistic intention and technical functionality. We also explore the various skill sets (of conservators, technicians, engineers, and manufacturers) that were brought together to complete this complex project successfully.
+  </div>
+</section>
+
+
+  <div class="quire-page__content" id="essay-text">
+    <section class="quire-page__content__main">
+      
+
+<h2 id="the-context-of-kinetic-art-conservation-at-tate">The Context of Kinetic Art Conservation at Tate</h2>
+
+<p>Tate acquired its first kinetic work in 1951 (Lynn Chadwick’s <em>Dragonfly</em>), and there are now approximately sixty kinetic sculptures in the collection, including mobiles, interactive works, and motorized works. Each artwork has its own complexities relating to display; therefore, conservation needs are reviewed on an individual basis and require a variety of implementation approaches. The following three sculptures highlight some, but not all, of the different approaches that could be applied to Tsai’s <em>Umbrella</em>, based on previous work within Tate conservation.</p>
+
+<p>When Jean Tinguely’s <em>Metamechanical Sculpture with Tripod</em> (1954)<sup class="footnote-ref" id="fnref:2"><a rel="footnote" href="#fn:2">1</a></sup> was displayed in the 1990s, it needed daily repairs after short periods of movement.<sup class="footnote-ref" id="fnref:3"><a rel="footnote" href="#fn:3">2</a></sup> The available options to strengthen the twenty-four loose joints, consolidate the flaking painted cardboard sections, and possibly perform certain reconstructions would mean that a large part of the original material would be lost. Furthermore, the “unpredictable” and “constantly changing” nature of the work, which is inherent to its interpretation, would be compromised. Therefore, the Tate decided to show the work as nonoperational when it was displayed at Tate Liverpool in 2009, allowing the original material to be retained. In this instance, the materiality of the sculpture, rather than its functionality, was viewed as the significant characteristic of the artwork.</p>
+
+<p>The issue of the “auto-destruction” of kinetic works is a recurring problem; the very mechanisms used to bring the works to life cause their mechanical fatigue and trigger constant failures. In the case of Rebecca Horn’s <em>Concert for Anarchy</em> (1990),<sup class="footnote-ref" id="fnref:4"><a rel="footnote" href="#fn:4">3</a></sup> the successful longevity of the piece requires a stringent and regular maintenance plan. When the work was acquired, Tate was made aware of the various mechanical wear issues that would occur; for example, the pipes that pull out of the keyboard will degrade and start to break if they are not regularly greased.<sup class="footnote-ref" id="fnref:5"><a rel="footnote" href="#fn:5">4</a></sup> Conservators worked with the artist and, crucially, the manufacturers to assess what maintenance and servicing was required to ensure both the longevity of the work and the artist’s intention.</p>
+
+<p>Another example of Tate’s approach to kinetic works is partial or full replication. Naum Gabo’s <em>Kinetic Construction (Standing Wave)</em> (1919–20)<sup class="footnote-ref" id="fnref:6"><a rel="footnote" href="#fn:6">5</a></sup> consists of a strip of metal made to oscillate, creating a standing wave, and this movement in real time creates the illusion of volumetric space. Gabo, known for having an interest in the life span of the materials he used, specifically chose materials that he believed would last a long time. Also, and specifically for this discussion, he had an interest in the problems of mechanical fatigue with recurring display: “I, being interested in the preservation of that work, advised the Tate Gallery that it might suffer should it be lent to exhibitions” (<a href="#gabo-1969a" class="quire-citation"><span class="visually-hidden">Citation: </span>Gabo 1969a</a><span class="quire-citation-content"><span class="quire-citation-content__no-css"> [</span>Gabo, Naum. 1969a. “The Kinetic Construction of 1920.” <em>Studio International</em> 178, no. 914 (September): 89.<span class="quire-citation-content__no-css">]</span></span>).</p>
+
+<p>Gabo used primitive techniques and reclaimed materials in the manufacture of <em>Kinetic Construction (Standing Wave)</em>, and it often failed during display. Despite many conservation attempts, it was decided in 1974 that a replica of the work should be made. During a discussion with his assistant, Charles Wilson, Gabo implied that “it was only the sculptural idea or image that was important &hellip; he personally did not attach any great significance to the notion of the original work of art” (<a href="#lodder-2007" class="quire-citation"><span class="visually-hidden">Citation: </span>Lodder 2007</a><span class="quire-citation-content"><span class="quire-citation-content__no-css"> [</span>Lodder, Christina. 2007. “Naum Gabo and the Quandaries of the Replica.” <em>Tate Papers</em> 8 (Autumn). Accessed May 16, 2016. <a href="http://www.tate.org.uk/research/publications/tate-papers/08/naum-gabo-and-the-quandaries-of-the-replica"><strong>www.tate.org.uk/research/publications/tate-papers/08/naum-gabo-and-the-quandaries-of-the-replica</strong></a>.<span class="quire-citation-content__no-css">]</span></span>). Working in close collaboration with the artist, we produced a replica with the goal of re-creating the effect of the original without getting too far away from the original appearance.<sup class="footnote-ref" id="fnref:7"><a rel="footnote" href="#fn:7">6</a></sup> The resolution of this work is important not only because of the collaboration with the artist himself but also because Gabo and <em>Standing Wave</em> strongly influenced Wen-Ying Tsai’s artworks.</p>
+
+<h2 id="wen-ying-tsai-s-umbrella">Wen-Ying Tsai’s <em>Umbrella</em></h2>
+
+
+  
+  
+
+  
+  
+    <figure
+      class='quire-figure '
+      id='5.1' >
+
+      
+      <img src="../../img/figures/gj42ZITk7EM"
+           class="quire-figure__image"
+           alt='' />
+      
+
+      
+
+      
+        
+          <figcaption class="quire-figure__caption">
+            <span class="quire-figure__label">
+              Figure 5.1. 
+            </span>
+            The central crown of <em>Umbrella</em>, 1971, by Wen-Ying Tsai (1928–2013), in action at Tate Modern’s Tank Gallery, June 16, 2016–February 5, 2017.
+          </figcaption>
+        
+      
+    </figure>
+    
+  
+
+  
+
+
+<p>Wen-Ying Tsai (1928–2013) began to make cybernetic sculpture in 1966. Each sculpture consists of a number of stainless-steel rods set on a platform, vibrating at a constant rate of 20Hz to 30Hz (cycles per second). These vibrating rods are lit by high-frequency strobes that capture their movement, allowing the viewer to see them as slowly undulating standing waves. The standing waves appear to immediately respond to a loud noise—the clap of a hand, or a loud voice—by quickening their motion (<a href="#alley-1981" class="quire-citation"><span class="visually-hidden">Citation: </span>Alley 1981</a><span class="quire-citation-content"><span class="quire-citation-content__no-css"> [</span>Alley, Ronald. 1981. <em>Catalogue of the Tate Gallery’s Collection of Modern Art Other than Works by British Artists</em>. London: Tate Gallery and Sotheby Parke-Bernet.<span class="quire-citation-content__no-css">]</span></span>).</p>
+
+
+  
+  
+
+  
+  
+    <figure
+      class='quire-figure float-left'
+      id='5.2' >
+
+      
+      <img src="../../img/figures/fig-5-2-lawson.jpg"
+           class="quire-figure__image"
+           alt='' />
+      
+
+      
+
+      
+        
+          <figcaption class="quire-figure__caption">
+            <span class="quire-figure__label">
+              Figure 5.2. 
+            </span>
+            The central crown of <em>Umbrella</em>, 1971, by Wen-Ying Tsai (1928–2013).
+          </figcaption>
+        
+      
+    </figure>
+    
+  
+
+  
+
+
+<p>Tsai’s <em>Umbrella</em> (1971) (<a href="#5.1">fig. 5.1</a>) is composed of a round concrete base with a small, centrally mounted 230V Bodine motor. Attached to the mounting brackets, at the top of the motor, is a central “crown,” a disk of phenolic resin that supports a vertical stainless-steel rod (<a href="#5.2">fig. 5.2</a>). At the top of this main rod is a smaller phenolic-resin disk from which thirteen thinner stainless-steel rods emanate, reflecting the armature of an umbrella. The ends of each of these rods have an additional “weight” of phenolic resin, which makes the rods bow slightly downward when motionless but balances them to move harmonically when operating. The motor (<a href="#5.3">fig. 5.3</a>) has an eccentric, off-axis weight that, when spinning, causes harmonic standing vibrations to pass through the vertical stainless-steel rod to the weighted phenolic-resin tips at a frequency of 1,465 rpm (revolutions per minute). The continuous pulse rate of the strobe light is slightly slower, and the stroboscopic effect causes the vibration of the steel rods to appear to oscillate at a frequency of approximately 1Hz. A microphone provides feedback to the strobe unit, and noise such as speech or a hand clap can alter the pulse rate from its rest state of twenty-four pulses per second to around eighty-five, making the sculpture appear to speed up.</p>
+
+
+  
+  
+
+  
+  
+    <figure
+      class='quire-figure float-right'
+      id='5.3' >
+
+      
+      <img src="../../img/figures/fig-5-3-lawson.jpg"
+           class="quire-figure__image"
+           alt='' />
+      
+
+      
+
+      
+        
+          <figcaption class="quire-figure__caption">
+            <span class="quire-figure__label">
+              Figure 5.3. 
+            </span>
+            The motor of <em>Umbrella</em>, 1971, by Wen-Ying Tsai (1928–2013).
+          </figcaption>
+        
+      
+    </figure>
+    
+  
+
+  
+
+
+<p>When Tate acquired <em>Umbrella</em> in 1972, the conservation department gathered information to find ways to ensure the longevity of its display. In particular, the artist mentioned that the bulb for the strobe light unit had a life expectancy of three hundred hours, so we acquired addresses of suppliers. The work was briefly on view in 1972 and 1979, but it was removed from display on both occasions due to a mechanical fault and the breaking of a rod that forms part of the central crown.<sup class="footnote-ref" id="fnref:8"><a rel="footnote" href="#fn:8">7</a></sup> In 1979, the artist provided additional operating instructions. There was intermittent communication between Tate and the artist throughout the 1990s, which culminated in the first stage of treatment in 2003, the replication of the central crown.</p>
+
+<p>The central crown’s broken rods meant that the work could not be displayed, and the 2003 treatment focused on replicating this component. A collaboration with the artist, the curator, and Jonathan Benthall, an art historian and longtime friend of the artist, resulted in the following treatment guideline: “That the piece be looked on as a unity. Interventions are secondary and should not be obvious. Construction is much more important than the object’s authenticity.” This closely echoes Gabo’s philosophy for his <em>Standing Wave</em>.<sup class="footnote-ref" id="fnref:9"><a rel="footnote" href="#fn:9">8</a></sup> With this in mind, we decided to make a replica crown from original materials (as much as possible) and closely followed the size, weight, and characteristics of the original central crown.</p>
+
+<p>Subsequently, the work was put into storage until 2014, when it was reviewed with the hope that it could be placed on view in the new Tate Modern. The challenges of displaying the sculpture were revisited, and the review considered a range of options for the artwork’s components: the central crown, the strobe unit, and the audio control unit. Some parts had failed previously, and others are now considered obsolete, irreplaceable technology. To ensure that the public could fully enjoy <em>Umbrella</em> at the Tate Modern, we focused on operability, reliability, and longevity, with each component considered in detail and in relation to these criteria. The artist’s viewpoint is central to Tate’s decision-making process, and the process of ensuring that a kinetic sculpture is functional is complex and challenging. The role of the conservator is to understand where these challenges arise and engage in conversations to ensure a successful outcome (<a href="#lawson-and-cane-2016" class="quire-citation"><span class="visually-hidden">Citation: </span>Lawson and Cane 2016</a><span class="quire-citation-content"><span class="quire-citation-content__no-css"> [</span>Lawson, Louise, and Simon Cane. 2016. “Do Conservators Dream of Electric Sheep? Replicas and Replication.” <em>Studies in Conservation</em> 61 (Sup 2): 109.<span class="quire-citation-content__no-css">]</span></span>).</p>
+
+<h2 id="collaboration">Collaboration</h2>
+
+
+  
+  
+
+  
+  
+    <figure
+      class='quire-figure float-right'
+      id='5.4' >
+
+      
+      <img src="../../img/figures/fig-5-4-lawson.jpg"
+           class="quire-figure__image"
+           alt='' />
+      
+
+      
+
+      
+        
+          <figcaption class="quire-figure__caption">
+            <span class="quire-figure__label">
+              Figure 5.4. 
+            </span>
+            Tate conservation manager Louise Lawson and Ming-Yi Tsai, the artist’s son, at Tate during the initial meeting in January 2016 (Wen-Ying Tsai, 1928–2013).
+          </figcaption>
+        
+      
+    </figure>
+    
+  
+
+  
+
+
+<p>Collaborating with the artist’s foundation and our various conservation teams (and considering our various working practices) was central to the delivery of <em>Umbrella</em> to the Tate Modern. Work with the Tsai Art and Science Foundation began in early 2016 with Ming-Yi Tsai, the artist’s son and a foundation board member, and later included other members of the foundation (<a href="#5.4">fig. 5.4</a>). This was the first time Tate and the foundation had worked together, and it was important to establish a relationship based on trust and clear communication, with an understanding of Tate’s commitment to the care of the sculpture. The initial meeting included viewing the sculpture and discussing both the foundation’s and Tate conservation’s concerns. The emphasis was on ensuring the sculpture’s longevity and functionality balanced against the artist’s intent and conservation philosophy.</p>
+
+<p>The members of the conservation team had skills that addressed the sculpture’s material and technical aspects. Outside experts in programming and lighting were brought in to ensure that all the perceivable requirements for conservation work on <em>Umbrella</em> were addressed.</p>
+
+<p>The collaboration focused on the central crown, strobe unit, and audio control unit. The central crown, as mentioned previously, was replicated in 2003. The lamps for the strobe unit are no longer manufactured, and contemporary substitutes do not fit into the lamp’s housing. Furthermore, both the strobe unit and the audio control unit are of aging technology, and need to be conserved as a reference. This led to the following proposal:</p>
+
+<blockquote>
+<p>A “backup” central crown would be made in case of failure while on display.</p>
+
+<p>A strobe light unit would be manufactured to replicate the light and pulse rate. This could be housed in a unit similar to the original, thereby retaining its aesthetic.</p>
+
+<p>A new audio control unit would be manufactured. It was agreed that the foundation would undertake this work as a prototype that could later be used for other Tsai sculptures.</p>
+
+<p>A display/installation specification would be formulated that addressed the artist’s intention as well as current health and safety regulations.</p>
+
+<p>Communication with the foundation would be maintained at all times, to ground all treatment with the artist’s intent.</p>
+</blockquote>
+
+<p>We agreed that one backup would be made for the previously replicated central crown. Although the original central crown and its stainless-steel rods are beyond repair, they are available as a reference, along with the replicated central crown. Ming-Yi Tsai commented that “his father used a structured, ‘intuitive’ process to make each element,”<sup class="footnote-ref" id="fnref:10"><a rel="footnote" href="#fn:10">9</a></sup> and highlighted the uniqueness of each rod. Research confirmed that the rods are likely stainless-steel welding rods, and each rod was weighed and measured so an accurate copy could be made. The central disk and each phenolic-resin weight were handmade to mimic the original manufacture.</p>
+
+<p>There is an ethical debate within our team about having a series of reserve components for the central crown. A backup is viewed as an element that can be decommissioned, and the backup crown was called such from the outset, as we could not quantify its life expectancy. Rather than have multiple broken central crowns, we decided to give the reserve component temporary status. We will reassess this concept once further data is obtained from having <em>Umbrella</em> on display.</p>
+
+<p>The original strobe unit could not be used: the lamps are no longer manufactured, and contemporary replacements do not fit into the lamp housing or strobe enclosure. Rather than make significant modifications to the original strobe unit, we decided to keep it in perpetuity as a reference and comparison, and re-create the component. As part of the original strobe’s preservation, all of its significant technical and aesthetic characteristics were documented for future reference and use.<sup class="footnote-ref" id="fnref:11"><a rel="footnote" href="#fn:11">10</a></sup> These characteristics played a vital role in the creation of a new unit, which was undertaken with the collaboration of a strobe specialist. The new strobe unit is visually identical to the original, but it functions with LED lights that closely match the original color. The original strobe unit can be used for side-by-side comparisons with any re-created item, but it has fewer than three hundred lamp hours remaining.</p>
+
+<p>The Tsai Foundation re-created the audio unit, since there are many different types of audio control units for Tsai’s sculptures. Each needs to operate at a base frequency and respond to the microphone’s audio inputs to generate various higher frequencies, which are outputted to the strobe. The exact characteristics of the original control box are currently being mapped and replicated into a modern control unit using an Arduino microcontroller. This unit is reprogrammable and can be adapted to many of Tsai’s works.</p>
+
+<p>The treatment of each component enabled the sculpture to be displayed at the new Tate Modern when it opened on June 17, 2016. The work was initially installed according to the artist’s specific written instructions; however, now set against a black background, it seemed visually very different compared to its previous installation against a white background. The visual effect for the viewer was more muted, as the original high positioning of the strobe light limited its reflection off the moving rods. Against the white wall, the darker silhouettes of the rods had been easy to discern. When foundation members viewed <em>Umbrella</em> with the conservation team, we could fully assess the effect of the artwork and position the strobe unit lower to more effectively illuminate the central crown and capture its undulating movement. This alteration was captured within the conservation documentation.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>At the outset, the collaboration aimed to ensure the longevity and functionality in both the display and long-term preservation of <em>Umbrella</em>. This was achieved through the analysis of previous treatments of kinetic works at Tate, which helped inform our conservation strategies for Tsai’s artwork. Through the realization of the project and the conservation treatment, <em>Umbrella</em> is now functional and displayable. The work’s longevity has been achieved through the creation of a new strobe unit and a new audio control unit, both of which were constructed using durable and replaceable digital and solid-state technologies. This was also an opportunity to further document the work and define and capture its significant characteristics, which can be used to re-create any of <em>Umbrella</em>’s three major components.</p>
+
+<p>The project was successful primarily due to the ongoing collaboration of all parties involved, both external and internal to Tate, including the artist’s foundation, Tate curatorial, and Tate conservation (both sculpture and time-based media). The artist’s family and foundation provided advice and guidance, and considered every recommendation. It was important to have continuous and transparent dialogue, but also to meet in person and establish trust as we progressed with the work’s treatment. Tate curators guided the overall preservation process and the realization of the display into the new Tate Modern, and they were essential to informing the conversations about the artwork. Finally, Tate conservators provided a range of conservation strategies to consider and actively guided and carried out the treatments. The collaborative approach, and the engagement of each person involved, was essential to <em>Umbrella</em>’s installation at the new Tate Modern, forty-four years after its acquisition.</p>
+
+<h2 id="acknowledgments">Acknowledgments</h2>
+
+<p>We thank the Tsai family and the Tsai Art and Science Foundation for their ongoing support and insight. They made this a truly remarkable project to be a part of, and we are very proud of what we achieved collectively.</p>
+
+<h2 id="notes">Notes</h2>
+<div class="footnotes">
+
+<hr />
+
+<ol>
+<li id="fn:2">Tate, T03823.
+ <a class="footnote-return" href="#fnref:2">↩</a></li>
+<li id="fn:3">F. Herzog, personal communication, Tate, London, 2009.
+ <a class="footnote-return" href="#fnref:3">↩</a></li>
+<li id="fn:4">Tate, T07517.
+ <a class="footnote-return" href="#fnref:4">↩</a></li>
+<li id="fn:5">T07517 artwork file, Tate, London, 2000.
+ <a class="footnote-return" href="#fnref:5">↩</a></li>
+<li id="fn:6">Tate, T00827.
+ <a class="footnote-return" href="#fnref:6">↩</a></li>
+<li id="fn:7">Tate Conservation, “<em>Naum Gabo, Kinetic Construction (Standing Wave)</em>, 1919–20, replicas 1968, 1975, 1983, 1990,” Tate, London, 2010.
+ <a class="footnote-return" href="#fnref:7">↩</a></li>
+<li id="fn:8">D. Pullen, internal memorandum, Wen-Ying Tsai T01521 artwork file, Tate, London, 1993.
+ <a class="footnote-return" href="#fnref:8">↩</a></li>
+<li id="fn:9">S. Joyce, conservation notes, Wen-Ying Tsai T01521 artwork file, Tate, London, 2001.
+ <a class="footnote-return" href="#fnref:9">↩</a></li>
+<li id="fn:10">Ming-Yi Tsai, personal communication, Tate, London, 2016.
+ <a class="footnote-return" href="#fnref:10">↩</a></li>
+<li id="fn:11">Tate Conservation, “Internal Report: Significant Characteristic Report, Strobe Unit,” Tate, London, 2016.
+ <a class="footnote-return" href="#fnref:11">↩</a></li>
+</ol>
+</div>
+
+    </section>
+  </div>
+
+  <div class="quire-page__footer">
+    
+  </div>
+</article>
+
+
+      </div>
+    </div>
+
+    <script src="https://gettypubs.github.io/quire-starter/js/application.js"></script>
+    <script type="text/javascript">
+     
+     
+    </script>
+    
+  </body>
+</html>
