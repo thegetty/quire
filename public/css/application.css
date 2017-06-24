@@ -1351,6 +1351,7 @@ hr {
   padding: 1.5em; }
 
 .quire-page__header {
+  align-items: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
