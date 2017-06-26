@@ -20,6 +20,10 @@
     font-size: 0.85em;
   }
 
+  @media print {
+    display: none;
+  }
+
   &--is-visible {
     @extend %container__aside--is-visible;
     padding: $base-spacing;
