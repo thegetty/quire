@@ -1,0 +1,106 @@
+// Global print scss rules
+//
+// Variables
+// -----------------------------------------------------------------------------
+$print-width: 8.5in;
+$print-height: 11in;
+
+$print-bleed: 0.125in;
+
+$print-bottom-margin: 1in;
+$print-top-margin: 0.875in;
+$print-inner-margin: 1in;
+$print-outer-margin: 0.75in;
+
+$print-inner-width: $print-width - ($print-inner-margin + $print-outer-margin);
+$print-inner-height: $print-height - ($print-top-margin + $print-bottom-margin);
+
+$print-base-font-size: 10pt;
+$print-base-spacing: 0.125in;
+$print-base-line-height: 1.3;
+$print-paragraph-indent: 0.25in;
+
+$print-background-color: #fff;
+$print-text-color: #000;
+
+$print-page-number-size: 7.5pt;
+
+// Default page setup
+// -----------------------------------------------------------------------------
+// scss-lint:disable PropertySpelling
+// @prince-pdf { prince-pdf-page-layout: two-column-right; }
+@page {
+  size: $print-width $print-height;
+  bleed: $print-bleed;
+  prince-trim: $print-bleed * 2;
+  marks: crop;
+}
+
+@page footer:left {
+  margin-bottom: $print-bottom-margin;
+  margin-left: $print-outer-margin;
+  margin-right: $print-inner-margin;
+  margin-top: $print-top-margin;
+
+  @bottom-left {
+    //content: counter(page) "\2003" string(doctitle);
+    content: counter(page);
+    font-family: $text-font-family;
+    font-size: $print-page-number-size;
+  }
+}
+
+@page footer:right {
+  margin-bottom: $print-bottom-margin;
+  margin-left: $print-inner-margin;
+  margin-right: $print-outer-margin;
+  margin-top: $print-top-margin;
+
+  @bottom-right {
+    content: counter(page);
+    font-family: $text-font-family;
+    font-size: $print-page-number-size;
+  }
+}
+
+@page bleed {
+  margin: 0;
+  @bottom-left { content: none; }
+  @bottom-right { content: none; }
+}
+
+@page frontmatter:left {
+  margin-bottom: $print-bottom-margin;
+  margin-left: $print-outer-margin;
+  margin-right: $print-inner-margin;
+  margin-top: $print-top-margin;
+  @bottom-left { content: counter(page, lower-roman); }
+}
+
+@page frontmatter:right {
+  margin-bottom: $print-bottom-margin;
+  margin-left: $print-inner-margin;
+  margin-right: $print-outer-margin;
+  margin-top: $print-top-margin;
+  @bottom-right { content: counter(page, lower-roman); }
+}
+
+@page no-footer:left {
+  margin-bottom: $print-bottom-margin;
+  margin-left: $print-outer-margin;
+  margin-right: $print-inner-margin;
+  margin-top: $print-top-margin;
+  @bottom-left { content: none; }
+  @bottom-right { content: none; }
+}
+
+@page no-footer:right {
+  margin-bottom: $print-bottom-margin;
+  margin-left: $print-inner-margin;
+  margin-right: $print-outer-margin;
+  margin-top: $print-top-margin;
+  @bottom-left { content: none; }
+  @bottom-right { content: none; }
+}
+
+// scss-lint:enable PropertySpelling
