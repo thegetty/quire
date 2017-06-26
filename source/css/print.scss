@@ -123,10 +123,19 @@ $print-page-number-size: 7.5pt;
     }
 
     &__abstract { column-span: all; }
-    &__content { column-count: 2; column-gap: 0.25in; }
+    &__content,
+    &__footer {
+      column-count: 2;
+      column-gap: 0.25in;
+    }
+
     &__content__main {
-      font-size: $print-base-font-size;
       font-family: $print-base-font-family;
+      font-size: $print-base-font-size;
+    }
+    &__content__references {
+      font-family: $print-base-font-family;
+      font-size: 7.5pt;
     }
   }
 }
