@@ -1,14 +1,11 @@
-<section class="quire-references" id="bibliography">
-  <h2 class="quire-references__title">Bibliography</h2>
+{{ if ($.Scratch.GetSortedMapValues "cited") }}
+<section class="quire-page__content__references" id="bibliography">
+  <h2>Bibliography</h2>
   <dl>
-  {{- range .Site.Data.bibliography.biblio_list -}}
-    {{ $refs := replace .reference_for " " "" }} {{ $refslist := split $refs "," }} {{ $s := .short }} {{ $f := .full }}
-    {{- range $refslist -}}
-      {{- if eq . $.Params.id  }}
-          <dt>{{ $s | markdownify }}</dt>
-          <dd>{{ $f | markdownify }}</dd>
-      {{- end -}}
-    {{- end -}}
-  {{- end -}}
+  {{ range ($.Scratch.GetSortedMapValues "cited") }}
+      <dt>{{ markdownify (index . 0) }}</dt>
+      <dd id="{{ urlize (index . 0) }}">{{ markdownify (index . 1)}}</dd>
+  {{ end }}
   </dl>
 </section>
+{{ end }}
