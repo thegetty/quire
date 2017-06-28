@@ -20,35 +20,53 @@ body {
 %container {
   @extend %fade-in;
 
-  animation-delay: $base-duration;
-  display: flex;
-  flex-direction: column;
-  // height: 100%;
+  @media screen {
+    animation-delay: $base-duration;
+    display: flex;
+    flex-direction: column;
+    // height: 100%;
+  }
 
   @media screen and (min-width: $medium-screen) {
     flex-direction: row;
     justify-content: space-around;
   }
 
+  @media print {
+    // TODO: print styles
+  }
+
   &__main {
-    flex: 1;
-    order: 2;
-    -webkit-overflow-scrolling: touch;
-    overflow-y: scroll;
-    transition: all $base-duration;
+    @media screen {
+      flex: 1;
+      order: 2;
+      -webkit-overflow-scrolling: touch;
+      overflow-y: scroll;
+      transition: all $base-duration;
+    }
 
     @media screen and (min-width: $medium-screen) { flex: 3; }
+
+    @media print {
+      // TODO: print styles
+    }
   }
 
   &__aside {
-    flex: 0;
-    order: 1;
-    -webkit-overflow-scrolling: touch;
-    overflow-y: scroll;
-    transition: all $base-duration;
+    @media screen {
+      flex: 0;
+      order: 1;
+      -webkit-overflow-scrolling: touch;
+      overflow-y: scroll;
+      transition: all $base-duration;
+    }
 
     @media screen and (min-width: $medium-screen) {
       @if ($menu-position == "right") { order: 3; }
+    }
+
+    @media print {
+      // TODO: print styles
     }
 
     * { display: none; }
@@ -84,13 +102,19 @@ body {
 }
 
 %cover-layout {
-  align-items: center;
-  background-image: $cover-bg-image;
-  background-position: $cover-bg-position;
-  background-size: cover;
-  display: flex;
-  height: calc(100vh - #{$nav-height});
-  justify-content: center;
+  @media screen {
+    align-items: center;
+    background-image: $cover-bg-image;
+    background-position: $cover-bg-position;
+    background-size: cover;
+    display: flex;
+    height: calc(100vh - #{$nav-height});
+    justify-content: center;
+  }
+
+  @media print {
+    // TODO: print styles here
+  }
 }
 
 .quire-container {

@@ -7,8 +7,10 @@
 // Page top-level component
 // -----------------------------------------------------------------------------
 .quire-page {
-  background-color: $base-background-color;
-  min-height: calc(100vh - #{$nav-height});
+  @media screen {
+    background-color: $base-background-color;
+    min-height: calc(100vh - #{$nav-height});
+  }
 
   .attribution {
     @extend %subtext;
