@@ -8,6 +8,10 @@
     "includePattern": ".+\\.js(doc|x)?$",
     "excludePattern": "(^|\\/|\\\\)_"
   },
+  "opts": {
+    "destination": "./docs/",
+    "recurse": true
+  },
   "plugins": ["plugins/markdown"],
   "templates": {
     "cleverLinks": true,

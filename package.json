@@ -29,6 +29,7 @@
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^2.1.1",
     "jsdoc": "^3.4.3",
+    "jsdoc-template-argon": "^0.2.0-dev",
     "mocha": "^3.2.0"
   }
 }
