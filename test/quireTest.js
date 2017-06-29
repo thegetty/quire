@@ -10,9 +10,8 @@ describe('QuireCLI', function() {
   let quire
 
   describe('_commandMissing()', function() {
-    beforeEach(function() {
-      quire = new QuireCLI()
-    })
+    // Set up a new instance for each assertion
+    beforeEach(function() { quire = new QuireCLI() })
 
     it('should return true when a command does not exist', function() {
       assert.equal(quire._commandMissing('foo'), true)
@@ -24,9 +23,8 @@ describe('QuireCLI', function() {
   })
 
   describe('_isValidProject()', function() {
-    afterEach(function() {
-      process.chdir(defaultLocation)
-    })
+    // Return to the default location after each assertion
+    afterEach(function() { process.chdir(defaultLocation) })
 
     it('should return false when the project folder lacks a config.yml file', function() {
       process.chdir(invalidProjectDir)
@@ -51,9 +49,8 @@ describe('QuireCLI', function() {
   })
 
   describe('_preflight()', function() {
-    afterEach(function() {
-      process.chdir(defaultLocation)
-    })
+    // Return to the default location after each assertion
+    afterEach(function() { process.chdir(defaultLocation) })
 
     it('should raise an error in an invalid project folder.', function() {
       process.chdir(invalidProjectDir)
