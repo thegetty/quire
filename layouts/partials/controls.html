@@ -42,7 +42,7 @@
 
     {{ if eq .Type "cover" }}
     <div class="quire-controls__nav__item">
-      <a href='{{ .Site.BaseURL }}' rel="start">
+      <a href="{{ .Site.BaseURL }}" rel="start">
         <span class="visually-hidden">Home Page: </span>
         {{ if .Site.Data.publication.short_title }}
         {{ .Site.Data.publication.short_title | markdownify }}
@@ -53,9 +53,9 @@
     </div>
     {{ else }}
     <div class="quire-controls__nav__item quire-controls__nav__item--home">
-      <a href='{{ .Site.BaseURL }}'>
+      <a href="{{ .Site.BaseURL }}" rel="start">
         <span class="visually-hidden">Home Page: </span>
-        {{ if .Site.Data.publication.short_title | markdownify }}
+        {{ if .Site.Data.publication.short_title }}
         {{ .Site.Data.publication.short_title | markdownify }}
         {{ else }}
         {{ .Site.Data.publication.title | markdownify }}
@@ -65,7 +65,7 @@
     {{ if .Section }}
     {{ if ne .Type "section-head"}}
     <div class="quire-controls__nav__item quire-controls__nav__item--section">
-      <a href='{{ .Permalink }}'>
+      <a href="{{ .Permalink }}">
         <span class="visually-hidden">Section: </span>
         {{ .Section | humanize | title }}
       </a>
