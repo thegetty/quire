@@ -7,7 +7,7 @@
     "headline": "{{ .Page.Params.title }}{{ with .Page.Params.subtitle }}: {{ . }}{{ end }}",
     "url": "{{ .Permalink }}",
     {{ if .Page.Params.cover -}}
-    "image": "{{ .Site.BaseURL }}img/{{ .Site.Params.figuresDirectory }}{{ .Page.Params.cover }}",
+    "image": "{{ .Site.BaseURL }}{{ .Site.Params.imageDir }}{{ .Site.Params.figureSubDir }}{{ .Page.Params.cover }}",
     {{ end -}}
     {{ with .Page.Params.contributor -}}
     "author": [
@@ -20,7 +20,7 @@
       {{ end -}}
     ],
     {{ end -}}
-    "description": "{{ replaceRE "\n" "" .Page.Params.abstract }}",
+    "description": "{{ replaceRE "\n" " " .Page.Params.abstract }}",
     "isPartOf": {
     {{ end -}}
     {{ if eq .Site.Data.publication.pub_type "book" -}}
@@ -93,9 +93,9 @@
     ],
     {{ end -}}
     {{ with .Site.Data.publication.promo_image -}}
-    "image": "{{ $.Site.BaseURL }}img/{{ . }}",
+    "image": "{{ $.Site.BaseURL }}{{ .Site.Params.imageDir }}{{ . }}",
     {{ end -}}
-    "description": "{{ replaceRE "\n" "" .Site.Data.publication.description.full }}"
+    "description": "{{ replaceRE "\n" " " .Site.Data.publication.description.full }}"
     {{ if eq .Type "essay" -}}
     }
     {{ end -}}

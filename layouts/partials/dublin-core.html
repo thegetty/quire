@@ -3,7 +3,7 @@
   {{ range .Site.Data.publication.primary_contributor -}}
   <meta name="dcterms.creator" content="{{ .first_name }} {{ .last_name }}">
   {{ end -}}
-  {{ range .Site.Data.publication.second_contributor -}}
+  {{ range .Site.Data.publication.secondary_contributor -}}
   <meta name="dcterms.contributor" content="{{ .first_name }} {{ .last_name }}">
   {{ end -}}
   <meta name="dcterms.date" content="{{ .Site.Data.publication.pub_date }}">
