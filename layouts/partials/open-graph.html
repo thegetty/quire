@@ -2,7 +2,7 @@
   <!-- Books and Integrated Book Parts/Chapters -->
   <meta property="og:title" content="{{ .Site.Data.publication.title }}" />
   <meta property="og:url" content="{{ .Site.BaseURL }}" />
-  <meta property="og:image" content="{{ with .Site.Data.publication.promo_image }}{{ $.Site.BaseURL }}{{ .Site.Params.imageDir }}{{ . }}{{ end }}" />
+  <meta property="og:image" content="{{ with .Site.Data.publication.promo_image }}{{ $.Site.BaseURL }}{{ $.Site.Params.imageDir }}{{ . }}{{ end }}" />
   <meta property="og:description" content="{{ if .Site.Data.publication.description.one_line }}{{ .Site.Data.publication.description.one_line }}{{ else }}{{ with .Site.Data.publication.description.full }}{{ . | truncate 160 }}{{ end }}{{ end }}" />
   {{ if eq .Site.Data.publication.pub_type "book" -}}
   <meta property="og:type" content="book" />
@@ -19,7 +19,7 @@
   {{ if .Page.Params.cover -}}
   <meta property="og:image" content="{{ .Site.BaseURL }}{{ .Site.Params.imageDir }}{{ .Site.Params.figureSubDir }}{{ .Page.Params.cover }}" />
   {{ else -}}
-  <meta property="og:image" content="{{ with .Site.Data.publication.promo_image }}{{ $.Site.BaseURL }}{{ .Site.Params.imageDir }}{{ . }}{{ end }}" />
+  <meta property="og:image" content="{{ with .Site.Data.publication.promo_image }}{{ $.Site.BaseURL }}{{ $.Site.Params.imageDir }}{{ . }}{{ end }}" />
   {{ end -}}
   {{ if .Page.Params.abstract -}}
   <meta property="og:description" content="{{ .Page.Params.abstract | truncate 160 }}" />
