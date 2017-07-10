@@ -27,6 +27,7 @@ params:
   imageLabelContentBefore: "Figure "
   imageLabelContentAfter: ". "
   displayBiblioShort: "true"
+  figuresDirectory: "figures/"
 
 # Menu: the 'main' menu will be picked up in the sidebar navigation menu in the
 # default theme. Other menus can be defined here as well for use with custom
