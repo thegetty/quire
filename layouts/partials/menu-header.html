@@ -29,9 +29,7 @@
 
   <div class="quire-menu__header__contributors">
     {{- if .Site.Data.publication.contributor_as_it_appears -}}
-      {{- range .Site.Data.publication.contributor_as_it_appears }}
-        <span class="quire-menu__header__contributors__item">{{ . }}</span>
-      {{ end -}}
+        {{ .Site.Data.publication.contributor_as_it_appears }}
     {{ else }}
     <span class="visually-hidden">Contributors: </span>
     {{- range .Site.Data.publication.primary_contributor }}

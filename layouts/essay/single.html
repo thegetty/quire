@@ -8,7 +8,9 @@
 
 <article class="quire-page" id="main" role="main">
   {{ partial "page-header.html" . }}
+  {{ if .Params.abstract }}
   {{ partial "page-abstract.html" . }}
+  {{ end }}
 
   <div class="quire-page__content" id="essay-text">
     <section class="quire-page__content__main">
