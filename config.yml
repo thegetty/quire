@@ -12,7 +12,7 @@
 # canonifyURLs: true
 
 # Use these settings for serving/building to the root path
-baseurl: "https://gettypubs.github.io/quire-starter"
+baseurl: "http://www.getty.edu"
 relativeURLs: true
 
 title: "Quire Starter"
@@ -27,7 +27,8 @@ params:
   imageLabelContentBefore: "Figure "
   imageLabelContentAfter: ". "
   displayBiblioShort: "true"
-  figuresDirectory: "figures/"
+  imageDir: "img/"
+  figureSubDir: "figures/"
 
 # Menu: the 'main' menu will be picked up in the sidebar navigation menu in the
 # default theme. Other menus can be defined here as well for use with custom
