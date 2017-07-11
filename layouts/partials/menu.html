@@ -12,25 +12,9 @@
     {{- partial "menu-header.html" . -}}
     <nav class="quire-menu__body">
       <h3 class="visually-hidden">Table of Contents</h3>
-      <ul class="quire-menu__body__contents" role="navigation" aria-label="site">
-        {{- range .Site.Pages -}}
-          <!-- Section pages -->
-          {{- if .Section -}}
-            {{- if eq .Type "section-head" -}}
-              <li class="quire-menu__body__contents__section">
-                <a href="{{ .Permalink }}">
-                  {{ .Params.id }}. {{ .Title | markdownify }}
-                </a>
-              </li>
-            {{- end -}}
-          <!-- Non-section pages with "menu" frontmatter -->
-          {{- else -}}
-            {{- if eq .Params.menu true -}}
-              <li><a href="{{ .Permalink }}">{{ .Title | markdownify }}</a></li>
-            {{- end -}}
-          {{- end -}}
-        {{- end -}}
-      </ul>
+      <div class="quire-menu__body__contents" role="navigation" aria-label="site">
+        {{ partial "contents-list.html" (dict "contentsScope" .Site "contentsType" .Site.Params.menuType "contentsLocation" "menu" ) }}
+      </div>
     </nav>
 
     {{- with .Site.Data.publication.formats -}}
