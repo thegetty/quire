@@ -15,9 +15,10 @@
                     option also shows a shorter version of each page in the list,
                     with no subtitle or contributors.
 
-  Currently, all sections must have an `index.md` file with a "type" of
-  "section-head" for this partial to work, and nested sections are not
-  supported.
+  Content can either be in top-level files in the `content` directory, or
+  in sub-directories to create sections. Currently, all sections must have an
+  `index.md` file with a "type" of "section-head" for this partial to work,
+  and nested sections are not supported.
 
   EXAMPLE PARTIAL USE:
   partial "contents-list.html" (dict "contentsScope" .Site "contentsType"
