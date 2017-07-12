@@ -27,4 +27,4 @@
 {{- $shortId := .Get 0 | urlize -}}
 {{- $.Page.Scratch.SetInMap "cited" $shortId $entry -}}
 
-<a href="#{{ $short | urlize }}" class="quire-citation"><span class="visually-hidden">Citation: </span>{{- markdownify $shortDisplay -}}{{ with .Get 1 }}, {{ . }}{{ end }}</a><span class="quire-citation-content"><span class="quire-citation-content__no-css"> [</span>{{- markdownify ($.Scratch.Get "full") -}}<span class="quire-citation-content__no-css">]</span></span>
+<a href="#{{ $short | urlize }}" class="quire-citation"><span class="visually-hidden">Citation: </span>{{- markdownify $shortDisplay -}}{{ with .Get 1 }}{{ $.Site.Params.citationPageLocationDivider  }}{{ . }}{{ end }}</a><span class="quire-citation-content"><span class="quire-citation-content__no-css"> [</span>{{- markdownify ($.Scratch.Get "full") -}}<span class="quire-citation-content__no-css">]</span></span>
