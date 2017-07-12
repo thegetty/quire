@@ -29,6 +29,8 @@ params:
   displayBiblioShort: "true"
   imageDir: "img/"
   figureSubDir: "figures/"
+  tocType: full
+  menuType: short
 
 # Menu: the 'main' menu will be picked up in the sidebar navigation menu in the
 # default theme. Other menus can be defined here as well for use with custom

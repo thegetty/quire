@@ -1,6 +1,6 @@
 ---
 title: Quire Starter
 weight: 1
-toc: false
+menu: false
 type: cover
 ---

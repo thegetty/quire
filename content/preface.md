@@ -1,7 +1,6 @@
 ---
 title: Preface
 type: page
-menu: true
 contributor:
  - first_name: Rachel
    last_name: Rivenc

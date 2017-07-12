@@ -2,7 +2,6 @@
 title: Symposium Participants
 weight: 601
 type: page
-menu: true
 ---
 
 - **Sara Abram**

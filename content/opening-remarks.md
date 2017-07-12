@@ -2,7 +2,6 @@
 title: Opening Remarks
 subtitle: The Kinetic Collection at the Museo del Novecento, Milan
 type: page
-menu: true
 contributor:
  - first_name: Iolanda
    last_name: Ratti

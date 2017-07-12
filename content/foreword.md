@@ -1,7 +1,6 @@
 ---
 title: Foreword
 type: page
-menu: true
 contributor:
  - first_name: Tim
    last_name: Whalen
