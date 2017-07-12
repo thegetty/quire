@@ -24,6 +24,7 @@ metaDataFormat: "yaml"
 # These values can be accessed in templates via .Site.Params
 params:
   searchEnabled: true
+  citationPageLocationDivider: ", "
   imageLabelContentBefore: "Figure "
   imageLabelContentAfter: ". "
   displayBiblioShort: "true"
