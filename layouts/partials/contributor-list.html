@@ -1,17 +1,13 @@
 {{/*
   A simple partial to create a list of names with proper "and" or "," connectors.
-  It expects a variable to be passed:
-
-  contributorRange    The range from which to create the list of names. Usually
-                      from the Page contributor list, or the Site primary_contributor
-                      and/or secondary_contributor lists.
+  A context should be passed to it, such as .Site.Data.publication.primary_contributor
+  or .Params.contributor
 
   EXAMPLE PARTIAL USE:
-  partial "contributor-list.html" (dict "contributorRange" .Params.contributor)
+  partial "contributor-list.html" .Params.contributor
 */}}
-{{- $list := (.contributorRange) -}}
-{{- $len := len (.contributorRange) -}}
-{{- range $index, $element := $list -}}
+{{- $len := len . -}}
+{{- range $index, $element := . -}}
   {{- if eq $len 1 -}}
     <span>{{ .first_name }} {{ .last_name }}</span>
   {{- else if eq (add $index 1) $len -}}

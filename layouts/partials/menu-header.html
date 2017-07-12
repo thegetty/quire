@@ -32,7 +32,7 @@
         {{ .Site.Data.publication.contributor_as_it_appears }}
     {{ else }}
     <span class="visually-hidden">Contributors: </span>
-    {{ partial "contributor-list.html" (dict "contributorRange" .Site.Data.publication.primary_contributor) }}
+    {{ partial "contributor-list.html" .Site.Data.publication.primary_contributor }}
     {{- end -}}
   </div>
 </header>

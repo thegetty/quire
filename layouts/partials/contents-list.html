@@ -75,7 +75,7 @@
 
 
 {{- define "contents-list-item-toc" }}
-  <li class="contents-list__page-item"><a href="{{ .Permalink }}">{{ with .Params.id }}{{ . }}. {{ end }}{{ .Title | markdownify }}{{ with .Params.subtitle }}: {{ . | markdownify }}{{ end }}</a>{{ if .Params.contributor }} — {{ partial "contributor-list.html" (dict "contributorRange" .Params.contributor) }}{{ end }}</li>
+  <li class="contents-list__page-item"><a href="{{ .Permalink }}">{{ with .Params.id }}{{ . }}. {{ end }}{{ .Title | markdownify }}{{ with .Params.subtitle }}: {{ . | markdownify }}{{ end }}</a>{{ if .Params.contributor }} — {{ partial "contributor-list.html" .Params.contributor }}{{ end }}</li>
 {{ end -}}
 
 {{- define "contents-list-item-menu" }}
