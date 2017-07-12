@@ -1,0 +1,20 @@
+{{/*
+  Table of Contents (TOC) page template. Page content from the markdown will
+  appear in the .Content outlet below. The Table of Contents list will appear
+  below that. It is scoped to show the contents of the full site. Pages can be
+  removed from the TOC indivudally by adding "toc: false" to the page yaml.
+*/}}
+
+{{ define "main" }}
+<div class="quire-page" id="main" role="main">
+  {{ partial "page-header.html" . }}
+  <div class="quire-page__content" id="essay-text">
+    <section class="quire-page__content__main">
+      {{ .Content }}
+    </section>
+    <section class="quire-page__content__contents-list">
+      {{ partial "contents-list.html" (dict "contentsScope" .Site "contentsType" .Site.Params.tocType "contentsLocation" "toc" ) }}
+    </section>
+  </div>
+</div>
+{{ end }}
