@@ -82,7 +82,7 @@
 
 {{- define "if-previous" -}}
 {{- if .Prev -}}
-{{- if ne .Prev.Params.online false -}}
+{{- if and (ne .Prev.Params.online false) (ne .Prev.Type "data") -}}
 <div class="quire-controls__nav__item quire-controls__nav__item--prev">
   <a href="{{ .Prev.Permalink }}" rel="prev" id="js-prev" >
     <svg height="1em" width="1em">
@@ -104,7 +104,7 @@
 
 {{- define "if-next" -}}
 {{- if .Next -}}
-{{- if ne .Next.Params.online false -}}
+{{- if and (ne .Next.Params.online false) (ne .Next.Type "data") -}}
 <div class="quire-controls__nav__item quire-controls__nav__item--next">
   <a href="{{ .Next.Permalink }}" rel="next" id="js-next">
     <svg width="1em" height="1em">
