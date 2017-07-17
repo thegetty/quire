@@ -44,7 +44,7 @@
           {{- $sectionname := .Section -}}
           <ul>
             {{- range where .Site.Pages "Section" $sectionname -}}
-            {{ if and (ne .Kind "section") (ne .Type "section-head") -}}
+            {{ if and (and (and (ne .Kind "section") (ne .Type "section-head")) (ne .Type "data")) (ne .Params.online false) -}}
               {{ if and (eq $contentsLocation "toc") (ne .Params.toc false ) -}}
                 {{ template "contents-list-item-toc" . -}}
               {{ end -}}
@@ -59,7 +59,7 @@
       {{ else -}}
       {{ end -}}
     {{ else -}}
-      {{ if and (eq .Kind "page") (ne .Type "data") -}}
+      {{ if and (and (eq .Kind "page") (ne .Type "data")) (ne .Params.online false) -}}
       {{ if and (eq $contentsLocation "toc") (ne .Params.toc false ) -}}
         {{ template "contents-list-item-toc" . -}}
       {{ end -}}
