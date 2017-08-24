@@ -14,15 +14,15 @@
                     will be omitted from the generated contents list. The "menu"
                     option also shows a shorter version of each page in the list,
                     with no subtitle or contributors.
+  contentsPage      Typically . This just passes the page context through to
+                    allow a Scratch variable to be set when creating sections.
 
   Content can either be in top-level files in the `content` directory, or
-  in sub-directories to create sections. Currently, all sections must have an
-  `index.md` file with a "type" of "section-head" for this partial to work,
-  and nested sections are not supported.
+  in sub-directories to create sections. Currently, nested sections are not supported.
 
   EXAMPLE PARTIAL USE:
   partial "contents-list.html" (dict "contentsScope" .Site "contentsType"
-  .Site.Params.tocType "contentsLocation" "toc")
+  .Site.Params.tocType "contentsLocation" "toc" "contentsPage" . )
 
 */}}
 
@@ -35,16 +35,32 @@
 
 {{- else -}}
 
+{{ $pages := where .contentsScope.Pages ".Kind" "page" }}
+{{ $pages := where $pages "Params.online" "!=" "false" }}
+{{ $pages := where $pages ".Type" "!=" "data" }}
+
+{{ .contentsPage.Scratch.Set "renderedSection" "" }}
+
 <ul class="contents-list">
-  {{- range .contentsScope.Pages -}}
-    {{- if .Section -}}
-      {{- if eq .Type "section-head" -}}
-      <li class="contents-list__section-item"><a href="{{ .Permalink }}">{{ with .Params.id }}{{ . }}. {{ end }}{{ .Title | markdownify }}</a>
-          {{- if eq $contentsType "full" -}}
-          {{- $sectionname := .Section -}}
-          <ul>
-            {{- range where .Site.Pages "Section" $sectionname -}}
-            {{ if and (ne .Kind "section") (ne .Type "section-head") -}}
+  {{- range $pages -}}
+      {{- if and .Section (ne .Section ($.contentsPage.Scratch.Get "renderedSection")) -}}
+      {{ $.contentsPage.Scratch.Set "renderedSection" .Section }}
+      <li class="contents-list__section-item">
+        {{- if eq .Type "section-head" -}}
+          <a href="{{ .Permalink }}">{{ with .Params.id }}{{ . }}. {{ end }}{{ .Title | markdownify }}</a>
+        {{- else -}}
+          {{- if eq $contentsType "short" -}}
+          {{- range first 1 (where $pages "Section" .Section) -}}
+            <a href="{{ .Permalink }}">{{ .Section | title }}</a>
+          {{- end -}}
+          {{- else -}}
+            {{ .Section | title }}
+          {{- end -}}
+        {{- end -}}
+        {{- if eq $contentsType "full" -}}
+        <ul>
+          {{- range where $pages "Section" .Section -}}
+            {{ if ne .Type "section-head" -}}
               {{ if and (eq $contentsLocation "toc") (ne .Params.toc false ) -}}
                 {{ template "contents-list-item-toc" . -}}
               {{ end -}}
@@ -52,30 +68,28 @@
                 {{ template "contents-list-item-menu" . -}}
               {{ end -}}
             {{ end -}}
-            {{ end -}}
-          </ul>
           {{- end -}}
+        </ul>
+        {{- end -}}
       </li>
-      {{ else -}}
+      {{- end -}}
+
+      {{ if eq .Section "" -}}
+        {{ if and (eq $contentsLocation "toc") (ne .Params.toc false ) -}}
+          {{ template "contents-list-item-toc" . -}}
+        {{ end -}}
+        {{ if and (eq $contentsLocation "menu") (ne .Params.menu false) -}}
+          {{ template "contents-list-item-menu" . -}}
+        {{ end -}}
       {{ end -}}
-    {{ else -}}
-      {{ if and (eq .Kind "page") (ne .Type "data") -}}
-      {{ if and (eq $contentsLocation "toc") (ne .Params.toc false ) -}}
-        {{ template "contents-list-item-toc" . -}}
-      {{ end -}}
-      {{ if and (eq $contentsLocation "menu") (ne .Params.menu false) -}}
-        {{ template "contents-list-item-menu" . -}}
-      {{ end -}}
-      {{ end -}}
-    {{ end -}}
-  {{ end -}}
+
+  {{- end -}}
 </ul>
 
 {{- end -}}
 
-
 {{- define "contents-list-item-toc" }}
-  <li class="contents-list__page-item"><a href="{{ .Permalink }}">{{ with .Params.id }}{{ . }}. {{ end }}{{ .Title | markdownify }}{{ with .Params.subtitle }}: {{ . | markdownify }}{{ end }}</a>{{ if .Params.contributor }} — {{ partial "contributor-list.html" .Params.contributor }}{{ end }}</li>
+  <li class="contents-list__page-item"><a href="{{ .Permalink }}">{{ with .Params.id }}{{ . }}. {{ end }}{{ .Title | markdownify }}{{ with .Params.subtitle }}: {{ . | markdownify }}{{ end }}</a>{{ if .Params.contributor }} — {{ partial "contributor-list.html" (dict "range" .Params.contributor "type" "string") }}{{ end }}</li>
 {{ end -}}
 
 {{- define "contents-list-item-menu" }}

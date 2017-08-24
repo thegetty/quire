@@ -13,7 +13,7 @@
     <nav class="quire-menu__body">
       <h3 class="visually-hidden">Table of Contents</h3>
       <div class="quire-menu__body__contents" role="navigation" aria-label="site">
-        {{ partial "contents-list.html" (dict "contentsScope" .Site "contentsType" .Site.Params.menuType "contentsLocation" "menu" ) }}
+          {{ partial "contents-list.html" (dict "contentsScope" .Site "contentsType" .Site.Params.menuType "contentsLocation" "menu" "contentsPage" . ) }}
       </div>
     </nav>
 
