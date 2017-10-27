@@ -1,161 +1,25 @@
-# Publication.yml Data File
+# ==============================================================================
+# Publication.yml
+# ------------------------------------------------------------------------------
 #
 # This file houses the bibliographic info and general metadata for your digital
 # publication.
 
-
-title: Keep It Moving?
-subtitle: Conserving Kinetic Art
-short_title:
-reading_line:
-
-pub_type: book
-pub_date: 2018-02-01
-language: en
-isbn: 978-1-60606-536-5
-issn:
-publisher:
-  - name: Getty Conservation Institute
-    location: Los Angeles
-    url: http://www.getty.edu/conservation
-
-series_periodical_name: The Getty Conservation Institute, Proceedings
-series_issue_number:
-
-primary_contributor:
-  - id: 1
-    first_name: Rachel
-    last_name: Rivenc
-    title:
-    affiliation:
-    role: Editor
-    role_code: edc
-    url:
-    bio:
-  - id: 2
-    first_name: Reinhard
-    last_name: Bek
-    title:
-    affiliation:
-    role: Editor
-    role_code: edc
-    url:
-    bio:
-
-secondary_contributor:
-    # - id:
-    #   first_name:
-    #   last_name:
-    #   title:
-    #   affiliation:
-    #   role:
-    #   role_code:
-    #   url:
-    #   bio:
-
-contributor_as_it_appears: Rachel Rivenc and Reinhard Bek, Editors
+title: Quire Starter
+subtitle: Sample Book Content
+contributor_as_it_appears: Author Name
 
 description:
   one_line:
   full: |
-    Kinetic art not only includes movement, but often depends on it to produce its intended effect and therefore fully realize its nature as work of art. It can take a multiplicity of forms and include a wide range of motion, from motorized and electrically driven movement to motion as the result of wind, light, or other sources of energy. Kinetic art emerged throughout the twentieth century, and had its major developments in the 1950s and 1960s.
+    Quire is a digital publishing framework built on top of the Hugo static site
+    generator. Generate Web, PDF, and print books (with Epub coming soon) from a
+    single set of text files.
 
-    Professionals responsible for conserving contemporary art are in the midst of rethinking the concept of authenticity and solving the dichotomy often felt between original materials and functionality of the work of art. The contrast is especially acute with kinetic art when a compromise between the two often seems impossible. Also to be considered are issues of technological obsolescence and the fact that an artist’s chosen technology often carries with it strong sociological and historical information and meanings.
   additional_online:
   additional_pdf_ebook:
 
 promo_image: "promo.jpg"
-
-subject_metadata:
-  keywords:
-  linked_vocabulary:
-    # - type:
-    #   name:
-    #   url:
-  bisac:
-    # - code:
-    #   subject:
-
-library_of_congress_cip_data:
-
-copyright: © 2018 J. Paul Getty Trust
-
-license:
-  name: Creative Commons Attribution 4.0 International License
-  link_relation: license
-  url: http://creativecommons.org/licenses/by/4.0/
-  icon: cc-by.png
-  exceptions:
-    online:
-    pdf_ebook:
-    all:
-
-project-team:
-  - first_name: Beatrice
-    last_name: Hohenegger
-    role: Project Editor
-  - first_name: Jennifer
-    last_name: Boynton
-    role: Manuscript Editor
-  - first_name: Michelle
-    last_name: Deemer
-    role: Production
-  - first_name: Eric
-    last_name: Gardner
-    role: Designer and Developer
-  - first_name: Nick
-    last_name: Geller
-    role: Assistant Digital Editor
-  - first_name: Greg
-    last_name: Albers
-    role: Digital Manager
-
-
-# FORMATS, DOWNLOADS & LINKS
-
-# `media_type`: http://www.iana.org/assignments/media-types/media-types.xhtml
-# `link_relation`: http://www.iana.org/assignments/link-relations/link-relations.xhtml
-# `description`: will append as new paragraph(s) to main `description` above on the backcover and/or About page for this edition
-# `identifier`: should be an ISBN, ISSN, DOI or other similar designator
-
-formats:
-  - name: EPUB
-    media_type: application/epub+zip
-    link_relation: alternate
-    url: http://www.getty.edu/publications/keepitmoving/downloads/KeepItMoving.epub
-    identifier: 978-1-60606-538-9
-    file_size_mb:
-    icon:
-  - name: MOBI/KINDLE
-    media_type: application/mobi
-    link_relation: alternate
-    url: http://www.getty.edu/publications/keepitmoving/downloads/KeepItMoving.mobi
-    identifier: 978-1-60606-538-9
-    file_size_mb:
-    icon:
-  - name: PDF
-    media_type: application/pdf
-    link_relation: alternate
-    url: http://www.getty.edu/publications/keepitmoving/downloads/KeepItMoving.pdf
-    identifier: 978-1-60606-537-2
-    file_size_mb:
-    icon:
-  - name: Paperback
-    media_type: print
-    link_relation: alternate
-    url: http://shop.getty.edu/products/keep-it-moving-978-1606065372
-    identifier: 978-1-60606-537-2
-    file_size_mb:
-    icon:
-
-related_resources:
-  # - name:
-  #   media_type:
-  #   link_relation:
-  #   url:
-  #   identifier:
-  #   file_size_mb:
-  #   icon:
 
 footer_links:
   - name: About
@@ -179,10 +43,3 @@ footer_links:
     identifier:
     file_size_mb:
     icon:
-
-# REVISIONS & VERSION CONTROL
-
-revision_history:
-  - date: 2018-02-01
-    summary:
-repository_url: http://www.github.com/gettypubs/keepitmoving
