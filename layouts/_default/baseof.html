@@ -8,12 +8,16 @@
 <!DOCTYPE html>
 <html lang="{{ .Site.Data.publication.language }}">
   {{ partial "head.html" . }}
-  <body class="">
+  <body class="quire no-js">
+    <div class="quire__primary">
     {{ partial "controls.html" . }}
-    {{ partial "menu.html" . }}
     <div class="container">
       {{ block "main" . }}
       {{ end }}
+    </div>
+    </div>
+    <div class="quire__secondary">
+      {{ partial "menu.html" . }}
     </div>
 
     <script src="{{ .Site.BaseURL }}/js/application.js"></script>

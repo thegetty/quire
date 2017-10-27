@@ -45,5 +45,5 @@ window.toggleMenu = function() {
 }
 
 $(document).ready(function() {
-  window.toggleMenu()
+  // window.toggleMenu()
 });

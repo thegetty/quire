@@ -6,13 +6,10 @@ $navbar-background-color: $grey-lighter;
 // Easy mode:
 // @import "~bulma";
 
-// Override some of Bulma's files by importing everything individually:
+// Individual imports for selectiv overrides
 @import "~bulma/sass/utilities/all";
 @import "~bulma/sass/base/all";
 @import "~bulma/sass/elements/all";
-
-// Component override
-// @import "~bulma/sass/components/_all"
 @import "~bulma/sass/components/breadcrumb.sass";
 @import "~bulma/sass/components/card.sass";
 @import "~bulma/sass/components/dropdown.sass";
@@ -22,12 +19,31 @@ $navbar-background-color: $grey-lighter;
 @import "~bulma/sass/components/message.sass";
 @import "~bulma/sass/components/modal.sass";
 
-@import "components/navbar.scss";
+// custom Navbar component
+@import "components/navbar";
 
 @import "~bulma/sass/components/pagination.sass";
 @import "~bulma/sass/components/panel.sass";
 @import "~bulma/sass/components/tabs.sass";
-
 @import "~bulma/sass/grid/all";
 @import "~bulma/sass/layout/all";
+
+// Other custom styles (move elsewhere later)
+
+.quire {
+  display: flex;
+  flex-direction: row;
+
+  &__primary {}
+  &__secondary {}
+
+  &.no-js {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+
+    .quire__primary { flex: 1; }
+    .quire__secondary {}
+  }
+}
 
