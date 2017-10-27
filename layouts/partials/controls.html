@@ -1,9 +1,36 @@
 {{/*
-  This controls the various navigation elements (nav, skip-link, menu and
-  search icons, and search results if enabled). It is visible on all pages.
+This controls the various navigation elements (nav, skip-link, menu and
+search icons, and search results if enabled). It is visible on all pages.
 */}}
 
-<div class="quire-controls" role="banner">
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="container">
+
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://bulma.io">
+        {{ .Site.Title }}
+      </a>
+
+      <button class="button navbar-burger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <div class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item" href="">Test start</a>
+      </div>
+      <div class="navbar-end">
+        <a class="navbar-item" href="">Test end</a>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+<div class="navbar" role="banner" style="display: none;">
   <a href="#main" class="quire-controls__skip-link" tabindex="1">
     Skip to Main Content
   </a>

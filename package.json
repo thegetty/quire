@@ -24,6 +24,7 @@
     "webpack": "^1.14.0"
   },
   "dependencies": {
+    "bulma": "^0.6.0",
     "jquery": "^3.1.1",
     "leaflet": "^1.0.3",
     "leaflet-fullscreen": "^1.0.2",

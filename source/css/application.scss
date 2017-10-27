@@ -1,0 +1,33 @@
+@import "~bulma/sass/utilities/initial-variables";
+
+// Custom Variable settings
+$navbar-background-color: $grey-lighter;
+
+// Easy mode:
+// @import "~bulma";
+
+// Override some of Bulma's files by importing everything individually:
+@import "~bulma/sass/utilities/all";
+@import "~bulma/sass/base/all";
+@import "~bulma/sass/elements/all";
+
+// Component override
+// @import "~bulma/sass/components/_all"
+@import "~bulma/sass/components/breadcrumb.sass";
+@import "~bulma/sass/components/card.sass";
+@import "~bulma/sass/components/dropdown.sass";
+@import "~bulma/sass/components/level.sass";
+@import "~bulma/sass/components/media.sass";
+@import "~bulma/sass/components/menu.sass";
+@import "~bulma/sass/components/message.sass";
+@import "~bulma/sass/components/modal.sass";
+
+@import "components/navbar.scss";
+
+@import "~bulma/sass/components/pagination.sass";
+@import "~bulma/sass/components/panel.sass";
+@import "~bulma/sass/components/tabs.sass";
+
+@import "~bulma/sass/grid/all";
+@import "~bulma/sass/layout/all";
+

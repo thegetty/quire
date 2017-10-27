@@ -3,37 +3,30 @@
   available on all pages. For users with Javascript enabled, this menu is hidden
   by default. Users with JS disabled will alwasy see the menu in its expanded state.
 */}}
-
-<div class="quire-menu quire-menu--is-visible"
-     id="quire-menu"
-     aria-expanded="true"
-     role="contentinfo">
-  <div class="quire-menu__inner">
-    {{- partial "menu-header.html" . -}}
-    <nav class="quire-menu__body">
-      <h3 class="visually-hidden">Table of Contents</h3>
-      <div class="quire-menu__body__contents" role="navigation" aria-label="site">
-          {{ partial "contents-list.html" (dict "contentsScope" .Site "contentsType" .Site.Params.menuType "contentsLocation" "menu" "contentsPage" . ) }}
-      </div>
-    </nav>
+<div class="container">
+  <aside class="menu" aria-expanded="true" role="contentinfo">
+    <h3 class="menu-label">Table of Contents</h3>
+    <ul class="menu-list" role="navigation" aria-label="site">
+      {{- partial "contents-list.html" (dict "contentsScope" .Site "contentsType" .Site.Params.menuType "contentsLocation" "menu" "contentsPage" . ) -}}
+    </ul>
 
     {{- with .Site.Data.publication.formats -}}
-    <div class="quire-menu__links" role="complementary" aria-label="downloads">
-      <h3><button class="heading-expander">Other Formats</button></h3>
-      {{ partial "menu-link-list.html" . -}}
-    </div>
-    {{- end }}
-
-    {{- with .Site.Data.publication.related_resources -}}
-    <div class="quire-menu__links" role="complementary" aria-label="other resources">
-      <h3><button class="heading-expander">Related Resources</button></h3>
-      {{ partial "menu-link-list.html" . }}
-    </div>
+    <h3 class="menu-label">Other Formats</h3>
+    <ul class="menu-list" role="complementary" aria-label="downloads">
+      {{- partial "menu-link-list.html" . -}}
+    </ul>
     {{- end -}}
 
-    <footer class="quire-menu__footer" role="contentinfo">
-      <h3 class="visually-hidden">About</h3>
-      {{ partial "menu-footer.html" . }}
-    </footer>
-  </div>
+    {{- with .Site.Data.publication.related_resources -}}
+    <h3 class="menu-label">Related Resources</h3>
+    <ul class="menu-list" role="complementary" aria-label="other resources">
+      {{- partial "menu-link-list.html" . -}}
+    </ul>
+    {{- end -}}
+
+    <h3 class="menu-label">About</h3>
+    <ul class="menu-list" role="contentinfo">
+      {{- partial "menu-footer.html" . -}}
+    </ul>
+  </aside>
 </div>

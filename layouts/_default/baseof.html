@@ -9,14 +9,11 @@
 <html lang="{{ .Site.Data.publication.language }}">
   {{ partial "head.html" . }}
   <body class="">
-    {{ partial "icons.html" . }}
-    <div class="quire-container">
-      {{ partial "menu.html" . }}
-      <div class="quire-container__main">
-        {{ partial "controls.html" . }}
-        {{ block "main" . }}
-        {{ end }}
-      </div>
+    {{ partial "controls.html" . }}
+    {{ partial "menu.html" . }}
+    <div class="container">
+      {{ block "main" . }}
+      {{ end }}
     </div>
 
     <script src="{{ .Site.BaseURL }}/js/application.js"></script>
