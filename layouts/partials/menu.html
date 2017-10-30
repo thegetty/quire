@@ -3,30 +3,28 @@
   available on all pages. For users with Javascript enabled, this menu is hidden
   by default. Users with JS disabled will alwasy see the menu in its expanded state.
 */}}
-<div class="container">
-  <aside class="menu" aria-expanded="true" role="contentinfo">
-    <h3 class="menu-label">Table of Contents</h3>
-    <ul class="menu-list" role="navigation" aria-label="site">
-      {{- partial "contents-list.html" (dict "contentsScope" .Site "contentsType" .Site.Params.menuType "contentsLocation" "menu" "contentsPage" . ) -}}
-    </ul>
+<aside class="menu">
+  <h3 class="menu-label">Table of Contents</h3>
+  <ul class="menu-list" role="navigation" aria-label="site">
+    {{- partial "contents-list.html" (dict "contentsScope" .Site "contentsType" .Site.Params.menuType "contentsLocation" "menu" "contentsPage" . ) -}}
+  </ul>
 
-    {{- with .Site.Data.publication.formats -}}
-    <h3 class="menu-label">Other Formats</h3>
-    <ul class="menu-list" role="complementary" aria-label="downloads">
-      {{- partial "menu-link-list.html" . -}}
-    </ul>
-    {{- end -}}
+  {{- with .Site.Data.publication.formats -}}
+  <h3 class="menu-label">Other Formats</h3>
+  <ul class="menu-list" role="complementary" aria-label="downloads">
+    {{- partial "menu-link-list.html" . -}}
+  </ul>
+  {{- end -}}
 
-    {{- with .Site.Data.publication.related_resources -}}
-    <h3 class="menu-label">Related Resources</h3>
-    <ul class="menu-list" role="complementary" aria-label="other resources">
-      {{- partial "menu-link-list.html" . -}}
-    </ul>
-    {{- end -}}
+  {{- with .Site.Data.publication.related_resources -}}
+  <h3 class="menu-label">Related Resources</h3>
+  <ul class="menu-list" role="complementary" aria-label="other resources">
+    {{- partial "menu-link-list.html" . -}}
+  </ul>
+  {{- end -}}
 
-    <h3 class="menu-label">About</h3>
-    <ul class="menu-list" role="contentinfo">
-      {{- partial "menu-footer.html" . -}}
-    </ul>
-  </aside>
-</div>
+  <h3 class="menu-label">About</h3>
+  <ul class="menu-list" role="contentinfo">
+    {{- partial "menu-footer.html" . -}}
+  </ul>
+</aside>

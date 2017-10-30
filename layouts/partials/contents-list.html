@@ -41,11 +41,11 @@
 
 {{ .contentsPage.Scratch.Set "renderedSection" "" }}
 
-<ul class="contents-list">
+<ul>
   {{- range $pages -}}
       {{- if and .Section (ne .Section ($.contentsPage.Scratch.Get "renderedSection")) -}}
       {{ $.contentsPage.Scratch.Set "renderedSection" .Section }}
-      <li class="contents-list__section-item">
+      <li>
         {{- if eq .Type "section-head" -}}
           <a href="{{ .Permalink }}">{{ with .Params.id }}{{ . }}. {{ end }}{{ .Title | markdownify }}</a>
         {{- else -}}
@@ -89,9 +89,9 @@
 {{- end -}}
 
 {{- define "contents-list-item-toc" }}
-  <li class="contents-list__page-item"><a href="{{ .Permalink }}">{{ with .Params.id }}{{ . }}. {{ end }}{{ .Title | markdownify }}{{ with .Params.subtitle }}: {{ . | markdownify }}{{ end }}</a>{{ if .Params.contributor }} — {{ partial "contributor-list.html" (dict "range" .Params.contributor "type" "string") }}{{ end }}</li>
+  <li><a href="{{ .Permalink }}">{{ with .Params.id }}{{ . }}. {{ end }}{{ .Title | markdownify }}{{ with .Params.subtitle }}: {{ . | markdownify }}{{ end }}</a>{{ if .Params.contributor }} — {{ partial "contributor-list.html" (dict "range" .Params.contributor "type" "string") }}{{ end }}</li>
 {{ end -}}
 
 {{- define "contents-list-item-menu" }}
-  <li class="contents-list__page-item"><a href="{{ .Permalink }}">{{ with .Params.id }}{{ . }}. {{ end }}{{ .Title | markdownify }}</a></li>
+  <li><a href="{{ .Permalink }}">{{ with .Params.id }}{{ . }}. {{ end }}{{ .Title | markdownify }}</a></li>
 {{ end -}}

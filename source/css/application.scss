@@ -1,49 +1,94 @@
+// scss-lint:disable NameFormat
+
+// Styles
 @import "~bulma/sass/utilities/initial-variables";
 
-// Custom Variable settings
-$navbar-background-color: $grey-lighter;
+$navbar-background-color: $blue;
+$quire-menu-background-color: $grey-dark;
+$quire-menu-width: 400px;
 
 // Easy mode:
-// @import "~bulma";
-
-// Individual imports for selectiv overrides
-@import "~bulma/sass/utilities/all";
-@import "~bulma/sass/base/all";
-@import "~bulma/sass/elements/all";
-@import "~bulma/sass/components/breadcrumb.sass";
-@import "~bulma/sass/components/card.sass";
-@import "~bulma/sass/components/dropdown.sass";
-@import "~bulma/sass/components/level.sass";
-@import "~bulma/sass/components/media.sass";
-@import "~bulma/sass/components/menu.sass";
-@import "~bulma/sass/components/message.sass";
-@import "~bulma/sass/components/modal.sass";
+@import "~bulma";
 
 // custom Navbar component
-@import "components/navbar";
-
-@import "~bulma/sass/components/pagination.sass";
-@import "~bulma/sass/components/panel.sass";
-@import "~bulma/sass/components/tabs.sass";
-@import "~bulma/sass/grid/all";
-@import "~bulma/sass/layout/all";
+@import "components/quire-navbar";
 
 // Other custom styles (move elsewhere later)
 
 .quire {
-  display: flex;
-  flex-direction: row;
+  min-height: 100vh;
+  width: 100%;
 
-  &__primary {}
-  &__secondary {}
+  // Styles used whether JS is enabled or not
+  &__secondary {
+    background-color: $quire-menu-background-color;
+    padding: 1em;
 
+    * {
+      color: findColorInvert($quire-menu-background-color);
+    }
+
+    a {
+      background-color: $quire-menu-background-color;
+      color: findColorInvert($quire-menu-background-color);
+
+      &:hover {
+        color: findColorInvert($quire-menu-background-color);
+        background-color: darken($quire-menu-background-color, 5%);
+      }
+    }
+  }
+
+  // Styles when JS is not supported; menu at bottom
   &.no-js {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 
     .quire__primary { flex: 1; }
-    .quire__secondary {}
+
+    .quire__secondary {
+      order: 1;
+      width: 100%;
+    }
   }
+
+  // Styles with JS enabled (sliding menu, etc.)
+  &:not(.no-js) {
+    .quire__primary {
+      left: 0;
+      position: absolute;
+      transition: all 0.15s ease-in-out;
+      width: 100%;
+    }
+
+    .quire__secondary {
+      height: 100%;
+      overflow: hidden;
+      position: fixed;
+      top: 0;
+      transform: translateX(-($quire-menu-width));
+      transition: all 0.15s ease-in-out;
+      width: $quire-menu-width;
+      z-index: 1100;
+
+      &.is-expanded {
+        transform: translateX(0);
+      }
+
+      &.is-expanded + .quire__primary {
+        left: $quire-menu-width;
+        width: calc(100% - #{$quire-menu-width});
+      }
+    }
+  }
+}
+
+.visually-hidden {
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  width: 1px;
 }
 

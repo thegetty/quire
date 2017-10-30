@@ -21,29 +21,24 @@ import '../css/application.scss'
 //
 import $ from 'jquery'
 
+window.toggleMenu = function () {
+  var menu = document.getElementById('site-menu');
+  var menuAriaStatus = menu.getAttribute('aria-expanded');
+  menu.classList.toggle('is-expanded');
 
-// Declaring this globally for now.
-window.toggleMenu = function() {
-  var menu = document.getElementById("quire-menu");
-  var button = document.getElementById("quire-controls-menu-button");
-
-  var buttonAriaStatus = button.getAttribute("aria-expanded");
-  var menuAriaStatus = menu.getAttribute("aria-expanded");
-  menu.classList.toggle("quire-menu--is-visible");
-
-  if (buttonAriaStatus == "true") {
-    button.setAttribute("aria-expanded", "false")
-  } else if (buttonAriaStatus == "false") {
-    button.setAttribute("aria-expanded", "true")
-  }
-
-  if (menuAriaStatus == "true") {
-    menu.setAttribute("aria-expanded", "false")
-  } else if (menuAriaStatus == "false") {
-    menu.setAttribute("aria-expanded", "true")
+  if (menuAriaStatus === "true") {
+    menu.setAttribute('aria-expanded', "false")
+  } else {
+    menu.setAttribute('aria-expanded', "true")
   }
 }
 
 $(document).ready(function() {
-  // window.toggleMenu()
+  document.body.classList.remove('no-js');
+  toggleMenu()
+
+  // Site menu keyboard accessibility
+  var $menu = $('#site-menu');
+  $menu.focusin(toggleMenu)
+  $menu.focusout(toggleMenu)
 });
