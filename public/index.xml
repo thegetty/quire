@@ -2,56 +2,56 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Quire Starter</title>
-    <link>http://www.getty.edu/</link>
+    <link>https://gettypubs.github.io/quire-starter/</link>
     <description>Recent content on Quire Starter</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     
-	<atom:link href="http://www.getty.edu/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://gettypubs.github.io/quire-starter/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Quire Starter</title>
-      <link>http://www.getty.edu/</link>
+      <link>https://gettypubs.github.io/quire-starter/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://www.getty.edu/</guid>
+      <guid>https://gettypubs.github.io/quire-starter/</guid>
       <description>Lorem ipsum dolor sic amet.</description>
     </item>
     
     <item>
       <title>Contents</title>
-      <link>http://www.getty.edu/contents/</link>
+      <link>https://gettypubs.github.io/quire-starter/contents/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://www.getty.edu/contents/</guid>
+      <guid>https://gettypubs.github.io/quire-starter/contents/</guid>
       <description></description>
     </item>
     
     <item>
       <title>French Art</title>
-      <link>http://www.getty.edu/french-art/</link>
+      <link>https://gettypubs.github.io/quire-starter/french-art/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://www.getty.edu/french-art/</guid>
+      <guid>https://gettypubs.github.io/quire-starter/french-art/</guid>
       <description>French art consists of the visual and plastic arts (including architecture, woodwork, textiles, and ceramics) originating from the geographical area of France. Modern France was the main centre for the European art of the Upper Paleolithic, then left many megalithic monuments, and in the Iron Age many of the most impressive finds of early Celtic art. The Gallo-Roman period left a distinctive provincial style of sculpture, and the region around the modern Franco-German border led the empire in the mass production of finely decoratedAncient Roman pottery, which was exported to Italy and elsewhere on a lagre scale.</description>
     </item>
     
     <item>
       <title>About</title>
-      <link>http://www.getty.edu/about/</link>
+      <link>https://gettypubs.github.io/quire-starter/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://www.getty.edu/about/</guid>
+      <guid>https://gettypubs.github.io/quire-starter/about/</guid>
       <description>TK</description>
     </item>
     
     <item>
       <title></title>
-      <link>http://www.getty.edu/search.json</link>
+      <link>https://gettypubs.github.io/quire-starter/search.json</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://www.getty.edu/search.json</guid>
+      <guid>https://gettypubs.github.io/quire-starter/search.json</guid>
       <description></description>
     </item>
     

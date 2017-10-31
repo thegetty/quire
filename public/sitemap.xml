@@ -3,37 +3,37 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://www.getty.edu/</loc>
+    <loc>https://gettypubs.github.io/quire-starter/</loc>
   </url>
   
   <url>
-    <loc>http://www.getty.edu/contents/</loc>
+    <loc>https://gettypubs.github.io/quire-starter/contents/</loc>
   </url>
   
   <url>
-    <loc>http://www.getty.edu/french-art/</loc>
+    <loc>https://gettypubs.github.io/quire-starter/french-art/</loc>
   </url>
   
   <url>
-    <loc>http://www.getty.edu/about/</loc>
+    <loc>https://gettypubs.github.io/quire-starter/about/</loc>
   </url>
   
   <url>
-    <loc>http://www.getty.edu/search.json</loc>
+    <loc>https://gettypubs.github.io/quire-starter/search.json</loc>
   </url>
   
   <url>
-    <loc>http://www.getty.edu/categories/</loc>
+    <loc>https://gettypubs.github.io/quire-starter/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://www.getty.edu/</loc>
+    <loc>https://gettypubs.github.io/quire-starter/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://www.getty.edu/tags/</loc>
+    <loc>https://gettypubs.github.io/quire-starter/tags/</loc>
     <priority>0</priority>
   </url>
   
