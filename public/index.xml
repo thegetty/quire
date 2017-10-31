@@ -2,389 +2,56 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Quire Starter</title>
-    <link>https://gettypubs.github.io/quire-starter/</link>
+    <link>http://www.getty.edu/</link>
     <description>Recent content on Quire Starter</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     
-	<atom:link href="https://gettypubs.github.io/quire-starter/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://www.getty.edu/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Quire Starter</title>
-      <link>https://gettypubs.github.io/quire-starter/</link>
+      <link>http://www.getty.edu/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://gettypubs.github.io/quire-starter/</guid>
-      <description></description>
+      <guid>http://www.getty.edu/</guid>
+      <description>Lorem ipsum dolor sic amet.</description>
     </item>
     
     <item>
       <title>Contents</title>
-      <link>https://gettypubs.github.io/quire-starter/contents/</link>
+      <link>http://www.getty.edu/contents/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://gettypubs.github.io/quire-starter/contents/</guid>
-      <description> Cover Foreword — Tim Whalen Preface — Rachel Rivenc Opening Remarks: The Kinetic Collection at the Museo del Novecento, Milan — Iolanda Ratti   Keynotes Case Studies Collections/Artists’ Oeuvres Theoretical Issues Posters   List of Contributors List of Participants Bibliography About   </description>
-    </item>
-    
-    <item>
-      <title>Foreword</title>
-      <link>https://gettypubs.github.io/quire-starter/foreword/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://gettypubs.github.io/quire-starter/foreword/</guid>
-      <description>In 2007 the Getty Conservation Institute (GCI) launched its Modern and Contemporary Art Research Initiative to address some of the acute challenges raised by the conservation of contemporary art. These include the immense variety of materials—not all intended to last—used by contemporary artists, the lack of established treatments, and, increasingly, the use artists make of new technologies, many of which are prone to obsolescence and call for new competencies for their maintenance and repair.</description>
-    </item>
-    
-    <item>
-      <title>Preface</title>
-      <link>https://gettypubs.github.io/quire-starter/preface/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://gettypubs.github.io/quire-starter/preface/</guid>
-      <description>“All of a sudden it hit me why not just movement? If there was such a thing as composing music, there could be such a thing as composing motion.” —Len Lye1
-The word kinetic derives from the Greek kinetikos and simply means “moving, in motion.” Kinetic art not only incorporates movement but often depends on it to produce its intended effect and fully realize its nature as work of art. Movement can be energy, experience, or matter to be composed.</description>
-    </item>
-    
-    <item>
-      <title>Opening Remarks</title>
-      <link>https://gettypubs.github.io/quire-starter/opening-remarks/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://gettypubs.github.io/quire-starter/opening-remarks/</guid>
-      <description>The cultural milieu in Milan during the late 1950s and early 1960s was extremely lively. Lucio Fontana’s spatial research influenced artists such as Piero Manzoni, Enrico Castellani, and Agostino Bonalumi, as well as groups that sought to upset traditional art practices not only in terms of media but also by stressing the role of the spectator in giving significance to the artwork.
-In 1959 Giovanni Anceschi, Davide Boriani, Gianni Colombo, and Gabriele Devecchi met at the Accademia di Belle Arti, Brera and formed Gruppo T (where T stands for “time”).</description>
-    </item>
-    
-    <item>
-      <title>Keynotes</title>
-      <link>https://gettypubs.github.io/quire-starter/keynotes/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://gettypubs.github.io/quire-starter/keynotes/</guid>
+      <guid>http://www.getty.edu/contents/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>A Question of KinEthics</title>
-      <link>https://gettypubs.github.io/quire-starter/keynotes/1-bek/</link>
+      <title>French Art</title>
+      <link>http://www.getty.edu/french-art/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://gettypubs.github.io/quire-starter/keynotes/1-bek/</guid>
-      <description>When the intention of a kinetic artwork is its movement, is it still a kinetic artwork when it does not move? Do we “keep it moving” even when motion is detrimental to its existence? The challenge associated with the preservation of kinetic artwork is encapsulated in this simple conundrum: Is retirement from movement an appropriate method of preservation for an artwork meant to move?
-As first-generation kinetic and Op Art from the 1960s grow older, they are acquiring a historical status due to the obsolescence of light bulbs, electric timers, and motor controls: art professionals can no longer simply replace parts.</description>
-    </item>
-    
-    <item>
-      <title>The Fluid Boundaries between Interpretation and Overinterpretation</title>
-      <link>https://gettypubs.github.io/quire-starter/keynotes/2-caianiello/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://gettypubs.github.io/quire-starter/keynotes/2-caianiello/</guid>
-      <description>Interpretation and Overinterpretation All professionals engaged with the conservation and restoration of kinetic objects are familiar with this tool: the screwdriver. This paper is about the use of a screwdriver; however, it does not explain how to use it to open a case and repair a motor. Rather, it employs it as a metaphor to explore the boundaries between interpretation and overinterpretation.
-In 1962, Italian semiotician Umberto Eco published his Opera aperta (The Open Work) in which he theorizes about the category of “open works.</description>
-    </item>
-    
-    <item>
-      <title>Case Studies</title>
-      <link>https://gettypubs.github.io/quire-starter/case-studies/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://gettypubs.github.io/quire-starter/case-studies/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Fast and Furious</title>
-      <link>https://gettypubs.github.io/quire-starter/case-studies/3-gilberg/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://gettypubs.github.io/quire-starter/case-studies/3-gilberg/</guid>
-      <description>Introduction Figure 3.1.  Chris Burden’s Metropolis II in action.   Artist Chris Burden (1946–2015) designed and fabricated Metropolis II (2011), an intense kinetic sculpture modeled after a frenetic modern city (fig. 3.1). Steel tubing (Unistrut®) forms a structural grid interwoven with an elaborate system of eighteen roadways, including a six-lane freeway, and HO-scale1 train tracks. Miniature cars speed through the city at 240 scale miles per hour; every hour, the equivalent of approximately one hundred thousand cars circulates through the sculpture’s dense network of buildings.</description>
-    </item>
-    
-    <item>
-      <title>Conserving Thomas Wilfred’s *Lumia Suite, Opus 158*</title>
-      <link>https://gettypubs.github.io/quire-starter/case-studies/4-snow/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://gettypubs.github.io/quire-starter/case-studies/4-snow/</guid>
-      <description>Thomas Wilfred: The Unrecognized Pioneer Thomas Wilfred (1889–1968) was born Richard Edgar Løvstrøm in Naestved on the island of Zealand, Denmark. In Copenhagen, as a precocious sixteen year old, he began experimenting with light as an artistic medium, using a cigar box, incandescent light, and colored glass to create colored projections. Later, when he studied painting at the Sorbonne, he expanded his setup to several cardboard boxes, lenses, and a bedsheet screen.</description>
-    </item>
-    
-    <item>
-      <title>Cybernetic *Umbrella*</title>
-      <link>https://gettypubs.github.io/quire-starter/case-studies/5-lawson/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://gettypubs.github.io/quire-starter/case-studies/5-lawson/</guid>
-      <description>The Context of Kinetic Art Conservation at Tate Tate acquired its first kinetic work in 1951 (Lynn Chadwick’s Dragonfly), and there are now approximately sixty kinetic sculptures in the collection, including mobiles, interactive works, and motorized works. Each artwork has its own complexities relating to display; therefore, conservation needs are reviewed on an individual basis and require a variety of implementation approaches. The following three sculptures highlight some, but not all, of the different approaches that could be applied to Tsai’s Umbrella, based on previous work within Tate conservation.</description>
-    </item>
-    
-    <item>
-      <title>Moving with the Times</title>
-      <link>https://gettypubs.github.io/quire-starter/case-studies/6-phillips/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://gettypubs.github.io/quire-starter/case-studies/6-phillips/</guid>
-      <description>Introduction Without loan requests, some of the most fascinating and challenging conservation projects would end up languishing on to-do lists. Complex projects tend to be event-driven rather than the result of strategic long-term planning (Citation: Smithsonian Institution 2010[Smithsonian Institution. 2010. Collaborations in Conserving Time-Based Art: A Summary of Discussion Group Sessions of a Colloquium Co-organized by the Lunder Conservation Center of the Smithsonian American Art Museum and National Portrait Gallery and the Hirshhorn Museum and Sculpture Garden.</description>
-    </item>
-    
-    <item>
-      <title>Collections/Artists’ Oeuvres</title>
-      <link>https://gettypubs.github.io/quire-starter/collections/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://gettypubs.github.io/quire-starter/collections/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Takis and the Fourth Dimension</title>
-      <link>https://gettypubs.github.io/quire-starter/collections/7-stephenson/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://gettypubs.github.io/quire-starter/collections/7-stephenson/</guid>
-      <description>Introduction Takis is known for his investigations into the relationship between art and science. His earliest works include bronze forms focused on concepts of force and volume. Later he began his ongoing Signaux series with the development of wind-activated antenna-like structures inspired by radio and radar apparatuses. In the late 1950s he began including magnetism in his paintings and sculptures, employing electromagnets to fix objects in space, generate motion, and elicit sound.</description>
-    </item>
-    
-    <item>
-      <title>Preserving Performativity</title>
-      <link>https://gettypubs.github.io/quire-starter/collections/8-pavic_mestric/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://gettypubs.github.io/quire-starter/collections/8-pavic_mestric/</guid>
-      <description>Srnec and His Luminoplastics Figure 8.1.  Aleksandar Srnec, Space Modulator, 1953, colored wires, wood, 49.5 × 53.6 × 18 cm. Modern Gallery, Zagreb.   Aleksandar Srnec (Zagreb, 1924–2010) was a prominent Croatian artist whose work developed between 1950 and 1970, a vital period for the arts as well as for international culture, politics, and economics. Srnec was a member of the EXAT 51 group, active in the early 1950s, which sought to introduce experimentation into art and based its activities on the theories and traditions of Russian Constructivism, Bauhaus, and Neoplasticism.</description>
-    </item>
-    
-    <item>
-      <title>Engineering a Solution</title>
-      <link>https://gettypubs.github.io/quire-starter/collections/9-gillies/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://gettypubs.github.io/quire-starter/collections/9-gillies/</guid>
-      <description>The Latin American department at the Museum of Fine Arts, Houston (MFAH), began collecting kinetic art in 2004, including works by pioneering artists of the 1960s such as Abraham Palatnik, Horacio García Rossi, Gyula Kosice, Gregorio Vardanega, Martha Boto, and Julio Le Parc. They used various mechanisms—mirrors, the interplay of lights, and bubbling water—to produce movement and create both regular and random patterns. These artworks were displayed in multiple exhibitions, which provided challenges in maintaining their functionality.</description>
-    </item>
-    
-    <item>
-      <title>Intertwined Strategies for Conservation and Display of Kinetic Art</title>
-      <link>https://gettypubs.github.io/quire-starter/collections/10-pola_ferriani/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://gettypubs.github.io/quire-starter/collections/10-pola_ferriani/</guid>
-      <description>Behavioral Kinetics  Figure 10.1.  Giacomo Balla’s Bambina che corre sul balcone (Girl running on a balcony), 1912.   Figure 10.2.  Gianni Colombo walking through his environment Topoestesia (Tre zone contigue—Itinerario programmato) (Topoesthesia [Three contiguous zones—Programmed itinerary]), 1965–70, Palazzo delle Esposizioni, Rome, 1970.   Giacomo Balla’s Bambina che corre sul balcone (Girl running on a balcony), from 1912, is in the collection of the Galleria d’Arte Moderna in Milan and is currently undergoing restoration in Ferriani’s studio (fig.</description>
-    </item>
-    
-    <item>
-      <title>The Examination and Conservation of Thirteen Artworks by Jean Tinguely in the Collection of the Stedelijk Museum Amsterdam</title>
-      <link>https://gettypubs.github.io/quire-starter/collections/11-meijer/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://gettypubs.github.io/quire-starter/collections/11-meijer/</guid>
-      <description>Tinguely and the Stedelijk Museum Amsterdam The Stedelijk Museum holds thirteen three-dimensional kinetic works by Jean Tinguely (1925–1991). Created between 1954 and 1971, they provide a clear view of Tinguely’s development as an artist. The earliest work in the collection is Elément détaché III (1954), a very fragile “thread relief,” and the latest is the heavy machine Méta II (1971).
-Former Stedelijk director Willem Sandberg and former curator Ad Petersen befriended Tinguely in the 1960s, and they started collecting his work for the museum after the Stedelijk’s exhibitions Bewogen Beweging (Moving movement) (1961) and Dylaby (1962) (Schavemaker, Til, and Wismer 2016:155–61).</description>
-    </item>
-    
-    <item>
-      <title>Theoretical Issues</title>
-      <link>https://gettypubs.github.io/quire-starter/theoretical-issues/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://gettypubs.github.io/quire-starter/theoretical-issues/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>The Hype about ZERO and Its Influence on the Conservation and Presentation of Early Kinetic Works</title>
-      <link>https://gettypubs.github.io/quire-starter/theoretical-issues/12-heydenreich_giebeler/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://gettypubs.github.io/quire-starter/theoretical-issues/12-heydenreich_giebeler/</guid>
-      <description>Introduction In 1958, in search of a new artistic beginning—a Stunde Null, or “zero hour”—Otto Piene (1928–2014) and Heinz Mack (b. 1931) founded the artist magazine ZERO, which was later to give its name to an international art movement. In 1961, Günther Uecker (b. 1930) began to collaborate closely with Piene and Mack. They quickly gained considerable popularity through their light-kinetics, and they initiated numerous projects that involved other artists such as Jean Tinguely, Lucio Fontana, and Yves Klein.</description>
-    </item>
-    
-    <item>
-      <title>Kinetic Multiples</title>
-      <link>https://gettypubs.github.io/quire-starter/theoretical-issues/13-plante/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://gettypubs.github.io/quire-starter/theoretical-issues/13-plante/</guid>
-      <description>Figure 13.1.  Julio Le Parc. Catalogue of the XXXIII Biennale di Venezia, Italia, 1966. Cover designer Rogelio Polesello overprinted a plot of colors on the black-and-white photograph of Le Parc’s kinetic multiple. Museo Nacional de Bellas Artes, Buenos Aires.   In 1966, Julio Le Parc represented Argentina in the Venice Biennale (fig. 13.1) and received the international grand prize in painting. According to the reviews, his space was one of the most visited.</description>
-    </item>
-    
-    <item>
-      <title>The Collection of Nicolas Schöffer</title>
-      <link>https://gettypubs.github.io/quire-starter/theoretical-issues/14-dhaenens/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://gettypubs.github.io/quire-starter/theoretical-issues/14-dhaenens/</guid>
-      <description>Into the Artist’s Studio: From Kinetic to Cybernetic  Figure 14.1.  View of Nicolas Schöffer’s studio in the Villa des Arts, Paris.   Figure 14.2a.  Spatiodynamism Spationynamique 16 with Maurice Béjart, 1953.   Figure 14.2b.  Luminodynamism Lux 2, 1957.   With more than six hundred objects, the collection of Nicolas Schöffer (1912–1992) is nearly complete. Currently installed in his Paris studio, it contains most of his unique artworks and at least one work from each of his series.</description>
-    </item>
-    
-    <item>
-      <title>“Pretty Good for the 21st Century”</title>
-      <link>https://gettypubs.github.io/quire-starter/theoretical-issues/15-brobbel_rees/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://gettypubs.github.io/quire-starter/theoretical-issues/15-brobbel_rees/</guid>
-      <description>Figure 15.1.  Len Lye with Flip, ca. 1975.   The New Zealand–born Len Lye (1901–1980) remains one of the most enigmatic of modernist artists. Leaving his homeland in his mid-twenties to seek out less provincial pastures, Lye traveled between Australia and Samoa, becoming familiar with aboriginal and Pacific cultures before arriving in London in 1926, where he was immediately welcomed by the British avant-garde. Several years exhibiting sculpture, painting, and photography with the Seven and Five Society,1 followed by an off-kilter relationship with the British Surrealists, are secondary to his career at the vanguard of experimental cinema.</description>
-    </item>
-    
-    <item>
-      <title>Posters</title>
-      <link>https://gettypubs.github.io/quire-starter/posters/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://gettypubs.github.io/quire-starter/posters/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Conserving Mechanical Elements in Technological Artifacts</title>
-      <link>https://gettypubs.github.io/quire-starter/posters/16-cappellina/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://gettypubs.github.io/quire-starter/posters/16-cappellina/</guid>
-      <description>Cockcroft-Walton Generator First designed in 1932, the Cockcroft–Walton generator is an electric circuit that produces a high voltage from a low voltage. A system of capacitors and diodes generates this voltage, along with kinetic components such as dynamos (fig. 16.1), which are housed inside rounded aluminum protections. The machine is assembled over two Bakelite isolating cylinders. The electrical components were lost during the first installation in the museum in the 1960s; furthermore, safety concerns prevent us from activating the machine.</description>
-    </item>
-    
-    <item>
-      <title>Think Big!</title>
-      <link>https://gettypubs.github.io/quire-starter/posters/17-erhan/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://gettypubs.github.io/quire-starter/posters/17-erhan/</guid>
-      <description>Artwork and Art History  Figure 17.1a.  Jonathan Borofsky’s Ballerina Clown, 1990, installed in the courtyard of the Museum Ludwig Forum Aachen.   Figure 17.1b.  The mechanism that moves the leg of Jonathan Borofsky’s Ballerina Clown, 1990.   Ballerina Clown (1990) by Jonathan Borofsky (b. 1942) is composed of a female ballerina body wearing a male clown mask. This “transvestite figure (half clown, half ballerina)” (Citation: Ottinger 2004, 39[Ottinger, Didier.</description>
-    </item>
-    
-    <item>
-      <title>Conserving a Kinetic “Rotor”</title>
-      <link>https://gettypubs.github.io/quire-starter/posters/18-iazurlo/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://gettypubs.github.io/quire-starter/posters/18-iazurlo/</guid>
-      <description>During the second half of the 1950s, artist Heinz Mack (b. 1931) developed his interest in lighting and kinetic phenomena with his Rotors. This series of works is laminated with shiny metal and creates moving light reflections via movement produced by a small motor housed on the back. Light Dynamo belongs to this phase of the artist’s production; it was recently identified as a work realized by Mack in 1960 for the ZERO group’s only exhibition in Rome: Mack + Klein + Piene + Uecker + Lo Savio = 0, of 1961.</description>
-    </item>
-    
-    <item>
-      <title>Considering the Continuum of Care for Outdoor Kinetic Sculpture</title>
-      <link>https://gettypubs.github.io/quire-starter/posters/19-mack/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://gettypubs.github.io/quire-starter/posters/19-mack/</guid>
-      <description>Meteorological science has documented that climate change has resulted in more storms and increasing storm intensity over recent decades (Citation: Melillo, Richmond, and Yohe 2014[Melillo, Jerry M., Terese (T. C.) Richmond, and Gary W. Yohe, eds. 2014. Climate Change Impacts in the United States: The Third National Climate Assessment. Washington, D.C.: U.S. Global Change Research Program. doi:10.7930/J0Z31WJ2.]). These new weather-related challenges necessitate that new display protocols for outdoor sculpture be adopted by the field, just as recommendations for indoor museum environments were standardized in 1978 with the publication of Garry Thomson’s Museum Environment.</description>
-    </item>
-    
-    <item>
-      <title>Gianni Colombo’s *Strutturazione cinevisuale abitabile*</title>
-      <link>https://gettypubs.github.io/quire-starter/posters/20-peller/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://gettypubs.github.io/quire-starter/posters/20-peller/</guid>
-      <description>Gianni Colombo’s Strutturazione cinevisuale abitabile Strutturazione cinevisuale abitabile (Inhabitable cinevisual structure) from 1964, a light environment by Milanese artist Gianni Colombo (1937–1993), is composed of two perpendicular square panels1 fixed to a wall (fig. 20.1). The artwork is meant to be shown in a small, darkened room, with the spectator stepping into the space outlined by the lights. Short and intermittent bursts of light flash simultaneously on each panel.</description>
-    </item>
-    
-    <item>
-      <title>&lt;em&gt;Death of a moment&lt;/em&gt;</title>
-      <link>https://gettypubs.github.io/quire-starter/posters/21-stamatopoulou/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://gettypubs.github.io/quire-starter/posters/21-stamatopoulou/</guid>
-      <description>Born in Zurich, Urs Fischer (b. 1973) is a prominent contemporary artist who uses a wide variety of media and materials to create assemblages, paintings, digital montages, spatial installations, kinetic objects, and texts. Death of a moment (2007) is a site-specific installation consisting of a wall (13.5 × 3.2m) mounted with floor-to-ceiling mirrors (fig. 21.1). The mirrors perform a regular, barely noticeable tilting motion, which creates a disturbing effect on spatial perception.</description>
-    </item>
-    
-    <item>
-      <title>Future in Motion</title>
-      <link>https://gettypubs.github.io/quire-starter/posters/22-van_aubel/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://gettypubs.github.io/quire-starter/posters/22-van_aubel/</guid>
-      <description>Dutch artist Ray Staakman (b. 1941) was a pioneer in kinetic art in the Netherlands during the 1960s and 1970s, and the movement in his artworks creates intriguing optical effects by the displacement of shapes. Unfortunately, several of his works began to malfunction after repeated use and could no longer be displayed. In 2012, the University of Amsterdam (UvA), in collaboration with the Rijksdienst voor het Cultureel Erfgoed (RCE; the Cultural Heritage Agency, Netherlands), began a major conservation project of seven of Staakman’s early kinetic artworks in the collection of the RCE.</description>
-    </item>
-    
-    <item>
-      <title>The Conservation Ethics of and Strategies for Preserving and Exhibiting an Operational Car</title>
-      <link>https://gettypubs.github.io/quire-starter/posters/23-van_mourik/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://gettypubs.github.io/quire-starter/posters/23-van_mourik/</guid>
-      <description>The Artwork Figure 23.1.  Joost Conijn’s Hout Auto (Wood Car) in the garden of the Centraal Museum. Centraal Museum Utrecht.   In 2001 artist Joost Conijn (b. 1971) created Wood Car (fig. 23.1) from the base of a Citroën DS, building the coach from plywood and installing a wood-burning apparatus that powered the engine instead of gas. In 2002 the artist drove Wood Car through fifteen countries in Europe, collecting wood along the way and documenting his journey on video.</description>
-    </item>
-    
-    <item>
-      <title>Contributors</title>
-      <link>https://gettypubs.github.io/quire-starter/contributors/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://gettypubs.github.io/quire-starter/contributors/</guid>
-      <description>Edited by Rachel Rivenc and Reinhard Bek
-Reinhard Bek
-Reinhard Bek completed his training as objects conservator in 2002. That same year, he joined the Museum Tinguely in Basel, Switzerland, as its first permanent conservator. Bek was a founding member of the European Union project Inside Installations in 2003, and he was hired in 2008 by the Museum of Modern Art, New York, to spearhead an assessment of their technology-based artwork.</description>
-    </item>
-    
-    <item>
-      <title>Symposium Participants</title>
-      <link>https://gettypubs.github.io/quire-starter/participants/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://gettypubs.github.io/quire-starter/participants/</guid>
-      <description>Sara Abram
-Centro Conservazione Restauro, “La Veneria Reale,” Turin
-Italy
- Satenik Aeschi
-Academy of Fine Arts, Vienna
-Austria
- Alessandra Bassi
-Centro Conservazione Restauro, “La Veneria Reale,” Turin
-Italy
- Lydia Beerkens
-SRAL Art Conservation and Research, Maastrich
-The Netherlands
- Reinhard Bek ( Bio | Contribution )
-Bek &amp;amp; Frohnert LLC, New York
-USA
- Roberto Bestetti
-CESMAR7, Reggio Emilia
-Italy
- Anna Bogatin
-Private practice, Philadelphia</description>
-    </item>
-    
-    <item>
-      <title>Bibliography</title>
-      <link>https://gettypubs.github.io/quire-starter/bibliography/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://gettypubs.github.io/quire-starter/bibliography/</guid>
-      <description>Alley 1981 Alley, Ronald. 1981. Catalogue of the Tate Gallery’s Collection of Modern Art Other than Works by British Artists. London: Tate Gallery and Sotheby Parke-Bernet. Amigo, Dolinko, and Rossi 2010 Amigo, Roberto, Silvia Dolinko, and Cristina Rossi, eds. 2010. Palabra de artista. Textos sobre arte argentino 1961–1981. Buenos Aires: Fundación Espigas and Fondo Nacional de las Artes. Ashley-Smith 2009 Ashley-Smith, Jonathan. 2009. “The Basic of Conservation Ethics.” In Conservation Principles, Dilemmas and Uncomfortable Truths, edited by Alison Richmond et al.</description>
+      <guid>http://www.getty.edu/french-art/</guid>
+      <description>French art consists of the visual and plastic arts (including architecture, woodwork, textiles, and ceramics) originating from the geographical area of France. Modern France was the main centre for the European art of the Upper Paleolithic, then left many megalithic monuments, and in the Iron Age many of the most impressive finds of early Celtic art. The Gallo-Roman period left a distinctive provincial style of sculpture, and the region around the modern Franco-German border led the empire in the mass production of finely decoratedAncient Roman pottery, which was exported to Italy and elsewhere on a lagre scale.</description>
     </item>
     
     <item>
       <title>About</title>
-      <link>https://gettypubs.github.io/quire-starter/about/</link>
+      <link>http://www.getty.edu/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://gettypubs.github.io/quire-starter/about/</guid>
+      <guid>http://www.getty.edu/about/</guid>
       <description>TK</description>
     </item>
     
     <item>
       <title></title>
-      <link>https://gettypubs.github.io/quire-starter/print-version/</link>
+      <link>http://www.getty.edu/search.json</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://gettypubs.github.io/quire-starter/print-version/</guid>
-      <description>This file is a placeholder that allows you to generate a special page suitable for creating a print version of your entire website. Content in this file will not display.
-To see this page, navigate to /print-version/ while the preview server is running.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://gettypubs.github.io/quire-starter/search.json</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://gettypubs.github.io/quire-starter/search.json</guid>
+      <guid>http://www.getty.edu/search.json</guid>
       <description></description>
     </item>
     

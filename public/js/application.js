@@ -58,7 +58,8 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	// Declaring this globally for now.
+	// Functions defined on the window object for use in the UI for now.
+	//
 	// Application JS
 	//
 	// This file serves as the entry point for Weback, the JS library responsible
@@ -75,23 +76,14 @@
 	// Stylesheets
 	//
 	window.toggleMenu = function () {
-	  var menu = document.getElementById("quire-menu");
-	  var button = document.getElementById("quire-controls-menu-button");
+	  var menu = document.getElementById('site-menu');
+	  var menuAriaStatus = menu.getAttribute('aria-expanded');
+	  menu.classList.toggle('is-expanded');
 
-	  var buttonAriaStatus = button.getAttribute("aria-expanded");
-	  var menuAriaStatus = menu.getAttribute("aria-expanded");
-	  menu.classList.toggle("quire-menu--is-visible");
-
-	  if (buttonAriaStatus == "true") {
-	    button.setAttribute("aria-expanded", "false");
-	  } else if (buttonAriaStatus == "false") {
-	    button.setAttribute("aria-expanded", "true");
-	  }
-
-	  if (menuAriaStatus == "true") {
-	    menu.setAttribute("aria-expanded", "false");
-	  } else if (menuAriaStatus == "false") {
-	    menu.setAttribute("aria-expanded", "true");
+	  if (menuAriaStatus === "true") {
+	    menu.setAttribute('aria-expanded', "false");
+	  } else {
+	    menu.setAttribute('aria-expanded', "true");
 	  }
 	};
 
@@ -99,8 +91,22 @@
 	//
 
 
+	window.handleMenuFocus = function () {
+	  var $menu = (0, _jquery2.default)('#site-menu');
+	  $menu.focusin(toggleMenu);
+	  $menu.focusout(toggleMenu);
+	};
+
+	// Start
+	//------------------------------------------------------------------------------
+
+	// Run these immediately
+	document.body.classList.remove('no-js');
+	toggleMenu();
+
+	// Run these on $(document).ready()
 	(0, _jquery2.default)(document).ready(function () {
-	  window.toggleMenu();
+	  // handleMenuFocus()
 	});
 
 /***/ }),
