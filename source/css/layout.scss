@@ -37,20 +37,9 @@ $quire-menu-width: 350px !default;
 
   // Styles used whether JS is enabled or not
   &__secondary {
+    @include foreground-color($quire-menu-background-color);
     background-color: $quire-menu-background-color;
     padding: 1em;
-
-    * { color: findColorInvert($quire-menu-background-color); }
-
-    a {
-      background-color: $quire-menu-background-color;
-      color: findColorInvert($quire-menu-background-color);
-
-      &:hover {
-        color: findColorInvert($quire-menu-background-color);
-        background-color: darken($quire-menu-background-color, 5%);
-      }
-    }
   }
 
   // Styles when JS is not supported; menu at bottom
@@ -106,14 +95,6 @@ $quire-menu-width: 350px !default;
       }
     }
   }
-}
-
-.visually-hidden {
-  clip: rect(1px, 1px, 1px, 1px);
-  height: 1px;
-  overflow: hidden;
-  position: absolute;
-  width: 1px;
 }
 
 // Print overrides

@@ -1,48 +1,54 @@
 {{/*
-  Cover page layout. This controls the home page of the publication.
+Cover page layout. This controls the home page of the publication.
 */}}
 
 {{ define "main" }}
-<div class="quire-cover">
-  <div class="quire-cover__inner">
-
-    {{ if .Site.Data.publication }}
-      <h1 class="quire-cover__inner__title">
+{{/* Begin full-page cover section */}}
+<section class="quire-cover hero is-fullheight">
+  <div class="hero-body">
+    <div class="container is-fluid">
+      {{/* Use .Site.Data.publication info if available */}}
+      {{ if .Site.Data.publication }}
+      <h1 class="title is-1">
         {{ .Site.Data.publication.title | markdownify }}
-        {{ with .Site.Data.publication.subtitle }}
-          <span class="quire-cover__inner__subtitle">{{ . | markdownify }}</span>
-        {{ end }}
-        {{ with .Site.Data.publication.reading_line }}
-          <span class="quire-cover__inner__reading-line">{{ . | markdownify }}</span>
-        {{ end }}
       </h1>
-    {{ else }}
-      <h1 class="quire-cover__inner__title">{{ .Site.Title }}</h1>
-    {{ end }}
 
-    <div class="quire-cover__inner__contributor">
+      {{ with .Site.Data.publication.subtitle }}
+      <h2 class="subtitle is-4">{{ . | markdownify }}</h2>
+      {{ end }}
+
+      {{ with .Site.Data.publication.reading_line }}
+      <p class="">{{ . | markdownify }}</p>
+      {{ end }}
+
       {{- if .Site.Data.publication.contributor_as_it_appears -}}
-          {{ .Site.Data.publication.contributor_as_it_appears }}
+      {{ .Site.Data.publication.contributor_as_it_appears }}
       {{ else }}
-      <span class="visually-hidden">Contributors: </span>
+      <p class="visually-hidden">Contributors: </span>
       {{ partial "contributor-list.html" .Site.Data.publication.primary_contributor }}
       {{- end -}}
+
+      {{ else }}
+      {{/* Fallback for when no publication.yml data is present */}}
+      <h1 class="title">{{ .Site.Title }}</h1>
+      {{ end }}
     </div>
-
   </div>
-</div>
-
-{{/* Below the fold / "jacket" content goes here */}}
-<div>
-  {{ .Content }}
-  <ul>
-    <li><strong>[ kind: type ] Title URL</strong></li>
-  {{ range .Site.Pages }}
-    <li>
-      [{{ .Kind }}{{ with .Params.Type }}: {{ .}}{{ end }}] {{ .Title }} {{ .URL }}
-    </li>
-  {{ end }}
-  </ul>
-</div>
-
+</section>
+{{/* End full-page cover section */}}
+{{/* Begin "below-the-fold" section */}}
+<section class="section">
+  <div class="container is-fluid">
+    {{ .Content }}
+    <ul>
+      <li><strong>[ kind: type ] Title URL</strong></li>
+      {{ range .Site.Pages }}
+      <li>
+        [{{ .Kind }}{{ with .Params.Type }}: {{ .}}{{ end }}] {{ .Title }} {{ .URL }}
+      </li>
+      {{ end }}
+    </ul>
+  </div>
+</section>
+{{/* End "below-the-fold" section */}}
 {{ end }}

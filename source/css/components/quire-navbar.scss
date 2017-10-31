@@ -24,30 +24,25 @@
 // .quire-navbar
 // -----------------------------------------------------------------------------
 .quire-navbar {
+  @include foreground-color($navbar-background-color);
   background-color: $navbar-background-color;
   min-height: $navbar-height;
   top: 0;
   width: 100%;
 
-  // Global sub-element styles
   * {
-    color: findColorInvert($navbar-background-color);
     transition: background 0.15s ease;
   }
 
   a {
-    background-color: $navbar-background-color;
     display: block;
     height: $navbar-height;
     padding: 0 0.5em;
-
-    &:hover {
-      background-color: darken($navbar-background-color, 5%);
-      color: findColorInvert($navbar-background-color);
-    }
   }
 
   svg { fill: findColorInvert($navbar-background-color); }
+
+
 }
 
 // .quire-navbar-controls

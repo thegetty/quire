@@ -30,6 +30,9 @@ $navbar-background-color: $blue;
 // These variables are not referenced by Bulma and can be defined after
 // importing it.
 
+$quire-cover-background-color: $info;
+// $quire-cover-background-image: url("http://placekitten.com/1400/800");
+
 $quire-menu-background-color: $dark;
 $quire-menu-width: 300px;
 
@@ -40,9 +43,9 @@ $quire-page-subtitle-size: $size-3;
 // Custom components, etc.
 // -----------------------------------------------------------------------------
 // Feel free to import any additional user-defined files here.
-@import "components/quire-navbar";
-@import "components/quire-page";
+@import "utilities";
 @import "layout";
+@import "components/all";
 
 // Other custom styles (move elsewhere later)
 
