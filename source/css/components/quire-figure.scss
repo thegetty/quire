@@ -1,0 +1,29 @@
+// =============================================================================
+// Quire-figure
+// -----------------------------------------------------------------------------
+// Quire-figure component. The q-figure shortcode outputs the following markup:
+// <figure class="quire-figure">
+//   <img class="quire-figure__image" />
+//   <span class="quire-figure__label"></span>
+//   <figcaption class="quire-figure__caption"></figcaption>
+// </figure>
+//
+// In most cases the default styling from Bulma's figure and .content figure
+// rules should be sufficient, but additional styling can go here.
+//
+// scss-lint:disable EmptyRule
+.quire-figure {
+  &__image {}
+  &__label {}
+
+  &__caption {
+    font-size: $size-6;
+  }
+
+  &.is-pulled-left,
+  &.is-pulled-right {
+    @media screen and (min-width: $tablet) {
+      width: 50%;
+    }
+  }
+}
