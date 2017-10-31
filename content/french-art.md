@@ -275,7 +275,6 @@ developed the so-called International Gothicstyle that spread through Europe and
 incorporated the new Flemish influence as well as the innovations of the Italian
 early Renaissance artists.
 
-![Enguerrand Quarton, The Coronation of the Virgin, 1452–53]()
 
 ### Early Modern period
 
@@ -290,7 +289,6 @@ Fontainebleau from 1531. Leonardo da Vinci also was invited to France by
 François I, but other than the paintings which he brought with him, he produced
 little for the French king.
  
-![Diana the Huntress- School of Fontainebleau, 1550–60]()
 
 The art of the period from François I through Henri IV often is heavily inspired
 by late Italian pictorial and sculptural developments commonly referred to as
@@ -304,7 +302,7 @@ Loire region and they show remarkable architectural skill.
 
 ### Baroque and Classicism
 
-![Les Bergers d’Arcadieby Nicolas Poussin]()
+{{< q-figure-group id="1.4, 1.5" caption="This group caption supercedes individual captions." >}}
 
 The seventeenth century marked a golden age for French art in all fields. In the
 early part of the seventeenth century, late mannerist and early Baroque

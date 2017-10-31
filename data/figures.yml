@@ -11,3 +11,11 @@ figure_list:
     src: fig-1-3-aachen.jpg
     caption: "Aachen Gospels, c. 820, an example of Carolingian illumination"
     credit: "Public domain image."
+  - id: "1.4"
+    src: fig-1-4-arcadia.jpg
+    caption: "Nicolas Poussin - Et in Arcadia ego"
+    credit: "Public domain image."
+  - id: "1.5"
+    src: fig-1-5-la-tour.jpg
+    caption: "Büßende Maria Magdalena (Magdalena Wrightsman)"
+    credit: "Public domain image."
