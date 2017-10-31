@@ -5,9 +5,10 @@
 # This file houses the bibliographic info and general metadata for your digital
 # publication.
 
-title: Quire Starter
-subtitle: Sample Book Content
+title: Quire
+subtitle: Multi-format publishing
 contributor_as_it_appears: Author Name
+reading_line: A digital publication framework built on Hugo
 
 description:
   one_line:
