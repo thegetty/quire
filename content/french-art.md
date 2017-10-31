@@ -1,6 +1,8 @@
 ---
 title: French Art
+subtitle: Shamelessly copied from Wikipedia
 weight: 3
+type: essay
 ---
 
 French art consists of the visual and plastic arts (including architecture,
@@ -22,19 +24,19 @@ France largely regained this role, holding it until the mid-20th centur.y
 
 ## Contents
 
-- 1.1 Prehistory
-- 1.2 Celtic and Roman periods
-- 1.3 Medieval period
-  - 1.3.1 Merovingian art
-  - 1.3.2 Carolingian art
-  - 1.3.3 Romanesque art
-  - 1.3.4 Gothic
-- 1.4 Early Modern period
-  - 1.4.1 Baroque and Classicism
-  - 1.4.2 Rococo and Neoclassicism
-- 1.5 Modern period
-  - 1.5.1 19th century
-  - 1.5.2 20th century
+- Prehistory
+- Celtic and Roman periods
+- Medieval period
+  - Merovingian art
+  - Carolingian art
+  - Romanesque art
+  - Gothic
+- Early Modern period
+  - Baroque and Classicism
+  - Rococo and Neoclassicism
+- Modern period
+  - 19th century
+  - 20th century
     
 ### Prehistory
  
