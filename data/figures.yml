@@ -19,3 +19,39 @@ figure_list:
     src: fig-1-5-la-tour.jpg
     caption: "Büßende Maria Magdalena (Magdalena Wrightsman)"
     credit: "Public domain image."
+  - id: "1.6"
+    src: fig-1-6-chateau.jpg
+    caption: "Château de Vaux-le-Vicomte by Louis Le Vau."
+    credit: "Public domain image."
+  - id: "1.7"
+    src: fig-1-7-salon.jpg
+    caption: "Boiseries of theSalon de la princesse by Germain Bofrand, hôtel de Soubise, Paris"
+    credit: "Public domain image."
+  - id: "1.8"
+    src: fig-1-8-fragonard.jpg
+    caption: "Inspiration by Jean-Honoré Fragonard"
+    credit: "Public domain image."
+  - id: "1.9"
+    src: fig-1-9-place.jpg
+    caption: "Place de la Boursein Bordeaux byAnge- Jacques Gabriel"
+    credit: "Public domain image."
+  - id: "1.10"
+    src: fig-1-10-prometheus.jpg
+    caption: "Prometheus by Nicolas-Sébastien Adam."
+    credit: "Public domain image."
+  - id: "1.11"
+    src: fig-1-11-horatii.jpg
+    caption: "Jacques-Louis David, Oath of the Horatii (1786)"
+    credit: "Public domain image."
+  - id: "1.12"
+    src: fig-1-12-massacre.jpg
+    caption: "The Massacre at Chios- Eugène Delacroix"
+    credit: "Public domain image."
+  - id: "1.13"
+    src: fig-1-13-monet.jpg
+    caption: "Claude Monet, Rouen Cathedral, Facade (Sunset)."
+    credit: "Public domain image."
+  - id: "1.14"
+    src: fig-1-14-violin.jpg
+    caption: "Georges Braque, Violin and Candlestick, 1910"
+    credit: "Public domain image."

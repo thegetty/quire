@@ -348,7 +348,7 @@ as it was practiced in Italy, was not in French taste, for instance, as
 Bernini's famous proposal for redesigning the Louvre was rejected by Louis XIV.
 Georges de La Tour, The Penitent Magdalene, c. 1640.
 
-![Château de Vaux-le-Vicomte by Louis Le Vau.](https://upload.wikimedia.org/wikipedia/commons/4/48/Le_chateau_de_Vaux_le_Vicomte.jpg)
+{{< q-figure id="1.6" >}}
                        
 Through propaganda, wars, and great architectural works, Louis XIV launched a
 vast program designed for the glorification of France and his name. The Palace
@@ -386,8 +386,8 @@ colorful scenes. Important painters from this period include Antoine Watteau,
 considered the inventor of thefête galante, Nicolas Lancret and François
 Boucher.
 
-![Boiseries of theSalon de la princesse by Germain Bofrand, hôtel de Soubise, Paris](https://upload.wikimedia.org/wikipedia/commons/9/93/Salon_de_la_princesse_hotel_de_soubise.jpg)
-   
+{{< q-figure id="1.7" >}}
+
 The Louis XV style of decoration, although already apparent at the end of the
 last reign, was lighter with pastel colors, wood panels, smaller rooms, less
 gilding, and fewer brocades; shells, garlands, and occasional Chinese subjects
@@ -402,8 +402,8 @@ Louis XIV and were decorated with rocaille style boiseries (carved wood pannels
 covering the walls of a room) conceived by architects like Germain Boffrand or
 ornemanistes (designers of decorative objects) likeJuste-Aurèle Meissonnier.
 
-![Inspiration by Jean-Honoré Fragonard](https://upload.wikimedia.org/wikipedia/commons/c/c1/Jean-Honor%C3%A9_Fragonard_-_Inspiration.jpg)
-           
+{{< q-figure id="1.8" >}}
+
 The most prominent architects of the first half of the century were, apart
 Boffrand, Robert de Cotte and Ange-Jacques Gabriel, who designed public squares
 like theplace de la Concordein Paris and the place de la Bourse in Bordeaux in a
@@ -412,7 +412,7 @@ half of the century, France replaced Italy as the artistic centre and main
 artistic influence in Europe and many French artists worked in other courts
 across the continent.
 
-![Place de la Boursein Bordeaux byAnge- Jacques Gabriel](https://upload.wikimedia.org/wikipedia/commons/6/66/Place_de_la_bourse.jpg)
+{{< q-figure id="1.9" >}}
 
 The latter half of the eighteenth century continued to see French preeminence in
 Europe, particularly through the arts and sciences, and the speaking the French
@@ -425,7 +425,7 @@ were extremely fashionable. Chardin and Jean-Baptiste Oudrywere hailed for their
 still lives although this was officially considered the lowest of all genres in
 the hierarchy of painting subjects.
 
-![Prometheus by Nicolas-Sébastien Adam](https://upload.wikimedia.org/wikipedia/commons/9/9f/Prometheus_Adam_Louvre_MR1745.jpg)
+{{< q-figure id="1.10" >}}
 
 One also finds in this period a Pre-romanticist aspect. Hubert Robert's images
 of ruins, inspired by Italian cappricio paintings, are typical in this respect
@@ -456,7 +456,7 @@ the rational concepts of theEnlightmentthinkers.
 
 ### Modern period 19th century
 
-![Jacques-Louis David, Oath of the Horatii (1786)](https://upload.wikimedia.org/wikipedia/commons/7/70/Jacques-Louis_David_-_Oath_of_the_Horatii_-_Google_Art_Project.jpg)
+{{< q-figure id="1.11" >}}
 
 The French Revolution and the Napoleonic wars brought great changes to the arts
 in France. The program of exaltation and myth making attendant to the Emperor
@@ -488,7 +488,7 @@ critics, the most talented of the Academic painters renewed the historical
 genre, drawing inspiration from multiple cultures and techniques, like the
 Orient and the new framings made possible by the invention of photography
 
-![The Massacre at Chios- Eugène Delacroix](https://upload.wikimedia.org/wikipedia/commons/6/66/Eug%C3%A8ne_Delacroix_-_Le_Massacre_de_Scio.jpg)
+{{< q-figure id="1.12" >}}
 
 For many critics EÉdouard Manet wrote of the nineteenth century and the modern
 period (much as Charles Baudelaire does in poetry). His rediscovery of Spanish
@@ -522,8 +522,8 @@ became the model for the naïve revolution.
 
 ### 20th century
 
-![Claude Monet, Rouen Cathedral, Facade (Sunset)](https://upload.wikimedia.org/wikipedia/commons/d/d1/Claude_Monet_-_Rouen_Cathedral%2C_Facade_%28Sunset%29.JPG)
-                     
+{{< q-figure id="1.13" >}}
+
 The early years of the twentieth century were dominated by experiments in colour
 and content that Impressionism and Post-Impressionism had unleashed. The
 products of the far east also brought new influences. At roughly the same time,
@@ -577,8 +577,8 @@ the radical youth movement, through their atelier populaire, produced a great
 deal of poster-art protesting the moribund policies of presidentCharles de
 Gaulle.
 
-![Georges Braque, Violin and Candlestick, 1910](https://upload.wikimedia.org/wikipedia/en/3/3c/Violin_and_Candlestick.jpg)
-                 
+{{< q-figure id="1.14" >}}
+
 Many contemporary artists continue to be haunted by the horrors of the Second
 World War and the specter of the Holocaust.Christian Boltanski's harrowing
 installations of the lost and the anonymous are particularly powerful.
