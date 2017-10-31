@@ -11,6 +11,8 @@
 // In most cases the default styling from Bulma's figure and .content figure
 // rules should be sufficient, but additional styling can go here.
 //
+// Figure groups get the additional class .quire-figure--group
+//
 // scss-lint:disable EmptyRule
 .quire-figure {
   &__image {}
@@ -24,6 +26,28 @@
   &.is-pulled-right {
     @media screen and (min-width: $tablet) {
       width: 50%;
+    }
+  }
+
+  &--group {
+    align-items: baseline;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    figure.quire-figure--group__item {
+      flex: 1;
+      margin: 0;
+
+      &:not(:last-of-type) {
+        margin-right: 1rem;
+      }
+    }
+
+    &__caption {
+      @extend .quire-figure__caption;
+      flex: 0 0 100%;
+      margin-top: 1rem;
     }
   }
 }
