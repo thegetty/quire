@@ -36,18 +36,23 @@
     flex-wrap: wrap;
 
     figure.quire-figure--group__item {
-      flex: 1;
-      margin: 0;
+      margin: 0 0 1rem 0;
 
-      &:not(:last-of-type) {
-        margin-right: 1rem;
+      @media screen and (min-width: $tablet) {
+        flex: 1;
+        margin: 0;
+
+        &:not(:last-of-type) { margin-right: 1rem; }
       }
     }
 
     &__caption {
       @extend .quire-figure__caption;
-      flex: 0 0 100%;
-      margin-top: 1rem;
+
+      @media screen and (min-width: $tablet) {
+        flex: 0 0 100%;
+        margin-top: 1rem;
+      }
     }
   }
 }
