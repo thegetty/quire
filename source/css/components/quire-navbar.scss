@@ -63,7 +63,7 @@
     flex: 0 1 $navbar-height;
   }
 
-  &__center { flex: 0 0 50%; }
+  &__center { flex: 1 1 auto; }
 
   &__right {
     flex: 0 1 $navbar-height;

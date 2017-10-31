@@ -1,94 +1,49 @@
-// scss-lint:disable NameFormat
-
-// Styles
+// =============================================================================
+// Application.scss
+// -----------------------------------------------------------------------------
+// This project uses Bulma (http://bulma.io) as a framework for styles. Standard
+// bulma options and variables are supported throughout this site. In some
+// places custom components with their own variables and options have been
+// defined as well.
+//
 @import "~bulma/sass/utilities/initial-variables";
 
+// Custom font declarations (if any) can be imported here
+//
+@import url('https://fonts.googleapis.com/css?family=Merriweather:300,300i,400,400i,700,700i');
+
+
+// Variables
+// -----------------------------------------------------------------------------
+// Custom variables which override Bulma defaults can be defined here, before
+// the rest of the framework is imported.
+
+$body-weight: $weight-light;
+$desktop: 900px;
+$family-primary: 'Merriweather', serif;
 $navbar-background-color: $blue;
-$quire-menu-background-color: $grey-dark;
+
+@import "bulma-components";
+
+// Quire-specific variables
+// -----------------------------------------------------------------------------
+// These variables are not referenced by Bulma and can be defined after
+// importing it.
+
+$quire-menu-background-color: $dark;
 $quire-menu-width: 400px;
 
-// Easy mode:
-@import "~bulma";
+$quire-page-title-size: $size-1;
+$quire-page-subtitle-size: $size-3;
 
-// custom Navbar component
+
+// Custom components, etc.
+// -----------------------------------------------------------------------------
+// Feel free to import any additional user-defined files here.
 @import "components/quire-navbar";
+@import "components/quire-page";
+@import "layout";
 
 // Other custom styles (move elsewhere later)
 
-.quire {
-  min-height: 100vh;
-  width: 100%;
-
-  // Styles used whether JS is enabled or not
-  &__secondary {
-    background-color: $quire-menu-background-color;
-    padding: 1em;
-
-    * {
-      color: findColorInvert($quire-menu-background-color);
-    }
-
-    a {
-      background-color: $quire-menu-background-color;
-      color: findColorInvert($quire-menu-background-color);
-
-      &:hover {
-        color: findColorInvert($quire-menu-background-color);
-        background-color: darken($quire-menu-background-color, 5%);
-      }
-    }
-  }
-
-  // Styles when JS is not supported; menu at bottom
-  &.no-js {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-
-    .quire__primary { flex: 1; }
-
-    .quire__secondary {
-      order: 1;
-      width: 100%;
-    }
-  }
-
-  // Styles with JS enabled (sliding menu, etc.)
-  &:not(.no-js) {
-    .quire__primary {
-      left: 0;
-      position: absolute;
-      transition: all 0.15s ease-in-out;
-      width: 100%;
-    }
-
-    .quire__secondary {
-      height: 100%;
-      overflow: hidden;
-      position: fixed;
-      top: 0;
-      transform: translateX(-($quire-menu-width));
-      transition: all 0.15s ease-in-out;
-      width: $quire-menu-width;
-      z-index: 1100;
-
-      &.is-expanded {
-        transform: translateX(0);
-      }
-
-      &.is-expanded + .quire__primary {
-        left: $quire-menu-width;
-        width: calc(100% - #{$quire-menu-width});
-      }
-    }
-  }
-}
-
-.visually-hidden {
-  clip: rect(1px, 1px, 1px, 1px);
-  height: 1px;
-  overflow: hidden;
-  position: absolute;
-  width: 1px;
-}
 
