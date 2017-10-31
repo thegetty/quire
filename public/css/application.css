@@ -6984,9 +6984,27 @@ label.panel-block {
 .quire-toc {
   font-size: 1.25rem; }
 
-.quire-figure__caption {
+.quire-figure__caption, .quire-figure--group__caption {
   font-size: 1rem; }
 
 @media screen and (min-width: 769px) {
   .quire-figure.is-pulled-left, .quire-figure.is-pulled-right {
     width: 50%; } }
+
+.quire-figure--group {
+  align-items: baseline;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; }
+  .quire-figure--group figure.quire-figure--group__item {
+    margin: 0 0 1rem 0; }
+    @media screen and (min-width: 769px) {
+      .quire-figure--group figure.quire-figure--group__item {
+        flex: 1;
+        margin: 0; }
+        .quire-figure--group figure.quire-figure--group__item:not(:last-of-type) {
+          margin-right: 1rem; } }
+  @media screen and (min-width: 769px) {
+    .quire-figure--group__caption {
+      flex: 0 0 100%;
+      margin-top: 1rem; } }
