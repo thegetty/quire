@@ -50,5 +50,5 @@ toggleMenu()
 
 // Run these on $(document).ready()
 $(document).ready(() => {
-  handleMenuFocus()
+  // handleMenuFocus()
 });
