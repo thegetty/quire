@@ -2,68 +2,37 @@
 // Quire-page.scss
 // -----------------------------------------------------------------------------
 // Page container component
-// - .quire-page__header
-// - .quire-page__content
-
-// Variables
-// -----------------------------------------------------------------------------
-$quire-page-title-size: $size-1 !default;
-$quire-page-subtitle-size: $size-3 !default;
-
-// scss-lint:disable EmptyRule
-
-.quire-page {
-}
+// - .quire-page__header: Styled with Bulma hero classes by default, but the
+//     top-level <section> elemement has this class for overrides.
+// - .quire-page__content: Uses Bulma's section & container elements for layout;
+//     the only styles here relate to typography.
 
 .quire-page__header {
-  @extend .section;
-  padding-left: 0;
-  padding-right: 0;
-
-  &__inner {
-    @extend .container;
-  }
-
-  &__title {
-    @extend .title;
-    font-size: $quire-page-title-size;
-
-    &__id {}
-
-    &__subtitle {
-      font-size: $quire-page-subtitle-size;
-    }
-  }
-
-  &__navigation {
-    &__item {}
-  }
+  // Use this if you need an override
 }
 
 .quire-page__content {
-  &__main {
-    @extend .container;
-    @extend .is-desktop;
-    font-size: 18px;
+  font-size: 18px;
 
-    @media screen and (min-width: $desktop) { font-size: 21px; }
+  @media screen and (min-width: $desktop) {
+    font-size: 21px;
+  }
 
-    p {
-      img {
-        float: right;
-        margin-left: 1em;
-        width: 45%;
-      }
-
-      & + p {
-        text-indent: 2em;
-      }
+  p {
+    img {
+      float: right;
+      margin-left: 1em;
+      width: 45%;
     }
 
-    h1, h2, h3, h4, h5, h6 {
-      @extend .title;
-      @extend .is-3;
-      margin-top: 1em;
+    & + p {
+      text-indent: 2em;
     }
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @extend .title;
+    @extend .is-3;
+    margin-top: 1em;
   }
 }

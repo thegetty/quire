@@ -5,34 +5,37 @@
 */}}
 
 {{ define "main" }}
-
 <article class="quire-page" id="main" role="main">
   {{ partial "page-header.html" . }}
+
   {{ if .Params.abstract }}
   {{ partial "page-abstract.html" . }}
   {{ end }}
 
-  <div class="quire-page__content" id="essay-text">
-    <section class="quire-page__content__main">
+  <section id="essay-text" class="section quire-page__content">
+    <div class="container">
       {{ .Content }}
-    </section>
-  </div>
 
-  <div class="quire-page__footer">
-    {{ partial "references.html" . }}
-  </div>
-
-    {{ if eq .Params.contributor_byline "bottom" }}
+      {{/* If page byline is set to "bottom", display it here */}}
+      {{ if eq .Params.contributor_byline "bottom" }}
       <ul class="quire-page__content__contributor">
-      {{ range .Params.contributor }}
+        {{- range .Params.contributor -}}
         <li>
           {{ .first_name }} {{ .last_name }}{{ if or .title .affiliation }}<br />
           {{ with .title }}{{ . }}{{ end }}{{ with and .title .affiliation }}, {{ end }}
           {{ with .affiliation }}{{ . }}{{ end }}{{ end }}
         </li>
-      {{ end }}
+        {{- end -}}
       </ul>
-    {{ end }}
-</article>
+      {{ end }}
+    </div>
+  </section>
 
+  <footer class="footer">
+    <div class="container">
+      {{ partial "references.html" . }}
+    </div>
+  </footer>
+
+</article>
 {{ end }}
