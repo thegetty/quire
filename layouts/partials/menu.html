@@ -4,6 +4,8 @@
   by default. Users with JS disabled will alwasy see the menu in its expanded state.
 */}}
 <aside class="menu">
+  {{ partial "menu-header.html" . }}
+
   <h3 class="menu-label">Table of Contents</h3>
   <ul class="menu-list" role="navigation" aria-label="site">
     {{- partial "contents-list.html" (dict "contentsScope" .Site "contentsType" .Site.Params.menuType "contentsLocation" "menu" "contentsPage" . ) -}}

@@ -14,7 +14,9 @@
 
   <section id="essay-text" class="section quire-page__content">
     <div class="container">
-      {{ .Content }}
+      <div class="content">
+        {{ .Content }}
+      </div>
 
       {{/* If page byline is set to "bottom", display it here */}}
       {{ if eq .Params.contributor_byline "bottom" }}
