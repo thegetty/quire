@@ -21,10 +21,12 @@ import '../css/application.scss'
 //
 import $ from 'jquery'
 
-window.toggleMenu = function () {
-  var menu = document.getElementById('site-menu');
-  var menuAriaStatus = menu.getAttribute('aria-expanded');
-  menu.classList.toggle('is-expanded');
+// Functions defined on the window object for use in the UI for now.
+//
+window.toggleMenu = () => {
+  let menu = document.getElementById('site-menu')
+  let menuAriaStatus = menu.getAttribute('aria-expanded')
+  menu.classList.toggle('is-expanded')
 
   if (menuAriaStatus === "true") {
     menu.setAttribute('aria-expanded', "false")
@@ -33,12 +35,20 @@ window.toggleMenu = function () {
   }
 }
 
-$(document).ready(function() {
-  document.body.classList.remove('no-js');
-  toggleMenu()
-
-  // Site menu keyboard accessibility
-  var $menu = $('#site-menu');
+window.handleMenuFocus = () => {
+  let $menu = $('#site-menu')
   $menu.focusin(toggleMenu)
   $menu.focusout(toggleMenu)
+}
+
+// Start
+//------------------------------------------------------------------------------
+
+// Run these immediately
+document.body.classList.remove('no-js')
+toggleMenu()
+
+// Run these on $(document).ready()
+$(document).ready(() => {
+  handleMenuFocus()
 });
