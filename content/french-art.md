@@ -40,7 +40,7 @@ France largely regained this role, holding it until the mid-20th centur.y
     
 ### Prehistory
  
-![Front and side view of the Venus of Brassempouy.](https://upload.wikimedia.org/wikipedia/commons/6/6b/Venus_of_Brassempouy.jpg)
+{{< q-figure id="1.1" >}}
 
 Currently, the earliest known European art is from the Upper Palaeolithic period
 of between 40,000 and 10,000 years ago and France has a large selection of
@@ -79,7 +79,7 @@ stone axes, and inscribed menhirs from this period. The Grand-Pressigny area was
 known for its precious silex blades and they were extensively exported during
 the Neolithic.
 
-![The Menec alignments, the most well-known megalithic site among the Carnac stones](https://upload.wikimedia.org/wikipedia/commons/b/b9/Carnac_megalith_alignment_1.jpg)
+{{< q-figure id="1.2" class="is-pulled-left" >}}
 
 In France from the Neolithic to the Bronze Age, one finds a variety of
 archaeological cultures, including the Rössen culture of c. 4500–4000 BC, Beaker
@@ -156,7 +156,7 @@ Centula Abbey of Saint-Riquier (Somme), completed in 788, was a major
 achievement in monastic architecture. Another important building (mostly lost
 today) was "Theodulf's Villa" in Germigny-des-Prés.
 
-![Aachen Gospels, c. 820, an example of Carolingian illumination]()
+{{< q-figure id="1.3" class="is-pulled-right" >}}
                        
 With the end of Carolingian rule around 900, artistic production halted for
 almost three generations. After the demise of the Carolingian Empire, France

@@ -1,7 +1,13 @@
 figure_list:
-  - id: "I.1"
-    src: fig-i-1-ratti.jpg
-    caption: "Lorem ipsum dolor sic amet"
-    credit: "Archivio Gianni Colombo, Milan. Museo del Novecento, Milan ©
-    Comune di Milano. All rights reserved."
-
+  - id: "1.1"
+    src: fig-1-1-venus.jpg
+    caption: "Front and side view of the Venus of Brassempouy."
+    credit: "Jean-Gilles Berizzi. Public domain."
+  - id: "1.2"
+    src: fig-1-2-megaliths.jpg
+    caption: "The Menec alignments, the most well-known megalithic site among the Carnac stones."
+    credit: "Public domain image."
+  - id: "1.3"
+    src: fig-1-3-aachen.jpg
+    caption: "Aachen Gospels, c. 820, an example of Carolingian illumination"
+    credit: "Public domain image."
