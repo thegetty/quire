@@ -1,0 +1,19 @@
+
+{{/*
+  Page layout. This layout describes a simple page template designed for
+  displaying large amounts of text without needing other special features.
+*/}}
+
+{{ define "main" }}
+<article class="quire-page" id="main" role="main">
+  {{ partial "page-header.html" . }}
+
+  <section id="essay-text" class="section quire-page__content">
+    <div class="container">
+      <div class="content">
+        {{ .Content }}
+      </div>
+    </div>
+  </section>
+</article>
+{{ end }}
