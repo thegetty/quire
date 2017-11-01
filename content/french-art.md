@@ -2,7 +2,7 @@
 title: French Art
 subtitle: Shamelessly copied from Wikipedia
 weight: 3
-type: essay
+type: page
 ---
 
 French art consists of the visual and plastic arts (including architecture,
