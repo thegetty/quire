@@ -12,32 +12,14 @@
   {{ partial "page-abstract.html" . }}
   {{ end }}
 
-  <section id="essay-text" class="section quire-page__content">
+  <section id="content" class="section quire-page__content">
     <div class="container">
       <div class="content">
         {{ .Content }}
+        {{ partial "references.html" . }}
       </div>
-
-      {{/* If page byline is set to "bottom", display it here */}}
-      {{ if eq .Params.contributor_byline "bottom" }}
-      <ul class="quire-page__content__contributor">
-        {{- range .Params.contributor -}}
-        <li>
-          {{ .first_name }} {{ .last_name }}{{ if or .title .affiliation }}<br />
-          {{ with .title }}{{ . }}{{ end }}{{ with and .title .affiliation }}, {{ end }}
-          {{ with .affiliation }}{{ . }}{{ end }}{{ end }}
-        </li>
-        {{- end -}}
-      </ul>
-      {{ end }}
     </div>
   </section>
-
-  <footer class="footer">
-    <div class="container">
-      {{ partial "references.html" . }}
-    </div>
-  </footer>
 
 </article>
 {{ end }}

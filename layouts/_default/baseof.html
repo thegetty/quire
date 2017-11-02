@@ -8,15 +8,8 @@
 <!DOCTYPE html>
 <html lang="{{ .Site.Data.publication.language }}">
   {{ partial "head.html" . }}
-  {{ partial "icons.html" . }}
   <body class="quire no-js">
-    <div class="quire__secondary is-expanded"
-         id="site-menu"
-         aria-expanded="true"
-         role="contentinfo">
-      {{ partial "menu.html" . }}
-    </div>
-
+    {{ partial "icons.html" . }}
 
     <div class="quire__primary">
       {{ partial "navbar.html" . }}
@@ -24,6 +17,13 @@
         {{ block "main" . }}
         {{ end }}
       </div>
+    </div>
+
+    <div class="quire__secondary is-expanded"
+         id="site-menu"
+         aria-expanded="true"
+         role="contentinfo">
+      {{ partial "menu.html" . }}
     </div>
 
     <script src="{{ .Site.BaseURL }}/js/application.js"></script>

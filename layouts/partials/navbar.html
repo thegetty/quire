@@ -29,11 +29,11 @@ search icons, and search results if enabled). It is visible on all pages.
     </div>
 
     <div class="quire-navbar-controls__center">
-      <nav class="quire-navbar-page-controls" role="navigation" aria-label="quick">
+      <ul class="quire-navbar-page-controls" role="navigation" aria-label="quick">
         {{ template "if-previous" . }}
 
         {{ if eq .Type "cover" }}
-        <div class="quire-navbar-page-controls__item">
+        <li class="quire-navbar-page-controls__item">
           <a href="{{ .Site.BaseURL }}" rel="start">
             <span class="visually-hidden">Home Page: </span>
             {{ if .Site.Data.publication.short_title }}
@@ -42,9 +42,9 @@ search icons, and search results if enabled). It is visible on all pages.
             {{ .Site.Data.publication.title | markdownify }}
             {{ end }}
           </a>
-        </div>
+        </li>
         {{ else }}
-        <div class="quire-navbar-page-controls__item">
+        <li class="quire-navbar-page-controls__item">
           <a href="{{ .Site.BaseURL }}" rel="start">
             <span class="visually-hidden">Home Page: </span>
             {{ if .Site.Data.publication.short_title }}
@@ -53,26 +53,26 @@ search icons, and search results if enabled). It is visible on all pages.
             {{ .Site.Data.publication.title | markdownify }}
             {{ end }}
           </a>
-        </div>
+        </li>
         {{ if .Section }}
         {{ if ne .Type "section-head"}}
-        <div class="quire-navbar-page-controls__item">
+        <li class="quire-navbar-page-controls__item">
           <a href="{{ .Permalink }}">
             <span class="visually-hidden">Section: </span>
             {{ .Section | humanize | title }}
           </a>
-        </div>
+        </li>
         {{ end }}
         {{ end }}
-        <div class="quire-navbar-page-controls__item">
+        <li class="quire-navbar-page-controls__item">
           <span class="visually-hidden">Current Page: </span>
           <em>{{ .Title | markdownify | truncate 40 }}</em>
-        </div>
+        </li>
         {{ end }}
 
         {{ template "if-next" . }}
 
-      </nav>
+      </ul>
     </div>
 
     <div class="quire-navbar-controls__right">
@@ -94,7 +94,7 @@ search icons, and search results if enabled). It is visible on all pages.
 {{- define "if-previous" -}}
 {{- if .Prev -}}
 {{- if and (ne .Prev.Params.online false) (ne .Prev.Type "data") -}}
-<div class="quire-navbar-button arrow-button">
+<li class="quire-navbar-button arrow-button">
   <a href="{{ .Prev.Permalink }}" rel="prev" id="js-prev" >
     <svg>
       <switch>
@@ -103,7 +103,7 @@ search icons, and search results if enabled). It is visible on all pages.
     </svg>
     <span class="visually-hidden">Previous Page (left keyboard arrow or swipe)</span>
   </a>
-</div>
+</li>
 {{- else -}}
   {{ template "if-previous" .Prev }}
 {{- end -}}
@@ -113,7 +113,7 @@ search icons, and search results if enabled). It is visible on all pages.
 {{- define "if-next" -}}
 {{- if .Next -}}
 {{- if and (ne .Next.Params.online false) (ne .Next.Type "data") -}}
-<div class="quire-navbar-button arrow-button">
+<li class="quire-navbar-button arrow-button">
   <a href="{{ .Next.Permalink }}" rel="next" id="js-next">
     <svg>
       <switch>
@@ -122,7 +122,7 @@ search icons, and search results if enabled). It is visible on all pages.
     </svg>
     <span class="visually-hidden">Next Page (right keyboard arrow or swipe)</span>
   </a>
-</div>
+</li>
 {{- else -}}
   {{ template "if-next" .Next }}
 {{- end -}}
