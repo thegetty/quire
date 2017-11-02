@@ -7,7 +7,7 @@
 
 title: Quire
 subtitle: Multi-format publishing
-contributor_as_it_appears: Author Name
+contributor_as_it_appears: # Author Name
 reading_line: A digital publication framework built on Hugo
 
 description:
@@ -19,6 +19,26 @@ description:
 
   additional_online:
   additional_pdf_ebook:
+
+primary_contributor:
+  - first_name: Rose
+    last_name: Valland
+    title: Chair
+    affiliation: Commission for the Protection of Works of Art
+    bio: "Rose Antonia Maria Valland (1 November 1898 – 18 September 1980) was a French art historian, member of the French Resistance, captain in the French military, and one of the most decorated women in French history. She secretly recorded details of the Nazi plundering of National French and private Jewish-owned art from France; and, working with the French Resistance, she saved thousands of works of art."
+    url: https://en.wikipedia.org/wiki/Rose_Valland
+    pic: contributors/rose-valland.jpg
+  - first_name: Denis
+    last_name: Diderot
+    title: Chief Editor
+    affiliation: Encyclopédie
+    bio: "Denis Diderot (5 October 1713 – 31 July 1784) was a French philosopher, art critic, and writer. He was a prominent figure during the Enlightenment and is best known for serving as co-founder, chief editor, and contributor to the Encyclopédie along with Jean le Rond d’Alembert."
+    url: https://en.wikipedia.org/wiki/Denis_Diderot
+    pic: contributors/denis-diderot.jpg
+  - full_name: Félix-Sébastien Feuillet de Conches
+    title: Diplomat
+    bio: "Félix-Sébastien Feuillet de Conches (4 December 1798 – 5 February 1887 in Paris) was a French diplomat, journalist, writer and collector. Having occupied the posts of ‘introducteur des ambassadeurs’ and head of protocol at the Ministry of Foreign Affairs, he was able to form a collection specialising in English painting, 19th century French painting, the history of civilisations, the art of the Near East and the art of Asia. His contemporary Charles Monselet judged de Conches’ collection as unequalled, but it included some pieces of dubious authenticity."
+    pic: contributors/de-conches.jpg
 
 promo_image: "promo.jpg"
 
