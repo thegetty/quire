@@ -8,18 +8,25 @@
 # update the value here too.
 
 # Use these settings for serving/building to a path other than root
-# baseurl: "https://gettypubs.github.io/quire-catalogue"
-# canonifyURLs: true
+baseurl: "https://gettypubs.github.io/quire-starter"
+canonifyURLs: true
 
 # Use these settings for serving/building to the root path
-baseurl: "http://www.getty.edu"
-relativeURLs: true
+# baseurl: "http://www.getty.edu"
+# relativeURLs: true
 
 title: "Quire Starter"
 languageCode: "en-us"
 theme: "quire-starter-theme"
 footnoteReturnLinkContents: "↩"
 metaDataFormat: "yaml"
+
+pluralizeListTitles: true
+disableKinds:
+  - "home"
+  - "section"
+  - "taxonomy"
+  - "taxonomyTerm"
 
 # These values can be accessed in templates via .Site.Params
 params:

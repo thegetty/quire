@@ -11,139 +11,15 @@
   </url>
   
   <url>
-    <loc>https://gettypubs.github.io/quire-starter/foreword/</loc>
+    <loc>https://gettypubs.github.io/quire-starter/french-art/</loc>
   </url>
   
   <url>
-    <loc>https://gettypubs.github.io/quire-starter/preface/</loc>
+    <loc>https://gettypubs.github.io/quire-starter/catalogue/</loc>
   </url>
   
   <url>
-    <loc>https://gettypubs.github.io/quire-starter/opening-remarks/</loc>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/keynotes/</loc>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/keynotes/1-bek/</loc>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/keynotes/2-caianiello/</loc>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/case-studies/</loc>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/case-studies/3-gilberg/</loc>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/case-studies/4-snow/</loc>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/case-studies/5-lawson/</loc>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/case-studies/6-phillips/</loc>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/collections/</loc>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/collections/7-stephenson/</loc>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/collections/8-pavic_mestric/</loc>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/collections/9-gillies/</loc>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/collections/10-pola_ferriani/</loc>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/collections/11-meijer/</loc>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/theoretical-issues/</loc>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/theoretical-issues/12-heydenreich_giebeler/</loc>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/theoretical-issues/13-plante/</loc>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/theoretical-issues/14-dhaenens/</loc>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/theoretical-issues/15-brobbel_rees/</loc>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/posters/</loc>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/posters/16-cappellina/</loc>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/posters/17-erhan/</loc>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/posters/18-iazurlo/</loc>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/posters/19-mack/</loc>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/posters/20-peller/</loc>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/posters/21-stamatopoulou/</loc>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/posters/22-van_aubel/</loc>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/posters/23-van_mourik/</loc>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/contributors/</loc>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/participants/</loc>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/bibliography/</loc>
+    <loc>https://gettypubs.github.io/quire-starter/catalogue/1/</loc>
   </url>
   
   <url>
@@ -151,51 +27,7 @@
   </url>
   
   <url>
-    <loc>https://gettypubs.github.io/quire-starter/print-version/</loc>
-  </url>
-  
-  <url>
     <loc>https://gettypubs.github.io/quire-starter/search.json</loc>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/case-studies/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/categories/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/collections/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/keynotes/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/posters/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/tags/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://gettypubs.github.io/quire-starter/theoretical-issues/</loc>
-    <priority>0</priority>
   </url>
   
 </urlset>

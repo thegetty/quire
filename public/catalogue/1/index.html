@@ -1,0 +1,378 @@
+
+
+<!DOCTYPE html>
+<html lang="">
+  
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  
+  <title>The Luncheon on the Grass | Quire</title>
+  <meta name="description" content="Quire is a digital publishing framework built on top of the Hugo static site
+generator. Generate Web, PDF, and print books (with Epub coming soon) from a
+single …">
+  <meta name="keywords" content="">
+  <link rel="canonical" href="https://gettypubs.github.io/quire-starter/catalogue/1/">
+  <link rel="version-history" href="">
+  <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+  <meta name="dcterms.title" content="Quire: Multi-format publishing (A digital publication framework built on Hugo)">
+  <meta name="dcterms.date" content="">
+  <meta name="dcterms.description" content="Quire is a digital publishing framework built on top of the Hugo static site
+generator. Generate Web, PDF, and print books (with Epub coming soon) from a
+single …">
+  <meta name="dcterms.identifier" content="">
+  <meta name="dcterms.language" content="">
+  <meta name="dcterms.rights" content="">
+  <meta name="dcterms.subject" content="">
+  
+  <meta property="og:title" content="Quire" />
+  <meta property="og:url" content="https://gettypubs.github.io/quire-starter" />
+  <meta property="og:image" content="https://gettypubs.github.io/quire-starterimg/promo.jpg" />
+  <meta property="og:description" content="Quire is a digital publishing framework built on top of the Hugo static site
+generator. Generate Web, PDF, and print books (with Epub coming soon) from a
+single …" />
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="https://gettypubs.github.io/quire-starter">
+  <meta name="twitter:title" content="Quire">
+  <meta name="twitter:description" content="Quire is a digital publishing framework built on top of the Hugo static site
+generator. Generate Web, PDF, and print books (with Epub coming soon) from a
+single …">
+  <meta name="twitter:image" content="https://gettypubs.github.io/quire-starterimg/promo.jpg">
+
+  <script type="application/ld+json">
+  {
+    "@context": "http://schema.org/",
+    "type": "WebSite",
+    "name": "Quire: Multi-format publishing (A digital publication framework built on Hugo)",
+    "url": "https://gettypubs.github.io/quire-starter",
+    "datePublished": "",
+    "keywords": "",
+    "license": "",
+    "image": "https://gettypubs.github.io/quire-starterimg/promo.jpg",
+    "description": "Quire is a digital publishing framework built on top of the Hugo static site generator. Generate Web, PDF, and print books (with Epub coming soon) from a single set of text files. "
+    }
+  </script>
+
+  <link rel="stylesheet" href="https://gettypubs.github.io/quire-starter/css/application.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous">
+  </script>
+</head>
+
+  
+
+<svg style="display:none">
+  <symbol id="left-arrow-icon" viewBox="0 0 18 32">
+    <path d="M6,16l11.7,12.4c0.4,0.4,0.4,0.8,0,1.1l-2.1,2.1c-0.4,0.4-0.8,0.4-1.1,0.1L0.2,16.6C0.1,16.5,0,16.3,0,16c0-0.2,0.1-0.4,0.2-0.6L14.5,0.3c0.4-0.4,0.7-0.4,1.1,0l2.1,2.2c0.4,0.4,0.4,0.8,0,1.1L6,16z"/>
+  </symbol>
+  <symbol id="right-arrow-icon" viewBox="0 0 18 32">
+    <path d="M12,16L0.3,3.6c-0.4-0.4-0.4-0.8,0-1.1l2.1-2.1c0.4-0.4,0.8-0.4,1.1-0.1l14.3,15.2c0.1,0.1,0.2,0.3,0.2,0.6c0,0.2-0.1,0.4-0.2,0.6L3.5,31.7c-0.4,0.4-0.7,0.4-1.1,0l-2.1-2.2c-0.4-0.4-0.4-0.8,0-1.1L12,16z"/>
+  </symbol>
+  <symbol id="search-icon" viewBox="0 0 32 32">
+    <path d="M31.7,26.9c0.4,0.4,0.4,0.8,0,1.2l-3.6,3.7C28,31.9,27.7,32,27.5,32c-0.2,0-0.4-0.1-0.6-0.2l-7-7.2c-2.1,1.3-4.3,1.9-6.7,1.9c-3.6,0-6.7-1.3-9.3-3.9C1.3,20,0,16.9,0,13.2s1.3-6.8,3.9-9.4C6.5,1.3,9.6,0,13.2,0c3.6,0,6.7,1.3,9.3,3.9s3.9,5.7,3.9,9.4c0,2.3-0.6,4.5-1.7,6.5L31.7,26.9z M18.9,7.5c-1.6-1.6-3.4-2.4-5.7-2.4C11,5.2,9.1,6,7.5,7.5S5.2,11,5.2,13.2c0,2.2,0.8,4.1,2.4,5.7c1.6,1.6,3.5,2.4,5.7,2.4c2.2,0,4.1-0.8,5.7-2.4c1.6-1.6,2.3-3.5,2.3-5.7C21.2,11,20.4,9.1,18.9,7.5z"/>
+  </symbol>
+  <symbol id="nav-icon" viewBox="0 0 32 32">
+    <path d="M29.4,2.5c0.7,0,1.3,0.3,1.8,0.8C31.8,3.8,32,4.5,32,5.2c0,0.7-0.2,1.4-0.8,1.9c-0.5,0.5-1.1,0.8-1.8,0.8H2.6c-0.7,0-1.3-0.3-1.8-0.8C0.2,6.6,0,5.9,0,5.2c0-0.7,0.2-1.4,0.8-1.9c0.5-0.5,1.1-0.8,1.8-0.8H29.4z M29.4,13.3c0.7,0,1.3,0.3,1.8,0.8c0.5,0.5,0.8,1.2,0.8,1.9c0,0.7-0.2,1.4-0.8,1.9c-0.5,0.5-1.1,0.8-1.8,0.8H2.6c-0.7,0-1.3-0.3-1.8-0.8C0.2,17.4,0,16.7,0,16c0-0.7,0.2-1.4,0.8-1.9c0.5-0.5,1.1-0.8,1.8-0.8H29.4z M29.4,24.1c0.7,0,1.3,0.3,1.8,0.8c0.5,0.5,0.8,1.2,0.8,1.9c0,0.7-0.2,1.4-0.8,1.9c-0.5,0.5-1.1,0.8-1.8,0.8H2.6c-0.7,0-1.3-0.3-1.8-0.8C0.2,28.2,0,27.5,0,26.8c0-0.7,0.2-1.4,0.8-1.9c0.5-0.5,1.1-0.8,1.8-0.8H29.4z"/>
+  </symbol>
+  <symbol id="location-icon" viewBox="0 0 20 32">
+    <path d="M2.9,2.9C4.9,1,7.2,0,10,0C12.7,0,15,1,17,2.9c2,1.9,3,4.3,3,7.1c0,2.8-0.8,6.1-2.5,9.8s-3.3,6.6-5,8.9L10,32c-0.3-0.3-0.6-0.8-1.1-1.4C8.4,30,7.6,28.8,6.5,27c-1.1-1.8-2.1-3.5-3-5.2c-0.9-1.7-1.7-3.7-2.4-5.9C0.4,13.8,0,11.8,0,10C0,7.2,1,4.9,2.9,2.9z M6.7,13.5c0.9,0.9,2,1.4,3.3,1.4c1.3,0,2.4-0.5,3.3-1.4c0.9-0.9,1.4-2,1.4-3.3c0-1.3-0.5-2.4-1.4-3.3c-0.9-0.9-2.1-1.4-3.3-1.4c-1.3,0-2.4,0.5-3.3,1.4c-0.9,0.9-1.4,2.1-1.4,3.3C5.3,11.4,5.7,12.5,6.7,13.5z"/>
+  </symbol>
+  <symbol id="link-icon" viewBox="0 0 32 16">
+    <path d="M22.2,4c0.3,0.8,0.5,1.7,0.5,2.7v2.7h-4V6.7c0-0.8-0.2-1.4-0.8-1.9S16.8,4,16,4H6.7C5.9,4,5.2,4.2,4.8,4.8S4,5.9,4,6.7v2.7c0,0.8,0.2,1.4,0.8,1.9S5.9,12,6.7,12H8c0.2,0.8,0.5,1.5,0.9,2.2c0.4,0.7,0.9,1.1,1.2,1.4l0.5,0.4h-4c-1.8,0-3.4-0.7-4.7-2c-1.3-1.3-2-2.9-2-4.7V6.7C0,4.8,0.7,3.3,2,2c1.3-1.3,2.9-2,4.7-2H16c1.3,0,2.6,0.4,3.7,1.1C20.8,1.9,21.7,2.8,22.2,4z M25.3,0c1.8,0,3.4,0.7,4.7,2c1.3,1.3,2,2.9,2,4.7v2.7c0,1.8-0.7,3.4-2,4.7c-1.3,1.3-2.9,2-4.7,2H16c-2.8,0-4.9-1.3-6.1-4c-0.4-0.9-0.6-1.8-0.6-2.7V6.7h4v2.7c0,0.8,0.2,1.4,0.8,1.9S15.2,12,16,12h9.3c0.8,0,1.4-0.2,1.9-0.8S28,10.1,28,9.3V6.7c0-0.8-0.2-1.4-0.8-1.9S26.1,4,25.3,4H24c-0.2-0.8-0.5-1.5-0.9-2.2c-0.4-0.7-0.9-1.1-1.2-1.4L21.3,0H25.3z"/>
+  </symbol>
+</svg>
+
+  <body class="quire no-js">
+    <div class="quire__secondary is-expanded"
+         id="site-menu"
+         aria-expanded="true"
+         role="contentinfo">
+      
+<aside class="menu">
+  
+
+<header class="quire-menu__header">
+  <div class="quire-menu__header__title">
+    <h2>
+      <a href="https://gettypubs.github.io/quire-starter">
+      <span class="visually-hidden">Publication Info: </span>Quire:
+      <span class="quire-menu__header__subtitle">
+      Multi-format publishing
+      </span></a><span class="quire-menu__header__reading-line">
+        A digital publication framework built on Hugo
+        </span>
+    </h2>
+  </div>
+
+  <div class="quire-menu__header__contributors">Author Name
+    </div>
+</header>
+
+
+  <h3 class="menu-label">Table of Contents</h3>
+  <ul class="menu-list" role="navigation" aria-label="site">
+
+
+
+
+
+
+
+
+<ul>
+  <li><a href="https://gettypubs.github.io/quire-starter/contents/">Contents</a></li>
+
+  <li><a href="https://gettypubs.github.io/quire-starter/french-art/">French Art</a></li>
+
+      <li><a href="https://gettypubs.github.io/quire-starter/catalogue/">Catalogue</a></li>
+  <li><a href="https://gettypubs.github.io/quire-starter/about/">About</a></li>
+</ul></ul><h3 class="menu-label">About</h3>
+  <ul class="menu-list" role="contentinfo">
+</ul>
+</aside>
+
+    </div>
+
+
+    <div class="quire__primary">
+      
+
+<div class="quire-navbar"
+     aria-label="main navigation"
+     role="banner">
+
+  <a href="#main" class="quire-navbar-skip-link" tabindex="1">
+    Skip to Main Content
+  </a>
+
+  <nav class="quire-navbar-controls">
+    <div class="quire-navbar-controls__left">
+      <button class="quire-navbar-button search-button"
+              id="quire-controls-menu-button"
+              onclick="toggleMenu()"
+              aria-expanded="true"
+              aria-controls="quire-menu"
+              tabindex="2" >
+        <svg>
+          <switch>
+            <use xlink:href="#nav-icon"></use>
+          </switch>
+        </svg>
+        <span class="visually-hidden">Table of Contents</span>
+      </button>
+    </div>
+
+    <div class="quire-navbar-controls__center">
+      <nav class="quire-navbar-page-controls" role="navigation" aria-label="quick">
+        <div class="quire-navbar-button arrow-button">
+  <a href="https://gettypubs.github.io/quire-starter/catalogue/" rel="prev" id="js-prev" >
+    <svg>
+      <switch>
+        <use xlink:href="#left-arrow-icon"></use>
+      </switch>
+    </svg>
+    <span class="visually-hidden">Previous Page (left keyboard arrow or swipe)</span>
+  </a>
+</div>
+
+        
+        <div class="quire-navbar-page-controls__item">
+          <a href="https://gettypubs.github.io/quire-starter" rel="start">
+            <span class="visually-hidden">Home Page: </span>
+            
+            Quire
+            
+          </a>
+        </div>
+        
+        
+        <div class="quire-navbar-page-controls__item">
+          <a href="https://gettypubs.github.io/quire-starter/catalogue/1/">
+            <span class="visually-hidden">Section: </span>
+            Catalogue
+          </a>
+        </div>
+        
+        
+        <div class="quire-navbar-page-controls__item">
+          <span class="visually-hidden">Current Page: </span>
+          <em>The Luncheon on the Grass</em>
+        </div>
+        
+
+        <div class="quire-navbar-button arrow-button">
+  <a href="https://gettypubs.github.io/quire-starter/about/" rel="next" id="js-next">
+    <svg>
+      <switch>
+        <use xlink:href="#right-arrow-icon"></use>
+      </switch>
+    </svg>
+    <span class="visually-hidden">Next Page (right keyboard arrow or swipe)</span>
+  </a>
+</div>
+
+      </nav>
+    </div>
+
+    <div class="quire-navbar-controls__right">
+      <button class="quire-navbar-button menu-button" onclick="toggleMenu()">
+        <svg>
+          <switch>
+            <use xlink:href="#search-icon"></use>
+          </switch>
+        </svg>
+        <span class="visually-hidden">Search</span>
+      </button>
+    </div>
+  </nav>
+
+
+
+</div>
+      <div class="quire__primary__inner">
+        
+
+
+
+
+
+<article class="quire-page quire-entry" id="main" role="main">
+
+  
+  
+  <div class="quire-entry__image">
+    <img src="https://gettypubs.github.io/quire-starter/img/entries/manet.jpg" alt="" />
+  </div>
+  
+
+  
+  <header class="section quire-entry__header">
+    <div class="container">
+      
+      <h1 class="title is-size-1">
+        
+        The Luncheon on the Grass
+      </h1>
+
+      
+      
+    </div>
+  </header>
+
+  
+  
+  <section class="section quire-entry__tombstone">
+    <div class="container">
+      <table class="table is-fullwidth">
+        <tbody>
+          
+          <tr><td>Artist</td><td>Édouard Manet</td></tr>
+          
+          <tr><td>Year</td><td>1863</td></tr>
+          
+          <tr><td>Medium</td><td>Oil on canvas</td></tr>
+          
+          <tr><td>Dimensions</td><td>208 cm × 264.5 cm (81.9 in × 104.1 in)</td></tr>
+          
+          <tr><td>Location</td><td>Musée d&#39;Orsay, Paris</td></tr>
+          
+        </tbody>
+      </table>
+    </div>
+  </section>
+  
+
+  
+
+  
+  <section class="section quire-page__content" id="essay-text">
+    <div class="container">
+      <div class="content">
+        
+
+<p>Le Déjeuner sur l&rsquo;herbe (English: The Luncheon on the Grass) – originally titled
+Le Bain (The Bath) – is a large oil on canvas painting by Édouard Manet created
+in 1862 and 1863. It depicts a female nude and a scantily dressed female bather
+on a picnic with two fully dressed men in a rural setting. Rejected by the Salon
+jury of 1863, Manet seized the opportunity to exhibit this and two other
+paintings in the 1863 Salon des Refusés[1] where the painting sparked public
+notoriety and controversy.[2] The piece is now in the Musée d&rsquo;Orsay in Paris.[3]
+A smaller, earlier version can be seen at the Courtauld Gallery, London.[4]</p>
+
+<h2 id="description-and-context">Description and context</h2>
+
+<p>The painting features a nude woman casually lunching with two fully dressed men.
+Her body is starkly lit and she stares directly at the viewer. The two men,
+dressed as young dandies, seem to be engaged in conversation, ignoring the
+woman. In front of them, the woman&rsquo;s clothes, a basket of fruit, and a round
+loaf of bread are displayed, as in a still life. In the background, a lightly
+clad woman bathes in a stream. Too large in comparison with the figures in the
+foreground, she seems to float above them. The roughly painted background lacks
+depth – giving the viewer the impression that the scene is not taking place
+outdoors, but in a studio. This impression is reinforced by the use of broad
+&ldquo;studio&rdquo; light, which casts almost no shadows. The man on the right wears a flat
+hat with a tassel, of a kind normally worn indoors.</p>
+
+<p>Despite the mundane subject, Manet deliberately chose a large canvas size,
+measuring 208 x 264.5 cm (81.9 by 104.1 in), normally reserved for historical,
+religious, and mythological subjects.[5] The style of the painting breaks with
+the academic traditions of the time. He did not try to hide the brush strokes;
+the painting even looks unfinished in some parts of the scene. The nude is also
+starkly different from the smooth, flawless figures of Cabanel or Ingres.</p>
+
+<p>A nude woman casually lunching with fully dressed men was an affront to
+audiences&rsquo; sense of propriety, though Émile Zola, a contemporary of Manet&rsquo;s,
+argued that this was not uncommon in paintings found in the Louvre; he also felt
+that such a reaction came from viewing art differently than &ldquo;analytic&rdquo; painters
+like Manet, who use a painting&rsquo;s subject as a pretext to paint.</p>
+
+<p>There is much that we still do not know about the painting, such as when he
+actually began painting it, exactly how he got the idea, and how and what sort
+of preparation works he did.[5] Though Manet had claimed this piece was once
+valued at 25,000 Francs in 1871, it actually remained in his possession until
+1878 when Jean-Baptiste Faure, opera-singer and collector, bought it for just
+2,600 Francs.[5]</p>
+
+<h2 id="figures-in-the-painting">Figures in the painting</h2>
+
+<p>The figures of this painting are a testament to how deeply connected Manet was
+to Le Déjeuner sur l’herbe. Some assume that the landscape of the painting is
+meant to be l’île Saint-Ouen, which was just up the Seine from his family
+property in Gennevilliers. Manet often used real models and people he knew as
+reference during his creation process.[6] The female nude is thought to be
+Victorine Meurent, the woman who became his favorite and frequently portrayed
+model, that later was the subject of Olympia. The male figure on the right was
+based on a combination of his two brothers, Eugène and Gustave Manet. The other
+man is based on his brother-in-law and Dutch sculptor named Ferdinand Leenhoff.
+Nancy Locke referred to this scene as Manet’s family portrait.[5]</p>
+
+      </div>
+
+      
+      
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      
+
+    </div>
+  </footer>
+
+</article>
+
+      </div>
+    </div>
+
+    <script src="https://gettypubs.github.io/quire-starter/js/application.js"></script>
+    <script type="text/javascript">
+     
+     
+    </script>
+    
+  </body>
+</html>
