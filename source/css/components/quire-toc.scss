@@ -1,0 +1,12 @@
+// =============================================================================
+// Quire-toc.scss
+// -----------------------------------------------------------------------------
+// TOC Component.
+//
+// Quire uses Bulma's Menu component for the list of links inside the TOC. This
+// class exists to provide a small amount of additional styling for the main
+// TOC page of the book. Print TOC styles can also be defined on this element.
+
+.quire-toc {
+  font-size: $size-5;
+}

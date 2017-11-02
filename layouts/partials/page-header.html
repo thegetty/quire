@@ -7,33 +7,41 @@
 {{- end -}}
 {{ $pagebiblio := $.Scratch.Get "a" }}
 
-<header class="quire-page__header">
-  <div class="quire-page__header__inner">
-    <h1 class="quire-page__header__title">
-      {{- with .Params.id }}
-      <span class="quire-page__header__title__id">{{ . }}. </span>
-      {{ end -}}
-      {{ .Title | markdownify }}
-      {{- with .Params.subtitle }}:
-      <span class="quire-page__header__title__subtitle">{{ . | markdownify }}</span>
-      {{ end -}}
-    </h1>
-    {{ if or (eq $bylineOptions "top") ( eq $bylineOptions nil) }}
-      {{ partial "byline.html" (dict "contributorInfo" .Params.contributor "break" ", ") }}
-    {{ end }}
+<section class="quire-page__header hero is-light is-medium">
+  <div class="hero-body">
+    <div class="container has-text-centered">
 
-    {{ if (eq .Type "essay") }}
-    <ul class="quire-page__header__navigation"
-        role="navigation"
-        aria-label="page">
-      <li class="quire-page__header__navigation__item">Jump to: <a href="#essay-text">Main Text</a></li>
-      <li class="quire-page__header__navigation__item"><a href="#notes">Notes</a></li>
-      {{ if $pagebiblio }}
-      <li class="quire-page__header__navigation__item">
-        <a href="#bibliography">Bibliography</a>
-      </li>
+      {{/* Page Title */}}
+      <h1 class="title is-size-1">
+        {{ with .Params.id }}<span>{{ . }}.</span>{{ end }}
+        {{ .Title | markdownify }}
+      </h1>
+
+      {{/* Subtitle if any */}}
+      {{ with .Params.subtitle }}
+      <h2 class="subtitle is-size-3">{{ . }}</h2>
       {{ end }}
-    </ul>
-    {{ end }}
+
+      {{/* Byline appears here by default if it exists */}}
+      {{ if or (eq $bylineOptions "top") ( eq $bylineOptions nil) }}
+      {{ partial "byline.html" (dict "contributorInfo" .Params.contributor "break" ", ") }}
+      {{ end }}
+
+
+      {{/* Essay pages have additional controls (quick links to content, notes, biblio) */}}
+      {{ if (eq .Type "essay") }}
+      <div class="tabs is-centered" role="navigation" aria-label="page">
+        <ul>
+          <li><a href="#essay-text">Main Text</a></li>
+          <li><a href="#notes">Notes</a></li>
+
+          {{ if $pagebiblio }}
+          <li><a href="#bibliography">Bibliography</a></li>
+          {{ end }}
+        </ul>
+      </div>
+      {{ end }}
+
+    </div>
   </div>
-</header>
+</section>

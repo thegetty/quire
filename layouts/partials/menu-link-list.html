@@ -2,7 +2,7 @@
   Reusable partial to display a list of links.
 */}}
 
-<ul class="quire-menu__link-list">
+<ul>
   {{ range . }}
   <li>
     <a href="{{ .url }}" target="_blank" rel="{{ .link_relation }}" type="{{ .media_type }}">

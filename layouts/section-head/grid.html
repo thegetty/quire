@@ -1,0 +1,37 @@
+{{ define "main" }}
+{{ $currentSection := .Section }}
+
+<div class="quire-page" id="main">
+  {{ partial "page-header.html" . }}
+
+  <section id="content" class="section quire-page__content">
+    <div class="container">
+      <div class="content">
+        {{ .Content }}
+      </div>
+      <div class="quire-catalogue-grid columns">
+
+        {{- range where (where .Site.Pages.ByWeight "Section" $currentSection) "Type" "entry" -}}
+        <a href="{{ .Permalink }}" class="quire-catalogue-grid__item column is-one-third">
+          {{- with .Params.image -}}
+          <img class="quire-catalogue-grid__item__image"
+               src="/img/entries/{{ . }}"
+               alt="" />
+          {{- end -}}
+
+          {{ with .Params.title }}
+          <h3 class="title is-5">{{ . }}</h2>
+          {{ end }}
+
+          {{ with .Params.object.artist }}
+          <h4 class="subtitle is-6">{{ . }}</h4>
+          {{ end }}
+
+        </a>
+        {{- end -}}
+      </div>
+    </div>
+  </section>
+</div>
+
+{{ end }}

@@ -7,10 +7,15 @@
 
 <div class="quire-page" id="main" role="main">
   {{ partial "page-header.html" . }}
-  <div class="quire-page__content" id="essay-text">
-    <section class="quire-page__content__main">
-      {{ .Content }}
-    </section>
-  </div>
+
+  <section class="section quire-page__content" id="content">
+    <div class="container">
+      <div class="content">
+        {{ .Content }}
+      </div>
+    </div>
+  </section>
+
 </div>
 {{ end }}
+

@@ -1,0 +1,18 @@
+// =============================================================================
+// Quire-cover.scss
+// -----------------------------------------------------------------------------
+// Cover component (used in the layout for 'cover' page types)
+
+// Variables
+// -----------------------------------------------------------------------------
+$quire-cover-background-color: $info !default;
+$quire-cover-background-image: null !default;
+
+.quire-cover {
+  @include foreground-color($quire-cover-background-color);
+  background-color: $quire-cover-background-color;
+  background-image: $quire-cover-background-image;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

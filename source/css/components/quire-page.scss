@@ -1,0 +1,33 @@
+// =============================================================================
+// Quire-page.scss
+// -----------------------------------------------------------------------------
+// Page container component
+// - .quire-page__header: Styled with Bulma hero classes by default, but the
+//     top-level <section> elemement has this class for overrides.
+// - .quire-page__content: Uses Bulma's section & container elements for layout;
+//     the only styles here relate to typography.
+
+// Variables
+// -----------------------------------------------------------------------------
+
+// Paragraph style: Set this to "indent" to remove spacing between paragraphs
+// and add text-indent instead.
+$quire-page-paragraph-style: null !default;
+
+.quire-page__header {
+  // Use this if you need an override
+}
+
+.quire-page__content {
+  font-size: 18px;
+  @media screen and (min-width: $desktop) { font-size: 21px; }
+
+  // Overrides to Bulma's .content styles where needed.
+  .content {
+    @if $quire-page-paragraph-style == "indent" {
+      p { margin-bottom: 0; }
+      p + p { text-indent: 2em; }
+    }
+  }
+
+}

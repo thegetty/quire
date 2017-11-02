@@ -8,13 +8,19 @@
 {{ define "main" }}
 <div class="quire-page" id="main" role="main">
   {{ partial "page-header.html" . }}
-  <div class="quire-page__content" id="essay-text">
-    <section class="quire-page__content__main">
-      {{ .Content }}
-    </section>
-    <section class="quire-page__content__contents-list">
-      {{ partial "contents-list.html" (dict "contentsScope" .Site "contentsType" .Site.Params.tocType "contentsLocation" "toc" "contentsPage" . ) }}
-    </section>
-  </div>
+
+  <section class="section quire-page__content" id="content">
+    <div class="container">
+      <div class="content">
+        {{ .Content }}
+      </div>
+
+      <div class="quire-toc">
+        <ul class="menu-list">
+          {{- partial "contents-list.html" (dict "contentsScope" .Site "contentsType" .Site.Params.tocType "contentsLocation" "toc" "contentsPage" . ) -}}
+        </ul>
+      </div>
+    </div>
+  </section>
 </div>
 {{ end }}
