@@ -89,7 +89,7 @@
 {{- end -}}
 
 {{- define "contents-list-item-toc" }}
-  <li><a href="{{ .Permalink }}">{{ with .Params.id }}{{ . }}. {{ end }}{{ .Title | markdownify }}{{ with .Params.subtitle }}: {{ . | markdownify }}{{ end }}</a>{{ if .Params.contributor }} — {{ partial "contributor-list.html" (dict "range" .Params.contributor "type" "string") }}{{ end }}</li>
+  <li><a href="{{ .Permalink }}">{{ with .Params.id }}{{ . }}. {{ end }}{{ .Title | markdownify }}{{ with .Params.subtitle }}: {{ . | markdownify }}{{ end }}{{ if .Params.contributor }} — {{ partial "contributor-list.html" (dict "range" .Params.contributor "type" "string") }}{{ end }}</a></li>
 {{ end -}}
 
 {{- define "contents-list-item-menu" }}
