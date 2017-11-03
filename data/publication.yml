@@ -6,7 +6,7 @@
 # publication.
 
 title: Quire
-subtitle: Multi-format publishing
+subtitle: Multi-Format Publishing
 contributor_as_it_appears: # Author Name
 reading_line: A digital publication framework built on Hugo
 
@@ -16,7 +16,6 @@ description:
     Quire is a digital publishing framework built on top of the Hugo static site
     generator. Generate Web, PDF, and print books (with Epub coming soon) from a
     single set of text files.
-
   additional_online:
   additional_pdf_ebook:
 
@@ -40,27 +39,40 @@ primary_contributor:
     bio: "Félix-Sébastien Feuillet de Conches (4 December 1798 – 5 February 1887 in Paris) was a French diplomat, journalist, writer and collector. Having occupied the posts of ‘introducteur des ambassadeurs’ and head of protocol at the Ministry of Foreign Affairs, he was able to form a collection specialising in English painting, 19th century French painting, the history of civilisations, the art of the Near East and the art of Asia. His contemporary Charles Monselet judged de Conches’ collection as unequalled, but it included some pieces of dubious authenticity."
     pic: contributors/de-conches.jpg
 
-promo_image: "promo.jpg"
+copyright: © 2017 J. Paul Getty Trust
+
+license:
+  name: Creative Commons Attribution 4.0 International License
+  name_short: CC BY
+  url: http://creativecommons.org/licenses/by/4.0/
+  icon: cc-by.png
+  scope: full # text-only | full | text-only | some-exceptions
+
+other_formats:
+  - name: PDF
+    media_type: application/pdf
+    link_relation: alternate
+    url: /downloads/quire.pdf
+  - name: EPUB
+    media_type: application/epub+zip
+    link_relation: alternate
+    url: /downloads/quire.epub
+  - name: MOBI/KINDLE
+    media_type: application/mobi
+    link_relation: alternate
+    url: /downloads/quire.mobi
+  - name: Paperback
+    media_type: print
+    link_relation: alternate
+    url: /
 
 footer_links:
   - name: About
-    media_type:
     link_relation: about
-    url: http://www.getty.edu/publications/keepitmoving/about/
-    identifier:
-    file_size_mb:
-    icon:
+    url: /about/
   - name: Privacy Policy
-    media_type:
     link_relation: privacy-policy
     url: http://www.getty.edu/legal/privacy.html
-    identifier:
-    file_size_mb:
-    icon:
   - name: Terms of Use
-    media_type:
     link_relation: terms-of-service
     url: http://www.getty.edu/legal/copyright.html
-    identifier:
-    file_size_mb:
-    icon:

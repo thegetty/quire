@@ -39,23 +39,3 @@ params:
   figureSubDir: "figures/"
   tocType: full
   menuType: short
-
-# Menu: the 'main' menu will be picked up in the sidebar navigation menu in the
-# default theme. Other menus can be defined here as well for use with custom
-# theme files. To control order, give items a weight; lower numbers will appear
-# first. Negative values are allowed.
-#
-menu:
-  main:
-    - Name: "Contents"
-      URL: "/contents/"
-      weight: 1
-    - Name: "Catalogue"
-      URL: "/catalogue/"
-      weight: 2
-    - Name: "Bibliography"
-      URL: "/bibliography/"
-      weight: 3
-    - Name: "About"
-      URL: "/about/"
-      weight: 4
