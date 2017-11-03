@@ -1,3 +1,19 @@
+{{/*
+
+  This shortcode generates a bibiliography from the entries in the project's
+  `bibiliography.yml` file.
+
+  This shortcode accepts an option "sort" value, which will sort the list by
+  whatever key from the entries is given. Often "short" or "full", though a
+  custom key could be added, such as "file_as", for fine-grained control.
+  Without a "sort" value given, the bibliograpy will be output in the order it
+  is in the bibliography file.
+
+  Also, in `config.yml` the `displayBiblioShort` property can be set to "true"
+  to display both the short and the full bibliography values in the outout.
+  Without this property set, the bibliography will not inlcude the short form.
+
+*/}}
 <section class="quire-page__content__references">
 {{ if .Get "sort" }}
   {{ if eq .Site.Params.displayBiblioShort "true" }}

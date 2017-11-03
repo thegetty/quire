@@ -32,10 +32,10 @@
       {{ if (eq .Type "essay") }}
       <div class="tabs is-centered" role="navigation" aria-label="page">
         <ul>
-          <li><a href="#essay-text">Main Text</a></li>
+          <li><a href="#content">Main Text</a></li>
           <li><a href="#notes">Notes</a></li>
 
-          {{ if $pagebiblio }}
+          {{ if ($.Scratch.GetSortedMapValues "cited") }}
           <li><a href="#bibliography">Bibliography</a></li>
           {{ end }}
         </ul>
