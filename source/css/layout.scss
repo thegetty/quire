@@ -88,7 +88,17 @@ $quire-menu-width: 350px !default;
       width: $quire-menu-width;
       z-index: 1100;
 
-      &.is-expanded { transform: translateX(0); }
+      // Keyboard navigation fix; users should only be able to tab through the
+      // links inside the site menu when it is expanded. Setting display:none
+      // for the menu content when it is not visible (and then un-setting when
+      // that changes) produces the desired behavior.
+      #site-menu__inner { display: none; }
+
+      &.is-expanded {
+        transform: translateX(0);
+
+        #site-menu__inner { display: block; }
+      }
 
       &.is-expanded + .quire__primary {
         left: $quire-menu-width;
