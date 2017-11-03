@@ -1,4 +1,3 @@
-{{ $bylineOptions := .Params.contributor_byline }}
 {{- range .Site.Data.bibliography.biblio_list -}}
   {{ $refs := replace .reference_for " " "" }} {{ $refslist := split $refs "," }}
   {{- range $refslist -}}
@@ -22,20 +21,21 @@
       <h2 class="subtitle is-size-3">{{ . }}</h2>
       {{ end }}
 
-      {{/* Byline appears here by default if it exists */}}
-      {{ if or (eq $bylineOptions "top") ( eq $bylineOptions nil) }}
-      {{ partial "byline.html" (dict "contributorInfo" .Params.contributor "break" ", ") }}
+      {{/* Contributors, if byline is not set to false in page params */}}
+      {{ if and .Params.contributor (ne .Params.byline false) }}
+      <div class="contributor is-size-5">
+        {{ partial "contributor-list.html" (dict "range" .Params.contributor "type" "list-plus") }}
+      </div>
       {{ end }}
-
 
       {{/* Essay pages have additional controls (quick links to content, notes, biblio) */}}
       {{ if (eq .Type "essay") }}
       <div class="tabs is-centered" role="navigation" aria-label="page">
         <ul>
-          <li><a href="#essay-text">Main Text</a></li>
+          <li><a href="#content">Main Text</a></li>
           <li><a href="#notes">Notes</a></li>
 
-          {{ if $pagebiblio }}
+          {{ if ($.Scratch.GetSortedMapValues "cited") }}
           <li><a href="#bibliography">Bibliography</a></li>
           {{ end }}
         </ul>

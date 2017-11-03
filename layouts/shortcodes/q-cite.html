@@ -1,30 +1,34 @@
 {{/*
 
-  Usage notes TK ....
+  This shortcode adds a linked Author Date citation reference to the text, and a
+  hover pop-up with the full citation text. It also adds the citation to a map
+  of cited works, which can then be output as a page-level bibliography on essay
+  and entry type pages. Example:
+
+  {{< q-cite "Faure 1909" "54" >}}
+
+  The first positional parameter is a short form citation that should match one
+  in `bibliography.yml`. The second, optional parameter is a page reference. The
+  above sample would output as: Faure 1909, 54
+
+  The text element between the author date reference and the page can be changed
+  with the `citationPageLocationDivider` property in `config.yml`.
 
 */}}
 
-{{- if eq (len .Params) 3 -}}
-  {{- $.Scratch.Add "short" (.Get 2) -}}
-{{- else -}}
-  {{- $.Scratch.Add "short" (.Get 0) -}}
-{{- end -}}
-
-{{- $shortDisplay := $.Scratch.Get "short" -}}
 {{- $short := .Get 0 -}}
 
-{{- range .Site.Data.bibliography.entries -}}
+{{- range $.Site.Data.bibliography.entries -}}
     {{- if eq .short $short -}}
         {{- $.Scratch.Add "full" .full -}}
-        {{- $.Scratch.Add "full" " " -}}
     {{- end -}}
 {{- end -}}
 
-{{- $full := .Scratch.Get "full" -}}
+{{- $full := $.Scratch.Get "full" -}}
 {{- $.Page.Scratch.SetInMap "entry" "0" $short -}}
 {{- $.Page.Scratch.SetInMap "entry" "1" $full -}}
 {{ $entry := ($.Page.Scratch.GetSortedMapValues "entry") }}
-{{- $shortId := .Get 0 | urlize -}}
+{{- $shortId := $short | urlize -}}
 {{- $.Page.Scratch.SetInMap "cited" $shortId $entry -}}
 
-<a href="#{{ $short | urlize }}" class="quire-citation"><span class="visually-hidden">Citation: </span>{{- markdownify $shortDisplay -}}{{ with .Get 1 }}{{ $.Site.Params.citationPageLocationDivider  }}{{ . }}{{ end }}</a><span class="quire-citation-content"><span class="quire-citation-content__no-css"> [</span>{{- markdownify ($.Scratch.Get "full") -}}<span class="quire-citation-content__no-css">]</span></span>
+<a href="#{{ $short | urlize }}" class="quire-citation"><span class="visually-hidden">Citation: </span>{{- markdownify $short -}}{{- if eq (len .Params) 2 }}{{ $.Site.Params.citationPageLocationDivider }}{{ .Get 1 }}{{ end -}}</a><span class="message quire-citation__inline-content is-link"><span class="message-body">{{- markdownify $full -}}</span></span>

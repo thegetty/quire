@@ -1,0 +1,26 @@
+{{/*
+
+  Duplicates part of the code from q-cite.html in order to add
+  additional_references to the page-level bibliography list
+
+*/}}
+
+{{- range .Params.additional_references -}}
+
+  {{- $short := . -}}
+  {{- $.Scratch.Set "full" "" -}}
+
+  {{- range $.Site.Data.bibliography.entries -}}
+      {{- if eq .short $short -}}
+          {{- $.Scratch.Add "full" .full -}}
+      {{- end -}}
+  {{- end -}}
+
+  {{- $full := $.Scratch.Get "full" -}}
+  {{- $.Page.Scratch.SetInMap "entry" "0" $short -}}
+  {{- $.Page.Scratch.SetInMap "entry" "1" $full -}}
+  {{ $entry := ($.Page.Scratch.GetSortedMapValues "entry") }}
+  {{- $shortId := $short | urlize -}}
+  {{- $.Page.Scratch.SetInMap "cited" $shortId $entry -}}
+
+{{- end -}}

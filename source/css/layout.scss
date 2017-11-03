@@ -79,7 +79,8 @@ $quire-menu-width: 350px !default;
 
     .quire__secondary {
       height: 100%;
-      overflow: hidden;
+      overflow-x: hidden;
+      overflow-y: scroll;
       position: fixed;
       top: 0;
       transform: translateX(-($quire-menu-width));

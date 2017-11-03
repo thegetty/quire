@@ -4,29 +4,30 @@
   by default. Users with JS disabled will alwasy see the menu in its expanded state.
 */}}
 <aside class="menu">
+
   {{ partial "menu-header.html" . }}
 
-  <h3 class="menu-label">Table of Contents</h3>
-  <ul class="menu-list" role="navigation" aria-label="site">
+  <h3 class="visually-hidden">Table of Contents</h3>
+  <div class="menu-list" role="navigation" aria-label="site">
     {{- partial "contents-list.html" (dict "contentsScope" .Site "contentsType" .Site.Params.menuType "contentsLocation" "menu" "contentsPage" . ) -}}
-  </ul>
+  </div>
 
-  {{- with .Site.Data.publication.formats -}}
+  {{- with .Site.Data.publication.other_formats -}}
   <h3 class="menu-label">Other Formats</h3>
-  <ul class="menu-list" role="complementary" aria-label="downloads">
-    {{- partial "menu-link-list.html" . -}}
-  </ul>
+  <div role="complementary" aria-label="downloads">
+    {{- partial "link-list.html" . -}}
+  </div>
   {{- end -}}
 
   {{- with .Site.Data.publication.related_resources -}}
   <h3 class="menu-label">Related Resources</h3>
-  <ul class="menu-list" role="complementary" aria-label="other resources">
-    {{- partial "menu-link-list.html" . -}}
-  </ul>
+  <div role="complementary" aria-label="other resources">
+    {{- partial "link-list.html" . -}}
+  </div>
   {{- end -}}
 
-  <h3 class="menu-label">About</h3>
-  <ul class="menu-list" role="contentinfo">
-    {{- partial "menu-footer.html" . -}}
-  </ul>
+  <footer role="contentinfo">
+    {{ partial "footer.html" . }}
+  </footer>
+
 </aside>

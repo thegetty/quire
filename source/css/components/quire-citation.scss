@@ -1,0 +1,19 @@
+// =============================================================================
+// quire-citation.scss
+// -----------------------------------------------------------------------------
+
+.quire-citation__inline-content {
+  position: absolute;
+  left: 2rem;
+  right: 2rem;
+  margin-top: -7rem;
+  display: none;
+  .message-body {
+    display: block;
+  }
+}
+
+.quire-citation:hover + .quire-citation__inline-content,
+.quire-citation:focus + .quire-citation__inline-content {
+  display: block;
+}

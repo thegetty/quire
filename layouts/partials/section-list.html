@@ -25,9 +25,9 @@
       </a>
     </h2>
 
-    <ul class="quire-section-list__item__contributor">
-      {{ partial "byline.html" (dict "contributorInfo" .Params.contributor "break" ", ") }}
-    </ul>
+    {{ if .Params.contributor }}
+      <p class="quire-section-list__item__contributor">{{ partial "contributor-list.html" (dict "range" .Params.contributor "type" "string") }}</p>
+    {{ end }}
 
     {{ with .Params.abstract }}
     <h3 class="quire-section-list__link">
