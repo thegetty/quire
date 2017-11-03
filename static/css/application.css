@@ -6852,15 +6852,20 @@ label.panel-block {
       flex: 0 0 auto; }
   .quire:not(.no-js) .quire__secondary {
     height: 100%;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: scroll;
     position: fixed;
     top: 0;
     transform: translateX(-300px);
     transition: all 0.15s ease-in-out;
     width: 300px;
     z-index: 1100; }
+    .quire:not(.no-js) .quire__secondary #site-menu__inner {
+      display: none; }
     .quire:not(.no-js) .quire__secondary.is-expanded {
       transform: translateX(0); }
+      .quire:not(.no-js) .quire__secondary.is-expanded #site-menu__inner {
+        display: block; }
     .quire:not(.no-js) .quire__secondary.is-expanded + .quire__primary {
       left: 300px;
       width: calc(100% - 300px); }
@@ -7029,4 +7034,17 @@ label.panel-block {
   padding-top: 1.5rem; }
 
 .quire-catalogue-grid a.quire-catalogue-grid__item {
+  display: block; }
+
+.quire-citation__inline-content {
+  position: absolute;
+  left: 2rem;
+  right: 2rem;
+  margin-top: -7rem;
+  display: none; }
+  .quire-citation__inline-content .message-body {
+    display: block; }
+
+.quire-citation:hover + .quire-citation__inline-content,
+.quire-citation:focus + .quire-citation__inline-content {
   display: block; }
