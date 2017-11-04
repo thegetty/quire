@@ -6813,6 +6813,14 @@ label.panel-block {
   position: absolute;
   width: 1px; }
 
+@media screen {
+  .is-print-only {
+    display: none; } }
+
+@media print {
+  .is-screen-only {
+    display: none; } }
+
 .quire {
   width: 100%; }
   .quire__secondary {
@@ -6851,8 +6859,8 @@ label.panel-block {
     .quire:not(.no-js) .quire__primary .quire-navbar {
       flex: 0 0 auto; }
   .quire:not(.no-js) .quire__secondary {
+    border-right: solid 1px #242424;
     height: 100%;
-    overflow-x: hidden;
     overflow-y: scroll;
     position: fixed;
     top: 0;
@@ -6866,9 +6874,9 @@ label.panel-block {
       transform: translateX(0); }
       .quire:not(.no-js) .quire__secondary.is-expanded #site-menu__inner {
         display: block; }
-    .quire:not(.no-js) .quire__secondary.is-expanded + .quire__primary {
-      left: 300px;
-      width: calc(100% - 300px); }
+      .quire:not(.no-js) .quire__secondary.is-expanded + .quire__primary {
+        left: 300px;
+        width: calc(100% - 300px); }
 
 @media print {
   .quire__primary {
@@ -6962,6 +6970,38 @@ label.panel-block {
   width: 12em;
   z-index: 1200; }
 
+.content .menu-list {
+  list-style-type: none;
+  margin-left: 0; }
+
+.quire-menu__header {
+  margin: 1rem; }
+  .quire-menu__header__title, .quire-menu__header__subtitle, .quire-menu__header__link {
+    display: block; }
+  .quire-menu__header__link {
+    margin-bottom: 1em; }
+  .quire-menu__header__title {
+    font-size: 2rem; }
+  .quire-menu__header__subtitle {
+    font-size: 1.25rem;
+    font-weight: 300;
+    margin-bottom: 0.5rem; }
+  .quire-menu__header__reading-line {
+    font-style: italic;
+    font-weight: 300; }
+  .quire-menu__header__contributors {
+    font-size: 1rem;
+    font-weight: 300; }
+  .quire-menu__header h1, .quire-menu__header h2, .quire-menu__header h3, .quire-menu__header h4, .quire-menu__header h5, .quire-menu__header h6 {
+    display: inline; }
+
+.quire-menu__formats {
+  font-size: 0.75rem;
+  padding-top: 1rem; }
+
+.quire-menu .menu-label {
+  padding-left: 1em; }
+
 .quire-page__content {
   font-size: 18px; }
   @media screen and (min-width: 900px) {
@@ -7048,3 +7088,10 @@ label.panel-block {
 .quire-citation:hover + .quire-citation__inline-content,
 .quire-citation:focus + .quire-citation__inline-content {
   display: block; }
+
+.quire-copyright {
+  font-size: 0.75rem;
+  padding: 2rem 1em 1em; }
+  .quire-copyright__icon {
+    max-width: 5rem;
+    padding: 1em 0; }
