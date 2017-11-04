@@ -7095,3 +7095,18 @@ label.panel-block {
   .quire-copyright__icon {
     max-width: 5rem;
     padding: 1em 0; }
+
+.quire-contributors-list,
+.content ul.quire-contributors-list {
+  list-style-type: none;
+  margin-left: 0; }
+
+.quire-contributor__pic {
+  max-width: 100px; }
+  @media screen and (min-width: 769px) {
+    .quire-contributor__pic {
+      max-width: 200px; } }
+
+.quire-contributor__details {
+  font-size: 1rem;
+  padding-left: 1rem; }
