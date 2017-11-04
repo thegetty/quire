@@ -20,12 +20,20 @@
 
   &__caption {
     font-size: $size-6;
+
+    @media print { font-size: 8pt; }
   }
 
   &.is-pulled-left,
   &.is-pulled-right {
     @media screen and (min-width: $tablet) {
       width: 50%;
+    }
+
+    @media print {
+      column-span: all !important;
+      float: none !important;
+      width: unset !important;
     }
   }
 
@@ -54,5 +62,12 @@
         margin-top: 1rem;
       }
     }
+  }
+
+  @media print {
+    column-span: all;
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
+    break-inside: avoid;
   }
 }

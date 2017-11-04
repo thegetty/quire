@@ -42,7 +42,9 @@
 
   svg { fill: findColorInvert($navbar-background-color); }
 
-
+  @media print {
+    display: none;
+  }
 }
 
 // .quire-navbar-controls
