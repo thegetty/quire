@@ -7,7 +7,9 @@
           .Site.Data.publication.primary_contributor or .Params.contributor
 
   type    Can be "string", "list", "list-plus". "string" creates a list of
-          names with proper "and" or "," connectors. "list" creates and unordered list of names, and "list-plus" adds titles and affiliations when available.
+          names with proper "and" or "," connectors. "list" creates and
+          unordered list of names, and "list-plus" adds titles and affiliations
+          when available.
 
   EXAMPLE PARTIAL USE:
   partial "contributor-list.html" (dict "range" .Params.contributor "type" "string")
