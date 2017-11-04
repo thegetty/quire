@@ -78,8 +78,8 @@ $quire-menu-width: 350px !default;
     }
 
     .quire__secondary {
+      border-right: solid 1px $black-ter;
       height: 100%;
-      overflow-x: hidden;
       overflow-y: scroll;
       position: fixed;
       top: 0;
@@ -92,17 +92,20 @@ $quire-menu-width: 350px !default;
       // links inside the site menu when it is expanded. Setting display:none
       // for the menu content when it is not visible (and then un-setting when
       // that changes) produces the desired behavior.
+      // scss-lint:disable IdSelector
       #site-menu__inner { display: none; }
 
       &.is-expanded {
         transform: translateX(0);
 
-        #site-menu__inner { display: block; }
-      }
+        #site-menu__inner {
+          display: block;
+        }
 
-      &.is-expanded + .quire__primary {
-        left: $quire-menu-width;
-        width: calc(100% - #{$quire-menu-width});
+        + .quire__primary {
+          left: $quire-menu-width;
+          width: calc(100% - #{$quire-menu-width});
+        }
       }
     }
   }

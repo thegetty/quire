@@ -3,20 +3,19 @@
 */}}
 
 <header class="quire-menu__header">
-  <div class="quire-menu__header__title">
-    <h2 class="is-size-5">
-      {{ if ne .Type "cover"}}<a href="{{ .Site.BaseURL }}">{{ end }}
+  <div class="">
+    {{ if ne .Kind "home" }}
+    <a class="quire-menu__header__link" href="{{ .Site.BaseURL }}">
+    {{ end }}
+    <h2 class="">
       <span class="visually-hidden">Publication Info: </span>
-      {{- .Site.Data.publication.title | markdownify -}}
-
-      {{- with .Site.Data.publication.subtitle -}}:
+      <span class="quire-menu__header__title">
+        {{- .Site.Data.publication.title | markdownify -}}
+      </span>
+      {{- with .Site.Data.publication.subtitle -}}
       <span class="quire-menu__header__subtitle">
       {{ . | markdownify }}
       </span>
-      {{- end -}}
-
-      {{- if ne .Type "cover" -}}
-      </a>
       {{- end -}}
 
       <span class="quire-menu__header__reading-line">
@@ -25,13 +24,18 @@
         {{ end -}}
       </span>
     </h2>
+    {{- if ne .Kind "home" -}}
+    </a>
+    {{- end -}}
   </div>
 
   <div class="quire-menu__header__contributors">
     {{- if .Site.Data.publication.contributor_as_it_appears -}}
-        {{ .Site.Data.publication.contributor_as_it_appears }}
+    {{ .Site.Data.publication.contributor_as_it_appears }}
     {{ else }}
-    <span class="visually-hidden">Contributors: </span>
+    <span class="visually-hidden">
+      Contributors:
+    </span>
     {{ partial "contributor-list.html" (dict "range" .Site.Data.publication.primary_contributor "type" "string") }}
     {{- end -}}
   </div>
