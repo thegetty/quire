@@ -7,13 +7,8 @@
 # you've copied the default theme and given it a different name make sure to
 # update the value here too.
 
-# Use these settings for serving/building to a path other than root
-baseurl: "https://gettypubs.github.io/quire-starter"
-canonifyURLs: true
-
-# Use these settings for serving/building to the root path
-# baseurl: "http://www.getty.edu"
-# relativeURLs: true
+baseurl: ""
+relativeURLs: true
 
 title: "Quire Starter"
 languageCode: "en-us"
