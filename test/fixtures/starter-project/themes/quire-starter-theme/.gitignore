@@ -1,0 +1,10 @@
+.DS_Store
+.bundle
+.cache
+.sass-cache
+build
+# static/css/application.css
+# static/js/application.js
+Gemfile.lock
+node_modules
+.tmp

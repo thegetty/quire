@@ -1,0 +1,20 @@
+<meta name="description" content="{{ if .Site.Data.publication.description.one_line }}{{ .Site.Data.publication.description.one_line }}{{ else }}{{ with .Site.Data.publication.description.full }}{{ . | truncate 160 }}{{ end }}{{ end }}">
+  <meta name="keywords" content="{{ .Site.Data.publication.keywords }}">
+  <link rel="canonical" href="{{ .Permalink }}">
+  <link rel="version-history" href="{{ .Site.Data.publication.repository_url }}">
+  {{ range .Site.Data.publication.publisher -}}
+  {{ with .url -}}
+  <link rel="publisher" href="{{ . }}">
+  {{ end -}}
+  {{ end -}}
+  {{ range .Site.Data.publication.primary_contributor -}}
+  {{  with .url -}}
+  <link rel="author" href="{{ . }}">
+  {{ end -}}
+  {{ end -}}
+
+  {{- partial "dublin-core.html" . -}}
+  {{- partial "open-graph.html" . -}}
+  {{- partial "twitter-card.html" . -}}
+
+  {{- partial "json-ld.html" . -}}

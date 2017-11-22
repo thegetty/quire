@@ -1,0 +1,97 @@
+{{/*
+  This partial generates a contents list. It is used in the publication menu
+  and in the "contents" page type, but could be extended for further use. It
+  expects three specific variables to be passed:
+
+  contentsScope     Typically .Site but could potentially be narrowed to
+                    a single section or group of sections.
+  contentsType      Must be either "short" or "full". Often defined in config.yml
+                    Short doesn't display any sub-section pages.
+  contentsLocation  Must be either "menu" or "toc". Determines in what context
+                    the partial is being shown so that individual pages can be
+                    hidden as called for. For example, if contentsLocation is
+                    "toc" any pages in the publication with "toc: false"
+                    will be omitted from the generated contents list. The "menu"
+                    option also shows a shorter version of each page in the list,
+                    with no subtitle or contributors.
+  contentsPage      Typically . This just passes the page context through to
+                    allow a Scratch variable to be set when creating sections.
+
+  Content can either be in top-level files in the `content` directory, or
+  in sub-directories to create sections. Currently, nested sections are not supported.
+
+  EXAMPLE PARTIAL USE:
+  partial "contents-list.html" (dict "contentsScope" .Site "contentsType"
+  .Site.Params.tocType "contentsLocation" "toc" "contentsPage" . )
+
+*/}}
+
+{{ $contentsType := .contentsType }}
+{{ $contentsLocation := .contentsLocation }}
+
+{{- if or (and (ne $contentsType "full") (ne $contentsType "short")) (and (ne $contentsLocation "toc") (ne $contentsLocation "menu")) -}}
+
+<h4>ERROR: `contentsType` must be "short" or "full", and `contentsLocation` must be "menu" or "toc"</h4>
+
+{{- else -}}
+
+{{ $pages := where .contentsScope.Pages ".Kind" "page" }}
+{{ $pages := where $pages "Params.online" "!=" "false" }}
+{{ $pages := where $pages ".Type" "!=" "data" }}
+
+{{ .contentsPage.Scratch.Set "renderedSection" "" }}
+
+<ul>
+  {{- range $pages -}}
+      {{- if and .Section (ne .Section ($.contentsPage.Scratch.Get "renderedSection")) -}}
+      {{ $.contentsPage.Scratch.Set "renderedSection" .Section }}
+      <li>
+        {{- if eq .Type "section-head" -}}
+          <a href="{{ .Permalink }}">{{ with .Params.id }}{{ . }}. {{ end }}{{ .Title | markdownify }}</a>
+        {{- else -}}
+          {{- if eq $contentsType "short" -}}
+          {{- range first 1 (where $pages "Section" .Section) -}}
+            <a href="{{ .Permalink }}">{{ .Section | title }}</a>
+          {{- end -}}
+          {{- else -}}
+            {{ .Section | title }}
+          {{- end -}}
+        {{- end -}}
+        {{- if eq $contentsType "full" -}}
+        <ul>
+          {{- range where $pages "Section" .Section -}}
+            {{ if ne .Type "section-head" -}}
+              {{ if and (eq $contentsLocation "toc") (ne .Params.toc false ) -}}
+                {{ template "contents-list-item-toc" . -}}
+              {{ end -}}
+              {{ if and (eq $contentsLocation "menu") (ne .Params.menu false) -}}
+                {{ template "contents-list-item-menu" . -}}
+              {{ end -}}
+            {{ end -}}
+          {{- end -}}
+        </ul>
+        {{- end -}}
+      </li>
+      {{- end -}}
+
+      {{ if eq .Section "" -}}
+        {{ if and (eq $contentsLocation "toc") (ne .Params.toc false ) -}}
+          {{ template "contents-list-item-toc" . -}}
+        {{ end -}}
+        {{ if and (eq $contentsLocation "menu") (ne .Params.menu false) -}}
+          {{ template "contents-list-item-menu" . -}}
+        {{ end -}}
+      {{ end -}}
+
+  {{- end -}}
+</ul>
+
+{{- end -}}
+
+{{- define "contents-list-item-toc" }}
+  <li><a href="{{ .Permalink }}">{{ with .Params.id }}{{ . }}. {{ end }}{{ .Title | markdownify }}{{ with .Params.subtitle }}: {{ . | markdownify }}{{ end }}{{ if .Params.contributor }} — {{ partial "contributor-list.html" (dict "range" .Params.contributor "type" "string") }}{{ end }}</a></li>
+{{ end -}}
+
+{{- define "contents-list-item-menu" }}
+  <li><a href="{{ .Permalink }}">{{ with .Params.id }}{{ . }}. {{ end }}{{ .Title | markdownify }}</a></li>
+{{ end -}}

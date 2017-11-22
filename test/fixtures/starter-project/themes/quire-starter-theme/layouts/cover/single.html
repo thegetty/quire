@@ -1,0 +1,63 @@
+{{/*
+Cover page layout. This controls the home page of the publication.
+*/}}
+
+{{ define "main" }}
+{{/* Begin full-page cover section */}}
+<section class="quire-cover hero is-fullheight">
+  <div class="hero-body">
+    <div class="container is-fluid">
+      {{/* Use .Site.Data.publication info if available */}}
+      {{ if .Site.Data.publication }}
+      <h1 class="title is-1">
+        {{ .Site.Data.publication.title | markdownify }}
+      </h1>
+
+      {{ with .Site.Data.publication.subtitle }}
+      <h2 class="subtitle is-4">{{ . | markdownify }}</h2>
+      {{ end }}
+
+      {{ with .Site.Data.publication.reading_line }}
+      <p class="">{{ . | markdownify }}</p>
+      {{ end }}
+
+      {{- if .Site.Data.publication.contributor_as_it_appears -}}
+      {{ .Site.Data.publication.contributor_as_it_appears }}
+      {{ else }}
+      <span class="visually-hidden">Contributors: </span>
+      {{ partial "contributor-list.html" (dict "range" .Site.Data.publication.primary_contributor "type" "list") }}
+      {{- end -}}
+
+      {{ else }}
+      {{/* Fallback for when no publication.yml data is present */}}
+      <h1 class="title">{{ .Site.Title }}</h1>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{/* End full-page cover section */}}
+{{/* Begin "below-the-fold" section */}}
+<section class="section">
+  <div class="container is-fluid">
+    {{ .Content }}
+    <ul>
+      <li><strong>[ kind: type ] Title URL</strong></li>
+      {{ range where .Site.Pages.ByWeight "Params.weight" ">=" 0 }}
+      <li>
+        [{{ .Kind }}{{ with .Params.Type }}: {{ .}}{{ end }}] {{ .Title }} {{ .URL }}
+      </li>
+      {{ end }}
+    </ul>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container is-fluid">
+    <div class="content is-small">
+      {{ partial "footer.html" . }}
+    </div>
+  </div>
+</footer>
+
+{{/* End "below-the-fold" section */}}
+{{ end }}

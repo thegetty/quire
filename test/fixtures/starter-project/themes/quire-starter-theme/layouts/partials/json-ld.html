@@ -1,0 +1,103 @@
+
+  <script type="application/ld+json">
+  {
+    "@context": "http://schema.org/",
+    {{ if eq .Type "essay" -}}
+    "@type": "Article",
+    "headline": "{{ .Page.Params.title }}{{ with .Page.Params.subtitle }}: {{ . }}{{ end }}",
+    "url": "{{ .Permalink }}",
+    {{ if .Page.Params.cover -}}
+    "image": "{{ .Site.BaseURL }}{{ .Site.Params.imageDir }}{{ .Site.Params.figureSubDir }}{{ .Page.Params.cover }}",
+    {{ end -}}
+    {{ with .Page.Params.contributor -}}
+    "author": [
+      {{ $len := len . -}}
+      {{ range $index, $element := . -}}
+      {
+        "type": "Person",
+        "name": "{{ .first_name }} {{ .last_name }}"
+      }{{ if ne $index (sub $len 1) }},{{ else }}{{ end }}
+      {{ end -}}
+    ],
+    {{ end -}}
+    "description": "{{ replaceRE "\n" " " .Page.Params.abstract }}",
+    "isPartOf": {
+    {{ end -}}
+    {{ if eq .Site.Data.publication.pub_type "book" -}}
+    "type": "Book",
+    "name": "{{ .Site.Data.publication.title }}{{ with .Site.Data.publication.subtitle }}: {{ . }}{{ end }}{{ with .Site.Data.publication.reading_line }} ({{ . }}){{ end }}",
+    "isbn": "{{ replace .Site.Data.publication.isbn "-" "" }}",
+    {{ else if eq .Site.Data.publication.pub_type "journal-periodical" -}}
+    "type": "PublicationIssue",
+    "name": "{{ .Site.Data.publication.title }}{{ with .Site.Data.publication.subtitle }}: {{ . }}{{ end }}{{ with .Site.Data.publication.reading_line }} ({{ . }}){{ end }}",
+    "issueNumber": "{{ .Site.Data.publication.issue_series_number }}",
+    "isPartOf": {
+        "type": "Periodical",
+        "name": "{{ .Site.Data.publication.title }}",
+        "issn": "{{ .Site.Data.publication.issn }}"
+      },
+    {{ else -}}
+    "type": "WebSite",
+    "name": "{{ .Site.Data.publication.title }}{{ with .Site.Data.publication.subtitle }}: {{ . }}{{ end }}{{ with .Site.Data.publication.reading_line }} ({{ . }}){{ end }}",
+    {{ end -}}
+    "url": "{{ .Site.BaseURL }}",
+    {{ with .Site.Data.publication.subject_metadata.linked_vocabulary -}}
+    "about": [
+      {{ $len := len . -}}
+      {{ range $index, $element := . -}}
+      {
+        "type": "{{ .type }}",
+        "name": "{{ .name }}",
+        "identifier": "{{ .url }}"
+      }{{ if ne $index (sub $len 1) }},{{ else }}{{ end }}
+      {{ end -}}
+    ],
+    {{ end -}}
+    {{ with .Site.Data.publication.primary_contributor -}}
+    "author": [
+      {{ $len := len . -}}
+      {{ range $index, $element := . -}}
+      {
+        "type": "Person",
+        "name": "{{ .first_name }} {{ .last_name }}",
+        "jobTitle": "{{ .title }}",
+        "affiliation": "{{ .affiliation }}",
+        "identifier": "{{ .url }}"
+      }{{ if ne $index (sub $len 1) }},{{ else }}{{ end }}
+      {{ end -}}
+    ],
+    {{ end -}}
+    "datePublished": "{{ .Site.Data.publication.pub_date }}",
+    {{ with .Site.Data.publication.revision_history -}}
+    {{ $len := len . -}}
+    {{ range $index, $element := . -}}
+    {{ if and (gt $index 0) (eq $index (sub $len 1)) -}}
+    "dateModified": "{{ .date }}",
+    {{ else -}}
+    {{ end -}}
+    {{ end -}}
+    {{ end -}}
+    "keywords": "{{ .Site.Data.publication.subject_metadata.keywords }}",
+    "license": "{{ .Site.Data.publication.license.url }}",
+    {{ with .Site.Data.publication.publisher -}}
+    "publisher": [
+      {{ $len := len . -}}
+      {{ range $index, $element := . -}}
+      {
+        "type": "Organization",
+        "name": "{{ .name }}",
+        "location": { "type": "PostalAddress", "addressLocality": "{{ .location }}" },
+        "identifier": "{{ .url }}"
+      }{{ if ne $index (sub $len 1) }},{{ else }}{{ end }}
+      {{ end -}}
+    ],
+    {{ end -}}
+    {{ with .Site.Data.publication.promo_image -}}
+    "image": "{{ $.Site.BaseURL }}{{ $.Site.Params.imageDir }}{{ . }}",
+    {{ end -}}
+    "description": "{{ replaceRE "\n" " " .Site.Data.publication.description.full }}"
+    {{ if eq .Type "essay" -}}
+    }
+    {{ end -}}
+  }
+  </script>

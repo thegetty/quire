@@ -1,0 +1,25 @@
+{{ define "main" }}
+{{ $currentSection := .Section }}
+
+<div class="quire-page" id="main">
+  {{ partial "page-header.html" . }}
+
+  <section id="content" class="section quire-page__content">
+    <div class="container">
+      <div class="content">
+        {{ .Content }}
+      </div>
+      <div class="menu">
+        <ul class="menu-list">
+          {{- range where (where .Site.Pages.ByWeight "Section" $currentSection) "Type" "entry" -}}
+          <li>
+            <a href="{{ .Permalink }}">{{ .Title }}</a>
+          </li>
+          {{- end -}}
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>
+
+{{ end }}

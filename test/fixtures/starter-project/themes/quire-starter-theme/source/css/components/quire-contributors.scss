@@ -1,0 +1,24 @@
+// =============================================================================
+// Quire-contributors.scss
+// -----------------------------------------------------------------------------
+// Styles for the contributors partial and shortcode
+// .quire-contributors-list is the list-level element
+// .quire-contributor is the individual contributor element
+
+.quire-contributors-list,
+.content ul.quire-contributors-list {
+  list-style-type: none;
+  margin-left: 0;
+}
+
+.quire-contributor {
+  &__pic {
+    max-width: 100px;
+    @media screen and (min-width: $tablet) { max-width: 200px; }
+  }
+
+  &__details {
+    font-size: $size-6;
+    padding-left: 1rem;
+  }
+}

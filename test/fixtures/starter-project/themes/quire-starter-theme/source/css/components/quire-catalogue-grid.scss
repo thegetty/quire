@@ -1,0 +1,14 @@
+// =============================================================================
+// Quire-catalogue-grid.scss
+// -----------------------------------------------------------------------------
+
+// scss-lint:disable EmptyRule
+
+.quire-catalogue-grid {
+  &__item {
+    &__image {}
+    &__title {}
+  }
+
+  a.quire-catalogue-grid__item { display: block; }
+}

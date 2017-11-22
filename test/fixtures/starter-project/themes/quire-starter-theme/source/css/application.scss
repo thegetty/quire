@@ -1,0 +1,52 @@
+// =============================================================================
+// Application.scss
+// -----------------------------------------------------------------------------
+// This project uses Bulma (http://bulma.io) as a framework for styles. Standard
+// bulma options and variables are supported throughout this site. In some
+// places custom components with their own variables and options have been
+// defined as well.
+//
+@import "~bulma/sass/utilities/initial-variables";
+
+// Custom font declarations (if any) can be imported here
+//
+@import url('https://fonts.googleapis.com/css?family=Merriweather:300,300i,400,400i,700,700i');
+
+
+// Variables
+// -----------------------------------------------------------------------------
+// Custom variables which override Bulma defaults can be defined here, before
+// the rest of the framework is imported.
+
+$body-weight: $weight-light;
+$desktop: 900px;
+$family-primary: 'Merriweather', serif;
+$navbar-background-color: $blue;
+
+@import "bulma-components";
+
+// Quire-specific variables
+// -----------------------------------------------------------------------------
+// These variables are not referenced by Bulma and can be defined after
+// importing it.
+
+$quire-cover-background-color: $info;
+// $quire-cover-background-image: url("http://placekitten.com/1400/800");
+
+$quire-menu-background-color: $dark;
+$quire-menu-width: 300px;
+
+$quire-page-paragraph-style: indent;
+
+// Custom components, etc.
+// -----------------------------------------------------------------------------
+// Feel free to import any additional user-defined files here.
+@import "utilities";
+@import "layout";
+@import "components/all";
+@import "print";
+
+// Other custom styles (move elsewhere later)
+
+
+

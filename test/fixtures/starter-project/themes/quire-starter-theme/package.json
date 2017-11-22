@@ -1,0 +1,36 @@
+{
+  "name": "quire-starter-theme",
+  "version": "1.0.0",
+  "description": "A theme for creating digital publications similar to art catalogues using the Hugo static-site generator.",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Eric Gardner",
+  "license": "MIT",
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-core": "^6.21.0",
+    "babel-loader": "^6.2.10",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-stage-0": "^6.16.0",
+    "clean-webpack-plugin": "^0.1.15",
+    "css-loader": "^0.26.1",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "file-loader": "^0.9.0",
+    "node-sass": "^4.2.0",
+    "sass-loader": "^4.1.1",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.14.0"
+  },
+  "dependencies": {
+    "bulma": "^0.6.0",
+    "jquery": "^3.1.1",
+    "leaflet": "^1.0.3",
+    "leaflet-fullscreen": "^1.0.2",
+    "leaflet-iiif": "^1.0.1",
+    "lodash": "^4.17.4",
+    "lodash.debounce": "^4.0.8",
+    "lunr": "^0.7.2"
+  }
+}

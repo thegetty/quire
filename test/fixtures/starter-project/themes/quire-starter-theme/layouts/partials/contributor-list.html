@@ -1,0 +1,66 @@
+{{/*
+  A simple partial to create a list of contributor names. Looks first for
+  .full_name and otherwise combines first and last. Expects two values to be
+  passed in:
+
+  range   The range of contributors for the list. For example,
+          .Site.Data.publication.primary_contributor or .Params.contributor
+
+  type    Can be "string", "list", "list-plus". "string" creates a list of
+          names with proper "and" or "," connectors. "list" creates and
+          unordered list of names, and "list-plus" adds titles and affiliations
+          when available.
+
+  EXAMPLE PARTIAL USE:
+  partial "contributor-list.html" (dict "range" .Params.contributor "type" "string")
+*/}}
+
+
+{{ if eq .type "string" }}
+
+{{- $len := len .range -}}
+{{- range $index, $element := .range -}}
+  {{- if eq $len 1 -}}
+    <span class="quire-contributor">{{ template "name" . }}</span>
+  {{- else if eq (add $index 1) $len -}}
+    <span class="quire-contributor"> and {{ template "name" . }}</span>
+  {{- else -}}
+    {{- if eq $len 2 -}}
+      <span class="quire-contributor">{{ template "name" . }} </span>
+    {{- else -}}
+      <span class="quire-contributor">{{ template "name" . }}, </span>
+    {{- end -}}
+  {{- end -}}
+{{- end }}
+
+{{ else if eq .type "list" }}
+
+<ul>
+  {{ range .range -}}
+    <li class="quire-contributor">{{ template "name" . }}</li>
+  {{ end -}}
+</ul>
+
+{{ else if eq .type "list-plus" }}
+
+<ul>
+  {{ range .range -}}
+    <li class="quire-contributor">
+      {{- template "name" . -}}
+      {{- if or .title .affiliation}}, {{ end -}}
+      {{- with .title }}<span class="quire-contributor__title">{{ . }}</span>{{ end -}}
+      {{- if and .title .affiliation }}, {{ end -}}
+      {{- with .affiliation }}<span class="quire-contributor__affiliation">{{ . }}</span>{{ end -}}
+    </li>
+  {{ end -}}
+</ul>
+
+{{ end }}
+
+{{- define "name" -}}
+  {{- if .full_name -}}
+    {{ .full_name }}
+  {{- else -}}
+    {{ .first_name }} {{ .last_name }}
+  {{- end -}}
+{{- end -}}

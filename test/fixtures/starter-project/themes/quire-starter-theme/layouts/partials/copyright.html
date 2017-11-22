@@ -1,0 +1,66 @@
+<div class="quire-copyright">
+
+{{/* If copyright info is defined, show information about it here */}}
+{{- if .Site.Data.publication.copyright -}}
+  <p>{{ .Site.Data.publication.copyright }}.</p>
+{{- end -}}
+
+{{/* If a license is defined, show information about it here */}}
+{{- if .Site.Data.publication.license.name -}}
+
+  {{/* License icons (ex. CC icons) if any */}}
+  {{- if .Site.Data.publication.license.icon -}}
+  <img src="/{{ .Site.Params.imageDir }}{{ .Site.Data.publication.license.icon }}"
+      class="quire-copyright__icon"
+      alt="logo for {{ .Site.Data.publication.license.name }}" />
+  {{- end -}}
+
+  {{/* License details */}}
+  <p>
+    {{- if eq .Site.Data.publication.license.scope "some-exceptions" -}}
+      Except where otherwise noted, this work is licensed under a
+      {{ with .Site.Data.publication.license.url }}<a rel="license" href="{{ . }}">{{ end }}
+      {{ .Site.Data.publication.license.name }}
+      {{ with .Site.Data.publication.license.url }}</a>{{ end }}.
+
+    {{- else if eq .Site.Data.publication.license.scope "text-only" -}}
+      The text of this work is licensed under a
+      {{ with .Site.Data.publication.license.url }}<a rel="license" href="{{ . }}">{{ end }}
+      {{ .Site.Data.publication.license.name }}
+      {{ with .Site.Data.publication.license.url }}</a>{{ end }}
+      . Unless otherwise noted, all illustrations are excluded from the
+      {{ if .Site.Data.publication.license.name_short }}
+      {{ .Site.Data.publication.license.name_short }}
+      {{ else }}
+      {{ .Site.Data.publication.license.name }}
+      {{ end }} license.
+    {{- else -}}
+      This work is licensed under a
+      {{ with .Site.Data.publication.license.url }}<a rel="license" href="{{ . }}">{{ end }}
+      {{ .Site.Data.publication.license.name }}
+      {{ with .Site.Data.publication.license.url }}</a>{{ end }}
+    {{- end -}}
+    <span class="is-print-only">
+      To view a copy of this license{{ with .Site.Data.publication.license.url }},
+      visit {{ . }} or{{ end }}
+      send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042.
+    </span>
+  </p>
+
+  {{/* License Exceptions */}}
+
+  {{- if .Site.Data.publication.license.exceptions.all -}}
+  <div>{{ markdownify .Site.Data.publication.license.exceptions.all }}</div>
+  {{- end -}}
+
+  {{- if .Site.Data.publication.license.exceptions.online -}}
+  <div class="is-screen-only">{{ markdownify .Site.Data.publication.license.exceptions.online }}</div>
+  {{- end -}}
+
+  {{- if .Site.Data.publication.license.exceptions.pdf_ebook -}}
+  <div class="quire-noscreen">{{ markdownify .Site.Data.publication.license.exceptions.pdf_ebook }}</div>
+  {{- end -}}
+
+{{- end -}}
+
+</div>

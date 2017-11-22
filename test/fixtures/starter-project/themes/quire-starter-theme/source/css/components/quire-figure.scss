@@ -1,0 +1,73 @@
+// =============================================================================
+// Quire-figure
+// -----------------------------------------------------------------------------
+// Quire-figure component. The q-figure shortcode outputs the following markup:
+// <figure class="quire-figure">
+//   <img class="quire-figure__image" />
+//   <span class="quire-figure__label"></span>
+//   <figcaption class="quire-figure__caption"></figcaption>
+// </figure>
+//
+// In most cases the default styling from Bulma's figure and .content figure
+// rules should be sufficient, but additional styling can go here.
+//
+// Figure groups get the additional class .quire-figure--group
+//
+// scss-lint:disable EmptyRule
+.quire-figure {
+  &__image {}
+  &__label {}
+
+  &__caption {
+    font-size: $size-6;
+
+    @media print { font-size: 8pt; }
+  }
+
+  &.is-pulled-left,
+  &.is-pulled-right {
+    @media screen and (min-width: $tablet) {
+      width: 50%;
+    }
+
+    @media print {
+      column-span: all !important;
+      float: none !important;
+      width: unset !important;
+    }
+  }
+
+  &--group {
+    align-items: baseline;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    figure.quire-figure--group__item {
+      margin: 0 0 1rem 0;
+
+      @media screen and (min-width: $tablet) {
+        flex: 1;
+        margin: 0;
+
+        &:not(:last-of-type) { margin-right: 1rem; }
+      }
+    }
+
+    &__caption {
+      @extend .quire-figure__caption;
+
+      @media screen and (min-width: $tablet) {
+        flex: 0 0 100%;
+        margin-top: 1rem;
+      }
+    }
+  }
+
+  @media print {
+    column-span: all;
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+}

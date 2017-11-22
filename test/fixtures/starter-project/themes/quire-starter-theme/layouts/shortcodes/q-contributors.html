@@ -1,0 +1,381 @@
+{{/*
+
+  The q-contributor shortcode can be used to create a page of contributor
+  biographies, a section of bios for a single page, a list of contributors,
+  or a byline for a particular page.
+
+  This shortcode requires both a "range" and a "type" value. And they must
+  be one of the following:
+
+  range   "page, essays, all, primary, secondary"
+  type    "initials, name, name-plus, bio"
+
+  "initials"    Looks for the capital letters in a contributor first and last
+                name and concatenates them together. Jane Pauley, becomes J.P.
+                Ralph Waldo Emerson becomes R.W.E.
+  "name"        Just the first and last name.
+  "name-plus"   The first and last name, with, when available, their title
+                and affiliation on a line below.
+  "bio"         Name, with pic, url, and bio.
+
+  Following the standard error message checks, in the first part of the
+  template below, there are two primary sequences. The first is for ranges
+  of contributors that are across one or more pages (range "all", "essays",
+  and "page"), and the other is for ranges of contributors in publication.yml
+  (range "primary" and "secondary"). Both cycle through the contributors in
+  the given range and create a "contributor" object with an index of all the
+  relevant data for that contributor. The index values are assigned as follows:
+
+    0 name (combinded first_name/last_name or full_name)
+    1 title
+    2 affiliation
+    3 bio
+    4 url
+    5 pic
+    6 paper id
+    7 paper title
+    8 paper subtitle
+    9 paper link
+
+  The paper id, title, subtile and link will reference the contributor's
+  contribution to the publication, and link to that contribution when you use
+  the "all" or "essays" range. (Note however, that if a contributor has
+  multiple contributions/papers in a publication, only the last one in the
+  range will be referenced.)
+
+  This "contributor" object is then added to a "contributorlist" Scratch map.
+  The contributors are added to this larger list either by last_name, or by
+  the file_as value. This alphabetizes the list.
+
+  The second half of the template is more straightforward. It simply takes
+  the "contributorlist" map and ranges across it building the HTML as called
+  for in the type valye ("initials", "name", "name_plus", or "bio").
+
+  NOTES:
+
+  This shortcode can be used multiple times on a page, BUT ONLY if the same
+  range is referenced.
+
+  Users can use a file_as value to control sort order. Otherwise lists are
+  sorted alphabetically by last_name. If you wanted, for example, a list of
+  essay contributors ordered in the way they are ordered in the page yaml, you
+  could assign a numeric file_as value to each. 1, 2, 3 etc. Note though that
+  this file_as override will cary over to other uses of the shortcode. For
+  example, a complete list of contributors at the end of a volume of collected
+  papers.
+
+  If a contribuor is listed in many papers, the informtion in last listing
+  will override all the others.
+
+  Contributors with the same exact name will override eachother. But using
+  a file_as value would fix this, and that value wouldn't show up in the
+  interface. For example if there are two Jane Smiths, assigning a file_as
+  value of "Smith, Jane 1" to one and "Smith, Jane 2" will sort them in that
+  order, but there names would still be listed as Jane Smith.
+
+*/}}
+
+{{- if eq ($.Get "range") "" -}}
+<div class="quire-error-msg">
+  SHORTCODE ERROR: <code>q-contributors</code><br />
+  This shortcode must include a value for <code>range</code>.
+  Possible values are "all", "essays", "page", "primary", or "secondary".<br />
+  Example: <code>&#123;&#123;< q-contributors range="all" type="bio" >&#125;&#125;</code>
+</div>
+
+{{/* TODO: can we simplify this clause at all? */}}
+{{- else if and (and (and (and (ne ($.Get "range") "all") (ne ($.Get "range") "essays")) (ne ($.Get "range") "page")) (ne ($.Get "range") "primary")) (ne ($.Get "range") "secondary") -}}
+<div class="quire-error-msg">
+  SHORTCODE ERROR: <code>q-contributors</code><br />
+  Supplied value for <code>range</code> must be "all", "essays", "page", "primary", or "secondary".<br />
+  Example: <code>&#123;&#123;< q-contributors range="all" type="bio" >&#125;&#125;</code>
+</div>
+{{- end -}}
+
+{{- if eq ($.Get "type") "" -}}
+<div class="quire-error-msg">
+  SHORTCODE ERROR: <code>q-contributors</code><br />
+  This shortcode must include a value for <code>type</code>.
+  Possible values are "initials", "name", "name-plus", or "bio".<br />
+  Example: <code>&#123;&#123;< q-contributors range="all" type="bio" >&#125;&#125;</code>
+</div>
+
+{{- else if and (and (and (ne ($.Get "type") "initials") (ne ($.Get "type") "name")) (ne ($.Get "type") "name-plus")) (ne ($.Get "type") "bio") -}}
+<div class="quire-error-msg">
+  SHORTCODE ERROR: <code>q-contributors</code><br />
+  Supplied value for <code>type</code> must be "initials", "name", "name-plus", or "bio".<br />
+  Example: <code>&#123;&#123;< q-contributors range="all" type="bio" >&#125;&#125;</code>
+</div>
+{{- end -}}
+
+{{- $thispage := .Page.UniqueID -}}
+
+{{- if or (or (eq ($.Get "range") "all") (eq ($.Get "range") "essays")) (eq ($.Get "range") "page") -}}
+
+  {{- if eq ($.Get "range") "all" -}}
+    {{- $.Scratch.Add "range" (.Site.Pages) -}}
+  {{- else if eq ($.Get "range") "essays" -}}
+    {{- $.Scratch.Add "range" (where .Site.Pages "Type" "essay") -}}
+  {{- else -}}
+    {{- $.Scratch.Add "range" (where .Site.Pages "UniqueID" $thispage) -}}
+  {{- end -}}
+
+  {{- $pagerange := $.Scratch.Get "range" -}}
+  {{- range $pagerange -}}
+
+    {{- $pageid := .Params.id -}}
+    {{- $pagetitle := .Params.title -}}
+    {{- $pagesubtitle := .Params.subtitle -}}
+    {{- $pagelink := .Permalink -}}
+
+    {{- range .Params.contributor -}}
+
+      {{- if .full_name }}
+        {{ $name := .full_name }}
+        {{- $.Page.Scratch.SetInMap "contributor" "0" $name -}}
+      {{ else if and .first_name .last_name }}
+        {{ $name := add (add .first_name " ") .last_name }}
+        {{- $.Page.Scratch.SetInMap "contributor" "0" $name -}}
+      {{ else }}
+      <div class="quire-error-msg">
+        SHORTCODE ERROR: <code>q-contributors</code><br />
+        One of the contributors in this range doesn’t have a complete name. All
+        contributors must have either a <code>full_name</code> value, or values
+        for both <code>first_name</code> and <code>last_name</code>.
+      </div>
+      {{ end }}
+
+      {{- if .title -}}
+      {{- $.Page.Scratch.SetInMap "contributor" "1" .title -}}
+      {{- else -}}
+      {{- $.Page.Scratch.SetInMap "contributor" "1" "n/a" -}}
+      {{- end -}}
+
+      {{- if .affiliation -}}
+      {{- $.Page.Scratch.SetInMap "contributor" "2" .affiliation -}}
+      {{- else -}}
+      {{- $.Page.Scratch.SetInMap "contributor" "2" "n/a" -}}
+      {{- end -}}
+
+      {{- if .bio -}}
+      {{- $.Page.Scratch.SetInMap "contributor" "3" .bio -}}
+      {{- else -}}
+      {{- $.Page.Scratch.SetInMap "contributor" "3" "n/a" -}}
+      {{- end -}}
+
+      {{- if .url -}}
+      {{- $.Page.Scratch.SetInMap "contributor" "4" .url -}}
+      {{- else -}}
+      {{- $.Page.Scratch.SetInMap "contributor" "4" "n/a" -}}
+      {{- end -}}
+
+      {{- if .pic -}}
+      {{- $.Page.Scratch.SetInMap "contributor" "5" .pic -}}
+      {{- else -}}
+      {{- $.Page.Scratch.SetInMap "contributor" "5" "n/a" -}}
+      {{- end -}}
+
+      {{- if $pageid -}}
+      {{- $.Page.Scratch.SetInMap "contributor" "6" $pageid -}}
+      {{- else -}}
+      {{- $.Page.Scratch.SetInMap "contributor" "6" "n/a" -}}
+      {{- end -}}
+
+      {{- $.Page.Scratch.SetInMap "contributor" "7" $pagetitle -}}
+
+      {{- if $pagesubtitle -}}
+      {{- $.Page.Scratch.SetInMap "contributor" "8" $pagesubtitle -}}
+      {{- else -}}
+      {{- $.Page.Scratch.SetInMap "contributor" "8" "n/a" -}}
+      {{- end -}}
+
+      {{- $.Page.Scratch.SetInMap "contributor" "9" $pagelink -}}
+
+      {{- $contributor := ($.Page.Scratch.GetSortedMapValues "contributor") -}}
+
+      {{- if .file_as -}}
+      {{- $name := lower (replace (replace .file_as " " "") "," "") -}}
+      {{- $.Page.Scratch.SetInMap "contributorlist" $name $contributor -}}
+
+      {{- else if and .last_name .first_name -}}
+      {{- $name := lower (replace (add .last_name .first_name) " " "") -}}
+      {{- $.Page.Scratch.SetInMap "contributorlist" $name $contributor -}}
+
+      {{ else }}
+      {{- $name := lower (replace .full_name " " "") -}}
+      {{- $.Page.Scratch.SetInMap "contributorlist" $name $contributor -}}
+      {{- end -}}
+
+    {{- end -}}
+  {{- end -}}
+
+{{- else if or (eq ($.Get "range") "primary") (eq ($.Get "range") "secondary") -}}
+
+  {{- if eq ($.Get "range") "primary" -}}
+    {{- $.Scratch.Add "range" (.Site.Data.publication.primary_contributor) -}}
+  {{- else -}}
+    {{- $.Scratch.Add "range" (.Site.Data.publication.secondary_contributor) -}}
+  {{- end -}}
+
+  {{- range $.Scratch.Get "range" -}}
+
+    {{- if .full_name }}
+      {{ $name := .full_name }}
+      {{- $.Page.Scratch.SetInMap "contributor" "0" $name -}}
+    {{ else if and .first_name .last_name }}
+      {{ $name := add (add .first_name " ") .last_name }}
+      {{- $.Page.Scratch.SetInMap "contributor" "0" $name -}}
+    {{ else }}s
+      <div class="quire-error-msg">
+        SHORTCODE ERROR:
+        <code>q-contributors</code><br />
+        One of the contributors in this range doesn’t have a complete name. All
+        contributors must have either a <code>full_name</code> value, or values
+        for both <code>first_name</code>
+        and <code>last_name</code>.
+      </div>
+    {{ end }}
+
+    {{- if .title -}}
+    {{- $.Page.Scratch.SetInMap "contributor" "1" .title -}}
+    {{- else -}}
+    {{- $.Page.Scratch.SetInMap "contributor" "1" "n/a" -}}
+    {{- end -}}
+
+    {{- if .affiliation -}}
+    {{- $.Page.Scratch.SetInMap "contributor" "2" .affiliation -}}
+    {{- else -}}
+    {{- $.Page.Scratch.SetInMap "contributor" "2" "n/a" -}}
+    {{- end -}}
+
+    {{- if .bio -}}
+    {{- $.Page.Scratch.SetInMap "contributor" "3" .bio -}}
+    {{- else -}}
+    {{- $.Page.Scratch.SetInMap "contributor" "3" "n/a" -}}
+    {{- end -}}
+
+    {{- if .url -}}
+    {{- $.Page.Scratch.SetInMap "contributor" "4" .url -}}
+    {{- else -}}
+    {{- $.Page.Scratch.SetInMap "contributor" "4" "n/a" -}}
+    {{- end -}}
+
+    {{- if .pic -}}
+    {{- $.Page.Scratch.SetInMap "contributor" "5" .pic -}}
+    {{- else -}}
+    {{- $.Page.Scratch.SetInMap "contributor" "5" "n/a" -}}
+    {{- end -}}
+
+    {{- $contributor := ($.Page.Scratch.GetSortedMapValues "contributor") -}}
+
+    {{- if .file_as -}}
+      {{- $name := lower (replace (replace .file_as " " "") "," "") -}}
+      {{- $.Page.Scratch.SetInMap "contributorlist" $name $contributor -}}
+    {{- else if and .last_name .first_name -}}
+      {{- $name := lower (replace (add .last_name .first_name) " " "") -}}
+      {{- $.Page.Scratch.SetInMap "contributorlist" $name $contributor -}}
+    {{ else }}
+      {{- $name := lower (replace .full_name " " "") -}}
+      {{- $.Page.Scratch.SetInMap "contributorlist" $name $contributor -}}
+    {{- end -}}
+
+  {{- end -}}
+
+{{- end -}}
+
+{{/* Bio layout */}}
+{{/* ---------------------------------------------------------------------- */}}
+{{- if eq ($.Get "type") "bio" -}}
+<ul class="quire-contributors-list">
+{{- range ($.Page.Scratch.GetSortedMapValues "contributorlist") -}}
+{{- $nameid := urlize (replace (index . 0) " " "-") -}}
+  <li class="quire-contributor media" id="{{ $nameid }}">
+
+    {{- if ne (index . 5) "n/a" -}}
+    <div class="media-left">
+      <img class="image quire-contributor__pic"
+          src="{{ $.Site.BaseURL }}{{ $.Site.Params.imageDir }}{{ $.Site.Params.contributorSubDir }}{{ index . 5 }}"
+          alt="Picture of {{ index . 0 }}"/>
+    </div>
+    {{- end -}}
+
+    <div class="quire-contributor__details media-content">
+      <div class="title is-5"><span class="quire-contributor__name">{{ index . 0 }}</span></div>
+      {{ if ne (index . 4) "n/a" }}
+      <div class="subtitle is-6"><a href="{{ index . 4 }}" class="quire-contributor__url">{{ index . 4 }}</a></div>
+      {{- end -}}
+
+      <p class="quire-contributor__bio">
+        {{ if ne (index . 3) "n/a" }}{{ markdownify (index . 3) }}{{ end }}
+      </p>
+
+      {{- if ne ($.Get "range") "page" -}}
+      {{- if and (ne ($.Get "range") "primary") (ne ($.Get "range") "secondary") -}}
+      <p>
+        <a href="{{ index . 9 }}" class="quire-contributor__page-link">
+          {{ if ne (index . 6) "n/a" }}{{ index . 6 }}. {{ end }}
+          {{ markdownify (index . 7) }}
+          {{ if ne (index . 8) "n/a" }}: {{ markdownify (index . 8) }}{{ end }}
+        </a>
+      </p>
+      {{- end -}}
+      {{- end -}}
+    </div>
+  </li>
+{{- end -}}
+</ul>
+{{- end -}}
+
+{{/* Name, Name-plus layout */}}
+{{/* ---------------------------------------------------------------------- */}}
+{{- if or (eq ($.Get "type") "name") (eq ($.Get "type") "name-plus") -}}
+<ul class="quire-contributors-list">
+{{- range ($.Page.Scratch.GetSortedMapValues "contributorlist") -}}
+{{- $nameid := urlize (replace (index . 0) " " "-") -}}
+  <li class="quire-contributor" id="{{ $nameid }}">
+    <p>
+      <span class="quire-contributor__name">{{ index . 0 }}</span>
+      {{- if eq ($.Get "type") "name-plus" -}}
+      {{- if or (ne (index . 1) "n/a") (ne (index . 2) "n/a") }}, {{ end -}}
+
+      {{- if ne (index . 1) "n/a" -}}
+      <span class="quire-contributor__title">{{ index . 1 }}</span>
+      {{- end -}}
+
+      {{- if and (ne (index . 1) "n/a") (ne (index . 2) "n/a") }}, {{ end -}}
+      {{- if ne (index . 2) "n/a" -}}
+      <span class="quire-contributor__affiliation">{{ index . 2 }}</span>
+      {{- end -}}
+    </p>
+    {{- end -}}
+  </li>
+{{- end -}}
+</ul>
+{{- end -}}
+
+{{/* Initials layout */}}
+{{/* ---------------------------------------------------------------------- */}}
+{{- if eq ($.Get "type") "initials" -}}
+<ul class="quire-contributors-list">
+  {{- $len := len ($.Page.Scratch.GetSortedMapValues "contributorlist") -}}
+  {{- if gt $len 0 -}}
+  <li class="quire-contributor">
+    {{- $len := len ($.Page.Scratch.GetSortedMapValues "contributorlist") -}}
+    {{- range $index, $element := ($.Page.Scratch.GetSortedMapValues "contributorlist") -}}
+      {{- $initials := findRE "[[:upper:]]" (index . 0) -}}
+      {{- if eq $len 1 -}}
+      <span class="quire-contributor__name">{{ range $initials }}{{ . }}.{{ end }}</span>
+      {{- else if eq (add $index 1) $len -}}
+      <span class="quire-contributor__name"> and {{ range $initials }}{{ . }}.{{ end }}</span>
+      {{- else -}}
+        {{- if eq $len 2 -}}
+          <span class="quire-contributor__name">{{ range $initials }}{{ . }}.{{ end }} </span>
+        {{- else -}}
+          <span class="quire-contributor__name">{{ range $initials }}{{ . }}.{{ end }}, </span>
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  </li>
+  {{- end -}}
+</ul>
+{{- end -}}

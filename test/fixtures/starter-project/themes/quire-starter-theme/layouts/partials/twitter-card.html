@@ -1,0 +1,23 @@
+{{ if ne .Type "essay" -}}
+  <!-- Books and Integrated Book Parts/Chapters -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="{{ .Site.BaseURL }}">
+  <meta name="twitter:title" content="{{ .Site.Data.publication.title }}">
+  <meta name="twitter:description" content="{{ if .Site.Data.publication.description.one_line }}{{ .Site.Data.publication.description.one_line }}{{ else }}{{ with .Site.Data.publication.description.full }}{{ . | truncate 160 }}{{ end }}{{ end }}">
+  <meta name="twitter:image" content="{{ with .Site.Data.publication.promo_image }}{{ $.Site.BaseURL }}{{ $.Site.Params.imageDir }}{{ . }}{{ end }}">
+{{ else -}}
+  <!-- Standalone Essays/Articles w/i Books  -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="{{ .Permalink }}">
+  <meta name="twitter:title" content="{{ .Page.Params.title }}{{ with .Page.Params.subtitle }}: {{ . }}{{ end }}">
+  {{ if .Page.Params.abstract -}}
+  <meta name="twitter:description" content="{{ .Page.Params.abstract | truncate 160 }}">
+  {{ else -}}
+  <meta name="twitter:description" content="{{ if .Site.Data.publication.description.one_line }}{{ .Site.Data.publication.description.one_line }}{{ else }}{{ with .Site.Data.publication.description.full }}{{ . | truncate 160 }}{{ end }}{{ end }}">
+  {{ end -}}
+  {{ if .Page.Params.cover -}}
+  <meta property="twitter:image" content="{{ .Site.BaseURL }}{{ .Site.Params.imageDir }}{{ .Site.Params.figureSubDir }}{{ .Page.Params.cover }}" />
+  {{ else -}}
+  <meta property="twitter:image" content="{{ with .Site.Data.publication.promo_image }}{{ $.Site.BaseURL }}{{ $.Site.Params.imageDir }}{{ . }}{{ end }}" />
+  {{ end -}}
+  {{ end -}}

@@ -1,0 +1,59 @@
+// =============================================================================
+// Quire-menu.scss
+// -----------------------------------------------------------------------------
+// Site-wide sidebar menu component. Most of the styles for this come from the
+// Bulma .menu class and subclasses or else are applied in the layout.scss file
+// for this component's immediate container, .quire__secondary. However, some
+// elements of the menu require other specific style rules and those should live
+// here.
+
+// scss-lint:disable EmptyRule
+// scss-lint:disable SingleLinePerSelector
+
+// Override for Bulma menu element inside of .content
+.content .menu-list {
+  list-style-type: none;
+  margin-left: 0;
+}
+
+.quire-menu {
+  &__header {
+    margin: 1rem;
+
+    &__title,
+    &__subtitle,
+    &__link {
+      display: block;
+    }
+
+    &__link { margin-bottom: 1em; }
+    &__title { font-size: $size-3; }
+    &__subtitle {
+      font-size: $size-5;
+      font-weight: $weight-light;
+      margin-bottom: 0.5rem;
+    }
+
+    &__reading-line {
+      font-style: italic;
+      font-weight: $weight-light;
+    }
+
+    &__contributors {
+      font-size: $size-6;
+      font-weight: $weight-light;
+    }
+
+    h1, h2, h3, h4, h5, h6 { display: inline; }
+  }
+
+  &__formats {
+    font-size: $size-7;
+    padding-top: 1rem;
+  }
+
+  .menu-label {
+    padding-left: 1em;
+  }
+}
+
