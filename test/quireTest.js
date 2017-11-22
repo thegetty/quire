@@ -9,59 +9,59 @@ const invalidProjectDir = path.join(defaultLocation, 'test', 'fixtures', 'no-con
 describe('QuireCLI', function() {
   let quire
 
-  describe('_commandMissing()', function() {
+  describe('commandMissing()', function() {
     // Set up a new instance for each assertion
     beforeEach(function() { quire = new QuireCLI() })
 
     it('should return true when a command does not exist', function() {
-      assert.equal(quire._commandMissing('foo'), true)
+      assert.equal(quire.commandMissing('foo'), true)
     })
 
     it('should return false when a command does exist', function() {
-      assert.equal(quire._commandMissing('node'), false)
+      assert.equal(quire.commandMissing('node'), false)
     })
   })
 
-  describe('_isValidProject()', function() {
+  describe('isValidProject()', function() {
     // Return to the default location after each assertion
     afterEach(function() { process.chdir(defaultLocation) })
 
     it('should return false when the project folder lacks a config.yml file', function() {
       process.chdir(invalidProjectDir)
       quire = new QuireCLI()
-      assert.equal(quire._isValidProject(), false)
+      assert.equal(quire.isValidProject(), false)
     })
 
     it('should return true when the project folder has a config.yml file', function() {
       process.chdir(validProjectDir)
       quire = new QuireCLI()
-      assert.equal(quire._isValidProject(), true)
+      assert.equal(quire.isValidProject(), true)
     })
   })
 
-  describe('_readYAML()', function() {
+  describe('readYAML()', function() {
     it('should return the contents of a yaml file as an object', function() {
       quire = new QuireCLI()
       let filePath = path.join(__dirname, 'fixtures', 'has-config-file', 'config.yml')
-      let yaml = quire._readYAML(filePath)
+      let yaml = quire.readYAML(filePath)
       assert.equal(yaml.baseurl, 'http://yoursite.example.com/')
     })
   })
 
-  describe('_preflight()', function() {
+  describe('preflight()', function() {
     // Return to the default location after each assertion
     afterEach(function() { process.chdir(defaultLocation) })
 
     it('should raise an error in an invalid project folder.', function() {
       process.chdir(invalidProjectDir)
       quire = new QuireCLI()
-      assert.throws(quire._preflight, Error)
+      assert.throws(quire.preflight, Error)
     })
 
     it('should read the contents of config.yml in a valid project folder.', function() {
       process.chdir(validProjectDir)
       quire = new QuireCLI()
-      assert.equal(quire._preflight().name, 'hemingway')
+      assert.equal(quire.preflight().name, 'hemingway')
     })
   })
 
