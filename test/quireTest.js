@@ -1,6 +1,6 @@
 const assert = require('assert')
 const path = require('path')
-const QuireCLI = require(path.join(__dirname, '..', 'lib', 'quire'))
+const QuireCLI = require(path.join('..', 'lib', 'quire'))
 
 const defaultLocation = process.cwd()
 const validProjectDir = path.join(defaultLocation, 'test', 'fixtures', 'has-config-file')
@@ -9,7 +9,7 @@ const invalidProjectDir = path.join(defaultLocation, 'test', 'fixtures', 'no-con
 describe('QuireCLI', function () {
   let quire
 
-  describe('commandMissing()', function () {
+  describe('commandMissing', function () {
     // Set up a new instance for each assertion
     beforeEach(function () { quire = new QuireCLI() })
 
@@ -22,7 +22,7 @@ describe('QuireCLI', function () {
     })
   })
 
-  describe('isValidProject()', function () {
+  describe('isValidProject', function () {
     // Return to the default location after each assertion
     afterEach(function () { process.chdir(defaultLocation) })
 
@@ -39,16 +39,7 @@ describe('QuireCLI', function () {
     })
   })
 
-  describe('readYAML()', function () {
-    it('should return the contents of a yaml file as an object', function () {
-      quire = new QuireCLI()
-      let filePath = path.join(__dirname, 'fixtures', 'has-config-file', 'config.yml')
-      let yaml = quire.readYAML(filePath)
-      assert.equal(yaml.baseurl, 'http://yoursite.example.com/')
-    })
-  })
-
-  describe('preflight()', function () {
+  describe('preflight', function () {
     // Return to the default location after each assertion
     afterEach(function () { process.chdir(defaultLocation) })
 
@@ -65,7 +56,7 @@ describe('QuireCLI', function () {
     })
   })
 
-  describe('preview()', function () {
+  describe('preview', function () {
     afterEach(function () {
       quire.emit('shutdown')
       process.chdir(defaultLocation)
@@ -86,7 +77,7 @@ describe('QuireCLI', function () {
     })
   })
 
-  describe('build()', function () {
+  describe('build', function () {
     afterEach(function () {
       quire.emit('shutdown')
       process.chdir(defaultLocation)
