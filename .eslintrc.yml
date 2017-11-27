@@ -7,7 +7,5 @@ plugins:
   - standard
   - promise
 rules:
-  space-before-function-paren:
-    - "warn"
-    - "never"
+  arrow-parens: 0
 
