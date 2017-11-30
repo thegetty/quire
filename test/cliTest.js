@@ -9,19 +9,6 @@ const invalidProjectDir = path.join(defaultLocation, 'test', 'fixtures', 'no-con
 describe('CLI', function () {
   let quire
 
-  describe('commandMissing', function () {
-    // Set up a new instance for each assertion
-    beforeEach(function () { quire = new CLI() })
-
-    it('should return true when a command does not exist', function () {
-      assert.equal(quire.commandMissing('foo'), true)
-    })
-
-    it('should return false when a command does exist', function () {
-      assert.equal(quire.commandMissing('node'), false)
-    })
-  })
-
   describe('isValidProject', function () {
     // Return to the default location after each assertion
     afterEach(function () { process.chdir(defaultLocation) })
