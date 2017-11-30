@@ -35,8 +35,8 @@
  */
 const program = require('commander')
 
-const QuireCLI = require('./lib/quire')
-const cli = new QuireCLI()
+const CLI = require('./lib/cli')
+const cli = new CLI()
 
 // Shut down child processes on program exit
 process.on('SIGINT', function() { cli.emit('shutdown') })

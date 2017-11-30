@@ -1,17 +1,17 @@
 const assert = require('assert')
 const path = require('path')
-const QuireCLI = require(path.join('..', 'lib', 'quire'))
+const CLI = require(path.join('..', 'lib', 'cli'))
 
 const defaultLocation = process.cwd()
 const validProjectDir = path.join(defaultLocation, 'test', 'fixtures', 'has-config-file')
 const invalidProjectDir = path.join(defaultLocation, 'test', 'fixtures', 'no-config-file')
 
-describe('QuireCLI', function () {
+describe('CLI', function () {
   let quire
 
   describe('commandMissing', function () {
     // Set up a new instance for each assertion
-    beforeEach(function () { quire = new QuireCLI() })
+    beforeEach(function () { quire = new CLI() })
 
     it('should return true when a command does not exist', function () {
       assert.equal(quire.commandMissing('foo'), true)
@@ -28,13 +28,13 @@ describe('QuireCLI', function () {
 
     it('should return false when the project folder lacks a config.yml file', function () {
       process.chdir(invalidProjectDir)
-      quire = new QuireCLI()
+      quire = new CLI()
       assert.equal(quire.isValidProject(), false)
     })
 
     it('should return true when the project folder has a config.yml file', function () {
       process.chdir(validProjectDir)
-      quire = new QuireCLI()
+      quire = new CLI()
       assert.equal(quire.isValidProject(), true)
     })
   })
@@ -45,13 +45,13 @@ describe('QuireCLI', function () {
 
     it('should raise an error in an invalid project folder.', function () {
       process.chdir(invalidProjectDir)
-      quire = new QuireCLI()
+      quire = new CLI()
       assert.throws(quire.preflight, Error)
     })
 
     it('should read the contents of config.yml in a valid project folder.', function () {
       process.chdir(validProjectDir)
-      quire = new QuireCLI()
+      quire = new CLI()
       assert.equal(quire.preflight().name, 'hemingway')
     })
   })
@@ -64,13 +64,13 @@ describe('QuireCLI', function () {
 
     it('should raise an error in an invalid project folder.', function () {
       process.chdir(invalidProjectDir)
-      quire = new QuireCLI()
+      quire = new CLI()
       assert.throws(quire.preview, Error)
     })
 
     it('should spawn child processes for `hugo` and `webpack`', function () {
       process.chdir(validProjectDir)
-      quire = new QuireCLI()
+      quire = new CLI()
       quire.preview()
       assert('hugo' in quire)
       assert('webpack' in quire)
@@ -85,7 +85,7 @@ describe('QuireCLI', function () {
 
     it('should raise an error in an invalid project folder.', function () {
       process.chdir(invalidProjectDir)
-      quire = new QuireCLI()
+      quire = new CLI()
       assert.throws(quire.build, Error)
     })
 
