@@ -94,6 +94,15 @@ program
     cli.emit('epub')
   })
 
+// quire debug
+//
+program
+  .command('debug')
+  .description('Development use only - log info about current project')
+  .action(function() {
+    cli.emit('debug')
+  })
+
 // Run the program
 //
 program.parse(process.argv)
