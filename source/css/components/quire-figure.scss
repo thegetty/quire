@@ -24,6 +24,49 @@
     @media print { font-size: 8pt; }
   }
 
+  &__video-wrapper {
+    &--standard {
+      padding-bottom: 75%;
+      position: relative;
+      @media print {
+        padding-bottom: 0;
+        position: inherit;
+      }
+    }
+    &--widescreen {
+      padding-bottom: 56.25%;
+      position: relative;
+      @media print {
+        padding-bottom: 0;
+        position: inherit;
+      }
+    }
+  }
+
+  &__video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__video-fallback {
+    .content figure & {
+      display: none;
+      @media print {
+        display: block;
+        width: 100%;
+      }
+    }
+    &__text {
+      display: none;
+      @media print {
+        display: inline;
+      }
+    }
+  }
+
   &.is-pulled-left,
   &.is-pulled-right {
     @media screen and (min-width: $tablet) {
