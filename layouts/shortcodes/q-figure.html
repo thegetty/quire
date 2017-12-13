@@ -113,6 +113,19 @@
       {{ end }}
 
       <figcaption class="quire-figure__caption">
+
+        {{ if or (eq $.Site.Params.figureLabels true) (eq ($.Get "label") "true" ) }}
+          <span class="quire-figure__label">
+          {{ if $.Get "label_text" }}
+            {{ $.Get "label_text" | markdownify }}
+          {{ else if .label_text }}
+            {{ .label_text | markdownify }}
+          {{ else }}
+            {{ $.Site.Params.figureLabelsTextBefore }}{{ .id }}{{ $.Site.Params.figureLabelsTextAfter }}
+          </span>
+          {{ end }}
+        {{ end }}
+
         {{ if $.Get "caption" }}{{ $.Get "caption" | markdownify }}
         {{ else if .caption }}{{ .caption | markdownify }}{{ end }}
 

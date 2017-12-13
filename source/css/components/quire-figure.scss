@@ -15,8 +15,19 @@
 //
 // scss-lint:disable EmptyRule
 .quire-figure {
-  &__image {}
-  &__label {}
+  &__image {
+    .content figure & {
+      display: block;
+    }
+  }
+  &__label {
+    display: block;
+    font-size: $size-6;
+    margin-top: .5rem;
+    .quire-figure__caption & {
+      display: inline;
+    }
+  }
 
   &__caption {
     font-size: $size-6;
