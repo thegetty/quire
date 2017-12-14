@@ -28,13 +28,11 @@
       </div>
       {{ end }}
 
-      {{/* Essay pages have additional controls (quick links to content, notes, biblio) */}}
+      {{/* Essay pages have additional controls (quick links to content, biblio) */}}
       {{ if (eq .Type "essay") }}
       <div class="tabs is-centered" role="navigation" aria-label="page">
         <ul>
           <li><a href="#content">Main Text</a></li>
-          <li><a href="#notes">Notes</a></li>
-
           {{ if ($.Scratch.GetSortedMapValues "cited") }}
           <li><a href="#bibliography">Bibliography</a></li>
           {{ end }}

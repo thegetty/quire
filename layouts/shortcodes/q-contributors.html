@@ -288,7 +288,7 @@
 {{- if eq ($.Get "type") "bio" -}}
 <ul class="quire-contributors-list">
 {{- range ($.Page.Scratch.GetSortedMapValues "contributorlist") -}}
-{{- $nameid := urlize (replace (index . 0) " " "-") -}}
+{{- $nameid := plainify (replace (index . 0) " " "-") -}}
   <li class="quire-contributor media" id="{{ $nameid }}">
 
     {{- if ne (index . 5) "n/a" -}}
@@ -331,7 +331,7 @@
 {{- if or (eq ($.Get "type") "name") (eq ($.Get "type") "name-plus") -}}
 <ul class="quire-contributors-list">
 {{- range ($.Page.Scratch.GetSortedMapValues "contributorlist") -}}
-{{- $nameid := urlize (replace (index . 0) " " "-") -}}
+{{- $nameid := plainify (replace (index . 0) " " "-") -}}
   <li class="quire-contributor" id="{{ $nameid }}">
     <p>
       <span class="quire-contributor__name">{{ index . 0 }}</span>
