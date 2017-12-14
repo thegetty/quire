@@ -12,7 +12,7 @@ reading_line: A digital publication framework built on Hugo
 
 description:
   one_line:
-  full: |
+  full: >-
     Quire is a digital publishing framework built on top of the Hugo static site
     generator. Generate Web, PDF, and print books (with Epub coming soon) from a
     single set of text files.
