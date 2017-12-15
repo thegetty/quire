@@ -1,0 +1,91 @@
+// =============================================================================
+// Quire-page.scss
+// -----------------------------------------------------------------------------
+// Page container component
+// - .quire-page__header: Styled with Bulma hero classes by default, but the
+//     top-level <section> elemement has this class for overrides.
+// - .quire-page__content: Uses Bulma's section & container elements for layout;
+//     the only styles here relate to typography.
+//
+// This stylesheet also controls some of the fundamentals of print layout since
+// it governs the body text. It is possible to keep body copy columns mostly
+// aligned to a baseline grid but care must be taken to ensure that font-size,
+// margins, and line-height add up to mulitples of the body text line-height.
+
+// Variables
+// -----------------------------------------------------------------------------
+
+// Paragraph style: Set this to "indent" to remove spacing between paragraphs
+// and add text-indent instead.
+$headings: h1, h2, h3, h4, h5, h6;
+$quire-page-paragraph-style: null !default;
+
+.quire-page__header {
+  // Use this if you need an override
+
+  @media print {
+
+    &.hero.is-light { background-color: transparent; }
+    .title { font-size: 21pt; }
+    .subtitle { font-size: 16pt; }
+    .contributor { font-size: 13pt; }
+    .tabs { display: none; }
+  }
+}
+
+.quire-page__content {
+  font-size: 18px;
+  @media screen and (min-width: $desktop) { font-size: 21px; }
+
+  // Overrides to Bulma's .content styles where needed.
+  .content {
+    @if $quire-page-paragraph-style == "indent" {
+      p { margin-bottom: 0; }
+      p + p { text-indent: 2em; }
+    }
+
+    @media print {
+      h2 {
+        font-size: 18pt;
+        line-height: 18pt;
+        margin-bottom: 8pt;
+        margin-top: 18pt;
+
+        + h3 {
+          margin-bottom: 10pt;
+          margin-top: 0;
+        }
+      }
+
+      h3 {
+        font-size: 12pt;
+        line-height: 13pt;
+        margin-bottom: 13pt;
+        margin-top: 13pt;
+      }
+
+      ul {
+        margin-bottom: 0;
+        margin-top: 0;
+      }
+
+      li + li {
+        margin-top: 0;
+      }
+    }
+  }
+
+  @media print {
+    column-count: 2;
+    column-fill: auto !important;
+    column-gap: 2rem;
+    font-size: 9pt;
+    line-height: 13pt;
+    margin: 0;
+
+    .quire-toc {
+      column-span: all;
+      font-size: 11pt;
+    }
+  }
+}

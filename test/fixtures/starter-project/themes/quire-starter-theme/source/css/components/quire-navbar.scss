@@ -1,0 +1,143 @@
+// =============================================================================
+// .quire-navbar
+// -----------------------------------------------------------------------------
+//
+// Top-level container / banner for the site navigation. Full-width, optional
+// background color. Fixed positioning causes some issues so not using this for
+// now. Has the following components:
+//
+// - .quire-navbar-skip-link: Accessibility element, allows users of assistive
+//     technologies to quickly skip to #main content.
+// - .quire-navbar-controls: the various UI elements including search and menu
+// - .quire-navbar-page-controls: central part of the controls which includes
+//     page title, site title, and next/prev controls.
+// - .quire-navbar-button: overrides of native button styles, but the <button>
+//     element is used for accessibility reasons.
+//
+// Where possible this component will borrow from Bulma's .navbar component, but
+// the needs are different and this will not support all of Bulma's
+// functionality out of the box.
+//
+
+// scss-lint:disable NameFormat
+
+// .quire-navbar
+// -----------------------------------------------------------------------------
+.quire-navbar {
+  @include foreground-color($navbar-background-color);
+  background-color: $navbar-background-color;
+  min-height: $navbar-height;
+  top: 0;
+  width: 100%;
+
+  * {
+    transition: background 0.15s ease;
+  }
+
+  a {
+    display: block;
+    height: $navbar-height;
+    padding: 0 0.5em;
+  }
+
+  svg { fill: findColorInvert($navbar-background-color); }
+
+  @media print {
+    display: none;
+  }
+}
+
+// .quire-navbar-controls
+// -----------------------------------------------------------------------------
+.quire-navbar-controls {
+  display: flex;
+  flex-wrap: no-wrap;
+  justify-content: space-between;
+  line-height: $navbar-height;
+
+  &__left {
+    align-self: flex-start;
+    flex: 0 1 $navbar-height;
+  }
+
+  &__center { flex: 1 1 auto; }
+
+  &__right {
+    flex: 0 1 $navbar-height;
+    text-align: right;
+  }
+}
+
+.quire-navbar-page-controls {
+  display: flex;
+  flex-wrap: no-wrap;
+  justify-content: center;
+
+  &__item { padding: 0 1rem; }
+}
+
+// .quire-navbar-button
+// -----------------------------------------------------------------------------
+.quire-navbar-button {
+  // scss-lint:disable PropertySortOrder
+  // scss-lint:disable SpaceAfterPropertyColon
+  -webkit-appearance: none;
+  -moz-appearance:    none;
+  appearance:         none;
+  // scss-lint:enable PropertySortOrder
+  // scss-lint:enable SpaceAfterPropertyColon
+
+  background-color: transparent;
+  border: 0;
+  height: $navbar-height;
+  line-height: $navbar-height;
+  padding-left: 1.25em;
+  padding-right: 1.25em;
+  transition: all 0.15s ease;
+
+  &:hover {
+    background-color: darken($navbar-background-color, 5%);
+    > * { background-color: darken($navbar-background-color, 5%); }
+  }
+
+  svg { position: relative; top: 2px; }
+
+  &.search-button,
+  &.menu-button {
+    svg {
+      height: 1.75em;
+      width: 1.75em;
+    }
+  }
+
+  &.arrow-button {
+    svg {
+      height: 1em;
+      width: 1em;
+    }
+  }
+}
+
+// .quire-navbar-skip-link
+// -----------------------------------------------------------------------------
+.quire-navbar-skip-link {
+  &:not(:focus) {
+    clip: rect(1px, 1px, 1px, 1px);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    width: 1px;
+    transition: 0;
+  }
+
+  &:focus {
+    background-color: darken($navbar-background-color, 5%);
+    clip: unset;
+    height: $navbar-height;
+    line-height: $navbar-height;
+    position: absolute;
+    width: 12em;
+    z-index: 1200;
+  }
+}
+

@@ -1,0 +1,127 @@
+// =============================================================================
+// Layout.scss
+// -----------------------------------------------------------------------------
+// This file defines the top-level page layout for the site, defined as rules
+// targeting the .quire class which has been applied to the <body>. Modifier
+// classes like .no-js are also supported. Has the following components:
+//
+// - .quire: base container class applied to body; gets .no-js modifier if no
+//     JS support is detected.
+// - .quire.no-js: modifier class
+//
+// - .quire__primary: The container for main content elements (including nav)
+// - .quire__secondary: the container for the site menu (which contains a
+//     standard Bulma .menu component). When JS is not supported this element
+//     sits at the bottom of the page via Flexbox. When JS is available, this
+//     element is positioned absolutely and shifted out of the viewport until
+//     it is toggled.
+// - .quire__secondary.is-expanded: modifier class
+//
+// - .visually-hidden: A utility class to hide accessibility-related content
+//     without obscuring it from screen readers, etc.
+
+// scss-lint:disable NameFormat
+
+// Default values
+// -----------------------------------------------------------------------------
+// Override these values in the main application.scss file in the variables
+// section.
+
+$quire-menu-background-color: #333 !default;
+$quire-menu-width: 350px !default;
+
+// .quire container
+// -----------------------------------------------------------------------------
+.quire {
+  width: 100%;
+
+  // Styles used whether JS is enabled or not
+  &__secondary {
+    @include foreground-color($quire-menu-background-color);
+    background-color: $quire-menu-background-color;
+    padding: 1em;
+  }
+
+  // Styles when JS is not supported; menu at bottom
+  &.no-js {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+
+    .quire__primary { flex: 1; }
+
+    .quire__secondary {
+      order: 1;
+      width: 100%;
+    }
+  }
+
+  // Styles with JS enabled (sliding menu, etc.)
+  &:not(.no-js) {
+    .quire__primary {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      left: 0;
+      position: absolute;
+      transition: all 0.15s ease-in-out;
+      width: 100%;
+
+      &__inner {
+        flex: 1 1 auto;
+        -webkit-overflow-scrolling: touch;
+        overflow-y: scroll;
+        position: relative;
+      }
+
+      .quire-navbar { flex: 0 0 auto; }
+    }
+
+    .quire__secondary {
+      border-right: solid 1px $black-ter;
+      height: 100%;
+      overflow-y: scroll;
+      position: fixed;
+      top: 0;
+      transform: translateX(-($quire-menu-width));
+      transition: all 0.15s ease-in-out;
+      width: $quire-menu-width;
+      z-index: 1100;
+
+      // Keyboard navigation fix; users should only be able to tab through the
+      // links inside the site menu when it is expanded. Setting display:none
+      // for the menu content when it is not visible (and then un-setting when
+      // that changes) produces the desired behavior.
+      // scss-lint:disable IdSelector
+      #site-menu__inner { display: none; }
+
+      &.is-expanded {
+        transform: translateX(0);
+
+        #site-menu__inner {
+          display: block;
+        }
+
+        + .quire__primary {
+          left: $quire-menu-width;
+          width: calc(100% - #{$quire-menu-width});
+        }
+      }
+    }
+  }
+}
+
+// Print overrides
+// scss-lint:disable ImportantRule
+@media print {
+  .quire {
+    &__primary {
+      display: block !important;
+      height: 100%;
+    }
+
+    &__secondary { display: none; }
+  }
+}
+
+

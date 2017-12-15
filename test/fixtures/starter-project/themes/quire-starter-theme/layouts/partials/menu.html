@@ -1,0 +1,38 @@
+{{/*
+This controlls the global table of contents for the publication, which is
+available on all pages. For users with Javascript enabled, this menu is hidden
+by default. Users with JS disabled will alwasy see the menu in its expanded state.
+*/}}
+
+{{ $contents := dict "contentsScope" .Site "contentsType" .Site.Params.menuType "contentsLocation" "menu" "contentsPage" . }}
+
+<aside class="menu quire-menu" id="site-menu__inner">
+
+  {{ partial "menu-header.html" . }}
+
+  <h3 class="visually-hidden">Table of Contents</h3>
+  <div class="menu-list" role="navigation" aria-label="site">
+    {{- partial "contents-list.html" $contents -}}
+  </div>
+
+  {{- with .Site.Data.publication.other_formats -}}
+  <div class="quire-menu__formats">
+  <h3 class="menu-label">Other Formats</h3>
+    <div role="complementary" aria-label="downloads">
+      {{- partial "link-list.html" . -}}
+    </div>
+  </div>
+  {{- end -}}
+
+  {{- with .Site.Data.publication.related_resources -}}
+  <h3 class="menu-label">Related Resources</h3>
+  <div role="complementary" aria-label="other resources">
+    {{- partial "link-list.html" . -}}
+  </div>
+  {{- end -}}
+
+  <footer role="contentinfo">
+    {{ partial "footer.html" . }}
+  </footer>
+
+</aside>

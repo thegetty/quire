@@ -1,0 +1,29 @@
+// =============================================================================
+// Print.scss
+// -----------------------------------------------------------------------------
+// Component print styles should be defined inside print media queries at the
+// component level. This stylesheet is for overrides and other special-case
+// rules which don't properly fit anywhere else and only show up in print.
+
+// Remove elements from print that will never be used:
+@media print {
+  html body {
+    // Leaflet stuff
+    .leaflet-pane,
+    .leaflet-map-pane,
+    .leaflet-container,
+    .lvml {
+      display: none !important;
+    }
+
+    .button,
+    .input,
+    .textarea,
+    .select {
+      display: none;
+    }
+  }
+
+  .section { padding: 0; }
+  .container { max-width: 100%; margin: 0; }
+}

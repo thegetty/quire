@@ -1,0 +1,6 @@
+{{ if eq (.Get 0) "other-formats" }}
+  {{ partial "link-list.html" .Site.Data.publication.other_formats }}
+{{ end }}
+{{ if eq (.Get 0) "related-resources" }}
+  {{ partial "link-list.html" .Site.Data.publication.related_resources }}
+{{ end }}

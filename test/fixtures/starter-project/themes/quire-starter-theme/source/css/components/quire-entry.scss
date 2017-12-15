@@ -1,0 +1,36 @@
+// =============================================================================
+// Quire-entry.scss
+// -----------------------------------------------------------------------------
+// Entry-layout specific styles (catalogue-style pages with prominent images at
+// the beginning). The main text content area of this page uses the .quire-page
+// class and sub-classes, but elements specific to this layout use .quire-entry
+// instead.
+
+// scss-lint:disable EmptyRule
+
+.quire-entry {
+  &__image {
+    background-color: $dark;
+
+    img {
+      display: block;
+      margin: 0 auto;
+      max-height: 85vh;
+      width: auto;
+    }
+  }
+
+  &__header {
+    padding-bottom: 1.5rem;
+    padding-top: 1.5rem;
+  }
+
+  &__tombstone {
+    padding-bottom: 0;
+    padding-top: 0;
+  }
+
+  .quire-page__content {
+    padding-top: 1.5rem;
+  }
+}

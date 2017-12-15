@@ -1,0 +1,49 @@
+{{/*
+
+  This shortcode generates a bibiliography from the entries in the project's
+  `bibiliography.yml` file.
+
+  This shortcode accepts an option "sort" value, which will sort the list by
+  whatever key from the entries is given. Often "short" or "full", though a
+  custom key could be added, such as "file_as", for fine-grained control.
+  Without a "sort" value given, the bibliograpy will be output in the order it
+  is in the bibliography file.
+
+  Also, in `config.yml` the `displayBiblioShort` property can be set to "true"
+  to display both the short and the full bibliography values in the outout.
+  Without this property set, the bibliography will not inlcude the short form.
+
+*/}}
+<section class="quire-page__content__references">
+{{ if .Get "sort" }}
+  {{ if eq .Site.Params.displayBiblioShort "true" }}
+  <dl>
+  {{ range sort .Site.Data.bibliography.entries ($.Get "sort") }}
+      <dt>{{ .short | markdownify }}</dt>
+      <dd id="{{ .short | urlize }}">{{ .full | markdownify }}</dd>
+  {{ end }}
+  </dl>
+  {{ else }}
+  <ul>
+  {{ range sort .Site.Data.bibliography.entries ($.Get "sort") }}
+      <li id="{{ .short | urlize }}">{{ .full | markdownify }}</li>
+  {{ end }}
+  </ul>
+  {{ end }}
+{{ else }}
+  {{ if eq .Site.Params.displayBiblioShort "true" }}
+  <dl>
+  {{ range .Site.Data.bibliography.entries }}
+      <dt>{{ .short | markdownify }}</dt>
+      <dd id="{{ .short | urlize }}">{{ .full | markdownify }}</dd>
+  {{ end }}
+  </dl>
+  {{ else }}
+  <ul>
+  {{ range .Site.Data.bibliography.entries }}
+      <li id="{{ .short | urlize }}">{{ .full | markdownify }}</li>
+  {{ end }}
+  </ul>
+  {{ end }}
+{{ end }}
+</section>

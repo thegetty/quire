@@ -1,0 +1,130 @@
+{{/*
+This controls the various navigation elements (nav, skip-link, menu and
+search icons, and search results if enabled). It is visible on all pages.
+*/}}
+
+<div class="quire-navbar"
+     aria-label="main navigation"
+     role="banner">
+
+  <a href="#main" class="quire-navbar-skip-link" tabindex="1">
+    Skip to Main Content
+  </a>
+
+  <nav class="quire-navbar-controls">
+    <div class="quire-navbar-controls__left">
+      <button class="quire-navbar-button search-button"
+              id="quire-controls-menu-button"
+              onclick="toggleMenu()"
+              aria-expanded="true"
+              aria-controls="quire-menu"
+              tabindex="2" >
+        <svg>
+          <switch>
+            <use xlink:href="#nav-icon"></use>
+          </switch>
+        </svg>
+        <span class="visually-hidden">Table of Contents</span>
+      </button>
+    </div>
+
+    <div class="quire-navbar-controls__center">
+      <ul class="quire-navbar-page-controls" role="navigation" aria-label="quick">
+        {{ template "if-previous" . }}
+
+        {{ if eq .Type "cover" }}
+        <li class="quire-navbar-page-controls__item">
+          <a href="{{ .Site.BaseURL }}" rel="start">
+            <span class="visually-hidden">Home Page: </span>
+            {{ if .Site.Data.publication.short_title }}
+            {{ .Site.Data.publication.short_title | markdownify }}
+            {{ else }}
+            {{ .Site.Data.publication.title | markdownify }}
+            {{ end }}
+          </a>
+        </li>
+        {{ else }}
+        <li class="quire-navbar-page-controls__item">
+          <a href="{{ .Site.BaseURL }}" rel="start">
+            <span class="visually-hidden">Home Page: </span>
+            {{ if .Site.Data.publication.short_title }}
+            {{ .Site.Data.publication.short_title | markdownify }}
+            {{ else }}
+            {{ .Site.Data.publication.title | markdownify }}
+            {{ end }}
+          </a>
+        </li>
+        {{ if .Section }}
+        {{ if ne .Type "section-head"}}
+        <li class="quire-navbar-page-controls__item">
+          <a href="{{ .Permalink }}">
+            <span class="visually-hidden">Section: </span>
+            {{ .Section | humanize | title }}
+          </a>
+        </li>
+        {{ end }}
+        {{ end }}
+        <li class="quire-navbar-page-controls__item">
+          <span class="visually-hidden">Current Page: </span>
+          <em>{{ .Title | markdownify | truncate 40 }}</em>
+        </li>
+        {{ end }}
+
+        {{ template "if-next" . }}
+
+      </ul>
+    </div>
+
+    <div class="quire-navbar-controls__right">
+      <button class="quire-navbar-button menu-button" onclick="toggleMenu()">
+        <svg>
+          <switch>
+            <use xlink:href="#search-icon"></use>
+          </switch>
+        </svg>
+        <span class="visually-hidden">Search</span>
+      </button>
+    </div>
+  </nav>
+
+
+
+</div>
+
+{{- define "if-previous" -}}
+{{- if .Prev -}}
+{{- if and (ne .Prev.Params.online false) (ne .Prev.Type "data") -}}
+<li class="quire-navbar-button arrow-button">
+  <a href="{{ .Prev.Permalink }}" rel="prev" id="js-prev" >
+    <svg>
+      <switch>
+        <use xlink:href="#left-arrow-icon"></use>
+      </switch>
+    </svg>
+    <span class="visually-hidden">Previous Page (left keyboard arrow or swipe)</span>
+  </a>
+</li>
+{{- else -}}
+  {{ template "if-previous" .Prev }}
+{{- end -}}
+{{- end -}}
+{{- end -}}
+
+{{- define "if-next" -}}
+{{- if .Next -}}
+{{- if and (ne .Next.Params.online false) (ne .Next.Type "data") -}}
+<li class="quire-navbar-button arrow-button">
+  <a href="{{ .Next.Permalink }}" rel="next" id="js-next">
+    <svg>
+      <switch>
+        <use xlink:href="#right-arrow-icon"></use>
+      </switch>
+    </svg>
+    <span class="visually-hidden">Next Page (right keyboard arrow or swipe)</span>
+  </a>
+</li>
+{{- else -}}
+  {{ template "if-next" .Next }}
+{{- end -}}
+{{- end -}}
+{{- end -}}

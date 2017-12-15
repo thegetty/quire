@@ -35,8 +35,8 @@
  */
 const program = require('commander')
 
-const QuireCLI = require('./lib/quire')
-const cli = new QuireCLI()
+const CLI = require('./lib/cli')
+const cli = new CLI()
 
 // Shut down child processes on program exit
 process.on('SIGINT', function() { cli.emit('shutdown') })
@@ -92,6 +92,15 @@ program
   .description('Generate an EPUB version of the current project')
   .action(function() {
     cli.emit('epub')
+  })
+
+// quire debug
+//
+program
+  .command('debug')
+  .description('Development use only - log info about current project')
+  .action(function() {
+    cli.emit('debug')
   })
 
 // Run the program

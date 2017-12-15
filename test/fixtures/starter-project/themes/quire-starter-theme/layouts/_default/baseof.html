@@ -1,0 +1,36 @@
+{{/*
+  Baseof template. All other files inherit from this layout, so edit it with care.
+  The "main" bock has been added below to make it easy to slot in content from
+  different layouts into this template, just wrap your file in {{ define "main" }}
+  / {{ end }} tags.
+*/}}
+
+<!DOCTYPE html>
+<html lang="{{ .Site.Data.publication.language }}">
+  {{ partial "head.html" . }}
+  <body class="quire no-js">
+    {{ partial "icons.html" . }}
+
+    <div class="quire__secondary is-expanded"
+         id="site-menu"
+         aria-expanded="true"
+         role="contentinfo">
+      {{ partial "menu.html" . }}
+    </div>
+
+    <div class="quire__primary">
+      {{ partial "navbar.html" . }}
+      <div class="quire__primary__inner">
+        {{ block "main" . }}
+        {{ end }}
+      </div>
+    </div>
+
+    <script src="{{ .Site.BaseURL }}/js/application.js"></script>
+    <script type="text/javascript">
+     // setup accessible expanders
+     // add visually-hidden class to footnote links for accessibility
+    </script>
+    <!-- Add analytics partial here -->
+  </body>
+</html>

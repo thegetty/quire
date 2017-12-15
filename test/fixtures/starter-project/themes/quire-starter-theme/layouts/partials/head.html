@@ -1,0 +1,22 @@
+{{/*
+  This is the document <head> (without an opening <body> tag; that lives in the
+  baseof layout). This document currently links to the CDN verison of JQuery,
+  but other dependencies can be added as <link> tags as well.
+
+  TODO: include a placeholder for custom fonts...
+*/}}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  {{ if eq .Params.online false -}}
+  <meta name="robots" content="noindex">
+  {{- end }}
+  <title>{{ .Title }} | {{ .Site.Data.publication.title }}</title>
+  {{ partial "metadata.html" . }}
+  <link rel="stylesheet" href="{{ .Site.BaseURL }}/css/application.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous">
+  </script>
+</head>

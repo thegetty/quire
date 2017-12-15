@@ -1,0 +1,59 @@
+{{/*
+  Section list template. A re-usable template to generate a list of pages
+  in a given section. This partial expects to have certain values passed in
+  from its parent:
+
+  "pages"   - the list of all pages in the site
+  "section" - the section to loop through
+  "type"    - the type of page to retreive; "essay" or "abstract", for example.
+
+  The best way to use this partial is to construct a dictionary containing
+  these values on the fly when calling it. Example:
+
+  partial "section-list.html" (dict "pages" $pages "section" $currentSection "type" "essay")
+*/}}
+
+{{ $currentType := .type }}
+
+<ul class="quire-section-list">
+  {{ range (where (where .pages "Section" .section) "Type" .type) }}
+  <li class="quire-section-list__item">
+    <h2 class="quire-section-list__item__title">
+      <a href="{{ .Permalink }}">
+        {{ with .Params.id }}{{ . }}. {{ end }}
+        {{ .Title | markdownify }}{{ with .Params.subtitle }}: {{ . | markdownify }}{{ end }}
+      </a>
+    </h2>
+
+    {{ if .Params.contributor }}
+      <p class="quire-section-list__item__contributor">{{ partial "contributor-list.html" (dict "range" .Params.contributor "type" "string") }}</p>
+    {{ end }}
+
+    {{ with .Params.abstract }}
+    <h3 class="quire-section-list__link">
+      <button class="heading-expander no-js">
+        Abstract
+      </button>
+    </h3>
+    <div class="quire-section-list__abstract">
+      {{ . | markdownify }}
+    </div>
+    {{ end }}
+
+    {{ if ne $currentType "abstract" }}
+    <h3 class="quire-section-list__link">
+      <a href="{{ .Permalink }}">
+        <span class="visually-hidden"> Link to </span>Paper
+        <svg width="1em" height="1em">
+          <switch>
+            <use xlink:href="#link-icon"></use>
+          </switch>
+        </svg>
+      </a>
+    </h3>
+    {{ end }}
+
+  </li>
+  {{ end }}
+
+</ul>

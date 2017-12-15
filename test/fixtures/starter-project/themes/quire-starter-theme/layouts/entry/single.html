@@ -1,0 +1,65 @@
+{{/*
+Entry layout. This template is intended for use in catalogue-style pages where
+a single image or object needs to be featured prominently.
+*/}}
+
+{{ define "main" }}
+
+{{/* Entry content, including entry image and tombstone data */}}
+<article class="quire-page quire-entry" id="main" role="main">
+
+  {{/* Full-width entry image header */}}
+  {{ with .Params.image }}
+  <div class="quire-entry__image">
+    <img src="/img/entries/{{ . }}" alt="" />
+  </div>
+  {{ end }}
+
+  {{/* Entry header */}}
+  <header class="section quire-entry__header">
+    <div class="container">
+      {{/* Title */}}
+      <h1 class="title is-size-1">
+        {{ with .Params.id }}<span>{{ . }}.</span>{{ end }}
+        {{ .Title | markdownify }}
+      </h1>
+
+      {{/* Subtitle if any */}}
+      {{ with .Params.subtitle }}
+      <h2 class="subtitle is-size-3">{{ . }}</h2>
+      {{ end }}
+    </div>
+  </header>
+
+  {{/* Entry tombstone data */}}
+  {{ if .Page.Params.object }}
+  <section class="section quire-entry__tombstone">
+    <div class="container">
+      <table class="table is-fullwidth">
+        <tbody>
+          {{ range $key, $value :=  $.Page.Params.object }}
+          <tr><td>{{ $key | title }}</td><td>{{ $value }}</td></tr>
+          {{ end }}
+        </tbody>
+      </table>
+    </div>
+  </section>
+  {{ end }}
+
+  {{ if .Params.abstract }}
+  {{ partial "page-abstract.html" . }}
+  {{ end }}
+
+  {{/* Entry content */}}
+  <section class="section quire-page__content" id="content">
+    <div class="container">
+      <div class="content">
+        {{ .Content }}
+        {{ partial "additional_references.html" . }}
+        {{ partial "bibliography.html" . }}
+      </div>
+    </div>
+  </section>
+
+</article>
+{{ end }}
