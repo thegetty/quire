@@ -129,12 +129,14 @@
         {{ if $.Get "caption" }}{{ $.Get "caption" | markdownify }}
         {{ else if .caption }}{{ .caption | markdownify }}{{ end }}
 
-        {{- if eq .media_type "youtube" }}
-          <span class="quire-figure__video-fallback__text">Watch the video at <a href="https://youtu.be/{{ .media_id }}">https://youtu.be/{{ .media_id }}</a>.</span>
-        {{- end -}}
-        {{- if eq .media_type "vimeo" }}
-          <span class="quire-figure__video-fallback__text">Watch the video at <a href="https://vimeo.com/{{ .media_id }}">https://vimeo.com/{{ .media_id }}</a>.</span>
-        {{- end -}}
+        {{ if eq $.Site.Params.videoFigureFallbackText true }}
+          {{- if eq .media_type "youtube" }}
+            <span class="quire-figure__video-fallback__text">{{ $.Site.Params.videoFigureFallbackTextBefore }}<a href="https://youtu.be/{{ .media_id }}">https://youtu.be/{{ .media_id }}</a>{{ $.Site.Params.videoFigureFallbackTextAfter }}</span>
+          {{- end -}}
+          {{- if eq .media_type "vimeo" }}
+            <span class="quire-figure__video-fallback__text">{{ $.Site.Params.videoFigureFallbackTextBefore }}<a href="https://vimeo.com/{{ .media_id }}">https://vimeo.com/{{ .media_id }}</a>{{ $.Site.Params.videoFigureFallbackTextAfter }}</span>
+          {{- end -}}
+        {{ end }}
 
         {{ if $.Get "credit" }}
           <span class="quire-figure__credit">{{ $.Get "credit" | markdownify }}</span>
