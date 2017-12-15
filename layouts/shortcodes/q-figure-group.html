@@ -9,7 +9,7 @@
   {{ $idstring := replace (.Get "id") " " "" }}
   {{ $idlist := split $idstring "," }}
 
-  <figure class="quire-figure quire-figure--group {{ with .Get "class" }}{{ . }}{{ end }}">
+  <figure class="quire-figure quire-figure--group {{ with .Get "class" }}{{ . }}{{ end }}{{ with .Get "grid" }} quire-grid--{{ . }}{{ end }}">
     {{ range $idlist }}
     {{ $x := . | string }}
 
