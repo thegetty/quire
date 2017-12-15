@@ -26,8 +26,12 @@ disableKinds:
 params:
   searchEnabled: true
   citationPageLocationDivider: ", "
-  imageLabelContentBefore: "Figure "
-  imageLabelContentAfter: ". "
+  figureLabels: false
+  figureLabelsTextBefore: "Figure "
+  figureLabelsTextAfter: ". "
+  videoFigureFallbackText: true
+  videoFigureFallbackTextBefore: "Watch the video at "
+  videoFigureFallbackTextAfter: "."
   displayBiblioShort: "true"
   imageDir: "/img/"
   figureSubDir: "figures/"
