@@ -5,6 +5,11 @@
 
   TODO: include a placeholder for custom fonts...
 */}}
+
+{{ $css := "css/application.css" | relURL }}
+{{ $custom-css := "css/custom.css" | relURL }}
+{{ $jquery := "js/jquery.3.2.1.min.js" | relURL }}
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,10 +19,8 @@
   {{- end }}
   <title>{{ .Title }} | {{ .Site.Data.publication.title }}</title>
   {{ partial "metadata.html" . }}
-  <link rel="stylesheet" href="{{ .Site.BaseURL }}/css/application.css">
-  <link rel="stylesheet" href="{{ .Site.BaseURL }}/css/custom.css">
-  <script src="https://code.jquery.com/jquery-3.2.1.min.js"
-    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-    crossorigin="anonymous">
+  <link rel="stylesheet" href="{{ $css }}">
+  <link rel="stylesheet" href="{{ $custom-css }}">
+  <script src="{{ $jquery }}">
   </script>
 </head>
