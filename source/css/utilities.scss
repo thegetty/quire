@@ -36,12 +36,4 @@
 .is-screen-only { @media print { display: none; } }
 
 
-.quire-error {
-  .quire-page__content .content & {
-    font-family: sans-serif;
-    text-align: left;
-    p {
-      margin-bottom: 1em;
-    }
-  }
-}
+
