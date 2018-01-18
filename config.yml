@@ -22,6 +22,10 @@ disableKinds:
   - "taxonomy"
   - "taxonomyTerm"
 
+blackfriday:
+  fractions: false
+  hrefTargetBlank: true  
+
 # These values can be accessed in templates via .Site.Params
 params:
   searchEnabled: true
