@@ -8,7 +8,6 @@
 # update the value here too.
 
 baseurl: ""
-relativeURLs: true
 
 title: "Quire Starter"
 languageCode: "en-us"
@@ -30,7 +29,7 @@ params:
   imageLabelContentBefore: "Figure "
   imageLabelContentAfter: ". "
   displayBiblioShort: "true"
-  imageDir: "img/"
+  imageDir: "/img/"
   figureSubDir: "figures/"
   tocType: full
   menuType: short
