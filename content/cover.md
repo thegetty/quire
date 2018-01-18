@@ -3,7 +3,7 @@ title: Quire Starter
 weight: 1
 menu: false
 type: cover
-url: index.html
+slug: .
 ---
 
 Lorem ipsum dolor sic amet.
