@@ -57,7 +57,7 @@ search icons, and search results if enabled). It is visible on all pages.
         {{ if .Section }}
         {{ if ne .Type "section-head"}}
         <li class="quire-navbar-page-controls__item">
-          <a href="{{ .Permalink }}">
+          <a href="{{ .Site.BaseURL }}{{ .Section }}">
             <span class="visually-hidden">Section: </span>
             {{ .Section | humanize | title }}
           </a>
