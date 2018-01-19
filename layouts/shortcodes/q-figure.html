@@ -1,117 +1,224 @@
-{{ if .Get "id" }}
-  {{ if .Get "src" }}
-  {{/*
-    ----------------------------------------------------------------------------
-    If the shortcode has both an id and a src, ignore any figures.yml
-    document and render only the values given in the shortcode
-    ----------------------------------------------------------------------------
-  */}}
+{{/*
+Shortcode will generate error messages if either a `src` or `id` value is not
+supplied; if an `id` value is supplied alone but it doesn't match a
+corresponding value in the `figures.yml` document; and if a `media_id` is
+supplied but doesn't have a corresponding `media_type` of either youtube or
+vimeo (the two supported media formats at this time).
+*/}}
 
-  <figure class='quire-figure {{ with .Get "class" }}{{ . }}{{ end }}'
-          id='{{ with .Get "id" }}{{ . }}{{ end }}' >
+{{ if .Get "src" }}
+{{/* -------------------- BEGIN SRC BLOCK -------------------- */}}
+{{/*
+----------------------------------------------------------------------------
+If the shortcode has a src, ignore any figures.yml
+document and render only the values given in the shortcode
+----------------------------------------------------------------------------
+*/}}
 
-    <img src='/img/figures/{{ .Get "src" }}'
-         class="quire-figure__image"
-         alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
+<figure class='quire-figure {{ with .Get "class" }}{{ . }}{{ end }}'
+        id='{{ with .Get "id" }}{{ . | urlize }}{{ end }}'>
+  <img class="quire-figure__image"
+       src='{{ $.Site.Params.imageDir }}{{ $.Site.Params.figureSubDir }}{{ .Get "src" }}'
+       alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
 
-    {{ with .Get "label" }}
-    <span class="quire-figure__label">{{ . }}</span>
-    {{ end }}
+  {{ if or (.Get "caption") (.Get "credit") }}
+  <figcaption class="quire-figure__caption">
+    {{ with $.Get "caption" }}{{ . | markdownify }}{{ end }}
+    {{ with $.Get "credit" }}<span class="quire-figure__credit">{{ . | markdownify }}</span>{{ end }}
+  </figcaption>
+  {{ end }}
+</figure>
+{{/* -------------------- END SRC BLOCK -------------------- */}}
 
-    {{ with .Get "caption" }}
-    <figcaption class="quire-figure__caption">{{ . | markdownify }}</figcaption>
-    {{ end }}
-  </figure>
+{{ else if .Get "id" }}
+{{/* -------------------- BEGIN ID BLOCK -------------------- */}}
+{{/*
+----------------------------------------------------------------------------
+If the shortcode has an id, but no src, look for figures.yml document and
+render the figure from matching values found ther
+----------------------------------------------------------------------------
+*/}}
+
+{{ $x := .Get "id" | string }}
+{{ $fig := len (where .Site.Data.figures.figure_list "id" "eq" $x) }}
+
+{{ if eq $fig 0 }}
+<div class="quire-error message is-danger">
+  <div class="message-header">
+    <strong>SHORTCODE ERROR: q-figure</strong>
+  </div>
+  <div class="message-body">
+    <p>
+      The supplied value for <code>id</code> does not match an <code>id</code>
+      value in your <code>data/figures.yml</code> file.
+    </p>
+    <pre>&#123;&#123;< q-figure id="3.1" >&#125;&#125;</pre>
+    <p>
+      Or, if you are not using a <code>data/figures.yml</code> file, a value
+      for <code>src</code> should also be included in the shortcode, and should
+      match the filename of an image file in your
+      <code>static{{$.Site.Params.imageDir }}{{ $.Site.Params.figureSubDir }}</code>
+      directory.
+    </p>
+    <pre>&#123;&#123;< q-figure id="3.1" src="fig-3-1-duchamp.jpg" >&#125;&#125;</pre>
+  </div>
+</div>
+{{ else }}
+
+{{/* -------------------- BEGIN FIGURE RANGE -------------------- */}}
+{{ range where .Site.Data.figures.figure_list "id" "eq" $x }}
+<figure class='quire-figure {{ with $.Get "class" }}{{ . }}{{ end }}'
+        id='{{ .id }}'>
+
+  {{ if .media_id }}
+  {{/* -------------------- BEGIN VIDEO ERROR BLOCK -------------------- */}}
+  {{ if and (ne .media_type "youtube") (ne .media_type "vimeo") }}
+
+  <div class="quire-error message is-danger">
+    <div class="message-header">
+      <strong>SHORTCODE ERROR: q-figure</strong>
+    </div>
+    <div class="message-body">
+      <p>
+        For video figures, the <code>media_type</code> attribute must be
+        included in your <code>data/figures.yml</code> file for this figure
+        <code>id</code>, and must be either "youtube" or "vimeo".
+      </p>
+      <pre>
+- id: "3.1"
+  media_id: VYqDpNmnu8I
+  media_type: youtube
+      </pre>
+    </div>
+  </div>
+  {{/* -------------------- END VIDEO ERROR BLOCK -------------------- */}}
 
   {{ else }}
-  {{/*
-    ------------------------------------------------------------------------------
-    If the shortcode has an id, but no src, look for figures.yml document and
-    render the figure from matching values found ther
-    ------------------------------------------------------------------------------
-  */}}
+  {{/* -------------------- BEGIN VIDEO BLOCK -------------------- */}}
+  <div class='quire-figure__video-wrapper{{ if .aspect_ratio }}--{{ .aspect_ratio }}{{ else }}--widescreen{{ end }}'>
 
-  {{ $x := .Get "id" | string }}
-  {{ range where .Site.Data.figures.figure_list "id" "eq" $x }}
-    <figure
-      class='quire-figure {{ with $.Get "class" }}{{ . }}{{ end }}'
-      id='{{ .id }}' >
-
-      {{ if eq .media_type "inline-svg" }}
-        {{ .src | safeHTML }}
-      {{ else }}
-      <img src="/img/figures/{{ .src }}"
-           class="quire-figure__image"
-           alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else }}{{ .alt }}{{ end }}' />
-      {{ end }}
-
-      {{ if $.Get "label" }}
-        {{ if eq ($.Get "label") "true" }}
-          {{ if .label }}
-            <span class="quire-figure__label">
-              {{ .label | markdownify }}
-            </span>
-          {{ else }}
-            <span class="quire-figure__label">
-              {{ $.Site.Params.imageLabelContentBefore }}{{ .id }}
-            </span>
-          {{ end }}
-        {{ else }}
-          <span class="quire-figure__label">
-            {{ $.Get "label" | markdownify }}
-          </span>
-        {{ end }}
-      {{ end }}
-
-      {{ if $.Get "caption" }}
-        <figcaption class="quire-figure__caption">
-          {{ $.Get "caption" }}
-        </figcaption>
-      {{ else }}
-        {{ if .caption }}
-          <figcaption class="quire-figure__caption">
-            <span class="quire-figure__label">
-              {{ $.Site.Params.imageLabelContentBefore -}}
-              {{ .id }}
-              {{- $.Site.Params.imageLabelContentAfter }}
-            </span>
-            {{ .caption | markdownify }}
-          </figcaption>
-        {{ end }}
-      {{ end }}
-    </figure>
+    {{ if eq .media_type "youtube" }}
+    <iframe class='quire-figure__video'
+            src='https://www.youtube-nocookie.com/embed/{{ .media_id }}?rel=0&amp;showinfo=0'
+            frameborder='0'
+            allowfullscreen></iframe>
+    {{ else if eq .media_type "vimeo" }}
+    <iframe class='q-figure__video'
+            src='https://player.vimeo.com/video/{{ .media_id }}'
+            frameborder='0'
+            webkitallowfullscreen
+            mozallowfullscreen
+            allowfullscreen></iframe>
     {{ end }}
+
+    <div class="quire-figure__video-fallback">
+      {{ if .src }}
+      <img src='{{ $.Site.Params.imageDir }}{{ $.Site.Params.figureSubDir }}{{ .src }}'
+           alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}' />
+      {{ else }}
+      <svg xmlns="http://www.w3.org/2000/svg"
+           viewBox="0 0 64 36"
+           fill="darkgray">
+        <path d="M41.9,13.8C42,15.2,42,16.6,42,18s0,2.8-0.1,4.2c0,0.9-0.3,1.6-0.8,2.2s-1.2,0.9-2.1,0.9c-2,0.1-4.3,0.2-7,0.2 s-5-0.1-7-0.2c-0.8,0-1.5-0.3-2.1-0.9s-0.8-1.4-0.8-2.2C22,20.8,22,19.4,22,18c0-0.9,0.1-2.3,0.2-4.2c0-0.9,0.3-1.6,0.8-2.2 s1.2-0.9,2-0.9c1.9-0.1,4.1-0.2,6.6-0.2H32h0.4c2.5,0,4.7,0.1,6.6,0.2c0.8,0,1.5,0.3,2.1,0.9S41.9,12.9,41.9,13.8z M30.1,21.8 l5.7-3.8l-5.7-3.9V21.8z"/>
+        <path d="M0,0v36h64V0H0z M63,35H1V1h62V35z"/>
+      </svg>
+      {{ end }}
+    </div>
+  </div>
+  {{/* -------------------- END VIDEO BLOCK -------------------- */}}
   {{ end }}
 
   {{ else }}
-  {{/*
-    ------------------------------------------------------------------------------
-    If the shortcode has a src, but no id, render the figure from the values
-    given in the shortcode.
-    ------------------------------------------------------------------------------
-  */}}
-    {{ if .Get "src" }}
-    <figure class='quire-figure {{ with .Get "class" }}{{ . }}{{ end }}'>
-      {{ if eq .media_type "inline-svg" }}
-      {{ .src | safeHTML }}
-      {{ else }}
-      <img src='/img/figures/{{ .src }}'
-           class="quire-figure__image"
-           alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else }}{{ .alt }}{{ end }}' />
-      {{ end }}
-      {{ with .Get "label" }}
-      <span class="quire-figure__label">{{ . }}</span>
-      {{ end }}
-      {{ with .Get "caption" }}
-      <figcaption class="quire-figure__caption">{{ . | markdownify }}</figcaption>
-      {{ end }}
-    </figure>
+  {{/* -------------------- BEGIN IMAGE BLOCK -------------------- */}}
+  <img class="quire-figure__image"
+       src='{{ $.Site.Params.imageDir }}{{ $.Site.Params.figureSubDir }}{{ .src }}'
+       alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}' />
+  {{ end }}
+  {{/* -------------------- END IMAGE BLOCK -------------------- */}}
 
-    {{ else }}
-    {{/*
-      --------------------------------------------------------------------------
-      If the shortcode has no src, and no id, render nothing.
-      --------------------------------------------------------------------------
-    */}}
+  {{/* -------------------- BEGIN CAPTION BLOCK -------------------- */}}
+  <figcaption class="quire-figure__caption">
+    {{ if or (eq $.Site.Params.figureLabels true) (eq ($.Get "label") "true" ) }}
+    <span class="quire-figure__label">
+      {{ if $.Get "label_text" }}
+      {{ $.Get "label_text" | markdownify }}
+      {{ else if .label_text }}
+      {{ .label_text | markdownify }}
+      {{ else }}
+      {{ $.Site.Params.figureLabelsTextBefore }}{{ .id }}{{ $.Site.Params.figureLabelsTextAfter }}
+      {{ end }}
+    </span>
     {{ end }}
+
+    {{ if $.Get "caption" }}
+    {{ $.Get "caption" | markdownify }}
+    {{ else if .caption }}
+    {{ .caption | markdownify }}
+    {{ end }}
+
+    {{ if eq $.Site.Params.videoFigureFallbackText true }}
+    {{- if eq .media_type "youtube" }}
+    <span class="quire-figure__video-fallback__text">
+      {{ $.Site.Params.videoFigureFallbackTextBefore }}
+      <a href='https://youtu.be/{{ .media_id }}'>https://youtu.be/{{ .media_id }}</a>
+      {{ $.Site.Params.videoFigureFallbackTextAfter }}
+    </span>
+    {{- end -}}
+
+    {{- if eq .media_type "vimeo" }}
+    <span class="quire-figure__video-fallback__text">
+      {{ $.Site.Params.videoFigureFallbackTextBefore }}
+      <a href='https://vimeo.com/{{ .media_id }}'>https://vimeo.com/{{ .media_id }}</a>
+      {{ $.Site.Params.videoFigureFallbackTextAfter }}
+    </span>
+    {{- end -}}
+    {{ end }}
+
+    {{ if $.Get "credit" }}
+    <span class="quire-figure__credit">
+      {{ $.Get "credit" | markdownify }}
+    </span>
+    {{ else if .credit }}
+    <span class="quire-figure__credit">
+      {{ .credit | markdownify }}
+    </span>
+    {{ end }}
+  </figcaption>
+  {{/* -------------------- END CAPTION BLOCK -------------------- */}}
+
+</figure>
+{{ end }}
+
+{{ end }}
+{{/* -------------------- END ID BLOCK -------------------- */}}
+
+{{ else }}
+{{/* -------------------- BEGIN ERROR BLOCK -------------------- */}}
+{{/*
+----------------------------------------------------------------------------
+If the shortcode has no src, and no id, post an error message.
+----------------------------------------------------------------------------
+*/}}
+
+<div class="quire-error message is-danger">
+  <div class="message-header">
+    <strong>SHORTCODE ERROR: q-figure</strong>
+  </div>
+  <div class="message-body">
+    <p>
+      This shortcode must include a value for <code>src</code> that matches the
+      filename of an image in your
+      <code>static{{ $.Site.Params.imageDir }}{{$.Site.Params.figureSubDir }}</code>
+      directory; or a value for <code>id</code> that matches an
+      <code>id</code> value in your <code>data/figures.yml</code> file.
+    </p>
+    <pre>
+&#123;&#123;< q-figure id="3.1" >&#125;&#125;
+
+&#123;&#123;< q-figure src="fig-3-1-duchamp.jpg" >&#125;&#125;
+    </pre>
+  </div>
+</div>
+
+{{/* -------------------- END ERROR BLOCK -------------------- */}}
 {{ end }}

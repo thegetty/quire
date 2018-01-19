@@ -7,6 +7,7 @@
 */}}
 
 {{ $css := "css/application.css" | relURL }}
+{{ $customCSS := "css/custom.css" | relURL }}
 {{ $jquery := "js/jquery.3.2.1.min.js" | relURL }}
 
 <head>
@@ -19,6 +20,7 @@
   <title>{{ .Title }} | {{ .Site.Data.publication.title }}</title>
   {{ partial "metadata.html" . }}
   <link rel="stylesheet" href="{{ $css }}">
+  <link rel="stylesheet" href="{{ $customCSS }}">
   <script src="{{ $jquery }}">
   </script>
 </head>

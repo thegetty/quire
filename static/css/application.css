@@ -7079,6 +7079,10 @@ label.panel-block {
   @media print {
     .quire-figure__caption, .quire-figure--group__caption {
       font-size: 8pt; } }
+  @media screen and (min-width: 769px) {
+    .quire-figure__caption, .quire-figure--group__caption {
+      flex: 0 0 100%;
+      margin-top: 1rem; } }
 
 @media screen and (min-width: 769px) {
   .quire-figure.is-pulled-left, .quire-figure.is-pulled-right {
