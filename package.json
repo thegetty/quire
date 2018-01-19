@@ -20,6 +20,7 @@
     "commander": "^2.9.0",
     "execa": "^0.7.0",
     "glob": "^7.1.1",
+    "hugo-bin": "0.18.1",
     "js-yaml": "^3.8.2",
     "lodash": "^4.17.4",
     "pe-epub": "peoples-e/pe-epub",
