@@ -20,6 +20,8 @@ import '../css/application.scss'
 // JS Libraries (add them to package.json with `npm install [library]`)
 //
 import $ from 'jquery'
+import 'smoothstate'
+import 'velocity-animate'
 
 // Functions defined on the window object for use in the UI for now.
 //
@@ -41,14 +43,39 @@ window.handleMenuFocus = () => {
   $menu.focusout(toggleMenu)
 }
 
+window.initialSetup = () => {
+  let menu = document.getElementById('site-menu')
+  let menuAriaStatus = menu.getAttribute('aria-expanded')
+  menu.classList.remove('is-expanded')
+  if (menuAriaStatus === "true") { menu.setAttribute('aria-expanded', "false") }
+}
+
 // Start
 //------------------------------------------------------------------------------
 
 // Run these immediately
-document.body.classList.remove('no-js')
-toggleMenu()
+let container = document.getElementById('container')
+container.classList.remove('no-js')
+initialSetup()
 
 // Run these on $(document).ready()
 $(document).ready(() => {
-  // handleMenuFocus()
+  $("#container").smoothState({
+    onStart: {
+      duration: 200,
+      render ($container) {
+        $container.velocity('fadeOut', { duration: 200 })
+      }
+    },
+    onReady: {
+      duration: 200,
+      render ($container, $newContent) {
+        $container.html($newContent)
+        $container.velocity('fadeIn', { duration: 200 })
+        window.initialSetup()
+      }
+    },
+    onAfter ($container, $newContent) {
+    }
+  })
 });

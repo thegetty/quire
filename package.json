@@ -25,12 +25,14 @@
   },
   "dependencies": {
     "bulma": "^0.6.0",
-    "jquery": "^3.1.1",
+    "jquery": "^2.0.0",
     "leaflet": "^1.0.3",
     "leaflet-fullscreen": "^1.0.2",
     "leaflet-iiif": "^1.0.1",
     "lodash": "^4.17.4",
     "lodash.debounce": "^4.0.8",
-    "lunr": "^0.7.2"
+    "lunr": "^0.7.2",
+    "smoothstate": "^0.7.2",
+    "velocity-animate": "^1.5.1"
   }
 }
