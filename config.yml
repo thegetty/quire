@@ -29,7 +29,6 @@ params:
   imageLabelContentBefore: "Figure "
   imageLabelContentAfter: ". "
   displayBiblioShort: "true"
-  imageDir: "/img/"
-  figureSubDir: "figures/"
+  imageDir: "img"
   tocType: full
   menuType: short
