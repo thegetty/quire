@@ -1,16 +1,23 @@
+{{ if isset $.Site.Params "imagedir" }}
+{{ $.Scratch.Set "imageDir" $.Site.Params.imageDir }}
+{{ else }}
+{{ $.Scratch.Set "imagedir" "" }}
+{{ end }}
+
 <div class="quire-copyright">
 
 {{/* If copyright info is defined, show information about it here */}}
 {{- if .Site.Data.publication.copyright -}}
   <p>{{ .Site.Data.publication.copyright }}.</p>
-{{- end -}}
+  {{- end -}}
 
-{{/* If a license is defined, show information about it here */}}
-{{- if .Site.Data.publication.license.name -}}
+  {{/* If a license is defined, show information about it here */}}
+  {{- if .Site.Data.publication.license.name -}}
 
   {{/* License icons (ex. CC icons) if any */}}
   {{- if .Site.Data.publication.license.icon -}}
-  <img src="{{ .Site.Params.imageDir }}{{ .Site.Data.publication.license.icon }}"
+  {{- $imgPath := printf "%s/%s" ($.Scratch.Get "imageDir") .Site.Data.publication.license.icon -}}
+  <img src="{{ $imgPath | relURL }}"
       class="quire-copyright__icon"
       alt="logo for {{ .Site.Data.publication.license.name }}" />
   {{- end -}}

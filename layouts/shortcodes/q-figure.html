@@ -6,6 +6,12 @@ supplied but doesn't have a corresponding `media_type` of either youtube or
 vimeo (the two supported media formats at this time).
 */}}
 
+{{ if isset $.Site.Params "imagedir" }}
+{{ $.Scratch.Set "imageDir" $.Site.Params.imageDir }}
+{{ else }}
+{{ $.Scratch.Set "imagedir" "" }}
+{{ end }}
+
 {{ if .Get "src" }}
 {{/* -------------------- BEGIN SRC BLOCK -------------------- */}}
 {{/*
@@ -18,7 +24,7 @@ document and render only the values given in the shortcode
 <figure class='quire-figure {{ with .Get "class" }}{{ . }}{{ end }}'
         id='{{ with .Get "id" }}{{ . | urlize }}{{ end }}'>
   <img class="quire-figure__image"
-       src='{{ $.Site.Params.imageDir }}{{ $.Site.Params.figureSubDir }}{{ .Get "src" }}'
+       src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
        alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
 
   {{ if or (.Get "caption") (.Get "credit") }}
@@ -113,7 +119,7 @@ render the figure from matching values found ther
 
     <div class="quire-figure__video-fallback">
       {{ if .src }}
-      <img src='{{ $.Site.Params.imageDir }}{{ $.Site.Params.figureSubDir }}{{ .src }}'
+      <img src=''
            alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}' />
       {{ else }}
       <svg xmlns="http://www.w3.org/2000/svg"
@@ -131,7 +137,7 @@ render the figure from matching values found ther
   {{ else }}
   {{/* -------------------- BEGIN IMAGE BLOCK -------------------- */}}
   <img class="quire-figure__image"
-       src='{{ $.Site.Params.imageDir }}{{ $.Site.Params.figureSubDir }}{{ .src }}'
+       src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'
        alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}' />
   {{ end }}
   {{/* -------------------- END IMAGE BLOCK -------------------- */}}

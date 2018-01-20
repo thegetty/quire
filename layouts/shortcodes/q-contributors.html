@@ -75,6 +75,12 @@
 
 */}}
 
+{{ if isset $.Site.Params "imagedir" }}
+{{ $.Scratch.Set "imageDir" $.Site.Params.imageDir }}
+{{ else }}
+{{ $.Scratch.Set "imagedir" "" }}
+{{ end }}
+
 {{- if eq ($.Get "range") "" -}}
 <div class="quire-error-msg">
   SHORTCODE ERROR: <code>q-contributors</code><br />
@@ -294,7 +300,7 @@
     {{- if ne (index . 5) "n/a" -}}
     <div class="media-left">
       <img class="image quire-contributor__pic"
-          src="{{ $.Site.BaseURL }}{{ $.Site.Params.imageDir }}{{ $.Site.Params.contributorSubDir }}{{ index . 5 }}"
+          src='{{ with index . 5 }}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
           alt="Picture of {{ index . 0 }}"/>
     </div>
     {{- end -}}

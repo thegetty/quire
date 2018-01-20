@@ -1,6 +1,12 @@
 {{ define "main" }}
 {{ $currentSection := .Section }}
 
+{{ if isset $.Site.Params "imagedir" }}
+{{ $.Scratch.Set "imageDir" $.Site.Params.imageDir }}
+{{ else }}
+{{ $.Scratch.Set "imagedir" "" }}
+{{ end }}
+
 <div class="quire-page" id="main">
   {{ partial "page-header.html" . }}
 
@@ -14,8 +20,9 @@
         {{- range where (where .Site.Pages.ByWeight "Section" $currentSection) "Type" "entry" -}}
         <a href="{{ .Permalink }}" class="quire-catalogue-grid__item column is-one-third">
           {{- with .Params.image -}}
+          {{- $imgPath := printf "%s/%s" ($.Scratch.Get "imageDir") . -}}
           <img class="quire-catalogue-grid__item__image"
-               src="/img/entries/{{ . }}"
+               src="{{ $imgPath | relURL }}"
                alt="" />
           {{- end -}}
 
