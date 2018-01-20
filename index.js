@@ -58,6 +58,13 @@ program
     cli.emit('preview')
   })
 
+program
+  .command('install')
+  .description('Install this project\'s theme dependencies')
+  .action(function() {
+    cli.emit('install')
+  })
+
 // quire build
 //
 // run the build command in the current directory
