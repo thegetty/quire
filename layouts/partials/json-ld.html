@@ -15,7 +15,7 @@
       {{ range $index, $element := . -}}
       {
         "type": "Person",
-        "name": "{{ .first_name }} {{ .last_name }}"
+        "name": "{{ if .full_name }}{{ .full_name }}{{ else }}{{ .first_name }} {{ .last_name }}{{ end }}"
       }{{ if ne $index (sub $len 1) }},{{ else }}{{ end }}
       {{ end -}}
     ],
@@ -60,7 +60,7 @@
       {{ range $index, $element := where .Site.Data.publication.contributor "type" "primary" -}}
       {
         "type": "Person",
-        "name": "{{ .first_name }} {{ .last_name }}",
+        "name": "{{ if .full_name }}{{ .full_name }}{{ else }}{{ .first_name }} {{ .last_name }}{{ end }}",
         "jobTitle": "{{ .title }}",
         "affiliation": "{{ .affiliation }}",
         "identifier": "{{ .url }}"
