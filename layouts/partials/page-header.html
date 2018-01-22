@@ -24,7 +24,7 @@
       {{/* Contributors, if byline is not set to false in page params */}}
       {{ if and .Params.contributor (ne .Params.byline false) }}
       <div class="contributor is-size-5">
-        {{ partial "contributor-list.html" (dict "range" .Params.contributor "type" "list-plus") }}
+        {{ partial "contributor-list.html" (dict "range" .Params.contributor "contributorType" "all" "listType" "list-plus") }}
       </div>
       {{ end }}
 
