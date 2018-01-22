@@ -1,9 +1,0 @@
-{{/*
-  Footer used in both the menu and on the cover
-*/}}
-
-  {{ partial "copyright.html" . }}
-
-  {{- with .Site.Data.publication.footer_links -}}
-    {{- partial "link-list.html" . -}}
-  {{- end -}}
