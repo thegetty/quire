@@ -1,5 +1,7 @@
 const assert = require('assert')
 const path = require('path')
+const tmp = require('tmp')
+const fs = require('fs')
 const CLI = require(path.join('..', 'lib', 'cli'))
 
 const defaultLocation = process.cwd()
@@ -9,37 +11,31 @@ const invalidProjectDir = path.join(defaultLocation, 'test', 'fixtures', 'no-con
 describe('CLI', function () {
   let quire
 
-  describe('isValidProject', function () {
+  describe('create', function () {
     // Return to the default location after each assertion
     afterEach(function () { process.chdir(defaultLocation) })
 
-    it('should return false when the project folder lacks a config.yml file', function () {
-      process.chdir(invalidProjectDir)
+    it('should successfully create a starter project', function () {
+      let sandboxDir = tmp.dirSync({ unsafeCleanup: true })
+      let projectName = 'testProject'
+
+      process.chdir(sandboxDir.name)
       quire = new CLI()
-      assert.equal(quire.isValidProject(), false)
+      quire.create(projectName).then(() => {
+        assert.equal(fs.existsSync(projectName), true)
+      })
     })
 
-    it('should return true when the project folder has a config.yml file', function () {
-      process.chdir(validProjectDir)
-      quire = new CLI()
-      assert.equal(quire.isValidProject(), true)
-    })
-  })
+    it('should successfully create a theme subdirectory in the new project', function () {
+      let sandboxDir = tmp.dirSync({ unsafeCleanup: true })
+      let projectName = 'testProject'
+      let projectThemePath = path.join(projectName, 'themes', 'quire-starter-theme')
 
-  describe('preflight', function () {
-    // Return to the default location after each assertion
-    afterEach(function () { process.chdir(defaultLocation) })
-
-    it('should raise an error in an invalid project folder.', function () {
-      process.chdir(invalidProjectDir)
+      process.chdir(sandboxDir.name)
       quire = new CLI()
-      assert.throws(quire.preflight, Error)
-    })
-
-    it('should read the contents of config.yml in a valid project folder.', function () {
-      process.chdir(validProjectDir)
-      quire = new CLI()
-      assert.equal(quire.preflight().name, 'hemingway')
+      quire.create(projectName).then(() => {
+        assert.equal(fs.existsSync(projectThemePath), true)
+      })
     })
   })
 
@@ -54,14 +50,6 @@ describe('CLI', function () {
       quire = new CLI()
       assert.throws(quire.preview, Error)
     })
-
-    it('should spawn child processes for `hugo` and `webpack`', function () {
-      process.chdir(validProjectDir)
-      quire = new CLI()
-      quire.preview()
-      assert('hugo' in quire)
-      assert('webpack' in quire)
-    })
   })
 
   describe('build', function () {
@@ -75,8 +63,5 @@ describe('CLI', function () {
       quire = new CLI()
       assert.throws(quire.build, Error)
     })
-
-    it('should pick up the output dir if user has specified a custom folder')
-    it('should raise an error if the site does not build successfully')
   })
 })
