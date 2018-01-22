@@ -1,9 +1,9 @@
 <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
   <meta name="dcterms.title" content="{{ .Site.Data.publication.title }}{{ with .Site.Data.publication.subtitle }}: {{ . }}{{ end }}{{ with .Site.Data.publication.reading_line }} ({{ . }}){{ end }}">
-  {{ range .Site.Data.publication.primary_contributor -}}
+  {{ range where .Site.Data.publication.contributor "type" "primary" -}}
   <meta name="dcterms.creator" content="{{ .first_name }} {{ .last_name }}">
   {{ end -}}
-  {{ range .Site.Data.publication.secondary_contributor -}}
+  {{ range where .Site.Data.publication.contributor "type" "secondary" -}}
   <meta name="dcterms.contributor" content="{{ .first_name }} {{ .last_name }}">
   {{ end -}}
   <meta name="dcterms.date" content="{{ .Site.Data.publication.pub_date }}">

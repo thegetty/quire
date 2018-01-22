@@ -7,12 +7,16 @@
   <link rel="publisher" href="{{ . }}">
   {{ end -}}
   {{ end -}}
-  {{ range .Site.Data.publication.primary_contributor -}}
+  {{ range where .Site.Data.publication.contributor "type" "primary" -}}
   {{  with .url -}}
   <link rel="author" href="{{ . }}">
   {{ end -}}
   {{ end -}}
-
+  {{ range where .Site.Data.publication.contributor "type" "secondary" -}}
+  {{  with .url -}}
+  <link rel="author" href="{{ . }}">
+  {{ end -}}
+  {{ end -}}
   {{- partial "dublin-core.html" . -}}
   {{- partial "open-graph.html" . -}}
   {{- partial "twitter-card.html" . -}}

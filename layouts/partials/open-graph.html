@@ -6,7 +6,7 @@
   <meta property="og:description" content="{{ if .Site.Data.publication.description.one_line }}{{ .Site.Data.publication.description.one_line }}{{ else }}{{ with .Site.Data.publication.description.full }}{{ . | truncate 160 }}{{ end }}{{ end }}" />
   {{ if eq .Site.Data.publication.pub_type "book" -}}
   <meta property="og:type" content="book" />
-  {{ range .Site.Data.publication.primary_contributor -}}
+  {{ range where .Site.Data.publication.contributor "type" "primary" -}}
   <meta property="og:book:author" content="{{ .first_name }} {{ .last_name }}" />
   {{ end -}}
   <meta property="og:book:isbn" content="{{ .Site.Data.publication.identifier }}" />

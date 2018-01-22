@@ -53,10 +53,11 @@
       {{ end -}}
     ],
     {{ end -}}
-    {{ with .Site.Data.publication.primary_contributor -}}
+    {{- $contributor := len (where .Site.Data.publication.contributor "type" "primary") -}}
+    {{- if gt $contributor  0 -}}
     "author": [
-      {{ $len := len . -}}
-      {{ range $index, $element := . -}}
+      {{ $len := len (where .Site.Data.publication.contributor "type" "primary") -}}
+      {{ range $index, $element := where .Site.Data.publication.contributor "type" "primary" -}}
       {
         "type": "Person",
         "name": "{{ .first_name }} {{ .last_name }}",

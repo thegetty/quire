@@ -218,9 +218,9 @@
 {{- else if or (eq ($.Get "range") "primary") (eq ($.Get "range") "secondary") -}}
 
   {{- if eq ($.Get "range") "primary" -}}
-    {{- $.Scratch.Add "range" (.Site.Data.publication.primary_contributor) -}}
+    {{- $.Scratch.Add "range" (where .Site.Data.publication.contributor "type" "primary") -}}
   {{- else -}}
-    {{- $.Scratch.Add "range" (.Site.Data.publication.secondary_contributor) -}}
+    {{- $.Scratch.Add "range" (where .Site.Data.publication.contributor "type" "secondary") -}}
   {{- end -}}
 
   {{- range $.Scratch.Get "range" -}}
