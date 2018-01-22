@@ -4,9 +4,7 @@
   different layouts into this template, just wrap your file in {{ define "main" }}
   / {{ end }} tags.
 */}}
-
-{{ $js := "js/application.js" | relURL }}
-
+{{- $js := "js/application.js" | relURL -}}
 <!DOCTYPE html>
 <html lang="{{ .Site.Data.publication.language }}">
   {{ partial "head.html" . }}
