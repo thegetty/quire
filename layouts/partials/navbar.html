@@ -34,7 +34,7 @@ search icons, and search results if enabled). It is visible on all pages.
 
         {{ if eq .Type "cover" }}
         <li class="quire-navbar-page-controls__item">
-          <a href="{{ .Site.BaseURL }}" rel="start">
+          <a href='{{ relref . "cover.md" }}' rel="start">
             <span class="visually-hidden">Home Page: </span>
             {{ if .Site.Data.publication.short_title }}
             {{ .Site.Data.publication.short_title | markdownify }}
@@ -45,7 +45,7 @@ search icons, and search results if enabled). It is visible on all pages.
         </li>
         {{ else }}
         <li class="quire-navbar-page-controls__item">
-          <a href="{{ .Site.BaseURL }}" rel="start">
+          <a href='{{ relref . "cover.md" }}' rel="start">
             <span class="visually-hidden">Home Page: </span>
             {{ if .Site.Data.publication.short_title }}
             {{ .Site.Data.publication.short_title | markdownify }}
