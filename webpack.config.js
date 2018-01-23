@@ -1,7 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
 const glob = require('glob')
-const Clean = require('clean-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const PurifyCSSPlugin = require('purifycss-webpack')
 
@@ -67,9 +66,6 @@ module.exports = {
 
   },
   plugins: [
-    // Clean the build directory before each run
-    new Clean([PATHS.build]),
-
     // Extract CSS into a separate file
     new ExtractTextPlugin(path.join('css', 'application.css'), {
       allChunks: true
@@ -84,6 +80,8 @@ module.exports = {
       purifyOptions: {
         info: true,
         whitelist: [
+          '*title*',
+          '*subtitle*',
           '*is-active*',
           '*column*'
         ]
