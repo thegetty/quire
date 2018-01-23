@@ -44,12 +44,14 @@ window.toggleMenu = () => {
  */
 window.toggleSearch = () => {
   let searchControls = document.getElementById('js-search')
+  let searchInput = document.getElementById('js-search-input')
   let searchAriaStatus = searchControls.getAttribute('aria-expanded')
   searchControls.classList.toggle('is-active')
 
   if (searchAriaStatus === 'true') {
     searchControls.setAttribute('aria-expanded', 'false')
   } else {
+    searchInput.focus()
     searchControls.setAttribute('aria-expanded', 'true')
   }
 }
@@ -61,11 +63,12 @@ window.toggleSearch = () => {
 window.search = () => {
   let searchInput = document.getElementById('js-search-input')
   let searchQuery = searchInput.value
+  let searchInstance = window.QUIRE_SEARCH
   let resultsContainer = document.getElementById('js-search-results-list')
   let resultsTemplate = document.getElementById('js-search-results-template')
 
   if (searchQuery.length >= 3) {
-    let searchResults = window.QUIRE_SEARCH.search(searchQuery)
+    let searchResults = searchInstance.search(searchQuery)
     displayResults(searchResults)
   }
 
@@ -77,9 +80,12 @@ window.search = () => {
     clearResults()
     results.forEach(result => {
       let clone = document.importNode(resultsTemplate.content, true)
-      let item = clone.querySelector('.js-search-results-item-title')
-      item.textContent = result.title
+      let item = clone.querySelector('.js-search-results-item')
+      let title = clone.querySelector('.js-search-results-item-title')
+      let subtitle = clone.querySelector('.js-search-results-item-subtitle')
       item.href = result.url
+      title.textContent = result.title
+      subtitle.textContent = result.type
       resultsContainer.appendChild(clone)
     })
   }
