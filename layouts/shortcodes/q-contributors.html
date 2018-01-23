@@ -7,7 +7,7 @@
   This shortcode requires both a "range" and a "type" value. And they must
   be one of the following:
 
-  range   "page, essays, all, primary, secondary"
+  range   "page, essays, all, primary, secondary, project-team"
   type    "initials, name, name-plus, bio"
 
   "initials"    Looks for the capital letters in a contributor first and last
@@ -85,15 +85,15 @@
 <div class="quire-error-msg">
   SHORTCODE ERROR: <code>q-contributors</code><br />
   This shortcode must include a value for <code>range</code>.
-  Possible values are "all", "essays", "page", "primary", or "secondary".<br />
+  Possible values are "all", "essays", "page", "primary", "secondary", or "project-team".<br />
   Example: <code>&#123;&#123;< q-contributors range="all" type="bio" >&#125;&#125;</code>
 </div>
 
 {{/* TODO: can we simplify this clause at all? */}}
-{{- else if and (and (and (and (ne ($.Get "range") "all") (ne ($.Get "range") "essays")) (ne ($.Get "range") "page")) (ne ($.Get "range") "primary")) (ne ($.Get "range") "secondary") -}}
+{{- else if and (and (and (and (and (ne ($.Get "range") "all") (ne ($.Get "range") "essays")) (ne ($.Get "range") "page")) (ne ($.Get "range") "primary")) (ne ($.Get "range") "secondary")) (ne ($.Get "range") "project-team") -}}
 <div class="quire-error-msg">
   SHORTCODE ERROR: <code>q-contributors</code><br />
-  Supplied value for <code>range</code> must be "all", "essays", "page", "primary", or "secondary".<br />
+  Supplied value for <code>range</code> must be "all", "essays", "page", "primary", "secondary", or "project-team".<br />
   Example: <code>&#123;&#123;< q-contributors range="all" type="bio" >&#125;&#125;</code>
 </div>
 {{- end -}}
@@ -215,12 +215,14 @@
     {{- end -}}
   {{- end -}}
 
-{{- else if or (eq ($.Get "range") "primary") (eq ($.Get "range") "secondary") -}}
+{{- else if or (or (eq ($.Get "range") "primary") (eq ($.Get "range") "secondary")) (eq ($.Get "range") "project-team") -}}
 
   {{- if eq ($.Get "range") "primary" -}}
-    {{- $.Scratch.Add "range" (.Site.Data.publication.primary_contributor) -}}
-  {{- else -}}
-    {{- $.Scratch.Add "range" (.Site.Data.publication.secondary_contributor) -}}
+    {{- $.Scratch.Add "range" (where .Site.Data.publication.contributor "type" "primary") -}}
+  {{- else if eq ($.Get "range") "secondary" -}}
+    {{- $.Scratch.Add "range" (where .Site.Data.publication.contributor "type" "secondary") -}}
+  {{- else if eq ($.Get "range") "project-team" -}}
+    {{- $.Scratch.Add "range" (where .Site.Data.publication.contributor "type" "project-team") -}}
   {{- end -}}
 
   {{- range $.Scratch.Get "range" -}}

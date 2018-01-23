@@ -14,7 +14,7 @@
       {{ range $index, $element := . -}}
       {
         "type": "Person",
-        "name": "{{ .first_name }} {{ .last_name }}"
+        "name": "{{ if .full_name }}{{ .full_name }}{{ else }}{{ .first_name }} {{ .last_name }}{{ end }}"
       }{{ if ne $index (sub $len 1) }},{{ else }}{{ end }}
       {{ end -}}
     ],
@@ -25,40 +25,42 @@
     {{ if eq .Site.Data.publication.pub_type "book" -}}
     "type": "Book",
     "name": "{{ .Site.Data.publication.title }}{{ with .Site.Data.publication.subtitle }}: {{ . }}{{ end }}{{ with .Site.Data.publication.reading_line }} ({{ . }}){{ end }}",
-    "isbn": "{{ replace .Site.Data.publication.isbn "-" "" }}",
+    "isbn": "{{ replace .Site.Data.publication.identifier.isbn "-" "" }}",
     {{ else if eq .Site.Data.publication.pub_type "journal-periodical" -}}
     "type": "PublicationIssue",
     "name": "{{ .Site.Data.publication.title }}{{ with .Site.Data.publication.subtitle }}: {{ . }}{{ end }}{{ with .Site.Data.publication.reading_line }} ({{ . }}){{ end }}",
-    "issueNumber": "{{ .Site.Data.publication.issue_series_number }}",
+    "issueNumber": "{{ .Site.Data.publication.series_issue_number }}",
     "isPartOf": {
         "type": "Periodical",
         "name": "{{ .Site.Data.publication.title }}",
-        "issn": "{{ .Site.Data.publication.issn }}"
+        "issn": "{{ .Site.Data.publication.identifier.issn }}"
       },
     {{ else -}}
     "type": "WebSite",
     "name": "{{ .Site.Data.publication.title }}{{ with .Site.Data.publication.subtitle }}: {{ . }}{{ end }}{{ with .Site.Data.publication.reading_line }} ({{ . }}){{ end }}",
     {{ end -}}
     "url": "{{ .Site.BaseURL }}",
-    {{ with .Site.Data.publication.subject_metadata.linked_vocabulary -}}
+    {{ $gettyVocab := len (where .Site.Data.publication.subject "type" "getty" ) -}}
+    {{- if gt $gettyVocab  0 -}}
     "about": [
-      {{ $len := len . -}}
-      {{ range $index, $element := . -}}
+      {{ $len := len (where .Site.Data.publication.subject "type" "getty" ) -}}
+      {{ range $index, $element := where .Site.Data.publication.subject "type" "getty" -}}
       {
-        "type": "{{ .type }}",
+        "type": "{{ if in .identifier "/ulan/" }}Person{{ else if in .identifier "/tgn/" }}Place{{ else }}Thing{{ end }}",
         "name": "{{ .name }}",
-        "identifier": "{{ .url }}"
+        "identifier": "{{ .identifier }}"
       }{{ if ne $index (sub $len 1) }},{{ else }}{{ end }}
       {{ end -}}
     ],
     {{ end -}}
-    {{ with .Site.Data.publication.primary_contributor -}}
+    {{- $contributor := len (where .Site.Data.publication.contributor "type" "primary") -}}
+    {{- if gt $contributor  0 -}}
     "author": [
-      {{ $len := len . -}}
-      {{ range $index, $element := . -}}
+      {{ $len := len (where .Site.Data.publication.contributor "type" "primary") -}}
+      {{ range $index, $element := where .Site.Data.publication.contributor "type" "primary" -}}
       {
         "type": "Person",
-        "name": "{{ .first_name }} {{ .last_name }}",
+        "name": "{{ if .full_name }}{{ .full_name }}{{ else }}{{ .first_name }} {{ .last_name }}{{ end }}",
         "jobTitle": "{{ .title }}",
         "affiliation": "{{ .affiliation }}",
         "identifier": "{{ .url }}"
@@ -76,7 +78,7 @@
     {{ end -}}
     {{ end -}}
     {{ end -}}
-    "keywords": "{{ .Site.Data.publication.subject_metadata.keywords }}",
+    "keywords": "{{ range $index, $element := where .Site.Data.publication.subject "type" "keyword" }}{{ $len := len . -}}{{ .name }}{{ if ne $index (sub $len 1) }}, {{ else }}{{ end }}{{ end }}",
     "license": "{{ .Site.Data.publication.license.url }}",
     {{ with .Site.Data.publication.publisher -}}
     "publisher": [

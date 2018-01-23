@@ -25,7 +25,7 @@ Cover page layout. This controls the home page of the publication.
       {{ .Site.Data.publication.contributor_as_it_appears }}
       {{ else }}
       <span class="visually-hidden">Contributors: </span>
-      {{ partial "contributor-list.html" (dict "range" .Site.Data.publication.primary_contributor "type" "list") }}
+      {{ partial "contributor-list.html" (dict "range" .Site.Data.publication.contributor "contributorType" "primary" "listType" "list" ) }}
       {{- end -}}
 
       {{ else }}

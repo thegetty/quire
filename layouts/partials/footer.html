@@ -1,9 +1,13 @@
 {{/*
-  Footer used in both the menu and on the cover
+Footer used in both the menu and on the cover
 */}}
 
-  {{ partial "copyright.html" . }}
+{{ $footerLinks := where .Site.Data.publication.resource_link "type" "footer-link" }}
 
-  {{- with .Site.Data.publication.footer_links -}}
-    {{- partial "link-list.html" . -}}
-  {{- end -}}
+{{ partial "copyright.html" . }}
+
+{{ if isset .Site.Data.publication "resource_link" -}}
+{{ if gt (len $footerLinks) 0 -}}
+  {{- partial "link-list.html" $footerLinks -}}
+{{- end -}}
+{{- end -}}
