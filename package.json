@@ -41,6 +41,7 @@
     "lodash.debounce": "^4.0.8",
     "lunr": "^0.7.2",
     "smoothstate": "^0.7.2",
+    "template-polyfill": "^2.0.0",
     "velocity-animate": "^1.5.1"
   }
 }
