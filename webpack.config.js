@@ -1,7 +1,9 @@
 const path = require('path')
 const webpack = require('webpack')
+const glob = require('glob')
 const Clean = require('clean-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const PurifyCSSPlugin = require('purifycss-webpack')
 
 const PATHS = {
   source: path.join(__dirname, 'source'),
@@ -73,12 +75,25 @@ module.exports = {
       allChunks: true
     }),
 
+    // Experimental: Enable to dramatically minify CSS bundle size.
+    // But watch out for layout changes.
+    //
+    new PurifyCSSPlugin({
+      styleExtensions: ['.scss', '.css', '.sass'],
+      paths: glob.sync(path.join(__dirname, 'layouts/**/*.html')),
+      purifyOptions: {
+        whitelist: ['*column*']
+      }
+    }),
+
     // Shims for global libs (ex. jquery)
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
       'window.jQuery': 'jquery'
-    })
+    }),
+
+    new webpack.optimize.UglifyJsPlugin({ mangle: false })
 
     // If using moment.js, uncomment this to keep the bundle size small.
     // new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
