@@ -14,11 +14,6 @@
   <meta name="dcterms.publisher" content="{{ .name }}{{ with .location }}, {{ . }} {{ end }}">
   {{ end -}}
   <meta name="dcterms.rights" content="{{ .Site.Data.publication.copyright }}">
-  <meta name="dcterms.subject" content="{{ .Site.Data.publication.subject_metadata.keywords }}">
-  {{ range .Site.Data.publication.subject_metadata.linked_vocabulary -}}
-  <meta name="dcterms.subject" content="{{ .name }}">
+  {{ range .Site.Data.publication.subject -}}
+    <meta name="dcterms.subject" content="{{ .name }}">
   {{ end -}}
-  {{ range .Site.Data.publication.subject_metadata.bisac -}}
-  <meta name="dcterms.subject" content="{{ .subject }}{{ with .code }} ({{ .}}){{ end }}">
-  {{ end -}}
-
