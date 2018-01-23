@@ -11,23 +11,29 @@
   </div>
 
   <div class="quire-search__inner" aria-label="search results">
+    <section class="hero is-dark">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">Search</h1>
+          <input id="js-search-input"
+                 class="input is-large"
+                 name=""
+                 type="text"
+                 value=""
+                 oninput="search()" />
 
-    <div class="control">
-      <input id="js-search-input"
-            class="input is-rounded"
-            name=""
-            type="text"
-            value=""
-            oninput="search()" />
+          <ul id="js-search-results-list"
+              class="quire-search__inner__list">
+          </ul>
+        </div>
+      </div>
+    </section>
     </div>
-    <ul id="js-search-list"
-        class="quire-search__inner__list">
-    </ul>
   </div>
 
-  <template id="js-search-template">
+  <template id="js-search-results-template">
     <li class="quire-search__inner__list__item">
-      <a class="quire-search__inner__list__item__link js-search-item-title" href="">
+      <a class="quire-search__inner__list__item__link js-search-results-item-title" href="">
       </a>
     </li>
   </template>

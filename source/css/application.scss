@@ -22,6 +22,10 @@ $desktop: 900px;
 $family-primary: 'Merriweather', serif;
 $navbar-background-color: $blue;
 
+// Search input styles
+$input-background-color: $grey-darker;
+$input-color: $white;
+
 @import "bulma-components";
 
 // Quire-specific variables

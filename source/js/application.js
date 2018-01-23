@@ -12,7 +12,6 @@ import '../css/application.scss'
 
 // JS Libraries (add them to package.json with `npm install [library]`)
 import $ from 'jquery'
-import _ from 'lodash'
 import 'smoothstate'
 import 'velocity-animate'
 
@@ -62,11 +61,26 @@ window.toggleSearch = () => {
 window.search = () => {
   let searchInput = document.getElementById('js-search-input')
   let searchQuery = searchInput.value
-  let searchResults = window.QUIRE_SEARCH.search(searchQuery)
+  let resultsContainer = document.getElementById('js-search-results-list')
+  let resultsTemplate = document.getElementById('js-search-results-template')
 
   if (searchQuery.length >= 3) {
-    searchResults.map(r => {
-      console.log(r.title)
+    let searchResults = window.QUIRE_SEARCH.search(searchQuery)
+    displayResults(searchResults)
+  }
+
+  function clearResults() {
+    resultsContainer.innerHTML = ''
+  }
+
+  function displayResults(results) {
+    clearResults()
+    results.forEach(result => {
+      let clone = document.importNode(resultsTemplate.content, true)
+      let item = clone.querySelector('.js-search-results-item-title')
+      item.textContent = result.title
+      item.href = result.url
+      resultsContainer.appendChild(clone)
     })
   }
 }
