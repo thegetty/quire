@@ -13,7 +13,7 @@ search icons, and search results if enabled). It is visible on all pages.
 
   <nav class="quire-navbar-controls">
     <div class="quire-navbar-controls__left">
-      <button class="quire-navbar-button search-button"
+      <button class="quire-navbar-button menu-button"
               id="quire-controls-menu-button"
               onclick="toggleMenu()"
               aria-expanded="true"
@@ -76,7 +76,9 @@ search icons, and search results if enabled). It is visible on all pages.
     </div>
 
     <div class="quire-navbar-controls__right">
-      <button class="quire-navbar-button menu-button" onclick="toggleMenu()">
+      <button class="quire-navbar-button search-button"
+              aria-controls="quire-search"
+              onclick="toggleSearch()">
         <svg>
           <switch>
             <use xlink:href="#search-icon"></use>

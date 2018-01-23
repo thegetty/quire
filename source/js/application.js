@@ -37,6 +37,18 @@ window.toggleMenu = () => {
   }
 }
 
+window.toggleSearch = () => {
+  let searchControls = document.getElementById('js-search')
+  let searchAriaStatus = searchControls.getAttribute('aria-expanded')
+  searchControls.classList.toggle('is-active')
+
+  if (searchAriaStatus === "true") {
+    searchControls.setAttribute('aria-expanded', "false")
+  } else {
+    searchControls.setAttribute('aria-expanded', "true")
+  }
+}
+
 window.handleMenuFocus = () => {
   let $menu = $('#site-menu')
   $menu.focusin(toggleMenu)
@@ -50,6 +62,13 @@ window.initialSetup = () => {
   if (menuAriaStatus === "true") { menu.setAttribute('aria-expanded', "false") }
 }
 
+window.searchSetup = () => {
+  let indexURL = $("#js-search").data('search-index')
+  $.getJSON(indexURL, function (data) {
+    window.SEARCH_INDEX_CONTENT = data
+  })
+}
+
 // Start
 //------------------------------------------------------------------------------
 
@@ -57,6 +76,7 @@ window.initialSetup = () => {
 let container = document.getElementById('container')
 container.classList.remove('no-js')
 initialSetup()
+searchSetup()
 
 // Run these on $(document).ready()
 $(document).ready(() => {

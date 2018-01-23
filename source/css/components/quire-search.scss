@@ -1,0 +1,25 @@
+.quire-search {
+  background-color: $dark;
+  display: none;
+  height: 100vh;
+  position: absolute;
+  width: 100%;
+
+  &.is-active {
+    display: block;
+  }
+
+  &__inner {}
+
+  &__close-button {
+    position: absolute;
+    right: 0;
+    top: 0;
+
+    button.button {
+      background-color: transparent;
+      border: 0;
+      color: $dark-invert;
+    }
+  }
+}
