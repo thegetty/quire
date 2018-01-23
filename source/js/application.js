@@ -30,10 +30,10 @@ window.toggleMenu = () => {
   let menuAriaStatus = menu.getAttribute('aria-expanded')
   menu.classList.toggle('is-expanded')
 
-  if (menuAriaStatus === "true") {
-    menu.setAttribute('aria-expanded', "false")
+  if (menuAriaStatus === 'true') {
+    menu.setAttribute('aria-expanded', 'false')
   } else {
-    menu.setAttribute('aria-expanded', "true")
+    menu.setAttribute('aria-expanded', 'true')
   }
 }
 
@@ -42,60 +42,61 @@ window.toggleSearch = () => {
   let searchAriaStatus = searchControls.getAttribute('aria-expanded')
   searchControls.classList.toggle('is-active')
 
-  if (searchAriaStatus === "true") {
-    searchControls.setAttribute('aria-expanded', "false")
+  if (searchAriaStatus === 'true') {
+    searchControls.setAttribute('aria-expanded', 'false')
   } else {
-    searchControls.setAttribute('aria-expanded', "true")
+    searchControls.setAttribute('aria-expanded', 'true')
   }
 }
 
 window.handleMenuFocus = () => {
   let $menu = $('#site-menu')
-  $menu.focusin(toggleMenu)
-  $menu.focusout(toggleMenu)
+  $menu.focusin(window.toggleMenu)
+  $menu.focusout(window.toggleMenu)
 }
 
 window.initialSetup = () => {
   let menu = document.getElementById('site-menu')
   let menuAriaStatus = menu.getAttribute('aria-expanded')
   menu.classList.remove('is-expanded')
-  if (menuAriaStatus === "true") { menu.setAttribute('aria-expanded', "false") }
+  if (menuAriaStatus === 'true') {
+    menu.setAttribute('aria-expanded', 'false')
+  }
 }
 
 window.searchSetup = () => {
-  let indexURL = $("#js-search").data('search-index')
-  $.getJSON(indexURL, function (data) {
+  let indexURL = $('#js-search').data('search-index')
+  $.getJSON(indexURL, function(data) {
     window.SEARCH_INDEX_CONTENT = data
   })
 }
 
 // Start
-//------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
 // Run these immediately
 let container = document.getElementById('container')
 container.classList.remove('no-js')
-initialSetup()
-searchSetup()
+window.initialSetup()
+window.searchSetup()
 
 // Run these on $(document).ready()
 $(document).ready(() => {
-  $("#container").smoothState({
+  $('#container').smoothState({
     onStart: {
       duration: 200,
-      render ($container) {
+      render($container) {
         $container.velocity('fadeOut', { duration: 200 })
       }
     },
     onReady: {
       duration: 200,
-      render ($container, $newContent) {
+      render($container, $newContent) {
         $container.html($newContent)
         $container.velocity('fadeIn', { duration: 200 })
         window.initialSetup()
       }
     },
-    onAfter ($container, $newContent) {
-    }
+    onAfter($container, $newContent) {}
   })
-});
+})
