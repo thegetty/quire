@@ -12,6 +12,7 @@ import '../css/application.scss'
 
 // JS Libraries (add them to package.json with `npm install [library]`)
 import $ from 'jquery'
+import _ from 'lodash'
 import 'smoothstate'
 import 'velocity-animate'
 
@@ -19,15 +20,10 @@ import 'velocity-animate'
 import Search from './search.js'
 
 /**
- * UI Functions
- * -----------------------------------------------------------------------------
- * Functions assigned to the global window object so that they can be called
- * from templates without additional binding.
- */
-
-/**
  * toggleMenu
- * @description Show/hide the menu UI by changing CSS classes and Aria status
+ * @description Show/hide the menu UI by changing CSS classes and Aria status.
+ * This function is bound to the global window object so it can be called from
+ * templates without additinoal binding.
  */
 window.toggleMenu = () => {
   let menu = document.getElementById('site-menu')
@@ -43,7 +39,9 @@ window.toggleMenu = () => {
 
 /**
  * toggleSearch
- * @description Show/hide the search UI by changing CSS classes and Aria status
+ * @description Show/hide the search UI by changing CSS classes and Aria status.
+ * This function is bound to the global window object so it can be called from
+ * templates without additinoal binding.
  */
 window.toggleSearch = () => {
   let searchControls = document.getElementById('js-search')
@@ -57,17 +55,21 @@ window.toggleSearch = () => {
   }
 }
 
-// window.handleMenuFocus = () => {
-//   let $menu = $('#site-menu')
-//   $menu.focusin(window.toggleMenu)
-//   $menu.focusout(window.toggleMenu)
-// }
-
 /**
- * Setup Functions
- * -----------------------------------------------------------------------------
- * Functions that build up the basic functionality of the publication.
+ * search
+ * @description makes a search query using Lunr
  */
+window.search = () => {
+  let searchInput = document.getElementById('js-search-input')
+  let searchQuery = searchInput.value
+  let searchResults = window.QUIRE_SEARCH.search(searchQuery)
+
+  if (searchQuery.length >= 3) {
+    searchResults.map(r => {
+      console.log(r.title)
+    })
+  }
+}
 
 /**
  * globalSetup
@@ -76,9 +78,28 @@ window.toggleSearch = () => {
 function globalSetup() {
   let container = document.getElementById('container')
   container.classList.remove('no-js')
-  menuSetup()
-  searchSetup()
+  pageSetup()
+  loadSearchData()
 }
+
+/**
+ * loadSearchData
+ * @description Load full-text index data from the specified URL
+ * and pass it to the search module.
+ */
+function loadSearchData() {
+  // Grab search data
+  let dataURL = $('#js-search').data('search-index')
+  $.get(dataURL, { cache: true }).done(data => {
+    window.QUIRE_SEARCH = new Search(data)
+  })
+}
+
+/**
+ * searchSetup
+ * @description Set up search UI.
+ */
+function searchSetup() {}
 
 /**
  * menuSetup
@@ -95,24 +116,22 @@ function menuSetup() {
 }
 
 /**
- * searchSetup
- * @description Load full-text index data from the specified URL
- * and pass it to the search module.
+ * pageSetup
+ * @description This function is called after each smoothState reload.
+ * Initialize any jquery plugins or set up page UI elements here.
  */
-function searchSetup() {
-  // Grab search data
-  let dataURL = $('#js-search').data('search-index')
-  $.get(dataURL, { cache: true }).done(data => {
-    window.QUIRE_SEARCH = new Search(data)
-  })
+function pageSetup() {
+  menuSetup()
+  searchSetup()
 }
 
 // Start
 // -----------------------------------------------------------------------------
 //
+// Run immediately
 globalSetup()
 
-// Run these on $(document).ready()
+// Run when document is ready
 $(document).ready(() => {
   $('#container').smoothState({
     onStart: {
@@ -126,7 +145,7 @@ $(document).ready(() => {
       render($container, $newContent) {
         $container.html($newContent)
         $container.velocity('fadeIn', { duration: 200 })
-        menuSetup()
+        pageSetup()
       }
     },
     onAfter($container, $newContent) {}

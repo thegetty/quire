@@ -1,8 +1,7 @@
 <div id="js-search"
      class="quire-search"
      aria-expanded="false"
-     data-search-index='{{ relref . "search-index.md" }}'
->
+     data-search-index='{{ relref . "search-index.md" }}' >
   <div class="quire-search__close-button">
     <button class="button is-large" onclick="toggleSearch()">
       <span class="icon">
@@ -12,6 +11,15 @@
   </div>
 
   <div class="quire-search__inner" aria-label="search results">
+
+    <div class="control">
+      <input id="js-search-input"
+            class="input is-rounded"
+            name=""
+            type="text"
+            value=""
+            oninput="search()" />
+    </div>
     <ul id="js-search-list"
         class="quire-search__inner__list">
     </ul>
