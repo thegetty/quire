@@ -9,7 +9,7 @@
   {{ range where .Site.Data.publication.contributor "type" "primary" -}}
   <meta property="og:book:author" content="{{ if .full_name }}{{ .full_name }}{{ else }}{{ .first_name }} {{ .last_name }}{{ end }}" />
   {{ end -}}
-  <meta property="og:book:isbn" content="{{ .Site.Data.publication.identifier }}" />
+  <meta property="og:book:isbn" content="{{ replace .Site.Data.publication.identifier.isbn "-" "" }}" />
   <meta property="og:book:release_date" content="{{ .Site.Data.publication.pub_date }}" />
   {{ end -}}
 {{ else -}}

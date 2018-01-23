@@ -26,15 +26,15 @@
     {{ if eq .Site.Data.publication.pub_type "book" -}}
     "type": "Book",
     "name": "{{ .Site.Data.publication.title }}{{ with .Site.Data.publication.subtitle }}: {{ . }}{{ end }}{{ with .Site.Data.publication.reading_line }} ({{ . }}){{ end }}",
-    "isbn": "{{ replace .Site.Data.publication.isbn "-" "" }}",
+    "isbn": "{{ replace .Site.Data.publication.identifier.isbn "-" "" }}",
     {{ else if eq .Site.Data.publication.pub_type "journal-periodical" -}}
     "type": "PublicationIssue",
     "name": "{{ .Site.Data.publication.title }}{{ with .Site.Data.publication.subtitle }}: {{ . }}{{ end }}{{ with .Site.Data.publication.reading_line }} ({{ . }}){{ end }}",
-    "issueNumber": "{{ .Site.Data.publication.issue_series_number }}",
+    "issueNumber": "{{ .Site.Data.publication.series_issue_number }}",
     "isPartOf": {
         "type": "Periodical",
         "name": "{{ .Site.Data.publication.title }}",
-        "issn": "{{ .Site.Data.publication.issn }}"
+        "issn": "{{ .Site.Data.publication.identifier.issn }}"
       },
     {{ else -}}
     "type": "WebSite",
