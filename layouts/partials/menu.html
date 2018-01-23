@@ -6,6 +6,10 @@ by default. Users with JS disabled will alwasy see the menu in its expanded stat
 
 {{ $contents := dict "contentsScope" .Site "contentsType" .Site.Params.menuType "contentsLocation" "menu" "contentsPage" . }}
 
+{{ $otherFormats := where .Site.Data.publication.resource_link "type" "other-format" }}
+
+{{ $relatedResources := where .Site.Data.publication.resource_link "type" "related-resource" }}
+
 <aside class="menu quire-menu" id="site-menu__inner">
 
   {{ partial "menu-header.html" . }}
@@ -15,21 +19,24 @@ by default. Users with JS disabled will alwasy see the menu in its expanded stat
     {{- partial "contents-list.html" $contents -}}
   </div>
 
-  {{- with .Site.Data.publication.other_formats -}}
-  <div class="quire-menu__formats">
-  <h3 class="menu-label">Other Formats</h3>
-    <div role="complementary" aria-label="downloads">
-      {{- partial "link-list.html" . -}}
-    </div>
-  </div>
-  {{- end -}}
-
-  {{- with .Site.Data.publication.related_resources -}}
-  <h3 class="menu-label">Related Resources</h3>
-  <div role="complementary" aria-label="other resources">
-    {{- partial "link-list.html" . -}}
-  </div>
-  {{- end -}}
+  {{ if isset .Site.Data.publication "resource_link" -}}
+    {{ if gt (len $otherFormats) 0 -}}
+      <div class="quire-menu__formats">
+      <h3 class="menu-label">Other Formats</h3>
+        <div role="complementary" aria-label="downloads">
+          {{- partial "link-list.html" $otherFormats -}}
+        </div>
+      </div>
+    {{ end -}}
+    {{ if gt (len $relatedResources) 0 -}}
+      <div class="quire-menu__formats">
+      <h3 class="menu-label">Related Resources</h3>
+        <div role="complementary" aria-label="related resources">
+          {{- partial "link-list.html" $relatedResources -}}
+        </div>
+      </div>
+    {{ end -}}
+  {{ end -}}
 
   <footer role="contentinfo">
     {{ partial "footer.html" . }}
