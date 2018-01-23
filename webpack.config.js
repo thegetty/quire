@@ -68,7 +68,7 @@ module.exports = {
   },
   plugins: [
     // Clean the build directory before each run
-    // new Clean([PATHS.build]),
+    new Clean([PATHS.build]),
 
     // Extract CSS into a separate file
     new ExtractTextPlugin(path.join('css', 'application.css'), {
