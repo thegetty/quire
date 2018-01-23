@@ -35,5 +35,10 @@
 .is-print-only { @media screen { display: none; } }
 .is-screen-only { @media print { display: none; } }
 
-
+// Required by HTML Template Polyfill for older IE compatibility
+// -----------------------------------------------------------------------------
+// scss-lint:disable ImportantRule
+template {
+  display: none !important;
+}
 
