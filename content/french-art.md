@@ -10,8 +10,6 @@ contributor:
     Paris on October 30, 1937, is a French doctor, art historian and essayist,
     and the author of an important *History of Art* which remains a reference in
     this discipline."
-additional_references:
-  - de Goncourt 1851
 ---
 
 French art consists of the visual and plastic arts (including architecture,
