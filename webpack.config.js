@@ -82,7 +82,11 @@ module.exports = {
       styleExtensions: ['.scss', '.css', '.sass'],
       paths: glob.sync(path.join(__dirname, 'layouts/**/*.html')),
       purifyOptions: {
-        whitelist: ['*column*']
+        info: true,
+        whitelist: [
+          '*is-active*',
+          '*column*'
+        ]
       }
     }),
 
