@@ -16,9 +16,17 @@
     "babel-preset-stage-0": "^6.16.0",
     "clean-webpack-plugin": "^0.1.15",
     "css-loader": "^0.26.1",
+    "eslint-config-standard": "^11.0.0-beta.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
+    "glob": "^7.1.2",
     "node-sass": "^4.2.0",
+    "purify-css": "^1.2.5",
+    "purifycss-webpack": "^0.7.0",
     "sass-loader": "^4.1.1",
     "url-loader": "^0.5.7",
     "webpack": "^1.14.0"
@@ -33,6 +41,7 @@
     "lodash.debounce": "^4.0.8",
     "lunr": "^0.7.2",
     "smoothstate": "^0.7.2",
+    "template-polyfill": "^2.0.0",
     "velocity-animate": "^1.5.1"
   }
 }

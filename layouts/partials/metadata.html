@@ -2,8 +2,8 @@
   <meta name="keywords" content="{{ range $index, $element := where .Site.Data.publication.subject "type" "keyword" }}{{ $len := len . -}}{{ .name }}{{ if ne $index (sub $len 1) }}, {{ else }}{{ end }}{{ end }}">
   <link rel="canonical" href="{{ .Permalink }}">
   <link rel="version-history" href="{{ .Site.Data.publication.repository_url }}">
-  {{ range .Site.Data.publication.publisher -}}
-  {{ with .url -}}
+  {{- range .Site.Data.publication.publisher -}}
+  {{- with .url -}}
   <link rel="publisher" href="{{ . }}">
   {{ end -}}
   {{ end -}}
@@ -20,5 +20,4 @@
   {{- partial "dublin-core.html" . -}}
   {{- partial "open-graph.html" . -}}
   {{- partial "twitter-card.html" . -}}
-
   {{- partial "json-ld.html" . -}}

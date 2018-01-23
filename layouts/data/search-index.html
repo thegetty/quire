@@ -1,0 +1,46 @@
+{{/*
+Search Index Data template
+
+This template builds a single JSON file ("/search.json" by default) with data
+suitable for being fed into a client-side search tool such as Lunr.js.
+
+In order for Hugo to actually output this data as a static file, add an empty
+Markdown file somewhere in your main "content" folder that has the type of
+"data" and the layout of "search-index". Set the URL params to whatever you want
+the output file to be called. Ex:
+
+project_root/content/search-index.md
+
+---
+type: data
+layout: search-index
+url: search.json
+---
+
+NB: This solution makes use of **both** the standard $.Scratch register AND a
+block-scoped .Scratch inside the `range` loop.
+*/}}
+
+{{- $.Scratch.Add "index" slice -}}
+
+{{- $searchablePages := where .Site.Pages "Params.search" "!=" "false" -}}
+
+{{- range $index, $page := $searchablePages -}}
+
+{{- .Scratch.Set "pageData" "" -}}
+{{- .Scratch.Set "searchContent" "" -}}
+{{- .Scratch.Set "pageURL" "" -}}
+{{- .Scratch.Set "parentSection" "" -}}
+{{- .Scratch.Set "pageType" "" -}}
+
+{{- if gt (len $page.Content) 0 -}}
+{{- .Scratch.Set "searchContent" $page.Plain -}}
+{{- .Scratch.Set "pageURL" $page.RelPermalink -}}
+{{- .Scratch.Set "pageType" $page.Type -}}
+
+{{- end -}}
+{{- .Scratch.Set "pageData" (dict "id" $index "title" $page.Title "url" (.Scratch.Get "pageURL") "type" (.Scratch.Get "pageType") "content" (.Scratch.Get "searchContent")) -}}
+
+{{- $.Scratch.Add "index" (.Scratch.Get "pageData") -}}
+{{- end -}}
+{{- $.Scratch.Get "index" | jsonify -}}

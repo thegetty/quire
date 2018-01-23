@@ -31,7 +31,7 @@
   width: 100%;
 
   * {
-    transition: background 0.15s ease;
+    transition: background 0.15s linear;
   }
 
   a {
@@ -93,7 +93,7 @@
   line-height: $navbar-height;
   padding-left: 1.25em;
   padding-right: 1.25em;
-  transition: all 0.15s ease;
+  transition: all 0.15s linear;
 
   &:hover {
     background-color: darken($navbar-background-color, 5%);

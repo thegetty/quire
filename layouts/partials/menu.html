@@ -5,15 +5,11 @@ by default. Users with JS disabled will alwasy see the menu in its expanded stat
 */}}
 
 {{ $contents := dict "contentsScope" .Site "contentsType" .Site.Params.menuType "contentsLocation" "menu" "contentsPage" . }}
-
 {{ $otherFormats := where .Site.Data.publication.resource_link "type" "other-format" }}
-
 {{ $relatedResources := where .Site.Data.publication.resource_link "type" "related-resource" }}
 
 <aside class="menu quire-menu" id="site-menu__inner">
-
   {{ partial "menu-header.html" . }}
-
   <h3 class="visually-hidden">Table of Contents</h3>
   <div class="menu-list" role="navigation" aria-label="site">
     {{- partial "contents-list.html" $contents -}}

@@ -1,31 +1,31 @@
-{{ if ne .Type "essay" -}}
+{{- if ne .Type "essay" -}}
   <!-- Books and Integrated Book Parts/Chapters -->
   <meta property="og:title" content="{{ .Site.Data.publication.title }}" />
   <meta property="og:url" content="{{ .Site.BaseURL }}" />
   <meta property="og:image" content="{{ with .Site.Data.publication.promo_image }}{{ $.Site.BaseURL }}{{ $.Site.Params.imageDir }}{{ . }}{{ end }}" />
   <meta property="og:description" content="{{ if .Site.Data.publication.description.one_line }}{{ .Site.Data.publication.description.one_line }}{{ else }}{{ with .Site.Data.publication.description.full }}{{ . | truncate 160 }}{{ end }}{{ end }}" />
-  {{ if eq .Site.Data.publication.pub_type "book" -}}
+  {{- if eq .Site.Data.publication.pub_type "book" -}}
   <meta property="og:type" content="book" />
   {{ range where .Site.Data.publication.contributor "type" "primary" -}}
   <meta property="og:book:author" content="{{ if .full_name }}{{ .full_name }}{{ else }}{{ .first_name }} {{ .last_name }}{{ end }}" />
   {{ end -}}
   <meta property="og:book:isbn" content="{{ replace .Site.Data.publication.identifier.isbn "-" "" }}" />
   <meta property="og:book:release_date" content="{{ .Site.Data.publication.pub_date }}" />
-  {{ end -}}
-{{ else -}}
+  {{- end -}}
+{{- else -}}
   <!-- Standalone Essays/Articles w/i Books  -->
   <meta property="og:title" content="{{ .Page.Params.title }}{{ with .Page.Params.subtitle }}: {{ . }}{{ end }}" />
   <meta property="og:url" content="{{ .Permalink }}" />
-  {{ if .Page.Params.cover -}}
+  {{- if .Page.Params.cover -}}
   <meta property="og:image" content="{{ .Site.BaseURL }}{{ .Site.Params.imageDir }}{{ .Site.Params.figureSubDir }}{{ .Page.Params.cover }}" />
-  {{ else -}}
+  {{- else -}}
   <meta property="og:image" content="{{ with .Site.Data.publication.promo_image }}{{ $.Site.BaseURL }}{{ $.Site.Params.imageDir }}{{ . }}{{ end }}" />
-  {{ end -}}
-  {{ if .Page.Params.abstract -}}
+  {{- end -}}
+  {{- if .Page.Params.abstract -}}
   <meta property="og:description" content="{{ .Page.Params.abstract | truncate 160 }}" />
-  {{ else -}}
-  <meta property="og:description" content="{{ if .Site.Data.publication.description.one_line }}{{ .Site.Data.publication.description.one_line }}{{ else }}{{ with .Site.Data.publication.description.full }}{{ . | truncate 160 }}{{ end }}{{ end }}" />
-  {{ end -}}
+  {{- else -}}
+  <meta property="og:description" content="{{- if .Site.Data.publication.description.one_line -}}{{ .Site.Data.publication.description.one_line }}{{ else }}{{ with .Site.Data.publication.description.full }}{{ . | truncate 160 }}{{- end -}}{{- end -}}" />
+  {{- end -}}
   <meta property="og:type" content="article" />
   <meta property="og:site_name" content="{{ .Site.Data.publication.title }}" />
   <meta property="og:article:published_time" content="{{ .Site.Data.publication.pub_date }}" />

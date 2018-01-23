@@ -64,7 +64,7 @@ $quire-menu-width: 350px !default;
       height: 100vh;
       left: 0;
       position: absolute;
-      transition: all 0.15s ease-in-out;
+      transition: all 0.15s linear;
       width: 100%;
 
       &__inner {
@@ -84,7 +84,7 @@ $quire-menu-width: 350px !default;
       position: fixed;
       top: 0;
       transform: translateX(-($quire-menu-width));
-      transition: all 0.15s ease-in-out;
+      transition: all 0.15s linear;
       width: $quire-menu-width;
       z-index: 1100;
 
