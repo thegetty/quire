@@ -19,6 +19,10 @@ class Map {
     if (this.data) {
       this.getData()
     }
+
+    setTimeout(() => {
+      this.map.invalidateSize()
+    }, 100)
   }
 
   createMap() {
