@@ -5211,10 +5211,15 @@ template {
   height: 100vh;
   position: absolute;
   width: 100%;
+  z-index: 1000;
 }
 
 .quire-search.is-active {
   display: block;
+}
+
+.quire-search__inner__list-item {
+  margin: 1.5rem 0;
 }
 
 .quire-search__close-button {
