@@ -4,12 +4,11 @@
 // Custom font declarations (if any) can be imported here
 //
 
-// Merriweather Regular
 @font-face {
   font-family: "Merriweather";
-  src: url("../fonts/merriweather/merriweather-regular.ttf") format("truetype"),
-       url("../fonts/merriweather/merriweather-regular.woff") format("woff"),
-       url("../fonts/merriweather/merriweather-regular.woff2") format("woff2");
+  src: url("../fonts/merriweather/merriweather-regular.woff2") format("woff2"),
+  url("../fonts/merriweather/merriweather-regular.woff") format("woff"),
+  url("../fonts/merriweather/merriweather-regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
 }
@@ -17,9 +16,9 @@
 // Merriweather Italic
 @font-face {
   font-family: "Merriweather";
-  src: url("../fonts/merriweather/merriweather-italic.ttf") format("truetype"),
+  src: url("../fonts/merriweather/merriweather-italic.woff2") format("woff2"),
   url("../fonts/merriweather/merriweather-italic.woff") format("woff"),
-  url("../fonts/merriweather/merriweather-italic.woff2") format("woff2");
+  url("../fonts/merriweather/merriweather-italic.ttf") format("truetype");
   font-weight: 400;
   font-style: italic;
 }
@@ -27,9 +26,9 @@
 // Merriweather Bold
 @font-face {
   font-family: "Merriweather";
-  src: url("../fonts/merriweather/merriweather-bold.ttf") format("truetype"),
+  src: url("../fonts/merriweather/merriweather-bold.woff2") format("woff2"),
   url("../fonts/merriweather/merriweather-bold.woff") format("woff"),
-  url("../fonts/merriweather/merriweather-bold.woff2") format("woff2");
+  url("../fonts/merriweather/merriweather-bold.ttf") format("truetype");
   font-weight: 600;
   font-style: normal;
 }
@@ -37,9 +36,9 @@
 // Merriweather Bold Italic
 @font-face {
   font-family: "Merriweather";
-  src: url("../fonts/merriweather/merriweather-bolditalic.ttf") format("truetype"),
+  src: url("../fonts/merriweather/merriweather-bolditalic.woff2") format("woff2"),
   url("../fonts/merriweather/merriweather-bolditalic.woff") format("woff"),
-  url("../fonts/merriweather/merriweather-bolditalic.woff2") format("woff2");
+  url("../fonts/merriweather/merriweather-bolditalic.ttf") format("truetype");
   font-weight: 600;
   font-style: italic;
 }
@@ -47,9 +46,9 @@
 // Merriweather Light
 @font-face {
   font-family: "Merriweather";
-  src: url("../fonts/merriweather/merriweather-light.ttf") format("truetype"),
+  src: url("../fonts/merriweather/merriweather-light.woff2") format("woff2"),
   url("../fonts/merriweather/merriweather-light.woff") format("woff"),
-  url("../fonts/merriweather/merriweather-light.woff2") format("woff2");
+  url("../fonts/merriweather/merriweather-light.ttf") format("truetype");
   font-weight: 300;
   font-style: normal;
 }
@@ -57,9 +56,9 @@
 // Merriweather Light Italic
 @font-face {
   font-family: "Merriweather";
-  src: url("../fonts/merriweather/merriweather-lightitalic.ttf") format("truetype"),
+  src: url("../fonts/merriweather/merriweather-lightitalic.woff2") format("woff2"),
   url("../fonts/merriweather/merriweather-lightitalic.woff") format("woff"),
-  url("../fonts/merriweather/merriweather-lightitalic.woff2") format("woff2");
+  url("../fonts/merriweather/merriweather-lightitalic.ttf") format("truetype");
   font-weight: 300;
   font-style: italic;
 }
