@@ -66,6 +66,8 @@ remarkable architectural skill.
 
 ### Baroque and Classicism
 
+{{< q-deepzoom image="http://evil-manifests.davidnewbury.com/iiif/images/garden-1/info.json" >}}
+
 The seventeenth century marked a golden age for French art in all fields. In the
 early part of the seventeenth century, late mannerist and early Baroque
 tendencies continued to flourish in the court of Marie de Medici and Louis XIII.
