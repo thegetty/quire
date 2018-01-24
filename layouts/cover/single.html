@@ -40,14 +40,7 @@ Cover page layout. This controls the home page of the publication.
 <section class="section">
   <div class="container is-fluid">
     {{ .Content }}
-    <ul>
-      <li><strong>[ kind: type ] Title URL</strong></li>
-      {{ range where .Site.Pages.ByWeight "Params.weight" ">=" 0 }}
-      <li>
-        [{{ .Kind }}{{ with .Params.Type }}: {{ .}}{{ end }}] {{ .Title }} {{ .URL }}
-      </li>
-      {{ end }}
-    </ul>
+    {{ partial "debug-contents.html" . }}
   </div>
 </section>
 
