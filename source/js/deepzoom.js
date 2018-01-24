@@ -7,7 +7,7 @@ class DeepZoom {
     this.el = 'js-deepzoom'
     this.imageURL = $(`#${this.el}`).data('image')
     this.center = [0, 0]
-    this.defaultZoom = 2
+    this.defaultZoom = 0
     this.map = this.createMap()
     this.addTiles()
 
