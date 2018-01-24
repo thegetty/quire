@@ -2,5 +2,5 @@
      class="quire-map inset"
      {{ with .Get "lat" }}data-lat="{{.}}"{{ end }}
      {{ with .Get "long" }}data-long="{{.}}"{{ end }}
-     {{ with .Get "geojson" }}data-geojson="{{ . | relURL }}"{{ end }} >
+     {{ if .Get "geojson" }}data-geojson='{{ .Site.BaseURL }}{{ .Get "geojson" }}'{{ end }} >
 </div>
