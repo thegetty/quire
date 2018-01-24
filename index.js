@@ -42,7 +42,7 @@ const cli = new CLI()
 process.on('SIGINT', function() { cli.emit('shutdown') })
 
 program
-  .version('0.1.0.alpha.3')
+  .version('0.1.0.alpha.4')
 
 program
   .command('new <projectName>')
