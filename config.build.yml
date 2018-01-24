@@ -17,5 +17,5 @@
 # into version control. Then you can run the deploy script at bin/deploy.sh
 # to push files to Github.
 
-baseURL: "http://gettypubs.github.io/quire-demo/"
+baseURL: "http://gettypubs.github.io/quire-demo"
 canonifyURLs: true
