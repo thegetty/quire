@@ -17,7 +17,7 @@
   {{/* License icons (ex. CC icons) if any */}}
   {{- if .Site.Data.publication.license.icon -}}
   {{- $imgPath := printf "%s/%s" ($.Scratch.Get "imageDir") .Site.Data.publication.license.icon -}}
-  <img src="{{ $imgPath | relURL }}"
+  <img src="{{ $imgPath | absURL }}"
       class="quire-copyright__icon"
       alt="logo for {{ .Site.Data.publication.license.name }}" />
   {{- end -}}

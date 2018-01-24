@@ -302,7 +302,7 @@
     {{- if ne (index . 5) "n/a" -}}
     <div class="media-left">
       <img class="image quire-contributor__pic"
-          src='{{ with index . 5 }}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
+          src='{{ with index . 5 }}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | absURL }}{{ end }}'
           alt="Picture of {{ index . 0 }}"/>
     </div>
     {{- end -}}
