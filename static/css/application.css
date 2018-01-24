@@ -5464,7 +5464,7 @@ template {
   padding-left: 1rem;
 }
 
-.quire-map {
+.quire-deepzoom,.quire-map {
   height: 500px;
   margin-bottom: 32px;
 }

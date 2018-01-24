@@ -7,6 +7,8 @@
 
 // Stylesheets
 import '../css/application.scss'
+import 'leaflet/dist/leaflet.css'
+import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
 
 // JS Libraries (add them to package.json with `npm install [library]`)
 import $ from 'jquery'
@@ -16,6 +18,7 @@ import 'velocity-animate'
 // Modules (feel free to define your own and import here)
 import Search from './search.js'
 import Map from './map.js'
+import DeepZoom from './deepzoom.js'
 
 /**
  * toggleMenu
@@ -136,6 +139,14 @@ function mapSetup() {
   }
 }
 
+function deepZoomSetup() {
+  let deepZoom = document.getElementById('js-deepzoom')
+
+  if (deepZoom) {
+    new DeepZoom()
+  }
+}
+
 /**
  * pageSetup
  * @description This function is called after each smoothState reload.
@@ -144,6 +155,7 @@ function mapSetup() {
 function pageSetup() {
   menuSetup()
   mapSetup()
+  deepZoomSetup()
 }
 
 // Start
