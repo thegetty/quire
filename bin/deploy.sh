@@ -17,7 +17,7 @@ rm -rf $BUILD_DIR
 mkdir $BUILD_DIR
 
 echo "Generating site"
-hugo
+hugo --config=config.yml,config.build.yml
 
 echo "Updating gh-pages branch"
 git add $BUILD_DIR && git commit -m "Automated deploy at $(date)."
