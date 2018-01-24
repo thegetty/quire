@@ -10,9 +10,9 @@ contributor:
     Paris on October 30, 1937, is a French doctor, art historian and essayist,
     and the author of an important *History of Art* which remains a reference in
     this discipline."
-additional_references:
-  - de Goncourt 1851
 ---
+
+{{< q-map lat="48.8566" long="2.3522" geojson="/data/sample-geojson.json" >}}
 
 French art consists of the visual and plastic arts (including architecture,
 woodwork, textiles, and ceramics) originating from the geographical area of
@@ -65,6 +65,8 @@ the richness of the rivers and lands of the Loire region and they show
 remarkable architectural skill.
 
 ### Baroque and Classicism
+
+{{< q-deepzoom image="http://evil-manifests.davidnewbury.com/iiif/images/garden-1/info.json" >}}
 
 The seventeenth century marked a golden age for French art in all fields. In the
 early part of the seventeenth century, late mannerist and early Baroque
