@@ -6,8 +6,6 @@
  */
 
 // Stylesheets
-import 'leaflet/dist/leaflet.css'
-import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
 import '../css/application.scss'
 
 // JS Libraries (add them to package.json with `npm install [library]`)
@@ -17,6 +15,7 @@ import 'velocity-animate'
 
 // Modules (feel free to define your own and import here)
 import Search from './search.js'
+import Map from './map.js'
 
 /**
  * toggleMenu
@@ -116,12 +115,6 @@ function loadSearchData() {
 }
 
 /**
- * searchSetup
- * @description Set up search UI.
- */
-function searchSetup() {}
-
-/**
  * menuSetup
  * @description Set the menu to its default hidden state. This
  * function should be called again after each smootState reload.
@@ -135,6 +128,14 @@ function menuSetup() {
   }
 }
 
+function mapSetup() {
+  let map = document.getElementById('js-map')
+
+  if (map) {
+    new Map()
+  }
+}
+
 /**
  * pageSetup
  * @description This function is called after each smoothState reload.
@@ -142,7 +143,7 @@ function menuSetup() {
  */
 function pageSetup() {
   menuSetup()
-  searchSetup()
+  mapSetup()
 }
 
 // Start

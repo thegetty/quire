@@ -83,7 +83,8 @@ module.exports = {
           '*title*',
           '*subtitle*',
           '*is-active*',
-          '*column*'
+          '*column*',
+          '*leaflet*'
         ]
       }
     }),

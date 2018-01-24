@@ -1,0 +1,6 @@
+<div id="js-map"
+     class="quire-map inset"
+     {{ with .Get "lat" }}data-lat="{{.}}"{{ end }}
+     {{ with .Get "long" }}data-long="{{.}}"{{ end }}
+     {{ with .Get "geojson" }}data-geojson="{{ . | relURL }}"{{ end }} >
+</div>
