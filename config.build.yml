@@ -8,6 +8,23 @@
 # hugo --config=base.toml,child1.toml,child2.toml
 #
 # If you are using the Quire commands, this will happen automatically.
+#
+# Currently these values are set to support deploying to GitHub pages.
+# If you are deploying to GH pages, set the baseURL in this file to
+# whatever your GH Pages URL will be (username.github.io/project-name, for
+# example) and make sure canonifyURLs is set to true. You will also need
+# to check the `public/` folder (or whatever you are using for output)
+# into version control. Then you can run the deploy script at bin/deploy.sh
+# to push files to Github.
 
-baseURL: "http://getty.edu/publications/projectName"
+# Use these settings for GH Pages
+#
+# baseURL: "https://gettypubs.github.io/quire-demo"
+# canonifyURLs: true
+
+# Use these settings for Netlify
+#
+baseURL: "http://quire-demo.netlify.com"
 relativeURLs: true
+
+
