@@ -35,7 +35,7 @@ block-scoped .Scratch inside the `range` loop.
 
 {{- if gt (len $page.Content) 0 -}}
 {{- .Scratch.Set "searchContent" $page.Plain -}}
-{{- .Scratch.Set "pageURL" $page.RelPermalink -}}
+{{- .Scratch.Set "pageURL" $page.Permalink -}}
 {{- .Scratch.Set "pageType" $page.Type -}}
 
 {{- end -}}
