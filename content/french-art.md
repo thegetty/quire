@@ -12,6 +12,8 @@ contributor:
     this discipline."
 ---
 
+{{< q-map lat="48.8566" long="2.3522" geojson="/data/sample-geojson.json" >}}
+
 French art consists of the visual and plastic arts (including architecture,
 woodwork, textiles, and ceramics) originating from the geographical area of
 France. Modern France was the main centre for the European art of the Upper
