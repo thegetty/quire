@@ -1,9 +1,17 @@
 {{ if ($.Scratch.GetSortedMapValues "cited") }}
   <h2 id="bibliography">Bibliography</h2>
+  {{ if eq .Site.Params.displayBiblioShort true }}
   <dl>
   {{ range ($.Scratch.GetSortedMapValues "cited") }}
       <dt>{{ markdownify (index . 0) }}</dt>
       <dd id="{{ urlize (index . 0) }}">{{ markdownify (index . 1)}}</dd>
   {{ end }}
   </dl>
+  {{ else }}
+  <ul>
+  {{ range ($.Scratch.GetSortedMapValues "cited") }}
+      <li id="{{ urlize (index . 0) }}">{{ markdownify (index . 1)}}</li>
+  {{ end }}
+  </ul>
+  {{ end }}
 {{ end }}

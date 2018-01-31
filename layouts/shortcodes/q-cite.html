@@ -8,7 +8,7 @@
   {{< q-cite "Faure 1909" "54" >}}
 
   The first positional parameter is a short form citation that should match one
-  in `bibliography.yml`. The second, optional parameter is a page reference. The
+  in `references.yml`. The second, optional parameter is a page reference. The
   above sample would output as: Faure 1909, 54
 
   The text element between the author date reference and the page can be changed
@@ -16,19 +16,38 @@
 
 */}}
 
-{{- $short := .Get 0 -}}
+{{ $errorMissingValue := dict "shortcode" "q-cite" "message" "1 or 2 values must be supplied with this shortcode. The first is required and should match a short reference in the project’s `references.yml` file, the second is optional, and should be a page number or range of page numbers" "example" "&#123;&#123;< q-cite &#34;Faure 1909&#34; &#34;304&#34; >&#125;&#125;"}}
 
-{{- range $.Site.Data.bibliography.entries -}}
-    {{- if eq .short $short -}}
-        {{- $.Scratch.Add "full" .full -}}
-    {{- end -}}
+{{ $errorMissingReference := dict "shortcode" "q-cite" "message" "The short reference supplied doesn’t match one in the project’s `references.yml` file" "example" "&#123;&#123;< q-cite &#34;Faure 1909&#34; >&#125;&#125;<br /><br />short: \"Faure 1909\"" }}
+
+{{- if and (ne (len .Params) 1) (ne (len .Params) 2) -}}
+
+  {{- partial "error-message.html" $errorMissingValue -}}
+
+{{- else -}}
+
+  {{- $short := .Get 0 -}}
+
+  {{- range $.Site.Data.references.entries -}}
+      {{- if eq .short $short -}}
+          {{- $.Scratch.Add "full" .full -}}
+      {{- end -}}
+  {{- end -}}
+
+  {{- if eq ($.Scratch.Get "full") nil -}}
+
+    {{- partial "error-message.html" $errorMissingReference -}}
+
+  {{- else -}}
+
+    {{- $full := $.Scratch.Get "full" -}}
+    {{- $.Page.Scratch.SetInMap "entry" "0" $short -}}
+    {{- $.Page.Scratch.SetInMap "entry" "1" $full -}}
+    {{ $entry := ($.Page.Scratch.GetSortedMapValues "entry") }}
+    {{- $shortId := $short | urlize -}}
+    {{- $.Page.Scratch.SetInMap "cited" $shortId $entry -}}
+
+    <a href="#{{ $short | urlize }}" class="quire-citation"><span class="visually-hidden">Citation: </span>{{- markdownify $short -}}{{- if eq (len .Params) 2 }}{{ $.Site.Params.citationPageLocationDivider }}{{ .Get 1 }}{{ end -}}</a><span class="message quire-citation__inline-content is-link"><span class="message-body">{{- markdownify $full -}}</span></span>
+  {{- end -}}
+
 {{- end -}}
-
-{{- $full := $.Scratch.Get "full" -}}
-{{- $.Page.Scratch.SetInMap "entry" "0" $short -}}
-{{- $.Page.Scratch.SetInMap "entry" "1" $full -}}
-{{ $entry := ($.Page.Scratch.GetSortedMapValues "entry") }}
-{{- $shortId := $short | urlize -}}
-{{- $.Page.Scratch.SetInMap "cited" $shortId $entry -}}
-
-<a href="#{{ $short | urlize }}" class="quire-citation"><span class="visually-hidden">Citation: </span>{{- markdownify $short -}}{{- if eq (len .Params) 2 }}{{ $.Site.Params.citationPageLocationDivider }}{{ .Get 1 }}{{ end -}}</a><span class="message quire-citation__inline-content is-link"><span class="message-body">{{- markdownify $full -}}</span></span>
