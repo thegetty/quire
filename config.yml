@@ -24,7 +24,7 @@ disableKinds:
 
 blackfriday:
   fractions: false
-  hrefTargetBlank: true  
+  hrefTargetBlank: true
 
 # These values can be accessed in templates via .Site.Params
 params:
@@ -36,7 +36,7 @@ params:
   videoFigureFallbackText: true
   videoFigureFallbackTextBefore: "Watch the video at "
   videoFigureFallbackTextAfter: "."
-  displayBiblioShort: "true"
+  displayBiblioShort: true
   imageDir: "img"
   tocType: full
   menuType: short
