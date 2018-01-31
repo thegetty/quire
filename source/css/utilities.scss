@@ -36,6 +36,7 @@
 .is-screen-only { @media print { display: none; } }
 
 .quire-error {
+  text-align: left;
   p {
     font-family: sans-serif;
     margin-bottom: 1em;

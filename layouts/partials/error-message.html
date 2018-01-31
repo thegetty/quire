@@ -6,14 +6,14 @@
 
 {{ $shortcode := .shortcode }}
 {{ $message := .message | markdownify }}
-{{ $example := safeHTML .example | markdownify }}
+{{ $example := safeHTML .example }}
 
 <div class="quire-error message is-danger">
   <div class="message-header">
-    <strong>SHORTCODE ERROR: {{ $shortcode }}</strong>
+    <strong>SHORTCODE ERROR: {{ with $shortcode }}{{ . }}{{ end }}</strong>
   </div>
   <div class="message-body">
-    <p>{{ $message }}</p>
-    <pre>{{ $example }}</pre>
+    {{ with $message }}<p>{{ . }}</p>{{ end }}
+    {{ with $example }}<pre>{{ . }}</pre>{{ end }}
   </div>
 </div>
