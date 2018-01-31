@@ -35,6 +35,16 @@
 .is-print-only { @media screen { display: none; } }
 .is-screen-only { @media print { display: none; } }
 
+.quire-error {
+  p {
+    font-family: sans-serif;
+    margin-bottom: 1em;
+  }
+  pre {
+    margin-top: 1em;
+  }
+}
+
 // Required by HTML Template Polyfill for older IE compatibility
 // -----------------------------------------------------------------------------
 // scss-lint:disable ImportantRule

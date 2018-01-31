@@ -1,0 +1,19 @@
+{{/*
+  This partial creates custom error messages for shortcode users. To use, pass
+  in the name of the shortcode, a message, and an example. See `q-cite` for
+  a sample implementation.
+*/}}
+
+{{ $shortcode := .shortcode }}
+{{ $message := .message | markdownify }}
+{{ $example := safeHTML .example | markdownify }}
+
+<div class="quire-error message is-danger">
+  <div class="message-header">
+    <strong>SHORTCODE ERROR: {{ $shortcode }}</strong>
+  </div>
+  <div class="message-body">
+    <p>{{ $message }}</p>
+    <pre>{{ $example }}</pre>
+  </div>
+</div>
