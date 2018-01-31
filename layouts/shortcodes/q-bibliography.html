@@ -15,9 +15,9 @@
 
 */}}
 
-{{ $errorExtraValue := dict "shortcode" "q-bibliography" "message" "This shortcode only accepts a sort value, others should be removed." "example" "&#123;&#123;< q-bibliography sort=&#34;short&#34; >&#125;&#125;" }}
+{{ $errorExtraValue := dict "shortcode" "q-bibliography" "message" "This shortcode only accepts a sort value, others should be removed." "example" "{{< q-bibliography sort=&#34;short&#34; >}}" }}
 
-{{ $errorBadValue := dict "shortcode" "q-bibliography" "message" "This shortcode only accepts an optional sort value. The value supplied was not “sort”. To output a bibliography sorted in the order they appear in the `references.yml` file, omit the value together." "example" "&#123;&#123;< q-bibliography >&#125;&#125;<br /><br />&#123;&#123;< q-bibliography sort=&#34;short&#34; >&#125;&#125;" }}
+{{ $errorBadValue := dict "shortcode" "q-bibliography" "message" "This shortcode only accepts an optional sort value. The value supplied was not “sort”. To output a bibliography sorted in the order they appear in the `references.yml` file, omit the value together." "example" "{{< q-bibliography >}}<br /><br />{{< q-bibliography sort=&#34;short&#34; >}}" }}
 
 <section class="quire-page__content__references">
 

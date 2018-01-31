@@ -16,9 +16,9 @@
 
 */}}
 
-{{ $errorMissingValue := dict "shortcode" "q-cite" "message" "1 or 2 values must be supplied with this shortcode. The first is required and should match a short reference in the project’s `references.yml` file, the second is optional, and should be a page number or range of page numbers" "example" "&#123;&#123;< q-cite &#34;Faure 1909&#34; &#34;304&#34; >&#125;&#125;"}}
+{{ $errorMissingValue := dict "shortcode" "q-cite" "message" "1 or 2 values must be supplied with this shortcode. The first is required and should match a short reference in the project’s `references.yml` file, the second is optional, and should be a page number or range of page numbers" "example" "{{< q-cite &#34;Faure 1909&#34; &#34;304&#34; >}}"}}
 
-{{ $errorMissingReference := dict "shortcode" "q-cite" "message" "The short reference supplied doesn’t match one in the project’s `references.yml` file" "example" "&#123;&#123;< q-cite &#34;Faure 1909&#34; >&#125;&#125;<br /><br />short: \"Faure 1909\"" }}
+{{ $errorMissingReference := dict "shortcode" "q-cite" "message" "The short reference supplied doesn’t match one in the project’s `references.yml` file" "example" "{{< q-cite &#34;Faure 1909&#34; >}}<br /><br />short: &#34;Faure 1909&#34;" }}
 
 {{- if and (ne (len .Params) 1) (ne (len .Params) 2) -}}
 
