@@ -156,7 +156,7 @@ the figure for each into a figure group
 
   {{/* -------------------- BEGIN GROUP CAPTION BLOCK -------------------- */}}
   {{ if or (.Get "caption") ($.Get "credit") }}
-  <figcaption class="quire-figure--group__caption">
+  <figcaption class="quire-figure__caption">
     {{ if .Get "caption" }}{{ .Get "caption" | markdownify }}{{ end }}
     {{ if $.Get "credit" }}<span class="quire-figure__credit">{{ $.Get "credit" | markdownify }}</span>{{ end }}
   </figcaption>
