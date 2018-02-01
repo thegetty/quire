@@ -12,6 +12,12 @@ vimeo (the two supported media formats at this time).
 {{ $.Scratch.Set "imagedir" "" }}
 {{ end }}
 
+{{ $errorBadId := dict "shortcode" "q-figure" "message" "The supplied value for `id` does not match an `id` value in your `data/figures.yml` file. Or, if you are not using a `data/figures.yml` file, a value for `src` should also be included in the shortcode, and should match the filename of an image file in your `static/img` directory." "example" "{{< q-figure id=&#34;3.1&#34; >}}<br /><br />{{< q-figure id=&#34;3.1&#34; src=&#34;fig-3-1-duchamp.jpg&#34; >}}" }}
+
+{{ $errorNoMediaType := dict "shortcode" "q-figure" "message" "For video figures, the `media_type` attribute must be included in your `data/figures.yml` file for this figure `id`, and must be either “youtube” or “vimeo”." "example" "- id: &#34;3.1&#34;<br />  media_id: &#34;VYqDpNmnu8I&#34;<br />  media_type: &#34;youtube&#34;" }}
+
+{{ $errorNoSourceNoId := dict "shortcode" "q-figure" "message" "This shortcode must include a value for `src` that matches the filename of an image in your `static/img` directory; or a value for `id` that matches an `id` value in your `data/figures.yml` file." "example" "{{< q-figure id=&#34;3.1&#34; >}}<br /><br />{{< q-figure id=&#34;3.1&#34; src=&#34;fig-3-1-duchamp.jpg&#34; >}}" }}
+
 {{ if .Get "src" }}
 {{/* -------------------- BEGIN SRC BLOCK -------------------- */}}
 {{/*
@@ -49,26 +55,7 @@ render the figure from matching values found ther
 {{ $fig := len (where .Site.Data.figures.figure_list "id" "eq" $x) }}
 
 {{ if eq $fig 0 }}
-<div class="quire-error message is-danger">
-  <div class="message-header">
-    <strong>SHORTCODE ERROR: q-figure</strong>
-  </div>
-  <div class="message-body">
-    <p>
-      The supplied value for <code>id</code> does not match an <code>id</code>
-      value in your <code>data/figures.yml</code> file.
-    </p>
-    <pre>&#123;&#123;< q-figure id="3.1" >&#125;&#125;</pre>
-    <p>
-      Or, if you are not using a <code>data/figures.yml</code> file, a value
-      for <code>src</code> should also be included in the shortcode, and should
-      match the filename of an image file in your
-      <code>static{{$.Site.Params.imageDir }}{{ $.Site.Params.figureSubDir }}</code>
-      directory.
-    </p>
-    <pre>&#123;&#123;< q-figure id="3.1" src="fig-3-1-duchamp.jpg" >&#125;&#125;</pre>
-  </div>
-</div>
+  {{ partial "error-message.html" $errorBadId }}
 {{ else }}
 
 {{/* -------------------- BEGIN FIGURE RANGE -------------------- */}}
@@ -77,30 +64,12 @@ render the figure from matching values found ther
         id='{{ .id }}'>
 
   {{ if .media_id }}
-  {{/* -------------------- BEGIN VIDEO ERROR BLOCK -------------------- */}}
+  {{/* -------------------- BEGIN VIDEO BLOCK -------------------- */}}
   {{ if and (ne .media_type "youtube") (ne .media_type "vimeo") }}
 
-  <div class="quire-error message is-danger">
-    <div class="message-header">
-      <strong>SHORTCODE ERROR: q-figure</strong>
-    </div>
-    <div class="message-body">
-      <p>
-        For video figures, the <code>media_type</code> attribute must be
-        included in your <code>data/figures.yml</code> file for this figure
-        <code>id</code>, and must be either "youtube" or "vimeo".
-      </p>
-      <pre>
-- id: "3.1"
-  media_id: VYqDpNmnu8I
-  media_type: youtube
-      </pre>
-    </div>
-  </div>
-  {{/* -------------------- END VIDEO ERROR BLOCK -------------------- */}}
+      {{ partial "error-message.html" $errorNoMediaType }}
 
   {{ else }}
-  {{/* -------------------- BEGIN VIDEO BLOCK -------------------- */}}
   <div class='quire-figure__video-wrapper{{ if .aspect_ratio }}--{{ .aspect_ratio }}{{ else }}--widescreen{{ end }}'>
 
     {{ if eq .media_type "youtube" }}
@@ -206,25 +175,7 @@ If the shortcode has no src, and no id, post an error message.
 ----------------------------------------------------------------------------
 */}}
 
-<div class="quire-error message is-danger">
-  <div class="message-header">
-    <strong>SHORTCODE ERROR: q-figure</strong>
-  </div>
-  <div class="message-body">
-    <p>
-      This shortcode must include a value for <code>src</code> that matches the
-      filename of an image in your
-      <code>static{{ $.Site.Params.imageDir }}{{$.Site.Params.figureSubDir }}</code>
-      directory; or a value for <code>id</code> that matches an
-      <code>id</code> value in your <code>data/figures.yml</code> file.
-    </p>
-    <pre>
-&#123;&#123;< q-figure id="3.1" >&#125;&#125;
-
-&#123;&#123;< q-figure src="fig-3-1-duchamp.jpg" >&#125;&#125;
-    </pre>
-  </div>
-</div>
+{{ partial "error-message.html" $errorNoSourceNoId }}
 
 {{/* -------------------- END ERROR BLOCK -------------------- */}}
 {{ end }}

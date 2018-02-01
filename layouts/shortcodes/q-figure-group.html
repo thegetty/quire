@@ -4,6 +4,13 @@
 {{ $.Scratch.Set "imagedir" "" }}
 {{ end }}
 
+{{ $errorNoMediaType := dict "shortcode" "q-figure-group" "message" "One of your figures in this group is missing the `media_type` attribute, which must be included in your `data/figures.yml` file for this figure `id`, and must be either “youtube” or “vimeo”." "example" "- id: &#34;3.1&#34;<br />  media_id: &#34;VYqDpNmnu8I&#34;<br />  media_type: &#34;youtube&#34;" }}
+
+{{ $errorBadId := dict "shortcode" "q-figure-group" "message" "One or more of the `id` values supplied in this shortcode do not match any corresponding `id` values in your `data/figures.yml` file. Or, the `id` values were not fully comma separated." "example" "{{< q-figure-group id=&#34;3.1, 3.2, 3.3&#34; >}}" }}
+
+{{ $errorNoId := dict "shortcode" "q-figure-group" "message" "This shortcode must include one or more values for `id` that match corresponding `id` values in your `data/figures.yml` file." "example" "{{< q-figure-group id=&#34;3.1, 3.2, 3.3&#34; >}}" }}
+
+
 {{ if .Get "id" }}
 
 {{/* -------------------- BEGIN ID BLOCK -------------------- */}}
@@ -29,30 +36,14 @@ the figure for each into a figure group
   <figure class="quire-figure--group__item" id="{{ .id }}">
 
     {{ if .media_id }}
-    {{/* -------------------- BEGIN MEDIA_ID BLOCK -------------------- */}}
+    {{/* -------------------- BEGIN VIDEO BLOCK -------------------- */}}
 
     {{ if and (ne .media_type "youtube") (ne .media_type "vimeo") }}
-    {{/* -------------------- BEGIN ERROR BLOCK -------------------- */}}
-    <div class="quire-error message is-danger">
-      <div class="message-header">
-        <strong>SHORTCODE ERROR: q-figure-group</strong>
-      </div>
-      <div class="message-body">
-        <p>One of your figures in this group is missing the
-        <code>media_type</code> attribute, which must be included in your
-        <code>data/figures.yml</code> file for this figure <code>id</code>, and
-        must be either "youtube" or "vimeo".</p>
-        <pre>
-  - id: "3.1"
-  media_id: VYqDpNmnu8I
-  media_type: youtube
-        </pre>
-      </div>
-    </div>
-    {{/* -------------------- END ERROR BLOCK -------------------- */}}
+
+        {{ partial "error-message.html" $errorNoMediaType }}
 
     {{ else }}
-    {{/* -------------------- BEGIN YOUTUBE/VIMEO BLOCK -------------------- */}}
+
     <div class='quire-figure__video-wrapper{{ if .aspect_ratio }}--{{ .aspect_ratio }}{{ else }}--widescreen{{ end }}'>
       {{ if eq .media_type "youtube" }}
       <iframe class="quire-figure__video"
@@ -78,10 +69,8 @@ the figure for each into a figure group
         {{ end }}
       </div>
     </div>
-    {{/* -------------------- END YOUTUBE/VIMEO BLOCK -------------------- */}}
     {{ end }}
-
-    {{/* -------------------- END MEDIA_ID BLOCK -------------------- */}}
+    {{/* -------------------- END VIDEO BLOCK -------------------- */}}
     {{ else }}
 
     {{/* -------------------- BEGIN NO_MEDIA_ID BLOCK -------------------- */}}
@@ -159,24 +148,15 @@ the figure for each into a figure group
   is not equal to the count of IDs supplied, post error message
   ------------------------------------------------------------------------
   */}}
-  <div class="quire-error message is-danger">
-    <div class="message-header">
-      <strong>SHORTCODE ERROR: q-figure-group</strong>
-    </div>
-    <div class="message-body">
-      <p>One or more of the <code>id</code> values supplied in this
-        shortcode do not match any corresponding <code>id</code> values in
-        your <code>data/figures.yml</code> file. Or, the <code>id</code>
-        values were not fully comma separated. Values supplied were:</p>
-      <pre>id="{{ .Get "id" }}"</pre>
-    </div>
-  </div>
+
+    {{ partial "error-message.html" $errorBadId }}
+
   {{/* -------------------- END ERROR BLOCK -------------------- */}}
   {{ end }}
 
   {{/* -------------------- BEGIN GROUP CAPTION BLOCK -------------------- */}}
   {{ if or (.Get "caption") ($.Get "credit") }}
-  <figcaption class="quire-figure--group__caption">
+  <figcaption class="quire-figure__caption">
     {{ if .Get "caption" }}{{ .Get "caption" | markdownify }}{{ end }}
     {{ if $.Get "credit" }}<span class="quire-figure__credit">{{ $.Get "credit" | markdownify }}</span>{{ end }}
   </figcaption>
@@ -193,16 +173,8 @@ the figure for each into a figure group
 If the shortcode has no id, post an error message.
 ----------------------------------------------------------------------------
 */}}
-<div class="quire-error message is-danger">
-  <div class="message-header">
-    <strong>SHORTCODE ERROR: q-figure-group</strong>
-  </div>
-  <div class="message-body">
-    <p>This shortcode must include one or more values for <code>id</code> that
-    match corresponding <code>id</code> values in your
-    <code>data/figures.yml</code> file.</p>
-    <pre>&#123;&#123;< q-figure-group id="3.1, 3.2, 3.3" >&#125;&#125;</pre>
-  </div>
-</div>
+
+  {{ partial "error-message.html" $errorNoId }}
+
 {{/* -------------------- END ERROR BLOCK -------------------- */}}
 {{ end }}

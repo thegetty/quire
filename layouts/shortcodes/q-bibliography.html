@@ -1,49 +1,62 @@
 {{/*
 
-  This shortcode generates a bibiliography from the entries in the project's
-  `bibiliography.yml` file.
+  This shortcode generates a bibliography from the entries in the project's
+  `references.yml` file.
 
-  This shortcode accepts an option "sort" value, which will sort the list by
+  This shortcode accepts an optional "sort" value, which will sort the list by
   whatever key from the entries is given. Often "short" or "full", though a
-  custom key could be added, such as "file_as", for fine-grained control.
-  Without a "sort" value given, the bibliograpy will be output in the order it
-  is in the bibliography file.
+  custom key could be added, such as "sort_by", for fine-grained control.
+  Without a "sort" value given, the bibliography will be output in the order in
+  which it appears in the references file.
 
   Also, in `config.yml` the `displayBiblioShort` property can be set to "true"
-  to display both the short and the full bibliography values in the outout.
-  Without this property set, the bibliography will not inlcude the short form.
+  to display both the short and the full bibliography values in the output.
+  Without this property set, the bibliography will not include the short form.
 
 */}}
+
+{{ $errorExtraValue := dict "shortcode" "q-bibliography" "message" "This shortcode only accepts a sort value, others should be removed." "example" "{{< q-bibliography sort=&#34;short&#34; >}}" }}
+
+{{ $errorBadValue := dict "shortcode" "q-bibliography" "message" "This shortcode only accepts an optional sort value. The value supplied was not “sort”. To output a bibliography sorted in the order they appear in the `references.yml` file, omit the value together." "example" "{{< q-bibliography >}}<br /><br />{{< q-bibliography sort=&#34;short&#34; >}}" }}
+
 <section class="quire-page__content__references">
-{{ if .Get "sort" }}
-  {{ if eq .Site.Params.displayBiblioShort "true" }}
+
+{{- if .Get "sort" -}}
+  {{- if gt (len .Params) 1 -}}
+    {{ partial "error-message.html" $errorExtraValue }}
+  {{- end -}}
+  {{- if eq .Site.Params.displayBiblioShort true -}}
   <dl>
-  {{ range sort .Site.Data.bibliography.entries ($.Get "sort") }}
+  {{ range sort .Site.Data.references.entries ($.Get "sort") -}}
       <dt>{{ .short | markdownify }}</dt>
       <dd id="{{ .short | urlize }}">{{ .full | markdownify }}</dd>
-  {{ end }}
+  {{- end }}
   </dl>
-  {{ else }}
+  {{- else -}}
   <ul>
-  {{ range sort .Site.Data.bibliography.entries ($.Get "sort") }}
+  {{ range sort .Site.Data.references.entries ($.Get "sort") -}}
       <li id="{{ .short | urlize }}">{{ .full | markdownify }}</li>
-  {{ end }}
+  {{ end -}}
   </ul>
-  {{ end }}
-{{ else }}
-  {{ if eq .Site.Params.displayBiblioShort "true" }}
+  {{- end -}}
+{{- else -}}
+  {{- if eq (len .Params) 1 -}}
+    {{ partial "error-message.html" $errorBadValue }}
+  {{- else -}}
+  {{- if eq .Site.Params.displayBiblioShort true -}}
   <dl>
-  {{ range .Site.Data.bibliography.entries }}
+  {{ range .Site.Data.references.entries -}}
       <dt>{{ .short | markdownify }}</dt>
       <dd id="{{ .short | urlize }}">{{ .full | markdownify }}</dd>
-  {{ end }}
+  {{- end }}
   </dl>
-  {{ else }}
+  {{- else -}}
   <ul>
-  {{ range .Site.Data.bibliography.entries }}
+  {{ range .Site.Data.references.entries }}
       <li id="{{ .short | urlize }}">{{ .full | markdownify }}</li>
-  {{ end }}
+  {{- end }}
   </ul>
-  {{ end }}
-{{ end }}
+  {{- end -}}
+  {{- end -}}
+{{- end -}}
 </section>
