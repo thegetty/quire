@@ -40,11 +40,12 @@
     "name": "{{ .Site.Data.publication.title }}{{ with .Site.Data.publication.subtitle }}: {{ . }}{{ end }}{{ with .Site.Data.publication.reading_line }} ({{ . }}){{ end }}",
     {{ end -}}
     "url": "{{ .Site.BaseURL }}",
-    {{ $gettyVocab := len (where .Site.Data.publication.subject "type" "getty" ) -}}
+    {{ with .Site.Data.publication.subject -}}
+    {{ $gettyVocab := len (where . "type" "getty" ) -}}
     {{- if gt $gettyVocab  0 -}}
     "about": [
-      {{ $len := len (where .Site.Data.publication.subject "type" "getty" ) -}}
-      {{ range $index, $element := where .Site.Data.publication.subject "type" "getty" -}}
+      {{ $len := len (where . "type" "getty" ) -}}
+      {{ range $index, $element := where . "type" "getty" -}}
       {
         "type": "{{ if in .identifier "/ulan/" }}Person{{ else if in .identifier "/tgn/" }}Place{{ else }}Thing{{ end }}",
         "name": "{{ .name }}",
@@ -53,11 +54,13 @@
       {{ end -}}
     ],
     {{ end -}}
-    {{- $contributor := len (where .Site.Data.publication.contributor "type" "primary") -}}
+    {{ end -}}
+    {{ with .Site.Data.publication.contributor -}}
+    {{- $contributor := len (where . "type" "primary") -}}
     {{- if gt $contributor  0 -}}
     "author": [
-      {{ $len := len (where .Site.Data.publication.contributor "type" "primary") -}}
-      {{ range $index, $element := where .Site.Data.publication.contributor "type" "primary" -}}
+      {{ $len := len (where . "type" "primary") -}}
+      {{ range $index, $element := where . "type" "primary" -}}
       {
         "type": "Person",
         "name": "{{ if .full_name }}{{ .full_name }}{{ else }}{{ .first_name }} {{ .last_name }}{{ end }}",
@@ -67,6 +70,7 @@
       }{{ if ne $index (sub $len 1) }},{{ else }}{{ end }}
       {{ end -}}
     ],
+    {{ end -}}
     {{ end -}}
     "datePublished": "{{ .Site.Data.publication.pub_date }}",
     {{ with .Site.Data.publication.revision_history -}}
@@ -78,7 +82,7 @@
     {{ end -}}
     {{ end -}}
     {{ end -}}
-    "keywords": "{{ range $index, $element := where .Site.Data.publication.subject "type" "keyword" }}{{ $len := len . -}}{{ .name }}{{ if ne $index (sub $len 1) }}, {{ else }}{{ end }}{{ end }}",
+    "keywords": "{{ with .Site.Data.publication.subject }}{{ range $index, $element := where . "type" "keyword" }}{{ $len := len . -}}{{ .name }}{{ if ne $index (sub $len 1) }}, {{ else }}{{ end }}{{ end }}{{ end }}",
     "license": "{{ .Site.Data.publication.license.url }}",
     {{ with .Site.Data.publication.publisher -}}
     "publisher": [

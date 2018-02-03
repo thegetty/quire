@@ -2,11 +2,10 @@
 Footer used in both the menu and on the cover
 */}}
 
-{{ $footerLinks := where .Site.Data.publication.resource_link "type" "footer-link" }}
-
 {{ partial "copyright.html" . }}
 
 {{ if isset .Site.Data.publication "resource_link" -}}
+{{ $footerLinks := where .Site.Data.publication.resource_link "type" "footer-link" }}
 {{ if gt (len $footerLinks) 0 -}}
   {{- partial "link-list.html" $footerLinks -}}
 {{- end -}}
