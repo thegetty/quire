@@ -21,11 +21,17 @@
 
 // scss-lint:disable NameFormat
 
+// Variables
+// -----------------------------------------------------------------------------
+$quire-navbar-background-color: $blue !default;
+$quire-navbar-text-color: findColorInvert($quire-navbar-background-color) !default;
+
 // .quire-navbar
 // -----------------------------------------------------------------------------
 .quire-navbar {
-  @include foreground-color($navbar-background-color);
-  background-color: $navbar-background-color;
+
+  @include foreground-color($quire-navbar-background-color,$quire-navbar-text-color);
+  background-color: $quire-navbar-background-color;
   min-height: $navbar-height;
   top: 0;
   width: 100%;
@@ -39,8 +45,6 @@
     height: $navbar-height;
     padding: 0 0.5em;
   }
-
-  svg { fill: findColorInvert($navbar-background-color); }
 
   @media print {
     display: none;
@@ -96,8 +100,8 @@
   transition: all 0.15s linear;
 
   &:hover {
-    background-color: darken($navbar-background-color, 5%);
-    > * { background-color: darken($navbar-background-color, 5%); }
+    background-color: darken($quire-navbar-background-color, 5%);
+    > * { background-color: darken($quire-navbar-background-color, 5%); }
   }
 
   svg { position: relative; top: 2px; }
@@ -131,7 +135,7 @@
   }
 
   &:focus {
-    background-color: darken($navbar-background-color, 5%);
+    background-color: darken($quire-navbar-background-color, 5%);
     clip: unset;
     height: $navbar-height;
     line-height: $navbar-height;

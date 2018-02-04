@@ -20,12 +20,16 @@
 $headings: h1, h2, h3, h4, h5, h6;
 $quire-page-paragraph-style: null !default;
 
+$quire-page-header-background-color: $light !default;
+$quire-page-header-text-color: findColorInvert($quire-page-header-background-color) !default;
+
 .quire-page__header {
-  // Use this if you need an override
+  background-color: $quire-page-header-background-color;
+  @include foreground-color($quire-page-header-background-color, $quire-page-header-text-color);
 
   @media print {
 
-    &.hero.is-light { background-color: transparent; }
+    &.hero { background-color: transparent; }
     .title { font-size: 21pt; }
     .subtitle { font-size: 16pt; }
     .contributor { font-size: 13pt; }
@@ -42,6 +46,10 @@ $quire-page-paragraph-style: null !default;
     @if $quire-page-paragraph-style == "indent" {
       p { margin-bottom: 0; }
       p + p { text-indent: 2em; }
+    }
+
+    a {
+      text-decoration: underline;
     }
 
     @media print {

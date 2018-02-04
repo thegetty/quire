@@ -37,13 +37,15 @@ Cover page layout. This controls the home page of the publication.
 </section>
 {{/* End full-page cover section */}}
 {{/* Begin "below-the-fold" section */}}
+{{ with .Content }}
 <section class="section">
   <div class="container is-fluid">
-    {{ .Content }}
+    {{ . }}
   </div>
 </section>
+{{ end }}
 
-<footer class="footer">
+<footer class="footer quire-cover-footer">
   <div class="container is-fluid">
     <div class="content is-small">
       {{ partial "footer.html" . }}

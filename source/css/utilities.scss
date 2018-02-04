@@ -6,17 +6,19 @@
 
 // Mixins
 // -----------------------------------------------------------------------------
-// Dynamically invert foreground colors based on an element's background
-@mixin foreground-color($bgcolor) {
-  * { color: findColorInvert($bgcolor); }
+// Adjust foreground colors based on an element's background
+@mixin foreground-color($bgcolor, $frcolor) {
+  * { color: $frcolor; }
+
+  svg { fill: $frcolor; }
 
   a {
     background-color: $bgcolor;
-    color: findColorInvert($bgcolor);
+    color: $frcolor;
 
     &:hover {
       background-color: darken($bgcolor, 5%);
-      color: findColorInvert($bgcolor);
+      color: $frcolor;
     }
   }
 }

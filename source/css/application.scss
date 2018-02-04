@@ -20,7 +20,6 @@ $ionicons-font-path: "../fonts/ionicons";
 $body-weight: $weight-light;
 $desktop: 900px;
 $family-primary: 'Merriweather', serif;
-$navbar-background-color: $blue;
 
 // Search input styles
 $input-background-color: $grey-darker;
@@ -32,16 +31,36 @@ $input-color: $white;
 // -----------------------------------------------------------------------------
 // These variables are not referenced by Bulma and can be defined after
 // importing it.
+//
+// The default values are supplied below.
+//
+// By default, text that appears over a background color will be inverted to either white or black for best legibility, but any color can be applied here.
+
+$quire-navbar-background-color: $blue;
+$quire-navbar-text-color: findColorInvert($quire-navbar-background-color);
 
 $quire-cover-background-color: $info;
-// $quire-cover-background-image: url("http://placekitten.com/1400/800");
+$quire-cover-text-color: findColorInvert($quire-cover-background-color);
+$quire-cover-background-image: url("/img/cover_bg.jpg");
+
+$quire-footer-background-color: blue;
+$quire-footer-text-color: findColorInvert($quire-footer-background-color);
 
 $quire-menu-background-color: $dark;
-$quire-menu-width: 300px;
+$quire-menu-text-color: findColorInvert($quire-menu-background-color);
+$quire-menu-width: 350px;
+
+$quire-page-header-background-color: $light;
+$quire-page-header-text-color: findColorInvert($quire-page-header-background-color);
+
+// Set this to null to have paragraphs with space between and no indent:
+$quire-page-paragraph-style: indent;
+
 $quire-map-height: 500px;
 $quire-deepzoom-height: 500px;
 
-$quire-page-paragraph-style: indent;
+// $quire-text-color: ;
+// $quire-text-link-color: ;
 
 // Custom components, etc.
 // -----------------------------------------------------------------------------
