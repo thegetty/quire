@@ -10,6 +10,9 @@
   {{ partial "head.html" . }}
   <body>
     {{ partial "icons.html" . }}
+    {{- if eq .Site.Params.licenseIcons true -}}
+    {{ partial "icons-cc.html" . }}
+    {{- end -}}
     <div class="quire no-js" id="container">
       <div class="quire__secondary is-expanded"
           id="site-menu"
