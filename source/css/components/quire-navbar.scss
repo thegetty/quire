@@ -77,7 +77,14 @@ $quire-navbar-text-color: findColorInvert($quire-navbar-background-color) !defau
   flex-wrap: no-wrap;
   justify-content: center;
 
-  &__item { padding: 0 1rem; }
+  &__item {
+    padding: 0 1rem;
+
+    &.quire-current-page {
+      font-style: italic;
+    }
+    
+  }
 }
 
 // .quire-navbar-button

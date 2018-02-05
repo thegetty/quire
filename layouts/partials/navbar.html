@@ -64,9 +64,9 @@ search icons, and search results if enabled). It is visible on all pages.
         </li>
         {{ end }}
         {{ end }}
-        <li class="quire-navbar-page-controls__item">
+        <li class="quire-navbar-page-controls__item quire-current-page">
           <span class="visually-hidden">Current Page: </span>
-          <em>{{ .Title | markdownify | truncate 40 }}</em>
+          {{- if .Params.short_title }}{{ .Params.short_title | markdownify }} {{ else }}{{ .Title | markdownify | truncate 40 }}{{ end -}}
         </li>
         {{ end }}
 
