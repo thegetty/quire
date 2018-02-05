@@ -3,8 +3,20 @@ Cover page layout. This controls the home page of the publication.
 */}}
 
 {{ define "main" }}
+
+{{ if isset $.Site.Params "imagedir" }}
+{{ $.Scratch.Set "imageDir" $.Site.Params.imageDir }}
+{{ else }}
+{{ $.Scratch.Set "imagedir" "" }}
+{{ end }}
+
 {{/* Begin full-page cover section */}}
-<section class="quire-cover hero is-fullheight" {{ with .Params.image }} style="background-image: url('../img/{{ . }}');"{{ end }}>
+{{- if .Params.image -}}
+{{- $imgPath := printf "%s/%s" ($.Scratch.Get "imageDir") .Params.image -}}
+  <section class="quire-cover hero is-fullheight" style="background-image: url('{{ $imgPath | relURL }}');">
+{{- else -}}
+  <section class="quire-cover hero is-fullheight">
+{{- end -}}
   <div class="hero-body">
     <div class="container is-fluid">
       {{/* Use .Site.Data.publication info if available */}}
