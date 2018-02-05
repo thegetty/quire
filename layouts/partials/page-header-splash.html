@@ -6,7 +6,7 @@
 
 {{- if .Params.image -}}
 {{- $imgPath := printf "%s/%s" ($.Scratch.Get "imageDir") .Params.image -}}
-  <section class="quire-page__header hero is-fullheight" style="background-image: url('{{ $imgPath | relURL }}');">
+  <section class="quire-page__header hero is-fullheight" style="background-image: url('{{ $imgPath | absURL }}');">
 {{- else -}}
   <section class="quire-page__header hero is-fullheight">
 {{- end -}}
