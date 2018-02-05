@@ -83,7 +83,7 @@ $quire-navbar-text-color: findColorInvert($quire-navbar-background-color) !defau
     &.quire-current-page {
       font-style: italic;
     }
-    
+
   }
 }
 
@@ -111,13 +111,24 @@ $quire-navbar-text-color: findColorInvert($quire-navbar-background-color) !defau
     > * { background-color: darken($quire-navbar-background-color, 5%); }
   }
 
-  svg { position: relative; top: 2px; }
+  svg {
+    position: relative;
+    top: 2px;
+    & img {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
 
   &.search-button,
   &.menu-button {
     svg {
       height: 1.75em;
       width: 1.75em;
+      & img {
+        max-height: 1.75em;
+      }
     }
   }
 
@@ -125,6 +136,9 @@ $quire-navbar-text-color: findColorInvert($quire-navbar-background-color) !defau
     svg {
       height: 1em;
       width: 1em;
+      & img {
+        max-height: 1em;
+      }
     }
   }
 }

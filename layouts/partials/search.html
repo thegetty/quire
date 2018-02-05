@@ -1,3 +1,10 @@
+{{- if isset $.Site.Params "imagedir" }}
+{{ $.Scratch.Set "imageDir" $.Site.Params.imageDir }}
+{{ else }}
+{{ $.Scratch.Set "imagedir" "" }}
+{{ end -}}
+{{- $imgDir := $.Scratch.Get "imageDir" -}}
+
 <div id="js-search"
      class="quire-search"
      aria-expanded="false"
@@ -7,6 +14,9 @@
       <svg>
         <switch>
           <use xlink:href="#close-icon"></use>
+          <foreignObject width="32" height="32">
+              <img src="{{ $imgDir | absURL }}/icons/close.png" alt="" />
+          </foreignObject>
         </switch>
       </svg>
     </button>

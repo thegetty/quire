@@ -13,6 +13,13 @@
   partial "section-list.html" (dict "pages" $pages "section" $currentSection "type" "essay")
 */}}
 
+{{- if isset $.Site.Params "imagedir" }}
+{{ $.Scratch.Set "imageDir" $.Site.Params.imageDir }}
+{{ else }}
+{{ $.Scratch.Set "imagedir" "" }}
+{{ end -}}
+{{- $imgDir := $.Scratch.Get "imageDir" -}}
+
 {{ $currentType := .type }}
 
 <ul class="quire-section-list">
@@ -47,6 +54,9 @@
         <svg width="1em" height="1em">
           <switch>
             <use xlink:href="#link-icon"></use>
+            <foreignObject width="32" height="18">
+                <img src="{{ $imgDir | absURL }}/icons/link.png" alt="" />
+            </foreignObject>
           </switch>
         </svg>
       </a>
