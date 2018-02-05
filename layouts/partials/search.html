@@ -3,10 +3,12 @@
      aria-expanded="false"
      data-search-index='{{ ref . "search-index.md" }}' >
   <div class="quire-search__close-button">
-    <button class="button is-large" onclick="toggleSearch()">
-      <span class="icon">
-        <i class="ion ion-close"></i>
-      </span>
+    <button class="button is-medium" onclick="toggleSearch()">
+      <svg>
+        <switch>
+          <use xlink:href="#close-icon"></use>
+        </switch>
+      </svg>
     </button>
   </div>
 
