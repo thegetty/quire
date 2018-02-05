@@ -45,11 +45,16 @@
     }
 
     h1, h2, h3, h4, h5, h6 { display: inline; }
+
   }
 
   &__formats {
     padding-top: 1rem;
     margin-top: 2rem;
+  }
+
+  &__footer {
+    margin: 2rem 0;
   }
 
   .menu-label {

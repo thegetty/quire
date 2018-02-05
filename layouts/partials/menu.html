@@ -34,8 +34,15 @@ by default. Users with JS disabled will alwasy see the menu in its expanded stat
     {{ end -}}
   {{ end -}}
 
-  <footer class="content is-small" role="contentinfo">
-    {{ partial "footer.html" . }}
+  <footer class="content quire-menu__footer is-small" role="contentinfo">
+    {{ partial "copyright.html" . }}
+
+    {{ if isset .Site.Data.publication "resource_link" -}}
+    {{ $footerLinks := where .Site.Data.publication.resource_link "type" "footer-link" }}
+    {{ if gt (len $footerLinks) 0 -}}
+      {{- partial "link-list.html" $footerLinks -}}
+    {{- end -}}
+    {{- end -}}
   </footer>
 
 </aside>

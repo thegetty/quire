@@ -39,4 +39,12 @@ $quire-footer-text-color: findColorInvert($quire-footer-background-color) !defau
     background-color: transparent;
   }
 
+  .quire-publisher-logos {
+    img {
+      float: right;
+      max-height: 6em;
+      margin: 0 .75em 1.5em;
+    }
+  }
+
 }
