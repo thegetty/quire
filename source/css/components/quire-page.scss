@@ -40,8 +40,9 @@ $quire-page-header-text-color: findColorInvert($quire-page-header-background-col
 
   &.hero.is-fullheight {
     min-height: calc(100vh - #{$navbar-height});
-    .title {
-      margin-top: 6rem;
+    .hero-body {
+      padding: 12rem 0;
+      margin-top: -#{$navbar-height};
     }
   }
 
@@ -74,6 +75,7 @@ $quire-page-header-text-color: findColorInvert($quire-page-header-background-col
     }
     .content p {
       margin-bottom: 1em;
+      text-indent: 0;
     }
 
   }
