@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html lang="{{ .Site.Data.publication.language }}">
   {{ partial "head.html" . }}
-  <body id="{{ with .Section }}{{ . | urlize }}-{{ end }}{{ .File.BaseFileName | lower }}">
+  <body>
     {{ partial "icons.html" . }}
     {{- if eq .Site.Params.licenseIcons true -}}
     {{ partial "icons-cc.html" . }}
@@ -21,7 +21,7 @@
         {{ partial "menu.html" . }}
       </div>
 
-      <div class="quire__primary">
+      <div class="quire__primary" id="{{ with .Section }}{{ . | urlize }}-{{ end }}{{ .File.BaseFileName | lower }}">
         {{ partial "navbar.html" . }}
         <div class="quire__primary__inner">
           {{ block "main" . }}
