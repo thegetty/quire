@@ -33,8 +33,16 @@ $quire-page-header-text-color: findColorInvert($quire-page-header-background-col
   background-repeat: no-repeat;
   background-position: cover;
 
+  .subtitle {
+    display: block;
+    margin-top: .35em;
+  }
+
   &.hero.is-fullheight {
     min-height: calc(100vh - #{$navbar-height});
+    .title {
+      margin-top: 6rem;
+    }
   }
 
   @media print {
@@ -52,6 +60,24 @@ $quire-page-header-text-color: findColorInvert($quire-page-header-background-col
   @media screen and (min-width: $desktop) { font-size: 21px; }
 
   // Overrides to Bulma's .content styles where needed.
+
+  // for section-head splash pages where .Content is inside the header
+  .hero-body & {
+    padding: 0;
+    margin-top: 1.5em;
+    ol, ul {
+      list-style-position: inside;
+      padding-left: 0;
+    }
+    ul, ol {
+      margin-left: 0;
+    }
+    .content p {
+      margin-bottom: 1em;
+    }
+
+  }
+
   .content {
     @if $quire-page-paragraph-style == "indent" {
       p { margin-bottom: 0; }

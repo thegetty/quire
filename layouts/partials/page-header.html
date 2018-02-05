@@ -25,12 +25,10 @@
       <h1 class="title is-size-1">
         {{ with .Params.id }}<span>{{ . }}.</span>{{ end }}
         {{ .Title | markdownify }}
+        {{ with .Params.subtitle }}
+        <span class="subtitle is-size-3">{{ . }}</span>
+        {{ end }}
       </h1>
-
-      {{/* Subtitle if any */}}
-      {{ with .Params.subtitle }}
-      <h2 class="subtitle is-size-3">{{ . }}</h2>
-      {{ end }}
 
       {{/* Contributors, if any */}}
       {{ with .Params.contributor }}

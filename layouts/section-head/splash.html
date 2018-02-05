@@ -1,18 +1,7 @@
 {{ define "main" }}
-{{ $currentSection := .Section -}}
 
 <div class="quire-page" id="main">
-  {{- partial "page-header.html" . -}}
-
-  {{- with .Content }}
-  <section id="content" class="section quire-page__content">
-    <div class="container">
-      <div class="content">
-        {{ . }}
-      </div>
-    </div>
-  </section>
-  {{- end -}}
+  {{- partial "page-header-splash.html" . -}}
 </div>
 
 {{- end }}

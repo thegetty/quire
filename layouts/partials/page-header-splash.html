@@ -1,0 +1,44 @@
+{{- if isset $.Site.Params "imagedir" }}
+{{ $.Scratch.Set "imageDir" $.Site.Params.imageDir }}
+{{ else }}
+{{ $.Scratch.Set "imagedir" "" }}
+{{ end -}}
+
+{{- if .Params.image -}}
+{{- $imgPath := printf "%s/%s" ($.Scratch.Get "imageDir") .Params.image -}}
+  <section class="quire-page__header hero is-fullheight" style="background-image: url('{{ $imgPath | relURL }}');">
+{{- else -}}
+  <section class="quire-page__header hero is-fullheight">
+{{- end -}}
+  <div class="hero-body">
+    <div class="container has-text-centered">
+
+      {{/* Page Title */}}
+      <h1 class="title is-size-1">
+        {{ with .Params.id }}<span>{{ . }}.</span>{{ end }}
+        {{ .Title | markdownify }}
+        {{ with .Params.subtitle }}
+        <span class="subtitle is-size-3">{{ . }}</span>
+        {{ end }}
+      </h1>
+
+      {{/* Contributors, if any */}}
+      {{ with .Params.contributor }}
+      <div class="contributor is-size-5">
+        {{ partial "contributor-list.html" (dict "range" . "contributorType" "all" "listType" "list-plus") }}
+      </div>
+      {{ end }}
+
+      {{- with .Content }}
+      <section id="content" class="section quire-page__content">
+        <div class="container">
+          <div class="content">
+            {{ . }}
+          </div>
+        </div>
+      </section>
+      {{- end -}}
+
+    </div>
+  </div>
+</section>

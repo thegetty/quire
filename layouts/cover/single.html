@@ -23,11 +23,10 @@ Cover page layout. This controls the home page of the publication.
       {{ if .Site.Data.publication }}
       <h1 class="title is-1">
         {{ .Site.Data.publication.title | markdownify }}
+        {{ with .Site.Data.publication.subtitle }}
+        <span class="subtitle is-4">{{ . | markdownify }}</span>
+        {{ end }}
       </h1>
-
-      {{ with .Site.Data.publication.subtitle }}
-      <h2 class="subtitle is-4">{{ . | markdownify }}</h2>
-      {{ end }}
 
       {{ with .Site.Data.publication.reading_line }}
       <p class="">{{ . | markdownify }}</p>
