@@ -17,6 +17,9 @@
 
 // Paragraph style: Set this to "indent" to remove spacing between paragraphs
 // and add text-indent instead.
+
+$quire-page-link-color: $blue !default;
+
 $headings: h1, h2, h3, h4, h5, h6;
 $quire-page-paragraph-style: null !default;
 
@@ -56,7 +59,13 @@ $quire-page-header-text-color: findColorInvert($quire-page-header-background-col
     }
 
     a {
-      text-decoration: underline;
+      color: $quire-page-link-color;
+    }
+
+    .leaflet-control-zoom {
+      a {
+        color: $dark;
+      }
     }
 
     @media print {

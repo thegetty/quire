@@ -51,8 +51,7 @@ $quire-menu-width: 350px;
 
 $quire-page-header-background-color: $light;
 $quire-page-header-text-color: findColorInvert($quire-page-header-background-color);
-
-// Set this to null to have paragraphs with space between and no indent:
+$quire-page-link-color: $blue;
 $quire-page-paragraph-style: indent;
 
 $quire-map-height: 500px;
