@@ -6,7 +6,6 @@
 // Variables
 // -----------------------------------------------------------------------------
 $quire-cover-background-color: $info !default;
-$quire-cover-background-image: url("/img/cover_bg.jpg") !default;
 $quire-cover-text-color: findColorInvert($quire-cover-background-color) !default;
 
 $quire-footer-background-color: $light !default;
@@ -14,12 +13,16 @@ $quire-footer-text-color: findColorInvert($quire-footer-background-color) !defau
 
 .quire-cover {
   background-color: $quire-cover-background-color;
-  background-image: $quire-cover-background-image;
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
 
   @include foreground-color($quire-cover-background-color, $quire-cover-text-color);
+
+  &.hero.is-fullheight {
+    min-height: calc(100vh - #{$navbar-height});
+  }
+
 }
 
 .quire-cover-footer {

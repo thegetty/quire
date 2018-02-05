@@ -6,7 +6,7 @@
 {{- end -}}
 {{ $pagebiblio := $.Scratch.Get "a" }}
 
-<section class="quire-page__header hero is-medium">
+<section class="quire-page__header hero {{ if eq .Params.layout "splash" }}is-fullheight{{ else }}is-medium{{ end }}" {{ with .Params.image }} style="background-image: url('../img/{{ . }}');"{{ end }}>
   <div class="hero-body">
     <div class="container has-text-centered">
 

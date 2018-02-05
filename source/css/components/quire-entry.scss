@@ -8,19 +8,24 @@
 
 // scss-lint:disable EmptyRule
 
+$quire-entry-header-height: 6rem;
+
 .quire-entry {
   &__image {
     background-color: $dark;
+    height: calc(100vh - #{$quire-entry-header-height} - #{$navbar-height});
 
     img {
       display: block;
       margin: 0 auto;
-      max-height: 85vh;
+      height: 100%;
       width: auto;
     }
   }
 
   &__header {
+    height: $quire-entry-header-height;
+    margin-bottom: 3rem;
     padding-bottom: 1.5rem;
     padding-top: 1.5rem;
   }

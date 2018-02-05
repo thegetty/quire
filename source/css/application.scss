@@ -41,9 +41,8 @@ $quire-navbar-text-color: findColorInvert($quire-navbar-background-color);
 
 $quire-cover-background-color: $info;
 $quire-cover-text-color: findColorInvert($quire-cover-background-color);
-$quire-cover-background-image: url("/img/cover_bg.jpg");
 
-$quire-footer-background-color: blue;
+$quire-footer-background-color: $light;
 $quire-footer-text-color: findColorInvert($quire-footer-background-color);
 
 $quire-menu-background-color: $dark;

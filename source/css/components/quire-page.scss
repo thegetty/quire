@@ -26,6 +26,13 @@ $quire-page-header-text-color: findColorInvert($quire-page-header-background-col
 .quire-page__header {
   background-color: $quire-page-header-background-color;
   @include foreground-color($quire-page-header-background-color, $quire-page-header-text-color);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: cover;
+
+  &.hero.is-fullheight {
+    min-height: calc(100vh - #{$navbar-height});
+  }
 
   @media print {
 

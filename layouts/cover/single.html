@@ -4,7 +4,7 @@ Cover page layout. This controls the home page of the publication.
 
 {{ define "main" }}
 {{/* Begin full-page cover section */}}
-<section class="quire-cover hero is-fullheight">
+<section class="quire-cover hero is-fullheight" {{ with .Params.image }} style="background-image: url('../img/{{ . }}');"{{ end }}>
   <div class="hero-body">
     <div class="container is-fluid">
       {{/* Use .Site.Data.publication info if available */}}
