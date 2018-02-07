@@ -29,6 +29,7 @@ blackfriday:
 # These values can be accessed in templates via .Site.Params
 params:
   searchEnabled: true
+  licenseIcons: true
   citationPageLocationDivider: ", "
   figureLabels: false
   figureLabelsTextBefore: "Figure "
