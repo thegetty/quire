@@ -21,11 +21,17 @@
 
 // scss-lint:disable NameFormat
 
+// Variables
+// -----------------------------------------------------------------------------
+$quire-navbar-background-color: $blue !default;
+$quire-navbar-text-color: findColorInvert($quire-navbar-background-color) !default;
+
 // .quire-navbar
 // -----------------------------------------------------------------------------
 .quire-navbar {
-  @include foreground-color($navbar-background-color);
-  background-color: $navbar-background-color;
+
+  @include foreground-color($quire-navbar-background-color,$quire-navbar-text-color);
+  background-color: $quire-navbar-background-color;
   min-height: $navbar-height;
   top: 0;
   width: 100%;
@@ -39,8 +45,6 @@
     height: $navbar-height;
     padding: 0 0.5em;
   }
-
-  svg { fill: findColorInvert($navbar-background-color); }
 
   @media print {
     display: none;
@@ -73,7 +77,14 @@
   flex-wrap: no-wrap;
   justify-content: center;
 
-  &__item { padding: 0 1rem; }
+  &__item {
+    padding: 0 1rem;
+
+    &.quire-current-page {
+      font-style: italic;
+    }
+
+  }
 }
 
 // .quire-navbar-button
@@ -96,17 +107,28 @@
   transition: all 0.15s linear;
 
   &:hover {
-    background-color: darken($navbar-background-color, 5%);
-    > * { background-color: darken($navbar-background-color, 5%); }
+    background-color: darken($quire-navbar-background-color, 5%);
+    > * { background-color: darken($quire-navbar-background-color, 5%); }
   }
 
-  svg { position: relative; top: 2px; }
+  svg {
+    position: relative;
+    top: 2px;
+    & img {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
 
   &.search-button,
   &.menu-button {
     svg {
       height: 1.75em;
       width: 1.75em;
+      & img {
+        max-height: 1.75em;
+      }
     }
   }
 
@@ -114,6 +136,9 @@
     svg {
       height: 1em;
       width: 1em;
+      & img {
+        max-height: 1em;
+      }
     }
   }
 }
@@ -131,7 +156,7 @@
   }
 
   &:focus {
-    background-color: darken($navbar-background-color, 5%);
+    background-color: darken($quire-navbar-background-color, 5%);
     clip: unset;
     height: $navbar-height;
     line-height: $navbar-height;

@@ -1,13 +1,33 @@
 {{/*
-Footer used in both the menu and on the cover
+  Footer on the cover
 */}}
 
-{{ $footerLinks := where .Site.Data.publication.resource_link "type" "footer-link" }}
 
-{{ partial "copyright.html" . }}
+{{ if isset $.Site.Params "imagedir" }}
+{{ $.Scratch.Set "imageDir" $.Site.Params.imageDir }}
+{{ else }}
+{{ $.Scratch.Set "imagedir" "" }}
+{{ end }}
+{{- $imgDir := $.Scratch.Get "imageDir" -}}
 
-{{ if isset .Site.Data.publication "resource_link" -}}
-{{ if gt (len $footerLinks) 0 -}}
-  {{- partial "link-list.html" $footerLinks -}}
-{{- end -}}
-{{- end -}}
+<div class="columns">
+  <div class="column is-two-thirds">
+    {{ partial "copyright.html" . }}
+
+    {{ if isset .Site.Data.publication "resource_link" -}}
+    {{ $footerLinks := where .Site.Data.publication.resource_link "type" "footer-link" }}
+    {{ if gt (len $footerLinks) 0 -}}
+      {{- partial "link-list.html" $footerLinks -}}
+    {{- end -}}
+    {{- end -}}
+  </div>
+  <div class="column">
+    {{ if .Site.Data.publication.publisher }}
+    <div class="quire-publisher-logos ">
+    {{ range .Site.Data.publication.publisher }}
+      {{ if .logo }}{{ with .url }}<a href="{{ . }}" target="_blank">{{ end }}<img class="is-pulled-right" src="{{ $imgDir | absURL }}/{{ .logo }}" alt="" />{{ with .url }}</a>{{ end }}{{ end }}
+    {{ end }}
+    </div>
+    {{ end }}
+  </div>
+</div>

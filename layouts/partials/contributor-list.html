@@ -19,6 +19,8 @@
 
 */}}
 
+{{ if ne .range nil }}
+
 {{ if or (and (and (and (ne .contributorType "primary") (ne .contributorType "secondary")) (ne .contributorType "project-team")) (ne .contributorType "all")) (and (and (ne .listType "string") (ne .listType "list")) (ne .listType "list-plus")) }}
 
   <div class="quire-error message is-danger">
@@ -124,6 +126,8 @@
     {{ end }}
 
   {{ end }}
+
+{{ end }}
 
 {{ end }}
 

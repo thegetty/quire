@@ -6,13 +6,45 @@
 // Variables
 // -----------------------------------------------------------------------------
 $quire-cover-background-color: $info !default;
-$quire-cover-background-image: null !default;
+$quire-cover-text-color: findColorInvert($quire-cover-background-color) !default;
+
+$quire-footer-background-color: $light !default;
+$quire-footer-text-color: findColorInvert($quire-footer-background-color) !default;
 
 .quire-cover {
-  @include foreground-color($quire-cover-background-color);
   background-color: $quire-cover-background-color;
-  background-image: $quire-cover-background-image;
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
+
+  @include foreground-color($quire-cover-background-color, $quire-cover-text-color);
+
+  &.hero.is-fullheight {
+    min-height: calc(100vh - #{$navbar-height});
+  }
+
+  .subtitle {
+    display: block;
+    margin-top: .35em;
+  }
+
+}
+
+.quire-cover-footer {
+  background-color: $quire-footer-background-color;
+
+  @include foreground-color($quire-footer-background-color, $quire-footer-text-color);
+
+  a.quire-copyright__icon__link:hover {
+    background-color: transparent;
+  }
+
+  .quire-publisher-logos {
+    img {
+      float: right;
+      max-height: 6em;
+      margin: 0 .75em 1.5em;
+    }
+  }
+
 }

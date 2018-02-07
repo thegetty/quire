@@ -45,15 +45,24 @@
     }
 
     h1, h2, h3, h4, h5, h6 { display: inline; }
+
   }
 
   &__formats {
-    font-size: $size-7;
     padding-top: 1rem;
+    margin-top: 2rem;
+  }
+
+  &__footer {
+    margin: 2rem 0;
   }
 
   .menu-label {
     padding-left: 1em;
+  }
+
+  a.quire-copyright__icon__link:hover {
+    background-color: transparent;
   }
 }
 

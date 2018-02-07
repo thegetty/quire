@@ -1,3 +1,9 @@
+{{- if isset $.Site.Params "imagedir" }}
+{{ $.Scratch.Set "imageDir" $.Site.Params.imageDir }}
+{{ else }}
+{{ $.Scratch.Set "imagedir" "" }}
+{{ end -}}
+
 {{- range .Site.Data.bibliography.biblio_list -}}
   {{ $refs := replace .reference_for " " "" }} {{ $refslist := split $refs "," }}
   {{- range $refslist -}}
@@ -6,7 +12,12 @@
 {{- end -}}
 {{ $pagebiblio := $.Scratch.Get "a" }}
 
-<section class="quire-page__header hero is-light is-medium">
+{{- if .Params.image -}}
+{{- $imgPath := printf "%s/%s" ($.Scratch.Get "imageDir") .Params.image -}}
+  <section class="quire-page__header hero {{ if eq .Params.layout "splash" }}is-fullheight{{ else }}is-medium{{ end }}" style="background-image: url('{{ $imgPath | absURL }}');">
+{{- else -}}
+  <section class="quire-page__header hero {{ if eq .Params.layout "splash" }}is-fullheight{{ else }}is-medium{{ end }}">
+{{- end -}}
   <div class="hero-body">
     <div class="container has-text-centered">
 
@@ -14,12 +25,10 @@
       <h1 class="title is-size-1">
         {{ with .Params.id }}<span>{{ . }}.</span>{{ end }}
         {{ .Title | markdownify }}
+        {{ with .Params.subtitle }}
+        <span class="subtitle is-size-3">{{ . }}</span>
+        {{ end }}
       </h1>
-
-      {{/* Subtitle if any */}}
-      {{ with .Params.subtitle }}
-      <h2 class="subtitle is-size-3">{{ . }}</h2>
-      {{ end }}
 
       {{/* Contributors, if any */}}
       {{ with .Params.contributor }}

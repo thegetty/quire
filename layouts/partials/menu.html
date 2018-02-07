@@ -5,8 +5,6 @@ by default. Users with JS disabled will alwasy see the menu in its expanded stat
 */}}
 
 {{ $contents := dict "contentsScope" .Site "contentsType" .Site.Params.menuType "contentsLocation" "menu" "contentsPage" . }}
-{{ $otherFormats := where .Site.Data.publication.resource_link "type" "other-format" }}
-{{ $relatedResources := where .Site.Data.publication.resource_link "type" "related-resource" }}
 
 <aside class="menu quire-menu" id="site-menu__inner">
   {{ partial "menu-header.html" . }}
@@ -16,6 +14,8 @@ by default. Users with JS disabled will alwasy see the menu in its expanded stat
   </div>
 
   {{ if isset .Site.Data.publication "resource_link" -}}
+    {{ $otherFormats := where .Site.Data.publication.resource_link "type" "other-format" }}
+    {{ $relatedResources := where .Site.Data.publication.resource_link "type" "related-resource" }}
     {{ if gt (len $otherFormats) 0 -}}
       <div class="quire-menu__formats">
       <h3 class="menu-label">Other Formats</h3>
@@ -34,8 +34,15 @@ by default. Users with JS disabled will alwasy see the menu in its expanded stat
     {{ end -}}
   {{ end -}}
 
-  <footer role="contentinfo">
-    {{ partial "footer.html" . }}
+  <footer class="content quire-menu__footer is-small" role="contentinfo">
+    {{ partial "copyright.html" . }}
+
+    {{ if isset .Site.Data.publication "resource_link" -}}
+    {{ $footerLinks := where .Site.Data.publication.resource_link "type" "footer-link" }}
+    {{ if gt (len $footerLinks) 0 -}}
+      {{- partial "link-list.html" $footerLinks -}}
+    {{- end -}}
+    {{- end -}}
   </footer>
 
 </aside>

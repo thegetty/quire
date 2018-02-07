@@ -22,7 +22,18 @@
     button.button {
       background-color: transparent;
       border: 0;
-      color: $dark-invert;
     }
+
+    svg {
+      height: 1.25rem;
+      width: 1.25rem;
+      fill: $dark-invert;
+      & img {
+        max-height: 1.15rem;
+        position: absolute;
+        bottom: 0;
+      }
+    }
+
   }
 }

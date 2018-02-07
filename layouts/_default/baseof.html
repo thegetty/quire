@@ -10,6 +10,9 @@
   {{ partial "head.html" . }}
   <body>
     {{ partial "icons.html" . }}
+    {{- if eq .Site.Params.licenseIcons true -}}
+    {{ partial "icons-cc.html" . }}
+    {{- end -}}
     <div class="quire no-js" id="container">
       <div class="quire__secondary is-expanded"
           id="site-menu"
@@ -18,7 +21,7 @@
         {{ partial "menu.html" . }}
       </div>
 
-      <div class="quire__primary">
+      <div class="quire__primary" id="{{ with .Section }}{{ . | urlize }}-{{ end }}{{ .File.BaseFileName | lower }}">
         {{ partial "navbar.html" . }}
         <div class="quire__primary__inner">
           {{ block "main" . }}

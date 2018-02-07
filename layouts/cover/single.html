@@ -3,19 +3,30 @@ Cover page layout. This controls the home page of the publication.
 */}}
 
 {{ define "main" }}
+
+{{ if isset $.Site.Params "imagedir" }}
+{{ $.Scratch.Set "imageDir" $.Site.Params.imageDir }}
+{{ else }}
+{{ $.Scratch.Set "imagedir" "" }}
+{{ end }}
+
 {{/* Begin full-page cover section */}}
-<section class="quire-cover hero is-fullheight">
+{{- if .Params.image -}}
+{{- $imgPath := printf "%s/%s" ($.Scratch.Get "imageDir") .Params.image -}}
+  <section class="quire-cover hero is-fullheight" style="background-image: url('{{ $imgPath | absURL }}');">
+{{- else -}}
+  <section class="quire-cover hero is-fullheight">
+{{- end -}}
   <div class="hero-body">
     <div class="container is-fluid">
       {{/* Use .Site.Data.publication info if available */}}
       {{ if .Site.Data.publication }}
       <h1 class="title is-1">
         {{ .Site.Data.publication.title | markdownify }}
+        {{ with .Site.Data.publication.subtitle }}
+        <span class="subtitle is-4">{{ . | markdownify }}</span>
+        {{ end }}
       </h1>
-
-      {{ with .Site.Data.publication.subtitle }}
-      <h2 class="subtitle is-4">{{ . | markdownify }}</h2>
-      {{ end }}
 
       {{ with .Site.Data.publication.reading_line }}
       <p class="">{{ . | markdownify }}</p>
@@ -37,13 +48,15 @@ Cover page layout. This controls the home page of the publication.
 </section>
 {{/* End full-page cover section */}}
 {{/* Begin "below-the-fold" section */}}
+{{ with .Content }}
 <section class="section">
   <div class="container is-fluid">
-    {{ .Content }}
+    {{ . }}
   </div>
 </section>
+{{ end }}
 
-<footer class="footer">
+<footer class="footer quire-cover-footer">
   <div class="container is-fluid">
     <div class="content is-small">
       {{ partial "footer.html" . }}

@@ -17,15 +17,38 @@
 
 // Paragraph style: Set this to "indent" to remove spacing between paragraphs
 // and add text-indent instead.
+
+$quire-page-link-color: $blue !default;
+
 $headings: h1, h2, h3, h4, h5, h6;
 $quire-page-paragraph-style: null !default;
 
+$quire-page-header-background-color: $light !default;
+$quire-page-header-text-color: findColorInvert($quire-page-header-background-color) !default;
+
 .quire-page__header {
-  // Use this if you need an override
+  background-color: $quire-page-header-background-color;
+  @include foreground-color($quire-page-header-background-color, $quire-page-header-text-color);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: cover;
+
+  .subtitle {
+    display: block;
+    margin-top: .35em;
+  }
+
+  &.hero.is-fullheight {
+    min-height: calc(100vh - #{$navbar-height});
+    .hero-body {
+      padding: 12rem 0;
+      margin-top: -#{$navbar-height};
+    }
+  }
 
   @media print {
 
-    &.hero.is-light { background-color: transparent; }
+    &.hero { background-color: transparent; }
     .title { font-size: 21pt; }
     .subtitle { font-size: 16pt; }
     .contributor { font-size: 13pt; }
@@ -38,10 +61,39 @@ $quire-page-paragraph-style: null !default;
   @media screen and (min-width: $desktop) { font-size: 21px; }
 
   // Overrides to Bulma's .content styles where needed.
+
+  // for section-head splash pages where .Content is inside the header
+  .hero-body & {
+    padding: 0;
+    margin-top: 1.5em;
+    ol, ul {
+      list-style-position: inside;
+      padding-left: 0;
+    }
+    ul, ol {
+      margin-left: 0;
+    }
+    .content p {
+      margin-bottom: 1em;
+      text-indent: 0;
+    }
+
+  }
+
   .content {
     @if $quire-page-paragraph-style == "indent" {
       p { margin-bottom: 0; }
       p + p { text-indent: 2em; }
+    }
+
+    a {
+      color: $quire-page-link-color;
+    }
+
+    .leaflet-control-zoom {
+      a {
+        color: $dark;
+      }
     }
 
     @media print {
