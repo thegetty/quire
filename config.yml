@@ -14,6 +14,7 @@ languageCode: "en-us"
 theme: "quire-starter-theme"
 footnoteReturnLinkContents: "↩"
 metaDataFormat: "yaml"
+googleAnalytics: ""
 
 pluralizeListTitles: true
 disableKinds:
