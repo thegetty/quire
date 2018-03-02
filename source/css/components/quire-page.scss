@@ -134,10 +134,5 @@ $quire-page-header-text-color: findColorInvert($quire-page-header-background-col
     font-size: 9pt;
     line-height: 13pt;
     margin: 0;
-
-    .quire-toc {
-      column-span: all;
-      font-size: 11pt;
-    }
   }
 }

@@ -4,7 +4,7 @@ available on all pages. For users with Javascript enabled, this menu is hidden
 by default. Users with JS disabled will alwasy see the menu in its expanded state.
 */}}
 
-{{ $contents := dict "contentsScope" .Site "contentsType" .Site.Params.menuType "contentsLocation" "menu" "contentsPage" . }}
+{{ $contents := dict "contentsScope" .Site.Pages "contentsType" .Site.Params.menuType "contentsLocation" ".Params.menu" "contentsPage" . }}
 
 <aside class="menu quire-menu" id="site-menu__inner">
   {{ partial "menu-header.html" . }}

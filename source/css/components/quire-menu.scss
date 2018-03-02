@@ -61,6 +61,22 @@
     padding-left: 1em;
   }
 
+  .menu-list {
+    .list-header {
+      padding: .5em .75em;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: inherit;
+      font-weight: inherit;
+      line-height: inherit;
+      margin-bottom: 0;
+    }
+    li > ul {
+      margin-top: .25em;
+      margin-bottom: .25em;
+    }
+  }
+
   a.quire-copyright__icon__link:hover {
     background-color: transparent;
   }
