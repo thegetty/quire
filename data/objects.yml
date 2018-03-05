@@ -14,7 +14,7 @@ object_list:
     location: Musée d’Orsay, Paris
     link:
     figure:
-      src: manet.jpg
+      - src: manet.jpg
   - id: 2
     title: Impression, *Sunrise*
     artist: Claude Monet
@@ -24,7 +24,8 @@ object_list:
     location: Musée Marmottan Monet, Paris
     link:
     figure:
-      src: monet.jpg
+      - src: monet.jpg
+        download: true
   - id: 3
     title: Reading (portrait of Edma Morisot)
     artist: Berthe Morisot
@@ -35,4 +36,4 @@ object_list:
     link: http://www.clevelandart.org/art/1950.89
     download: true
     figure:
-      src: morisot.jpg
+      - id: "cat3"
