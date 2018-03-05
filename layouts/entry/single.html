@@ -136,5 +136,29 @@ ISSUES:
 {{- $imgPath := printf "%s/%s" .imageDir .figure.src -}}
 <figure>
   <img src="{{ $imgPath | relURL }}" alt="{{ .figure.alt }}" />
+  {{ if or .figure.caption .figure.credit }}
+    <div tabindex="0" class="button is-rounded quire-image-control quire-image-control--more" title="More info">
+      <svg>
+        <switch>
+          <use xlink:href="#more-icon"></use>
+          <foreignObject width="32" height="32">
+              <img src="{{ .imageDir | absURL }}/icons/more.png" alt="" />
+          </foreignObject>
+        </switch>
+      </svg><span class="visually-hidden">More info</span></div>
+    <div class="quire-image-control quire-image-info">{{ .figure.caption }}{{ .figure.credit }}</div>
+  {{ end }}
+  {{ if eq .figure.download true }}
+    <a href="{{ $imgPath | relURL }}" target="_blank" class="button is-rounded quire-image-control quire-image-control--download" title="Download image" download>
+      <svg>
+        <switch>
+          <use xlink:href="#download-icon"></use>
+          <foreignObject width="32" height="32">
+              <img src="{{ .imageDir | absURL }}/icons/download.png" alt="" />
+          </foreignObject>
+        </switch>
+      </svg>
+    <span class="visually-hidden">Download image</span></a>
+  {{ end }}
 </figure>
 {{ end }}

@@ -24,11 +24,55 @@ $quire-entry-header-height: 6rem;
       display: flex;
       align-items: center;
       justify-content: center;
+      position: relative;
     }
-    
+
     img {
       margin: 0 auto;
       max-height: 100%;
+    }
+
+    .quire-image-control {
+      position: absolute;
+      right: 1rem;
+      bottom: 1rem;
+      font-size: .8rem;
+      background-color: $quire-navbar-background-color;
+      color: $quire-navbar-text-color;
+      border-color: $quire-navbar-background-color;
+      height: 2.5rem;
+      z-index: 10;
+
+      &.quire-image-info {
+        right: 4.5rem;
+        max-width: 400px;
+        display: none;
+        padding: 1rem 1rem 2.5rem 1rem;
+        border-radius: 3px;
+        z-index: 1;
+        height: auto;
+      }
+
+      &--more {
+        right: 4.5rem;
+        &:hover + .quire-image-info,
+        &:focus + .quire-image-info {
+          display: block;
+        }
+      }
+
+      svg {
+        position: relative;
+        height: 1.75em;
+        width: 1.75em;
+        fill: $quire-navbar-text-color;
+        & img {
+          position: absolute;
+          top: 0;
+          left: 0;
+          max-height: 1.75em;
+        }
+      }
     }
   }
 
@@ -40,7 +84,6 @@ $quire-entry-header-height: 6rem;
   }
 
   &__tombstone {
-    padding-bottom: 0;
     padding-top: 0;
   }
 
