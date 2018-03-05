@@ -37,10 +37,10 @@ $quire-entry-header-height: 6rem;
       right: 1rem;
       bottom: 1rem;
       font-size: .8rem;
-      background-color: $quire-navbar-background-color;
-      color: $quire-navbar-text-color;
-      border-color: $quire-navbar-background-color;
-      height: 2.5rem;
+      background-color: $dark;
+      color: $light;
+      border-color: $light;
+      height: 2.25rem;
       z-index: 10;
 
       &.quire-image-info {
@@ -55,22 +55,31 @@ $quire-entry-header-height: 6rem;
 
       &--more {
         right: 4.5rem;
-        &:hover + .quire-image-info,
-        &:focus + .quire-image-info {
-          display: block;
+
+        &:hover,
+        &:focus {
+          border-left-width: 0;
+          border-top-width: 0;
+          + .quire-image-info,
+          + .quire-image-info {
+            display: block;
+            border: 1px solid $light;
+          }
         }
+
       }
 
       svg {
         position: relative;
-        height: 1.75em;
-        width: 1.75em;
-        fill: $quire-navbar-text-color;
+        height: 1.5em;
+        width: 1.5em;
+        fill: $light;
+        // fill: $quire-navbar-text-color;
         & img {
           position: absolute;
           top: 0;
           left: 0;
-          max-height: 1.75em;
+          max-height: 1.5em;
         }
       }
     }
