@@ -29,18 +29,26 @@ ISSUES:
     {{ range .Params.object }}
       {{ if .id }}
         {{ range where $.Site.Data.objects.object_list "id" "eq" .id }}
-          {{ if .figure }}
-          {{- $imgPath := printf "%s/%s" ($.Scratch.Get "imageDir") .figure.src -}}
-          <figure>
-            <img src="{{ $imgPath | relURL }}" alt="" />
-          </figure>
+        {{ range .figure }}
+          {{ if .id }}
+            {{ range where $.Site.Data.figures.figure_list "id" "eq" .id }}
+              {{ template "figure" (dict "imageDir" ($.Scratch.Get "imageDir") "figure" . ) }}
+            {{ end }}
+          {{ else if .src }}
+            {{ template "figure" (dict "imageDir" ($.Scratch.Get "imageDir") "figure" . ) }}
           {{ end }}
         {{ end }}
+        {{ end }}
       {{ else if .figure }}
-        {{- $imgPath := printf "%s/%s" ($.Scratch.Get "imageDir") .figure.src -}}
-        <figure>
-          <img src="{{ $imgPath | relURL }}" alt="" />
-        </figure>
+      {{ range .figure }}
+        {{ if .id }}
+          {{ range where $.Site.Data.figures.figure_list "id" "eq" .id }}
+            {{ template "figure" (dict "imageDir" ($.Scratch.Get "imageDir") "figure" . ) }}
+          {{ end }}
+        {{ else if .src }}
+          {{ template "figure" (dict "imageDir" ($.Scratch.Get "imageDir") "figure" . ) }}
+        {{ end }}
+      {{ end }}
       {{ end }}
     {{ end }}
   {{ end }}
@@ -89,10 +97,16 @@ ISSUES:
             {{ if .link }}
             <a href="{{ .link }}" target="_blank" class="button">View in Collection</a>
             {{ end }}
+
+            {{/*
+
             {{ if eq .download true }}
             {{ $imgPath := printf "%s/%s" ($.Scratch.Get "imageDir") .figure.src }}
             <a href="{{ $imgPath | relURL }}" target="_blank" class="button">Download Image</a>
             {{ end }}
+
+            */}}
+
           {{ end }}
         {{ else }}
         {{ end }}
@@ -115,4 +129,12 @@ ISSUES:
   </section>
 
 </article>
+{{ end }}
+
+
+{{ define "figure" }}
+{{- $imgPath := printf "%s/%s" .imageDir .figure.src -}}
+<figure>
+  <img src="{{ $imgPath | relURL }}" alt="{{ .figure.alt }}" />
+</figure>
 {{ end }}
