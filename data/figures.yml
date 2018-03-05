@@ -3,6 +3,7 @@ figure_list:
     src: fig-1-1-venus.jpg
     caption: "Front and side view of the Venus of Brassempouy."
     credit: "Jean-Gilles Berizzi. Public domain."
+    alt: "A small, sculptural carved head and neck in cream-colored ivory with brown incised carving lines."
   - id: "1.2"
     src: fig-1-2-megaliths.jpg
     caption: "The Menec alignments, the most well-known megalithic site among the Carnac stones."
@@ -55,3 +56,20 @@ figure_list:
     src: fig-1-14-violin.jpg
     caption: "Georges Braque, Violin and Candlestick, 1910"
     credit: "Public domain image."
+  - id: "1.15"
+    media_type: soundcloud
+    media_id: 346588770
+    src: drops.mp3
+    caption: Soundcloud embed test
+  - id: "cat1"
+    src: manet.jpg
+    credit: Musée d’Orsay, Paris
+    download: true
+  - id: "cat2"
+    src: monet.jpg
+    credit: Musée Marmottan Monet, Paris
+    download: true
+  - id: "cat3"
+    src: morisot.jpg
+    credit: Cleveland Museum of Art
+    download: true
