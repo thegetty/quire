@@ -63,7 +63,7 @@
     {{ end -}}
 
     {{- if and (eq $.contentsLocation ".Params.toc") (ne $.contentsPage.UniqueID .UniqueID) }}
-      <li class="page-item">{{ template "contents-item-toc" (dict "class" $.contentsPage.Params.class "Page" .) -}}</li>
+      <li class="page-item">{{ template "contents-item-toc" (dict "class" $.contentsPage.Params.class "Page" . "Site" .Site ) -}}</li>
     {{ end -}}
 
   {{- else if and .Section (ne .Section ($.contentsPage.Scratch.Get "renderedSection")) -}}
@@ -76,7 +76,7 @@
           <li class="section-item">{{ template "contents-item-menu" . -}}
         {{- end -}}
         {{- if and (eq $.contentsLocation ".Params.toc") (ne $.contentsPage.UniqueID .UniqueID) }}
-          <li class="section-item">{{ template "contents-item-toc" (dict "class" $.contentsPage.Params.class "Page" .) -}}
+          <li class="section-item">{{ template "contents-item-toc" (dict "class" $.contentsPage.Params.class "Page" . "Site" .Site ) -}}
         {{- end -}}
       {{- else -}}
 
@@ -93,7 +93,7 @@
             {{ if eq $.contentsLocation ".Params.menu" }}
               <li class="page-item">{{ template "contents-item-menu" . -}}</li>
             {{ else }}
-              <li class="page-item">{{ template "contents-item-toc" (dict "class" $.contentsPage.Params.class "Page" .) -}}</li>
+              <li class="page-item">{{ template "contents-item-toc" (dict "class" $.contentsPage.Params.class "Page" . "Site" .Site ) -}}</li>
             {{ end -}}
           {{ end -}}
         {{- end -}}
@@ -107,25 +107,67 @@
 </ul>
 
 {{- define "contents-item-toc" }}
+{{ if isset $.Site.Params "imagedir" }}
+{{ $.Page.Scratch.Set "imageDir" $.Site.Params.imageDir }}
+{{ else }}
+{{ $.Page.Scratch.Set "imagedir" "" }}
+{{- end -}}
   {{- if in .class "grid" -}}
     <a href="{{ .Page.Permalink }}"><div class="card">
-      {{- if .Page.Params.image -}}
-      <div class="card-image">
-        <figure class="image">
-          <img src="../img/{{ .Page.Params.image }}" alt="">
-        </figure>
-      </div>{{- end -}}
+      {{ if .Page.Params.image }}
+        {{ $imgPath := printf "%s/%s" ($.Page.Scratch.Get "imageDir") .Page.Params.image }}
+        <div class="card-image">
+          <figure class="image">
+            <img src="{{ $imgPath | relURL }}" alt="" />
+          </figure>
+        </div>
+      {{ else if .Page.Params.object -}}
+        {{ range .Page.Params.object -}}
+          {{ if .id -}}
+            {{ range where $.Site.Data.objects.object_list "id" "eq" .id -}}
+            {{ range .figure -}}
+              {{ if .id -}}
+                {{ range where $.Site.Data.figures.figure_list "id" "eq" .id -}}
+                  {{ template "contents-image" (dict "imageDir" ($.Page.Scratch.Get "imageDir") "figure" . ) -}}
+                {{- end -}}
+              {{ else if .src -}}
+                {{ template "contents-image" (dict "imageDir" ($.Page.Scratch.Get "imageDir") "figure" . ) -}}
+              {{- end -}}
+            {{- end -}}
+            {{- end -}}
+          {{ else if .figure -}}
+          {{ range .figure -}}
+            {{ if .id -}}
+              {{ range where $.Site.Data.figures.figure_list "id" "eq" .id -}}
+                {{ template "contents-image" (dict "imageDir" ($.Page.Scratch.Get "imageDir") "figure" . ) -}}
+              {{- end -}}
+            {{ else if .src -}}
+              {{ template "contents-image" (dict "imageDir" ($.Page.Scratch.Get "imageDir") "figure" . ) -}}
+            {{- end -}}
+          {{- end -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
       <div class="card-content">
         <div class="title">
-        {{- with .Page.Params.number }}{{ . }}. {{ end }}{{ .Page.Title | markdownify }}{{ with .Page.Params.subtitle }}: {{ . | markdownify }}{{ end }}{{ if .Page.Params.contributor }}<span class="contributor"> — {{ partial "contributor-list.html" (dict "range" .Page.Params.contributor "contributorType" "all" "listType" "string") }}{{ end }}</span></div>
+        {{- with .Page.Params.number }}{{ . }}. {{- end -}}{{ .Page.Title | markdownify }}{{ with .Page.Params.subtitle }}: {{ . | markdownify }}{{- end -}}{{ if .Page.Params.contributor }}<span class="contributor"> — {{ partial "contributor-list.html" (dict "range" .Page.Params.contributor "contributorType" "all" "listType" "string") }}{{- end -}}</span></div>
       </div>
     </div></a>
   {{- else -}}
-    <div class="title"><a href="{{ .Page.Permalink }}">{{ with .Page.Params.number }}{{ . }}. {{ end }}{{ if and .Page.Params.short_title (in .class "brief")}}{{ .Page.Params.short_title | markdownify }}{{ else }}{{ .Page.Title | markdownify }}{{ end }}{{ if in .class "brief"}}{{ else }}{{ with .Page.Params.subtitle }}: {{ . | markdownify }}{{ end }}{{ if .Page.Params.contributor }}<span class="contributor"> — {{ partial "contributor-list.html" (dict "range" .Page.Params.contributor "contributorType" "all" "listType" "string") }}{{ end }}{{ end }}</span></a></div>{{ if and (in .class "abstract") (ne .Page.Params.abstract "") }}<div class="abstract-text">{{ if .Page.Params.abstract }}{{ .Page.Params.abstract | markdownify }}{{ else }}{{ .Page.Summary }}{{ end }}</div>{{ end -}}
+    <div class="title"><a href="{{ .Page.Permalink }}">{{ with .Page.Params.number }}{{ . }}. {{- end -}}{{ if and .Page.Params.short_title (in .class "brief")}}{{ .Page.Params.short_title | markdownify }}{{ else }}{{ .Page.Title | markdownify }}{{- end -}}{{ if in .class "brief"}}{{ else }}{{ with .Page.Params.subtitle }}: {{ . | markdownify }}{{- end -}}{{ if .Page.Params.contributor }}<span class="contributor"> — {{ partial "contributor-list.html" (dict "range" .Page.Params.contributor "contributorType" "all" "listType" "string") }}{{- end -}}{{- end -}}</span></a></div>{{ if and (in .class "abstract") (ne .Page.Params.abstract "") }}<div class="abstract-text">{{ if .Page.Params.abstract }}{{ .Page.Params.abstract | markdownify }}{{ else }}{{ .Page.Summary }}{{- end -}}</div>{{ end -}}
   {{ end -}}
 {{ end -}}
 
 
 {{- define "contents-item-menu" }}
-  <a href="{{ .Permalink }}">{{ with .Params.number }}{{ . }}. {{ end }}{{ if .Params.short_title }}{{ .Params.short_title | markdownify }}{{ else }}{{ .Title | markdownify }}{{ end }}</a>
+  <a href="{{ .Permalink }}">{{ with .Params.number }}{{ . }}. {{- end -}}{{ if .Params.short_title }}{{ .Params.short_title | markdownify }}{{ else }}{{ .Title | markdownify }}{{- end -}}</a>
+{{ end -}}
+
+{{- define "contents-image" }}
+{{ $imgPath := printf "%s/%s" .imageDir .figure.src }}
+<div class="card-image">
+  <figure class="image">
+    <img src="{{ $imgPath | relURL }}" alt="" />
+  </figure>
+</div>
 {{ end -}}
