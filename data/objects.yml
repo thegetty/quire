@@ -24,8 +24,7 @@ object_list:
     location: Musée Marmottan Monet, Paris
     link:
     figure:
-      - src: monet.jpg
-        download: true
+      - id: "cat2"
   - id: 3
     title: Reading (portrait of Edma Morisot)
     artist: Berthe Morisot
@@ -37,3 +36,5 @@ object_list:
     download: true
     figure:
       - id: "cat3"
+      - id: "cat3a"
+      - id: "cat3b"

@@ -71,5 +71,15 @@ figure_list:
     download: true
   - id: "cat3"
     src: morisot.jpg
-    credit: Cleveland Museum of Art
+    credit: Image courtesy of Cleveland Museum of Art
+    download: true
+  - id: "cat3a"
+    src: morisot-detail-a.jpg
+    caption: "Detail from center of the painting showing use of lead white paint in pages of book."
+    credit: Image courtesy of Cleveland Museum of Art
+    download: true
+  - id: "cat3b"
+    src: morisot-signature.jpg
+    caption: "Detail of lower right corner of the painting with Morisot’s signature."
+    credit: Image courtesy of Cleveland Museum of Art
     download: true
