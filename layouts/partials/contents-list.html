@@ -125,7 +125,7 @@
         {{ range .Page.Params.object -}}
           {{ if .id -}}
             {{ range where $.Site.Data.objects.object_list "id" "eq" .id -}}
-            {{ range .figure -}}
+            {{ range first 1 .figure -}}
               {{ if .id -}}
                 {{ range where $.Site.Data.figures.figure_list "id" "eq" .id -}}
                   {{ template "contents-image" (dict "imageDir" ($.Page.Scratch.Get "imageDir") "figure" . ) -}}
@@ -136,7 +136,7 @@
             {{- end -}}
             {{- end -}}
           {{ else if .figure -}}
-          {{ range .figure -}}
+          {{ range first 1 .figure -}}
             {{ if .id -}}
               {{ range where $.Site.Data.figures.figure_list "id" "eq" .id -}}
                 {{ template "contents-image" (dict "imageDir" ($.Page.Scratch.Get "imageDir") "figure" . ) -}}
