@@ -29,6 +29,15 @@ ISSUES:
     {{ range .Params.object }}
       {{ if .id }}
         {{ range where $.Site.Data.objects.object_list "id" "eq" .id }}
+        <div class="quire-entry__image__group-container">
+          {{ if gt (len .figure) 1 -}}
+          <button class="button is-rounded quire-image-control quire-image-control--prev-image" onclick="slideImage('prev')" id="prev-image" title="Previous image">
+            {{- template "image-control-icon" (dict "type" "left-arrow" "description" "Previous image" "imageDir" ($.Scratch.Get "imageDir") ) -}}
+          </button>
+          <button class="button is-rounded quire-image-control quire-image-control--next-image" onclick="slideImage('next')" id="next-image" title="Next image">
+            {{- template "image-control-icon" (dict "type" "right-arrow" "description" "Next image" "imageDir" ($.Scratch.Get "imageDir") ) -}}
+          </button>
+          {{ end -}}
         {{ range .figure }}
           {{ if .id }}
             {{ range where $.Site.Data.figures.figure_list "id" "eq" .id }}
@@ -38,8 +47,10 @@ ISSUES:
             {{ template "figure" (dict "imageDir" ($.Scratch.Get "imageDir") "figure" . ) }}
           {{ end }}
         {{ end }}
+        </div>
         {{ end }}
       {{ else if .figure }}
+      <div class="quire-entry__image__group-container">
       {{ range .figure }}
         {{ if .id }}
           {{ range where $.Site.Data.figures.figure_list "id" "eq" .id }}
@@ -49,6 +60,7 @@ ISSUES:
           {{ template "figure" (dict "imageDir" ($.Scratch.Get "imageDir") "figure" . ) }}
         {{ end }}
       {{ end }}
+      </div>
       {{ end }}
     {{ end }}
   {{ end }}
@@ -97,16 +109,6 @@ ISSUES:
             {{ if .link }}
             <a href="{{ .link }}" target="_blank" class="button">View in Collection</a>
             {{ end }}
-
-            {{/*
-
-            {{ if eq .download true }}
-            {{ $imgPath := printf "%s/%s" ($.Scratch.Get "imageDir") .figure.src }}
-            <a href="{{ $imgPath | relURL }}" target="_blank" class="button">Download Image</a>
-            {{ end }}
-
-            */}}
-
           {{ end }}
         {{ else }}
         {{ end }}
@@ -138,27 +140,26 @@ ISSUES:
   <img src="{{ $imgPath | relURL }}" alt="{{ .figure.alt }}" />
   {{ if or .figure.caption .figure.credit }}
     <div tabindex="0" class="button is-rounded quire-image-control quire-image-control--more" title="More info">
-      <svg>
-        <switch>
-          <use xlink:href="#more-icon"></use>
-          <foreignObject width="32" height="32">
-              <img src="{{ .imageDir | absURL }}/icons/more.png" alt="" />
-          </foreignObject>
-        </switch>
-      </svg><span class="visually-hidden">More info</span></div>
-    <div class="quire-image-control quire-image-info">{{ .figure.caption }}{{ .figure.credit }}</div>
+      {{- template "image-control-icon" (dict "type" "more" "description" "More info" "imageDir" .imageDir ) -}}
+    </div>
+    <div class="quire-image-control quire-image-info">{{ .figure.caption }} {{ .figure.credit }}</div>
   {{ end }}
   {{ if eq .figure.download true }}
     <a href="{{ $imgPath | relURL }}" target="_blank" class="button is-rounded quire-image-control quire-image-control--download" title="Download image" download>
-      <svg>
-        <switch>
-          <use xlink:href="#download-icon"></use>
-          <foreignObject width="32" height="32">
-              <img src="{{ .imageDir | absURL }}/icons/download.png" alt="" />
-          </foreignObject>
-        </switch>
-      </svg>
-    <span class="visually-hidden">Download image</span></a>
+      {{- template "image-control-icon" (dict "type" "download" "description" "Download image" "imageDir" .imageDir ) -}}
+    </a>
   {{ end }}
 </figure>
+{{ end }}
+
+{{ define "image-control-icon" }}
+<svg>
+  <switch>
+    <use xlink:href="#{{ .type }}-icon"></use>
+    <foreignObject width="32" height="32">
+        <img src="{{ .imageDir | absURL }}/icons/{{ .type }}.png" alt="" />
+    </foreignObject>
+  </switch>
+</svg>
+<span class="visually-hidden">{{ .description }}</span>
 {{ end }}
