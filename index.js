@@ -56,7 +56,7 @@ program
   .command('preview [options]')
   .description('Run the preview server in the current directory')
   .action(function() {
-    cli.verbose(program.verbose)
+    cli.verbose = program.verbose
     cli.emit('preview')
   })
 
