@@ -117,6 +117,25 @@ $quire-entry-header-height: 6rem;
 
   &__tombstone {
     padding-top: 0;
+    .button:hover {
+      background-color: darken(#fff, 5%);
+      svg {
+        fill: darken(#dbdbdb, 5%);
+      }
+    }
+    svg {
+      position: relative;
+      height: 1.5em;
+      width: 1.5em;
+      margin-left: .5em;
+      fill: #dbdbdb;
+      & img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        max-height: 1.5em;
+      }
+    }
   }
 
   .quire-page__content {

@@ -107,7 +107,7 @@ ISSUES:
         {{ if .id }}
           {{ range where $.Site.Data.objects.object_list "id" "eq" .id }}
             {{ if .link }}
-            <a href="{{ .link }}" target="_blank" class="button">View in Collection</a>
+            <a href="{{ .link }}" target="_blank" class="button">{{ $.Site.Params.objectLinkText }} {{- template "image-control-icon" (dict "type" "link" "description" "Open in new window" "imageDir" .imageDir ) -}}</a>
             {{ end }}
           {{ end }}
         {{ else }}
@@ -146,7 +146,7 @@ ISSUES:
   {{ end }}
   {{ if eq .figure.download true }}
     <a href="{{ $imgPath | relURL }}" target="_blank" class="button is-rounded quire-image-control quire-image-control--download" title="Download image" download>
-      {{- template "image-control-icon" (dict "type" "download" "description" "Download image" "imageDir" .imageDir ) -}}
+      {{- template "image-control-icon" (dict "type" "download" "description" "Download image" "imageDir" ($.Scratch.Get "imageDir") ) -}}
     </a>
   {{ end }}
 </figure>
@@ -157,7 +157,7 @@ ISSUES:
   <switch>
     <use xlink:href="#{{ .type }}-icon"></use>
     <foreignObject width="32" height="32">
-        <img src="{{ .imageDir | absURL }}/icons/{{ .type }}.png" alt="" />
+        <img src="{{ absURL .imageDir }}/icons/{{ .type }}.png" alt="" />
     </foreignObject>
   </switch>
 </svg>
