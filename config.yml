@@ -42,3 +42,4 @@ params:
   imageDir: "img"
   tocType: full
   menuType: short
+  objectLinkText: "View in Collection"
