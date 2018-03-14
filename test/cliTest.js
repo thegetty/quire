@@ -64,4 +64,17 @@ describe('CLI', function () {
       assert.throws(quire.build, Error)
     })
   })
+
+  describe('verbose', function () {
+    afterEach(function () {
+      quire.emit('shutdown')
+      process.chdir(defaultLocation)
+    })
+
+    it('should set verbose to true.', function () {
+      quire = new CLI()
+      quire.verbose = true
+      assert.equal(quire.verbose, true)
+    })
+  })
 })
