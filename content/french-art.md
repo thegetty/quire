@@ -115,7 +115,7 @@ Bernini's famous proposal for redesigning the Louvre was rejected by Louis XIV.
 Georges de La Tour, The Penitent Magdalene, c. 1640.
 ({{< q-cite "Berson 1996" "233" >}})
 
-{{< q-figure-group id="1.6, 1.7" caption="This group caption supercedes individual captions." >}}
+{{< q-figure-group id="1.6, 1.7" grid="2" caption="This group caption supercedes individual captions." >}}
 
 Through propaganda, wars, and great architectural works, Louis XIV launched a
 vast program designed for the glorification of France and his name. The Palace
