@@ -43,6 +43,7 @@ process.on('SIGINT', function() { cli.emit('shutdown') })
 
 program
   .version('0.1.0.alpha.8')
+  .option('-v, --verbose', 'log verbose output')
 
 program
   .command('new <projectName>')
@@ -55,6 +56,7 @@ program
   .command('preview [options]')
   .description('Run the preview server in the current directory')
   .action(function() {
+    cli.verbose = program.verbose
     cli.emit('preview')
   })
 
