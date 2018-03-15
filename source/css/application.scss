@@ -9,7 +9,6 @@
 @import "~bulma/sass/utilities/initial-variables";
 @import "fonts";
 
-
 // Variables
 // -----------------------------------------------------------------------------
 // Custom variables which override Bulma defaults can be defined here, before
@@ -24,39 +23,31 @@ $family-primary: 'Merriweather', serif;
 // Quire-specific variables
 // -----------------------------------------------------------------------------
 // These variables are not referenced by Bulma and can be defined after
-// importing it.
-//
-// The default values are supplied below.
+// importing it. The default values are supplied below.
 //
 // By default, text that appears over a background color will be inverted to either white or black for best legibility, but any color can be applied here.
 
-$quire-navbar-background-color: $blue;
-$quire-navbar-text-color: findColorInvert($quire-navbar-background-color);
-
-$quire-cover-background-color: $info;
-$quire-cover-text-color: findColorInvert($quire-cover-background-color);
-
-$quire-footer-background-color: $light;
-$quire-footer-text-color: findColorInvert($quire-footer-background-color);
-
-$quire-menu-background-color: $dark;
-$quire-menu-text-color: findColorInvert($quire-menu-background-color);
-$quire-menu-width: 350px;
-
-$quire-page-header-background-color: $light;
-$quire-page-header-text-color: findColorInvert($quire-page-header-background-color);
-$quire-page-link-color: $blue;
 $quire-page-paragraph-style: indent;
 
-$quire-entry-image-background-color: $dark;
-$quire-entry-image-icons-color: findColorInvert($quire-entry-image-background-color);
-$quire-entry-header-height: 10rem;
+$quire-navbar-color: $blue;
+$quire-cover-color: $cyan;
+$quire-footer-color: $light;
+$quire-menu-color: $dark;
+$quire-page-header-color: $light;
+$quire-page-link-color: $blue;
+$quire-entry-image-color: $dark;
 
+$quire-navbar-text-color: findColorInvert($quire-navbar-color);
+$quire-cover-text-color: findColorInvert($quire-cover-color);
+$quire-footer-text-color: findColorInvert($quire-footer-color);
+$quire-menu-text-color: findColorInvert($quire-menu-color);
+$quire-page-header-text-color: findColorInvert($quire-page-header-color);
+$quire-entry-image-icons-color: findColorInvert($quire-entry-image-color);
+
+$quire-menu-width: 350px;
 $quire-map-height: 500px;
 $quire-deepzoom-height: 500px;
-
-// $quire-text-color: ;
-// $quire-text-link-color: ;
+$quire-entry-header-height: 10rem;
 
 // Custom components, etc.
 // -----------------------------------------------------------------------------
@@ -65,8 +56,3 @@ $quire-deepzoom-height: 500px;
 @import "layout";
 @import "components/all";
 @import "print";
-
-// Other custom styles (move elsewhere later)
-
-
-

@@ -11,15 +11,15 @@
 // Variables
 // -----------------------------------------------------------------------------
 
-$quire-entry-image-background-color: $dark !default;
-$quire-entry-image-icons-color: findColorInvert($quire-entry-image-background-color) !default;
+$quire-entry-image-color: $dark !default;
+$quire-entry-image-icons-color: findColorInvert($quire-entry-image-color) !default;
 $quire-entry-header-height: 6rem !default;
 
 // -----------------------------------------------------------------------------
 .quire-entry {
   &__image {
-    @include foreground-color($quire-entry-image-background-color,$quire-entry-image-icons-color);
-    background-color: $quire-entry-image-background-color;
+    @include foreground-color($quire-entry-image-color,$quire-entry-image-icons-color);
+    background-color: $quire-entry-image-color;
     height: calc(100vh - #{$quire-entry-header-height} - #{$navbar-height});
     display: flex;
     align-items: center;
@@ -50,7 +50,7 @@ $quire-entry-header-height: 6rem !default;
       z-index: 10;
 
       &.quire-image-info {
-        background-color: darken($quire-entry-image-background-color, 5%);
+        background-color: darken($quire-entry-image-color, 5%);
         right: 4.5rem;
         max-width: 400px;
         display: none;

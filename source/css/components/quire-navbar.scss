@@ -23,15 +23,15 @@
 
 // Variables
 // -----------------------------------------------------------------------------
-$quire-navbar-background-color: $blue !default;
-$quire-navbar-text-color: findColorInvert($quire-navbar-background-color) !default;
+$quire-navbar-color: $blue !default;
+$quire-navbar-text-color: findColorInvert($quire-navbar-color) !default;
 
 // .quire-navbar
 // -----------------------------------------------------------------------------
 .quire-navbar {
 
-  @include foreground-color($quire-navbar-background-color,$quire-navbar-text-color);
-  background-color: $quire-navbar-background-color;
+  @include foreground-color($quire-navbar-color,$quire-navbar-text-color);
+  background-color: $quire-navbar-color;
   min-height: $navbar-height;
   top: 0;
   width: 100%;
@@ -107,8 +107,8 @@ $quire-navbar-text-color: findColorInvert($quire-navbar-background-color) !defau
   transition: all 0.15s linear;
 
   &:hover {
-    background-color: darken($quire-navbar-background-color, 5%);
-    > * { background-color: darken($quire-navbar-background-color, 5%); }
+    background-color: darken($quire-navbar-color, 5%);
+    > * { background-color: darken($quire-navbar-color, 5%); }
   }
 
   svg {
@@ -156,7 +156,7 @@ $quire-navbar-text-color: findColorInvert($quire-navbar-background-color) !defau
   }
 
   &:focus {
-    background-color: darken($quire-navbar-background-color, 5%);
+    background-color: darken($quire-navbar-color, 5%);
     clip: unset;
     height: $navbar-height;
     line-height: $navbar-height;

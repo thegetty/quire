@@ -27,8 +27,8 @@
 // Override these values in the main application.scss file in the variables
 // section.
 
-$quire-menu-background-color: $dark !default;
-$quire-menu-text-color: findColorInvert($quire-menu-background-color) !default;
+$quire-menu-color: $dark !default;
+$quire-menu-text-color: findColorInvert($quire-menu-color) !default;
 $quire-menu-width: 350px !default;
 
 // .quire container
@@ -38,10 +38,10 @@ $quire-menu-width: 350px !default;
 
   // Styles used whether JS is enabled or not
   &__secondary {
-    background-color: $quire-menu-background-color;
+    background-color: $quire-menu-color;
     padding: 1em;
 
-    @include foreground-color($quire-menu-background-color, $quire-menu-text-color);
+    @include foreground-color($quire-menu-color, $quire-menu-text-color);
 
   }
 

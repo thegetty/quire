@@ -5,19 +5,19 @@
 
 // Variables
 // -----------------------------------------------------------------------------
-$quire-cover-background-color: $cyan !default;
-$quire-cover-text-color: findColorInvert($quire-cover-background-color) !default;
+$quire-cover-color: $cyan !default;
+$quire-cover-text-color: findColorInvert($quire-cover-color) !default;
 
-$quire-footer-background-color: $light !default;
-$quire-footer-text-color: findColorInvert($quire-footer-background-color) !default;
+$quire-footer-color: $light !default;
+$quire-footer-text-color: findColorInvert($quire-footer-color) !default;
 
 .quire-cover {
-  background-color: $quire-cover-background-color;
+  background-color: $quire-cover-color;
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
 
-  @include foreground-color($quire-cover-background-color, $quire-cover-text-color);
+  @include foreground-color($quire-cover-color, $quire-cover-text-color);
 
   &.hero.is-fullheight {
     min-height: calc(100vh - #{$navbar-height});
@@ -31,9 +31,9 @@ $quire-footer-text-color: findColorInvert($quire-footer-background-color) !defau
 }
 
 .quire-cover-footer {
-  background-color: $quire-footer-background-color;
+  background-color: $quire-footer-color;
 
-  @include foreground-color($quire-footer-background-color, $quire-footer-text-color);
+  @include foreground-color($quire-footer-color, $quire-footer-text-color);
 
   a.quire-copyright__icon__link:hover {
     background-color: transparent;

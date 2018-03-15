@@ -23,12 +23,12 @@ $quire-page-link-color: $blue !default;
 $headings: h1, h2, h3, h4, h5, h6;
 $quire-page-paragraph-style: null !default;
 
-$quire-page-header-background-color: $light !default;
-$quire-page-header-text-color: findColorInvert($quire-page-header-background-color) !default;
+$quire-page-header-color: $light !default;
+$quire-page-header-text-color: findColorInvert($quire-page-header-color) !default;
 
 .quire-page__header {
-  background-color: $quire-page-header-background-color;
-  @include foreground-color($quire-page-header-background-color, $quire-page-header-text-color);
+  background-color: $quire-page-header-color;
+  @include foreground-color($quire-page-header-color, $quire-page-header-text-color);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: cover;
