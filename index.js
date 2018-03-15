@@ -82,13 +82,13 @@ program
 // quire pdf
 //
 // run the build command in the current directory
-// Pass options to hugo?
+// Pass optional config from config/environments/[env].yml to hugo
 //
 program
-  .command('pdf')
+  .command('pdf [env]')
   .description('Generate a PDF version of the current project')
-  .action(function() {
-    cli.emit('pdf')
+  .action(function(env) {
+    cli.emit('pdf', env)
   })
 
 // quire epub
@@ -99,7 +99,7 @@ program
 program
   .command('epub [env]')
   .description('Generate an EPUB version of the current project')
-  .action(function() {
+  .action(function(env) {
     cli.emit('epub', env)
   })
 
