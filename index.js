@@ -70,13 +70,13 @@ program
 // quire build
 //
 // run the build command in the current directory
-// Pass options to hugo?
+// Pass optional config from config/environments/[env].yml to hugo
 //
 program
-  .command('build [options]')
+  .command('build [env]')
   .description('Run the build command in the current directory')
-  .action(function(options) {
-    cli.emit('build')
+  .action(function(env) {
+    cli.emit('build', env)
   })
 
 // quire pdf
@@ -94,13 +94,13 @@ program
 // quire epub
 //
 // run the build command in the current directory
-// Pass options to hugo?
+// Pass optional config from config/environments/[env].yml to hugo
 //
 program
-  .command('epub')
+  .command('epub [env]')
   .description('Generate an EPUB version of the current project')
   .action(function() {
-    cli.emit('epub')
+    cli.emit('epub', env)
   })
 
 // quire debug
