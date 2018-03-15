@@ -12,11 +12,14 @@
 
   svg { fill: $frcolor; }
 
-  a {
+  a,
+  button,
+  .button {
     background-color: $bgcolor;
     color: $frcolor;
 
-    &:hover {
+    &:hover,
+    &:focus {
       background-color: darken($bgcolor, 5%);
       color: $frcolor;
     }

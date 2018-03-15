@@ -8,11 +8,18 @@
 
 // scss-lint:disable EmptyRule
 
-$quire-entry-header-height: 6rem;
+// Variables
+// -----------------------------------------------------------------------------
 
+$quire-entry-image-background-color: $dark !default;
+$quire-entry-image-icons-color: findColorInvert($quire-entry-image-background-color) !default;
+$quire-entry-header-height: 6rem !default;
+
+// -----------------------------------------------------------------------------
 .quire-entry {
   &__image {
-    background-color: $dark;
+    @include foreground-color($quire-entry-image-background-color,$quire-entry-image-icons-color);
+    background-color: $quire-entry-image-background-color;
     height: calc(100vh - #{$quire-entry-header-height} - #{$navbar-height});
     display: flex;
     align-items: center;
@@ -38,19 +45,12 @@ $quire-entry-header-height: 6rem;
       right: 1rem;
       bottom: 1rem;
       font-size: .8rem;
-      background-color: $dark;
-      color: $light;
-      border-color: #7f7f7f;
+      border-color: darken($quire-entry-image-icons-color, 15%);
       height: 2.25rem;
       z-index: 10;
 
-      &:hover,
-      &:focus,
-      &.quire-image-info  {
-        background-color: darken($dark, 5%);
-      }
-
       &.quire-image-info {
+        background-color: darken($quire-entry-image-background-color, 5%);
         right: 4.5rem;
         max-width: 400px;
         display: none;
@@ -70,7 +70,7 @@ $quire-entry-header-height: 6rem;
           + .quire-image-info,
           + .quire-image-info {
             display: block;
-            border: 1px solid #7f7f7f;
+            border: 1px solid darken($quire-entry-image-icons-color, 15%);
           }
         }
 
@@ -96,8 +96,6 @@ $quire-entry-header-height: 6rem;
         position: relative;
         height: 1.5em;
         width: 1.5em;
-        fill: $light;
-        // fill: $quire-navbar-text-color;
         & img {
           position: absolute;
           top: 0;
@@ -117,18 +115,12 @@ $quire-entry-header-height: 6rem;
 
   &__tombstone {
     padding-top: 0;
-    .button:hover {
-      background-color: darken(#fff, 5%);
-      svg {
-        fill: darken(#dbdbdb, 5%);
-      }
-    }
     svg {
       position: relative;
       height: 1.5em;
       width: 1.5em;
       margin-left: .5em;
-      fill: #dbdbdb;
+      fill: $quire-page-link-color;
       & img {
         position: absolute;
         top: 0;

@@ -87,10 +87,10 @@ $quire-page-header-text-color: findColorInvert($quire-page-header-background-col
     }
 
     a {
-      color: $quire-page-link-color;
+      // color: $quire-page-link-color;
     }
 
-    .leaflet-control-zoom {
+    .leaflet-control {
       a {
         color: $dark;
       }

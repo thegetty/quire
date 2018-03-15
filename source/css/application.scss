@@ -19,10 +19,6 @@ $body-weight: $weight-light;
 $desktop: 900px;
 $family-primary: 'Merriweather', serif;
 
-// Search input styles
-$input-background-color: $grey-darker;
-$input-color: $white;
-
 @import "bulma-components";
 
 // Quire-specific variables
@@ -51,6 +47,10 @@ $quire-page-header-background-color: $light;
 $quire-page-header-text-color: findColorInvert($quire-page-header-background-color);
 $quire-page-link-color: $blue;
 $quire-page-paragraph-style: indent;
+
+$quire-entry-image-background-color: $dark;
+$quire-entry-image-icons-color: findColorInvert($quire-entry-image-background-color);
+$quire-entry-header-height: 10rem;
 
 $quire-map-height: 500px;
 $quire-deepzoom-height: 500px;
