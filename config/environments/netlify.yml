@@ -1,0 +1,22 @@
+# ==============================================================================
+# config.build.yml
+# ------------------------------------------------------------------------------
+#
+# Build-specific values. Hugo supports multiple config files with the
+# following syntax:
+#
+# hugo --config=base.toml,child1.toml,child2.toml
+#
+# If you are using the Quire commands, this will happen automatically.
+#
+# You will also need to add a `netlify.toml` file with the following
+# [build]
+#   publish = "public"
+#   command = "hugo --config=config.yml,config/environments/netlify.yml"
+#   HUGO_VERSION = "0.31"
+
+
+# Use these settings for Netlify
+#
+baseURL: "http://quire-demo.netlify.com"
+relativeURLs: true
