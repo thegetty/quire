@@ -1,18 +1,14 @@
 # ==============================================================================
-# config.build.yml
+# netlify.yml
 # ------------------------------------------------------------------------------
 #
-# Build-specific values. Hugo supports multiple config files with the
-# following syntax:
+# Deployment config for https://www.netlify.com/
+# The baseURL should be updated to your Netlify subdomain
 #
-# hugo --config=base.toml,child1.toml,child2.toml
-#
-# If you are using the Quire commands, this will happen automatically.
-#
-# You will also need to add a `netlify.toml` file with the following
+# You will also need to add a `netlify.toml` file with the following:
 # [build]
 #   publish = "public"
-#   command = "hugo --config=config.yml,config/environments/netlify.yml"
+#   command = "hugo --config=config.yml,config/web.yml,config/environments/netlify.yml"
 #   HUGO_VERSION = "0.31"
 
 
