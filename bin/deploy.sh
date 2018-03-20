@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Change this if you change the output folder in config.yml
-BUILD_DIR="public"
+BUILD_DIR="site"
 
 DIR=$(dirname "$0")
 cd $DIR/..
@@ -23,4 +23,3 @@ quire build
 echo "Updating gh-pages branch"
 git add $BUILD_DIR && git commit -m "Automated deploy at $(date)."
 git subtree push --prefix $BUILD_DIR origin gh-pages
-
