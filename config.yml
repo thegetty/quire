@@ -12,6 +12,8 @@ baseurl: ""
 title: "Quire Starter"
 languageCode: "en-us"
 theme: "quire-starter-theme"
+publishDir: site
+
 footnoteReturnLinkContents: "↩"
 metaDataFormat: "yaml"
 

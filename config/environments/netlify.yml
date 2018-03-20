@@ -7,7 +7,7 @@
 #
 # You will also need to add a `netlify.toml` file with the following:
 # [build]
-#   publish = "public"
+#   publish = "site"
 #   command = "hugo --config=config.yml,config/web.yml,config/environments/netlify.yml"
 #   HUGO_VERSION = "0.31"
 
