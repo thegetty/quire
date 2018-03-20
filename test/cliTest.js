@@ -41,7 +41,7 @@ describe('CLI', function () {
 
   describe('preview', function () {
     afterEach(function () {
-      quire.emit('shutdown')
+      quire.emit('shutdown', true)
       process.chdir(defaultLocation)
     })
 
@@ -54,7 +54,7 @@ describe('CLI', function () {
 
   describe('build', function () {
     afterEach(function () {
-      quire.emit('shutdown')
+      quire.emit('shutdown', true)
       process.chdir(defaultLocation)
     })
 
@@ -67,7 +67,7 @@ describe('CLI', function () {
 
   describe('verbose', function () {
     afterEach(function () {
-      quire.emit('shutdown')
+      quire.emit('shutdown', true)
       process.chdir(defaultLocation)
     })
 

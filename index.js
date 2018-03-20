@@ -22,7 +22,7 @@
  * directories at the same time, supporting live-reloading for both content
  * and theme files.
  *
- * ### build
+ * ### site
  * Builds the theme using Webpack and then builds the website using Hugo.
  *
  * ### pdf
@@ -67,16 +67,17 @@ program
     cli.emit('install')
   })
 
-// quire build
+// quire site
 //
 // run the build command in the current directory
 // Pass optional config from config/environments/[env].yml to hugo
 //
 program
-  .command('build [env]')
+  .command('site [env]')
+  .alias('build')
   .description('Run the build command in the current directory')
   .action(function(env) {
-    cli.emit('build', env)
+    cli.emit('site', env)
   })
 
 // quire pdf
