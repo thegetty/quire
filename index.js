@@ -22,7 +22,7 @@
  * directories at the same time, supporting live-reloading for both content
  * and theme files.
  *
- * ### build
+ * ### site
  * Builds the theme using Webpack and then builds the website using Hugo.
  *
  * ### pdf
@@ -43,6 +43,7 @@ process.on('SIGINT', function() { cli.emit('shutdown') })
 
 program
   .version('0.1.0.alpha.8')
+  .option('-v, --verbose', 'log verbose output')
 
 program
   .command('new <projectName>')
@@ -55,6 +56,7 @@ program
   .command('preview [options]')
   .description('Run the preview server in the current directory')
   .action(function() {
+    cli.verbose = program.verbose
     cli.emit('preview')
   })
 
@@ -65,40 +67,41 @@ program
     cli.emit('install')
   })
 
-// quire build
+// quire site
 //
 // run the build command in the current directory
-// Pass options to hugo?
+// Pass optional config from config/environments/[env].yml to hugo
 //
 program
-  .command('build [options]')
+  .command('site [env]')
+  .alias('build')
   .description('Run the build command in the current directory')
-  .action(function(options) {
-    cli.emit('build')
+  .action(function(env) {
+    cli.emit('site', env)
   })
 
 // quire pdf
 //
 // run the build command in the current directory
-// Pass options to hugo?
+// Pass optional config from config/environments/[env].yml to hugo
 //
 program
-  .command('pdf')
+  .command('pdf [env]')
   .description('Generate a PDF version of the current project')
-  .action(function() {
-    cli.emit('pdf')
+  .action(function(env) {
+    cli.emit('pdf', env)
   })
 
 // quire epub
 //
 // run the build command in the current directory
-// Pass options to hugo?
+// Pass optional config from config/environments/[env].yml to hugo
 //
 program
-  .command('epub')
+  .command('epub [env]')
   .description('Generate an EPUB version of the current project')
-  .action(function() {
-    cli.emit('epub')
+  .action(function(env) {
+    cli.emit('epub', env)
   })
 
 // quire debug

@@ -41,7 +41,7 @@ describe('CLI', function () {
 
   describe('preview', function () {
     afterEach(function () {
-      quire.emit('shutdown')
+      quire.emit('shutdown', true)
       process.chdir(defaultLocation)
     })
 
@@ -54,7 +54,7 @@ describe('CLI', function () {
 
   describe('build', function () {
     afterEach(function () {
-      quire.emit('shutdown')
+      quire.emit('shutdown', true)
       process.chdir(defaultLocation)
     })
 
@@ -62,6 +62,19 @@ describe('CLI', function () {
       process.chdir(invalidProjectDir)
       quire = new CLI()
       assert.throws(quire.build, Error)
+    })
+  })
+
+  describe('verbose', function () {
+    afterEach(function () {
+      quire.emit('shutdown', true)
+      process.chdir(defaultLocation)
+    })
+
+    it('should set verbose to true.', function () {
+      quire = new CLI()
+      quire.verbose = true
+      assert.equal(quire.verbose, true)
     })
   })
 })
