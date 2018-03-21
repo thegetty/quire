@@ -38,6 +38,9 @@ params:
   videoFigureFallbackText: true
   videoFigureFallbackTextBefore: "Watch the video at "
   videoFigureFallbackTextAfter: "."
+  websiteFigureFallbackText: true
+  websiteFigureFallbackTextBefore: "Visit the site at "
+  websiteFigureFallbackTextAfter: "."
   displayBiblioShort: true
   imageDir: "img"
   tocType: full
