@@ -1,6 +1,6 @@
 {
   "name": "quire-starter-theme",
-  "version": "0.1.0.alpha.9",
+  "version": "0.1.0",
   "description": "A theme for creating digital publications similar to art catalogues using the Hugo static-site generator.",
   "main": "webpack.config.js",
   "scripts": {
