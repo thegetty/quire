@@ -32,12 +32,12 @@
     3 bio
     4 url
     5 pic
-    6 paper id
+    6 paper number
     7 paper title
     8 paper subtitle
     9 paper link
 
-  The paper id, title, subtile and link will reference the contributor's
+  The paper number, title, subtile and link will reference the contributor's
   contribution to the publication, and link to that contribution when you use
   the "all" or "essays" range. (Note however, that if a contributor has
   multiple contributions/papers in a publication, only the last one in the
@@ -131,7 +131,7 @@
   {{- $pagerange := $.Scratch.Get "range" -}}
   {{- range $pagerange -}}
 
-    {{- $pageid := .Params.id -}}
+    {{- $pagenumber := .Params.number -}}
     {{- $pagetitle := .Params.title -}}
     {{- $pagesubtitle := .Params.subtitle -}}
     {{- $pagelink := .Permalink -}}
@@ -178,8 +178,8 @@
       {{- $.Page.Scratch.SetInMap "contributor" "5" "n/a" -}}
       {{- end -}}
 
-      {{- if $pageid -}}
-      {{- $.Page.Scratch.SetInMap "contributor" "6" $pageid -}}
+      {{- if $pagenumber -}}
+      {{- $.Page.Scratch.SetInMap "contributor" "6" $pagenumber -}}
       {{- else -}}
       {{- $.Page.Scratch.SetInMap "contributor" "6" "n/a" -}}
       {{- end -}}

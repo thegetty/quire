@@ -1,0 +1,146 @@
+// =============================================================================
+// Quire-toc.scss
+// -----------------------------------------------------------------------------
+// TOC Component.
+//
+// Quire uses Bulma's Menu component for the list of links inside the TOC. This
+// class exists to provide a small amount of additional styling for the main
+// TOC page of the book. Print TOC styles can also be defined on this element.
+
+.quire-contents-list {
+  font-size: $size-5;
+
+  .list-header {
+    padding: .5em .75em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .contributor {
+    font-style: italic;
+  }
+
+  &.list,
+  &.brief {
+    li {
+      margin-bottom: .5em;
+    }
+    li > ul {
+      margin-top: .5em;
+      margin-bottom: .5em;
+    }
+    .title {
+      font-size: inherit;
+      font-weight: inherit;
+      line-height: inherit;
+    }
+    .section-item .title {
+      margin-bottom: 0;
+    }
+  }
+
+  &.abstract {
+    .title {
+      line-height: 1.35;
+      margin-bottom: 0;
+    }
+    .abstract-text {
+      padding-left: 1.5rem;
+      margin-bottom: 1rem;
+      line-height: 1.4;
+      p {
+        margin-bottom: .5em;
+      }
+      @if $quire-page-paragraph-style == "indent" {
+        p { margin-bottom: 0; }
+        p + p { text-indent: 2em; }
+      }
+    }
+  }
+
+  @media screen and (min-width: $desktop) {
+
+  }
+
+
+  &.grid {
+
+    .title {
+      font-size: inherit;
+      font-weight: inherit;
+      line-height: inherit;
+    }
+
+    li > a {
+      padding: 1rem;
+    }
+
+    ul li {
+      float: left;
+      width: 100%;
+
+      @media screen and (min-width: $desktop) {
+        width: 50%;
+      }
+
+      &:nth-child(2n) + li {
+        clear: left;
+      }
+      .card {
+        min-height: 300px;
+      }
+    }
+
+    ul li.section-item {
+      width: calc(100% - 2rem);
+      margin: 1rem;
+      padding-bottom: 1rem;
+      border: 1px solid $border;
+      & > a > .card {
+        box-shadow: none;
+        background-color: inherit;
+        min-height: 0;
+      }
+      &.no-landing-page {
+        & > a > .card {
+          min-height: 300px;
+        }
+      }
+      ul {
+        padding-left: 0;
+        margin: 0;
+        border-left-width: 0px;
+      }
+      .list-header {
+        margin-top: 1.5em;
+        margin-left: 1em;
+      }
+    }
+
+    @media screen and (min-width: $desktop) {
+      @supports (display: grid) {
+        ul {
+          display: grid;
+          grid-gap: .25rem;
+          grid-template-columns: repeat(2, 1fr);
+          li {
+            width: 100%;
+            float: none;
+            margin: inherit;
+          }
+          li.section-item {
+            grid-column: 1/3;
+          }
+        }
+      }
+    }
+
+  }
+
+  @media print {
+    .quire-contents-list {
+      column-span: all;
+      font-size: 11pt;
+    }
+  }
+}

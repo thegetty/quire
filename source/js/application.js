@@ -59,6 +59,58 @@ window.toggleSearch = () => {
 }
 
 /**
+ * sliderSetup
+ * @description Set up the simple image slider used on catalogue entry pages for
+ * objects with multiple figure images. See also slideImage function below.
+ */
+function sliderSetup() {
+  let slider = $('.quire-entry__image__group-container')
+  slider.each( function() {
+    let sliderImages = $(this).find('figure')
+    let firstImage = $( sliderImages.first() )
+    let lastImage = $( sliderImages.last() )
+    sliderImages.hide()
+    firstImage.addClass('current-image first-image')
+    firstImage.css('display','flex')
+    lastImage.addClass('last-image')
+  });
+}
+
+/**
+ * slideImage
+ * @description Slide to previous or next catalogue object image in a loop.
+ * Supports any number of figures per object, and any number of obejects 
+ * per page.
+ */
+window.slideImage = (direction) => {
+  let slider = $( event.target ).closest('.quire-entry__image__group-container')
+  let firstImage = slider.children('.first-image' )
+  let lastImage = slider.children('.last-image' )
+  let currentImage = slider.children('.current-image' )
+  let nextImage = currentImage.next('figure')
+  let prevImage = currentImage.prev('figure')
+  currentImage.hide()
+  currentImage.removeClass('current-image')
+  if ( direction == "next" ) {
+    if ( currentImage.hasClass('last-image') ) {
+      firstImage.addClass('current-image')
+      firstImage.css('display','flex')
+    } else {
+      nextImage.addClass('current-image')
+      nextImage.css('display','flex')
+    }
+  } else if ( direction == "prev" ) {
+    if ( currentImage.hasClass('first-image') ) {
+      lastImage.addClass('current-image')
+      lastImage.css('display','flex')
+    } else {
+      prevImage.addClass('current-image')
+      prevImage.css('display','flex')
+    }
+  }
+}
+
+/**
  * search
  * @description makes a search query using Lunr
  */
@@ -156,6 +208,7 @@ function pageSetup() {
   menuSetup()
   mapSetup()
   deepZoomSetup()
+  sliderSetup()
 }
 
 // Start

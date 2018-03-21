@@ -1,13 +1,13 @@
 {
   "name": "quire-starter-theme",
-  "version": "1.0.0",
+  "version": "0.1.0.alpha.9",
   "description": "A theme for creating digital publications similar to art catalogues using the Hugo static-site generator.",
   "main": "webpack.config.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Eric Gardner",
-  "license": "MIT",
+  "author": "Getty Publications",
+  "license": "BSD-3-Clause",
   "devDependencies": {
     "babel": "^6.5.2",
     "babel-core": "^6.21.0",

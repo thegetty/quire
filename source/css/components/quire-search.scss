@@ -1,14 +1,22 @@
 .quire-search {
-  background-color: $dark;
+  background-color: $quire-menu-color;
   display: none;
   height: 100vh;
   position: absolute;
   width: 100%;
   z-index: 1000;
 
+  * {
+    color: $quire-menu-text-color;
+  }
+
   &.is-active { display: block; }
 
   &__inner {
+    .input {
+      background-color: $quire-menu-color;
+      border-color: $quire-menu-text-color;
+    }
     &__list-item {
       margin: 1.5rem 0;
     }
@@ -27,7 +35,7 @@
     svg {
       height: 1.25rem;
       width: 1.25rem;
-      fill: $dark-invert;
+      fill: $quire-menu-text-color;
       & img {
         max-height: 1.15rem;
         position: absolute;

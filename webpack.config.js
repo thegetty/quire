@@ -74,20 +74,20 @@ module.exports = {
     // Experimental: Enable to dramatically minify CSS bundle size.
     // But watch out for layout changes.
     //
-    new PurifyCSSPlugin({
-      styleExtensions: ['.scss', '.css', '.sass'],
-      paths: glob.sync(path.join(__dirname, 'layouts/**/*.html')),
-      purifyOptions: {
-        info: true,
-        whitelist: [
-          '*title*',
-          '*subtitle*',
-          '*is-active*',
-          '*column*',
-          '*leaflet*'
-        ]
-      }
-    }),
+    // new PurifyCSSPlugin({
+    //   styleExtensions: ['.scss', '.css', '.sass'],
+    //   paths: glob.sync(path.join(__dirname, 'layouts/**/*.html')),
+    //   purifyOptions: {
+    //     info: true,
+    //     whitelist: [
+    //       '*title*',
+    //       '*subtitle*',
+    //       '*is-active*',
+    //       '*column*',
+    //       '*leaflet*'
+    //     ]
+    //   }
+    // }),
 
     // Shims for global libs (ex. jquery)
     new webpack.ProvidePlugin({
