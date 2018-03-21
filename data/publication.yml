@@ -9,7 +9,7 @@
 # Title & Description
 # ------------------------------------------------------------------------------
 
-title: Quire
+title: Quire Starter
 subtitle: Multi-Format Publishing
 reading_line: A digital publication framework built on Hugo
 short_title:
@@ -65,11 +65,6 @@ contributor:
     title: Diplomat
     bio: "Félix-Sébastien Feuillet de Conches (4 December 1798 – 5 February 1887 in Paris) was a French diplomat, journalist, writer and collector. Having occupied the posts of ‘introducteur des ambassadeurs’ and head of protocol at the Ministry of Foreign Affairs, he was able to form a collection specialising in English painting, 19th century French painting, the history of civilisations, the art of the Near East and the art of Asia. His contemporary Charles Monselet judged de Conches’ collection as unequalled, but it included some pieces of dubious authenticity."
     pic: contributors/de-conches.jpg
-  - type: project-team
-    first_name: Greg
-    last_name: Albers
-  - type: project-team
-    full_name: Maribel Hidalgo Urbaneja
 
 # ------------------------------------------------------------------------------
 # Copright & License
@@ -81,7 +76,6 @@ license:
   name: Creative Commons Attribution 4.0 International License
   abbreviation: CC BY
   url: http://creativecommons.org/licenses/by/4.0/
-  icon: cc-by.png
   scope: full # full | text-only | some-exceptions
 
 # ------------------------------------------------------------------------------

@@ -16,6 +16,7 @@ publishDir: site
 
 footnoteReturnLinkContents: "↩"
 metaDataFormat: "yaml"
+googleAnalytics: ""
 
 pluralizeListTitles: true
 disableKinds:
@@ -39,7 +40,11 @@ params:
   videoFigureFallbackText: true
   videoFigureFallbackTextBefore: "Watch the video at "
   videoFigureFallbackTextAfter: "."
+  websiteFigureFallbackText: true
+  websiteFigureFallbackTextBefore: "Visit the site at "
+  websiteFigureFallbackTextAfter: "."
   displayBiblioShort: true
   imageDir: "img"
   tocType: full
   menuType: short
+  objectLinkText: "View in Collection"

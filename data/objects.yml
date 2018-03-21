@@ -1,0 +1,40 @@
+object_display_order:
+  - artist
+  - year
+  - dimensions
+  - medium
+  - location
+object_list:
+  - id: 1
+    title: The Luncheon on the Grass
+    artist: Édouard Manet
+    year: 1863
+    medium: Oil on canvas
+    dimensions: 208 cm × 264.5 cm (81.9 in × 104.1 in)
+    location: Musée d’Orsay, Paris
+    link:
+    figure:
+      - src: manet.jpg
+  - id: 2
+    title: Impression, *Sunrise*
+    artist: Claude Monet
+    year: 1872
+    medium: Oil on canvas
+    dimensions: 48 cm × 63 cm (18.9 in × 24.8 in)
+    location: Musée Marmottan Monet, Paris
+    link:
+    figure:
+      - id: "cat2"
+  - id: 3
+    title: Reading (portrait of Edma Morisot)
+    artist: Berthe Morisot
+    year: 1873
+    medium: Oil on fabric
+    dimensions: 74.2 x 100.3 x 12 cm (29 <sup>3</sup>⁄<sub>16</sub> x 39 <sup>1</sup>⁄<sub>2</sub> x 4 <sup>11</sup>⁄<sub>16</sub> in.)
+    location: Cleveland Museum of Art
+    link: http://www.clevelandart.org/art/1950.89
+    download: true
+    figure:
+      - id: "cat3"
+      - id: "cat3a"
+      - id: "cat3b"
