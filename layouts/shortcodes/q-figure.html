@@ -9,7 +9,7 @@ vimeo (the two supported media formats at this time).
 {{ if isset $.Site.Params "imagedir" }}
 {{ $.Scratch.Set "imageDir" $.Site.Params.imageDir }}
 {{ else }}
-{{ $.Scratch.Set "imagedir" "" }}
+{{ $.Scratch.Set "imageDir" "" }}
 {{ end }}
 
 {{ $errorBadId := dict "shortcode" "q-figure" "message" "The supplied value for `id` does not match an `id` value in your `data/figures.yml` file. Or, if you are not using a `data/figures.yml` file, a value for `src` should also be included in the shortcode, and should match the filename of an image file in your `static/img` directory." "example" "{{< q-figure id=&#34;3.1&#34; >}}<br /><br />{{< q-figure id=&#34;3.1&#34; src=&#34;fig-3-1-duchamp.jpg&#34; >}}" }}
