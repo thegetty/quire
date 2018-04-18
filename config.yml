@@ -7,7 +7,7 @@
 # you've copied the default theme and given it a different name make sure to
 # update the value here too.
 
-baseurl: ""
+baseURL: ""
 
 title: "Quire Starter"
 languageCode: "en-us"
