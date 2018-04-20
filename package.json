@@ -26,6 +26,7 @@
     "pe-epub": "peoples-e/pe-epub",
     "pe-epub-fs": "0.0.2",
     "rimraf": "^2.6.2",
+    "striptags": "^3.1.1",
     "webpack": "^2.3.1",
     "yaml-front-matter": "^3.4.0"
   },
