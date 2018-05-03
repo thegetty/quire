@@ -141,17 +141,17 @@ render the figure from matching values found ther
     {{ if eq $.Site.Params.videoFigureFallbackText true }}
     {{- if eq .media_type "youtube" }}
     <span class="quire-figure__media-fallback__text">
-      {{ $.Site.Params.videoFigureFallbackTextBefore }}
+      {{ $.Site.Params.videoFigureFallbackTextBefore -}}
       <a href='https://youtu.be/{{ .media_id }}'>https://youtu.be/{{ .media_id }}</a>
-      {{ $.Site.Params.videoFigureFallbackTextAfter }}
+      {{- $.Site.Params.videoFigureFallbackTextAfter }}
     </span>
     {{- end -}}
 
     {{- if eq .media_type "vimeo" }}
     <span class="quire-figure__media-fallback__text">
-      {{ $.Site.Params.videoFigureFallbackTextBefore }}
+      {{ $.Site.Params.videoFigureFallbackTextBefore -}}
       <a href='https://vimeo.com/{{ .media_id }}'>https://vimeo.com/{{ .media_id }}</a>
-      {{ $.Site.Params.videoFigureFallbackTextAfter }}
+      {{- $.Site.Params.videoFigureFallbackTextAfter }}
     </span>
     {{- end -}}
     {{ end }}
@@ -159,9 +159,9 @@ render the figure from matching values found ther
     {{ if eq $.Site.Params.websiteFigureFallbackText true }}
     {{- if eq .media_type "website" }}
     <span class="quire-figure__media-fallback__text">
-      {{ $.Site.Params.websiteFigureFallbackTextBefore }}
+      {{ $.Site.Params.websiteFigureFallbackTextBefore -}}
       <a href='{{ .media_id }}'>{{ .media_id }}</a>
-      {{ $.Site.Params.websiteFigureFallbackTextAfter }}
+      {{- $.Site.Params.websiteFigureFallbackTextAfter }}
     </span>
     {{- end -}}
     {{- end -}}
