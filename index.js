@@ -102,11 +102,11 @@ program
 // Pass optional config from config/environments/[env].yml to hugo
 //
 program
-  .command('epub [env]')
+  .command('epub [filePath] [env]')
   .description('Generate an EPUB version of the current project')
-  .action(function(env) {
+  .action(function(filePath, env) {
     cli.verbose = program.verbose
-    cli.emit('epub', env)
+    cli.emit('epub', filePath, env)
   })
 
 // quire debug
