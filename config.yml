@@ -39,10 +39,10 @@ params:
   figureLabelsTextAfter: ". "
   videoFigureFallbackText: true
   videoFigureFallbackTextBefore: "Watch the video at "
-  videoFigureFallbackTextAfter: "."
+  videoFigureFallbackTextAfter: ". "
   websiteFigureFallbackText: true
   websiteFigureFallbackTextBefore: "Visit the site at "
-  websiteFigureFallbackTextAfter: "."
+  websiteFigureFallbackTextAfter: ". "
   displayBiblioShort: true
   imageDir: "img"
   tocType: full

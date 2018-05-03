@@ -11,15 +11,13 @@
 
 title: Quire Starter
 subtitle: Multi-Format Publishing
-reading_line: A digital publication framework built on Hugo
+reading_line:
 short_title:
 
 description:
   one_line:
   full: >-
-    Quire is a digital publishing framework built on top of the Hugo static site
-    generator. Generate Web, PDF, and print books (with Epub coming soon) from a
-    single set of text files.
+    Quire is a digital publishing framework built on top of the Hugo static site generator. Generate Web, PDF, and print books (with Epub coming soon) from a single set of text files.
 
 # ------------------------------------------------------------------------------
 # Publication Details
@@ -30,7 +28,7 @@ language: en
 pub_type: book # book | journal-periodical | other
 
 identifier:
-  isbn: 978-3-02002-00-1
+  isbn:
 
 publisher:
   - name:
@@ -60,11 +58,6 @@ contributor:
     bio: "Denis Diderot (5 October 1713 – 31 July 1784) was a French philosopher, art critic, and writer. He was a prominent figure during the Enlightenment and is best known for serving as co-founder, chief editor, and contributor to the Encyclopédie along with Jean le Rond d’Alembert."
     url: https://en.wikipedia.org/wiki/Denis_Diderot
     pic: contributors/denis-diderot.jpg
-  - type: primary
-    full_name: Félix-Sébastien Feuillet de Conches
-    title: Diplomat
-    bio: "Félix-Sébastien Feuillet de Conches (4 December 1798 – 5 February 1887 in Paris) was a French diplomat, journalist, writer and collector. Having occupied the posts of ‘introducteur des ambassadeurs’ and head of protocol at the Ministry of Foreign Affairs, he was able to form a collection specialising in English painting, 19th century French painting, the history of civilisations, the art of the Near East and the art of Asia. His contemporary Charles Monselet judged de Conches’ collection as unequalled, but it included some pieces of dubious authenticity."
-    pic: contributors/de-conches.jpg
 
 # ------------------------------------------------------------------------------
 # Copright & License
@@ -87,12 +80,12 @@ resource_link:
     name: PDF
     media_type: application/pdf
     link_relation: alternate
-    url: /downloads/quire.pdf
+    url: /downloads/output.pdf
   - type: other-format
     name: EPUB
     media_type: application/epub+zip
     link_relation: alternate
-    url: /downloads/quire.epub
+    url: /downloads/output.epub
   - type: footer-link
     name: About
     link_relation: about
@@ -100,11 +93,11 @@ resource_link:
   - type: footer-link
     name: Privacy Policy
     link_relation: privacy-policy
-    url: http://www.getty.edu/legal/privacy.html
+    url:
   - type: footer-link
     name: Terms of Use
     link_relation: terms-of-service
-    url: http://www.getty.edu/legal/copyright.html
+    url:
 
 # ------------------------------------------------------------------------------
 # Subjects
