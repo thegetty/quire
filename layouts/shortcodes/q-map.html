@@ -1,6 +1,8 @@
+<figure class="quire-figure">
 <div id="js-map"
      class="quire-map inset"
      {{ with .Get "lat" }}data-lat="{{.}}"{{ end }}
      {{ with .Get "long" }}data-long="{{.}}"{{ end }}
      {{ if .Get "geojson" }}data-geojson='{{ .Site.BaseURL }}{{ .Get "geojson" }}'{{ end }}>
 </div>
+</figure>
