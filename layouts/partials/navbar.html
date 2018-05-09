@@ -60,7 +60,7 @@ search icons, and search results if enabled). It is visible on all pages.
             {{ if .Site.Data.publication.short_title }}
             {{ .Site.Data.publication.short_title | markdownify }}
             {{ else }}
-            {{ .Site.Data.publication.title | markdownify }}
+            {{ .Site.Data.publication.title | markdownify | truncate 40 }}
             {{ end }}
           </a>
         </li>
