@@ -35,6 +35,22 @@ $quire-footer-text-color: findColorInvert($quire-footer-color) !default;
 
   @include foreground-color($quire-footer-color, $quire-footer-text-color);
 
+  .menu-list {
+    display: flex;
+    margin-top: .5em;
+    li + li {
+      margin-top: 0;
+    }
+    a {
+      padding: .5em;
+    }
+  }
+
+  .quire-copyright {
+    padding: 0 .5em;
+  }
+
+
   a.quire-copyright__icon__link:hover {
     background-color: transparent;
   }

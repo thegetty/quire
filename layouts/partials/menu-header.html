@@ -17,12 +17,6 @@
       {{ . | markdownify }}
       </span>
       {{- end -}}
-
-      {{- with .Site.Data.publication.reading_line -}}
-      <span class="quire-menu__header__reading-line">
-      {{ . | markdownify }}
-      </span>
-      {{- end -}}
     </h2>
     {{- if ne .Kind "home" -}}
     </a>
