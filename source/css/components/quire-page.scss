@@ -19,6 +19,7 @@
 // and add text-indent instead.
 
 $quire-page-link-color: $blue !default;
+$quire-page-link-highlight: $light !default;
 
 $headings: h1, h2, h3, h4, h5, h6;
 $quire-page-paragraph-style: null !default;
@@ -26,17 +27,123 @@ $quire-page-paragraph-style: null !default;
 $quire-page-header-color: $light !default;
 $quire-page-header-text-color: findColorInvert($quire-page-header-color) !default;
 
+$sans-serif: Lato, Helvetica, sans-serif !default;
+$slab-serif: Aleo, Rockwell, "Trebuchet MS", sans-serif !default;
+$serif: Merriweather, Georgia, serif !default;
+
+$family-secondary: $sans-serif !default;
+
+$quire-base-font-size: 17px !default;
+
+
+html {
+  font-size: $quire-base-font-size;
+}
+
+.quire-page {
+
+  h1, h2, h3, h4, h5, h6 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  h1:not(:first-child) {
+    margin-top: 3rem;
+  }
+  h2:not(:first-child),
+  h3:not(:first-child) {
+    margin-top: 2rem;
+  }
+
+  h4:not(:first-child),
+  h5:not(:first-child),
+  h6:not(:first-child) {
+    margin-top: 1rem;
+  }
+
+  h1,
+  &__header__title {
+    font-family: $family-secondary;
+    font-size: 3.75rem;
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.07;
+    em {
+      font-style: normal;
+    }
+    @if $family-secondary == $serif {
+      font-size: 3rem;
+      font-weight: 600;
+      line-height: 1.33;
+    }
+  }
+
+  h2 {
+    font-family: $family-secondary;
+    font-size: 2.7rem;
+    font-weight: 300;
+    line-height: 1.09;
+    @if $family-secondary == $serif {
+      font-size: 2.5rem;
+      line-height: 1.2;
+    }
+  }
+
+  h3,
+  h4,
+  &__header__subtitle,
+  &__header__contributor {
+    font-family: $family-secondary;
+    font-size: 1.75rem;
+    font-weight: 600;
+    line-height: 1.143;
+  }
+  &__header__subtitle {
+    display: block;
+    font-style: italic;
+    font-weight:400;
+    margin-top: 1rem;
+    em {
+      font-style: normal;
+    }
+    @if $family-secondary == $serif {
+      font-weight: 600;
+    }
+  }
+  &__header__contributor {
+    font-weight:400;
+    margin-top: 3rem;
+  }
+  h4 {
+    font-size: 1.625rem;
+    font-weight: 400;
+    line-height: 1.23;
+  }
+
+  h5, h6 {
+    font-family: $family-secondary;
+    font-weight:400;
+  }
+  h5 {
+    font-weight: 600;
+  }
+  h5,
+  h6 {
+    font-size: 1.25rem;
+    line-height: 1.2;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+  }
+
+}
+
 .quire-page__header {
   background-color: $quire-page-header-color;
   @include foreground-color($quire-page-header-color, $quire-page-header-text-color);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: cover;
-
-  .subtitle {
-    display: block;
-    margin-top: .35em;
-  }
+  text-align: center;
 
   &.hero.is-fullheight {
     min-height: calc(100vh - #{$navbar-height});
@@ -57,8 +164,15 @@ $quire-page-header-text-color: findColorInvert($quire-page-header-color) !defaul
 }
 
 .quire-page__content {
-  font-size: 18px;
-  @media screen and (min-width: $desktop) { font-size: 21px; }
+  font-size: 1.125rem;
+  line-height: 1.78;
+  font-weight: 400;
+
+  @if $family-primary != $serif {
+    font-size: 1.25rem;
+    font-weight: 400;
+    line-height: 1.6;
+  }
 
   // Overrides to Bulma's .content styles where needed.
 
@@ -70,6 +184,12 @@ $quire-page-header-text-color: findColorInvert($quire-page-header-color) !defaul
 
     a {
       color: $quire-page-link-color;
+      border-bottom: 1px solid $quire-page-link-color;
+    }
+
+    a:hover {
+      background-color: $quire-page-link-highlight;
+      border-bottom-width: 2px;
     }
 
     .leaflet-control {

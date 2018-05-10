@@ -11,36 +11,22 @@
   <section class="quire-page__header hero {{ if eq .Params.layout "splash" }}is-fullheight{{ else }}is-medium{{ end }}">
 {{- end -}}
   <div class="hero-body">
-    <div class="container has-text-centered">
 
       {{/* Page Title */}}
-      <h1 class="title is-size-1">
+      <h1 class="quire-page__header__title">
         {{ with .Params.number }}<span>{{ . }}.</span>{{ end }}
         {{ .Title | markdownify }}
         {{ with .Params.subtitle }}
-        <span class="subtitle is-size-3">{{ . }}</span>
+        <span class="quire-page__header__subtitle">{{ . | markdownify }}</span>
         {{ end }}
       </h1>
 
       {{/* Contributors, if any */}}
       {{ with .Params.contributor }}
-      <div class="contributor is-size-5">
+      <div class="quire-page__header__contributor">
         {{ partial "contributor-list.html" (dict "range" . "contributorType" "all" "listType" "list-plus") }}
       </div>
       {{ end }}
 
-      {{/* Essay pages have additional controls (quick links to content, biblio) */}}
-      {{ if (eq .Type "essay") }}
-      <div class="tabs is-centered" role="navigation" aria-label="page">
-        <ul>
-          <li><a href="#content">Main Text</a></li>
-          {{ if ($.Scratch.GetSortedMapValues "cited") }}
-          <li><a href="#bibliography">Bibliography</a></li>
-          {{ end }}
-        </ul>
-      </div>
-      {{ end }}
-
-    </div>
   </div>
 </section>

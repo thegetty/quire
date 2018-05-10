@@ -23,18 +23,30 @@
 
 // Variables
 // -----------------------------------------------------------------------------
-$quire-navbar-color: $blue !default;
+$quire-navbar-color: white !default;
 $quire-navbar-text-color: findColorInvert($quire-navbar-color) !default;
+
+$navbar-height: 3rem;
+
+$sans-serif: Lato, Helvetica, sans-serif !default;
+$slab-serif: Aleo, Rockwell, "Trebuchet MS", sans-serif !default;
+$serif: Merriweather, Georgia, serif !default;
+
+$family-secondary: $sans-serif !default;
 
 // .quire-navbar
 // -----------------------------------------------------------------------------
 .quire-navbar {
+
+  font-family: $family-secondary;
+  font-weight: 400;
 
   @include foreground-color($quire-navbar-color,$quire-navbar-text-color);
   background-color: $quire-navbar-color;
   min-height: $navbar-height;
   top: 0;
   width: 100%;
+  border-bottom: 1px solid $quire-navbar-text-color;
 
   * {
     transition: background 0.15s linear;
@@ -42,7 +54,6 @@ $quire-navbar-text-color: findColorInvert($quire-navbar-color) !default;
 
   a {
     display: block;
-    height: $navbar-height;
     padding: 0 0.5em;
   }
 
@@ -101,7 +112,6 @@ $quire-navbar-text-color: findColorInvert($quire-navbar-color) !default;
   background-color: transparent;
   border: 0;
   height: $navbar-height;
-  line-height: $navbar-height;
   padding-left: 1.25em;
   padding-right: 1.25em;
   transition: all 0.15s linear;
