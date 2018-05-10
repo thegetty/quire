@@ -61,24 +61,22 @@ a single image or object needs to be featured prominently.\
   </div>
 
   {{/* Entry header */}}
-  <header class="section quire-entry__header">
+  <header class="quire-entry__header">
     <div class="container">
       {{/* Title */}}
-      <h1 class="title is-size-1">
+      <h1 class="quire-page__header__title">
         {{ with .Params.number }}<span>{{ . }}.</span>{{ end }}
         {{ .Title | markdownify }}
-      </h1>
-
       {{/* Subtitle if any */}}
       {{ with .Params.subtitle }}
-      <h2 class="subtitle is-size-3">{{ . }}</h2>
+      <span class="quire-page__header__subtitle">{{ . }}</span></h1>
       {{ end }}
     </div>
   </header>
 
   {{/* Entry tombstone data */}}
   {{ range .Params.object }}
-    <section class="section quire-entry__tombstone">
+    <section class="quire-entry__tombstone">
       <div class="container">
         <table class="table is-fullwidth">
           <tbody>

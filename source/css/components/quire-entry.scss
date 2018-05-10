@@ -107,18 +107,16 @@ $quire-entry-header-height: 6rem !default;
   }
 
   &__header {
-    height: $quire-entry-header-height;
     margin-bottom: 3rem;
-    padding-bottom: 1.5rem;
-    padding-top: 1.5rem;
+    padding-top: .25rem;
   }
 
   &__tombstone {
     padding-top: 0;
     svg {
       position: relative;
-      height: 1.5em;
-      width: 1.5em;
+      height: 1.25em;
+      width: 1.25em;
       margin-left: .5em;
       fill: $quire-page-link-color;
       & img {
