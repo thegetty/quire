@@ -182,7 +182,7 @@ html {
       p + p { text-indent: 2em; }
     }
 
-    a {
+    a:not([rel=footnote]):not(.footnote-return) {
       color: $quire-page-link-color;
       border-bottom: 1px solid $quire-page-link-color;
     }
