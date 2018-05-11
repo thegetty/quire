@@ -5,29 +5,103 @@
 
 // Variables
 // -----------------------------------------------------------------------------
-$quire-cover-color: $cyan !default;
-$quire-cover-text-color: findColorInvert($quire-cover-color) !default;
 
-$quire-footer-color: $light !default;
+$quire-cover-color-1: #3273dc !default;
+$quire-cover-color-2: #dc52f5 !default;
+
+$cover-overlay-image: 'cover-overlay.png' !default;
+
+$quire-cover-type-scale: 1 !default;
+$quire-cover-type-alignment: left !default;
+$quire-cover-type-family: $sans-serif !default;
+
+$quire-cover-color-combined: mix($quire-cover-color-1, $quire-cover-color-2) !default;
+$quire-cover-text-color: findColorInvert(lighten($quire-cover-color-combined, 50%)) !default;
+
+$quire-footer-color: #f5f5f5 !default;
 $quire-footer-text-color: findColorInvert($quire-footer-color) !default;
 
 .quire-cover {
-  background-color: $quire-cover-color;
+  background-image: linear-gradient(90deg, $quire-cover-color-1, $quire-cover-color-2);
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
 
-  @include foreground-color($quire-cover-color, $quire-cover-text-color);
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: calc(100vh - #{$navbar-height});
+    background-image: url("/img/#{$cover-overlay-image}");
+    opacity: .5;
+  }
 
   &.hero.is-fullheight {
     min-height: calc(100vh - #{$navbar-height});
+    text-align: $quire-cover-type-alignment;
+  }
+
+  .title {
+    font-family: $quire-cover-type-family;
+    font-size: calc(3.75rem * #{$quire-cover-type-scale});
+    font-weight: 300;
+    line-height: 1.07;
+    margin-top: 8rem;
+    margin-bottom: calc(1.5rem * #{$quire-cover-type-scale});
+    color: $quire-cover-text-color;
   }
 
   .subtitle {
     display: block;
-    margin-top: .35em;
+    margin-top: calc(1.5rem * #{$quire-cover-type-scale});
+    font-size: calc(2.92rem * #{$quire-cover-type-scale});
+    font-weight: 300;
+    line-height: 1.02;
+    color: $quire-cover-text-color;
   }
 
+  .reading-line {
+    font-family: $quire-cover-type-family;
+    font-style: italic;
+    font-size: calc(1.25rem * #{$quire-cover-type-scale});
+    line-height: 1.2;
+    color: $quire-cover-text-color;
+  }
+
+  .contributor {
+    font-family: $quire-cover-type-family;
+    font-size: calc(1.25rem * #{$quire-cover-type-scale});
+    line-height: 1.72;
+    margin-top: calc(2rem * #{$quire-cover-type-scale});
+    color: $quire-cover-text-color;
+  }
+
+  &__button {
+    background-color: $quire-cover-color-combined;
+    background-color: $quire-page-link-color;
+    color: findColorInvert($quire-cover-color-combined);
+    border-radius: 6px;
+    font-family: $family-secondary;
+    font-style: italic;
+    svg {
+      width: 1.25rem;
+      height: 1.25rem;
+      margin-left: 1rem;
+      fill: findColorInvert($quire-cover-color-combined);
+    }
+  }
+  &__button:hover {
+    svg {
+      fill: $dark;
+    }
+  }
+
+}
+
+#cover .quire-page__content .container.is-fluid {
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .quire-cover-footer {
