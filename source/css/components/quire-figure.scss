@@ -23,18 +23,26 @@
   }
   &__label {
     display: block;
-    font-size: $size-6;
+    font-size: 1rem;
     margin-top: .5rem;
     .quire-figure__caption & {
       display: inline;
     }
   }
 
-  &__caption {
-    font-size: $size-6;
+  .content figure &__caption {
+    font-size: 1rem;
+    line-height: 1.5;
     margin-top: .5rem;
+    font-style: normal;
 
     @media print { font-size: 8pt; }
+  }
+
+  &__credit {
+    display: block;
+    font-size: .75rem;
+    margin-top: .25rem;
   }
 
   &__media-wrapper {
