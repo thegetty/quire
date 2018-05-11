@@ -7,6 +7,7 @@
 
 // Stylesheets
 import '../css/application.scss'
+import '../css/epub.scss'
 import 'leaflet/dist/leaflet.css'
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
 
@@ -79,7 +80,7 @@ function sliderSetup() {
 /**
  * slideImage
  * @description Slide to previous or next catalogue object image in a loop.
- * Supports any number of figures per object, and any number of obejects 
+ * Supports any number of figures per object, and any number of obejects
  * per page.
  */
 window.slideImage = (direction) => {
