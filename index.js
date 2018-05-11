@@ -49,6 +49,7 @@ program
   .command('new <projectName>')
   .description('Create a new Quire project in the current directory.')
   .action(function(projectName) {
+    cli.verbose = program.verbose
     cli.emit('new', projectName)
   })
 
@@ -64,6 +65,7 @@ program
   .command('install')
   .description('Install this project\'s theme dependencies')
   .action(function() {
+    cli.verbose = program.verbose
     cli.emit('install')
   })
 
@@ -77,6 +79,7 @@ program
   .alias('build')
   .description('Run the build command in the current directory')
   .action(function(env) {
+    cli.verbose = program.verbose
     cli.emit('site', env)
   })
 
@@ -89,6 +92,7 @@ program
   .command('pdf [env]')
   .description('Generate a PDF version of the current project')
   .action(function(env) {
+    cli.verbose = program.verbose
     cli.emit('pdf', env)
   })
 
@@ -98,10 +102,11 @@ program
 // Pass optional config from config/environments/[env].yml to hugo
 //
 program
-  .command('epub [env]')
+  .command('epub [filePath] [env]')
   .description('Generate an EPUB version of the current project')
-  .action(function(env) {
-    cli.emit('epub', env)
+  .action(function(filePath, env) {
+    cli.verbose = program.verbose
+    cli.emit('epub', filePath, env)
   })
 
 // quire debug
@@ -110,6 +115,7 @@ program
   .command('debug')
   .description('Development use only - log info about current project')
   .action(function() {
+    cli.verbose = program.verbose
     cli.emit('debug')
   })
 
