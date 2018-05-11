@@ -1,0 +1,18 @@
+// =============================================================================
+// Epub.scss
+// -----------------------------------------------------------------------------
+// This stylesheet is for overrides and other special-case
+// rules for epub ouput.
+// It is only included in Epub builds.
+
+html body {
+  margin: 0;
+
+  // Leaflet stuff
+  .leaflet-pane,
+  .leaflet-map-pane,
+  .leaflet-container,
+  .lvml {
+    display: none !important;
+  }
+}

@@ -9,6 +9,12 @@ const PATHS = {
   build: path.join(__dirname, 'static')
 }
 
+const ExtractApplicationCSS = new ExtractTextPlugin(path.join('css', 'application.css'), {
+  allChunks: true
+})
+
+const ExtractEpubCSS = new ExtractTextPlugin(path.join('css', 'epub.css'))
+
 module.exports = {
   entry: {
     // `source/js/application.js` is the entry point for everything;
@@ -25,13 +31,20 @@ module.exports = {
       {
         // Vanilla CSS (vendor, etc)
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract('css')
+        loader: ExtractApplicationCSS.extract('css')
       },
       {
         // SCSS
         test: /\.scss$/,
+        exclude: [/node_modules/, path.resolve(__dirname, 'source/css/epub.scss')],
+        loader: ExtractApplicationCSS.extract('css!sass')
+      },
+      {
+        // Epub SCSS
+        test: /\.scss$/,
+        include: path.resolve(__dirname, 'source/css/epub.scss'),
         exclude: /node_modules/,
-        loader: ExtractTextPlugin.extract('css!sass')
+        loader: ExtractEpubCSS.extract('css!sass')
       },
       {
         // JS (ES6 transforms)
@@ -67,9 +80,10 @@ module.exports = {
   },
   plugins: [
     // Extract CSS into a separate file
-    new ExtractTextPlugin(path.join('css', 'application.css'), {
-      allChunks: true
-    }),
+    ExtractApplicationCSS,
+
+    // Extract Epub CSS
+    ExtractEpubCSS,
 
     // Experimental: Enable to dramatically minify CSS bundle size.
     // But watch out for layout changes.
