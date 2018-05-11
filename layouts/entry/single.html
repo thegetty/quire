@@ -1,12 +1,6 @@
 {{/*
 Entry layout. This template is intended for use in catalogue-style pages where
-a single image or object needs to be featured prominently.
-
-ISSUES:
-
-- Only supports a single figure, should range over a map of figures and also connect to figures.yml
-
-- content-list.html partial needs to be updated to support the new image logic, and also to be able to query other data sources (figures.yml, config.yml) at the .Site level.
+a single image or object needs to be featured prominently.\
 */}}
 
 {{ define "main" }}
@@ -14,7 +8,7 @@ ISSUES:
 {{ if isset $.Site.Params "imagedir" }}
 {{ $.Scratch.Set "imageDir" $.Site.Params.imageDir }}
 {{ else }}
-{{ $.Scratch.Set "imagedir" "" }}
+{{ $.Scratch.Set "imageDir" "" }}
 {{ end }}
 
 {{/* Entry content, including entry image and tombstone data */}}
@@ -107,7 +101,7 @@ ISSUES:
         {{ if .id }}
           {{ range where $.Site.Data.objects.object_list "id" "eq" .id }}
             {{ if .link }}
-            <a href="{{ .link }}" target="_blank" class="button">{{ $.Site.Params.objectLinkText }} {{- template "image-control-icon" (dict "type" "link" "description" "Open in new window" "imageDir" .imageDir ) -}}</a>
+            <a href="{{ .link }}" target="_blank" class="button">{{ $.Site.Params.objectLinkText }} {{- template "image-control-icon" (dict "type" "link" "description" "Open in new window" "imageDir" ($.Scratch.Get "imageDir") ) -}}</a>
             {{ end }}
           {{ end }}
         {{ else }}
@@ -146,7 +140,7 @@ ISSUES:
   {{ end }}
   {{ if eq .figure.download true }}
     <a href="{{ $imgPath | relURL }}" target="_blank" class="button is-rounded quire-image-control quire-image-control--download" title="Download image" download>
-      {{- template "image-control-icon" (dict "type" "download" "description" "Download image" "imageDir" ($.Scratch.Get "imageDir") ) -}}
+      {{- template "image-control-icon" (dict "type" "download" "description" "Download image" "imageDir" .imageDir ) -}}
     </a>
   {{ end }}
 </figure>

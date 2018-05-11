@@ -1,7 +1,7 @@
 {{ if isset $.Site.Params "imagedir" }}
 {{ $.Scratch.Set "imageDir" $.Site.Params.imageDir }}
 {{ else }}
-{{ $.Scratch.Set "imagedir" "" }}
+{{ $.Scratch.Set "imageDir" "" }}
 {{ end }}
 
 <div class="quire-copyright">
@@ -19,7 +19,7 @@
   {{- $imgDir := $.Scratch.Get "imageDir" -}}
   {{- $license := .Site.Data.publication.license.abbreviation -}}
 
-    {{- with .Site.Data.publication.license.url }}<a rel="license" class="quire-copyright__icon__link" href="{{ . }}">{{ end -}}
+    {{- with .Site.Data.publication.license.url }}<a rel="license" class="quire-copyright__icon__link" href="{{ . }}" target="_blank">{{ end -}}
 
     {{- if .Site.Data.publication.license.icon -}}
       <img src="{{ $imgDir | absURL }}/{{ .Site.Data.publication.license.icon }}" class="quire-copyright__icon" alt="logo" />
@@ -121,13 +121,13 @@
 
 {{- if eq .Site.Data.publication.license.scope "some-exceptions" -}}
   Except where otherwise noted, this work is licensed under a
-  {{ with .Site.Data.publication.license.url }}<a rel="license" href="{{ . }}">{{ end }}
+  {{ with .Site.Data.publication.license.url }}<a rel="license" href="{{ . }}" target="_blank">{{ end }}
   {{ .Site.Data.publication.license.name }}
   {{ with .Site.Data.publication.license.url }}</a>{{ end }}.
 
 {{- else if eq .Site.Data.publication.license.scope "text-only" -}}
   The text of this work is licensed under a
-  {{ with .Site.Data.publication.license.url }}<a rel="license" href="{{ . }}">{{ end }}
+  {{ with .Site.Data.publication.license.url }}<a rel="license" href="{{ . }}" target="_blank">{{ end }}
   {{ .Site.Data.publication.license.name }}
   {{ with .Site.Data.publication.license.url }}</a>{{ end }}
   . Unless otherwise noted, all illustrations are excluded from the
@@ -138,7 +138,7 @@
   {{ end }} license.
 {{- else -}}
   This work is licensed under a
-  {{ with .Site.Data.publication.license.url }}<a rel="license" href="{{ . }}">{{ end }}
+  {{ with .Site.Data.publication.license.url }}<a rel="license" href="{{ . }}" target="_blank">{{ end }}
   {{ .Site.Data.publication.license.name }}
   {{ with .Site.Data.publication.license.url }}</a>{{ end }}
 {{- end -}}
