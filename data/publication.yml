@@ -10,7 +10,7 @@
 # ------------------------------------------------------------------------------
 
 title: Quire Starter
-subtitle: Multi-Format Publishing
+subtitle: Multiformat Publishing
 reading_line:
 short_title:
 
@@ -31,9 +31,10 @@ identifier:
   isbn:
 
 publisher:
-  - name:
+  - name: J. Paul Getty Trust
     location:
     url:
+    logo: logo-getty.png
 
 # ------------------------------------------------------------------------------
 # Contributors
