@@ -13,12 +13,22 @@
   &.is-active { display: block; }
 
   &__inner {
+    h1.title {
+      font-family: $family-secondary;
+      font-weight: 300;
+      font-size: 2.7rem;
+    }
     .input {
       background-color: $quire-menu-color;
       border-color: $quire-menu-text-color;
+      margin-bottom: 1rem;
     }
     &__list-item {
       margin: 1.5rem 0;
+      .title {
+        font-size: 1.5rem;
+        margin: .75rem 0 .25rem;
+      }
     }
   }
 

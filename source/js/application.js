@@ -137,10 +137,12 @@ window.search = () => {
       let clone = document.importNode(resultsTemplate.content, true)
       let item = clone.querySelector('.js-search-results-item')
       let title = clone.querySelector('.js-search-results-item-title')
-      let subtitle = clone.querySelector('.js-search-results-item-subtitle')
+      let type = clone.querySelector('.js-search-results-item-type')
+      let length = clone.querySelector('.js-search-results-item-length')
       item.href = result.url
       title.textContent = result.title
-      subtitle.textContent = result.type
+      type.textContent = result.type
+      length.textContent = result.length
       resultsContainer.appendChild(clone)
     })
   }
