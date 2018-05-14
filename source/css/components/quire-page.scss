@@ -183,10 +183,6 @@ html {
   // Overrides to Bulma's .content styles where needed.
 
   .content {
-    @if $quire-page-paragraph-style == "indent" {
-      p { margin-bottom: 0; }
-      p + p { text-indent: 2em; }
-    }
 
     a:not([rel=footnote]):not(.footnote-return) {
       color: $quire-page-link-color;
@@ -198,10 +194,26 @@ html {
       border-bottom-width: 2px;
     }
 
+    blockquote {
+      padding: 0 0 0 1.5em;
+      margin: 1.5em 0 1.5em 1.5em;
+      background-color: transparent;
+      font-style: italic;
+      em {
+        font-style: normal;
+      }
+    }
+
     .leaflet-control {
       a {
         color: $dark;
       }
+    }
+
+    @if $quire-page-paragraph-style == "indent" {
+      p { margin-bottom: 0; }
+      p + p { text-indent: 2em; }
+      blockquote { margin: 1em 0 1em 1.5em; }
     }
 
     @media print {
