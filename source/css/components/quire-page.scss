@@ -145,6 +145,12 @@ html {
   background-position: cover;
   text-align: center;
 
+  .hero-body {
+    @media screen and (min-width: $tablet) {
+      margin: 0 5rem;
+    }
+  }
+
   &.hero.is-fullheight {
     min-height: calc(100vh - #{$navbar-height});
     .hero-body {

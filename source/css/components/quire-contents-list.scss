@@ -65,6 +65,10 @@
 
   &.grid {
 
+    @media screen and (min-width: $tablet) {
+      margin: 0 5rem;
+    }
+
     .title {
       font-size: inherit;
       font-weight: inherit;
@@ -81,11 +85,21 @@
 
       @media screen and (min-width: $desktop) {
         width: 50%;
+        &:nth-child(2n) + li {
+          clear: left;
+        }
       }
 
-      &:nth-child(2n) + li {
-        clear: left;
+      @media screen and (min-width: $widescreen) {
+        width: 33%;
+        &:nth-child(2n) + li {
+          clear: none;
+        }
+        &:nth-child(3n) + li {
+          clear: left;
+        }
       }
+
       .card {
         min-height: 300px;
       }
@@ -130,6 +144,24 @@
           }
           li.section-item {
             grid-column: 1/3;
+          }
+        }
+      }
+    }
+
+    @media screen and (min-width: $widescreen) {
+      @supports (display: grid) {
+        ul {
+          display: grid;
+          grid-gap: .25rem;
+          grid-template-columns: repeat(3, 1fr);
+          li {
+            width: 100%;
+            float: none;
+            margin: inherit;
+          }
+          li.section-item {
+            grid-column: 1/4;
           }
         }
       }

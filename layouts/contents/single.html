@@ -10,7 +10,7 @@
   {{ partial "page-header.html" . }}
 
   <section class="section quire-page__content" id="content">
-    <div class="container">
+    <div class="container {{ if eq .Params.class "grid" }}is-fullhd{{ end }}">
       <div class="content">
         {{ .Content }}
       </div>
