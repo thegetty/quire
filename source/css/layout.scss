@@ -70,7 +70,7 @@ $quire-menu-width: 350px !default;
       transition: all 0.15s linear;
       width: 100%;
 
-      &__inner {
+      .quire-page {
         flex: 1 1 auto;
         -webkit-overflow-scrolling: touch;
         overflow-y: scroll;

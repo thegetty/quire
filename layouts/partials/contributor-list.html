@@ -19,9 +19,9 @@
 
 */}}
 
-{{ if ne .range nil }}
+{{- if ne .range nil }}
 
-{{ if or (and (and (and (ne .contributorType "primary") (ne .contributorType "secondary")) (ne .contributorType "project-team")) (ne .contributorType "all")) (and (and (ne .listType "string") (ne .listType "list")) (ne .listType "list-plus")) }}
+{{- if or (and (and (and (ne .contributorType "primary") (ne .contributorType "secondary")) (ne .contributorType "project-team")) (ne .contributorType "all")) (and (and (ne .listType "string") (ne .listType "list")) (ne .listType "list-plus")) }}
 
   <div class="quire-error message is-danger">
     <div class="message-header">
@@ -33,11 +33,11 @@
     </div>
   </div>
 
-{{ else }}
+{{- else }}
 
-  {{ if eq .listType "string" }}
+  {{- if eq .listType "string" }}
 
-    {{ if eq .contributorType "all" }}
+    {{- if eq .contributorType "all" }}
 
       {{- $len := len .range -}}
       {{- range $index, $element := .range -}}
@@ -54,7 +54,7 @@
         {{- end -}}
       {{- end }}
 
-    {{ else }}
+    {{- else }}
 
       {{- $len := len (where .range "type" .contributorType) -}}
       {{- range $index, $element := where .range "type" .contributorType -}}
@@ -71,34 +71,34 @@
         {{- end -}}
       {{- end }}
 
-    {{ end }}
+    {{- end }}
 
-  {{ else if eq .listType "list" }}
+  {{- else if eq .listType "list" }}
 
-    {{ if eq .contributorType "all" }}
+    {{- if eq .contributorType "all" }}
 
       <ul>
-        {{ range .range -}}
+        {{- range .range -}}
           <li class="quire-contributor">{{ template "name" . }}</li>
-        {{ end -}}
+        {{- end }}
       </ul>
 
-    {{ else }}
+    {{- else }}
 
         <ul>
-          {{ range where .range "type" .contributorType -}}
+          {{- range where .range "type" .contributorType -}}
             <li class="quire-contributor">{{ template "name" . }}</li>
-          {{ end -}}
+          {{- end }}
         </ul>
 
-    {{ end }}
+    {{- end }}
 
-  {{ else if eq .listType "list-plus" }}
+  {{- else if eq .listType "list-plus" }}
 
-    {{ if eq .contributorType "all" }}
+    {{- if eq .contributorType "all" }}
 
       <ul>
-        {{ range .range -}}
+        {{- range .range -}}
           <li class="quire-contributor">
             {{- template "name" . -}}
             {{- if or .title .affiliation}}, {{ end -}}
@@ -106,13 +106,13 @@
             {{- if and .title .affiliation }}, {{ end -}}
             {{- with .affiliation }}<span class="quire-contributor__affiliation">{{ . }}</span>{{ end -}}
           </li>
-        {{ end -}}
+        {{- end }}
       </ul>
 
-    {{ else }}
+    {{- else }}
 
       <ul>
-        {{ range where .range "type" .contributorType -}}
+        {{- range where .range "type" .contributorType -}}
           <li class="quire-contributor">
             {{- template "name" . -}}
             {{- if or .title .affiliation}}, {{ end -}}
@@ -120,16 +120,16 @@
             {{- if and .title .affiliation }}, {{ end -}}
             {{- with .affiliation }}<span class="quire-contributor__affiliation">{{ . }}</span>{{ end -}}
           </li>
-        {{ end -}}
+        {{- end }}
       </ul>
 
-    {{ end }}
+    {{- end }}
 
-  {{ end }}
+  {{- end }}
 
-{{ end }}
+{{- end }}
 
-{{ end }}
+{{- end }}
 
 {{- define "name" -}}
   {{- if .full_name -}}

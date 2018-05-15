@@ -25,7 +25,7 @@
 
     &__title,
     &__subtitle,
-    &__link {
+    &__title-link {
       display: block;
     }
 
@@ -60,6 +60,10 @@
 
   &__footer {
     margin: 2rem 0;
+    font-size: .75rem;
+    p {
+      margin-bottom: 1em;
+    }
     .menu-list {
       display: flex;
       margin-top: .5em;

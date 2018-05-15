@@ -4,14 +4,18 @@ available on all pages. For users with Javascript enabled, this menu is hidden
 by default. Users with JS disabled will alwasy see the menu in its expanded state.
 */}}
 
-{{ $contents := dict "contentsScope" .Site.Pages "contentsType" .Site.Params.menuType "contentsLocation" ".Params.menu" "contentsPage" . }}
+{{- $contents := dict "contentsScope" .Site.Pages "contentsType" .Site.Params.menuType "contentsLocation" ".Params.menu" "contentsPage" . }}
 
-<aside class="menu quire-menu" id="site-menu__inner">
+<div  class="quire-menu menu"
+      role="banner"
+      id="site-menu__inner">
+
   {{ partial "menu-header.html" . }}
-  <h3 class="visually-hidden">Table of Contents</h3>
-  <div class="menu-list" role="navigation" aria-label="site">
+
+  <nav class="quire-menu__list menu-list" role="navigation" aria-label="full">
+    <h3 class="visually-hidden">Table of Contents</h3>
     {{- partial "contents-list.html" $contents -}}
-  </div>
+  </nav>
 
   {{ if isset .Site.Data.publication "resource_link" -}}
     {{ $otherFormats := where .Site.Data.publication.resource_link "type" "other-format" }}
@@ -34,7 +38,7 @@ by default. Users with JS disabled will alwasy see the menu in its expanded stat
     {{ end -}}
   {{ end -}}
 
-  <footer class="content quire-menu__footer is-small" role="contentinfo">
+  <footer class="quire-menu__footer" role="contentinfo">
     {{ partial "copyright.html" . }}
 
     {{ if isset .Site.Data.publication "resource_link" -}}
@@ -45,4 +49,4 @@ by default. Users with JS disabled will alwasy see the menu in its expanded stat
     {{- end -}}
   </footer>
 
-</aside>
+</div>
