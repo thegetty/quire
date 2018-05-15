@@ -90,11 +90,31 @@ $family-secondary: $sans-serif !default;
 
   &__item {
     padding: 0 1rem;
+    max-height: 3rem;
+    overflow: hidden;
+    display: none;
 
     &.quire-current-page {
       font-style: italic;
     }
 
+    @media screen and (min-width: 500px) {
+      &.quire-home-page {
+        display: block;
+      }
+    }
+
+    @media screen and (min-width: $desktop) {
+      &.quire-current-page {
+        display: block;
+      }
+    }
+
+    @media screen and (min-width: 900px) {
+      &.quire-section-page {
+        display: block;
+      }
+    }
   }
 }
 

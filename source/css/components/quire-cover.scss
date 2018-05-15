@@ -26,6 +26,7 @@ $quire-footer-text-color: findColorInvert($quire-footer-color) !default;
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
+  position: relative;
 
   &__overlay {
     position: absolute;
