@@ -77,6 +77,11 @@ $quire-menu-width: 350px !default;
         position: relative;
       }
 
+      .section {
+        padding-left: 0;
+        padding-right: 0;
+      }
+
       .quire-navbar { flex: 0 0 auto; }
     }
 

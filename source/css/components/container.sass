@@ -2,23 +2,30 @@
   margin-left: $gap
   margin-right: $gap
   position: relative
+  &.is-fullhd
+    max-width: inherit
+    width: auto
+
+  +from($tablet)
+    margin-left: 2 * $gap
+    margin-right: 2 * $gap
 
   +from($desktop)
     margin: 0 auto
-    max-width: $desktop - (2 * $gap)
-    width: $desktop - (2 * $gap)
+    max-width: $desktop - (4 * $gap)
+    width: $desktop - (4 * $gap)
     &.is-fluid
-      margin-left: $gap
-      margin-right: $gap
+      margin-left: 4 * $gap
+      margin-right: 4 * $gap
       max-width: none
       width: auto
   +until($widescreen)
     &.is-widescreen
-      max-width: $widescreen - (2 * $gap)
+      max-width: $widescreen - (4 * $gap)
       width: auto
-  +until(4000px)
+  +until($fullhd)
     &.is-fullhd
-      max-width: $fullhd - (2 * $gap)
+      max-width: $fullhd - (4 * $gap)
       width: auto
 
   /* +from($widescreen)

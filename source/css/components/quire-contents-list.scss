@@ -167,6 +167,24 @@
       }
     }
 
+    @media screen and (min-width: $fullhd) {
+      @supports (display: grid) {
+        ul {
+          display: grid;
+          grid-gap: .25rem;
+          grid-template-columns: repeat(4, 1fr);
+          li {
+            width: 100%;
+            float: none;
+            margin: inherit;
+          }
+          li.section-item {
+            grid-column: 1/5;
+          }
+        }
+      }
+    }
+
   }
 
   @media print {

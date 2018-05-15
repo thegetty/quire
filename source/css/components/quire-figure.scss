@@ -15,6 +15,16 @@
 //
 // scss-lint:disable EmptyRule
 .quire-figure {
+
+  .content & {
+    margin-left: 0;
+    margin-right: 0;
+    @media screen and (min-width: $tablet) {
+      margin-left: 2em;
+      margin-right: 2em;
+    }
+  }
+
   &__image {
     .content figure & {
       display: block;
