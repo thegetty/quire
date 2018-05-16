@@ -96,6 +96,10 @@ $quire-menu-width: 350px !default;
       width: $quire-menu-width;
       z-index: 1100;
 
+      @media screen and (max-width: $quire-menu-width) {
+        width: calc(100vw - 3rem);
+      }
+
       // Keyboard navigation fix; users should only be able to tab through the
       // links inside the site menu when it is expanded. Setting display:none
       // for the menu content when it is not visible (and then un-setting when
@@ -113,6 +117,10 @@ $quire-menu-width: 350px !default;
         + .quire__primary {
           left: $quire-menu-width;
           width: calc(100% - #{$quire-menu-width});
+          @media screen and (max-width: $quire-menu-width) {
+            left: calc(100vw - 3rem);
+            width: 3rem;
+          }
         }
       }
     }

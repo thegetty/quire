@@ -34,7 +34,7 @@ $quire-footer-text-color: findColorInvert($quire-footer-color) !default;
     left: 0;
     width: 100%;
     min-height: calc(100vh - #{$navbar-height});
-    background-image: url("/img/#{$cover-overlay-image}");
+    background-image: url("../img/#{$cover-overlay-image}");
     opacity: .5;
   }
 
@@ -101,17 +101,33 @@ $quire-footer-text-color: findColorInvert($quire-footer-color) !default;
 }
 
 #cover .quire-page__content .container.is-fluid {
-  max-width: 900px;
-  margin: 0 auto;
+  // max-width: 900px;
+  @media screen and (min-width: 1028px) {
+    max-width: 900px;
+    width: 900px;
+    margin: 0 auto;
+  }
 }
 
 .quire-cover-footer {
   background-color: $quire-footer-color;
 
+  .columns {
+    margin-left: -.5em;
+    margin-right: -.5em;
+  }
+  .column {
+    padding: 0 0 .75rem 0;
+  }
+  .column:nth-child(1) {
+    padding-right: $gap;
+  }
+
   @include foreground-color($quire-footer-color, $quire-footer-text-color);
 
   .menu-list {
     display: flex;
+    flex-wrap: wrap;
     margin-top: .5em;
     li + li {
       margin-top: 0;
@@ -135,6 +151,9 @@ $quire-footer-text-color: findColorInvert($quire-footer-color) !default;
       float: right;
       max-height: 6em;
       margin: 0 .75em 1.5em;
+      @media screen and (max-width: $tablet) {
+        float: none;
+      }
     }
   }
 

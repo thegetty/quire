@@ -26,6 +26,16 @@
   }
 }
 
+// General Bulma Overrides
+// -----------------------------------------------------------------------------
+
+.hero-body,
+.section,
+.footer {
+  padding-left: 0;
+  padding-right: 0;
+}
+
 // Utility Classes
 // -----------------------------------------------------------------------------
 // Visually Hidden utility class

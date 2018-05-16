@@ -85,6 +85,7 @@ $quire-entry-header-height: 6rem !default;
       &--prev-image {
         top: calc(50% - 2.25rem);
         left: 0;
+        right: initial;
         border-left-width: 0;
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
@@ -93,6 +94,7 @@ $quire-entry-header-height: 6rem !default;
       &--next-image {
         top: calc(50% - 2.25rem);
         right: 0;
+        left: initial;
         border-right-width: 0;
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
