@@ -26,7 +26,7 @@
 $quire-navbar-color: white !default;
 $quire-navbar-text-color: findColorInvert($quire-navbar-color) !default;
 
-$navbar-height: 3rem;
+$navbar-height: 1rem !default;
 
 $sans-serif: Lato, Helvetica, sans-serif !default;
 $slab-serif: Aleo, Rockwell, "Trebuchet MS", sans-serif !default;
@@ -40,6 +40,13 @@ $family-secondary: $sans-serif !default;
 
   font-family: $family-secondary;
   font-weight: 400;
+
+  @if $navbar-height <= 2rem {
+    font-size: .85rem;
+  }
+  @if $navbar-height <= 1rem {
+    font-size: .65rem;
+  }
 
   @include foreground-color($quire-navbar-color,$quire-navbar-text-color);
   background-color: $quire-navbar-color;
@@ -69,6 +76,7 @@ $family-secondary: $sans-serif !default;
   flex-wrap: no-wrap;
   justify-content: space-between;
   line-height: $navbar-height;
+  height: $navbar-height;
 
   &__left {
     align-self: flex-start;
@@ -90,7 +98,7 @@ $family-secondary: $sans-serif !default;
 
   &__item {
     padding: 0 1rem;
-    max-height: 3rem;
+    max-height: $navbar-height;
     overflow: hidden;
     display: none;
 
@@ -132,8 +140,8 @@ $family-secondary: $sans-serif !default;
   background-color: transparent;
   border: 0;
   height: $navbar-height;
-  padding-left: 1.25em;
-  padding-right: 1.25em;
+  width: $navbar-height;
+  padding: 0;
   transition: all 0.15s linear;
 
   &:hover {
@@ -154,20 +162,25 @@ $family-secondary: $sans-serif !default;
   &.search-button,
   &.menu-button {
     svg {
-      height: 1.75em;
-      width: 1.75em;
+      height: calc(#{$navbar-height} * .75);
+      width: calc(#{$navbar-height} * .75);
+      max-height: 1.25rem;
+      max-width: 1.25rem;
       & img {
-        max-height: 1.75em;
+        max-height: 1.25rem;
       }
     }
   }
 
   &.arrow-button {
+    text-align: center;
     svg {
-      height: 1em;
-      width: 1em;
+      height: calc(#{$navbar-height} * .65);
+      width: calc(#{$navbar-height} * .65);
+      max-height: 1rem;
+      max-width: 1rem;
       & img {
-        max-height: 1em;
+        max-height: 1rem;
       }
     }
   }
@@ -191,7 +204,8 @@ $family-secondary: $sans-serif !default;
     height: $navbar-height;
     line-height: $navbar-height;
     position: absolute;
-    width: 12em;
+    padding-left: 2rem;
+    padding-right: 2rem;
     z-index: 1200;
   }
 }
