@@ -11,17 +11,17 @@ $quire-cover-color-2: #dc52f5 !default;
 
 $cover-overlay-image: 'cover-overlay.png' !default;
 
-$quire-cover-type-scale: 1 !default;
-$quire-cover-type-alignment: left !default;
-$quire-cover-type-family: $sans-serif !default;
+$quire-cover-text-scale: 1 !default;
+$quire-cover-text-alignment: left !default;
+$quire-cover-font-family: $sans-serif !default;
 
-$quire-cover-color-combined: mix($quire-cover-color-1, $quire-cover-color-2) !default;
-$quire-cover-text-color: findColorInvert(lighten($quire-cover-color-combined, 50%)) !default;
+$quire-cover-text-color: $dark !default;
 
-$quire-footer-color: #f5f5f5 !default;
-$quire-footer-text-color: findColorInvert($quire-footer-color) !default;
+$quire-cover-footer-color: #f5f5f5 !default;
+$quire-footer-text-color: findColorInvert($quire-cover-footer-color) !default;
 
 .quire-cover {
+  background-color: $quire-cover-color-1;
   background-image: linear-gradient(90deg, $quire-cover-color-1, $quire-cover-color-2);
   background-position: center center;
   background-repeat: no-repeat;
@@ -40,48 +40,48 @@ $quire-footer-text-color: findColorInvert($quire-footer-color) !default;
 
   &.hero.is-fullheight {
     min-height: calc(100vh - #{$navbar-height});
-    text-align: $quire-cover-type-alignment;
+    text-align: $quire-cover-text-alignment;
   }
 
   .title {
-    font-family: $quire-cover-type-family;
-    font-size: calc(3.75rem * #{$quire-cover-type-scale});
+    font-family: $quire-cover-font-family;
+    font-size: calc(3.75rem * #{$quire-cover-text-scale});
     font-weight: 300;
     line-height: 1.07;
     margin-top: 8rem;
-    margin-bottom: calc(1.5rem * #{$quire-cover-type-scale});
+    margin-bottom: calc(1.5rem * #{$quire-cover-text-scale});
     color: $quire-cover-text-color;
   }
 
   .subtitle {
     display: block;
-    margin-top: calc(1.5rem * #{$quire-cover-type-scale});
-    font-size: calc(2.92rem * #{$quire-cover-type-scale});
+    margin-top: calc(1.5rem * #{$quire-cover-text-scale});
+    font-size: calc(2.92rem * #{$quire-cover-text-scale});
     font-weight: 300;
     line-height: 1.02;
     color: $quire-cover-text-color;
   }
 
   .reading-line {
-    font-family: $quire-cover-type-family;
+    font-family: $quire-cover-font-family;
     font-style: italic;
-    font-size: calc(1.25rem * #{$quire-cover-type-scale});
+    font-size: calc(1.25rem * #{$quire-cover-text-scale});
     line-height: 1.2;
     color: $quire-cover-text-color;
   }
 
   .contributor {
-    font-family: $quire-cover-type-family;
-    font-size: calc(1.25rem * #{$quire-cover-type-scale});
+    font-family: $quire-cover-font-family;
+    font-size: calc(1.25rem * #{$quire-cover-text-scale});
     line-height: 1.72;
-    margin-top: calc(2rem * #{$quire-cover-type-scale});
+    margin-top: calc(2rem * #{$quire-cover-text-scale});
     color: $quire-cover-text-color;
   }
 
   &__button {
-    background-color: $quire-cover-color-combined;
     background-color: $quire-page-link-color;
-    color: findColorInvert($quire-cover-color-combined);
+    color: findColorInvert($quire-page-link-color);
+    border-width: 0px;
     border-radius: 6px;
     font-family: $family-secondary;
     font-style: italic;
@@ -89,13 +89,11 @@ $quire-footer-text-color: findColorInvert($quire-footer-color) !default;
       width: 1.25rem;
       height: 1.25rem;
       margin-left: 1rem;
-      fill: findColorInvert($quire-cover-color-combined);
+      fill: findColorInvert($quire-page-link-color);
     }
   }
   &__button:hover {
-    svg {
-      fill: $dark;
-    }
+    background-color: darken($quire-page-link-color, 5%);
   }
 
 }
@@ -110,7 +108,7 @@ $quire-footer-text-color: findColorInvert($quire-footer-color) !default;
 }
 
 .quire-cover-footer {
-  background-color: $quire-footer-color;
+  background-color: $quire-cover-footer-color;
 
   .columns {
     margin-left: -.5em;
@@ -123,7 +121,7 @@ $quire-footer-text-color: findColorInvert($quire-footer-color) !default;
     padding-right: $gap;
   }
 
-  @include foreground-color($quire-footer-color, $quire-footer-text-color);
+  @include foreground-color($quire-cover-footer-color, $quire-footer-text-color);
 
   .menu-list {
     display: flex;

@@ -28,7 +28,8 @@
 // section.
 
 $quire-menu-color: $dark !default;
-$quire-menu-text-color: findColorInvert($quire-menu-color) !default;
+$quire-menu-border-color: $dark !default;
+$quire-menu-text-color: $white !default;
 $quire-menu-width: 350px !default;
 
 // .quire container
@@ -86,7 +87,7 @@ $quire-menu-width: 350px !default;
     }
 
     .quire__secondary {
-      border-right: solid 1px $black-ter;
+      border-right: solid 1px $quire-menu-border-color;
       height: 100%;
       overflow-y: scroll;
       position: fixed;
@@ -97,7 +98,7 @@ $quire-menu-width: 350px !default;
       z-index: 1100;
 
       @media screen and (max-width: $quire-menu-width) {
-        width: calc(100vw - 3rem);
+        width: calc(100vw - #{$navbar-height});
       }
 
       // Keyboard navigation fix; users should only be able to tab through the
@@ -118,8 +119,8 @@ $quire-menu-width: 350px !default;
           left: $quire-menu-width;
           width: calc(100% - #{$quire-menu-width});
           @media screen and (max-width: $quire-menu-width) {
-            left: calc(100vw - 3rem);
-            width: 3rem;
+            left: calc(100vw - #{$navbar-height});
+            width: #{$navbar-height};
           }
         }
       }
