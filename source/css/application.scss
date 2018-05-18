@@ -1,80 +1,22 @@
 // =============================================================================
 // Application.scss
 // -----------------------------------------------------------------------------
-// This project uses Bulma (http://bulma.io) as a framework for styles. Standard
-// bulma options and variables are supported throughout this site. In some
-// places custom components with their own variables and options have been
-// defined as well.
-//
+
 @import "~bulma/sass/utilities/initial-variables";
 @import "fonts";
+@import "variables";
 
-// Variables
+// Overrides for Bulma variables
 // -----------------------------------------------------------------------------
-// Custom variables which override Bulma defaults can be defined here, before
-// the rest of the framework is imported.
-
-$sans-serif: Lato, Helvetica, sans-serif;
-$slab-serif: Aleo, Rockwell, "Trebuchet MS", sans-serif;
-$serif: Merriweather, Georgia, serif;
 
 $gap: 16px;
-
 $tablet: 500px;
 $desktop: 700px;
-$family-primary: $serif;
-$family-secondary: $sans-serif;
-
+$fullhd: 1344px + (2 * $gap);
+$widescreen: 1152px + (2 * $gap);
+$border: $grey-lighter;
 
 @import "bulma-components";
-
-// Quire-specific variables
-// -----------------------------------------------------------------------------
-// These variables are not referenced by Bulma and can be defined after
-// importing it. The default values are supplied below.
-//
-// By default, text that appears over a background color will be inverted to either white or black for best legibility, but any color can be applied here.
-
-$quire-cover-color-1: #3273dc !default;
-$quire-cover-color-2: #dc52f5 !default;
-
-$cover-overlay-image: 'cover-overlay.png' !default;
-
-$quire-cover-type-scale: 1 !default;
-$quire-cover-type-alignment: left !default;
-$quire-cover-type-family: $sans-serif !default;
-
-$quire-cover-color-combined: mix($quire-cover-color-1, $quire-cover-color-2) !default;
-$quire-cover-text-color: findColorInvert(lighten($quire-cover-color-combined, 50%)) !default;
-
-$quire-footer-color: #f5f5f5 !default;
-$quire-footer-text-color: findColorInvert($quire-footer-color) !default;
-
-
-
-$quire-page-paragraph-style: indent;
-
-$quire-navbar-color: white;
-$quire-footer-color: $light;
-$quire-menu-color: $dark;
-$quire-page-header-color: $light;
-$quire-page-link-color: $blue;
-$quire-entry-image-color: $dark;
-
-$quire-navbar-text-color: findColorInvert($quire-navbar-color);
-$quire-footer-text-color: findColorInvert($quire-footer-color);
-$quire-menu-text-color: findColorInvert($quire-menu-color);
-$quire-page-header-text-color: findColorInvert($quire-page-header-color);
-$quire-entry-image-icons-color: findColorInvert($quire-entry-image-color);
-
-$quire-menu-width: 350px;
-$quire-map-height: 500px;
-$quire-deepzoom-height: 500px;
-$quire-entry-header-height: 6rem;
-
-// Custom components, etc.
-// -----------------------------------------------------------------------------
-// Feel free to import any additional user-defined files here.
 @import "utilities";
 @import "layout";
 @import "components/all";
