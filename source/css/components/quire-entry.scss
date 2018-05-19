@@ -10,11 +10,19 @@
 
 // Variables
 // -----------------------------------------------------------------------------
+$color-primary: #3273dc !default;
+$dark: #363636 !default;
+$light: #f5f5f5 !default;
 
-$quire-entry-image-color: $dark !default;
-$quire-entry-image-icons-color: findColorInvert($quire-entry-image-color) !default;
+$navbar-height: 3rem !default;
 $quire-entry-header-height: 6rem !default;
 
+$quire-entry-image-color: $dark !default;
+$quire-entry-image-icons-color: $white !default;
+$quire-page-link-color: $color-primary !default;
+
+
+// .quire-entry
 // -----------------------------------------------------------------------------
 .quire-entry {
   &__image {

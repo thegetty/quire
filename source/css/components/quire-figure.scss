@@ -1,6 +1,7 @@
 // =============================================================================
-// Quire-figure
+// Quire-figure.scss
 // -----------------------------------------------------------------------------
+//
 // Quire-figure component. The q-figure shortcode outputs the following markup:
 // <figure class="quire-figure">
 //   <img class="quire-figure__image" />
@@ -14,6 +15,14 @@
 // Figure groups get the additional class .quire-figure--group
 //
 // scss-lint:disable EmptyRule
+
+// Variables
+// -----------------------------------------------------------------------------
+$tablet: 500px !default;
+
+
+// .quire-figure
+// -----------------------------------------------------------------------------
 .quire-figure {
 
   .content & {

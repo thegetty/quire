@@ -1,12 +1,27 @@
 // =============================================================================
-// Quire-toc.scss
+// Quire-contents-list.scss
 // -----------------------------------------------------------------------------
-// TOC Component.
 //
 // Quire uses Bulma's Menu component for the list of links inside the TOC. This
 // class exists to provide a small amount of additional styling for the main
 // TOC page of the book. Print TOC styles can also be defined on this element.
 
+// Variables
+// -----------------------------------------------------------------------------
+$dark: #363636 !default;
+
+$gap: 16px !default;;
+$tablet: 500px !default;
+$desktop: 700px !default;
+$fullhd: 1344px + (2 * $gap) !default;
+$widescreen: 1152px + (2 * $gap) !default;
+$box-shadow: 0 2px 3px rgba($dark, 0.1), 0 0 0 !default;
+
+$quire-page-paragraph-style: indent !default;
+
+
+// .quire-contents-list
+// -----------------------------------------------------------------------------
 .quire-contents-list {
 
   .list-header {
@@ -108,7 +123,8 @@
       width: calc(100% - 2rem);
       margin: 1rem;
       padding-bottom: 1rem;
-      border: 1px solid $border;
+      border: 1px solid lighten($dark, 65%);
+      box-shadow: $box-shadow;
       & > a > .card {
         box-shadow: none;
         background-color: inherit;

@@ -1,11 +1,12 @@
 // =============================================================================
 // Quire-page.scss
 // -----------------------------------------------------------------------------
+//
 // Page container component
 // - .quire-page__header: Styled with Bulma hero classes by default, but the
 //     top-level <section> elemement has this class for overrides.
 // - .quire-page__content: Uses Bulma's section & container elements for layout;
-//     the only styles here relate to typography.
+//     most styles here relate only to typography.
 //
 // This stylesheet also controls some of the fundamentals of print layout since
 // it governs the body text. It is possible to keep body copy columns mostly
@@ -14,28 +15,27 @@
 
 // Variables
 // -----------------------------------------------------------------------------
-
-// Paragraph style: Set this to "indent" to remove spacing between paragraphs
-// and add text-indent instead.
-
-$quire-page-link-color: $blue !default;
-$quire-page-link-highlight: $light !default;
-
-$headings: h1, h2, h3, h4, h5, h6;
-$quire-page-paragraph-style: null !default;
-
-$quire-page-header-color: $light !default;
-$quire-page-header-text-color: findColorInvert($quire-page-header-color) !default;
-
-$sans-serif: Lato, Helvetica, sans-serif !default;
-$slab-serif: Aleo, Rockwell, "Trebuchet MS", sans-serif !default;
 $serif: Merriweather, Georgia, serif !default;
+$tablet: 500px !default;
+$desktop: 700px !default;
+$color-primary: #3273dc !default;
+$dark: #363636 !default;
+$light: #f5f5f5 !default;
 
+$family-primary: $serif !default;
 $family-secondary: $sans-serif !default;
+$navbar-height: 3rem !default;
 
 $quire-base-font-size: 17px !default;
+$quire-page-paragraph-style: indent !default;
+$quire-page-header-color: $light !default;
+$quire-page-header-text-color: $dark !default;
+$quire-page-link-color: $color-primary !default;
+$quire-page-link-highlight: $light !default;
 
 
+// html
+// -----------------------------------------------------------------------------
 html {
   font-size: $quire-base-font-size * .9;
   @media screen and (min-width: 500px) {
@@ -43,6 +43,8 @@ html {
   }
 }
 
+// .quire-page
+// -----------------------------------------------------------------------------
 .quire-page {
 
   h1, h2, h3, h4, h5, h6 {
@@ -150,6 +152,8 @@ html {
 
 }
 
+// .quire-page-header
+// -----------------------------------------------------------------------------
 .quire-page__header {
   background-color: $quire-page-header-color;
   @include foreground-color($quire-page-header-color, $quire-page-header-text-color);

@@ -1,3 +1,9 @@
+$gap: 16px !default
+$tablet: 500px !default
+$desktop: 700px !default
+$fullhd: 1344px + (2 * $gap) !default
+$widescreen: 1152px + (2 * $gap) !default
+
 .container
   margin-left: $gap
   margin-right: $gap
@@ -27,10 +33,3 @@
     &.is-fullhd
       max-width: $fullhd - (4 * $gap)
       width: auto
-
-  /* +from($widescreen)
-  /*   max-width: $widescreen - (2 * $gap)
-  /*   width: $widescreen - (2 * $gap)
-  /* +from($fullhd)
-  /*   max-width: $fullhd - (2 * $gap)
-  /*   width: $fullhd - (2 * $gap)

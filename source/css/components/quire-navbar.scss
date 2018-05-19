@@ -1,5 +1,5 @@
 // =============================================================================
-// .quire-navbar
+// Quire-navbar.scss
 // -----------------------------------------------------------------------------
 //
 // Top-level container / banner for the site navigation. Full-width, optional
@@ -23,16 +23,17 @@
 
 // Variables
 // -----------------------------------------------------------------------------
-$quire-navbar-color: white !default;
-$quire-navbar-text-color: findColorInvert($quire-navbar-color) !default;
-
-$navbar-height: 1rem !default;
-
+$dark: #363636 !default;
+$white: #ffffff !default;
 $sans-serif: Lato, Helvetica, sans-serif !default;
-$slab-serif: Aleo, Rockwell, "Trebuchet MS", sans-serif !default;
-$serif: Merriweather, Georgia, serif !default;
 
 $family-secondary: $sans-serif !default;
+$desktop: 700px !default;
+$navbar-height: 3rem !default;
+
+$quire-navbar-color: $white !default;
+$quire-navbar-border-color: $dark !default;
+$quire-navbar-text-color: $dark !default;
 
 // .quire-navbar
 // -----------------------------------------------------------------------------

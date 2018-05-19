@@ -22,17 +22,19 @@
 
 // scss-lint:disable NameFormat
 
-// Default values
+// Variables
 // -----------------------------------------------------------------------------
-// Override these values in the main application.scss file in the variables
-// section.
+$dark: #363636 !default;
+$white: #ffffff !default;
 
 $quire-menu-color: $dark !default;
 $quire-menu-border-color: $dark !default;
 $quire-menu-text-color: $white !default;
 $quire-menu-width: 350px !default;
+$navbar-height: 3rem !default;
 
-// .quire container
+
+// .quire
 // -----------------------------------------------------------------------------
 .quire {
   width: 100%;

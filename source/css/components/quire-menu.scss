@@ -1,6 +1,7 @@
 // =============================================================================
 // Quire-menu.scss
 // -----------------------------------------------------------------------------
+//
 // Site-wide sidebar menu component. Most of the styles for this come from the
 // Bulma .menu class and subclasses or else are applied in the layout.scss file
 // for this component's immediate container, .quire__secondary. However, some
@@ -10,12 +11,25 @@
 // scss-lint:disable EmptyRule
 // scss-lint:disable SingleLinePerSelector
 
+// Variables
+// -----------------------------------------------------------------------------
+$light: #f5f5f5 !default;
+$white: #ffffff !default;
+$serif: Merriweather, Georgia, serif !default;
+
+$family-secondary: $sans-serif !default;
+$quire-menu-text-color: $white !default;
+
+
 // Override for Bulma menu element inside of .content
+// -----------------------------------------------------------------------------
 .content .menu-list {
   list-style-type: none;
   margin-left: 0;
 }
 
+// .quire-menu
+// -----------------------------------------------------------------------------
 .quire-menu {
   font-family: $family-secondary;
 

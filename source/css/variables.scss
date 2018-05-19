@@ -23,10 +23,7 @@ $family-primary: $serif;
 $family-secondary: $sans-serif;
 // headings and navigation items: $serif, $sans-serif, $slab-serif
 
-$quire-page-text-scale: 1;
-// use decimal numbers (such as .8 or 1.3) to increase or decrease the relative
-// size of the body and heading texts
-
+$quire-base-font-size: 17px;
 $quire-page-paragraph-style: indent;
 // make the value null for paragraphs with no indent and a line space between
 
@@ -42,6 +39,7 @@ $light: #f5f5f5;
 $white: #ffffff;
 
 $quire-page-link-color: $color-primary;
+$quire-page-link-highlight: $light;
 
 $page-color: $white;
 $page-text-color: $dark;
@@ -68,6 +66,7 @@ $quire-cover-color-1: $color-primary;
 $quire-cover-color-2: #dc52f5;
 // make the colors the same to have a solid background
 
+$cover-overlay-image-opacity: .5;
 $cover-overlay-image: 'pattern-1.png';
 // pattern-1.png, pattern-2.png, pattern-3.png, pattern-4.png
 // Or add your own custom pattern tile in your static/img directory and
@@ -95,6 +94,7 @@ $quire-menu-width: 350px;
 
 $navbar-height: 3rem;
 
+$quire-entry-header-height: 6rem;
 $quire-map-height: 500px;
 $quire-deepzoom-height: 500px;
 // default heights for maps and zooming image figures
