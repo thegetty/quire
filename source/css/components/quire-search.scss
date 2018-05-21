@@ -1,3 +1,20 @@
+// =============================================================================
+// Quire-search.scss
+// -----------------------------------------------------------------------------
+
+// Variables
+// -----------------------------------------------------------------------------
+$dark: #363636 !default;
+$white: #ffffff !default;
+$sans-serif: Lato, Helvetica, sans-serif !default;
+
+$quire-menu-color: $dark !default;
+$quire-menu-text-color: $white !default;
+$navbar-height: 3rem !default;
+$family-secondary: $sans-serif !default;
+
+// .quire-search
+// -----------------------------------------------------------------------------
 .quire-search {
   background-color: $quire-menu-color;
   display: none;
@@ -13,12 +30,22 @@
   &.is-active { display: block; }
 
   &__inner {
+    h1.title {
+      font-family: $family-secondary;
+      font-weight: 300;
+      font-size: 2.7rem;
+    }
     .input {
       background-color: $quire-menu-color;
       border-color: $quire-menu-text-color;
+      margin-bottom: 1rem;
     }
     &__list-item {
       margin: 1.5rem 0;
+      .title {
+        font-size: 1.5rem;
+        margin: .75rem 0 .25rem;
+      }
     }
   }
 
@@ -30,11 +57,16 @@
     button.button {
       background-color: transparent;
       border: 0;
+      height: $navbar-height;
+      width: $navbar-height;
+      padding: 0;
     }
 
     svg {
-      height: 1.25rem;
-      width: 1.25rem;
+      height: calc(#{$navbar-height} * .75);
+      width: calc(#{$navbar-height} * .75);
+      max-height: 1.25rem;
+      max-width: 1.25rem;
       fill: $quire-menu-text-color;
       & img {
         max-height: 1.15rem;

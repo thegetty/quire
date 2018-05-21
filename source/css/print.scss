@@ -22,8 +22,12 @@
     .select {
       display: none;
     }
+
   }
 
+  .menu-list li ul {
+    border-left-width: 0;
+  }
   .section { padding: 0; }
   .container { max-width: 100%; margin: 0; }
 }

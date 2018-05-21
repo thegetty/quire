@@ -61,24 +61,22 @@ a single image or object needs to be featured prominently.\
   </div>
 
   {{/* Entry header */}}
-  <header class="section quire-entry__header">
+  <header class="quire-entry__header">
     <div class="container">
       {{/* Title */}}
-      <h1 class="title is-size-1">
+      <h1 class="quire-page__header__title">
         {{ with .Params.number }}<span>{{ . }}.</span>{{ end }}
         {{ .Title | markdownify }}
-      </h1>
-
       {{/* Subtitle if any */}}
       {{ with .Params.subtitle }}
-      <h2 class="subtitle is-size-3">{{ . }}</h2>
+      <span class="quire-page__header__subtitle">{{ . }}</span></h1>
       {{ end }}
     </div>
   </header>
 
   {{/* Entry tombstone data */}}
   {{ range .Params.object }}
-    <section class="section quire-entry__tombstone">
+    <section class="quire-entry__tombstone">
       <div class="container">
         <table class="table is-fullwidth">
           <tbody>
@@ -87,8 +85,11 @@ a single image or object needs to be featured prominently.\
             {{ range $.Site.Data.objects.object_display_order }}
               {{ $.Scratch.Set "key" . }}
               {{ range where $.Site.Data.objects.object_list "id" "eq" ($.Scratch.Get "id") }}
-                {{ $match := $.Scratch.Get "key" }}
-                <tr><td>{{ $.Scratch.Get "key" | title }}</td><td>{{ range $key, $value := . }}{{ if eq $key ($.Scratch.Get "key") }}{{ $value | markdownify }}{{ end }}{{ end }}</td></tr>
+                {{ range $key, $value := . }}
+                {{ if and (eq $key ($.Scratch.Get "key")) (ne $value nil) }}
+                  <tr><td>{{ $key | title }}</td><td>{{ markdownify $value }}</td></tr>
+                {{ end }}
+                {{ end }}
               {{ end }}
             {{ end }}
           {{ else }}
@@ -136,7 +137,7 @@ a single image or object needs to be featured prominently.\
     <div tabindex="0" class="button is-rounded quire-image-control quire-image-control--more" title="More info">
       {{- template "image-control-icon" (dict "type" "more" "description" "More info" "imageDir" .imageDir ) -}}
     </div>
-    <div class="quire-image-control quire-image-info">{{ .figure.caption }} {{ .figure.credit }}</div>
+    <div class="quire-image-control quire-image-info"><span class="quire-image-info__caption">{{ .figure.caption }}</span> <span class="quire-image-info__credit">{{ .figure.credit }}</span></div>
   {{ end }}
   {{ if eq .figure.download true }}
     <a href="{{ $imgPath | relURL }}" target="_blank" class="button is-rounded quire-image-control quire-image-control--download" title="Download image" download>

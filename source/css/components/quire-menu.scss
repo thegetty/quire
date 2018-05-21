@@ -1,6 +1,7 @@
 // =============================================================================
 // Quire-menu.scss
 // -----------------------------------------------------------------------------
+//
 // Site-wide sidebar menu component. Most of the styles for this come from the
 // Bulma .menu class and subclasses or else are applied in the layout.scss file
 // for this component's immediate container, .quire__secondary. However, some
@@ -10,38 +11,57 @@
 // scss-lint:disable EmptyRule
 // scss-lint:disable SingleLinePerSelector
 
+// Variables
+// -----------------------------------------------------------------------------
+$light: #f5f5f5 !default;
+$white: #ffffff !default;
+$serif: Merriweather, Georgia, serif !default;
+
+$family-secondary: $sans-serif !default;
+$quire-menu-text-color: $white !default;
+
+
 // Override for Bulma menu element inside of .content
+// -----------------------------------------------------------------------------
 .content .menu-list {
   list-style-type: none;
   margin-left: 0;
 }
 
+// .quire-menu
+// -----------------------------------------------------------------------------
 .quire-menu {
+  font-family: $family-secondary;
+
   &__header {
-    margin: 1rem;
+    margin: 1rem 0;
+    border-bottom: 1px solid $quire-menu-text-color;
 
     &__title,
     &__subtitle,
-    &__link {
+    &__title-link {
       display: block;
     }
 
-    &__link { margin-bottom: 1em; }
-    &__title { font-size: $size-3; }
+    &__title {
+      font-size: 2.25rem;
+      font-weight: 300;
+      line-height: 1.125;
+      margin-top: 3rem;
+      @if $family-secondary == $serif {
+        font-size: 2rem;
+        font-weight: 600;
+        line-height: 1.143;
+      }
+    }
     &__subtitle {
-      font-size: $size-5;
-      font-weight: $weight-light;
-      margin-bottom: 0.5rem;
+      font-size: 1.75rem;
+      font-weight: 300;
+      line-height: 1.143;
+      margin: .75rem 0;
     }
-
-    &__reading-line {
-      font-style: italic;
-      font-weight: $weight-light;
-    }
-
     &__contributors {
-      font-size: $size-6;
-      font-weight: $weight-light;
+      margin: .75rem 0 1.25rem;
     }
 
     h1, h2, h3, h4, h5, h6 { display: inline; }
@@ -49,16 +69,35 @@
   }
 
   &__formats {
-    padding-top: 1rem;
     margin-top: 2rem;
   }
 
   &__footer {
     margin: 2rem 0;
+    font-size: .75rem;
+    p {
+      margin-bottom: 1em;
+    }
+    .menu-list {
+      display: flex;
+      margin-top: .5em;
+      li + li {
+        margin-top: 0;
+      }
+      a {
+        padding: .5em;
+      }
+    }
+    .quire-copyright {
+      padding: 0 .5em;
+    }
   }
 
   .menu-label {
-    padding-left: 1em;
+    padding-left: .75em;
+    font-size: .9em;
+    font-weight: 600;
+    letter-spacing: 0;
   }
 
   .menu-list {

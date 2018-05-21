@@ -1,57 +1,24 @@
 // =============================================================================
 // Application.scss
 // -----------------------------------------------------------------------------
-// This project uses Bulma (http://bulma.io) as a framework for styles. Standard
-// bulma options and variables are supported throughout this site. In some
-// places custom components with their own variables and options have been
-// defined as well.
-//
+
 @import "~bulma/sass/utilities/initial-variables";
 @import "fonts";
+@import "variables";
 
-// Variables
+// Bulma Overrides
 // -----------------------------------------------------------------------------
-// Custom variables which override Bulma defaults can be defined here, before
-// the rest of the framework is imported.
-
-$body-weight: $weight-light;
-$desktop: 900px;
-$family-primary: 'Merriweather', serif;
+// This Quire theme is built on the Bulma CSS framework (https://bulma.io/), the
+// following variables are standard in Bulma, but are also used in, and
+// in some cases modified for, Quire as well.
+$gap: 16px;
+$tablet: 500px;
+$desktop: 700px;
+$fullhd: 1344px + (2 * $gap);
+$widescreen: 1152px + (2 * $gap);
+$box-shadow: 0 2px 3px rgba($dark, 0.1), 0 0 0;
 
 @import "bulma-components";
-
-// Quire-specific variables
-// -----------------------------------------------------------------------------
-// These variables are not referenced by Bulma and can be defined after
-// importing it. The default values are supplied below.
-//
-// By default, text that appears over a background color will be inverted to either white or black for best legibility, but any color can be applied here.
-
-$quire-page-paragraph-style: indent;
-
-$quire-navbar-color: $blue;
-$quire-cover-color: $cyan;
-$quire-footer-color: $light;
-$quire-menu-color: $dark;
-$quire-page-header-color: $light;
-$quire-page-link-color: $blue;
-$quire-entry-image-color: $dark;
-
-$quire-navbar-text-color: findColorInvert($quire-navbar-color);
-$quire-cover-text-color: findColorInvert($quire-cover-color);
-$quire-footer-text-color: findColorInvert($quire-footer-color);
-$quire-menu-text-color: findColorInvert($quire-menu-color);
-$quire-page-header-text-color: findColorInvert($quire-page-header-color);
-$quire-entry-image-icons-color: findColorInvert($quire-entry-image-color);
-
-$quire-menu-width: 350px;
-$quire-map-height: 500px;
-$quire-deepzoom-height: 500px;
-$quire-entry-header-height: 6rem;
-
-// Custom components, etc.
-// -----------------------------------------------------------------------------
-// Feel free to import any additional user-defined files here.
 @import "utilities";
 @import "layout";
 @import "components/all";

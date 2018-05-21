@@ -10,11 +10,19 @@
 
 // Variables
 // -----------------------------------------------------------------------------
+$color-primary: #3273dc !default;
+$dark: #363636 !default;
+$light: #f5f5f5 !default;
 
-$quire-entry-image-color: $dark !default;
-$quire-entry-image-icons-color: findColorInvert($quire-entry-image-color) !default;
+$navbar-height: 3rem !default;
 $quire-entry-header-height: 6rem !default;
 
+$quire-entry-image-color: $dark !default;
+$quire-entry-image-icons-color: $white !default;
+$quire-page-link-color: $color-primary !default;
+
+
+// .quire-entry
 // -----------------------------------------------------------------------------
 .quire-entry {
   &__image {
@@ -60,6 +68,12 @@ $quire-entry-header-height: 6rem !default;
         height: auto;
       }
 
+      .quire-image-info__caption {
+        display: inline-block;
+        font-size: 1rem;
+        margin-bottom: 1rem;
+      }
+
       &--more {
         right: 4.5rem;
 
@@ -79,6 +93,7 @@ $quire-entry-header-height: 6rem !default;
       &--prev-image {
         top: calc(50% - 2.25rem);
         left: 0;
+        right: initial;
         border-left-width: 0;
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
@@ -87,6 +102,7 @@ $quire-entry-header-height: 6rem !default;
       &--next-image {
         top: calc(50% - 2.25rem);
         right: 0;
+        left: initial;
         border-right-width: 0;
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
@@ -107,18 +123,16 @@ $quire-entry-header-height: 6rem !default;
   }
 
   &__header {
-    height: $quire-entry-header-height;
     margin-bottom: 3rem;
-    padding-bottom: 1.5rem;
-    padding-top: 1.5rem;
+    padding-top: .25rem;
   }
 
   &__tombstone {
     padding-top: 0;
     svg {
       position: relative;
-      height: 1.5em;
-      width: 1.5em;
+      height: 1.25em;
+      width: 1.25em;
       margin-left: .5em;
       fill: $quire-page-link-color;
       & img {

@@ -1,39 +1,188 @@
 // =============================================================================
 // Quire-cover.scss
 // -----------------------------------------------------------------------------
+//
 // Cover component (used in the layout for 'cover' page types)
 
 // Variables
 // -----------------------------------------------------------------------------
-$quire-cover-color: $cyan !default;
-$quire-cover-text-color: findColorInvert($quire-cover-color) !default;
+$color-primary: #3273dc !default;
+$dark: #363636 !default;
+$light: #f5f5f5 !default;
+$sans-serif: Lato, Helvetica, sans-serif !default;
+$tablet: 500px !default;
 
-$quire-footer-color: $light !default;
-$quire-footer-text-color: findColorInvert($quire-footer-color) !default;
+$navbar-height: 3rem !default;
+$family-secondary: $sans-serif !default;
 
+$quire-cover-color-1: $color-primary !default;
+$quire-cover-color-2: #dc52f5 !default;
+$cover-overlay-image-opacity: .5 !default;
+$cover-overlay-image: 'pattern-1.png' !default;
+$quire-cover-font-family: $sans-serif !default;
+$quire-cover-text-color: $dark !default;
+$quire-cover-text-scale: 1 !default;
+$quire-cover-text-alignment: left !default;
+$quire-cover-footer-color: $light !default;
+$quire-cover-footer-text-color: $dark !default;
+
+$quire-page-link-color: $color-primary !default;
+
+
+// .quire-cover
+// -----------------------------------------------------------------------------
 .quire-cover {
-  background-color: $quire-cover-color;
+  background-color: $quire-cover-color-1;
+  background-image: linear-gradient(90deg, $quire-cover-color-1, $quire-cover-color-2);
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
+  position: relative;
 
-  @include foreground-color($quire-cover-color, $quire-cover-text-color);
+  @media print {
+    background-color: inherit;
+    background-image: inherit;
+  }
+
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: calc(100vh - #{$navbar-height});
+    background-image: url("../img/#{$cover-overlay-image}");
+    opacity: $cover-overlay-image-opacity;
+    @media print {
+      display: none;
+    }
+  }
 
   &.hero.is-fullheight {
     min-height: calc(100vh - #{$navbar-height});
+    text-align: $quire-cover-text-alignment;
+  }
+
+  .title {
+    font-family: $quire-cover-font-family;
+    font-size: calc(3.75rem * #{$quire-cover-text-scale});
+    font-weight: 300;
+    line-height: 1.07;
+    margin-top: 8rem;
+    margin-bottom: calc(1.5rem * #{$quire-cover-text-scale});
+    color: $quire-cover-text-color;
+    @media print {
+      font-size: 40pt;
+      margin-top: 3.5in;
+      margin-bottom: .5in;
+      margin-left: 1in;
+      color: $color-primary;
+    }
   }
 
   .subtitle {
     display: block;
-    margin-top: .35em;
+    margin-top: calc(1.5rem * #{$quire-cover-text-scale});
+    font-size: calc(2.92rem * #{$quire-cover-text-scale});
+    font-weight: 300;
+    line-height: 1.02;
+    color: $quire-cover-text-color;
+    @media print {
+      font-size: 32pt;
+      margin-top: .25in;
+      color: $color-primary;
+    }
+  }
+
+  .reading-line {
+    font-family: $quire-cover-font-family;
+    font-style: italic;
+    font-size: calc(1.25rem * #{$quire-cover-text-scale});
+    line-height: 1.2;
+    color: $quire-cover-text-color;
+    @media print {
+      font-size: 18pt;
+      margin-left: 1in;
+      color: $color-primary;
+    }
+  }
+
+  .contributor {
+    font-family: $quire-cover-font-family;
+    font-size: calc(1.25rem * #{$quire-cover-text-scale});
+    line-height: 1.72;
+    margin-top: calc(2rem * #{$quire-cover-text-scale});
+    color: $quire-cover-text-color;
+    @media print {
+      font-size: 18pt;
+      margin-left: 1in;
+      color: $color-primary;
+    }
+  }
+
+  &__button {
+    background-color: $quire-page-link-color;
+    color: findColorInvert($quire-page-link-color);
+    border-width: 0px;
+    border-radius: 6px;
+    font-family: $family-secondary;
+    font-style: italic;
+    svg {
+      width: 1.25rem;
+      height: 1.25rem;
+      margin-left: 1rem;
+      fill: findColorInvert($quire-page-link-color);
+    }
+  }
+  &__button:hover {
+    background-color: darken($quire-page-link-color, 5%);
   }
 
 }
 
-.quire-cover-footer {
-  background-color: $quire-footer-color;
+#cover .quire-page__content .container.is-fluid {
+  // max-width: 900px;
+  @media screen and (min-width: 1028px) {
+    max-width: 900px;
+    width: 900px;
+    margin: 0 auto;
+  }
+  @media print {
+    display: none;
+  }
+}
 
-  @include foreground-color($quire-footer-color, $quire-footer-text-color);
+.quire-cover-footer {
+  background-color: $quire-cover-footer-color;
+
+  .columns {
+    margin-left: -.5em;
+    margin-right: -.5em;
+  }
+  .column {
+    padding: 0 0 .75rem 0;
+  }
+  .column:nth-child(1) {
+    padding-right: $gap;
+  }
+
+  @include foreground-color($quire-cover-footer-color, $quire-cover-footer-text-color);
+
+  .menu-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: .5em;
+    li + li {
+      margin-top: 0;
+    }
+    a {
+      padding: .5em;
+    }
+  }
+
+  .quire-copyright {
+    padding: 0 .5em;
+  }
+
 
   a.quire-copyright__icon__link:hover {
     background-color: transparent;
@@ -44,7 +193,14 @@ $quire-footer-text-color: findColorInvert($quire-footer-color) !default;
       float: right;
       max-height: 6em;
       margin: 0 .75em 1.5em;
+      @media screen and (max-width: $tablet) {
+        float: none;
+      }
     }
+  }
+
+  @media print {
+    display: none;
   }
 
 }

@@ -25,9 +25,17 @@ the figure for each into a figure group
 {{ $idlist := split $idstring "," }}
 
 <figure class='quire-figure quire-figure--group {{ with .Get "class" }}{{ . }}{{ end }}{{ with .Get "grid" }} quire-grid--{{ . }}{{ end }}'>
+  {{ with .Get "grid" }}
+  {{ $.Scratch.Add "grid" . }}
+  {{ end }}
   {{/* -------------------- BEGIN IDLIST RANGE -------------------- */}}
-  {{ range $idlist }}
+  {{ range $i, $e := $idlist }}
   {{ $x := . | string }}
+
+  {{ if modBool $i ($.Scratch.Get "grid") }}
+  {{ if ne $i 0 }}</div>{{ end }}
+  <div class="quire-figure--group__row">
+  {{ end }}
 
   {{/* -------------------- BEGIN FIGURELIST RANGE -------------------- */}}
   {{ range where $.Site.Data.figures.figure_list "id" "eq" $x }}
@@ -139,6 +147,8 @@ the figure for each into a figure group
 
   {{/* -------------------- END IDLIST RANGE -------------------- */}}
   {{ end }}
+
+  {{ with .Get "grid" }}</div>{{ end }}
 
   {{/* -------------------- BEGIN ERROR BLOCK -------------------- */}}
   {{ if ne (len $idlist) ($.Scratch.Get "figCount") }}

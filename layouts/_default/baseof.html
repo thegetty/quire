@@ -23,10 +23,8 @@
 
       <div class="quire__primary" id="{{ with .Section }}{{ . | urlize }}-{{ end }}{{ .File.BaseFileName | lower }}">
         {{ partial "navbar.html" . }}
-        <div class="quire__primary__inner">
-          {{ block "main" . }}
-          {{ end }}
-        </div>
+        {{ block "main" . }}
+        {{ end }}
       </div>
 
       {{ partial "search.html" . }}

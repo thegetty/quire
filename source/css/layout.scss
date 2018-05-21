@@ -22,16 +22,19 @@
 
 // scss-lint:disable NameFormat
 
-// Default values
+// Variables
 // -----------------------------------------------------------------------------
-// Override these values in the main application.scss file in the variables
-// section.
+$dark: #363636 !default;
+$white: #ffffff !default;
 
 $quire-menu-color: $dark !default;
-$quire-menu-text-color: findColorInvert($quire-menu-color) !default;
+$quire-menu-border-color: $dark !default;
+$quire-menu-text-color: $white !default;
 $quire-menu-width: 350px !default;
+$navbar-height: 3rem !default;
 
-// .quire container
+
+// .quire
 // -----------------------------------------------------------------------------
 .quire {
   width: 100%;
@@ -70,18 +73,23 @@ $quire-menu-width: 350px !default;
       transition: all 0.15s linear;
       width: 100%;
 
-      &__inner {
+      .quire-page {
         flex: 1 1 auto;
         -webkit-overflow-scrolling: touch;
         overflow-y: scroll;
         position: relative;
       }
 
+      .section {
+        padding-left: 0;
+        padding-right: 0;
+      }
+
       .quire-navbar { flex: 0 0 auto; }
     }
 
     .quire__secondary {
-      border-right: solid 1px $black-ter;
+      border-right: solid 1px $quire-menu-border-color;
       height: 100%;
       overflow-y: scroll;
       position: fixed;
@@ -90,6 +98,10 @@ $quire-menu-width: 350px !default;
       transition: all 0.15s linear;
       width: $quire-menu-width;
       z-index: 1100;
+
+      @media screen and (max-width: $quire-menu-width) {
+        width: calc(100vw - #{$navbar-height});
+      }
 
       // Keyboard navigation fix; users should only be able to tab through the
       // links inside the site menu when it is expanded. Setting display:none
@@ -108,6 +120,10 @@ $quire-menu-width: 350px !default;
         + .quire__primary {
           left: $quire-menu-width;
           width: calc(100% - #{$quire-menu-width});
+          @media screen and (max-width: $quire-menu-width) {
+            left: calc(100vw - #{$navbar-height});
+            width: #{$navbar-height};
+          }
         }
       }
     }

@@ -1,14 +1,28 @@
 // =============================================================================
-// Quire-toc.scss
+// Quire-contents-list.scss
 // -----------------------------------------------------------------------------
-// TOC Component.
 //
 // Quire uses Bulma's Menu component for the list of links inside the TOC. This
 // class exists to provide a small amount of additional styling for the main
 // TOC page of the book. Print TOC styles can also be defined on this element.
 
+// Variables
+// -----------------------------------------------------------------------------
+$dark: #363636 !default;
+
+$gap: 16px !default;;
+$tablet: 500px !default;
+$desktop: 700px !default;
+$fullhd: 1344px + (2 * $gap) !default;
+$widescreen: 1152px + (2 * $gap) !default;
+$box-shadow: 0 2px 3px rgba($dark, 0.1), 0 0 0 !default;
+
+$quire-page-paragraph-style: indent !default;
+
+
+// .quire-contents-list
+// -----------------------------------------------------------------------------
 .quire-contents-list {
-  font-size: $size-5;
 
   .list-header {
     padding: .5em .75em;
@@ -65,6 +79,10 @@
 
   &.grid {
 
+    @media screen and (min-width: $tablet) {
+      margin: 0 5rem;
+    }
+
     .title {
       font-size: inherit;
       font-weight: inherit;
@@ -81,11 +99,21 @@
 
       @media screen and (min-width: $desktop) {
         width: 50%;
+        &:nth-child(2n) + li {
+          clear: left;
+        }
       }
 
-      &:nth-child(2n) + li {
-        clear: left;
+      @media screen and (min-width: $widescreen) {
+        width: 33%;
+        &:nth-child(2n) + li {
+          clear: none;
+        }
+        &:nth-child(3n) + li {
+          clear: left;
+        }
       }
+
       .card {
         min-height: 300px;
       }
@@ -95,7 +123,8 @@
       width: calc(100% - 2rem);
       margin: 1rem;
       padding-bottom: 1rem;
-      border: 1px solid $border;
+      border: 1px solid lighten($dark, 65%);
+      box-shadow: $box-shadow;
       & > a > .card {
         box-shadow: none;
         background-color: inherit;
@@ -130,6 +159,42 @@
           }
           li.section-item {
             grid-column: 1/3;
+          }
+        }
+      }
+    }
+
+    @media screen and (min-width: $widescreen) {
+      @supports (display: grid) {
+        ul {
+          display: grid;
+          grid-gap: .25rem;
+          grid-template-columns: repeat(3, 1fr);
+          li {
+            width: 100%;
+            float: none;
+            margin: inherit;
+          }
+          li.section-item {
+            grid-column: 1/4;
+          }
+        }
+      }
+    }
+
+    @media screen and (min-width: $fullhd) {
+      @supports (display: grid) {
+        ul {
+          display: grid;
+          grid-gap: .25rem;
+          grid-template-columns: repeat(4, 1fr);
+          li {
+            width: 100%;
+            float: none;
+            margin: inherit;
+          }
+          li.section-item {
+            grid-column: 1/5;
           }
         }
       }

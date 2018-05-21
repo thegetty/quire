@@ -1,5 +1,5 @@
 // =============================================================================
-// Mixins and utility classes
+// Utilities.scss
 // -----------------------------------------------------------------------------
 
 // scss-lint:disable NameFormat
@@ -24,6 +24,16 @@
       color: $frcolor;
     }
   }
+}
+
+// General Bulma Overrides
+// -----------------------------------------------------------------------------
+
+.hero-body,
+.section,
+.footer {
+  padding-left: 0;
+  padding-right: 0;
 }
 
 // Utility Classes

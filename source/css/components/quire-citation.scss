@@ -1,20 +1,36 @@
 // =============================================================================
-// quire-citation.scss
+// Quire-citation.scss
 // -----------------------------------------------------------------------------
 
-.quire-citation__inline-content {
-  position: absolute;
-  left: 2rem;
-  right: 2rem;
-  margin-top: -7rem;
-  display: none;
-  .message-body {
-    display: block;
-    text-indent: 0;
-  }
-}
+// Variables
+// -----------------------------------------------------------------------------
+$color-primary: #3273dc !default;
+$quire-page-link-color: $color-primary !default;
 
-.quire-citation:hover + .quire-citation__inline-content,
-.quire-citation:focus + .quire-citation__inline-content {
-  display: block;
+
+// .quire-citation
+// -----------------------------------------------------------------------------
+.quire-citation {
+  display: inline-block;
+  position: relative;
+  text-indent: 0;
+  &__content {
+    visibility: hidden;
+    font-size: 1rem;
+    line-height: 1.5;
+    background-color: lighten($quire-page-link-color, 45%);
+    color: $quire-page-link-color;
+    border-radius: 6px;
+    border: 1px solid $quire-page-link-color;
+    padding: 1rem;
+    position: absolute;
+    width: 400px;
+    z-index: 1;
+    bottom: 150%;
+    left: 50%;
+    margin-left: -200px;
+  }
+  &:hover .quire-citation__content {
+    visibility: visible;
+  }
 }

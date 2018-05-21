@@ -10,9 +10,7 @@ search icons, and search results if enabled). It is visible on all pages.
 {{ end -}}
 {{- $imgDir := $.Scratch.Get "imageDir" -}}
 
-<div class="quire-navbar"
-     aria-label="main navigation"
-     role="banner">
+<div class="quire-navbar">
 
   <a href="#main" class="quire-navbar-skip-link" tabindex="1">
     Skip to Main Content
@@ -43,7 +41,7 @@ search icons, and search results if enabled). It is visible on all pages.
         {{ template "if-previous" . }}
 
         {{ if eq .Type "cover" }}
-        <li class="quire-navbar-page-controls__item">
+        <li class="quire-navbar-page-controls__item quire-home-page">
           <a href='{{ relref . "cover.md" }}' rel="start">
             <span class="visually-hidden">Home Page: </span>
             {{ if .Site.Data.publication.short_title }}
@@ -54,19 +52,19 @@ search icons, and search results if enabled). It is visible on all pages.
           </a>
         </li>
         {{ else }}
-        <li class="quire-navbar-page-controls__item">
+        <li class="quire-navbar-page-controls__item quire-home-page">
           <a href='{{ relref . "cover.md" }}' rel="start">
             <span class="visually-hidden">Home Page: </span>
             {{ if .Site.Data.publication.short_title }}
             {{ .Site.Data.publication.short_title | markdownify }}
             {{ else }}
-            {{ .Site.Data.publication.title | markdownify | truncate 40 }}
+            {{ .Site.Data.publication.title | markdownify | truncate 34 }}
             {{ end }}
           </a>
         </li>
         {{ if .Section }}
         {{ if ne .Params.slug "." }}
-        <li class="quire-navbar-page-controls__item">
+        <li class="quire-navbar-page-controls__item quire-section-page">
           <a href="{{ .Section | relURL }}">
             <span class="visually-hidden">Section: </span>
             {{ .Section | humanize | title }}
@@ -76,7 +74,7 @@ search icons, and search results if enabled). It is visible on all pages.
         {{ end }}
         <li class="quire-navbar-page-controls__item quire-current-page">
           <span class="visually-hidden">Current Page: </span>
-          {{- if .Params.short_title }}{{ .Params.short_title | markdownify }} {{ else }}{{ .Title | markdownify | truncate 40 }}{{ end -}}
+          {{- if .Params.short_title }}{{ .Params.short_title | markdownify }} {{ else }}{{ .Title | markdownify | truncate 34 }}{{ end -}}
         </li>
         {{ end }}
 

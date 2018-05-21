@@ -16,28 +16,31 @@ Cover page layout. This controls the home page of the publication.
   <section class="quire-cover hero is-fullheight" style="background-image: url('{{ $imgPath | absURL }}');">
 {{- else -}}
   <section class="quire-cover hero is-fullheight">
+    <div class="quire-cover__overlay"></div>
 {{- end -}}
   <div class="hero-body">
     <div class="container is-fluid">
       {{/* Use .Site.Data.publication info if available */}}
       {{ if .Site.Data.publication }}
-      <h1 class="title is-1">
+      <h1 class="title">
         {{ .Site.Data.publication.title | markdownify }}
         {{ with .Site.Data.publication.subtitle }}
-        <span class="subtitle is-4">{{ . | markdownify }}</span>
+        <span class="subtitle">{{ . | markdownify }}</span>
         {{ end }}
       </h1>
 
       {{ with .Site.Data.publication.reading_line }}
-      <p class="">{{ . | markdownify }}</p>
+      <p class="reading-line">{{ . | markdownify }}</p>
       {{ end }}
 
+      <div class="contributor">
       {{- if .Site.Data.publication.contributor_as_it_appears -}}
       {{ .Site.Data.publication.contributor_as_it_appears }}
       {{ else }}
       <span class="visually-hidden">Contributors: </span>
       {{ partial "contributor-list.html" (dict "range" .Site.Data.publication.contributor "contributorType" "primary" "listType" "list" ) }}
       {{- end -}}
+      </div>
 
       {{ else }}
       {{/* Fallback for when no publication.yml data is present */}}
@@ -49,11 +52,20 @@ Cover page layout. This controls the home page of the publication.
 {{/* End full-page cover section */}}
 {{/* Begin "below-the-fold" section */}}
 {{ with .Content }}
-<section class="section">
+
+<section class="section quire-page__content" id="content">
   <div class="container is-fluid">
-    {{ . }}
+    <div class="content">
+      {{ . }}
+    </div>
+    <div class="has-text-centered">
+      <a class="button is-medium quire-cover__button" href="/contents">Start reading {{- template "image-control-icon" (dict "type" "right-arrow" "description" "Go to next page" "imageDir" ($.Scratch.Get "imageDir") ) -}}</a>
+    </div>
   </div>
 </section>
+
+
+
 {{ end }}
 
 <footer class="footer quire-cover-footer">
@@ -65,4 +77,16 @@ Cover page layout. This controls the home page of the publication.
 </footer>
 
 {{/* End "below-the-fold" section */}}
+{{ end }}
+
+{{ define "image-control-icon" }}
+<svg>
+  <switch>
+    <use xlink:href="#{{ .type }}-icon"></use>
+    <foreignObject width="32" height="32">
+        <img src="{{ absURL .imageDir }}/icons/{{ .type }}.png" alt="" />
+    </foreignObject>
+  </switch>
+</svg>
+<span class="visually-hidden">{{ .description }}</span>
 {{ end }}
