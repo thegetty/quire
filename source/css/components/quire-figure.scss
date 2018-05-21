@@ -56,13 +56,18 @@ $tablet: 500px !default;
     font-style: normal;
     text-align: left;
 
-    @media print { font-size: 8pt; }
+    @media print {
+      margin-top: 5pt;
+      font-size: 9pt; }
   }
 
   &__credit {
     display: block;
     font-size: .75rem;
     margin-top: .25rem;
+    @media print {
+      font-size: 7.5pt;
+      margin-top: 1.5pt; }
   }
 
   &__media-wrapper {
@@ -115,7 +120,6 @@ $tablet: 500px !default;
     }
 
     @media print {
-      column-span: all !important;
       float: none !important;
       width: unset !important;
     }
@@ -128,7 +132,8 @@ $tablet: 500px !default;
       justify-content: center;
       margin-bottom: .75rem;
       @media print {
-        display: block;
+        display: inline-block;
+        margin-bottom: 0;
         clear: both;
       }
     }
@@ -184,7 +189,8 @@ $tablet: 500px !default;
   }
 
   @media print {
-    column-span: all;
+    width: 96%;
+    column-span: none;
     -webkit-column-break-inside: avoid;
     page-break-inside: avoid;
     break-inside: avoid;

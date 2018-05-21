@@ -39,6 +39,11 @@ $quire-page-link-color: $color-primary !default;
   background-size: cover;
   position: relative;
 
+  @media print {
+    background-color: inherit;
+    background-image: inherit;
+  }
+
   &__overlay {
     position: absolute;
     top: 0;
@@ -47,6 +52,9 @@ $quire-page-link-color: $color-primary !default;
     min-height: calc(100vh - #{$navbar-height});
     background-image: url("../img/#{$cover-overlay-image}");
     opacity: $cover-overlay-image-opacity;
+    @media print {
+      display: none;
+    }
   }
 
   &.hero.is-fullheight {
@@ -62,6 +70,13 @@ $quire-page-link-color: $color-primary !default;
     margin-top: 8rem;
     margin-bottom: calc(1.5rem * #{$quire-cover-text-scale});
     color: $quire-cover-text-color;
+    @media print {
+      font-size: 40pt;
+      margin-top: 3.5in;
+      margin-bottom: .5in;
+      margin-left: 1in;
+      color: $color-primary;
+    }
   }
 
   .subtitle {
@@ -71,6 +86,11 @@ $quire-page-link-color: $color-primary !default;
     font-weight: 300;
     line-height: 1.02;
     color: $quire-cover-text-color;
+    @media print {
+      font-size: 32pt;
+      margin-top: .25in;
+      color: $color-primary;
+    }
   }
 
   .reading-line {
@@ -79,6 +99,11 @@ $quire-page-link-color: $color-primary !default;
     font-size: calc(1.25rem * #{$quire-cover-text-scale});
     line-height: 1.2;
     color: $quire-cover-text-color;
+    @media print {
+      font-size: 18pt;
+      margin-left: 1in;
+      color: $color-primary;
+    }
   }
 
   .contributor {
@@ -87,6 +112,11 @@ $quire-page-link-color: $color-primary !default;
     line-height: 1.72;
     margin-top: calc(2rem * #{$quire-cover-text-scale});
     color: $quire-cover-text-color;
+    @media print {
+      font-size: 18pt;
+      margin-left: 1in;
+      color: $color-primary;
+    }
   }
 
   &__button {
@@ -115,6 +145,9 @@ $quire-page-link-color: $color-primary !default;
     max-width: 900px;
     width: 900px;
     margin: 0 auto;
+  }
+  @media print {
+    display: none;
   }
 }
 
@@ -164,6 +197,10 @@ $quire-page-link-color: $color-primary !default;
         float: none;
       }
     }
+  }
+
+  @media print {
+    display: none;
   }
 
 }
