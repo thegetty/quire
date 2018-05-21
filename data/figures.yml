@@ -1,32 +1,32 @@
 figure_list:
   - id: "1.4"
     src: fig-1-4-arcadia.jpg
-    caption: "Nicolas Poussin - Et in Arcadia ego"
-    credit: "Public domain image."
+    caption: "*Et in Arcadia ego*, by Nicolas Poussin."
+    credit: "Public domain image"
   - id: "1.5"
     src: fig-1-5-la-tour.jpg
-    caption: "Büßende Maria Magdalena (Magdalena Wrightsman)"
-    credit: "Public domain image."
+    caption: "*Büßende Maria Magdalena* (Magdalena Wrightsman)."
+    credit: "Public domain image"
   - id: "1.6"
     src: fig-1-6-chateau.jpg
-    caption: "Château de Vaux-le-Vicomte by Louis Le Vau."
-    credit: "Public domain image."
+    caption: "Château de Vaux-le-Vicomte, by Louis Le Vau."
+    credit: "Public domain image"
   - id: "1.7"
     src: fig-1-7-salon.jpg
-    caption: "Boiseries of theSalon de la princesse by Germain Bofrand, hôtel de Soubise, Paris"
-    credit: "Public domain image."
+    caption: "*Boiseries of the Salon de la princesse*, by Germain Bofrand, hôtel de Soubise, Paris."
+    credit: "Public domain image"
   - id: "1.8"
     src: fig-1-8-fragonard.jpg
-    caption: "Inspiration by Jean-Honoré Fragonard"
-    credit: "Public domain image."
+    caption: "*Inspiration*, by Jean-Honoré Fragonard."
+    credit: "Public domain image"
   - id: "1.9"
     src: fig-1-9-place.jpg
-    caption: "Place de la Boursein Bordeaux byAnge- Jacques Gabriel"
-    credit: "Public domain image."
+    caption: "Place de la Boursein Bordeaux, by Ange- Jacques Gabriel."
+    credit: "Public domain image"
   - id: "1.10"
     src: fig-1-10-prometheus.jpg
-    caption: "Prometheus by Nicolas-Sébastien Adam."
-    credit: "Public domain image."
+    caption: "*Prometheus*, by Nicolas-Sébastien Adam."
+    credit: "Public domain image"
   - id: "cat1"
     src: manet.jpg
     credit: Musée d’Orsay, Paris
