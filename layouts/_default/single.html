@@ -5,7 +5,7 @@
 
 {{ define "main" }}
 
-<div class="quire-page{{ with .Params.class }} quire-page--{{ . }}{{ end }}" id="main" role="main">
+<div class="{{ partial "page-class.html" . }}" id="main" role="main">
   {{ partial "page-header.html" . }}
 
   <section class="section quire-page__content" id="content">

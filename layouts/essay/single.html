@@ -5,7 +5,7 @@
 */}}
 
 {{ define "main" }}
-<article class="quire-page" id="main" role="main">
+<article class="{{ partial "page-class.html" . }} quire-essay" id="main" role="main">
   {{ partial "page-header.html" . }}
 
   {{ if .Params.abstract }}
