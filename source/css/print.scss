@@ -5,8 +5,129 @@
 // component level. This stylesheet is for overrides and other special-case
 // rules which don't properly fit anywhere else and only show up in print.
 
-// Remove elements from print that will never be used:
+
+$print-bottom-margin: 0.875in;
+$print-top-margin: 0.75in;
+$print-inner-margin: 1in;
+$print-outer-margin: 0.75in;
+
+$print-footer-font: $family-secondary;
+$print-footer-font-size: 8pt;
+
+
 @media print {
+
+  @page {
+		size: 8.5in 11in;
+    prince-bleed: .125in;
+    bleed: .125in;
+    prince-trim: 0.25in;
+    marks: crop;
+    margin-top: $print-top-margin;
+    margin-bottom: $print-bottom-margin;
+
+    @bottom-right-corner {
+			font-family: $print-footer-font;
+			font-size: $print-footer-font-size;
+		}
+    @bottom-right {
+			font-family: $print-footer-font;
+			font-size: $print-footer-font-size;
+		}
+    @bottom-center {
+			font-family: $print-footer-font;
+			font-size: $print-footer-font-size;
+		}
+    @bottom-left {
+			font-family: $print-footer-font;
+			font-size: $print-footer-font-size;
+		}
+    @bottom-left-corner {
+			font-family: $print-footer-font;
+			font-size: $print-footer-font-size;
+		}
+	}
+
+  @page:left {
+    margin-left: $print-outer-margin;
+    margin-right: $print-inner-margin;
+    @bottom-right {
+			content: string(sectiontitle);
+      text-transform: uppercase;
+      letter-spacing: 1pt;
+      font-size: 7.5pt;
+		}
+		@bottom-left-corner {
+			content: counter(page);
+		}
+  }
+
+  @page:left:first {
+    @bottom-right {
+			content: none;
+		}
+  }
+
+  @page:right {
+    margin-left: $print-inner-margin;
+    margin-right: $print-outer-margin;
+    @bottom-left {
+			content: string(pagetitle);
+		}
+		@bottom-right-corner {
+			content: counter(page);
+		}
+  }
+
+  @page:right:first {
+    @bottom-left {
+			content: none;
+		}
+  }
+
+  @page frontmatter:left {
+    @bottom-left-corner {
+      content: counter(page, lower-roman);
+    }
+  }
+  @page frontmatter:right {
+    @bottom-right-corner {
+      content: counter(page, lower-roman);
+    }
+  }
+
+  .quire-current-page__title {
+    string-set: pagetitle content();
+  }
+  .quire-section-page__title {
+    string-set: sectiontitle content();
+  }
+
+  .quire-contents-list {
+    .page-item {
+      .title a::after {
+        content: leader(dotted) ' ' target-counter(attr(href, url), page);
+        margin-left: 6pt;
+        // PrinceXML doesn't otherwise recognize the box sizing?
+        border: 1pt solid #ffffff;
+      }
+      &.quire-frontmatter {
+        .title a::after {
+          content: leader(dotted) ' ' target-counter(attr(href, url), page, lower-roman);
+          font-style: italic;
+        }
+      }
+    }
+  }
+
+  .quire-page--first-body-page {
+    counter-reset: page 1;
+  }
+
+  .quire-page--frontmatter {
+    page: frontmatter;
+  }
+
   html body {
     // Leaflet stuff
     .leaflet-pane,
@@ -19,7 +140,8 @@
     .button,
     .input,
     .textarea,
-    .select {
+    .select,
+    .visually-hidden {
       display: none;
     }
 

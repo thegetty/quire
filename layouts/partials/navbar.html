@@ -67,14 +67,14 @@ search icons, and search results if enabled). It is visible on all pages.
         <li class="quire-navbar-page-controls__item quire-section-page">
           <a href="{{ .Section | relURL }}">
             <span class="visually-hidden">Section: </span>
-            {{ .Section | humanize | title }}
+            <span class="quire-section-page__title">{{ .Section | humanize | title }}</span>
           </a>
         </li>
         {{ end }}
         {{ end }}
         <li class="quire-navbar-page-controls__item quire-current-page">
           <span class="visually-hidden">Current Page: </span>
-          {{- if .Params.short_title }}{{ .Params.short_title | markdownify }} {{ else }}{{ .Title | markdownify | truncate 34 }}{{ end -}}
+          <span class="quire-current-page__title">{{- with .Params.number }}{{ . }}. {{ end }}{{- if .Params.short_title }}{{ .Params.short_title | markdownify }} {{ else }}{{ .Title | markdownify | truncate 34 }}{{ end -}}</span>
         </li>
         {{ end }}
 

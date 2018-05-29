@@ -186,8 +186,8 @@ html {
   &.hero.is-medium .hero-body {
     @media print {
       padding: 0;
-      // PrinceXML doesn't otherwise recognize the box sizing?
-      border: 1px solid #fff;
+      // This white border is a hack for PrinceXML which doesn't otherwise recognize the box sizing for some reason
+      border: 1pt solid #ffffff;
     }
   }
 
@@ -309,5 +309,13 @@ html {
     font-size: 9pt;
     line-height: 14pt;
     margin: 0;
+  }
+
+  .quire-page--frontmatter &,
+  .quire-page--backmatter & {
+    @media print {
+      column-count: 1;
+      margin: 0 .75in;
+    }
   }
 }
