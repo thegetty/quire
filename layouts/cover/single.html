@@ -23,6 +23,7 @@ Cover page layout. This controls the home page of the publication.
       <div class="container is-fluid">
         {{/* Use .Site.Data.publication info if available */}}
         {{ if .Site.Data.publication }}
+        <p class="half-title">{{ if .Site.Data.publication.short_title }}{{ .Site.Data.publication.short_title | markdownify }}{{ else }}{{ .Site.Data.publication.title | markdownify }}{{ end }}</p>
         <h1 class="title">
           {{ .Site.Data.publication.title | markdownify }}
           {{ with .Site.Data.publication.subtitle }}

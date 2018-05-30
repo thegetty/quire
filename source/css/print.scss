@@ -5,11 +5,15 @@
 // component level. This stylesheet is for overrides and other special-case
 // rules which don't properly fit anywhere else and only show up in print.
 
+$print-width: 8.5in;
+$print-height: 11in;
 
 $print-bottom-margin: 0.875in;
 $print-top-margin: 0.75in;
 $print-inner-margin: 1in;
 $print-outer-margin: 0.75in;
+
+$text-block-height: calc(#{$print-height} - #{$print-top-margin} - #{$print-bottom-margin});
 
 $print-footer-font: $family-secondary;
 $print-footer-font-size: 8pt;
@@ -18,7 +22,7 @@ $print-footer-font-size: 8pt;
 @media print {
 
   @page {
-		size: 8.5in 11in;
+		size: $print-width $print-height;
     prince-bleed: .125in;
     bleed: .125in;
     prince-trim: 0.25in;
@@ -61,7 +65,6 @@ $print-footer-font-size: 8pt;
 			content: counter(page);
 		}
   }
-
   @page:left:first {
     @bottom-right {
 			content: none;
@@ -78,7 +81,6 @@ $print-footer-font-size: 8pt;
 			content: counter(page);
 		}
   }
-
   @page:right:first {
     @bottom-left {
 			content: none;
@@ -96,6 +98,44 @@ $print-footer-font-size: 8pt;
     }
   }
 
+  @page landing {
+    background-color: $color-primary;
+    color: findColorInvert($color-primary);
+    @bottom-left-corner {
+			content: none;
+		}
+    @bottom-right-corner {
+			content: none;
+		}
+  }
+
+  @page no-footer {
+    @bottom-right-corner {
+			content: none;
+		}
+    @bottom-right {
+			content: none;
+		}
+    @bottom-center {
+			content: none;
+		}
+    @bottom-left {
+			content: none;
+		}
+    @bottom-left-corner {
+			content: none;
+		}
+  }
+
+  @page page-one:first {
+    @bottom-left-corner {
+			content: none;
+		}
+    @bottom-left {
+			content: none;
+		}
+  }
+
   .quire-current-page__title {
     string-set: pagetitle content();
   }
@@ -108,7 +148,7 @@ $print-footer-font-size: 8pt;
       .title a::after {
         content: leader(dotted) ' ' target-counter(attr(href, url), page);
         margin-left: 6pt;
-        // PrinceXML doesn't otherwise recognize the box sizing?
+        // This white border is a hack for PrinceXML which doesn't otherwise recognize the box sizing for some reason
         border: 1pt solid #ffffff;
       }
       &.quire-frontmatter {
@@ -120,13 +160,63 @@ $print-footer-font-size: 8pt;
     }
   }
 
-  .quire-page--first-body-page {
+  .quire-page--page-one {
+    page: page-one;
     counter-reset: page 1;
+    page-break-before: right;
   }
 
   .quire-page--frontmatter {
     page: frontmatter;
   }
+
+  .quire-cover,
+  .quire-contents {
+    page: no-footer;
+  }
+
+  .quire-page--landing:not(.quire-page--frontmatter) {
+    page: landing;
+    min-height: $text-block-height;
+    background-color: $color-primary;
+    @include foreground-color($color-primary, findColorInvert($color-primary));
+    &.quire-page--grid {
+      .quire-contents-list.grid {
+        display: none;
+      }
+    }
+    .hero-body {
+      border-color: $color-primary !important;
+    }
+    .quire-contents-list {
+      .page-item {
+        .title a::after {
+          border-color: $color-primary !important;
+        }
+      }
+    }
+  }
+
+  // TEMPORARY
+  // Use to better test and style layout of pages
+  // .quire-page {
+  //   border: 1pt solid #ff0000 !important;
+  // }
+  // .hero.quire-page__header {
+  //   border: 1pt solid #ff00ff !important;
+  // }
+  // .hero-body {
+  //   border: 1pt solid #0000ff !important;
+  // }
+  // .section.quire-page__content {
+  //   border: 1pt solid #00ff00 !important;
+  // }
+  // .container {
+  //   border: 1pt solid #ffff00 !important;
+  // }
+  // .content {
+  //   border: 1pt solid #00ffff !important;
+  // }
 
   html body {
     // Leaflet stuff
@@ -153,3 +243,5 @@ $print-footer-font-size: 8pt;
   .section { padding: 0; }
   .container { max-width: 100%; margin: 0; }
 }
+
+

@@ -16,13 +16,16 @@
   button,
   .button {
     background-color: $bgcolor;
-    color: $frcolor;
+    color: $frcolor !important;
 
     &:hover,
     &:focus {
       background-color: darken($bgcolor, 5%);
       color: $frcolor;
     }
+  }
+  a {
+    border-bottom-color: $frcolor !important;
   }
 }
 

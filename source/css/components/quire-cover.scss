@@ -53,15 +53,30 @@ $quire-page-link-color: $color-primary !default;
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
+    min-height: calc(100vh - #{$navbar-height});
+    text-align: $quire-cover-text-alignment;
+    display: flex;
+    align-items: center;
 
     @media print {
+      text-align: right;
       background-color: inherit;
       background-image: inherit;
+      margin-top: 2.5in;
+      margin-left: .75in;
+      margin-right: .75in;
     }
 
-    &.is-fullheight {
-      min-height: calc(100vh - #{$navbar-height});
-      text-align: $quire-cover-text-alignment;
+    .half-title {
+      display: none;
+      @media print {
+        display: block;
+        page-break-after: always;
+        color: $color-primary;
+        text-transform: uppercase;
+        letter-spacing: 1pt;
+        font-family: $family-secondary;
+      }
     }
 
     .title {
@@ -74,10 +89,10 @@ $quire-page-link-color: $color-primary !default;
       color: $quire-cover-text-color;
       @media print {
         font-size: 40pt;
-        margin-top: 3.5in;
+        margin-top: 0;
         margin-bottom: .5in;
-        margin-left: 1in;
         color: $color-primary;
+        page-break-before: right;
       }
     }
 
@@ -103,7 +118,6 @@ $quire-page-link-color: $color-primary !default;
       color: $quire-cover-text-color;
       @media print {
         font-size: 18pt;
-        margin-left: 1in;
         color: $color-primary;
       }
     }
@@ -116,7 +130,6 @@ $quire-page-link-color: $color-primary !default;
       color: $quire-cover-text-color;
       @media print {
         font-size: 18pt;
-        margin-left: 1in;
         color: $color-primary;
       }
     }
@@ -139,7 +152,7 @@ $quire-page-link-color: $color-primary !default;
   &__button:hover {
     background-color: darken($quire-page-link-color, 5%);
   }
-  
+
   .quire-page__content .container.is-fluid {
     // max-width: 900px;
     @media screen and (min-width: 1028px) {
@@ -178,29 +191,64 @@ $quire-page-link-color: $color-primary !default;
       a {
         padding: .5em;
       }
+      @media print {
+        display: none;
+      }
     }
 
     .quire-copyright {
       padding: 0 .5em;
+      @media print {
+        display: none;
+      }
     }
 
     a.quire-copyright__icon__link:hover {
       background-color: transparent;
     }
 
-    .quire-publisher-logos {
+    .quire-publisher {
+      margin-bottom: 1.5em;
+      font-family: $family-secondary;
       img {
         float: right;
         max-height: 6em;
-        margin: 0 .75em 1.5em;
+        margin: 0 0 1.5em 1.5em;
         @media screen and (max-width: $tablet) {
           float: none;
         }
+        @media print {
+          height: .5in;
+        }
+      }
+      p {
+        text-align: right;
+        clear: both;
+        margin-bottom: 0;
+        display: none;
+        @media print {
+          display: inherit;
+        }
+      }
+      p:first-of-type {
+        text-transform: uppercase;
+        letter-spacing: 1pt;
+      }
+      @media print {
+        margin-left: 1.5em;
+        float: right;
       }
     }
 
     @media print {
-      display: none;
+      margin-top: .75in;
+      margin-left: .75in;
+      margin-right: .75in;
+      background-color: inherit;
+      position: fixed;
+      top: 7.25in;
+      left: 0;
+      right: 0;
     }
   }
 

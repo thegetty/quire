@@ -4,4 +4,6 @@ quire-page{{ with .Params.class }} quire-page--{{ . }}{{ end }}{{ if lt .Weight 
    {{- $.Scratch.Set "pageOne" .UniqueID -}}
 {{- end -}}
 
-{{- if eq ($.Scratch.Get "pageOne") .UniqueID }} quire-page--first-body-page{{ end -}}
+{{- if eq ($.Scratch.Get "pageOne") .UniqueID }} quire-page--page-one{{ end -}}
+
+{{- if eq .Params.slug "." }} quire-page--landing{{ end -}}

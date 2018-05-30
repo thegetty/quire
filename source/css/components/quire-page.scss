@@ -203,11 +203,8 @@ html {
 
     &.hero {
       background-color: transparent;
-      height: 3in
+      height: 3in;
     }
-    // &__title { font-size: 21pt; }
-    // &__subtitle { font-size: 16pt; }
-    // &__contributor { font-size: 13pt; }
   }
 }
 
@@ -312,7 +309,8 @@ html {
   }
 
   .quire-page--frontmatter &,
-  .quire-page--backmatter & {
+  .quire-page--backmatter &,
+  .quire-page--landing & {
     @media print {
       column-count: 1;
       margin: 0 .75in;
