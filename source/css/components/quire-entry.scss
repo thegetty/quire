@@ -33,6 +33,21 @@ $quire-page-link-color: $color-primary !default;
     align-items: center;
     justify-content: center;
 
+    @media print {
+      background-color: transparent;
+    }
+
+    &__group-container {
+      @media print {
+        figure {
+          display: none;
+        }
+        figure:first-of-type {
+          display: block;
+        }
+      }
+    }
+
     &__group-container,
     figure {
       flex: 1 1 100%;
@@ -125,6 +140,12 @@ $quire-page-link-color: $color-primary !default;
   &__header {
     margin-bottom: 3rem;
     padding-top: .25rem;
+    @media print {
+      height: 3in;
+      text-align: center;
+      // This white border is a hack for PrinceXML which doesn't otherwise recognize the box sizing for some reason
+      border: 1pt solid #ffffff;
+    }
   }
 
   &__tombstone {
@@ -141,6 +162,10 @@ $quire-page-link-color: $color-primary !default;
         left: 0;
         max-height: 1.5em;
       }
+    }
+    @media print {
+      font-size: 9pt;
+      margin-bottom: .125in;
     }
   }
 

@@ -136,6 +136,17 @@ $print-footer-font-size: 8pt;
 		}
   }
 
+  @page entry-image {
+    background-color: $quire-entry-image-color;
+    page-break-after: always;
+    @bottom-left-corner {
+			content: none;
+		}
+    @bottom-right-corner {
+			content: none;
+		}
+  }
+
   .quire-current-page__title {
     string-set: pagetitle content();
   }
@@ -168,6 +179,11 @@ $print-footer-font-size: 8pt;
 
   .quire-page--frontmatter {
     page: frontmatter;
+  }
+
+  .quire-entry__image {
+    page: no-footer;
+    page-break-after: always;
   }
 
   .quire-cover,

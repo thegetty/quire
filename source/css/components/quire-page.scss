@@ -301,7 +301,7 @@ html {
 
   @media print {
     column-count: 2;
-    column-fill: auto !important;
+    column-fill: balance;
     column-gap: .1875in;
     font-size: 9pt;
     line-height: 14pt;

@@ -41,6 +41,12 @@
 
 // Utility Classes
 // -----------------------------------------------------------------------------
+
+sup,
+sub {
+  line-height: 0;
+}
+
 // Visually Hidden utility class
 .visually-hidden {
   clip: rect(1px, 1px, 1px, 1px);
