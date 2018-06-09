@@ -268,6 +268,10 @@ $(document).ready(() => {
     },
     onAfter: function($container, $newContent) {
       scrollToHash();
+      console.log("after", window.location.pathname);
+      if (window.ga) {
+        // window.ga('send', 'pageview', window.location.pathname || url);
+      }
     }
   })
 })
