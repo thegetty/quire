@@ -157,6 +157,7 @@ function globalSetup() {
   container.classList.remove('no-js')
   pageSetup()
   loadSearchData()
+  scrollToHash()
 }
 
 /**
@@ -203,6 +204,33 @@ function deepZoomSetup() {
 }
 
 /**
+ * scrollToHash
+ * @description Scroll the #main area after each smoothState reload.
+ * If a hash id is present, scroll to the location of that element,
+ * taking into account the height of the navbar.
+ */
+function scrollToHash() {
+  let $scroller = $("#main")
+  let $navbar = $(".quire-navbar")
+  let targetHash = window.location.hash;
+
+  if(targetHash) {
+    let targetHashEl = document.getElementById(targetHash.slice(1))
+    let $targetHashEl = $(targetHashEl)
+
+    if($targetHashEl.length){
+      let newPosition = $targetHashEl.offset().top
+      if ($navbar.length) {
+        newPosition -= $navbar.height()
+      }
+      $scroller.scrollTop(newPosition)
+    }
+  } else {
+    $scroller.scrollTop(0)
+  }
+}
+
+/**
  * pageSetup
  * @description This function is called after each smoothState reload.
  * Initialize any jquery plugins or set up page UI elements here.
@@ -223,6 +251,7 @@ globalSetup()
 // Run when document is ready
 $(document).ready(() => {
   $('#container').smoothState({
+    scroll: false,
     onStart: {
       duration: 200,
       render($container) {
@@ -237,6 +266,12 @@ $(document).ready(() => {
         pageSetup()
       }
     },
-    onAfter($container, $newContent) {}
+    onAfter: function($container, $newContent) {
+      scrollToHash();
+      console.log("after", window.location.pathname);
+      if (window.ga) {
+        // window.ga('send', 'pageview', window.location.pathname || url);
+      }
+    }
   })
 })
