@@ -45,7 +45,7 @@
     "lodash": "^4.17.10",
     "lodash.debounce": "^4.0.8",
     "lunr": "^2.2.1",
-    "smoothstate": "^0.7.2",
+    "smoothstate": "github:miguel-perez/smoothState.js",
     "template-polyfill": "^2.0.0",
     "velocity-animate": "^1.5.1"
   }
