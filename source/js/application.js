@@ -20,6 +20,7 @@ import 'velocity-animate'
 import Search from './search.js'
 import Map from './map.js'
 import DeepZoom from './deepzoom.js'
+import Navigation from './navigation.js'
 
 /**
  * toggleMenu
@@ -155,7 +156,6 @@ window.search = () => {
 function globalSetup() {
   let container = document.getElementById('container')
   container.classList.remove('no-js')
-  pageSetup()
   loadSearchData()
   scrollToHash()
 }
@@ -203,6 +203,20 @@ function deepZoomSetup() {
   }
 }
 
+let navigation
+function navigationSetup() {
+  if (!navigation) {
+    navigation = new Navigation()
+  }
+}
+
+function navigationTeardown() {
+  if (navigation) {
+    navigation.teardown()
+  }
+  navigation = undefined
+}
+
 /**
  * scrollToHash
  * @description Scroll the #main area after each smoothState reload.
@@ -240,6 +254,16 @@ function pageSetup() {
   mapSetup()
   deepZoomSetup()
   sliderSetup()
+  navigationSetup()
+}
+
+/**
+ * pageTeardown
+ * @description This function is called before each smoothState reload.
+ * Remove any event listeners here.
+ */
+function pageTeardown() {
+  navigationTeardown()
 }
 
 // Start
@@ -250,6 +274,8 @@ globalSetup()
 
 // Run when document is ready
 $(document).ready(() => {
+  pageSetup()
+
   $('#container').smoothState({
     scroll: false,
     onStart: {
@@ -268,10 +294,13 @@ $(document).ready(() => {
     },
     onAfter: function($container, $newContent) {
       scrollToHash();
-      console.log("after", window.location.pathname);
+
       if (window.ga) {
-        // window.ga('send', 'pageview', window.location.pathname || url);
+        window.ga('send', 'pageview', window.location.pathname);
       }
+    },
+    onBefore($container, $newContent) {
+      pageTeardown();
     }
   })
 })
