@@ -2,10 +2,6 @@
   "name": "quire-cli",
   "version": "0.1.0",
   "description": "Command-line interface for Quire projects.",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/gettypubs/quire-cli"
-  },
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha",
@@ -17,33 +13,39 @@
     "quire": "./index.js"
   },
   "dependencies": {
-    "axios": "^0.18.0",
-    "chalk": "^2.4.1",
+    "axios": "^0.17.1",
+    "chalk": "^1.1.3",
     "cheerio": "^1.0.0-rc.2",
-    "command-exists": "^1.2.6",
-    "commander": "^2.15.1",
-    "execa": "^0.10.0",
-    "glob": "^7.1.2",
-    "hugo-bin": "0.28.0",
-    "js-yaml": "^3.12.0",
-    "lodash": "^4.17.10",
-    "pe-epub": "naeluh/pe-epub",
-    "pe-epub-fs": "naeluh/pe-epub-fs",
+    "command-exists": "^1.2.2",
+    "commander": "^2.9.0",
+    "execa": "^0.7.0",
+    "glob": "~7.1.2",
+    "growl": "^1.10.5",
+    "handlebars": "^4.0.11",
+    "hugo-bin": "0.29.0",
+    "js-yaml": "^3.8.2",
+    "lodash": "^4.17.4",
+    "minimatch": "~3.0.4",
+    "pe-epub": "peoples-e/pe-epub",
+    "pe-epub-fs": "peoples-e/pe-epub-fs",
     "rimraf": "^2.6.2",
     "striptags": "^3.1.1",
-    "webpack": "^4.12.0",
-    "yaml-front-matter": "^4.0.0"
+    "webpack": "^2.3.1",
+    "yaml-front-matter": "^3.4.0"
   },
   "devDependencies": {
-    "eslint": "^4.19.1",
-    "eslint-config-standard": "^11.0.0",
-    "eslint-plugin-import": "^2.12.0",
-    "eslint-plugin-node": "^6.0.1",
-    "eslint-plugin-promise": "^3.8.0",
-    "eslint-plugin-standard": "^3.1.0",
-    "jsdoc": "naeluh/jsdoc ",
+    "eslint": "^3.18.0",
+    "eslint-config-standard": "^7.1.0",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^2.1.1",
+    "jsdoc": "^3.5.5",
     "jsdoc-template-argon": "^0.2.0-dev",
-    "mocha": "^5.2.0",
+    "marked": "^0.4.0",
+    "mocha": "^3.5.3",
     "tmp": "0.0.33"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gettypubs/quire-cli"
   }
 }
