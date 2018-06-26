@@ -3,6 +3,7 @@ const webpack = require('webpack')
 const glob = require('glob')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const PurifyCSSPlugin = require('purifycss-webpack')
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 const PATHS = {
   source: path.join(__dirname, 'source'),
@@ -16,6 +17,7 @@ const ExtractApplicationCSS = new ExtractTextPlugin(path.join('css', 'applicatio
 const ExtractEpubCSS = new ExtractTextPlugin(path.join('css', 'epub.css'))
 
 module.exports = {
+  mode: 'production',
   entry: {
     // `source/js/application.js` is the entry point for everything;
     // the require('../css/application.scss') in this file is important.
@@ -27,56 +29,117 @@ module.exports = {
     filename: path.join('js', 'application.js')
   },
   module: {
-    loaders: [
-      {
-        // Vanilla CSS (vendor, etc)
-        test: /\.css$/,
-        loader: ExtractApplicationCSS.extract('css')
+    rules: [{
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ['es2015', 'stage-0']
+          }
+        }
       },
       {
-        // SCSS
+        test: /\.css$/,
+        use: ExtractApplicationCSS.extract({
+          use: [{
+            loader: 'css-loader',
+            options: {
+              sourceMap: true
+            }
+          }],
+          fallback: 'style-loader'
+        })
+      },
+      {
         test: /\.scss$/,
         exclude: [/node_modules/, path.resolve(__dirname, 'source/css/epub.scss')],
-        loader: ExtractApplicationCSS.extract('css!sass')
+        use: ExtractApplicationCSS.extract({
+          use: [{
+              loader: 'css-loader',
+              options: {
+                sourceMap: true
+              }
+            },
+            {
+              loader: 'sass-loader',
+              options: {
+                sourceMap: true
+              }
+            }
+          ],
+          fallback: 'style-loader'
+        })
       },
       {
-        // Epub SCSS
         test: /\.scss$/,
         include: path.resolve(__dirname, 'source/css/epub.scss'),
         exclude: /node_modules/,
-        loader: ExtractEpubCSS.extract('css!sass')
+        use: ExtractEpubCSS.extract({
+          use: [{
+              loader: 'css-loader',
+              options: {
+                sourceMap: true
+              }
+            },
+            {
+              loader: 'sass-loader',
+              options: {
+                sourceMap: true
+              }
+            }
+          ],
+          fallback: 'style-loader'
+        })
       },
+      // file-loader(for images)
       {
-        // JS (ES6 transforms)
-        test: /\.js/,
+        test: /\.(jpg|png|gif|svg)$/,
+        use: [{
+          loader: 'file-loader',
+          options: {
+            name: 'img/[name].[ext]',
+            outputPath: '../'
+          }
+        }]
+      },
+      // file-loader(for fonts)
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
-        query: {
-          presets: ['es2015', 'stage-0']
-        }
-      },
-      {
-        // Font Files (file loader)
-        // Copy these to the fonts dir without changing their names.
-        test: /\.(woff|woff2|eot|ttf|svg)$/,
-        exclude: /node_modules/,
-        loader: 'file',
-        query: {
-          name: 'fonts/[name].[ext]',
-          publicPath: '../'
-        }
-      },
-      {
-        // Image Files
-        test: /\.(png|jpg)$/,
-        loader: 'file',
-        query: {
-          name: 'img/[name].[ext]',
-          publicPath: '../'
-        }
+        use: [{
+          loader: 'file-loader',
+          options: {
+            name: 'fonts/[name].[ext]',
+            outputPath: '../'
+          }
+        }]
       }
     ]
-
+  },
+  optimization: {
+    minimizer: [
+      new UglifyJSPlugin({
+        sourceMap: true,
+        uglifyOptions: {
+          compress: {
+            inline: false
+          }
+        }
+      })
+    ],
+    runtimeChunk: false,
+    splitChunks: {
+      cacheGroups: {
+        default: false,
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendor_app',
+          chunks: 'all',
+          minChunks: 2
+        }
+      }
+    }
   },
   plugins: [
     // Extract CSS into a separate file
@@ -110,7 +173,9 @@ module.exports = {
       'window.jQuery': 'jquery'
     }),
 
-    new webpack.optimize.UglifyJsPlugin({ mangle: false })
+    // new webpack.optimize.UglifyJsPlugin({
+    //  mangle: false
+    // })
 
     // If using moment.js, uncomment this to keep the bundle size small.
     // new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
