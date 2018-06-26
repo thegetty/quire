@@ -19,12 +19,15 @@
     "command-exists": "^1.2.2",
     "commander": "^2.9.0",
     "execa": "^0.7.0",
-    "glob": "^7.1.1",
-    "hugo-bin": "0.23.0",
+    "glob": "~7.1.2",
+    "growl": "^1.10.5",
+    "handlebars": "^4.0.11",
+    "hugo-bin": "0.29.0",
     "js-yaml": "^3.8.2",
     "lodash": "^4.17.4",
+    "minimatch": "~3.0.4",
     "pe-epub": "peoples-e/pe-epub",
-    "pe-epub-fs": "0.0.2",
+    "pe-epub-fs": "peoples-e/pe-epub-fs",
     "rimraf": "^2.6.2",
     "striptags": "^3.1.1",
     "webpack": "^2.3.1",
@@ -35,9 +38,14 @@
     "eslint-config-standard": "^7.1.0",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^2.1.1",
-    "jsdoc": "^3.4.3",
+    "jsdoc": "^3.5.5",
     "jsdoc-template-argon": "^0.2.0-dev",
-    "mocha": "^3.2.0",
+    "marked": "^0.4.0",
+    "mocha": "^3.5.3",
     "tmp": "0.0.33"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gettypubs/quire-cli"
   }
 }
