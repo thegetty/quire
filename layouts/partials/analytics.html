@@ -15,11 +15,15 @@
   ga('create', '{{ .Site.GoogleAnalytics }}', 'auto');
   ga('require', 'linkid', 'linkid.js');
   ga('send', 'pageview');
-  jQuery(document).ready(function($) {
-      $("a[href$='pdf'],a[href$='rtf'],a[href$='doc'],a[href$='xls'],a[href*='bit.ly'],a[href$='csv'],a[href$='json'],a[href$='zip'],a[href$='ppt'],a[href*='epub'],a[href*='mobi']").each(function(index) {
-          pdfLabel = $(this).attr('href');
-          pdfOnClick = "ga('send', 'pageview','" + pdfLabel + "');";
-          $(this).attr("onClick", pdfOnClick);
-      });
-  });
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var links = document.querySelectorAll("a[href$='pdf'],a[href$='rtf'],a[href$='doc'],a[href$='xls'],a[href*='bit.ly'],a[href$='csv'],a[href$='json'],a[href$='zip'],a[href$='ppt'],a[href*='epub'],a[href*='mobi']")
+    var link, pdfLabel, pdfOnClick;
+    for (var i = 0; i < links.length; i++) {
+      link = links[i];
+      pdfLabel = link.getAttribute('href');
+      pdfOnClick = "ga('send', 'pageview','" + pdfLabel + "');";
+      link.setAttribute("onClick", pdfOnClick);
+    }
+  }, { once:true });
 </script>

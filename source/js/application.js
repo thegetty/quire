@@ -20,6 +20,7 @@ import 'velocity-animate'
 import Search from './search.js'
 import Map from './map.js'
 import DeepZoom from './deepzoom.js'
+import Navigation from './navigation.js'
 
 /**
  * toggleMenu
@@ -155,8 +156,8 @@ window.search = () => {
 function globalSetup() {
   let container = document.getElementById('container')
   container.classList.remove('no-js')
-  pageSetup()
   loadSearchData()
+  scrollToHash()
 }
 
 /**
@@ -202,6 +203,47 @@ function deepZoomSetup() {
   }
 }
 
+let navigation
+function navigationSetup() {
+  if (!navigation) {
+    navigation = new Navigation()
+  }
+}
+
+function navigationTeardown() {
+  if (navigation) {
+    navigation.teardown()
+  }
+  navigation = undefined
+}
+
+/**
+ * scrollToHash
+ * @description Scroll the #main area after each smoothState reload.
+ * If a hash id is present, scroll to the location of that element,
+ * taking into account the height of the navbar.
+ */
+function scrollToHash() {
+  let $scroller = $("#main")
+  let $navbar = $(".quire-navbar")
+  let targetHash = window.location.hash;
+
+  if(targetHash) {
+    let targetHashEl = document.getElementById(targetHash.slice(1))
+    let $targetHashEl = $(targetHashEl)
+
+    if($targetHashEl.length){
+      let newPosition = $targetHashEl.offset().top
+      if ($navbar.length) {
+        newPosition -= $navbar.height()
+      }
+      $scroller.scrollTop(newPosition)
+    }
+  } else {
+    $scroller.scrollTop(0)
+  }
+}
+
 /**
  * pageSetup
  * @description This function is called after each smoothState reload.
@@ -212,6 +254,16 @@ function pageSetup() {
   mapSetup()
   deepZoomSetup()
   sliderSetup()
+  navigationSetup()
+}
+
+/**
+ * pageTeardown
+ * @description This function is called before each smoothState reload.
+ * Remove any event listeners here.
+ */
+function pageTeardown() {
+  navigationTeardown()
 }
 
 // Start
@@ -222,7 +274,10 @@ globalSetup()
 
 // Run when document is ready
 $(document).ready(() => {
+  pageSetup()
+
   $('#container').smoothState({
+    scroll: false,
     onStart: {
       duration: 200,
       render($container) {
@@ -237,6 +292,15 @@ $(document).ready(() => {
         pageSetup()
       }
     },
-    onAfter($container, $newContent) {}
+    onAfter: function($container, $newContent) {
+      scrollToHash();
+
+      if (window.ga) {
+        window.ga('send', 'pageview', window.location.pathname);
+      }
+    },
+    onBefore($container, $newContent) {
+      pageTeardown();
+    }
   })
 })

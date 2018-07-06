@@ -2,21 +2,25 @@ import lunr from 'lunr'
 
 class Search {
   constructor(data) {
-    this.index = this.buildIndex()
+    this.index = this.buildIndex(data)
     this.contentList = data
-
-    data.forEach(item => { this.index.add(item) })
   }
-
-  buildIndex() {
-    return lunr(function() {
-      this.field('title', { boost: 100 })
-      this.field('url', { boost: 10 })
+  buildIndex(data) {
+    return lunr(function () {
+      this.field('title', {
+        boost: 100
+      })
+      this.field('url', {
+        boost: 10
+      })
       this.field('content')
       this.ref('id')
+      data.forEach(item => {
+        this.add(item)
+      })
     })
   }
-
+  
   // Return results in order of relevance
   search(query) {
     let results = this.index.search(query)
