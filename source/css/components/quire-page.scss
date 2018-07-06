@@ -189,6 +189,17 @@ html {
     }
     &.quire-page__header--full-height {
       min-height: calc(100vh - #{$navbar-height});
+      .quire-page__header__splash-page-arrow {
+        position: absolute;
+        bottom: 0;
+        width: 6%;
+        left: 47%;
+        right: 47%;
+        svg {
+          width: 1rem;
+          fill: findColorInvert($quire-splash-page-color);
+        }
+      }
     }
   }
 
@@ -200,8 +211,9 @@ html {
     }
     @media print {
       padding: 0;
-      // This white border is a hack for PrinceXML which doesn't otherwise recognize the box sizing for some reason
-      border: 1pt solid #ffffff;
+      // This border is a hack for PrinceXML which doesn't
+      // otherwise recognize the box sizing for some reason
+      border: 1pt solid transparent;
     }
   }
 

@@ -161,8 +161,9 @@ $quire-page-link-color: $color-primary !default;
     @media print {
       height: 3in;
       text-align: center;
-      // This white border is a hack for PrinceXML which doesn't otherwise recognize the box sizing for some reason
-      border: 1pt solid #ffffff;
+      // This border is a hack for PrinceXML which doesn't 
+      // otherwise recognize the box sizing for some reason
+      border: 1pt solid transparent;
     }
   }
 

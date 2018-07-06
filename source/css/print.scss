@@ -157,8 +157,9 @@ $print-footer-font-size: 8pt;
       .title a::after {
         content: leader(dotted) ' ' target-counter(attr(href, url), page);
         margin-left: 6pt;
-        // This white border is a hack for PrinceXML which doesn't otherwise recognize the box sizing for some reason
-        border: 1pt solid #ffffff;
+        // This border is a hack for PrinceXML which doesn't
+        // otherwise recognize the box sizing for some reason
+        border: 1pt solid transparent;
       }
       &.quire-frontmatter {
         .title a::after {
@@ -213,26 +214,34 @@ $print-footer-font-size: 8pt;
     }
   }
 
+  .quire-page,
+  .hero.quire-page__header,
+  .hero-body {
+    // This border is a hack for PrinceXML which doesn't
+    // otherwise recognize the box sizing for some reason
+    border: 1pt solid transparent !important;
+  }
+
   // TEMPORARY
   // Use to better test and style layout of pages
-  .quire-page {
-    border: 1pt solid #ff0000 !important;
-  }
-  .hero.quire-page__header {
-    border: 1pt solid #ff00ff !important;
-  }
-  .hero-body {
-    border: 1pt solid #0000ff !important;
-  }
-  .section.quire-page__content {
-    border: 1pt solid #00ff00 !important;
-  }
-  .container {
-    border: 1pt solid #ffff00 !important;
-  }
-  .content {
-    border: 1pt solid #00ffff !important;
-  }
+  // .quire-page {
+  //   border: 1pt solid #ff0000 !important;
+  // }
+  // .hero.quire-page__header {
+  //   border: 1pt solid #ff00ff !important;
+  // }
+  // .hero-body {
+  //   border: 1pt solid #0000ff !important;
+  // }
+  // .section.quire-page__content {
+  //   border: 1pt solid #00ff00 !important;
+  // }
+  // .container {
+  //   border: 1pt solid #ffff00 !important;
+  // }
+  // .content {
+  //   border: 1pt solid #00ffff !important;
+  // }
 
   html body {
     // Leaflet stuff
