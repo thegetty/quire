@@ -1,0 +1,11 @@
+{{- with .Params.class -}}
+{{- $classlist := split . " " -}}
+{{- range $classlist }} quire-page--{{ . }}{{ end -}}
+{{- end -}}
+
+{{- if lt .Weight .Site.Params.bodyPageStart }} quire-page--frontmatter{{ else if ge .Weight .Site.Params.backmatterPageStart }} quire-page--backmatter{{ end -}}
+
+{{- range first 1 (where .Site.Pages "Weight" "ge" .Site.Params.bodyPageStart) -}}
+   {{- $.Scratch.Set "pageOne" .UniqueID -}}
+{{- end -}}
+{{- if eq ($.Scratch.Get "pageOne") .UniqueID }} quire-page--page-one{{ end -}}

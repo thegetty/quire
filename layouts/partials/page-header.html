@@ -6,9 +6,9 @@
 
 {{- if .Params.image -}}
 {{- $imgPath := printf "%s/%s" ($.Scratch.Get "imageDir") .Params.image -}}
-  <section class="quire-page__header hero {{ if eq .Params.layout "splash" }}is-fullheight{{ else }}is-medium{{ end }}" style="background-image: url('{{ $imgPath | absURL }}');">
+  <section class="quire-page__header hero {{ if in .Params.class "splash" }} quire-page__header--full-height{{ end }}" style="background-image: url('{{ $imgPath | absURL }}');">
 {{- else -}}
-  <section class="quire-page__header hero {{ if eq .Params.layout "splash" }}is-fullheight{{ else }}is-medium{{ end }}">
+  <section class="quire-page__header hero {{ if in .Params.class "splash" }} quire-page__header--full-height{{ end }}">
 {{- end -}}
   <div class="hero-body">
 
@@ -26,6 +26,22 @@
       <div class="quire-page__header__contributor">
         {{ partial "contributor-list.html" (dict "range" . "contributorType" "all" "listType" "list-plus") }}
       </div>
+      {{ end }}
+
+      {{ if in .Params.class "splash" }}
+      {{ if or (or (eq .Type "contents") (eq .Type "info")) .Content }}
+      <div class="quire-page__header__splash-page-arrow is-screen-only">
+        <svg transform="rotate(90)">
+          <switch>
+            <use xlink:href="#right-arrow-icon"></use>
+            <foreignObject width="18" height="32">
+                {{- $imgDir := $.Scratch.Get "imageDir" -}}
+                <img src="{{ $imgDir | absURL }}/icons/right-arrow.png" alt="" />
+            </foreignObject>
+          </switch>
+        </svg>
+      </div>
+      {{ end }}
       {{ end }}
 
   </div>
