@@ -1,7 +1,7 @@
 ---
 title: Catalogue
-weight: 100
+weight: 200
 type: contents
-class: grid
+class: grid splash
 slug: .
 ---
