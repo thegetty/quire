@@ -42,7 +42,7 @@ const cli = new CLI()
 process.on('SIGINT', function() { cli.emit('shutdown') })
 
 program
-  .version('0.1.0.alpha.12')
+  .version('0.1.0.alpha.13')
   .option('-v, --verbose', 'log verbose output')
 
 program
