@@ -1,7 +1,7 @@
 ---
 title: An Introduction to French Art
 subtitle: Shamelessly Copied from Wikipedia
-weight: 3
+weight: 100
 type: essay
 contributor:
   - full_name: Ida Pikwik

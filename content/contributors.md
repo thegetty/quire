@@ -1,6 +1,6 @@
 ---
 title: Contributors
-weight: 200
+weight: 1000
 type: page
 ---
 {{< q-contributors range="primary" type="bio" >}}
