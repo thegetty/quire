@@ -160,22 +160,37 @@ $tablet: 500px !default;
       .quire-grid--2 & {
         width: 49%;
         margin-right: 2%;
+        @media print {
+          width: 48%;
+        }
       }
       .quire-grid--3 & {
         width: 32%;
         margin-right: 2%;
+        @media print {
+          width: 31.3%;
+        }
       }
       .quire-grid--4 & {
         width: 23.5%;
         margin-right: 2%;
+        @media print {
+          width: 23%;
+        }
       }
       .quire-grid--5 & {
         width: 18.4%;
         margin-right: 2%;
+        @media print {
+          width: 18%;
+        }
       }
       .quire-grid--6 & {
         width: 15%;
         margin-right: 2%;
+        @media print {
+          width: 14.6%;
+        }
       }
       &:last-child {
         margin-right: 0;

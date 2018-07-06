@@ -35,6 +35,7 @@ $quire-page-link-color: $color-primary !default;
 
     @media print {
       background-color: transparent;
+      @include foreground-color(#fff,$page-text-color);
     }
 
     &__group-container {
@@ -81,12 +82,29 @@ $quire-page-link-color: $color-primary !default;
         border-radius: 3px;
         z-index: 1;
         height: auto;
-      }
-
-      .quire-image-info__caption {
-        display: inline-block;
-        font-size: 1rem;
-        margin-bottom: 1rem;
+        @media print {
+          background-color: transparent;
+          display: block;
+          font-size: 9pt;
+          line-height: 14pt;
+        }
+        &__caption {
+          display: inline-block;
+          font-size: 1rem;
+          margin-bottom: 1rem;
+          @media print {
+            display: block;
+            font-size: 9pt;
+            line-height: 14pt;
+          }
+        }
+        &__credit {
+          @media print {
+            display: block;
+            font-size: 7.5pt;
+            line-height: 14pt;
+          }
+        }
       }
 
       &--more {
