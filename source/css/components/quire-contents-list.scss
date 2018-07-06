@@ -42,6 +42,7 @@ $quire-page-paragraph-style: indent !default;
     li > ul {
       margin-top: .5em;
       margin-bottom: .5em;
+      margin-right: 0;
     }
     .title {
       font-size: inherit;

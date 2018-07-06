@@ -6,16 +6,16 @@
 */}}
 
 {{ define "main" }}
-<div class="quire-page{{ with .Params.class }} {{ . }}{{ end }}" id="main" role="main">
+<div class="{{ partial "page-class.html" . }} quire-contents" id="main" role="main">
   {{ partial "page-header.html" . }}
 
   <section class="section quire-page__content" id="content">
-    <div class="container {{ if eq .Params.class "grid" }}is-fullhd{{ end }}">
+    <div class="container {{ if in .Params.class "grid" }}is-fullhd{{ end }}">
       <div class="content">
         {{ .Content }}
       </div>
 
-      <div class="quire-contents-list {{ if .Params.class }}{{ .Params.class }}{{ else }}list{{ end }}">
+      <div class="quire-contents-list {{ if in .Params.class "grid" }} grid{{ else if in .Params.class "abstract" }} abstract{{ else if in .Params.class "brief" }} brief{{ else }} list{{ end }}">
         <div class="menu-list">
           {{ if .Section }}
             {{ $scope := where .Site.Pages "Section" .Section }}

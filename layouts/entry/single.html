@@ -12,7 +12,7 @@ a single image or object needs to be featured prominently.\
 {{ end }}
 
 {{/* Entry content, including entry image and tombstone data */}}
-<article class="quire-page quire-entry" id="main" role="main">
+<article class="{{ partial "page-class.html" . }} quire-entry" id="main" role="main">
 
   {{/* Full-width entry image header */}}
   <div class="quire-entry__image">
