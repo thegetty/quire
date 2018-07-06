@@ -33,6 +33,7 @@ $quire-page-header-text-color: $dark !default;
 $quire-page-link-color: $color-primary !default;
 $quire-page-link-highlight: $light !default;
 
+$quire-splash-page-color: $color-primary !default;
 
 // html
 // -----------------------------------------------------------------------------
@@ -90,7 +91,7 @@ html {
       }
     }
     @media print {
-      font-size: 32pt;
+      font-size: 30pt;
       margin-top: .75in;
       // border: 1px solid #ff0000;
     }
@@ -166,6 +167,7 @@ html {
 
 }
 
+
 // .quire-page-header
 // -----------------------------------------------------------------------------
 .quire-page__header {
@@ -176,14 +178,26 @@ html {
   background-position: cover;
   text-align: center;
 
+  .quire-page--splash & {
+    background-color: $quire-splash-page-color;
+    * {
+      color: findColorInvert($quire-splash-page-color);
+    }
+    .hero-body {
+      padding-top: 15rem;
+      padding-bottom: 3rem;
+    }
+    &.quire-page__header--full-height {
+      min-height: calc(100vh - #{$navbar-height});
+    }
+  }
+
   .hero-body {
+    padding-top: 9rem;
+    padding-bottom: 9rem;
     @media screen and (min-width: $desktop) {
       margin: 0 5rem;
     }
-
-  }
-
-  &.hero.is-medium .hero-body {
     @media print {
       padding: 0;
       // This white border is a hack for PrinceXML which doesn't otherwise recognize the box sizing for some reason
@@ -191,16 +205,7 @@ html {
     }
   }
 
-  &.hero.is-fullheight {
-    min-height: calc(100vh - #{$navbar-height});
-    .hero-body {
-      padding: 12rem 0;
-      margin-top: -#{$navbar-height};
-    }
-  }
-
   @media print {
-
     &.hero {
       background-color: transparent;
       height: 3in;
@@ -227,6 +232,16 @@ html {
     a:not([rel=footnote]):not(.footnote-return) {
       color: $quire-page-link-color;
       border-bottom: 1px solid $quire-page-link-color;
+      @media print {
+        color: $page-text-color;
+        border-bottom-width: 0;
+      }
+    }
+
+    a {
+      @media print {
+        color: $page-text-color;
+      }
     }
 
     a:hover {
@@ -309,8 +324,7 @@ html {
   }
 
   .quire-page--frontmatter &,
-  .quire-page--backmatter &,
-  .quire-page--landing & {
+  .quire-page--backmatter & {
     @media print {
       column-count: 1;
       margin: 0 .75in;

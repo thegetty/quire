@@ -13,7 +13,12 @@ $print-top-margin: 0.75in;
 $print-inner-margin: 1in;
 $print-outer-margin: 0.75in;
 
+$print-bleed: .125in;
+
 $text-block-height: calc(#{$print-height} - #{$print-top-margin} - #{$print-bottom-margin});
+
+$splash-page-width: calc(#{$print-width} + #{$print-bleed} + #{$print-bleed});
+$splash-page-height: calc(#{$print-height} + #{$print-bleed} + #{$print-bleed});
 
 $print-footer-font: $family-secondary;
 $print-footer-font-size: 8pt;
@@ -98,9 +103,13 @@ $print-footer-font-size: 8pt;
     }
   }
 
-  @page landing {
-    background-color: $color-primary;
-    color: findColorInvert($color-primary);
+  @page splash {
+    background-color: $quire-splash-page-color;
+    color: findColorInvert($quire-splash-page-color);
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
     @bottom-left-corner {
 			content: none;
 		}
@@ -132,17 +141,6 @@ $print-footer-font-size: 8pt;
 			content: none;
 		}
     @bottom-left {
-			content: none;
-		}
-  }
-
-  @page entry-image {
-    background-color: $quire-entry-image-color;
-    page-break-after: always;
-    @bottom-left-corner {
-			content: none;
-		}
-    @bottom-right-corner {
 			content: none;
 		}
   }
@@ -191,48 +189,50 @@ $print-footer-font-size: 8pt;
     page: no-footer;
   }
 
-  .quire-page--landing:not(.quire-page--frontmatter) {
-    page: landing;
-    min-height: $text-block-height;
-    background-color: $color-primary;
-    @include foreground-color($color-primary, findColorInvert($color-primary));
-    &.quire-page--grid {
-      .quire-contents-list.grid {
-        display: none;
+  .quire-page--splash {
+    .quire-page__header {
+      .hero-body,
+      .quire-page__content {
+        margin-top: $print-top-margin;
+        margin-left: $print-inner-margin;
+        margin-right: $print-inner-margin;
+        margin-bottom: $print-bottom-margin;
       }
-    }
-    .hero-body {
-      border-color: $color-primary !important;
-    }
-    .quire-contents-list {
-      .page-item {
-        .title a::after {
-          border-color: $color-primary !important;
-        }
+      .hero-body {
+        margin-top: 3in;
+      }
+      &.quire-page__header--full-height {
+        page: splash;
+        background-color: $quire-splash-page-color;
+        color: findColorInvert($quire-splash-page-color);
+        width: $splash-page-width;
+        height: $splash-page-height;
+        margin-left: (-$print-bleed);
+        margin-top: (-$print-bleed);
       }
     }
   }
 
   // TEMPORARY
   // Use to better test and style layout of pages
-  // .quire-page {
-  //   border: 1pt solid #ff0000 !important;
-  // }
-  // .hero.quire-page__header {
-  //   border: 1pt solid #ff00ff !important;
-  // }
-  // .hero-body {
-  //   border: 1pt solid #0000ff !important;
-  // }
-  // .section.quire-page__content {
-  //   border: 1pt solid #00ff00 !important;
-  // }
-  // .container {
-  //   border: 1pt solid #ffff00 !important;
-  // }
-  // .content {
-  //   border: 1pt solid #00ffff !important;
-  // }
+  .quire-page {
+    border: 1pt solid #ff0000 !important;
+  }
+  .hero.quire-page__header {
+    border: 1pt solid #ff00ff !important;
+  }
+  .hero-body {
+    border: 1pt solid #0000ff !important;
+  }
+  .section.quire-page__content {
+    border: 1pt solid #00ff00 !important;
+  }
+  .container {
+    border: 1pt solid #ffff00 !important;
+  }
+  .content {
+    border: 1pt solid #00ffff !important;
+  }
 
   html body {
     // Leaflet stuff
@@ -247,7 +247,8 @@ $print-footer-font-size: 8pt;
     .input,
     .textarea,
     .select,
-    .visually-hidden {
+    .visually-hidden,
+    .footnote-return {
       display: none;
     }
 
