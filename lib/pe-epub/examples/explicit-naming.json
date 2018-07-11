@@ -1,0 +1,19 @@
+{
+  "title" : "Hyperlinking Test",
+  "cover" : "http://s3.amazonaws.com/net.thepeoplesebook/pe-epub/printing-press.jpg",
+  "languages" : ["en-GB"],
+  "pages" : [
+    {
+      "title" : "Page One",
+      "href" : "pageone.html",
+      "toc" : true,
+      "body" : "<h1>Containing a reference to <a href='pagetwo.html'>Page Two</a></h1>"
+    },
+    {
+      "title" : "Page Two",
+      "href" : "pagetwo.html",
+      "toc": true,
+      "body" : "<h1>Containing a reference to <a href='pageone.html'>Page One</a></h1>"
+    }
+  ]
+}

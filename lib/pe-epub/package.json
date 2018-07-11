@@ -1,0 +1,67 @@
+{
+  "_from": "github:peoples-e/pe-epub",
+  "_id": "pe-epub@0.3.8",
+  "_inBundle": false,
+  "_location": "/quire-cli/pe-epub",
+  "_phantomChildren": {
+    "underscore": "1.9.1"
+  },
+  "_requested": {
+    "type": "git",
+    "raw": "pe-epub@github:peoples-e/pe-epub",
+    "name": "pe-epub",
+    "escapedName": "pe-epub",
+    "rawSpec": "github:peoples-e/pe-epub",
+    "saveSpec": "github:peoples-e/pe-epub",
+    "fetchSpec": null,
+    "gitCommittish": null
+  },
+  "_requiredBy": [
+    "/quire-cli"
+  ],
+  "_resolved": "github:peoples-e/pe-epub#533b01389c93d3e40200b1f057dd049781f97d16",
+  "_spec": "pe-epub@github:peoples-e/pe-epub",
+  "_where": "C:\\Users\\nhulea\\code\\quire-cli",
+  "author": {
+    "name": "Oliver Wise"
+  },
+  "bugs": {
+    "url": "https://github.com/peoples-e/pe-epub/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "archiver": "~0.9.0",
+    "buffers": "~0.1.1",
+    "cheerio": "1.0.0-rc.2",
+    "follow-redirects": "0.0.3",
+    "handlebars": "^4.0.11",
+    "lodash": "^4.17.10",
+    "q": "~0.9.7",
+    "shelljs": "^0.7.8",
+    "slash": "^2.0.0",
+    "upath": "^1.1.0"
+  },
+  "deprecated": false,
+  "description": "JSON to EPUB",
+  "devDependencies": {
+    "express": "~3.0.2",
+    "grunt": "^1.0.3",
+    "grunt-browserify": "^5.3.0",
+    "grunt-contrib-handlebars": "^1.0.0",
+    "grunt-jslint": "~0.2.5a",
+    "grunt-release": "^0.14.0",
+    "jasmine-node": "1.14.x",
+    "minimatch": "~3.0.4",
+    "send": "^0.16.2"
+  },
+  "homepage": "https://github.com/peoples-e/pe-epub#readme",
+  "license": "MIT",
+  "main": "./Peepub.js",
+  "name": "pe-epub",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peoples-e/pe-epub.git"
+  },
+  "version": "0.3.8"
+}

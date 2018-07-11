@@ -1,0 +1,40 @@
+{
+   "title": "Broken Epub",
+   "url": "",
+   "language": "en",
+   "date": "",
+   "subtitle": "The EPUB JSON with problems",
+   "isbn": "",
+   "creators": [
+       {
+           "name": "",
+           "role": "aut",
+           "file-as": ""
+       }
+   ],
+   "contributors": [
+       {
+           "name": "",
+           "role": "adp",
+           "file-as": ""
+       }
+   ],
+   "publishers": [
+       ""
+   ],
+   "description": "",
+   "subjects": [
+       ""
+   ],
+   "rights": "",
+   "cover": "http://s3.amazonaws.com/net.thepeoplesebook/pe-epub/printing-press.jpg",
+   "pages": [
+       {
+           "title": "Such as Local Files",
+           "body": "<p><img width=\"500\" height=\"500\" src=\"file:///C:/Users/pe/local-image.jpg\" /></p>",
+           "toc": true,
+           "hidden": false
+       }
+   ],
+   "css": "/*defaults*/\n\nimg,video {\n\tmax-width: 100%;\n}\n\nvideo, audio { \n\tmargin: 0 auto; \n\tdisplay: block; \n\ttext-align: center;\n\tfont-family: sans-serif;\n\tfont-weight: bold;\n\tcolor: #bcbcbc;\n}\n\naudio img {\n\theight: 1em; \n}\n\np { \n\ttext-indent: 0;\n\tmargin-bottom: .5em;\n\tmargin-top: .5em;\n\tline-height: 1.2em; \n\t}\n\nhr {\n\tmargin:1.5em; }\t\t\n\n/*styles dropdown*/\n\np.normal {\n\ttext-indent: 0;\n\tmargin-bottom: .5em;\n\tmargin-top: .5em;\n\tline-height: 1.2em; \n\t}\n\np.indent {\n\ttext-indent: 7%;\n\tmargin-bottom: 0;\n\tmargin-top: 0; \n\tline-height: 1.2em; \n\t}\n\nh1 { \n\tmargin: 0; \n\tfont-size: 3em;\n\tline-height: 1.2em; \n\t}\n\nh2 { \n\tmargin: 0;\n\tfont-size: 2em; \n\tline-height: 1.2em; \n\t}\n\t\nh3 { \n\tmargin: 0;\n\tfont-size: 1.5em; \n\tline-height: 1.2em; \n\t}\t\t\n\np.italic {\n\tmargin: 1em 7%;\n\tfont-style: italic; \n\tline-height: 1.2em; \n\t}\n\t\np.shaded {\n\tmargin: 1em 7%;\n\tpadding: .75em;\n\tbackground-color: #ececec;\n\tborder-radius: 2px; \n\tline-height: 1.2em; \n\t}\t\n\np.outlined {\n\tmargin: 1em 7%;\n\tpadding: .75em;\n\tborder-width: 4px;\n\tborder: 1px dotted #000;\n\tline-height: 1.2em; \n\t}\t\n\np.narrowtopmargin {\n\tmargin-top: 2em;\n\t}\n\np.mediumtopmargin {\n\tmargin-top: 4em;\n\t}\n\np.widetopmargin {\n\tmargin-top: 8em;\n\t}\n\np.mediumlinespace {\n\tline-height: 1.6em;\n\t}\n\np.widelinespace {\n\tline-height: 2em;\n\t}\n\np.smallimage {\n\twidth: 40%;\n\tmargin-left: 30%;\n\tmargin-right: 30%;\n\tfont-size: 80%;\n\t}\n\np.smallimage img {\n\twidth: 100%;\n\t}\n\t\np.mediumimage {\n\twidth: 60%;\n\tmargin-left: 20%;\n\tmargin-right: 20%;\n\tfont-size: 80%;\n\t}\n\t\np.mediumimage img {\n\twidth: 100%;\n\t}\t\n\t\np.largeimage {\n\twidth: 80%;\n\tmargin-left: 10%;\n\tmargin-right: 10%;\n\tfont-size: 80%; \n\t}\t\n\np.largeimage img {\n\twidth: 100%;\n\t}\t\n\np.fullimage {\n\twidth: 100%;\n\tfont-size: 80%; \n\t}\t\n\np.fullimage img {\n\twidth: 100%;\n\t}\t\n\n.monospace{\n\tfont-family: monospace;\n}\n.sans-serif{\n\tfont-family: sans-serif;\n}\n.strike {\n\ttext-decoration: line-through;\n\t}\n\t\n.underline {\n\ttext-decoration: underline;\n\t}\n\n.smallcaps { \n\tfont-size: 80%; \n\ttext-transform: uppercase; \n\t}\t\n\n.super {\n\tvertical-align: super;\n\tfont-size: 70%;\n\tline-height: 0;\n\t}\t\n\n.sub {\n\tvertical-align: sub;\n\tfont-size: 70%;\n\tline-height: 0;\n\t}\t\n\t\t\n/* table of contents */\n\nnav {\n\ttext-align: center;\n\tmargin-top: 4em;\n\t}\t\n\t\nnav ol {\n\tlist-style-type: none;\n\tpadding: 0;\n\t}\n\nnav h1 {\n\tfont-size: 2em; }\n\nnav li {\n\tline-height: 2em;\n\tmargin:0;\n\tlist-style-type: none;\n }"
+}

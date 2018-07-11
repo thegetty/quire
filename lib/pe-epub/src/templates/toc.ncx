@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1">
+  <head>
+    <meta name="dtb:uid" content="urn:{{#if isbn}}isbn{{/if}}{{#unless isbn}}uuid{{/unless}}:{{id}}"/>
+  </head>
+  <docTitle>
+    <text>{{title}}</text>
+  </docTitle>
+  <navMap>{{#tocPages}}
+    <navPoint id="navPoint-{{i}}" playOrder="{{i}}" class="chapter">   
+  		<navLabel><text>{{#if toc}}{{title}}{{else}}{{../../title}}{{/if}}</text></navLabel>
+		  <content src="{{href}}"/>    
+    </navPoint>  
+{{/tocPages}}</navMap>
+</ncx>
+<!-- Created with pe-epub at http://thepeoplesebook.net -->

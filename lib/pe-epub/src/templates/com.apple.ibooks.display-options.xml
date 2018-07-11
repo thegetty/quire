@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display_options>
+    <platform name="*">
+        <option name="fixed-layout">true</option>
+        <option name="orientation-lock">none</option>
+        <option name="open-to-spread">true</option>
+    </platform>
+    <platform name="iphone">
+        <option name="fixed-layout">true</option>
+        <option name="orientation-lock">none</option>
+        <option name="open-to-spread">false</option>
+    </platform>
+</display_options>
