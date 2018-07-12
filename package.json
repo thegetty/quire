@@ -3,10 +3,6 @@
   "version": "0.1.0",
   "description": "Command-line interface for Quire projects.",
   "main": "index.js",
-  "scripts": {
-    "test": "./node_modules/.bin/mocha",
-    "docs": "./node_modules/.bin/jsdoc -c conf.json -R README.md -p"
-  },
   "author": "Eric Gardner",
   "license": "MIT",
   "bin": {
@@ -31,17 +27,6 @@
     "upath": "^1.1.0",
     "webpack": "^2.3.1",
     "yaml-front-matter": "^3.4.0"
-  },
-  "devDependencies": {
-    "eslint": "^3.18.0",
-    "eslint-config-standard": "^7.1.0",
-    "eslint-plugin-promise": "^3.5.0",
-    "eslint-plugin-standard": "^2.1.1",
-    "jsdoc": "^3.5.5",
-    "jsdoc-template-argon": "^0.2.0-dev",
-    "marked": "^0.4.0",
-    "mocha": "^3.5.3",
-    "tmp": "0.0.33"
   },
   "repository": {
     "type": "git",
