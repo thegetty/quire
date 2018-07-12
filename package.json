@@ -26,8 +26,6 @@
     "js-yaml": "^3.8.2",
     "lodash": "^4.17.4",
     "minimatch": "~3.0.4",
-    "pe-epub": "peoples-e/pe-epub",
-    "pe-epub-fs": "peoples-e/pe-epub-fs",
     "rimraf": "^2.6.2",
     "striptags": "^3.1.1",
     "upath": "^1.1.0",
