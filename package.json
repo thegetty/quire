@@ -30,6 +30,7 @@
     "pe-epub-fs": "peoples-e/pe-epub-fs",
     "rimraf": "^2.6.2",
     "striptags": "^3.1.1",
+    "upath": "^1.1.0",
     "webpack": "^2.3.1",
     "yaml-front-matter": "^3.4.0"
   },
