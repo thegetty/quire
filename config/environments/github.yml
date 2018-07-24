@@ -11,6 +11,6 @@
 
 # Use these settings for GH Pages
 
-baseURL: "https://gettypubs.github.io/quire-demo"
+baseURL: "https://gettypubs.github.io/quire-starter-theme-option1"
 canonifyURLs: true
 relativeURLs: false

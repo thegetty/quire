@@ -6,35 +6,42 @@ object_display_order:
   - location
 object_list:
   - id: 1
-    title: The Luncheon on the Grass
-    artist: Édouard Manet
-    year: 1863
-    medium: Oil on canvas
-    dimensions: 208 cm × 264.5 cm (81.9 in × 104.1 in)
-    location: Musée d’Orsay, Paris
-    link:
+    title: Human Erosion in California / Migrant Mother
+    artist: Dorothea Lange
+    year: 1936
+    medium: Gelatin silver print
+    dimensions: 34.1 cm × 26.8 cm (13 <sub>7</sub>/<sub>16</sub> in × 10 <sub>9</sub>/<sub>16</sub> in.)
+    location: J. Paul Getty Museum
+    link: http://www.getty.edu/art/collection/objects/125690/dorothea-lange-human-erosion-in-california-migrant-mother-american-march-1936/
     figure:
-      - src: manet.jpg
+      - src: mother.jpg
   - id: 2
-    title: Impression, *Sunrise*
-    artist: Claude Monet
-    year: 1872
-    medium: Oil on canvas
-    dimensions: 48 cm × 63 cm (18.9 in × 24.8 in)
-    location: Musée Marmottan Monet, Paris
-    link:
+    title: Pea Pickers, Nipomo, California
+    artist: Dorothea Lange
+    year: 1936
+    medium: Gelatin silver print, with applied pigment
+    dimensions: 29.5 cm × 24.4 cm (7 <sub>11</sub>/<sub>16</sub> in × 9 <sub>5</sub>/<sub>8</sub> in.)
+    location: J. Paul Getty Museum
+    link: http://www.getty.edu/art/collection/objects/130784/dorothea-lange-pea-pickers-in-california-members-of-a-roving-army-of-fruit-pickers-american-february-1936/
     figure:
-      - id: "cat2"
+      - src: pickers.jpg
   - id: 3
-    title: Reading (portrait of Edma Morisot)
-    artist: Berthe Morisot
-    year: 1873
-    medium: Oil on fabric
-    dimensions: 74.2 x 100.3 x 12 cm (29 <sup>3</sup>⁄<sub>16</sub> x 39 <sup>1</sup>⁄<sub>2</sub> x 4 <sup>11</sup>⁄<sub>16</sub> in.)
-    location: Cleveland Museum of Art
-    link: http://www.clevelandart.org/art/1950.89
-    download: true
+    title: Bud Fields and His Wife Ivy, and His Daughter Ellen, Hale County, Alabama
+    artist: Walker Evans
+    year: 1936
+    medium: Gelatin silver print
+    dimensions: 19.4 x 24.4 (7 <sub>5</sub>⁄<sub>8</sub> x 9 <sub>5</sub>⁄<sub>8</sub> in.)
+    location: J. Paul Getty Museum
+    link: http://www.getty.edu/art/collection/objects/45651/walker-evans-bud-fields-with-his-wife-ivy-and-his-daughter-ellen-hale-county-alabama-american-1936/
     figure:
-      - id: "cat3"
-      - id: "cat3a"
-      - id: "cat3b"
+      - src: duo.jpg
+  - id: 4
+    title: Burroughs Family, Hale County, Alabama
+    artist: Walker Evans
+    year: 1935
+    medium: Gelatin silver print
+    dimensions: 19.2 x 24.1 (7 <sub>9</sub>⁄<sub>16</sub> x 9 <sub>1</sub>⁄<sub>2</sub> in.)
+    location: J. Paul Getty Museum
+    link: http://www.getty.edu/art/collection/objects/34753/walker-evans-sharecropper's-family-hale-county-alabama-burroughs-family-hale-county-alabama-american-1935-print-later/
+    figure:
+      - src: family.jpg

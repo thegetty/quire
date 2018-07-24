@@ -6,4 +6,4 @@ type: cover
 slug: .
 ---
 
-French art in the popular imagination is often characterized by the dreamy, dauby landscapes of the Impressionists and the bolder, more vibrant work of 20th-century greats living *la vie bohème* in Paris. But still more of the genres that we associate with the art historical canon were pioneered in France. Pinpointing the very beginning of “French” art may prove an impossible task, but the region has been rich in creative expression since cave paintings were rendered at Lascaux an estimated 17,300 years ago, making them some of the earliest artistic traces in human history.
+In the 1930s, during America's worst financial crises, the administration of President Franklin D. Roosevelt employed photographers to document the plight of everyday folk in the Great Depression in order to push forward with their New Deal programs. Documentary photographers Dorothea Lange and Walker Evans were prolific frontrunners of these efforts and their extraordinary photographs continue to endure today. Their artistic and documentary mastery and historical importance provide key insight into a monumental turning point in American history.

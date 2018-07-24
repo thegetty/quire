@@ -9,15 +9,16 @@
 # Title & Description
 # ------------------------------------------------------------------------------
 
-title: Quire Starter
-subtitle: Multiformat Publishing
+title: New Deal Photography
+subtitle: The Works of Dorothea Lange and Walker Evans
 reading_line:
-short_title:
+short_title: New Deal Photography
 
 description:
   one_line:
   full: >-
-    Quire is a digital publishing framework built on top of the Hugo static site generator. Generate Web, PDF, and print books (with Epub coming soon) from a single set of text files.
+    Quire is a digital publishing framework built on top of the Hugo static site
+    generator. Generate Web, PDF, and print books (with Epub coming soon) from a single set of text files.
 
 # ------------------------------------------------------------------------------
 # Publication Details
@@ -32,8 +33,8 @@ identifier:
 
 publisher:
   - name: J. Paul Getty Trust
-    location: Los Angeles
-    url: http://www.getty.edu
+    location:
+    url:
     logo: logo-getty.png
 
 # ------------------------------------------------------------------------------
@@ -44,21 +45,21 @@ contributor_as_it_appears:
 
 contributor:
   - type: primary
-    first_name: Rose
-    last_name: Valland
-    title: Chair
-    affiliation: Commission for the Protection of Works of Art
-    bio: "Rose Antonia Maria Valland (1 November 1898 – 18 September 1980) was a French art historian, member of the French Resistance, captain in the French military, and one of the most decorated women in French history. She secretly recorded details of the Nazi plundering of National French and private Jewish-owned art from France; and, working with the French Resistance, she saved thousands of works of art."
-    url: https://en.wikipedia.org/wiki/Rose_Valland
-    pic: contributors/rose-valland.jpg
-  - type: primary
-    first_name: Denis
-    last_name: Diderot
-    title: Chief Editor
-    affiliation: Encyclopédie
-    bio: "Denis Diderot (5 October 1713 – 31 July 1784) was a French philosopher, art critic, and writer. He was a prominent figure during the Enlightenment and is best known for serving as co-founder, chief editor, and contributor to the Encyclopédie along with Jean le Rond d’Alembert."
-    url: https://en.wikipedia.org/wiki/Denis_Diderot
-    pic: contributors/denis-diderot.jpg
+    first_name: Judith
+    last_name: Keller
+    title: Senior Curator of Photographs
+    affiliation: J. Paul Getty Museum
+    bio: "Judith Keller joined the J. Paul Getty Museum in 1986 and since 2008 was an Associate Curator of Photographs. In 2010, she was named the Senior Curator of Photographs. Keller received her B.A. in Art History and a Masters in Museum Practice and Art History from the University of Michigan at Ann Arbor. She also completed course work for a Phd. in Art History at the University of Michigan. Prior to her tenure at the Getty, Keller worked at The University of Michigan Museum of Art (1979 – 1981) and at the Archer M. Huntington Art Gallery (now the Blanton Museum of Art) at The University of Texas, Austin, as Curator of Prints and Drawings."
+    url: http://news.getty.edu/judith-keller-named-senior-curator-photographs-at-j-paul-getty-museum.htm
+    pic: contributors/judith-keller.jpg
+  - type:
+    first_name:
+    last_name:
+    title:
+    affiliation:
+    bio:
+    url:
+    pic:
 
 # ------------------------------------------------------------------------------
 # Copright & License
@@ -105,25 +106,23 @@ resource_link:
 # ------------------------------------------------------------------------------
 
 subject:
-  - type: keyword
-    name: lemons, oranges, marmalade
   - type: bisac
-    name: ART HISTORY / English / Jams
-    identifer: ART0009210
+    name: PHOTOGRAPHY / Subjects & Themes / Historical
+    identifer: PHO023100
   - type: getty
-    name: Paul Cézanne
-    identifier: "http://vocab.getty.edu/ulan/500004793"
+    name: Dorothea Lange
+    identifier: "http://vocab.getty.edu/ulan/500007674"
   - type: keyword
-    name: still life
+    name: photography
   - type: getty
-    name: Hampshire
-    identifier: "http://vocab.getty.edu/tgn/7008139"
+    name: Walker Evans
+    identifier: "http://vocab.getty.edu/ulan/500012076"
   - type: getty
-    name: oil pastels
-    identifier: "http://vocab.getty.edu/aat/300230810"
+    name: black-and-white photography
+    identifier: "http://vocab.getty.edu/aat/300162056"
   - type: getty
-    name: Still Life with Blue Pot
-    identifier: "http://www.getty.edu/cona/CONAFullSubject.aspx?subid=700002042"
+    name: despression (economic concept)
+    identifier: "http://vocab.getty.edu/aat/300410245"
 
 # ------------------------------------------------------------------------------
 # Revision History
