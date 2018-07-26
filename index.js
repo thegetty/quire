@@ -109,6 +109,20 @@ program
     cli.emit('epub', filePath, env)
   })
 
+// quire pandoc test
+//
+// run the build command in the current directory
+// Pass optional config from config/environments/[env].yml to hugo
+//
+program
+.command('pdc [filename] [filePath] [env]')
+.description('Generate an EPUB from pandoc of the current project')
+.action(function(filename, filePath, env) {
+  cli.verbose = program.verbose
+  cli.emit('pdc', filename, filePath, env)
+})
+
+
 // quire debug
 //
 program
