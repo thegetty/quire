@@ -25,6 +25,7 @@
     "pe-epub": "gettypubs/pe-epub",
     "pe-epub-fs": "gettypubs/pe-epub-fs",
     "rimraf": "^2.6.2",
+    "sanitize-html": "^1.18.2",
     "striptags": "^3.1.1",
     "upath": "^1.1.0",
     "webpack": "^4.16.2",

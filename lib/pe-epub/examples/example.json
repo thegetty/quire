@@ -1,0 +1,40 @@
+{
+  "title"           : "The Peoples E-Book",
+  "cover"           : "http://s3.amazonaws.com/net.thepeoplesebook/pe-epub/printing-press.jpg",
+  "url"             : "http://thepeoplesebook.net",
+  "languages"        : ["en-US", "af"],
+  "date"            : "2013-03-23",
+  "subtitle"        : "We read ebooks for breakfast",
+  "css"             : ["body { background-color: #fff }", "http://s3.amazonaws.com/net.thepeoplesebook/pe-epub/test.css"],
+  "js"              : "http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js",
+  "creator"         : {
+    "name"    : "Greg Albers",
+    "role"    : "aut",
+    "file-as" : "Albers, Greg"
+  },
+  "contributors"    : [{
+    "name"    : "Oliver Wise",
+    "role"    : "vdg",
+    "file-as" : "Wise, Oliver"
+  }],
+  "publisher"       : "Hol Art Books",
+  "description"     : "A sample e-book, using the EPUB 3.0 spec, for the creation of The People's E-Book",
+  "subjects"        : ["subject__ebooks", "subject__people"],
+  "rights"          : "This work, is distributed under the Creative Commons Attribution-Noncommercial-Share Alike License (http://creativecommons.org/licenses/by-nc-sa/3.0/us). All other uses not covered by this license require direct permission from the author.",
+  "pages" : [{
+      "title" : "Page 1",
+      "body" : "<p>test<img src='http://s3.amazonaws.com/net.thepeoplesebook/pe-epub/printing-press.jpg'/></p>",
+      "toc" : true
+    }
+    ,{
+      "title" : "Page 2",
+      "body"  : "<div> <h1>The People's E-Book</h1> <h3>A free, beautifully-simple tool to make e-books better.</h3> </div> <div> <p><a href=\"http://thepeoplesebook.net\">The People's E-Book</a> seeks to be a lab, an incubator, an e-book creation platform for artists, authors, and alternative presses who want to try new things, publish new books, and push into new territories. The People's E-Book will handle e-books of all sizes and scope, but it will excel in areas that no one else has cared to consider—the very small, the quick and dirty, the simple and the experimental.</p> <p>The People's E-Book is a tool that doesn't account for what e-books <em>are</em>, but rather lets its users imagine what they <em>can be</em>: A short story or an epic poem, a blog post, a manifesto, a photobook, a book of moving photos, a book with a single word, a book with every word, sixteen-million colors, nine swimming pools, a video diary, an idea ...</p> <p>Make alternative e-books possible. Join us in building The People's E-Book, a remarkable DIY tool <strong>anyone can use for free</strong></p> </div>",
+      "toc"   : true
+    }
+    ,{
+      "title" : "Page 3",
+      "body"  : "<h1>Hidden Pages</h1><p>By setting a page's \"hidden\" attribute to true, pe-epub will not include it in the spine.</p>",
+      "hidden": true
+    }
+    ]
+}

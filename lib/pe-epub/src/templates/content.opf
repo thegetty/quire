@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://www.idpf.org/2007/opf" version="3.0" xml:lang="en" dir="ltr" unique-identifier="bookid">
+	<metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
+		<meta property="dcterms:modified">{{modified}}</meta>
+		<meta name="cover" content="cover-image" />{{#languages}}
+		<dc:language>{{.}}</dc:language>{{/languages}}
+		<dc:title id="title01">{{title}}</dc:title>{{#if subtitle}}
+		<meta refines="#title01" property="title-type">{{subtitle}}</meta>{{/if}}{{#isbn}}
+		<dc:identifier id="bookid">urn:isbn:{{.}}</dc:identifier>{{/isbn}}{{#uuid}}
+		<dc:identifier id="bookid">urn:uuid:{{.}}</dc:identifier>{{/uuid}}{{#url}}
+		<dc:identifier id="bookid">url:{{.}}</dc:identifier>{{/url}}{{#creators}}{{#if name}}
+		<dc:creator id="creator{{i}}">{{name}}</dc:creator>
+		{{#if role}}<meta refines="#creator{{i}}" property="role" scheme="marc:relators">{{role}}</meta>{{/if}}
+		{{#if file-as}}<meta refines="#creator{{i}}" property="file-as">{{file-as}}</meta>{{/if}}{{/if}}{{/creators}}{{#contributors}}{{#if name}}
+		<dc:contributor id="contributor{{i}}">{{name}}</dc:contributor>
+		{{#if role}}<meta refines="#contributor{{i}}" property="role" scheme="marc:relators">{{role}}</meta>{{/if}}
+		{{#if file-as}}<meta refines="#contributor{{i}}" property="file-as">{{file-as}}</meta>{{/if}}{{/if}}{{/contributors}}{{#if date}}
+		<dc:date>{{date}}</dc:date>{{/if}}{{#if description}}
+		<dc:description>{{description}}</dc:description>{{/if}}{{#if rights}}
+		<dc:rights>{{rights}}</dc:rights>{{/if}}
+    	{{#publishers}}<dc:publisher>{{.}}</dc:publisher>{{/publishers}}
+		{{#subjects}}<dc:subject>{{.}}</dc:subject>{{/subjects}}
+	</metadata>	
+	<manifest>{{#items}}
+		<item {{#id}}id="{{.}}"{{/id}}{{^id}}id="asset_{{i}}"{{/id}} href="{{href}}" media-type="{{media-type}}" {{#properties}}properties="{{.}}"{{/properties}}/>{{/items}}
+	</manifest>
+	<spine toc="ncx">{{#itemrefs}}
+		<itemref idref="{{id}}" {{#hidden}}linear="no"{{/hidden}}/>{{/itemrefs}}
+	</spine>	
+</package>
