@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "description": "Command-line interface for Quire projects.",
   "main": "index.js",
-  "author": "Eric Gardner",
+  "contributors": [
+    "Nick Hulea <naeluh@gmail.org>",
+    "Eric Gardner"
+  ],
   "license": "MIT",
   "bin": {
     "quire": "./index.js"
@@ -12,23 +15,22 @@
     "axios": "^0.18.0",
     "chalk": "^2.4.1",
     "cheerio": "^1.0.0-rc.2",
-    "command-exists": "^1.2.2",
-    "commander": "^2.9.0",
+    "command-exists": "^1.2.7",
+    "commander": "^2.17.1",
     "execa": "^0.10.0",
     "glob": "~7.1.2",
     "growl": "^1.10.5",
     "handlebars": "^4.0.11",
-    "hugo-bin": "0.29.0",
-    "js-yaml": "^3.8.2",
-    "lodash": "^4.17.4",
+    "hugo-bin": "0.30.0",
+    "js-yaml": "^3.12.0",
+    "kindlegen": "^1.1.0",
+    "lodash": "^4.17.10",
     "minimatch": "~3.0.4",
-    "pe-epub": "gettypubs/pe-epub",
-    "pe-epub-fs": "gettypubs/pe-epub-fs",
     "rimraf": "^2.6.2",
-    "sanitize-html": "^1.18.2",
+    "sanitize-html": "^1.18.4",
     "striptags": "^3.1.1",
     "upath": "^1.1.0",
-    "webpack": "^4.16.2",
+    "webpack": "^4.16.5",
     "yaml-front-matter": "^3.4.0"
   },
   "repository": {
