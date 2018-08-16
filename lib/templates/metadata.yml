@@ -1,0 +1,21 @@
+---
+title:
+- type: main
+  text: Quire Starter: Multiformat Publishing
+- type: subtitle
+  text: An investigation of metadata
+creator:
+- role: author
+  text: Denis Diderot
+- role: author
+  text: Rose Valland
+identifier:
+- scheme: DOI
+  text: doi:10.234234.234/33
+publisher:  My Press
+rights: Copyright ©2013 by John Doe
+language: en-US
+date: 2013-11-07
+ibooks:
+  version: 1.3.4
+...
