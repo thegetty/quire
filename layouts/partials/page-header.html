@@ -24,7 +24,7 @@
       {{/* Contributors, if any */}}
       {{ with .Params.contributor }}
       <div class="quire-page__header__contributor">
-        {{ partial "contributor-list.html" (dict "range" . "contributorType" "all" "listType" "list-plus") }}
+        {{ partial "contributor-list.html" (dict "range" . "contributorType" "all" "listType" "list-plus" "Site" $.Site) }}
       </div>
       {{ end }}
 
