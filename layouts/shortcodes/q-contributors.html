@@ -70,6 +70,10 @@
 {{ $.Scratch.Set "imageDir" "" }}
 {{ end }}
 
+{{/* Clear previous usage */}}
+{{/* ---------------------------------------------------------------------- */}}
+{{ $.Page.Scratch.Delete "contributorlist" }}
+
 {{/* Contributor range variables */}}
 {{/* ---------------------------------------------------------------------- */}}
 {{ $listRange := $.Get "range" }}
