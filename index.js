@@ -101,6 +101,7 @@ program
 // run the build command in the current directory
 // Pass optional config from config/environments/[env].yml to hugo
 //
+/*
 program
   .command('epub [filePath] [env]')
   .description('Generate an EPUB version of the current project')
@@ -108,18 +109,32 @@ program
     cli.verbose = program.verbose
     cli.emit('epub', filePath, env)
   })
+*/
 
-// quire pandoc test
+// quire epub
 //
 // run the build command in the current directory
 // Pass optional config from config/environments/[env].yml to hugo
 //
 program
-.command('pdc [filename] [filePath] [env]')
-.description('Generate an EPUB from pandoc of the current project')
+.command('epub [filename] [filePath] [env]')
+.description('Generate an EPUB version of the current project')
 .action(function(filename, filePath, env) {
   cli.verbose = program.verbose
-  cli.emit('pdc', filename, filePath, env)
+  cli.emit('epub', filename, filePath, env)
+})
+
+// quire epub
+//
+// run the build command in the current directory
+// Pass optional config from config/environments/[env].yml to hugo
+//
+program
+.command('mobi [filename] [filePath] [env]')
+.description('Generate an MOBI version of the current project')
+.action(function(filename, filePath, env) {
+  cli.verbose = program.verbose
+  cli.emit('mobi', filename, filePath, env)
 })
 
 
