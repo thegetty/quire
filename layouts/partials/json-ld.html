@@ -12,10 +12,19 @@
     "author": [
       {{ $len := len . -}}
       {{ range $index, $element := . -}}
+      {{ if .id -}}
+      {{ range where $.Site.Data.publication.contributor "id" .id -}}
       {
         "type": "Person",
         "name": "{{ if .full_name }}{{ .full_name }}{{ else }}{{ .first_name }} {{ .last_name }}{{ end }}"
       }{{ if ne $index (sub $len 1) }},{{ else }}{{ end }}
+      {{ end -}}
+      {{ else -}}
+      {
+        "type": "Person",
+        "name": "{{ if .full_name }}{{ .full_name }}{{ else }}{{ .first_name }} {{ .last_name }}{{ end }}"
+      }{{ if ne $index (sub $len 1) }},{{ else }}{{ end }}
+      {{ end -}}
       {{ end -}}
     ],
     {{ end -}}

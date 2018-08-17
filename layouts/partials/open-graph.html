@@ -32,6 +32,12 @@
   <meta property="og:site_name" content="{{ .Site.Data.publication.title }}" />
   <meta property="og:article:published_time" content="{{ .Site.Data.publication.pub_date }}" />
   {{ range .Page.Params.contributor -}}
+  {{ if .id -}}
+  {{ range where $.Site.Data.publication.contributor "id" .id -}}
   <meta property="og:article:author" content="{{ if .full_name }}{{ .full_name }}{{ else }}{{ .first_name }} {{ .last_name }}{{ end }}" />
+  {{ end -}}
+  {{ else -}}
+  <meta property="og:article:author" content="{{ if .full_name }}{{ .full_name }}{{ else }}{{ .first_name }} {{ .last_name }}{{ end }}" />
+  {{ end -}}
   {{ end -}}
 {{ end -}}
