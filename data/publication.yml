@@ -43,7 +43,8 @@ publisher:
 contributor_as_it_appears:
 
 contributor:
-  - type: primary
+  - id: rvalland
+    type: primary
     first_name: Rose
     last_name: Valland
     title: Chair
@@ -51,7 +52,8 @@ contributor:
     bio: "Rose Antonia Maria Valland (1 November 1898 – 18 September 1980) was a French art historian, member of the French Resistance, captain in the French military, and one of the most decorated women in French history. She secretly recorded details of the Nazi plundering of National French and private Jewish-owned art from France; and, working with the French Resistance, she saved thousands of works of art."
     url: https://en.wikipedia.org/wiki/Rose_Valland
     pic: contributors/rose-valland.jpg
-  - type: primary
+  - id: ddiderot
+    type: primary
     first_name: Denis
     last_name: Diderot
     title: Chief Editor
@@ -59,6 +61,10 @@ contributor:
     bio: "Denis Diderot (5 October 1713 – 31 July 1784) was a French philosopher, art critic, and writer. He was a prominent figure during the Enlightenment and is best known for serving as co-founder, chief editor, and contributor to the Encyclopédie along with Jean le Rond d’Alembert."
     url: https://en.wikipedia.org/wiki/Denis_Diderot
     pic: contributors/denis-diderot.jpg
+  - id: ipikwik
+    first_name: Ida
+    last_name: Pikwik
+
 
 # ------------------------------------------------------------------------------
 # Copright & License
