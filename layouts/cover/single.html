@@ -4,6 +4,89 @@ Cover page layout. This controls the home page of the publication.
 
 {{ define "main" }}
 
+{{ if eq .Site.Params.epub true }}
+
+{{ if isset $.Site.Params "imagedir" }}
+{{ $.Scratch.Set "imageDir" $.Site.Params.imageDir }}
+{{ else }}
+{{ $.Scratch.Set "imageDir" "" }}
+{{ end }}
+
+<div class="{{ partial "page-class.html" . }} quire-cover" id="main" role="main">
+  {{/* Begin full-page cover section */}}
+  {{- if .Params.image -}}
+  {{- $imgPath := printf "%s/%s" ($.Scratch.Get "imageDir") .Params.image -}}
+    <section class="quire-cover__hero hero is-fullheight" style="background-image: url('{{ $imgPath | absURL }}');">
+  {{- else -}}
+    <section class="quire-cover__hero is-fullheight">
+      <div class="quire-cover__overlay"></div>
+  {{- end -}}
+    <div class="quire-cover__hero-body hero-body">
+      <div class="container is-fluid">
+        {{/* Use .Site.Data.publication info if available */}}
+        {{ if .Site.Data.publication }}
+        <p class="half-title">{{ if .Site.Data.publication.short_title }}{{ .Site.Data.publication.short_title | markdownify }}{{ else }}{{ .Site.Data.publication.title | markdownify }}{{ end }}</p>
+        <h1 class="title">
+          {{ .Site.Data.publication.title | markdownify }}
+          {{ with .Site.Data.publication.subtitle }}
+          <span class="subtitle">{{ . | markdownify }}</span>
+          {{ end }}
+        </h1>
+
+        {{ with .Site.Data.publication.reading_line }}
+        <p class="reading-line">{{ . | markdownify }}</p>
+        {{ end }}
+
+        <div class="contributor">
+        {{- if .Site.Data.publication.contributor_as_it_appears -}}
+        {{ .Site.Data.publication.contributor_as_it_appears }}
+        {{ else }}
+        <span class="visually-hidden">Contributors: </span>
+        {{ partial "contributor-list.html" (dict "range" .Site.Data.publication.contributor "contributorType" "primary" "listType" "list" ) }}
+        {{- end -}}
+        </div>
+
+        {{ else }}
+        {{/* Fallback for when no publication.yml data is present */}}
+        <h1 class="title">{{ .Site.Title }}</h1>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+  {{/* End full-page cover section */}}
+  {{/* Begin "below-the-fold" section */}}
+  {{ with .Content }}
+
+  <section class="section quire-page__content" id="content">
+    <div class="container is-fluid">
+      <div class="content">
+        {{ . }}
+      </div>
+      <div class="has-text-centered">
+        <a class="button is-medium quire-cover__button" href="#contents">Start reading</a>
+      </div>
+    </div>
+  </section>
+
+  {{ end }}
+
+  {{ if eq .Site.Params.epub true }}
+
+  {{ else }}
+  <footer class="footer quire-cover-footer">
+    <div class="container is-fluid">
+      <div class="content is-small">
+        {{ partial "footer.html" . }}
+      </div>
+    </div>
+  </footer>
+  {{ end }}
+
+  {{/* End "below-the-fold" section */}}
+</div>
+
+{{ else }}
+
 {{ if isset $.Site.Params "imagedir" }}
 {{ $.Scratch.Set "imageDir" $.Site.Params.imageDir }}
 {{ else }}
@@ -70,6 +153,9 @@ Cover page layout. This controls the home page of the publication.
 
   {{ end }}
 
+  {{ if eq .Site.Params.epub true }}
+
+  {{ else }}
   <footer class="footer quire-cover-footer">
     <div class="container is-fluid">
       <div class="content is-small">
@@ -77,10 +163,16 @@ Cover page layout. This controls the home page of the publication.
       </div>
     </div>
   </footer>
+  {{ end }}
 
   {{/* End "below-the-fold" section */}}
 </div>
+
 {{ end }}
+
+{{ end }}
+
+
 
 {{ define "image-control-icon" }}
 <svg>

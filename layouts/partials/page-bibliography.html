@@ -1,19 +1,45 @@
+{{ if eq .Site.Params.epub true }} 
+
 {{ if ($.Scratch.GetSortedMapValues "cited") }}
 <section class="quire-page__content__references">
-  <h2 id="bibliography">Bibliography</h2>
-  {{ if eq .Site.Params.displayBiblioShort true }}
-  <dl>
-  {{ range ($.Scratch.GetSortedMapValues "cited") }}
-      <dt>{{ markdownify (index . 0) }}</dt>
-      <dd id="{{ urlize (index . 0) }}">{{ markdownify (index . 1)}}</dd>
-  {{ end }}
-  </dl>
-  {{ else }}
-  <ul>
-  {{ range ($.Scratch.GetSortedMapValues "cited") }}
-      <li id="{{ urlize (index . 0) }}">{{ markdownify (index . 1)}}</li>
-  {{ end }}
-  </ul>
-  {{ end }}
-{{ end }}
+    <h2 id="bibliography">Bibliography</h2>
+    {{ if eq .Site.Params.displayBiblioShort true }}
+    <ul>
+        {{ range ($.Scratch.GetSortedMapValues "cited") }}
+    <li id="{{ urlize (index . 0) }}">
+        <p><b>{{ markdownify (index . 0) }}</b></p>
+        <p><span>{{ markdownify (index . 1)}}</span></p>
+    </li>
+        {{ end }}
+    </ul>
+    {{ else }}
+    <ul>
+        {{ range ($.Scratch.GetSortedMapValues "cited") }}
+        <li id="{{ urlize (index . 0) }}">{{ markdownify (index . 1)}}</li>
+        {{ end }}
+    </ul>
+    {{ end }} {{ end }}
 </section>
+
+{{ else }}
+
+{{ if ($.Scratch.GetSortedMapValues "cited") }}
+<section class="quire-page__content__references">
+    <h2 id="bibliography">Bibliography</h2>
+    {{ if eq .Site.Params.displayBiblioShort true }}
+    <dl>
+        {{ range ($.Scratch.GetSortedMapValues "cited") }}
+        <dt>{{ markdownify (index . 0) }}</dt>
+        <dd id="{{ urlize (index . 0) }}">{{ markdownify (index . 1)}}</dd>
+        {{ end }}
+    </dl>
+    {{ else }}
+    <ul>
+        {{ range ($.Scratch.GetSortedMapValues "cited") }}
+        <li id="{{ urlize (index . 0) }}">{{ markdownify (index . 1)}}</li>
+        {{ end }}
+    </ul>
+    {{ end }} {{ end }}
+</section>
+
+{{ end }}

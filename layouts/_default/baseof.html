@@ -4,7 +4,26 @@
   different layouts into this template, just wrap your file in {{ define "main" }}
   / {{ end }} tags.
 */}}
+
 {{- $js := "js/application.js" | relURL -}}
+
+{{ if eq .Site.Params.epub true }}
+
+<!DOCTYPE html>
+<html lang="{{ .Site.Data.publication.language }}">
+  {{ partial "head.html" . }}
+  <body>
+    <div class="quire no-js" id="container">
+      <div class="quire__primary" id="{{ with .Section }}{{ . | urlize }}-{{ end }}{{ .File.BaseFileName | lower }}">
+        {{ block "main" . }}
+        {{ end }}
+      </div>
+    </div>
+  </body>
+</html>
+
+{{ else }}
+
 <!DOCTYPE html>
 <html lang="{{ .Site.Data.publication.language }}">
   {{ partial "head.html" . }}
@@ -23,7 +42,9 @@
 
       <div class="quire__primary" id="{{ with .Section }}{{ . | urlize }}-{{ end }}{{ .File.BaseFileName | lower }}">
         {{ partial "navbar.html" . }}
+
         {{ block "main" . }}
+
         {{ end }}
       </div>
 
@@ -33,3 +54,6 @@
     {{ partial "scripts.html" . }}
   </body>
 </html>
+
+
+{{ end }}

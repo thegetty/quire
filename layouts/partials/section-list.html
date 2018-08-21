@@ -33,7 +33,7 @@
     </h2>
 
     {{ if .Params.contributor }}
-      <p class="quire-section-list__item__contributor">{{ partial "contributor-list.html" (dict "range" .Params.contributor "contributorType" "all" "listType" "string" "Site" $.Site) }}</p>
+      <p class="quire-section-list__item__contributor">{{ partial "contributor-list.html" (dict "range" .Params.contributor "contributorType" "all" "listType" "string") }}</p>
     {{ end }}
 
     {{ with .Params.abstract }}
