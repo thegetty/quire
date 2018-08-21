@@ -89,11 +89,11 @@ program
 // Pass optional config from config/environments/[env].yml to hugo
 //
 program
-  .command('pdf [env]')
+  .command('pdf [filename] [filePath] [env]')
   .description('Generate a PDF version of the current project')
   .action(function(env) {
     cli.verbose = program.verbose
-    cli.emit('pdf', env)
+    cli.emit('pdf', filename, filePath, env)
   })
 
 // quire epub
