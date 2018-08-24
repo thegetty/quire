@@ -29,6 +29,7 @@
     "rimraf": "^2.6.2",
     "sanitize-html": "^1.18.4",
     "striptags": "^3.1.1",
+    "uniqid": "^5.0.3",
     "upath": "^1.1.0",
     "webpack": "^4.16.5",
     "yaml-front-matter": "^3.4.0"
