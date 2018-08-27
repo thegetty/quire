@@ -118,6 +118,9 @@ program
 //
 program
 .command('epub [filename] [filePath] [env]')
+.option('-fn, --filename', 'Add Filename')
+.option('-fp, --filePath', 'Add Filepath')
+.option('-e, --env', 'Add environment variable')
 .description('Generate an EPUB version of the current project')
 .action(function(filename, filePath, env) {
   cli.verbose = program.verbose
