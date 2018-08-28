@@ -95,7 +95,7 @@ program
   .option('-fp, --filePath', 'Add Filepath')
   .option('-e, --env', 'Add environment variable')
   .description('Generate a PDF version of the current project')
-  .action(function (env) {
+  .action(function (filename, filePath, env) {
     cli.verbose = program.verbose
     cli.emit('pdf', filename, filePath, env)
   })
