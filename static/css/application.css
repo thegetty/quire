@@ -343,12 +343,12 @@
 	border-radius: 5px;
 	}
 .leaflet-control-layers-toggle {
-	background-image: url(../img/layers.png);
+	background-image: url(img/layers.png);
 	width: 36px;
 	height: 36px;
 	}
 .leaflet-retina .leaflet-control-layers-toggle {
-	background-image: url(../img/layers-2x.png);
+	background-image: url(img/layers-2x.png);
 	background-size: 26px 26px;
 	}
 .leaflet-touch .leaflet-control-layers-toggle {
@@ -389,7 +389,7 @@
 
 /* Default icon URLs */
 .leaflet-default-icon-path {
-	background-image: url(../img/marker-icon.png);
+	background-image: url(img/marker-icon.png);
 	}
 
 
@@ -635,7 +635,7 @@
 	border-right-color: #fff;
 	}
 .leaflet-control-fullscreen a {
-  background:#fff url(../img/fullscreen.png) no-repeat 0 0;
+  background:#fff url(img/fullscreen.png) no-repeat 0 0;
   background-size:26px 52px;
   }
   .leaflet-touch .leaflet-control-fullscreen a {
@@ -671,132 +671,132 @@
   (-webkit-min-device-pixel-ratio:2),
   (min-resolution:192dpi) {
     .leaflet-control-fullscreen a {
-      background-image:url(../img/fullscreen@2x.png);
+      background-image:url(img/fullscreen@2x.png);
     }
   }
 @font-face {
   font-family: "Merriweather";
-  src: url(../fonts/merriweather-regular.eot);
-  src: url(../fonts/merriweather-regular.eot?#iefix) format("embedded-opentype"), url(../fonts/merriweather-regular.woff2) format("woff2"), url(../fonts/merriweather-regular.woff) format("woff"), url(../fonts/merriweather-regular.ttf) format("truetype");
+  src: url(fonts/merriweather-regular.eot);
+  src: url(fonts/merriweather-regular.eot?#iefix) format("embedded-opentype"), url(fonts/merriweather-regular.woff2) format("woff2"), url(fonts/merriweather-regular.woff) format("woff"), url(fonts/merriweather-regular.ttf) format("truetype");
   font-weight: 400;
   font-style: normal; }
 
 @font-face {
   font-family: "Merriweather";
-  src: url(../fonts/merriweather-italic.eot);
-  src: url(../fonts/merriweather-italic.eot?#iefix) format("embedded-opentype"), url(../fonts/merriweather-italic.woff2) format("woff2"), url(../fonts/merriweather-italic.woff) format("woff"), url(../fonts/merriweather-italic.ttf) format("truetype");
+  src: url(fonts/merriweather-italic.eot);
+  src: url(fonts/merriweather-italic.eot?#iefix) format("embedded-opentype"), url(fonts/merriweather-italic.woff2) format("woff2"), url(fonts/merriweather-italic.woff) format("woff"), url(fonts/merriweather-italic.ttf) format("truetype");
   font-weight: 400;
   font-style: italic; }
 
 @font-face {
   font-family: "Merriweather";
-  src: url(../fonts/merriweather-bold.eot);
-  src: url(../fonts/merriweather-bold.eot?#iefix) format("embedded-opentype"), url(../fonts/merriweather-bold.woff2) format("woff2"), url(../fonts/merriweather-bold.woff) format("woff"), url(../fonts/merriweather-bold.ttf) format("truetype");
+  src: url(fonts/merriweather-bold.eot);
+  src: url(fonts/merriweather-bold.eot?#iefix) format("embedded-opentype"), url(fonts/merriweather-bold.woff2) format("woff2"), url(fonts/merriweather-bold.woff) format("woff"), url(fonts/merriweather-bold.ttf) format("truetype");
   font-weight: 600;
   font-style: normal; }
 
 @font-face {
   font-family: "Merriweather";
-  src: url(../fonts/merriweather-bolditalic.eot);
-  src: url(../fonts/merriweather-bolditalic.eot?#iefix) format("embedded-opentype"), url(../fonts/merriweather-bolditalic.woff2) format("woff2"), url(../fonts/merriweather-bolditalic.woff) format("woff"), url(../fonts/merriweather-bolditalic.ttf) format("truetype");
+  src: url(fonts/merriweather-bolditalic.eot);
+  src: url(fonts/merriweather-bolditalic.eot?#iefix) format("embedded-opentype"), url(fonts/merriweather-bolditalic.woff2) format("woff2"), url(fonts/merriweather-bolditalic.woff) format("woff"), url(fonts/merriweather-bolditalic.ttf) format("truetype");
   font-weight: 600;
   font-style: italic; }
 
 @font-face {
   font-family: "Merriweather";
-  src: url(../fonts/merriweather-light.eot);
-  src: url(../fonts/merriweather-light.eot?#iefix) format("embedded-opentype"), url(../fonts/merriweather-light.woff2) format("woff2"), url(../fonts/merriweather-light.woff) format("woff"), url(../fonts/merriweather-light.ttf) format("truetype");
+  src: url(fonts/merriweather-light.eot);
+  src: url(fonts/merriweather-light.eot?#iefix) format("embedded-opentype"), url(fonts/merriweather-light.woff2) format("woff2"), url(fonts/merriweather-light.woff) format("woff"), url(fonts/merriweather-light.ttf) format("truetype");
   font-weight: 300;
   font-style: normal; }
 
 @font-face {
   font-family: "Merriweather";
-  src: url(../fonts/merriweather-lightitalic.eot);
-  src: url(../fonts/merriweather-lightitalic.eot?#iefix) format("embedded-opentype"), url(../fonts/merriweather-lightitalic.woff2) format("woff2"), url(../fonts/merriweather-lightitalic.woff) format("woff"), url(../fonts/merriweather-lightitalic.ttf) format("truetype");
+  src: url(fonts/merriweather-lightitalic.eot);
+  src: url(fonts/merriweather-lightitalic.eot?#iefix) format("embedded-opentype"), url(fonts/merriweather-lightitalic.woff2) format("woff2"), url(fonts/merriweather-lightitalic.woff) format("woff"), url(fonts/merriweather-lightitalic.ttf) format("truetype");
   font-weight: 300;
   font-style: italic; }
 
 @font-face {
   font-family: "Lato";
-  src: url(../fonts/lato-light.eot);
-  src: url(../fonts/lato-light.eot?#iefix) format("embedded-opentype"), url(../fonts/lato-light.woff2) format("woff2"), url(../fonts/lato-light.woff) format("woff"), url(../fonts/lato-light.ttf) format("truetype");
+  src: url(fonts/lato-light.eot);
+  src: url(fonts/lato-light.eot?#iefix) format("embedded-opentype"), url(fonts/lato-light.woff2) format("woff2"), url(fonts/lato-light.woff) format("woff"), url(fonts/lato-light.ttf) format("truetype");
   font-weight: 300;
   font-style: normal; }
 
 @font-face {
   font-family: "Lato";
-  src: url(../fonts/lato-lightitalic.eot);
-  src: url(../fonts/lato-lightitalic.eot?#iefix) format("embedded-opentype"), url(../fonts/lato-lightitalic.woff2) format("woff2"), url(../fonts/lato-lightitalic.woff) format("woff"), url(../fonts/lato-lightitalic.ttf) format("truetype");
+  src: url(fonts/lato-lightitalic.eot);
+  src: url(fonts/lato-lightitalic.eot?#iefix) format("embedded-opentype"), url(fonts/lato-lightitalic.woff2) format("woff2"), url(fonts/lato-lightitalic.woff) format("woff"), url(fonts/lato-lightitalic.ttf) format("truetype");
   font-weight: 300;
   font-style: italic; }
 
 @font-face {
   font-family: "Lato";
-  src: url(../fonts/lato-regular.eot);
-  src: url(../fonts/lato-regular.eot?#iefix) format("embedded-opentype"), url(../fonts/lato-regular.woff2) format("woff2"), url(../fonts/lato-regular.woff) format("woff"), url(../fonts/lato-regular.ttf) format("truetype");
+  src: url(fonts/lato-regular.eot);
+  src: url(fonts/lato-regular.eot?#iefix) format("embedded-opentype"), url(fonts/lato-regular.woff2) format("woff2"), url(fonts/lato-regular.woff) format("woff"), url(fonts/lato-regular.ttf) format("truetype");
   font-weight: 400;
   font-style: normal; }
 
 @font-face {
   font-family: "Lato";
-  src: url(../fonts/lato-italic.eot);
-  src: url(../fonts/lato-italic.eot?#iefix) format("embedded-opentype"), url(../fonts/lato-italic.woff2) format("woff2"), url(../fonts/lato-italic.woff) format("woff"), url(../fonts/lato-italic.ttf) format("truetype");
+  src: url(fonts/lato-italic.eot);
+  src: url(fonts/lato-italic.eot?#iefix) format("embedded-opentype"), url(fonts/lato-italic.woff2) format("woff2"), url(fonts/lato-italic.woff) format("woff"), url(fonts/lato-italic.ttf) format("truetype");
   font-weight: 400;
   font-style: italic; }
 
 @font-face {
   font-family: "Lato";
-  src: url(../fonts/lato-bold.eot);
-  src: url(../fonts/lato-bold.eot?#iefix) format("embedded-opentype"), url(../fonts/lato-bold.woff2) format("woff2"), url(../fonts/lato-bold.woff) format("woff"), url(../fonts/lato-bold.ttf) format("truetype");
+  src: url(fonts/lato-bold.eot);
+  src: url(fonts/lato-bold.eot?#iefix) format("embedded-opentype"), url(fonts/lato-bold.woff2) format("woff2"), url(fonts/lato-bold.woff) format("woff"), url(fonts/lato-bold.ttf) format("truetype");
   font-weight: 600;
   font-style: normal; }
 
 @font-face {
   font-family: "Lato";
-  src: url(../fonts/lato-bolditalic.eot);
-  src: url(../fonts/lato-bolditalic.eot?#iefix) format("embedded-opentype"), url(../fonts/lato-bolditalic.woff2) format("woff2"), url(../fonts/lato-bolditalic.woff) format("woff"), url(../fonts/lato-bolditalic.ttf) format("truetype");
+  src: url(fonts/lato-bolditalic.eot);
+  src: url(fonts/lato-bolditalic.eot?#iefix) format("embedded-opentype"), url(fonts/lato-bolditalic.woff2) format("woff2"), url(fonts/lato-bolditalic.woff) format("woff"), url(fonts/lato-bolditalic.ttf) format("truetype");
   font-weight: 600;
   font-style: italic; }
 
 @font-face {
   font-family: "Aleo";
-  src: url(../fonts/aleo-light.eot);
-  src: url(../fonts/aleo-light.eot?#iefix) format("embedded-opentype"), url(../fonts/aleo-light.woff2) format("woff2"), url(../fonts/aleo-light.woff) format("woff"), url(../fonts/aleo-light.ttf) format("truetype");
+  src: url(fonts/aleo-light.eot);
+  src: url(fonts/aleo-light.eot?#iefix) format("embedded-opentype"), url(fonts/aleo-light.woff2) format("woff2"), url(fonts/aleo-light.woff) format("woff"), url(fonts/aleo-light.ttf) format("truetype");
   font-weight: 300;
   font-style: normal; }
 
 @font-face {
   font-family: "Aleo";
-  src: url(../fonts/aleo-lightitalic.eot);
-  src: url(../fonts/aleo-lightitalic.eot?#iefix) format("embedded-opentype"), url(../fonts/aleo-lightitalic.woff2) format("woff2"), url(../fonts/aleo-lightitalic.woff) format("woff"), url(../fonts/aleo-lightitalic.ttf) format("truetype");
+  src: url(fonts/aleo-lightitalic.eot);
+  src: url(fonts/aleo-lightitalic.eot?#iefix) format("embedded-opentype"), url(fonts/aleo-lightitalic.woff2) format("woff2"), url(fonts/aleo-lightitalic.woff) format("woff"), url(fonts/aleo-lightitalic.ttf) format("truetype");
   font-weight: 300;
   font-style: italic; }
 
 @font-face {
   font-family: "Aleo";
-  src: url(../fonts/aleo-regular.eot);
-  src: url(../fonts/aleo-regular.eot?#iefix) format("embedded-opentype"), url(../fonts/aleo-regular.woff2) format("woff2"), url(../fonts/aleo-regular.woff) format("woff"), url(../fonts/aleo-regular.ttf) format("truetype");
+  src: url(fonts/aleo-regular.eot);
+  src: url(fonts/aleo-regular.eot?#iefix) format("embedded-opentype"), url(fonts/aleo-regular.woff2) format("woff2"), url(fonts/aleo-regular.woff) format("woff"), url(fonts/aleo-regular.ttf) format("truetype");
   font-weight: 400;
   font-style: normal; }
 
 @font-face {
   font-family: "Aleo";
-  src: url(../fonts/aleo-italic.eot);
-  src: url(../fonts/aleo-italic.eot?#iefix) format("embedded-opentype"), url(../fonts/aleo-italic.woff2) format("woff2"), url(../fonts/aleo-italic.woff) format("woff"), url(../fonts/aleo-italic.ttf) format("truetype");
+  src: url(fonts/aleo-italic.eot);
+  src: url(fonts/aleo-italic.eot?#iefix) format("embedded-opentype"), url(fonts/aleo-italic.woff2) format("woff2"), url(fonts/aleo-italic.woff) format("woff"), url(fonts/aleo-italic.ttf) format("truetype");
   font-weight: 400;
   font-style: italic; }
 
 @font-face {
   font-family: "Aleo";
-  src: url(../fonts/aleo-bold.eot);
-  src: url(../fonts/aleo-bold.eot?#iefix) format("embedded-opentype"), url(../fonts/aleo-bold.woff2) format("woff2"), url(../fonts/aleo-bold.woff) format("woff"), url(../fonts/aleo-bold.ttf) format("truetype");
+  src: url(fonts/aleo-bold.eot);
+  src: url(fonts/aleo-bold.eot?#iefix) format("embedded-opentype"), url(fonts/aleo-bold.woff2) format("woff2"), url(fonts/aleo-bold.woff) format("woff"), url(fonts/aleo-bold.ttf) format("truetype");
   font-weight: 600;
   font-style: normal; }
 
 @font-face {
   font-family: "Aleo";
-  src: url(../fonts/aleo-bolditalic.eot);
-  src: url(../fonts/aleo-bolditalic.eot?#iefix) format("embedded-opentype"), url(../fonts/aleo-bolditalic.woff2) format("woff2"), url(../fonts/aleo-bolditalic.woff) format("woff"), url(../fonts/aleo-bolditalic.ttf) format("truetype");
+  src: url(fonts/aleo-bolditalic.eot);
+  src: url(fonts/aleo-bolditalic.eot?#iefix) format("embedded-opentype"), url(fonts/aleo-bolditalic.woff2) format("woff2"), url(fonts/aleo-bolditalic.woff) format("woff"), url(fonts/aleo-bolditalic.ttf) format("truetype");
   font-weight: 600;
   font-style: italic; }
 
@@ -7804,7 +7804,7 @@ html {
   left: 0;
   width: 100%;
   min-height: calc(100vh - 3rem);
-  background-image: url(../img/pattern-1.png);
+  background-image: url(img/pattern-1.png);
   opacity: 0.5; }
   @media print {
     .quire-cover__overlay {

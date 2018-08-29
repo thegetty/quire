@@ -63,6 +63,7 @@ a single image or object needs to be featured prominently.\
         <h1 class="quire-page__header__title" id="{{ .Title }}">
           {{ with .Params.number }}<span>{{ . }}.</span>{{ end }}
           {{ .Title | markdownify }}
+          {{/* Subtitle if any */}}
           {{ with .Params.subtitle }}
           <span class="quire-page__header__subtitle">{{ . | markdownify }}</span>
           {{ end }}

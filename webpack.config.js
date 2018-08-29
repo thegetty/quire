@@ -98,8 +98,7 @@ module.exports = {
         use: [{
           loader: 'file-loader',
           options: {
-            name: 'img/[name].[ext]',
-            outputPath: '../'
+            name: 'img/[name].[ext]'
           }
         }]
       },
@@ -110,8 +109,7 @@ module.exports = {
         use: [{
           loader: 'file-loader',
           options: {
-            name: 'fonts/[name].[ext]',
-            outputPath: '../'
+            name: 'fonts/[name].[ext]'
           }
         }]
       }
