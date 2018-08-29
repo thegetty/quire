@@ -41,7 +41,7 @@ the figure for each into a figure group
   {{ range where $.Site.Data.figures.figure_list "id" "eq" $x }}
   {{ $.Scratch.Add "figCount" 1 }}
 
-  <figure class="quire-figure--group__item" id="{{ .id }}">
+  <figure class="quire-figure--group__item">
 
     {{ if .media_id }}
     {{/* -------------------- BEGIN VIDEO BLOCK -------------------- */}}
@@ -54,12 +54,14 @@ the figure for each into a figure group
 
     <div class='quire-figure__video-wrapper{{ if .aspect_ratio }}--{{ .aspect_ratio }}{{ else }}--widescreen{{ end }}'>
       {{ if eq .media_type "youtube" }}
-      <iframe class="quire-figure__video"
+      <iframe id="{{ .id }}"
+              class="quire-figure__video"
               src="https://www.youtube-nocookie.com/embed/{{ .media_id }}?rel=0&amp;showinfo=0"
               frameborder="0"
               allowfullscreen></iframe>
       {{ else if eq .media_type "vimeo" }}
-      <iframe class="q-figure__video"
+      <iframe id="{{ .id }}"
+              class="q-figure__video"
               src="https://player.vimeo.com/video/{{ .media_id }}"
               frameborder="0"
               webkitallowfullscreen
@@ -68,7 +70,7 @@ the figure for each into a figure group
       {{ end }}
       <div class="quire-figure__video-fallback">
         {{ if .src }}
-        <img src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' alt="{{ if .alt }}{{ .alt }}{{ end }}" />
+        <img id="{{ .id }}" src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' alt="{{ if .alt }}{{ .alt }}{{ end }}" />
         {{ else }}
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 36" fill="darkgray">
           <path  d="M41.9,13.8C42,15.2,42,16.6,42,18s0,2.8-0.1,4.2c0,0.9-0.3,1.6-0.8,2.2s-1.2,0.9-2.1,0.9c-2,0.1-4.3,0.2-7,0.2 s-5-0.1-7-0.2c-0.8,0-1.5-0.3-2.1-0.9s-0.8-1.4-0.8-2.2C22,20.8,22,19.4,22,18c0-0.9,0.1-2.3,0.2-4.2c0-0.9,0.3-1.6,0.8-2.2 s1.2-0.9,2-0.9c1.9-0.1,4.1-0.2,6.6-0.2H32h0.4c2.5,0,4.7,0.1,6.6,0.2c0.8,0,1.5,0.3,2.1,0.9S41.9,12.9,41.9,13.8z M30.1,21.8 l5.7-3.8l-5.7-3.9V21.8z"/>
@@ -82,7 +84,8 @@ the figure for each into a figure group
     {{ else }}
 
     {{/* -------------------- BEGIN NO_MEDIA_ID BLOCK -------------------- */}}
-    <img class="quire-figure__image"
+    <img id="{{ .id }}"
+         class="quire-figure__image"
          src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'
          alt="{{ if .alt }}{{ .alt }}{{ end }}" />
     {{/* -------------------- END NO_MEDIA_ID BLOCK -------------------- */}}

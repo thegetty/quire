@@ -70,18 +70,6 @@ Cover page layout. This controls the home page of the publication.
 
   {{ end }}
 
-  {{ if eq .Site.Params.epub true }}
-
-  {{ else }}
-  <footer class="footer quire-cover-footer">
-    <div class="container is-fluid">
-      <div class="content is-small">
-        {{ partial "footer.html" . }}
-      </div>
-    </div>
-  </footer>
-  {{ end }}
-
   {{/* End "below-the-fold" section */}}
 </div>
 
@@ -149,13 +137,8 @@ Cover page layout. This controls the home page of the publication.
     </div>
   </section>
 
-
-
   {{ end }}
 
-  {{ if eq .Site.Params.epub true }}
-
-  {{ else }}
   <footer class="footer quire-cover-footer">
     <div class="container is-fluid">
       <div class="content is-small">
@@ -163,7 +146,6 @@ Cover page layout. This controls the home page of the publication.
       </div>
     </div>
   </footer>
-  {{ end }}
 
   {{/* End "below-the-fold" section */}}
 </div>
