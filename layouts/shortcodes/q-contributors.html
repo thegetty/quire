@@ -22,34 +22,13 @@
   template below, there are two primary sequences. The first is for ranges
   of contributors that are across one or more pages (range "all", "essays",
   and "page"), and the other is for ranges of contributors in publication.yml
-  (range "primary" and "secondary"). Both cycle through the contributors in
-  the given range and create a "contributor" object with an index of all the
-  relevant data for that contributor. The index values are assigned as follows:
+  (range "primary" and "secondary"). Both use the contirbutor-info.html partial
+  to create a sorted list of contributor names and information: a
+  "contributorlist" map.
 
-    0 name (combinded first_name/last_name or full_name)
-    1 title
-    2 affiliation
-    3 bio
-    4 url
-    5 pic
-    6 paper number
-    7 paper title
-    8 paper subtitle
-    9 paper link
-
-  The paper number, title, subtile and link will reference the contributor's
-  contribution to the publication, and link to that contribution when you use
-  the "all" or "essays" range. (Note however, that if a contributor has
-  multiple contributions/papers in a publication, only the last one in the
-  range will be referenced.)
-
-  This "contributor" object is then added to a "contributorlist" Scratch map.
-  The contributors are added to this larger list either by last_name, or by
-  the file_as value. This alphabetizes the list.
-
-  The second half of the template is more straightforward. It simply takes
-  the "contributorlist" map and ranges across it building the HTML as called
-  for in the type valye ("initials", "name", "name_plus", or "bio").
+  The second half of the template takes the "contributorlist" map and ranges
+  across it building the HTML as called for in the type valye ("initials",
+  "name", "name_plus", or "bio").
 
   NOTES:
 
@@ -75,62 +54,60 @@
 
 */}}
 
-{{ $errorNoRange := dict "shortcode" "q-contributor" "message" "This shortcode must include a value for `range`. Possible values are “all”, “essays”, “page”, “primary”, “secondary”, or “project-team”." "example" "{{< q-contributors range=&#34;all&#34; type=&#34;bio&#34; >}}" }}
+{{/* Error messages */}}
+{{/* ---------------------------------------------------------------------- */}}
+{{ $errorRange := dict "shortcode" "q-contributor" "message" "This shortcode must include a value for `range`, and the supplied value for `range` must be “all”, “essays”, “page”, “primary”, “secondary”, or “project-team”." "example" "{{< q-contributors range=&#34;all&#34; type=&#34;bio&#34; >}}" }}
 
-{{ $errorWrongRange := dict "shortcode" "q-contributor" "message" "Supplied value for `range` must be “all”, “essays”, “page”, “primary”, “secondary”, or “project-team”." "example" "{{< q-contributors range=&#34;all&#34; type=&#34;bio&#34; >}}" }}
+{{ $errorType := dict "shortcode" "q-contributor" "message" "This shortcode must include a value for `type`, and the supplied value for `type` must be  “initials”, “name”, “name-plus”, or “bio”." "example" "{{< q-contributors range=&#34;all&#34; type=&#34;bio&#34; >}}" }}
 
-{{ $errorNoType := dict "shortcode" "q-contributor" "message" "This shortcode must include a value for `type`. Possible values are “initials”, “name”, “name-plus”, or “bio”." "example" "{{< q-contributors range=&#34;all&#34; type=&#34;bio&#34; >}}" }}
+{{ $errorNoContributorsSet := dict "shortcode" "q-contributor" "message" "There are currently no contributors listed in the project’s `publication.yml` file." "example" "" }}
 
-{{ $errorWrongType := dict "shortcode" "q-contributor" "message" "Supplied value for `type` must be “initials”, “name”, “name-plus”, or “bio”." "example" "{{< q-contributors range=&#34;all&#34; type=&#34;bio&#34; >}}" }}
-
-{{ $errorIncompleteName := dict "shortcode" "q-contributor" "message" "One of the contributors in this range doesn’t have a complete name. All contributors must have either a `full_name` value, or values for both `first_name` and `last_name`." "example" "" }}
-
-{{ $errorNoContributorsSet := dict "shortcode" "q-contributor" "message" "There are currently no contributors listed in the project’s `pubication.yml` file." "example" "" }}
-
-
-
+{{/* Image directory */}}
+{{/* ---------------------------------------------------------------------- */}}
 {{ if isset $.Site.Params "imagedir" }}
 {{ $.Scratch.Set "imageDir" $.Site.Params.imageDir }}
 {{ else }}
 {{ $.Scratch.Set "imageDir" "" }}
 {{ end }}
 
-{{- if eq ($.Get "range") "" -}}
+{{/* Clear previous usage */}}
+{{/* ---------------------------------------------------------------------- */}}
+{{ $.Page.Scratch.Delete "contributorlist" }}
 
-  {{- partial "error-message.html" $errorNoRange -}}
+{{/* Contributor range variables */}}
+{{/* ---------------------------------------------------------------------- */}}
+{{ $listRange := $.Get "range" }}
+{{ $validRangePage := "all essays page" }}
+{{ $validRangePublication := "primary secondary project-team" }}
 
-{{/* TODO: can we simplify this clause at all? */}}
-{{- else if and (and (and (and (and (ne ($.Get "range") "all") (ne ($.Get "range") "essays")) (ne ($.Get "range") "page")) (ne ($.Get "range") "primary")) (ne ($.Get "range") "secondary")) (ne ($.Get "range") "project-team") -}}
+{{ $rangeAll := .Site.Pages }}
+{{ $rangeEssays := (where .Site.Pages "Type" "essay") }}
+{{ $rangePage := (where .Site.Pages "UniqueID" .Page.UniqueID) }}
+{{ $rangePrimary := (where .Site.Data.publication.contributor "type" "primary") }}
+{{ $rangeSecondary := (where .Site.Data.publication.contributor "type" "secondary") }}
+{{ $rangeProjectTeam := (where .Site.Data.publication.contributor "type" "project-team") }}
 
-  {{- partial "error-message.html" $errorWrongRange -}}
-
+{{- if eq $listRange "all" -}}
+  {{- $.Scratch.Add "range" $rangeAll -}}
+{{- else if eq $listRange "essays" -}}
+  {{- $.Scratch.Add "range" $rangeEssays -}}
+{{- else if eq $listRange "page" -}}
+  {{- $.Scratch.Add "range" $rangePage -}}
+{{- else if eq $listRange "primary" -}}
+  {{- $.Scratch.Add "range" $rangePrimary -}}
+{{- else if eq $listRange "secondary" -}}
+  {{- $.Scratch.Add "range" $rangeSecondary -}}
+{{- else if eq $listRange "project-team" -}}
+  {{- $.Scratch.Add "range" $rangeProjectTeam -}}
 {{- end -}}
 
-{{- if eq ($.Get "type") "" -}}
+{{/* Contributor info */}}
+{{/* ---------------------------------------------------------------------- */}}
+{{ if in $validRangePage $listRange }}
+  {{- range $.Scratch.Get "range" -}}
 
-  {{- partial "error-message.html" $errorNoType -}}
-
-{{- else if and (and (and (ne ($.Get "type") "initials") (ne ($.Get "type") "name")) (ne ($.Get "type") "name-plus")) (ne ($.Get "type") "bio") -}}
-
-  {{- partial "error-message.html" $errorWrongType -}}
-
-{{- end -}}
-
-{{- $thispage := .Page.UniqueID -}}
-
-{{- if or (or (eq ($.Get "range") "all") (eq ($.Get "range") "essays")) (eq ($.Get "range") "page") -}}
-
-  {{- if eq ($.Get "range") "all" -}}
-    {{- $.Scratch.Add "range" (.Site.Pages) -}}
-  {{- else if eq ($.Get "range") "essays" -}}
-    {{- $.Scratch.Add "range" (where .Site.Pages "Type" "essay") -}}
-  {{- else -}}
-    {{- $.Scratch.Add "range" (where .Site.Pages "UniqueID" $thispage) -}}
-  {{- end -}}
-
-  {{- $pagerange := $.Scratch.Get "range" -}}
-  {{- range $pagerange -}}
-
+    {{/* Page contributor’s contribution */}}
+    {{/* ------------------------------------------------------------------ */}}
     {{- $pagenumber := .Params.number -}}
     {{- $pagetitle := .Params.title -}}
     {{- $pagesubtitle := .Params.subtitle -}}
@@ -138,161 +115,46 @@
 
     {{- range .Params.contributor -}}
 
-      {{- if .full_name }}
-        {{ $name := .full_name }}
-        {{- $.Page.Scratch.SetInMap "contributor" "0" $name -}}
-      {{ else if and .first_name .last_name }}
-        {{ $name := add (add .first_name " ") .last_name }}
-        {{- $.Page.Scratch.SetInMap "contributor" "0" $name -}}
+      {{/* Page contributors listed in page YAML with an ID */}}
+      {{/* ---------------------------------------------------------------- */}}
+      {{ if .id }}
+        {{ range where $.Site.Data.publication.contributor "id" .id }}
+          {{ partial "contributor-info.html" (dict "Page" $.Page "contributor" . "pageNumber" $pagenumber "pageTitle" $pagetitle "pageSubtitle" $pagesubtitle "pageLink" $pagelink) }}
+        {{ end }}
+
+      {{/* Page contributors listed in page YAML */}}
+      {{/* ---------------------------------------------------------------- */}}
       {{ else }}
-        {{- partial "error-message.html" $errorIncompleteName -}}
+        {{ partial "contributor-info.html" (dict "Page" $.Page "contributor" . "pageAttributes" .Params "pageNumber" $pagenumber "pageTitle" $pagetitle "pageSubtitle" $pagesubtitle "pageLink" $pagelink) }}
       {{ end }}
-
-      {{- if .title -}}
-      {{- $.Page.Scratch.SetInMap "contributor" "1" .title -}}
-      {{- else -}}
-      {{- $.Page.Scratch.SetInMap "contributor" "1" "n/a" -}}
-      {{- end -}}
-
-      {{- if .affiliation -}}
-      {{- $.Page.Scratch.SetInMap "contributor" "2" .affiliation -}}
-      {{- else -}}
-      {{- $.Page.Scratch.SetInMap "contributor" "2" "n/a" -}}
-      {{- end -}}
-
-      {{- if .bio -}}
-      {{- $.Page.Scratch.SetInMap "contributor" "3" .bio -}}
-      {{- else -}}
-      {{- $.Page.Scratch.SetInMap "contributor" "3" "n/a" -}}
-      {{- end -}}
-
-      {{- if .url -}}
-      {{- $.Page.Scratch.SetInMap "contributor" "4" .url -}}
-      {{- else -}}
-      {{- $.Page.Scratch.SetInMap "contributor" "4" "n/a" -}}
-      {{- end -}}
-
-      {{- if .pic -}}
-      {{- $.Page.Scratch.SetInMap "contributor" "5" .pic -}}
-      {{- else -}}
-      {{- $.Page.Scratch.SetInMap "contributor" "5" "n/a" -}}
-      {{- end -}}
-
-      {{- if $pagenumber -}}
-      {{- $.Page.Scratch.SetInMap "contributor" "6" $pagenumber -}}
-      {{- else -}}
-      {{- $.Page.Scratch.SetInMap "contributor" "6" "n/a" -}}
-      {{- end -}}
-
-      {{- $.Page.Scratch.SetInMap "contributor" "7" $pagetitle -}}
-
-      {{- if $pagesubtitle -}}
-      {{- $.Page.Scratch.SetInMap "contributor" "8" $pagesubtitle -}}
-      {{- else -}}
-      {{- $.Page.Scratch.SetInMap "contributor" "8" "n/a" -}}
-      {{- end -}}
-
-      {{- $.Page.Scratch.SetInMap "contributor" "9" $pagelink -}}
-
-      {{- $contributor := ($.Page.Scratch.GetSortedMapValues "contributor") -}}
-
-      {{- if .file_as -}}
-      {{- $name := lower (replace (replace .file_as " " "") "," "") -}}
-      {{- $.Page.Scratch.SetInMap "contributorlist" $name $contributor -}}
-
-      {{- else if and .last_name .first_name -}}
-      {{- $name := lower (replace (add .last_name .first_name) " " "") -}}
-      {{- $.Page.Scratch.SetInMap "contributorlist" $name $contributor -}}
-
-      {{ else }}
-      {{- $name := lower (replace .full_name " " "") -}}
-      {{- $.Page.Scratch.SetInMap "contributorlist" $name $contributor -}}
-      {{- end -}}
-
     {{- end -}}
   {{- end -}}
 
-{{- else if or (or (eq ($.Get "range") "primary") (eq ($.Get "range") "secondary")) (eq ($.Get "range") "project-team") -}}
+{{- else if in $validRangePublication $listRange -}}
 
   {{- if eq .Site.Data.publication.contributor nil -}}
-
     {{- partial "error-message.html" $errorNoContributorsSet -}}
-
   {{- else -}}
 
-    {{- if eq ($.Get "range") "primary" -}}
-      {{- $.Scratch.Add "range" (where .Site.Data.publication.contributor "type" "primary") -}}
-    {{- else if eq ($.Get "range") "secondary" -}}
-      {{- $.Scratch.Add "range" (where .Site.Data.publication.contributor "type" "secondary") -}}
-    {{- else if eq ($.Get "range") "project-team" -}}
-      {{- $.Scratch.Add "range" (where .Site.Data.publication.contributor "type" "project-team") -}}
-    {{- end -}}
-
+    {{/* Publication contributors listed in publication.yml */}}
+    {{/* ------------------------------------------------------------------ */}}
     {{- range $.Scratch.Get "range" -}}
-
-      {{- if .full_name }}
-        {{ $name := .full_name }}
-        {{- $.Page.Scratch.SetInMap "contributor" "0" $name -}}
-      {{ else if and .first_name .last_name }}
-        {{ $name := add (add .first_name " ") .last_name }}
-        {{- $.Page.Scratch.SetInMap "contributor" "0" $name -}}
-      {{ else }}
-        {{- $.Page.Scratch.SetInMap "contributor" "0" "**MISSING NAME**" -}}
-        {{- partial "error-message.html" $errorIncompleteName -}}
-      {{ end }}
-
-      {{- if .title -}}
-      {{- $.Page.Scratch.SetInMap "contributor" "1" .title -}}
-      {{- else -}}
-      {{- $.Page.Scratch.SetInMap "contributor" "1" "n/a" -}}
-      {{- end -}}
-
-      {{- if .affiliation -}}
-      {{- $.Page.Scratch.SetInMap "contributor" "2" .affiliation -}}
-      {{- else -}}
-      {{- $.Page.Scratch.SetInMap "contributor" "2" "n/a" -}}
-      {{- end -}}
-
-      {{- if .bio -}}
-      {{- $.Page.Scratch.SetInMap "contributor" "3" .bio -}}
-      {{- else -}}
-      {{- $.Page.Scratch.SetInMap "contributor" "3" "n/a" -}}
-      {{- end -}}
-
-      {{- if .url -}}
-      {{- $.Page.Scratch.SetInMap "contributor" "4" .url -}}
-      {{- else -}}
-      {{- $.Page.Scratch.SetInMap "contributor" "4" "n/a" -}}
-      {{- end -}}
-
-      {{- if .pic -}}
-      {{- $.Page.Scratch.SetInMap "contributor" "5" .pic -}}
-      {{- else -}}
-      {{- $.Page.Scratch.SetInMap "contributor" "5" "n/a" -}}
-      {{- end -}}
-
-      {{- $contributor := ($.Page.Scratch.GetSortedMapValues "contributor") -}}
-
-      {{- if .file_as -}}
-        {{- $name := lower (replace (replace .file_as " " "") "," "") -}}
-        {{- $.Page.Scratch.SetInMap "contributorlist" $name $contributor -}}
-      {{- else if and .last_name .first_name -}}
-        {{- $name := lower (replace (add .last_name .first_name) " " "") -}}
-        {{- $.Page.Scratch.SetInMap "contributorlist" $name $contributor -}}
-      {{ else }}
-        {{- $name := lower (replace .full_name " " "") -}}
-        {{- $.Page.Scratch.SetInMap "contributorlist" $name $contributor -}}
-      {{- end -}}
-
+      {{ partial "contributor-info.html" (dict "Page" $.Page "contributor" . ) }}
     {{- end -}}
-
   {{- end -}}
+{{- else -}}
 
+  {{- partial "error-message.html" $errorRange -}}
 {{- end -}}
 
-{{/* Bio layout */}}
+{{/* List variables */}}
 {{/* ---------------------------------------------------------------------- */}}
-{{- if eq ($.Get "type") "bio" -}}
+{{ $listType := $.Get "type" }}
+{{ $validTypes := "bio name name-plus initials" }}
+
+{{/* List layout: Bio */}}
+{{/* ---------------------------------------------------------------------- */}}
+{{- if eq $listType "bio" -}}
 <ul class="quire-contributors-list">
 {{- range ($.Page.Scratch.GetSortedMapValues "contributorlist") -}}
 {{- $nameid := plainify (replace (index . 0) " " "-") -}}
@@ -307,7 +169,7 @@
     {{- end -}}
 
     <div class="quire-contributor__details media-content">
-      <div class="title is-5"><span class="quire-contributor__name">{{ index . 0 }}</span></div>
+      <div class="title is-5"><span class="quire-contributor__name">{{ (index . 0) }}</span></div>
       {{ if ne (index . 4) "n/a" }}
       <div class="subtitle is-6"><a href="{{ index . 4 }}" class="quire-contributor__url">{{ index . 4 }}</a></div>
       {{- end -}}
@@ -331,11 +193,10 @@
   </li>
 {{- end -}}
 </ul>
-{{- end -}}
 
-{{/* Name, Name-plus layout */}}
+{{/* List layout: Name, Name-plus */}}
 {{/* ---------------------------------------------------------------------- */}}
-{{- if or (eq ($.Get "type") "name") (eq ($.Get "type") "name-plus") -}}
+{{- else if or (eq $listType "name") (eq $listType "name-plus") -}}
 <ul class="quire-contributors-list">
 {{- range ($.Page.Scratch.GetSortedMapValues "contributorlist") -}}
 {{- $nameid := plainify (replace (index . 0) " " "-") -}}
@@ -358,11 +219,10 @@
   </li>
 {{- end -}}
 </ul>
-{{- end -}}
 
-{{/* Initials layout */}}
+{{/* List layout: Initials */}}
 {{/* ---------------------------------------------------------------------- */}}
-{{- if eq ($.Get "type") "initials" -}}
+{{- else if eq $listType "initials" -}}
 <ul class="quire-contributors-list">
   {{- $len := len ($.Page.Scratch.GetSortedMapValues "contributorlist") -}}
   {{- if gt $len 0 -}}
@@ -385,4 +245,7 @@
   </li>
   {{- end -}}
 </ul>
+{{- else -}}
+
+  {{- partial "error-message.html" $errorType -}}
 {{- end -}}
