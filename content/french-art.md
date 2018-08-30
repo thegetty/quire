@@ -15,7 +15,7 @@ France can fairly be said to have been a leader in the development of Romanesque
 
 {{< q-map lat="48.8566" long="2.3522" geojson="/data/sample-geojson.json" >}}
 
-## Contents{#french-art-contents}
+## Contents
 
 - [Early Modern Period](#early-modern-period)
   - [Baroque and Classicism](#baroque-and-classicism)
