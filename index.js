@@ -44,6 +44,9 @@ process.on('SIGINT', function () { cli.emit('shutdown') })
 program
   .version('0.1.0.alpha.13')
   .option('-v, --verbose', 'log verbose output')
+  .option('-fn, --filename', 'Add Filename')
+  .option('-fp, --filePath', 'Add Filepath')
+  .option('-e, --env', 'Add environment variable')
 
 program
   .command('new <projectName>')
@@ -146,6 +149,20 @@ program
     cli.verbose = program.verbose
     cli.emit('mobi', filename, filePath, env)
   })
+
+// quire template
+//
+// download quire templates
+//
+program
+  .command('template [type]')
+  .option('-t, --type', 'Select template to download (Currently only EPUB supported)')
+  .description('Download templates to customize your file output (Currently only EPUB supported)')
+  .action(function (type) {
+    cli.verbose = program.verbose
+    cli.emit('template', type)
+  })
+
 
 
 // quire debug
