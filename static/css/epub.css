@@ -1,7 +1,0 @@
-html body {
-  margin: 0; }
-  html body .leaflet-pane,
-  html body .leaflet-map-pane,
-  html body .leaflet-container,
-  html body .lvml {
-    display: none !important; }
