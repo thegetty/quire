@@ -2,7 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
-const ExtraneousFileCleanupPlugin = require('webpack-extraneous-file-cleanup-plugin')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
 
 const PATHS = {
   source: path.join(__dirname, '../source'),
@@ -11,7 +11,7 @@ const PATHS = {
 
 // the path(s) that should be cleaned
 let pathsToClean = [
-  path.join(__dirname, '../data')
+  path.join(PATHS.build, 'js', 'epub.js')
 ]
 
 // the clean options to use
@@ -26,11 +26,8 @@ let cleanOptions = {
 module.exports = {
   mode: 'production',
   entry: {
-    // `source/js/epub.js` is the entry point for everything;
-    // the require('../css/epub.scss') in this file is important.
     source: path.join(PATHS.source, 'js', 'epub.js')
   },
-  // Hugo expects everything to be output to the `/static` directory of the theme
   output: {
     path: PATHS.build
   },
@@ -49,7 +46,6 @@ module.exports = {
       test: /\.(scss|css)$/,
       use: ['style-loader', MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
     },
-    // file-loader(for images)
     {
       test: /\.(jpg|png|gif|svg)$/,
       use: [{
@@ -60,7 +56,6 @@ module.exports = {
         }
       }]
     },
-    // file-loader(for fonts)
     {
       test: /\.(woff|woff2|eot|ttf|otf)$/,
       exclude: /node_modules/,
@@ -103,10 +98,6 @@ module.exports = {
       filename: "css/epub.css",
     }),
     new CleanWebpackPlugin(pathsToClean, cleanOptions),
-    new ManifestPlugin({
-      fileName: "../data/assets.json",
-      writeToFileEmit: true
-    }),
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
