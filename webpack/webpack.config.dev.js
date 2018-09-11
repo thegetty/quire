@@ -1,7 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
-// const CleanWebpackPlugin = require('clean-webpack-plugin')
 const ManifestPlugin = require("webpack-manifest-plugin")
 const autoprefixer = require("autoprefixer")
 
@@ -92,10 +91,7 @@ module.exports = {
   plugins: [
     new MiniCssExtractPlugin({
       filename: "css/application.css",
-    }),
-    new ManifestPlugin({
-      fileName: "../data/assets.json",
-      writeToFileEmit: true
+      chunkFilename: "css/[id].css"
     }),
     new webpack.ProvidePlugin({
       $: 'jquery',

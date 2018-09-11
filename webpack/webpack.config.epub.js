@@ -9,8 +9,22 @@ const PATHS = {
   build: path.join(__dirname, '../static')
 }
 
+// the path(s) that should be cleaned
+let pathsToClean = [
+  path.join(__dirname, '../data')
+]
+
+// the clean options to use
+let cleanOptions = {
+  verbose: true,
+  dry: false,
+  watch: true,
+  allowExternal: true,
+  beforeEmit: false
+}
+
 module.exports = {
-  mode: 'none',
+  mode: 'production',
   entry: {
     // `source/js/epub.js` is the entry point for everything;
     // the require('../css/epub.scss') in this file is important.
@@ -88,11 +102,11 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: "css/epub.css",
     }),
-    new ExtraneousFileCleanupPlugin({
-      extensions: ['.js'],
-      paths: [path.join(__dirname,'../static/')]
+    new CleanWebpackPlugin(pathsToClean, cleanOptions),
+    new ManifestPlugin({
+      fileName: "../data/assets.json",
+      writeToFileEmit: true
     }),
-    // Shims for global libs (ex. jquery)
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
