@@ -9,7 +9,7 @@
 // console.log(webpack)
 
 import '../css/application.scss'
-// import '../css/epub.scss'
+// import '../css/fonts.scss'
 import 'leaflet/dist/leaflet.css'
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
 
