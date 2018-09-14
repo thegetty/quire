@@ -3,6 +3,7 @@ const webpack = require('webpack')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
 
 const PATHS = {
   source: path.join(__dirname, '../source'),
@@ -11,7 +12,10 @@ const PATHS = {
 
 // the path(s) that should be cleaned
 let pathsToClean = [
-  path.join(PATHS.build, 'js', 'epub.js')
+  path.join(PATHS.build, 'js', 'source.js'),
+  '../../../site/source.js',
+  '../../../site/js/source.js',
+  path.join(PATHS.build, 'css', 'epub.css')
 ]
 
 // the clean options to use
@@ -52,7 +56,7 @@ module.exports = {
         loader: 'file-loader',
         options: {
           name: '[name].[ext]',
-          outputPath: './img/'
+          outputPath: 'img/'
         }
       }]
     },
@@ -63,7 +67,7 @@ module.exports = {
         loader: 'file-loader',
         options: {
           name: '[name].[ext]',
-          outputPath: './fonts/'
+          outputPath: 'fonts/'
         }
       }]
     }
