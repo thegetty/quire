@@ -1,0 +1,14 @@
+---
+title:
+- type: main
+  text: {{arr.title}}
+creator:
+{{#each arr.creators}}
+- role: {{role}}
+  text: {{name}}
+{{/each}}
+publisher: {{arr.publisher}}
+rights: {{arr.rights}}
+language: {{arr.languages}}
+date: {{arr.date}}
+...
