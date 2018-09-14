@@ -16,7 +16,7 @@ let pathsToClean = [
 
 // the clean options to use
 let cleanOptions = {
-  verbose: true,
+  verbose: false,
   dry: false,
   watch: true,
   allowExternal: true,
