@@ -1,7 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
-const ManifestPlugin = require("webpack-manifest-plugin")
 const autoprefixer = require("autoprefixer")
 
 const PATHS = {
