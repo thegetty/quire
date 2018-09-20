@@ -1,3 +1,129 @@
+@font-face {
+  font-family: "Merriweather";
+  src: url(/fonts/merriweather-regular.eot);
+  src: url(/fonts/merriweather-regular.eot?#iefix) format("embedded-opentype"), url(/fonts/merriweather-regular.woff2) format("woff2"), url(/fonts/merriweather-regular.woff) format("woff"), url(/fonts/merriweather-regular.ttf) format("truetype");
+  font-weight: 400;
+  font-style: normal; }
+
+@font-face {
+  font-family: "Merriweather";
+  src: url(/fonts/merriweather-italic.eot);
+  src: url(/fonts/merriweather-italic.eot?#iefix) format("embedded-opentype"), url(/fonts/merriweather-italic.woff2) format("woff2"), url(/fonts/merriweather-italic.woff) format("woff"), url(/fonts/merriweather-italic.ttf) format("truetype");
+  font-weight: 400;
+  font-style: italic; }
+
+@font-face {
+  font-family: "Merriweather";
+  src: url(/fonts/merriweather-bold.eot);
+  src: url(/fonts/merriweather-bold.eot?#iefix) format("embedded-opentype"), url(/fonts/merriweather-bold.woff2) format("woff2"), url(/fonts/merriweather-bold.woff) format("woff"), url(/fonts/merriweather-bold.ttf) format("truetype");
+  font-weight: 600;
+  font-style: normal; }
+
+@font-face {
+  font-family: "Merriweather";
+  src: url(/fonts/merriweather-bolditalic.eot);
+  src: url(/fonts/merriweather-bolditalic.eot?#iefix) format("embedded-opentype"), url(/fonts/merriweather-bolditalic.woff2) format("woff2"), url(/fonts/merriweather-bolditalic.woff) format("woff"), url(/fonts/merriweather-bolditalic.ttf) format("truetype");
+  font-weight: 600;
+  font-style: italic; }
+
+@font-face {
+  font-family: "Merriweather";
+  src: url(/fonts/merriweather-light.eot);
+  src: url(/fonts/merriweather-light.eot?#iefix) format("embedded-opentype"), url(/fonts/merriweather-light.woff2) format("woff2"), url(/fonts/merriweather-light.woff) format("woff"), url(/fonts/merriweather-light.ttf) format("truetype");
+  font-weight: 300;
+  font-style: normal; }
+
+@font-face {
+  font-family: "Merriweather";
+  src: url(/fonts/merriweather-lightitalic.eot);
+  src: url(/fonts/merriweather-lightitalic.eot?#iefix) format("embedded-opentype"), url(/fonts/merriweather-lightitalic.woff2) format("woff2"), url(/fonts/merriweather-lightitalic.woff) format("woff"), url(/fonts/merriweather-lightitalic.ttf) format("truetype");
+  font-weight: 300;
+  font-style: italic; }
+
+@font-face {
+  font-family: "Lato";
+  src: url(/fonts/lato-light.eot);
+  src: url(/fonts/lato-light.eot?#iefix) format("embedded-opentype"), url(/fonts/lato-light.woff2) format("woff2"), url(/fonts/lato-light.woff) format("woff"), url(/fonts/lato-light.ttf) format("truetype");
+  font-weight: 300;
+  font-style: normal; }
+
+@font-face {
+  font-family: "Lato";
+  src: url(/fonts/lato-lightitalic.eot);
+  src: url(/fonts/lato-lightitalic.eot?#iefix) format("embedded-opentype"), url(/fonts/lato-lightitalic.woff2) format("woff2"), url(/fonts/lato-lightitalic.woff) format("woff"), url(/fonts/lato-lightitalic.ttf) format("truetype");
+  font-weight: 300;
+  font-style: italic; }
+
+@font-face {
+  font-family: "Lato";
+  src: url(/fonts/lato-regular.eot);
+  src: url(/fonts/lato-regular.eot?#iefix) format("embedded-opentype"), url(/fonts/lato-regular.woff2) format("woff2"), url(/fonts/lato-regular.woff) format("woff"), url(/fonts/lato-regular.ttf) format("truetype");
+  font-weight: 400;
+  font-style: normal; }
+
+@font-face {
+  font-family: "Lato";
+  src: url(/fonts/lato-italic.eot);
+  src: url(/fonts/lato-italic.eot?#iefix) format("embedded-opentype"), url(/fonts/lato-italic.woff2) format("woff2"), url(/fonts/lato-italic.woff) format("woff"), url(/fonts/lato-italic.ttf) format("truetype");
+  font-weight: 400;
+  font-style: italic; }
+
+@font-face {
+  font-family: "Lato";
+  src: url(/fonts/lato-bold.eot);
+  src: url(/fonts/lato-bold.eot?#iefix) format("embedded-opentype"), url(/fonts/lato-bold.woff2) format("woff2"), url(/fonts/lato-bold.woff) format("woff"), url(/fonts/lato-bold.ttf) format("truetype");
+  font-weight: 600;
+  font-style: normal; }
+
+@font-face {
+  font-family: "Lato";
+  src: url(/fonts/lato-bolditalic.eot);
+  src: url(/fonts/lato-bolditalic.eot?#iefix) format("embedded-opentype"), url(/fonts/lato-bolditalic.woff2) format("woff2"), url(/fonts/lato-bolditalic.woff) format("woff"), url(/fonts/lato-bolditalic.ttf) format("truetype");
+  font-weight: 600;
+  font-style: italic; }
+
+@font-face {
+  font-family: "Aleo";
+  src: url(/fonts/aleo-light.eot);
+  src: url(/fonts/aleo-light.eot?#iefix) format("embedded-opentype"), url(/fonts/aleo-light.woff2) format("woff2"), url(/fonts/aleo-light.woff) format("woff"), url(/fonts/aleo-light.ttf) format("truetype");
+  font-weight: 300;
+  font-style: normal; }
+
+@font-face {
+  font-family: "Aleo";
+  src: url(/fonts/aleo-lightitalic.eot);
+  src: url(/fonts/aleo-lightitalic.eot?#iefix) format("embedded-opentype"), url(/fonts/aleo-lightitalic.woff2) format("woff2"), url(/fonts/aleo-lightitalic.woff) format("woff"), url(/fonts/aleo-lightitalic.ttf) format("truetype");
+  font-weight: 300;
+  font-style: italic; }
+
+@font-face {
+  font-family: "Aleo";
+  src: url(/fonts/aleo-regular.eot);
+  src: url(/fonts/aleo-regular.eot?#iefix) format("embedded-opentype"), url(/fonts/aleo-regular.woff2) format("woff2"), url(/fonts/aleo-regular.woff) format("woff"), url(/fonts/aleo-regular.ttf) format("truetype");
+  font-weight: 400;
+  font-style: normal; }
+
+@font-face {
+  font-family: "Aleo";
+  src: url(/fonts/aleo-italic.eot);
+  src: url(/fonts/aleo-italic.eot?#iefix) format("embedded-opentype"), url(/fonts/aleo-italic.woff2) format("woff2"), url(/fonts/aleo-italic.woff) format("woff"), url(/fonts/aleo-italic.ttf) format("truetype");
+  font-weight: 400;
+  font-style: italic; }
+
+@font-face {
+  font-family: "Aleo";
+  src: url(/fonts/aleo-bold.eot);
+  src: url(/fonts/aleo-bold.eot?#iefix) format("embedded-opentype"), url(/fonts/aleo-bold.woff2) format("woff2"), url(/fonts/aleo-bold.woff) format("woff"), url(/fonts/aleo-bold.ttf) format("truetype");
+  font-weight: 600;
+  font-style: normal; }
+
+@font-face {
+  font-family: "Aleo";
+  src: url(/fonts/aleo-bolditalic.eot);
+  src: url(/fonts/aleo-bolditalic.eot?#iefix) format("embedded-opentype"), url(/fonts/aleo-bolditalic.woff2) format("woff2"), url(/fonts/aleo-bolditalic.woff) format("woff"), url(/fonts/aleo-bolditalic.ttf) format("truetype");
+  font-weight: 600;
+  font-style: italic; }
+
 @-webkit-keyframes spinAround {
   from {
     -webkit-transform: rotate(0deg);
@@ -6517,18 +6643,25 @@ template {
     flex-direction: column;
     min-height: 100vh; }
     .quire.no-js .quire__primary {
-      flex: 1; }
+      flex: 1;
+      background: #fff; }
     .quire.no-js .quire__secondary {
       order: 1;
       width: 100%; }
   .quire:not(.no-js) .quire__primary {
+    background: #fff;
     display: flex;
     flex-direction: column;
     height: 100vh;
     left: 0;
     position: absolute;
-    transition: all 0.15s linear;
-    width: 100%; }
+    transition-property: width, left;
+    transition-duration: 0.15s;
+    transition-timing-function: linear;
+    width: 100%;
+    z-index: 9999; }
+    .quire:not(.no-js) .quire__primary #main {
+      background: #fff; }
     .quire:not(.no-js) .quire__primary .quire-page {
       flex: 1 1 auto;
       -webkit-overflow-scrolling: touch;
@@ -6547,9 +6680,13 @@ template {
     top: 0;
     -webkit-transform: translateX(-350px);
             transform: translateX(-350px);
-    transition: all 0.15s linear;
+    transition-property: width, -webkit-transform;
+    transition-property: transform, width;
+    transition-property: transform, width, -webkit-transform;
+    transition-duration: 0.15s;
+    transition-timing-function: linear;
     width: 350px;
-    z-index: 1100; }
+    z-index: -1; }
     @media screen and (max-width: 350px) {
       .quire:not(.no-js) .quire__secondary {
         width: calc(100vw - 3rem); } }
