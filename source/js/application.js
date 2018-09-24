@@ -13,7 +13,7 @@ import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
 
 // JS Libraries (add them to package.json with `npm install [library]`)
 import $ from 'jquery'
-import 'smoothstate'
+// import 'smoothstate'
 import 'velocity-animate'
 
 // Modules (feel free to define your own and import here)
@@ -21,6 +21,12 @@ import Search from './search.js'
 import Map from './map.js'
 import DeepZoom from './deepzoom.js'
 import Navigation from './navigation.js'
+
+// Photoswipe 
+import 'photoswipe/dist/photoswipe.css'
+import 'photoswipe/dist/default-skin/default-skin.css'
+import findIndex from 'lodash.findIndex'
+import photoswipe from './photoswipe'
 
 /**
  * toggleMenu
@@ -248,6 +254,25 @@ function scrollToHash() {
 }
 
 /**
+ * Set up photoswipe
+ */
+function photoswipeSetup() {
+  let $figures = $('.q-figure__wrapper')
+  if ($figures.length > 0) {
+    let checkIfPhotoswipe = $figures[0].parentNode.parentNode.parentNode.classList.value.indexOf('photoswipe-true')
+    if (checkIfPhotoswipe !== -1) {
+      $figures.click((e) => {
+        let figWrappers = document.querySelectorAll('.q-figure__wrapper img')
+        let target = findIndex(figWrappers, function (f) {
+          return f.id === e.currentTarget.children[0].id
+        })
+        photoswipe(target)
+      })
+    }
+  }
+}
+
+/**
  * pageSetup
  * @description This function is called after each smoothState reload.
  * Initialize any jquery plugins or set up page UI elements here.
@@ -259,6 +284,7 @@ function pageSetup() {
   deepZoomSetup()
   sliderSetup()
   navigationSetup()
+  photoswipeSetup()
 }
 
 /**

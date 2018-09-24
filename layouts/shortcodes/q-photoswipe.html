@@ -4,11 +4,11 @@
 {{ $.Scratch.Set "imageDir" "" }}
 {{ end }}
 
-{{ $errorNoMediaType := dict "shortcode" "q-figure-group" "message" "One of your figures in this group is missing the `media_type` attribute, which must be included in your `data/figures.yml` file for this figure `id`, and must be either “youtube” or “vimeo”." "example" "- id: &#34;3.1&#34;<br />  media_id: &#34;VYqDpNmnu8I&#34;<br />  media_type: &#34;youtube&#34;" }}
+{{ $errorNoMediaType := dict "shortcode" "q-photoswipe" "message" "One of your figures in this group is missing the `media_type` attribute, which must be included in your `data/figures.yml` file for this figure `id`, and must be either “youtube” or “vimeo”." "example" "- id: &#34;3.1&#34;<br />  media_id: &#34;VYqDpNmnu8I&#34;<br />  media_type: &#34;youtube&#34;" }}
 
-{{ $errorBadId := dict "shortcode" "q-figure-group" "message" "One or more of the `id` values supplied in this shortcode do not match any corresponding `id` values in your `data/figures.yml` file. Or, the `id` values were not fully comma separated." "example" "{{< q-figure-group id=&#34;3.1, 3.2, 3.3&#34; >}}" }}
+{{ $errorBadId := dict "shortcode" "q-photoswipe" "message" "One or more of the `id` values supplied in this shortcode do not match any corresponding `id` values in your `data/figures.yml` file. Or, the `id` values were not fully comma separated." "example" "{{< q-figure-group id=&#34;3.1, 3.2, 3.3&#34; >}}" }}
 
-{{ $errorNoId := dict "shortcode" "q-figure-group" "message" "This shortcode must include one or more values for `id` that match corresponding `id` values in your `data/figures.yml` file." "example" "{{< q-figure-group id=&#34;3.1, 3.2, 3.3&#34; >}}" }}
+{{ $errorNoId := dict "shortcode" "q-photoswipe" "message" "This shortcode must include one or more values for `id` that match corresponding `id` values in your `data/figures.yml` file." "example" "{{< q-figure-group id=&#34;3.1, 3.2, 3.3&#34; >}}" }}
 
 
 {{ if .Get "id" }}
@@ -24,11 +24,7 @@ the figure for each into a figure group
 {{ $idstring := replace (.Get "id") " " "" }}
 {{ $idlist := split $idstring "," }}
 
-{{ if eq .Site.Params.photoswipe true }}
 <figure class='photoswipe-true quire-figure quire-figure--group {{ with .Get "class" }}{{ . }}{{ end }}{{ with .Get "grid" }} quire-grid--{{ . }}{{ end }}'>
-{{ else }}
-<figure class='quire-figure quire-figure--group {{ with .Get "class" }}{{ . }}{{ end }}{{ with .Get "grid" }} quire-grid--{{ . }}{{ end }}'>
-{{ end }}
   {{ with .Get "grid" }}
   {{ $.Scratch.Add "grid" . }}
   {{ end }}
@@ -183,7 +179,6 @@ the figure for each into a figure group
   </figcaption>
   {{/* -------------------- END GROUP CAPTION BLOCK -------------------- */}}
   {{ end }}
-{{ if eq .Site.Params.photoswipe true }}
 <!-- Root element of PhotoSwipe. Must have class pswp. -->
 <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 
@@ -249,7 +244,6 @@ the figure for each into a figure group
         </div>
 
 </div>
-{{ end }}
 </figure>
 
 {{/* -------------------- END ID BLOCK -------------------- */}}
