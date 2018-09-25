@@ -26,12 +26,17 @@ If the shortcode has a src, ignore any figures.yml
 document and render only the values given in the shortcode
 ----------------------------------------------------------------------------
 */}}
-
+{{ if eq .Site.Params.photoswipe true }}
+<figure class='photoswipe-true quire-figure {{ with .Get "class" }}{{ . }}{{ end }}'>
+{{ else }}
 <figure class='quire-figure {{ with .Get "class" }}{{ . }}{{ end }}'>
-  <img id='{{ with .Get "id" }}{{ . | urlize }}{{ end }}'
-       class="quire-figure__image" 
-       src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
-       alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
+{{ end }}
+  <div class="q-figure__wrapper">
+    <img id='{{ with .Get "id" }}{{ . | urlize }}{{ end }}'
+        class="quire-figure__image" 
+        src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
+        alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
+  </div>
   {{ if or (.Get "caption") (.Get "credit") }}
   <figcaption class="quire-figure__caption">
     {{ with $.Get "caption" }}{{ . | markdownify }}{{ end }}
@@ -114,10 +119,11 @@ render the figure from matching values found ther
 
   {{ else }}
   {{/* -------------------- BEGIN IMAGE BLOCK -------------------- */}}
-
+  <div class="q-figure__wrapper">
   <img class="quire-figure__image"  id='{{ .id }}'
        src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'
        alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}' />
+       </div>
 
   {{ end }}
   {{/* -------------------- END IMAGE BLOCK -------------------- */}}

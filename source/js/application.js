@@ -27,6 +27,7 @@ import 'photoswipe/dist/photoswipe.css'
 import 'photoswipe/dist/default-skin/default-skin.css'
 import findIndex from 'lodash.findIndex'
 import photoswipe from './photoswipe'
+import mediaswipe from './mediaswipe'
 
 /**
  * toggleMenu
@@ -259,8 +260,8 @@ function scrollToHash() {
 function photoswipeSetup() {
   let $figures = $('.q-figure__wrapper')
   if ($figures.length > 0) {
-    let checkIfPhotoswipe = $figures[0].parentNode.parentNode.parentNode.classList.value.indexOf('photoswipe-true')
-    if (checkIfPhotoswipe !== -1) {
+    // let checkIfPhotoswipe = $figures[0].parentNode.parentNode.parentNode.classList.value.indexOf('photoswipe-true')
+    if (isPhotoSwipe) {
       $figures.click((e) => {
         let figWrappers = document.querySelectorAll('.q-figure__wrapper img')
         let target = findIndex(figWrappers, function (f) {
