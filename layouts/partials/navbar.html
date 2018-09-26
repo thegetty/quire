@@ -75,6 +75,25 @@ search icons, and search results if enabled). It is visible on all pages.
         </li>
         {{ end }}
         {{ end }}
+
+        <li class="quire-navbar-page-controls__item quire-home-page">
+          <a href='{{ relref . "cover.md" }}' rel='home'>
+            <span class="visually-hidden">Home Page: </span>
+            <button class="quire-navbar-button home-button"
+              aria-controls="quire-home">
+              <svg>
+                <switch>
+                  <!-- <use xlink:href="#home-icon"></use> -->
+                  <foreignObject width="32" height="32">
+                      <img src="{{ $imgDir | absURL }}/icons/rewind@2x.png" alt="" />
+                  </foreignObject>
+                </switch>
+              </svg>
+              <span class="visually-hidden">Search</span>
+            </button>
+          </a>
+        </li>
+
         <li class="quire-navbar-page-controls__item quire-current-page">
           <span class="visually-hidden">Current Page: </span>
           <span class="quire-current-page__title">{{- with .Params.number }}{{ . }}. {{ end }}{{- if .Params.short_title }}{{ .Params.short_title | markdownify }} {{ else }}{{ .Title | markdownify | truncate 34 }}{{ end -}}</span>
