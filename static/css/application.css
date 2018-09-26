@@ -6645,6 +6645,11 @@ template {
     @media screen and (min-width: 900px) {
       .quire-navbar-page-controls__item.quire-section-page {
         display: block; } }
+    .quire-navbar-page-controls__item.quire-next-page {
+      font-style: normal; }
+    @media screen and (min-width: 700px) {
+      .quire-navbar-page-controls__item.quire-next-page {
+        display: block; } }
 
 .quire-navbar-button {
   -webkit-appearance: none;
@@ -6683,6 +6688,24 @@ template {
       max-width: 1rem; }
       .quire-navbar-button.arrow-button svg img {
         max-height: 1rem; }
+  .quire-navbar-button.play-button {
+    text-align: center; }
+    .quire-navbar-button.play-button svg {
+      height: calc(3rem * .65);
+      width: calc(3rem * .65);
+      max-height: 1.5rem;
+      max-width: 1.5rem; }
+      .quire-navbar-button.play-button svg img {
+        max-height: 1.5rem; }
+  .quire-navbar-button.home-button {
+    text-align: center; }
+    .quire-navbar-button.home-button svg {
+      height: calc(3rem * .65);
+      width: calc(3rem * .65);
+      max-height: 1.5rem;
+      max-width: 1.5rem; }
+      .quire-navbar-button.home-button svg img {
+        max-height: 1.5rem; }
 
 .quire-navbar-skip-link:not(:focus) {
   clip: rect(1px, 1px, 1px, 1px);
