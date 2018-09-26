@@ -41,23 +41,18 @@ search icons, and search results if enabled). It is visible on all pages.
         <li class="quire-navbar-page-controls__item quire-home-page">
           <a href='{{ relref . "cover.md" }}' rel="start">
             <span class="visually-hidden">Home Page: </span>
-            {{ if .Site.Data.publication.short_title }}
-            {{ .Site.Data.publication.short_title | markdownify }}
-            {{ else }}
-            {{ .Site.Data.publication.title | markdownify }}
-            {{ end }}
           </a>
         </li>
         {{ else }}
         <li class="quire-navbar-page-controls__item quire-home-page">
-          <a href='{{ relref . "cover.md" }}' rel="start">
-            <span class="visually-hidden">Home Page: </span>
-            {{ if .Site.Data.publication.short_title }}
-            {{ .Site.Data.publication.short_title | markdownify }}
-            {{ else }}
-            {{ .Site.Data.publication.title | markdownify | truncate 34 }}
+          <a href='{{ .Prev.Permalink }}' rel="previous">
+            <span class="visually-hidden">Previous Page: </span>
+            <script>console.log({{ .Prev.Title }})</script>
+            {{ if .Prev.Title }}
+            {{ .Prev.Title | markdownify }}
             {{ end }}
           </a>
+
         </li>
         {{ if .Section }}
         {{ if ne .Params.slug "." }}
