@@ -39,15 +39,26 @@ search icons, and search results if enabled). It is visible on all pages.
 
         {{ if eq .Type "cover" }}
         <li class="quire-navbar-page-controls__item quire-home-page">
-          <a href='{{ relref . "cover.md" }}' rel="start">
+          <a href='{{ .Next.Permalink }}' rel="start">
             <span class="visually-hidden">Home Page: </span>
+            <button class="quire-navbar-button play-button"
+              aria-controls="quire-search">
+              <svg>
+                <switch>
+                  <!-- <use xlink:href="#search-icon"></use> -->
+                  <foreignObject width="32" height="32">
+                      <img src="{{ $imgDir | absURL }}/icons/play@2x.png" alt="" />
+                  </foreignObject>
+                </switch>
+              </svg>
+              <span class="visually-hidden">Search</span>
+            </button>
           </a>
         </li>
         {{ else }}
         <li class="quire-navbar-page-controls__item quire-home-page">
           <a href='{{ .Prev.Permalink }}' rel="previous">
             <span class="visually-hidden">Previous Page: </span>
-            <script>console.log({{ .Prev.Title }})</script>
             {{ if .Prev.Title }}
             {{ .Prev.Title | markdownify }}
             {{ end }}
