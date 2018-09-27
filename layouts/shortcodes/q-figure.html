@@ -26,11 +26,26 @@ If the shortcode has a src, ignore any figures.yml
 document and render only the values given in the shortcode
 ----------------------------------------------------------------------------
 */}}
-{{ if eq .Site.Params.photoswipe true }}
+
+{{ if eq $.Site.Params.photoswipe true }}
 <figure class='photoswipe-true quire-figure {{ with .Get "class" }}{{ . }}{{ end }}'>
+  <div class="q-figure__wrapper">
+    <a href='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'>
+    <img id='{{ with .Get "id" }}{{ . | urlize }}{{ end }}'
+      class="quire-figure__image" 
+      src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
+      alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
+    </div>
+    {{ if or (.Get "caption") (.Get "credit") }}
+    <figcaption class="quire-figure__caption">
+      {{ with $.Get "caption" }}{{ . | markdownify }}{{ end }}
+      {{ with $.Get "credit" }}<span class="quire-figure__credit">{{ . | markdownify }}</span>{{ end }}
+    </figcaption>
+  </a>
+  {{ end }}
+</figure>
 {{ else }}
 <figure class='quire-figure {{ with .Get "class" }}{{ . }}{{ end }}'>
-{{ end }}
   <div class="q-figure__wrapper">
     <img id='{{ with .Get "id" }}{{ . | urlize }}{{ end }}'
         class="quire-figure__image" 
@@ -44,6 +59,8 @@ document and render only the values given in the shortcode
   </figcaption>
   {{ end }}
 </figure>
+{{ end }}
+
 {{/* -------------------- END SRC BLOCK -------------------- */}}
 
 {{ else if .Get "id" }}
@@ -72,8 +89,43 @@ render the figure from matching values found ther
       {{ partial "error-message.html" $errorNoMediaType }}
 
   {{ else }}
-  <div  class='quire-figure__media-wrapper{{ if .aspect_ratio }}--{{ .aspect_ratio }}{{ else }}--widescreen{{ end }}'>
 
+  {{ $.Site.Params.photoswipe }}
+
+  {{ if eq $.Site.Params.photoswipe true }}
+
+  {{ if eq .media_type "youtube" }}
+  <div class="q-figure__wrapper">
+      <a href='#' 
+         data="<div class='wrapper'><div class='video-wrapper'><iframe id='{{ .id }}' class='quire-figure__media' src='https://www.youtube-nocookie.com/embed/{{ .media_id }}?rel=0&amp;showinfo=0' frameborder='0' allowfullscreen></iframe></div></div>">
+      <img class='quire-figure__image'
+           src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' 
+           alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}'/>
+      </a>
+    </div>
+  {{ else if eq .media_type "vimeo" }}
+  <iframe id='{{ .id }}'
+          class='quire-figure__media'
+          src='https://player.vimeo.com/video/{{ .media_id }}'
+          frameborder='0'
+          webkitallowfullscreen
+          mozallowfullscreen
+          allowfullscreen></iframe>
+  {{ else if eq .media_type "website" }}
+  <iframe id='{{ .id }}'
+          class='quire-figure__media'
+          src='{{ .media_id }}'></iframe>
+  {{ end }}
+
+  {{ else }}
+
+  {{ .Site }}
+  <div  class='quire-figure__media-wrapper{{ if .aspect_ratio }}--{{ .aspect_ratio }}{{ else }}--widescreen{{ end }}'>
+    <!--
+    <div class="q-figure__wrapper">
+      <img class="quire-figure__image" src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}' />
+    </div>
+  -->
     {{ if eq .media_type "youtube" }}
     <iframe id='{{ .id }}'
             class='quire-figure__media'
@@ -114,16 +166,20 @@ render the figure from matching values found ther
       {{ end }}
     </div>
   </div>
+  {{ end }}
   {{/* -------------------- END MEDIA BLOCK -------------------- */}}
   {{ end }}
 
   {{ else }}
   {{/* -------------------- BEGIN IMAGE BLOCK -------------------- */}}
   <div class="q-figure__wrapper">
-  <img class="quire-figure__image"  id='{{ .id }}'
+      {{ if eq $.Site.Params.photoswipe true }}
+      <a href='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'>
+      {{ end }}
+    <img class="quire-figure__image"  id='{{ .id }}'
        src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'
        alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}' />
-       </div>
+  </div>
 
   {{ end }}
   {{/* -------------------- END IMAGE BLOCK -------------------- */}}
@@ -186,6 +242,9 @@ render the figure from matching values found ther
     </span>
     {{ end }}
   </figcaption>
+  {{ if eq $.Site.Params.photoswipe true }}
+  </a>
+  {{ end }}
   {{/* -------------------- END CAPTION BLOCK -------------------- */}}
 
 </figure>
