@@ -7,23 +7,6 @@
 
 {{- $js := "js/application.js" | relURL -}}
 
-{{ if eq .Site.Params.epub true }}
-
-<!DOCTYPE html>
-<html lang="{{ .Site.Data.publication.language }}">
-  {{ partial "head.html" . }}
-  <body>
-    <div class="quire no-js" id="container">
-      <div class="quire__primary" id="{{ with .Section }}{{ . | urlize }}-{{ end }}{{ .File.BaseFileName | lower }}">
-        {{ block "main" . }}
-        {{ end }}
-      </div>
-    </div>
-  </body>
-</html>
-
-{{ else }}
-
 <!DOCTYPE html>
 <html lang="{{ .Site.Data.publication.language }}">
   {{ partial "head.html" . }}
@@ -33,7 +16,7 @@
     {{ partial "icons-cc.html" . }}
     {{- end -}}
     <div class="quire no-js" id="container">
-      <div class="quire__secondary is-expanded"
+      <div class="quire__secondary is-expanded remove-from-epub"
           id="site-menu"
           aria-expanded="true"
           role="contentinfo">
@@ -54,6 +37,3 @@
     {{ partial "scripts.html" . }}
   </body>
 </html>
-
-
-{{ end }}
