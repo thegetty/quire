@@ -44,8 +44,7 @@ process.on('SIGINT', function () { cli.emit('shutdown') })
 program
   .version('0.1.0.alpha.13')
   .option('-v, --verbose', 'log verbose output')
-  .option('-fn, --filename', 'Add Filename')
-  .option('-fp, --filePath', 'Add Filepath')
+  .option('-fn, --file', 'Add Filename and optional new filepath')
   .option('-e, --env', 'Add environment variable')
 
 program
@@ -93,14 +92,13 @@ program
 // Pass optional config from config/environments/[env].yml to hugo
 //
 program
-  .command('pdf [filename] [filePath] [env]')
-  .option('-fn, --filename', 'Add Filename')
-  .option('-fp, --filePath', 'Add Filepath')
+  .command('pdf [file] [env]')
+  .option('-fn, --file', 'Add Filename and optional new filepath')
   .option('-e, --env', 'Add environment variable')
   .description('Generate a PDF version of the current project')
-  .action(function (filename, filePath, env) {
+  .action(function (file, env) {
     cli.verbose = program.verbose
-    cli.emit('pdf', filename, filePath, env)
+    cli.emit('pdf', file, env)
   })
 
 // quire epub
@@ -124,14 +122,13 @@ program
 // Pass optional config from config/environments/[env].yml to hugo
 //
 program
-  .command('epub [filename] [filePath] [env]')
-  .option('-fn, --filename', 'Add Filename')
-  .option('-fp, --filePath', 'Add Filepath')
+  .command('epub [file] [env]')
+  .option('-fn, --file', 'Add Filename and optional new filepath')
   .option('-e, --env', 'Add environment variable')
   .description('Generate an EPUB version of the current project')
-  .action(function (filename, filePath, env) {
+  .action(function (file, env) {
     cli.verbose = program.verbose
-    cli.emit('epub', filename, filePath, env)
+    cli.emit('epub', file, env)
   })
 
 // quire epub
@@ -140,14 +137,13 @@ program
 // Pass optional config from config/environments/[env].yml to hugo
 //
 program
-  .command('mobi [filename] [filePath] [env]')
-  .option('-fn, --filename', 'Add Filename')
-  .option('-fp, --filePath', 'Add Filepath')
+  .command('mobi [file] [env]')
+  .option('-fn, --file', 'Add Filename and optional new filepath')
   .option('-e, --env', 'Add environment variable')
   .description('Generate an MOBI version of the current project')
-  .action(function (filename, filePath, env) {
+  .action(function (file, env) {
     cli.verbose = program.verbose
-    cli.emit('mobi', filename, filePath, env)
+    cli.emit('mobi', file, env)
   })
 
 // quire template
