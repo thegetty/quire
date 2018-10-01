@@ -28,7 +28,6 @@ disableKinds:
 blackfriday:
   fractions: false
   hrefTargetBlank: true
-  plainIDAnchors: true
 
 # These values can be accessed in templates via .Site.Params
 params:
