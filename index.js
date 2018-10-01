@@ -44,7 +44,7 @@ process.on('SIGINT', function () { cli.emit('shutdown') })
 program
   .version('0.1.0.alpha.13')
   .option('-v, --verbose', 'log verbose output')
-  .option('-fn, --file', 'Add Filename and optional new filepath')
+  .option('-f, --file', 'Add Filename and optional new filepath')
   .option('-e, --env', 'Add environment variable')
 
 program
@@ -93,7 +93,7 @@ program
 //
 program
   .command('pdf [file] [env]')
-  .option('-fn, --file', 'Add Filename and optional new filepath')
+  .option('-f, --file', 'Add Filename and optional new filepath')
   .option('-e, --env', 'Add environment variable')
   .description('Generate a PDF version of the current project')
   .action(function (file, env) {
@@ -123,7 +123,7 @@ program
 //
 program
   .command('epub [file] [env]')
-  .option('-fn, --file', 'Add Filename and optional new filepath')
+  .option('-f, --file', 'Add Filename and optional new filepath')
   .option('-e, --env', 'Add environment variable')
   .description('Generate an EPUB version of the current project')
   .action(function (file, env) {
@@ -138,7 +138,7 @@ program
 //
 program
   .command('mobi [file] [env]')
-  .option('-fn, --file', 'Add Filename and optional new filepath')
+  .option('-f, --file', 'Add Filename and optional new filepath')
   .option('-e, --env', 'Add environment variable')
   .description('Generate an MOBI version of the current project')
   .action(function (file, env) {
