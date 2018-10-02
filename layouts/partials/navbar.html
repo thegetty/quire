@@ -39,25 +39,31 @@ search icons, and search results if enabled). It is visible on all pages.
 
         {{ if eq .Type "cover" }}
         <li class="quire-navbar-page-controls__item quire-home-page">
-          <a href='{{ relref . "cover.md" }}' rel="start">
+          <a href='{{ .Next.Permalink }}' rel="start">
             <span class="visually-hidden">Home Page: </span>
-            {{ if .Site.Data.publication.short_title }}
-            {{ .Site.Data.publication.short_title | markdownify }}
-            {{ else }}
-            {{ .Site.Data.publication.title | markdownify }}
-            {{ end }}
+            <button class="quire-navbar-button play-button"
+              aria-controls="quire-search">
+              <svg>
+                <switch>
+                  <!-- <use xlink:href="#search-icon"></use> -->
+                  <foreignObject width="32" height="32">
+                      <img src="{{ $imgDir | absURL }}/icons/play@2x.png" alt="" />
+                  </foreignObject>
+                </switch>
+              </svg>
+              <span class="visually-hidden">Search</span>
+            </button>
           </a>
         </li>
         {{ else }}
         <li class="quire-navbar-page-controls__item quire-home-page">
-          <a href='{{ relref . "cover.md" }}' rel="start">
-            <span class="visually-hidden">Home Page: </span>
-            {{ if .Site.Data.publication.short_title }}
-            {{ .Site.Data.publication.short_title | markdownify }}
-            {{ else }}
-            {{ .Site.Data.publication.title | markdownify | truncate 34 }}
+          <a href='{{ .Prev.Permalink }}' rel="previous">
+            <span class="visually-hidden">Previous Page: </span>
+            {{ if .Prev.Title }}
+            {{ .Prev.Title | markdownify }}
             {{ end }}
           </a>
+
         </li>
         {{ if .Section }}
         {{ if ne .Params.slug "." }}
@@ -69,9 +75,32 @@ search icons, and search results if enabled). It is visible on all pages.
         </li>
         {{ end }}
         {{ end }}
-        <li class="quire-navbar-page-controls__item quire-current-page">
-          <span class="visually-hidden">Current Page: </span>
-          <span class="quire-current-page__title">{{- with .Params.number }}{{ . }}. {{ end }}{{- if .Params.short_title }}{{ .Params.short_title | markdownify }} {{ else }}{{ .Title | markdownify | truncate 34 }}{{ end -}}</span>
+
+        <li class="quire-navbar-page-controls__item quire-home-page">
+          <a href='{{ relref . "cover.md" }}' rel='home'>
+            <span class="visually-hidden">Home Page: </span>
+            <button class="quire-navbar-button home-button"
+              aria-controls="quire-home">
+              <svg>
+                <switch>
+                  <!-- <use xlink:href="#home-icon"></use> -->
+                  <foreignObject width="32" height="32">
+                      <img src="{{ $imgDir | absURL }}/icons/rewind@2x.png" alt="" />
+                  </foreignObject>
+                </switch>
+              </svg>
+              <span class="visually-hidden">Search</span>
+            </button>
+          </a>
+        </li>
+
+        <li class="quire-navbar-page-controls__item quire-next-page">
+          <a href='{{ .Next.Permalink }}' rel='next'>
+            <span class="visually-hidden">Next Page: </span>
+            {{ if .Next.Title }}
+            {{ .Next.Title | markdownify }}
+            {{ end }}
+          </a>
         </li>
         {{ end }}
 
@@ -117,9 +146,9 @@ search icons, and search results if enabled). It is visible on all pages.
   <a href="{{ .Prev.Permalink }}" rel="prev" id="js-prev" >
     <svg>
       <switch>
-        <use xlink:href="#left-arrow-icon"></use>
+        <!-- <use xlink:href="#left-arrow-icon"></use> -->
         <foreignObject width="18" height="32">
-            <img src="{{ $imgDir | absURL }}/icons/left-arrow.png" alt="" />
+            <img src="{{ $imgDir | absURL }}/icons/left@2x.png" alt="" />
         </foreignObject>
       </switch>
     </svg>
@@ -141,19 +170,23 @@ search icons, and search results if enabled). It is visible on all pages.
 {{- $imgDir := $.Scratch.Get "imageDir" -}}
 {{- if .Next -}}
 {{- if and (ne .Next.Params.online false) (ne .Next.Type "data") -}}
+{{ if eq .Type "cover" }}
+  <!-- show nothing -->
+{{ else }}
 <li class="quire-navbar-button arrow-button">
   <a href="{{ .Next.Permalink }}" rel="next" id="js-next">
     <svg>
       <switch>
-        <use xlink:href="#right-arrow-icon"></use>
+        <!-- <use xlink:href="#right-arrow-icon"></use> -->
         <foreignObject width="18" height="32">
-            <img src="{{ $imgDir | absURL }}/icons/right-arrow.png" alt="" />
+            <img src="{{ $imgDir | absURL }}/icons/right@2x.png" alt="" />
         </foreignObject>
       </switch>
     </svg>
     <span class="visually-hidden">Next Page (right keyboard arrow or swipe)</span>
   </a>
 </li>
+{{- end -}}
 {{- else -}}
   {{ template "if-next" .Next }}
 {{- end -}}
