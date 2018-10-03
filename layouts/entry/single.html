@@ -25,20 +25,20 @@ a single image or object needs to be featured prominently.\
         {{ range where $.Site.Data.objects.object_list "id" "eq" .id }}
         <div class="quire-entry__image__group-container">
           {{ if gt (len .figure) 1 -}}
-          <button class="button is-rounded quire-image-control quire-image-control--prev-image" onclick="slideImage('prev')" id="prev-image" title="Previous image">
+          <button class="remove-from-epub button is-rounded quire-image-control quire-image-control--prev-image" onclick="slideImage('prev')" id="prev-image" title="Previous image">
             {{- template "image-control-icon" (dict "type" "left-arrow" "description" "Previous image" "imageDir" ($.Scratch.Get "imageDir") ) -}}
           </button>
-          <button class="button is-rounded quire-image-control quire-image-control--next-image" onclick="slideImage('next')" id="next-image" title="Next image">
+          <button class="remove-from-epub button is-rounded quire-image-control quire-image-control--next-image" onclick="slideImage('next')" id="next-image" title="Next image">
             {{- template "image-control-icon" (dict "type" "right-arrow" "description" "Next image" "imageDir" ($.Scratch.Get "imageDir") ) -}}
           </button>
           {{ end -}}
         {{ range .figure }}
           {{ if .id }}
             {{ range where $.Site.Data.figures.figure_list "id" "eq" .id }}
-              {{ template "figure" (dict "imageDir" ($.Scratch.Get "imageDir") "figure" . ) }}
+              {{ template "figure" (dict "imageDir" ($.Scratch.Get "imageDir") "figure" .) }}
             {{ end }}
           {{ else if .src }}
-            {{ template "figure" (dict "imageDir" ($.Scratch.Get "imageDir") "figure" . ) }}
+            {{ template "figure" (dict "imageDir" ($.Scratch.Get "imageDir") "figure" .) }}
           {{ end }}
         {{ end }}
         </div>
@@ -48,10 +48,10 @@ a single image or object needs to be featured prominently.\
       {{ range .figure }}
         {{ if .id }}
           {{ range where $.Site.Data.figures.figure_list "id" "eq" .id }}
-            {{ template "figure" (dict "imageDir" ($.Scratch.Get "imageDir") "figure" . ) }}
+            {{ template "figure" (dict "imageDir" ($.Scratch.Get "imageDir") "figure" .) }}
           {{ end }}
         {{ else if .src }}
-          {{ template "figure" (dict "imageDir" ($.Scratch.Get "imageDir") "figure" . ) }}
+          {{ template "figure" (dict "imageDir" ($.Scratch.Get "imageDir") "figure" .) }}
         {{ end }}
       {{ end }}
       </div>
@@ -63,14 +63,14 @@ a single image or object needs to be featured prominently.\
   {{/* Entry header */}}
   <header class="quire-entry__header">
     <div class="container">
-      {{/* Title */}}
-      <h1 class="quire-page__header__title">
-        {{ with .Params.number }}<span>{{ . }}.</span>{{ end }}
-        {{ .Title | markdownify }}
-      {{/* Subtitle if any */}}
-      {{ with .Params.subtitle }}
-      <span class="quire-page__header__subtitle">{{ . }}</span></h1>
-      {{ end }}
+        {{/* Title */}}
+        <h1 class="quire-page__header__title" id="{{ .Title | urlize }}">
+          {{ with .Params.number }}<span>{{ . }}.</span>{{ end }}
+          {{ .Title | markdownify }}
+          {{ with .Params.subtitle }}
+          <span class="quire-page__header__subtitle">{{ . | markdownify }}</span>
+          {{ end }}
+        </h1>
     </div>
   </header>
 
@@ -124,10 +124,8 @@ a single image or object needs to be featured prominently.\
       </div>
     </div>
   </section>
-
 </article>
 {{ end }}
-
 
 {{ define "figure" }}
 {{- $imgPath := printf "%s/%s" .imageDir .figure.src -}}
@@ -140,19 +138,19 @@ a single image or object needs to be featured prominently.\
     <div class="quire-image-control quire-image-info"><span class="quire-image-info__caption">{{ .figure.caption }}</span> <span class="quire-image-info__credit">{{ .figure.credit }}</span></div>
   {{ end }}
   {{ if eq .figure.download true }}
-    <a href="{{ $imgPath | relURL }}" target="_blank" class="button is-rounded quire-image-control quire-image-control--download" title="Download image" download>
-      {{- template "image-control-icon" (dict "type" "download" "description" "Download image" "imageDir" .imageDir ) -}}
-    </a>
+  <a href="{{ $imgPath | relURL }}" target="_blank" class="remove-from-epub button is-rounded quire-image-control quire-image-control--download" title="Download image" download>
+    {{- template "image-control-icon" (dict "type" "download" "description" "Download image" "imageDir" .imageDir ) -}}
+  </a>
   {{ end }}
 </figure>
 {{ end }}
 
 {{ define "image-control-icon" }}
-<svg>
+<svg class="remove-from-epub">
   <switch>
     <use xlink:href="#{{ .type }}-icon"></use>
     <foreignObject width="32" height="32">
-        <img src="{{ absURL .imageDir }}/icons/{{ .type }}.png" alt="" />
+        <img class="remove-from-epub" src="{{ absURL .imageDir }}/icons/{{ .type }}.png" alt="" />
     </foreignObject>
   </switch>
 </svg>

@@ -13,7 +13,7 @@
   <div class="hero-body">
 
       {{/* Page Title */}}
-      <h1 class="quire-page__header__title">
+      <h1 class="quire-page__header__title" id="{{ .Title | urlize }}">
         {{ with .Params.number }}<span>{{ . }}.</span>{{ end }}
         {{ .Title | markdownify }}
         {{ with .Params.subtitle }}
@@ -24,13 +24,13 @@
       {{/* Contributors, if any */}}
       {{ with .Params.contributor }}
       <div class="quire-page__header__contributor">
-        {{ partial "contributor-list.html" (dict "range" . "contributorType" "all" "listType" "list-plus") }}
+        {{ partial "contributor-list.html" (dict "range" . "contributorType" "all" "listType" "list-plus" "Site" $.Site) }}
       </div>
       {{ end }}
 
       {{ if in .Params.class "splash" }}
       {{ if or (or (eq .Type "contents") (eq .Type "info")) .Content }}
-      <div class="quire-page__header__splash-page-arrow is-screen-only">
+      <div class="quire-page__header__splash-page-arrow is-screen-only remove-from-epub">
         <svg transform="rotate(90)">
           <switch>
             <use xlink:href="#right-arrow-icon"></use>

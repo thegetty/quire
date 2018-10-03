@@ -1,7 +1,6 @@
 // =============================================================================
 // Application.scss
 // -----------------------------------------------------------------------------
-
 @import "~bulma/sass/utilities/initial-variables";
 @import "fonts";
 @import "variables";
@@ -12,7 +11,7 @@
 // following variables are standard in Bulma, but are also used in, and
 // in some cases modified for, Quire as well.
 $gap: 16px;
-$tablet: 500px;
+$tablet: 100px;
 $desktop: 700px;
 $fullhd: 1344px + (2 * $gap);
 $widescreen: 1152px + (2 * $gap);
