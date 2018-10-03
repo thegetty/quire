@@ -4,7 +4,7 @@ subtitle: Shamelessly Copied from Wikipedia
 weight: 100
 type: essay
 contributor:
-  - full_name: Ida Pikwik
+  - id: ipikwik
 ---
 
 French art consists of the visual and plastic arts (including architecture, woodwork, textiles, and ceramics) originating from the geographical area of France. (See *Luncheon*, [note 5](../catalogue/1/#fnref:5)) Modern France was the main centre for the European art of the Upper Paleolithic, then left many megalithic monuments, and in the Iron Age many of the most impressive finds of early Celtic art. (See [fig 1.4](#1.4))The Gallo-Roman period left a distinctive provincial style of sculpture, and the region around the modern Franco-German border led the empire in the mass production of finely decorated Ancient Roman pottery, which was exported to Italy and elsewhere on a large scale. With Merovingian art the story of French styles as a distinct and influential element in the wider development of the art of Christian Europe begins. ({{< q-cite "Faure 1909" "54" >}})
