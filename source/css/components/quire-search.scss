@@ -20,8 +20,9 @@ $family-secondary: $sans-serif !default;
   display: none;
   height: 100vh;
   position: absolute;
+  top: 0;
   width: 100%;
-  z-index: 1000;
+  z-index: 99999;
 
   * {
     color: $quire-menu-text-color;

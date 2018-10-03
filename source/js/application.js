@@ -7,13 +7,11 @@
 // Stylesheets
 
 import '../css/application.scss'
-// import '../css/fonts.scss'
 import 'leaflet/dist/leaflet.css'
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
 
 // JS Libraries (add them to package.json with `npm install [library]`)
 import $ from 'jquery'
-// import 'smoothstate'
 import 'velocity-animate'
 
 // Modules (feel free to define your own and import here)
@@ -25,9 +23,7 @@ import Navigation from './navigation.js'
 // Photoswipe 
 import 'photoswipe/dist/photoswipe.css'
 import 'photoswipe/dist/default-skin/default-skin.css'
-import findIndex from 'lodash.findIndex'
 import photoswipe from './photoswipe'
-import mediaswipe from './mediaswipe'
 
 /**
  * toggleMenu
@@ -258,19 +254,12 @@ function scrollToHash() {
  * Set up photoswipe
  */
 function photoswipeSetup() {
-  let $figures = $('.q-figure__wrapper')
-  if ($figures.length > 0) {
-    // let checkIfPhotoswipe = $figures[0].parentNode.parentNode.parentNode.classList.value.indexOf('photoswipe-true')
-    if (isPhotoSwipe) {
-      $figures.click((e) => {
-        let figWrappers = document.querySelectorAll('.q-figure__wrapper img')
-        let target = findIndex(figWrappers, function (f) {
-          return f.id === e.currentTarget.children[0].id
-        })
-        photoswipe(target)
-      })
-    }
-  }
+  [...document.querySelectorAll('.q-figure__wrapper > a')].forEach(v => {
+    let image = new Image()
+    image.src = v.children[0].src
+    v.setAttribute('data-size', `${image.naturalWidth}x${image.naturalHeight}`)
+  })
+  photoswipe('.content')
 }
 
 /**
@@ -306,33 +295,4 @@ globalSetup()
 // Run when document is ready
 $(document).ready(() => {
   pageSetup()
-  /*
-    $('#container').smoothState({
-      scroll: false,
-      onStart: {
-        duration: 200,
-        render($container) {
-          $container.velocity('fadeOut', { duration: 200 })
-        }
-      },
-      onReady: {
-        duration: 200,
-        render($container, $newContent) {
-          $container.html($newContent)
-          $container.velocity('fadeIn', { duration: 200 })
-          pageSetup()
-        }
-      },
-      onAfter: function($container, $newContent) {
-        scrollToHash();
-  
-        if (window.ga) {
-          window.ga('send', 'pageview', window.location.pathname);
-        }
-      },
-      onBefore($container, $newContent) {
-        pageTeardown();
-      }
-    })
-  */
 })

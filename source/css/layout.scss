@@ -72,6 +72,7 @@ $navbar-height: 3rem !default;
       display: flex;
       flex-direction: column;
       height: 100vh;
+      top: 0;
       left: 0;
       position: absolute;
       transition-property: width, left;
