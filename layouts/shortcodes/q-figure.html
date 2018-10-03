@@ -27,12 +27,11 @@ document and render only the values given in the shortcode
 ----------------------------------------------------------------------------
 */}}
 
-<figure class='quire-figure {{ with .Get "class" }}{{ . }}{{ end }}'
-        id='{{ with .Get "id" }}{{ . | urlize }}{{ end }}'>
-  <img class="quire-figure__image"
+<figure class='quire-figure {{ with .Get "class" }}{{ . }}{{ end }}'>
+  <img id='{{ with .Get "id" }}{{ . | urlize }}{{ end }}'
+       class="quire-figure__image" 
        src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
        alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
-
   {{ if or (.Get "caption") (.Get "credit") }}
   <figcaption class="quire-figure__caption">
     {{ with $.Get "caption" }}{{ . | markdownify }}{{ end }}
@@ -60,9 +59,7 @@ render the figure from matching values found ther
 
 {{/* -------------------- BEGIN FIGURE RANGE -------------------- */}}
 {{ range where .Site.Data.figures.figure_list "id" "eq" $x }}
-<figure class='quire-figure {{ with $.Get "class" }}{{ . }}{{ end }}'
-        id='{{ .id }}'>
-
+<figure class='quire-figure {{ with $.Get "class" }}{{ . }}{{ end }}'>
   {{ if .media_id }}
   {{/* -------------------- BEGIN MEDIA BLOCK -------------------- */}}
   {{ if and (and (ne .media_type "youtube") (ne .media_type "vimeo")) (ne .media_type "website") }}
@@ -70,31 +67,36 @@ render the figure from matching values found ther
       {{ partial "error-message.html" $errorNoMediaType }}
 
   {{ else }}
-  <div class='quire-figure__media-wrapper{{ if .aspect_ratio }}--{{ .aspect_ratio }}{{ else }}--widescreen{{ end }}'>
+  <div  class='quire-figure__media-wrapper{{ if .aspect_ratio }}--{{ .aspect_ratio }}{{ else }}--widescreen{{ end }}'>
 
     {{ if eq .media_type "youtube" }}
-    <iframe class='quire-figure__media'
+    <iframe id='{{ .id }}'
+            class='quire-figure__media'
             src='https://www.youtube-nocookie.com/embed/{{ .media_id }}?rel=0&amp;showinfo=0'
             frameborder='0'
             allowfullscreen></iframe>
     {{ else if eq .media_type "vimeo" }}
-    <iframe class='quire-figure__media'
+    <iframe id='{{ .id }}'
+            class='quire-figure__media'
             src='https://player.vimeo.com/video/{{ .media_id }}'
             frameborder='0'
             webkitallowfullscreen
             mozallowfullscreen
             allowfullscreen></iframe>
     {{ else if eq .media_type "website" }}
-    <iframe class='quire-figure__media'
+    <iframe id='{{ .id }}'
+            class='quire-figure__media'
             src='{{ .media_id }}'></iframe>
     {{ end }}
 
     <div class="quire-figure__media-fallback">
       {{ if .src }}
-      <img src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'
+      <img id='{{ .id }}'
+           src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'
            alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}' />
       {{ else }}
-      <svg xmlns="http://www.w3.org/2000/svg"
+      <svg id='{{ .id }}'
+           xmlns="http://www.w3.org/2000/svg"
            viewBox="0 0 64 36"
            fill="darkgray">
         <path d="M0,0v36h64V0H0z M63,35H1V1h62V35z"/>
@@ -112,9 +114,11 @@ render the figure from matching values found ther
 
   {{ else }}
   {{/* -------------------- BEGIN IMAGE BLOCK -------------------- */}}
-  <img class="quire-figure__image"
+
+  <img class="quire-figure__image"  id='{{ .id }}'
        src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'
        alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}' />
+
   {{ end }}
   {{/* -------------------- END IMAGE BLOCK -------------------- */}}
 

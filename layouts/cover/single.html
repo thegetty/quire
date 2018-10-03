@@ -66,11 +66,9 @@ Cover page layout. This controls the home page of the publication.
     </div>
   </section>
 
-
-
   {{ end }}
 
-  <footer class="footer quire-cover-footer">
+  <footer class="footer quire-cover-footer remove-from-epub">
     <div class="container is-fluid">
       <div class="content is-small">
         {{ partial "footer.html" . }}
@@ -80,14 +78,17 @@ Cover page layout. This controls the home page of the publication.
 
   {{/* End "below-the-fold" section */}}
 </div>
+
 {{ end }}
 
+
+
 {{ define "image-control-icon" }}
-<svg>
+<svg class="remove-from-epub">
   <switch>
     <use xlink:href="#{{ .type }}-icon"></use>
     <foreignObject width="32" height="32">
-        <img src="{{ absURL .imageDir }}/icons/{{ .type }}.png" alt="" />
+        <img class="remove-from-epub" src="{{ absURL .imageDir }}/icons/{{ .type }}.png" alt="" />
     </foreignObject>
   </switch>
 </svg>
