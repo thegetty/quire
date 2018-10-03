@@ -54,7 +54,7 @@ $quire-navbar-text-color: $dark !default;
   min-height: $navbar-height;
   top: 0;
   width: 100%;
-  border-bottom: 1px solid $quire-navbar-text-color;
+  border-bottom: 1px solid $quire-navbar-border-color;
 
   * {
     transition: background 0.15s linear;
