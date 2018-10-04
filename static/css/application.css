@@ -6712,8 +6712,9 @@ video {
     overflow-y: scroll;
     position: fixed;
     top: 0;
-    -webkit-transform: translateX(-350px);
-            transform: translateX(-350px);
+    right: 0;
+    -webkit-transform: translateX(350px);
+            transform: translateX(350px);
     transition-property: width, -webkit-transform;
     transition-property: transform, width;
     transition-property: transform, width, -webkit-transform;
@@ -6732,7 +6733,7 @@ video {
       .quire:not(.no-js) .quire__secondary.is-expanded #site-menu__inner {
         display: block; }
       .quire:not(.no-js) .quire__secondary.is-expanded + .quire__primary {
-        left: 350px;
+        right: 350px;
         width: calc(100% - 350px); }
         @media screen and (max-width: 350px) {
           .quire:not(.no-js) .quire__secondary.is-expanded + .quire__primary {
