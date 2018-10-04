@@ -1,79 +1,131 @@
 // =============================================================================
 // Utilities.scss
 // -----------------------------------------------------------------------------
-
 // scss-lint:disable NameFormat
-
 // Mixins
 // -----------------------------------------------------------------------------
 // Adjust foreground colors based on an element's background
 @mixin foreground-color($bgcolor, $frcolor) {
-  * { color: $frcolor; }
-
-  svg { fill: $frcolor; }
-
-  a,
-  button,
-  .button {
-    background-color: $bgcolor;
-    color: $frcolor !important;
-
-    &:hover,
-    &:focus {
-      background-color: darken($bgcolor, 5%);
-      color: $frcolor;
+    * {
+        color: $frcolor;
     }
-  }
-  a {
-    border-bottom-color: $frcolor !important;
-  }
+    svg {
+        fill: $frcolor;
+    }
+    a,
+    button,
+    .button {
+        background-color: $bgcolor;
+        color: $frcolor !important;
+        &:hover,
+        &:focus {
+            background-color: darken($bgcolor, 5%);
+            color: $frcolor;
+        }
+    }
+    a {
+        border-bottom-color: $frcolor !important;
+    }
 }
 
 // General Bulma Overrides
 // -----------------------------------------------------------------------------
-
 .hero-body,
 .section,
 .footer {
-  padding-left: 0;
-  padding-right: 0;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 // Utility Classes
 // -----------------------------------------------------------------------------
-
 sup,
 sub {
-  line-height: 0;
+    line-height: 0;
 }
 
 // Visually Hidden utility class
 .visually-hidden {
-  clip: rect(1px, 1px, 1px, 1px);
-  height: 1px;
-  overflow: hidden;
-  position: absolute;
-  width: 1px;
+    clip: rect(1px, 1px, 1px, 1px);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    width: 1px;
 }
 
-.is-print-only { @media screen { display: none; } }
-.is-screen-only { @media print { display: none; } }
+.is-print-only {
+    @media screen {
+        display: none;
+    }
+}
+
+.is-screen-only {
+    @media print {
+        display: none;
+    }
+}
 
 .quire-error {
-  text-align: left;
-  p {
-    font-family: sans-serif;
-    margin-bottom: 1em;
-  }
-  pre {
-    margin-top: 1em;
-  }
+    text-align: left;
+    p {
+        font-family: sans-serif;
+        margin-bottom: 1em;
+    }
+    pre {
+        margin-top: 1em;
+    }
 }
 
 // Required by HTML Template Polyfill for older IE compatibility
 // -----------------------------------------------------------------------------
 // scss-lint:disable ImportantRule
 template {
-  display: none !important;
+    display: none !important;
 }
 
+body {
+    // margin-top: 50px;
+}
+
+.pswp__zoom-wrap {
+    text-align: center;
+    &:before {
+        content: '';
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+    }
+}
+
+.wrapper {
+    line-height: 0;
+    width: 100%;
+    max-width: 900px;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 auto;
+    text-align: left;
+    z-index: 1045;
+}
+
+.video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%;
+    /* 16:9 */
+    padding-top: 25px;
+    height: 0;
+    width: 100%;
+    iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+video {
+    width: 100% !important;
+    height: auto !important;
+}

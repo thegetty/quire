@@ -4,18 +4,14 @@
  * @description This file serves as the entry point for Webpack, the JS library
  * responsible for building all CSS and JS assets for the theme.
  */
-
 // Stylesheets
-// console.log(webpack)
 
 import '../css/application.scss'
-// import '../css/fonts.scss'
 import 'leaflet/dist/leaflet.css'
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
 
 // JS Libraries (add them to package.json with `npm install [library]`)
 import $ from 'jquery'
-import 'smoothstate'
 import 'velocity-animate'
 
 // Modules (feel free to define your own and import here)
@@ -24,12 +20,18 @@ import Map from './map.js'
 import DeepZoom from './deepzoom.js'
 import Navigation from './navigation.js'
 
+// Photoswipe 
+import 'photoswipe/dist/photoswipe.css'
+import 'photoswipe/dist/default-skin/default-skin.css'
+import photoswipe from './photoswipe'
+
 /**
  * toggleMenu
  * @description Show/hide the menu UI by changing CSS classes and Aria status.
  * This function is bound to the global window object so it can be called from
  * templates without additinoal binding.
  */
+
 window.toggleMenu = () => {
   let menu = document.getElementById('site-menu')
   let menuAriaStatus = menu.getAttribute('aria-expanded')
@@ -41,6 +43,7 @@ window.toggleMenu = () => {
     menu.setAttribute('aria-expanded', 'true')
   }
 }
+
 
 /**
  * toggleSearch
@@ -69,13 +72,13 @@ window.toggleSearch = () => {
  */
 function sliderSetup() {
   let slider = $('.quire-entry__image__group-container')
-  slider.each( function() {
+  slider.each(function () {
     let sliderImages = $(this).find('figure')
-    let firstImage = $( sliderImages.first() )
-    let lastImage = $( sliderImages.last() )
+    let firstImage = $(sliderImages.first())
+    let lastImage = $(sliderImages.last())
     sliderImages.hide()
     firstImage.addClass('current-image first-image')
-    firstImage.css('display','flex')
+    firstImage.css('display', 'flex')
     lastImage.addClass('last-image')
   });
 }
@@ -87,29 +90,29 @@ function sliderSetup() {
  * per page.
  */
 window.slideImage = (direction) => {
-  let slider = $( event.target ).closest('.quire-entry__image__group-container')
-  let firstImage = slider.children('.first-image' )
-  let lastImage = slider.children('.last-image' )
-  let currentImage = slider.children('.current-image' )
+  let slider = $(event.target).closest('.quire-entry__image__group-container')
+  let firstImage = slider.children('.first-image')
+  let lastImage = slider.children('.last-image')
+  let currentImage = slider.children('.current-image')
   let nextImage = currentImage.next('figure')
   let prevImage = currentImage.prev('figure')
   currentImage.hide()
   currentImage.removeClass('current-image')
-  if ( direction == "next" ) {
-    if ( currentImage.hasClass('last-image') ) {
+  if (direction == "next") {
+    if (currentImage.hasClass('last-image')) {
       firstImage.addClass('current-image')
-      firstImage.css('display','flex')
+      firstImage.css('display', 'flex')
     } else {
       nextImage.addClass('current-image')
-      nextImage.css('display','flex')
+      nextImage.css('display', 'flex')
     }
-  } else if ( direction == "prev" ) {
-    if ( currentImage.hasClass('first-image') ) {
+  } else if (direction == "prev") {
+    if (currentImage.hasClass('first-image')) {
       lastImage.addClass('current-image')
-      lastImage.css('display','flex')
+      lastImage.css('display', 'flex')
     } else {
       prevImage.addClass('current-image')
-      prevImage.css('display','flex')
+      prevImage.css('display', 'flex')
     }
   }
 }
@@ -181,6 +184,7 @@ function loadSearchData() {
  * function should be called again after each smootState reload.
  */
 function menuSetup() {
+  console.log(`here`)
   let menu = document.getElementById('site-menu')
   let menuAriaStatus = menu.getAttribute('aria-expanded')
   menu.classList.remove('is-expanded')
@@ -230,11 +234,11 @@ function scrollToHash() {
   let $navbar = $(".quire-navbar")
   let targetHash = window.location.hash;
 
-  if(targetHash) {
+  if (targetHash) {
     let targetHashEl = document.getElementById(targetHash.slice(1))
     let $targetHashEl = $(targetHashEl)
 
-    if($targetHashEl.length){
+    if ($targetHashEl.length) {
       let newPosition = $targetHashEl.offset().top
       if ($navbar.length) {
         newPosition -= $navbar.height()
@@ -247,16 +251,30 @@ function scrollToHash() {
 }
 
 /**
+ * Set up photoswipe
+ */
+function photoswipeSetup() {
+  [...document.querySelectorAll('.q-figure__wrapper > a')].forEach(v => {
+    let image = new Image()
+    image.src = v.children[0].src
+    v.setAttribute('data-size', `${image.naturalWidth}x${image.naturalHeight}`)
+  })
+  photoswipe('.content')
+}
+
+/**
  * pageSetup
  * @description This function is called after each smoothState reload.
  * Initialize any jquery plugins or set up page UI elements here.
  */
 function pageSetup() {
-  menuSetup()
+
+  // menuSetup()
   mapSetup()
   deepZoomSetup()
   sliderSetup()
   navigationSetup()
+  photoswipeSetup()
 }
 
 /**
@@ -277,32 +295,4 @@ globalSetup()
 // Run when document is ready
 $(document).ready(() => {
   pageSetup()
-
-  $('#container').smoothState({
-    scroll: false,
-    onStart: {
-      duration: 200,
-      render($container) {
-        $container.velocity('fadeOut', { duration: 200 })
-      }
-    },
-    onReady: {
-      duration: 200,
-      render($container, $newContent) {
-        $container.html($newContent)
-        $container.velocity('fadeIn', { duration: 200 })
-        pageSetup()
-      }
-    },
-    onAfter: function($container, $newContent) {
-      scrollToHash();
-
-      if (window.ga) {
-        window.ga('send', 'pageview', window.location.pathname);
-      }
-    },
-    onBefore($container, $newContent) {
-      pageTeardown();
-    }
-  })
 })

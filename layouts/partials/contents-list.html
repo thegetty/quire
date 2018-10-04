@@ -70,7 +70,6 @@
 
     {{- $.contentsPage.Scratch.Set "renderedSection" .Section -}}
 
-
       {{- if eq .Params.slug "." -}}
         {{- if eq $.contentsLocation ".Params.menu" }}
           <li class="section-item">{{ template "contents-item-menu" . -}}
@@ -114,48 +113,6 @@
 {{- end -}}
   {{- if in .class "grid" -}}
 
-  {{ if eq .Site.Params.epub true }}
-      <a href="#{{ .Page.Title }}"><div class="card">
-        {{ if .Page.Params.image }}
-          {{ $imgPath := printf "%s/%s" ($.Page.Scratch.Get "imageDir") .Page.Params.image }}
-          <div class="card-image">
-            <figure class="image">
-              <img src="{{ $imgPath | relURL }}" alt="" />
-            </figure>
-          </div>
-        {{ else if .Page.Params.object -}}
-          {{ range .Page.Params.object -}}
-            {{ if .id -}}
-              {{ range where $.Site.Data.objects.object_list "id" "eq" .id -}}
-              {{ range first 1 .figure -}}
-                {{ if .id -}}
-                  {{ range where $.Site.Data.figures.figure_list "id" "eq" .id -}}
-                    {{ template "contents-image" (dict "imageDir" ($.Page.Scratch.Get "imageDir") "figure" . ) -}}
-                  {{- end -}}
-                {{ else if .src -}}
-                  {{ template "contents-image" (dict "imageDir" ($.Page.Scratch.Get "imageDir") "figure" . ) -}}
-                {{- end -}}
-              {{- end -}}
-              {{- end -}}
-            {{ else if .figure -}}
-            {{ range first 1 .figure -}}
-              {{ if .id -}}
-                {{ range where $.Site.Data.figures.figure_list "id" "eq" .id -}}
-                  {{ template "contents-image" (dict "imageDir" ($.Page.Scratch.Get "imageDir") "figure" . ) -}}
-                {{- end -}}
-              {{ else if .src -}}
-                {{ template "contents-image" (dict "imageDir" ($.Page.Scratch.Get "imageDir") "figure" . ) -}}
-              {{- end -}}
-            {{- end -}}
-            {{- end -}}
-          {{- end -}}
-        {{- end -}}
-        <div class="card-content">
-          <div class="title">
-          {{- with .Page.Params.number }}{{ . }}. {{ end }}{{ .Page.Title | markdownify }}{{ with .Page.Params.subtitle }}: {{ . | markdownify }}{{- end -}}{{ if .Page.Params.contributor }}<span class="contributor"> — {{ partial "contributor-list.html" (dict "range" .Page.Params.contributor "contributorType" "all" "listType" "string" "Site" .Site) }}{{- end -}}</span></div>
-        </div>
-      </div></a>
-    {{ else }}
       <a href="{{ .Page.Permalink }}"><div class="card">
         {{ if .Page.Params.image }}
           {{ $imgPath := printf "%s/%s" ($.Page.Scratch.Get "imageDir") .Page.Params.image }}
@@ -196,28 +153,16 @@
           {{- with .Page.Params.number }}{{ . }}. {{ end }}{{ .Page.Title | markdownify }}{{ with .Page.Params.subtitle }}: {{ . | markdownify }}{{- end -}}{{ if .Page.Params.contributor }}<span class="contributor"> — {{ partial "contributor-list.html" (dict "range" .Page.Params.contributor "contributorType" "all" "listType" "string" "Site" .Site) }}{{- end -}}</span></div>
         </div>
       </div></a>
-    {{ end }}
 
   {{- else -}}
 
-    {{ if eq .Site.Params.epub true }}
-      <div class="title"><a href="#{{ .Page.Title }}">{{ with .Page.Params.number }}{{ . }}. {{ end }}{{ if and .Page.Params.short_title (in .class "brief")}}{{ .Page.Params.short_title | markdownify }}{{ else }}{{ .Page.Title | markdownify }}{{- end -}}{{ if in .class "brief"}}{{ else }}{{ with .Page.Params.subtitle }}: {{ . | markdownify }}{{- end -}}{{ if .Page.Params.contributor }}<span class="contributor"> — {{ partial "contributor-list.html" (dict "range" .Page.Params.contributor "contributorType" "all" "listType" "string" "Site" .Site) }}{{- end -}}{{- end -}}</span></a></div>{{ if and (in .class "abstract") (ne .Page.Params.abstract "") }}<div class="abstract-text">{{ if .Page.Params.abstract }}{{ .Page.Params.abstract | markdownify }}{{ else }}{{ .Page.Summary }}{{- end -}}</div>{{ end -}}
-    {{ else }}
     <div class="title"><a href="{{ .Page.Permalink }}">{{ with .Page.Params.number }}{{ . }}. {{ end }}{{ if and .Page.Params.short_title (in .class "brief")}}{{ .Page.Params.short_title | markdownify }}{{ else }}{{ .Page.Title | markdownify }}{{- end -}}{{ if in .class "brief"}}{{ else }}{{ with .Page.Params.subtitle }}: {{ . | markdownify }}{{- end -}}{{ if .Page.Params.contributor }}<span class="contributor"> — {{ partial "contributor-list.html" (dict "range" .Page.Params.contributor "contributorType" "all" "listType" "string" "Site" .Site) }}{{- end -}}{{- end -}}</span></a></div>{{ if and (in .class "abstract") (ne .Page.Params.abstract "") }}<div class="abstract-text">{{ if .Page.Params.abstract }}{{ .Page.Params.abstract | markdownify }}{{ else }}{{ .Page.Summary }}{{- end -}}</div>{{ end -}}
-    {{ end }}
 
   {{ end -}}
 {{ end -}}
 
-
 {{- define "contents-item-menu" }}
-
-  {{ if eq .Site.Params.epub true }}
-    <a href="#{{ .Page.Title }}">{{ with .Params.number }}{{ . }}. {{ end }}{{ if .Params.short_title }}{{ .Params.short_title | markdownify }}{{ else }}{{ .Title | markdownify }}{{- end -}}</a>
-  {{ else }}
     <a href="{{ .Permalink }}">{{ with .Params.number }}{{ . }}. {{ end }}{{ if .Params.short_title }}{{ .Params.short_title | markdownify }}{{ else }}{{ .Title | markdownify }}{{- end -}}</a> 
-  {{ end }}
-
 {{ end -}}
 
 {{- define "contents-image" }}

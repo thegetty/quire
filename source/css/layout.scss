@@ -50,14 +50,17 @@ $navbar-height: 3rem !default;
 
   // Styles when JS is not supported; menu at bottom
   &.no-js {
-    display: flex;
-    flex-direction: column;
+    // display: flex;
+    // flex-direction: column;
     min-height: 100vh;
 
-    .quire__primary { flex: 1; }
+    .quire__primary { 
+      // flex: 1; 
+      background: #fff;
+    }
 
     .quire__secondary {
-      order: 1;
+      // order: 1;
       width: 100%;
     }
   }
@@ -65,13 +68,22 @@ $navbar-height: 3rem !default;
   // Styles with JS enabled (sliding menu, etc.)
   &:not(.no-js) {
     .quire__primary {
+      background: #fff;
       display: flex;
       flex-direction: column;
       height: 100vh;
+      top: 0;
       left: 0;
       position: absolute;
-      transition: all 0.15s linear;
+      transition-property: width, left;
+      transition-duration: 0.15s;
+      transition-timing-function: linear;
       width: 100%;
+      z-index: 9999;
+
+      #main {
+        background: #fff; 
+      }
 
       .quire-page {
         flex: 1 1 auto;
@@ -95,9 +107,11 @@ $navbar-height: 3rem !default;
       position: fixed;
       top: 0;
       transform: translateX(-($quire-menu-width));
-      transition: all 0.15s linear;
+      transition-property: transform, width;
+      transition-duration: 0.15s;
+      transition-timing-function: linear; // transition: all 0.15s linear;
       width: $quire-menu-width;
-      z-index: 1100;
+      z-index: -1;
 
       @media screen and (max-width: $quire-menu-width) {
         width: calc(100vw - #{$navbar-height});
