@@ -7916,6 +7916,42 @@ html {
   .quire-deepzoom .leaflet-control-zoom a {
     color: #363636; }
 
+.leaflet-control-layers-toggle {
+  background-image: url(https://i.stack.imgur.com/3keSg.png) !important;
+  background-color: #2da0e2;
+  background-size: 20px 20px; }
+
+.leaflet-touch .leaflet-control-layers-toggle {
+  background-image: url(https://i.stack.imgur.com/3keSg.png) !important;
+  background-color: #2da0e2; }
+
+.leaflet-control-layers-expanded {
+  color: white;
+  background-color: #2da0e2; }
+
+.leaflet-container {
+  background: #000; }
+
+#js-deepzoom {
+  background: #000; }
+
+.leaflet-control > a {
+  background: transparent; }
+
+div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-control-zoom.leaflet-bar.leaflet-control > a {
+  background: transparent;
+  color: #fff;
+  border-bottom: none; }
+
+div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-control-fullscreen.leaflet-bar.leaflet-control > a {
+  background: transparent;
+  color: #fff;
+  border-bottom: none; }
+
+div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-control-fullscreen.leaflet-bar.leaflet-control > a {
+  background: transparent url(/img/fullscreen-leaflet.png) no-repeat 0 0;
+  background-size: 26px 52px; }
+
 .quire-page__content__references dt {
   font-weight: 600; }
 
@@ -8933,7 +8969,7 @@ html {
   .pswp--svg .pswp__button,
   .pswp--svg .pswp__button--arrow--left:before,
   .pswp--svg .pswp__button--arrow--right:before {
-    background-image: url(/fonts/default-skin.svg); }
+    background-image: url(/img/default-skin.svg); }
   .pswp--svg .pswp__button--arrow--left,
   .pswp--svg .pswp__button--arrow--right {
     background: none; } }
