@@ -63,18 +63,7 @@ search icons, and search results if enabled). It is visible on all pages.
             {{ .Prev.Title | markdownify }}
             {{ end }}
           </a>
-
         </li>
-        {{ if .Section }}
-        {{ if ne .Params.slug "." }}
-        <li class="quire-navbar-page-controls__item quire-section-page">
-          <a href="{{ .Section | relURL }}">
-            <span class="visually-hidden">Section: </span>
-            <span class="quire-section-page__title">{{ .Section | humanize | title }}</span>
-          </a>
-        </li>
-        {{ end }}
-        {{ end }}
 
         <li class="quire-navbar-page-controls__item quire-home-page">
           <a href='{{ relref . "cover.md" }}' rel='home'>
