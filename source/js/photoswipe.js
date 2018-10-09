@@ -1,5 +1,7 @@
 import PhotoSwipe from 'photoswipe'
 import PhotoSwipeUI_Default from 'photoswipe/dist/photoswipe-ui-default.js'
+import DeepZoom from './deepzoom.js'
+
 export default function (gallerySelector) {
 
   // parse slide data (url, title, size ...) from DOM elements
@@ -22,35 +24,39 @@ export default function (gallerySelector) {
         continue;
       }
 
-      linkEl = figureEl.children[0]; // <a> element
+      linkEl = figureEl.children[0] // <a> element
 
-      size = linkEl.getAttribute('data-size').split('x');
+      size = linkEl.getAttribute('data-size').split('x')
 
       // create slide object
       if ($(linkEl).data('type') == 'video') {
         item = {
           html: $(linkEl).data('video')
-        };
+        }
+      } else if ($(linkEl).data('type') == 'leaflet') {
+        item = {
+          html: $(linkEl).data('leaflet')
+        }
       } else {
         item = {
           src: linkEl.getAttribute('href'),
           w: parseInt(size[0], 10),
           h: parseInt(size[1], 10)
-        };
+        }
       }
 
       if (figureEl.children.length > 1) {
         // <figcaption> content
-        item.title = $(figureEl).find('.caption').html();
+        item.title = $(figureEl).find('.caption').html()
       }
 
       if (linkEl.children.length > 0) {
         // <img> thumbnail element, retrieving thumbnail url
-        item.msrc = linkEl.children[0].getAttribute('src');
+        item.msrc = linkEl.children[0].getAttribute('src')
       }
 
-      item.el = figureEl; // save link to element for getThumbBoundsFn
-      items.push(item);
+      item.el = figureEl // save link to element for getThumbBoundsFn
+      items.push(item)
     }
 
     return items;
@@ -58,11 +64,11 @@ export default function (gallerySelector) {
 
   // find nearest parent element
   const closest = function closest(el, fn) {
-    return el && (fn(el) ? el : closest(el.parentNode, fn));
-  };
+    return el && (fn(el) ? el : closest(el.parentNode, fn))
+  }
 
   function hasClass(element, cls) {
-    return ` ${element.className} `.includes(` ${cls} `);
+    return ` ${element.className} `.includes(` ${cls} `)
   }
 
   // triggers when user clicks on thumbnail
@@ -197,10 +203,39 @@ export default function (gallerySelector) {
 
     // Pass data to PhotoSwipe and initialize it
     gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options)
+
     gallery.init();
 
-    gallery.listen('beforeChange', () => {
+    // Listen for "helloWorld" event
+    gallery.listen('gettingData', (name) => {
+      console.log('Name is: ' + name);
+    })
+
+
+    gallery.listen('beforeChange', (name) => {
+
+      console.log(name)
+      /*
+            [...document.querySelectorAll('.quire-deepzoom')].forEach(v => {
+              let id = v.getAttribute('id')
+              new DeepZoom(id)
+              console.log(v)
+            })
+            */
+
       const currItem = $(gallery.currItem.container)
+
+      $('.quire-deepzoom').removeClass('active')
+      const currItemLeaflet = currItem.find('.quire-deepzoom').addClass('active')
+      $('.quire-deepzoom').each(function () {
+        if (!$(this).hasClass('active')) {
+          if ($(this).children().length > 0) {
+            let id = $(this).attr('id')
+            new DeepZoom(id)
+          }
+        }
+      })
+
       $('.pswp__video').removeClass('active')
       const currItemIframe = currItem.find('.pswp__video').addClass('active')
       $('.pswp__video').each(function () {
@@ -213,6 +248,9 @@ export default function (gallerySelector) {
     gallery.listen('close', () => {
       $('.pswp__video').each(function () {
         $(this).attr('src', $(this).attr('src'))
+      })
+      $('.quire-deepzoom').each(function () {
+        $(this).remove()
       })
     })
   }

@@ -203,11 +203,10 @@ function mapSetup() {
 }
 
 function deepZoomSetup() {
-  let deepZoom = document.getElementById('js-deepzoom')
-
-  if (deepZoom) {
-    new DeepZoom()
-  }
+  [...document.querySelectorAll('.quire-deepzoom')].forEach(v => {
+    let id = v.getAttribute('id')
+    new DeepZoom(id)
+  })
 }
 
 let navigation

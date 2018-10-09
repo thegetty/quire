@@ -7913,13 +7913,12 @@ html {
 .quire-deepzoom {
   height: 500px;
   margin-bottom: 16px; }
-  .quire-deepzoom .leaflet-control-zoom a {
+  .quire-deepzoom .leaflet-control-zoom .leaflet-bar a {
     color: #363636; }
-
-.leaflet-control-layers-toggle {
-  background-image: url(https://i.stack.imgur.com/3keSg.png) !important;
-  background-color: #2da0e2;
-  background-size: 20px 20px; }
+  .quire-deepzoom .leaflet-control-zoom .leaflet-bar .leaflet-control-layers-toggle {
+    background-image: url(https://i.stack.imgur.com/3keSg.png) !important;
+    background-color: #2da0e2;
+    background-size: 20px 20px; }
 
 .leaflet-touch .leaflet-control-layers-toggle {
   background-image: url(https://i.stack.imgur.com/3keSg.png) !important;
@@ -7934,27 +7933,51 @@ div.leaflet-container {
 
 div.leaflet-control-container {
   background: #000; }
+  div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-bar {
+    box-shadow: none;
+    border: none; }
+  div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-control-zoom.leaflet-bar.leaflet-control > a {
+    background: transparent;
+    color: #fff;
+    border-bottom: none; }
+  div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-control-fullscreen.leaflet-bar.leaflet-control > a {
+    background: transparent;
+    color: #fff;
+    border-bottom: none;
+    background: transparent url(/img/fullscreen-leaflet.png) no-repeat 0 0;
+    background-size: 32px 52px; }
 
 div.leaflet-control > a {
   background: transparent; }
 
-div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-bar {
-  box-shadow: none;
-  border: none; }
+.leaflet-outer-wrapper {
+  line-height: 0;
+  width: 100%;
+  max-width: 900px;
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 auto;
+  text-align: left;
+  z-index: 1045; }
 
-div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-control-zoom.leaflet-bar.leaflet-control > a {
-  background: transparent;
-  color: #fff;
-  border-bottom: none; }
+.leaflet-inner-wrapper {
+  position: relative;
+  padding-bottom: 56.25%;
+  /* 16:9 */
+  padding-top: 25px;
+  height: 0;
+  width: 100%; }
+  .leaflet-inner-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; }
 
-div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-control-fullscreen.leaflet-bar.leaflet-control > a {
-  background: transparent;
-  color: #fff;
-  border-bottom: none; }
-
-div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-control-fullscreen.leaflet-bar.leaflet-control > a {
-  background: transparent url(/img/fullscreen-leaflet.png) no-repeat 0 0;
-  background-size: 32px 52px; }
+.quire-deepzoom {
+  width: 100% !important;
+  height: auto !important; }
 
 .quire-page__content__references dt {
   font-weight: 600; }

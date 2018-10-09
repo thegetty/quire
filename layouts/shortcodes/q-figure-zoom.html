@@ -11,15 +11,29 @@
 {{ $errorNoSourceNoId := dict "shortcode" "q-figure" "message" "This shortcode must include a value for `src` that matches the filename of an image in your `static/img` directory; or a value for `id` that matches an `id` value in your `data/figures.yml` file." "example" "{{< q-figure id=&#34;3.1&#34; >}}<br /><br />{{< q-figure id=&#34;3.1&#34; src=&#34;fig-3-1-duchamp.jpg&#34; >}}" }}
 
 {{ if .Get "src" }}
+
+{{ if eq $.Site.Params.photoswipe true }}
+<div class="q-figure__wrapper top">
+<a
+data-type='leaflet' 
+data-leaflet='<figure class="quire-figure leaflet-outer-wrapper"><div id="js-deepzoom-{{ now.UnixNano }}" class="quire-deepzoom inset leaflet-inner-wrapper " aria-live="polite" role="application" aria-label="Zoomable image" data-image="{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}"></div></figure>'>
+<img
+class="quire-figure__image" 
+src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
+alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
+</a>
+</div>
+{{ else }}
 <figure class="quire-figure">
-   <div id="js-deepzoom" 
-  class="quire-deepzoom inset" 
-  aria-live="polite" 
-  role="application" 
-  aria-label="Zoomable image" 
-  data-image='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'>
-    </div>
+  <div id="js-deepzoom-{{ now.UnixNano }}" 
+ class="quire-deepzoom inset" 
+ aria-live="polite" 
+ role="application" 
+ aria-label="Zoomable image" 
+ data-image='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'>
+   </div>
 </figure>
+{{ end }}
 {{ else if .Get "id" }}
 {{/* -------------------- BEGIN ID BLOCK -------------------- */}}
 {{/*
@@ -38,8 +52,23 @@ render the figure from matching values found ther
 
 {{/* -------------------- BEGIN FIGURE RANGE -------------------- */}}
 {{ range where .Site.Data.figures.figure_list "id" "eq" $x }}
+
+{{ if eq $.Site.Params.photoswipe true }}
+
+<div class="q-figure__wrapper bottom">
+<a
+data-type='leaflet'
+data-leaflet='<figure class="quire-figure leaflet-outer-wrapper "><div id="js-deepzoom-{{ now.UnixNano }}" class="quire-deepzoom inset leaflet-inner-wrapper " aria-live="polite" role="application" aria-label="Zoomable image" data-image="{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}"></div></figure>'>
+<img
+class="quire-figure__image" 
+src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
+</a>
+</div>
+
+{{ else }}
+
 <figure class="quire-figure">
-  <div id="js-deepzoom" 
+  <div id="js-deepzoom-{{ now.UnixNano }}" 
  class="quire-deepzoom inset" 
  aria-live="polite" 
  role="application" 
@@ -47,6 +76,8 @@ render the figure from matching values found ther
  data-image='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'>
    </div>
 </figure>
+
+{{ end }}
 
 {{ end }}
 
