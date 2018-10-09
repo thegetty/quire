@@ -7929,14 +7929,18 @@ html {
   color: white;
   background-color: #2da0e2; }
 
-.leaflet-container {
+div.leaflet-container {
   background: #000; }
 
-#js-deepzoom {
+div.leaflet-control-container {
   background: #000; }
 
-.leaflet-control > a {
+div.leaflet-control > a {
   background: transparent; }
+
+div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-bar {
+  box-shadow: none;
+  border: none; }
 
 div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-control-zoom.leaflet-bar.leaflet-control > a {
   background: transparent;
@@ -7950,7 +7954,7 @@ div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-contr
 
 div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-control-fullscreen.leaflet-bar.leaflet-control > a {
   background: transparent url(/img/fullscreen-leaflet.png) no-repeat 0 0;
-  background-size: 26px 52px; }
+  background-size: 32px 52px; }
 
 .quire-page__content__references dt {
   font-weight: 600; }
