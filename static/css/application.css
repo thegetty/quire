@@ -7541,6 +7541,9 @@ html {
             column-span: all;
     font-size: 11pt; } }
 
+.quire-figure .q-figure__wrapper a {
+  border: none; }
+
 .content .quire-figure {
   margin-left: 0;
   margin-right: 0; }
@@ -7959,7 +7962,8 @@ div.leaflet-control > a {
   vertical-align: middle;
   margin: 0 auto;
   text-align: left;
-  z-index: 1045; }
+  z-index: 1045;
+  padding: 0 10%; }
 
 .leaflet-inner-wrapper {
   position: relative;
@@ -7968,16 +7972,15 @@ div.leaflet-control > a {
   padding-top: 25px;
   height: 0;
   width: 100%; }
-  .leaflet-inner-wrapper iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%; }
 
 .quire-deepzoom {
   width: 100% !important;
   height: auto !important; }
+
+button.pswp__button.pswp__button--share,
+button.pswp__button.pswp__button--fs,
+button.pswp__button.pswp__button--zoom {
+  display: none; }
 
 .quire-page__content__references dt {
   font-weight: 600; }

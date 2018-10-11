@@ -1,6 +1,7 @@
 import PhotoSwipe from 'photoswipe'
 import PhotoSwipeUI_Default from 'photoswipe/dist/photoswipe-ui-default.js'
 import DeepZoom from './deepzoom.js'
+import Map from './map.js'
 
 export default function (gallerySelector) {
 
@@ -204,38 +205,50 @@ export default function (gallerySelector) {
     // Pass data to PhotoSwipe and initialize it
     gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options)
 
-    gallery.init();
+    gallery.init()
 
-    // Listen for "helloWorld" event
-    gallery.listen('gettingData', (name) => {
-      console.log('Name is: ' + name);
-    })
+    let currItem = $(gallery.currItem.container)
 
+    $('.quire-deepzoom').removeClass('active')
+    let currItemZoom = currItem.find('.quire-deepzoom').addClass('active')
+    let id = currItem.find('.quire-deepzoom').attr('id')
+    if (id !== undefined) {
+      console.log(id)
+      new DeepZoom(id)
+    }
 
-    gallery.listen('beforeChange', (name) => {
+    $('.quire-map').removeClass('active')
+    let currItemMap = currItem.find('.quire-map').addClass('active')
+    let idMap = currItem.find('.quire-map').attr('id')
+    if (idMap !== undefined) {
+      console.log(idMap)
+      new Map(idMap)
+    }
 
-      console.log(name)
-      /*
-            [...document.querySelectorAll('.quire-deepzoom')].forEach(v => {
-              let id = v.getAttribute('id')
-              new DeepZoom(id)
-              console.log(v)
-            })
-            */
+    gallery.listen('afterChange', (name) => {
 
-      const currItem = $(gallery.currItem.container)
+      let currItem = $(gallery.currItem.container)
 
       $('.quire-deepzoom').removeClass('active')
-      const currItemLeaflet = currItem.find('.quire-deepzoom').addClass('active')
-      $('.quire-deepzoom').each(function () {
-        if (!$(this).hasClass('active')) {
-          if ($(this).children().length > 0) {
-            let id = $(this).attr('id')
-            new DeepZoom(id)
-          }
-        }
-      })
+      let currItemZoom = currItem.find('.quire-deepzoom').addClass('active')
+      let idZoom = currItem.find('.quire-deepzoom').attr('id')
+      if (idZoom !== undefined) {
+        console.log(idZoom)
+        new DeepZoom(idZoom)
+      }
 
+      $('.quire-map').removeClass('active')
+      let currItemMap = currItem.find('.quire-map').addClass('active')
+      let idMap = currItem.find('.quire-map').attr('id')
+      if (idMap !== undefined) {
+        console.log(idMap)
+        new Map(idMap)
+      }
+
+    })
+
+    gallery.listen('beforeChange', (name) => {
+      let currItem = $(gallery.currItem.container)
       $('.pswp__video').removeClass('active')
       const currItemIframe = currItem.find('.pswp__video').addClass('active')
       $('.pswp__video').each(function () {
@@ -248,9 +261,6 @@ export default function (gallerySelector) {
     gallery.listen('close', () => {
       $('.pswp__video').each(function () {
         $(this).attr('src', $(this).attr('src'))
-      })
-      $('.quire-deepzoom').each(function () {
-        $(this).remove()
       })
     })
   }

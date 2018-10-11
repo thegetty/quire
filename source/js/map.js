@@ -1,17 +1,42 @@
 import L from 'leaflet'
 import 'leaflet-fullscreen'
+// import leafletImage from 'leaflet-image'
 
 class Map {
-  constructor() {
-    this.el = 'js-map'
+  constructor(id) {
+    console.log(id)
+    // remove and refresh before init
+    let container = L.DomUtil.get(id)
+    let myNode = document.getElementById(id);
+    while (myNode.firstChild) {
+      myNode.removeChild(myNode.firstChild);
+    }
+    if (container != null) {
+      container._leaflet_id = null
+    }
+    this.el = id
     this.tiles = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-    this.attribution =
-      'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+    this.attribution = 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
     this.data = $(`#${this.el}`).data('geojson')
     this.center = this.getCoordinates()
     this.defaultZoom = 6
     this.map = this.createMap()
     this.addTiles()
+    /*
+    * function can produce an image from Leaflet
+    */
+    /*
+        leafletImage(this.map, (err, canvas) => {
+          var img = document.createElement('img');
+          var dimensions = this.map.getSize();
+          img.width = dimensions.x;
+          img.height = dimensions.y;
+          img.src = canvas.toDataURL();
+          document.getElementById('images').innerHTML = '';
+          document.getElementById('images').appendChild(img);  
+          this.map.remove()
+        })
+    */
 
     if (this.data) {
       this.getData()
@@ -29,7 +54,8 @@ class Map {
   createMap() {
     return L.map(this.el, {
       // add leaflet options here
-      fullscreenControl: true
+      fullscreenControl: true,
+      preferCanvas: true
     }).setView(this.center, this.defaultZoom)
   }
 

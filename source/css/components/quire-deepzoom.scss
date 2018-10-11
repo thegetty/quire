@@ -81,6 +81,7 @@ div.leaflet-control {
     margin: 0 auto;
     text-align: left;
     z-index: 1045;
+    padding: 0 10%;
 }
 
 .leaflet-inner-wrapper {
@@ -90,13 +91,6 @@ div.leaflet-control {
     padding-top: 25px;
     height: 0;
     width: 100%;
-    iframe {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-    }
 }
 
 .quire-deepzoom {

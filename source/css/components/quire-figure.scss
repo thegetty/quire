@@ -25,6 +25,12 @@ $tablet: 500px !default;
 // -----------------------------------------------------------------------------
 .quire-figure {
 
+  .q-figure__wrapper {
+    a {
+      border: none;
+    }
+  }
+
   .content & {
     margin-left: 0;
     margin-right: 0;

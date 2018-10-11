@@ -4,7 +4,15 @@ import 'leaflet-fullscreen'
 
 class DeepZoom {
   constructor(id) {
-    console.log(id)
+    // remove and refresh before init
+    let container = L.DomUtil.get(id)
+    let myNode = document.getElementById(id);
+    while (myNode.firstChild) {
+      myNode.removeChild(myNode.firstChild);
+    }
+    if (container != null) {
+      container._leaflet_id = null
+    }
     this.el = id
     this.imageURL = $(`#${this.el}`).data('image')
     let image = new Image()
