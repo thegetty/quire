@@ -14,25 +14,26 @@ by default. Users with JS disabled will alwasy see the menu in its expanded stat
 
   <nav class="quire-menu__list menu-list" role="navigation" aria-label="full">
     <h3 class="visually-hidden">Table of Contents</h3>
+    <h3 class="menu-label">Intro</h3>
     {{- partial "contents-list.html" $contents -}}
   </nav>
 
   {{ if isset .Site.Data.publication "resource_link" -}}
     {{ $otherFormats := where .Site.Data.publication.resource_link "type" "other-format" }}
     {{ $relatedResources := where .Site.Data.publication.resource_link "type" "related-resource" }}
+    {{ if gt (len $relatedResources) 0 -}}
+      <div class="quire-menu__formats">
+      <h3 class="menu-label">Resources</h3>
+        <div role="complementary" aria-label="related resources">
+          {{- partial "link-list.html" $relatedResources -}}
+        </div>
+      </div>
+    {{ end -}}
     {{ if gt (len $otherFormats) 0 -}}
       <div class="quire-menu__formats">
       <h3 class="menu-label">Other Formats</h3>
         <div role="complementary" aria-label="downloads">
           {{- partial "link-list.html" $otherFormats -}}
-        </div>
-      </div>
-    {{ end -}}
-    {{ if gt (len $relatedResources) 0 -}}
-      <div class="quire-menu__formats">
-      <h3 class="menu-label">Related Resources</h3>
-        <div role="complementary" aria-label="related resources">
-          {{- partial "link-list.html" $relatedResources -}}
         </div>
       </div>
     {{ end -}}
