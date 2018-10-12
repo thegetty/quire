@@ -5,13 +5,13 @@ import 'leaflet-fullscreen'
 class DeepZoom {
   constructor(id) {
     // remove and refresh before init
-    let container = L.DomUtil.get(id)
+    if (window.mapID != undefined || window.mapID != undefined) {
+      window.mapID.off()
+      window.mapID.remove()
+    }
     let myNode = document.getElementById(id);
     while (myNode.firstChild) {
       myNode.removeChild(myNode.firstChild);
-    }
-    if (container != null) {
-      container._leaflet_id = null
     }
     this.el = id
     this.imageURL = $(`#${this.el}`).data('image')
@@ -22,6 +22,7 @@ class DeepZoom {
     this.center = [0, 0]
     this.defaultZoom = 0
     this.map = this.createMap()
+    window.mapID = this.map
     this.imgZoomReduction = this.imgWidth >= 4000 ? 0.5 : this.imgHeight >= 2500 ? 1 : 2
     this.southWest = this.map.unproject([0, this.imgHeight], this.map.getMaxZoom() - this.imgZoomReduction)
     this.northEast = this.map.unproject([this.imgWidth, 0], this.map.getMaxZoom() - this.imgZoomReduction)
@@ -44,7 +45,10 @@ class DeepZoom {
       minZoom: 0,
       maxZoom: 4,
       zoom: this.defaultZoom,
-      fullscreenControl: true
+      fullscreenControl: {
+        pseudoFullscreen: true // if true, fullscreen to page width and height
+      },
+      trackResize: false
     })
   }
 

@@ -7977,6 +7977,12 @@ div.leaflet-control > a {
   width: 100% !important;
   height: auto !important; }
 
+div.leaflet-fullscreen-on > div.leaflet-control-container > div.leaflet-top.leaflet-left {
+  top: 50px; }
+
+.pswp--zoom-allowed .pswp__img {
+  cursor: default !important; }
+
 button.pswp__button.pswp__button--share,
 button.pswp__button.pswp__button--fs,
 button.pswp__button.pswp__button--zoom {

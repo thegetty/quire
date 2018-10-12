@@ -8,6 +8,7 @@ export default function (gallerySelector) {
   // parse slide data (url, title, size ...) from DOM elements
   // (children of gallerySelector)
   const parseThumbnailElements = el => {
+
     const thumbElements = $(el).find('.q-figure__wrapper:not(.isotope-hidden)').get();
     const numNodes = thumbElements.length;
     const items = [];
@@ -149,11 +150,27 @@ export default function (gallerySelector) {
     let items
 
     items = parseThumbnailElements(galleryElement)
-
     // define options (if needed)
     options = {
 
       closeOnScroll: false,
+      fullscreenEl: false,
+      zoomEl: false,
+      maxSpreadZoom: 1,
+      pinchToClose: false,
+      shareEl: false,
+      closeElClasses: ['item', 'caption', 'ui', 'top-bar'],
+      modal: false,
+      getDoubleTapZoom: function (isMouseClick, item) {
+        if (item.html) {
+          return item.initialZoomLevel
+        }
+        if (isMouseClick) {
+          return 1;
+        } else {
+          return item.initialZoomLevel < 0.7 ? 1 : 1.5;
+        }
+      },
 
       // define gallery index (for URL)
       galleryUID: galleryElement.getAttribute('data-pswp-uid'),
@@ -212,43 +229,47 @@ export default function (gallerySelector) {
     $('.quire-deepzoom').removeClass('active')
     let currItemZoom = currItem.find('.quire-deepzoom').addClass('active')
     let id = currItem.find('.quire-deepzoom').attr('id')
-    if (id !== undefined) {
-      console.log(id)
-      new DeepZoom(id)
+    if ($(currItem.find('.quire-deepzoom')).hasClass('active')) {
+      if (id !== undefined) {
+        gallery.applyZoomPan(1, 0, 0)
+        $('.pswp__zoom-wrap')
+        new DeepZoom(id)
+      }
     }
 
     $('.quire-map').removeClass('active')
     let currItemMap = currItem.find('.quire-map').addClass('active')
     let idMap = currItem.find('.quire-map').attr('id')
-    if (idMap !== undefined) {
-      console.log(idMap)
-      new Map(idMap)
+    if ($(currItem.find('.quire-map')).hasClass('active')) {
+      if (idMap !== undefined) {
+        new Map(idMap)
+      }
     }
 
     gallery.listen('afterChange', (name) => {
-
       let currItem = $(gallery.currItem.container)
 
       $('.quire-deepzoom').removeClass('active')
       let currItemZoom = currItem.find('.quire-deepzoom').addClass('active')
       let idZoom = currItem.find('.quire-deepzoom').attr('id')
-      if (idZoom !== undefined) {
-        console.log(idZoom)
-        new DeepZoom(idZoom)
+      if ($(currItem.find('.quire-deepzoom')).hasClass('active')) {
+        if (idZoom !== undefined) {
+          new DeepZoom(idZoom)
+        }
       }
 
       $('.quire-map').removeClass('active')
       let currItemMap = currItem.find('.quire-map').addClass('active')
       let idMap = currItem.find('.quire-map').attr('id')
-      if (idMap !== undefined) {
-        console.log(idMap)
-        new Map(idMap)
+      if ($(currItem.find('.quire-map')).hasClass('active')) {
+        if (idMap !== undefined) {
+          new Map(idMap)
+        }
       }
-
     })
 
     gallery.listen('beforeChange', (name) => {
-      let currItem = $(gallery.currItem.container)
+
       $('.pswp__video').removeClass('active')
       const currItemIframe = currItem.find('.pswp__video').addClass('active')
       $('.pswp__video').each(function () {

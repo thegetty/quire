@@ -5,7 +5,6 @@ $color_1: white;
 $color_2: #fff;
 $color_3: #000;
 $background_color_1: #2da0e2;
-
 .quire-deepzoom {
     height: $quire-deepzoom-height;
     margin-bottom: $gap;
@@ -96,4 +95,12 @@ div.leaflet-control {
 .quire-deepzoom {
     width: 100% !important;
     height: auto !important;
+}
+
+div.leaflet-fullscreen-on>div.leaflet-control-container>div.leaflet-top.leaflet-left {
+    top: 50px;
+}
+
+.pswp--zoom-allowed .pswp__img {
+    cursor: default !important;
 }
