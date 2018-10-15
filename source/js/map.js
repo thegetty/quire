@@ -1,5 +1,7 @@
 import L from 'leaflet'
-import 'leaflet-fullscreen'
+import './leaflet-fullscreen-getty'
+
+import screenfull from 'screenfull'
 // import leafletImage from 'leaflet-image'
 
 class Map {
@@ -9,9 +11,9 @@ class Map {
       window.mapID.off()
       window.mapID.remove()
     }
-    let myNode = document.getElementById(id)
-    while (myNode.firstChild) {
-      myNode.removeChild(myNode.firstChild)
+    let node = document.getElementById(id)
+    while (node.firstChild) {
+      node.removeChild(node.firstChild)
     }
     if (id) {
       this.el = id
@@ -35,13 +37,22 @@ class Map {
       setTimeout(() => {
         this.map.invalidateSize()
       }, 100)
+
+      const el = document.getElementById(id)
+      const button = document.getElementById(id).parentNode.children[1]
+
+      button.addEventListener('click', () => {
+        if (screenfull.enabled) {
+          screenfull.request(el)
+        }
+      })
     }
   }
 
   createMap() {
     return L.map(this.el, {
       fullscreenControl: {
-          pseudoFullscreen: true // if true, fullscreen to page width and height
+          pseudoFullscreen: false // if true, fullscreen to page width and height
       }
     })
     .setView(this.center, this.defaultZoom)

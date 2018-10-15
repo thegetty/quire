@@ -1,6 +1,6 @@
 import L from 'leaflet'
 import 'leaflet-iiif'
-import 'leaflet-fullscreen'
+import './leaflet-fullscreen-getty'
 
 class DeepZoom {
   constructor(id) {
@@ -46,7 +46,7 @@ class DeepZoom {
       maxZoom: 4,
       zoom: this.defaultZoom,
       fullscreenControl: {
-        pseudoFullscreen: true // if true, fullscreen to page width and height
+        pseudoFullscreen: false // if true, fullscreen to page width and height
       },
       trackResize: false
     })

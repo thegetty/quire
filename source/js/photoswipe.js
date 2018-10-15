@@ -153,17 +153,14 @@ export default function (gallerySelector) {
     // define options (if needed)
     options = {
 
-      closeOnScroll: false,
       fullscreenEl: false,
       zoomEl: false,
       maxSpreadZoom: 1,
-      pinchToClose: false,
       shareEl: false,
       closeElClasses: ['item', 'caption', 'ui', 'top-bar'],
-      modal: false,
       getDoubleTapZoom: function (isMouseClick, item) {
         if (item.html) {
-          return item.initialZoomLevel
+          return item.initialZoomLevel < 0.7 ? 1 : 1.5;
         }
         if (isMouseClick) {
           return 1;

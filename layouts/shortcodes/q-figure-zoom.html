@@ -12,7 +12,35 @@
 
 {{ if .Get "src" }}
 
+{{ if .Get "geojson"  }}
+
 {{ if eq $.Site.Params.photoswipe true }}
+
+<figure class="quire-figure">
+  <div class="q-figure__wrapper">
+    <a href='#' data-type="leaflet" data-leaflet='<figure class="quire-figure leaflet-outer-wrapper"><div id="js-map-{{ now.UnixNano }}" class="quire-map leaflet-inner-wrapper inset"{{ with .Get "lat" }}data-lat="{{.}}"{{ end }}{{ with .Get "long" }}data-long="{{.}}"{{ end }}{{ if .Get "geojson" }}data-geojson="{{ .Site.BaseURL }}{{ .Get "geojson" }}"{{ end }}></div></figure>'>
+      <img
+      class="quire-figure__image" 
+      src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
+      alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
+      </a>
+  </div>
+</figure>
+
+{{ else }}
+
+<figure class="quire-figure">
+  <div id="js-map-{{ now.UnixNano }}" class="quire-map inset" {{ with .Get "lat" }} data-lat="{{.}}" {{ end }}
+    {{ with .Get "long" }} data-long="{{.}}" {{ end }} {{ if .Get "geojson" }} data-geojson="{{ .Site.BaseURL }}{{ .Get "geojson" }}"
+    {{ end }}></div>
+</figure>
+
+{{ end }}
+
+{{ else }}
+
+{{ if eq $.Site.Params.photoswipe true }}
+
 <figure class="quire-figure">
   <div class="q-figure__wrapper">
     <a
@@ -25,7 +53,9 @@
     </a>
   </div>
 </figure>
+
 {{ else }}
+
 <figure class="quire-figure">
   <div id="js-deepzoom-{{ now.UnixNano }}" 
  class="quire-deepzoom inset" 
@@ -35,6 +65,9 @@
  data-image='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'>
    </div>
 </figure>
+
+{{ end }}
+
 {{ end }}
 
 {{ else if .Get "id" }}
@@ -56,7 +89,33 @@ render the figure from matching values found ther
 {{/* -------------------- BEGIN FIGURE RANGE -------------------- */}}
 {{ range where .Site.Data.figures.figure_list "id" "eq" $x }}
 
+{{ if .media_type.eq "map"  }}
+
 {{ if eq $.Site.Params.photoswipe true }}
+
+<figure class="quire-figure">
+    <div class="q-figure__wrapper">
+      <a href='#' data-type="leaflet" data-leaflet='<figure class="quire-figure leaflet-outer-wrapper"><div id="js-map-{{ now.UnixNano }}" class="quire-map leaflet-inner-wrapper inset" data-lat="{{ .lat }}"data-long="{{ .long }}" data-geojson="{{ .Site.BaseURL }}{{ .geojson }}"></div></figure>'>
+        <img
+        class="quire-figure__image" 
+        src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
+        </a>
+    </div>
+  </figure>
+
+{{ else }}
+
+<figure class="quire-figure">
+  <div id="js-map-{{ now.UnixNano }}" class="quire-map inset" {{ .lat }} data-lat="{{.}}"
+    {{ .long }} data-long="{{.}}" data-geojson="{{ .Site.BaseURL }}{{ .geojson }}"></div>
+</figure>
+
+{{ end }}
+
+{{ else }}
+
+{{ if eq $.Site.Params.photoswipe true }}
+
 <figure class="quire-figure">
   <div class="q-figure__wrapper bottom">
     <a
@@ -80,6 +139,8 @@ render the figure from matching values found ther
  data-image='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'>
    </div>
 </figure>
+
+{{ end }}
 
 {{ end }}
 
