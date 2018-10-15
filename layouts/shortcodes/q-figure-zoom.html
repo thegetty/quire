@@ -89,7 +89,7 @@ render the figure from matching values found ther
 {{/* -------------------- BEGIN FIGURE RANGE -------------------- */}}
 {{ range where .Site.Data.figures.figure_list "id" "eq" $x }}
 
-{{ if .media_type.eq "map"  }}
+{{ if eq .media_type "map"  }}
 
 {{ if eq $.Site.Params.photoswipe true }}
 
@@ -112,12 +112,42 @@ render the figure from matching values found ther
 
 {{ end }}
 
+{{ else if eq .media_type "iiif"  }}
+
+{{ if eq $.Site.Params.photoswipe true }}
+
+<figure class="quire-figure {{ .src }}">
+  <div class="q-figure__wrapper">
+    <a
+    data-type='leaflet'
+    data-leaflet='<figure class="quire-figure leaflet-outer-wrapper "><div id="js-iiif-{{ now.UnixNano }}" class="quire-deepzoom inset leaflet-inner-wrapper" aria-live="polite" role="application" aria-label="Zoomable image" data-iiif="{{ .iiif }}"></div></figure>'>
+      <img
+      class="quire-figure__image" 
+      src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
+    </a>
+  </div>
+</figure>
+
+{{ else }}
+
+<figure class="quire-figure">
+  <div id="js-deepzoom-{{ now.UnixNano }}" 
+ class="quire-deepzoom inset" 
+ aria-live="polite" 
+ role="application" 
+ aria-label="Zoomable image" 
+ data-image='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'>
+   </div>
+</figure>
+
+{{ end }}
+
 {{ else }}
 
 {{ if eq $.Site.Params.photoswipe true }}
 
-<figure class="quire-figure">
-  <div class="q-figure__wrapper bottom">
+<figure class="quire-figure {{ .src }}">
+  <div class="q-figure__wrapper">
     <a
     data-type='leaflet'
     data-leaflet='<figure class="quire-figure leaflet-outer-wrapper "><div id="js-deepzoom-{{ now.UnixNano }}" class="quire-deepzoom inset leaflet-inner-wrapper " aria-live="polite" role="application" aria-label="Zoomable image" data-image="{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}"></div></figure>'>

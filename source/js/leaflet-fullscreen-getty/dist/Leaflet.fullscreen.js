@@ -42,7 +42,6 @@ L.Map.include({
 
     toggleFullscreen: function (options) {
         var container = this.getContainer();
-        console.log(container)
         if (this.isFullscreen()) {
             if (options && options.pseudoFullscreen) {
                 this._disablePseudoFullscreen(container);
