@@ -46,10 +46,17 @@ export default function (gallerySelector) {
           h: parseInt(size[1], 10)
         }
       }
-
-      if (figureEl.children.length > 1) {
+      
+      if ($(figureEl).parent().find('figcaption').html() !== undefined) {
         // <figcaption> content
-        item.title = $(figureEl).find('.caption').html()
+        item.title = $(figureEl).parent().find('figcaption').html()
+      }
+
+      // console.log( $(linkEl).data('caption'))
+
+      if ($(linkEl).data('caption') !== undefined) {
+        item.title = $(linkEl).data('caption')
+        // console.log($(linkEl).data('caption'))
       }
 
       if (linkEl.children.length > 0) {
