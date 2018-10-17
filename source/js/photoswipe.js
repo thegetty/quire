@@ -166,6 +166,8 @@ export default function (gallerySelector) {
       shareEl: false,
       closeElClasses: ['item', 'caption', 'ui', 'top-bar'],
       getDoubleTapZoom: function (isMouseClick, item) {
+        return item.initialZoomLevel 
+        /*
         if (item.html) {
           return item.initialZoomLevel < 0.7 ? 1 : 1.5;
         }
@@ -174,6 +176,7 @@ export default function (gallerySelector) {
         } else {
           return item.initialZoomLevel < 0.7 ? 1 : 1.5;
         }
+        */
       },
 
       // define gallery index (for URL)

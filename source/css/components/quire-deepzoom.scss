@@ -73,31 +73,29 @@ div.leaflet-control {
 .leaflet-outer-wrapper {
     line-height: 0;
     width: 100%;
-    max-width: 900px;
+    height: 100%;
     position: relative;
     display: inline-block;
     vertical-align: middle;
     margin: 0 auto;
     text-align: left;
     z-index: 1045;
-    padding: 0 10%;
+    /* padding: 0 10%; */
 }
 
 .leaflet-inner-wrapper {
     position: relative;
-    padding-bottom: 50vh;
-    padding-top: 50px;
-    height: 0;
+    height: 100%;
     width: 100%;
 }
 
 .quire-deepzoom {
-    width: 100% !important;
-    height: auto !important;
+    // width: 100% !important;
+    // height: auto !important;
 }
 
-div.leaflet-fullscreen-on>div.leaflet-control-container>div.leaflet-top.leaflet-left {
-    // top: 50px;
+div.leaflet-control-container>div.leaflet-top.leaflet-left {
+    margin-top: 50px;
 }
 
 .pswp--zoom-allowed .pswp__img {
