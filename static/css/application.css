@@ -7337,6 +7337,15 @@ html {
       .quire-cover__hero .contributor {
         font-size: 18pt;
         color: #fff; } }
+  .quire-cover__hero .contributor ul {
+    display: inline;
+    list-style: none; }
+  .quire-cover__hero .contributor .by-line {
+    float: left; }
+  .quire-cover__hero .contributor ul .quire-contributor {
+    float: left; }
+  .quire-cover__hero .contributor ul .quire-contributor + .quire-contributor:before {
+    content: ", "; }
 
 .quire-cover__button {
   background-color: #3273dc;
