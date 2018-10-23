@@ -51,6 +51,24 @@ Cover page layout. This controls the home page of the publication.
       </div>
     </div>
   </section>
+  <div class="quire-cover__hero-more hero-more">
+    <a href="#content">
+      {{- if isset $.Site.Params "imagedir" }}
+      {{ $.Scratch.Set "imageDir" $.Site.Params.imageDir }}
+      {{ else }}
+      {{ $.Scratch.Set "imageDir" "" }}
+      {{ end -}}
+      {{- $imgDir := $.Scratch.Get "imageDir" -}}
+      <svg>
+        <switch>
+          <!-- <use xlink:href="#search-icon"></use> -->
+          <foreignObject width="36" height="36">
+              <img src="{{ $imgDir | absURL }}/icons/heromore@2x.png" alt="" />
+          </foreignObject>
+        </switch>
+      </svg>
+    </a>
+  </div>
   {{/* End full-page cover section */}}
   {{/* Begin "below-the-fold" section */}}
   {{ with .Content }}

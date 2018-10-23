@@ -7346,6 +7346,22 @@ html {
     float: left; }
   .quire-cover__hero .contributor ul .quire-contributor + .quire-contributor:before {
     content: ", "; }
+  .quire-cover__hero-more.hero-more {
+    display: block;
+    position: relative;
+    line-height: 50px;
+    color: #FFFFFF;
+    width: 50px;
+    height: 50px;
+    background: #000000;
+    border-radius: 25px;
+    margin: -25px auto 25px auto;
+    text-align: center; }
+  .quire-cover__hero-more.hero-more svg {
+    height: calc(3rem * .65);
+    width: calc(3rem * .65); }
+  .quire-cover__hero-more.hero-more svg img {
+    padding: 7px 0; }
 
 .quire-cover__button {
   background-color: #3273dc;
