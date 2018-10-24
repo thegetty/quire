@@ -1267,10 +1267,10 @@ a.box:active {
     margin-right: calc(-0.375em - 1px); }
   .button:hover, .button.is-hovered {
     border-color: #b5b5b5;
-    color: #363636; }
+    color: #fff; }
   .button:focus, .button.is-focused {
     border-color: #3273dc;
-    color: #363636; }
+    color: #fff; }
     .button:focus:not(:active), .button.is-focused:not(:active) {
       box-shadow: 0 0 0 0.125em rgba(50, 115, 220, 0.25); }
   .button:active, .button.is-active {
