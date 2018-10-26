@@ -107,6 +107,10 @@ $quire-navbar-text-color: $dark !default;
       font-style: italic;
     }
 
+    &.quire-next-page {
+      font-style: normal;
+    }
+
     @media screen and (min-width: 500px) {
       &.quire-home-page {
         display: block;
@@ -115,6 +119,9 @@ $quire-navbar-text-color: $dark !default;
 
     @media screen and (min-width: $desktop) {
       &.quire-current-page {
+        display: block;
+      }
+      &.quire-next-page {
         display: block;
       }
     }
@@ -182,6 +189,30 @@ $quire-navbar-text-color: $dark !default;
       max-width: 1rem;
       & img {
         max-height: 1rem;
+      }
+    }
+  }
+  &.play-button {
+    text-align: center;
+    svg {
+      height: calc(#{$navbar-height} * .65);
+      width: calc(#{$navbar-height} * .65);
+      max-height: 1.5rem;
+      max-width: 1.5rem;
+      & img {
+        max-height: 1.5rem;
+      }
+    }
+  }
+  &.home-button {
+    text-align: center;
+    svg {
+      height: calc(#{$navbar-height} * .65);
+      width: calc(#{$navbar-height} * .65);
+      max-height: 1.5rem;
+      max-width: 1.5rem;
+      & img {
+        max-height: 1.5rem;
       }
     }
   }

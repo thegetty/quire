@@ -9,6 +9,7 @@
 // Variables
 // -----------------------------------------------------------------------------
 $dark: #363636 !default;
+$grey: #333333 !default;
 
 $gap: 16px !default;;
 $tablet: 500px !default;
@@ -20,9 +21,54 @@ $box-shadow: 0 2px 3px rgba($dark, 0.1), 0 0 0 !default;
 $quire-page-paragraph-style: indent !default;
 
 
+// .quire-contents-header
+// -----------------------------------------------------------------------------
+.quire-contents-header {
+  text-align: center;
+  margin: 0 auto;
+  padding: 0 20px;
+  h1 {
+    font-size: 3em;
+    line-height: 1.04em;
+    margin: 36px 0 16px 0;
+  }
+}
+
 // .quire-contents-list
 // -----------------------------------------------------------------------------
 .quire-contents-list {
+  box-shadow: none;
+
+  h3 {
+    font-size: .875em;
+    line-height: 1.28em;
+    text-transform: uppercase;
+    margin-top: 20px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid $grey; 
+    margin-bottom: 1em;
+  }
+
+  svg {
+    height: calc(#{$navbar-height} * .65);
+    width: calc(#{$navbar-height} * .65);
+    max-height: .95rem;
+    max-width: .95rem;
+  }
+
+  .menu-list a {
+    position: relative;
+    .arrow {
+      -webkit-transition: all .5s ease;
+      transition: all .5s ease;
+    }
+    &:hover {
+      background-color: inherit;
+      .arrow {
+        margin-left: 14px;
+      }
+    }
+  }
 
   .list-header {
     padding: .5em .75em;

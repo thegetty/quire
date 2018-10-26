@@ -30,6 +30,16 @@
 
 // General Bulma Overrides
 // -----------------------------------------------------------------------------
+.hero-body .container.is-fluid {
+  display: inline-block;
+  max-width: none;
+  background: $dark-semi-transparent;
+  padding: 20px;
+  position: absolute;
+  bottom: 10%;
+  margin-left: 0;
+}
+
 .hero-body,
 .section,
 .footer {

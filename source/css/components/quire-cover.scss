@@ -9,6 +9,7 @@
 $color-primary: #3273dc !default;
 $dark: #363636 !default;
 $light: #f5f5f5 !default;
+$white: #fff !default;
 $sans-serif: Lato, Helvetica, sans-serif !default;
 $tablet: 500px !default;
 
@@ -20,7 +21,7 @@ $quire-cover-color-2: #dc52f5 !default;
 $cover-overlay-image-opacity: .5 !default;
 $cover-overlay-image: 'pattern-1.png' !default;
 $quire-cover-font-family: $sans-serif !default;
-$quire-cover-text-color: $dark !default;
+$quire-cover-text-color: $white !default;
 $quire-cover-text-scale: 1 !default;
 $quire-cover-text-alignment: left !default;
 $quire-cover-footer-color: $light !default;
@@ -84,14 +85,13 @@ $quire-page-link-color: $color-primary !default;
       font-size: calc(3.75rem * #{$quire-cover-text-scale});
       font-weight: 300;
       line-height: 1.07;
-      margin-top: 8rem;
       margin-bottom: calc(1.5rem * #{$quire-cover-text-scale});
       color: $quire-cover-text-color;
       @media print {
         font-size: 40pt;
         margin-top: 0;
         margin-bottom: .5in;
-        color: $color-primary;
+        color: $quire-cover-text-color;
         page-break-before: right;
       }
     }
@@ -106,7 +106,7 @@ $quire-page-link-color: $color-primary !default;
       @media print {
         font-size: 32pt;
         margin-top: .25in;
-        color: $color-primary;
+        color: $quire-cover-text-color;
       }
     }
 
@@ -118,7 +118,7 @@ $quire-page-link-color: $color-primary !default;
       color: $quire-cover-text-color;
       @media print {
         font-size: 18pt;
-        color: $color-primary;
+        color: $quire-cover-text-color;
       }
     }
 
@@ -130,7 +130,41 @@ $quire-page-link-color: $color-primary !default;
       color: $quire-cover-text-color;
       @media print {
         font-size: 18pt;
-        color: $color-primary;
+        color: $quire-cover-text-color;
+      }
+      & ul {
+        display: inline;
+        list-style: none;
+        .quire-contributor {
+          float: left; 
+          + .quire-contributor:before {
+            content: ", ";
+          }
+        }
+      }
+      & .by-line {
+        float: left;
+      }
+    }
+  }
+  &__more {
+    & .hero-more {
+      display: block;
+      position: relative;
+      line-height: 50px;
+      color: $white;
+      width: 50px;
+      height: 50px;
+      background: $black;
+      border-radius: 25px;
+      margin: -25px auto 25px auto;
+      text-align: center;
+      svg {
+        height: calc(#{$navbar-height} * .65);
+        width: calc(#{$navbar-height} * .65);
+        img {
+          padding: 7px 0;
+        }
       }
     }
   }
@@ -151,6 +185,7 @@ $quire-page-link-color: $color-primary !default;
   }
   &__button:hover {
     background-color: darken($quire-page-link-color, 5%);
+    color: $white;
   }
 
   .quire-page__content .container.is-fluid {

@@ -45,7 +45,11 @@ $navbar-height: 3rem !default;
     padding: 1em;
 
     @include foreground-color($quire-menu-color, $quire-menu-text-color);
-
+    .title {
+      font-size: inherit;
+      font-weight: inherit;
+      line-height: inherit;
+    }
   }
 
   // Styles when JS is not supported; menu at bottom
@@ -103,10 +107,11 @@ $navbar-height: 3rem !default;
     .quire__secondary {
       border-right: solid 1px $quire-menu-border-color;
       height: 100%;
-      overflow-y: scroll;
+      overflow-y: auto;
       position: fixed;
       top: 0;
-      transform: translateX(-($quire-menu-width));
+      right: 0;
+      transform: translateX(($quire-menu-width));
       transition-property: transform, width;
       transition-duration: 0.15s;
       transition-timing-function: linear; // transition: all 0.15s linear;
@@ -132,10 +137,10 @@ $navbar-height: 3rem !default;
         }
 
         + .quire__primary {
-          left: $quire-menu-width;
+          right: $quire-menu-width;
           width: calc(100% - #{$quire-menu-width});
           @media screen and (max-width: $quire-menu-width) {
-            left: calc(100vw - #{$navbar-height});
+            right: calc(100vw - #{$navbar-height});
             width: #{$navbar-height};
           }
         }
