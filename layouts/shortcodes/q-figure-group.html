@@ -59,6 +59,7 @@ the figure for each into a figure group
       {{ if eq .media_type "youtube" }}
         <a href='#' 
            data-type="video"
+           {{ if .caption }} data-caption='{{ .caption | markdownify | safeHTML }}' {{ end }}
            data-video="<div class='wrapper'><div class='video-wrapper'><iframe id='{{ .id }}' class='quire-figure__media pswp__video' src='https://www.youtube-nocookie.com/embed/{{ .media_id }}?rel=0&amp;showinfo=0' frameborder='0' allowfullscreen></iframe></div></div>">
         <img class='quire-figure__image'
              src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' 
@@ -68,6 +69,7 @@ the figure for each into a figure group
       <div class="q-figure__wrapper">
           <a href='#'
              data-type="video" 
+             {{ if .caption }} data-caption='{{ .caption | markdownify | safeHTML }}' {{ end }}
              data-video="<div class='wrapper'><div class='video-wrapper'><iframe id='{{ .id }}' class='quire-figure__media pswp__video' src='https://player.vimeo.com/video/{{ .media_id }}' frameborder='0' webkitallowfullscreen mozallowfullscreen allowfullscreen>></iframe></div></div>">
           <img class='quire-figure__image'
                src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' 
@@ -126,7 +128,7 @@ the figure for each into a figure group
     {{/* -------------------- BEGIN NO_MEDIA_ID BLOCK -------------------- */}}
     <div class='q-figure__wrapper'>
         {{ if eq $.Site.Params.photoswipe true }}
-        <a href='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'>
+        <a href='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' {{ if .caption }} data-caption='{{ .caption | markdownify | safeHTML }}' {{ end }}>
         {{ end }}
       <img id="{{ .id }}" class="quire-figure__image"
          src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'

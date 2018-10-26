@@ -183,8 +183,8 @@ function loadSearchData() {
  * @description Set the menu to its default hidden state. This
  * function should be called again after each smootState reload.
  */
+/*
 function menuSetup() {
-  console.log(`here`)
   let menu = document.getElementById('site-menu')
   let menuAriaStatus = menu.getAttribute('aria-expanded')
   menu.classList.remove('is-expanded')
@@ -192,6 +192,7 @@ function menuSetup() {
     menu.setAttribute('aria-expanded', 'false')
   }
 }
+*/
 
 function mapSetup() {
   let map = document.getElementById('js-map')
@@ -202,11 +203,10 @@ function mapSetup() {
 }
 
 function deepZoomSetup() {
-  let deepZoom = document.getElementById('js-deepzoom')
-
-  if (deepZoom) {
-    new DeepZoom()
-  }
+  [...document.querySelectorAll('.quire-deepzoom')].forEach(v => {
+    let id = v.getAttribute('id')
+    new DeepZoom(id)
+  })
 }
 
 let navigation
@@ -268,8 +268,6 @@ function photoswipeSetup() {
  * Initialize any jquery plugins or set up page UI elements here.
  */
 function pageSetup() {
-
-  // menuSetup()
   mapSetup()
   deepZoomSetup()
   sliderSetup()

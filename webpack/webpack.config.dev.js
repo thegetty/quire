@@ -48,7 +48,7 @@ module.exports = {
               autoprefixer
             ]
           },
-        },'sass-loader']
+        }, 'sass-loader']
     },
     {
       test: /\.css$/,
@@ -63,10 +63,10 @@ module.exports = {
               autoprefixer
             ]
           },
-        },'sass-loader']
+        }, 'sass-loader']
     },
     {
-      test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+      test: /\.(woff|woff2|eot|ttf|otf)$/, 
       use: [{
         loader: 'file-loader',
         options: {
