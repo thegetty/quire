@@ -6,9 +6,10 @@
 */}}
 
 {{ define "main" }}
-<div class="{{ partial "page-class.html" . }} quire-contents" id="main" role="main">
-  {{ partial "page-header.html" . }}
-
+<div class="quire-contents" id="main" role="main">
+  <div class="quire-contents-header">
+    <h1>{{ .Title | markdownify }}</h1>
+  </div>
   <section class="section quire-page__content" id="content">
     <div class="container {{ if in .Params.class "grid" }}is-fullhd{{ end }}">
       <div class="content">
@@ -17,13 +18,53 @@
 
       <div class="quire-contents-list {{ if in .Params.class "grid" }} grid{{ else if in .Params.class "abstract" }} abstract{{ else if in .Params.class "brief" }} brief{{ else }} list{{ end }}">
         <div class="menu-list">
-          {{ if .Section }}
-            {{ $scope := where .Site.Pages "Section" .Section }}
-            {{- partial "contents-list.html" (dict "contentsScope" $scope "contentsType" .Site.Params.tocType "contentsLocation" ".Params.toc" "contentsPage" . ) -}}
-          {{ else }}
-            {{ $scope := .Site.Pages }}
-            {{- partial "contents-list.html" (dict "contentsScope" $scope "contentsType" .Site.Params.tocType "contentsLocation" ".Params.toc" "contentsPage" . ) -}}
-          {{ end }}
+          <!-- {{ if .Section }} -->
+            <!-- {{ $scope := where .Site.Pages "Section" .Section }} -->
+            <!-- {{- partial "contents-list.html" (dict "contentsScope" $scope "contentsType" .Site.Params.tocType "contentsLocation" ".Params.toc" "contentsPage" . ) -}} -->
+          <!-- {{ else }} -->
+            <!-- {{ $scope := .Site.Pages }} -->
+            <!-- {{- partial "contents-list.html" (dict "contentsScope" $scope "contentsType" .Site.Params.tocType "contentsLocation" ".Params.toc" "contentsPage" . ) -}} -->
+          <!-- {{ end }} -->
+          <ul>
+            <nav class="quire-contents-menu menu-list" role="navigation" aria-label="full">
+              <h3 class="visually-hidden">Table of Contents</h3>
+              <div class="quire-menu__formats">
+                <h3 class="menu-lable">Intro</h3>
+                <div aria-label="intro">
+                  {{ $scope := where .Site.Pages "Section" .Section }}
+                  {{- partial "arrow-list.html" (dict "contentsScope" $scope "contentsType" .Site.Params.tocType "contentsLocation" ".Params.menu" "contentsPage" . ) -}}
+                </div>
+              </div>
+              <div class="quire-menu__formats">
+                <h3 class="menu-lable">Main</h3>
+                <div aria-label="intro">
+                  {{ $scope := .Site.Pages }}
+                  {{- partial "arrow-list.html" (dict "contentsScope" $scope "contentsType" .Site.Params.tocType "contentsLocation" ".Params.contents" "contentsPage" . ) -}}
+                </div>
+              </div>
+            </nav>
+
+            {{ if isset .Site.Data.publication "resource_link" -}}
+              {{ $otherFormats := where .Site.Data.publication.resource_link "type" "other-format" }}
+              {{ $relatedResources := where .Site.Data.publication.resource_link "type" "related-resource" }}
+              {{ if gt (len $relatedResources) 0 -}}
+                <div class="quire-menu__formats">
+                <h3 class="menu-label">Resources</h3>
+                  <div role="complementary" aria-label="related resources">
+                    {{- partial "link-list-arrow.html" $relatedResources -}}
+                  </div>
+                </div>
+              {{ end -}}
+              {{ if gt (len $otherFormats) 0 -}}
+                <div class="quire-menu__formats">
+                <h3 class="menu-label">Other Formats</h3>
+                  <div role="complementary" aria-label="downloads">
+                    {{- partial "link-list-arrow.html" $otherFormats -}}
+                  </div>
+                </div>
+              {{ end -}}
+            {{ end -}}
+          </ul>
         </div>
       </div>
     </div>

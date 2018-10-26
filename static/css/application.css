@@ -7473,6 +7473,37 @@ html {
       left: 0;
       right: 0; } }
 
+.quire-contents-header {
+  text-align: center; 
+  margin: 0 auto;
+  padding: 0 20px; }
+.quire-contents-header h1 {
+  font-size: 3em;
+  line-height: 1.04em;
+  margin: 36px 0 16px 0; }
+.quire-contents-list h3 {
+  font-size: .875em;
+  line-height: 1.28em;
+  text-transform: uppercase;
+  margin-top: 20px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #333333; 
+  margin-bottom: 1em; }
+.quire-contents-list svg {
+  height: calc(3rem * .65);
+  width: calc(3rem * .65);
+  max-height: .95rem;
+  max-width: .95rem; }
+.quire-contents-list .menu-list a {
+  position: relative; }
+.quire-contents-list .menu-list a:hover {
+  background-color: inherit; }
+.quire-contents-list .menu-list a .arrow {
+  -webkit-transition: all .5s ease;
+  transition: all .5s ease; }
+.quire-contents-list .menu-list a:hover .arrow {
+  margin-left: 14px; }
+
 .quire-contents-list .list-header {
   padding: .5em .75em;
   text-transform: uppercase;
