@@ -348,3 +348,73 @@
   font-weight: 800;
   font-style: italic;
 }
+
+////
+// Noto Serif
+//
+// Noto Serif Bold
+@font-face {
+  font-family: "Noto Serif";
+  src: url("../fonts/Noto_Serif/NotoSerif-Bold.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+// Noto Serif Bold Italic
+@font-face {
+  font-family: "Noto Serif";
+  src: url("../fonts/Noto_Serif/NotoSerif-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+}
+
+// Noto Serif Rgular
+@font-face {
+  font-family: "Noto Serif";
+  src: url("../fonts/Noto_Serif/NotoSerif-Regular.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+// Noto Serif Bold Italic
+@font-face {
+  font-family: "Noto Serif";
+  src: url("../fonts/Noto_Serif/NotoSerif-BoldItalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: italic;
+}
+
+////
+// Noto Sans
+//
+// Noto Sans Bold
+@font-face {
+  font-family: "Noto Sans";
+  src: url("../fonts/Noto_Sans/NotoSans-Bold.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+// Noto Sans Bold Italic
+@font-face {
+  font-family: "Noto Sans";
+  src: url("../fonts/Noto_Sans/NotoSans-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+}
+
+// Noto Sans Rgular
+@font-face {
+  font-family: "Noto Sans";
+  src: url("../fonts/Noto_Sans/NotoSans-Regular.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+// Noto Sans Bold Italic
+@font-face {
+  font-family: "Noto Sans";
+  src: url("../fonts/Noto_Sans/NotoSans-BoldItalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: italic;
+}
