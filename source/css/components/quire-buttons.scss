@@ -10,20 +10,28 @@
   width: 100%;
   display: block;
   text-align: center;
-  
+
   li.quire-nav-button {
     display: inline-block;
     width: 7.4em;
     height: 2.75em;
     background: transparent;
     border: 1px solid $quire-primary-color;
-    padding: 10px 0 0 0;
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;
     border-radius: 2px;
     -webkit-transition: all .5s ease;
     transition: all .5s ease;
     font-size: 1em;
+
+    a {
+      display: inline-block;
+      color: $quire-primary-color;
+      font-size: .8em;
+      width: 8.75em;
+      height: 3.25em;
+      padding-top: .9em;
+    }
 
     &:first-child {
       margin-left: 0;
@@ -64,10 +72,6 @@
       svg {
         fill: $quire-header-font-color;
       }
-    }
-    a {
-      color: $quire-primary-color;
-      font-size: .8em;
     }
   }
 }
