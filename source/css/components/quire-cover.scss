@@ -39,7 +39,7 @@ $quire-page-link-color: $color-primary !default;
     top: 0;
     left: 0;
     width: 100%;
-    min-height: calc(100vh - #{$navbar-height});
+    min-height: calc(95vh - #{$navbar-height});
     background-image: url("../img/#{$cover-overlay-image}");
     opacity: $cover-overlay-image-opacity;
     @media print {
@@ -54,7 +54,7 @@ $quire-page-link-color: $color-primary !default;
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
-    min-height: calc(100vh - #{$navbar-height});
+    min-height: calc(95vh - #{$navbar-height});
     text-align: $quire-cover-text-alignment;
     display: flex;
     align-items: center;
