@@ -122,7 +122,7 @@ search icons, and search results if enabled). It is visible on all pages.
     {{ $len := len .Site.Pages }}
     {{ range $index, $element := .Site.Pages }}
       {{ if eq . $.Page }}
-        <div style="width: 100%; width: calc(100% * ({{add $index 1}} / {{sub $len 1}})); background-color: red;">
+        <div style="width: calc(100% * ({{add $index 1}} / {{sub $len 1}}));">
           <span>{{ add $index 1 }}/{{ sub $len 1 }}</span>
         </div>
       {{ end }}
