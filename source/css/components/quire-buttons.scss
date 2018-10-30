@@ -1,0 +1,50 @@
+// =============================================================================
+// Quire-buttons.scss
+// -----------------------------------------------------------------------------
+//
+// Reusuable code for the prev/next buttons at the bottom of each page.
+
+// .quire-contents-buttons
+// -----------------------------------------------------------------------------
+.quire-contents-buttons {
+  width: 100%;
+  display: block;
+  text-align: center;
+
+  li.quire-nav-button {
+    display: inline-block;
+    width: 7em;
+    height: 2em;
+    background: transparent;
+    border: 1px solid $quire-primary-color;
+    padding: 3px 10px 5px 10px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    -webkit-transition: all .5s ease;
+    transition: all .5s ease;
+
+    &:last-child {
+      background-color: $quire-primary-color;
+      &:hover {
+        background-color: $quire-header-font-color;
+        a {
+          color:  $quire-primary-color;
+        }
+      }
+      a {
+        color: $quire-header-font-color;
+      }
+    }
+
+    &:hover {
+      background-color: $quire-primary-color;
+      a {
+        color: $quire-header-font-color;
+      }
+    }
+    a {
+      color: $quire-primary-color;
+    }
+  }
+}
