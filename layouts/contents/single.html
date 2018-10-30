@@ -65,16 +65,24 @@
                   {{ end -}}
                 {{ end -}}
               </ul>
-              <ul class="buttons">
-                <li class="quire-navbar-button arrow-button">
-                    <span class="visually-hidden">Previous Page (left keyboard arrow or swipe)</span>
-                </li>
-                <li class="quire-navbar-button arrow-button">
-                    <span class="visually-hidden">Next Page (right keyboard arrow or swipe)</span>
-                </li>
-              </ul>
             {{ end }}
         </div>
+      </div>
+      <div class="buttons">
+        <ul class="contents-buttons">
+          <li class="quire-nav-button">
+            {{ with .Prev }}
+              <a href="{{ .Permalink }}">Previous</a>
+              <span class="visually-hidden">Previous Page (left keyboard arrow or swipe)</span>
+            {{ end }}
+          </li>
+          <li class="quire-nav-button">
+            {{ with .Next }}
+              <a href="{{ .Permalink }}">Next</a>
+              <span class="visually-hidden">Next Page (right keyboard arrow or swipe)</span>
+            {{ end }}
+          </li>
+        </ul>
       </div>
     </div>
   </section>
