@@ -118,6 +118,16 @@ search icons, and search results if enabled). It is visible on all pages.
     </div>
   </nav>
 
+  <div class="quire-progress-bar">
+    {{ $len := len .Site.Pages }}
+    {{ range $index, $element := .Site.Pages }}
+      {{ if eq . $.Page }}
+        <div style="width: calc(100% * ({{add $index 1}} / {{sub $len 1}}));">
+          <span>{{ add $index 1 }}/{{ sub $len 1 }}</span>
+        </div>
+      {{ end }}
+    {{ end }}
+  </div>
 
 
 </div>

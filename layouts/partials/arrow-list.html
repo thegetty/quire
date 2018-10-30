@@ -103,7 +103,7 @@
               <li class="page-item">{{ template "contents-item-menu" . -}}</li>
             {{ else if eq $.contentsLocation ".Params.contents" }}
             {{ else }}
-              <li class="page-item">{{ template "contents-item-toc-arrow" (dict "class" $.contentsPage.Params.class "Page" . "Site" .Site ) -}}</li>
+              <li class="page-item">{{ template "contents-item-toc" (dict "class" $.contentsPage.Params.class "Page" . "Site" .Site ) -}}</li>
             {{ end -}}
           {{ end -}}
         {{- end -}}
@@ -170,6 +170,21 @@
     <div class="title"><a href="{{ .Page.Permalink }}">{{ with .Page.Params.number }}{{ . }}. {{ end }}{{ if and .Page.Params.short_title (in .class "brief")}}{{ .Page.Params.short_title | markdownify }}{{ else }}{{ .Page.Title | markdownify }}{{- end -}}{{ if in .class "brief"}}{{ else }}{{ with .Page.Params.subtitle }}: {{ . | markdownify }}{{- end -}}{{ if .Page.Params.contributor }}<span class="contributor"> — {{ partial "contributor-list.html" (dict "range" .Page.Params.contributor "contributorType" "all" "listType" "string" "Site" .Site) }}{{- end -}}{{- end -}}</span><span class="arrow">&nbsp;<svg><switch><!-- <use xlink:href="#search-icon"></use> --><foreignObject width="18" height="18"><img src="/img/icons/arrow_forward@2x.png" alt="" /></foreignObject></switch></svg></span></a></div>{{ if and (in .class "abstract") (ne .Page.Params.abstract "") }}<div class="abstract-text">{{ if .Page.Params.abstract }}{{ .Page.Params.abstract | markdownify }}{{ else }}{{ .Page.Summary }}{{- end -}}</div>{{ end -}}
 
   {{ end -}}
+{{ end -}}
+
+{{- define "contents-item-menu-arrow" }}
+  <a href="{{ .Permalink }}">{{ with .Params.number }}{{ . }}. {{ end }}{{ if .Params.short_title }}{{ .Params.short_title | markdownify }}{{ else }}{{ .Title | markdownify }}{{- end -}}
+    <span class="arrow">
+      <svg>
+        <switch>
+          <!-- <use xlink:href="#search-icon"></use> -->
+          <foreignObject width="18" height="18">
+              <img src="/img/icons/arrow_forward@2x.png" alt="" />
+          </foreignObject>
+        </switch>
+      </svg>
+    </span>
+  </a>
 {{ end -}}
 
 {{- define "contents-image" }}

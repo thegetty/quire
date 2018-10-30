@@ -70,6 +70,24 @@ $quire-navbar-text-color: $dark !default;
   }
 }
 
+// .quire-progress-bar
+// -----------------------------------------------------------------------------
+.quire-progress-bar {
+  height: 1px;
+  -webkit-transition: all .5s ease;
+  transition: all .5s ease;
+  &:hover {
+    height: 25px;
+  }
+  span {
+    color: $white;
+  }
+  div {
+    width: 100%;
+    background-color: $quire-primary-color-hover;
+  }
+}
+
 // .quire-navbar-controls
 // -----------------------------------------------------------------------------
 .quire-navbar-controls {
@@ -102,6 +120,15 @@ $quire-navbar-text-color: $dark !default;
     max-height: $navbar-height;
     overflow: hidden;
     display: none;
+
+    span {
+      display: block;
+    }
+
+    .menu-button {
+      width: 18px;
+      display: inline-block;
+    }
 
     &.quire-current-page {
       font-style: italic;

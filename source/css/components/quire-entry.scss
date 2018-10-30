@@ -190,5 +190,9 @@ $quire-page-link-color: $color-primary !default;
 
   .quire-page__content {
     padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+  .quire-contents-buttons {
+    padding-bottom: 3rem;
   }
 }

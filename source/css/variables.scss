@@ -16,6 +16,10 @@
 $serif: Merriweather, Georgia, serif;
 $sans-serif: Lato, Helvetica, sans-serif;
 $slab-serif: Aleo, Rockwell, "Trebuchet MS", sans-serif;
+$ibm-sans: 'IBM Plex Sans Condensed', sans-serif;
+$times-serif: Times, serif;
+$noto-serif: 'Noto Serif', serif;
+$noto-sans: 'Noto Sans', sans-serif;
 
 $family-primary: $serif;
 // body text: $serif, $sans-serif, $slab-serif
@@ -28,6 +32,18 @@ $quire-page-paragraph-style: indent;
 // make the value null for paragraphs with no indent and a line space between
 
 
+// Quire Redesign
+// -----------------------------------------------------------------------------
+// Setup of new quire variables
+$quire-header-font: $ibm-sans;
+$quire-body-font: $noto-sans;
+$quire-header-font-color: $white;
+$quire-body-font-color: $black;
+$quire-primary-color: $red;
+$quire-primary-color-hover: $dark-red;
+$quire-secondary-color: $off-black;
+$quire-secondary-color-hover: $light-blue;
+
 // Colors
 // -----------------------------------------------------------------------------
 // Change the color variables once at the top, or change elements individually
@@ -35,8 +51,14 @@ $quire-page-paragraph-style: indent;
 
 $color-primary: #3273dc;
 $dark: #363636;
+$black: #000000;
+$off-black: #333333;
+$red: #CF4747;
+$dark-red: #B02E2E;
 $light: #f5f5f5;
 $white: #ffffff;
+$blue: #3273dc;
+$light-blue: #6A8EB8;
 $dark-semi-transparent: rgba(0, 0, 0, .5);
 
 $quire-page-link-color: $color-primary;
