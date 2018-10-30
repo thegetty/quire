@@ -1,17 +1,26 @@
 <div class="quire-contents-buttons">
   <ul>
-    <li class="quire-nav-button">
+    <li class="quire-nav-button prev">
       {{ with .Prev }}
         <a href="{{ .Permalink }}">{{- template "image-control-icon" (dict "type" "left-arrow" "description" "Go back a page" "imageDir" ($.Scratch.Get "imageDir") ) -}} Back</a>
         <span class="visually-hidden">Previous Page (left keyboard arrow or swipe)</span>
       {{ end }}
     </li>
-    <li class="quire-nav-button">
-      {{ with .Next }}
-        <a href="{{ .Permalink }}">Next {{- template "image-control-icon" (dict "type" "right-arrow" "description" "Go to next page" "imageDir" ($.Scratch.Get "imageDir") ) -}}</a>
-        <span class="visually-hidden">Next Page (right keyboard arrow or swipe)</span>
+    {{ $len := len .Site.Pages }}
+    {{ range $index, $element := .Site.Pages }}
+      {{ if eq . $.Page }}
+        {{ $in := add $index 1 }}
+        {{ $ln := sub $len 1 }}
+        {{ if ne $in $ln }}
+        <li class="quire-nav-button next">
+          {{ with .Next }}
+            <a href="{{ .Permalink }}">Next {{- template "image-control-icon" (dict "type" "right-arrow" "description" "Go to next page" "imageDir" ($.Scratch.Get "imageDir") ) -}}</a>
+            <span class="visually-hidden">Next Page (right keyboard arrow or swipe)</span>
+          {{ end }}
+        </li>
+        {{ end }}
       {{ end }}
-    </li>
+    {{ end }}
   </ul>
 </div>
 
