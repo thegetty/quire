@@ -7275,7 +7275,9 @@ video {
     color: #ffffff; }
   .quire-progress-bar div {
     width: 100%;
-    background-color: #B02E2E; }
+    background-color: #B02E2E;
+    text-align: right;
+    padding-right: .5em; }
 
 .quire-navbar-controls {
   display: flex;
