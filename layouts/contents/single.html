@@ -28,15 +28,6 @@
               <ul class="contents-menu">
                 {{ if isset .Site.Data.publication "resource_link" -}}
                   {{ $otherFormats := where .Site.Data.publication.resource_link "type" "other-format" }}
-                  {{ $relatedResources := where .Site.Data.publication.resource_link "type" "related-resource" }}
-                  {{ if gt (len $relatedResources) 0 -}}
-                    <div class="quire-menu__formats">
-                    <h3 class="menu-label">Resources</h3>
-                      <div role="complementary" aria-label="related resources">
-                        {{- partial "link-list-arrow.html" $relatedResources -}}
-                      </div>
-                    </div>
-                  {{ end -}}
                   {{ if gt (len $otherFormats) 0 -}}
                     <div class="quire-menu__formats">
                     <h3 class="menu-label">Other Formats</h3>
