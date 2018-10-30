@@ -10,6 +10,7 @@
   width: 100%;
   display: block;
   text-align: center;
+  padding-bottom: 3rem;
 
   li.quire-nav-button {
     display: inline-block;
@@ -33,7 +34,7 @@
       padding-top: .9em;
     }
 
-    .prev {
+    &.prev {
       margin-left: 0;
       margin-right: .25rem;
       svg {
@@ -48,8 +49,11 @@
       fill: $quire-primary-color;
     }
 
-    .next {
+    &.next {
       background-color: $quire-primary-color;
+      svg {
+        fill: $quire-header-font-color;
+      }
       &:hover {
         background-color: $quire-header-font-color;
         a {

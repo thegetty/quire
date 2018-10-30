@@ -7660,7 +7660,7 @@ html {
   font-size: 1.125rem;
   line-height: 1.78;
   font-weight: 400;
-  padding-bottom: 8rem; }
+  padding-bottom: 1.5rem; }
   .quire-page__content .content a:not([rel=footnote]):not(.footnote-return) {
     color: #3273dc;
     border-bottom: 1px solid #3273dc; }
@@ -8566,7 +8566,8 @@ button.pswp__button.pswp__button--zoom {
 .quire-contents-buttons {
   width: 100%;
   display: block;
-  text-align: center; }
+  text-align: center;
+  padding-bottom: 3rem; }
   .quire-contents-buttons li.quire-nav-button {
     display: inline-block;
     width: 7.4em;
@@ -8583,25 +8584,27 @@ button.pswp__button.pswp__button--zoom {
       width: 8.75em;
       height: 3.25em;
       padding-top: .9em; }
-    .quire-contents-buttons li.quire-nav-button .prev {
+    .quire-contents-buttons li.quire-nav-button.prev {
       margin-left: 0;
       margin-right: .25rem; }
-      .quire-contents-buttons li.quire-nav-button .prev svg {
+      .quire-contents-buttons li.quire-nav-button.prev svg {
         fill: #CF4747; }
     .quire-contents-buttons li.quire-nav-button svg {
       width: 1.25rem;
       height: 0.8rem;
       margin-left: .25rem;
       fill: #CF4747; }
-    .quire-contents-buttons li.quire-nav-button .next {
+    .quire-contents-buttons li.quire-nav-button.next {
       background-color: #CF4747; }
-      .quire-contents-buttons li.quire-nav-button .next:hover {
+      .quire-contents-buttons li.quire-nav-button.next svg {
+        fill: #ffffff; }
+      .quire-contents-buttons li.quire-nav-button.next:hover {
         background-color: #ffffff; }
-        .quire-contents-buttons li.quire-nav-button .next:hover a {
+        .quire-contents-buttons li.quire-nav-button.next:hover a {
           color: #CF4747; }
-          .quire-contents-buttons li.quire-nav-button .next:hover a svg {
+          .quire-contents-buttons li.quire-nav-button.next:hover a svg {
             fill: #CF4747; }
-      .quire-contents-buttons li.quire-nav-button .next a {
+      .quire-contents-buttons li.quire-nav-button.next a {
         color: #ffffff; }
     .quire-contents-buttons li.quire-nav-button:hover {
       background-color: #CF4747; }
