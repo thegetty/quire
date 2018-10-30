@@ -291,7 +291,16 @@ function photoswipeSetup() {
     gallery: {
       enabled: true,
       navigateByImgClick: true,
-      // preload: [0, 1] // Will preload 0 - before current, and 1 after the current image
+
+      preload: [0, 2], // read about this option in next Lazy-loading section
+
+      navigateByImgClick: true,
+
+      arrowMarkup: '<button title="%title%" type="button" class="mfp-arrow mfp-arrow-%dir%"></button>', // markup of an arrow button
+
+      tPrev: 'Previous (Left arrow key)', // title for left button
+      tNext: 'Next (Right arrow key)', // title for right button
+      tCounter: '' // markup of counter
     },
     callbacks: {
       beforeOpen: function () {
@@ -302,6 +311,11 @@ function photoswipeSetup() {
         if (item.el[0].className == 'video') {
           item.type = 'iframe',
             item.iframe = {
+              markup: '<div class="mfp-iframe-scaler">' +
+                '<div class="mfp-close"></div>' +
+                '<iframe class="mfp-iframe" frameborder="0" allowfullscreen></iframe>' +
+                '<div class="mfp-counter"></div>' +
+                '</div>', // HTML markup of popup, `mfp-close` will be replaced by the close button
               patterns: {
                 youtube: {
                   index: 'youtube.com/', // String that detects type of video (in this case YouTube). Simply via url.indexOf(index).
@@ -392,6 +406,7 @@ function photoswipeSetup() {
         // resize event triggers only when height is changed or layout forced
       },
       open: function () {
+        console.log(this); // Direct reference to your popup element
         console.log('Popup is opened');
       },
 

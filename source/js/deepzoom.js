@@ -1,6 +1,6 @@
 import L from 'leaflet'
 import 'leaflet-iiif'
-import './leaflet-fullscreen-getty'
+import 'leaflet-fullscreen'
 
 
 class DeepZoom {

@@ -1,5 +1,5 @@
 import L from 'leaflet'
-import './leaflet-fullscreen-getty'
+import 'leaflet-fullscreen'
 // import leafletImage from 'leaflet-image'
 
 class Map {
