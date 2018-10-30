@@ -1,0 +1,16 @@
+<div class="quire-contents-buttons">
+  <ul>
+    <li class="quire-nav-button">
+      {{ with .Prev }}
+        <a href="{{ .Permalink }}">Back</a>
+        <span class="visually-hidden">Previous Page (left keyboard arrow or swipe)</span>
+      {{ end }}
+    </li>
+    <li class="quire-nav-button">
+      {{ with .Next }}
+        <a href="{{ .Permalink }}">Next</a>
+        <span class="visually-hidden">Next Page (right keyboard arrow or swipe)</span>
+      {{ end }}
+    </li>
+  </ul>
+</div>
