@@ -70,6 +70,17 @@ $quire-navbar-text-color: $dark !default;
   }
 }
 
+// .quire-progress-bar
+// -----------------------------------------------------------------------------
+.quire-progress-bar {
+  height: 1px;
+  -webkit-transition: all .5s ease;
+  transition: all .5s ease;
+}
+.quire-progress-bar:hover {
+  height: 25px;
+}
+
 // .quire-navbar-controls
 // -----------------------------------------------------------------------------
 .quire-navbar-controls {
