@@ -56,6 +56,11 @@ $quire-page-paragraph-style: indent !default;
     max-width: .95rem;
   }
 
+  .menu-list ul .arrow ul {
+    padding-left: 20px;
+    font-size: .75em;
+  }
+
   .menu-list a {
     position: relative;
     .arrow {
