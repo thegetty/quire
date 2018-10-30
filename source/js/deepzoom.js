@@ -6,14 +6,19 @@ import './leaflet-fullscreen-getty'
 class DeepZoom {
   constructor(id) {
     // remove and refresh before init
+    console.log(id)
+    
     if (window.mapID != undefined || window.mapID != undefined) {
       window.mapID.off()
       window.mapID.remove()
     }
-    let myNode = document.getElementById(id);
-    while (myNode.firstChild) {
-      myNode.removeChild(myNode.firstChild);
+    let node = document.getElementById(id);
+    if (node) {
+      while (node.firstChild) {
+        node.removeChild(node.firstChild)
+      }  
     }
+    
 
     this.el = id
     this.imageURL = $(`#${this.el}`).data('image')

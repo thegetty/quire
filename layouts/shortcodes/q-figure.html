@@ -30,7 +30,7 @@ document and render only the values given in the shortcode
 {{ if eq $.Site.Params.photoswipe true }}
 <figure class='photoswipe-true quire-figure {{ with .Get "class" }}{{ . }}{{ end }}'>
   <div class="q-figure__wrapper">
-    <a href='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'>
+    <a class="image" href='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'>
     <img id='{{ with .Get "id" }}{{ . | urlize }}{{ end }}'
       class="quire-figure__image" 
       src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
@@ -94,7 +94,8 @@ render the figure from matching values found ther
 
   {{ if eq .media_type "youtube" }}
   <div class="q-figure__wrapper">
-      <a href='#'
+      <a href='https://www.youtube.com/watch?v={{ .media_id }}'
+         class="video"
          data-type="video" 
          {{ if .caption }} data-caption='{{ .caption | markdownify | safeHTML }}' {{ end }}
          data-video="<div class='wrapper'><div class='video-wrapper'><iframe id='{{ .id }}' class='quire-figure__media pswp__video' src='https://www.youtube-nocookie.com/embed/{{ .media_id }}?rel=0&amp;showinfo=0' frameborder='0' allowfullscreen></iframe></div></div>">
@@ -105,8 +106,9 @@ render the figure from matching values found ther
     </div>
   {{ else if eq .media_type "vimeo" }}
   <div class="q-figure__wrapper">
-      <a href='#'
+      <a href='https://player.vimeo.com/video/{{ .media_id }}'
          data-type="video" 
+         class="video"
          {{ if .caption }} data-caption='{{ .caption | markdownify | safeHTML }}' {{ end }}
          data-video="<div class='wrapper'><div class='video-wrapper'><iframe id='{{ .id }}' class='quire-figure__media pswp__video' src='https://player.vimeo.com/video/{{ .media_id }}' frameborder='0' webkitallowfullscreen mozallowfullscreen allowfullscreen>></iframe></div></div>">
       <img class='quire-figure__image'
@@ -176,7 +178,7 @@ render the figure from matching values found ther
   {{/* -------------------- BEGIN IMAGE BLOCK -------------------- */}}
   <div class="q-figure__wrapper">
       {{ if eq $.Site.Params.photoswipe true }}
-      <a href='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' {{ if .caption }} data-caption='{{ .caption | markdownify | safeHTML }}' {{ end }}>
+      <a class="image" href='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' {{ if .caption }} data-caption='{{ .caption | markdownify | safeHTML }}' {{ end }}>
       {{ end }}
     <img class="quire-figure__image"  id='{{ .id }}'
        src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'

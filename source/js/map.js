@@ -10,8 +10,10 @@ class Map {
       window.mapID.remove()
     }
     let node = document.getElementById(id)
-    while (node.firstChild) {
-      node.removeChild(node.firstChild)
+    if (node) {
+      while (node.firstChild) {
+        node.removeChild(node.firstChild)
+      }  
     }
     if (id) {
       this.el = id

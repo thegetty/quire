@@ -21,9 +21,13 @@ import DeepZoom from './deepzoom.js'
 import Navigation from './navigation.js'
 
 // Photoswipe 
-import 'photoswipe/dist/photoswipe.css'
-import 'photoswipe/dist/default-skin/default-skin.css'
-import photoswipe from './photoswipe'
+// import 'photoswipe/dist/photoswipe.css'
+// import 'photoswipe/dist/default-skin/default-skin.css'
+// import photoswipe from './photoswipe'
+// import Popup from './popup'
+import 'magnific-popup/dist/magnific-popup.css'
+// import magnificPopup from 'magnific-popup'
+require('magnific-popup')
 
 /**
  * toggleMenu
@@ -254,12 +258,191 @@ function scrollToHash() {
  * Set up photoswipe
  */
 function photoswipeSetup() {
+
   [...document.querySelectorAll('.q-figure__wrapper > a')].forEach(v => {
     let image = new Image()
     image.src = v.children[0].src
     v.setAttribute('data-size', `${image.naturalWidth}x${image.naturalHeight}`)
   })
-  photoswipe('.content')
+  // photoswipe('.content')
+  /*
+   console.log(magnificPopup)
+   $('.q-figure__wrapper').magnificPopup({
+     delegate: 'a',
+     type: 'inline',
+     tLoading: 'Loading image #%curr%...',
+     mainClass: 'mfp-img-mobile',
+     gallery: {
+       enabled: true,
+       navigateByImgClick: true,
+       preload: [0, 1] // Will preload 0 - before current, and 1 after the current image
+     },
+     image: {
+       tError: '<a href="%url%">The image #%curr%</a> could not be loaded.',
+       titleSrc: function (item) {
+         return item.el.attr('title') + '<small>by Marsel Van Oosten</small>';
+       }
+     }
+   });
+  */
+  $('.q-figure__wrapper').magnificPopup({
+    delegate: 'a',
+    type: 'image',
+    gallery: {
+      enabled: true,
+      navigateByImgClick: true,
+      // preload: [0, 1] // Will preload 0 - before current, and 1 after the current image
+    },
+    callbacks: {
+      beforeOpen: function () {
+        console.log('Start of popup initialization');
+      },
+      elementParse: function (item) {
+        console.log('Parsing content. Item object that is being parsed:', item);
+        if (item.el[0].className == 'video') {
+          item.type = 'iframe',
+            item.iframe = {
+              patterns: {
+                youtube: {
+                  index: 'youtube.com/', // String that detects type of video (in this case YouTube). Simply via url.indexOf(index).
+
+                  id: 'v=', // String that splits URL in a two parts, second part should be %id%
+                  // Or null - full URL will be returned
+                  // Or a function that should return %id%, for example:
+                  // id: function(url) { return 'parsed id'; } 
+
+                  src: '//www.youtube.com/embed/%id%?autoplay=1' // URL that will be set as a source for iframe. 
+                },
+                vimeo: {
+                  index: 'vimeo.com/',
+                  id: '/',
+                  src: '//player.vimeo.com/video/%id%?autoplay=1'
+                },
+                gmaps: {
+                  index: '//maps.google.',
+                  src: '%id%&output=embed'
+                }
+              }
+            }
+        } else if (item.el[0].className == 'inline') {
+
+          item.type = 'inline'
+          /*
+          // console.log($('.mfp-content'))
+          if ($('.mfp-content')) {
+            // console.log($('.mfp-content').children().children().attr('id'))
+            if ($('.mfp-content').children().children() !== undefined) {
+              // console.log($('.mfp-content').children().children().attr('id'))
+              let id = $('.mfp-content').children().children().attr('id')
+              if (id) {
+                if (id.indexOf('map') !== -1) {
+                  new Map(id)
+                }
+                if (id.indexOf('deepzoom') !== -1) {
+                  new DeepZoom(id)
+                }
+                if (id.indexOf('iiif') !== -1) {
+                  new DeepZoom(id)
+                }
+              }
+            }
+          }
+          */
+
+        } else {
+          item.type = 'image',
+            item.tLoading = 'Loading image #%curr%...',
+            item.mainClass = 'mfp-img-mobile',
+            item.image = {
+              tError: '<a href="%url%">The image #%curr%</a> could not be loaded.'
+            }
+        }
+
+      },
+      change: function () {
+        console.log('Content changed');
+        console.log(this.content); // Direct reference to your popup element
+        console.log(this.content.children()[0].id); // Direct reference to your popup element
+
+        let id = this.content.children()[0].id
+        let waitForDOMUpdate = 100
+        if (id !== '' || id !== undefined) {
+          if (id.indexOf('map') !== -1) {
+            setTimeout(() => {
+              new Map(id)
+            }, waitForDOMUpdate)
+          }
+          if (id.indexOf('deepzoom') !== -1) {
+
+            setTimeout(() => {
+              new DeepZoom(id)
+            }, waitForDOMUpdate)
+          }
+          if (id.indexOf('iiif') !== -1) {
+            setTimeout(() => {
+              new DeepZoom(id)
+            }, waitForDOMUpdate)
+          }
+
+        }
+
+      },
+      resize: function () {
+        console.log('Popup resized');
+        // resize event triggers only when height is changed or layout forced
+      },
+      open: function () {
+        console.log('Popup is opened');
+      },
+
+      beforeClose: function () {
+        // Callback available since v0.9.0
+        console.log('Popup close has been initiated');
+      },
+      close: function () {
+        console.log('Popup removal initiated (after removalDelay timer finished)');
+      },
+      afterClose: function () {
+        console.log('Popup is completely closed');
+      },
+
+      markupParse: function (template, values, item) {
+        // Triggers each time when content of popup changes
+        console.log('Parsing:', template, values, item);
+      },
+      updateStatus: function (data) {
+        console.log('Status changed', data);
+        // "data" is an object that has two properties:
+        // "data.status" - current status type, can be "loading", "error", "ready"
+        // "data.text" - text that will be displayed (e.g. "Loading...")
+        // you may modify this properties to change current status or its text dynamically
+      },
+      imageLoadComplete: function () {
+        // fires when image in current popup finished loading
+        // avaiable since v0.9.0
+        console.log('Image loaded');
+      },
+
+
+      // Only for ajax popup type
+      parseAjax: function (mfpResponse) {
+        // mfpResponse.data is a "data" object from ajax "success" callback
+        // for simple HTML file, it will be just String
+        // You may modify it to change contents of the popup
+        // For example, to show just #some-element:
+        // mfpResponse.data = $(mfpResponse.data).find('#some-element');
+
+        // mfpResponse.data must be a String or a DOM (jQuery) element
+
+        console.log('Ajax content loaded:', mfpResponse);
+      },
+      ajaxContentAdded: function () {
+        // Ajax content is loaded and appended to DOM
+        console.log(this.content);
+      }
+    }
+  });
+
 }
 
 /**
@@ -268,8 +451,8 @@ function photoswipeSetup() {
  * Initialize any jquery plugins or set up page UI elements here.
  */
 function pageSetup() {
-  mapSetup()
-  deepZoomSetup()
+  // mapSetup()
+  //deepZoomSetup()
   sliderSetup()
   navigationSetup()
   photoswipeSetup()
