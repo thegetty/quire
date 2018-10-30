@@ -7823,15 +7823,6 @@ html {
       .quire-cover__hero .contributor {
         font-size: 18pt;
         color: white; } }
-    .quire-cover__hero .contributor ul {
-      display: inline;
-      list-style: none; }
-      .quire-cover__hero .contributor ul .quire-contributor {
-        float: left; }
-        .quire-cover__hero .contributor ul .quire-contributor + .quire-contributor:before {
-          content: ", "; }
-    .quire-cover__hero .contributor .by-line {
-      float: left; }
 
 .quire-cover__more .hero-more {
   display: block;
@@ -8578,10 +8569,16 @@ button.pswp__button.pswp__button--zoom {
     height: 2.75em;
     background: transparent;
     border: 1px solid #CF4747;
-    padding: 10px 0 0 0;
     border-radius: 2px;
     transition: all .5s ease;
     font-size: 1em; }
+    .quire-contents-buttons li.quire-nav-button a {
+      display: inline-block;
+      color: #CF4747;
+      font-size: .8em;
+      width: 8.75em;
+      height: 3.25em;
+      padding-top: .9em; }
     .quire-contents-buttons li.quire-nav-button:first-child {
       margin-left: 0;
       margin-right: .25rem; }
@@ -8608,9 +8605,6 @@ button.pswp__button.pswp__button--zoom {
         color: #ffffff; }
       .quire-contents-buttons li.quire-nav-button:hover svg {
         fill: #ffffff; }
-    .quire-contents-buttons li.quire-nav-button a {
-      color: #CF4747;
-      font-size: .8em; }
 
 @media print {
   @page {

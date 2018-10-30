@@ -132,19 +132,6 @@ $quire-page-link-color: $color-primary !default;
         font-size: 18pt;
         color: $quire-cover-text-color;
       }
-      & ul {
-        display: inline;
-        list-style: none;
-        .quire-contributor {
-          float: left; 
-          + .quire-contributor:before {
-            content: ", ";
-          }
-        }
-      }
-      & .by-line {
-        float: left;
-      }
     }
   }
   &__more {
@@ -175,7 +162,6 @@ $quire-page-link-color: $color-primary !default;
     border-width: 0px;
     border-radius: 2px;
     font-family: $family-secondary;
-    // font-style: italic;
     font-size: 1rem !important;
     padding: 0 !important;
     width: 140px;
