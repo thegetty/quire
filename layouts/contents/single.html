@@ -23,27 +23,9 @@
               {{ $scope := where .Site.Pages "Section" .Section }}
               {{- partial "contents-list.html" (dict "contentsScope" $scope "contentsType" .Site.Params.tocType "contentsLocation" ".Params.toc" "contentsPage" . ) -}}
             {{ else }}
-              <!-- {{ $scope := .Site.Pages }} -->
-              <!-- {{- partial "contents-list.html" (dict "contentsScope" $scope "contentsType" .Site.Params.tocType "contentsLocation" ".Params.toc" "contentsPage" . ) -}} -->
+              {{ $scope := .Site.Pages }}
+              {{- partial "arrow-list.html" (dict "contentsScope" $scope "contentsType" .Site.Params.tocType "contentsLocation" ".Params.toc" "contentsPage" . ) -}}
               <ul class="contents-menu">
-                <nav class="quire-contents-menu menu-list" role="navigation" aria-label="full">
-                  <h3 class="visually-hidden">Table of Contents</h3>
-                  <div class="quire-menu__formats">
-                    <h3 class="menu-lable">Intro</h3>
-                    <div aria-label="intro">
-                      {{ $scope := where .Site.Pages "Section" .Section }}
-                      {{- partial "arrow-list.html" (dict "contentsScope" $scope "contentsType" .Site.Params.tocType "contentsLocation" ".Params.menu" "contentsPage" . ) -}}
-                    </div>
-                  </div>
-                  <div class="quire-menu__formats">
-                    <h3 class="menu-lable">Main</h3>
-                    <div aria-label="intro">
-                      {{ $scope := .Site.Pages }}
-                      {{- partial "arrow-list.html" (dict "contentsScope" $scope "contentsType" .Site.Params.tocType "contentsLocation" ".Params.contents" "contentsPage" . ) -}}
-                    </div>
-                  </div>
-                </nav>
-
                 {{ if isset .Site.Data.publication "resource_link" -}}
                   {{ $otherFormats := where .Site.Data.publication.resource_link "type" "other-format" }}
                   {{ $relatedResources := where .Site.Data.publication.resource_link "type" "related-resource" }}
