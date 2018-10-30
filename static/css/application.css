@@ -8583,25 +8583,25 @@ button.pswp__button.pswp__button--zoom {
       width: 8.75em;
       height: 3.25em;
       padding-top: .9em; }
-    .quire-contents-buttons li.quire-nav-button:first-child {
+    .quire-contents-buttons li.quire-nav-button .prev {
       margin-left: 0;
       margin-right: .25rem; }
-      .quire-contents-buttons li.quire-nav-button:first-child svg {
+      .quire-contents-buttons li.quire-nav-button .prev svg {
         fill: #CF4747; }
     .quire-contents-buttons li.quire-nav-button svg {
       width: 1.25rem;
       height: 0.8rem;
       margin-left: .25rem;
-      fill: #fff; }
-    .quire-contents-buttons li.quire-nav-button:last-child {
+      fill: #CF4747; }
+    .quire-contents-buttons li.quire-nav-button .next {
       background-color: #CF4747; }
-      .quire-contents-buttons li.quire-nav-button:last-child:hover {
+      .quire-contents-buttons li.quire-nav-button .next:hover {
         background-color: #ffffff; }
-        .quire-contents-buttons li.quire-nav-button:last-child:hover a {
+        .quire-contents-buttons li.quire-nav-button .next:hover a {
           color: #CF4747; }
-          .quire-contents-buttons li.quire-nav-button:last-child:hover a svg {
+          .quire-contents-buttons li.quire-nav-button .next:hover a svg {
             fill: #CF4747; }
-      .quire-contents-buttons li.quire-nav-button:last-child a {
+      .quire-contents-buttons li.quire-nav-button .next a {
         color: #ffffff; }
     .quire-contents-buttons li.quire-nav-button:hover {
       background-color: #CF4747; }
