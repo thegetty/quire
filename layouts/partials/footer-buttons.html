@@ -2,15 +2,27 @@
   <ul>
     <li class="quire-nav-button">
       {{ with .Prev }}
-        <a href="{{ .Permalink }}">Back</a>
+        <a href="{{ .Permalink }}">{{- template "image-control-icon" (dict "type" "left-arrow" "description" "Go back a page" "imageDir" ($.Scratch.Get "imageDir") ) -}} Back</a>
         <span class="visually-hidden">Previous Page (left keyboard arrow or swipe)</span>
       {{ end }}
     </li>
     <li class="quire-nav-button">
       {{ with .Next }}
-        <a href="{{ .Permalink }}">Next</a>
+        <a href="{{ .Permalink }}">Next {{- template "image-control-icon" (dict "type" "right-arrow" "description" "Go to next page" "imageDir" ($.Scratch.Get "imageDir") ) -}}</a>
         <span class="visually-hidden">Next Page (right keyboard arrow or swipe)</span>
       {{ end }}
     </li>
   </ul>
 </div>
+
+{{ define "image-control-icon" }}
+<svg class="remove-from-epub">
+  <switch>
+    <use xlink:href="#{{ .type }}-icon"></use>
+    <foreignObject width="32" height="32">
+        <img class="remove-from-epub" src="{{ absURL .imageDir }}/icons/{{ .type }}.png" alt="" />
+    </foreignObject>
+  </switch>
+</svg>
+<span class="visually-hidden">{{ .description }}</span>
+{{ end }}

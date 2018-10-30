@@ -10,26 +10,45 @@
   width: 100%;
   display: block;
   text-align: center;
-
+  
   li.quire-nav-button {
     display: inline-block;
-    width: 7em;
-    height: 2em;
+    width: 7.4em;
+    height: 2.75em;
     background: transparent;
     border: 1px solid $quire-primary-color;
-    padding: 3px 10px 5px 10px;
+    padding: 10px 0 0 0;
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;
     border-radius: 2px;
     -webkit-transition: all .5s ease;
     transition: all .5s ease;
+    font-size: 1em;
+
+    &:first-child {
+      margin-left: 0;
+      margin-right: .25rem;
+      svg {
+        fill: $quire-primary-color;
+      }
+    }
+
+    svg {
+      width: 1.25rem;
+      height: 0.8rem;
+      margin-left: .25rem;
+      fill: findColorInvert($quire-page-link-color);
+    }
 
     &:last-child {
       background-color: $quire-primary-color;
       &:hover {
         background-color: $quire-header-font-color;
         a {
-          color:  $quire-primary-color;
+          color: $quire-primary-color;
+          svg {
+            fill: $quire-primary-color;
+          }
         }
       }
       a {
@@ -42,9 +61,13 @@
       a {
         color: $quire-header-font-color;
       }
+      svg {
+        fill: $quire-header-font-color;
+      }
     }
     a {
       color: $quire-primary-color;
+      font-size: .8em;
     }
   }
 }
