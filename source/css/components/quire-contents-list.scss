@@ -69,6 +69,7 @@ $quire-page-paragraph-style: indent !default;
     }
     &:hover {
       background-color: inherit;
+      color: $quire-primary-color-hover;
       .arrow {
         margin-left: 14px;
       }
