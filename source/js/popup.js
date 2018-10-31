@@ -23,6 +23,7 @@ export default function (gallerySelector) {
             beforeOpen: function () {
                 console.log('Start of popup initialization');
                 this.current = this.index + 1
+                this.total = this.items.length - 1
                 this.counter = `<span class="counter">${this.current} of ${this.items.length}</span>`
                 this.cont = `<div class="quire-modal-container">${this.counter}</div>`
             },
@@ -31,13 +32,6 @@ export default function (gallerySelector) {
                 if (item.el[0].className == 'video') {
                     item.type = 'iframe',
                         item.iframe = {
-                            markup: '<div class="mfp-iframe-scaler">' +
-                                '<div class="mfp-close"></div>' +
-                                '<iframe class="mfp-iframe" frameborder="0" allowfullscreen></iframe>' +
-                                '<div class="mfp-bottom-bar">' +
-                                '<div class="mfp-counter"></div>' +
-                                '</div>' +
-                                '</div>', // HTML markup of popup, `mfp-close` will be replaced by the close button
                             patterns: {
                                 youtube: {
                                     index: 'youtube.com/', // String that detects type of video (in this case YouTube). Simply via url.indexOf(index).
@@ -61,30 +55,7 @@ export default function (gallerySelector) {
                             }
                         }
                 } else if (item.el[0].className == 'inline') {
-
                     item.type = 'inline'
-                    /*
-                    // console.log($('.mfp-content'))
-                    if ($('.mfp-content')) {
-                      // console.log($('.mfp-content').children().children().attr('id'))
-                      if ($('.mfp-content').children().children() !== undefined) {
-                        // console.log($('.mfp-content').children().children().attr('id'))
-                        let id = $('.mfp-content').children().children().attr('id')
-                        if (id) {
-                          if (id.indexOf('map') !== -1) {
-                            new Map(id)
-                          }
-                          if (id.indexOf('deepzoom') !== -1) {
-                            new DeepZoom(id)
-                          }
-                          if (id.indexOf('iiif') !== -1) {
-                            new DeepZoom(id)
-                          }
-                        }
-                      }
-                    }
-                    */
-
                 } else {
                     item.type = 'image',
                         item.tLoading = 'Loading image #%curr%...',
@@ -97,14 +68,11 @@ export default function (gallerySelector) {
             },
             change: function () {
                 console.log('Content changed');
-                //console.log(this.content); // Direct reference to your popup element
-                //console.log(this.content.children()[0].id); // Direct reference to your popup element
-
+                console.log(this)
                 this.current = this.index + 1
                 if (document.querySelector('.counter')) {
                     document.querySelector('.counter').innerHTML = `${this.current} of ${this.items.length}`
                 }
-                console.log(this)
                 let id = this.content.children()[0].id
                 let waitForDOMUpdate = 100
                 if (id !== '' || id !== undefined) {
@@ -133,7 +101,6 @@ export default function (gallerySelector) {
                 // resize event triggers only when height is changed or layout forced
             },
             open: function () {
-                console.log(this); // Direct reference to your popup element
                 console.log('Popup is opened');
                 $('.mfp-wrap').append(this.cont)
             },
