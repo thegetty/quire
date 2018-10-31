@@ -18,27 +18,26 @@
 
       <div class="quire-contents-list {{ if in .Params.class "grid" }} grid{{ else if in .Params.class "abstract" }} abstract{{ else if in .Params.class "brief" }} brief{{ else }} list{{ end }}">
         <div class="menu-list">
-          <ul class="contents">
-            {{ if .Section }}
-              {{ $scope := where .Site.Pages "Section" .Section }}
-              {{- partial "contents-list.html" (dict "contentsScope" $scope "contentsType" .Site.Params.tocType "contentsLocation" ".Params.toc" "contentsPage" . ) -}}
-            {{ else }}
-              {{ $scope := .Site.Pages }}
-              {{- partial "arrow-list.html" (dict "contentsScope" $scope "contentsType" .Site.Params.tocType "contentsLocation" ".Params.toc" "contentsPage" . ) -}}
-              <ul class="contents-menu">
-                {{ if isset .Site.Data.publication "resource_link" -}}
-                  {{ $otherFormats := where .Site.Data.publication.resource_link "type" "other-format" }}
-                  {{ if gt (len $otherFormats) 0 -}}
-                    <div class="quire-menu__formats">
-                    <h3 class="menu-label">Other Formats</h3>
-                      <div role="complementary" aria-label="downloads">
-                        {{- partial "link-list-arrow.html" $otherFormats -}}
-                      </div>
+          {{ if .Section }}
+            {{ $scope := where .Site.Pages "Section" .Section }}
+            {{- partial "contents-list.html" (dict "contentsScope" $scope "contentsType" .Site.Params.tocType "contentsLocation" ".Params.toc" "contentsPage" . ) -}}
+          {{ else }}
+            {{ $scope := .Site.Pages }}
+            {{- partial "arrow-list.html" (dict "contentsScope" $scope "contentsType" .Site.Params.tocType "contentsLocation" ".Params.toc" "contentsPage" . ) -}}
+            <ul class="contents-menu">
+              {{ if isset .Site.Data.publication "resource_link" -}}
+                {{ $otherFormats := where .Site.Data.publication.resource_link "type" "other-format" }}
+                {{ if gt (len $otherFormats) 0 -}}
+                  <div class="quire-menu__formats">
+                  <h3 class="menu-label">Other Formats</h3>
+                    <div role="complementary" aria-label="downloads">
+                      {{- partial "link-list-arrow.html" $otherFormats -}}
                     </div>
-                  {{ end -}}
+                  </div>
                 {{ end -}}
-              </ul>
-            {{ end }}
+              {{ end -}}
+            </ul>
+          {{ end }}
         </div>
       </div>
       {{ partial "footer-buttons.html" . }}
