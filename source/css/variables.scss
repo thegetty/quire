@@ -31,19 +31,6 @@ $quire-base-font-size: 17px;
 $quire-page-paragraph-style: indent;
 // make the value null for paragraphs with no indent and a line space between
 
-
-// Quire Redesign
-// -----------------------------------------------------------------------------
-// Setup of new quire variables
-$quire-header-font: $ibm-sans;
-$quire-body-font: $noto-sans;
-$quire-header-font-color: #ffffff;
-$quire-body-text-color: #333333;
-$quire-primary-color: #CF4747;
-$quire-primary-color-hover: #B02E2E;
-$quire-secondary-color: #333333;
-$quire-secondary-color-hover: #6A8EB8;
-
 // Colors
 // -----------------------------------------------------------------------------
 // Change the color variables once at the top, or change elements individually
@@ -123,3 +110,15 @@ $quire-map-height: 500px;
 $quire-deepzoom-height: 500px;
 // default heights for maps and zooming image figures
 
+
+// Quire Redesign
+// -----------------------------------------------------------------------------
+// Setup of new quire variables
+$quire-header-font: $ibm-sans;
+$quire-body-font: $noto-sans;
+$quire-header-font-color: $white;
+$quire-body-font-color: $black;
+$quire-primary-color: $red;
+$quire-primary-color-hover: $dark-red;
+$quire-secondary-color: $off-black;
+$quire-secondary-color-hover: $light-blue;
