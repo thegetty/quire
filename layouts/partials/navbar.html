@@ -35,8 +35,6 @@ search icons, and search results if enabled). It is visible on all pages.
 
     <div class="quire-navbar-controls__center">
       <ul class="quire-navbar-page-controls" role="navigation" aria-label="quick">
-        {{ template "if-previous" . }}
-
         {{ if eq .Type "cover" }}
         <li class="quire-navbar-page-controls__item quire-home-page">
           <a href='{{ .Next.Permalink }}' rel="start">
@@ -59,6 +57,14 @@ search icons, and search results if enabled). It is visible on all pages.
         <li class="quire-navbar-page-controls__item quire-home-page">
           <a href='{{ .Prev.Permalink }}' rel="previous">
             <span class="visually-hidden">Previous Page: </span>
+            <svg class="left-icon">
+              <switch>
+                <!-- <use xlink:href="#left-arrow-icon"></use> -->
+                <foreignObject width="18" height="32">
+                    <img src="{{ $imgDir | absURL }}/icons/left@2x.png" alt="" />
+                </foreignObject>
+              </switch>
+            </svg>
             {{ if .Prev.Title }}
             {{ .Prev.Title | markdownify }}
             {{ end }}
@@ -89,12 +95,17 @@ search icons, and search results if enabled). It is visible on all pages.
             {{ if .Next.Title }}
             {{ .Next.Title | markdownify }}
             {{ end }}
+            <svg>
+              <switch>
+                <!-- <use xlink:href="#right-arrow-icon"></use> -->
+                <foreignObject width="18" height="32">
+                    <img src="{{ $imgDir | absURL }}/icons/right@2x.png" alt="" />
+                </foreignObject>
+              </switch>
+            </svg>
           </a>
         </li>
         {{ end }}
-
-        {{ template "if-next" . }}
-
       </ul>
     </div>
 

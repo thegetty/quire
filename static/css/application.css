@@ -7239,6 +7239,11 @@ video {
   top: 0;
   width: 100%;
   border-bottom: 1px solid #363636; }
+  .quire-navbar svg {
+    height: calc(3rem * .65);
+    width: calc(3rem * .65);
+    max-height: 1.65rem;
+    max-width: 1rem; }
   .quire-navbar * {
     color: #363636; }
   .quire-navbar svg {
@@ -7310,8 +7315,12 @@ video {
       display: inline-block; }
     .quire-navbar-page-controls__item.quire-current-page {
       font-style: italic; }
+    .quire-navbar-page-controls__item.quire-home-page .left-icon {
+      margin-right: 0.65rem; }
     .quire-navbar-page-controls__item.quire-next-page {
       font-style: normal; }
+      .quire-navbar-page-controls__item.quire-next-page svg {
+        margin-left: 0.65rem; }
     @media screen and (min-width: 500px) {
       .quire-navbar-page-controls__item.quire-home-page {
         display: block; } }
