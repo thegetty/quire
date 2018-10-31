@@ -4,32 +4,6 @@
 //
 // Cover component (used in the layout for 'cover' page types)
 
-// Variables
-// -----------------------------------------------------------------------------
-$color-primary: #3273dc !default;
-$dark: #363636 !default;
-$light: #f5f5f5 !default;
-$white: #fff !default;
-$sans-serif: Lato, Helvetica, sans-serif !default;
-$tablet: 500px !default;
-
-$navbar-height: 3rem !default;
-$family-secondary: $sans-serif !default;
-
-$quire-cover-color-1: $color-primary !default;
-$quire-cover-color-2: #dc52f5 !default;
-$cover-overlay-image-opacity: .5 !default;
-$cover-overlay-image: 'pattern-1.png' !default;
-$quire-cover-font-family: $sans-serif !default;
-$quire-cover-text-color: $white !default;
-$quire-cover-text-scale: 1 !default;
-$quire-cover-text-alignment: left !default;
-$quire-cover-footer-color: $light !default;
-$quire-cover-footer-text-color: $dark !default;
-
-$quire-page-link-color: $color-primary !default;
-
-
 // .quire-cover
 // -----------------------------------------------------------------------------
 .quire-cover {

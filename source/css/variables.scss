@@ -85,7 +85,7 @@ $cover-overlay-image: 'pattern-1.png';
 // or pattern overlay, add it to the YAML of your cover.md file,
 // --> image: cover-background.jpg
 
-$quire-cover-font-family: $sans-serif;
+$quire-cover-font-family: $noto-sans;
 $quire-cover-text-color: $white;
 
 $quire-cover-text-scale: 1;
@@ -96,6 +96,8 @@ $quire-cover-text-alignment: left;
 
 $quire-cover-footer-color: $light;
 $quire-cover-footer-text-color: $dark;
+
+$quire-page-link-color: $color-primary !default;
 
 
 // Layout
