@@ -48,6 +48,7 @@ $white: #ffffff;
 $blue: #3273dc;
 $light-blue: #6A8EB8;
 $dark-semi-transparent: rgba(0, 0, 0, .5);
+$black-semi-transparent: rgba(0, 0, 0, 0.75);
 
 $quire-page-link-color: $color-primary;
 $quire-page-link-highlight: $light;
@@ -70,6 +71,19 @@ $quire-entry-image-color: $dark;
 $quire-entry-image-icons-color: $white;
 
 $quire-splash-page-color: $color-primary;
+
+// Quire Redesign
+// -----------------------------------------------------------------------------
+// Setup of new quire variables
+$quire-header-font: $ibm-sans;
+$quire-nav-font: $noto-sans;
+$quire-body-font: $noto-sans;
+$quire-header-font-color: $white;
+$quire-body-font-color: $black;
+$quire-primary-color: $red;
+$quire-primary-color-hover: $dark-red;
+$quire-secondary-color: $off-black;
+$quire-secondary-color-hover: $light-blue;
 
 // Cover
 // -----------------------------------------------------------------------------
@@ -112,16 +126,3 @@ $quire-entry-header-height: 6rem;
 $quire-map-height: 500px;
 $quire-deepzoom-height: 500px;
 // default heights for maps and zooming image figures
-
-
-// Quire Redesign
-// -----------------------------------------------------------------------------
-// Setup of new quire variables
-$quire-header-font: $ibm-sans;
-$quire-body-font: $noto-sans;
-$quire-header-font-color: $white;
-$quire-body-font-color: $black;
-$quire-primary-color: $red;
-$quire-primary-color-hover: $dark-red;
-$quire-secondary-color: $off-black;
-$quire-secondary-color-hover: $light-blue;

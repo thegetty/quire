@@ -24,9 +24,16 @@
 // .quire-navbar
 // -----------------------------------------------------------------------------
 .quire-navbar {
-
-  font-family: $family-secondary;
+  font-family: $quire-nav-font;
   font-weight: 400;
+  font-size: .875em;
+
+  svg {
+    height: calc(#{$navbar-height} * .65);
+    width: calc(#{$navbar-height} * .65);
+    max-height: 1.65rem;
+    max-width: 1rem;
+  }
 
   @if $navbar-height <= 2rem {
     font-size: .85rem;
@@ -122,8 +129,17 @@
       font-style: italic;
     }
 
+    &.quire-home-page {
+      .left-icon {
+        margin-right: 0.65rem;
+      }
+    }
+
     &.quire-next-page {
       font-style: normal;
+      svg {
+        margin-left: 0.65rem;
+      }
     }
 
     @media screen and (min-width: 500px) {

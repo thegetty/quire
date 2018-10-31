@@ -117,15 +117,18 @@
 {{- end -}}
   {{- if in .class "grid" -}}
 
-      <a href="{{ .Page.Permalink }}"><div class="card">
+        <div class="card">
         {{ if .Page.Params.image }}
+          <a href="{{ .Page.Permalink }}">
           {{ $imgPath := printf "%s/%s" ($.Page.Scratch.Get "imageDir") .Page.Params.image }}
           <div class="card-image">
             <figure class="image">
               <img src="{{ $imgPath | relURL }}" alt="" />
             </figure>
           </div>
+          </a>
         {{ else if .Page.Params.object -}}
+         <a href="{{ .Page.Permalink }}">
           {{ range .Page.Params.object -}}
             {{ if .id -}}
               {{ range where $.Site.Data.objects.object_list "id" "eq" .id -}}
@@ -151,12 +154,39 @@
             {{- end -}}
             {{- end -}}
           {{- end -}}
+          </a>
         {{- end -}}
-        <div class="card-content">
-          <div class="title">
-          {{- with .Page.Params.number }}{{ . }}. {{ end }}{{ .Page.Title | markdownify }}{{ with .Page.Params.subtitle }}: {{ . | markdownify }}{{- end -}}{{ if .Page.Params.contributor }}<span class="contributor"> — {{ partial "contributor-list.html" (dict "range" .Page.Params.contributor "contributorType" "all" "listType" "string" "Site" .Site) }}{{- end -}}</span></div>
+          <div class="card-content">
+            {{ range .Page.Params.object -}}
+              {{ if .id -}}
+                {{ range where $.Site.Data.objects.object_list "id" "eq" .id -}}
+                  <span class="artist">{{ .artist | markdownify }}</span>,
+                  <span class="location">{{ .location | markdownify }}</span>,
+                  <span class="year">{{ .year | markdownify }}</span>.
+                  <span class="title">{{ .title | markdownify }}</span>.
+                  <span class="medium">{{ .medium | markdownify }}</span>,
+                  <span class="dimensions">{{ .dimensions | markdownify }}</span>.
+                {{- end -}}
+              {{- end -}}
+            {{- end -}}
+            {{ if .Page.Params.contributor }}<span class="contributor"> — {{ partial "contributor-list.html" (dict "range" .Page.Params.contributor "contributorType" "all" "listType" "string" "Site" .Site) }}{{- end -}}</span>
+            <p>
+              <a href="{{ .Page.Permalink }}">
+                View Details
+                <span class="arrow">
+                  <svg>
+                    <switch>
+                      <!-- <use xlink:href="#search-icon"></use> -->
+                      <foreignObject width="18" height="18">
+                          <img src="/img/icons/arrow_forward@2x.png" alt="" />
+                      </foreignObject>
+                    </switch>
+                  </svg>
+                </span>
+              </a>
+            </p>
+          </div>
         </div>
-      </div></a>
 
   {{- else -}}
 

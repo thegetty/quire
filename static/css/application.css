@@ -186,44 +186,32 @@
 
 @font-face {
   font-family: "IBM Plex Sans Condensed";
-  src: url(/fonts/IBMPlexSansCondensed-Medium.ttf) format("truetype");
+  src: url(/fonts/IBMPlexSansCondensed-SemiBold.ttf) format("truetype");
   font-weight: 600;
   font-style: normal; }
 
 @font-face {
   font-family: "IBM Plex Sans Condensed";
-  src: url(/fonts/IBMPlexSansCondensed-MediumItalic.ttf) format("truetype");
+  src: url(/fonts/IBMPlexSansCondensed-SemiBoldItalic.ttf) format("truetype");
   font-weight: 600;
-  font-style: italic; }
-
-@font-face {
-  font-family: "IBM Plex Sans Condensed";
-  src: url(/fonts/IBMPlexSansCondensed-Medium.ttf) format("truetype");
-  font-weight: 700;
-  font-style: normal; }
-
-@font-face {
-  font-family: "IBM Plex Sans Condensed";
-  src: url(/fonts/IBMPlexSansCondensed-LightItalic.ttf) format("truetype");
-  font-weight: 700;
   font-style: italic; }
 
 @font-face {
   font-family: "IBM Plex Sans Condensed";
   src: url(/fonts/IBMPlexSansCondensed-Bold.ttf) format("truetype");
-  font-weight: 800;
+  font-weight: 700;
   font-style: normal; }
 
 @font-face {
   font-family: "IBM Plex Sans Condensed";
   src: url(/fonts/IBMPlexSansCondensed-BoldItalic.ttf) format("truetype");
-  font-weight: 800;
+  font-weight: 700;
   font-style: italic; }
 
 @font-face {
   font-family: "Noto Serif";
   src: url(/fonts/NotoSerif-Bold.ttf) format("truetype");
-  font-weight: 400;
+  font-weight: 700;
   font-style: normal; }
 
 @font-face {
@@ -235,7 +223,7 @@
 @font-face {
   font-family: "Noto Serif";
   src: url(/fonts/NotoSerif-Regular.ttf) format("truetype");
-  font-weight: 700;
+  font-weight: 400;
   font-style: normal; }
 
 @font-face {
@@ -247,7 +235,7 @@
 @font-face {
   font-family: "Noto Sans";
   src: url(/fonts/NotoSans-Bold.ttf) format("truetype");
-  font-weight: 400;
+  font-weight: 700;
   font-style: normal; }
 
 @font-face {
@@ -259,7 +247,7 @@
 @font-face {
   font-family: "Noto Sans";
   src: url(/fonts/NotoSans-Regular.ttf) format("truetype");
-  font-weight: 700;
+  font-weight: 400;
   font-style: normal; }
 
 @font-face {
@@ -6907,13 +6895,19 @@ video {
     display: none; } }
 
 .quire-navbar {
-  font-family: Lato, Helvetica, sans-serif;
+  font-family: "Noto Sans", sans-serif;
   font-weight: 400;
+  font-size: .875em;
   background-color: #ffffff;
   min-height: 3rem;
   top: 0;
   width: 100%;
   border-bottom: 1px solid #363636; }
+  .quire-navbar svg {
+    height: calc(3rem * .65);
+    width: calc(3rem * .65);
+    max-height: 1.65rem;
+    max-width: 1rem; }
   .quire-navbar * {
     color: #363636; }
   .quire-navbar svg {
@@ -6985,8 +6979,12 @@ video {
       display: inline-block; }
     .quire-navbar-page-controls__item.quire-current-page {
       font-style: italic; }
+    .quire-navbar-page-controls__item.quire-home-page .left-icon {
+      margin-right: 0.65rem; }
     .quire-navbar-page-controls__item.quire-next-page {
       font-style: normal; }
+      .quire-navbar-page-controls__item.quire-next-page svg {
+        margin-left: 0.65rem; }
     @media screen and (min-width: 500px) {
       .quire-navbar-page-controls__item.quire-home-page {
         display: block; } }
@@ -7724,7 +7722,21 @@ html {
         .quire-contents-list.grid ul li:nth-child(3n) + li {
           clear: left; } }
     .quire-contents-list.grid ul li .card {
-      min-height: 300px; }
+      min-height: 300px;
+      position: relative;
+      display: block;
+      border-radius: 2px;
+      margin: 1rem; }
+      .quire-contents-list.grid ul li .card a {
+        padding: 0; }
+      .quire-contents-list.grid ul li .card .card-image {
+        transition: box-shadow .35s; }
+        .quire-contents-list.grid ul li .card .card-image:hover {
+          box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.75); }
+    .quire-contents-list.grid ul li .card-content .artist {
+      text-transform: uppercase; }
+    .quire-contents-list.grid ul li .card-content p a {
+      padding: 0; }
   .quire-contents-list.grid ul li.section-item {
     width: calc(100% - 2rem);
     margin: 1rem;
@@ -8286,7 +8298,8 @@ button.pswp__button.pswp__button--zoom {
       font-size: .8em;
       width: 8.75em;
       height: 3.25em;
-      padding-top: .9em; }
+      padding-top: .9em;
+      font-family: "Noto Sans", sans-serif; }
     .quire-contents-buttons li.quire-nav-button.prev {
       margin-left: 0;
       margin-right: .25rem; }
@@ -8294,9 +8307,11 @@ button.pswp__button.pswp__button--zoom {
         fill: #CF4747; }
     .quire-contents-buttons li.quire-nav-button svg {
       width: 1.25rem;
-      height: 0.8rem;
+      height: 1.25rem;
       margin-left: .25rem;
       fill: #CF4747; }
+    .quire-contents-buttons li.quire-nav-button .nav-title {
+      vertical-align: super; }
     .quire-contents-buttons li.quire-nav-button.next {
       background-color: #CF4747; }
       .quire-contents-buttons li.quire-nav-button.next svg {
