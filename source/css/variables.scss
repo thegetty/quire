@@ -40,6 +40,7 @@ $color-primary: #3273dc;
 $dark: #363636;
 $black: #000000;
 $off-black: #333333;
+$dark-gray: #999999;
 $red: #CF4747;
 $dark-red: #B02E2E;
 $light: #f5f5f5;
@@ -85,7 +86,7 @@ $cover-overlay-image: 'pattern-1.png';
 // or pattern overlay, add it to the YAML of your cover.md file,
 // --> image: cover-background.jpg
 
-$quire-cover-font-family: $sans-serif;
+$quire-cover-font-family: $noto-sans;
 $quire-cover-text-color: $white;
 
 $quire-cover-text-scale: 1;
@@ -96,6 +97,8 @@ $quire-cover-text-alignment: left;
 
 $quire-cover-footer-color: $light;
 $quire-cover-footer-text-color: $dark;
+
+$quire-page-link-color: $color-primary !default;
 
 
 // Layout
