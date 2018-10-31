@@ -94,7 +94,6 @@ search icons, and search results if enabled). It is visible on all pages.
             <span class="visually-hidden">Next Page: </span>
             {{ if .Next.Title }}
             {{ .Next.Title | markdownify }}
-            {{ end }}
             <svg>
               <switch>
                 <!-- <use xlink:href="#right-arrow-icon"></use> -->
@@ -103,6 +102,7 @@ search icons, and search results if enabled). It is visible on all pages.
                 </foreignObject>
               </switch>
             </svg>
+            {{ end }}
           </a>
         </li>
         {{ end }}
