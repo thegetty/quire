@@ -128,6 +128,7 @@
           </div>
           </a>
         {{ else if .Page.Params.object -}}
+         <a href="{{ .Page.Permalink }}">
           {{ range .Page.Params.object -}}
             {{ if .id -}}
               {{ range where $.Site.Data.objects.object_list "id" "eq" .id -}}
@@ -153,6 +154,7 @@
             {{- end -}}
             {{- end -}}
           {{- end -}}
+          </a>
         {{- end -}}
           <div class="card-content">
             {{ range .Page.Params.object -}}
