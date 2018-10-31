@@ -1,3 +1,4 @@
+@import "../variables";
 $dark: #363636 !default;
 $gap: 16px !default;
 $quire-deepzoom-height: 500px !default;
@@ -79,6 +80,7 @@ div.leaflet-control {
     */
     width: 100vw;
     height: 100vh;
+    overflow: hidden;
 }
 
 .leaflet-inner-wrapper {
@@ -101,6 +103,40 @@ div.leaflet-control-container>div.leaflet-top.leaflet-left {
     // margin-top: 50px;
 }
 
-.pswp--zoom-allowed .pswp__img {
-    cursor: default !important;
+body > div.mfp-wrap.mfp-gallery.mfp-auto-cursor.mfp-ready > div.mfp-container.mfp-s-ready.mfp-inline-holder {
+    padding: 0;
+}
+
+div.quire-modal-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(100% - 100px);
+    color: #fff;
+    z-index: 1045;
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 50px;
+}
+
+div.quire-modal-container > span {
+    font-family: $family-secondary;
+    font-size: 14px;
+    font-weight: bold;
+    width: calc(100vw - 44px);
+    text-align: right;
+    margin: 10px 0;
+    opacity: 0.65;
+}
+
+body > div.mfp-wrap.mfp-gallery.mfp-close-btn-in.mfp-auto-cursor.mfp-ready > div > div > button.mfp-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: #fff;
+    z-index: 9999;
+}
+
+body > div.mfp-wrap.mfp-gallery.mfp-auto-cursor.mfp-ready {
+    overflow-y: hidden;
 }
