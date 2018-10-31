@@ -301,35 +301,19 @@
   font-style: italic;
 }
 
-// IBM Plex Sans Condensed Medium
-@font-face {
-  font-family: "IBM Plex Sans Condensed";
-  src: url("../fonts/IBMPlexSansCondensed/IBMPlexSansCondensed-Medium.ttf") format("truetype");
-  font-weight: 600;
-  font-style: normal;
-}
-
-// IBM Plex Sans Condensed Medium Italic
-@font-face {
-  font-family: "IBM Plex Sans Condensed";
-  src: url("../fonts/IBMPlexSansCondensed/IBMPlexSansCondensed-MediumItalic.ttf") format("truetype");
-  font-weight: 600;
-  font-style: italic;
-}
-
 // IBM Plex Sans Condensed Semi-Bold
 @font-face {
   font-family: "IBM Plex Sans Condensed";
-  src: url("../fonts/IBMPlexSansCondensed/IBMPlexSansCondensed-Medium.ttf") format("truetype");
-  font-weight: 700;
+  src: url("../fonts/IBMPlexSansCondensed/IBMPlexSansCondensed-SemiBold.ttf") format("truetype");
+  font-weight: 600;
   font-style: normal;
 }
 
 // IBM Plex Sans Condensed Semi-Bold Italic
 @font-face {
   font-family: "IBM Plex Sans Condensed";
-  src: url("../fonts/IBMPlexSansCondensed/IBMPlexSansCondensed-LightItalic.ttf") format("truetype");
-  font-weight: 700;
+  src: url("../fonts/IBMPlexSansCondensed/IBMPlexSansCondensed-SemiBoldItalic.ttf") format("truetype");
+  font-weight: 600;
   font-style: italic;
 }
 
@@ -337,7 +321,7 @@
 @font-face {
   font-family: "IBM Plex Sans Condensed";
   src: url("../fonts/IBMPlexSansCondensed/IBMPlexSansCondensed-Bold.ttf") format("truetype");
-  font-weight: 800;
+  font-weight: 700;
   font-style: normal;
 }
 
@@ -345,7 +329,7 @@
 @font-face {
   font-family: "IBM Plex Sans Condensed";
   src: url("../fonts/IBMPlexSansCondensed/IBMPlexSansCondensed-BoldItalic.ttf") format("truetype");
-  font-weight: 800;
+  font-weight: 700;
   font-style: italic;
 }
 
@@ -356,7 +340,7 @@
 @font-face {
   font-family: "Noto Serif";
   src: url("../fonts/Noto_Serif/NotoSerif-Bold.ttf") format("truetype");
-  font-weight: 400;
+  font-weight: 700;
   font-style: normal;
 }
 
@@ -368,11 +352,11 @@
   font-style: italic;
 }
 
-// Noto Serif Rgular
+// Noto Serif Regular
 @font-face {
   font-family: "Noto Serif";
   src: url("../fonts/Noto_Serif/NotoSerif-Regular.ttf") format("truetype");
-  font-weight: 700;
+  font-weight: 400;
   font-style: normal;
 }
 
@@ -391,11 +375,11 @@
 @font-face {
   font-family: "Noto Sans";
   src: url("../fonts/Noto_Sans/NotoSans-Bold.ttf") format("truetype");
-  font-weight: 400;
+  font-weight: 700;
   font-style: normal;
 }
 
-// Noto Sans Bold Italic
+// Noto Sans Regular Italic
 @font-face {
   font-family: "Noto Sans";
   src: url("../fonts/Noto_Sans/NotoSans-Italic.ttf") format("truetype");
@@ -403,11 +387,11 @@
   font-style: italic;
 }
 
-// Noto Sans Rgular
+// Noto Sans Regular
 @font-face {
   font-family: "Noto Sans";
   src: url("../fonts/Noto_Sans/NotoSans-Regular.ttf") format("truetype");
-  font-weight: 700;
+  font-weight: 400;
   font-style: normal;
 }
 

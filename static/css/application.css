@@ -186,44 +186,32 @@
 
 @font-face {
   font-family: "IBM Plex Sans Condensed";
-  src: url(/fonts/IBMPlexSansCondensed-Medium.ttf) format("truetype");
+  src: url(/fonts/IBMPlexSansCondensed-SemiBold.ttf) format("truetype");
   font-weight: 600;
   font-style: normal; }
 
 @font-face {
   font-family: "IBM Plex Sans Condensed";
-  src: url(/fonts/IBMPlexSansCondensed-MediumItalic.ttf) format("truetype");
+  src: url(/fonts/IBMPlexSansCondensed-SemiBoldItalic.ttf) format("truetype");
   font-weight: 600;
-  font-style: italic; }
-
-@font-face {
-  font-family: "IBM Plex Sans Condensed";
-  src: url(/fonts/IBMPlexSansCondensed-Medium.ttf) format("truetype");
-  font-weight: 700;
-  font-style: normal; }
-
-@font-face {
-  font-family: "IBM Plex Sans Condensed";
-  src: url(/fonts/IBMPlexSansCondensed-LightItalic.ttf) format("truetype");
-  font-weight: 700;
   font-style: italic; }
 
 @font-face {
   font-family: "IBM Plex Sans Condensed";
   src: url(/fonts/IBMPlexSansCondensed-Bold.ttf) format("truetype");
-  font-weight: 800;
+  font-weight: 700;
   font-style: normal; }
 
 @font-face {
   font-family: "IBM Plex Sans Condensed";
   src: url(/fonts/IBMPlexSansCondensed-BoldItalic.ttf) format("truetype");
-  font-weight: 800;
+  font-weight: 700;
   font-style: italic; }
 
 @font-face {
   font-family: "Noto Serif";
   src: url(/fonts/NotoSerif-Bold.ttf) format("truetype");
-  font-weight: 400;
+  font-weight: 700;
   font-style: normal; }
 
 @font-face {
@@ -235,7 +223,7 @@
 @font-face {
   font-family: "Noto Serif";
   src: url(/fonts/NotoSerif-Regular.ttf) format("truetype");
-  font-weight: 700;
+  font-weight: 400;
   font-style: normal; }
 
 @font-face {
@@ -247,7 +235,7 @@
 @font-face {
   font-family: "Noto Sans";
   src: url(/fonts/NotoSans-Bold.ttf) format("truetype");
-  font-weight: 400;
+  font-weight: 700;
   font-style: normal; }
 
 @font-face {
@@ -259,7 +247,7 @@
 @font-face {
   font-family: "Noto Sans";
   src: url(/fonts/NotoSans-Regular.ttf) format("truetype");
-  font-weight: 700;
+  font-weight: 400;
   font-style: normal; }
 
 @font-face {
@@ -7232,8 +7220,9 @@ video {
     display: none; } }
 
 .quire-navbar {
-  font-family: Lato, Helvetica, sans-serif;
+  font-family: "Noto Sans", sans-serif;
   font-weight: 400;
+  font-size: .875em;
   background-color: #ffffff;
   min-height: 3rem;
   top: 0;
