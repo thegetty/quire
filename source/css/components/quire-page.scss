@@ -13,29 +13,6 @@
 // aligned to a baseline grid but care must be taken to ensure that font-size,
 // margins, and line-height add up to mulitples of the body text line-height.
 
-// Variables
-// -----------------------------------------------------------------------------
-$serif: Merriweather, Georgia, serif !default;
-$tablet: 500px !default;
-$desktop: 700px !default;
-$color-primary: #3273dc !default;
-$dark: #363636 !default;
-$light: #f5f5f5 !default;
-$black: #000000 !default;
-
-$family-primary: $serif !default;
-$family-secondary: $sans-serif !default;
-$navbar-height: 3rem !default;
-
-$quire-base-font-size: 17px !default;
-$quire-page-paragraph-style: indent !default;
-$quire-page-header-color: $light !default;
-$quire-page-header-text-color: $dark !default;
-$quire-page-link-color: $color-primary !default;
-$quire-page-link-highlight: $light !default;
-
-$quire-splash-page-color: $color-primary !default;
-
 // html
 // -----------------------------------------------------------------------------
 html {
