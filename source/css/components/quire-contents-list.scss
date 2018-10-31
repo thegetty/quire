@@ -154,6 +154,10 @@
 
       .card {
         min-height: 300px;
+        position: relative;
+        display: block;
+        border-radius: 2px;
+        margin: 1rem;
 
         .card-image {
           -webkit-transition: -webkit-box-shadow .35s;
@@ -168,10 +172,11 @@
       }
 
       .card-content {
-        .title {
-          .artist {
-            text-transform: uppercase;
-          }
+        .artist {
+          text-transform: uppercase;
+        }
+        p a {
+          padding: 0;
         }
       }
     }
