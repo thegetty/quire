@@ -117,7 +117,8 @@
 {{- end -}}
   {{- if in .class "grid" -}}
 
-      <a href="{{ .Page.Permalink }}"><div class="card">
+      <a href="{{ .Page.Permalink }}">
+        <div class="card">
         {{ if .Page.Params.image }}
           {{ $imgPath := printf "%s/%s" ($.Page.Scratch.Get "imageDir") .Page.Params.image }}
           <div class="card-image">
@@ -152,11 +153,14 @@
             {{- end -}}
           {{- end -}}
         {{- end -}}
-        <div class="card-content">
-          <div class="title">
-          {{- with .Page.Params.number }}{{ . }}. {{ end }}{{ .Page.Title | markdownify }}{{ with .Page.Params.subtitle }}: {{ . | markdownify }}{{- end -}}{{ if .Page.Params.contributor }}<span class="contributor"> — {{ partial "contributor-list.html" (dict "range" .Page.Params.contributor "contributorType" "all" "listType" "string" "Site" .Site) }}{{- end -}}</span></div>
+          <div class="card-content">
+            <div class="title">
+              {{ .Page.Title | markdownify }}{{ with .Page.Params.subtitle }}: {{ . | markdownify }}{{- end -}}{{ if .Page.Params.contributor }}<span class="contributor"> — {{ partial "contributor-list.html" (dict "range" .Page.Params.contributor "contributorType" "all" "listType" "string" "Site" .Site) }}{{- end -}}</span>
+              <p>View Details</p>
+            </div>
+          </div>
         </div>
-      </div></a>
+      </a>
 
   {{- else -}}
 

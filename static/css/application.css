@@ -8050,6 +8050,10 @@ html {
           clear: left; } }
     .quire-contents-list.grid ul li .card {
       min-height: 300px; }
+      .quire-contents-list.grid ul li .card .card-image {
+        transition: box-shadow .35s; }
+        .quire-contents-list.grid ul li .card .card-image:hover {
+          box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.75); }
   .quire-contents-list.grid ul li.section-item {
     width: calc(100% - 2rem);
     margin: 1rem;
