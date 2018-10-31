@@ -153,14 +153,25 @@
             {{- end -}}
           {{- end -}}
         {{- end -}}
-          <div class="card-content">
-            <div class="title">
-              {{ .Page.Title | markdownify }}{{ with .Page.Params.subtitle }}: {{ . | markdownify }}{{- end -}}{{ if .Page.Params.contributor }}<span class="contributor"> — {{ partial "contributor-list.html" (dict "range" .Page.Params.contributor "contributorType" "all" "listType" "string" "Site" .Site) }}{{- end -}}</span>
-              <p>View Details</p>
-            </div>
+        <div class="card-content">
+          <div class="title">
+            {{ range .Page.Params.object -}}
+              {{ if .id -}}
+                {{ range where $.Site.Data.objects.object_list "id" "eq" .id -}}
+                  <span class="artist">{{ .artist | markdownify }}</span>,
+                  <span class="location">{{ .location | markdownify }}</span>,
+                  <span class="year">{{ .year | markdownify }}</span>.
+                  <span class="title">{{ .title | markdownify }}</span>.
+                  <span class="medium">{{ .medium | markdownify }}</span>,
+                  <span class="dimensions">{{ .dimensions | markdownify }}</span>.
+                {{- end -}}
+              {{- end -}}
+            {{- end -}}
+            {{ if .Page.Params.contributor }}<span class="contributor"> — {{ partial "contributor-list.html" (dict "range" .Page.Params.contributor "contributorType" "all" "listType" "string" "Site" .Site) }}{{- end -}}</span>
           </div>
         </div>
-      </a>
+      </div>
+    </a>
 
   {{- else -}}
 
