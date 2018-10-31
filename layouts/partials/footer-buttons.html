@@ -2,7 +2,7 @@
   <ul>
     <li class="quire-nav-button prev">
       {{ with .Prev }}
-        <a href="{{ .Permalink }}">{{- template "image-control-icon" (dict "type" "left-arrow" "description" "Go back a page" "imageDir" ($.Scratch.Get "imageDir") ) -}} Back</a>
+        <a href="{{ .Permalink }}">{{- template "image-control-icon" (dict "type" "left" "description" "Go back a page" "imageDir" ($.Scratch.Get "imageDir") ) -}} <span class="nav-title">Back</span></a>
         <span class="visually-hidden">Previous Page (left keyboard arrow or swipe)</span>
       {{ end }}
     </li>
@@ -14,7 +14,7 @@
         {{ if ne $in $ln }}
         <li class="quire-nav-button next">
           {{ with .Next }}
-            <a href="{{ .Permalink }}">Next {{- template "image-control-icon" (dict "type" "right-arrow" "description" "Go to next page" "imageDir" ($.Scratch.Get "imageDir") ) -}}</a>
+            <a href="{{ .Permalink }}"><span class="nav-title">Next</span> {{- template "image-control-icon" (dict "type" "right" "description" "Go to next page" "imageDir" ($.Scratch.Get "imageDir") ) -}}</a>
             <span class="visually-hidden">Next Page (right keyboard arrow or swipe)</span>
           {{ end }}
         </li>
@@ -27,9 +27,9 @@
 {{ define "image-control-icon" }}
 <svg class="remove-from-epub">
   <switch>
-    <use xlink:href="#{{ .type }}-icon"></use>
-    <foreignObject width="32" height="32">
-        <img class="remove-from-epub" src="{{ absURL .imageDir }}/icons/{{ .type }}.png" alt="" />
+    <!-- <use xlink:href="#{{ .type }}-arrow-icon"></use> -->
+    <foreignObject width="24" height="24">
+        <img class="remove-from-epub" src="{{ absURL .imageDir }}/icons/{{ .type }}@2x.png" alt="" />
     </foreignObject>
   </switch>
 </svg>
