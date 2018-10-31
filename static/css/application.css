@@ -7981,7 +7981,7 @@ html {
     width: calc(3rem * .65);
     max-height: .95rem;
     max-width: .95rem; }
-  .quire-contents-list .menu-list ul .arrow ul {
+  .quire-contents-list .arrow ul {
     padding-left: 20px;
     font-size: .75em; }
   .quire-contents-list .menu-list a {
