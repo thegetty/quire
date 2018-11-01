@@ -180,8 +180,11 @@
         .artist {
           text-transform: uppercase;
         }
-        p a {
-          padding: 0;
+        p {
+          padding-top: 0.5rem;
+          a {
+            padding: 0;
+          }
         }
       }
     }

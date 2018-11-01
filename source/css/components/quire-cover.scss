@@ -55,7 +55,7 @@
     }
 
     .title {
-      font-family: $quire-cover-font-family;
+      font-family: $family-secondary;
       font-size: calc(3.75rem * #{$quire-cover-text-scale});
       font-weight: 300;
       line-height: 1.07;
@@ -85,7 +85,7 @@
     }
 
     .reading-line {
-      font-family: $quire-cover-font-family;
+      font-family: $family-secondary;
       font-style: italic;
       font-size: calc(1.25rem * #{$quire-cover-text-scale});
       line-height: 1.2;
@@ -97,7 +97,7 @@
     }
 
     .contributor {
-      font-family: $quire-cover-font-family;
+      font-family: $family-secondary;
       font-size: calc(1.25rem * #{$quire-cover-text-scale});
       line-height: 1.72;
       margin-top: calc(2rem * #{$quire-cover-text-scale});

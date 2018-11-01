@@ -538,7 +538,7 @@ button,
 input,
 select,
 textarea {
-  font-family: Merriweather, Georgia, serif; }
+  font-family: "Noto Serif", serif; }
 
 code,
 pre {
@@ -7397,7 +7397,7 @@ video {
   margin-left: 0; }
 
 .quire-menu {
-  font-family: Lato, Helvetica, sans-serif; }
+  font-family: "IBM Plex Sans Condensed", sans-serif; }
   .quire-menu__header {
     margin: 1rem 0;
     border-bottom: 1px solid #ffffff; }
@@ -7470,7 +7470,7 @@ video {
   .quire-search.is-active {
     display: block; }
   .quire-search__inner h1.title {
-    font-family: Lato, Helvetica, sans-serif;
+    font-family: "IBM Plex Sans Condensed", sans-serif;
     font-weight: 300;
     font-size: 2.7rem; }
   .quire-search__inner .input {
@@ -7526,7 +7526,7 @@ html {
   margin-top: 1rem; }
 
 .quire-page h1, .quire-page__header__title {
-  font-family: Lato, Helvetica, sans-serif;
+  font-family: "IBM Plex Sans Condensed", sans-serif;
   font-size: 3.3rem;
   font-weight: 300;
   font-style: italic;
@@ -7543,7 +7543,7 @@ html {
       margin-top: .75in; } }
 
 .quire-page h2 {
-  font-family: Lato, Helvetica, sans-serif;
+  font-family: "IBM Plex Sans Condensed", sans-serif;
   font-size: 2.7rem;
   font-weight: 300;
   line-height: 1.09; }
@@ -7553,7 +7553,7 @@ html {
 
 .quire-page h3,
 .quire-page h4, .quire-page__header__subtitle, .quire-page__header__contributor {
-  font-family: Lato, Helvetica, sans-serif;
+  font-family: "IBM Plex Sans Condensed", sans-serif;
   font-size: 1.75rem;
   font-weight: 600;
   line-height: 1.143; }
@@ -7583,7 +7583,7 @@ html {
   line-height: 1.23; }
 
 .quire-page h5, .quire-page h6 {
-  font-family: Lato, Helvetica, sans-serif;
+  font-family: "IBM Plex Sans Condensed", sans-serif;
   font-weight: 400; }
 
 .quire-page h5 {
@@ -7656,7 +7656,10 @@ html {
   font-size: 1.125rem;
   line-height: 1.78;
   font-weight: 400;
-  padding-bottom: 1.5rem; }
+  padding-bottom: 1.5rem;
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.6; }
   .quire-page__content .content a:not([rel=footnote]):not(.footnote-return) {
     color: #3273dc;
     border-bottom: 1px solid #3273dc; }
@@ -7772,9 +7775,9 @@ html {
         color: #3273dc;
         text-transform: uppercase;
         letter-spacing: 1pt;
-        font-family: Lato, Helvetica, sans-serif; } }
+        font-family: "IBM Plex Sans Condensed", sans-serif; } }
   .quire-cover__hero .title {
-    font-family: "Noto Sans", sans-serif;
+    font-family: "IBM Plex Sans Condensed", sans-serif;
     font-size: calc(3.75rem * 1);
     font-weight: 300;
     line-height: 1.07;
@@ -7800,7 +7803,7 @@ html {
         margin-top: .25in;
         color: #ffffff; } }
   .quire-cover__hero .reading-line {
-    font-family: "Noto Sans", sans-serif;
+    font-family: "IBM Plex Sans Condensed", sans-serif;
     font-style: italic;
     font-size: calc(1.25rem * 1);
     line-height: 1.2;
@@ -7810,7 +7813,7 @@ html {
         font-size: 18pt;
         color: #ffffff; } }
   .quire-cover__hero .contributor {
-    font-family: "Noto Sans", sans-serif;
+    font-family: "IBM Plex Sans Condensed", sans-serif;
     font-size: calc(1.25rem * 1);
     line-height: 1.72;
     margin-top: calc(2rem * 1);
@@ -7921,7 +7924,7 @@ html {
     background-color: transparent; }
   .quire-cover .quire-cover-footer .quire-publisher {
     margin-bottom: 1.5em;
-    font-family: Lato, Helvetica, sans-serif; }
+    font-family: "IBM Plex Sans Condensed", sans-serif; }
     .quire-cover .quire-cover-footer .quire-publisher img {
       float: right;
       max-height: 6em;
@@ -8064,8 +8067,10 @@ html {
           box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.75); }
     .quire-contents-list.grid ul li .card-content .artist {
       text-transform: uppercase; }
-    .quire-contents-list.grid ul li .card-content p a {
-      padding: 0; }
+    .quire-contents-list.grid ul li .card-content p {
+      padding-top: 0.5rem; }
+      .quire-contents-list.grid ul li .card-content p a {
+        padding: 0; }
   .quire-contents-list.grid ul li.section-item {
     width: calc(100% - 2rem);
     margin: 1rem;
@@ -8585,7 +8590,8 @@ button.pswp__button.pswp__button--zoom {
   width: 100%;
   display: block;
   text-align: center;
-  padding-bottom: 3rem; }
+  padding-bottom: 3rem;
+  padding-top: 2rem; }
   .quire-contents-buttons li.quire-nav-button {
     display: inline-block;
     width: 7.4em;
@@ -8613,7 +8619,7 @@ button.pswp__button.pswp__button--zoom {
       width: 1.25rem;
       height: 1.25rem;
       margin-left: .25rem;
-      margin-bottom: .05rem;
+      margin-bottom: .15rem;
       fill: #CF4747; }
     .quire-contents-buttons li.quire-nav-button .nav-title {
       vertical-align: super; }
@@ -8646,19 +8652,19 @@ button.pswp__button.pswp__button--zoom {
     margin-top: 0.75in;
     margin-bottom: 0.875in;
     @bottom-right-corner {
-      font-family: Lato, Helvetica, sans-serif;
+      font-family: "IBM Plex Sans Condensed", sans-serif;
       font-size: 8pt; }
     @bottom-right {
-      font-family: Lato, Helvetica, sans-serif;
+      font-family: "IBM Plex Sans Condensed", sans-serif;
       font-size: 8pt; }
     @bottom-center {
-      font-family: Lato, Helvetica, sans-serif;
+      font-family: "IBM Plex Sans Condensed", sans-serif;
       font-size: 8pt; }
     @bottom-left {
-      font-family: Lato, Helvetica, sans-serif;
+      font-family: "IBM Plex Sans Condensed", sans-serif;
       font-size: 8pt; }
     @bottom-left-corner {
-      font-family: Lato, Helvetica, sans-serif;
+      font-family: "IBM Plex Sans Condensed", sans-serif;
       font-size: 8pt; } }
   @page :left {
     margin-left: 0.75in;
