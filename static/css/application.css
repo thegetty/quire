@@ -538,7 +538,7 @@ button,
 input,
 select,
 textarea {
-  font-family: "Noto Serif", serif; }
+  font-family: "Noto Sans", sans-serif; }
 
 code,
 pre {
@@ -7220,7 +7220,7 @@ video {
     display: none; } }
 
 .quire-navbar {
-  font-family: "Noto Serif", serif;
+  font-family: "Noto Sans", sans-serif;
   font-weight: 400;
   font-size: .875em;
   background-color: #ffffff;
@@ -7264,7 +7264,7 @@ video {
 .quire-progress-bar {
   height: 1px;
   transition: all .5s ease;
-  font-family: "Noto Serif", serif;
+  font-family: "Noto Sans", sans-serif;
   font-size: 0.75rem; }
   .quire-progress-bar:hover {
     height: 18px; }
@@ -7780,10 +7780,10 @@ html {
         font-family: "IBM Plex Sans Condensed", sans-serif; } }
   .quire-cover__hero .title {
     font-family: "IBM Plex Sans Condensed", sans-serif;
-    font-size: calc(3.75rem * 1);
-    font-weight: 300;
+    font-size: calc(2rem * 1);
+    font-weight: 700;
     line-height: 1.07;
-    margin-bottom: calc(1.5rem * 1);
+    margin-bottom: calc(.5rem * 1);
     color: #ffffff; }
     @media print {
       .quire-cover__hero .title {
@@ -7794,8 +7794,8 @@ html {
         page-break-before: right; } }
   .quire-cover__hero .subtitle {
     display: block;
-    margin-top: calc(1.5rem * 1);
-    font-size: calc(2.92rem * 1);
+    margin-top: calc(.5rem * 1);
+    font-size: calc(1.5rem * 1);
     font-weight: 300;
     line-height: 1.02;
     color: #ffffff; }
@@ -7816,9 +7816,9 @@ html {
         color: #ffffff; } }
   .quire-cover__hero .contributor {
     font-family: "IBM Plex Sans Condensed", sans-serif;
-    font-size: calc(1.25rem * 1);
+    font-size: 1em;
     line-height: 1.72;
-    margin-top: calc(2rem * 1);
+    margin-top: calc(.5rem * 1);
     color: #ffffff; }
     @media print {
       .quire-cover__hero .contributor {
@@ -7853,7 +7853,7 @@ html {
   color: #fff;
   border-width: 0px;
   border-radius: 2px;
-  font-family: "Noto Serif", serif;
+  font-family: "Noto Sans", sans-serif;
   font-size: 1rem !important;
   padding: 0 !important;
   width: 140px;
@@ -7872,7 +7872,7 @@ html {
 .quire-cover .quire-page__content .container.is-fluid .content p {
   font-size: 0.75em;
   line-height: 2.5em;
-  font-family: "Noto Serif", serif; }
+  font-family: "Noto Sans", sans-serif; }
 
 @media screen and (min-width: 1028px) {
   .quire-cover .quire-page__content .container.is-fluid {
@@ -8630,7 +8630,7 @@ button.pswp__button.pswp__button--zoom {
       width: 8.75em;
       height: 3.25em;
       padding-top: .9em;
-      font-family: "Noto Serif", serif; }
+      font-family: "Noto Sans", sans-serif; }
     .quire-contents-buttons li.quire-nav-button.prev {
       margin-left: 0;
       margin-right: .25rem; }

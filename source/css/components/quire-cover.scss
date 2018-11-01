@@ -56,10 +56,10 @@
 
     .title {
       font-family: $family-secondary;
-      font-size: calc(3.75rem * #{$quire-cover-text-scale});
-      font-weight: 300;
+      font-size: calc(2rem * #{$quire-cover-text-scale});
+      font-weight: 700;
       line-height: 1.07;
-      margin-bottom: calc(1.5rem * #{$quire-cover-text-scale});
+      margin-bottom: calc(.5rem * #{$quire-cover-text-scale});
       color: $quire-cover-text-color;
       @media print {
         font-size: 40pt;
@@ -72,8 +72,8 @@
 
     .subtitle {
       display: block;
-      margin-top: calc(1.5rem * #{$quire-cover-text-scale});
-      font-size: calc(2.92rem * #{$quire-cover-text-scale});
+      margin-top: calc(.5rem * #{$quire-cover-text-scale});
+      font-size: calc(1.5rem * #{$quire-cover-text-scale});
       font-weight: 300;
       line-height: 1.02;
       color: $quire-cover-text-color;
@@ -98,9 +98,9 @@
 
     .contributor {
       font-family: $family-secondary;
-      font-size: calc(1.25rem * #{$quire-cover-text-scale});
+      font-size: 1em;
       line-height: 1.72;
-      margin-top: calc(2rem * #{$quire-cover-text-scale});
+      margin-top: calc(.5rem * #{$quire-cover-text-scale});
       color: $quire-cover-text-color;
       @media print {
         font-size: 18pt;
