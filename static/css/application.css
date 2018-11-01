@@ -7324,6 +7324,11 @@ video {
     @media screen and (min-width: 900px) {
       .quire-navbar-page-controls__item.quire-section-page {
         display: block; } }
+  @media screen and (min-width: 700px) {
+    .quire-navbar-page-controls .quire-navbar-button {
+      display: none; }
+    .quire-navbar-page-controls .quire-navbar-button.home-button {
+      display: inline-block; } }
 
 .quire-navbar-button {
   -webkit-appearance: none;
