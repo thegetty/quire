@@ -162,6 +162,13 @@
   }
 
   .quire-page__content .container.is-fluid {
+    .content {
+      p {
+        font-size: 0.75em;
+        line-height: 2.5em;
+        font-family: $quire-body-font;
+      }
+    }
     // max-width: 900px;
     @media screen and (min-width: 1028px) {
       max-width: 900px;

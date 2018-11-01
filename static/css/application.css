@@ -7869,6 +7869,11 @@ html {
   background-color: #B02E2E;
   color: #ffffff; }
 
+.quire-cover .quire-page__content .container.is-fluid .content p {
+  font-size: 0.75em;
+  line-height: 2.5em;
+  font-family: "Noto Serif", serif; }
+
 @media screen and (min-width: 1028px) {
   .quire-cover .quire-page__content .container.is-fluid {
     max-width: 900px;
