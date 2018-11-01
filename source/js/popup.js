@@ -9,12 +9,13 @@ export default function (gallerySelector) {
         delegate: 'a.popup',
         type: 'image',
         closeBtnInside: false,
+        fixedContentPos: true,
+        fixedBgPos: true,
         gallery: {
             enabled: true,
-            navigateByImgClick: true,
             preload: [0, 2], // read about this option in next Lazy-loading section
             navigateByImgClick: true,
-            arrowMarkup: '<button title="%title%" type="button" class="mfp-arrow mfp-arrow-%dir%"></button>', // markup of an arrow button
+            arrowMarkup: '<button title="%title%" type="button" class="mfp-arrow mfp-arrow-%dir%"><span class="mfp-prevent-close arrow-img-%dir%"></span></button>', // markup of an arrow button
             tPrev: 'Previous (Left arrow key)', // title for left button
             tNext: 'Next (Right arrow key)', // title for right button
             tCounter: '',
