@@ -24,7 +24,7 @@
     href="#map-{{ $Id }}"     
     class='inline popup'
     data-type="leaflet" 
-    data-caption='{{ .Get "caption" | markdownify | safeHTML }}'>
+    title='{{ .Get "caption" | markdownify | safeHTML }}'>
     <img
       class="quire-figure__image" 
       src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
@@ -57,7 +57,7 @@
     href="#iiif-{{ $Id }}" 
     class='inline popup'
     data-type='inline' 
-    {{ if .Get "caption" }}  data-caption='{{ .Get "caption" | markdownify | safeHTML }}' {{ end }}>
+    {{ if .Get "caption" }}  title='{{ .Get "caption" | markdownify | safeHTML }}' {{ end }}>
       <img
       class="quire-figure__image" 
       src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
@@ -94,7 +94,7 @@
     href="#deepzoom-{{ $Id }}" 
     class='inline popup'
     data-type='inline' 
-    {{ if .Get "caption" }}  data-caption='{{ .Get "caption" | markdownify | safeHTML }}' {{ end }}>
+    {{ if .Get "caption" }}  title='{{ .Get "caption" | markdownify | safeHTML }}' {{ end }}>
       <img
       class="quire-figure__image" 
       src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
@@ -152,7 +152,7 @@ render the figure from matching values found ther
       href="#map-{{ $Id }}" 
       class='inline popup'
       data-type="inline"
-      {{ if .caption }} data-caption='{{ .caption | markdownify | safeHTML }}' {{ end }}>
+      {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
         <img
         class="quire-figure__image" 
         src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
@@ -186,7 +186,7 @@ render the figure from matching values found ther
     class='inline popup'
     href="#iiif-{{ $Id }}"
     data-type='inline'
-    {{ if .caption }} data-caption='{{ .caption | markdownify | safeHTML }}' {{ end }}>
+    {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
       <img
       class="quire-figure__image" 
       src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
@@ -225,7 +225,7 @@ render the figure from matching values found ther
     href="#deepzoom-{{ $Id }}"
     class='inline popup'
     data-type='inline'
-    {{ if .caption }} data-caption='{{ .caption | markdownify | safeHTML }}' {{ end }}>
+    {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
       <img
       class="quire-figure__image" 
       src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />

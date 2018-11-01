@@ -60,7 +60,7 @@ the figure for each into a figure group
         <a href='https://www.youtube.com/watch?v={{ .media_id }}'
            data-type="video"
            class="video popup"
-           {{ if .caption }} data-caption='{{ .caption | markdownify | safeHTML }}' {{ end }}>
+           {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
         <img class='quire-figure__image'
              src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' 
              alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}'/>
@@ -70,7 +70,7 @@ the figure for each into a figure group
           <a href='https://player.vimeo.com/video/{{ .media_id }}'
              class="video popup"
              data-type="video" 
-             {{ if .caption }} data-caption='{{ .caption | markdownify | safeHTML }}' {{ end }}>
+             {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
           <img class='quire-figure__image'
                src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' 
                alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}'/>
@@ -128,7 +128,7 @@ the figure for each into a figure group
     {{/* -------------------- BEGIN NO_MEDIA_ID BLOCK -------------------- */}}
     <div class='q-figure__wrapper'>
         {{ if eq $.Site.Params.popup true }}
-        <a class="image popup" href='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' {{ if .caption }} data-caption='{{ .caption | markdownify | safeHTML }}' {{ end }}>
+        <a class="image popup" href='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
         {{ end }}
       <img id="{{ .id }}" class="quire-figure__image"
          src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'

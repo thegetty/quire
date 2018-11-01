@@ -231,7 +231,6 @@ function popupSetup() {
  */
 function mapSetup() {
   [...document.querySelectorAll('.quire-map')].forEach(v => {
-    console.log(v)
     let id = v.getAttribute('id')
     new Map(id)
   })
@@ -243,7 +242,6 @@ function mapSetup() {
  */
 function deepZoomSetup() {
   [...document.querySelectorAll('.quire-deepzoom')].forEach(v => {
-    console.log(v)
     let id = v.getAttribute('id')
     new DeepZoom(id)
   })
@@ -258,7 +256,6 @@ function pageSetup() {
   sliderSetup()
   navigationSetup()
   popupSetup()
-  console.log(isPopup)
   if (!isPopup) {
     mapSetup()
     deepZoomSetup()

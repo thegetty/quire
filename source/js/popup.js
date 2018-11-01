@@ -11,6 +11,7 @@ export default function (gallerySelector) {
         closeBtnInside: false,
         fixedContentPos: true,
         fixedBgPos: true,
+        titleSrc: 'data-caption',
         gallery: {
             enabled: true,
             preload: [0, 2], // read about this option in next Lazy-loading section
