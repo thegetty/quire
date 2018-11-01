@@ -6,7 +6,7 @@ require('magnific-popup')
 export default function (gallerySelector) {
 
     $(gallerySelector).magnificPopup({
-        delegate: 'a',
+        delegate: 'a.popup',
         type: 'image',
         closeBtnInside: false,
         gallery: {
@@ -28,8 +28,8 @@ export default function (gallerySelector) {
                 this.cont = `<div class="quire-modal-container">${this.counter}</div>`
             },
             elementParse: function (item) {
-                console.log('Parsing content. Item object that is being parsed:', item);
-                if (item.el[0].className == 'video') {
+                console.log('Parsing content. Item object that is being parsed:', item.el[0].getAttribute('data-type'));
+                if (item.el[0].getAttribute('data-type') === 'video') {
                     item.type = 'iframe',
                         item.iframe = {
                             patterns: {
@@ -54,7 +54,7 @@ export default function (gallerySelector) {
                                 }
                             }
                         }
-                } else if (item.el[0].className == 'inline') {
+                } else if (item.el[0].getAttribute('data-type') === 'inline') {
                     item.type = 'inline'
                 } else {
                     item.type = 'image',
