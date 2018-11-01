@@ -7220,7 +7220,7 @@ video {
     display: none; } }
 
 .quire-navbar {
-  font-family: "Noto Sans", sans-serif;
+  font-family: "Noto Serif", serif;
   font-weight: 400;
   font-size: .875em;
   background-color: #ffffff;
@@ -7263,9 +7263,11 @@ video {
 
 .quire-progress-bar {
   height: 1px;
-  transition: all .5s ease; }
+  transition: all .5s ease;
+  font-family: "Noto Serif", serif;
+  font-size: 0.75rem; }
   .quire-progress-bar:hover {
-    height: 22px; }
+    height: 18px; }
   .quire-progress-bar span {
     color: #ffffff; }
   .quire-progress-bar div {
@@ -7851,7 +7853,7 @@ html {
   color: #fff;
   border-width: 0px;
   border-radius: 2px;
-  font-family: "Noto Sans", sans-serif;
+  font-family: "Noto Serif", serif;
   font-size: 1rem !important;
   padding: 0 !important;
   width: 140px;
@@ -8608,7 +8610,7 @@ button.pswp__button.pswp__button--zoom {
       width: 8.75em;
       height: 3.25em;
       padding-top: .9em;
-      font-family: "Noto Sans", sans-serif; }
+      font-family: "Noto Serif", serif; }
     .quire-contents-buttons li.quire-nav-button.prev {
       margin-left: 0;
       margin-right: .25rem; }

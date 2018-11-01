@@ -70,8 +70,10 @@
   height: 1px;
   -webkit-transition: all .5s ease;
   transition: all .5s ease;
+  font-family: $quire-nav-font;
+  font-size: 0.75rem;
   &:hover {
-    height: 22px;
+    height: 18px;
   }
   span {
     color: $white;
