@@ -7231,8 +7231,9 @@ video {
   .quire-navbar svg {
     height: calc(3rem * .65);
     width: calc(3rem * .65);
-    max-height: 1.65rem;
-    max-width: 1rem; }
+    max-height: 1rem;
+    max-width: 1rem;
+    vertical-align: sub; }
   .quire-navbar * {
     color: #363636; }
   .quire-navbar svg {
@@ -7305,7 +7306,7 @@ video {
     .quire-navbar-page-controls__item.quire-current-page {
       font-style: italic; }
     .quire-navbar-page-controls__item.quire-home-page .left-icon {
-      margin-right: 0.65rem; }
+      margin-right: 1rem; }
     .quire-navbar-page-controls__item.quire-next-page {
       font-style: normal; }
       .quire-navbar-page-controls__item.quire-next-page svg {

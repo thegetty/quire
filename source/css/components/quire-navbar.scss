@@ -31,8 +31,9 @@
   svg {
     height: calc(#{$navbar-height} * .65);
     width: calc(#{$navbar-height} * .65);
-    max-height: 1.65rem;
+    max-height: 1rem;
     max-width: 1rem;
+    vertical-align: sub;
   }
 
   @if $navbar-height <= 2rem {
@@ -131,7 +132,7 @@
 
     &.quire-home-page {
       .left-icon {
-        margin-right: 0.65rem;
+        margin-right: 1rem;
       }
     }
 
