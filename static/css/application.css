@@ -8632,6 +8632,8 @@ button.pswp__button.pswp__button--zoom {
     font-size: 1em; }
     .quire-contents-buttons li.quire-nav-button a {
       display: inline-block;
+      width: 8.75em;
+      height: 3.25em;
       color: #CF4747;
       font-size: .8em;
       padding-top: .4em;
