@@ -29,7 +29,7 @@
                 {{ $otherFormats := where .Site.Data.publication.resource_link "type" "other-format" }}
                 {{ if gt (len $otherFormats) 0 -}}
                   <div class="quire-menu__formats">
-                  <h3 class="menu-label">Other Formats</h3>
+                  <h6 class="menu-label">Other Formats</h6>
                     <div role="complementary" aria-label="downloads">
                       {{- partial "link-list-arrow.html" $otherFormats -}}
                     </div>

@@ -7975,19 +7975,21 @@ html {
 .quire-contents-list {
   box-shadow: none;
   background-color: #EEF2F3; }
-  .quire-contents-list h3 {
-    font-size: .875em;
-    line-height: 1.28em;
-    text-transform: uppercase;
+  .quire-contents-list h6 {
     margin-top: 20px;
     padding-bottom: 6px;
     border-bottom: 1px solid #7a7a7a;
-    margin-bottom: 1em; }
+    margin-bottom: 1em;
+    font-weight: 700;
+    font-size: 0.65em;
+    letter-spacing: initial;
+    color: #333333; }
   .quire-contents-list svg {
     height: calc(3rem * .65);
     width: calc(3rem * .65);
     max-height: .95rem;
-    max-width: .95rem; }
+    max-width: .95rem;
+    vertical-align: baseline; }
   .quire-contents-list .arrow ul {
     padding-left: 20px;
     font-size: .75em; }
@@ -8008,18 +8010,20 @@ html {
     letter-spacing: 1px; }
   .quire-contents-list .contributor {
     font-style: italic; }
-  .quire-contents-list.list li, .quire-contents-list.brief li {
-    margin-bottom: .5em; }
-  .quire-contents-list.list li > ul, .quire-contents-list.brief li > ul {
-    margin-top: .5em;
-    margin-bottom: .5em;
-    margin-right: 0; }
-  .quire-contents-list.list .title, .quire-contents-list.brief .title {
-    font-size: inherit;
-    font-weight: inherit;
-    line-height: inherit; }
-  .quire-contents-list.list .section-item .title, .quire-contents-list.brief .section-item .title {
-    margin-bottom: 0; }
+  .quire-contents-list.list, .quire-contents-list.brief {
+    font-family: "IBM Plex Sans Condensed", sans-serif; }
+    .quire-contents-list.list li, .quire-contents-list.brief li {
+      margin-bottom: .5em; }
+    .quire-contents-list.list li > ul, .quire-contents-list.brief li > ul {
+      margin-top: .5em;
+      margin-bottom: .5em;
+      margin-right: 0; }
+    .quire-contents-list.list .title, .quire-contents-list.brief .title {
+      font-size: 1.05em;
+      font-weight: inherit;
+      line-height: inherit; }
+    .quire-contents-list.list .section-item .title, .quire-contents-list.brief .section-item .title {
+      margin-bottom: 0; }
   .quire-contents-list.abstract .title {
     line-height: 1.35;
     margin-bottom: 0; }
@@ -8069,12 +8073,21 @@ html {
         transition: box-shadow .35s; }
         .quire-contents-list.grid ul li .card .card-image:hover {
           box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.75); }
-    .quire-contents-list.grid ul li .card-content .artist {
-      text-transform: uppercase; }
-    .quire-contents-list.grid ul li .card-content p {
-      padding-top: 0.5rem; }
-      .quire-contents-list.grid ul li .card-content p a {
-        padding: 0; }
+    .quire-contents-list.grid ul li .card-content {
+      font-size: .75em; }
+      .quire-contents-list.grid ul li .card-content span {
+        font-size: .75em; }
+      .quire-contents-list.grid ul li .card-content .artist {
+        text-transform: uppercase; }
+      .quire-contents-list.grid ul li .card-content p {
+        padding-top: 0.5rem; }
+        .quire-contents-list.grid ul li .card-content p a {
+          padding: 0;
+          color: #CF4747;
+          font-size: .75em; }
+          .quire-contents-list.grid ul li .card-content p a svg {
+            fill: #CF4747;
+            vertical-align: text-bottom; }
   .quire-contents-list.grid ul li.section-item {
     width: calc(100% - 2rem);
     margin: 1rem;

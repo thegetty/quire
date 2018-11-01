@@ -25,14 +25,15 @@
   box-shadow: none;
   background-color: $quire-body-background-color;
 
-  h3 {
-    font-size: .875em;
-    line-height: 1.28em;
-    text-transform: uppercase;
+  h6 {
     margin-top: 20px;
     padding-bottom: 6px;
     border-bottom: 1px solid $grey; 
     margin-bottom: 1em;
+    font-weight: 700;
+    font-size: 0.65em;
+    letter-spacing: initial;
+    color: $quire-secondary-color;
   }
 
   svg {
@@ -40,6 +41,7 @@
     width: calc(#{$navbar-height} * .65);
     max-height: .95rem;
     max-width: .95rem;
+    vertical-align: baseline;
   }
 
   .arrow ul {
@@ -76,6 +78,7 @@
 
   &.list,
   &.brief {
+    font-family: $quire-header-font;
     li {
       margin-bottom: .5em;
     }
@@ -85,7 +88,7 @@
       margin-right: 0;
     }
     .title {
-      font-size: inherit;
+      font-size: 1.05em;
       font-weight: inherit;
       line-height: inherit;
     }
@@ -179,6 +182,10 @@
       }
 
       .card-content {
+        font-size: .75em;
+        span {
+          font-size: .75em;
+        }
         .artist {
           text-transform: uppercase;
         }
@@ -186,6 +193,12 @@
           padding-top: 0.5rem;
           a {
             padding: 0;
+            color: $quire-primary-color;
+            font-size: .75em;
+            svg {
+              fill: $quire-primary-color;
+              vertical-align: text-bottom;
+            }
           }
         }
       }
