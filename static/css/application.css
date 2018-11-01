@@ -7991,7 +7991,8 @@ html {
     padding-left: 20px;
     font-size: .75em; }
   .quire-contents-list .menu-list a {
-    position: relative; }
+    position: relative;
+    padding-left: 0; }
     .quire-contents-list .menu-list a .arrow {
       transition: all .5s ease; }
     .quire-contents-list .menu-list a:hover {
