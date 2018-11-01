@@ -241,8 +241,10 @@
     svg {
       height: calc(#{$navbar-height} * .65);
       width: calc(#{$navbar-height} * .65);
-      max-height: 1.5rem;
-      max-width: 1.5rem;
+      max-height: 2.5rem;
+      max-width: 2.5rem;
+      top: 0;
+      vertical-align: middle;
       & img {
         max-height: 1.5rem;
       }

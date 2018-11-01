@@ -7374,8 +7374,10 @@ video {
     .quire-navbar-button.home-button svg {
       height: calc(3rem * .65);
       width: calc(3rem * .65);
-      max-height: 1.5rem;
-      max-width: 1.5rem; }
+      max-height: 2.5rem;
+      max-width: 2.5rem;
+      top: 0;
+      vertical-align: middle; }
       .quire-navbar-button.home-button svg img {
         max-height: 1.5rem; }
 
