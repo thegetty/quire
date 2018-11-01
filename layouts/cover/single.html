@@ -62,7 +62,7 @@ Cover page layout. This controls the home page of the publication.
         {{- $imgDir := $.Scratch.Get "imageDir" -}}
         <svg>
           <switch>
-            <!-- <use xlink:href="#search-icon"></use> -->
+            <use xlink:href="#read-more-icon"></use>
             <foreignObject width="36" height="36">
                 <img src="{{ $imgDir | absURL }}/icons/heromore@2x.png" alt="" />
             </foreignObject>

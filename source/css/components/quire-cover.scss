@@ -121,10 +121,18 @@
       margin: -25px auto 25px auto;
       text-align: center;
       svg {
-        height: calc(#{$navbar-height} * .65);
-        width: calc(#{$navbar-height} * .65);
+        height: 3.5rem;
+        width: 3.5rem;
+        margin-left: .15rem;
+        margin-top: .15rem;
+        -webkit-transition: all .5s ease;
+        transition: all .5s ease;
+        fill: $white;
         img {
           padding: 7px 0;
+        }
+        &:hover {
+          margin-top: .3rem;
         }
       }
     }

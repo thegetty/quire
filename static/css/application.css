@@ -7832,10 +7832,16 @@ html {
   margin: -25px auto 25px auto;
   text-align: center; }
   .quire-cover__more .hero-more svg {
-    height: calc(3rem * .65);
-    width: calc(3rem * .65); }
+    height: 3.5rem;
+    width: 3.5rem;
+    margin-left: .15rem;
+    margin-top: .15rem;
+    transition: all .5s ease;
+    fill: #ffffff; }
     .quire-cover__more .hero-more svg img {
       padding: 7px 0; }
+    .quire-cover__more .hero-more svg:hover {
+      margin-top: .3rem; }
 
 .quire-cover__button {
   background-color: #CF4747;
