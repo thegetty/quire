@@ -63,13 +63,7 @@
         fill: $quire-header-font-color;
       }
       &:hover {
-        background-color: $quire-header-font-color;
-        a {
-          color: $quire-primary-color;
-          svg {
-            fill: $quire-primary-color;
-          }
-        }
+        background-color: $quire-primary-color-hover;
       }
       a {
         color: $quire-header-font-color;

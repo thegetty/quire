@@ -7167,7 +7167,7 @@ video {
     width: 100%;
     z-index: 9999; }
     .quire:not(.no-js) .quire__primary #main {
-      background: #fff; }
+      background: #EEF2F3; }
     .quire:not(.no-js) .quire__primary .quire-page {
       flex: 1 1 auto;
       -webkit-overflow-scrolling: touch;
@@ -7973,7 +7973,8 @@ html {
     margin: 36px 0 16px 0; }
 
 .quire-contents-list {
-  box-shadow: none; }
+  box-shadow: none;
+  background-color: #EEF2F3; }
   .quire-contents-list h3 {
     font-size: .875em;
     line-height: 1.28em;
@@ -8631,11 +8632,7 @@ button.pswp__button.pswp__button--zoom {
       .quire-contents-buttons li.quire-nav-button.next svg {
         fill: #ffffff; }
       .quire-contents-buttons li.quire-nav-button.next:hover {
-        background-color: #ffffff; }
-        .quire-contents-buttons li.quire-nav-button.next:hover a {
-          color: #CF4747; }
-          .quire-contents-buttons li.quire-nav-button.next:hover a svg {
-            fill: #CF4747; }
+        background-color: #B02E2E; }
       .quire-contents-buttons li.quire-nav-button.next a {
         color: #ffffff; }
     .quire-contents-buttons li.quire-nav-button:hover {
