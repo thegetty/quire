@@ -8616,8 +8616,8 @@ button.pswp__button.pswp__button--zoom {
   padding-top: 2rem; }
   .quire-contents-buttons li.quire-nav-button {
     display: inline-block;
-    width: 7.4em;
-    height: 2.75em;
+    width: 6.65em;
+    height: 2em;
     background: transparent;
     border: 1px solid #CF4747;
     border-radius: 2px;
@@ -8627,20 +8627,20 @@ button.pswp__button.pswp__button--zoom {
       display: inline-block;
       color: #CF4747;
       font-size: .8em;
-      width: 8.75em;
-      height: 3.25em;
-      padding-top: .9em;
+      padding-top: .4em;
       font-family: "Noto Sans", sans-serif; }
     .quire-contents-buttons li.quire-nav-button.prev {
       margin-left: 0;
-      margin-right: .25rem; }
+      margin-right: .55rem; }
+      .quire-contents-buttons li.quire-nav-button.prev a {
+        margin-right: .5rem; }
       .quire-contents-buttons li.quire-nav-button.prev svg {
         fill: #CF4747;
-        margin-right: 1rem; }
+        margin-right: .5rem; }
     .quire-contents-buttons li.quire-nav-button svg {
       width: 1.25rem;
       height: 1.25rem;
-      margin-left: .25rem;
+      margin-left: -.25rem;
       margin-bottom: .15rem;
       fill: #CF4747; }
     .quire-contents-buttons li.quire-nav-button .nav-title {
