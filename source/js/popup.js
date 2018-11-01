@@ -17,7 +17,8 @@ export default function (gallerySelector) {
             arrowMarkup: '<button title="%title%" type="button" class="mfp-arrow mfp-arrow-%dir%"></button>', // markup of an arrow button
             tPrev: 'Previous (Left arrow key)', // title for left button
             tNext: 'Next (Right arrow key)', // title for right button
-            tCounter: ''
+            tCounter: '',
+            closeMarkup: '<button title="Close (Esc)" type="button" class="mfp-close"></button>'
         },
         callbacks: {
             beforeOpen: function () {
