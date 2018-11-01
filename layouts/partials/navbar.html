@@ -21,7 +21,7 @@ search icons, and search results if enabled). It is visible on all pages.
       <button class="quire-navbar-button search-button"
               aria-controls="quire-search"
               onclick="toggleSearch()">
-        <svg>
+        <svg class="remove-from-epub">
           <switch>
             <use xlink:href="#search-icon"></use>
             <foreignObject width="32" height="32">
@@ -41,9 +41,9 @@ search icons, and search results if enabled). It is visible on all pages.
             <span class="visually-hidden">Home Page: </span>
             <button class="quire-navbar-button play-button"
               aria-controls="quire-search">
-              <svg>
+              <svg class="remove-from-epub">
                 <switch>
-                  <!-- <use xlink:href="#search-icon"></use> -->
+                  <use xlink:href="#start-icon"></use>
                   <foreignObject width="32" height="32">
                       <img src="{{ $imgDir | absURL }}/icons/play@2x.png" alt="" />
                   </foreignObject>
@@ -57,10 +57,10 @@ search icons, and search results if enabled). It is visible on all pages.
         <li class="quire-navbar-page-controls__item quire-home-page">
           <a href='{{ .Prev.Permalink }}' rel="previous">
             <span class="visually-hidden">Previous Page: </span>
-            <svg class="left-icon">
+            <svg class="left-icon remove-from-epub">
               <switch>
-                <!-- <use xlink:href="#left-arrow-icon"></use> -->
-                <foreignObject width="18" height="32">
+                <use xlink:href="#left-arrow-icon"></use>
+                <foreignObject width="24" height="24">
                     <img src="{{ $imgDir | absURL }}/icons/left@2x.png" alt="" />
                 </foreignObject>
               </switch>
@@ -76,9 +76,9 @@ search icons, and search results if enabled). It is visible on all pages.
             <span class="visually-hidden">Home Page: </span>
             <button class="quire-navbar-button home-button"
               aria-controls="quire-home">
-              <svg>
+              <svg class="remove-from-epub">
                 <switch>
-                  <!-- <use xlink:href="#home-icon"></use> -->
+                  <use xlink:href="#home-icon"></use>
                   <foreignObject width="32" height="32">
                       <img src="{{ $imgDir | absURL }}/icons/rewind@2x.png" alt="" />
                   </foreignObject>
@@ -94,10 +94,10 @@ search icons, and search results if enabled). It is visible on all pages.
             <span class="visually-hidden">Next Page: </span>
             {{ if .Next.Title }}
             {{ .Next.Title | markdownify }}
-            <svg>
+            <svg class="remove-from-epub">
               <switch>
-                <!-- <use xlink:href="#right-arrow-icon"></use> -->
-                <foreignObject width="18" height="32">
+                <use xlink:href="#right-arrow-icon"></use>
+                <foreignObject width="24" height="24">
                     <img src="{{ $imgDir | absURL }}/icons/right@2x.png" alt="" />
                 </foreignObject>
               </switch>
@@ -116,7 +116,7 @@ search icons, and search results if enabled). It is visible on all pages.
               aria-expanded="true"
               aria-controls="quire-menu"
               tabindex="2" >
-        <svg>
+        <svg class="remove-from-epub">
           <switch>
             <use xlink:href="#nav-icon"></use>
             <foreignObject width="32" height="32">
@@ -156,7 +156,7 @@ search icons, and search results if enabled). It is visible on all pages.
   <a href="{{ .Prev.Permalink }}" rel="prev" id="js-prev" >
     <svg>
       <switch>
-        <!-- <use xlink:href="#left-arrow-icon"></use> -->
+        <use xlink:href="#left-arrow-icon"></use>
         <foreignObject width="18" height="32">
             <img src="{{ $imgDir | absURL }}/icons/left@2x.png" alt="" />
         </foreignObject>
@@ -187,7 +187,7 @@ search icons, and search results if enabled). It is visible on all pages.
   <a href="{{ .Next.Permalink }}" rel="next" id="js-next">
     <svg>
       <switch>
-        <!-- <use xlink:href="#right-arrow-icon"></use> -->
+        <use xlink:href="#right-arrow-icon"></use>
         <foreignObject width="18" height="32">
             <img src="{{ $imgDir | absURL }}/icons/right@2x.png" alt="" />
         </foreignObject>

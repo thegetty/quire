@@ -537,7 +537,7 @@ button,
 input,
 select,
 textarea {
-  font-family: Merriweather, Georgia, serif; }
+  font-family: "Noto Serif", serif; }
 
 code,
 pre {
@@ -6842,7 +6842,7 @@ video {
     width: 100%;
     z-index: 9999; }
     .quire:not(.no-js) .quire__primary #main {
-      background: #fff; }
+      background: #EEF2F3; }
     .quire:not(.no-js) .quire__primary .quire-page {
       flex: 1 1 auto;
       -webkit-overflow-scrolling: touch;
@@ -6895,7 +6895,7 @@ video {
     display: none; } }
 
 .quire-navbar {
-  font-family: "Noto Sans", sans-serif;
+  font-family: "Noto Serif", serif;
   font-weight: 400;
   font-size: .875em;
   background-color: #ffffff;
@@ -6906,8 +6906,9 @@ video {
   .quire-navbar svg {
     height: calc(3rem * .65);
     width: calc(3rem * .65);
-    max-height: 1.65rem;
-    max-width: 1rem; }
+    max-height: 1rem;
+    max-width: 1rem;
+    vertical-align: sub; }
   .quire-navbar * {
     color: #363636; }
   .quire-navbar svg {
@@ -6937,9 +6938,11 @@ video {
 
 .quire-progress-bar {
   height: 1px;
-  transition: all .5s ease; }
+  transition: all .5s ease;
+  font-family: "Noto Serif", serif;
+  font-size: 0.75rem; }
   .quire-progress-bar:hover {
-    height: 25px; }
+    height: 18px; }
   .quire-progress-bar span {
     color: #ffffff; }
   .quire-progress-bar div {
@@ -6980,7 +6983,7 @@ video {
     .quire-navbar-page-controls__item.quire-current-page {
       font-style: italic; }
     .quire-navbar-page-controls__item.quire-home-page .left-icon {
-      margin-right: 0.65rem; }
+      margin-right: 1rem; }
     .quire-navbar-page-controls__item.quire-next-page {
       font-style: normal; }
       .quire-navbar-page-controls__item.quire-next-page svg {
@@ -7034,24 +7037,19 @@ video {
       max-width: 1rem; }
       .quire-navbar-button.arrow-button svg img {
         max-height: 1rem; }
-  .quire-navbar-button.play-button {
+  .quire-navbar-button.play-button, .quire-navbar-button.home-button {
     text-align: center; }
-    .quire-navbar-button.play-button svg {
+    .quire-navbar-button.play-button svg, .quire-navbar-button.home-button svg {
       height: calc(3rem * .65);
       width: calc(3rem * .65);
-      max-height: 1.5rem;
-      max-width: 1.5rem; }
-      .quire-navbar-button.play-button svg img {
-        max-height: 1.5rem; }
-  .quire-navbar-button.home-button {
-    text-align: center; }
-    .quire-navbar-button.home-button svg {
-      height: calc(3rem * .65);
-      width: calc(3rem * .65);
-      max-height: 1.5rem;
-      max-width: 1.5rem; }
-      .quire-navbar-button.home-button svg img {
-        max-height: 1.5rem; }
+      max-height: 2.5rem;
+      max-width: 2.5rem;
+      top: 0;
+      vertical-align: middle;
+      margin-left: 0.5rem;
+      margin-top: 0.25rem; }
+      .quire-navbar-button.play-button svg img, .quire-navbar-button.home-button svg img {
+        max-height: 2.5rem; }
 
 .quire-navbar-skip-link:not(:focus) {
   clip: rect(1px, 1px, 1px, 1px);
@@ -7076,7 +7074,7 @@ video {
   margin-left: 0; }
 
 .quire-menu {
-  font-family: Lato, Helvetica, sans-serif; }
+  font-family: "IBM Plex Sans Condensed", sans-serif; }
   .quire-menu__header {
     margin: 1rem 0;
     border-bottom: 1px solid #ffffff; }
@@ -7149,7 +7147,7 @@ video {
   .quire-search.is-active {
     display: block; }
   .quire-search__inner h1.title {
-    font-family: Lato, Helvetica, sans-serif;
+    font-family: "IBM Plex Sans Condensed", sans-serif;
     font-weight: 300;
     font-size: 2.7rem; }
   .quire-search__inner .input {
@@ -7205,7 +7203,7 @@ html {
   margin-top: 1rem; }
 
 .quire-page h1, .quire-page__header__title {
-  font-family: Lato, Helvetica, sans-serif;
+  font-family: "IBM Plex Sans Condensed", sans-serif;
   font-size: 3.3rem;
   font-weight: 300;
   font-style: italic;
@@ -7222,7 +7220,7 @@ html {
       margin-top: .75in; } }
 
 .quire-page h2 {
-  font-family: Lato, Helvetica, sans-serif;
+  font-family: "IBM Plex Sans Condensed", sans-serif;
   font-size: 2.7rem;
   font-weight: 300;
   line-height: 1.09; }
@@ -7232,7 +7230,7 @@ html {
 
 .quire-page h3,
 .quire-page h4, .quire-page__header__subtitle, .quire-page__header__contributor {
-  font-family: Lato, Helvetica, sans-serif;
+  font-family: "IBM Plex Sans Condensed", sans-serif;
   font-size: 1.75rem;
   font-weight: 600;
   line-height: 1.143; }
@@ -7262,7 +7260,7 @@ html {
   line-height: 1.23; }
 
 .quire-page h5, .quire-page h6 {
-  font-family: Lato, Helvetica, sans-serif;
+  font-family: "IBM Plex Sans Condensed", sans-serif;
   font-weight: 400; }
 
 .quire-page h5 {
@@ -7335,7 +7333,10 @@ html {
   font-size: 1.125rem;
   line-height: 1.78;
   font-weight: 400;
-  padding-bottom: 1.5rem; }
+  padding-bottom: 1.5rem;
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.6; }
   .quire-page__content .content a:not([rel=footnote]):not(.footnote-return) {
     color: #3273dc;
     border-bottom: 1px solid #3273dc; }
@@ -7451,9 +7452,9 @@ html {
         color: #3273dc;
         text-transform: uppercase;
         letter-spacing: 1pt;
-        font-family: Lato, Helvetica, sans-serif; } }
+        font-family: "IBM Plex Sans Condensed", sans-serif; } }
   .quire-cover__hero .title {
-    font-family: "Noto Sans", sans-serif;
+    font-family: "IBM Plex Sans Condensed", sans-serif;
     font-size: calc(3.75rem * 1);
     font-weight: 300;
     line-height: 1.07;
@@ -7479,7 +7480,7 @@ html {
         margin-top: .25in;
         color: #ffffff; } }
   .quire-cover__hero .reading-line {
-    font-family: "Noto Sans", sans-serif;
+    font-family: "IBM Plex Sans Condensed", sans-serif;
     font-style: italic;
     font-size: calc(1.25rem * 1);
     line-height: 1.2;
@@ -7489,7 +7490,7 @@ html {
         font-size: 18pt;
         color: #ffffff; } }
   .quire-cover__hero .contributor {
-    font-family: "Noto Sans", sans-serif;
+    font-family: "IBM Plex Sans Condensed", sans-serif;
     font-size: calc(1.25rem * 1);
     line-height: 1.72;
     margin-top: calc(2rem * 1);
@@ -7511,30 +7512,42 @@ html {
   margin: -25px auto 25px auto;
   text-align: center; }
   .quire-cover__more .hero-more svg {
-    height: calc(3rem * .65);
-    width: calc(3rem * .65); }
+    height: 3.5rem;
+    width: 3.5rem;
+    margin-left: .15rem;
+    margin-top: .15rem;
+    transition: all .5s ease;
+    fill: #ffffff; }
     .quire-cover__more .hero-more svg img {
       padding: 7px 0; }
+    .quire-cover__more .hero-more svg:hover {
+      margin-top: .3rem; }
 
 .quire-cover__button {
   background-color: #CF4747;
   color: #fff;
   border-width: 0px;
   border-radius: 2px;
-  font-family: Lato, Helvetica, sans-serif;
+  font-family: "Noto Serif", serif;
   font-size: 1rem !important;
   padding: 0 !important;
   width: 140px;
   height: 44px; }
   .quire-cover__button svg {
     width: 1.25rem;
-    height: 0.8rem;
+    height: 1.25rem;
     margin-left: .25rem;
+    margin-bottom: .05rem;
     fill: #fff; }
 
 .quire-cover__button:hover {
   background-color: #B02E2E;
   color: #ffffff; }
+
+.quire-cover .quire-page__content .container.is-fluid .content p {
+  font-size: 0.75em;
+  line-height: 2.5em;
+  font-family: "Noto Serif", serif; }
 
 @media screen and (min-width: 1028px) {
   .quire-cover .quire-page__content .container.is-fluid {
@@ -7593,7 +7606,7 @@ html {
     background-color: transparent; }
   .quire-cover .quire-cover-footer .quire-publisher {
     margin-bottom: 1.5em;
-    font-family: Lato, Helvetica, sans-serif; }
+    font-family: "IBM Plex Sans Condensed", sans-serif; }
     .quire-cover .quire-cover-footer .quire-publisher img {
       float: right;
       max-height: 6em;
@@ -7640,50 +7653,57 @@ html {
     margin: 36px 0 16px 0; }
 
 .quire-contents-list {
-  box-shadow: none; }
-  .quire-contents-list h3 {
-    font-size: .875em;
-    line-height: 1.28em;
-    text-transform: uppercase;
+  box-shadow: none;
+  background-color: #EEF2F3; }
+  .quire-contents-list h6 {
     margin-top: 20px;
     padding-bottom: 6px;
     border-bottom: 1px solid #7a7a7a;
-    margin-bottom: 1em; }
+    margin-bottom: 1em;
+    font-weight: 700;
+    font-size: 0.65em;
+    letter-spacing: initial;
+    color: #333333; }
   .quire-contents-list svg {
     height: calc(3rem * .65);
     width: calc(3rem * .65);
     max-height: .95rem;
-    max-width: .95rem; }
+    max-width: .95rem;
+    vertical-align: baseline; }
   .quire-contents-list .arrow ul {
     padding-left: 20px;
     font-size: .75em; }
   .quire-contents-list .menu-list a {
-    position: relative; }
+    position: relative;
+    padding-left: 0; }
     .quire-contents-list .menu-list a .arrow {
       transition: all .5s ease; }
     .quire-contents-list .menu-list a:hover {
       background-color: inherit;
       color: #B02E2E; }
       .quire-contents-list .menu-list a:hover .arrow {
-        margin-left: 14px; }
+        margin-left: 14px;
+        fill: #B02E2E; }
   .quire-contents-list .list-header {
     padding: .5em .75em;
     text-transform: uppercase;
     letter-spacing: 1px; }
   .quire-contents-list .contributor {
     font-style: italic; }
-  .quire-contents-list.list li, .quire-contents-list.brief li {
-    margin-bottom: .5em; }
-  .quire-contents-list.list li > ul, .quire-contents-list.brief li > ul {
-    margin-top: .5em;
-    margin-bottom: .5em;
-    margin-right: 0; }
-  .quire-contents-list.list .title, .quire-contents-list.brief .title {
-    font-size: inherit;
-    font-weight: inherit;
-    line-height: inherit; }
-  .quire-contents-list.list .section-item .title, .quire-contents-list.brief .section-item .title {
-    margin-bottom: 0; }
+  .quire-contents-list.list, .quire-contents-list.brief {
+    font-family: "IBM Plex Sans Condensed", sans-serif; }
+    .quire-contents-list.list li, .quire-contents-list.brief li {
+      margin-bottom: .5em; }
+    .quire-contents-list.list li > ul, .quire-contents-list.brief li > ul {
+      margin-top: .5em;
+      margin-bottom: .5em;
+      margin-right: 0; }
+    .quire-contents-list.list .title, .quire-contents-list.brief .title {
+      font-size: 1.05em;
+      font-weight: inherit;
+      line-height: inherit; }
+    .quire-contents-list.list .section-item .title, .quire-contents-list.brief .section-item .title {
+      margin-bottom: 0; }
   .quire-contents-list.abstract .title {
     line-height: 1.35;
     margin-bottom: 0; }
@@ -7733,10 +7753,21 @@ html {
         transition: box-shadow .35s; }
         .quire-contents-list.grid ul li .card .card-image:hover {
           box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.75); }
-    .quire-contents-list.grid ul li .card-content .artist {
-      text-transform: uppercase; }
-    .quire-contents-list.grid ul li .card-content p a {
-      padding: 0; }
+    .quire-contents-list.grid ul li .card-content {
+      font-size: .75em; }
+      .quire-contents-list.grid ul li .card-content span {
+        font-size: .75em; }
+      .quire-contents-list.grid ul li .card-content .artist {
+        text-transform: uppercase; }
+      .quire-contents-list.grid ul li .card-content p {
+        padding-top: 0.5rem; }
+        .quire-contents-list.grid ul li .card-content p a {
+          padding: 0;
+          color: #CF4747;
+          font-size: .75em; }
+          .quire-contents-list.grid ul li .card-content p a svg {
+            fill: #CF4747;
+            vertical-align: text-bottom; }
   .quire-contents-list.grid ul li.section-item {
     width: calc(100% - 2rem);
     margin: 1rem;
@@ -8317,7 +8348,8 @@ body > div.mfp-wrap.mfp-gallery.mfp-auto-cursor.mfp-ready > div.mfp-container.mf
   width: 100%;
   display: block;
   text-align: center;
-  padding-bottom: 3rem; }
+  padding-bottom: 3rem;
+  padding-top: 2rem; }
   .quire-contents-buttons li.quire-nav-button {
     display: inline-block;
     width: 7.4em;
@@ -8334,16 +8366,18 @@ body > div.mfp-wrap.mfp-gallery.mfp-auto-cursor.mfp-ready > div.mfp-container.mf
       width: 8.75em;
       height: 3.25em;
       padding-top: .9em;
-      font-family: "Noto Sans", sans-serif; }
+      font-family: "Noto Serif", serif; }
     .quire-contents-buttons li.quire-nav-button.prev {
       margin-left: 0;
       margin-right: .25rem; }
       .quire-contents-buttons li.quire-nav-button.prev svg {
-        fill: #CF4747; }
+        fill: #CF4747;
+        margin-right: 1rem; }
     .quire-contents-buttons li.quire-nav-button svg {
       width: 1.25rem;
       height: 1.25rem;
       margin-left: .25rem;
+      margin-bottom: .15rem;
       fill: #CF4747; }
     .quire-contents-buttons li.quire-nav-button .nav-title {
       vertical-align: super; }
@@ -8352,11 +8386,7 @@ body > div.mfp-wrap.mfp-gallery.mfp-auto-cursor.mfp-ready > div.mfp-container.mf
       .quire-contents-buttons li.quire-nav-button.next svg {
         fill: #ffffff; }
       .quire-contents-buttons li.quire-nav-button.next:hover {
-        background-color: #ffffff; }
-        .quire-contents-buttons li.quire-nav-button.next:hover a {
-          color: #CF4747; }
-          .quire-contents-buttons li.quire-nav-button.next:hover a svg {
-            fill: #CF4747; }
+        background-color: #B02E2E; }
       .quire-contents-buttons li.quire-nav-button.next a {
         color: #ffffff; }
     .quire-contents-buttons li.quire-nav-button:hover {
@@ -8376,19 +8406,19 @@ body > div.mfp-wrap.mfp-gallery.mfp-auto-cursor.mfp-ready > div.mfp-container.mf
     margin-top: 0.75in;
     margin-bottom: 0.875in;
     @bottom-right-corner {
-      font-family: Lato, Helvetica, sans-serif;
+      font-family: "IBM Plex Sans Condensed", sans-serif;
       font-size: 8pt; }
     @bottom-right {
-      font-family: Lato, Helvetica, sans-serif;
+      font-family: "IBM Plex Sans Condensed", sans-serif;
       font-size: 8pt; }
     @bottom-center {
-      font-family: Lato, Helvetica, sans-serif;
+      font-family: "IBM Plex Sans Condensed", sans-serif;
       font-size: 8pt; }
     @bottom-left {
-      font-family: Lato, Helvetica, sans-serif;
+      font-family: "IBM Plex Sans Condensed", sans-serif;
       font-size: 8pt; }
     @bottom-left-corner {
-      font-family: Lato, Helvetica, sans-serif;
+      font-family: "IBM Plex Sans Condensed", sans-serif;
       font-size: 8pt; } }
   @page :left {
     margin-left: 0.75in;

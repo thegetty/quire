@@ -11,6 +11,7 @@
   display: block;
   text-align: center;
   padding-bottom: 3rem;
+  padding-top: 2rem;
 
   li.quire-nav-button {
     display: inline-block;
@@ -40,6 +41,7 @@
       margin-right: .25rem;
       svg {
         fill: $quire-primary-color;
+        margin-right: 1rem;
       }
     }
 
@@ -47,6 +49,7 @@
       width: 1.25rem;
       height: 1.25rem;
       margin-left: .25rem;
+      margin-bottom: .15rem;
       fill: $quire-primary-color;
     }
 
@@ -60,13 +63,7 @@
         fill: $quire-header-font-color;
       }
       &:hover {
-        background-color: $quire-header-font-color;
-        a {
-          color: $quire-primary-color;
-          svg {
-            fill: $quire-primary-color;
-          }
-        }
+        background-color: $quire-primary-color-hover;
       }
       a {
         color: $quire-header-font-color;

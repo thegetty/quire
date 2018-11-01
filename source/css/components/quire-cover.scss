@@ -55,7 +55,7 @@
     }
 
     .title {
-      font-family: $quire-cover-font-family;
+      font-family: $family-secondary;
       font-size: calc(3.75rem * #{$quire-cover-text-scale});
       font-weight: 300;
       line-height: 1.07;
@@ -85,7 +85,7 @@
     }
 
     .reading-line {
-      font-family: $quire-cover-font-family;
+      font-family: $family-secondary;
       font-style: italic;
       font-size: calc(1.25rem * #{$quire-cover-text-scale});
       line-height: 1.2;
@@ -97,7 +97,7 @@
     }
 
     .contributor {
-      font-family: $quire-cover-font-family;
+      font-family: $family-secondary;
       font-size: calc(1.25rem * #{$quire-cover-text-scale});
       line-height: 1.72;
       margin-top: calc(2rem * #{$quire-cover-text-scale});
@@ -121,10 +121,18 @@
       margin: -25px auto 25px auto;
       text-align: center;
       svg {
-        height: calc(#{$navbar-height} * .65);
-        width: calc(#{$navbar-height} * .65);
+        height: 3.5rem;
+        width: 3.5rem;
+        margin-left: .15rem;
+        margin-top: .15rem;
+        -webkit-transition: all .5s ease;
+        transition: all .5s ease;
+        fill: $white;
         img {
           padding: 7px 0;
+        }
+        &:hover {
+          margin-top: .3rem;
         }
       }
     }
@@ -135,15 +143,16 @@
     color: findColorInvert($quire-page-link-color);
     border-width: 0px;
     border-radius: 2px;
-    font-family: $family-secondary;
+    font-family: $quire-nav-font;
     font-size: 1rem !important;
     padding: 0 !important;
     width: 140px;
     height: 44px;
     svg {
       width: 1.25rem;
-      height: 0.8rem;
+      height: 1.25rem;
       margin-left: .25rem;
+      margin-bottom: .05rem;
       fill: findColorInvert($quire-page-link-color);
     }
   }
@@ -153,6 +162,13 @@
   }
 
   .quire-page__content .container.is-fluid {
+    .content {
+      p {
+        font-size: 0.75em;
+        line-height: 2.5em;
+        font-family: $quire-body-font;
+      }
+    }
     // max-width: 900px;
     @media screen and (min-width: 1028px) {
       max-width: 900px;

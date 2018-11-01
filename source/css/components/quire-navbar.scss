@@ -31,8 +31,9 @@
   svg {
     height: calc(#{$navbar-height} * .65);
     width: calc(#{$navbar-height} * .65);
-    max-height: 1.65rem;
+    max-height: 1rem;
     max-width: 1rem;
+    vertical-align: sub;
   }
 
   @if $navbar-height <= 2rem {
@@ -69,8 +70,10 @@
   height: 1px;
   -webkit-transition: all .5s ease;
   transition: all .5s ease;
+  font-family: $quire-nav-font;
+  font-size: 0.75rem;
   &:hover {
-    height: 25px;
+    height: 18px;
   }
   span {
     color: $white;
@@ -131,7 +134,7 @@
 
     &.quire-home-page {
       .left-icon {
-        margin-right: 0.65rem;
+        margin-right: 1rem;
       }
     }
 
@@ -223,27 +226,20 @@
       }
     }
   }
-  &.play-button {
-    text-align: center;
-    svg {
-      height: calc(#{$navbar-height} * .65);
-      width: calc(#{$navbar-height} * .65);
-      max-height: 1.5rem;
-      max-width: 1.5rem;
-      & img {
-        max-height: 1.5rem;
-      }
-    }
-  }
+  &.play-button,
   &.home-button {
     text-align: center;
     svg {
       height: calc(#{$navbar-height} * .65);
       width: calc(#{$navbar-height} * .65);
-      max-height: 1.5rem;
-      max-width: 1.5rem;
+      max-height: 2.5rem;
+      max-width: 2.5rem;
+      top: 0;
+      vertical-align: middle;
+      margin-left: 0.5rem;
+      margin-top: 0.25rem;
       & img {
-        max-height: 1.5rem;
+        max-height: 2.5rem;
       }
     }
   }
