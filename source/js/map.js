@@ -4,8 +4,8 @@ import 'leaflet-fullscreen'
 
 class Map {
   constructor(id) {
+    
     // remove and refresh before init
-
     if (isPopup) {
       if (window.mapID != undefined || window.mapID != undefined) {
         window.mapID.off()

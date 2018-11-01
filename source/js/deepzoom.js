@@ -5,8 +5,8 @@ import 'leaflet-fullscreen'
 
 class DeepZoom {
   constructor(id) {
+    
     // remove and refresh before init
-
     if (isPopup) {
       if (window.mapID != undefined || window.mapID != undefined) {
         window.mapID.off()
@@ -41,23 +41,12 @@ class DeepZoom {
       let bounds = new L.LatLngBounds(this.southWest, this.northEast)
       this.addTiles(bounds)
     } else {
-      console.log(this.iiif)
       this.center = [0, 0]
       this.defaultZoom = 0
       this.map = this.createMap()
       window.mapID = this.map
       this.addLayer(this.iiif, this.map)
     }
-
-    /*
-    if (this.iiif) {
-      this.center = [0, 0]
-      this.defaultZoom = 0
-      this.map = this.createMap()
-      window.mapID = this.map
-      this.addLayer(this.iiif, this.map)
-    }
-    */
 
     setTimeout(() => {
       this.map.invalidateSize()
