@@ -65,6 +65,10 @@ div.leaflet-control-container {
     }
 }
 
+div.leaflet-fullscreen-on>div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-control-fullscreen.leaflet-bar.leaflet-control > a {
+    background-position: 2px -24px;
+}
+
 div.leaflet-control {
     >a {
         background: transparent;

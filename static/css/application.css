@@ -8206,6 +8206,9 @@ div.leaflet-control-container {
     background: transparent url(/img/fullscreen-leaflet.png) no-repeat 0 0;
     background-size: 32px 52px; }
 
+div.leaflet-fullscreen-on > div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-control-fullscreen.leaflet-bar.leaflet-control > a {
+  background-position: 2px -24px; }
+
 div.leaflet-control > a {
   background: transparent; }
 

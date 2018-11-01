@@ -23,14 +23,14 @@ export default function (gallerySelector) {
         },
         callbacks: {
             beforeOpen: function () {
-                console.log('Start of popup initialization');
+                // console.log('Start of popup initialization');
                 this.current = this.index + 1
                 this.total = this.items.length - 1
                 this.counter = `<span class="counter">${this.current} of ${this.items.length}</span>`
                 this.cont = `<div class="quire-modal-container">${this.counter}</div>`
             },
             elementParse: function (item) {
-                console.log('Parsing content. Item object that is being parsed:', item.el[0].getAttribute('data-type'));
+                // console.log('Parsing content. Item object that is being parsed:', item.el[0].getAttribute('data-type'));
                 if (item.el[0].getAttribute('data-type') === 'video') {
                     item.type = 'iframe',
                         item.iframe = {
@@ -69,8 +69,8 @@ export default function (gallerySelector) {
 
             },
             change: function () {
-                console.log('Content changed');
-                console.log(this)
+                // console.log('Content changed');
+                // console.log(this)
                 this.current = this.index + 1
                 if (document.querySelector('.counter')) {
                     document.querySelector('.counter').innerHTML = `${this.current} of ${this.items.length}`
@@ -99,32 +99,32 @@ export default function (gallerySelector) {
 
             },
             resize: function () {
-                console.log('Popup resized');
+                // console.log('Popup resized');
                 // resize event triggers only when height is changed or layout forced
             },
             open: function () {
-                console.log('Popup is opened');
+                // console.log('Popup is opened');
                 $('.mfp-wrap').append(this.cont)
             },
 
             beforeClose: function () {
                 // Callback available since v0.9.0
-                console.log('Popup close has been initiated');
+                // console.log('Popup close has been initiated');
                 $('.quire-modal-container').remove()
             },
             close: function () {
-                console.log('Popup removal initiated (after removalDelay timer finished)');
+                // console.log('Popup removal initiated (after removalDelay timer finished)');
             },
             afterClose: function () {
-                console.log('Popup is completely closed');
+                // console.log('Popup is completely closed');
             },
 
             markupParse: function (template, values, item) {
                 // Triggers each time when content of popup changes
-                // console.log('Parsing:', template, values, item);
+                // // console.log('Parsing:', template, values, item);
             },
             updateStatus: function (data) {
-                console.log('Status changed', data);
+                // console.log('Status changed', data);
                 // "data" is an object that has two properties:
                 // "data.status" - current status type, can be "loading", "error", "ready"
                 // "data.text" - text that will be displayed (e.g. "Loading...")
@@ -133,7 +133,7 @@ export default function (gallerySelector) {
             imageLoadComplete: function () {
                 // fires when image in current popup finished loading
                 // avaiable since v0.9.0
-                console.log('Image loaded');
+                // console.log('Image loaded');
             },
 
 
@@ -147,11 +147,11 @@ export default function (gallerySelector) {
 
                 // mfpResponse.data must be a String or a DOM (jQuery) element
 
-                console.log('Ajax content loaded:', mfpResponse);
+                // console.log('Ajax content loaded:', mfpResponse);
             },
             ajaxContentAdded: function () {
                 // Ajax content is loaded and appended to DOM
-                console.log(this.content);
+                // console.log(this.content);
             }
         }
     });
