@@ -7973,7 +7973,9 @@ html {
   margin: 0 auto;
   padding: 0 20px; }
   .quire-contents-header h1 {
+    font-family: "IBM Plex Sans Condensed", sans-serif;
     font-size: 3em;
+    font-weight: 700;
     line-height: 1.04em;
     margin: 36px 0 16px 0; }
 
