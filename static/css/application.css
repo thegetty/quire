@@ -8603,11 +8603,13 @@ button.pswp__button.pswp__button--zoom {
       margin-left: 0;
       margin-right: .25rem; }
       .quire-contents-buttons li.quire-nav-button.prev svg {
-        fill: #CF4747; }
+        fill: #CF4747;
+        margin-right: 1rem; }
     .quire-contents-buttons li.quire-nav-button svg {
       width: 1.25rem;
       height: 1.25rem;
       margin-left: .25rem;
+      margin-bottom: .05rem;
       fill: #CF4747; }
     .quire-contents-buttons li.quire-nav-button .nav-title {
       vertical-align: super; }
