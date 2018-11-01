@@ -135,15 +135,16 @@
     color: findColorInvert($quire-page-link-color);
     border-width: 0px;
     border-radius: 2px;
-    font-family: $family-secondary;
+    font-family: $quire-nav-font;
     font-size: 1rem !important;
     padding: 0 !important;
     width: 140px;
     height: 44px;
     svg {
       width: 1.25rem;
-      height: 0.8rem;
+      height: 1.25rem;
       margin-left: .25rem;
+      margin-bottom: .05rem;
       fill: findColorInvert($quire-page-link-color);
     }
   }

@@ -7846,15 +7846,16 @@ html {
   color: #fff;
   border-width: 0px;
   border-radius: 2px;
-  font-family: Lato, Helvetica, sans-serif;
+  font-family: "Noto Sans", sans-serif;
   font-size: 1rem !important;
   padding: 0 !important;
   width: 140px;
   height: 44px; }
   .quire-cover__button svg {
     width: 1.25rem;
-    height: 0.8rem;
+    height: 1.25rem;
     margin-left: .25rem;
+    margin-bottom: .05rem;
     fill: #fff; }
 
 .quire-cover__button:hover {
