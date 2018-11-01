@@ -15,9 +15,11 @@ import $ from 'jquery'
 import 'velocity-animate'
 
 // Modules (feel free to define your own and import here)
-import Search from './search.js'
-import Navigation from './navigation.js'
+import Search from './search'
+import Navigation from './navigation'
 import Popup from './popup'
+import DeepZoom from './deepzoom'
+import Map from './map'
 
 /**
  * toggleMenu
@@ -214,12 +216,37 @@ function scrollToHash() {
 }
 
 /**
- * Set up modal
+ * @description
+ * Set up modal for media
  */
 function popupSetup() {
   if (isPopup) {
     Popup('.q-figure__wrapper')
   }
+}
+
+/**
+ * @description 
+ * Render Map if Popup @false
+ */
+function mapSetup() {
+  [...document.querySelectorAll('.quire-map')].forEach(v => {
+    console.log(v)
+    let id = v.getAttribute('id')
+    new Map(id)
+  })
+}
+
+/**
+ * @description 
+ * Render deepzoom or iiif if Popup @false
+ */
+function deepZoomSetup() {
+  [...document.querySelectorAll('.quire-deepzoom')].forEach(v => {
+    console.log(v)
+    let id = v.getAttribute('id')
+    new DeepZoom(id)
+  })
 }
 
 /**
@@ -231,6 +258,11 @@ function pageSetup() {
   sliderSetup()
   navigationSetup()
   popupSetup()
+  console.log(isPopup)
+  if (!isPopup) {
+    mapSetup()
+    deepZoomSetup()
+  }
 }
 
 /**

@@ -6868,7 +6868,7 @@ video {
     transition-duration: 0.15s;
     transition-timing-function: linear;
     width: 350px;
-    z-index: -1; }
+    z-index: 0; }
     @media screen and (max-width: 350px) {
       .quire:not(.no-js) .quire__secondary {
         width: calc(100vw - 3rem); } }
@@ -8198,9 +8198,16 @@ html {
   font-size: 1rem;
   padding-left: 1rem; }
 
+.no-popup-quire-map {
+  height: 500px;
+  margin-bottom: 16px; }
+
 @media print {
   .quire-map {
     height: 0; } }
+
+.no-popup-quire-deepzoom {
+  height: 500px; }
 
 .quire-deepzoom .leaflet-control-zoom .leaflet-bar a {
   color: #363636; }
@@ -8263,7 +8270,7 @@ div.quire-modal-container {
   z-index: 1045; }
 
 div.quire-modal-container > span {
-  font-family: Lato, Helvetica, sans-serif;
+  font-family: "IBM Plex Sans Condensed", sans-serif;
   font-size: 16px;
   font-weight: bold;
   opacity: 0.65; }

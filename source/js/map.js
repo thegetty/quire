@@ -5,16 +5,21 @@ import 'leaflet-fullscreen'
 class Map {
   constructor(id) {
     // remove and refresh before init
-    if (window.mapID != undefined || window.mapID != undefined) {
-      window.mapID.off()
-      window.mapID.remove()
+
+    if (isPopup) {
+      if (window.mapID != undefined || window.mapID != undefined) {
+        window.mapID.off()
+        window.mapID.remove()
+      }
+      let node = document.getElementById(id);
+      if (node) {
+        while (node.firstChild) {
+          node.removeChild(node.firstChild)
+        }  
+      }
     }
-    let node = document.getElementById(id)
-    if (node) {
-      while (node.firstChild) {
-        node.removeChild(node.firstChild)
-      }  
-    }
+  
+    
     if (id) {
       this.el = id
       this.tiles = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'

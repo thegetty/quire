@@ -8,6 +8,10 @@ $color_2: #fff;
 $color_3: #000;
 $background_color_1: #2da0e2;
 
+.no-popup-quire-deepzoom {
+    height: $quire-deepzoom-height; 
+}
+
 .quire-deepzoom {
     .leaflet-control-zoom {
         .leaflet-bar {

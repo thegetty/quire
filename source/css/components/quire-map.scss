@@ -4,6 +4,12 @@
 
 // .quire-map
 // -----------------------------------------------------------------------------
+
+.no-popup-quire-map {
+  height: $quire-map-height;
+  margin-bottom: $gap;
+}
+
 .quire-map {
   // height: $quire-map-height;
   // margin-bottom: $gap;
