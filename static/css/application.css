@@ -7991,7 +7991,8 @@ html {
       background-color: inherit;
       color: #B02E2E; }
       .quire-contents-list .menu-list a:hover .arrow {
-        margin-left: 14px; }
+        margin-left: 14px;
+        fill: #B02E2E; }
   .quire-contents-list .list-header {
     padding: .5em .75em;
     text-transform: uppercase;
