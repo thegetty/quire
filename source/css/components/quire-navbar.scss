@@ -166,6 +166,14 @@
       }
     }
   }
+  @media screen and (min-width: $desktop) {
+    .quire-navbar-button {
+      display: none;
+    }
+    .quire-navbar-button.home-button {
+      display: inline-block;
+    }
+  }
 }
 
 // .quire-navbar-button

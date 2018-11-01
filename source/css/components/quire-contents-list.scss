@@ -13,7 +13,9 @@
   margin: 0 auto;
   padding: 0 20px;
   h1 {
+    font-family: $quire-header-font;
     font-size: 3em;
+    font-weight: 700;
     line-height: 1.04em;
     margin: 36px 0 16px 0;
   }
@@ -172,11 +174,14 @@
         .card-image {
           -webkit-transition: -webkit-box-shadow .35s;
           transition: box-shadow .35s;
+          padding: 1em 1em 0em 1em;
 
-          &:hover {
-            -webkit-box-shadow: 0px 0px 6px 0px $black-semi-transparent;
-            -moz-box-shadow: 0px 0px 6px 0px $black-semi-transparent;
-            box-shadow: 0px 0px 6px 0px $black-semi-transparent;
+          .image {
+            &:hover {
+              -webkit-box-shadow: 0px 0px 6px 0px $black-semi-transparent;
+              -moz-box-shadow: 0px 0px 6px 0px $black-semi-transparent;
+              box-shadow: 0px 0px 6px 0px $black-semi-transparent;
+            }
           }
         }
       }
