@@ -53,7 +53,7 @@ the figure for each into a figure group
 
     {{ else }}
 
-    {{ if eq .Site.Params.photoswipe true }}
+    {{ if eq .Site.Params.popup true }}
 
     <div class='q-figure__wrapper quire-figure__video-wrapper{{ if .aspect_ratio }}--{{ .aspect_ratio }}{{ else }}--widescreen{{ end }}'>
       {{ if eq .media_type "youtube" }}
@@ -127,13 +127,13 @@ the figure for each into a figure group
 
     {{/* -------------------- BEGIN NO_MEDIA_ID BLOCK -------------------- */}}
     <div class='q-figure__wrapper'>
-        {{ if eq $.Site.Params.photoswipe true }}
+        {{ if eq $.Site.Params.popup true }}
         <a class="image popup" href='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' {{ if .caption }} data-caption='{{ .caption | markdownify | safeHTML }}' {{ end }}>
         {{ end }}
       <img id="{{ .id }}" class="quire-figure__image"
          src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'
          alt="{{ if .alt }}{{ .alt }}{{ end }}" />
-         {{ if eq $.Site.Params.photoswipe true }}
+         {{ if eq $.Site.Params.popup true }}
         </a>
          {{ end }}
     </div>
@@ -219,8 +219,8 @@ the figure for each into a figure group
   {{/* -------------------- BEGIN GROUP CAPTION BLOCK -------------------- */}}
   {{ if or (.Get "caption") ($.Get "credit") }}
   <figcaption class="quire-figure__caption">
-    {{ if .Get "photoswipe" }}
-    {{ .Get "photoswipe" | markdownify }}
+    {{ if .Get "popup" }}
+    {{ .Get "popup" | markdownify }}
     {{ end }}
     {{ if .Get "caption" }}{{ .Get "caption" | markdownify }}{{ end }}
     {{ if $.Get "credit" }}<span class="quire-figure__credit">{{ $.Get "credit" | markdownify }}</span>{{ end }}

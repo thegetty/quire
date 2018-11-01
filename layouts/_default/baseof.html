@@ -6,7 +6,7 @@
 */}}
 
 {{- $js := "js/application.js" | relURL -}}
-{{- $photoswipe := .Site.Params.photoswipe -}}
+{{- $popup := .Site.Params.popup -}}
 
 <!DOCTYPE html>
 <html lang="{{ .Site.Data.publication.language }}">
@@ -33,6 +33,6 @@
       </div>
       {{ partial "search.html" . }}
     </div>
-    {{ partial "scripts.html" (dict "context" . "photoswipe" $photoswipe) }}
+    {{ partial "scripts.html" (dict "context" . "popup" $popup) }}
   </body>
 </html>

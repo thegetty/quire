@@ -27,8 +27,8 @@ document and render only the values given in the shortcode
 ----------------------------------------------------------------------------
 */}}
 
-{{ if eq $.Site.Params.photoswipe true }}
-<figure class='photoswipe-true quire-figure {{ with .Get "class" }}{{ . }}{{ end }}'>
+{{ if eq $.Site.Params.popup true }}
+<figure class='popup-true quire-figure {{ with .Get "class" }}{{ . }}{{ end }}'>
   <div class="q-figure__wrapper">
     <a class="image popup" href='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'>
     <img id='{{ with .Get "id" }}{{ . | urlize }}{{ end }}'
@@ -90,7 +90,7 @@ render the figure from matching values found ther
 
   {{ else }}
 
-  {{ if eq $.Site.Params.photoswipe true }}
+  {{ if eq $.Site.Params.popup true }}
 
   {{ if eq .media_type "youtube" }}
   <div class="q-figure__wrapper">
@@ -177,13 +177,13 @@ render the figure from matching values found ther
   {{ else }}
   {{/* -------------------- BEGIN IMAGE BLOCK -------------------- */}}
   <div class="q-figure__wrapper">
-      {{ if eq $.Site.Params.photoswipe true }}
+      {{ if eq $.Site.Params.popup true }}
       <a class="image popup" href='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' {{ if .caption }} data-caption='{{ .caption | markdownify | safeHTML }}' {{ end }}>
       {{ end }}
     <img class="quire-figure__image"  id='{{ .id }}'
        src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'
        alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}' />
-       {{ if eq $.Site.Params.photoswipe true }}
+       {{ if eq $.Site.Params.popup true }}
       </a>
       {{ end }}
   </div>

@@ -14,7 +14,7 @@
 
 {{ if .Get "geojson"  }}
 
-{{ if eq $.Site.Params.photoswipe true }}
+{{ if eq $.Site.Params.popup true }}
 
 {{ $Id := now.UnixNano }}
 
@@ -47,7 +47,7 @@
 
 {{ else }}
 
-{{ if eq $.Site.Params.photoswipe true }}
+{{ if eq $.Site.Params.popup true }}
 
 {{ $Id := now.UnixNano }}
 
@@ -105,7 +105,7 @@ render the figure from matching values found ther
 
 {{ if eq .media_type "map"  }}
 
-{{ if eq $.Site.Params.photoswipe true }}
+{{ if eq $.Site.Params.popup true }}
 
 {{ $Id := now.UnixNano }}
 
@@ -136,7 +136,7 @@ render the figure from matching values found ther
 
 {{ else if eq .media_type "iiif"  }}
 
-{{ if eq $.Site.Params.photoswipe true }}
+{{ if eq $.Site.Params.popup true }}
 
 {{ $Id := now.UnixNano }}
 
@@ -172,7 +172,7 @@ render the figure from matching values found ther
 
 {{ else }}
 
-{{ if eq $.Site.Params.photoswipe true }}
+{{ if eq $.Site.Params.popup true }}
 
 {{ $Id := now.UnixNano }}
 

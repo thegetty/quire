@@ -217,7 +217,9 @@ function scrollToHash() {
  * Set up modal
  */
 function popupSetup() {
-  Popup('.q-figure__wrapper')
+  if (isPopup) {
+    Popup('.q-figure__wrapper')
+  }
 }
 
 /**

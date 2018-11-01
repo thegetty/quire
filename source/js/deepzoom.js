@@ -35,7 +35,7 @@ class DeepZoom {
       window.mapID = this.map
       this.mapSize = this.map.getSize()
       this.imgZoomReduction = this.imgWidth >= 4000 ? 0.5 : this.imgHeight >= 2500 ? 1 : 2
-      this.maxzoom = Math.ceil(Math.log((this.mapSize.x / this.imgWidth > this.mapSize.y / this.imgHeight ? this.imgWidth / this.mapSize.x : this.imgHeight / this.mapSize.y)) / Math.log(2))
+      this.maxzoom = Math.ceil(Math.log((this.mapSize.x / this.imgWidth > this.mapSize.y / this.imgHeight ? this.imgWidth / this.mapSize.x : this.imgHeight / this.mapSize.y)) / Math.log(3))
       this.southWest = this.map.unproject([0, this.imgHeight], this.maxzoom + 1)
       this.northEast = this.map.unproject([this.imgWidth, 0], this.maxzoom + 1)
       let bounds = new L.LatLngBounds(this.southWest, this.northEast)
