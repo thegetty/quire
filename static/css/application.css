@@ -7369,7 +7369,8 @@ video {
       max-width: 2.5rem;
       top: 0;
       vertical-align: middle;
-      margin-left: 0.5rem; }
+      margin-left: 0.5rem;
+      margin-top: 0.25rem; }
       .quire-navbar-button.play-button svg img, .quire-navbar-button.home-button svg img {
         max-height: 2.5rem; }
 
