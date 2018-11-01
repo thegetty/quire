@@ -21,7 +21,7 @@ search icons, and search results if enabled). It is visible on all pages.
       <button class="quire-navbar-button search-button"
               aria-controls="quire-search"
               onclick="toggleSearch()">
-        <svg>
+        <svg class="remove-from-epub">
           <switch>
             <use xlink:href="#search-icon"></use>
             <foreignObject width="32" height="32">
@@ -41,7 +41,7 @@ search icons, and search results if enabled). It is visible on all pages.
             <span class="visually-hidden">Home Page: </span>
             <button class="quire-navbar-button play-button"
               aria-controls="quire-search">
-              <svg>
+              <svg class="remove-from-epub">
                 <switch>
                   <use xlink:href="#start-icon"></use>
                   <foreignObject width="32" height="32">
@@ -57,7 +57,7 @@ search icons, and search results if enabled). It is visible on all pages.
         <li class="quire-navbar-page-controls__item quire-home-page">
           <a href='{{ .Prev.Permalink }}' rel="previous">
             <span class="visually-hidden">Previous Page: </span>
-            <svg class="left-icon">
+            <svg class="left-icon remove-from-epub">
               <switch>
                 <use xlink:href="#left-arrow-icon"></use>
                 <foreignObject width="24" height="24">
@@ -76,7 +76,7 @@ search icons, and search results if enabled). It is visible on all pages.
             <span class="visually-hidden">Home Page: </span>
             <button class="quire-navbar-button home-button"
               aria-controls="quire-home">
-              <svg>
+              <svg class="remove-from-epub">
                 <switch>
                   <use xlink:href="#home-icon"></use>
                   <foreignObject width="32" height="32">
@@ -94,7 +94,7 @@ search icons, and search results if enabled). It is visible on all pages.
             <span class="visually-hidden">Next Page: </span>
             {{ if .Next.Title }}
             {{ .Next.Title | markdownify }}
-            <svg>
+            <svg class="remove-from-epub">
               <switch>
                 <use xlink:href="#right-arrow-icon"></use>
                 <foreignObject width="24" height="24">
@@ -116,7 +116,7 @@ search icons, and search results if enabled). It is visible on all pages.
               aria-expanded="true"
               aria-controls="quire-menu"
               tabindex="2" >
-        <svg>
+        <svg class="remove-from-epub">
           <switch>
             <use xlink:href="#nav-icon"></use>
             <foreignObject width="32" height="32">

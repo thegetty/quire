@@ -8,7 +8,7 @@
     <a href="{{ .url }}" target="_blank" {{ with .link_relation }}rel="{{ . }}"{{ end }} {{ with .media_type }}type="{{ . }}"{{ end }}>
       {{ .name }}
       <span class="arrow">
-        <svg>
+        <svg class="remove-from-epub">
           <switch>
             <use xlink:href="#arrow-forward"></use>
             <foreignObject width="18" height="18">
