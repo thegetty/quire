@@ -225,7 +225,7 @@
     }
   }
   &.play-button,
-  &.home-button  {
+  &.home-button {
     text-align: center;
     svg {
       height: calc(#{$navbar-height} * .65);
@@ -234,6 +234,7 @@
       max-width: 2.5rem;
       top: 0;
       vertical-align: middle;
+      margin-left: 0.5rem;
       & img {
         max-height: 2.5rem;
       }
