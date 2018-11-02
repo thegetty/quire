@@ -219,7 +219,7 @@ html {
 
   .content {
     background-color: $white;
-    padding: 3em;
+    padding: 2em;
     margin-top: 3em;
 
     a:not([rel=footnote]):not(.footnote-return) {
@@ -280,6 +280,32 @@ html {
       }
       @media print {
         border-left-width: 0;
+      }
+    }
+
+    h6 {
+      font-size: 0.65em;
+      font-style: normal;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .footnotes {
+      margin-top: -.75em;
+      hr {
+        background-color: $off-black;
+        height: 1px;
+      }
+      ol {
+        margin-left: .75em;
+
+        li {
+          font-size: 0.6em;
+          margin-bottom: 1em;
+        }
+      }
+      a {
+        color: $quire-primary-color;
       }
     }
 
