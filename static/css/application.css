@@ -7465,30 +7465,47 @@ video {
     background-color: transparent; }
 
 .quire-search {
-  background-color: #363636;
+  background-color: #ffffff;
   display: none;
   height: 100vh;
-  position: absolute;
+  position: fixed;
   top: 0;
   width: 100%;
-  z-index: 99999; }
+  z-index: 99999;
+  overflow-y: scroll; }
   .quire-search * {
-    color: #ffffff; }
+    color: #333333; }
   .quire-search.is-active {
     display: block; }
   .quire-search__inner h1.title {
     font-family: "IBM Plex Sans Condensed", sans-serif;
     font-weight: 300;
     font-size: 2.7rem; }
+  .quire-search__inner .input-bar {
+    height: calc(3rem * 1); }
+    .quire-search__inner .input-bar span {
+      float: right;
+      padding-top: 1.25em; }
+      .quire-search__inner .input-bar span svg {
+        height: calc(3rem * .65);
+        width: calc(3rem * .65);
+        max-height: 1.5rem;
+        max-width: 1.5rem; }
   .quire-search__inner .input {
-    background-color: #363636;
-    border-color: #ffffff;
-    margin-bottom: 1rem; }
+    background-color: #ffffff;
+    margin-bottom: 1rem;
+    width: 95%;
+    border: none;
+    box-shadow: none;
+    border-bottom: 1px solid #333333;
+    border-radius: 0; }
   .quire-search__inner__list-item {
     margin: 1.5rem 0; }
-    .quire-search__inner__list-item .title {
+    .quire-search__inner__list-item .title span {
       font-size: 1.5rem;
-      margin: .75rem 0 .25rem; }
+      margin: .75rem 0 .25rem;
+      color: #CF4747;
+      border-bottom: 1px dotted #CF4747; }
   .quire-search__close-button {
     position: absolute;
     right: 0;
@@ -7504,7 +7521,7 @@ video {
       width: calc(3rem * .75);
       max-height: 1.25rem;
       max-width: 1.25rem;
-      fill: #ffffff; }
+      fill: #333333; }
       .quire-search__close-button svg img {
         max-height: 1.15rem;
         position: absolute;

@@ -5,16 +5,17 @@
 // .quire-search
 // -----------------------------------------------------------------------------
 .quire-search {
-  background-color: $quire-menu-color;
+  background-color: $white;
   display: none;
   height: 100vh;
-  position: absolute;
+  position: fixed;
   top: 0;
   width: 100%;
   z-index: 99999;
+  overflow-y:scroll;
 
   * {
-    color: $quire-menu-text-color;
+    color: $off-black;
   }
 
   &.is-active { display: block; }
@@ -25,16 +26,37 @@
       font-weight: 300;
       font-size: 2.7rem;
     }
+    .input-bar {
+      height: calc(#{$navbar-height} * 1);
+      span {
+        float: right;
+        padding-top: 1.25em;
+        svg {
+          height: calc(#{$navbar-height} * .65);
+          width: calc(#{$navbar-height} * .65);
+          max-height: 1.5rem;
+          max-width: 1.5rem;
+        }
+      }
+    }
     .input {
-      background-color: $quire-menu-color;
-      border-color: $quire-menu-text-color;
+      background-color: $white;
       margin-bottom: 1rem;
+      width: 95%;
+      border: none;
+      box-shadow: none;
+      border-bottom: 1px solid $off-black;
+      border-radius: 0;
     }
     &__list-item {
       margin: 1.5rem 0;
       .title {
-        font-size: 1.5rem;
-        margin: .75rem 0 .25rem;
+        span {
+          font-size: 1.5rem;
+          margin: .75rem 0 .25rem;
+          color: $quire-primary-color;
+          border-bottom: 1px dotted $quire-primary-color;
+        }
       }
     }
   }
@@ -57,7 +79,7 @@
       width: calc(#{$navbar-height} * .75);
       max-height: 1.25rem;
       max-width: 1.25rem;
-      fill: $quire-menu-text-color;
+      fill: $off-black;
       & img {
         max-height: 1.15rem;
         position: absolute;
