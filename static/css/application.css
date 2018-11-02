@@ -7327,8 +7327,8 @@ video {
   @media screen and (min-width: 700px) {
     .quire-navbar-page-controls .quire-navbar-button {
       display: none; }
-    .quire-navbar-page-controls .quire-navbar-button.home-button {
-      display: inline-block; } }
+      .quire-navbar-page-controls .quire-navbar-button.home-button, .quire-navbar-page-controls .quire-navbar-button.play-button {
+        display: inline-block; } }
 
 .quire-navbar-button {
   -webkit-appearance: none;
@@ -7908,10 +7908,12 @@ html {
   background-color: #B02E2E;
   color: #ffffff; }
 
-.quire-cover .quire-page__content .container.is-fluid .content p {
-  font-size: 0.75em;
-  line-height: 2.5em;
-  font-family: "Noto Sans", sans-serif; }
+.quire-cover .quire-page__content .container.is-fluid .content {
+  background-color: #EEF2F3; }
+  .quire-cover .quire-page__content .container.is-fluid .content p {
+    font-size: 0.75em;
+    line-height: 2.5em;
+    font-family: "Noto Sans", sans-serif; }
 
 @media screen and (min-width: 1028px) {
   .quire-cover .quire-page__content .container.is-fluid {

@@ -169,9 +169,9 @@
   @media screen and (min-width: $desktop) {
     .quire-navbar-button {
       display: none;
-    }
-    .quire-navbar-button.home-button {
-      display: inline-block;
+      &.home-button, &.play-button {
+        display: inline-block;
+      }
     }
   }
 }
