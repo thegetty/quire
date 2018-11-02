@@ -7535,14 +7535,13 @@ html {
 .quire-page h1, .quire-page__header__title {
   font-family: "IBM Plex Sans Condensed", sans-serif;
   font-size: 3.3rem;
-  font-weight: 300;
-  font-style: italic;
+  font-weight: 700;
   line-height: 1.14; }
   .quire-page h1 em, .quire-page__header__title em {
     font-style: normal; }
   @media screen and (min-width: 500px) {
     .quire-page h1, .quire-page__header__title {
-      font-size: 3.75rem;
+      font-size: 3.3rem;
       line-height: 1.07; } }
   @media print {
     .quire-page h1, .quire-page__header__title {
@@ -7561,7 +7560,7 @@ html {
 .quire-page h3,
 .quire-page h4, .quire-page__header__subtitle, .quire-page__header__contributor {
   font-family: "IBM Plex Sans Condensed", sans-serif;
-  font-size: 1.75rem;
+  font-size: 1rem;
   font-weight: 600;
   line-height: 1.143; }
 
@@ -7644,16 +7643,13 @@ html {
         .quire-page--splash .quire-page__header.quire-page__header--full-height .quire-page__header__splash-page-arrow svg {
           width: 1rem;
           fill: #fff; }
-  .quire-page__header .hero-body {
-    padding-top: 9rem;
-    padding-bottom: 9rem; }
-    @media screen and (min-width: 700px) {
-      .quire-page__header .hero-body {
-        margin: 0 5rem; } }
-    @media print {
-      .quire-page__header .hero-body {
-        padding: 0;
-        border: 1pt solid transparent; } }
+  @media screen and (min-width: 700px) {
+    .quire-page__header .hero-body {
+      margin: 0 5rem; } }
+  @media print {
+    .quire-page__header .hero-body {
+      padding: 0;
+      border: 1pt solid transparent; } }
   @media print {
     .quire-page__header.hero {
       background-color: transparent;
@@ -7663,67 +7659,88 @@ html {
   font-size: 1.125rem;
   line-height: 1.78;
   font-weight: 400;
-  padding-bottom: 1.5rem;
+  padding-top: 0;
   font-size: 1.25rem;
   font-weight: 400;
   line-height: 1.6; }
-  .quire-page__content .content a:not([rel=footnote]):not(.footnote-return) {
-    color: #3273dc;
-    border-bottom: 1px solid #3273dc; }
+  .quire-page__content .content {
+    background-color: #ffffff;
+    padding: 3em;
+    margin-top: 3em; }
+    .quire-page__content .content a:not([rel=footnote]):not(.footnote-return) {
+      color: #CF4747;
+      border-bottom: 1px solid #CF4747; }
+      @media print {
+        .quire-page__content .content a:not([rel=footnote]):not(.footnote-return) {
+          color: #363636;
+          border-bottom-width: 0; } }
     @media print {
-      .quire-page__content .content a:not([rel=footnote]):not(.footnote-return) {
-        color: #363636;
-        border-bottom-width: 0; } }
-  @media print {
-    .quire-page__content .content a {
-      color: #363636; } }
-  .quire-page__content .content a:hover {
-    background-color: #f5f5f5;
-    border-bottom-width: 2px; }
-  .quire-page__content .content blockquote {
-    padding: 0 0 0 1.5em;
-    margin: 1.5em 0 1.5em 0;
-    background-color: transparent;
-    font-style: italic; }
-    @media screen and (min-width: 500px) {
-      .quire-page__content .content blockquote {
-        padding: 0 0 0 1.5em;
-        margin: 1.5em 0 1.5em 1.5em; } }
-    .quire-page__content .content blockquote em {
-      font-style: normal; }
-    @media print {
-      .quire-page__content .content blockquote {
-        border-left-width: 0; } }
-  .quire-page__content .content .leaflet-control a {
-    color: #363636; }
-  .quire-page__content .content p {
-    margin-bottom: 0; }
-  .quire-page__content .content p + p {
-    text-indent: 2em; }
-  .quire-page__content .content blockquote {
-    margin: 1em 0 1em 0; }
-    @media screen and (min-width: 500px) {
-      .quire-page__content .content blockquote {
-        margin: 1.5em 0 1.5em 1.5em; } }
-  @media print {
+      .quire-page__content .content a {
+        color: #363636; } }
+    .quire-page__content .content a:hover {
+      color: #B02E2E !important;
+      border-bottom-width: 2px; }
     .quire-page__content .content h2 {
-      font-size: 18pt;
-      line-height: 18pt;
-      margin-bottom: 8pt;
-      margin-top: 18pt; }
-      .quire-page__content .content h2 + h3 {
-        margin-bottom: 10pt;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 1.2em; }
+    .quire-page__content .content p {
+      font-size: 0.65em;
+      line-height: 2em; }
+    .quire-page__content .content .quire-page__content__references {
+      font-size: 0.675em; }
+      .quire-page__content .content .quire-page__content__references h2 {
+        margin-top: 1em;
+        padding-bottom: .2em;
+        font-size: 1em;
+        font-style: normal;
+        font-weight: 700;
+        text-transform: uppercase;
+        border-bottom: 1px solid #333333; }
+    .quire-page__content .content blockquote {
+      padding: 0 0 0 1.5em;
+      margin: 1.5em 0 1.5em 0;
+      background-color: transparent;
+      font-style: italic; }
+      @media screen and (min-width: 500px) {
+        .quire-page__content .content blockquote {
+          padding: 0 0 0 1.5em;
+          margin: 1.5em 0 1.5em 1.5em; } }
+      .quire-page__content .content blockquote em {
+        font-style: normal; }
+      @media print {
+        .quire-page__content .content blockquote {
+          border-left-width: 0; } }
+    .quire-page__content .content .leaflet-control a {
+      color: #363636; }
+    .quire-page__content .content p {
+      margin-bottom: 0; }
+    .quire-page__content .content p + p {
+      text-indent: 2em; }
+    .quire-page__content .content blockquote {
+      margin: 1em 0 1em 0; }
+      @media screen and (min-width: 500px) {
+        .quire-page__content .content blockquote {
+          margin: 1.5em 0 1.5em 1.5em; } }
+    @media print {
+      .quire-page__content .content h2 {
+        font-size: 18pt;
+        line-height: 18pt;
+        margin-bottom: 8pt;
+        margin-top: 18pt; }
+        .quire-page__content .content h2 + h3 {
+          margin-bottom: 10pt;
+          margin-top: 0; }
+      .quire-page__content .content h3 {
+        font-size: 12pt;
+        line-height: 13pt;
+        margin-bottom: 13pt;
+        margin-top: 13pt; }
+      .quire-page__content .content ul {
+        margin-bottom: 0;
         margin-top: 0; }
-    .quire-page__content .content h3 {
-      font-size: 12pt;
-      line-height: 13pt;
-      margin-bottom: 13pt;
-      margin-top: 13pt; }
-    .quire-page__content .content ul {
-      margin-bottom: 0;
-      margin-top: 0; }
-    .quire-page__content .content li + li {
-      margin-top: 0; } }
+      .quire-page__content .content li + li {
+        margin-top: 0; } }
   @media print {
     .quire-page__content {
       -webkit-column-count: 2;
