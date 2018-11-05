@@ -90,7 +90,6 @@
       {{- end -}}
 
       {{- if eq $contentsType "full" -}}
-      <ul>
         {{- range where $pages "Section" .Section -}}
           {{ if ne .Params.slug "." -}}
             {{ if eq $.contentsLocation ".Params.menu" }}
@@ -100,7 +99,6 @@
             {{ end -}}
           {{ end -}}
         {{- end -}}
-      </ul>
       {{- end -}}
 
       </li>
