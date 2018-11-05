@@ -29,6 +29,7 @@ html {
   h1, h2, h3, h4, h5, h6 {
     margin-top: 1rem;
     margin-bottom: 1rem;
+
   }
 
   h1:not(:first-child) {
@@ -47,16 +48,15 @@ html {
 
   h1,
   &__header__title {
-    font-family: $family-secondary;
+    font-family: $quire-header-font;
     font-size: 3.3rem;
-    font-weight: 300;
-    font-style: italic;
+    font-weight: 700;
     line-height: 1.14;
     em {
       font-style: normal;
     }
     @media screen and (min-width: $tablet) {
-      font-size: 3.75rem;
+      font-size: 3.3rem;
       line-height: 1.07;
     }
     @if $family-secondary == $serif {
@@ -94,7 +94,7 @@ html {
   &__header__subtitle,
   &__header__contributor {
     font-family: $family-secondary;
-    font-size: 1.75rem;
+    font-size: 1rem;
     font-weight: 600;
     line-height: 1.143;
   }
@@ -182,8 +182,8 @@ html {
   }
 
   .hero-body {
-    padding-top: 9rem;
-    padding-bottom: 9rem;
+    // padding-top: 9rem;
+    // padding-bottom: 9rem;
     @media screen and (min-width: $desktop) {
       margin: 0 5rem;
     }
@@ -207,7 +207,7 @@ html {
   font-size: 1.125rem;
   line-height: 1.78;
   font-weight: 400;
-  padding-bottom: 1.5rem;
+  padding-top: 0;
 
   @if $family-primary != $serif {
     font-size: 1.25rem;
@@ -218,10 +218,13 @@ html {
   // Overrides to Bulma's .content styles where needed.
 
   .content {
+    background-color: $white;
+    padding: 2em;
+    margin-top: 3em;
 
     a:not([rel=footnote]):not(.footnote-return) {
-      color: $quire-page-link-color;
-      border-bottom: 1px solid $quire-page-link-color;
+      color: $quire-primary-color;
+      border-bottom: 1px solid $quire-primary-color;
       @media print {
         color: $page-text-color;
         border-bottom-width: 0;
@@ -235,8 +238,32 @@ html {
     }
 
     a:hover {
-      background-color: $quire-page-link-highlight;
+      color: $quire-primary-color-hover !important;
       border-bottom-width: 2px;
+    }
+
+    h2 {
+      font-style: italic;
+      font-weight: 400;
+      font-size: 1.2em;
+    }
+
+    p {
+      font-size: 0.65em;
+      line-height: 2em;
+    }
+
+    .quire-page__content__references {
+      font-size: 0.675em;
+      h2 {
+        margin-top: 1em;
+        padding-bottom: .2em;
+        font-size: 1em;
+        font-style: normal;
+        font-weight: 700;
+        text-transform: uppercase;
+        border-bottom: 1px solid $off-black;
+      }
     }
 
     blockquote {
@@ -253,6 +280,32 @@ html {
       }
       @media print {
         border-left-width: 0;
+      }
+    }
+
+    h6 {
+      font-size: 0.65em;
+      font-style: normal;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .footnotes {
+      margin-top: -.75em;
+      hr {
+        background-color: $off-black;
+        height: 1px;
+      }
+      ol {
+        margin-left: .75em;
+
+        li {
+          font-size: 0.6em;
+          margin-bottom: 1em;
+        }
+      }
+      a {
+        color: $quire-primary-color;
       }
     }
 

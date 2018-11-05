@@ -142,8 +142,11 @@
   }
 
   &__header {
-    margin-bottom: 3rem;
-    padding-top: .25rem;
+    margin-top: 1em;
+    .container {
+      background-color: $white;
+      padding-bottom: 2rem;
+    }
     @media print {
       height: 3in;
       text-align: center;
@@ -154,13 +157,29 @@
   }
 
   &__tombstone {
-    padding-top: 0;
+    .container {
+      background-color: $white;
+    }
+    .table {
+      width: 86%;
+      margin: 0 auto;
+      padding-bottom: 1em;
+      border-top: 1px solid $gray;
+      border-bottom: 1px solid $gray;
+      td {
+        border: none;
+      }
+    }
+    .button {
+      margin-left: 2.5em;
+      margin-top: .5em;
+    }
     svg {
       position: relative;
       height: 1.25em;
       width: 1.25em;
       margin-left: .5em;
-      fill: $quire-page-link-color;
+      fill: $quire-primary-color;
       & img {
         position: absolute;
         top: 0;
@@ -172,11 +191,41 @@
       font-size: 9pt;
       margin-bottom: .125in;
     }
+    tr {
+      td {
+        &:first-child {
+          font-weight: 700;
+        }
+      }
+      &:hover {
+        background-color: $light-yellow;
+      }
+    }
+  }
+  .quire-entry__header {
+    h1 {
+      padding: 1em 1.5em 0;
+      font-size: 2em;
+      font-weight: 400;
+    }
   }
 
   .quire-page__content {
-    padding-top: 1.5rem;
+    // padding-top: 1.5rem;
     padding-bottom: 1.5rem;
+    .content {
+      padding-top: 2rem;
+      margin-top: 0;
+    }
+    h2 {
+      font-size: 0.85em;
+      font-style: normal;
+      font-weight: 700;
+    }
+    #notes {
+      font-size: 0.65em;
+      text-transform: uppercase;
+    }
   }
   .quire-contents-buttons {
     padding-bottom: 3rem;
