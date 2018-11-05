@@ -6827,7 +6827,7 @@ video {
     .quire.no-js .quire__secondary {
       width: 100%; }
   .quire:not(.no-js) .quire__primary {
-    background: #fff;
+    background: #EEF2F3;
     display: flex;
     flex-direction: column;
     height: 100vh;
