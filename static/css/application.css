@@ -7698,6 +7698,8 @@ html {
     .quire-page__content .content a:hover {
       color: #B02E2E !important;
       border-bottom-width: 2px; }
+    .quire-page__content .content tbody tr:hover {
+      background-color: #F9F9A3; }
     .quire-page__content .content .quire-page__content__references h2 {
       margin-top: 1em;
       padding-bottom: .2em;
@@ -8109,6 +8111,10 @@ html {
       padding: 1rem; }
     .quire-contents-list.grid .section-list {
       font-size: .75em; }
+    .quire-contents-list.grid .quire-menu__formats {
+      display: block; }
+      .quire-contents-list.grid .quire-menu__formats ul {
+        display: block; }
     .quire-contents-list.grid ul li {
       float: left;
       width: 100%; }

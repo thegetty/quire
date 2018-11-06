@@ -242,6 +242,14 @@ html {
       color: $quire-primary-color-hover !important;
       border-bottom-width: 2px;
     }
+    
+    tbody {
+      tr {
+        &:hover {
+          background-color: $light-yellow;
+        }
+      }
+    }
 
     .quire-page__content__references {
       // font-size: 0.675em;
