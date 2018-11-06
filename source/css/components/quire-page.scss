@@ -221,6 +221,7 @@ html {
     background-color: $white;
     padding: 2em;
     margin-top: 3em;
+    font-size: .75em;
 
     a:not([rel=footnote]):not(.footnote-return) {
       color: $quire-primary-color;
@@ -241,27 +242,24 @@ html {
       color: $quire-primary-color-hover !important;
       border-bottom-width: 2px;
     }
-
-    h2 {
-      font-style: italic;
-      font-weight: 400;
-      font-size: 1.2em;
-    }
-
-    p {
-      font-size: 0.65em;
-      line-height: 2em;
+    
+    tbody {
+      tr {
+        &:hover {
+          background-color: $light-yellow;
+        }
+      }
     }
 
     .quire-page__content__references {
-      font-size: 0.675em;
+      // font-size: 0.675em;
       h2 {
         margin-top: 1em;
         padding-bottom: .2em;
-        font-size: 1em;
-        font-style: normal;
-        font-weight: 700;
-        text-transform: uppercase;
+        // font-size: 1em;
+        // font-style: normal;
+        // font-weight: 700;
+        // text-transform: uppercase;
         border-bottom: 1px solid $off-black;
       }
     }
@@ -283,13 +281,6 @@ html {
       }
     }
 
-    h6 {
-      font-size: 0.65em;
-      font-style: normal;
-      font-weight: 700;
-      text-transform: uppercase;
-    }
-
     .footnotes {
       margin-top: -.75em;
       hr {
@@ -300,12 +291,14 @@ html {
         margin-left: .75em;
 
         li {
-          font-size: 0.6em;
           margin-bottom: 1em;
         }
       }
       a {
         color: $quire-primary-color;
+      }
+      p + p {
+        text-indent: 0;
       }
     }
 

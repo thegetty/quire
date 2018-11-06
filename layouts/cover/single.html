@@ -80,15 +80,25 @@ Cover page layout. This controls the home page of the publication.
       <div class="content">
         {{ . }}
       </div>
-      <div class="has-text-centered">
-        <a class="button is-medium quire-cover__button" href="/contents">Contents {{- template "image-control-icon" (dict "type" "right-arrow" "description" "Go to next page" "imageDir" ($.Scratch.Get "imageDir") ) -}}</a>
-      </div>
     </div>
   </section>
 
   {{ end }}
 
   {{/* End "below-the-fold" section */}}
+  <div class="quire-contents-buttons">
+    <ul>
+      <li class="quire-nav-button next">
+        {{ with .Next }}
+          <a href="{{ .Permalink }}">
+            <span class="nav-title">Contents</span>
+            {{- template "image-control-icon" (dict "type" "right-arrow" "description" "Go to next page" "imageDir" ($.Scratch.Get "imageDir") ) -}}
+          </a>
+        {{ end }}
+      </li>
+    </ul>
+  </div>
+
 </div>
 
 {{ end }}
