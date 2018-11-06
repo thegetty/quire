@@ -117,21 +117,39 @@ render the figure from matching values found ther
       </a>
     </div>
   {{ else if eq .media_type "audio" }}
-      <iframe 
+      <iframe id='{{ .id }}'
       width="100%" 
       height="166" 
       scrolling="no" 
       frameborder="no" 
       allow="autoplay" 
       src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe>   
+      {{ if eq $.Site.Params.audioFigureFallbackText true }}
+        {{ if .src }}
+          <img class="visually-hidden" id='{{ .id }}'
+          src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'
+          alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}' />
+        {{ else }}
+          <p class="visually-hidden">No Image avaiable.</p>
+        {{ end }}
+      {{ end }}
   {{ else if eq .media_type "soundcloud" }}   
-      <iframe 
+      <iframe id='{{ .id }}'
       width="100%" 
       height="166" 
       scrolling="no" 
       frameborder="no" 
       allow="autoplay" 
       src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe>  
+      {{ if eq $.Site.Params.audioFigureFallbackText true }}
+      {{ if .src }}
+        <img class="visually-hidden" id='{{ .id }}'
+        src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'
+        alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}' />
+      {{ else }}
+        <p class="visually-hidden">No Image avaiable.</p>
+      {{ end }}
+    {{ end }}
   {{ else if eq .media_type "website" }}
   <iframe id='{{ .id }}'
           class='quire-figure__media'
@@ -161,7 +179,7 @@ render the figure from matching values found ther
             mozallowfullscreen
             allowfullscreen></iframe>
     {{ else if eq .media_type "audio" }}
-            <iframe 
+    <iframe id='{{ .id }}'
             width="100%" 
             height="166" 
             scrolling="no" 
@@ -169,7 +187,7 @@ render the figure from matching values found ther
             allow="autoplay" 
             src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe> 
     {{ else if eq .media_type "soundcloud" }}   
-            <iframe 
+    <iframe id='{{ .id }}'
             width="100%" 
             height="166" 
             scrolling="no" 

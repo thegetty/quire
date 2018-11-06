@@ -8,7 +8,7 @@
 {{ define "main" }}
 <div class="quire-contents" id="main" role="main">
   <div class="quire-contents-header">
-    <h1>{{ .Title | markdownify }}</h1>
+    <h1 id="{{ .Title | urlize }}">{{ .Title | markdownify }}</h1>
   </div>
   <section class="section quire-page__content" id="content">
     <div class="container {{ if in .Params.class "grid" }}is-fullhd{{ end }}">
