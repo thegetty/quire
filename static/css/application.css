@@ -7697,13 +7697,6 @@ html {
     .quire-page__content .content a:hover {
       color: #B02E2E !important;
       border-bottom-width: 2px; }
-    .quire-page__content .content h2 {
-      font-style: italic;
-      font-weight: 400;
-      font-size: 1.2em; }
-    .quire-page__content .content p {
-      font-size: 0.65em;
-      line-height: 2em; }
     .quire-page__content .content .quire-page__content__references {
       font-size: 0.675em; }
       .quire-page__content .content .quire-page__content__references h2 {
@@ -8055,7 +8048,7 @@ html {
     max-height: .95rem;
     max-width: .95rem;
     vertical-align: baseline; }
-  .quire-contents-list .arrow ul {
+  .quire-contents-list .arrow .section-indent {
     padding-left: 20px;
     font-size: .75em; }
   .quire-contents-list .menu-list a {

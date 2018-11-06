@@ -102,7 +102,7 @@
               <li class="page-item">{{ template "contents-item-menu" . -}}</li>
             {{ else if eq $.contentsLocation ".Params.contents" }}
             {{ else }}
-              <li class="page-item">{{ template "contents-item-toc" (dict "class" $.contentsPage.Params.class "Page" . "Site" .Site ) -}}</li>
+              <li class="page-item section-indent">{{ template "contents-item-toc" (dict "class" $.contentsPage.Params.class "Page" . "Site" .Site ) -}}</li>
             {{ end -}}
           {{ end -}}
         {{- end -}}
