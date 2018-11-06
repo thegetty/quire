@@ -8064,7 +8064,7 @@ html {
         margin-left: 14px;
         fill: #B02E2E; }
   .quire-contents-list .list-header {
-    padding: .5em .75em;
+    padding: .5em .75em .5em 0;
     text-transform: uppercase;
     letter-spacing: 1px; }
   .quire-contents-list .contributor {
@@ -8096,113 +8096,112 @@ html {
       margin-bottom: 0; }
     .quire-contents-list.abstract .abstract-text p + p {
       text-indent: 2em; }
-  @media screen and (min-width: 500px) {
-    .quire-contents-list.grid {
-      margin: 0 5rem; } }
-  .quire-contents-list.grid .title {
-    font-size: inherit;
-    font-weight: inherit;
-    line-height: inherit; }
-  .quire-contents-list.grid li > a {
-    padding: 1rem; }
-  .quire-contents-list.grid ul li {
-    float: left;
-    width: 100%; }
-    @media screen and (min-width: 700px) {
-      .quire-contents-list.grid ul li {
-        width: 50%; }
-        .quire-contents-list.grid ul li:nth-child(2n) + li {
-          clear: left; } }
-    @media screen and (min-width: 1184px) {
-      .quire-contents-list.grid ul li {
-        width: 33%; }
-        .quire-contents-list.grid ul li:nth-child(2n) + li {
-          clear: none; }
-        .quire-contents-list.grid ul li:nth-child(3n) + li {
-          clear: left; } }
-    .quire-contents-list.grid ul li .card {
-      min-height: 300px;
-      position: relative;
-      display: block;
-      border-radius: 2px;
-      margin: 1rem; }
-      .quire-contents-list.grid ul li .card a {
-        padding: 0; }
-      .quire-contents-list.grid ul li .card .card-image {
-        transition: box-shadow .35s;
-        padding: 1em 1em 0em 1em; }
-        .quire-contents-list.grid ul li .card .card-image .image:hover {
-          box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.75); }
-    .quire-contents-list.grid ul li .card-content {
+  .quire-contents-list.grid {
+    font-size: .75em; }
+    @media screen and (min-width: 500px) {
+      .quire-contents-list.grid {
+        margin: 0 5rem; } }
+    .quire-contents-list.grid .title {
+      font-size: inherit;
+      font-weight: inherit;
+      line-height: inherit; }
+    .quire-contents-list.grid li > a {
+      padding: 1rem; }
+    .quire-contents-list.grid .section-list {
       font-size: .75em; }
-      .quire-contents-list.grid ul li .card-content span {
-        font-size: .75em; }
+    .quire-contents-list.grid ul li {
+      float: left;
+      width: 100%; }
+      @media screen and (min-width: 700px) {
+        .quire-contents-list.grid ul li {
+          width: 50%; }
+          .quire-contents-list.grid ul li:nth-child(2n) + li {
+            clear: left; } }
+      @media screen and (min-width: 1184px) {
+        .quire-contents-list.grid ul li {
+          width: 33%; }
+          .quire-contents-list.grid ul li:nth-child(2n) + li {
+            clear: none; }
+          .quire-contents-list.grid ul li:nth-child(3n) + li {
+            clear: left; } }
+      .quire-contents-list.grid ul li .card {
+        min-height: 300px;
+        position: relative;
+        display: block;
+        border-radius: 2px;
+        margin: 1rem; }
+        .quire-contents-list.grid ul li .card a {
+          padding: 0; }
+        .quire-contents-list.grid ul li .card .card-image {
+          transition: box-shadow .35s;
+          padding: 1em 1em 0em 1em; }
+          .quire-contents-list.grid ul li .card .card-image .image:hover {
+            box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.75); }
       .quire-contents-list.grid ul li .card-content .artist {
         text-transform: uppercase; }
       .quire-contents-list.grid ul li .card-content p {
         padding-top: 0.5rem; }
         .quire-contents-list.grid ul li .card-content p a {
           padding: 0;
-          color: #CF4747;
-          font-size: .75em; }
+          color: #CF4747; }
           .quire-contents-list.grid ul li .card-content p a svg {
             fill: #CF4747;
             vertical-align: text-bottom; }
-  .quire-contents-list.grid ul li.section-item {
-    width: calc(100% - 2rem);
-    margin: 1rem;
-    padding-bottom: 1rem;
-    border: 1px solid gainsboro;
-    box-shadow: 0 2px 3px rgba(54, 54, 54, 0.1), 0 0 0; }
-    .quire-contents-list.grid ul li.section-item > a > .card {
-      box-shadow: none;
-      background-color: inherit;
-      min-height: 0; }
-    .quire-contents-list.grid ul li.section-item.no-landing-page > a > .card {
-      min-height: 300px; }
-    .quire-contents-list.grid ul li.section-item ul {
-      padding-left: 0;
-      margin: 0;
-      border-left-width: 0px; }
-    .quire-contents-list.grid ul li.section-item .list-header {
-      margin-top: 1.5em;
-      margin-left: 1em; }
-  @media screen and (min-width: 700px) {
-    @supports (display: grid) {
-      .quire-contents-list.grid ul {
-        display: grid;
-        grid-gap: .25rem;
-        grid-template-columns: repeat(2, 1fr); }
-        .quire-contents-list.grid ul li {
-          width: 100%;
-          float: none;
-          margin: inherit; }
-        .quire-contents-list.grid ul li.section-item {
-          grid-column: 1/3; } } }
-  @media screen and (min-width: 1184px) {
-    @supports (display: grid) {
-      .quire-contents-list.grid ul {
-        display: grid;
-        grid-gap: .25rem;
-        grid-template-columns: repeat(3, 1fr); }
-        .quire-contents-list.grid ul li {
-          width: 100%;
-          float: none;
-          margin: inherit; }
-        .quire-contents-list.grid ul li.section-item {
-          grid-column: 1/4; } } }
-  @media screen and (min-width: 1376px) {
-    @supports (display: grid) {
-      .quire-contents-list.grid ul {
-        display: grid;
-        grid-gap: .25rem;
-        grid-template-columns: repeat(4, 1fr); }
-        .quire-contents-list.grid ul li {
-          width: 100%;
-          float: none;
-          margin: inherit; }
-        .quire-contents-list.grid ul li.section-item {
-          grid-column: 1/5; } } }
+    .quire-contents-list.grid ul li.section-item {
+      width: calc(100% - 2rem);
+      margin: 1rem;
+      padding-bottom: 1rem;
+      border: 1px solid gainsboro;
+      box-shadow: 0 2px 3px rgba(54, 54, 54, 0.1), 0 0 0; }
+      .quire-contents-list.grid ul li.section-item > a > .card {
+        box-shadow: none;
+        background-color: inherit;
+        min-height: 0; }
+      .quire-contents-list.grid ul li.section-item.no-landing-page > a > .card {
+        min-height: 300px; }
+      .quire-contents-list.grid ul li.section-item ul {
+        padding-left: 0;
+        margin: 0;
+        border-left-width: 0px; }
+      .quire-contents-list.grid ul li.section-item .list-header {
+        margin-top: 1.5em;
+        margin-left: 1em; }
+    @media screen and (min-width: 700px) {
+      @supports (display: grid) {
+        .quire-contents-list.grid ul {
+          display: grid;
+          grid-gap: .25rem;
+          grid-template-columns: repeat(2, 1fr); }
+          .quire-contents-list.grid ul li {
+            width: 100%;
+            float: none;
+            margin: inherit; }
+          .quire-contents-list.grid ul li.section-item {
+            grid-column: 1/3; } } }
+    @media screen and (min-width: 1184px) {
+      @supports (display: grid) {
+        .quire-contents-list.grid ul {
+          display: grid;
+          grid-gap: .25rem;
+          grid-template-columns: repeat(3, 1fr); }
+          .quire-contents-list.grid ul li {
+            width: 100%;
+            float: none;
+            margin: inherit; }
+          .quire-contents-list.grid ul li.section-item {
+            grid-column: 1/4; } } }
+    @media screen and (min-width: 1376px) {
+      @supports (display: grid) {
+        .quire-contents-list.grid ul {
+          display: grid;
+          grid-gap: .25rem;
+          grid-template-columns: repeat(4, 1fr); }
+          .quire-contents-list.grid ul li {
+            width: 100%;
+            float: none;
+            margin: inherit; }
+          .quire-contents-list.grid ul li.section-item {
+            grid-column: 1/5; } } }
   @media print {
     .quire-contents-list .quire-contents-list {
       -webkit-column-span: all;

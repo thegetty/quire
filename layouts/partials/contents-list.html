@@ -53,7 +53,7 @@
 {{ $pages := where $pages "Params.online" "!=" "false" }}
 {{ $pages := where $pages ".Type" "!=" "data" }}
 {{ $pages := where $pages .contentsLocation "!=" "false" -}}
-<ul>
+<ul class="section-list">
 {{- range $pages -}}
   {{- if or (eq .Section "") (and (ne $.contentsPage.Section "") (ne $.contentsLocation ".Params.menu" )) -}}
     {{- if eq $.contentsLocation ".Params.menu" }}
