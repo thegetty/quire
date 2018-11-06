@@ -7683,7 +7683,8 @@ html {
   .quire-page__content .content {
     background-color: #ffffff;
     padding: 2em;
-    margin-top: 3em; }
+    margin-top: 3em;
+    font-size: .75em; }
     .quire-page__content .content a:not([rel=footnote]):not(.footnote-return) {
       color: #CF4747;
       border-bottom: 1px solid #CF4747; }
@@ -7697,16 +7698,10 @@ html {
     .quire-page__content .content a:hover {
       color: #B02E2E !important;
       border-bottom-width: 2px; }
-    .quire-page__content .content .quire-page__content__references {
-      font-size: 0.675em; }
-      .quire-page__content .content .quire-page__content__references h2 {
-        margin-top: 1em;
-        padding-bottom: .2em;
-        font-size: 1em;
-        font-style: normal;
-        font-weight: 700;
-        text-transform: uppercase;
-        border-bottom: 1px solid #333333; }
+    .quire-page__content .content .quire-page__content__references h2 {
+      margin-top: 1em;
+      padding-bottom: .2em;
+      border-bottom: 1px solid #333333; }
     .quire-page__content .content blockquote {
       padding: 0 0 0 1.5em;
       margin: 1.5em 0 1.5em 0;
@@ -7721,11 +7716,6 @@ html {
       @media print {
         .quire-page__content .content blockquote {
           border-left-width: 0; } }
-    .quire-page__content .content h6 {
-      font-size: 0.65em;
-      font-style: normal;
-      font-weight: 700;
-      text-transform: uppercase; }
     .quire-page__content .content .footnotes {
       margin-top: -.75em; }
       .quire-page__content .content .footnotes hr {
@@ -7734,10 +7724,11 @@ html {
       .quire-page__content .content .footnotes ol {
         margin-left: .75em; }
         .quire-page__content .content .footnotes ol li {
-          font-size: 0.6em;
           margin-bottom: 1em; }
       .quire-page__content .content .footnotes a {
         color: #CF4747; }
+      .quire-page__content .content .footnotes p + p {
+        text-indent: 0; }
     .quire-page__content .content .leaflet-control a {
       color: #363636; }
     .quire-page__content .content p {
