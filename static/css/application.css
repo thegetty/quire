@@ -8114,8 +8114,8 @@ html {
     line-height: 1.22em; }
   .quire-contents-list h6 {
     text-transform: uppercase;
+    font-size: .66em;
     font-weight: 700;
-    font-size: .875em;
     line-height: 1.28em;
     padding-bottom: 0.25em;
     border-bottom: 1px solid #333333; }
@@ -8189,6 +8189,8 @@ html {
       display: block; }
       .quire-contents-list.grid .quire-menu__formats ul {
         display: block; }
+    .quire-contents-list.grid h6 {
+      font-size: .875em; }
     .quire-contents-list.grid ul li {
       float: left;
       width: 100%; }
