@@ -7683,8 +7683,14 @@ html {
     .quire-page--splash .quire-page__header * {
       color: #fff; }
     .quire-page--splash .quire-page__header .hero-body {
-      padding-top: 15rem;
-      padding-bottom: 3rem; }
+      display: inline-block;
+      max-width: none;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 20px;
+      position: absolute;
+      bottom: 10%;
+      margin-left: 0;
+      text-align: left; }
     .quire-page--splash .quire-page__header.quire-page__header--full-height {
       min-height: calc(95vh - 3rem); }
       .quire-page--splash .quire-page__header.quire-page__header--full-height .quire-page__header__splash-page-arrow {

@@ -162,8 +162,14 @@ html {
       color: findColorInvert($quire-splash-page-color);
     }
     .hero-body {
-      padding-top: 15rem;
-      padding-bottom: 3rem;
+      display: inline-block;
+      max-width: none;
+      background: $dark-semi-transparent;
+      padding: 20px;
+      position: absolute;
+      bottom: 10%;
+      margin-left: 0;
+      text-align: left;
     }
     &.quire-page__header--full-height {
       min-height: calc(95vh - #{$navbar-height});
