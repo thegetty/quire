@@ -7701,7 +7701,8 @@ html {
     .quire-page__content .content tbody tr:hover {
       background-color: #F9F9A3; }
     .quire-page__content .content h1, .quire-page__content .content h2, .quire-page__content .content h3, .quire-page__content .content h4, .quire-page__content .content h5, .quire-page__content .content h6 {
-      letter-spacing: -0.025em; }
+      letter-spacing: -0.025em;
+      color: #333333; }
     .quire-page__content .content h2 {
       text-transform: uppercase;
       font-size: 1.75em;
@@ -8058,15 +8059,30 @@ html {
 .quire-contents-list {
   box-shadow: none;
   background-color: #EEF2F3; }
-  .quire-contents-list h6 {
-    margin-top: 20px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid #7a7a7a;
-    margin-bottom: 1em;
-    font-weight: 700;
-    font-size: 0.65em;
-    letter-spacing: initial;
+  .quire-contents-list h1, .quire-contents-list h2, .quire-contents-list h3, .quire-contents-list h4, .quire-contents-list h5, .quire-contents-list h6 {
+    letter-spacing: -0.025em;
     color: #333333; }
+  .quire-contents-list h2 {
+    text-transform: uppercase;
+    font-size: 1.75em;
+    line-height: 1.15em; }
+  .quire-contents-list h3 {
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.625em; }
+  .quire-contents-list h4 {
+    font-size: 1.375em;
+    line-height: 1.2em; }
+  .quire-contents-list h5 {
+    font-size: 1.125em;
+    line-height: 1.22em; }
+  .quire-contents-list h6 {
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: .875em;
+    line-height: 1.28em;
+    padding-bottom: 0.25em;
+    border-bottom: 1px solid #333333; }
   .quire-contents-list svg {
     height: calc(3rem * .65);
     width: calc(3rem * .65);
@@ -8256,7 +8272,7 @@ html {
   font-size: 1rem;
   margin-top: .5rem; }
   .quire-figure__caption .quire-figure__label {
-    display: inline; }
+    display: block; }
 
 .content figure .quire-figure__caption {
   font-size: 0.75em;
