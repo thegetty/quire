@@ -157,6 +157,11 @@
   }
 
   &__tombstone {
+    a {
+      &:hover {
+        background-color: $quire-hover-color;
+      }
+    }
     .container {
       background-color: $white;
     }
@@ -198,7 +203,7 @@
         }
       }
       &:hover {
-        background-color: $light-yellow;
+        background-color: $quire-hover-color;
       }
     }
   }

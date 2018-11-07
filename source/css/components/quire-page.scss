@@ -239,14 +239,14 @@ html {
     }
 
     a:hover {
-      color: $quire-primary-color-hover !important;
+      background-color: $quire-hover-color;
       border-bottom-width: 2px;
     }
     
     tbody {
       tr {
         &:hover {
-          background-color: $light-yellow;
+          background-color: $quire-hover-color;
         }
       }
     }
