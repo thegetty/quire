@@ -8359,18 +8359,38 @@ div.leaflet-control > a {
 body > div.mfp-wrap.mfp-gallery.mfp-auto-cursor.mfp-ready > div.mfp-container.mfp-s-ready.mfp-inline-holder {
   padding: 0; }
 
-div.quire-modal-container {
+div.quire-counter-container {
   position: absolute;
-  top: 10px;
+  top: 9px;
   right: 44px;
   color: #fff;
   z-index: 1045; }
 
-div.quire-modal-container > span {
+div.quire-counter-container > span {
   font-family: "IBM Plex Sans Condensed", sans-serif;
   font-size: 16px;
   font-weight: bold;
   opacity: 0.65; }
+
+div.quire-caption-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1045; }
+
+div.quire-caption-container > span {
+  color: #fff;
+  position: relative;
+  margin: 0 auto;
+  display: block;
+  margin-bottom: 35px;
+  width: 90vw;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.25);
+  font-family: "IBM Plex Sans Condensed", sans-serif;
+  font-size: 14px;
+  font-weight: bold; }
 
 body > div.mfp-wrap.mfp-gallery.mfp-close-btn-in.mfp-auto-cursor.mfp-ready > div > div > button.mfp-close {
   position: absolute;
@@ -8437,6 +8457,20 @@ body > div.mfp-wrap.mfp-gallery.mfp-auto-cursor.mfp-ready > div.mfp-container.mf
 body > div.mfp-wrap.mfp-gallery.mfp-auto-cursor.mfp-ready > div.mfp-container.mfp-s-ready > button.mfp-arrow.mfp-arrow-right::after {
   display: none;
   content: ''; }
+
+body > div.mfp-wrap.mfp-gallery.mfp-auto-cursor.mfp-ready > div.mfp-container.mfp-s-ready.mfp-image-holder > div.mfp-content > div > figure > img {
+  padding: 80px 0 80px; }
+
+body > div.mfp-wrap.mfp-gallery.mfp-auto-cursor.mfp-ready > div.mfp-container.mfp-s-ready.mfp-image-holder > div.mfp-content > div:after {
+  top: 80px;
+  bottom: 80px; }
+
+body > div.mfp-bg.mfp-ready {
+  background-color: #000;
+  opacity: 1; }
+
+div.mfp-title {
+  display: none; }
 
 .quire-page__content__references dt {
   font-weight: 600; }
