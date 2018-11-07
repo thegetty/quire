@@ -8259,7 +8259,7 @@ html {
     display: inline; }
 
 .content figure .quire-figure__caption {
-  font-size: 1rem;
+  font-size: 0.75em;
   line-height: 1.5;
   margin-top: .5rem;
   font-style: normal;
@@ -8271,7 +8271,7 @@ html {
 
 .quire-figure__credit {
   display: block;
-  font-size: .75rem;
+  font-size: 1em;
   margin-top: .25rem; }
   @media print {
     .quire-figure__credit {
