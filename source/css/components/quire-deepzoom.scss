@@ -49,21 +49,26 @@ div.leaflet-control-container {
         >div.leaflet-bar {
             box-shadow: none;
             border: none;
+            border-radius: 0;
         }
         >div.leaflet-control-zoom.leaflet-bar.leaflet-control {
             >a {
                 background: $dark-semi-transparent;
                 color: $color_2;
                 border-bottom: none;
+                border-radius: 0;
             }
         }
         >div.leaflet-control-fullscreen.leaflet-bar.leaflet-control {
             >a {
                 color: $color_2;
                 border-bottom: none;
-                background: $dark-semi-transparent url(/img/fullscreen-leaflet.png) no-repeat 3px 2px;
+                background-image: url(/img/fullscreen-leaflet.png);
+                background-repeat: no-repeat;
+                background-color: $dark-semi-transparent;
                 margin-top: 0;
                 border-radius: 0;
+                background-size: 26px 52px;
             }
         }
     }

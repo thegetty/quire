@@ -5,10 +5,10 @@
  * responsible for building all CSS and JS assets for the theme.
  */
 // Stylesheets
-
+import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
 import '../css/application.scss'
 import 'leaflet/dist/leaflet.css'
-import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
+
 
 // JS Libraries (add them to package.json with `npm install [library]`)
 import $ from 'jquery'

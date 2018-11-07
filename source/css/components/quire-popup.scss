@@ -8,8 +8,9 @@ div.quire-counter-container {
     position: absolute;
     top: 10px;
     right: 42px;
-    max-height: 32px;
-    padding: 4px 8px;
+    height: 32px;
+    line-height: 30px;
+    padding: 0 8px;
     color: #fff;
     vertical-align: middle;
     background: $dark-semi-transparent;
@@ -35,10 +36,10 @@ div.quire-caption-container>span {
     color: #fff;
     position: relative;
     display: block;
-    padding: 1rem;
+    padding: 6px 10px;
     background: $dark-semi-transparent;
     font-family: $family-secondary;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: bold;
 }
 
