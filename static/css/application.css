@@ -7686,7 +7686,7 @@ html {
       padding-top: 15rem;
       padding-bottom: 3rem; }
     .quire-page--splash .quire-page__header.quire-page__header--full-height {
-      min-height: calc(100vh - 3rem); }
+      min-height: calc(95vh - 3rem); }
       .quire-page--splash .quire-page__header.quire-page__header--full-height .quire-page__header__splash-page-arrow {
         position: absolute;
         bottom: 0;
@@ -8216,19 +8216,21 @@ html {
           padding: 0; }
         .quire-contents-list.grid ul li .card .card-image {
           transition: box-shadow .35s;
-          padding: 1em 1em 0em 1em; }
+          padding: 1.5em 1.5em 0em 1.5em; }
           .quire-contents-list.grid ul li .card .card-image .image:hover {
             box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.75); }
-      .quire-contents-list.grid ul li .card-content .artist {
-        text-transform: uppercase; }
-      .quire-contents-list.grid ul li .card-content p {
-        padding-top: 0.5rem; }
-        .quire-contents-list.grid ul li .card-content p a {
-          padding: 0;
-          color: #CF4747; }
-          .quire-contents-list.grid ul li .card-content p a svg {
-            fill: #CF4747;
-            vertical-align: text-bottom; }
+      .quire-contents-list.grid ul li .card-content {
+        padding: 1.5em; }
+        .quire-contents-list.grid ul li .card-content .artist {
+          text-transform: uppercase; }
+        .quire-contents-list.grid ul li .card-content p {
+          padding-top: 0.5rem; }
+          .quire-contents-list.grid ul li .card-content p a {
+            padding: 0;
+            color: #CF4747; }
+            .quire-contents-list.grid ul li .card-content p a svg {
+              fill: #CF4747;
+              vertical-align: text-bottom; }
     .quire-contents-list.grid ul li.section-item {
       width: calc(100% - 2rem);
       margin: 1rem;

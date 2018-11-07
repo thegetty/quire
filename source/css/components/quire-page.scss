@@ -166,7 +166,7 @@ html {
       padding-bottom: 3rem;
     }
     &.quire-page__header--full-height {
-      min-height: calc(100vh - #{$navbar-height});
+      min-height: calc(95vh - #{$navbar-height});
       .quire-page__header__splash-page-arrow {
         position: absolute;
         bottom: 0;

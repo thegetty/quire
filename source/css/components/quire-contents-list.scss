@@ -215,7 +215,7 @@
         .card-image {
           -webkit-transition: -webkit-box-shadow .35s;
           transition: box-shadow .35s;
-          padding: 1em 1em 0em 1em;
+          padding: 1.5em 1.5em 0em 1.5em;
 
           .image {
             &:hover {
@@ -228,6 +228,8 @@
       }
 
       .card-content {
+        padding: 1.5em;
+
         .artist {
           text-transform: uppercase;
         }
