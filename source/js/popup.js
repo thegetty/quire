@@ -26,6 +26,7 @@ export default function (gallerySelector) {
     },
     callbacks: {
       beforeOpen: function () {
+        $('.quire-modal-container, .quire-caption-container').remove()
         // console.log('Start of popup initialization');
         // console.log(this.content)
         this.current = this.index + 1
@@ -73,7 +74,8 @@ export default function (gallerySelector) {
 
       },
       change: function () {
-        $('.quire-caption-container').remove()
+        $('.quire-modal-container, .quire-caption-container').remove()
+
         // console.log('Content changed');
         // console.log($(this.currItem.el).attr('title'))
         this.current = this.index + 1

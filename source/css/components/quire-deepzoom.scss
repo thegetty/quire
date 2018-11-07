@@ -52,18 +52,18 @@ div.leaflet-control-container {
         }
         >div.leaflet-control-zoom.leaflet-bar.leaflet-control {
             >a {
-                background: transparent;
+                background: $dark-semi-transparent;
                 color: $color_2;
                 border-bottom: none;
             }
         }
         >div.leaflet-control-fullscreen.leaflet-bar.leaflet-control {
             >a {
-                background: transparent;
                 color: $color_2;
                 border-bottom: none;
-                background: transparent url(../img/fullscreen-leaflet.png) no-repeat 0 0;
-                background-size: 32px 52px;
+                background: $dark-semi-transparent url(/img/fullscreen-leaflet.png) no-repeat 3px 2px;
+                margin-top: 0;
+                border-radius: 0;
             }
         }
     }
@@ -71,6 +71,10 @@ div.leaflet-control-container {
 
 div.leaflet-fullscreen-on>div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-control-fullscreen.leaflet-bar.leaflet-control > a {
     background-position: 2px -24px;
+}
+
+div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-control-fullscreen.leaflet-bar.leaflet-control {
+    margin-top: 0;
 }
 
 div.leaflet-control {
