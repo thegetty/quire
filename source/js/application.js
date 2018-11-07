@@ -5,25 +5,21 @@
  * responsible for building all CSS and JS assets for the theme.
  */
 // Stylesheets
-
+import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
 import '../css/application.scss'
 import 'leaflet/dist/leaflet.css'
-import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
+
 
 // JS Libraries (add them to package.json with `npm install [library]`)
 import $ from 'jquery'
 import 'velocity-animate'
 
 // Modules (feel free to define your own and import here)
-import Search from './search.js'
-import Map from './map.js'
-import DeepZoom from './deepzoom.js'
-import Navigation from './navigation.js'
-
-// Photoswipe 
-import 'photoswipe/dist/photoswipe.css'
-import 'photoswipe/dist/default-skin/default-skin.css'
-import photoswipe from './photoswipe'
+import Search from './search'
+import Navigation from './navigation'
+import Popup from './popup'
+import DeepZoom from './deepzoom'
+import Map from './map'
 
 /**
  * toggleMenu
@@ -178,37 +174,6 @@ function loadSearchData() {
   })
 }
 
-/**
- * menuSetup
- * @description Set the menu to its default hidden state. This
- * function should be called again after each smootState reload.
- */
-/*
-function menuSetup() {
-  let menu = document.getElementById('site-menu')
-  let menuAriaStatus = menu.getAttribute('aria-expanded')
-  menu.classList.remove('is-expanded')
-  if (menuAriaStatus === 'true') {
-    menu.setAttribute('aria-expanded', 'false')
-  }
-}
-*/
-
-function mapSetup() {
-  let map = document.getElementById('js-map')
-
-  if (map) {
-    new Map()
-  }
-}
-
-function deepZoomSetup() {
-  [...document.querySelectorAll('.quire-deepzoom')].forEach(v => {
-    let id = v.getAttribute('id')
-    new DeepZoom(id)
-  })
-}
-
 let navigation
 function navigationSetup() {
   if (!navigation) {
@@ -251,15 +216,35 @@ function scrollToHash() {
 }
 
 /**
- * Set up photoswipe
+ * @description
+ * Set up modal for media
  */
-function photoswipeSetup() {
-  [...document.querySelectorAll('.q-figure__wrapper > a')].forEach(v => {
-    let image = new Image()
-    image.src = v.children[0].src
-    v.setAttribute('data-size', `${image.naturalWidth}x${image.naturalHeight}`)
+function popupSetup() {
+  if (isPopup) {
+    Popup('.q-figure__wrapper')
+  }
+}
+
+/**
+ * @description 
+ * Render Map if Popup @false
+ */
+function mapSetup() {
+  [...document.querySelectorAll('.quire-map')].forEach(v => {
+    let id = v.getAttribute('id')
+    new Map(id)
   })
-  photoswipe('.content')
+}
+
+/**
+ * @description 
+ * Render deepzoom or iiif if Popup @false
+ */
+function deepZoomSetup() {
+  [...document.querySelectorAll('.quire-deepzoom')].forEach(v => {
+    let id = v.getAttribute('id')
+    new DeepZoom(id)
+  })
 }
 
 /**
@@ -268,11 +253,13 @@ function photoswipeSetup() {
  * Initialize any jquery plugins or set up page UI elements here.
  */
 function pageSetup() {
-  mapSetup()
-  deepZoomSetup()
   sliderSetup()
   navigationSetup()
-  photoswipeSetup()
+  popupSetup()
+  if (!isPopup) {
+    mapSetup()
+    deepZoomSetup()
+  }
 }
 
 /**

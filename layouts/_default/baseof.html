@@ -6,7 +6,7 @@
 */}}
 
 {{- $js := "js/application.js" | relURL -}}
-{{- $photoswipe := .Site.Params.photoswipe -}}
+{{- $popup := .Site.Params.popup -}}
 
 <!DOCTYPE html>
 <html lang="{{ .Site.Data.publication.language }}">
@@ -26,13 +26,13 @@
 
       <div class="quire__primary" id="{{ with .Section }}{{ . | urlize }}-{{ end }}{{ .File.BaseFileName | lower }}">
         {{ partial "navbar.html" . }}
-        {{ partial "photoswipe-ui.html" (dict "context" . "photoswipe" $photoswipe) }}
+
         {{ block "main" . }}
 
         {{ end }}
       </div>
       {{ partial "search.html" . }}
     </div>
-    {{ partial "scripts.html" (dict "context" . "photoswipe" $photoswipe) }}
+    {{ partial "scripts.html" (dict "context" . "popup" $popup) }}
   </body>
 </html>

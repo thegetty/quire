@@ -1,3 +1,5 @@
+@import "../variables";
+
 $dark: #363636 !default;
 $gap: 16px !default;
 $quire-deepzoom-height: 500px !default;
@@ -5,9 +7,12 @@ $color_1: white;
 $color_2: #fff;
 $color_3: #000;
 $background_color_1: #2da0e2;
+
+.no-popup-quire-deepzoom {
+    height: $quire-deepzoom-height; 
+}
+
 .quire-deepzoom {
-    height: $quire-deepzoom-height;
-    margin-bottom: $gap;
     .leaflet-control-zoom {
         .leaflet-bar {
             a {
@@ -44,24 +49,37 @@ div.leaflet-control-container {
         >div.leaflet-bar {
             box-shadow: none;
             border: none;
+            border-radius: 0;
         }
         >div.leaflet-control-zoom.leaflet-bar.leaflet-control {
             >a {
-                background: transparent;
+                background: $dark-semi-transparent;
                 color: $color_2;
                 border-bottom: none;
+                border-radius: 0;
             }
         }
         >div.leaflet-control-fullscreen.leaflet-bar.leaflet-control {
             >a {
-                background: transparent;
                 color: $color_2;
                 border-bottom: none;
-                background: transparent url(../img/fullscreen-leaflet.png) no-repeat 0 0;
-                background-size: 32px 52px;
+                background-image: url(/img/fullscreen-leaflet.png);
+                background-repeat: no-repeat;
+                background-color: $dark-semi-transparent;
+                margin-top: 0;
+                border-radius: 0;
+                background-size: 26px 52px;
             }
         }
     }
+}
+
+div.leaflet-fullscreen-on>div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-control-fullscreen.leaflet-bar.leaflet-control > a {
+    background-position: 2px -24px;
+}
+
+div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-control-fullscreen.leaflet-bar.leaflet-control {
+    margin-top: 0;
 }
 
 div.leaflet-control {
@@ -71,33 +89,16 @@ div.leaflet-control {
 }
 
 .leaflet-outer-wrapper {
-    line-height: 0;
-    width: 100%;
-    height: 100%;
-    position: relative;
-    display: inline-block;
-    vertical-align: middle;
-    margin: 0 auto;
-    text-align: left;
-    z-index: 1045;
-    /* padding: 0 10%; */
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .leaflet-inner-wrapper {
-    position: relative;
-    height: 100%;
-    width: 100%;
-}
-
-.quire-deepzoom {
-    // width: 100% !important;
-    // height: auto !important;
+    width: 100vw;
+    height: 100vh;
 }
 
 div.leaflet-control-container>div.leaflet-top.leaflet-left {
-    margin-top: 50px;
-}
-
-.pswp--zoom-allowed .pswp__img {
-    cursor: default !important;
+    // margin-top: 50px;
 }

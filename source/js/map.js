@@ -1,18 +1,25 @@
 import L from 'leaflet'
-import './leaflet-fullscreen-getty'
+import 'leaflet-fullscreen'
 // import leafletImage from 'leaflet-image'
 
 class Map {
   constructor(id) {
+    
     // remove and refresh before init
-    if (window.mapID != undefined || window.mapID != undefined) {
-      window.mapID.off()
-      window.mapID.remove()
+    if (isPopup) {
+      if (window.mapID != undefined || window.mapID != undefined) {
+        window.mapID.off()
+        window.mapID.remove()
+      }
+      let node = document.getElementById(id);
+      if (node) {
+        while (node.firstChild) {
+          node.removeChild(node.firstChild)
+        }  
+      }
     }
-    let node = document.getElementById(id)
-    while (node.firstChild) {
-      node.removeChild(node.firstChild)
-    }
+  
+    
     if (id) {
       this.el = id
       this.tiles = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'

@@ -14,7 +14,7 @@ vimeo (the two supported media formats at this time).
 
 {{ $errorBadId := dict "shortcode" "q-figure" "message" "The supplied value for `id` does not match an `id` value in your `data/figures.yml` file. Or, if you are not using a `data/figures.yml` file, a value for `src` should also be included in the shortcode, and should match the filename of an image file in your `static/img` directory." "example" "{{< q-figure id=&#34;3.1&#34; >}}<br /><br />{{< q-figure id=&#34;3.1&#34; src=&#34;fig-3-1-duchamp.jpg&#34; >}}" }}
 
-{{ $errorNoMediaType := dict "shortcode" "q-figure" "message" "For multimedia figures, the `media_type` attribute must be included in your `data/figures.yml` file for this figure `id`, and must be either “youtube”, “vimeo” or “website”." "example" "- id: &#34;3.1&#34;<br />  media_id: &#34;VYqDpNmnu8I&#34;<br />  media_type: &#34;youtube&#34;" }}
+{{ $errorNoMediaType := dict "shortcode" "q-figure" "message" "For multimedia figures, the `media_type` attribute must be included in your `data/figures.yml` file for this figure `id`, and must be either “youtube”, “vimeo”, “soundscloud” or “website”." "example" "- id: &#34;3.1&#34;<br />  media_id: &#34;VYqDpNmnu8I&#34;<br />  media_type: &#34;youtube&#34;" }}
 
 {{ $errorNoSourceNoId := dict "shortcode" "q-figure" "message" "This shortcode must include a value for `src` that matches the filename of an image in your `static/img` directory; or a value for `id` that matches an `id` value in your `data/figures.yml` file." "example" "{{< q-figure id=&#34;3.1&#34; >}}<br /><br />{{< q-figure id=&#34;3.1&#34; src=&#34;fig-3-1-duchamp.jpg&#34; >}}" }}
 
@@ -27,10 +27,10 @@ document and render only the values given in the shortcode
 ----------------------------------------------------------------------------
 */}}
 
-{{ if eq $.Site.Params.photoswipe true }}
-<figure class='photoswipe-true quire-figure {{ with .Get "class" }}{{ . }}{{ end }}'>
+{{ if eq $.Site.Params.popup true }}
+<figure class='popup-true quire-figure {{ with .Get "class" }}{{ . }}{{ end }}'>
   <div class="q-figure__wrapper">
-    <a href='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'>
+    <a class="image popup" href='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'>
     <img id='{{ with .Get "id" }}{{ . | urlize }}{{ end }}'
       class="quire-figure__image" 
       src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
@@ -84,19 +84,20 @@ render the figure from matching values found ther
 <figure class='quire-figure {{ with $.Get "class" }}{{ . }}{{ end }}'>
   {{ if .media_id }}
   {{/* -------------------- BEGIN MEDIA BLOCK -------------------- */}}
-  {{ if and (and (ne .media_type "youtube") (ne .media_type "vimeo")) (ne .media_type "website") }}
+  {{ if and (and (ne .media_type "youtube") (ne .media_type "vimeo")) (ne .media_type "website") (ne .media_type "audio") (ne .media_type "soundcloud")}}
 
       {{ partial "error-message.html" $errorNoMediaType }}
 
   {{ else }}
 
-  {{ if eq $.Site.Params.photoswipe true }}
+  {{ if eq $.Site.Params.popup true }}
 
   {{ if eq .media_type "youtube" }}
   <div class="q-figure__wrapper">
-      <a href='#'
+      <a href='https://www.youtube.com/watch?v={{ .media_id }}'
+         class="video popup"
          data-type="video" 
-         {{ if .caption }} data-caption='{{ .caption | markdownify | safeHTML }}' {{ end }}
+         {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}
          data-video="<div class='wrapper'><div class='video-wrapper'><iframe id='{{ .id }}' class='quire-figure__media pswp__video' src='https://www.youtube-nocookie.com/embed/{{ .media_id }}?rel=0&amp;showinfo=0' frameborder='0' allowfullscreen></iframe></div></div>">
       <img class='quire-figure__image'
            src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' 
@@ -105,15 +106,50 @@ render the figure from matching values found ther
     </div>
   {{ else if eq .media_type "vimeo" }}
   <div class="q-figure__wrapper">
-      <a href='#'
+      <a href='https://player.vimeo.com/video/{{ .media_id }}'
          data-type="video" 
-         {{ if .caption }} data-caption='{{ .caption | markdownify | safeHTML }}' {{ end }}
+         class="video popup"
+         {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}
          data-video="<div class='wrapper'><div class='video-wrapper'><iframe id='{{ .id }}' class='quire-figure__media pswp__video' src='https://player.vimeo.com/video/{{ .media_id }}' frameborder='0' webkitallowfullscreen mozallowfullscreen allowfullscreen>></iframe></div></div>">
       <img class='quire-figure__image'
            src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' 
            alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}'/>
       </a>
     </div>
+  {{ else if eq .media_type "audio" }}
+      <iframe id='{{ .id }}'
+      width="100%" 
+      height="166" 
+      scrolling="no" 
+      frameborder="no" 
+      allow="autoplay" 
+      src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe>   
+      {{ if eq $.Site.Params.audioFigureFallbackText true }}
+        {{ if .src }}
+          <img class="visually-hidden" id='{{ .id }}'
+          src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'
+          alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}' />
+        {{ else }}
+          <p class="visually-hidden">No Image avaiable.</p>
+        {{ end }}
+      {{ end }}
+  {{ else if eq .media_type "soundcloud" }}   
+      <iframe id='{{ .id }}'
+      width="100%" 
+      height="166" 
+      scrolling="no" 
+      frameborder="no" 
+      allow="autoplay" 
+      src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe>  
+      {{ if eq $.Site.Params.audioFigureFallbackText true }}
+      {{ if .src }}
+        <img class="visually-hidden" id='{{ .id }}'
+        src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'
+        alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}' />
+      {{ else }}
+        <p class="visually-hidden">No Image avaiable.</p>
+      {{ end }}
+    {{ end }}
   {{ else if eq .media_type "website" }}
   <iframe id='{{ .id }}'
           class='quire-figure__media'
@@ -142,6 +178,22 @@ render the figure from matching values found ther
             webkitallowfullscreen
             mozallowfullscreen
             allowfullscreen></iframe>
+    {{ else if eq .media_type "audio" }}
+    <iframe id='{{ .id }}'
+            width="100%" 
+            height="166" 
+            scrolling="no" 
+            frameborder="no" 
+            allow="autoplay" 
+            src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe> 
+    {{ else if eq .media_type "soundcloud" }}   
+    <iframe id='{{ .id }}'
+            width="100%" 
+            height="166" 
+            scrolling="no" 
+            frameborder="no" 
+            allow="autoplay" 
+            src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe> 
     {{ else if eq .media_type "website" }}
     <iframe id='{{ .id }}'
             class='quire-figure__media'
@@ -175,13 +227,13 @@ render the figure from matching values found ther
   {{ else }}
   {{/* -------------------- BEGIN IMAGE BLOCK -------------------- */}}
   <div class="q-figure__wrapper">
-      {{ if eq $.Site.Params.photoswipe true }}
-      <a href='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' {{ if .caption }} data-caption='{{ .caption | markdownify | safeHTML }}' {{ end }}>
+      {{ if eq $.Site.Params.popup true }}
+      <a class="image popup" href='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
       {{ end }}
     <img class="quire-figure__image"  id='{{ .id }}'
        src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'
        alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}' />
-       {{ if eq $.Site.Params.photoswipe true }}
+       {{ if eq $.Site.Params.popup true }}
       </a>
       {{ end }}
   </div>
@@ -223,6 +275,24 @@ render the figure from matching values found ther
       {{ $.Site.Params.videoFigureFallbackTextBefore -}}
       <a href='https://vimeo.com/{{ .media_id }}'>https://vimeo.com/{{ .media_id }}</a>
       {{- $.Site.Params.videoFigureFallbackTextAfter }}
+    </span>
+    {{- end -}}
+    {{ end }}
+
+    {{ if eq $.Site.Params.audioFigureFallbackText true }}
+    {{- if eq .media_type "audio" }}
+    <span class="quire-figure__media-fallback__text">
+      {{ $.Site.Params.audioFigureFallbackTextBefore -}}
+      <a href='https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}'>https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}</a>
+      {{- $.Site.Params.audioFigureFallbackTextAfter }}
+    </span>
+    {{- end -}}
+
+    {{- if eq .media_type "soundcloud" }}
+    <span class="quire-figure__media-fallback__text">
+      {{ $.Site.Params.audioFigureFallbackTextBefore -}}
+      <a href='https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}'>https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}</a>
+      {{- $.Site.Params.audioFigureFallbackTextAfter }}
     </span>
     {{- end -}}
     {{ end }}
