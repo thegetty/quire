@@ -79,6 +79,7 @@
   .menu-list a {
     position: relative;
     padding-left: 0;
+    font-size: 1em;
     .arrow {
       -webkit-transition: all .5s ease;
       transition: all .5s ease;
@@ -128,6 +129,7 @@
     .title {
       line-height: 1.35;
       margin-bottom: 0;
+      font-family: $quire-header-font;
     }
     .abstract-text {
       padding-left: 1.5rem;
@@ -150,7 +152,7 @@
 
   &.grid {
     font-size: .75em;
-
+    font-family: $quire-header-font;
     @media screen and (min-width: $tablet) {
       margin: 0 5rem;
     }
@@ -159,6 +161,7 @@
       font-size: inherit;
       font-weight: inherit;
       line-height: inherit;
+      font-family: $quire-header-font;
     }
 
     li > a {
@@ -173,6 +176,9 @@
       display: block;
       ul {
         display: block;
+      }
+      a {
+        font-size: 1.325em;
       }
     }
 
@@ -229,6 +235,7 @@
 
       .card-content {
         padding: 1.5em;
+        font-family: $quire-nav-font;
 
         .artist {
           text-transform: uppercase;

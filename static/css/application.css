@@ -8136,7 +8136,8 @@ html {
     font-size: .75em; }
   .quire-contents-list .menu-list a {
     position: relative;
-    padding-left: 0; }
+    padding-left: 0;
+    font-size: 1em; }
     .quire-contents-list .menu-list a .arrow {
       transition: all .5s ease; }
     .quire-contents-list .menu-list a:hover {
@@ -8167,7 +8168,8 @@ html {
       margin-bottom: 0; }
   .quire-contents-list.abstract .title {
     line-height: 1.35;
-    margin-bottom: 0; }
+    margin-bottom: 0;
+    font-family: "IBM Plex Sans Condensed", sans-serif; }
   .quire-contents-list.abstract .abstract-text {
     padding-left: 1.5rem;
     margin-bottom: 1rem;
@@ -8179,14 +8181,16 @@ html {
     .quire-contents-list.abstract .abstract-text p + p {
       text-indent: 2em; }
   .quire-contents-list.grid {
-    font-size: .75em; }
+    font-size: .75em;
+    font-family: "IBM Plex Sans Condensed", sans-serif; }
     @media screen and (min-width: 500px) {
       .quire-contents-list.grid {
         margin: 0 5rem; } }
     .quire-contents-list.grid .title {
       font-size: inherit;
       font-weight: inherit;
-      line-height: inherit; }
+      line-height: inherit;
+      font-family: "IBM Plex Sans Condensed", sans-serif; }
     .quire-contents-list.grid li > a {
       padding: 1rem; }
     .quire-contents-list.grid .section-list {
@@ -8195,6 +8199,8 @@ html {
       display: block; }
       .quire-contents-list.grid .quire-menu__formats ul {
         display: block; }
+      .quire-contents-list.grid .quire-menu__formats a {
+        font-size: 1.325em; }
     .quire-contents-list.grid h6 {
       font-size: .875em; }
     .quire-contents-list.grid ul li {
@@ -8226,7 +8232,8 @@ html {
           .quire-contents-list.grid ul li .card .card-image .image:hover {
             box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.75); }
       .quire-contents-list.grid ul li .card-content {
-        padding: 1.5em; }
+        padding: 1.5em;
+        font-family: "Noto Sans", sans-serif; }
         .quire-contents-list.grid ul li .card-content .artist {
           text-transform: uppercase; }
         .quire-contents-list.grid ul li .card-content p {
