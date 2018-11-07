@@ -7700,6 +7700,28 @@ html {
       border-bottom-width: 2px; }
     .quire-page__content .content tbody tr:hover {
       background-color: #F9F9A3; }
+    .quire-page__content .content h1, .quire-page__content .content h2, .quire-page__content .content h3, .quire-page__content .content h4, .quire-page__content .content h5, .quire-page__content .content h6 {
+      letter-spacing: -0.025em; }
+    .quire-page__content .content h2 {
+      text-transform: uppercase;
+      font-size: 1.75em;
+      line-height: 1.15em; }
+    .quire-page__content .content h3 {
+      font-style: italic;
+      font-weight: 400;
+      font-size: 1.625em; }
+    .quire-page__content .content h4 {
+      font-size: 1.375em;
+      line-height: 1.2em; }
+    .quire-page__content .content h5 {
+      font-size: 1.125em;
+      line-height: 1.22em; }
+    .quire-page__content .content h6 {
+      text-transform: uppercase;
+      font-size: .875em;
+      line-height: 1.28em;
+      padding-bottom: 0.25em;
+      border-bottom: 1px solid #333333; }
     .quire-page__content .content .quire-page__content__references h2 {
       margin-top: 1em;
       padding-bottom: .2em;
