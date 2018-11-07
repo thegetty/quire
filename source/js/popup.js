@@ -3,7 +3,42 @@ import Map from './map.js'
 import 'magnific-popup/dist/magnific-popup.css'
 require('magnific-popup')
 
+const addCaption = (type, self) => {
+
+  if (document.querySelector('.quire-caption-container')) {
+    document.querySelector('.quire-caption-container').remove
+  }
+  if (document.querySelector('.mfp-title')) {
+    let defaultCaption = document.querySelector('.mfp-title')
+    let defaultContainer = document.querySelector('.mfp-wrap')
+    defaultCaption.style.display = 'none'
+
+    switch (type) {
+      case 'inline':
+        self.caption = self.content.attr('title')
+        break
+      case 'iframe':
+        self.caption = self.content.attr('title')
+        break
+      case 'image':
+        self.caption = $(self.currItem.el).attr('title')
+        break
+      default:
+        self.caption = $(self.currItem.el).attr('title')
+    }
+
+    if (self.caption !== undefined) {
+      self.captionCont = `<div class="quire-caption-container"><span class="caption">${self.caption}</span></div>`
+      defaultContainer.innerHTML += self.captionCont
+    }
+  }
+
+}
+
+
 export default function (gallerySelector) {
+
+
 
   $(gallerySelector).magnificPopup({
     delegate: 'a.popup',
@@ -26,7 +61,7 @@ export default function (gallerySelector) {
     },
     callbacks: {
       beforeOpen: function () {
-        $('.quire-modal-container, .quire-caption-container').remove()
+        $('.quire-counter-container, .quire-caption-container').remove()
         // console.log('Start of popup initialization');
         // console.log(this.content)
         this.current = this.index + 1
@@ -74,40 +109,42 @@ export default function (gallerySelector) {
 
       },
       change: function () {
-        $('.quire-modal-container, .quire-caption-container').remove()
+        $('.quire-counter-container, .quire-caption-container').remove()
 
         // console.log('Content changed');
-        // console.log($(this.currItem.el).attr('title'))
         this.current = this.index + 1
 
         if (document.querySelector('.counter')) {
           document.querySelector('.counter').innerHTML = `${this.current} of ${this.items.length}`
         }
 
-        if (this.currItem.type === 'inline') {
-          this.caption = this.content.attr('title')
-          if (this.caption !== undefined) {
-            this.captionCont = `<div class="quire-caption-container"><span class="caption">${this.caption}</span></div>`
-            $('.mfp-wrap').append(this.captionCont)
-          }
+        switch (this.currItem.type) {
+          case 'inline':
+            this.caption = this.content.attr('title')
+            if (this.caption !== undefined) {
+              this.captionCont = `<div class="quire-caption-container"><span class="caption">${this.caption}</span></div>`
+              $('.mfp-wrap').append(this.captionCont)
+            }
+            break
+          case 'iframe':
+            this.caption = $(this.currItem.el).attr('title')
+            if (this.caption !== undefined) {
+              this.captionCont = `<div class="quire-caption-container"><span class="caption">${this.caption}</span></div>`
+              $('.mfp-wrap').append(this.captionCont)
+            }
+            break
+          case 'image':
+            $('.mfp-title').hide()
+            this.caption = $(this.currItem.el).attr('title')
+            if (this.caption !== undefined) {
+              this.captionCont = `<div class="quire-caption-container"><span class="caption">${this.caption}</span></div>`
+              $('.mfp-wrap').append(this.captionCont)
+            }
+            break
+          default:
+            break
         }
 
-        if (this.currItem.type === 'iframe') {
-          this.caption = this.content.attr('title')
-          if (this.caption !== undefined) {
-            this.captionCont = `<div class="quire-caption-container"><span class="caption">${this.caption}</span></div>`
-            $('.mfp-wrap').append(this.captionCont)
-          }
-        }
-
-        if (this.currItem.type === 'image') {
-          $('.mfp-title').hide()
-          this.caption = (this.currItem.el).attr('title')
-          if (this.caption !== undefined) {
-            this.captionCont = `<div class="quire-caption-container"><span class="caption">${this.caption}</span></div>`
-            $('.mfp-wrap').append(this.captionCont)
-          }
-        }
 
         let id = this.content.children()[0].id
         let waitForDOMUpdate = 100
@@ -137,30 +174,32 @@ export default function (gallerySelector) {
         // resize event triggers only when height is changed or layout forced
       },
       open: function () {
-        // console.log('Popup is opened');
-        if (this.currItem.type === 'inline') {
-          this.caption = this.content.attr('title')
-          if (this.caption !== undefined) {
-            this.captionCont = `<div class="quire-caption-container"><span class="caption">${this.caption}</span></div>`
-            $('.mfp-wrap').append(this.captionCont)
-          }
-        }
 
-        if (this.currItem.type === 'iframe') {
-          this.caption = this.content.attr('title')
-          if (this.caption !== undefined) {
-            this.captionCont = `<div class="quire-caption-container"><span class="caption">${this.caption}</span></div>`
-            $('.mfp-wrap').append(this.captionCont)
-          }
-        }
-
-        if (this.currItem.type === 'image') {
-          $('.mfp-title').hide()
-          this.caption = (this.currItem.el).attr('title')
-          if (this.caption !== undefined) {
-            this.captionCont = `<div class="quire-caption-container"><span class="caption">${this.caption}</span></div>`
-            $('.mfp-wrap').append(this.captionCont)
-          }
+        switch (this.currItem.type) {
+          case 'inline':
+            this.caption = this.content.attr('title')
+            if (this.caption !== undefined) {
+              this.captionCont = `<div class="quire-caption-container"><span class="caption">${this.caption}</span></div>`
+              $('.mfp-wrap').append(this.captionCont)
+            }
+            break
+          case 'iframe':
+            this.caption = $(this.currItem.el).attr('title')
+            if (this.caption !== undefined) {
+              this.captionCont = `<div class="quire-caption-container"><span class="caption">${this.caption}</span></div>`
+              $('.mfp-wrap').append(this.captionCont)
+            }
+            break
+          case 'image':
+            $('.mfp-title').hide()
+            this.caption = (this.currItem.el).attr('title')
+            if (this.caption !== undefined) {
+              this.captionCont = `<div class="quire-caption-container"><span class="caption">${this.caption}</span></div>`
+              $('.mfp-wrap').append(this.captionCont)
+            }
+            break
+          default:
+            break
         }
 
         $('.mfp-wrap').append(this.cont)
@@ -169,7 +208,7 @@ export default function (gallerySelector) {
       beforeClose: function () {
         // Callback available since v0.9.0
         // console.log('Popup close has been initiated');
-        $('.quire-modal-container').remove()
+        $('.quire-counter-container, .quire-caption-container').remove()
       },
       close: function () {
         // console.log('Popup removal initiated (after removalDelay timer finished)');
