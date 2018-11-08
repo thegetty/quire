@@ -57,9 +57,6 @@
     "lodash.findindex": "^4.6.0",
     "lunr": "^2.3.3",
     "magnific-popup": "^1.1.0",
-    "photoswipe": "^4.1.2",
-    "screenfull": "^3.3.3",
-    "smoothstate": "github:miguel-perez/smoothState.js",
     "template-polyfill": "^2.0.0",
     "velocity-animate": "^1.5.2"
   }

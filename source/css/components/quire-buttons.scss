@@ -63,23 +63,23 @@
     &.next {
       background-color: $quire-primary-color;
       svg {
-        fill: $quire-header-font-color;
+        fill: $quire-nav-font-color;
       }
       &:hover {
         background-color: $quire-primary-color-hover;
       }
       a {
-        color: $quire-header-font-color;
+        color: $quire-nav-font-color;
       }
     }
 
     &:hover {
       background-color: $quire-primary-color;
       a {
-        color: $quire-header-font-color;
+        color: $quire-nav-font-color;
       }
       svg {
-        fill: $quire-header-font-color;
+        fill: $quire-nav-font-color;
       }
     }
   }

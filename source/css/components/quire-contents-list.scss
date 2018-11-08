@@ -27,15 +27,40 @@
   box-shadow: none;
   background-color: $quire-body-background-color;
 
+  h1, h2, h3, h4, h5, h6 {
+    letter-spacing: -0.025em;
+    color: $quire-header-color;
+  }
+
+  h2 {
+    text-transform: uppercase;
+    font-size: 1.75em;
+    line-height: 1.15em;
+  }
+
+  h3 {
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.625em;
+  }
+
+  h4 {
+    font-size: 1.375em;
+    line-height: 1.2em;
+  }
+
+  h5 {
+    font-size: 1.125em;
+    line-height: 1.22em;
+  }
+
   h6 {
-    margin-top: 20px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid $grey; 
-    margin-bottom: 1em;
+    text-transform: uppercase;
+    font-size: .66em;
     font-weight: 700;
-    font-size: 0.65em;
-    letter-spacing: initial;
-    color: $quire-secondary-color;
+    line-height: 1.28em;
+    padding-bottom: 0.25em;
+    border-bottom: 1px solid $off-black;
   }
 
   svg {
@@ -54,6 +79,7 @@
   .menu-list a {
     position: relative;
     padding-left: 0;
+    font-size: 1em;
     .arrow {
       -webkit-transition: all .5s ease;
       transition: all .5s ease;
@@ -103,6 +129,7 @@
     .title {
       line-height: 1.35;
       margin-bottom: 0;
+      font-family: $quire-header-font;
     }
     .abstract-text {
       padding-left: 1.5rem;
@@ -125,7 +152,7 @@
 
   &.grid {
     font-size: .75em;
-
+    font-family: $quire-header-font;
     @media screen and (min-width: $tablet) {
       margin: 0 5rem;
     }
@@ -134,6 +161,7 @@
       font-size: inherit;
       font-weight: inherit;
       line-height: inherit;
+      font-family: $quire-header-font;
     }
 
     li > a {
@@ -149,8 +177,14 @@
       ul {
         display: block;
       }
+      a {
+        font-size: 1.325em;
+      }
     }
 
+    h6 {
+      font-size: .875em;
+    }
 
     ul li {
       float: left;
@@ -187,7 +221,7 @@
         .card-image {
           -webkit-transition: -webkit-box-shadow .35s;
           transition: box-shadow .35s;
-          padding: 1em 1em 0em 1em;
+          padding: 1.5em 1.5em 0em 1.5em;
 
           .image {
             &:hover {
@@ -200,6 +234,9 @@
       }
 
       .card-content {
+        padding: 1.5em;
+        font-family: $quire-nav-font;
+
         .artist {
           text-transform: uppercase;
         }

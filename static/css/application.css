@@ -7356,10 +7356,16 @@ html {
     .quire-page--splash .quire-page__header * {
       color: #fff; }
     .quire-page--splash .quire-page__header .hero-body {
-      padding-top: 15rem;
-      padding-bottom: 3rem; }
+      display: inline-block;
+      max-width: none;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 20px;
+      position: absolute;
+      bottom: 10%;
+      margin-left: 0;
+      text-align: left; }
     .quire-page--splash .quire-page__header.quire-page__header--full-height {
-      min-height: calc(100vh - 3rem); }
+      min-height: calc(95vh - 3rem); }
       .quire-page--splash .quire-page__header.quire-page__header--full-height .quire-page__header__splash-page-arrow {
         position: absolute;
         bottom: 0;
@@ -7405,10 +7411,33 @@ html {
       .quire-page__content .content a {
         color: #363636; } }
     .quire-page__content .content a:hover {
-      color: #B02E2E !important;
+      background-color: #F9F9A3;
       border-bottom-width: 2px; }
     .quire-page__content .content tbody tr:hover {
       background-color: #F9F9A3; }
+    .quire-page__content .content h1, .quire-page__content .content h2, .quire-page__content .content h3, .quire-page__content .content h4, .quire-page__content .content h5, .quire-page__content .content h6 {
+      letter-spacing: -0.025em;
+      color: #333333; }
+    .quire-page__content .content h2 {
+      text-transform: uppercase;
+      font-size: 1.75em;
+      line-height: 1.15em; }
+    .quire-page__content .content h3 {
+      font-style: italic;
+      font-weight: 400;
+      font-size: 1.625em; }
+    .quire-page__content .content h4 {
+      font-size: 1.375em;
+      line-height: 1.2em; }
+    .quire-page__content .content h5 {
+      font-size: 1.125em;
+      line-height: 1.22em; }
+    .quire-page__content .content h6 {
+      text-transform: uppercase;
+      font-size: .875em;
+      line-height: 1.28em;
+      padding-bottom: 0.25em;
+      border-bottom: 1px solid #333333; }
     .quire-page__content .content .quire-page__content__references h2 {
       margin-top: 1em;
       padding-bottom: .2em;
@@ -7745,15 +7774,30 @@ html {
 .quire-contents-list {
   box-shadow: none;
   background-color: #EEF2F3; }
-  .quire-contents-list h6 {
-    margin-top: 20px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid #7a7a7a;
-    margin-bottom: 1em;
-    font-weight: 700;
-    font-size: 0.65em;
-    letter-spacing: initial;
+  .quire-contents-list h1, .quire-contents-list h2, .quire-contents-list h3, .quire-contents-list h4, .quire-contents-list h5, .quire-contents-list h6 {
+    letter-spacing: -0.025em;
     color: #333333; }
+  .quire-contents-list h2 {
+    text-transform: uppercase;
+    font-size: 1.75em;
+    line-height: 1.15em; }
+  .quire-contents-list h3 {
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.625em; }
+  .quire-contents-list h4 {
+    font-size: 1.375em;
+    line-height: 1.2em; }
+  .quire-contents-list h5 {
+    font-size: 1.125em;
+    line-height: 1.22em; }
+  .quire-contents-list h6 {
+    text-transform: uppercase;
+    font-size: .66em;
+    font-weight: 700;
+    line-height: 1.28em;
+    padding-bottom: 0.25em;
+    border-bottom: 1px solid #333333; }
   .quire-contents-list svg {
     height: calc(3rem * .65);
     width: calc(3rem * .65);
@@ -7765,7 +7809,8 @@ html {
     font-size: .75em; }
   .quire-contents-list .menu-list a {
     position: relative;
-    padding-left: 0; }
+    padding-left: 0;
+    font-size: 1em; }
     .quire-contents-list .menu-list a .arrow {
       transition: all .5s ease; }
     .quire-contents-list .menu-list a:hover {
@@ -7796,7 +7841,8 @@ html {
       margin-bottom: 0; }
   .quire-contents-list.abstract .title {
     line-height: 1.35;
-    margin-bottom: 0; }
+    margin-bottom: 0;
+    font-family: "IBM Plex Sans Condensed", sans-serif; }
   .quire-contents-list.abstract .abstract-text {
     padding-left: 1.5rem;
     margin-bottom: 1rem;
@@ -7808,14 +7854,16 @@ html {
     .quire-contents-list.abstract .abstract-text p + p {
       text-indent: 2em; }
   .quire-contents-list.grid {
-    font-size: .75em; }
+    font-size: .75em;
+    font-family: "IBM Plex Sans Condensed", sans-serif; }
     @media screen and (min-width: 500px) {
       .quire-contents-list.grid {
         margin: 0 5rem; } }
     .quire-contents-list.grid .title {
       font-size: inherit;
       font-weight: inherit;
-      line-height: inherit; }
+      line-height: inherit;
+      font-family: "IBM Plex Sans Condensed", sans-serif; }
     .quire-contents-list.grid li > a {
       padding: 1rem; }
     .quire-contents-list.grid .section-list {
@@ -7824,6 +7872,10 @@ html {
       display: block; }
       .quire-contents-list.grid .quire-menu__formats ul {
         display: block; }
+      .quire-contents-list.grid .quire-menu__formats a {
+        font-size: 1.325em; }
+    .quire-contents-list.grid h6 {
+      font-size: .875em; }
     .quire-contents-list.grid ul li {
       float: left;
       width: 100%; }
@@ -7849,19 +7901,22 @@ html {
           padding: 0; }
         .quire-contents-list.grid ul li .card .card-image {
           transition: box-shadow .35s;
-          padding: 1em 1em 0em 1em; }
+          padding: 1.5em 1.5em 0em 1.5em; }
           .quire-contents-list.grid ul li .card .card-image .image:hover {
             box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.75); }
-      .quire-contents-list.grid ul li .card-content .artist {
-        text-transform: uppercase; }
-      .quire-contents-list.grid ul li .card-content p {
-        padding-top: 0.5rem; }
-        .quire-contents-list.grid ul li .card-content p a {
-          padding: 0;
-          color: #CF4747; }
-          .quire-contents-list.grid ul li .card-content p a svg {
-            fill: #CF4747;
-            vertical-align: text-bottom; }
+      .quire-contents-list.grid ul li .card-content {
+        padding: 1.5em;
+        font-family: "Noto Sans", sans-serif; }
+        .quire-contents-list.grid ul li .card-content .artist {
+          text-transform: uppercase; }
+        .quire-contents-list.grid ul li .card-content p {
+          padding-top: 0.5rem; }
+          .quire-contents-list.grid ul li .card-content p a {
+            padding: 0;
+            color: #CF4747; }
+            .quire-contents-list.grid ul li .card-content p a svg {
+              fill: #CF4747;
+              vertical-align: text-bottom; }
     .quire-contents-list.grid ul li.section-item {
       width: calc(100% - 2rem);
       margin: 1rem;
@@ -7943,10 +7998,10 @@ html {
   font-size: 1rem;
   margin-top: .5rem; }
   .quire-figure__caption .quire-figure__label {
-    display: inline; }
+    display: block; }
 
 .content figure .quire-figure__caption {
-  font-size: 1rem;
+  font-size: 0.75em;
   line-height: 1.5;
   margin-top: .5rem;
   font-style: normal;
@@ -7958,7 +8013,7 @@ html {
 
 .quire-figure__credit {
   display: block;
-  font-size: .75rem;
+  font-size: 1em;
   margin-top: .25rem; }
   @media print {
     .quire-figure__credit {
@@ -8223,6 +8278,9 @@ html {
       height: 3in;
       text-align: center;
       border: 1pt solid transparent; } }
+
+.quire-entry__tombstone a:hover {
+  background-color: #F9F9A3; }
 
 .quire-entry__tombstone .container {
   background-color: #ffffff; }

@@ -162,11 +162,17 @@ html {
       color: findColorInvert($quire-splash-page-color);
     }
     .hero-body {
-      padding-top: 15rem;
-      padding-bottom: 3rem;
+      display: inline-block;
+      max-width: none;
+      background: $dark-semi-transparent;
+      padding: 20px;
+      position: absolute;
+      bottom: 10%;
+      margin-left: 0;
+      text-align: left;
     }
     &.quire-page__header--full-height {
-      min-height: calc(100vh - #{$navbar-height});
+      min-height: calc(95vh - #{$navbar-height});
       .quire-page__header__splash-page-arrow {
         position: absolute;
         bottom: 0;
@@ -239,16 +245,51 @@ html {
     }
 
     a:hover {
-      color: $quire-primary-color-hover !important;
+      background-color: $quire-hover-color;
       border-bottom-width: 2px;
     }
     
     tbody {
       tr {
         &:hover {
-          background-color: $light-yellow;
+          background-color: $quire-hover-color;
         }
       }
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      letter-spacing: -0.025em;
+      color: $quire-header-color;
+    }
+
+    h2 {
+      text-transform: uppercase;
+      font-size: 1.75em;
+      line-height: 1.15em;
+    }
+
+    h3 {
+      font-style: italic;
+      font-weight: 400;
+      font-size: 1.625em;
+    }
+
+    h4 {
+      font-size: 1.375em;
+      line-height: 1.2em;
+    }
+
+    h5 {
+      font-size: 1.125em;
+      line-height: 1.22em;
+    }
+
+    h6 {
+      text-transform: uppercase;
+      font-size: .875em;
+      line-height: 1.28em;
+      padding-bottom: 0.25em;
+      border-bottom: 1px solid $off-black;
     }
 
     .quire-page__content__references {
