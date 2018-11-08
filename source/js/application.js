@@ -38,6 +38,27 @@ window.toggleMenu = () => {
   } else {
     menu.setAttribute('aria-expanded', 'true')
   }
+
+  let url = window.location.pathname;
+  let root = window.location.protocol + '//' + window.location.host;
+  $('.section-list .page-item a').each(function () {
+    let $this = $(this);
+    console.log("url: " + url + " || link: " + $this.attr('href') + " || root: " + root)
+    if (url !== '/' ||  url !== '') {
+      if ($this.attr('href').indexOf(url) !== -1) {
+        $this.addClass('active');
+      }
+    }
+  })
+  $('.section-item a').each(function () {
+    let $this = $(this);
+    console.log("url: " + url + " || link: " + $this.attr('href'))
+    if (url !== '/' ||  url !== '') {
+      if ($this.attr('href').indexOf(url) !== -1) {
+        $this.addClass('active');
+      }
+    }
+  });
 }
 
 
