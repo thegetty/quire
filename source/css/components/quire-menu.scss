@@ -35,7 +35,7 @@
 
     &__title {
       font-size: 2.25rem;
-      font-weight: 300;
+      font-weight: 700;
       line-height: 1.125;
       margin-top: 3rem;
       @if $family-secondary == $serif {
@@ -80,6 +80,15 @@
     }
     .quire-copyright {
       padding: 0 .5em;
+    }
+  }
+
+  .page-item {
+    a {
+      &:active {
+        border-left: 3px solid $quire-primary-color;
+        color: $quire-primary-color !important;
+      }
     }
   }
 

@@ -106,7 +106,8 @@
       transition-duration: 0.15s;
       transition-timing-function: linear; // transition: all 0.15s linear;
       width: $quire-menu-width;
-      z-index: 0;
+      display: block;
+      z-index: 100;
 
       @media screen and (max-width: $quire-menu-width) {
         width: calc(100vw - #{$navbar-height});
