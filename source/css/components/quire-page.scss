@@ -209,11 +209,37 @@ html {
   }
 }
 
+.quire-page__abstract {
+  font-style: italic;
+  padding-bottom: 0;
+  font-size: .875em;
+  line-height: 1.7em;
+  h2 {
+    font-weight: 400;
+    font-size: 1.625em;
+    font-family: $quire-header-font;
+  }
+  .container {
+    padding: 3em 2em 1em;
+    background-color: $white;
+  }
+  &:after {
+    display: block;
+    text-align: center;
+    content: "◆\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0◆\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0◆";
+    margin: 0 auto;
+    max-width: 636px;
+    width: 636px;
+    background-color: $white;
+  }
+}
+
 .quire-page__content {
   font-size: 1.125rem;
   line-height: 1.78;
   font-weight: 400;
   padding-top: 0;
+  margin-top: -2.5em;
 
   @if $family-primary != $serif {
     font-size: 1.25rem;

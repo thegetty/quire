@@ -32,6 +32,7 @@
   .leaflet-control-fullscreen a {
     background-image: url(/img/fullscreen@2x.png); } }
 
+@charset "UTF-8";
 @font-face {
   font-family: "Merriweather";
   src: url(/fonts/merriweather-regular.eot);
@@ -7714,11 +7715,33 @@ html {
       background-color: transparent;
       height: 3in; } }
 
+.quire-page__abstract {
+  font-style: italic;
+  padding-bottom: 0;
+  font-size: .875em;
+  line-height: 1.7em; }
+  .quire-page__abstract h2 {
+    font-weight: 400;
+    font-size: 1.625em;
+    font-family: "IBM Plex Sans Condensed", sans-serif; }
+  .quire-page__abstract .container {
+    padding: 3em 2em 1em;
+    background-color: #ffffff; }
+  .quire-page__abstract:after {
+    display: block;
+    text-align: center;
+    content: "\25C6\A0\A0\A0\A0\A0\A0\A0\A0\A0\A0\A0\A0\25C6\A0\A0\A0\A0\A0\A0\A0\A0\A0\A0\A0\A0\25C6";
+    margin: 0 auto;
+    max-width: 636px;
+    width: 636px;
+    background-color: #ffffff; }
+
 .quire-page__content {
   font-size: 1.125rem;
   line-height: 1.78;
   font-weight: 400;
   padding-top: 0;
+  margin-top: -2.5em;
   font-size: 1.25rem;
   font-weight: 400;
   line-height: 1.6; }
