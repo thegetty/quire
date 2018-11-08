@@ -3,43 +3,7 @@ import Map from './map.js'
 import 'magnific-popup/dist/magnific-popup.css'
 require('magnific-popup')
 
-const addCaption = (type, self) => {
-
-  if (document.querySelector('.quire-caption-container')) {
-    document.querySelector('.quire-caption-container').remove
-  }
-  if (document.querySelector('.mfp-title')) {
-    let defaultCaption = document.querySelector('.mfp-title')
-    let defaultContainer = document.querySelector('.mfp-wrap')
-    defaultCaption.style.display = 'none'
-
-    switch (type) {
-      case 'inline':
-        self.caption = self.content.attr('title')
-        break
-      case 'iframe':
-        self.caption = self.content.attr('title')
-        break
-      case 'image':
-        self.caption = $(self.currItem.el).attr('title')
-        break
-      default:
-        self.caption = $(self.currItem.el).attr('title')
-    }
-
-    if (self.caption !== undefined) {
-      self.captionCont = `<div class="quire-caption-container"><span class="caption">${self.caption}</span></div>`
-      defaultContainer.innerHTML += self.captionCont
-    }
-  }
-
-}
-
-
 export default function (gallerySelector) {
-
-
-
   $(gallerySelector).magnificPopup({
     delegate: 'a.popup',
     type: 'image',
@@ -61,7 +25,7 @@ export default function (gallerySelector) {
     },
     callbacks: {
       beforeOpen: function () {
-        $('.quire-counter-container, .quire-caption-container').remove()
+        // $('.quire-counter-container, .quire-caption-container').remove()
         // console.log('Start of popup initialization');
         // console.log(this.content)
         this.current = this.index + 1
@@ -109,7 +73,7 @@ export default function (gallerySelector) {
 
       },
       change: function () {
-        $('.quire-counter-container, .quire-caption-container').remove()
+        $('.quire-caption-container').remove()
 
         // console.log('Content changed');
         this.current = this.index + 1

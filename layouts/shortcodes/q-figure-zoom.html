@@ -29,9 +29,10 @@
       class="quire-figure__image" 
       src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
       alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
-      </a>
-      <figure {{ if .Get "caption" }}  title='{{ .Get "caption" | markdownify | safeHTML }}' {{ end }} id="map-{{ $Id }}" class="quire-figure leaflet-outer-wrapper mfp-hide"><div id="js-map-{{ now.UnixNano }}" class="quire-map leaflet-inner-wrapper inset"{{ with .Get "lat" }}data-lat="{{.}}"{{ end }}{{ with .Get "long" }}data-long="{{.}}"{{ end }}{{ if .Get "geojson" }}data-geojson="{{ .Site.BaseURL }}{{ .Get "geojson" }}"{{ end }}></div></figure>
+      </a>  
   </div>
+  <figure {{ if .Get "caption" }}  title='{{ .Get "caption" | markdownify | safeHTML }}' {{ end }} id="map-{{ $Id }}" class="quire-figure leaflet-outer-wrapper mfp-hide"><div id="js-map-{{ now.UnixNano }}" class="quire-map leaflet-inner-wrapper inset"{{ with .Get "lat" }}data-lat="{{.}}"{{ end }}{{ with .Get "long" }}data-long="{{.}}"{{ end }}{{ if .Get "geojson" }}data-geojson="{{ .Site.BaseURL }}{{ .Get "geojson" }}"{{ end }}></div></figure>
+  {{ if .Get "caption" }} <figcaption class="quire-figure__caption">{{ .Get "caption" | markdownify | safeHTML }}</figcaption> {{ end }}
 </figure>
 
 {{ else }}
@@ -40,7 +41,7 @@
   <div id="js-map-{{ now.UnixNano }}" class="no-popup-quire-map quire-map inset" {{ with .Get "lat" }} data-lat="{{.}}" {{ end }}
     {{ with .Get "long" }} data-long="{{.}}" {{ end }} {{ if .Get "geojson" }} data-geojson="{{ .Site.BaseURL }}{{ .Get "geojson" }}"
     {{ end }}></div>
-    {{ if .Get "caption" }} <figcaption>{{ .Get "caption" | markdownify | safeHTML }}</figcaption> {{ end }}
+    {{ if .Get "caption" }} <figcaption class="quire-figure__caption">{{ .Get "caption" | markdownify | safeHTML }}</figcaption> {{ end }}
 </figure>
 
 {{ end }}
@@ -62,9 +63,10 @@
       class="quire-figure__image" 
       src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
       alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
-      <figure     {{ if .Get "caption" }}  title='{{ .Get "caption" | markdownify | safeHTML }}' {{ end }} id="iiif-{{ $Id }}" class="quire-figure leaflet-outer-wrapper"><div id="js-deepzoom-{{ now.UnixNano }}" class="quire-deepzoom inset leaflet-inner-wrapper " aria-live="polite" role="application" aria-label="Zoomable image" data-image="{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}"></div></figure>
     </a>
   </div>
+  <figure {{ if .Get "caption" }}  title='{{ .Get "caption" | markdownify | safeHTML }}' {{ end }} id="iiif-{{ $Id }}" class="quire-figure leaflet-outer-wrapper"><div id="js-deepzoom-{{ now.UnixNano }}" class="quire-deepzoom inset leaflet-inner-wrapper " aria-live="polite" role="application" aria-label="Zoomable image" data-image="{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}"></div></figure>
+  {{ if .Get "caption" }} <figcaption class="quire-figure__caption">{{ .Get "caption" | markdownify | safeHTML }}</figcaption> {{ end }}
 </figure>
 
 {{ else }}
@@ -77,7 +79,7 @@
  aria-label="Zoomable image" 
  data-image='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'>
    </div>
-   {{ if .Get "caption" }} <figcaption>{{ .Get "caption" | markdownify | safeHTML }}</figcaption> {{ end }}
+   {{ if .Get "caption" }} <figcaption class="quire-figure__caption">{{ .Get "caption" | markdownify | safeHTML }}</figcaption> {{ end }}
 </figure>
 
 {{ end }}
@@ -99,9 +101,10 @@
       class="quire-figure__image" 
       src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
       alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
-      <figure     {{ if .Get "caption" }}  title='{{ .Get "caption" | markdownify | safeHTML }}' {{ end }} id="deepzoom-{{ $Id }}" class="quire-figure leaflet-outer-wrapper"><div id="js-deepzoom-{{ now.UnixNano }}" class="quire-deepzoom inset leaflet-inner-wrapper " aria-live="polite" role="application" aria-label="Zoomable image" data-image="{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}"></div></figure>
     </a>
   </div>
+  <figure {{ if .Get "caption" }}  title='{{ .Get "caption" | markdownify | safeHTML }}' {{ end }} id="deepzoom-{{ $Id }}" class="quire-figure leaflet-outer-wrapper"><div id="js-deepzoom-{{ now.UnixNano }}" class="quire-deepzoom inset leaflet-inner-wrapper " aria-live="polite" role="application" aria-label="Zoomable image" data-image="{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}"></div></figure>
+  {{ if .Get "caption" }} <figcaption class="quire-figure__caption">{{ .Get "caption" | markdownify | safeHTML }}</figcaption> {{ end }}
 </figure>
 
 {{ else }}
@@ -114,7 +117,7 @@
  aria-label="Zoomable image" 
  data-image='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'>
    </div>
-   {{ if .Get "caption" }} <figcaption>{{ .Get "caption" | markdownify | safeHTML }}</figcaption> {{ end }}
+   {{ if .Get "caption" }} <figcaption class="quire-figure__caption">{{ .Get "caption" | markdownify | safeHTML }}</figcaption> {{ end }}
 </figure>
 
 {{ end }}
@@ -159,6 +162,7 @@ render the figure from matching values found ther
         </a>
     </div>
     <figure id="map-{{ $Id }}" {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }} class="quire-figure leaflet-outer-wrapper mfp-hide"><div id="js-map-{{ now.UnixNano }}" class="quire-map leaflet-inner-wrapper inset" data-lat="{{ .lat }}"data-long="{{ .long }}" data-geojson="{{ .Site.BaseURL }}{{ .geojson }}"></div></figure>
+    {{ if .caption }} <figcaption class="quire-figure__caption">{{ .caption }}</figcaption> {{ end }}
   </figure>
 
 {{ else }}
@@ -169,7 +173,7 @@ render the figure from matching values found ther
   data-lat="{{ .lat }}"
   data-long="{{ .long }}" 
   data-geojson="{{ .Site.BaseURL }}{{ .geojson }}"></div>
-  {{ if .caption }} <figcaption>{{ .caption }}</figcaption> {{ end }}
+  {{ if .caption }} <figcaption class="quire-figure__caption">{{ .caption }}</figcaption> {{ end }}
 </figure>
 
 {{ end }}
@@ -191,10 +195,11 @@ render the figure from matching values found ther
       class="quire-figure__image" 
       src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
     </a>
-    <figure {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }} id="iiif-{{ $Id }}" 
-    class="quire-figure leaflet-outer-wrapper mfp-hide">
-    <div id="js-iiif-{{ now.UnixNano }}" class="quire-deepzoom inset leaflet-inner-wrapper" aria-live="polite" role="application" aria-label="Zoomable image" data-iiif="{{ .iiif }}" data-zoom="{{ .zoom_level }}"></div></figure>
   </div>
+  <figure {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }} id="iiif-{{ $Id }}" 
+  class="quire-figure leaflet-outer-wrapper mfp-hide">
+  <div id="js-iiif-{{ now.UnixNano }}" class="quire-deepzoom inset leaflet-inner-wrapper" aria-live="polite" role="application" aria-label="Zoomable image" data-iiif="{{ .iiif }}" data-zoom="{{ .zoom_level }}"></div></figure>
+  {{ if .caption }} <figcaption class="quire-figure__caption">{{ .caption }}</figcaption> {{ end }}
 </figure>
 
 {{ else }}
@@ -208,7 +213,7 @@ render the figure from matching values found ther
  role="application" 
  aria-label="Zoomable image">
    </div>
-   {{ if .caption }} <figcaption>{{ .caption | markdownify | safeHTML }}</figcaption> {{ end }}
+   {{ if .caption }} <figcaption class="quire-figure__caption">{{ .caption | markdownify | safeHTML }}</figcaption> {{ end }}
 </figure>
 
 {{ end }}
@@ -230,8 +235,9 @@ render the figure from matching values found ther
       class="quire-figure__image" 
       src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
     </a>
-    <figure {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }} id="deepzoom-{{ $Id }}" class="quire-figure leaflet-outer-wrapper mfp-hide"><div id="js-deepzoom-{{ now.UnixNano }}" class="quire-deepzoom inset leaflet-inner-wrapper " aria-live="polite" role="application" aria-label="Zoomable image" data-image="{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}"></div></figure>
   </div>
+  <figure {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }} id="deepzoom-{{ $Id }}" class="quire-figure leaflet-outer-wrapper mfp-hide"><div id="js-deepzoom-{{ now.UnixNano }}" class="quire-deepzoom inset leaflet-inner-wrapper " aria-live="polite" role="application" aria-label="Zoomable image" data-image="{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}"></div></figure>
+  {{ if .caption }} <figcaption class="quire-figure__caption">{{ .caption | markdownify | safeHTML }}</figcaption> {{ end }}
 </figure>
 
 {{ else }}
@@ -244,7 +250,7 @@ render the figure from matching values found ther
  aria-label="Zoomable image" 
  data-image='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'>
    </div>
-   {{ if .caption }} <figcaption>{{ .caption | markdownify | safeHTML }}</figcaption> {{ end }}
+   {{ if .caption }} <figcaption class="quire-figure__caption">{{ .caption | markdownify | safeHTML }}</figcaption> {{ end }}
 </figure>
 
 {{ end }}
