@@ -7230,7 +7230,8 @@ video {
     transition-duration: 0.15s;
     transition-timing-function: linear;
     width: 350px;
-    z-index: 0; }
+    display: block;
+    z-index: 100; }
     @media screen and (max-width: 350px) {
       .quire:not(.no-js) .quire__secondary {
         width: calc(100vw - 3rem); } }
@@ -7477,6 +7478,9 @@ video {
         padding: .5em; }
     .quire-menu__footer .quire-copyright {
       padding: 0 .5em; }
+  .quire-menu .page-item a:active {
+    border-left: 3px solid #CF4747;
+    color: #CF4747 !important; }
   .quire-menu .menu-label {
     color: #999999;
     font-size: .9em;
@@ -7771,7 +7775,8 @@ html {
     .quire-page__content .content h2 {
       text-transform: uppercase;
       font-size: 1.75em;
-      line-height: 1.15em; }
+      line-height: 1.15em;
+      margin-top: .5714em; }
     .quire-page__content .content h3 {
       font-style: italic;
       font-weight: 400;
@@ -7792,6 +7797,8 @@ html {
       margin-top: 1em;
       padding-bottom: .2em;
       border-bottom: 1px solid #333333; }
+    .quire-page__content .content .quire-page__content__references span {
+      font-size: .875em; }
     .quire-page__content .content blockquote {
       padding: 0 0 0 1.5em;
       margin: 1.5em 0 1.5em 0;

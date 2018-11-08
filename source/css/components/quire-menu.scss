@@ -83,6 +83,15 @@
     }
   }
 
+  .page-item {
+    a {
+      &:active {
+        border-left: 3px solid $quire-primary-color;
+        color: $quire-primary-color !important;
+      }
+    }
+  }
+
   .menu-label {
     color: $dark-gray;
     font-size: .9em;
