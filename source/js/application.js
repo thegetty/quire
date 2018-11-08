@@ -38,29 +38,25 @@ window.toggleMenu = () => {
   } else {
     menu.setAttribute('aria-expanded', 'true')
   }
-
-  let url = window.location.pathname;
-  let root = window.location.protocol + '//' + window.location.host;
-  $('.section-list .page-item a').each(function () {
-    let $this = $(this);
-    console.log("url: " + url + " || link: " + $this.attr('href') + " || root: " + root)
-    if (url !== '/' ||  url !== '') {
-      if ($this.attr('href').indexOf(url) !== -1) {
-        $this.addClass('active');
-      }
-    }
-  })
-  $('.section-item a').each(function () {
-    let $this = $(this);
-    console.log("url: " + url + " || link: " + $this.attr('href'))
-    if (url !== '/' ||  url !== '') {
-      if ($this.attr('href').indexOf(url) !== -1) {
-        $this.addClass('active');
-      }
-    }
-  });
 }
 
+/**
+ * activeMenuPage
+ * @description This function is called on pageSetup to go through the navigation 
+ * (#nav in partials/menu.html) and find all the anchor tags.  Then find the user's 
+ * current URL directory. Then it goes through the array of anchor tags and if the 
+ * current URL directory matches the nav anchor, it's the active link.
+ */
+function activeMenuPage() {
+  let nav = document.getElementById('nav'),
+      anchor = nav.getElementsByTagName('a'),
+      current = window.location.protocol + '//' + window.location.host + window.location.pathname;
+  for (var i = 0; i < anchor.length; i++) {
+    if(anchor[i].href == current) {
+        anchor[i].className = "active";
+    }
+  }
+}
 
 /**
  * toggleSearch
@@ -274,6 +270,7 @@ function deepZoomSetup() {
  * Initialize any jquery plugins or set up page UI elements here.
  */
 function pageSetup() {
+  activeMenuPage()
   sliderSetup()
   navigationSetup()
   popupSetup()
