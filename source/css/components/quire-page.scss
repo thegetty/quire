@@ -214,6 +214,8 @@ html {
   padding-bottom: 0;
   font-size: .875em;
   line-height: 1.7em;
+  margin-bottom: -3.2em;
+  
   h2 {
     font-weight: 400;
     font-size: 1.625em;
@@ -239,7 +241,7 @@ html {
   line-height: 1.78;
   font-weight: 400;
   padding-top: 0;
-  margin-top: -2.5em;
+  
 
   @if $family-primary != $serif {
     font-size: 1.25rem;
