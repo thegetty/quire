@@ -117,6 +117,10 @@
     }
   }
 
+  &__video {
+    width: 100%;
+  }
+
   &.is-pulled-left,
   &.is-pulled-right {
     @media screen and (min-width: $tablet) {

@@ -8415,6 +8415,8 @@ html {
     @media print {
       .quire-figure__media-fallback__text {
         display: inline; } }
+  .quire-figure__video {
+    width: 100%; }
   @media screen and (min-width: 500px) {
     .quire-figure.is-pulled-left, .quire-figure.is-pulled-right {
       width: 50%; } }
