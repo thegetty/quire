@@ -28,8 +28,8 @@ export default function (gallerySelector) {
         // $('.quire-counter-container, .quire-caption-container').remove()
         // console.log('Start of popup initialization');
         // console.log(this.content)
-        console.log(window.innerHeight)
-        console.log(window.screen)
+        // console.log(window.innerHeight)
+        // console.log(window.screen)
         $('body').addClass('android-fixed')
         this.current = this.index + 1
         this.total = this.items.length - 1
@@ -137,13 +137,17 @@ export default function (gallerySelector) {
 
       },
       resize: function () {
-        // console.log('Popup resized');
+
+        // console.log('Popup resized ' + $(window).innerHeight());
         // resize event triggers only when height is changed or layout forced
+        // const height = document.documentElement.clientHeight
+        // $('.mfp-ready').css('height', height + 'px')
       },
       open: function () {
 
-        // const height = window.screen.availHeight
-        // $('.mfp-wrap').css('height',height + 'px')
+        // console.log('Popup open');
+        // const height = document.documentElement.clientHeight
+        // $('.mfp-ready').css('height', height + 'px')
         // $('.mfp-bg').css('height',height + 'px')
         // $('.mfp-container').css('height',height + 'px')
 

@@ -3,7 +3,7 @@ body>div.mfp-wrap.mfp-gallery.mfp-auto-cursor.mfp-ready {
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100vh;
+    height: 100%;
     z-index: 1043;
     position: fixed;
     outline: none !important;
@@ -12,7 +12,7 @@ body>div.mfp-wrap.mfp-gallery.mfp-auto-cursor.mfp-ready {
 
 @supports (-webkit-appearance:none) {
     body.device-android>div.mfp-wrap.mfp-gallery.mfp-auto-cursor.mfp-ready {
-        height: calc(100vh - 56px);
+        height: 100%;
     }
 }
 
@@ -112,9 +112,10 @@ body>div.mfp-wrap.mfp-gallery.mfp-auto-cursor.mfp-ready>div.mfp-container.mfp-s-
     height: 35vh;
     margin: 0;
     transform: scale(1);
-    top: 32vh;
     left: 10px;
     opacity: 1;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 body>div.mfp-wrap.mfp-gallery.mfp-auto-cursor.mfp-ready>div.mfp-container.mfp-s-ready>button.mfp-arrow.mfp-arrow-right {
@@ -122,9 +123,10 @@ body>div.mfp-wrap.mfp-gallery.mfp-auto-cursor.mfp-ready>div.mfp-container.mfp-s-
     height: 35vh;
     margin: 0;
     transform: scale(1);
-    top: 32vh;
     right: 10px;
     opacity: 1;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 body>div.mfp-wrap.mfp-gallery.mfp-auto-cursor.mfp-ready>div.mfp-container.mfp-s-ready>button.mfp-arrow.mfp-arrow-left::before,
@@ -152,7 +154,7 @@ body>div.mfp-bg.mfp-ready {
     background-color: #000;
     opacity: 1;
     width: 100vw;
-    height: 100vh;
+    height: 100%;
 }
 
 @supports (-webkit-appearance:none) {
@@ -161,10 +163,22 @@ body>div.mfp-bg.mfp-ready {
     }
     body.device-android>div.mfp-bg.mfp-ready,
     body.device-android>div.mfp-wrap.mfp-gallery.mfp-auto-cursor.mfp-ready>div.mfp-container {
-        height: calc(100vh - 56px);
+        height: 100%;
     }
 }
 
 div.mfp-title {
     display: none;
+}
+
+body > div.mfp-wrap.mfp-gallery.mfp-auto-cursor.mfp-ready > div.mfp-container.mfp-s-ready > div.mfp-content > figure.quire-figure {
+    padding: 0;
+    border: none;
+}
+
+/* Landscape */
+@media only screen and (orientation: landscape) {
+    body > div.mfp-wrap.mfp-gallery.mfp-auto-cursor.mfp-ready > div.mfp-container.mfp-s-ready.mfp-iframe-holder > div.mfp-content > div {
+        padding-top: 42.75%;
+    }
 }
