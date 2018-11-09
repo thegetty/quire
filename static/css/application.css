@@ -7466,7 +7466,7 @@ video {
   .quire-menu__formats {
     margin-top: 2rem; }
   .quire-menu__header a, .quire-menu__list a, .quire-menu__formats a {
-    margin-left: -1rem;
+    margin: 0 -1rem;
     border-radius: 0;
     border-left: 3px solid #363636; }
     .quire-menu__header a:hover, .quire-menu__list a:hover, .quire-menu__formats a:hover {
