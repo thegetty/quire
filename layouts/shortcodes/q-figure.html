@@ -158,7 +158,7 @@ render the figure from matching values found ther
 
   {{ else }}
 
-  <div  class='quire-figure__media-wrapper{{ if .aspect_ratio }}--{{ .aspect_ratio }}{{ else }}--widescreen{{ end }}'>
+  <div  class='quire-figure__media-wrapper{{ if .aspect_ratio }}--{{ .aspect_ratio }} {{ else if eq .media_type "soundcloud" }} {{ else if eq .media_type "audio" }} {{ else }}--widescreen{{ end }}'>
     {{ if eq .media_type "youtube" }}
     <iframe id='{{ .id }}'
             class='quire-figure__media'

@@ -28,6 +28,9 @@ export default function (gallerySelector) {
         // $('.quire-counter-container, .quire-caption-container').remove()
         // console.log('Start of popup initialization');
         // console.log(this.content)
+        console.log(window.innerHeight)
+        console.log(window.screen)
+        $('body').addClass('android-fixed')
         this.current = this.index + 1
         this.total = this.items.length - 1
         this.counter = `<span class="counter">${this.current} of ${this.items.length}</span>`
@@ -87,14 +90,14 @@ export default function (gallerySelector) {
             this.caption = this.content.attr('title')
             if (this.caption !== undefined) {
               this.captionCont = `<div class="quire-caption-container"><span class="caption">${this.caption}</span></div>`
-              $('.mfp-wrap').append(this.captionCont)
+              $('.mfp-wrap').prepend(this.captionCont)
             }
             break
           case 'iframe':
             this.caption = $(this.currItem.el).attr('title')
             if (this.caption !== undefined) {
               this.captionCont = `<div class="quire-caption-container"><span class="caption">${this.caption}</span></div>`
-              $('.mfp-wrap').append(this.captionCont)
+              $('.mfp-wrap').prepend(this.captionCont)
             }
             break
           case 'image':
@@ -102,7 +105,7 @@ export default function (gallerySelector) {
             this.caption = $(this.currItem.el).attr('title')
             if (this.caption !== undefined) {
               this.captionCont = `<div class="quire-caption-container"><span class="caption">${this.caption}</span></div>`
-              $('.mfp-wrap').append(this.captionCont)
+              $('.mfp-wrap').prepend(this.captionCont)
             }
             break
           default:
@@ -139,19 +142,24 @@ export default function (gallerySelector) {
       },
       open: function () {
 
+        // const height = window.screen.availHeight
+        // $('.mfp-wrap').css('height',height + 'px')
+        // $('.mfp-bg').css('height',height + 'px')
+        // $('.mfp-container').css('height',height + 'px')
+
         switch (this.currItem.type) {
           case 'inline':
             this.caption = this.content.attr('title')
             if (this.caption !== undefined) {
               this.captionCont = `<div class="quire-caption-container"><span class="caption">${this.caption}</span></div>`
-              $('.mfp-wrap').append(this.captionCont)
+              $('.mfp-wrap').prepend(this.captionCont)
             }
             break
           case 'iframe':
             this.caption = $(this.currItem.el).attr('title')
             if (this.caption !== undefined) {
               this.captionCont = `<div class="quire-caption-container"><span class="caption">${this.caption}</span></div>`
-              $('.mfp-wrap').append(this.captionCont)
+              $('.mfp-wrap').prepend(this.captionCont)
             }
             break
           case 'image':
@@ -159,19 +167,20 @@ export default function (gallerySelector) {
             this.caption = (this.currItem.el).attr('title')
             if (this.caption !== undefined) {
               this.captionCont = `<div class="quire-caption-container"><span class="caption">${this.caption}</span></div>`
-              $('.mfp-wrap').append(this.captionCont)
+              $('.mfp-wrap').prepend(this.captionCont)
             }
             break
           default:
             break
         }
 
-        $('.mfp-wrap').append(this.cont)
+        $('.mfp-wrap').prepend(this.cont)
       },
 
       beforeClose: function () {
         // Callback available since v0.9.0
         // console.log('Popup close has been initiated');
+        $('body').removeClass('android-fixed')
         $('.quire-counter-container, .quire-caption-container').remove()
       },
       close: function () {
@@ -212,7 +221,7 @@ export default function (gallerySelector) {
         // console.log('Ajax content loaded:', mfpResponse);
       },
       ajaxContentAdded: function () {
-        // Ajax content is loaded and appended to DOM
+        // Ajax content is loaded and prepended to DOM
         // console.log(this.content);
       }
     }
