@@ -8167,6 +8167,9 @@ html {
     max-height: .95rem;
     max-width: .95rem;
     vertical-align: baseline; }
+  .quire-contents-list .contents-menu .quire-menu__formats a {
+    border-left: none;
+    margin-left: 0; }
   .quire-contents-list .arrow .section-indent {
     padding-left: 20px;
     font-size: .75em; }
