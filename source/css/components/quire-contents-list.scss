@@ -71,6 +71,11 @@
     vertical-align: baseline;
   }
 
+  .contents-menu .quire-menu__formats a {
+    border-left: none;
+    margin-left: 0;
+  }
+
   .arrow .section-indent {
     padding-left: 20px;
     font-size: .75em;

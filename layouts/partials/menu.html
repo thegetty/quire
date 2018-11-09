@@ -12,7 +12,7 @@ by default. Users with JS disabled will alwasy see the menu in its expanded stat
 
   {{ partial "menu-header.html" . }}
 
-  <nav class="quire-menu__list menu-list" role="navigation" aria-label="full">
+  <nav id="nav" class="quire-menu__list menu-list" role="navigation" aria-label="full">
     <h3 class="visually-hidden">Table of Contents</h3>
     <h3 class="menu-label">Intro</h3>
     {{- partial "contents-list.html" $contents -}}

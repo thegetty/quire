@@ -19,6 +19,9 @@
 // .quire-figure
 // -----------------------------------------------------------------------------
 .quire-figure {
+  border-top: 1px solid $quire-primary-color;
+  border-bottom: 1px solid $quire-primary-color;
+  padding: 1em 0;
 
   .q-figure__wrapper {
     a {
@@ -112,6 +115,10 @@
         display: inline;
       }
     }
+  }
+
+  &__video {
+    width: 100%;
   }
 
   &.is-pulled-left,
