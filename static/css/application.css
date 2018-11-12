@@ -6860,7 +6860,8 @@ video {
     .quire.no-js .quire__primary {
       background: #fff; }
     .quire.no-js .quire__secondary {
-      width: 100%; }
+      width: 100%;
+      display: none; }
   .quire:not(.no-js) .quire__primary {
     background: #EEF2F3;
     display: flex;
@@ -6871,7 +6872,9 @@ video {
       left: 0;
       position: absolute;
       */
-    transition-property: width, left;
+    transition-property: -webkit-transform;
+    transition-property: transform;
+    transition-property: transform, -webkit-transform;
     transition-duration: 0.15s;
     transition-timing-function: linear;
     width: 100%;
@@ -6895,33 +6898,32 @@ video {
     position: fixed;
     top: 0;
     right: 0;
-    -webkit-transform: translateX(350px);
-            transform: translateX(350px);
-    transition-property: width, -webkit-transform;
-    transition-property: transform, width;
-    transition-property: transform, width, -webkit-transform;
+    -webkit-transform: translate3d(calc(100% - 0rem), 0, 0);
+            transform: translate3d(calc(100% - 0rem), 0, 0);
+    transition-property: -webkit-transform;
+    transition-property: transform;
+    transition-property: transform, -webkit-transform;
     transition-duration: 0.15s;
     transition-timing-function: linear;
-    width: 350px;
+    width: calc(100% - 3rem);
     display: block;
     z-index: 100; }
-    @media screen and (max-width: 350px) {
+    @media screen and (max-width: calc(100% - 3rem)) {
       .quire:not(.no-js) .quire__secondary {
         width: calc(100vw - 3rem); } }
     .quire:not(.no-js) .quire__secondary #site-menu__inner {
+      transition-property: display;
+      transition-duration: 0.15s;
+      transition-timing-function: linear;
       display: none; }
     .quire:not(.no-js) .quire__secondary.is-expanded {
-      -webkit-transform: translateX(0);
-              transform: translateX(0); }
+      -webkit-transform: translate3d(0, 0, 0);
+              transform: translate3d(0, 0, 0); }
       .quire:not(.no-js) .quire__secondary.is-expanded #site-menu__inner {
         display: block; }
       .quire:not(.no-js) .quire__secondary.is-expanded + .quire__primary {
-        right: 350px;
-        width: calc(100% - 350px); }
-        @media screen and (max-width: 350px) {
-          .quire:not(.no-js) .quire__secondary.is-expanded + .quire__primary {
-            right: calc(100vw - 3rem);
-            width: 3rem; } }
+        -webkit-transform: translate3d(calc(-100% + 3rem), 0, 0);
+                transform: translate3d(calc(-100% + 3rem), 0, 0); }
 
 @media print {
   .quire__primary {

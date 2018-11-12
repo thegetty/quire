@@ -54,6 +54,7 @@
     .quire__secondary {
       // order: 1;
       width: 100%;
+      display: none; 
     }
   }
 
@@ -69,7 +70,7 @@
       left: 0;
       position: absolute;
       */
-      transition-property: width, left;
+      transition-property: transform;
       transition-duration: 0.15s;
       transition-timing-function: linear;
       width: 100%;
@@ -101,13 +102,15 @@
       position: fixed;
       top: 0;
       right: 0;
-      transform: translateX(($quire-menu-width));
-      transition-property: transform, width;
+      transform: translate3d(calc(100% - 0rem), 0, 0);
+      // transform: translateX(($quire-menu-width));
+      transition-property: transform;
       transition-duration: 0.15s;
       transition-timing-function: linear; // transition: all 0.15s linear;
       width: $quire-menu-width;
       display: block;
       z-index: 100;
+      
 
       @media screen and (max-width: $quire-menu-width) {
         width: calc(100vw - #{$navbar-height});
@@ -118,21 +121,29 @@
       // for the menu content when it is not visible (and then un-setting when
       // that changes) produces the desired behavior.
       // scss-lint:disable IdSelector
-      #site-menu__inner { display: none; }
+      #site-menu__inner { 
+        transition-property: display;
+        transition-duration: 0.15s;
+        transition-timing-function: linear;
+        display: none; 
+      }
 
       &.is-expanded {
-        transform: translateX(0);
+        transform: translate3d(0, 0 ,0);
 
         #site-menu__inner {
           display: block;
         }
 
         + .quire__primary {
-          right: $quire-menu-width;
-          width: calc(100% - #{$quire-menu-width});
+          // right: $quire-menu-width;
+          // width: calc(100% - #{$quire-menu-width});
+          // transform: translate3d($quire-menu-width, 0, 0);
+          transform: translate3d($quire-primary-move, 0 ,0);
           @media screen and (max-width: $quire-menu-width) {
-            right: calc(100vw - #{$navbar-height});
-            width: #{$navbar-height};
+            // right: calc(100vw - #{$navbar-height});
+            // transform: translate3d(- $quire-menu-width, 0, 0);
+            // width: #{$navbar-height};
           }
         }
       }

@@ -123,9 +123,9 @@ $quire-page-link-color: $quire-primary-color !default;
 
 
 // Layout
-// -----------------------------------------------------------------------------
-
-$quire-menu-width: 350px;
+// ----------------------------------------------------------------------------
+$quire-menu-width: calc(100% - 3rem);
+$quire-primary-move: calc(-100% + 3rem);
 
 $navbar-height: 3rem;
 
