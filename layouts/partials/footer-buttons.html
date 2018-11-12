@@ -1,4 +1,4 @@
-<div class="quire-contents-buttons remove-from-epub">
+<div class="{{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }} quire-contents-buttons remove-from-epub">
   <ul>
     <li class="quire-nav-button prev">
       {{ with .Prev }}

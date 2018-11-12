@@ -77,7 +77,7 @@ the figure for each into a figure group
           </a>
         </div>
         {{ else if eq .media_type "audio" }}
-      <iframe id='{{ .id }}'
+      <iframe {{ if eq $.Site.Params.pdf true }} class="visually-hidden" {{ end }} id='{{ .id }}'
       width="100%" 
       height="166" 
       scrolling="no" 
@@ -86,15 +86,15 @@ the figure for each into a figure group
       src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe>   
       {{ if eq $.Site.Params.audioFigureFallbackText true }}
         {{ if .src }}
-          <img class="visually-hidden" id='{{ .id }}'
+          <img {{ if eq $.Site.Params.pdf true }} {{ else }} class="visually-hidden" {{ end }} id='{{ .id }}'
           src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'
           alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}' />
         {{ else }}
-          <p class="visually-hidden">No Image avaiable.</p>
+          <p {{ if eq $.Site.Params.pdf true }} {{ else }} class="visually-hidden" {{ end }}>No Image avaiable.</p>
         {{ end }}
       {{ end }}
   {{ else if eq .media_type "soundcloud" }}   
-      <iframe id='{{ .id }}'
+      <iframe {{ if eq $.Site.Params.pdf true }} class="visually-hidden" {{ end }} id='{{ .id }}'
       width="100%" 
       height="166" 
       scrolling="no" 
@@ -103,11 +103,11 @@ the figure for each into a figure group
       src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe>  
       {{ if eq $.Site.Params.audioFigureFallbackText true }}
       {{ if .src }}
-        <img class="visually-hidden" id='{{ .id }}'
+        <img {{ if eq $.Site.Params.pdf true }} {{ else }} class="visually-hidden" {{ end }} id='{{ .id }}'
         src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'
         alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}' />
       {{ else }}
-        <p class="visually-hidden">No Image avaiable.</p>
+        <p {{ if eq $.Site.Params.pdf true }} {{ else }} class="visually-hidden" {{ end }}>No Image avaiable.</p>
       {{ end }}
     {{ end }}
       {{ end }}
