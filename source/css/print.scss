@@ -5,6 +5,8 @@
 // component level. This stylesheet is for overrides and other special-case
 // rules which don't properly fit anywhere else and only show up in print.
 
+
+
 $print-width: 8.5in;
 $print-height: 11in;
 
@@ -222,26 +224,26 @@ $print-footer-font-size: 8pt;
     border: 1pt solid transparent !important;
   }
 
-  // TEMPORARY
-  // Use to better test and style layout of pages
-  // .quire-page {
-  //   border: 1pt solid #ff0000 !important;
-  // }
-  // .hero.quire-page__header {
-  //   border: 1pt solid #ff00ff !important;
-  // }
-  // .hero-body {
-  //   border: 1pt solid #0000ff !important;
-  // }
-  // .section.quire-page__content {
-  //   border: 1pt solid #00ff00 !important;
-  // }
-  // .container {
-  //   border: 1pt solid #ffff00 !important;
-  // }
-  // .content {
-  //   border: 1pt solid #00ffff !important;
-  // }
+ // TEMPORARY
+ // Use to better test and style layout of pages
+ .quire-page {
+   border: 1pt solid #ff0000 !important;
+ }
+ .hero.quire-page__header {
+   border: 1pt solid #ff00ff !important;
+ }
+ .hero-body {
+   border: 1pt solid #0000ff !important;
+ }
+ .section.quire-page__content {
+   border: 1pt solid #00ff00 !important;
+ }
+ .container {
+   border: 1pt solid #ffff00 !important;
+ }
+ .content {
+   border: 1pt solid #00ffff !important;
+ }
 
   html body {
     // Leaflet stuff
@@ -269,5 +271,6 @@ $print-footer-font-size: 8pt;
   .section { padding: 0; }
   .container { max-width: 100%; margin: 0; }
 }
+
 
 
