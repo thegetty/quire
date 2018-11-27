@@ -132,7 +132,7 @@
       font-style: italic;
     }
 
-    &.quire-home-page {
+    &.quire-previous-page {
       .left-icon {
         margin-right: 1rem;
       }
@@ -155,7 +155,8 @@
       &.quire-current-page {
         display: block;
       }
-      &.quire-next-page {
+      &.quire-next-page,
+      &.quire-previous-page {
         display: block;
       }
     }
