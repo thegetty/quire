@@ -11,6 +11,12 @@ Cover page layout. This controls the home page of the publication.
 {{ end }}
 
 <div class="{{ partial "page-class.html" . }} quire-cover" id="main" role="main">
+
+  {{ if eq $.Site.Params.pdf true }}
+    <img src="./img/{{ .Site.Data.publication.promo_image }}"/>
+  {{/* PDF full cover image */}}
+  {{ else }}
+
   {{/* Begin full-page cover section */}}
   {{- if .Params.image -}}
   {{- $imgPath := printf "%s/%s" ($.Scratch.Get "imageDir") .Params.image -}}
@@ -51,6 +57,7 @@ Cover page layout. This controls the home page of the publication.
       </div>
     </div>
   </section>
+
   <section class="quire-cover__more" >
     <div class="quire-cover__more-body hero-more">
       <a href="#content">
@@ -91,7 +98,7 @@ Cover page layout. This controls the home page of the publication.
       <li class="quire-nav-button next">
         {{ with .Next }}
           <a href="{{ .Permalink }}">
-            <span class="nav-title">Contents</span>
+            <span class="nav-title">Contents {{ $.Site.Params.pdf }}</span>
             {{- template "image-control-icon" (dict "type" "right-arrow" "description" "Go to next page" "imageDir" ($.Scratch.Get "imageDir") ) -}}
           </a>
         {{ end }}
@@ -101,6 +108,7 @@ Cover page layout. This controls the home page of the publication.
 
 </div>
 
+{{ end }}
 {{ end }}
 
 
