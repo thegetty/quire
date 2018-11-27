@@ -130,6 +130,10 @@
 
       &.is-expanded {
         transform: translate3d(0, 0 ,0);
+        width: 352px;
+        @media screen and (max-width: $quire-nav-width) {
+          width: calc(100% - 3rem);
+        }
 
         #site-menu__inner {
           display: block;
@@ -139,8 +143,9 @@
           // right: $quire-menu-width;
           // width: calc(100% - #{$quire-menu-width});
           // transform: translate3d($quire-menu-width, 0, 0);
-          transform: translate3d($quire-primary-move, 0 ,0);
-          @media screen and (max-width: $quire-menu-width) {
+          transform: translate3d(-352px, 0 ,0);
+          @media screen and (max-width: $quire-nav-width) {
+            transform: translate3d($quire-primary-move, 0 ,0);
             // right: calc(100vw - #{$navbar-height});
             // transform: translate3d(- $quire-menu-width, 0, 0);
             // width: #{$navbar-height};

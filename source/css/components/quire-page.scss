@@ -259,7 +259,6 @@ html {
 
     a:not([rel=footnote]):not(.footnote-return) {
       color: $quire-primary-color;
-      border-bottom: 1px solid $quire-primary-color;
       @media print {
         color: $page-text-color;
         border-bottom-width: 0;

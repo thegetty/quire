@@ -7208,12 +7208,20 @@ template {
       display: none; }
     .quire:not(.no-js) .quire__secondary.is-expanded {
       -webkit-transform: translate3d(0, 0, 0);
-              transform: translate3d(0, 0, 0); }
+              transform: translate3d(0, 0, 0);
+      width: 352px; }
+      @media screen and (max-width: calc(352px + 3rem)) {
+        .quire:not(.no-js) .quire__secondary.is-expanded {
+          width: calc(100% - 3rem); } }
       .quire:not(.no-js) .quire__secondary.is-expanded #site-menu__inner {
         display: block; }
       .quire:not(.no-js) .quire__secondary.is-expanded + .quire__primary {
-        -webkit-transform: translate3d(calc(-100% + 3rem), 0, 0);
-                transform: translate3d(calc(-100% + 3rem), 0, 0); }
+        -webkit-transform: translate3d(-352px, 0, 0);
+                transform: translate3d(-352px, 0, 0); }
+        @media screen and (max-width: calc(352px + 3rem)) {
+          .quire:not(.no-js) .quire__secondary.is-expanded + .quire__primary {
+            -webkit-transform: translate3d(calc(-100% + 3rem), 0, 0);
+                    transform: translate3d(calc(-100% + 3rem), 0, 0); } }
 
 @media print {
   .quire__primary {
@@ -7310,7 +7318,7 @@ template {
       display: inline-block; }
     .quire-navbar-page-controls__item.quire-current-page {
       font-style: italic; }
-    .quire-navbar-page-controls__item.quire-home-page .left-icon {
+    .quire-navbar-page-controls__item.quire-previous-page .left-icon {
       margin-right: 1rem; }
     .quire-navbar-page-controls__item.quire-next-page {
       font-style: normal; }
@@ -7322,7 +7330,7 @@ template {
     @media screen and (min-width: 700px) {
       .quire-navbar-page-controls__item.quire-current-page {
         display: block; }
-      .quire-navbar-page-controls__item.quire-next-page {
+      .quire-navbar-page-controls__item.quire-next-page, .quire-navbar-page-controls__item.quire-previous-page {
         display: block; } }
     @media screen and (min-width: 900px) {
       .quire-navbar-page-controls__item.quire-section-page {
@@ -7726,8 +7734,7 @@ html {
     margin-top: 3em;
     font-size: .75em; }
     .quire-page__content .content a:not([rel=footnote]):not(.footnote-return) {
-      color: #CF4747;
-      border-bottom: 1px solid #CF4747; }
+      color: #CF4747; }
       @media print {
         .quire-page__content .content a:not([rel=footnote]):not(.footnote-return) {
           color: #363636;
