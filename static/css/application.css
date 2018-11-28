@@ -7725,6 +7725,7 @@ html {
   line-height: 1.78;
   font-weight: 400;
   padding-top: 0;
+  padding-bottom: 0;
   font-size: 1.25rem;
   font-weight: 400;
   line-height: 1.6; }
@@ -7806,15 +7807,6 @@ html {
         text-indent: 0; }
     .quire-page__content .content .leaflet-control a {
       color: #363636; }
-    .quire-page__content .content p {
-      margin-bottom: 0; }
-    .quire-page__content .content p + p {
-      text-indent: 2em; }
-    .quire-page__content .content blockquote {
-      margin: 1em 0 1em 0; }
-      @media screen and (min-width: 500px) {
-        .quire-page__content .content blockquote {
-          margin: 1.5em 0 1.5em 1.5em; } }
     @media print {
       .quire-page__content .content h2 {
         font-size: 18pt;
@@ -8186,10 +8178,6 @@ html {
     line-height: 1.4; }
     .quire-contents-list.abstract .abstract-text p {
       margin-bottom: .5em; }
-    .quire-contents-list.abstract .abstract-text p {
-      margin-bottom: 0; }
-    .quire-contents-list.abstract .abstract-text p + p {
-      text-indent: 2em; }
   .quire-contents-list.grid {
     font-size: .75em;
     font-family: "IBM Plex Sans Condensed", sans-serif; }
