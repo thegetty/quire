@@ -28,7 +28,8 @@ $family-secondary: $ibm-sans;
 // headings and navigation items: $serif, $sans-serif, $slab-serif
 
 $quire-base-font-size: 17px;
-$quire-page-paragraph-style: indent;
+$quire-page-paragraph-style: line-space;
+// $quire-page-paragraph-style: indent;
 // make the value null for paragraphs with no indent and a line space between
 
 // Colors
@@ -126,6 +127,7 @@ $quire-page-link-color: $quire-primary-color !default;
 // ----------------------------------------------------------------------------
 $quire-menu-width: calc(100% - 3rem);
 $quire-primary-move: calc(-100% + 3rem);
+$quire-nav-width: calc(352px + 3rem);
 
 $navbar-height: 3rem;
 
