@@ -245,6 +245,10 @@ $print-footer-font-size: 8pt;
    border: 1pt solid #00ffff !important;
  }
 
+ .is-screen-only {
+   display: none;
+ }
+
   html body {
     // Leaflet stuff
     .leaflet-pane,

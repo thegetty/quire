@@ -280,7 +280,7 @@ function deepZoomSetup() {
 function pageSetup() {
   activeMenuPage()
   sliderSetup()
-  navigationSetup()
+  // navigationSetup()
   popupSetup()
   if (!isPopup) {
     mapSetup()
