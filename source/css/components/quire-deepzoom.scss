@@ -63,7 +63,6 @@ div.leaflet-control-container {
             >a {
                 color: $color_2;
                 border-bottom: none;
-                background-image: url(/img/fullscreen-leaflet.png);
                 background-repeat: no-repeat;
                 background-color: $dark-semi-transparent;
                 margin-top: 0;
@@ -84,7 +83,7 @@ div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-contr
 
 div.leaflet-control {
     >a {
-        background: transparent;
+        background-color: transparent;
     }
 }
 

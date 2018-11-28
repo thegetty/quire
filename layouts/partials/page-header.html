@@ -6,9 +6,9 @@
 
 {{- if .Params.image -}}
 {{- $imgPath := printf "%s/%s" ($.Scratch.Get "imageDir") .Params.image -}}
-  <section class="is-screen-only quire-page__header hero {{ if in .Params.class "splash" }} quire-page__header--full-height{{ end }}" style="background-image: url('{{ $imgPath | absURL }}');">
+  <section class="{{ if or (eq .Title "title page") (eq .Title "half title page") }} is-screen-only {{ end }} quire-page__header hero {{ if in .Params.class "splash" }} quire-page__header--full-height{{ end }}" style="background-image: url('{{ $imgPath | absURL }}');">
 {{- else -}}
-  <section class="quire-page__header hero {{ if in .Params.class "splash" }} quire-page__header--full-height{{ end }}">
+  <section class="{{ if or (eq .Title "title page") (eq .Title "half title page") }} is-screen-only {{ end }} quire-page__header hero {{ if in .Params.class "splash" }} quire-page__header--full-height{{ end }}">
 {{- end -}}
   <div class="hero-body">
 
@@ -32,7 +32,7 @@
 </section>
 {{ if in .Params.class "splash" }}
 {{ if or (or (eq .Type "contents") (eq .Type "info")) .Content }}
-<section class="is-screen-only quire-cover__more" >
+<section class="{{ if or (eq .Title "title page") (eq .Title "half title page") }} is-screen-only {{ end }} quire-cover__more" >
   <div class="quire-cover__more-body hero-more">
     <a href="#content">
       {{- if isset $.Site.Params "imagedir" }}
