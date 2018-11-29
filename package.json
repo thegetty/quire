@@ -57,6 +57,7 @@
     "lodash.findindex": "^4.6.0",
     "lunr": "^2.3.5",
     "magnific-popup": "^1.1.0",
+    "material-icons": "^0.2.3",
     "template-polyfill": "^2.0.0",
     "velocity-animate": "^1.5.2"
   }

@@ -29,7 +29,6 @@ export default function (gallerySelector) {
         // console.log('Start of popup initialization');
         // console.log(this.content)
         // console.log(window.innerHeight)
-        // console.log(window.screen)
         $('body').addClass('android-fixed')
         this.current = this.index + 1
         this.total = this.items.length - 1

@@ -300,3 +300,48 @@ $print-footer-font-size: 8pt;
         /** approx 22px **/
     }
 }
+
+/** PRINT ELEMENTS **/
+
+div.multimedia {
+    border: 1px solid #CCCCCC;
+    margin: 1em 0;
+    min-height: 82px;
+    padding: 0;
+    p {
+        margin: 0;
+    }
+    h5.header {
+        font-family: 'Noto Sans', sans-serif;
+        font-size: 1em;
+        margin: .5em 0 0 0;
+    }
+    .placeholder {
+        text-align: center;
+        color: #FFFFFF;
+        width: 80px;
+        padding: 28px 0;
+        background-color: #000000;
+        position: static;
+        float: left;
+        margin-right: .5em;
+        position: relative;
+        max-height: 80px;
+    }
+    .caption {
+        font-size: .75em;
+        line-height: 1.8em;
+    }
+}
+
+.media-caption {
+  font-size: .75em;
+  line-height: 1.8em;
+}
+
+.time-length {
+    position: absolute;
+    font-size: .875em;
+    bottom: 4px;
+    width: 100%;
+}
