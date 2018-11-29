@@ -1,6 +1,0 @@
-
-        {{ if or (eq .Title "title page") (eq .Title "half title page") }} 
-        {{ partial "title-page.html" . }}
-        {{ else }}
-        {{ . }}
-        {{ end }}
