@@ -3,7 +3,52 @@ import Map from './map.js'
 import 'magnific-popup/dist/magnific-popup.css'
 require('magnific-popup')
 
+
 export default function (gallerySelector) {
+
+  const findSoundCloudWidgetsAndStopThem = () => {
+    const items = [...document.querySelectorAll(`.quire-figure`)]
+    items.filter((item) => {
+      return [...item.children][0].src !== undefined && [...item.children][0].src.indexOf(`soundcloud`) ? [...item.children][0] : ``
+    }).map((item) => {
+      let iframeElementID = [...item.children][0].id
+      let widget = SC.Widget(iframeElementID)
+      return widget
+    }).forEach((item) => {
+      return item.pause()
+    })
+  }
+
+  const captionUpdate = (self) => {
+    switch (self.currItem.type) {
+      case 'inline':
+        self.caption = self.content.attr('title')
+        if (self.caption !== undefined) {
+          self.captionCont = `<div class="quire-caption-container"><span class="caption">${self.caption}</span></div>`
+          $('.mfp-wrap').prepend(self.captionCont)
+        }
+        break
+      case 'iframe':
+        self.caption = $(self.currItem.el).attr('title')
+        if (self.caption !== undefined) {
+          self.captionCont = `<div class="quire-caption-container"><span class="caption">${self.caption}</span></div>`
+          $('.mfp-wrap').prepend(self.captionCont)
+        }
+        break
+      case 'image':
+        $('.mfp-title').hide()
+        self.caption = $(self.currItem.el).attr('title')
+        if (self.caption !== undefined) {
+          self.captionCont = `<div class="quire-caption-container"><span class="caption">${self.caption}</span></div>`
+          $('.mfp-wrap').prepend(self.captionCont)
+        }
+        break
+      default:
+
+        break
+    }
+  }
+
   $(gallerySelector).magnificPopup({
     delegate: 'a.popup',
     type: 'image',
@@ -25,10 +70,7 @@ export default function (gallerySelector) {
     },
     callbacks: {
       beforeOpen: function () {
-        // $('.quire-counter-container, .quire-caption-container').remove()
-        // console.log('Start of popup initialization');
-        // console.log(this.content)
-        // console.log(window.innerHeight)
+        findSoundCloudWidgetsAndStopThem()
         $('body').addClass('android-fixed')
         this.current = this.index + 1
         this.total = this.items.length - 1
@@ -36,7 +78,6 @@ export default function (gallerySelector) {
         this.cont = `<div class="quire-counter-container">${this.counter}</div>`
       },
       elementParse: function (item) {
-        // console.log('Parsing content. Item object that is being parsed:', item.el[0].getAttribute('data-type'));
         if (item.el[0].getAttribute('data-type') === 'video') {
           item.type = 'iframe',
             item.iframe = {
@@ -84,6 +125,9 @@ export default function (gallerySelector) {
           document.querySelector('.counter').innerHTML = `${this.current} of ${this.items.length}`
         }
 
+        captionUpdate(this)
+
+        /*
         switch (this.currItem.type) {
           case 'inline':
             this.caption = this.content.attr('title')
@@ -108,8 +152,10 @@ export default function (gallerySelector) {
             }
             break
           default:
+
             break
         }
+        */
 
 
         let id = this.content.children()[0].id
@@ -150,6 +196,10 @@ export default function (gallerySelector) {
         // $('.mfp-bg').css('height',height + 'px')
         // $('.mfp-container').css('height',height + 'px')
 
+
+
+        captionUpdate(this)
+        /*
         switch (this.currItem.type) {
           case 'inline':
             this.caption = this.content.attr('title')
@@ -176,6 +226,7 @@ export default function (gallerySelector) {
           default:
             break
         }
+        */
 
         $('.mfp-wrap').prepend(this.cont)
       },
