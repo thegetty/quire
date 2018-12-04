@@ -7228,12 +7228,8 @@ template {
     transition-property: transform, -webkit-transform;
     transition-duration: 0.15s;
     transition-timing-function: linear;
-    width: calc(100% - 3rem);
     display: block;
     z-index: 100; }
-    @media screen and (max-width: calc(100% - 3rem)) {
-      .quire:not(.no-js) .quire__secondary {
-        width: calc(100vw - 3rem); } }
     .quire:not(.no-js) .quire__secondary #site-menu__inner {
       transition-property: display;
       transition-duration: 0.15s;
@@ -7243,15 +7239,16 @@ template {
       -webkit-transform: translate3d(0, 0, 0);
               transform: translate3d(0, 0, 0);
       width: 352px; }
-      @media screen and (max-width: calc(352px + 3rem)) {
+      @media screen and (max-width: 352px) {
         .quire:not(.no-js) .quire__secondary.is-expanded {
           width: calc(100% - 3rem); } }
       .quire:not(.no-js) .quire__secondary.is-expanded #site-menu__inner {
         display: block; }
       .quire:not(.no-js) .quire__secondary.is-expanded + .quire__primary {
         -webkit-transform: translate3d(-352px, 0, 0);
-                transform: translate3d(-352px, 0, 0); }
-        @media screen and (max-width: calc(352px + 3rem)) {
+                transform: translate3d(-352px, 0, 0);
+        position: fixed; }
+        @media screen and (max-width: 352px) {
           .quire:not(.no-js) .quire__secondary.is-expanded + .quire__primary {
             -webkit-transform: translate3d(calc(-100% + 3rem), 0, 0);
                     transform: translate3d(calc(-100% + 3rem), 0, 0); } }

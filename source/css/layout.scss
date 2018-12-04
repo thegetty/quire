@@ -107,14 +107,10 @@
       transition-property: transform;
       transition-duration: 0.15s;
       transition-timing-function: linear; // transition: all 0.15s linear;
-      width: $quire-menu-width;
+      // width: $quire-menu-width;
       display: block;
       z-index: 100;
       
-
-      @media screen and (max-width: $quire-menu-width) {
-        width: calc(100vw - #{$navbar-height});
-      }
 
       // Keyboard navigation fix; users should only be able to tab through the
       // links inside the site menu when it is expanded. Setting display:none
@@ -130,8 +126,9 @@
 
       &.is-expanded {
         transform: translate3d(0, 0 ,0);
-        width: 352px;
-        @media screen and (max-width: $quire-nav-width) {
+        width: $quire-menu-width;
+        // width: calc(100% - 3rem);
+        @media screen and (max-width: $quire-menu-width) {
           width: calc(100% - 3rem);
         }
 
@@ -143,8 +140,10 @@
           // right: $quire-menu-width;
           // width: calc(100% - #{$quire-menu-width});
           // transform: translate3d($quire-menu-width, 0, 0);
-          transform: translate3d(-352px, 0 ,0);
-          @media screen and (max-width: $quire-nav-width) {
+          transform: translate3d(-$quire-menu-width, 0 ,0);
+          position: fixed;
+          // transform: translate3d(-352px, 0 ,0);
+          @media screen and (max-width: $quire-menu-width) {
             transform: translate3d($quire-primary-move, 0 ,0);
             // right: calc(100vw - #{$navbar-height});
             // transform: translate3d(- $quire-menu-width, 0, 0);

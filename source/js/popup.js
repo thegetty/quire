@@ -20,6 +20,9 @@ export default function (gallerySelector) {
   }
 
   const captionUpdate = (self) => {
+    if ($('.quire-caption-container')) {
+      $('.quire-caption-container').remove()
+    }
     switch (self.currItem.type) {
       case 'inline':
         self.caption = self.content.attr('title')
@@ -44,7 +47,9 @@ export default function (gallerySelector) {
         }
         break
       default:
-
+        if ($('.quire-caption-container')) {
+          $('.quire-caption-container').remove()
+        }
         break
     }
   }
@@ -116,47 +121,12 @@ export default function (gallerySelector) {
 
       },
       change: function () {
-        $('.quire-caption-container').remove()
-
-        // console.log('Content changed');
         this.current = this.index + 1
-
         if (document.querySelector('.counter')) {
           document.querySelector('.counter').innerHTML = `${this.current} of ${this.items.length}`
         }
 
         captionUpdate(this)
-
-        /*
-        switch (this.currItem.type) {
-          case 'inline':
-            this.caption = this.content.attr('title')
-            if (this.caption !== undefined) {
-              this.captionCont = `<div class="quire-caption-container"><span class="caption">${this.caption}</span></div>`
-              $('.mfp-wrap').prepend(this.captionCont)
-            }
-            break
-          case 'iframe':
-            this.caption = $(this.currItem.el).attr('title')
-            if (this.caption !== undefined) {
-              this.captionCont = `<div class="quire-caption-container"><span class="caption">${this.caption}</span></div>`
-              $('.mfp-wrap').prepend(this.captionCont)
-            }
-            break
-          case 'image':
-            $('.mfp-title').hide()
-            this.caption = $(this.currItem.el).attr('title')
-            if (this.caption !== undefined) {
-              this.captionCont = `<div class="quire-caption-container"><span class="caption">${this.caption}</span></div>`
-              $('.mfp-wrap').prepend(this.captionCont)
-            }
-            break
-          default:
-
-            break
-        }
-        */
-
 
         let id = this.content.children()[0].id
         let waitForDOMUpdate = 100
@@ -182,52 +152,12 @@ export default function (gallerySelector) {
 
       },
       resize: function () {
-
         // console.log('Popup resized ' + $(window).innerHeight());
         // resize event triggers only when height is changed or layout forced
-        // const height = document.documentElement.clientHeight
-        // $('.mfp-ready').css('height', height + 'px')
       },
       open: function () {
-
         // console.log('Popup open');
-        // const height = document.documentElement.clientHeight
-        // $('.mfp-ready').css('height', height + 'px')
-        // $('.mfp-bg').css('height',height + 'px')
-        // $('.mfp-container').css('height',height + 'px')
-
-
-
         captionUpdate(this)
-        /*
-        switch (this.currItem.type) {
-          case 'inline':
-            this.caption = this.content.attr('title')
-            if (this.caption !== undefined) {
-              this.captionCont = `<div class="quire-caption-container"><span class="caption">${this.caption}</span></div>`
-              $('.mfp-wrap').prepend(this.captionCont)
-            }
-            break
-          case 'iframe':
-            this.caption = $(this.currItem.el).attr('title')
-            if (this.caption !== undefined) {
-              this.captionCont = `<div class="quire-caption-container"><span class="caption">${this.caption}</span></div>`
-              $('.mfp-wrap').prepend(this.captionCont)
-            }
-            break
-          case 'image':
-            $('.mfp-title').hide()
-            this.caption = (this.currItem.el).attr('title')
-            if (this.caption !== undefined) {
-              this.captionCont = `<div class="quire-caption-container"><span class="caption">${this.caption}</span></div>`
-              $('.mfp-wrap').prepend(this.captionCont)
-            }
-            break
-          default:
-            break
-        }
-        */
-
         $('.mfp-wrap').prepend(this.cont)
       },
 
@@ -246,7 +176,7 @@ export default function (gallerySelector) {
 
       markupParse: function (template, values, item) {
         // Triggers each time when content of popup changes
-        // // console.log('Parsing:', template, values, item);
+        // console.log('Parsing:', template, values, item);
       },
       updateStatus: function (data) {
         // console.log('Status changed', data);
@@ -260,8 +190,6 @@ export default function (gallerySelector) {
         // avaiable since v0.9.0
         // console.log('Image loaded');
       },
-
-
       // Only for ajax popup type
       parseAjax: function (mfpResponse) {
         // mfpResponse.data is a "data" object from ajax "success" callback
