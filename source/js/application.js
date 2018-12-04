@@ -13,6 +13,7 @@ import 'leaflet/dist/leaflet.css'
 // JS Libraries (add them to package.json with `npm install [library]`)
 import $ from 'jquery'
 import 'velocity-animate'
+import './soundcloud-api'
 
 // Modules (feel free to define your own and import here)
 import Search from './search'
@@ -280,7 +281,7 @@ function deepZoomSetup() {
 function pageSetup() {
   activeMenuPage()
   sliderSetup()
-  navigationSetup()
+  // navigationSetup()
   popupSetup()
   if (!isPopup) {
     mapSetup()

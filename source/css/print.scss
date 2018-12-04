@@ -4,273 +4,344 @@
 // Component print styles should be defined inside print media queries at the
 // component level. This stylesheet is for overrides and other special-case
 // rules which don't properly fit anywhere else and only show up in print.
-
-
-
 $print-width: 8.5in;
 $print-height: 11in;
-
 $print-bottom-margin: 0.875in;
 $print-top-margin: 0.75in;
 $print-inner-margin: 1in;
 $print-outer-margin: 0.75in;
-
 $print-bleed: .125in;
-
 $text-block-height: calc(#{$print-height} - #{$print-top-margin} - #{$print-bottom-margin});
-
 $splash-page-width: calc(#{$print-width} + #{$print-bleed} + #{$print-bleed});
 $splash-page-height: calc(#{$print-height} + #{$print-bleed} + #{$print-bleed});
-
 $print-footer-font: $family-secondary;
 $print-footer-font-size: 8pt;
-
-
 @media print {
-
-  @page {
-		size: $print-width $print-height;
-    prince-bleed: .125in;
-    bleed: .125in;
-    prince-trim: 0.25in;
-    marks: crop;
-    margin-top: $print-top-margin;
-    margin-bottom: $print-bottom-margin;
-
-    @bottom-right-corner {
-			font-family: $print-footer-font;
-			font-size: $print-footer-font-size;
-		}
-    @bottom-right {
-			font-family: $print-footer-font;
-			font-size: $print-footer-font-size;
-		}
-    @bottom-center {
-			font-family: $print-footer-font;
-			font-size: $print-footer-font-size;
-		}
-    @bottom-left {
-			font-family: $print-footer-font;
-			font-size: $print-footer-font-size;
-		}
-    @bottom-left-corner {
-			font-family: $print-footer-font;
-			font-size: $print-footer-font-size;
-		}
-	}
-
-  @page:left {
-    margin-left: $print-outer-margin;
-    margin-right: $print-inner-margin;
-    @bottom-right {
-			content: string(sectiontitle);
-      text-transform: uppercase;
-      letter-spacing: 1pt;
-      font-size: 7.5pt;
-		}
-		@bottom-left-corner {
-			content: counter(page);
-		}
-  }
-  @page:left:first {
-    @bottom-right {
-			content: none;
-		}
-  }
-
-  @page:right {
-    margin-left: $print-inner-margin;
-    margin-right: $print-outer-margin;
-    @bottom-left {
-			content: string(pagetitle);
-		}
-		@bottom-right-corner {
-			content: counter(page);
-		}
-  }
-  @page:right:first {
-    @bottom-left {
-			content: none;
-		}
-  }
-
-  @page frontmatter:left {
-    @bottom-left-corner {
-      content: counter(page, lower-roman);
-    }
-  }
-  @page frontmatter:right {
-    @bottom-right-corner {
-      content: counter(page, lower-roman);
-    }
-  }
-
-  @page splash {
-    background-color: $quire-splash-page-color;
-    color: findColorInvert($quire-splash-page-color);
-    margin-top: 0;
-    margin-bottom: 0;
-    margin-left: 0;
-    margin-right: 0;
-    @bottom-left-corner {
-			content: none;
-		}
-    @bottom-right-corner {
-			content: none;
-		}
-  }
-
-  @page no-footer {
-    @bottom-right-corner {
-			content: none;
-		}
-    @bottom-right {
-			content: none;
-		}
-    @bottom-center {
-			content: none;
-		}
-    @bottom-left {
-			content: none;
-		}
-    @bottom-left-corner {
-			content: none;
-		}
-  }
-
-  @page page-one:first {
-    @bottom-left-corner {
-			content: none;
-		}
-    @bottom-left {
-			content: none;
-		}
-  }
-
-  .quire-current-page__title {
-    string-set: pagetitle content();
-  }
-  .quire-section-page__title {
-    string-set: sectiontitle content();
-  }
-
-  .quire-contents-list {
-    .page-item {
-      .title a::after {
-        content: leader(dotted) ' ' target-counter(attr(href, url), page);
-        margin-left: 6pt;
-        // This border is a hack for PrinceXML which doesn't
-        // otherwise recognize the box sizing for some reason
-        border: 1pt solid transparent;
-      }
-      &.quire-frontmatter {
-        .title a::after {
-          content: leader(dotted) ' ' target-counter(attr(href, url), page, lower-roman);
-          font-style: italic;
-        }
-      }
-    }
-  }
-
-  .quire-page--page-one {
-    page: page-one;
-    counter-reset: page 1;
-    page-break-before: right;
-  }
-
-  .quire-page--frontmatter {
-    page: frontmatter;
-  }
-
-  .quire-entry__image {
-    page: no-footer;
-    page-break-after: always;
-  }
-
-  .quire-cover,
-  .quire-contents {
-    page: no-footer;
-  }
-
-  .quire-page--splash {
-    .quire-page__header {
-      .hero-body,
-      .quire-page__content {
+    @page {
+        size: $print-width $print-height;
+        prince-bleed: .125in;
+        bleed: .125in;
+        prince-trim: 0.25in;
+        marks: crop;
         margin-top: $print-top-margin;
-        margin-left: $print-inner-margin;
-        margin-right: $print-inner-margin;
         margin-bottom: $print-bottom-margin;
-      }
-      .hero-body {
-        margin-top: 3in;
-      }
-      &.quire-page__header--full-height {
-        page: splash;
+        @bottom-right-corner {
+            font-family: $print-footer-font;
+            font-size: $print-footer-font-size;
+        }
+        @bottom-right {
+            font-family: $print-footer-font;
+            font-size: $print-footer-font-size;
+        }
+        @bottom-center {
+            font-family: $print-footer-font;
+            font-size: $print-footer-font-size;
+        }
+        @bottom-left {
+            font-family: $print-footer-font;
+            font-size: $print-footer-font-size;
+        }
+        @bottom-left-corner {
+            font-family: $print-footer-font;
+            font-size: $print-footer-font-size;
+        }
+    }
+    @page: left {
+        margin-left: $print-outer-margin;
+        margin-right: $print-inner-margin;
+        @bottom-right {
+            content: string(sectiontitle);
+            text-transform: uppercase;
+            letter-spacing: 1pt;
+            font-size: 7.5pt;
+        }
+        @bottom-left-corner {
+            content: counter(page);
+        }
+    }
+    @page: left:first {
+        @bottom-right {
+            content: none;
+        }
+    }
+    @page: right {
+        margin-left: $print-inner-margin;
+        margin-right: $print-outer-margin;
+        @bottom-left {
+            content: string(pagetitle);
+        }
+        @bottom-right-corner {
+            content: counter(page);
+        }
+    }
+    @page: right:first {
+        @bottom-left {
+            content: none;
+        }
+    }
+    @page frontmatter:left {
+        @bottom-left-corner {
+            content: counter(page, lower-roman);
+        }
+    }
+    @page frontmatter:right {
+        @bottom-right-corner {
+            content: counter(page, lower-roman);
+        }
+    }
+    @page splash {
         background-color: $quire-splash-page-color;
         color: findColorInvert($quire-splash-page-color);
-        width: $splash-page-width;
-        height: $splash-page-height;
-        margin-left: (-$print-bleed);
-        margin-top: (-$print-bleed);
-      }
+        margin-top: 0;
+        margin-bottom: 0;
+        margin-left: 0;
+        margin-right: 0;
+        @bottom-left-corner {
+            content: none;
+        }
+        @bottom-right-corner {
+            content: none;
+        }
     }
-  }
-
-  .quire-page,
-  .hero.quire-page__header,
-  .hero-body {
-    // This border is a hack for PrinceXML which doesn't
-    // otherwise recognize the box sizing for some reason
-    border: 1pt solid transparent !important;
-  }
-
- // TEMPORARY
- // Use to better test and style layout of pages
- .quire-page {
-   border: 1pt solid #ff0000 !important;
- }
- .hero.quire-page__header {
-   border: 1pt solid #ff00ff !important;
- }
- .hero-body {
-   border: 1pt solid #0000ff !important;
- }
- .section.quire-page__content {
-   border: 1pt solid #00ff00 !important;
- }
- .container {
-   border: 1pt solid #ffff00 !important;
- }
- .content {
-   border: 1pt solid #00ffff !important;
- }
-
-  html body {
-    // Leaflet stuff
-    .leaflet-pane,
-    .leaflet-map-pane,
-    .leaflet-container,
-    .lvml {
-      display: none !important;
+    @page no-footer {
+        @bottom-right-corner {
+            content: none;
+        }
+        @bottom-right {
+            content: none;
+        }
+        @bottom-center {
+            content: none;
+        }
+        @bottom-left {
+            content: none;
+        }
+        @bottom-left-corner {
+            content: none;
+        }
     }
-
-    .button,
-    .input,
-    .textarea,
-    .select,
-    .visually-hidden,
-    .footnote-return {
-      display: none;
+    @page page-one:first {
+        @bottom-left-corner {
+            content: none;
+        }
+        @bottom-left {
+            content: none;
+        }
     }
-
-  }
-
-  .menu-list li ul {
-    border-left-width: 0;
-  }
-  .section { padding: 0; }
-  .container { max-width: 100%; margin: 0; }
+    .quire-current-page__title {
+        string-set: pagetitle content();
+    }
+    .quire-section-page__title {
+        string-set: sectiontitle content();
+    }
+    .quire-contents-list {
+        .page-item {
+            .title a::after {
+                content: leader(dotted) ' ' target-counter(attr(href, url), page);
+                margin-left: 6pt; // This border is a hack for PrinceXML which doesn't
+                // otherwise recognize the box sizing for some reason
+                border: 1pt solid transparent;
+            }
+            &.quire-frontmatter {
+                .title a::after {
+                    content: leader(dotted) ' ' target-counter(attr(href, url), page, lower-roman);
+                    font-style: italic;
+                }
+            }
+        }
+    }
+    .quire-page--page-one {
+        page: page-one;
+        counter-reset: page 1;
+        page-break-before: right;
+    }
+    .quire-page--frontmatter {
+        page: frontmatter;
+    }
+    .quire-entry__image {
+        page: no-footer;
+        page-break-after: always;
+    }
+    .quire-cover,
+    .quire-contents {
+        page: no-footer;
+    }
+    .quire-page--splash {
+        .quire-page__header {
+            .hero-body,
+            .quire-page__content {
+                margin-top: $print-top-margin;
+                margin-left: $print-inner-margin;
+                margin-right: $print-inner-margin;
+                margin-bottom: $print-bottom-margin;
+            }
+            .hero-body {
+                margin-top: 3in;
+            }
+            &.quire-page__header--full-height {
+                page: splash;
+                background-color: $quire-splash-page-color;
+                color: findColorInvert($quire-splash-page-color);
+                width: $splash-page-width;
+                height: $splash-page-height;
+                margin-left: (-$print-bleed);
+                margin-top: (-$print-bleed);
+            }
+        }
+    }
+    .quire-page,
+    .hero.quire-page__header,
+    .hero-body {
+        // This border is a hack for PrinceXML which doesn't
+        // otherwise recognize the box sizing for some reason
+        border: 1pt solid transparent !important;
+    } // TEMPORARY
+    // Use to better test and style layout of pages
+    .quire-page {
+        border: 1pt solid #ff0000 !important;
+    }
+    .hero.quire-page__header {
+        border: 1pt solid #ff00ff !important;
+    }
+    .hero-body {
+        border: 1pt solid #0000ff !important;
+    }
+    .section.quire-page__content {
+        border: 1pt solid #00ff00 !important;
+    }
+    .container {
+        border: 1pt solid #ffff00 !important;
+    }
+    .content {
+        border: 1pt solid #00ffff !important;
+    }
+    .is-screen-only {
+        display: none;
+    }
+    html body {
+        // Leaflet stuff
+        .leaflet-pane,
+        .leaflet-map-pane,
+        .leaflet-container,
+        .lvml {
+            display: none !important;
+        }
+        .button,
+        .input,
+        .textarea,
+        .select,
+        .visually-hidden,
+        .footnote-return {
+            display: none;
+        }
+    }
+    .menu-list li ul {
+        border-left-width: 0;
+    }
+    .section {
+        padding: 0;
+    }
+    .container {
+        max-width: 100%;
+        margin: 0;
+    }
 }
 
+.bd-structure {
+    padding: 1.5rem;
+}
 
+.title-page {
+    text-align: center;
+    span {
+        display: block;
+    }
+    .title-tp {
+        font-size: 3em;
+        /** approx 48px **/
+        line-height: 1.04em;
+        /** approx 50px **/
+    }
+    .sub-title {
+        font-size: 1.75em;
+        /** approx 28px **/
+        line-height: 1.15em;
+        /** approx 32px **/
+    }
+    .contributor {
+        font-size: 1.125em;
+        /** approx 18px **/
+        line-height: 1.22em;
+        /** approx 22px **/
+    }
+    .publisher {
+        font-size: 1.125em;
+        /** approx 18px **/
+        line-height: 1.22em;
+        /** approx 22px **/
+    }
+}
 
+.half-title-page {
+    text-align: center;
+    span {
+        display: block;
+    }
+    .title-htp {
+        font-size: 1.75em;
+        /** approx 28px **/
+        line-height: 1.15em;
+        /** approx 32px **/
+    }
+    .sub-title {
+        font-size: 1.125em;
+        /** approx 18px **/
+        line-height: 1.22em;
+        /** approx 22px **/
+    }
+}
+
+/** PRINT ELEMENTS **/
+
+div.multimedia {
+    border: 1px solid #CCCCCC;
+    margin: 1em 0;
+    min-height: 82px;
+    padding: 0;
+    p {
+        margin: 0;
+    }
+    h5.header {
+        font-family: 'Noto Sans', sans-serif;
+        font-size: 1em;
+        margin: .5em 0 0 0;
+    }
+    .placeholder {
+        text-align: center;
+        color: #FFFFFF;
+        width: 80px;
+        padding: 28px 0;
+        background-color: #000000;
+        position: static;
+        float: left;
+        margin-right: .5em;
+        position: relative;
+        max-height: 80px;
+    }
+    .caption {
+        font-size: .75em;
+        line-height: 1.8em;
+    }
+}
+
+.media-caption {
+  font-size: .75em;
+  line-height: 1.8em;
+}
+
+.time-length {
+    position: absolute;
+    font-size: .875em;
+    bottom: 4px;
+    width: 100%;
+}

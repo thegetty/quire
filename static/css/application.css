@@ -291,6 +291,39 @@
   font-weight: 700;
   font-style: italic; }
 
+/**
+* Load material icon font
+*/
+@font-face {
+  font-family: "Material Icons";
+  font-style: normal;
+  font-weight: 400;
+  src: url(/fonts/MaterialIcons-Regular.eot);
+  /* For IE6-8 */
+  src: local("Material Icons"), local("MaterialIcons-Regular"), url(/fonts/MaterialIcons-Regular.woff2) format("woff2"), url(/fonts/MaterialIcons-Regular.woff) format("woff"), url(/fonts/MaterialIcons-Regular.ttf) format("truetype"); }
+
+.material-icons {
+  font-family: "Material Icons";
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+  /* Support for IE. */
+  -webkit-font-feature-settings: 'liga';
+          font-feature-settings: 'liga'; }
+
 @-webkit-keyframes spinAround {
   from {
     -webkit-transform: rotate(0deg);
@@ -8099,7 +8132,8 @@ html {
     margin: 36px 0 16px 0; }
 
 .quire-contents-list {
-  box-shadow: none; }
+  box-shadow: none;
+  background-color: transparent; }
   .quire-contents-list h1, .quire-contents-list h2, .quire-contents-list h3, .quire-contents-list h4, .quire-contents-list h5, .quire-contents-list h6 {
     letter-spacing: -0.025em;
     color: #333333; }
@@ -8751,7 +8785,6 @@ div.leaflet-control-container {
   div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-control-fullscreen.leaflet-bar.leaflet-control > a {
     color: #fff;
     border-bottom: none;
-    background-image: url(/img/fullscreen-leaflet.png);
     background-repeat: no-repeat;
     background-color: rgba(0, 0, 0, 0.5);
     margin-top: 0;
@@ -8765,7 +8798,7 @@ div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-contr
   margin-top: 0; }
 
 div.leaflet-control > a {
-  background: transparent; }
+  background-color: transparent; }
 
 .leaflet-outer-wrapper {
   width: 100vw;
@@ -9010,7 +9043,7 @@ body > div.mfp-bg.mfp-ready {
     @bottom-left-corner {
       font-family: "IBM Plex Sans Condensed", sans-serif;
       font-size: 8pt; } }
-  @page :left {
+  @page : left {
     margin-left: 0.75in;
     margin-right: 1in;
     @bottom-right {
@@ -9020,17 +9053,17 @@ body > div.mfp-bg.mfp-ready {
       font-size: 7.5pt; }
     @bottom-left-corner {
       content: counter(page); } }
-  @page :left:first {
+  @page : left:first {
     @bottom-right {
       content: none; } }
-  @page :right {
+  @page : right {
     margin-left: 1in;
     margin-right: 0.75in;
     @bottom-left {
       content: string(pagetitle); }
     @bottom-right-corner {
       content: counter(page); } }
-  @page :right:first {
+  @page : right:first {
     @bottom-left {
       content: none; } }
   @page frontmatter:left {
@@ -9121,6 +9154,8 @@ body > div.mfp-bg.mfp-ready {
     border: 1pt solid #ffff00 !important; }
   .content {
     border: 1pt solid #00ffff !important; }
+  .is-screen-only {
+    display: none; }
   html body .leaflet-pane,
   html body .leaflet-map-pane,
   html body .leaflet-container,
@@ -9140,6 +9175,86 @@ body > div.mfp-bg.mfp-ready {
   .container {
     max-width: 100%;
     margin: 0; } }
+
+.bd-structure {
+  padding: 1.5rem; }
+
+.title-page {
+  text-align: center; }
+  .title-page span {
+    display: block; }
+  .title-page .title-tp {
+    font-size: 3em;
+    /** approx 48px **/
+    line-height: 1.04em;
+    /** approx 50px **/ }
+  .title-page .sub-title {
+    font-size: 1.75em;
+    /** approx 28px **/
+    line-height: 1.15em;
+    /** approx 32px **/ }
+  .title-page .contributor {
+    font-size: 1.125em;
+    /** approx 18px **/
+    line-height: 1.22em;
+    /** approx 22px **/ }
+  .title-page .publisher {
+    font-size: 1.125em;
+    /** approx 18px **/
+    line-height: 1.22em;
+    /** approx 22px **/ }
+
+.half-title-page {
+  text-align: center; }
+  .half-title-page span {
+    display: block; }
+  .half-title-page .title-htp {
+    font-size: 1.75em;
+    /** approx 28px **/
+    line-height: 1.15em;
+    /** approx 32px **/ }
+  .half-title-page .sub-title {
+    font-size: 1.125em;
+    /** approx 18px **/
+    line-height: 1.22em;
+    /** approx 22px **/ }
+
+/** PRINT ELEMENTS **/
+div.multimedia {
+  border: 1px solid #CCCCCC;
+  margin: 1em 0;
+  min-height: 82px;
+  padding: 0; }
+  div.multimedia p {
+    margin: 0; }
+  div.multimedia h5.header {
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 1em;
+    margin: .5em 0 0 0; }
+  div.multimedia .placeholder {
+    text-align: center;
+    color: #FFFFFF;
+    width: 80px;
+    padding: 28px 0;
+    background-color: #000000;
+    position: static;
+    float: left;
+    margin-right: .5em;
+    position: relative;
+    max-height: 80px; }
+  div.multimedia .caption {
+    font-size: .75em;
+    line-height: 1.8em; }
+
+.media-caption {
+  font-size: .75em;
+  line-height: 1.8em; }
+
+.time-length {
+  position: absolute;
+  font-size: .875em;
+  bottom: 4px;
+  width: 100%; }
 
 /* required styles */
 .leaflet-pane,
