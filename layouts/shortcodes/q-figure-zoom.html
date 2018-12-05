@@ -31,6 +31,14 @@
       class="quire-figure__image" 
       src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
       alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
+      {{ if .Get "caption" }} 
+        <figcaption class="quire-figure__caption">
+        {{ .Get "caption" | markdownify | safeHTML }}
+          {{ if eq $.Site.Params.popup true }}
+            <span class="quire-figure__modal"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge image</span>
+          {{ end }}
+        </figcaption> 
+      {{ end }} 
       </a>  
 
     <figure       
@@ -59,6 +67,14 @@
       class="quire-figure__image" 
       src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
       alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
+      {{ if .Get "caption" }} 
+        <figcaption class="quire-figure__caption">
+        {{ .Get "caption" | markdownify | safeHTML }}
+          {{ if eq $.Site.Params.popup true }}
+            <span class="quire-figure__modal"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge image</span>
+          {{ end }}
+        </figcaption> 
+      {{ end }} 
     </a>
 
       <figure    
@@ -88,6 +104,14 @@
       class="quire-figure__image" 
       src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
       alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
+      {{ if .Get "caption" }} 
+        <figcaption class="quire-figure__caption">
+        {{ .Get "caption" | markdownify | safeHTML }}
+          {{ if eq $.Site.Params.popup true }}
+            <span class="quire-figure__modal"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge image</span>
+          {{ end }}
+        </figcaption> 
+      {{ end }} 
     </a>
 
   <figure   
@@ -106,8 +130,6 @@
   </figure>
 
 {{ end }}
-
-{{ if .Get "caption" }} <figcaption class="quire-figure__caption">{{ .Get "caption" | markdownify | safeHTML }}</figcaption> {{ end }}
 
 </div>
 
@@ -147,7 +169,14 @@
     
 {{ end }}
 
-{{ if .Get "caption" }} <figcaption class="quire-figure__caption">{{ .Get "caption" | markdownify | safeHTML }}</figcaption> {{ end }} 
+{{ if .Get "caption" }} 
+  <figcaption class="quire-figure__caption">
+  {{ .Get "caption" | markdownify | safeHTML }}
+    {{ if eq $.Site.Params.popup true }}
+      <span class="quire-figure__modal"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge image</span>
+    {{ end }}
+  </figcaption> 
+{{ end }} 
 
 {{ end }}
 
@@ -178,6 +207,14 @@
         <img
           class="quire-figure__image" 
           src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
+          {{ if .caption }} 
+            <figcaption class="quire-figure__caption">
+            {{ .caption | markdownify | safeHTML }}
+              {{ if eq $.Site.Params.popup true }}
+                <span class="quire-figure__modal"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge image</span>
+              {{ end }}
+            </figcaption> 
+          {{ end }}
       </a>
 
       <figure 
@@ -205,6 +242,14 @@
       <img
       class="quire-figure__image" 
       src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
+      {{ if .caption }} 
+        <figcaption class="quire-figure__caption">
+        {{ .caption | markdownify | safeHTML }}
+          {{ if eq $.Site.Params.popup true }}
+            <span class="quire-figure__modal"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge image</span>
+          {{ end }}
+        </figcaption> 
+      {{ end }}
     </a>
 
     <figure 
@@ -234,6 +279,14 @@
       <img
       class="quire-figure__image" 
       src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
+      {{ if .caption }} 
+        <figcaption class="quire-figure__caption">
+        {{ .caption | markdownify | safeHTML }}
+          {{ if eq $.Site.Params.popup true }}
+            <span class="quire-figure__modal"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge image</span>
+          {{ end }}
+        </figcaption> 
+      {{ end }}
     </a>
 
       <figure 
@@ -251,8 +304,6 @@
       </figure>
 
 {{ end }}
-
-{{ if .caption }} <figcaption class="quire-figure__caption">{{ .caption | markdownify | safeHTML }}</figcaption> {{ end }}
 
 </div>
 
@@ -294,7 +345,14 @@
 
 {{ end }}
 
-{{ if .caption }} <figcaption class="quire-figure__caption">{{ .caption }}</figcaption> {{ end }}
+{{ if .caption }} 
+  <figcaption class="quire-figure__caption">
+  {{ .caption | markdownify | safeHTML }}
+    {{ if eq $.Site.Params.popup true }}
+      <span class="quire-figure__modal"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge image</span>
+    {{ end }}
+  </figcaption> 
+{{ end }}
 
 {{ end }}
 

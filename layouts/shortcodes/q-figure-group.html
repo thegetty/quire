@@ -64,7 +64,7 @@ the figure for each into a figure group
         <img class='quire-figure__image'
              src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' 
              alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}'/>
-        </a>
+       
       {{ else if eq .media_type "vimeo" }}
       <div class="q-figure__wrapper">
           <a href='https://player.vimeo.com/video/{{ .media_id }}'
@@ -74,8 +74,7 @@ the figure for each into a figure group
           <img class='quire-figure__image'
                src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' 
                alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}'/>
-          </a>
-        </div>
+
         {{ else if eq .media_type "audio" }}
       <iframe {{ if eq $.Site.Params.pdf true }} class="visually-hidden" {{ end }} id='{{ .id }}'
       width="100%" 
@@ -183,10 +182,7 @@ the figure for each into a figure group
       <img id="{{ .id }}" class="quire-figure__image"
          src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'
          alt="{{ if .alt }}{{ .alt }}{{ end }}" />
-         {{ if eq $.Site.Params.popup true }}
-        </a>
-         {{ end }}
-    </div>
+
     {{/* -------------------- END NO_MEDIA_ID BLOCK -------------------- */}}
     {{ end }}
 
@@ -203,6 +199,7 @@ the figure for each into a figure group
     {{ end }}
 
     {{ else }}
+
     <figcaption class="quire-figure__caption">
       {{ if or (eq ($.Get "label") "true" ) (and (eq $.Site.Params.figureLabels true) (ne ($.Get "label") "false" )) }}
       <span class="quire-figure__label">
@@ -257,9 +254,22 @@ the figure for each into a figure group
       <span class="quire-figure__credit">{{ .credit | markdownify }}</span>
       {{ end }}
 
+    {{ if eq $.Site.Params.popup true }}
+      {{ if or (eq .media_type "vimeo") (eq .media_type "youtube") (eq .media_type "image")}}
+    <span class="quire-figure__modal"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge image</span>
+      {{ end }}
+    {{ end }}
+
     </figcaption>
     {{/* -------------------- END CAPTION BLOCK -------------------- */}}
     {{ end }}
+
+  {{ if eq $.Site.Params.popup true }}
+    {{ if or (eq .media_type "vimeo") (eq .media_type "youtube") (eq .media_type "image")}}
+    </a>
+  </div>
+    {{ end }}
+  {{ end }}
 
   </figure>
   {{/* -------------------- END FIGURELIST RANGE -------------------- */}}
@@ -287,12 +297,26 @@ the figure for each into a figure group
   {{/* -------------------- BEGIN GROUP CAPTION BLOCK -------------------- */}}
   {{ if or (.Get "caption") ($.Get "credit") }}
   <figcaption class="quire-figure__caption">
+
     {{ if .Get "popup" }}
-    {{ .Get "popup" | markdownify }}
+      {{ .Get "popup" | markdownify }}
     {{ end }}
-    {{ if .Get "caption" }}{{ .Get "caption" | markdownify }}{{ end }}
-    {{ if $.Get "credit" }}<span class="quire-figure__credit">{{ $.Get "credit" | markdownify }}</span>{{ end }}
+    {{ if .Get "caption" }}
+      {{ .Get "caption" | markdownify }}
+    {{ end }}
+    {{ if $.Get "credit" }}
+      <span class="quire-figure__credit">{{ $.Get "credit" | markdownify }}</span>
+    {{ end }}
+    {{ if .Get "caption" }}
+      {{ if eq $.Site.Params.popup true }}
+        <span class="q-figure__wrapper">
+          <a class="viewSlides" href="#"><span class="quire-figure__modal"><span class="material-icons md-18 material-slides" aria-hidden="true">photo_library</span>  View as slides</span></a>
+        </span>
+      {{ end }}
+    {{ end }}
   </figcaption>
+
+
   {{/* -------------------- END GROUP CAPTION BLOCK -------------------- */}}
   {{ end }}
 </figure>

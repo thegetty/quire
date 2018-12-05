@@ -33,16 +33,19 @@ document and render only the values given in the shortcode
     <a class="image popup" href='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'>
     <img id='{{ with .Get "id" }}{{ . | urlize }}{{ end }}'
       class="quire-figure__image" 
-      src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
+      src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'      
       alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
     </div>
     {{ if or (.Get "caption") (.Get "credit") }}
     <figcaption class="quire-figure__caption">
       {{ with $.Get "caption" }}{{ . | markdownify }}{{ end }}
       {{ with $.Get "credit" }}<span class="quire-figure__credit">{{ . | markdownify }}</span>{{ end }}
+      {{ if or ($.Get "media_type" "vimeo") ($.Get "media_type" "youtube") ($.Get "media_type" "image")}}
+        <span class="quire-figure__modal"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge image</span>
+      {{ end }}
     </figcaption>
-  </a>
   {{ end }}
+  </a>
 </figure>
 {{ else }}
 <figure class='quire-figure {{ with .Get "class" }}{{ . }}{{ end }}'>
@@ -56,6 +59,9 @@ document and render only the values given in the shortcode
   <figcaption class="quire-figure__caption">
     {{ with $.Get "caption" }}{{ . | markdownify }}{{ end }}
     {{ with $.Get "credit" }}<span class="quire-figure__credit">{{ . | markdownify }}</span>{{ end }}
+    {{ if or ($.Get "media_type" "vimeo") ($.Get "media_type" "youtube") ($.Get "media_type" "image")}}
+      <span class="quire-figure__modal"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge image</span>
+    {{ end }}
   </figcaption>
   {{ end }}
 </figure>
@@ -81,13 +87,11 @@ render the figure from matching values found ther
 
 {{/* -------------------- BEGIN FIGURE RANGE -------------------- */}}
 {{ range where .Site.Data.figures.figure_list "id" "eq" $x }}
-<figure class='quire-figure {{ with $.Get "class" }}{{ . }}{{ end }}'>
+<figure data="q-figure" class='quire-figure {{ with $.Get "class" }}{{ . }}{{ end }}'>
   {{ if .media_id }}
   {{/* -------------------- BEGIN MEDIA BLOCK -------------------- */}}
   {{ if and (and (ne .media_type "youtube") (ne .media_type "vimeo")) (ne .media_type "website") (ne .media_type "audio") (ne .media_type "soundcloud")}}
-
       {{ partial "error-message.html" $errorNoMediaType }}
-
   {{ else }}
 
   {{ if eq $.Site.Params.popup true }}
@@ -104,8 +108,7 @@ render the figure from matching values found ther
            src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' 
            alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}'/>
       {{ end }}
-      </a>
-    </div>
+
   {{ else if eq .media_type "vimeo" }}
   <div class="q-figure__wrapper">
       <a href='https://player.vimeo.com/video/{{ .media_id }}'
@@ -118,8 +121,7 @@ render the figure from matching values found ther
               src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' 
               alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}'/>
          {{ end }}
-      </a>
-    </div>
+
   {{ else if eq .media_type "audio" }}
       <iframe {{ if or (eq $.Site.Params.pdf true) (eq $.Site.Params.epub true) }} class="visually-hidden" {{ end }} id='{{ .id }}'
       width="100%" 
@@ -144,7 +146,9 @@ render the figure from matching values found ther
           src='{{ .media_id }}'></iframe>
   {{ end }}
 
+  {{/* -------------------- else for modal -------------------- */}}
   {{ else }}
+  {{/* -------------------- else for modal -------------------- */}}
 
   <div  class='quire-figure__media-wrapper{{ if .aspect_ratio }}--{{ .aspect_ratio }} {{ else if eq .media_type "soundcloud" }} {{ else if eq .media_type "audio" }} {{ else }}--widescreen{{ end }}'>
     {{ if eq .media_type "youtube" }}
@@ -222,16 +226,12 @@ render the figure from matching values found ther
     <img class="quire-figure__image"  id='{{ .id }}'
        src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'
        alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}' />
-       {{ if eq $.Site.Params.popup true }}
-      </a>
-      {{ end }}
-  </div>
 
   {{ end }}
   {{/* -------------------- END IMAGE BLOCK -------------------- */}}
 
   {{/* -------------------- BEGIN CAPTION BLOCK -------------------- */}}
-  <figcaption class="quire-figure__caption">
+  <figcaption class="quire-figure__caption caption">
     {{ if or (eq $.Site.Params.figureLabels true) (eq ($.Get "label") "true" ) }}
     <span class="quire-figure__label">
       {{ if $.Get "label_text" }}
@@ -249,6 +249,8 @@ render the figure from matching values found ther
     {{ else if .caption }}
     {{ .caption | markdownify }}
     {{ end }}
+
+  {{ if or (eq $.Site.Params.pdf true) (eq $.Site.Params.epub true) }}
 
     {{ if eq $.Site.Params.videoFigureFallbackText true }}
     {{- if eq .media_type "youtube" }}
@@ -296,6 +298,8 @@ render the figure from matching values found ther
     {{- end -}}
     {{- end -}}
 
+  {{ end }}
+
     {{ if $.Get "credit" }}
     <span class="quire-figure__credit">
       {{ $.Get "credit" | markdownify }}
@@ -305,8 +309,29 @@ render the figure from matching values found ther
       {{ .credit | markdownify }}
     </span>
     {{ end }}
+
+    {{ if eq $.Site.Params.popup true }}
+      {{ if or (eq .media_type "vimeo") (eq .media_type "youtube") (eq .media_type "image")}}
+    <span class="quire-figure__modal"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge image</span>
+      {{ end }}
+    {{ end }}
+    
   </figcaption>
   {{/* -------------------- END CAPTION BLOCK -------------------- */}}
+
+{{/* -------------------- END IMAGE BLOCK FOR MODAL -------------------- */}}
+{{/*
+We need to end the <a> element and <div> here to make sure the 
+modal click event wraps the entire figure. This onloy happens when
+popup is true. popup is true by default.
+*/}}
+{{ if eq $.Site.Params.popup true }}
+  {{ if or (eq .media_type "vimeo") (eq .media_type "youtube") (eq .media_type "image")}}
+  </a>
+</div>
+  {{ end }}
+{{ end }}
+{{/* -------------------- END IMAGE BLOCK FOR MODAL -------------------- */}}
 
 </figure>
 {{ end }}
