@@ -53,18 +53,27 @@ export default function (gallerySelector) {
   };
 
   const updateViewSlidesLink = () => {
+    const link = $(`.quire-figure--group`).find(`a:first`).attr(`href`);
+
+
+    
     const items = [...document.querySelectorAll(`.quire-figure--group`)];
     // const child =
     items.filter((item) => {
-      console.log(item.children[0]);
-      // return [...item.children][0].src !== undefined && [...item.children][0].src.indexOf(`soundcloud`) ? [...item.children][0] : ``;
+      console.log(item);
+      return [$(item).find(`a:first`).attr(`href`), $(item).find('.viewSlides')]
     }).map((item) => {
+      console.log(item);
+      return [$(item).find(`a:first`).attr(`href`), $(item).find('.viewSlides'),$(item).find(`a:first`).attr(`class`), $(item).find(`a:first`).attr(`title`)]
       // let iframeElementID = [...item.children][0].id;
       // let widget = SC.Widget(iframeElementID);
       // return widget;
     }).forEach((item) => {
+      console.log(item);
+      return $(item[1]).attr('href',item[0]).attr(`class`,item[2]).attr(`title`, item[3])
       // return item.pause();
     });
+    
   };
 
   updateViewSlidesLink();
