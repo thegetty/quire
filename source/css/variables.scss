@@ -21,16 +21,13 @@ $times-serif: Times, serif;
 $noto-serif: 'Noto Serif', serif;
 $noto-sans: 'Noto Sans', sans-serif;
 
-$family-primary: $noto-sans;
-// body text: $serif, $sans-serif, $slab-serif
-
-$family-secondary: $ibm-sans;
-// headings and navigation items: $serif, $sans-serif, $slab-serif
-
 $quire-base-font-size: 17px;
 $quire-page-paragraph-style: line-space;
 // $quire-page-paragraph-style: indent;
 // make the value null for paragraphs with no indent and a line space between
+
+// Declare the theme primary or secondary
+$theme: primary;
 
 // Colors
 // -----------------------------------------------------------------------------
@@ -80,6 +77,9 @@ $quire-splash-page-color: $color-primary;
 // Quire Redesign
 // -----------------------------------------------------------------------------
 // Setup of new quire variables
+// Primary Theme
+$family-primary: $noto-sans; // body text: $serif, $sans-serif, $slab-serif
+$family-secondary: $ibm-sans; // headings and navigation items: $serif, $sans-serif, $slab-serif
 $quire-header-font: $family-secondary;
 $quire-nav-font: $family-primary;
 $quire-body-font: $family-primary;
@@ -93,6 +93,23 @@ $quire-secondary-color: $off-black;
 $quire-secondary-color-hover: $light-blue;
 $quire-body-background-color: $off-white;
 
+// Secondary Theme
+@if $theme == secondary {
+  $family-primary: $noto-serif; // body text: $serif, $sans-serif, $slab-serif
+  $family-secondary: $times-serif; // headings and navigation items: $serif, $sans-serif, $slab-serif
+  $quire-header-font: $family-secondary;
+  $quire-nav-font: $family-primary;
+  $quire-body-font: $family-primary;
+  $quire-header-color: $off-black;
+  $quire-nav-font-color: $white;
+  $quire-body-font-color: $black;
+  $quire-hover-color: $light-yellow;
+  $quire-primary-color: $off-black;
+  $quire-primary-color-hover: $light-blue;
+  $quire-secondary-color: $light-blue;
+  $quire-secondary-color-hover: $light-blue;
+  $quire-body-background-color: $off-white;
+}
 // Cover
 // -----------------------------------------------------------------------------
 

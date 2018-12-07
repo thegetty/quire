@@ -75,6 +75,9 @@
 
     &:hover {
       background-color: $quire-primary-color;
+      @if $family-primary == $noto-serif {
+        background-color: $quire-primary-color-hover;
+      }
       a {
         color: $quire-nav-font-color;
       }
