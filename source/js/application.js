@@ -9,7 +9,6 @@ import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
 import '../css/application.scss'
 import 'leaflet/dist/leaflet.css'
 
-
 // JS Libraries (add them to package.json with `npm install [library]`)
 import $ from 'jquery'
 import 'velocity-animate'
@@ -43,18 +42,18 @@ window.toggleMenu = () => {
 
 /**
  * activeMenuPage
- * @description This function is called on pageSetup to go through the navigation 
- * (#nav in partials/menu.html) and find all the anchor tags.  Then find the user's 
- * current URL directory. Then it goes through the array of anchor tags and if the 
+ * @description This function is called on pageSetup to go through the navigation
+ * (#nav in partials/menu.html) and find all the anchor tags.  Then find the user's
+ * current URL directory. Then it goes through the array of anchor tags and if the
  * current URL directory matches the nav anchor, it's the active link.
  */
 function activeMenuPage() {
-  let nav = document.getElementById('nav'),
-      anchor = nav.getElementsByTagName('a'),
-      current = window.location.protocol + '//' + window.location.host + window.location.pathname;
+  let nav = document.getElementById('nav')
+  let anchor = nav.getElementsByTagName('a')
+  let current = window.location.protocol + '//' + window.location.host + window.location.pathname;
   for (var i = 0; i < anchor.length; i++) {
-    if(anchor[i].href == current) {
-        anchor[i].className = "active";
+    if (anchor[i].href == current) {
+      anchor[i].className = 'active';
     }
   }
 }
@@ -100,7 +99,7 @@ function sliderSetup() {
 /**
  * slideImage
  * @description Slide to previous or next catalogue object image in a loop.
- * Supports any number of figures per object, and any number of obejects
+ * Supports any number of figures per object, and any number of objects
  * per page.
  */
 window.slideImage = (direction) => {
@@ -239,7 +238,6 @@ function scrollToHash() {
   } else {
     $scroller.scrollTop(0)
   }
-}
 
 /**
  * @description
