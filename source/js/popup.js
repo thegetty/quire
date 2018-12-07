@@ -52,22 +52,34 @@ export default function (gallerySelector) {
     }
   };
 
+  const eventFire = (el, etype) => {
+    if (el.fireEvent) {
+      el.fireEvent('on' + etype);
+    } else {
+      var evObj = document.createEvent('Events');
+      evObj.initEvent(etype, true, false);
+      el.dispatchEvent(evObj);
+    }
+  };
+
+  
   const updateViewSlidesLink = () => {
+    const link = $(`.quire-figure--group`).find(`a:first`).attr(`href`);
     const items = [...document.querySelectorAll(`.quire-figure--group`)];
     // const child =
     items.filter((item) => {
-      console.log(item.children[0]);
-      // return [...item.children][0].src !== undefined && [...item.children][0].src.indexOf(`soundcloud`) ? [...item.children][0] : ``;
+      console.log(item);
+      return [$(item).find(`a:first`).attr(`href`), $(item).find('.viewSlides')]
     }).map((item) => {
-      // let iframeElementID = [...item.children][0].id;
-      // let widget = SC.Widget(iframeElementID);
-      // return widget;
+      console.log(item);
+      return [$(item).find(`a:first`).attr(`href`), $(item).find('.viewSlides'), $(item).find(`a:first`).attr(`class`), $(item).find(`a:first`).attr(`title`)]
     }).forEach((item) => {
-      // return item.pause();
+      console.log(item);
+      return $(item[1]).attr('href', item[0]).attr(`class`, item[2]).attr(`title`, item[3])
     });
   };
 
-  updateViewSlidesLink();
+  // updateViewSlidesLink();
 
   $(gallerySelector).magnificPopup({
     delegate: 'a.popup',
@@ -101,38 +113,38 @@ export default function (gallerySelector) {
         if (item.el[0].getAttribute('data-type') === 'video') {
           // eslint-disable-next-line no-unused-expressions
           item.type = 'iframe',
-          item.iframe = {
-            patterns: {
-              youtube: {
-                index: 'youtube.com/', // String that detects type of video (in this case YouTube). Simply via url.indexOf(index).
+            item.iframe = {
+              patterns: {
+                youtube: {
+                  index: 'youtube.com/', // String that detects type of video (in this case YouTube). Simply via url.indexOf(index).
 
-                id: 'v=', // String that splits URL in a two parts, second part should be %id%
-                // Or null - full URL will be returned
-                // Or a function that should return %id%, for example:
-                // id: function(url) { return 'parsed id'; }
-                src: '//www.youtube.com/embed/%id%?autoplay=1' // URL that will be set as a source for iframe.
-              },
-              vimeo: {
-                index: 'vimeo.com/',
-                id: '/',
-                src: '//player.vimeo.com/video/%id%?autoplay=1'
-              },
-              gmaps: {
-                index: '//maps.google.',
-                src: '%id%&output=embed'
+                  id: 'v=', // String that splits URL in a two parts, second part should be %id%
+                  // Or null - full URL will be returned
+                  // Or a function that should return %id%, for example:
+                  // id: function(url) { return 'parsed id'; }
+                  src: '//www.youtube.com/embed/%id%?autoplay=1' // URL that will be set as a source for iframe.
+                },
+                vimeo: {
+                  index: 'vimeo.com/',
+                  id: '/',
+                  src: '//player.vimeo.com/video/%id%?autoplay=1'
+                },
+                gmaps: {
+                  index: '//maps.google.',
+                  src: '%id%&output=embed'
+                }
               }
-            }
-          };
+            };
         } else if (item.el[0].getAttribute('data-type') === 'inline') {
           item.type = 'inline';
         } else {
           // eslint-disable-next-line no-unused-expressions
           item.type = 'image',
-          item.tLoading = 'Loading image #%curr%...',
-          item.mainClass = 'mfp-img-mobile',
-          item.image = {
-            tError: '<a href="%url%">The image #%curr%</a> could not be loaded.'
-          };
+            item.tLoading = 'Loading image #%curr%...',
+            item.mainClass = 'mfp-img-mobile',
+            item.image = {
+              tError: '<a href="%url%">The image #%curr%</a> could not be loaded.'
+            };
         }
       },
       change: function () {
