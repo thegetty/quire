@@ -2185,8 +2185,8 @@ a.box:active {
   @media screen and (min-width: 700px) {
     .container {
       margin: 0 auto;
-      max-width: 636px;
-      width: 636px; }
+      max-width: 720px;
+      width: 720px; }
       .container.is-fluid {
         margin-left: 64px;
         margin-right: 64px;
