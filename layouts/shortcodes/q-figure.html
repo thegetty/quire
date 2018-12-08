@@ -311,8 +311,11 @@ render the figure from matching values found ther
     {{ end }}
 
     {{ if eq $.Site.Params.popup true }}
-      {{ if or (eq .media_type "vimeo") (eq .media_type "youtube") (eq .media_type "image")}}
-    <span class="quire-figure__modal"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge image</span>
+      {{ if or (eq .media_type "vimeo") (eq .media_type "youtube") }}
+    <span class="quire-figure__modal"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge Video</span>
+      {{ end }}
+      {{ if eq .media_type "image" }}
+      <span class="quire-figure__modal"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge Image</span>
       {{ end }}
     {{ end }}
     

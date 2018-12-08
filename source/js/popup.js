@@ -58,28 +58,27 @@ export default function (gallerySelector) {
     } else {
       var evObj = document.createEvent('Events');
       evObj.initEvent(etype, true, false);
-      el.dispatchEvent(evObj);
+      // el.dispatchEvent(evObj);
     }
   };
 
-  
   const updateViewSlidesLink = () => {
     const link = $(`.quire-figure--group`).find(`a:first`).attr(`href`);
     const items = [...document.querySelectorAll(`.quire-figure--group`)];
     // const child =
     items.filter((item) => {
-      console.log(item);
-      return [$(item).find(`a:first`).attr(`href`), $(item).find('.viewSlides')]
+      return item;
     }).map((item) => {
-      console.log(item);
-      return [$(item).find(`a:first`).attr(`href`), $(item).find('.viewSlides'), $(item).find(`a:first`).attr(`class`), $(item).find(`a:first`).attr(`title`)]
+      return [$(item).find('.viewSlides'), $(item).find(`a:first`)];
     }).forEach((item) => {
-      console.log(item);
-      return $(item[1]).attr('href', item[0]).attr(`class`, item[2]).attr(`title`, item[3])
+      $(item[0]).on('click', e => {
+        e.preventDefault();
+        $(item[1]).click();
+      });
     });
   };
 
-  // updateViewSlidesLink();
+  updateViewSlidesLink();
 
   $(gallerySelector).magnificPopup({
     delegate: 'a.popup',
@@ -113,38 +112,38 @@ export default function (gallerySelector) {
         if (item.el[0].getAttribute('data-type') === 'video') {
           // eslint-disable-next-line no-unused-expressions
           item.type = 'iframe',
-            item.iframe = {
-              patterns: {
-                youtube: {
-                  index: 'youtube.com/', // String that detects type of video (in this case YouTube). Simply via url.indexOf(index).
+          item.iframe = {
+            patterns: {
+              youtube: {
+                index: 'youtube.com/', // String that detects type of video (in this case YouTube). Simply via url.indexOf(index).
 
-                  id: 'v=', // String that splits URL in a two parts, second part should be %id%
-                  // Or null - full URL will be returned
-                  // Or a function that should return %id%, for example:
-                  // id: function(url) { return 'parsed id'; }
-                  src: '//www.youtube.com/embed/%id%?autoplay=1' // URL that will be set as a source for iframe.
-                },
-                vimeo: {
-                  index: 'vimeo.com/',
-                  id: '/',
-                  src: '//player.vimeo.com/video/%id%?autoplay=1'
-                },
-                gmaps: {
-                  index: '//maps.google.',
-                  src: '%id%&output=embed'
-                }
+                id: 'v=', // String that splits URL in a two parts, second part should be %id%
+                // Or null - full URL will be returned
+                // Or a function that should return %id%, for example:
+                // id: function(url) { return 'parsed id'; }
+                src: '//www.youtube.com/embed/%id%?autoplay=1' // URL that will be set as a source for iframe.
+              },
+              vimeo: {
+                index: 'vimeo.com/',
+                id: '/',
+                src: '//player.vimeo.com/video/%id%?autoplay=1'
+              },
+              gmaps: {
+                index: '//maps.google.',
+                src: '%id%&output=embed'
               }
-            };
+            }
+          };
         } else if (item.el[0].getAttribute('data-type') === 'inline') {
           item.type = 'inline';
         } else {
           // eslint-disable-next-line no-unused-expressions
           item.type = 'image',
-            item.tLoading = 'Loading image #%curr%...',
-            item.mainClass = 'mfp-img-mobile',
-            item.image = {
-              tError: '<a href="%url%">The image #%curr%</a> could not be loaded.'
-            };
+          item.tLoading = 'Loading image #%curr%...',
+          item.mainClass = 'mfp-img-mobile',
+          item.image = {
+            tError: '<a href="%url%">The image #%curr%</a> could not be loaded.'
+          };
         }
       },
       change: function () {

@@ -1,14 +1,14 @@
-const path = require('path')
-const webpack = require('webpack')
-const MiniCssExtractPlugin = require("mini-css-extract-plugin")
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
-const autoprefixer = require("autoprefixer")
+const path = require('path');
+const webpack = require('webpack');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const autoprefixer = require('autoprefixer');
 
 const PATHS = {
   source: path.join(__dirname, '../source'),
   build: path.join(__dirname, '../static')
-}
+};
 
 module.exports = {
   mode: 'production',
@@ -24,7 +24,7 @@ module.exports = {
       test: /\.js$/,
       exclude: /node_modules/,
       use: {
-        loader: "babel-loader",
+        loader: 'babel-loader',
         options: {
           presets: ['@babel/preset-env']
         }
@@ -35,31 +35,31 @@ module.exports = {
       exclude: [/node_modules/, path.join(PATHS.build, 'css', 'epub.scss')],
       use: ['style-loader', MiniCssExtractPlugin.loader, 'css-loader',
         {
-          loader: "postcss-loader",
+          loader: 'postcss-loader',
           options: {
             autoprefixer: {
-              browsers: ["last 2 versions"]
+              browsers: ['last 2 versions']
             },
             plugins: () => [
               autoprefixer
             ]
-          },
-        },'sass-loader']
+          }
+        }, 'sass-loader']
     },
     {
       test: /\.css$/,
       use: ['style-loader', MiniCssExtractPlugin.loader, 'css-loader',
         {
-          loader: "postcss-loader",
+          loader: 'postcss-loader',
           options: {
             autoprefixer: {
-              browsers: ["last 2 versions"]
+              browsers: ['last 2 versions']
             },
             plugins: () => [
               autoprefixer
             ]
-          },
-        },'sass-loader']
+          }
+        }, 'sass-loader']
     },
     {
       test: /\.(jpg|png|gif|svg)$/,
@@ -73,7 +73,6 @@ module.exports = {
     },
     {
       test: /\.(woff|woff2|eot|ttf|otf)$/,
-      exclude: /node_modules/,
       use: [{
         loader: 'file-loader',
         options: {
@@ -111,7 +110,7 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: "css/application.css",
+      filename: 'css/application.css'
     }),
     new webpack.ProvidePlugin({
       $: 'jquery',
@@ -120,3 +119,4 @@ module.exports = {
     })
   ]
 }
+;
