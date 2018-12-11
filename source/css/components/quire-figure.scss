@@ -26,18 +26,45 @@
   .q-figure__wrapper {
     a {
       border: none;
+      display: block;
+      position: relative;
       &:hover {
         background-color: transparent;
+        > span.fig {
+          background-color: #B02E2E;
+          transition: background-color .35s;
+        }
+        > img {
+          -webkit-transition: -webkit-box-shadow .35s;
+          transition: box-shadow .35s;
+          -webkit-box-shadow: 0px 0px 6px 0px $black-semi-transparent;
+          -moz-box-shadow: 0px 0px 6px 0px $black-semi-transparent;
+          box-shadow: 0px 0px 6px 0px $black-semi-transparent;
+        }
       }
-    }
-    img {
-      -webkit-transition: -webkit-box-shadow .35s;
-      transition: box-shadow .35s;
-       &:hover {
-        background-color: transparent;
-        -webkit-box-shadow: 0px 0px 6px 0px $black-semi-transparent;
-        -moz-box-shadow: 0px 0px 6px 0px $black-semi-transparent;
-        box-shadow: 0px 0px 6px 0px $black-semi-transparent;
+      span.fig {
+        font-size: .75em; /** approx 12px **/
+        background: $black-semi-transparent; /** sets transparent background without affecting text color **/
+        position: absolute;
+        padding: 0 9px 0 3px;
+        left: 0;
+        top: 0;
+        color: #fff;
+        height: 27px;
+        max-height: 27px;
+        strong {
+          min-height: 24px;
+          vertical-align: super;
+        }
+      }
+      span.fig-false {
+        padding: 0;
+        height: 24px;
+        max-height: 24px;
+      }
+      img {
+        object-fit: cover;
+        width: 100%;
       }
     }
   }

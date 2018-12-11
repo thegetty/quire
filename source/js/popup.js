@@ -52,20 +52,8 @@ export default function (gallerySelector) {
     }
   };
 
-  const eventFire = (el, etype) => {
-    if (el.fireEvent) {
-      el.fireEvent('on' + etype);
-    } else {
-      var evObj = document.createEvent('Events');
-      evObj.initEvent(etype, true, false);
-      // el.dispatchEvent(evObj);
-    }
-  };
-
   const updateViewSlidesLink = () => {
-    const link = $(`.quire-figure--group`).find(`a:first`).attr(`href`);
-    const items = [...document.querySelectorAll(`.quire-figure--group`)];
-    // const child =
+    let items = [...document.querySelectorAll(`.quire-figure--group`)];
     items.filter((item) => {
       return item;
     }).map((item) => {
@@ -78,6 +66,7 @@ export default function (gallerySelector) {
     });
   };
 
+  // add link to first slide when view as slides is present
   updateViewSlidesLink();
 
   $(gallerySelector).magnificPopup({

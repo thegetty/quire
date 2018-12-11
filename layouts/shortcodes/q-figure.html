@@ -41,7 +41,9 @@ document and render only the values given in the shortcode
       {{ with $.Get "caption" }}{{ . | markdownify }}{{ end }}
       {{ with $.Get "credit" }}<span class="quire-figure__credit">{{ . | markdownify }}</span>{{ end }}
       {{ if or ($.Get "media_type" "vimeo") ($.Get "media_type" "youtube") ($.Get "media_type" "image")}}
+        {{ if eq $.Site.Params.figureEnlargeType "outside" }}
         <span class="quire-figure__modal"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge image</span>
+        {{ end }}
       {{ end }}
     </figcaption>
   {{ end }}
@@ -60,7 +62,9 @@ document and render only the values given in the shortcode
     {{ with $.Get "caption" }}{{ . | markdownify }}{{ end }}
     {{ with $.Get "credit" }}<span class="quire-figure__credit">{{ . | markdownify }}</span>{{ end }}
     {{ if or ($.Get "media_type" "vimeo") ($.Get "media_type" "youtube") ($.Get "media_type" "image")}}
-      <span class="quire-figure__modal"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge image</span>
+      {{ if eq $.Site.Params.figureEnlargeType "outside" }}
+        <span class="quire-figure__modal"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge image</span>
+      {{ end }}
     {{ end }}
   </figcaption>
   {{ end }}
@@ -95,7 +99,6 @@ render the figure from matching values found ther
   {{ else }}
 
   {{ if eq $.Site.Params.popup true }}
-
   {{ if eq .media_type "youtube" }}
   <div class="q-figure__wrapper">
       <a href='https://www.youtube.com/watch?v={{ .media_id }}'
@@ -130,7 +133,27 @@ render the figure from matching values found ther
       frameborder="no" 
       allow="autoplay" 
       src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe>   
-      <img {{ if or (eq $.Site.Params.pdf true) (eq $.Site.Params.epub true) }} {{ else }} class="visually-hidden" {{ end }} src="/img/notes.png" />
+
+    <div class="multimedia audio {{ if eq $.Site.Params.pdf true }} {{ else }} visually-hidden {{ end }}">
+    <div class="placeholder">
+      <i class="material-icons md-24">headset</i>
+      <div class="time-length">
+        1:36
+      </div>
+    </div>
+    <div class="multimedia-metadata">
+      <h5 class="header">Media Placeholder</h5>
+      <p class="caption">
+    {{ if $.Get "caption" }}
+    {{ $.Get "caption" | markdownify }}
+    {{ else if .caption }}
+    {{ .caption | markdownify }}
+    {{ end }}
+      <br>
+      <a href="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}" alt="" title="" target="_blank" ><em>https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}</em></a></p>
+    </div>
+  </div>
+      
   {{ else if eq .media_type "soundcloud" }}   
       <iframe {{ if or (eq $.Site.Params.pdf true) (eq $.Site.Params.epub true) }} class="visually-hidden" {{ end }} id='{{ .id }}'
       width="100%" 
@@ -139,7 +162,27 @@ render the figure from matching values found ther
       frameborder="no" 
       allow="autoplay" 
       src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe>  
-      <img {{ if or (eq $.Site.Params.pdf true) (eq $.Site.Params.epub true) }} {{ else }} class="visually-hidden" {{ end }} src="/img/notes.png" />
+
+  <div class="multimedia audio {{ if eq $.Site.Params.pdf true }} {{ else }} visually-hidden {{ end }}">
+    <div class="placeholder">
+      <i class="material-icons md-24">headset</i>
+      <div class="time-length">
+        1:36
+      </div>
+    </div>
+    <div class="multimedia-metadata">
+      <h5 class="header">Media Placeholder</h5>
+      <p class="caption">
+    {{ if $.Get "caption" }}
+    {{ $.Get "caption" | markdownify }}
+    {{ else if .caption }}
+    {{ .caption | markdownify }}
+    {{ end }}
+      <br>
+      <a href="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}" alt="" title="" target="_blank" ><em>https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}</em></a></p>
+    </div>
+  </div>
+  
   {{ else if eq .media_type "website" }}
   <iframe id='{{ .id }}'
           class='quire-figure__media'
@@ -232,25 +275,52 @@ render the figure from matching values found ther
 
   {{/* -------------------- BEGIN CAPTION BLOCK -------------------- */}}
   <figcaption class="quire-figure__caption caption">
+
     {{ if or (eq $.Site.Params.figureLabels true) (eq ($.Get "label") "true" ) }}
-    <span class="quire-figure__label">
-      {{ if $.Get "label_text" }}
-      {{ $.Get "label_text" | markdownify }}
-      {{ else if .label_text }}
-      {{ .label_text | markdownify }}
-      {{ else }}
-      {{ $.Site.Params.figureLabelsTextBefore }}{{ .id }}{{ $.Site.Params.figureLabelsTextAfter }}
+      {{ if eq $.Site.Params.popup true }}
+      {{ if or (eq .media_type "soundcloud") (eq .media_type "audio") }}
+        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}">
+          {{ if $.Get "label_text" }}
+          {{ $.Get "label_text" | markdownify }}
+          {{ else if .label_text }}
+          {{ .label_text | markdownify }}
+          {{ else }}
+          {{ $.Site.Params.figureLabelsTextBefore }}{{ .id }}{{ $.Site.Params.figureLabelsTextAfter }}
+          {{ end }}
+        </span>
+      {{ else if eq $.Site.Params.figureEnlargeType "outside" }}
+      <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}">
+        {{ if $.Get "label_text" }}
+        {{ $.Get "label_text" | markdownify }}
+        {{ else if .label_text }}
+        {{ .label_text | markdownify }}
+        {{ else }}
+        {{ $.Site.Params.figureLabelsTextBefore }}{{ .id }}{{ $.Site.Params.figureLabelsTextAfter }}
+        {{ end }}
+      </span>
       {{ end }}
-    </span>
+      {{ else }}
+      <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}">
+        {{ if $.Get "label_text" }}
+        {{ $.Get "label_text" | markdownify }}
+        {{ else if .label_text }}
+        {{ .label_text | markdownify }}
+        {{ else }}
+        {{ $.Site.Params.figureLabelsTextBefore }}{{ .id }}{{ $.Site.Params.figureLabelsTextAfter }}
+        {{ end }}
+      </span>
+      {{ end }}
     {{ end }}
 
+    {{ if eq $.Site.Params.pdf true }}<span class="media-caption">{{ end }}
     {{ if $.Get "caption" }}
     {{ $.Get "caption" | markdownify }}
     {{ else if .caption }}
     {{ .caption | markdownify }}
     {{ end }}
+    {{ if eq $.Site.Params.pdf true }}</span>{{ end }}
 
-  {{ if or (eq $.Site.Params.pdf true) (eq $.Site.Params.epub true) }}
+  {{ if eq $.Site.Params.epub true }}
 
     {{ if eq $.Site.Params.videoFigureFallbackText true }}
     {{- if eq .media_type "youtube" }}
@@ -311,11 +381,13 @@ render the figure from matching values found ther
     {{ end }}
 
     {{ if eq $.Site.Params.popup true }}
-      {{ if or (eq .media_type "vimeo") (eq .media_type "youtube") }}
-    <span class="quire-figure__modal"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge Video</span>
-      {{ end }}
-      {{ if eq .media_type "image" }}
-      <span class="quire-figure__modal"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge Image</span>
+     {{ if eq $.Site.Params.figureEnlargeType "outside" }}
+        {{ if or (eq .media_type "vimeo") (eq .media_type "youtube") }}
+        <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge Video</span>
+        {{ end }}
+        {{ if eq .media_type "image" }}
+        <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge Image</span>
+        {{ end }}
       {{ end }}
     {{ end }}
     
@@ -330,6 +402,23 @@ popup is true. popup is true by default.
 */}}
 {{ if eq $.Site.Params.popup true }}
   {{ if or (eq .media_type "vimeo") (eq .media_type "youtube") (eq .media_type "image")}}
+       {{ if eq $.Site.Params.figureEnlargeType "inside" }}
+       {{ if or (eq $.Site.Params.figureLabels true) (eq ($.Get "label") "true" ) }}
+      <span class="fig"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
+      <strong>      
+        {{ if $.Get "label_text" }}
+        {{ $.Get "label_text" | markdownify }}
+        {{ else if .label_text }}
+        {{ .label_text | markdownify }}
+        {{ else }}
+        {{ $.Site.Params.figureLabelsTextBefore }}{{ .id }}{{ $.Site.Params.figureLabelsTextAfter }}
+        {{ end }}
+      </strong>
+    </span>
+    {{ else }}
+    <span class="fig fig-false"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
+    {{ end }}
+    {{ end }}
   </a>
 </div>
   {{ end }}

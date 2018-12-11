@@ -22,25 +22,6 @@
 
 {{ $Id := now.UnixNano }}
 
-    <a 
-    href="#map-{{ $Id }}"     
-    class='inline popup'
-    data-type="leaflet" 
-    title='{{ .Get "caption" | markdownify | safeHTML }}'>
-    <img
-      class="quire-figure__image" 
-      src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
-      alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
-      {{ if .Get "caption" }} 
-        <figcaption class="quire-figure__caption">
-        {{ .Get "caption" | markdownify | safeHTML }}
-          {{ if eq $.Site.Params.popup true }}
-            <span class="quire-figure__modal"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge image</span>
-          {{ end }}
-        </figcaption> 
-      {{ end }} 
-      </a>  
-
     <figure       
       id="map-{{ $Id }}" 
       {{ if .Get "caption" }} title='{{ .Get "caption" | markdownify | safeHTML }}' {{ end }} 
@@ -54,28 +35,20 @@
         </div>
     </figure>
 
-{{ else if .Get "media_type" eq "iiif" }}
-
-{{ $Id := now.UnixNano }}
-
-    <a
-    href="#iiif-{{ $Id }}" 
+    <a 
+    href="#map-{{ $Id }}"     
     class='inline popup'
-    data-type='inline' 
-    {{ if .Get "caption" }}  title='{{ .Get "caption" | markdownify | safeHTML }}' {{ end }}>
-      <img
+    data-type="leaflet" 
+    title='{{ .Get "caption" | markdownify | safeHTML }}'>
+    <img
       class="quire-figure__image" 
       src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
       alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
-      {{ if .Get "caption" }} 
-        <figcaption class="quire-figure__caption">
-        {{ .Get "caption" | markdownify | safeHTML }}
-          {{ if eq $.Site.Params.popup true }}
-            <span class="quire-figure__modal"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge image</span>
-          {{ end }}
-        </figcaption> 
-      {{ end }} 
-    </a>
+      
+
+{{ else if .Get "media_type" eq "iiif" }}
+
+{{ $Id := now.UnixNano }}
 
       <figure    
       id="iiif-{{ $Id }}" 
@@ -91,12 +64,8 @@
         </div>
       </figure>
 
-{{ else }}
-
-{{ $Id := now.UnixNano }}
-
     <a
-    href="#deepzoom-{{ $Id }}" 
+    href="#iiif-{{ $Id }}" 
     class='inline popup'
     data-type='inline' 
     {{ if .Get "caption" }}  title='{{ .Get "caption" | markdownify | safeHTML }}' {{ end }}>
@@ -104,15 +73,10 @@
       class="quire-figure__image" 
       src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
       alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
-      {{ if .Get "caption" }} 
-        <figcaption class="quire-figure__caption">
-        {{ .Get "caption" | markdownify | safeHTML }}
-          {{ if eq $.Site.Params.popup true }}
-            <span class="quire-figure__modal"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge image</span>
-          {{ end }}
-        </figcaption> 
-      {{ end }} 
-    </a>
+
+{{ else }}
+
+{{ $Id := now.UnixNano }}
 
   <figure   
   id="deepzoom-{{ $Id }}" 
@@ -129,8 +93,69 @@
     </div>
   </figure>
 
+    <a
+    href="#deepzoom-{{ $Id }}" 
+    class='inline popup'
+    data-type='inline' 
+    {{ if .Get "caption" }}  title='{{ .Get "caption" | markdownify | safeHTML }}' {{ end }}>
+      <img
+      class="quire-figure__image" 
+      src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
+      alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
+
 {{ end }}
 
+  <figcaption class="quire-figure__caption">
+
+    {{ if or (eq $.Site.Params.figureLabels true) (eq ($.Get "label") "true" ) }}
+        {{ if eq $.Site.Params.figureEnlargeType "outside" }}
+        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}">
+          {{ if $.Get "label_text" }}
+          {{ $.Get "label_text" | markdownify }}
+          {{ else if .label_text }}
+          {{ .label_text | markdownify }}
+          {{ else }}
+          {{ $.Site.Params.figureLabelsTextBefore }}{{ .id }}{{ $.Site.Params.figureLabelsTextAfter }}
+          {{ end }}
+        </span>
+      {{ end }}
+    {{ end }}
+
+      {{ if eq $.Site.Params.pdf true }}<span class="media-caption">{{ end }}
+      {{ if $.Get "caption" }}
+      {{ $.Get "caption" | markdownify }}
+      {{ else if .caption }}
+      {{ .caption | markdownify }}
+      {{ end }}
+      {{ if eq $.Site.Params.pdf true }}</span>{{ end }}
+
+    {{ if eq $.Site.Params.popup true }}
+      {{ if eq $.Site.Params.figureEnlargeType "outside" }}
+        <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge image</span>
+      {{ end }}
+    {{ end }}
+
+  </figcaption> 
+
+  {{ if eq $.Site.Params.figureEnlargeType "inside" }}
+    {{ if or (eq $.Site.Params.figureLabels true) (eq ($.Get "label") "true" ) }}
+      <span class="fig"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
+      <strong>      
+        {{ if $.Get "label_text" }}
+        {{ $.Get "label_text" | markdownify }}
+        {{ else if .label_text }}
+        {{ .label_text | markdownify }}
+        {{ else }}
+        {{ $.Site.Params.figureLabelsTextBefore }}{{ .id }}{{ $.Site.Params.figureLabelsTextAfter }}
+        {{ end }}
+      </strong>
+    </span>
+    {{ else }}
+    <span class="fig fig-false"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
+  {{ end }}
+{{ end }}
+
+</a>
 </div>
 
 {{ else }}
@@ -169,14 +194,29 @@
     
 {{ end }}
 
-{{ if .Get "caption" }} 
   <figcaption class="quire-figure__caption">
-  {{ .Get "caption" | markdownify | safeHTML }}
-    {{ if eq $.Site.Params.popup true }}
-      <span class="quire-figure__modal"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge image</span>
+
+    {{ if or (eq $.Site.Params.figureLabels true) (eq ($.Get "label") "true" ) }}
+        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}">
+          {{ if $.Get "label_text" }}
+          {{ $.Get "label_text" | markdownify }}
+          {{ else if .label_text }}
+          {{ .label_text | markdownify }}
+          {{ else }}
+          {{ $.Site.Params.figureLabelsTextBefore }}{{ .id }}{{ $.Site.Params.figureLabelsTextAfter }}
+          {{ end }}
+        </span>
     {{ end }}
+
+      {{ if eq $.Site.Params.pdf true }}<span class="media-caption">{{ end }}
+      {{ if $.Get "caption" }}
+      {{ $.Get "caption" | markdownify }}
+      {{ else if .caption }}
+      {{ .caption | markdownify }}
+      {{ end }}
+      {{ if eq $.Site.Params.pdf true }}</span>{{ end }}
+
   </figcaption> 
-{{ end }} 
 
 {{ end }}
 
@@ -199,24 +239,6 @@
 
 {{ $Id := now.UnixNano }}
 
-      <a 
-        href="#map-{{ $Id }}" 
-        class='inline popup'
-        data-type="inline"
-        {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
-        <img
-          class="quire-figure__image" 
-          src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
-          {{ if .caption }} 
-            <figcaption class="quire-figure__caption">
-            {{ .caption | markdownify | safeHTML }}
-              {{ if eq $.Site.Params.popup true }}
-                <span class="quire-figure__modal"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge image</span>
-              {{ end }}
-            </figcaption> 
-          {{ end }}
-      </a>
-
       <figure 
         id="map-{{ $Id }}" 
         {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }} 
@@ -230,27 +252,18 @@
         </div>
       </figure>
 
+      <a 
+        href="#map-{{ $Id }}" 
+        class='inline popup'
+        data-type="inline"
+        {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
+        <img
+          class="quire-figure__image" 
+          src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
+
 {{ else if eq .media_type "iiif" }}
 
 {{ $Id := now.UnixNano }}
-
-    <a
-    class='inline popup'
-    href="#iiif-{{ $Id }}"
-    data-type='inline'
-    {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
-      <img
-      class="quire-figure__image" 
-      src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
-      {{ if .caption }} 
-        <figcaption class="quire-figure__caption">
-        {{ .caption | markdownify | safeHTML }}
-          {{ if eq $.Site.Params.popup true }}
-            <span class="quire-figure__modal"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge image</span>
-          {{ end }}
-        </figcaption> 
-      {{ end }}
-    </a>
 
     <figure 
     id="iiif-{{ $Id }}" 
@@ -267,29 +280,20 @@
       </div>
     </figure>
 
-{{ else }}
-
-{{ $Id := now.UnixNano }}
-
     <a
-    href="#deepzoom-{{ $Id }}"
     class='inline popup'
+    href="#iiif-{{ $Id }}"
     data-type='inline'
     {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
       <img
       class="quire-figure__image" 
       src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
-      {{ if .caption }} 
-        <figcaption class="quire-figure__caption">
-        {{ .caption | markdownify | safeHTML }}
-          {{ if eq $.Site.Params.popup true }}
-            <span class="quire-figure__modal"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge image</span>
-          {{ end }}
-        </figcaption> 
-      {{ end }}
-    </a>
 
-      <figure 
+{{ else }}
+
+{{ $Id := now.UnixNano }}
+
+    <figure 
       id="deepzoom-{{ $Id }}"
       {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}  
       class="quire-figure leaflet-outer-wrapper mfp-hide">
@@ -301,10 +305,70 @@
         aria-label="Zoomable image" 
         data-image="{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}">
         </div>
-      </figure>
+    </figure>
+
+    <a
+    href="#deepzoom-{{ $Id }}"
+    class='inline popup'
+    data-type='inline'
+    {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
+      <img
+      class="quire-figure__image" 
+      src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
 
 {{ end }}
 
+  <figcaption class="quire-figure__caption">
+
+    {{ if or (eq $.Site.Params.figureLabels true) (eq ($.Get "label") "true" ) }}
+        {{ if eq $.Site.Params.figureEnlargeType "outside" }}
+        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}">
+          {{ if $.Get "label_text" }}
+          {{ $.Get "label_text" | markdownify }}
+          {{ else if .label_text }}
+          {{ .label_text | markdownify }}
+          {{ else }}
+          {{ $.Site.Params.figureLabelsTextBefore }}{{ .id }}{{ $.Site.Params.figureLabelsTextAfter }}
+          {{ end }}
+        </span>
+      {{ end }}
+    {{ end }}
+
+      {{ if eq $.Site.Params.pdf true }}<span class="media-caption">{{ end }}
+      {{ if $.Get "caption" }}
+      {{ $.Get "caption" | markdownify }}
+      {{ else if .caption }}
+      {{ .caption | markdownify }}
+      {{ end }}
+      {{ if eq $.Site.Params.pdf true }}</span>{{ end }}
+
+    {{ if eq $.Site.Params.popup true }}
+      {{ if eq $.Site.Params.figureEnlargeType "outside" }}
+        <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge image</span>
+      {{ end }}
+    {{ end }}
+
+  </figcaption> 
+
+  {{ if eq $.Site.Params.figureEnlargeType "inside" }}
+    {{ if or (eq $.Site.Params.figureLabels true) (eq ($.Get "label") "true" ) }}
+      <span class="fig"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
+      <strong>      
+        {{ if $.Get "label_text" }}
+        {{ $.Get "label_text" | markdownify }}
+        {{ else if .label_text }}
+        {{ .label_text | markdownify }}
+        {{ else }}
+        {{ $.Site.Params.figureLabelsTextBefore }}{{ .id }}{{ $.Site.Params.figureLabelsTextAfter }}
+        {{ end }}
+      </strong>
+    </span>
+    {{ else }}
+    <span class="fig fig-false"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
+  {{ end }}
+{{ end }}
+
+</a>
 </div>
 
 {{ else }}
@@ -345,14 +409,29 @@
 
 {{ end }}
 
-{{ if .caption }} 
   <figcaption class="quire-figure__caption">
-  {{ .caption | markdownify | safeHTML }}
-    {{ if eq $.Site.Params.popup true }}
-      <span class="quire-figure__modal"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge image</span>
+
+    {{ if or (eq $.Site.Params.figureLabels true) (eq ($.Get "label") "true" ) }}
+        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}">
+          {{ if $.Get "label_text" }}
+          {{ $.Get "label_text" | markdownify }}
+          {{ else if .label_text }}
+          {{ .label_text | markdownify }}
+          {{ else }}
+          {{ $.Site.Params.figureLabelsTextBefore }}{{ .id }}{{ $.Site.Params.figureLabelsTextAfter }}
+          {{ end }}
+        </span>
     {{ end }}
+
+      {{ if eq $.Site.Params.pdf true }}<span class="media-caption">{{ end }}
+      {{ if $.Get "caption" }}
+      {{ $.Get "caption" | markdownify }}
+      {{ else if .caption }}
+      {{ .caption | markdownify }}
+      {{ end }}
+      {{ if eq $.Site.Params.pdf true }}</span>{{ end }}
+
   </figcaption> 
-{{ end }}
 
 {{ end }}
 
