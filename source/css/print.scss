@@ -346,3 +346,14 @@ div.multimedia {
     bottom: 4px;
     width: 100%;
 }
+
+.fig-print {
+    font-size: .75em;
+    background: rgba(0, 0, 0, 0.75);
+    position: absolute;
+    padding: 0 9px 0 3px;
+    left: 0;
+    top: 0;
+    color: #fff;
+    display: block;
+}

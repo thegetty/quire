@@ -8,7 +8,7 @@
 
 {{/* If copyright info is defined, show information about it here */}}
 {{- if .Site.Data.publication.copyright -}}
-  <p>{{ .Site.Data.publication.copyright }}.</p>
+<p>{{ .Site.Data.publication.copyright | markdownify }}</p>
   {{- end -}}
 
   {{/* If a license is defined, show information about it here */}}

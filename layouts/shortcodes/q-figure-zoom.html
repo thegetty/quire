@@ -139,7 +139,11 @@
 
   {{ if eq $.Site.Params.figureEnlargeType "inside" }}
     {{ if or (eq $.Site.Params.figureLabels true) (eq ($.Get "label") "true" ) }}
-      <span class="fig"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
+      {{ if eq $.Site.Params.pdf true }} 
+        <span class="fig-print"> 
+      {{ else }} 
+        <span class="fig"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
+      {{ end }}
       <strong>      
         {{ if $.Get "label_text" }}
         {{ $.Get "label_text" | markdownify }}
@@ -151,7 +155,7 @@
       </strong>
     </span>
     {{ else }}
-    <span class="fig fig-false"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
+    {{ if ne $.Site.Params.pdf true }}<span class="fig fig-false"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>{{ end }}
   {{ end }}
 {{ end }}
 
@@ -352,7 +356,11 @@
 
   {{ if eq $.Site.Params.figureEnlargeType "inside" }}
     {{ if or (eq $.Site.Params.figureLabels true) (eq ($.Get "label") "true" ) }}
-      <span class="fig"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
+      {{ if eq $.Site.Params.pdf true }} 
+        <span class="fig-print"> 
+      {{ else }} 
+        <span class="fig"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> dfgdfgs
+      {{ end }}
       <strong>      
         {{ if $.Get "label_text" }}
         {{ $.Get "label_text" | markdownify }}
@@ -364,7 +372,7 @@
       </strong>
     </span>
     {{ else }}
-    <span class="fig fig-false"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
+    {{ if ne $.Site.Params.pdf true }}<span class="fig fig-false"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>{{ end }}
   {{ end }}
 {{ end }}
 

@@ -28,6 +28,7 @@ document and render only the values given in the shortcode
 */}}
 
 {{ if eq $.Site.Params.popup true }}
+
 <figure class='popup-true quire-figure {{ with .Get "class" }}{{ . }}{{ end }}'>
   <div class="q-figure__wrapper">
     <a class="image popup" href='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'>
@@ -107,10 +108,11 @@ render the figure from matching values found ther
          {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}
          data-video="<div class='wrapper'><div class='video-wrapper'><iframe id='{{ .id }}' class='quire-figure__media pswp__video' src='https://www.youtube-nocookie.com/embed/{{ .media_id }}?rel=0&amp;showinfo=0' frameborder='0' allowfullscreen></iframe></div></div>">
       {{ if .src }}
-      <img class='quire-figure__image'
+      <img class='quire-figure__image {{ if or (eq $.Site.Params.pdf true) (eq $.Site.Params.epub true) }} visually-hidden {{ end }}'
            src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' 
            alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}'/>
       {{ end }}
+
 
   {{ else if eq .media_type "vimeo" }}
   <div class="q-figure__wrapper">
@@ -120,7 +122,7 @@ render the figure from matching values found ther
          {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}
          data-video="<div class='wrapper'><div class='video-wrapper'><iframe id='{{ .id }}' class='quire-figure__media pswp__video' src='https://player.vimeo.com/video/{{ .media_id }}' frameborder='0' webkitallowfullscreen mozallowfullscreen allowfullscreen>></iframe></div></div>">
          {{ if .src }}
-         <img class='quire-figure__image'
+         <img class='quire-figure__image {{ if or (eq $.Site.Params.pdf true) (eq $.Site.Params.epub true) }} visually-hidden {{ end }}'
               src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' 
               alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}'/>
          {{ end }}
@@ -133,26 +135,6 @@ render the figure from matching values found ther
       frameborder="no" 
       allow="autoplay" 
       src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe>   
-
-    <div class="multimedia audio {{ if eq $.Site.Params.pdf true }} {{ else }} visually-hidden {{ end }}">
-    <div class="placeholder">
-      <i class="material-icons md-24">headset</i>
-      <div class="time-length">
-        1:36
-      </div>
-    </div>
-    <div class="multimedia-metadata">
-      <h5 class="header">Media Placeholder</h5>
-      <p class="caption">
-    {{ if $.Get "caption" }}
-    {{ $.Get "caption" | markdownify }}
-    {{ else if .caption }}
-    {{ .caption | markdownify }}
-    {{ end }}
-      <br>
-      <a href="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}" alt="" title="" target="_blank" ><em>https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}</em></a></p>
-    </div>
-  </div>
       
   {{ else if eq .media_type "soundcloud" }}   
       <iframe {{ if or (eq $.Site.Params.pdf true) (eq $.Site.Params.epub true) }} class="visually-hidden" {{ end }} id='{{ .id }}'
@@ -162,26 +144,6 @@ render the figure from matching values found ther
       frameborder="no" 
       allow="autoplay" 
       src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe>  
-
-  <div class="multimedia audio {{ if eq $.Site.Params.pdf true }} {{ else }} visually-hidden {{ end }}">
-    <div class="placeholder">
-      <i class="material-icons md-24">headset</i>
-      <div class="time-length">
-        1:36
-      </div>
-    </div>
-    <div class="multimedia-metadata">
-      <h5 class="header">Media Placeholder</h5>
-      <p class="caption">
-    {{ if $.Get "caption" }}
-    {{ $.Get "caption" | markdownify }}
-    {{ else if .caption }}
-    {{ .caption | markdownify }}
-    {{ end }}
-      <br>
-      <a href="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}" alt="" title="" target="_blank" ><em>https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}</em></a></p>
-    </div>
-  </div>
   
   {{ else if eq .media_type "website" }}
   <iframe id='{{ .id }}'
@@ -272,6 +234,104 @@ render the figure from matching values found ther
 
   {{ end }}
   {{/* -------------------- END IMAGE BLOCK -------------------- */}}
+
+    {{ if eq $.Site.Params.pdf true }}
+    {{ if eq $.Site.Params.videoFigureFallbackText true }}
+    {{- if eq .media_type "youtube" }}
+  <div class="multimedia video">
+    <div class="placeholder">
+      <i class="material-icons md-24">videocam</i>
+      <div class="time-length">
+        1:36
+      </div>
+    </div>
+    <div class="multimedia-metadata">
+    <h5 class="header">
+    {{ if $.Get "title" }}
+    {{ $.Get "title" | markdownify }}
+    {{ else if .title }}
+    {{ .title | markdownify }}
+    {{ end }}
+    </h5>
+      <p class="caption">
+      <a href='https://youtu.be/{{ .media_id }}' alt="" title="" target="_blank" ><em>https://youtu.be/{{ .media_id }}</em></a></p>
+    </div>
+  </div>
+    {{- end -}}
+    {{- if eq .media_type "vimeo" }}
+  <div class="multimedia video">
+    <div class="placeholder">
+      <i class="material-icons md-24">videocam</i>
+      <div class="time-length">
+        1:36
+      </div>
+    </div>
+    <div class="multimedia-metadata">
+    <h5 class="header">
+    {{ if $.Get "title" }}
+    {{ $.Get "title" | markdownify }}
+    {{ else if .title }}
+    {{ .title | markdownify }}
+    {{ end }}
+    </h5>
+      <p class="caption">
+      <a href='https://vimeo.com/{{ .media_id }}' alt="" title="" target="_blank" ><em>https://vimeo.com/{{ .media_id }}</em></a></p>
+    </div>
+  </div>
+    {{- end -}}
+    {{ end }}
+    {{ if eq $.Site.Params.audioFigureFallbackText true }}
+    {{- if eq .media_type "audio" }}
+    <div class="multimedia audio">
+    <div class="placeholder">
+      <i class="material-icons md-24">headset</i>
+      <div class="time-length">
+        1:36
+      </div>
+    </div>
+    <div class="multimedia-metadata">
+    <h5 class="header">
+    {{ if $.Get "title" }}
+    {{ $.Get "title" | markdownify }}
+    {{ else if .title }}
+    {{ .title | markdownify }}
+    {{ end }}
+    </h5>
+      <p class="caption">
+      <a href="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}" alt="" title="" target="_blank" ><em>https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}</em></a></p>
+    </div>
+  </div>
+    {{- end -}}
+    {{- if eq .media_type "soundcloud" }}
+  <div class="multimedia audio">
+    <div class="placeholder">
+      <i class="material-icons md-24">headset</i>
+      <div class="time-length">
+        1:36
+      </div>
+    </div>
+    <div class="multimedia-metadata">
+    <h5 class="header">
+    {{ if $.Get "title" }}
+    {{ $.Get "title" | markdownify }}
+    {{ else if .title }}
+    {{ .title | markdownify }}
+    {{ end }}
+    </h5>
+      <p class="caption">
+      <a href="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}" alt="" title="" target="_blank" ><em>https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}</em></a></p>
+    </div>
+  </div>
+    {{- end -}}
+    {{ end }}
+    {{ if eq $.Site.Params.websiteFigureFallbackText true }}
+    {{- if eq .media_type "website" }}
+  <iframe id='{{ .id }}'
+          class='quire-figure__media'
+          src='{{ .media_id }}'></iframe>
+    {{- end -}}
+    {{- end -}}
+  {{ end }}
 
   {{/* -------------------- BEGIN CAPTION BLOCK -------------------- */}}
   <figcaption class="quire-figure__caption caption">
@@ -400,11 +460,16 @@ We need to end the <a> element and <div> here to make sure the
 modal click event wraps the entire figure. This onloy happens when
 popup is true. popup is true by default.
 */}}
+
 {{ if eq $.Site.Params.popup true }}
   {{ if or (eq .media_type "vimeo") (eq .media_type "youtube") (eq .media_type "image")}}
-       {{ if eq $.Site.Params.figureEnlargeType "inside" }}
-       {{ if or (eq $.Site.Params.figureLabels true) (eq ($.Get "label") "true" ) }}
-      <span class="fig"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
+      {{ if eq $.Site.Params.figureEnlargeType "inside" }}
+      {{ if or (eq $.Site.Params.figureLabels true) (eq ($.Get "label") "true" ) }}
+      {{ if eq $.Site.Params.pdf true }} 
+        <span class="fig-print"> 
+      {{ else }} 
+        <span class="fig"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
+      {{ end }}
       <strong>      
         {{ if $.Get "label_text" }}
         {{ $.Get "label_text" | markdownify }}
@@ -416,7 +481,7 @@ popup is true. popup is true by default.
       </strong>
     </span>
     {{ else }}
-    <span class="fig fig-false"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
+    {{ if ne $.Site.Params.pdf true }}<span class="fig fig-false"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>{{ end }}
     {{ end }}
     {{ end }}
   </a>

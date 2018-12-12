@@ -24,7 +24,7 @@ the figure for each into a figure group
 {{ $idstring := replace (.Get "id") " " "" }}
 {{ $idlist := split $idstring "," }}
 
-<figure class='quire-figure quire-figure--group {{ with .Get "class" }}{{ . }}{{ end }}{{ with .Get "grid" }} quire-grid--{{ . }}{{ end }}'>
+<figure class='quire-figure quire-figure--group {{ with .Get "class" }}{{ . }}{{ end }}{{ with .Get "grid" }} quire-grid--{{ . }}{{ end }} {{ if eq $.Site.Params.pdf true }}quire-figure--group-pdf {{ end }}'>
   {{ with .Get "grid" }}
   {{ $.Scratch.Add "grid" . }}
   {{ end }}
@@ -41,26 +41,27 @@ the figure for each into a figure group
   {{ range where $.Site.Data.figures.figure_list "id" "eq" $x }}
   {{ $.Scratch.Add "figCount" 1 }}
 
-  <figure class="quire-figure--group__item">
+  
+  <figure class="quire-figure--group__item {{ if .media_id }}{{ if or (eq .media_type "audio") (eq .media_type "soundcloud") }}quire-figure--group__item-pdf{{ end }}{{ end }}">
 
     {{ if .media_id }}
     {{/* -------------------- BEGIN VIDEO BLOCK -------------------- */}}
 
-    {{ if and (ne .media_type "youtube") (ne .media_type "vimeo") }}
+    {{ if and (and (ne .media_type "youtube") (ne .media_type "vimeo")) (ne .media_type "website") (ne .media_type "audio") (ne .media_type "soundcloud")}}
 
         {{ partial "error-message.html" $errorNoMediaType }}
 
     {{ else }}
 
-    {{ if eq .Site.Params.popup true }}
+    {{ if eq $.Site.Params.popup true }}
 
-    <div class='q-figure__wrapper quire-figure__video-wrapper{{ if .aspect_ratio }}--{{ .aspect_ratio }}{{ else }}--widescreen{{ end }}'>
+    <div class='here q-figure__wrapper quire-figure__video-wrapper{{ if .aspect_ratio }}--{{ .aspect_ratio }}{{ else }}--widescreen{{ end }}'>
       {{ if eq .media_type "youtube" }}
         <a href='https://www.youtube.com/watch?v={{ .media_id }}'
            data-type="video"
            class="video popup"
            {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
-        <img class='quire-figure__image'
+        <img class='quire-figure__image {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}'
              src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' 
              alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}'/>
        
@@ -70,11 +71,11 @@ the figure for each into a figure group
              class="video popup"
              data-type="video" 
              {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
-          <img class='quire-figure__image'
+          <img class='quire-figure__image {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}'
                src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' 
                alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}'/>
 
-        {{ else if eq .media_type "audio" }}
+  {{ else if eq .media_type "audio" }}
       <iframe {{ if eq $.Site.Params.pdf true }} class="visually-hidden" {{ end }} id='{{ .id }}'
       width="100%" 
       height="166" 
@@ -83,35 +84,6 @@ the figure for each into a figure group
       allow="autoplay" 
       src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe>  
 
-  <div class="multimedia audio {{ if eq $.Site.Params.pdf true }} {{ else }} visually-hidden {{ end }}">
-    <div class="placeholder">
-      <i class="material-icons md-24">headset</i>
-      <div class="time-length">
-        1:36
-      </div>
-    </div>
-    <div class="multimedia-metadata">
-      <h5 class="header">Media Placeholder</h5>
-      <p class="caption">
-    {{ if $.Get "caption" }}
-    {{ $.Get "caption" | markdownify }}
-    {{ else if .caption }}
-    {{ .caption | markdownify }}
-    {{ end }}
-      <br>
-      <a href="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}" alt="" title="" target="_blank" ><em>https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}</em></a></p>
-    </div>
-  </div>
-  
-      {{ if eq $.Site.Params.audioFigureFallbackText true }}
-        {{ if .src }}
-          <img {{ if eq $.Site.Params.pdf true }} {{ else }} class="visually-hidden" {{ end }} id='{{ .id }}'
-          src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'
-          alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}' />
-        {{ else }}
-          <p {{ if eq $.Site.Params.pdf true }} {{ else }} class="visually-hidden" {{ end }}>No Image avaiable.</p>
-        {{ end }}
-      {{ end }}
   {{ else if eq .media_type "soundcloud" }}   
       <iframe {{ if eq $.Site.Params.pdf true }} class="visually-hidden" {{ end }} id='{{ .id }}'
       width="100%" 
@@ -121,37 +93,9 @@ the figure for each into a figure group
       allow="autoplay" 
       src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe> 
 
-  <div class="multimedia audio {{ if eq $.Site.Params.pdf true }} {{ else }} visually-hidden {{ end }}">
-    <div class="placeholder">
-      <i class="material-icons md-24">headset</i>
-      <div class="time-length">
-        1:36
-      </div>
-    </div>
-    <div class="multimedia-metadata">
-      <h5 class="header">Media Placeholder</h5>
-      <p class="caption">
-    {{ if $.Get "caption" }}
-    {{ $.Get "caption" | markdownify }}
-    {{ else if .caption }}
-    {{ .caption | markdownify }}
-    {{ end }}
-      <br>
-      <a href="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}" alt="" title="" target="_blank" ><em>https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}</em></a></p>
-    </div>
-  </div>
-  
-      {{ if eq $.Site.Params.audioFigureFallbackText true }}
-      {{ if .src }}
-        <img {{ if eq $.Site.Params.pdf true }} {{ else }} class="visually-hidden" {{ end }} id='{{ .id }}'
-        src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'
-        alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}' />
-      {{ else }}
-        <p {{ if eq $.Site.Params.pdf true }} {{ else }} class="visually-hidden" {{ end }}>No Image avaiable.</p>
       {{ end }}
-    {{ end }}
-      {{ end }}
-      <div class="quire-figure__video-fallback">
+
+      <div class="quire-figure__video-fallback visually-hidden">
         {{ if .src }}
         <img id="{{ .id }}" src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' alt="{{ if .alt }}{{ .alt }}{{ end }}" />
         {{ else }}
@@ -161,7 +105,6 @@ the figure for each into a figure group
         </svg>
         {{ end }}
       </div>
-    </div>
 
     {{ else }}
 
@@ -197,7 +140,7 @@ the figure for each into a figure group
                       allow="autoplay" 
                       src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe> 
       {{ end }}
-      <div class="quire-figure__video-fallback">
+      <div class="quire-figure__video-fallback visually-hidden">
         {{ if .src }}
         <img id="{{ .id }}" src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' alt="{{ if .alt }}{{ .alt }}{{ end }}" />
         {{ else }}
@@ -227,17 +170,106 @@ the figure for each into a figure group
     {{/* -------------------- END NO_MEDIA_ID BLOCK -------------------- */}}
     {{ end }}
 
+  {{ if eq $.Site.Params.pdf true }}
+    {{ if eq $.Site.Params.videoFigureFallbackText true }}
+    {{- if eq .media_type "youtube" }}
+  <div class="multimedia video">
+    <div class="placeholder">
+      <i class="material-icons md-24">videocam</i>
+      <div class="time-length">
+        1:36
+      </div>
+    </div>
+    <div class="multimedia-metadata">
+    <h5 class="header">
+    {{ if $.Get "title" }}
+    {{ $.Get "title" | markdownify }}
+    {{ else if .title }}
+    {{ .title | markdownify }}
+    {{ end }}
+    </h5>
+      <p class="caption">
+      <a href='https://youtu.be/{{ .media_id }}' alt="" title="" target="_blank" ><em>https://youtu.be/{{ .media_id }}</em></a></p>
+    </div>
+  </div>
+    {{- end -}}
+    {{- if eq .media_type "vimeo" }}
+  <div class="multimedia video">
+    <div class="placeholder">
+      <i class="material-icons md-24">videocam</i>
+      <div class="time-length">
+        1:36
+      </div>
+    </div>
+    <div class="multimedia-metadata">
+    <h5 class="header">
+    {{ if $.Get "title" }}
+    {{ $.Get "title" | markdownify }}
+    {{ else if .title }}
+    {{ .title | markdownify }}
+    {{ end }}
+    </h5>
+      <p class="caption">
+      <a href='https://vimeo.com/{{ .media_id }}' alt="" title="" target="_blank" ><em>https://vimeo.com/{{ .media_id }}</em></a></p>
+    </div>
+  </div>
+    {{- end -}}
+    {{ end }}
+    {{ if eq $.Site.Params.audioFigureFallbackText true }}
+    {{- if eq .media_type "audio" }}
+    <div class="multimedia audio">
+    <div class="placeholder">
+      <i class="material-icons md-24">headset</i>
+      <div class="time-length">
+        1:36
+      </div>
+    </div>
+    <div class="multimedia-metadata">
+    <h5 class="header">
+    {{ if $.Get "title" }}
+    {{ $.Get "title" | markdownify }}
+    {{ else if .title }}
+    {{ .title | markdownify }}
+    {{ end }}
+    </h5>
+      <p class="caption">
+      <a href="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}" alt="" title="" target="_blank" ><em>https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}</em></a></p>
+    </div>
+  </div>
+    {{- end -}}
+    {{- if eq .media_type "soundcloud" }}
+  <div class="multimedia audio">
+    <div class="placeholder">
+      <i class="material-icons md-24">headset</i>
+      <div class="time-length">
+        1:36
+      </div>
+    </div>
+    <div class="multimedia-metadata">
+    <h5 class="header">
+    {{ if $.Get "title" }}
+    {{ $.Get "title" | markdownify }}
+    {{ else if .title }}
+    {{ .title | markdownify }}
+    {{ end }}
+    </h5>
+      <p class="caption">
+      <a href="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}" alt="" title="" target="_blank" ><em>https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}</em></a></p>
+    </div>
+  </div>
+    {{- end -}}
+    {{ end }}
+    {{ if eq $.Site.Params.websiteFigureFallbackText true }}
+    {{- if eq .media_type "website" }}
+  <iframe id='{{ .id }}'
+          class='quire-figure__media'
+          src='{{ .media_id }}'></iframe>
+    {{- end -}}
+    {{- end -}}
+  {{ end }}
+
     {{ if $.Get "caption" }}
     {{/* -------------------- BEGIN CAPTION BLOCK -------------------- */}}
-    {{ if or (eq ($.Get "label") "true" ) (and (eq $.Site.Params.figureLabels true) (ne ($.Get "label") "false" )) }}
-    <span class="quire-figure__label">
-      {{ if .label_text }}
-      {{ .label_text | markdownify }}
-      {{ else }}
-      {{ $.Site.Params.figureLabelsTextBefore }}{{ .id }}
-      {{ end }}
-    </span>
-    {{ end }}
 
     {{ if eq $.Site.Params.popup true }}
       {{ if eq $.Site.Params.figureEnlargeType "outside" }}
@@ -298,7 +330,7 @@ the figure for each into a figure group
     {{ end }}
     {{ if eq $.Site.Params.pdf true }}</span>{{ end }}
 
-      {{ if eq $.Site.Params.epub true }}
+    {{ if eq $.Site.Params.epub true }}
 
       {{ if eq $.Site.Params.videoFigureFallbackText true }}
       {{- if eq .media_type "youtube" }}
@@ -337,7 +369,7 @@ the figure for each into a figure group
       {{- end -}}
       {{ end }}
 
-      {{ end }}
+    {{ end }}
 
       {{ if .credit }}
         <span class="quire-figure__credit">{{ .credit | markdownify }}</span>
@@ -362,7 +394,11 @@ the figure for each into a figure group
     {{ if or (eq .media_type "vimeo") (eq .media_type "youtube") (eq .media_type "image")}}
     {{ if eq $.Site.Params.figureEnlargeType "inside" }}
        {{ if or (eq $.Site.Params.figureLabels true) (eq ($.Get "label") "true" ) }}
-      <span class="fig"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
+      {{ if eq $.Site.Params.pdf true }} 
+        <span class="fig-print"> 
+      {{ else }} 
+        <span class="fig"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
+      {{ end }}
       <strong>      
         {{ if $.Get "label_text" }}
         {{ $.Get "label_text" | markdownify }}
@@ -374,7 +410,7 @@ the figure for each into a figure group
       </strong>
     </span>
     {{ else }}
-    <span class="fig fig-false"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
+    {{ if ne $.Site.Params.pdf true }}<span class="fig fig-false"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>{{ end }}
     {{ end }}
     {{ end }}
     </a>
