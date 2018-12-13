@@ -27,42 +27,6 @@
   box-shadow: none;
   background-color: transparent;
 
-  h1, h2, h3, h4, h5, h6 {
-    letter-spacing: -0.025em;
-    color: $quire-header-color;
-  }
-
-  h2 {
-    text-transform: uppercase;
-    font-size: 1.75em;
-    line-height: 1.15em;
-  }
-
-  h3 {
-    font-style: italic;
-    font-weight: 400;
-    font-size: 1.625em;
-  }
-
-  h4 {
-    font-size: 1.375em;
-    line-height: 1.2em;
-  }
-
-  h5 {
-    font-size: 1.125em;
-    line-height: 1.22em;
-  }
-
-  h6 {
-    text-transform: uppercase;
-    font-size: .66em;
-    font-weight: 700;
-    line-height: 1.28em;
-    padding-bottom: 0.25em;
-    border-bottom: 1px solid $off-black;
-  }
-
   svg {
     height: calc(#{$navbar-height} * .65);
     width: calc(#{$navbar-height} * .65);
