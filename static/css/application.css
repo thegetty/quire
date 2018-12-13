@@ -1,5 +1,5 @@
 .leaflet-control-fullscreen a {
-  background: #fff url(/../img/fullscreen.png) no-repeat 0 0;
+  background: #fff url(/img/fullscreen.png) no-repeat 0 0;
   background-size: 26px 52px; }
 
 .leaflet-touch .leaflet-control-fullscreen a {
@@ -30,264 +30,264 @@
 
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   .leaflet-control-fullscreen a {
-    background-image: url(/../img/fullscreen@2x.png); } }
+    background-image: url(/img/fullscreen@2x.png); } }
 
 @charset "UTF-8";
 @font-face {
   font-family: "Merriweather";
-  src: url(/../fonts/merriweather-regular.eot);
-  src: url(/../fonts/merriweather-regular.eot?#iefix) format("embedded-opentype"), url(/../fonts/merriweather-regular.woff2) format("woff2"), url(/../fonts/merriweather-regular.woff) format("woff"), url(/../fonts/merriweather-regular.ttf) format("truetype");
+  src: url(/fonts/merriweather-regular.eot);
+  src: url(/fonts/merriweather-regular.eot?#iefix) format("embedded-opentype"), url(/fonts/merriweather-regular.woff2) format("woff2"), url(/fonts/merriweather-regular.woff) format("woff"), url(/fonts/merriweather-regular.ttf) format("truetype");
   font-weight: 400;
   font-style: normal; }
 
 @font-face {
   font-family: "Merriweather";
-  src: url(/../fonts/merriweather-italic.eot);
-  src: url(/../fonts/merriweather-italic.eot?#iefix) format("embedded-opentype"), url(/../fonts/merriweather-italic.woff2) format("woff2"), url(/../fonts/merriweather-italic.woff) format("woff"), url(/../fonts/merriweather-italic.ttf) format("truetype");
+  src: url(/fonts/merriweather-italic.eot);
+  src: url(/fonts/merriweather-italic.eot?#iefix) format("embedded-opentype"), url(/fonts/merriweather-italic.woff2) format("woff2"), url(/fonts/merriweather-italic.woff) format("woff"), url(/fonts/merriweather-italic.ttf) format("truetype");
   font-weight: 400;
   font-style: italic; }
 
 @font-face {
   font-family: "Merriweather";
-  src: url(/../fonts/merriweather-bold.eot);
-  src: url(/../fonts/merriweather-bold.eot?#iefix) format("embedded-opentype"), url(/../fonts/merriweather-bold.woff2) format("woff2"), url(/../fonts/merriweather-bold.woff) format("woff"), url(/../fonts/merriweather-bold.ttf) format("truetype");
+  src: url(/fonts/merriweather-bold.eot);
+  src: url(/fonts/merriweather-bold.eot?#iefix) format("embedded-opentype"), url(/fonts/merriweather-bold.woff2) format("woff2"), url(/fonts/merriweather-bold.woff) format("woff"), url(/fonts/merriweather-bold.ttf) format("truetype");
   font-weight: 600;
   font-style: normal; }
 
 @font-face {
   font-family: "Merriweather";
-  src: url(/../fonts/merriweather-bolditalic.eot);
-  src: url(/../fonts/merriweather-bolditalic.eot?#iefix) format("embedded-opentype"), url(/../fonts/merriweather-bolditalic.woff2) format("woff2"), url(/../fonts/merriweather-bolditalic.woff) format("woff"), url(/../fonts/merriweather-bolditalic.ttf) format("truetype");
+  src: url(/fonts/merriweather-bolditalic.eot);
+  src: url(/fonts/merriweather-bolditalic.eot?#iefix) format("embedded-opentype"), url(/fonts/merriweather-bolditalic.woff2) format("woff2"), url(/fonts/merriweather-bolditalic.woff) format("woff"), url(/fonts/merriweather-bolditalic.ttf) format("truetype");
   font-weight: 600;
   font-style: italic; }
 
 @font-face {
   font-family: "Merriweather";
-  src: url(/../fonts/merriweather-light.eot);
-  src: url(/../fonts/merriweather-light.eot?#iefix) format("embedded-opentype"), url(/../fonts/merriweather-light.woff2) format("woff2"), url(/../fonts/merriweather-light.woff) format("woff"), url(/../fonts/merriweather-light.ttf) format("truetype");
+  src: url(/fonts/merriweather-light.eot);
+  src: url(/fonts/merriweather-light.eot?#iefix) format("embedded-opentype"), url(/fonts/merriweather-light.woff2) format("woff2"), url(/fonts/merriweather-light.woff) format("woff"), url(/fonts/merriweather-light.ttf) format("truetype");
   font-weight: 300;
   font-style: normal; }
 
 @font-face {
   font-family: "Merriweather";
-  src: url(/../fonts/merriweather-lightitalic.eot);
-  src: url(/../fonts/merriweather-lightitalic.eot?#iefix) format("embedded-opentype"), url(/../fonts/merriweather-lightitalic.woff2) format("woff2"), url(/../fonts/merriweather-lightitalic.woff) format("woff"), url(/../fonts/merriweather-lightitalic.ttf) format("truetype");
+  src: url(/fonts/merriweather-lightitalic.eot);
+  src: url(/fonts/merriweather-lightitalic.eot?#iefix) format("embedded-opentype"), url(/fonts/merriweather-lightitalic.woff2) format("woff2"), url(/fonts/merriweather-lightitalic.woff) format("woff"), url(/fonts/merriweather-lightitalic.ttf) format("truetype");
   font-weight: 300;
   font-style: italic; }
 
 @font-face {
   font-family: "Lato";
-  src: url(/../fonts/lato-light.eot);
-  src: url(/../fonts/lato-light.eot?#iefix) format("embedded-opentype"), url(/../fonts/lato-light.woff2) format("woff2"), url(/../fonts/lato-light.woff) format("woff"), url(/../fonts/lato-light.ttf) format("truetype");
+  src: url(/fonts/lato-light.eot);
+  src: url(/fonts/lato-light.eot?#iefix) format("embedded-opentype"), url(/fonts/lato-light.woff2) format("woff2"), url(/fonts/lato-light.woff) format("woff"), url(/fonts/lato-light.ttf) format("truetype");
   font-weight: 300;
   font-style: normal; }
 
 @font-face {
   font-family: "Lato";
-  src: url(/../fonts/lato-lightitalic.eot);
-  src: url(/../fonts/lato-lightitalic.eot?#iefix) format("embedded-opentype"), url(/../fonts/lato-lightitalic.woff2) format("woff2"), url(/../fonts/lato-lightitalic.woff) format("woff"), url(/../fonts/lato-lightitalic.ttf) format("truetype");
+  src: url(/fonts/lato-lightitalic.eot);
+  src: url(/fonts/lato-lightitalic.eot?#iefix) format("embedded-opentype"), url(/fonts/lato-lightitalic.woff2) format("woff2"), url(/fonts/lato-lightitalic.woff) format("woff"), url(/fonts/lato-lightitalic.ttf) format("truetype");
   font-weight: 300;
   font-style: italic; }
 
 @font-face {
   font-family: "Lato";
-  src: url(/../fonts/lato-regular.eot);
-  src: url(/../fonts/lato-regular.eot?#iefix) format("embedded-opentype"), url(/../fonts/lato-regular.woff2) format("woff2"), url(/../fonts/lato-regular.woff) format("woff"), url(/../fonts/lato-regular.ttf) format("truetype");
+  src: url(/fonts/lato-regular.eot);
+  src: url(/fonts/lato-regular.eot?#iefix) format("embedded-opentype"), url(/fonts/lato-regular.woff2) format("woff2"), url(/fonts/lato-regular.woff) format("woff"), url(/fonts/lato-regular.ttf) format("truetype");
   font-weight: 400;
   font-style: normal; }
 
 @font-face {
   font-family: "Lato";
-  src: url(/../fonts/lato-italic.eot);
-  src: url(/../fonts/lato-italic.eot?#iefix) format("embedded-opentype"), url(/../fonts/lato-italic.woff2) format("woff2"), url(/../fonts/lato-italic.woff) format("woff"), url(/../fonts/lato-italic.ttf) format("truetype");
+  src: url(/fonts/lato-italic.eot);
+  src: url(/fonts/lato-italic.eot?#iefix) format("embedded-opentype"), url(/fonts/lato-italic.woff2) format("woff2"), url(/fonts/lato-italic.woff) format("woff"), url(/fonts/lato-italic.ttf) format("truetype");
   font-weight: 400;
   font-style: italic; }
 
 @font-face {
   font-family: "Lato";
-  src: url(/../fonts/lato-bold.eot);
-  src: url(/../fonts/lato-bold.eot?#iefix) format("embedded-opentype"), url(/../fonts/lato-bold.woff2) format("woff2"), url(/../fonts/lato-bold.woff) format("woff"), url(/../fonts/lato-bold.ttf) format("truetype");
+  src: url(/fonts/lato-bold.eot);
+  src: url(/fonts/lato-bold.eot?#iefix) format("embedded-opentype"), url(/fonts/lato-bold.woff2) format("woff2"), url(/fonts/lato-bold.woff) format("woff"), url(/fonts/lato-bold.ttf) format("truetype");
   font-weight: 600;
   font-style: normal; }
 
 @font-face {
   font-family: "Lato";
-  src: url(/../fonts/lato-bolditalic.eot);
-  src: url(/../fonts/lato-bolditalic.eot?#iefix) format("embedded-opentype"), url(/../fonts/lato-bolditalic.woff2) format("woff2"), url(/../fonts/lato-bolditalic.woff) format("woff"), url(/../fonts/lato-bolditalic.ttf) format("truetype");
+  src: url(/fonts/lato-bolditalic.eot);
+  src: url(/fonts/lato-bolditalic.eot?#iefix) format("embedded-opentype"), url(/fonts/lato-bolditalic.woff2) format("woff2"), url(/fonts/lato-bolditalic.woff) format("woff"), url(/fonts/lato-bolditalic.ttf) format("truetype");
   font-weight: 600;
   font-style: italic; }
 
 @font-face {
   font-family: "Aleo";
-  src: url(/../fonts/aleo-light.eot);
-  src: url(/../fonts/aleo-light.eot?#iefix) format("embedded-opentype"), url(/../fonts/aleo-light.woff2) format("woff2"), url(/../fonts/aleo-light.woff) format("woff"), url(/../fonts/aleo-light.ttf) format("truetype");
+  src: url(/fonts/aleo-light.eot);
+  src: url(/fonts/aleo-light.eot?#iefix) format("embedded-opentype"), url(/fonts/aleo-light.woff2) format("woff2"), url(/fonts/aleo-light.woff) format("woff"), url(/fonts/aleo-light.ttf) format("truetype");
   font-weight: 300;
   font-style: normal; }
 
 @font-face {
   font-family: "Aleo";
-  src: url(/../fonts/aleo-lightitalic.eot);
-  src: url(/../fonts/aleo-lightitalic.eot?#iefix) format("embedded-opentype"), url(/../fonts/aleo-lightitalic.woff2) format("woff2"), url(/../fonts/aleo-lightitalic.woff) format("woff"), url(/../fonts/aleo-lightitalic.ttf) format("truetype");
+  src: url(/fonts/aleo-lightitalic.eot);
+  src: url(/fonts/aleo-lightitalic.eot?#iefix) format("embedded-opentype"), url(/fonts/aleo-lightitalic.woff2) format("woff2"), url(/fonts/aleo-lightitalic.woff) format("woff"), url(/fonts/aleo-lightitalic.ttf) format("truetype");
   font-weight: 300;
   font-style: italic; }
 
 @font-face {
   font-family: "Aleo";
-  src: url(/../fonts/aleo-regular.eot);
-  src: url(/../fonts/aleo-regular.eot?#iefix) format("embedded-opentype"), url(/../fonts/aleo-regular.woff2) format("woff2"), url(/../fonts/aleo-regular.woff) format("woff"), url(/../fonts/aleo-regular.ttf) format("truetype");
+  src: url(/fonts/aleo-regular.eot);
+  src: url(/fonts/aleo-regular.eot?#iefix) format("embedded-opentype"), url(/fonts/aleo-regular.woff2) format("woff2"), url(/fonts/aleo-regular.woff) format("woff"), url(/fonts/aleo-regular.ttf) format("truetype");
   font-weight: 400;
   font-style: normal; }
 
 @font-face {
   font-family: "Aleo";
-  src: url(/../fonts/aleo-italic.eot);
-  src: url(/../fonts/aleo-italic.eot?#iefix) format("embedded-opentype"), url(/../fonts/aleo-italic.woff2) format("woff2"), url(/../fonts/aleo-italic.woff) format("woff"), url(/../fonts/aleo-italic.ttf) format("truetype");
+  src: url(/fonts/aleo-italic.eot);
+  src: url(/fonts/aleo-italic.eot?#iefix) format("embedded-opentype"), url(/fonts/aleo-italic.woff2) format("woff2"), url(/fonts/aleo-italic.woff) format("woff"), url(/fonts/aleo-italic.ttf) format("truetype");
   font-weight: 400;
   font-style: italic; }
 
 @font-face {
   font-family: "Aleo";
-  src: url(/../fonts/aleo-bold.eot);
-  src: url(/../fonts/aleo-bold.eot?#iefix) format("embedded-opentype"), url(/../fonts/aleo-bold.woff2) format("woff2"), url(/../fonts/aleo-bold.woff) format("woff"), url(/../fonts/aleo-bold.ttf) format("truetype");
+  src: url(/fonts/aleo-bold.eot);
+  src: url(/fonts/aleo-bold.eot?#iefix) format("embedded-opentype"), url(/fonts/aleo-bold.woff2) format("woff2"), url(/fonts/aleo-bold.woff) format("woff"), url(/fonts/aleo-bold.ttf) format("truetype");
   font-weight: 600;
   font-style: normal; }
 
 @font-face {
   font-family: "Aleo";
-  src: url(/../fonts/aleo-bolditalic.eot);
-  src: url(/../fonts/aleo-bolditalic.eot?#iefix) format("embedded-opentype"), url(/../fonts/aleo-bolditalic.woff2) format("woff2"), url(/../fonts/aleo-bolditalic.woff) format("woff"), url(/../fonts/aleo-bolditalic.ttf) format("truetype");
+  src: url(/fonts/aleo-bolditalic.eot);
+  src: url(/fonts/aleo-bolditalic.eot?#iefix) format("embedded-opentype"), url(/fonts/aleo-bolditalic.woff2) format("woff2"), url(/fonts/aleo-bolditalic.woff) format("woff"), url(/fonts/aleo-bolditalic.ttf) format("truetype");
   font-weight: 600;
   font-style: italic; }
 
 @font-face {
   font-family: "IBM Plex Sans Condensed";
-  src: url(/../fonts/IBMPlexSansCondensed-Thin.ttf) format("truetype");
+  src: url(/fonts/IBMPlexSansCondensed-Thin.ttf) format("truetype");
   font-weight: 100;
   font-style: normal; }
 
 @font-face {
   font-family: "IBM Plex Sans Condensed";
-  src: url(/../fonts/IBMPlexSansCondensed-ThinItalic.ttf) format("truetype");
+  src: url(/fonts/IBMPlexSansCondensed-ThinItalic.ttf) format("truetype");
   font-weight: 100;
   font-style: italic; }
 
 @font-face {
   font-family: "IBM Plex Sans Condensed";
-  src: url(/../fonts/IBMPlexSansCondensed-ExtraLight.ttf) format("truetype");
+  src: url(/fonts/IBMPlexSansCondensed-ExtraLight.ttf) format("truetype");
   font-weight: 200;
   font-style: normal; }
 
 @font-face {
   font-family: "IBM Plex Sans Condensed";
-  src: url(/../fonts/IBMPlexSansCondensed-ExtraLightItalic.ttf) format("truetype");
+  src: url(/fonts/IBMPlexSansCondensed-ExtraLightItalic.ttf) format("truetype");
   font-weight: 200;
   font-style: italic; }
 
 @font-face {
   font-family: "IBM Plex Sans Condensed";
-  src: url(/../fonts/IBMPlexSansCondensed-Light.ttf) format("truetype");
+  src: url(/fonts/IBMPlexSansCondensed-Light.ttf) format("truetype");
   font-weight: 300;
   font-style: normal; }
 
 @font-face {
   font-family: "IBM Plex Sans Condensed";
-  src: url(/../fonts/IBMPlexSansCondensed-LightItalic.ttf) format("truetype");
+  src: url(/fonts/IBMPlexSansCondensed-LightItalic.ttf) format("truetype");
   font-weight: 300;
   font-style: italic; }
 
 @font-face {
   font-family: "IBM Plex Sans Condensed";
-  src: url(/../fonts/IBMPlexSansCondensed-Regular.ttf) format("truetype");
+  src: url(/fonts/IBMPlexSansCondensed-Regular.ttf) format("truetype");
   font-weight: 400;
   font-style: normal; }
 
 @font-face {
   font-family: "IBM Plex Sans Condensed";
-  src: url(/../fonts/IBMPlexSansCondensed-Italic.ttf) format("truetype");
+  src: url(/fonts/IBMPlexSansCondensed-Italic.ttf) format("truetype");
   font-weight: 400;
   font-style: italic; }
 
 @font-face {
   font-family: "IBM Plex Sans Condensed";
-  src: url(/../fonts/IBMPlexSansCondensed-Medium.ttf) format("truetype");
+  src: url(/fonts/IBMPlexSansCondensed-Medium.ttf) format("truetype");
   font-weight: 500;
   font-style: normal; }
 
 @font-face {
   font-family: "IBM Plex Sans Condensed";
-  src: url(/../fonts/IBMPlexSansCondensed-MediumItalic.ttf) format("truetype");
+  src: url(/fonts/IBMPlexSansCondensed-MediumItalic.ttf) format("truetype");
   font-weight: 500;
   font-style: italic; }
 
 @font-face {
   font-family: "IBM Plex Sans Condensed";
-  src: url(/../fonts/IBMPlexSansCondensed-SemiBold.ttf) format("truetype");
+  src: url(/fonts/IBMPlexSansCondensed-SemiBold.ttf) format("truetype");
   font-weight: 600;
   font-style: normal; }
 
 @font-face {
   font-family: "IBM Plex Sans Condensed";
-  src: url(/../fonts/IBMPlexSansCondensed-SemiBoldItalic.ttf) format("truetype");
+  src: url(/fonts/IBMPlexSansCondensed-SemiBoldItalic.ttf) format("truetype");
   font-weight: 600;
   font-style: italic; }
 
 @font-face {
   font-family: "IBM Plex Sans Condensed";
-  src: url(/../fonts/IBMPlexSansCondensed-Bold.ttf) format("truetype");
+  src: url(/fonts/IBMPlexSansCondensed-Bold.ttf) format("truetype");
   font-weight: 700;
   font-style: normal; }
 
 @font-face {
   font-family: "IBM Plex Sans Condensed";
-  src: url(/../fonts/IBMPlexSansCondensed-BoldItalic.ttf) format("truetype");
+  src: url(/fonts/IBMPlexSansCondensed-BoldItalic.ttf) format("truetype");
   font-weight: 700;
   font-style: italic; }
 
 @font-face {
   font-family: "Noto Serif";
-  src: url(/../fonts/NotoSerif-Bold.ttf) format("truetype");
+  src: url(/fonts/NotoSerif-Bold.ttf) format("truetype");
   font-weight: 700;
   font-style: normal; }
 
 @font-face {
   font-family: "Noto Serif";
-  src: url(/../fonts/NotoSerif-Italic.ttf) format("truetype");
+  src: url(/fonts/NotoSerif-Italic.ttf) format("truetype");
   font-weight: 400;
   font-style: italic; }
 
 @font-face {
   font-family: "Noto Serif";
-  src: url(/../fonts/NotoSerif-Regular.ttf) format("truetype");
+  src: url(/fonts/NotoSerif-Regular.ttf) format("truetype");
   font-weight: 400;
   font-style: normal; }
 
 @font-face {
   font-family: "Noto Serif";
-  src: url(/../fonts/NotoSerif-BoldItalic.ttf) format("truetype");
+  src: url(/fonts/NotoSerif-BoldItalic.ttf) format("truetype");
   font-weight: 700;
   font-style: italic; }
 
 @font-face {
   font-family: "Noto Sans";
-  src: url(/../fonts/NotoSans-Bold.ttf) format("truetype");
+  src: url(/fonts/NotoSans-Bold.ttf) format("truetype");
   font-weight: 700;
   font-style: normal; }
 
 @font-face {
   font-family: "Noto Sans";
-  src: url(/../fonts/NotoSans-Italic.ttf) format("truetype");
+  src: url(/fonts/NotoSans-Italic.ttf) format("truetype");
   font-weight: 400;
   font-style: italic; }
 
 @font-face {
   font-family: "Noto Sans";
-  src: url(/../fonts/NotoSans-Regular.ttf) format("truetype");
+  src: url(/fonts/NotoSans-Regular.ttf) format("truetype");
   font-weight: 400;
   font-style: normal; }
 
 @font-face {
   font-family: "Noto Sans";
-  src: url(/../fonts/NotoSans-BoldItalic.ttf) format("truetype");
+  src: url(/fonts/NotoSans-BoldItalic.ttf) format("truetype");
   font-weight: 700;
   font-style: italic; }
 
@@ -298,9 +298,9 @@
   font-family: "Material Icons";
   font-style: normal;
   font-weight: 400;
-  src: url(/../fonts/MaterialIcons-Regular.eot);
+  src: url(/fonts/MaterialIcons-Regular.eot);
   /* For IE6-8 */
-  src: local("Material Icons"), local("MaterialIcons-Regular"), url(/../fonts/MaterialIcons-Regular.woff2) format("woff2"), url(/../fonts/MaterialIcons-Regular.woff) format("woff"), url(/../fonts/MaterialIcons-Regular.ttf) format("truetype"); }
+  src: local("Material Icons"), local("MaterialIcons-Regular"), url(/fonts/MaterialIcons-Regular.woff2) format("woff2"), url(/fonts/MaterialIcons-Regular.woff) format("woff"), url(/fonts/MaterialIcons-Regular.ttf) format("truetype"); }
 
 .material-icons {
   font-family: "Material Icons";
@@ -3835,7 +3835,7 @@ a.tag:hover {
       pointer-events: none; }
     .breadcrumb li + li::before {
       color: #b5b5b5;
-      content: "\0002f"; }
+      content: "/"; }
   .breadcrumb ul,
   .breadcrumb ol {
     align-items: flex-start;
@@ -3859,13 +3859,13 @@ a.tag:hover {
   .breadcrumb.is-large {
     font-size: 1.5rem; }
   .breadcrumb.has-arrow-separator li + li::before {
-    content: "\02192"; }
+    content: "\2192"; }
   .breadcrumb.has-bullet-separator li + li::before {
-    content: "\02022"; }
+    content: "\2022"; }
   .breadcrumb.has-dot-separator li + li::before {
-    content: "\000b7"; }
+    content: "\B7"; }
   .breadcrumb.has-succeeds-separator li + li::before {
-    content: "\0227B"; }
+    content: "\227B"; }
 
 .card {
   background-color: #ffffff;
@@ -5435,7 +5435,7 @@ label.panel-block {
   flex-basis: 0;
   flex-grow: 1;
   flex-shrink: 1;
-  padding: 0.75rem; }
+  padding: 5px; }
   .columns.is-mobile > .column.is-narrow {
     flex: none; }
   .columns.is-mobile > .column.is-full {
@@ -6214,13 +6214,13 @@ label.panel-block {
       margin-left: 100%; } }
 
 .columns {
-  margin-left: -0.75rem;
-  margin-right: -0.75rem;
-  margin-top: -0.75rem; }
+  margin-left: -5px;
+  margin-right: -5px;
+  margin-top: -5px; }
   .columns:last-child {
-    margin-bottom: -0.75rem; }
+    margin-bottom: -5px; }
   .columns:not(:last-child) {
-    margin-bottom: calc(1.5rem - 0.75rem); }
+    margin-bottom: calc(1.5rem - 5px); }
   .columns.is-centered {
     justify-content: center; }
   .columns.is-gapless {
@@ -7188,13 +7188,6 @@ template {
     .quire__secondary .button {
       background-color: #363636;
       color: #ffffff !important; }
-      .quire__secondary a:hover, .quire__secondary a:focus,
-      .quire__secondary button:hover,
-      .quire__secondary button:focus,
-      .quire__secondary .button:hover,
-      .quire__secondary .button:focus {
-        background-color: #292929;
-        color: #ffffff; }
     .quire__secondary a {
       border-bottom-color: #ffffff !important; }
     .quire__secondary .title {
@@ -7307,13 +7300,6 @@ template {
   .quire-navbar .button {
     background-color: #ffffff;
     color: #363636 !important; }
-    .quire-navbar a:hover, .quire-navbar a:focus,
-    .quire-navbar button:hover,
-    .quire-navbar button:focus,
-    .quire-navbar .button:hover,
-    .quire-navbar .button:focus {
-      background-color: #f2f2f2;
-      color: #363636; }
   .quire-navbar a {
     border-bottom-color: #363636 !important; }
   .quire-navbar * {
@@ -7723,13 +7709,6 @@ html {
   .quire-page__header .button {
     background-color: #f5f5f5;
     color: #363636 !important; }
-    .quire-page__header a:hover, .quire-page__header a:focus,
-    .quire-page__header button:hover,
-    .quire-page__header button:focus,
-    .quire-page__header .button:hover,
-    .quire-page__header .button:focus {
-      background-color: #e8e8e8;
-      color: #363636; }
   .quire-page__header a {
     border-bottom-color: #363636 !important; }
   .quire-page--splash .quire-page__header {
@@ -7784,7 +7763,7 @@ html {
   .quire-page__abstract:after {
     display: block;
     text-align: center;
-    content: "◆\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0◆\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0◆";
+    content: "\25C6\A0\A0\A0\A0\A0\A0\A0\A0\A0\A0\A0\A0\25C6\A0\A0\A0\A0\A0\A0\A0\A0\A0\A0\A0\A0\25C6";
     margin: 0 auto;
     max-width: 636px;
     width: 636px;
@@ -7920,7 +7899,7 @@ html {
   left: 0;
   width: 100%;
   min-height: calc(95vh - 3rem);
-  background-image: url(/../img/pattern-1.png);
+  background-image: url(/img/pattern-1.png);
   opacity: 0.5; }
   @media print {
     .quire-cover__overlay {
@@ -8091,13 +8070,6 @@ html {
   .quire-cover .quire-cover-footer .button {
     background-color: #f5f5f5;
     color: #363636 !important; }
-    .quire-cover .quire-cover-footer a:hover, .quire-cover .quire-cover-footer a:focus,
-    .quire-cover .quire-cover-footer button:hover,
-    .quire-cover .quire-cover-footer button:focus,
-    .quire-cover .quire-cover-footer .button:hover,
-    .quire-cover .quire-cover-footer .button:focus {
-      background-color: #e8e8e8;
-      color: #363636; }
   .quire-cover .quire-cover-footer a {
     border-bottom-color: #363636 !important; }
   .quire-cover .quire-cover-footer .menu-list {
@@ -8376,7 +8348,7 @@ html {
       padding: 0 9px 0 3px;
       left: 0;
       top: 0;
-      color: #fff;
+      color: #ffffff;
       height: 27px;
       max-height: 27px; }
       .quire-figure .q-figure__wrapper a span.fig strong {
@@ -8408,7 +8380,7 @@ html {
     margin-top: .5rem;
     font-style: normal;
     text-align: left;
-    color: #4a4a4a; }
+    color: #292929; }
     @media print {
       .content figure .quire-figure__caption {
         margin-top: 5pt;
@@ -8464,64 +8436,70 @@ html {
     .quire-figure.is-pulled-left, .quire-figure.is-pulled-right {
       float: none !important;
       width: unset !important; } }
-  .quire-figure--group__row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: .75rem;
-    flex-wrap: wrap; }
-    @media print {
-      .quire-figure--group__row {
-        display: inline-block;
-        margin-bottom: 0;
-        clear: both; } }
-  .quire-figure--group__item {
-    display: block;
-    flex-basis: 0;
-    flex-grow: 1;
-    flex-shrink: 1; }
-    .content .quire-figure--group__item {
-      margin-left: 0;
-      margin-right: 0;
-      margin-top: 0; }
-    .content .quire-figure--group__item:not(:last-child) {
-      margin-bottom: 0; }
-    .content .quire-figure--group__item:not(:first-child) {
-      margin-top: 0; }
-    .quire-figure--group__item + .quire-figure__caption {
+  .quire-figure--group {
+    /*
+    .soundcloud,
+    .youtube,
+    .vimeo {
+      flex: 0 0 100%;
+    }
+    */ }
+    .quire-figure--group__row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: .75rem;
+      flex-wrap: wrap; }
+      @media print {
+        .quire-figure--group__row {
+          display: inline-block;
+          margin-bottom: 0;
+          clear: both; } }
+    .quire-figure--group__item {
+      display: block;
+      flex-basis: 0;
+      flex-grow: 1;
+      flex-shrink: 1; }
+      .content .quire-figure--group__item {
+        margin-left: 0;
+        margin-right: 0;
+        margin-top: 0; }
+      .content .quire-figure--group__item:not(:last-child) {
+        margin-bottom: 0; }
+      .content .quire-figure--group__item:not(:first-child) {
+        margin-top: 0; }
+      .quire-figure--group__item + .quire-figure__caption {
+        clear: both;
+        padding-top: 1rem; }
+    .quire-figure--group .quire-grid--2 {
+      width: 49%; }
+      @media print {
+        .quire-figure--group .quire-grid--2 {
+          width: 48%; } }
+    .quire-figure--group .quire-grid--3 {
+      width: 32%; }
+      @media print {
+        .quire-figure--group .quire-grid--3 {
+          width: 31.3%; } }
+    .quire-figure--group .quire-grid--4 {
+      width: 23.5%; }
+      @media print {
+        .quire-figure--group .quire-grid--4 {
+          width: 23%; } }
+    .quire-figure--group .quire-grid--5 {
+      width: 18.4%; }
+      @media print {
+        .quire-figure--group .quire-grid--5 {
+          width: 18%; } }
+    .quire-figure--group .quire-grid--6 {
+      width: 15%; }
+      @media print {
+        .quire-figure--group .quire-grid--6 {
+          width: 14.6%; } }
+    .quire-figure--group:last-child {
+      margin-right: 0; }
+    .quire-figure--group .quire-figure__caption {
       clear: both;
-      padding-top: 1rem; }
-  .quire-figure--group .quire-grid--2 {
-    width: 49%; }
-    @media print {
-      .quire-figure--group .quire-grid--2 {
-        width: 48%; } }
-  .quire-figure--group .quire-grid--3 {
-    width: 32%; }
-    @media print {
-      .quire-figure--group .quire-grid--3 {
-        width: 31.3%; } }
-  .quire-figure--group .quire-grid--4 {
-    width: 23.5%; }
-    @media print {
-      .quire-figure--group .quire-grid--4 {
-        width: 23%; } }
-  .quire-figure--group .quire-grid--5 {
-    width: 18.4%; }
-    @media print {
-      .quire-figure--group .quire-grid--5 {
-        width: 18%; } }
-  .quire-figure--group .quire-grid--6 {
-    width: 15%; }
-    @media print {
-      .quire-figure--group .quire-grid--6 {
-        width: 14.6%; } }
-  .quire-figure--group:last-child {
-    margin-right: 0; }
-  .quire-figure--group .soundcloud {
-    flex: 0 0 100%; }
-  .quire-figure--group .quire-figure__caption {
-    clear: both;
-    width: 100%; }
+      width: 100%; }
   @media print {
     .quire-figure {
       width: 96%;
@@ -8532,11 +8510,12 @@ html {
       break-inside: avoid; } }
 
 .quire-entry__image {
-  background-color: #363636;
+  background-color: #000000;
   height: calc(100vh - 6rem - 3rem);
   display: flex;
   align-items: center;
-  justify-content: center; }
+  justify-content: center;
+  position: relative; }
   .quire-entry__image * {
     color: #ffffff; }
   .quire-entry__image svg {
@@ -8546,13 +8525,6 @@ html {
   .quire-entry__image .button {
     background-color: #363636;
     color: #ffffff !important; }
-    .quire-entry__image a:hover, .quire-entry__image a:focus,
-    .quire-entry__image button:hover,
-    .quire-entry__image button:focus,
-    .quire-entry__image .button:hover,
-    .quire-entry__image .button:focus {
-      background-color: #292929;
-      color: #ffffff; }
   .quire-entry__image a {
     border-bottom-color: #ffffff !important; }
   @media print {
@@ -8567,13 +8539,6 @@ html {
       .quire-entry__image .button {
         background-color: #fff;
         color: #363636 !important; }
-        .quire-entry__image a:hover, .quire-entry__image a:focus,
-        .quire-entry__image button:hover,
-        .quire-entry__image button:focus,
-        .quire-entry__image .button:hover,
-        .quire-entry__image .button:focus {
-          background-color: #f2f2f2;
-          color: #363636; }
       .quire-entry__image a {
         border-bottom-color: #363636 !important; } }
   @media print {
@@ -8582,48 +8547,72 @@ html {
     .quire-entry__image__group-container figure:first-of-type {
       display: block; } }
   .quire-entry__image__group-container,
+  .quire-entry__image .quire-counter-container {
+    top: 10px;
+    right: 10px; }
   .quire-entry__image figure {
     flex: 1 1 100%;
     height: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
-    position: relative; }
+    justify-content: center; }
+    .quire-entry__image figure .quire-image-control--download {
+      top: 10px;
+      left: 10px;
+      top: 10px;
+      left: 10px;
+      bottom: 0;
+      height: 24px;
+      background: rgba(0, 0, 0, 0.5);
+      width: 24px; }
+      .quire-entry__image figure .quire-image-control--download svg {
+        width: 24px;
+        height: 14px; }
   .quire-entry__image img {
     margin: 0 auto;
     max-height: 100%; }
   .quire-entry__image .quire-image-control {
     position: absolute;
-    right: 1rem;
     bottom: 1rem;
-    font-size: .8rem;
-    border-color: #d9d9d9;
-    height: 2.25rem;
+    /* border-color: darken($quire-entry-image-icons-color, 15%); */
     z-index: 10; }
     .quire-entry__image .quire-image-control.quire-image-info {
-      background-color: #292929;
-      right: 4.5rem;
-      max-width: 400px;
-      display: none;
-      padding: 1rem 1rem 2.5rem 1rem;
-      border-radius: 3px;
-      z-index: 1;
-      height: auto; }
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 0 10px 25px;
+      z-index: 1046;
+      /*
+        background-color: darken($quire-entry-image-color, 5%);
+        right: 4.5rem;
+        max-width: 400px;
+        display: none;
+        padding: 1rem 1rem 2.5rem 1rem;
+        border-radius: 3px;
+        z-index: 1;
+        height: auto;
+        */ }
       @media print {
         .quire-entry__image .quire-image-control.quire-image-info {
           background-color: transparent;
           display: block;
           font-size: 9pt;
           line-height: 14pt; } }
-      .quire-entry__image .quire-image-control.quire-image-info__caption {
-        display: inline-block;
-        font-size: 1rem;
-        margin-bottom: 1rem; }
-        @media print {
-          .quire-entry__image .quire-image-control.quire-image-info__caption {
-            display: block;
-            font-size: 9pt;
-            line-height: 14pt; } }
+      .quire-entry__image .quire-image-control.quire-image-info > span.quire-image-info__wrap {
+        color: #ffffff;
+        position: relative;
+        display: block;
+        padding: 6px 10px;
+        background: rgba(0, 0, 0, 0.5);
+        font-family: "IBM Plex Sans Condensed", sans-serif;
+        font-size: 12px;
+        font-weight: bold; }
+      @media print {
+        .quire-entry__image .quire-image-control.quire-image-info__caption {
+          display: block;
+          font-size: 9pt;
+          line-height: 14pt; } }
       @media print {
         .quire-entry__image .quire-image-control.quire-image-info__credit {
           display: block;
@@ -8637,22 +8626,55 @@ html {
         .quire-entry__image .quire-image-control--more:hover + .quire-image-info,
         .quire-entry__image .quire-image-control--more:hover + .quire-image-info, .quire-entry__image .quire-image-control--more:focus + .quire-image-info,
         .quire-entry__image .quire-image-control--more:focus + .quire-image-info {
-          display: block;
-          border: 1px solid #d9d9d9; }
+          display: block; }
     .quire-entry__image .quire-image-control--prev-image {
-      top: calc(50% - 2.25rem);
-      left: 0;
-      right: initial;
-      border-left-width: 0;
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0; }
+      margin: 0;
+      left: 10px;
+      opacity: 1;
+      top: 50%;
+      -webkit-transform: translateY(-50%);
+              transform: translateY(-50%);
+      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AAAB6klEQVR4Ae3bsWpUQRTG8YkkanwCa7GzVotsI/gEgk9h4Vu4ySLYmMYgbJrc3lrwZbJwC0FMt4j7F6Y4oIZrsXtgxvx/1c0ufEX4cnbmLCmSJEmSJEmSJEmSJP3XCBPvbJU+8doWmDFwyZpLBmYlNJebz0KwzykwsuSYJSNwykEJreV2BaBMaLIQZ2xYcFgqDlmw4ayE/FwL0dDk4Qh4W37DAjgqIT+3HRbigjH+iikVdxgZStgyN0Su2sXIeTwTT+esdpcbIlfNAuZ/TxresG4zV8kYWSZNiKUTokMMSWeIwTNEn4fK2TW3gRNgVkJLuVksROA9G+bEvoATNlBCa7nZXEwdxEZxzpKRKFh+bsv8LmPFmhX1OwfIz81jIRJQ5eeqG9B+riRJkiRJkiRJkiRJkiRJkiRJUkvA/8RQoEpKlJWINFkJ62AlrEP/mNBibnv2yz/A3t7Uq3LcpoxP8COjC1T5vxoAD5VdoEqdDrd5QuW1swtUSaueh3zkiuBiqgtA2OlkeMcP/uDqugsJdbjHF65VdPMKwS0+WQc/MgKvrIOHysB9vgPwk8+85hmPbnQdvHZyDMAFD7L3EOpgMcVdvnHFS0/vlatrXvCVx0U9gt3fxvnA0/hB4nmRJEmSJEmSJEmSJGmHfgFLaDPoMu5xWwAAAABJRU5ErkJggg==) no-Repeat top left rgba(0, 0, 0, 0.5);
+      background-position-x: -139px;
+      background-position-y: -44px;
+      width: 30px;
+      height: 30px;
+      display: block;
+      border: none;
+      outline: none;
+      /*
+        top: calc(50% - 2.25rem);
+        left: 0;
+        right: initial;
+        border-left-width: 0;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        */ }
     .quire-entry__image .quire-image-control--next-image {
-      top: calc(50% - 2.25rem);
-      right: 0;
-      left: initial;
-      border-right-width: 0;
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0; }
+      margin: 0;
+      -webkit-transform: scale(1);
+              transform: scale(1);
+      right: 10px;
+      opacity: 1;
+      top: 50%;
+      -webkit-transform: translateY(-50%);
+              transform: translateY(-50%);
+      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AAAB6klEQVR4Ae3bsWpUQRTG8YkkanwCa7GzVotsI/gEgk9h4Vu4ySLYmMYgbJrc3lrwZbJwC0FMt4j7F6Y4oIZrsXtgxvx/1c0ufEX4cnbmLCmSJEmSJEmSJEmSJP3XCBPvbJU+8doWmDFwyZpLBmYlNJebz0KwzykwsuSYJSNwykEJreV2BaBMaLIQZ2xYcFgqDlmw4ayE/FwL0dDk4Qh4W37DAjgqIT+3HRbigjH+iikVdxgZStgyN0Su2sXIeTwTT+esdpcbIlfNAuZ/TxresG4zV8kYWSZNiKUTokMMSWeIwTNEn4fK2TW3gRNgVkJLuVksROA9G+bEvoATNlBCa7nZXEwdxEZxzpKRKFh+bsv8LmPFmhX1OwfIz81jIRJQ5eeqG9B+riRJkiRJkiRJkiRJkiRJkiRJUkvA/8RQoEpKlJWINFkJ62AlrEP/mNBibnv2yz/A3t7Uq3LcpoxP8COjC1T5vxoAD5VdoEqdDrd5QuW1swtUSaueh3zkiuBiqgtA2OlkeMcP/uDqugsJdbjHF65VdPMKwS0+WQc/MgKvrIOHysB9vgPwk8+85hmPbnQdvHZyDMAFD7L3EOpgMcVdvnHFS0/vlatrXvCVx0U9gt3fxvnA0/hB4nmRJEmSJEmSJEmSJGmHfgFLaDPoMu5xWwAAAABJRU5ErkJggg==) no-Repeat top right rgba(0, 0, 0, 0.5);
+      background-position-x: -95px;
+      background-position-y: -44px;
+      width: 30px;
+      height: 30px;
+      display: block;
+      border: none;
+      outline: none;
+      /*
+        top: calc(50% - 2.25rem);
+        right: 0;
+        left: initial;
+        border-right-width: 0;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        */ }
     .quire-entry__image .quire-image-control svg {
       position: relative;
       height: 1.5em;
@@ -8799,33 +8821,33 @@ html {
 
 .quire-deepzoom .leaflet-control-zoom .leaflet-bar .leaflet-control-layers-toggle {
   background-image: url(https://i.stack.imgur.com/3keSg.png) !important;
-  background-color: #2da0e2;
+  background-color: #3273dc;
   background-size: 20px 20px; }
 
 .leaflet-touch .leaflet-control-layers-toggle {
   background-image: url(https://i.stack.imgur.com/3keSg.png) !important;
-  background-color: #2da0e2; }
+  background-color: #3273dc; }
 
 .leaflet-control-layers-expanded {
-  color: white;
-  background-color: #2da0e2; }
+  color: #ffffff;
+  background-color: #3273dc; }
 
 div.leaflet-container {
-  background: #000; }
+  background: #000000; }
 
 div.leaflet-control-container {
-  background: #000; }
+  background: #000000; }
   div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-bar {
     box-shadow: none;
     border: none;
     border-radius: 0; }
   div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-control-zoom.leaflet-bar.leaflet-control > a {
     background: rgba(0, 0, 0, 0.5);
-    color: #fff;
+    color: #ffffff;
     border-bottom: none;
     border-radius: 0; }
   div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-control-fullscreen.leaflet-bar.leaflet-control > a {
-    color: #fff;
+    color: #ffffff;
     border-bottom: none;
     background-repeat: no-repeat;
     background-color: rgba(0, 0, 0, 0.5);
@@ -9636,12 +9658,12 @@ div.multimedia {
   border-radius: 5px; }
 
 .leaflet-control-layers-toggle {
-  background-image: url(/../img/layers.png);
+  background-image: url(/img/layers.png);
   width: 36px;
   height: 36px; }
 
 .leaflet-retina .leaflet-control-layers-toggle {
-  background-image: url(/../img/layers-2x.png);
+  background-image: url(/img/layers-2x.png);
   background-size: 26px 26px; }
 
 .leaflet-touch .leaflet-control-layers-toggle {
@@ -9681,7 +9703,7 @@ div.multimedia {
 
 /* Default icon URLs */
 .leaflet-default-icon-path {
-  background-image: url(/../img/marker-icon.png); }
+  background-image: url(/img/marker-icon.png); }
 
 /* attribution and scale controls */
 .leaflet-container .leaflet-control-attribution {

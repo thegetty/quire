@@ -31,7 +31,7 @@
       &:hover {
         background-color: transparent;
         > span.fig {
-          background-color: #B02E2E;
+          background-color: $dark-red;
           transition: background-color .35s;
         }
         > img {
@@ -49,7 +49,7 @@
         padding: 0 9px 0 3px;
         left: 0;
         top: 0;
-        color: #fff;
+        color: $white;
         height: 27px;
         max-height: 27px;
         strong {
@@ -100,7 +100,7 @@
     margin-top: .5rem;
     font-style: normal;
     text-align: left;
-    color: #4a4a4a;
+    color: $light-black;
 
     @media print {
       margin-top: 5pt;
@@ -118,7 +118,7 @@
 
   &__modal {
     display: block;
-    color: #CF4747;
+    color: $red;
     .material-fullscreen,
     .material-slides {
       top: 8px;
@@ -255,9 +255,13 @@
       margin-right: 0;
     }
 
-    .soundcloud {
+    /*
+    .soundcloud,
+    .youtube,
+    .vimeo {
       flex: 0 0 100%;
     }
+    */
 
     .quire-figure__caption {
       clear: both;

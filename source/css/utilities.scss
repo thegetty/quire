@@ -19,8 +19,8 @@
         color: $frcolor !important;
         &:hover,
         &:focus {
-            background-color: darken($bgcolor, 5%);
-            color: $frcolor;
+            // background-color: darken($bgcolor, 5%);
+            // color: $frcolor;
         }
     }
     a {

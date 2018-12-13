@@ -49,7 +49,7 @@ func Test() string {
   {{ range where $.Site.Data.figures.figure_list "id" "eq" $x }}
   {{ $.Scratch.Add "figCount" 1 }}
 
-  <figure class="column quire-grid--{{ $grid }} quire-figure--group__item {{ if .media_id }}{{ if or (eq .media_type "audio") (eq .media_type "soundcloud") }}quire-figure--group__item-pdf {{ .media_type }}{{ end }}{{ end }}">
+  <figure class="column quire-grid--{{ $grid }} quire-figure--group__item {{ if .media_id }}{{ if or (eq .media_type "audio") (eq .media_type "soundcloud") (eq .media_type "youtube") (eq .media_type "vimeo") }}quire-figure--group__item-pdf {{ .media_type }}{{ end }}{{ end }}">
 
     {{ if .media_id }}
     {{/* -------------------- BEGIN VIDEO BLOCK -------------------- */}}
@@ -81,21 +81,27 @@ func Test() string {
                src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' 
                alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}'/>
   {{ else if eq .media_type "audio" }}
-      <iframe {{ if eq $.Site.Params.pdf true }} class="visually-hidden" {{ end }} id='{{ .id }}'
+  {{ if ne $.Site.Params.pdf true }}
+      <iframe {{ if eq $.Site.Params.pdf true }} class="visually-hidden" {{ end }} id='{{ .id }}' 
+      title='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .title }}{{ .title | markdownify }}{{ end }}'
       width="100%" 
       height="166" 
       scrolling="no" 
       frameborder="no" 
       allow="autoplay" 
       src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe>  
-  {{ else if eq .media_type "soundcloud" }}  
+  {{ end }}
+      {{ else if eq .media_type "soundcloud" }}  
+  {{ if ne $.Site.Params.pdf true }}
       <iframe id='{{ .id }}'
+      title='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .title }}{{ .title | markdownify }}{{ end }}'
       width="100%" 
       height="166" 
       scrolling="no" 
       frameborder="no" 
       allow="autoplay" 
       src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe> 
+  {{ end }}
   {{ end }}
       <div class="quire-figure__video-fallback visually-hidden">
         {{ if .src }}
@@ -113,12 +119,14 @@ func Test() string {
     {{ if ne $.Site.Params.pdf true }}
       {{ if eq .media_type "youtube" }}
       <iframe id="{{ .id }}"
+              title='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .title }}{{ .title | markdownify }}{{ end }}'
               class="quire-figure__video"
               src="https://www.youtube-nocookie.com/embed/{{ .media_id }}?rel=0&amp;showinfo=0"
               frameborder="0"
               allowfullscreen></iframe>
       {{ else if eq .media_type "vimeo" }}
       <iframe id="{{ .id }}"
+              title='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .title }}{{ .title | markdownify }}{{ end }}'
               class="q-figure__video"
               src="https://player.vimeo.com/video/{{ .media_id }}"
               frameborder="0"
@@ -127,6 +135,7 @@ func Test() string {
               allowfullscreen></iframe>
       {{ else if eq .media_type "audio" }}
       <iframe id='{{ .id }}'
+                      title='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .title }}{{ .title | markdownify }}{{ end }}'
                       width="100%" 
                       height="166" 
                       scrolling="no" 
@@ -135,6 +144,7 @@ func Test() string {
                       src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe> 
       {{ else if eq .media_type "soundcloud" }} 
       <iframe id='{{ .id }}'
+                      title='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .title }}{{ .title | markdownify }}{{ end }}'
                       width="100%" 
                       height="166" 
                       scrolling="no" 

@@ -106,7 +106,7 @@ render the figure from matching values found ther
          class="video popup"
          data-type="video" 
          {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}
-         data-video="<div class='wrapper'><div class='video-wrapper'><iframe id='{{ .id }}' class='quire-figure__media pswp__video' src='https://www.youtube-nocookie.com/embed/{{ .media_id }}?rel=0&amp;showinfo=0' frameborder='0' allowfullscreen></iframe></div></div>">
+         data-video="<div class='wrapper'><div class='video-wrapper'><iframe title='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .title }}{{ .title | markdownify }}{{ end }}' id='{{ .id }}' class='quire-figure__media pswp__video' src='https://www.youtube-nocookie.com/embed/{{ .media_id }}?rel=0&amp;showinfo=0' frameborder='0' allowfullscreen></iframe></div></div>">
       {{ if .src }}
       <img class='quire-figure__image {{ if or (eq $.Site.Params.pdf true) (eq $.Site.Params.epub true) }} visually-hidden {{ end }}'
            src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' 
@@ -118,28 +118,34 @@ render the figure from matching values found ther
          data-type="video" 
          class="video popup"
          {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}
-         data-video="<div class='wrapper'><div class='video-wrapper'><iframe id='{{ .id }}' class='quire-figure__media pswp__video' src='https://player.vimeo.com/video/{{ .media_id }}' frameborder='0' webkitallowfullscreen mozallowfullscreen allowfullscreen>></iframe></div></div>">
+         data-video="<div class='wrapper'><div class='video-wrapper'><iframe title='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .title }}{{ .title | markdownify }}{{ end }}' id='{{ .id }}' class='quire-figure__media pswp__video' src='https://player.vimeo.com/video/{{ .media_id }}' frameborder='0' webkitallowfullscreen mozallowfullscreen allowfullscreen>></iframe></div></div>">
          {{ if .src }}
          <img class='quire-figure__image {{ if or (eq $.Site.Params.pdf true) (eq $.Site.Params.epub true) }} visually-hidden {{ end }}'
               src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' 
               alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}'/>
          {{ end }}
   {{ else if eq .media_type "audio" }}
+  {{ if ne $.Site.Params.pdf true }}
       <iframe id='{{ .id }}'
+      title='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .title }}{{ .title | markdownify }}{{ end }}'
       width="100%" 
       height="166" 
       scrolling="no" 
       frameborder="no" 
       allow="autoplay" 
       src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe>   
-  {{ else if eq .media_type "soundcloud" }}   
+  {{ end }}
+  {{ else if eq .media_type "soundcloud" }} 
+  {{ if ne $.Site.Params.pdf true }}  
       <iframe id='{{ .id }}'
+      title='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .title }}{{ .title | markdownify }}{{ end }}'
       width="100%" 
       height="166" 
       scrolling="no" 
       frameborder="no" 
       allow="autoplay" 
       src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe>  
+  {{ end }}
   {{ else if eq .media_type "website" }}
   <iframe id='{{ .id }}'
           class='quire-figure__media'
@@ -155,12 +161,14 @@ render the figure from matching values found ther
   {{ if ne $.Site.Params.pdf true }}
     {{ if eq .media_type "youtube" }}
     <iframe id='{{ .id }}'
+            title='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .title }}{{ .title | markdownify }}{{ end }}'
             class='quire-figure__media'
             src='https://www.youtube-nocookie.com/embed/{{ .media_id }}?rel=0&amp;showinfo=0'
             frameborder='0'
             allowfullscreen></iframe>
     {{ else if eq .media_type "vimeo" }}
     <iframe id='{{ .id }}'
+            title='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .title }}{{ .title | markdownify }}{{ end }}'
             class='quire-figure__media'
             src='https://player.vimeo.com/video/{{ .media_id }}'
             frameborder='0'
@@ -169,6 +177,7 @@ render the figure from matching values found ther
             allowfullscreen></iframe>
     {{ else if eq .media_type "audio" }}
     <iframe id='{{ .id }}'
+            title='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .title }}{{ .title | markdownify }}{{ end }}'
             width="100%" 
             height="166" 
             scrolling="no" 
@@ -177,6 +186,7 @@ render the figure from matching values found ther
             src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe> 
     {{ else if eq .media_type "soundcloud" }}  
     <iframe id='{{ .id }}'
+            title='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .title }}{{ .title | markdownify }}{{ end }}'
             width="100%" 
             height="166" 
             scrolling="no" 
