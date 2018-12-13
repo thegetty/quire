@@ -69,7 +69,6 @@
     {{- $.contentsPage.Scratch.Set "renderedSection" .Section -}}
       {{- if eq .Params.slug "." -}}
         {{- if eq $.contentsLocation ".Params.menu" }}
-          <h3 class="menu-label main">Main</h3>
           {{ if .Section }}
             {{ $scope := where .Site.Pages "Section" .Section }}
             {{- partial "contents-list.html" (dict "contentsScope" $scope "contentsType" .Site.Params.tocType "contentsLocation" ".Params.toc" ) -}}

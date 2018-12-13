@@ -62,6 +62,11 @@
   @media print {
     display: none;
   }
+  &:hover {
+    .quire-progress-bar {
+      height: 18px;
+    }
+  }
 }
 
 // .quire-progress-bar
@@ -72,9 +77,6 @@
   transition: all .5s ease;
   font-family: $quire-nav-font;
   font-size: 0.75rem;
-  &:hover {
-    height: 18px;
-  }
   span {
     color: $white;
   }
