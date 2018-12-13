@@ -8,10 +8,12 @@
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css';
 import '../css/application.scss';
 import 'leaflet/dist/leaflet.css';
+import quicklink from "quicklink";
 
 // JS Libraries (add them to package.json with `npm install [library]`)
 import $ from 'jquery';
 import 'velocity-animate';
+import zoom from 'jquery-zoom';
 import './soundcloud-api';
 
 // Modules (feel free to define your own and import here)
@@ -87,6 +89,10 @@ function sliderSetup() {
   let slider = $('.quire-entry__image__group-container');
   slider.each(function () {
     let sliderImages = $(this).find('figure');
+    let sliderImage = $(this).find('img');
+    sliderImage.wrap('<span style="display:inline-block"></span>').css('display', 'block').parent().zoom({
+      on: 'grab'
+    });
     let firstImage = $(sliderImages.first());
     let lastImage = $(sliderImages.last());
     sliderImages.hide();
@@ -103,6 +109,7 @@ function sliderSetup() {
  * per page.
  */
 window.slideImage = (direction) => {
+  console.log(direction)
   let slider = $(event.target).closest('.quire-entry__image__group-container');
   let firstImage = slider.children('.first-image');
   let lastImage = slider.children('.last-image');
@@ -273,11 +280,26 @@ function deepZoomSetup() {
 }
 
 /**
+ * @description
+ * Adding GoogleChromeLabs quicklinks https://github.com/GoogleChromeLabs/quicklink
+ * For faster subsequent page-loads by prefetching in-viewport links during idle time
+ */
+function quickLinksSetup() {
+  let links = [...document.getElementsByTagName('a')];
+  links = links.filter(a => {
+    return a.hostname === window.location.hostname;
+  });
+  quicklink({urls:links})
+}
+
+
+/**
  * pageSetup
  * @description This function is called after each smoothState reload.
  * Initialize any jquery plugins or set up page UI elements here.
  */
 function pageSetup() {
+  quickLinksSetup();
   activeMenuPage();
   sliderSetup();
   // navigationSetup()

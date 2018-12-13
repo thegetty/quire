@@ -1,12 +1,9 @@
-@import "../variables";
-
-$dark: #363636 !default;
 $gap: 16px !default;
 $quire-deepzoom-height: 500px !default;
-$color_1: white;
-$color_2: #fff;
-$color_3: #000;
-$background_color_1: #2da0e2;
+$color_1: $white;
+$color_2: $white;
+$color_3: $black;
+$background_color_1: $blue;
 
 .no-popup-quire-deepzoom {
     height: $quire-deepzoom-height; 
