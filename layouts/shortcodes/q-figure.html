@@ -112,8 +112,6 @@ render the figure from matching values found ther
            src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' 
            alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}'/>
       {{ end }}
-
-
   {{ else if eq .media_type "vimeo" }}
   <div class="q-figure__wrapper">
       <a href='https://player.vimeo.com/video/{{ .media_id }}'
@@ -126,25 +124,22 @@ render the figure from matching values found ther
               src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' 
               alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}'/>
          {{ end }}
-
   {{ else if eq .media_type "audio" }}
-      <iframe {{ if or (eq $.Site.Params.pdf true) (eq $.Site.Params.epub true) }} class="visually-hidden" {{ end }} id='{{ .id }}'
+      <iframe id='{{ .id }}'
       width="100%" 
       height="166" 
       scrolling="no" 
       frameborder="no" 
       allow="autoplay" 
       src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe>   
-      
   {{ else if eq .media_type "soundcloud" }}   
-      <iframe {{ if or (eq $.Site.Params.pdf true) (eq $.Site.Params.epub true) }} class="visually-hidden" {{ end }} id='{{ .id }}'
+      <iframe id='{{ .id }}'
       width="100%" 
       height="166" 
       scrolling="no" 
       frameborder="no" 
       allow="autoplay" 
       src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe>  
-  
   {{ else if eq .media_type "website" }}
   <iframe id='{{ .id }}'
           class='quire-figure__media'
@@ -156,6 +151,8 @@ render the figure from matching values found ther
   {{/* -------------------- else for modal -------------------- */}}
 
   <div  class='quire-figure__media-wrapper{{ if .aspect_ratio }}--{{ .aspect_ratio }} {{ else if eq .media_type "soundcloud" }} {{ else if eq .media_type "audio" }} {{ else }}--widescreen{{ end }}'>
+
+  {{ if ne $.Site.Params.pdf true }}
     {{ if eq .media_type "youtube" }}
     <iframe id='{{ .id }}'
             class='quire-figure__media'
@@ -178,7 +175,7 @@ render the figure from matching values found ther
             frameborder="no" 
             allow="autoplay" 
             src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe> 
-    {{ else if eq .media_type "soundcloud" }}   
+    {{ else if eq .media_type "soundcloud" }}  
     <iframe id='{{ .id }}'
             width="100%" 
             height="166" 
@@ -191,8 +188,9 @@ render the figure from matching values found ther
             class='quire-figure__media'
             src='{{ .media_id }}'></iframe>
     {{ end }}
+  {{ end }}   
 
-    <div class="quire-figure__media-fallback">
+    <div class="quire-figure__media-fallback visually-hidden">
       {{ if .src }}
       <img id='{{ .id }}'
            src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'

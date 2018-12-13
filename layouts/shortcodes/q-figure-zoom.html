@@ -162,7 +162,11 @@
 </a>
 </div>
 
+{{/* -------------------- else for modal -------------------- */}}
 {{ else }}
+{{/* -------------------- else for modal -------------------- */}}
+
+{{ if ne $.Site.Params.pdf true }}
 
 {{ if .Get "media_type" eq "map" }}
 
@@ -196,6 +200,13 @@
  data-image='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'>
 </div>
     
+{{ end }}
+
+{{ else }}
+<img
+class="quire-figure__image" 
+src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
+alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
 {{ end }}
 
   <figcaption class="quire-figure__caption">
@@ -379,7 +390,11 @@
 </a>
 </div>
 
+{{/* -------------------- else for modal -------------------- */}}
 {{ else }}
+{{/* -------------------- else for modal -------------------- */}}
+
+{{ if ne $.Site.Params.pdf true }}
 
 {{ if eq .media_type "map"  }}
 
@@ -414,6 +429,14 @@
     aria-label="Zoomable image" 
     data-image='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'>
   </div>
+
+{{ end }}
+
+{{ else }}
+
+<img
+class="quire-figure__image" 
+src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
 
 {{ end }}
 

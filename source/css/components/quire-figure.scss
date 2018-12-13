@@ -189,8 +189,9 @@
 
     &__row {
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       margin-bottom: .75rem;
+      flex-wrap: wrap;
       @media print {
         display: inline-block;
         margin-bottom: 0;
@@ -199,9 +200,10 @@
     }
 
     &__item {
-      float: left;
-      width: 100%;
+      display: block;
+      flex-basis: 0;
       flex-grow: 1;
+      flex-shrink: 1;
       .content & {
         margin-left: 0;
         margin-right: 0;
@@ -217,44 +219,44 @@
         clear: both;
         padding-top: 1rem;
       }
-      .quire-grid--2 & {
-        width: 49%;
-        margin-right: 2%;
-        @media print {
-          width: 48%;
-        }
+    }
+
+    .quire-grid--2 {
+      width: 49%;
+      @media print {
+        width: 48%;
       }
-      .quire-grid--3 & {
-        width: 32%;
-        margin-right: 2%;
-        @media print {
-          width: 31.3%;
-        }
+    }
+    .quire-grid--3 {
+      width: 32%;
+      @media print {
+        width: 31.3%;
       }
-      .quire-grid--4 & {
-        width: 23.5%;
-        margin-right: 2%;
-        @media print {
-          width: 23%;
-        }
+    }
+    .quire-grid--4 {
+      width: 23.5%;
+      @media print {
+        width: 23%;
       }
-      .quire-grid--5 & {
-        width: 18.4%;
-        margin-right: 2%;
-        @media print {
-          width: 18%;
-        }
+    }
+    .quire-grid--5 {
+      width: 18.4%;
+      @media print {
+        width: 18%;
       }
-      .quire-grid--6 & {
-        width: 15%;
-        margin-right: 2%;
-        @media print {
-          width: 14.6%;
-        }
+    }
+    .quire-grid--6 {
+      width: 15%;
+      @media print {
+        width: 14.6%;
       }
-      &:last-child {
-        margin-right: 0;
-      }
+    }
+    &:last-child {
+      margin-right: 0;
+    }
+
+    .soundcloud {
+      flex: 0 0 100%;
     }
 
     .quire-figure__caption {
