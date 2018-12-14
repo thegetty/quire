@@ -230,8 +230,8 @@ html {
     text-align: center;
     content: "◆\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0◆\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0◆";
     margin: 0 auto;
-    max-width: 636px;
-    width: 636px;
+    max-width: 720px;
+    width: 720px;
     background-color: $white;
   }
 }
@@ -249,14 +249,19 @@ html {
     font-weight: 400;
     line-height: 1.6;
   }
+  .container {
+    .content {
+      margin-top: 20px;
+      padding-top: 40px;
+      font-size: 14px;
+      font-style: italic;
+    }
+  }
+
 
   // Overrides to Bulma's .content styles where needed.
 
   .content {
-    background-color: $white;
-    padding: 2em;
-    margin-top: 3em;
-    font-size: .75em;
 
     a:not([rel=footnote]):not(.footnote-return) {
       color: $quire-primary-color;
