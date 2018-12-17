@@ -8233,15 +8233,23 @@ html {
     .quire-contents-list.list .quire-menu__formats a, .quire-contents-list.brief .quire-menu__formats a {
       text-decoration: none; }
   .quire-contents-list.abstract .title {
+    font-size: 1em;
+    font-style: normal;
+    font-weight: 400;
     line-height: 1.35;
     margin-bottom: 0;
     font-family: "IBM Plex Sans Condensed", sans-serif; }
   .quire-contents-list.abstract .abstract-text {
+    font-size: 14px;
+    line-height: 1.5em;
     padding-left: 1.5rem;
     margin-bottom: 1rem;
     line-height: 1.4; }
     .quire-contents-list.abstract .abstract-text p {
       margin-bottom: .5em; }
+  .quire-contents-list.abstract .quire-menu__formats a {
+    font-size: 1em;
+    text-decoration: none; }
   .quire-contents-list.grid {
     font-size: .75em;
     font-family: "IBM Plex Sans Condensed", sans-serif; }
@@ -8262,7 +8270,8 @@ html {
       .quire-contents-list.grid .quire-menu__formats ul {
         display: block; }
       .quire-contents-list.grid .quire-menu__formats a {
-        font-size: 1.325em; }
+        font-size: 1.325em;
+        text-decoration: none; }
     .quire-contents-list.grid h6 {
       font-size: .875em; }
     .quire-contents-list.grid ul li {

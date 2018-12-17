@@ -98,7 +98,7 @@ Cover page layout. This controls the home page of the publication.
       <li class="quire-nav-button next">
         {{ with .Next }}
           <a href="{{ .Permalink }}">
-            <span class="nav-title">Contents {{ $.Site.Params.pdf }}</span>
+            <span class="nav-title">Next {{ $.Site.Params.pdf }}</span>
             {{- template "image-control-icon" (dict "type" "right-arrow" "description" "Go to next page" "imageDir" ($.Scratch.Get "imageDir") ) -}}
           </a>
         {{ end }}
