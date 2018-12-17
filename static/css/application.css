@@ -7505,6 +7505,9 @@ template {
         margin-top: 0; }
       .quire-menu__footer .menu-list a {
         padding: .5em; }
+        .quire-menu__footer .menu-list a:hover {
+          background-color: inherit;
+          text-decoration: underline; }
     .quire-menu__footer .quire-copyright {
       padding: 0 .5em; }
   .quire-menu .page-item a.active, .quire-menu .section-item a.active {
@@ -8842,6 +8845,17 @@ html {
     max-width: 100%; }
     .quire-copyright__icon img {
       max-height: 100%; }
+    .quire-copyright__icon__logo {
+      -webkit-filter: invert(100%);
+              filter: invert(100%);
+      height: 3em;
+      max-width: 100%;
+      display: inline-block; }
+  .quire-copyright p {
+    display: inline-block;
+    padding-left: 1em;
+    font-weight: 700;
+    font-size: 1.25em; }
 
 .quire-contributors-list,
 .content ul.quire-contributors-list {
