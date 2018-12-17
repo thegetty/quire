@@ -7113,7 +7113,8 @@ label.panel-block {
   padding: 20px;
   position: absolute;
   bottom: 10%;
-  margin-left: 0; }
+  margin-left: 0;
+  left: 0; }
 
 .hero-body,
 .section,
@@ -7915,7 +7916,7 @@ html {
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
-  min-height: calc(95vh - 3rem);
+  min-height: calc(95vh - 3rem) !important;
   text-align: left;
   display: flex;
   align-items: center; }
@@ -8023,10 +8024,9 @@ html {
     margin-left: .25rem;
     margin-bottom: .05rem;
     fill: #fff; }
-
-.quire-cover__button:hover {
-  background-color: #B02E2E;
-  color: #ffffff; }
+  .quire-cover__button:hover {
+    background-color: #B02E2E;
+    color: #ffffff; }
 
 .quire-cover .quire-page__content {
   padding-bottom: 0; }

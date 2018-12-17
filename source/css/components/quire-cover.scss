@@ -28,7 +28,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
-    min-height: calc(95vh - #{$navbar-height});
+    min-height: calc(95vh - #{$navbar-height}) !important;
     text-align: $quire-cover-text-alignment;
     display: flex;
     align-items: center;
@@ -155,10 +155,10 @@
       margin-bottom: .05rem;
       fill: findColorInvert($quire-page-link-color);
     }
-  }
-  &__button:hover {
-    background-color: $quire-primary-color-hover;
-    color: $white;
+    &:hover {
+      background-color: $quire-primary-color-hover;
+      color: $white;
+    }
   }
 
   .quire-page__content {
