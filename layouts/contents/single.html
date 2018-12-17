@@ -10,14 +10,17 @@
   <div class="quire-contents-header">
     <h1 id="{{ .Title | urlize }}">{{ .Title | markdownify }}</h1>
   </div>
-  <section class="section quire-page__content" id="content">
+  <section class="section quire-page__abstract">
     <div class="container {{ if in .Params.class "grid" }}is-fullhd{{ end }}">
       {{ if .Content }}
         <div class="content">
           {{ .Content }}
         </div>
       {{ end }}
-
+    </div>
+  </section>
+  <section class="section quire-page__content" id="content">
+    <div class="container {{ if in .Params.class "grid" }}is-fullhd{{ end }}">
       <div class="quire-contents-list {{ if in .Params.class "grid" }} grid{{ else if in .Params.class "abstract" }} abstract{{ else if in .Params.class "brief" }} brief{{ else }} list{{ end }}">
         <div class="menu-list">
           {{ if .Section }}
@@ -31,7 +34,7 @@
                 {{ $otherFormats := where .Site.Data.publication.resource_link "type" "other-format" }}
                 {{ if gt (len $otherFormats) 0 -}}
                   <div class="quire-menu__formats">
-                  <h6 class="menu-label">Other Formats</h6>
+                  <h6>Other Formats</h6>
                     <div role="complementary" aria-label="downloads">
                       {{- partial "link-list-arrow.html" $otherFormats -}}
                     </div>
