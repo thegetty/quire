@@ -16,7 +16,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
   &__image {
     @include foreground-color($quire-entry-image-color,$quire-entry-image-icons-color);
     background-color: $black;
-    height: calc(100vh - #{$quire-entry-header-height} - #{$navbar-height});
+    min-height: calc(100vh - #{$quire-entry-header-height} - #{$navbar-height});
     display: flex;
     align-items: center;
     justify-content: center;
@@ -232,6 +232,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     }
     .container {
       background-color: $white;
+      padding-bottom: 1em;
     }
     .table {
       width: 86%;

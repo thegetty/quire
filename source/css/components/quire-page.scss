@@ -253,8 +253,10 @@ html {
     .content {
       margin-top: 20px;
       padding-top: 40px;
-      font-size: 14px;
-      font-style: italic;
+      font-size: 16px;
+      p {
+        line-height: 2;
+      }
     }
   }
 

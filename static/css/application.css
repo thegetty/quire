@@ -7785,8 +7785,9 @@ html {
   .quire-page__content .container .content {
     margin-top: 20px;
     padding-top: 40px;
-    font-size: 14px;
-    font-style: italic; }
+    font-size: 16px; }
+    .quire-page__content .container .content p {
+      line-height: 2; }
   .quire-page__content .content a:not([rel=footnote]):not(.footnote-return) {
     color: #CF4747; }
     @media print {
@@ -8567,7 +8568,7 @@ html {
 
 .quire-entry__image {
   background-color: #000000;
-  height: calc(100vh - 6rem - 3rem);
+  min-height: calc(100vh - 6rem - 3rem);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -8756,7 +8757,8 @@ html {
   background-color: #F9F9A3; }
 
 .quire-entry__tombstone .container {
-  background-color: #ffffff; }
+  background-color: #ffffff;
+  padding-bottom: 1em; }
 
 .quire-entry__tombstone .table {
   width: 86%;
