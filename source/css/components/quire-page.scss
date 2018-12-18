@@ -149,7 +149,7 @@ html {
 // .quire-page-header
 // -----------------------------------------------------------------------------
 .quire-page__header {
-  background-color: $quire-page-header-color;
+  background-color: $off-white;
   @include foreground-color($quire-page-header-color, $quire-page-header-text-color);
   background-size: cover;
   background-repeat: no-repeat;
@@ -278,15 +278,40 @@ html {
   }
   .container {
     .content {
-      margin-top: 20px;
-      padding-top: 40px;
+      margin-top: 45px;
       font-size: 16px;
+      padding: 40px 1.75em;
+      background-color: $white;
       p {
         line-height: 2;
       }
+      .backmatter {
+        h2 {
+          font-size: .875em;
+          line-height: 1.28em;
+          text-transform: uppercase;
+          margin-top: 20px;
+          padding-bottom: 6px;
+          border-bottom: 1px solid #333333;
+        }
+        p {
+          font-size: 0.875em;
+          line-height: 1.6em !important;
+        }
+      }
+      #notes {
+        font-size: .875em;
+        line-height: .5em;
+        margin-top: 20px;
+      }
+      .footnotes {
+        font-size: .875em;
+        hr {
+          margin-bottom: 0;
+        }
+      }
     }
   }
-
 
   // Overrides to Bulma's .content styles where needed.
 
@@ -360,13 +385,13 @@ html {
       h2 {
         margin-top: 1em;
         padding-bottom: .2em;
-        // font-size: 1em;
+        font-size: .875em;
         // font-style: normal;
         // font-weight: 700;
         // text-transform: uppercase;
         border-bottom: 1px solid $off-black;
       }
-      span {
+      span, dd {
         font-size: .875em;
       }
     }

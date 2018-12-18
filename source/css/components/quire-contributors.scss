@@ -17,13 +17,20 @@
 // .quire-contributor
 // -----------------------------------------------------------------------------
 .quire-contributor {
+  padding-bottom: 1em;
   &__pic {
-    max-width: 100px;
+    width: 100px;
+    border-radius: 60px;
+    margin: .8em 1em .8em 0;
+    overflow: hidden;
     @media screen and (min-width: $tablet) { max-width: 200px; }
+  }
+  &__bio {
+    font-size: 0.875em;
+    line-height: 1.6em !important;
   }
 
   &__details {
-    font-size: 1rem;
-    padding-left: 1rem;
+    font-size: 1em;
   }
 }
