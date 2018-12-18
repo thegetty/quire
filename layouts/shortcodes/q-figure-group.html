@@ -313,7 +313,8 @@ func Test() string {
           {{ end }}
         </span>
       {{ else if eq $.Site.Params.figureEnlargeType "outside" }}
-      <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}">
+      <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
+      <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}"></span>
         {{ if $.Get "label_text" }}
         {{ $.Get "label_text" | markdownify }}
         {{ else if .label_text }}
@@ -334,7 +335,9 @@ func Test() string {
           {{ end }}
         </span>
       {{ end }}
-    {{ end }}
+      {{ else }}
+      <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span></span>
+      {{ end }}
 
     {{ if eq $.Site.Params.pdf true }}<span class="media-caption">{{ end }}
     {{ if $.Get "caption" }}
@@ -388,17 +391,6 @@ func Test() string {
       {{ if .credit }}
         <span class="quire-figure__credit">{{ .credit | markdownify }}</span>
       {{ end }}
-
-    {{ if eq $.Site.Params.popup true }}
-      {{ if eq $.Site.Params.figureEnlargeType "outside" }}
-        {{ if or (eq .media_type "vimeo") (eq .media_type "youtube") }}
-          <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge Video</span>
-        {{ end }}
-        {{ if eq .media_type "image" }}
-          <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge Image</span>
-        {{ end }}
-      {{ end }}
-    {{ end }}
 
     </figcaption>
     {{/* -------------------- END CAPTION BLOCK -------------------- */}}

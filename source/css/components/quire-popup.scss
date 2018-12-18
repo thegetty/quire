@@ -4,7 +4,6 @@ $font_0: $family-secondary;
 //urls
 $url_0: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AAAB6klEQVR4Ae3bsWpUQRTG8YkkanwCa7GzVotsI/gEgk9h4Vu4ySLYmMYgbJrc3lrwZbJwC0FMt4j7F6Y4oIZrsXtgxvx/1c0ufEX4cnbmLCmSJEmSJEmSJEmSJP3XCBPvbJU+8doWmDFwyZpLBmYlNJebz0KwzykwsuSYJSNwykEJreV2BaBMaLIQZ2xYcFgqDlmw4ayE/FwL0dDk4Qh4W37DAjgqIT+3HRbigjH+iikVdxgZStgyN0Su2sXIeTwTT+esdpcbIlfNAuZ/TxresG4zV8kYWSZNiKUTokMMSWeIwTNEn4fK2TW3gRNgVkJLuVksROA9G+bEvoATNlBCa7nZXEwdxEZxzpKRKFh+bsv8LmPFmhX1OwfIz81jIRJQ5eeqG9B+riRJkiRJkiRJkiRJkiRJkiRJUkvA/8RQoEpKlJWINFkJ62AlrEP/mNBibnv2yz/A3t7Uq3LcpoxP8COjC1T5vxoAD5VdoEqdDrd5QuW1swtUSaueh3zkiuBiqgtA2OlkeMcP/uDqugsJdbjHF65VdPMKwS0+WQc/MgKvrIOHysB9vgPwk8+85hmPbnQdvHZyDMAFD7L3EOpgMcVdvnHFS0/vlatrXvCVx0U9gt3fxvnA0/hB4nmRJEmSJEmSJEmSJGmHfgFLaDPoMu5xWwAAAABJRU5ErkJggg==);
 
-@import "../variables";
 div {
 	&.quire-counter-container {
 		position: absolute;
@@ -99,12 +98,10 @@ body > div {
 						width: 32px;
 						height: 35vh;
 						margin: 0;
-						//Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
 						transform: scale(1);
 						left: 10px;
 						opacity: 1;
 						top: 50%;
-						//Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
 						transform: translateY(-50%);
 						> span {
 							background: $url_0 no-Repeat top left $dark-semi-transparent;
@@ -113,7 +110,6 @@ body > div {
 							width: 30px;
 							height: 30px;
 							display: block;
-							//Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
 							transform: scale(1);
 						}
 					}
@@ -121,12 +117,10 @@ body > div {
 						width: 32px;
 						height: 35vh;
 						margin: 0;
-						//Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
 						transform: scale(1);
 						right: 10px;
 						opacity: 1;
 						top: 50%;
-						//Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
 						transform: translateY(-50%);
 						> span {
 							background: $url_0 no-Repeat top right $dark-semi-transparent;
@@ -135,7 +129,6 @@ body > div {
 							width: 30px;
 							height: 30px;
 							display: block;
-							//Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
 							transform: scale(1);
 						}
 					}

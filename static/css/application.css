@@ -7782,7 +7782,7 @@ html {
     margin-top: 20px;
     padding-top: 40px;
     font-size: 14px;
-    font-style: italic; }
+    /* font-style: italic; */ }
   .quire-page__content .content a:not([rel=footnote]):not(.footnote-return) {
     color: #CF4747; }
     @media print {
@@ -8435,7 +8435,6 @@ html {
       font-size: 7.5pt;
       margin-top: 1.5pt; } }
   .quire-figure__modal {
-    display: block;
     color: #CF4747; }
     .quire-figure__modal .material-fullscreen,
     .quire-figure__modal .material-slides {
@@ -8604,18 +8603,17 @@ html {
     .quire-entry__image figure .quire-image-control--download {
       top: 10px;
       left: 10px;
-      top: 10px;
-      left: 10px;
       bottom: 0;
-      height: 24px;
+      height: 30px;
       background: rgba(0, 0, 0, 0.5);
-      width: 24px; }
+      width: 30px; }
       .quire-entry__image figure .quire-image-control--download svg {
-        width: 24px;
-        height: 14px; }
+        width: 30px;
+        height: 15px;
+        margin-top: 6px; }
   .quire-entry__image img {
     margin: 0 auto;
-    max-height: 100%; }
+    max-height: calc(100vh - 6rem - 3rem); }
   .quire-entry__image .quire-image-control {
     position: absolute;
     bottom: 1rem;
@@ -8744,8 +8742,9 @@ html {
 .quire-entry__tombstone a:hover {
   background-color: #F9F9A3; }
 
-.quire-entry__tombstone .container {
-  background-color: #ffffff; }
+.quire-entry__tombstone > div.container {
+  background-color: #ffffff;
+  padding-bottom: 20px; }
 
 .quire-entry__tombstone .table {
   width: 86%;
@@ -8803,6 +8802,49 @@ html {
 
 .quire-entry .quire-contents-buttons {
   padding-bottom: 3rem; }
+
+div.side-by-side {
+  display: block; }
+  @media screen and (min-width: 700px) {
+    div.side-by-side {
+      display: flex; } }
+  div.side-by-side div.quire-entry__image-wrap {
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 6rem - 3rem); }
+    @media screen and (min-width: 700px) {
+      div.side-by-side div.quire-entry__image-wrap {
+        width: 56%;
+        flex: none; } }
+    div.side-by-side div.quire-entry__image-wrap div.quire-entry__image {
+      position: relative;
+      width: 100%;
+      height: inherit; }
+      @media screen and (min-width: 700px) {
+        div.side-by-side div.quire-entry__image-wrap div.quire-entry__image {
+          position: fixed;
+          width: 56%;
+          height: 100vh; } }
+      @media screen and (min-width: 700px) {
+        div.side-by-side div.quire-entry__image-wrap div.quire-entry__image .quire-entry__image__group-container figure .quire-image-info {
+          bottom: 53px; } }
+  div.side-by-side div.quire-entry__content {
+    width: 100%; }
+    @media screen and (min-width: 700px) {
+      div.side-by-side div.quire-entry__content {
+        width: 44%;
+        flex: none; } }
+    @media screen and (min-width: 700px) {
+      div.side-by-side div.quire-entry__content section,
+      div.side-by-side div.quire-entry__content header {
+        padding-left: 20px;
+        padding-right: 20px; } }
+    @media screen and (min-width: 700px) {
+      div.side-by-side div.quire-entry__content section div.container,
+      div.side-by-side div.quire-entry__content header div.container {
+        width: 100%;
+        padding-left: 20px;
+        padding-right: 20px; } }
 
 .quire-citation {
   display: inline-block;
