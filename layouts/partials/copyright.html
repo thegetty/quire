@@ -7,8 +7,13 @@
 <div class="quire-copyright">
 
 {{/* If copyright info is defined, show information about it here */}}
-{{- if .Site.Data.publication.copyright -}}
-<p>{{ .Site.Data.publication.copyright | markdownify }}</p>
+  {{- $imgDir := $.Scratch.Get "imageDir" -}}
+  {{ range .Site.Data.publication.publisher }}
+    <img src="{{ $imgDir | absURL }}/{{ .logo }}" class="quire-copyright__icon__logo" alt="logo" />
+  {{ end }}
+
+  {{- if .Site.Data.publication.copyright -}}
+    <p>{{ .Site.Data.publication.copyright | markdownify }}</p>
   {{- end -}}
 
   {{/* If a license is defined, show information about it here */}}
@@ -21,10 +26,7 @@
 
     {{- with .Site.Data.publication.license.url }}<a rel="license" class="quire-copyright__icon__link" href="{{ . }}" target="_blank">{{ end -}}
 
-    {{- if .Site.Data.publication.license.icon -}}
-      <img src="{{ $imgDir | absURL }}/{{ .Site.Data.publication.license.icon }}" class="quire-copyright__icon" alt="logo" />
-    {{- else -}}
-
+    {{- if .Site.Data.publication.license -}}
     <svg class="quire-copyright__icon">
       {{ if in $license "CC" }}
         <switch>

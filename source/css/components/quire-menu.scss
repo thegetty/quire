@@ -105,6 +105,10 @@
       }
       a {
         padding: .5em;
+        &:hover {
+          background-color: inherit;
+          text-decoration: underline;
+        }
       }
     }
     .quire-copyright {

@@ -16,7 +16,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
   &__image {
     @include foreground-color($quire-entry-image-color, $quire-entry-image-icons-color);
     background-color: $black;
-    height: calc(100vh - #{$quire-entry-header-height} - #{$navbar-height});
+    min-height: calc(100vh - #{$quire-entry-header-height} - #{$navbar-height});
     display: flex;
     align-items: center;
     justify-content: center;
@@ -246,11 +246,15 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
 
     >div.container {
       background-color: $white;
+<<<<<<< HEAD
       padding-bottom: 20px;
+=======
+      padding-bottom: 1em;
+>>>>>>> 0e852a9f6807d170d6e49d61688dc44b2ea724e2
     }
 
     .table {
-      width: 86%;
+      width: 90.5%;
       margin: 0 auto;
       padding-bottom: 1em;
       border-top: 1px solid $gray;
@@ -262,7 +266,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     }
 
     .button {
-      margin-left: 2.5em;
+      margin-left: 2em;
       margin-top: .5em;
     }
 
@@ -301,7 +305,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
 
   .quire-entry__header {
     h1 {
-      padding: 1em 1.5em 0;
+      padding: 1em 1.2em 0;
       font-size: 2em;
       font-weight: 400;
     }
@@ -312,8 +316,12 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     padding-bottom: 1.5rem;
 
     .content {
-      padding-top: 2rem;
+      background-color: $white;
       margin-top: 0;
+      padding: 0 2rem 2.5em;
+      p {
+        line-height: 1.5;
+      }
     }
 
     h2 {
