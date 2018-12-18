@@ -8764,7 +8764,7 @@ html {
   padding-bottom: 1em; }
 
 .quire-entry__tombstone .table {
-  width: 86%;
+  width: 90.5%;
   margin: 0 auto;
   padding-bottom: 1em;
   border-top: 1px solid #CCCCCC;
@@ -8773,7 +8773,7 @@ html {
     border: none; }
 
 .quire-entry__tombstone .button {
-  margin-left: 2.5em;
+  margin-left: 2em;
   margin-top: .5em; }
 
 .quire-entry__tombstone svg {
@@ -8800,15 +8800,18 @@ html {
   background-color: #F9F9A3; }
 
 .quire-entry .quire-entry__header h1 {
-  padding: 1em 1.5em 0;
+  padding: 1em 1.2em 0;
   font-size: 2em;
   font-weight: 400; }
 
 .quire-entry .quire-page__content {
   padding-bottom: 1.5rem; }
   .quire-entry .quire-page__content .content {
-    padding-top: 2rem;
-    margin-top: 0; }
+    background-color: #ffffff;
+    margin-top: 0;
+    padding: 0 2rem 2.5em; }
+    .quire-entry .quire-page__content .content p {
+      line-height: 1.5; }
   .quire-entry .quire-page__content h2 {
     font-size: 0.85em;
     font-style: normal;

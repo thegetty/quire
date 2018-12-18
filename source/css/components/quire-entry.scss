@@ -235,7 +235,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
       padding-bottom: 1em;
     }
     .table {
-      width: 86%;
+      width: 90.5%;
       margin: 0 auto;
       padding-bottom: 1em;
       border-top: 1px solid $gray;
@@ -245,7 +245,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
       }
     }
     .button {
-      margin-left: 2.5em;
+      margin-left: 2em;
       margin-top: .5em;
     }
     svg {
@@ -278,7 +278,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
   }
   .quire-entry__header {
     h1 {
-      padding: 1em 1.5em 0;
+      padding: 1em 1.2em 0;
       font-size: 2em;
       font-weight: 400;
     }
@@ -288,8 +288,12 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     // padding-top: 1.5rem;
     padding-bottom: 1.5rem;
     .content {
-      padding-top: 2rem;
+      background-color: $white;
       margin-top: 0;
+      padding: 0 2rem 2.5em;
+      p {
+        line-height: 1.5;
+      }
     }
     h2 {
       font-size: 0.85em;
