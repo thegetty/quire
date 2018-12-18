@@ -8757,7 +8757,7 @@ html {
 .quire-entry__tombstone a:hover {
   background-color: #F9F9A3; }
 
-.quire-entry__tombstone .container {
+.quire-entry__tombstone > div.container {
   background-color: #ffffff;
   padding-bottom: 1em; }
 
