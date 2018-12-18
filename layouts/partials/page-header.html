@@ -30,27 +30,3 @@
 
   </div>
 </section>
-{{ if in .Params.class "splash" }}
-{{ if or (or (eq .Type "contents") (eq .Type "info")) .Content }}
-<section class="{{ if or (eq .Title "title page") (eq .Title "half title page") }} is-screen-only {{ end }} quire-cover__more" >
-  <div class="quire-cover__more-body hero-more">
-    <a href="#content">
-      {{- if isset $.Site.Params "imagedir" }}
-      {{ $.Scratch.Set "imageDir" $.Site.Params.imageDir }}
-      {{ else }}
-      {{ $.Scratch.Set "imageDir" "" }}
-      {{ end -}}
-      {{- $imgDir := $.Scratch.Get "imageDir" -}}
-      <svg>
-        <switch>
-          <use xlink:href="#read-more-icon"></use>
-          <foreignObject width="36" height="36">
-              <img src="{{ $imgDir | absURL }}/icons/heromore@2x.png" alt="" />
-          </foreignObject>
-        </switch>
-      </svg>
-    </a>
-  </div>
-</section>
-{{ end }}
-{{ end }}
