@@ -7657,7 +7657,7 @@ html {
 
 .quire-page h3,
 .quire-page h4, .quire-page__header__subtitle, .quire-page__header__contributor {
-  font-family: "IBM Plex Sans Condensed", sans-serif;
+  font-family: "Noto Sans", sans-serif;
   font-size: 1rem;
   font-weight: 600;
   line-height: 1.143; }
@@ -7716,8 +7716,10 @@ html {
     color: #363636 !important; }
   .quire-page__header a {
     border-bottom-color: #363636 !important; }
+  .quire-page__header.hero__image {
+    height: 80vh; }
   .quire-page--splash .quire-page__header {
-    background-color: #3273dc; }
+    background-color: #6A8EB8; }
     .quire-page--splash .quire-page__header * {
       color: #fff; }
     .quire-page--splash .quire-page__header .hero-body {
@@ -7736,6 +7738,11 @@ html {
         .quire-page--splash .quire-page__header.quire-page__header--full-height .quire-page__header__splash-page-arrow svg {
           width: 1rem;
           fill: #fff; }
+  .quire-page__header .hero-body span {
+    color: #666666;
+    font-size: 16px;
+    line-height: 1.5;
+    text-rendering: optimizelegibility; }
   @media screen and (min-width: 700px) {
     .quire-page__header .hero-body {
       margin: 0 5rem; } }
@@ -7747,6 +7754,9 @@ html {
     .quire-page__header.hero {
       background-color: transparent;
       height: 3in; } }
+
+.quire-page--splash .quire-page__header__title {
+  color: #333333; }
 
 .quire-page--splash .quire-page__content p:first-child:first-letter {
   font-size: 9em;
@@ -9254,7 +9264,7 @@ body > div.mfp-bg.mfp-ready {
     @bottom-right-corner {
       content: counter(page, lower-roman); } }
   @page splash {
-    background-color: #3273dc;
+    background-color: #6A8EB8;
     color: #fff;
     margin-top: 0;
     margin-bottom: 0;
@@ -9313,7 +9323,7 @@ body > div.mfp-bg.mfp-ready {
     margin-top: 3in; }
   .quire-page--splash .quire-page__header.quire-page__header--full-height {
     page: splash;
-    background-color: #3273dc;
+    background-color: #6A8EB8;
     color: #fff;
     width: calc(8.5in + 0.125in + 0.125in);
     height: calc(11in + 0.125in + 0.125in);
