@@ -146,6 +146,10 @@ $quire-menu-width: 352px;
 $quire-primary-move: calc(-100% + 3rem);
 
 $navbar-height: 3rem;
+
+// adjust column gap for grid
+// NOTICE: this var = 2x the value 
+// 5px = 10px margin between columns
 $column-gap: 5px;
 
 $quire-entry-header-height: 6rem;

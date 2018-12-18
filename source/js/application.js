@@ -87,11 +87,20 @@ window.toggleSearch = () => {
  */
 function sliderSetup() {
   let slider = $('.quire-entry__image__group-container');
+  // console.log(slider.length)
   slider.each(function () {
     let sliderImages = $(this).find('figure');
     let sliderImage = $(this).find('img');
-    sliderImage.wrap('<span style="display:inline-block"></span>').css('display', 'block').parent().zoom({
-      on: 'grab'
+    sliderImages.each((i, v) => {
+      // console.log(v,i)
+      $(v).append(`<div class="quire-counter-container"><span class="counter">${i + 1} of ${sliderImages.length}</span></div>`)
+    })
+    sliderImage
+    .wrap('<span style="display:inline-block"></span>')
+    .css('display', 'block')
+    .parent()
+    .zoom({
+      on: 'click'
     });
     let firstImage = $(sliderImages.first());
     let lastImage = $(sliderImages.last());

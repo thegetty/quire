@@ -13,10 +13,11 @@ a single image or object needs to be featured prominently.\
 
 {{/* Entry content, including entry image and tombstone data */}}
 <article class="{{ partial "page-class.html" . }} quire-entry" id="main" role="main">
+<div class="side-by-side">
 
   {{/* Full-width entry image header */}}
-  <div class="quire-entry__image">
-      <div class="quire-counter-container"><span class="counter">3 of 17</span></div>
+<div class="quire-entry__image-wrap">
+<div class="quire-entry__image">
   {{ if .Params.image }}
     {{- $imgPath := printf "%s/%s" ($.Scratch.Get "imageDir") .Params.image -}}
     <img src="{{ $imgPath | relURL }}" alt="" />
@@ -55,8 +56,10 @@ a single image or object needs to be featured prominently.\
       {{ end }}
     {{ end }}
   {{ end }}
-  </div>
+</div>
+</div>
 
+<div class="quire-entry__content">
   {{/* Entry header */}}
   <header class="quire-entry__header">
     <div class="container">
@@ -126,12 +129,19 @@ a single image or object needs to be featured prominently.\
       </div>
     </div>
   </section>
+
+
+
+<!-- columns -->
+</div>
+
+</div>
 </article>
 {{ end }}
 
 {{ define "figure" }}
 {{- $imgPath := printf "%s/%s" .imageDir .figure.src -}}
-<figure>
+<figure data-index="">
   <img src="{{ $imgPath | relURL }}" alt="{{ .figure.alt }}" />
   {{ if or .figure.caption .figure.credit }}
     <div class="quire-image-control quire-image-info">

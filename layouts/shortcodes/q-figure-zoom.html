@@ -109,7 +109,8 @@
 
     {{ if or (eq $.Site.Params.figureLabels true) (eq ($.Get "label") "true" ) }}
         {{ if eq $.Site.Params.figureEnlargeType "outside" }}
-        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}">
+        <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
+        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}"></span>
           {{ if $.Get "label_text" }}
           {{ $.Get "label_text" | markdownify }}
           {{ else if .label_text }}
@@ -119,6 +120,8 @@
           {{ end }}
         </span>
       {{ end }}
+    {{ else }}
+        <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
     {{ end }}
 
       {{ if eq $.Site.Params.pdf true }}<span class="media-caption">{{ end }}
@@ -128,12 +131,6 @@
       {{ .caption | markdownify }}
       {{ end }}
       {{ if eq $.Site.Params.pdf true }}</span>{{ end }}
-
-    {{ if eq $.Site.Params.popup true }}
-      {{ if eq $.Site.Params.figureEnlargeType "outside" }}
-        <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge image</span>
-      {{ end }}
-    {{ end }}
 
   </figcaption> 
 
@@ -212,16 +209,21 @@ alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
   <figcaption class="quire-figure__caption">
 
     {{ if or (eq $.Site.Params.figureLabels true) (eq ($.Get "label") "true" ) }}
-        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}">
-          {{ if $.Get "label_text" }}
-          {{ $.Get "label_text" | markdownify }}
-          {{ else if .label_text }}
-          {{ .label_text | markdownify }}
-          {{ else }}
-          {{ $.Site.Params.figureLabelsTextBefore }}{{ .id }}{{ $.Site.Params.figureLabelsTextAfter }}
-          {{ end }}
-        </span>
+      {{ if eq $.Site.Params.figureEnlargeType "outside" }}
+      <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
+      <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}"></span>
+        {{ if $.Get "label_text" }}
+        {{ $.Get "label_text" | markdownify }}
+        {{ else if .label_text }}
+        {{ .label_text | markdownify }}
+        {{ else }}
+        {{ $.Site.Params.figureLabelsTextBefore }}{{ .id }}{{ $.Site.Params.figureLabelsTextAfter }}
+        {{ end }}
+      </span>
     {{ end }}
+  {{ else }}
+  <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span></span>
+  {{ end }}
 
       {{ if eq $.Site.Params.pdf true }}<span class="media-caption">{{ end }}
       {{ if $.Get "caption" }}
@@ -337,7 +339,8 @@ alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
 
     {{ if or (eq $.Site.Params.figureLabels true) (eq ($.Get "label") "true" ) }}
         {{ if eq $.Site.Params.figureEnlargeType "outside" }}
-        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}">
+        <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
+        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}"></span>
           {{ if $.Get "label_text" }}
           {{ $.Get "label_text" | markdownify }}
           {{ else if .label_text }}
@@ -347,6 +350,8 @@ alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
           {{ end }}
         </span>
       {{ end }}
+    {{ else }}
+    <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span></span>
     {{ end }}
 
       {{ if eq $.Site.Params.pdf true }}<span class="media-caption">{{ end }}
@@ -356,12 +361,6 @@ alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
       {{ .caption | markdownify }}
       {{ end }}
       {{ if eq $.Site.Params.pdf true }}</span>{{ end }}
-
-    {{ if eq $.Site.Params.popup true }}
-      {{ if eq $.Site.Params.figureEnlargeType "outside" }}
-        <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge image</span>
-      {{ end }}
-    {{ end }}
 
   </figcaption> 
 
@@ -442,17 +441,22 @@ src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
 
   <figcaption class="quire-figure__caption">
 
-    {{ if or (eq $.Site.Params.figureLabels true) (eq ($.Get "label") "true" ) }}
-        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}">
-          {{ if $.Get "label_text" }}
-          {{ $.Get "label_text" | markdownify }}
-          {{ else if .label_text }}
-          {{ .label_text | markdownify }}
-          {{ else }}
-          {{ $.Site.Params.figureLabelsTextBefore }}{{ .id }}{{ $.Site.Params.figureLabelsTextAfter }}
-          {{ end }}
-        </span>
+      {{ if or (eq $.Site.Params.figureLabels true) (eq ($.Get "label") "true" ) }}
+      {{ if eq $.Site.Params.figureEnlargeType "outside" }}
+      <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
+      <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}"></span>
+        {{ if $.Get "label_text" }}
+        {{ $.Get "label_text" | markdownify }}
+        {{ else if .label_text }}
+        {{ .label_text | markdownify }}
+        {{ else }}
+        {{ $.Site.Params.figureLabelsTextBefore }}{{ .id }}{{ $.Site.Params.figureLabelsTextAfter }}
+        {{ end }}
+      </span>
     {{ end }}
+  {{ else }}
+  <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span></span>
+  {{ end }}
 
       {{ if eq $.Site.Params.pdf true }}<span class="media-caption">{{ end }}
       {{ if $.Get "caption" }}
