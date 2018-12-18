@@ -7722,14 +7722,10 @@ html {
     .quire-page--splash .quire-page__header .hero-body {
       display: inline-block;
       max-width: none;
-      background: rgba(0, 0, 0, 0.5);
-      padding: 20px;
-      position: absolute;
-      bottom: 10%;
-      margin-left: 0;
-      text-align: left; }
+      top: 15%;
+      text-align: center; }
     .quire-page--splash .quire-page__header.quire-page__header--full-height {
-      min-height: calc(95vh - 3rem); }
+      min-height: calc(60vh - 3rem); }
       .quire-page--splash .quire-page__header.quire-page__header--full-height .quire-page__header__splash-page-arrow {
         position: absolute;
         bottom: 0;
@@ -7750,6 +7746,13 @@ html {
     .quire-page__header.hero {
       background-color: transparent;
       height: 3in; } }
+
+.quire-page--splash .quire-page__content p:first-child:first-letter {
+  font-size: 9em;
+  float: left;
+  margin-top: 0.10em;
+  margin-left: -0.09em;
+  padding-right: 0.025em; }
 
 .quire-page__abstract {
   font-style: italic;
