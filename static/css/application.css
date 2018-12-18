@@ -7284,8 +7284,7 @@ template {
   background-color: #ffffff;
   min-height: 3rem;
   top: 0;
-  width: 100%;
-  border-bottom: 1px solid #363636; }
+  width: 100%; }
   .quire-navbar svg {
     height: calc(3rem * .65);
     width: calc(3rem * .65);
@@ -7318,7 +7317,9 @@ template {
   height: 1px;
   transition: all .5s ease;
   font-family: "Noto Sans", sans-serif;
-  font-size: 0.75rem; }
+  font-size: 0.75rem;
+  background-color: #D4DFE2;
+  border-bottom: none; }
   .quire-progress-bar span {
     color: #ffffff; }
   .quire-progress-bar div {

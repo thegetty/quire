@@ -48,7 +48,6 @@
   min-height: $navbar-height;
   top: 0;
   width: 100%;
-  border-bottom: 1px solid $quire-navbar-text-color;
 
   * {
     transition: background 0.15s linear;
@@ -77,6 +76,8 @@
   transition: all .5s ease;
   font-family: $quire-nav-font;
   font-size: 0.75rem;
+  background-color: $light-gray;
+  border-bottom: none;
   span {
     color: $white;
   }
