@@ -7788,14 +7788,9 @@ html {
   .quire-page__content .container .content {
     margin-top: 20px;
     padding-top: 40px;
-<<<<<<< HEAD
-    font-size: 14px;
-    /* font-style: italic; */ }
-=======
     font-size: 16px; }
     .quire-page__content .container .content p {
       line-height: 2; }
->>>>>>> 0e852a9f6807d170d6e49d61688dc44b2ea724e2
   .quire-page__content .content a:not([rel=footnote]):not(.footnote-return) {
     color: #CF4747; }
     @media print {
@@ -8762,15 +8757,9 @@ html {
 .quire-entry__tombstone a:hover {
   background-color: #F9F9A3; }
 
-<<<<<<< HEAD
-.quire-entry__tombstone > div.container {
-  background-color: #ffffff;
-  padding-bottom: 20px; }
-=======
 .quire-entry__tombstone .container {
   background-color: #ffffff;
   padding-bottom: 1em; }
->>>>>>> 0e852a9f6807d170d6e49d61688dc44b2ea724e2
 
 .quire-entry__tombstone .table {
   width: 90.5%;
