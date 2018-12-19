@@ -64,6 +64,11 @@
     display: none;
   }
   &:hover {
+    span {
+      display: block;
+      -webkit-transition: all .5s ease;
+      transition: all .5s ease;
+    }
     .quire-progress-bar {
       height: 18px;
       div {
@@ -85,10 +90,13 @@
   border-bottom: none;
   span {
     color: $white;
+    display: none;
+    -webkit-transition: all .5s ease-out;
+    transition: all .5s ease-out;
   }
   div {
     transition: height .5s ease;
-    height: 1px;
+    height: 2px;
     width: 100%;
     background-color: $quire-primary-color-hover;
     text-align: right;

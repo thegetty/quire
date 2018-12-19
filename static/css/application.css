@@ -3835,7 +3835,7 @@ a.tag:hover {
       pointer-events: none; }
     .breadcrumb li + li::before {
       color: #b5b5b5;
-      content: "/"; }
+      content: "\0002f"; }
   .breadcrumb ul,
   .breadcrumb ol {
     align-items: flex-start;
@@ -3859,13 +3859,13 @@ a.tag:hover {
   .breadcrumb.is-large {
     font-size: 1.5rem; }
   .breadcrumb.has-arrow-separator li + li::before {
-    content: "\2192"; }
+    content: "\02192"; }
   .breadcrumb.has-bullet-separator li + li::before {
-    content: "\2022"; }
+    content: "\02022"; }
   .breadcrumb.has-dot-separator li + li::before {
-    content: "\B7"; }
+    content: "\000b7"; }
   .breadcrumb.has-succeeds-separator li + li::before {
-    content: "\227B"; }
+    content: "\0227B"; }
 
 .card {
   background-color: #ffffff;
@@ -7312,6 +7312,9 @@ template {
   @media print {
     .quire-navbar {
       display: none; } }
+  .quire-navbar:hover span {
+    display: block;
+    transition: all .5s ease; }
   .quire-navbar:hover .quire-progress-bar {
     height: 18px; }
     .quire-navbar:hover .quire-progress-bar div {
@@ -7325,10 +7328,12 @@ template {
   background-color: #D4DFE2;
   border-bottom: none; }
   .quire-progress-bar span {
-    color: #ffffff; }
+    color: #ffffff;
+    display: none;
+    transition: all .5s ease-out; }
   .quire-progress-bar div {
     transition: height .5s ease;
-    height: 1px;
+    height: 2px;
     width: 100%;
     background-color: #B02E2E;
     text-align: right;
@@ -7725,6 +7730,18 @@ html {
     background-color: #ffffff; }
     .quire-page__content .container .content p {
       line-height: 2; }
+    .quire-page__content .container .content blockquote {
+      border-left: none;
+      position: relative; }
+      .quire-page__content .container .content blockquote:before {
+        color: #D8E6EA;
+        font-size: 4em;
+        line-height: 0.1em;
+        margin-right: 0.25em;
+        content: '“';
+        position: absolute;
+        top: .35em;
+        left: -.25em; }
     .quire-page__content .container .content .backmatter h2 {
       font-size: .875em;
       line-height: 1.28em;
@@ -7762,7 +7779,7 @@ html {
   .quire-page__abstract:after {
     display: block;
     text-align: center;
-    content: "\25C6\A0\A0\A0\A0\A0\A0\A0\A0\A0\A0\A0\A0\25C6\A0\A0\A0\A0\A0\A0\A0\A0\A0\A0\A0\A0\25C6";
+    content: "◆\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0◆\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0◆";
     margin: 0 auto;
     max-width: 720px;
     width: 720px;
@@ -8266,8 +8283,8 @@ html {
       border-bottom: 1px dotted #333333; }
       .quire-contents-list ul.arrow .section-indent a:hover {
         border-bottom: 1px solid #B02E2E; }
-  .quire-contents-list .menu-list ul.arrow .page-item:last-child {
-    float: left; }
+  .quire-contents-list .menu-list ul.arrow .page-item:last-child a {
+    padding: 0 0 0 1rem; }
   .quire-contents-list .menu-list a {
     position: relative;
     padding-left: 0;

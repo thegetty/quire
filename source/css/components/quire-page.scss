@@ -173,6 +173,20 @@ html {
         p {
           line-height: 2;
         }
+        blockquote {
+          border-left: none;
+          position: relative;
+          &:before {
+            color: $ivory;
+            font-size: 4em;
+            line-height: 0.1em;
+            margin-right: 0.25em;
+            content: '“';
+            position: absolute;
+            top: .35em;
+            left: -.25em;
+          }
+        }
         .backmatter {
           h2 {
             font-size: .875em;
