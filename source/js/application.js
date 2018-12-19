@@ -22,7 +22,6 @@ import Navigation from './navigation';
 import Popup from './popup';
 import DeepZoom from './deepzoom';
 import Map from './map';
-const bodyScrollLock = require('body-scroll-lock');
 
 // left: 37, up: 38, right: 39, down: 40,
 // spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
@@ -33,6 +32,13 @@ let keys = {
   40: 1
 };
 
+
+/**
+ * Prevent and store scroll for expanded menu
+ * @description When the show/hide for nav is triggered we want to 
+ * lock the position of the users state in scroll and also prevent 
+ * the nav from going back to 0,0 in fixed state. These functions prevent that. 
+ */
 const preventDefault = (e) => {
   e = e || window.event;
   if (e.preventDefault)
@@ -72,7 +78,7 @@ const enableScroll = (element) => {
  * toggleMenu
  * @description Show/hide the menu UI by changing CSS classes and Aria status.
  * This function is bound to the global window object so it can be called from
- * templates without additinoal binding.
+ * templates without additional binding.
  */
 window.toggleMenu = () => {
   let nav = document.querySelector('.quire-navbar');
