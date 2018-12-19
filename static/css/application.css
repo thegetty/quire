@@ -8441,8 +8441,10 @@ html {
         .quire-contents-list.grid ul li .card .card-image {
           transition: box-shadow .35s;
           padding: 1.5em 1.5em 0em 1.5em; }
-          .quire-contents-list.grid ul li .card .card-image .image:hover {
-            box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.75); }
+          .quire-contents-list.grid ul li .card .card-image .image {
+            transition: box-shadow .35s; }
+            .quire-contents-list.grid ul li .card .card-image .image:hover {
+              box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.75); }
       .quire-contents-list.grid ul li .card-content {
         padding: 1.5em;
         font-family: "Noto Sans", sans-serif; }
