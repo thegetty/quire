@@ -7149,6 +7149,44 @@ sub {
   .quire-error pre {
     margin-top: 1em; }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+
+/* Firefox < 16 */
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+
+/* Internet Explorer */
+
+/* Opera < 12.1 */
+
+@keyframes slideFromRight {
+  from {
+    right: -50em; }
+  to {
+    right: 0; } }
+
+/* Firefox < 16 */
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes slideFromRight {
+  from {
+    right: -50em; }
+  to {
+    right: 0; } }
+
+/* Internet Explorer */
+
+/* Opera < 12.1 */
+
 template {
   display: none !important; }
 
@@ -7314,7 +7352,7 @@ template {
       display: none; } }
   .quire-navbar:hover span {
     display: block;
-    transition: all .5s ease; }
+    transition: all 1s ease; }
   .quire-navbar:hover .quire-progress-bar {
     height: 18px; }
     .quire-navbar:hover .quire-progress-bar div {
@@ -7330,7 +7368,7 @@ template {
   .quire-progress-bar span {
     color: #ffffff;
     display: none;
-    transition: all .5s ease-out; }
+    transition: all 1s ease-out; }
   .quire-progress-bar div {
     transition: height .5s ease;
     height: 2px;
@@ -7645,7 +7683,13 @@ html {
   font-family: "IBM Plex Sans Condensed", sans-serif;
   font-size: 3.3rem;
   font-weight: 700;
-  line-height: 1.14; }
+  line-height: 1.14;
+  -webkit-animation: fadeIn 3s;
+  /* Safari, Chrome and Opera > 12.1 */
+  /* Firefox < 16 */
+  /* Internet Explorer */
+  /* Opera < 12.1 */
+  animation: fadeIn 3s; }
   .quire-page h1 em, .quire-page__header__title em {
     font-style: normal; }
   @media screen and (min-width: 500px) {
@@ -7716,6 +7760,9 @@ html {
   font-weight: 400;
   padding-top: 0;
   padding-bottom: 0;
+  position: relative;
+  -webkit-animation: 1s ease-out 0s 1 slideFromRight;
+          animation: 1s ease-out 0s 1 slideFromRight;
   font-size: 1.25rem;
   font-weight: 400;
   line-height: 1.6; }

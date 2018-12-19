@@ -52,6 +52,11 @@ html {
     font-size: 3.3rem;
     font-weight: 700;
     line-height: 1.14;
+    -webkit-animation: fadeIn 3s; /* Safari, Chrome and Opera > 12.1 */
+       -moz-animation: fadeIn 3s; /* Firefox < 16 */
+        -ms-animation: fadeIn 3s; /* Internet Explorer */
+         -o-animation: fadeIn 3s; /* Opera < 12.1 */
+            animation: fadeIn 3s;
     em {
       font-style: normal;
     }
@@ -149,6 +154,8 @@ html {
     font-weight: 400;
     padding-top: 0;
     padding-bottom: 0;
+    position: relative;
+    animation: 1s ease-out 0s 1 slideFromRight;
     @if $family-primary != $serif {
       font-size: 1.25rem;
       font-weight: 400;
