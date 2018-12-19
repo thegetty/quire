@@ -27,6 +27,8 @@
   font-family: $quire-nav-font;
   font-weight: 400;
   font-size: .875em;
+  position: fixed;
+  z-index: 1;
 
   svg {
     height: calc(#{$navbar-height} * .65);
@@ -65,6 +67,9 @@
   &:hover {
     .quire-progress-bar {
       height: 18px;
+      div {
+        height: 19px; 
+      }
     }
   }
 }
@@ -81,6 +86,8 @@
     color: $white;
   }
   div {
+    transition: height .5s ease;
+    height: 1px;
     width: 100%;
     background-color: $quire-primary-color-hover;
     text-align: right;

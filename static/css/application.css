@@ -7220,7 +7220,8 @@ template {
     width: 100%;
     z-index: 9999; }
     .quire:not(.no-js) .quire__primary #main {
-      background: #EEF2F3; }
+      background: #EEF2F3;
+      margin-top: 3rem; }
     .quire:not(.no-js) .quire__primary .quire-page {
       flex: 1 1 auto;
       -webkit-overflow-scrolling: touch;
@@ -7263,8 +7264,7 @@ template {
         display: block; }
       .quire:not(.no-js) .quire__secondary.is-expanded + .quire__primary {
         -webkit-transform: translate3d(-352px, 0, 0);
-                transform: translate3d(-352px, 0, 0);
-        position: fixed; }
+                transform: translate3d(-352px, 0, 0); }
         @media screen and (max-width: 352px) {
           .quire:not(.no-js) .quire__secondary.is-expanded + .quire__primary {
             -webkit-transform: translate3d(calc(-100% + 3rem), 0, 0);
@@ -7281,6 +7281,8 @@ template {
   font-family: "Noto Sans", sans-serif;
   font-weight: 400;
   font-size: .875em;
+  position: fixed;
+  z-index: 1;
   background-color: #ffffff;
   min-height: 3rem;
   top: 0;
@@ -7313,6 +7315,8 @@ template {
       display: none; } }
   .quire-navbar:hover .quire-progress-bar {
     height: 18px; }
+    .quire-navbar:hover .quire-progress-bar div {
+      height: 19px; }
 
 .quire-progress-bar {
   height: 1px;
@@ -7322,6 +7326,8 @@ template {
   .quire-progress-bar span {
     color: #ffffff; }
   .quire-progress-bar div {
+    transition: height .5s ease;
+    height: 1px;
     width: 100%;
     background-color: #B02E2E;
     text-align: right;
@@ -8757,7 +8763,7 @@ html {
 .quire-entry__tombstone a:hover {
   background-color: #F9F9A3; }
 
-.quire-entry__tombstone .container {
+.quire-entry__tombstone > div.container {
   background-color: #ffffff;
   padding-bottom: 1em; }
 
