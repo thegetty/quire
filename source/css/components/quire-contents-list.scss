@@ -11,13 +11,24 @@
 .quire-contents {
   .quire-page__abstract {
     margin-bottom: 0;
-    padding: 40px 0;
+    padding: 40px 6rem !important;
     .container {
       padding: 0;
       background-color: transparent;
     }
     &:after {
       background-color: transparent;
+    }
+  }
+}
+
+// .contents-grid 
+// -----------------------------------------------------------------------------
+.quire__primary {
+  .quire-contents {
+    .quire-page__abstract {
+      // padding-left: 5rem;
+      // padding-right: 5rem;
     }
   }
 }
@@ -92,7 +103,7 @@
     margin-left: 0;
   }
 
-  .arrow .section-indent {
+  ul.arrow .section-indent {
     padding-left: 20px;
     font-size: .75em;
     width: auto;
@@ -109,20 +120,29 @@
     }
   }
 
-  .menu-list a {
-    position: relative;
-    padding-left: 0;
-    font-size: 1em;
-    .arrow {
-      -webkit-transition: all .5s ease;
-      transition: all .5s ease;
+  .menu-list {
+    ul.arrow {
+      .page-item {
+        &:last-child {
+          float: left;
+        }
+      }
     }
-    &:hover {
-      background-color: inherit;
-      color: $quire-primary-color-hover;
+    a {
+      position: relative;
+      padding-left: 0;
+      font-size: 1em;
       .arrow {
-        margin-left: 14px;
-        fill: $quire-primary-color-hover;
+        -webkit-transition: all .5s ease;
+        transition: all .5s ease;
+      }
+      &:hover {
+        background-color: inherit;
+        color: $quire-primary-color-hover;
+        .arrow {
+          margin-left: 14px;
+          fill: $quire-primary-color-hover;
+        }
       }
     }
   }
@@ -266,6 +286,17 @@
 
         a {
           padding: 0;
+          color: $quire-primary-color;
+          border-bottom: none;
+
+          &:hover {
+            border-bottom: none;
+          }
+
+          svg {
+            fill: $quire-primary-color;
+            vertical-align: text-bottom;
+          }
         }
 
         .card-image {
@@ -286,21 +317,19 @@
       .card-content {
         padding: 1.5em;
         font-family: $quire-nav-font;
-
+        
         .artist {
           text-transform: uppercase;
         }
+        .title {
+          color: $quire-primary-color;
+          svg {
+            fill: $quire-primary-color;
+            vertical-align: sub;
+          }
+        }
         p {
           padding-top: 0.5rem;
-          a {
-            padding: 0;
-            color: $quire-primary-color;
-
-            svg {
-              fill: $quire-primary-color;
-              vertical-align: text-bottom;
-            }
-          }
         }
       }
     }
