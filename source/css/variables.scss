@@ -39,8 +39,10 @@ $dark: #363636;
 $black: #000000;
 $off-black: #333333;
 $light-black: #292929;
+$off-gray: #666666;
 $dark-gray: #999999;
 $gray: #CCCCCC;
+$light-gray: #D4DFE2;
 $red: #CF4747;
 $dark-red: #B02E2E;
 $light-yellow: #F9F9A3;
@@ -72,7 +74,7 @@ $quire-menu-text-color: $white;
 $quire-entry-image-color: $dark;
 $quire-entry-image-icons-color: $white;
 
-$quire-splash-page-color: $color-primary;
+$quire-splash-page-color: $light-blue;
 
 // Quire Redesign
 // -----------------------------------------------------------------------------
@@ -90,7 +92,6 @@ $quire-hover-color: $light-yellow;
 $quire-primary-color: $red;
 $quire-primary-color-hover: $dark-red;
 $quire-secondary-color: $off-black;
-$quire-secondary-color-hover: $light-blue;
 $quire-body-background-color: $off-white;
 
 // Secondary Theme
@@ -107,7 +108,6 @@ $quire-body-background-color: $off-white;
   $quire-primary-color: $off-black;
   $quire-primary-color-hover: $light-blue;
   $quire-secondary-color: $light-blue;
-  $quire-secondary-color-hover: $light-blue;
   $quire-body-background-color: $off-white;
 }
 // Cover

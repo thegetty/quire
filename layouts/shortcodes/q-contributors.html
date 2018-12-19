@@ -158,8 +158,11 @@
 <ul class="quire-contributors-list">
 {{- range ($.Page.Scratch.GetSortedMapValues "contributorlist") -}}
 {{- $nameid := plainify (replace (index . 0) " " "-") -}}
+  <div class="title is-5"><span class="quire-contributor__name">{{ (index . 0) }}</span></div>
+  {{ if ne (index . 4) "n/a" }}
+  <div class="subtitle is-6"><a href="{{ index . 4 }}" class="quire-contributor__url">{{ index . 4 }}</a></div>
+  {{- end -}}
   <li class="quire-contributor media" id="{{ $nameid }}">
-
     {{- if ne (index . 5) "n/a" -}}
     <div class="media-left">
       <img class="image quire-contributor__pic"
@@ -169,11 +172,6 @@
     {{- end -}}
 
     <div class="quire-contributor__details media-content">
-      <div class="title is-5"><span class="quire-contributor__name">{{ (index . 0) }}</span></div>
-      {{ if ne (index . 4) "n/a" }}
-      <div class="subtitle is-6"><a href="{{ index . 4 }}" class="quire-contributor__url">{{ index . 4 }}</a></div>
-      {{- end -}}
-
       <p class="quire-contributor__bio">
         {{ if ne (index . 3) "n/a" }}{{ markdownify (index . 3) }}{{ end }}
       </p>

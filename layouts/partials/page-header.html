@@ -3,54 +3,27 @@
 {{ else }}
 {{ $.Scratch.Set "imageDir" "" }}
 {{ end -}}
-
-{{- if .Params.image -}}
-{{- $imgPath := printf "%s/%s" ($.Scratch.Get "imageDir") .Params.image -}}
-  <section class="{{ if or (eq .Title "title page") (eq .Title "half title page") }} is-screen-only {{ end }} quire-page__header hero {{ if in .Params.class "splash" }} quire-page__header--full-height{{ end }}" style="background-image: url('{{ $imgPath | absURL }}');">
-{{- else -}}
-  <section class="{{ if or (eq .Title "title page") (eq .Title "half title page") }} is-screen-only {{ end }} quire-page__header hero {{ if in .Params.class "splash" }} quire-page__header--full-height{{ end }}">
-{{- end -}}
+<section class="{{ if or (eq .Title "title page") (eq .Title "half title page") }} is-screen-only {{ end }} quire-page__header hero {{ if in .Params.class "splash" }} quire-page__header--full-height{{ end }}">
   <div class="hero-body">
-
-      {{/* Page Title */}}
-      <h1 class="quire-page__header__title" id="{{ .Title | urlize }}">
-        {{ with .Params.number }}<span>{{ . }}.</span>{{ end }}
-        {{ .Title | markdownify }}
-        {{ with .Params.subtitle }}
-        <span class="quire-page__header__subtitle">{{ . | markdownify }}</span>
-        {{ end }}
-      </h1>
-
-      {{/* Contributors, if any */}}
-      {{ with .Params.contributor }}
+    {{/* Page Title */}}
+    <h1 class="quire-page__header__title" id="{{ .Title | urlize }}">
+      {{ with .Params.number }}<span>{{ . }}.</span>{{ end }}
+      {{ .Title | markdownify }}
+      {{ with .Params.subtitle }}
+      <span class="quire-page__header__subtitle">{{ . | markdownify }}</span>
+      {{ end }}
+    </h1>
+    {{/* Contributors, if any */}}
+    {{ with .Params.contributor }}
       <div class="quire-page__header__contributor">
         {{ partial "contributor-list.html" (dict "range" . "contributorType" "all" "listType" "list-plus" "Site" $.Site) }}
       </div>
-      {{ end }}
+    {{ end }}
+  </div>
+</section>
 
-  </div>
-</section>
-{{ if in .Params.class "splash" }}
-{{ if or (or (eq .Type "contents") (eq .Type "info")) .Content }}
-<section class="{{ if or (eq .Title "title page") (eq .Title "half title page") }} is-screen-only {{ end }} quire-cover__more" >
-  <div class="quire-cover__more-body hero-more">
-    <a href="#content">
-      {{- if isset $.Site.Params "imagedir" }}
-      {{ $.Scratch.Set "imageDir" $.Site.Params.imageDir }}
-      {{ else }}
-      {{ $.Scratch.Set "imageDir" "" }}
-      {{ end -}}
-      {{- $imgDir := $.Scratch.Get "imageDir" -}}
-      <svg>
-        <switch>
-          <use xlink:href="#read-more-icon"></use>
-          <foreignObject width="36" height="36">
-              <img src="{{ $imgDir | absURL }}/icons/heromore@2x.png" alt="" />
-          </foreignObject>
-        </switch>
-      </svg>
-    </a>
-  </div>
-</section>
-{{ end }}
-{{ end }}
+{{- if .Params.image -}}
+{{- $imgPath := printf "%s/%s" ($.Scratch.Get "imageDir") .Params.image -}}
+  <section class="{{ if or (eq .Title "title page") (eq .Title "half title page") }} is-screen-only {{ end }} quire-page__header hero__image {{ if in .Params.class "splash" }} quire-page__header--full-height{{ end }}" style="background-image: url('{{ $imgPath | absURL }}');">
+  </section>
+{{- end -}}

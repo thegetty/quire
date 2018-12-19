@@ -93,7 +93,7 @@ html {
   h4,
   &__header__subtitle,
   &__header__contributor {
-    font-family: $family-secondary;
+    font-family: $quire-nav-font;
     font-size: 1rem;
     font-weight: 600;
     line-height: 1.143;
@@ -149,12 +149,16 @@ html {
 // .quire-page-header
 // -----------------------------------------------------------------------------
 .quire-page__header {
-  background-color: $quire-page-header-color;
+  background-color: $off-white;
   @include foreground-color($quire-page-header-color, $quire-page-header-text-color);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: cover;
   text-align: center;
+
+  &.hero__image {
+    height: 80vh;
+  }
 
   .quire-page--splash & {
     background-color: $quire-splash-page-color;
@@ -186,6 +190,12 @@ html {
   .hero-body {
     // padding-top: 9rem;
     // padding-bottom: 9rem;
+    span {
+      color: $off-gray;
+      font-size: 16px;
+      line-height: 1.5;
+      text-rendering: optimizelegibility;
+    }
     @media screen and (min-width: $desktop) {
       margin: 0 5rem;
     }
@@ -206,6 +216,11 @@ html {
 }
 
 .quire-page--splash {
+  .quire-page__header {
+    &__title {
+      color: $quire-secondary-color;
+    }
+  }
   .quire-page__content {
     p {
       &:first-child {
@@ -263,15 +278,40 @@ html {
   }
   .container {
     .content {
-      margin-top: 20px;
-      padding-top: 40px;
+      margin-top: 45px;
       font-size: 16px;
+      padding: 40px 1.75em;
+      background-color: $white;
       p {
         line-height: 2;
       }
+      .backmatter {
+        h2 {
+          font-size: .875em;
+          line-height: 1.28em;
+          text-transform: uppercase;
+          margin-top: 20px;
+          padding-bottom: 6px;
+          border-bottom: 1px solid #333333;
+        }
+        p {
+          font-size: 0.875em;
+          line-height: 1.6em !important;
+        }
+      }
+      #notes {
+        font-size: .875em;
+        line-height: .5em;
+        margin-top: 20px;
+      }
+      .footnotes {
+        font-size: .875em;
+        hr {
+          margin-bottom: 0;
+        }
+      }
     }
   }
-
 
   // Overrides to Bulma's .content styles where needed.
 
@@ -345,13 +385,13 @@ html {
       h2 {
         margin-top: 1em;
         padding-bottom: .2em;
-        // font-size: 1em;
+        font-size: .875em;
         // font-style: normal;
         // font-weight: 700;
         // text-transform: uppercase;
         border-bottom: 1px solid $off-black;
       }
-      span {
+      span, dd {
         font-size: .875em;
       }
     }
