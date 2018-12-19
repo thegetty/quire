@@ -71,7 +71,7 @@ Cover page layout. This controls the home page of the publication.
           <switch>
             <use xlink:href="#read-more-icon"></use>
             <foreignObject width="36" height="36">
-                <img src="{{ $imgDir | absURL }}/icons/heromore@2x.png" alt="" />
+                <img src="{{ $imgDir | absURL }}/icons/heromore@2x.png" alt="Read More" />
             </foreignObject>
           </switch>
         </svg>
@@ -93,19 +93,7 @@ Cover page layout. This controls the home page of the publication.
   {{ end }}
 
   {{/* End "below-the-fold" section */}}
-  <div class="quire-contents-buttons">
-    <ul>
-      <li class="quire-nav-button next">
-        {{ with .Next }}
-          <a href="{{ .Permalink }}">
-            <span class="nav-title">Next {{ $.Site.Params.pdf }}</span>
-            {{- template "image-control-icon" (dict "type" "right-arrow" "description" "Go to next page" "imageDir" ($.Scratch.Get "imageDir") ) -}}
-          </a>
-        {{ end }}
-      </li>
-    </ul>
-  </div>
-
+  {{ partial "footer-buttons.html" . }}
 </div>
 
 {{ end }}

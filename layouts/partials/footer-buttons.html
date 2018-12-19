@@ -1,16 +1,18 @@
 <div class="{{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }} quire-contents-buttons remove-from-epub">
   <ul>
-    <li class="quire-nav-button prev">
-      {{ with .Prev }}
-        <a href="{{ .Permalink }}">{{- template "image-control-icon" (dict "type" "left" "description" "Go back a page" "imageDir" ($.Scratch.Get "imageDir") ) -}} <span class="nav-title">Back</span></a>
-        <span class="visually-hidden">Previous Page (left keyboard arrow or swipe)</span>
-      {{ end }}
-    </li>
     {{ $len := len .Site.Pages }}
     {{ range $index, $element := .Site.Pages }}
       {{ if eq . $.Page }}
         {{ $in := add $index 1 }}
         {{ $ln := sub $len 1 }}
+        {{ if ne $in 1 }}
+        <li class="quire-nav-button prev">
+          {{ with .Prev }}
+            <a href="{{ .Permalink }}">{{- template "image-control-icon" (dict "type" "left" "description" "Go back a page" "imageDir" ($.Scratch.Get "imageDir") ) -}} <span class="nav-title">Back</span></a>
+            <span class="visually-hidden">Previous Page (left keyboard arrow or swipe)</span>
+          {{ end }}
+        </li>
+        {{ end }}
         {{ if ne $in $ln }}
         <li class="quire-nav-button next">
           {{ with .Next }}
