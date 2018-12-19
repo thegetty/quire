@@ -140,6 +140,31 @@ sub {
     to { right: 0; }
 }
 
+// slideFromRight
+@keyframes slideFromLeft {
+    from { left: -50em; }
+    to { left: 0; }
+}
+/* Firefox < 16 */
+@-moz-keyframes slideFromLeft {
+    from { left: -50em; }
+    to { left: 0; }
+}
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes slideFromLeft {
+    from { left: -50em; }
+    to { left: 0; }
+}
+/* Internet Explorer */
+@-ms-keyframes slideFromLeft {
+    from { left: -50em; }
+    to { left: 0; }
+}
+/* Opera < 12.1 */
+@-o-keyframes slideFromLeft {
+    from { left: -50em; }
+    to { left: 0; }
+}
 
 // Required by HTML Template Polyfill for older IE compatibility
 // -----------------------------------------------------------------------------
