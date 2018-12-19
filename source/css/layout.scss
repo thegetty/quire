@@ -113,6 +113,7 @@
 
       #main {
         background: $quire-body-background-color; 
+        margin-top: $navbar-height;
       }
 
       .quire-page {
@@ -127,7 +128,9 @@
         padding-right: 0;
       }
 
-      .quire-navbar { flex: 0 0 auto; }
+      .quire-navbar { 
+        flex: 0 0 auto; 
+      }
     }
 
     .quire__secondary {
@@ -176,13 +179,16 @@
           // width: calc(100% - #{$quire-menu-width});
           // transform: translate3d($quire-menu-width, 0, 0);
           transform: translate3d(-$quire-menu-width, 0 ,0);
-          position: fixed;
+          // position: fixed;
           // transform: translate3d(-352px, 0 ,0);
           @media screen and (max-width: $quire-menu-width) {
             transform: translate3d($quire-primary-move, 0 ,0);
             // right: calc(100vw - #{$navbar-height});
             // transform: translate3d(- $quire-menu-width, 0, 0);
             // width: #{$navbar-height};
+          }
+          article {
+
           }
         }
       }

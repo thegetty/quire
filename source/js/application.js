@@ -23,21 +23,76 @@ import Popup from './popup';
 import DeepZoom from './deepzoom';
 import Map from './map';
 
+// left: 37, up: 38, right: 39, down: 40,
+// spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
+let keys = {
+  37: 1,
+  38: 1,
+  39: 1,
+  40: 1
+};
+
+
+/**
+ * Prevent and store scroll for expanded menu
+ * @description When the show/hide for nav is triggered we want to 
+ * lock the position of the users state in scroll and also prevent 
+ * the nav from going back to 0,0 in fixed state. These functions prevent that. 
+ */
+const preventDefault = (e) => {
+  e = e || window.event;
+  if (e.preventDefault)
+    e.preventDefault();
+  e.returnValue = false;
+}
+
+const preventDefaultForScrollKeys = (e) => {
+  if (keys[e.keyCode]) {
+    preventDefault(e);
+    return false;
+  }
+}
+
+const disableScroll = (element) => {
+  document.querySelector('html').style.overflow = 'hidden'
+  if (element.addEventListener) // older FF
+    element.addEventListener('DOMMouseScroll', preventDefault, false);
+  element.onwheel = preventDefault; // modern standard
+  element.onmousewheel = element.onmousewheel = preventDefault; // older browsers, IE
+  element.ontouchmove = preventDefault; // mobile
+  element.onkeydown = preventDefaultForScrollKeys;
+}
+
+const enableScroll = (element) => {
+  document.querySelector('html').style.overflow = ''
+  if (element.removeEventListener)
+    element.removeEventListener('DOMMouseScroll', preventDefault, false);
+  element.onmousewheel = element.onmousewheel = null;
+  element.onwheel = null;
+  element.ontouchmove = null;
+  element.onkeydown = null;
+}
+
+
 /**
  * toggleMenu
  * @description Show/hide the menu UI by changing CSS classes and Aria status.
  * This function is bound to the global window object so it can be called from
- * templates without additinoal binding.
+ * templates without additional binding.
  */
-
 window.toggleMenu = () => {
+  let nav = document.querySelector('.quire-navbar');
+  let primary = document.querySelector('.quire__primary');
+  nav.style.top = `${window.scrollY + nav.getBoundingClientRect().top}px`
   let menu = document.getElementById('site-menu');
   let menuAriaStatus = menu.getAttribute('aria-expanded');
   menu.classList.toggle('is-expanded');
-
   if (menuAriaStatus === 'true') {
+    nav.style.top = ``
+    enableScroll(primary);
     menu.setAttribute('aria-expanded', 'false');
   } else {
+    disableScroll(primary);
     menu.setAttribute('aria-expanded', 'true');
   }
 };
@@ -96,12 +151,12 @@ function sliderSetup() {
       $(v).append(`<div class="quire-counter-container"><span class="counter">${i + 1} of ${sliderImages.length}</span></div>`)
     })
     sliderImage
-    .wrap('<span style="display:inline-block"></span>')
-    .css('display', 'block')
-    .parent()
-    .zoom({
-      on: 'click'
-    });
+      .wrap('<span style="display:inline-block"></span>')
+      .css('display', 'block')
+      .parent()
+      .zoom({
+        on: 'click'
+      });
     let firstImage = $(sliderImages.first());
     let lastImage = $(sliderImages.last());
     sliderImages.hide();
@@ -209,13 +264,16 @@ function globalSetup() {
 function loadSearchData() {
   // Grab search data
   let dataURL = $('#js-search').data('search-index');
-  $.get(dataURL, { cache: true }).done(data => {
+  $.get(dataURL, {
+    cache: true
+  }).done(data => {
     data = typeof data === 'string' ? JSON.parse(data) : data
     window.QUIRE_SEARCH = new Search(data);
   });
 }
 
 let navigation;
+
 function navigationSetup() {
   if (!navigation) {
     navigation = new Navigation();
@@ -298,7 +356,9 @@ function quickLinksSetup() {
   links = links.filter(a => {
     return a.hostname === window.location.hostname;
   });
-  quicklink({urls:links})
+  quicklink({
+    urls: links
+  })
 }
 
 
