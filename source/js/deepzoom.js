@@ -9,25 +9,19 @@ class DeepZoom {
     this.el = id
 
     // remove and refresh before init
-    if ($(`#${this.el}`).data('catalogue-entry') === undefined) {
-      if (isPopup) {
-        if (window.mapID != undefined || window.mapID != undefined) {
-          window.mapID.off()
-          window.mapID.remove()
-        }
-        if ($(`#${this.el}`).data('catalogue-entry') === undefined) {
-          let node = document.getElementById(id);
-          if (node) {
-            while (node.firstChild) {
-              node.removeChild(node.firstChild)
-            }
-          }
+    if (isPopup) {
+      if (window.mapID != undefined || window.mapID != undefined) {
+        window.mapID.off()
+        window.mapID.remove()
+      }
+      let node = document.getElementById(id);
+      if (node) {
+        while (node.firstChild) {
+          node.removeChild(node.firstChild)
         }
       }
     }
 
-
-    console.log($(`#${this.el}`).data('catalogue-entry') === undefined)
 
     this.imageURL = $(`#${this.el}`).data('image')
     this.iiif = $(`#${this.el}`).data('iiif')
@@ -40,21 +34,23 @@ class DeepZoom {
       this.center = [0, 0]
       this.defaultZoom = 0
       this.map = this.createMap()
-      // window.mapID = this.map
+      if ($(`#${this.el}`).data('catalogue-entry') === undefined) {
+        window.mapID = this.map
+      }
       this.mapSize = this.map.getSize()
-      console.log(image.naturalHeight)
       this.imgZoomReduction = this.imgWidth >= 4000 ? 0.5 : this.imgHeight >= 2500 ? 1 : 2
       this.maxzoom = Math.ceil(Math.log((this.mapSize.x / this.imgWidth > this.mapSize.y / this.imgHeight ? this.imgWidth / this.mapSize.x : this.imgHeight / this.mapSize.y)) / Math.log(2))
       this.southWest = this.map.unproject([0, this.imgHeight], this.maxzoom + 1)
       this.northEast = this.map.unproject([this.imgWidth, 0], this.maxzoom + 1)
       let bounds = new L.LatLngBounds(this.southWest, this.northEast)
-      console.table(this.map.getMaxZoom())
       this.addTiles(bounds)
     } else {
       this.center = [0, 0]
       this.defaultZoom = 0
       this.map = this.createMap()
-      window.mapID = this.map
+      if ($(`#${this.el}`).data('catalogue-entry') === undefined) {
+        window.mapID = this.map
+      }
       this.addLayer(this.iiif, this.map)
     }
 

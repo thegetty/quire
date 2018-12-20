@@ -79,7 +79,6 @@ const preloadImages = (srcs, imgs, callback) => {
   for (let i = 0; i < srcs.length; i++) {
     img = new Image;
     img.onload = () => {
-      console.log(img.naturalHeight)
       --remaining;
       if (remaining <= 0) {
         callback();
@@ -162,28 +161,27 @@ function sliderSetup() {
   slider.each(function () {
     let sliderImages = $(this).find('figure');
     sliderImages.each((i, v) => {
-      $(v).append(`<div class="quire-counter-container"><span class="counter">${i + 1} of ${sliderImages.length}</span></div>`)
+      $(v).find('.quire-image-counter-download-container').append(`<div class="quire-counter-container"><span class="counter">${i + 1} of ${sliderImages.length}</span></div>`)
     });
     let firstImage = $(sliderImages.first());
     let lastImage = $(sliderImages.last());
-    sliderImages.hide();
+    sliderImages.addClass('visually-hidden');
     firstImage.addClass('current-image first-image');
+    firstImage.removeClass('visually-hidden');
     firstImage.css('display', 'flex');
     lastImage.addClass('last-image');
   });
   let images = [...document.querySelectorAll('.quire-deepzoom-entry')]
     .filter(v => {
-      console.log(v.getAttribute('data-image'))
       return v.getAttribute('data-image') !== null ? v : ''
     })
     .map(v => {
       return v.getAttribute('data-image')
     })
-  
+
   let imgs = []
 
   preloadImages(images, imgs, () => {
-    console.log(imgs)
     mapSetup();
     deepZoomSetup();
   })
@@ -209,17 +207,21 @@ window.slideImage = (direction) => {
     if (currentImage.hasClass('last-image')) {
       firstImage.addClass('current-image');
       firstImage.css('display', 'flex');
+      firstImage.removeClass('visually-hidden');
     } else {
       nextImage.addClass('current-image');
       nextImage.css('display', 'flex');
+      nextImage.removeClass('visually-hidden');
     }
   } else if (direction == 'prev') {
     if (currentImage.hasClass('first-image')) {
       lastImage.addClass('current-image');
       lastImage.css('display', 'flex');
+      lastImage.removeClass('visually-hidden');
     } else {
       prevImage.addClass('current-image');
       prevImage.css('display', 'flex');
+      prevImage.removeClass('visually-hidden');
     }
   }
 };
@@ -391,7 +393,7 @@ function quickLinksSetup() {
  * Initialize any jquery plugins or set up page UI elements here.
  */
 function pageSetup() {
-  quickLinksSetup();
+  // quickLinksSetup();
   activeMenuPage();
   sliderSetup();
   // navigationSetup()
