@@ -153,7 +153,12 @@ export default function (gallerySelector) {
           }
           if (id.indexOf('deepzoom') !== -1) {
             setTimeout(() => {
-              new DeepZoom(id);
+              let url = $(`#${id}`).data('image')
+              let image = new Image()
+              image.src = url
+              image.onload = function() {
+                new DeepZoom(id);
+              }
             }, waitForDOMUpdate);
           }
           if (id.indexOf('iiif') !== -1) {
@@ -162,6 +167,7 @@ export default function (gallerySelector) {
             }, waitForDOMUpdate);
           }
         }
+
       },
       resize: function () {
         // console.log('Popup resized ' + $(window).innerHeight());

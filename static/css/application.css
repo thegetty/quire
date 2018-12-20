@@ -3835,7 +3835,7 @@ a.tag:hover {
       pointer-events: none; }
     .breadcrumb li + li::before {
       color: #b5b5b5;
-      content: "/"; }
+      content: "\0002f"; }
   .breadcrumb ul,
   .breadcrumb ol {
     align-items: flex-start;
@@ -3859,13 +3859,13 @@ a.tag:hover {
   .breadcrumb.is-large {
     font-size: 1.5rem; }
   .breadcrumb.has-arrow-separator li + li::before {
-    content: "\2192"; }
+    content: "\02192"; }
   .breadcrumb.has-bullet-separator li + li::before {
-    content: "\2022"; }
+    content: "\02022"; }
   .breadcrumb.has-dot-separator li + li::before {
-    content: "\B7"; }
+    content: "\000b7"; }
   .breadcrumb.has-succeeds-separator li + li::before {
-    content: "\227B"; }
+    content: "\0227B"; }
 
 .card {
   background-color: #ffffff;
@@ -7787,7 +7787,7 @@ html {
   .quire-page__abstract:after {
     display: block;
     text-align: center;
-    content: "\25C6\A0\A0\A0\A0\A0\A0\A0\A0\A0\A0\A0\A0\25C6\A0\A0\A0\A0\A0\A0\A0\A0\A0\A0\A0\A0\25C6";
+    content: "◆\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0◆\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0◆";
     margin: 0 auto;
     max-width: 720px;
     width: 720px;
@@ -8648,10 +8648,14 @@ html {
     right: 10px; }
   .quire-entry__image figure {
     flex: 1 1 100%;
-    height: 100%;
+    width: 600px;
+    height: 600px;
     display: flex;
     align-items: center;
     justify-content: center; }
+    .quire-entry__image figure .quire-deepzoom-entry {
+      width: 600px;
+      height: 600px; }
     .quire-entry__image figure .quire-image-control--download {
       top: 10px;
       left: 10px;

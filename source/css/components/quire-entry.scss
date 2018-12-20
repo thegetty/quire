@@ -47,10 +47,16 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
 
     figure {
       flex: 1 1 100%;
-      height: 100%;
+      width: 600px;
+      height: 600px;
       display: flex;
       align-items: center;
       justify-content: center;
+
+      .quire-deepzoom-entry {
+        width: 600px;
+        height: 600px;
+      }
 
       .quire-image-control--download {
         top: 10px;

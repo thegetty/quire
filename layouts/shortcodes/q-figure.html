@@ -236,7 +236,9 @@ render the figure from matching values found ther
       {{ if eq $.Site.Params.popup true }}
       <a class="image popup" href='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
       {{ end }}
-    <img class="quire-figure__image"  id='{{ .id }}'
+    <img 
+       class="quire-figure__image"  
+       id='{{ .id }}'
        src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'
        alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}' />
 
