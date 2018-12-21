@@ -73,6 +73,22 @@ const enableScroll = (element) => {
   element.onkeydown = null;
 }
 
+const preloadImages = (srcs, imgs, callback) => {
+  let img;
+  let remaining = srcs.length;
+  for (let i = 0; i < srcs.length; i++) {
+    img = new Image;
+    img.onload = () => {
+      --remaining;
+      if (remaining <= 0) {
+        callback();
+      }
+    };
+    img.src = srcs[i];
+    imgs.push(img);
+  }
+};
+
 
 /**
  * toggleMenu
@@ -142,28 +158,34 @@ window.toggleSearch = () => {
  */
 function sliderSetup() {
   let slider = $('.quire-entry__image__group-container');
-  // console.log(slider.length)
   slider.each(function () {
     let sliderImages = $(this).find('figure');
-    let sliderImage = $(this).find('img');
     sliderImages.each((i, v) => {
-      // console.log(v,i)
-      $(v).append(`<div class="quire-counter-container"><span class="counter">${i + 1} of ${sliderImages.length}</span></div>`)
-    })
-    sliderImage
-      .wrap('<span style="display:inline-block"></span>')
-      .css('display', 'block')
-      .parent()
-      .zoom({
-        on: 'click'
-      });
+      $(v).find('.quire-image-counter-download-container').append(`<div class="quire-counter-container"><span class="counter">${i + 1} of ${sliderImages.length}</span></div>`)
+    });
     let firstImage = $(sliderImages.first());
     let lastImage = $(sliderImages.last());
-    sliderImages.hide();
+    sliderImages.addClass('visually-hidden');
     firstImage.addClass('current-image first-image');
+    firstImage.removeClass('visually-hidden');
     firstImage.css('display', 'flex');
     lastImage.addClass('last-image');
   });
+  let images = [...document.querySelectorAll('.quire-deepzoom-entry')]
+    .filter(v => {
+      return v.getAttribute('data-image') !== null ? v : ''
+    })
+    .map(v => {
+      return v.getAttribute('data-image')
+    })
+
+  let imgs = []
+
+  preloadImages(images, imgs, () => {
+    mapSetup();
+    deepZoomSetup();
+  })
+
 }
 
 /**
@@ -173,7 +195,6 @@ function sliderSetup() {
  * per page.
  */
 window.slideImage = (direction) => {
-  console.log(direction)
   let slider = $(event.target).closest('.quire-entry__image__group-container');
   let firstImage = slider.children('.first-image');
   let lastImage = slider.children('.last-image');
@@ -186,17 +207,21 @@ window.slideImage = (direction) => {
     if (currentImage.hasClass('last-image')) {
       firstImage.addClass('current-image');
       firstImage.css('display', 'flex');
+      firstImage.removeClass('visually-hidden');
     } else {
       nextImage.addClass('current-image');
       nextImage.css('display', 'flex');
+      nextImage.removeClass('visually-hidden');
     }
   } else if (direction == 'prev') {
     if (currentImage.hasClass('first-image')) {
       lastImage.addClass('current-image');
       lastImage.css('display', 'flex');
+      lastImage.removeClass('visually-hidden');
     } else {
       prevImage.addClass('current-image');
       prevImage.css('display', 'flex');
+      prevImage.removeClass('visually-hidden');
     }
   }
 };
@@ -329,7 +354,7 @@ function popupSetup() {
  * Render Map if Popup @false
  */
 function mapSetup() {
-  [...document.querySelectorAll('.quire-map')].forEach(v => {
+  [...document.querySelectorAll('.quire-map-entry')].forEach(v => {
     let id = v.getAttribute('id');
     new Map(id);
   });
@@ -340,7 +365,7 @@ function mapSetup() {
  * Render deepzoom or iiif if Popup @false
  */
 function deepZoomSetup() {
-  [...document.querySelectorAll('.quire-deepzoom')].forEach(v => {
+  [...document.querySelectorAll('.quire-deepzoom-entry')].forEach(v => {
     let id = v.getAttribute('id');
     new DeepZoom(id);
   });
@@ -368,15 +393,11 @@ function quickLinksSetup() {
  * Initialize any jquery plugins or set up page UI elements here.
  */
 function pageSetup() {
-  quickLinksSetup();
+  // quickLinksSetup();
   activeMenuPage();
   sliderSetup();
   // navigationSetup()
   popupSetup();
-  if (!isPopup) {
-    mapSetup();
-    deepZoomSetup();
-  }
 }
 
 /**
@@ -397,6 +418,6 @@ function pageTeardown() {
 globalSetup();
 
 // Run when document is ready
-$(document).ready(() => {
+$(window).ready(() => {
   pageSetup();
 });

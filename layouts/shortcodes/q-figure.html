@@ -14,7 +14,7 @@ vimeo (the two supported media formats at this time).
 
 {{ $errorBadId := dict "shortcode" "q-figure" "message" "The supplied value for `id` does not match an `id` value in your `data/figures.yml` file. Or, if you are not using a `data/figures.yml` file, a value for `src` should also be included in the shortcode, and should match the filename of an image file in your `static/img` directory." "example" "{{< q-figure id=&#34;3.1&#34; >}}<br /><br />{{< q-figure id=&#34;3.1&#34; src=&#34;fig-3-1-duchamp.jpg&#34; >}}" }}
 
-{{ $errorNoMediaType := dict "shortcode" "q-figure" "message" "For multimedia figures, the `media_type` attribute must be included in your `data/figures.yml` file for this figure `id`, and must be either “youtube”, “vimeo”, “soundscloud” or “website”." "example" "- id: &#34;3.1&#34;<br />  media_id: &#34;VYqDpNmnu8I&#34;<br />  media_type: &#34;youtube&#34;" }}
+{{ $errorNoMediaType := dict "shortcode" "q-figure" "message" "For multimedia figures, the `media_type` attribute must be included in your `data/figures.yml` file for this figure `id`, and must be either “image”,  “youtube”, “vimeo”, “soundcloud” or “website”." "example" "- id: &#34;3.1&#34;<br />  media_id: &#34;VYqDpNmnu8I&#34;<br />  media_type: &#34;youtube&#34;" }}
 
 {{ $errorNoSourceNoId := dict "shortcode" "q-figure" "message" "This shortcode must include a value for `src` that matches the filename of an image in your `static/img` directory; or a value for `id` that matches an `id` value in your `data/figures.yml` file." "example" "{{< q-figure id=&#34;3.1&#34; >}}<br /><br />{{< q-figure id=&#34;3.1&#34; src=&#34;fig-3-1-duchamp.jpg&#34; >}}" }}
 
@@ -27,6 +27,10 @@ document and render only the values given in the shortcode
 ----------------------------------------------------------------------------
 */}}
 
+{{ if and (ne .media_type "youtube") (ne .media_type "vimeo") (ne .media_type "website") (ne .media_type "audio") (ne .media_type "soundcloud") (ne .media_type "image") }}
+{{ partial "error-message.html" $errorNoMediaType }}
+{{ else }}
+
 {{ if eq $.Site.Params.popup true }}
 
 <figure class='popup-true quire-figure {{ with .Get "class" }}{{ . }}{{ end }}'>
@@ -37,20 +41,9 @@ document and render only the values given in the shortcode
       src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'      
       alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
     </div>
-    {{ if or (.Get "caption") (.Get "credit") }}
-    <figcaption class="quire-figure__caption">
-      {{ with $.Get "caption" }}{{ . | markdownify }}{{ end }}
-      {{ with $.Get "credit" }}<span class="quire-figure__credit">{{ . | markdownify }}</span>{{ end }}
-      {{ if or ($.Get "media_type" "vimeo") ($.Get "media_type" "youtube") ($.Get "media_type" "image")}}
-        {{ if eq $.Site.Params.figureEnlargeType "outside" }}
-        <span class="quire-figure__modal"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge image</span>
-        {{ end }}
-      {{ end }}
-    </figcaption>
-  {{ end }}
-  </a>
-</figure>
+
 {{ else }}
+
 <figure class='quire-figure {{ with .Get "class" }}{{ . }}{{ end }}'>
   <div class="q-figure__wrapper">
     <img id='{{ with .Get "id" }}{{ . | urlize }}{{ end }}'
@@ -58,18 +51,9 @@ document and render only the values given in the shortcode
         src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
         alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
   </div>
-  {{ if or (.Get "caption") (.Get "credit") }}
-  <figcaption class="quire-figure__caption">
-    {{ with $.Get "caption" }}{{ . | markdownify }}{{ end }}
-    {{ with $.Get "credit" }}<span class="quire-figure__credit">{{ . | markdownify }}</span>{{ end }}
-    {{ if or ($.Get "media_type" "vimeo") ($.Get "media_type" "youtube") ($.Get "media_type" "image")}}
-      {{ if eq $.Site.Params.figureEnlargeType "outside" }}
-        <span class="quire-figure__modal"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>  Enlarge image</span>
-      {{ end }}
-    {{ end }}
-  </figcaption>
-  {{ end }}
-</figure>
+
+{{ end }}
+
 {{ end }}
 
 {{/* -------------------- END SRC BLOCK -------------------- */}}
@@ -95,7 +79,8 @@ render the figure from matching values found ther
 <figure data="q-figure" class='quire-figure {{ with $.Get "class" }}{{ . }}{{ end }}'>
   {{ if .media_id }}
   {{/* -------------------- BEGIN MEDIA BLOCK -------------------- */}}
-  {{ if and (and (ne .media_type "youtube") (ne .media_type "vimeo")) (ne .media_type "website") (ne .media_type "audio") (ne .media_type "soundcloud")}}
+
+  {{ if and (ne .media_type "youtube") (ne .media_type "vimeo") (ne .media_type "website") (ne .media_type "audio") (ne .media_type "soundcloud") (ne .media_type "image") }}
       {{ partial "error-message.html" $errorNoMediaType }}
   {{ else }}
 
@@ -232,114 +217,127 @@ render the figure from matching values found ther
 
   {{ else }}
   {{/* -------------------- BEGIN IMAGE BLOCK -------------------- */}}
+
+  {{ if and (ne .media_type "youtube") (ne .media_type "vimeo") (ne .media_type "website") (ne .media_type "audio") (ne .media_type "soundcloud") (ne .media_type "image") }}
+    {{ partial "error-message.html" $errorNoMediaType }}
+  {{ else }}
+
   <div class="q-figure__wrapper">
       {{ if eq $.Site.Params.popup true }}
       <a class="image popup" href='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
       {{ end }}
-    <img class="quire-figure__image"  id='{{ .id }}'
+    <img 
+       class="quire-figure__image"  
+       id='{{ .id }}'
        src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'
        alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}' />
 
   {{ end }}
+
+  {{ end }}
   {{/* -------------------- END IMAGE BLOCK -------------------- */}}
 
-    {{ if eq $.Site.Params.pdf true }}
-    {{ if eq $.Site.Params.videoFigureFallbackText true }}
-    {{- if eq .media_type "youtube" }}
-  <div class="multimedia video">
-    <div class="placeholder">
-      <i class="material-icons md-24">videocam</i>
-      <div class="time-length">
-        1:36
-      </div>
-    </div>
-    <div class="multimedia-metadata">
-    <h5 class="header">
-    {{ if $.Get "title" }}
-    {{ $.Get "title" | markdownify }}
-    {{ else if .title }}
-    {{ .title | markdownify }}
-    {{ end }}
-    </h5>
-      <p class="caption">
-      <a href='https://youtu.be/{{ .media_id }}' alt="" title="" target="_blank" ><em>https://youtu.be/{{ .media_id }}</em></a></p>
+  {{/* -------------------- BEGIN FALL BACK BLOCK -------------------- */}}
+
+  {{ if eq $.Site.Params.pdf true }}
+  {{ if eq $.Site.Params.videoFigureFallbackText true }}
+  {{- if eq .media_type "youtube" }}
+<div class="multimedia video">
+  <div class="placeholder">
+    <i class="material-icons md-24">videocam</i>
+    <div class="time-length">
+      1:36
     </div>
   </div>
-    {{- end -}}
-    {{- if eq .media_type "vimeo" }}
-  <div class="multimedia video">
-    <div class="placeholder">
-      <i class="material-icons md-24">videocam</i>
-      <div class="time-length">
-        1:36
-      </div>
-    </div>
-    <div class="multimedia-metadata">
-    <h5 class="header">
-    {{ if $.Get "title" }}
-    {{ $.Get "title" | markdownify }}
-    {{ else if .title }}
-    {{ .title | markdownify }}
-    {{ end }}
-    </h5>
-      <p class="caption">
-      <a href='https://vimeo.com/{{ .media_id }}' alt="" title="" target="_blank" ><em>https://vimeo.com/{{ .media_id }}</em></a></p>
-    </div>
-  </div>
-    {{- end -}}
-    {{ end }}
-    {{ if eq $.Site.Params.audioFigureFallbackText true }}
-    {{- if eq .media_type "audio" }}
-    <div class="multimedia audio">
-    <div class="placeholder">
-      <i class="material-icons md-24">headset</i>
-      <div class="time-length">
-        1:36
-      </div>
-    </div>
-    <div class="multimedia-metadata">
-    <h5 class="header">
-    {{ if $.Get "title" }}
-    {{ $.Get "title" | markdownify }}
-    {{ else if .title }}
-    {{ .title | markdownify }}
-    {{ end }}
-    </h5>
-      <p class="caption">
-      <a href="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}" alt="" title="" target="_blank" ><em>https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}</em></a></p>
-    </div>
-  </div>
-    {{- end -}}
-    {{- if eq .media_type "soundcloud" }}
-  <div class="multimedia audio">
-    <div class="placeholder">
-      <i class="material-icons md-24">headset</i>
-      <div class="time-length">
-        1:36
-      </div>
-    </div>
-    <div class="multimedia-metadata">
-    <h5 class="header">
-    {{ if $.Get "title" }}
-    {{ $.Get "title" | markdownify }}
-    {{ else if .title }}
-    {{ .title | markdownify }}
-    {{ end }}
-    </h5>
-      <p class="caption">
-      <a href="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}" alt="" title="" target="_blank" ><em>https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}</em></a></p>
-    </div>
-  </div>
-    {{- end -}}
-    {{ end }}
-    {{ if eq $.Site.Params.websiteFigureFallbackText true }}
-    {{- if eq .media_type "website" }}
-  <iframe id='{{ .id }}'
-          class='quire-figure__media'
-          src='{{ .media_id }}'></iframe>
-    {{- end -}}
-    {{- end -}}
+  <div class="multimedia-metadata">
+  <h5 class="header">
+  {{ if $.Get "title" }}
+  {{ $.Get "title" | markdownify }}
+  {{ else if .title }}
+  {{ .title | markdownify }}
   {{ end }}
+  </h5>
+    <p class="caption">
+    <a href='https://youtu.be/{{ .media_id }}' alt="" title="" target="_blank" ><em>https://youtu.be/{{ .media_id }}</em></a></p>
+  </div>
+</div>
+  {{- end -}}
+  {{- if eq .media_type "vimeo" }}
+<div class="multimedia video">
+  <div class="placeholder">
+    <i class="material-icons md-24">videocam</i>
+    <div class="time-length">
+      1:36
+    </div>
+  </div>
+  <div class="multimedia-metadata">
+  <h5 class="header">
+  {{ if $.Get "title" }}
+  {{ $.Get "title" | markdownify }}
+  {{ else if .title }}
+  {{ .title | markdownify }}
+  {{ end }}
+  </h5>
+    <p class="caption">
+    <a href='https://vimeo.com/{{ .media_id }}' alt="" title="" target="_blank" ><em>https://vimeo.com/{{ .media_id }}</em></a></p>
+  </div>
+</div>
+  {{- end -}}
+  {{ end }}
+  {{ if eq $.Site.Params.audioFigureFallbackText true }}
+  {{- if eq .media_type "audio" }}
+  <div class="multimedia audio">
+  <div class="placeholder">
+    <i class="material-icons md-24">headset</i>
+    <div class="time-length">
+      1:36
+    </div>
+  </div>
+  <div class="multimedia-metadata">
+  <h5 class="header">
+  {{ if $.Get "title" }}
+  {{ $.Get "title" | markdownify }}
+  {{ else if .title }}
+  {{ .title | markdownify }}
+  {{ end }}
+  </h5>
+    <p class="caption">
+    <a href="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}" alt="" title="" target="_blank" ><em>https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}</em></a></p>
+  </div>
+</div>
+  {{- end -}}
+  {{- if eq .media_type "soundcloud" }}
+<div class="multimedia audio">
+  <div class="placeholder">
+    <i class="material-icons md-24">headset</i>
+    <div class="time-length">
+      1:36
+    </div>
+  </div>
+  <div class="multimedia-metadata">
+  <h5 class="header">
+  {{ if $.Get "title" }}
+  {{ $.Get "title" | markdownify }}
+  {{ else if .title }}
+  {{ .title | markdownify }}
+  {{ end }}
+  </h5>
+    <p class="caption">
+    <a href="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}" alt="" title="" target="_blank" ><em>https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}</em></a></p>
+  </div>
+</div>
+  {{- end -}}
+  {{ end }}
+  {{ if eq $.Site.Params.websiteFigureFallbackText true }}
+  {{- if eq .media_type "website" }}
+<iframe id='{{ .id }}'
+        class='quire-figure__media'
+        src='{{ .media_id }}'></iframe>
+  {{- end -}}
+  {{- end -}}
+{{ end }}
+
+{{/* -------------------- END FALL BACK BLOCK -------------------- */}}
 
   {{/* -------------------- BEGIN CAPTION BLOCK -------------------- */}}
   <figcaption class="quire-figure__caption caption">
@@ -462,7 +460,7 @@ popup is true. popup is true by default.
 */}}
 
 {{ if eq $.Site.Params.popup true }}
-  {{ if or (eq .media_type "vimeo") (eq .media_type "youtube") (eq .media_type "image")}}
+  {{ if or (eq .media_type "vimeo") (eq .media_type "youtube") (eq .media_type "image") }}
       {{ if eq $.Site.Params.figureEnlargeType "inside" }}
       {{ if or (eq $.Site.Params.figureLabels true) (eq ($.Get "label") "true" ) }}
       {{ if eq $.Site.Params.pdf true }} 

@@ -5,7 +5,9 @@ import 'leaflet-fullscreen'
 
 class DeepZoom {
   constructor(id) {
-    
+
+    this.el = id
+
     // remove and refresh before init
     if (isPopup) {
       if (window.mapID != undefined || window.mapID != undefined) {
@@ -16,11 +18,11 @@ class DeepZoom {
       if (node) {
         while (node.firstChild) {
           node.removeChild(node.firstChild)
-        }  
+        }
       }
     }
-    
-    this.el = id
+
+
     this.imageURL = $(`#${this.el}`).data('image')
     this.iiif = $(`#${this.el}`).data('iiif')
 
@@ -32,7 +34,9 @@ class DeepZoom {
       this.center = [0, 0]
       this.defaultZoom = 0
       this.map = this.createMap()
-      window.mapID = this.map
+      if ($(`#${this.el}`).data('catalogue-entry') === undefined) {
+        window.mapID = this.map
+      }
       this.mapSize = this.map.getSize()
       this.imgZoomReduction = this.imgWidth >= 4000 ? 0.5 : this.imgHeight >= 2500 ? 1 : 2
       this.maxzoom = Math.ceil(Math.log((this.mapSize.x / this.imgWidth > this.mapSize.y / this.imgHeight ? this.imgWidth / this.mapSize.x : this.imgHeight / this.mapSize.y)) / Math.log(2))
@@ -44,7 +48,9 @@ class DeepZoom {
       this.center = [0, 0]
       this.defaultZoom = 0
       this.map = this.createMap()
-      window.mapID = this.map
+      if ($(`#${this.el}`).data('catalogue-entry') === undefined) {
+        window.mapID = this.map
+      }
       this.addLayer(this.iiif, this.map)
     }
 
@@ -62,6 +68,7 @@ class DeepZoom {
       center: this.center,
       crs: L.CRS.Simple,
       zoom: this.defaultZoom,
+      maxZoom: 4,
       fullscreenControl: {
         pseudoFullscreen: false // if true, fullscreen to page width and height
       }
@@ -79,7 +86,9 @@ class DeepZoom {
       L.imageOverlay(this.imageURL, bounds, {
         attribution: false,
         fitBounds: true
-      }).addTo(this.map)
+      }).addTo(this.map);
+      // this.map.addLayer(overLay)
+      // this.map.fitBounds(bounds)
       this.map.setMaxBounds(bounds)
     }
   }

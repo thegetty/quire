@@ -8759,24 +8759,43 @@ html {
         color: #363636 !important; }
       .quire-entry__image a {
         border-bottom-color: #363636 !important; } }
-  @media print {
-    .quire-entry__image__group-container figure {
-      display: none; }
-    .quire-entry__image__group-container figure:first-of-type {
-      display: block; } }
-  .quire-entry__image__group-container,
-  .quire-entry__image .quire-counter-container {
+  .quire-entry__image__group-container {
+    width: 100%;
+    height: 100%;
     top: 10px;
     right: 10px; }
+    @media print {
+      .quire-entry__image__group-container figure {
+        display: none; }
+      .quire-entry__image__group-container figure:first-of-type {
+        display: block; } }
   .quire-entry__image figure {
     flex: 1 1 100%;
-    height: 100%;
+    width: 100%;
+    height: calc(100vh - 6rem - 3rem);
     display: flex;
     align-items: center;
     justify-content: center; }
-    .quire-entry__image figure .quire-image-control--download {
+    .quire-entry__image figure .quire-image-counter-download-container {
+      position: absolute;
       top: 10px;
-      left: 10px;
+      right: 10px;
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: space-around;
+      z-index: 401px; }
+      .quire-entry__image figure .quire-image-counter-download-container div.quire-counter-container {
+        position: relative;
+        margin: auto;
+        top: unset;
+        right: unset; }
+      .quire-entry__image figure .quire-image-counter-download-container a {
+        position: relative;
+        margin: auto; }
+    .quire-entry__image figure .quire-deepzoom-entry {
+      width: 100%;
+      height: 100%; }
+    .quire-entry__image figure .quire-image-control--download {
       bottom: 0;
       height: 30px;
       background: rgba(0, 0, 0, 0.5);
@@ -8791,25 +8810,14 @@ html {
   .quire-entry__image .quire-image-control {
     position: absolute;
     bottom: 1rem;
-    /* border-color: darken($quire-entry-image-icons-color, 15%); */
-    z-index: 10; }
+    z-index: 401; }
     .quire-entry__image .quire-image-control.quire-image-info {
       position: absolute;
       bottom: 0;
       left: 0;
       width: 100%;
       padding: 0 10px 25px;
-      z-index: 1046;
-      /*
-        background-color: darken($quire-entry-image-color, 5%);
-        right: 4.5rem;
-        max-width: 400px;
-        display: none;
-        padding: 1rem 1rem 2.5rem 1rem;
-        border-radius: 3px;
-        z-index: 1;
-        height: auto;
-        */ }
+      z-index: 1046; }
       @media print {
         .quire-entry__image .quire-image-control.quire-image-info {
           background-color: transparent;
@@ -8858,15 +8866,7 @@ html {
       height: 30px;
       display: block;
       border: none;
-      outline: none;
-      /*
-        top: calc(50% - 2.25rem);
-        left: 0;
-        right: initial;
-        border-left-width: 0;
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-        */ }
+      outline: none; }
     .quire-entry__image .quire-image-control--next-image {
       margin: 0;
       -webkit-transform: scale(1);
@@ -8883,15 +8883,7 @@ html {
       height: 30px;
       display: block;
       border: none;
-      outline: none;
-      /*
-        top: calc(50% - 2.25rem);
-        right: 0;
-        left: initial;
-        border-right-width: 0;
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-        */ }
+      outline: none; }
     .quire-entry__image .quire-image-control svg {
       position: relative;
       height: 1.5em;
@@ -8987,8 +8979,7 @@ div.side-by-side {
       display: flex; } }
   div.side-by-side div.quire-entry__image-wrap {
     position: relative;
-    width: 100%;
-    height: calc(100vh - 6rem - 3rem); }
+    width: 100%; }
     @media screen and (min-width: 700px) {
       div.side-by-side div.quire-entry__image-wrap {
         width: 56%;
@@ -8996,12 +8987,15 @@ div.side-by-side {
     div.side-by-side div.quire-entry__image-wrap div.quire-entry__image {
       position: relative;
       width: 100%;
-      height: inherit; }
+      height: calc(100vh - 6rem - 3rem); }
       @media screen and (min-width: 700px) {
         div.side-by-side div.quire-entry__image-wrap div.quire-entry__image {
           position: fixed;
           width: 56%;
           height: 100vh; } }
+      @media screen and (min-width: 700px) {
+        div.side-by-side div.quire-entry__image-wrap div.quire-entry__image .quire-entry__image__group-container figure {
+          height: calc(100vh - 3rem); } }
       @media screen and (min-width: 700px) {
         div.side-by-side div.quire-entry__image-wrap div.quire-entry__image .quire-entry__image__group-container figure .quire-image-info {
           bottom: 53px; } }
