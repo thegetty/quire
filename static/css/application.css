@@ -8952,6 +8952,14 @@ html {
 .quire-entry__tombstone tr:hover {
   background-color: #F9F9A3; }
 
+.quire-entry__content {
+  position: relative;
+  -webkit-animation: 1s ease-out 0s 1 slideFromRight;
+          animation: 1s ease-out 0s 1 slideFromRight; }
+  .quire-entry__content .quire-page__content {
+    -webkit-animation: none;
+            animation: none; }
+
 .quire-entry .quire-entry__header h1 {
   padding: 1em 1.2em 0;
   font-size: 2em;

@@ -292,6 +292,14 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     }
   }
 
+  &__content {
+    position: relative;
+    animation: 1s ease-out 0s 1 slideFromRight;
+    .quire-page__content {
+      animation: none;
+    }
+  }
+
   .quire-entry__header {
     h1 {
       padding: 1em 1.2em 0;
