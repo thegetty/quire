@@ -121,15 +121,6 @@
   }
 
   .menu-list {
-    ul.arrow {
-      .page-item {
-        &:last-child {
-          a {
-            padding: 0 0 0 1rem;
-          }
-        }
-      }
-    }
     a {
       position: relative;
       padding-left: 0;
@@ -240,6 +231,18 @@
 
     .section-list {
       font-size: .75em;
+    }
+
+    .menu-list {
+      ul.arrow {
+        .page-item {
+          &:last-child {
+            a {
+              padding: 0 0 0 1rem;
+            }
+          }
+        }
+      }
     }
 
     .quire-menu__formats {
