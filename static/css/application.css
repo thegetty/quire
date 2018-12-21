@@ -8780,14 +8780,19 @@ html {
     display: flex;
     align-items: center;
     justify-content: center; }
+    .quire-entry__image figure iframe {
+      margin: 0 auto;
+      max-width: 900px;
+      position: relative;
+      height: 56.7%; }
     .quire-entry__image figure .quire-image-counter-download-container {
       position: absolute;
-      top: 10px;
+      top: 20px;
       right: 10px;
       display: flex;
       flex-flow: row wrap;
       justify-content: space-around;
-      z-index: 401px; }
+      z-index: 401; }
       .quire-entry__image figure .quire-image-counter-download-container div.quire-counter-container {
         position: relative;
         margin: auto;
@@ -8857,37 +8862,39 @@ html {
         .quire-entry__image .quire-image-control--more:focus + .quire-image-info {
           display: block; }
     .quire-entry__image .quire-image-control--prev-image {
-      margin: 0;
-      left: 10px;
-      opacity: 1;
-      top: 50%;
-      -webkit-transform: translateY(-50%);
-              transform: translateY(-50%);
       background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AAAB6klEQVR4Ae3bsWpUQRTG8YkkanwCa7GzVotsI/gEgk9h4Vu4ySLYmMYgbJrc3lrwZbJwC0FMt4j7F6Y4oIZrsXtgxvx/1c0ufEX4cnbmLCmSJEmSJEmSJEmSJP3XCBPvbJU+8doWmDFwyZpLBmYlNJebz0KwzykwsuSYJSNwykEJreV2BaBMaLIQZ2xYcFgqDlmw4ayE/FwL0dDk4Qh4W37DAjgqIT+3HRbigjH+iikVdxgZStgyN0Su2sXIeTwTT+esdpcbIlfNAuZ/TxresG4zV8kYWSZNiKUTokMMSWeIwTNEn4fK2TW3gRNgVkJLuVksROA9G+bEvoATNlBCa7nZXEwdxEZxzpKRKFh+bsv8LmPFmhX1OwfIz81jIRJQ5eeqG9B+riRJkiRJkiRJkiRJkiRJkiRJUkvA/8RQoEpKlJWINFkJ62AlrEP/mNBibnv2yz/A3t7Uq3LcpoxP8COjC1T5vxoAD5VdoEqdDrd5QuW1swtUSaueh3zkiuBiqgtA2OlkeMcP/uDqugsJdbjHF65VdPMKwS0+WQc/MgKvrIOHysB9vgPwk8+85hmPbnQdvHZyDMAFD7L3EOpgMcVdvnHFS0/vlatrXvCVx0U9gt3fxvnA0/hB4nmRJEmSJEmSJEmSJGmHfgFLaDPoMu5xWwAAAABJRU5ErkJggg==) no-Repeat top left rgba(0, 0, 0, 0.5);
       background-position-x: -139px;
       background-position-y: -44px;
+      left: 10px;
       width: 30px;
       height: 30px;
       display: block;
       border: none;
-      outline: none; }
-    .quire-entry__image .quire-image-control--next-image {
+      outline: none;
       margin: 0;
       -webkit-transform: scale(1);
               transform: scale(1);
-      right: 10px;
       opacity: 1;
       top: 50%;
       -webkit-transform: translateY(-50%);
-              transform: translateY(-50%);
+              transform: translateY(-50%); }
+    .quire-entry__image .quire-image-control--next-image {
       background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AAAB6klEQVR4Ae3bsWpUQRTG8YkkanwCa7GzVotsI/gEgk9h4Vu4ySLYmMYgbJrc3lrwZbJwC0FMt4j7F6Y4oIZrsXtgxvx/1c0ufEX4cnbmLCmSJEmSJEmSJEmSJP3XCBPvbJU+8doWmDFwyZpLBmYlNJebz0KwzykwsuSYJSNwykEJreV2BaBMaLIQZ2xYcFgqDlmw4ayE/FwL0dDk4Qh4W37DAjgqIT+3HRbigjH+iikVdxgZStgyN0Su2sXIeTwTT+esdpcbIlfNAuZ/TxresG4zV8kYWSZNiKUTokMMSWeIwTNEn4fK2TW3gRNgVkJLuVksROA9G+bEvoATNlBCa7nZXEwdxEZxzpKRKFh+bsv8LmPFmhX1OwfIz81jIRJQ5eeqG9B+riRJkiRJkiRJkiRJkiRJkiRJUkvA/8RQoEpKlJWINFkJ62AlrEP/mNBibnv2yz/A3t7Uq3LcpoxP8COjC1T5vxoAD5VdoEqdDrd5QuW1swtUSaueh3zkiuBiqgtA2OlkeMcP/uDqugsJdbjHF65VdPMKwS0+WQc/MgKvrIOHysB9vgPwk8+85hmPbnQdvHZyDMAFD7L3EOpgMcVdvnHFS0/vlatrXvCVx0U9gt3fxvnA0/hB4nmRJEmSJEmSJEmSJGmHfgFLaDPoMu5xWwAAAABJRU5ErkJggg==) no-Repeat top right rgba(0, 0, 0, 0.5);
       background-position-x: -95px;
       background-position-y: -44px;
+      right: 10px;
       width: 30px;
       height: 30px;
       display: block;
       border: none;
-      outline: none; }
+      outline: none;
+      margin: 0;
+      -webkit-transform: scale(1);
+              transform: scale(1);
+      opacity: 1;
+      top: 50%;
+      -webkit-transform: translateY(-50%);
+              transform: translateY(-50%); }
     .quire-entry__image .quire-image-control svg {
       position: relative;
       height: 1.5em;
@@ -9025,9 +9032,9 @@ div.side-by-side {
     @media screen and (min-width: 700px) {
       div.side-by-side div.quire-entry__content section div.container,
       div.side-by-side div.quire-entry__content header div.container {
-        width: 100%;
         padding-left: 20px;
-        padding-right: 20px; } }
+        padding-right: 20px;
+        width: 100%; } }
 
 .quire-citation {
   display: inline-block;

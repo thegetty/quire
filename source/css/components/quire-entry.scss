@@ -52,14 +52,21 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
       align-items: center;
       justify-content: center;
 
+      iframe {
+        margin: 0 auto;
+        max-width: 900px;
+        position: relative;
+        height: 56.7%;
+      }
+
       .quire-image-counter-download-container {
         position: absolute;
-        top: 10px;
+        top: 20px;
         right: 10px;
         display: flex;
         flex-flow: row wrap;
         justify-content: space-around;
-        z-index: 401px;
+        z-index: 401;
 
         div.quire-counter-container {
           position: relative;
@@ -166,36 +173,39 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
       }
 
       &--prev-image {
-        margin: 0;
-        left: 10px;
-        opacity: 1;
-        top: 50%;
-        transform: translateY(-50%);
         background: $image no-Repeat top left $dark-semi-transparent;
         background-position-x: -139px;
         background-position-y: -44px;
+        left: 10px;
+
         width: 30px;
         height: 30px;
         display: block;
         border: none;
         outline: none;
-      }
-
-      &--next-image {
         margin: 0;
         transform: scale(1);
-        right: 10px;
         opacity: 1;
         top: 50%;
         transform: translateY(-50%);
+      }
+
+      &--next-image {
         background: $image no-Repeat top right $dark-semi-transparent;
         background-position-x: -95px;
         background-position-y: -44px;
+        right: 10px;
+
         width: 30px;
         height: 30px;
         display: block;
         border: none;
         outline: none;
+        margin: 0;
+        transform: scale(1);
+        opacity: 1;
+        top: 50%;
+        transform: translateY(-50%);
       }
 
       svg {
@@ -398,9 +408,9 @@ div.side-by-side {
 
       div.container {
         @media screen and (min-width: $desktop) {
-          width: 100%;
           padding-left: 20px;
           padding-right: 20px;
+          width: 100%;
         }
       }
     }
