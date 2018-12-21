@@ -7361,6 +7361,10 @@ template {
     color: #363636 !important; }
   .quire-navbar a {
     border-bottom-color: #363636 !important; }
+  .quire-navbar a:hover, .quire-navbar button:hover, .quire-navbar .button:hover {
+    background-color: #f2f2f2 !important; }
+    .quire-navbar a:hover button, .quire-navbar button:hover button, .quire-navbar .button:hover button {
+      background-color: #f2f2f2 !important; }
   .quire-navbar * {
     transition: background 0.15s linear; }
   .quire-navbar a {
