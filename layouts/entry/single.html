@@ -181,39 +181,41 @@ a single image or object needs to be featured prominently.\
 
   {{ else if eq .figure.media_type "youtube" }}
 
-  <iframe 
-    id='{{ .id }}'
-    title='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .figure.title }}{{ .figure.title | markdownify }}{{ end }}'
-    alt='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .figure.title }}{{ .figure.title | markdownify }}{{ end }}'
-    {{ if .figure.caption }} data-caption='{{ .figure.caption | markdownify | safeHTML }}' {{ end }}
-    data-catalogue-entry="true"
-    aria-label="youtube video" 
-    class='quire-figure__media'
-    src='https://www.youtube-nocookie.com/embed/{{ .figure.media_id }}?rel=0&amp;showinfo=0'
-    frameborder='0'
-    webkitallowfullscreen
-    mozallowfullscreen
-    allowfullscreen
-  >
-  </iframe>
+    <iframe 
+      id='{{ .id }}'
+      title='{{ if .figure.title }}{{ .figure.title | markdownify }}{{ end }}'
+      alt='{{ if .figure.title }}{{ .figure.title | markdownify }}{{ end }}'
+      {{ if .figure.caption }} data-caption='{{ .figure.caption | markdownify | safeHTML }}' {{ end }}
+      data-catalogue-entry="true"
+      aria-label="youtube video" 
+      class='quire-figure__media'
+      src='https://www.youtube-nocookie.com/embed/{{ .figure.media_id }}?rel=0&amp;showinfo=0'
+      frameborder='0'
+      webkitallowfullscreen
+      mozallowfullscreen
+      allowfullscreen
+    >
+    </iframe>
+
 
   {{ else if eq .figure.media_type "vimeo" }}
 
-  <iframe 
-    id='{{ .id }}'
-    title='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .figure.title }}{{ .figure.title | markdownify }}{{ end }}'
-    alt='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .figure.title }}{{ .figure.title | markdownify }}{{ end }}'
-    {{ if .figure.caption }} data-caption='{{ .figure.caption | markdownify | safeHTML }}' {{ end }}
-    data-catalogue-entry="true"
-    aria-label="vimeo video" 
-    class='quire-figure__media'
-    src='https://player.vimeo.com/video/{{ .figure.media_id }}'
-    frameborder='0'
-    webkitallowfullscreen
-    mozallowfullscreen
-    allowfullscreen
-  >
-  </iframe>
+    <iframe 
+      id='{{ .id }}'
+      title='{{ if .figure.title }}{{ .figure.title | markdownify }}{{ end }}'
+      alt='{{ if .figure.title }}{{ .figure.title | markdownify }}{{ end }}'
+      {{ if .figure.caption }} data-caption='{{ .figure.caption | markdownify | safeHTML }}' {{ end }}
+      data-catalogue-entry="true"
+      aria-label="vimeo video" 
+      class='quire-figure__media'
+      src='https://player.vimeo.com/video/{{ .figure.media_id }}'
+      frameborder='0'
+      webkitallowfullscreen
+      mozallowfullscreen
+      allowfullscreen
+    >
+    </iframe>
+
 
   {{ else }}
 
@@ -235,7 +237,48 @@ a single image or object needs to be featured prominently.\
 
   {{ else }}
 
+  {{ if eq .figure.media_type "youtube" }}
+
+  <iframe 
+    id='{{ .id }}'
+    title='{{ if .figure.title }}{{ .figure.title | markdownify }}{{ end }}'
+    alt='{{ if .figure.title }}{{ .figure.title | markdownify }}{{ end }}'
+    {{ if .figure.caption }} data-caption='{{ .figure.caption | markdownify | safeHTML }}' {{ end }}
+    data-catalogue-entry="true"
+    aria-label="youtube video" 
+    class='quire-figure__media'
+    src='https://www.youtube-nocookie.com/embed/{{ .figure.media_id }}?rel=0&amp;showinfo=0'
+    frameborder='0'
+    webkitallowfullscreen
+    mozallowfullscreen
+    allowfullscreen
+  >
+  </iframe>
+
+
+{{ else if eq .figure.media_type "vimeo" }}
+
+  <iframe 
+    id='{{ .id }}'
+    title='{{ if .figure.title }}{{ .figure.title | markdownify }}{{ end }}'
+    alt='{{ if .figure.title }}{{ .figure.title | markdownify }}{{ end }}'
+    {{ if .figure.caption }} data-caption='{{ .figure.caption | markdownify | safeHTML }}' {{ end }}
+    data-catalogue-entry="true"
+    aria-label="vimeo video" 
+    class='quire-figure__media'
+    src='https://player.vimeo.com/video/{{ .figure.media_id }}'
+    frameborder='0'
+    webkitallowfullscreen
+    mozallowfullscreen
+    allowfullscreen
+  >
+  </iframe>
+
+  {{ else }}
+
   <img src="{{ $imgPath | relURL }}" alt="{{ .figure.alt }}" />
+
+  {{ end }}
 
   {{ end }}
 

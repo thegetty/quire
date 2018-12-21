@@ -17,78 +17,17 @@ import zoom from 'jquery-zoom';
 import './soundcloud-api';
 
 // Modules (feel free to define your own and import here)
+import {
+  enableScroll,
+  disableScroll,
+  preloadImages,
+  stopVideo
+} from './helper';
 import Search from './search';
 import Navigation from './navigation';
 import Popup from './popup';
 import DeepZoom from './deepzoom';
 import Map from './map';
-
-// left: 37, up: 38, right: 39, down: 40,
-// spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
-let keys = {
-  37: 1,
-  38: 1,
-  39: 1,
-  40: 1
-};
-
-
-/**
- * Prevent and store scroll for expanded menu
- * @description When the show/hide for nav is triggered we want to 
- * lock the position of the users state in scroll and also prevent 
- * the nav from going back to 0,0 in fixed state. These functions prevent that. 
- */
-const preventDefault = (e) => {
-  e = e || window.event;
-  if (e.preventDefault)
-    e.preventDefault();
-  e.returnValue = false;
-}
-
-const preventDefaultForScrollKeys = (e) => {
-  if (keys[e.keyCode]) {
-    preventDefault(e);
-    return false;
-  }
-}
-
-const disableScroll = (element) => {
-  document.querySelector('html').style.overflow = 'hidden'
-  if (element.addEventListener) // older FF
-    element.addEventListener('DOMMouseScroll', preventDefault, false);
-  element.onwheel = preventDefault; // modern standard
-  element.onmousewheel = element.onmousewheel = preventDefault; // older browsers, IE
-  element.ontouchmove = preventDefault; // mobile
-  element.onkeydown = preventDefaultForScrollKeys;
-}
-
-const enableScroll = (element) => {
-  document.querySelector('html').style.overflow = ''
-  if (element.removeEventListener)
-    element.removeEventListener('DOMMouseScroll', preventDefault, false);
-  element.onmousewheel = element.onmousewheel = null;
-  element.onwheel = null;
-  element.ontouchmove = null;
-  element.onkeydown = null;
-}
-
-const preloadImages = (srcs, imgs, callback) => {
-  let img;
-  let remaining = srcs.length;
-  for (let i = 0; i < srcs.length; i++) {
-    img = new Image;
-    img.onload = () => {
-      --remaining;
-      if (remaining <= 0) {
-        callback();
-      }
-    };
-    img.src = srcs[i];
-    imgs.push(img);
-  }
-};
-
 
 /**
  * toggleMenu
@@ -142,7 +81,6 @@ window.toggleSearch = () => {
   let searchInput = document.getElementById('js-search-input');
   let searchAriaStatus = searchControls.getAttribute('aria-expanded');
   searchControls.classList.toggle('is-active');
-
   if (searchAriaStatus === 'true') {
     searchControls.setAttribute('aria-expanded', 'false');
   } else {
@@ -161,7 +99,11 @@ function sliderSetup() {
   slider.each(function () {
     let sliderImages = $(this).find('figure');
     sliderImages.each((i, v) => {
-      $(v).find('.quire-image-counter-download-container').append(`<div class="quire-counter-container"><span class="counter">${i + 1} of ${sliderImages.length}</span></div>`)
+      if(sliderImages.length > 1) {
+        $(v)
+        .find('.quire-image-counter-download-container')
+        .append(`<div class="quire-counter-container"><span class="counter">${i + 1} of ${sliderImages.length}</span></div>`);
+      }
     });
     let firstImage = $(sliderImages.first());
     let lastImage = $(sliderImages.last());
@@ -178,20 +120,16 @@ function sliderSetup() {
     .map(v => {
       return v.getAttribute('data-image')
     })
-
-  let imgs = []
-
-  preloadImages(images, imgs, () => {
+  preloadImages(images, () => {
     mapSetup();
     deepZoomSetup();
   })
-
 }
 
 /**
  * slideImage
  * @description Slide to previous or next catalogue object image in a loop.
- * Supports any number of figures per object, and any number of obejects
+ * Supports any number of figures per object, and any number of objects
  * per page.
  */
 window.slideImage = (direction) => {
@@ -201,6 +139,7 @@ window.slideImage = (direction) => {
   let currentImage = slider.children('.current-image');
   let nextImage = currentImage.next('figure');
   let prevImage = currentImage.prev('figure');
+  stopVideo(document.querySelector('.current-image'));
   currentImage.hide();
   currentImage.removeClass('current-image');
   if (direction == 'next') {
