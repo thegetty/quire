@@ -51,6 +51,44 @@
   top: 0;
   width: 100%;
 
+  a, button, .button {
+    &:hover {
+      background-color: #f2f2f2 !important;
+      button {
+        background-color: #f2f2f2 !important;
+      }
+    }
+  }
+  @if $navbar == inverse {
+    background-color: $dark !important;
+    color: $white !important;
+    .quire-navbar-button {
+      &:hover {
+        > * {
+          background-color: transparent !important;
+        }
+        background-color: $off-gray !important;
+      }
+    }
+    a, button, .button {
+      background-color: $dark !important;
+      color: $white !important;
+      &:hover {
+        fill: $white !important;
+        background-color: $off-gray !important;
+        button {
+          background-color: $off-gray !important;
+        }
+      }
+    }
+    svg {
+      fill: $white !important;
+      &:hover {
+        fill: $white !important;
+      }
+    }
+  }
+
   * {
     transition: background 0.15s linear;
   }

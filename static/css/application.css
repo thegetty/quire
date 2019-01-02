@@ -7361,6 +7361,10 @@ template {
     color: #363636 !important; }
   .quire-navbar a {
     border-bottom-color: #363636 !important; }
+  .quire-navbar a:hover, .quire-navbar button:hover, .quire-navbar .button:hover {
+    background-color: #f2f2f2 !important; }
+    .quire-navbar a:hover button, .quire-navbar button:hover button, .quire-navbar .button:hover button {
+      background-color: #f2f2f2 !important; }
   .quire-navbar * {
     transition: background 0.15s linear; }
   .quire-navbar a {
@@ -7918,9 +7922,11 @@ html {
 .quire-page--splash .quire-page__content p:first-child:first-letter {
   font-size: 9em;
   float: left;
-  margin-top: 0.10em;
+  margin-top: -0.09em;
   margin-left: -0.09em;
-  padding-right: 0.025em; }
+  padding-right: 0.025em;
+  margin-bottom: -0.1em;
+  line-height: 1em; }
 
 .quire-page__content .content a:not([rel=footnote]):not(.footnote-return) {
   color: #CF4747; }
@@ -8954,6 +8960,14 @@ html {
 
 .quire-entry__tombstone tr:hover {
   background-color: #F9F9A3; }
+
+.quire-entry__content {
+  position: relative;
+  -webkit-animation: 1s ease-out 0s 1 slideFromRight;
+          animation: 1s ease-out 0s 1 slideFromRight; }
+  .quire-entry__content .quire-page__content {
+    -webkit-animation: none;
+            animation: none; }
 
 .quire-entry .quire-entry__header h1 {
   padding: 1em 1.2em 0;
