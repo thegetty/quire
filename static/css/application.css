@@ -7922,9 +7922,11 @@ html {
 .quire-page--splash .quire-page__content p:first-child:first-letter {
   font-size: 9em;
   float: left;
-  margin-top: 0.10em;
+  margin-top: -0.09em;
   margin-left: -0.09em;
-  padding-right: 0.025em; }
+  padding-right: 0.025em;
+  margin-bottom: -0.1em;
+  line-height: 1em; }
 
 .quire-page__content .content a:not([rel=footnote]):not(.footnote-return) {
   color: #CF4747; }
