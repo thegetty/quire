@@ -7922,7 +7922,7 @@ html {
 .quire-page--splash .quire-page__content p:first-child:first-letter {
   font-size: 9em;
   float: left;
-  margin-top: -0.09em;
+  margin-top: .1em;
   margin-left: -0.09em;
   padding-right: 0.025em;
   margin-bottom: -0.1em;
@@ -9034,8 +9034,6 @@ div.side-by-side {
     @media screen and (min-width: 700px) {
       div.side-by-side div.quire-entry__content section div.container,
       div.side-by-side div.quire-entry__content header div.container {
-        padding-left: 20px;
-        padding-right: 20px;
         width: 100%; } }
 
 .quire-citation {
