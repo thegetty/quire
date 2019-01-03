@@ -12,15 +12,21 @@
   {{ partial "page-abstract.html" . }}
   {{ end }}
 
-  <section id="content" class="section quire-page__content">
+  <section class="section quire-page__content" id="content">
     <div class="container">
       <div class="content">
         {{ .Content }}
         {{ partial "page-bibliography.html" . }}
       </div>
     </div>
-    {{ partial "footer-buttons.html" . }}
   </section>
+
+    <section class="section quire-page__content">
+      <div class="container">
+        {{ partial "footer-buttons.html" . }}
+      </div> 
+    </section>
+
 
 </article>
 {{ end }}

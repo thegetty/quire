@@ -5,7 +5,6 @@
  * Also some of these functions are more utility in nature.
  */
 
-
 /**
  * Prevent and store scroll for expanded menu
  * @description When the show/hide for nav is triggered we want to 
@@ -20,8 +19,17 @@ export const preventDefault = (e) => {
 }
 
 const preventDefaultForScrollKeys = (e) => {
-    // left: 37, up: 38, right: 39, down: 40,
-    // spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
+    /*
+    left: 37, 
+    up: 38, 
+    right: 39, 
+    down: 40, 
+    spacebar: 32, 
+    pageup: 33, 
+    pagedown: 34, 
+    end: 35, 
+    home: 36
+    */
     let keys = {
         37: 1,
         38: 1,
@@ -66,7 +74,6 @@ export const enableScroll = (element) => {
  * Preload 
  * @param  {Array} srcs array of images
  */
-
 export const preloadImages = (srcs, callback) => {
     let img;
     let remaining = srcs.length;
