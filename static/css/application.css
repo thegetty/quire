@@ -7928,6 +7928,18 @@ html {
   margin-bottom: -0.1em;
   line-height: 1em; }
 
+.quire-page--frontmatter.quire-essay .quire-page__abstract {
+  padding-top: 1em;
+  margin-bottom: -2.5em; }
+  .quire-page--frontmatter.quire-essay .quire-page__abstract:after {
+    font-size: 0.86em; }
+  .quire-page--frontmatter.quire-essay .quire-page__abstract .container {
+    padding: 0; }
+    .quire-page--frontmatter.quire-essay .quire-page__abstract .container .content {
+      padding-bottom: 1em;
+      font-size: 0.7525em;
+      line-height: 1.714em; }
+
 .quire-page__content .content a:not([rel=footnote]):not(.footnote-return) {
   color: #CF4747; }
   @media print {

@@ -8,18 +8,21 @@
 <article class="{{ partial "page-class.html" . }} quire-essay" id="main" role="main">
   {{ partial "page-header.html" . }}
 
-  {{ if .Params.abstract }}
-  {{ partial "page-abstract.html" . }}
-  {{ end }}
-
   <section id="content" class="section quire-page__content">
+    {{ if .Params.abstract }}
+    {{ partial "page-abstract.html" . }}
+    {{ end }}
     <div class="container">
       <div class="content">
         {{ .Content }}
         {{ partial "page-bibliography.html" . }}
+        <section class="section quire-page__content">
+          <div class="container">
+            {{ partial "footer-buttons.html" . }}
+          </div> 
+        </section>
       </div>
     </div>
-    {{ partial "footer-buttons.html" . }}
   </section>
 
 </article>

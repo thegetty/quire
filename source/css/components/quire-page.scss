@@ -347,6 +347,24 @@ html {
   }
 }
 
+.quire-page--frontmatter.quire-essay {
+  .quire-page__abstract {
+    padding-top: 1em;
+    margin-bottom: -2.5em;
+    &:after {
+      font-size: 0.86em;
+    }
+    .container {
+      padding: 0;
+      .content {
+        padding-bottom: 1em;
+        font-size: 0.7525em;
+        line-height: 1.714em;
+      }
+    }
+  }
+}
+
 .quire-page__content {
   // Overrides to Bulma's .content styles where needed.
   .content {
