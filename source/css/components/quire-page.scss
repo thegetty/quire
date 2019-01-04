@@ -336,11 +336,9 @@ html {
         &:first-letter {
           font-size: 9em;
           float: left;
-          margin-top: .1em;
           margin-left: -0.09em;
           padding-right: 0.025em;
-          margin-bottom: -0.1em;
-          line-height: 1em;
+          line-height: .85em;
         }
       }
     }

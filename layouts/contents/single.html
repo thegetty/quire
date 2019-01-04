@@ -10,11 +10,11 @@
   <div class="quire-contents-header">
     <h1 id="{{ .Title | urlize }}">{{ .Title | markdownify }}</h1>
   </div>
-  {{ if .Content }}
+  {{ with .Content }}
   <section class="section quire-page__abstract">
     <div class="container {{ if in .Params.class "grid" }}is-fullhd{{ end }}">
       <div class="content">
-        {{ .Content }}
+        {{ . }}
       </div>
     </div>
   </section>
