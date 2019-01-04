@@ -19,7 +19,10 @@ $print-footer-font-size: 8pt;
 
 @media print {
     @page {
-        prince-pdf-page-label: counter(page);
+        @bottom {}
+    }
+
+    @page {
         size: $print-width $print-height;
         prince-bleed: .125in;
         bleed: .125in;
@@ -54,7 +57,7 @@ $print-footer-font-size: 8pt;
         }
     }
 
-    @page: left {
+    @page:left {
         margin-left: $print-outer-margin;
         margin-right: $print-inner-margin;
 
@@ -66,18 +69,18 @@ $print-footer-font-size: 8pt;
         }
 
         @bottom-left-corner {
-            content: counter(page, lower-alpha);
+            content: counter(page);
             border: 1pt solid #ff0000 !important;
         }
     }
 
-    @page: left:first {
+    @page:left:first {
         @bottom-right {
             content: none;
         }
     }
 
-    @page: right {
+    @page:right {
         margin-left: $print-inner-margin;
         margin-right: $print-outer-margin;
 
@@ -86,12 +89,12 @@ $print-footer-font-size: 8pt;
         }
 
         @bottom-right-corner {
-            content: counter(page, lower-alpha);
+            content: counter(page);
             border: 1pt solid #ff0000 !important;
         }
     }
 
-    @page: right:first {
+    @page:right:first {
         @bottom-left {
             content: none;
         }
@@ -158,6 +161,10 @@ $print-footer-font-size: 8pt;
         @bottom-left {
             content: none;
         }
+    }
+
+    .remove-from-epub {
+        display: none;
     }
 
     .quire-current-page__title {
@@ -257,14 +264,17 @@ $print-footer-font-size: 8pt;
 
     .section.quire-page__content {
         border: 1pt solid #00ff00 !important;
+        margin: 0 auto;
     }
 
     .container {
         border: 1pt solid #ffff00 !important;
+        margin: 0 auto;
     }
 
     .content {
         border: 1pt solid #00ffff !important;
+        margin: 0 auto;
     }
 
     .is-screen-only {
@@ -305,11 +315,20 @@ $print-footer-font-size: 8pt;
     }
 }
 
+.entry-image-wrap {
+    width: 100%;
+    column-span: all;
+    display: block;
+    break-before: page;
+}
+
 .bd-structure {
     padding: 1.5rem;
 }
 
 .title-page {
+    column-span: all;
+
     text-align: left;
 
     span {
@@ -346,6 +365,8 @@ $print-footer-font-size: 8pt;
 }
 
 .half-title-page {
+    column-span: all;
+
     text-align: center;
 
     span {

@@ -7,11 +7,9 @@
 {{ define "main" }}
 <article class="{{ partial "page-class.html" . }} quire-essay" id="main" role="main">
   {{ partial "page-header.html" . }}
-
   {{ if .Params.abstract }}
   {{ partial "page-abstract.html" . }}
   {{ end }}
-
   <section class="section quire-page__content" id="content">
     <div class="container">
       <div class="content">
@@ -20,13 +18,10 @@
       </div>
     </div>
   </section>
-
-    <section class="section quire-page__content">
-      <div class="container">
-        {{ partial "footer-buttons.html" . }}
-      </div> 
-    </section>
-
-
+  <section class="section quire-page__content">
+    <div class="container">
+      {{ partial "footer-buttons.html" . }}
+    </div> 
+  </section>
 </article>
 {{ end }}
