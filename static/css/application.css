@@ -7786,7 +7786,7 @@ html {
   font-size: 1.125rem;
   line-height: 1.78;
   font-weight: 400;
-  padding-top: 1em;
+  padding-top: 0;
   padding-bottom: 0;
   position: relative;
   -webkit-animation: 1s ease-out 0s 1 slideFromRight;
@@ -7799,6 +7799,7 @@ html {
   .quire-page__content table {
     font-size: .875em; }
   .quire-page__content .container .content {
+    padding-top: 1em !important;
     margin-top: 45px;
     font-size: 16px;
     padding: 40px 1.75em;
@@ -7926,15 +7927,15 @@ html {
   padding-right: 0.025em;
   line-height: .85em; }
 
-.quire-page--frontmatter.quire-essay .quire-page__abstract {
+.quire-page--frontmatter.quire-essay .quire-page__abstract, .quire-essay .quire-page__abstract {
   padding-top: 1em;
   margin-bottom: -2.5em; }
-  .quire-page--frontmatter.quire-essay .quire-page__abstract:after {
+  .quire-page--frontmatter.quire-essay .quire-page__abstract:after, .quire-essay .quire-page__abstract:after {
     font-size: 0.86em; }
-  .quire-page--frontmatter.quire-essay .quire-page__abstract .container {
+  .quire-page--frontmatter.quire-essay .quire-page__abstract .container, .quire-essay .quire-page__abstract .container {
     padding: 0; }
-    .quire-page--frontmatter.quire-essay .quire-page__abstract .container .content {
-      padding-bottom: 1em;
+    .quire-page--frontmatter.quire-essay .quire-page__abstract .container .content, .quire-essay .quire-page__abstract .container .content {
+      padding: 2em 2em 1em !important;
       font-size: 0.7525em;
       line-height: 1.714em; }
 
