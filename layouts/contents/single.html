@@ -10,15 +10,15 @@
   <div class="quire-contents-header">
     <h1 id="{{ .Title | urlize }}">{{ .Title | markdownify }}</h1>
   </div>
+  {{ with .Content }}
   <section class="section quire-page__abstract">
     <div class="container {{ if in .Params.class "grid" }}is-fullhd{{ end }}">
-      {{ if .Content }}
-        <div class="content">
-          {{ .Content }}
-        </div>
-      {{ end }}
+      <div class="content">
+        {{ . }}
+      </div>
     </div>
   </section>
+  {{ end }}
   <section class="section quire-page__content" id="content">
     <div class="container {{ if in .Params.class "grid" }}is-fullhd{{ end }}">
       <div class="quire-contents-list {{ if in .Params.class "grid" }} grid{{ else if in .Params.class "abstract" }} abstract{{ else if in .Params.class "brief" }} brief{{ else }} list{{ end }}">

@@ -7786,7 +7786,7 @@ html {
   font-size: 1.125rem;
   line-height: 1.78;
   font-weight: 400;
-  padding-top: 0;
+  padding-top: 1em;
   padding-bottom: 0;
   position: relative;
   -webkit-animation: 1s ease-out 0s 1 slideFromRight;
@@ -7922,11 +7922,21 @@ html {
 .quire-page--splash .quire-page__content p:first-child:first-letter {
   font-size: 9em;
   float: left;
-  margin-top: -0.09em;
   margin-left: -0.09em;
   padding-right: 0.025em;
-  margin-bottom: -0.1em;
-  line-height: 1em; }
+  line-height: .85em; }
+
+.quire-page--frontmatter.quire-essay .quire-page__abstract {
+  padding-top: 1em;
+  margin-bottom: -2.5em; }
+  .quire-page--frontmatter.quire-essay .quire-page__abstract:after {
+    font-size: 0.86em; }
+  .quire-page--frontmatter.quire-essay .quire-page__abstract .container {
+    padding: 0; }
+    .quire-page--frontmatter.quire-essay .quire-page__abstract .container .content {
+      padding-bottom: 1em;
+      font-size: 0.7525em;
+      line-height: 1.714em; }
 
 .quire-page__content .content a:not([rel=footnote]):not(.footnote-return) {
   color: #CF4747; }
@@ -9034,8 +9044,6 @@ div.side-by-side {
     @media screen and (min-width: 700px) {
       div.side-by-side div.quire-entry__content section div.container,
       div.side-by-side div.quire-entry__content header div.container {
-        padding-left: 20px;
-        padding-right: 20px;
         width: 100%; } }
 
 .quire-citation {

@@ -152,7 +152,7 @@ html {
     font-size: 1.125rem;
     line-height: 1.78;
     font-weight: 400;
-    padding-top: 0;
+    padding-top: 1em;
     padding-bottom: 0;
     position: relative;
     animation: 1s ease-out 0s 1 slideFromRight;
@@ -336,12 +336,28 @@ html {
         &:first-letter {
           font-size: 9em;
           float: left;
-          margin-top: -0.09em;
           margin-left: -0.09em;
           padding-right: 0.025em;
-          margin-bottom: -0.1em;
-          line-height: 1em;
+          line-height: .85em;
         }
+      }
+    }
+  }
+}
+
+.quire-page--frontmatter.quire-essay {
+  .quire-page__abstract {
+    padding-top: 1em;
+    margin-bottom: -2.5em;
+    &:after {
+      font-size: 0.86em;
+    }
+    .container {
+      padding: 0;
+      .content {
+        padding-bottom: 1em;
+        font-size: 0.7525em;
+        line-height: 1.714em;
       }
     }
   }
