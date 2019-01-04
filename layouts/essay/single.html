@@ -16,18 +16,9 @@
       <div class="content">
         {{ .Content }}
         {{ partial "page-bibliography.html" . }}
-        <section class="section quire-page__content">
-          <div class="container">
-            {{ partial "footer-buttons.html" . }}
-          </div> 
-        </section>
       </div>
-    </div>
-  </section>
-  <section class="section quire-page__content">
-    <div class="container">
       {{ partial "footer-buttons.html" . }}
-    </div> 
+    </div>
   </section>
 </article>
 {{ end }}
