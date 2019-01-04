@@ -9390,6 +9390,8 @@ body > div.mfp-bg.mfp-ready {
 
 @media print {
   @page {
+    @bottom {} }
+  @page {
     size: 8.5in 11in;
     prince-bleed: .125in;
     bleed: .125in;
@@ -9412,7 +9414,7 @@ body > div.mfp-bg.mfp-ready {
     @bottom-left-corner {
       font-family: "IBM Plex Sans Condensed", sans-serif;
       font-size: 8pt; } }
-  @page : left {
+  @page :left {
     margin-left: 0.75in;
     margin-right: 1in;
     @bottom-right {
@@ -9421,26 +9423,30 @@ body > div.mfp-bg.mfp-ready {
       letter-spacing: 1pt;
       font-size: 7.5pt; }
     @bottom-left-corner {
-      content: counter(page); } }
-  @page : left:first {
+      content: counter(page);
+      border: 1pt solid #ff0000 !important; } }
+  @page :left:first {
     @bottom-right {
       content: none; } }
-  @page : right {
+  @page :right {
     margin-left: 1in;
     margin-right: 0.75in;
     @bottom-left {
       content: string(pagetitle); }
     @bottom-right-corner {
-      content: counter(page); } }
-  @page : right:first {
+      content: counter(page);
+      border: 1pt solid #ff0000 !important; } }
+  @page :right:first {
     @bottom-left {
       content: none; } }
   @page frontmatter:left {
     @bottom-left-corner {
-      content: counter(page, lower-roman); } }
+      content: counter(page, lower-roman);
+      border: 1pt solid #ff0000 !important; } }
   @page frontmatter:right {
     @bottom-right-corner {
-      content: counter(page, lower-roman); } }
+      content: counter(page, lower-roman);
+      border: 1pt solid #ff0000 !important; } }
   @page splash {
     background-color: #6A8EB8;
     color: #fff;
@@ -9468,6 +9474,8 @@ body > div.mfp-bg.mfp-ready {
       content: none; }
     @bottom-left {
       content: none; } }
+  .remove-from-epub {
+    display: none; }
   .quire-current-page__title {
     string-set: pagetitle content(); }
   .quire-section-page__title {
@@ -9518,11 +9526,14 @@ body > div.mfp-bg.mfp-ready {
   .hero-body {
     border: 1pt solid #0000ff !important; }
   .section.quire-page__content {
-    border: 1pt solid #00ff00 !important; }
+    border: 1pt solid #00ff00 !important;
+    margin: 0 auto; }
   .container {
-    border: 1pt solid #ffff00 !important; }
+    border: 1pt solid #ffff00 !important;
+    margin: 0 auto; }
   .content {
-    border: 1pt solid #00ffff !important; }
+    border: 1pt solid #00ffff !important;
+    margin: 0 auto; }
   .is-screen-only {
     display: none; }
   html body .leaflet-pane,
@@ -9545,10 +9556,20 @@ body > div.mfp-bg.mfp-ready {
     max-width: 100%;
     margin: 0; } }
 
+.entry-image-wrap {
+  width: 100%;
+  -webkit-column-span: all;
+          column-span: all;
+  display: block;
+  -webkit-column-break-before: page;
+          break-before: page; }
+
 .bd-structure {
   padding: 1.5rem; }
 
 .title-page {
+  -webkit-column-span: all;
+          column-span: all;
   text-align: left; }
   .title-page span {
     display: block; }
@@ -9574,6 +9595,8 @@ body > div.mfp-bg.mfp-ready {
     /** approx 22px **/ }
 
 .half-title-page {
+  -webkit-column-span: all;
+          column-span: all;
   text-align: center; }
   .half-title-page span {
     display: block; }

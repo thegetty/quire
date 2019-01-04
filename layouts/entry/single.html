@@ -12,10 +12,11 @@ a single image or object needs to be featured prominently.\
 {{ end }}
 
 {{ $zoom :=  $.Site.Params.catalogueFiguresZoom  }}
+{{ $pdf :=  $.Site.Params.pdf }}
 
 {{/* Entry content, including entry image and tombstone data */}}
 <article class="{{ partial "page-class.html" . }} quire-entry" id="main" role="main">
-<div {{ if eq $.Site.Params.sideBySideLayout true }} class="side-by-side" {{ end }} data="{{ $.Site.Params.catalogueFiguresZoom }}">
+<div {{ if eq $.Site.Params.sideBySideLayout true }} {{ if ne $.Site.Params.pdf true }} class="side-by-side" {{ end }} {{ end }} data="{{ $.Site.Params.catalogueFiguresZoom }}">
 
   {{/* Full-width entry image header */}}
 <div class="quire-entry__image-wrap">
@@ -29,16 +30,18 @@ a single image or object needs to be featured prominently.\
         {{ range where $.Site.Data.objects.object_list "id" "eq" .id }}
         <div class="quire-entry__image__group-container">
           {{ if gt (len .figure) 1 -}}
+          {{ if ne $.Site.Params.pdf true }}
           <button class="remove-from-epub quire-image-control quire-image-control--prev-image" onclick="slideImage('prev')" id="prev-image" title="Previous image"></button>
           <button class="remove-from-epub quire-image-control quire-image-control--next-image" onclick="slideImage('next')" id="next-image" title="Next image"></button>
+          {{ end }}
           {{ end -}}
         {{ range .figure }}
           {{ if .id }}
             {{ range where $.Site.Data.figures.figure_list "id" "eq" .id }} 
-              {{ template "figure" (dict "zoom" $zoom "imageDir" ($.Scratch.Get "imageDir") "figure" . ) }}
+              {{ template "figure" (dict "pdf" $pdf "zoom" $zoom "imageDir" ($.Scratch.Get "imageDir") "figure" . ) }}
             {{ end }}
           {{ else if .src }}
-            {{ template "figure" (dict "zoom" $zoom "imageDir" ($.Scratch.Get "imageDir") "figure" . ) }}
+            {{ template "figure" (dict "pdf" $pdf "zoom" $zoom "imageDir" ($.Scratch.Get "imageDir") "figure" . ) }}
           {{ end }}
         {{ end }}
         </div>
@@ -48,10 +51,10 @@ a single image or object needs to be featured prominently.\
       {{ range .figure }}
         {{ if .id }}
           {{ range where $.Site.Data.figures.figure_list "id" "eq" .id }}
-            {{ template "figure" (dict "zoom" $zoom "imageDir" ($.Scratch.Get "imageDir") "figure" . ) }}
+            {{ template "figure" (dict "pdf" $pdf "zoom" $zoom "imageDir" ($.Scratch.Get "imageDir") "figure" . ) }}
           {{ end }}
         {{ else if .src }}
-          {{ template "figure" (dict "zoom" $zoom "imageDir" ($.Scratch.Get "imageDir") "figure" . ) }}
+          {{ template "figure" (dict "pdf" $pdf "zoom" $zoom "imageDir" ($.Scratch.Get "imageDir") "figure" . ) }}
         {{ end }}
       {{ end }}
       </div>
@@ -146,6 +149,64 @@ a single image or object needs to be featured prominently.\
 {{- $imgPath := printf "%s/%s" .imageDir .figure.src -}}
 
 <figure data-media-type="{{ .figure.media_type }}">
+
+  {{ if eq .pdf true  }}
+  <div class="entry-image-wrap">
+  {{ if eq .figure.media_type "youtube" }}
+
+  <div class="multimedia video">
+    <div class="placeholder">
+      <i class="material-icons md-24">videocam</i>
+      <div class="time-length">
+        1:36
+      </div>
+    </div>
+    <div class="multimedia-metadata">
+    <h5 class="header">
+        {{ if .figure.title }}
+        {{ .figure.title | markdownify }}
+        {{ end }}
+    </h5>
+      <p class="caption">
+      <a href='https://youtu.be/{{ .figure.media_id }}' alt="" title="" target="_blank" ><em>https://youtu.be/{{ .figure.media_id }}</em></a></p>
+    </div>
+  </div>
+
+  {{ else if eq .figure.media_type "vimeo" }}
+
+  <div class="multimedia video">
+    <div class="placeholder">
+      <i class="material-icons md-24">videocam</i>
+      <div class="time-length">
+        1:36
+      </div>
+    </div>
+    <div class="multimedia-metadata">
+    <h5 class="header">
+      {{ if .figure.title }}
+      {{ .figure.title | markdownify }}
+      {{ end }}
+    </h5>
+      <p class="caption">
+      <a href='https://vimeo.com/{{ .figure.media_id }}' alt="" title="" target="_blank" ><em>https://vimeo.com/{{ .figure.media_id }}</em></a></p>
+    </div>
+  </div>
+
+  {{ else }}
+
+    <img src="{{ $imgPath | relURL }}" alt="{{ .figure.alt }}" /> 
+
+  {{ end }}
+
+  {{ if or .figure.caption .figure.credit }}
+    <div>
+        <span>{{ .figure.caption }}</span> <span>{{ .figure.credit }}</span>
+    </div>
+  {{ end }}
+
+  </div>
+
+  {{ else }}
 
   {{ if eq .zoom true }}
 
@@ -280,10 +341,7 @@ a single image or object needs to be featured prominently.\
 
   {{ end }}
 
-  {{ end }}
-
-
-  {{ if or .figure.caption .figure.credit }}
+    {{ if or .figure.caption .figure.credit }}
     <div class="quire-image-control quire-image-info">
       <span class="quire-image-info__wrap">
         <span class="quire-image-info__caption">{{ .figure.caption }}</span> 
@@ -298,7 +356,13 @@ a single image or object needs to be featured prominently.\
     </a>
     {{ end }}
   </div>
+
+  {{ end }}
+
+  {{ end }}
+
 </figure>
+
 {{ end }}
 
 {{ define "image-control-icon" }}

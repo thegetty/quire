@@ -7,11 +7,18 @@
 {{ define "main" }}
 <article class="{{ partial "page-class.html" . }} quire-essay" id="main" role="main">
   {{ partial "page-header.html" . }}
+<<<<<<< HEAD
+  {{ if .Params.abstract }}
+  {{ partial "page-abstract.html" . }}
+  {{ end }}
+  <section class="section quire-page__content" id="content">
+=======
 
   <section id="content" class="section quire-page__content">
     {{ if .Params.abstract }}
     {{ partial "page-abstract.html" . }}
     {{ end }}
+>>>>>>> 5ac190b78ba596003c34f102ecefa7a9e710661b
     <div class="container">
       <div class="content">
         {{ .Content }}
@@ -24,6 +31,10 @@
       </div>
     </div>
   </section>
-
+  <section class="section quire-page__content">
+    <div class="container">
+      {{ partial "footer-buttons.html" . }}
+    </div> 
+  </section>
 </article>
 {{ end }}
