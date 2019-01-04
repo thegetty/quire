@@ -7857,7 +7857,7 @@ html {
       text-align: center;
       content: "◆\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0◆\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0◆";
       margin: 0 auto;
-      background-color: #ffffff; }
+      background-color: transparent; }
 
 .quire-page__header {
   background-color: #EEF2F3;
