@@ -7852,14 +7852,12 @@ html {
   .quire-page__abstract .container {
     padding: 3em 2em 1em;
     background-color: #ffffff; }
-  .quire-page__abstract:after {
-    display: block;
-    text-align: center;
-    content: "◆\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0◆\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0◆";
-    margin: 0 auto;
-    max-width: 720px;
-    width: 720px;
-    background-color: #ffffff; }
+    .quire-page__abstract .container:after {
+      display: block;
+      text-align: center;
+      content: "◆\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0◆\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0◆";
+      margin: 0 auto;
+      background-color: #ffffff; }
 
 .quire-page__header {
   background-color: #EEF2F3;
@@ -7931,6 +7929,9 @@ html {
 .quire-page--frontmatter.quire-essay .quire-page__abstract, .quire-essay .quire-page__abstract {
   padding-top: 1em;
   margin-bottom: -2.5em; }
+  @media screen and (max-width: 500px) {
+    .quire-page--frontmatter.quire-essay .quire-page__abstract, .quire-essay .quire-page__abstract {
+      margin-bottom: -3em; } }
   .quire-page--frontmatter.quire-essay .quire-page__abstract:after, .quire-essay .quire-page__abstract:after {
     font-size: 0.86em; }
   .quire-page--frontmatter.quire-essay .quire-page__abstract .container, .quire-essay .quire-page__abstract .container {

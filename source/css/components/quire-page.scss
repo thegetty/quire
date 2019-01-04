@@ -242,15 +242,13 @@ html {
     .container {
       padding: 3em 2em 1em;
       background-color: $white;
-    }
-    &:after {
-      display: block;
-      text-align: center;
-      content: "◆\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0◆\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0◆";
-      margin: 0 auto;
-      max-width: 720px;
-      width: 720px;
-      background-color: $white;
+      &:after {
+        display: block;
+        text-align: center;
+        content: "◆\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0◆\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0◆";
+        margin: 0 auto;
+        background-color: $white;
+      }
     }
   }
 }
@@ -351,6 +349,9 @@ html {
   .quire-page__abstract {
     padding-top: 1em;
     margin-bottom: -2.5em;
+    @media screen and (max-width: $tablet) {
+      margin-bottom: -3em;
+    }
     &:after {
       font-size: 0.86em;
     }
