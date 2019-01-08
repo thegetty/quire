@@ -17,6 +17,7 @@
 // -----------------------------------------------------------------------------
 html {
   font-size: $quire-base-font-size * .9;
+
   @media screen and (min-width: 500px) {
     font-size: $quire-base-font-size;
   }
@@ -26,7 +27,12 @@ html {
 // -----------------------------------------------------------------------------
 .quire-page {
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     margin-top: 1rem;
     margin-bottom: 1rem;
 
@@ -35,6 +41,7 @@ html {
   h1:not(:first-child) {
     margin-top: 3rem;
   }
+
   h2:not(:first-child),
   h3:not(:first-child) {
     margin-top: 2rem;
@@ -52,27 +59,36 @@ html {
     font-size: 3.3rem;
     font-weight: 700;
     line-height: 1.14;
-    -webkit-animation: fadeIn 3s; /* Safari, Chrome and Opera > 12.1 */
-       -moz-animation: fadeIn 3s; /* Firefox < 16 */
-        -ms-animation: fadeIn 3s; /* Internet Explorer */
-         -o-animation: fadeIn 3s; /* Opera < 12.1 */
-            animation: fadeIn 3s;
+    -webkit-animation: fadeIn 3s;
+    /* Safari, Chrome and Opera > 12.1 */
+    -moz-animation: fadeIn 3s;
+    /* Firefox < 16 */
+    -ms-animation: fadeIn 3s;
+    /* Internet Explorer */
+    -o-animation: fadeIn 3s;
+    /* Opera < 12.1 */
+    animation: fadeIn 3s;
+
     em {
       font-style: normal;
     }
+
     @media screen and (min-width: $tablet) {
       font-size: 3.3rem;
       line-height: 1.07;
     }
-    @if $family-secondary == $serif {
+
+    @if $family-secondary==$serif {
       font-size: 2.8rem;
       font-weight: 600;
       line-height: 1.24;
+
       @media screen and (min-width: $tablet) {
         font-size: 3rem;
         line-height: 1.33;
       }
     }
+
     @media print {
       font-size: 30pt;
       margin-top: .75in;
@@ -85,10 +101,12 @@ html {
     font-size: 2.7rem;
     font-weight: 300;
     line-height: 1.09;
-    @if $family-secondary == $serif {
+
+    @if $family-secondary==$serif {
       font-size: 2.5rem;
       line-height: 1.2;
     }
+
     @media print {
       font-weight: 400;
     }
@@ -103,43 +121,53 @@ html {
     font-weight: 600;
     line-height: 1.143;
   }
+
   &__header__subtitle {
     display: block;
     font-style: italic;
-    font-weight:400;
+    font-weight: 400;
     margin-top: 1rem;
+
     em {
       font-style: normal;
     }
-    @if $family-secondary == $serif {
+
+    @if $family-secondary==$serif {
       font-weight: 600;
       line-height: 1.3;
     }
+
     @media print {
       font-size: 16pt;
     }
   }
+
   &__header__contributor {
-    font-weight:400;
+    font-weight: 400;
     margin-top: 3rem;
+
     @media print {
       font-size: 13pt;
       margin-top: .375in;
     }
   }
+
   h4 {
     font-size: 1.625rem;
     font-weight: 400;
     line-height: 1.23;
   }
 
-  h5, h6 {
+  h5,
+  h6 {
     font-family: $family-secondary;
-    font-weight:400;
+    font-weight: 400;
   }
+
   h5 {
     font-weight: 600;
   }
+
   h5,
   h6 {
     font-size: 1.25rem;
@@ -156,11 +184,13 @@ html {
     padding-bottom: 0;
     position: relative;
     animation: 1s ease-out 0s 1 slideFromRight;
-    @if $family-primary != $serif {
+
+    @if $family-primary !=$serif {
       font-size: 1.25rem;
       font-weight: 400;
       line-height: 1.6;
     }
+
     ul {
       li {
         a {
@@ -168,9 +198,11 @@ html {
         }
       }
     }
+
     table {
       font-size: .875em;
     }
+
     .container {
       .content {
         padding-top: 1em !important;
@@ -178,12 +210,15 @@ html {
         font-size: 16px;
         padding: 40px 1.75em;
         background-color: $white;
+
         p {
           line-height: 2;
         }
+
         blockquote {
           border-left: none;
           position: relative;
+
           &:before {
             color: $ivory;
             font-size: 4em;
@@ -195,6 +230,7 @@ html {
             left: -.25em;
           }
         }
+
         .backmatter {
           h2 {
             font-size: .875em;
@@ -204,21 +240,26 @@ html {
             padding-bottom: 6px;
             border-bottom: 1px solid #333333;
           }
+
           p {
             font-size: 0.875em;
             line-height: 1.6em !important;
           }
+
           .media {
             display: flex;
           }
         }
+
         #notes {
           font-size: .875em;
           line-height: .5em;
           margin-top: 20px;
         }
+
         .footnotes {
           font-size: .875em;
+
           hr {
             margin-bottom: 0;
           }
@@ -239,9 +280,11 @@ html {
       font-size: 1.625em;
       font-family: $quire-header-font;
     }
+
     .container {
       padding: 3em 2em 1em;
       background-color: $white;
+
       &:after {
         display: block;
         text-align: center;
@@ -266,27 +309,37 @@ html {
 
   &.hero__image {
     height: 80vh;
+    @media print {
+      column-span: all;
+      height: 200px;
+      margin-bottom: 0;
+    }
   }
 
   .quire-page--splash & {
     background-color: $quire-splash-page-color;
+
     * {
       color: findColorInvert($quire-splash-page-color);
     }
+
     .hero-body {
       display: inline-block;
       max-width: none;
       top: 15%;
       text-align: center;
     }
+
     &.quire-page__header--full-height {
       min-height: calc(60vh - #{$navbar-height});
+
       .quire-page__header__splash-page-arrow {
         position: absolute;
         bottom: 0;
         width: 6%;
         left: 47%;
         right: 47%;
+
         svg {
           width: 1rem;
           fill: findColorInvert($quire-splash-page-color);
@@ -296,6 +349,7 @@ html {
   }
 
   .hero-body {
+
     // padding-top: 9rem;
     // padding-bottom: 9rem;
     span {
@@ -304,9 +358,11 @@ html {
       line-height: 1.5;
       text-rendering: optimizelegibility;
     }
+
     @media screen and (min-width: $desktop) {
       margin: 0 5rem;
     }
+
     @media print {
       padding: 0;
       // This border is a hack for PrinceXML which doesn't
@@ -329,6 +385,7 @@ html {
       color: $quire-secondary-color;
     }
   }
+
   .quire-page__content {
     p {
       &:first-child {
@@ -345,18 +402,23 @@ html {
   }
 }
 
-.quire-page--frontmatter.quire-essay, .quire-essay {
+.quire-page--frontmatter.quire-essay,
+.quire-essay {
   .quire-page__abstract {
     padding-top: 1em;
     margin-bottom: -2.5em;
+
     @media screen and (max-width: $tablet) {
       margin-bottom: -3em;
     }
+
     &:after {
       font-size: 0.86em;
     }
+
     .container {
       padding: 0;
+
       .content {
         padding: 2em 2em 1em !important;
         font-size: 0.7525em;
@@ -367,11 +429,31 @@ html {
 }
 
 .quire-page__content {
+  .quire-page__abstract {
+    @media print {
+      column-span: all;
+    }
+
+    .container {
+      @media print {
+        column-span: all;
+      }
+
+      &:after {
+        @media print {
+          column-span: all;
+          margin-bottom: 2em;
+        }
+      }
+    }
+  }
+
   // Overrides to Bulma's .content styles where needed.
   .content {
 
     a:not([rel=footnote]):not(.footnote-return) {
       color: $quire-primary-color;
+
       @media print {
         color: $page-text-color;
         border-bottom-width: 0;
@@ -388,7 +470,7 @@ html {
       background-color: $quire-hover-color;
       border-bottom-width: 2px;
     }
-    
+
     tbody {
       tr {
         &:hover {
@@ -397,7 +479,12 @@ html {
       }
     }
 
-    h1, h2, h3, h4, h5, h6 {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
       letter-spacing: -0.025em;
       color: $quire-header-color;
     }
@@ -434,6 +521,7 @@ html {
     }
 
     .quire-page__content__references {
+
       // font-size: 0.675em;
       h2 {
         margin-top: 1em;
@@ -444,7 +532,9 @@ html {
         // text-transform: uppercase;
         border-bottom: 1px solid $off-black;
       }
-      span, dd {
+
+      span,
+      dd {
         font-size: .875em;
       }
     }
@@ -452,15 +542,19 @@ html {
     blockquote {
       padding: 0 0 0 1.5em;
       margin: 1.5em 0 1.5em 0;
+
       @media screen and (min-width: $tablet) {
         padding: 0 0 0 1.5em;
         margin: 1.5em 0 1.5em 1.5em;
       }
+
       background-color: transparent;
       font-style: italic;
+
       em {
         font-style: normal;
       }
+
       @media print {
         border-left-width: 0;
       }
@@ -468,10 +562,12 @@ html {
 
     .footnotes {
       margin-top: -.75em;
+
       hr {
         background-color: $off-black;
         height: 1px;
       }
+
       ol {
         margin-left: 1em;
 
@@ -479,10 +575,12 @@ html {
           margin-bottom: 1em;
         }
       }
+
       a {
         color: $quire-primary-color;
       }
-      p + p {
+
+      p+p {
         text-indent: 0;
       }
     }
@@ -493,11 +591,18 @@ html {
       }
     }
 
-    @if $quire-page-paragraph-style == "indent" {
-      p { margin-bottom: 0; }
-      p + p { text-indent: 2em; }
+    @if $quire-page-paragraph-style=="indent" {
+      p {
+        margin-bottom: 0;
+      }
+
+      p+p {
+        text-indent: 2em;
+      }
+
       blockquote {
         margin: 1em 0 1em 0;
+
         @media screen and (min-width: $tablet) {
           margin: 1.5em 0 1.5em 1.5em;
         }
@@ -511,7 +616,7 @@ html {
         margin-bottom: 8pt;
         margin-top: 18pt;
 
-        + h3 {
+        +h3 {
           margin-bottom: 10pt;
           margin-top: 0;
         }
@@ -529,7 +634,7 @@ html {
         margin-top: 0;
       }
 
-      li + li {
+      li+li {
         margin-top: 0;
       }
     }
