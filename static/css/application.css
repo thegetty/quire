@@ -7953,8 +7953,11 @@ html {
     color: #363636; } }
 
 .quire-page__content .content a:hover {
-  background-color: #F9F9A3;
+  color: #B02E2E !important;
   border-bottom-width: 2px; }
+
+.quire-page__content .content a:focus {
+  background-color: #F9F9A3; }
 
 .quire-page__content .content tbody tr:hover {
   background-color: #F9F9A3; }

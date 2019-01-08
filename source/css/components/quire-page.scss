@@ -382,13 +382,15 @@ html {
       @media print {
         color: $page-text-color;
       }
+      &:hover {
+        color: $quire-primary-color-hover !important;
+        border-bottom-width: 2px;
+      }
+      &:focus {
+        background-color: $quire-hover-color;
+      }
     }
-
-    a:hover {
-      background-color: $quire-hover-color;
-      border-bottom-width: 2px;
-    }
-    
+        
     tbody {
       tr {
         &:hover {
