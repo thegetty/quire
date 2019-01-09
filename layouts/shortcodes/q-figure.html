@@ -87,23 +87,27 @@ render the figure from matching values found ther
   {{ if eq $.Site.Params.popup true }}
   {{ if eq .media_type "youtube" }}
   <div class="q-figure__wrapper">
+      {{ if ne $.Site.Params.pdf true }}
       <a href='https://www.youtube.com/watch?v={{ .media_id }}'
          class="video popup"
          data-type="video" 
          {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}
          data-video="<div class='wrapper'><div class='video-wrapper'><iframe title='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .title }}{{ .title | markdownify }}{{ end }}' id='{{ .id }}' class='quire-figure__media pswp__video' src='https://www.youtube-nocookie.com/embed/{{ .media_id }}?rel=0&amp;showinfo=0' frameborder='0' allowfullscreen></iframe></div></div>">
-      {{ if .src }}
+      {{ end }}
+         {{ if .src }}
       <img class='quire-figure__image {{ if or (eq $.Site.Params.pdf true) (eq $.Site.Params.epub true) }} visually-hidden {{ end }}'
            src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' 
            alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}'/>
       {{ end }}
   {{ else if eq .media_type "vimeo" }}
   <div class="q-figure__wrapper">
+      {{ if ne $.Site.Params.pdf true }}
       <a href='https://player.vimeo.com/video/{{ .media_id }}'
          data-type="video" 
          class="video popup"
          {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}
          data-video="<div class='wrapper'><div class='video-wrapper'><iframe title='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .title }}{{ .title | markdownify }}{{ end }}' id='{{ .id }}' class='quire-figure__media pswp__video' src='https://player.vimeo.com/video/{{ .media_id }}' frameborder='0' webkitallowfullscreen mozallowfullscreen allowfullscreen>></iframe></div></div>">
+        {{ end }} 
          {{ if .src }}
          <img class='quire-figure__image {{ if or (eq $.Site.Params.pdf true) (eq $.Site.Params.epub true) }} visually-hidden {{ end }}'
               src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' 
@@ -243,12 +247,14 @@ render the figure from matching values found ther
   {{ if eq $.Site.Params.videoFigureFallbackText true }}
   {{- if eq .media_type "youtube" }}
 <div class="multimedia video">
-  <div class="placeholder">
-    <i class="material-icons md-24">videocam</i>
-    <div class="time-length">
-      1:36
-    </div>
-  </div>
+    <div>
+        <div class="placeholder">
+          <i class="material-icons md-24">videocam</i>
+          <div class="time-length">
+            1:36
+          </div>
+        </div>
+      </div>
   <div class="multimedia-metadata">
   <h5 class="header">
   {{ if $.Get "title" }}
@@ -264,10 +270,12 @@ render the figure from matching values found ther
   {{- end -}}
   {{- if eq .media_type "vimeo" }}
 <div class="multimedia video">
-  <div class="placeholder">
-    <i class="material-icons md-24">videocam</i>
-    <div class="time-length">
-      1:36
+<div>
+    <div class="placeholder">
+      <i class="material-icons md-24">videocam</i>
+      <div class="time-length">
+            1:36
+      </div>
     </div>
   </div>
   <div class="multimedia-metadata">
@@ -287,10 +295,12 @@ render the figure from matching values found ther
   {{ if eq $.Site.Params.audioFigureFallbackText true }}
   {{- if eq .media_type "audio" }}
   <div class="multimedia audio">
-  <div class="placeholder">
-    <i class="material-icons md-24">headset</i>
-    <div class="time-length">
-      1:36
+  <div>
+    <div class="placeholder">
+      <i class="material-icons md-24">headset</i>
+      <div class="time-length">
+        1:36
+      </div>
     </div>
   </div>
   <div class="multimedia-metadata">
@@ -308,10 +318,12 @@ render the figure from matching values found ther
   {{- end -}}
   {{- if eq .media_type "soundcloud" }}
 <div class="multimedia audio">
-  <div class="placeholder">
-    <i class="material-icons md-24">headset</i>
-    <div class="time-length">
-      1:36
+  <div>
+    <div class="placeholder">
+      <i class="material-icons md-24">headset</i>
+      <div class="time-length">
+        1:36
+      </div>
     </div>
   </div>
   <div class="multimedia-metadata">

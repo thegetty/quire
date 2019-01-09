@@ -311,9 +311,8 @@ html {
   &.hero__image {
     height: 80vh;
     @media print {
-      column-span: all;
-      height: 200px;
       margin-bottom: 0;
+      height: 0;
     }
   }
 
@@ -433,6 +432,8 @@ html {
   .quire-page__abstract {
     @media print {
       column-span: all;
+      width: 75%;
+      margin: 0 auto;
     }
 
     .container {
