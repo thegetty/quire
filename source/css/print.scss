@@ -225,12 +225,7 @@ $print-footer-font-size: 8pt;
       }
 
       .hero-body {
-
         margin-top: 3in;
-
-        h1 {
-
-        }
       }
 
       &.quire-page__header--full-height {
@@ -248,38 +243,38 @@ $print-footer-font-size: 8pt;
   .hero-body {
     // This border is a hack for PrinceXML which doesn't
     // otherwise recognize the box sizing for some reason
-    border: 1pt solid transparent !important;
+    // border: 1pt solid transparent !important;
   }
 
   // TEMPORARY
   // Use to better test and style layout of pages
   .quire-page {
-    //border: 1pt solid #ff0000 !important;
+    // border: 1pt solid #ff0000 !important;
     margin: 0 auto;
   }
 
   .hero.quire-page__header {
-    //border: 1pt solid #ff00ff !important;
+    // border: 1pt solid #ff00ff !important;
     margin: 0 auto;
   }
 
   .hero-body {
-    //border: 1pt solid #0000ff !important;
+    // border: 1pt solid #0000ff !important;
     margin: 0 auto;
   }
 
   .section.quire-page__content {
-    //border: 1pt solid #00ff00 !important;
+    // border: 1pt solid #00ff00 !important;
     margin: 0 auto;
   }
 
   .container {
-    //border: 1pt solid #ffff00 !important;
+    // border: 1pt solid #ffff00 !important;
     margin: 0 auto;
   }
 
   .content {
-    //border: 1pt solid #00ffff !important;
+    // border: 1pt solid #00ffff !important;
     margin: 0 auto;
   }
 
@@ -326,6 +321,7 @@ $print-footer-font-size: 8pt;
   column-span: all;
   display: block;
   break-before: page;
+  margin-bottom: 0.5em;
 }
 
 .bd-structure {
@@ -398,32 +394,24 @@ $print-footer-font-size: 8pt;
 
 div.multimedia {
   border: 1px solid #CCCCCC;
-  margin: 1em 0;
-  min-height: 82px;
   padding: 0;
   text-align: left;
-
-  p {
-    margin: 0;
-  }
-
-  h5.header {
-    font-family: 'Noto Sans', sans-serif;
-    font-size: 1em;
-    margin: .5em 0 0 0;
-  }
+  position: relative;
+  display: flex;
+  margin-bottom: .5em;
 
   .placeholder {
-    text-align: center;
     color: #FFFFFF;
-    width: 80px;
-    padding: 28px 0;
     background-color: #000000;
-    position: static;
-    float: left;
+    min-width: 80px;
+    height: 100%;
+    min-height: 80px;
+    text-align: center;
     margin-right: .5em;
-    position: relative;
-    max-height: 80px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
 
     i,
     div {
@@ -431,10 +419,61 @@ div.multimedia {
     }
   }
 
+
+  &-grid {
+    display: block;
+    border: 1px solid #CCCCCC;
+    padding: 0;
+    text-align: left;
+    position: relative;
+
+    .placeholder {
+      text-align: center;
+      color: #FFFFFF;
+      height: 80px;
+      background-color: #000000;
+      margin-right: .5em;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: center;
+
+      i,
+      div {
+        color: #FFFFFF;
+      }
+    }
+
+    .multimedia-metadata {
+      margin: .5em;
+    }
+  }
+
+  .multimedia-metadata {
+    position: relative;
+    margin-top: .5em;
+
+    a {
+      position: relative;
+
+      h5.header {
+        font-family: 'Noto Sans', sans-serif;
+        font-size: 1em;
+        margin: .5em 0 0 0;
+      }
+    }
+  }
+
+  p {
+    margin: 0;
+  }
+
   .caption {
     font-size: .75em;
     line-height: 1.8em;
   }
+
 }
 
 .media-caption {
@@ -443,9 +482,7 @@ div.multimedia {
 }
 
 .time-length {
-  position: absolute;
   font-size: .875em;
-  bottom: 4px;
   width: 100%;
 }
 

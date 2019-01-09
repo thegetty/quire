@@ -64,19 +64,23 @@ func Test() string {
 
   <div class='here q-figure__wrapper quire-figure__video-wrapper{{ if .aspect_ratio }}--{{ .aspect_ratio }}{{ else }}--widescreen{{ end }}'>
   {{ if eq .media_type "youtube" }}
+  {{ if ne $.Site.Params.pdf true }}
         <a href='https://www.youtube.com/watch?v={{ .media_id }}'
            data-type="video"
            class="video popup"
            {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
+  {{ end }}
         <img class='quire-figure__image {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}'
              src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' 
              alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}'/>
   {{ else if eq .media_type "vimeo" }}
       <div class="q-figure__wrapper">
+  {{ if ne $.Site.Params.pdf true }}
           <a href='https://player.vimeo.com/video/{{ .media_id }}'
              class="video popup"
              data-type="video" 
              {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
+  {{ end }}
           <img class='quire-figure__image {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}'
                src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' 
                alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}'/>
@@ -187,13 +191,15 @@ func Test() string {
   {{ if eq $.Site.Params.pdf true }}
     {{ if eq $.Site.Params.videoFigureFallbackText true }}
     {{- if eq .media_type "youtube" }}
-  <div class="multimedia video">
+  <div class="multimedia{{ if $grid }}-grid{{ end }} video">
+  <div>
     <div class="placeholder">
       <i class="material-icons md-24">videocam</i>
       <div class="time-length">
         1:36
       </div>
     </div>
+  </div>
     <div class="multimedia-metadata">
     <h5 class="header">
     {{ if $.Get "title" }}
@@ -208,13 +214,15 @@ func Test() string {
   </div>
     {{- end -}}
     {{- if eq .media_type "vimeo" }}
-  <div class="multimedia video">
-    <div class="placeholder">
-      <i class="material-icons md-24">videocam</i>
-      <div class="time-length">
-        1:36
-      </div>
-    </div>
+  <div class="multimedia {{ if $grid }} {{ $grid }} {{ end }} video">
+      <div>
+          <div class="placeholder">
+            <i class="material-icons md-24">videocam</i>
+            <div class="time-length">
+              1:36
+            </div>
+          </div>
+        </div>
     <div class="multimedia-metadata">
     <h5 class="header">
     {{ if $.Get "title" }}
@@ -231,13 +239,15 @@ func Test() string {
     {{ end }}
     {{ if eq $.Site.Params.audioFigureFallbackText true }}
     {{- if eq .media_type "audio" }}
-    <div class="multimedia audio">
-    <div class="placeholder">
-      <i class="material-icons md-24">headset</i>
-      <div class="time-length">
-        1:36
-      </div>
-    </div>
+    <div class="multimedia {{ if $grid }} {{ $grid }} {{ end }} audio">
+        <div>
+            <div class="placeholder">
+              <i class="material-icons md-24">headset</i>
+              <div class="time-length">
+                1:36
+              </div>
+            </div>
+          </div>
     <div class="multimedia-metadata">
     <h5 class="header">
     {{ if $.Get "title" }}
@@ -252,13 +262,15 @@ func Test() string {
   </div>
     {{- end -}}
     {{- if eq .media_type "soundcloud" }}
-  <div class="multimedia audio">
-    <div class="placeholder">
-      <i class="material-icons md-24">headset</i>
-      <div class="time-length">
-        1:36
-      </div>
-    </div>
+  <div class="multimedia {{ if $grid }} {{ $grid }} {{ end }} audio">
+      <div>
+          <div class="placeholder">
+            <i class="material-icons md-24">headset</i>
+            <div class="time-length">
+              1:36
+            </div>
+          </div>
+        </div>
     <div class="multimedia-metadata">
     <h5 class="header">
     {{ if $.Get "title" }}

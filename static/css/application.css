@@ -1,5 +1,5 @@
 .leaflet-control-fullscreen a {
-  background: #fff url(/../img/fullscreen.png) no-repeat 0 0;
+  background: #fff url(/img/fullscreen.png) no-repeat 0 0;
   background-size: 26px 52px; }
 
 .leaflet-touch .leaflet-control-fullscreen a {
@@ -30,264 +30,264 @@
 
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   .leaflet-control-fullscreen a {
-    background-image: url(/../img/fullscreen@2x.png); } }
+    background-image: url(/img/fullscreen@2x.png); } }
 
 @charset "UTF-8";
 @font-face {
   font-family: "Merriweather";
-  src: url(/../fonts/merriweather-regular.eot);
-  src: url(/../fonts/merriweather-regular.eot?#iefix) format("embedded-opentype"), url(/../fonts/merriweather-regular.woff2) format("woff2"), url(/../fonts/merriweather-regular.woff) format("woff"), url(/../fonts/merriweather-regular.ttf) format("truetype");
+  src: url(/fonts/merriweather-regular.eot);
+  src: url(/fonts/merriweather-regular.eot?#iefix) format("embedded-opentype"), url(/fonts/merriweather-regular.woff2) format("woff2"), url(/fonts/merriweather-regular.woff) format("woff"), url(/fonts/merriweather-regular.ttf) format("truetype");
   font-weight: 400;
   font-style: normal; }
 
 @font-face {
   font-family: "Merriweather";
-  src: url(/../fonts/merriweather-italic.eot);
-  src: url(/../fonts/merriweather-italic.eot?#iefix) format("embedded-opentype"), url(/../fonts/merriweather-italic.woff2) format("woff2"), url(/../fonts/merriweather-italic.woff) format("woff"), url(/../fonts/merriweather-italic.ttf) format("truetype");
+  src: url(/fonts/merriweather-italic.eot);
+  src: url(/fonts/merriweather-italic.eot?#iefix) format("embedded-opentype"), url(/fonts/merriweather-italic.woff2) format("woff2"), url(/fonts/merriweather-italic.woff) format("woff"), url(/fonts/merriweather-italic.ttf) format("truetype");
   font-weight: 400;
   font-style: italic; }
 
 @font-face {
   font-family: "Merriweather";
-  src: url(/../fonts/merriweather-bold.eot);
-  src: url(/../fonts/merriweather-bold.eot?#iefix) format("embedded-opentype"), url(/../fonts/merriweather-bold.woff2) format("woff2"), url(/../fonts/merriweather-bold.woff) format("woff"), url(/../fonts/merriweather-bold.ttf) format("truetype");
+  src: url(/fonts/merriweather-bold.eot);
+  src: url(/fonts/merriweather-bold.eot?#iefix) format("embedded-opentype"), url(/fonts/merriweather-bold.woff2) format("woff2"), url(/fonts/merriweather-bold.woff) format("woff"), url(/fonts/merriweather-bold.ttf) format("truetype");
   font-weight: 600;
   font-style: normal; }
 
 @font-face {
   font-family: "Merriweather";
-  src: url(/../fonts/merriweather-bolditalic.eot);
-  src: url(/../fonts/merriweather-bolditalic.eot?#iefix) format("embedded-opentype"), url(/../fonts/merriweather-bolditalic.woff2) format("woff2"), url(/../fonts/merriweather-bolditalic.woff) format("woff"), url(/../fonts/merriweather-bolditalic.ttf) format("truetype");
+  src: url(/fonts/merriweather-bolditalic.eot);
+  src: url(/fonts/merriweather-bolditalic.eot?#iefix) format("embedded-opentype"), url(/fonts/merriweather-bolditalic.woff2) format("woff2"), url(/fonts/merriweather-bolditalic.woff) format("woff"), url(/fonts/merriweather-bolditalic.ttf) format("truetype");
   font-weight: 600;
   font-style: italic; }
 
 @font-face {
   font-family: "Merriweather";
-  src: url(/../fonts/merriweather-light.eot);
-  src: url(/../fonts/merriweather-light.eot?#iefix) format("embedded-opentype"), url(/../fonts/merriweather-light.woff2) format("woff2"), url(/../fonts/merriweather-light.woff) format("woff"), url(/../fonts/merriweather-light.ttf) format("truetype");
+  src: url(/fonts/merriweather-light.eot);
+  src: url(/fonts/merriweather-light.eot?#iefix) format("embedded-opentype"), url(/fonts/merriweather-light.woff2) format("woff2"), url(/fonts/merriweather-light.woff) format("woff"), url(/fonts/merriweather-light.ttf) format("truetype");
   font-weight: 300;
   font-style: normal; }
 
 @font-face {
   font-family: "Merriweather";
-  src: url(/../fonts/merriweather-lightitalic.eot);
-  src: url(/../fonts/merriweather-lightitalic.eot?#iefix) format("embedded-opentype"), url(/../fonts/merriweather-lightitalic.woff2) format("woff2"), url(/../fonts/merriweather-lightitalic.woff) format("woff"), url(/../fonts/merriweather-lightitalic.ttf) format("truetype");
+  src: url(/fonts/merriweather-lightitalic.eot);
+  src: url(/fonts/merriweather-lightitalic.eot?#iefix) format("embedded-opentype"), url(/fonts/merriweather-lightitalic.woff2) format("woff2"), url(/fonts/merriweather-lightitalic.woff) format("woff"), url(/fonts/merriweather-lightitalic.ttf) format("truetype");
   font-weight: 300;
   font-style: italic; }
 
 @font-face {
   font-family: "Lato";
-  src: url(/../fonts/lato-light.eot);
-  src: url(/../fonts/lato-light.eot?#iefix) format("embedded-opentype"), url(/../fonts/lato-light.woff2) format("woff2"), url(/../fonts/lato-light.woff) format("woff"), url(/../fonts/lato-light.ttf) format("truetype");
+  src: url(/fonts/lato-light.eot);
+  src: url(/fonts/lato-light.eot?#iefix) format("embedded-opentype"), url(/fonts/lato-light.woff2) format("woff2"), url(/fonts/lato-light.woff) format("woff"), url(/fonts/lato-light.ttf) format("truetype");
   font-weight: 300;
   font-style: normal; }
 
 @font-face {
   font-family: "Lato";
-  src: url(/../fonts/lato-lightitalic.eot);
-  src: url(/../fonts/lato-lightitalic.eot?#iefix) format("embedded-opentype"), url(/../fonts/lato-lightitalic.woff2) format("woff2"), url(/../fonts/lato-lightitalic.woff) format("woff"), url(/../fonts/lato-lightitalic.ttf) format("truetype");
+  src: url(/fonts/lato-lightitalic.eot);
+  src: url(/fonts/lato-lightitalic.eot?#iefix) format("embedded-opentype"), url(/fonts/lato-lightitalic.woff2) format("woff2"), url(/fonts/lato-lightitalic.woff) format("woff"), url(/fonts/lato-lightitalic.ttf) format("truetype");
   font-weight: 300;
   font-style: italic; }
 
 @font-face {
   font-family: "Lato";
-  src: url(/../fonts/lato-regular.eot);
-  src: url(/../fonts/lato-regular.eot?#iefix) format("embedded-opentype"), url(/../fonts/lato-regular.woff2) format("woff2"), url(/../fonts/lato-regular.woff) format("woff"), url(/../fonts/lato-regular.ttf) format("truetype");
+  src: url(/fonts/lato-regular.eot);
+  src: url(/fonts/lato-regular.eot?#iefix) format("embedded-opentype"), url(/fonts/lato-regular.woff2) format("woff2"), url(/fonts/lato-regular.woff) format("woff"), url(/fonts/lato-regular.ttf) format("truetype");
   font-weight: 400;
   font-style: normal; }
 
 @font-face {
   font-family: "Lato";
-  src: url(/../fonts/lato-italic.eot);
-  src: url(/../fonts/lato-italic.eot?#iefix) format("embedded-opentype"), url(/../fonts/lato-italic.woff2) format("woff2"), url(/../fonts/lato-italic.woff) format("woff"), url(/../fonts/lato-italic.ttf) format("truetype");
+  src: url(/fonts/lato-italic.eot);
+  src: url(/fonts/lato-italic.eot?#iefix) format("embedded-opentype"), url(/fonts/lato-italic.woff2) format("woff2"), url(/fonts/lato-italic.woff) format("woff"), url(/fonts/lato-italic.ttf) format("truetype");
   font-weight: 400;
   font-style: italic; }
 
 @font-face {
   font-family: "Lato";
-  src: url(/../fonts/lato-bold.eot);
-  src: url(/../fonts/lato-bold.eot?#iefix) format("embedded-opentype"), url(/../fonts/lato-bold.woff2) format("woff2"), url(/../fonts/lato-bold.woff) format("woff"), url(/../fonts/lato-bold.ttf) format("truetype");
+  src: url(/fonts/lato-bold.eot);
+  src: url(/fonts/lato-bold.eot?#iefix) format("embedded-opentype"), url(/fonts/lato-bold.woff2) format("woff2"), url(/fonts/lato-bold.woff) format("woff"), url(/fonts/lato-bold.ttf) format("truetype");
   font-weight: 600;
   font-style: normal; }
 
 @font-face {
   font-family: "Lato";
-  src: url(/../fonts/lato-bolditalic.eot);
-  src: url(/../fonts/lato-bolditalic.eot?#iefix) format("embedded-opentype"), url(/../fonts/lato-bolditalic.woff2) format("woff2"), url(/../fonts/lato-bolditalic.woff) format("woff"), url(/../fonts/lato-bolditalic.ttf) format("truetype");
+  src: url(/fonts/lato-bolditalic.eot);
+  src: url(/fonts/lato-bolditalic.eot?#iefix) format("embedded-opentype"), url(/fonts/lato-bolditalic.woff2) format("woff2"), url(/fonts/lato-bolditalic.woff) format("woff"), url(/fonts/lato-bolditalic.ttf) format("truetype");
   font-weight: 600;
   font-style: italic; }
 
 @font-face {
   font-family: "Aleo";
-  src: url(/../fonts/aleo-light.eot);
-  src: url(/../fonts/aleo-light.eot?#iefix) format("embedded-opentype"), url(/../fonts/aleo-light.woff2) format("woff2"), url(/../fonts/aleo-light.woff) format("woff"), url(/../fonts/aleo-light.ttf) format("truetype");
+  src: url(/fonts/aleo-light.eot);
+  src: url(/fonts/aleo-light.eot?#iefix) format("embedded-opentype"), url(/fonts/aleo-light.woff2) format("woff2"), url(/fonts/aleo-light.woff) format("woff"), url(/fonts/aleo-light.ttf) format("truetype");
   font-weight: 300;
   font-style: normal; }
 
 @font-face {
   font-family: "Aleo";
-  src: url(/../fonts/aleo-lightitalic.eot);
-  src: url(/../fonts/aleo-lightitalic.eot?#iefix) format("embedded-opentype"), url(/../fonts/aleo-lightitalic.woff2) format("woff2"), url(/../fonts/aleo-lightitalic.woff) format("woff"), url(/../fonts/aleo-lightitalic.ttf) format("truetype");
+  src: url(/fonts/aleo-lightitalic.eot);
+  src: url(/fonts/aleo-lightitalic.eot?#iefix) format("embedded-opentype"), url(/fonts/aleo-lightitalic.woff2) format("woff2"), url(/fonts/aleo-lightitalic.woff) format("woff"), url(/fonts/aleo-lightitalic.ttf) format("truetype");
   font-weight: 300;
   font-style: italic; }
 
 @font-face {
   font-family: "Aleo";
-  src: url(/../fonts/aleo-regular.eot);
-  src: url(/../fonts/aleo-regular.eot?#iefix) format("embedded-opentype"), url(/../fonts/aleo-regular.woff2) format("woff2"), url(/../fonts/aleo-regular.woff) format("woff"), url(/../fonts/aleo-regular.ttf) format("truetype");
+  src: url(/fonts/aleo-regular.eot);
+  src: url(/fonts/aleo-regular.eot?#iefix) format("embedded-opentype"), url(/fonts/aleo-regular.woff2) format("woff2"), url(/fonts/aleo-regular.woff) format("woff"), url(/fonts/aleo-regular.ttf) format("truetype");
   font-weight: 400;
   font-style: normal; }
 
 @font-face {
   font-family: "Aleo";
-  src: url(/../fonts/aleo-italic.eot);
-  src: url(/../fonts/aleo-italic.eot?#iefix) format("embedded-opentype"), url(/../fonts/aleo-italic.woff2) format("woff2"), url(/../fonts/aleo-italic.woff) format("woff"), url(/../fonts/aleo-italic.ttf) format("truetype");
+  src: url(/fonts/aleo-italic.eot);
+  src: url(/fonts/aleo-italic.eot?#iefix) format("embedded-opentype"), url(/fonts/aleo-italic.woff2) format("woff2"), url(/fonts/aleo-italic.woff) format("woff"), url(/fonts/aleo-italic.ttf) format("truetype");
   font-weight: 400;
   font-style: italic; }
 
 @font-face {
   font-family: "Aleo";
-  src: url(/../fonts/aleo-bold.eot);
-  src: url(/../fonts/aleo-bold.eot?#iefix) format("embedded-opentype"), url(/../fonts/aleo-bold.woff2) format("woff2"), url(/../fonts/aleo-bold.woff) format("woff"), url(/../fonts/aleo-bold.ttf) format("truetype");
+  src: url(/fonts/aleo-bold.eot);
+  src: url(/fonts/aleo-bold.eot?#iefix) format("embedded-opentype"), url(/fonts/aleo-bold.woff2) format("woff2"), url(/fonts/aleo-bold.woff) format("woff"), url(/fonts/aleo-bold.ttf) format("truetype");
   font-weight: 600;
   font-style: normal; }
 
 @font-face {
   font-family: "Aleo";
-  src: url(/../fonts/aleo-bolditalic.eot);
-  src: url(/../fonts/aleo-bolditalic.eot?#iefix) format("embedded-opentype"), url(/../fonts/aleo-bolditalic.woff2) format("woff2"), url(/../fonts/aleo-bolditalic.woff) format("woff"), url(/../fonts/aleo-bolditalic.ttf) format("truetype");
+  src: url(/fonts/aleo-bolditalic.eot);
+  src: url(/fonts/aleo-bolditalic.eot?#iefix) format("embedded-opentype"), url(/fonts/aleo-bolditalic.woff2) format("woff2"), url(/fonts/aleo-bolditalic.woff) format("woff"), url(/fonts/aleo-bolditalic.ttf) format("truetype");
   font-weight: 600;
   font-style: italic; }
 
 @font-face {
   font-family: "IBM Plex Sans Condensed";
-  src: url(/../fonts/IBMPlexSansCondensed-Thin.ttf) format("truetype");
+  src: url(/fonts/IBMPlexSansCondensed-Thin.ttf) format("truetype");
   font-weight: 100;
   font-style: normal; }
 
 @font-face {
   font-family: "IBM Plex Sans Condensed";
-  src: url(/../fonts/IBMPlexSansCondensed-ThinItalic.ttf) format("truetype");
+  src: url(/fonts/IBMPlexSansCondensed-ThinItalic.ttf) format("truetype");
   font-weight: 100;
   font-style: italic; }
 
 @font-face {
   font-family: "IBM Plex Sans Condensed";
-  src: url(/../fonts/IBMPlexSansCondensed-ExtraLight.ttf) format("truetype");
+  src: url(/fonts/IBMPlexSansCondensed-ExtraLight.ttf) format("truetype");
   font-weight: 200;
   font-style: normal; }
 
 @font-face {
   font-family: "IBM Plex Sans Condensed";
-  src: url(/../fonts/IBMPlexSansCondensed-ExtraLightItalic.ttf) format("truetype");
+  src: url(/fonts/IBMPlexSansCondensed-ExtraLightItalic.ttf) format("truetype");
   font-weight: 200;
   font-style: italic; }
 
 @font-face {
   font-family: "IBM Plex Sans Condensed";
-  src: url(/../fonts/IBMPlexSansCondensed-Light.ttf) format("truetype");
+  src: url(/fonts/IBMPlexSansCondensed-Light.ttf) format("truetype");
   font-weight: 300;
   font-style: normal; }
 
 @font-face {
   font-family: "IBM Plex Sans Condensed";
-  src: url(/../fonts/IBMPlexSansCondensed-LightItalic.ttf) format("truetype");
+  src: url(/fonts/IBMPlexSansCondensed-LightItalic.ttf) format("truetype");
   font-weight: 300;
   font-style: italic; }
 
 @font-face {
   font-family: "IBM Plex Sans Condensed";
-  src: url(/../fonts/IBMPlexSansCondensed-Regular.ttf) format("truetype");
+  src: url(/fonts/IBMPlexSansCondensed-Regular.ttf) format("truetype");
   font-weight: 400;
   font-style: normal; }
 
 @font-face {
   font-family: "IBM Plex Sans Condensed";
-  src: url(/../fonts/IBMPlexSansCondensed-Italic.ttf) format("truetype");
+  src: url(/fonts/IBMPlexSansCondensed-Italic.ttf) format("truetype");
   font-weight: 400;
   font-style: italic; }
 
 @font-face {
   font-family: "IBM Plex Sans Condensed";
-  src: url(/../fonts/IBMPlexSansCondensed-Medium.ttf) format("truetype");
+  src: url(/fonts/IBMPlexSansCondensed-Medium.ttf) format("truetype");
   font-weight: 500;
   font-style: normal; }
 
 @font-face {
   font-family: "IBM Plex Sans Condensed";
-  src: url(/../fonts/IBMPlexSansCondensed-MediumItalic.ttf) format("truetype");
+  src: url(/fonts/IBMPlexSansCondensed-MediumItalic.ttf) format("truetype");
   font-weight: 500;
   font-style: italic; }
 
 @font-face {
   font-family: "IBM Plex Sans Condensed";
-  src: url(/../fonts/IBMPlexSansCondensed-SemiBold.ttf) format("truetype");
+  src: url(/fonts/IBMPlexSansCondensed-SemiBold.ttf) format("truetype");
   font-weight: 600;
   font-style: normal; }
 
 @font-face {
   font-family: "IBM Plex Sans Condensed";
-  src: url(/../fonts/IBMPlexSansCondensed-SemiBoldItalic.ttf) format("truetype");
+  src: url(/fonts/IBMPlexSansCondensed-SemiBoldItalic.ttf) format("truetype");
   font-weight: 600;
   font-style: italic; }
 
 @font-face {
   font-family: "IBM Plex Sans Condensed";
-  src: url(/../fonts/IBMPlexSansCondensed-Bold.ttf) format("truetype");
+  src: url(/fonts/IBMPlexSansCondensed-Bold.ttf) format("truetype");
   font-weight: 700;
   font-style: normal; }
 
 @font-face {
   font-family: "IBM Plex Sans Condensed";
-  src: url(/../fonts/IBMPlexSansCondensed-BoldItalic.ttf) format("truetype");
+  src: url(/fonts/IBMPlexSansCondensed-BoldItalic.ttf) format("truetype");
   font-weight: 700;
   font-style: italic; }
 
 @font-face {
   font-family: "Noto Serif";
-  src: url(/../fonts/NotoSerif-Bold.ttf) format("truetype");
+  src: url(/fonts/NotoSerif-Bold.ttf) format("truetype");
   font-weight: 700;
   font-style: normal; }
 
 @font-face {
   font-family: "Noto Serif";
-  src: url(/../fonts/NotoSerif-Italic.ttf) format("truetype");
+  src: url(/fonts/NotoSerif-Italic.ttf) format("truetype");
   font-weight: 400;
   font-style: italic; }
 
 @font-face {
   font-family: "Noto Serif";
-  src: url(/../fonts/NotoSerif-Regular.ttf) format("truetype");
+  src: url(/fonts/NotoSerif-Regular.ttf) format("truetype");
   font-weight: 400;
   font-style: normal; }
 
 @font-face {
   font-family: "Noto Serif";
-  src: url(/../fonts/NotoSerif-BoldItalic.ttf) format("truetype");
+  src: url(/fonts/NotoSerif-BoldItalic.ttf) format("truetype");
   font-weight: 700;
   font-style: italic; }
 
 @font-face {
   font-family: "Noto Sans";
-  src: url(/../fonts/NotoSans-Bold.ttf) format("truetype");
+  src: url(/fonts/NotoSans-Bold.ttf) format("truetype");
   font-weight: 700;
   font-style: normal; }
 
 @font-face {
   font-family: "Noto Sans";
-  src: url(/../fonts/NotoSans-Italic.ttf) format("truetype");
+  src: url(/fonts/NotoSans-Italic.ttf) format("truetype");
   font-weight: 400;
   font-style: italic; }
 
 @font-face {
   font-family: "Noto Sans";
-  src: url(/../fonts/NotoSans-Regular.ttf) format("truetype");
+  src: url(/fonts/NotoSans-Regular.ttf) format("truetype");
   font-weight: 400;
   font-style: normal; }
 
 @font-face {
   font-family: "Noto Sans";
-  src: url(/../fonts/NotoSans-BoldItalic.ttf) format("truetype");
+  src: url(/fonts/NotoSans-BoldItalic.ttf) format("truetype");
   font-weight: 700;
   font-style: italic; }
 
@@ -298,9 +298,9 @@
   font-family: "Material Icons";
   font-style: normal;
   font-weight: 400;
-  src: url(/../fonts/MaterialIcons-Regular.eot);
+  src: url(/fonts/MaterialIcons-Regular.eot);
   /* For IE6-8 */
-  src: local("Material Icons"), local("MaterialIcons-Regular"), url(/../fonts/MaterialIcons-Regular.woff2) format("woff2"), url(/../fonts/MaterialIcons-Regular.woff) format("woff"), url(/../fonts/MaterialIcons-Regular.ttf) format("truetype"); }
+  src: local("Material Icons"), local("MaterialIcons-Regular"), url(/fonts/MaterialIcons-Regular.woff2) format("woff2"), url(/fonts/MaterialIcons-Regular.woff) format("woff"), url(/fonts/MaterialIcons-Regular.ttf) format("truetype"); }
 
 .material-icons {
   font-family: "Material Icons";
@@ -7887,10 +7887,8 @@ html {
     height: 80vh; }
     @media print {
       .quire-page__header.hero__image {
-        -webkit-column-span: all;
-                column-span: all;
-        height: 200px;
-        margin-bottom: 0; } }
+        margin-bottom: 0;
+        height: 0; } }
   .quire-page--splash .quire-page__header {
     background-color: #6A8EB8; }
     .quire-page--splash .quire-page__header * {
@@ -7962,7 +7960,9 @@ html {
 @media print {
   .quire-page__content .quire-page__abstract {
     -webkit-column-span: all;
-            column-span: all; } }
+            column-span: all;
+    width: 75%;
+    margin: 0 auto; } }
 
 @media print {
   .quire-page__content .quire-page__abstract .container {
@@ -8115,7 +8115,7 @@ html {
   left: 0;
   width: 100%;
   min-height: calc(95vh - 3rem);
-  background-image: url(/../img/pattern-1.png);
+  background-image: url(/img/pattern-1.png);
   opacity: 0.5; }
   @media print {
     .quire-cover__overlay {
@@ -8835,6 +8835,68 @@ html {
     display: flex;
     align-items: center;
     justify-content: center; }
+    .quire-entry__image figure div.multimedia {
+      border: 1px solid #CCCCCC;
+      padding: 0;
+      text-align: left;
+      position: relative;
+      display: flex; }
+      .quire-entry__image figure div.multimedia a {
+        position: relative;
+        display: block; }
+        .quire-entry__image figure div.multimedia a .placeholder {
+          color: #FFFFFF;
+          background-color: #000000;
+          width: 80px;
+          height: 100%;
+          min-height: 80px;
+          text-align: center;
+          margin-right: .5em;
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+          justify-content: center; }
+          .quire-entry__image figure div.multimedia a .placeholder i,
+          .quire-entry__image figure div.multimedia a .placeholder div {
+            color: #FFFFFF; }
+      .quire-entry__image figure div.multimedia-grid {
+        display: block;
+        border: 1px solid #CCCCCC;
+        padding: 0;
+        text-align: left;
+        position: relative; }
+        .quire-entry__image figure div.multimedia-grid a {
+          position: relative;
+          display: block; }
+          .quire-entry__image figure div.multimedia-grid a .placeholder {
+            text-align: center;
+            color: #FFFFFF;
+            height: 80px;
+            background-color: #000000;
+            margin-right: .5em;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center; }
+            .quire-entry__image figure div.multimedia-grid a .placeholder i,
+            .quire-entry__image figure div.multimedia-grid a .placeholder div {
+              color: #FFFFFF; }
+        .quire-entry__image figure div.multimedia-grid .multimedia-metadata {
+          margin: .5em; }
+      .quire-entry__image figure div.multimedia .multimedia-metadata {
+        position: relative; }
+        .quire-entry__image figure div.multimedia .multimedia-metadata a {
+          position: relative; }
+          .quire-entry__image figure div.multimedia .multimedia-metadata a h5.header {
+            font-family: 'Noto Sans', sans-serif;
+            font-size: 1em;
+            margin: .5em 0 0 0; }
+      .quire-entry__image figure div.multimedia p {
+        margin: 0; }
+      .quire-entry__image figure div.multimedia .caption {
+        font-size: .75em;
+        line-height: 1.8em; }
     .quire-entry__image figure iframe {
       margin: 0 auto;
       max-width: 900px;
@@ -9046,47 +9108,49 @@ html {
 .quire-entry .quire-contents-buttons {
   padding-bottom: 3rem; }
 
-div.side-by-side {
+.quire-entry div.side-by-side {
   display: block; }
   @media screen and (min-width: 700px) {
-    div.side-by-side {
+    .quire-entry div.side-by-side {
       display: flex; } }
-  div.side-by-side div.quire-entry__image-wrap {
+  .quire-entry div.side-by-side div.quire-entry__image-wrap {
     position: relative;
     width: 100%; }
     @media screen and (min-width: 700px) {
-      div.side-by-side div.quire-entry__image-wrap {
+      .quire-entry div.side-by-side div.quire-entry__image-wrap {
         width: 56%;
         flex: none; } }
-    div.side-by-side div.quire-entry__image-wrap div.quire-entry__image {
+    .quire-entry div.side-by-side div.quire-entry__image-wrap div.quire-entry__image {
       position: relative;
       width: 100%;
       height: calc(100vh - 6rem - 3rem); }
       @media screen and (min-width: 700px) {
-        div.side-by-side div.quire-entry__image-wrap div.quire-entry__image {
+        .quire-entry div.side-by-side div.quire-entry__image-wrap div.quire-entry__image {
           position: fixed;
           width: 56%;
           height: 100vh; } }
       @media screen and (min-width: 700px) {
-        div.side-by-side div.quire-entry__image-wrap div.quire-entry__image .quire-entry__image__group-container figure {
+        .quire-entry div.side-by-side div.quire-entry__image-wrap div.quire-entry__image .quire-entry__image__group-container figure {
           height: calc(100vh - 3rem); } }
       @media screen and (min-width: 700px) {
-        div.side-by-side div.quire-entry__image-wrap div.quire-entry__image .quire-entry__image__group-container figure .quire-image-info {
+        .quire-entry div.side-by-side div.quire-entry__image-wrap div.quire-entry__image .quire-entry__image__group-container figure .quire-image-info {
           bottom: 53px; } }
-  div.side-by-side div.quire-entry__content {
+  .quire-entry div.side-by-side div.quire-entry__content {
     width: 100%; }
     @media screen and (min-width: 700px) {
-      div.side-by-side div.quire-entry__content {
+      .quire-entry div.side-by-side div.quire-entry__content {
         width: 44%;
         flex: none; } }
     @media screen and (min-width: 700px) {
-      div.side-by-side div.quire-entry__content section,
-      div.side-by-side div.quire-entry__content header {
+      .quire-entry div.side-by-side div.quire-entry__content section.section,
+      .quire-entry div.side-by-side div.quire-entry__content section,
+      .quire-entry div.side-by-side div.quire-entry__content header {
         padding-left: 20px;
         padding-right: 20px; } }
     @media screen and (min-width: 700px) {
-      div.side-by-side div.quire-entry__content section div.container,
-      div.side-by-side div.quire-entry__content header div.container {
+      .quire-entry div.side-by-side div.quire-entry__content section.section div.container,
+      .quire-entry div.side-by-side div.quire-entry__content section div.container,
+      .quire-entry div.side-by-side div.quire-entry__content header div.container {
         width: 100%; } }
 
 .quire-citation {
@@ -9551,10 +9615,6 @@ body > div.mfp-bg.mfp-ready {
     color: #fff;
     width: 8.5in;
     height: 11in; }
-  .quire-page,
-  .hero.quire-page__header,
-  .hero-body {
-    border: 1pt solid transparent !important; }
   .quire-page {
     margin: 0 auto; }
   .hero.quire-page__header {
@@ -9595,7 +9655,8 @@ body > div.mfp-bg.mfp-ready {
           column-span: all;
   display: block;
   -webkit-column-break-before: page;
-          break-before: page; }
+          break-before: page;
+  margin-bottom: 0.5em; }
 
 .bd-structure {
   padding: 1.5rem; }
@@ -9647,30 +9708,59 @@ body > div.mfp-bg.mfp-ready {
 /** PRINT ELEMENTS **/
 div.multimedia {
   border: 1px solid #CCCCCC;
-  margin: 1em 0;
-  min-height: 82px;
   padding: 0;
-  text-align: left; }
-  div.multimedia p {
-    margin: 0; }
-  div.multimedia h5.header {
-    font-family: 'Noto Sans', sans-serif;
-    font-size: 1em;
-    margin: .5em 0 0 0; }
+  text-align: left;
+  position: relative;
+  display: flex;
+  margin-bottom: .5em; }
   div.multimedia .placeholder {
-    text-align: center;
     color: #FFFFFF;
-    width: 80px;
-    padding: 28px 0;
     background-color: #000000;
-    position: static;
-    float: left;
+    min-width: 80px;
+    height: 100%;
+    min-height: 80px;
+    text-align: center;
     margin-right: .5em;
-    position: relative;
-    max-height: 80px; }
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center; }
     div.multimedia .placeholder i,
     div.multimedia .placeholder div {
       color: #FFFFFF; }
+  div.multimedia-grid {
+    display: block;
+    border: 1px solid #CCCCCC;
+    padding: 0;
+    text-align: left;
+    position: relative; }
+    div.multimedia-grid .placeholder {
+      text-align: center;
+      color: #FFFFFF;
+      height: 80px;
+      background-color: #000000;
+      margin-right: .5em;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: center; }
+      div.multimedia-grid .placeholder i,
+      div.multimedia-grid .placeholder div {
+        color: #FFFFFF; }
+    div.multimedia-grid .multimedia-metadata {
+      margin: .5em; }
+  div.multimedia .multimedia-metadata {
+    position: relative;
+    margin-top: .5em; }
+    div.multimedia .multimedia-metadata a {
+      position: relative; }
+      div.multimedia .multimedia-metadata a h5.header {
+        font-family: 'Noto Sans', sans-serif;
+        font-size: 1em;
+        margin: .5em 0 0 0; }
+  div.multimedia p {
+    margin: 0; }
   div.multimedia .caption {
     font-size: .75em;
     line-height: 1.8em; }
@@ -9680,9 +9770,7 @@ div.multimedia {
   line-height: 1.8em; }
 
 .time-length {
-  position: absolute;
   font-size: .875em;
-  bottom: 4px;
   width: 100%; }
 
 .fig-print {
@@ -10022,12 +10110,12 @@ div.multimedia {
   border-radius: 5px; }
 
 .leaflet-control-layers-toggle {
-  background-image: url(/../img/layers.png);
+  background-image: url(/img/layers.png);
   width: 36px;
   height: 36px; }
 
 .leaflet-retina .leaflet-control-layers-toggle {
-  background-image: url(/../img/layers-2x.png);
+  background-image: url(/img/layers-2x.png);
   background-size: 26px 26px; }
 
 .leaflet-touch .leaflet-control-layers-toggle {
@@ -10067,7 +10155,7 @@ div.multimedia {
 
 /* Default icon URLs */
 .leaflet-default-icon-path {
-  background-image: url(/../img/marker-icon.png); }
+  background-image: url(/img/marker-icon.png); }
 
 /* attribution and scale controls */
 .leaflet-container .leaflet-control-attribution {
