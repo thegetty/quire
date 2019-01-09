@@ -465,11 +465,13 @@ html {
       @media print {
         color: $page-text-color;
       }
-    }
-
-    a:hover {
-      background-color: $quire-hover-color;
-      border-bottom-width: 2px;
+      &:hover {
+        color: $quire-primary-color-hover !important;
+        border-bottom-width: 2px;
+      }
+      &:focus {
+        background-color: $quire-hover-color;
+      }
     }
 
     tbody {

@@ -72,7 +72,9 @@
 
 {{/* Clear previous usage */}}
 {{/* ---------------------------------------------------------------------- */}}
+{{ if $.Page.Scratch.Get "contributorList"  }}
 {{ $.Page.Scratch.Delete "contributorlist" }}
+{{ end }}
 
 {{/* Contributor range variables */}}
 {{/* ---------------------------------------------------------------------- */}}
