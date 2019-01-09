@@ -404,14 +404,16 @@ div.multimedia {
     color: #FFFFFF;
     background-color: #000000;
     min-width: 80px;
+    max-width: 80px;
+    width: 80px;
     height: 100%;
     min-height: 80px;
     text-align: center;
-    margin-right: .5em;
     display: flex;
     align-items: center;
     flex-direction: column;
     justify-content: center;
+    margin-right: .5em;
 
     i,
     div {
@@ -453,16 +455,14 @@ div.multimedia {
   .multimedia-metadata {
     position: relative;
     margin-top: .5em;
-
-    a {
-      position: relative;
+    word-break: break-word;
 
       h5.header {
         font-family: 'Noto Sans', sans-serif;
         font-size: 1em;
         margin: .5em 0 0 0;
       }
-    }
+    
   }
 
   p {
