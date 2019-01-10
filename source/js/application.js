@@ -102,10 +102,10 @@ function sliderSetup() {
   slider.each(function () {
     let sliderImages = $(this).find('figure');
     sliderImages.each((i, v) => {
-      if(sliderImages.length > 1) {
+      if (sliderImages.length > 1) {
         $(v)
-        .find('.quire-image-counter-download-container')
-        .append(`<div class="quire-counter-container"><span class="counter">${i + 1} of ${sliderImages.length}</span></div>`);
+          .find('.quire-image-counter-download-container')
+          .append(`<div class="quire-counter-container"><span class="counter">${i + 1} of ${sliderImages.length}</span></div>`);
       }
     });
     let firstImage = $(sliderImages.first());
@@ -285,7 +285,7 @@ function scrollToHash() {
  * @description
  * Set up modal for media
  */
-function popupSetup() {
+function popupSetup(isPopup) {
   if (isPopup) {
     Popup('.q-figure__wrapper');
   }
@@ -338,7 +338,7 @@ function pageSetup() {
   quickLinksSetup();
   activeMenuPage();
   sliderSetup();
-  // navigationSetup()
+  navigationSetup();
   popupSetup();
 }
 
