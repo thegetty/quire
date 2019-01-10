@@ -3,7 +3,7 @@ import Hammer from 'hammerjs';
 class Navigation {
   constructor() {
     this.boundKeyboardListener = this.keyboardListener.bind(this)
-    this.boundSwipeListener = this.swipeListener.bind(this)
+    // this.boundSwipeListener = this.swipeListener.bind(this)
     this.addListeners()
   }
 
