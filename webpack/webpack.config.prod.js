@@ -25,7 +25,7 @@ let pathsToClean = [
 
 // the clean options to use
 let cleanOptions = {
-  verbose: true,
+  verbose: false,
   watch: false,
   allowExternal: true
 }
@@ -89,7 +89,7 @@ module.exports = {
           loader: 'file-loader',
           options: {
             name: '[name].[ext]',
-            outputPath: '../img/'
+            outputPath: 'img/'
           }
         }]
       },
@@ -99,7 +99,7 @@ module.exports = {
           loader: 'file-loader',
           options: {
             name: '[name].[ext]',
-            outputPath: '../fonts/'
+            outputPath: 'fonts/'
           }
         }]
       }
