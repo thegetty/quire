@@ -94,7 +94,7 @@
   }
 
   // Styles with JS enabled (sliding menu, etc.)
-  &:not(.no-js) {
+   &.no-js, &:not(.no-js) {
     .quire__primary {
       background: $off-white;
       display: flex;

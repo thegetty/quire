@@ -7259,7 +7259,7 @@ template {
     .quire.no-js .quire__secondary {
       width: 100%;
       display: none; }
-  .quire:not(.no-js) .quire__primary {
+  .quire.no-js .quire__primary, .quire:not(.no-js) .quire__primary {
     background: #EEF2F3;
     display: flex;
     flex-direction: column;
@@ -7276,20 +7276,20 @@ template {
     transition-timing-function: linear;
     width: 100%;
     z-index: 9999; }
-    .quire:not(.no-js) .quire__primary #main {
+    .quire.no-js .quire__primary #main, .quire:not(.no-js) .quire__primary #main {
       background: #EEF2F3;
       margin-top: 3rem; }
-    .quire:not(.no-js) .quire__primary .quire-page {
+    .quire.no-js .quire__primary .quire-page, .quire:not(.no-js) .quire__primary .quire-page {
       flex: 1 1 auto;
       -webkit-overflow-scrolling: touch;
       overflow-y: scroll;
       position: relative; }
-    .quire:not(.no-js) .quire__primary .section {
+    .quire.no-js .quire__primary .section, .quire:not(.no-js) .quire__primary .section {
       padding-left: 0;
       padding-right: 0; }
-    .quire:not(.no-js) .quire__primary .quire-navbar {
+    .quire.no-js .quire__primary .quire-navbar, .quire:not(.no-js) .quire__primary .quire-navbar {
       flex: 0 0 auto; }
-  .quire:not(.no-js) .quire__secondary {
+  .quire.no-js .quire__secondary, .quire:not(.no-js) .quire__secondary {
     border-right: solid 1px #363636;
     height: 100%;
     overflow-y: auto;
@@ -7305,25 +7305,25 @@ template {
     transition-timing-function: linear;
     display: block;
     z-index: 100; }
-    .quire:not(.no-js) .quire__secondary #site-menu__inner {
+    .quire.no-js .quire__secondary #site-menu__inner, .quire:not(.no-js) .quire__secondary #site-menu__inner {
       transition-property: display;
       transition-duration: 0.15s;
       transition-timing-function: linear;
       display: none; }
-    .quire:not(.no-js) .quire__secondary.is-expanded {
+    .quire.no-js .quire__secondary.is-expanded, .quire:not(.no-js) .quire__secondary.is-expanded {
       -webkit-transform: translate3d(0, 0, 0);
               transform: translate3d(0, 0, 0);
       width: 352px; }
       @media screen and (max-width: 352px) {
-        .quire:not(.no-js) .quire__secondary.is-expanded {
+        .quire.no-js .quire__secondary.is-expanded, .quire:not(.no-js) .quire__secondary.is-expanded {
           width: calc(100% - 3rem); } }
-      .quire:not(.no-js) .quire__secondary.is-expanded #site-menu__inner {
+      .quire.no-js .quire__secondary.is-expanded #site-menu__inner, .quire:not(.no-js) .quire__secondary.is-expanded #site-menu__inner {
         display: block; }
-      .quire:not(.no-js) .quire__secondary.is-expanded + .quire__primary {
+      .quire.no-js .quire__secondary.is-expanded + .quire__primary, .quire:not(.no-js) .quire__secondary.is-expanded + .quire__primary {
         -webkit-transform: translate3d(-352px, 0, 0);
                 transform: translate3d(-352px, 0, 0); }
         @media screen and (max-width: 352px) {
-          .quire:not(.no-js) .quire__secondary.is-expanded + .quire__primary {
+          .quire.no-js .quire__secondary.is-expanded + .quire__primary, .quire:not(.no-js) .quire__secondary.is-expanded + .quire__primary {
             -webkit-transform: translate3d(calc(-100% + 3rem), 0, 0);
                     transform: translate3d(calc(-100% + 3rem), 0, 0); } }
 
@@ -7867,6 +7867,9 @@ html {
       margin: 0 auto;
       background-color: transparent; }
 
+.quire-page--frontmatter {
+  background-color: #EEF2F3; }
+
 .quire-page__header {
   background-color: #EEF2F3;
   background-size: cover;
@@ -8348,14 +8351,16 @@ html {
       left: 0;
       right: 0; } }
 
-.quire-contents .quire-page__abstract {
-  margin-bottom: 0;
-  padding: 40px 6rem !important; }
-  .quire-contents .quire-page__abstract .container {
-    padding: 0;
-    background-color: transparent; }
-  .quire-contents .quire-page__abstract:after {
-    background-color: transparent; }
+.quire-contents {
+  background-color: #EEF2F3; }
+  .quire-contents .quire-page__abstract {
+    margin-bottom: 0;
+    padding: 40px 6rem !important; }
+    .quire-contents .quire-page__abstract .container {
+      padding: 0;
+      background-color: transparent; }
+    .quire-contents .quire-page__abstract:after {
+      background-color: transparent; }
 
 .quire-contents-header {
   text-align: center;
