@@ -213,6 +213,9 @@ html {
 
         p {
           line-height: 2;
+          @media print {
+            line-height: 1.5;
+          }
         }
 
         blockquote {
@@ -274,6 +277,10 @@ html {
     font-size: .875em;
     line-height: 1.7em;
     margin-bottom: -3.2em;
+    @media print {
+      line-height: 1.7em;
+      font-size: 1.25em;
+    }
 
     h2 {
       font-weight: 400;
