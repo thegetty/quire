@@ -334,7 +334,9 @@ func Test() string {
             </span>
           {{ end }}
           {{ else }}
+          {{ if eq $.Site.Params.figureEnlargeType "outside" }}
           <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span></span>
+          {{ end }}
           {{ end }}
           {{ if .credit }}
           <span class="quire-figure__credit">{{ .credit | markdownify }}</span>
@@ -382,7 +384,9 @@ func Test() string {
         </span>
       {{ end }}
       {{ else }}
+      {{ if eq $.Site.Params.figureEnlargeType "outside" }}
       <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span></span>
+      {{ end }}
       {{ end }}
 
     {{ if eq $.Site.Params.pdf true }}<span class="media-caption">{{ end }}

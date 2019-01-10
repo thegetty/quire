@@ -317,6 +317,7 @@ render the figure from matching values found ther
 </div>
   {{- end -}}
   {{- if eq .media_type "soundcloud" }}
+
 <div class="multimedia audio">
   <div>
     <div class="placeholder">
@@ -327,7 +328,7 @@ render the figure from matching values found ther
     </div>
   </div>
   <div class="multimedia-metadata">
-  <h5 class="header">
+  <h5 class="header" style="word-wrap:break-word">
   {{ if $.Get "title" }}
   {{ $.Get "title" | markdownify }}
   {{ else if .title }}
@@ -335,9 +336,10 @@ render the figure from matching values found ther
   {{ end }}
   </h5>
     <p class="caption">
-    <a href="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}" alt="" title="" target="_blank" ><em>https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}</em></a></p>
+    <a style="word-wrap:break-word" href="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}" alt="" title="" target="_blank" ><em>https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}</em></a></p>
   </div>
 </div>
+
   {{- end -}}
   {{ end }}
   {{ if eq $.Site.Params.websiteFigureFallbackText true }}
@@ -390,7 +392,9 @@ render the figure from matching values found ther
       </span>
       {{ end }}
     {{ else }}
+    {{ if eq $.Site.Params.figureEnlargeType "outside" }}
     <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span></span>
+    {{ end }}
     {{ end }}
 
     {{ if eq $.Site.Params.pdf true }}<span class="media-caption">{{ end }}

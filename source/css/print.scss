@@ -392,90 +392,6 @@ $print-footer-font-size: 8pt;
 
 /** PRINT ELEMENTS **/
 
-div.multimedia {
-  border: 1px solid #CCCCCC;
-  padding: 0;
-  text-align: left;
-  position: relative;
-  display: flex;
-  margin-bottom: .5em;
-
-  .placeholder {
-    color: #FFFFFF;
-    background-color: #000000;
-    min-width: 80px;
-    max-width: 80px;
-    width: 80px;
-    height: 100%;
-    min-height: 80px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    margin-right: .5em;
-
-    i,
-    div {
-      color: #FFFFFF;
-    }
-  }
-
-
-  &-grid {
-    display: block;
-    border: 1px solid #CCCCCC;
-    padding: 0;
-    text-align: left;
-    position: relative;
-
-    .placeholder {
-      text-align: center;
-      color: #FFFFFF;
-      height: 80px;
-      background-color: #000000;
-      margin-right: .5em;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      flex-direction: column;
-      justify-content: center;
-
-      i,
-      div {
-        color: #FFFFFF;
-      }
-    }
-
-    .multimedia-metadata {
-      margin: .5em;
-    }
-  }
-
-  .multimedia-metadata {
-    position: relative;
-    margin-top: .5em;
-    word-break: break-word;
-
-      h5.header {
-        font-family: 'Noto Sans', sans-serif;
-        font-size: 1em;
-        margin: .5em 0 0 0;
-      }
-    
-  }
-
-  p {
-    margin: 0;
-  }
-
-  .caption {
-    font-size: .75em;
-    line-height: 1.8em;
-  }
-
-}
-
 .media-caption {
   font-size: .75em;
   line-height: 1.8em;
@@ -488,12 +404,12 @@ div.multimedia {
 
 .fig-print {
   font-size: .75em;
-  background: rgba(0, 0, 0, 0.75);
+  background: $black-semi-transparent;
   position: absolute;
   padding: 0 9px 0 3px;
   left: 0;
   top: 0;
-  color: #fff;
+  color: $white;
   display: block;
 }
 

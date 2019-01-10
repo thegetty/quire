@@ -7814,6 +7814,9 @@ html {
     background-color: #ffffff; }
     .quire-page__content .container .content p {
       line-height: 2; }
+      @media print {
+        .quire-page__content .container .content p {
+          line-height: 1.5; } }
     .quire-page__content .container .content blockquote {
       border-left: none;
       position: relative; }
@@ -7853,6 +7856,10 @@ html {
   font-size: .875em;
   line-height: 1.7em;
   margin-bottom: -3.2em; }
+  @media print {
+    .quire-page__abstract {
+      line-height: 1.7em;
+      font-size: 1.25em; } }
   .quire-page__abstract h2 {
     font-weight: 400;
     font-size: 1.625em;
@@ -8798,6 +8805,81 @@ html {
       page-break-inside: avoid;
       break-inside: avoid; } }
 
+/** VIDEO/AUDIO FALLBACK ELEMENTS **/
+div.multimedia {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  border: 1px solid #CCCCCC;
+  padding: 0;
+  text-align: left;
+  position: relative;
+  display: flex;
+  margin-bottom: .5em; }
+  div.multimedia .placeholder {
+    color: #ffffff;
+    background-color: #000000;
+    min-width: 80px;
+    max-width: 80px;
+    width: 80px;
+    height: 100%;
+    min-height: 80px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: .5em; }
+    div.multimedia .placeholder i,
+    div.multimedia .placeholder div {
+      color: #ffffff; }
+  div.multimedia .multimedia-metadata {
+    position: relative;
+    margin: .5em; }
+    div.multimedia .multimedia-metadata h5.header {
+      font-family: 'Noto Sans', sans-serif;
+      font-size: 1em;
+      color: #000000;
+      font-weight: 400; }
+  div.multimedia-grid {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    display: block;
+    border: 1px solid #CCCCCC;
+    padding: 0;
+    text-align: left;
+    position: relative; }
+    div.multimedia-grid .placeholder {
+      text-align: center;
+      color: #ffffff;
+      height: 80px;
+      background-color: #000000;
+      margin-right: .75em;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: center; }
+      div.multimedia-grid .placeholder i,
+      div.multimedia-grid .placeholder div {
+        color: #ffffff; }
+    div.multimedia-grid .multimedia-metadata {
+      position: relative;
+      margin: .75em; }
+      div.multimedia-grid .multimedia-metadata h5.header {
+        font-family: 'Noto Sans', sans-serif;
+        font-size: 1em;
+        font-weight: 400;
+        margin: .5em 0 0 0;
+        color: #000000; }
+  div.multimedia p {
+    margin: 0; }
+  div.multimedia .caption {
+    font-size: .75em;
+    line-height: 1.8em;
+    color: #000000;
+    word-break: break-all; }
+
+/** VIDEO/AUDIO FALLBACK ELEMENTS **/
 .quire-entry__image {
   background-color: #000000;
   min-height: calc(100vh - 6rem - 3rem);
@@ -8847,68 +8929,6 @@ html {
     display: flex;
     align-items: center;
     justify-content: center; }
-    .quire-entry__image figure div.multimedia {
-      border: 1px solid #CCCCCC;
-      padding: 0;
-      text-align: left;
-      position: relative;
-      display: flex; }
-      .quire-entry__image figure div.multimedia a {
-        position: relative;
-        display: block; }
-        .quire-entry__image figure div.multimedia a .placeholder {
-          color: #FFFFFF;
-          background-color: #000000;
-          width: 80px;
-          height: 100%;
-          min-height: 80px;
-          text-align: center;
-          margin-right: .5em;
-          display: flex;
-          align-items: center;
-          flex-direction: column;
-          justify-content: center; }
-          .quire-entry__image figure div.multimedia a .placeholder i,
-          .quire-entry__image figure div.multimedia a .placeholder div {
-            color: #FFFFFF; }
-      .quire-entry__image figure div.multimedia-grid {
-        display: block;
-        border: 1px solid #CCCCCC;
-        padding: 0;
-        text-align: left;
-        position: relative; }
-        .quire-entry__image figure div.multimedia-grid a {
-          position: relative;
-          display: block; }
-          .quire-entry__image figure div.multimedia-grid a .placeholder {
-            text-align: center;
-            color: #FFFFFF;
-            height: 80px;
-            background-color: #000000;
-            margin-right: .5em;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-            justify-content: center; }
-            .quire-entry__image figure div.multimedia-grid a .placeholder i,
-            .quire-entry__image figure div.multimedia-grid a .placeholder div {
-              color: #FFFFFF; }
-        .quire-entry__image figure div.multimedia-grid .multimedia-metadata {
-          margin: .5em; }
-      .quire-entry__image figure div.multimedia .multimedia-metadata {
-        position: relative; }
-        .quire-entry__image figure div.multimedia .multimedia-metadata a {
-          position: relative; }
-          .quire-entry__image figure div.multimedia .multimedia-metadata a h5.header {
-            font-family: 'Noto Sans', sans-serif;
-            font-size: 1em;
-            margin: .5em 0 0 0; }
-      .quire-entry__image figure div.multimedia p {
-        margin: 0; }
-      .quire-entry__image figure div.multimedia .caption {
-        font-size: .75em;
-        line-height: 1.8em; }
     .quire-entry__image figure iframe {
       margin: 0 auto;
       max-width: 900px;
@@ -9276,7 +9296,9 @@ div.leaflet-control-container {
     background-color: rgba(0, 0, 0, 0.5);
     margin-top: 0;
     border-radius: 0;
-    background-size: 26px 52px; }
+    background-size: 26px 52px;
+    background-position: top;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAA0AgMAAADpgsAbAAABS2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDAgNzkuMTYwNDUxLCAyMDE3LzA1LzA2LTAxOjA4OjIxICAgICAgICAiPgogPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIi8+CiA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgo8P3hwYWNrZXQgZW5kPSJyIj8+LUNEtwAAAARnQU1BAACxjwv8YQUAAAABc1JHQgCuzhzpAAAACVBMVEUAAAD///////9zeKVjAAAAAnRSTlMAgJsrThgAAAAySURBVBjTY2AgFmitYFrVgERrMDAw4aMJAUL60e2jNiDaP2wrIf7hWgXRiIOGqaOufwA6TR6/lErWHQAAAABJRU5ErkJggg==); }
 
 div.leaflet-fullscreen-on > div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-control-fullscreen.leaflet-bar.leaflet-control > a {
   background-position: 2px -24px; }
@@ -9718,66 +9740,6 @@ body > div.mfp-bg.mfp-ready {
     /** approx 22px **/ }
 
 /** PRINT ELEMENTS **/
-div.multimedia {
-  border: 1px solid #CCCCCC;
-  padding: 0;
-  text-align: left;
-  position: relative;
-  display: flex;
-  margin-bottom: .5em; }
-  div.multimedia .placeholder {
-    color: #FFFFFF;
-    background-color: #000000;
-    min-width: 80px;
-    max-width: 80px;
-    width: 80px;
-    height: 100%;
-    min-height: 80px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    margin-right: .5em; }
-    div.multimedia .placeholder i,
-    div.multimedia .placeholder div {
-      color: #FFFFFF; }
-  div.multimedia-grid {
-    display: block;
-    border: 1px solid #CCCCCC;
-    padding: 0;
-    text-align: left;
-    position: relative; }
-    div.multimedia-grid .placeholder {
-      text-align: center;
-      color: #FFFFFF;
-      height: 80px;
-      background-color: #000000;
-      margin-right: .5em;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      flex-direction: column;
-      justify-content: center; }
-      div.multimedia-grid .placeholder i,
-      div.multimedia-grid .placeholder div {
-        color: #FFFFFF; }
-    div.multimedia-grid .multimedia-metadata {
-      margin: .5em; }
-  div.multimedia .multimedia-metadata {
-    position: relative;
-    margin-top: .5em;
-    word-break: break-word; }
-    div.multimedia .multimedia-metadata h5.header {
-      font-family: 'Noto Sans', sans-serif;
-      font-size: 1em;
-      margin: .5em 0 0 0; }
-  div.multimedia p {
-    margin: 0; }
-  div.multimedia .caption {
-    font-size: .75em;
-    line-height: 1.8em; }
-
 .media-caption {
   font-size: .75em;
   line-height: 1.8em; }
@@ -9793,7 +9755,7 @@ div.multimedia {
   padding: 0 9px 0 3px;
   left: 0;
   top: 0;
-  color: #fff;
+  color: #ffffff;
   display: block; }
 
 #content > div.container > div > figure:nth-child(11) > div:nth-child(1) .quire-figure--group-pdf {
