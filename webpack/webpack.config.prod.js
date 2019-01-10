@@ -1,8 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const HTMLInlineCSSWebpackPlugin = require("html-inline-css-webpack-plugin").default;
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const autoprefixer = require('autoprefixer');
@@ -89,7 +87,7 @@ module.exports = {
           loader: 'file-loader',
           options: {
             name: '[name].[ext]',
-            outputPath: 'img/'
+            outputPath: '/img/'
           }
         }]
       },
@@ -99,7 +97,7 @@ module.exports = {
           loader: 'file-loader',
           options: {
             name: '[name].[ext]',
-            outputPath: 'fonts/'
+            outputPath: '/fonts/'
           }
         }]
       }
@@ -135,8 +133,6 @@ module.exports = {
       filename: 'css/application.css'
     }),
     new CleanWebpackPlugin(pathsToClean, cleanOptions),
-    new HtmlWebpackPlugin(),
-    new HTMLInlineCSSWebpackPlugin(),
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',

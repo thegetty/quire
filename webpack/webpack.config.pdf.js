@@ -1,8 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const HTMLInlineCSSWebpackPlugin = require("html-inline-css-webpack-plugin").default;
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
 const autoprefixer = require("autoprefixer")
@@ -128,8 +126,6 @@ module.exports = {
       jQuery: 'jquery',
       'window.jQuery': 'jquery'
     }),
-    new HtmlWebpackPlugin(),
-    new HTMLInlineCSSWebpackPlugin(),
     // Make sure that the plugin is after any plugins that add images, example `CopyWebpackPlugin`
     new ImageminPlugin({
       bail: false, // Ignore errors on corrupted images
