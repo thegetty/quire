@@ -7870,6 +7870,9 @@ html {
 .quire-page--frontmatter {
   background-color: #EEF2F3; }
 
+.quire-page__splash .quire-page__header__title, .quire-page__splash .quire-page__header__subtitle {
+  color: #ffffff !important; }
+
 .quire-page__header {
   background-color: #EEF2F3;
   background-size: cover;
@@ -7893,26 +7896,26 @@ html {
       .quire-page__header.hero__image {
         margin-bottom: 0;
         height: 0; } }
-  .quire-page--splash .quire-page__header {
-    background-color: #6A8EB8; }
-    .quire-page--splash .quire-page__header * {
-      color: #fff; }
-    .quire-page--splash .quire-page__header .hero-body {
-      display: inline-block;
-      max-width: none;
-      top: 15%;
-      text-align: center; }
-    .quire-page--splash .quire-page__header.quire-page__header--full-height {
-      min-height: calc(60vh - 3rem); }
-      .quire-page--splash .quire-page__header.quire-page__header--full-height .quire-page__header__splash-page-arrow {
-        position: absolute;
-        bottom: 0;
-        width: 6%;
-        left: 47%;
-        right: 47%; }
-        .quire-page--splash .quire-page__header.quire-page__header--full-height .quire-page__header__splash-page-arrow svg {
-          width: 1rem;
-          fill: #fff; }
+    .quire-page__header.hero__image .quire-page__header__title, .quire-page__header.hero__image .quire-page__header__subtitle {
+      color: #ffffff !important; }
+  .quire-page--splash .quire-page__header * {
+    color: #fff; }
+  .quire-page--splash .quire-page__header .hero-body {
+    display: inline-block;
+    max-width: none;
+    top: 15%;
+    text-align: center; }
+  .quire-page--splash .quire-page__header.quire-page__header--full-height {
+    min-height: calc(60vh - 3rem); }
+    .quire-page--splash .quire-page__header.quire-page__header--full-height .quire-page__header__splash-page-arrow {
+      position: absolute;
+      bottom: 0;
+      width: 6%;
+      left: 47%;
+      right: 47%; }
+      .quire-page--splash .quire-page__header.quire-page__header--full-height .quire-page__header__splash-page-arrow svg {
+        width: 1rem;
+        fill: #fff; }
   .quire-page__header .hero-body span {
     color: #666666;
     font-size: 16px;
