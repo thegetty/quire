@@ -1,3 +1,5 @@
+//@ts-check
+
 /**
  * @fileOverview
  * @name application.js
@@ -5,6 +7,7 @@
  * responsible for building all CSS and JS assets for the theme.
  */
 // Stylesheets
+import 'intersection-observer';
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css';
 import '../css/application.scss';
 import 'leaflet/dist/leaflet.css';
@@ -13,7 +16,6 @@ import quicklink from "quicklink";
 // JS Libraries (add them to package.json with `npm install [library]`)
 import $ from 'jquery';
 import 'velocity-animate';
-import zoom from 'jquery-zoom';
 import './soundcloud-api';
 
 // Modules (feel free to define your own and import here)
@@ -40,6 +42,7 @@ window.toggleMenu = () => {
   let primary = document.querySelector('.quire__primary');
   nav.style.top = `${window.scrollY + nav.getBoundingClientRect().top}px`
   let menu = document.getElementById('site-menu');
+  document.getElementsByClassName
   let menuAriaStatus = menu.getAttribute('aria-expanded');
   menu.classList.toggle('is-expanded');
   if (menuAriaStatus === 'true') {
@@ -332,7 +335,7 @@ function quickLinksSetup() {
  * Initialize any jquery plugins or set up page UI elements here.
  */
 function pageSetup() {
-  // quickLinksSetup();
+  quickLinksSetup();
   activeMenuPage();
   sliderSetup();
   // navigationSetup()
