@@ -302,6 +302,18 @@ html {
       }
     }
   }
+
+  &--frontmatter {
+    background-color: $off-white;
+  }
+
+  &__splash {
+    .quire-page__header {
+      &__title, &__subtitle {
+        color: $quire-nav-font-color !important;
+      }
+    }
+  }
 }
 
 
@@ -321,11 +333,14 @@ html {
       margin-bottom: 0;
       height: 0;
     }
+    .quire-page__header {
+      &__title, &__subtitle {
+        color: $quire-nav-font-color !important;
+      }
+    }
   }
 
   .quire-page--splash & {
-    background-color: $quire-splash-page-color;
-
     * {
       color: findColorInvert($quire-splash-page-color);
     }
