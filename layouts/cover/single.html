@@ -20,7 +20,7 @@ Cover page layout. This controls the home page of the publication.
   {{/* Begin full-page cover section */}}
   {{- if .Params.image -}}
   {{- $imgPath := printf "%s/%s" ($.Scratch.Get "imageDir") .Params.image -}}
-    <section class="quire-cover__hero hero is-fullheight" style="background-image: url('{{ $imgPath | absURL }}');">
+    <section class="quire-cover__hero hero is-fullheight" style="background-image: url('{{ $imgPath | relURL }}');">
   {{- else -}}
     <section class="quire-cover__hero is-fullheight">
       <div class="quire-cover__overlay"></div>
@@ -71,7 +71,7 @@ Cover page layout. This controls the home page of the publication.
           <switch>
             <use xlink:href="#read-more-icon"></use>
             <foreignObject width="36" height="36">
-                <img src="{{ $imgDir | absURL }}/icons/heromore@2x.png" alt="Read More" />
+                <img src="{{ $imgDir | relURL }}/icons/heromore@2x.png" alt="Read More" />
             </foreignObject>
           </switch>
         </svg>
@@ -106,7 +106,7 @@ Cover page layout. This controls the home page of the publication.
   <switch>
     <use xlink:href="#{{ .type }}-icon"></use>
     <foreignObject width="24" height="24">
-        <img class="remove-from-epub" src="{{ absURL .imageDir }}/icons/{{ .type }}.png" alt="" />
+        <img class="remove-from-epub" src="{{ relURL .imageDir }}/icons/{{ .type }}.png" alt="" />
     </foreignObject>
   </switch>
 </svg>
