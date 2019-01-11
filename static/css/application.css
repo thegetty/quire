@@ -8458,7 +8458,6 @@ html {
         fill: #B02E2E; }
   .quire-contents-list .list-header {
     padding: .5em .75em .5em 0;
-    text-transform: uppercase;
     letter-spacing: 1px; }
   .quire-contents-list .contributor {
     font-style: italic; }
