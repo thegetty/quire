@@ -9,7 +9,6 @@
 {{/* If copyright info is defined, show information about it here */}}
   {{- $imgDir := $.Scratch.Get "imageDir" -}}
   {{ range .Site.Data.publication.publisher }}
-  {{ $imgDir | relURL }}/{{ .logo }}
     <img src="{{ $imgDir | relURL }}/{{ .logo }}" class="quire-copyright__icon__logo" alt="logo" />
   {{ end }}
 
