@@ -15,7 +15,7 @@
         <switch>
           <use xlink:href="#close-icon"></use>
           <foreignObject width="32" height="32">
-              <img src="{{ $imgDir | absURL }}/icons/close.png" alt="Close" />
+              <img src="{{ $imgDir | relURL }}/icons/close.png" alt="Close" />
           </foreignObject>
         </switch>
       </svg>
@@ -26,12 +26,12 @@
     <section class="hero">
       <div class="hero-body">
         <div class="container">
-          <h1 class="title">Search</h1>
           <div class='input-bar'>
             <input id="js-search-input"
                  class="input is-large"
                  name=""
                  type="text"
+                 placeholder="Search this publication" 
                  value=""
                  oninput="search()" />
             <span>
@@ -39,7 +39,7 @@
                 <switch>
                   <use xlink:href="#search-icon"></use>
                   <foreignObject width="32" height="32">
-                      <img src="{{ $imgDir | absURL }}/icons/search@2x.png" alt="Search" />
+                      <img src="{{ $imgDir | relURL }}/icons/search@2x.png" alt="Search" />
                   </foreignObject>
                 </switch>
               </svg>
