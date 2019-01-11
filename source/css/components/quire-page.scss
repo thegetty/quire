@@ -305,6 +305,9 @@ html {
 
   &--frontmatter {
     background-color: $off-white;
+    @media print {
+      background-color: transparent;
+    }
   }
 
   &__splash {
@@ -321,6 +324,9 @@ html {
 // -----------------------------------------------------------------------------
 .quire-page__header {
   background-color: $off-white;
+  @media print {
+    background-color: transparent;
+  }
   @include foreground-color($quire-page-header-color, $quire-page-header-text-color);
   background-size: cover;
   background-repeat: no-repeat;

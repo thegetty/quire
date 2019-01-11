@@ -166,6 +166,9 @@
     .container.is-fluid {
       .content {
         background-color: $off-white;
+        @media print {
+          background-color: transparent;
+        }
         p {
           line-height: 2.5em;
           font-family: $quire-body-font;
