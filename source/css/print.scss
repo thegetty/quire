@@ -57,7 +57,7 @@ $print-footer-font-size: 8pt;
     }
   }
 
-  @page: left {
+  @page:left {
     margin-left: $print-outer-margin;
     margin-right: $print-inner-margin;
 
@@ -74,13 +74,13 @@ $print-footer-font-size: 8pt;
     }
   }
 
-  @page: left:first {
+  @page:left:first {
     @bottom-right {
       content: none;
     }
   }
 
-  @page: right {
+  @page:right {
     margin-left: $print-inner-margin;
     margin-right: $print-outer-margin;
 
