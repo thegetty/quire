@@ -10,6 +10,9 @@
 // -----------------------------------------------------------------------------
 .quire-contents {
   background-color: $off-white;
+  @media print {
+    background-color: transparent;
+  }
   .quire-page__abstract {
     margin-bottom: 0;
     padding: 40px 6rem !important;
