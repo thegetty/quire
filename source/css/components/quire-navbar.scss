@@ -60,7 +60,7 @@
     }
   }
   @if $navbar == inverse {
-    background-color: $dark !important;
+    background-color: $quire-primary-color-hover !important;
     color: $white !important;
     .quire-navbar-button {
       &:hover {
@@ -71,7 +71,7 @@
       }
     }
     a, button, .button {
-      background-color: $dark !important;
+      background-color: $quire-primary-color-hover !important;
       color: $white !important;
       &:hover {
         fill: $white !important;
