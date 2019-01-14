@@ -7320,6 +7320,7 @@ template {
       .quire:not(.no-js) .quire__secondary.is-expanded #site-menu__inner {
         display: block; }
       .quire:not(.no-js) .quire__secondary.is-expanded + .quire__primary {
+        overflow-y: scroll;
         -webkit-transform: translate3d(-352px, 0, 0);
                 transform: translate3d(-352px, 0, 0); }
         @media screen and (max-width: 352px) {
@@ -7640,6 +7641,7 @@ template {
     font-weight: 300;
     font-size: 2.7rem; }
   .quire-search__inner .input-bar {
+    padding-top: 3rem;
     height: calc(3rem * 1); }
     .quire-search__inner .input-bar span {
       float: right;

@@ -27,6 +27,7 @@
       font-size: 2.7rem;
     }
     .input-bar {
+      padding-top: $navbar-height;
       height: calc(#{$navbar-height} * 1);
       span {
         float: right;

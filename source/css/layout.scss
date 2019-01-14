@@ -175,6 +175,7 @@
         }
 
         + .quire__primary {
+          overflow-y: scroll;
           // right: $quire-menu-width;
           // width: calc(100% - #{$quire-menu-width});
           // transform: translate3d($quire-menu-width, 0, 0);
