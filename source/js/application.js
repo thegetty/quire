@@ -47,10 +47,10 @@ window.toggleMenu = () => {
   menu.classList.toggle('is-expanded');
   if (menuAriaStatus === 'true') {
     nav.style.top = ``
-    enableScroll(primary);
+    // enableScroll(primary);
     menu.setAttribute('aria-expanded', 'false');
   } else {
-    disableScroll(primary);
+    // disableScroll(primary);
     menu.setAttribute('aria-expanded', 'true');
   }
 };

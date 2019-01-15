@@ -48,7 +48,7 @@
   @include foreground-color($quire-navbar-color,$quire-navbar-text-color);
   background-color: $quire-navbar-color;
   min-height: $navbar-height;
-  top: 0;
+  top: 0 !important;
   width: 100%;
 
   a, button, .button {
