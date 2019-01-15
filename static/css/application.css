@@ -7394,7 +7394,7 @@ template {
   .quire-progress-bar span {
     color: #ffffff;
     display: none;
-    transition: all 1s ease-out; }
+    transition: all .5s ease-out; }
   .quire-progress-bar div {
     transition: height .5s ease;
     height: 2px;
@@ -7403,8 +7403,8 @@ template {
     text-align: right;
     padding-right: .5em;
     position: relative;
-    -webkit-animation: 1s ease-out 0s 1 slideFromLeft;
-            animation: 1s ease-out 0s 1 slideFromLeft; }
+    -webkit-animation: .5s ease-out 0s 1 slideFromLeft;
+            animation: .5s ease-out 0s 1 slideFromLeft; }
 
 .quire-navbar-controls {
   display: flex;
