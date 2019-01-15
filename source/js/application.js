@@ -292,9 +292,9 @@ function scrollToHash() {
  * @description
  * Set up modal for media
  */
-function popupSetup(isPopup) {
-  console.log(isPopup)
-  if (isPopup) {
+function popupSetup(figureModal) {
+  console.log(figureModal)
+  if (figureModal) {
     Popup('.q-figure__wrapper');
   } else {
     mapSetup('.quire-map');
@@ -346,11 +346,11 @@ function quickLinksSetup() {
  * Initialize any jquery plugins or set up page UI elements here.
  */
 function pageSetup() {
-  // quickLinksSetup();
+  quickLinksSetup();
   activeMenuPage();
   sliderSetup();
   navigationSetup();
-  popupSetup(isPopup);
+  popupSetup(figureModal);
 }
 
 /**

@@ -8723,7 +8723,11 @@ html {
     margin-top: .5rem;
     font-style: normal;
     text-align: left;
-    color: #292929; }
+    color: #292929;
+    -webkit-user-select: text;
+       -moz-user-select: text;
+        -ms-user-select: text;
+            user-select: text; }
     @media print {
       .content figure .quire-figure__caption {
         margin-top: 5pt;

@@ -164,6 +164,7 @@
     font-style: normal;
     text-align: left;
     color: $light-black;
+    user-select: text;
 
     @media print {
       margin-top: 5pt;
