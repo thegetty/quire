@@ -9,6 +9,24 @@ by default. Users with JS disabled will alwasy see the menu in its expanded stat
 <div  class="quire-menu menu"
       role="banner"
       id="site-menu__inner">
+  {{- if isset $.Site.Params "imagedir" }}
+  {{ $.Scratch.Set "imageDir" $.Site.Params.imageDir }}
+  {{ else }}
+  {{ $.Scratch.Set "imageDir" "" }}
+  {{ end -}}
+  {{- $imgDir := $.Scratch.Get "imageDir" -}}
+  <div class="quire-menu-close-button">
+    <button class="button is-medium" onclick="toggleMenu()">
+      <svg>
+        <switch>
+          <use xlink:href="#close-icon"></use>
+          <foreignObject width="32" height="32">
+              <img src="{{ $imgDir | relURL }}/icons/close.png" alt="Close" />
+          </foreignObject>
+        </switch>
+      </svg>
+    </button>
+  </div>
 
   {{ partial "menu-header.html" . }}
 
