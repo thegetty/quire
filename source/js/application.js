@@ -40,13 +40,13 @@ import Map from './map';
 window.toggleMenu = () => {
   let nav = document.querySelector('.quire-navbar');
   let primary = document.querySelector('.quire__primary');
-  nav.style.top = `${window.scrollY + nav.getBoundingClientRect().top}px`
+  // nav.style.top = `${window.scrollY + nav.getBoundingClientRect().top}px`
   let menu = document.getElementById('site-menu');
   document.getElementsByClassName
   let menuAriaStatus = menu.getAttribute('aria-expanded');
   menu.classList.toggle('is-expanded');
   if (menuAriaStatus === 'true') {
-    nav.style.top = ``
+    // nav.style.top = ``
     // enableScroll(primary);
     menu.setAttribute('aria-expanded', 'false');
   } else {
