@@ -7378,7 +7378,7 @@ template {
       display: none; } }
   .quire-navbar:hover span {
     display: block;
-    transition: all 1s ease; }
+    transition: all .5s ease; }
   .quire-navbar:hover .quire-progress-bar {
     height: 18px; }
     .quire-navbar:hover .quire-progress-bar div {
@@ -7670,7 +7670,7 @@ template {
       border-bottom: 1px dotted #CF4747; }
   .quire-search__close-button {
     position: absolute;
-    right: 0;
+    left: 0;
     top: 0; }
     .quire-search__close-button button.button {
       background-color: transparent;

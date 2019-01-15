@@ -104,8 +104,8 @@
   &:hover {
     span {
       display: block;
-      -webkit-transition: all 1s ease;
-      transition: all 1s ease;
+      -webkit-transition: all .5s ease;
+      transition: all .5s ease;
     }
     .quire-progress-bar {
       height: 18px;
