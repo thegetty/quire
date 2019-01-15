@@ -60,15 +60,15 @@ html {
     font-weight: 700;
     line-height: 1.14;
     color: $quire-header-color !important;
-    -webkit-animation: fadeIn 3s;
+    -webkit-animation: fadeIn 2s;
     /* Safari, Chrome and Opera > 12.1 */
-    -moz-animation: fadeIn 3s;
+    -moz-animation: fadeIn 2s;
     /* Firefox < 16 */
-    -ms-animation: fadeIn 3s;
+    -ms-animation: fadeIn 2s;
     /* Internet Explorer */
-    -o-animation: fadeIn 3s;
+    -o-animation: fadeIn 2s;
     /* Opera < 12.1 */
-    animation: fadeIn 3s;
+    animation: fadeIn 2s;
 
     em {
       font-style: normal;
@@ -184,7 +184,7 @@ html {
     padding-top: 0;
     padding-bottom: 0;
     position: relative;
-    animation: 1s ease-out 0s 1 slideFromRight;
+    animation: .5s ease-out 0s 1 slideFromRight;
 
     @if $family-primary !=$serif {
       font-size: 1.25rem;

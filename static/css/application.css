@@ -7320,6 +7320,7 @@ template {
       .quire:not(.no-js) .quire__secondary.is-expanded #site-menu__inner {
         display: block; }
       .quire:not(.no-js) .quire__secondary.is-expanded + .quire__primary {
+        overflow-y: scroll;
         -webkit-transform: translate3d(-352px, 0, 0);
                 transform: translate3d(-352px, 0, 0); }
         @media screen and (max-width: 352px) {
@@ -7640,6 +7641,7 @@ template {
     font-weight: 300;
     font-size: 2.7rem; }
   .quire-search__inner .input-bar {
+    padding-top: 3rem;
     height: calc(3rem * 1); }
     .quire-search__inner .input-bar span {
       float: right;
@@ -7718,12 +7720,12 @@ html {
   font-weight: 700;
   line-height: 1.14;
   color: #333333 !important;
-  -webkit-animation: fadeIn 3s;
+  -webkit-animation: fadeIn 2s;
   /* Safari, Chrome and Opera > 12.1 */
   /* Firefox < 16 */
   /* Internet Explorer */
   /* Opera < 12.1 */
-  animation: fadeIn 3s; }
+  animation: fadeIn 2s; }
   .quire-page h1 em, .quire-page__header__title em {
     font-style: normal; }
   @media screen and (min-width: 500px) {
@@ -7797,8 +7799,8 @@ html {
   padding-top: 0;
   padding-bottom: 0;
   position: relative;
-  -webkit-animation: 1s ease-out 0s 1 slideFromRight;
-          animation: 1s ease-out 0s 1 slideFromRight;
+  -webkit-animation: .5s ease-out 0s 1 slideFromRight;
+          animation: .5s ease-out 0s 1 slideFromRight;
   font-size: 1.25rem;
   font-weight: 400;
   line-height: 1.6; }
@@ -8667,39 +8669,6 @@ html {
       height: 24px;
       max-height: 24px; }
     .quire-figure .q-figure__wrapper a img {
-      -o-object-fit: cover;
-         object-fit: cover;
-      width: 100%; }
-  .quire-figure .q-figure__wrapper {
-    border: none;
-    display: block;
-    position: relative; }
-    .quire-figure .q-figure__wrapper:hover {
-      background-color: transparent; }
-      .quire-figure .q-figure__wrapper:hover > span.fig {
-        background-color: #B02E2E;
-        transition: background-color .35s; }
-      .quire-figure .q-figure__wrapper:hover > img {
-        transition: box-shadow .35s;
-        box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.75); }
-    .quire-figure .q-figure__wrapper span.fig {
-      font-size: .75em;
-      /** approx 12px **/
-      background: rgba(0, 0, 0, 0.75);
-      /** sets transparent background without affecting text color **/
-      position: absolute;
-      padding: 0 9px 0 3px;
-      left: 0;
-      top: 0; }
-      .quire-figure .q-figure__wrapper span.fig strong {
-        min-height: 24px;
-        vertical-align: super;
-        color: #ffffff; }
-    .quire-figure .q-figure__wrapper span.fig-false {
-      padding: 0;
-      height: 24px;
-      max-height: 24px; }
-    .quire-figure .q-figure__wrapper img {
       -o-object-fit: cover;
          object-fit: cover;
       width: 100%; }

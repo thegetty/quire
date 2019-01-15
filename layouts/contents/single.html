@@ -29,19 +29,6 @@
           {{ else }}
             {{ $scope := .Site.Pages }}
             {{- partial "arrow-list.html" (dict "contentsScope" $scope "contentsType" .Site.Params.tocType "contentsLocation" ".Params.toc" "contentsPage" . ) -}}
-            <ul class="contents-menu">
-              {{ if isset .Site.Data.publication "resource_link" -}}
-                {{ $otherFormats := where .Site.Data.publication.resource_link "type" "other-format" }}
-                {{ if gt (len $otherFormats) 0 -}}
-                  <div class="quire-menu__formats">
-                  <h6>Other Formats</h6>
-                    <div role="complementary" aria-label="downloads">
-                      {{- partial "link-list-arrow.html" $otherFormats -}}
-                    </div>
-                  </div>
-                {{ end -}}
-              {{ end -}}
-            </ul>
           {{ end }}
         </div>
       </div>
