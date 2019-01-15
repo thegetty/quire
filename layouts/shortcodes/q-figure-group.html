@@ -177,7 +177,7 @@ func Test() string {
     {{ else }}
 
     {{/* -------------------- BEGIN NO_MEDIA_ID BLOCK -------------------- */}}
-    
+
     <div class='q-figure__wrapper'>
       {{ if eq $.Site.Params.figureModal true }}
       <a class="image popup" href='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
@@ -188,6 +188,37 @@ func Test() string {
 
     {{/* -------------------- END NO_MEDIA_ID BLOCK -------------------- */}}
     {{ end }}
+
+    {{/* -------------------- START FIGURE LABEL ON TOP BLOCK -------------------- */}}
+    {{ if or (eq .media_type "vimeo") (eq .media_type "youtube") (eq .media_type "image") }}
+    {{ if eq $.Site.Params.figureLabelLocation "on-top" }}
+      {{ if or (eq $.Site.Params.figureLabels true) (eq ($.Get "label") "true" ) }}
+        {{ if eq $.Site.Params.pdf true }} 
+          <span class="fig-print"> 
+        {{ else }} 
+          <span class="fig">{{ if eq $.Site.Params.figureModal true }}<span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>{{ end }}
+        {{ end }}
+      <strong>      
+        {{ if $.Get "label_text" }}
+        {{ $.Get "label_text" | markdownify }}
+        {{ else if .label_text }}
+        {{ .label_text | markdownify }}
+        {{ else }}
+        {{ $.Site.Params.figureLabelsTextBefore }}{{ .id }}{{ $.Site.Params.figureLabelsTextAfter }}
+        {{ end }}
+      </strong>
+    </span>
+    {{ else }}
+      {{ if ne $.Site.Params.pdf true }}
+        <span class="fig fig-false"> {{ if eq $.Site.Params.figureModal true }}<span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>{{ end }}</span>
+      {{ end }}
+    {{ end }}
+  {{ end }}
+    {{ if eq $.Site.Params.figureModal true }}
+      </a></div>
+    {{ end }}
+  {{ end }}
+  {{/* -------------------- END FIGURE LABEL ON TOP BLOCK -------------------- */}}
 
   {{ if eq $.Site.Params.pdf true }}
     {{ if eq $.Site.Params.videoFigureFallbackText true }}
@@ -393,33 +424,6 @@ func Test() string {
 
     </figcaption>
     {{/* -------------------- END CAPTION BLOCK -------------------- */}}
-
-    {{ if or (eq .media_type "vimeo") (eq .media_type "youtube") (eq .media_type "image") }}
-      {{ if eq $.Site.Params.figureLabelLocation "on-top" }}
-        {{ if or (eq $.Site.Params.figureLabels true) (eq ($.Get "label") "true" ) }}
-          {{ if eq $.Site.Params.pdf true }} 
-            <span class="fig-print"> 
-          {{ else }} 
-            <span class="fig">{{ if eq $.Site.Params.figureModal true }}<span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>{{ end }}
-          {{ end }}
-        <strong>      
-          {{ if $.Get "label_text" }}
-          {{ $.Get "label_text" | markdownify }}
-          {{ else if .label_text }}
-          {{ .label_text | markdownify }}
-          {{ else }}
-          {{ $.Site.Params.figureLabelsTextBefore }}{{ .id }}{{ $.Site.Params.figureLabelsTextAfter }}
-          {{ end }}
-        </strong>
-      </span>
-      {{ else }}
-        {{ if ne $.Site.Params.pdf true }}
-          <span class="fig fig-false"> {{ if eq $.Site.Params.figureModal true }}<span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>{{ end }}</span>
-        {{ end }}
-      {{ end }}
-    {{ end }}
-    {{ if eq $.Site.Params.figureModal true }}</a></div>{{ end }}
-    {{ end }}
 
   </figure>
   {{/* -------------------- END FIGURELIST RANGE -------------------- */}}
