@@ -1,3 +1,6 @@
+import smoothscroll from 'smoothscroll-polyfill';
+smoothscroll.polyfill();
+
 /**
  * @fileOverview
  * @name helper.js
@@ -39,6 +42,30 @@ const preventDefaultForScrollKeys = (e) => {
     if (keys[e.keyCode]) {
         preventDefault(e);
         return false;
+    }
+}
+
+/**
+ * function to trigger and use scrollIntoView, 
+ * scroll behavior specifications: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
+ * polyfilled - https://www.npmjs.com/package/smoothscroll-polyfill
+ */
+export const smoothScroll = (e) => {
+    let anchorlinks = document.querySelectorAll('a[href^="#"]')
+    for (let item of anchorlinks) { // relitere 
+        item.addEventListener('click', (e)=> {
+            let hashval = item.getAttribute('href')
+            if (hashval.indexOf(':') !== -1) {
+                hashval = hashval.replace(/:/, '\\:')
+            }
+            let target = document.querySelector(hashval)
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            })
+            history.pushState(null, null, hashval)
+            e.preventDefault()
+        })
     }
 }
 

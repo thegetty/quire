@@ -20,6 +20,7 @@ import './soundcloud-api';
 
 // Modules (feel free to define your own and import here)
 import {
+  smoothScroll,
   enableScroll,
   disableScroll,
   preloadImages,
@@ -351,6 +352,7 @@ function pageSetup() {
   sliderSetup();
   navigationSetup();
   popupSetup(isPopup);
+  smoothScroll();
 }
 
 /**
