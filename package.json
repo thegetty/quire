@@ -69,6 +69,7 @@
     "magnific-popup": "^1.1.0",
     "material-icons": "^0.3.0",
     "quicklink": "^1.0.0",
+    "smoothscroll-polyfill": "^0.4.3",
     "template-polyfill": "^2.0.0",
     "velocity-animate": "^1.5.2"
   }
