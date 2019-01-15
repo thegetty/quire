@@ -124,8 +124,8 @@ function sliderSetup() {
       return v.getAttribute('data-image')
     })
   preloadImages(images, () => {
-    mapSetup();
-    deepZoomSetup();
+    mapSetup('.quire-map-entry');
+    deepZoomSetup('.quire-deepzoom-entry');
   })
 }
 
@@ -239,20 +239,27 @@ function loadSearchData() {
   });
 }
 
-let navigation;
 
+/**
+ * navigation
+ * @description Turn on ability to use arrow keys 
+ * to get next adn previous pages
+ */
+let navigation;
 function navigationSetup() {
   if (!navigation) {
     navigation = new Navigation();
   }
 }
 
+/*
 function navigationTeardown() {
   if (navigation) {
     navigation.teardown();
   }
   navigation = undefined;
 }
+*/
 
 /**
  * scrollToHash
@@ -286,8 +293,12 @@ function scrollToHash() {
  * Set up modal for media
  */
 function popupSetup(isPopup) {
+  console.log(isPopup)
   if (isPopup) {
     Popup('.q-figure__wrapper');
+  } else {
+    mapSetup('.quire-map');
+    deepZoomSetup('.quire-deepzoom');
   }
 }
 
@@ -295,8 +306,8 @@ function popupSetup(isPopup) {
  * @description
  * Render Map if Popup @false
  */
-function mapSetup() {
-  [...document.querySelectorAll('.quire-map-entry')].forEach(v => {
+function mapSetup(ele) {
+  return [...document.querySelectorAll(ele)].forEach(v => {
     let id = v.getAttribute('id');
     new Map(id);
   });
@@ -306,8 +317,8 @@ function mapSetup() {
  * @description
  * Render deepzoom or iiif if Popup @false
  */
-function deepZoomSetup() {
-  [...document.querySelectorAll('.quire-deepzoom-entry')].forEach(v => {
+function deepZoomSetup(ele) {
+  return [...document.querySelectorAll(ele)].forEach(v => {
     let id = v.getAttribute('id');
     new DeepZoom(id);
   });
@@ -335,11 +346,11 @@ function quickLinksSetup() {
  * Initialize any jquery plugins or set up page UI elements here.
  */
 function pageSetup() {
-  quickLinksSetup();
+  // quickLinksSetup();
   activeMenuPage();
   sliderSetup();
   navigationSetup();
-  popupSetup();
+  popupSetup(isPopup);
 }
 
 /**

@@ -14,7 +14,7 @@ vimeo (the two supported media formats at this time).
 
 {{ $errorBadId := dict "shortcode" "q-figure" "message" "The supplied value for `id` does not match an `id` value in your `data/figures.yml` file. Or, if you are not using a `data/figures.yml` file, a value for `src` should also be included in the shortcode, and should match the filename of an image file in your `static/img` directory." "example" "{{< q-figure id=&#34;3.1&#34; >}}<br /><br />{{< q-figure id=&#34;3.1&#34; src=&#34;fig-3-1-duchamp.jpg&#34; >}}" }}
 
-{{ $errorNoMediaType := dict "shortcode" "q-figure" "message" "For multimedia figures, the `media_type` attribute must be included in your `data/figures.yml` file for this figure `id`, and must be either “image”,  “youtube”, “vimeo”, “soundcloud” or “website”." "example" "- id: &#34;3.1&#34;<br />  media_id: &#34;VYqDpNmnu8I&#34;<br />  media_type: &#34;youtube&#34;" }}
+{{ $errorNoMediaType := dict "shortcode" "q-figure" "message" "For multimedia figures, the `media_type` attribute must be included in your `data/figures.yml` file for this figure `id`, and must be either “youtube”, “vimeo”, “soundcloud” or “website”." "example" "- id: &#34;3.1&#34;<br />  media_id: &#34;VYqDpNmnu8I&#34;<br />  media_type: &#34;youtube&#34;" }}
 
 {{ $errorNoSourceNoId := dict "shortcode" "q-figure" "message" "This shortcode must include a value for `src` that matches the filename of an image in your `static/img` directory; or a value for `id` that matches an `id` value in your `data/figures.yml` file." "example" "{{< q-figure id=&#34;3.1&#34; >}}<br /><br />{{< q-figure id=&#34;3.1&#34; src=&#34;fig-3-1-duchamp.jpg&#34; >}}" }}
 
@@ -27,11 +27,11 @@ document and render only the values given in the shortcode
 ----------------------------------------------------------------------------
 */}}
 
-{{ if and (ne .media_type "youtube") (ne .media_type "vimeo") (ne .media_type "website") (ne .media_type "audio") (ne .media_type "soundcloud") (ne .media_type "image") }}
+{{ if and (ne .media_type "youtube") (ne .media_type "vimeo") (ne .media_type "website") (ne .media_type "audio") (ne .media_type "soundcloud") }}
 {{ partial "error-message.html" $errorNoMediaType }}
 {{ else }}
 
-{{ if eq $.Site.Params.popup true }}
+{{ if eq $.Site.Params.figureModal true }}
 
 <figure class='popup-true quire-figure {{ with .Get "class" }}{{ . }}{{ end }}'>
   <div class="q-figure__wrapper">
@@ -84,7 +84,7 @@ render the figure from matching values found ther
       {{ partial "error-message.html" $errorNoMediaType }}
   {{ else }}
 
-  {{ if eq $.Site.Params.popup true }}
+  {{ if eq $.Site.Params.figureModal true }}
   {{ if eq .media_type "youtube" }}
   <div class="q-figure__wrapper">
       {{ if ne $.Site.Params.pdf true }}
@@ -222,12 +222,9 @@ render the figure from matching values found ther
   {{ else }}
   {{/* -------------------- BEGIN IMAGE BLOCK -------------------- */}}
 
-  {{ if and (ne .media_type "youtube") (ne .media_type "vimeo") (ne .media_type "website") (ne .media_type "audio") (ne .media_type "soundcloud") (ne .media_type "image") }}
-    {{ partial "error-message.html" $errorNoMediaType }}
-  {{ else }}
 
   <div class="q-figure__wrapper">
-      {{ if eq $.Site.Params.popup true }}
+      {{ if eq $.Site.Params.figureModal true }}
       <a class="image popup" href='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
       {{ end }}
     <img 
@@ -236,7 +233,6 @@ render the figure from matching values found ther
        src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'
        alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}' />
 
-  {{ end }}
 
   {{ end }}
   {{/* -------------------- END IMAGE BLOCK -------------------- */}}
@@ -356,9 +352,46 @@ render the figure from matching values found ther
   {{/* -------------------- BEGIN CAPTION BLOCK -------------------- */}}
   <figcaption class="quire-figure__caption caption">
 
-    {{ if or (eq $.Site.Params.figureLabels true) (eq ($.Get "label") "true" ) }}
-      {{ if eq $.Site.Params.popup true }}
+      {{ if eq $.Site.Params.figureModal true }}
+      {{ if or (eq $.Site.Params.figureLabels true) (eq ($.Get "label") "true" ) }}
+
+
       {{ if or (eq .media_type "soundcloud") (eq .media_type "audio") }}
+            <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}">
+              {{ if $.Get "label_text" }}
+              {{ $.Get "label_text" | markdownify }}
+              {{ else if .label_text }}
+              {{ .label_text | markdownify }}
+              {{ else }}
+              {{ $.Site.Params.figureLabelsTextBefore }}{{ .id }}{{ $.Site.Params.figureLabelsTextAfter }}
+              {{ end }}
+            </span>
+      {{ else }}
+      {{ if eq $.Site.Params.figureLabelLocation "below" }}
+            <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
+            <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}"></span>
+        {{ if $.Get "label_text" }}
+        {{ $.Get "label_text" | markdownify }}
+        {{ else if .label_text }}
+        {{ .label_text | markdownify }}
+        {{ else }}
+        {{ $.Site.Params.figureLabelsTextBefore }}{{ .id }}{{ $.Site.Params.figureLabelsTextAfter }}
+        {{ end }}
+      </span>
+      {{ end }}
+      {{ end }}
+
+
+      {{ else }}
+
+      {{ if eq $.Site.Params.figureLabelLocation "below" }}
+            <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
+            <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}"></span></span>
+      {{ end }}
+      {{ end }}
+
+      {{ else }}
+      {{ if eq $.Site.Params.figureLabelLocation "below" }}
         <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}">
           {{ if $.Get "label_text" }}
           {{ $.Get "label_text" | markdownify }}
@@ -368,34 +401,11 @@ render the figure from matching values found ther
           {{ $.Site.Params.figureLabelsTextBefore }}{{ .id }}{{ $.Site.Params.figureLabelsTextAfter }}
           {{ end }}
         </span>
-      {{ else if eq $.Site.Params.figureEnlargeType "outside" }}
-      <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
-      <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}"></span>
-        {{ if $.Get "label_text" }}
-        {{ $.Get "label_text" | markdownify }}
-        {{ else if .label_text }}
-        {{ .label_text | markdownify }}
-        {{ else }}
-        {{ $.Site.Params.figureLabelsTextBefore }}{{ .id }}{{ $.Site.Params.figureLabelsTextAfter }}
-        {{ end }}
-      </span>
-      {{ end }}
-      {{ else }}
-      <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}">
-        {{ if $.Get "label_text" }}
-        {{ $.Get "label_text" | markdownify }}
-        {{ else if .label_text }}
-        {{ .label_text | markdownify }}
-        {{ else }}
-        {{ $.Site.Params.figureLabelsTextBefore }}{{ .id }}{{ $.Site.Params.figureLabelsTextAfter }}
-        {{ end }}
-      </span>
-      {{ end }}
-    {{ else }}
-    {{ if eq $.Site.Params.figureEnlargeType "outside" }}
-    <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span></span>
-    {{ end }}
-    {{ end }}
+  
+  {{ end }}
+  {{ end }}
+
+    
 
     {{ if eq $.Site.Params.pdf true }}<span class="media-caption">{{ end }}
     {{ if $.Get "caption" }}
@@ -405,7 +415,7 @@ render the figure from matching values found ther
     {{ end }}
     {{ if eq $.Site.Params.pdf true }}</span>{{ end }}
 
-  {{ if eq $.Site.Params.epub true }}
+    {{ if eq $.Site.Params.epub true }}
 
     {{ if eq $.Site.Params.videoFigureFallbackText true }}
     {{- if eq .media_type "youtube" }}
@@ -472,17 +482,17 @@ render the figure from matching values found ther
 {{/*
 We need to end the <a> element and <div> here to make sure the 
 modal click event wraps the entire figure. This onloy happens when
-popup is true. popup is true by default.
+figureModal is true. figureModal is true by default.
 */}}
 
-{{ if eq $.Site.Params.popup true }}
+
   {{ if or (eq .media_type "vimeo") (eq .media_type "youtube") (eq .media_type "image") }}
-      {{ if eq $.Site.Params.figureEnlargeType "inside" }}
+      {{ if eq $.Site.Params.figureLabelLocation "on-top" }}
       {{ if or (eq $.Site.Params.figureLabels true) (eq ($.Get "label") "true" ) }}
-      {{ if eq $.Site.Params.pdf true }} 
-        <span class="fig-print"> 
-      {{ else }} 
-        <span class="fig"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
+          {{ if eq $.Site.Params.pdf true }} 
+            <span class="fig-print"> 
+          {{ else }} 
+            <span class="fig">{{ if eq $.Site.Params.figureModal true }}<span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>{{ end }}
       {{ end }}
       <strong>      
         {{ if $.Get "label_text" }}
@@ -495,13 +505,20 @@ popup is true. popup is true by default.
       </strong>
     </span>
     {{ else }}
-    {{ if ne $.Site.Params.pdf true }}<span class="fig fig-false"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>{{ end }}
+      {{ if ne $.Site.Params.pdf true }}
+        {{ if eq $.Site.Params.figureModal true }}
+        <span class="fig fig-false"> {{ if eq $.Site.Params.figureModal true }}<span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>{{ end }}</span>
+        {{ end }}
+      {{ end }}
     {{ end }}
     {{ end }}
-  </a>
-</div>
+      {{ if eq $.Site.Params.figureModal true }}
+        </a>
+      </div>
+      {{ end }}
   {{ end }}
-{{ end }}
+
+
 {{/* -------------------- END IMAGE BLOCK FOR MODAL -------------------- */}}
 
 </figure>

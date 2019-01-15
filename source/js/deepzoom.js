@@ -1,7 +1,8 @@
+//@ts-check
+
 import L from 'leaflet'
 import 'leaflet-iiif'
 import 'leaflet-fullscreen'
-
 
 class DeepZoom {
   constructor(id) {
