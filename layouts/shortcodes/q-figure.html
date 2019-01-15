@@ -237,6 +237,40 @@ render the figure from matching values found ther
   {{ end }}
   {{/* -------------------- END IMAGE BLOCK -------------------- */}}
 
+  {{/* -------------------- START FIGURE LABEL ON TOP BLOCK -------------------- */}}
+  {{ if or (eq .media_type "vimeo") (eq .media_type "youtube") (eq .media_type "image") }}
+  {{ if eq $.Site.Params.figureLabelLocation "on-top" }}
+  {{ if or (eq $.Site.Params.figureLabels true) (eq ($.Get "label") "true" ) }}
+      {{ if eq $.Site.Params.pdf true }} 
+        <span class="fig-print"> 
+      {{ else }} 
+        <span class="fig">{{ if eq $.Site.Params.figureModal true }}<span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>{{ end }}
+  {{ end }}
+  <strong>      
+    {{ if $.Get "label_text" }}
+    {{ $.Get "label_text" | markdownify }}
+    {{ else if .label_text }}
+    {{ .label_text | markdownify }}
+    {{ else }}
+    {{ $.Site.Params.figureLabelsTextBefore }}{{ .id }}{{ $.Site.Params.figureLabelsTextAfter }}
+    {{ end }}
+  </strong>
+</span>
+{{ else }}
+  {{ if ne $.Site.Params.pdf true }}
+    {{ if eq $.Site.Params.figureModal true }}
+    <span class="fig fig-false"> {{ if eq $.Site.Params.figureModal true }}<span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>{{ end }}</span>
+    {{ end }}
+  {{ end }}
+{{ end }}
+{{ end }}
+  {{ if eq $.Site.Params.figureModal true }}
+    </a>
+  </div>
+  {{ end }}
+{{ end }}
+{{/* -------------------- END FIGURE LABEL ON TOP BLOCK -------------------- */}}
+
   {{/* -------------------- BEGIN FALL BACK BLOCK -------------------- */}}
 
   {{ if eq $.Site.Params.pdf true }}
@@ -484,39 +518,6 @@ We need to end the <a> element and <div> here to make sure the
 modal click event wraps the entire figure. This onloy happens when
 figureModal is true. figureModal is true by default.
 */}}
-
-
-  {{ if or (eq .media_type "vimeo") (eq .media_type "youtube") (eq .media_type "image") }}
-      {{ if eq $.Site.Params.figureLabelLocation "on-top" }}
-      {{ if or (eq $.Site.Params.figureLabels true) (eq ($.Get "label") "true" ) }}
-          {{ if eq $.Site.Params.pdf true }} 
-            <span class="fig-print"> 
-          {{ else }} 
-            <span class="fig">{{ if eq $.Site.Params.figureModal true }}<span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>{{ end }}
-      {{ end }}
-      <strong>      
-        {{ if $.Get "label_text" }}
-        {{ $.Get "label_text" | markdownify }}
-        {{ else if .label_text }}
-        {{ .label_text | markdownify }}
-        {{ else }}
-        {{ $.Site.Params.figureLabelsTextBefore }}{{ .id }}{{ $.Site.Params.figureLabelsTextAfter }}
-        {{ end }}
-      </strong>
-    </span>
-    {{ else }}
-      {{ if ne $.Site.Params.pdf true }}
-        {{ if eq $.Site.Params.figureModal true }}
-        <span class="fig fig-false"> {{ if eq $.Site.Params.figureModal true }}<span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>{{ end }}</span>
-        {{ end }}
-      {{ end }}
-    {{ end }}
-    {{ end }}
-      {{ if eq $.Site.Params.figureModal true }}
-        </a>
-      </div>
-      {{ end }}
-  {{ end }}
 
 
 {{/* -------------------- END IMAGE BLOCK FOR MODAL -------------------- */}}

@@ -39,11 +39,13 @@ $fullscreen-button-img: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAA
 
 div.leaflet-container {
     background: $color_3;
+    z-index: 0;
 }
 
 div.leaflet-control-container {
     background: $color_3;
     >div.leaflet-top.leaflet-left {
+        z-index: 0;
         >div.leaflet-bar {
             box-shadow: none;
             border: none;

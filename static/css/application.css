@@ -8704,7 +8704,7 @@ html {
       background: rgba(0, 0, 0, 0.75);
       /** sets transparent background without affecting text color **/
       position: absolute;
-      padding: 0 9px 0 3px;
+      padding: 2px 6px 0px 7px;
       left: 0;
       top: 0; }
       .quire-figure .q-figure__wrapper span.fig strong {
@@ -8737,7 +8737,11 @@ html {
     margin-top: .5rem;
     font-style: normal;
     text-align: left;
-    color: #292929; }
+    color: #292929;
+    -webkit-user-select: text;
+       -moz-user-select: text;
+        -ms-user-select: text;
+            user-select: text; }
     @media print {
       .content figure .quire-figure__caption {
         margin-top: 5pt;
@@ -9336,29 +9340,32 @@ div.multimedia {
   background-color: #3273dc; }
 
 div.leaflet-container {
-  background: #000000; }
+  background: #000000;
+  z-index: 0; }
 
 div.leaflet-control-container {
   background: #000000; }
-  div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-bar {
-    box-shadow: none;
-    border: none;
-    border-radius: 0; }
-  div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-control-zoom.leaflet-bar.leaflet-control > a {
-    background: rgba(0, 0, 0, 0.5);
-    color: #ffffff;
-    border-bottom: none;
-    border-radius: 0; }
-  div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-control-fullscreen.leaflet-bar.leaflet-control > a {
-    color: #ffffff;
-    border-bottom: none;
-    background-repeat: no-repeat;
-    background-color: rgba(0, 0, 0, 0.5);
-    margin-top: 0;
-    border-radius: 0;
-    background-size: 26px 52px;
-    background-position: top;
-    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAA0AgMAAADpgsAbAAABS2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDAgNzkuMTYwNDUxLCAyMDE3LzA1LzA2LTAxOjA4OjIxICAgICAgICAiPgogPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIi8+CiA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgo8P3hwYWNrZXQgZW5kPSJyIj8+LUNEtwAAAARnQU1BAACxjwv8YQUAAAABc1JHQgCuzhzpAAAACVBMVEUAAAD///////9zeKVjAAAAAnRSTlMAgJsrThgAAAAySURBVBjTY2AgFmitYFrVgERrMDAw4aMJAUL60e2jNiDaP2wrIf7hWgXRiIOGqaOufwA6TR6/lErWHQAAAABJRU5ErkJggg==); }
+  div.leaflet-control-container > div.leaflet-top.leaflet-left {
+    z-index: 0; }
+    div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-bar {
+      box-shadow: none;
+      border: none;
+      border-radius: 0; }
+    div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-control-zoom.leaflet-bar.leaflet-control > a {
+      background: rgba(0, 0, 0, 0.5);
+      color: #ffffff;
+      border-bottom: none;
+      border-radius: 0; }
+    div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-control-fullscreen.leaflet-bar.leaflet-control > a {
+      color: #ffffff;
+      border-bottom: none;
+      background-repeat: no-repeat;
+      background-color: rgba(0, 0, 0, 0.5);
+      margin-top: 0;
+      border-radius: 0;
+      background-size: 26px 52px;
+      background-position: top;
+      background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAA0AgMAAADpgsAbAAABS2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDAgNzkuMTYwNDUxLCAyMDE3LzA1LzA2LTAxOjA4OjIxICAgICAgICAiPgogPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIi8+CiA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgo8P3hwYWNrZXQgZW5kPSJyIj8+LUNEtwAAAARnQU1BAACxjwv8YQUAAAABc1JHQgCuzhzpAAAACVBMVEUAAAD///////9zeKVjAAAAAnRSTlMAgJsrThgAAAAySURBVBjTY2AgFmitYFrVgERrMDAw4aMJAUL60e2jNiDaP2wrIf7hWgXRiIOGqaOufwA6TR6/lErWHQAAAABJRU5ErkJggg==); }
 
 div.leaflet-fullscreen-on > div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-control-fullscreen.leaflet-bar.leaflet-control > a {
   background-position: 2px -24px; }

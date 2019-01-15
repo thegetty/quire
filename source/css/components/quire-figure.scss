@@ -106,7 +106,7 @@
       background: $black-semi-transparent;
       /** sets transparent background without affecting text color **/
       position: absolute;
-      padding: 0 9px 0 3px;
+      padding: 2px 6px 0px 7px;
       left: 0;
       top: 0;
 
@@ -164,6 +164,7 @@
     font-style: normal;
     text-align: left;
     color: $light-black;
+    user-select: text;
 
     @media print {
       margin-top: 5pt;

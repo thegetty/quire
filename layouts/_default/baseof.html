@@ -6,7 +6,7 @@
 */}}
 
 {{- $js := "js/application.js" | relURL -}}
-{{- $popup := .Site.Params.popup -}}
+{{- $figureModal := .Site.Params.figureModal -}}
 
 <!DOCTYPE html>
 <html lang="{{ .Site.Data.publication.language }}">
@@ -33,6 +33,6 @@
       </div>
       {{ partial "search.html" . }}
     </div>
-    {{ partial "scripts.html" (dict "context" . "popup" $popup) }}
+    {{ partial "scripts.html" (dict "context" . "figureModal" $figureModal) }}
   </body>
 </html>
