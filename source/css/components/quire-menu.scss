@@ -116,6 +116,22 @@
     }
   }
 
+  &-close-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    button {
+      border: none;
+    }
+    svg {
+      height: calc(#{$navbar-height} * .75);
+      width: calc(#{$navbar-height} * .75);
+      max-height: 1.25rem;
+      max-width: 1.25rem;
+      fill: $white;
+    }
+  }
+
   .page-item, .section-item {
     a {
       font-family: $family-primary;

@@ -354,7 +354,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
   div.side-by-side {
     display: block;
 
-    @media screen and (min-width: $desktop) {
+    @media screen and (min-width: $widescreen) {
       display: flex;
     }
 
@@ -362,7 +362,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
       position: relative;
       width: 100%;
 
-      @media screen and (min-width: $desktop) {
+      @media screen and (min-width: $widescreen) {
         width: 56%;
         flex: none;
       }
@@ -372,7 +372,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
         width: 100%;
         height: calc(100vh - 6rem - 3rem);
 
-        @media screen and (min-width: $desktop) {
+        @media screen and (min-width: $widescreen) {
           position: fixed;
           width: 56%;
           height: 100vh;
@@ -380,12 +380,12 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
 
         .quire-entry__image__group-container {
           figure {
-            @media screen and (min-width: $desktop) {
+            @media screen and (min-width: $widescreen) {
               height: calc(100vh - 3rem);
             }
 
             .quire-image-info {
-              @media screen and (min-width: $desktop) {
+              @media screen and (min-width: $widescreen) {
                 bottom: 53px;
               }
             }
@@ -397,7 +397,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     div.quire-entry__content {
       width: 100%;
 
-      @media screen and (min-width: $desktop) {
+      @media screen and (min-width: $widescreen) {
         width: 44%;
         flex: none;
       }
@@ -405,13 +405,13 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
       section.section,
       section,
       header {
-        @media screen and (min-width: $desktop) {
+        @media screen and (min-width: $widescreen) {
           padding-left: 20px;
           padding-right: 20px;
         }
 
         div.container {
-          @media screen and (min-width: $desktop) {
+          @media screen and (min-width: $widescreen) {
             width: 100%;
           }
         }
