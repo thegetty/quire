@@ -294,7 +294,6 @@ function scrollToHash() {
  * Set up modal for media
  */
 function popupSetup(figureModal) {
-  console.log(figureModal)
   if (figureModal) {
     Popup('.q-figure__wrapper');
   } else {
@@ -347,7 +346,7 @@ function quickLinksSetup() {
  * Initialize any jquery plugins or set up page UI elements here.
  */
 function pageSetup() {
-  quickLinksSetup();
+  // quickLinksSetup();
   activeMenuPage();
   sliderSetup();
   navigationSetup();

@@ -19,10 +19,6 @@
 If the shortcode has an id, split all id values into an array and render
 the figure for each into a figure group
 ----------------------------------------------------------------------------
-func Test() string {
-  return "It works..."
-}
-
 */}}
 
 {{ $idstring := replace (.Get "id") " " "" }}
@@ -51,112 +47,62 @@ func Test() string {
 
   <figure class="column quire-grid--{{ $grid }} quire-figure--group__item {{ if .media_id }}{{ if or (eq .media_type "audio") (eq .media_type "soundcloud") (eq .media_type "youtube") (eq .media_type "vimeo") }}quire-figure--group__item-pdf {{ .media_type }}{{ end }}{{ end }}">
 
-    {{ if .media_id }}
+  {{ if .media_id }}
     {{/* -------------------- BEGIN VIDEO BLOCK -------------------- */}}
 
-    {{ if and (and (ne .media_type "youtube") (ne .media_type "vimeo")) (ne .media_type "website") (ne .media_type "audio") (ne .media_type "soundcloud")}}
+  {{ if and (and (ne .media_type "youtube") (ne .media_type "vimeo")) (ne .media_type "website") (ne .media_type "audio") (ne .media_type "soundcloud")}}
 
-        {{ partial "error-message.html" $errorNoMediaType }}
+    {{ partial "error-message.html" $errorNoMediaType }}
 
   {{ else }}
 
-  {{ if eq $.Site.Params.figureModal true }}
+  {{/* -------------------- START q-figure__wrapper BLOCK -------------------- */}}
+  <div class='q-figure__wrapper '>
+  {{/* -------------------- START q-figure__wrapper BLOCK -------------------- */}}
 
-  <div class='here q-figure__wrapper quire-figure__video-wrapper{{ if .aspect_ratio }}--{{ .aspect_ratio }}{{ else }}--widescreen{{ end }}'>
+  <div class=' quire-figure__media-wrapper{{ if .aspect_ratio }}--{{ .aspect_ratio }} {{ else if eq .media_type "soundcloud" }} {{ else if eq .media_type "audio" }} {{ else }}--widescreen{{ end }}'>
+
+
+  {{ if ne $.Site.Params.pdf true }}
   {{ if eq .media_type "youtube" }}
-  {{ if ne $.Site.Params.pdf true }}
-        <a href='https://www.youtube.com/watch?v={{ .media_id }}'
-           data-type="video"
-           class="video popup"
-           {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
-  {{ end }}
-        <img class='quire-figure__image {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}'
-             src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' 
-             alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}'/>
+  <iframe id="{{ .id }}"
+          title='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .title }}{{ .title | markdownify }}{{ end }}'
+          class="quire-figure__media {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"
+          src="https://www.youtube-nocookie.com/embed/{{ .media_id }}?rel=0&amp;showinfo=0"
+          frameborder="0"
+          allowfullscreen></iframe>
   {{ else if eq .media_type "vimeo" }}
-      <div class="q-figure__wrapper">
-  {{ if ne $.Site.Params.pdf true }}
-          <a href='https://player.vimeo.com/video/{{ .media_id }}'
-             class="video popup"
-             data-type="video" 
-             {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
-  {{ end }}
-          <img class='quire-figure__image {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}'
-               src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' 
-               alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}'/>
+  <iframe id="{{ .id }}"
+          title='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .title }}{{ .title | markdownify }}{{ end }}'
+          class="quire-figure__media {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"
+          src="https://player.vimeo.com/video/{{ .media_id }}"
+          frameborder="0"
+          webkitallowfullscreen
+          mozallowfullscreen
+          allowfullscreen></iframe>
   {{ else if eq .media_type "audio" }}
-  {{ if ne $.Site.Params.pdf true }}
-      <iframe {{ if eq $.Site.Params.pdf true }} class="visually-hidden" {{ end }} id='{{ .id }}' 
-      title='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .title }}{{ .title | markdownify }}{{ end }}'
-      width="100%" 
-      height="166" 
-      scrolling="no" 
-      frameborder="no" 
-      allow="autoplay" 
-      src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe>  
+  <iframe        id='{{ .id }}'
+                 class=" {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"
+                  title='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .title }}{{ .title | markdownify }}{{ end }}'
+                  width="100%" 
+                  height="166" 
+                  scrolling="no" 
+                  frameborder="no" 
+                  allow="autoplay" 
+                  src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe> 
+  {{ else if eq .media_type "soundcloud" }} 
+  <iframe        id='{{ .id }}'
+                 class=" {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"
+                  title='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .title }}{{ .title | markdownify }}{{ end }}'
+                  width="100%" 
+                  height="166" 
+                  scrolling="no" 
+                  frameborder="no" 
+                  allow="autoplay" 
+                  src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe> 
   {{ end }}
-      {{ else if eq .media_type "soundcloud" }}  
-  {{ if ne $.Site.Params.pdf true }}
-      <iframe id='{{ .id }}'
-      title='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .title }}{{ .title | markdownify }}{{ end }}'
-      width="100%" 
-      height="166" 
-      scrolling="no" 
-      frameborder="no" 
-      allow="autoplay" 
-      src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe> 
+  </div>
   {{ end }}
-  {{ end }}
-      <div class="quire-figure__video-fallback visually-hidden">
-        {{ if .src }}
-        <img id="{{ .id }}" src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' alt="{{ if .alt }}{{ .alt }}{{ end }}" />
-        {{ else }}
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 36" fill="darkgray">
-          <path  d="M41.9,13.8C42,15.2,42,16.6,42,18s0,2.8-0.1,4.2c0,0.9-0.3,1.6-0.8,2.2s-1.2,0.9-2.1,0.9c-2,0.1-4.3,0.2-7,0.2 s-5-0.1-7-0.2c-0.8,0-1.5-0.3-2.1-0.9s-0.8-1.4-0.8-2.2C22,20.8,22,19.4,22,18c0-0.9,0.1-2.3,0.2-4.2c0-0.9,0.3-1.6,0.8-2.2 s1.2-0.9,2-0.9c1.9-0.1,4.1-0.2,6.6-0.2H32h0.4c2.5,0,4.7,0.1,6.6,0.2c0.8,0,1.5,0.3,2.1,0.9S41.9,12.9,41.9,13.8z M30.1,21.8 l5.7-3.8l-5.7-3.9V21.8z"/>
-          <path d="M0,0v36h64V0H0z M63,35H1V1h62V35z"/>
-        </svg>
-        {{ end }}
-      </div>
-    {{ else }}
-    <div class='q-figure__wrapper quire-figure__video-wrapper{{ if .aspect_ratio }}--{{ .aspect_ratio }}{{ else }}--widescreen{{ end }}'>
-
-    {{ if ne $.Site.Params.pdf true }}
-      {{ if eq .media_type "youtube" }}
-      <iframe id="{{ .id }}"
-              title='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .title }}{{ .title | markdownify }}{{ end }}'
-              class="quire-figure__video"
-              src="https://www.youtube-nocookie.com/embed/{{ .media_id }}?rel=0&amp;showinfo=0"
-              frameborder="0"
-              allowfullscreen></iframe>
-      {{ else if eq .media_type "vimeo" }}
-      <iframe id="{{ .id }}"
-              title='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .title }}{{ .title | markdownify }}{{ end }}'
-              class="q-figure__video"
-              src="https://player.vimeo.com/video/{{ .media_id }}"
-              frameborder="0"
-              webkitallowfullscreen
-              mozallowfullscreen
-              allowfullscreen></iframe>
-      {{ else if eq .media_type "audio" }}
-      <iframe id='{{ .id }}'
-                      title='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .title }}{{ .title | markdownify }}{{ end }}'
-                      width="100%" 
-                      height="166" 
-                      scrolling="no" 
-                      frameborder="no" 
-                      allow="autoplay" 
-                      src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe> 
-      {{ else if eq .media_type "soundcloud" }} 
-      <iframe id='{{ .id }}'
-                      title='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .title }}{{ .title | markdownify }}{{ end }}'
-                      width="100%" 
-                      height="166" 
-                      scrolling="no" 
-                      frameborder="no" 
-                      allow="autoplay" 
-                      src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe> 
-      {{ end }}
-    {{ end }}
 
       <div class="quire-figure__video-fallback visually-hidden">
         {{ if .src }}
@@ -168,9 +114,7 @@ func Test() string {
         </svg>
         {{ end }}
       </div>
-    </div>
 
-    {{ end }}
 
     {{ end }}
     {{/* -------------------- END VIDEO BLOCK -------------------- */}}
@@ -190,14 +134,15 @@ func Test() string {
     {{ end }}
 
     {{/* -------------------- START FIGURE LABEL ON TOP BLOCK -------------------- */}}
-    {{ if or (eq .media_type "vimeo") (eq .media_type "youtube") (eq .media_type "image") }}
     {{ if eq $.Site.Params.figureLabelLocation "on-top" }}
-      {{ if or (eq $.Site.Params.figureLabels true) (eq ($.Get "label") "true" ) }}
-        {{ if eq $.Site.Params.pdf true }} 
-          <span class="fig-print"> 
-        {{ else }} 
-          <span class="fig">{{ if eq $.Site.Params.figureModal true }}<span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>{{ end }}
-        {{ end }}
+    {{ if or (eq $.Site.Params.figureLabels true) (eq ($.Get "label") "true" ) }}
+    {{ if and (ne .media_type "audio") (ne .media_type "soundcloud") }}
+    
+      {{ if eq $.Site.Params.pdf true }} 
+        <span class="fig-print"> 
+      {{ else }} 
+        <span class="fig">{{ if eq $.Site.Params.figureModal true }}  {{ if eq .media_type "image" }} <span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> {{ end }} {{ end }}
+      {{ end }}
       <strong>      
         {{ if $.Get "label_text" }}
         {{ $.Get "label_text" | markdownify }}
@@ -210,15 +155,23 @@ func Test() string {
     </span>
     {{ else }}
       {{ if ne $.Site.Params.pdf true }}
-        <span class="fig fig-false"> {{ if eq $.Site.Params.figureModal true }}<span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>{{ end }}</span>
+        {{ if eq $.Site.Params.figureModal true }}
+        <span class="fig fig-false"> {{ if eq $.Site.Params.figureModal true }} {{ if eq .media_type "image" }}<span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>{{ end }} {{ end }}</span>
+        {{ end }}
       {{ end }}
+    
     {{ end }}
-  {{ end }}
+    {{ end }}
+    {{ end }}
+    
     {{ if eq $.Site.Params.figureModal true }}
-      </a></div>
+        </a>
     {{ end }}
-  {{ end }}
-  {{/* -------------------- END FIGURE LABEL ON TOP BLOCK -------------------- */}}
+    {{/* -------------------- END FIGURE LABEL ON TOP BLOCK -------------------- */}}
+
+{{/* -------------------- END q-figure__wrapper BLOCK -------------------- */}}
+</div>
+{{/* -------------------- END q-figure__wrapper BLOCK -------------------- */}}
 
   {{ if eq $.Site.Params.pdf true }}
     {{ if eq $.Site.Params.videoFigureFallbackText true }}
