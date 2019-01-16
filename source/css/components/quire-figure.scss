@@ -48,20 +48,18 @@
 
       span.fig {
         font-size: .75em;
-        /** approx 12px **/
         background: $black-semi-transparent;
-        /** sets transparent background without affecting text color **/
         position: absolute;
-        padding: 0 9px 0 3px;
+        display: flex;
+        padding: 0;
         left: 0;
         top: 0;
         color: $white;
-        height: 27px;
-        max-height: 27px;
+        margin: 0 auto;
 
         strong {
-          min-height: 24px;
-          vertical-align: super;
+          margin-top: 3px;
+          margin-right: 5px;
         }
       }
 
@@ -111,8 +109,6 @@
       top: 0;
 
       strong {
-        min-height: 24px;
-        vertical-align: super;
         color: $white;
       }
     }
@@ -150,7 +146,7 @@
     // display: block;
     // font-size: 1rem;
     // margin-top: .5rem;
-    font-weight: 700;
+    color: $red;
 
     .quire-figure__caption & {
       // display: block;

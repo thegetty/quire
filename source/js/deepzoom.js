@@ -10,7 +10,7 @@ class DeepZoom {
     this.el = id
 
     // remove and refresh before init
-    if (isPopup) {
+    if (figureModal) {
       if (window.mapID != undefined || window.mapID != undefined) {
         window.mapID.off()
         window.mapID.remove()
@@ -45,6 +45,14 @@ class DeepZoom {
       this.northEast = this.map.unproject([this.imgWidth, 0], this.maxzoom + 1)
       let bounds = new L.LatLngBounds(this.southWest, this.northEast)
       this.addTiles(bounds)
+    } else if (this.imageURL && this.iiif) {
+      this.center = [0, 0]
+      this.defaultZoom = 0
+      this.map = this.createMap()
+      if ($(`#${this.el}`).data('catalogue-entry') === undefined) {
+        window.mapID = this.map
+      }
+      this.addLayer(this.iiif, this.map)
     } else {
       this.center = [0, 0]
       this.defaultZoom = 0

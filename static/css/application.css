@@ -8665,19 +8665,17 @@ html {
         box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.75); }
     .quire-figure .q-figure__wrapper a span.fig {
       font-size: .75em;
-      /** approx 12px **/
       background: rgba(0, 0, 0, 0.75);
-      /** sets transparent background without affecting text color **/
       position: absolute;
-      padding: 0 9px 0 3px;
+      display: flex;
+      padding: 0;
       left: 0;
       top: 0;
       color: #ffffff;
-      height: 27px;
-      max-height: 27px; }
+      margin: 0 auto; }
       .quire-figure .q-figure__wrapper a span.fig strong {
-        min-height: 24px;
-        vertical-align: super; }
+        margin-top: 3px;
+        margin-right: 5px; }
     .quire-figure .q-figure__wrapper a span.fig-false {
       padding: 0;
       height: 24px;
@@ -8708,8 +8706,6 @@ html {
       left: 0;
       top: 0; }
       .quire-figure .q-figure__wrapper span.fig strong {
-        min-height: 24px;
-        vertical-align: super;
         color: #ffffff; }
     .quire-figure .q-figure__wrapper span.fig-false {
       padding: 0;
@@ -8730,7 +8726,7 @@ html {
     display: block;
     margin: 0 auto; }
   .quire-figure__label {
-    font-weight: 700; }
+    color: #CF4747; }
   .content figure .quire-figure__caption {
     font-size: 0.75em;
     line-height: 1.5;
@@ -9346,7 +9342,7 @@ div.leaflet-container {
 div.leaflet-control-container {
   background: #000000; }
   div.leaflet-control-container > div.leaflet-top.leaflet-left {
-    z-index: 0; }
+    z-index: 1026; }
     div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-bar {
       box-shadow: none;
       border: none;

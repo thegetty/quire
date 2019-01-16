@@ -23,9 +23,7 @@ the figure for each into a figure group
 
 {{ $idstring := replace (.Get "id") " " "" }}
 {{ $idlist := split $idstring "," }}
-
 {{ $grid := .Get "grid" }}
-
 
 <figure class='quire-figure quire-figure--group {{ with .Get "class" }}{{ . }}{{ end }}{{ with .Get "grid" }} {{ end }} {{ if eq $.Site.Params.pdf true }}quire-figure--group-pdf {{ end }}'>
   {{ with .Get "grid" }}
@@ -51,9 +49,7 @@ the figure for each into a figure group
     {{/* -------------------- BEGIN VIDEO BLOCK -------------------- */}}
 
   {{ if and (and (ne .media_type "youtube") (ne .media_type "vimeo")) (ne .media_type "website") (ne .media_type "audio") (ne .media_type "soundcloud")}}
-
     {{ partial "error-message.html" $errorNoMediaType }}
-
   {{ else }}
 
   {{/* -------------------- START q-figure__wrapper BLOCK -------------------- */}}
@@ -279,53 +275,36 @@ the figure for each into a figure group
     {{- end -}}
   {{ end }}
 
+  {{ if eq ($.Get "caption") "" }}
     {{/* -------------------- BEGIN CAPTION BLOCK -------------------- */}}
     <figcaption class="quire-figure__caption">
     
-        {{ if or (eq $.Site.Params.figureLabels true) (eq ($.Get "label") "true" ) }}
+        {{ if eq $.Site.Params.figureLabelLocation "below" }}
         {{ if eq $.Site.Params.figureModal true }}
-        {{ if or (eq .media_type "soundcloud") (eq .media_type "audio") }}
-              <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}">
-                {{ if $.Get "label_text" }}
-                {{ $.Get "label_text" | markdownify }}
-                {{ else if .label_text }}
-                {{ .label_text | markdownify }}
-                {{ else }}
-                {{ $.Site.Params.figureLabelsTextBefore }}{{ .id }}{{ $.Site.Params.figureLabelsTextAfter }}
-                {{ end }}
-              </span>
-        {{ else if eq $.Site.Params.figureLabelLocation "below" }}
-              <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
-              <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}"></span>
-          {{ if $.Get "label_text" }}
-          {{ $.Get "label_text" | markdownify }}
-          {{ else if .label_text }}
-          {{ .label_text | markdownify }}
-          {{ else }}
-          {{ $.Site.Params.figureLabelsTextBefore }}{{ .id }}{{ $.Site.Params.figureLabelsTextAfter }}
-          {{ end }}
-        </span>
+        {{ if and (ne .media_type "audio") (ne .media_type "soundcloud") (ne .media_type "vimeo") (ne .media_type "youtube") (ne .media_type "website") }}
+        <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
         {{ end }}
-  
         {{ else }}
-          {{ if eq $.Site.Params.figureLabelLocation "below" }}
-            <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}">
-              {{ if $.Get "label_text" }}
-              {{ $.Get "label_text" | markdownify }}
-              {{ else if .label_text }}
-              {{ .label_text | markdownify }}
-              {{ else }}
-              {{ $.Site.Params.figureLabelsTextBefore }}{{ .id }}{{ $.Site.Params.figureLabelsTextAfter }}
-              {{ end }}
-            </span>
-          {{ end }}
+        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}">
+        {{ end }}
+        {{ if or (eq $.Site.Params.figureLabels true) (eq ( $.Get "label") "true" ) }}
+            {{ if $.Get "label_text" }}
+            {{ $.Get "label_text" | markdownify }}
+            {{ else if .label_text }}
+            {{ .label_text | markdownify }}
+            {{ else }}
+            {{ $.Site.Params.figureLabelsTextBefore }}{{ .id }}{{ $.Site.Params.figureLabelsTextAfter }}
+            {{ end }}
+        {{ end }}
+        </span>
       {{ end }}
-    {{ end }}
 
+    
     {{ if eq $.Site.Params.pdf true }}<span class="media-caption">{{ end }}
     {{ if $.Get "caption" }}
     {{ $.Get "caption" | markdownify }}
-    {{ else if .caption }}
+    {{ end  }}
+    {{ if .caption }}
     {{ .caption | markdownify }}
     {{ end }}
     {{ if eq $.Site.Params.pdf true }}</span>{{ end }}
@@ -377,8 +356,9 @@ the figure for each into a figure group
 
     </figcaption>
     {{/* -------------------- END CAPTION BLOCK -------------------- */}}
-
+  {{ end }}
   </figure>
+
   {{/* -------------------- END FIGURELIST RANGE -------------------- */}}
   {{ end }}
 
@@ -402,7 +382,7 @@ the figure for each into a figure group
   {{ end }}
 
   {{/* -------------------- BEGIN GROUP CAPTION BLOCK -------------------- */}}
-  {{ if or (.Get "caption") ($.Get "credit") }}
+  {{ if or (.Get "caption") (.Get "credit") }}
   <figcaption class="quire-figure__caption">
 
     {{ if .Get "popup" }}
@@ -415,7 +395,6 @@ the figure for each into a figure group
       <span class="quire-figure__credit">{{ $.Get "credit" | markdownify }}</span>
     {{ end }}
   </figcaption>
-
 
   {{/* -------------------- END GROUP CAPTION BLOCK -------------------- */}}
   {{ end }}

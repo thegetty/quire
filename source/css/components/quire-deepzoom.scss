@@ -7,7 +7,7 @@ $background_color_1: $blue;
 $fullscreen-button-img: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAA0AgMAAADpgsAbAAABS2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDAgNzkuMTYwNDUxLCAyMDE3LzA1LzA2LTAxOjA4OjIxICAgICAgICAiPgogPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIi8+CiA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgo8P3hwYWNrZXQgZW5kPSJyIj8+LUNEtwAAAARnQU1BAACxjwv8YQUAAAABc1JHQgCuzhzpAAAACVBMVEUAAAD///////9zeKVjAAAAAnRSTlMAgJsrThgAAAAySURBVBjTY2AgFmitYFrVgERrMDAw4aMJAUL60e2jNiDaP2wrIf7hWgXRiIOGqaOufwA6TR6/lErWHQAAAABJRU5ErkJggg==);
 
 .no-popup-quire-deepzoom {
-    height: $quire-deepzoom-height; 
+    height: $quire-deepzoom-height;
 }
 
 .quire-deepzoom {
@@ -16,6 +16,7 @@ $fullscreen-button-img: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAA
             a {
                 color: $dark;
             }
+
             .leaflet-control-layers-toggle {
                 background-image: url(https://i.stack.imgur.com/3keSg.png) !important;
                 background-color: $background_color_1;
@@ -44,13 +45,16 @@ div.leaflet-container {
 
 div.leaflet-control-container {
     background: $color_3;
+
     >div.leaflet-top.leaflet-left {
-        z-index: 0;
+        z-index: 1026;
+
         >div.leaflet-bar {
             box-shadow: none;
             border: none;
             border-radius: 0;
         }
+
         >div.leaflet-control-zoom.leaflet-bar.leaflet-control {
             >a {
                 background: $dark-semi-transparent;
@@ -59,6 +63,7 @@ div.leaflet-control-container {
                 border-radius: 0;
             }
         }
+
         >div.leaflet-control-fullscreen.leaflet-bar.leaflet-control {
             >a {
                 color: $color_2;
@@ -75,11 +80,11 @@ div.leaflet-control-container {
     }
 }
 
-div.leaflet-fullscreen-on>div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-control-fullscreen.leaflet-bar.leaflet-control > a {
+div.leaflet-fullscreen-on>div.leaflet-control-container>div.leaflet-top.leaflet-left>div.leaflet-control-fullscreen.leaflet-bar.leaflet-control>a {
     background-position: 2px -24px;
 }
 
-div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-control-fullscreen.leaflet-bar.leaflet-control {
+div.leaflet-control-container>div.leaflet-top.leaflet-left>div.leaflet-control-fullscreen.leaflet-bar.leaflet-control {
     margin-top: 0;
 }
 
