@@ -115,7 +115,9 @@ we start with media figures
       {{ if eq $.Site.Params.figureLabelLocation "below" }}
         {{ if eq $.Site.Params.figureModal true }}
         {{ if and (ne (.Get "media_type") "audio") (ne (.Get "media_type") "soundcloud") (ne (.Get "media_type") "vimeo") (ne (.Get "media_type") "youtube") (ne (.Get "media_type") "website")}}
+        {{ if eq $.Site.Params.figureModalIcons true }}
         <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
+        {{ end }}
         {{ else }}
         <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}">
         {{ end }}
@@ -185,7 +187,9 @@ we start with media figures
     <span class="fig">
       {{ if eq $.Site.Params.figureModal true }}  
       {{ if or (ne (.Get "media_type") "audio") (ne (.Get "media_type") "soundcloud") (ne (.Get "media_type") "vimeo") (ne (.Get "media_type") "youtube") (ne (.Get "media_type") "website")}}
+      {{ if eq $.Site.Params.figureModalIcons true }}
        <span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
+       {{ end }}
        {{ end }} 
       {{ end }}
   {{ end }}
@@ -213,7 +217,9 @@ we start with media figures
       {{ if eq $.Site.Params.figureLabelLocation "below" }}
         {{ if eq $.Site.Params.figureModal true }}
         {{ if and (ne (.Get "media_type") "audio") (ne (.Get "media_type") "soundcloud") (ne (.Get "media_type") "vimeo") (ne (.Get "media_type") "youtube") (ne (.Get "media_type") "website")}}
+        {{ if eq $.Site.Params.figureModalIcons true }}
         <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
+        {{ end }}
         {{ else }}
         <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}">
         {{ end }}
@@ -396,7 +402,9 @@ render the figure from matching values found ther
     <span class="fig">
       {{ if eq $.Site.Params.figureModal true }} 
       {{ if and (ne .media_type "audio") (ne .media_type "soundcloud") (ne .media_type "vimeo") (ne .media_type "youtube") (ne .media_type "website") }}
-      <span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
+      {{ if eq $.Site.Params.figureModalIcons true }}
+       <span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
+       {{ end }}
       {{ end }}
       {{ end }}
   {{ end }}
@@ -425,7 +433,9 @@ render the figure from matching values found ther
       {{ if eq $.Site.Params.figureLabelLocation "below" }}
         {{ if eq $.Site.Params.figureModal true }}
         {{ if and (ne .media_type "audio") (ne .media_type "soundcloud") (ne .media_type "vimeo") (ne .media_type "youtube") (ne .media_type "website") }}
+        {{ if eq $.Site.Params.figureModalIcons true }}
         <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
+        {{ end }}
         {{ end }}
         {{ else }}
         <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}">
