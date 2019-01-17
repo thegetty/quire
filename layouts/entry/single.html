@@ -11,12 +11,12 @@ a single image or object needs to be featured prominently.\
 {{ $.Scratch.Set "imageDir" "" }}
 {{ end }}
 
-{{ $zoom :=  $.Site.Params.catalogueFiguresZoom  }}
+{{ $zoom :=  $.Site.Params.entryPageFigureZoom  }}
 {{ $pdf :=  $.Site.Params.pdf }}
 
 {{/* Entry content, including entry image and tombstone data */}}
 <article class="{{ partial "page-class.html" . }} quire-entry" id="main" role="main">
-<div {{ if eq $.Site.Params.sideBySideLayout true }} {{ if ne $.Site.Params.pdf true }} class="side-by-side" {{ end }} {{ end }} data="{{ $.Site.Params.catalogueFiguresZoom }}">
+<div {{ if eq $.Site.Params.entryPageSideBySideLayout true }} {{ if ne $.Site.Params.pdf true }} class="side-by-side" {{ end }} {{ end }} data="{{ $.Site.Params.entryPageFigureZoom }}">
 
   {{/* Full-width entry image header */}}
 <div class="quire-entry__image-wrap">
@@ -107,7 +107,7 @@ a single image or object needs to be featured prominently.\
         {{ if .id }}
           {{ range where $.Site.Data.objects.object_list "id" "eq" .id }}
             {{ if .link }}
-            <a href="{{ .link }}" target="_blank" class="button">{{ $.Site.Params.objectLinkText }} {{- template "image-control-icon" (dict "type" "link" "description" "Open in new window" "imageDir" ($.Scratch.Get "imageDir") ) -}}</a>
+            <a href="{{ .link }}" target="_blank" class="button">{{ $.Site.Params.entryPageObjectLinkText }} {{- template "image-control-icon" (dict "type" "link" "description" "Open in new window" "imageDir" ($.Scratch.Get "imageDir") ) -}}</a>
             {{ end }}
           {{ end }}
         {{ else }}
