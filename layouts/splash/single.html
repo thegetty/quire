@@ -11,24 +11,43 @@
   {{ end -}}
   {{- if .Params.image -}}
   {{- $imgPath := printf "%s/%s" ($.Scratch.Get "imageDir") .Params.image -}}
-  <section class="{{ if or (eq .Title "title page") (eq .Title "half title page") }} is-screen-only {{ end }} quire-page__header hero quire-page__header--full-height" style="background-image: url('{{ $imgPath | relURL }}');">
-    <div class="hero-body">
-      {{/* Page Title */}}
-      <h1 class="quire-page__header__title" id="{{ .Title | urlize }}">
-        {{ with .Params.number }}<span>{{ . }}.</span>{{ end }}
-        {{ .Title | markdownify }}
-        {{ with .Params.subtitle }}
-        <span class="quire-page__header__subtitle">{{ . | markdownify }}</span>
+    <section class="{{ if or (eq .Title "title page") (eq .Title "half title page") }} is-screen-only {{ end }} quire-page__header hero quire-page__header--full-height" style="background-image: url('{{ $imgPath | relURL }}');">
+      <div class="hero-body">
+        {{/* Page Title */}}
+        <h1 class="quire-page__header__title" id="{{ .Title | urlize }}">
+          {{ with .Params.number }}<span>{{ . }}.</span>{{ end }}
+          {{ .Title | markdownify }}
+          {{ with .Params.subtitle }}
+          <span class="quire-page__header__subtitle">{{ . | markdownify }}</span>
+          {{ end }}
+        </h1>
+        {{/* Contributors, if any */}}
+        {{ with .Params.contributor }}
+          <div class="quire-page__header__contributor">
+            {{ partial "contributor-list.html" (dict "range" . "contributorType" "all" "listType" "list-plus" "Site" $.Site) }}
+          </div>
         {{ end }}
-      </h1>
-      {{/* Contributors, if any */}}
-      {{ with .Params.contributor }}
-        <div class="quire-page__header__contributor">
-          {{ partial "contributor-list.html" (dict "range" . "contributorType" "all" "listType" "list-plus" "Site" $.Site) }}
-        </div>
-      {{ end }}
-    </div>
-  </section>
+      </div>
+    </section>
+  {{- else -}}
+    <section class="{{ if or (eq .Title "title page") (eq .Title "half title page") }} is-screen-only {{ end }} quire-page__header hero {{ if in .Params.class "splash" }} quire-page__header--full-height{{ end }}">
+      <div class="hero-body">
+        {{/* Page Title */}}
+        <h1 class="quire-page__header__title" id="{{ .Title | urlize }}">
+          {{ with .Params.number }}<span>{{ . }}.</span>{{ end }}
+          {{ .Title | markdownify }}
+          {{ with .Params.subtitle }}
+          <span class="quire-page__header__subtitle">{{ . | markdownify }}</span>
+          {{ end }}
+        </h1>
+        {{/* Contributors, if any */}}
+        {{ with .Params.contributor }}
+          <div class="quire-page__header__contributor">
+            {{ partial "contributor-list.html" (dict "range" . "contributorType" "all" "listType" "list-plus" "Site" $.Site) }}
+          </div>
+        {{ end }}
+      </div>
+    </section>
   {{- end -}}
 
   <section id="content" class="section quire-page__content">
