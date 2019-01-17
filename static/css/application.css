@@ -7422,9 +7422,9 @@ template {
   .quire-navbar-controls__right {
     flex: 0 1 3rem;
     text-align: right; }
-  .quire-navbar-controls__center, .quire-navbar-controls__left, .quire-navbar-controls__right {
+  .quire-navbar-controls__left, .quire-navbar-controls__right, .quire-navbar-controls .quire-navbar-page-controls__item {
     transition: all 0.05s linear; }
-    .quire-navbar-controls__center:hover a, .quire-navbar-controls__center:hover button, .quire-navbar-controls__center:hover .button, .quire-navbar-controls__left:hover a, .quire-navbar-controls__left:hover button, .quire-navbar-controls__left:hover .button, .quire-navbar-controls__right:hover a, .quire-navbar-controls__right:hover button, .quire-navbar-controls__right:hover .button {
+    .quire-navbar-controls__left:hover a, .quire-navbar-controls__left:hover button, .quire-navbar-controls__left:hover .button, .quire-navbar-controls__right:hover a, .quire-navbar-controls__right:hover button, .quire-navbar-controls__right:hover .button, .quire-navbar-controls .quire-navbar-page-controls__item:hover a, .quire-navbar-controls .quire-navbar-page-controls__item:hover button, .quire-navbar-controls .quire-navbar-page-controls__item:hover .button {
       background-color: #666666; }
 
 .quire-navbar-page-controls {
