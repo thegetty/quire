@@ -32,6 +32,16 @@
     }
 }
 
+
+// Adjust text color based background
+@function background-color-text($color) {
+    @if (lightness($color) > 50) {
+        @return $off-black; // lighter background, return dark color
+    } @else {
+        @return $white; // darker background, return light color
+    }
+}
+
 // General Bulma Overrides
 // -----------------------------------------------------------------------------
 .hero-body .container.is-fluid {
