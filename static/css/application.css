@@ -7423,9 +7423,9 @@ template {
     flex: 0 1 3rem;
     text-align: right; }
   .quire-navbar-controls__center, .quire-navbar-controls__left, .quire-navbar-controls__right {
-    transition: all 0.5s linear; }
+    transition: all 0.05s linear; }
     .quire-navbar-controls__center:hover a, .quire-navbar-controls__center:hover button, .quire-navbar-controls__center:hover .button, .quire-navbar-controls__left:hover a, .quire-navbar-controls__left:hover button, .quire-navbar-controls__left:hover .button, .quire-navbar-controls__right:hover a, .quire-navbar-controls__right:hover button, .quire-navbar-controls__right:hover .button {
-      background-color: #9c2929; }
+      background-color: #666666; }
 
 .quire-navbar-page-controls {
   display: flex;

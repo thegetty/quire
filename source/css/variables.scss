@@ -50,7 +50,7 @@ $quire-page-header-color: $light;
 $quire-page-header-text-color: $dark;
 
 $quire-navbar-color: $white;
-$quire-navbar-border-color: $off-white;
+$quire-navbar-hover-color: $off-white;
 $quire-navbar-text-color: $dark;
 
 $quire-menu-color: $dark;
@@ -97,7 +97,7 @@ $quire-body-background-color: $off-white;
 
 @if $navbar == accent {
   $quire-navbar-color: $quire-primary-color-hover;
-  $quire-navbar-border-color: $off-gray;
+  $quire-navbar-hover-color: $off-gray;
   $quire-navbar-text-color: $white;
 }
 // Cover

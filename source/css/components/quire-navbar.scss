@@ -128,9 +128,9 @@
   }
 
   &__center, &__left, &__right {
-    transition: all 0.5s linear;
+    transition: all 0.05s linear;
     &:hover {
-      a, button, .button { background-color: darken($quire-navbar-color, 5%); }
+      a, button, .button { background-color: $quire-navbar-hover-color; }
     }
   }
 }
