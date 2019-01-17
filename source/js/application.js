@@ -137,7 +137,7 @@ function sliderSetup() {
  * per page.
  */
 window.slideImage = (direction) => {
-  let slider = $(event.target).closest('.quire-entry__image__group-container');
+  let slider = $('.quire-entry__image__group-container');
   let firstImage = slider.children('.first-image');
   let lastImage = slider.children('.last-image');
   let currentImage = slider.children('.current-image');
