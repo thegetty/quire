@@ -59,7 +59,7 @@
       }
     }
   }
-  @if $navbar == inverse {
+  @if $navbar == accent {
     background-color: $quire-primary-color-hover !important;
     color: $white !important;
     .quire-navbar-button {

@@ -27,10 +27,10 @@ $quire-page-paragraph-style: line-space;
 // $quire-page-paragraph-style: indent;
 // make the value null for paragraphs with no indent and a line space between
 
-// Declare the theme primary or secondary
-$theme: primary;
+// Declare the theme modern or classic
+$theme: modern;
 
-// Navbar color: normal or inverse
+// Navbar color: normal or accent
 $navbar: normal;
 
 // Colors
@@ -84,7 +84,7 @@ $quire-splash-page-color: $light-blue;
 // Quire Redesign
 // -----------------------------------------------------------------------------
 // Setup of new quire variables
-// Primary Theme
+// Modern Theme
 $family-primary: $noto-sans; // body text: $serif, $sans-serif, $slab-serif
 $family-secondary: $ibm-sans; // headings and navigation items: $serif, $sans-serif, $slab-serif
 $quire-header-font: $family-secondary;
@@ -99,8 +99,8 @@ $quire-primary-color-hover: $dark-red;
 $quire-secondary-color: $off-black;
 $quire-body-background-color: $off-white;
 
-// Secondary Theme
-@if $theme == secondary {
+// Classic Theme
+@if $theme == classic {
   $family-primary: $noto-serif; // body text: $serif, $sans-serif, $slab-serif
   $family-secondary: $times-serif; // headings and navigation items: $serif, $sans-serif, $slab-serif
   $quire-header-font: $family-secondary;
