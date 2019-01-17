@@ -11,6 +11,10 @@
     }
     svg {
         fill: $frcolor;
+        &:hover {
+            fill: $frcolor;
+            background-color: transparent;
+        }
     }
     a,
     button,

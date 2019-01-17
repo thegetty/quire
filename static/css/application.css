@@ -7241,6 +7241,9 @@ template {
       color: #ffffff; }
     .quire__secondary svg {
       fill: #ffffff; }
+      .quire__secondary svg:hover {
+        fill: #ffffff;
+        background-color: transparent; }
     .quire__secondary a,
     .quire__secondary button,
     .quire__secondary .button {
@@ -7343,7 +7346,7 @@ template {
   font-size: .875em;
   position: fixed;
   z-index: 1;
-  background-color: #ffffff;
+  background-color: #B02E2E;
   min-height: 3rem;
   top: 0 !important;
   width: 100%; }
@@ -7354,22 +7357,21 @@ template {
     max-width: 1rem;
     vertical-align: sub; }
   .quire-navbar * {
-    color: #363636; }
+    color: #ffffff; }
   .quire-navbar svg {
-    fill: #363636; }
+    fill: #ffffff; }
+    .quire-navbar svg:hover {
+      fill: #ffffff;
+      background-color: transparent; }
   .quire-navbar a,
   .quire-navbar button,
   .quire-navbar .button {
-    background-color: #ffffff;
-    color: #363636 !important; }
+    background-color: #B02E2E;
+    color: #ffffff !important; }
   .quire-navbar a {
-    border-bottom-color: #363636 !important; }
-  .quire-navbar a:hover, .quire-navbar button:hover, .quire-navbar .button:hover {
-    background-color: #f2f2f2 !important; }
-    .quire-navbar a:hover button, .quire-navbar button:hover button, .quire-navbar .button:hover button {
-      background-color: #f2f2f2 !important; }
+    border-bottom-color: #ffffff !important; }
   .quire-navbar * {
-    transition: background 0.15s linear; }
+    transition: background 0.5s linear; }
   .quire-navbar a {
     display: block;
     padding: 0 0.5em; }
@@ -7420,6 +7422,10 @@ template {
   .quire-navbar-controls__right {
     flex: 0 1 3rem;
     text-align: right; }
+  .quire-navbar-controls__center, .quire-navbar-controls__left, .quire-navbar-controls__right {
+    transition: all 0.5s linear; }
+    .quire-navbar-controls__center:hover a, .quire-navbar-controls__center:hover button, .quire-navbar-controls__center:hover .button, .quire-navbar-controls__left:hover a, .quire-navbar-controls__left:hover button, .quire-navbar-controls__left:hover .button, .quire-navbar-controls__right:hover a, .quire-navbar-controls__right:hover button, .quire-navbar-controls__right:hover .button {
+      background-color: #9c2929; }
 
 .quire-navbar-page-controls {
   display: flex;
@@ -7468,12 +7474,7 @@ template {
   border: 0;
   height: 3rem;
   width: 3rem;
-  padding: 0;
-  transition: all 0.15s linear; }
-  .quire-navbar-button:hover {
-    background-color: #f2f2f2; }
-    .quire-navbar-button:hover > * {
-      background-color: #f2f2f2; }
+  padding: 0; }
   .quire-navbar-button svg {
     position: relative;
     top: 2px; }
@@ -7520,7 +7521,7 @@ template {
   transition: 0; }
 
 .quire-navbar-skip-link:focus {
-  background-color: #f2f2f2;
+  background-color: #9c2929;
   clip: unset;
   height: 3rem;
   line-height: 3rem;
@@ -7912,6 +7913,9 @@ html {
     color: #363636; }
   .quire-page__header svg {
     fill: #363636; }
+    .quire-page__header svg:hover {
+      fill: #363636;
+      background-color: transparent; }
   .quire-page__header a,
   .quire-page__header button,
   .quire-page__header .button {
@@ -8322,6 +8326,9 @@ html {
     color: #363636; }
   .quire-cover .quire-cover-footer svg {
     fill: #363636; }
+    .quire-cover .quire-cover-footer svg:hover {
+      fill: #363636;
+      background-color: transparent; }
   .quire-cover .quire-cover-footer a,
   .quire-cover .quire-cover-footer button,
   .quire-cover .quire-cover-footer .button {
@@ -8951,6 +8958,9 @@ div.multimedia {
     color: #ffffff; }
   .quire-entry__image svg {
     fill: #ffffff; }
+    .quire-entry__image svg:hover {
+      fill: #ffffff;
+      background-color: transparent; }
   .quire-entry__image a,
   .quire-entry__image button,
   .quire-entry__image .button {
@@ -8965,6 +8975,9 @@ div.multimedia {
         color: #363636; }
       .quire-entry__image svg {
         fill: #363636; }
+        .quire-entry__image svg:hover {
+          fill: #363636;
+          background-color: transparent; }
       .quire-entry__image a,
       .quire-entry__image button,
       .quire-entry__image .button {

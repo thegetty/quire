@@ -51,46 +51,8 @@
   top: 0 !important;
   width: 100%;
 
-  a, button, .button {
-    &:hover {
-      background-color: #f2f2f2 !important;
-      button {
-        background-color: #f2f2f2 !important;
-      }
-    }
-  }
-  @if $navbar == accent {
-    background-color: $quire-primary-color-hover !important;
-    color: $white !important;
-    .quire-navbar-button {
-      &:hover {
-        > * {
-          background-color: transparent !important;
-        }
-        background-color: $off-gray !important;
-      }
-    }
-    a, button, .button {
-      background-color: $quire-primary-color-hover !important;
-      color: $white !important;
-      &:hover {
-        fill: $white !important;
-        background-color: $off-gray !important;
-        button {
-          background-color: $off-gray !important;
-        }
-      }
-    }
-    svg {
-      fill: $white !important;
-      &:hover {
-        fill: $white !important;
-      }
-    }
-  }
-
   * {
-    transition: background 0.15s linear;
+    transition: background 0.5s linear;
   }
 
   a {
@@ -164,6 +126,13 @@
     flex: 0 1 $navbar-height;
     text-align: right;
   }
+
+  &__center, &__left, &__right {
+    transition: all 0.5s linear;
+    &:hover {
+      a, button, .button { background-color: darken($quire-navbar-color, 5%); }
+    }
+  }
 }
 
 .quire-navbar-page-controls {
@@ -225,6 +194,7 @@
       }
     }
   }
+
   @media screen and (min-width: $desktop) {
     .quire-navbar-button {
       display: none;
@@ -251,12 +221,6 @@
   height: $navbar-height;
   width: $navbar-height;
   padding: 0;
-  transition: all 0.15s linear;
-
-  &:hover {
-    background-color: darken($quire-navbar-color, 5%);
-    > * { background-color: darken($quire-navbar-color, 5%); }
-  }
 
   svg {
     position: relative;

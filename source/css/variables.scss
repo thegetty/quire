@@ -6,6 +6,15 @@
 // To avoid errors, variables names should not be changed or deleted, and be
 // sure to leave the colons (:) and semi-colons (;) in place.
 
+$accent-color: $red;
+$content-background-color: $white;
+$secondary-background-color: $off-white;
+
+// Declare the theme modern or classic
+$theme: modern;
+
+// Navbar color: normal or accent
+$navbar: accent;
 
 // Typography
 // -----------------------------------------------------------------------------
@@ -27,37 +36,9 @@ $quire-page-paragraph-style: line-space;
 // $quire-page-paragraph-style: indent;
 // make the value null for paragraphs with no indent and a line space between
 
-// Declare the theme modern or classic
-$theme: modern;
-
-// Navbar color: normal or accent
-$navbar: normal;
-
-// Colors
+// Quire Redesign
 // -----------------------------------------------------------------------------
-// Change the color variables once at the top, or change elements individually
-// below. Colors are typically Hex values, or one of 140 standard color names/
-
-$color-primary: #3273dc;
-$dark: #363636;
-$black: #000000;
-$off-black: #333333;
-$light-black: #292929;
-$off-gray: #666666;
-$dark-gray: #999999;
-$gray: #CCCCCC;
-$light-gray: #D4DFE2;
-$ivory: #D8E6EA;
-$red: #CF4747;
-$dark-red: #B02E2E;
-$light-yellow: #F9F9A3;
-$light: #f5f5f5;
-$off-white: #EEF2F3;
-$white: #ffffff;
-$blue: #3273dc;
-$light-blue: #6A8EB8;
-$dark-semi-transparent: rgba(0, 0, 0, .5);
-$black-semi-transparent: rgba(0, 0, 0, 0.75);
+$color-primary: $blue;
 
 $quire-page-link-color: $color-primary;
 $quire-page-link-highlight: $light;
@@ -69,7 +50,7 @@ $quire-page-header-color: $light;
 $quire-page-header-text-color: $dark;
 
 $quire-navbar-color: $white;
-$quire-navbar-border-color: $dark;
+$quire-navbar-border-color: $off-white;
 $quire-navbar-text-color: $dark;
 
 $quire-menu-color: $dark;
@@ -81,8 +62,6 @@ $quire-entry-image-icons-color: $white;
 
 $quire-splash-page-color: $light-blue;
 
-// Quire Redesign
-// -----------------------------------------------------------------------------
 // Setup of new quire variables
 // Modern Theme
 $family-primary: $noto-sans; // body text: $serif, $sans-serif, $slab-serif
@@ -114,6 +93,12 @@ $quire-body-background-color: $off-white;
   $quire-primary-color-hover: $light-blue;
   $quire-secondary-color: $light-blue;
   $quire-body-background-color: $off-white;
+}
+
+@if $navbar == accent {
+  $quire-navbar-color: $quire-primary-color-hover;
+  $quire-navbar-border-color: $off-gray;
+  $quire-navbar-text-color: $white;
 }
 // Cover
 // -----------------------------------------------------------------------------
