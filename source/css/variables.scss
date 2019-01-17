@@ -14,7 +14,7 @@ $secondary-background-color: $off-white;
 $theme: modern;
 
 // Navbar color: normal or accent
-$navbar: accent;
+$navbar: normal;
 
 // Typography
 // -----------------------------------------------------------------------------
@@ -38,9 +38,7 @@ $quire-page-paragraph-style: line-space;
 
 // Quire Redesign
 // -----------------------------------------------------------------------------
-$color-primary: $blue;
-
-$quire-page-link-color: $color-primary;
+$quire-page-link-color: $blue;
 $quire-page-link-highlight: $light;
 
 $page-color: $white;
@@ -49,10 +47,6 @@ $page-text-color: $dark;
 $quire-page-header-color: $light;
 $quire-page-header-text-color: $dark;
 
-$quire-navbar-color: $white;
-$quire-navbar-hover-color: $off-white;
-$quire-navbar-text-color: $dark;
-
 $quire-menu-color: $dark;
 $quire-menu-border-color: $dark;
 $quire-menu-text-color: $white;
@@ -60,6 +54,7 @@ $quire-menu-text-color: $white;
 $quire-entry-image-color: $dark;
 $quire-entry-image-icons-color: $white;
 
+// Splash Page Color
 $quire-splash-page-color: $light-blue;
 
 // Setup of new quire variables
@@ -70,8 +65,8 @@ $quire-header-font: $family-secondary;
 $quire-nav-font: $family-primary;
 $quire-body-font: $family-primary;
 $quire-header-color: $off-black;
-$quire-nav-font-color: $white;
-$quire-body-font-color: $black;
+$quire-nav-font-color: background-color-text($white);
+$quire-body-font-color: background-color-text($black);
 $quire-hover-color: $light-yellow;
 $quire-primary-color: $red;
 $quire-primary-color-hover: $dark-red;
@@ -95,6 +90,12 @@ $quire-body-background-color: $off-white;
   $quire-body-background-color: $off-white;
 }
 
+// Normal Navbar
+$quire-navbar-color: $white;
+$quire-navbar-hover-color: $off-white;
+$quire-navbar-text-color: $dark;
+
+// Accent Navbar
 @if $navbar == accent {
   $quire-navbar-color: $quire-primary-color-hover;
   $quire-navbar-hover-color: $off-gray;
@@ -103,7 +104,7 @@ $quire-body-background-color: $off-white;
 // Cover
 // -----------------------------------------------------------------------------
 
-$quire-cover-color-1: $color-primary;
+$quire-cover-color-1: $blue;
 $quire-cover-color-2: #dc52f5;
 // make the colors the same to have a solid background
 

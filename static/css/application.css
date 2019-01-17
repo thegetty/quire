@@ -7346,7 +7346,7 @@ template {
   font-size: .875em;
   position: fixed;
   z-index: 1;
-  background-color: #B02E2E;
+  background-color: #ffffff;
   min-height: 3rem;
   top: 0 !important;
   width: 100%; }
@@ -7357,19 +7357,19 @@ template {
     max-width: 1rem;
     vertical-align: sub; }
   .quire-navbar * {
-    color: #ffffff; }
+    color: #363636; }
   .quire-navbar svg {
-    fill: #ffffff; }
+    fill: #363636; }
     .quire-navbar svg:hover {
-      fill: #ffffff;
+      fill: #363636;
       background-color: transparent; }
   .quire-navbar a,
   .quire-navbar button,
   .quire-navbar .button {
-    background-color: #B02E2E;
-    color: #ffffff !important; }
+    background-color: #ffffff;
+    color: #363636 !important; }
   .quire-navbar a {
-    border-bottom-color: #ffffff !important; }
+    border-bottom-color: #363636 !important; }
   .quire-navbar * {
     transition: background 0.5s linear; }
   .quire-navbar a {
@@ -7425,7 +7425,7 @@ template {
   .quire-navbar-controls__left, .quire-navbar-controls__right, .quire-navbar-controls .quire-navbar-page-controls__item {
     transition: all 0.05s linear; }
     .quire-navbar-controls__left:hover a, .quire-navbar-controls__left:hover button, .quire-navbar-controls__left:hover .button, .quire-navbar-controls__right:hover a, .quire-navbar-controls__right:hover button, .quire-navbar-controls__right:hover .button, .quire-navbar-controls .quire-navbar-page-controls__item:hover a, .quire-navbar-controls .quire-navbar-page-controls__item:hover button, .quire-navbar-controls .quire-navbar-page-controls__item:hover .button {
-      background-color: #666666; }
+      background-color: #EEF2F3; }
 
 .quire-navbar-page-controls {
   display: flex;
@@ -7521,7 +7521,7 @@ template {
   transition: 0; }
 
 .quire-navbar-skip-link:focus {
-  background-color: #9c2929;
+  background-color: #f2f2f2;
   clip: unset;
   height: 3rem;
   line-height: 3rem;
@@ -7734,7 +7734,6 @@ html {
   font-size: 3.3rem;
   font-weight: 700;
   line-height: 1.14;
-  color: #333333 !important;
   -webkit-animation: fadeIn 2s;
   /* Safari, Chrome and Opera > 12.1 */
   /* Firefox < 16 */
@@ -7897,9 +7896,6 @@ html {
     .quire-page--frontmatter {
       background-color: transparent; } }
 
-.quire-page__splash .quire-page__header__title, .quire-page__splash .quire-page__header__subtitle {
-  color: #ffffff !important; }
-
 .quire-page__header {
   background-color: #EEF2F3;
   background-size: cover;
@@ -7930,7 +7926,7 @@ html {
         margin-bottom: 0;
         height: 0; } }
     .quire-page__header.hero__image .quire-page__header__title, .quire-page__header.hero__image .quire-page__header__subtitle {
-      color: #ffffff !important; }
+      color: background-color-text(#ffffff); }
   .quire-page--splash .quire-page__header * {
     color: #fff; }
   .quire-page--splash .quire-page__header .hero-body {
@@ -7966,8 +7962,14 @@ html {
       background-color: transparent;
       height: 3in; } }
 
-.quire-page--splash .quire-page__header__title {
+.quire-page--splash .quire-page__header .hero-body {
+  background-color: transparent; }
+
+.quire-page--splash .quire-page__header__title, .quire-page--splash .quire-page__header__subtitle {
   color: #333333; }
+
+.quire-page--splash .hero-image .hero-body .quire-page__header__title, .quire-page--splash .hero-image .hero-body .quire-page__header__subtitle {
+  color: #ffffff !important; }
 
 .quire-page--splash .quire-page__content p:first-child:first-letter {
   font-size: 9em;
@@ -8189,7 +8191,7 @@ html {
       .quire-cover__hero .half-title {
         display: block;
         page-break-after: always;
-        color: #3273dc;
+        color: #ffffff;
         text-transform: uppercase;
         letter-spacing: 1pt;
         font-family: "IBM Plex Sans Condensed", sans-serif; } }
@@ -9592,17 +9594,17 @@ body > div.mfp-bg.mfp-ready {
     .quire-contents-buttons li.quire-nav-button.next {
       background-color: #CF4747; }
       .quire-contents-buttons li.quire-nav-button.next svg {
-        fill: #ffffff; }
+        fill: background-color-text(#ffffff); }
       .quire-contents-buttons li.quire-nav-button.next:hover {
         background-color: #B02E2E; }
       .quire-contents-buttons li.quire-nav-button.next a {
-        color: #ffffff; }
+        color: background-color-text(#ffffff); }
     .quire-contents-buttons li.quire-nav-button:hover {
       background-color: #CF4747; }
       .quire-contents-buttons li.quire-nav-button:hover a {
-        color: #ffffff; }
+        color: background-color-text(#ffffff); }
       .quire-contents-buttons li.quire-nav-button:hover svg {
-        fill: #ffffff; }
+        fill: background-color-text(#ffffff); }
 
 @media print {
   @page {
