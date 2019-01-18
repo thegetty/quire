@@ -7384,7 +7384,7 @@ template {
   .quire-navbar:hover .quire-progress-bar {
     height: 18px; }
     .quire-navbar:hover .quire-progress-bar div {
-      height: 19px; }
+      height: 18px; }
 
 .quire-progress-bar {
   height: 2px;
@@ -7425,7 +7425,7 @@ template {
   .quire-navbar-controls__left, .quire-navbar-controls__right, .quire-navbar-controls .quire-navbar-page-controls__item {
     transition: all 0.05s linear; }
     .quire-navbar-controls__left:hover a, .quire-navbar-controls__left:hover button, .quire-navbar-controls__left:hover .button, .quire-navbar-controls__right:hover a, .quire-navbar-controls__right:hover button, .quire-navbar-controls__right:hover .button, .quire-navbar-controls .quire-navbar-page-controls__item:hover a, .quire-navbar-controls .quire-navbar-page-controls__item:hover button, .quire-navbar-controls .quire-navbar-page-controls__item:hover .button {
-      background-color: white; }
+      background-color: #f2f2f2; }
 
 .quire-navbar-page-controls {
   display: flex;
@@ -9577,7 +9577,7 @@ body > div.mfp-bg.mfp-ready {
       display: inline-block;
       width: 8.75em;
       height: 3.25em;
-      color: #333333;
+      color: #120505;
       font-size: .8em;
       padding-top: .4em;
       font-family: "Noto Sans", sans-serif; }
@@ -9587,7 +9587,7 @@ body > div.mfp-bg.mfp-ready {
       .quire-contents-buttons li.quire-nav-button.prev a {
         margin-right: .5rem; }
       .quire-contents-buttons li.quire-nav-button.prev svg {
-        fill: #333333;
+        fill: #120505;
         margin-right: .5rem; }
     .quire-contents-buttons li.quire-nav-button svg {
       width: 1.25rem;

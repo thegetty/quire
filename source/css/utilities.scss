@@ -42,7 +42,8 @@
     }
 }
 
-@function progress-background-color($color) {
+// Adjust background color
+@function background-color($color) {
     @if (lightness($color) > 50) {
         @return darken($color, 50%); // lighter background, return dark color
     } @else {

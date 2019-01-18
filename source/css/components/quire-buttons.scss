@@ -30,7 +30,7 @@
       display: inline-block;
       width: 8.75em;
       height: 3.25em;
-      color: background-color-text($accent-color);
+      color: background-color($accent-color);
       font-size: .8em;
       padding-top: .4em;
       font-family: $quire-nav-font;
@@ -43,7 +43,7 @@
         margin-right: .5rem;
       }
       svg {
-        fill: background-color-text($accent-color);
+        fill: background-color($accent-color);
         margin-right: .5rem;
       }
     }
