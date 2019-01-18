@@ -77,25 +77,25 @@ the figure for each into a figure group
           mozallowfullscreen
           allowfullscreen></iframe>
   {{ else if eq .media_type "audio" }}
-  <iframe        id='{{ .id }}'
-                 class=" {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"
-                  title='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .title }}{{ .title | markdownify }}{{ end }}'
-                  width="100%" 
-                  height="166" 
-                  scrolling="no" 
-                  frameborder="no" 
-                  allow="autoplay" 
-                  src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe> 
+  <iframe id='{{ .id }}'
+          class=" {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"
+          title='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .title }}{{ .title | markdownify }}{{ end }}'
+          width="100%" 
+          height="166" 
+          scrolling="no" 
+          frameborder="no" 
+          allow="autoplay" 
+          src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe> 
   {{ else if eq .media_type "soundcloud" }} 
-  <iframe        id='{{ .id }}'
-                 class=" {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"
-                  title='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .title }}{{ .title | markdownify }}{{ end }}'
-                  width="100%" 
-                  height="166" 
-                  scrolling="no" 
-                  frameborder="no" 
-                  allow="autoplay" 
-                  src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe> 
+  <iframe id='{{ .id }}'
+          class=" {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"
+          title='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .title }}{{ .title | markdownify }}{{ end }}'
+          width="100%" 
+          height="166" 
+          scrolling="no" 
+          frameborder="no" 
+          allow="autoplay" 
+          src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe> 
   {{ end }}
   </div>
   {{ end }}
@@ -129,39 +129,46 @@ the figure for each into a figure group
     {{/* -------------------- END NO_MEDIA_ID BLOCK -------------------- */}}
     {{ end }}
 
-    {{/* -------------------- START FIGURE LABEL ON TOP BLOCK -------------------- */}}
-    {{ if eq $.Site.Params.figureLabelLocation "on-top" }}
-    
-      {{ if eq $.Site.Params.pdf true }} 
-        <span class="fig-print"> 
-      {{ else }}
-        <span class="fig">
-          {{ if eq $.Site.Params.figureModal true }} 
-          {{ if and (ne .media_type "audio") (ne .media_type "soundcloud") (ne .media_type "vimeo") (ne .media_type "youtube") (ne .media_type "website") }}
-          {{ if eq $.Site.Params.figureModalIcons true }}
-           <span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
-           {{ end }}
-          {{ end }}
-          {{ end }}
-      {{ end }}
-      {{ if or (eq $.Site.Params.figureLabels true) (eq ($.Get "label") "true" ) }}   
-      <strong>  
-        {{ if $.Get "label_text" }}
-        {{ $.Get "label_text" | markdownify }}
-        {{ else if .label_text }}
-        {{ .label_text | markdownify }}
-        {{ else }}
-        {{ $.Site.Params.figureLabelsTextBefore }}{{ .id }}{{ $.Site.Params.figureLabelsTextAfter }}
-        {{ end }}
-      </strong>
-      {{ end }}
-    </span>
-    {{ end }}
-    
-    {{ if eq $.Site.Params.figureModal true }}
-        </a>
-    {{ end }}
-    {{/* -------------------- END FIGURE LABEL ON TOP BLOCK -------------------- */}}
+
+{{/* -------------------- START FIGURE LABEL ON TOP BLOCK -------------------- */}}
+
+{{ if eq $.Site.Params.figureLabelLocation "on-top" }}
+{{ if eq $.Site.Params.pdf true }} 
+<span class="fig-print"> 
+{{ else }}
+
+{{ if and (ne .media_type "audio") (ne .media_type "soundcloud") (ne .media_type "vimeo") (ne .media_type "youtube") (ne .media_type "website") (eq $.Site.Params.figureModal true) }}
+
+{{ if eq $.Site.Params.figureModalIcons true }}
+<span class="fig"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
+{{ else }}
+<span class="fig {{ if and (isset . "label") ($.Get "label") }} visually-hidden {{ end }}">
+{{ end }}
+
+{{ else }}
+<span class="fig {{ if and (isset . "label") ($.Get "label") }} visually-hidden {{ end }}">
+{{ end }}
+{{ end }}
+
+{{ if or (isset . "label") ($.Get "label") }}
+<strong>  
+  {{ if $.Get "label" }}
+  {{ $.Get "label" | markdownify }}
+  {{ else if isset . "label" }}
+  {{ if .label }}
+  {{ .label | markdownify }}
+  {{ end }}
+  {{ end }}
+</strong>
+{{ end }}
+</span>
+{{ end }}
+
+{{/* -------------------- END FIGURE LABEL ON TOP BLOCK -------------------- */}}
+
+{{ if eq $.Site.Params.figureModal true }}
+    </a>
+{{ end }}
 
 {{/* -------------------- END q-figure__wrapper BLOCK -------------------- */}}
 </div>
@@ -183,8 +190,10 @@ the figure for each into a figure group
     <h5 class="header">
     {{ if $.Get "title" }}
     {{ $.Get "title" | markdownify }}
-    {{ else if .title }}
+    {{ else if . "title" }}
+    {{ if .title }}
     {{ .title | markdownify }}
+    {{ end }}
     {{ end }}
     </h5>
       <p class="caption">
@@ -206,8 +215,10 @@ the figure for each into a figure group
     <h5 class="header">
     {{ if $.Get "title" }}
     {{ $.Get "title" | markdownify }}
-    {{ else if .title }}
+    {{ else if . "title" }}
+    {{ if .title }}
     {{ .title | markdownify }}
+    {{ end }}
     {{ end }}
     </h5>
       <p class="caption">
@@ -231,8 +242,10 @@ the figure for each into a figure group
     <h5 class="header">
     {{ if $.Get "title" }}
     {{ $.Get "title" | markdownify }}
-    {{ else if .title }}
+    {{ else if . "title" }}
+    {{ if .title }}
     {{ .title | markdownify }}
+    {{ end }}
     {{ end }}
     </h5>
       <p class="caption">
@@ -254,8 +267,10 @@ the figure for each into a figure group
     <h5 class="header">
     {{ if $.Get "title" }}
     {{ $.Get "title" | markdownify }}
-    {{ else if .title }}
+    {{ else if . "title" }}
+    {{ if .title }}
     {{ .title | markdownify }}
+    {{ end }}
     {{ end }}
     </h5>
       <p class="caption">
@@ -278,35 +293,38 @@ the figure for each into a figure group
     <figcaption class="quire-figure__caption">
     
         {{ if eq $.Site.Params.figureLabelLocation "below" }}
-        {{ if eq $.Site.Params.figureModal true }}
-        {{ if and (ne .media_type "audio") (ne .media_type "soundcloud") (ne .media_type "vimeo") (ne .media_type "youtube") (ne .media_type "website") }}
+        {{ if and (ne .media_type "audio") (ne .media_type "soundcloud") (ne .media_type "vimeo") (ne .media_type "youtube") (ne .media_type "website") (eq $.Site.Params.figureModal true) }}
         {{ if eq $.Site.Params.figureModalIcons true }}
         <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
-        {{ end }}
-        {{ end }}
         {{ else }}
-        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}">
+        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }} {{ if and (isset . "label") ($.Get "label") }} visually-hidden {{ end }}">
         {{ end }}
-        {{ if or (eq $.Site.Params.figureLabels true) (eq ( $.Get "label") "true" ) }}
-            {{ if $.Get "label_text" }}
-            {{ $.Get "label_text" | markdownify }}
-            {{ else if .label_text }}
-            {{ .label_text | markdownify }}
-            {{ else }}
-            {{ $.Site.Params.figureLabelsTextBefore }}{{ .id }}{{ $.Site.Params.figureLabelsTextAfter }}
-            {{ end }}
+
+        {{ else }}
+        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }} {{ if and (isset . "label") ($.Get "label") }} visually-hidden {{ end }}">
+        {{ end }}
+
+        {{ if or (isset . "label") ($.Get "label") }}
+          {{ if $.Get "label" }}
+          {{ $.Get "label" | markdownify }}
+          {{ else if isset . "label" }}
+          {{ if .label }}
+          {{ .label | markdownify }}
+          {{ end }}
+          {{ end }}
         {{ end }}
         </span>
       {{ end }}
 
     
     {{ if eq $.Site.Params.pdf true }}<span class="media-caption">{{ end }}
-    {{ if $.Get "caption" }}
-    {{ $.Get "caption" | markdownify }}
-    {{ end  }}
-    {{ if .caption }}
-    {{ .caption | markdownify }}
-    {{ end }}
+        {{ if $.Get "caption" }}
+        {{ $.Get "caption" | markdownify }}
+        {{ else if isset . "caption" }}
+        {{ if .caption }}
+        {{ .caption | markdownify }}
+        {{ end }}
+        {{ end }}
     {{ if eq $.Site.Params.pdf true }}</span>{{ end }}
 
     {{ if eq $.Site.Params.epub true }}
@@ -385,12 +403,15 @@ the figure for each into a figure group
   {{ if or (.Get "caption") (.Get "credit") }}
   <figcaption class="quire-figure__caption">
 
+
     {{ if .Get "popup" }}
       {{ .Get "popup" | markdownify }}
     {{ end }}
+
     {{ if .Get "caption" }}
       {{ .Get "caption" | markdownify }}
     {{ end }}
+
     {{ if $.Get "credit" }}
       <span class="quire-figure__credit">{{ $.Get "credit" | markdownify }}</span>
     {{ end }}
