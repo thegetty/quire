@@ -42,6 +42,14 @@
     }
 }
 
+@function progress-background-color($color) {
+    @if (lightness($color) > 50) {
+        @return darken($color, 50%); // lighter background, return dark color
+    } @else {
+        @return lighten($color, 10%); // darker background, return light color
+    }
+}
+
 // General Bulma Overrides
 // -----------------------------------------------------------------------------
 .hero-body .container.is-fluid {

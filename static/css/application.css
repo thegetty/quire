@@ -7346,7 +7346,7 @@ template {
   font-size: .875em;
   position: fixed;
   z-index: 1;
-  background-color: #ffffff;
+  background-color: #FFC0CB;
   min-height: 3rem;
   top: 0 !important;
   width: 100%; }
@@ -7366,7 +7366,7 @@ template {
   .quire-navbar a,
   .quire-navbar button,
   .quire-navbar .button {
-    background-color: #ffffff;
+    background-color: #FFC0CB;
     color: #363636 !important; }
   .quire-navbar a {
     border-bottom-color: #363636 !important; }
@@ -7391,7 +7391,7 @@ template {
   transition: all .5s ease;
   font-family: "Noto Sans", sans-serif;
   font-size: 0.75rem;
-  background-color: #D4DFE2;
+  background-color: #b95700;
   border-bottom: none; }
   .quire-progress-bar span {
     color: #ffffff;
@@ -7401,7 +7401,7 @@ template {
     transition: height .5s ease;
     height: 2px;
     width: 100%;
-    background-color: #B02E2E;
+    background-color: #21ccbb;
     text-align: right;
     padding-right: .5em;
     position: relative;
@@ -7926,7 +7926,7 @@ html {
         margin-bottom: 0;
         height: 0; } }
     .quire-page__header.hero__image .quire-page__header__title, .quire-page__header.hero__image .quire-page__header__subtitle {
-      color: background-color-text(#ffffff); }
+      color: #ffffff; }
   .quire-page--splash .quire-page__header * {
     color: #fff; }
   .quire-page--splash .quire-page__header .hero-body {
@@ -9594,17 +9594,17 @@ body > div.mfp-bg.mfp-ready {
     .quire-contents-buttons li.quire-nav-button.next {
       background-color: #CF4747; }
       .quire-contents-buttons li.quire-nav-button.next svg {
-        fill: background-color-text(#ffffff); }
+        fill: #ffffff; }
       .quire-contents-buttons li.quire-nav-button.next:hover {
-        background-color: #B02E2E; }
+        background-color: #1eb6a7; }
       .quire-contents-buttons li.quire-nav-button.next a {
-        color: background-color-text(#ffffff); }
+        color: #ffffff; }
     .quire-contents-buttons li.quire-nav-button:hover {
       background-color: #CF4747; }
       .quire-contents-buttons li.quire-nav-button:hover a {
-        color: background-color-text(#ffffff); }
+        color: #ffffff; }
       .quire-contents-buttons li.quire-nav-button:hover svg {
-        fill: background-color-text(#ffffff); }
+        fill: #ffffff; }
 
 @media print {
   @page {

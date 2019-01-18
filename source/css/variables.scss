@@ -6,9 +6,9 @@
 // To avoid errors, variables names should not be changed or deleted, and be
 // sure to leave the colons (:) and semi-colons (;) in place.
 
-$accent-color: $red;
-$content-background-color: $white;
-$secondary-background-color: $off-white;
+$accent-color: turquoise;
+$content-background-color: #FFC0CB;
+$secondary-background-color: #ffdab9;
 
 // Declare the theme modern or classic
 $theme: modern;
@@ -67,9 +67,8 @@ $quire-header-font: $family-secondary;
 $quire-nav-font: $family-primary;
 $quire-body-font: $family-primary;
 $quire-header-color: $off-black;
-$quire-nav-font-color: background-color-text($white);
-$quire-body-font-color: background-color-text($black);
-$quire-hover-color: $light-yellow;
+$quire-nav-font-color: $white;
+$quire-body-font-color: $black;
 $quire-primary-color: $red;
 $quire-primary-color-hover: $dark-red;
 $quire-secondary-color: $off-black;
@@ -82,10 +81,11 @@ $quire-body-background-color: $off-white;
   $quire-header-font: $family-secondary;
   $quire-nav-font: $family-primary;
   $quire-body-font: $family-primary;
+
+  $accent-color: $light-blue;
   $quire-header-color: $off-black;
   $quire-nav-font-color: $white;
   $quire-body-font-color: $black;
-  $quire-hover-color: $light-yellow;
   $quire-primary-color: $off-black;
   $quire-primary-color-hover: $light-blue;
   $quire-secondary-color: $light-blue;

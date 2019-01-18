@@ -45,8 +45,8 @@
     font-size: .65rem;
   }
 
-  @include foreground-color($quire-navbar-color,$quire-navbar-text-color);
-  background-color: $quire-navbar-color;
+  @include foreground-color($content-background-color,$quire-navbar-text-color);
+  background-color: $content-background-color;
   min-height: $navbar-height;
   top: 0 !important;
   width: 100%;
@@ -86,7 +86,7 @@
   transition: all .5s ease;
   font-family: $quire-nav-font;
   font-size: 0.75rem;
-  background-color: $light-gray;
+  background-color: progress-background-color($secondary-background-color);
   border-bottom: none;
   span {
     color: $white;
