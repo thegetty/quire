@@ -357,7 +357,7 @@ html {
 
   .quire-page--splash & {
     * {
-      color: findColorInvert($quire-splash-page-color);
+      color: findColorInvert($accent-color);
     }
 
     .hero-body {
@@ -379,7 +379,7 @@ html {
 
         svg {
           width: 1rem;
-          fill: findColorInvert($quire-splash-page-color);
+          fill: findColorInvert($accent-color);
         }
       }
     }

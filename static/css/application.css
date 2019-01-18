@@ -9274,7 +9274,7 @@ div.multimedia {
     visibility: hidden;
     font-size: 1rem;
     line-height: 1.5;
-    background-color: #f6f9fd;
+    background-color: #fefdfd;
     color: #CF4747;
     border-radius: 6px;
     border: 1px solid #CF4747;
@@ -9668,7 +9668,7 @@ body > div.mfp-bg.mfp-ready {
     @bottom-right-corner {
       content: counter(page, lower-roman); } }
   @page splash {
-    background-color: #6A8EB8;
+    background-color: #CF4747;
     color: #fff;
     margin-top: 0;
     margin-bottom: 0;
@@ -9729,7 +9729,7 @@ body > div.mfp-bg.mfp-ready {
     margin-top: 3in; }
   .quire-page--splash .quire-page__header.quire-page__header--full-height {
     page: splash;
-    background-color: #6A8EB8;
+    background-color: #CF4747;
     color: #fff;
     width: 8.5in;
     height: 11in; }

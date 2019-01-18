@@ -140,7 +140,7 @@
 
   &__button {
     background-color: $accent-color;
-    color: findColorInvert($quire-page-link-color);
+    color: findColorInvert($accent-color);
     border-width: 0px;
     border-radius: 2px;
     font-family: $quire-nav-font;
@@ -153,7 +153,7 @@
       height: 1.25rem;
       margin-left: .25rem;
       margin-bottom: .05rem;
-      fill: findColorInvert($quire-page-link-color);
+      fill: findColorInvert($accent-color);
     }
     &:hover {
       background-color: darken($accent-color, 15%);

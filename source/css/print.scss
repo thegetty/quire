@@ -115,8 +115,8 @@ $print-footer-font-size: 8pt;
   }
 
   @page splash {
-    background-color: $quire-splash-page-color;
-    color: findColorInvert($quire-splash-page-color);
+    background-color: $accent-color;
+    color: findColorInvert($accent-color);
     margin-top: 0;
     margin-bottom: 0;
     margin-left: 0;
@@ -230,8 +230,8 @@ $print-footer-font-size: 8pt;
 
       &.quire-page__header--full-height {
         page: splash;
-        background-color: $quire-splash-page-color;
-        color: findColorInvert($quire-splash-page-color);
+        background-color: $accent-color;
+        color: findColorInvert($accent-color);
         width: $print-width;
         height: $print-height;
       }

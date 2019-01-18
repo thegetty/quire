@@ -10,10 +10,10 @@ $accent-color: $red;
 $content-background-color: $white;
 $secondary-background-color: $off-white;
 
-// Declare the theme modern/classic/custom
+// Declare the theme modern/classic
 $theme: modern;
 
-// Navbar color: normal or accent
+// Navbar color: normal/accent
 $navbar: normal;
 
 // Typography
@@ -38,8 +38,6 @@ $quire-page-paragraph-style: line-space;
 
 // Quire Redesign
 // -----------------------------------------------------------------------------
-$quire-page-link-color: $blue;
-$quire-page-link-highlight: $light;
 
 // Print 
 $page-color: $white;
@@ -58,14 +56,11 @@ $quire-menu-text-color: $white;
 $quire-entry-image-color: $dark;
 $quire-entry-image-icons-color: $white;
 
-// part of the dual colors, page.scss and print.scss
-$quire-splash-page-color: $light-blue;
-
 // new quire variables
 $quire-hover-color: $light-yellow;
 
 
-// Custom - based on modern theme
+// Declare default values based on modern theme
 // -----------------------------------------------------------------------------
 $family-primary: $noto-sans; // body text: $serif, $sans-serif, $slab-serif
 $family-secondary: $ibm-sans; // headings and navigation items: $serif, $sans-serif, $slab-serif
@@ -85,6 +80,9 @@ $quire-font-color: $black;
   $quire-body-font: $family-primary;
 
   $accent-color: $red;
+  $content-background-color: $white;
+  $secondary-background-color: $off-white;
+
   $quire-font-color: $black;
 }
 
@@ -99,15 +97,20 @@ $quire-font-color: $black;
   $quire-body-font: $family-primary;
   
   $accent-color: $light-blue;
+  $content-background-color: $white;
+  $secondary-background-color: $off-white;
+
   $quire-font-color: $black;
 }
 
-// Normal Navbar
+// Declare navbar variables
 // -----------------------------------------------------------------------------
 $quire-navbar-color: $white;
 $quire-navbar-hover-color: darken($quire-navbar-color, 5%);
 $quire-navbar-text-color: $dark;
 
+// Normal Navbar
+// -----------------------------------------------------------------------------
 @if $navbar == normal {
   $quire-navbar-color: $white;
   $quire-navbar-hover-color: darken($quire-navbar-color, 5%);
@@ -148,8 +151,6 @@ $quire-cover-text-alignment: left;
 
 $quire-cover-footer-color: $light;
 $quire-cover-footer-text-color: $dark;
-
-$quire-page-link-color: $quire-primary-color !default;
 
 
 // Layout
