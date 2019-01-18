@@ -90,15 +90,15 @@ we start with media figures
       {{ if eq $.Site.Params.pdf true }} 
         <span class="fig-print"> 
       {{ else }} 
-        <span class="fig">
+        <span class="fig {{ if and (isset . "label") ($.Get "label") }} visually-hidden {{ end }}">
       {{ end }}
-      {{ if or (eq $.Site.Params.figureLabels true) (eq ($.Get "label") "true" ) }}  
+      {{ if or (isset . "label") ($.Get "label") }}
       <strong>    
-          {{ if $.Get "label_text" }}
-          {{ $.Get "label_text" | markdownify }}
-          {{ else if isset . "label_text" }}
-          {{ if .label_text }}
-          {{ .label_text | markdownify }}
+          {{ if $.Get "label" }}
+          {{ $.Get "label" | markdownify }}
+          {{ else if isset . "label" }}
+          {{ if .label }}
+          {{ .label | markdownify }}
           {{ end }}
           {{ end }}
       </strong>
@@ -117,17 +117,17 @@ we start with media figures
         {{ if eq $.Site.Params.figureModalIcons true }}
         <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
         {{ else }}
-        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}">
+        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }} {{ if and (isset . "label") ($.Get "label") }} visually-hidden {{ end }}">
         {{ end }}
         {{ else }}
-        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}">
+        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }} {{ if and (isset . "label") ($.Get "label") }} visually-hidden {{ end }}">
         {{ end }}
-        {{ if or (eq $.Site.Params.figureLabels true) (eq ( $.Get "label") "true" ) }}
-          {{ if $.Get "label_text" }}
-          {{ $.Get "label_text" | markdownify }}
-          {{ else if isset . "label_text" }}
-          {{ if .label_text }}
-          {{ .label_text | markdownify }}
+        {{ if or (isset . "label") ($.Get "label") }}
+          {{ if $.Get "label" }}
+          {{ $.Get "label" | markdownify }}
+          {{ else if isset . "label" }}
+          {{ if .label }}
+          {{ .label | markdownify }}
           {{ end }}
           {{ end }}
         {{ end }}
@@ -156,6 +156,7 @@ we start with media figures
 
 </figure>
 {{ end }}
+
 
 {{/* -------------------- START IMAGE FIGURE WITH .GET -------------------- */}}
 {{ else if .Get "src" }}
@@ -192,24 +193,24 @@ we start with media figures
   {{ if and (ne (.Get "media_type") "audio") (ne (.Get "media_type") "soundcloud") (ne (.Get "media_type") "vimeo") (ne (.Get "media_type") "youtube") (ne (.Get "media_type") "website") (eq $.Site.Params.figureModal true) }}
 
   {{ if eq $.Site.Params.figureModalIcons true }}
-    <span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
+    <span class="fig"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
   {{ else }}
-    <span class="fig">
+    <span class="fig {{ if and (isset . "label") ($.Get "label") }} visually-hidden {{ end }}">
   {{ end }} 
 
   {{ else }}
-    <span class="fig">
+    <span class="fig {{ if and (isset . "label") ($.Get "label") }} visually-hidden {{ end }}">
   {{ end }}
 
   {{ end }}
 
-  {{ if or (eq $.Site.Params.figureLabels true) (eq ($.Get "label") "true" ) }}  
+  {{ if or (isset . "label") ($.Get "label") }}
   <strong>    
-      {{ if $.Get "label_text" }}
-      {{ $.Get "label_text" | markdownify }}
-      {{ else if isset . "label_text" }}
-      {{ if .label_text }}
-      {{ .label_text | markdownify }}
+      {{ if $.Get "label" }}
+      {{ $.Get "label" | markdownify }}
+      {{ else if isset . "label" }}
+      {{ if .label }}
+      {{ .label | markdownify }}
       {{ end }}
       {{ end }}
   </strong>
@@ -234,17 +235,17 @@ we start with media figures
         {{ if eq $.Site.Params.figureModalIcons true }}
         <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
         {{ else }}
-        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}">
+        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }} {{ if and (isset . "label") ($.Get "label") }} visually-hidden {{ end }}">
         {{ end }}
         {{ else }}
-        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}">
+        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }} {{ if and (isset . "label") ($.Get "label") }} visually-hidden {{ end }}">
         {{ end }}
-        {{ if or (eq $.Site.Params.figureLabels true) (eq ( $.Get "label") "true" ) }}
-          {{ if $.Get "label_text" }}
-          {{ $.Get "label_text" | markdownify }}
-          {{ else if isset . "label_text" }}
-          {{ if .label_text }}
-          {{ .label_text | markdownify }}
+        {{ if or (isset . "label") ($.Get "label") }}
+          {{ if $.Get "label" }}
+          {{ $.Get "label" | markdownify }}
+          {{ else if isset . "label" }}
+          {{ if .label }}
+          {{ .label | markdownify }}
           {{ end }}
           {{ end }}
         {{ end }}
@@ -407,27 +408,27 @@ render the figure from matching values found ther
   {{ if eq $.Site.Params.pdf true }} 
     <span class="fig-print"> 
   {{ else }}
-  
+
   {{ if and (ne .media_type "audio") (ne .media_type "soundcloud") (ne .media_type "vimeo") (ne .media_type "youtube") (ne .media_type "website") (eq $.Site.Params.figureModal true) }}
 
   {{ if eq $.Site.Params.figureModalIcons true }}
-    <span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
+    <span class="fig"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
   {{ else }}
-    <span class="fig">
+    <span class="fig {{ if and (isset . "label") ($.Get "label") }} visually-hidden {{ end }}">
   {{ end }}
 
   {{ else }}
-  <span class="fig">
+  <span class="fig {{ if and (isset . "label") ($.Get "label") }} visually-hidden {{ end }}">
   {{ end }}
   {{ end }}
 
-  {{ if or (eq $.Site.Params.figureLabels true) (eq ($.Get "label") "true" ) }}   
+  {{ if or (isset . "label") ($.Get "label") }} 
   <strong>  
-      {{ if $.Get "label_text" }}
-      {{ $.Get "label_text" | markdownify }}
-      {{ else if isset . "label_text" }}
-      {{ if .label_text }}
-      {{ .label_text | markdownify }}
+      {{ if $.Get "label" }}
+      {{ $.Get "label" | markdownify }}
+      {{ else if isset . "label" }}
+      {{ if .label }}
+      {{ .label | markdownify }}
       {{ end }}
       {{ end }}
   </strong>
@@ -451,18 +452,18 @@ render the figure from matching values found ther
         {{ if eq $.Site.Params.figureModalIcons true }}
         <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
         {{ else }}
-        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}">
+        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }} {{ if and (isset . "label") ($.Get "label") }} visually-hidden {{ end }}">
         {{ end }}
 
         {{ else }}
-        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }}">
+        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }} {{ if and (isset . "label") ($.Get "label") }} visually-hidden {{ end }}">
         {{ end }}
-        {{ if or (eq $.Site.Params.figureLabels true) (eq ( $.Get "label") "true" ) }}
-          {{ if $.Get "label_text" }}
-          {{ $.Get "label_text" | markdownify }}
-          {{ else if isset . "label_text" }}
-          {{ if .label_text }}
-          {{ .label_text | markdownify }}
+        {{ if or (isset . "label") ($.Get "label") }}
+          {{ if $.Get "label" }}
+          {{ $.Get "label" | markdownify }}
+          {{ else if isset . "label" }}
+          {{ if .label }}
+          {{ .label | markdownify }}
           {{ end }}
           {{ end }}
         {{ end }}
@@ -661,10 +662,10 @@ If the shortcode has no src, and no id, post an error message.
         {{ end }}
 
         {{ if or (eq .site.Site.Params.figureLabels true) (eq (.site.Get "label") "true" ) }}
-            {{ if .site.Get "label_text" }}
-            {{ .site.Get "label_text" | markdownify }}
-            {{ else if isset .map "label_text" }}
-            {{ .map.label_text | markdownify }}
+            {{ if .site.Get "label" }}
+            {{ .site.Get "label" | markdownify }}
+            {{ else if isset .map "label" }}
+            {{ .map.label | markdownify }}
             {{ else }}
             {{ .site.Site.Params.figureLabelsTextBefore }}{{ .map.id }}{{ .site.Site.Params.figureLabelsTextAfter }}
             {{ end }}
