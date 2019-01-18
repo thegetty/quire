@@ -165,6 +165,7 @@
     padding-bottom: 0;
     .container.is-fluid {
       .content {
+        color: background-color-text($content-background-color);
         background-color: $content-background-color;
         @media print {
           background-color: transparent;

@@ -29,6 +29,7 @@
 
   h1, h2, h3, h4, h5, h6 {
     letter-spacing: -0.025em;
+    color: background-color-text($secondary-background-color);
   }
 
   h2 {
@@ -114,6 +115,7 @@
       #main {
         background: $secondary-background-color; 
         margin-top: $navbar-height;
+        color: background-color-text($secondary-background-color);
       }
 
       .quire-page {

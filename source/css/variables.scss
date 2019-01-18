@@ -67,7 +67,6 @@ $family-secondary: $ibm-sans; // headings and navigation items: $serif, $sans-se
 $quire-header-font: $family-secondary;
 $quire-nav-font: $family-primary;
 $quire-body-font: $family-primary;
-$quire-font-color: $black;
 
 // Modern Theme
 // -----------------------------------------------------------------------------
@@ -80,10 +79,8 @@ $quire-font-color: $black;
   $quire-body-font: $family-primary;
 
   $accent-color: $red;
-  $content-background-color: $white;
-  $secondary-background-color: $off-white;
-
-  $quire-font-color: $black;
+  $content-background-color: $white !default;
+  $secondary-background-color: $off-white !default;
 }
 
 // Classic Theme
@@ -97,10 +94,8 @@ $quire-font-color: $black;
   $quire-body-font: $family-primary;
   
   $accent-color: $light-blue;
-  $content-background-color: $white;
-  $secondary-background-color: $off-white;
-
-  $quire-font-color: $black;
+  $content-background-color: $white !default;
+  $secondary-background-color: $off-white !default;
 }
 
 // Declare navbar variables

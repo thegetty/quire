@@ -12,10 +12,8 @@
     visibility: hidden;
     font-size: 1rem;
     line-height: 1.5;
-    background-color: lighten($accent-color, 45%);
-    color: $accent-color;
-    border-radius: 6px;
-    border: 1px solid $accent-color;
+    background-color: $secondary-background-color;
+    color: background-color-text($secondary-background-color);
     padding: 1rem;
     position: absolute;
     width: 400px;
@@ -23,6 +21,9 @@
     bottom: 150%;
     left: 50%;
     margin-left: -200px;
+    -webkit-box-shadow: 0px 0px 6px 0px $black-semi-transparent;
+    -moz-box-shadow: 0px 0px 6px 0px $black-semi-transparent;
+    box-shadow: 0px 0px 6px 0px $black-semi-transparent;
   }
   &:hover .quire-citation__content {
     visibility: visible;

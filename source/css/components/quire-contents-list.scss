@@ -126,12 +126,14 @@
 
   .menu-list {
     a {
+      color: background-color-text($secondary-background-color);
       position: relative;
       padding-left: 0;
       font-size: 1em;
       .arrow {
-        -webkit-transition: all .5s ease;
-        transition: all .5s ease;
+        -webkit-transition: all .15s ease;
+        transition: all .15s ease;
+        fill: background-color-text($secondary-background-color);
       }
       &:hover {
         background-color: inherit;
@@ -170,6 +172,7 @@
       line-height: inherit;
     }
     .section-item .title {
+      color: background-color-text($secondary-background-color);
       margin-bottom: 0;
     }
     .quire-menu__formats {

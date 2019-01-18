@@ -12,6 +12,9 @@
 .content ul.quire-contributors-list {
   list-style-type: none;
   margin-left: 0;
+  .title {
+    color: background-color-text($secondary-background-color);
+  }
 }
 
 // .quire-contributor

@@ -261,6 +261,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
       border-top: 1px solid background-color-text($content-background-color);
       border-bottom: 1px solid background-color-text($content-background-color);
       background-color: $content-background-color;
+      color: background-color-text($content-background-color);
 
       td {
         border: none;
@@ -301,6 +302,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
 
       &:hover {
         background-color: $quire-hover-color;
+        color: background-color-text($quire-hover-color);
       }
     }
   }
