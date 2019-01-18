@@ -53,7 +53,7 @@
       height: 1.25rem;
       margin-left: -.25rem;
       margin-bottom: .15rem;
-      fill: background-color-text($accent-color);
+      fill: background-color($accent-color);
     }
 
     .nav-title {
@@ -63,13 +63,13 @@
     &.next {
       background-color: $accent-color;
       svg {
-        fill: background-color-text($accent-color);
+        fill: background-color($accent-color);
       }
       &:hover {
         background-color: darken($accent-color, 15%);
       }
       a {
-        color: background-color-text($accent-color);
+        color: background-color($accent-color);
       }
     }
 
@@ -79,10 +79,10 @@
         background-color: darken($accent-color, 15%);
       }
       a {
-        color: background-color-text($accent-color);
+        color: background-color($accent-color);
       }
       svg {
-        fill: background-color-text($accent-color);
+        fill: background-color($accent-color);
       }
     }
   }

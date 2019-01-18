@@ -10,7 +10,7 @@ $accent-color: $red;
 $content-background-color: $white;
 $secondary-background-color: $off-white;
 
-// Declare the theme modern or classic
+// Declare the theme modern/classic/custom
 $theme: modern;
 
 // Navbar color: normal or accent
@@ -64,47 +64,60 @@ $quire-splash-page-color: $light-blue;
 // new quire variables
 $quire-hover-color: $light-yellow;
 
-// Modern Theme
+// Custom - based on modern theme
 $family-primary: $noto-sans; // body text: $serif, $sans-serif, $slab-serif
 $family-secondary: $ibm-sans; // headings and navigation items: $serif, $sans-serif, $slab-serif
+
 $quire-header-font: $family-secondary;
 $quire-nav-font: $family-primary;
 $quire-body-font: $family-primary;
+
 $quire-header-color: $off-black;
-$quire-nav-font-color: $white;
-$quire-body-font-color: $black;
-$quire-primary-color: $red;
-$quire-primary-color-hover: $dark-red;
-$quire-secondary-color: $off-black;
-$quire-body-background-color: $off-white;
+$quire-font-color: $black;
+
+// Modern Theme
+@if $theme == modern {
+  $family-primary: $noto-sans; // body text: $serif, $sans-serif, $slab-serif
+  $family-secondary: $ibm-sans; // headings and navigation items: $serif, $sans-serif, $slab-serif
+
+  $quire-header-font: $family-secondary;
+  $quire-nav-font: $family-primary;
+  $quire-body-font: $family-primary;
+
+  $accent-color: $red;
+  $quire-header-color: $off-black;
+  $quire-font-color: $black;
+}
 
 // Classic Theme
 @if $theme == classic {
   $family-primary: $noto-serif; // body text: $serif, $sans-serif, $slab-serif
   $family-secondary: $times-serif; // headings and navigation items: $serif, $sans-serif, $slab-serif
+
   $quire-header-font: $family-secondary;
   $quire-nav-font: $family-primary;
   $quire-body-font: $family-primary;
 
   $accent-color: $light-blue;
   $quire-header-color: $off-black;
-  $quire-nav-font-color: $white;
-  $quire-body-font-color: $black;
-  $quire-primary-color: $off-black;
-  $quire-primary-color-hover: $light-blue;
-  $quire-secondary-color: $light-blue;
-  $quire-body-background-color: $off-white;
+  $quire-font-color: $black;
 }
 
 // Normal Navbar
 $quire-navbar-color: $white;
-$quire-navbar-hover-color: $off-white;
+$quire-navbar-hover-color: darken($quire-navbar-color, 5%);
 $quire-navbar-text-color: $dark;
+
+@if $navbar == normal {
+  $quire-navbar-color: $white;
+  $quire-navbar-hover-color: darken($quire-navbar-color, 5%);
+  $quire-navbar-text-color: $dark;
+}
 
 // Accent Navbar
 @if $navbar == accent {
   $quire-navbar-color: $accent-color;
-  $quire-navbar-hover-color: $off-gray;
+  $quire-navbar-hover-color: darken($quire-navbar-color, 5%);
   $quire-navbar-text-color: $white;
 }
 // Cover

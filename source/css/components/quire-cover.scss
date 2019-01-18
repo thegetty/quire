@@ -139,7 +139,7 @@
   }
 
   &__button {
-    background-color: $quire-primary-color;
+    background-color: $accent-color;
     color: findColorInvert($quire-page-link-color);
     border-width: 0px;
     border-radius: 2px;
@@ -156,7 +156,7 @@
       fill: findColorInvert($quire-page-link-color);
     }
     &:hover {
-      background-color: $quire-primary-color-hover;
+      background-color: darken($accent-color, 15%);
       color: $white;
     }
   }

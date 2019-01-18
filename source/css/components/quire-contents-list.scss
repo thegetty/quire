@@ -119,7 +119,7 @@
       display: inline-block;
       border-bottom: 1px dotted $off-black;
       &:hover {
-        border-bottom: 1px solid $quire-primary-color-hover;
+        border-bottom: 1px solid darken($accent-color, 15%);
       }
     }
   }
@@ -135,10 +135,10 @@
       }
       &:hover {
         background-color: inherit;
-        color: $quire-primary-color-hover;
+        color: darken($accent-color, 15%);
         .arrow {
           margin-left: 14px;
-          fill: $quire-primary-color-hover;
+          fill: darken($accent-color, 15%);
         }
       }
     }

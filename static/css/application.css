@@ -8286,7 +8286,7 @@ html {
     margin-bottom: .05rem;
     fill: #fff; }
   .quire-cover__button:hover {
-    background-color: #B02E2E;
+    background-color: #a02a2a;
     color: #ffffff; }
 
 .quire-cover .quire-page__content {
@@ -8472,7 +8472,7 @@ html {
       display: inline-block;
       border-bottom: 1px dotted #333333; }
       .quire-contents-list ul.arrow .section-indent a:hover {
-        border-bottom: 1px solid #B02E2E; }
+        border-bottom: 1px solid #a02a2a; }
   .quire-contents-list .menu-list a {
     position: relative;
     padding-left: 0;
@@ -8481,10 +8481,10 @@ html {
       transition: all .5s ease; }
     .quire-contents-list .menu-list a:hover {
       background-color: inherit;
-      color: #B02E2E; }
+      color: #a02a2a; }
       .quire-contents-list .menu-list a:hover .arrow {
         margin-left: 14px;
-        fill: #B02E2E; }
+        fill: #a02a2a; }
   .quire-contents-list .list-header {
     padding: .5em .75em .5em 0;
     letter-spacing: 1px; }
@@ -9594,23 +9594,23 @@ body > div.mfp-bg.mfp-ready {
       height: 1.25rem;
       margin-left: -.25rem;
       margin-bottom: .15rem;
-      fill: #333333; }
+      fill: #120505; }
     .quire-contents-buttons li.quire-nav-button .nav-title {
       vertical-align: super; }
     .quire-contents-buttons li.quire-nav-button.next {
       background-color: #CF4747; }
       .quire-contents-buttons li.quire-nav-button.next svg {
-        fill: #333333; }
+        fill: #120505; }
       .quire-contents-buttons li.quire-nav-button.next:hover {
         background-color: #a02a2a; }
       .quire-contents-buttons li.quire-nav-button.next a {
-        color: #333333; }
+        color: #120505; }
     .quire-contents-buttons li.quire-nav-button:hover {
       background-color: #CF4747; }
       .quire-contents-buttons li.quire-nav-button:hover a {
-        color: #333333; }
+        color: #120505; }
       .quire-contents-buttons li.quire-nav-button:hover svg {
-        fill: #333333; }
+        fill: #120505; }
 
 @media print {
   @page {
