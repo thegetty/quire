@@ -90,7 +90,7 @@ we start with media figures
       {{ if eq $.Site.Params.pdf true }} 
         <span class="fig-print"> 
       {{ else }} 
-        <span class="fig {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
+        <span class="fig no-fullscreen {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
       {{ end }}
       {{ if or (isset . "label") ($.Get "label") }}
       <strong>    
@@ -166,6 +166,40 @@ we start with media figures
 <div class="q-figure__wrapper">
 {{/* -------------------- START q-figure__wrapper BLOCK -------------------- */}}
 
+  {{ if eq $.Site.Params.figureZoom true }}
+
+  {{ $Id := now.UnixNano }}
+
+  <figure   
+  id="deepzoom-{{ $Id }}" 
+  {{ if .Get "caption" }}  
+  title='{{ .Get "caption" | markdownify | safeHTML }}' {{ end }} 
+  class="quire-figure leaflet-outer-wrapper mfp-hide">
+    <div 
+    id="js-deepzoom-{{ now.UnixNano }}" 
+    class="quire-deepzoom inset leaflet-inner-wrapper " 
+    aria-live="polite" 
+    role="application" 
+    aria-label="Zoomable image" 
+    data-image="{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}">
+    </div>
+  </figure>
+
+  {{ if eq $.Site.Params.figureModal true }}
+    <a
+    href="#deepzoom-{{ $Id }}" 
+    class='inline popup'
+    data-type='inline' 
+    {{ if .Get "caption" }}  title='{{ .Get "caption" | markdownify | safeHTML }}' {{ end }}>
+  {{ end }}
+
+      <img
+      class="quire-figure__image" 
+      src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
+      alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
+
+  {{ else }}
+
   {{ if eq $.Site.Params.figureModal true }}
   <a class="image popup" href='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}' {{ if $.Get "caption" }} title='{{ $.Get "caption" | markdownify | safeHTML }}' {{ end }}>
   {{ end }}
@@ -180,6 +214,8 @@ we start with media figures
      id='{{ with .Get "id" }}{{ . | urlize }}{{ end }}'
      src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
      alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ end }}' />
+
+  {{ end }}
   {{ end }}
 
 {{/* -------------------- START FIGURE LABEL ON TOP BLOCK -------------------- */}}
@@ -194,11 +230,11 @@ we start with media figures
   {{ if eq $.Site.Params.figureModalIcons true }}
     <span class="fig"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
   {{ else }}
-    <span class="fig {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
+    <span class="fig no-fullscreen {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
   {{ end }} 
 
   {{ else }}
-    <span class="fig {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
+    <span class="fig no-fullscreen {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
   {{ end }}
 
   {{ end }}
@@ -388,6 +424,38 @@ render the figure from matching values found ther
   {{ else }}
   {{/* -------------------- BEGIN IMAGE BLOCK -------------------- */}}
 
+  {{ if eq $.Site.Params.figureZoom true }}
+
+  {{ $Id := now.UnixNano }}
+
+  <div class="q-figure__wrapper">
+    <figure 
+      id="deepzoom-{{ $Id }}"
+      {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}  
+      class="quire-figure leaflet-outer-wrapper mfp-hide">
+        <div 
+        id="js-deepzoom-{{ now.UnixNano }}" 
+        class="quire-deepzoom inset leaflet-inner-wrapper " 
+        aria-live="polite" 
+        role="application"
+        aria-label="Zoomable image" 
+        data-image="{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}">
+        </div>
+    </figure>
+
+    {{ if eq $.Site.Params.figureModal true }}
+    <a
+    href="#deepzoom-{{ $Id }}"
+    class='inline popup'
+    data-type='inline'
+    {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
+    {{ end }}
+      <img
+      class="quire-figure__image" 
+      src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
+
+  {{ else }}
+
   <div class="q-figure__wrapper">
       {{ if eq $.Site.Params.figureModal true }}
       <a class="image popup" href='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
@@ -397,6 +465,8 @@ render the figure from matching values found ther
        id='{{ .id }}'
        src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'
        alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}' />
+
+  {{ end }}
     
   {{ end }}
   {{/* -------------------- END IMAGE BLOCK -------------------- */}}
@@ -413,11 +483,11 @@ render the figure from matching values found ther
   {{ if eq $.Site.Params.figureModalIcons true }}
     <span class="fig"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
   {{ else }}
-    <span class="fig {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
+    <span class="fig no-fullscreen {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
   {{ end }}
 
   {{ else }}
-  <span class="fig {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
+  <span class="fig no-fullscreen {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
   {{ end }}
   {{ end }}
 

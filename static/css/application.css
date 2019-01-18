@@ -8701,6 +8701,9 @@ html {
       top: 0;
       color: #ffffff;
       margin: 0 auto; }
+      .quire-figure .q-figure__wrapper a span.fig.no-fullscreen strong {
+        margin-left: 5px;
+        margin-bottom: 3px; }
       .quire-figure .q-figure__wrapper a span.fig strong {
         margin-top: 3px;
         margin-right: 5px; }
@@ -8730,11 +8733,16 @@ html {
       background: rgba(0, 0, 0, 0.75);
       /** sets transparent background without affecting text color **/
       position: absolute;
-      padding: 2px 6px 0px 7px;
       left: 0;
       top: 0; }
+      .quire-figure .q-figure__wrapper span.fig.no-fullscreen strong {
+        color: #ffffff;
+        margin-left: 5px;
+        margin-bottom: 3px; }
       .quire-figure .q-figure__wrapper span.fig strong {
-        color: #ffffff; }
+        color: #ffffff;
+        margin-top: 3px;
+        margin-right: 5px; }
     .quire-figure .q-figure__wrapper span.fig-false {
       padding: 0;
       height: 24px;

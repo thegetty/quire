@@ -1,4 +1,4 @@
-
+//@ts-check
 
 import DeepZoom from './deepzoom.js';
 import Map from './map.js';
@@ -146,7 +146,7 @@ export default function (gallerySelector) {
         captionUpdate(this);
 
         let id = this.content.children()[0].id;
-        let waitForDOMUpdate = 100;
+        let waitForDOMUpdate = 0;
         if (id !== '' || id !== undefined) {
           if (id.indexOf('map') !== -1) {
             setTimeout(() => {

@@ -72,6 +72,11 @@ class DeepZoom {
     })
   }
 
+  showZoom(id) {
+    let ele = document.getElementById(id)
+    ele.innerHTML = this.map.getZoom();
+  }
+
   createMap() {
     return L.map(this.el, {
       center: this.center,
@@ -92,35 +97,20 @@ class DeepZoom {
 
   addTiles(bounds) {
     if (bounds) {
-      L.imageOverlay(this.imageURL, bounds, {
-        attribution: false,
-        fitBounds: true
-      }).addTo(this.map);
-      // this.map.addLayer(overLay)
-      // this.map.fitBounds(bounds)
       this.map.setMaxBounds(bounds)
+      this.map.fitBounds(bounds)
+      let imageOverlay = L.imageOverlay(this.imageURL, bounds, {
+        attribution: false,
+        opacity: 0.0
+      })
+      this.map.addLayer(imageOverlay)
+      imageOverlay.on('load', (event) => {
+        setTimeout(() => {
+          imageOverlay.setOpacity(1.0)
+        }, 250)
+      })
     }
   }
-
-  getInitialZoom(mapSize, x, y) {
-    let tolerance = 0.7;
-    // Calculate an offset between the zoom levels and the array accessors
-    console.log(mapSize.x, mapSize.y)
-    console.log(x, y)
-    console.log(x * tolerance < mapSize.x && y * tolerance < mapSize.y)
-    let imageArea = x * y
-    let mapArea = mapSize.x * mapSize.y
-    console.log(y / mapSize.y)
-    if (x * tolerance < mapSize.x && y * tolerance < mapSize.y) {
-      return (y * tolerance / mapSize.y) - (x * tolerance / mapSize.x);
-    }
-    // return a default zoom
-    return 2.75;
-  }
-
-
-
-
 }
 
 export default DeepZoom
