@@ -113,7 +113,7 @@
       display: block;
       position: relative;
       line-height: 50px;
-      color: $white;
+      color: background-color-text($black);
       width: 50px;
       height: 50px;
       background: $black;
@@ -127,7 +127,7 @@
         margin-top: .15rem;
         -webkit-transition: all .5s ease;
         transition: all .5s ease;
-        fill: $white;
+        fill: background-color-text($black);
         img {
           padding: 7px 0;
         }
@@ -165,7 +165,7 @@
     padding-bottom: 0;
     .container.is-fluid {
       .content {
-        background-color: $off-white;
+        background-color: $content-background-color;
         @media print {
           background-color: transparent;
         }

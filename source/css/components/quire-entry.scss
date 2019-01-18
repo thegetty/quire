@@ -229,7 +229,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     margin-top: 1em;
 
     .container {
-      background-color: $white;
+      background-color: $content-background-color;
       padding-bottom: 2rem;
     }
 
@@ -250,7 +250,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     }
 
     >div.container {
-      background-color: $white;
+      background-color: $content-background-color;
       padding-bottom: 1em;
     }
 
@@ -258,8 +258,9 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
       width: 90.5%;
       margin: 0 auto;
       padding-bottom: 1em;
-      border-top: 1px solid $gray;
-      border-bottom: 1px solid $gray;
+      border-top: 1px solid background-color-text($content-background-color);
+      border-bottom: 1px solid background-color-text($content-background-color);
+      background-color: $content-background-color;
 
       td {
         border: none;
@@ -325,7 +326,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     padding-bottom: 1.5rem;
 
     .content {
-      background-color: $white;
+      background-color: $content-background-color;
       margin-top: 0;
       padding: 0 2rem 2.5em;
 

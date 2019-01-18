@@ -291,10 +291,11 @@
         border-radius: 2px;
         margin: 1rem;
         box-shadow: none;
+        background-color: $content-background-color;
 
         a {
           padding: 0;
-          color: $quire-primary-color;
+          color: $accent-color;
           border-bottom: none;
 
           &:hover {
@@ -302,7 +303,7 @@
           }
 
           svg {
-            fill: $quire-primary-color;
+            fill: $accent-color;
             vertical-align: text-bottom;
           }
         }
@@ -332,9 +333,9 @@
           text-transform: uppercase;
         }
         .title {
-          color: $quire-primary-color;
+          color: $accent-color;
           svg {
-            fill: $quire-primary-color;
+            fill: $accent-color;
             vertical-align: sub;
           }
         }

@@ -96,7 +96,7 @@
   // Styles with JS enabled (sliding menu, etc.)
   &:not(.no-js) {
     .quire__primary {
-      background: $off-white;
+      background: $secondary-background-color;
       display: flex;
       flex-direction: column;
       height: 100vh;
@@ -112,7 +112,7 @@
       z-index: 9999;
 
       #main {
-        background: $quire-body-background-color; 
+        background: $secondary-background-color; 
         margin-top: $navbar-height;
       }
 

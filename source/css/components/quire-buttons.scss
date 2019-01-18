@@ -17,8 +17,8 @@
     display: inline-block;
     width: 6.65em;
     height: 2em;
-    background: transparent;
-    border: 1px solid $quire-primary-color;
+    background: $secondary-background-color;
+    border: 1px solid darken($accent-color, 15%);
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;
     border-radius: 2px;
@@ -30,7 +30,7 @@
       display: inline-block;
       width: 8.75em;
       height: 3.25em;
-      color: $quire-primary-color;
+      color: background-color($accent-color);
       font-size: .8em;
       padding-top: .4em;
       font-family: $quire-nav-font;
@@ -43,7 +43,7 @@
         margin-right: .5rem;
       }
       svg {
-        fill: $quire-primary-color;
+        fill: background-color($accent-color);
         margin-right: .5rem;
       }
     }
@@ -53,7 +53,7 @@
       height: 1.25rem;
       margin-left: -.25rem;
       margin-bottom: .15rem;
-      fill: $quire-primary-color;
+      fill: background-color-text($accent-color);
     }
 
     .nav-title {
@@ -61,28 +61,28 @@
     }
 
     &.next {
-      background-color: $quire-primary-color;
+      background-color: $accent-color;
       svg {
-        fill: background-color-text($quire-body-font-color);
+        fill: background-color-text($accent-color);
       }
       &:hover {
-        background-color: darken($quire-primary-color, 15%);
+        background-color: darken($accent-color, 15%);
       }
       a {
-        color: background-color-text($quire-body-font-color);
+        color: background-color-text($accent-color);
       }
     }
 
     &:hover {
-      background-color: $quire-primary-color;
+      background-color: $accent-color;
       @if $family-primary == $noto-serif {
-        background-color: $quire-primary-color-hover;
+        background-color: darken($accent-color, 15%);
       }
       a {
-        color: $quire-nav-font-color;
+        color: background-color-text($accent-color);
       }
       svg {
-        fill: $quire-nav-font-color;
+        fill: background-color-text($accent-color);
       }
     }
   }
