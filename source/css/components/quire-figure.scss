@@ -57,6 +57,14 @@
         color: $white;
         margin: 0 auto;
 
+        &.no-fullscreen {
+
+          strong {
+            margin-left: 5px;
+            margin-bottom: 3px;
+          }
+        }
+
         strong {
           margin-top: 3px;
           margin-right: 5px;
@@ -104,12 +112,22 @@
       background: $black-semi-transparent;
       /** sets transparent background without affecting text color **/
       position: absolute;
-      padding: 2px 6px 0px 7px;
       left: 0;
       top: 0;
 
+      &.no-fullscreen {
+
+        strong {
+          color: $white;
+          margin-left: 5px;
+          margin-bottom: 3px;
+        }
+      }
+
       strong {
         color: $white;
+        margin-top: 3px;
+        margin-right: 5px;
       }
     }
 

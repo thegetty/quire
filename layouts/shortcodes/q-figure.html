@@ -90,7 +90,7 @@ we start with media figures
       {{ if eq $.Site.Params.pdf true }} 
         <span class="fig-print"> 
       {{ else }} 
-        <span class="fig {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
+        <span class="fig no-fullscreen {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
       {{ end }}
       {{ if or (isset . "label") ($.Get "label") }}
       <strong>    
@@ -194,11 +194,11 @@ we start with media figures
   {{ if eq $.Site.Params.figureModalIcons true }}
     <span class="fig"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
   {{ else }}
-    <span class="fig {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
+    <span class="fig no-fullscreen {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
   {{ end }} 
 
   {{ else }}
-    <span class="fig {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
+    <span class="fig no-fullscreen {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
   {{ end }}
 
   {{ end }}
@@ -413,11 +413,11 @@ render the figure from matching values found ther
   {{ if eq $.Site.Params.figureModalIcons true }}
     <span class="fig"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
   {{ else }}
-    <span class="fig {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
+    <span class="fig no-fullscreen {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
   {{ end }}
 
   {{ else }}
-  <span class="fig {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
+  <span class="fig no-fullscreen {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
   {{ end }}
   {{ end }}
 
