@@ -11,12 +11,12 @@ a single image or object needs to be featured prominently.\
 {{ $.Scratch.Set "imageDir" "" }}
 {{ end }}
 
-{{ $zoom :=  $.Site.Params.entryPageFigureZoom  }}
+{{ $zoom :=  $.Site.Params.figureZoom  }}
 {{ $pdf :=  $.Site.Params.pdf }}
 
 {{/* Entry content, including entry image and tombstone data */}}
 <article class="{{ partial "page-class.html" . }} quire-entry" id="main" role="main">
-<div {{ if eq $.Site.Params.entryPageSideBySideLayout true }} {{ if ne $.Site.Params.pdf true }} class="side-by-side" {{ end }} {{ end }} data="{{ $.Site.Params.entryPageFigureZoom }}">
+<div {{ if eq $.Site.Params.entryPageSideBySideLayout true }} {{ if ne $.Site.Params.pdf true }} class="side-by-side" {{ end }} {{ end }} data="{{ $.Site.Params.figureZoom }}">
 
   {{/* Full-width entry image header */}}
 <div class="quire-entry__image-wrap">
