@@ -118,6 +118,39 @@ the figure for each into a figure group
 
     {{/* -------------------- BEGIN NO_MEDIA_ID BLOCK -------------------- */}}
 
+      {{ if eq $.Site.Params.figureZoom true }}
+
+
+     {{ $Id := now.UnixNano }}
+
+  <div class="q-figure__wrapper">
+    <figure 
+      id="deepzoom-{{ $Id }}"
+      {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}  
+      class="quire-figure leaflet-outer-wrapper mfp-hide">
+        <div 
+        id="js-deepzoom-{{ now.UnixNano }}" 
+        class="quire-deepzoom inset leaflet-inner-wrapper " 
+        aria-live="polite" 
+        role="application"
+        aria-label="Zoomable image" 
+        data-image="{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}">
+        </div>
+    </figure>
+
+    {{ if eq $.Site.Params.figureModal true }}
+    <a
+    href="#deepzoom-{{ $Id }}"
+    class='inline popup'
+    data-type='inline'
+    {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
+    {{ end }}
+      <img
+      class="quire-figure__image" 
+      src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
+
+  {{ else }}
+
     <div class='q-figure__wrapper'>
       {{ if eq $.Site.Params.figureModal true }}
       <a class="image popup" href='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
@@ -125,6 +158,8 @@ the figure for each into a figure group
       <img id="{{ .id }}" class="quire-figure__image"
          src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'
          alt="{{ if .alt }}{{ .alt }}{{ end }}" />
+    
+    {{ end }}
 
     {{/* -------------------- END NO_MEDIA_ID BLOCK -------------------- */}}
     {{ end }}
