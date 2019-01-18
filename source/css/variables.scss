@@ -58,6 +58,8 @@ $quire-entry-image-icons-color: $white;
 $quire-splash-page-color: $light-blue;
 
 // Setup of new quire variables
+$quire-hover-color: $light-yellow;
+
 // Modern Theme
 $family-primary: $noto-sans; // body text: $serif, $sans-serif, $slab-serif
 $family-secondary: $ibm-sans; // headings and navigation items: $serif, $sans-serif, $slab-serif
@@ -97,7 +99,7 @@ $quire-navbar-text-color: $dark;
 
 // Accent Navbar
 @if $navbar == accent {
-  $quire-navbar-color: $quire-primary-color-hover;
+  $quire-navbar-color: $accent-color;
   $quire-navbar-hover-color: $off-gray;
   $quire-navbar-text-color: $white;
 }

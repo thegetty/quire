@@ -98,7 +98,7 @@
     transition: height .5s ease;
     height: 2px;
     width: 100%;
-    background-color: $quire-primary-color-hover;
+    background-color: darken($accent-color, 10%);
     text-align: right;
     padding-right: .5em;
     position: relative;
