@@ -136,12 +136,12 @@
     a {
       font-family: $family-primary;
       &.active {
-        border-left: 4px solid $quire-primary-color;
-        color: $quire-primary-color !important;
+        border-left: 4px solid $accent-color;
+        color: $accent-color !important;
         text-decoration: none;
         @if $family-primary == $noto-serif {
-          color: $quire-secondary-color !important;
-          border-left: 4px solid $quire-secondary-color !important;
+          color: $accent-color !important;
+          border-left: 4px solid $accent-color !important;
         }
       }
     }

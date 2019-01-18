@@ -7346,7 +7346,7 @@ template {
   font-size: .875em;
   position: fixed;
   z-index: 1;
-  background-color: #FFC0CB;
+  background-color: #ffffff;
   min-height: 3rem;
   top: 0 !important;
   width: 100%; }
@@ -7366,7 +7366,7 @@ template {
   .quire-navbar a,
   .quire-navbar button,
   .quire-navbar .button {
-    background-color: #FFC0CB;
+    background-color: #ffffff;
     color: #363636 !important; }
   .quire-navbar a {
     border-bottom-color: #363636 !important; }
@@ -7391,7 +7391,7 @@ template {
   transition: all .5s ease;
   font-family: "Noto Sans", sans-serif;
   font-size: 0.75rem;
-  background-color: #b95700;
+  background-color: #5e7d84;
   border-bottom: none; }
   .quire-progress-bar span {
     color: #ffffff;
@@ -7401,7 +7401,7 @@ template {
     transition: height .5s ease;
     height: 2px;
     width: 100%;
-    background-color: #21ccbb;
+    background-color: #b42f2f;
     text-align: right;
     padding-right: .5em;
     position: relative;
@@ -7425,7 +7425,7 @@ template {
   .quire-navbar-controls__left, .quire-navbar-controls__right, .quire-navbar-controls .quire-navbar-page-controls__item {
     transition: all 0.05s linear; }
     .quire-navbar-controls__left:hover a, .quire-navbar-controls__left:hover button, .quire-navbar-controls__left:hover .button, .quire-navbar-controls__right:hover a, .quire-navbar-controls__right:hover button, .quire-navbar-controls__right:hover .button, .quire-navbar-controls .quire-navbar-page-controls__item:hover a, .quire-navbar-controls .quire-navbar-page-controls__item:hover button, .quire-navbar-controls .quire-navbar-page-controls__item:hover .button {
-      background-color: #EEF2F3; }
+      background-color: white; }
 
 .quire-navbar-page-controls {
   display: flex;
@@ -7828,6 +7828,10 @@ html {
     font-size: 16px;
     padding: 40px 1.75em;
     background-color: #ffffff; }
+    .quire-page__content .container .content hr {
+      background-color: #595959; }
+    .quire-page__content .container .content table td, .quire-page__content .container .content table th {
+      border-color: #595959; }
     .quire-page__content .container .content p {
       line-height: 2; }
       @media print {
@@ -7837,7 +7841,7 @@ html {
       border-left: none;
       position: relative; }
       .quire-page__content .container .content blockquote:before {
-        color: #D8E6EA;
+        color: #595959;
         font-size: 4em;
         line-height: 0.1em;
         margin-right: 0.25em;
@@ -8029,7 +8033,7 @@ html {
     color: #363636; } }
 
 .quire-page__content .content a:hover {
-  color: #B02E2E !important;
+  color: #a02a2a !important;
   border-bottom-width: 2px; }
 
 .quire-page__content .content a:focus {
@@ -8288,7 +8292,7 @@ html {
 .quire-cover .quire-page__content {
   padding-bottom: 0; }
   .quire-cover .quire-page__content .container.is-fluid .content {
-    background-color: #EEF2F3; }
+    background-color: #ffffff; }
     @media print {
       .quire-cover .quire-page__content .container.is-fluid .content {
         background-color: transparent; } }
@@ -8566,7 +8570,8 @@ html {
         display: block;
         border-radius: 2px;
         margin: 1rem;
-        box-shadow: none; }
+        box-shadow: none;
+        background-color: #ffffff; }
         .quire-contents-list.grid ul li .card a {
           padding: 0;
           color: #CF4747;
@@ -9151,8 +9156,9 @@ div.multimedia {
   width: 90.5%;
   margin: 0 auto;
   padding-bottom: 1em;
-  border-top: 1px solid #CCCCCC;
-  border-bottom: 1px solid #CCCCCC; }
+  border-top: 1px solid #333333;
+  border-bottom: 1px solid #333333;
+  background-color: #ffffff; }
   .quire-entry__tombstone .table td {
     border: none; }
 
@@ -9562,8 +9568,8 @@ body > div.mfp-bg.mfp-ready {
     display: inline-block;
     width: 6.65em;
     height: 2em;
-    background: transparent;
-    border: 1px solid #CF4747;
+    background: #EEF2F3;
+    border: 1px solid #a02a2a;
     border-radius: 2px;
     transition: all .5s ease;
     font-size: 1em; }
@@ -9571,7 +9577,7 @@ body > div.mfp-bg.mfp-ready {
       display: inline-block;
       width: 8.75em;
       height: 3.25em;
-      color: #CF4747;
+      color: #333333;
       font-size: .8em;
       padding-top: .4em;
       font-family: "Noto Sans", sans-serif; }
@@ -9581,30 +9587,30 @@ body > div.mfp-bg.mfp-ready {
       .quire-contents-buttons li.quire-nav-button.prev a {
         margin-right: .5rem; }
       .quire-contents-buttons li.quire-nav-button.prev svg {
-        fill: #CF4747;
+        fill: #333333;
         margin-right: .5rem; }
     .quire-contents-buttons li.quire-nav-button svg {
       width: 1.25rem;
       height: 1.25rem;
       margin-left: -.25rem;
       margin-bottom: .15rem;
-      fill: #CF4747; }
+      fill: #333333; }
     .quire-contents-buttons li.quire-nav-button .nav-title {
       vertical-align: super; }
     .quire-contents-buttons li.quire-nav-button.next {
       background-color: #CF4747; }
       .quire-contents-buttons li.quire-nav-button.next svg {
-        fill: #ffffff; }
+        fill: #333333; }
       .quire-contents-buttons li.quire-nav-button.next:hover {
         background-color: #a02a2a; }
       .quire-contents-buttons li.quire-nav-button.next a {
-        color: #ffffff; }
+        color: #333333; }
     .quire-contents-buttons li.quire-nav-button:hover {
       background-color: #CF4747; }
       .quire-contents-buttons li.quire-nav-button:hover a {
-        color: #ffffff; }
+        color: #333333; }
       .quire-contents-buttons li.quire-nav-button:hover svg {
-        fill: #ffffff; }
+        fill: #333333; }
 
 @media print {
   @page {

@@ -6,9 +6,9 @@
 // To avoid errors, variables names should not be changed or deleted, and be
 // sure to leave the colons (:) and semi-colons (;) in place.
 
-$accent-color: turquoise;
-$content-background-color: #FFC0CB;
-$secondary-background-color: #ffdab9;
+$accent-color: $red;
+$content-background-color: $white;
+$secondary-background-color: $off-white;
 
 // Declare the theme modern or classic
 $theme: modern;
@@ -41,23 +41,27 @@ $quire-page-paragraph-style: line-space;
 $quire-page-link-color: $blue;
 $quire-page-link-highlight: $light;
 
+// Print 
 $page-color: $white;
 $page-text-color: $dark;
 
+// included in various foreground-color on page.scss
 $quire-page-header-color: $light;
 $quire-page-header-text-color: $dark;
 
+// part of menus 
 $quire-menu-color: $dark;
 $quire-menu-border-color: $dark;
 $quire-menu-text-color: $white;
 
+// entry page image colors
 $quire-entry-image-color: $dark;
 $quire-entry-image-icons-color: $white;
 
-// Splash Page Color
+// part of the dual colors, page.scss and print.scss
 $quire-splash-page-color: $light-blue;
 
-// Setup of new quire variables
+// new quire variables
 $quire-hover-color: $light-yellow;
 
 // Modern Theme
