@@ -142,11 +142,11 @@ the figure for each into a figure group
 {{ if eq $.Site.Params.figureModalIcons true }}
 <span class="fig"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
 {{ else }}
-<span class="fig {{ if and (isset . "label") ($.Get "label") }} visually-hidden {{ end }}">
+<span class="fig {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
 {{ end }}
 
 {{ else }}
-<span class="fig {{ if and (isset . "label") ($.Get "label") }} visually-hidden {{ end }}">
+<span class="fig {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
 {{ end }}
 {{ end }}
 
@@ -297,11 +297,11 @@ the figure for each into a figure group
         {{ if eq $.Site.Params.figureModalIcons true }}
         <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
         {{ else }}
-        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }} {{ if and (isset . "label") ($.Get "label") }} visually-hidden {{ end }}">
+        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }} {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
         {{ end }}
 
         {{ else }}
-        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }} {{ if and (isset . "label") ($.Get "label") }} visually-hidden {{ end }}">
+        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }} {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
         {{ end }}
 
         {{ if or (isset . "label") ($.Get "label") }}
