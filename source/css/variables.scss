@@ -64,18 +64,18 @@ $quire-splash-page-color: $light-blue;
 // new quire variables
 $quire-hover-color: $light-yellow;
 
+
 // Custom - based on modern theme
+// -----------------------------------------------------------------------------
 $family-primary: $noto-sans; // body text: $serif, $sans-serif, $slab-serif
 $family-secondary: $ibm-sans; // headings and navigation items: $serif, $sans-serif, $slab-serif
-
 $quire-header-font: $family-secondary;
 $quire-nav-font: $family-primary;
 $quire-body-font: $family-primary;
-
-$quire-header-color: $off-black;
 $quire-font-color: $black;
 
 // Modern Theme
+// -----------------------------------------------------------------------------
 @if $theme == modern {
   $family-primary: $noto-sans; // body text: $serif, $sans-serif, $slab-serif
   $family-secondary: $ibm-sans; // headings and navigation items: $serif, $sans-serif, $slab-serif
@@ -85,11 +85,11 @@ $quire-font-color: $black;
   $quire-body-font: $family-primary;
 
   $accent-color: $red;
-  $quire-header-color: $off-black;
   $quire-font-color: $black;
 }
 
 // Classic Theme
+// -----------------------------------------------------------------------------
 @if $theme == classic {
   $family-primary: $noto-serif; // body text: $serif, $sans-serif, $slab-serif
   $family-secondary: $times-serif; // headings and navigation items: $serif, $sans-serif, $slab-serif
@@ -97,13 +97,13 @@ $quire-font-color: $black;
   $quire-header-font: $family-secondary;
   $quire-nav-font: $family-primary;
   $quire-body-font: $family-primary;
-
+  
   $accent-color: $light-blue;
-  $quire-header-color: $off-black;
   $quire-font-color: $black;
 }
 
 // Normal Navbar
+// -----------------------------------------------------------------------------
 $quire-navbar-color: $white;
 $quire-navbar-hover-color: darken($quire-navbar-color, 5%);
 $quire-navbar-text-color: $dark;
@@ -115,16 +115,18 @@ $quire-navbar-text-color: $dark;
 }
 
 // Accent Navbar
+// -----------------------------------------------------------------------------
 @if $navbar == accent {
   $quire-navbar-color: $accent-color;
   $quire-navbar-hover-color: darken($quire-navbar-color, 5%);
   $quire-navbar-text-color: $white;
 }
+
+
 // Cover
 // -----------------------------------------------------------------------------
-
 $quire-cover-color-1: $blue;
-$quire-cover-color-2: #dc52f5;
+$quire-cover-color-2: $light-purple;
 // make the colors the same to have a solid background
 
 $cover-overlay-image-opacity: .5;

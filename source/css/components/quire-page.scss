@@ -539,7 +539,7 @@ html {
     h5,
     h6 {
       letter-spacing: -0.025em;
-      color: $quire-header-color;
+      color: findColorInvert($content-background-color);
     }
 
     h2 {

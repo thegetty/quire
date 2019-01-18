@@ -8049,7 +8049,7 @@ html {
 .quire-page__content .content h5,
 .quire-page__content .content h6 {
   letter-spacing: -0.025em;
-  color: #333333; }
+  color: rgba(0, 0, 0, 0.7); }
 
 .quire-page__content .content h2 {
   text-transform: uppercase;
@@ -8429,7 +8429,7 @@ html {
   background-color: transparent; }
   .quire-contents-list h1, .quire-contents-list h2, .quire-contents-list h3, .quire-contents-list h4, .quire-contents-list h5, .quire-contents-list h6 {
     letter-spacing: -0.025em;
-    color: #333333; }
+    color: rgba(0, 0, 0, 0.7); }
   .quire-contents-list h2 {
     text-transform: uppercase;
     font-size: 1.75em;
