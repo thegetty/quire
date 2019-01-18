@@ -7241,6 +7241,9 @@ template {
       color: #ffffff; }
     .quire__secondary svg {
       fill: #ffffff; }
+      .quire__secondary svg:hover {
+        fill: #ffffff;
+        background-color: transparent; }
     .quire__secondary a,
     .quire__secondary button,
     .quire__secondary .button {
@@ -7343,7 +7346,7 @@ template {
   font-size: .875em;
   position: fixed;
   z-index: 1;
-  background-color: #ffffff;
+  background-color: #FFC0CB;
   min-height: 3rem;
   top: 0 !important;
   width: 100%; }
@@ -7357,19 +7360,18 @@ template {
     color: #363636; }
   .quire-navbar svg {
     fill: #363636; }
+    .quire-navbar svg:hover {
+      fill: #363636;
+      background-color: transparent; }
   .quire-navbar a,
   .quire-navbar button,
   .quire-navbar .button {
-    background-color: #ffffff;
+    background-color: #FFC0CB;
     color: #363636 !important; }
   .quire-navbar a {
     border-bottom-color: #363636 !important; }
-  .quire-navbar a:hover, .quire-navbar button:hover, .quire-navbar .button:hover {
-    background-color: #f2f2f2 !important; }
-    .quire-navbar a:hover button, .quire-navbar button:hover button, .quire-navbar .button:hover button {
-      background-color: #f2f2f2 !important; }
   .quire-navbar * {
-    transition: background 0.15s linear; }
+    transition: background 0.5s linear; }
   .quire-navbar a {
     display: block;
     padding: 0 0.5em; }
@@ -7389,7 +7391,7 @@ template {
   transition: all .5s ease;
   font-family: "Noto Sans", sans-serif;
   font-size: 0.75rem;
-  background-color: #D4DFE2;
+  background-color: #b95700;
   border-bottom: none; }
   .quire-progress-bar span {
     color: #ffffff;
@@ -7399,7 +7401,7 @@ template {
     transition: height .5s ease;
     height: 2px;
     width: 100%;
-    background-color: #B02E2E;
+    background-color: #21ccbb;
     text-align: right;
     padding-right: .5em;
     position: relative;
@@ -7420,6 +7422,10 @@ template {
   .quire-navbar-controls__right {
     flex: 0 1 3rem;
     text-align: right; }
+  .quire-navbar-controls__left, .quire-navbar-controls__right, .quire-navbar-controls .quire-navbar-page-controls__item {
+    transition: all 0.05s linear; }
+    .quire-navbar-controls__left:hover a, .quire-navbar-controls__left:hover button, .quire-navbar-controls__left:hover .button, .quire-navbar-controls__right:hover a, .quire-navbar-controls__right:hover button, .quire-navbar-controls__right:hover .button, .quire-navbar-controls .quire-navbar-page-controls__item:hover a, .quire-navbar-controls .quire-navbar-page-controls__item:hover button, .quire-navbar-controls .quire-navbar-page-controls__item:hover .button {
+      background-color: #EEF2F3; }
 
 .quire-navbar-page-controls {
   display: flex;
@@ -7468,12 +7474,7 @@ template {
   border: 0;
   height: 3rem;
   width: 3rem;
-  padding: 0;
-  transition: all 0.15s linear; }
-  .quire-navbar-button:hover {
-    background-color: #f2f2f2; }
-    .quire-navbar-button:hover > * {
-      background-color: #f2f2f2; }
+  padding: 0; }
   .quire-navbar-button svg {
     position: relative;
     top: 2px; }
@@ -7733,7 +7734,6 @@ html {
   font-size: 3.3rem;
   font-weight: 700;
   line-height: 1.14;
-  color: #333333 !important;
   -webkit-animation: fadeIn 2s;
   /* Safari, Chrome and Opera > 12.1 */
   /* Firefox < 16 */
@@ -7896,9 +7896,6 @@ html {
     .quire-page--frontmatter {
       background-color: transparent; } }
 
-.quire-page__splash .quire-page__header__title, .quire-page__splash .quire-page__header__subtitle {
-  color: #ffffff !important; }
-
 .quire-page__header {
   background-color: #EEF2F3;
   background-size: cover;
@@ -7912,6 +7909,9 @@ html {
     color: #363636; }
   .quire-page__header svg {
     fill: #363636; }
+    .quire-page__header svg:hover {
+      fill: #363636;
+      background-color: transparent; }
   .quire-page__header a,
   .quire-page__header button,
   .quire-page__header .button {
@@ -7926,7 +7926,7 @@ html {
         margin-bottom: 0;
         height: 0; } }
     .quire-page__header.hero__image .quire-page__header__title, .quire-page__header.hero__image .quire-page__header__subtitle {
-      color: #ffffff !important; }
+      color: #ffffff; }
   .quire-page--splash .quire-page__header * {
     color: #fff; }
   .quire-page--splash .quire-page__header .hero-body {
@@ -7962,8 +7962,14 @@ html {
       background-color: transparent;
       height: 3in; } }
 
-.quire-page--splash .quire-page__header__title {
+.quire-page--splash .quire-page__header .hero-body {
+  background-color: transparent; }
+
+.quire-page--splash .quire-page__header__title, .quire-page--splash .quire-page__header__subtitle {
   color: #333333; }
+
+.quire-page--splash .hero-image .hero-body .quire-page__header__title, .quire-page--splash .hero-image .hero-body .quire-page__header__subtitle {
+  color: #ffffff !important; }
 
 .quire-page--splash .quire-page__content p:first-child:first-letter {
   font-size: 9em;
@@ -8185,7 +8191,7 @@ html {
       .quire-cover__hero .half-title {
         display: block;
         page-break-after: always;
-        color: #3273dc;
+        color: #ffffff;
         text-transform: uppercase;
         letter-spacing: 1pt;
         font-family: "IBM Plex Sans Condensed", sans-serif; } }
@@ -8322,6 +8328,9 @@ html {
     color: #363636; }
   .quire-cover .quire-cover-footer svg {
     fill: #363636; }
+    .quire-cover .quire-cover-footer svg:hover {
+      fill: #363636;
+      background-color: transparent; }
   .quire-cover .quire-cover-footer a,
   .quire-cover .quire-cover-footer button,
   .quire-cover .quire-cover-footer .button {
@@ -8951,6 +8960,9 @@ div.multimedia {
     color: #ffffff; }
   .quire-entry__image svg {
     fill: #ffffff; }
+    .quire-entry__image svg:hover {
+      fill: #ffffff;
+      background-color: transparent; }
   .quire-entry__image a,
   .quire-entry__image button,
   .quire-entry__image .button {
@@ -8965,6 +8977,9 @@ div.multimedia {
         color: #363636; }
       .quire-entry__image svg {
         fill: #363636; }
+        .quire-entry__image svg:hover {
+          fill: #363636;
+          background-color: transparent; }
       .quire-entry__image a,
       .quire-entry__image button,
       .quire-entry__image .button {
@@ -9581,7 +9596,7 @@ body > div.mfp-bg.mfp-ready {
       .quire-contents-buttons li.quire-nav-button.next svg {
         fill: #ffffff; }
       .quire-contents-buttons li.quire-nav-button.next:hover {
-        background-color: #B02E2E; }
+        background-color: #a02a2a; }
       .quire-contents-buttons li.quire-nav-button.next a {
         color: #ffffff; }
     .quire-contents-buttons li.quire-nav-button:hover {

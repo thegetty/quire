@@ -59,7 +59,6 @@ html {
     font-size: 3.3rem;
     font-weight: 700;
     line-height: 1.14;
-    color: $quire-header-color !important;
     -webkit-animation: fadeIn 2s;
     /* Safari, Chrome and Opera > 12.1 */
     -moz-animation: fadeIn 2s;
@@ -313,7 +312,7 @@ html {
   &__splash {
     .quire-page__header {
       &__title, &__subtitle {
-        color: $quire-nav-font-color !important;
+        
       }
     }
   }
@@ -341,7 +340,7 @@ html {
     }
     .quire-page__header {
       &__title, &__subtitle {
-        color: $quire-nav-font-color !important;
+        color: $quire-nav-font-color;
       }
     }
   }
@@ -409,8 +408,20 @@ html {
 
 .quire-page--splash {
   .quire-page__header {
-    &__title {
-      color: $quire-secondary-color;
+    .hero-body {
+      background-color: transparent;
+    }
+    &__title, &__subtitle {
+      color: background-color-text($white);
+    }
+  }
+  .hero-image {
+    .hero-body {
+      .quire-page__header {
+        &__title, &__subtitle {
+          color: background-color-text($dark) !important;
+        }
+      }
     }
   }
 

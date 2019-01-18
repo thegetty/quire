@@ -11,6 +11,10 @@
     }
     svg {
         fill: $frcolor;
+        &:hover {
+            fill: $frcolor;
+            background-color: transparent;
+        }
     }
     a,
     button,
@@ -25,6 +29,24 @@
     }
     a {
         border-bottom-color: $frcolor !important;
+    }
+}
+
+
+// Adjust text color based background
+@function background-color-text($color) {
+    @if (lightness($color) > 50) {
+        @return $off-black; // lighter background, return dark color
+    } @else {
+        @return $white; // darker background, return light color
+    }
+}
+
+@function progress-background-color($color) {
+    @if (lightness($color) > 50) {
+        @return darken($color, 50%); // lighter background, return dark color
+    } @else {
+        @return lighten($color, 10%); // darker background, return light color
     }
 }
 
