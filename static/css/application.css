@@ -8174,7 +8174,7 @@ html {
   left: 0;
   width: 100%;
   min-height: calc(95vh - 3rem);
-  background-image: url(/img/pattern-1.png);
+  background-image: url(/img/pattern_spiral_gradient_02@2x.png);
   opacity: 0.5; }
   @media print {
     .quire-cover__overlay {
@@ -9296,9 +9296,9 @@ div.multimedia {
   text-indent: 0; }
   .quire-citation__content {
     visibility: hidden;
-    font-size: 1rem;
+    font-size: 0.75em;
     line-height: 1.5;
-    background-color: #EEF2F3;
+    background-color: #ffffff;
     color: #333333;
     padding: 1rem;
     position: absolute;

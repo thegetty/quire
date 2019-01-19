@@ -10,9 +10,9 @@
   text-indent: 0;
   &__content {
     visibility: hidden;
-    font-size: 1rem;
+    font-size: 0.75em;
     line-height: 1.5;
-    background-color: $secondary-background-color;
+    background-color: $content-background-color;
     color: background-color-text($secondary-background-color);
     padding: 1rem;
     position: absolute;
