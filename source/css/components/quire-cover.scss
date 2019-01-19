@@ -165,8 +165,8 @@
     padding-bottom: 0;
     .container.is-fluid {
       .content {
-        color: background-color-text($content-background-color);
-        background-color: $content-background-color;
+        color: background-color-text($secondary-background-color);
+        background-color: $secondary-background-color;
         @media print {
           background-color: transparent;
         }
@@ -193,9 +193,13 @@
         line-height: 34px;
         font-size: 1.25em;
         a {
-          padding-top: .1em;
+          padding-top: .25em;
           height: 2.5em;
           width: 8.3em;
+          color: $content-background-color;
+        }
+        svg {
+          fill: $content-background-color;
         }
       }
     }

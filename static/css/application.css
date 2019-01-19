@@ -8303,7 +8303,7 @@ html {
   padding-bottom: 0; }
   .quire-cover .quire-page__content .container.is-fluid .content {
     color: #333333;
-    background-color: #ffffff; }
+    background-color: #EEF2F3; }
     @media print {
       .quire-cover .quire-page__content .container.is-fluid .content {
         background-color: transparent; } }
@@ -8323,9 +8323,12 @@ html {
   line-height: 34px;
   font-size: 1.25em; }
   .quire-cover .quire-contents-buttons ul li.quire-nav-button a {
-    padding-top: .1em;
+    padding-top: .25em;
     height: 2.5em;
-    width: 8.3em; }
+    width: 8.3em;
+    color: #ffffff; }
+  .quire-cover .quire-contents-buttons ul li.quire-nav-button svg {
+    fill: #ffffff; }
 
 .quire-cover .quire-contents-buttons .nav-title {
   font-size: initial; }
@@ -9597,7 +9600,7 @@ body > div.mfp-bg.mfp-ready {
     background: #EEF2F3;
     border: 1px solid #a02a2a;
     border-radius: 2px;
-    transition: all .5s ease;
+    transition: all .25s ease;
     font-size: 1em; }
     .quire-contents-buttons li.quire-nav-button a {
       display: inline-block;
@@ -9611,32 +9614,33 @@ body > div.mfp-bg.mfp-ready {
       margin-left: 0;
       margin-right: .55rem; }
       .quire-contents-buttons li.quire-nav-button.prev a {
+        color: #CF4747;
         margin-right: .5rem; }
       .quire-contents-buttons li.quire-nav-button.prev svg {
-        fill: #120505;
+        fill: #CF4747;
         margin-right: .5rem; }
     .quire-contents-buttons li.quire-nav-button svg {
       width: 1.25rem;
       height: 1.25rem;
       margin-left: -.25rem;
       margin-bottom: .15rem;
-      fill: #120505; }
+      fill: #CF4747; }
     .quire-contents-buttons li.quire-nav-button .nav-title {
       vertical-align: super; }
     .quire-contents-buttons li.quire-nav-button.next {
       background-color: #CF4747; }
       .quire-contents-buttons li.quire-nav-button.next svg {
-        fill: #120505; }
+        fill: #fff; }
       .quire-contents-buttons li.quire-nav-button.next:hover {
         background-color: #a02a2a; }
       .quire-contents-buttons li.quire-nav-button.next a {
-        color: #120505; }
+        color: #fff; }
     .quire-contents-buttons li.quire-nav-button:hover {
       background-color: #CF4747; }
       .quire-contents-buttons li.quire-nav-button:hover a {
-        color: #120505; }
+        color: #fff; }
       .quire-contents-buttons li.quire-nav-button:hover svg {
-        fill: #120505; }
+        fill: #fff; }
 
 @media print {
   @page {
