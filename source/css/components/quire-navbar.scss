@@ -88,7 +88,9 @@
   font-size: 0.75rem;
   
   border-bottom: none;
-  @if $theme == (modern or classic) {
+  @if $theme == modern {
+    background-color: $light-gray !important;
+  } @else if $theme == classic {
     background-color: $light-gray !important;
   } @else {
     background-color: background-color($secondary-background-color);

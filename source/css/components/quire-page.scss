@@ -184,6 +184,7 @@ html {
     padding-bottom: 0;
     position: relative;
     animation: .5s ease-out 0s 1 slideFromRight;
+    color: background-color-text($secondary-background-color);
 
     @if $family-primary !=$serif {
       font-size: 1.25rem;
@@ -212,8 +213,16 @@ html {
         padding-top: 1em !important;
         margin-top: 45px;
         font-size: 16px;
-        padding: 40px 1.75em;
-        background-color: $content-background-color;
+        padding: 40px 2.5em;
+
+        @if $theme == modern {
+          background-color: $white !important;
+        } @else if $theme == classic {
+          background-color: $off-white !important;
+        } @else {
+          background-color: $content-background-color;
+        }
+        
 
         hr {
           background-color: lighten($off-black, 15%);
@@ -310,15 +319,22 @@ html {
 
     .container {
       padding: 3em 2em 1em;
-      background-color: $content-background-color;
+      @if $theme == modern {
+        background-color: $white !important;
+      } @else if $theme == classic {
+        background-color: $off-white !important;
+      } @else {
+        background-color: $content-background-color;
+      }
 
       &:after {
         display: block;
         text-align: center;
-        content: "◆\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0◆\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0◆";
+        content: "✦\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0✦\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0✦";
         margin: 0 auto;
         background-color: transparent;
         font-style: normal;
+        margin-top: 1em;
       }
     }
   }
@@ -467,7 +483,7 @@ html {
 .quire-essay {
   .quire-page__abstract {
     padding-top: 1em;
-    margin-bottom: -2.5em;
+    margin-bottom: -2.6em;
 
     @media screen and (max-width: $tablet) {
       margin-bottom: -3em;
@@ -478,10 +494,13 @@ html {
     }
 
     .container {
-      padding: 0;
+      padding: 1em 2.286em 1em !important;
+      margin: 0 auto;
+      max-width: $desktop + (1.25 * $gap);
+      width: $desktop + (1.25 * $gap);
 
       .content {
-        padding: 2em 2em 1em !important;
+        padding: 0 0 1em;
         font-size: 0.7525em;
         line-height: 1.714em;
       }
