@@ -9,11 +9,14 @@
 // .quire-contents
 // -----------------------------------------------------------------------------
 .quire-contents {
-  background-color: $off-white;
+  background-color: transparent;
   @media print {
     background-color: transparent;
   }
   .quire-page__abstract {
+    @if $theme == (modern or classic) {
+      color: $off-gray !important;
+    } 
     margin-bottom: 0;
     padding: 40px 6rem !important;
     .container {
