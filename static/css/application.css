@@ -8308,6 +8308,7 @@ html {
 .quire-cover .quire-page__content {
   padding-bottom: 0; }
   .quire-cover .quire-page__content .container.is-fluid .content {
+    padding-top: 2em !important;
     color: #333333;
     background-color: #EEF2F3; }
     @media print {
