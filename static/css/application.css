@@ -7381,12 +7381,7 @@ template {
     .quire-navbar {
       display: none; } }
   .quire-navbar:hover span {
-    display: block;
     transition: all .5s ease; }
-  .quire-navbar:hover .quire-progress-bar {
-    height: 18px; }
-    .quire-navbar:hover .quire-progress-bar div {
-      height: 18px; }
 
 .quire-progress-bar {
   height: 2px;
@@ -7560,7 +7555,8 @@ template {
     .quire-menu__header__contributors {
       margin: .75rem 0 1.25rem; }
     .quire-menu__header h1, .quire-menu__header h2, .quire-menu__header h3, .quire-menu__header h4, .quire-menu__header h5, .quire-menu__header h6 {
-      display: inline; }
+      display: inline;
+      color: #ffffff; }
   .quire-menu__formats {
     margin-top: 2rem; }
     .quire-menu__formats h6 {
@@ -7593,18 +7589,6 @@ template {
           text-decoration: underline; }
     .quire-menu__footer .quire-copyright {
       padding: 0 .5em; }
-  .quire-menu-close-button {
-    position: absolute;
-    top: 0;
-    right: 0; }
-    .quire-menu-close-button button {
-      border: none; }
-    .quire-menu-close-button svg {
-      height: calc(3rem * .75);
-      width: calc(3rem * .75);
-      max-height: 1.25rem;
-      max-width: 1.25rem;
-      fill: #ffffff; }
   .quire-menu .page-item a, .quire-menu .section-item a {
     font-family: "Noto Sans", sans-serif; }
     .quire-menu .page-item a.active, .quire-menu .section-item a.active {
@@ -7827,58 +7811,61 @@ html {
     font-size: .875em; }
   .quire-page__content strong {
     color: #333333; }
-  .quire-page__content .container .content {
-    padding-top: 1em !important;
-    margin-top: 45px;
-    font-size: 16px;
-    padding: 40px 2.5em;
-    background-color: #ffffff !important; }
-    .quire-page__content .container .content hr {
-      background-color: #595959; }
-    .quire-page__content .container .content table td, .quire-page__content .container .content table th {
-      color: #333333;
-      border-color: #595959; }
-    .quire-page__content .container .content p {
-      line-height: 2; }
-      @media print {
-        .quire-page__content .container .content p {
-          line-height: 1.5; } }
-    .quire-page__content .container .content blockquote {
-      border-left: none;
-      position: relative; }
-      .quire-page__content .container .content blockquote:before {
-        color: #595959;
-        font-size: 4em;
-        line-height: 0.1em;
-        margin-right: 0.25em;
-        content: '“';
-        position: absolute;
-        top: .35em;
-        left: -.25em; }
-    .quire-page__content .container .content .backmatter h2 {
-      color: #333333;
-      font-size: .875em;
-      line-height: 1.28em;
-      text-transform: uppercase;
-      margin-top: 20px;
-      padding-bottom: 6px;
-      border-bottom: 1px solid #333333; }
-    .quire-page__content .container .content .backmatter .title {
-      color: #333333; }
-    .quire-page__content .container .content .backmatter p {
-      font-size: 0.875em;
-      line-height: 1.6em !important; }
-    .quire-page__content .container .content .backmatter .media {
-      display: flex; }
-    .quire-page__content .container .content #notes {
-      font-size: .875em;
-      line-height: .5em;
-      margin-top: 20px; }
-    .quire-page__content .container .content .footnotes {
-      font-size: .875em; }
-      .quire-page__content .container .content .footnotes hr {
-        background-color: #333333;
-        margin-bottom: 0; }
+  .quire-page__content .container {
+    padding-left: 2em;
+    padding-right: 2em; }
+    .quire-page__content .container .content {
+      padding-top: 1em !important;
+      margin-top: 45px;
+      font-size: 16px;
+      padding: 40px 2.5em;
+      background-color: #ffffff !important; }
+      .quire-page__content .container .content hr {
+        background-color: #595959; }
+      .quire-page__content .container .content table td, .quire-page__content .container .content table th {
+        color: #333333;
+        border-color: #595959; }
+      .quire-page__content .container .content p {
+        line-height: 2; }
+        @media print {
+          .quire-page__content .container .content p {
+            line-height: 1.5; } }
+      .quire-page__content .container .content blockquote {
+        border-left: none;
+        position: relative; }
+        .quire-page__content .container .content blockquote:before {
+          color: #595959;
+          font-size: 4em;
+          line-height: 0.1em;
+          margin-right: 0.25em;
+          content: '“';
+          position: absolute;
+          top: .35em;
+          left: -.25em; }
+      .quire-page__content .container .content .backmatter h2 {
+        color: #333333;
+        font-size: .875em;
+        line-height: 1.28em;
+        text-transform: uppercase;
+        margin-top: 20px;
+        padding-bottom: 6px;
+        border-bottom: 1px solid #333333; }
+      .quire-page__content .container .content .backmatter .title {
+        color: #333333; }
+      .quire-page__content .container .content .backmatter p {
+        font-size: 0.875em;
+        line-height: 1.6em !important; }
+      .quire-page__content .container .content .backmatter .media {
+        display: flex; }
+      .quire-page__content .container .content #notes {
+        font-size: .875em;
+        line-height: .5em;
+        margin-top: 20px; }
+      .quire-page__content .container .content .footnotes {
+        font-size: .875em; }
+        .quire-page__content .container .content .footnotes hr {
+          background-color: #333333;
+          margin-bottom: 0; }
 
 .quire-page__abstract {
   font-style: italic;
@@ -8426,9 +8413,9 @@ html {
   .quire-contents .quire-page__abstract {
     color: #666666 !important;
     margin-bottom: 0;
-    padding: 40px 6rem !important; }
+    padding: 40px 0 !important; }
     .quire-contents .quire-page__abstract .container {
-      padding: 0;
+      padding: 0 2.8575em;
       background-color: transparent !important; }
     .quire-contents .quire-page__abstract:after {
       background-color: transparent; }
@@ -8595,7 +8582,7 @@ html {
         border-radius: 2px;
         margin: 1rem;
         box-shadow: none;
-        background-color: #ffffff !important; }
+        background-color: #ffffff; }
         .quire-contents-list.grid ul li .card a {
           padding: 0;
           color: #CF4747;

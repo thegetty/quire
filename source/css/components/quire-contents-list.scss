@@ -18,9 +18,9 @@
       color: $off-gray !important;
     } 
     margin-bottom: 0;
-    padding: 40px 6rem !important;
+    padding: 40px 0 !important;
     .container {
-      padding: 0;
+      padding: 0 2.8575em;
       background-color: transparent !important;
     }
     &:after {
@@ -308,13 +308,7 @@
         border-radius: 2px;
         margin: 1rem;
         box-shadow: none;
-        @if $theme == modern {
-          background-color: $white !important;
-        } @else if $theme == classic {
-          background-color: $off-white !important;
-        } @else {
-          background-color: $content-background-color;
-        }
+        background-color: $content-background-color;
 
         a {
           padding: 0;
