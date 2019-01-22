@@ -65,15 +65,8 @@
   }
   &:hover {
     span {
-      display: block;
       -webkit-transition: all .5s ease;
       transition: all .5s ease;
-    }
-    .quire-progress-bar {
-      height: 18px;
-      div {
-        height: 18px; 
-      }
     }
   }
 }

@@ -15,19 +15,6 @@ by default. Users with JS disabled will alwasy see the menu in its expanded stat
   {{ $.Scratch.Set "imageDir" "" }}
   {{ end -}}
   {{- $imgDir := $.Scratch.Get "imageDir" -}}
-  <div class="quire-menu-close-button">
-    <button class="button is-medium" onclick="toggleMenu()">
-      <svg>
-        <switch>
-          <use xlink:href="#close-icon"></use>
-          <foreignObject width="32" height="32">
-              <img src="{{ $imgDir | relURL }}/icons/close.png" alt="Close" />
-          </foreignObject>
-        </switch>
-      </svg>
-    </button>
-  </div>
-
   {{ partial "menu-header.html" . }}
 
   <nav id="nav" class="quire-menu__list menu-list" role="navigation" aria-label="full">
