@@ -137,7 +137,7 @@
         -webkit-transition: all .15s ease;
         transition: all .15s ease;
         @if $theme == modern {
-          fill: $accent-color;
+          fill: initial;
         } @else {
           fill: background-color-text($secondary-background-color);
         }
@@ -386,9 +386,9 @@
           }
           svg {
             @if $theme == modern {
-              color: $accent-color;
+              fill: $accent-color;
             } @else {
-              color: inherit;
+              fill: inherit;
             }
             vertical-align: sub;
           }

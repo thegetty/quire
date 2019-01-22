@@ -45,7 +45,7 @@
 // Adjust background color
 @function background-color($color) {
     @if (lightness($color) > 50) {
-        @return darken($color, 50%); // lighter background, return dark color
+        @return darken($color, 10%); // lighter background, return dark color
     } @else {
         @return lighten($color, 10%); // darker background, return light color
     }

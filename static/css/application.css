@@ -7393,8 +7393,8 @@ template {
   transition: all .5s ease;
   font-family: "Noto Sans", sans-serif;
   font-size: 0.75rem;
-  border-bottom: none;
-  background-color: #D4DFE2 !important; }
+  background-color: #d0dbde;
+  border-bottom: none; }
   .quire-progress-bar span {
     color: #ffffff;
     display: none;
@@ -8500,7 +8500,7 @@ html {
     font-size: 1em; }
     .quire-contents-list .menu-list a .arrow {
       transition: all .15s ease;
-      fill: #CF4747; }
+      fill: initial; }
     .quire-contents-list .menu-list a:hover {
       background-color: inherit;
       color: #a02a2a; }
@@ -8621,7 +8621,7 @@ html {
         .quire-contents-list.grid ul li .card-content .title {
           color: #CF4747; }
           .quire-contents-list.grid ul li .card-content .title svg {
-            color: #CF4747;
+            fill: #CF4747;
             vertical-align: sub; }
           .quire-contents-list.grid ul li .card-content .title:hover {
             color: #B02E2E; }
@@ -9619,7 +9619,7 @@ body > div.mfp-bg.mfp-ready {
       display: inline-block;
       width: 8.75em;
       height: 3.25em;
-      color: #120505;
+      color: #b42f2f;
       font-size: .8em;
       padding-top: .4em;
       font-family: "Noto Sans", sans-serif; }
