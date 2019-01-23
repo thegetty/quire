@@ -100,8 +100,8 @@
   svg {
     height: calc(#{$navbar-height} * .65);
     width: calc(#{$navbar-height} * .65);
-    max-height: .95rem;
-    max-width: .95rem;
+    max-height: 1em;
+    max-width: 1em;
     vertical-align: baseline;
   }
 
@@ -146,11 +146,32 @@
         background-color: inherit;
         color: darken($accent-color, 15%);
         .arrow {
-          margin-left: 14px;
+          margin-left: .75em;
           @if $theme == modern {
             fill: $dark-red;
           } @else {
             fill: darken($accent-color, 15%);
+          }
+        }
+      }
+    }
+    .arrow {
+      .section-item {
+        box-shadow: none;
+        border: none;
+        .card-content {
+          color: background-color-text($secondary-background-color);
+          font-size: 1.7em;
+          font-weight: 400;
+          position: static;
+          div {
+
+            color: background-color-text($secondary-background-color);
+            text-align: center;
+            svg {
+              position: relative;
+              fill: background-color-text($secondary-background-color);
+            }
           }
         }
       }
@@ -360,13 +381,42 @@
         }
       }
 
+      .card.image {
+        .card-content {
+          font-size: 18px !important;
+        }
+      }
+
       .card-content {
         padding: 1.5em;
-        font-family: $quire-nav-font;
+        font-size: 36.8px;
+        line-height: 1.22em;
+        font-weight: 700;
         @if $theme == modern {
           color: $accent-color;
         } @else {
           color: inherit;
+        }
+
+        .arrow {
+          font-size: 1em;
+          vertical-align: text-top;
+          @if $theme == modern {
+            fill: $accent-color;
+          } @else {
+            fill: inherit;
+          }
+        }
+
+        &:hover {
+          @if $theme == modern {
+            color: darken($accent-color, 10%);
+          }
+          .title {
+            @if $theme == modern {
+              color: darken($accent-color, 10%);
+            }
+          }
         }
 
         .artist {

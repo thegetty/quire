@@ -8461,8 +8461,8 @@ html {
   .quire-contents-list svg {
     height: calc(3rem * .65);
     width: calc(3rem * .65);
-    max-height: .95rem;
-    max-width: .95rem;
+    max-height: 1em;
+    max-width: 1em;
     vertical-align: baseline; }
   .quire-contents-list .contents-menu .quire-menu__formats a {
     border-left: none;
@@ -8492,8 +8492,22 @@ html {
       background-color: inherit;
       color: #a02a2a; }
       .quire-contents-list .menu-list a:hover .arrow {
-        margin-left: 14px;
+        margin-left: .75em;
         fill: #B02E2E; }
+  .quire-contents-list .menu-list .arrow .section-item {
+    box-shadow: none;
+    border: none; }
+    .quire-contents-list .menu-list .arrow .section-item .card-content {
+      color: #333333;
+      font-size: 1.7em;
+      font-weight: 400;
+      position: static; }
+      .quire-contents-list .menu-list .arrow .section-item .card-content div {
+        color: #333333;
+        text-align: center; }
+        .quire-contents-list .menu-list .arrow .section-item .card-content div svg {
+          position: relative;
+          fill: #333333; }
   .quire-contents-list .list-header {
     padding: .5em .75em .5em 0;
     letter-spacing: 1px; }
@@ -8599,10 +8613,22 @@ html {
             transition: box-shadow .35s; }
             .quire-contents-list.grid ul li .card .card-image .image:hover {
               box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.75); }
+      .quire-contents-list.grid ul li .card.image .card-content {
+        font-size: 18px !important; }
       .quire-contents-list.grid ul li .card-content {
         padding: 1.5em;
-        font-family: "Noto Sans", sans-serif;
+        font-size: 36.8px;
+        line-height: 1.22em;
+        font-weight: 700;
         color: #CF4747; }
+        .quire-contents-list.grid ul li .card-content .arrow {
+          font-size: 1em;
+          vertical-align: text-top;
+          fill: #CF4747; }
+        .quire-contents-list.grid ul li .card-content:hover {
+          color: #b42f2f; }
+          .quire-contents-list.grid ul li .card-content:hover .title {
+            color: #b42f2f; }
         .quire-contents-list.grid ul li .card-content .artist {
           text-transform: uppercase; }
         .quire-contents-list.grid ul li .card-content .title {
