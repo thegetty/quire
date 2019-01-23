@@ -133,24 +133,23 @@
       position: relative;
       padding-left: 0;
       font-size: 1em;
+      -webkit-transition: all .25s ease;
+      transition: all .25s ease;
+
       .arrow {
-        -webkit-transition: all .15s ease;
-        transition: all .15s ease;
-        @if $theme == modern {
-          fill: initial;
-        } @else {
-          fill: background-color-text($secondary-background-color);
-        }
+        position: absolute;
+        fill: background-color-text($secondary-background-color);
       }
       &:hover {
         background-color: inherit;
         color: darken($accent-color, 15%);
         .arrow {
           margin-left: .75em;
-          @if $theme == modern {
-            fill: $dark-red;
-          } @else {
-            fill: darken($accent-color, 15%);
+          -webkit-transition: all .25s ease;
+          transition: all .25s ease;
+          fill: darken($accent-color, 15%);
+          svg {
+            fill: darken($accent-color, 15%) !important;
           }
         }
       }
@@ -392,30 +391,16 @@
         font-size: 36.8px;
         line-height: 1.22em;
         font-weight: 700;
-        @if $theme == modern {
-          color: $accent-color;
-        } @else {
-          color: inherit;
-        }
 
         .arrow {
           font-size: 1em;
           vertical-align: text-top;
-          @if $theme == modern {
-            fill: $accent-color;
-          } @else {
-            fill: inherit;
-          }
         }
 
         &:hover {
-          @if $theme == modern {
-            color: darken($accent-color, 10%);
-          }
+          color: darken($accent-color, 10%);
           .title {
-            @if $theme == modern {
-              color: darken($accent-color, 10%);
-            }
+            color: darken($accent-color, 10%);
           }
         }
 

@@ -114,7 +114,7 @@
 {{- end -}}
   {{- if in .class "grid" -}}
 
-        <div class="card">
+        <div class="card {{if .Page.Params.object}}image{{end}} {{if not .Page.Params.object}}no-image{{end}}">
         {{ if .Page.Params.image }}
           <a href="{{ .Page.Permalink }}">
           {{ $imgPath := printf "%s/%s" ($.Page.Scratch.Get "imageDir") .Page.Params.image }}

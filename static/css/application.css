@@ -8485,16 +8485,20 @@ html {
     color: #333333;
     position: relative;
     padding-left: 0;
-    font-size: 1em; }
+    font-size: 1em;
+    transition: all .25s ease; }
     .quire-contents-list .menu-list a .arrow {
-      transition: all .15s ease;
+      position: absolute;
       fill: #333333; }
     .quire-contents-list .menu-list a:hover {
       background-color: inherit;
       color: #456891; }
       .quire-contents-list .menu-list a:hover .arrow {
         margin-left: .75em;
+        transition: all .25s ease;
         fill: #456891; }
+        .quire-contents-list .menu-list a:hover .arrow svg {
+          fill: #456891 !important; }
   .quire-contents-list .menu-list .arrow .section-item {
     box-shadow: none;
     border: none; }
@@ -8622,12 +8626,14 @@ html {
         padding: 1.5em;
         font-size: 36.8px;
         line-height: 1.22em;
-        font-weight: 700;
-        color: inherit; }
+        font-weight: 700; }
         .quire-contents-list.grid ul li .card-content .arrow {
           font-size: 1em;
-          vertical-align: text-top;
-          fill: inherit; }
+          vertical-align: text-top; }
+        .quire-contents-list.grid ul li .card-content:hover {
+          color: #4d74a2; }
+          .quire-contents-list.grid ul li .card-content:hover .title {
+            color: #4d74a2; }
         .quire-contents-list.grid ul li .card-content .artist {
           text-transform: uppercase; }
         .quire-contents-list.grid ul li .card-content .title {
