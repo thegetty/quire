@@ -127,6 +127,7 @@ html {
     font-style: italic;
     font-weight: 400;
     margin-top: 1rem;
+    letter-spacing: 0;
 
     em {
       font-style: normal;
@@ -373,13 +374,7 @@ html {
 
     .container {
       padding: 3em 2em 1em;
-      @if $theme == modern {
-        background-color: $white !important;
-      } @else if $theme == classic {
-        background-color: $off-white !important;
-      } @else {
-        background-color: $content-background-color;
-      }
+      background-color: $content-background-color;
 
       &:after {
         display: block;

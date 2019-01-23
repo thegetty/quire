@@ -7759,7 +7759,8 @@ html {
   display: block;
   font-style: italic;
   font-weight: 400;
-  margin-top: 1rem; }
+  margin-top: 1rem;
+  letter-spacing: 0; }
   .quire-page__header__subtitle em {
     font-style: normal; }
   @media print {
@@ -7920,7 +7921,7 @@ html {
     font-family: Times, serif; }
   .quire-page__abstract .container {
     padding: 3em 2em 1em;
-    background-color: #EEF2F3 !important; }
+    background-color: #ffffff; }
     .quire-page__abstract .container:after {
       display: block;
       text-align: center;
