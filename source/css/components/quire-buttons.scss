@@ -15,16 +15,20 @@
 
   li.quire-nav-button {
     display: inline-block;
-    width: 6.65em;
+    width: 7em;
     height: 2em;
-    background: $secondary-background-color;
-    border: 1px solid darken($accent-color, 15%);
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;
     border-radius: 2px;
     -webkit-transition: all .25s ease;
     transition: all .25s ease;
     font-size: 1em;
+    background: $secondary-background-color;
+    @if $theme == classic {
+      border: 1px solid $off-black;
+    } @else {
+      border: 1px solid darken($accent-color, 15%);
+    }
 
     a {
       display: inline-block;
@@ -40,11 +44,19 @@
       margin-left: 0;
       margin-right: .55rem;
       a {
-        color: $accent-color;
+        @if $theme == classic {
+          color: $off-black;
+        } @else {
+          color: $accent-color;
+        }
         margin-right: .5rem;
       }
       svg {
-        fill: $accent-color;
+        @if $theme == classic {
+          fill: $off-black;
+        } @else {
+          fill: $accent-color;
+        }
         margin-right: .5rem;
       }
     }
@@ -62,12 +74,20 @@
     }
 
     &.next {
-      background-color: $accent-color;
+      @if $theme == classic {
+        background-color: $off-black !important;
+      } @else {
+        background-color: $accent-color;
+      }
       svg {
         fill: findColorInvert($accent-color);
       }
       &:hover {
-        background-color: darken($accent-color, 15%);
+        @if $theme == classic {
+          background-color: $accent-color !important;
+        } @else {
+          background-color: darken($accent-color, 15%);
+        }
       }
       a {
         color: findColorInvert($accent-color);

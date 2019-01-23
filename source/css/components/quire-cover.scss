@@ -123,8 +123,8 @@
       svg {
         height: 3.5rem;
         width: 3.5rem;
-        margin-left: .15rem;
-        margin-top: .15rem;
+        margin-left: .25rem;
+        margin-top: .25rem;
         -webkit-transition: all .5s ease;
         transition: all .5s ease;
         fill: background-color-text($black);
@@ -165,13 +165,14 @@
     padding-bottom: 0;
     .container.is-fluid {
       .content {
+        padding-top: 2em !important;
         color: background-color-text($secondary-background-color);
         background-color: $secondary-background-color;
         @media print {
           background-color: transparent;
         }
         p {
-          line-height: 2.5em;
+          line-height: 2em;
           font-family: $quire-body-font;
         }
       }
@@ -193,9 +194,7 @@
         line-height: 34px;
         font-size: 1.25em;
         a {
-          padding-top: .25em;
-          height: 2.5em;
-          width: 8.3em;
+          padding-top: 0.125em;
           color: $content-background-color;
         }
         svg {

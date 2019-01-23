@@ -18,10 +18,10 @@
       color: $off-gray !important;
     } 
     margin-bottom: 0;
-    padding: 40px 6rem !important;
+    padding: 40px 0 !important;
     .container {
-      padding: 0;
-      background-color: transparent;
+      padding: 0 2.8575em;
+      background-color: transparent !important;
     }
     &:after {
       background-color: transparent;
@@ -100,8 +100,8 @@
   svg {
     height: calc(#{$navbar-height} * .65);
     width: calc(#{$navbar-height} * .65);
-    max-height: .95rem;
-    max-width: .95rem;
+    max-height: 1em;
+    max-width: 1em;
     vertical-align: baseline;
   }
 
@@ -136,14 +136,43 @@
       .arrow {
         -webkit-transition: all .15s ease;
         transition: all .15s ease;
-        fill: background-color-text($secondary-background-color);
+        @if $theme == modern {
+          fill: initial;
+        } @else {
+          fill: background-color-text($secondary-background-color);
+        }
       }
       &:hover {
         background-color: inherit;
         color: darken($accent-color, 15%);
         .arrow {
-          margin-left: 14px;
-          fill: darken($accent-color, 15%);
+          margin-left: .75em;
+          @if $theme == modern {
+            fill: $dark-red;
+          } @else {
+            fill: darken($accent-color, 15%);
+          }
+        }
+      }
+    }
+    .arrow {
+      .section-item {
+        box-shadow: none;
+        border: none;
+        .card-content {
+          color: background-color-text($secondary-background-color);
+          font-size: 1.7em;
+          font-weight: 400;
+          position: static;
+          div {
+
+            color: background-color-text($secondary-background-color);
+            text-align: center;
+            svg {
+              position: relative;
+              fill: background-color-text($secondary-background-color);
+            }
+          }
         }
       }
     }
@@ -199,6 +228,9 @@
       line-height: 1.5em;
       margin-bottom: 1rem;
       line-height: 1.4;
+      @if $theme == (modern or classic) {
+        color: $off-gray !important;
+      }
       p {
         margin-bottom: .5em;
       }
@@ -301,15 +333,33 @@
 
         a {
           padding: 0;
-          color: $accent-color;
+          @if $theme == classic {
+            color: $off-black !important;
+          } @else {
+            color: $accent-color;
+          }
           border-bottom: none;
 
           &:hover {
+            @if $theme == classic {
+              color: $accent-color !important;
+            }
+            svg {
+              @if $theme == classic {
+                fill: $accent-color !important;
+              }
+            }
             border-bottom: none;
           }
 
           svg {
-            fill: $accent-color;
+            @if $theme == modern {
+              fill: inherit;
+            } @else if $theme == classic {
+              fill: $off-black;
+            } @else {
+              fill: $accent-color;
+            }
             vertical-align: text-bottom;
           }
         }
@@ -331,18 +381,67 @@
         }
       }
 
+      .card.image {
+        .card-content {
+          font-size: 18px !important;
+        }
+      }
+
       .card-content {
         padding: 1.5em;
-        font-family: $quire-nav-font;
-        
+        font-size: 36.8px;
+        line-height: 1.22em;
+        font-weight: 700;
+        @if $theme == modern {
+          color: $accent-color;
+        } @else {
+          color: inherit;
+        }
+
+        .arrow {
+          font-size: 1em;
+          vertical-align: text-top;
+          @if $theme == modern {
+            fill: $accent-color;
+          } @else {
+            fill: inherit;
+          }
+        }
+
+        &:hover {
+          @if $theme == modern {
+            color: darken($accent-color, 10%);
+          }
+          .title {
+            @if $theme == modern {
+              color: darken($accent-color, 10%);
+            }
+          }
+        }
+
         .artist {
           text-transform: uppercase;
         }
         .title {
-          color: $accent-color;
+          @if $theme == modern {
+            color: $accent-color;
+          } @else {
+            color: inherit;
+          }
           svg {
-            fill: $accent-color;
+            @if $theme == modern {
+              fill: $accent-color;
+            } @else {
+              fill: inherit;
+            }
             vertical-align: sub;
+          }
+          &:hover {
+            @if $theme == modern {
+              color: $dark-red;
+            } @else {
+              color: darken($accent-color, 15%);
+            }
           }
         }
         p {

@@ -65,15 +65,8 @@
   }
   &:hover {
     span {
-      display: block;
       -webkit-transition: all .5s ease;
       transition: all .5s ease;
-    }
-    .quire-progress-bar {
-      height: 18px;
-      div {
-        height: 18px; 
-      }
     }
   }
 }
@@ -86,18 +79,8 @@
   transition: all .5s ease;
   font-family: $quire-nav-font;
   font-size: 0.75rem;
-  
+  background-color: background-color($secondary-background-color);
   border-bottom: none;
-  @if $theme == (modern or classic) {
-    background-color: $light-gray !important;
-  } @else {
-    background-color: background-color($secondary-background-color);
-  }
-
-  @if $theme == classic {
-
-  }
-
   span {
     color: $white;
     display: none;
