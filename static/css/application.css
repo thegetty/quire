@@ -7820,8 +7820,8 @@ html {
       padding-top: 1em !important;
       margin-top: 45px;
       font-size: 16px;
-      padding: 40px 2.5em;
-      background-color: #EEF2F3 !important; }
+      padding: 40px 0;
+      background-color: #ffffff; }
       .quire-page__content .container .content hr {
         background-color: #595959; }
       .quire-page__content .container .content table td, .quire-page__content .container .content table th {
@@ -9190,7 +9190,7 @@ div.multimedia {
 .quire-entry__header {
   margin-top: 1em; }
   .quire-entry__header .container {
-    background-color: #EEF2F3 !important;
+    background-color: #ffffff;
     padding-bottom: 2rem; }
   @media print {
     .quire-entry__header {
@@ -9202,7 +9202,7 @@ div.multimedia {
   background-color: #F9F9A3; }
 
 .quire-entry__tombstone > div.container {
-  background-color: #EEF2F3 !important;
+  background-color: #ffffff;
   padding-bottom: 1em; }
 
 .quire-entry__tombstone .table {
@@ -9211,7 +9211,7 @@ div.multimedia {
   padding-bottom: 1em;
   border-top: 1px solid #333333;
   border-bottom: 1px solid #333333;
-  background-color: #EEF2F3 !important;
+  background-color: #ffffff;
   color: #333333; }
   .quire-entry__tombstone .table td {
     border: none; }
@@ -9219,9 +9219,9 @@ div.multimedia {
 .quire-entry__tombstone .button {
   margin-left: 2em;
   margin-top: .5em;
-  background-color: #EEF2F3 !important; }
+  background-color: #ffffff; }
   .quire-entry__tombstone .button:hover {
-    background-color: #d0dbde !important; }
+    background-color: #e6e6e6; }
 
 .quire-entry__tombstone svg {
   position: relative;

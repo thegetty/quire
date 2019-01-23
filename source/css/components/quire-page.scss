@@ -215,15 +215,8 @@ html {
         padding-top: 1em !important;
         margin-top: 45px;
         font-size: 16px;
-        padding: 40px 2.5em;
-
-        @if $theme == modern {
-          background-color: $white !important;
-        } @else if $theme == classic {
-          background-color: $off-white !important;
-        } @else {
-          background-color: $content-background-color;
-        }
+        padding: 40px 0;
+        background-color: $content-background-color;
         
 
         hr {

@@ -229,13 +229,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     margin-top: 1em;
 
     .container {
-      @if $theme == modern {
-        background-color: $white !important;
-      } @else if $theme == classic {
-        background-color: $off-white !important;
-      } @else {
-        background-color: $content-background-color;
-      }
+      background-color: $content-background-color;
       padding-bottom: 2rem;
     }
 
@@ -256,13 +250,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     }
 
     >div.container {
-      @if $theme == modern {
-        background-color: $white !important;
-      } @else if $theme == classic {
-        background-color: $off-white !important;
-      } @else {
-        background-color: $content-background-color;
-      }
+      background-color: $content-background-color;
       padding-bottom: 1em;
     }
 
@@ -272,13 +260,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
       padding-bottom: 1em;
       border-top: 1px solid background-color-text($content-background-color);
       border-bottom: 1px solid background-color-text($content-background-color);
-      @if $theme == modern {
-        background-color: $white !important;
-      } @else if $theme == classic {
-        background-color: $off-white !important;
-      } @else {
-        background-color: $content-background-color;
-      }
+      background-color: $content-background-color;
       color: background-color-text($content-background-color);
 
       td {
@@ -289,21 +271,9 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     .button {
       margin-left: 2em;
       margin-top: .5em;
-      @if $theme == modern {
-        background-color: $white !important;
-      } @else if $theme == classic {
-        background-color: $off-white !important;
-      } @else {
-        background-color: $content-background-color;
-      }
+      background-color: $content-background-color;
       &:hover {
-        @if $theme == modern {
-          background-color: darken($white, 10%) !important;
-        } @else if $theme == classic {
-          background-color: darken($off-white, 10%) !important;
-        } @else {
-          background-color: background-color($content-background-color);
-        }
+        background-color: background-color($content-background-color);
       }
     }
 
