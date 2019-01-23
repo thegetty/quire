@@ -7213,7 +7213,7 @@ template {
   width: 100%; }
   .quire h1, .quire h2, .quire h3, .quire h4, .quire h5, .quire h6 {
     letter-spacing: -0.025em;
-    color: #000000; }
+    color: #333333; }
   .quire h2 {
     text-transform: uppercase;
     font-size: 1.75em;
@@ -7283,7 +7283,7 @@ template {
     .quire:not(.no-js) .quire__primary #main {
       background: #ffffff;
       margin-top: 3rem;
-      color: #000000; }
+      color: #333333; }
     .quire:not(.no-js) .quire__primary .quire-page {
       flex: 1 1 auto;
       -webkit-overflow-scrolling: touch;
@@ -7719,7 +7719,7 @@ html {
 
 .quire-page h1, .quire-page__header__title {
   font-family: Times, serif;
-  font-size: 3.3rem;
+  font-size: 3.3em;
   font-weight: 700;
   line-height: 1.14;
   -webkit-animation: fadeIn 2s;
@@ -7802,8 +7802,8 @@ html {
   padding-top: 0;
   padding-bottom: 0;
   position: relative;
-  -webkit-animation: .5s ease-out 0s 1 slideFromRight;
-          animation: .5s ease-out 0s 1 slideFromRight;
+  -webkit-animation: .5s ease 0s 1 slideFromRight;
+          animation: .5s ease 0s 1 slideFromRight;
   color: #000000;
   font-size: 1.25rem;
   font-weight: 400;
@@ -7813,7 +7813,7 @@ html {
   .quire-page__content table {
     font-size: .875em; }
   .quire-page__content strong {
-    color: #000000; }
+    color: #333333; }
   .quire-page__content .container .content {
     padding-top: 1em !important;
     margin-top: 45px;
@@ -7828,7 +7828,7 @@ html {
       margin: 2em 0;
       display: inline-table; }
       .quire-page__content .container .content table td, .quire-page__content .container .content table th {
-        color: #000000;
+        color: #333333;
         border-width: 0 0 1px; }
       .quire-page__content .container .content table tbody td {
         border-left: 4px solid transparent;
@@ -7874,15 +7874,15 @@ html {
           left: .05em;
           margin-top: -10px; }
     .quire-page__content .container .content .backmatter h2 {
-      color: #000000;
+      color: #333333;
       font-size: .875em;
       line-height: 1.28em;
       text-transform: uppercase;
       margin-top: 20px;
       padding-bottom: 6px;
-      border-bottom: 1px solid #000000; }
+      border-bottom: 1px solid #333333; }
     .quire-page__content .container .content .backmatter .title {
-      color: #000000; }
+      color: #333333; }
     .quire-page__content .container .content .backmatter p {
       font-size: 0.875em;
       line-height: 1.6em !important; }
@@ -7895,7 +7895,7 @@ html {
     .quire-page__content .container .content .footnotes {
       font-size: .875em; }
       .quire-page__content .container .content .footnotes hr {
-        background-color: #000000;
+        background-color: #333333;
         margin-bottom: 0; }
       .quire-page__content .container .content .footnotes ul li:before {
         content: "✦";
@@ -7948,19 +7948,19 @@ html {
     .quire-page__header {
       background-color: transparent; } }
   .quire-page__header * {
-    color: #000000; }
+    color: #333333; }
   .quire-page__header svg {
-    fill: #000000; }
+    fill: #333333; }
     .quire-page__header svg:hover {
-      fill: #000000;
+      fill: #333333;
       background-color: transparent; }
   .quire-page__header a,
   .quire-page__header button,
   .quire-page__header .button {
     background-color: #f5f5f5;
-    color: #000000 !important; }
+    color: #333333 !important; }
   .quire-page__header a {
-    border-bottom-color: #000000 !important; }
+    border-bottom-color: #333333 !important; }
   .quire-page__header.hero__image {
     height: 80vh; }
     @media print {
@@ -7988,7 +7988,7 @@ html {
         width: 1rem;
         fill: #fff; }
   .quire-page__header .hero-body span {
-    color: #000000;
+    color: #333333;
     font-size: 16px;
     line-height: 1.5;
     text-rendering: optimizelegibility;
@@ -8009,7 +8009,7 @@ html {
   background-color: transparent; }
 
 .quire-page--splash .quire-page__header__title, .quire-page--splash .quire-page__header__subtitle {
-  color: #000000; }
+  color: #333333; }
 
 .quire-page--splash .hero-image .hero-body .quire-page__header__title, .quire-page--splash .hero-image .hero-body .quire-page__header__subtitle {
   color: #ffffff !important; }
@@ -8123,7 +8123,7 @@ html {
   margin-top: 1em;
   padding-bottom: .2em;
   font-size: .875em;
-  border-bottom: 1px solid #000000; }
+  border-bottom: 1px solid #333333; }
 
 .quire-page__content .content .quire-page__content__references span,
 .quire-page__content .content .quire-page__content__references dd {
@@ -8335,7 +8335,7 @@ html {
   padding-bottom: 0; }
   .quire-cover .quire-page__content .container.is-fluid .content {
     padding-top: 2em !important;
-    color: #000000;
+    color: #333333;
     background-color: #ffffff; }
     @media print {
       .quire-cover .quire-page__content .container.is-fluid .content {
@@ -8522,14 +8522,14 @@ html {
       .quire-contents-list ul.arrow .section-indent a:hover {
         border-bottom: 1px solid #456891; }
   .quire-contents-list .menu-list a {
-    color: #000000;
+    color: #333333;
     position: relative;
     padding-left: 0;
     font-size: 1em;
     transition: all .25s ease; }
     .quire-contents-list .menu-list a .arrow {
       position: absolute;
-      fill: #000000; }
+      fill: #333333; }
     .quire-contents-list .menu-list a:hover {
       background-color: inherit;
       color: #456891; }
@@ -8543,16 +8543,16 @@ html {
     box-shadow: none;
     border: none; }
     .quire-contents-list .menu-list .arrow .section-item .card-content {
-      color: #000000;
+      color: #333333;
       font-size: 1.7em;
       font-weight: 400;
       position: static; }
       .quire-contents-list .menu-list .arrow .section-item .card-content div {
-        color: #000000;
+        color: #333333;
         text-align: center; }
         .quire-contents-list .menu-list .arrow .section-item .card-content div svg {
           position: relative;
-          fill: #000000; }
+          fill: #333333; }
   .quire-contents-list .list-header {
     padding: .5em .75em .5em 0;
     letter-spacing: 1px; }
@@ -8571,7 +8571,7 @@ html {
       font-weight: inherit;
       line-height: inherit; }
     .quire-contents-list.list .section-item .title, .quire-contents-list.brief .section-item .title {
-      color: #000000;
+      color: #333333;
       margin-bottom: 0; }
     .quire-contents-list.list .quire-menu__formats a, .quire-contents-list.brief .quire-menu__formats a {
       text-decoration: none; }
@@ -8845,7 +8845,7 @@ html {
     margin-top: .5rem;
     font-style: normal;
     text-align: left;
-    color: #000000;
+    color: #333333;
     -webkit-user-select: text;
        -moz-user-select: text;
         -ms-user-select: text;
@@ -9234,6 +9234,8 @@ div.multimedia {
 
 .quire-entry__header {
   margin-top: 1em; }
+  .quire-entry__header h1 {
+    font-size: 1.875em !important; }
   .quire-entry__header .container {
     background-color: #ffffff;
     padding-bottom: 2rem; }
@@ -9243,8 +9245,16 @@ div.multimedia {
       text-align: center;
       border: 1pt solid transparent; } }
 
-.quire-entry__tombstone a:hover {
-  background-color: #F9F9A3; }
+.quire-entry__tombstone a {
+  transition: all .25s ease;
+  color: #000000; }
+  .quire-entry__tombstone a svg {
+    fill: #000000; }
+  .quire-entry__tombstone a:hover {
+    background-color: #6A8EB8;
+    color: #fff; }
+    .quire-entry__tombstone a:hover svg {
+      fill: #fff; }
 
 .quire-entry__tombstone > div.container {
   background-color: #ffffff;
@@ -9254,19 +9264,20 @@ div.multimedia {
   width: 90.5%;
   margin: 0 auto;
   padding-bottom: 1em;
-  border-top: 1px solid #000000;
-  border-bottom: 1px solid #000000;
+  border-top: 1px solid #333333;
+  border-bottom: 1px solid #333333;
   background-color: #ffffff;
-  color: #000000; }
+  color: #333333;
+  font-size: .875em; }
   .quire-entry__tombstone .table td {
     border: none; }
 
 .quire-entry__tombstone .button {
   margin-left: 2em;
   margin-top: .5em;
-  background-color: #ffffff; }
-  .quire-entry__tombstone .button:hover {
-    background-color: #e6e6e6; }
+  background-color: #ffffff;
+  border-radius: 2px;
+  border: 1px solid #333333; }
 
 .quire-entry__tombstone svg {
   position: relative;
@@ -9290,12 +9301,12 @@ div.multimedia {
 
 .quire-entry__tombstone tr:hover {
   background-color: #F9F9A3;
-  color: #000000; }
+  color: #333333; }
 
 .quire-entry__content {
   position: relative;
-  -webkit-animation: 1s ease-out 0s 1 slideFromRight;
-          animation: 1s ease-out 0s 1 slideFromRight; }
+  -webkit-animation: .5s ease 0s 1 slideFromRight;
+          animation: .5s ease 0s 1 slideFromRight; }
   .quire-entry__content .quire-page__content {
     -webkit-animation: none;
             animation: none; }
@@ -9378,7 +9389,7 @@ div.multimedia {
     font-size: 0.75em;
     line-height: 1.5;
     background-color: #ffffff;
-    color: #000000;
+    color: #333333;
     padding: 1rem;
     position: absolute;
     width: 400px;
@@ -9416,7 +9427,7 @@ div.multimedia {
   margin-left: 0; }
   .quire-contributors-list .title,
   .content ul.quire-contributors-list .title {
-    color: #000000; }
+    color: #333333; }
 
 .quire-contributor {
   padding-bottom: 1em; }

@@ -56,7 +56,7 @@ html {
   h1,
   &__header__title {
     font-family: $quire-header-font;
-    font-size: 3.3rem;
+    font-size: 3.3em;
     font-weight: 700;
     line-height: 1.14;
     -webkit-animation: fadeIn 2s;
@@ -184,8 +184,8 @@ html {
     padding-top: 0;
     padding-bottom: 0;
     position: relative;
-    animation: .5s ease-out 0s 1 slideFromRight;
-    color: background-color-text($secondary-background-color);
+    animation: .5s ease 0s 1 slideFromRight;
+    color: background-color-text-classic($secondary-background-color);
 
     @if $family-primary !=$serif {
       font-size: 1.25rem;
