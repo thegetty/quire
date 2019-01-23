@@ -7824,9 +7824,15 @@ html {
       background-color: #ffffff; }
       .quire-page__content .container .content hr {
         background-color: #595959; }
-      .quire-page__content .container .content table td, .quire-page__content .container .content table th {
-        color: #333333;
-        border-color: #595959; }
+      .quire-page__content .container .content table {
+        margin: 2em 0;
+        display: inline-table; }
+        .quire-page__content .container .content table td, .quire-page__content .container .content table th {
+          color: #333333;
+          border-width: 0 0 1px; }
+        .quire-page__content .container .content table tbody td {
+          border-left: 4px solid transparent;
+          border-right: 4px solid transparent; }
       .quire-page__content .container .content p {
         line-height: 2; }
         @media print {

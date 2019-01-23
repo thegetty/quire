@@ -224,9 +224,17 @@ html {
         }
 
         table {
+          margin: 2em 0;
+          display: inline-table;
           td, th {
             color: background-color-text($secondary-background-color);
-            border-color: lighten($off-black, 15%);
+            border-width: 0 0 1px;
+          }
+          tbody {
+            td {
+              border-left: 4px solid transparent;
+              border-right: 4px solid transparent;
+            }
           }
         }
 
