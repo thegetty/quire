@@ -296,7 +296,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
       @if $theme == classic {
         border: 1px solid $off-black;
       } @else {
-        border: 1px solid darken($accent-color, 15%);
+        border: 1px solid $accent-color;
       }
     }
 
