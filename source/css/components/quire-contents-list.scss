@@ -266,7 +266,7 @@
     }
 
     li > a {
-      padding: 1rem;
+      padding: 1em 0;
     }
 
     .section-list {
@@ -278,7 +278,10 @@
         .page-item {
           &:last-child {
             a {
-              padding: 0 0 0 1rem;
+              padding: 0;
+              div {
+                margin-top: 0.3em;
+              }
             }
           }
         }
@@ -326,7 +329,7 @@
         position: relative;
         display: block;
         border-radius: 2px;
-        margin: 1rem;
+        margin: 1em 0.5em;
         box-shadow: none;
         background-color: $content-background-color;
 
@@ -460,6 +463,10 @@
         margin-top: 1.5em;
         margin-left: 1em;
       }
+    }
+
+    ul li.section-indent {
+      padding-left: 0;
     }
 
     @media screen and (min-width: $desktop) {

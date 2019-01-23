@@ -8564,11 +8564,13 @@ html {
       line-height: inherit;
       font-family: Times, serif; }
     .quire-contents-list.grid li > a {
-      padding: 1rem; }
+      padding: 1em 0; }
     .quire-contents-list.grid .section-list {
       font-size: .75em; }
     .quire-contents-list.grid .menu-list ul.arrow .page-item:last-child a {
-      padding: 0 0 0 1rem; }
+      padding: 0; }
+      .quire-contents-list.grid .menu-list ul.arrow .page-item:last-child a div {
+        margin-top: 0.3em; }
     .quire-contents-list.grid .quire-menu__formats {
       display: block; }
       .quire-contents-list.grid .quire-menu__formats ul {
@@ -8598,7 +8600,7 @@ html {
         position: relative;
         display: block;
         border-radius: 2px;
-        margin: 1rem;
+        margin: 1em 0.5em;
         box-shadow: none;
         background-color: #ffffff; }
         .quire-contents-list.grid ul li .card a {
@@ -8664,6 +8666,8 @@ html {
       .quire-contents-list.grid ul li.section-item .list-header {
         margin-top: 1.5em;
         margin-left: 1em; }
+    .quire-contents-list.grid ul li.section-indent {
+      padding-left: 0; }
     @media screen and (min-width: 700px) {
       @supports (display: grid) {
         .quire-contents-list.grid ul {
