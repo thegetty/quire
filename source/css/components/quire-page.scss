@@ -240,6 +240,22 @@ html {
           }
         }
 
+        @if $theme == classic {
+          ul {
+            list-style: none;
+            li {
+              &:before {
+                content: "✦";
+                font-size: 1.5em;
+                display: inline-block;
+                width: 1em;
+                margin-left: -.75em;
+                box-sizing: border-box;
+              }
+            }
+          }
+        }
+
         p {
           line-height: 2;
           @media print {
@@ -253,18 +269,22 @@ html {
           p {
             position: relative;
             &:before {
-              color: lighten($off-black, 15%);
-              font-size: 3.125em;
+              color: darken($secondary-background-color, 10%);
+              font-size: 4em;
               line-height: 0.1em;
               margin-right: 0.25em;
               content: '“';
               position: absolute;
-              top: .45em;
+              top: .35em;
               left: -.65em;
+              @if $theme == classic {
+                color: $black;
+                font-size: 3.125em;
+              }
             }
             @if $theme == classic {
               &:after {
-                color: lighten($off-black, 15%);
+                color: $black;
                 font-size: 3.125em;
                 line-height: 0.1em;
                 content: '”';
@@ -315,6 +335,20 @@ html {
             background-color: background-color-text($secondary-background-color);
             margin-bottom: 0;
           }
+          @if $theme == classic {
+            ul {
+              li {
+                &:before {
+                  content: "✦";
+                  font-size: 1em;
+                  display: inline-block;
+                  width: 1em;
+                  margin-left: -.75em;
+                  box-sizing: border-box;
+                }
+              }
+            }
+          }
         }
       }
     }
@@ -350,7 +384,12 @@ html {
       &:after {
         display: block;
         text-align: center;
-        content: "✦\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0✦\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0✦";
+        @if $theme == classic {
+          content: "✦\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0✦\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0✦";
+          font-size: 1em;
+        } @else {
+          content: "◆\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0◆\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0◆";
+        }
         margin: 0 auto;
         background-color: transparent;
         font-style: normal;

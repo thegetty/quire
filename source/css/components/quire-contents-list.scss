@@ -14,9 +14,6 @@
     background-color: transparent;
   }
   .quire-page__abstract {
-    @if $theme == (modern or classic) {
-      color: $off-gray !important;
-    } 
     margin-bottom: 0;
     padding: 40px 0 !important;
     .container {
@@ -25,6 +22,12 @@
     }
     &:after {
       background-color: transparent;
+    }
+  }
+  .quire-page__content {
+    .container {
+      padding-right: 2.25em;
+      padding-left: 2.25em;
     }
   }
 }
@@ -227,9 +230,7 @@
       line-height: 1.5em;
       margin-bottom: 1rem;
       line-height: 1.4;
-      @if $theme == (modern or classic) {
-        color: $off-gray !important;
-      }
+      color: $off-gray;
       p {
         margin-bottom: .5em;
       }
