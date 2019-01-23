@@ -338,17 +338,20 @@ html {
           font-size: .875em;
           line-height: .5em;
           margin-top: 20px;
+          color: background-color-text-classic($content-background-color);
         }
 
         .footnotes {
           font-size: .875em;
-          font-family: $noto-serif;
-
+          @if $theme == modern {
+            font-family: $noto-serif;
+          }
           hr {
             background-color: background-color-text($secondary-background-color);
             margin-bottom: 0;
           }
           @if $theme == classic {
+            font-family: $noto-sans;
             ul {
               li {
                 &:before {
@@ -653,8 +656,7 @@ html {
     h4,
     h5,
     h6 {
-      letter-spacing: -0.025em;
-      color: findColorInvert($content-background-color);
+      color: background-color-text-classic($content-background-color);
     }
 
     h2 {
