@@ -222,6 +222,13 @@ $print-footer-font-size: 8pt;
         margin-left: $print-inner-margin;
         margin-right: $print-inner-margin;
         margin-bottom: $print-bottom-margin;
+        .container {
+          .content {
+            background-color: dodgerblue;
+            padding: 0;
+            margin: 0 auto;
+          }
+        }
       }
 
       .hero-body {
@@ -249,33 +256,34 @@ $print-footer-font-size: 8pt;
   // TEMPORARY
   // Use to better test and style layout of pages
   .quire-page {
-    // border: 1pt solid #ff0000 !important;
+    border: 1pt solid #ff0000 !important;
     margin: 0 auto;
   }
 
   .hero.quire-page__header {
-    // border: 1pt solid #ff00ff !important;
+    border: 1pt solid #ff00ff !important;
     margin: 0 auto;
   }
 
   .hero-body {
-    // border: 1pt solid #0000ff !important;
+    border: 1pt solid #0000ff !important;
     margin: 0 auto;
   }
 
   .section.quire-page__content {
-    // border: 1pt solid #00ff00 !important;
+    border: 1pt solid #00ff00 !important;
     margin: 0 auto;
   }
 
   .container {
-    // border: 1pt solid #ffff00 !important;
+    border: 1pt solid #ffff00 !important;
     margin: 0 auto;
   }
 
   .content {
-    // border: 1pt solid #00ffff !important;
+    border: 1pt solid #00ffff !important;
     margin: 0 auto;
+    padding: 0;
   }
 
   .is-screen-only {

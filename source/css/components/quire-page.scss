@@ -211,11 +211,21 @@ html {
     .container {
       padding-left: 2em;
       padding-right: 2em;
+
+      @media print {
+       padding: 0;
+       margin: 0 auto;
+      }
+
       .content {
         padding-top: 1em !important;
         margin-top: 45px;
         font-size: 16px;
         padding: 40px 2.5em;
+
+        @media print {
+
+         }
 
         @if $theme == modern {
           background-color: $white !important;
@@ -224,7 +234,6 @@ html {
         } @else {
           background-color: $content-background-color;
         }
-        
 
         hr {
           background-color: lighten($off-black, 15%);

@@ -7814,6 +7814,10 @@ html {
   .quire-page__content .container {
     padding-left: 2em;
     padding-right: 2em; }
+    @media print {
+      .quire-page__content .container {
+        padding: 0;
+        margin: 0 auto; } }
     .quire-page__content .container .content {
       padding-top: 1em !important;
       margin-top: 45px;
@@ -8834,41 +8838,50 @@ html {
     left: 0;
     width: 100%;
     height: 100%; }
-  .quire-figure__media-fallback .header {
-    font-family: 'Noto Sans', sans-serif;
-    font-size: 1em;
-    color: #000000;
-    font-weight: 400;
-    text-align: left;
-    margin-bottom: .5em; }
-  .quire-figure__media-fallback .caption {
-    text-align: left; }
-  .quire-figure__media-fallback .placeholder {
-    color: #000000;
-    background-color: #CCCCCC;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    margin-bottom: 1em; }
-    .quire-figure__media-fallback .placeholder i {
-      font-size: 100px; }
-      .quire-figure__media-fallback .placeholder i.audio {
-        padding-top: 10px; }
-  .content figure .quire-figure__media-fallback {
-    display: none; }
-    @media print {
-      .content figure .quire-figure__media-fallback {
-        display: block;
-        width: 100%; } }
-  .quire-figure__media-fallback__text {
-    display: none; }
-    @media print {
-      .quire-figure__media-fallback__text {
-        display: inline; } }
+  .quire-figure__media-fallback {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    display: flex; }
+    .quire-figure__media-fallback .header {
+      font-family: 'Noto Sans', sans-serif;
+      font-size: 1em;
+      color: #000000;
+      font-weight: 400;
+      text-align: left;
+      margin-bottom: .5em; }
+    .quire-figure__media-fallback .caption {
+      text-align: left;
+      overflow-wrap: break-word;
+      word-wrap: break-word; }
+      .quire-figure__media-fallback .caption a {
+        overflow-wrap: break-word;
+        word-wrap: break-word; }
+    .quire-figure__media-fallback .placeholder {
+      color: #ffffff;
+      background-color: #CCCCCC;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: center;
+      margin-bottom: 1em; }
+      .quire-figure__media-fallback .placeholder i {
+        font-size: 100px; }
+        .quire-figure__media-fallback .placeholder i.audio {
+          padding-top: 10px; }
+    .content figure .quire-figure__media-fallback {
+      display: none; }
+      @media print {
+        .content figure .quire-figure__media-fallback {
+          display: block;
+          width: 100%; } }
+    .quire-figure__media-fallback__text {
+      display: none; }
+      @media print {
+        .quire-figure__media-fallback__text {
+          display: inline; } }
   .quire-figure__video {
     width: 100%; }
   @media screen and (min-width: 500px) {
@@ -9807,6 +9820,11 @@ body > div.mfp-bg.mfp-ready {
     margin-left: 1in;
     margin-right: 1in;
     margin-bottom: 0.875in; }
+    .quire-page--splash .quire-page__header .hero-body .container .content,
+    .quire-page--splash .quire-page__header .quire-page__content .container .content {
+      background-color: dodgerblue;
+      padding: 0;
+      margin: 0 auto; }
   .quire-page--splash .quire-page__header .hero-body {
     margin-top: 3in; }
   .quire-page--splash .quire-page__header.quire-page__header--full-height {
@@ -9816,17 +9834,24 @@ body > div.mfp-bg.mfp-ready {
     width: 8.5in;
     height: 11in; }
   .quire-page {
+    border: 1pt solid #ff0000 !important;
     margin: 0 auto; }
   .hero.quire-page__header {
+    border: 1pt solid #ff00ff !important;
     margin: 0 auto; }
   .hero-body {
+    border: 1pt solid #0000ff !important;
     margin: 0 auto; }
   .section.quire-page__content {
+    border: 1pt solid #00ff00 !important;
     margin: 0 auto; }
   .container {
+    border: 1pt solid #ffff00 !important;
     margin: 0 auto; }
   .content {
-    margin: 0 auto; }
+    border: 1pt solid #00ffff !important;
+    margin: 0 auto;
+    padding: 0; }
   .is-screen-only {
     display: none; }
   html body .leaflet-pane,
