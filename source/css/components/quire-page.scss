@@ -209,18 +209,20 @@ html {
     }
 
     .container {
-      padding-left: 2em;
-      padding-right: 2em;
       .content {
         padding-top: 1em !important;
         margin-top: 45px;
         font-size: 16px;
-        padding: 40px 0;
+        padding: 40px 2.5em;
         background-color: $content-background-color;
         
 
         hr {
           background-color: lighten($off-black, 15%);
+        }
+
+        li {
+          margin: 1em 0 0 0;
         }
 
         table {
@@ -248,16 +250,31 @@ html {
         blockquote {
           border-left: none;
           position: relative;
-
-          &:before {
-            color: lighten($off-black, 15%);
-            font-size: 4em;
-            line-height: 0.1em;
-            margin-right: 0.25em;
-            content: '“';
-            position: absolute;
-            top: .35em;
-            left: -.25em;
+          p {
+            position: relative;
+            &:before {
+              color: lighten($off-black, 15%);
+              font-size: 3.125em;
+              line-height: 0.1em;
+              margin-right: 0.25em;
+              content: '“';
+              position: absolute;
+              top: .45em;
+              left: -.65em;
+            }
+            @if $theme == classic {
+              &:after {
+                color: lighten($off-black, 15%);
+                font-size: 3.125em;
+                line-height: 0.1em;
+                content: '”';
+                position: relative;
+                display: inline-block;
+                top: .35em;
+                left: .05em;
+                margin-top: -10px;
+              }
+            }
           }
         }
 
