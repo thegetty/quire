@@ -7842,6 +7842,11 @@ html {
         width: 1em;
         margin-left: -.75em;
         box-sizing: border-box; }
+    .quire-page__content .container .content dl dt {
+      font-weight: 700; }
+    .quire-page__content .container .content dl dd {
+      margin-left: 0;
+      font-style: italic; }
     .quire-page__content .container .content p {
       line-height: 2; }
       @media print {

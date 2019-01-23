@@ -257,6 +257,16 @@ html {
           }
         }
 
+        dl {
+          dt {
+            font-weight: 700;
+          }
+          dd {
+            margin-left: 0;
+            font-style: italic;
+          }
+        }
+
         p {
           line-height: 2;
           @media print {
