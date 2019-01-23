@@ -7769,7 +7769,8 @@ html {
 
 .quire-page__header__contributor {
   font-weight: 400;
-  margin-top: 3rem; }
+  margin-top: 3rem;
+  opacity: 0.75; }
   @media print {
     .quire-page__header__contributor {
       font-size: 13pt;
@@ -7996,8 +7997,7 @@ html {
     color: #333333;
     font-size: 16px;
     line-height: 1.5;
-    text-rendering: optimizelegibility;
-    opacity: 0.5; }
+    text-rendering: optimizelegibility; }
   @media screen and (min-width: 700px) {
     .quire-page__header .hero-body {
       margin: 0 5rem; } }
@@ -9436,6 +9436,8 @@ div.multimedia {
 
 .quire-contributor {
   padding-bottom: 1em; }
+  .quire-contributor:before {
+    display: none !important; }
   .quire-contributor__pic {
     width: 100px;
     border-radius: 60px;

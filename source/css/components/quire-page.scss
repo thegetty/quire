@@ -146,6 +146,7 @@ html {
   &__header__contributor {
     font-weight: 400;
     margin-top: 3rem;
+    opacity: 0.75;
 
     @media print {
       font-size: 13pt;
@@ -485,7 +486,6 @@ html {
       font-size: 16px;
       line-height: 1.5;
       text-rendering: optimizelegibility;
-      opacity: 0.5;
     }
 
     @media screen and (min-width: $desktop) {
