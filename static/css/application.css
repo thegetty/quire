@@ -8028,7 +8028,7 @@ html {
   line-height: .85em; }
 
 @-moz-document url-prefix() {
-  .quire-page__content p:first-child:first-letter {
+  .quire-page--splash .quire-page__content p:first-child:first-letter {
     font-size: 9em;
     float: left;
     margin-top: .1em !important;

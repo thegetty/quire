@@ -544,16 +544,18 @@ html {
 }
 
 @-moz-document url-prefix() {
-  .quire-page__content {
-    p {
-      &:first-child {
-        &:first-letter {
-          font-size: 9em;
-          float: left;
-          margin-top: .1em !important;
-          margin-left: -0.09em;
-          padding-right: 0.025em;
-          line-height: .85em;
+  .quire-page--splash {
+    .quire-page__content {
+      p {
+        &:first-child {
+          &:first-letter {
+            font-size: 9em;
+            float: left;
+            margin-top: .1em !important;
+            margin-left: -0.09em;
+            padding-right: 0.025em;
+            line-height: .85em;
+          }
         }
       }
     }
