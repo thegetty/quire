@@ -393,8 +393,7 @@ $print-footer-font-size: 8pt;
 /** PRINT ELEMENTS **/
 
 .media-caption {
-  font-size: .75em;
-  line-height: 1.8em;
+
 }
 
 .time-length {
@@ -413,6 +412,14 @@ $print-footer-font-size: 8pt;
   display: block;
 }
 
+.content figure .quire-figure__media-fallback {
+  display: block;
+}
+
+.quire-figure__media-wrapper--widescreen {
+  padding-bottom: 0;
+  position: inherit;
+}
 
 #content>div.container>div>figure:nth-child(11)>div:nth-child(1) .quire-figure--group-pdf {
   color: #fff;

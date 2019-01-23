@@ -8813,6 +8813,30 @@ html {
     left: 0;
     width: 100%;
     height: 100%; }
+  .quire-figure__media-fallback .header {
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 1em;
+    color: #000000;
+    font-weight: 400;
+    text-align: left;
+    margin-bottom: .5em; }
+  .quire-figure__media-fallback .caption {
+    text-align: left; }
+  .quire-figure__media-fallback .placeholder {
+    color: #000000;
+    background-color: #CCCCCC;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 1em; }
+    .quire-figure__media-fallback .placeholder i {
+      font-size: 100px; }
+      .quire-figure__media-fallback .placeholder i.audio {
+        padding-top: 10px; }
   .content figure .quire-figure__media-fallback {
     display: none; }
     @media print {
@@ -8906,6 +8930,8 @@ html {
       page-break-inside: avoid;
       break-inside: avoid; } }
 
+/** VIDEO/AUDIO FALLBACK ELEMENTS **/
+/** VIDEO/AUDIO FALLBACK ELEMENTS **/
 /** VIDEO/AUDIO FALLBACK ELEMENTS **/
 div.multimedia {
   overflow-wrap: break-word;
@@ -9856,10 +9882,6 @@ body > div.mfp-bg.mfp-ready {
     /** approx 22px **/ }
 
 /** PRINT ELEMENTS **/
-.media-caption {
-  font-size: .75em;
-  line-height: 1.8em; }
-
 .time-length {
   font-size: .875em;
   width: 100%; }
@@ -9873,6 +9895,13 @@ body > div.mfp-bg.mfp-ready {
   top: 0;
   color: #ffffff;
   display: block; }
+
+.content figure .quire-figure__media-fallback {
+  display: block; }
+
+.quire-figure__media-wrapper--widescreen {
+  padding-bottom: 0;
+  position: inherit; }
 
 #content > div.container > div > figure:nth-child(11) > div:nth-child(1) .quire-figure--group-pdf {
   color: #fff; }
