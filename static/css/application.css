@@ -606,7 +606,7 @@ button,
 input,
 select,
 textarea {
-  font-family: "Noto Serif", serif; }
+  font-family: "Noto Sans", sans-serif; }
 
 code,
 pre {
@@ -7264,7 +7264,7 @@ template {
       width: 100%;
       display: none; }
   .quire:not(.no-js) .quire__primary {
-    background: #ffffff;
+    background: #EEF2F3;
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -7281,7 +7281,7 @@ template {
     width: 100%;
     z-index: 9999; }
     .quire:not(.no-js) .quire__primary #main {
-      background: #ffffff;
+      background: #EEF2F3;
       margin-top: 3rem;
       color: #333333; }
     .quire:not(.no-js) .quire__primary .quire-page {
@@ -7343,7 +7343,7 @@ template {
     display: none; } }
 
 .quire-navbar {
-  font-family: "Noto Serif", serif;
+  font-family: "Noto Sans", sans-serif;
   font-weight: 400;
   font-size: .875em;
   position: fixed;
@@ -7386,9 +7386,9 @@ template {
 .quire-progress-bar {
   height: 2px;
   transition: all .5s ease;
-  font-family: "Noto Serif", serif;
+  font-family: "Noto Sans", sans-serif;
   font-size: 0.75rem;
-  background-color: #e6e6e6;
+  background-color: #d0dbde;
   border-bottom: none; }
   .quire-progress-bar span {
     color: #ffffff;
@@ -7398,7 +7398,7 @@ template {
     transition: height .5s ease;
     height: 2px;
     width: 100%;
-    background-color: #4d74a2;
+    background-color: #b42f2f;
     text-align: right;
     padding-right: .5em;
     position: relative;
@@ -7532,7 +7532,7 @@ template {
   margin-left: 0; }
 
 .quire-menu {
-  font-family: Times, serif; }
+  font-family: "IBM Plex Sans Condensed", sans-serif; }
   .quire-menu__header {
     margin: 1rem 0; }
     .quire-menu__header a {
@@ -7590,13 +7590,11 @@ template {
     .quire-menu__footer .quire-copyright {
       padding: 0 .5em; }
   .quire-menu .page-item a, .quire-menu .section-item a {
-    font-family: "Noto Serif", serif; }
+    font-family: "Noto Sans", sans-serif; }
     .quire-menu .page-item a.active, .quire-menu .section-item a.active {
-      border-left: 4px solid #6A8EB8;
-      color: #6A8EB8 !important;
-      text-decoration: none;
-      color: #6A8EB8 !important;
-      border-left: 4px solid #6A8EB8 !important; }
+      border-left: 4px solid #CF4747;
+      color: #CF4747 !important;
+      text-decoration: none; }
   .quire-menu .menu-label {
     color: #999999;
     font-size: .9em;
@@ -7640,7 +7638,7 @@ template {
   .quire-search.is-active {
     display: block; }
   .quire-search__inner h1.title {
-    font-family: Times, serif;
+    font-family: "IBM Plex Sans Condensed", sans-serif;
     font-weight: 300;
     font-size: 2.7rem; }
   .quire-search__inner .input-bar {
@@ -7667,8 +7665,8 @@ template {
     .quire-search__inner__list-item .title span {
       font-size: 1.5rem;
       margin: .75rem 0 .25rem;
-      color: #6A8EB8;
-      border-bottom: 1px dotted #6A8EB8; }
+      color: #CF4747;
+      border-bottom: 1px dotted #CF4747; }
   .quire-search__close-button {
     position: absolute;
     left: 0;
@@ -7718,7 +7716,7 @@ html {
   margin-top: 1rem; }
 
 .quire-page h1, .quire-page__header__title {
-  font-family: Times, serif;
+  font-family: "IBM Plex Sans Condensed", sans-serif;
   font-size: 3.3em;
   font-weight: 700;
   line-height: 1.14;
@@ -7740,7 +7738,7 @@ html {
       margin-top: .75in; } }
 
 .quire-page h2 {
-  font-family: Times, serif;
+  font-family: "IBM Plex Sans Condensed", sans-serif;
   font-size: 2.7rem;
   font-weight: 300;
   line-height: 1.09; }
@@ -7750,7 +7748,7 @@ html {
 
 .quire-page h3,
 .quire-page h4, .quire-page__header__subtitle, .quire-page__header__contributor {
-  font-family: "Noto Serif", serif;
+  font-family: "Noto Sans", sans-serif;
   font-size: 1rem;
   font-weight: 600;
   line-height: 1.143; }
@@ -7783,7 +7781,7 @@ html {
 
 .quire-page h5,
 .quire-page h6 {
-  font-family: Times, serif;
+  font-family: "IBM Plex Sans Condensed", sans-serif;
   font-weight: 400; }
 
 .quire-page h5 {
@@ -7805,7 +7803,7 @@ html {
   position: relative;
   -webkit-animation: .5s ease 0s 1 slideFromRight;
           animation: .5s ease 0s 1 slideFromRight;
-  color: #000000;
+  color: #333333;
   font-size: 1.25rem;
   font-weight: 400;
   line-height: 1.6; }
@@ -7834,15 +7832,6 @@ html {
       .quire-page__content .container .content table tbody td {
         border-left: 4px solid transparent;
         border-right: 4px solid transparent; }
-    .quire-page__content .container .content ul {
-      list-style: none; }
-      .quire-page__content .container .content ul li:before {
-        content: "✦";
-        font-size: 1.5em;
-        display: inline-block;
-        width: 1em;
-        margin-left: -.75em;
-        box-sizing: border-box; }
     .quire-page__content .container .content dl dt {
       font-weight: 700; }
     .quire-page__content .container .content dl dd {
@@ -7859,26 +7848,14 @@ html {
       .quire-page__content .container .content blockquote p {
         position: relative; }
         .quire-page__content .container .content blockquote p:before {
-          color: #e6e6e6;
+          color: #d0dbde;
           font-size: 4em;
           line-height: 0.1em;
           margin-right: 0.25em;
           content: '“';
           position: absolute;
           top: .35em;
-          left: -.65em;
-          color: #000000;
-          font-size: 3.125em; }
-        .quire-page__content .container .content blockquote p:after {
-          color: #000000;
-          font-size: 3.125em;
-          line-height: 0.1em;
-          content: '”';
-          position: relative;
-          display: inline-block;
-          top: .35em;
-          left: .05em;
-          margin-top: -10px; }
+          left: -.65em; }
     .quire-page__content .container .content .backmatter h2 {
       color: #333333;
       font-size: .875em;
@@ -7899,17 +7876,11 @@ html {
       line-height: .5em;
       margin-top: 20px; }
     .quire-page__content .container .content .footnotes {
-      font-size: .875em; }
+      font-size: .875em;
+      font-family: "Noto Serif", serif; }
       .quire-page__content .container .content .footnotes hr {
         background-color: #333333;
         margin-bottom: 0; }
-      .quire-page__content .container .content .footnotes ul li:before {
-        content: "✦";
-        font-size: 1em;
-        display: inline-block;
-        width: 1em;
-        margin-left: -.75em;
-        box-sizing: border-box; }
 
 .quire-page__abstract {
   font-style: italic;
@@ -7924,15 +7895,14 @@ html {
   .quire-page__abstract h2 {
     font-weight: 400;
     font-size: 1.625em;
-    font-family: Times, serif; }
+    font-family: "IBM Plex Sans Condensed", sans-serif; }
   .quire-page__abstract .container {
     padding: 3em 2em 1em;
     background-color: #ffffff; }
     .quire-page__abstract .container:after {
       display: block;
       text-align: center;
-      content: "✦\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0✦\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0✦";
-      font-size: 1em;
+      content: "◆\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0◆\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0◆";
       margin: 0 auto;
       background-color: transparent;
       font-style: normal;
@@ -7945,7 +7915,7 @@ html {
       background-color: transparent; } }
 
 .quire-page__header {
-  background-color: #ffffff;
+  background-color: #EEF2F3;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: cover;
@@ -8078,7 +8048,7 @@ html {
     margin-bottom: 2em; } }
 
 .quire-page__content .content a:not([rel=footnote]):not(.footnote-return) {
-  color: #6A8EB8; }
+  color: #CF4747; }
   @media print {
     .quire-page__content .content a:not([rel=footnote]):not(.footnote-return) {
       color: #363636;
@@ -8089,7 +8059,7 @@ html {
     color: #363636; } }
 
 .quire-page__content .content a:hover {
-  color: #456891 !important;
+  color: #a02a2a !important;
   border-bottom-width: 2px; }
 
 .quire-page__content .content a:focus {
@@ -8168,7 +8138,7 @@ html {
     .quire-page__content .content .footnotes ol li {
       margin-bottom: 1em; }
   .quire-page__content .content .footnotes a {
-    color: #6A8EB8; }
+    color: #CF4747; }
   .quire-page__content .content .footnotes p + p {
     text-indent: 0; }
 
@@ -8254,9 +8224,9 @@ html {
         color: #ffffff;
         text-transform: uppercase;
         letter-spacing: 1pt;
-        font-family: Times, serif; } }
+        font-family: "IBM Plex Sans Condensed", sans-serif; } }
   .quire-cover__hero .title {
-    font-family: Times, serif;
+    font-family: "IBM Plex Sans Condensed", sans-serif;
     font-size: calc(2rem * 1);
     font-weight: 700;
     line-height: 1.07;
@@ -8282,7 +8252,7 @@ html {
         margin-top: .25in;
         color: #ffffff; } }
   .quire-cover__hero .reading-line {
-    font-family: Times, serif;
+    font-family: "IBM Plex Sans Condensed", sans-serif;
     font-style: italic;
     font-size: calc(1.25rem * 1);
     line-height: 1.2;
@@ -8292,7 +8262,7 @@ html {
         font-size: 18pt;
         color: #ffffff; } }
   .quire-cover__hero .contributor {
-    font-family: Times, serif;
+    font-family: "IBM Plex Sans Condensed", sans-serif;
     font-size: 1em;
     line-height: 1.72;
     margin-top: calc(.5rem * 1);
@@ -8326,11 +8296,11 @@ html {
       margin-top: .3rem; }
 
 .quire-cover__button {
-  background-color: #6A8EB8;
+  background-color: #CF4747;
   color: #fff;
   border-width: 0px;
   border-radius: 2px;
-  font-family: "Noto Serif", serif;
+  font-family: "Noto Sans", sans-serif;
   font-size: 1rem !important;
   padding: 0 !important;
   width: 140px;
@@ -8342,7 +8312,7 @@ html {
     margin-bottom: .05rem;
     fill: #fff; }
   .quire-cover__button:hover {
-    background-color: #456891;
+    background-color: #a02a2a;
     color: #ffffff; }
 
 .quire-cover .quire-page__content {
@@ -8350,13 +8320,13 @@ html {
   .quire-cover .quire-page__content .container.is-fluid .content {
     padding-top: 2em !important;
     color: #333333;
-    background-color: #ffffff; }
+    background-color: #EEF2F3; }
     @media print {
       .quire-cover .quire-page__content .container.is-fluid .content {
         background-color: transparent; } }
     .quire-cover .quire-page__content .container.is-fluid .content p {
       line-height: 2em;
-      font-family: "Noto Serif", serif; }
+      font-family: "Noto Sans", sans-serif; }
   @media screen and (min-width: 1028px) {
     .quire-cover .quire-page__content .container.is-fluid {
       max-width: 900px;
@@ -8421,7 +8391,7 @@ html {
     background-color: transparent; }
   .quire-cover .quire-cover-footer .quire-publisher {
     margin-bottom: 1.5em;
-    font-family: Times, serif; }
+    font-family: "IBM Plex Sans Condensed", sans-serif; }
     .quire-cover .quire-cover-footer .quire-publisher img {
       float: right;
       max-height: 6em;
@@ -8480,7 +8450,7 @@ html {
   margin: 0 auto;
   padding: 0 20px; }
   .quire-contents-header h1 {
-    font-family: Times, serif;
+    font-family: "IBM Plex Sans Condensed", sans-serif;
     font-size: 3em;
     font-weight: 700;
     line-height: 1.04em;
@@ -8534,7 +8504,7 @@ html {
       display: inline-block;
       border-bottom: 1px dotted #333333; }
       .quire-contents-list ul.arrow .section-indent a:hover {
-        border-bottom: 1px solid #456891; }
+        border-bottom: 1px solid #a02a2a; }
   .quire-contents-list .menu-list a {
     color: #333333;
     position: relative;
@@ -8546,13 +8516,13 @@ html {
       fill: #333333; }
     .quire-contents-list .menu-list a:hover {
       background-color: inherit;
-      color: #456891; }
+      color: #a02a2a; }
       .quire-contents-list .menu-list a:hover .arrow {
         margin-left: .75em;
         transition: all .25s ease;
-        fill: #456891; }
+        fill: #a02a2a; }
         .quire-contents-list .menu-list a:hover .arrow svg {
-          fill: #456891 !important; }
+          fill: #a02a2a !important; }
   .quire-contents-list .menu-list .arrow .section-item {
     box-shadow: none;
     border: none; }
@@ -8573,7 +8543,7 @@ html {
   .quire-contents-list .contributor {
     font-style: italic; }
   .quire-contents-list.list, .quire-contents-list.brief {
-    font-family: Times, serif; }
+    font-family: "IBM Plex Sans Condensed", sans-serif; }
     .quire-contents-list.list li, .quire-contents-list.brief li {
       margin-bottom: .5em; }
     .quire-contents-list.list li > ul, .quire-contents-list.brief li > ul {
@@ -8595,7 +8565,7 @@ html {
     font-weight: 400;
     line-height: 1.35;
     margin-bottom: 0;
-    font-family: Times, serif; }
+    font-family: "IBM Plex Sans Condensed", sans-serif; }
   .quire-contents-list.abstract .abstract-text {
     font-size: 14px;
     line-height: 1.5em;
@@ -8609,7 +8579,7 @@ html {
     text-decoration: none; }
   .quire-contents-list.grid {
     font-size: .75em;
-    font-family: Times, serif; }
+    font-family: "IBM Plex Sans Condensed", sans-serif; }
     @media screen and (min-width: 500px) {
       .quire-contents-list.grid {
         margin: 0 5rem; } }
@@ -8617,7 +8587,7 @@ html {
       font-size: inherit;
       font-weight: inherit;
       line-height: inherit;
-      font-family: Times, serif; }
+      font-family: "IBM Plex Sans Condensed", sans-serif; }
     .quire-contents-list.grid li > a {
       padding: 1em 0; }
     .quire-contents-list.grid .section-list {
@@ -8660,15 +8630,12 @@ html {
         background-color: #ffffff; }
         .quire-contents-list.grid ul li .card a {
           padding: 0;
-          color: #333333 !important;
+          color: #CF4747;
           border-bottom: none; }
           .quire-contents-list.grid ul li .card a:hover {
-            color: #6A8EB8 !important;
             border-bottom: none; }
-            .quire-contents-list.grid ul li .card a:hover svg {
-              fill: #6A8EB8 !important; }
           .quire-contents-list.grid ul li .card a svg {
-            fill: #333333;
+            fill: inherit;
             vertical-align: text-bottom; }
         .quire-contents-list.grid ul li .card .card-image {
           transition: box-shadow .35s;
@@ -8688,18 +8655,18 @@ html {
           font-size: 1em;
           vertical-align: text-top; }
         .quire-contents-list.grid ul li .card-content:hover {
-          color: #4d74a2; }
+          color: #b42f2f; }
           .quire-contents-list.grid ul li .card-content:hover .title {
-            color: #4d74a2; }
+            color: #b42f2f; }
         .quire-contents-list.grid ul li .card-content .artist {
           text-transform: uppercase; }
         .quire-contents-list.grid ul li .card-content .title {
-          color: inherit; }
+          color: #CF4747; }
           .quire-contents-list.grid ul li .card-content .title svg {
-            fill: inherit;
+            fill: #CF4747;
             vertical-align: sub; }
           .quire-contents-list.grid ul li .card-content .title:hover {
-            color: #456891; }
+            color: #B02E2E; }
         .quire-contents-list.grid ul li .card-content p {
           padding-top: 0.5rem; }
     .quire-contents-list.grid ul li.section-item {
@@ -8766,8 +8733,8 @@ html {
       font-size: 11pt; } }
 
 .quire-figure {
-  border-top: 1px solid #6A8EB8;
-  border-bottom: 1px solid #6A8EB8;
+  border-top: 1px solid #CF4747;
+  border-bottom: 1px solid #CF4747;
   padding: 1em 0; }
   .quire-figure .q-figure__wrapper a {
     border: none;
@@ -9180,7 +9147,7 @@ div.multimedia {
         display: block;
         padding: 6px 10px;
         background: rgba(0, 0, 0, 0.5);
-        font-family: Times, serif;
+        font-family: "IBM Plex Sans Condensed", sans-serif;
         font-size: 12px;
         font-weight: bold; }
       @media print {
@@ -9261,11 +9228,9 @@ div.multimedia {
 
 .quire-entry__tombstone a {
   transition: all .25s ease;
-  color: #000000; }
-  .quire-entry__tombstone a svg {
-    fill: #000000; }
+  color: #CF4747; }
   .quire-entry__tombstone a:hover {
-    background-color: #6A8EB8;
+    background-color: #CF4747;
     color: #fff; }
     .quire-entry__tombstone a:hover svg {
       fill: #fff; }
@@ -9291,14 +9256,14 @@ div.multimedia {
   margin-top: 1.5em;
   background-color: #ffffff;
   border-radius: 2px;
-  border: 1px solid #333333; }
+  border: 1px solid #CF4747; }
 
 .quire-entry__tombstone svg {
   position: relative;
   height: 1.25em;
   width: 1.25em;
   margin-left: .5em;
-  fill: #6A8EB8; }
+  fill: #CF4747; }
   .quire-entry__tombstone svg img {
     position: absolute;
     top: 0;
@@ -9417,7 +9382,7 @@ div.multimedia {
 
 .quire-copyright {
   padding: 0 1em;
-  font-family: "Noto Serif", serif; }
+  font-family: "Noto Sans", sans-serif; }
   .quire-copyright__icon {
     height: 2.5em;
     max-width: 100%; }
@@ -9545,7 +9510,7 @@ div.quire-counter-container {
   background: rgba(0, 0, 0, 0.5);
   z-index: 1046; }
   div.quire-counter-container > span {
-    font-family: Times, serif;
+    font-family: "IBM Plex Sans Condensed", sans-serif;
     font-size: 16px;
     font-weight: bold; }
 
@@ -9562,7 +9527,7 @@ div.quire-caption-container {
     display: block;
     padding: 6px 10px;
     background: rgba(0, 0, 0, 0.5);
-    font-family: Times, serif;
+    font-family: "IBM Plex Sans Condensed", sans-serif;
     font-size: 12px;
     font-weight: bold; }
 
@@ -9703,13 +9668,13 @@ body > div.mfp-bg.mfp-ready {
     border-radius: 2px;
     transition: all .25s ease;
     font-size: 1em;
-    background: #ffffff;
-    border: 1px solid #333333; }
+    background: #EEF2F3;
+    border: 1px solid #CF4747; }
     .quire-contents-buttons li.quire-nav-button a {
       display: inline-block;
       width: 8.75em;
       height: 3.25em;
-      color: #4d74a2;
+      color: #b42f2f;
       font-size: .8em;
       margin-top: 0;
       padding-top: .5em;
@@ -9718,31 +9683,30 @@ body > div.mfp-bg.mfp-ready {
       margin-left: 0;
       margin-right: .55rem; }
       .quire-contents-buttons li.quire-nav-button.prev a {
-        color: #333333;
+        color: #CF4747;
         margin-right: .5rem; }
       .quire-contents-buttons li.quire-nav-button.prev svg {
-        fill: #333333;
+        fill: #CF4747;
         margin-right: .5rem; }
     .quire-contents-buttons li.quire-nav-button svg {
       width: 1.25rem;
       height: 1.25rem;
       margin-left: -.25rem;
       margin-bottom: .15rem;
-      fill: #6A8EB8; }
+      fill: #CF4747; }
     .quire-contents-buttons li.quire-nav-button .nav-title {
       vertical-align: super; }
     .quire-contents-buttons li.quire-nav-button.next {
-      background-color: #333333 !important; }
+      background-color: #CF4747; }
       .quire-contents-buttons li.quire-nav-button.next svg {
         fill: #fff; }
       .quire-contents-buttons li.quire-nav-button.next:hover {
-        background-color: #4d74a2; }
+        background-color: #b42f2f; }
       .quire-contents-buttons li.quire-nav-button.next a {
         color: #fff; }
     .quire-contents-buttons li.quire-nav-button:hover {
-      background-color: #4d74a2;
-      border-color: #4d74a2;
-      background-color: #4d74a2; }
+      background-color: #b42f2f;
+      border-color: #b42f2f; }
       .quire-contents-buttons li.quire-nav-button:hover a {
         color: #fff; }
       .quire-contents-buttons li.quire-nav-button:hover svg {
@@ -9760,19 +9724,19 @@ body > div.mfp-bg.mfp-ready {
     margin-top: 0.75in;
     margin-bottom: 0.875in;
     @bottom-right-corner {
-      font-family: Times, serif;
+      font-family: "IBM Plex Sans Condensed", sans-serif;
       font-size: 8pt; }
     @bottom-right {
-      font-family: Times, serif;
+      font-family: "IBM Plex Sans Condensed", sans-serif;
       font-size: 8pt; }
     @bottom-center {
-      font-family: Times, serif;
+      font-family: "IBM Plex Sans Condensed", sans-serif;
       font-size: 8pt; }
     @bottom-left {
-      font-family: Times, serif;
+      font-family: "IBM Plex Sans Condensed", sans-serif;
       font-size: 8pt; }
     @bottom-left-corner {
-      font-family: Times, serif;
+      font-family: "IBM Plex Sans Condensed", sans-serif;
       font-size: 8pt; } }
   @page :left {
     margin-left: 0.75in;
@@ -9804,7 +9768,7 @@ body > div.mfp-bg.mfp-ready {
     @bottom-right-corner {
       content: counter(page, lower-roman); } }
   @page splash {
-    background-color: #6A8EB8;
+    background-color: #CF4747;
     color: #fff;
     margin-top: 0;
     margin-bottom: 0;
@@ -9865,7 +9829,7 @@ body > div.mfp-bg.mfp-ready {
     margin-top: 3in; }
   .quire-page--splash .quire-page__header.quire-page__header--full-height {
     page: splash;
-    background-color: #6A8EB8;
+    background-color: #CF4747;
     color: #fff;
     width: 8.5in;
     height: 11in; }
