@@ -23,6 +23,11 @@
   border-bottom: 1px solid $accent-color;
   padding: 1em 0;
 
+  @if $theme == classic {
+    border: none;
+    padding: 0;
+  }
+
   .q-figure__wrapper {
     a {
       border: none;
