@@ -7373,7 +7373,7 @@ template {
   .quire-navbar a {
     border-bottom-color: #363636 !important; }
   .quire-navbar * {
-    transition: background 0.5s linear; }
+    transition: all 0.25s ease; }
   .quire-navbar a {
     display: block;
     padding: 0 0.5em; }
@@ -7381,11 +7381,11 @@ template {
     .quire-navbar {
       display: none; } }
   .quire-navbar:hover span {
-    transition: all .5s ease; }
+    transition: all .25s ease; }
 
 .quire-progress-bar {
   height: 2px;
-  transition: all .5s ease;
+  transition: all .25s ease;
   font-family: "Noto Sans", sans-serif;
   font-size: 0.75rem;
   background-color: #d0dbde;
@@ -7419,10 +7419,10 @@ template {
   .quire-navbar-controls__right {
     flex: 0 1 3rem;
     text-align: right; }
-  .quire-navbar-controls__left, .quire-navbar-controls__right, .quire-navbar-controls .quire-navbar-page-controls__item {
-    transition: all 0.05s linear; }
-    .quire-navbar-controls__left:hover a, .quire-navbar-controls__left:hover button, .quire-navbar-controls__left:hover .button, .quire-navbar-controls__right:hover a, .quire-navbar-controls__right:hover button, .quire-navbar-controls__right:hover .button, .quire-navbar-controls .quire-navbar-page-controls__item:hover a, .quire-navbar-controls .quire-navbar-page-controls__item:hover button, .quire-navbar-controls .quire-navbar-page-controls__item:hover .button {
-      background-color: #f2f2f2; }
+  .quire-navbar-controls__left a:hover, .quire-navbar-controls__left button:hover, .quire-navbar-controls__left .button:hover, .quire-navbar-controls__right a:hover, .quire-navbar-controls__right button:hover, .quire-navbar-controls__right .button:hover, .quire-navbar-controls .quire-navbar-page-controls__item a:hover, .quire-navbar-controls .quire-navbar-page-controls__item button:hover, .quire-navbar-controls .quire-navbar-page-controls__item .button:hover {
+    color: #CF4747 !important; }
+    .quire-navbar-controls__left a:hover svg, .quire-navbar-controls__left button:hover svg, .quire-navbar-controls__left .button:hover svg, .quire-navbar-controls__right a:hover svg, .quire-navbar-controls__right button:hover svg, .quire-navbar-controls__right .button:hover svg, .quire-navbar-controls .quire-navbar-page-controls__item a:hover svg, .quire-navbar-controls .quire-navbar-page-controls__item button:hover svg, .quire-navbar-controls .quire-navbar-page-controls__item .button:hover svg {
+      fill: #CF4747 !important; }
 
 .quire-navbar-page-controls {
   display: flex;

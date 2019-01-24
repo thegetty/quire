@@ -24,7 +24,7 @@
 // .quire-navbar
 // -----------------------------------------------------------------------------
 .quire-navbar {
-  font-family: $quire-nav-font;
+  font-family: $noto-sans;
   font-weight: 400;
   font-size: .875em;
   position: fixed;
@@ -52,7 +52,7 @@
   width: 100%;
 
   * {
-    transition: background 0.5s linear;
+    transition: all 0.25s ease;
   }
 
   a {
@@ -65,8 +65,8 @@
   }
   &:hover {
     span {
-      -webkit-transition: all .5s ease;
-      transition: all .5s ease;
+      -webkit-transition: all .25s ease;
+      transition: all .25s ease;
     }
   }
 }
@@ -75,8 +75,8 @@
 // -----------------------------------------------------------------------------
 .quire-progress-bar {
   height: 2px;
-  -webkit-transition: all .5s ease;
-  transition: all .5s ease;
+  -webkit-transition: all .25s ease;
+  transition: all .25s ease;
   font-family: $quire-nav-font;
   font-size: 0.75rem;
   background-color: background-color($secondary-background-color);
@@ -121,9 +121,13 @@
   }
 
   &__left, &__right, .quire-navbar-page-controls__item {
-    transition: all 0.05s linear;
-    &:hover {
-      a, button, .button { background-color: $quire-navbar-hover-color; }
+    a, button, .button {
+      &:hover {
+        color: $accent-color !important; 
+        svg {
+          fill: $accent-color !important;
+        }
+      }     
     }
   }
 }
