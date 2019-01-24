@@ -8111,6 +8111,11 @@ html {
   font-size: .875em;
   border-bottom: 1px solid #333333; }
 
+.quire-page__content .content .quire-page__content__references dl {
+  font-family: "Noto Serif", serif; }
+  .quire-page__content .content .quire-page__content__references dl dd {
+    font-style: normal; }
+
 .quire-page__content .content .quire-page__content__references span,
 .quire-page__content .content .quire-page__content__references dd {
   font-size: .875em; }

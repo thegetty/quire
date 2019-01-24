@@ -706,6 +706,13 @@ html {
         border-bottom: 1px solid background-color-text($content-background-color);
       }
 
+      dl {
+        font-family: $noto-serif;
+        dd {
+          font-style: normal;
+        }
+      }
+
       span,
       dd {
         font-size: .875em;
