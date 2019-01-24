@@ -212,7 +212,7 @@ html {
 
     .container {
       .content {
-        padding-top: 1em !important;
+        padding-top: 2.5em !important;
         margin-top: 45px;
         font-size: 16px;
         padding: 40px 2.5em;
@@ -590,6 +590,7 @@ html {
       width: $desktop + (1.25 * $gap);
 
       .content {
+        margin: 0;
         padding: 0 0 1em;
         font-size: 0.7525em;
         line-height: 1.714em;
