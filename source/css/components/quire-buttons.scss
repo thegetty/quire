@@ -10,13 +10,13 @@
   width: 100%;
   display: block;
   text-align: center;
-  padding-bottom: 3rem;
-  padding-top: 2rem;
+  padding-bottom: 3em;
+  padding-top: 2em;
 
   li.quire-nav-button {
     display: inline-block;
     width: 7em;
-    height: 2em;
+    height: 2.175em;
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;
     border-radius: 2px;
@@ -27,7 +27,7 @@
     @if $theme == classic {
       border: 1px solid $off-black;
     } @else {
-      border: 1px solid darken($accent-color, 15%);
+      border: 1px solid $accent-color;
     }
 
     a {
@@ -36,8 +36,9 @@
       height: 3.25em;
       color: background-color($accent-color);
       font-size: .8em;
-      padding-top: .4em;
-      font-family: $quire-nav-font;
+      margin-top: 0;
+      padding-top: .5em;
+      font-family: $noto-sans;
     }
 
     &.prev {
@@ -83,11 +84,7 @@
         fill: findColorInvert($accent-color);
       }
       &:hover {
-        @if $theme == classic {
-          background-color: $accent-color !important;
-        } @else {
-          background-color: darken($accent-color, 15%);
-        }
+        background-color: darken($accent-color, 10%);
       }
       a {
         color: findColorInvert($accent-color);
@@ -95,9 +92,10 @@
     }
 
     &:hover {
-      background-color: $accent-color;
+      background-color: darken($accent-color, 10%);
+      border-color: darken($accent-color, 10%);
       @if $family-primary == $noto-serif {
-        background-color: darken($accent-color, 15%);
+        background-color: darken($accent-color, 10%);
       }
       a {
         color: findColorInvert($accent-color);

@@ -14,9 +14,6 @@
     background-color: transparent;
   }
   .quire-page__abstract {
-    @if $theme == (modern or classic) {
-      color: $off-gray !important;
-    } 
     margin-bottom: 0;
     padding: 40px 0 !important;
     .container {
@@ -25,6 +22,12 @@
     }
     &:after {
       background-color: transparent;
+    }
+  }
+  .quire-page__content {
+    .container {
+      padding-right: 2.25em;
+      padding-left: 2.25em;
     }
   }
 }
@@ -133,24 +136,23 @@
       position: relative;
       padding-left: 0;
       font-size: 1em;
+      -webkit-transition: all .25s ease;
+      transition: all .25s ease;
+
       .arrow {
-        -webkit-transition: all .15s ease;
-        transition: all .15s ease;
-        @if $theme == modern {
-          fill: initial;
-        } @else {
-          fill: background-color-text($secondary-background-color);
-        }
+        position: absolute;
+        fill: $accent-color;
       }
       &:hover {
         background-color: inherit;
         color: darken($accent-color, 15%);
         .arrow {
           margin-left: .75em;
-          @if $theme == modern {
-            fill: $dark-red;
-          } @else {
-            fill: darken($accent-color, 15%);
+          -webkit-transition: all .25s ease;
+          transition: all .25s ease;
+          fill: darken($accent-color, 15%);
+          svg {
+            fill: darken($accent-color, 15%) !important;
           }
         }
       }
@@ -165,9 +167,7 @@
           font-weight: 400;
           position: static;
           div {
-
             color: background-color-text($secondary-background-color);
-            text-align: center;
             svg {
               position: relative;
               fill: background-color-text($secondary-background-color);
@@ -228,9 +228,7 @@
       line-height: 1.5em;
       margin-bottom: 1rem;
       line-height: 1.4;
-      @if $theme == (modern or classic) {
-        color: $off-gray !important;
-      }
+      color: $off-gray;
       p {
         margin-bottom: .5em;
       }
@@ -251,12 +249,11 @@
 
   }
 
-
   &.grid {
     font-size: .75em;
     font-family: $quire-header-font;
     @media screen and (min-width: $tablet) {
-      margin: 0 5rem;
+      margin: 0;
     }
 
     .title {
@@ -267,7 +264,7 @@
     }
 
     li > a {
-      padding: 1rem;
+      padding: 1em 0;
     }
 
     .section-list {
@@ -279,9 +276,36 @@
         .page-item {
           &:last-child {
             a {
-              padding: 0 0 0 1rem;
+              padding: 0;
+              div {
+                margin-top: 0.3em;
+              }
             }
           }
+        }
+        .section-item {
+          border-top: 1px solid background-color($content-background-color);
+          font-weight: 700;
+          padding-bottom: 0;
+          margin: 0;
+          text-align: center;
+          a {
+            padding: 0;
+            .card {
+              margin: 0 .5em;
+              .card-content {
+                padding: 0 1.5em;
+                .title {
+                  font-weight: 700;
+                  line-height: 2em;
+                  padding-top: 1.75em;
+                }
+              }
+            }
+          }
+        }
+        .section-item.no-landing {
+          font-size: 1.7em;
         }
       }
     }
@@ -327,7 +351,7 @@
         position: relative;
         display: block;
         border-radius: 2px;
-        margin: 1rem;
+        margin: 1em 0.5em;
         box-shadow: none;
         background-color: $content-background-color;
 
@@ -353,9 +377,7 @@
           }
 
           svg {
-            @if $theme == modern {
-              fill: inherit;
-            } @else if $theme == classic {
+            @if $theme == classic {
               fill: $off-black;
             } @else {
               fill: $accent-color;
@@ -392,30 +414,16 @@
         font-size: 36.8px;
         line-height: 1.22em;
         font-weight: 700;
-        @if $theme == modern {
-          color: $accent-color;
-        } @else {
-          color: inherit;
-        }
 
         .arrow {
           font-size: 1em;
           vertical-align: text-top;
-          @if $theme == modern {
-            fill: $accent-color;
-          } @else {
-            fill: inherit;
-          }
         }
 
         &:hover {
-          @if $theme == modern {
-            color: darken($accent-color, 10%);
-          }
+          color: darken($accent-color, 10%);
           .title {
-            @if $theme == modern {
-              color: darken($accent-color, 10%);
-            }
+            color: darken($accent-color, 10%);
           }
         }
 
@@ -429,19 +437,10 @@
             color: inherit;
           }
           svg {
-            @if $theme == modern {
-              fill: $accent-color;
-            } @else {
-              fill: inherit;
-            }
             vertical-align: sub;
           }
           &:hover {
-            @if $theme == modern {
-              color: $dark-red;
-            } @else {
-              color: darken($accent-color, 15%);
-            }
+            color: darken($accent-color, 10%);
           }
         }
         p {
@@ -475,6 +474,10 @@
         margin-top: 1.5em;
         margin-left: 1em;
       }
+    }
+
+    ul li.section-indent {
+      padding-left: 0;
     }
 
     @media screen and (min-width: $desktop) {

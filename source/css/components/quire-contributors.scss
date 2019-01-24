@@ -21,6 +21,9 @@
 // -----------------------------------------------------------------------------
 .quire-contributor {
   padding-bottom: 1em;
+  &:before {
+    display: none !important;
+  }
   &__pic {
     width: 100px;
     border-radius: 60px;

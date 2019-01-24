@@ -56,7 +56,7 @@ html {
   h1,
   &__header__title {
     font-family: $quire-header-font;
-    font-size: 3.3rem;
+    font-size: 3.3em;
     font-weight: 700;
     line-height: 1.14;
     -webkit-animation: fadeIn 2s;
@@ -127,6 +127,7 @@ html {
     font-style: italic;
     font-weight: 400;
     margin-top: 1rem;
+    letter-spacing: 0;
 
     em {
       font-style: normal;
@@ -145,6 +146,7 @@ html {
   &__header__contributor {
     font-weight: 400;
     margin-top: 3rem;
+    opacity: 0.75;
 
     @media print {
       font-size: 13pt;
@@ -183,8 +185,8 @@ html {
     padding-top: 0;
     padding-bottom: 0;
     position: relative;
-    animation: .5s ease-out 0s 1 slideFromRight;
-    color: background-color-text($secondary-background-color);
+    animation: .5s ease 0s 1 slideFromRight;
+    color: background-color-text-classic($secondary-background-color);
 
     @if $family-primary !=$serif {
       font-size: 1.25rem;
@@ -209,43 +211,60 @@ html {
     }
 
     .container {
-      padding-left: 2em;
-      padding-right: 2em;
-
-
       .content {
-        padding-top: 1em !important;
+        padding-top: 2.5em !important;
         margin-top: 45px;
         font-size: 16px;
         padding: 40px 2.5em;
-
-        @media print {
-          padding: 0;
-          margin: 0 auto;
-         }
-
-
-        @if $theme == modern {
-          background-color: $white !important;
-        } @else if $theme == classic {
-          background-color: $off-white !important;
-        } @else {
-          background-color: $content-background-color;
-        }
+        background-color: $content-background-color;
+        
 
         hr {
           background-color: lighten($off-black, 15%);
         }
 
+        li {
+          margin: 1em 0 0 0;
+        }
+
         table {
+          margin: 2em 0;
+          display: inline-table;
           td, th {
             color: background-color-text($secondary-background-color);
-            border-color: lighten($off-black, 15%);
-
-            @media print {
-              overflow-wrap: break-word;
-              word-wrap: break-word;
+            border-width: 0 0 1px;
+          }
+          tbody {
+            td {
+              border-left: 4px solid transparent;
+              border-right: 4px solid transparent;
             }
+          }
+        }
+
+        @if $theme == classic {
+          ul {
+            list-style: none;
+            li {
+              &:before {
+                content: "✦";
+                font-size: 1.5em;
+                display: inline-block;
+                width: 1em;
+                margin-left: -.75em;
+                box-sizing: border-box;
+              }
+            }
+          }
+        }
+
+        dl {
+          dt {
+            font-weight: 700;
+          }
+          dd {
+            margin-left: 0;
+            font-style: italic;
           }
         }
 
@@ -259,16 +278,35 @@ html {
         blockquote {
           border-left: none;
           position: relative;
-
-          &:before {
-            color: lighten($off-black, 15%);
-            font-size: 4em;
-            line-height: 0.1em;
-            margin-right: 0.25em;
-            content: '“';
-            position: absolute;
-            top: .35em;
-            left: -.25em;
+          p {
+            position: relative;
+            &:before {
+              color: darken($secondary-background-color, 10%);
+              font-size: 4em;
+              line-height: 0.1em;
+              margin-right: 0.25em;
+              content: '“';
+              position: absolute;
+              top: .35em;
+              left: -.65em;
+              @if $theme == classic {
+                color: $black;
+                font-size: 3.125em;
+              }
+            }
+            @if $theme == classic {
+              &:after {
+                color: $black;
+                font-size: 3.125em;
+                line-height: 0.1em;
+                content: '”';
+                position: relative;
+                display: inline-block;
+                top: .35em;
+                left: .05em;
+                margin-top: -10px;
+              }
+            }
           }
         }
 
@@ -300,16 +338,37 @@ html {
           font-size: .875em;
           line-height: .5em;
           margin-top: 20px;
+          color: background-color-text-classic($content-background-color);
         }
 
         .footnotes {
           font-size: .875em;
-
+          @if $theme == modern {
+            font-family: $noto-serif;
+          }
           hr {
             background-color: background-color-text($secondary-background-color);
             margin-bottom: 0;
           }
+          @if $theme == classic {
+            font-family: $noto-sans;
+            ul {
+              li {
+                &:before {
+                  content: "✦";
+                  font-size: 1em;
+                  display: inline-block;
+                  width: 1em;
+                  margin-left: -.75em;
+                  box-sizing: border-box;
+                }
+              }
+            }
+          }
         }
+      }
+      &.is-fullhd {
+        padding: 0 2em !important;
       }
     }
   }
@@ -320,7 +379,6 @@ html {
     font-size: .875em;
     line-height: 1.7em;
     margin-bottom: -3.2em;
-
     @media print {
       line-height: 1.7em;
       font-size: 1.25em;
@@ -334,25 +392,17 @@ html {
 
     .container {
       padding: 3em 2em 1em;
-      @if $theme == modern {
-        background-color: $white !important;
-      } @else if $theme == classic {
-        background-color: $off-white !important;
-      } @else {
-        background-color: $content-background-color;
-      }
-
-      @media print {
-        margin: 0 auto;
-        padding: 0;
-        max-width: 100%;
-        width: 100%;
-      }
+      background-color: $content-background-color;
 
       &:after {
         display: block;
         text-align: center;
-        content: "✦\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0✦\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0✦";
+        @if $theme == classic {
+          content: "✦\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0✦\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0✦";
+          font-size: 1em;
+        } @else {
+          content: "◆\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0◆\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0◆";
+        }
         margin: 0 auto;
         background-color: transparent;
         font-style: normal;
@@ -443,7 +493,6 @@ html {
       font-size: 16px;
       line-height: 1.5;
       text-rendering: optimizelegibility;
-      opacity: 0.5;
     }
 
     @media screen and (min-width: $desktop) {
@@ -491,10 +540,29 @@ html {
         &:first-letter {
           font-size: 9em;
           float: left;
-          margin-top: .1em;
+          margin-top: 0;
           margin-left: -0.09em;
           padding-right: 0.025em;
           line-height: .85em;
+        }
+      }
+    }
+  }
+}
+
+@-moz-document url-prefix() {
+  .quire-page--splash {
+    .quire-page__content {
+      p {
+        &:first-child {
+          &:first-letter {
+            font-size: 9em;
+            float: left;
+            margin-top: .1em !important;
+            margin-left: -0.09em;
+            padding-right: 0.025em;
+            line-height: .85em;
+          }
         }
       }
     }
@@ -521,22 +589,11 @@ html {
       max-width: $desktop + (1.25 * $gap);
       width: $desktop + (1.25 * $gap);
 
-      @media print {
-        padding: 0;
-        margin: 0 auto;
-        max-width: 75%;
-        width: 75%;
-      }
-
       .content {
+        margin: 0;
         padding: 0 0 1em;
         font-size: 0.7525em;
         line-height: 1.714em;
-
-        @media print {
-          margin: 0 auto;
-          padding: 0;
-        }
       }
     }
   }
@@ -544,13 +601,20 @@ html {
 
 .quire-page__content {
   .quire-page__abstract {
-    @media print {}
+    @media print {
+      column-span: all;
+      width: 75%;
+      margin: 0 auto;
+    }
 
     .container {
-      @media print {}
+      @media print {
+        column-span: all;
+      }
 
       &:after {
         @media print {
+          column-span: all;
           margin-bottom: 2em;
         }
       }
@@ -596,8 +660,7 @@ html {
     h4,
     h5,
     h6 {
-      letter-spacing: -0.025em;
-      color: findColorInvert($content-background-color);
+      color: background-color-text-classic($content-background-color);
     }
 
     h2 {
@@ -642,6 +705,13 @@ html {
         // font-weight: 700;
         // text-transform: uppercase;
         border-bottom: 1px solid background-color-text($content-background-color);
+      }
+
+      dl {
+        font-family: $noto-serif;
+        dd {
+          font-style: normal;
+        }
       }
 
       span,

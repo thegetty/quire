@@ -10,7 +10,7 @@ $accent-color: $red;
 $content-background-color: $white;
 $secondary-background-color: $off-white;
 
-// Declare the theme modern/classic/custom
+// Declare the theme modern/classic
 $theme: modern;
 
 // Navbar color: normal/accent
@@ -95,7 +95,7 @@ $quire-body-font: $family-primary;
   
   $accent-color: $light-blue;
   $content-background-color: $white !default;
-  $secondary-background-color: $white !default;
+  $secondary-background-color: $content-background-color;
 }
 
 // Declare navbar variables
