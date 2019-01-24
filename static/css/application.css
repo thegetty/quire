@@ -8793,8 +8793,6 @@ html {
       height: 24px;
       max-height: 24px; }
     .quire-figure .q-figure__wrapper a img {
-      -o-object-fit: cover;
-         object-fit: cover;
       width: 100%; }
   .quire-figure .q-figure__wrapper {
     border: none;
@@ -8889,6 +8887,37 @@ html {
     left: 0;
     width: 100%;
     height: 100%; }
+  .quire-figure__media-fallback .quire-figure__wrapper {
+    margin-bottom: .5em; }
+  .quire-figure__media-fallback iframe {
+    position: relative; }
+  .quire-figure__media-fallback .header {
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 1em;
+    color: #000000;
+    font-weight: 400;
+    text-align: left;
+    margin-bottom: .5em; }
+  .quire-figure__media-fallback .caption {
+    text-align: left;
+    overflow-wrap: break-word;
+    word-wrap: break-word; }
+    .quire-figure__media-fallback .caption a {
+      overflow-wrap: break-word;
+      word-wrap: break-word; }
+  .quire-figure__media-fallback .placeholder {
+    color: #ffffff;
+    background-color: #CCCCCC;
+    width: 100%;
+    height: 80px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 1em; }
+    .quire-figure__media-fallback .placeholder i {
+      font-size: 50px; }
   .content figure .quire-figure__media-fallback {
     display: none; }
     @media print {
@@ -8975,13 +9004,14 @@ html {
       width: 100%; }
   @media print {
     .quire-figure {
-      width: 96%;
       -webkit-column-span: none;
               column-span: none;
       -webkit-column-break-inside: avoid;
       page-break-inside: avoid;
       break-inside: avoid; } }
 
+/** VIDEO/AUDIO FALLBACK ELEMENTS **/
+/** VIDEO/AUDIO FALLBACK ELEMENTS **/
 /** VIDEO/AUDIO FALLBACK ELEMENTS **/
 div.multimedia {
   overflow-wrap: break-word;
@@ -9837,9 +9867,17 @@ body > div.mfp-bg.mfp-ready {
     page-break-before: right; }
   .quire-page--frontmatter {
     page: frontmatter; }
+  .quire-figure__wrapper {
+    border: 1pt solid #ffa600 !important; }
+    .quire-figure__wrapper img {
+      border: 1pt solid #ff00ff !important; }
   .quire-entry__image {
-    page: no-footer;
-    page-break-after: always; }
+    border: 1pt solid #d4d800 !important; }
+    .quire-entry__image .quire-entry__image__group-container figure {
+      display: block;
+      border: 1pt solid #0055ff !important; }
+      .quire-entry__image .quire-entry__image__group-container figure .quire-figure__media-fallback {
+        border: 1pt solid #2bff00 !important; }
   .quire-cover,
   .quire-contents {
     page: no-footer; }
@@ -9849,6 +9887,11 @@ body > div.mfp-bg.mfp-ready {
     margin-left: 1in;
     margin-right: 1in;
     margin-bottom: 0.875in; }
+    .quire-page--splash .quire-page__header .hero-body .container .content,
+    .quire-page--splash .quire-page__header .quire-page__content .container .content {
+      background-color: dodgerblue;
+      padding: 0;
+      margin: 0 auto; }
   .quire-page--splash .quire-page__header .hero-body {
     margin-top: 3in; }
   .quire-page--splash .quire-page__header.quire-page__header--full-height {
@@ -9857,18 +9900,44 @@ body > div.mfp-bg.mfp-ready {
     color: #fff;
     width: 8.5in;
     height: 11in; }
+  .quire-page,
+  .hero.quire-page__header,
+  .hero-body {
+    border: 1pt solid transparent !important; }
   .quire-page {
+    border: 1pt solid #ff0000 !important;
     margin: 0 auto; }
   .hero.quire-page__header {
+    border: 1pt solid #ff00ff !important;
     margin: 0 auto; }
   .hero-body {
+    border: 1pt solid #0000ff !important;
     margin: 0 auto; }
   .section.quire-page__content {
-    margin: 0 auto; }
+    border: 1pt solid #00ff00 !important;
+    margin: 0 auto; } }
+  @media print {
+    .section.quire-page__content .quire-page__abstract {
+      -webkit-column-span: all;
+              column-span: all;
+      margin: 0 auto;
+      padding: 0; } }
+  @media print {
+    .section.quire-page__content .quire-page__abstract .container {
+      margin: 0 auto;
+      padding: 0; } }
+  @media print {
+    .section.quire-page__content .quire-page__abstract .container .content {
+      margin: 0 auto;
+      padding: 0; } }
+
+@media print {
   .container {
+    border: 1pt solid #ffff00 !important;
     margin: 0 auto; }
   .content {
-    margin: 0 auto; }
+    margin: 0 auto;
+    padding: 0; }
   .is-screen-only {
     display: none; }
   html body .leaflet-pane,
@@ -9889,85 +9958,80 @@ body > div.mfp-bg.mfp-ready {
     padding: 0; }
   .container {
     max-width: 100%;
-    margin: 0; } }
-
-.entry-image-wrap {
-  width: 100%;
-  -webkit-column-span: all;
-          column-span: all;
-  display: block;
-  -webkit-column-break-before: page;
-          break-before: page;
-  margin-bottom: 0.5em; }
-
-.bd-structure {
-  padding: 1.5rem; }
-
-.title-page {
-  -webkit-column-span: all;
-          column-span: all;
-  text-align: left; }
-  .title-page span {
+    margin: 0; }
+  .entry-image-wrap {
+    width: 100%;
+    -webkit-column-span: all;
+            column-span: all;
+    display: block;
+    -webkit-column-break-before: page;
+            break-before: page;
+    margin-bottom: 0.5em; }
+  .bd-structure {
+    padding: 1.5rem; }
+  .title-page {
+    -webkit-column-span: all;
+            column-span: all;
+    text-align: left; }
+    .title-page span {
+      display: block; }
+    .title-page .title-tp {
+      font-size: 3em;
+      /** approx 48px **/
+      line-height: 1.04em;
+      /** approx 50px **/ }
+    .title-page .sub-title {
+      font-size: 1.75em;
+      /** approx 28px **/
+      line-height: 1.15em;
+      /** approx 32px **/ }
+    .title-page .contributor {
+      font-size: 1.125em;
+      /** approx 18px **/
+      line-height: 1.22em;
+      /** approx 22px **/ }
+    .title-page .publisher {
+      font-size: 1.125em;
+      /** approx 18px **/
+      line-height: 1.22em;
+      /** approx 22px **/ }
+  .half-title-page {
+    -webkit-column-span: all;
+            column-span: all;
+    text-align: center; }
+    .half-title-page span {
+      display: block; }
+    .half-title-page .title-htp {
+      font-size: 1.75em;
+      /** approx 28px **/
+      line-height: 1.15em;
+      /** approx 32px **/ }
+    .half-title-page .sub-title {
+      font-size: 1.125em;
+      /** approx 18px **/
+      line-height: 1.22em;
+      /** approx 22px **/ }
+  /** PRINT ELEMENTS **/
+  .time-length {
+    font-size: .875em;
+    width: 100%; }
+  .fig-print {
+    font-size: .75em;
+    background: rgba(0, 0, 0, 0.75);
+    position: absolute;
+    padding: 0 9px 0 3px;
+    left: 0;
+    top: 0;
+    color: #ffffff;
     display: block; }
-  .title-page .title-tp {
-    font-size: 3em;
-    /** approx 48px **/
-    line-height: 1.04em;
-    /** approx 50px **/ }
-  .title-page .sub-title {
-    font-size: 1.75em;
-    /** approx 28px **/
-    line-height: 1.15em;
-    /** approx 32px **/ }
-  .title-page .contributor {
-    font-size: 1.125em;
-    /** approx 18px **/
-    line-height: 1.22em;
-    /** approx 22px **/ }
-  .title-page .publisher {
-    font-size: 1.125em;
-    /** approx 18px **/
-    line-height: 1.22em;
-    /** approx 22px **/ }
+  .quire-figure__media-wrapper--widescreen {
+    padding-bottom: 0;
+    position: inherit; }
+  #content > div.container > div > figure:nth-child(11) > div:nth-child(1) .quire-figure--group-pdf {
+    color: #fff; } }
 
-.half-title-page {
-  -webkit-column-span: all;
-          column-span: all;
-  text-align: center; }
-  .half-title-page span {
-    display: block; }
-  .half-title-page .title-htp {
-    font-size: 1.75em;
-    /** approx 28px **/
-    line-height: 1.15em;
-    /** approx 32px **/ }
-  .half-title-page .sub-title {
-    font-size: 1.125em;
-    /** approx 18px **/
-    line-height: 1.22em;
-    /** approx 22px **/ }
-
-/** PRINT ELEMENTS **/
-.media-caption {
-  font-size: .75em;
-  line-height: 1.8em; }
-
-.time-length {
-  font-size: .875em;
-  width: 100%; }
-
-.fig-print {
-  font-size: .75em;
-  background: rgba(0, 0, 0, 0.75);
-  position: absolute;
-  padding: 0 9px 0 3px;
-  left: 0;
-  top: 0;
-  color: #ffffff;
+.content figure .quire-figure__media-fallback {
   display: block; }
-
-#content > div.container > div > figure:nth-child(11) > div:nth-child(1) .quire-figure--group-pdf {
-  color: #fff; }
 
 /* required styles */
 .leaflet-pane,
