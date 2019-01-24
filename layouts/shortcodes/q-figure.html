@@ -38,7 +38,7 @@ we start with media figures
 <div class="q-figure__wrapper">
 {{/* -------------------- START q-figure__wrapper BLOCK -------------------- */}}
 
-
+{{ if or (ne $.Site.Params.pdf true) (ne $.Site.Params.epub true) }}
     <div  class='quire-figure__media-wrapper{{ if .Get "aspect_ratio" }}--{{ .Get "aspect_ratio"}}{{ end }}{{ if or (eq (.Get "media_type") "soundcloud") (eq (.Get "media_type") "audio") }} audio {{ else }}--widescreen{{ end }} {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}'>
         {{ if eq (.Get "media_type") "youtube" }}
             <iframe id='{{ with .Get "id" }}{{ . | urlize }}{{ end }}'
@@ -83,8 +83,8 @@ we start with media figures
                 class='quire-figure__media'
                 src='{{ $.Get "media_id" }}'></iframe>
         {{ end }}
-
     </div>
+  {{ end }}
 
 {{/* -------------------- START FIGURE LABEL ON TOP BLOCK -------------------- */}}
     {{ if eq $.Site.Params.figureLabelLocation "on-top" }}
@@ -672,9 +672,7 @@ If the shortcode has no src, and no id, post an error message.
 
 {{- end -}}
 
-
 {{ else if (.site.Get "media_type") }}
-
 
 {{- if (.site.Get "media_type") "website"  }}
 <iframe id='{{ .site.Get "id" }}' class='quire-figure__media' src='{{ .site.Get "media_id"}}'></iframe>

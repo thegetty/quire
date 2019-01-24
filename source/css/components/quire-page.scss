@@ -212,10 +212,6 @@ html {
       padding-left: 2em;
       padding-right: 2em;
 
-      @media print {
-       padding: 0;
-       margin: 0 auto;
-      }
 
       .content {
         padding-top: 1em !important;
@@ -224,8 +220,10 @@ html {
         padding: 40px 2.5em;
 
         @media print {
-
+          padding: 0;
+          margin: 0 auto;
          }
+
 
         @if $theme == modern {
           background-color: $white !important;
@@ -243,6 +241,11 @@ html {
           td, th {
             color: background-color-text($secondary-background-color);
             border-color: lighten($off-black, 15%);
+
+            @media print {
+              overflow-wrap: break-word;
+              word-wrap: break-word;
+            }
           }
         }
 
@@ -317,6 +320,7 @@ html {
     font-size: .875em;
     line-height: 1.7em;
     margin-bottom: -3.2em;
+
     @media print {
       line-height: 1.7em;
       font-size: 1.25em;
@@ -336,6 +340,13 @@ html {
         background-color: $off-white !important;
       } @else {
         background-color: $content-background-color;
+      }
+
+      @media print {
+        margin: 0 auto;
+        padding: 0;
+        max-width: 100%;
+        width: 100%;
       }
 
       &:after {
@@ -510,10 +521,22 @@ html {
       max-width: $desktop + (1.25 * $gap);
       width: $desktop + (1.25 * $gap);
 
+      @media print {
+        padding: 0;
+        margin: 0 auto;
+        max-width: 75%;
+        width: 75%;
+      }
+
       .content {
         padding: 0 0 1em;
         font-size: 0.7525em;
         line-height: 1.714em;
+
+        @media print {
+          margin: 0 auto;
+          padding: 0;
+        }
       }
     }
   }
@@ -521,20 +544,13 @@ html {
 
 .quire-page__content {
   .quire-page__abstract {
-    @media print {
-      column-span: all;
-      width: 75%;
-      margin: 0 auto;
-    }
+    @media print {}
 
     .container {
-      @media print {
-        column-span: all;
-      }
+      @media print {}
 
       &:after {
         @media print {
-          column-span: all;
           margin-bottom: 2em;
         }
       }

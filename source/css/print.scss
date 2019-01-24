@@ -203,9 +203,24 @@ $print-footer-font-size: 8pt;
     page: frontmatter;
   }
 
+  .quire-figure__wrapper {
+    border: 1pt solid #ffa600 !important;
+    img {
+      border: 1pt solid #ff00ff !important;
+    }
+  }
+
   .quire-entry__image {
-    page: no-footer;
-    page-break-after: always;
+    border: 1pt solid #d4d800 !important;
+    .quire-entry__image__group-container {
+      figure {
+        display: block;
+        border: 1pt solid #0055ff !important;
+        .quire-figure__media-fallback {
+          border: 1pt solid #2bff00 !important;
+        }
+      }
+    }
   }
 
   .quire-cover,
@@ -250,7 +265,7 @@ $print-footer-font-size: 8pt;
   .hero-body {
     // This border is a hack for PrinceXML which doesn't
     // otherwise recognize the box sizing for some reason
-    // border: 1pt solid transparent !important;
+    border: 1pt solid transparent !important;
   }
 
   // TEMPORARY
@@ -273,6 +288,25 @@ $print-footer-font-size: 8pt;
   .section.quire-page__content {
     border: 1pt solid #00ff00 !important;
     margin: 0 auto;
+    .quire-page__abstract {
+      @media print {
+        column-span: all;
+        margin: 0 auto;
+        padding: 0;
+      }
+      .container {
+        @media print {
+          margin: 0 auto;
+          padding: 0;
+        }
+        .content {
+          @media print {
+            margin: 0 auto;
+            padding: 0;
+          }
+        }
+      }
+    }
   }
 
   .container {
@@ -281,7 +315,7 @@ $print-footer-font-size: 8pt;
   }
 
   .content {
-    border: 1pt solid #00ffff !important;
+    // border: 1pt solid #00ffff !important;
     margin: 0 auto;
     padding: 0;
   }
@@ -322,7 +356,6 @@ $print-footer-font-size: 8pt;
     max-width: 100%;
     margin: 0;
   }
-}
 
 .entry-image-wrap {
   width: 100%;
@@ -420,10 +453,6 @@ $print-footer-font-size: 8pt;
   display: block;
 }
 
-.content figure .quire-figure__media-fallback {
-  display: block;
-}
-
 .quire-figure__media-wrapper--widescreen {
   padding-bottom: 0;
   position: inherit;
@@ -431,4 +460,12 @@ $print-footer-font-size: 8pt;
 
 #content>div.container>div>figure:nth-child(11)>div:nth-child(1) .quire-figure--group-pdf {
   color: #fff;
+}
+
+}
+
+
+// Remove this !!
+.content figure .quire-figure__media-fallback {
+  display: block;
 }
