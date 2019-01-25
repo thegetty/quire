@@ -141,7 +141,7 @@
 
       .arrow {
         position: absolute;
-        fill: $accent-color;
+        fill: background-color-text($secondary-background-color);
       }
       &:hover {
         background-color: inherit;
@@ -273,6 +273,11 @@
 
     .menu-list {
       ul.arrow {
+        a {
+          .arrow {
+            fill: $accent-color;
+          }
+        }
         .page-item {
           &:last-child {
             a {
