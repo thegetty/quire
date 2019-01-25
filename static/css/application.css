@@ -7372,16 +7372,12 @@ template {
     color: #363636 !important; }
   .quire-navbar a {
     border-bottom-color: #363636 !important; }
-  .quire-navbar * {
-    transition: all 0.25s ease; }
   .quire-navbar a {
     display: block;
     padding: 0 0.5em; }
   @media print {
     .quire-navbar {
       display: none; } }
-  .quire-navbar:hover span {
-    transition: all .25s ease; }
 
 .quire-progress-bar {
   height: 2px;
@@ -7392,10 +7388,8 @@ template {
   border-bottom: none; }
   .quire-progress-bar span {
     color: #ffffff;
-    display: none;
-    transition: all .5s ease-out; }
+    display: none; }
   .quire-progress-bar div {
-    transition: height .5s ease;
     height: 2px;
     width: 100%;
     background-color: #b42f2f;
@@ -7433,6 +7427,8 @@ template {
     max-height: 3rem;
     overflow: hidden;
     display: none; }
+    .quire-navbar-page-controls__item a, .quire-navbar-page-controls__item svg {
+      transition: all .25s ease; }
     .quire-navbar-page-controls__item span {
       display: block; }
     .quire-navbar-page-controls__item .menu-button {

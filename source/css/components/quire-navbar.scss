@@ -51,10 +51,6 @@
   top: 0 !important;
   width: 100%;
 
-  * {
-    transition: all 0.25s ease;
-  }
-
   a {
     display: block;
     padding: 0 0.5em;
@@ -62,12 +58,6 @@
 
   @media print {
     display: none;
-  }
-  &:hover {
-    span {
-      -webkit-transition: all .25s ease;
-      transition: all .25s ease;
-    }
   }
 }
 
@@ -84,11 +74,8 @@
   span {
     color: $white;
     display: none;
-    -webkit-transition: all .5s ease-out;
-    transition: all .5s ease-out;
   }
   div {
-    transition: height .5s ease;
     height: 2px;
     width: 100%;
     background-color: darken($accent-color, 10%);
@@ -127,6 +114,12 @@
         svg {
           fill: $accent-color !important;
         }
+        @if $navbar == accent {
+          color: background-color-text($accent-color) !important;
+          svg {
+            fill: background-color-text($accent-color) !important;
+          }
+        }
       }     
     }
   }
@@ -142,6 +135,10 @@
     max-height: $navbar-height;
     overflow: hidden;
     display: none;
+
+    a, svg {
+      transition: all .25s ease;
+    }
 
     span {
       display: block;
