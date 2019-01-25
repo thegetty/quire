@@ -211,12 +211,19 @@ html {
     }
 
     .container {
+
       .content {
         padding-top: 2.5em !important;
         margin-top: 45px;
         font-size: 16px;
         padding: 40px 2.5em;
         background-color: $content-background-color;
+
+        @media print {
+          padding-top: 0;
+          padding-bottom: 0;
+          margin: 0 auto;
+        }
         
 
         hr {
@@ -589,6 +596,13 @@ html {
       max-width: $desktop + (1.25 * $gap);
       width: $desktop + (1.25 * $gap);
 
+      @media print {
+        margin: 0 auto;
+        padding: 0;
+        max-width: 100%;
+        width: 100%;
+      }
+
       .content {
         margin: 0;
         padding: 0 0 1em;
@@ -668,6 +682,9 @@ html {
       font-size: 1.75em;
       line-height: 1.15em;
       margin-top: .5714em;
+      @media print {
+        margin: 0 auto;
+      }
     }
 
     h3 {

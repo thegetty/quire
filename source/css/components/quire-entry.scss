@@ -23,6 +23,10 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     position: relative;
 
     @media print {
+      display: block;
+    }
+
+    @media print {
       background-color: transparent;
       @include foreground-color(#fff, $page-text-color);
     }
@@ -52,7 +56,11 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
       align-items: center;
       justify-content: center;
 
-      
+      @media print {
+        margin: 0 auto;
+        padding: 0;
+        height: auto;
+      }
 
       iframe {
         margin: 0 auto;
@@ -69,6 +77,10 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
         flex-flow: row wrap;
         justify-content: space-around;
         z-index: 401;
+
+        @media print {
+          position: relative;
+        }
 
         div.quire-counter-container {
           position: relative;
@@ -98,6 +110,10 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
           width: 30px;
           height: 15px;
           margin-top: 6px;
+
+          @media print {
+            width: 100%;
+          }
         }
       }
     }
@@ -127,6 +143,8 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
           display: block;
           font-size: 9pt;
           line-height: 14pt;
+          position: relative;
+          text-align: center;
         }
 
         >span.quire-image-info__wrap {
@@ -227,6 +245,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
 
   &__header {
     margin-top: 1em;
+
     h1 {
       font-size: 1.875em !important;
     }
@@ -249,17 +268,23 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     a {
       -webkit-transition: all .25s ease;
       transition: all .25s ease;
-      @if $theme == classic {
+
+      @if $theme==classic {
         color: background-color-text-classic($content-background-color);
+
         svg {
           fill: background-color-text-classic($content-background-color);
         }
-      } @else {
+      }
+
+      @else {
         color: $accent-color;
       }
+
       &:hover {
         background-color: $accent-color;
         color: findColorInvert($accent-color);
+
         svg {
           fill: findColorInvert($accent-color);
         }
@@ -293,9 +318,12 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
       -moz-border-radius: 2px;
       -webkit-border-radius: 2px;
       border-radius: 2px;
-      @if $theme == classic {
+
+      @if $theme==classic {
         border: 1px solid $off-black;
-      } @else {
+      }
+
+      @else {
         border: 1px solid $accent-color;
       }
     }

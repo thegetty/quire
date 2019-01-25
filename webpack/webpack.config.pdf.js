@@ -1,22 +1,35 @@
-const path = require('path')
-const webpack = require('webpack')
-const MiniCssExtractPlugin = require("mini-css-extract-plugin")
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
-const autoprefixer = require("autoprefixer")
-const ImageminPlugin = require("imagemin-webpack")
-const imageminGifsicle = require("imagemin-gifsicle")
-const imageminJpegtran = require("imagemin-jpegtran")
-const imageminOptipng = require("imagemin-optipng")
-const imageminSvgo = require("imagemin-svgo")
+const path = require('path');
+const webpack = require('webpack');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const autoprefixer = require('autoprefixer');
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+const ImageminPlugin = require("imagemin-webpack");
+const imageminGifsicle = require("imagemin-gifsicle");
+const imageminJpegtran = require("imagemin-jpegtran");
+const imageminOptipng = require("imagemin-optipng");
+const imageminSvgo = require("imagemin-svgo");
 
 const PATHS = {
   source: path.join(__dirname, '../source'),
   build: path.join(__dirname, '../static')
+};
+
+// the path(s) that should be cleaned
+let pathsToClean = [
+  path.join(__dirname, '../img'), path.join(__dirname, '../fonts')
+]
+
+// the clean options to use
+let cleanOptions = {
+  verbose: false,
+  watch: false,
+  allowExternal: true
 }
 
 module.exports = {
-  mode: 'development',
+  mode: 'production',
   entry: {
     source: path.join(PATHS.source, 'js', 'application.js')
   },
@@ -30,7 +43,7 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader",
+          loader: 'babel-loader',
           options: {
             presets: ['@babel/preset-env']
           }
@@ -41,15 +54,15 @@ module.exports = {
         exclude: [/node_modules/, path.join(PATHS.build, 'css', 'epub.scss')],
         use: ['style-loader', MiniCssExtractPlugin.loader, 'css-loader',
           {
-            loader: "postcss-loader",
+            loader: 'postcss-loader',
             options: {
               autoprefixer: {
-                browsers: ["last 3 versions"]
+                browsers: ['last 3 versions']
               },
               plugins: () => [
                 autoprefixer
               ]
-            },
+            }
           }, 'sass-loader'
         ]
       },
@@ -57,27 +70,17 @@ module.exports = {
         test: /\.css$/,
         use: ['style-loader', MiniCssExtractPlugin.loader, 'css-loader',
           {
-            loader: "postcss-loader",
+            loader: 'postcss-loader',
             options: {
               autoprefixer: {
-                browsers: ["last 2 versions"]
+                browsers: ['last 3 versions']
               },
               plugins: () => [
                 autoprefixer
               ]
-            },
+            }
           }, 'sass-loader'
         ]
-      },
-      {
-        test: /\.(woff|woff2|eot|ttf|otf)$/,
-        use: [{
-          loader: 'file-loader',
-          options: {
-            name: '[name].[ext]',
-            outputPath: 'fonts/'
-          }
-        }]
       },
       {
         test: /\.(jpg|png|gif|svg)$/,
@@ -86,6 +89,16 @@ module.exports = {
           options: {
             name: '[name].[ext]',
             outputPath: 'img/'
+          }
+        }]
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        use: [{
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'fonts/'
           }
         }]
       }
@@ -118,9 +131,9 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: "css/application.css",
-      chunkFilename: "css/[id].css"
+      filename: 'css/application.css'
     }),
+    new CleanWebpackPlugin(pathsToClean, cleanOptions),
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
@@ -150,4 +163,4 @@ module.exports = {
       }
     })
   ]
-}
+};

@@ -111,7 +111,7 @@ function sliderSetup() {
     });
     let firstImage = $(sliderImages.first());
     let lastImage = $(sliderImages.last());
-    sliderImages.addClass('visually-hidden');
+    // sliderImages.addClass('visually-hidden');
     firstImage.addClass('current-image first-image');
     firstImage.removeClass('visually-hidden');
     firstImage.css('display', 'flex');

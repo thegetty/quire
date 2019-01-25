@@ -243,19 +243,21 @@
     iframe {
       position: relative;
     }
-    .header {
-      font-family: 'Noto Sans', sans-serif;
-      font-size: 1em;
+    h5.header {
+      font-family:  $family-primary;
+      font-size: 0.85em;
       color: $black;
       font-weight: 400;
       text-align: left;
       margin-bottom: .5em;
     }
-    .caption {
+    p.caption {
       text-align: left;
+      font-size: 0.85em;
       overflow-wrap: break-word;
       word-wrap: break-word;
       a {
+        font-size: 0.85em;
         overflow-wrap: break-word;
         word-wrap: break-word;
       }
@@ -273,6 +275,7 @@
       margin-bottom: 1em;
       i {
         font-size: 50px;
+        color: $white;
         &.audio {
           // padding-top: 10px;
         }
