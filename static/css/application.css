@@ -7815,6 +7815,11 @@ html {
     font-size: 16px;
     padding: 40px 2.5em;
     background-color: #ffffff; }
+    @media print {
+      .quire-page__content .container .content {
+        padding-top: 0;
+        padding-bottom: 0;
+        margin: 0 auto; } }
     .quire-page__content .container .content hr {
       background-color: #595959; }
     .quire-page__content .container .content li {
@@ -8022,6 +8027,13 @@ html {
     margin: 0 auto;
     max-width: 720px;
     width: 720px; }
+    @media print {
+      .quire-page--frontmatter.quire-essay .quire-page__abstract .container,
+      .quire-essay .quire-page__abstract .container {
+        margin: 0 auto;
+        padding: 0;
+        max-width: 100%;
+        width: 100%; } }
     .quire-page--frontmatter.quire-essay .quire-page__abstract .container .content,
     .quire-essay .quire-page__abstract .container .content {
       margin: 0;
@@ -8081,6 +8093,9 @@ html {
   font-size: 1.75em;
   line-height: 1.15em;
   margin-top: .5714em; }
+  @media print {
+    .quire-page__content .content h2 {
+      margin: 0 auto; } }
 
 .quire-page__content .content h3 {
   font-style: italic;
@@ -8900,18 +8915,20 @@ html {
     margin-bottom: .5em; }
   .quire-figure__media-fallback iframe {
     position: relative; }
-  .quire-figure__media-fallback .header {
-    font-family: 'Noto Sans', sans-serif;
-    font-size: 1em;
+  .quire-figure__media-fallback h5.header {
+    font-family: "Noto Sans", sans-serif;
+    font-size: 0.85em;
     color: #000000;
     font-weight: 400;
     text-align: left;
     margin-bottom: .5em; }
-  .quire-figure__media-fallback .caption {
+  .quire-figure__media-fallback p.caption {
     text-align: left;
+    font-size: 0.85em;
     overflow-wrap: break-word;
     word-wrap: break-word; }
-    .quire-figure__media-fallback .caption a {
+    .quire-figure__media-fallback p.caption a {
+      font-size: 0.85em;
       overflow-wrap: break-word;
       word-wrap: break-word; }
   .quire-figure__media-fallback .placeholder {
@@ -8926,7 +8943,8 @@ html {
     justify-content: center;
     margin-bottom: 1em; }
     .quire-figure__media-fallback .placeholder i {
-      font-size: 50px; }
+      font-size: 50px;
+      color: #ffffff; }
   .content figure .quire-figure__media-fallback {
     display: none; }
     @media print {
@@ -9125,6 +9143,9 @@ div.multimedia {
     border-bottom-color: #ffffff !important; }
   @media print {
     .quire-entry__image {
+      display: block; } }
+  @media print {
+    .quire-entry__image {
       background-color: transparent; }
       .quire-entry__image * {
         color: #363636; }
@@ -9157,6 +9178,11 @@ div.multimedia {
     display: flex;
     align-items: center;
     justify-content: center; }
+    @media print {
+      .quire-entry__image figure {
+        margin: 0 auto;
+        padding: 0;
+        height: auto; } }
     .quire-entry__image figure iframe {
       margin: 0 auto;
       max-width: 900px;
@@ -9170,6 +9196,9 @@ div.multimedia {
       flex-flow: row wrap;
       justify-content: space-around;
       z-index: 401; }
+      @media print {
+        .quire-entry__image figure .quire-image-counter-download-container {
+          position: relative; } }
       .quire-entry__image figure .quire-image-counter-download-container div.quire-counter-container {
         position: relative;
         margin: auto;
@@ -9209,7 +9238,9 @@ div.multimedia {
           background-color: transparent;
           display: block;
           font-size: 9pt;
-          line-height: 14pt; } }
+          line-height: 14pt;
+          position: relative;
+          text-align: center; } }
       .quire-entry__image .quire-image-control.quire-image-info > span.quire-image-info__wrap {
         color: #ffffff;
         position: relative;
@@ -9306,18 +9337,17 @@ div.multimedia {
 
 .quire-entry__tombstone > div.container {
   background-color: #ffffff;
-  padding-bottom: 1em;
-  padding: 0 2.5em; }
+  padding-bottom: 1em; }
 
 .quire-entry__tombstone .table {
+  width: 90.5%;
+  margin: 0 auto;
   padding-bottom: 1em;
-  border-top: 1px solid #e6e6e6;
-  border-bottom: 1px solid #e6e6e6;
+  border-top: 1px solid #333333;
+  border-bottom: 1px solid #333333;
   background-color: #ffffff;
   color: #333333;
   font-size: .875em; }
-  .quire-entry__tombstone .table tr {
-    height: 40px; }
   .quire-entry__tombstone .table td {
     border: none; }
 
@@ -9370,7 +9400,7 @@ div.multimedia {
   .quire-entry .quire-page__content .content {
     background-color: #ffffff;
     margin-top: 0;
-    padding: 0 2.5em 2.5em; }
+    padding: 0 2rem 2.5em; }
     .quire-entry .quire-page__content .content p {
       line-height: 1.5; }
   .quire-entry .quire-page__content h2 {
@@ -9416,7 +9446,8 @@ div.multimedia {
     @media screen and (min-width: 1184px) {
       .quire-entry div.side-by-side div.quire-entry__content {
         width: 44%;
-        flex: none; } }
+        flex: none;
+        background: #EEF2F3; } }
     @media screen and (min-width: 1184px) {
       .quire-entry div.side-by-side div.quire-entry__content section.section,
       .quire-entry div.side-by-side div.quire-entry__content section,
@@ -9883,17 +9914,19 @@ body > div.mfp-bg.mfp-ready {
     page-break-before: right; }
   .quire-page--frontmatter {
     page: frontmatter; }
-  .quire-figure__wrapper {
-    border: 1pt solid #ffa600 !important; }
-    .quire-figure__wrapper img {
-      border: 1pt solid #ff00ff !important; }
-  .quire-entry__image {
-    border: 1pt solid #d4d800 !important; }
-    .quire-entry__image .quire-entry__image__group-container figure {
-      display: block;
-      border: 1pt solid #0055ff !important; }
-      .quire-entry__image .quire-entry__image__group-container figure .quire-figure__media-fallback {
-        border: 1pt solid #2bff00 !important; }
+  .quire-entry__image .quire-entry__image__group-container figure {
+    -webkit-column-break-after: page;
+            break-after: page;
+    width: 100%;
+    text-align: center; }
+    .quire-entry__image .quire-entry__image__group-container figure .quire-figure__media-fallback .placeholder {
+      width: 500px;
+      height: 250px; }
+      .quire-entry__image .quire-entry__image__group-container figure .quire-figure__media-fallback .placeholder i {
+        color: #ffffff;
+        font-size: 100px; }
+    .quire-entry__image .quire-entry__image__group-container figure .quire-figure__media-fallback .quire-figure__wrapper img {
+      width: 100%; }
   .quire-cover,
   .quire-contents {
     page: no-footer; }
@@ -9916,21 +9949,13 @@ body > div.mfp-bg.mfp-ready {
     color: #fff;
     width: 8.5in;
     height: 11in; }
-  .quire-page,
-  .hero.quire-page__header,
-  .hero-body {
-    border: 1pt solid transparent !important; }
   .quire-page {
-    border: 1pt solid #ff0000 !important;
     margin: 0 auto; }
   .hero.quire-page__header {
-    border: 1pt solid #ff00ff !important;
     margin: 0 auto; }
   .hero-body {
-    border: 1pt solid #0000ff !important;
     margin: 0 auto; }
   .section.quire-page__content {
-    border: 1pt solid #00ff00 !important;
     margin: 0 auto; } }
   @media print {
     .section.quire-page__content .quire-page__abstract {
@@ -9949,7 +9974,6 @@ body > div.mfp-bg.mfp-ready {
 
 @media print {
   .container {
-    border: 1pt solid #ffff00 !important;
     margin: 0 auto; }
   .content {
     margin: 0 auto;
@@ -9988,6 +10012,8 @@ body > div.mfp-bg.mfp-ready {
   .title-page {
     -webkit-column-span: all;
             column-span: all;
+    -webkit-column-break-after: page;
+            break-after: page;
     text-align: left; }
     .title-page span {
       display: block; }
@@ -10014,7 +10040,9 @@ body > div.mfp-bg.mfp-ready {
   .half-title-page {
     -webkit-column-span: all;
             column-span: all;
-    text-align: center; }
+    text-align: center;
+    -webkit-column-break-after: page;
+            break-after: page; }
     .half-title-page span {
       display: block; }
     .half-title-page .title-htp {
@@ -10045,9 +10073,6 @@ body > div.mfp-bg.mfp-ready {
     position: inherit; }
   #content > div.container > div > figure:nth-child(11) > div:nth-child(1) .quire-figure--group-pdf {
     color: #fff; } }
-
-.content figure .quire-figure__media-fallback {
-  display: block; }
 
 /* required styles */
 .leaflet-pane,
