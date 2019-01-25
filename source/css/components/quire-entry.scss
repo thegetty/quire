@@ -269,17 +269,20 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     >div.container {
       background-color: $content-background-color;
       padding-bottom: 1em;
+      padding: 0 2.5em;
     }
 
     .table {
-      width: 90.5%;
-      margin: 0 auto;
       padding-bottom: 1em;
-      border-top: 1px solid background-color-text($content-background-color);
-      border-bottom: 1px solid background-color-text($content-background-color);
+      border-top: 1px solid background-color($content-background-color);
+      border-bottom: 1px solid background-color($content-background-color);
       background-color: $content-background-color;
       color: background-color-text($content-background-color);
       font-size: .875em;
+
+      tr {
+        height: 40px;
+      }
 
       td {
         border: none;
@@ -357,7 +360,11 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     .content {
       background-color: $content-background-color;
       margin-top: 0;
-      padding: 0 2rem 2.5em;
+      padding: 0 2.5em 2.5em;
+
+      @if $theme == classic {
+        padding: 1.5em 2.5em 0 !important;
+      }
 
       p {
         line-height: 1.5;
