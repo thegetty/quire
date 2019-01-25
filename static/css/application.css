@@ -7685,10 +7685,10 @@ template {
         bottom: 0; }
 
 html {
-  font-size: 14.4px; }
+  font-size: 15.3px; }
   @media screen and (min-width: 500px) {
     html {
-      font-size: 16px; } }
+      font-size: 17px; } }
 
 .quire-page h1,
 .quire-page h2,
@@ -8001,7 +8001,7 @@ html {
   padding-right: 0.025em;
   line-height: .85em; }
 
-@-moz-document url-prefix() {
+@supports (-moz-appearance: none) {
   .quire-page--splash .quire-page__content p:first-child:first-letter {
     font-size: 9em;
     float: left;
@@ -8509,7 +8509,8 @@ html {
     width: calc(3rem * .65);
     max-height: 1em;
     max-width: 1em;
-    vertical-align: baseline; }
+    vertical-align: baseline;
+    padding-top: .15em; }
   .quire-contents-list .contents-menu .quire-menu__formats a {
     border-left: none;
     margin-left: 0; }
@@ -8612,6 +8613,9 @@ html {
       padding: 1em 0; }
     .quire-contents-list.grid .section-list {
       font-size: .75em; }
+    .quire-contents-list.grid svg {
+      padding-top: 0;
+      margin-bottom: .065em; }
     .quire-contents-list.grid .menu-list ul.arrow a .arrow {
       fill: #CF4747; }
     .quire-contents-list.grid .menu-list ul.arrow .page-item:last-child a {

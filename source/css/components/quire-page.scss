@@ -557,7 +557,7 @@ html {
   }
 }
 
-@-moz-document url-prefix() {
+@supports (-moz-appearance:none) {
   .quire-page--splash {
     .quire-page__content {
       p {

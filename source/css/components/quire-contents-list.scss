@@ -106,6 +106,7 @@
     max-height: 1em;
     max-width: 1em;
     vertical-align: baseline;
+    padding-top: .15em;
   }
 
   .contents-menu .quire-menu__formats a {
@@ -269,6 +270,11 @@
 
     .section-list {
       font-size: .75em;
+    }
+
+    svg {
+      padding-top: 0;
+      margin-bottom: .065em;
     }
 
     .menu-list {
