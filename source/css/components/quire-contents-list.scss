@@ -274,6 +274,11 @@
     .menu-list {
       ul.arrow {
         a {
+          @if $theme == classic {
+            .arrow {
+              fill: background-color-text-classic($content-background-color) !important;
+            }
+          }
           .arrow {
             fill: $accent-color;
           }
