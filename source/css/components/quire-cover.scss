@@ -15,7 +15,9 @@
     width: 100%;
     min-height: calc(95vh - #{$navbar-height});
     background-image: url("../img/#{$cover-overlay-image}");
-    opacity: $cover-overlay-image-opacity;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
     @media print {
       display: none;
     }
@@ -194,7 +196,7 @@
         line-height: 34px;
         font-size: 1.25em;
         a {
-          padding-top: 0.125em;
+          padding-top: 0.225em;
           color: $content-background-color;
         }
         svg {
