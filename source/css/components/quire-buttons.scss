@@ -84,10 +84,7 @@
         fill: findColorInvert($accent-color);
       }
       &:hover {
-        background-color: darken($accent-color, 10%);
-        @if $theme == classic {
-          background-color: $accent-color !important;
-        }
+        background-color: darken($accent-color, 10%) !important;
       }
       a {
         color: findColorInvert($accent-color);

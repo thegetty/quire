@@ -9806,7 +9806,7 @@ body > div.mfp-bg.mfp-ready {
       .quire-contents-buttons li.quire-nav-button.next svg {
         fill: #fff; }
       .quire-contents-buttons li.quire-nav-button.next:hover {
-        background-color: #b42f2f; }
+        background-color: #b42f2f !important; }
       .quire-contents-buttons li.quire-nav-button.next a {
         color: #fff; }
     .quire-contents-buttons li.quire-nav-button:hover {
