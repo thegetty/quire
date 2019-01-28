@@ -182,8 +182,8 @@ a {
   text-decoration: underline;
   /* Note: KF8 will force this value unless you use "el.class a" */
   font-weight: bold;
-  color: $color-primary;
-  -webkit-text-fill-color: $color-primary;
+  color: $accent-color;
+  -webkit-text-fill-color: $accent-color;
   /* iBooks override (iOS 9 + El Capitan in night mode) */
   /* inherit = text color */
 }
@@ -343,7 +343,7 @@ hr {
   margin-bottom: 1.4375em;
   height: 0;
   border: none;
-  border-top: 0.125em solid $color-primary;
+  border-top: 0.125em solid $accent-color;
   /* currentColor = color of text (getting around night mode) */
   opacity: 0.5;
   /* Opacity -> grayscale. If opacity is declared for too many elements in a XHTML file, performance of legacy RMSDK takes a hit */
@@ -376,7 +376,7 @@ tbody, thead, tfoot, tr {
 
 th {
   empty-cells: show;
-  border-bottom: 0.125em solid $color-primary;
+  border-bottom: 0.125em solid $accent-color;
   /* Current color = color of text (inverted in night mode) */
   padding: 0.6875em 2% 0.6875em 0;
   text-align: left;
@@ -385,7 +385,7 @@ th {
 
 td {
   empty-cells: show;
-  border-bottom: 0.0625em solid $color-primary;
+  border-bottom: 0.0625em solid $accent-color;
   /* Current color = color of text (inverted in night mode) */
   padding: 0.75em 2% 0.6875em 0;
   text-align: left;
