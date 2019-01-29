@@ -462,7 +462,7 @@ render the figure from matching values found ther
 {{/* -------------------- START FIGURE LABEL ON TOP BLOCK -------------------- */}}
 {{ if eq $.Site.Params.figureLabelLocation "on-top" }}
 
-  {{ if and (eq $.Site.Params.pdf true) (eq $.Site.Params.epub true) }} 
+  {{ if or (eq $.Site.Params.pdf true) (eq $.Site.Params.epub true) }} 
   <span class="fig-print"> 
   {{ else }}
 
@@ -583,6 +583,7 @@ If the shortcode has no src, and no id, post an error message.
 
 {{ if or (eq .site.Site.Params.pdf true) (eq .site.Site.Params.epub true) }}
 
+
 {{ if  isset .map "media_type" }}
 
 {{- if eq .map.media_type "website" }}
@@ -604,6 +605,8 @@ If the shortcode has no src, and no id, post an error message.
 </div>
 
 {{ else }}
+
+<div><img src='{{ .site.Scratch.Get "imageDir" | relURL }}/icons/baseline_headset_black_18dp.png'/></div>
 
 <div class="placeholder">
 
