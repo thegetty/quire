@@ -8928,6 +8928,10 @@ html {
     height: 100%; }
   .quire-figure__media-fallback .quire-figure__wrapper {
     margin-bottom: .5em; }
+  .quire-figure__media-fallback .fallback-image {
+    background-color: #CCCCCC; }
+    .quire-figure__media-fallback .fallback-image img {
+      width: 50px; }
   .quire-figure__media-fallback iframe {
     position: relative; }
   .quire-figure__media-fallback h5.header {

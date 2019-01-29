@@ -621,7 +621,7 @@ If the shortcode has no src, and no id, post an error message.
 
     {{ if isset .map "media_type" }}
 
-    {{- if or (eq .map.media_type "youtube")  (eq .map.media_type "youtube") }}
+    {{- if or (eq .map.media_type "youtube")  (eq .map.media_type "vimeo") }}
     {{ if eq .site.Site.Params.pdf true }} <i class="material-icons md-24">videocam</i> {{ else }} <span class="fallback-image"><img src='{{ .site.Scratch.Get "imageDir" | relURL }}/icons/baseline-videocam-24px.png'/></span> {{ end }} 
     {{ end }}
     {{- if or (eq .map.media_type "soundcloud")  (eq .map.media_type "audio") }}
@@ -630,7 +630,7 @@ If the shortcode has no src, and no id, post an error message.
 
     {{ else }}
 
-    {{- if or (eq (.site.Get "media_type") "youtube")  (eq (.site.Get "media_type") "youtube") }}
+    {{- if or (eq (.site.Get "media_type") "youtube")  (eq (.site.Get "media_type") "vimeo") }}
     {{ if eq .site.Site.Params.pdf true }} <i class="material-icons md-24">videocam</i> {{ else }} <span class="fallback-image"><img src='{{ .site.Scratch.Get "imageDir" | relURL }}/icons/baseline-videocam-24px.png'/></span> {{ end }}
     {{ end }}
     {{- if or (eq (.site.Get "media_type") "soundcloud")  (eq (.site.Get "media_type") "audio") }}
@@ -708,7 +708,7 @@ If the shortcode has no src, and no id, post an error message.
 
     {{ if isset .map "media_type" }}
 
-    {{- if or (eq .map.media_type "youtube")  (eq .map.media_type "youtube") }}
+    {{- if or (eq .map.media_type "youtube")  (eq .map.media_type "vimeo") }}
     {{ if eq .site.Site.Params.pdf true }} <i class="material-icons md-24">videocam</i> {{ else }} <span class="fallback-image"><img src='{{ .site.Scratch.Get "imageDir" | relURL }}/icons/baseline-videocam-24px.png'/></span> {{ end }} 
     {{ end }}
     {{- if or (eq .map.media_type "soundcloud")  (eq .map.media_type "audio") }}
@@ -717,7 +717,7 @@ If the shortcode has no src, and no id, post an error message.
 
     {{ else }} 
 
-    {{- if or (eq (.site.Get "media_type") "youtube")  (eq (.site.Get "media_type") "youtube") }}
+    {{- if or (eq (.site.Get "media_type") "youtube")  (eq (.site.Get "media_type") "vimeo") }}
     {{ if eq .site.Site.Params.pdf true }} <i class="material-icons md-24">videocam</i> {{ else }} <span class="fallback-image"><img src='{{ .site.Scratch.Get "imageDir" | relURL }}/icons/baseline-videocam-24px.png'/></span> {{ end }}
     {{ end }}
     {{- if or (eq (.site.Get "media_type") "soundcloud")  (eq (.site.Get "media_type") "audio") }}
