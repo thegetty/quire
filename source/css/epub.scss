@@ -270,6 +270,9 @@ figure {
   page-break-inside: avoid;
   break-inside: avoid;
   margin: 1.5em 0;
+  img {
+    background-color: $gray;
+  }
 }
 
 figcaption {

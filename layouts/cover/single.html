@@ -13,7 +13,10 @@ Cover page layout. This controls the home page of the publication.
 <div class="{{ partial "page-class.html" . }} quire-cover" id="main" role="main">
 
   {{ if or (eq $.Site.Params.epub true) (eq $.Site.Params.pdf true) }}
-    <img src="./img/{{ .Site.Data.publication.promo_image }}"/>
+    {{- if .Site.Data.publication.promo_image -}}
+    {{- $imgCoverPath := printf "%s/%s" ($.Scratch.Get "imageDir") .Site.Data.publication.promo_image -}}
+    <img src="{{ $imgCoverPath | relURL }}"/>
+    {{- end -}}
   {{/* PDF full cover image */}}
   {{ else }}
 

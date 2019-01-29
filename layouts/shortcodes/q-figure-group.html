@@ -375,9 +375,22 @@ If the shortcode has no id, post an error message.
 {{ if  isset .map "media_type" }}
 
 {{- if eq .map.media_type "website" }}
+
+{{ if eq .site.Site.Params.epub true }}
+<span class="fallback-image"><img src='{{ .site.Scratch.Get "imageDir" | relURL }}/icons/baseline-website-24px.png'/></span>
+{{ else }}
 <iframe id='{{ .map.id }}' class='quire-figure__media' src='{{ .map.media_id }}'></iframe>
+{{ end }}
+
 {{ else if (.site.Get "media_type") "website"}}
+
+{{ if eq .site.Site.Params.epub true }}
+<span class="fallback-image"><img src='{{ .site.Scratch.Get "imageDir" | relURL }}/icons/baseline-website-24px.png'/></span>
+{{ else }}
 <iframe id='{{ .site.Get "id" }}' class='quire-figure__media' src='{{ .site.Get "media_id"}}'></iframe>
+{{ end }}
+
+
 {{ else }}
 
 {{ if isset .map "src" }}
@@ -464,8 +477,15 @@ If the shortcode has no id, post an error message.
 {{ else if (.site.Get "media_type") }}
 
 {{- if (.site.Get "media_type") "website"  }}
-<iframe id='{{ .site.Get "id" }}' class='quire-figure__media' src='{{ .site.Get "media_id"}}'></iframe>
+
+{{ if eq .site.Site.Params.epub true }}
+<span class="fallback-image"><img src='{{ .site.Scratch.Get "imageDir" | relURL }}/icons/baseline-website-24px.png'/></span>
 {{ else }}
+<iframe id='{{ .site.Get "id" }}' class='quire-figure__media' src='{{ .site.Get "media_id"}}'></iframe>
+{{ end }}
+
+{{ else }}
+
 {{ if isset .map "src" }}
 
 {{ if .map.src }}

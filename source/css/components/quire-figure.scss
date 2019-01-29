@@ -263,6 +263,12 @@
     .quire-figure__wrapper {
       margin-bottom: .5em;
     }
+    .fallback-image {
+      background-color: $gray;
+      img {
+        width: 50px;
+      }
+    }
     iframe {
       position: relative;
     }

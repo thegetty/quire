@@ -203,6 +203,8 @@ figure {
   -webkit-column-break-inside: avoid;
           break-inside: avoid;
   margin: 1.5em 0; }
+  figure img {
+    background-color: #CCCCCC; }
 
 figcaption {
   font-size: 0.9375em;
