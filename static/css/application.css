@@ -9328,7 +9328,7 @@ div.multimedia {
 .quire-entry__header {
   margin-top: 1em; }
   .quire-entry__header h1 {
-    font-size: 1.875em !important; }
+    font-size: 30px !important; }
   .quire-entry__header .container {
     background-color: #ffffff;
     padding-bottom: 2rem; }
@@ -9359,7 +9359,7 @@ div.multimedia {
   border-bottom: 1px solid #333333;
   background-color: #ffffff;
   color: #333333;
-  font-size: .875em; }
+  font-size: 14px; }
   .quire-entry__tombstone .table td {
     border: none; }
 
