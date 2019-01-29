@@ -108,6 +108,14 @@
   }
 
   &__left, &__right, .quire-navbar-page-controls__item {
+    button {
+      background-color: transparent;
+    }
+    a {
+      &:hover {
+        background-color: darken($content-background-color, 15%);
+      }
+    }
     a, button, .button {
       &:hover {
         color: $accent-color !important; 
