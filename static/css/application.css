@@ -8214,7 +8214,7 @@ html {
   left: 0;
   width: 100%;
   min-height: calc(95vh - 3rem);
-  background-image: url(/img/pattern_spiral_gradient_02@2x.png);
+  background-image: url(/img/pattern_spiral@2x.png);
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover; }
@@ -8223,8 +8223,8 @@ html {
       display: none; } }
 
 .quire-cover__hero {
-  background-color: #3273dc;
-  background-image: linear-gradient(90deg, #3273dc, #dc52f5);
+  background-color: #55F3FF;
+  background-image: linear-gradient(90deg, #55F3FF, #0090D4);
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
