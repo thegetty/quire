@@ -255,11 +255,12 @@ html {
             li {
               &:before {
                 content: "✦";
-                font-size: 1.5em;
+                font-size: 14px;
                 display: inline-block;
                 width: 1em;
                 margin-left: -.75em;
                 box-sizing: border-box;
+                vertical-align: text-top;
               }
             }
           }
@@ -272,6 +273,7 @@ html {
           dd {
             margin-left: 0;
             font-style: italic;
+            padding-bottom: .5em;
           }
         }
 
@@ -368,6 +370,7 @@ html {
                   width: 1em;
                   margin-left: -.75em;
                   box-sizing: border-box;
+                  vertical-align: text-bottom;
                 }
               }
             }
