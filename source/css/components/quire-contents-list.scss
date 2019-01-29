@@ -370,6 +370,7 @@
         margin: 1em 0.5em;
         box-shadow: none;
         background-color: $content-background-color;
+        font-size: 1em;
 
         a {
           padding: 0;
@@ -422,11 +423,12 @@
       .card.image {
         .card-content {
           font-size: 18px !important;
+          padding: 1.5em;
         }
       }
 
       .card-content {
-        padding: 1.5em;
+        padding: .7335em;
         font-size: 36.8px;
         line-height: 1.22em;
         font-weight: 700;
