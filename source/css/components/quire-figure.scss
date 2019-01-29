@@ -88,10 +88,13 @@
         }
       }
 
-      span.fig-false {
-        padding: 0;
-        height: 24px;
-        max-height: 24px;
+      &-print {
+        color: $white;
+        strong {
+          color: $white;
+          margin-top: 3px;
+          margin-right: 5px;
+        }
       }
 
       img {
@@ -145,12 +148,15 @@
         margin-top: 3px;
         margin-right: 5px;
       }
-    }
 
-    span.fig-false {
-      padding: 0;
-      height: 24px;
-      max-height: 24px;
+      &-print {
+        color: $white;
+        strong {
+          color: $white;
+          margin-top: 3px;
+          margin-right: 5px;
+        }
+      }
     }
 
     img {

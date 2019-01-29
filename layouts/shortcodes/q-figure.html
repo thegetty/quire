@@ -403,7 +403,7 @@ render the figure from matching values found ther
 
       <div class="quire-figure__media-fallback">
           {{ template "figure-fallback" (dict "map" . "site" $ ) }}
-        </div>
+      </div>
 
   {{ end }}
 
@@ -462,16 +462,16 @@ render the figure from matching values found ther
 {{/* -------------------- START FIGURE LABEL ON TOP BLOCK -------------------- */}}
 {{ if eq $.Site.Params.figureLabelLocation "on-top" }}
 
-  {{ if eq $.Site.Params.pdf true }} 
-    <span class="fig-print"> 
+  {{ if and (eq $.Site.Params.pdf true) (eq $.Site.Params.epub true) }} 
+  <span class="fig-print"> 
   {{ else }}
 
   {{ if and (ne .media_type "audio") (ne .media_type "soundcloud") (ne .media_type "vimeo") (ne .media_type "youtube") (ne .media_type "website") (eq $.Site.Params.figureModal true) }}
 
   {{ if eq $.Site.Params.figureModalIcons true }}
-    <span class="fig"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
+  <span class="fig"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
   {{ else }}
-    <span class="fig no-fullscreen {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
+  <span class="fig no-fullscreen {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
   {{ end }}
 
   {{ else }}

@@ -1,21 +1,14 @@
-// =============================================================================
-// Epub.scss
-@import "colors";
-@import "variables";
-
+@charset "UTF-8";
 html body {
-    margin: 0;
-    .leaflet-pane,
-    .leaflet-map-pane,
-    .leaflet-container,
-    .lvml {
-        display: none !important;
-    }
-}
+  margin: 0; }
+  html body .leaflet-pane,
+  html body .leaflet-map-pane,
+  html body .leaflet-container,
+  html body .lvml {
+    display: none !important; }
 
 html {
-  /* Don't use it for styling, used as selector which can take a punch if anything goes wrong above */
-}
+  /* Don't use it for styling, used as selector which can take a punch if anything goes wrong above */ }
 
 article, address, aside, blockquote, canvas, dd, details, div, dl, dt, figure, figcaption, footer, h1, h2, h3, h4, h5, h6, header, hr, li, main, nav, ol, p, pre, section, summary, ul {
   margin: 0;
@@ -27,38 +20,27 @@ article, address, aside, blockquote, canvas, dd, details, div, dl, dt, figure, f
   /* Kindle ignores it, Kobo needs it. If you don’t use inherit, the user setting may be disabled on some Kobo devices */
   text-indent: 0;
   font-style: normal;
-  font-weight: normal;
-}
+  font-weight: normal; }
 
 /* This is absolutely necessary for backwards compatibility */
-
 article, aside, figure, figcaption, footer, header, main, nav, section {
-  display: block;
-}
+  display: block; }
 
 [hidden] {
-  display: none;
-}
+  display: none; }
 
 /* [Opinionated] Default to prevent RS from justifying all of these! */
-
 h1, h2, h3, h4, h5, h6, dt, pre {
-  text-align: left;
-}
+  text-align: left; }
 
 /* Following EPUB 3 spec by the letter (applies to RS but let’s make sure it is respected because we never know) */
+nav[epub|type~="toc"] ol {
+  list-style: none !important; }
 
-nav {
-  &[epub|type~="toc"] ol {
-    list-style: none !important;
-  }
-  &[epub|type~="landmarks"], &[epub|type~="page-list"] {
-    display: none;
-  }
-}
+nav[epub|type~="landmarks"], nav[epub|type~="page-list"] {
+  display: none; }
 
 /* [Opinionated] Default to prevent bloat in case linear="no" is rendered as linear="yes" */
-
 abbr, b, bdi, bdo, cite, code, data, del, dfn, em, i, ins, kbd, mark, q, rp, rt, rtc, ruby, s, samp, small, span, strong, sub, sup, time, var {
   font-size: inherit;
   vertical-align: baseline;
@@ -67,21 +49,13 @@ abbr, b, bdi, bdo, cite, code, data, del, dfn, em, i, ins, kbd, mark, q, rp, rt,
   font-weight: inherit;
   /* Taking nestiog of inline elements into account (e.g. em nested in strong) */
   color: inherit;
-  text-decoration: none;
-}
+  text-decoration: none; }
 
 q {
-  quotes: none;
-}
+  quotes: none; }
 
 /* Trying to prevent blank page if element with margin-bottom at the end of xhtml */
-
 body {
-  > {
-    :last-child, section > :last-child {
-      margin-bottom: 0;
-    }
-  }
   font-size: 100%;
   line-height: 1.5;
   margin: 0;
@@ -89,254 +63,197 @@ body {
   padding: 0;
   widows: 2;
   /* iBooks and Kobo support widows and orphans */
-  orphans: 2;
-}
+  orphans: 2; }
+  body > :last-child, body > section > :last-child {
+    margin-bottom: 0; }
 
 /* PAGE LAYOUT */
-
 @page {
   margin: 30px 30px 20px 30px;
   /* Recommended by Barnes & Noble in this old spec: https://simg1.imagesbn.com/pimages/pubit/support/pubit_epub_formatting_guide.pdf */
-  padding: 0;
-}
-
+  padding: 0; }
 
 /* TYPOGRAPHY */
-
 h1, h2, h3, h4, h5, h6, blockquote p cite, dt, pre, address, table, caption, th, td, .align-left, .align-center, .align-right, .caption, .no-hyphens {
   adobe-hyphenate: none;
   /* proprietary for Legacy RMSDK */
   -ms-hyphens: none;
-  -moz-hyphens: none;
   -webkit-hyphens: none;
   -epub-hyphens: none;
-  hyphens: none;
-}
+  hyphens: none; }
 
 h1, h2, h3, h4, h5, h6, dt, hr {
   page-break-inside: avoid;
-  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+          break-inside: avoid;
   page-break-after: avoid;
-  break-after: avoid;
-}
+  -webkit-column-break-after: avoid;
+          break-after: avoid; }
 
 h1 {
   font-size: 1.4375em;
   line-height: 1.04347826;
   margin-top: 0em;
-  margin-bottom: 2.08695652em;
-}
+  margin-bottom: 2.08695652em; }
 
 h2 {
   font-size: 1.3125em;
   line-height: 1.14285714;
   margin-top: 2.28571429em;
-  margin-bottom: 1.14285714em;
-}
+  margin-bottom: 1.14285714em; }
 
 h3 {
   font-size: 1.125em;
   line-height: 1.33333333;
   margin-top: 1.33333333em;
-  margin-bottom: 1.33333333em;
-}
+  margin-bottom: 1.33333333em; }
 
 h4 {
   font-size: 1em;
   line-height: 1.5;
   margin-top: 1.5em;
-  margin-bottom: 0em;
-}
+  margin-bottom: 0em; }
 
 h5, h6 {
-  /* Styles */
-}
+  /* Styles */ }
 
 p {
-  text-indent: 1em;
-}
+  text-indent: 1em; }
 
 .footnote {
   font-size: 0.9375em;
   line-height: 1.6;
-  text-indent: 0;
-}
+  text-indent: 0; }
 
 blockquote {
-  margin: 1.5em 5%;
-  p {
+  margin: 1.5em 5%; }
+  blockquote p {
     text-indent: 0;
-    font-style: italic;
-    i, em, cite {
-      font-style: normal;
-    }
-  }
-}
+    font-style: italic; }
+    blockquote p i, blockquote p em, blockquote p cite {
+      font-style: normal; }
 
 address {
-  /* Styles */
-}
+  /* Styles */ }
 
 /* MICRO TYPOGRAPHY */
-
 a {
   text-decoration: underline;
   /* Note: KF8 will force this value unless you use "el.class a" */
   font-weight: bold;
-  color: $accent-color;
-  -webkit-text-fill-color: $accent-color;
+  color: #CF4747;
+  -webkit-text-fill-color: #CF4747;
   /* iBooks override (iOS 9 + El Capitan in night mode) */
-  /* inherit = text color */
-}
+  /* inherit = text color */ }
 
 abbr {
-  /* Note: Kindle doesn't support that */
-}
+  /* Note: Kindle doesn't support that */ }
 
 i, cite, dfn, em {
-  font-style: italic;
-}
+  font-style: italic; }
 
 /* Get back to normal when italic nested in italic */
+i i, i cite, i dfn, i em {
+  font-style: normal; }
 
-i {
-  i, cite, dfn, em {
-    font-style: normal;
-  }
-}
+cite i, cite cite, cite dfn, cite em {
+  font-style: normal; }
 
-cite {
-  i, cite, dfn, em {
-    font-style: normal;
-  }
-}
+dfn i, dfn cite, dfn dfn, dfn em {
+  font-style: normal; }
 
-dfn {
-  i, cite, dfn, em {
-    font-style: normal;
-  }
-}
-
-em {
-  i, cite, dfn, em {
-    font-style: normal;
-  }
-}
+em i, em cite, em dfn, em em {
+  font-style: normal; }
 
 b, strong {
-  font-weight: bold;
-}
+  font-weight: bold; }
 
 del, s {
-  text-decoration: line-through;
-}
+  text-decoration: line-through; }
 
 mark {
   background-color: yellow;
-  color: inherit;
-}
+  color: inherit; }
 
 ins {
-  /* Styles */
-}
+  /* Styles */ }
 
 small {
-  font-size: 0.8125em;
-}
+  font-size: 0.8125em; }
 
 /* Styling is improved to prevent sub from affecting line-height */
-
 sub {
   font-size: 75%;
   line-height: 1.2;
   vertical-align: sub;
   /* Fallback */
-  vertical-align: -20%;
-}
+  vertical-align: -20%; }
 
 /* Styling is improved to prevent sup from affecting line-height */
-
 sup {
   font-size: 75%;
   line-height: 1.2;
   vertical-align: super;
   /* Fallback */
-  vertical-align: 33%;
-}
+  vertical-align: 33%; }
 
 /* FIGURES + IMAGES  */
-
 figure {
   page-break-inside: avoid;
-  break-inside: avoid;
-  margin: 1.5em 0;
-}
+  -webkit-column-break-inside: avoid;
+          break-inside: avoid;
+  margin: 1.5em 0; }
 
 figcaption {
   font-size: 0.9375em;
   line-height: 1.6;
-  text-indent: 0;
-}
+  text-indent: 0; }
 
 img {
   width: auto;
   max-width: 100%;
   /* Note: KF8 doesn't support max-width hence "width: auto;" as fallback */
   height: auto;
-  object-fit: contain;
-}
+  -o-object-fit: contain;
+     object-fit: contain; }
 
 @supports (height: 99vh) {
   img.portrait {
-    height: 99vh;
-  }
-}
+    height: 99vh; } }
 
 /* LISTS */
-
 ul, ol {
   margin: 1.5em 0;
-  padding-left: 5%;
-}
+  padding-left: 5%; }
 
 ul {
   list-style-type: disc;
-  list-style-position: outside;
-  ul {
-    list-style-type: square;
-  }
-}
+  list-style-position: outside; }
+  ul ul {
+    list-style-type: square; }
 
 ol {
   list-style-type: decimal;
-  list-style-position: outside;
-  ol {
-    list-style-type: lower-roman;
-  }
-}
+  list-style-position: outside; }
+  ol ol {
+    list-style-type: lower-roman; }
 
 /* DEFINITION LISTS */
-
 dl {
-  margin: 1.5em 0 1.5em 5%;
-}
+  margin: 1.5em 0 1.5em 5%; }
 
 dt {
   margin: 1.5em 0 0 0;
-  font-weight: bold;
-}
+  font-weight: bold; }
 
 dd {
-  /* Styles */
-}
+  /* Styles */ }
 
 dt > dfn {
   font-style: normal;
-  font-weight: bold;
-}
+  font-weight: bold; }
 
 /* HORIZONTAL RULES — CONTEXT BREAKS */
-
 hr {
   width: 25%;
   margin-left: 37.5%;
@@ -344,14 +261,12 @@ hr {
   margin-bottom: 1.4375em;
   height: 0;
   border: none;
-  border-top: 0.125em solid $accent-color;
+  border-top: 0.125em solid #CF4747;
   /* currentColor = color of text (getting around night mode) */
   opacity: 0.5;
-  /* Opacity -> grayscale. If opacity is declared for too many elements in a XHTML file, performance of legacy RMSDK takes a hit */
-}
+  /* Opacity -> grayscale. If opacity is declared for too many elements in a XHTML file, performance of legacy RMSDK takes a hit */ }
 
 /* TABLES */
-
 table {
   display: table;
   table-layout: auto;
@@ -360,40 +275,35 @@ table {
   max-width: 100%;
   margin: 1.5em auto;
   /* Note: legacy RMSDK sets auto to 0, which is permitted in a footnote of the EPUB2 specs */
-  font-feature-settings: "tnum" 1;
-  font-variant-numeric: tabular-nums;
-}
+  -webkit-font-feature-settings: "tnum" 1;
+          font-feature-settings: "tnum" 1;
+  font-variant-numeric: tabular-nums; }
 
 caption {
   caption-side: top;
   /* Note: only value legacy RMSDK supports */
   text-align: center;
-  font-weight: bold;
-}
+  font-weight: bold; }
 
 tbody, thead, tfoot, tr {
-  /* Styles */
-}
+  /* Styles */ }
 
 th {
   empty-cells: show;
-  border-bottom: 0.125em solid $accent-color;
+  border-bottom: 0.125em solid #CF4747;
   /* Current color = color of text (inverted in night mode) */
   padding: 0.6875em 2% 0.6875em 0;
   text-align: left;
-  font-weight: bold;
-}
+  font-weight: bold; }
 
 td {
   empty-cells: show;
-  border-bottom: 0.0625em solid $accent-color;
+  border-bottom: 0.0625em solid #CF4747;
   /* Current color = color of text (inverted in night mode) */
   padding: 0.75em 2% 0.6875em 0;
-  text-align: left;
-}
+  text-align: left; }
 
 /* CODE */
-
 pre {
   margin: 1.5em 0 1.5em 5%;
   word-wrap: break-word;
@@ -401,24 +311,21 @@ pre {
   -ms-tab-size: 3;
   -moz-tab-size: 3;
   -webkit-tab-size: 3;
-  tab-size: 3;
-}
+  -o-tab-size: 3;
+     tab-size: 3; }
 
 code, kbd, samp, var {
   font-family: monospace;
-  /* Embed a font cos Kobo doesn't provide a monospace */
-}
+  /* Embed a font cos Kobo doesn't provide a monospace */ }
 
 /* MEDIAS */
-
 audio, video {
-  /* Styles */
-}
+  /* Styles */ }
 
 canvas, iframe, svg, video {
   width: auto;
   max-width: 100%;
-  height: auto;
-}
+  height: auto; }
 
 /* End CSS */
+
