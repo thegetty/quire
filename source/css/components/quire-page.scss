@@ -16,7 +16,7 @@
 // html
 // -----------------------------------------------------------------------------
 html {
-  font-size: $quire-base-font-size * .9;
+  font-size: $quire-base-font-size;
 
   @media screen and (min-width: 500px) {
     font-size: $quire-base-font-size;
@@ -179,7 +179,7 @@ html {
   }
 
   &__content {
-    font-size: 1.125rem;
+    font-size: 1em;
     line-height: 1.78;
     font-weight: 400;
     padding-top: 0;
@@ -189,7 +189,7 @@ html {
     color: background-color-text-classic($secondary-background-color);
 
     @if $family-primary !=$serif {
-      font-size: 1.25rem;
+      font-size: 1em;
       font-weight: 400;
       line-height: 1.6;
     }
@@ -583,7 +583,7 @@ html {
 .quire-essay {
   .quire-page__abstract {
     padding-top: 1em;
-    margin-bottom: -2.6em;
+    margin-bottom: -3.5em;
 
     @media screen and (max-width: $tablet) {
       margin-bottom: -3em;
@@ -594,10 +594,11 @@ html {
     }
 
     .container {
-      padding: 1em 2.286em 1em !important;
+      padding: 1em 2.75em 1em !important;
       margin: 0 auto;
       max-width: $desktop + (1.25 * $gap);
       width: $desktop + (1.25 * $gap);
+      font-size: $quire-base-font-size;
 
       @media print {
         margin: 0 auto;
@@ -609,7 +610,7 @@ html {
       .content {
         margin: 0;
         padding: 0 0 1em;
-        font-size: 0.7525em;
+        font-size: 0.875em;
         line-height: 1.714em;
       }
     }

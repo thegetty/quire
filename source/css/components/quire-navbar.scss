@@ -112,13 +112,16 @@
       background-color: transparent;
     }
     a {
-      &:hover {
-        background-color: darken($content-background-color, 15%);
+      button {
+        &:hover {
+          background-color: transparent;
+        }
       }
     }
     a, button, .button {
       &:hover {
         color: $accent-color !important; 
+        background-color: darken($content-background-color, 15%);
         svg {
           fill: $accent-color !important;
         }

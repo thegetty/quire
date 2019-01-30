@@ -7415,10 +7415,11 @@ template {
     text-align: right; }
   .quire-navbar-controls__left button, .quire-navbar-controls__right button, .quire-navbar-controls .quire-navbar-page-controls__item button {
     background-color: transparent; }
-  .quire-navbar-controls__left a:hover, .quire-navbar-controls__right a:hover, .quire-navbar-controls .quire-navbar-page-controls__item a:hover {
-    background-color: #d9d9d9; }
+  .quire-navbar-controls__left a button:hover, .quire-navbar-controls__right a button:hover, .quire-navbar-controls .quire-navbar-page-controls__item a button:hover {
+    background-color: transparent; }
   .quire-navbar-controls__left a:hover, .quire-navbar-controls__left button:hover, .quire-navbar-controls__left .button:hover, .quire-navbar-controls__right a:hover, .quire-navbar-controls__right button:hover, .quire-navbar-controls__right .button:hover, .quire-navbar-controls .quire-navbar-page-controls__item a:hover, .quire-navbar-controls .quire-navbar-page-controls__item button:hover, .quire-navbar-controls .quire-navbar-page-controls__item .button:hover {
-    color: #CF4747 !important; }
+    color: #CF4747 !important;
+    background-color: #d9d9d9; }
     .quire-navbar-controls__left a:hover svg, .quire-navbar-controls__left button:hover svg, .quire-navbar-controls__left .button:hover svg, .quire-navbar-controls__right a:hover svg, .quire-navbar-controls__right button:hover svg, .quire-navbar-controls__right .button:hover svg, .quire-navbar-controls .quire-navbar-page-controls__item a:hover svg, .quire-navbar-controls .quire-navbar-page-controls__item button:hover svg, .quire-navbar-controls .quire-navbar-page-controls__item .button:hover svg {
       fill: #CF4747 !important; }
 
@@ -7689,10 +7690,10 @@ template {
         bottom: 0; }
 
 html {
-  font-size: 15.3px; }
+  font-size: 16px; }
   @media screen and (min-width: 500px) {
     html {
-      font-size: 17px; } }
+      font-size: 16px; } }
 
 .quire-page h1,
 .quire-page h2,
@@ -7795,7 +7796,7 @@ html {
   margin-bottom: .5rem; }
 
 .quire-page__content {
-  font-size: 1.125rem;
+  font-size: 1em;
   line-height: 1.78;
   font-weight: 400;
   padding-top: 0;
@@ -7804,7 +7805,7 @@ html {
   -webkit-animation: .5s ease 0s 1 slideFromRight;
           animation: .5s ease 0s 1 slideFromRight;
   color: #333333;
-  font-size: 1.25rem;
+  font-size: 1em;
   font-weight: 400;
   line-height: 1.6; }
   .quire-page__content ul li a {
@@ -8018,7 +8019,7 @@ html {
 .quire-page--frontmatter.quire-essay .quire-page__abstract,
 .quire-essay .quire-page__abstract {
   padding-top: 1em;
-  margin-bottom: -2.6em; }
+  margin-bottom: -3.5em; }
   @media screen and (max-width: 500px) {
     .quire-page--frontmatter.quire-essay .quire-page__abstract,
     .quire-essay .quire-page__abstract {
@@ -8028,10 +8029,11 @@ html {
     font-size: 0.86em; }
   .quire-page--frontmatter.quire-essay .quire-page__abstract .container,
   .quire-essay .quire-page__abstract .container {
-    padding: 1em 2.286em 1em !important;
+    padding: 1em 2.75em 1em !important;
     margin: 0 auto;
     max-width: 720px;
-    width: 720px; }
+    width: 720px;
+    font-size: 16px; }
     @media print {
       .quire-page--frontmatter.quire-essay .quire-page__abstract .container,
       .quire-essay .quire-page__abstract .container {
@@ -8043,7 +8045,7 @@ html {
     .quire-essay .quire-page__abstract .container .content {
       margin: 0;
       padding: 0 0 1em;
-      font-size: 0.7525em;
+      font-size: 0.875em;
       line-height: 1.714em; }
 
 @media print {
@@ -8363,10 +8365,9 @@ html {
       display: none; } }
 
 .quire-cover .quire-contents-buttons ul li.quire-nav-button {
-  line-height: 34px;
-  font-size: 1.25em; }
+  line-height: 34px; }
   .quire-cover .quire-contents-buttons ul li.quire-nav-button a {
-    padding-top: 0.225em;
+    padding-top: 0.325em;
     color: #ffffff; }
   .quire-cover .quire-contents-buttons ul li.quire-nav-button svg {
     fill: #ffffff; }
@@ -8463,7 +8464,7 @@ html {
     margin-bottom: 0;
     padding: 40px 0 !important; }
     .quire-contents .quire-page__abstract .container {
-      padding: 0 2.8575em;
+      padding: 0 2.5em;
       background-color: transparent !important; }
     .quire-contents .quire-page__abstract:after {
       background-color: transparent; }
@@ -8523,6 +8524,12 @@ html {
     padding-left: 20px;
     font-size: .75em;
     width: auto; }
+    .quire-contents-list ul.arrow .section-indent.page-item .title {
+      font-size: 16px; }
+      .quire-contents-list ul.arrow .section-indent.page-item .title a {
+        font-size: 16px; }
+    .quire-contents-list ul.arrow .section-indent.page-item .abstract-text {
+      font-size: 14px; }
     .quire-contents-list ul.arrow .section-indent a {
       margin-bottom: 1em;
       padding-right: 0;
@@ -8532,11 +8539,13 @@ html {
       border-bottom: 1px dotted #333333; }
       .quire-contents-list ul.arrow .section-indent a:hover {
         border-bottom: 1px solid #a02a2a; }
+      .quire-contents-list ul.arrow .section-indent a .title span {
+        padding-left: .2em; }
   .quire-contents-list .menu-list a {
     color: #333333;
     position: relative;
     padding-left: 0;
-    font-size: 1em;
+    font-size: 1.375em;
     transition: all .25s ease; }
     .quire-contents-list .menu-list a .arrow {
       position: absolute;
@@ -8577,7 +8586,7 @@ html {
       margin-bottom: .5em;
       margin-right: 0; }
     .quire-contents-list.list .title, .quire-contents-list.brief .title {
-      font-size: 1.05em;
+      font-size: 1.375em;
       font-weight: inherit;
       line-height: inherit; }
     .quire-contents-list.list .section-item .title, .quire-contents-list.brief .section-item .title {
@@ -8593,7 +8602,7 @@ html {
     margin-bottom: 0;
     font-family: "IBM Plex Sans Condensed", sans-serif; }
   .quire-contents-list.abstract .abstract-text {
-    font-size: 14px;
+    font-size: 0.875em;
     line-height: 1.5em;
     margin-bottom: 1rem;
     line-height: 1.4;
@@ -8618,6 +8627,8 @@ html {
       padding: 1em 0; }
     .quire-contents-list.grid .section-list {
       font-size: .75em; }
+      .quire-contents-list.grid .section-list .no-image .title.space span {
+        padding-left: .2em; }
     .quire-contents-list.grid svg {
       padding-top: 0;
       margin-bottom: .065em; }
@@ -8625,8 +8636,6 @@ html {
       fill: #CF4747; }
     .quire-contents-list.grid .menu-list ul.arrow .page-item:last-child a {
       padding: 0; }
-      .quire-contents-list.grid .menu-list ul.arrow .page-item:last-child a div {
-        margin-top: 0.3em; }
     .quire-contents-list.grid .menu-list ul.arrow .section-item {
       border-top: 1px solid #e6e6e6;
       font-weight: 700;
@@ -8656,7 +8665,8 @@ html {
       font-size: .875em; }
     .quire-contents-list.grid ul li {
       float: left;
-      width: 100%; }
+      width: 100%;
+      font-size: 16px; }
       @media screen and (min-width: 700px) {
         .quire-contents-list.grid ul li {
           width: 50%; }
@@ -8676,8 +8686,7 @@ html {
         border-radius: 2px;
         margin: 1em 0.5em;
         box-shadow: none;
-        background-color: #ffffff;
-        font-size: 1em; }
+        background-color: #ffffff; }
         .quire-contents-list.grid ul li .card a {
           padding: 0;
           color: #CF4747;
@@ -8694,14 +8703,26 @@ html {
             transition: box-shadow .35s; }
             .quire-contents-list.grid ul li .card .card-image .image:hover {
               box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.75); }
-      .quire-contents-list.grid ul li .card.image .card-content {
-        font-size: 18px !important;
-        padding: 1.5em; }
+      .quire-contents-list.grid ul li .card.image {
+        font-size: 16px; }
+        .quire-contents-list.grid ul li .card.image .card-content {
+          font-size: 1.125em;
+          padding: 1.5em; }
+      .quire-contents-list.grid ul li .card.no-image {
+        font-size: 16px; }
+        .quire-contents-list.grid ul li .card.no-image .card-content {
+          font-size: 2.3em; }
+          .quire-contents-list.grid ul li .card.no-image .card-content .title {
+            font-size: inherit; }
+      .quire-contents-list.grid ul li a {
+        font-size: 16px; }
       .quire-contents-list.grid ul li .card-content {
         padding: .7335em;
-        font-size: 36.8px;
+        font-size: 2.3em;
         line-height: 1.22em;
         font-weight: 700; }
+        .quire-contents-list.grid ul li .card-content span {
+          font-size: inherit !important; }
         .quire-contents-list.grid ul li .card-content .arrow {
           font-size: 1em;
           vertical-align: text-top; }
@@ -8740,6 +8761,8 @@ html {
         margin-left: 1em; }
     .quire-contents-list.grid ul li.section-indent {
       padding-left: 0; }
+      .quire-contents-list.grid ul li.section-indent .card {
+        font-size: 16px; }
     @media screen and (min-width: 700px) {
       @supports (display: grid) {
         .quire-contents-list.grid ul {
@@ -9335,7 +9358,7 @@ div.multimedia {
 .quire-entry__header {
   margin-top: 1em; }
   .quire-entry__header h1 {
-    font-size: 30px !important; }
+    font-size: 1.875em !important; }
   .quire-entry__header .container {
     background-color: #ffffff;
     padding-bottom: 2rem; }
@@ -9366,7 +9389,7 @@ div.multimedia {
   border-bottom: 1px solid #333333;
   background-color: #ffffff;
   color: #333333;
-  font-size: 14px; }
+  font-size: 0.875em; }
   .quire-entry__tombstone .table td {
     border: none; }
 
@@ -9783,22 +9806,22 @@ body > div.mfp-bg.mfp-ready {
   padding-top: 2em; }
   .quire-contents-buttons li.quire-nav-button {
     display: inline-block;
-    width: 7em;
-    height: 2.175em;
+    width: 9.25em;
+    height: 2.9em;
     border-radius: 2px;
     transition: all .25s ease;
-    font-size: 1em;
     background: #EEF2F3;
+    font-size: 16px;
     border: 1px solid #CF4747; }
     .quire-contents-buttons li.quire-nav-button a {
       display: inline-block;
       width: 8.75em;
       height: 3.25em;
       color: #b42f2f;
-      font-size: .8em;
       margin-top: 0;
-      padding-top: .5em;
-      font-family: "Noto Sans", sans-serif; }
+      padding-top: .6em;
+      font-family: "Noto Sans", sans-serif;
+      font-size: 16px; }
     .quire-contents-buttons li.quire-nav-button.prev {
       margin-left: 0;
       margin-right: .55rem; }

@@ -17,7 +17,7 @@
     margin-bottom: 0;
     padding: 40px 0 !important;
     .container {
-      padding: 0 2.8575em;
+      padding: 0 2.5em;
       background-color: transparent !important;
     }
     &:after {
@@ -118,6 +118,17 @@
     padding-left: 20px;
     font-size: .75em;
     width: auto;
+    &.page-item {
+      .title {
+        font-size: $quire-base-font-size;
+        a {
+          font-size: $quire-base-font-size;
+        }
+      }
+      .abstract-text {
+        font-size: $quire-base-font-size * 0.875;
+      }
+    }
     a {
       margin-bottom: 1em;
       padding-right: 0;
@@ -128,6 +139,11 @@
       &:hover {
         border-bottom: 1px solid darken($accent-color, 15%);
       }
+      .title {
+        span {
+          padding-left: .2em;
+        }
+      }
     }
   }
 
@@ -136,7 +152,7 @@
       color: background-color-text($secondary-background-color);
       position: relative;
       padding-left: 0;
-      font-size: 1em;
+      font-size: 1.375em;
       -webkit-transition: all .25s ease;
       transition: all .25s ease;
 
@@ -200,7 +216,7 @@
       margin-right: 0;
     }
     .title {
-      font-size: 1.05em;
+      font-size: 1.375em;;
       font-weight: inherit;
       line-height: inherit;
     }
@@ -225,7 +241,7 @@
       font-family: $quire-header-font;
     }
     .abstract-text {
-      font-size: 14px;
+      font-size: 0.875em;
       line-height: 1.5em;
       margin-bottom: 1rem;
       line-height: 1.4;
@@ -270,6 +286,13 @@
 
     .section-list {
       font-size: .75em;
+      .no-image {
+        .title.space {
+          span {
+            padding-left: .2em;
+          }
+        }
+      }
     }
 
     svg {
@@ -294,7 +317,7 @@
             a {
               padding: 0;
               div {
-                margin-top: 0.3em;
+                
               }
             }
           }
@@ -344,6 +367,7 @@
     ul li {
       float: left;
       width: 100%;
+      font-size: $quire-base-font-size;
 
       @media screen and (min-width: $desktop) {
         width: 50%;
@@ -370,7 +394,6 @@
         margin: 1em 0.5em;
         box-shadow: none;
         background-color: $content-background-color;
-        font-size: 1em;
 
         a {
           padding: 0;
@@ -421,17 +444,35 @@
       }
 
       .card.image {
+        font-size: $quire-base-font-size;
         .card-content {
-          font-size: 18px !important;
+          font-size: 1.125em;
           padding: 1.5em;
         }
+      }
+      .card.no-image {
+        font-size: $quire-base-font-size;
+        .card-content {
+          font-size: 2.3em;
+          .title {
+            font-size: inherit;
+          }
+        }
+      }
+
+      a {
+        font-size: $quire-base-font-size;
       }
 
       .card-content {
         padding: .7335em;
-        font-size: 36.8px;
+        font-size: 2.3em;
         line-height: 1.22em;
         font-weight: 700;
+
+        span {
+          font-size: inherit !important;
+        }
 
         .arrow {
           font-size: 1em;
@@ -496,6 +537,9 @@
 
     ul li.section-indent {
       padding-left: 0;
+      .card {
+        font-size: $quire-base-font-size;
+      }
     }
 
     @media screen and (min-width: $desktop) {
