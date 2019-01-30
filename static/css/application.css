@@ -8545,9 +8545,11 @@ html {
     text-align: center;
     font-size: 16px !important;
     border-top: 1px solid #e6e6e6;
-    padding-top: 1.75em; }
+    padding-top: 3.3375em;
+    margin-bottom: 0; }
     .quire-contents-list .menu-list .section-header a {
-      font-size: 1.7em !important; }
+      font-size: 1.7em !important;
+      padding-right: 0; }
       .quire-contents-list .menu-list .section-header a span {
         font-size: 0.662em !important;
         line-height: 2.25em;
@@ -8589,7 +8591,7 @@ html {
       .quire-contents-list .menu-list .arrow .section-item .card-content .arrow {
         font-size: 0.662em !important; }
   .quire-contents-list .list-header {
-    padding: .5em .75em .5em 0;
+    padding: .5em .75em 0 0;
     letter-spacing: 1px; }
   .quire-contents-list .contributor {
     font-style: italic; }

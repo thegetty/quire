@@ -152,9 +152,11 @@
       text-align: center;
       font-size: $quire-base-font-size !important;
       border-top: 1px solid background-color($content-background-color);
-      padding-top: 1.75em;
+      padding-top: 3.3375em;
+      margin-bottom: 0;
       a {
         font-size: 1.7em !important;
+        padding-right: 0;
         span {
           font-size: 0.662em !important;
           line-height: 2.25em;
@@ -218,7 +220,7 @@
   }
 
   .list-header {
-    padding: .5em .75em .5em 0;
+    padding: .5em .75em 0 0;
     letter-spacing: 1px;
   }
 
