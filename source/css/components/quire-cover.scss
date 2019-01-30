@@ -168,7 +168,7 @@
     .container.is-fluid {
       .content {
         padding-top: 2em !important;
-        color: background-color-text($secondary-background-color);
+        color: background-color-text-classic($secondary-background-color);
         background-color: $secondary-background-color;
         @media print {
           background-color: transparent;
