@@ -148,6 +148,21 @@
   }
 
   .menu-list {
+    .section-header {
+      text-align: center;
+      font-size: $quire-base-font-size !important;
+      border-top: 1px solid background-color($content-background-color);
+      padding-top: 1.75em;
+      a {
+        font-size: 1.7em !important;
+        span {
+          font-size: 0.662em !important;
+          line-height: 2.25em;
+          padding-left: .2em;
+        }
+      }
+    }
+
     a {
       color: background-color-text($secondary-background-color);
       position: relative;
@@ -180,8 +195,8 @@
         border: none;
         .card-content {
           color: background-color-text($secondary-background-color);
-          font-size: 1.7em;
-          font-weight: 400;
+          font-size: 1.7em !important;
+          font-weight: 400 !important;
           position: static;
           div {
             color: background-color-text($secondary-background-color);
@@ -189,6 +204,13 @@
               position: relative;
               fill: background-color-text($secondary-background-color);
             }
+          }
+          .title {
+            font-size: inherit;
+            font-weight: 400 !important;
+          }
+          .arrow {
+            font-size: 0.662em !important;
           }
         }
       }
@@ -345,6 +367,10 @@
         }
         .section-item.no-landing {
           font-size: 1.7em;
+          .title {
+            font-size: 1.333em !important;
+            font-weight: 400 !important;
+          }
         }
       }
     }
