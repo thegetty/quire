@@ -715,6 +715,11 @@ html {
     }
 
     .quire-page__content__references {
+      @if $theme == classic {
+        font-family: $noto-sans;
+      } @else {
+        font-family: $family-primary;
+      }
 
       // font-size: 0.675em;
       h2 {
@@ -728,7 +733,11 @@ html {
       }
 
       dl {
-        font-family: $noto-serif;
+        @if $theme == classic {
+          font-family: $noto-sans;
+        } @else {
+          font-family: $noto-serif;
+        }
         dd {
           font-style: normal;
         }

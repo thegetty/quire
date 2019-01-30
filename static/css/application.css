@@ -8122,20 +8122,20 @@ html {
   padding-bottom: 0.25em;
   border-bottom: 1px solid #333333; }
 
-.quire-page__content .content .quire-page__content__references h2 {
-  margin-top: 1em;
-  padding-bottom: .2em;
-  font-size: .875em;
-  border-bottom: 1px solid #333333; }
-
-.quire-page__content .content .quire-page__content__references dl {
-  font-family: "Noto Serif", serif; }
-  .quire-page__content .content .quire-page__content__references dl dd {
-    font-style: normal; }
-
-.quire-page__content .content .quire-page__content__references span,
-.quire-page__content .content .quire-page__content__references dd {
-  font-size: .875em; }
+.quire-page__content .content .quire-page__content__references {
+  font-family: "Noto Sans", sans-serif; }
+  .quire-page__content .content .quire-page__content__references h2 {
+    margin-top: 1em;
+    padding-bottom: .2em;
+    font-size: .875em;
+    border-bottom: 1px solid #333333; }
+  .quire-page__content .content .quire-page__content__references dl {
+    font-family: "Noto Serif", serif; }
+    .quire-page__content .content .quire-page__content__references dl dd {
+      font-style: normal; }
+  .quire-page__content .content .quire-page__content__references span,
+  .quire-page__content .content .quire-page__content__references dd {
+    font-size: .875em; }
 
 .quire-page__content .content blockquote {
   padding: 0 0 0 1.5em;
