@@ -8541,55 +8541,57 @@ html {
         border-bottom: 1px solid #a02a2a; }
       .quire-contents-list ul.arrow .section-indent a .title span {
         padding-left: .2em; }
-  .quire-contents-list .menu-list .section-header {
-    text-align: center;
-    font-size: 16px !important;
-    border-top: 1px solid #e6e6e6;
-    padding-top: 3.3375em;
-    margin-bottom: 0; }
-    .quire-contents-list .menu-list .section-header a {
-      font-size: 1.7em !important;
-      padding-right: 0; }
-      .quire-contents-list .menu-list .section-header a span {
-        font-size: 0.662em !important;
-        line-height: 2.25em;
-        padding-left: .2em; }
-  .quire-contents-list .menu-list a {
-    color: #333333;
-    position: relative;
-    padding-left: 0;
-    font-size: 1.375em;
-    transition: all .25s ease; }
-    .quire-contents-list .menu-list a .arrow {
-      position: absolute;
-      fill: #333333; }
-    .quire-contents-list .menu-list a:hover {
-      background-color: inherit;
-      color: #a02a2a; }
-      .quire-contents-list .menu-list a:hover .arrow {
-        margin-left: .75em;
-        transition: all .25s ease;
-        fill: #a02a2a; }
-        .quire-contents-list .menu-list a:hover .arrow svg {
-          fill: #a02a2a !important; }
-  .quire-contents-list .menu-list .arrow .section-item {
-    box-shadow: none;
-    border: none; }
-    .quire-contents-list .menu-list .arrow .section-item .card-content {
+  .quire-contents-list .menu-list {
+    font-size: 16px; }
+    .quire-contents-list .menu-list .section-header {
+      text-align: center;
+      font-size: 16px !important;
+      border-top: 1px solid #e6e6e6;
+      padding-top: 3.3375em;
+      margin-bottom: 0; }
+      .quire-contents-list .menu-list .section-header a {
+        font-size: 1.7em !important;
+        padding-right: 0; }
+        .quire-contents-list .menu-list .section-header a span {
+          font-size: 0.662em !important;
+          line-height: 2.25em;
+          padding-left: .2em; }
+    .quire-contents-list .menu-list a {
       color: #333333;
-      font-size: 1.7em !important;
-      font-weight: 400 !important;
-      position: static; }
-      .quire-contents-list .menu-list .arrow .section-item .card-content div {
-        color: #333333; }
-        .quire-contents-list .menu-list .arrow .section-item .card-content div svg {
-          position: relative;
-          fill: #333333; }
-      .quire-contents-list .menu-list .arrow .section-item .card-content .title {
-        font-size: inherit;
-        font-weight: 400 !important; }
-      .quire-contents-list .menu-list .arrow .section-item .card-content .arrow {
-        font-size: 0.662em !important; }
+      position: relative;
+      padding-left: 0;
+      font-size: 1.375em;
+      transition: all .25s ease; }
+      .quire-contents-list .menu-list a .arrow {
+        position: absolute;
+        fill: #333333; }
+      .quire-contents-list .menu-list a:hover {
+        background-color: inherit;
+        color: #a02a2a; }
+        .quire-contents-list .menu-list a:hover .arrow {
+          margin-left: .75em;
+          transition: all .25s ease;
+          fill: #a02a2a; }
+          .quire-contents-list .menu-list a:hover .arrow svg {
+            fill: #a02a2a !important; }
+    .quire-contents-list .menu-list .arrow .section-item {
+      box-shadow: none;
+      border: none; }
+      .quire-contents-list .menu-list .arrow .section-item .card-content {
+        color: #333333;
+        font-size: 1.7em !important;
+        font-weight: 400 !important;
+        position: static; }
+        .quire-contents-list .menu-list .arrow .section-item .card-content div {
+          color: #333333; }
+          .quire-contents-list .menu-list .arrow .section-item .card-content div svg {
+            position: relative;
+            fill: #333333; }
+        .quire-contents-list .menu-list .arrow .section-item .card-content .title {
+          font-size: inherit;
+          font-weight: 400 !important; }
+        .quire-contents-list .menu-list .arrow .section-item .card-content .arrow {
+          font-size: 0.662em !important; }
   .quire-contents-list .list-header {
     padding: .5em .75em 0 0;
     letter-spacing: 1px; }
@@ -8604,7 +8606,7 @@ html {
       margin-bottom: .5em;
       margin-right: 0; }
     .quire-contents-list.list .title, .quire-contents-list.brief .title {
-      font-size: 1.375em;
+      font-size: 1em;
       font-weight: inherit;
       line-height: inherit; }
     .quire-contents-list.list .section-item .title, .quire-contents-list.brief .section-item .title {
@@ -8673,7 +8675,6 @@ html {
     .quire-contents-list.grid .menu-list ul.arrow .section-item.no-landing {
       font-size: 1.7em; }
       .quire-contents-list.grid .menu-list ul.arrow .section-item.no-landing .title {
-        font-size: 1.333em !important;
         font-weight: 400 !important; }
     .quire-contents-list.grid .quire-menu__formats {
       display: block; }

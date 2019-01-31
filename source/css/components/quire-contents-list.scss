@@ -148,6 +148,7 @@
   }
 
   .menu-list {
+    font-size: $quire-base-font-size;
     .section-header {
       text-align: center;
       font-size: $quire-base-font-size !important;
@@ -240,7 +241,7 @@
       margin-right: 0;
     }
     .title {
-      font-size: 1.375em;;
+      font-size: 1em;
       font-weight: inherit;
       line-height: inherit;
     }
@@ -370,7 +371,6 @@
         .section-item.no-landing {
           font-size: 1.7em;
           .title {
-            font-size: 1.333em !important;
             font-weight: 400 !important;
           }
         }
