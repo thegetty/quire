@@ -40,10 +40,10 @@
               </a>
             </div>
             {{ $scope := where .Site.Pages "Section" .Section }}
-            {{- partial "contents-list.html" (dict "contentsScope" $scope "contentsType" .Site.Params.tocType "contentsLocation" ".Params.toc" "contentsPage" . ) -}}
+            {{- partial "contents-list.html" (dict "contentsScope" $scope "contentsType" .Site.Params.tocType "pdf" ".Params.pdf" "epub" ".Params.epub" "contentsLocation" ".Params.toc" "contentsPage" . ) -}}
           {{ else }}
             {{ $scope := .Site.Pages }}
-            {{- partial "arrow-list.html" (dict "contentsScope" $scope "contentsType" .Site.Params.tocType "contentsLocation" ".Params.toc" "contentsPage" . ) -}}
+            {{- partial "arrow-list.html" (dict "contentsScope" $scope "contentsType" .Site.Params.tocType "pdf" ".Params.pdf" "epub" ".Params.epub" "contentsLocation" ".Params.toc" "contentsPage" . ) -}}
           {{ end }}
         </div>
       </div>

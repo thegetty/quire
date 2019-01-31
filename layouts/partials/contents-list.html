@@ -45,6 +45,8 @@
 
 {{- $contentsType := .contentsType }}
 {{ $contentsLocation := .contentsLocation }}
+{{ $pdf := .pdf }}
+{{ $epub := .epub }}
 {{ $imageDir := .imageDir -}}
 
 {{- .contentsPage.Scratch.Set "renderedSection" "" -}}
@@ -53,6 +55,8 @@
 {{ $pages := where $pages "Params.online" "!=" "false" }}
 {{ $pages := where $pages ".Type" "!=" "data" }}
 {{ $pages := where $pages .contentsLocation "!=" "false" -}}
+{{ $pages := where $pages .epub "!=" "false" -}}
+{{ $pages := where $pages .pdf "!=" "false" -}}
 <ul class="section-list">
 {{- range $pages -}}
   {{- if or (eq .Section "") (and (ne $.contentsPage.Section "") (ne $.contentsLocation ".Params.menu" )) -}}
