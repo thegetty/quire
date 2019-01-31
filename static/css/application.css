@@ -7725,9 +7725,9 @@ html {
 
 .quire-page h1, .quire-page__header__title {
   font-family: "IBM Plex Sans Condensed", sans-serif;
-  font-size: 3.3em;
+  font-size: 3em;
   font-weight: 700;
-  line-height: 1.14;
+  line-height: 1.04em;
   -webkit-animation: fadeIn 2s;
   /* Safari, Chrome and Opera > 12.1 */
   /* Firefox < 16 */
@@ -7738,7 +7738,7 @@ html {
     font-style: normal; }
   @media screen and (min-width: 500px) {
     .quire-page h1, .quire-page__header__title {
-      font-size: 3.3rem;
+      font-size: 3em;
       line-height: 1.07; } }
   @media print {
     .quire-page h1, .quire-page__header__title {
@@ -7747,9 +7747,9 @@ html {
 
 .quire-page h2 {
   font-family: "IBM Plex Sans Condensed", sans-serif;
-  font-size: 2.7rem;
-  font-weight: 300;
-  line-height: 1.09; }
+  text-transform: uppercase;
+  font-size: 1.75em;
+  line-height: 1.15em; }
   @media print {
     .quire-page h2 {
       font-weight: 400; } }
@@ -7757,9 +7757,9 @@ html {
 .quire-page h3,
 .quire-page h4, .quire-page__header__subtitle, .quire-page__header__contributor {
   font-family: "Noto Sans", sans-serif;
-  font-size: 1rem;
-  font-weight: 600;
-  line-height: 1.143; }
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.625em; }
 
 .quire-page__header__subtitle {
   display: block;
@@ -7776,31 +7776,39 @@ html {
 .quire-page__header__contributor {
   font-weight: 400;
   margin-top: 3rem;
-  opacity: 0.75; }
+  opacity: 0.75;
+  font-size: 1em; }
   @media print {
     .quire-page__header__contributor {
       font-size: 13pt;
       margin-top: .375in; } }
 
 .quire-page h4 {
-  font-size: 1.625rem;
-  font-weight: 400;
-  line-height: 1.23; }
+  font-size: 1.375em;
+  line-height: 1.2em; }
 
 .quire-page h5,
 .quire-page h6 {
-  font-family: "IBM Plex Sans Condensed", sans-serif;
-  font-weight: 400; }
+  font-family: "IBM Plex Sans Condensed", sans-serif; }
 
 .quire-page h5 {
-  font-weight: 600; }
+  font-size: 1.125em;
+  line-height: 1.22em; }
 
 .quire-page h5,
 .quire-page h6 {
-  font-size: 1.25rem;
+  font-size: 1.25em;
   line-height: 1.2;
   margin-top: .5rem;
   margin-bottom: .5rem; }
+
+.quire-page h6 {
+  text-transform: uppercase;
+  font-size: .66em;
+  font-weight: 700;
+  line-height: 1.28em;
+  padding-bottom: 0.25em;
+  border-bottom: 1px solid #333333; }
 
 .quire-page__content {
   font-size: 1em;
@@ -8496,6 +8504,9 @@ html {
   .quire-contents-list h1, .quire-contents-list h2, .quire-contents-list h3, .quire-contents-list h4, .quire-contents-list h5, .quire-contents-list h6 {
     letter-spacing: -0.025em;
     color: rgba(0, 0, 0, 0.7); }
+  .quire-contents-list h1 {
+    font-size: 3em;
+    line-height: 1.04em; }
   .quire-contents-list h2 {
     text-transform: uppercase;
     font-size: 1.75em;

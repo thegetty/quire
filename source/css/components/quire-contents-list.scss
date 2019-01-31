@@ -69,6 +69,11 @@
     color: findColorInvert($content-background-color);
   }
 
+  h1 {
+    font-size: 3em;
+    line-height: 1.04em;
+  }
+
   h2 {
     text-transform: uppercase;
     font-size: 1.75em;

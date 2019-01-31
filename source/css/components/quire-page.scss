@@ -56,9 +56,9 @@ html {
   h1,
   &__header__title {
     font-family: $quire-header-font;
-    font-size: 3.3em;
+    font-size: 3em;
     font-weight: 700;
-    line-height: 1.14;
+    line-height: 1.04em;
     -webkit-animation: fadeIn 2s;
     /* Safari, Chrome and Opera > 12.1 */
     -moz-animation: fadeIn 2s;
@@ -74,19 +74,8 @@ html {
     }
 
     @media screen and (min-width: $tablet) {
-      font-size: 3.3rem;
+      font-size: 3em;
       line-height: 1.07;
-    }
-
-    @if $family-secondary==$serif {
-      font-size: 2.8rem;
-      font-weight: 600;
-      line-height: 1.24;
-
-      @media screen and (min-width: $tablet) {
-        font-size: 3rem;
-        line-height: 1.33;
-      }
     }
 
     @media print {
@@ -98,12 +87,11 @@ html {
 
   h2 {
     font-family: $family-secondary;
-    font-size: 2.7rem;
-    font-weight: 300;
-    line-height: 1.09;
+    text-transform: uppercase;
+    font-size: 1.75em;
+    line-height: 1.15em;
 
     @if $family-secondary==$serif {
-      font-size: 2.5rem;
       line-height: 1.2;
     }
 
@@ -117,9 +105,9 @@ html {
   &__header__subtitle,
   &__header__contributor {
     font-family: $quire-nav-font;
-    font-size: 1rem;
-    font-weight: 600;
-    line-height: 1.143;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.625em;
   }
 
   &__header__subtitle {
@@ -147,6 +135,7 @@ html {
     font-weight: 400;
     margin-top: 3rem;
     opacity: 0.75;
+    font-size: 1em;
 
     @media print {
       font-size: 13pt;
@@ -155,27 +144,35 @@ html {
   }
 
   h4 {
-    font-size: 1.625rem;
-    font-weight: 400;
-    line-height: 1.23;
+    font-size: 1.375em;
+    line-height: 1.2em;
   }
 
   h5,
   h6 {
     font-family: $family-secondary;
-    font-weight: 400;
   }
 
   h5 {
-    font-weight: 600;
+    font-size: 1.125em;
+    line-height: 1.22em;
   }
 
   h5,
   h6 {
-    font-size: 1.25rem;
+    font-size: 1.25em;
     line-height: 1.2;
     margin-top: .5rem;
     margin-bottom: .5rem;
+  }
+
+  h6 {
+    text-transform: uppercase;
+    font-size: .66em;
+    font-weight: 700;
+    line-height: 1.28em;
+    padding-bottom: 0.25em;
+    border-bottom: 1px solid $off-black;
   }
 
   &__content {
@@ -500,7 +497,7 @@ html {
     // padding-bottom: 9rem;
     span {
       color: background-color-text($content-background-color);
-      font-size: 16px;
+      font-size: $quire-base-font-size;
       line-height: 1.5;
       text-rendering: optimizelegibility;
     }
