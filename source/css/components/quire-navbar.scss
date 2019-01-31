@@ -112,18 +112,23 @@
       background-color: transparent;
     }
     a {
-      &:hover {
-        background-color: darken($content-background-color, 15%);
+      button {
+        &:hover {
+          background-color: transparent;
+        }
       }
     }
     a, button, .button {
+      transition: all .25s ease;
       &:hover {
-        color: $accent-color !important; 
+        color: findColorInvert($accent-color) !important; 
+        background-color: $accent-color;
         svg {
-          fill: $accent-color !important;
+          fill: findColorInvert($accent-color);
         }
         @if $navbar == accent {
           color: background-color-text($accent-color) !important;
+          background-color: findColorInvert($accent-color);
           svg {
             fill: background-color-text($accent-color) !important;
           }

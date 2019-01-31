@@ -168,7 +168,7 @@
     .container.is-fluid {
       .content {
         padding-top: 2em !important;
-        color: background-color-text($secondary-background-color);
+        color: background-color-text-classic($secondary-background-color);
         background-color: $secondary-background-color;
         @media print {
           background-color: transparent;
@@ -194,9 +194,8 @@
     ul {
       li.quire-nav-button {
         line-height: 34px;
-        font-size: 1.25em;
         a {
-          padding-top: 0.225em;
+          padding-top: 0.325em;
           color: $content-background-color;
         }
         svg {

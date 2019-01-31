@@ -15,15 +15,15 @@
 
   li.quire-nav-button {
     display: inline-block;
-    width: 7em;
-    height: 2.175em;
+    width: 9.25em;
+    height: 2.9em;
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;
     border-radius: 2px;
     -webkit-transition: all .25s ease;
     transition: all .25s ease;
-    font-size: 1em;
     background: $secondary-background-color;
+    font-size: $quire-base-font-size;
     @if $theme == classic {
       border: 1px solid $off-black;
     } @else {
@@ -35,10 +35,10 @@
       width: 8.75em;
       height: 3.25em;
       color: background-color($accent-color);
-      font-size: .8em;
       margin-top: 0;
-      padding-top: .5em;
+      padding-top: .6em;
       font-family: $noto-sans;
+      font-size: $quire-base-font-size;
     }
 
     &.prev {

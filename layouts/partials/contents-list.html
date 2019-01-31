@@ -159,29 +159,28 @@
         {{- end -}}
           <a href="{{ .Page.Permalink }}">
             <div class="card-content">
-              {{ range .Page.Params.object -}}
-                {{ if .id -}}
-                  {{ range where $.Site.Data.objects.object_list "id" "eq" .id -}}
-                    <span class="artist">{{ .artist | markdownify }}</span>,
-                    <span class="location">{{ .location | markdownify }}</span>,
-                    <span class="year">{{ .year | markdownify }}</span>.
-                    <span class="title">{{ .title | markdownify }}</span>.
-                    <span class="medium">{{ .medium | markdownify }}</span>,
-                    <span class="dimensions">{{ .dimensions | markdownify }}</span>.
+              {{ if .Page.Params.object -}}
+                {{ range .Page.Params.object -}}
+                  {{ if .id -}}
+                    {{ range where $.Site.Data.objects.object_list "id" "eq" .id -}}
+                      <span class="artist">{{ .artist | markdownify }}</span>,
+                      <span class="location">{{ .location | markdownify }}</span>,
+                      <span class="year">{{ .year | markdownify }}</span>.
+                      <span class="title">{{ .title | markdownify }}</span>.
+                      <span class="medium">{{ .medium | markdownify }}</span>,
+                      <span class="dimensions">{{ .dimensions | markdownify }}</span>.
+                    {{- end -}}
                   {{- end -}}
                 {{- end -}}
+                {{ template "contents-item-menu-arrow-title" .}}
+              {{ else }}
+                <div class="title space">
+                  {{ if .Page.Params.title -}}
+                    {{ .Page.Params.title | markdownify }}
+                  {{- end -}}
+                  {{ template "contents-item-menu-arrow-title" .}}
+                </div>
               {{- end -}}
-              {{ if .Page.Params.contributor }}<span class="contributor"> — {{ partial "contributor-list.html" (dict "range" .Page.Params.contributor "contributorType" "all" "listType" "string" "Site" .Site) }}{{- end -}}</span>           
-                <span class="arrow remove-from-epub">
-                  <svg viewBox="0 0 24 24" >
-                    <switch>
-                      <use xlink:href="#arrow-forward-icon"></use>
-                      <foreignObject width="24" height="24" viewBox="0 0 24 24" >
-                          <img class="remove-from-epub" src="/img/icons/arrow_forward@2x.png" alt=">" />
-                      </foreignObject>
-                    </switch>
-                  </svg>
-                </span>
             </div>
           </a>
         </div>

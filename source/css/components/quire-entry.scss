@@ -243,7 +243,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     margin-top: 1em;
 
     h1 {
-      font-size: 30px !important;
+      font-size: 1.875em !important;
     }
 
     .container {
@@ -300,7 +300,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
       border-bottom: 1px solid background-color-text($content-background-color);
       background-color: $content-background-color;
       color: background-color-text($content-background-color);
-      font-size: 14px;
+      font-size: 0.875em;
 
       td {
         border: none;
