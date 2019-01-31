@@ -167,15 +167,22 @@
     }
 
     &.quire-previous-page {
+      a {
+        padding: 0 1em 0 0.5em;
+      }
       .left-icon {
-        margin-right: 1rem;
+        margin-right: 1em;
       }
     }
 
     &.quire-next-page {
       font-style: normal;
+      a {
+        padding: 0 0.5em 0 1em;
+      }
       svg {
-        margin-left: 0.65rem;
+        margin-left: 0.25em;
+        margin-right: 0.5em;
       }
     }
 
