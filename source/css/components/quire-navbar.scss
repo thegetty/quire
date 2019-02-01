@@ -186,6 +186,14 @@
       }
     }
 
+    @media screen and (max-width: $tablet) {
+      &.quire-home-page {
+        display: block;
+        padding-left: 0;
+        padding-right: 0;
+      }
+    }
+
     @media screen and (min-width: 500px) {
       &.quire-home-page {
         display: block;
@@ -268,6 +276,22 @@
       max-width: 1rem;
       & img {
         max-height: 1rem;
+      }
+    }
+    @media screen and (max-width: $tablet) {
+      svg {
+        top: 0;
+      }
+    }
+    a {
+      -webkit-transition: all .25s ease;
+      transition: all .25s ease;
+      &:hover {
+        color: findColorInvert($accent-color) !important; 
+        background-color: $accent-color;
+        svg {
+          fill: findColorInvert($accent-color);
+        }
       }
     }
   }

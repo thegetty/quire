@@ -249,6 +249,10 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     .container {
       background-color: $content-background-color;
       padding-bottom: 2rem;
+      @media screen and (max-width: $tablet) {
+        margin-right: 0;
+        margin-left: 0;
+      }
     }
 
     @media print {
@@ -290,6 +294,10 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     >div.container {
       background-color: $content-background-color;
       padding-bottom: 1em;
+      @media screen and (max-width: $tablet) {
+        margin-right: 0;
+        margin-left: 0;
+      }
     }
 
     .table {
@@ -372,6 +380,12 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
       padding: 1em 1.2em 0;
       font-size: 2em;
       font-weight: 400;
+    }
+    @media screen and (min-width: $tablet) {
+      h1 {
+        font-size: 1.675em; /** approx 26px **/
+        line-height: 1.15em; /** approx 30px **/
+      }
     }
   }
 
