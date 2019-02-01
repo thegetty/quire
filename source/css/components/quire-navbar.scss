@@ -167,15 +167,30 @@
     }
 
     &.quire-previous-page {
+      a {
+        padding: 0 1.5em 0 0.5em;
+      }
       .left-icon {
-        margin-right: 1rem;
+        margin-right: 1em;
       }
     }
 
     &.quire-next-page {
       font-style: normal;
+      a {
+        padding: 0 0.5em 0 1.5em;
+      }
       svg {
-        margin-left: 0.65rem;
+        margin-left: 0.25em;
+        margin-right: 0.5em;
+      }
+    }
+
+    @media screen and (max-width: $tablet) {
+      &.quire-home-page {
+        display: block;
+        padding-left: 0;
+        padding-right: 0;
       }
     }
 
@@ -261,6 +276,22 @@
       max-width: 1rem;
       & img {
         max-height: 1rem;
+      }
+    }
+    @media screen and (max-width: $tablet) {
+      svg {
+        top: 0;
+      }
+    }
+    a {
+      -webkit-transition: all .25s ease;
+      transition: all .25s ease;
+      &:hover {
+        color: findColorInvert($accent-color) !important; 
+        background-color: $accent-color;
+        svg {
+          fill: findColorInvert($accent-color);
+        }
       }
     }
   }

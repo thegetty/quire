@@ -367,6 +367,9 @@
         margin-bottom: 0;
         clear: both;
       }
+      @media screen and (max-width: $tablet) {
+        display: block;
+      }
     }
 
     &__item {
@@ -432,6 +435,14 @@
 
       @media print {
         width: 14.6%;
+      }
+    }
+
+    .quire-grid {
+      &--2, &--3, &--4, &--5, &--6 {
+        @media screen and (max-width: $tablet) {
+          width: 100%;
+        }
       }
     }
 
