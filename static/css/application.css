@@ -7444,13 +7444,13 @@ template {
     .quire-navbar-page-controls__item.quire-current-page {
       font-style: italic; }
     .quire-navbar-page-controls__item.quire-previous-page a {
-      padding: 0 1em 0 0.5em; }
+      padding: 0 1.5em 0 0.5em; }
     .quire-navbar-page-controls__item.quire-previous-page .left-icon {
       margin-right: 1em; }
     .quire-navbar-page-controls__item.quire-next-page {
       font-style: normal; }
       .quire-navbar-page-controls__item.quire-next-page a {
-        padding: 0 0.5em 0 1em; }
+        padding: 0 0.5em 0 1.5em; }
       .quire-navbar-page-controls__item.quire-next-page svg {
         margin-left: 0.25em;
         margin-right: 0.5em; }
