@@ -160,12 +160,12 @@
 <ul class="quire-contributors-list">
 {{- range ($.Page.Scratch.GetSortedMapValues "contributorlist") -}}
 {{- $nameid := plainify (replace (index . 0) " " "-") -}}
-  <div class="title is-5"><span class="quire-contributor__name">{{ (index . 0) }}</span></div>
-  {{ if ne (index . 4) "n/a" }}
-  <div class="subtitle is-6"><a href="{{ index . 4 }}" class="quire-contributor__url">{{ index . 4 }}</a></div>
-  {{- end -}}
-  <li class="quire-contributor media" id="{{ $nameid }}">
+
+  <li class="quire-contributor" id="{{ $nameid }}">
+    <div class="title is-5"><span class="quire-contributor__name">{{ (index . 0) }}</span></div>
+
     {{- if ne (index . 5) "n/a" -}}
+    <div class="media">
     <div class="media-left">
       <img class="image quire-contributor__pic"
           src='{{ with index . 5 }}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
@@ -181,15 +181,20 @@
       {{- if ne ($.Get "range") "page" -}}
       {{- if and (ne ($.Get "range") "primary") (ne ($.Get "range") "secondary") -}}
       <p>
-        {{- $endPunctuation := findRE "[!|?]$" .Title -}}
         <a href="{{ index . 9 }}" class="quire-contributor__page-link">
           {{ if ne (index . 6) "n/a" }}{{ index . 6 }}{{ .Site.Params.pageLabelDivider }}{{ end }}
           {{ markdownify (index . 7) }}
           {{ if ne (index . 8) "n/a" }}{{- $endPunctuation := findRE "[!|?]$" (index . 8) -}}{{ if $endPunctuation }} {{ else }}: {{ end }}{{ markdownify (index . 8) }}{{ end }}
         </a>
       </p>
+      {{ if ne (index . 4) "n/a" }}
+      <p>
+        <a href="{{ index . 4 }}" class="quire-contributor__url">{{ index . 4 }}</a>
+      </p>
       {{- end -}}
       {{- end -}}
+      {{- end -}}
+      </div>
     </div>
   </li>
 {{- end -}}
@@ -202,7 +207,6 @@
 {{- range ($.Page.Scratch.GetSortedMapValues "contributorlist") -}}
 {{- $nameid := plainify (replace (index . 0) " " "-") -}}
   <li class="quire-contributor" id="{{ $nameid }}">
-    <p>
       <span class="quire-contributor__name">{{ index . 0 }}</span>
       {{- if eq ($.Get "type") "name-plus" -}}
       {{- if or (ne (index . 1) "n/a") (ne (index . 2) "n/a") }}, {{ end -}}
@@ -215,7 +219,6 @@
       {{- if ne (index . 2) "n/a" -}}
       <span class="quire-contributor__affiliation">{{ index . 2 }}</span>
       {{- end -}}
-    </p>
     {{- end -}}
   </li>
 {{- end -}}
