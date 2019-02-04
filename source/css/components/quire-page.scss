@@ -191,7 +191,7 @@ html {
     padding-bottom: 0;
     position: relative;
     animation: .5s ease 0s 1 slideFromRight;
-    color: background-color-text-classic($secondary-background-color);
+    color: background-color-text-classic($content-background-color);
 
     @if $family-primary !=$serif {
       font-size: 1em;
@@ -212,7 +212,7 @@ html {
     }
 
     strong {
-      color: background-color-text($secondary-background-color);
+      color: background-color-text($content-background-color);
     }
 
     .container {
@@ -233,7 +233,7 @@ html {
           padding-bottom: 0;
           margin: 0 auto;
         }
-        
+
 
         hr {
           background-color: lighten($off-black, 15%);
@@ -247,7 +247,7 @@ html {
           margin: 2em 0;
           display: inline-table;
           td, th {
-            color: background-color-text($secondary-background-color);
+            color: background-color-text($content-background-color);
             border-width: 0 0 1px;
           }
           tbody {
@@ -299,7 +299,7 @@ html {
           p {
             position: relative;
             &:before {
-              color: darken($secondary-background-color, 10%);
+              color: darken($content-background-color, 10%);
               font-size: 4em;
               line-height: 0.1em;
               margin-right: 0.25em;
@@ -365,7 +365,7 @@ html {
             font-family: $noto-serif;
           }
           hr {
-            background-color: background-color-text($secondary-background-color);
+            background-color: background-color-text($content-background-color);
             margin-bottom: 0;
           }
           @if $theme == classic {
@@ -431,7 +431,6 @@ html {
   }
 
   &--frontmatter {
-    background-color: $off-white;
     @media print {
       background-color: transparent;
     }
@@ -440,7 +439,7 @@ html {
   &__splash {
     .quire-page__header {
       &__title, &__subtitle {
-        
+
       }
     }
   }
@@ -651,25 +650,42 @@ html {
   // Overrides to Bulma's .content styles where needed.
   .content {
 
-    a:not([rel=footnote]):not(.footnote-return) {
-      color: $accent-color;
-
+    a {
       @media print {
         color: $page-text-color;
         border-bottom-width: 0;
       }
-    }
+      @if $theme == classic {
+        color: background-color-text-classic($content-background-color);
+        border-bottom: 1px dotted background-color-text-classic($content-background-color);
+      } @else {
+        color: $accent-color;
+        border-bottom: 1px dotted $accent-color;
+      }
 
-    a {
-      @media print {
-        color: $page-text-color;
-      }
       &:hover {
-        color: darken($accent-color, 15%) !important;
-        border-bottom-width: 2px;
+        color: link-hover-color($content-background-color) !important;
+        border-bottom: 1px solid link-hover-color($content-background-color) !important;
       }
+
       &:focus {
         background-color: $quire-hover-color;
+      }
+    }
+
+    figure a {
+      &:hover {
+        border-bottom-width: 0 !important;
+      }
+    }
+
+    .footnote-ref a,
+    a.footnote-return {
+      border-bottom-width: 0;
+      font-weight: bold;
+      &:hover {
+        color: link-hover-color($content-background-color) !important;
+        border-bottom-width: 0 !important;
       }
     }
 
@@ -794,10 +810,6 @@ html {
         li {
           margin-bottom: 1em;
         }
-      }
-
-      a {
-        color: $accent-color;
       }
 
       p+p {

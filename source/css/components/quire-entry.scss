@@ -258,7 +258,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     @media print {
       height: 3in;
       text-align: center;
-      // This border is a hack for PrinceXML which doesn't 
+      // This border is a hack for PrinceXML which doesn't
       // otherwise recognize the box sizing for some reason
       border: 1pt solid transparent;
     }
@@ -282,7 +282,9 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
       }
 
       &:hover {
-        background-color: $accent-color;
+        background-color: link-hover-color($content-background-color);
+        border-color: link-hover-color($content-background-color);
+
         color: findColorInvert($accent-color);
 
         svg {
@@ -468,7 +470,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
       @media screen and (min-width: $widescreen) {
         width: 44%;
         flex: none;
-        background: $secondary-background-color; 
+        background: $secondary-background-color;
       }
 
       section.section,

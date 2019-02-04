@@ -78,7 +78,7 @@
   div {
     height: 2px;
     width: 100%;
-    background-color: darken($accent-color, 10%);
+    background-color: $accent-color;
     text-align: right;
     padding-right: .5em;
     position: relative;
@@ -121,7 +121,7 @@
     a, button, .button {
       transition: all .25s ease;
       &:hover {
-        color: findColorInvert($accent-color) !important; 
+        color: findColorInvert($accent-color) !important;
         background-color: $accent-color;
         svg {
           fill: findColorInvert($accent-color);
@@ -133,7 +133,7 @@
             fill: background-color-text($accent-color) !important;
           }
         }
-      }     
+      }
     }
   }
 }
@@ -287,7 +287,7 @@
       -webkit-transition: all .25s ease;
       transition: all .25s ease;
       &:hover {
-        color: findColorInvert($accent-color) !important; 
+        color: findColorInvert($accent-color) !important;
         background-color: $accent-color;
         svg {
           fill: findColorInvert($accent-color);

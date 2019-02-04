@@ -29,7 +29,7 @@
     }
     a {
         border-bottom-color: $frcolor !important;
-        
+
     }
 }
 
@@ -54,6 +54,32 @@
     } @else {
         @return $white; // darker background, return light color
     }
+}
+
+// Adjust button color based background
+@function button-color($color) {
+  @if $theme == classic {
+    @if (lightness($color) > 50) {
+      @return $off-black;
+    } @else {
+      @return $white;
+    }
+  } @else {
+    @return $accent-color;
+  }
+}
+
+// Adjust link hover color based on background color
+@function link-hover-color($color) {
+  @if $theme == classic {
+    @return $accent-color;
+  } @else {
+    @if (lightness($color) > 50) {
+      @return darken($accent-color, 15%);
+    } @else {
+      @return lighten($accent-color, 15%);
+    }
+  }
 }
 
 // Adjust background color

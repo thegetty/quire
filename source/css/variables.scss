@@ -1,7 +1,7 @@
 // =============================================================================
 // Variables.scss
 // -----------------------------------------------------------------------------
-// Change values here to make changes to the type, color, cover and layout of 
+// Change values here to make changes to the type, color, cover and layout of
 // your publication. Variable names are always preceeded by a $ (dollar sign).
 // To avoid errors, variables names should not be changed or deleted, and be
 // sure to leave the colons (:) and semi-colons (;) in place.
@@ -39,7 +39,7 @@ $quire-page-paragraph-style: line-space;
 // Quire Redesign
 // -----------------------------------------------------------------------------
 
-// Print 
+// Print
 $page-color: $white;
 $page-text-color: $dark;
 
@@ -47,7 +47,7 @@ $page-text-color: $dark;
 $quire-page-header-color: $light;
 $quire-page-header-text-color: $dark;
 
-// part of menus 
+// part of menus
 $quire-menu-color: $dark;
 $quire-menu-border-color: $dark;
 $quire-menu-text-color: $white;
@@ -78,7 +78,7 @@ $quire-body-font: $family-primary;
   $quire-nav-font: $family-primary;
   $quire-body-font: $family-primary;
 
-  $accent-color: $red;
+  $accent-color: $red !default;
   $content-background-color: $white !default;
   $secondary-background-color: $off-white !default;
 }
@@ -92,8 +92,8 @@ $quire-body-font: $family-primary;
   $quire-header-font: $family-secondary;
   $quire-nav-font: $family-primary;
   $quire-body-font: $family-primary;
-  
-  $accent-color: $light-blue;
+
+  $accent-color: $light-blue !default;
   $content-background-color: $white !default;
   $secondary-background-color: $content-background-color;
 }
@@ -156,7 +156,7 @@ $quire-primary-move: calc(-100% + 3rem);
 $navbar-height: 3rem;
 
 // adjust column gap for grid
-// NOTICE: this var = 2x the value 
+// NOTICE: this var = 2x the value
 // 5px = 10px margin between columns
 $column-gap: 5px;
 

@@ -13,7 +13,7 @@
     font-size: 0.75em;
     line-height: 1.5;
     background-color: $content-background-color;
-    color: background-color-text($secondary-background-color);
+    color: background-color-text($content-background-color);
     padding: 1rem;
     position: absolute;
     width: 400px;

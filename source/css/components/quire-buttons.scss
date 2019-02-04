@@ -22,19 +22,14 @@
     border-radius: 2px;
     -webkit-transition: all .25s ease;
     transition: all .25s ease;
-    background: $secondary-background-color;
     font-size: $quire-base-font-size;
-    @if $theme == classic {
-      border: 1px solid $off-black;
-    } @else {
-      border: 1px solid $accent-color;
-    }
+    border: 1px solid button-color($content-background-color);
+    color: button-color($content-background-color);
 
     a {
       display: inline-block;
       width: 8.75em;
       height: 3.25em;
-      color: background-color($accent-color);
       margin-top: 0;
       padding-top: .6em;
       font-family: $noto-sans;
@@ -45,19 +40,11 @@
       margin-left: 0;
       margin-right: .55rem;
       a {
-        @if $theme == classic {
-          color: $off-black;
-        } @else {
-          color: $accent-color;
-        }
+        color: button-color($secondary-background-color);
         margin-right: .5rem;
       }
       svg {
-        @if $theme == classic {
-          fill: $off-black;
-        } @else {
-          fill: $accent-color;
-        }
+        fill: button-color($secondary-background-color);
         margin-right: .5rem;
       }
     }
@@ -67,7 +54,6 @@
       height: 1.25rem;
       margin-left: -.25rem;
       margin-bottom: .15rem;
-      fill: $accent-color;
     }
 
     .nav-title {
@@ -75,28 +61,22 @@
     }
 
     &.next {
-      @if $theme == classic {
-        background-color: $off-black !important;
-      } @else {
-        background-color: $accent-color;
-      }
+      background-color: button-color($secondary-background-color);
+
       svg {
-        fill: findColorInvert($accent-color);
+        fill: findColorInvert(button-color($secondary-background-color));
       }
       &:hover {
-        background-color: darken($accent-color, 10%) !important;
+        background-color: link-hover-color($secondary-background-color) !important;
       }
       a {
-        color: findColorInvert($accent-color);
+        color: findColorInvert(button-color($secondary-background-color));
       }
     }
 
     &:hover {
-      background-color: darken($accent-color, 10%);
-      border-color: darken($accent-color, 10%);
-      @if $family-primary == $noto-serif {
-        background-color: darken($accent-color, 10%);
-      }
+      background-color: link-hover-color($secondary-background-color);
+      border-color: link-hover-color($secondary-background-color);
       a {
         color: findColorInvert($accent-color);
       }
