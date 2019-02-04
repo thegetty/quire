@@ -181,10 +181,11 @@
       {{- if ne ($.Get "range") "page" -}}
       {{- if and (ne ($.Get "range") "primary") (ne ($.Get "range") "secondary") -}}
       <p>
+        {{- $endPunctuation := findRE "[!|?]$" .Title -}}
         <a href="{{ index . 9 }}" class="quire-contributor__page-link">
-          {{ if ne (index . 6) "n/a" }}{{ index . 6 }}. {{ end }}
+          {{ if ne (index . 6) "n/a" }}{{ index . 6 }}{{ .Site.Params.pageLabelDivider }}{{ end }}
           {{ markdownify (index . 7) }}
-          {{ if ne (index . 8) "n/a" }}: {{ markdownify (index . 8) }}{{ end }}
+          {{ if ne (index . 8) "n/a" }}{{- $endPunctuation := findRE "[!|?]$" (index . 8) -}}{{ if $endPunctuation }} {{ else }}: {{ end }}{{ markdownify (index . 8) }}{{ end }}
         </a>
       </p>
       {{- end -}}

@@ -187,13 +187,13 @@
 
   {{- else -}}
 
-    <div class="title"><a href="{{ .Page.Permalink }}">{{ with .Page.Params.number }}{{ . }}. {{ end }}{{ if and .Page.Params.short_title (in .class "brief")}}{{ .Page.Params.short_title | markdownify }}{{ else }}{{ .Page.Title | markdownify }}{{- end -}}{{ if in .class "brief"}}{{ else }}{{ with .Page.Params.subtitle }}: {{ . | markdownify }}{{- end -}}{{ if .Page.Params.contributor }}<span class="contributor"> — {{ partial "contributor-list.html" (dict "range" .Page.Params.contributor "contributorType" "all" "listType" "string" "Site" .Site) }}{{- end -}}{{- end -}}</span></a></div>{{ if and (in .class "abstract") (ne .Page.Params.abstract "") }}<div class="abstract-text">{{ if .Page.Params.abstract }}{{ .Page.Params.abstract | markdownify }}{{ else }}{{ .Page.Summary }}{{- end -}}</div>{{ end -}}
+    <div class="title"><a href="{{ .Page.Permalink }}">{{ with .Page.Params.number }}{{ . }}{{ $.Site.Params.pageLabelDivider }}{{ end }}{{ if and .Page.Params.short_title (in .class "brief")}}{{ .Page.Params.short_title | markdownify }}{{ else }}{{ .Page.Title | markdownify }}{{- end -}}{{ if in .class "brief"}}{{ else }}{{ with .Page.Params.subtitle }}: {{ . | markdownify }}{{- end -}}{{ if .Page.Params.contributor }}<span class="contributor"> — {{ partial "contributor-list.html" (dict "range" .Page.Params.contributor "contributorType" "all" "listType" "string" "Site" .Site) }}{{- end -}}{{- end -}}</span></a></div>{{ if and (in .class "abstract") (ne .Page.Params.abstract "") }}<div class="abstract-text">{{ if .Page.Params.abstract }}{{ .Page.Params.abstract | markdownify }}{{ else }}{{ .Page.Summary }}{{- end -}}</div>{{ end -}}
 
   {{ end -}}
 {{ end -}}
 
 {{- define "contents-item-menu" }}
-    <a href="{{ .Permalink }}">{{ with .Params.number }}{{ . }}. {{ end }}{{ if .Params.short_title }}{{ .Params.short_title | markdownify }}{{ else }}{{ .Title | markdownify }}{{- end -}}</a> 
+    <a href="{{ .Permalink }}">{{ with .Params.number }}{{ . }}{{ $.Site.Params.pageLabelDivider }}{{ end }}{{ if .Params.short_title }}{{ .Params.short_title | markdownify }}{{ else }}{{ .Title | markdownify }}{{- end -}}</a>
 {{ end -}}
 
 {{- define "contents-image" }}

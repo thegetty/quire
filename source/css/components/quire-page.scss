@@ -97,33 +97,11 @@ html {
 
   h3,
   h4,
-  &__header__subtitle,
   &__header__contributor {
     font-family: $quire-nav-font;
     font-style: italic;
     font-weight: 400;
     font-size: 1.625em;
-  }
-
-  &__header__subtitle {
-    display: block;
-    font-style: italic;
-    font-weight: 400;
-    margin-top: 1rem;
-    letter-spacing: 0;
-
-    em {
-      font-style: normal;
-    }
-
-    @if $family-secondary==$serif {
-      font-weight: 600;
-      line-height: 1.3;
-    }
-
-    @media print {
-      font-size: 16pt;
-    }
   }
 
   &__header__contributor {
@@ -506,11 +484,26 @@ html {
 
     // padding-top: 9rem;
     // padding-bottom: 9rem;
-    span {
-      color: background-color-text($content-background-color);
-      font-size: $quire-base-font-size;
-      line-height: 1.5;
-      text-rendering: optimizelegibility;
+    .label {
+      line-height: 1.3;
+      display: block;
+      width: fit-content;
+      @if $theme == classic {
+        font-size: 1.4rem;
+        font-weight: normal;
+        background-color: $dark-gray;
+        color: $secondary-background-color;
+        padding: .35rem .45rem;
+        margin: 0 auto 1.7em;
+      } @else {
+        font-size: 1.2rem;
+        color: background-color-text($secondary-background-color);
+        border-top: 2px solid $accent-color;
+        border-bottom: 2px solid $accent-color;
+        padding: .2rem .3rem;
+        letter-spacing: 0;
+        margin: 0 auto 1.9em;
+      }
     }
 
     @media screen and (min-width: $desktop) {
@@ -540,6 +533,9 @@ html {
     }
     &__title, &__subtitle {
       color: background-color-text($secondary-background-color);
+      .label {
+        color: background-color-text($secondary-background-color);
+      }
     }
   }
   .hero-image {
@@ -547,12 +543,18 @@ html {
       .quire-page__header {
         &__title, &__subtitle {
           color: background-color-text($dark) !important;
+          .label {
+            color: background-color-text($dark) !important;
+          }
         }
       }
     }
   }
 
   .quire-page__content {
+    .container .content {
+      background-color: $secondary-background-color;
+    }
     p {
       &:first-child {
         &:first-letter {

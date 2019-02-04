@@ -27,7 +27,7 @@
   <li class="quire-section-list__item">
     <h2 class="quire-section-list__item__title">
       <a href="{{ .Permalink }}">
-        {{ with .Params.number }}{{ . }}. {{ end }}
+        {{ with .Params.number }}{{ . }}{{ .Site.Params.pageLabelDivider }}{{ end }}
         {{ .Title | markdownify }}{{ with .Params.subtitle }}: {{ . | markdownify }}{{ end }}
       </a>
     </h2>
