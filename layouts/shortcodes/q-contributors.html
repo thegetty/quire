@@ -224,6 +224,7 @@
 {{/* ---------------------------------------------------------------------- */}}
 {{- else if eq $listType "initials" -}}
 <ul class="quire-contributors-list">
+  {{- if ($.Page.Scratch.GetSortedMapValues "contributorlist") -}}
   {{- $len := len ($.Page.Scratch.GetSortedMapValues "contributorlist") -}}
   {{- if gt $len 0 -}}
   <li class="quire-contributor">
@@ -243,6 +244,7 @@
       {{- end -}}
     {{- end -}}
   </li>
+  {{- end -}}
   {{- end -}}
 </ul>
 {{- else -}}
