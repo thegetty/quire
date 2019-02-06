@@ -72,8 +72,8 @@ a single image or object needs to be featured prominently.\
         {{/* Title */}}
         {{- $endPunctuation := findRE "[!|?]$" .Title -}}
         <h1 class="quire-page__header__title" id="{{ .Title | urlize }}">
-          {{ with .Params.number }}<span>{{ . }}</span>{{ end }}
-          {{- if eq $.Site.Params.entryPageSideBySideLayout true }}<br />{{ else }}{{ $.Site.Params.pageLabelDivider }}{{ end -}}
+          {{ with .Params.number }}<span>{{ . }}{{ $.Site.Params.pageLabelDivider }}</span>{{ end }}
+          {{- if eq $.Site.Params.entryPageSideBySideLayout true }}{{ end -}}
           {{ .Title | markdownify }}
           {{- with .Params.subtitle -}}
           {{ if $endPunctuation }} {{ else }}: {{ end }}
