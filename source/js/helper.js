@@ -1,5 +1,4 @@
-import smoothscroll from 'smoothscroll-polyfill';
-smoothscroll.polyfill();
+import SmoothScroll from 'smooth-scroll';
 
 /**
  * @fileOverview
@@ -51,22 +50,24 @@ const preventDefaultForScrollKeys = (e) => {
  * polyfilled - https://www.npmjs.com/package/smoothscroll-polyfill
  */
 export const smoothScroll = (e) => {
-    let anchorlinks = document.querySelectorAll('a[href^="#"]')
-    for (let item of anchorlinks) { // relitere 
-        item.addEventListener('click', (e)=> {
-            let hashval = item.getAttribute('href')
-            if (hashval.indexOf(':') !== -1) {
-                hashval = hashval.replace(/:/, '\\:')
-            }
-            let target = document.querySelector(hashval)
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'center'
-            })
-            history.pushState(null, null, hashval)
-            e.preventDefault()
-        })
-    }
+    let scroll = new SmoothScroll('a[href*="#"]', {
+        // Selectors
+        ignore: '.quire-navbar', // Selector for links to ignore (must be a valid CSS selector)
+        header: '.quire-navbar', // Selector for fixed headers (must be a valid CSS selector)
+        topOnEmtyHash: true, // Scroll to the top of the page for links with href="#"
+        // Speed & Duration
+        speed: 500, // Integer. Amount of time in milliseconds it should take to scroll 1000px
+        speedAsDuration: false, // If true, use speed as the total duration of the scroll animation
+        durationMax: null, // Integer. The maximum amount of time the scroll animation should take
+        durationMin: null, // Integer. The minimum amount of time the scroll animation should take
+        clip: true, // If true, adjust scroll distance to prevent abrupt stops near the bottom of the page
+        // offset: 50, // Integer or Function returning an integer. How far to offset the scrolling anchor location in pixels
+        // Easing
+        easing: 'easeInOutCubic',
+        // History
+        updateURL: true, // Update the URL on scroll
+        popstate: true, // Animate scrolling with the forward/backward browser buttons (requires updateURL to be true)
+    })
 }
 
 /**
