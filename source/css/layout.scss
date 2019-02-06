@@ -66,7 +66,7 @@
   // Styles used whether JS is enabled or not
   &__secondary {
     background-color: $quire-menu-color;
-    padding: 1em;
+    padding: 1.25em;
 
     @include foreground-color($quire-menu-color, $quire-menu-text-color);
     .title {
@@ -82,15 +82,15 @@
     // flex-direction: column;
     min-height: 100vh;
 
-    .quire__primary { 
-      // flex: 1; 
+    .quire__primary {
+      // flex: 1;
       background: #fff;
     }
 
     .quire__secondary {
       // order: 1;
       width: 100%;
-      display: none; 
+      display: none;
     }
   }
 
@@ -113,7 +113,7 @@
       z-index: 9999;
 
       #main {
-        background: $secondary-background-color; 
+        background: $secondary-background-color;
         margin-top: $navbar-height;
         color: background-color-text($secondary-background-color);
       }
@@ -130,8 +130,8 @@
         padding-right: 0;
       }
 
-      .quire-navbar { 
-        flex: 0 0 auto; 
+      .quire-navbar {
+        flex: 0 0 auto;
       }
     }
 
@@ -155,11 +155,11 @@
       // for the menu content when it is not visible (and then un-setting when
       // that changes) produces the desired behavior.
       // scss-lint:disable IdSelector
-      #site-menu__inner { 
+      #site-menu__inner {
         transition-property: display;
         transition-duration: 0.1s;
         transition-timing-function: linear;
-        display: none; 
+        display: none;
       }
 
       &.is-expanded {

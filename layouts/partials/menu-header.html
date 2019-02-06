@@ -5,10 +5,12 @@
   {{ if ne .Kind "home" -}}
   <a class="quire-menu__header__title-link" href="{{ .Site.BaseURL }}">
   {{- end }}
+  {{- $endPunctuation := findRE "[!|?]$" .Site.Data.publication.title -}}
   <h4 class="quire-menu__header__title">
     <span class="visually-hidden">Site Title: </span>
     {{- .Site.Data.publication.title | markdownify -}}
-    {{ with .Site.Data.publication.subtitle }}
+    {{- with .Site.Data.publication.subtitle -}}
+    {{- if $endPunctuation }} {{ else }}: {{ end -}}
     <span class="quire-menu__header__subtitle">{{ . | markdownify -}}</span>
     {{- end }}
   </h4>

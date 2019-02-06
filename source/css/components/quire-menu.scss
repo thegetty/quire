@@ -21,13 +21,18 @@
 // .quire-menu
 // -----------------------------------------------------------------------------
 .quire-menu {
-  font-family: $family-secondary;
+
+  @if $theme == classic {
+    font-family: $noto-serif;
+  } @else {
+    font-family: $noto-sans;
+  }
+  line-height: 1.25;
 
   &__header {
-    margin: 1rem 0;
+    margin: .25em 0 1em;
 
     a {
-      max-height: 4.5em;
       padding-left: 0.75em;
       &:hover {
         text-decoration: none !important;
@@ -35,33 +40,27 @@
     }
 
     &__title,
-    &__subtitle,
     &__title-link {
       display: block;
     }
 
     &__title {
-      font-size: inherit;
+      font-size: 1.375em;
       font-weight: 700;
-      line-height: 1.125;
-      margin-top: 3rem;
-      @if $family-secondary == $serif {
-        font-size: 2rem;
-        font-weight: 600;
-        line-height: 1.143;
+      line-height: 1.2em;
+      color: $white;
+      @if $theme == classic {
+        font-family: $times-serif;
+        letter-spacing: 0;
+      } @else {
+        font-family: $noto-sans;
       }
     }
-    &__subtitle {
-      font-size: inherit;
-      font-weight: 300;
-      line-height: 1.143;
-      margin: .75rem 0;
-    }
     &__contributors {
-      margin: .75rem 0 1.25rem;
+      margin: .25em 0 1.5em;
     }
 
-    h1, h2, h3, h4, h5, h6 { display: inline; color: $white; }
+    h1, h2, h3, h4, h5, h6 { color: $white; }
 
   }
 
@@ -80,13 +79,12 @@
   &__list,
   &__formats {
     a {
-      margin: 0 -1rem;
+      margin: 0 -.75rem;
       border-radius: 0;
-      border-left: 4px solid transparent;
       &:hover {
-        border-left: 4px solid transparent;
-        background-color: transparent;
+        background-color: $quire-menu-color;
         text-decoration: underline;
+        border-left-width: 0;
       }
     }
   }
@@ -107,7 +105,6 @@
         padding: .5em;
         &:hover {
           background-color: inherit;
-          text-decoration: underline;
         }
       }
     }
@@ -120,6 +117,7 @@
     a {
       font-family: $family-primary;
       &.active {
+        margin-left: -1.25em;
         border-left: 4px solid $accent-color;
         color: $accent-color !important;
         text-decoration: none;
@@ -127,8 +125,28 @@
           color: $accent-color !important;
           border-left: 4px solid $accent-color !important;
         }
+        &:hover {
+          border-left-width: 4px;
+        }
       }
     }
+    .page-item {
+      a.active {
+        margin-left: calc(-2.75em + -4px);
+        padding-left: 2.65em;
+      }
+    }
+    &.no-landing {
+      .list-header {
+        display: block;
+        padding: .5em .75em .5em 0;
+      }
+    }
+  }
+
+  .section-item ul {
+    font-size: .875em;
+    line-height: 1.5;
   }
 
   .menu-label {
@@ -145,18 +163,13 @@
   }
 
   .menu-list {
-    .list-header {
-      padding: .5em .75em;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-size: inherit;
-      font-weight: inherit;
-      line-height: inherit;
-      margin-bottom: 0;
-    }
+    line-height: 1.5em;
     li > ul {
       margin-top: .25em;
       margin-bottom: .25em;
+    }
+    li ul {
+      border-left-width: 0px;
     }
     .section-list {
       .section-list {

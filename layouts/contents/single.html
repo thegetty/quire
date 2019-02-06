@@ -7,12 +7,11 @@
 
 {{ define "main" }}
 <div class="quire-contents" id="main" role="main">
-  <div class="quire-contents-header">
-    <h1 id="{{ .Title | urlize }}">{{ .Title | markdownify }}</h1>
-  </div>
+  {{ partial "page-header.html" . }}
+  
   {{ if .Content }}
   <section class="section quire-page__abstract">
-    <div class="container {{ if in .Params.class "grid" }}is-fullhd{{ end }}">
+    <div class="container">
       <div class="content">
         {{ .Content }}
       </div>
@@ -24,26 +23,11 @@
       <div class="quire-contents-list {{ if in .Params.class "grid" }} grid{{ else if in .Params.class "abstract" }} abstract{{ else if in .Params.class "brief" }} brief{{ else }} list{{ end }}">
         <div class="menu-list">
           {{ if .Section }}
-            <div class="section-header title">
-              <a href="/{{ .Section }}/">
-              {{ .Params.number }}{{ .Site.Params.pageLabelDivider }}{{ .Title | markdownify | humanize }}
-                <span class="arrow remove-from-epub">
-                  <svg viewBox="0 0 24 24" >
-                    <switch>
-                      <use xlink:href="#arrow-forward-icon"></use>
-                      <foreignObject width="24" height="24" viewBox="0 0 24 24" >
-                          <img class="remove-from-epub" src="/img/icons/arrow_forward@2x.png" alt=">" />
-                      </foreignObject>
-                    </switch>
-                  </svg>
-                </span>
-              </a>
-            </div>
             {{ $scope := where .Site.Pages "Section" .Section }}
             {{- partial "contents-list.html" (dict "contentsScope" $scope "contentsType" .Site.Params.tocType "pdf" ".Params.pdf" "epub" ".Params.epub" "contentsLocation" ".Params.toc" "contentsPage" . ) -}}
           {{ else }}
             {{ $scope := .Site.Pages }}
-            {{- partial "arrow-list.html" (dict "contentsScope" $scope "contentsType" .Site.Params.tocType "pdf" ".Params.pdf" "epub" ".Params.epub" "contentsLocation" ".Params.toc" "contentsPage" . ) -}}
+            {{- partial "contents-list.html" (dict "contentsScope" $scope "contentsType" .Site.Params.tocType "pdf" ".Params.pdf" "epub" ".Params.epub" "contentsLocation" ".Params.toc" "contentsPage" . ) -}}
           {{ end }}
         </div>
       </div>
