@@ -306,6 +306,7 @@ html {
         }
 
         .backmatter {
+          @if $theme == classic {
             font-family: $noto-sans;
           } @else {
             font-family: $noto-serif;
@@ -509,6 +510,7 @@ html {
         color: $secondary-background-color;
         padding: .35rem .45rem;
         margin: 0 auto 1.7em;
+        min-width: 2.6rem;
       } @else {
         font-size: 1.2rem;
         color: background-color-text($secondary-background-color);

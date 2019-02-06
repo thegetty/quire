@@ -164,8 +164,9 @@
   <li class="quire-contributor" id="{{ $nameid }}">
     <div class="title is-5"><span class="quire-contributor__name">{{ (index . 0) }}</span></div>
 
-    {{- if ne (index . 5) "n/a" -}}
     <div class="media">
+
+    {{- if ne (index . 5) "n/a" -}}
     <div class="media-left">
       <img class="image quire-contributor__pic"
           src='{{ with index . 5 }}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
@@ -182,7 +183,7 @@
       {{- if and (ne ($.Get "range") "primary") (ne ($.Get "range") "secondary") -}}
       <p>
         <a href="{{ index . 9 }}" class="quire-contributor__page-link">
-          {{ if ne (index . 6) "n/a" }}{{ index . 6 }}{{ .Site.Params.pageLabelDivider }}{{ end }}
+          {{ if ne (index . 6) "n/a" }}{{ index . 6 }}{{ $.Site.Params.pageLabelDivider }}{{ end }}
           {{ markdownify (index . 7) }}
           {{ if ne (index . 8) "n/a" }}{{- $endPunctuation := findRE "[!|?]$" (index . 8) -}}{{ if $endPunctuation }} {{ else }}: {{ end }}{{ markdownify (index . 8) }}{{ end }}
         </a>
