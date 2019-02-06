@@ -45,9 +45,10 @@ const preventDefaultForScrollKeys = (e) => {
 }
 
 /**
- * function to trigger and use scrollIntoView, 
- * scroll behavior specifications: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
- * polyfilled - https://www.npmjs.com/package/smoothscroll-polyfill
+ * function to trigger and use smooth scrolling, docs: https://www.npmjs.com/package/smooth-scroll 
+ * scroll behavior specifications: 
+ * - https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
+ * - https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollTo
  */
 export const smoothScroll = (e) => {
     let scroll = new SmoothScroll('a[href*="#"]', {
