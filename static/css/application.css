@@ -7941,13 +7941,6 @@ html {
         line-height: 1.6em !important; }
       .quire-page__content .container .content .backmatter .media {
         display: flex; }
-    .quire-page__content .container .content #notes {
-      font-size: .875em;
-      line-height: 1.28em;
-      text-transform: uppercase;
-      margin-top: 20px;
-      padding-bottom: 6px;
-      border-bottom: 1px solid #333333; }
     .quire-page__content .container .content .footnotes {
       font-size: .875em;
       font-family: "Noto Serif", serif; }
