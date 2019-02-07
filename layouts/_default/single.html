@@ -4,7 +4,7 @@
 */}}
 
 {{ define "main" }}
-<article class="{{ partial "page-class.html" . }} quire-essay" id="main" role="main">
+<article class="{{ partial "page-class.html" . }} quire-page" id="main" role="main">
   {{ partial "page-header.html" . }}
   {{ with .Content }}
   <section class="section quire-page__content" id="content">
@@ -18,7 +18,7 @@
   <section class="section quire-page__content">
     <div class="container">
       {{ partial "footer-buttons.html" . }}
-    </div> 
+    </div>
   </section>
 </article>
 {{ end }}

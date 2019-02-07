@@ -371,6 +371,9 @@ html {
           hr {
             display: none;
           }
+          * {
+            line-height: 1.6em;
+          }
           @if $theme == classic {
             font-family: $noto-sans;
             ul {
@@ -406,6 +409,10 @@ html {
       font-size: 1.25em;
     }
 
+    em {
+      font-style: normal;
+    }
+
     h2 {
       font-weight: 400;
       font-size: 1.625em;
@@ -439,13 +446,6 @@ html {
     }
   }
 
-  &__splash {
-    .quire-page__header {
-      &__title, &__subtitle {
-
-      }
-    }
-  }
 }
 
 
@@ -475,7 +475,7 @@ html {
     }
   }
 
-  .quire-page--splash & {
+  .quire-splash & {
     * {
       color: findColorInvert($accent-color);
     }
@@ -489,19 +489,6 @@ html {
 
     &.quire-page__header--full-height {
       min-height: calc(60vh - #{$navbar-height});
-
-      .quire-page__header__splash-page-arrow {
-        position: absolute;
-        bottom: 0;
-        width: 6%;
-        left: 47%;
-        right: 47%;
-
-        svg {
-          width: 1rem;
-          fill: findColorInvert($accent-color);
-        }
-      }
     }
   }
 
@@ -552,7 +539,7 @@ html {
   }
 }
 
-.quire-page--splash {
+.quire-splash {
   .quire-page__header {
     .hero-body {
       background-color: transparent;
@@ -580,6 +567,9 @@ html {
   .quire-page__content {
     .container .content {
       background-color: $secondary-background-color;
+      &.no-image-above {
+        margin-top: 0;
+      }
     }
     p {
       &:first-child {
@@ -597,7 +587,7 @@ html {
 }
 
 @supports (-moz-appearance:none) {
-  .quire-page--splash {
+  .quire-splash {
     .quire-page__content {
       p {
         &:first-child {
@@ -699,6 +689,7 @@ html {
 
       &:focus {
         background-color: $quire-hover-color;
+        color: background-color-text($quire-hover-color) !important;
       }
     }
 
@@ -722,6 +713,7 @@ html {
       tr {
         &:hover {
           background-color: $quire-hover-color;
+          color: background-color-text($quire-hover-color) !important;
         }
       }
     }

@@ -3,7 +3,7 @@
 */}}
 
 {{ define "main" }}
-<article class="quire-page--splash quire-page__splash" id="main" role="main">
+<article class="{{ partial "page-class.html" . }} quire-splash" id="main" role="main">
   {{- if isset $.Site.Params "imagedir" }}
   {{ $.Scratch.Set "imageDir" $.Site.Params.imageDir }}
   {{ else }}
@@ -32,7 +32,7 @@
       </div>
     </section>
   {{- else -}}
-    <section class="{{ if or (eq .Title "title page") (eq .Title "half title page") }} is-screen-only {{ end }} quire-page__header hero {{ if in .Params.class "splash" }} quire-page__header--full-height{{ end }}">
+    <section class="{{ if or (eq .Title "title page") (eq .Title "half title page") }} is-screen-only {{ end }} quire-page__header hero">
       <div class="hero-body">
         {{/* Page Title */}}
         {{- $endPunctuation := findRE "[!|?]$" .Title -}}
@@ -59,7 +59,7 @@
     {{ partial "page-abstract.html" . }}
     {{ end }}
     <div class="container">
-      <div class="content">
+      <div class="content{{ if .Params.image }}{{ else }} no-image-above{{ end }}">
         {{ .Content }}
         {{ partial "page-bibliography.html" . }}
       </div>
