@@ -75,8 +75,9 @@ export default function (gallerySelector) {
     delegate: 'a.popup',
     type: 'image',
     closeBtnInside: false,
-    fixedContentPos: true,
-    fixedBgPos: true,
+		fixedContentPos: 'auto',
+		fixedBgPos: 'auto',
+    overflowY: 'hidden',
     titleSrc: function (item) {
       return item.el.attr('title') + '<small>by Marsel Van Oosten</small>';
     },
@@ -107,7 +108,6 @@ export default function (gallerySelector) {
             patterns: {
               youtube: {
                 index: 'youtube.com/', // String that detects type of video (in this case YouTube). Simply via url.indexOf(index).
-
                 id: 'v=', // String that splits URL in a two parts, second part should be %id%
                 // Or null - full URL will be returned
                 // Or a function that should return %id%, for example:

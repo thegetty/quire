@@ -43,11 +43,13 @@ div {
 		display: none;
 	}
 }
+
 @media only screen and(orientation: landscape) {
 	body > div.mfp-wrap.mfp-gallery.mfp-auto-cursor.mfp-ready > div.mfp-container.mfp-s-ready.mfp-iframe-holder > div.mfp-content > div {
 		padding-top: 42.75%;
 	}
 }
+
 @supports(-webkit-appearance:none) {
 	body.device-android {
 		> div {
@@ -66,6 +68,7 @@ div {
 		}
 	}
 }
+
 body > div {
 	&.mfp-wrap.mfp-gallery {
 		&.mfp-auto-cursor.mfp-ready {
@@ -79,7 +82,8 @@ body > div {
 			overflow-y: hidden;
 			> div.mfp-container.mfp-s-ready {
 				&.mfp-inline-holder {
-					padding: 0;
+
+					overflow: hidden;
 				}
 				&.mfp-image-holder > div.mfp-content > div {
 					> div {
@@ -151,6 +155,7 @@ body > div {
 				}
 				> div.mfp-content > figure.quire-figure {
 					padding: 0;
+					margin-top: 0;
 					border: none;
 				}
 			}

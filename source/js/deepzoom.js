@@ -70,6 +70,10 @@ class DeepZoom {
     this.map.on('fullscreenchange', () => {
       this.map.invalidateSize()
     })
+
+    $(window).on('resize', (event) => {
+      this.map.invalidateSize()
+    })
   }
 
   showZoom(id) {

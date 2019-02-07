@@ -442,6 +442,9 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
           position: fixed;
           width: 56%;
           height: 100vh;
+          &.menu_open {
+            width: calc(56% - 197px);
+          }
         }
 
         .quire-entry__image__group-container {

@@ -49,9 +49,11 @@ window.toggleMenu = () => {
   if (menuAriaStatus === 'true') {
     // nav.style.top = ``
     // enableScroll(primary);
+    $('.side-by-side > .quire-entry__image-wrap > .quire-entry__image').removeClass('menu_open')
     menu.setAttribute('aria-expanded', 'false');
   } else {
     // disableScroll(primary);
+    $('.side-by-side > .quire-entry__image-wrap > .quire-entry__image').addClass('menu_open')
     menu.setAttribute('aria-expanded', 'true');
   }
 };
@@ -346,7 +348,7 @@ function quickLinksSetup() {
  * Initialize any jquery plugins or set up page UI elements here.
  */
 function pageSetup() {
-  // quickLinksSetup();
+  quickLinksSetup();
   activeMenuPage();
   sliderSetup();
   navigationSetup();

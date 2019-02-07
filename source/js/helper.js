@@ -51,9 +51,9 @@ const preventDefaultForScrollKeys = (e) => {
  * - https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollTo
  */
 export const smoothScroll = (e) => {
-    let scroll = new SmoothScroll('a[href*="#"]', {
+    let scroll = new SmoothScroll('a[href*="#"]',  {
         // Selectors
-        ignore: '.quire-navbar', // Selector for links to ignore (must be a valid CSS selector)
+        ignore: '.quire-navbar, .quire-figure a', // Selector for links to ignore (must be a valid CSS selector)
         header: '.quire-navbar', // Selector for fixed headers (must be a valid CSS selector)
         topOnEmtyHash: true, // Scroll to the top of the page for links with href="#"
         // Speed & Duration
