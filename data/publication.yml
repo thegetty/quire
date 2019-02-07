@@ -44,7 +44,8 @@ publisher:
 contributor_as_it_appears:
 
 contributor:
-  - type: primary
+  - id: jkeller
+    type: primary
     first_name: Judith
     last_name: Keller
     title: Senior Curator of Photographs
