@@ -5,15 +5,14 @@
 // .quire-citation
 // -----------------------------------------------------------------------------
 .quire-citation {
-  display: inline-block;
   position: relative;
   text-indent: 0;
   &__content {
     visibility: hidden;
     font-size: 0.75em;
     line-height: 1.5;
-    background-color: $content-background-color;
-    color: background-color-text($content-background-color);
+    background-color: $white;
+    color: $off-black;
     padding: 1rem;
     position: absolute;
     width: 400px;

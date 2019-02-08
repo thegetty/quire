@@ -127,10 +127,10 @@
           fill: findColorInvert($accent-color);
         }
         @if $navbar == accent {
-          color: background-color-text($accent-color) !important;
+          color: $accent-color !important;
           background-color: findColorInvert($accent-color);
           svg {
-            fill: background-color-text($accent-color) !important;
+            fill: $accent-color !important;
           }
         }
       }

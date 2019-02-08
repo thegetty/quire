@@ -246,19 +246,22 @@ html {
           }
         }
 
-        @if $theme == classic {
-          ul {
-            list-style: none;
-            li {
-              &:before {
+        ul {
+          list-style: none;
+          li {
+            &:before {
+              @if $theme == classic {
                 content: "✦";
-                font-size: 14px;
-                display: inline-block;
-                width: 1em;
-                margin-left: -.75em;
-                box-sizing: border-box;
-                vertical-align: text-top;
+              } @else {
+                content: "◆";
               }
+              font-size: 14px;
+              display: inline-block;
+              width: 1em;
+              margin-left: -.3em;
+              margin-right: .5em;
+              box-sizing: border-box;
+              vertical-align: text-top;
             }
           }
         }
@@ -283,33 +286,44 @@ html {
         blockquote {
           border-left: none;
           position: relative;
-          p {
+          p, ul, ol, dl,
+          h1, h2, h3, h4, h5, h6 {
             position: relative;
             &:first-child:before {
-              color: darken($content-background-color, 10%);
-              font-size: 4em;
+              @if (lightness($secondary-background-color) > 50) {
+                color: darken($secondary-background-color, 15%);
+              } @else {
+                color: darken($content-background-color, 15%);
+              }
+              font-size: 5em;
               line-height: 0.1em;
               margin-right: 0.25em;
               content: '“';
               position: absolute;
               top: .35em;
-              left: -.65em;
+              left: -.55em;
               @if $theme == classic {
-                color: $black;
+                font-family: $times-serif;
+                font-style: normal;
+                font-weight: bold;
+                font-size: 4em;
+                color: background-color-text($content-background-color);
+                top: .45em;
+                left: -.7em;
                 font-size: 3.125em;
               }
             }
-            @if $theme == classic {
-              &:last-child:after {
-                color: $black;
-                font-size: 3.125em;
-                line-height: 0.1em;
-                content: '”';
-                position: relative;
-                display: inline-block;
-                top: .35em;
-                left: .05em;
-                margin-top: -10px;
+          }
+          ul, dl {
+            margin-left: 0;
+          }
+          ol {
+            margin-left: 1em;
+            &:first-child:before {
+              @if $theme == classic {
+                left: -1em;
+              } @else {
+                left: -.75em;
               }
             }
           }
@@ -356,6 +370,9 @@ html {
           p {
             // font-size: 0.875em;
             line-height: 1.6em !important;
+          }
+          dl {
+
           }
 
           .media {
@@ -456,7 +473,7 @@ html {
   @media print {
     background-color: transparent;
   }
-  @include foreground-color($quire-page-header-color, background-color-text($content-background-color));
+  color: background-color-text($secondary-background-color);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: cover;
@@ -503,7 +520,11 @@ html {
       @if $theme == classic {
         font-size: 1.4rem;
         font-weight: normal;
-        background-color: $dark-gray;
+        @if (lightness($secondary-background-color) > 50) {
+          background-color: darken($secondary-background-color, 35%);
+        } @else {
+          background-color: $white;
+        }
         color: $secondary-background-color;
         padding: .35rem .45rem;
         margin: 0 auto 1.7em;
@@ -665,6 +686,8 @@ html {
     }
   }
 
+
+
   // Overrides to Bulma's .content styles where needed.
   .content {
 
@@ -703,10 +726,17 @@ html {
     a.footnote-return {
       border-bottom-width: 0;
       font-weight: bold;
+      font-size: .925rem;
+      line-height: 0;
+      margin-left: .1em;
       &:hover {
         color: link-hover-color($content-background-color) !important;
         border-bottom-width: 0 !important;
       }
+    }
+
+    .quire-page__content__references dl {
+      margin-left: 0;
     }
 
     tbody {
@@ -716,6 +746,10 @@ html {
           color: background-color-text($quire-hover-color) !important;
         }
       }
+    }
+
+    ol, dl {
+      margin-left: 3em;
     }
 
     h1,
