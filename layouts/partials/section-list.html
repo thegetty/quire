@@ -28,7 +28,7 @@
     <h2 class="quire-section-list__item__title">
       <a href="{{ .Permalink }}">
         {{ with .Params.number }}{{ . }}{{ .Site.Params.pageLabelDivider }}{{ end }}
-        {{ .Title | markdownify }}{{ with .Params.subtitle }}: {{ . | markdownify }}{{ end }}
+        {{- partial "page-title.html" . | markdownify -}}
       </a>
     </h2>
 

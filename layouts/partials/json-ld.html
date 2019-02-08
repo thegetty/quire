@@ -3,7 +3,7 @@
     "@context": "http://schema.org/",
     {{ if eq .Type "essay" -}}
     "@type": "Article",
-    "headline": "{{ .Page.Params.title }}{{ with .Page.Params.subtitle }}: {{ . }}{{ end }}",
+    "headline": "{{ partial "page-title.html" . }}",
     "url": "{{ .Permalink }}",
     {{ if .Page.Params.cover -}}
     "image": "{{ .Site.BaseURL }}{{ .Site.Params.imageDir }}{{ .Site.Params.figureSubDir }}{{ .Page.Params.cover }}",
@@ -33,11 +33,11 @@
     {{ end -}}
     {{ if eq .Site.Data.publication.pub_type "book" -}}
     "type": "Book",
-    "name": "{{ .Site.Data.publication.title }}{{ with .Site.Data.publication.subtitle }}: {{ . }}{{ end }}{{ with .Site.Data.publication.reading_line }} ({{ . }}){{ end }}",
+    "name": "{{ partial "site-title.html" . }}",
     "isbn": "{{ replace .Site.Data.publication.identifier.isbn "-" "" }}",
     {{ else if eq .Site.Data.publication.pub_type "journal-periodical" -}}
     "type": "PublicationIssue",
-    "name": "{{ .Site.Data.publication.title }}{{ with .Site.Data.publication.subtitle }}: {{ . }}{{ end }}{{ with .Site.Data.publication.reading_line }} ({{ . }}){{ end }}",
+    "name": "{{ partial "site-title.html" . }}",
     "issueNumber": "{{ .Site.Data.publication.series_issue_number }}",
     "isPartOf": {
         "type": "Periodical",
@@ -46,7 +46,7 @@
       },
     {{ else -}}
     "type": "WebSite",
-    "name": "{{ .Site.Data.publication.title }}{{ with .Site.Data.publication.subtitle }}: {{ . }}{{ end }}{{ with .Site.Data.publication.reading_line }} ({{ . }}){{ end }}",
+    "name": "{{ partial "site-title.html" . }}",
     {{ end -}}
     "url": "{{ .Site.BaseURL }}",
     {{ with .Site.Data.publication.subject -}}
