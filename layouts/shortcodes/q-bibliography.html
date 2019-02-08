@@ -19,7 +19,7 @@
 
 {{ $errorBadValue := dict "shortcode" "q-bibliography" "message" "This shortcode only accepts an optional sort value. The value supplied was not “sort”. To output a bibliography sorted in the order they appear in the `references.yml` file, omit the value together." "example" "{{< q-bibliography >}}<br /><br />{{< q-bibliography sort=&#34;short&#34; >}}" }}
 
-<section class="quire-page__content__references">
+<div class="quire-page__content__references">
 
 {{- if .Get "sort" -}}
   {{- if gt (len .Params) 1 -}}
@@ -59,4 +59,4 @@
   {{- end -}}
   {{- end -}}
 {{- end -}}
-</section>
+</div>

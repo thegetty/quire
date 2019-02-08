@@ -1,5 +1,5 @@
 {{ if ($.Scratch.GetSortedMapValues "cited") }}
-<section class="quire-page__content__references backmatter">
+<div class="quire-page__content__references backmatter">
     <h2 id="bibliography">Bibliography</h2>
     {{ if eq .Site.Params.displayBiblioShort true }}
     <dl>
@@ -16,5 +16,5 @@
         {{ end }}
     </ul>
     {{ end }}
-</section>
+</div>
 {{ end }}
