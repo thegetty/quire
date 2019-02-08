@@ -148,7 +148,7 @@ search icons, and search results if enabled). It is visible on all pages.
     {{ $len := len $pages }}
     {{ range $index, $element := $pages }}
       {{ if eq . $.Page }}
-        <div style="width: calc(100% * ({{ $index }} / {{sub $len 1}}));">
+        <div style="width: calc(100% * ({{ add $index 1 }} / {{ $len }}));">
           <span>{{ add $index 1 }}/{{ $len }}</span>
         </div>
       {{ end }}

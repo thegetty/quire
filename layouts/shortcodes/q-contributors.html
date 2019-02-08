@@ -72,7 +72,7 @@
 
 {{/* Clear previous usage */}}
 {{/* ---------------------------------------------------------------------- */}}
-{{ if $.Page.Scratch.Get "contributorList"  }}
+{{ if ne ($.Page.Scratch.Get "contributorList") "" }}
 {{ $.Page.Scratch.Delete "contributorlist" }}
 {{ end }}
 
@@ -184,8 +184,7 @@
       <p>
         <a href="{{ index . 9 }}" class="quire-contributor__page-link">
           {{ if ne (index . 6) "n/a" }}{{ index . 6 }}{{ $.Site.Params.pageLabelDivider }}{{ end }}
-          {{ markdownify (index . 7) }}
-          {{ if ne (index . 8) "n/a" }}{{- $endPunctuation := findRE "[!|?]$" (index . 8) -}}{{ if $endPunctuation }} {{ else }}: {{ end }}{{ markdownify (index . 8) }}{{ end }}
+          {{ markdownify (index . 7) }}{{ if ne (index . 8) "n/a" }}{{- $endPunctuation := findRE "[!|?]$" (index . 7) -}}{{ if $endPunctuation }} {{ else }}: {{ end }}{{ markdownify (index . 8) }}{{ end }}
         </a>
       </p>
       {{ if ne (index . 4) "n/a" }}
