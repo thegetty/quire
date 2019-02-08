@@ -2,12 +2,13 @@
 title: Introduction
 subtitle: A Tale of Two Photographers
 weight: 3
-type: page
+type: splash
+image: lange-house.jpg
 ---
 
-{{< q-figure id="dog1" class="is-pulled-left" >}}
-
 Dorothea Lange had an extraordinary life and career as a prolific photographer. She worked for Arnold Genthe in his portrait studio in New York and studied photography with Clarence White at Columbia University. In 1918 she began to travel around the world to make her living as a photographer. She found herself stranded in San Francisco, so she opened a photographic studio there. Paul Taylor, who would become her second husband, hired her to document migratory workers in California.
+
+{{< q-figure id="dog1" class="is-pulled-left" >}}
 
 In 1935 she began to work for the Resettlement Administration, later known as the Farm Security Administration ([fig. 1](#dog1)). During this period, she made her most famous image, [*Human Erosion in California (Migrant Mother)*](../catalogue/1/), of Native American Florence Owens Thompson and her children in a pea-pickers' camp. Other less famous subjects included Japanese internment camps and scenes of workers in factories during World War II. Lange became the first woman awarded a Guggenheim fellowship, and she spent nearly ten years making photo essays for *Life* and other magazines. She also traveled extensively, making photo essays in Vietnam, Ireland, Pakistan, India, and elsewhere.
 
