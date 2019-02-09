@@ -17,3 +17,5 @@ In 1935 she began to work for the Resettlement Administration, later known as th
 Walker Evans began to photograph in the late 1920s, making snapshots during a European trip. Upon his return to New York, he published his first images in 1930. During the Great Depression, Evans began to photograph for the Resettlement Administration, later known as the Farm Security Administration (FSA), documenting workers and architecture in the Southeastern states ([fig. 2](#dog2)). In 1936 he traveled with the writer James Agee to illustrate an article on tenant farm families for *Fortune* magazine; the book *Let Us Now Praise Famous Men* came out of this collaboration.
 
 Throughout his career Evans contributed photographs to numerous publications, including three devoted solely to his work. In 1965 he left Fortune, where he had been a staff photographer for twenty years, to become a professor of photography and graphic design at Yale University. He remained in the position until 1974, a year before his death.
+
+{{< q-figure id="photo-podcast" >}}
