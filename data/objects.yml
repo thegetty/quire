@@ -14,7 +14,9 @@ object_list:
     location: J. Paul Getty Museum
     link: http://www.getty.edu/art/collection/objects/125690/
     figure:
-      - src: figures/mother.jpg
+      - id: "mother"
+      - id: "mother-b"
+      - id: "mother-c"
   - id: 2
     title: Pea Pickers, Nipomo, California
     artist: Dorothea Lange
@@ -24,7 +26,7 @@ object_list:
     location: J. Paul Getty Museum
     link: http://www.getty.edu/art/collection/objects/130784/
     figure:
-      - src: figures/pickers.jpg
+      - id: "pickers"
   - id: 3
     title: Bud Fields and His Wife Ivy, and His Daughter Ellen, Hale County, Alabama
     artist: Walker Evans
@@ -34,7 +36,7 @@ object_list:
     location: J. Paul Getty Museum
     link: http://www.getty.edu/art/collection/objects/45651/
     figure:
-      - src: figures/duo.jpg
+      - id: "duo"
   - id: 4
     title: Burroughs Family, Hale County, Alabama
     artist: Walker Evans
@@ -44,4 +46,4 @@ object_list:
     location: J. Paul Getty Museum
     link: http://www.getty.edu/art/collection/objects/34753/
     figure:
-      - src: figures/family.jpg
+      - id: "family"

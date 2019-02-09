@@ -61,3 +61,28 @@ figure_list:
     media_id: 336879231
     media_type: soundcloud
     caption: "Echoing the work of Lange and Evans, contemporary photographer Chris Killip documents social landscapes and is known for a series of powerful images of struggling industrial communities in North East England."
+  - id: "mother"
+    src: figures/mother.jpg
+    caption: "Dorothea Lange, *Human Erosion in California / Migrant Mother*, 1936."
+    credit: The J. Paul Getty Museum, Los Angeles
+  - id: "mother-b"
+    src: figures/mother-b.jpg
+    caption: "Dorothea Lange, alternate version of *Migrant Mother*, 1936."
+    credit: Library of Congress Prints and Photographs Division
+  - id: "mother-c"
+    src: figures/mother-c.jpg
+    caption: "Dorothea Lange, alternate version of *Migrant Mother*, 1936."
+    credit: Library of Congress Prints and Photographs Division
+  - id: "pickers"
+    src: figures/pickers.jpg
+    caption: "Dorothea Lange, *Pea Pickers, Nipomo, California*, 1936."
+    credit: The J. Paul Getty Museum, Los Angeles
+  - id: "duo"
+    src: figures/duo.jpg
+    caption: "Walker Evans, *Bud Fields with His Wife Ivy, and His Daughter Ellen, Hale County, Alabama*, 1936."
+    credit: The J. Paul Getty Museum, Los Angeles
+  - id: "family"
+    src: figures/family.jpg
+    caption: "Walker Evans, *Burrough’s Family, Hale County, Alabama*, 1935."
+    credit: The J. Paul Getty Museum, Los Angeles
+
