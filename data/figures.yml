@@ -1,54 +1,53 @@
 figure_list:
   - id: "dog1"
-    src: "lange.jpg"
+    src: figures/lange.jpg
     caption: "*Dorothea Lange, Resettlement Administration photographer, in California*, 1936."
     credit: "Library of Congress Prints and Photographs Division"
   - id: "dog2"
-    src: "evans.jpg"
+    src: figures/evans.jpg
     caption: "*Walker Evans, profile, hand up to face*, 1937."
     credit: "Library of Congress Prints and Photographs Division"
   - id: "fig-1"
     label: "Figure 1"
-    src: evans-legionnaire.jpg
+    src: figures/evans-legionnaire.jpg
     caption: "Walker Evans. *[American Legionnaire]*, 1935. "
     credit: "J. Paul Getty Museum"
   - id: "fig-2"
     label: "Figure 2"
-    src: evans-sons.jpg
+    src: figures/evans-sons.jpg
     caption: "Walker Evans. *Sons of the American Legion, Bethlehem, Pennsylvania*, 1935."
     credit: "J. Paul Getty Museum"
   - id: "fig-3"
     label: "Figure 3"
-    src: evans-graveyard.jpg
+    src: figures/evans-graveyard.jpg
     caption: "Walker Evans. *Graveyard, Houses and Steel Mill, Bethlehem, Pennsylvania*, 1935; printed later."
     credit: "J. Paul Getty Museum"
   - id: "fig-4"
     label: "Figure 4"
-    src: evans-hymns.jpg
+    src: figures/evans-hymns.jpg
     caption: "Walker Evans. *Alabama Tenant Farmer Family Singing Hymns / The Tengle Family, Hale County, Alabama*, 1936."
     credit: "J. Paul Getty Museum"
   - id: "fig-5"
     label: "Figure 5"
-    src: evans-burroughs.jpg
+    src: figures/evans-burroughs.jpg
     caption: "Walker Evans. *Floyd and Lucille Burroughs, Hale County, Alabama*, 1936."
     credit: "J. Paul Getty Museum"
   - id: "fig-6"
     label: "Figure 6"
-    src: evans-washroom.jpg
+    src: figures/evans-washroom.jpg
     caption: "Walker Evans. *Washroom in the Dog Run of the Burroughs Home, Hale County, Alabama*, 1936."
     credit: "J. Paul Getty Museum"
   - id: "fig-7"
     label: "Figure 7"
-    src: evans-child.jpg
+    src: figures/evans-child.jpg
     caption: "Walker Evans. *Farmer's Child, Alabama / Othel Lee (Squeakie) Burroughs, Hale County, Alabama*, 1936."
     credit: "J. Paul Getty Museum"
   - id: "fig-8"
     label: "Figure 8"
-    src: evans-refugee.jpg
+    src: figures/evans-refugee.jpg
     caption: "Walker Evans. *Arkansas Flood Refugee*, 1937."
     credit: "J. Paul Getty Museum"
   - id: "lange-house"
-    src: lange-house.jpg
+    src: figures/lange-house.jpg
     caption: "Dorothea Lange. *Abandoned Dust Bowl Home*, about 1935–1940."
     credit: The J. Paul Getty Museum, Los Angeles"
-    
