@@ -187,12 +187,12 @@
           {{ markdownify (index . 7) }}{{ if ne (index . 8) "n/a" }}{{- $endPunctuation := findRE "[!|?]$" (index . 7) -}}{{ if $endPunctuation }} {{ else }}: {{ end }}{{ markdownify (index . 8) }}{{ end }}
         </a>
       </p>
+      {{- end -}}
+      {{- end -}}
       {{ if ne (index . 4) "n/a" }}
       <p>
         <a href="{{ index . 4 }}" class="quire-contributor__url">{{ index . 4 }}</a>
       </p>
-      {{- end -}}
-      {{- end -}}
       {{- end -}}
       </div>
     </div>
