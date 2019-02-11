@@ -87,6 +87,7 @@ class DeepZoom {
       crs: L.CRS.Simple,
       zoom: this.defaultZoom,
       maxZoom: 4,
+      renderer: L.canvas(),
       fullscreenControl: {
         pseudoFullscreen: false // if true, fullscreen to page width and height
       }

@@ -141,6 +141,15 @@ the figure for each into a figure group
         aria-label="Zoomable image" 
         data-image="{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}">
         </div>
+        <span class="figure-caption visually-hidden">
+            {{ if $.Get "caption" }}
+            {{ $.Get "caption" | markdownify }}
+            {{ else if isset . "caption" }}
+            {{ if .caption }}
+            {{ .caption | markdownify }}
+            {{ end }}
+            {{ end }}
+          </span>
     </figure>
 
     {{ if eq $.Site.Params.figureModal true }}
@@ -207,14 +216,26 @@ the figure for each into a figure group
 {{/* -------------------- END FIGURE LABEL ON TOP BLOCK -------------------- */}}
 
 {{ if eq $.Site.Params.figureModal true }}
-    </a>
+
+{{ if eq $.Site.Params.figureLabelLocation "below" }}
+{{ if and (ne .media_type "audio") (ne .media_type "soundcloud") (ne .media_type "vimeo") (ne .media_type "youtube") (ne .media_type "website") (eq $.Site.Params.figureModal true) }}
+{{ if eq $.Site.Params.figureModalIcons true }}
+   <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span></span>
+{{ end }}
+{{ end }}
 {{ end }}
 
-
-{{/* -------------------- END q-figure__wrapper BLOCK -------------------- */}}
-</div>
-{{/* -------------------- END q-figure__wrapper BLOCK -------------------- */}}
-
+<span class="figure-caption visually-hidden">
+    {{ if $.Get "caption" }}
+    {{ $.Get "caption" | markdownify }}
+    {{ else if isset . "caption" }}
+    {{ if .caption }}
+    {{ .caption | markdownify }}
+    {{ end }}
+    {{ end }}
+  </span>
+    </a>
+{{ end }}
 
 
   {{ if eq ($.Get "caption") "" }}
@@ -224,7 +245,7 @@ the figure for each into a figure group
         {{ if eq $.Site.Params.figureLabelLocation "below" }}
         {{ if and (ne .media_type "audio") (ne .media_type "soundcloud") (ne .media_type "vimeo") (ne .media_type "youtube") (ne .media_type "website") (eq $.Site.Params.figureModal true) }}
         {{ if eq $.Site.Params.figureModalIcons true }}
-        <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
+        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }} {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
         {{ else }}
         <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }} {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
         {{ end }}
@@ -247,6 +268,7 @@ the figure for each into a figure group
 
     
     {{ if eq $.Site.Params.pdf true }}<span class="media-caption">{{ end }}
+        <span class="figure-caption">
         {{ if $.Get "caption" }}
         {{ $.Get "caption" | markdownify }}
         {{ else if isset . "caption" }}
@@ -254,55 +276,20 @@ the figure for each into a figure group
         {{ .caption | markdownify }}
         {{ end }}
         {{ end }}
+        </span>
     {{ if eq $.Site.Params.pdf true }}</span>{{ end }}
 
-    {{ if eq $.Site.Params.epub true }}
-
-      {{ if eq $.Site.Params.videoFigureFallbackText true }}
-      {{- if eq .media_type "youtube" }}
-      <span class="quire-figure__video-fallback__text">
-        {{ $.Site.Params.videoFigureFallbackTextBefore }}
-        <a href="https://youtu.be/{{ .media_id }}">
-          https://youtu.be/{{ .media_id }}</a>
-        {{ $.Site.Params.videoFigureFallbackTextAfter }}
-      </span>
-      {{- end -}}
-      {{- if eq .media_type "vimeo" }}
-      <span class="quire-figure__video-fallback__text">
-        {{ $.Site.Params.videoFigureFallbackTextBefore }}
-        <a href="https://vimeo.com/{{ .media_id }}">
-          https://vimeo.com/{{ .media_id }}</a>
-        {{ $.Site.Params.videoFigureFallbackTextAfter }}
-      </span>
-      {{- end -}}
-      {{ end }}
-
-      {{ if eq $.Site.Params.audioFigureFallbackText true }}
-      {{- if eq .media_type "audio" }}
-      <span class="quire-figure__media-fallback__text">
-        {{ $.Site.Params.audioFigureFallbackTextBefore -}}
-        <a href='https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}'>https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}</a>
-        {{- $.Site.Params.audioFigureFallbackTextAfter }}
-      </span>
-      {{- end -}}
-  
-      {{- if eq .media_type "soundcloud" }}
-      <span class="quire-figure__media-fallback__text">
-        {{ $.Site.Params.audioFigureFallbackTextBefore -}}
-        <a href='https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}'>https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}</a>
-        {{- $.Site.Params.audioFigureFallbackTextAfter }}
-      </span>
-      {{- end -}}
-      {{ end }}
-
+    {{ if .credit }}
+      <span class="quire-figure__credit">{{ .credit | markdownify }}</span>
     {{ end }}
-
-      {{ if .credit }}
-        <span class="quire-figure__credit">{{ .credit | markdownify }}</span>
-      {{ end }}
 
     </figcaption>
     {{/* -------------------- END CAPTION BLOCK -------------------- */}}
+  
+  {{/* -------------------- END q-figure__wrapper BLOCK -------------------- */}}
+  </div>
+  {{/* -------------------- END q-figure__wrapper BLOCK -------------------- */}}
+
   {{ end }}
   </figure>
 

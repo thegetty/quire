@@ -40,6 +40,15 @@ document and render only the values given in the shortcode
         {{ with .Get "long" }}data-long="{{.}}"{{ end }}
         {{ if .Get "geojson" }}data-geojson="{{ .Site.BaseURL }}{{ .Get "geojson" }}"{{ end }}>
         </div>
+        <span class="figure-caption visually-hidden">
+            {{ if $.Get "caption" }}
+            {{ $.Get "caption" | markdownify }}
+            {{ else if isset . "caption" }}
+            {{ if .caption }}
+            {{ .caption | markdownify }}
+            {{ end }}
+            {{ end }}
+          </span>
     </figure>
 
     <a 
@@ -71,6 +80,15 @@ document and render only the values given in the shortcode
         {{ if .Get "zoom_level" }} data-zoom="{{ .Get "zoom_level" }}" {{ end }}
         >
         </div>
+        <span class="figure-caption visually-hidden">
+            {{ if $.Get "caption" }}
+            {{ $.Get "caption" | markdownify }}
+            {{ else if isset . "caption" }}
+            {{ if .caption }}
+            {{ .caption | markdownify }}
+            {{ end }}
+            {{ end }}
+          </span>
       </figure>
 
     <a
@@ -100,6 +118,15 @@ document and render only the values given in the shortcode
     aria-label="Zoomable image" 
     data-image="{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}">
     </div>
+    <span class="figure-caption visually-hidden">
+        {{ if $.Get "caption" }}
+        {{ $.Get "caption" | markdownify }}
+        {{ else if isset . "caption" }}
+        {{ if .caption }}
+        {{ .caption | markdownify }}
+        {{ end }}
+        {{ end }}
+      </span>
   </figure>
 
     <a
@@ -197,6 +224,13 @@ alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
 {{/* -------------------- END FIGURE LABEL ON TOP BLOCK -------------------- */}}
 
 {{ if eq $.Site.Params.figureModal true }}
+
+{{ if eq $.Site.Params.figureLabelLocation "below" }}
+{{ if eq $.Site.Params.figureModalIcons true }}
+   <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span></span>
+{{ end }}
+{{ end }}
+
   </a>
 {{ end }}
 
@@ -207,7 +241,7 @@ alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
 
         {{ if eq $.Site.Params.figureModal true }}
         {{ if eq $.Site.Params.figureModalIcons true }}
-        <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
+        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }} {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
         {{ else }}
         <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }} {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
         {{ end }}
@@ -288,6 +322,15 @@ alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
           data-long="{{ .long }}" 
           data-geojson="{{ .Site.BaseURL }}{{ .geojson }}">
         </div>
+        <span class="figure-caption visually-hidden">
+            {{ if $.Get "caption" }}
+            {{ $.Get "caption" | markdownify }}
+            {{ else if isset . "caption" }}
+            {{ if .caption }}
+            {{ .caption | markdownify }}
+            {{ end }}
+            {{ end }}
+          </span>
       </figure>
 
       <a 
@@ -316,6 +359,15 @@ alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
       data-iiif="{{ .iiif }}" 
       data-zoom="{{ .zoom_level }}">
       </div>
+      <span class="figure-caption visually-hidden">
+          {{ if $.Get "caption" }}
+          {{ $.Get "caption" | markdownify }}
+          {{ else if isset . "caption" }}
+          {{ if .caption }}
+          {{ .caption | markdownify }}
+          {{ end }}
+          {{ end }}
+        </span>
     </figure>
 
     <a
@@ -343,6 +395,15 @@ alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
         aria-label="Zoomable image" 
         data-image="{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}">
         </div>
+        <span class="figure-caption visually-hidden">
+            {{ if $.Get "caption" }}
+            {{ $.Get "caption" | markdownify }}
+            {{ else if isset . "caption" }}
+            {{ if .caption }}
+            {{ .caption | markdownify }}
+            {{ end }}
+            {{ end }}
+          </span>
     </figure>
 
     <a
@@ -438,6 +499,13 @@ src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
 {{/* -------------------- END FIGURE LABEL ON TOP BLOCK -------------------- */}}
 
 {{ if eq $.Site.Params.figureModal true }}
+
+{{ if eq $.Site.Params.figureLabelLocation "below" }}
+{{ if eq $.Site.Params.figureModalIcons true }}
+   <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span></span>
+{{ end }}
+{{ end }}
+
   </a>
 {{ end }}
 
@@ -448,7 +516,7 @@ src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
 
         {{ if eq $.Site.Params.figureModal true }}
         {{ if eq $.Site.Params.figureModalIcons true }}
-        <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
+        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }} {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
         {{ else }}
         <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }} {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
         {{ end }}

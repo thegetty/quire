@@ -25,14 +25,14 @@ export default function (gallerySelector) {
     }
     switch (self.currItem.type) {
       case 'inline':
-        self.caption = self.content.attr('title');
+        self.caption = $(self.currItem.el).find('.figure-caption').html();
         if (self.caption !== undefined) {
           self.captionCont = `<div class="quire-caption-container"><span class="caption">${self.caption}</span></div>`;
           $('.mfp-wrap').prepend(self.captionCont);
         }
         break;
       case 'iframe':
-        self.caption = $(self.currItem.el).attr('title');
+        self.caption = $(self.currItem.el).find('.figure-caption').html();
         if (self.caption !== undefined) {
           self.captionCont = `<div class="quire-caption-container"><span class="caption">${self.caption}</span></div>`;
           $('.mfp-wrap').prepend(self.captionCont);
@@ -40,7 +40,7 @@ export default function (gallerySelector) {
         break;
       case 'image':
         $('.mfp-title').hide();
-        self.caption = $(self.currItem.el).attr('title');
+        self.caption = $(self.currItem.el).find('.figure-caption').html();
         if (self.caption !== undefined) {
           self.captionCont = `<div class="quire-caption-container"><span class="caption">${self.caption}</span></div>`;
           $('.mfp-wrap').prepend(self.captionCont);
@@ -78,9 +78,6 @@ export default function (gallerySelector) {
 		fixedContentPos: 'auto',
 		fixedBgPos: 'auto',
     overflowY: 'hidden',
-    titleSrc: function (item) {
-      return item.el.attr('title') + '<small>by Marsel Van Oosten</small>';
-    },
     gallery: {
       enabled: true,
       preload: [0, 2], // read about this option in next Lazy-loading section
@@ -89,7 +86,10 @@ export default function (gallerySelector) {
       tPrev: 'Previous (Left arrow key)', // title for left button
       tNext: 'Next (Right arrow key)', // title for right button
       tCounter: '',
-      closeMarkup: '<button title="Close (Esc)" type="button" class="mfp-close"></button>'
+      closeMarkup: '<button title="Close (Esc)" type="button" class="mfp-close"></button>',
+      titleSrc: function (item) {
+        return item.el.find('.figure-caption').html();
+      }
     },
     callbacks: {
       beforeOpen: function () {

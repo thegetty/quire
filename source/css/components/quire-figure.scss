@@ -153,7 +153,28 @@
     }
   }
 
-  &__modal,
+  &__modal {
+    @if $theme == classic {
+      color: background-color-text-classic($content-background-color);
+    } @else {
+      color: $accent-color;
+    }
+    font-weight: 700;
+    margin-right: .3em;
+    margin-top: -3px;
+    float: left;
+    height: 18px; 
+
+    .material-fullscreen,
+    .material-slides {
+      top: 7px;
+      width: 16px;
+      left: -4px;
+      position: relative;
+      font-weight: 400;
+    }
+  }
+
   &__label {
     @if $theme == classic {
       color: background-color-text-classic($content-background-color);
@@ -409,7 +430,7 @@
     */
 
     .quire-figure__caption {
-      clear: both;
+      // clear: both;
       width: 100%;
     }
   }
