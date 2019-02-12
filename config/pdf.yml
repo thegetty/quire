@@ -1,8 +1,8 @@
 # ==============================================================================
-# print.yml
+# pdf.yml
 # ------------------------------------------------------------------------------
 #
-# Epub-specific config values. Hugo supports multiple config files with the
+# PDF-specific config values. Hugo supports multiple config files with the
 # following syntax:
 #
 # hugo --config=base.toml,child1.toml,child2.toml
@@ -10,3 +10,7 @@
 # If you are using the Quire commands, this will happen automatically.
 
 baseURL: "localhost:1313"
+canonifyURLs: true
+params:
+  pdf: true
+  toc: true
