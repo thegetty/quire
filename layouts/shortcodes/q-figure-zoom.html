@@ -225,41 +225,30 @@ alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
 
 {{ if eq $.Site.Params.figureModal true }}
 
-{{ if eq $.Site.Params.figureLabelLocation "below" }}
-{{ if eq $.Site.Params.figureModalIcons true }}
-   <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span></span>
-{{ end }}
-{{ end }}
+  {{ if eq $.Site.Params.figureLabelLocation "below" }}
+    <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}">
+      {{ if eq $.Site.Params.figureModalIcons true }}
+      <span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
+      {{ end }}
+      <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }} {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
+      {{ if or (ne .label "") ($.Get "label") }}
+        {{ if $.Get "label" }}
+        {{ $.Get "label" | markdownify }}
+        {{ else if ne .label "" }}
+        {{ if .label }}
+        {{ .label | markdownify }}
+        {{ end }}
+        {{ end }}
+      {{ end }}
+      </span>
+   </span>
+  {{ end }}
 
   </a>
 {{ end }}
 
 {{/* -------------------- BEGIN CAPTION BLOCK AND BELOW LABELING -------------------- */}}
   <figcaption class="quire-figure__caption caption">
-
-      {{ if eq $.Site.Params.figureLabelLocation "below" }}
-
-        {{ if eq $.Site.Params.figureModal true }}
-        {{ if eq $.Site.Params.figureModalIcons true }}
-        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }} {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
-        {{ else }}
-        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }} {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
-        {{ end }}
-        {{ else }}
-        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }} {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
-        {{ end }}
-
-        {{ if or (ne .label "") ($.Get "label") }}
-          {{ if $.Get "label" }}
-          {{ $.Get "label" | markdownify }}
-          {{ else if ne .label "" }}
-          {{ if .label }}
-          {{ .label | markdownify }}
-          {{ end }}
-          {{ end }}
-        {{ end }}
-        </span>
-      {{ end }}
 
     {{ if eq $.Site.Params.pdf true }}<span class="media-caption">{{ end }}
         {{ if $.Get "caption" }}
@@ -498,32 +487,12 @@ src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
   {{ end }}
 {{/* -------------------- END FIGURE LABEL ON TOP BLOCK -------------------- */}}
 
-{{ if eq $.Site.Params.figureModal true }}
-
-{{ if eq $.Site.Params.figureLabelLocation "below" }}
-{{ if eq $.Site.Params.figureModalIcons true }}
-   <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span></span>
-{{ end }}
-{{ end }}
-
-  </a>
-{{ end }}
-
-{{/* -------------------- BEGIN CAPTION BLOCK AND BELOW LABELING -------------------- */}}
-  <figcaption class="quire-figure__caption caption">
-
-      {{ if eq $.Site.Params.figureLabelLocation "below" }}
-
-        {{ if eq $.Site.Params.figureModal true }}
-        {{ if eq $.Site.Params.figureModalIcons true }}
-        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }} {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
-        {{ else }}
-        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }} {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
-        {{ end }}
-        {{ else }}
-        <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }} {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
-        {{ end }}
-
+  {{ if eq $.Site.Params.figureLabelLocation "below" }}
+    <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}">
+      {{ if and (eq $.Site.Params.figureModalIcons true) (eq $.Site.Params.figureModal true) }}
+        <span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
+      {{ end }}
+      <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }} {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
         {{ if or (ne .label "") ($.Get "label") }}
           {{ if $.Get "label" }}
           {{ $.Get "label" | markdownify }}
@@ -533,8 +502,16 @@ src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
           {{ end }}
           {{ end }}
         {{ end }}
-        </span>
-      {{ end }}
+      </span>
+    </span>
+  {{ end }}
+
+  {{ if eq $.Site.Params.figureModal true }}
+    </a>
+  {{ end }}
+
+{{/* -------------------- BEGIN CAPTION BLOCK AND BELOW LABELING -------------------- */}}
+  <figcaption class="quire-figure__caption caption">
 
     {{ if eq $.Site.Params.pdf true }}<span class="media-caption">{{ end }}
         {{ if $.Get "caption" }}

@@ -166,14 +166,17 @@
     margin-top: -3px;
     float: left;
     height: 18px;
+    position: relative;
+    top: 6px;
 
     .material-fullscreen,
     .material-slides {
-      top: 7px;
-      width: 16px;
+      top: 1px;
+      width: 20px;
       left: -4px;
       position: relative;
       font-weight: 400;
+      float: left;
     }
   }
 
@@ -194,6 +197,11 @@
       position: relative;
       font-weight: 400;
     }
+
+    .quire-figure__modal & {
+      font-size: .75em;
+    }
+
   }
 
   &__media-wrapper {

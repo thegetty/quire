@@ -8762,14 +8762,17 @@ html {
     margin-right: .3em;
     margin-top: -3px;
     float: left;
-    height: 18px; }
+    height: 18px;
+    position: relative;
+    top: 6px; }
     .quire-figure__modal .material-fullscreen,
     .quire-figure__modal .material-slides {
-      top: 7px;
-      width: 16px;
+      top: 1px;
+      width: 20px;
       left: -4px;
       position: relative;
-      font-weight: 400; }
+      font-weight: 400;
+      float: left; }
   .quire-figure__label {
     color: #CF4747;
     font-weight: 700;
@@ -8781,6 +8784,8 @@ html {
       left: -4px;
       position: relative;
       font-weight: 400; }
+    .quire-figure__modal .quire-figure__label {
+      font-size: .75em; }
   .quire-figure__media-wrapper--standard {
     padding-bottom: 75%;
     position: relative; }
