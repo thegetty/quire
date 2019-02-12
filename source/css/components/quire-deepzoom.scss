@@ -3,7 +3,7 @@ $quire-deepzoom-height: 500px !default;
 $color_1: $white;
 $color_2: $white;
 $color_3: $black;
-$background_color_1: $blue;
+$background_color_1: $off-black;
 $fullscreen-button-img: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAA0AgMAAADpgsAbAAABS2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDAgNzkuMTYwNDUxLCAyMDE3LzA1LzA2LTAxOjA4OjIxICAgICAgICAiPgogPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIi8+CiA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgo8P3hwYWNrZXQgZW5kPSJyIj8+LUNEtwAAAARnQU1BAACxjwv8YQUAAAABc1JHQgCuzhzpAAAACVBMVEUAAAD///////9zeKVjAAAAAnRSTlMAgJsrThgAAAAySURBVBjTY2AgFmitYFrVgERrMDAw4aMJAUL60e2jNiDaP2wrIf7hWgXRiIOGqaOufwA6TR6/lErWHQAAAABJRU5ErkJggg==);
 
 .no-popup-quire-deepzoom {
@@ -14,7 +14,7 @@ $fullscreen-button-img: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAA
     .leaflet-control-zoom {
         .leaflet-bar {
             a {
-                color: $dark;
+                color: $off-black;
             }
 
             .leaflet-control-layers-toggle {
@@ -57,7 +57,7 @@ div.leaflet-control-container {
 
         >div.leaflet-control-zoom.leaflet-bar.leaflet-control {
             >a {
-                background: $dark-semi-transparent;
+                background: $off-black-semi-transparent;
                 color: $color_2;
                 border-bottom: none;
                 border-radius: 0;
@@ -69,7 +69,7 @@ div.leaflet-control-container {
                 color: $color_2;
                 border-bottom: none;
                 background-repeat: no-repeat;
-                background-color: $dark-semi-transparent;
+                background-color: $off-black-semi-transparent;
                 margin-top: 0;
                 border-radius: 0;
                 background-size: 26px 52px;

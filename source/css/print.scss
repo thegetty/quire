@@ -14,7 +14,7 @@ $print-bleed: .125in;
 $text-block-height: calc(#{$print-height} - #{$print-top-margin} - #{$print-bottom-margin});
 $splash-page-width: calc(#{$print-width} + #{$print-bleed} + #{$print-bleed});
 $splash-page-height: calc(#{$print-height} + #{$print-bleed} + #{$print-bleed});
-$print-footer-font: $family-secondary;
+$print-footer-font: $quire-headings-font;
 $print-footer-font-size: 8pt;
 
 @media print {

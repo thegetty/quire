@@ -45,16 +45,35 @@
       border-radius: 0;
     }
     &__list-item {
+      font-family: $quire-primary-font;
       margin: 1.5rem 0;
-      .title {
-        text-transform: none;
+      a {
+        display: block;
         margin-bottom: .25em;
-        span {
-          font-size: 1.25rem;
-          margin: .75rem 0 0;
+        width: fit-content;
+        @if $theme == classic {
+          color: $black;
+          border-bottom: 1px dotted $black;
+          letter-spacing: 0px;
+        } @else {
           color: $accent-color;
           border-bottom: 1px dotted $accent-color;
+          * {
+            color: $accent-color;
+          }
         }
+        &:hover {
+          border-bottom: 1px solid link-hover-color($content-background-color);
+          & * {
+            color: link-hover-color($content-background-color);
+          }
+        }
+      }
+      .title {
+        font-size: 1.25rem;
+        font-family: $quire-headings-font;
+        text-transform: none;
+        margin-bottom: .1em;
       }
       p {
         font-style: italic;

@@ -16,7 +16,7 @@ $tablet: 500px;
 $desktop: 700px;
 $fullhd: 1344px + (2 * $gap);
 $widescreen: 1152px + (2 * $gap);
-$box-shadow: 0 2px 3px rgba($dark, 0.1), 0 0 0;
+$box-shadow: 0 2px 3px rgba($off-black, 0.1), 0 0 0;
 
 @import "bulma-components";
 @import "utilities";

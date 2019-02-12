@@ -136,7 +136,6 @@
     }
 
     .quire__secondary {
-      border-right: solid 1px $quire-menu-border-color;
       height: 100%;
       position: fixed;
       top: 0;
@@ -185,7 +184,7 @@
           @media screen and (max-width: $quire-menu-width) {
             right: $quire-menu-width;
             width: calc(100vh - #{$quire-menu-width});
-            // transform: translate3d($quire-primary-move, 0 ,0);
+            // transform: translate3d(calc(-100% + 3rem), 0 ,0);
             // right: calc(100vw - #{$navbar-height});
             // transform: translate3d(- $quire-menu-width, 0, 0);
             // width: #{$navbar-height};

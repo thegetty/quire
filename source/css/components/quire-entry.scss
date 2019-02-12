@@ -28,7 +28,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
 
     @media print {
       background-color: transparent;
-      @include foreground-color(#fff, $page-text-color);
+      @include foreground-color($white, $black);
     }
 
     &__group-container {
@@ -103,7 +103,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
       .quire-image-control--download {
         bottom: 0;
         height: 30px;
-        background: $dark-semi-transparent;
+        background: $off-black-semi-transparent;
         width: 30px;
 
         svg {
@@ -148,9 +148,9 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
           position: relative;
           display: block;
           padding: 6px 10px;
-          background: $dark-semi-transparent;
-          font-family: $family-secondary;
-          font-size: 12px;
+          background: $off-black-semi-transparent;
+          font-family: $quire-headings-font;
+          font-size: .75rem;
           font-weight: bold;
         }
 
@@ -189,7 +189,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
       }
 
       &--prev-image {
-        background: $image no-Repeat top left $dark-semi-transparent;
+        background: $image no-Repeat top left $off-black-semi-transparent;
         background-position-x: -139px;
         background-position-y: -44px;
         left: 10px;
@@ -207,7 +207,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
       }
 
       &--next-image {
-        background: $image no-Repeat top right $dark-semi-transparent;
+        background: $image no-Repeat top right $off-black-semi-transparent;
         background-position-x: -95px;
         background-position-y: -44px;
         right: 10px;

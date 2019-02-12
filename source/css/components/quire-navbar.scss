@@ -24,7 +24,7 @@
 // .quire-navbar
 // -----------------------------------------------------------------------------
 .quire-navbar {
-  font-family: $noto-sans;
+  font-family: $quire-navigation-font;
   font-weight: 400;
   font-size: .875em;
   position: fixed;
@@ -67,7 +67,7 @@
   height: 2px;
   -webkit-transition: all .25s ease;
   transition: all .25s ease;
-  font-family: $quire-nav-font;
+  font-family: $quire-navigation-font;
   font-size: 0.75rem;
   background-color: background-color($secondary-background-color);
   border-bottom: none;

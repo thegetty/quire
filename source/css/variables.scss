@@ -6,161 +6,120 @@
 // To avoid errors, variables names should not be changed or deleted, and be
 // sure to leave the colons (:) and semi-colons (;) in place.
 
-$accent-color: $red;
-$content-background-color: $white;
-$secondary-background-color: $off-white;
+$accent-color: null;
+$content-background-color: null; // main text area background color
+$secondary-background-color: null; // only for modern theme
 
-// Declare the theme modern/classic
+// Declare the theme: modern/classic
 $theme: modern;
 
-// Navbar color: normal/accent
+// Declare the navbar color style: normal/accent
 $navbar: normal;
 
-// Typography
-// -----------------------------------------------------------------------------
-// The quire-starter-theme templates supports three embedded, open license
-// fonts: Merriweather, Lato, and Aleo. They are designated as $serif,
-// $sans-serif, and $slab-serif respectively, along with appropriate fallbacks.
-// Other fonts may be used, but will probaby require additional custom styling.
 
-$serif: Merriweather, Georgia, serif;
-$sans-serif: Lato, Helvetica, sans-serif;
-$slab-serif: Aleo, Rockwell, "Trebuchet MS", sans-serif;
+
+// Pre-defined fonts
+// -----------------------------------------------------------------------------
+// This theme includes three embedded, open license fonts, and also uses
+// the widely available Times (files of which are not otherwise included here).
 $ibm-sans: 'IBM Plex Sans Condensed', sans-serif;
-$times-serif: Times, serif;
-$noto-serif: 'Noto Serif', serif;
 $noto-sans: 'Noto Sans', sans-serif;
+$noto-serif: 'Noto Serif', serif;
+$times-serif: Times, serif;
 
-$quire-base-font-size: 16px;
-$quire-page-paragraph-style: line-space;
-// $quire-page-paragraph-style: indent;
-// make the value null for paragraphs with no indent and a line space between
-
-// Quire Redesign
+// Page typography
 // -----------------------------------------------------------------------------
+$quire-base-font-size: 16px;
+$quire-page-paragraph-style: line-space; // or use indent
 
-// Print
-$page-color: $white;
-$page-text-color: $dark;
+// Cover typography
+// -----------------------------------------------------------------------------
+$quire-cover-text-color: $white;
+$quire-cover-text-scale: 1; // use decimal numbers such as .8 or 1.3
 
-// included in various foreground-color on page.scss
-$quire-page-header-color: $light;
-$quire-page-header-text-color: $dark;
-
-// part of menus
-$quire-menu-color: $dark;
-$quire-menu-border-color: $dark;
+// Menu colors
+// -----------------------------------------------------------------------------
+$quire-menu-color: $off-black;
 $quire-menu-text-color: $white;
 
-// entry page image colors
-$quire-entry-image-color: $dark;
+// Image viewer colors (pop-up figure viewer & entry page viewer)
+// -----------------------------------------------------------------------------
+$quire-entry-image-color: $black;
 $quire-entry-image-icons-color: $white;
 
-// new quire variables
+// Active link and table-row color
+// -----------------------------------------------------------------------------
 $quire-hover-color: $light-yellow;
 
-
-// Declare default values based on modern theme
+// Themes
 // -----------------------------------------------------------------------------
-$family-primary: $noto-sans; // body text: $serif, $sans-serif, $slab-serif
-$family-secondary: $ibm-sans; // headings and navigation items: $serif, $sans-serif, $slab-serif
-$quire-header-font: $family-secondary;
-$quire-nav-font: $family-primary;
-$quire-body-font: $family-primary;
+// Declare theme variables
+$quire-primary-font: null; // body and menu text
+$quire-headings-font: null; // headings
+$quire-footnotes-font: null; // footnotes and page backmatter
+$quire-navigation-font: null; // navbar and next/prev buttons
 
-// Modern Theme
-// -----------------------------------------------------------------------------
-@if $theme == modern {
-  $family-primary: $noto-sans; // body text: $serif, $sans-serif, $slab-serif
-  $family-secondary: $ibm-sans; // headings and navigation items: $serif, $sans-serif, $slab-serif
-
-  $quire-header-font: $family-secondary;
-  $quire-nav-font: $family-primary;
-  $quire-body-font: $family-primary;
-
+@if $theme == classic {
+  // Classic Theme
+  $quire-primary-font: $noto-serif !default;
+  $quire-headings-font: $times-serif !default;
+  $quire-footnotes-font: $noto-sans !default;
+  $quire-navigation-font: $noto-sans !default;
+  $accent-color: $blue !default;
+  $content-background-color: $white !default;
+  $secondary-background-color: $content-background-color;
+} @else {
+  // Modern Theme (default)
+  $quire-primary-font: $noto-sans !default;
+  $quire-headings-font: $ibm-sans !default;
+  $quire-footnotes-font: $noto-serif !default;
+  $quire-navigation-font: $noto-sans !default;
   $accent-color: $red !default;
   $content-background-color: $white !default;
   $secondary-background-color: $off-white !default;
 }
 
-// Classic Theme
+// Navbar
 // -----------------------------------------------------------------------------
-@if $theme == classic {
-  $family-primary: $noto-serif; // body text: $serif, $sans-serif, $slab-serif
-  $family-secondary: $times-serif; // headings and navigation items: $serif, $sans-serif, $slab-serif
+// Declare navbar colors
+$quire-navbar-color: null;
+$quire-navbar-hover-color: null;
+$quire-navbar-text-color: null;
 
-  $quire-header-font: $family-secondary;
-  $quire-nav-font: $family-primary;
-  $quire-body-font: $family-primary;
-
-  $accent-color: $light-blue !default;
-  $content-background-color: $white !default;
-  $secondary-background-color: $content-background-color;
-}
-
-// Declare navbar variables
-// -----------------------------------------------------------------------------
-$quire-navbar-color: $white;
-$quire-navbar-hover-color: darken($quire-navbar-color, 5%);
-$quire-navbar-text-color: $dark;
-
-// Normal Navbar
-// -----------------------------------------------------------------------------
-@if $navbar == normal {
-  $quire-navbar-color: $white;
-  $quire-navbar-hover-color: darken($quire-navbar-color, 5%);
-  $quire-navbar-text-color: $dark;
-}
-
-// Accent Navbar
-// -----------------------------------------------------------------------------
 @if $navbar == accent {
-  $quire-navbar-color: $accent-color;
-  $quire-navbar-hover-color: darken($quire-navbar-color, 5%);
-  $quire-navbar-text-color: $white;
+  // Accent Navbar
+  $quire-navbar-color: $accent-color !default;
+  $quire-navbar-hover-color: darken($quire-navbar-color, 5%) !default;
+  $quire-navbar-text-color: $white !default;
+} @else {
+  // Normal Navbar (default)
+  $quire-navbar-color: $white !default;
+  $quire-navbar-hover-color: darken($quire-navbar-color, 5%) !default;
+  @if $theme == classic {
+    $quire-navbar-text-color: lighten($off-black, 20%) !default;
+  } @else {
+    $quire-navbar-text-color: $off-black !default;
+  }
 }
 
-
-// Cover
+// Cover colors
 // -----------------------------------------------------------------------------
-$quire-cover-color-1: $baby-blue;
-$quire-cover-color-2: $pacific-blue;
-// make the colors the same to have a solid background
+// Declare cover gradient colors (make them the same for a solid background)
+$quire-cover-color-1: null;
+$quire-cover-color-2: null;
 
-$cover-overlay-image-opacity: .5;
-$cover-overlay-image: 'pattern_spiral@2x.png';
-// pattern-1.png, pattern-2.png, pattern-3.png, pattern-4.png
-// Or add your own custom pattern tile in your static/img directory and
-// reference it here. To have a single image for the cover, with no color
-// or pattern overlay, add it to the YAML of your cover.md file,
-// --> image: cover-background.jpg
+@if $theme == classic {
+  $quire-cover-color-1: $accent-color !default;
+  $quire-cover-color-2: $red !default;
+} @else {
+  $quire-cover-color-1: $blue !default;
+  $quire-cover-color-2: $accent-color !default;
+}
 
-$quire-cover-font-family: $noto-sans;
-$quire-cover-text-color: $white;
-
-$quire-cover-text-scale: 1;
-// use decimal numbers (such as .8 or 1.3) to increase and decrease size
-
-$quire-cover-text-alignment: left;
-// left, right or center
-
-$quire-cover-footer-color: $light;
-$quire-cover-footer-text-color: $dark;
-
-
-// Layout
-// ----------------------------------------------------------------------------
+// Layout sizes
+// -----------------------------------------------------------------------------
 $quire-menu-width: 352px;
-$quire-primary-move: calc(-100% + 3rem);
-
 $navbar-height: 3rem;
-
-// adjust column gap for grid
-// NOTICE: this var = 2x the value
-// 5px = 10px margin between columns
-$column-gap: 5px;
-
 $quire-entry-header-height: 6rem;
 $quire-map-height: 500px;
 $quire-deepzoom-height: 500px;
-// default heights for maps and zooming image figures

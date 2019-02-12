@@ -14,7 +14,6 @@
     left: 0;
     width: 100%;
     min-height: calc(95vh - #{$navbar-height});
-    background-image: url("../img/#{$cover-overlay-image}");
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -26,12 +25,9 @@
   &__hero {
     background-color: $quire-cover-color-1;
     background-image: linear-gradient(90deg, $quire-cover-color-1, $quire-cover-color-2);
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
     position: relative;
     min-height: calc(95vh - #{$navbar-height}) !important;
-    text-align: $quire-cover-text-alignment;
+    text-align: left;
     display: flex;
     align-items: center;
 
@@ -52,12 +48,12 @@
         color: $quire-cover-text-color;
         text-transform: uppercase;
         letter-spacing: 1pt;
-        font-family: $family-secondary;
+        font-family: $quire-headings-font;
       }
     }
 
     .title {
-      font-family: $family-secondary;
+      font-family: $quire-headings-font;
       font-size: calc(2rem * #{$quire-cover-text-scale});
       font-weight: 700;
       line-height: 1.07;
@@ -87,7 +83,7 @@
     }
 
     .reading-line {
-      font-family: $family-secondary;
+      font-family: $quire-headings-font;
       font-style: italic;
       font-size: calc(1.25rem * #{$quire-cover-text-scale});
       line-height: 1.2;
@@ -99,8 +95,8 @@
     }
 
     .contributor {
-      font-family: $family-secondary;
-      font-size: 1em;
+      font-family: $quire-headings-font;
+      font-size: calc(1em * #{$quire-cover-text-scale});
       line-height: 1.72;
       margin-top: calc(.5rem * #{$quire-cover-text-scale});
       color: $quire-cover-text-color;
@@ -145,7 +141,7 @@
     color: findColorInvert($accent-color);
     border-width: 0px;
     border-radius: 2px;
-    font-family: $quire-nav-font;
+    font-family: $quire-navigation-font;
     font-size: 1rem !important;
     padding: 0 !important;
     width: 140px;
@@ -175,7 +171,7 @@
         }
         p {
           line-height: 2em;
-          font-family: $quire-body-font;
+          font-family: $quire-primary-font;
         }
       }
       // max-width: 900px;
@@ -205,93 +201,6 @@
     }
     .nav-title {
       font-size: initial;
-    }
-  }
-
-  .quire-cover-footer {
-    background-color: $quire-cover-footer-color;
-
-    .columns {
-      margin-left: -.5em;
-      margin-right: -.5em;
-    }
-    .column {
-      padding: 0 0 .75rem 0;
-    }
-    .column:nth-child(1) {
-      padding-right: $gap;
-    }
-
-    @include foreground-color($quire-cover-footer-color, $quire-cover-footer-text-color);
-
-    .menu-list {
-      display: flex;
-      flex-wrap: wrap;
-      margin-top: .5em;
-      li + li {
-        margin-top: 0;
-      }
-      a {
-        padding: .5em;
-      }
-      @media print {
-        display: none;
-      }
-    }
-
-    .quire-copyright {
-      padding: 0 .5em;
-      @media print {
-        display: none;
-      }
-    }
-
-    a.quire-copyright__icon__link:hover {
-      background-color: transparent;
-    }
-
-    .quire-publisher {
-      margin-bottom: 1.5em;
-      font-family: $family-secondary;
-      img {
-        float: right;
-        max-height: 6em;
-        margin: 0 0 1.5em 1.5em;
-        @media screen and (max-width: $tablet) {
-          float: none;
-        }
-        @media print {
-          height: .5in;
-        }
-      }
-      p {
-        text-align: right;
-        clear: both;
-        margin-bottom: 0;
-        display: none;
-        @media print {
-          display: inherit;
-        }
-      }
-      p:first-of-type {
-        text-transform: uppercase;
-        letter-spacing: 1pt;
-      }
-      @media print {
-        margin-left: 1.5em;
-        float: right;
-      }
-    }
-
-    @media print {
-      margin-top: .75in;
-      margin-left: .75in;
-      margin-right: .75in;
-      background-color: inherit;
-      position: fixed;
-      top: 7.25in;
-      left: 0;
-      right: 0;
     }
   }
 

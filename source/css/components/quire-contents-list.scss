@@ -50,7 +50,7 @@
 //   margin: 0 auto;
 //   padding: 0 20px;
 //   h1 {
-//     font-family: $quire-header-font;
+//     font-family: $quire-headings-font;
 //     font-size: 3em;
 //     font-weight: 700;
 //     line-height: 1.04em;
@@ -205,11 +205,7 @@
       .list-header {
         font-size: 1.375em;
         padding: .5em .75em .5em 0;
-        @if $theme == classic {
-          font-family: $times-serif;
-        } @else {
-          font-family: $ibm-sans;
-        }
+        font-family: $quire-headings-font;
         color: background-color-text($secondary-background-color);
       }
     }
@@ -275,7 +271,7 @@
 
   &.list,
   &.brief {
-    font-family: $quire-header-font;
+    font-family: $quire-headings-font;
     li {
       margin-bottom: .5em;
     }
@@ -307,7 +303,7 @@
       font-weight: 400;
       line-height: 1.35;
       margin-bottom: 0;
-      font-family: $quire-header-font;
+      font-family: $quire-headings-font;
     }
     .abstract-text {
       font-size: 0.875em;
@@ -345,7 +341,7 @@
 
   &.grid {
     font-size: .75em;
-    font-family: $quire-header-font;
+    font-family: $quire-headings-font;
     @media screen and (min-width: $tablet) {
       margin: 0;
     }
@@ -356,7 +352,7 @@
       font-size: inherit;
       font-weight: inherit;
       line-height: inherit;
-      font-family: $quire-header-font;
+      font-family: $quire-headings-font;
       @if $theme == classic {
         @if (lightness($secondary-background-color) > 50) {
           color: $off-black;
@@ -629,17 +625,9 @@
           text-transform: uppercase;
         }
         .title {
-          // @if $theme == modern {
-          //   color: $accent-color;
-          // } @else {
-          //   color: inherit;
-          // }
           svg {
             vertical-align: sub;
           }
-          // &:hover {
-          //   color: darken($accent-color, 10%);
-          // }
         }
         p {
           padding-top: 0.5rem;
@@ -664,7 +652,7 @@
       // width: calc(100% - 2rem);
       // margin: 1rem;
       // padding-bottom: 1rem;
-      // border: 1px solid lighten($dark, 65%);
+      // border: 1px solid lighten($off-black, 65%);
       // box-shadow: $box-shadow;
       &.no-landing {
         .list-header {
