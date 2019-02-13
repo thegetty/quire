@@ -187,7 +187,7 @@ window.search = () => {
   }
 
   function clearResults() {
-    resultsContainer.innerbody = '';
+    resultsContainer.innerText = '';
   }
 
   function displayResults(results) {
