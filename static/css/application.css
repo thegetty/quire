@@ -6996,7 +6996,7 @@ sub {
 
 @keyframes slideFromRight {
   from {
-    right: -50em; }
+    right: -100em; }
   to {
     right: 0; } }
 
@@ -7005,7 +7005,7 @@ sub {
 /* Safari, Chrome and Opera > 12.1 */
 @-webkit-keyframes slideFromRight {
   from {
-    right: -50em; }
+    right: -100em; }
   to {
     right: 0; } }
 
@@ -7015,7 +7015,7 @@ sub {
 
 @keyframes slideFromLeft {
   from {
-    left: -50em; }
+    left: -100em; }
   to {
     left: 0; } }
 
@@ -7024,7 +7024,7 @@ sub {
 /* Safari, Chrome and Opera > 12.1 */
 @-webkit-keyframes slideFromLeft {
   from {
-    left: -50em; }
+    left: -100em; }
   to {
     left: 0; } }
 
@@ -7594,13 +7594,7 @@ html {
   font-family: "IBM Plex Sans Condensed", sans-serif;
   font-size: 3em;
   font-weight: 700;
-  line-height: 1.04em;
-  -webkit-animation: fadeIn 2s;
-  /* Safari, Chrome and Opera > 12.1 */
-  /* Firefox < 16 */
-  /* Internet Explorer */
-  /* Opera < 12.1 */
-  animation: fadeIn 2s; }
+  line-height: 1.04em; }
   .quire-page h1 em, .quire-page__header__title em {
     font-style: normal; }
   @media print {
@@ -7836,7 +7830,13 @@ html {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: cover;
-  text-align: center; }
+  text-align: center;
+  -webkit-animation: fadeIn 2s;
+  /* Safari, Chrome and Opera > 12.1 */
+  /* Firefox < 16 */
+  /* Internet Explorer */
+  /* Opera < 12.1 */
+  animation: fadeIn 2s; }
   @media print {
     .quire-page__header {
       background-color: transparent; } }

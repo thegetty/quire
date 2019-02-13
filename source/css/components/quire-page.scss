@@ -45,7 +45,6 @@ html {
   h6 {
     margin-top: 1rem;
     margin-bottom: 1rem;
-
   }
 
   h1:not(:first-child) {
@@ -69,15 +68,6 @@ html {
     font-size: 3em;
     font-weight: 700;
     line-height: 1.04em;
-    -webkit-animation: fadeIn 2s;
-    /* Safari, Chrome and Opera > 12.1 */
-    -moz-animation: fadeIn 2s;
-    /* Firefox < 16 */
-    -ms-animation: fadeIn 2s;
-    /* Internet Explorer */
-    -o-animation: fadeIn 2s;
-    /* Opera < 12.1 */
-    animation: fadeIn 2s;
 
     em {
       font-style: normal;
@@ -460,6 +450,15 @@ html {
   background-repeat: no-repeat;
   background-position: cover;
   text-align: center;
+  -webkit-animation: fadeIn 2s;
+  /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: fadeIn 2s;
+  /* Firefox < 16 */
+  -ms-animation: fadeIn 2s;
+  /* Internet Explorer */
+  -o-animation: fadeIn 2s;
+  /* Opera < 12.1 */
+  animation: fadeIn 2s;
 
   &.hero__image {
     height: 80vh;

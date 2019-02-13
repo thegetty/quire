@@ -179,53 +179,53 @@ sub {
 
 // slideFromRight
 @keyframes slideFromRight {
-    from { right: -50em; }
+    from { right: -100em; }
     to { right: 0; }
 }
 /* Firefox < 16 */
 @-moz-keyframes slideFromRight {
-    from { right: -50em; }
+    from { right: -100em; }
     to { right: 0; }
 }
 /* Safari, Chrome and Opera > 12.1 */
 @-webkit-keyframes slideFromRight {
-    from { right: -50em; }
+    from { right: -100em; }
     to { right: 0; }
 }
 /* Internet Explorer */
 @-ms-keyframes slideFromRight {
-    from { right: -50em; }
+    from { right: -100em; }
     to { right: 0; }
 }
 /* Opera < 12.1 */
 @-o-keyframes slideFromRight {
-    from { right: -50em; }
+    from { right: -100em; }
     to { right: 0; }
 }
 
 // slideFromRight
 @keyframes slideFromLeft {
-    from { left: -50em; }
+    from { left: -100em; }
     to { left: 0; }
 }
 /* Firefox < 16 */
 @-moz-keyframes slideFromLeft {
-    from { left: -50em; }
+    from { left: -100em; }
     to { left: 0; }
 }
 /* Safari, Chrome and Opera > 12.1 */
 @-webkit-keyframes slideFromLeft {
-    from { left: -50em; }
+    from { left: -100em; }
     to { left: 0; }
 }
 /* Internet Explorer */
 @-ms-keyframes slideFromLeft {
-    from { left: -50em; }
+    from { left: -100em; }
     to { left: 0; }
 }
 /* Opera < 12.1 */
 @-o-keyframes slideFromLeft {
-    from { left: -50em; }
+    from { left: -100em; }
     to { left: 0; }
 }
 
