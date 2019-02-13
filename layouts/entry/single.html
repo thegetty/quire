@@ -71,7 +71,7 @@ a single image or object needs to be featured prominently.\
     <div class="container">
         {{/* Title */}}
         <h1 class="quire-page__header__title" id="{{ .Title | urlize }}">
-          {{ with .Params.number }}<span>{{ . }}{{ $.Site.Params.pageLabelDivider }}</span>{{ end }}
+          {{ with .Params.label }}<span>{{ . }}{{ $.Site.Params.pageLabelDivider }}</span>{{ end }}
           {{ partial "page-title.html" . | markdownify }}
         </h1>
     </div>
