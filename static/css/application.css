@@ -7040,6 +7040,9 @@ template {
   .quire h1, .quire h2, .quire h3, .quire h4, .quire h5, .quire h6 {
     letter-spacing: -0.025em;
     color: #333333; }
+    @media print {
+      .quire h1, .quire h2, .quire h3, .quire h4, .quire h5, .quire h6 {
+        color: #000000; } }
   .quire h2 {
     text-transform: uppercase;
     font-size: 1.75em;
@@ -7061,6 +7064,11 @@ template {
     line-height: 1.28em;
     padding-bottom: 0.25em;
     border-bottom: 1px solid #333333; }
+  .quire #main {
+    background-color: #EEF2F3; }
+    @media print {
+      .quire #main {
+        background-color: transparent; } }
   .quire__secondary {
     background-color: #333333;
     padding: 1.25em; }
@@ -7084,13 +7092,10 @@ template {
       line-height: inherit; }
   .quire.no-js {
     min-height: 100vh; }
-    .quire.no-js .quire__primary {
-      background: #fff; }
     .quire.no-js .quire__secondary {
       width: 100%;
       display: none; }
   .quire:not(.no-js) .quire__primary {
-    background: #EEF2F3;
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -7107,9 +7112,11 @@ template {
     width: 100%;
     z-index: 9999; }
     .quire:not(.no-js) .quire__primary #main {
-      background: #EEF2F3;
       margin-top: 3rem;
       color: #333333; }
+      @media print {
+        .quire:not(.no-js) .quire__primary #main {
+          color: #000000; } }
     .quire:not(.no-js) .quire__primary .quire-page {
       flex: 1 1 auto;
       -webkit-overflow-scrolling: touch;
@@ -7552,6 +7559,12 @@ template {
 
 html {
   font-size: 16px; }
+  @media print {
+    html {
+      font-size: 8.5pt; } }
+  @media print {
+    html {
+      background-color: transparent; } }
   html p, html div {
     -webkit-touch-callout: text;
     /* iOS Safari */
@@ -7565,9 +7578,6 @@ html {
     user-select: text;
     /* Non-prefixed version, currently
                                   supported by Chrome and Opera */ }
-  @media screen and (min-width: 500px) {
-    html {
-      font-size: 16px; } }
 
 .quire-page h1,
 .quire-page h2,
@@ -7599,7 +7609,6 @@ html {
     font-style: normal; }
   @media print {
     .quire-page h1, .quire-page__header__title {
-      font-size: 30pt;
       margin-top: .75in; } }
 
 .quire-page h2 {
@@ -7607,9 +7616,6 @@ html {
   text-transform: uppercase;
   font-size: 1.75em;
   line-height: 1.15em; }
-  @media print {
-    .quire-page h2 {
-      font-weight: 400; } }
 
 .quire-page h3,
 .quire-page h4, .quire-page__header__contributor {
@@ -7625,8 +7631,7 @@ html {
   font-size: 1em; }
   @media print {
     .quire-page__header__contributor {
-      font-size: 13pt;
-      margin-top: .375in; } }
+      margin: .375in .5in 0; } }
 
 .quire-page h4 {
   font-size: 1.375em;
@@ -7680,6 +7685,9 @@ html {
   font-size: 1em;
   font-weight: 400;
   line-height: 1.6; }
+  @media print {
+    .quire-page__content {
+      color: #000000; } }
   .quire-page__content ul li a {
     font-size: .875em; }
   .quire-page__content table {
@@ -7688,16 +7696,17 @@ html {
     .quire-page__content .container {
       margin-left: 0;
       margin-right: 0; } }
+  @media print {
+    .quire-page__content .container {
+      margin: 0; } }
   .quire-page__content .container .content {
-    padding-top: 2.5em !important;
+    padding-top: 2.5em;
     margin-top: 45px;
-    font-size: 16px;
     padding: 40px 2.5em;
     background-color: #ffffff; }
     @media print {
       .quire-page__content .container .content {
-        padding-top: 0;
-        padding-bottom: 0;
+        padding: 0;
         margin: 0 auto; } }
     .quire-page__content .container .content hr {
       background-color: #595959; }
@@ -7709,6 +7718,9 @@ html {
       .quire-page__content .container .content table td, .quire-page__content .container .content table th {
         color: #333333;
         border-width: 0 0 1px; }
+        @media print {
+          .quire-page__content .container .content table td, .quire-page__content .container .content table th {
+            color: #000000; } }
       .quire-page__content .container .content table tbody td {
         border-left: 4px solid transparent;
         border-right: 4px solid transparent; }
@@ -7739,16 +7751,17 @@ html {
       .quire-page__content .container .content blockquote p, .quire-page__content .container .content blockquote ul, .quire-page__content .container .content blockquote ol, .quire-page__content .container .content blockquote dl,
       .quire-page__content .container .content blockquote h1, .quire-page__content .container .content blockquote h2, .quire-page__content .container .content blockquote h3, .quire-page__content .container .content blockquote h4, .quire-page__content .container .content blockquote h5, .quire-page__content .container .content blockquote h6 {
         position: relative; }
-        .quire-page__content .container .content blockquote p:first-child:before, .quire-page__content .container .content blockquote ul:first-child:before, .quire-page__content .container .content blockquote ol:first-child:before, .quire-page__content .container .content blockquote dl:first-child:before,
-        .quire-page__content .container .content blockquote h1:first-child:before, .quire-page__content .container .content blockquote h2:first-child:before, .quire-page__content .container .content blockquote h3:first-child:before, .quire-page__content .container .content blockquote h4:first-child:before, .quire-page__content .container .content blockquote h5:first-child:before, .quire-page__content .container .content blockquote h6:first-child:before {
-          color: #c1d0d3;
-          font-size: 5em;
-          line-height: 0.1em;
-          margin-right: 0.25em;
-          content: '“';
-          position: absolute;
-          top: .35em;
-          left: -.55em; }
+        @media screen {
+          .quire-page__content .container .content blockquote p:first-child:before, .quire-page__content .container .content blockquote ul:first-child:before, .quire-page__content .container .content blockquote ol:first-child:before, .quire-page__content .container .content blockquote dl:first-child:before,
+          .quire-page__content .container .content blockquote h1:first-child:before, .quire-page__content .container .content blockquote h2:first-child:before, .quire-page__content .container .content blockquote h3:first-child:before, .quire-page__content .container .content blockquote h4:first-child:before, .quire-page__content .container .content blockquote h5:first-child:before, .quire-page__content .container .content blockquote h6:first-child:before {
+            color: #c1d0d3;
+            font-size: 5em;
+            line-height: 0.1em;
+            margin-right: 0.25em;
+            content: '“';
+            position: absolute;
+            top: .35em;
+            left: -.55em; } }
       .quire-page__content .container .content blockquote ul, .quire-page__content .container .content blockquote dl {
         margin-left: 0; }
       .quire-page__content .container .content blockquote ol {
@@ -7769,6 +7782,12 @@ html {
         margin-top: 20px;
         padding-bottom: 6px;
         border-bottom: 1px solid #333333; }
+        @media print {
+          .quire-page__content .container .content .backmatter h2, .quire-page__content .container .content .backmatter h3, .quire-page__content .container .content .backmatter h4 {
+            color: #000000; } }
+        @media print {
+          .quire-page__content .container .content .backmatter h2, .quire-page__content .container .content .backmatter h3, .quire-page__content .container .content .backmatter h4 {
+            border-color: #000000; } }
       .quire-page__content .container .content .backmatter h3, .quire-page__content .container .content .backmatter h4 {
         font-weight: bold;
         font-style: normal;
@@ -7778,6 +7797,9 @@ html {
         font-weight: normal; }
       .quire-page__content .container .content .backmatter .title {
         color: #333333; }
+        @media print {
+          .quire-page__content .container .content .backmatter .title {
+            color: #000000; } }
       .quire-page__content .container .content .backmatter p {
         line-height: 1.6em !important; }
       .quire-page__content .container .content .backmatter .media {
@@ -7795,13 +7817,17 @@ html {
 .quire-page__abstract {
   font-style: italic;
   padding-bottom: 0;
+  padding-top: 1em;
+  margin-bottom: -3.5em;
   font-size: .875em;
-  line-height: 1.7em;
-  margin-bottom: -3.2em; }
+  line-height: 1.7em; }
+  @media screen and (max-width: 500px) {
+    .quire-page__abstract {
+      margin-bottom: -3em; } }
   @media print {
     .quire-page__abstract {
-      line-height: 1.7em;
-      font-size: 1.25em; } }
+      padding: 0;
+      color: #000000; } }
   .quire-page__abstract em {
     font-style: normal; }
   .quire-page__abstract h2 {
@@ -7809,8 +7835,16 @@ html {
     font-size: 1.625em;
     font-family: "IBM Plex Sans Condensed", sans-serif; }
   .quire-page__abstract .container {
-    padding: 3em 2em 1em;
-    background-color: #ffffff; }
+    background-color: #ffffff;
+    padding: 1em 2.75em 0em;
+    margin: 0 auto;
+    max-width: 720px;
+    width: 720px; }
+    @media print {
+      .quire-page__abstract .container {
+        max-width: initial;
+        width: initial;
+        padding: 0; } }
     .quire-page__abstract .container:after {
       display: block;
       text-align: center;
@@ -7819,6 +7853,18 @@ html {
       background-color: transparent;
       font-style: normal;
       margin-top: 1em; }
+      @media print {
+        .quire-page__abstract .container:after {
+          margin-top: .25em;
+          font-size: .75em;
+          color: #000000; } }
+    .quire-page__abstract .container .content {
+      margin: 0;
+      padding: 0 0 1em;
+      line-height: 1.714em; }
+      @media print {
+        .quire-page__abstract .container .content {
+          max-width: 100%; } }
 
 @media print {
   .quire-page--frontmatter {
@@ -7839,25 +7885,13 @@ html {
   animation: fadeIn 2s; }
   @media print {
     .quire-page__header {
-      background-color: transparent; } }
+      background-color: transparent;
+      color: #000000;
+      margin: 0 .5in 1in; } }
   .quire-page__header.hero__image {
     height: 80vh; }
-    @media print {
-      .quire-page__header.hero__image {
-        margin-bottom: 0;
-        height: 0; } }
     .quire-page__header.hero__image .quire-page__header__title, .quire-page__header.hero__image .quire-page__header__subtitle {
       color: #ffffff; }
-  .quire-splash .quire-page__header * {
-    color: #fff; }
-  .quire-splash .quire-page__header .hero-body {
-    display: inline-block;
-    max-width: none;
-    top: 15%;
-    text-align: center; }
-  .quire-splash .quire-page__header.quire-page__header--full-height {
-    min-height: calc(60vh - 3rem);
-    background-position: center; }
   .quire-page__header .hero-body .label {
     line-height: 1.3;
     display: block;
@@ -7871,35 +7905,58 @@ html {
     padding: .2rem .3rem;
     letter-spacing: 0;
     margin: 0 auto 1.9em; }
+    @media print {
+      .quire-page__header .hero-body .label {
+        display: table; } }
+    @media print {
+      .quire-page__header .hero-body .label {
+        color: #000000; } }
   @media screen and (min-width: 700px) {
     .quire-page__header .hero-body {
       margin: 0 5rem; } }
   @media print {
     .quire-page__header .hero-body {
-      padding: 0;
-      border: 1pt solid transparent; } }
-  @media print {
-    .quire-page__header.hero {
-      background-color: transparent;
-      height: 3in; } }
+      padding: 0; } }
 
-.quire-splash .quire-page__header .hero-body {
+.quire-splash .quire-page__header {
   background-color: transparent; }
-
-.quire-splash .quire-page__header__title, .quire-splash .quire-page__header__subtitle {
-  color: #333333; }
-  .quire-splash .quire-page__header__title .label, .quire-splash .quire-page__header__subtitle .label {
+  .quire-splash .quire-page__header.hero-image {
+    background-color: transparent;
+    min-height: calc(60vh - 3rem);
+    background-position: center; }
+    @media print {
+      .quire-splash .quire-page__header.hero-image {
+        background-color: #EEF2F3;
+        color: #ffffff;
+        width: 8.75in;
+        height: 11.25in;
+        margin: -0.125in; }
+        .quire-splash .quire-page__header.hero-image .hero-body {
+          margin-top: 3in; } }
+    .quire-splash .quire-page__header.hero-image .hero-body .quire-page__header__title {
+      color: #ffffff; }
+    .quire-splash .quire-page__header.hero-image .hero-body .label {
+      color: #ffffff; }
+    @media print {
+      .quire-splash .quire-page__header.hero-image + .quire-page__content p:first-child,
+      .quire-splash .quire-page__header.hero-image + .quire-page__content figure:first-child {
+        padding-top: 1.375in; } }
+  .quire-splash .quire-page__header .hero-body .quire-page__header__title {
     color: #333333; }
-
-.quire-splash .hero-image .hero-body .quire-page__header__title, .quire-splash .hero-image .hero-body .quire-page__header__subtitle {
-  color: #ffffff !important; }
-  .quire-splash .hero-image .hero-body .quire-page__header__title .label, .quire-splash .hero-image .hero-body .quire-page__header__subtitle .label {
-    color: #ffffff !important; }
+    @media print {
+      .quire-splash .quire-page__header .hero-body .quire-page__header__title {
+        color: #000000; } }
+  .quire-splash .quire-page__header .hero-body .label {
+    color: #333333; }
+    @media print {
+      .quire-splash .quire-page__header .hero-body .label {
+        color: #000000; } }
 
 .quire-splash .quire-page__content .container .content {
   background-color: #EEF2F3; }
-  .quire-splash .quire-page__content .container .content.no-image-above {
-    margin-top: 0; }
+  @media print {
+    .quire-splash .quire-page__content .container .content {
+      background-color: transparent; } }
 
 .quire-splash .quire-page__content p:first-child:first-letter {
   font-size: 9em;
@@ -7917,56 +7974,6 @@ html {
     margin-left: -0.09em;
     padding-right: 0.025em;
     line-height: .85em; } }
-
-.quire-page--frontmatter.quire-essay .quire-page__abstract,
-.quire-essay .quire-page__abstract {
-  padding-top: 1em;
-  margin-bottom: -3.5em; }
-  @media screen and (max-width: 500px) {
-    .quire-page--frontmatter.quire-essay .quire-page__abstract,
-    .quire-essay .quire-page__abstract {
-      margin-bottom: -3em; } }
-  .quire-page--frontmatter.quire-essay .quire-page__abstract:after,
-  .quire-essay .quire-page__abstract:after {
-    font-size: 0.86em; }
-  .quire-page--frontmatter.quire-essay .quire-page__abstract .container,
-  .quire-essay .quire-page__abstract .container {
-    padding: 1em 2.75em 1em !important;
-    margin: 0 auto;
-    max-width: 720px;
-    width: 720px;
-    font-size: 16px; }
-    @media print {
-      .quire-page--frontmatter.quire-essay .quire-page__abstract .container,
-      .quire-essay .quire-page__abstract .container {
-        margin: 0 auto;
-        padding: 0;
-        max-width: 100%;
-        width: 100%; } }
-    .quire-page--frontmatter.quire-essay .quire-page__abstract .container .content,
-    .quire-essay .quire-page__abstract .container .content {
-      margin: 0;
-      padding: 0 0 1em;
-      font-size: 0.875em;
-      line-height: 1.714em; }
-
-@media print {
-  .quire-page__content .quire-page__abstract {
-    -webkit-column-span: all;
-            column-span: all;
-    width: 75%;
-    margin: 0 auto; } }
-
-@media print {
-  .quire-page__content .quire-page__abstract .container {
-    -webkit-column-span: all;
-            column-span: all; } }
-
-@media print {
-  .quire-page__content .quire-page__abstract .container:after {
-    -webkit-column-span: all;
-            column-span: all;
-    margin-bottom: 2em; } }
 
 .quire-page__content .content a {
   line-height: 1.6;
@@ -7993,6 +8000,11 @@ html {
   font-size: .925rem;
   line-height: 0;
   margin-left: .1em; }
+  @media print {
+    .quire-page__content .content .footnote-ref a,
+    .quire-page__content .content a.footnote-return {
+      font-weight: normal;
+      font-size: inherit; } }
   .quire-page__content .content .footnote-ref a:hover,
   .quire-page__content .content a.footnote-return:hover {
     color: #a02a2a !important;
@@ -8018,6 +8030,14 @@ html {
 .quire-page__content .content h5,
 .quire-page__content .content h6 {
   color: #333333; }
+  @media print {
+    .quire-page__content .content h1,
+    .quire-page__content .content h2,
+    .quire-page__content .content h3,
+    .quire-page__content .content h4,
+    .quire-page__content .content h5,
+    .quire-page__content .content h6 {
+      color: #000000; } }
 
 .quire-page__content .content h2 {
   text-transform: uppercase;
@@ -8070,6 +8090,9 @@ html {
     height: 1px; }
   .quire-page__content .content .footnotes ol {
     margin-left: 1em; }
+    @media print {
+      .quire-page__content .content .footnotes ol {
+        margin-left: 1.5em; } }
     .quire-page__content .content .footnotes ol li {
       margin-bottom: 1em; }
   .quire-page__content .content .footnotes p + p {
@@ -8100,22 +8123,35 @@ html {
 
 @media print {
   .quire-page__content {
+    -webkit-column-count: 1;
+            column-count: 1;
+    margin: 0 1in; } }
+
+@media print {
+  .quire-essay .quire-page__content,
+  .quire-entry .quire-page__content {
     -webkit-column-count: 2;
             column-count: 2;
     -webkit-column-fill: balance;
             column-fill: balance;
     -webkit-column-gap: .1875in;
             column-gap: .1875in;
-    font-size: 9pt;
-    line-height: 14pt;
-    margin: 0; } }
+    margin: 0; }
+    .quire-essay .quire-page__content .quire-figure.is-pulled-left,
+    .quire-essay .quire-page__content .quire-figure.is-pulled-right,
+    .quire-entry .quire-page__content .quire-figure.is-pulled-left,
+    .quire-entry .quire-page__content .quire-figure.is-pulled-right {
+      float: none;
+      width: 100%;
+      margin-left: 0;
+      margin-right: 0; } }
 
-@media print {
-  .quire-page--frontmatter .quire-page__content,
-  .quire-page--backmatter .quire-page__content {
-    -webkit-column-count: 1;
-            column-count: 1;
-    margin: 0 .75in; } }
+.quire-page__abstract {
+  -webkit-column-span: all;
+          column-span: all;
+  -webkit-column-count: 1;
+          column-count: 1;
+  margin: 0 1in 1.25em 1in; }
 
 .quire-cover__overlay {
   position: absolute;
@@ -8252,9 +8288,6 @@ html {
     padding-top: 2em !important;
     color: #333333;
     background-color: #EEF2F3; }
-    @media print {
-      .quire-cover .quire-page__content .container.is-fluid .content {
-        background-color: transparent; } }
     .quire-cover .quire-page__content .container.is-fluid .content p {
       line-height: 2em;
       font-family: "Noto Sans", sans-serif; }
@@ -8283,17 +8316,24 @@ html {
   @media print {
     .quire-contents {
       background-color: transparent; } }
-  .quire-contents .quire-page__abstract {
-    margin-bottom: 0;
-    padding: 40px 0 !important; }
-    .quire-contents .quire-page__abstract .container {
-      padding: 0 2.5em;
-      background-color: transparent !important; }
-    .quire-contents .quire-page__abstract:after {
-      background-color: transparent; }
+  @media screen {
+    .quire-contents .quire-page__abstract {
+      margin-bottom: 0;
+      padding: 40px 0 !important; } }
+  .quire-contents .quire-page__abstract .container {
+    padding: 0 2.5em;
+    background-color: transparent !important; }
+    @media print {
+      .quire-contents .quire-page__abstract .container {
+        padding: 0; } }
+  .quire-contents .quire-page__abstract:after {
+    background-color: transparent; }
   .quire-contents .quire-page__content .container {
     padding-right: 2.25em;
     padding-left: 2.25em; }
+    @media print {
+      .quire-contents .quire-page__content .container {
+        padding: 0; } }
 
 .quire-contents-list {
   box-shadow: none;
@@ -8345,6 +8385,9 @@ html {
         font-size: 16px; }
     .quire-contents-list ul.arrow .section-indent.page-item .abstract-text {
       font-size: 14px; }
+      @media print {
+        .quire-contents-list ul.arrow .section-indent.page-item .abstract-text {
+          font-size: 8.5pt; } }
     .quire-contents-list ul.arrow .section-indent a {
       margin-bottom: 1em;
       padding-right: 0;
@@ -8376,12 +8419,18 @@ html {
     .quire-contents-list .menu-list .section-item ul {
       margin-top: 1em;
       margin-bottom: 0;
+      margin: 1em 0 0 .75em;
       border-left-width: 0;
       font-size: .75em; }
       .quire-contents-list .menu-list .section-item ul .page-item {
         margin-bottom: 2.5em; }
         .quire-contents-list .menu-list .section-item ul .page-item:last-child {
           margin-bottom: 2em; }
+      @media print {
+        .quire-contents-list .menu-list .section-item ul .page-item {
+          margin-bottom: .75em; }
+          .quire-contents-list .menu-list .section-item ul .page-item:last-child {
+            margin-bottom: 1.25em; } }
       .quire-contents-list .menu-list .section-item ul a {
         border-bottom: 1px dotted #333333;
         width: -webkit-fit-content;
@@ -8390,21 +8439,34 @@ html {
         display: initial;
         padding: 0;
         padding-bottom: .1em; }
+        @media print {
+          .quire-contents-list .menu-list .section-item ul a {
+            border-width: 0; } }
         .quire-contents-list .menu-list .section-item ul a .arrow {
           display: none; }
         .quire-contents-list .menu-list .section-item ul a:hover {
           border-bottom: 1px solid #a02a2a; }
     .quire-contents-list .menu-list .section-item.no-landing .list-header {
       font-size: 1.375em;
-      padding: .5em .75em .5em 0;
+      padding: .5em 0;
       font-family: "IBM Plex Sans Condensed", sans-serif;
       color: #333333; }
+      @media print {
+        .quire-contents-list .menu-list .section-item.no-landing .list-header {
+          font-family: "Noto Sans", sans-serif;
+          font-size: 8.5pt;
+          color: #000000; } }
     .quire-contents-list .menu-list a {
       color: #333333;
       position: relative;
       padding-left: 0;
+      padding-right: 0;
       font-size: 1.375em;
       transition: all .25s ease; }
+      @media print {
+        .quire-contents-list .menu-list a {
+          font-size: 8.5pt;
+          color: #000000; } }
       .quire-contents-list .menu-list a .arrow {
         position: absolute;
         fill: #333333;
@@ -8418,10 +8480,17 @@ html {
           fill: #a02a2a; }
           .quire-contents-list .menu-list a:hover .arrow svg {
             fill: #a02a2a !important; }
+        .quire-contents-list .menu-list a:hover * {
+          color: #a02a2a; }
+        .quire-contents-list .menu-list a:hover figure.image {
+          box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.75); }
   .quire-contents-list .contributor {
     font-style: italic; }
   .quire-contents-list.list, .quire-contents-list.brief {
     font-family: "IBM Plex Sans Condensed", sans-serif; }
+    @media print {
+      .quire-contents-list.list, .quire-contents-list.brief {
+        font-family: "Noto Sans", sans-serif; } }
     .quire-contents-list.list li, .quire-contents-list.brief li {
       margin-bottom: .5em; }
     .quire-contents-list.list li > ul, .quire-contents-list.brief li > ul {
@@ -8449,12 +8518,21 @@ html {
     margin-bottom: 1rem;
     line-height: 1.4;
     color: #333333; }
+    @media print {
+      .quire-contents-list.abstract .abstract-text {
+        font-size: 8.5pt; } }
+    @media print {
+      .quire-contents-list.abstract .abstract-text {
+        color: #000000; } }
     .quire-contents-list.abstract .abstract-text p {
       margin-bottom: .5em; }
   .quire-contents-list.abstract .section-item ul .title {
     margin-bottom: 1em; }
   .quire-contents-list.abstract .section-item ul .abstract-text {
     font-size: .875rem; }
+    @media print {
+      .quire-contents-list.abstract .section-item ul .abstract-text {
+        font-size: 8.5pt; } }
   .quire-contents-list.abstract .quire-menu__formats a {
     font-size: 1em;
     text-decoration: none; }
@@ -8585,7 +8663,8 @@ html {
           font-size: inherit !important; }
         .quire-contents-list.grid ul li .card-content .arrow {
           font-size: 1em;
-          vertical-align: text-top; }
+          vertical-align: text-top;
+          margin-top: 0; }
         .quire-contents-list.grid ul li .card-content:hover {
           color: #a02a2a; }
           .quire-contents-list.grid ul li .card-content:hover .title {
@@ -8608,12 +8687,18 @@ html {
         font-weight: 400;
         text-align: center;
         color: #333333; }
+        @media print {
+          .quire-contents-list.grid ul li.section-item.no-landing .list-header {
+            color: #000000; } }
       .quire-contents-list.grid ul li.section-item > a > .card {
         box-shadow: none;
         background-color: inherit;
         min-height: 0;
         margin-bottom: 0;
         color: #333333; }
+        @media print {
+          .quire-contents-list.grid ul li.section-item > a > .card {
+            color: #000000; } }
         .quire-contents-list.grid ul li.section-item > a > .card .card-content {
           padding-bottom: 0; }
         .quire-contents-list.grid ul li.section-item > a > .card .title {
@@ -8675,8 +8760,8 @@ html {
   border-bottom: 1px solid #CF4747;
   padding: 1em 0;
   margin-top: 0.5em;
-  margin-left: 0 !important;
-  margin-right: 0 !important; }
+  margin-left: 0;
+  margin-right: 0; }
   .quire-figure .q-figure__wrapper {
     border: none;
     display: block;
@@ -8730,10 +8815,6 @@ html {
   .content .quire-figure {
     margin-left: 0;
     margin-right: 0; }
-    @media screen and (min-width: 500px) {
-      .content .quire-figure {
-        margin-left: 2em;
-        margin-right: 2em; } }
   .content figure .quire-figure__image {
     display: block;
     margin: 0 auto; }
@@ -8750,21 +8831,16 @@ html {
             user-select: text; }
     @media print {
       .content figure .quire-figure__caption {
-        margin-top: 5pt;
-        font-size: 9pt; } }
-  @media print {
-    .quire-figure__credit {
-      font-size: 7.5pt;
-      margin-top: 1.5pt; } }
+        color: #000000; } }
   .quire-figure__modal {
     color: #CF4747;
     font-weight: 700;
     margin-right: .3em;
-    margin-top: -3px;
+    margin-top: 0;
+    height: .875em;
     float: left;
-    height: 18px;
     position: relative;
-    top: 6px; }
+    top: .125em; }
     .quire-figure__modal .material-fullscreen,
     .quire-figure__modal .material-slides {
       top: 1px;
@@ -8773,10 +8849,17 @@ html {
       position: relative;
       font-weight: 400;
       float: left; }
+      @media print {
+        .quire-figure__modal .material-fullscreen,
+        .quire-figure__modal .material-slides {
+          display: none; } }
   .quire-figure__label {
     color: #CF4747;
     font-weight: 700;
     margin-right: .3em; }
+    @media print {
+      .quire-figure__label {
+        color: #000000; } }
     .quire-figure__label .material-fullscreen,
     .quire-figure__label .material-slides {
       top: 7px;
@@ -8862,14 +8945,19 @@ html {
       width: 50%; } }
   @media print {
     .quire-figure.is-pulled-left, .quire-figure.is-pulled-right {
-      float: none !important;
-      width: unset !important; } }
+      width: 2.75in; } }
   .quire-figure.is-pulled-left {
     margin-left: 0;
-    margin-right: 1.25em !important; }
+    margin-right: 1.25em; }
+    @media print {
+      .quire-figure.is-pulled-left {
+        margin-right: 1.75em; } }
   .quire-figure.is-pulled-right {
     margin-right: 0;
-    margin-left: 1em !important; }
+    margin-left: 1em; }
+    @media print {
+      .quire-figure.is-pulled-right {
+        margin-left: 1.5em; } }
   .content .quire-figure.is-pulled-left,
   .content .quire-figure.is-pulled-right {
     margin-top: .75em;
@@ -9051,9 +9139,7 @@ div.multimedia {
     border-bottom-color: #ffffff !important; }
   @media print {
     .quire-entry__image {
-      display: block; } }
-  @media print {
-    .quire-entry__image {
+      display: block;
       background-color: transparent; }
       .quire-entry__image * {
         color: #000000; }
@@ -9224,7 +9310,19 @@ div.multimedia {
 .quire-entry__header {
   margin-top: 1em; }
   .quire-entry__header h1 {
-    font-size: 1.875em !important; }
+    padding: 1em 1.2em 0;
+    font-size: 1.875em;
+    font-weight: 400; }
+    @media screen and (min-width: 500px) {
+      .quire-entry__header h1 {
+        font-size: 1.675em;
+        /** approx 26px **/
+        line-height: 1.15em;
+        /** approx 30px **/ } }
+    @media print {
+      .quire-entry__header h1 {
+        padding: 0;
+        margin: .75in 0 .5in; } }
   .quire-entry__header .container {
     background-color: #ffffff;
     padding-bottom: 2rem; }
@@ -9232,20 +9330,24 @@ div.multimedia {
       .quire-entry__header .container {
         margin-right: 0;
         margin-left: 0; } }
+    @media print {
+      .quire-entry__header .container {
+        margin: 0;
+        padding: 0; } }
   @media print {
     .quire-entry__header {
-      height: 3in;
-      text-align: center;
-      border: 1pt solid transparent; } }
+      width: 75%;
+      margin: 0 auto;
+      text-align: center; } }
 
-.quire-entry__tombstone a {
+.quire-entry__tombstone a.button {
   transition: all .25s ease;
   color: #CF4747; }
-  .quire-entry__tombstone a:hover {
+  .quire-entry__tombstone a.button:hover {
     background-color: #a02a2a;
     border-color: #a02a2a;
     color: #fff; }
-    .quire-entry__tombstone a:hover svg {
+    .quire-entry__tombstone a.button:hover svg {
       fill: #fff; }
 
 .quire-entry__tombstone > div.container {
@@ -9255,6 +9357,10 @@ div.multimedia {
     .quire-entry__tombstone > div.container {
       margin-right: 0;
       margin-left: 0; } }
+  @media print {
+    .quire-entry__tombstone > div.container {
+      margin: 0;
+      padding: 0; } }
 
 .quire-entry__tombstone .table {
   width: 90.5%;
@@ -9265,6 +9371,14 @@ div.multimedia {
   background-color: #ffffff;
   color: #333333;
   font-size: 0.875em; }
+  @media print {
+    .quire-entry__tombstone .table {
+      margin: 0;
+      width: 100%; } }
+  @media print {
+    .quire-entry__tombstone .table {
+      color: #000000;
+      border-color: #000000; } }
   .quire-entry__tombstone .table td {
     border: none; }
 
@@ -9287,17 +9401,17 @@ div.multimedia {
     left: 0;
     max-height: 1.5em; }
 
-@media print {
-  .quire-entry__tombstone {
-    font-size: 9pt;
-    margin-bottom: .125in; } }
-
 .quire-entry__tombstone tr td:first-child {
   font-weight: 700; }
 
 .quire-entry__tombstone tr:hover {
   background-color: #F9F9A3;
   color: #333333; }
+
+@media print {
+  .quire-entry__tombstone {
+    width: 75%;
+    margin: 0 auto .25in; } }
 
 .quire-entry__content {
   position: relative;
@@ -9306,18 +9420,9 @@ div.multimedia {
   .quire-entry__content .quire-page__content {
     -webkit-animation: none;
             animation: none; }
-
-.quire-entry .quire-entry__header h1 {
-  padding: 1em 1.2em 0;
-  font-size: 2em;
-  font-weight: 400; }
-
-@media screen and (min-width: 500px) {
-  .quire-entry .quire-entry__header h1 {
-    font-size: 1.675em;
-    /** approx 26px **/
-    line-height: 1.15em;
-    /** approx 30px **/ } }
+    @media print {
+      .quire-entry__content .quire-page__content .content {
+        padding: 0; } }
 
 .quire-entry .quire-page__content {
   padding-bottom: 1.5rem; }
@@ -9325,6 +9430,9 @@ div.multimedia {
     background-color: #ffffff;
     margin-top: 0;
     padding: 0 2rem 2.5em; }
+    @media print {
+      .quire-entry .quire-page__content .content {
+        padding: 0; } }
     .quire-entry .quire-page__content .content p {
       line-height: 1.5; }
   .quire-entry .quire-page__content h2 {
@@ -9430,6 +9538,10 @@ div.multimedia {
   .quire-contributors-list .title,
   .content ul.quire-contributors-list .title {
     color: #333333; }
+    @media print {
+      .quire-contributors-list .title,
+      .content ul.quire-contributors-list .title {
+        color: #000000; } }
 
 .quire-contributor:before {
   display: none !important; }
@@ -9734,8 +9846,6 @@ body > div.mfp-bg.mfp-ready {
 
 @media print {
   @page {
-    @bottom {} }
-  @page {
     size: 8.5in 11in;
     prince-bleed: .125in;
     bleed: .125in;
@@ -9748,13 +9858,15 @@ body > div.mfp-bg.mfp-ready {
       font-size: 8pt; }
     @bottom-right {
       font-family: "IBM Plex Sans Condensed", sans-serif;
-      font-size: 8pt; }
+      font-size: 8pt;
+      color: #000000; }
     @bottom-center {
       font-family: "IBM Plex Sans Condensed", sans-serif;
       font-size: 8pt; }
     @bottom-left {
       font-family: "IBM Plex Sans Condensed", sans-serif;
-      font-size: 8pt; }
+      font-size: 8pt;
+      color: #000000; }
     @bottom-left-corner {
       font-family: "IBM Plex Sans Condensed", sans-serif;
       font-size: 8pt; } }
@@ -9766,7 +9878,7 @@ body > div.mfp-bg.mfp-ready {
       text-transform: uppercase;
       letter-spacing: 1pt;
       font-size: 7.5pt; }
-    @bottom-left-corner {
+    @bottom-left {
       content: counter(page); } }
   @page :left:first {
     @bottom-right {
@@ -9776,63 +9888,77 @@ body > div.mfp-bg.mfp-ready {
     margin-right: 0.75in;
     @bottom-left {
       content: string(pagetitle); }
-    @bottom-right-corner {
+    @bottom-right {
+      text-align: right;
       content: counter(page); } }
-  @page : right:first {
+  @page :right:first {
     @bottom-left {
       content: none; } }
   @page frontmatter:left {
-    @bottom-left-corner {
+    @bottom-left {
       content: counter(page, lower-roman); } }
   @page frontmatter:right {
-    @bottom-right-corner {
+    @bottom-right {
+      text-align: right;
+      content: counter(page, lower-roman); } }
+  @page frontmatter-splash:left {
+    background-color: #EEF2F3;
+    @bottom-left {
+      content: counter(page, lower-roman); } }
+  @page frontmatter-splash:right {
+    background-color: #EEF2F3;
+    @bottom-right {
+      text-align: right;
       content: counter(page, lower-roman); } }
   @page splash {
-    background-color: #CF4747;
-    color: #fff;
+    background-color: #EEF2F3; }
+  @page splash-image {
     margin-top: 0;
-    margin-bottom: 0;
+    margin-bottom: -0.125in;
     margin-left: 0;
     margin-right: 0;
-    @bottom-left-corner {
-      content: none; }
-    @bottom-right-corner {
-      content: none; } }
-  @page no-footer {
-    @bottom-right-corner {
-      content: none; }
-    @bottom-right {
-      content: none; }
-    @bottom-center {
-      content: none; }
     @bottom-left {
       content: none; }
-    @bottom-left-corner {
+    @bottom-right {
+      content: none; } }
+  @page no-footer {
+    @bottom-right {
+      content: none; }
+    @bottom-left {
       content: none; } }
   @page page-one:first {
-    @bottom-left-corner {
+    @bottom-left {
       content: none; }
     @bottom-left {
       content: none; } }
   .remove-from-epub {
     display: none; }
-  .quire-current-page__title {
+  .pdf-page-title {
     string-set: pagetitle content(); }
-  .quire-section-page__title {
+  .pdf-page-section {
     string-set: sectiontitle content(); }
   .quire-contents-list .page-item .title a::after {
     content: leader(dotted) " " target-counter(attr(href, url), page);
     margin-left: 6pt;
     border: 1pt solid transparent; }
-  .quire-contents-list .page-item.quire-frontmatter .title a::after {
+  .quire-contents-list .page-item .title a.frontmatter-page::after {
     content: leader(dotted) " " target-counter(attr(href, url), page, lower-roman);
-    font-style: italic; }
+    font-style: italic;
+    margin-left: 6pt;
+    border: 1pt solid transparent; }
   .quire-page--page-one {
     page: page-one;
     counter-reset: page 1;
     page-break-before: right; }
   .quire-page--frontmatter {
     page: frontmatter; }
+  .quire-splash {
+    page: splash;
+    background-color: #EEF2F3; }
+    .quire-splash .quire-page__header.hero-image {
+      page: splash-image; }
+  .quire-splash.quire-page--frontmatter {
+    page: frontmatter-splash; }
   .quire-entry__image .quire-entry__image__group-container figure {
     -webkit-column-break-after: page;
             break-after: page;
@@ -9849,54 +9975,6 @@ body > div.mfp-bg.mfp-ready {
   .quire-cover,
   .quire-contents {
     page: no-footer; }
-  .quire-splash .quire-page__header .hero-body,
-  .quire-splash .quire-page__header .quire-page__content {
-    margin-top: 0.75in;
-    margin-left: 1in;
-    margin-right: 1in;
-    margin-bottom: 0.875in; }
-    .quire-splash .quire-page__header .hero-body .container .content,
-    .quire-splash .quire-page__header .quire-page__content .container .content {
-      background-color: dodgerblue;
-      padding: 0;
-      margin: 0 auto; }
-  .quire-splash .quire-page__header .hero-body {
-    margin-top: 3in; }
-  .quire-splash .quire-page__header.quire-page__header--full-height {
-    page: splash;
-    background-color: #CF4747;
-    color: #fff;
-    width: 8.5in;
-    height: 11in; }
-  .quire-page {
-    margin: 0 auto; }
-  .hero.quire-page__header {
-    margin: 0 auto; }
-  .hero-body {
-    margin: 0 auto; }
-  .section.quire-page__content {
-    margin: 0 auto; } }
-  @media print {
-    .section.quire-page__content .quire-page__abstract {
-      -webkit-column-span: all;
-              column-span: all;
-      margin: 0 auto;
-      padding: 0; } }
-  @media print {
-    .section.quire-page__content .quire-page__abstract .container {
-      margin: 0 auto;
-      padding: 0; } }
-  @media print {
-    .section.quire-page__content .quire-page__abstract .container .content {
-      margin: 0 auto;
-      padding: 0; } }
-
-@media print {
-  .container {
-    margin: 0 auto; }
-  .content {
-    margin: 0 auto;
-    padding: 0; }
   .is-screen-only {
     display: none; }
   html body .leaflet-pane,
@@ -9913,11 +9991,6 @@ body > div.mfp-bg.mfp-ready {
     display: none; }
   .menu-list li ul {
     border-left-width: 0; }
-  .section {
-    padding: 0; }
-  .container {
-    max-width: 100%;
-    margin: 0; }
   .entry-image-wrap {
     width: 100%;
     -webkit-column-span: all;
@@ -9987,9 +10060,6 @@ body > div.mfp-bg.mfp-ready {
     top: 0;
     color: #ffffff;
     display: block; }
-  .quire-figure__media-wrapper--widescreen {
-    padding-bottom: 0;
-    position: inherit; }
   #content > div.container > div > figure:nth-child(11) > div:nth-child(1) .quire-figure--group-pdf {
     color: #fff; } }
 

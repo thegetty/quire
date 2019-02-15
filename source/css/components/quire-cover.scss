@@ -166,9 +166,9 @@
         padding-top: 2em !important;
         color: background-color-text-classic($secondary-background-color);
         background-color: $secondary-background-color;
-        @media print {
-          background-color: transparent;
-        }
+        // @media print {
+        //   background-color: transparent;
+        // }
         p {
           line-height: 2em;
           font-family: $quire-primary-font;

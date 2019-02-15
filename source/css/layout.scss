@@ -30,6 +30,9 @@
   h1, h2, h3, h4, h5, h6 {
     letter-spacing: -0.025em;
     color: background-color-text($secondary-background-color);
+    @media print {
+      color: $quire-print-text-color;
+    }
   }
 
   h2 {
@@ -64,6 +67,13 @@
   }
 
   // Styles used whether JS is enabled or not
+  #main {
+    background-color: $secondary-background-color;
+    @media print {
+      background-color: transparent;
+    }
+  }
+  
   &__secondary {
     background-color: $quire-menu-color;
     padding: 1.25em;
@@ -84,7 +94,7 @@
 
     .quire__primary {
       // flex: 1;
-      background: #fff;
+      // background: #fff;
     }
 
     .quire__secondary {
@@ -97,7 +107,10 @@
   // Styles with JS enabled (sliding menu, etc.)
   &:not(.no-js) {
     .quire__primary {
-      background: $secondary-background-color;
+      // background-color: $secondary-background-color;
+      // @media print {
+      //   background-color: transparent;
+      // }
       display: flex;
       flex-direction: column;
       height: 100vh;
@@ -113,9 +126,15 @@
       z-index: 9999;
 
       #main {
-        background: $secondary-background-color;
+        // background-color: $secondary-background-color;
+        // @media print {
+        //   background-color: transparent;
+        // }
         margin-top: $navbar-height;
         color: background-color-text($secondary-background-color);
+        @media print {
+          color: $quire-print-text-color;
+        }
       }
 
       .quire-page {

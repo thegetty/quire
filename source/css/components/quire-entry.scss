@@ -24,9 +24,6 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
 
     @media print {
       display: block;
-    }
-
-    @media print {
       background-color: transparent;
       @include foreground-color($white, $black);
     }
@@ -240,10 +237,27 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
   }
 
   &__header {
+    
+    // TEMPORARY TO TEST PDF LAYOUT
+    // @media print {
+    //   border: 1px solid Cyan;
+    // }
+    
     margin-top: 1em;
 
     h1 {
-      font-size: 1.875em !important;
+      padding: 1em 1.2em 0;
+      font-size: 1.875em;
+      font-weight: 400;
+      @media screen and (min-width: $tablet) {
+        font-size: 1.675em; /** approx 26px **/
+        line-height: 1.15em; /** approx 30px **/
+      }
+      @media print {
+        padding: 0;
+        margin: .75in 0 .5in;
+        
+      }
     }
 
     .container {
@@ -253,40 +267,48 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
         margin-right: 0;
         margin-left: 0;
       }
+      @media print {
+        margin: 0;
+        padding: 0;
+      }
     }
 
     @media print {
-      height: 3in;
+      width: 75%;
+      margin: 0 auto;
       text-align: center;
-      // This border is a hack for PrinceXML which doesn't
-      // otherwise recognize the box sizing for some reason
-      border: 1pt solid transparent;
     }
   }
 
   &__tombstone {
-    a {
+    
+    // TEMPORARY TO TEST PDF LAYOUT
+    // @media print {
+    //   border: 1px solid Lime;
+    // }
+    
+    a.button {
       -webkit-transition: all .25s ease;
       transition: all .25s ease;
-
+    
       @if $theme==classic {
         color: background-color-text-classic($content-background-color);
-
+    
         svg {
           fill: background-color-text-classic($content-background-color);
         }
       }
-
+    
       @else {
         color: $accent-color;
       }
-
+    
       &:hover {
         background-color: link-hover-color($content-background-color);
         border-color: link-hover-color($content-background-color);
-
+    
         color: findColorInvert($accent-color);
-
+    
         svg {
           fill: findColorInvert($accent-color);
         }
@@ -300,16 +322,28 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
         margin-right: 0;
         margin-left: 0;
       }
+      @media print {
+        margin: 0;
+        padding: 0;
+      }
     }
 
     .table {
       width: 90.5%;
       margin: 0 auto;
+      @media print {
+        margin: 0;
+        width: 100%;
+      }
       padding-bottom: 1em;
       border-top: 1px solid background-color-text($content-background-color);
       border-bottom: 1px solid background-color-text($content-background-color);
       background-color: $content-background-color;
       color: background-color-text($content-background-color);
+      @media print {
+        color: $quire-print-text-color;
+        border-color: $quire-print-text-color;
+      }
       font-size: 0.875em;
 
       td {
@@ -348,12 +382,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
         max-height: 1.5em;
       }
     }
-
-    @media print {
-      font-size: 9pt;
-      margin-bottom: .125in;
-    }
-
+    
     tr {
       td {
         &:first-child {
@@ -366,27 +395,29 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
         color: background-color-text($quire-hover-color);
       }
     }
+    
+    @media print {
+      width: 75%;
+      margin: 0 auto .25in;
+    }
   }
 
   &__content {
+    
+    // TEMPORARY TO TEST PDF LAYOUT
+    // @media print {
+    //   border: 1px solid OrangeRed;
+    // }
+    
     position: relative;
     animation: .5s ease 0s 1 slideFromRight;
 
     .quire-page__content {
       animation: none;
-    }
-  }
-
-  .quire-entry__header {
-    h1 {
-      padding: 1em 1.2em 0;
-      font-size: 2em;
-      font-weight: 400;
-    }
-    @media screen and (min-width: $tablet) {
-      h1 {
-        font-size: 1.675em; /** approx 26px **/
-        line-height: 1.15em; /** approx 30px **/
+      .content {
+        @media print {
+          padding: 0;
+        }
       }
     }
   }
@@ -398,6 +429,9 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
       background-color: $content-background-color;
       margin-top: 0;
       padding: 0 2rem 2.5em;
+      @media print {
+        padding: 0;
+      }
 
       p {
         line-height: 1.5;

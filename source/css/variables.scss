@@ -51,6 +51,23 @@ $quire-entry-image-icons-color: $white;
 // -----------------------------------------------------------------------------
 $quire-hover-color: $light-yellow;
 
+// Print/PDF stylesheet
+// -----------------------------------------------------------------------------
+$quire-print-base-font-size: 8.5pt;
+$quire-print-text-color: $black;
+
+$print-width: 8.5in;
+$print-height: 11in;
+
+$print-bottom-margin: 0.875in;
+$print-top-margin: 0.75in;
+$print-inner-margin: 1in;
+$print-outer-margin: 0.75in;
+
+$print-bleed: .125in;
+
+$print-splash-color: $off-white;
+
 // Themes
 // -----------------------------------------------------------------------------
 // Declare theme variables

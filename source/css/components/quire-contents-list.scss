@@ -14,10 +14,16 @@
     background-color: transparent;
   }
   .quire-page__abstract {
-    margin-bottom: 0;
-    padding: 40px 0 !important;
+    
+    @media screen {
+      margin-bottom: 0;
+      padding: 40px 0 !important;
+    }
     .container {
       padding: 0 2.5em;
+      @media print {
+        padding: 0;
+      }
       background-color: transparent !important;
     }
     &:after {
@@ -28,6 +34,9 @@
     .container {
       padding-right: 2.25em;
       padding-left: 2.25em;
+      @media print {
+        padding: 0;
+      }
     }
   }
 }
@@ -132,6 +141,9 @@
       }
       .abstract-text {
         font-size: $quire-base-font-size * 0.875;
+        @media print {
+          font-size: $quire-print-base-font-size;
+        }
       }
     }
     a {
@@ -178,6 +190,7 @@
     .section-item ul {
       margin-top: 1em;
       margin-bottom: 0;
+      margin: 1em 0 0 .75em;
       border-left-width: 0;
       font-size: .75em;
       .page-item {
@@ -186,8 +199,19 @@
           margin-bottom: 2em;
         }
       }
+      @media print {
+        .page-item {
+          margin-bottom: .75em;
+          &:last-child {
+            margin-bottom: 1.25em;
+          }
+        }
+      }
       a {
         border-bottom: 1px dotted background-color-text($secondary-background-color);
+        @media print {
+          border-width: 0;
+        }
         width: fit-content;
         display: initial;
         padding: 0;
@@ -204,9 +228,14 @@
     .section-item.no-landing {
       .list-header {
         font-size: 1.375em;
-        padding: .5em .75em .5em 0;
+        padding: .5em 0;
         font-family: $quire-headings-font;
         color: background-color-text($secondary-background-color);
+        @media print {
+          font-family: $quire-primary-font;
+          font-size: $quire-print-base-font-size;
+          color: $quire-print-text-color;
+        }
       }
     }
 
@@ -214,7 +243,12 @@
       color: background-color-text($secondary-background-color);
       position: relative;
       padding-left: 0;
+      padding-right: 0;
       font-size: 1.375em;
+      @media print {
+        font-size: $quire-print-base-font-size;
+        color: $quire-print-text-color;
+      }
       -webkit-transition: all .25s ease;
       transition: all .25s ease;
 
@@ -235,6 +269,14 @@
             fill: link-hover-color($secondary-background-color) !important;
           }
         }
+        * {
+           color: link-hover-color($secondary-background-color);
+         }
+         figure.image {
+           -webkit-box-shadow: 0px 0px 6px 0px $black-semi-transparent;
+           -moz-box-shadow: 0px 0px 6px 0px $black-semi-transparent;
+           box-shadow: 0px 0px 6px 0px $black-semi-transparent;
+         }
       }
     }
     // .arrow {
@@ -272,6 +314,9 @@
   &.list,
   &.brief {
     font-family: $quire-headings-font;
+    @media print {
+      font-family: $quire-primary-font;
+    }
     li {
       margin-bottom: .5em;
     }
@@ -307,10 +352,16 @@
     }
     .abstract-text {
       font-size: 0.875em;
+      @media print {
+        font-size: $quire-print-base-font-size;
+      }
       line-height: 1.5em;
       margin-bottom: 1rem;
       line-height: 1.4;
       color: background-color-text($secondary-background-color);
+      @media print {
+        color: $quire-print-text-color;
+      }
       p {
         margin-bottom: .5em;
       }
@@ -325,6 +376,9 @@
       }
       .abstract-text {
         font-size: .875rem;
+        @media print {
+          font-size: $quire-print-base-font-size;
+        }
       }
     }
     .quire-menu__formats {
@@ -414,6 +468,7 @@
     }
 
     .menu-list {
+      
       a {
         .arrow {
           @if $theme == classic {
@@ -611,6 +666,7 @@
         .arrow {
           font-size: 1em;
           vertical-align: text-top;
+          margin-top: 0;
         }
 
         &:hover {
@@ -661,6 +717,9 @@
           font-weight: 400;
           text-align: center;
           color: background-color-text($secondary-background-color);
+          @media print {
+            color: $quire-print-text-color;
+          }
         }
       }
 
@@ -670,6 +729,9 @@
         min-height: 0;
         margin-bottom: 0;
         color: background-color-text($secondary-background-color);
+        @media print {
+          color: $quire-print-text-color;
+        }
         .card-content {
           padding-bottom: 0;
         }

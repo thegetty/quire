@@ -4,23 +4,26 @@
 // Component print styles should be defined inside print media queries at the
 // component level. This stylesheet is for overrides and other special-case
 // rules which don't properly fit anywhere else and only show up in print.
-$print-width: 8.5in;
-$print-height: 11in;
-$print-bottom-margin: 0.875in;
-$print-top-margin: 0.75in;
-$print-inner-margin: 1in;
-$print-outer-margin: 0.75in;
-$print-bleed: .125in;
-$text-block-height: calc(#{$print-height} - #{$print-top-margin} - #{$print-bottom-margin});
+// $print-width: 8.5in;
+// $print-height: 11in;
+// $print-bottom-margin: 0.875in;
+// $print-top-margin: 0.75in;
+// $print-inner-margin: 1in;
+// $print-outer-margin: 0.75in;
+// $print-bleed: .125in;
+
 $splash-page-width: calc(#{$print-width} + #{$print-bleed} + #{$print-bleed});
+
 $splash-page-height: calc(#{$print-height} + #{$print-bleed} + #{$print-bleed});
+
 $print-footer-font: $quire-headings-font;
 $print-footer-font-size: 8pt;
 
-@media print {
-  @page {
-    @bottom {}
-  }
+
+@media print {    
+  // @page {
+  //   @bottom {}
+  // }
 
   @page {
     size: $print-width $print-height;
@@ -39,6 +42,9 @@ $print-footer-font-size: 8pt;
     @bottom-right {
       font-family: $print-footer-font;
       font-size: $print-footer-font-size;
+      color: $quire-print-text-color;
+      // TEMPORARY TO TEST PDF LAYOUT
+      // border: 1pt solid Red !important;
     }
 
     @bottom-center {
@@ -49,6 +55,9 @@ $print-footer-font-size: 8pt;
     @bottom-left {
       font-family: $print-footer-font;
       font-size: $print-footer-font-size;
+      color: $quire-print-text-color;
+      // TEMPORARY TO TEST PDF LAYOUT
+      // border: 1pt solid Blue !important;
     }
 
     @bottom-left-corner {
@@ -66,11 +75,11 @@ $print-footer-font-size: 8pt;
       text-transform: uppercase;
       letter-spacing: 1pt;
       font-size: 7.5pt;
+      
     }
 
-    @bottom-left-corner {
+    @bottom-left {
       content: counter(page);
-      //border: 1pt solid #ff0000 !important;
     }
   }
 
@@ -88,73 +97,92 @@ $print-footer-font-size: 8pt;
       content: string(pagetitle);
     }
 
-    @bottom-right-corner {
+    @bottom-right {
+      text-align: right;
       content: counter(page);
-      //border: 1pt solid #ff0000 !important;
     }
   }
 
-  @page: right:first {
+  @page:right:first {
     @bottom-left {
       content: none;
     }
   }
 
   @page frontmatter:left {
-    @bottom-left-corner {
+    @bottom-left {
       content: counter(page, lower-roman);
       //border: 1pt solid #ff0000 !important;
     }
   }
 
   @page frontmatter:right {
-    @bottom-right-corner {
+    @bottom-right {
+      text-align: right;
       content: counter(page, lower-roman);
       //border: 1pt solid #ff0000 !important;
     }
   }
-
+  
+  @page frontmatter-splash:left {
+    background-color: $print-splash-color;
+    @bottom-left {
+      content: counter(page, lower-roman);
+      //border: 1pt solid #ff0000 !important;
+    }
+  }
+  
+  @page frontmatter-splash:right {
+    background-color: $print-splash-color;
+    @bottom-right {
+      text-align: right;
+      content: counter(page, lower-roman);
+      //border: 1pt solid #ff0000 !important;
+    }
+  }
+  
   @page splash {
-    background-color: $accent-color;
-    color: findColorInvert($accent-color);
+    background-color: $print-splash-color;
+  }
+  
+  // html,
+  // body,
+  // .quire,
+  // .quire-primary,
+  // article {
+  //   background-color: transparent;
+  // }
+  
+  @page splash-image {
+    
+    // color: findColorInvert($accent-color);
     margin-top: 0;
-    margin-bottom: 0;
+    margin-bottom: -$print-bleed;
     margin-left: 0;
     margin-right: 0;
 
-    @bottom-left-corner {
-      content: none;
-    }
-
-    @bottom-right-corner {
-      content: none;
-    }
-  }
-
-  @page no-footer {
-    @bottom-right-corner {
+    @bottom-left {
       content: none;
     }
 
     @bottom-right {
       content: none;
     }
+  }
 
-    @bottom-center {
+  @page no-footer {
+
+    @bottom-right {
       content: none;
     }
 
     @bottom-left {
       content: none;
     }
-
-    @bottom-left-corner {
-      content: none;
-    }
   }
 
   @page page-one:first {
-    @bottom-left-corner {
+    @bottom-left {
       content: none;
     }
 
@@ -167,29 +195,42 @@ $print-footer-font-size: 8pt;
     display: none;
   }
 
-  .quire-current-page__title {
+  // .quire-current-page__title {
+  //   string-set: pagetitle content();
+  // }
+  
+  .pdf-page-title {
     string-set: pagetitle content();
   }
 
-  .quire-section-page__title {
+  .pdf-page-section {
     string-set: sectiontitle content();
   }
 
   .quire-contents-list {
     .page-item {
-      .title a::after {
-        content: leader(dotted) ' 'target-counter(attr(href, url), page);
-        margin-left: 6pt; // This border is a hack for PrinceXML which doesn't
-        // otherwise recognize the box sizing for some reason
-        border: 1pt solid transparent;
-      }
-
-      &.quire-frontmatter {
-        .title a::after {
+      .title {
+        a::after {
+          content: leader(dotted) ' 'target-counter(attr(href, url), page);
+          margin-left: 6pt; // This border is a hack for PrinceXML which doesn't
+          // otherwise recognize the box sizing for some reason
+          border: 1pt solid transparent;
+        }
+        a.frontmatter-page::after {
           content: leader(dotted) ' 'target-counter(attr(href, url), page, lower-roman);
           font-style: italic;
+          margin-left: 6pt; // This border is a hack for PrinceXML which doesn't
+          // otherwise recognize the box sizing for some reason
+          border: 1pt solid transparent;
         }
       }
+
+      // &.quire-frontmatter {
+      //   .title a::after {
+      //     content: leader(dotted) ' 'target-counter(attr(href, url), page, lower-roman);
+      //     font-style: italic;
+      //   }
+      // }
     }
   }
 
@@ -202,7 +243,32 @@ $print-footer-font-size: 8pt;
   .quire-page--frontmatter {
     page: frontmatter;
   }
-
+  
+  .quire-splash {
+    page: splash;
+    background-color: $print-splash-color;
+    .quire-page__header.hero-image {
+      page: splash-image;
+    }
+  }
+  
+  .quire-splash.quire-page--frontmatter {
+    page: frontmatter-splash;
+  }
+  
+  body {
+    // page: accent;
+    // background-color: LightYellow;
+    // TEMPORARY TO TEST PDF LAYOUT
+    // border: 1px solid Green;
+    // .quire .quire__primary #main {
+    //   background: transparent !important;
+    // }
+    // #main {
+    //   background: transparent !important;
+    // }
+  }
+  
 
 .quire-entry__image {
     // border: 1pt solid #d4d800 !important;
@@ -239,96 +305,46 @@ $print-footer-font-size: 8pt;
     page: no-footer;
   }
 
-  .quire-splash {
-    .quire-page__header {
-
-      .hero-body,
-      .quire-page__content {
-        margin-top: $print-top-margin;
-        margin-left: $print-inner-margin;
-        margin-right: $print-inner-margin;
-        margin-bottom: $print-bottom-margin;
-        .container {
-          .content {
-            background-color: dodgerblue;
-            padding: 0;
-            margin: 0 auto;
-          }
-        }
-      }
-
-      .hero-body {
-        margin-top: 3in;
-      }
-
-      &.quire-page__header--full-height {
-        page: splash;
-        background-color: $accent-color;
-        color: findColorInvert($accent-color);
-        width: $print-width;
-        height: $print-height;
-      }
-    }
+  .quire-splash { 
+    // .quire-page__header[style] {
+    //   page: splash;
+    //   background-color: $accent-color;
+    //   color: findColorInvert($accent-color);
+    //   width: 8.75in;
+    //   height: 11.25in;
+    //   margin: -$print-bleed;
+    //   .hero-body {
+    //     margin-top: 3in;
+    //   }
+    // }
   }
 
   .quire-page,
   .hero.quire-page__header,
-  .hero-body {
+  .hero-body,
+  .section.quire-page__content {
     // This border is a hack for PrinceXML which doesn't
     // otherwise recognize the box sizing for some reason
     //border: 1pt solid transparent !important;
+    // border: 1px solid red !important;
   }
 
-  // TEMPORARY
+  // TEMPORARY TO TEST PDF LAYOUT
   // Use to better test and style layout of pages
   .quire-page {
-    //border: 1pt solid #ff0000 !important;
-    margin: 0 auto;
-  }
-
-  .hero.quire-page__header {
-    //border: 1pt solid #ff00ff !important;
-    margin: 0 auto;
-  }
-
-  .hero-body {
-    //border: 1pt solid #0000ff !important;
-    margin: 0 auto;
-  }
-
-  .section.quire-page__content {
-    //border: 1pt solid #00ff00 !important;
-    margin: 0 auto;
-    .quire-page__abstract {
-      @media print {
-        column-span: all;
-        margin: 0 auto;
-        padding: 0;
-      }
-      .container {
-        @media print {
-          margin: 0 auto;
-          padding: 0;
-        }
-        .content {
-          @media print {
-            margin: 0 auto;
-            padding: 0;
-          }
-        }
-      }
-    }
+    // border: 1pt solid #ff0000 !important;
+    // margin: 0 auto;
   }
 
   .container {
     //border: 1pt solid #ffff00 !important;
-    margin: 0 auto;
+    // margin: 0 auto;
   }
 
   .content {
     //border: 1pt solid #00ffff !important;
-    margin: 0 auto;
-    padding: 0;
+    // margin: 0 auto;
+    // padding: 0;
   }
 
   .is-screen-only {
@@ -359,14 +375,14 @@ $print-footer-font-size: 8pt;
     border-left-width: 0;
   }
 
-  .section {
-    padding: 0;
-  }
+  // .section {
+  //   padding: 0;
+  // }
 
-  .container {
-    max-width: 100%;
-    margin: 0;
-  }
+  // .container {
+  //   max-width: 100%;
+  //   margin: 0;
+  // }
 
 .entry-image-wrap {
   width: 100%;
@@ -465,10 +481,10 @@ $print-footer-font-size: 8pt;
   display: block;
 }
 
-.quire-figure__media-wrapper--widescreen {
-  padding-bottom: 0;
-  position: inherit;
-}
+// .quire-figure__media-wrapper--widescreen {
+//   padding-bottom: 0;
+//   position: inherit;
+// }
 
 #content>div.container>div>figure:nth-child(11)>div:nth-child(1) .quire-figure--group-pdf {
   color: #fff;

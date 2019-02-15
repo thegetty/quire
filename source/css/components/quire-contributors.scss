@@ -14,6 +14,9 @@
   margin-left: 0;
   .title {
     color: background-color-text($secondary-background-color);
+    @media print {
+      color: $quire-print-text-color;
+    }
   }
 }
 
