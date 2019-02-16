@@ -12,7 +12,7 @@ Cover page layout. This controls the home page of the publication.
 
 <div class="{{ partial "page-class.html" . }} quire-cover" id="main" role="main">
 
-  {{ if or (eq $.Site.Params.epub true) (eq $.Site.Params.pdf true) }}
+  {{ if eq $.Site.Params.epub true }}
     {{- if .Site.Data.publication.promo_image -}}
     {{- $imgCoverPath := printf "%s/%s" ($.Scratch.Get "imageDir") .Site.Data.publication.promo_image -}}
     <img src="{{ $imgCoverPath | relURL }}"/>
@@ -33,10 +33,12 @@ Cover page layout. This controls the home page of the publication.
       <div class="container is-fluid">
         {{/* Use .Site.Data.publication info if available */}}
         {{ if .Site.Data.publication }}
-        <p class="half-title">{{ if .Site.Data.publication.short_title }}{{ .Site.Data.publication.short_title | markdownify }}{{ else }}{{ .Site.Data.publication.title | markdownify }}{{ end }}</p>
+        
+        {{- $endPunctuation := findRE "[!|?]$" .Site.Data.publication.title -}}
         <h1 class="title">
           {{ .Site.Data.publication.title | markdownify }}
-          {{ with .Site.Data.publication.subtitle }}
+          {{- with .Site.Data.publication.subtitle -}}
+          {{- if $endPunctuation }} {{ else }}<span class="visually-hidden">: </span>{{ end -}}
           <span class="subtitle">{{ . | markdownify }}</span>
           {{ end }}
         </h1>
@@ -50,7 +52,7 @@ Cover page layout. This controls the home page of the publication.
         {{ .Site.Data.publication.contributor_as_it_appears }}
         {{ else }}
         <span class="visually-hidden">Contributors: </span>
-          <i><span class="by-line">by&nbsp;</span>{{ partial "contributor-list.html" (dict "range" .Site.Data.publication.contributor "contributorType" "primary" "listType" "string" "Site" $.Site) }}</i>
+          <em>{{ partial "contributor-list.html" (dict "range" .Site.Data.publication.contributor "contributorType" "primary" "listType" "string" "Site" $.Site) }}</em>
         {{- end -}}
         </div>
 

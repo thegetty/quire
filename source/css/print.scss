@@ -283,16 +283,6 @@ $print-footer-font-size: 8pt;
       }
     }
   }
-  
-  // .half-title-page,
-  // .title-page {
-  //   page: no-footer;
-  // }
-  
-  // #half-title,
-  // #title {
-  //   page: frontmatter;
-  // }
 
   .quire-page--page-one {
     page: page-one;
@@ -302,6 +292,11 @@ $print-footer-font-size: 8pt;
 
   .quire-page--frontmatter {
     page: frontmatter;
+  }
+  
+  #half-title .quire-page--frontmatter,
+  #title .quire-page--frontmatter {
+    page: no-footer;
   }
   
   .quire-splash {
@@ -369,9 +364,12 @@ $print-footer-font-size: 8pt;
     }
   }
 
-  .quire-cover,
   .quire-contents {
     page: no-footer;
+  }
+  
+  .quire-cover {
+    page: splash-image;
   }
 
   .quire-splash { 
@@ -465,70 +463,72 @@ $print-footer-font-size: 8pt;
   padding: 1.5rem;
 }
 
+.quire-cover {
+  width: 8.75in;
+  height: 11.25in;
+  margin: -$print-bleed;
+}
+
 .title-page {
   // column-span: all;
   // break-after: page;
+  margin-right: .5in;
   text-align: right;
+  padding-top: 2.5in;
+  font-family: $quire-headings-font;
+  page-break-before: right;
 
   span {
     display: block;
   }
 
   .title-tp {
-    font-size: 3em;
-    /** approx 48px **/
-    line-height: 1.04em;
-    /** approx 50px **/
+    font-size: 4em;
+    font-weight: 700;
+    color: $accent-color;
   }
 
   .sub-title {
-    font-size: 1.75em;
-    /** approx 28px **/
-    line-height: 1.15em;
-    /** approx 32px **/
+    font-size: 2.5em;
   }
 
   .contributor {
-    font-size: 1.125em;
-    /** approx 18px **/
-    line-height: 1.22em;
-    /** approx 22px **/
+    font-size: 1.75em;
+    margin-top: .125in;
   }
 
   .publisher {
-    font-size: 1.125em;
-    /** approx 18px **/
-    line-height: 1.22em;
-    /** approx 22px **/
+    font-size: 1.5em;
+    text-transform: uppercase;
+    letter-spacing: 1pt;
+    position: fixed;
+    bottom: .5in;
+    right: .5in;
+  }
+  
+  br {
+    display: none;
   }
 }
 
 .half-title-page {
+  margin-right: .5in;
   font-family: $quire-headings-font;
-  
-  // column-span: all;
-
+  font-size: 1.5em;
+  color: $accent-color;
   text-align: right;
-  // break-after: page;
+  padding-top: 2.5in;
 
   span {
-    display: block;
+    display: block; 
   }
 
-  .title-htp {
-    margin-top: 2.5in;
-    font-size: 1.5em;
-    /** approx 28px **/
-    // line-height: 1.15em;
-    /** approx 32px **/
+  .title-htp {    
+    font-weight: 700;
   }
 
   .sub-title {
     display: none;
-    font-size: 1.125em;
-    /** approx 18px **/
-    line-height: 1.22em;
-    /** approx 22px **/
   }
 }
 

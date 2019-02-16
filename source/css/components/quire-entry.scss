@@ -287,6 +287,26 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     //   border: 1px solid Lime;
     // }
     
+    a {
+      @if $theme == classic {
+        color: background-color-text-classic($content-background-color);
+        border-bottom: 1px dotted background-color-text-classic($content-background-color);
+      } @else {
+        color: $accent-color;
+        border-bottom: 1px dotted $accent-color;
+      }
+
+      &:hover {
+        color: link-hover-color($content-background-color);
+        border-bottom: 1px solid link-hover-color($content-background-color);
+      }
+      
+      @media print {
+        color: $quire-print-text-color;
+        border-bottom-width: 0;
+      }
+    }
+    
     a.button {
       -webkit-transition: all .25s ease;
       transition: all .25s ease;

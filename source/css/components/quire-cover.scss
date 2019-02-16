@@ -18,7 +18,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     @media print {
-      display: none;
+      height: 100%;
     }
   }
 
@@ -32,23 +32,23 @@
     align-items: center;
 
     @media print {
-      text-align: right;
-      background-color: inherit;
-      background-image: inherit;
-      margin-top: 2.5in;
-      margin-left: .75in;
-      margin-right: .75in;
-    }
-
-    .half-title {
-      display: none;
-      @media print {
-        display: block;
-        page-break-after: always;
-        color: $quire-cover-text-color;
-        text-transform: uppercase;
-        letter-spacing: 1pt;
-        font-family: $quire-headings-font;
+      // text-align: right;
+      // background-color: inherit;
+      // background-image: inherit;
+      // margin-top: 2.5in;
+      // margin-left: .75in;
+      // margin-right: .75in;
+      width: calc(#{$print-width} + #{$print-bleed} + #{$print-bleed});
+      height: calc(#{$print-height} + #{$print-bleed} + #{$print-bleed});
+      width: 100%;
+      height: 100%;
+      
+      .hero-body {
+        height: auto;
+        .container {
+          width: 6.75in;
+          padding-left: .5in;
+        }
       }
     }
 
@@ -62,7 +62,7 @@
       @media print {
         font-size: 40pt;
         margin-top: 0;
-        margin-bottom: .5in;
+        margin-bottom: .375in;
         color: $quire-cover-text-color;
         page-break-before: right;
       }
@@ -76,8 +76,8 @@
       line-height: 1.02;
       color: $quire-cover-text-color;
       @media print {
-        font-size: 32pt;
-        margin-top: .25in;
+        font-size: 30pt;
+        margin-top: .125in;
         color: $quire-cover-text-color;
       }
     }
@@ -107,6 +107,9 @@
     }
   }
   &__more {
+    @media print {
+      display: none;
+    }
     & .hero-more {
       display: block;
       position: relative;
