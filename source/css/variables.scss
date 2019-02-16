@@ -63,10 +63,13 @@ $print-bottom-margin: 0.875in;
 $print-top-margin: 0.75in;
 $print-inner-margin: 1in;
 $print-outer-margin: 0.75in;
-
 $print-bleed: .125in;
 
 $print-splash-color: $off-white;
+
+$print-entry-image-color: $rich-black;
+$print-entry-image-display: first; // first | all
+
 
 // Themes
 // -----------------------------------------------------------------------------

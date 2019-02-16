@@ -232,7 +232,6 @@
         font-family: $quire-headings-font;
         color: background-color-text($secondary-background-color);
         @media print {
-          font-family: $quire-primary-font;
           font-size: $quire-print-base-font-size;
           color: $quire-print-text-color;
         }
@@ -416,6 +415,9 @@
       } @else {
         color: $accent-color;
       }
+      @media print {
+        color: $quire-print-text-color;
+      }
 
 
     }
@@ -486,6 +488,9 @@
       .section-item ul a .arrow {
         display: inline-block;
         margin-top: 0;
+        @media print {
+          display: none;
+        }
       }
       ul.arrow {
         a {
@@ -536,6 +541,35 @@
           }
         }
       }
+      
+      @media print {
+        ul {
+          .page-item {
+            width: 2.125in;
+            height: 2.5in;
+            margin-bottom: .1875in;
+            background-color: $print-splash-color;
+            padding: 1em;
+            position: relative;
+            * {
+              margin: 0;
+              padding: 0;
+              background-color: transparent;
+            }
+            &:nth-child(3n+2) {
+              margin: 0 .1875in;
+            }
+            a {
+              position: initial;
+            }
+          }
+          .section-item {
+            width: 100%;
+            border-bottom: 1px solid $quire-print-text-color;
+            margin-bottom: .25in;
+          }
+        }
+      }
     }
 
     .quire-menu__formats {
@@ -577,6 +611,9 @@
 
       .card {
         min-height: 300px;
+        @media print {
+          min-height: initial;
+        }
         display: block;
         border-radius: 2px;
         margin: 1em 0.5em;
@@ -619,6 +656,9 @@
           -webkit-transition: -webkit-box-shadow .35s;
           transition: box-shadow .35s;
           padding: 1.5em 1.5em 0em 1.5em;
+          @media print {
+            padding: 0;
+          }
 
           .image {
             -webkit-transition: -webkit-box-shadow .35s;
@@ -637,15 +677,34 @@
         .card-content {
           font-size: 1.125em;
           padding: 1.5em;
+          @media print {
+            padding: .1875in 0;
+            font-size: 1.25rem;
+            font-family: $quire-primary-font;
+          }
+
+        }
+        @media print {
+          img {
+            max-height: 1.25in;
+            width: auto;
+          }
         }
       }
       .card.no-image {
         font-size: $quire-base-font-size;
         .card-content {
           font-size: 2.3em;
+          @media print {
+            font-size: 2.25rem;
+            padding-top: 0;
+          }
           .title {
             font-size: inherit;
           }
+        }
+        @media print {
+          margin-top: 0;
         }
       }
 
@@ -699,6 +758,10 @@
       } @else {
         border-color: lighten($secondary-background-color, 15%);
       }
+      
+      @media print {
+        border-width: 0;
+      }
 
 
       + .section-item {
@@ -719,6 +782,7 @@
           color: background-color-text($secondary-background-color);
           @media print {
             color: $quire-print-text-color;
+            padding-top: 0;
           }
         }
       }
@@ -739,6 +803,9 @@
           font-weight: 400 !important;
           text-align: center;
           font-size: .7em !important;
+          @media print {
+            font-size: inherit !important;
+          }
           .arrow {
             fill: background-color-text($secondary-background-color);
           }
@@ -757,6 +824,10 @@
       .list-header {
         margin-top: 1.5em;
         margin-left: 1em;
+        @media print {
+          margin-top: 0;
+          padding-top: 0;
+        }
       }
     }
 

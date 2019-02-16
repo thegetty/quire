@@ -416,7 +416,7 @@ html {
         }
       }
       &.is-fullhd {
-        padding: 0 2em !important;
+        padding: 0 2em;
       }
     }
   }
@@ -659,7 +659,7 @@ html {
         height: 11.25in;
         margin: -$print-bleed;
         .hero-body {
-          margin-top: 3in;
+          margin-top: 2.5in;
         }
       }
       .hero-body {
@@ -961,6 +961,21 @@ html {
   @media print {
     column-count: 1;
     margin: 0 1in;
+  }
+  
+  #title .quire-page &,
+  #half-title .quire-page & {
+    margin: 0;
+  }
+  
+  .quire-contents & {
+    margin: 0;
+    
+    .quire-contents-list {
+      &:not(.grid) {
+        margin: 0 1in;
+      }
+    }
   }
   
   .quire-essay &,

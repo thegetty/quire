@@ -145,6 +145,16 @@ $print-footer-font-size: 8pt;
     background-color: $print-splash-color;
   }
   
+  @page entry-image {
+    background-color: $print-entry-image-color;
+    @bottom-left {
+      content: none;
+    }
+    @bottom-right {
+      content: none;
+    }
+  }
+  
   // html,
   // body,
   // .quire,
@@ -190,7 +200,40 @@ $print-footer-font-size: 8pt;
       content: none;
     }
   }
-
+  
+  @page:blank {
+    @bottom-left {
+      content: normal;
+    }
+    @bottom-right {
+      content: normal;
+    }
+  }
+  @page frontmatter:blank {
+    @bottom-left {
+      content: normal;
+    }
+    @bottom-right {
+      content: normal;
+    }
+  }
+  @page splash:blank {
+    @bottom-left {
+      content: normal;
+    }
+    @bottom-right {
+      content: normal;
+    }
+  }
+  @page frontmatter-splash:blank {
+    @bottom-left {
+      content: normal;
+    }
+    @bottom-right {
+      content: normal;
+    }
+  }
+  
   .remove-from-epub {
     display: none;
   }
@@ -209,30 +252,47 @@ $print-footer-font-size: 8pt;
 
   .quire-contents-list {
     .page-item {
-      .title {
+      a::after {
+        content: leader(dotted) ' 'target-counter(attr(href, url), page);
+        margin-left: 6pt; // This border is a hack for PrinceXML which doesn't
+        // otherwise recognize the box sizing for some reason
+        border: 1pt solid transparent;
+      }
+      a.frontmatter-page::after {
+        content: leader(dotted) ' 'target-counter(attr(href, url), page, lower-roman);
+        font-style: italic;
+        margin-left: 6pt; // This border is a hack for PrinceXML which doesn't
+        // otherwise recognize the box sizing for some reason
+        border: 1pt solid transparent;
+      }
+    }
+    &.grid {
+      .page-item {
         a::after {
-          content: leader(dotted) ' 'target-counter(attr(href, url), page);
-          margin-left: 6pt; // This border is a hack for PrinceXML which doesn't
-          // otherwise recognize the box sizing for some reason
-          border: 1pt solid transparent;
+          position: absolute;
+          bottom: 1em;
+          right: 1em;
+          font-size: .75em;
         }
         a.frontmatter-page::after {
-          content: leader(dotted) ' 'target-counter(attr(href, url), page, lower-roman);
-          font-style: italic;
-          margin-left: 6pt; // This border is a hack for PrinceXML which doesn't
-          // otherwise recognize the box sizing for some reason
-          border: 1pt solid transparent;
+          position: absolute;
+          bottom: 1em;
+          right: 1em;
+          font-size: .75em;
         }
       }
-
-      // &.quire-frontmatter {
-      //   .title a::after {
-      //     content: leader(dotted) ' 'target-counter(attr(href, url), page, lower-roman);
-      //     font-style: italic;
-      //   }
-      // }
     }
   }
+  
+  // .half-title-page,
+  // .title-page {
+  //   page: no-footer;
+  // }
+  
+  // #half-title,
+  // #title {
+  //   page: frontmatter;
+  // }
 
   .quire-page--page-one {
     page: page-one;
@@ -271,13 +331,22 @@ $print-footer-font-size: 8pt;
   
 
 .quire-entry__image {
-    // border: 1pt solid #d4d800 !important;
+  // TEMPORARY TO TEST PDF LAYOUT
+  // border: 1pt solid Blue !important;
   .quire-entry__image__group-container {
-    figure {
+    figure {      
+      @if $print-entry-image-display == first {
+        display: none;
+        &:first-of-type {
+          display: block;
+        }
+      }
       break-after: page;
       width:100%;
       text-align: center;
-      // border: 1pt solid #0055ff !important;
+      page: entry-image;
+      // TEMPORARY TO TEST PDF LAYOUT
+      // border: 1pt solid Red !important;
         .quire-figure__media-fallback {
           .placeholder {
             width: 500px;
@@ -397,9 +466,9 @@ $print-footer-font-size: 8pt;
 }
 
 .title-page {
-  column-span: all;
-  break-after: page;
-  text-align: left;
+  // column-span: all;
+  // break-after: page;
+  text-align: right;
 
   span {
     display: block;
@@ -435,23 +504,27 @@ $print-footer-font-size: 8pt;
 }
 
 .half-title-page {
-  column-span: all;
+  font-family: $quire-headings-font;
+  
+  // column-span: all;
 
-  text-align: center;
-  break-after: page;
+  text-align: right;
+  // break-after: page;
 
   span {
     display: block;
   }
 
   .title-htp {
-    font-size: 1.75em;
+    margin-top: 2.5in;
+    font-size: 1.5em;
     /** approx 28px **/
-    line-height: 1.15em;
+    // line-height: 1.15em;
     /** approx 32px **/
   }
 
   .sub-title {
+    display: none;
     font-size: 1.125em;
     /** approx 18px **/
     line-height: 1.22em;
