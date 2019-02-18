@@ -15,7 +15,7 @@ Cover page layout. This controls the home page of the publication.
   {{ if eq $.Site.Params.epub true }}
     {{- if .Site.Data.publication.promo_image -}}
     {{- $imgCoverPath := printf "%s/%s" ($.Scratch.Get "imageDir") .Site.Data.publication.promo_image -}}
-    <img src="{{ $imgCoverPath | relURL }}"/>
+    <img src="{{ $imgCoverPath | relURL }}" class="epub-cover-image" />
     {{- end -}}
   {{/* PDF full cover image */}}
   {{ else }}
