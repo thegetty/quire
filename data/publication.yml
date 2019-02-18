@@ -89,6 +89,11 @@ resource_link:
     media_type: application/epub+zip
     link_relation: alternate
     url: /downloads/output.epub
+  - type: other-format
+    name: Kindle/MOBI
+    media_type: vnd.amazon.mobi8-ebook
+    link_relation: alternate
+    url: /downloads/output.mobi
   - type: footer-link
     name: About
     link_relation: about
