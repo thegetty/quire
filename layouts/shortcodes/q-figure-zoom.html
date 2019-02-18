@@ -195,9 +195,7 @@ alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
 
 {{/* -------------------- START FIGURE LABEL ON TOP BLOCK -------------------- */}}
   {{ if eq $.Site.Params.figureLabelLocation "on-top" }}
-  {{ if eq $.Site.Params.pdf true }} 
-  <span class="fig-print"> 
-  {{ else }}
+
   {{ if eq $.Site.Params.figureModal true }}
   {{ if eq $.Site.Params.figureModalIcons true }}
   <span class="fig"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
@@ -207,7 +205,7 @@ alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
   {{ else }}
   <span class="fig no-fullscreen {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
   {{ end }}
-  {{ end }}
+
   {{ if or (ne .label "") ($.Get "label") }}
     <strong>    
         {{ if $.Get "label" }}
@@ -226,7 +224,7 @@ alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
 {{ if eq $.Site.Params.figureModal true }}
 
   {{ if eq $.Site.Params.figureLabelLocation "below" }}
-    <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}">
+    <span class="quire-figure__modal">
       {{ if eq $.Site.Params.figureModalIcons true }}
       <span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
       {{ end }}
@@ -459,9 +457,7 @@ src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
 
 {{/* -------------------- START FIGURE LABEL ON TOP BLOCK -------------------- */}}
   {{ if eq $.Site.Params.figureLabelLocation "on-top" }}
-  {{ if eq $.Site.Params.pdf true }} 
-  <span class="fig-print"> 
-  {{ else }}
+
   {{ if eq $.Site.Params.figureModal true }}
   {{ if eq $.Site.Params.figureModalIcons true }}
   <span class="fig"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
@@ -471,7 +467,7 @@ src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
   {{ else }}
   <span class="fig no-fullscreen {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
   {{ end }}
-  {{ end }}
+
   {{ if or (ne .label "") ($.Get "label") }}
     <strong>    
         {{ if $.Get "label" }}
@@ -488,7 +484,7 @@ src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
 {{/* -------------------- END FIGURE LABEL ON TOP BLOCK -------------------- */}}
 
   {{ if eq $.Site.Params.figureLabelLocation "below" }}
-    <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}">
+    <span class="quire-figure__modal">
       {{ if and (eq $.Site.Params.figureModalIcons true) (eq $.Site.Params.figureModal true) }}
         <span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
       {{ end }}

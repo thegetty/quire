@@ -81,9 +81,7 @@ html {
     }
 
     @media print {
-      // font-size: 28pt;
       margin-top: .75in;
-      // border: 1px solid #ff0000;
     }
   }
 
@@ -92,10 +90,6 @@ html {
     text-transform: uppercase;
     font-size: 1.75em;
     line-height: 1.15em;
-
-    // @media print {
-    //   font-weight: 400;
-    // }
   }
 
   h3,
@@ -114,7 +108,6 @@ html {
     font-size: 1em;
 
     @media print {
-      // font-size: 11pt;
       margin: .375in .5in 0;
     }
   }
@@ -492,7 +485,6 @@ html {
         line-height: 1.714em;
         
         @media print {
-          // padding: 0;
           max-width: 100%;
         }
       }
@@ -537,14 +529,13 @@ html {
     background-color: transparent;
     color: $quire-print-text-color;
     margin: 0 .5in 1in;
+    @if $print-width <= 7 {
+      margin: 0 0 1in;
+    }
   }
   
   &.hero__image {
     height: 80vh;
-    // @media print {
-    //   margin-bottom: 0;
-    //   height: 0;
-    // }
     .quire-page__header {
       &__title, &__subtitle {
         color: $content-background-color;
@@ -552,25 +543,8 @@ html {
     }
   }
 
-  // .quire-splash & {
-  // 
-  //   .hero-body {
-  //     display: inline-block;
-  //     max-width: none;
-  //     top: 15%;
-  //     text-align: center;
-  //   }
-  // 
-  //   &.quire-page__header--full-height {
-  //     min-height: calc(60vh - #{$navbar-height});
-  //     background-position: center;
-  //   }
-  // }
-
   .hero-body {
 
-    // padding-top: 9rem;
-    // padding-bottom: 9rem;
     .label {
       line-height: 1.3;
       display: block;
@@ -608,59 +582,26 @@ html {
     @media screen and (min-width: $desktop) {
       margin: 0 5rem;
     }
-
-    @media print {
-      padding: 0;
-      // margin-bottom: 1in;
-    }
   }
 
-}
-
-@media print {
-  
-  // .quire-splash {
-  //   page: splash;
-  //   background-color: $print-splash-color;
-  //   &.quire-page--frontmatter {
-  //     page: frontmatter-splash;
-  //   }
-  //   .quire-page__header.hero-image {
-  //     page: splash-image;
-  //   }
-  // }
-  
-  // .quire-splash.quire-page--frontmatter {
-  //   // page: frontmatter-splash;
-  //   background-color: $print-splash-color;
-  //   // .quire-page__content {
-  //   //   page: frontmatter-splash;
-  //   // }
-  // }
-  // .quire-splash {
-  //   page: splash;
-  //   background-color: $print-splash-color;
-  // }
 }
 
 .quire-splash {
     
   .quire-page__header {  
-    // page: splash;
     &.hero-image {  
       background-color: transparent; 
       min-height: calc(60vh - #{$navbar-height});
       background-position: center; 
       @media print {
-        // page: splash-image;
+        $splash-page-width: $print-width + $print-bleed + $print-bleed;
+        $splash-page-height: $print-height + $print-bleed + $print-bleed;
+        
         background-color: $print-splash-color;
         color: $white;
-        width: 8.75in;
-        height: 11.25in;
+        width: $splash-page-width;
+        height: $splash-page-height;
         margin: -$print-bleed;
-        .hero-body {
-          margin-top: 2.5in;
-        }
       }
       .hero-body {
         .quire-page__header__title {
@@ -680,7 +621,6 @@ html {
     }
     background-color: transparent;  
     .hero-body {
-      // page: frontmatter-splash;
       .quire-page__header__title {
         color: background-color-text($secondary-background-color);
         @media print {
@@ -697,7 +637,6 @@ html {
   }
 
   .quire-page__content {
-    // page: frontmatter-splash;
     .container .content {
       background-color: $secondary-background-color;
       @media print {
@@ -956,52 +895,5 @@ html {
         margin-top: 0;
       }
     }
-  }
-
-  @media print {
-    column-count: 1;
-    margin: 0 1in;
-  }
-  
-  #title .quire-page &,
-  #half-title .quire-page & {
-    margin: 0;
-  }
-  
-  .quire-contents & {
-    margin: 0;
-    
-    .quire-contents-list {
-      &:not(.grid) {
-        margin: 0 1in;
-      }
-    }
-  }
-  
-  .quire-essay &,
-  .quire-entry & {
-    @media print {
-      column-count: 2;
-      column-fill: balance;
-      column-gap: .1875in;
-      margin: 0;
-    
-      // with narrower columns, image should be full width
-      .quire-figure.is-pulled-left,
-      .quire-figure.is-pulled-right {      
-        float: none;
-        width: 100%;
-        margin-left: 0;
-        margin-right: 0;
-      }
-    }
-  }
-  
-}
-
-// make abstract same width as single-column pages
-.quire-page__abstract {
-  column-span: all;
-  column-count: 1;
-  margin: 0 1in 1.25em 1in;
+  }  
 }

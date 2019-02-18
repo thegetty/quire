@@ -88,11 +88,7 @@ we start with media figures
 
 {{/* -------------------- START FIGURE LABEL ON TOP BLOCK -------------------- */}}
     {{ if eq $.Site.Params.figureLabelLocation "on-top" }}
-      {{ if eq $.Site.Params.pdf true }} 
-        <span class="fig-print"> 
-      {{ else }} 
-        <span class="fig no-fullscreen {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
-      {{ end }}
+      <span class="fig no-fullscreen {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
       {{ if or (isset . "label") ($.Get "label") }}
       <strong>    
           {{ if $.Get "label" }}
@@ -120,7 +116,7 @@ we start with media figures
       {{ if eq $.Site.Params.figureLabelLocation "below" }}
         {{ if and (ne (.Get "media_type") "audio") (ne (.Get "media_type") "soundcloud") (ne (.Get "media_type") "vimeo") (ne (.Get "media_type") "youtube") (ne (.Get "media_type") "website") (eq $.Site.Params.figureModal true) }}
         {{ if eq $.Site.Params.figureModalIcons true }}
-        <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
+        <span class="quire-figure__modal"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
         {{ else }}
         <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }} {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
         {{ end }}
@@ -235,10 +231,6 @@ we start with media figures
 {{/* -------------------- START FIGURE LABEL ON TOP BLOCK -------------------- */}}
 {{ if eq $.Site.Params.figureLabelLocation "on-top" }}
 
-  {{ if eq $.Site.Params.pdf true }} 
-    <span class="fig-print"> 
-  {{ else }} 
-
   {{ if and (ne (.Get "media_type") "audio") (ne (.Get "media_type") "soundcloud") (ne (.Get "media_type") "vimeo") (ne (.Get "media_type") "youtube") (ne (.Get "media_type") "website") (eq $.Site.Params.figureModal true) }}
 
   {{ if eq $.Site.Params.figureModalIcons true }}
@@ -249,8 +241,6 @@ we start with media figures
 
   {{ else }}
     <span class="fig no-fullscreen {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
-  {{ end }}
-
   {{ end }}
 
 {{ if or (isset . "label") ($.Get "label") }}
@@ -273,7 +263,7 @@ we start with media figures
 
 {{ if eq $.Site.Params.figureLabelLocation "below" }}
   {{ if and (ne (.Get "media_type") "audio") (ne (.Get "media_type") "soundcloud") (ne (.Get "media_type") "vimeo") (ne (.Get "media_type") "youtube") (ne (.Get "media_type") "website") (eq $.Site.Params.figureModal true) }}
-    <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}">
+    <span class="quire-figure__modal">
       {{ if eq $.Site.Params.figureModalIcons true }}
         <span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
       {{ end }}
@@ -505,10 +495,6 @@ render the figure from matching values found ther
 {{/* -------------------- START FIGURE LABEL ON TOP BLOCK -------------------- */}}
 {{ if eq $.Site.Params.figureLabelLocation "on-top" }}
 
-  {{ if or (eq $.Site.Params.pdf true) (eq $.Site.Params.epub true) }} 
-  <span class="fig-print"> 
-  {{ else }}
-
   {{ if and (ne .media_type "audio") (ne .media_type "soundcloud") (ne .media_type "vimeo") (ne .media_type "youtube") (ne .media_type "website") (eq $.Site.Params.figureModal true) }}
 
   {{ if eq $.Site.Params.figureModalIcons true }}
@@ -519,7 +505,6 @@ render the figure from matching values found ther
 
   {{ else }}
   <span class="fig no-fullscreen {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
-  {{ end }}
   {{ end }}
 
   {{ if or (isset . "label") ($.Get "label") }}
@@ -542,7 +527,7 @@ render the figure from matching values found ther
 
 {{ if eq $.Site.Params.figureLabelLocation "below" }}
   {{ if and (ne .media_type "audio") (ne .media_type "soundcloud") (ne .media_type "vimeo") (ne .media_type "youtube") (ne .media_type "website") (eq $.Site.Params.figureModal true) }}
-    <span class="quire-figure__modal {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}">
+    <span class="quire-figure__modal">
       {{ if eq $.Site.Params.figureModalIcons true }}
         <span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
       {{ end }}

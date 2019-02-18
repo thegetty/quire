@@ -33,16 +33,6 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
       height: 100%;
       top: 10px;
       right: 10px;
-
-      @media print {
-        figure {
-          display: none;
-        }
-
-        figure:first-of-type {
-          display: block;
-        }
-      }
     }
 
     figure {
@@ -274,9 +264,11 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     }
 
     @media print {
-      width: 75%;
-      margin: 0 auto;
       text-align: center;
+      margin: 0 .5in 1in;
+      @if $print-width <= 7 {
+        margin: 0 0 1in;
+      }
     }
   }
 
@@ -414,11 +406,6 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
         background-color: $quire-hover-color;
         color: background-color-text($quire-hover-color);
       }
-    }
-    
-    @media print {
-      width: 75%;
-      margin: 0 auto .25in;
     }
   }
 

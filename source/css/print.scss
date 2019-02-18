@@ -4,40 +4,43 @@
 // Component print styles should be defined inside print media queries at the
 // component level. This stylesheet is for overrides and other special-case
 // rules which don't properly fit anywhere else and only show up in print.
-// $print-width: 8.5in;
-// $print-height: 11in;
-// $print-bottom-margin: 0.875in;
-// $print-top-margin: 0.75in;
-// $print-inner-margin: 1in;
-// $print-outer-margin: 0.75in;
-// $print-bleed: .125in;
 
-$splash-page-width: calc(#{$print-width} + #{$print-bleed} + #{$print-bleed});
 
-$splash-page-height: calc(#{$print-height} + #{$print-bleed} + #{$print-bleed});
+// Variables (others in the variables.scss file)
+// -----------------------------------------------------------------------------
+$print-base-text-column-width: 4.75in;
+
+$print-bottom-margin: 0.875in;
+$print-top-margin: 0.75in;
+$print-outer-margin: 0.75in;
+$print-inner-margin: 1in;
+
+@if $print-width <= 7 {
+  $print-inner-margin: $print-width - $print-base-text-column-width - $print-outer-margin;
+}
+
+@if $print-height <= 10 {
+  $print-top-margin: 0.5in;
+}
 
 $print-footer-font: $quire-headings-font;
 $print-footer-font-size: 8pt;
 
+$print-trim: $print-bleed * 2;
+
 
 @media print {    
-  // @page {
-  //   @bottom {}
-  // }
-
+  
+// Paged Media CSS Setup for PrinceXML
+// -----------------------------------------------------------------------------
   @page {
     size: $print-width $print-height;
-    prince-bleed: .125in;
-    bleed: .125in;
-    prince-trim: 0.25in;
+    prince-bleed: $print-bleed;
+    bleed: $print-bleed;
+    prince-trim: $print-trim;
     marks: crop;
     margin-top: $print-top-margin;
     margin-bottom: $print-bottom-margin;
-
-    @bottom-right-corner {
-      font-family: $print-footer-font;
-      font-size: $print-footer-font-size;
-    }
 
     @bottom-right {
       font-family: $print-footer-font;
@@ -45,11 +48,6 @@ $print-footer-font-size: 8pt;
       color: $quire-print-text-color;
       // TEMPORARY TO TEST PDF LAYOUT
       // border: 1pt solid Red !important;
-    }
-
-    @bottom-center {
-      font-family: $print-footer-font;
-      font-size: $print-footer-font-size;
     }
 
     @bottom-left {
@@ -60,10 +58,6 @@ $print-footer-font-size: 8pt;
       // border: 1pt solid Blue !important;
     }
 
-    @bottom-left-corner {
-      font-family: $print-footer-font;
-      font-size: $print-footer-font-size;
-    }
   }
 
   @page:left {
@@ -75,7 +69,6 @@ $print-footer-font-size: 8pt;
       text-transform: uppercase;
       letter-spacing: 1pt;
       font-size: 7.5pt;
-      
     }
 
     @bottom-left {
@@ -112,7 +105,6 @@ $print-footer-font-size: 8pt;
   @page frontmatter:left {
     @bottom-left {
       content: counter(page, lower-roman);
-      //border: 1pt solid #ff0000 !important;
     }
   }
 
@@ -120,7 +112,6 @@ $print-footer-font-size: 8pt;
     @bottom-right {
       text-align: right;
       content: counter(page, lower-roman);
-      //border: 1pt solid #ff0000 !important;
     }
   }
   
@@ -128,7 +119,6 @@ $print-footer-font-size: 8pt;
     background-color: $print-splash-color;
     @bottom-left {
       content: counter(page, lower-roman);
-      //border: 1pt solid #ff0000 !important;
     }
   }
   
@@ -137,7 +127,6 @@ $print-footer-font-size: 8pt;
     @bottom-right {
       text-align: right;
       content: counter(page, lower-roman);
-      //border: 1pt solid #ff0000 !important;
     }
   }
   
@@ -155,17 +144,7 @@ $print-footer-font-size: 8pt;
     }
   }
   
-  // html,
-  // body,
-  // .quire,
-  // .quire-primary,
-  // article {
-  //   background-color: transparent;
-  // }
-  
   @page splash-image {
-    
-    // color: findColorInvert($accent-color);
     margin-top: 0;
     margin-bottom: -$print-bleed;
     margin-left: 0;
@@ -181,7 +160,6 @@ $print-footer-font-size: 8pt;
   }
 
   @page no-footer {
-
     @bottom-right {
       content: none;
     }
@@ -234,14 +212,8 @@ $print-footer-font-size: 8pt;
     }
   }
   
-  .remove-from-epub {
-    display: none;
-  }
-
-  // .quire-current-page__title {
-  //   string-set: pagetitle content();
-  // }
-  
+// Generated content for footers and page #s in TOC
+// -----------------------------------------------------------------------------
   .pdf-page-title {
     string-set: pagetitle content();
   }
@@ -254,14 +226,16 @@ $print-footer-font-size: 8pt;
     .page-item {
       a::after {
         content: leader(dotted) ' 'target-counter(attr(href, url), page);
-        margin-left: 6pt; // This border is a hack for PrinceXML which doesn't
+        margin-left: 6pt; 
+        // This border is a hack for PrinceXML which doesn't
         // otherwise recognize the box sizing for some reason
         border: 1pt solid transparent;
       }
       a.frontmatter-page::after {
         content: leader(dotted) ' 'target-counter(attr(href, url), page, lower-roman);
         font-style: italic;
-        margin-left: 6pt; // This border is a hack for PrinceXML which doesn't
+        margin-left: 6pt; 
+        // This border is a hack for PrinceXML which doesn't
         // otherwise recognize the box sizing for some reason
         border: 1pt solid transparent;
       }
@@ -284,6 +258,8 @@ $print-footer-font-size: 8pt;
     }
   }
 
+// Assigning page types
+// -----------------------------------------------------------------------------
   .quire-page--page-one {
     page: page-one;
     counter-reset: page 1;
@@ -310,59 +286,14 @@ $print-footer-font-size: 8pt;
   .quire-splash.quire-page--frontmatter {
     page: frontmatter-splash;
   }
-  
-  body {
-    // page: accent;
-    // background-color: LightYellow;
-    // TEMPORARY TO TEST PDF LAYOUT
-    // border: 1px solid Green;
-    // .quire .quire__primary #main {
-    //   background: transparent !important;
-    // }
-    // #main {
-    //   background: transparent !important;
-    // }
-  }
-  
 
-.quire-entry__image {
-  // TEMPORARY TO TEST PDF LAYOUT
-  // border: 1pt solid Blue !important;
-  .quire-entry__image__group-container {
-    figure {      
-      @if $print-entry-image-display == first {
-        display: none;
-        &:first-of-type {
-          display: block;
-        }
-      }
-      break-after: page;
-      width:100%;
-      text-align: center;
-      page: entry-image;
-      // TEMPORARY TO TEST PDF LAYOUT
-      // border: 1pt solid Red !important;
-        .quire-figure__media-fallback {
-          .placeholder {
-            width: 500px;
-            height: 250px;
-            i {
-              color: $white;
-              font-size: 100px;
-            }
-          }
-          // border: 1pt solid #2bff00 !important;
-          .quire-figure__wrapper {
-            // border: 1pt solid #ffa600 !important;
-            img {
-              // border: 1pt solid #ff00ff !important;
-              width: 100%;
-            }
-          }
+  .quire-entry__image {
+    .quire-entry__image__group-container {
+      figure {      
+        page: entry-image;
         }
       }
     }
-  }
 
   .quire-contents {
     page: no-footer;
@@ -372,195 +303,252 @@ $print-footer-font-size: 8pt;
     page: splash-image;
   }
 
-  .quire-splash { 
-    // .quire-page__header[style] {
-    //   page: splash;
-    //   background-color: $accent-color;
-    //   color: findColorInvert($accent-color);
-    //   width: 8.75in;
-    //   height: 11.25in;
-    //   margin: -$print-bleed;
-    //   .hero-body {
-    //     margin-top: 3in;
-    //   }
-    // }
+  #content>div.container>div>figure:nth-child(11)>div:nth-child(1) .quire-figure--group-pdf {
+    color: #fff;
   }
-
-  .quire-page,
-  .hero.quire-page__header,
-  .hero-body,
-  .section.quire-page__content {
-    // This border is a hack for PrinceXML which doesn't
-    // otherwise recognize the box sizing for some reason
-    //border: 1pt solid transparent !important;
-    // border: 1px solid red !important;
+  
+// Set columns and widths for main page content
+// -----------------------------------------------------------------------------
+  .quire-page__content {
+    column-count: 1;
+    max-width: $print-base-text-column-width;
+    margin: 0 auto;
+    
+    #title .quire-page &,
+    #half-title .quire-page & {
+      margin: 0;
+      max-width: 100%;
+    }
+    
+    .quire-contents & {
+      margin: 0;
+      max-width: 100%;
+      
+      .quire-contents-list {
+        &:not(.grid) {
+          max-width: $print-base-text-column-width;
+          margin: 0 auto;
+        }
+      }
+    }
+    
+    @if $print-width > 7 {
+      .quire-essay &,
+      .quire-entry & {
+        column-count: 2;
+        column-fill: balance;
+        column-gap: .1875in;
+        max-width: 100%;
+        margin: 0;
+      
+        // with narrower columns, image should be full width
+        .quire-figure.is-pulled-left,
+        .quire-figure.is-pulled-right {      
+          float: none;
+          width: 100%;
+          margin-left: 0;
+          margin-right: 0;
+        }
+      }
+    }
+    
   }
-
-  // TEMPORARY TO TEST PDF LAYOUT
-  // Use to better test and style layout of pages
-  .quire-page {
-    // border: 1pt solid #ff0000 !important;
-    // margin: 0 auto;
+  
+  // make other elements same width as single-column pages
+  .quire-page__abstract {
+    column-span: all;
+    column-count: 1;
+    margin: 0 auto 1.25em;
+    max-width: $print-base-text-column-width;
   }
-
-  .container {
-    //border: 1pt solid #ffff00 !important;
-    // margin: 0 auto;
+  
+  .quire-entry__tombstone {
+    column-span: all;
+    column-count: 1;
+    margin: 0 auto .25in;
+    max-width: $print-base-text-column-width;
   }
-
-  .content {
-    //border: 1pt solid #00ffff !important;
-    // margin: 0 auto;
-    // padding: 0;
+  
+  .quire-page__header.hero-image .hero-body {
+    margin: 2.5in .5in 0;
+    @if $print-width <= 7 {
+      width: $print-base-text-column-width;
+      margin: 2.5in auto 0;
+    }
   }
-
-  .is-screen-only {
-    display: none;
+  
+// Content list grid view
+// -----------------------------------------------------------------------------
+  $menu-grid-gap: .1875in;
+  $menu-grid-item-margin: $menu-grid-gap / 2;
+  
+  $menu-grid-item-width: ($print-width - $print-outer-margin - $print-inner-margin - (3 * $menu-grid-gap)) / 3;
+  
+  @if $print-width <= 7 {
+    $menu-grid-item-width: ($print-width - $print-outer-margin - $print-inner-margin - (2 * $menu-grid-gap)) / 2;
   }
-
+  
+  .quire-contents-list.grid .menu-list ul {
+    .page-item {
+      width: $menu-grid-item-width;
+      height: 2.5in;
+      margin-bottom: $menu-grid-gap;
+      background-color: $print-splash-color;
+      padding: 1em;
+      position: relative;
+      * {
+        margin: 0;
+        padding: 0;
+        background-color: transparent;
+      }
+      margin: 0 $menu-grid-item-margin $menu-grid-gap;
+      a {
+        position: initial;
+      }
+      .card.image {
+        .card-content {
+          padding: $menu-grid-gap 0;
+          font-size: 1.25rem;
+          font-family: $quire-primary-font;
+        }
+        img {
+          max-height: 1.25in;
+          width: auto;
+        }
+      }
+    }
+    .section-item {
+      width: 100%;
+      border-bottom: 1px solid $quire-print-text-color;
+      margin-bottom: .25in;
+    }
+  }    
+  
+// Entry image pages
+// -----------------------------------------------------------------------------
+  $print-entry-image-width: $print-width - $print-inner-margin - $print-outer-margin;
+  $print-entry-image-height: $print-height - $print-top-margin - $print-bottom-margin;
+  
+  .quire-entry__image & figure {
+    @if $print-entry-image-display == first {
+      display: none;
+      &:first-of-type {
+        display: block;
+      }
+    }
+    break-after: page;    
+    .quire-figure__media-fallback {
+      .quire-figure__wrapper {
+        width: $print-entry-image-width;
+        height: $print-entry-image-height;
+      }
+      img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        display: block;      
+      }
+    }
+  }
+  
+// Globally hidden elements
+// -----------------------------------------------------------------------------
   html body {
-
-    // Leaflet stuff
+    .button,
+    .input,
+    .textarea,
+    .select,
+    .visually-hidden,
+    .footnote-return,
+    .is-screen-only,
+    .remove-from-epub {
+      display: none;
+    }
+    
+    // Leaflet
     .leaflet-pane,
     .leaflet-map-pane,
     .leaflet-container,
     .lvml {
       display: none !important;
     }
+  }
 
-    .button,
-    .input,
-    .textarea,
-    .select,
-    .visually-hidden,
-    .footnote-return {
+// Title Page and Half Title Page
+// -----------------------------------------------------------------------------
+  .title-page {
+    margin-right: .5in;
+    @if $print-width <= 7 {
+      margin-right: 0;
+      max-width: $print-base-text-column-width;
+    }
+    text-align: right;
+    padding-top: 2.5in;
+    font-family: $quire-headings-font;
+    page-break-before: right;
+
+    span {
+      display: block;
+    }
+
+    .title-tp {
+      font-size: 4em;
+      font-weight: 700;
+      color: $accent-color;
+      line-height: 1.1;
+      margin-bottom: .3em;
+    }
+
+    .sub-title {
+      font-size: 2.5em;
+      line-height: 1.3;
+    }
+
+    .contributor {
+      font-size: 1.75em;
+      margin-top: .125in;
+    }
+
+    .publisher {
+      font-size: 1.5em;
+      text-transform: uppercase;
+      letter-spacing: 1pt;
+      position: fixed;
+      bottom: .5in;
+      right: .5in;
+      @if $print-width <= 7 {
+        right: 0;
+      }
+    }
+    
+    br {
       display: none;
     }
   }
 
-  .menu-list li ul {
-    border-left-width: 0;
-  }
-
-  // .section {
-  //   padding: 0;
-  // }
-
-  // .container {
-  //   max-width: 100%;
-  //   margin: 0;
-  // }
-
-.entry-image-wrap {
-  width: 100%;
-  column-span: all;
-  display: block;
-  break-before: page;
-  margin-bottom: 0.5em;
-}
-
-.bd-structure {
-  padding: 1.5rem;
-}
-
-.quire-cover {
-  width: 8.75in;
-  height: 11.25in;
-  margin: -$print-bleed;
-}
-
-.title-page {
-  // column-span: all;
-  // break-after: page;
-  margin-right: .5in;
-  text-align: right;
-  padding-top: 2.5in;
-  font-family: $quire-headings-font;
-  page-break-before: right;
-
-  span {
-    display: block;
-  }
-
-  .title-tp {
-    font-size: 4em;
-    font-weight: 700;
-    color: $accent-color;
-  }
-
-  .sub-title {
-    font-size: 2.5em;
-  }
-
-  .contributor {
-    font-size: 1.75em;
-    margin-top: .125in;
-  }
-
-  .publisher {
+  .half-title-page {
+    margin-right: .5in;
+    @if $print-width <= 7 {
+      margin-right: 0;
+      max-width: $print-base-text-column-width;
+    }
+    font-family: $quire-headings-font;
     font-size: 1.5em;
-    text-transform: uppercase;
-    letter-spacing: 1pt;
-    position: fixed;
-    bottom: .5in;
-    right: .5in;
+    color: $accent-color;
+    text-align: right;
+    padding-top: 2.5in;
+
+    span {
+      display: block; 
+    }
+
+    .title-htp {    
+      font-weight: 700;
+    }
+
+    .sub-title {
+      display: none;
+    }
   }
-  
-  br {
-    display: none;
-  }
-}
-
-.half-title-page {
-  margin-right: .5in;
-  font-family: $quire-headings-font;
-  font-size: 1.5em;
-  color: $accent-color;
-  text-align: right;
-  padding-top: 2.5in;
-
-  span {
-    display: block; 
-  }
-
-  .title-htp {    
-    font-weight: 700;
-  }
-
-  .sub-title {
-    display: none;
-  }
-}
-
-/** PRINT ELEMENTS **/
-
-.media-caption {
-
-}
-
-.time-length {
-  font-size: .875em;
-  width: 100%;
-}
-
-.fig-print {
-  font-size: .75em;
-  background: $black-semi-transparent;
-  position: absolute;
-  padding: 0 9px 0 3px;
-  left: 0;
-  top: 0;
-  color: $white;
-  display: block;
-}
-
-// .quire-figure__media-wrapper--widescreen {
-//   padding-bottom: 0;
-//   position: inherit;
-// }
-
-#content>div.container>div>figure:nth-child(11)>div:nth-child(1) .quire-figure--group-pdf {
-  color: #fff;
-}
 
 }

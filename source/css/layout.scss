@@ -88,17 +88,13 @@
 
   // Styles when JS is not supported; menu at bottom
   &.no-js {
-    // display: flex;
-    // flex-direction: column;
     min-height: 100vh;
 
     .quire__primary {
-      // flex: 1;
-      // background: #fff;
+
     }
 
     .quire__secondary {
-      // order: 1;
       width: 100%;
       display: none;
     }
@@ -107,18 +103,9 @@
   // Styles with JS enabled (sliding menu, etc.)
   &:not(.no-js) {
     .quire__primary {
-      // background-color: $secondary-background-color;
-      // @media print {
-      //   background-color: transparent;
-      // }
       display: flex;
       flex-direction: column;
       height: 100vh;
-      /*
-      top: 0;
-      left: 0;
-      position: absolute;
-      */
       transition-property: transform;
       transition-duration: 0.15s;
       transition-timing-function: linear;
@@ -126,10 +113,6 @@
       z-index: 9999;
 
       #main {
-        // background-color: $secondary-background-color;
-        // @media print {
-        //   background-color: transparent;
-        // }
         margin-top: $navbar-height;
         color: background-color-text($secondary-background-color);
         @media print {

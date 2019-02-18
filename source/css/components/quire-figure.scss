@@ -73,6 +73,12 @@
       display: flex;
       align-items: center;
       padding: 0;
+      @media print {
+        padding: 2px 3px 2px 6px;
+        .material-icons {
+          display: none;
+        }
+      }
       left: 0;
       top: 0;
       color: $white;
@@ -96,14 +102,6 @@
           margin-left: 6px;
         }
       }
-
-      &-print {
-        color: $white;
-        strong {
-          color: $white;
-          margin-right: 6px;
-        }
-      }
     }
 
     img {
@@ -115,11 +113,6 @@
   .content & {
     margin-left: 0;
     margin-right: 0;
-
-    // @media screen and (min-width: $tablet) {
-    //   margin-left: 2em;
-    //   margin-right: 2em;
-    // }
   }
 
   &__image {
@@ -140,22 +133,10 @@
       color: $quire-print-text-color;
     }
     user-select: text;
-
-    // @media print {
-    //   margin-top: 5pt;
-    //   font-size: 9pt;
-    // }
   }
 
   &__credit {
 
-    // display: block;
-    // font-size: 1em;
-    // margin-top: .25rem;
-    // @media print {
-    //   font-size: 7.5pt;
-    //   margin-top: 1.5pt;
-    // }
   }
 
   &__modal {
@@ -290,7 +271,7 @@
         font-size: 50px;
         color: $white;
         &.audio {
-          // padding-top: 10px;
+
         }
       }
     }
@@ -326,11 +307,6 @@
     @media print {
       width: 2.75in;
     }
-
-    // @media print {
-    //   float: none !important;
-    //   width: unset !important;
-    // }
   }
 
   &.is-pulled-left {
@@ -450,22 +426,18 @@
       margin-right: 0;
     }
 
-    /*
     .soundcloud,
     .youtube,
     .vimeo {
-      flex: 0 0 100%;
+      
     }
-    */
 
     .quire-figure__caption {
-      // clear: both;
       width: 100%;
     }
   }
 
   @media print {
-    // width: 96%;
     column-span: none;
     -webkit-column-break-inside: avoid;
     page-break-inside: avoid;
@@ -476,10 +448,6 @@
 
 /** VIDEO/AUDIO FALLBACK ELEMENTS **/
 
-
-/** VIDEO/AUDIO FALLBACK ELEMENTS **/
-
-/** VIDEO/AUDIO FALLBACK ELEMENTS **/
 div.multimedia {
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -521,9 +489,7 @@ div.multimedia {
       color: $black;
       font-weight: 400;
     }
-
   }
-
 
   &-grid {
     overflow-wrap: break-word;
@@ -563,7 +529,6 @@ div.multimedia {
         margin: .5em 0 0 0;
         color: $black;
       }
-
     }
   }
 
@@ -577,7 +542,6 @@ div.multimedia {
     color: $black;
     word-break: break-all;
   }
-
 }
 
 /** VIDEO/AUDIO FALLBACK ELEMENTS **/
