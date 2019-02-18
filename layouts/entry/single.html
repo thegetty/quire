@@ -18,6 +18,18 @@ a single image or object needs to be featured prominently.\
 {{/* Entry content, including entry image and tombstone data */}}
 <article class="{{ partial "page-class.html" . }} quire-entry" id="main" role="main">
 <div {{ if eq $.Site.Params.entryPageSideBySideLayout true }} {{ if and (ne $.Site.Params.pdf true) (ne $.Site.Params.epub true) }} class="side-by-side" {{ end }} {{ end }} data="{{ $.Site.Params.figureZoom }}">
+  
+  {{ if eq .Site.Params.epub true }}
+  <header class="quire-entry__header">
+    <div class="container">
+        {{/* Title */}}
+        <h1 class="quire-page__header__title" id="{{ .Title | urlize }}">
+          {{ with .Params.label }}<span>{{ . }}{{ $.Site.Params.pageLabelDivider }}</span>{{ end }}
+          {{ partial "page-title.html" . | markdownify }}
+        </h1>
+    </div>
+  </header>
+  {{ end }}
 
   {{/* Full-width entry image header */}}
 <div class="quire-entry__image-wrap">
@@ -66,7 +78,9 @@ a single image or object needs to be featured prominently.\
 </div>
 
 <div class="quire-entry__content">
+  
   {{/* Entry header */}}
+  {{ if ne .Site.Params.epub true }}
   <header class="quire-entry__header">
     <div class="container">
         {{/* Title */}}
@@ -76,6 +90,7 @@ a single image or object needs to be featured prominently.\
         </h1>
     </div>
   </header>
+  {{ end }}
 
   {{/* Entry tombstone data */}}
   {{ range .Params.object }}
