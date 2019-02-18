@@ -17,7 +17,7 @@ html {
   /* Don't use it for styling, used as selector which can take a punch if anything goes wrong above */
 }
 
-article, address, aside, blockquote, canvas, dd, details, div, dl, dt, figure, figcaption, footer, h1, h2, h3, h4, h5, h6, header, hr, li, main, nav, ol, p, pre, section, summary, ul {
+article, address, aside, blockquote, canvas, dd, details, div, dl, dt, figure, figcaption, footer, header, hr, li, main, nav, ol, p, pre, section, summary, ul {
   margin: 0;
   padding: 0;
   /* RS may apply vertical padding to el such as p */
@@ -120,45 +120,18 @@ h1, h2, h3, h4, h5, h6, dt, hr {
   break-after: avoid;
 }
 
-h1 {
-  font-size: 1.4375em;
-  line-height: 1.04347826;
-  margin-top: 0em;
-  margin-bottom: 2.08695652em;
-}
-
-h2 {
-  font-size: 1.3125em;
-  line-height: 1.14285714;
-  margin-top: 2.28571429em;
-  margin-bottom: 1.14285714em;
-}
-
-h3 {
-  font-size: 1.125em;
-  line-height: 1.33333333;
-  margin-top: 1.33333333em;
-  margin-bottom: 1.33333333em;
-}
-
-h4 {
-  font-size: 1em;
-  line-height: 1.5;
-  margin-top: 1.5em;
-  margin-bottom: 0em;
-}
-
-h5, h6 {
-  /* Styles */
-}
-
 p {
-  text-indent: 1em;
+  @if $quire-page-paragraph-style == indent {
+    text-indent: 1em;
+  } @else {
+    text-indent: 0;
+    margin-bottom: 1em;
+  }
 }
 
 .footnote {
   font-size: 0.9375em;
-  line-height: 1.6;
+  line-height: 0;
   text-indent: 0;
 }
 
@@ -321,11 +294,11 @@ ol {
 /* DEFINITION LISTS */
 
 dl {
-  margin: 1.5em 0 1.5em 5%;
+  margin: 1em 0 1em 0;
 }
 
 dt {
-  margin: 1.5em 0 0 0;
+  margin: 1em 0 0 0;
   font-weight: bold;
 }
 
@@ -424,4 +397,145 @@ canvas, iframe, svg, video {
   height: auto;
 }
 
-/* End CSS */
+
+// Paged Media CSS Setup for PrinceXML
+// -----------------------------------------------------------------------------
+// cover image 
+.epub-cover-image {
+  display: none;
+}
+
+// chapter opening
+section.level1 {
+  margin-top: 15%;
+  + h1 {
+    text-align: center;
+  }
+}
+
+// chapter label
+.label {
+  margin: 0 auto .75em;
+  text-align: center;
+  padding: 0 .25em;
+  width: fit-content;
+  display: table;
+  @if $theme == classic {
+    background-color: gray;
+    color: white;
+  } @else {
+    border-top: 2px solid $accent-color;
+    border-bottom: 2px solid $accent-color;
+  }
+}
+
+// chapter headings
+@if $theme == classic {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: Times, serif;
+    font-weight: 700;
+  }
+} @else {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: 700;
+  }
+}
+
+h1 {
+  font-size: 1.5em;
+}
+h2 {
+  font-size: 1.25em;
+}
+h3 {
+  font-size: 1.125em;
+}
+h4 {
+  font-size: 1em;
+}
+h5 {
+  font-size: .875em;
+  text-transform: capitalize;
+  letter-spacing: 1px;
+}
+h6 {
+  font-size: .875em;
+  text-transform: capitalize;
+  font-weight: 400;
+}
+
+section + h1 {
+  text-align: center;
+}
+
+// list of contributor names for chapter but not TOC
+section:not(#contents) {
+  h1 + ul {
+    list-style-type: none;
+    margin-left: 0;
+    padding-left: 0;
+  }
+}
+
+// hide citation content used in online hover over
+.quire-citation__content {
+  display: none;
+}
+
+// regular text and list links
+a {
+  font-weight: 400;
+  text-decoration: none;
+  border-bottom: 1px dotted $accent-color;
+  &.footnote-return,
+  .footnote-ref & {
+    font-weight: 700;
+    border-bottom-width: 0;
+  }
+}
+
+// figures
+figure {
+  page-break-inside: avoid; 
+  margin: 1em 0;
+  @if $theme == classic {
+    
+  } @else {
+    border-top: 1px solid $accent-color;
+    border-bottom: 1px solid $accent-color;
+    padding-top: .5em;
+    padding-bottom: .5em;
+  }
+  img {
+    display: block;
+    margin: 0 auto;
+    page-break-inside: avoid;
+    object-fit: contain;
+  } 
+  figcaption {
+    display: block;
+    margin-top: .5em;
+    font-size: 0.9rem;
+  }
+}
+
+// tables 
+table {
+  width: 100%;
+}
+
+// remove hr from footnotes
+h2 + hr {
+  display: none;
+}
+
+// contributor bios
+.quire-contributor__name {
+  font-weight: 700;
+}
+.quire-contributor__pic {
+  width: 30%;
+  float: left;
+  margin-right: 1em;
+}
