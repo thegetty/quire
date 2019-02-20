@@ -476,8 +476,13 @@ $print-trim: $print-bleed * 2;
 
 // Title Page and Half Title Page
 // -----------------------------------------------------------------------------
+  .region {
+    break-after: region;
+  }
+
   .title-page {
     margin-right: .5in;
+    height: $print-height;
     @if $print-width <= 7 {
       margin-right: 0;
       max-width: $print-base-text-column-width;
@@ -485,7 +490,6 @@ $print-trim: $print-bleed * 2;
     text-align: right;
     padding-top: 2.5in;
     font-family: $quire-headings-font;
-    page-break-before: right;
 
     span {
       display: block;
@@ -528,6 +532,7 @@ $print-trim: $print-bleed * 2;
 
   .half-title-page {
     margin-right: .5in;
+    height: $print-height;
     @if $print-width <= 7 {
       margin-right: 0;
       max-width: $print-base-text-column-width;
