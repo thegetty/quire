@@ -23,11 +23,12 @@ the figure for each into a figure group
 
 {{ $idstring := replace (.Get "id") " " "" }}
 {{ $idlist := split $idstring "," }}
-{{ $grid := .Get "grid" }}
 
-<figure class='quire-figure quire-figure--group {{ with .Get "class" }}{{ . }}{{ end }}{{ with .Get "grid" }} {{ end }} {{ if eq $.Site.Params.pdf true }}quire-figure--group-pdf {{ end }}'>
+<figure class='quire-figure quire-figure--group {{ with .Get "class" }}{{ . }}{{ end }} {{ if eq $.Site.Params.pdf true }}quire-figure--group-pdf {{ end }}'>
   {{ with .Get "grid" }}
   {{ $.Scratch.Add "grid" . }}
+  {{ else }}
+  {{ $.Scratch.Add "grid" 1 }}
   {{ end }}
   {{/* -------------------- BEGIN IDLIST RANGE -------------------- */}}
   {{ range $i, $e := $idlist }}
@@ -43,7 +44,7 @@ the figure for each into a figure group
   {{ range where $.Site.Data.figures.figure_list "id" "eq" $x }}
   {{ $.Scratch.Add "figCount" 1 }}
 
-  <figure class="column quire-grid--{{ $grid }} quire-figure--group__item {{ if .media_id }}{{ if or (eq .media_type "audio") (eq .media_type "soundcloud") (eq .media_type "youtube") (eq .media_type "vimeo") }}quire-figure--group__item-pdf {{ .media_type }}{{ end }}{{ end }}">
+  <figure class=" column quire-grid--{{ $.Scratch.Get "grid" }} quire-figure--group__item {{ if .media_id }}{{ if or (eq .media_type "audio") (eq .media_type "soundcloud") (eq .media_type "youtube") (eq .media_type "vimeo") }}quire-figure--group__item-pdf {{ .media_type }}{{ end }}{{ end }}">
 
   {{ if .media_id }}
     {{/* -------------------- BEGIN VIDEO BLOCK -------------------- */}}

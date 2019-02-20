@@ -476,8 +476,10 @@ $print-trim: $print-bleed * 2;
 
 // Title Page and Half Title Page
 // -----------------------------------------------------------------------------
-  .region {
+  .fullPageBreak {
     break-after: region;
+    height: $print-height;
+    width: $print-width;
   }
 
   .title-page {
@@ -511,6 +513,9 @@ $print-trim: $print-bleed * 2;
     .contributor {
       font-size: 1.75em;
       margin-top: .125in;
+      .quire-contributor {
+        display: inline;
+      }
     }
 
     .publisher {
@@ -518,7 +523,7 @@ $print-trim: $print-bleed * 2;
       text-transform: uppercase;
       letter-spacing: 1pt;
       position: fixed;
-      bottom: .5in;
+      bottom: 1.5in;
       right: .5in;
       @if $print-width <= 7 {
         right: 0;
@@ -552,7 +557,7 @@ $print-trim: $print-bleed * 2;
     }
 
     .sub-title {
-      display: none;
+      display: block;
     }
   }
 
