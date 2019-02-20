@@ -1,0 +1,41 @@
+{{/*
+    half title page and title page page layout for PDF output only
+*/}}
+
+{{- if eq .site.Params.pdf true }}
+<div class="fullPageBreak"></div>
+<div class="half-title-page">
+  {{ if .site.Data.publication.title }}
+  <span class="title-htp">
+    {{ .site.Data.publication.title }}
+  </span>
+  {{ end }}
+  {{ if .site.Data.publication.subtitle }}
+  <span class="sub-title">
+    {{ .site.Data.publication.subtitle }}
+  </span>
+  {{ end }}
+</div>
+<div class="fullPageBreak"></div>
+<div class="title-page">
+  {{ if .site.Data.publication.title }}
+  <span class="title-tp">
+    {{ .site.Data.publication.title }}
+  </span></br>
+  {{ end }}
+  {{ if .site.Data.publication.subtitle }}
+  <span class="sub-title">
+    {{ .site.Data.publication.subtitle }}
+  </span></br>
+  {{ end }}
+  <span class="contributor">
+    {{ partial "contributor-list.html" (dict "range" .site.Data.publication.contributor "contributorType" "primary" "listType" "string" "Site" .site) }}
+  </span></br>
+  <span class="publisher">
+    {{ range .site.Data.publication.publisher }}
+    {{ if .name }}{{ .name }}{{ end }}{{ if and (.name) (.location) }}, {{ end }}{{ if .location }}{{ .location }}{{ end }}
+    {{ end }}
+  </span>
+</div>
+<div class="fullPageBreak"></div>
+{{ end -}}
