@@ -63,51 +63,8 @@ Cover page layout. This controls the home page of the publication.
       </div>
     </div>
   </section>
-  
 
-  {{- if eq .Site.Params.pdf true }}
-
-  <div class="fullPageBreak"></div>
-
-  <div class="half-title-page">
-        {{ if .Site.Data.publication.title }} 
-        <span class="title-htp">
-          {{ .Site.Data.publication.title  }}
-        </span> 
-        {{ end }}
-        {{ if .Site.Data.publication.subtitle }} 
-        <span class="sub-title">
-          {{ .Site.Data.publication.subtitle  }}
-        </span> 
-        {{ end }}
-  </div>
-
-  <div class="fullPageBreak"></div>
-
-  <div class="title-page">
-      {{ if .Site.Data.publication.title }} 
-      <span class="title-tp">
-        {{ .Site.Data.publication.title  }}
-      </span></br> 
-      {{ end }}
-      {{ if .Site.Data.publication.subtitle }} 
-      <span class="sub-title">
-        {{ .Site.Data.publication.subtitle  }}
-      </span></br> 
-      {{ end }}
-      <span class="contributor">
-        {{ partial "contributor-list.html" (dict "range" .Site.Data.publication.contributor "contributorType" "primary" "listType" "string" "Site" $.Site) }}
-      </span></br>
-      <span class="publisher">
-        {{ range .Site.Data.publication.publisher }} 
-          {{ if .name }}{{ .name }}{{ end }}{{ if and (.name) (.location) }}, {{ end }}{{ if .location }}{{ .location }}{{ end }}
-        {{ end }}
-      </span>
-  </div>
-
-  <div class="fullPageBreak"></div>
-
-  {{ end -}}
+  {{ partial "pdf-title-pages.html" (dict "site" .Site) }}
 
   <section class="quire-cover__more" >
     <div class="quire-cover__more-body hero-more">
