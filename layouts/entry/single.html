@@ -17,7 +17,7 @@ a single image or object needs to be featured prominently.\
 
 {{/* Entry content, including entry image and tombstone data */}}
 <article class="{{ partial "page-class.html" . }} quire-entry" id="main" role="main">
-<div {{ if eq $.Site.Params.entryPageSideBySideLayout true }} {{ if and (ne $.Site.Params.pdf true) (ne $.Site.Params.epub true) }} class="side-by-side" {{ end }} {{ end }} data="{{ $.Site.Params.figureZoom }}">
+<div {{ if or (eq $.Site.Params.entryPageSideBySideLayout true) (in .Page.Params.class "side-by-side") }} {{ if and (ne $.Site.Params.pdf true) (ne $.Site.Params.epub true) }} class="side-by-side" {{ end }} {{ end }} data="{{ $.Site.Params.figureZoom }}">  
   
   {{ if eq .Site.Params.epub true }}
   <header class="quire-entry__header">
