@@ -28,7 +28,10 @@
   width: 100%;
 
   h1, h2, h3, h4, h5, h6 {
-    letter-spacing: -0.025em;
+    font-family: $quire-headings-font;
+    @if $quire-headings-font == $ibm-sans {
+      letter-spacing: -0.025em;
+    }
     color: background-color-text($secondary-background-color);
     @media print {
       color: $quire-print-text-color;

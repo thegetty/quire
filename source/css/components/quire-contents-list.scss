@@ -158,7 +158,7 @@
     }
 
     .section-item {
-      margin-bottom: 0;
+      // margin-bottom: 0;
     }
 
     .section-item ul {
@@ -170,7 +170,7 @@
       .page-item {
         margin-bottom: 2.5em;
         &:last-child {
-          margin-bottom: 2em;
+          margin-bottom: 1.5em;
         }
       }
       @media print {
