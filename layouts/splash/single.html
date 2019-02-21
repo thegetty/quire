@@ -1,0 +1,60 @@
+{{/*
+  Splash layout.
+*/}}
+
+{{ define "main" }}
+<article class="{{ partial "page-class.html" . }} quire-splash" id="main" role="main">
+  {{- if isset $.Site.Params "imagedir" }}
+  {{ $.Scratch.Set "imageDir" $.Site.Params.imageDir }}
+  {{ else }}
+  {{ $.Scratch.Set "imageDir" "" }}
+  {{ end -}}
+  {{- if .Params.image -}}
+  {{- $imgPath := printf "%s/%s" ($.Scratch.Get "imageDir") .Params.image -}}
+    <section class="{{ if or (eq .Title "title page") (eq .Title "half title page") }} is-screen-only {{ end }} quire-page__header hero quire-page__header--full-height {{ if .Params.image }}hero-image{{ end }}" style="background-image: url('{{ $imgPath | relURL }}');">
+      <div class="hero-body">
+        {{/* Page Title */}}
+        <h1 class="quire-page__header__title" id="{{ .Title | urlize }}">
+          {{ with .Params.label }}<span class="label">{{ . }}</span>{{ end }}
+          {{- partial "page-title.html" . | markdownify -}}
+        </h1>
+        {{/* Contributors, if any */}}
+        {{ with .Params.contributor }}
+          <div class="quire-page__header__contributor">
+            {{ partial "contributor-list.html" (dict "range" . "contributorType" "all" "listType" "list-plus" "Site" $.Site) }}
+          </div>
+        {{ end }}
+      </div>
+    </section>
+  {{- else -}}
+    <section class="{{ if or (eq .Title "title page") (eq .Title "half title page") }} is-screen-only {{ end }} quire-page__header hero">
+      <div class="hero-body">
+        {{/* Page Title */}}
+        <h1 class="quire-page__header__title" id="{{ .Title | urlize }}">
+          {{ with .Params.label }}<span class="label">{{ . }}</span>{{ end }}
+          {{- partial "page-title.html" . | markdownify -}}
+        </h1>
+        {{/* Contributors, if any */}}
+        {{ with .Params.contributor }}
+          <div class="quire-page__header__contributor">
+            {{ partial "contributor-list.html" (dict "range" . "contributorType" "all" "listType" "list-plus" "Site" $.Site) }}
+          </div>
+        {{ end }}
+      </div>
+    </section>
+  {{- end -}}
+
+  <section id="content" class="section quire-page__content">
+    {{ if .Params.abstract }}
+    {{ partial "page-abstract.html" . }}
+    {{ end }}
+    <div class="container">
+      <div class="content{{ if .Params.image }}{{ else }} no-image-above{{ end }}">
+        {{ .Content }}
+        {{ partial "page-bibliography.html" . }}
+      </div>
+      {{ partial "footer-buttons.html" . }}
+    </div>
+  </section>
+</article>
+{{ end }}

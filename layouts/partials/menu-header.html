@@ -5,13 +5,10 @@
   {{ if ne .Kind "home" -}}
   <a class="quire-menu__header__title-link" href="{{ .Site.BaseURL }}">
   {{- end }}
-  <h2 class="quire-menu__header__title">
+  <h4 class="quire-menu__header__title">
     <span class="visually-hidden">Site Title: </span>
-    {{- .Site.Data.publication.title | markdownify -}}
-    {{ with .Site.Data.publication.subtitle }}
-    <span class="quire-menu__header__subtitle">{{ . | markdownify -}}</span>
-    {{- end }}
-  </h2>
+    {{- partial "site-title.html" . | markdownify -}}
+  </h4>
   {{ if ne .Kind "home" -}}
   </a>
   {{- end }}
@@ -20,7 +17,7 @@
     {{ .Site.Data.publication.contributor_as_it_appears }}
     {{ else }}
     <span class="visually-hidden">Contributors: </span>
-    {{ partial "contributor-list.html" (dict "range" .Site.Data.publication.contributor "contributorType" "primary" "listType" "string" "Site" $.Site) }}
+    <i>by {{ partial "contributor-list.html" (dict "range" .Site.Data.publication.contributor "contributorType" "primary" "listType" "string" "Site" $.Site) }}</i>
     {{- end }}
   </div>
 </header>

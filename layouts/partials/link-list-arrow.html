@@ -1,0 +1,23 @@
+{{/*
+  Reusable partial to display a list of links with arrow_forward
+*/}}
+
+<ul class="menu-list">
+  {{ range . }}
+  <li>
+    <a href="{{ .url }}" target="_blank" {{ with .link_relation }}rel="{{ . }}"{{ end }} {{ with .media_type }}type="{{ . }}"{{ end }}>
+      {{ .name }}
+      <span class="arrow remove-from-epub">
+        <svg viewBox="0 0 18 18" >
+          <switch>
+            <use xlink:href="#arrow-forward-icon"></use>
+            <foreignObject width="18" height="18" viewBox="0 0 18 18">
+                <img class="remove-from-epub" src="/img/icons/arrow_forward@2x.png" alt=">" />
+            </foreignObject>
+          </switch>
+        </svg>
+      </span>
+    </a>
+  </li>
+  {{ end }}
+</ul>

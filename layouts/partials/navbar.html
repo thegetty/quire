@@ -18,144 +18,141 @@ search icons, and search results if enabled). It is visible on all pages.
 
   <nav class="quire-navbar-controls">
     <div class="quire-navbar-controls__left">
-      <button class="quire-navbar-button menu-button"
-              id="quire-controls-menu-button"
-              onclick="toggleMenu()"
-              aria-expanded="true"
-              aria-controls="quire-menu"
-              tabindex="2" >
-        <svg>
-          <switch>
-            <use xlink:href="#nav-icon"></use>
-            <foreignObject width="32" height="32">
-                <img src="{{ $imgDir | absURL }}/icons/nav.png" alt="" />
-            </foreignObject>
-          </switch>
-        </svg>
-        <span class="visually-hidden">Table of Contents</span>
-      </button>
-    </div>
-
-    <div class="quire-navbar-controls__center">
-      <ul class="quire-navbar-page-controls" role="navigation" aria-label="quick">
-        {{ template "if-previous" . }}
-
-        {{ if eq .Type "cover" }}
-        <li class="quire-navbar-page-controls__item quire-home-page">
-          <a href='{{ relref . "cover.md" }}' rel="start">
-            <span class="visually-hidden">Home Page: </span>
-            {{ if .Site.Data.publication.short_title }}
-            {{ .Site.Data.publication.short_title | markdownify }}
-            {{ else }}
-            {{ .Site.Data.publication.title | markdownify }}
-            {{ end }}
-          </a>
-        </li>
-        {{ else }}
-        <li class="quire-navbar-page-controls__item quire-home-page">
-          <a href='{{ relref . "cover.md" }}' rel="start">
-            <span class="visually-hidden">Home Page: </span>
-            {{ if .Site.Data.publication.short_title }}
-            {{ .Site.Data.publication.short_title | markdownify }}
-            {{ else }}
-            {{ .Site.Data.publication.title | markdownify | truncate 34 }}
-            {{ end }}
-          </a>
-        </li>
-        {{ if .Section }}
-        {{ if ne .Params.slug "." }}
-        <li class="quire-navbar-page-controls__item quire-section-page">
-          <a href="{{ .Section | relURL }}">
-            <span class="visually-hidden">Section: </span>
-            <span class="quire-section-page__title">{{ .Section | humanize | title }}</span>
-          </a>
-        </li>
-        {{ end }}
-        {{ end }}
-        <li class="quire-navbar-page-controls__item quire-current-page">
-          <span class="visually-hidden">Current Page: </span>
-          <span class="quire-current-page__title">{{- with .Params.number }}{{ . }}. {{ end }}{{- if .Params.short_title }}{{ .Params.short_title | markdownify }} {{ else }}{{ .Title | markdownify | truncate 34 }}{{ end -}}</span>
-        </li>
-        {{ end }}
-
-        {{ template "if-next" . }}
-
-      </ul>
-    </div>
-
-    <div class="quire-navbar-controls__right">
       <button class="quire-navbar-button search-button"
               aria-controls="quire-search"
               onclick="toggleSearch()">
-        <svg>
+        <svg class="remove-from-epub">
           <switch>
             <use xlink:href="#search-icon"></use>
             <foreignObject width="32" height="32">
-                <img src="{{ $imgDir | absURL }}/icons/search.png" alt="" />
+                <img src="{{ $imgDir | relURL }}/icons/search@2x.png" alt="Search" />
             </foreignObject>
           </switch>
         </svg>
         <span class="visually-hidden">Search</span>
       </button>
     </div>
+
+    <div class="quire-navbar-controls__center">
+      <ul class="quire-navbar-page-controls" role="navigation" aria-label="quick">
+
+      {{- $pages := .Site.Pages -}}
+      {{- $pages := where $pages "Params.online" "!=" "false" }}
+      {{- $pages := where $pages ".Type" "!=" "data" -}}
+
+      {{- range first 1 $pages -}}
+        {{- $.Scratch.Set "homepage" .UniqueID -}}
+        {{- $.Scratch.Set "homepage-link" .Permalink -}}
+      {{- end -}}
+
+      {{ if eq .UniqueID ($.Scratch.Get "homepage") }}
+
+        <li class="quire-navbar-page-controls__item quire-home-page">
+          <a href='{{ .Next.Permalink }}' rel="next">
+            <span class="visually-hidden">Next Page: </span>
+            <span class="quire-navbar-button play-button">
+              <svg class="remove-from-epub">
+                <switch>
+                  <use xlink:href="#start-icon"></use>
+                  <foreignObject width="32" height="32">
+                      <img src="{{ $imgDir | relURL }}/icons/play@2x.png" alt="Next Page" />
+                  </foreignObject>
+                </switch>
+              </svg>
+            </span>
+          </a>
+        </li>
+
+      {{ else }}
+
+        {{- if .Prev -}}
+        {{- if and (ne .Prev.Params.online false) (ne .Prev.Type "data") -}}
+        <li class="quire-navbar-page-controls__item quire-previous-page">
+          <a href='{{ .Prev.Permalink }}' rel="previous">
+            <span class="visually-hidden">Previous Page: </span>
+            <svg class="left-icon remove-from-epub">
+              <switch>
+                <use xlink:href="#left-arrow-icon"></use>
+                <foreignObject width="24" height="24">
+                    <img src="{{ $imgDir | relURL }}/icons/left@2x.png" alt="Previous Page" />
+                </foreignObject>
+              </switch>
+            </svg>
+            {{- with .Prev.Params.label }}{{ . }}{{ $.Site.Params.pageLabelDivider }}{{ end }}{{- if .Prev.Params.short_title }}{{ .Prev.Params.short_title | markdownify }} {{ else }}{{ .Prev.Title | markdownify | truncate 34 }}{{ end -}}
+          </a>
+        </li>
+        {{- end -}}
+        {{- end -}}
+
+        <li class="quire-navbar-page-controls__item quire-home-page">
+          <a href='{{ $.Scratch.Get "homepage-link" }}' rel='home'>
+            <span class="visually-hidden">Home Page: </span>
+            <span class="quire-navbar-button home-button">
+              <svg class="remove-from-epub">
+                <switch>
+                  <use xlink:href="#home-icon"></use>
+                  <foreignObject width="32" height="32">
+                      <img src="{{ $imgDir | relURL }}/icons/rewind@2x.png" alt="Home Page" />
+                  </foreignObject>
+                </switch>
+              </svg>
+            </span>
+          </a>
+        </li>
+
+        {{- if .Next -}}
+        {{- if and (ne .Next.Params.online false) (ne .Next.Type "data") -}}
+        <li class="quire-navbar-page-controls__item quire-next-page">
+          <a href='{{ .Next.Permalink }}' rel='next'>
+            <span class="visually-hidden">Next Page: </span>
+            {{- with .Next.Params.label }}{{ . }}{{ $.Site.Params.pageLabelDivider }}{{ end }}{{- if .Next.Params.short_title }}{{ .Next.Params.short_title | markdownify }} {{ else }}{{ .Next.Title | markdownify | truncate 34 }}{{ end -}}
+            <svg class="remove-from-epub">
+              <switch>
+                <use xlink:href="#right-arrow-icon"></use>
+                <foreignObject width="24" height="24">
+                    <img src="{{ $imgDir | relURL }}/icons/right@2x.png" alt="Next Page" />
+                </foreignObject>
+              </switch>
+            </svg>
+          </a>
+        </li>
+        {{- end -}}
+        {{- end -}}
+
+      {{- end -}}
+
+      </ul>
+    </div>
+
+    <div class="quire-navbar-controls__right">
+      <button class="quire-navbar-button menu-button"
+              id="quire-controls-menu-button"
+              onclick="toggleMenu()"
+              aria-expanded="true"
+              aria-controls="quire-menu"
+              tabindex="2" >
+        <svg class="remove-from-epub">
+          <switch>
+            <use xlink:href="#nav-icon"></use>
+            <foreignObject width="32" height="32">
+                <img src="{{ $imgDir | relURL }}/icons/nav@2x.png" alt="Table of Contents" />
+            </foreignObject>
+          </switch>
+        </svg>
+        <span class="visually-hidden">Table of Contents</span>
+      </button>
+    </div>
   </nav>
 
-
+  <div class="quire-progress-bar">
+    {{ $len := len $pages }}
+    {{ range $index, $element := $pages }}
+      {{ if eq . $.Page }}
+        <div style="width: calc(100% * ({{ add $index 1 }} / {{ $len }}));">
+          <span>{{ add $index 1 }}/{{ $len }}</span>
+        </div>
+      {{ end }}
+    {{ end }}
+  </div>
 
 </div>
-
-{{- define "if-previous" -}}
-{{- if isset $.Site.Params "imagedir" }}
-{{ $.Scratch.Set "imageDir" $.Site.Params.imageDir }}
-{{ else }}
-{{ $.Scratch.Set "imageDir" "" }}
-{{ end -}}
-{{- $imgDir := $.Scratch.Get "imageDir" -}}
-{{- if .Prev -}}
-{{- if and (ne .Prev.Params.online false) (ne .Prev.Type "data") -}}
-<li class="quire-navbar-button arrow-button">
-  <a href="{{ .Prev.Permalink }}" rel="prev" id="js-prev" >
-    <svg>
-      <switch>
-        <use xlink:href="#left-arrow-icon"></use>
-        <foreignObject width="18" height="32">
-            <img src="{{ $imgDir | absURL }}/icons/left-arrow.png" alt="" />
-        </foreignObject>
-      </switch>
-    </svg>
-    <span class="visually-hidden">Previous Page (left keyboard arrow or swipe)</span>
-  </a>
-</li>
-{{- else -}}
-  {{ template "if-previous" .Prev }}
-{{- end -}}
-{{- end -}}
-{{- end -}}
-
-{{- define "if-next" -}}
-{{- if isset $.Site.Params "imagedir" }}
-{{ $.Scratch.Set "imageDir" $.Site.Params.imageDir }}
-{{ else }}
-{{ $.Scratch.Set "imageDir" "" }}
-{{ end -}}
-{{- $imgDir := $.Scratch.Get "imageDir" -}}
-{{- if .Next -}}
-{{- if and (ne .Next.Params.online false) (ne .Next.Type "data") -}}
-<li class="quire-navbar-button arrow-button">
-  <a href="{{ .Next.Permalink }}" rel="next" id="js-next">
-    <svg>
-      <switch>
-        <use xlink:href="#right-arrow-icon"></use>
-        <foreignObject width="18" height="32">
-            <img src="{{ $imgDir | absURL }}/icons/right-arrow.png" alt="" />
-        </foreignObject>
-      </switch>
-    </svg>
-    <span class="visually-hidden">Next Page (right keyboard arrow or swipe)</span>
-  </a>
-</li>
-{{- else -}}
-  {{ template "if-next" .Next }}
-{{- end -}}
-{{- end -}}
-{{- end -}}

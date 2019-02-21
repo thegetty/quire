@@ -5,10 +5,6 @@
 // .quire-contributors-list is the list-level element
 // .quire-contributor is the individual contributor element
 
-// Variables
-// -----------------------------------------------------------------------------
-$tablet: 500px !default;
-
 
 // .quire-contributors-list
 // -----------------------------------------------------------------------------
@@ -16,18 +12,41 @@ $tablet: 500px !default;
 .content ul.quire-contributors-list {
   list-style-type: none;
   margin-left: 0;
+  .title {
+    color: background-color-text($secondary-background-color);
+    @media print {
+      color: $quire-print-text-color;
+    }
+  }
 }
 
 // .quire-contributor
 // -----------------------------------------------------------------------------
 .quire-contributor {
+  &:before {
+    display: none !important;
+  }
+  .title {
+    margin-bottom: 1rem;
+  }
   &__pic {
-    max-width: 100px;
+    width: 100px;
+    border-radius: 60px;
+    margin: .8em 1em .8em 0;
+    overflow: hidden;
     @media screen and (min-width: $tablet) { max-width: 200px; }
+  }
+  .media {
+    padding-bottom: 1em;
+  }
+  .media-left {
+    margin-right: .5rem;
   }
 
   &__details {
-    font-size: 1rem;
-    padding-left: 1rem;
+    font-size: 1em;
+    p {
+      margin-bottom: 0 !important;
+    }
   }
 }

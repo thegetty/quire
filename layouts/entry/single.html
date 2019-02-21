@@ -11,11 +11,29 @@ a single image or object needs to be featured prominently.\
 {{ $.Scratch.Set "imageDir" "" }}
 {{ end }}
 
+{{ $zoom :=  $.Site.Params.figureZoom  }}
+{{ $pdf :=  $.Site.Params.pdf }}
+{{ $site :=  $ }}
+
 {{/* Entry content, including entry image and tombstone data */}}
 <article class="{{ partial "page-class.html" . }} quire-entry" id="main" role="main">
+<div {{ if eq $.Site.Params.entryPageSideBySideLayout true }} {{ if and (ne $.Site.Params.pdf true) (ne $.Site.Params.epub true) }} class="side-by-side" {{ end }} {{ end }} data="{{ $.Site.Params.figureZoom }}">
+  
+  {{ if eq .Site.Params.epub true }}
+  <header class="quire-entry__header">
+    <div class="container">
+        {{/* Title */}}
+        <h1 class="quire-page__header__title" id="{{ .Title | urlize }}">
+          {{ with .Params.label }}<span>{{ . }}{{ $.Site.Params.pageLabelDivider }}</span>{{ end }}
+          {{ partial "page-title.html" . | markdownify }}
+        </h1>
+    </div>
+  </header>
+  {{ end }}
 
   {{/* Full-width entry image header */}}
-  <div class="quire-entry__image">
+<div class="quire-entry__image-wrap">
+<div class="quire-entry__image">
   {{ if .Params.image }}
     {{- $imgPath := printf "%s/%s" ($.Scratch.Get "imageDir") .Params.image -}}
     <img src="{{ $imgPath | relURL }}" alt="" />
@@ -25,20 +43,18 @@ a single image or object needs to be featured prominently.\
         {{ range where $.Site.Data.objects.object_list "id" "eq" .id }}
         <div class="quire-entry__image__group-container">
           {{ if gt (len .figure) 1 -}}
-          <button class="remove-from-epub button is-rounded quire-image-control quire-image-control--prev-image" onclick="slideImage('prev')" id="prev-image" title="Previous image">
-            {{- template "image-control-icon" (dict "type" "left-arrow" "description" "Previous image" "imageDir" ($.Scratch.Get "imageDir") ) -}}
-          </button>
-          <button class="remove-from-epub button is-rounded quire-image-control quire-image-control--next-image" onclick="slideImage('next')" id="next-image" title="Next image">
-            {{- template "image-control-icon" (dict "type" "right-arrow" "description" "Next image" "imageDir" ($.Scratch.Get "imageDir") ) -}}
-          </button>
+          {{ if ne $.Site.Params.pdf true }}
+          <button class="remove-from-epub quire-image-control quire-image-control--prev-image" onclick="slideImage('prev')" id="prev-image" title="Previous image"></button>
+          <button class="remove-from-epub quire-image-control quire-image-control--next-image" onclick="slideImage('next')" id="next-image" title="Next image"></button>
+          {{ end }}
           {{ end -}}
         {{ range .figure }}
           {{ if .id }}
             {{ range where $.Site.Data.figures.figure_list "id" "eq" .id }}
-              {{ template "figure" (dict "imageDir" ($.Scratch.Get "imageDir") "figure" .) }}
+              {{ template "figure" (dict "map" . "site" $ "pdf" $pdf "zoom" $zoom "imageDir" ($.Scratch.Get "imageDir") "figure" .  ) }}
             {{ end }}
           {{ else if .src }}
-            {{ template "figure" (dict "imageDir" ($.Scratch.Get "imageDir") "figure" .) }}
+            {{ template "figure" (dict "map" . "site" $ "pdf" $pdf "zoom" $zoom "imageDir" ($.Scratch.Get "imageDir") "figure" .  ) }}
           {{ end }}
         {{ end }}
         </div>
@@ -48,31 +64,33 @@ a single image or object needs to be featured prominently.\
       {{ range .figure }}
         {{ if .id }}
           {{ range where $.Site.Data.figures.figure_list "id" "eq" .id }}
-            {{ template "figure" (dict "imageDir" ($.Scratch.Get "imageDir") "figure" .) }}
+            {{ template "figure" (dict "map" . "site" $ "pdf" $pdf "zoom" $zoom "imageDir" ($.Scratch.Get "imageDir") "figure" .  ) }}
           {{ end }}
         {{ else if .src }}
-          {{ template "figure" (dict "imageDir" ($.Scratch.Get "imageDir") "figure" .) }}
+          {{ template "figure" (dict "map" . "site" $ "pdf" $pdf "zoom" $zoom "imageDir" ($.Scratch.Get "imageDir") "figure" .  ) }}
         {{ end }}
       {{ end }}
       </div>
       {{ end }}
     {{ end }}
   {{ end }}
-  </div>
+</div>
+</div>
 
+<div class="quire-entry__content">
+  
   {{/* Entry header */}}
+  {{ if ne .Site.Params.epub true }}
   <header class="quire-entry__header">
     <div class="container">
         {{/* Title */}}
         <h1 class="quire-page__header__title" id="{{ .Title | urlize }}">
-          {{ with .Params.number }}<span>{{ . }}.</span>{{ end }}
-          {{ .Title | markdownify }}
-          {{ with .Params.subtitle }}
-          <span class="quire-page__header__subtitle">{{ . | markdownify }}</span>
-          {{ end }}
+          {{ with .Params.label }}<span>{{ . }}{{ $.Site.Params.pageLabelDivider }}</span>{{ end }}
+          {{ partial "page-title.html" . | markdownify }}
         </h1>
     </div>
   </header>
+  {{ end }}
 
   {{/* Entry tombstone data */}}
   {{ range .Params.object }}
@@ -87,14 +105,14 @@ a single image or object needs to be featured prominently.\
               {{ range where $.Site.Data.objects.object_list "id" "eq" ($.Scratch.Get "id") }}
                 {{ range $key, $value := . }}
                 {{ if and (eq $key ($.Scratch.Get "key")) (ne $value nil) }}
-                  <tr><td>{{ $key | title }}</td><td>{{ markdownify $value }}</td></tr>
+                  <tr><td>{{ $key | humanize | title }}</td><td>{{ markdownify $value }}</td></tr>
                 {{ end }}
                 {{ end }}
               {{ end }}
             {{ end }}
           {{ else }}
             {{ range $key, $value :=  . }}
-            <tr><td>{{ $key | title }}</td><td>{{ $value }}</td></tr>
+            <tr><td>{{ $key | humanize | title }}</td><td>{{ markdownify $value }}</td></tr>
             {{ end }}
           {{ end }}
           </tbody>
@@ -102,7 +120,7 @@ a single image or object needs to be featured prominently.\
         {{ if .id }}
           {{ range where $.Site.Data.objects.object_list "id" "eq" .id }}
             {{ if .link }}
-            <a href="{{ .link }}" target="_blank" class="button">{{ $.Site.Params.objectLinkText }} {{- template "image-control-icon" (dict "type" "link" "description" "Open in new window" "imageDir" ($.Scratch.Get "imageDir") ) -}}</a>
+            <a href="{{ .link }}" target="_blank" class="button">{{ $.Site.Params.entryPageObjectLinkText }} {{- template "image-control-icon" (dict "type" "link" "description" "Open in new window" "imageDir" ($.Scratch.Get "imageDir") ) -}}</a>
             {{ end }}
           {{ end }}
         {{ else }}
@@ -124,25 +142,252 @@ a single image or object needs to be featured prominently.\
       </div>
     </div>
   </section>
+
+  <section class="section quire-page__content">
+      <div class="container">
+        {{ partial "footer-buttons.html" . }}
+      </div>
+  </section>
+
+
+
+<!-- columns -->
+</div>
+
+</div>
 </article>
 {{ end }}
 
 {{ define "figure" }}
+
 {{- $imgPath := printf "%s/%s" .imageDir .figure.src -}}
-<figure>
+
+<figure data-media-type="{{ .figure.media_type }}">
+
+  {{ if or (eq .site.Site.Params.pdf true) (eq .site.Site.Params.epub true) }}
+
+  <div class="quire-figure__media-fallback">
+  {{ if isset .map "src" }}
+
+  {{ if .map.src }}
+  <div class="quire-figure__wrapper">
+  <img src='{{ printf "%s/%s" (.site.Scratch.Get "imageDir") .map.src | relURL }}'/>
+  </div>
+  {{ end }}
+
+  {{ else }}
+
+  {{ if isset .map "media_type" }}
+  <div class="placeholder">
+
+      {{- if or (eq .map.media_type "youtube")  (eq .map.media_type "vimeo") }}
+
+      {{ if eq .site.Site.Params.pdf true }}
+      <i class="material-icons md-24">videocam</i>
+      {{ else }}
+      <img src='{{ .site.Scratch.Get "imageDir" | relURL }}/icons/baseline-videocam-24px.png'/>
+      {{ end }}
+
+      {{ end }}
+
+      {{- if or (eq .map.media_type "soundcloud")  (eq .map.media_type "audio") }}
+
+      {{ if eq .site.Site.Params.pdf true }}
+      <i class="material-icons md-24 audio">headset</i>
+      {{ else }}
+      <img src='{{ .site.Scratch.Get "imageDir" | relURL }}/icons/baseline-headset-24px.png'/>
+      {{ end }}
+
+      {{ end }}
+
+  </div>
+  {{ end }}
+  {{- end -}}
+
+  {{ if isset .map "title" }}
+  {{ if .map.title }}
+    <h5 class="header">
+        {{ .map.title | markdownify }}
+    </h5>
+  {{ end }}
+  {{ end }}
+
+      {{ if isset .map "media_type" }}
+
+      <p class="caption">
+
+      {{- if eq .map.media_type "youtube" }}
+      <a href='https://youtu.be/{{ .map.media_id }}' alt="" title="" target="_blank" ><em>https://youtu.be/{{ .map.media_id }}</em></a>
+      {{ end }}
+      {{- if eq .map.media_type "vimeo" }}
+      <a href='https://vimeo.com/{{ .map.media_id }}' alt="" title="" target="_blank" ><em>https://vimeo.com/{{ .map.media_id }}</em></a>
+      {{ end }}
+      {{- if eq .map.media_type "soundcloud" }}
+      <a href="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .map.media_id }}" alt="" title="" target="_blank" ><em>https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .map.media_id }}</em></a>
+      {{ end }}
+
+      </p>
+
+      {{ end }}
+  </div>
+  {{ else }}
+
+  {{ if eq .zoom true }}
+
+  {{ if eq .figure.media_type "iiif" }}
+
+  <div
+    id="js-iiif-{{ now.UnixNano }}"
+    class="quire-deepzoom-entry inset"
+    aria-live="polite"
+    role="application"
+    aria-label="Zoomable image"
+    data-catalogue-entry="true"
+    {{ if .figure.iiif }} data-iiif="{{ .figure.iiif }}" {{ end }}
+    {{ if .figure.zoom_level }} data-zoom="{{ .figure.zoom_level }}" {{ end }}
+    {{ if .figure.caption }} data-caption='{{ .figure.caption | markdownify | safeHTML }}' {{ end }}
+  >
+  </div>
+
+  {{ else if eq .figure.media_type "map" }}
+
+  <div
+    id="js-map-{{ now.UnixNano }}"
+    class="quire-map-entry inset"
+    aria-live="polite"
+    aria-label="Zoomable map"
+    data-catalogue-entry="true"
+    {{ if .figure.lat }}  data-lat="{{ .figure.lat }}" {{ end }}
+    {{ if .figure.long }} data-long="{{ .figure.long }}" {{ end }}
+    {{ if .figure.geojson }} data-geojson="{{ .Site.BaseURL }}{{ .figure.geojson }}" {{ end }}
+    {{ if .figure.caption }} data-caption='{{ .figure.caption | markdownify | safeHTML }}' {{ end }}
+  >
+  </div>
+
+  {{ else if eq .figure.media_type "youtube" }}
+
+    <iframe
+      id='{{ .id }}'
+      title='{{ if .figure.title }}{{ .figure.title | markdownify }}{{ end }}'
+      alt='{{ if .figure.title }}{{ .figure.title | markdownify }}{{ end }}'
+      {{ if .figure.caption }} data-caption='{{ .figure.caption | markdownify | safeHTML }}' {{ end }}
+      data-catalogue-entry="true"
+      aria-label="youtube video"
+      class='quire-figure__media'
+      src='https://www.youtube-nocookie.com/embed/{{ .figure.media_id }}?rel=0&amp;showinfo=0'
+      frameborder='0'
+      webkitallowfullscreen
+      mozallowfullscreen
+      allowfullscreen
+    >
+    </iframe>
+
+
+  {{ else if eq .figure.media_type "vimeo" }}
+
+    <iframe
+      id='{{ .id }}'
+      title='{{ if .figure.title }}{{ .figure.title | markdownify }}{{ end }}'
+      alt='{{ if .figure.title }}{{ .figure.title | markdownify }}{{ end }}'
+      {{ if .figure.caption }} data-caption='{{ .figure.caption | markdownify | safeHTML }}' {{ end }}
+      data-catalogue-entry="true"
+      aria-label="vimeo video"
+      class='quire-figure__media'
+      src='https://player.vimeo.com/video/{{ .figure.media_id }}'
+      frameborder='0'
+      webkitallowfullscreen
+      mozallowfullscreen
+      allowfullscreen
+    >
+    </iframe>
+
+
+  {{ else }}
+
+  <div
+    id="js-deepzoom-{{ now.UnixNano }}"
+    class="quire-deepzoom-entry inset"
+    {{ if .figure.caption }} data-caption='{{ .figure.caption | markdownify | safeHTML }}' {{ end }}
+    alt="{{ .figure.alt }}"
+    aria-live="polite"
+    role="application"
+    aria-label="Zoomable image"
+    data-catalogue-entry="true"
+    data-image="{{ $imgPath | relURL }}"
+  >
+  </div>
+  <img style="display: none" src="{{ $imgPath | relURL }}" alt="{{ .figure.alt }}" />
+
+  {{ end }}
+
+  {{ else }}
+
+  {{ if eq .figure.media_type "youtube" }}
+
+  <iframe
+    id='{{ .id }}'
+    title='{{ if .figure.title }}{{ .figure.title | markdownify }}{{ end }}'
+    alt='{{ if .figure.title }}{{ .figure.title | markdownify }}{{ end }}'
+    {{ if .figure.caption }} data-caption='{{ .figure.caption | markdownify | safeHTML }}' {{ end }}
+    data-catalogue-entry="true"
+    aria-label="youtube video"
+    class='quire-figure__media'
+    src='https://www.youtube-nocookie.com/embed/{{ .figure.media_id }}?rel=0&amp;showinfo=0'
+    frameborder='0'
+    webkitallowfullscreen
+    mozallowfullscreen
+    allowfullscreen
+  >
+  </iframe>
+
+
+{{ else if eq .figure.media_type "vimeo" }}
+
+  <iframe
+    id='{{ .id }}'
+    title='{{ if .figure.title }}{{ .figure.title | markdownify }}{{ end }}'
+    alt='{{ if .figure.title }}{{ .figure.title | markdownify }}{{ end }}'
+    {{ if .figure.caption }} data-caption='{{ .figure.caption | markdownify | safeHTML }}' {{ end }}
+    data-catalogue-entry="true"
+    aria-label="vimeo video"
+    class='quire-figure__media'
+    src='https://player.vimeo.com/video/{{ .figure.media_id }}'
+    frameborder='0'
+    webkitallowfullscreen
+    mozallowfullscreen
+    allowfullscreen
+  >
+  </iframe>
+
+  {{ else }}
+
   <img src="{{ $imgPath | relURL }}" alt="{{ .figure.alt }}" />
+
+  {{ end }}
+
+  {{ end }}
+
   {{ if or .figure.caption .figure.credit }}
-    <div tabindex="0" class="button is-rounded quire-image-control quire-image-control--more" title="More info">
-      {{- template "image-control-icon" (dict "type" "more" "description" "More info" "imageDir" .imageDir ) -}}
-    </div>
-    <div class="quire-image-control quire-image-info"><span class="quire-image-info__caption">{{ .figure.caption }}</span> <span class="quire-image-info__credit">{{ .figure.credit }}</span></div>
+      <div class="quire-image-control quire-image-info">
+        <span class="quire-image-info__wrap">
+          <span class="quire-image-info__caption">{{ .figure.caption | markdownify }}</span>
+          <span class="quire-image-info__credit">{{ .figure.credit | markdownify }}</span>
+        </span>
+      </div>
   {{ end }}
-  {{ if eq .figure.download true }}
-  <a href="{{ $imgPath | relURL }}" target="_blank" class="remove-from-epub button is-rounded quire-image-control quire-image-control--download" title="Download image" download>
-    {{- template "image-control-icon" (dict "type" "download" "description" "Download image" "imageDir" .imageDir ) -}}
-  </a>
+
+  <div class="quire-image-counter-download-container">
+    {{ if eq .figure.download true }}
+    <a href="{{ $imgPath | relURL }}" target="_blank" class="remove-from-epub quire-image-control quire-image-control--download" title="Download image" download>
+      {{- template "image-control-icon" (dict "type" "download" "description" "Download image" "imageDir" .imageDir ) -}}
+    </a>
+    {{ end }}
+  </div>
+
   {{ end }}
+
 </figure>
+
 {{ end }}
 
 {{ define "image-control-icon" }}

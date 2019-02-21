@@ -1,102 +1,139 @@
 // =============================================================================
 // Variables.scss
 // -----------------------------------------------------------------------------
-// Change values here to make changes to the type, color, cover and layout of // your publication. Variable names are always preceeded by a $ (dollar sign).
+// Change values here to make changes to the type, color, cover and layout of
+// your publication. Variable names are always preceeded by a $ (dollar sign).
 // To avoid errors, variables names should not be changed or deleted, and be
 // sure to leave the colons (:) and semi-colons (;) in place.
 
+$accent-color: null;
+$content-background-color: null; // main text area background color
+$secondary-background-color: null; // only for modern theme
 
-// Typography
+// Declare the theme: modern/classic
+$theme: modern;
+
+// Declare the navbar color style: normal/accent
+$navbar: normal;
+
+
+
+// Pre-defined fonts
 // -----------------------------------------------------------------------------
-// The quire-starter-theme templates supports three embedded, open license
-// fonts: Merriweather, Lato, and Aleo. They are designated as $serif,
-// $sans-serif, and $slab-serif respectively, along with appropriate fallbacks.
-// Other fonts may be used, but will probaby require additional custom styling.
+// This theme includes three embedded, open license fonts, and also uses
+// the widely available Times (files of which are not otherwise included here).
+$ibm-sans: 'IBM Plex Sans Condensed', sans-serif;
+$noto-sans: 'Noto Sans', sans-serif;
+$noto-serif: 'Noto Serif', serif;
+$times-serif: Times, serif;
 
-$serif: Merriweather, Georgia, serif;
-$sans-serif: Lato, Helvetica, sans-serif;
-$slab-serif: Aleo, Rockwell, "Trebuchet MS", sans-serif;
-
-$family-primary: $serif;
-// body text: $serif, $sans-serif, $slab-serif
-
-$family-secondary: $sans-serif;
-// headings and navigation items: $serif, $sans-serif, $slab-serif
-
-$quire-base-font-size: 17px;
-$quire-page-paragraph-style: indent;
-// make the value null for paragraphs with no indent and a line space between
-
-
-// Colors
+// Page typography
 // -----------------------------------------------------------------------------
-// Change the color variables once at the top, or change elements individually
-// below. Colors are typically Hex values, or one of 140 standard color names/
+$quire-base-font-size: 16px;
+$quire-page-paragraph-style: line-space; // or use indent
 
-$color-primary: #3273dc;
-$dark: #363636;
-$light: #f5f5f5;
-$white: #ffffff;
+// Cover typography
+// -----------------------------------------------------------------------------
+$quire-cover-text-color: $white;
+$quire-cover-text-scale: 1; // use decimal numbers such as .8 or 1.3
 
-$quire-page-link-color: $color-primary;
-$quire-page-link-highlight: $light;
-
-$page-color: $white;
-$page-text-color: $dark;
-
-$quire-page-header-color: $light;
-$quire-page-header-text-color: $dark;
-
-$quire-navbar-color: $white;
-$quire-navbar-border-color: $dark;
-$quire-navbar-text-color: $dark;
-
-$quire-menu-color: $dark;
-$quire-menu-border-color: $dark;
+// Menu colors
+// -----------------------------------------------------------------------------
+$quire-menu-color: $off-black;
 $quire-menu-text-color: $white;
 
-$quire-entry-image-color: $dark;
+// Image viewer colors (pop-up figure viewer & entry page viewer)
+// -----------------------------------------------------------------------------
+$quire-entry-image-color: $black;
 $quire-entry-image-icons-color: $white;
 
-$quire-splash-page-color: $color-primary;
-
-// Cover
+// Active link and table-row color
 // -----------------------------------------------------------------------------
+$quire-hover-color: $light-yellow;
 
-$quire-cover-color-1: $color-primary;
-$quire-cover-color-2: #dc52f5;
-// make the colors the same to have a solid background
-
-$cover-overlay-image-opacity: .5;
-$cover-overlay-image: 'pattern-1.png';
-// pattern-1.png, pattern-2.png, pattern-3.png, pattern-4.png
-// Or add your own custom pattern tile in your static/img directory and
-// reference it here. To have a single image for the cover, with no color
-// or pattern overlay, add it to the YAML of your cover.md file,
-// --> image: cover-background.jpg
-
-$quire-cover-font-family: $sans-serif;
-$quire-cover-text-color: $dark;
-
-$quire-cover-text-scale: 1;
-// use decimal numbers (such as .8 or 1.3) to increase and decrease size
-
-$quire-cover-text-alignment: left;
-// left, right or center
-
-$quire-cover-footer-color: $light;
-$quire-cover-footer-text-color: $dark;
-
-
-// Layout
+// Print/PDF stylesheet
 // -----------------------------------------------------------------------------
+$print-width: 8.5in;
+$print-height: 11in;
+$print-bleed: .125in;
 
-$quire-menu-width: 350px;
+$quire-print-base-font-size: 8.5pt;
+$quire-print-text-color: $black;
 
+$print-splash-color: $off-white;
+
+$print-entry-image-color: $rich-black;
+$print-entry-image-display: all; // first | all
+
+// Themes
+// -----------------------------------------------------------------------------
+// Declare theme variables
+$quire-primary-font: null; // body and menu text
+$quire-headings-font: null; // headings
+$quire-footnotes-font: null; // footnotes and page backmatter
+$quire-navigation-font: null; // navbar and next/prev buttons
+
+@if $theme == classic {
+  // Classic Theme
+  $quire-primary-font: $noto-serif !default;
+  $quire-headings-font: $times-serif !default;
+  $quire-footnotes-font: $noto-sans !default;
+  $quire-navigation-font: $noto-sans !default;
+  $accent-color: $blue !default;
+  $content-background-color: $white !default;
+  $secondary-background-color: $content-background-color;
+} @else {
+  // Modern Theme (default)
+  $quire-primary-font: $noto-sans !default;
+  $quire-headings-font: $ibm-sans !default;
+  $quire-footnotes-font: $noto-serif !default;
+  $quire-navigation-font: $noto-sans !default;
+  $accent-color: $red !default;
+  $content-background-color: $white !default;
+  $secondary-background-color: $off-white !default;
+}
+
+// Navbar
+// -----------------------------------------------------------------------------
+// Declare navbar colors
+$quire-navbar-color: null;
+$quire-navbar-hover-color: null;
+$quire-navbar-text-color: null;
+
+@if $navbar == accent {
+  // Accent Navbar
+  $quire-navbar-color: $accent-color !default;
+  $quire-navbar-hover-color: darken($quire-navbar-color, 5%) !default;
+  $quire-navbar-text-color: $white !default;
+} @else {
+  // Normal Navbar (default)
+  $quire-navbar-color: $white !default;
+  $quire-navbar-hover-color: darken($quire-navbar-color, 5%) !default;
+  @if $theme == classic {
+    $quire-navbar-text-color: lighten($off-black, 20%) !default;
+  } @else {
+    $quire-navbar-text-color: $off-black !default;
+  }
+}
+
+// Cover colors
+// -----------------------------------------------------------------------------
+// Declare cover gradient colors (make them the same for a solid background)
+$quire-cover-color-1: null;
+$quire-cover-color-2: null;
+
+@if $theme == classic {
+  $quire-cover-color-1: $accent-color !default;
+  $quire-cover-color-2: $red !default;
+} @else {
+  $quire-cover-color-1: $blue !default;
+  $quire-cover-color-2: $accent-color !default;
+}
+
+// Layout sizes
+// -----------------------------------------------------------------------------
+$quire-menu-width: 352px;
 $navbar-height: 3rem;
-
 $quire-entry-header-height: 6rem;
 $quire-map-height: 500px;
 $quire-deepzoom-height: 500px;
-// default heights for maps and zooming image figures
-

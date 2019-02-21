@@ -9,6 +9,7 @@
 // -----------------------------------------------------------------------------
 .quire-copyright {
   padding: 0 1em;
+  font-family: $quire-navigation-font;
 
   &__icon {
     height: 2.5em;
@@ -16,5 +17,17 @@
     & img {
       max-height: 100%;
     }
+    &__logo {
+      filter: invert(100%);
+      height: 3em;
+      max-width: 100%;
+      display: inline-block;
+    }
+  }
+  p {
+    display: inline-block;
+    padding-left: 1em;
+    font-weight: 700;
+    font-size: 1.25em;
   }
 }

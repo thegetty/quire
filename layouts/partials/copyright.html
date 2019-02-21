@@ -7,8 +7,13 @@
 <div class="quire-copyright">
 
 {{/* If copyright info is defined, show information about it here */}}
-{{- if .Site.Data.publication.copyright -}}
-  <p>{{ .Site.Data.publication.copyright }}.</p>
+  {{- $imgDir := $.Scratch.Get "imageDir" -}}
+  {{ range .Site.Data.publication.publisher }}
+    <img src="{{ $imgDir | relURL }}/{{ .logo }}" class="quire-copyright__icon__logo" alt="logo" />
+  {{ end }}
+
+  {{- if .Site.Data.publication.copyright -}}
+    <p>{{ .Site.Data.publication.copyright | markdownify }}</p>
   {{- end -}}
 
   {{/* If a license is defined, show information about it here */}}
@@ -21,10 +26,7 @@
 
     {{- with .Site.Data.publication.license.url }}<a rel="license" class="quire-copyright__icon__link" href="{{ . }}" target="_blank">{{ end -}}
 
-    {{- if .Site.Data.publication.license.icon -}}
-      <img src="{{ $imgDir | absURL }}/{{ .Site.Data.publication.license.icon }}" class="quire-copyright__icon" alt="logo" />
-    {{- else -}}
-
+    {{- if .Site.Data.publication.license -}}
     <svg class="quire-copyright__icon">
       {{ if in $license "CC" }}
         <switch>
@@ -34,28 +36,28 @@
           <switch>
             <use xlink:href="#cc-by"></use>
             <foreignObject width="135" height="30">
-                <img src="{{ $imgDir | absURL }}/icons/cc-by.png" alt="" />
+                <img src="{{ $imgDir | relURL }}/icons/cc-by.png" alt="CC-BY" />
             </foreignObject>
           </switch>
           {{ if in $license "BY-NC" }}
             <switch>
               <use xlink:href="#cc-by-nc"></use>
               <foreignObject width="135" height="30">
-                  <img src="{{ $imgDir | absURL }}/icons/cc-by-nc.png" alt="" />
+                  <img src="{{ $imgDir | relURL }}/icons/cc-by-nc.png" alt="CC-BY-NC" />
               </foreignObject>
             </switch>
             {{ if in $license "BY-NC-SA"}}
               <switch>
                 <use xlink:href="#cc-by-nc-sa"></use>
                 <foreignObject width="135" height="30">
-                    <img src="{{ $imgDir | absURL }}/icons/cc-by-nc-sa.png" alt="" />
+                    <img src="{{ $imgDir | relURL }}/icons/cc-by-nc-sa.png" alt="CC-BY-NC-SA" />
                 </foreignObject>
               </switch>
             {{ else if in $license "BY-NC-ND"}}
               <switch>
                 <use xlink:href="#cc-by-nc-nd"></use>
                 <foreignObject width="135" height="30">
-                    <img src="{{ $imgDir | absURL }}/icons/cc-by-nc-nd.png" alt="" />
+                    <img src="{{ $imgDir | relURL }}/icons/cc-by-nc-nd.png" alt="CC-BY-NC-ND" />
                 </foreignObject>
               </switch>
             {{ end }}
@@ -63,14 +65,14 @@
             <switch>
               <use xlink:href="#cc-by-sa"></use>
               <foreignObject width="135" height="30">
-                  <img src="{{ $imgDir | absURL }}/icons/cc-by-sa.png" alt="" />
+                  <img src="{{ $imgDir | relURL }}/icons/cc-by-sa.png" alt="CC-BY-SA" />
               </foreignObject>
             </switch>
           {{ else if in $license "BY-ND" }}
             <switch>
               <use xlink:href="#cc-by-nd"></use>
               <foreignObject width="135" height="30">
-                  <img src="{{ $imgDir | absURL }}/icons/cc-by-nd.png" alt="" />
+                  <img src="{{ $imgDir | relURL }}/icons/cc-by-nd.png" alt="CC-BY-ND" />
               </foreignObject>
             </switch>
           {{ end }}
@@ -78,7 +80,7 @@
           <switch>
             <use xlink:href="#cc-zero"></use>
             <foreignObject width="135" height="30">
-                <img src="{{ $imgDir | absURL }}/icons/cc-zero.png" alt="" />
+                <img src="{{ $imgDir | relURL }}/icons/cc-zero.png" alt="CC-ZERO" />
             </foreignObject>
           </switch>
         {{ end }}

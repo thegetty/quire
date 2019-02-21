@@ -4,251 +4,205 @@
 //
 // Cover component (used in the layout for 'cover' page types)
 
-// Variables
-// -----------------------------------------------------------------------------
-$color-primary: #3273dc !default;
-$dark: #363636 !default;
-$light: #f5f5f5 !default;
-$sans-serif: Lato, Helvetica, sans-serif !default;
-$tablet: 500px !default;
-
-$navbar-height: 3rem !default;
-$family-secondary: $sans-serif !default;
-
-$quire-cover-color-1: $color-primary !default;
-$quire-cover-color-2: #dc52f5 !default;
-$cover-overlay-image-opacity: .5 !default;
-$cover-overlay-image: 'pattern-1.png' !default;
-$quire-cover-font-family: $sans-serif !default;
-$quire-cover-text-color: $dark !default;
-$quire-cover-text-scale: 1 !default;
-$quire-cover-text-alignment: left !default;
-$quire-cover-footer-color: $light !default;
-$quire-cover-footer-text-color: $dark !default;
-
-$quire-page-link-color: $color-primary !default;
-
-
 // .quire-cover
 // -----------------------------------------------------------------------------
 .quire-cover {
+  
+  
+  @media print {
+    $splash-page-width: $print-width + $print-bleed + $print-bleed;
+    $splash-page-height: $print-height + $print-bleed + $print-bleed;
+    
+    width: $splash-page-width;
+    height: $splash-page-height;
+    margin: -$print-bleed;
+  }
 
   &__overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    min-height: calc(100vh - #{$navbar-height});
-    background-image: url("../img/#{$cover-overlay-image}");
-    opacity: $cover-overlay-image-opacity;
+    min-height: calc(95vh - #{$navbar-height});
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
     @media print {
-      display: none;
+      height: 100%;
     }
   }
 
   &__hero {
     background-color: $quire-cover-color-1;
     background-image: linear-gradient(90deg, $quire-cover-color-1, $quire-cover-color-2);
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
     position: relative;
-    min-height: calc(100vh - #{$navbar-height});
-    text-align: $quire-cover-text-alignment;
+    min-height: calc(95vh - #{$navbar-height}) !important;
+    text-align: left;
     display: flex;
     align-items: center;
 
     @media print {
-      text-align: right;
-      background-color: inherit;
-      background-image: inherit;
-      margin-top: 2.5in;
-      margin-left: .75in;
-      margin-right: .75in;
-    }
-
-    .half-title {
-      display: none;
-      @media print {
-        display: block;
-        page-break-after: always;
-        color: $color-primary;
-        text-transform: uppercase;
-        letter-spacing: 1pt;
-        font-family: $family-secondary;
+      width: 100%;
+      height: 100%;
+      
+      .hero-body {
+        height: auto;
+        // title/author box
+        .container {
+          width: 75%;
+          padding-left: .75in;
+        }
       }
     }
 
     .title {
-      font-family: $quire-cover-font-family;
-      font-size: calc(3.75rem * #{$quire-cover-text-scale});
-      font-weight: 300;
+      font-family: $quire-headings-font;
+      font-size: calc(2rem * #{$quire-cover-text-scale});
+      font-weight: 700;
       line-height: 1.07;
-      margin-top: 8rem;
-      margin-bottom: calc(1.5rem * #{$quire-cover-text-scale});
+      margin-bottom: calc(.5rem * #{$quire-cover-text-scale});
       color: $quire-cover-text-color;
       @media print {
         font-size: 40pt;
         margin-top: 0;
-        margin-bottom: .5in;
-        color: $color-primary;
+        margin-bottom: 1em;
+        color: $quire-cover-text-color;
         page-break-before: right;
       }
     }
 
     .subtitle {
       display: block;
-      margin-top: calc(1.5rem * #{$quire-cover-text-scale});
-      font-size: calc(2.92rem * #{$quire-cover-text-scale});
-      font-weight: 300;
+      margin-top: calc(.5rem * #{$quire-cover-text-scale});
+      font-size: calc(1.5rem * #{$quire-cover-text-scale});
+      font-weight: 400;
       line-height: 1.02;
       color: $quire-cover-text-color;
       @media print {
-        font-size: 32pt;
-        margin-top: .25in;
-        color: $color-primary;
+        font-size: 30pt;
+        margin-top: .25em;
+        color: $quire-cover-text-color;
       }
     }
 
     .reading-line {
-      font-family: $quire-cover-font-family;
+      font-family: $quire-headings-font;
       font-style: italic;
       font-size: calc(1.25rem * #{$quire-cover-text-scale});
       line-height: 1.2;
       color: $quire-cover-text-color;
       @media print {
         font-size: 18pt;
-        color: $color-primary;
+        color: $quire-cover-text-color;
       }
     }
 
     .contributor {
-      font-family: $quire-cover-font-family;
-      font-size: calc(1.25rem * #{$quire-cover-text-scale});
+      font-family: $quire-headings-font;
+      font-size: calc(1em * #{$quire-cover-text-scale});
       line-height: 1.72;
-      margin-top: calc(2rem * #{$quire-cover-text-scale});
+      margin-top: calc(.5rem * #{$quire-cover-text-scale});
       color: $quire-cover-text-color;
       @media print {
         font-size: 18pt;
-        color: $color-primary;
+        color: $quire-cover-text-color;
+      }
+    }
+  }
+  &__more {
+    @media print {
+      display: none;
+    }
+    & .hero-more {
+      display: block;
+      position: relative;
+      line-height: 50px;
+      color: background-color-text($black);
+      width: 50px;
+      height: 50px;
+      background: $black;
+      border-radius: 25px;
+      margin: -25px auto 25px auto;
+      text-align: center;
+      svg {
+        height: 3.5rem;
+        width: 3.5rem;
+        margin-left: .25rem;
+        margin-top: .25rem;
+        -webkit-transition: all .5s ease;
+        transition: all .5s ease;
+        fill: background-color-text($black);
+        img {
+          padding: 7px 0;
+        }
+        &:hover {
+          margin-top: .3rem;
+        }
       }
     }
   }
 
   &__button {
-    background-color: $quire-page-link-color;
-    color: findColorInvert($quire-page-link-color);
+    background-color: $accent-color;
+    color: findColorInvert($accent-color);
     border-width: 0px;
-    border-radius: 6px;
-    font-family: $family-secondary;
-    font-style: italic;
+    border-radius: 2px;
+    font-family: $quire-navigation-font;
+    font-size: 1rem !important;
+    padding: 0 !important;
+    width: 140px;
+    height: 44px;
     svg {
       width: 1.25rem;
       height: 1.25rem;
-      margin-left: 1rem;
-      fill: findColorInvert($quire-page-link-color);
+      margin-left: .25rem;
+      margin-bottom: .05rem;
+      fill: findColorInvert($accent-color);
     }
-  }
-  &__button:hover {
-    background-color: darken($quire-page-link-color, 5%);
-  }
-
-  .quire-page__content .container.is-fluid {
-    // max-width: 900px;
-    @media screen and (min-width: 1028px) {
-      max-width: 900px;
-      width: 900px;
-      margin: 0 auto;
-    }
-    @media print {
-      display: none;
+    &:hover {
+      background-color: darken($accent-color, 15%);
+      color: $white;
     }
   }
 
-  .quire-cover-footer {
-    background-color: $quire-cover-footer-color;
-
-    .columns {
-      margin-left: -.5em;
-      margin-right: -.5em;
-    }
-    .column {
-      padding: 0 0 .75rem 0;
-    }
-    .column:nth-child(1) {
-      padding-right: $gap;
-    }
-
-    @include foreground-color($quire-cover-footer-color, $quire-cover-footer-text-color);
-
-    .menu-list {
-      display: flex;
-      flex-wrap: wrap;
-      margin-top: .5em;
-      li + li {
-        margin-top: 0;
+  .quire-page__content {
+    padding-bottom: 0;
+    .container.is-fluid {
+      .content {
+        padding-top: 2em !important;
+        color: background-color-text-classic($secondary-background-color);
+        background-color: $secondary-background-color;
+        p {
+          line-height: 2em;
+          font-family: $quire-primary-font;
+        }
       }
-      a {
-        padding: .5em;
+      @media screen and (min-width: 1028px) {
+        max-width: 900px;
+        width: 900px;
+        margin: 0 auto;
       }
       @media print {
         display: none;
       }
     }
+  }
 
-    .quire-copyright {
-      padding: 0 .5em;
-      @media print {
-        display: none;
-      }
-    }
-
-    a.quire-copyright__icon__link:hover {
-      background-color: transparent;
-    }
-
-    .quire-publisher {
-      margin-bottom: 1.5em;
-      font-family: $family-secondary;
-      img {
-        float: right;
-        max-height: 6em;
-        margin: 0 0 1.5em 1.5em;
-        @media screen and (max-width: $tablet) {
-          float: none;
+  .quire-contents-buttons {
+    ul {
+      li.quire-nav-button {
+        line-height: 34px;
+        a {
+          padding-top: 0.325em;
+          color: $content-background-color;
         }
-        @media print {
-          height: .5in;
+        svg {
+          fill: $content-background-color;
         }
       }
-      p {
-        text-align: right;
-        clear: both;
-        margin-bottom: 0;
-        display: none;
-        @media print {
-          display: inherit;
-        }
-      }
-      p:first-of-type {
-        text-transform: uppercase;
-        letter-spacing: 1pt;
-      }
-      @media print {
-        margin-left: 1.5em;
-        float: right;
-      }
     }
-
-    @media print {
-      margin-top: .75in;
-      margin-left: .75in;
-      margin-right: .75in;
-      background-color: inherit;
-      position: fixed;
-      top: 7.25in;
-      left: 0;
-      right: 0;
+    .nav-title {
+      font-size: initial;
     }
   }
 

@@ -9,10 +9,15 @@ by default. Users with JS disabled will alwasy see the menu in its expanded stat
 <div  class="quire-menu menu"
       role="banner"
       id="site-menu__inner">
-
+  {{- if isset $.Site.Params "imagedir" }}
+  {{ $.Scratch.Set "imageDir" $.Site.Params.imageDir }}
+  {{ else }}
+  {{ $.Scratch.Set "imageDir" "" }}
+  {{ end -}}
+  {{- $imgDir := $.Scratch.Get "imageDir" -}}
   {{ partial "menu-header.html" . }}
 
-  <nav class="quire-menu__list menu-list" role="navigation" aria-label="full">
+  <nav id="nav" class="quire-menu__list menu-list" role="navigation" aria-label="full">
     <h3 class="visually-hidden">Table of Contents</h3>
     {{- partial "contents-list.html" $contents -}}
   </nav>
@@ -20,19 +25,19 @@ by default. Users with JS disabled will alwasy see the menu in its expanded stat
   {{ if isset .Site.Data.publication "resource_link" -}}
     {{ $otherFormats := where .Site.Data.publication.resource_link "type" "other-format" }}
     {{ $relatedResources := where .Site.Data.publication.resource_link "type" "related-resource" }}
-    {{ if gt (len $otherFormats) 0 -}}
+    {{ if gt (len $relatedResources) 0 -}}
       <div class="quire-menu__formats">
-      <h3 class="menu-label">Other Formats</h3>
-        <div role="complementary" aria-label="downloads">
-          {{- partial "link-list.html" $otherFormats -}}
+      <h6>Resources</h6>
+        <div role="complementary" aria-label="related resources">
+          {{- partial "link-list.html" $relatedResources -}}
         </div>
       </div>
     {{ end -}}
-    {{ if gt (len $relatedResources) 0 -}}
+    {{ if gt (len $otherFormats) 0 -}}
       <div class="quire-menu__formats">
-      <h3 class="menu-label">Related Resources</h3>
-        <div role="complementary" aria-label="related resources">
-          {{- partial "link-list.html" $relatedResources -}}
+      <h6>Other Formats</h6>
+        <div role="complementary" aria-label="downloads">
+          {{- partial "link-list.html" $otherFormats -}}
         </div>
       </div>
     {{ end -}}

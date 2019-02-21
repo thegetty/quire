@@ -5,171 +5,261 @@
 // component level. This stylesheet is for overrides and other special-case
 // rules which don't properly fit anywhere else and only show up in print.
 
-$print-width: 8.5in;
-$print-height: 11in;
+
+// Variables (others in the variables.scss file)
+// -----------------------------------------------------------------------------
+$print-base-text-column-width: 4.75in;
 
 $print-bottom-margin: 0.875in;
 $print-top-margin: 0.75in;
-$print-inner-margin: 1in;
 $print-outer-margin: 0.75in;
+$print-inner-margin: 1in;
 
-$print-bleed: .125in;
+@if $print-width <= 7 {
+  $print-inner-margin: $print-width - $print-base-text-column-width - $print-outer-margin;
+}
 
-$text-block-height: calc(#{$print-height} - #{$print-top-margin} - #{$print-bottom-margin});
+@if $print-height <= 10 {
+  $print-top-margin: 0.5in;
+}
 
-$splash-page-width: calc(#{$print-width} + #{$print-bleed} + #{$print-bleed});
-$splash-page-height: calc(#{$print-height} + #{$print-bleed} + #{$print-bleed});
-
-$print-footer-font: $family-secondary;
+$print-footer-font: $quire-headings-font;
 $print-footer-font-size: 8pt;
 
+$print-trim: $print-bleed * 2;
 
-@media print {
 
+@media print {    
+  
+// Paged Media CSS Setup for PrinceXML
+// -----------------------------------------------------------------------------
   @page {
-		size: $print-width $print-height;
-    prince-bleed: .125in;
-    bleed: .125in;
-    prince-trim: 0.25in;
+    size: $print-width $print-height;
+    prince-bleed: $print-bleed;
+    bleed: $print-bleed;
+    prince-trim: $print-trim;
     marks: crop;
     margin-top: $print-top-margin;
     margin-bottom: $print-bottom-margin;
 
-    @bottom-right-corner {
-			font-family: $print-footer-font;
-			font-size: $print-footer-font-size;
-		}
     @bottom-right {
-			font-family: $print-footer-font;
-			font-size: $print-footer-font-size;
-		}
-    @bottom-center {
-			font-family: $print-footer-font;
-			font-size: $print-footer-font-size;
-		}
+      font-family: $print-footer-font;
+      font-size: $print-footer-font-size;
+      color: $quire-print-text-color;
+      // TEMPORARY TO TEST PDF LAYOUT
+      // border: 1pt solid Red !important;
+    }
+
     @bottom-left {
-			font-family: $print-footer-font;
-			font-size: $print-footer-font-size;
-		}
-    @bottom-left-corner {
-			font-family: $print-footer-font;
-			font-size: $print-footer-font-size;
-		}
-	}
+      font-family: $print-footer-font;
+      font-size: $print-footer-font-size;
+      color: $quire-print-text-color;
+      // TEMPORARY TO TEST PDF LAYOUT
+      // border: 1pt solid Blue !important;
+    }
+
+  }
 
   @page:left {
     margin-left: $print-outer-margin;
     margin-right: $print-inner-margin;
+
     @bottom-right {
-			content: string(sectiontitle);
+      content: string(sectiontitle);
       text-transform: uppercase;
       letter-spacing: 1pt;
       font-size: 7.5pt;
-		}
-		@bottom-left-corner {
-			content: counter(page);
-		}
+    }
+
+    @bottom-left {
+      content: counter(page);
+    }
   }
+
   @page:left:first {
     @bottom-right {
-			content: none;
-		}
+      content: none;
+    }
   }
 
   @page:right {
     margin-left: $print-inner-margin;
     margin-right: $print-outer-margin;
+
     @bottom-left {
-			content: string(pagetitle);
-		}
-		@bottom-right-corner {
-			content: counter(page);
-		}
+      content: string(pagetitle);
+    }
+
+    @bottom-right {
+      text-align: right;
+      content: counter(page);
+    }
   }
+
   @page:right:first {
     @bottom-left {
-			content: none;
-		}
+      content: none;
+    }
   }
 
   @page frontmatter:left {
-    @bottom-left-corner {
-      content: counter(page, lower-roman);
-    }
-  }
-  @page frontmatter:right {
-    @bottom-right-corner {
+    @bottom-left {
       content: counter(page, lower-roman);
     }
   }
 
+  @page frontmatter:right {
+    @bottom-right {
+      text-align: right;
+      content: counter(page, lower-roman);
+    }
+  }
+  
+  @page frontmatter-splash:left {
+    background-color: $print-splash-color;
+    @bottom-left {
+      content: counter(page, lower-roman);
+    }
+  }
+  
+  @page frontmatter-splash:right {
+    background-color: $print-splash-color;
+    @bottom-right {
+      text-align: right;
+      content: counter(page, lower-roman);
+    }
+  }
+  
   @page splash {
-    background-color: $quire-splash-page-color;
-    color: findColorInvert($quire-splash-page-color);
+    background-color: $print-splash-color;
+  }
+  
+  @page entry-image {
+    background-color: $print-entry-image-color;
+    @bottom-left {
+      content: none;
+    }
+    @bottom-right {
+      content: none;
+    }
+  }
+  
+  @page splash-image {
     margin-top: 0;
-    margin-bottom: 0;
+    margin-bottom: -$print-bleed;
     margin-left: 0;
     margin-right: 0;
-    @bottom-left-corner {
-			content: none;
-		}
-    @bottom-right-corner {
-			content: none;
-		}
+
+    @bottom-left {
+      content: none;
+    }
+
+    @bottom-right {
+      content: none;
+    }
   }
 
   @page no-footer {
-    @bottom-right-corner {
-			content: none;
-		}
     @bottom-right {
-			content: none;
-		}
-    @bottom-center {
-			content: none;
-		}
+      content: none;
+    }
+
     @bottom-left {
-			content: none;
-		}
-    @bottom-left-corner {
-			content: none;
-		}
+      content: none;
+    }
   }
 
   @page page-one:first {
-    @bottom-left-corner {
-			content: none;
-		}
     @bottom-left {
-			content: none;
-		}
-  }
+      content: none;
+    }
 
-  .quire-current-page__title {
+    @bottom-left {
+      content: none;
+    }
+  }
+  
+  @page:blank {
+    @bottom-left {
+      content: normal;
+    }
+    @bottom-right {
+      content: normal;
+    }
+  }
+  @page frontmatter:blank {
+    @bottom-left {
+      content: normal;
+    }
+    @bottom-right {
+      content: normal;
+    }
+  }
+  @page splash:blank {
+    @bottom-left {
+      content: normal;
+    }
+    @bottom-right {
+      content: normal;
+    }
+  }
+  @page frontmatter-splash:blank {
+    @bottom-left {
+      content: normal;
+    }
+    @bottom-right {
+      content: normal;
+    }
+  }
+  
+// Generated content for footers and page #s in TOC
+// -----------------------------------------------------------------------------
+  .pdf-page-title {
     string-set: pagetitle content();
   }
-  .quire-section-page__title {
+
+  .pdf-page-section {
     string-set: sectiontitle content();
   }
 
   .quire-contents-list {
     .page-item {
-      .title a::after {
-        content: leader(dotted) ' ' target-counter(attr(href, url), page);
-        margin-left: 6pt;
+      a::after {
+        content: leader(dotted) ' 'target-counter(attr(href, url), page);
+        margin-left: 6pt; 
         // This border is a hack for PrinceXML which doesn't
         // otherwise recognize the box sizing for some reason
         border: 1pt solid transparent;
       }
-      &.quire-frontmatter {
-        .title a::after {
-          content: leader(dotted) ' ' target-counter(attr(href, url), page, lower-roman);
-          font-style: italic;
+      a.frontmatter-page::after {
+        content: leader(dotted) ' 'target-counter(attr(href, url), page, lower-roman);
+        font-style: italic;
+        margin-left: 6pt; 
+        // This border is a hack for PrinceXML which doesn't
+        // otherwise recognize the box sizing for some reason
+        border: 1pt solid transparent;
+      }
+    }
+    &.grid {
+      .page-item {
+        a::after {
+          position: absolute;
+          bottom: 1em;
+          right: 1em;
+          font-size: .75em;
+        }
+        a.frontmatter-page::after {
+          position: absolute;
+          bottom: 1em;
+          right: 1em;
+          font-size: .75em;
         }
       }
     }
   }
 
+// Assigning page types
+// -----------------------------------------------------------------------------
   .quire-page--page-one {
     page: page-one;
     counter-reset: page 1;
@@ -179,95 +269,296 @@ $print-footer-font-size: 8pt;
   .quire-page--frontmatter {
     page: frontmatter;
   }
-
-  .quire-entry__image {
+  
+  #half-title .quire-page--frontmatter,
+  #title .quire-page--frontmatter {
     page: no-footer;
-    page-break-after: always;
+  }
+  
+  .quire-splash {
+    page: splash;
+    background-color: $print-splash-color;
+    .quire-page__header.hero-image {
+      page: splash-image;
+    }
+  }
+  
+  .quire-splash.quire-page--frontmatter {
+    page: frontmatter-splash;
   }
 
-  .quire-cover,
+  .quire-entry__image {
+    .quire-entry__image__group-container {
+      figure {      
+        page: entry-image;
+        }
+      }
+    }
+
   .quire-contents {
     page: no-footer;
   }
+  
+  .quire-cover {
+    page: splash-image;
+  }
 
-  .quire-page--splash {
-    .quire-page__header {
-      .hero-body,
-      .quire-page__content {
-        margin-top: $print-top-margin;
-        margin-left: $print-inner-margin;
-        margin-right: $print-inner-margin;
-        margin-bottom: $print-bottom-margin;
+  #content>div.container>div>figure:nth-child(11)>div:nth-child(1) .quire-figure--group-pdf {
+    color: #fff;
+  }
+  
+// Set columns and widths for main page content
+// -----------------------------------------------------------------------------
+  .quire-page__content {
+    column-count: 1;
+    max-width: $print-base-text-column-width;
+    margin: 0 auto;
+    
+    #title .quire-page &,
+    #half-title .quire-page & {
+      margin: 0;
+      max-width: 100%;
+    }
+    
+    .quire-contents & {
+      margin: 0;
+      max-width: 100%;
+      
+      .quire-contents-list {
+        &:not(.grid) {
+          max-width: $print-base-text-column-width;
+          margin: 0 auto;
+        }
       }
-      .hero-body {
-        margin-top: 3in;
+    }
+    
+    @if $print-width > 7 {
+      .quire-essay &,
+      .quire-entry & {
+        column-count: 2;
+        column-fill: balance;
+        column-gap: .1875in;
+        max-width: 100%;
+        margin: 0;
+      
+        // with narrower columns, image should be full width
+        .quire-figure.is-pulled-left,
+        .quire-figure.is-pulled-right {      
+          float: none;
+          width: 100%;
+          margin-left: 0;
+          margin-right: 0;
+        }
       }
-      &.quire-page__header--full-height {
-        page: splash;
-        background-color: $quire-splash-page-color;
-        color: findColorInvert($quire-splash-page-color);
-        width: $splash-page-width;
-        height: $splash-page-height;
-        margin-left: (-$print-bleed);
-        margin-top: (-$print-bleed);
+    }
+    
+  }
+  
+  // make other elements same width as single-column pages
+  .quire-page__abstract {
+    column-span: all;
+    column-count: 1;
+    margin: 0 auto 1.25em;
+    max-width: $print-base-text-column-width;
+  }
+  
+  .quire-entry__tombstone {
+    column-span: all;
+    column-count: 1;
+    margin: 0 auto .25in;
+    max-width: $print-base-text-column-width;
+  }
+  
+  .quire-page__header.hero-image .hero-body {
+    margin: 2.5in .5in 0;
+    @if $print-width <= 7 {
+      width: $print-base-text-column-width;
+      margin: 2.5in auto 0;
+    }
+  }
+  
+// Content list grid view
+// -----------------------------------------------------------------------------
+  $menu-grid-gap: .1875in;
+  $menu-grid-item-margin: $menu-grid-gap / 2;
+  
+  $menu-grid-item-width: ($print-width - $print-outer-margin - $print-inner-margin - (3 * $menu-grid-gap)) / 3;
+  
+  @if $print-width <= 7 {
+    $menu-grid-item-width: ($print-width - $print-outer-margin - $print-inner-margin - (2 * $menu-grid-gap)) / 2;
+  }
+  
+  .quire-contents-list.grid .menu-list ul {
+    .page-item {
+      width: $menu-grid-item-width;
+      height: 2.5in;
+      margin-bottom: $menu-grid-gap;
+      background-color: $print-splash-color;
+      padding: 1em;
+      position: relative;
+      * {
+        margin: 0;
+        padding: 0;
+        background-color: transparent;
+      }
+      margin: 0 $menu-grid-item-margin $menu-grid-gap;
+      a {
+        position: initial;
+      }
+      .card.image {
+        .card-content {
+          padding: $menu-grid-gap 0;
+          font-size: 1.25rem;
+          font-family: $quire-primary-font;
+        }
+        img {
+          max-height: 1.25in;
+          width: auto;
+        }
+      }
+    }
+    .section-item {
+      width: 100%;
+      border-bottom: 1px solid $quire-print-text-color;
+      margin-bottom: .25in;
+    }
+  }    
+  
+// Entry image pages
+// -----------------------------------------------------------------------------
+  $print-entry-image-width: $print-width - $print-inner-margin - $print-outer-margin;
+  $print-entry-image-height: $print-height - $print-top-margin - $print-bottom-margin;
+  
+  .quire-entry__image & figure {
+    @if $print-entry-image-display == first {
+      display: none;
+      &:first-of-type {
+        display: block;
+      }
+    }
+    break-after: page;    
+    .quire-figure__media-fallback {
+      .quire-figure__wrapper {
+        width: $print-entry-image-width;
+        height: $print-entry-image-height;
+      }
+      img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        display: block;      
       }
     }
   }
-
-  .quire-page,
-  .hero.quire-page__header,
-  .hero-body {
-    // This border is a hack for PrinceXML which doesn't
-    // otherwise recognize the box sizing for some reason
-    border: 1pt solid transparent !important;
-  }
-
-  // TEMPORARY
-  // Use to better test and style layout of pages
-  // .quire-page {
-  //   border: 1pt solid #ff0000 !important;
-  // }
-  // .hero.quire-page__header {
-  //   border: 1pt solid #ff00ff !important;
-  // }
-  // .hero-body {
-  //   border: 1pt solid #0000ff !important;
-  // }
-  // .section.quire-page__content {
-  //   border: 1pt solid #00ff00 !important;
-  // }
-  // .container {
-  //   border: 1pt solid #ffff00 !important;
-  // }
-  // .content {
-  //   border: 1pt solid #00ffff !important;
-  // }
-
+  
+// Globally hidden elements
+// -----------------------------------------------------------------------------
   html body {
-    // Leaflet stuff
+    .button,
+    .input,
+    .textarea,
+    .select,
+    .visually-hidden,
+    .footnote-return,
+    .is-screen-only,
+    .remove-from-epub {
+      display: none;
+    }
+    
+    // Leaflet
     .leaflet-pane,
     .leaflet-map-pane,
     .leaflet-container,
     .lvml {
       display: none !important;
     }
+  }
 
-    .button,
-    .input,
-    .textarea,
-    .select,
-    .visually-hidden,
-    .footnote-return {
-      display: none;
+// Title Page and Half Title Page
+// -----------------------------------------------------------------------------
+  .fullPageBreak {
+    break-after: region;
+    height: $print-height;
+    width: $print-width;
+  }
+
+  .title-page {
+    margin-right: .5in;
+    height: $print-height;
+    @if $print-width <= 7 {
+      margin-right: 0;
+      max-width: $print-base-text-column-width;
+    }
+    text-align: right;
+    padding-top: 2.5in;
+    font-family: $quire-headings-font;
+
+    span {
+      display: block;
     }
 
+    .title-tp {
+      font-size: 4em;
+      font-weight: 700;
+      color: $accent-color;
+      line-height: 1.1;
+      margin-bottom: .3em;
+    }
+
+    .sub-title {
+      font-size: 2.5em;
+      line-height: 1.3;
+    }
+
+    .contributor {
+      font-size: 1.75em;
+      margin-top: .125in;
+      .quire-contributor {
+        display: inline;
+      }
+    }
+
+    .publisher {
+      font-size: 1.5em;
+      text-transform: uppercase;
+      letter-spacing: 1pt;
+      position: fixed;
+      bottom: 1.5in;
+      right: .5in;
+      @if $print-width <= 7 {
+        right: 0;
+      }
+    }
+    
+    br {
+      display: none;
+    }
   }
 
-  .menu-list li ul {
-    border-left-width: 0;
+  .half-title-page {
+    margin-right: .5in;
+    height: $print-height;
+    @if $print-width <= 7 {
+      margin-right: 0;
+      max-width: $print-base-text-column-width;
+    }
+    font-family: $quire-headings-font;
+    font-size: 1.5em;
+    color: $accent-color;
+    text-align: right;
+    padding-top: 2.5in;
+
+    span {
+      display: block; 
+    }
+
+    .title-htp {    
+      font-weight: 700;
+    }
+
+    .sub-title {
+      display: none;
+    }
   }
-  .section { padding: 0; }
-  .container { max-width: 100%; margin: 0; }
+
 }
-
-

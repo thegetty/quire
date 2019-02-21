@@ -4,10 +4,8 @@
 */}}
 
 {{ define "main" }}
-
-<div class="{{ partial "page-class.html" . }}" id="main" role="main">
+<article class="{{ partial "page-class.html" . }} quire-page" id="main" role="main">
   {{ partial "page-header.html" . }}
-
   {{ with .Content }}
   <section class="section quire-page__content" id="content">
     <div class="container">
@@ -17,7 +15,11 @@
     </div>
   </section>
   {{ end }}
-
-</div>
+  <section class="section quire-page__content">
+    <div class="container">
+      {{ partial "footer-buttons.html" . }}
+    </div>
+  </section>
+</article>
 {{ end }}
 

@@ -11,22 +11,34 @@ Cover page layout. This controls the home page of the publication.
 {{ end }}
 
 <div class="{{ partial "page-class.html" . }} quire-cover" id="main" role="main">
+
+  {{ if eq $.Site.Params.epub true }}
+    {{- if .Site.Data.publication.promo_image -}}
+    {{- $imgCoverPath := printf "%s/%s" ($.Scratch.Get "imageDir") .Site.Data.publication.promo_image -}}
+    <img src="{{ $imgCoverPath | relURL }}" class="epub-cover-image" />
+    {{- end -}}
+  {{/* PDF full cover image */}}
+  {{ else }}
+
   {{/* Begin full-page cover section */}}
   {{- if .Params.image -}}
   {{- $imgPath := printf "%s/%s" ($.Scratch.Get "imageDir") .Params.image -}}
-    <section class="quire-cover__hero hero is-fullheight" style="background-image: url('{{ $imgPath | absURL }}');">
+    <section class="quire-cover__hero hero is-fullheight">
+      <div class="quire-cover__overlay" style="background-image: url('{{ $imgPath | relURL }}');"></div>
   {{- else -}}
-    <section class="quire-cover__hero is-fullheight">
+    <section class="quire-cover__hero hero is-fullheight">
       <div class="quire-cover__overlay"></div>
   {{- end -}}
     <div class="quire-cover__hero-body hero-body">
       <div class="container is-fluid">
         {{/* Use .Site.Data.publication info if available */}}
         {{ if .Site.Data.publication }}
-        <p class="half-title">{{ if .Site.Data.publication.short_title }}{{ .Site.Data.publication.short_title | markdownify }}{{ else }}{{ .Site.Data.publication.title | markdownify }}{{ end }}</p>
+        
+        {{- $endPunctuation := findRE "[!|?]$" .Site.Data.publication.title -}}
         <h1 class="title">
           {{ .Site.Data.publication.title | markdownify }}
-          {{ with .Site.Data.publication.subtitle }}
+          {{- with .Site.Data.publication.subtitle -}}
+          {{- if $endPunctuation }} {{ else }}<span class="visually-hidden">: </span>{{ end -}}
           <span class="subtitle">{{ . | markdownify }}</span>
           {{ end }}
         </h1>
@@ -40,7 +52,7 @@ Cover page layout. This controls the home page of the publication.
         {{ .Site.Data.publication.contributor_as_it_appears }}
         {{ else }}
         <span class="visually-hidden">Contributors: </span>
-        {{ partial "contributor-list.html" (dict "range" .Site.Data.publication.contributor "contributorType" "primary" "listType" "list" ) }}
+          <em>{{ partial "contributor-list.html" (dict "range" .Site.Data.publication.contributor "contributorType" "primary" "listType" "string" "Site" $.Site) }}</em>
         {{- end -}}
         </div>
 
@@ -49,6 +61,31 @@ Cover page layout. This controls the home page of the publication.
         <h1 class="title">{{ .Site.Title }}</h1>
         {{ end }}
       </div>
+    </div>
+  </section>
+
+  {{ partial "pdf-title-pages.html" (dict "site" .Site) }}
+
+  <section class="quire-cover__more" >
+    <div class="quire-cover__more-body hero-more">
+      {{ if and (ne $.Site.Params.epub true) (ne $.Site.Params.pdf true) }}
+      <a href="#content">
+        {{- if isset $.Site.Params "imagedir" }}
+        {{ $.Scratch.Set "imageDir" $.Site.Params.imageDir }}
+        {{ else }}
+        {{ $.Scratch.Set "imageDir" "" }}
+        {{ end -}}
+        {{- $imgDir := $.Scratch.Get "imageDir" -}}
+        <svg class="remove-from-epub">
+          <switch>
+            <use xlink:href="#read-more-icon"></use>
+            <foreignObject width="36" height="36">
+                <img class="remove-from-epub" src="{{ $imgDir | relURL }}/icons/heromore@2x.png" alt="Read More" />
+            </foreignObject>
+          </switch>
+        </svg>
+      </a>
+      {{ end }}
     </div>
   </section>
   {{/* End full-page cover section */}}
@@ -60,25 +97,16 @@ Cover page layout. This controls the home page of the publication.
       <div class="content">
         {{ . }}
       </div>
-      <div class="has-text-centered">
-        <a class="button is-medium quire-cover__button" href="/contents">Start reading {{- template "image-control-icon" (dict "type" "right-arrow" "description" "Go to next page" "imageDir" ($.Scratch.Get "imageDir") ) -}}</a>
-      </div>
     </div>
   </section>
 
   {{ end }}
 
-  <footer class="footer quire-cover-footer remove-from-epub">
-    <div class="container is-fluid">
-      <div class="content is-small">
-        {{ partial "footer.html" . }}
-      </div>
-    </div>
-  </footer>
-
   {{/* End "below-the-fold" section */}}
+  {{ partial "footer-buttons.html" . }}
 </div>
 
+{{ end }}
 {{ end }}
 
 
@@ -87,8 +115,8 @@ Cover page layout. This controls the home page of the publication.
 <svg class="remove-from-epub">
   <switch>
     <use xlink:href="#{{ .type }}-icon"></use>
-    <foreignObject width="32" height="32">
-        <img class="remove-from-epub" src="{{ absURL .imageDir }}/icons/{{ .type }}.png" alt="" />
+    <foreignObject width="24" height="24">
+        <img class="remove-from-epub" src="{{ relURL .imageDir }}/icons/{{ .type }}.png" alt="" />
     </foreignObject>
   </switch>
 </svg>

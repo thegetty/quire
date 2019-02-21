@@ -21,26 +21,22 @@
 
 // scss-lint:disable NameFormat
 
-// Variables
-// -----------------------------------------------------------------------------
-$dark: #363636 !default;
-$white: #ffffff !default;
-$sans-serif: Lato, Helvetica, sans-serif !default;
-
-$family-secondary: $sans-serif !default;
-$desktop: 700px !default;
-$navbar-height: 3rem !default;
-
-$quire-navbar-color: $white !default;
-$quire-navbar-border-color: $dark !default;
-$quire-navbar-text-color: $dark !default;
-
 // .quire-navbar
 // -----------------------------------------------------------------------------
 .quire-navbar {
-
-  font-family: $family-secondary;
+  font-family: $quire-navigation-font;
   font-weight: 400;
+  font-size: .875em;
+  position: fixed;
+  z-index: 1;
+
+  svg {
+    height: calc(#{$navbar-height} * .65);
+    width: calc(#{$navbar-height} * .65);
+    max-height: 1rem;
+    max-width: 1rem;
+    vertical-align: sub;
+  }
 
   @if $navbar-height <= 2rem {
     font-size: .85rem;
@@ -52,13 +48,8 @@ $quire-navbar-text-color: $dark !default;
   @include foreground-color($quire-navbar-color,$quire-navbar-text-color);
   background-color: $quire-navbar-color;
   min-height: $navbar-height;
-  top: 0;
+  top: 0 !important;
   width: 100%;
-  border-bottom: 1px solid $quire-navbar-border-color;
-
-  * {
-    transition: background 0.15s linear;
-  }
 
   a {
     display: block;
@@ -67,6 +58,31 @@ $quire-navbar-text-color: $dark !default;
 
   @media print {
     display: none;
+  }
+}
+
+// .quire-progress-bar
+// -----------------------------------------------------------------------------
+.quire-progress-bar {
+  height: 2px;
+  -webkit-transition: all .25s ease;
+  transition: all .25s ease;
+  font-family: $quire-navigation-font;
+  font-size: 0.75rem;
+  background-color: background-color($secondary-background-color);
+  border-bottom: none;
+  span {
+    color: $white;
+    display: none;
+  }
+  div {
+    height: 2px;
+    width: 100%;
+    background-color: $accent-color;
+    text-align: right;
+    padding-right: .5em;
+    position: relative;
+    animation: .5s ease-out 0s 1 slideFromLeft;
   }
 }
 
@@ -90,6 +106,36 @@ $quire-navbar-text-color: $dark !default;
     flex: 0 1 $navbar-height;
     text-align: right;
   }
+
+  &__left, &__right, .quire-navbar-page-controls__item {
+    button {
+      background-color: transparent;
+    }
+    a {
+      button {
+        &:hover {
+          background-color: transparent;
+        }
+      }
+    }
+    a, button, .button {
+      transition: all .25s ease;
+      &:hover {
+        color: findColorInvert($accent-color) !important;
+        background-color: $accent-color;
+        svg {
+          fill: findColorInvert($accent-color);
+        }
+        @if $navbar == accent {
+          color: $accent-color !important;
+          background-color: findColorInvert($accent-color);
+          svg {
+            fill: $accent-color !important;
+          }
+        }
+      }
+    }
+  }
 }
 
 .quire-navbar-page-controls {
@@ -103,8 +149,49 @@ $quire-navbar-text-color: $dark !default;
     overflow: hidden;
     display: none;
 
+    a, svg {
+      transition: all .25s ease;
+    }
+
+    span {
+      display: block;
+    }
+
+    .menu-button {
+      width: 18px;
+      display: inline-block;
+    }
+
     &.quire-current-page {
       font-style: italic;
+    }
+
+    &.quire-previous-page {
+      a {
+        padding: 0 1.5em 0 0.5em;
+      }
+      .left-icon {
+        margin-right: 1em;
+      }
+    }
+
+    &.quire-next-page {
+      font-style: normal;
+      a {
+        padding: 0 0.5em 0 1.5em;
+      }
+      svg {
+        margin-left: 0.25em;
+        margin-right: 0.5em;
+      }
+    }
+
+    @media screen and (max-width: $tablet) {
+      &.quire-home-page {
+        display: block;
+        padding-left: 0;
+        padding-right: 0;
+      }
     }
 
     @media screen and (min-width: 500px) {
@@ -117,11 +204,24 @@ $quire-navbar-text-color: $dark !default;
       &.quire-current-page {
         display: block;
       }
+      &.quire-next-page,
+      &.quire-previous-page {
+        display: block;
+      }
     }
 
     @media screen and (min-width: 900px) {
       &.quire-section-page {
         display: block;
+      }
+    }
+  }
+
+  @media screen and (min-width: $desktop) {
+    .quire-navbar-button {
+      display: none;
+      &.home-button, &.play-button {
+        display: inline-block;
       }
     }
   }
@@ -143,12 +243,6 @@ $quire-navbar-text-color: $dark !default;
   height: $navbar-height;
   width: $navbar-height;
   padding: 0;
-  transition: all 0.15s linear;
-
-  &:hover {
-    background-color: darken($quire-navbar-color, 5%);
-    > * { background-color: darken($quire-navbar-color, 5%); }
-  }
 
   svg {
     position: relative;
@@ -182,6 +276,39 @@ $quire-navbar-text-color: $dark !default;
       max-width: 1rem;
       & img {
         max-height: 1rem;
+      }
+    }
+    @media screen and (max-width: $tablet) {
+      svg {
+        top: 0;
+      }
+    }
+    a {
+      -webkit-transition: all .25s ease;
+      transition: all .25s ease;
+      &:hover {
+        color: findColorInvert($accent-color) !important;
+        background-color: $accent-color;
+        svg {
+          fill: findColorInvert($accent-color);
+        }
+      }
+    }
+  }
+  &.play-button,
+  &.home-button {
+    text-align: center;
+    svg {
+      height: calc(#{$navbar-height} * .65);
+      width: calc(#{$navbar-height} * .65);
+      max-height: 2.5rem;
+      max-width: 2.5rem;
+      top: 0;
+      vertical-align: middle;
+      margin-left: 0.5rem;
+      margin-top: 0.25rem;
+      & img {
+        max-height: 2.5rem;
       }
     }
   }

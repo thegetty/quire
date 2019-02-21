@@ -10,7 +10,7 @@ html body {
 html {
   /* Don't use it for styling, used as selector which can take a punch if anything goes wrong above */ }
 
-article, address, aside, blockquote, canvas, dd, details, div, dl, dt, figure, figcaption, footer, h1, h2, h3, h4, h5, h6, header, hr, li, main, nav, ol, p, pre, section, summary, ul {
+article, address, aside, blockquote, canvas, dd, details, div, dl, dt, figure, figcaption, footer, header, hr, li, main, nav, ol, p, pre, section, summary, ul {
   margin: 0;
   padding: 0;
   /* RS may apply vertical padding to el such as p */
@@ -78,50 +78,25 @@ h1, h2, h3, h4, h5, h6, blockquote p cite, dt, pre, address, table, caption, th,
   adobe-hyphenate: none;
   /* proprietary for Legacy RMSDK */
   -ms-hyphens: none;
-  -moz-hyphens: none;
   -webkit-hyphens: none;
   -epub-hyphens: none;
   hyphens: none; }
 
 h1, h2, h3, h4, h5, h6, dt, hr {
   page-break-inside: avoid;
-  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+          break-inside: avoid;
   page-break-after: avoid;
-  break-after: avoid; }
-
-h1 {
-  font-size: 1.4375em;
-  line-height: 1.04347826;
-  margin-top: 0em;
-  margin-bottom: 2.08695652em; }
-
-h2 {
-  font-size: 1.3125em;
-  line-height: 1.14285714;
-  margin-top: 2.28571429em;
-  margin-bottom: 1.14285714em; }
-
-h3 {
-  font-size: 1.125em;
-  line-height: 1.33333333;
-  margin-top: 1.33333333em;
-  margin-bottom: 1.33333333em; }
-
-h4 {
-  font-size: 1em;
-  line-height: 1.5;
-  margin-top: 1.5em;
-  margin-bottom: 0em; }
-
-h5, h6 {
-  /* Styles */ }
+  -webkit-column-break-after: avoid;
+          break-after: avoid; }
 
 p {
-  text-indent: 1em; }
+  text-indent: 0;
+  margin-bottom: 1em; }
 
 .footnote {
   font-size: 0.9375em;
-  line-height: 1.6;
+  line-height: 0;
   text-indent: 0; }
 
 blockquote {
@@ -140,8 +115,8 @@ a {
   text-decoration: underline;
   /* Note: KF8 will force this value unless you use "el.class a" */
   font-weight: bold;
-  color: #3273dc;
-  -webkit-text-fill-color: #3273dc;
+  color: #6A8EB8;
+  -webkit-text-fill-color: #6A8EB8;
   /* iBooks override (iOS 9 + El Capitan in night mode) */
   /* inherit = text color */ }
 
@@ -199,8 +174,11 @@ sup {
 /* FIGURES + IMAGES  */
 figure {
   page-break-inside: avoid;
-  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+          break-inside: avoid;
   margin: 1.5em 0; }
+  figure img {
+    background-color: #CCCCCC; }
 
 figcaption {
   font-size: 0.9375em;
@@ -212,7 +190,8 @@ img {
   max-width: 100%;
   /* Note: KF8 doesn't support max-width hence "width: auto;" as fallback */
   height: auto;
-  object-fit: contain; }
+  -o-object-fit: contain;
+     object-fit: contain; }
 
 @supports (height: 99vh) {
   img.portrait {
@@ -237,10 +216,10 @@ ol {
 
 /* DEFINITION LISTS */
 dl {
-  margin: 1.5em 0 1.5em 5%; }
+  margin: 1em 0 1em 0; }
 
 dt {
-  margin: 1.5em 0 0 0;
+  margin: 1em 0 0 0;
   font-weight: bold; }
 
 dd {
@@ -258,7 +237,7 @@ hr {
   margin-bottom: 1.4375em;
   height: 0;
   border: none;
-  border-top: 0.125em solid #3273dc;
+  border-top: 0.125em solid #6A8EB8;
   /* currentColor = color of text (getting around night mode) */
   opacity: 0.5;
   /* Opacity -> grayscale. If opacity is declared for too many elements in a XHTML file, performance of legacy RMSDK takes a hit */ }
@@ -272,7 +251,8 @@ table {
   max-width: 100%;
   margin: 1.5em auto;
   /* Note: legacy RMSDK sets auto to 0, which is permitted in a footnote of the EPUB2 specs */
-  font-feature-settings: "tnum" 1;
+  -webkit-font-feature-settings: "tnum" 1;
+          font-feature-settings: "tnum" 1;
   font-variant-numeric: tabular-nums; }
 
 caption {
@@ -286,7 +266,7 @@ tbody, thead, tfoot, tr {
 
 th {
   empty-cells: show;
-  border-bottom: 0.125em solid #3273dc;
+  border-bottom: 0.125em solid #6A8EB8;
   /* Current color = color of text (inverted in night mode) */
   padding: 0.6875em 2% 0.6875em 0;
   text-align: left;
@@ -294,7 +274,7 @@ th {
 
 td {
   empty-cells: show;
-  border-bottom: 0.0625em solid #3273dc;
+  border-bottom: 0.0625em solid #6A8EB8;
   /* Current color = color of text (inverted in night mode) */
   padding: 0.75em 2% 0.6875em 0;
   text-align: left; }
@@ -307,7 +287,8 @@ pre {
   -ms-tab-size: 3;
   -moz-tab-size: 3;
   -webkit-tab-size: 3;
-  tab-size: 3; }
+  -o-tab-size: 3;
+     tab-size: 3; }
 
 code, kbd, samp, var {
   font-family: monospace;
@@ -322,5 +303,96 @@ canvas, iframe, svg, video {
   max-width: 100%;
   height: auto; }
 
-/* End CSS */
+.epub-cover-image {
+  display: none; }
+
+section.level1 {
+  margin-top: 15%; }
+  section.level1 + h1 {
+    text-align: center; }
+
+.label {
+  margin: 0 auto .75em;
+  text-align: center;
+  padding: 0 .25em;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  display: table;
+  background-color: gray;
+  color: white; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: Times, serif;
+  font-weight: 700; }
+
+h1 {
+  font-size: 1.5em; }
+
+h2 {
+  font-size: 1.25em; }
+
+h3 {
+  font-size: 1.125em; }
+
+h4 {
+  font-size: 1em; }
+
+h5 {
+  font-size: .875em;
+  text-transform: capitalize;
+  letter-spacing: 1px; }
+
+h6 {
+  font-size: .875em;
+  text-transform: capitalize;
+  font-weight: 400; }
+
+section + h1 {
+  text-align: center; }
+
+section:not(#contents) h1 + ul {
+  list-style-type: none;
+  margin-left: 0;
+  padding-left: 0; }
+
+.quire-citation__content {
+  display: none; }
+
+a {
+  font-weight: 400;
+  text-decoration: none;
+  border-bottom: 1px dotted #6A8EB8; }
+  a.footnote-return,
+  .footnote-ref a {
+    font-weight: 700;
+    border-bottom-width: 0; }
+
+figure {
+  page-break-inside: avoid;
+  margin: 1em 0; }
+  figure img {
+    display: block;
+    margin: 0 auto;
+    page-break-inside: avoid;
+    -o-object-fit: contain;
+       object-fit: contain; }
+  figure figcaption {
+    display: block;
+    margin-top: .5em;
+    font-size: 0.9rem; }
+
+table {
+  width: 100%; }
+
+h2 + hr {
+  display: none; }
+
+.quire-contributor__name {
+  font-weight: 700; }
+
+.quire-contributor__pic {
+  width: 30%;
+  float: left;
+  margin-right: 1em; }
 
