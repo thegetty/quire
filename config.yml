@@ -39,7 +39,7 @@ params:
   imageDir: "img"
   tocType: full
   menuType: full
-  entryPageSideBySideLayout: true
+  entryPageSideBySideLayout: false
   entryPageObjectLinkText: "View in Collection"
   figureLabelLocation: on-top # below | on-top
   figureModal: true
