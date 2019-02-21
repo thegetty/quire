@@ -476,8 +476,15 @@ $print-trim: $print-bleed * 2;
 
 // Title Page and Half Title Page
 // -----------------------------------------------------------------------------
+  .fullPageBreak {
+    break-after: region;
+    height: $print-height;
+    width: $print-width;
+  }
+
   .title-page {
     margin-right: .5in;
+    height: $print-height;
     @if $print-width <= 7 {
       margin-right: 0;
       max-width: $print-base-text-column-width;
@@ -485,7 +492,6 @@ $print-trim: $print-bleed * 2;
     text-align: right;
     padding-top: 2.5in;
     font-family: $quire-headings-font;
-    page-break-before: right;
 
     span {
       display: block;
@@ -507,6 +513,9 @@ $print-trim: $print-bleed * 2;
     .contributor {
       font-size: 1.75em;
       margin-top: .125in;
+      .quire-contributor {
+        display: inline;
+      }
     }
 
     .publisher {
@@ -514,7 +523,7 @@ $print-trim: $print-bleed * 2;
       text-transform: uppercase;
       letter-spacing: 1pt;
       position: fixed;
-      bottom: .5in;
+      bottom: 1.5in;
       right: .5in;
       @if $print-width <= 7 {
         right: 0;
@@ -528,6 +537,7 @@ $print-trim: $print-bleed * 2;
 
   .half-title-page {
     margin-right: .5in;
+    height: $print-height;
     @if $print-width <= 7 {
       margin-right: 0;
       max-width: $print-base-text-column-width;
