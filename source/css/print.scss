@@ -41,23 +41,9 @@ $print-trim: $print-bleed * 2;
     marks: crop;
     margin-top: $print-top-margin;
     margin-bottom: $print-bottom-margin;
-
-    @bottom-right {
-      font-family: $print-footer-font;
-      font-size: $print-footer-font-size;
-      color: $quire-print-text-color;
-      // TEMPORARY TO TEST PDF LAYOUT
-      // border: 1pt solid Red !important;
-    }
-
-    @bottom-left {
-      font-family: $print-footer-font;
-      font-size: $print-footer-font-size;
-      color: $quire-print-text-color;
-      // TEMPORARY TO TEST PDF LAYOUT
-      // border: 1pt solid Blue !important;
-    }
-
+    font-family: $print-footer-font;
+    font-size: $print-footer-font-size;
+    color: $quire-print-text-color;
   }
 
   @page:left {
@@ -107,7 +93,7 @@ $print-trim: $print-bleed * 2;
       content: counter(page, lower-roman);
     }
   }
-
+  
   @page frontmatter:right {
     @bottom-right {
       text-align: right;
@@ -136,12 +122,6 @@ $print-trim: $print-bleed * 2;
   
   @page entry-image {
     background-color: $print-entry-image-color;
-    @bottom-left {
-      content: none;
-    }
-    @bottom-right {
-      content: none;
-    }
   }
   
   @page splash-image {
@@ -149,69 +129,40 @@ $print-trim: $print-bleed * 2;
     margin-bottom: -$print-bleed;
     margin-left: 0;
     margin-right: 0;
-
-    @bottom-left {
-      content: none;
-    }
-
-    @bottom-right {
-      content: none;
-    }
   }
 
-  @page no-footer {
+  @page no-footer, entry-image, splash-image {
     @bottom-right {
       content: none;
     }
-
+  
     @bottom-left {
       content: none;
     }
   }
-
+  
   @page page-one:first {
     @bottom-left {
       content: none;
     }
-
+  }
+  
+  @page :blank {
     @bottom-left {
       content: none;
     }
-  }
-  
-  @page:blank {
-    @bottom-left {
-      content: normal;
-    }
     @bottom-right {
-      content: normal;
+      content: none;
     }
   }
-  @page frontmatter:blank {
-    @bottom-left {
-      content: normal;
-    }
-    @bottom-right {
-      content: normal;
-    }
+
+  h1 {
+    prince-bookmark-level: 1;
   }
-  @page splash:blank {
-    @bottom-left {
-      content: normal;
-    }
-    @bottom-right {
-      content: normal;
-    }
+  h2, h3, h4, h5, h6 {
+    prince-bookmark-level: none;
   }
-  @page frontmatter-splash:blank {
-    @bottom-left {
-      content: normal;
-    }
-    @bottom-right {
-      content: normal;
-    }
-  }
-  
+
 // Generated content for footers and page #s in TOC
 // -----------------------------------------------------------------------------
   .pdf-page-title {
@@ -481,16 +432,18 @@ $print-trim: $print-bleed * 2;
     height: $print-height;
     width: $print-width;
   }
+  
+  $title-page-margin: $print-outer-margin + .5;
 
   .title-page {
-    margin-right: .5in;
+    margin-right: $title-page-margin;
     height: $print-height;
     @if $print-width <= 7 {
       margin-right: 0;
       max-width: $print-base-text-column-width;
     }
     text-align: right;
-    padding-top: 2.5in;
+    padding-top: 3.25in;
     font-family: $quire-headings-font;
 
     span {
@@ -524,7 +477,7 @@ $print-trim: $print-bleed * 2;
       letter-spacing: 1pt;
       position: fixed;
       bottom: 1.5in;
-      right: .5in;
+      right: $title-page-margin;
       @if $print-width <= 7 {
         right: 0;
       }
@@ -536,7 +489,7 @@ $print-trim: $print-bleed * 2;
   }
 
   .half-title-page {
-    margin-right: .5in;
+    margin-right: $title-page-margin;
     height: $print-height;
     @if $print-width <= 7 {
       margin-right: 0;
@@ -546,7 +499,7 @@ $print-trim: $print-bleed * 2;
     font-size: 1.5em;
     color: $accent-color;
     text-align: right;
-    padding-top: 2.5in;
+    padding-top: 3.5in;
 
     span {
       display: block; 

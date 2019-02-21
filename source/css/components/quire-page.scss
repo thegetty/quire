@@ -49,6 +49,7 @@ html {
   h4,
   h5,
   h6 {
+    font-family: $quire-headings-font;
     margin-top: 1rem;
     margin-bottom: 1rem;
 
@@ -71,10 +72,10 @@ html {
 
   h1,
   &__header__title {
-    font-family: $quire-headings-font;
     font-size: 3em;
     font-weight: 700;
     line-height: 1.04em;
+    margin: 1rem 0;
 
     em {
       font-style: normal;
@@ -86,7 +87,6 @@ html {
   }
 
   h2 {
-    font-family: $quire-headings-font;
     text-transform: uppercase;
     font-size: 1.75em;
     line-height: 1.15em;
@@ -95,13 +95,13 @@ html {
   h3,
   h4,
   &__header__contributor {
-    font-family: $quire-navigation-font;
     font-style: italic;
     font-weight: 400;
     font-size: 1.625em;
   }
 
   &__header__contributor {
+    font-family: $quire-primary-font;
     font-weight: 400;
     margin-top: 3rem;
     opacity: 0.75;
@@ -115,11 +115,6 @@ html {
   h4 {
     font-size: 1.375em;
     line-height: 1.2em;
-  }
-
-  h5,
-  h6 {
-    font-family: $quire-headings-font;
   }
 
   h5 {
@@ -144,7 +139,7 @@ html {
     border-bottom: 1px solid $off-black;
   }
 
-  @media screen and (min-width: $tablet) {
+  @media screen and (max-width: $tablet) {
     h1 {
       font-size: 2.675em; /** approx 43px **/
       line-height: 1.1em; /** approx 47px **/
@@ -213,8 +208,14 @@ html {
         @media print {
           padding: 0;
           margin: 0 auto;
+          background-color: transparent;
         }
-
+        
+        // eliminates a blank space that can otherwise show up between 
+        // abstract/tombstone and the main content
+        > *:first-child {
+          margin-top: 0;
+        }
 
         hr {
           background-color: lighten($off-black, 15%);
@@ -226,7 +227,6 @@ html {
 
         table {
           margin: 2em 0;
-          display: inline-table;
           td, th {
             color: background-color-text($content-background-color);
             @media print {
@@ -547,12 +547,8 @@ html {
 
     .label {
       line-height: 1.3;
-      display: block;
+      display: table;
       width: fit-content;
-      @media print {
-        // PrinceXML doesn't support fit-content
-        display: table;
-      }
       @if $theme == classic {
         font-size: 1.4rem;
         font-weight: normal;
@@ -565,6 +561,9 @@ html {
         padding: .35rem .45rem;
         margin: 0 auto 1.7em;
         min-width: 2.6rem;
+        @media print {
+          min-width: .3125in;
+        }
       } @else {
         font-size: 1.2rem;
         color: background-color-text($secondary-background-color);
@@ -591,7 +590,8 @@ html {
   .quire-page__header {  
     &.hero-image {  
       background-color: transparent; 
-      min-height: calc(60vh - #{$navbar-height});
+      height: 50vh;
+      max-height: 500px;
       background-position: center; 
       @media print {
         $splash-page-width: $print-width + $print-bleed + $print-bleed;
@@ -601,6 +601,7 @@ html {
         color: $white;
         width: $splash-page-width;
         height: $splash-page-height;
+        max-height: $splash-page-height;
         margin: -$print-bleed;
       }
       .hero-body {
@@ -868,22 +869,18 @@ html {
 
     @media print {
       h2 {
-        font-size: 18pt;
-        line-height: 18pt;
-        margin-bottom: 8pt;
-        margin-top: 18pt;
+        margin-bottom: .5em;
+        margin-top: 1.5em;
 
         +h3 {
-          margin-bottom: 10pt;
+          margin-bottom: .5em;
           margin-top: 0;
         }
       }
 
       h3 {
-        font-size: 12pt;
-        line-height: 13pt;
-        margin-bottom: 13pt;
-        margin-top: 13pt;
+        margin-bottom: 1em;
+        margin-top: 1em;
       }
 
       ul {

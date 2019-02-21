@@ -260,6 +260,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
       @media print {
         margin: 0;
         padding: 0;
+        background-color: transparent;
       }
     }
 
@@ -278,6 +279,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     // @media print {
     //   border: 1px solid Lime;
     // }
+    font-family: $quire-primary-font;
     
     a {
       @if $theme == classic {
@@ -329,7 +331,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
 
     >div.container {
       background-color: $content-background-color;
-      padding-bottom: 1em;
+      padding-bottom: 2em;
       @media screen and (max-width: $tablet) {
         margin-right: 0;
         margin-left: 0;
@@ -337,6 +339,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
       @media print {
         margin: 0;
         padding: 0;
+        background-color: transparent;
       }
     }
 
@@ -355,6 +358,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
       @media print {
         color: $quire-print-text-color;
         border-color: $quire-print-text-color;
+        background-color: transparent;
       }
       font-size: 0.875em;
 
@@ -438,6 +442,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
       padding: 0 2rem 2.5em;
       @media print {
         padding: 0;
+        background-color: transparent;
       }
 
       p {
@@ -449,6 +454,13 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
       font-size: 0.85em;
       font-style: normal;
       font-weight: 700;
+      font-size: 1.125em;
+      text-transform: none;
+      font-family: $quire-headings-font;
+      @media print {
+        margin: .5714em 0;
+        line-height: inherit;
+      }
     }
 
   }
