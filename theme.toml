@@ -2,17 +2,18 @@
 # See https://github.com/spf13/hugoThemes#themetoml for an example
 
 name = "Quire Starter Theme"
-license = "MIT"
-licenselink = "https://github.com/yourname/yourtheme/blob/master/LICENSE.md"
+theme_version = "v0.1.0.alpha.15"
+license = ""
+licenselink = ""
 description = ""
-homepage = "http://siteforthistheme.com/"
+homepage = "https://github.com/gettypubs/quire-starter-theme/"
 tags = []
 features = []
-min_version = "0.21"
+min_version = ""
 
 [author]
-  name = ""
-  homepage = ""
+  name = "Getty Publications, J. Paul Getty Trust"
+  homepage = "http://www.getty.edu/publications/"
 
 # If porting an existing theme
 [original]
