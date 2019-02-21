@@ -63,9 +63,7 @@ Cover page layout. This controls the home page of the publication.
       </div>
     </div>
   </section>
-
-  {{ partial "pdf-title-pages.html" (dict "site" .Site) }}
-
+    
   <section class="quire-cover__more" >
     <div class="quire-cover__more-body hero-more">
       {{ if and (ne $.Site.Params.epub true) (ne $.Site.Params.pdf true) }}
@@ -104,6 +102,10 @@ Cover page layout. This controls the home page of the publication.
 
   {{/* End "below-the-fold" section */}}
   {{ partial "footer-buttons.html" . }}
+  
+  {{ if eq $.Site.Params.pdf true }}
+    {{ partial "pdf-title-pages.html" (dict "site" .Site) }}
+  {{ end }}
 </div>
 
 {{ end }}
