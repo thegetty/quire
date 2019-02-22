@@ -11,6 +11,8 @@ const imageminJpegtran = require("imagemin-jpegtran");
 const imageminOptipng = require("imagemin-optipng");
 const imageminSvgo = require("imagemin-svgo");
 
+const ASSET_PATH = process.env.ASSET_PATH || '/';
+
 const PATHS = {
   source: path.join(__dirname, '../source'),
   build: path.join(__dirname, '../static')
@@ -35,7 +37,7 @@ module.exports = {
   },
   output: {
     path: PATHS.build,
-    publicPath: "/",
+    publicPath: ASSET_PATH,
     filename: path.join('js', 'application.js')
   },
   module: {
