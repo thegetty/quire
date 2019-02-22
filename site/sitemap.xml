@@ -3,55 +3,55 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/</loc>
+    <loc>https://gettypubs.github.io/quire-starter/</loc>
   </url>
   
   <url>
-    <loc>/contents/</loc>
+    <loc>https://gettypubs.github.io/quire-starter/contents/</loc>
   </url>
   
   <url>
-    <loc>/intro/</loc>
+    <loc>https://gettypubs.github.io/quire-starter/intro/</loc>
   </url>
   
   <url>
-    <loc>/evans-middletown/</loc>
+    <loc>https://gettypubs.github.io/quire-starter/essay/</loc>
   </url>
   
   <url>
-    <loc>/catalogue/</loc>
+    <loc>https://gettypubs.github.io/quire-starter/catalogue/</loc>
   </url>
   
   <url>
-    <loc>/catalogue/1/</loc>
+    <loc>https://gettypubs.github.io/quire-starter/catalogue/1/</loc>
   </url>
   
   <url>
-    <loc>/catalogue/2/</loc>
+    <loc>https://gettypubs.github.io/quire-starter/catalogue/2/</loc>
   </url>
   
   <url>
-    <loc>/catalogue/3/</loc>
+    <loc>https://gettypubs.github.io/quire-starter/catalogue/3/</loc>
   </url>
   
   <url>
-    <loc>/catalogue/4/</loc>
+    <loc>https://gettypubs.github.io/quire-starter/catalogue/4/</loc>
   </url>
   
   <url>
-    <loc>/bibliography/</loc>
+    <loc>https://gettypubs.github.io/quire-starter/bibliography/</loc>
   </url>
   
   <url>
-    <loc>/contributors/</loc>
+    <loc>https://gettypubs.github.io/quire-starter/contributors/</loc>
   </url>
   
   <url>
-    <loc>/about/</loc>
+    <loc>https://gettypubs.github.io/quire-starter/about/</loc>
   </url>
   
   <url>
-    <loc>/search.json</loc>
+    <loc>https://gettypubs.github.io/quire-starter/search.json</loc>
   </url>
   
 </urlset>
