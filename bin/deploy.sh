@@ -18,7 +18,7 @@ mkdir $BUILD_DIR
 
 echo "Generating site"
 # hugo --config=config.yml,config/environments/github.yml
-quire site
+quire site --env=github
 
 echo "Updating gh-pages branch"
 git add -f $BUILD_DIR && git commit -m "Automated deploy at $(date)."
