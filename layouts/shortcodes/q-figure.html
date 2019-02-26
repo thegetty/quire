@@ -175,9 +175,9 @@ we start with media figures
   id="deepzoom-{{ $Id }}" 
   {{ if .Get "caption" }}  
   title='{{ .Get "caption" | markdownify | safeHTML }}' {{ end }} 
-  class="quire-figure leaflet-outer-wrapper mfp-hide">
+  class="quire-figure leaflet-outer-wrapper mfp-hide Get">
     <div 
-    id="js-deepzoom-{{ now.UnixNano }}" 
+    id="js-deepzoom-{{ now.UnixNano }}"
     class="quire-deepzoom inset leaflet-inner-wrapper " 
     aria-live="polite" 
     role="application" 
@@ -204,6 +204,7 @@ we start with media figures
   {{ end }}
 
       <img
+      id='{{ with .Get "id" }}{{ . | urlize }}{{ end }}'
       class="quire-figure__image" 
       src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
       alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
@@ -444,7 +445,7 @@ render the figure from matching values found ther
     <figure 
       id="deepzoom-{{ $Id }}"
       {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}  
-      class="quire-figure leaflet-outer-wrapper mfp-hide">
+      class="quire-figure leaflet-outer-wrapper mfp-hide notGet">
         <div 
         id="js-deepzoom-{{ now.UnixNano }}" 
         class="quire-deepzoom inset leaflet-inner-wrapper " 
@@ -472,6 +473,7 @@ render the figure from matching values found ther
     {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
     {{ end }}
       <img
+      id='{{ .id }}'
       class="quire-figure__image" 
       src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
 
