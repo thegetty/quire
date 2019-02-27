@@ -178,14 +178,6 @@ html {
     font-weight: 400;
     line-height: 1.6;
 
-    ul {
-      li {
-        a {
-          font-size: .875em;
-        }
-      }
-    }
-
     table {
       font-size: .875em;
     }
@@ -245,6 +237,7 @@ html {
         ul {
           list-style: none;
           li {
+            margin-left: 1em;
             &:before {
               @if $theme == classic {
                 content: "✦";
@@ -252,10 +245,10 @@ html {
                 content: "◆";
               }
               font-size: .875rem;
-              display: inline-block;
+              display: block;
+              float: left;
               width: 1em;
-              margin-left: -.3em;
-              margin-right: .5em;
+              margin-left: -1.3em;              
               box-sizing: border-box;
               vertical-align: text-top;
             }
@@ -708,7 +701,7 @@ html {
       }
     }
 
-    figure a {
+    figure > a {
       &:hover {
         border-bottom-width: 0 !important;
       }
