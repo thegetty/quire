@@ -5,7 +5,7 @@
 <ul class="menu-list">
   {{ range . }}
   <li>
-    <a href="{{ .url }}" target="_blank" {{ with .link_relation }}rel="{{ . }}"{{ end }} {{ with .media_type }}type="{{ . }}"{{ end }}>{{ .name }}</a>
+    <a href="{{ printf "%s" .url | relURL }}" target="_blank" {{ with .link_relation }}rel="{{ . }}"{{ end }} {{ with .media_type }}type="{{ . }}"{{ end }}>{{ .name }}</a>
   </li>
   {{ end }}
 </ul>
