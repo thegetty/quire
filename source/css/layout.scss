@@ -118,18 +118,15 @@
       #main {
         margin-top: $navbar-height;
         color: background-color-text($secondary-background-color);
-        @media print {
-          color: $quire-print-text-color;
-        }
-      }
-
-      .quire-page {
         flex: 1 1 auto;
         -webkit-overflow-scrolling: touch;
         overflow-y: scroll;
         position: relative;
+        @media print {
+          color: $quire-print-text-color;
+        }
       }
-
+      
       .section {
         padding-left: 0;
         padding-right: 0;

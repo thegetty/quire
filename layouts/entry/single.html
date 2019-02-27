@@ -92,42 +92,7 @@ a single image or object needs to be featured prominently.\
   </header>
   {{ end }}
 
-  {{/* Entry tombstone data */}}
-  {{ range .Params.object }}
-    <section class="quire-entry__tombstone">
-      <div class="container">
-        <table class="table is-fullwidth">
-          <tbody>
-          {{ if .id }}
-            {{ $.Scratch.Set "id" .id }}
-            {{ range $.Site.Data.objects.object_display_order }}
-              {{ $.Scratch.Set "key" . }}
-              {{ range where $.Site.Data.objects.object_list "id" "eq" ($.Scratch.Get "id") }}
-                {{ range $key, $value := . }}
-                {{ if and (eq $key ($.Scratch.Get "key")) (ne $value nil) }}
-                  <tr><td>{{ $key | humanize | title }}</td><td>{{ markdownify $value }}</td></tr>
-                {{ end }}
-                {{ end }}
-              {{ end }}
-            {{ end }}
-          {{ else }}
-            {{ range $key, $value :=  . }}
-            <tr><td>{{ $key | humanize | title }}</td><td>{{ markdownify $value }}</td></tr>
-            {{ end }}
-          {{ end }}
-          </tbody>
-        </table>
-        {{ if .id }}
-          {{ range where $.Site.Data.objects.object_list "id" "eq" .id }}
-            {{ if .link }}
-            <a href="{{ .link }}" target="_blank" class="button">{{ $.Site.Params.entryPageObjectLinkText }} {{- template "image-control-icon" (dict "type" "link" "description" "Open in new window" "imageDir" ($.Scratch.Get "imageDir") ) -}}</a>
-            {{ end }}
-          {{ end }}
-        {{ else }}
-        {{ end }}
-      </div>
-    </section>
-  {{ end }}
+  {{ partial "page-tombstone.html" . }}
 
   {{ if .Params.abstract }}
   {{ partial "page-abstract.html" . }}
