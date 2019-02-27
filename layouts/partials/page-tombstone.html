@@ -1,0 +1,48 @@
+{{/* Entry tombstone data */}}
+{{ range .Params.object }}
+  <section class="quire-entry__tombstone">
+    <div class="container">
+      <table class="table is-fullwidth">
+        <tbody>
+        {{ if .id }}
+          {{ $.Scratch.Set "id" .id }}
+          {{ range $.Site.Data.objects.object_display_order }}
+            {{ $.Scratch.Set "key" . }}
+            {{ range where $.Site.Data.objects.object_list "id" "eq" ($.Scratch.Get "id") }}
+              {{ range $key, $value := . }}
+              {{ if and (eq $key ($.Scratch.Get "key")) (ne $value nil) }}
+                <tr><td>{{ $key | humanize | title }}</td><td>{{ markdownify $value }}</td></tr>
+              {{ end }}
+              {{ end }}
+            {{ end }}
+          {{ end }}
+        {{ else }}
+          {{ range $key, $value :=  . }}
+          <tr><td>{{ $key | humanize | title }}</td><td>{{ markdownify $value }}</td></tr>
+          {{ end }}
+        {{ end }}
+        </tbody>
+      </table>
+      {{ if .id }}
+        {{ range where $.Site.Data.objects.object_list "id" "eq" .id }}
+          {{ if .link }}
+          <a href="{{ .link }}" target="_blank" class="button">{{ $.Site.Params.entryPageObjectLinkText }} {{- template "image-control-icon" (dict "type" "link" "description" "Open in new window" "imageDir" ($.Scratch.Get "imageDir") ) -}}</a>
+          {{ end }}
+        {{ end }}
+      {{ else }}
+      {{ end }}
+    </div>
+  </section>
+{{ end }}
+
+{{ define "image-control-icon" }}
+<svg class="remove-from-epub">
+  <switch>
+    <use xlink:href="#{{ .type }}-icon"></use>
+    <foreignObject width="32" height="32">
+        <img class="remove-from-epub" src="{{ absURL .imageDir }}/icons/{{ .type }}.png" alt="" />
+    </foreignObject>
+  </switch>
+</svg>
+<span class="visually-hidden">{{ .description }}</span>
+{{ end }}
