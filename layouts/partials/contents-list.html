@@ -47,16 +47,16 @@
 {{ $contentsLocation := .contentsLocation }}
 {{ $imageDir := .imageDir -}}
 
-{{- range first 1 (where .Site.Pages "Params.class" "in" "page-one") -}}
-   {{- $.Scratch.Set "pageOneWeight" .Weight -}}
-{{- end -}}
-
 {{- .contentsPage.Scratch.Set "renderedSection" "" -}}
 
 {{- $pages := where .contentsScope ".Kind" "page" }}
 {{ $pages := where $pages "Params.online" "!=" "false" }}
 {{ $pages := where $pages ".Type" "!=" "data" }}
 {{ $pages := where $pages .contentsLocation "!=" "false" -}}
+
+{{- range first 1 (where $pages "Params.class" "in" "page-one") -}}
+   {{- $.Scratch.Set "pageOneWeight" .Weight -}}
+{{- end -}}
 
 <ul>
 {{- range $pages -}}
