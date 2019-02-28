@@ -7606,6 +7606,10 @@ html {
   @media print {
     .quire-page h1, .quire-page__header__title {
       margin-top: .75in; } }
+  @media screen and (max-width: 500px) {
+    .quire-page h1, .quire-page__header__title {
+      font-size: 43px;
+      line-height: 47px; } }
 
 .quire-page h2 {
   text-transform: uppercase;
@@ -7889,25 +7893,27 @@ html {
     height: 80vh; }
     .quire-page__header.hero__image .quire-page__header__title, .quire-page__header.hero__image .quire-page__header__subtitle {
       color: #ffffff; }
-  .quire-page__header .hero-body .label {
-    line-height: 1.3;
-    display: table;
-    width: -webkit-fit-content;
-    width: -moz-fit-content;
-    width: fit-content;
-    font-size: 1.2rem;
-    color: #333333;
-    border-top: 2px solid #CF4747;
-    border-bottom: 2px solid #CF4747;
-    padding: .2rem .3rem;
-    letter-spacing: 0;
-    margin: 0 auto 1.9em; }
-    @media print {
-      .quire-page__header .hero-body .label {
-        color: #000000; } }
-  @media screen and (min-width: 700px) {
-    .quire-page__header .hero-body {
-      margin: 0 5rem; } }
+  .quire-page__header .hero-body {
+    padding: 0 1.25em; }
+    .quire-page__header .hero-body .label {
+      line-height: 1.3;
+      display: table;
+      width: -webkit-fit-content;
+      width: -moz-fit-content;
+      width: fit-content;
+      font-size: 1.2rem;
+      color: #333333;
+      border-top: 2px solid #CF4747;
+      border-bottom: 2px solid #CF4747;
+      padding: .2rem .3rem;
+      letter-spacing: 0;
+      margin: 0 auto 1.9em; }
+      @media print {
+        .quire-page__header .hero-body .label {
+          color: #000000; } }
+    @media screen and (min-width: 700px) {
+      .quire-page__header .hero-body {
+        margin: 0 5rem; } }
 
 .quire-splash .quire-page__header {
   background-color: transparent; }
@@ -8945,6 +8951,10 @@ html {
   .content .quire-figure.is-pulled-right {
     margin-top: .75em;
     margin-bottom: 1em; }
+    @media screen and (max-width: 500px) {
+      .content .quire-figure.is-pulled-left,
+      .content .quire-figure.is-pulled-right {
+        margin: 0 0 1em 0; } }
   .quire-figure--group__row {
     display: flex;
     justify-content: space-between;
@@ -9291,6 +9301,10 @@ div.multimedia {
       .quire-entry__header h1 {
         padding: 0;
         margin: .75in 0 .5in; } }
+    @media screen and (max-width: 500px) {
+      .quire-entry__header h1 {
+        font-size: 27px;
+        line-height: 31px; } }
   .quire-entry__header .container {
     background-color: #ffffff;
     padding-bottom: 2rem; }
@@ -9544,7 +9558,8 @@ div.multimedia {
   padding-bottom: 1em; }
 
 .quire-contributor .media-left {
-  margin-right: .5rem; }
+  margin-right: .5rem;
+  float: left; }
 
 .quire-contributor__details {
   font-size: 1em; }

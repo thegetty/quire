@@ -245,8 +245,11 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
       }
       @media print {
         padding: 0;
-        margin: .75in 0 .5in;
-        
+        margin: .75in 0 .5in; 
+      }
+      @media screen and (max-width: $tablet) {
+        font-size: 27px;
+        line-height: 31px;
       }
     }
 

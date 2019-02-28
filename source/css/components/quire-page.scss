@@ -84,6 +84,10 @@ html {
     @media print {
       margin-top: .75in;
     }
+    @media screen and (max-width: $tablet) {
+      font-size: 43px;
+      line-height: 47px;
+    }
   }
 
   h2 {
@@ -541,6 +545,7 @@ html {
   }
 
   .hero-body {
+    padding: 0 1.25em;
 
     .label {
       line-height: 1.3;
