@@ -4,6 +4,7 @@ title: American Photographs
 subtitle: Evans in Middletown
 weight: 30
 type: essay
+class: page-one
 contributor:
   - id: jkeller
 abstract: |
