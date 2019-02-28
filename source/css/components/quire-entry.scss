@@ -233,7 +233,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     //   border: 1px solid Cyan;
     // }
     
-    margin-top: 1em;
+    margin-top: 0em;
 
     h1 {
       padding: 1em 1.2em 0;
@@ -422,6 +422,10 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     
     position: relative;
     animation: .5s ease 0s 1 slideFromRight;
+
+    @media screen and (max-width: $tablet) {
+      margin-top: -1em;
+    }
 
     .quire-page__content {
       animation: none;

@@ -194,7 +194,7 @@ html {
       .content {
         padding-top: 2.5em;
         margin-top: 45px;
-        padding: 40px 2.5em;
+        padding: 40px 1.250em;
         background-color: $content-background-color;
 
         @media print {
@@ -422,7 +422,7 @@ html {
     line-height: 1.7em;
     
     @media screen and (max-width: $tablet) {
-      margin-bottom: -3em;
+      margin-bottom: -3.25em;
     }
     @media print {
       padding: 0;
@@ -449,6 +449,10 @@ html {
         max-width: initial;
         width: initial;
         padding: 0;
+      }
+      @media screen and (max-width: $desktop) {
+        width: 100%;
+        max-width: 100%;
       }
 
       &:after {
