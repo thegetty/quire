@@ -10,6 +10,14 @@
 
 {{- $css := "css/application.css" | relURL -}}
 {{- $customCSS := "css/custom.css" | relURL -}}
+{{- $icon := "img/icons/favicon.ico" | relURL -}}
+
+{{- $pages := .Site.Pages -}}
+{{- $pages := where $pages "Params.online" "!=" "false" }}
+{{- $pages := where $pages ".Type" "!=" "data" -}}
+{{- range first 1 $pages -}}
+  {{- $.Scratch.Set "homepage" .UniqueID -}}
+{{- end -}}
 
 <head>
   <meta charset="utf-8">
@@ -18,8 +26,9 @@
   {{- if eq .Params.online false -}}
   <meta name="robots" content="noindex">
   {{- end }}
-  <title>{{ .Title }} | {{ .Site.Data.publication.title }}</title>
+  <title>{{ if ne .UniqueID ($.Scratch.Get "homepage") }}{{ .Title }} | {{ end }}{{ .Site.Data.publication.title }}</title>
   {{ partial "metadata.html" . }}
+  <link rel="icon" href="{{ $icon }}" />
   <link rel="stylesheet" href="{{ $css }}">
   <link rel="stylesheet" href="{{ $customCSS }}">
 
