@@ -7265,6 +7265,8 @@ template {
       transition: all .25s ease; }
     .quire-navbar-page-controls__item span {
       display: block; }
+    .quire-navbar-page-controls__item span.nav-label {
+      display: inline-block; }
     .quire-navbar-page-controls__item .menu-button {
       width: 18px;
       display: inline-block; }
@@ -7281,11 +7283,15 @@ template {
       .quire-navbar-page-controls__item.quire-next-page svg {
         margin-left: 0.25em;
         margin-right: 0.5em; }
-    @media screen and (max-width: 500px) {
+    @media screen and (max-width: 700px) {
       .quire-navbar-page-controls__item.quire-home-page {
         display: block;
         padding-left: 0;
-        padding-right: 0; } }
+        padding-right: 0; }
+      .quire-navbar-page-controls__item.quire-next-page, .quire-navbar-page-controls__item.quire-previous-page {
+        display: block; }
+      .quire-navbar-page-controls__item span.nav-label {
+        display: none; } }
     @media screen and (min-width: 500px) {
       .quire-navbar-page-controls__item.quire-home-page {
         display: block; } }

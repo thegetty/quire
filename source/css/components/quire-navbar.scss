@@ -157,6 +157,10 @@
       display: block;
     }
 
+    span.nav-label {
+      display: inline-block;
+    }
+
     .menu-button {
       width: 18px;
       display: inline-block;
@@ -186,11 +190,18 @@
       }
     }
 
-    @media screen and (max-width: $tablet) {
+    @media screen and (max-width: $desktop) {
       &.quire-home-page {
         display: block;
         padding-left: 0;
         padding-right: 0;
+      }
+      &.quire-next-page,
+      &.quire-previous-page {
+        display: block;
+      }
+      span.nav-label {
+        display: none;
       }
     }
 

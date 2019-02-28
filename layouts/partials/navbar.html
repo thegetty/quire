@@ -78,7 +78,7 @@ search icons, and search results if enabled). It is visible on all pages.
                 </foreignObject>
               </switch>
             </svg>
-            {{- with .Prev.Params.label }}{{ . }}{{ $.Site.Params.pageLabelDivider }}{{ end }}{{- if .Prev.Params.short_title }}{{ .Prev.Params.short_title | markdownify }} {{ else }}{{ .Prev.Title | markdownify | truncate 34 }}{{ end -}}
+            <span class="nav-label">{{- with .Prev.Params.label }}{{ . }}{{ $.Site.Params.pageLabelDivider }}{{ end }}{{- if .Prev.Params.short_title }}{{ .Prev.Params.short_title | markdownify }} {{ else }}{{ .Prev.Title | markdownify | truncate 34 }}{{ end -}}</span>
           </a>
         </li>
         {{- end -}}
@@ -105,7 +105,7 @@ search icons, and search results if enabled). It is visible on all pages.
         <li class="quire-navbar-page-controls__item quire-next-page">
           <a href='{{ .Next.Permalink }}' rel='next'>
             <span class="visually-hidden">Next Page: </span>
-            {{- with .Next.Params.label }}{{ . }}{{ $.Site.Params.pageLabelDivider }}{{ end }}{{- if .Next.Params.short_title }}{{ .Next.Params.short_title | markdownify }} {{ else }}{{ .Next.Title | markdownify | truncate 34 }}{{ end -}}
+            <span class="nav-label">{{- with .Next.Params.label }}{{ . }}{{ $.Site.Params.pageLabelDivider }}{{ end }}{{- if .Next.Params.short_title }}{{ .Next.Params.short_title | markdownify }} {{ else }}{{ .Next.Title | markdownify | truncate 34 }}{{ end -}}</span>
             <svg class="remove-from-epub">
               <switch>
                 <use xlink:href="#right-arrow-icon"></use>
