@@ -296,7 +296,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
       }
       
       @media print {
-        color: $quire-print-text-color;
+        color: $print-text-color;
         border-bottom-width: 0;
       }
     }
@@ -356,8 +356,8 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
       background-color: $content-background-color;
       color: background-color-text($content-background-color);
       @media print {
-        color: $quire-print-text-color;
-        border-color: $quire-print-text-color;
+        color: $print-text-color;
+        border-color: $print-text-color;
         background-color: transparent;
       }
       font-size: 0.875em;

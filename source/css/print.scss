@@ -43,7 +43,7 @@ $print-trim: $print-bleed * 2;
     margin-bottom: $print-bottom-margin;
     font-family: $print-footer-font;
     font-size: $print-footer-font-size;
-    color: $quire-print-text-color;
+    color: $print-text-color;
   }
 
   @page:left {
@@ -370,7 +370,7 @@ $print-trim: $print-bleed * 2;
     }
     .section-item {
       width: 100%;
-      border-bottom: 1px solid $quire-print-text-color;
+      border-bottom: 1px solid $print-text-color;
       margin-bottom: .25in;
     }
   }    

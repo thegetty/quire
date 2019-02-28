@@ -130,7 +130,7 @@
     text-align: left;
     color: background-color-text($content-background-color);
     @media print {
-      color: $quire-print-text-color;
+      color: $print-text-color;
     }
     user-select: text;
   }
@@ -173,7 +173,7 @@
       color: $accent-color;
     }
     @media print {
-      color: $quire-print-text-color;
+      color: $print-text-color;
     }
     font-weight: 700;
     margin-right: .5em;
