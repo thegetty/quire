@@ -47,6 +47,3 @@ params:
   figureModal: true
   figureModalIcons: true
   figureZoom: true
-  frontmatterPageStart: 0
-  bodyPageStart: 30
-  backmatterPageStart: 200
