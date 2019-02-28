@@ -18,7 +18,7 @@
 html {
   font-size: $quire-base-font-size;
   @media print {
-    font-size: $quire-print-base-font-size;
+    font-size: $print-base-font-size;
   }
   
   @media print {
@@ -172,7 +172,7 @@ html {
     animation: .5s ease 0s 1 slideFromRight;
     color: background-color-text-classic($content-background-color);
     @media print {
-      color: $quire-print-text-color;
+      color: $print-text-color;
     }
     font-size: 1em;
     font-weight: 400;
@@ -222,7 +222,7 @@ html {
           td, th {
             color: background-color-text($content-background-color);
             @media print {
-              color: $quire-print-text-color;
+              color: $print-text-color;
             }
             border-width: 0 0 1px;
           }
@@ -334,7 +334,7 @@ html {
             }
             color: background-color-text-classic($content-background-color);
             @media print {
-              color: $quire-print-text-color;
+              color: $print-text-color;
             }
             font-size: 1em;
             line-height: 1.28em;
@@ -343,7 +343,7 @@ html {
             padding-bottom: 6px;
             border-bottom: 1px solid background-color-text-classic($content-background-color);
             @media print {
-              border-color: $quire-print-text-color;
+              border-color: $print-text-color;
             }
           }
           h3, h4 {
@@ -358,7 +358,7 @@ html {
           .title {
             color: background-color-text($content-background-color);
             @media print {
-              color: $quire-print-text-color;
+              color: $print-text-color;
             }
           }
 
@@ -426,7 +426,7 @@ html {
     }
     @media print {
       padding: 0;
-      color: $quire-print-text-color;
+      color: $print-text-color;
     }
 
     em {
@@ -468,7 +468,7 @@ html {
         @media print {
           margin-top: .25em;
           font-size: .75em;
-          color: $quire-print-text-color;
+          color: $print-text-color;
         }
       }
       
@@ -520,7 +520,7 @@ html {
   
   @media print {
     background-color: transparent;
-    color: $quire-print-text-color;
+    color: $print-text-color;
     margin: 0 .5in 1in;
     @if $print-width <= 7 {
       margin: 0 0 1in;
@@ -561,7 +561,7 @@ html {
         font-size: 1.2rem;
         color: background-color-text($secondary-background-color);
         @media print {
-          color: $quire-print-text-color;
+          color: $print-text-color;
         }
         border-top: 2px solid $accent-color;
         border-bottom: 2px solid $accent-color;
@@ -618,13 +618,13 @@ html {
       .quire-page__header__title {
         color: background-color-text($secondary-background-color);
         @media print {
-          color: $quire-print-text-color;
+          color: $print-text-color;
         }
       }
       .label {
         color: background-color-text($secondary-background-color);
         @media print {
-          color: $quire-print-text-color;
+          color: $print-text-color;
         }
       }
     }
@@ -678,7 +678,7 @@ html {
 
     a {
       @media print {
-        color: $quire-print-text-color;
+        color: $print-text-color;
         border-bottom-width: 0;
       }
       line-height: 1.6;
@@ -753,7 +753,7 @@ html {
     h6 {
       color: background-color-text-classic($content-background-color);
       @media print {
-        color: $quire-print-text-color;
+        color: $print-text-color;
       }
     }
 
