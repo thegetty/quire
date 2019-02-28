@@ -7152,15 +7152,28 @@ template {
       .quire:not(.no-js) .quire__secondary.is-expanded #site-menu__inner {
         display: block; }
       .quire:not(.no-js) .quire__secondary.is-expanded + .quire__primary {
-        right: 352px;
-        width: calc(100% - 352px); }
+        -webkit-transform: translate3d(-352px, 0, 0);
+                transform: translate3d(-352px, 0, 0); }
         @media screen and (max-width: 352px) {
           .quire:not(.no-js) .quire__secondary.is-expanded + .quire__primary {
+            -webkit-transform: translate3d(-352px, 0, 0);
+                    transform: translate3d(-352px, 0, 0); } }
+        @media screen and (min-width: 700px) {
+          .quire:not(.no-js) .quire__secondary.is-expanded + .quire__primary {
             right: 352px;
-            width: calc(100vh - 352px); } }
-        .quire:not(.no-js) .quire__secondary.is-expanded + .quire__primary .quire-navbar {
-          width: calc(100% - 352px);
-          right: 352px; }
+            width: calc(100% - 352px);
+            -webkit-transform: none;
+                    transform: none; } }
+  @media screen and (min-width: 700px) and (max-width: 352px) {
+    .quire:not(.no-js) .quire__secondary.is-expanded + .quire__primary {
+      right: 352px;
+      width: calc(100vh - 352px);
+      -webkit-transform: none;
+              transform: none; } }
+        @media screen and (min-width: 700px) {
+            .quire:not(.no-js) .quire__secondary.is-expanded + .quire__primary .quire-navbar {
+              width: calc(100% - 352px);
+              right: 352px; } }
 
 @media print {
   .quire__primary {
