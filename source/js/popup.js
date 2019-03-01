@@ -1,4 +1,4 @@
-//@ts-check
+// @ts-check
 
 import DeepZoom from './deepzoom.js';
 import Map from './map.js';
@@ -25,14 +25,14 @@ export default function (gallerySelector) {
     }
     switch (self.currItem.type) {
       case 'inline':
-        self.caption = $(self.currItem.el).find('.figure-caption').html();
+        self.caption = $(self.currItem.el).find('.figure-caption').html() || $(self.currItem.el).parent().find('figcaption').html();
         if (self.caption !== undefined) {
           self.captionCont = `<div class="quire-caption-container"><span class="caption">${self.caption}</span></div>`;
           $('.mfp-wrap').prepend(self.captionCont);
         }
         break;
       case 'iframe':
-        self.caption = $(self.currItem.el).find('.figure-caption').html();
+        self.caption = $(self.currItem.el).find('.figure-caption').html() || $(self.currItem.el).parent().find('figcaption').html();
         if (self.caption !== undefined) {
           self.captionCont = `<div class="quire-caption-container"><span class="caption">${self.caption}</span></div>`;
           $('.mfp-wrap').prepend(self.captionCont);
@@ -40,7 +40,7 @@ export default function (gallerySelector) {
         break;
       case 'image':
         $('.mfp-title').hide();
-        self.caption = $(self.currItem.el).find('.figure-caption').html();
+        self.caption = $(self.currItem.el).find('.figure-caption').html() || $(self.currItem.el).parent().find('figcaption').html();
         if (self.caption !== undefined) {
           self.captionCont = `<div class="quire-caption-container"><span class="caption">${self.caption}</span></div>`;
           $('.mfp-wrap').prepend(self.captionCont);
@@ -75,8 +75,8 @@ export default function (gallerySelector) {
     delegate: 'a.popup',
     type: 'image',
     closeBtnInside: false,
-		fixedContentPos: 'auto',
-		fixedBgPos: 'auto',
+    fixedContentPos: 'auto',
+    fixedBgPos: 'auto',
     overflowY: 'hidden',
     gallery: {
       enabled: true,
@@ -155,12 +155,12 @@ export default function (gallerySelector) {
           }
           if (id.indexOf('deepzoom') !== -1) {
             setTimeout(() => {
-              let url = $(`#${id}`).data('image')
-              let image = new Image()
-              image.src = url
+              let url = $(`#${id}`).data('image');
+              let image = new Image();
+              image.src = url;
               image.onload = function() {
                 new DeepZoom(id);
-              }
+              };
             }, waitForDOMUpdate);
           }
           if (id.indexOf('iiif') !== -1) {
@@ -169,7 +169,6 @@ export default function (gallerySelector) {
             }, waitForDOMUpdate);
           }
         }
-
       },
       resize: function () {
         // console.log('Popup resized ' + $(window).innerHeight());

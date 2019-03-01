@@ -84,7 +84,7 @@
       {{- else -}}
 
         {{- range first 1 (where $pages "Section" .Section) }}
-          <li class="section-item no-landing">{{ if and (eq $.contentsLocation ".Params.menu") (eq $contentsType "short") }}<a href="{{ .Permalink }}"{{- if lt .Page.Weight ($.Scratch.Get "pageOneWeight") }} class="frontmatter-page"{{ end }}>{{ .Section | title }}</a>{{ else }}<div class="list-header">{{ .Section | humanize | title }}</div>{{ end -}}
+          <li class="section-item no-landing">{{ if and (eq $.contentsLocation ".Params.menu") (eq $contentsType "short") }}<a href="{{ .Permalink }}"{{- if lt .Weight ($.Scratch.Get "pageOneWeight") }} class="frontmatter-page"{{ end }}>{{ .Section | title }}</a>{{ else }}<div class="list-header">{{ .Section | humanize | title }}</div>{{ end -}}
         {{- end -}}
 
       {{- end -}}
