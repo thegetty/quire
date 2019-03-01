@@ -335,8 +335,8 @@ a single image or object needs to be featured prominently.\
   {{ if or .figure.caption .figure.credit }}
       <div class="quire-image-control quire-image-info">
         <span class="quire-image-info__wrap">
-          <span class="quire-image-info__caption">{{ .figure.caption | markdownify }}</span>
-          <span class="quire-image-info__credit">{{ .figure.credit | markdownify }}</span>
+          {{ with .figure.caption }}<span class="quire-image-info__caption">{{ . | markdownify }}</span>{{ end }}
+          {{ with .figure.credit }}<span class="quire-image-info__credit">{{ .| markdownify }}</span>{{ end }}
         </span>
       </div>
   {{ end }}
