@@ -198,8 +198,12 @@ html {
       .content {
         padding-top: 2.5em;
         margin-top: 45px;
-        padding: 40px 1.250em;
+        padding: 40px 2.5em;
         background-color: $content-background-color;
+
+        @media screen and (max-width: $tablet) {
+          padding: 40px 1.250em;
+        }
 
         @media print {
           padding: 0;
@@ -545,7 +549,9 @@ html {
   }
 
   .hero-body {
-    padding: 0 1.25em;
+    @media screen and (max-width: $tablet) {
+      padding: 1.25em;
+    }
 
     .label {
       line-height: 1.3;
