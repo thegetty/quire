@@ -140,9 +140,9 @@
   {{- end -}}
 {{- end -}}
 
-{{ define "title" }}
+{{- define "title" -}}
   {{- if or .title .affiliation}}, {{ end -}}
   {{- with .title }}<span class="quire-contributor__title">{{ . }}</span>{{ end -}}
   {{- if and .title .affiliation }}, {{ end -}}
   {{- with .affiliation }}<span class="quire-contributor__affiliation">{{ . }}</span>{{ end -}}
-{{ end }}
+{{- end -}}
