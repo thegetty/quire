@@ -166,7 +166,7 @@
       &.is-expanded {
         overflow-y: scroll;
         transform: translate3d(0, 0 ,0);
-        width: $quire-menu-width;
+        width: calc(#{$quire-menu-width} - 2em);
         // width: calc(100% - 3rem);
         @media screen and (max-width: $quire-menu-width) {
           width: calc(100% - 3rem);
@@ -180,33 +180,17 @@
           // right: $quire-menu-width;
           // width: calc(100% - #{$quire-menu-width});
           // transform: translate3d($quire-menu-width, 0, 0);
-          transform: translate3d(-$quire-menu-width, 0 ,0);
+          transform: translate3d(calc(-#{$quire-menu-width} + 2em), 0 ,0);
           // position: fixed;
           // transform: translate3d(-352px, 0 ,0);
           @media screen and (max-width: $quire-menu-width) {
             // right: $quire-menu-width;
             // width: calc(100vh - #{$quire-menu-width});
-            // transform: translate3d(calc(-100% + 3rem), 0 ,0);
+            transform: translate3d(calc(-100% + 3rem), 0 ,0);
             // right: calc(100vw - #{$navbar-height});
-            transform: translate3d(- $quire-menu-width, 0, 0);
+            // transform: translate3d(- $quire-menu-width, 0, 0);
             // width: #{$navbar-height};
           }
-
-          @media screen and (min-width: $desktop) {
-            right: $quire-menu-width;
-            width: calc(100% - #{$quire-menu-width});
-            transform: none;
-            @media screen and (max-width: $quire-menu-width) {
-              right: $quire-menu-width;
-              width: calc(100vh - #{$quire-menu-width});
-              transform: none;
-            }
-            .quire-navbar {
-              width: calc(100% - #{$quire-menu-width});
-              right: $quire-menu-width;
-            }
-          }
-          
         }
       }
     }
