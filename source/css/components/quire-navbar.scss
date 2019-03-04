@@ -190,6 +190,11 @@
         margin-right: 0.5em;
       }
     }
+    @media screen and (max-width: $quire-menu-width) {
+      a {
+        padding: 0;
+      }
+    }
 
     @media screen and (max-width: $desktop) {
       &.quire-home-page {
