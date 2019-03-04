@@ -7248,6 +7248,10 @@ template {
       background-color: #CF4747; }
       .quire-navbar-controls__left a:hover svg, .quire-navbar-controls__left button:hover svg, .quire-navbar-controls__left .button:hover svg, .quire-navbar-controls__right a:hover svg, .quire-navbar-controls__right button:hover svg, .quire-navbar-controls__right .button:hover svg, .quire-navbar-controls .quire-navbar-page-controls__item a:hover svg, .quire-navbar-controls .quire-navbar-page-controls__item button:hover svg, .quire-navbar-controls .quire-navbar-page-controls__item .button:hover svg {
         fill: #fff; }
+  .quire-navbar-controls__left svg img, .quire-navbar-controls__right svg img, .quire-navbar-controls .quire-navbar-page-controls__item svg img {
+    position: absolute;
+    top: 0;
+    left: 0; }
 
 .quire-navbar-page-controls {
   display: flex;
@@ -7260,8 +7264,6 @@ template {
     display: none; }
     .quire-navbar-page-controls__item a, .quire-navbar-page-controls__item svg {
       transition: all .25s ease; }
-    .quire-navbar-page-controls__item span {
-      display: block; }
     .quire-navbar-page-controls__item span.nav-label {
       display: inline-block;
       color: inherit; }
@@ -7272,7 +7274,7 @@ template {
       font-style: italic; }
     .quire-navbar-page-controls__item.quire-previous-page a {
       padding: 0 1.5em 0 0.5em; }
-    .quire-navbar-page-controls__item.quire-previous-page .left-icon {
+    .quire-navbar-page-controls__item.quire-previous-page svg {
       margin-right: 1em; }
     .quire-navbar-page-controls__item.quire-next-page {
       font-style: normal; }
@@ -9394,8 +9396,8 @@ div.multimedia {
     border: 1px solid #CF4747; }
   .quire-entry__tombstone svg {
     position: relative;
-    height: 1.25em;
-    width: 1.25em;
+    height: 1em;
+    width: 1em;
     margin-left: .5em;
     fill: #CF4747; }
     .quire-entry__tombstone svg img {

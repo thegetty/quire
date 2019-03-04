@@ -344,7 +344,7 @@ a single image or object needs to be featured prominently.\
   <div class="quire-image-counter-download-container">
     {{ if eq .figure.download true }}
     <a href="{{ $imgPath | relURL }}" target="_blank" class="remove-from-epub quire-image-control quire-image-control--download" title="Download image" download>
-      {{- template "image-control-icon" (dict "type" "download" "description" "Download image" "imageDir" .imageDir ) -}}
+      {{- partial "icon.html" (dict "type" "download" "description" "Download image") -}}
     </a>
     {{ end }}
   </div>
@@ -353,16 +353,4 @@ a single image or object needs to be featured prominently.\
 
 </figure>
 
-{{ end }}
-
-{{ define "image-control-icon" }}
-<svg class="remove-from-epub">
-  <switch>
-    <use xlink:href="#{{ .type }}-icon"></use>
-    <foreignObject width="32" height="32">
-        <img class="remove-from-epub" src="{{ absURL .imageDir }}/icons/{{ .type }}.png" alt="" />
-    </foreignObject>
-  </switch>
-</svg>
-<span class="visually-hidden">{{ .description }}</span>
 {{ end }}
