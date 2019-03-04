@@ -135,6 +135,13 @@
         }
       }
     }
+    svg {
+      & img {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    }
   }
 }
 
@@ -151,10 +158,6 @@
 
     a, svg {
       transition: all .25s ease;
-    }
-
-    span {
-      display: block;
     }
 
     span.nav-label {
@@ -175,7 +178,7 @@
       a {
         padding: 0 1.5em 0 0.5em;
       }
-      .left-icon {
+      svg {
         margin-right: 1em;
       }
     }
