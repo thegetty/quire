@@ -1,0 +1,20 @@
+{{/*
+    A partial for including an inline SVG icon with a PNG fallback.
+          
+    Should be passed with a "type" that corresponds to an id in the icons.html partial, and an optional "description"
+ 
+    partial "icon.html" (dict "type" "link" "description" "Open in new window")
+ 
+*/}}
+{{ $imgDir := "img" }}
+<svg class="remove-from-epub">
+  <switch>
+    <use xlink:href="#{{ .type }}-icon"></use>
+    <foreignObject width="24" height="24">
+        <img src="{{ relURL $imgDir }}/icons/{{ .type }}.png" alt="{{ .description }}" />
+    </foreignObject>
+  </switch>
+</svg>
+{{ with .description }}
+<span class="visually-hidden remove-from-epub">{{ . }}</span>
+{{ end }}

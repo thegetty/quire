@@ -21,15 +21,7 @@ search icons, and search results if enabled). It is visible on all pages.
       <button class="quire-navbar-button search-button"
               aria-controls="quire-search"
               onclick="toggleSearch()">
-        <svg class="remove-from-epub">
-          <switch>
-            <use xlink:href="#search-icon"></use>
-            <foreignObject width="32" height="32">
-                <img src="{{ $imgDir | relURL }}/icons/search@2x.png" alt="Search" />
-            </foreignObject>
-          </switch>
-        </svg>
-        <span class="visually-hidden">Search</span>
+        {{- partial "icon.html" (dict "type" "search" "description" "Search") -}}
       </button>
     </div>
 
@@ -49,16 +41,8 @@ search icons, and search results if enabled). It is visible on all pages.
 
         <li class="quire-navbar-page-controls__item quire-home-page">
           <a href='{{ .Next.Permalink }}' rel="next">
-            <span class="visually-hidden">Next Page: </span>
             <span class="quire-navbar-button play-button">
-              <svg class="remove-from-epub">
-                <switch>
-                  <use xlink:href="#start-icon"></use>
-                  <foreignObject width="32" height="32">
-                      <img src="{{ $imgDir | relURL }}/icons/play@2x.png" alt="Next Page" />
-                  </foreignObject>
-                </switch>
-              </svg>
+              {{- partial "icon.html" (dict "type" "start" "description" "Next page") -}}
             </span>
           </a>
         </li>
@@ -69,15 +53,7 @@ search icons, and search results if enabled). It is visible on all pages.
         {{- if and (ne .Prev.Params.online false) (ne .Prev.Type "data") -}}
         <li class="quire-navbar-page-controls__item quire-previous-page">
           <a href='{{ .Prev.Permalink }}' rel="previous">
-            <span class="visually-hidden">Previous Page: </span>
-            <svg class="left-icon remove-from-epub">
-              <switch>
-                <use xlink:href="#left-arrow-icon"></use>
-                <foreignObject width="24" height="24">
-                    <img src="{{ $imgDir | relURL }}/icons/left@2x.png" alt="Previous Page" />
-                </foreignObject>
-              </switch>
-            </svg>
+            {{- partial "icon.html" (dict "type" "left-arrow" "description" "Previous page") -}}
             <span class="nav-label">{{- with .Prev.Params.label }}{{ . }}{{ $.Site.Params.pageLabelDivider }}{{ end }}{{- if .Prev.Params.short_title }}{{ .Prev.Params.short_title | markdownify }} {{ else }}{{ .Prev.Title | markdownify | truncate 34 }}{{ end -}}</span>
           </a>
         </li>
@@ -86,16 +62,8 @@ search icons, and search results if enabled). It is visible on all pages.
 
         <li class="quire-navbar-page-controls__item quire-home-page">
           <a href='{{ $.Scratch.Get "homepage-link" }}' rel='home'>
-            <span class="visually-hidden">Home Page: </span>
             <span class="quire-navbar-button home-button">
-              <svg class="remove-from-epub">
-                <switch>
-                  <use xlink:href="#home-icon"></use>
-                  <foreignObject width="32" height="32">
-                      <img src="{{ $imgDir | relURL }}/icons/rewind@2x.png" alt="Home Page" />
-                  </foreignObject>
-                </switch>
-              </svg>
+              {{- partial "icon.html" (dict "type" "home" "description" "Home page") -}}
             </span>
           </a>
         </li>
@@ -104,16 +72,8 @@ search icons, and search results if enabled). It is visible on all pages.
         {{- if and (ne .Next.Params.online false) (ne .Next.Type "data") -}}
         <li class="quire-navbar-page-controls__item quire-next-page">
           <a href='{{ .Next.Permalink }}' rel='next'>
-            <span class="visually-hidden">Next Page: </span>
             <span class="nav-label">{{- with .Next.Params.label }}{{ . }}{{ $.Site.Params.pageLabelDivider }}{{ end }}{{- if .Next.Params.short_title }}{{ .Next.Params.short_title | markdownify }} {{ else }}{{ .Next.Title | markdownify | truncate 34 }}{{ end -}}</span>
-            <svg class="remove-from-epub">
-              <switch>
-                <use xlink:href="#right-arrow-icon"></use>
-                <foreignObject width="24" height="24">
-                    <img src="{{ $imgDir | relURL }}/icons/right@2x.png" alt="Next Page" />
-                </foreignObject>
-              </switch>
-            </svg>
+            {{- partial "icon.html" (dict "type" "right-arrow" "description" "Next page") -}}
           </a>
         </li>
         {{- end -}}
@@ -131,15 +91,7 @@ search icons, and search results if enabled). It is visible on all pages.
               aria-expanded="true"
               aria-controls="quire-menu"
               tabindex="2" >
-        <svg class="remove-from-epub">
-          <switch>
-            <use xlink:href="#nav-icon"></use>
-            <foreignObject width="32" height="32">
-                <img src="{{ $imgDir | relURL }}/icons/nav@2x.png" alt="Table of Contents" />
-            </foreignObject>
-          </switch>
-        </svg>
-        <span class="visually-hidden">Table of Contents</span>
+        {{- partial "icon.html" (dict "type" "nav" "description" "Table of contents") -}}
       </button>
     </div>
   </nav>

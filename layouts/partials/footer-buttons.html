@@ -3,7 +3,7 @@
       {{ with .Prev }}
       {{- if and (ne .Params.online false) (ne .Type "data") -}}
       <li class="quire-nav-button prev">
-          <a href="{{ .Permalink }}">{{- template "image-control-icon" (dict "type" "left-arrow" "description" "Go back a page" "imageDir" ($.Scratch.Get "imageDir") ) -}} <span class="nav-title">{{ $.Site.Params.prevPageButtonText }}</span></a>
+          <a href="{{ .Permalink }}">{{- partial "icon.html" (dict "type" "left-arrow" "description" "Go back a page") -}} <span class="nav-title">{{ $.Site.Params.prevPageButtonText }}</span></a>
           <span class="visually-hidden">Previous Page (left keyboard arrow or swipe)</span>
       </li>
       {{ end }}
@@ -11,22 +11,10 @@
       {{ with .Next }}
       {{- if and (ne .Params.online false) (ne .Type "data") -}}
       <li class="quire-nav-button next">
-          <a href="{{ .Permalink }}"><span class="nav-title">{{ $.Site.Params.nextPageButtonText }}</span> {{- template "image-control-icon" (dict "type" "right-arrow" "description" "Go to next page" "imageDir" ($.Scratch.Get "imageDir") ) -}}</a>
+          <a href="{{ .Permalink }}"><span class="nav-title">{{ $.Site.Params.nextPageButtonText }}</span> {{- partial "icon.html" (dict "type" "right-arrow" "description" "Go to next page") -}}</a>
           <span class="visually-hidden">Next Page (right keyboard arrow or swipe)</span>
       </li>
       {{ end }}
       {{ end }}
   </ul>
 </div>
-
-{{ define "image-control-icon" }}
-<svg class="remove-from-epub">
-  <switch>
-    <use xlink:href="#{{ .type }}-icon"></use>
-    <foreignObject width="24" height="24">
-        <img class="remove-from-epub" src="{{ relURL .imageDir }}/icons/{{ .type }}@2x.png" alt="{{ .description }}" />
-    </foreignObject>
-  </switch>
-</svg>
-<span class="visually-hidden">{{ .description }}</span>
-{{ end }}
