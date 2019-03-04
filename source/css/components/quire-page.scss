@@ -84,6 +84,10 @@ html {
     @media print {
       margin-top: .75in;
     }
+    @media screen and (max-width: $tablet) {
+      font-size: 43px;
+      line-height: 47px;
+    }
   }
 
   h2 {
@@ -196,6 +200,10 @@ html {
         margin-top: 45px;
         padding: 40px 2.5em;
         background-color: $content-background-color;
+
+        @media screen and (max-width: $tablet) {
+          padding: 40px 1.250em;
+        }
 
         @media print {
           padding: 0;
@@ -422,7 +430,7 @@ html {
     line-height: 1.7em;
     
     @media screen and (max-width: $tablet) {
-      margin-bottom: -3em;
+      margin-bottom: -3.25em;
     }
     @media print {
       padding: 0;
@@ -449,6 +457,10 @@ html {
         max-width: initial;
         width: initial;
         padding: 0;
+      }
+      @media screen and (max-width: $desktop) {
+        width: 100%;
+        max-width: 100%;
       }
 
       &:after {
@@ -537,6 +549,9 @@ html {
   }
 
   .hero-body {
+    @media screen and (max-width: $tablet) {
+      padding: 1.25em;
+    }
 
     .label {
       line-height: 1.3;

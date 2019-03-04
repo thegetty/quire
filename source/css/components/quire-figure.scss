@@ -327,6 +327,9 @@
   .content &.is-pulled-right {
     margin-top: .75em;
     margin-bottom: 1em;
+    @media screen and (max-width: $tablet) {
+      margin: 0 0 1em 0;
+    }
   }
 
   &--group {
