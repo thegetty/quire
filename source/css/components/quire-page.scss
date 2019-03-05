@@ -288,7 +288,9 @@ html {
             position: relative;
             @media screen {
               &:first-child:before {
-                @if (lightness($secondary-background-color) > 50) {
+                @if (lightness($content-background-color) < 50) {
+                  color: background-color-text($content-background-color);
+                } @else if (lightness($secondary-background-color) > 50) {
                   color: darken($secondary-background-color, 15%);
                 } @else {
                   color: darken($content-background-color, 15%);
@@ -454,6 +456,7 @@ html {
       max-width: $desktop + (1.25 * $gap);
       width: $desktop + (1.25 * $gap);
       @media print {
+        background-color: transparent;
         max-width: initial;
         width: initial;
         padding: 0;
@@ -808,13 +811,13 @@ html {
 
     blockquote {
       padding: 0 0 0 1.5em;
-      margin: 1.5em 0 1.5em 0;
+      margin: 1em 0 1em 0;
 
       @media screen and (min-width: $tablet) {
         padding: 0 0 0 1.5em;
         margin: 1.5em 0 1.5em 1.5em;
       }
-
+      
       background-color: transparent;
       font-style: italic;
 
@@ -844,11 +847,7 @@ html {
         li {
           margin-bottom: 1em;
         }
-      }
-
-      p+p {
-        text-indent: 0;
-      }
+      } 
     }
 
     .leaflet-control {
@@ -860,17 +859,29 @@ html {
     @if $quire-page-paragraph-style=="indent" {
       p {
         margin-bottom: 0;
+        text-indent: 1.5em;
       }
-
-      p+p {
-        text-indent: 2em;
+      
+      > p:first-child,
+      blockquote > p:first-child,
+      .quire-contributor__details > p:first-of-type,
+      hr + p,
+      h1 + p,
+      h2 + p,
+      h3 + p,
+      h4 + p,
+      h5 + p,
+      h6 + p {
+        text-indent: 0;
       }
-
-      blockquote {
-        margin: 1em 0 1em 0;
-
-        @media screen and (min-width: $tablet) {
-          margin: 1.5em 0 1.5em 1.5em;
+      
+      .footnotes {
+        p {
+          margin-bottom: 0;
+          text-indent: 1.5em;
+        }
+        li > p:first-child {
+          text-indent: 0;
         }
       }
     }
@@ -895,7 +906,12 @@ html {
         margin-bottom: 0;
         margin-top: 0;
       }
-
+      @if $quire-page-paragraph-style=="indent" {
+        ul {
+          margin-top: 1em;
+        }
+      }
+      
       li+li {
         margin-top: 0;
       }

@@ -7851,6 +7851,7 @@ html {
     width: 720px; }
     @media print {
       .quire-page__abstract .container {
+        background-color: transparent;
         max-width: initial;
         width: initial;
         padding: 0; } }
@@ -8080,7 +8081,7 @@ html {
 
 .quire-page__content .content blockquote {
   padding: 0 0 0 1.5em;
-  margin: 1.5em 0 1.5em 0;
+  margin: 1em 0 1em 0;
   background-color: transparent;
   font-style: italic; }
   @media screen and (min-width: 500px) {
@@ -8105,8 +8106,6 @@ html {
         margin-left: 1.5em; } }
     .quire-page__content .content .footnotes ol li {
       margin-bottom: 1em; }
-  .quire-page__content .content .footnotes p + p {
-    text-indent: 0; }
 
 .quire-page__content .content .leaflet-control a {
   color: #333333; }
