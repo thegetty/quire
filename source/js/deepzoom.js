@@ -23,8 +23,7 @@ class DeepZoom {
       }
     }
 
-
-    this.imageURL = $(`#${this.el}`).data('image')
+    this.imageURL = $(`#${this.el}`).attr('src')
     this.iiif = $(`#${this.el}`).data('iiif')
 
     if (this.imageURL) {

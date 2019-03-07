@@ -278,7 +278,7 @@ a single image or object needs to be featured prominently.\
     role="application"
     aria-label="Zoomable image"
     data-catalogue-entry="true"
-    data-image="{{ $imgPath | relURL }}"
+    src="{{ $imgPath | relURL }}"
   >
   </div>
   <img style="display: none" src="{{ $imgPath | relURL }}" alt="{{ .figure.alt }}" />

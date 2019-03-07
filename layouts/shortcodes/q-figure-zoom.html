@@ -118,7 +118,7 @@ document and render only the values given in the shortcode
     aria-live="polite" 
     role="application" 
     aria-label="Zoomable image" 
-    data-image="{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}">
+    src="{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}">
     </div>
     <span class="figure-caption visually-hidden">
         {{ if $.Get "caption" }}
@@ -181,7 +181,7 @@ document and render only the values given in the shortcode
  aria-live="polite" 
  role="application" 
  aria-label="Zoomable image" 
- data-image='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'>
+ src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'>
 </div>
     
 {{ end }}
@@ -386,7 +386,7 @@ alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
         aria-live="polite" 
         role="application"
         aria-label="Zoomable image" 
-        data-image="{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}">
+        src="{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}">
         </div>
         <span class="figure-caption visually-hidden">
             {{ if $.Get "caption" }}
@@ -447,7 +447,7 @@ alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
     aria-live="polite" 
     role="application" 
     aria-label="Zoomable image" 
-    data-image='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'>
+    src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'>
   </div>
 
 {{ end }}
