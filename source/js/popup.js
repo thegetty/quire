@@ -25,14 +25,14 @@ export default function (gallerySelector) {
     }
     switch (self.currItem.type) {
       case 'inline':
-        self.caption = $(self.currItem.el).find('.figure-caption').html();
+        self.caption = $(self.currItem.el).find('.figure-caption').html() || $(self.currItem.el).parent().find('figcaption').html();
         if (self.caption !== undefined) {
           self.captionCont = `<div class="quire-caption-container"><span class="caption">${self.caption}</span></div>`;
           $('.mfp-wrap').prepend(self.captionCont);
         }
         break;
       case 'iframe':
-        self.caption = $(self.currItem.el).find('.figure-caption').html();
+        self.caption = $(self.currItem.el).find('.figure-caption').html() || $(self.currItem.el).parent().find('figcaption').html();
         if (self.caption !== undefined) {
           self.captionCont = `<div class="quire-caption-container"><span class="caption">${self.caption}</span></div>`;
           $('.mfp-wrap').prepend(self.captionCont);
@@ -40,7 +40,7 @@ export default function (gallerySelector) {
         break;
       case 'image':
         $('.mfp-title').hide();
-        self.caption = $(self.currItem.el).find('.figure-caption').html();
+        self.caption = $(self.currItem.el).find('.figure-caption').html() || $(self.currItem.el).parent().find('figcaption').html();
         if (self.caption !== undefined) {
           self.captionCont = `<div class="quire-caption-container"><span class="caption">${self.caption}</span></div>`;
           $('.mfp-wrap').prepend(self.captionCont);
@@ -75,8 +75,8 @@ export default function (gallerySelector) {
     delegate: 'a.popup',
     type: 'image',
     closeBtnInside: false,
-		fixedContentPos: 'auto',
-		fixedBgPos: 'auto',
+    fixedContentPos: 'auto',
+    fixedBgPos: 'auto',
     overflowY: 'hidden',
     gallery: {
       enabled: true,
@@ -104,37 +104,37 @@ export default function (gallerySelector) {
         if (item.el[0].getAttribute('data-type') === 'video') {
           // eslint-disable-next-line no-unused-expressions
           item.type = 'iframe',
-          item.iframe = {
-            patterns: {
-              youtube: {
-                index: 'youtube.com/', // String that detects type of video (in this case YouTube). Simply via url.indexOf(index).
-                id: 'v=', // String that splits URL in a two parts, second part should be %id%
-                // Or null - full URL will be returned
-                // Or a function that should return %id%, for example:
-                // id: function(url) { return 'parsed id'; }
-                src: '//www.youtube.com/embed/%id%?autoplay=1' // URL that will be set as a source for iframe.
-              },
-              vimeo: {
-                index: 'vimeo.com/',
-                id: '/',
-                src: '//player.vimeo.com/video/%id%?autoplay=1'
-              },
-              gmaps: {
-                index: '//maps.google.',
-                src: '%id%&output=embed'
+            item.iframe = {
+              patterns: {
+                youtube: {
+                  index: 'youtube.com/', // String that detects type of video (in this case YouTube). Simply via url.indexOf(index).
+                  id: 'v=', // String that splits URL in a two parts, second part should be %id%
+                  // Or null - full URL will be returned
+                  // Or a function that should return %id%, for example:
+                  // id: function(url) { return 'parsed id'; }
+                  src: '//www.youtube.com/embed/%id%?autoplay=1' // URL that will be set as a source for iframe.
+                },
+                vimeo: {
+                  index: 'vimeo.com/',
+                  id: '/',
+                  src: '//player.vimeo.com/video/%id%?autoplay=1'
+                },
+                gmaps: {
+                  index: '//maps.google.',
+                  src: '%id%&output=embed'
+                }
               }
-            }
-          };
+            };
         } else if (item.el[0].getAttribute('data-type') === 'inline') {
           item.type = 'inline';
         } else {
           // eslint-disable-next-line no-unused-expressions
           item.type = 'image',
-          item.tLoading = 'Loading image #%curr%...',
-          item.mainClass = 'mfp-img-mobile',
-          item.image = {
-            tError: '<a href="%url%">The image #%curr%</a> could not be loaded.'
-          };
+            item.tLoading = 'Loading image #%curr%...',
+            item.mainClass = 'mfp-img-mobile',
+            item.image = {
+              tError: '<a href="%url%">The image #%curr%</a> could not be loaded.'
+            };
         }
       },
       change: function () {
@@ -155,10 +155,10 @@ export default function (gallerySelector) {
           }
           if (id.indexOf('deepzoom') !== -1) {
             setTimeout(() => {
-              let url = $(`#${id}`).data('image')
+              let url = $(`#${id}`).attr('src')
               let image = new Image()
               image.src = url
-              image.onload = function() {
+              image.onload = function () {
                 new DeepZoom(id);
               }
             }, waitForDOMUpdate);

@@ -140,7 +140,7 @@ the figure for each into a figure group
         aria-live="polite" 
         role="application"
         aria-label="Zoomable image" 
-        data-image="{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}">
+        src="{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}">
         </div>
         <span class="figure-caption visually-hidden">
             {{ if $.Get "caption" }}
