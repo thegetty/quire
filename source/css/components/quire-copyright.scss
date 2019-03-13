@@ -18,16 +18,11 @@
       max-height: 100%;
     }
     &__logo {
-      filter: invert(100%);
       height: 3em;
+      margin-bottom: .25em;
+      margin-right: 1em;
       max-width: 100%;
       display: inline-block;
     }
-  }
-  p {
-    display: inline-block;
-    padding-left: 1em;
-    font-weight: 700;
-    font-size: 1.25em;
   }
 }
