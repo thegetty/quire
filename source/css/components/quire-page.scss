@@ -218,8 +218,22 @@ html {
         }
 
         hr {
-          background-color: lighten($off-black, 15%);
-        }
+          background-color: transparent;
+          overflow: visible;
+          text-align: center;
+          
+          &:after {
+            @if $theme == classic {
+              content: "✦\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0✦\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0✦";
+              font-size: 1em;
+            } @else {
+              content: "◆\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0◆\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0◆";
+            }
+            font-size: .875rem;
+            position: relative;
+            top: -.875rem;
+          }
+        }  
 
         li {
           margin: 0 0 1em 0;
@@ -481,9 +495,7 @@ html {
         margin-top: 1em;
         
         @media print {
-          margin-top: .25em;
-          font-size: .75em;
-          color: $print-text-color;
+          margin-top: 0;
         }
       }
       
@@ -742,8 +754,20 @@ html {
       }
     }
 
-    .quire-page__content__references dl {
-      margin-left: 0;
+    .quire-page__content__references {
+      dl {
+        margin-left: 0;
+      }
+      ul {
+        list-style-type: none;
+        margin-left: 0;
+        li {
+          margin-left: 0;
+          &:before {
+            content: none;
+          }
+        }
+      }
     }
 
     tbody {
