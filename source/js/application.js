@@ -249,6 +249,7 @@ function loadSearchData() {
  * to get next adn previous pages
  */
 let navigation;
+
 function navigationSetup() {
   if (!navigation) {
     navigation = new Navigation();
@@ -337,8 +338,30 @@ function quickLinksSetup() {
     return a.hostname === window.location.hostname;
   });
   quicklink({
-    urls: links
+    urls: links,
+    origins: true,
   })
+}
+
+/**
+ * @description
+ * Set the date for the cite this partial
+ * https://github.com/gettypubs/quire/issues/153
+ * Quire books include a "Cite this Page" feature with page-level citations formatted in both Chicago and MLA style. 
+ * For MLA, the citations need to include a date the page was accessed by the reader. 
+ * 
+ */
+function setDate() {
+  let $date = $('.cite-current-date')
+  let options = {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric'
+  };
+  let today = new Date();
+  let formattedDate = today.toLocaleDateString("en-US", options).indexOf('May') !== -1 ? today.toLocaleDateString("en-US", options) : [today.toLocaleDateString("en-US", options).slice(0, 3), '. ', today.toLocaleDateString("en-US", options).slice(4)].join('')
+  $date.empty();
+  $date.text(formattedDate);
 }
 
 
@@ -348,6 +371,7 @@ function quickLinksSetup() {
  * Initialize any jquery plugins or set up page UI elements here.
  */
 function pageSetup() {
+  setDate();
   quickLinksSetup();
   activeMenuPage();
   sliderSetup();
