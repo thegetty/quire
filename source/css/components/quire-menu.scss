@@ -145,6 +145,9 @@
         &:hover {
           border-left-width: 4px;
         }
+        * {
+          color: $accent-color !important;
+        }
       }
     }
     .page-item {
