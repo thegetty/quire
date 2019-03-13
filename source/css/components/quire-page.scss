@@ -49,32 +49,22 @@ html {
   h4,
   h5,
   h6 {
-    font-family: $quire-headings-font;
-    margin-top: 1rem;
     margin-bottom: 1rem;
-
-  }
-
-  h1:not(:first-child) {
-    margin-top: 3rem;
-  }
-
-  h2:not(:first-child),
-  h3:not(:first-child) {
-    margin-top: 2rem;
-  }
-
-  h4:not(:first-child),
-  h5:not(:first-child),
-  h6:not(:first-child) {
-    margin-top: 1rem;
+    color: background-color-text($secondary-background-color);
+    @media print {
+      color: $print-text-color;
+    }
+    
+    &:not(:first-child) {
+      margin-top: 1rem;
+    }
   }
 
   h1,
   &__header__title {
     font-size: 3em;
     font-weight: 700;
-    line-height: 1.04em;
+    line-height: 1.15;
     margin: 1rem 0;
 
     em {
@@ -85,28 +75,26 @@ html {
       margin-top: .75in;
     }
     @media screen and (max-width: $tablet) {
-      font-size: 43px;
-      line-height: 47px;
+      font-size: 2.5em;
     }
   }
 
   h2 {
     text-transform: uppercase;
-    font-size: 1.75em;
-    line-height: 1.15em;
+    font-size: 1.75rem;
+    line-height: 1.15;
   }
 
-  h3,
-  h4,
-  &__header__contributor {
+  h3 {
     font-style: italic;
-    font-weight: 400;
-    font-size: 1.625em;
+    font-size: 1.5rem;
+    line-height: 1.25;
   }
 
   &__header__contributor {
     font-family: $quire-primary-font;
     font-weight: 400;
+    font-style: italic;
     margin-top: 3rem;
     opacity: 0.75;
     font-size: 1em;
@@ -117,43 +105,21 @@ html {
   }
 
   h4 {
-    font-size: 1.375em;
-    line-height: 1.2em;
+    font-size: 1.375rem;
+    line-height: 1.3;
   }
 
   h5 {
-    font-size: 1.125em;
-    line-height: 1.22em;
-  }
-
-  h5,
-  h6 {
-    font-size: 1.25em;
-    line-height: 1.2;
-    margin-top: .5rem;
-    margin-bottom: .5rem;
+    font-size: 1.25rem;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.4;
   }
 
   h6 {
-    text-transform: uppercase;
-    font-size: .66em;
-    font-weight: 700;
-    line-height: 1.28em;
-    padding-bottom: 0.25em;
-    border-bottom: 1px solid $off-black;
-  }
-
-  @media screen and (max-width: $tablet) {
-    h1 {
-      font-size: 2.675em; /** approx 43px **/
-      line-height: 1.1em; /** approx 47px **/
-    }
-    h2, h3 {
-      font-size: 1.5em;
-    }
-    h4 {
-      font-size: 1.25em;
-    }
+    font-size: 1.1875rem;
+    font-weight: 400;
+    line-height: 1.4;
   }
 
   &__content {
@@ -196,13 +162,12 @@ html {
       }
 
       .content {
-        padding-top: 2.5em;
         margin-top: 45px;
-        padding: 40px 2.5em;
+        padding: 2.5rem 2.5rem;
         background-color: $content-background-color;
 
         @media screen and (max-width: $tablet) {
-          padding: 40px 1.250em;
+          padding: 1.5rem 1.25rem;
         }
 
         @media print {
@@ -346,15 +311,16 @@ html {
 
         .backmatter {
           font-family: $quire-footnotes-font;
-          font-size: .875em;
-          line-height: 1.6em;
+          font-size: .875rem;
+          line-height: 1.6;
+          padding-top: 1px;
 
           h2, h3, h4 {
             font-family: $quire-headings-font;
             @if $theme == classic {
               letter-spacing: .5px;
             } @else {
-              letter-spacing: 0;
+              letter-spacing: .25px;
             }
             color: background-color-text-classic($content-background-color);
             @media print {
@@ -378,6 +344,11 @@ html {
           }
           h4 {
             font-weight: normal;
+          }
+          h5,
+          h6 {
+            font-size: 1.0625em;
+            letter-spacing: 0;
           }
           .title {
             color: background-color-text($content-background-color);
@@ -785,52 +756,6 @@ html {
 
     hr {
       height: 1px;
-    }
-
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      color: background-color-text-classic($content-background-color);
-      @media print {
-        color: $print-text-color;
-      }
-    }
-
-    h2 {
-      text-transform: uppercase;
-      font-size: 1.75em;
-      line-height: 1.15em;
-      margin-top: .5714em;
-      @media print {
-        margin: 0 auto;
-      }
-    }
-
-    h3 {
-      font-style: italic;
-      font-weight: 400;
-      font-size: 1.625em;
-    }
-
-    h4 {
-      font-size: 1.375em;
-      line-height: 1.2em;
-    }
-
-    h5 {
-      font-size: 1.125em;
-      line-height: 1.22em;
-    }
-
-    h6 {
-      text-transform: uppercase;
-      font-size: .875em;
-      line-height: 1.28em;
-      padding-bottom: 0.25em;
-      border-bottom: 1px solid $off-black;
     }
 
     blockquote {
