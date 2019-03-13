@@ -176,7 +176,7 @@
 {{ end -}}
 
 {{- define "contents-item-menu" }}
-    <a href="{{ .Permalink }}">{{ with .Params.label }}{{ . }}. {{ end }}{{ if .Params.short_title }}{{ .Params.short_title | markdownify }}{{ else }}{{ .Title | markdownify }}{{- end -}}</a>
+    <a href="{{ .Permalink }}">{{ with .Params.label }}{{ . }}{{ $.Site.Params.pageLabelDivider }}{{ end }}{{ if .Params.short_title }}{{ .Params.short_title | markdownify }}{{ else }}{{ .Title | markdownify }}{{- end -}}</a>
 {{ end -}}
 
 {{- define "contents-image" }}
