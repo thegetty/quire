@@ -13,7 +13,7 @@
   list-style-type: none;
   margin-left: 0;
   .title {
-    color: background-color-text($secondary-background-color);
+    color: background-color-text($content-background-color);
     @media print {
       color: $print-text-color;
     }
@@ -41,6 +41,7 @@
   }
   .media-left {
     margin-right: .5rem;
+    float: left;
   }
 
   &__details {

@@ -126,13 +126,26 @@
         svg {
           fill: findColorInvert($accent-color);
         }
+        * {
+          color: findColorInvert($accent-color) !important;
+        }
         @if $navbar == accent {
           color: $accent-color !important;
           background-color: findColorInvert($accent-color);
           svg {
             fill: $accent-color !important;
           }
+          * {
+            color: $accent-color !important;
+          }
         }
+      }
+    }
+    svg {
+      & img {
+        position: absolute;
+        top: 0;
+        left: 0;
       }
     }
   }
@@ -153,8 +166,9 @@
       transition: all .25s ease;
     }
 
-    span {
-      display: block;
+    span.nav-label {
+      display: inline-block;
+      color: inherit;
     }
 
     .menu-button {
@@ -170,7 +184,7 @@
       a {
         padding: 0 1.5em 0 0.5em;
       }
-      .left-icon {
+      svg {
         margin-right: 1em;
       }
     }
@@ -185,12 +199,24 @@
         margin-right: 0.5em;
       }
     }
+    @media screen and (max-width: $quire-menu-width) {
+      a {
+        padding: 0;
+      }
+    }
 
-    @media screen and (max-width: $tablet) {
+    @media screen and (max-width: $desktop) {
       &.quire-home-page {
         display: block;
         padding-left: 0;
         padding-right: 0;
+      }
+      &.quire-next-page,
+      &.quire-previous-page {
+        display: block;
+      }
+      span.nav-label {
+        display: none;
       }
     }
 

@@ -49,32 +49,22 @@ html {
   h4,
   h5,
   h6 {
-    font-family: $quire-headings-font;
-    margin-top: 1rem;
     margin-bottom: 1rem;
-
-  }
-
-  h1:not(:first-child) {
-    margin-top: 3rem;
-  }
-
-  h2:not(:first-child),
-  h3:not(:first-child) {
-    margin-top: 2rem;
-  }
-
-  h4:not(:first-child),
-  h5:not(:first-child),
-  h6:not(:first-child) {
-    margin-top: 1rem;
+    color: background-color-text($secondary-background-color);
+    @media print {
+      color: $print-text-color;
+    }
+    
+    &:not(:first-child) {
+      margin-top: 1rem;
+    }
   }
 
   h1,
   &__header__title {
     font-size: 3em;
     font-weight: 700;
-    line-height: 1.04em;
+    line-height: 1.15;
     margin: 1rem 0;
 
     em {
@@ -84,25 +74,27 @@ html {
     @media print {
       margin-top: .75in;
     }
+    @media screen and (max-width: $tablet) {
+      font-size: 2.5em;
+    }
   }
 
   h2 {
     text-transform: uppercase;
-    font-size: 1.75em;
-    line-height: 1.15em;
+    font-size: 1.75rem;
+    line-height: 1.15;
   }
 
-  h3,
-  h4,
-  &__header__contributor {
+  h3 {
     font-style: italic;
-    font-weight: 400;
-    font-size: 1.625em;
+    font-size: 1.5rem;
+    line-height: 1.25;
   }
 
   &__header__contributor {
     font-family: $quire-primary-font;
     font-weight: 400;
+    font-style: italic;
     margin-top: 3rem;
     opacity: 0.75;
     font-size: 1em;
@@ -113,43 +105,21 @@ html {
   }
 
   h4 {
-    font-size: 1.375em;
-    line-height: 1.2em;
+    font-size: 1.375rem;
+    line-height: 1.3;
   }
 
   h5 {
-    font-size: 1.125em;
-    line-height: 1.22em;
-  }
-
-  h5,
-  h6 {
-    font-size: 1.25em;
-    line-height: 1.2;
-    margin-top: .5rem;
-    margin-bottom: .5rem;
+    font-size: 1.25rem;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.4;
   }
 
   h6 {
-    text-transform: uppercase;
-    font-size: .66em;
-    font-weight: 700;
-    line-height: 1.28em;
-    padding-bottom: 0.25em;
-    border-bottom: 1px solid $off-black;
-  }
-
-  @media screen and (max-width: $tablet) {
-    h1 {
-      font-size: 2.675em; /** approx 43px **/
-      line-height: 1.1em; /** approx 47px **/
-    }
-    h2, h3 {
-      font-size: 1.5em;
-    }
-    h4 {
-      font-size: 1.25em;
-    }
+    font-size: 1.1875rem;
+    font-weight: 400;
+    line-height: 1.4;
   }
 
   &__content {
@@ -192,10 +162,13 @@ html {
       }
 
       .content {
-        padding-top: 2.5em;
         margin-top: 45px;
-        padding: 40px 2.5em;
+        padding: 2.5rem 2.5rem;
         background-color: $content-background-color;
+
+        @media screen and (max-width: $tablet) {
+          padding: 1.5rem 1.25rem;
+        }
 
         @media print {
           padding: 0;
@@ -210,8 +183,22 @@ html {
         }
 
         hr {
-          background-color: lighten($off-black, 15%);
-        }
+          background-color: transparent;
+          overflow: visible;
+          text-align: center;
+          
+          &:after {
+            @if $theme == classic {
+              content: "✦\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0✦\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0✦";
+              font-size: 1em;
+            } @else {
+              content: "◆\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0◆\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0◆";
+            }
+            font-size: .875rem;
+            position: relative;
+            top: -.875rem;
+          }
+        }  
 
         li {
           margin: 0 0 1em 0;
@@ -280,7 +267,9 @@ html {
             position: relative;
             @media screen {
               &:first-child:before {
-                @if (lightness($secondary-background-color) > 50) {
+                @if (lightness($content-background-color) < 50) {
+                  color: background-color-text($content-background-color);
+                } @else if (lightness($secondary-background-color) > 50) {
                   color: darken($secondary-background-color, 15%);
                 } @else {
                   color: darken($content-background-color, 15%);
@@ -322,15 +311,16 @@ html {
 
         .backmatter {
           font-family: $quire-footnotes-font;
-          font-size: .875em;
-          line-height: 1.6em;
+          font-size: .875rem;
+          line-height: 1.6;
+          padding-top: 1px;
 
           h2, h3, h4 {
             font-family: $quire-headings-font;
             @if $theme == classic {
               letter-spacing: .5px;
             } @else {
-              letter-spacing: 0;
+              letter-spacing: .25px;
             }
             color: background-color-text-classic($content-background-color);
             @media print {
@@ -354,6 +344,11 @@ html {
           }
           h4 {
             font-weight: normal;
+          }
+          h5,
+          h6 {
+            font-size: 1.0625em;
+            letter-spacing: 0;
           }
           .title {
             color: background-color-text($content-background-color);
@@ -422,7 +417,7 @@ html {
     line-height: 1.7em;
     
     @media screen and (max-width: $tablet) {
-      margin-bottom: -3em;
+      margin-bottom: -3.25em;
     }
     @media print {
       padding: 0;
@@ -446,9 +441,14 @@ html {
       max-width: $desktop + (1.25 * $gap);
       width: $desktop + (1.25 * $gap);
       @media print {
+        background-color: transparent;
         max-width: initial;
         width: initial;
         padding: 0;
+      }
+      @media screen and (max-width: $desktop) {
+        width: 100%;
+        max-width: 100%;
       }
 
       &:after {
@@ -466,9 +466,7 @@ html {
         margin-top: 1em;
         
         @media print {
-          margin-top: .25em;
-          font-size: .75em;
-          color: $print-text-color;
+          margin-top: 0;
         }
       }
       
@@ -537,6 +535,9 @@ html {
   }
 
   .hero-body {
+    @media screen and (max-width: $tablet) {
+      padding: 1.25em;
+    }
 
     .label {
       line-height: 1.3;
@@ -724,8 +725,20 @@ html {
       }
     }
 
-    .quire-page__content__references dl {
-      margin-left: 0;
+    .quire-page__content__references {
+      dl {
+        margin-left: 0;
+      }
+      ul {
+        list-style-type: none;
+        margin-left: 0;
+        li {
+          margin-left: 0;
+          &:before {
+            content: none;
+          }
+        }
+      }
     }
 
     tbody {
@@ -745,61 +758,15 @@ html {
       height: 1px;
     }
 
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      color: background-color-text-classic($content-background-color);
-      @media print {
-        color: $print-text-color;
-      }
-    }
-
-    h2 {
-      text-transform: uppercase;
-      font-size: 1.75em;
-      line-height: 1.15em;
-      margin-top: .5714em;
-      @media print {
-        margin: 0 auto;
-      }
-    }
-
-    h3 {
-      font-style: italic;
-      font-weight: 400;
-      font-size: 1.625em;
-    }
-
-    h4 {
-      font-size: 1.375em;
-      line-height: 1.2em;
-    }
-
-    h5 {
-      font-size: 1.125em;
-      line-height: 1.22em;
-    }
-
-    h6 {
-      text-transform: uppercase;
-      font-size: .875em;
-      line-height: 1.28em;
-      padding-bottom: 0.25em;
-      border-bottom: 1px solid $off-black;
-    }
-
     blockquote {
       padding: 0 0 0 1.5em;
-      margin: 1.5em 0 1.5em 0;
+      margin: 1em 0 1em 0;
 
       @media screen and (min-width: $tablet) {
         padding: 0 0 0 1.5em;
         margin: 1.5em 0 1.5em 1.5em;
       }
-
+      
       background-color: transparent;
       font-style: italic;
 
@@ -829,11 +796,7 @@ html {
         li {
           margin-bottom: 1em;
         }
-      }
-
-      p+p {
-        text-indent: 0;
-      }
+      } 
     }
 
     .leaflet-control {
@@ -845,17 +808,29 @@ html {
     @if $quire-page-paragraph-style=="indent" {
       p {
         margin-bottom: 0;
+        text-indent: 1.5em;
       }
-
-      p+p {
-        text-indent: 2em;
+      
+      > p:first-child,
+      blockquote > p:first-child,
+      .quire-contributor__details > p:first-of-type,
+      hr + p,
+      h1 + p,
+      h2 + p,
+      h3 + p,
+      h4 + p,
+      h5 + p,
+      h6 + p {
+        text-indent: 0;
       }
-
-      blockquote {
-        margin: 1em 0 1em 0;
-
-        @media screen and (min-width: $tablet) {
-          margin: 1.5em 0 1.5em 1.5em;
+      
+      .footnotes {
+        p {
+          margin-bottom: 0;
+          text-indent: 1.5em;
+        }
+        li > p:first-child {
+          text-indent: 0;
         }
       }
     }
@@ -880,7 +855,12 @@ html {
         margin-bottom: 0;
         margin-top: 0;
       }
-
+      @if $quire-page-paragraph-style=="indent" {
+        ul {
+          margin-top: 1em;
+        }
+      }
+      
       li+li {
         margin-top: 0;
       }

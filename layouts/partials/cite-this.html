@@ -1,0 +1,140 @@
+{{/*
+    Template for the "Cite this Page" feature. Called as a
+    partial, such as:
+
+    partial "cite-this.html" (dict "page" . "site" .Site "type" "chicago") 
+
+    Can accept "chicago" or "mla" as a type
+
+    Follows Getty standard of using "et al" for more than three
+    authors in Chicago citations, and more than two authors
+    in MLA citations.
+    
+    ***Note***
+    Edit this template with care as it is easy to introduce stray spaces occuring around punctuation.
+    
+    ***Note***
+    Doesn't currently account for name combinations that might end with a period (Keaton, Alex P., Sammy Davis Jr.) and so in some cases may end up including two periods in a row after contributor lists. I wanted to solve this with something like the following, but the output from a template can't seem to be assigned as to a variable or passed to a function.
+    
+    {{ $contributors := template "page-contributors-chicago" .page }}
+    {{ $endPunctuation := findRE "[[:punct:]]$" $contributors }}
+    
+    {{ $contributors }}{{ if $endPunctuation }}{{ else }}. {{ end }}
+    
+*/}}
+
+{{- if eq .type "chicago" -}}
+
+  {{/* ------------  CHICAGO ------------ */}}
+  {{ if .page.Params.contributor }}{{ template "page-contributors-chicago" .page }}. {{ end }}“{{ partial "page-title.html" .page }}.” In <em>{{ partial "site-title.html" .page }}</em>, by {{ partial "contributor-list.html" (dict "range" .site.Data.publication.contributor "contributorType" "primary" "listType" "string" "Site" .site) }}. {{ template "publishers-chicago" (dict "site" .site)}}{{ with .site.Data.publication.pub_date }}, {{ dateFormat "2006" . }}{{ end }}. {{ .page.Permalink }}.
+
+{{- else if eq .type "mla" -}}
+
+  {{/* ------------  MLA ------------ */}}
+  {{ if .page.Params.contributor }}{{ template "page-contributors-mla" .page }}. {{ end }}“{{ partial "page-title.html" .page }}.” <em>{{ partial "site-title.html" .page }}</em>, by {{ template "publication-contributors-mla" .page }}, {{ template "publishers-mla" (dict "site" .site)}}{{ with .site.Data.publication.pub_date }}, {{ dateFormat "2006" . }}{{ end }}. {{ .page.Permalink }}. Accessed <span class="cite-current-date">DD Mon. YYYY</span>.
+
+{{- end -}}
+
+
+{{- define "page-contributors-mla" -}}
+{{- if .Page.Params.contributor -}}  
+  {{- $len := len .Page.Params.contributor -}}
+  {{- range $index, $element := .Page.Params.contributor -}}  
+    {{ if eq $index 0 }}
+    {{ template "contrib-name-reverse" (dict "site" $.Site "page" . )}}
+    {{- else -}}
+    {{- if eq $len 2 }}, and {{ template "contrib-name" (dict "site" $.Site "page" . )}}{{ end -}}
+    {{- end -}}
+  {{- end -}}  
+  {{- if gt $len 2 }}, et al{{ end -}}
+{{- end -}}
+{{- end -}}
+
+{{- define "publication-contributors-mla" -}}
+  {{- $len := len (where $.Site.Data.publication.contributor "type" "primary") -}}
+  {{- range $index, $element := (where $.Site.Data.publication.contributor "type" "primary") -}}  
+    {{ if eq $index 0 }}
+    {{ template "contrib-name" (dict "site" $.Site "page" . )}}
+    {{- else -}}
+    {{- if eq $len 2 }} and {{ template "contrib-name" (dict "site" $.Site "page" . )}}{{ end -}}
+    {{- end -}}
+  {{- end -}}  
+  {{- if gt $len 2 }}, et al{{ end -}}
+{{- end -}}
+
+{{- define "page-contributors-chicago" -}}
+{{- if .Page.Params.contributor -}}  
+  {{- $len := len .Page.Params.contributor -}}
+  {{- range $index, $element := .Page.Params.contributor -}}    
+    {{- if and (eq $len 1) (eq $index 0) -}}
+    {{ template "contrib-name-reverse" (dict "site" $.Site "page" . )}}{{- else if eq $index 0 -}}
+    {{ template "contrib-name-reverse" (dict "site" $.Site "page" . )}}, {{ end -}}
+
+    {{- if or (and (eq $len 2) (eq $index 1)) (and (eq $len 3) (eq $index 2)) -}}
+    and {{ template "contrib-name" (dict "site" $.Site "page" . )}}
+    {{- end -}}
+
+    {{- if or (and (gt $len 2) (eq $index 1)) (and (gt $len 3) (eq $index 2)) -}}
+    {{ template "contrib-name" (dict "site" $.Site "page" . )}}, {{ end -}}
+  {{- end -}}
+    
+  {{- if gt $len 3 -}}
+  et al
+  {{- end -}}
+  
+{{- end -}}
+{{- end -}}
+
+{{- define "contrib-name-reverse" -}}
+  {{- if .page.id -}}
+    {{- range where .site.Data.publication.contributor "id" .page.id -}}
+      {{ template "name-string-reverse" . }}
+    {{- end -}}
+  {{- else -}}
+    {{ template "name-string-reverse" .page }}
+  {{- end -}}
+{{- end -}}
+
+{{- define "contrib-name" -}}
+  {{- if .page.id -}}
+    {{- range where .site.Data.publication.contributor "id" .page.id -}}
+      {{ template "name-string" . }}
+    {{- end -}}
+  {{- else -}}
+    {{ template "name-string" .page }}
+  {{- end -}}
+{{- end -}}
+
+{{- define "name-string" -}}
+  {{- if .full_name -}}
+    {{ .full_name }}
+  {{- else -}}
+    {{ printf "%s%s%s" .first_name " " .last_name }}
+  {{- end -}}
+{{- end -}}
+
+{{- define "name-string-reverse" -}}
+  {{- if .full_name -}}
+    {{ .full_name }}
+  {{- else -}}
+    {{ printf "%s%s%s" .last_name ", " .first_name }}
+  {{- end -}}
+{{- end -}}
+
+{{- define "publishers-chicago" -}}
+  {{ $len := len .site.Data.publication.publisher }}
+  {{ range $index, $element := .site.Data.publication.publisher }}
+    {{ if eq $index (sub $len 1) }}
+    {{ .location }}: {{ .name }}{{ else }}
+    {{ .location }}: {{ .name }}; {{ end }}
+  {{- end }}
+{{- end -}}
+
+{{- define "publishers-mla" -}}
+  {{ $len := len .site.Data.publication.publisher }}
+  {{ range $index, $element := .site.Data.publication.publisher }}
+    {{ if eq $index (sub $len 1) }}
+    {{ .name }}{{ else }}
+    {{ .name }}, {{ end }}
+  {{- end }}
+{{- end -}}

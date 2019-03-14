@@ -166,15 +166,16 @@
 
     <div class="media">
 
-    {{- if ne (index . 5) "n/a" -}}
-    <div class="media-left">
-      <img class="image quire-contributor__pic"
-          src='{{ with index . 5 }}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
-          alt="Picture of {{ index . 0 }}"/>
-    </div>
-    {{- end -}}
 
     <div class="quire-contributor__details media-content">
+      
+      {{- if ne (index . 5) "n/a" -}}
+      <div class="media-left">
+        <img class="image quire-contributor__pic"
+            src='{{ with index . 5 }}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
+            alt="Picture of {{ index . 0 }}"/>
+      </div>
+      {{- end -}}
       <p class="quire-contributor__bio">
         {{ if ne (index . 3) "n/a" }}{{ markdownify (index . 3) }}{{ end }}
       </p>

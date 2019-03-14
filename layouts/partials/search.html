@@ -11,14 +11,7 @@
      data-search-index='{{ ref . "search-index.md" }}' >
   <div class="quire-search__close-button">
     <button class="button is-medium" onclick="toggleSearch()">
-      <svg>
-        <switch>
-          <use xlink:href="#close-icon"></use>
-          <foreignObject width="32" height="32">
-              <img src="{{ $imgDir | relURL }}/icons/close.png" alt="Close" />
-          </foreignObject>
-        </switch>
-      </svg>
+      {{- partial "icon.html" (dict "type" "close" "description" "Close search window") -}}
     </button>
   </div>
 
@@ -35,14 +28,7 @@
                  value=""
                  oninput="search()" />
             <span>
-              <svg class="remove-from-epub">
-                <switch>
-                  <use xlink:href="#search-icon"></use>
-                  <foreignObject width="32" height="32">
-                      <img src="{{ $imgDir | relURL }}/icons/search@2x.png" alt="Search" />
-                  </foreignObject>
-                </switch>
-              </svg>
+              {{- partial "icon.html" (dict "type" "search" "description" "Search") -}}
             </span>
           </div>
 

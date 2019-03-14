@@ -37,6 +37,9 @@
    // search. More info: https://www.npmjs.com/package/template-polyfill
    document.createElement('template')
   </script>
+  
+  {{ if .Site.GoogleAnalytics}}
   {{ partial "analytics.html" . }}
+  {{ end }}
 
 </head>

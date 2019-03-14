@@ -68,20 +68,7 @@ Cover page layout. This controls the home page of the publication.
     <div class="quire-cover__more-body hero-more">
       {{ if and (ne $.Site.Params.epub true) (ne $.Site.Params.pdf true) }}
       <a href="#content">
-        {{- if isset $.Site.Params "imagedir" }}
-        {{ $.Scratch.Set "imageDir" $.Site.Params.imageDir }}
-        {{ else }}
-        {{ $.Scratch.Set "imageDir" "" }}
-        {{ end -}}
-        {{- $imgDir := $.Scratch.Get "imageDir" -}}
-        <svg class="remove-from-epub">
-          <switch>
-            <use xlink:href="#read-more-icon"></use>
-            <foreignObject width="36" height="36">
-                <img class="remove-from-epub" src="{{ $imgDir | relURL }}/icons/heromore@2x.png" alt="Read More" />
-            </foreignObject>
-          </switch>
-        </svg>
+        {{- partial "icon.html" (dict "type" "down-arrow" "description" "Scroll down to read more") -}}
       </a>
       {{ end }}
     </div>
@@ -109,18 +96,4 @@ Cover page layout. This controls the home page of the publication.
 </div>
 
 {{ end }}
-{{ end }}
-
-
-
-{{ define "image-control-icon" }}
-<svg class="remove-from-epub">
-  <switch>
-    <use xlink:href="#{{ .type }}-icon"></use>
-    <foreignObject width="24" height="24">
-        <img class="remove-from-epub" src="{{ relURL .imageDir }}/icons/{{ .type }}.png" alt="" />
-    </foreignObject>
-  </switch>
-</svg>
-<span class="visually-hidden">{{ .description }}</span>
 {{ end }}

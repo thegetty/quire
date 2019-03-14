@@ -1,4 +1,4 @@
-//@ts-check
+// @ts-check
 
 import DeepZoom from './deepzoom.js';
 import Map from './map.js';
@@ -160,7 +160,7 @@ export default function (gallerySelector) {
               image.src = url
               image.onload = function () {
                 new DeepZoom(id);
-              }
+              };
             }, waitForDOMUpdate);
           }
           if (id.indexOf('iiif') !== -1) {
@@ -169,7 +169,6 @@ export default function (gallerySelector) {
             }, waitForDOMUpdate);
           }
         }
-
       },
       resize: function () {
         // console.log('Popup resized ' + $(window).innerHeight());

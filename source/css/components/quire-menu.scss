@@ -56,6 +56,24 @@
     h1, h2, h3, h4, h5, h6 { color: $quire-menu-text-color; }
 
   }
+  
+  // Temporary until the headings/semantics of the menu can be reworked. Style matches backmatter h2 
+  h6 {
+    font-family: $quire-headings-font;
+    @if $theme == classic {
+      letter-spacing: .5px;
+    } @else {
+      letter-spacing: .25px;
+    }
+    color: background-color-text-classic($content-background-color);
+    font-size: .875rem;
+    line-height: 1.28;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-top: 20px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid background-color-text-classic($content-background-color);
+  }
 
   &__formats {
     margin-top: 2rem;
@@ -126,6 +144,9 @@
         padding-left: calc(.75em + 4px);
         &:hover {
           border-left-width: 4px;
+        }
+        * {
+          color: $accent-color !important;
         }
       }
     }
