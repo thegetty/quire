@@ -42,7 +42,7 @@ const cli = new CLI()
 process.on('SIGINT', function () { cli.emit('shutdown') })
 
 program
-  .version('0.1.0.alpha.15')
+  .version('0.1.0.alpha.16')
   .option('-v, --verbose', 'log verbose output')
   .option('-f, --file', 'Add Filename and optional new filepath')
   .option('-e, --env', 'Add environment variable')
