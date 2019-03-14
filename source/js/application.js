@@ -121,10 +121,10 @@ function sliderSetup() {
   });
   let images = [...document.querySelectorAll('.quire-deepzoom-entry')]
     .filter(v => {
-      return v.getAttribute('data-image') !== null ? v : ''
+      return v.getAttribute('src') !== null ? v : ''
     })
     .map(v => {
-      return v.getAttribute('data-image')
+      return v.getAttribute('src')
     })
   preloadImages(images, () => {
     mapSetup('.quire-map-entry');
@@ -339,7 +339,15 @@ function quickLinksSetup() {
   });
   quicklink({
     urls: links,
-    origins: true,
+    timeout: 4000,
+    ignores: [
+      /tel:/g,
+      /mailto:/g,
+      /#(.+)/,
+      uri => uri.includes('tel:'),
+      uri => uri.includes('mailto:'),
+      uri => uri.includes('#')
+    ]
   })
 }
 
