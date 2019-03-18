@@ -7,7 +7,8 @@
   This shortcode requires both a "range" and a "type" value. And they must
   be one of the following:
 
-  range   "page, essays, all, primary, secondary, project-team"
+  range   "page", "all", or an abritray value matching a contributor `type`
+          such as "primary" or "secondary"
   type    "initials, name, name-plus, bio"
 
   "initials"    Looks for the capital letters in a contributor first and last
@@ -19,21 +20,15 @@
   "bio"         Name, with pic, url, and bio.
 
   Following the standard error message checks, in the first part of the
-  template below, there are two primary sequences. The first is for ranges
-  of contributors that are across one or more pages (range "all", "essays",
-  and "page"), and the other is for ranges of contributors in publication.yml
-  (range "primary" and "secondary"). Both use the contirbutor-info.html partial
-  to create a sorted list of contributor names and information: a
-  "contributorlist" map.
+  template below, creates a list of the requested contributors using the 
+  contirbutor-info.html partial, creating a sorted list of contributor names 
+  and information: a "contributorlist" map.
 
   The second half of the template takes the "contributorlist" map and ranges
   across it building the HTML as called for in the type valye ("initials",
   "name", "name_plus", or "bio").
 
   NOTES:
-
-  This shortcode can be used multiple times on a page, BUT ONLY if the same
-  range is referenced.
 
   Users can use a file_as value to control sort order. Otherwise lists are
   sorted alphabetically by last_name. If you wanted, for example, a list of
@@ -42,9 +37,6 @@
   this file_as override will cary over to other uses of the shortcode. For
   example, a complete list of contributors at the end of a volume of collected
   papers.
-
-  If a contribuor is listed in many papers, the informtion in last listing
-  will override all the others.
 
   Contributors with the same exact name will override eachother. But using
   a file_as value would fix this, and that value wouldn't show up in the
@@ -56,11 +48,9 @@
 
 {{/* Error messages */}}
 {{/* ---------------------------------------------------------------------- */}}
-{{ $errorRange := dict "shortcode" "q-contributor" "message" "This shortcode must include a value for `range`, and the supplied value for `range` must be “all”, “essays”, “page”, “primary”, “secondary”, or “project-team”." "example" "{{< q-contributors range=&#34;all&#34; type=&#34;bio&#34; >}}" }}
+{{ $errorRange := dict "shortcode" "q-contributor" "message" "This shortcode must include a value for `range`, and the supplied value for `range` may be “all”, “page”, or a specific contributor `type` such as “primary” ." "example" "{{< q-contributors range=&#34;all&#34; type=&#34;bio&#34; >}}" }}
 
 {{ $errorType := dict "shortcode" "q-contributor" "message" "This shortcode must include a value for `type`, and the supplied value for `type` must be  “initials”, “name”, “name-plus”, or “bio”." "example" "{{< q-contributors range=&#34;all&#34; type=&#34;bio&#34; >}}" }}
-
-{{ $errorNoContributorsSet := dict "shortcode" "q-contributor" "message" "There are currently no contributors listed in the project’s `publication.yml` file." "example" "" }}
 
 {{/* Image directory */}}
 {{/* ---------------------------------------------------------------------- */}}
@@ -79,75 +69,95 @@
 {{/* Contributor range variables */}}
 {{/* ---------------------------------------------------------------------- */}}
 {{ $listRange := $.Get "range" }}
-{{ $validRangePage := "all essays page" }}
-{{ $validRangePublication := "primary secondary project-team" }}
+
+{{ if eq ($.Get "range") "" }}
+{{- partial "error-message.html" $errorRange -}}
+{{ end }}
 
 {{ $rangeAll := .Site.Pages }}
-{{ $rangeEssays := (where .Site.Pages "Type" "essay") }}
 {{ $rangePage := (where .Site.Pages "UniqueID" .Page.UniqueID) }}
-{{ $rangePrimary := (where .Site.Data.publication.contributor "type" "primary") }}
-{{ $rangeSecondary := (where .Site.Data.publication.contributor "type" "secondary") }}
-{{ $rangeProjectTeam := (where .Site.Data.publication.contributor "type" "project-team") }}
+{{ $rangeType := (where .Site.Data.publication.contributor "type" $listRange) }}
 
 {{- if eq $listRange "all" -}}
   {{- $.Scratch.Add "range" $rangeAll -}}
-{{- else if eq $listRange "essays" -}}
-  {{- $.Scratch.Add "range" $rangeEssays -}}
 {{- else if eq $listRange "page" -}}
   {{- $.Scratch.Add "range" $rangePage -}}
-{{- else if eq $listRange "primary" -}}
-  {{- $.Scratch.Add "range" $rangePrimary -}}
-{{- else if eq $listRange "secondary" -}}
-  {{- $.Scratch.Add "range" $rangeSecondary -}}
-{{- else if eq $listRange "project-team" -}}
-  {{- $.Scratch.Add "range" $rangeProjectTeam -}}
+{{- else -}}
+  {{- $.Scratch.Add "range" $rangeType -}}
 {{- end -}}
+
 
 {{/* Contributor info */}}
 {{/* ---------------------------------------------------------------------- */}}
-{{ if in $validRangePage $listRange }}
-  {{- range $.Scratch.Get "range" -}}
+{{/* ---------------------------------------------------------------------- */}}
 
-    {{/* Page contributor’s contribution */}}
-    {{/* ------------------------------------------------------------------ */}}
-    {{- $pagenumber := .Params.label -}}
-    {{- $pagetitle := .Params.title -}}
-    {{- $pagesubtitle := .Params.subtitle -}}
-    {{- $pagelink := .Permalink -}}
-
-    {{- range .Params.contributor -}}
-
-      {{/* Page contributors listed in page YAML with an ID */}}
-      {{/* ---------------------------------------------------------------- */}}
-      {{ if .id }}
-        {{ range where $.Site.Data.publication.contributor "id" .id }}
-          {{ partial "contributor-info.html" (dict "Page" $.Page "contributor" . "pageNumber" $pagenumber "pageTitle" $pagetitle "pageSubtitle" $pagesubtitle "pageLink" $pagelink) }}
-        {{ end }}
-
-      {{/* Page contributors listed in page YAML */}}
-      {{/* ---------------------------------------------------------------- */}}
-      {{ else }}
-        {{ partial "contributor-info.html" (dict "Page" $.Page "contributor" . "pageAttributes" .Params "pageNumber" $pagenumber "pageTitle" $pagetitle "pageSubtitle" $pagesubtitle "pageLink" $pagelink) }}
-      {{ end }}
-    {{- end -}}
-  {{- end -}}
-
-{{- else if in $validRangePublication $listRange -}}
-
-  {{- if eq .Site.Data.publication.contributor nil -}}
-    {{- partial "error-message.html" $errorNoContributorsSet -}}
-  {{- else -}}
-
-    {{/* Publication contributors listed in publication.yml */}}
-    {{/* ------------------------------------------------------------------ */}}
-    {{- range $.Scratch.Get "range" -}}
-      {{ partial "contributor-info.html" (dict "Page" $.Page "contributor" . ) }}
-    {{- end -}}
-  {{- end -}}
+{{/* Assign single page of contributors */}}
+{{/* ---------------------------------------------------------------------- */}}
+{{- if eq $listRange "page" -}}  
+  {{- $.Scratch.Add "pageRange" (where .Site.Pages "UniqueID" .Page.UniqueID) -}}
+  
+{{/* Assign all pages of contributors */}}
+{{/* ---------------------------------------------------------------------- */}}
 {{- else -}}
+  {{- $.Scratch.Add "pageRange" .Site.Pages -}}
+  
+  {{/* Also get all contributors listed in publication.yml */}}
+  {{/* -------------------------------------------------------------------- */}}
+  {{- range .Site.Data.publication.contributor -}}
+    {{ if eq ($.Get "range") "all" }}
+      {{ partial "contributor-info.html" (dict "Page" $.Page "contributor" . ) }}
+    {{- else -}}
+      {{ if eq .type ($.Get "range") }}
+      {{ partial "contributor-info.html" (dict "Page" $.Page "contributor" . ) }}
+      {{- end -}} 
+    {{- end -}}
+  {{- end -}}
 
-  {{- partial "error-message.html" $errorRange -}}
 {{- end -}}
+
+{{/* Range through assigned pages */}}
+{{/* ---------------------------------------------------------------------- */}}
+{{- range ($.Scratch.Get "pageRange") -}}
+
+  {{- range .Params.contributor -}}
+    
+    {{/* Page contributors listed in page YAML with an ID */}}
+    {{/* ------------------------------------------------------------------ */}}
+    {{ if .id }}
+      {{ range where $.Site.Data.publication.contributor "id" .id }}
+        {{/* Get all contributors on the page */}}
+        {{/* -------------------------------------------------------------- */}}
+        {{ if or (eq ($.Get "range") "all") (eq ($.Get "range") "page") }}
+          {{ partial "contributor-info.html" (dict "Page" $.Page "contributor" . ) }}
+        {{- else -}}
+          {{/* Or, match contributors of desired type */}}
+          {{/* ------------------------------------------------------------ */}}
+          {{ if eq .type ($.Get "range") }}
+          {{ partial "contributor-info.html" (dict "Page" $.Page "contributor" . ) }}
+          {{- end -}}  
+        {{- end -}}
+      {{- end -}}
+
+    {{/* Page contributors listed in page YAML */}}
+    {{/* ------------------------------------------------------------------ */}}
+    {{- else -}}
+      {{/* Get all contributors on the page */}}
+      {{/* ---------------------------------------------------------------- */}}
+      {{ if or (eq ($.Get "range") "all") (eq ($.Get "range") "page") }}
+        {{ partial "contributor-info.html" (dict "Page" $.Page "contributor" . ) }}
+      {{- else -}}
+        {{/* Or, match contributors of desired type */}}
+        {{/* -------------------------------------------------------------- */}}
+        {{ if eq .type ($.Get "range") }}
+        {{ partial "contributor-info.html" (dict "Page" $.Page "contributor" . ) }}
+        {{- end -}} 
+      {{- end -}}
+    {{- end -}}
+    
+  {{- end -}}
+  
+{{- end -}}
+
 
 {{/* List variables */}}
 {{/* ---------------------------------------------------------------------- */}}
@@ -162,7 +172,12 @@
 {{- $nameid := plainify (replace (index . 0) " " "-") -}}
 
   <li class="quire-contributor" id="{{ $nameid }}">
-    <div class="title is-5"><span class="quire-contributor__name">{{ (index . 0) }}</span></div>
+    <div class="title is-5"><span class="quire-contributor__name">{{ (index . 0) }}</span> 
+      {{ if ne (index . 4) "n/a" }}
+      <a href href="{{ index . 4 }}" class="quire-contributor__url">
+      {{- partial "icon.html" (dict "type" "link" "description" "") -}}</a>
+      {{- end -}}
+    </div>
 
     <div class="media">
 
@@ -176,24 +191,30 @@
             alt="Picture of {{ index . 0 }}"/>
       </div>
       {{- end -}}
-      <p class="quire-contributor__bio">
+      <div class="quire-contributor__bio">
         {{ if ne (index . 3) "n/a" }}{{ markdownify (index . 3) }}{{ end }}
-      </p>
-
-      {{- if ne ($.Get "range") "page" -}}
-      {{- if and (ne ($.Get "range") "primary") (ne ($.Get "range") "secondary") -}}
-      <p>
-        <a href="{{ index . 9 }}" class="quire-contributor__page-link">
-          {{ if ne (index . 6) "n/a" }}{{ index . 6 }}{{ $.Site.Params.pageLabelDivider }}{{ end }}
-          {{ markdownify (index . 7) }}{{ if ne (index . 8) "n/a" }}{{- $endPunctuation := findRE "[!|?]$" (index . 7) -}}{{ if $endPunctuation }} {{ else }}: {{ end }}{{ markdownify (index . 8) }}{{ end }}
-        </a>
-      </p>
+      </div>
+      
+      {{ if ne $listRange "page" }}
+      
+      {{ range $.Site.Pages }}
+        {{- $pagelabel := .Params.label -}}
+        {{- $pagetitle := .Params.title -}}
+        {{- $pagesubtitle := .Params.subtitle -}}
+        {{- $pagelink := .Permalink -}}
+        
+        {{ range .Params.contributor }}            
+          {{- if .id -}}
+            {{ range where $.Site.Data.publication.contributor "id" .id }}
+              {{ template "contribution" (dict "page" $.Page "person" . "nameId" $nameid "pageLabel" $pagelabel "pageTitle" $pagetitle "pageSubtitle" $pagesubtitle "pageLink" $pagelink) }}
+            {{- end -}}
+          {{- else -}}
+            {{ template "contribution" (dict "page" $.Page "person" . "nameId" $nameid "pageLabel" $pagelabel "pageTitle" $pagetitle "pageSubtitle" $pagesubtitle "pageLink" $pagelink) }}
+          {{- end -}}
+        {{- end -}}
+        
       {{- end -}}
-      {{- end -}}
-      {{ if ne (index . 4) "n/a" }}
-      <p>
-        <a href="{{ index . 4 }}" class="quire-contributor__url">{{ index . 4 }}</a>
-      </p>
+      
       {{- end -}}
       </div>
     </div>
@@ -256,3 +277,27 @@
 
   {{- partial "error-message.html" $errorType -}}
 {{- end -}}
+
+
+{{ define "contribution" }}
+
+{{- if .person.full_name }}
+  {{ $name := .person.full_name }}
+  {{ .page.Scratch.Set "name" $name }}
+{{ else if and .person.first_name .person.last_name }}
+  {{ $name := add (add .person.first_name " ") .person.last_name }}
+  {{ .page.Scratch.Set "name" $name }}
+{{- end -}}
+{{- $checkid := plainify (replace (.page.Scratch.Get "name") " " "-") -}}
+{{ if eq $checkid .nameId }}
+<p>
+  <a href="{{ .pageLink }}" class="quire-contributor__page-link">
+    {{ $pagetitle := .pageTitle }}
+    {{ with .pageLabel }}{{ . }}{{ $.Site.Params.pageLabelDivider }}{{ end }}
+    {{ markdownify $pagetitle }}{{ with .pageSubtitle }}{{- $endPunctuation := findRE "[!|?]$" $pagetitle -}}{{ if $endPunctuation }} {{ else }}: {{ end }}{{ markdownify . }}{{ end }}
+  </a>
+</p>
+{{- end -}}
+{{ .page.Scratch.Delete "name" }}
+
+{{ end }}
