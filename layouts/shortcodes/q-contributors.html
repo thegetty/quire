@@ -4,12 +4,12 @@
   biographies, a section of bios for a single page, a list of contributors,
   or a byline for a particular page.
 
-  This shortcode requires both a "range" and a "type" value. And they must
+  This shortcode requires both a "range" and a "format" value. And they must
   be one of the following:
 
-  range   "page", "all", or an abritray value matching a contributor `type`
-          such as "primary" or "secondary"
-  type    "initials, name, name-plus, bio"
+  range         "page", "all", or an abritray value matching a contributor 
+                `type` such as "primary" or "secondary"
+  format        "initials, name, name-plus, bio"
 
   "initials"    Looks for the capital letters in a contributor first and last
                 name and concatenates them together. Jane Pauley, becomes J.P.
@@ -25,7 +25,7 @@
   and information: a "contributorlist" map.
 
   The second half of the template takes the "contributorlist" map and ranges
-  across it building the HTML as called for in the type valye ("initials",
+  across it building the HTML as called for in the format value ("initials",
   "name", "name_plus", or "bio").
 
   NOTES:
@@ -48,9 +48,9 @@
 
 {{/* Error messages */}}
 {{/* ---------------------------------------------------------------------- */}}
-{{ $errorRange := dict "shortcode" "q-contributor" "message" "This shortcode must include a value for `range`, and the supplied value for `range` may be “all”, “page”, or a specific contributor `type` such as “primary” ." "example" "{{< q-contributors range=&#34;all&#34; type=&#34;bio&#34; >}}" }}
+{{ $errorRange := dict "shortcode" "q-contributor" "message" "This shortcode must include a value for `range`, and the supplied value for `range` may be “all”, “page”, or a specific contributor `type` such as “primary” ." "example" "{{< q-contributors range=&#34;all&#34; format=&#34;bio&#34; >}}" }}
 
-{{ $errorType := dict "shortcode" "q-contributor" "message" "This shortcode must include a value for `type`, and the supplied value for `type` must be  “initials”, “name”, “name-plus”, or “bio”." "example" "{{< q-contributors range=&#34;all&#34; type=&#34;bio&#34; >}}" }}
+{{ $errorFormat := dict "shortcode" "q-contributor" "message" "This shortcode must include a value for `format`, and the supplied value for `format` must be  “initials”, “name”, “name-plus”, or “bio”." "example" "{{< q-contributors range=&#34;all&#34; format=&#34;bio&#34; >}}" }}
 
 {{/* Image directory */}}
 {{/* ---------------------------------------------------------------------- */}}
@@ -161,12 +161,12 @@
 
 {{/* List variables */}}
 {{/* ---------------------------------------------------------------------- */}}
-{{ $listType := $.Get "type" }}
-{{ $validTypes := "bio name name-plus initials" }}
+{{ $listFormat := $.Get "format" }}
+{{ $validFormats := "bio name name-plus initials" }}
 
 {{/* List layout: Bio */}}
 {{/* ---------------------------------------------------------------------- */}}
-{{- if eq $listType "bio" -}}
+{{- if eq $listFormat "bio" -}}
 <ul class="quire-contributors-list">
 {{- range ($.Page.Scratch.GetSortedMapValues "contributorlist") -}}
 {{- $nameid := plainify (replace (index . 0) " " "-") -}}
@@ -174,7 +174,7 @@
   <li class="quire-contributor" id="{{ $nameid }}">
     <div class="title is-5"><span class="quire-contributor__name">{{ (index . 0) }}</span> 
       {{ if ne (index . 4) "n/a" }}
-      <a href href="{{ index . 4 }}" class="quire-contributor__url">
+      <a href="{{ index . 4 }}" class="quire-contributor__url" target="_blank">
       {{- partial "icon.html" (dict "type" "link" "description" "") -}}</a>
       {{- end -}}
     </div>
@@ -224,13 +224,13 @@
 
 {{/* List layout: Name, Name-plus */}}
 {{/* ---------------------------------------------------------------------- */}}
-{{- else if or (eq $listType "name") (eq $listType "name-plus") -}}
+{{- else if or (eq $listFormat "name") (eq $listFormat "name-plus") -}}
 <ul class="quire-contributors-list">
 {{- range ($.Page.Scratch.GetSortedMapValues "contributorlist") -}}
 {{- $nameid := plainify (replace (index . 0) " " "-") -}}
   <li class="quire-contributor" id="{{ $nameid }}">
       <span class="quire-contributor__name">{{ index . 0 }}</span>
-      {{- if eq ($.Get "type") "name-plus" -}}
+      {{- if eq ($.Get "format") "name-plus" -}}
       {{- if or (ne (index . 1) "n/a") (ne (index . 2) "n/a") }}, {{ end -}}
 
       {{- if ne (index . 1) "n/a" -}}
@@ -248,7 +248,7 @@
 
 {{/* List layout: Initials */}}
 {{/* ---------------------------------------------------------------------- */}}
-{{- else if eq $listType "initials" -}}
+{{- else if eq $listFormat "initials" -}}
 <ul class="quire-contributors-list">
   {{- if ($.Page.Scratch.GetSortedMapValues "contributorlist") -}}
   {{- $len := len ($.Page.Scratch.GetSortedMapValues "contributorlist") -}}
@@ -275,7 +275,7 @@
 </ul>
 {{- else -}}
 
-  {{- partial "error-message.html" $errorType -}}
+  {{- partial "error-message.html" $errorFormat -}}
 {{- end -}}
 
 
