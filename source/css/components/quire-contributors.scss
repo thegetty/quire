@@ -27,8 +27,28 @@
     display: none !important;
   }
   .title {
-    margin-bottom: 1rem;
+    margin-bottom: .5rem;
   }
+  
+  .quire-page__content .content &__url {
+    border-bottom-width: 0px;
+    svg {
+      width: .875em;
+      height: .875em;
+      @if $theme == classic {
+        fill: background-color-text-classic($content-background-color);
+      } @else {
+        fill: $accent-color;
+      }
+    }
+    &:hover {
+      border-bottom-width: 0px !important;
+      svg {
+        fill: link-hover-color($content-background-color);
+      }
+    }
+  }
+  
   &__pic {
     width: 100px;
     border-radius: 60px;
@@ -47,7 +67,7 @@
   &__details {
     font-size: 1em;
     p {
-      margin-bottom: 0 !important;
+      margin-bottom: .5rem !important;
     }
   }
 }
