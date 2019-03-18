@@ -4,20 +4,25 @@
   biographies, a section of bios for a single page, a list of contributors,
   or a byline for a particular page.
 
-  This shortcode requires both a "range" and a "format" value. And they must
-  be one of the following:
+  This shortcode requires both a "range" and a "format" value. An optional 
+  "align" value can also be used for all formats except "bio", on which it
+  has no effect.
 
   range         "page", "all", or an abritray value matching a contributor 
                 `type` such as "primary" or "secondary"
-  format        "initials, name, name-plus, bio"
-
-  "initials"    Looks for the capital letters in a contributor first and last
-                name and concatenates them together. Jane Pauley, becomes J.P.
-                Ralph Waldo Emerson becomes R.W.E.
-  "name"        Just the first and last name.
-  "name-plus"   The first and last name, with, when available, their title
-                and affiliation on a line below.
-  "bio"         Name, with pic, url, and bio.
+  format        "initials, name, name-title, name-title-block, bio"
+  align         "left" (default), "center", "right"
+  
+  
+  "initials"          Looks for the capital letters in a contributor first 
+                      and last name and concatenates them together. Jane 
+                      Pauley, becomes J.P. Ralph Waldo Emerson becomes R.W.E.
+  "name"              Just the first and last name.
+  "name-title"        The first and last name, with, when available, their title
+                      and affiliation.
+  "name-title-block"  As above but with the title and affiliation on new lines 
+                      below the name.           
+  "bio"                Name, with pic, url, and bio.
 
   Following the standard error message checks, in the first part of the
   template below, creates a list of the requested contributors using the 
@@ -50,7 +55,7 @@
 {{/* ---------------------------------------------------------------------- */}}
 {{ $errorRange := dict "shortcode" "q-contributor" "message" "This shortcode must include a value for `range`, and the supplied value for `range` may be “all”, “page”, or a specific contributor `type` such as “primary” ." "example" "{{< q-contributors range=&#34;all&#34; format=&#34;bio&#34; >}}" }}
 
-{{ $errorFormat := dict "shortcode" "q-contributor" "message" "This shortcode must include a value for `format`, and the supplied value for `format` must be  “initials”, “name”, “name-plus”, or “bio”." "example" "{{< q-contributors range=&#34;all&#34; format=&#34;bio&#34; >}}" }}
+{{ $errorFormat := dict "shortcode" "q-contributor" "message" "This shortcode must include a value for `format`, and the supplied value for `format` must be  “initials”, “name”, “name-title”, “name-title-block”, or “bio”." "example" "{{< q-contributors range=&#34;all&#34; format=&#34;bio&#34; >}}" }}
 
 {{/* Image directory */}}
 {{/* ---------------------------------------------------------------------- */}}
@@ -119,7 +124,7 @@
 {{/* ---------------------------------------------------------------------- */}}
 {{- range ($.Scratch.Get "pageRange") -}}
 
-  {{- range .Params.contributor -}}
+  {{- range $index, $element := .Params.contributor -}}
     
     {{/* Page contributors listed in page YAML with an ID */}}
     {{/* ------------------------------------------------------------------ */}}
@@ -127,8 +132,10 @@
       {{ range where $.Site.Data.publication.contributor "id" .id }}
         {{/* Get all contributors on the page */}}
         {{/* -------------------------------------------------------------- */}}
-        {{ if or (eq ($.Get "range") "all") (eq ($.Get "range") "page") }}
-          {{ partial "contributor-info.html" (dict "Page" $.Page "contributor" . ) }}
+        {{ if eq ($.Get "range") "page" }}
+          {{ partial "contributor-info.html" (dict "Page" $.Page "contributor" . "index" (string $index)) }}
+        {{ else if eq ($.Get "range") "all" }}
+          {{ partial "contributor-info.html" (dict "Page" $.Page "contributor" . ) }}  
         {{- else -}}
           {{/* Or, match contributors of desired type */}}
           {{/* ------------------------------------------------------------ */}}
@@ -143,8 +150,10 @@
     {{- else -}}
       {{/* Get all contributors on the page */}}
       {{/* ---------------------------------------------------------------- */}}
-      {{ if or (eq ($.Get "range") "all") (eq ($.Get "range") "page") }}
-        {{ partial "contributor-info.html" (dict "Page" $.Page "contributor" . ) }}
+      {{ if eq ($.Get "range") "page" }}
+        {{ partial "contributor-info.html" (dict "Page" $.Page "contributor" . "index" (string $index)) }}
+      {{ else if eq ($.Get "range") "all" }}
+        {{ partial "contributor-info.html" (dict "Page" $.Page "contributor" . ) }}  
       {{- else -}}
         {{/* Or, match contributors of desired type */}}
         {{/* -------------------------------------------------------------- */}}
@@ -162,12 +171,11 @@
 {{/* List variables */}}
 {{/* ---------------------------------------------------------------------- */}}
 {{ $listFormat := $.Get "format" }}
-{{ $validFormats := "bio name name-plus initials" }}
 
 {{/* List layout: Bio */}}
 {{/* ---------------------------------------------------------------------- */}}
 {{- if eq $listFormat "bio" -}}
-<ul class="quire-contributors-list">
+<ul class="quire-contributors-list {{ $listFormat }}">
 {{- range ($.Page.Scratch.GetSortedMapValues "contributorlist") -}}
 {{- $nameid := plainify (replace (index . 0) " " "-") -}}
 
@@ -222,22 +230,28 @@
 {{- end -}}
 </ul>
 
-{{/* List layout: Name, Name-plus */}}
+{{/* List layout: Name, name-title */}}
 {{/* ---------------------------------------------------------------------- */}}
-{{- else if or (eq $listFormat "name") (eq $listFormat "name-plus") -}}
-<ul class="quire-contributors-list">
+{{- else if or (or (eq $listFormat "name") (eq $listFormat "name-title")) (eq $listFormat "name-title-block") -}}
+<ul class="quire-contributors-list {{ $listFormat }} {{ with ($.Get "align") }}align-{{ . }}{{ end }}">
 {{- range ($.Page.Scratch.GetSortedMapValues "contributorlist") -}}
 {{- $nameid := plainify (replace (index . 0) " " "-") -}}
   <li class="quire-contributor" id="{{ $nameid }}">
       <span class="quire-contributor__name">{{ index . 0 }}</span>
-      {{- if eq ($.Get "format") "name-plus" -}}
+      {{- if or (eq ($.Get "format") "name-title") (eq ($.Get "format") "name-title-block") -}}
+    
+      {{- if ne ($.Get "format") "name-title-block" -}}
       {{- if or (ne (index . 1) "n/a") (ne (index . 2) "n/a") }}, {{ end -}}
-
+      {{- end -}}
+      
       {{- if ne (index . 1) "n/a" -}}
       <span class="quire-contributor__title">{{ index . 1 }}</span>
       {{- end -}}
-
+      
+      {{- if ne ($.Get "format") "name-title-block" -}}
       {{- if and (ne (index . 1) "n/a") (ne (index . 2) "n/a") }}, {{ end -}}
+      {{- end -}}
+      
       {{- if ne (index . 2) "n/a" -}}
       <span class="quire-contributor__affiliation">{{ index . 2 }}</span>
       {{- end -}}
@@ -249,27 +263,27 @@
 {{/* List layout: Initials */}}
 {{/* ---------------------------------------------------------------------- */}}
 {{- else if eq $listFormat "initials" -}}
-<ul class="quire-contributors-list">
+<ul class="quire-contributors-list {{ $listFormat }} {{ with ($.Get "align") }}align-{{ . }}{{ end }}">
   {{- if ($.Page.Scratch.GetSortedMapValues "contributorlist") -}}
   {{- $len := len ($.Page.Scratch.GetSortedMapValues "contributorlist") -}}
   {{- if gt $len 0 -}}
-  <li class="quire-contributor">
+
     {{- $len := len ($.Page.Scratch.GetSortedMapValues "contributorlist") -}}
     {{- range $index, $element := ($.Page.Scratch.GetSortedMapValues "contributorlist") -}}
       {{- $initials := findRE "[[:upper:]]" (index . 0) -}}
       {{- if eq $len 1 -}}
-      <span class="quire-contributor__name">{{ range $initials }}{{ . }}.{{ end }}</span>
+      <li class="quire-contributor__name">{{ range $initials }}{{ . }}.{{ end }}</li>
       {{- else if eq (add $index 1) $len -}}
-      <span class="quire-contributor__name"> and {{ range $initials }}{{ . }}.{{ end }}</span>
+      <li class="quire-contributor__name"> and {{ range $initials }}{{ . }}.{{ end }}</li>
       {{- else -}}
         {{- if eq $len 2 -}}
-          <span class="quire-contributor__name">{{ range $initials }}{{ . }}.{{ end }} </span>
+          <li class="quire-contributor__name">{{ range $initials }}{{ . }}.{{ end }} </li>
         {{- else -}}
-          <span class="quire-contributor__name">{{ range $initials }}{{ . }}.{{ end }}, </span>
+          <li class="quire-contributor__name">{{ range $initials }}{{ . }}.{{ end }}, </li>
         {{- end -}}
       {{- end -}}
     {{- end -}}
-  </li>
+
   {{- end -}}
   {{- end -}}
 </ul>

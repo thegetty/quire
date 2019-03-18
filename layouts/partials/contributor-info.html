@@ -63,7 +63,10 @@
 
 {{- $contributor := (.Page.Scratch.GetSortedMapValues "contributor") -}}
 
-{{- if .contributor.file_as -}}
+{{- if .index -}}
+  {{ $name := .index }}
+  {{- .Page.Scratch.SetInMap "contributorlist" $name $contributor -}}
+{{- else if .contributor.file_as -}}
   {{- $name := lower (replace (replace .contributor.file_as " " "") "," "") -}}
   {{- .Page.Scratch.SetInMap "contributorlist" $name $contributor -}}
 {{- else if and .contributor.last_name .contributor.first_name -}}

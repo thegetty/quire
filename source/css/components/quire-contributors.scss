@@ -12,10 +12,60 @@
 .content ul.quire-contributors-list {
   list-style-type: none;
   margin-left: 0;
+  
+  &.align-right {
+    text-align: right;
+    margin-right: 2rem;
+  }
+  &.align-center {
+    text-align: center;
+  }
+  
   .title {
     color: background-color-text($content-background-color);
     @media print {
       color: $print-text-color;
+    }
+  }
+  
+  li.quire-contributor {
+    margin-left: 0;
+  }
+  
+  &.initials {
+    li.quire-contributor__name {
+      display: inline;
+      margin-left: 0;
+      &::before {
+        content: "";
+      }
+    }
+  }
+  
+  &.name-title-block {
+    display: flex;
+    flex-wrap: wrap;
+    .quire-contributor {
+      margin-right: 2rem;
+    }
+    .quire-contributor__title,
+    .quire-contributor__affiliation {
+      display: block;
+      font-style: italic;
+    }
+    &.align-right {
+      justify-content: flex-end;
+      .quire-contributor {
+        margin-right: 0;
+        margin-left: 2rem;
+      }
+    }
+    &.align-center {
+      justify-content: center;
+      .quire-contributor {
+        margin-right: 2rem;
+        margin-left: 2rem;
+      }
     }
   }
 }
@@ -62,6 +112,10 @@
   .media-left {
     margin-right: .5rem;
     float: left;
+  }
+  
+  &__bio {
+    line-height: 2;
   }
 
   &__details {
