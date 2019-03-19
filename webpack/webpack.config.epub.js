@@ -17,19 +17,16 @@ const PATHS = {
   build: path.join(__dirname, '../static')
 };
 
-// the path(s) that should be cleaned
-const pathsToClean = [
-  path.join(PATHS.build, 'js', 'source.js'),
-  '../../../site/source.js',
-  '../../../site/js/source.js',
-  path.join(PATHS.build, 'css', 'epub.css')
-];
-
 // the clean options to use
 let cleanOptions = {
-  verbose: false,
-  watch: false,
-  allowExternal: true
+  dry: false,
+  dangerouslyAllowCleanPatternsOutsideProject: true,
+  cleanOnceBeforeBuildPatterns: [
+    path.join(PATHS.build, 'js', 'source.js'),
+    '../../../site/source.js',
+    '../../../site/js/source.js',
+    path.join(PATHS.build, 'css', 'epub.css')
+  ]
 };
 
 module.exports = {
@@ -136,7 +133,7 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'css/epub.css'
     }),
-    new CleanWebpackPlugin(pathsToClean, cleanOptions),
+    new CleanWebpackPlugin(cleanOptions),
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
