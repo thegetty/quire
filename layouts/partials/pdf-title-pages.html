@@ -29,7 +29,11 @@
   </span></br>
   {{ end }}
   <span class="contributor">
-    {{ partial "contributor-list.html" (dict "range" .site.Data.publication.contributor "contributorType" "primary" "listType" "string" "Site" .site) }}
+    {{ if .site.Data.publication.contributor_as_it_appears }}
+      {{ .site.Data.publication.contributor_as_it_appears }}
+    {{ else }}
+      {{ partial "contributor-list.html" (dict "range" .site.Data.publication.contributor "contributorType" "primary" "listType" "string" "Site" .site) }}
+    {{ end }}
   </span></br>
   <span class="publisher">
     {{ range .site.Data.publication.publisher }}
