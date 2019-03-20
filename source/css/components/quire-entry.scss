@@ -307,12 +307,33 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     // }
     
     margin-top: 0em;
-
-    .quire-page__header__title {
-      padding: 1em 2rem 0;
+    
+    .container {
+      
       @media print {
         padding: 0;
         margin: .75in 0 .5in; 
+      }
+      
+    }
+
+    .quire-page__header__title {
+      padding: 1em 2rem 0;
+      margin-bottom: 1rem;
+      // @media print {
+      //   padding: 0;
+      //   margin: .75in 0 .5in; 
+      // }
+      @media screen and (max-width: $tablet) {
+        padding: 1rem 1.25rem 0;
+      }
+    }
+    
+    .quire-page__header__contributor {
+      margin-top: 0;
+      padding: 0 2rem;
+      @media print {
+        padding: 0;
       }
       @media screen and (max-width: $tablet) {
         padding: 1rem 1.25rem 0;
