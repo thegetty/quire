@@ -9835,6 +9835,12 @@ div.quire-caption-container {
     font-family: "IBM Plex Sans Condensed", sans-serif;
     font-size: .75rem;
     font-weight: bold; }
+    div.quire-caption-container > span a {
+      color: #CF4747;
+      border-bottom: 1px dotted; }
+  div.quire-caption-container a {
+    color: #CF4747;
+    border-bottom: 1px dotted; }
 
 div.mfp-title {
   display: none; }
