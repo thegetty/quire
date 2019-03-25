@@ -18,16 +18,11 @@ const PATHS = {
   build: path.join(__dirname, '../static')
 };
 
-// the path(s) that should be cleaned
-let pathsToClean = [
-  path.join(__dirname, '../img'), path.join(__dirname, '../fonts')
-]
-
 // the clean options to use
 let cleanOptions = {
-  verbose: false,
-  watch: false,
-  allowExternal: true
+  dry: false,
+  dangerouslyAllowCleanPatternsOutsideProject: true,
+  cleanOnceBeforeBuildPatterns: [path.join(__dirname, '../img'), path.join(__dirname, '../fonts')]
 }
 
 module.exports = {
@@ -135,7 +130,7 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'css/application.css'
     }),
-    new CleanWebpackPlugin(pathsToClean, cleanOptions),
+    new CleanWebpackPlugin(cleanOptions),
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
