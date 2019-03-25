@@ -801,7 +801,20 @@ html {
         li {
           margin-bottom: 1em;
         }
-      } 
+      }
+      
+      blockquote {
+        margin: 1em 0 1em 0;
+        p, ul, ol, dl,
+        h1, h2, h3, h4, h5, h6 {
+          position: relative;
+          @media screen {
+            &:first-child:before {
+              content: '';
+            }
+          }  
+        }
+      }  
     }
 
     .leaflet-control {
