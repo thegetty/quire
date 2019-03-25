@@ -172,12 +172,18 @@ $print-trim: $print-bleed * 2;
   .pdf-page-section {
     string-set: sectiontitle content();
   }
+  
+  .pdf-page-label {
+    string-set: pagelabel content();
+  }
 
   .quire-contents-list {
     .page-item {
+      max-width: 90%;
       a::after {
         content: leader(dotted) ' 'target-counter(attr(href, url), page);
         margin-left: 6pt; 
+        margin-right: -10%;
         // This border is a hack for PrinceXML which doesn't
         // otherwise recognize the box sizing for some reason
         border: 1pt solid transparent;
@@ -186,6 +192,7 @@ $print-trim: $print-bleed * 2;
         content: leader(dotted) ' 'target-counter(attr(href, url), page, lower-roman);
         font-style: italic;
         margin-left: 6pt; 
+        margin-right: -10%;
         // This border is a hack for PrinceXML which doesn't
         // otherwise recognize the box sizing for some reason
         border: 1pt solid transparent;
@@ -436,14 +443,18 @@ $print-trim: $print-bleed * 2;
   $title-page-margin: $print-outer-margin + .5;
 
   .title-page {
-    margin-right: $title-page-margin;
+    margin: 0 $print-bleed;
+    padding-right: $title-page-margin;
+    padding-left: $print-inner-margin;
     height: $print-height;
     @if $print-width <= 7 {
-      margin-right: 0;
-      max-width: $print-base-text-column-width;
+      padding-right: $print-outer-margin;
     }
     text-align: right;
     padding-top: 3.25in;
+    @if $print-height <= 9 {
+      padding-top: 2.25in;
+    }
     font-family: $quire-headings-font;
 
     span {
@@ -479,7 +490,7 @@ $print-trim: $print-bleed * 2;
       bottom: 1.5in;
       right: $title-page-margin;
       @if $print-width <= 7 {
-        right: 0;
+        right: $print-outer-margin;
       }
     }
     
@@ -489,17 +500,21 @@ $print-trim: $print-bleed * 2;
   }
 
   .half-title-page {
-    margin-right: $title-page-margin;
+    margin: 0 $print-bleed;
+    padding-right: $title-page-margin;
+    padding-left: $print-inner-margin;
     height: $print-height;
     @if $print-width <= 7 {
-      margin-right: 0;
-      max-width: $print-base-text-column-width;
+      padding-right: $print-outer-margin;
     }
     font-family: $quire-headings-font;
     font-size: 1.5em;
     color: $accent-color;
     text-align: right;
     padding-top: 3.5in;
+    @if $print-height <= 9 {
+      padding-top: 2.5in;
+    }
 
     span {
       display: block; 
