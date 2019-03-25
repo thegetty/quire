@@ -8912,7 +8912,7 @@ html {
             display: none; } }
       .quire-figure .q-figure__wrapper span.fig span {
         font-size: 1.125rem;
-        line-height: 1.5em;
+        line-height: 1.5;
         padding: 0 .2em; }
       .quire-figure .q-figure__wrapper span.fig strong {
         color: #ffffff;
@@ -8946,10 +8946,12 @@ html {
     @media print {
       .content figure .quire-figure__caption {
         color: #000000; } }
+    .content figure .quire-figure__caption a {
+      line-height: 1.5; }
   .quire-figure__modal {
     color: #CF4747;
     font-weight: 700;
-    margin-top: 0;
+    margin-top: .5px;
     height: .875em;
     float: left;
     position: relative;
@@ -9835,6 +9837,12 @@ div.quire-caption-container {
     font-family: "IBM Plex Sans Condensed", sans-serif;
     font-size: .75rem;
     font-weight: bold; }
+    div.quire-caption-container > span a {
+      color: #CF4747;
+      border-bottom: 1px dotted; }
+  div.quire-caption-container a {
+    color: #CF4747;
+    border-bottom: 1px dotted; }
 
 div.mfp-title {
   display: none; }

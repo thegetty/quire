@@ -15,12 +15,14 @@ div {
 		vertical-align: middle;
 		background: $off-black-semi-transparent;
 		z-index: 1046;
-		> span {
+
+		>span {
 			font-family: $font_0;
 			font-size: $quire-base-font-size;
 			font-weight: bold;
 		}
 	}
+
 	&.quire-caption-container {
 		position: absolute;
 		bottom: 0;
@@ -28,7 +30,8 @@ div {
 		width: 100vw;
 		padding: 0 10px 25px;
 		z-index: 1046;
-		> span {
+
+		>span {
 			color: $white;
 			position: relative;
 			display: block;
@@ -37,39 +40,53 @@ div {
 			font-family: $font_0;
 			font-size: .75rem;
 			font-weight: bold;
+
+			a {
+				color: $accent-color;
+				border-bottom: 1px dotted;
+			}
+		}
+
+		a {
+			color: $accent-color;
+			border-bottom: 1px dotted;
 		}
 	}
+
 	&.mfp-title {
 		display: none;
 	}
 }
 
 @media only screen and(orientation: landscape) {
-	body > div.mfp-wrap.mfp-gallery.mfp-auto-cursor.mfp-ready > div.mfp-container.mfp-s-ready.mfp-iframe-holder > div.mfp-content > div {
+	body>div.mfp-wrap.mfp-gallery.mfp-auto-cursor.mfp-ready>div.mfp-container.mfp-s-ready.mfp-iframe-holder>div.mfp-content>div {
 		padding-top: 42.75%;
 	}
 }
 
 @supports(-webkit-appearance:none) {
 	body.device-android {
-		> div {
+		>div {
 			&.mfp-wrap.mfp-gallery.mfp-auto-cursor.mfp-ready {
 				height: 100%;
-				> div.mfp-container {
+
+				>div.mfp-container {
 					height: 100%;
 				}
 			}
+
 			&.mfp-bg.mfp-ready {
 				height: 100%;
 			}
 		}
+
 		&.android-fixed {
 			position: fixed;
 		}
 	}
 }
 
-body > div {
+body>div {
 	&.mfp-wrap.mfp-gallery {
 		&.mfp-auto-cursor.mfp-ready {
 			top: 0;
@@ -80,24 +97,29 @@ body > div {
 			position: fixed;
 			outline: none !important;
 			overflow-y: hidden;
-			> div.mfp-container.mfp-s-ready {
+
+			>div.mfp-container.mfp-s-ready {
 				&.mfp-inline-holder {
 
 					overflow: hidden;
 				}
-				&.mfp-image-holder > div.mfp-content > div {
-					> div {
+
+				&.mfp-image-holder>div.mfp-content>div {
+					>div {
 						display: none;
 					}
+
 					&:after {
 						top: 80px;
 						bottom: 80px;
 					}
-					> figure > img {
+
+					>figure>img {
 						padding: 80px 0;
 					}
 				}
-				> button.mfp-arrow {
+
+				>button.mfp-arrow {
 					&.mfp-arrow-left {
 						width: 32px;
 						height: 35vh;
@@ -107,7 +129,8 @@ body > div {
 						opacity: 1;
 						top: 50%;
 						transform: translateY(-50%);
-						> span {
+
+						>span {
 							background: $url_0 no-Repeat top left $off-black-semi-transparent;
 							background-position-x: -139px;
 							background-position-y: -44px;
@@ -117,6 +140,7 @@ body > div {
 							transform: scale(1);
 						}
 					}
+
 					&.mfp-arrow-right {
 						width: 32px;
 						height: 35vh;
@@ -126,7 +150,8 @@ body > div {
 						opacity: 1;
 						top: 50%;
 						transform: translateY(-50%);
-						> span {
+
+						>span {
 							background: $url_0 no-Repeat top right $off-black-semi-transparent;
 							background-position-x: -95px;
 							background-position-y: -44px;
@@ -136,30 +161,36 @@ body > div {
 							transform: scale(1);
 						}
 					}
+
 					&.mfp-arrow-left::before {
 						display: none;
 						content: '';
 					}
+
 					&.mfp-arrow-right::before {
 						display: none;
 						content: '';
 					}
+
 					&.mfp-arrow-left::after {
 						display: none;
 						content: '';
 					}
+
 					&.mfp-arrow-right::after {
 						display: none;
 						content: '';
 					}
 				}
-				> div.mfp-content > figure.quire-figure {
+
+				>div.mfp-content>figure.quire-figure {
 					padding: 0;
 					margin-top: 0;
 					border: none;
 				}
 			}
-			> button.mfp-close {
+
+			>button.mfp-close {
 				// height: 70px;
 				background: $url_0 no-Repeat top left $off-black-semi-transparent;
 				width: 30px;
@@ -172,7 +203,8 @@ body > div {
 				opacity: 1;
 			}
 		}
-		&.mfp-close-btn-in.mfp-auto-cursor.mfp-ready > div > div > button.mfp-close {
+
+		&.mfp-close-btn-in.mfp-auto-cursor.mfp-ready>div>div>button.mfp-close {
 			position: absolute;
 			top: 0;
 			right: 0;
@@ -180,6 +212,7 @@ body > div {
 			z-index: 9999;
 		}
 	}
+
 	&.mfp-bg.mfp-ready {
 		background-color: $black;
 		opacity: 1;
