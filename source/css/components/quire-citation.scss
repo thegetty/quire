@@ -7,7 +7,7 @@
 .quire-citation {
   position: relative;
   text-indent: 0;
-  &__content {
+  .quire-citation__content {
     visibility: hidden;
     font-size: 0.75em;
     line-height: 1.5;
@@ -24,7 +24,7 @@
     -moz-box-shadow: 0px 0px 6px 0px $black-semi-transparent;
     box-shadow: 0px 0px 6px 0px $black-semi-transparent;
   }
-  &:hover .quire-citation__content {
+  & a:hover + .quire-citation__content {
     visibility: visible;
   }
 }
