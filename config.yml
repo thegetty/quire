@@ -35,6 +35,7 @@ params:
   licenseIcons: true
   pageLabelDivider: ". "
   citationPageLocationDivider: ", "
+  contributorByline: name-title # name | name-title | false
   displayBiblioShort: true
   imageDir: "img"
   tocType: full
