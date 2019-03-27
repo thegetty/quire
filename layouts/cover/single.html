@@ -49,7 +49,7 @@ Cover page layout. This controls the home page of the publication.
 
         <div class="contributor">
         {{- if .Site.Data.publication.contributor_as_it_appears -}}
-        {{ .Site.Data.publication.contributor_as_it_appears }}
+        {{ .Site.Data.publication.contributor_as_it_appears | markdownify }}
         {{ else }}
         <span class="visually-hidden">Contributors: </span>
         

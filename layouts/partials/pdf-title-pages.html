@@ -30,7 +30,7 @@
   {{ end }}
   <span class="contributor">
     {{ if .site.Data.publication.contributor_as_it_appears }}
-      {{ .site.Data.publication.contributor_as_it_appears }}
+      {{ .site.Data.publication.contributor_as_it_appears | markdownify }}
     {{ else }}
       {{ partial "contributor-list.html" (dict "range" .site.Data.publication.contributor "contributorType" "primary" "listType" "string" "Site" .site) }}
     {{ end }}

@@ -14,7 +14,7 @@
   {{- end }}
   <div class="quire-menu__header__contributors">
     {{- if .Site.Data.publication.contributor_as_it_appears -}}
-    {{ .Site.Data.publication.contributor_as_it_appears }}
+    {{ .Site.Data.publication.contributor_as_it_appears | markdownify }}
     {{ else }}
     <span class="visually-hidden">Contributors: </span>
     <i>by {{ partial "contributor-list.html" (dict "range" .Site.Data.publication.contributor "contributorType" "primary" "listType" "string" "Site" $.Site) }}</i>
