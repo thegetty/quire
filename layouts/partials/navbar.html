@@ -1,6 +1,14 @@
 {{/*
-This controls the various navigation elements (nav, skip-link, menu and
-search icons, and search results if enabled). It is visible on all pages.
+  This controls the various navigation elements (nav, skip-link, menu and
+  search icons, and search results if enabled). It is visible on all pages.
+  
+  A note that while Hugo includes .Next and .Prev variables that can be used
+  to connect to the next and previous pages in the linear order of the site,
+  Quire makes available the option of hiding pages from the linear order in the 
+  book in order to have custom pages in other formats (PDF, EPUB, etc.).
+  Because of this, the .Next and .Prev variables are not used here, and instead
+  eligible pages are ranged through and based on weight, the next or previous
+  one in the range is linked to.
 */}}
 
 {{- if isset $.Site.Params "imagedir" }}
@@ -21,7 +29,15 @@ search icons, and search results if enabled). It is visible on all pages.
       <button class="quire-navbar-button search-button"
               aria-controls="quire-search"
               onclick="toggleSearch()">
-        {{- partial "icon.html" (dict "type" "search" "description" "Search") -}}
+        <svg class="remove-from-epub">
+          <switch>
+            <use xlink:href="#search-icon"></use>
+            <foreignObject width="32" height="32">
+                <img src="{{ $imgDir | relURL }}/icons/search@2x.png" alt="Search" />
+            </foreignObject>
+          </switch>
+        </svg>
+        <span class="visually-hidden">Search</span>
       </button>
     </div>
 
@@ -31,49 +47,88 @@ search icons, and search results if enabled). It is visible on all pages.
       {{- $pages := .Site.Pages -}}
       {{- $pages := where $pages "Params.online" "!=" "false" }}
       {{- $pages := where $pages ".Type" "!=" "data" -}}
-
-      {{- range first 1 $pages -}}
-        {{- $.Scratch.Set "homepage" .UniqueID -}}
-        {{- $.Scratch.Set "homepage-link" .Permalink -}}
+      
+      {{- range $index, $element := $pages -}}
+        {{- if eq $index  0 -}}
+          {{- $.Scratch.Set "homepage" .UniqueID -}}
+          {{- $.Scratch.Set "homepage-link" .Permalink -}}
+        {{- end -}}
+        {{- if eq $index  1 -}}
+          {{- $.Scratch.Set "secondpage-link" .Permalink -}}
+        {{- end -}}        
       {{- end -}}
 
-      {{ if eq .UniqueID ($.Scratch.Get "homepage") }}
+      {{- if eq .UniqueID ($.Scratch.Get "homepage") -}}
 
         <li class="quire-navbar-page-controls__item quire-home-page">
-          <a href='{{ .Next.Permalink }}' rel="next">
+          <a href='{{ $.Scratch.Get "secondpage-link" }}' rel="next">
+            <span class="visually-hidden">Next Page: </span>
             <span class="quire-navbar-button play-button">
-              {{- partial "icon.html" (dict "type" "start" "description" "Next page") -}}
+              <svg class="remove-from-epub">
+                <switch>
+                  <use xlink:href="#start-icon"></use>
+                  <foreignObject width="32" height="32">
+                      <img src="{{ $imgDir | relURL }}/icons/play@2x.png" alt="Next Page" />
+                  </foreignObject>
+                </switch>
+              </svg>
             </span>
           </a>
         </li>
 
-      {{ else }}
-
-        {{- if .Prev -}}
-        {{- if and (ne .Prev.Params.online false) (ne .Prev.Type "data") -}}
-        <li class="quire-navbar-page-controls__item quire-previous-page">
-          <a href='{{ .Prev.Permalink }}' rel="previous">
-            {{- partial "icon.html" (dict "type" "left-arrow" "description" "Previous page") -}}
-            <span class="nav-label">{{- with .Prev.Params.label }}{{ . }}{{ $.Site.Params.pageLabelDivider }}{{ end }}{{- if .Prev.Params.short_title }}{{ .Prev.Params.short_title | markdownify }} {{ else }}{{ .Prev.Title | markdownify | truncate 34 }}{{ end -}}</span>
-          </a>
-        </li>
+      {{- else -}}
+      
+        {{- $previousPages := where $pages "Weight" "lt" .Weight -}}
+        {{- if gt (len $previousPages) 0 -}}
+        {{- range last 1 $previousPages -}}
+          <li class="quire-navbar-page-controls__item quire-previous-page">
+            <a href='{{ .Permalink }}' rel="previous">
+              <span class="visually-hidden">Previous Page: </span>
+              <svg class="left-icon remove-from-epub">
+                <switch>
+                  <use xlink:href="#left-arrow-icon"></use>
+                  <foreignObject width="24" height="24">
+                      <img src="{{ $imgDir | relURL }}/icons/left@2x.png" alt="Previous Page" />
+                  </foreignObject>
+                </switch>
+              </svg>
+              {{- with .Params.label }}{{ . }}{{ $.Site.Params.pageLabelDivider }}{{ end }}{{- if .Params.short_title }}{{ .Params.short_title | markdownify }} {{ else }}{{ .Title | markdownify | truncate 34 }}{{ end -}}
+            </a>
+          </li>
         {{- end -}}
         {{- end -}}
 
         <li class="quire-navbar-page-controls__item quire-home-page">
           <a href='{{ $.Scratch.Get "homepage-link" }}' rel='home'>
+            <span class="visually-hidden">Home Page: </span>
             <span class="quire-navbar-button home-button">
-              {{- partial "icon.html" (dict "type" "home" "description" "Home page") -}}
+              <svg class="remove-from-epub">
+                <switch>
+                  <use xlink:href="#home-icon"></use>
+                  <foreignObject width="32" height="32">
+                      <img src="{{ $imgDir | relURL }}/icons/rewind@2x.png" alt="Home Page" />
+                  </foreignObject>
+                </switch>
+              </svg>
             </span>
           </a>
         </li>
 
-        {{- if .Next -}}
-        {{- if and (ne .Next.Params.online false) (ne .Next.Type "data") -}}
+        {{- $nextPages := where $pages "Weight" "gt" .Weight -}}
+        {{- if gt (len $nextPages) 0 -}}
+        {{- range first 1 $nextPages -}}
         <li class="quire-navbar-page-controls__item quire-next-page">
-          <a href='{{ .Next.Permalink }}' rel='next'>
-            <span class="nav-label">{{- with .Next.Params.label }}{{ . }}{{ $.Site.Params.pageLabelDivider }}{{ end }}{{- if .Next.Params.short_title }}{{ .Next.Params.short_title | markdownify }} {{ else }}{{ .Next.Title | markdownify | truncate 34 }}{{ end -}}</span>
-            {{- partial "icon.html" (dict "type" "right-arrow" "description" "Next page") -}}
+          <a href='{{ .Permalink }}' rel='next'>
+            <span class="visually-hidden">Next Page: </span>
+            {{- with .Params.label }}{{ . }}{{ $.Site.Params.pageLabelDivider }}{{ end }}{{- if .Params.short_title }}{{ .Params.short_title | markdownify }} {{ else }}{{ .Title | markdownify | truncate 34 }}{{ end -}}
+            <svg class="remove-from-epub">
+              <switch>
+                <use xlink:href="#right-arrow-icon"></use>
+                <foreignObject width="24" height="24">
+                    <img src="{{ $imgDir | relURL }}/icons/right@2x.png" alt="Next Page" />
+                </foreignObject>
+              </switch>
+            </svg>
           </a>
         </li>
         {{- end -}}
@@ -91,7 +146,15 @@ search icons, and search results if enabled). It is visible on all pages.
               aria-expanded="true"
               aria-controls="quire-menu"
               tabindex="2" >
-        {{- partial "icon.html" (dict "type" "nav" "description" "Table of contents") -}}
+        <svg class="remove-from-epub">
+          <switch>
+            <use xlink:href="#nav-icon"></use>
+            <foreignObject width="32" height="32">
+                <img src="{{ $imgDir | relURL }}/icons/nav@2x.png" alt="Table of Contents" />
+            </foreignObject>
+          </switch>
+        </svg>
+        <span class="visually-hidden">Table of Contents</span>
       </button>
     </div>
   </nav>
