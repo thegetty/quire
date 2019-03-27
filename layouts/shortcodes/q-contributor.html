@@ -53,9 +53,11 @@
 
 {{/* Error messages */}}
 {{/* ---------------------------------------------------------------------- */}}
-{{ $errorRange := dict "shortcode" "q-contributor" "message" "This shortcode must include a value for `range`, and the supplied value for `range` may be “all”, “page”, or a specific contributor `type` such as “primary” ." "example" "{{< q-contributors range=&#34;all&#34; format=&#34;bio&#34; >}}" }}
+{{ $errorRange := dict "shortcode" "q-contributor" "message" "This shortcode must include a value for `range`, and the supplied value for `range` may be “all”, “page”, or a specific contributor `type` such as “primary” ." "example" "{{< q-contributor range=&#34;all&#34; format=&#34;bio&#34; >}}" }}
 
-{{ $errorFormat := dict "shortcode" "q-contributor" "message" "This shortcode must include a value for `format`, and the supplied value for `format` must be  “initials”, “name”, “name-title”, “name-title-block”, or “bio”." "example" "{{< q-contributors range=&#34;all&#34; format=&#34;bio&#34; >}}" }}
+{{ $errorFormat := dict "shortcode" "q-contributor" "message" "This shortcode must include a value for `format`, and the supplied value for `format` must be  “initials”, “name”, “name-title”, “name-title-block”, or “bio”." "example" "{{< q-contributor range=&#34;all&#34; format=&#34;bio&#34; >}}" }}
+
+{{ $errorUpdate := dict "shortcode" "q-contributor" "message" "THIS SHORTCODE HAS BEEN UPDATED. Rather than using `type` please specify a `format`. The values that can be supplied as a `format` remain the same as they were for `type`: “initials”, “name”, “name-title”, “name-title-block”, or “bio”." "example" "{{< q-contributor range=&#34;all&#34; format=&#34;bio&#34; >}}" }}
 
 {{/* Image directory */}}
 {{/* ---------------------------------------------------------------------- */}}
@@ -172,6 +174,8 @@
 {{/* ---------------------------------------------------------------------- */}}
 {{ $listFormat := $.Get "format" }}
 
+
+
 {{/* List layout: Bio */}}
 {{/* ---------------------------------------------------------------------- */}}
 {{- if eq $listFormat "bio" -}}
@@ -287,9 +291,14 @@
   {{- end -}}
   {{- end -}}
 </ul>
+{{- else if and (eq $listFormat "") (ne ($.Get "type") "") }}
+
+  {{- partial "error-message.html" $errorUpdate -}}
+
 {{- else -}}
 
   {{- partial "error-message.html" $errorFormat -}}
+
 {{- end -}}
 
 
