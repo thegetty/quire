@@ -88,6 +88,8 @@ a single image or object needs to be featured prominently.\
           {{ with .Params.label }}<span>{{ . }}{{ $.Site.Params.pageLabelDivider }}</span>{{ end }}
           {{ partial "page-title.html" . | markdownify }}
         </h1>
+        {{/* Contributors, if any */}}
+        {{ partial "page-contributor.html" . }}
     </div>
   </header>
   {{ end }}

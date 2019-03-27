@@ -13,29 +13,17 @@
   @media print {
     background-color: transparent;
   }
-  .quire-page__abstract {
-    
-    @media screen {
-      margin-bottom: 0;
-      padding: 40px 0 !important;
-    }
-    .container {
-      padding: 0 2.5em;
-      @media print {
-        padding: 0;
-      }
-      background-color: transparent !important;
-    }
-    &:after {
-      background-color: transparent;
-    }
-  }
   .quire-page__content {
     .container {
       padding-right: 2.25em;
       padding-left: 2.25em;
       @media print {
         padding: 0;
+      }
+      .content {
+        background: transparent;
+        padding-left: 0;
+        padding-right: 0;
       }
     }
   }

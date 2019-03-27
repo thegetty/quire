@@ -11,11 +11,7 @@
       {{- partial "page-title.html" . | markdownify -}}
     </h1>
     {{/* Contributors, if any */}}
-    {{ with .Params.contributor }}
-      <div class="quire-page__header__contributor">
-        {{ partial "contributor-list.html" (dict "range" . "contributorType" "all" "listType" "list-plus" "Site" $.Site) }}
-      </div>
-    {{ end }}
+    {{ partial "page-contributor.html" . }}  
   </div>
 </section>
 

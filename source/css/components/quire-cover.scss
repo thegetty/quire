@@ -100,7 +100,6 @@
     .contributor {
       font-family: $quire-headings-font;
       font-size: calc(1em * #{$quire-cover-text-scale});
-      line-height: 1.72;
       margin-top: calc(.5rem * #{$quire-cover-text-scale});
       color: $quire-cover-text-color;
       @media print {

@@ -11,16 +11,6 @@
     3 bio
     4 url
     5 pic
-    6 paper number
-    7 paper title
-    8 paper subtitle
-    9 paper link
-
-  The paper number, title, subtile and link will reference the contributor's
-  contribution to the publication, and link to that contribution when you use
-  the "all" or "essays" range. (Note however, that if a contributor has
-  multiple contributions/papers in a publication, only the last one in the
-  range will be referenced.)
 
   This "contributor" object is then added to a "contributorlist" Scratch map.
   The contributors are added to this larger list either by last_name, or by
@@ -71,33 +61,12 @@
 {{- .Page.Scratch.SetInMap "contributor" "5" "n/a" -}}
 {{- end -}}
 
-{{- if .pageNumber -}}
-{{- .Page.Scratch.SetInMap "contributor" "6" .pageNumber -}}
-{{- else -}}
-{{- .Page.Scratch.SetInMap "contributor" "6" "n/a" -}}
-{{- end -}}
-
-{{- if .pageTitle -}}
-{{- .Page.Scratch.SetInMap "contributor" "7" .pageTitle -}}
-{{- else -}}
-{{- .Page.Scratch.SetInMap "contributor" "7" "n/a" -}}
-{{- end -}}
-
-{{- if .pageSubtitle -}}
-{{- .Page.Scratch.SetInMap "contributor" "8" .pageSubtitle -}}
-{{- else -}}
-{{- .Page.Scratch.SetInMap "contributor" "8" "n/a" -}}
-{{- end -}}
-
-{{- if .pageLink -}}
-{{- .Page.Scratch.SetInMap "contributor" "9" .pageLink -}}
-{{- else -}}
-{{- .Page.Scratch.SetInMap "contributor" "9" "n/a" -}}
-{{- end -}}
-
 {{- $contributor := (.Page.Scratch.GetSortedMapValues "contributor") -}}
 
-{{- if .contributor.file_as -}}
+{{- if .index -}}
+  {{ $name := .index }}
+  {{- .Page.Scratch.SetInMap "contributorlist" $name $contributor -}}
+{{- else if .contributor.file_as -}}
   {{- $name := lower (replace (replace .contributor.file_as " " "") "," "") -}}
   {{- .Page.Scratch.SetInMap "contributorlist" $name $contributor -}}
 {{- else if and .contributor.last_name .contributor.first_name -}}

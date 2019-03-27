@@ -49,10 +49,24 @@ Cover page layout. This controls the home page of the publication.
 
         <div class="contributor">
         {{- if .Site.Data.publication.contributor_as_it_appears -}}
-        {{ .Site.Data.publication.contributor_as_it_appears }}
+        {{ .Site.Data.publication.contributor_as_it_appears | markdownify }}
         {{ else }}
         <span class="visually-hidden">Contributors: </span>
-          <em>{{ partial "contributor-list.html" (dict "range" .Site.Data.publication.contributor "contributorType" "primary" "listType" "string" "Site" $.Site) }}</em>
+        
+          {{/* List primary contributors unless none are marked as primary
+               in which case list all contributors in publication.yml */}}
+          {{/* ------------------------------------------------------------ */}}
+          {{- range .Site.Data.publication.contributor -}}
+            {{- if .type -}}
+              {{ $.Scratch.Set "type" true }}
+            {{- end -}}
+          {{- end -}}
+          <span>Contributor type: {{ $.Scratch.Get "type" }}</span>
+          {{ if eq ($.Scratch.Get "type") true }}
+            <em>{{ partial "contributor-list.html" (dict "range" .Site.Data.publication.contributor "contributorType" "primary" "listType" "string" "Site" $.Site) }}</em>
+          {{- else -}}
+            <em>{{ partial "contributor-list.html" (dict "range" .Site.Data.publication.contributor "contributorType" "all" "listType" "string" "Site" $.Site) }}</em>
+          {{- end -}}        
         {{- end -}}
         </div>
 

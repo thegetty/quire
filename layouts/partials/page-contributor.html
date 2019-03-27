@@ -1,0 +1,48 @@
+{{/*
+
+  A partial to add contributors to page headers. Checks value of '
+  contributorByline set in config.yml and contributor_byline set in the page 
+  YAML to determine if the contributors should be added, and in what form.
+
+*/}}
+
+{{/* Define the list type */}}
+{{/* ---------------------------------------------------------------------- */}}
+{{- if eq .Params.contributor_byline "name" -}}
+  {{ $.Scratch.Set "listType" "list" }}
+{{- else if eq .Params.contributor_byline "name-title" -}} 
+  {{ $.Scratch.Set "listType" "list-plus" }}
+{{- else -}}
+  {{ $globalByline := $.Site.Params.contributorByline }}
+  {{- if eq $globalByline "name" -}}
+    {{ $.Scratch.Set "listType" "list" }}
+  {{- else if eq $globalByline "name-title" -}}
+    {{ $.Scratch.Set "listType" "list-plus" }}
+  {{- else -}}
+    {{ $.Scratch.Set "listType" "list-plus" }}
+  {{- end -}}
+{{- end -}}
+
+{{/* Check global setting, do nothing if set to false w/ no page override */}}
+{{/* ---------------------------------------------------------------------- */}}
+{{- if or (and (eq .Site.Params.contributorByline false) (eq .Params.contributor_byline false)) (and (eq .Site.Params.contributorByline false) (eq .Params.contributor_byline nil )) -}}
+
+{{- else -}} 
+  
+  {{/* Add contributor if contributor_byline is not false */}}
+  {{/* -------------------------------------------------------------------- */}}
+  {{- if ne .Params.contributor_byline false -}}
+  {{- if isset .Params "contributor_as_it_appears" -}}
+    <div class="quire-page__header__contributor">
+      <p class="quire-contributor">{{ markdownify .Params.contributor_as_it_appears }}<p>
+    </div>
+  {{- else -}}
+  {{- with .Params.contributor -}}
+    <div class="quire-page__header__contributor">
+      {{ partial "contributor-list.html" (dict "range" . "contributorType" "all" "listType" ($.Scratch.Get "listType") "Site" $.Site) }}
+    </div>
+  {{- end -}}
+  {{- end -}}
+  {{- end -}}
+
+{{- end -}}

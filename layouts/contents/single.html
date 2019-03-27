@@ -9,16 +9,16 @@
 <div class="quire-contents" id="main" role="main">
   {{ partial "page-header.html" . }}
   
-  {{ if .Content }}
-  <section class="section quire-page__abstract">
-    <div class="container">
-      <div class="content">
-        {{ .Content }}
-      </div>
-    </div>
-  </section>
-  {{ end }}
   <section class="section quire-page__content" id="content">
+    
+    {{- if .Content -}}
+      <div class="container">
+        <div class="content">
+          {{ .Content }}
+        </div>
+      </div>
+    {{- end -}}
+    
     <div class="container {{ if in .Params.class "grid" }}is-fullhd{{ end }}">
       <div class="quire-contents-list {{ if in .Params.class "grid" }} grid{{ else if in .Params.class "abstract" }} abstract{{ else if in .Params.class "brief" }} brief{{ else }} list{{ end }}">
         <div class="menu-list">

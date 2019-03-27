@@ -98,6 +98,9 @@ html {
     margin-top: 3rem;
     opacity: 0.75;
     font-size: 1em;
+    em {
+      font-style: normal;
+    }
 
     @media print {
       margin: .375in .5in 0;
@@ -599,11 +602,13 @@ html {
         margin: -$print-bleed;
       }
       .hero-body {
-        .quire-page__header__title {
+        .label,
+        .quire-page__header__title,
+        .quire-page__header__contributor {
           color: $white;
         }
-        .label {
-          color: $white;
+        .quire-page__header__contributor {
+          font-weight: 700;
         }
       }
       // add some space above the start of the content
@@ -796,7 +801,20 @@ html {
         li {
           margin-bottom: 1em;
         }
-      } 
+      }
+      
+      blockquote {
+        margin: 1em 0 1em 0;
+        p, ul, ol, dl,
+        h1, h2, h3, h4, h5, h6 {
+          position: relative;
+          @media screen {
+            &:first-child:before {
+              content: '';
+            }
+          }  
+        }
+      }  
     }
 
     .leaflet-control {
