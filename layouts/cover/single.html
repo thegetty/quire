@@ -89,12 +89,13 @@ Cover page layout. This controls the home page of the publication.
   </section>
   {{/* End full-page cover section */}}
   {{/* Begin "below-the-fold" section */}}
-  {{ with .Content }}
+  {{ if .Content }}
 
   <section class="section quire-page__content" id="content">
     <div class="container is-fluid">
       <div class="content">
-        {{ . }}
+        {{ .Content }}
+        {{ partial "page-bibliography.html" . }}
       </div>
     </div>
   </section>
