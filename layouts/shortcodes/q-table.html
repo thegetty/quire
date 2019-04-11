@@ -1,0 +1,23 @@
+{{ $x := .Get "id" | string }}
+{{ range where .Site.Data.tables.table_list "id" "eq" $x }}
+<div class="js-figure-curtain"></div>
+<figure class="q-figure{{ with $.Get "class" }} q-{{ . }}{{ end }} js-figure-table" {{ with $.Get "id" }}
+  id="table-{{ replace . "." "-" }}" {{ end }}>
+  {{ $borderstring := replace ($.Get "border") " " "" }}
+  {{ $borderlist := split $borderstring "," }}
+  {{ $centertextstring := replace ($.Get "center-text") " " "" }}
+  {{ $centertextlist := split $centertextstring "," }}
+  <div
+    class="q-figure__table-wrapper{{ with $.Get "border" }}{{ range $borderlist }} q-border-{{ . }}{{ end }}{{ end }}{{ with $.Get "center-text" }}{{ range $centertextlist }} q-center-{{ . }}{{ end }}{{ end }} {{ with $.Get "scale" }}q-table-scale-{{ replace . "." "" }}{{ end }}">
+
+    {{ if eq .media_type "md" }}
+    {{ .table | markdownify }}
+    {{ else }}
+    {{ .table | safeHTML }}
+    {{ end }}
+  </div>
+  <figcaption>{{ if eq ($.Get "label") "none" }}{{ else }}<span
+      class="q-figure-label">{{ $.Site.Params.tableLabelContentBefore }}{{ .id }}{{ $.Site.Params.tableLabelContentAfter }}</span>{{ end }} {{ if .caption }}{{ .caption | safeHTML }}{{ end }}
+  </figcaption>
+</figure>
+{{ end }}

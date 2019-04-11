@@ -25,7 +25,7 @@
   margin-top: 0.5em;
   margin-left: 0;
   margin-right: 0;
-  
+
   @if $theme == classic {
     border: none;
     padding: 0;
@@ -40,15 +40,14 @@
       border: none;
 
       &:hover {
-
         span.fig {
           background-color: $accent-color;
-          transition: background-color .25s;
+          transition: background-color 0.25s;
         }
 
         img {
-          -webkit-transition: -webkit-box-shadow .35s;
-          transition: box-shadow .35s;
+          -webkit-transition: -webkit-box-shadow 0.35s;
+          transition: box-shadow 0.35s;
           -webkit-box-shadow: 0px 0px 6px 0px $black-semi-transparent;
           -moz-box-shadow: 0px 0px 6px 0px $black-semi-transparent;
           box-shadow: 0px 0px 6px 0px $black-semi-transparent;
@@ -65,7 +64,7 @@
     }
 
     span.fig {
-      font-size: .75em;
+      font-size: 0.75em;
       /** approx 12px **/
       background: $black-semi-transparent;
       /** sets transparent background without affecting text color **/
@@ -87,7 +86,7 @@
       span {
         font-size: 1.125rem;
         line-height: 1.5;
-        padding: 0 .2em;
+        padding: 0 0.2em;
       }
 
       strong {
@@ -96,7 +95,7 @@
       }
 
       &.no-fullscreen {
-        padding: .4em .2em;
+        padding: 0.4em 0.2em;
         strong {
           margin-top: 0;
           margin-left: 6px;
@@ -107,6 +106,51 @@
     img {
       object-fit: cover;
       width: 100%;
+    }
+  }
+
+  &__table-wrapper {
+    th {
+      border-bottom: 0;
+    }
+    td {
+      border-bottom: 0;
+    }
+
+    &.q-table-scale-1 {
+      font-size: 0.1rem;
+    }
+
+    &.q-table-scale-2 {
+      font-size: 0.2rem;
+    }
+
+    &.q-table-scale-3 {
+      font-size: 0.3rem;
+    }
+
+    &.q-table-scale-4 {
+      font-size: 0.4rem;
+    }
+
+    &.q-table-scale-5 {
+      font-size: 0.5rem;
+    }
+
+    &.q-table-scale-6 {
+      font-size: 0.6rem;
+    }
+
+    &.q-table-scale-7 {
+      font-size: 0.7rem;
+    }
+
+    &.q-table-scale-8 {
+      font-size: 0.8rem;
+    }
+
+    &.q-table-scale-9 {
+      font-size: 0.9rem;
     }
   }
 
@@ -125,7 +169,7 @@
   .content figure &__caption {
     font-size: 0.75em;
     line-height: 1.5;
-    margin-top: .5rem;
+    margin-top: 0.5rem;
     font-style: normal;
     text-align: left;
     color: background-color-text($content-background-color);
@@ -139,7 +183,6 @@
   }
 
   &__credit {
-
   }
 
   &__modal {
@@ -149,11 +192,11 @@
       color: $accent-color;
     }
     font-weight: 700;
-    margin-top: .5px;
-    height: .875em;
+    margin-top: 0.5px;
+    height: 0.875em;
     float: left;
     position: relative;
-    top: .125em;
+    top: 0.125em;
 
     .material-fullscreen,
     .material-slides {
@@ -179,7 +222,7 @@
       color: $print-text-color;
     }
     font-weight: 700;
-    margin-right: .5em;
+    margin-right: 0.5em;
 
     .material-fullscreen,
     .material-slides {
@@ -191,9 +234,8 @@
     }
 
     .quire-figure__modal & {
-      font-size: .75em;
+      font-size: 0.75em;
     }
-
   }
 
   &__media-wrapper {
@@ -228,7 +270,7 @@
 
   &__media-fallback {
     .quire-figure__wrapper {
-      margin-bottom: .5em;
+      margin-bottom: 0.5em;
     }
     .fallback-image {
       background-color: $gray;
@@ -240,12 +282,12 @@
       position: relative;
     }
     h5.header {
-      font-family:  $quire-primary-font;
+      font-family: $quire-primary-font;
       font-size: 0.85em;
       color: $black;
       font-weight: 400;
       text-align: left;
-      margin-bottom: .5em;
+      margin-bottom: 0.5em;
     }
     p.caption {
       text-align: left;
@@ -273,7 +315,6 @@
         font-size: 50px;
         color: $white;
         &.audio {
-
         }
       }
     }
@@ -305,7 +346,7 @@
     @media screen and (min-width: $tablet) {
       width: 50%;
     }
-    
+
     @media print {
       width: 2.75in;
     }
@@ -328,7 +369,7 @@
 
   .content &.is-pulled-left,
   .content &.is-pulled-right {
-    margin-top: .75em;
+    margin-top: 0.75em;
     margin-bottom: 1em;
     @media screen and (max-width: $tablet) {
       margin: 0 0 1em 0;
@@ -336,11 +377,10 @@
   }
 
   &--group {
-
     &__row {
       display: flex;
       justify-content: space-between;
-      margin-bottom: .75rem;
+      margin-bottom: 0.75rem;
       flex-wrap: wrap;
 
       @media print {
@@ -373,7 +413,7 @@
         margin-top: 0;
       }
 
-      +.quire-figure__caption {
+      + .quire-figure__caption {
         clear: both;
         padding-top: 1rem;
       }
@@ -420,7 +460,11 @@
     }
 
     .quire-grid {
-      &--2, &--3, &--4, &--5, &--6 {
+      &--2,
+      &--3,
+      &--4,
+      &--5,
+      &--6 {
         @media screen and (max-width: $tablet) {
           width: 100%;
         }
@@ -434,7 +478,6 @@
     .soundcloud,
     .youtube,
     .vimeo {
-      
     }
 
     .quire-figure__caption {
@@ -448,7 +491,6 @@
     page-break-inside: avoid;
     break-inside: avoid;
   }
-
 }
 
 /** VIDEO/AUDIO FALLBACK ELEMENTS **/
@@ -461,7 +503,7 @@ div.multimedia {
   text-align: left;
   position: relative;
   display: flex;
-  margin-bottom: .5em;
+  margin-bottom: 0.5em;
 
   .placeholder {
     color: $white;
@@ -476,7 +518,7 @@ div.multimedia {
     align-items: center;
     flex-direction: column;
     justify-content: center;
-    margin-right: .5em;
+    margin-right: 0.5em;
 
     i,
     div {
@@ -486,10 +528,10 @@ div.multimedia {
 
   .multimedia-metadata {
     position: relative;
-    margin: .5em;
+    margin: 0.5em;
 
     h5.header {
-      font-family: 'Noto Sans', sans-serif;
+      font-family: "Noto Sans", sans-serif;
       font-size: 1em;
       color: $black;
       font-weight: 400;
@@ -510,7 +552,7 @@ div.multimedia {
       color: $white;
       height: 80px;
       background-color: $black;
-      margin-right: .75em;
+      margin-right: 0.75em;
       width: 100%;
       display: flex;
       align-items: center;
@@ -525,13 +567,13 @@ div.multimedia {
 
     .multimedia-metadata {
       position: relative;
-      margin: .75em;
+      margin: 0.75em;
 
       h5.header {
-        font-family: 'Noto Sans', sans-serif;
+        font-family: "Noto Sans", sans-serif;
         font-size: 1em;
         font-weight: 400;
-        margin: .5em 0 0 0;
+        margin: 0.5em 0 0 0;
         color: $black;
       }
     }
@@ -542,7 +584,7 @@ div.multimedia {
   }
 
   .caption {
-    font-size: .75em;
+    font-size: 0.75em;
     line-height: 1.8em;
     color: $black;
     word-break: break-all;
