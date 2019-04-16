@@ -6,7 +6,7 @@
 */}}
 
 {{ define "main" }}
-<div class="quire-contents" id="main" role="main">
+<div class="{{ partial "page-class.html" . }} quire-contents" id="main" role="main">
   {{ partial "page-header.html" . }}
   
   <section class="section quire-page__content" id="content">
@@ -24,10 +24,10 @@
         <div class="menu-list">
           {{ if .Section }}
             {{ $scope := where .Site.Pages "Section" .Section }}
-            {{- partial "contents-list.html" (dict "contentsScope" $scope "contentsType" .Site.Params.tocType "pdf" ".Params.pdf" "epub" ".Params.epub" "contentsLocation" ".Params.toc" "contentsPage" . ) -}}
+            {{- partial "contents-list.html" (dict "site" .Site "contentsScope" $scope "contentsType" .Site.Params.tocType "pdf" ".Params.pdf" "epub" ".Params.epub" "contentsLocation" ".Params.toc" "contentsPage" . ) -}}
           {{ else }}
             {{ $scope := .Site.Pages }}
-            {{- partial "contents-list.html" (dict "contentsScope" $scope "contentsType" .Site.Params.tocType "pdf" ".Params.pdf" "epub" ".Params.epub" "contentsLocation" ".Params.toc" "contentsPage" . ) -}}
+            {{- partial "contents-list.html" (dict "site" .Site "contentsScope" $scope "contentsType" .Site.Params.tocType "pdf" ".Params.pdf" "epub" ".Params.epub" "contentsLocation" ".Params.toc" "contentsPage" . ) -}}
           {{ end }}
         </div>
         <div class="content">
