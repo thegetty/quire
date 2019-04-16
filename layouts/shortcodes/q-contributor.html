@@ -211,6 +211,7 @@
       
       {{ range $.Site.Pages }}
         {{- $pagelabel := .Params.label -}}
+        {{- $labeldivider := $.Site.Params.pageLabelDivider -}}
         {{- $pagetitle := .Params.title -}}
         {{- $pagesubtitle := .Params.subtitle -}}
         {{- $pagelink := .Permalink -}}
@@ -218,10 +219,10 @@
         {{ range .Params.contributor }}            
           {{- if .id -}}
             {{ range where $.Site.Data.publication.contributor "id" .id }}
-              {{ template "contribution" (dict "page" $.Page "person" . "nameId" $nameid "pageLabel" $pagelabel "pageTitle" $pagetitle "pageSubtitle" $pagesubtitle "pageLink" $pagelink) }}
+              {{ template "contribution" (dict "page" $.Page "person" . "nameId" $nameid "pageLabel" $pagelabel "labelDivider" $labeldivider "pageTitle" $pagetitle "pageSubtitle" $pagesubtitle "pageLink" $pagelink) }}
             {{- end -}}
           {{- else -}}
-            {{ template "contribution" (dict "page" $.Page "person" . "nameId" $nameid "pageLabel" $pagelabel "pageTitle" $pagetitle "pageSubtitle" $pagesubtitle "pageLink" $pagelink) }}
+            {{ template "contribution" (dict "page" $.Page "person" . "nameId" $nameid "pageLabel" $pagelabel "labelDivider" $labeldivider "pageTitle" $pagetitle "pageSubtitle" $pagesubtitle "pageLink" $pagelink) }}
           {{- end -}}
         {{- end -}}
         
@@ -316,7 +317,7 @@
 <p>
   <a href="{{ .pageLink }}" class="quire-contributor__page-link">
     {{ $pagetitle := .pageTitle }}
-    {{ with .pageLabel }}{{ . }}{{ $.Site.Params.pageLabelDivider }}{{ end }}
+    {{ if .pageLabel }}{{ .pageLabel }}{{ .labelDivider }}{{ end }}
     {{ markdownify $pagetitle }}{{ with .pageSubtitle }}{{- $endPunctuation := findRE "[!|?]$" $pagetitle -}}{{ if $endPunctuation }} {{ else }}: {{ end }}{{ markdownify . }}{{ end }}
   </a>
 </p>
