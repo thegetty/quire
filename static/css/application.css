@@ -8740,6 +8740,8 @@ html {
       -o-object-fit: cover;
          object-fit: cover;
       width: 100%; }
+  .quire-figure__table-wrapper table tfoot ul li:before {
+    content: "" !important; }
   .quire-figure__table-wrapper th {
     border-bottom: 0; }
   .quire-figure__table-wrapper td {

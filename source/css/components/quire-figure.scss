@@ -110,6 +110,17 @@
   }
 
   &__table-wrapper {
+    table {
+      tfoot {
+        ul {
+          li {
+            &:before {
+              content: "" !important;
+            }
+          }
+        }
+      }
+    }
     th {
       border-bottom: 0;
     }
