@@ -109,7 +109,12 @@
     }
   }
 
-  &__table-wrapper {
+  &__table {
+    &-wrapper {
+    }
+  }
+
+  &__table {
     table {
       tfoot {
         ul {
