@@ -12,9 +12,35 @@ $fullscreen-button-img: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAA
 
 .quire-deepzoom {
   .leaflet-table {
-    padding: 1em 3em;
-    * {
+    max-height: 90%;
+    margin: 2em 3em;
+    overflow: auto;
+    table {
       color: $color_1;
+      table-layout: auto;
+      tr,
+      td,
+      th {
+        color: inherit;
+        padding: 1rem;
+        vertical-align: middle;
+        border: 1px solid gray;
+        text-align: center;
+      }
+      thead {
+        th {
+          width: auto;
+        }
+      }
+      tbody {
+        tr,
+        th {
+          &:hover {
+            background-color: $quire-hover-color;
+            color: background-color-text($quire-hover-color) !important;
+          }
+        }
+      }
     }
   }
   .leaflet-control-zoom {

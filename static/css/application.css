@@ -8740,30 +8740,33 @@ html {
       -o-object-fit: cover;
          object-fit: cover;
       width: 100%; }
-  .quire-figure__table table tfoot ul li:before {
-    content: "" !important; }
-  .quire-figure__table th {
-    border-bottom: 0; }
-  .quire-figure__table td {
-    border-bottom: 0; }
-  .quire-figure__table.q-table-scale-1 {
-    font-size: 0.1rem; }
-  .quire-figure__table.q-table-scale-2 {
-    font-size: 0.2rem; }
-  .quire-figure__table.q-table-scale-3 {
-    font-size: 0.3rem; }
-  .quire-figure__table.q-table-scale-4 {
-    font-size: 0.4rem; }
-  .quire-figure__table.q-table-scale-5 {
-    font-size: 0.5rem; }
-  .quire-figure__table.q-table-scale-6 {
-    font-size: 0.6rem; }
-  .quire-figure__table.q-table-scale-7 {
-    font-size: 0.7rem; }
-  .quire-figure__table.q-table-scale-8 {
-    font-size: 0.8rem; }
-  .quire-figure__table.q-table-scale-9 {
-    font-size: 0.9rem; }
+  .quire-figure__table {
+    margin: 0 !important;
+    padding-top: 1rem; }
+    .quire-figure__table table tfoot ul li:before {
+      content: "" !important; }
+    .quire-figure__table th {
+      border-bottom: 0; }
+    .quire-figure__table td {
+      border-bottom: 0; }
+    .quire-figure__table.q-table-scale-1 {
+      font-size: 0.1rem; }
+    .quire-figure__table.q-table-scale-2 {
+      font-size: 0.2rem; }
+    .quire-figure__table.q-table-scale-3 {
+      font-size: 0.3rem; }
+    .quire-figure__table.q-table-scale-4 {
+      font-size: 0.4rem; }
+    .quire-figure__table.q-table-scale-5 {
+      font-size: 0.5rem; }
+    .quire-figure__table.q-table-scale-6 {
+      font-size: 0.6rem; }
+    .quire-figure__table.q-table-scale-7 {
+      font-size: 0.7rem; }
+    .quire-figure__table.q-table-scale-8 {
+      font-size: 0.8rem; }
+    .quire-figure__table.q-table-scale-9 {
+      font-size: 0.9rem; }
   .content .quire-figure {
     margin-left: 0;
     margin-right: 0; }
@@ -9651,9 +9654,26 @@ div.multimedia {
   height: 500px; }
 
 .quire-deepzoom .leaflet-table {
-  padding: 1em 3em; }
-  .quire-deepzoom .leaflet-table * {
-    color: #ffffff; }
+  max-height: 90%;
+  margin: 2em 3em;
+  overflow: auto; }
+  .quire-deepzoom .leaflet-table table {
+    color: #ffffff;
+    table-layout: auto; }
+    .quire-deepzoom .leaflet-table table tr,
+    .quire-deepzoom .leaflet-table table td,
+    .quire-deepzoom .leaflet-table table th {
+      color: inherit;
+      padding: 1rem;
+      vertical-align: middle;
+      border: 1px solid gray;
+      text-align: center; }
+    .quire-deepzoom .leaflet-table table thead th {
+      width: auto; }
+    .quire-deepzoom .leaflet-table table tbody tr:hover,
+    .quire-deepzoom .leaflet-table table tbody th:hover {
+      background-color: #F9F9A3;
+      color: #333333 !important; }
 
 .quire-deepzoom .leaflet-control-zoom .leaflet-bar a {
   color: #333333; }

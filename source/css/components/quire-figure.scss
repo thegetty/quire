@@ -132,7 +132,8 @@
     td {
       border-bottom: 0;
     }
-
+    margin: 0 !important;
+    padding-top: 1rem;
     &.q-table-scale-1 {
       font-size: 0.1rem;
     }
