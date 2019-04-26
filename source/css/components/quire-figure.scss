@@ -116,6 +116,7 @@
 
   &__table {
     table {
+      margin: 0 !important;
       tfoot {
         ul {
           li {
@@ -133,7 +134,8 @@
       border-bottom: 0;
     }
     margin: 0 !important;
-    padding-top: 1rem;
+    border: 1px solid $off-black;
+    font-size: 0.8rem;
     &.q-table-scale-1 {
       font-size: 0.1rem;
     }

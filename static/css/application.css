@@ -8742,9 +8742,12 @@ html {
       width: 100%; }
   .quire-figure__table {
     margin: 0 !important;
-    padding-top: 1rem; }
-    .quire-figure__table table tfoot ul li:before {
-      content: "" !important; }
+    border: 1px solid #333333;
+    font-size: 0.8rem; }
+    .quire-figure__table table {
+      margin: 0 !important; }
+      .quire-figure__table table tfoot ul li:before {
+        content: "" !important; }
     .quire-figure__table th {
       border-bottom: 0; }
     .quire-figure__table td {
@@ -9654,11 +9657,12 @@ div.multimedia {
   height: 500px; }
 
 .quire-deepzoom .leaflet-table {
-  max-height: 90%;
-  margin: 2em 3em;
-  overflow: auto; }
+  max-height: 88%;
+  margin: 2.5em 3.25em 0em 2.5em;
+  overflow: auto;
+  background: #ffffff;
+  color: #333333; }
   .quire-deepzoom .leaflet-table table {
-    color: #ffffff;
     table-layout: auto; }
     .quire-deepzoom .leaflet-table table tr,
     .quire-deepzoom .leaflet-table table td,

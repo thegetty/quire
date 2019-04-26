@@ -12,11 +12,12 @@ $fullscreen-button-img: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAA
 
 .quire-deepzoom {
   .leaflet-table {
-    max-height: 90%;
-    margin: 2em 3em;
+    max-height: 88%;
+    margin: 2.5em 3.25em 0em 2.5em;
     overflow: auto;
+    background: $white;
+    color: $off-black;
     table {
-      color: $color_1;
       table-layout: auto;
       tr,
       td,
