@@ -453,7 +453,8 @@ render the figure from matching values found ther
           aria-live="polite"
           role="application"
           aria-label="Zoomable table">
-            <figure class="leaflet-table">{{ readFile .src | safeHTML }}</figure>        
+          {{ $tableSrc := printf "%s/%s/%s" "static" ($.Scratch.Get "imageDir") .src }}
+          <figure class="leaflet-table" id="{{ .id | urlize }}">{{ readFile $tableSrc | safeHTML }}</figure>        
           </div>
         {{ else }}
           <div 
@@ -484,8 +485,9 @@ render the figure from matching values found ther
     {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
     {{ end }}
       {{ if eq .media_type "table" }}
-        <figure class="quire-figure__table {{ with $.Get "scale" }}q-table-scale-{{ replace . "." "" }}{{ end }}">
-          {{ readFile .src | safeHTML }}
+        {{ $tableSrc := printf "%s/%s/%s" "static" ($.Scratch.Get "imageDir") .src }}
+        <figure class="quire-figure__table {{ with $.Get "scale" }}q-table-scale-{{ replace . "." "" }}{{ end }}" id="{{ .id | urlize }}">
+          {{ readFile $tableSrc | safeHTML }}
         </figure>
       {{ else}}
         <img
