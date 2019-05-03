@@ -30,7 +30,7 @@ we start with media figures
 
 <figure data="q-figure" class='quire-figure {{ with $.Get "class" }}{{ . }}{{ end }}'>
 
-{{ if and (ne ($.Get "media_type") "youtube") (ne ($.Get "media_type") "vimeo") (ne ($.Get "media_type") "website") (ne ($.Get "media_type") "audio") (ne ($.Get "media_type") "soundcloud") }}
+{{ if and (ne ($.Get "media_type") "youtube") (ne ($.Get "media_type") "vimeo") (ne ($.Get "media_type") "website") (ne ($.Get "media_type") "audio") (ne ($.Get "media_type") "soundcloud") (ne ($.Get "media_type") "table") }}
 {{ partial "error-message.html" $errorNoMediaType }}
 {{ else }}
 
@@ -263,7 +263,7 @@ we start with media figures
 {{ if eq $.Site.Params.figureModal true }}
 
 {{ if eq $.Site.Params.figureLabelLocation "below" }}
-  {{ if and (ne (.Get "media_type") "audio") (ne (.Get "media_type") "soundcloud") (ne (.Get "media_type") "vimeo") (ne (.Get "media_type") "youtube") (ne (.Get "media_type") "website") (eq $.Site.Params.figureModal true) }}
+  {{ if and (ne (.Get "media_type") "audio") (ne (.Get "media_type") "soundcloud") (ne (.Get "media_type") "vimeo") (ne (.Get "media_type") "youtube") (ne (.Get "media_type") "website") (ne (.Get "media_type") "table") (eq $.Site.Params.figureModal true) }}
     <span class="quire-figure__modal">
       {{ if eq $.Site.Params.figureModalIcons true }}
         <span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
@@ -446,23 +446,35 @@ render the figure from matching values found ther
       id="deepzoom-{{ $Id }}"
       {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}  
       class="quire-figure leaflet-outer-wrapper mfp-hide notGet">
-        <div 
-        id="js-deepzoom-{{ now.UnixNano }}" 
-        class="quire-deepzoom inset leaflet-inner-wrapper " 
-        aria-live="polite" 
-        role="application"
-        aria-label="Zoomable image" 
-        src="{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}">
-        </div>
-        <span class="figure-caption visually-hidden">
-            {{ if $.Get "caption" }}
-            {{ $.Get "caption" | markdownify }}
-            {{ else if isset . "caption" }}
-            {{ if .caption }}
-            {{ .caption | markdownify }}
-            {{ end }}
-            {{ end }}
-          </span>
+        {{ if eq .media_type "table" }}
+          <div
+          id="js-deepzoomtable-{{ now.UnixNano }}"
+          class="quire-deepzoom inset leaflet-inner-wrapper"
+          aria-live="polite"
+          role="application"
+          aria-label="Zoomable table">
+          {{ $tableSrc := printf "%s/%s/%s" "static" ($.Scratch.Get "imageDir") .src }}
+          <figure class="leaflet-table" id="{{ .id | urlize }}">{{ readFile $tableSrc | safeHTML }}</figure>        
+          </div>
+        {{ else }}
+          <div 
+          id="js-deepzoom-{{ now.UnixNano }}" 
+          class="quire-deepzoom inset leaflet-inner-wrapper " 
+          aria-live="polite" 
+          role="application"
+          aria-label="Zoomable image" 
+          src="{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}">
+          </div>
+          <span class="figure-caption visually-hidden">
+              {{ if $.Get "caption" }}
+              {{ $.Get "caption" | markdownify }}
+              {{ else if isset . "caption" }}
+              {{ if .caption }}
+              {{ .caption | markdownify }}
+              {{ end }}
+              {{ end }}
+            </span>
+        {{ end }}
     </figure>
 
     {{ if eq $.Site.Params.figureModal true }}
@@ -472,11 +484,17 @@ render the figure from matching values found ther
     data-type='inline'
     {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
     {{ end }}
-      <img
-      id='{{ .id }}'
-      class="quire-figure__image" 
-      src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
-
+      {{ if eq .media_type "table" }}
+        {{ $tableSrc := printf "%s/%s/%s" "static" ($.Scratch.Get "imageDir") .src }}
+        <figure class="quire-figure__table {{ with $.Get "scale" }}q-table-scale-{{ replace . "." "" }}{{ end }}" id="{{ .id | urlize }}">
+          {{ readFile $tableSrc | safeHTML }}
+        </figure>
+      {{ else}}
+        <img
+        id='{{ .id }}'
+        class="quire-figure__image" 
+        src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
+      {{ end }}
   {{ else }}
 
   <div class="q-figure__wrapper">
