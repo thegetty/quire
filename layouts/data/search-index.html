@@ -23,7 +23,10 @@ block-scoped .Scratch inside the `range` loop.
 
 {{- $.Scratch.Add "index" slice -}}
 
-{{- $searchablePages := where .Site.Pages "Params.search" "!=" "false" -}}
+{{- $searchablePages := where .Site.Pages ".Kind" "page" }}
+{{ $searchablePages := where $searchablePages "Params.online" "!=" "false" }}
+{{ $searchablePages := where $searchablePages ".Type" "!=" "data" }}
+{{- $searchablePages := where $searchablePages "Params.search" "!=" "false" -}}
 
 {{- range $index, $page := $searchablePages -}}
 
@@ -31,6 +34,7 @@ block-scoped .Scratch inside the `range` loop.
 {{- .Scratch.Set "searchContent" "" -}}
 {{- .Scratch.Set "pageURL" "" -}}
 {{- .Scratch.Set "parentSection" "" -}}
+{{- .Scratch.Set "pageTitle" "" -}}
 {{- .Scratch.Set "pageType" "" -}}
 {{- .Scratch.Set "pageLength" "" -}}
 
@@ -41,7 +45,20 @@ block-scoped .Scratch inside the `range` loop.
 {{- .Scratch.Set "pageLength" $page.WordCount -}}
 
 {{- end -}}
-{{- .Scratch.Set "pageData" (dict "id" $index "title" $page.Title "url" (.Scratch.Get "pageURL") "type" (.Scratch.Get "pageType") "length" (.Scratch.Get "pageLength") "content" (.Scratch.Get "searchContent")) -}}
+
+{{- if $page.Params.label -}}
+  {{ .Scratch.Set "pageTitle" (printf "%s%s%s" (string $page.Params.label) .Site.Params.pageLabelDivider $page.Title) }}
+{{- else -}}
+  {{ .Scratch.Set "pageTitle" $page.Title }}
+{{- end -}}
+
+{{- if $page.Params.subtitle -}}
+  {{ .Scratch.Set "pageFullTitle" (printf "%s: %s" (.Scratch.Get "pageTitle") $page.Params.subtitle) }}
+{{- else -}}
+  {{ .Scratch.Set "pageFullTitle" (.Scratch.Get "pageTitle") }}
+{{- end -}}
+
+{{- .Scratch.Set "pageData" (dict "id" $index "title" (.Scratch.Get "pageFullTitle") "url" (.Scratch.Get "pageURL") "type" (.Scratch.Get "pageType") "length" (.Scratch.Get "pageLength") "content" (.Scratch.Get "searchContent")) -}}
 
 {{- $.Scratch.Add "index" (.Scratch.Get "pageData") -}}
 {{- end -}}
