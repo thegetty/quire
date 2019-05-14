@@ -1,3 +1,23 @@
+{{/*  Duplicates part of the code from q-cite.html in order to add
+      references to the page-level bibliography list that aren't 
+      necessarily cited directly in the page with q-cite */}}
+{{/* ---------------------------------------------------------------------- */}}
+{{- range .Params.references -}}
+  {{- $.Scratch.Set "full" "" -}}
+  {{- $short := . -}}
+  {{- range $.Site.Data.references.entries -}}
+      {{- if eq .short $short -}}
+          {{- $.Scratch.Add "full" .full -}}
+      {{- end -}}
+  {{- end -}}
+  {{- $full := $.Scratch.Get "full" -}}
+  {{- $.Page.Scratch.SetInMap "entry" "0" $short -}}
+  {{- $.Page.Scratch.SetInMap "entry" "1" $full -}}
+  {{ $entry := ($.Page.Scratch.GetSortedMapValues "entry") }}
+  {{- $shortId := . | urlize -}}
+  {{- $.Page.Scratch.SetInMap "cited" $shortId $entry -}}  
+{{- end -}}
+
 {{ if ($.Scratch.GetSortedMapValues "cited") }}
 <div class="quire-page__content__references backmatter">
     <h2 id="bibliography">Bibliography</h2>

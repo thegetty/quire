@@ -15,7 +15,7 @@
       <div class="hero-body">
         {{/* Page Title */}}
         <h1 class="quire-page__header__title" id="{{ .Title | urlize }}">
-          {{ with .Params.label }}<span class="label">{{ . }}</span>{{ end }}
+          {{ with .Params.label }}<span class="label">{{ . }}<span class="visually-hidden">{{ $.Site.Params.pageLabelDivider }}</span></span>{{ end }}
           {{- partial "page-title.html" . | markdownify -}}
         </h1>
         {{/* Contributors, if any */}}
@@ -31,7 +31,7 @@
       <div class="hero-body">
         {{/* Page Title */}}
         <h1 class="quire-page__header__title" id="{{ .Title | urlize }}">
-          {{ with .Params.label }}<span class="label">{{ . }}</span>{{ end }}
+          {{ with .Params.label }}<span class="label">{{ . }}<span class="visually-hidden">{{ $.Site.Params.pageLabelDivider }}</span></span>{{ end }}
           {{- partial "page-title.html" . | markdownify -}}
         </h1>
         {{/* Contributors, if any */}}

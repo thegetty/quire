@@ -6,7 +6,7 @@ class Map {
   constructor(id) {
     
     // remove and refresh before init
-    if (isPopup) {
+    if (figureModal) {
       if (window.mapID != undefined || window.mapID != undefined) {
         window.mapID.off()
         window.mapID.remove()
