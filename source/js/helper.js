@@ -61,7 +61,7 @@ export const smoothScroll = e => {
     durationMax: null, // Integer. The maximum amount of time the scroll animation should take
     durationMin: null, // Integer. The minimum amount of time the scroll animation should take
     clip: true, // If true, adjust scroll distance to prevent abrupt stops near the bottom of the page
-    offset: 100, // Integer or Function returning an integer. How far to offset the scrolling anchor location in pixels
+    offset: 50, // Integer or Function returning an integer. How far to offset the scrolling anchor location in pixels
     // Easing
     easing: "easeInOutCubic",
     // History
