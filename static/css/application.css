@@ -9707,8 +9707,16 @@ div.multimedia {
 .quire-citation {
   position: relative;
   text-indent: 0; }
+  .quire-citation_toggle:not(checked) ~ .quire-citation__content {
+    visibility: hidden; }
+  .quire-citation_toggle_label:after {
+    content: "+";
+    font-weight: bold; }
+  .quire-citation_toggle:checked ~ .quire-citation__content {
+    visibility: visible; }
+  .quire-citation_toggle:checked ~ .quire-citation_toggle_label:after {
+    content: "-"; }
   .quire-citation .quire-citation__content {
-    visibility: hidden;
     font-size: 0.75em;
     line-height: 1.5;
     background-color: #ffffff;
@@ -9721,8 +9729,8 @@ div.multimedia {
     left: 50%;
     margin-left: -200px;
     box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.75); }
-  .quire-citation a:hover + .quire-citation__content {
-    visibility: visible; }
+    .quire-citation .quire-citation__content_link {
+      float: right; }
 
 .quire-copyright {
   padding: 0 1em;
