@@ -7,27 +7,11 @@
 .quire-citation {
   position: relative;
   text-indent: 0;
-  &_toggle {
-    // display: none;
-    &:not(checked) ~ .quire-citation__content {
-      visibility: hidden;
-    }
-    &_label {
-      &:after {
-        content: "+";
-        font-weight: bold;
-      }
-    }
-  }
-  &_toggle:checked {
-    ~ .quire-citation__content {
-      visibility: visible;
-    }
-    ~ .quire-citation_toggle_label {
-      &:after {
-        content: "-";
-      }
-    }
+  & button {
+    color: $white;
+    background-color: $black;
+    font-weight: 800;
+    border-radius: 50%;
   }
   .quire-citation__content {
     font-size: 0.75em;
@@ -47,8 +31,5 @@
     &_link {
       float: right;
     }
-  }
-  & a:hover + .quire-citation__content {
-    // visibility: visible;
   }
 }

@@ -57,28 +57,7 @@
     {{- $entry := ($.Page.Scratch.GetSortedMapValues "entry") -}}
     {{- $shortId := $short | urlize -}}
     {{- $.Page.Scratch.SetInMap "cited" $shortId $entry -}}
-    <span class="quire-citation">
-        {{- if eq .Site.Params.citationPopupStyle "icon" }}
-          <input type="checkbox" value="selected" class="quire-citation_toggle">
-          <label class="quire-citation_toggle_label"></label>
-          <!-- <button> + </button> -->
-        {{ else if (eq .Site.Params.citationPopupStyle "text") }}
-          {{- if eq (len .Params) 3 }}
-            {{- .Get 2 -}} ::
-          {{ else }}
-            {{- markdownify $short -}}
-          {{ end }}
-          {{- if eq (len .Params) 2 }}
-            {{ $.Site.Params.citationPageLocationDivider }}
-            {{ .Get 1 }}
-          {{ end -}}
-        {{ end -}}
-      <span class="quire-citation__content">
-        <span class="visually-hidden">Citation: </span>{{- markdownify $full -}}
-        <br/>
-        <span class="quire-citation__content_link"><a href="#{{ $short | urlize }}">Bibliography</a></span>
-      </span>
-    </span>
+    <span class="quire-citation expandable">{{- if eq .Site.Params.citationPopupStyle "icon" }}<button aria-expanded="false"> + </button>{{ else if (eq .Site.Params.citationPopupStyle "text") }}<a aria-expanded="false">{{- if eq (len .Params) 3 }}{{- .Get 2 -}} ::{{ else }}{{- markdownify $short -}}{{ end }}{{- if eq (len .Params) 2 }}{{ $.Site.Params.citationPageLocationDivider }}{{ .Get 1 }}{{ end -}}</a>{{ end -}}<span hidden class="quire-citation__content"><span class="visually-hidden">Citation: </span>{{- markdownify $full -}}<br/><span class="quire-citation__content_link"><a href="#{{ $short | urlize }}">Bibliography</a></span></span></span>
   {{- end -}}
 
 {{- end -}}

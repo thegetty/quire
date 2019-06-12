@@ -391,6 +391,30 @@ function setDate() {
     $date.text(formattedDate);
 }
 
+function toggleCite() {
+    let expandables = document.querySelectorAll('.expandable [aria-expanded]');
+    for (let i = 0; i < expandables.length; i++) {
+        expandables[i].addEventListener('click', function() {
+            var expanded = this.getAttribute('aria-expanded');
+            if (expanded === 'false') {
+                this.setAttribute('aria-expanded', 'true');
+            } else {
+                this.setAttribute('aria-expanded', 'false');
+            }
+            var content = this.parentNode.querySelector('span');
+            console.log(content);
+            if (content) {
+                content.getAttribute('hidden');
+                if (typeof content.getAttribute('hidden') === 'string') {
+                    content.removeAttribute('hidden');
+                } else {
+                    content.setAttribute('hidden', 'hidden');
+                }
+            }
+        });
+    }
+}
+
 /**
  * pageSetup
  * @description This function is called after each smoothState reload.
@@ -403,6 +427,7 @@ function pageSetup() {
     sliderSetup();
     navigationSetup();
     popupSetup(figureModal);
+    toggleCite();
     // smoothScroll();
 }
 
