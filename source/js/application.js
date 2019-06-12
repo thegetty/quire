@@ -391,6 +391,14 @@ function setDate() {
     $date.text(formattedDate);
 }
 
+/**
+ * @description
+ * find expandable class and look for aria-expanded
+ * https://github.com/gettypubs/quire/issues/152
+ * Cite button where users can select, tied to two config settings: 
+ * citationPopupStyle - text for text only | icon for text and icon
+ * citationPopupLinkText which is whatever text you it to say
+ */
 function toggleCite() {
     let expandables = document.querySelectorAll('.expandable [aria-expanded]');
     for (let i = 0; i < expandables.length; i++) {
