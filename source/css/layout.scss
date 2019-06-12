@@ -24,7 +24,10 @@
 
 // .quire
 // -----------------------------------------------------------------------------
-[hidden] {display: none;}
+[hidden] {
+  display: none; 
+  animation: .25s ease-out 0s 1 fadeIn;
+}
 .quire {
   width: 100%;
 
