@@ -57,7 +57,7 @@
     {{- $entry := ($.Page.Scratch.GetSortedMapValues "entry") -}}
     {{- $shortId := $short | urlize -}}
     {{- $.Page.Scratch.SetInMap "cited" $shortId $entry -}}
-    <span class="quire-citation expandable"><a aria-expanded="false">{{- if eq (len .Params) 3 }}{{- .Get 2 -}} ::{{ else }}{{- markdownify $short -}}{{ end }}{{- if eq (len .Params) 2 }}{{ $.Site.Params.citationPageLocationDivider }}{{ .Get 1 }}{{ end -}}{{ if eq .Site.Params.citationPopupStyle "icon" }} <button aria-expanded="false">+</button>{{ end }}</a><span hidden class="quire-citation__content"><span class="visually-hidden">Citation: </span>{{- markdownify $full -}}<br/><span class="quire-citation__content_link"><a href="#{{ $short | urlize }}">{{ .Site.Params.citationPopupLinkText }}</a></span></span></span>
+    <span class="quire-citation expandable"><a aria-expanded="false">{{- if eq (len .Params) 3 }}{{- .Get 2 -}} ::{{ else }}{{- markdownify $short -}}{{ end }}{{- if eq (len .Params) 2 }}{{ $.Site.Params.citationPageLocationDivider }}{{ .Get 1 }}{{ end -}}{{ if eq .Site.Params.citationPopupStyle "icon" }} <button aria-expanded="false">+</button>{{ end }}</a><span hidden class="quire-citation__content"><span class="visually-hidden">Citation: </span>{{- markdownify $full -}}<br/><span class="quire-citation__content_link"><a href="#bibliography">{{ .Site.Params.citationPopupLinkText }}</a></span></span></span>
   {{- end -}}
 
 {{- end -}}
