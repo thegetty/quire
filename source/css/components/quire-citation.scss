@@ -8,13 +8,12 @@
   position: relative;
   text-indent: 0;
   & button {
-    color: $white;
-    background-color: $black;
+    color: $black;
+    background-color: transparent;
+    border: none;
+    padding: 0;
     font-size: 1em;
-    font-weight: 800;
-    line-height: 1;
-    border-radius: 100%;
-    padding: 0 0.2rem;
+    font-weight: 600;
   }
   .quire-citation__content {
     font-size: 0.75em;
