@@ -410,7 +410,6 @@ function toggleCite() {
                 this.setAttribute('aria-expanded', 'false');
             }
             var content = this.parentNode.querySelector('span');
-            console.log(content);
             if (content) {
                 content.getAttribute('hidden');
                 if (typeof content.getAttribute('hidden') === 'string') {
