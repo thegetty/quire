@@ -48,3 +48,5 @@ params:
   figureModal: true
   figureModalIcons: true
   figureZoom: true
+  citationPopupStyle: icon # text | icon
+  citationPopupLinkText: "Bibliography"
