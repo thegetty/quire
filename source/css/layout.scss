@@ -25,8 +25,8 @@
 // .quire
 // -----------------------------------------------------------------------------
 [hidden] {
-  display: none; 
-  animation: .25s ease-out 0s 1 fadeOut;
+  display: none;
+  animation: .25s ease-out 0s 1 fadeOut !important;
 }
 .quire {
   width: 100%;

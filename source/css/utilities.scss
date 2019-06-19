@@ -177,6 +177,32 @@ sub {
     to   { opacity: 1; }
 }
 
+// fadeOut
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+/* Firefox < 16 */
+@-moz-keyframes fadeOut {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadeOut {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+/* Internet Explorer */
+@-ms-keyframes fadeOut {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+/* Opera < 12.1 */
+@-o-keyframes fadeOut {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+
 // slideFromRight
 @keyframes slideFromRight {
     from { right: -100em; }

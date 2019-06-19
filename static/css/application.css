@@ -7184,6 +7184,25 @@ sub {
 
 /* Opera < 12.1 */
 
+@keyframes fadeOut {
+  from {
+    opacity: 1; }
+  to {
+    opacity: 0; } }
+
+/* Firefox < 16 */
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadeOut {
+  from {
+    opacity: 1; }
+  to {
+    opacity: 0; } }
+
+/* Internet Explorer */
+
+/* Opera < 12.1 */
+
 @keyframes slideFromRight {
   from {
     right: -100em; }
@@ -7227,8 +7246,8 @@ template {
 
 [hidden] {
   display: none;
-  -webkit-animation: .25s ease-out 0s 1 fadeOut;
-          animation: .25s ease-out 0s 1 fadeOut; }
+  -webkit-animation: .25s ease-out 0s 1 fadeOut !important;
+          animation: .25s ease-out 0s 1 fadeOut !important; }
 
 .quire {
   width: 100%; }
