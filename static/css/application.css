@@ -9737,6 +9737,11 @@ div.multimedia {
         width: auto;
         right: 0;
         margin-left: -100px; } }
+    @media screen and (min-width: 700px) and (max-width: 978px) {
+      .quire-citation .quire-citation__content {
+        width: 200px;
+        right: 0;
+        margin-left: -100px; } }
     .quire-citation .quire-citation__content_link {
       float: right; }
 
