@@ -57,7 +57,7 @@
     {{- $entry := ($.Page.Scratch.GetSortedMapValues "entry") -}}
     {{- $shortId := $short | urlize -}}
     {{- $.Page.Scratch.SetInMap "cited" $shortId $entry -}}
-    <span class="quire-citation expandable"><a aria-expanded="false">{{- if eq (len .Params) 3 }}{{- .Get 2 -}} ::{{ else }}{{- markdownify $short -}}{{ end }}{{- if eq (len .Params) 2 }}{{ $.Site.Params.citationPageLocationDivider }}{{ .Get 1 }}{{ end -}}{{ if eq .Site.Params.citationPopupStyle "icon" }} <button class="material-icons md-18 material-control-point" aria-expanded="false">control_point</button>{{ end }}</a><span hidden class="quire-citation__content"><span class="visually-hidden">Citation: </span>{{- markdownify $full -}}<br/><span class="quire-citation__content_link"><a href="#bibliography">{{ .Site.Params.citationPopupLinkText }}</a></span></span></span>
+    <span class="quire-citation expandable">{{ if ne .Site.Params.citationPopupStyle "icon" }}<button aria-expanded="false">{{ end }}{{- if eq (len .Params) 3 }}{{- .Get 2 -}} ::{{ else }}{{- markdownify $short -}}{{ end }}{{- if eq (len .Params) 2 }}{{ $.Site.Params.citationPageLocationDivider }}{{ .Get 1 }}{{ end -}}{{ if eq .Site.Params.citationPopupStyle "icon" }}<button class="material-icons md-18 material-control-point" aria-expanded="false">control_point</button>{{ end }}{{ if ne .Site.Params.citationPopupStyle "icon" }}</button>{{ end }}<span hidden class="quire-citation__content"><span class="visually-hidden">Citation: </span>{{- markdownify $full -}}</span></span>
   {{- end -}}
 
 {{- end -}}
