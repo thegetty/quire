@@ -11,10 +11,43 @@
     border: none;
     padding: 0;
     font-size: 1em;
-    font-weight: 600;
+    background-color: inherit;
+    font-family: $quire-primary-font;
+    color: inherit;
+    cursor: pointer;
+    @if $theme == classic {
+      border-bottom: 1px dotted background-color-text-classic($content-background-color);
+    } @else {
+      border-bottom: 1px dotted $accent-color;
+    }
+    &.material-icons {
+      font-family: "Material Icons";
+      font-weight: 600;
+      margin-left: .125em;
+      @if $theme == classic {
+        @if (lightness($secondary-background-color) > 50) {
+          color: darken($secondary-background-color, 35%);
+        } @else {
+          color: $white;
+        }
+      } @else {
+        color: $accent-color;
+      }
+      border-bottom-width: 0;
+    }
+    &:hover {
+      color: link-hover-color($content-background-color) !important;
+      border-bottom: 1px solid link-hover-color($content-background-color);
+    }
+    &.material-icons:hover {
+      border-bottom-width: 0;
+    }
+    &:focus {
+      background-color: $quire-hover-color;
+    }
   }
   .quire-citation__content {
-    font-size: 0.75em;
+    font-size: 0.875em;
     line-height: 1.5;
     background-color: $white;
     color: $off-black;
@@ -38,9 +71,6 @@
       width: 200px;
       right: 0;
       margin-left: -100px;
-    }
-    &_link {
-      float: right;
     }
   }
 }
