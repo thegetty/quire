@@ -420,6 +420,21 @@ function toggleCite() {
             }
         });
     }
+    document.addEventListener('click', function(event) {
+        let content = event.target.parentNode;
+        if (content.classList.contains('quire-citation') || content.classList.contains('quire-citation__content')) {
+            // do nothing
+        } else {
+            // find all Buttons/Cites
+            let citeButton = document.querySelectorAll('.quire-citation button');
+            let citesContent = document.querySelectorAll('.quire-citation__content');
+            // hide all buttons
+            for (let i = 0; i < citesContent.length; i++) {
+                citeButton[i].setAttribute('aria-expanded', 'false');
+                citesContent[i].setAttribute('hidden', 'hidden');
+            }
+        }
+    });
 }
 
 /**
