@@ -426,12 +426,12 @@ function toggleCite() {
             // do nothing
         } else {
             // find all Buttons/Cites
-            let citeButton = document.querySelectorAll('.quire-citation button');
-            let citesContent = document.querySelectorAll('.quire-citation__content');
+            let citeButtons = document.querySelectorAll('.quire-citation button');
+            let citesContents = document.querySelectorAll('.quire-citation__content');
             // hide all buttons
             for (let i = 0; i < citesContent.length; i++) {
-                citeButton[i].setAttribute('aria-expanded', 'false');
-                citesContent[i].setAttribute('hidden', 'hidden');
+                citeButtons[i].setAttribute('aria-expanded', 'false');
+                citesContents[i].setAttribute('hidden', 'hidden');
             }
         }
     });
