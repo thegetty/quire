@@ -48,3 +48,4 @@ params:
   figureModal: true
   figureModalIcons: true
   figureZoom: true
+  citationPopupStyle: text # text | icon
