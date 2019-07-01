@@ -55,7 +55,8 @@ class DeepZoom {
           );
           let bounds = new L.LatLngBounds(this.southWest, this.northEast);
           this.addTiles(bounds);
-          this.runMapTimeouts(this.map);
+          // well invalidate
+          // this.runMapTimeouts(this.map);
         })
         .catch(error => console.error(error));
     } else if (this.imageURL && this.iiif) {
@@ -100,7 +101,17 @@ class DeepZoom {
     return new Promise((resolve, reject) => {
       if (!map) reject(new Error("No map!"));
       setTimeout(() => {
-        resolve(map.invalidateSize());
+        let modal = document.querySelector(".mfp-content");
+        if (modal) {
+          if (
+            map._container ===
+            modal.getElementsByTagName("figure")[0].children[0]
+          ) {
+            resolve(map.invalidateSize());
+          }
+        } else {
+          resolve(map.invalidateSize());
+        }
       }, 250);
     });
   }
@@ -113,14 +124,12 @@ class DeepZoom {
    */
   runMapTimeouts(map) {
     setTimeout(() => {
-      if (map) {
-        map.invalidateSize();
-      }
+      this.validateSize(map);
     }, 100);
     if ($(window)) {
       $(window).on("resize", event => {
         if (map) {
-          map.invalidateSize();
+          this.validateSize(map);
         }
       });
     }

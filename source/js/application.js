@@ -412,6 +412,21 @@ function slideImage(direction, event, mapArr) {
 }
 
 /**
+ * validateSize
+ * @description
+ * invalidateSize map as a promise
+ * @param {object} map must be an object
+ */
+function validateSize(map) {
+  return new Promise((resolve, reject) => {
+    if (!map) reject(new Error("No map!"));
+    setTimeout(() => {
+      resolve(map.invalidateSize());
+    }, 250);
+  });
+}
+
+/**
  * pageSetup
  * @description This function is called after each smoothState reload.
  * Initialize any jquery plugins or set up page UI elements here.

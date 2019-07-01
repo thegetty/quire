@@ -158,16 +158,21 @@ export const toggleFullscreen = (
     return new Promise((resolve, reject) => {
       if (!map) reject(new Error("No map!"));
       setTimeout(() => {
-        if (map) {
-          console.log(map);
-          resolve(map.invalidateSize());
+        let modal = document.querySelector(".mfp-content");
+        if (modal) {
+          if (
+            map._container ===
+            modal.getElementsByTagName("figure")[0].children[0]
+          ) {
+            resolve(map.invalidateSize());
+          }
         } else {
-          reject(new Error(map));
+          resolve(map.invalidateSize());
         }
       }, 250);
     });
   }
-  console.log(mapArr, fullscreenButton, elementToFullscreen);
+
   const el = elementToFullscreen;
   let toggleFullscreen = fullscreenButton;
   if (toggleFullscreen) {
