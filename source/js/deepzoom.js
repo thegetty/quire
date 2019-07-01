@@ -153,6 +153,7 @@ class DeepZoom {
     });
   }
 
+  /** @param {object} zoom must be an object */
   createMap(zoom) {
     return L.map(this.el, {
       center: [0, 0],
