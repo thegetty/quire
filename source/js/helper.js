@@ -1,4 +1,5 @@
 import SmoothScroll from "smooth-scroll";
+import fullscreen from "./fullscreen";
 
 /**
  * @fileOverview
@@ -132,5 +133,61 @@ export const stopVideo = element => {
   }
   if (video) {
     video.pause();
+  }
+};
+
+/**
+ * @description toggle fullscreen for entry leaflet images
+ * Also pass in the maps array to invalidate size after transition.
+ * @param {array} mapArr must be an integer
+ * @param {element} fullscreenButton must be an element
+ * @param {element} elementToFullscreen must be an element
+ */
+export const toggleFullscreen = (
+  mapArr,
+  fullscreenButton,
+  elementToFullscreen
+) => {
+  /**
+   * validateSize
+   * @description
+   * invalidateSize map as a promise
+   * @param {object} map must be an object
+   */
+  function validateSize(map) {
+    return new Promise((resolve, reject) => {
+      if (!map) reject(new Error("No map!"));
+      setTimeout(() => {
+        if (map) {
+          console.log(map);
+          resolve(map.invalidateSize());
+        } else {
+          reject(new Error(map));
+        }
+      }, 250);
+    });
+  }
+  console.log(mapArr, fullscreenButton, elementToFullscreen);
+  const el = elementToFullscreen;
+  let toggleFullscreen = fullscreenButton;
+  if (toggleFullscreen) {
+    toggleFullscreen.addEventListener("click", event => {
+      event.stopPropagation();
+      event.preventDefault();
+      if (fullscreen.enabled && el) {
+        el.classList.toggle("fullscreen", !el.classList.contains("fullscreen"));
+        // @ts-ignore
+        event.target.classList.toggle(
+          "fullscreen",
+          // @ts-ignore
+          !event.target.classList.contains("fullscreen")
+        );
+        fullscreen.toggle(el);
+        mapArr.forEach(v => {
+          validateSize(v).catch(err => console.log(err));
+        });
+      }
+      return false;
+    });
   }
 };
