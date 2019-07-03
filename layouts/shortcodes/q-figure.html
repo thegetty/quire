@@ -30,20 +30,6 @@ we start with media figures
 
 <figure data="q-figure" class='quire-figure {{ with $.Get "class" }}{{ . }}{{ end }}'>
 
-  {{ if eq $.Site.Params.figureZoom true }}
-  <div 
-  class="leaflet-control-fullscreen leaflet-bar leaflet-control"
-  >
-    <a
-    id="toggleFullscreen" 
-    class="leaflet-control-fullscreen-button leaflet-bar-part" 
-    href="#" 
-    title="View Fullscreen" 
-    style="outline: none;">
-    </a>
-  </div>
-  {{ end }}
-
 {{ if and (ne ($.Get "media_type") "youtube") (ne ($.Get "media_type") "vimeo") (ne ($.Get "media_type") "website") (ne ($.Get "media_type") "audio") (ne ($.Get "media_type") "soundcloud") (ne ($.Get "media_type") "table") }}
 {{ partial "error-message.html" $errorNoMediaType }}
 {{ else }}

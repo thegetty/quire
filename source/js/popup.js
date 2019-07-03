@@ -9,7 +9,7 @@ require("magnific-popup");
 export default function(gallerySelector, mapArr) {
   const fullscreenButton = `
   <div 
-  class="leaflet-control-fullscreen leaflet-bar leaflet-control"
+  class="leaflet-control-fullscreen leaflet-bar leaflet-control remove-from-epub"
   >
     <a
     id="toggleFullscreen" 

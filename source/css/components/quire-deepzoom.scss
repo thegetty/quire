@@ -166,6 +166,9 @@ div.leaflet-control {
         background-color: transparent;
       }
     }
+    @media print {
+      display: none;
+    }
   }
 }
 
