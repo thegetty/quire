@@ -114,6 +114,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
       display: flex;
       align-items: center;
       justify-content: center;
+      position: relative;
 
       @media print {
         margin: 0 auto;
@@ -173,11 +174,13 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
       }
     }
 
-    &.fullscreen img {
-      margin: 0 auto;
-      max-height: calc(100vh - 6rem - 3rem);
-
-      &:active {
+    &.fullscreen {
+      img {
+        margin: 0 auto;
+        max-height: calc(100vh - 6rem - 3rem);
+      }
+      figure {
+        height: 100vh;
       }
     }
 
