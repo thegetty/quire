@@ -33,7 +33,18 @@ a single image or object needs to be featured prominently.\
 
   {{/* Full-width entry image header */}}
 <div class="quire-entry__image-wrap">
-<div class="quire-entry__image">
+<div id="quire-entry__image" class="quire-entry__image">
+  <div 
+  class="leaflet-control-fullscreen leaflet-bar leaflet-control remove-from-epub"
+  >
+    <a
+    id="toggleFullscreen" 
+    class="leaflet-control-fullscreen-button leaflet-bar-part" 
+    href="#" 
+    title="View Fullscreen" 
+    style="outline: none;">
+    </a>
+  </div>
   {{ if .Params.image }}
     {{- $imgPath := printf "%s/%s" ($.Scratch.Get "imageDir") .Params.image -}}
     <img src="{{ $imgPath | relURL }}" alt="" />
@@ -44,8 +55,8 @@ a single image or object needs to be featured prominently.\
         <div class="quire-entry__image__group-container">
           {{ if gt (len .figure) 1 -}}
           {{ if ne $.Site.Params.pdf true }}
-          <button class="remove-from-epub quire-image-control quire-image-control--prev-image" onclick="slideImage('prev')" id="prev-image" title="Previous image"></button>
-          <button class="remove-from-epub quire-image-control quire-image-control--next-image" onclick="slideImage('next')" id="next-image" title="Next image"></button>
+        <button class="remove-from-epub quire-image-control quire-image-control--prev-image" id="prev-image" title="Previous image"></button>
+        <button class="remove-from-epub quire-image-control quire-image-control--next-image" id="next-image" title="Next image"></button>
           {{ end }}
           {{ end -}}
         {{ range .figure }}
@@ -229,6 +240,7 @@ a single image or object needs to be featured prominently.\
     {{ if .figure.geojson }} data-geojson="{{ .Site.BaseURL }}{{ .figure.geojson }}" {{ end }}
     {{ if .figure.caption }} data-caption='{{ .figure.caption | markdownify | safeHTML }}' {{ end }}
   >
+
   </div>
 
   {{ else if eq .figure.media_type "youtube" }}
@@ -334,25 +346,27 @@ a single image or object needs to be featured prominently.\
 
   {{ end }}
 
-  {{ if or .figure.caption .figure.credit }}
+  {{ end }}
+
+{{- template "details" (dict "imgPath" $imgPath "figureData" .) -}}
+</figure>
+
+{{ end }}
+
+{{- define "details" -}}
+  {{ if or .figureData.figure.caption .figureData.figure.credit }}
       <div class="quire-image-control quire-image-info">
         <span class="quire-image-info__wrap">
-          {{ with .figure.caption }}<span class="quire-image-info__caption">{{ . | markdownify }}</span>{{ end }}
-          {{ with .figure.credit }}<span class="quire-image-info__credit">{{ .| markdownify }}</span>{{ end }}
+          {{ with .figureData.figure.caption }}<span class="quire-image-info__caption">{{ . | markdownify }}</span>{{ end }}
+          {{ with .figureData.figure.credit }}<span class="quire-image-info__credit">{{ .| markdownify }}</span>{{ end }}
         </span>
       </div>
   {{ end }}
-
-  <div class="quire-image-counter-download-container">
-    {{ if eq .figure.download true }}
-    <a href="{{ $imgPath | relURL }}" target="_blank" class="remove-from-epub quire-image-control quire-image-control--download" title="Download image" download>
+  <div class="quire-image-counter-download-container wtf">
+    {{ if eq .figureData.figure.download true }}
+    <a href="{{ .imgPath | relURL }}" target="_blank" class="remove-from-epub quire-image-control quire-image-control--download" title="Download image" download>
       {{- partial "icon.html" (dict "type" "download" "description" "Download image") -}}
     </a>
     {{ end }}
   </div>
-
-  {{ end }}
-
-</figure>
-
-{{ end }}
+{{- end -}}

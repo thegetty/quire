@@ -144,3 +144,38 @@ div.leaflet-control {
   width: 100vw;
   height: 100vh;
 }
+
+.quire-entry__image,
+.mfp-content {
+  .leaflet-control-fullscreen {
+    position: absolute;
+    top: 70px;
+    left: 10px;
+    background: $off-black-semi-transparent;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 2px;
+    a {
+      background-position: top;
+      box-shadow: none;
+      background-image: $fullscreen-button-img;
+      &.fullscreen {
+        background-position-y: bottom;
+      }
+      &:hover {
+        background-color: transparent;
+      }
+    }
+    @media print {
+      display: none;
+    }
+  }
+}
+
+.leaflet-bar {
+  a {
+    &:hover {
+      background-color: transparent;
+    }
+  }
+}

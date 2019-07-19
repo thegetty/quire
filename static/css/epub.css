@@ -85,9 +85,11 @@ h1, h2, h3, h4, h5, h6, blockquote p cite, dt, pre, address, table, caption, th,
 h1, h2, h3, h4, h5, h6, dt, hr {
   page-break-inside: avoid;
   -webkit-column-break-inside: avoid;
+     -moz-column-break-inside: avoid;
           break-inside: avoid;
   page-break-after: avoid;
   -webkit-column-break-after: avoid;
+     -moz-column-break-after: avoid;
           break-after: avoid; }
 
 p {
@@ -115,8 +117,8 @@ a {
   text-decoration: underline;
   /* Note: KF8 will force this value unless you use "el.class a" */
   font-weight: bold;
-  color: #6A8EB8;
-  -webkit-text-fill-color: #6A8EB8;
+  color: #CF4747;
+  -webkit-text-fill-color: #CF4747;
   /* iBooks override (iOS 9 + El Capitan in night mode) */
   /* inherit = text color */ }
 
@@ -175,6 +177,7 @@ sup {
 figure {
   page-break-inside: avoid;
   -webkit-column-break-inside: avoid;
+     -moz-column-break-inside: avoid;
           break-inside: avoid;
   margin: 1.5em 0; }
   figure img {
@@ -237,7 +240,7 @@ hr {
   margin-bottom: 1.4375em;
   height: 0;
   border: none;
-  border-top: 0.125em solid #6A8EB8;
+  border-top: 0.125em solid #CF4747;
   /* currentColor = color of text (getting around night mode) */
   opacity: 0.5;
   /* Opacity -> grayscale. If opacity is declared for too many elements in a XHTML file, performance of legacy RMSDK takes a hit */ }
@@ -266,7 +269,7 @@ tbody, thead, tfoot, tr {
 
 th {
   empty-cells: show;
-  border-bottom: 0.125em solid #6A8EB8;
+  border-bottom: 0.125em solid #CF4747;
   /* Current color = color of text (inverted in night mode) */
   padding: 0.6875em 2% 0.6875em 0;
   text-align: left;
@@ -274,7 +277,7 @@ th {
 
 td {
   empty-cells: show;
-  border-bottom: 0.0625em solid #6A8EB8;
+  border-bottom: 0.0625em solid #CF4747;
   /* Current color = color of text (inverted in night mode) */
   padding: 0.75em 2% 0.6875em 0;
   text-align: left; }
@@ -319,11 +322,11 @@ section.level1 {
   width: -moz-fit-content;
   width: fit-content;
   display: table;
-  background-color: gray;
-  color: white; }
+  border-top: 2px solid #CF4747;
+  border-bottom: 2px solid #CF4747; }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: Times, serif;
+  font-family: Helvetica, Arial, sans-serif;
   font-weight: 700; }
 
 h1 {
@@ -362,7 +365,7 @@ section:not(#contents) h1 + ul {
 a {
   font-weight: 400;
   text-decoration: none;
-  border-bottom: 1px dotted #6A8EB8; }
+  border-bottom: 1px dotted #CF4747; }
   a.footnote-return,
   .footnote-ref a {
     font-weight: 700;
@@ -370,7 +373,11 @@ a {
 
 figure {
   page-break-inside: avoid;
-  margin: 1em 0; }
+  margin: 1em 0;
+  border-top: 1px solid #CF4747;
+  border-bottom: 1px solid #CF4747;
+  padding-top: .5em;
+  padding-bottom: .5em; }
   figure img {
     display: block;
     margin: 0 auto;
