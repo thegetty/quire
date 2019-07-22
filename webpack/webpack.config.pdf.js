@@ -4,7 +4,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const autoprefixer = require('autoprefixer');
-const CleanWebpackPlugin = require('clean-webpack-plugin')
 const ImageminPlugin = require("imagemin-webpack");
 const imageminGifsicle = require("imagemin-gifsicle");
 const imageminJpegtran = require("imagemin-jpegtran");
@@ -15,18 +14,6 @@ const PATHS = {
   source: path.join(__dirname, '../source'),
   build: path.join(__dirname, '../static')
 };
-
-// the path(s) that should be cleaned
-let pathsToClean = [
-  path.join(__dirname, '../img'), path.join(__dirname, '../fonts')
-]
-
-// the clean options to use
-let cleanOptions = {
-  verbose: false,
-  watch: false,
-  allowExternal: true
-}
 
 module.exports = {
   mode: 'production',
@@ -133,7 +120,6 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'css/application.css'
     }),
-    new CleanWebpackPlugin(pathsToClean, cleanOptions),
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
