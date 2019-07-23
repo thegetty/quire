@@ -323,7 +323,11 @@ function quickLinksSetup() {
       /#(.+)/,
       uri => uri.includes("tel:"),
       uri => uri.includes("mailto:"),
-      uri => uri.includes("#")
+      uri => uri.includes("#"),
+      uri => uri.includes(".zip"),
+      uri => uri.includes(".epub"),
+      uri => uri.includes(".pdf"),
+      uri => uri.includes(".mobi")
     ]
   });
 }
@@ -427,18 +431,69 @@ function validateSize(map) {
 }
 
 /**
+ * @description
+ * find expandable class and look for aria-expanded
+ * https://github.com/gettypubs/quire/issues/152
+ * Cite button where users can select, tied to two config settings:
+ * citationPopupStyle - text for text only | icon for text and icon
+ * citationPopupLinkText which is whatever text you it to say
+ */
+function toggleCite() {
+  let expandables = document.querySelectorAll(".expandable [aria-expanded]");
+  for (let i = 0; i < expandables.length; i++) {
+    expandables[i].addEventListener("click", function() {
+      var expanded = this.getAttribute("aria-expanded");
+      if (expanded === "false") {
+        this.setAttribute("aria-expanded", "true");
+      } else {
+        this.setAttribute("aria-expanded", "false");
+      }
+      var content = this.parentNode.querySelector("span");
+      if (content) {
+        content.getAttribute("hidden");
+        if (typeof content.getAttribute("hidden") === "string") {
+          content.removeAttribute("hidden");
+        } else {
+          content.setAttribute("hidden", "hidden");
+        }
+      }
+    });
+  }
+  document.addEventListener("click", function(event) {
+    let content = event.target.parentNode;
+    if (
+      content.classList.contains("quire-citation") ||
+      content.classList.contains("quire-citation__content")
+    ) {
+      // do nothing
+    } else {
+      // find all Buttons/Cites
+      let citeButtons = document.querySelectorAll(".quire-citation button");
+      let citesContents = document.querySelectorAll(".quire-citation__content");
+      // hide all buttons
+      for (let i = 0; i < citesContents.length; i++) {
+        citeButtons[i].setAttribute("aria-expanded", "false");
+        citesContents[i].setAttribute("hidden", "hidden");
+      }
+    }
+  });
+}
+
+/**
  * pageSetup
  * @description This function is called after each smoothState reload.
  * Initialize any jquery plugins or set up page UI elements here.
  */
 function pageSetup() {
   setDate();
-  // quickLinksSetup();
+  quickLinksSetup();
   activeMenuPage();
   sliderSetup();
   navigationSetup();
   popupSetup(figureModal);
+  toggleCite();
   // smoothScroll();
+
   // Wire up event listeners here, so we can pass in the maps array
   const prev = document.getElementById("prev-image");
   const next = document.getElementById("next-image");
