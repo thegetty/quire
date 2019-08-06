@@ -16,6 +16,8 @@ const PATHS = {
   build: path.join(__dirname, "../static")
 };
 
+const ASSET_PATH = process.env.ASSET_PATH || "../";
+
 module.exports = {
   mode: "none",
   entry: {
@@ -23,7 +25,8 @@ module.exports = {
   },
   output: {
     path: PATHS.build,
-    publicPath: "/"
+    publicPath: ASSET_PATH,
+    filename: path.join("js", "application.js")
   },
   module: {
     rules: [

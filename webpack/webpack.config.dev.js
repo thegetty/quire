@@ -22,7 +22,7 @@ module.exports = {
   watch: true,
   watchOptions: {
     aggregateTimeout: 300,
-    poll: 4000
+    poll: 3000
   },
   entry: {
     source: path.join(PATHS.source, "js", "application.js")
