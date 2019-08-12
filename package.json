@@ -8,7 +8,7 @@
   },
   "main": "webpack/webpack.config.dev.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build:netlify": "webpack --config webpack/webpack.config.prod.js && cd ../../ && hugo --minify --config config.yml,config/site.yml"
   },
   "author": "Getty Publications",
   "license": "BSD-3-Clause",
