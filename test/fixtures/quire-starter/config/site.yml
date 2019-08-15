@@ -1,5 +1,5 @@
 # ==============================================================================
-#  site.yml
+#  web.yml
 # ------------------------------------------------------------------------------
 #
 # Build-specific values. Hugo supports multiple config files with the
@@ -10,4 +10,3 @@
 # If you are using the Quire commands, this will happen automatically.
 
 baseURL: ""
-relativeURLs: true

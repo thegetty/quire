@@ -7,7 +7,7 @@
 # you've copied the default theme and given it a different name make sure to
 # update the value here too.
 
-baseurl: ""
+baseURL: ""
 
 title: "Quire Starter"
 languageCode: "en-us"
@@ -16,6 +16,7 @@ publishDir: site
 
 footnoteReturnLinkContents: "↩"
 metaDataFormat: "yaml"
+GoogleAnalytics: ""
 
 pluralizeListTitles: true
 disableKinds:
@@ -24,13 +25,27 @@ disableKinds:
   - "taxonomy"
   - "taxonomyTerm"
 
+blackfriday:
+  fractions: false
+  hrefTargetBlank: true
+
 # These values can be accessed in templates via .Site.Params
 params:
   searchEnabled: true
+  licenseIcons: true
+  pageLabelDivider: ". "
   citationPageLocationDivider: ", "
-  imageLabelContentBefore: "Figure "
-  imageLabelContentAfter: ". "
-  displayBiblioShort: "true"
+  contributorByline: name-title # name | name-title | false
+  displayBiblioShort: true
   imageDir: "img"
   tocType: full
-  menuType: short
+  menuType: full
+  prevPageButtonText: "Back"
+  nextPageButtonText: "Next"
+  entryPageSideBySideLayout: false
+  entryPageObjectLinkText: "View in Collection"
+  figureLabelLocation: on-top # below | on-top
+  figureModal: true
+  figureModalIcons: true
+  figureZoom: true
+  citationPopupStyle: text # text | icon
