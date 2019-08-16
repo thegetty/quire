@@ -11,33 +11,34 @@ const validProjectDir = path.join(
 );
 
 describe("CLI", () => {
-  afterEach(function() {
-    //process.chdir(process.cwd());
-    // console.log(process.cwd());
-  });
+  let quire = new CLI();
 
-  it("prints the CLI object ", () => {
-    //process.chdir(validProjectDir);
-    let quire = new CLI();
-    console.log(quire);
-  });
-
-  /** This maybe an issue with my github config */
-  it("should successfully create a starter project", () => {
-    let sandboxDir = tmp.dirSync({ unsafeCleanup: true });
+  test("should successfully create a starter project", async done => {
+    let sandboxDir = tmp.dirSync();
     let projectName = "testProject";
-
+    let projectThemePath = path.join(
+      projectName,
+      "themes",
+      "quire-starter-theme"
+    );
     process.chdir(sandboxDir.name);
-    quire = new CLI();
-    quire
-      .create(projectName)
-      .then(result => {
-        console.log(result);
-        assert.equal(fs.existsSync(projectName), true);
-      })
-      .catch(err => {
-        console.log(`error`);
-        consol.log(err);
-      });
-  });
+    // console.log("sandboxDir: ", sandboxDir);
+    let result = await quire.create(projectName);
+    // console.log(result);
+    if (result) {
+      let fullPath = path.join(sandboxDir.name, projectThemePath);
+      // console.log(fs.existsSync(fullPath));
+      assert.equal(fs.existsSync(fullPath), true);
+      // quire.shutdown(true);
+      done();
+    } else {
+      // quire.shutdown(true);
+      done();
+    }
+  }, 25000);
+
+  test("prints the CLI object", () => {
+    console.log(`prints the CLI object`);
+    console.log(quire);
+  }, 2000);
 });
