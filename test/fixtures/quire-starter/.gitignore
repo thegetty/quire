@@ -1,8 +1,0 @@
-.DS_Store
-.bundle
-.cache
-.sass-cache
-public
-site
-node_modules
-.tmp
