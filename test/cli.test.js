@@ -3,6 +3,7 @@ const path = require("path");
 const tmp = require("tmp");
 const fs = require("fs");
 const CLI = require(path.join("..", "lib", "cli"));
+const defaultLocation = process.cwd();
 
 describe("CLI", () => {
   let quire = new CLI();
@@ -15,11 +16,6 @@ describe("CLI", () => {
     "themes",
     "quire-starter-theme"
   );
-
-  test("prints the CLI object", () => {
-    console.log(`prints the CLI object`);
-    console.log(quire);
-  }, 2000);
 
   test(
     "should successfully create a starter project",
@@ -133,4 +129,7 @@ describe("CLI", () => {
     },
     25000 * 6
   );
+  afterAll(done => {
+    process.chdir(defaultLocation);
+  });
 });
