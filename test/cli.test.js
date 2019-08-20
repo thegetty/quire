@@ -102,4 +102,7 @@ describe("CLI", () => {
     },
     timeout
   );
+  afterAll(done => {
+    process.chdir(defaultLocation);
+  });
 });
