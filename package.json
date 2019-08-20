@@ -12,6 +12,9 @@
     "test": "./node_modules/.bin/mocha",
     "jest:test": "./node_modules/.bin/jest --colors --verbose --detectOpenHandles --runInBand"
   },
+  "jest": {
+    "testEnvironment": "node"
+  },
   "license": "MIT",
   "bin": {
     "quire": "./lib/index.js"

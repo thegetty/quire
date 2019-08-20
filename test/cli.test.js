@@ -6,7 +6,9 @@ const CLI = require(path.join("..", "lib", "cli"));
 
 describe("CLI", () => {
   let quire = new CLI();
-  let sandboxDir = tmp.dirSync();
+  let sandboxDir = tmp.dirSync({
+    unsafeCleanup: true
+  });
   let projectName = "testProject";
   let projectThemePath = path.join(
     projectName,
@@ -108,7 +110,7 @@ describe("CLI", () => {
         done();
       }
     },
-    25000 * 5
+    25000 * 7
   );
 
   test(
