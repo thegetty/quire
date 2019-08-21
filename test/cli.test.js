@@ -130,6 +130,6 @@ describe("CLI", () => {
     25000 * 6
   );
   afterAll(done => {
-    process.chdir(defaultLocation);
+    // process.chdir(defaultLocation);
   });
 });
