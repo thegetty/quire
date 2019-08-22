@@ -78,7 +78,7 @@ describe("CLI", () => {
   );
 
   test(
-    "should successfully build a epub",
+    "should successfully build a mobi",
     async done => {
       await quire.epub();
       assert.equal(
@@ -91,7 +91,7 @@ describe("CLI", () => {
   );
 
   test(
-    "should successfully build a mobi",
+    "should successfully build a epub",
     async done => {
       await quire.mobi();
       assert.equal(
