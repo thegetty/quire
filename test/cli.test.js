@@ -3,7 +3,6 @@ const path = require("path");
 const tmp = require("tmp");
 const fs = require("fs");
 const CLI = require(path.join("..", "lib", "cli"));
-const defaultLocation = process.cwd();
 
 describe("CLI", () => {
   let quire = new CLI();
@@ -89,27 +88,6 @@ describe("CLI", () => {
   );
 
   test(
-    "should successfully build a epub",
-    async done => {
-      let result = await quire.epub();
-      if (result) {
-        let epubPath = path.join(
-          sandboxDir.name,
-          projectName,
-          "static",
-          "downloads",
-          "output.epub"
-        );
-        assert.equal(fs.existsSync(epubPath), true);
-        done();
-      } else {
-        done();
-      }
-    },
-    25000 * 7
-  );
-
-  test(
     "should successfully build a mobi",
     async done => {
       let result = await quire.mobi();
@@ -128,5 +106,26 @@ describe("CLI", () => {
       }
     },
     25000 * 6
+  );
+
+  test(
+    "should successfully build a epub",
+    async done => {
+      let result = await quire.epub();
+      if (result) {
+        let epubPath = path.join(
+          sandboxDir.name,
+          projectName,
+          "static",
+          "downloads",
+          "output.epub"
+        );
+        assert.equal(fs.existsSync(epubPath), true);
+        done();
+      } else {
+        done();
+      }
+    },
+    25000 * 7
   );
 });
