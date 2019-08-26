@@ -1,8 +1,11 @@
 export default {
-  input: "index.js",
+  input: {
+    include: ["index.js", "lib/*.js"]
+  },
   output: {
-    file: "./bin/bundle.min.js",
+    file: "./bin/index.js",
     format: "iife",
     name: "bundle"
-  }
+  },
+  plugins: [multiEntry()]
 };
