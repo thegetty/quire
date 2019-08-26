@@ -3,7 +3,7 @@ const path = require("path");
 const tmp = require("tmp");
 const fs = require("fs");
 const CLI = require(path.join("..", "lib", "cli"));
-const defaultLocation = process.cwd();
+const timeout = 5e4;
 
 describe("CLI", () => {
   let quire = new CLI();
@@ -30,7 +30,7 @@ describe("CLI", () => {
         done();
       }
     },
-    25000 * 1
+    timeout
   );
 
   test(
@@ -49,7 +49,7 @@ describe("CLI", () => {
         done();
       }
     },
-    25000 * 2
+    timeout
   );
 
   test(
@@ -64,7 +64,7 @@ describe("CLI", () => {
         done();
       }
     },
-    25000 * 3
+    timeout
   );
 
   test(
@@ -85,7 +85,7 @@ describe("CLI", () => {
         done();
       }
     },
-    25000 * 4
+    timeout
   );
 
   test(
@@ -106,7 +106,7 @@ describe("CLI", () => {
         done();
       }
     },
-    25000 * 7
+    timeout
   );
 
   test(
@@ -127,9 +127,6 @@ describe("CLI", () => {
         done();
       }
     },
-    25000 * 6
+    timeout
   );
-  afterAll(done => {
-    // process.chdir(defaultLocation);
-  });
 });
