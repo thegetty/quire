@@ -26,7 +26,8 @@ export default {
   output: {
     file: "./bin/index.js",
     format: "iife",
-    banner: "#!/usr/bin/env node"
+    banner: "#!/usr/bin/env node",
+    name: "quire"
   },
   plugins: [
     commonjs({
@@ -35,12 +36,9 @@ export default {
     babel({
       babelrc: false,
       runtimeHelpers: true,
-      plugins: [
-        "external-helpers",
-        "@babel/plugin-transform-async-to-generator",
-        "@babel/plugin-transform-runtime"
-      ],
-      presets: ["@babel/preset-env"]
+      exclude: "node_modules/**",
+      presets: [["@babel/env", { modules: false }]],
+      plugins: ["@babel/transform-runtime"]
     }),
     multiEntry(),
     replace({
@@ -48,7 +46,6 @@ export default {
       "#!/usr/bin/env node": ""
     }),
     resolve({
-      module: true,
       preferBuiltins: false,
       browser: true
     }),
