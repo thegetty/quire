@@ -5,8 +5,21 @@ import { uglify } from "rollup-plugin-uglify";
 import multiEntry from "rollup-plugin-multi-entry";
 import replace from "rollup-plugin-replace";
 import json from "rollup-plugin-json";
+import path from "path";
+
+const onwarn = warning => {
+  // Silence circular dependency warning for moment package
+  if (
+    warning.code === "CIRCULAR_DEPENDENCY" &&
+    !warning.importer.indexOf(path.normalize("node_modules/moment/src/lib/"))
+  ) {
+    return;
+  }
+  console.warn(`(!) ${warning.message}`);
+};
 
 export default {
+  onwarn,
   input: {
     include: ["lib/*.js"]
   },
@@ -23,6 +36,7 @@ export default {
       babelrc: false,
       runtimeHelpers: true,
       plugins: [
+        "external-helpers",
         "@babel/plugin-transform-async-to-generator",
         "@babel/plugin-transform-runtime"
       ],
@@ -34,7 +48,7 @@ export default {
       "#!/usr/bin/env node": ""
     }),
     resolve({
-      include: /node_modules/,
+      module: true,
       preferBuiltins: false,
       browser: true
     }),
