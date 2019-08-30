@@ -33,43 +33,45 @@
  * Builds an epub version of the site. To be implemented.
  *
  */
-const program = require('commander')
+const program = require("commander");
 
-const CLI = require('./lib/cli')
-const cli = new CLI()
+const CLI = require("./lib/cli");
+const cli = new CLI();
 
 // Shut down child processes on program exit
-process.on('SIGINT', function () { cli.emit('shutdown') })
+process.on("SIGINT", function() {
+  cli.emit("shutdown");
+});
 
 program
-  .version('v0.17.0')
-  .option('-v, --verbose', 'log verbose output')
-  .option('-f, --file', 'Add Filename and optional new filepath')
-  .option('-e, --env', 'Add environment variable')
+  .version("v0.17.0")
+  .option("-v, --verbose", "log verbose output")
+  .option("-f, --file", "Add Filename and optional new filepath")
+  .option("-e, --env", "Add environment variable");
 
 program
-  .command('new <projectName>')
-  .description('Create a new Quire project in the current directory.')
-  .action(function (projectName) {
-    cli.verbose = program.verbose
-    cli.emit('new', projectName)
-  })
+  .command("new <projectName>")
+  .description("Create a new Quire project in the current directory.")
+  .action(function(projectName) {
+    cli.verbose = program.verbose;
+    cli.emit("new", projectName);
+  });
 
 program
-  .command('preview [options]')
-  .description('Run the preview server in the current directory')
-  .action(function () {
-    cli.verbose = program.verbose
-    cli.emit('preview')
-  })
+  .command("preview [options]")
+  .description("Run the preview server in the current directory")
+  .action(function() {
+    cli.verbose = program.verbose;
+    cli.emit("preview");
+  });
 
 program
-  .command('install')
-  .description('Install this project\'s theme dependencies')
-  .action(function () {
-    cli.verbose = program.verbose
-    cli.emit('install')
-  })
+  .command("install")
+  .description("Install this project's theme dependencies")
+  .action(function() {
+    cli.verbose = program.verbose;
+    cli.emit("install");
+  });
 
 // quire site
 //
@@ -77,14 +79,14 @@ program
 // Pass optional config from config/environments/[env].yml to hugo
 //
 program
-  .command('site [env]')
-  .option('-e, --env', 'Add environment variable')
-  .alias('build')
-  .description('Run the build command in the current directory')
-  .action(function (env) {
-    cli.verbose = program.verbose
-    cli.emit('site', env)
-  })
+  .command("site [env]")
+  .option("-e, --env", "Add environment variable")
+  .alias("build")
+  .description("Run the build command in the current directory")
+  .action(function(env) {
+    cli.verbose = program.verbose;
+    cli.emit("site", env);
+  });
 
 // quire pdf
 //
@@ -92,14 +94,14 @@ program
 // Pass optional config from config/environments/[env].yml to hugo
 //
 program
-  .command('pdf [file] [env]')
-  .option('-f, --file', 'Add Filename and optional new filepath')
-  .option('-e, --env', 'Add environment variable')
-  .description('Generate a PDF version of the current project')
-  .action(function (file, env) {
-    cli.verbose = program.verbose
-    cli.emit('pdf', file, env)
-  })
+  .command("pdf [file] [env]")
+  .option("-f, --file", "Add Filename and optional new filepath")
+  .option("-e, --env", "Add environment variable")
+  .description("Generate a PDF version of the current project")
+  .action(function(file, env) {
+    cli.verbose = program.verbose;
+    cli.emit("pdf", file, env);
+  });
 
 // quire epub
 //
@@ -122,14 +124,14 @@ program
 // Pass optional config from config/environments/[env].yml to hugo
 //
 program
-  .command('epub [file] [env]')
-  .option('-f, --file', 'Add Filename and optional new filepath')
-  .option('-e, --env', 'Add environment variable')
-  .description('Generate an EPUB version of the current project')
-  .action(function (file, env) {
-    cli.verbose = program.verbose
-    cli.emit('epub', file, env)
-  })
+  .command("epub [file] [env]")
+  .option("-f, --file", "Add Filename and optional new filepath")
+  .option("-e, --env", "Add environment variable")
+  .description("Generate an EPUB version of the current project")
+  .action(function(file, env) {
+    cli.verbose = program.verbose;
+    cli.emit("epub", file, env);
+  });
 
 // quire epub
 //
@@ -137,40 +139,43 @@ program
 // Pass optional config from config/environments/[env].yml to hugo
 //
 program
-  .command('mobi [file] [env]')
-  .option('-f, --file', 'Add Filename and optional new filepath')
-  .option('-e, --env', 'Add environment variable')
-  .description('Generate an MOBI version of the current project')
-  .action(function (file, env) {
-    cli.verbose = program.verbose
-    cli.emit('mobi', file, env)
-  })
+  .command("mobi [file] [env]")
+  .option("-f, --file", "Add Filename and optional new filepath")
+  .option("-e, --env", "Add environment variable")
+  .description("Generate an MOBI version of the current project")
+  .action(function(file, env) {
+    cli.verbose = program.verbose;
+    cli.emit("mobi", file, env);
+  });
 
 // quire template
 //
 // download quire templates
 //
 program
-  .command('template [type]')
-  .option('-t, --type', 'Select template to download (Currently only EPUB supported)')
-  .description('Download templates to customize your file output (Currently only EPUB supported)')
-  .action(function (type) {
-    cli.verbose = program.verbose
-    cli.emit('template', type)
-  })
-
-
+  .command("template [type]")
+  .option(
+    "-t, --type",
+    "Select template to download (Currently only EPUB supported)"
+  )
+  .description(
+    "Download templates to customize your file output (Currently only EPUB supported)"
+  )
+  .action(function(type) {
+    cli.verbose = program.verbose;
+    cli.emit("template", type);
+  });
 
 // quire debug
 //
 program
-  .command('debug')
-  .description('Development use only - log info about current project')
-  .action(function () {
-    cli.verbose = program.verbose
-    cli.emit('debug')
-  })
+  .command("debug")
+  .description("Development use only - log info about current project")
+  .action(function() {
+    cli.verbose = program.verbose;
+    cli.emit("debug");
+  });
 
 // Run the program
 //
-program.parse(process.argv)
+program.parse(process.argv);
