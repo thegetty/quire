@@ -4,31 +4,36 @@ const tmp = require("tmp");
 const fs = require("fs");
 const CLI = require(path.join("..", "lib", "cli"));
 const timeout = 5e4;
+const quire = new CLI();
+
+// static names and paths for quire test
+const sandboxDir = tmp.dirSync({
+  unsafeCleanup: true
+});
+const projectName = "quire-project";
+const themeName = "quire-starter-theme";
+const CONFIG = {
+  STARTER_THEME: themeName,
+  DEFAULT_PROJECT_NAME: projectName,
+  PROJECT_FOLDER: path.join(sandboxDir.name, projectName),
+  STATIC_FILES_PATH: path.join(
+    sandboxDir.name,
+    projectName,
+    "static",
+    "downloads"
+  ),
+  THEME_PATH: path.join(sandboxDir.name, projectName, "themes", themeName)
+};
 
 describe("CLI", () => {
-  let quire = new CLI();
-  let sandboxDir = tmp.dirSync({
-    unsafeCleanup: true
-  });
-  let projectName = "testProject";
-  let projectThemePath = path.join(
-    projectName,
-    "themes",
-    "quire-starter-theme"
-  );
+  process.chdir(sandboxDir.name);
 
   test(
     "should successfully create a starter project",
     async done => {
-      process.chdir(sandboxDir.name);
-      let result = await quire.create(projectName);
-      if (result) {
-        let fullPath = path.join(sandboxDir.name, projectThemePath);
-        assert.equal(fs.existsSync(fullPath), true);
-        done();
-      } else {
-        done();
-      }
+      await quire.create(CONFIG.DEFAULT_PROJECT_NAME);
+      assert.equal(fs.existsSync(CONFIG.THEME_PATH), true);
+      done();
     },
     timeout
   );
@@ -36,18 +41,12 @@ describe("CLI", () => {
   test(
     "should successfully install node modules in a starter project theme",
     async done => {
-      let result = await quire.install();
-      if (result) {
-        let nodeModulesPath = path.join(
-          sandboxDir.name,
-          projectThemePath,
-          "node_modules"
-        );
-        assert.equal(fs.existsSync(nodeModulesPath), true);
-        done();
-      } else {
-        done();
-      }
+      await quire.install();
+      assert.equal(
+        fs.existsSync(path.join(CONFIG.THEME_PATH, "node_modules")),
+        true
+      );
+      done();
     },
     timeout
   );
@@ -55,14 +54,12 @@ describe("CLI", () => {
   test(
     "should successfully build a static site",
     async done => {
-      let result = await quire.site();
-      if (result) {
-        let sitePath = path.join(sandboxDir.name, projectName, "site");
-        assert.equal(fs.existsSync(sitePath), true);
-        done();
-      } else {
-        done();
-      }
+      await quire.site();
+      assert.equal(
+        fs.existsSync(path.join(CONFIG.PROJECT_FOLDER, "site")),
+        true
+      );
+      done();
     },
     timeout
   );
@@ -70,20 +67,12 @@ describe("CLI", () => {
   test(
     "should successfully build a pdf",
     async done => {
-      let result = await quire.pdf();
-      if (result) {
-        let pdfPath = path.join(
-          sandboxDir.name,
-          projectName,
-          "static",
-          "downloads",
-          "output.pdf"
-        );
-        assert.equal(fs.existsSync(pdfPath), true);
-        done();
-      } else {
-        done();
-      }
+      await quire.pdf();
+      assert.equal(
+        fs.existsSync(path.join(CONFIG.STATIC_FILES_PATH, "output.pdf")),
+        true
+      );
+      done();
     },
     timeout
   );
@@ -91,20 +80,12 @@ describe("CLI", () => {
   test(
     "should successfully build a epub",
     async done => {
-      let result = await quire.epub();
-      if (result) {
-        let epubPath = path.join(
-          sandboxDir.name,
-          projectName,
-          "static",
-          "downloads",
-          "output.epub"
-        );
-        assert.equal(fs.existsSync(epubPath), true);
-        done();
-      } else {
-        done();
-      }
+      await quire.epub();
+      assert.equal(
+        fs.existsSync(path.join(CONFIG.STATIC_FILES_PATH, "output.epub")),
+        true
+      );
+      done();
     },
     timeout
   );
@@ -112,20 +93,12 @@ describe("CLI", () => {
   test(
     "should successfully build a mobi",
     async done => {
-      let result = await quire.mobi();
-      if (result) {
-        let mobiPath = path.join(
-          sandboxDir.name,
-          projectName,
-          "static",
-          "downloads",
-          "output.mobi"
-        );
-        assert.equal(fs.existsSync(mobiPath), true);
-        done();
-      } else {
-        done();
-      }
+      await quire.mobi();
+      assert.equal(
+        fs.existsSync(path.join(CONFIG.STATIC_FILES_PATH, "output.mobi")),
+        true
+      );
+      done();
     },
     timeout
   );
