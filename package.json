@@ -9,8 +9,7 @@
   ],
   "scripts": {
     "build": "NODE_ENV=production ./node_modules/.bin/webpack -p --config webpack.config.js --progress --colors",
-    "test": "./node_modules/.bin/mocha",
-    "jest:test": "./node_modules/.bin/jest --colors --verbose --detectOpenHandles --runInBand"
+    "test": "./node_modules/.bin/jest --colors --verbose --detectOpenHandles --runInBand"
   },
   "jest": {
     "testEnvironment": "node"
