@@ -1,51 +1,41 @@
 {
   "name": "quire-cli",
-  "version": "0.17.0",
+  "version": "0.1.0",
   "description": "Command-line interface for Quire projects.",
   "main": "index.js",
   "contributors": [
     "Nick Hulea <naeluh@gmail.org>",
     "Eric Gardner"
   ],
-  "scripts": {
-    "build": "NODE_ENV=production ./node_modules/.bin/webpack -p --config webpack.config.js --progress --colors",
-    "test": "./node_modules/.bin/mocha",
-    "jest:test": "./node_modules/.bin/jest --colors --verbose --detectOpenHandles --runInBand"
-  },
-  "jest": {
-    "testEnvironment": "node"
-  },
   "license": "MIT",
   "bin": {
     "quire": "./index.js"
   },
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.18.0",
     "chalk": "^2.4.1",
     "cheerio": "^1.0.0-rc.2",
-    "command-exists": "^1.2.8",
+    "command-exists": "^1.2.7",
     "commander": "^2.17.1",
-    "execa": "^2.0.4",
-    "file-url": "^3.0.0",
+    "execa": "^1.0.0",
+    "file-url": "^2.0.2",
     "fs-extra": "^7.0.0",
-    "glob": "~7.1.4",
+    "glob": "~7.1.3",
     "growl": "^1.10.5",
-    "hugo-bin": "0.43.6",
-    "js-yaml": "^3.13.1",
+    "handlebars": "^4.0.12",
+    "hugo-bin": "0.30.0",
+    "js-yaml": "^3.12.0",
     "kindlegen": "^1.1.0",
-    "lodash": "^4.17.15",
-    "ora": "^3.4.0",
-    "rimraf": "^3.0.0",
-    "sanitize-html": "^1.20.1",
+    "lodash": "^4.17.10",
+    "minimatch": "~3.0.4",
+    "ora": "^3.0.0",
+    "rimraf": "^2.6.2",
+    "sanitize-html": "^1.18.4",
     "striptags": "^3.1.1",
-    "upath": "^1.1.2",
-    "webpack": "^4.39.2",
+    "uniqid": "^5.0.3",
+    "upath": "^1.1.0",
+    "webpack": "^4.17.1",
     "yaml-front-matter": "^3.4.0"
-  },
-  "devDependencies": {
-    "jest": "^24.9.0",
-    "tmp": "0.1.0",
-    "weak": "^1.0.1"
   },
   "repository": {
     "type": "git",
