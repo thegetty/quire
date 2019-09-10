@@ -9,10 +9,7 @@
   ],
   "scripts": {
     "build": "./node_modules/.bin/rollup -c",
-    "test": "./node_modules/.bin/jest --colors --verbose --detectOpenHandles --runInBand"
-  },
-  "jest": {
-    "testEnvironment": "node"
+    "test": "./node_modules/.bin/jest -c -v"
   },
   "jest": {
     "testEnvironment": "node"
@@ -65,8 +62,7 @@
     "rollup-plugin-preserve-shebang": "^0.1.6",
     "rollup-plugin-replace": "^2.2.0",
     "rollup-plugin-uglify": "^6.0.2",
-    "tmp": "0.1.0",
-    "weak": "^1.0.1"
+    "tmp": "0.1.0"
   },
   "repository": {
     "type": "git",
