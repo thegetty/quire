@@ -4,7 +4,7 @@
 
 ### macOS Installation
 
-Open your Terminal {{< q-glossary "command-line shell" >}} (found in your Applications/Utilities folder) and follow the steps below. First, install support software for Quire, and then Quire itself. If you are new to the command-line, read our tutorial on [“Working in a Command-line Shell”](/tutorial#1-working-in-a-command-line-shell).
+Open your Terminal (found in your Applications/Utilities folder) and follow the steps below. First, install support software for Quire, and then Quire itself. If you are new to the command-line, read our tutorial on [“Working in a Command-line Shell”](/tutorial#1-working-in-a-command-line-shell).
 
 1. Install **Apple’s Xcode** by copying and pasting the following command and pressing enter. If Xcode is not already installed, an additional alert notification will pop up. Click “Install” and follow the prompts.
 
