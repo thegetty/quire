@@ -2,7 +2,7 @@ const assert = require("assert");
 const path = require("path");
 const tmp = require("tmp");
 const fs = require("fs");
-const CLI = require(path.join("..", "lib", "cli"));
+import CLI from "../lib/cli";
 const timeout = 5e4;
 const quire = new CLI();
 
@@ -65,20 +65,7 @@ describe("CLI", () => {
   );
 
   test(
-    "should successfully build a pdf",
-    async done => {
-      await quire.pdf();
-      assert.equal(
-        fs.existsSync(path.join(CONFIG.STATIC_FILES_PATH, "output.pdf")),
-        true
-      );
-      done();
-    },
-    timeout
-  );
-
-  test(
-    "should successfully build a epub",
+    "should successfully build a mobi",
     async done => {
       await quire.epub();
       assert.equal(
@@ -91,11 +78,24 @@ describe("CLI", () => {
   );
 
   test(
-    "should successfully build a mobi",
+    "should successfully build a epub",
     async done => {
       await quire.mobi();
       assert.equal(
         fs.existsSync(path.join(CONFIG.STATIC_FILES_PATH, "output.mobi")),
+        true
+      );
+      done();
+    },
+    timeout
+  );
+
+  test(
+    "should successfully build a pdf",
+    async done => {
+      await quire.pdf();
+      assert.equal(
+        fs.existsSync(path.join(CONFIG.STATIC_FILES_PATH, "output.pdf")),
         true
       );
       done();
