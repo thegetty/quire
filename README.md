@@ -1,8 +1,8 @@
 # quire-cli
 
-## Installation
+### Installation
 
-### macOS Installation
+#### macOS Installation
 
 Open your Terminal (found in your Applications/Utilities folder) and follow the steps below. First, install support software for Quire, and then Quire itself. If you are new to the command-line, read our tutorial on [“Working in a Command-line Shell”](/tutorial#1-working-in-a-command-line-shell).
 
@@ -52,7 +52,7 @@ Open your Terminal (found in your Applications/Utilities folder) and follow the 
 
 When complete, type `quire --version` to confirm proper installation. It should return a version number, otherwise, if it says `command not found`, the Quire CLI has not been properly installed. Refer to the [“Troubleshooting”](#troubleshooting) section below.
 
-### Windows Installation
+#### Windows Installation
 
 1. Download **Git for Windows** by clicking on "Download" at https://gitforwindows.org/. An exe file will be downloaded, click on it and hit "run", you should see a setup wizard screen that will install Git for Windows. During the installation, use the default settings.
 
@@ -106,7 +106,7 @@ When complete, type `quire --version` to confirm proper installation. It should 
     cd ~
     ```
 
-### Linux Installation
+#### Linux Installation
 
 1. Open terminal
 
