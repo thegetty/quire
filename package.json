@@ -8,11 +8,9 @@
     "Eric Gardner"
   ],
   "scripts": {
-    "build": "./node_modules/.bin/rollup -c",
-    "test": "./node_modules/.bin/jest -c -v"
-  },
-  "jest": {
-    "testEnvironment": "node"
+    "build": "./node_modules/.bin/rollup -c --compact",
+    "watch": "./node_modules/.bin/rollup -c -w --compact",
+    "test": "jest --verbose --colors"
   },
   "license": "MIT",
   "bin": {
@@ -45,13 +43,14 @@
     "yaml-front-matter": "^3.4.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.5.5",
-    "@babel/plugin-transform-regenerator": "^7.4.5",
-    "@babel/plugin-transform-runtime": "^7.5.5",
-    "@babel/polyfill": "^7.4.4",
-    "@babel/preset-env": "^7.5.5",
-    "babel-jest": "^24.9.0",
-    "jest": "^24.9.0",
+    "@babel/core": "*",
+    "@babel/plugin-transform-modules-commonjs": "*",
+    "@babel/plugin-transform-regenerator": "*",
+    "@babel/plugin-transform-runtime": "*",
+    "@babel/polyfill": "*",
+    "@babel/preset-env": "*",
+    "babel-jest": "*",
+    "jest": "*",
     "rollup": "^1.20.2",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-commonjs": "^10.0.2",
