@@ -12,6 +12,12 @@
     "watch": "./node_modules/.bin/rollup -c -w --compact",
     "test": "jest --verbose --colors"
   },
+  "jest": { 
+    "transform": {
+      ".*": "<rootDir>/node_modules/babel-jest"
+      },
+      "testEnvironment": "node"
+  },
   "license": "MIT",
   "bin": {
     "quire": "./bin/index.js"
