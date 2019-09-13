@@ -45,6 +45,9 @@
     &:focus {
       background-color: $quire-hover-color;
     }
+    em, strong {
+      pointer-events: none;
+    }
   }
   .quire-citation__content {
     font-size: 0.875em;
