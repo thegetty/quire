@@ -1,5 +1,3 @@
 node_modules
-test/fixtures/**/public
-package-lock.json
 path
 resources
