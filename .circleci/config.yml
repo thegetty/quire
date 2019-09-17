@@ -25,10 +25,10 @@ jobs:
       - run:
           name: Install npm dependencies
           command: npm ci
-          
+
       - run:
           name: Install the quire-cli command
-          command: npm install -g          
+          command: sudo npm install -g
 
       - save_cache:
           paths:
