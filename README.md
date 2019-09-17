@@ -8,7 +8,7 @@ A GitHub account is required for access to Quire. (Though don't worry, you don't
 
 Once you have been given access to the Quire CLI repositiory you will need to add an SSH key to you account. Instructions to do this can be found here => https://help.github.com/en/enterprise/2.15/user/articles/adding-a-new-ssh-key-to-your-github-account
 
-Once you have added an SSH key it is **strongly** recommended to use **SSH Github URLs** otherwise you will have authentication problems.
+Once you have added an SSH key it is **strongly** recommended to use **SSH Github URLs** to correctly authenticate with GitHub when installing the Quire command-line interface and starter packages.
 
 If you have 2 factor authentication enabled you will **only** be able to use **SSH Github URLs**.
 
