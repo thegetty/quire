@@ -2,6 +2,7 @@ const assert = require("assert");
 const path = require("path");
 const tmp = require("tmp");
 const fs = require("fs");
+const exec = require("child_process").exec;
 import CLI from "../lib/cli";
 const timeout = 5e4;
 const quire = new CLI();
@@ -27,6 +28,20 @@ const CONFIG = {
 
 describe("CLI", () => {
   process.chdir(sandboxDir.name);
+
+  test(
+    "no arguments on quire command should out put help",
+    done => {
+      exec("quire", function(error, stdout, stderr) {
+        if (error) done(error);
+        let capturedStdout1 = stdout;
+        let helpOutput = "Usage: quire [options] [command]";
+        assert.equal(capturedStdout1.indexOf(helpOutput) !== -1, true);
+        done();
+      });
+    },
+    timeout
+  );
 
   test(
     "should successfully create a starter project",
