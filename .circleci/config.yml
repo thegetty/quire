@@ -1,0 +1,46 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version of node you desire here
+      - image: circleci/node:lts # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+
+    working_directory: ~/repo
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v3-dependency-cache-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v3-dependency-cache-
+
+      - run:
+          name: Install npm dependencies
+          command: npm ci
+
+      - run:
+          name: Install the quire-cli command
+          command: sudo npm install -g
+
+      - save_cache:
+          paths:
+            - node_modules
+            - ~/.npm
+            - ~/.cache
+          key: v3-dependency-cache-{{ checksum "package.json" }}
+
+      # run tests!
+      - run:
+          name: Run Build Command
+          command: npm run build
+      - run:
+          name: Run Quire Commands Test
+          command: npm run test
