@@ -1,6 +1,18 @@
 # quire-cli
 
-### Installation
+### **Github Permissions for Quire CLI**
+
+Quire is in a closed beta. Installation will not work unless you have requested and been given access. 
+
+A GitHub account is required for access to Quire. (Though don't worry, you don't necessarily need to know anything about GitHub to use Quire, it's just where we're hosting the code.) Join for free at https://github.com/join
+
+Once you have been given access to the Quire CLI repositiory you will need to add an SSH key to you account. Instructions to do this can be found here => https://help.github.com/en/enterprise/2.15/user/articles/adding-a-new-ssh-key-to-your-github-account
+
+Once you have added an SSH key it is **strongly** recommended to use **SSH Github URLs** to correctly authenticate with GitHub when installing the Quire command-line interface and starter packages.
+
+If you have 2 factor authentication enabled you will **only** be able to use **SSH Github URLs**.
+
+### **Installation**
 
 #### macOS Installation
 
@@ -36,7 +48,7 @@ Open your Terminal (found in your Applications/Utilities folder) and follow the 
 5. Copy and paste the following line into your Terminal to download the **Quire CLI** ({{< q-glossary "command-line interface" >}}) to your computer from GitHub.
 
     ```text
-    git clone https://github.com/gettypubs/quire-cli.git
+    git clone git@github.com:gettypubs/quire-cli.git
     ```
 
     You may be asked to enter your GitHub username and password. When complete, install the CLI by copying and pasting the following commands into your Terminal and pressing enter. The first resets user permissions for your local directory, the second installs Quire.
@@ -241,7 +253,7 @@ If version number is returned, quire-cli was installed correctly. You can now le
 cd ~
 ```
 
-### Developing the Quire CLI
+### **Developing the Quire CLI**
 
 1. Enter the quire root directory
     ```tx
@@ -262,7 +274,7 @@ cd ~
 4. The Quire CLI core code is under lib/ with an entry point of `index.js`
 5. If running the watch command `Control + C` to quit
 
-### Testing the Quire CLI
+### **Testing the Quire CLI**
 
 1. Enter the quire root directory
     ```tx
@@ -278,7 +290,7 @@ cd ~
     ```
 
 
-### Updating the Quire CLI
+### **Updating the Quire CLI**
 
 As we develop, you may also want/need to update your Quire CLI. The CLI is pegged to a particular version of the Quire Starter Theme (at least for now), so if you’re using an older CLI, any new projects you start will have the corresponding older version of the theme.
 
@@ -304,7 +316,7 @@ As we develop, you may also want/need to update your Quire CLI. The CLI is pegge
 
 
     ```tx
-    git clone https://github.com/gettypubs/quire-cli.git
+    git clone git@github.com:gettypubs/quire-cli.git
     ```
 
     ```tx
@@ -319,7 +331,7 @@ You now have the latest Quire CLI and any new projects you start will also have 
 
 You may in some cases see errors or issues when running Quire commands with a newer version of the CLI in older projects. These can be fixed manually, or, you can also re-install [your original version of the CLI](https://github.com/gettypubs/quire-cli/releases) to run those older projects if necessary.
 
-### Uninstalling Quire
+### **Uninstalling Quire**
 
 To uninstall Quire:
 
@@ -334,9 +346,5 @@ To uninstall Quire:
     ```
 
 2. In the folder/finder view, go to your user/home directory where you initially installed Quire, look for the `quire-cli` folder and delete it.
-
-## Troubleshooting
-
-TK
 
 
