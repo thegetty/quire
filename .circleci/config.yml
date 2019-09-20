@@ -1,43 +1,51 @@
 # Javascript Node CircleCI 2.0 configuration file
 #
-# Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
 version: 2
 jobs:
   build:
     docker:
-      # specify the version of node you desire here
-      - image: circleci/node:lts # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-
+      - image: circleci/node:lts
+        user: root
     working_directory: ~/repo
     steps:
       - checkout
-
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-            - v3-dependency-cache-{{ checksum "package.json" }}
-            # fallback to using the latest cache if no exact match is found
-            - v3-dependency-cache-
-
+      - run:
+          name: Install Prince XML Dependencies
+          command: |
+            apt-get -y install libgif7 libssl1.1
+            wget -q -O /tmp/libjpeg-turbo8.deb http://mirrors.edge.kernel.org/ubuntu/pool/main/libj/libjpeg-turbo/libjpeg-turbo8_2.0.3-0ubuntu1_amd64.deb && dpkg -i /tmp/libjpeg-turbo8.deb && rm /tmp/libjpeg-turbo8.deb
+            wget -q -O /tmp/libpng12.deb http://mirrors.kernel.org/ubuntu/pool/main/libp/libpng/libpng12-0_1.2.54-1ubuntu1_amd64.deb && dpkg -i /tmp/libpng12.deb && rm /tmp/libpng12.deb
+      - run:
+          name: Install Prince XML
+          command: |
+            wget https://www.princexml.com/download/prince-12.5-ubuntu14.04-amd64.tar.gz
+            tar xzf prince-12.5-ubuntu14.04-amd64.tar.gz
+            rm prince-12.5-ubuntu14.04-amd64.tar.gz
+            cd prince-12.5-ubuntu14.04-amd64
+            ./install.sh
+      - run:
+          name: Install Pandoc
+          command: |
+            wget https://github.com/jgm/pandoc/releases/download/2.7.3/pandoc-2.7.3-1-amd64.deb
+            dpkg -i pandoc-2.7.3-1-amd64.deb
+            rm pandoc-2.7.3-1-amd64.deb
+      - run:
+          name: Avoid hosts unknown for github
+          command: |
+            echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
       - run:
           name: Install npm dependencies
           command: npm ci
-
       - run:
           name: Install the quire-cli command
           command: sudo npm install -g
-
       - save_cache:
           paths:
             - node_modules
             - ~/.npm
             - ~/.cache
           key: v3-dependency-cache-{{ checksum "package.json" }}
-
-      # run tests!
       - run:
           name: Run Build Command
           command: npm run build
