@@ -10,13 +10,8 @@
   "scripts": {
     "build": "./node_modules/.bin/rollup -c --compact",
     "watch": "./node_modules/.bin/rollup -c -w --compact",
-    "test": "jest --verbose --colors --detectOpenHandles"
-  },
-  "jest": {
-    "transform": {
-      ".*": "<rootDir>/node_modules/babel-jest"
-    },
-    "testEnvironment": "node"
+    "test": "jest --verbose --colors --detectOpenHandles",
+    "circleci::test": "jest --detectOpenHandles --runInBand" 
   },
   "license": "MIT",
   "bin": {
@@ -57,6 +52,7 @@
     "@babel/preset-env": "*",
     "babel-jest": "*",
     "jest": "*",
+    "jest-junit": "^8.0.0",
     "rollup": "^1.20.2",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-commonjs": "^10.0.2",
