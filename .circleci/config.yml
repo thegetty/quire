@@ -13,27 +13,28 @@ jobs:
       - run:
           name: Install Prince XML Dependencies
           command: |
-            apt-get -y install libgif7 libssl1.1
+            apt-get update
+            apt-get -y install libgif7 libjpeg-dev libjpeg62-turbo-dev
             wget -q -O /tmp/libjpeg-turbo8.deb http://mirrors.edge.kernel.org/ubuntu/pool/main/libj/libjpeg-turbo/libjpeg-turbo8_2.0.3-0ubuntu1_amd64.deb && dpkg -i /tmp/libjpeg-turbo8.deb && rm /tmp/libjpeg-turbo8.deb
+            wget -q -O /tmp/libjpeg8.deb http://archive.ubuntu.com/ubuntu/pool/main/libj/libjpeg8-empty/libjpeg8_8c-2ubuntu8_amd64.deb && dpkg -i /tmp/libjpeg8.deb && rm /tmp/libjpeg8.deb
             wget -q -O /tmp/libpng12.deb http://mirrors.kernel.org/ubuntu/pool/main/libp/libpng/libpng12-0_1.2.54-1ubuntu1_amd64.deb && dpkg -i /tmp/libpng12.deb && rm /tmp/libpng12.deb
+            wget -q -O /tmp/libssl.deb http://security-cdn.debian.org/debian-security/pool/updates/main/o/openssl/libssl1.0.0_1.0.1t-1+deb8u11_amd64.deb && dpkg -i /tmp/libssl.deb && rm /tmp/libssl.deb
       - run:
           name: Install Prince XML
           command: |
-            wget https://www.princexml.com/download/prince-12.5-ubuntu14.04-amd64.tar.gz
-            tar xzf prince-12.5-ubuntu14.04-amd64.tar.gz
-            rm prince-12.5-ubuntu14.04-amd64.tar.gz
-            cd prince-12.5-ubuntu14.04-amd64
-            ./install.sh
+            wget https://www.princexml.com/download/prince_12.5-1_ubuntu14.04_amd64.deb
+            dpkg -i prince_12.5-1_ubuntu14.04_amd64.deb
+            rm prince_12.5-1_ubuntu14.04_amd64.deb
       - run:
           name: Install Pandoc
           command: |
             wget https://github.com/jgm/pandoc/releases/download/2.7.3/pandoc-2.7.3-1-amd64.deb
             dpkg -i pandoc-2.7.3-1-amd64.deb
             rm pandoc-2.7.3-1-amd64.deb
-      - run:
-          name: Avoid hosts unknown for github
-          command: |
-            echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+      # - run:
+      #     name: Avoid hosts unknown for github
+      #     command: |
+      #       echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
       - run:
           name: Install npm dependencies
           command: npm ci
