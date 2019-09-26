@@ -6,12 +6,6 @@ Quire is in a closed beta. Installation will not work unless you have requested 
 
 A GitHub account is required for access to Quire. (Though don't worry, you don't necessarily need to know anything about GitHub to use Quire, it's just where we're hosting the code.) Join for free at https://github.com/join
 
-Once you have been given access to the Quire CLI repositiory you will need to add an SSH key to you account. Instructions to do this can be found here => https://help.github.com/en/enterprise/2.15/user/articles/adding-a-new-ssh-key-to-your-github-account
-
-Once you have added an SSH key it is **strongly** recommended to use **SSH Github URLs** to correctly authenticate with GitHub when installing the Quire command-line interface and starter packages.
-
-If you have 2 factor authentication enabled you will **only** be able to use **SSH Github URLs**.
-
 ### **Installation**
 
 #### macOS Installation
@@ -48,7 +42,7 @@ Open your Terminal (found in your Applications/Utilities folder) and follow the 
 5. Copy and paste the following line into your Terminal to download the **Quire CLI** ({{< q-glossary "command-line interface" >}}) to your computer from GitHub.
 
     ```text
-    git clone git@github.com:gettypubs/quire-cli.git
+    git clone https://github.com/gettypubs/quire-cli.git
     ```
 
     You may be asked to enter your GitHub username and password. When complete, install the CLI by copying and pasting the following commands into your Terminal and pressing enter. The first resets user permissions for your local directory, the second installs Quire.
@@ -313,7 +307,7 @@ As we develop, you may also want/need to update your Quire CLI. The CLI is pegge
 
 
     ```tx
-    git clone git@github.com:gettypubs/quire-cli.git
+    git clone https://github.com/gettypubs/quire-cli.git
     ```
 
     ```tx
