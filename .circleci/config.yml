@@ -9,6 +9,14 @@ jobs:
         user: root
     working_directory: ~/repo
     steps:
+      - add_ssh_keys:
+          fingerprints:
+            # quire-cli
+            - "08:33:9b:46:bf:7b:98:6b:64:05:0e:9e:06:08:87:5e"
+            # quire-starter
+            - "03:df:77:93:1a:23:51:a8:cb:8f:a3:da:33:5b:98:37"
+            # quire-starter-theme
+            - "37:99:cd:f2:3e:71:0c:3a:a0:c8:10:44:37:4f:ac:"
       - checkout
       - run:
           name: Add test report directory
