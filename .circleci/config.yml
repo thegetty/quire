@@ -9,15 +9,13 @@ jobs:
         user: root
     working_directory: ~/repo
     steps:
+      - checkout
       - add_ssh_keys:
           fingerprints:
-            # quire-cli
-            - "08:33:9b:46:bf:7b:98:6b:64:05:0e:9e:06:08:87:5e"
-            # quire-starter
-            - "03:df:77:93:1a:23:51:a8:cb:8f:a3:da:33:5b:98:37"
-            # quire-starter-theme
-            - "37:99:cd:f2:3e:71:0c:3a:a0:c8:10:44:37:4f:ac:"
-      - checkout
+            - "f9:71:a0:e0:e1:a5:8c:9d:3a:a8:8a:47:e4:9a:8c:af"
+      - run:
+          name: Test Git clone
+          command: git clone --branch master git@github.com:gettypubs/quire-starter.git quire-project
       - run:
           name: Add test report directory
           command: mkdir -p ~/repo/test-results/jest
