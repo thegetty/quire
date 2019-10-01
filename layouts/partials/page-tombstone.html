@@ -26,7 +26,7 @@
       {{ if .id }}
         {{ range where $.Site.Data.objects.object_list "id" "eq" .id }}
           {{ if .link }}
-          <a href="{{ .link }}" target="_blank" class="button">{{ $.Site.Params.entryPageObjectLinkText }} {{- partial "icon.html" (dict "type" "link" "description" "") -}}</a>
+          <a href="{{ .link | relURL }}" target="_blank" class="button">{{ $.Site.Params.entryPageObjectLinkText }} {{- partial "icon.html" (dict "type" "link" "description" "") -}}</a>
           {{ end }}
         {{ end }}
       {{ else }}
