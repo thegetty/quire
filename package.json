@@ -11,7 +11,7 @@
     "build": "./node_modules/.bin/rollup -c --compact",
     "watch": "./node_modules/.bin/rollup -c -w --compact",
     "test": "jest --verbose --colors --detectOpenHandles",
-    "circleci::test": "jest --detectOpenHandles --runInBand" 
+    "circleci:test": "jest --detectOpenHandles --runInBand -i test/circleci.cli.test.js"
   },
   "license": "MIT",
   "bin": {
@@ -38,6 +38,7 @@
     "regenerator-runtime": "^0.13.3",
     "rimraf": "^3.0.0",
     "sanitize-html": "^1.20.1",
+    "simple-git": "^1.126.0",
     "striptags": "^3.1.1",
     "upath": "^1.1.2",
     "webpack": "^4.39.2",
