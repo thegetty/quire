@@ -42,7 +42,7 @@ jobs:
       - run:
           name: Add new host and id file
           command: |
-            mkdir -p ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n\t\nHost gettygithub.com\n\tStrictHostKeyChecking no\n\tHostname github.com\n\tIdentityFile ~/.ssh/${THEME_SSH_KEY_FILE_NAME}" > ~/.ssh/config
+            mkdir -p ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n\t\nHost getty.github.com\n\tStrictHostKeyChecking no\n\tHostname github.com\n\tIdentityFile ~/.ssh/${THEME_SSH_KEY_FILE_NAME}" > ~/.ssh/config
       - run:
           name: Add quire-starter-theme private key
           command: |
