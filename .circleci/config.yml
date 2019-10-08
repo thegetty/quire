@@ -41,9 +41,9 @@ jobs:
             dpkg -i /tmp/pandoc.deb
             rm /tmp/pandoc.deb
       - run:
-          name: Avoid hosts unknown for github
+          name: Update ssh_config
           command: |
-            mkdir -p ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+            mkdir -p ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n\t\nHost gettygithub.com\n\tStrictHostKeyChecking no\n\tHostname github.com\n\tIdentityFile ~/.ssh/${THEME_SSH_KEY_FILE_NAME}" > ~/.ssh/config
       - run:
           name: Add quire-starter-theme private key
           command: |
