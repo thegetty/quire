@@ -1,0 +1,69 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+#
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/buildpack-deps:trusty
+        user: root
+    working_directory: ~/quire-starter-theme
+    steps:
+      - checkout
+      - run:
+          name: Add test report directory
+          command: mkdir -p ~/test-results/jest
+      - run:
+          name: Add temporary directory to hold downloaded files
+          command: mkdir -p /tmp
+      - run:
+          name: Install NodeJS and NPM
+          command: |
+            set +e             
+            touch $BASH_ENV  
+            curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            nvm install --lts
+            echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
+            echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
+      - run:
+          name: Install Prince XML
+          command: |
+            wget -q -O /tmp/prince.deb https://www.princexml.com/download/prince_12.5-1_ubuntu14.04_amd64.deb
+            dpkg -i /tmp/prince.deb
+            rm /tmp/prince.deb
+      - run:
+          name: Install Pandoc
+          command: |
+            wget -q -O /tmp/pandoc.deb https://github.com/jgm/pandoc/releases/download/2.7.3/pandoc-2.7.3-1-amd64.deb
+            dpkg -i /tmp/pandoc.deb
+            rm /tmp/pandoc.deb
+      - run:
+          name: Add new host and id file
+          command: |
+            mkdir -p ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n\t\nHost getty.github.com\n\tStrictHostKeyChecking no\n\tHostname github.com\n\tIdentityFile ~/.ssh/${PRIVATE_STARTER_SSH_KEY_FILE_NAME}" > ~/.ssh/config
+      # This ssh key is for installing the quire starter
+      - run:
+          name: Add quire-starter private key
+          command: |
+            echo -e "${PRIVATE_STARTER_SSH_KEY//_/\\n}" > ~/.ssh/${PRIVATE_STARTER_SSH_KEY_FILE_NAME}
+            chmod 600 ~/.ssh/${PRIVATE_STARTER_SSH_KEY_FILE_NAME}
+      # This ssh key is for installing the quire cli
+      - add_ssh_keys:
+          fingerprints:
+            - "9b:ca:68:bb:73:d0:32:71:61:d5:44:19:c2:63:36:2e"
+      - run:
+          name: Clone and install quire-cli
+          command: |
+            ls -al
+            git clone git@github.com:gettypubs/quire-cli.git ~/quire-cli
+            cd ~/quire-cli/
+            npm install -g
+      - run:
+          name: Add quire-starter and move theme into themes folder and install theme dependencies
+          command: |
+            git clone git@getty.github.com:gettypubs/quire-starter.git ~/quire-starter
+            mv ~/quire-starter-theme/ ~/quire-starter/themes/
+            cd ~/quire-starter/themes/quire-starter-theme/
+            npm i
