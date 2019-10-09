@@ -68,7 +68,7 @@ jobs:
           command: npm run build
       - run:
           name: Run Quire Commands Test
-          command: npm run circleci:test
+          command: npm run test
       - store_test_results:
           path: test-results
       - store_artifacts:

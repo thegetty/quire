@@ -10,7 +10,7 @@
   "scripts": {
     "build": "./node_modules/.bin/rollup -c --compact",
     "watch": "./node_modules/.bin/rollup -c -w --compact",
-    "test": "jest --verbose --colors --detectOpenHandles",
+    "test": "jest --verbose --colors --detectOpenHandles --runInBand",
     "circleci:test": "jest --detectOpenHandles --runInBand -i test/circleci.cli.test.js"
   },
   "license": "MIT",
