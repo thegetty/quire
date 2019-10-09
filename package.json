@@ -10,42 +10,36 @@
   "scripts": {
     "build": "./node_modules/.bin/rollup -c --compact",
     "watch": "./node_modules/.bin/rollup -c -w --compact",
-    "test": "jest --verbose --colors"
-  },
-  "jest": {
-    "transform": {
-      ".*": "<rootDir>/node_modules/babel-jest"
-    },
-    "testEnvironment": "node"
+    "test": "jest --verbose --colors --detectOpenHandles --runInBand"
   },
   "license": "MIT",
   "bin": {
     "quire": "./bin/index.js"
   },
   "dependencies": {
-    "@babel/runtime": "^7.5.5",
+    "@babel/runtime": "^7.6.3",
     "axios": "^0.19.0",
-    "chalk": "^2.4.1",
+    "chalk": "^2.4.2",
     "cheerio": "^1.0.0-rc.2",
     "command-exists": "^1.2.8",
-    "commander": "^2.17.1",
+    "commander": "^3.0.2",
     "core-js": "^3.2.1",
-    "execa": "^2.0.4",
+    "execa": "^2.1.0",
     "file-url": "^3.0.0",
     "fs-extra": "^7.0.0",
     "glob": "~7.1.4",
     "growl": "^1.10.5",
-    "hugo-bin": "0.43.6",
+    "hugo-bin": "0.46.3",
     "js-yaml": "^3.13.1",
     "kindlegen": "^1.1.0",
     "lodash": "^4.17.15",
-    "ora": "^3.4.0",
+    "ora": "^4.0.2",
     "regenerator-runtime": "^0.13.3",
     "rimraf": "^3.0.0",
     "sanitize-html": "^1.20.1",
     "striptags": "^3.1.1",
-    "upath": "^1.1.2",
-    "webpack": "^4.39.2",
+    "upath": "^1.2.0",
+    "webpack": "^4.41.0",
     "yaml-front-matter": "^3.4.0"
   },
   "devDependencies": {
@@ -57,16 +51,17 @@
     "@babel/preset-env": "*",
     "babel-jest": "*",
     "jest": "*",
-    "rollup": "^1.20.2",
+    "jest-junit": "^8.0.0",
+    "rollup": "^1.23.1",
     "rollup-plugin-babel": "^4.3.3",
-    "rollup-plugin-commonjs": "^10.0.2",
+    "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-json": "^4.0.0",
     "rollup-plugin-multi-entry": "^2.1.0",
     "rollup-plugin-node-builtins": "^2.1.2",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-preserve-shebang": "^0.1.6",
     "rollup-plugin-replace": "^2.2.0",
-    "rollup-plugin-uglify": "^6.0.2",
+    "rollup-plugin-uglify": "^6.0.3",
     "tmp": "0.1.0"
   },
   "repository": {
