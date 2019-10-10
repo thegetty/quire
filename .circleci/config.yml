@@ -5,71 +5,87 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/buildpack-deps:disco
+      - image: cypress/base:10
         user: root
     working_directory: ~/quire-starter-theme
+    parallelism: 1
     steps:
       - checkout
       - run:
-          name: Add test report directory
-          command: mkdir -p ~/test-results/jest
-      - run:
-          name: Add temporary directory to hold downloaded files
-          command: mkdir -p /tmp
-      - run:
-          name: Install NodeJS and NPM
+          name: Add test directories
           command: |
-            set +e             
-            touch $BASH_ENV  
-            curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            nvm install --lts
-            echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
-            echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
-      - run:
-          name: Install Prince XML
-          command: |
-            wget -q -O /tmp/prince.deb https://www.princexml.com/download/prince_12.5-1_ubuntu14.04_amd64.deb
-            dpkg -i /tmp/prince.deb
-            rm /tmp/prince.deb
-      - run:
-          name: Install Pandoc
-          command: |
-            wget -q -O /tmp/pandoc.deb https://github.com/jgm/pandoc/releases/download/2.7.3/pandoc-2.7.3-1-amd64.deb
-            dpkg -i /tmp/pandoc.deb
-            rm /tmp/pandoc.deb
-      - run:
-          name: Add new host and id file
-          command: |
-            mkdir -p ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n\t\nHost getty.github.com\n\tStrictHostKeyChecking no\n\tHostname github.com\n\tIdentityFile ~/.ssh/${PRIVATE_STARTER_SSH_KEY_FILE_NAME}" > ~/.ssh/config
-      # This ssh key is for installing the quire starter
-      - run:
-          name: Add quire-starter private key
-          command: |
-            echo -e "${PRIVATE_STARTER_SSH_KEY//_/\\n}" > ~/.ssh/${PRIVATE_STARTER_SSH_KEY_FILE_NAME}
-            chmod 600 ~/.ssh/${PRIVATE_STARTER_SSH_KEY_FILE_NAME}
-      # This ssh key is for installing the quire cli
+            mkdir -p ~/test-results/jest
+      # - run:
+      #    name: Install NodeJS and NPM
+      #    command: |
+      #      set +e
+      #      touch $BASH_ENV
+      #      curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
+      #      export NVM_DIR="$HOME/.nvm"
+      #      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+      #      nvm install --lts
+      #      echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
+      #      echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
       - add_ssh_keys:
           fingerprints:
             - "9b:ca:68:bb:73:d0:32:71:61:d5:44:19:c2:63:36:2e"
       - run:
+          name: Add new host and id file
+          command: |
+            # ls -al ~/.ssh
+            # mkdir -p ~/.ssh/ && echo -e "Host github.com\n\tIdentityFile  ~/.ssh/id_rsa_9bca68bb73d0327161d54419c263362e\n\tStrictHostKeyChecking no\n\t\nHost getty.github.com\n\tStrictHostKeyChecking no\n\tHostname github.com\n\tIdentityFile ~/.ssh/id_rsa_f971a0e0e1a58c9d3aa88a47e49a8caf" > ~/.ssh/config
+            # chmod 600 ~/.ssh/config
+            cat ~/.ssh/config
+            # mkdir -p ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n\t" > ~/.ssh/config
+      # - run:
+      #    name: Add quire-starter private key
+      #    command: |
+      #      echo -e "${PRIVATE_STARTER_SSH_KEY//_/\\n}" > ~/.ssh/${PRIVATE_STARTER_SSH_KEY_FILE_NAME}
+      #      chmod 600 ~/.ssh/${PRIVATE_STARTER_SSH_KEY_FILE_NAME}
+      - run:
           name: Clone and install quire-cli
           command: |
+            cat ~/.ssh/config
             ls -al
             git clone git@github.com:gettypubs/quire-cli.git ~/quire-cli
             cd ~/quire-cli/
             npm install -g
       - run:
+          name: Add new key
+          command: |
+            ls -al ~/.ssh
+            # ssh-agent -D
+            # ssh-add ~/.ssh/id_rsa_f971a0e0e1a58c9d3aa88a47e49a8caf
+            > ~/.ssh/config
+            cat ~/.ssh/config
+      - add_ssh_keys:
+          fingerprints:
+            - "f9:71:a0:e0:e1:a5:8c:9d:3a:a8:8a:47:e4:9a:8c:af"
+      - run:
           name: Add quire-starter and move theme into themes folder and install theme dependencies
           command: |
-            git clone git@getty.github.com:gettypubs/quire-starter.git ~/quire-starter
+            cat ~/.ssh/config
+            git clone git@github.com:gettypubs/quire-starter.git ~/quire-starter
             mv ~/quire-starter-theme/ ~/quire-starter/themes/
             cd ~/quire-starter/themes/quire-starter-theme/
             npm i
+      - run:
+          name: Run quire preview -v
+          command: |
+            cd ~/quire-starter/
+            quire preview -v
       - save_cache:
-          key: v1-deps-{{ .Branch }}-{{ checksum "package.json" }}
-          # cache NPM modules and the folder with the Cypress binary
           paths:
+            - node_modules
             - ~/.npm
             - ~/.cache
+          key: v3-dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: Run Cypress Tests
+          command: |
+            cd ~/quire-starter/themes/quire-starter-theme/
+            npm run test:e2e
+      - store_test_results:
+          path: test-results
+      - store_artifacts:
+          path: test-results
