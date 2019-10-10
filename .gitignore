@@ -8,4 +8,3 @@ static/js/application.js
 Gemfile.lock
 node_modules
 .tmp
-package-lock.json

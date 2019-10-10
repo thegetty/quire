@@ -5,7 +5,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/buildpack-deps:trusty
+      - image: circleci/buildpack-deps:disco
         user: root
     working_directory: ~/quire-starter-theme
     steps:
@@ -67,3 +67,9 @@ jobs:
             mv ~/quire-starter-theme/ ~/quire-starter/themes/
             cd ~/quire-starter/themes/quire-starter-theme/
             npm i
+      - save_cache:
+          key: v1-deps-{{ .Branch }}-{{ checksum "package.json" }}
+          # cache NPM modules and the folder with the Cypress binary
+          paths:
+            - ~/.npm
+            - ~/.cache
