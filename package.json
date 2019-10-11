@@ -9,7 +9,7 @@
   "main": "webpack/webpack.config.dev.js",
   "scripts": {
     "build:netlify": "webpack --config webpack/webpack.config.prod.js && cd ../../ && hugo --minify --config config.yml,config/site.yml",
-    "test:e2e": "cd ../../ && quire preview -v & themes/quire-starter-theme/node_modules/.bin/wait-on http://localhost:1313 && themes/quire-starter-theme/node_modules/.bin/cypress run"
+    "test:e2e": "./node_modules/.bin/cypress run"
   },
   "author": "Getty Publications",
   "license": "BSD-3-Clause",
@@ -45,6 +45,7 @@
     "style-loader": "^1.0.0",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "url-loader": "^2.1.0",
+    "wait-on": "^3.3.0",
     "webpack": "^4.39.1",
     "webpack-cli": "^3.3.6",
     "webpack-manifest-plugin": "^2.0.4"

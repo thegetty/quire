@@ -14,7 +14,8 @@ jobs:
       - run:
           name: Add test directories
           command: |
-            mkdir -p ~/test-results/jest
+            mkdir -p ~/quire-starter-theme/test-results/e2e/videos
+            mkdir -p ~/quire-starter-theme/test-results/e2e/screenshots
       # - run:
       #    name: Install NodeJS and NPM
       #    command: |
@@ -50,23 +51,24 @@ jobs:
             mv ~/quire-starter-theme/ ~/quire-starter/themes/
             cd ~/quire-starter/themes/quire-starter-theme/
             npm ci
-      # - run:
-      #    name: Run quire preview -v
-      #    command: |
-      #      cd ~/quire-starter/
-      #      quire preview -v
+      - run:
+          name: Run quire preview -v
+          command: |
+            cd ~/quire-starter/
+            quire preview -v
+          background: true
       - save_cache:
           paths:
-            - node_modules
+            - ~/quire-starter/themes/quire-starter-theme/node_modules
             - ~/.npm
             - ~/.cache
-          key: v3-dependency-cache-{{ checksum "package.json" }}
+          key: v3-dependency-cache-{{ checksum "~/quire-starter/themes/quire-starter-theme/package.json" }}
       - run:
           name: Run Cypress Tests
           command: |
             cd ~/quire-starter/themes/quire-starter-theme/
             npm run test:e2e
       - store_test_results:
-          path: test-results
+          path: ~/quire-starter/themes/quire-starter-theme/test-results
       - store_artifacts:
-          path: test-results
+          path: ~/quire-starter/themes/quire-starter-theme/test-results
