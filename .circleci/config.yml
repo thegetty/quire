@@ -16,17 +16,6 @@ jobs:
           command: |
             mkdir -p ~/quire-starter-theme/test-results/e2e/videos
             mkdir -p ~/quire-starter-theme/test-results/e2e/screenshots
-      # - run:
-      #    name: Install NodeJS and NPM
-      #    command: |
-      #      set +e
-      #      touch $BASH_ENV
-      #      curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
-      #      export NVM_DIR="$HOME/.nvm"
-      #      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-      #      nvm install --lts
-      #      echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
-      #      echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
       - add_ssh_keys:
           fingerprints:
             - "9b:ca:68:bb:73:d0:32:71:61:d5:44:19:c2:63:36:2e"
@@ -38,7 +27,7 @@ jobs:
             npm install -g
             npm ci
       - run:
-          name: Remove key from config
+          name: Remove key from config to add new one
           command: |
             > ~/.ssh/config
       - add_ssh_keys:
