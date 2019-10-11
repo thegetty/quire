@@ -30,50 +30,31 @@ jobs:
           fingerprints:
             - "9b:ca:68:bb:73:d0:32:71:61:d5:44:19:c2:63:36:2e"
       - run:
-          name: Add new host and id file
-          command: |
-            # ls -al ~/.ssh
-            # mkdir -p ~/.ssh/ && echo -e "Host github.com\n\tIdentityFile  ~/.ssh/id_rsa_9bca68bb73d0327161d54419c263362e\n\tStrictHostKeyChecking no\n\t\nHost getty.github.com\n\tStrictHostKeyChecking no\n\tHostname github.com\n\tIdentityFile ~/.ssh/id_rsa_f971a0e0e1a58c9d3aa88a47e49a8caf" > ~/.ssh/config
-            # chmod 600 ~/.ssh/config
-            cat ~/.ssh/config
-            # mkdir -p ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n\t" > ~/.ssh/config
-      # - run:
-      #    name: Add quire-starter private key
-      #    command: |
-      #      echo -e "${PRIVATE_STARTER_SSH_KEY//_/\\n}" > ~/.ssh/${PRIVATE_STARTER_SSH_KEY_FILE_NAME}
-      #      chmod 600 ~/.ssh/${PRIVATE_STARTER_SSH_KEY_FILE_NAME}
-      - run:
           name: Clone and install quire-cli
           command: |
-            cat ~/.ssh/config
-            ls -al
             git clone git@github.com:gettypubs/quire-cli.git ~/quire-cli
             cd ~/quire-cli/
             npm install -g
+            npm ci
       - run:
-          name: Add new key
+          name: Remove key from config
           command: |
-            ls -al ~/.ssh
-            # ssh-agent -D
-            # ssh-add ~/.ssh/id_rsa_f971a0e0e1a58c9d3aa88a47e49a8caf
             > ~/.ssh/config
-            cat ~/.ssh/config
       - add_ssh_keys:
           fingerprints:
             - "f9:71:a0:e0:e1:a5:8c:9d:3a:a8:8a:47:e4:9a:8c:af"
       - run:
           name: Add quire-starter and move theme into themes folder and install theme dependencies
           command: |
-            cat ~/.ssh/config
             git clone git@github.com:gettypubs/quire-starter.git ~/quire-starter
             mv ~/quire-starter-theme/ ~/quire-starter/themes/
             cd ~/quire-starter/themes/quire-starter-theme/
-            npm i
-      - run:
-          name: Run quire preview -v
-          command: |
-            cd ~/quire-starter/
-            quire preview -v
+            npm ci
+      # - run:
+      #    name: Run quire preview -v
+      #    command: |
+      #      cd ~/quire-starter/
+      #      quire preview -v
       - save_cache:
           paths:
             - node_modules
