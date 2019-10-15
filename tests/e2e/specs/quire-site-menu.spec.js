@@ -7,12 +7,22 @@ describe("Quire Site Menu", () => {
     cy.get("#site-menu").should("not.be.visible");
     cy.get("#quire-controls-menu-button").click();
     cy.get("#site-menu").should("be.visible");
-    cy.get("#quire-controls-menu-button").click();
-    cy.get("#site-menu").should("not.be.visible");
+    /* cy.get("#quire-controls-menu-button").click();
+    cy.get("#site-menu").should("not.be.visible"); */
   });
 
   it("should have a title", () => {
     cy.get(".quire-menu__header__title").should("exist");
+  });
+
+  it("should have nav link list", () => {
+    cy.get("#site-menu").should("not.be.visible");
+    cy.get("#quire-controls-menu-button").click();
+    cy.get("#site-menu").should("be.visible");
+    cy.get("#nav ul li a").should("exist");
+    cy.get("#nav > ul:nth-child(2) > li:nth-child(1) > a:nth-child(1)")
+      .should("exist")
+      .click();
   });
 
   it("should have other formats", () => {
