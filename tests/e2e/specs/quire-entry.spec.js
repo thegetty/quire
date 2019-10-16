@@ -11,9 +11,18 @@ describe("Quire Entry", () => {
     cy.get(".current-image").should("be.visible");
   });
 
-  it("should go to the previous image", () => {});
+  it("should go to the previous image", () => {
+    cy.get("#prev-image").click();
+    cy.get(".first-image").should("not.be.visible");
+    cy.get(".last-image").should("be.visible");
+  });
 
-  it("should download the image", () => {});
+  it("should download the image", () => {
+    cy.get(".quire-image-control--download").click();
+  });
 
-  it("should fullscreen the image", () => {});
+  it("should fullscreen the image", () => {
+    cy.get("#toggleFullscreen").click();
+    cy.get("#toggleFullscreen").should("has.class", "fullscreen");
+  });
 });
