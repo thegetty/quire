@@ -7,8 +7,6 @@ describe("Quire Site Menu", () => {
     cy.get("#site-menu").should("not.be.visible");
     cy.get("#quire-controls-menu-button").click();
     cy.get("#site-menu").should("be.visible");
-    /* cy.get("#quire-controls-menu-button").click();
-    cy.get("#site-menu").should("not.be.visible"); */
   });
 
   it("should have a title", () => {

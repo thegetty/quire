@@ -9,6 +9,7 @@
   "main": "webpack/webpack.config.dev.js",
   "scripts": {
     "build:netlify": "webpack --config webpack/webpack.config.prod.js && cd ../../ && hugo --minify --config config.yml,config/site.yml",
+    "lint":"./node_modules/.bin/eslint 'source/js/*.js' --ignore-pattern node_modules/",
     "quire:cypress": "cd ../../ && quire preview",
     "test:e2e": "./node_modules/.bin/cypress run",
     "test:e2e:local": "npm run quire:cypress & ./node_modules/.bin/wait-on http://localhost:1313 & ./node_modules/.bin/cypress run && killall hugo & killall node"
@@ -28,8 +29,9 @@
     "babel-plugin-istanbul": "^5.2.0",
     "css-loader": "^3.2.0",
     "cypress": "^3.4.1",
-    "eslint": "^6.1.0",
+    "eslint": "^6.5.1",
     "eslint-config-standard": "^13.0.1",
+    "eslint-plugin-cypress": "^2.7.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-node": "^9.1.0",
     "eslint-plugin-promise": "^4.2.1",

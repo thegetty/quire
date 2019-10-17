@@ -1,8 +1,0 @@
-extends: standard
-env:
-  browser: true
-  jquery: true
-rules:
-  space-before-function-paren:
-    - 0
-    - "never"
