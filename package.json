@@ -12,7 +12,7 @@
     "lint":"./node_modules/.bin/eslint 'source/js/*.js' --ignore-pattern node_modules/",
     "quire:cypress": "cd ../../ && quire preview",
     "test:e2e": "./node_modules/.bin/cypress run",
-    "test:e2e:local": "npm run quire:cypress & ./node_modules/.bin/wait-on http://localhost:1313 & ./node_modules/.bin/cypress run && killall hugo & killall node"
+    "test:e2e:local": "npm run quire:cypress & ./node_modules/.bin/wait-on http://localhost:1313 & ./node_modules/.bin/cypress open -b electron --env CYPRESS=true"
   },
   "author": "Getty Publications",
   "license": "BSD-3-Clause",
