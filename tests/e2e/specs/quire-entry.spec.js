@@ -47,4 +47,37 @@ describe("Quire Entry", () => {
       expect(c.indexOf("fullscreen") !== -1).to.eq(true);
     });
   });
+
+  // Test Core Elements of Entry
+
+  it("should have a main heading element", () => {
+    cy.get(".quire-page__header__title").should("exist");
+    cy.get(".quire-page__header__title")
+      .invoke("text")
+      .then(text => {
+        expect(text.length > 0).to.eq(true);
+      });
+  });
+
+  it("should have a tombstone element", () => {
+    cy.get(".quire-entry__tombstone").should("exist");
+    cy.get(".quire-entry__tombstone")
+      .invoke("text")
+      .then(text => {
+        expect(text.length > 0).to.eq(true);
+      });
+  });
+
+  it("should have a caption for the entry figure", () => {
+    cy.get(
+      ".current-image div:nth-child(3) span:nth-child(1) span:nth-child(1)"
+    ).should("exist");
+    cy.get(
+      ".current-image div:nth-child(3) span:nth-child(1) span:nth-child(1)"
+    )
+      .invoke("text")
+      .then(text => {
+        expect(text.length > 0).to.eq(true);
+      });
+  });
 });
