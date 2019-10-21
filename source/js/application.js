@@ -461,19 +461,23 @@ function toggleCite() {
   }
   document.addEventListener("click", function(event) {
     let content = event.target.parentNode;
-    if (
-      content.classList.contains("quire-citation") ||
-      content.classList.contains("quire-citation__content")
-    ) {
-      // do nothing
-    } else {
-      // find all Buttons/Cites
-      let citeButtons = document.querySelectorAll(".quire-citation button");
-      let citesContents = document.querySelectorAll(".quire-citation__content");
-      // hide all buttons
-      for (let i = 0; i < citesContents.length; i++) {
-        citeButtons[i].setAttribute("aria-expanded", "false");
-        citesContents[i].setAttribute("hidden", "hidden");
+    if (content) {
+      if (
+        content.classList.contains("quire-citation") ||
+        content.classList.contains("quire-citation__content")
+      ) {
+        // do nothing
+      } else {
+        // find all Buttons/Cites
+        let citeButtons = document.querySelectorAll(".quire-citation button");
+        let citesContents = document.querySelectorAll(
+          ".quire-citation__content"
+        );
+        // hide all buttons
+        for (let i = 0; i < citesContents.length; i++) {
+          citeButtons[i].setAttribute("aria-expanded", "false");
+          citesContents[i].setAttribute("hidden", "hidden");
+        }
       }
     }
   });

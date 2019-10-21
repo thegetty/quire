@@ -9,6 +9,9 @@ import "magnific-popup/dist/magnific-popup.css";
 require("magnific-popup");
 
 export default function(gallerySelector, mapArr) {
+  /** set var */
+  const mpContent = $(".mfp-content");
+  const mpWrap = $(".mfp-wrap");
   const fullscreenButton = `
   <div 
   class="leaflet-control-fullscreen leaflet-bar leaflet-control remove-from-epub"
@@ -22,6 +25,11 @@ export default function(gallerySelector, mapArr) {
     </a>
   </div>
   `;
+
+  /**
+   * @description Find all instances of soundcloud players
+   * and stop them
+   */
   const findSoundCloudWidgetsAndStopThem = () => {
     const items = [...document.querySelectorAll(`.quire-figure`)];
     items
@@ -41,6 +49,11 @@ export default function(gallerySelector, mapArr) {
       });
   };
 
+  /**
+   * @param {*} self
+   * @description update caption in modal viewer if
+   * needed and clear before update
+   */
   const captionUpdate = self => {
     const setCaption = self => {
       if (self) {
@@ -80,6 +93,7 @@ export default function(gallerySelector, mapArr) {
     }
   };
 
+  // add link to first slide when view as slides is present
   const updateViewSlidesLink = () => {
     let items = [...document.querySelectorAll(`.quire-figure--group`)];
     items
@@ -96,10 +110,13 @@ export default function(gallerySelector, mapArr) {
         });
       });
   };
-
-  // add link to first slide when view as slides is present
   updateViewSlidesLink();
 
+  /**
+   *
+   * @description e magnificPopup object
+   *
+   */
   $(gallerySelector).magnificPopup({
     delegate: "a.popup",
     type: "image",
@@ -201,7 +218,7 @@ export default function(gallerySelector, mapArr) {
             }, waitForDOMUpdate);
           }
         }
-        $(".mfp-content").prepend(fullscreenButton);
+        mpContent.prepend(fullscreenButton);
       },
       resize: function() {
         // console.log('Popup resized ' + $(window).innerHeight());
@@ -210,8 +227,8 @@ export default function(gallerySelector, mapArr) {
       open: function() {
         // console.log('Popup open');
         captionUpdate(this);
-        $(".mfp-wrap").prepend(this.cont);
-        $(".mfp-content").prepend(fullscreenButton);
+        mpWrap.prepend(this.cont);
+        mpContent.prepend(fullscreenButton);
         toggleFullscreen(
           mapArr,
           document.getElementById("toggleFullscreen"),
