@@ -558,6 +558,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     div.quire-entry__image-wrap {
       position: relative;
       width: 100%;
+      overflow: hidden;
 
       @media screen and (min-width: $widescreen) {
         width: 56%;

@@ -10,8 +10,6 @@ require("magnific-popup");
 
 export default function(gallerySelector, mapArr) {
   /** set var */
-  const mpContent = $(".mfp-content");
-  const mpWrap = $(".mfp-wrap");
   const fullscreenButton = `
   <div 
   class="leaflet-control-fullscreen leaflet-bar leaflet-control remove-from-epub"
@@ -218,7 +216,7 @@ export default function(gallerySelector, mapArr) {
             }, waitForDOMUpdate);
           }
         }
-        mpContent.prepend(fullscreenButton);
+        $(".mfp-content").prepend(fullscreenButton);
       },
       resize: function() {
         // console.log('Popup resized ' + $(window).innerHeight());
@@ -227,8 +225,8 @@ export default function(gallerySelector, mapArr) {
       open: function() {
         // console.log('Popup open');
         captionUpdate(this);
-        mpWrap.prepend(this.cont);
-        mpContent.prepend(fullscreenButton);
+        $(".mfp-wrap").prepend(this.cont);
+        $(".mfp-content").prepend(fullscreenButton);
         toggleFullscreen(
           mapArr,
           document.getElementById("toggleFullscreen"),

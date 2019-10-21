@@ -9688,7 +9688,8 @@ div.multimedia {
       display: flex; } }
   .quire-entry div.side-by-side div.quire-entry__image-wrap {
     position: relative;
-    width: 100%; }
+    width: 100%;
+    overflow: hidden; }
     @media screen and (min-width: 1184px) {
       .quire-entry div.side-by-side div.quire-entry__image-wrap {
         width: 56%;
