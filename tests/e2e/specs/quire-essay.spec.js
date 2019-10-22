@@ -3,8 +3,7 @@ describe("Quire Essay Template", () => {
     cy.visit("/essay/");
   });
 
-  // Test Buttons for Modal overlay
-
+  // Test Buttons for Modal Image Viewer
   // click 1st image and open modal viewer
   it("open modal image viewer", () => {
     cy.get(".mfp-content").should("not.be.visible");
@@ -45,7 +44,7 @@ describe("Quire Essay Template", () => {
   /**
    *
    * This mostly works. However in some browsers for
-   * cypress, It will error with "Failed to execute
+   * cypress, it will warn with "Failed to execute
    * 'requestFullscreen' on 'Element': API can only be initiated by
    * a user gesture." This test passes becasue it does not
    * detect that fullscreen API has been initialized, but
@@ -71,8 +70,9 @@ describe("Quire Essay Template", () => {
 
   // Test Core Elements of Essay
 
-  // test for quire figure
-  it("quire figure should have certain classes and deepzoom id", () => {
+  // Test for quire figure
+  it("quire figure should have core child elements", () => {
+    // figure should have an id with deepzoom
     cy.get(".q-figure__wrapper")
       .find("figure.quire-figure")
       .then(element => {
@@ -80,6 +80,8 @@ describe("Quire Essay Template", () => {
         let id = element.attr("id");
         expect(id.indexOf("deepzoom") !== -1).to.eq(true);
       });
+
+    // figure should have caption element with text
     cy.get(".q-figure__wrapper")
       .find(".quire-figure__caption")
       .then(element => {
@@ -90,12 +92,34 @@ describe("Quire Essay Template", () => {
             expect(text.length > 0).to.eq(true);
           });
       });
+
+    // figure should have popup element with data-type of "inline"
     cy.get(".q-figure__wrapper")
       .find(".popup")
       .then(element => {
         cy.get(element).should("exist");
         let dataType = element.attr("data-type");
         expect(dataType.indexOf("inline") !== -1).to.eq(true);
+      });
+
+    // figure should have image element with class of "quire-figure__image" that has a source attribute
+    cy.get(".q-figure__wrapper")
+      .find(".quire-figure__image")
+      .then(element => {
+        cy.get(element).should("exist");
+        let src = element.attr("src");
+        expect(src.length > 0).to.eq(true);
+      });
+  });
+
+  it("has a core quire wrappers", () => {
+    // quire primary should exist
+    cy.get(".q-figure__wrapper")
+      .find(".quire-figure__image")
+      .then(element => {
+        cy.get(element).should("exist");
+        let src = element.attr("src");
+        expect(src.length > 0).to.eq(true);
       });
   });
 });
