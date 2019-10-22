@@ -1,15 +1,3 @@
-function getAllQuireImages() {
-  return new Promise((resolve, reject) => {
-    let array = [];
-    array = [...document.querySelectorAll(".quire-figure")];
-    if (array.length > 0) {
-      resolve(array);
-    } else {
-      reject(new Error("No elements with class quire-figure"));
-    }
-  });
-}
-
 describe("Quire Essay Template", () => {
   beforeEach(function() {
     cy.visit("/essay/");
@@ -82,4 +70,32 @@ describe("Quire Essay Template", () => {
   });
 
   // Test Core Elements of Essay
+
+  // test for quire figure
+  it("quire figure should have certain classes and deepzoom id", () => {
+    cy.get(".q-figure__wrapper")
+      .find("figure.quire-figure")
+      .then(element => {
+        cy.get(element).should("exist");
+        let id = element.attr("id");
+        expect(id.indexOf("deepzoom") !== -1).to.eq(true);
+      });
+    cy.get(".q-figure__wrapper")
+      .find(".quire-figure__caption")
+      .then(element => {
+        cy.get(element).should("exist");
+        cy.get(element)
+          .invoke("text")
+          .then(text => {
+            expect(text.length > 0).to.eq(true);
+          });
+      });
+    cy.get(".q-figure__wrapper")
+      .find(".popup")
+      .then(element => {
+        cy.get(element).should("exist");
+        let dataType = element.attr("data-type");
+        expect(dataType.indexOf("inline") !== -1).to.eq(true);
+      });
+  });
 });
