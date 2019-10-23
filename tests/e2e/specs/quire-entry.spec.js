@@ -5,19 +5,19 @@ describe("Quire Entry", () => {
 
   // test buttons for entry viewer
 
-  it("should go to the next image", () => {
+  it("will go to the next image", () => {
     cy.get("#next-image").click();
     cy.get(".first-image").should("not.be.visible");
     cy.get(".current-image").should("be.visible");
   });
 
-  it("should go to the previous image", () => {
+  it("will go to the previous image", () => {
     cy.get("#prev-image").click();
     cy.get(".first-image").should("not.be.visible");
     cy.get(".last-image").should("be.visible");
   });
 
-  it("should download the image", () => {
+  it("will download the image", () => {
     cy.get(".quire-image-control--download").then(anchor => {
       let href = anchor.attr("href");
       let url = new URL(href, window.location.origin).href;
@@ -50,7 +50,7 @@ describe("Quire Entry", () => {
 
   // Test Core Elements of Entry
 
-  it("should have a main heading element", () => {
+  it("will have a main heading element", () => {
     cy.get(".quire-page__header__title").should("exist");
     cy.get(".quire-page__header__title")
       .invoke("text")
@@ -59,7 +59,7 @@ describe("Quire Entry", () => {
       });
   });
 
-  it("should have a tombstone element", () => {
+  it("will have a tombstone element", () => {
     cy.get(".quire-entry__tombstone").should("exist");
     cy.get(".quire-entry__tombstone")
       .invoke("text")
@@ -68,7 +68,7 @@ describe("Quire Entry", () => {
       });
   });
 
-  it("should have a caption for the entry figure", () => {
+  it("will have a caption for the entry figure", () => {
     cy.get(
       ".current-image div:nth-child(3) span:nth-child(1) span:nth-child(1)"
     ).should("exist");
@@ -79,5 +79,14 @@ describe("Quire Entry", () => {
       .then(text => {
         expect(text.length > 0).to.eq(true);
       });
+  });
+
+  it("will have core wrapper class 'quire__primary' and id of 'entry'", () => {
+    // quire primary should exist
+    cy.get(".quire__primary").then(element => {
+      cy.get(element).should("exist");
+      let id = element.attr("id");
+      expect(id.indexOf("entry") !== -1).to.eq(true);
+    });
   });
 });
