@@ -1,5 +1,5 @@
 describe("Quire Site Menu", () => {
-  beforeEach(function() {
+  beforeEach(() => {
     cy.visit("/");
   });
 
