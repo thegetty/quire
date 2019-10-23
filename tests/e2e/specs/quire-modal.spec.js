@@ -1,9 +1,8 @@
-describe("Quire Modal Image viewer", () => {
+describe("Quire Modal Image viewer Core Functions", () => {
   beforeEach(() => {
     cy.visit("/essay/");
   });
 
-  // Test Buttons for Modal Image Viewer
   // click 1st image and open modal viewer
   it("open modal image viewer", () => {
     cy.get(".mfp-content").should("not.be.visible");

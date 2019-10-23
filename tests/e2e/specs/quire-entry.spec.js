@@ -1,9 +1,7 @@
-describe("Quire Entry", () => {
+describe("Quire Entry Template", () => {
   beforeEach(() => {
     cy.visit("/catalogue/1/");
   });
-
-  // test buttons for entry image viewer
 
   it("will go to the next image", () => {
     cy.get("#next-image").click();

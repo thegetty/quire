@@ -3,8 +3,6 @@ describe("Quire Splash Page Tempalte", () => {
     cy.visit("/intro/");
   });
 
-  // Test Core Elements of Splash
-
   it("figure will have popup element with data-type of 'inline'", () => {
     cy.get(".q-figure__wrapper")
       .find(".popup")
@@ -37,17 +35,4 @@ describe("Quire Splash Page Tempalte", () => {
           });
       });
   });
-
-  /* it("will have a hero section with section element to display contributor or author info", () => {
-    cy.get(".quire-page__header")
-      .find(".quire-page__header__contributor")
-      .then(element => {
-        cy.get(element).should("exist");
-        cy.get(element)
-          .invoke("text")
-          .then(text => {
-            expect(text.length > 0).to.eq(true);
-          });
-      });
-  }); */
 });

@@ -1,4 +1,4 @@
-describe("Quire Site Search", () => {
+describe("Quire Site Search Core Functions", () => {
   beforeEach(() => {
     cy.visit("/");
   });
@@ -24,5 +24,25 @@ describe("Quire Site Search", () => {
     cy.get("li.quire-search__inner__list-item:nth-child(1) a:nth-child(1)")
       .should("exist")
       .click();
+  });
+
+  it("search.json data and element should exist", () => {
+    cy.get("#js-search").should("exist");
+    cy.get("#js-search").then(element => {
+      cy.get(element).should("exist");
+      let dataSearchindex = element.attr("data-search-index");
+      expect(dataSearchindex.length > 0).to.eq(true);
+    });
+  });
+
+  it("will check that search.json actually exists", () => {
+    cy.get("#js-search").should("exist");
+    cy.get("#js-search").then(element => {
+      let href = element.attr("data-search-index");
+      let url = new URL(href, window.location.origin).href;
+      cy.request(url).then(response => {
+        expect(response.status).to.eq(200);
+      });
+    });
   });
 });

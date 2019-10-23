@@ -1,9 +1,8 @@
-describe("Quire Essay Tempalte", () => {
+describe("Quire Essay Template", () => {
   beforeEach(() => {
     cy.visit("/essay/");
   });
 
-  // Test Core Elements of Essay
   it("figure will have an id with deepzoom or map or iiif", () => {
     cy.get(".q-figure__wrapper")
       .find("figure.quire-figure")

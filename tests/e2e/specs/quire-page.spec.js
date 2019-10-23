@@ -1,4 +1,4 @@
-describe("Quire Page Tempalte", () => {
+describe("Quire Page Template", () => {
   beforeEach(() => {
     cy.visit("/contributors/");
   });

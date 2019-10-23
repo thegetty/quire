@@ -1,4 +1,4 @@
-describe("Quire Site Menu", () => {
+describe("Quire Site Menu Core Elements and Functions", () => {
   beforeEach(() => {
     cy.visit("/");
   });
