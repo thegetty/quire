@@ -1,4 +1,4 @@
-describe("Quire Essay Template", () => {
+describe("Quire Modal Image viewer", () => {
   beforeEach(() => {
     cy.visit("/essay/");
   });

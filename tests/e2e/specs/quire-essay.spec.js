@@ -1,4 +1,4 @@
-describe("Quire Essay Template", () => {
+describe("Quire Essay Tempalte", () => {
   beforeEach(() => {
     cy.visit("/essay/");
   });
@@ -68,11 +68,11 @@ describe("Quire Essay Template", () => {
       });
   });
 
-  it("will have core wrapper class 'quire__primary' and id of 'essay'", () => {
+  it("will have core wrapper class 'quire__primary'", () => {
     cy.get(".quire__primary").then(element => {
       cy.get(element).should("exist");
       let id = element.attr("id");
-      expect(id.indexOf("essay") !== -1).to.eq(true);
+      expect(id.length > 0).to.eq(true);
     });
   });
 
@@ -81,6 +81,8 @@ describe("Quire Essay Template", () => {
       .find(".quire-page__header__title")
       .then(element => {
         cy.get(element).should("exist");
+        let id = element.attr("id");
+        expect(id.length > 0).to.eq(true);
         cy.get(element)
           .invoke("text")
           .then(text => {
