@@ -8,8 +8,9 @@
   },
   "main": "webpack/webpack.config.dev.js",
   "scripts": {
-    "build:netlify": "webpack --config webpack/webpack.config.prod.js && cd ../../ && hugo --minify --config config.yml,config/site.yml"
-  },
+    "build:preview": "webpack --config webpack/webpack.config.prod.js && cd ../../ && hugo --config config.yml,config/site.yml",
+    "build:production": "webpack --config webpack/webpack.config.prod.js && cd ../../ && hugo --config config.yml,config/site.yml --minify -v"
+    },
   "author": "Getty Publications",
   "license": "BSD-3-Clause",
   "devDependencies": {
