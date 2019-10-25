@@ -186,7 +186,7 @@
   <li class="quire-contributor" id="{{ $nameid }}">
     <div class="title is-5"><span class="quire-contributor__name">{{ (index . 0) }}</span> 
       {{ if ne (index . 4) "n/a" }}
-      <a href="{{ index . 4 }}" class="quire-contributor__url" target="_blank">
+      <a href="{{ index . 4 | relURL }}" class="quire-contributor__url" target="_blank">
       {{- partial "icon.html" (dict "type" "link" "description" "") -}}</a>
       {{- end -}}
     </div>
@@ -315,7 +315,7 @@
 {{- $checkid := plainify (replace (.page.Scratch.Get "name") " " "-") -}}
 {{ if eq $checkid .nameId }}
 <p>
-  <a href="{{ .pageLink }}" class="quire-contributor__page-link">
+  <a href="{{ .pageLink | relURL }}" class="quire-contributor__page-link">
     {{ $pagetitle := .pageTitle }}
     {{ if .pageLabel }}{{ .pageLabel }}{{ .labelDivider }}{{ end }}
     {{ markdownify $pagetitle }}{{ with .pageSubtitle }}{{- $endPunctuation := findRE "[!|?]$" $pagetitle -}}{{ if $endPunctuation }} {{ else }}: {{ end }}{{ markdownify . }}{{ end }}

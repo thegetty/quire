@@ -3,7 +3,7 @@
 */}}
 <header class="quire-menu__header">
   {{ if ne .Kind "home" -}}
-  <a class="quire-menu__header__title-link" href="{{ .Site.BaseURL }}">
+  <a class="quire-menu__header__title-link" href="{{ .Site.BaseURL | relURL }}">
   {{- end }}
   <h4 class="quire-menu__header__title">
     <span class="visually-hidden">Site Title: </span>
