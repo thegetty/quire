@@ -61,7 +61,7 @@
       {{- if eq .UniqueID ($.Scratch.Get "homepage") -}}
 
         <li class="quire-navbar-page-controls__item quire-home-page">
-          <a href='{{ $.Scratch.Get "secondpage-link" }}' rel="next">
+          <a href='{{ $.Scratch.Get "secondpage-link" | relURL }}' rel="next">
             <span class="visually-hidden">Next Page: </span>
             <span class="quire-navbar-button play-button">
               <svg class="remove-from-epub">
@@ -82,7 +82,7 @@
         {{- if gt (len $previousPages) 0 -}}
         {{- range last 1 $previousPages -}}
           <li class="quire-navbar-page-controls__item quire-previous-page">
-            <a href='{{ .Permalink }}' rel="previous">
+            <a href='{{ .Permalink | relURL }}' rel="previous">
               <span class="visually-hidden">Previous Page: </span>
               <svg class="left-icon remove-from-epub">
                 <switch>
@@ -99,7 +99,7 @@
         {{- end -}}
 
         <li class="quire-navbar-page-controls__item quire-home-page">
-          <a href='{{ $.Scratch.Get "homepage-link" }}' rel='home'>
+          <a href='{{ $.Scratch.Get "homepage-link" | relURL }}' rel='home'>
             <span class="visually-hidden">Home Page: </span>
             <span class="quire-navbar-button home-button">
               <svg class="remove-from-epub">
@@ -118,7 +118,7 @@
         {{- if gt (len $nextPages) 0 -}}
         {{- range first 1 $nextPages -}}
         <li class="quire-navbar-page-controls__item quire-next-page">
-          <a href='{{ .Permalink }}' rel='next'>
+          <a href='{{ .Permalink | relURL }}' rel='next'>
             <span class="visually-hidden">Next Page: </span>
             {{- with .Params.label }}{{ . }}{{ $.Site.Params.pageLabelDivider }}{{ end }}{{- if .Params.short_title }}{{ .Params.short_title | markdownify }} {{ else }}{{ .Title | markdownify | truncate 34 }}{{ end -}}
             <svg class="remove-from-epub">

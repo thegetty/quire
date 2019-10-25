@@ -3,7 +3,7 @@
       {{ with .Prev }}
       {{- if and (ne .Params.online false) (ne .Type "data") -}}
       <li class="quire-nav-button prev">
-          <a href="{{ .Permalink }}">{{- partial "icon.html" (dict "type" "left-arrow" "description" "Go back a page") -}} <span class="nav-title">{{ $.Site.Params.prevPageButtonText }}</span></a>
+          <a href="{{ .Permalink | relURL }}">{{- partial "icon.html" (dict "type" "left-arrow" "description" "Go back a page") -}} <span class="nav-title">{{ $.Site.Params.prevPageButtonText }}</span></a>
           <span class="visually-hidden">Previous Page (left keyboard arrow or swipe)</span>
       </li>
       {{ end }}
@@ -11,7 +11,7 @@
       {{ with .Next }}
       {{- if and (ne .Params.online false) (ne .Type "data") -}}
       <li class="quire-nav-button next">
-          <a href="{{ .Permalink }}"><span class="nav-title">{{ $.Site.Params.nextPageButtonText }}</span> {{- partial "icon.html" (dict "type" "right-arrow" "description" "Go to next page") -}}</a>
+          <a href="{{ .Permalink | relURL }}"><span class="nav-title">{{ $.Site.Params.nextPageButtonText }}</span> {{- partial "icon.html" (dict "type" "right-arrow" "description" "Go to next page") -}}</a>
           <span class="visually-hidden">Next Page (right keyboard arrow or swipe)</span>
       </li>
       {{ end }}
