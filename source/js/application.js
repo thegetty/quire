@@ -6,6 +6,7 @@
  * @description This file serves as the entry point for Webpack, the JS library
  * responsible for building all CSS and JS assets for the theme.
  */
+
 // Stylesheets
 import "intersection-observer";
 import "leaflet-fullscreen/dist/leaflet.fullscreen.css";
@@ -27,6 +28,7 @@ import Popup from "./popup";
 import DeepZoom from "./deepzoom";
 import Map from "./map";
 
+// array of leaflet instances
 const mapArr = [];
 
 /**
@@ -227,15 +229,6 @@ function navigationSetup() {
     navigation = new Navigation();
   }
 }
-
-/*
-function navigationTeardown() {
-  if (navigation) {
-    navigation.teardown();
-  }
-  navigation = undefined;
-}
-*/
 
 /**
  * scrollToHash
@@ -461,6 +454,7 @@ function toggleCite() {
   }
   document.addEventListener("click", function(event) {
     let content = event.target.parentNode;
+    if (!content) return;
     if (
       content.classList.contains("quire-citation") ||
       content.classList.contains("quire-citation__content")

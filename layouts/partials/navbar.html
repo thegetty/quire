@@ -33,7 +33,7 @@
           <switch>
             <use xlink:href="#search-icon"></use>
             <foreignObject width="32" height="32">
-                <img src="{{ $imgDir | relURL }}/icons/search@2x.png" alt="Search" />
+                <img src="{{ $imgDir | relURL }}/icons/search.png" alt="Search" />
             </foreignObject>
           </switch>
         </svg>
@@ -68,7 +68,7 @@
                 <switch>
                   <use xlink:href="#start-icon"></use>
                   <foreignObject width="32" height="32">
-                      <img src="{{ $imgDir | relURL }}/icons/play@2x.png" alt="Next Page" />
+                      <img src="{{ $imgDir | relURL }}/icons/play.png" alt="Next Page" />
                   </foreignObject>
                 </switch>
               </svg>
@@ -88,7 +88,7 @@
                 <switch>
                   <use xlink:href="#left-arrow-icon"></use>
                   <foreignObject width="24" height="24">
-                      <img src="{{ $imgDir | relURL }}/icons/left@2x.png" alt="Previous Page" />
+                      <img src="{{ $imgDir | relURL }}/icons/left-arrow.png" alt="Previous Page" />
                   </foreignObject>
                 </switch>
               </svg>
@@ -98,7 +98,7 @@
         {{- end -}}
         {{- end -}}
 
-        <li class="quire-navbar-page-controls__item quire-home-page">
+        {{/* <li class="quire-navbar-page-controls__item quire-home-page">
           <a href='{{ $.Scratch.Get "homepage-link" | relURL }}' rel='home'>
             <span class="visually-hidden">Home Page: </span>
             <span class="quire-navbar-button home-button">
@@ -106,13 +106,13 @@
                 <switch>
                   <use xlink:href="#home-icon"></use>
                   <foreignObject width="32" height="32">
-                      <img src="{{ $imgDir | relURL }}/icons/rewind@2x.png" alt="Home Page" />
+                      <img src="{{ $imgDir | relURL }}/icons/rewind.png" alt="Home Page" />
                   </foreignObject>
                 </switch>
               </svg>
             </span>
           </a>
-        </li>
+        </li> */}}
 
         {{- $nextPages := where $pages "Weight" "gt" .Weight -}}
         {{- if gt (len $nextPages) 0 -}}
@@ -125,7 +125,7 @@
               <switch>
                 <use xlink:href="#right-arrow-icon"></use>
                 <foreignObject width="24" height="24">
-                    <img src="{{ $imgDir | relURL }}/icons/right@2x.png" alt="Next Page" />
+                    <img src="{{ $imgDir | relURL }}/icons/right-arrow.png" alt="Next Page" />
                 </foreignObject>
               </switch>
             </svg>
@@ -150,7 +150,7 @@
           <switch>
             <use xlink:href="#nav-icon"></use>
             <foreignObject width="32" height="32">
-                <img src="{{ $imgDir | relURL }}/icons/nav@2x.png" alt="Table of Contents" />
+                <img src="{{ $imgDir | relURL }}/icons/nav.png" alt="Table of Contents" />
             </foreignObject>
           </switch>
         </svg>

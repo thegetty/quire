@@ -97,6 +97,10 @@ This theme is paired with the [Quire Starter](https://github.com/gettypubs/quire
 
 Consult [the Quire documentation site](https://gettypubs.github.io/quire/) for more detailed information on publishing with Quire.
 
+### Testing
+
+The testing framework used for the `quire-starter-theme` is [Cypress](https://www.cypress.io/). The cypress tests are run for every pull request through circleci. However if you are developing the `quire-starter-theme` you can run the tests locally also. This is possible by running `npm install` and then running `npm run test:e2e:local` from the `quire-starter-theme`directory.
+
 ## Copyright
 
 © J. Paul Getty Trust, 2019
