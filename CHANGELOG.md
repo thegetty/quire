@@ -17,8 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 + eslint configuration
 
 ### Changed
-- Documentation to reflect changes to install and use of CLI
-- Version Number
++ Documentation to reflect changes to install and use of CLI
++ Version Number
 
 ### Removed
 - All author information from files
@@ -31,8 +31,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 + Prettier formatting 
 
 ### Changed
-- Ora to use string instead of arrays
-- Version Number
++ Ora to use string instead of arrays
++ Version Number
 
 ### Fixed
 - font issue
