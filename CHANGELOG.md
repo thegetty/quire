@@ -27,7 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [v0.17.0] - 2019-08-01
 ### Added
-- Prettier formatting 
++ Prettier formatting 
 
 ### Changed
 - Ora to use string instead of arrays
