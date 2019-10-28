@@ -23,7 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - All author information from files
 
 ### Security
-- Updated NodeJS/NPM dependencies
+* Updated NodeJS/NPM dependencies
 
 ## [v0.17.0] - 2019-08-01
 ### Added
