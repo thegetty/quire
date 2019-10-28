@@ -9,19 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [v0.18.0] 
 ### Added
 - Rollup configuration for minification
-- Jest Tests for the 
-- CircleCI configuration to run Jest Tests
 - Jest Test (tests run through each function that is included in the CLI)
+- CircleCI configuration to run Jest Tests automatically on each pull request
 - async/await instead of .then().catch()
-- a special function to determine what GIT protocol to use
+- function to determine what GIT protocol to use to prevent permissions warnings
+- eslint configuration
 
 ### Changed
 - Documentation to reflect changes to install and use of CLI
 - Version Number
-
-### Fixed
-
-### Deprecated
 
 ### Removed
 - All author information from files
@@ -39,12 +35,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - font issue
-
-### Deprecated
-
-### Removed
-
-### Security
 
 [Unreleased]: https://github.com/gettypubs/quire-cli/compare/v0.18.0...HEAD
 [Unreleased]: https://github.com/gettypubs/quire-cli/compare/v0.17.0...v0.18.0
