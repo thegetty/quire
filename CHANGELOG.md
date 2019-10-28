@@ -9,12 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [v0.18.0] 
 ### Added
-- Rollup configuration for minification
-- Jest Test (tests run through each function that is included in the CLI)
-- CircleCI configuration to run Jest Tests automatically on each pull request
-- async/await instead of .then().catch()
-- function to determine what GIT protocol to use to prevent permissions warnings
-- eslint configuration
++ Rollup configuration for minification
++ Jest Test (tests run through each function that is included in the CLI)
++ CircleCI configuration to run Jest Tests automatically on each pull request
++ async/await instead of .then().catch()
++ function to determine what GIT protocol to use to prevent permissions warnings
++ eslint configuration
 
 ### Changed
 - Documentation to reflect changes to install and use of CLI
