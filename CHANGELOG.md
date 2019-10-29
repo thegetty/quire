@@ -9,29 +9,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [v0.18.0] 
 ### Added
-
-### Changed
-
-### Deprecated 
-
-### Removed
++ Cypress testing suite
++ CircleCI configuration to run Cypress Tests automatically on each pull request
 
 ### Fixed
++ search.html to fix ref warning
++ relURL to href and src
++ JS bug fixes
 
 ### Security
+* Updated NodeJS/NPM dependencies
 
 ## [v0.17.0] - 2019-08-01
 ### Added
++ Support for tabled figures
++ Option to add in custom JavaScript
 
 ### Changed
-
-### Deprecated 
-
-### Removed
++ Improved q-contributor shortcode
++ Improved display of citations from the q-cite shortcode
++ Improvements to page layouts online and in pdf
 
 ### Fixed
++ Displays image tools and information in fullscreen mode
 
 ### Security
+* Updated NodeJS/NPM dependencies
 
 [Unreleased]: https://github.com/gettypubs/quire-starter-theme/compare/v0.18.0...HEAD
 [Unreleased]: https://github.com/gettypubs/quire-starter-theme/compare/v0.17.0...v0.18.0
