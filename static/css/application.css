@@ -9688,8 +9688,7 @@ div.multimedia {
       display: flex; } }
   .quire-entry div.side-by-side div.quire-entry__image-wrap {
     position: relative;
-    width: 100%;
-    overflow: hidden; }
+    width: 100%; }
     @media screen and (min-width: 1184px) {
       .quire-entry div.side-by-side div.quire-entry__image-wrap {
         width: 56%;
@@ -9734,7 +9733,7 @@ div.multimedia {
 .quire-citation {
   position: relative;
   text-indent: 0; }
-  .quire-citation button {
+  .quire-citation__button {
     border: none;
     padding: 0;
     font-size: 1em;
@@ -9743,20 +9742,20 @@ div.multimedia {
     color: inherit;
     cursor: pointer;
     border-bottom: 1px dotted #CF4747; }
-    .quire-citation button.material-icons {
+    .quire-citation__button.material-icons {
       font-family: "Material Icons";
       font-weight: 600;
       margin-left: .125em;
       color: #CF4747;
       border-bottom-width: 0; }
-    .quire-citation button:hover {
+    .quire-citation__button:hover {
       color: #a02a2a !important;
       border-bottom: 1px solid #a02a2a; }
-    .quire-citation button.material-icons:hover {
+    .quire-citation__button.material-icons:hover {
       border-bottom-width: 0; }
-    .quire-citation button:focus {
+    .quire-citation__button:focus {
       background-color: #F9F9A3; }
-    .quire-citation button em, .quire-citation button strong {
+    .quire-citation__button em, .quire-citation__button strong {
       pointer-events: none; }
   .quire-citation .quire-citation__content {
     font-size: 0.875em;

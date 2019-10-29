@@ -1,40 +1,60 @@
 {{/*  Duplicates part of the code from q-cite.html in order to add
-      references to the page-level bibliography list that aren't 
-      necessarily cited directly in the page with q-cite */}}
+      references to the page-level bibliography list */}}
 {{/* ---------------------------------------------------------------------- */}}
 {{- range .Params.references -}}
-  {{- $.Scratch.Set "full" "" -}}
-  {{- $short := . -}}
-  {{- range $.Site.Data.references.entries -}}
-      {{- if eq .short $short -}}
-          {{- $.Scratch.Add "full" .full -}}
+  
+  {{- $id := . -}}
+  {{- $full := "" -}}
+  {{- $short := "" -}}
+  {{- $alphaOrder := "" -}}
+  
+  {{- range $.Site.Data.references.entries -}} 
+      {{- if eq .id $id -}}
+          
+          {{- $full = .full -}}
+
+          {{ if .short }}
+            {{- $short = .short -}}
+          {{ else }}
+            {{- $short = .id -}}
+          {{ end }}
+          
+          {{ if .sort }}
+            {{- $alphaOrder = .sort -}}
+          {{ else }}
+            {{- $alphaOrder = .full -}}
+          {{ end }}  
+          
       {{- end -}}
   {{- end -}}
-  {{- $full := $.Scratch.Get "full" -}}
+  
+  {{- $alphaOrder := $alphaOrder | truncate 100 | urlize -}}
   {{- $.Page.Scratch.SetInMap "entry" "0" $short -}}
   {{- $.Page.Scratch.SetInMap "entry" "1" $full -}}
-  {{ $entry := ($.Page.Scratch.GetSortedMapValues "entry") }}
-  {{- $shortId := . | urlize -}}
-  {{- $.Page.Scratch.SetInMap "cited" $shortId $entry -}}  
+  {{- $entry := ($.Page.Scratch.GetSortedMapValues "entry") -}}
+  {{- $.Page.Scratch.SetInMap "cited" $alphaOrder $entry -}}  
+  {{- $.Page.Scratch.Delete "entry" -}}
+
 {{- end -}}
 
-{{ if ($.Scratch.GetSortedMapValues "cited") }}
+{{- if ($.Scratch.GetSortedMapValues "cited") }}
 <div class="quire-page__content__references backmatter">
-    <h2 id="bibliography">Bibliography</h2>
-    {{ if eq .Site.Params.displayBiblioShort true }}
+    <h2 id="{{ if .Site.Params.biblioHeading }}{{ .Site.Params.biblioHeading | urlize }}{{ else }}bibliography{{ end }}">{{ if .Site.Params.biblioHeading }}{{ .Site.Params.biblioHeading }}{{ else }}Bibliography{{ end }}</h2>
+    
+    {{- if eq .Site.Params.displayBiblioShort true }}
     <dl>
-        {{ range ($.Scratch.GetSortedMapValues "cited") }}
+        {{- range ($.Scratch.GetSortedMapValues "cited") }}
         {{/* the id is in a span because Pandoc otherwise strips them out from dt and dd for EPUBs for some reason */}}
         <dt><span id="{{ urlize (index . 0) }}">{{ markdownify (index . 0) }}</span></dt>
         <dd>{{ markdownify (index . 1)}}</dd>
-        {{ end }}
+        {{- end }}
     </dl>
-    {{ else }}
+    {{- else }}
     <ul>
-        {{ range ($.Scratch.GetSortedMapValues "cited") }}
+        {{- range ($.Scratch.GetSortedMapValues "cited") }}
         <li id="{{ urlize (index . 0) }}">{{ markdownify (index . 1)}}</li>
-        {{ end }}
+        {{- end }}
     </ul>
-    {{ end }}
+    {{- end }}
 </div>
-{{ end }}
+{{- end -}}
