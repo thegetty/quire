@@ -1,0 +1,46 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+#
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/buildpack-deps:trusty
+        user: root
+    working_directory: ~/quire-starter
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "9b:ca:68:bb:73:d0:32:71:61:d5:44:19:c2:63:36:2e"
+      - run:
+          name: Clone and install quire-cli
+          command: |
+            git clone git@github.com:gettypubs/quire-cli.git ~/quire-cli
+            cd ~/quire-cli/
+            npm install -g
+            npm ci
+      - run:
+          name: Remove key from config to add new one
+          command: |
+            > ~/.ssh/config
+      - add_ssh_keys:
+          fingerprints:
+            - "90:fe:91:5e:bf:6d:4c:74:54:43:73:12:10:87:f1:76"
+      - run:
+          name: Add quire-starter-theme and move theme into themes folder and install theme dependencies
+          command: |
+            git clone git@github.com:gettypubs/quire-starter-theme.git ~/quire-starter-theme
+            mv ~/quire-starter-theme/ ~/quire-starter/themes/
+            cd ~/quire-starter/themes/quire-starter-theme/
+            npm ci
+      - run:
+          name: Add Netlify CLI
+          command: |
+            npm i netlify-cli -g
+      - save_cache:
+          paths:
+            - ~/quire-starter/themes/quire-starter-theme/node_modules
+            - ~/.npm
+            - ~/.cache
+          key: v3-dependency-cache-{{ checksum "~/quire-starter/themes/quire-starter-theme/package.json" }}
