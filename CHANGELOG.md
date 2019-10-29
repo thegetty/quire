@@ -11,11 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 + Cypress testing suite
 + CircleCI configuration to run Cypress Tests automatically on each pull request
++ Tests for all major JS functions and elements
 
 ### Fixed
 + search.html to fix ref warning
 + relURL to href and src
-+ JS bug fixes
++ JS bug fixes 
 
 ### Security
 * Updated NodeJS/NPM dependencies
