@@ -155,7 +155,8 @@ the figure for each into a figure group
       <img
       id="{{ .id }}"
       class="quire-figure__image" 
-      src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
+      src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' 
+      alt='{{ with .alt }}{{ . }}{{ end }}' />
 
   {{ else }}
 
@@ -165,7 +166,7 @@ the figure for each into a figure group
       {{ end }}
       <img id="{{ .id }}" class="quire-figure__image"
          src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'
-         alt="{{ if .alt }}{{ .alt }}{{ end }}" />
+         alt='{{ with .alt }}{{ . }}{{ end }}' />
     
     {{ end }}
 
