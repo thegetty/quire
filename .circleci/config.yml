@@ -73,19 +73,14 @@ jobs:
       - run:
           name: Deploy to Netlify
           command: |
-            netlify deploy --auth ${NETLIFY_AUTH_TOKEN} --dir ~/quire-starter/site --prod --site ${NETLIFY_SITE_ID} --message "CircleCI"
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+                  netlify deploy --auth ${NETLIFY_AUTH_TOKEN} --dir ~/quire-starter/site --prod --site ${NETLIFY_SITE_ID} --message "CircleCI Production Deploy"
+               else
+                  netlify deploy --auth ${NETLIFY_AUTH_TOKEN} --dir ~/quire-starter/site --prod --site ${NETLIFY_SITE_ID} --message "CircleCI Pull Request Deploy"
+            fi
       - save_cache:
           paths:
             - ~/quire-starter/themes/quire-starter-theme/node_modules
             - ~/.npm
             - ~/.cache
           key: v3-dependency-cache-{{ checksum "~/quire-starter/themes/quire-starter-theme/package.json" }}
-
-workflows:
-  version: 2
-  main:
-    jobs:
-      - build:
-          filters:
-            branches:
-              only: master
