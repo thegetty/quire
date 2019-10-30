@@ -4,7 +4,6 @@ jobs:
   build:
     docker:
       - image: circleci/buildpack-deps:trusty
-        user: root
     working_directory: ~/quire-starter
     steps:
       - checkout
@@ -16,24 +15,26 @@ jobs:
             curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            nvm install --lts
+            nvm install --lts && nvm alias default --lts
+
             echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
             echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
+            echo 'nvm install --lts && nvm alias default --lts' >> $BASH_ENV
       - run:
           name: Add Netlify CLI
           command: |
-            npm install -g netlify-cli
+            sudo npm install -g netlify-cli
       - run:
           name: Install Prince XML
           command: |
             wget -q -O /tmp/prince.deb https://www.princexml.com/download/prince_12.5-1_ubuntu14.04_amd64.deb
-            dpkg -i /tmp/prince.deb
+            sudo dpkg -i /tmp/prince.deb
             rm /tmp/prince.deb
       - run:
           name: Install Pandoc
           command: |
             wget -q -O /tmp/pandoc.deb https://github.com/jgm/pandoc/releases/download/2.7.3/pandoc-2.7.3-1-amd64.deb
-            dpkg -i /tmp/pandoc.deb
+            sudo dpkg -i /tmp/pandoc.deb
             rm /tmp/pandoc.deb
       - add_ssh_keys:
           fingerprints:
@@ -43,7 +44,7 @@ jobs:
           command: |
             git clone git@github.com:gettypubs/quire-cli.git ~/quire-cli
             cd ~/quire-cli/
-            npm install -g
+            sudo npm install -g
       - run:
           name: Remove key from config to add new one
           command: |
