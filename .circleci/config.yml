@@ -78,13 +78,6 @@ jobs:
                else
                   netlify deploy --auth ${NETLIFY_AUTH_TOKEN} --dir ~/quire-starter/site --site ${NETLIFY_SITE_ID} --message "CircleCI Pull Request Deploy"
             fi
-            echo ${CIRCLE_BRANCH}
-      - run:
-          name: Send comment to Github
-          command: |
-            CI_PR_ID=`git log -n 1 | grep 'Merge pull request' | sed -e 's/.*#\([0-9]\+\).*/\1/'`
-            echo ${CI_PR_ID}
-            curl -s -H "Authorization: token ${ACCESS_TOKEN}" -X POST -d '{"body": "https://5dba0d073b23304cb1de957e--quire-starter.netlify.com"}' "https://api.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/issues/${CI_PR_ID}/comments"
       - save_cache:
           paths:
             - ~/quire-starter/themes/quire-starter-theme/node_modules
