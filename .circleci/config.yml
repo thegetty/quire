@@ -15,11 +15,11 @@ jobs:
             curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            nvm install --lts && nvm alias default --lts
+            nvm install 12.13.0 && nvm alias default 12.13.0
 
             echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
             echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
-            echo 'nvm install --lts && nvm alias default --lts' >> $BASH_ENV
+            echo 'nvm install 12.13.0 && nvm alias default 12.13.0' >> $BASH_ENV
       - run:
           name: Add Netlify CLI
           command: |
