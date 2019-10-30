@@ -1,4 +1,4 @@
-version: 2.1
+version: 2
 
 jobs:
   build:
@@ -19,11 +19,11 @@ jobs:
 
             echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
             echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
-            echo 'nvm install 12.13.0 && nvm alias default 12.13.0' >> $BASH_ENV
+            echo 'nvm use 12.13.0' >> $BASH_ENV
       - run:
           name: Add Netlify CLI
           command: |
-            sudo npm install -g netlify-cli
+            npm install -g netlify-cli
       - run:
           name: Install Prince XML
           command: |
@@ -44,7 +44,7 @@ jobs:
           command: |
             git clone git@github.com:gettypubs/quire-cli.git ~/quire-cli
             cd ~/quire-cli/
-            sudo npm install -g
+            npm install -g
       - run:
           name: Remove key from config to add new one
           command: |
@@ -80,3 +80,12 @@ jobs:
             - ~/.npm
             - ~/.cache
           key: v3-dependency-cache-{{ checksum "~/quire-starter/themes/quire-starter-theme/package.json" }}
+
+workflows:
+  version: 2
+  main:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: master
