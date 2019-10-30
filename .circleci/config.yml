@@ -1,7 +1,5 @@
-# Javascript Node CircleCI 2.0 configuration file
-#
-#
-version: 2
+version: 2.1
+
 jobs:
   build:
     docker:
@@ -10,6 +8,33 @@ jobs:
     working_directory: ~/quire-starter
     steps:
       - checkout
+      - run:
+          name: Install NodeJS and NPM
+          command: |
+            set +e             
+            touch $BASH_ENV  
+            curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            nvm install --lts
+            echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
+            echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
+      - run:
+          name: Add Netlify CLI
+          command: |
+            npm install -g netlify-cli
+      - run:
+          name: Install Prince XML
+          command: |
+            wget -q -O /tmp/prince.deb https://www.princexml.com/download/prince_12.5-1_ubuntu14.04_amd64.deb
+            dpkg -i /tmp/prince.deb
+            rm /tmp/prince.deb
+      - run:
+          name: Install Pandoc
+          command: |
+            wget -q -O /tmp/pandoc.deb https://github.com/jgm/pandoc/releases/download/2.7.3/pandoc-2.7.3-1-amd64.deb
+            dpkg -i /tmp/pandoc.deb
+            rm /tmp/pandoc.deb
       - add_ssh_keys:
           fingerprints:
             - "9b:ca:68:bb:73:d0:32:71:61:d5:44:19:c2:63:36:2e"
@@ -19,7 +44,6 @@ jobs:
             git clone git@github.com:gettypubs/quire-cli.git ~/quire-cli
             cd ~/quire-cli/
             npm install -g
-            npm ci
       - run:
           name: Remove key from config to add new one
           command: |
@@ -28,16 +52,27 @@ jobs:
           fingerprints:
             - "90:fe:91:5e:bf:6d:4c:74:54:43:73:12:10:87:f1:76"
       - run:
-          name: Add quire-starter-theme and move theme into themes folder and install theme dependencies
+          name: Add quire-starter-theme and move theme into themes folder
           command: |
             git clone git@github.com:gettypubs/quire-starter-theme.git ~/quire-starter-theme
             mv ~/quire-starter-theme/ ~/quire-starter/themes/
+      - restore_cache:
+          keys:
+            - dependency-cache-{{ .Branch }}-{{ checksum "~/quire-starter/themes/quire-starter-theme/package-lock.json" }}
+      - run:
+          name: Install theme dependencies
+          command: |
             cd ~/quire-starter/themes/quire-starter-theme/
             npm ci
       - run:
-          name: Add Netlify CLI
+          name: Build Quire Site
           command: |
-            npm i netlify-cli -g
+            cd ~/quire-starter
+            quire build
+      - run:
+          name: Deploy to Netlify
+          command: |
+            netlify deploy --auth ${NETLIFY_AUTH_TOKEN} --dir ~/quire-starter/site --prod --site ${NETLIFY_SITE_ID} --message "CircleCI"
       - save_cache:
           paths:
             - ~/quire-starter/themes/quire-starter-theme/node_modules
