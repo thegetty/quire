@@ -67,9 +67,8 @@ jobs:
             - *npm_backup_cache_key
       - run:
           name: Install theme dependencies
-          command: |
-            cd ~/quire-starter/themes/quire-starter-theme/
-            npm ci
+          working_directory: ~/quire-starter
+          command: npm ci
       - save_cache:
           name: Save node modules cache
           key: *npm_cache_key
@@ -79,9 +78,8 @@ jobs:
             - ~/.cache
       - run:
           name: Build Quire Site
-          command: |
-            cd ~/quire-starter
-              quire build
+          working_directory: ~/quire-starter
+          command: quire build
       - run:
           name: Deploy to Netlify
           command: |
