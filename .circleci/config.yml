@@ -1,7 +1,7 @@
 version: 2.1
 
 jobs:
-  build:
+  prepare:
     docker:
       - image: circleci/buildpack-deps:trusty
     working_directory: ~/quire-starter
@@ -58,18 +58,36 @@ jobs:
             git clone git@github.com:gettypubs/quire-starter-theme.git ~/quire-starter-theme
             mv ~/quire-starter-theme/ ~/quire-starter/themes/
       - restore_cache:
+          name: Restore node modules cache
           keys:
-            - dependency-cache-{{ .Branch }}-{{ checksum "~/quire-starter/themes/quire-starter-theme/package-lock.json" }}
+            - dependency-cache-{{ checksum "~/quire-starter/themes/quire-starter-theme/package-lock.json" }}
       - run:
           name: Install theme dependencies
           command: |
             cd ~/quire-starter/themes/quire-starter-theme/
             npm ci
+      - save_cache:
+          name: Save node modules cache
+          key: dependency-cache-{{ checksum "~/quire-starter/themes/quire-starter-theme/package-lock.json" }}
+          paths:
+            - ~/quire-starter/themes/quire-starter-theme/node_modules
+            - ~/.npm
+            - ~/.cache
+
+  build:
+    docker:
+      - image: circleci/buildpack-deps:trusty
+    working_directory: ~/quire-starter
+    steps:
+      - checkout
+      - restore_cache:
+          name: Restore node modules cache
+          key: dependency-cache-{{ checksum "~/quire-starter/themes/quire-starter-theme/package-lock.json" }}
       - run:
           name: Build Quire Site
           command: |
             cd ~/quire-starter
-            quire build
+              quire build
       - run:
           name: Deploy to Netlify
           command: |
@@ -78,9 +96,12 @@ jobs:
                else
                   netlify deploy --auth ${NETLIFY_AUTH_TOKEN} --dir ~/quire-starter/site --site ${NETLIFY_SITE_ID} --message "CircleCI Pull Request Deploy"
             fi
-      - save_cache:
-          paths:
-            - ~/quire-starter/themes/quire-starter-theme/node_modules
-            - ~/.npm
-            - ~/.cache
-          key: dependency-cache-{{ .Branch }}-{{ checksum "~/quire-starter/themes/quire-starter-theme/package.json" }}
+
+workflows:
+  version: 2
+  deploy:
+    jobs:
+      - prepare
+      - build:
+          requires:
+            - prepare
