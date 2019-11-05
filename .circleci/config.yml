@@ -1,17 +1,23 @@
 version: 2
 
 references:
-  npm_cache_key: &npm_cache_key dependency-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
-
-  npm_backup_cache_key: &npm_backup_cache_key dependency-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
-
-  job_base: &job_base
-    executor: docker_image
-
-commands:
-  prepare:
+  npm_cache_key: &npm_cache_key
+    dependency-cache-{{ checksum "~/quire-starter/themes/quire-starter-theme/package-lock.json" }}
+  npm_backup_key: &npm_backup_key
+    dependency-cache-{{ checksum "~/quire-starter/themes/quire-starter-theme/package-lock.json" }}
+    
+jobs:
+  build:
+    docker:
+      - image: circleci/buildpack-deps:trusty
+    working_directory: ~/quire-starter
     steps:
       - checkout
+      - restore_cache:
+          name: Restore node modules cache
+          keys:
+            - *npm_cache_key
+            - *npm_backup_cache_key
       - run:
           name: Install NodeJS and NPM
           command: |
@@ -62,11 +68,6 @@ commands:
           command: |
             git clone git@github.com:gettypubs/quire-starter-theme.git ~/quire-starter-theme
             mv ~/quire-starter-theme/ ~/quire-starter/themes/
-      - restore_cache:
-          name: Restore node modules cache
-          keys:
-            - *npm_cache_key
-            - *npm_backup_cache_key
       - run:
           name: Install theme dependencies
           command: |
@@ -79,14 +80,6 @@ commands:
             - ~/quire-starter/themes/quire-starter-theme/node_modules
             - ~/.npm
             - ~/.cache
-  build:
-    steps:
-      - checkout
-      - restore_cache:
-          name: Restore node modules cache
-          key:
-            - *npm_cache_key
-            - *npm_backup_cache_key
       - run:
           name: Build Quire Site
           command: |
@@ -101,17 +94,4 @@ commands:
                   netlify deploy --auth ${NETLIFY_AUTH_TOKEN} --dir ~/quire-starter/site --site ${NETLIFY_SITE_ID} --message "CircleCI Pull Request Deploy"
             fi
 
-executors:
-  docker_image:
-    docker:
-      - image: circleci/buildpack-deps:trusty
-    working_directory: ~/quire-starter
 
-workflows:
-  version: 2
-  deploy:
-    jobs:
-      - prepare
-      - build:
-          requires:
-            - prepare
