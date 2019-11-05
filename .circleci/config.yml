@@ -10,11 +10,6 @@ jobs:
     working_directory: ~/quire-starter
     steps:
       - checkout
-      - restore_cache:
-          name: Restore node modules cache
-          keys:
-            - *npm_cache_key
-            - *npm_backup_cache_key
       - run:
           name: Install NodeJS and NPM
           command: |
@@ -65,6 +60,11 @@ jobs:
           command: |
             git clone git@github.com:gettypubs/quire-starter-theme.git ~/quire-starter-theme
             mv ~/quire-starter-theme/ ~/quire-starter/themes/
+      - restore_cache:
+          name: Restore node modules cache
+          keys:
+            - *npm_cache_key
+            - *npm_backup_cache_key
       - run:
           name: Install theme dependencies
           command: |
@@ -86,7 +86,13 @@ jobs:
           name: Deploy to Netlify
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-                  netlify deploy --auth ${NETLIFY_AUTH_TOKEN} --dir ~/quire-starter/site --prod --site ${NETLIFY_SITE_ID} --message "CircleCI Production Deploy"
+                  netlify deploy --auth ${NETLIFY_AUTH_TOKEN} --prod /
+                  --dir ~/quire-starter/site /
+                  --prod --site ${NETLIFY_SITE_ID} /
+                  --message "CircleCI Production Deploy"
                else
-                  netlify deploy --auth ${NETLIFY_AUTH_TOKEN} --dir ~/quire-starter/site --site ${NETLIFY_SITE_ID} --message "CircleCI Pull Request Deploy"
+                  netlify deploy --auth ${NETLIFY_AUTH_TOKEN} /
+                  --dir ~/quire-starter/site /
+                  --site ${NETLIFY_SITE_ID} /
+                  --message "CircleCI Pull Request Deploy"
             fi
