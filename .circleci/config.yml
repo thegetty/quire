@@ -1,10 +1,15 @@
-version: 2.1
+version: 2
 
-jobs:
+references:
+  npm_cache_key: &npm_cache_key dependency-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
+
+  npm_backup_cache_key: &npm_backup_cache_key dependency-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
+
+  job_base: &job_base
+    executor: docker_image
+
+commands:
   prepare:
-    docker:
-      - image: circleci/buildpack-deps:trusty
-    working_directory: ~/quire-starter
     steps:
       - checkout
       - run:
@@ -60,7 +65,8 @@ jobs:
       - restore_cache:
           name: Restore node modules cache
           keys:
-            - dependency-cache-{{ checksum "~/quire-starter/themes/quire-starter-theme/package-lock.json" }}
+            - *npm_cache_key
+            - *npm_backup_cache_key
       - run:
           name: Install theme dependencies
           command: |
@@ -68,21 +74,19 @@ jobs:
             npm ci
       - save_cache:
           name: Save node modules cache
-          key: dependency-cache-{{ checksum "~/quire-starter/themes/quire-starter-theme/package-lock.json" }}
+          key: *npm_cache_key
           paths:
             - ~/quire-starter/themes/quire-starter-theme/node_modules
             - ~/.npm
             - ~/.cache
-
   build:
-    docker:
-      - image: circleci/buildpack-deps:trusty
-    working_directory: ~/quire-starter
     steps:
       - checkout
       - restore_cache:
           name: Restore node modules cache
-          key: dependency-cache-{{ checksum "~/quire-starter/themes/quire-starter-theme/package-lock.json" }}
+          key:
+            - *npm_cache_key
+            - *npm_backup_cache_key
       - run:
           name: Build Quire Site
           command: |
@@ -96,6 +100,12 @@ jobs:
                else
                   netlify deploy --auth ${NETLIFY_AUTH_TOKEN} --dir ~/quire-starter/site --site ${NETLIFY_SITE_ID} --message "CircleCI Pull Request Deploy"
             fi
+
+executors:
+  docker_image:
+    docker:
+      - image: circleci/buildpack-deps:trusty
+    working_directory: ~/quire-starter
 
 workflows:
   version: 2
