@@ -27,8 +27,7 @@ jobs:
             echo 'nvm use 10.16.3' >> ${BASH_ENV}
       - run:
           name: Add Netlify CLI
-          command: |
-            npm install -g netlify-cli
+          command: npm install -g netlify-cli
       - run:
           name: Install Prince XML
           command: |
