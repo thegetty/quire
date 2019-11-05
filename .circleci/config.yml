@@ -2,7 +2,7 @@ version: 2
 
 references:
   npm_cache_key: &npm_cache_key dependency-cache-{{ checksum "~/quire-starter/themes/quire-starter-theme/package-lock.json" }}
-  npm_backup_cache_key: &npm_backup_cache_key dependency-cache-{{ checksum "~/quire-starter/themes/quire-starter-theme/package-lock.json" }}
+  npm_backup_cache_key: &npm_backup_cache_key dependency-cache-
 jobs:
   build:
     docker:
