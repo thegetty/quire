@@ -2,7 +2,7 @@ version: 2
 
 references:
   npm_cache_key: &npm_cache_key dependency-cache-{{ checksum "~/quire-starter/themes/quire-starter-theme/package-lock.json" }}
-  npm_backup_key: &npm_backup_key dependency-cache-{{ checksum "~/quire-starter/themes/quire-starter-theme/package-lock.json" }}
+  npm_backup_cache_key: &npm_backup_cache_key dependency-cache-{{ checksum "~/quire-starter/themes/quire-starter-theme/package-lock.json" }}
 jobs:
   build:
     docker:
@@ -90,5 +90,3 @@ jobs:
                else
                   netlify deploy --auth ${NETLIFY_AUTH_TOKEN} --dir ~/quire-starter/site --site ${NETLIFY_SITE_ID} --message "CircleCI Pull Request Deploy"
             fi
-
-
