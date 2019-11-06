@@ -64,7 +64,6 @@ jobs:
           name: Restore node modules cache
           keys:
             - *npm_cache_key
-            - *npm_backup_cache_key
       - run:
           name: Install theme dependencies
           working_directory: ~/quire-starter
