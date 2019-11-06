@@ -1,9 +1,12 @@
 version: 2
 
 references:
-  npm_cache_key: &npm_cache_key dependency-cache-{{ .Branch }}-{{ checksum "~/quire-starter/themes/quire-starter-theme/package-lock.json" }}
-  quire_cli_ssh_key: &quire_cli_ssh_key "9b:ca:68:bb:73:d0:32:71:61:d5:44:19:c2:63:36:2e"
-  quire_starter_theme_ssh_key: &quire_starter_theme_ssh_key "90:fe:91:5e:bf:6d:4c:74:54:43:73:12:10:87:f1:76"
+  npm_cache_key: &npm_cache_key 
+    dependency-cache-{{ .Branch }}-{{ checksum "~/quire-starter/themes/quire-starter-theme/package-lock.json" }}
+  quire_cli_ssh_key: &quire_cli_ssh_key 
+    "9b:ca:68:bb:73:d0:32:71:61:d5:44:19:c2:63:36:2e"
+  quire_starter_theme_ssh_key: &quire_starter_theme_ssh_key 
+    "90:fe:91:5e:bf:6d:4c:74:54:43:73:12:10:87:f1:76"
 jobs:
   build:
     docker:
