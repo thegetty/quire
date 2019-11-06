@@ -66,7 +66,7 @@ jobs:
             - *npm_cache_key
       - run:
           name: Install theme dependencies
-          working_directory: ~/quire-starter
+          working_directory: ~/quire-starter/themes/quire-starter-theme/
           command: npm ci
       - save_cache:
           name: Save node modules cache
