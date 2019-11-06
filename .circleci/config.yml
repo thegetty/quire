@@ -84,14 +84,14 @@ jobs:
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
                   netlify deploy  --prod \
-                  --auth ${NETLIFY_AUTH_TOKEN} \
-                  --dir ~/quire-starter/site \
-                  --site ${NETLIFY_SITE_ID} \
-                  --message "CircleCI Production Deploy"
+                    --auth ${NETLIFY_AUTH_TOKEN} \
+                    --dir ~/quire-starter/site \
+                    --site ${NETLIFY_SITE_ID} \
+                    --message "CircleCI Production Deploy"
                else
                   netlify deploy \
-                  --auth ${NETLIFY_AUTH_TOKEN} \
-                  --dir ~/quire-starter/site \
-                  --site ${NETLIFY_SITE_ID} \
-                  --message "CircleCI Pull Request Deploy"
+                    --auth ${NETLIFY_AUTH_TOKEN} \
+                    --dir ~/quire-starter/site \
+                    --site ${NETLIFY_SITE_ID} \
+                    --message "CircleCI Branch Deploy from ${CIRCLE_BRANCH}"
             fi
