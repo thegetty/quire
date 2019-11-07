@@ -1,3 +1,5 @@
+--- # ------------------------------------------------------------------------------
+
 # ==============================================================================
 # Publication.yml
 # ------------------------------------------------------------------------------
@@ -7,8 +9,6 @@
 
 # ------------------------------------------------------------------------------
 # Title & Description
-# ------------------------------------------------------------------------------
-
 title: New Deal Photography
 subtitle: The Works of Dorothea Lange and Walker Evans
 reading_line:
@@ -51,7 +51,7 @@ contributor:
     title: Senior Curator of Photographs
     affiliation: J. Paul Getty Museum
     bio: "Judith Keller joined the J. Paul Getty Museum in 1986 and since 2008 was an Associate Curator of Photographs. In 2010, she was named the Senior Curator of Photographs. Keller received her B.A. in Art History and a Masters in Museum Practice and Art History from the University of Michigan at Ann Arbor. She also completed course work for a Phd. in Art History at the University of Michigan. Prior to her tenure at the Getty, Keller worked at The University of Michigan Museum of Art (1979 – 1981) and at the Archer M. Huntington Art Gallery (now the Blanton Museum of Art) at The University of Texas, Austin, as Curator of Prints and Drawings."
-    url: http://news.getty.edu/judith-keller-named-senior-curator-photographs-at-j-paul-getty-museum.htm
+    url: https://news.getty.edu/judith-keller-named-senior-curator-photographs-at-j-paul-getty-museum.htm
     pic: contributors/judith-keller.jpg
   - id:
     type:
@@ -72,7 +72,7 @@ copyright: © 2017 J. Paul Getty Trust
 license:
   name: Creative Commons Attribution 4.0 International License
   abbreviation: CC BY
-  url: http://creativecommons.org/licenses/by/4.0/
+  url: https://creativecommons.org/licenses/by/4.0/
   scope: full # full | text-only | some-exceptions
 
 # ------------------------------------------------------------------------------
@@ -118,18 +118,18 @@ subject:
     identifer: PHO023100
   - type: getty
     name: Dorothea Lange
-    identifier: "http://vocab.getty.edu/ulan/500007674"
+    identifier: "https://vocab.getty.edu/ulan/500007674"
   - type: keyword
     name: photography
   - type: getty
     name: Walker Evans
-    identifier: "http://vocab.getty.edu/ulan/500012076"
+    identifier: "https://vocab.getty.edu/ulan/500012076"
   - type: getty
     name: black-and-white photography
-    identifier: "http://vocab.getty.edu/aat/300162056"
+    identifier: "https://vocab.getty.edu/aat/300162056"
   - type: getty
     name: despression (economic concept)
-    identifier: "http://vocab.getty.edu/aat/300410245"
+    identifier: "https://vocab.getty.edu/aat/300410245"
 
 # ------------------------------------------------------------------------------
 # Revision History

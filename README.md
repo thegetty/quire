@@ -2,7 +2,7 @@
 _A Digital Publishing Framework from Getty Publications_
 
 This is the starter template for
-[Quire](http://www.getty.edu/publications/digital/platforms-tools.html), an
+[Quire](https://www.getty.edu/publications/digital/platforms-tools.html), an
 open-source multi-format publishing framework built on
 [Hugo](https://github.com/gohugoio/hugo). Quire consists of:
 
@@ -72,7 +72,7 @@ log in to [Netlify](https://www.netlify.com/) using your GitHub account.
    `public/`, but this is not necessare since the `netlify.toml` file has all the
    information pre-configured.
 5. Netlify will auto-generate a site URL for you, or you can set it yourself.
-   The default example uses `http://quire-demo.netlify.com`. Set this as your
+   The default example uses `https://quire-demo.netlify.com`. Set this as your
    `baseURL` in `config.build.yml`, and set `relativeURLs: true`
 6. Now, every time you push up a commit to `master` on GitHub, Netlify will
    automatically rebuild your site using the settings in `netlify.toml`.
