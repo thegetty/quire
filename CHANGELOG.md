@@ -18,8 +18,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 + Fixed insecure assets
 
-### Security
-
 ## [v0.17.0] - 2019-08-01
 ### Added
 + Add config params to support new options in contributor and citation handling
