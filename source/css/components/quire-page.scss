@@ -20,29 +20,28 @@ html {
   @media print {
     font-size: $print-base-font-size;
   }
-  
+
   @media print {
     // otherwise shows white areas on splash pages in the princexml output
     background-color: transparent;
   }
-  
 
-  p, div {
+  p,
+  div {
     -webkit-touch-callout: text; /* iOS Safari */
     -webkit-user-select: text; /* Safari */
-     -khtml-user-select: text; /* Konqueror HTML */
-       -moz-user-select: text; /* Firefox */
-        -ms-user-select: text; /* Internet Explorer/Edge */
-            user-select: text; /* Non-prefixed version, currently
+    -khtml-user-select: text; /* Konqueror HTML */
+    -moz-user-select: text; /* Firefox */
+    -ms-user-select: text; /* Internet Explorer/Edge */
+    user-select: text; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
   }
-
+  overflow-y: visible;
 }
 
 // .quire-page
 // -----------------------------------------------------------------------------
 .quire-page {
-
   h1,
   h2,
   h3,
@@ -54,7 +53,7 @@ html {
     @media print {
       color: $print-text-color;
     }
-    
+
     &:not(:first-child) {
       margin-top: 1rem;
     }
@@ -68,7 +67,7 @@ html {
     margin: 1rem 0;
 
     @media print {
-      margin-top: .75in;
+      margin-top: 0.75in;
     }
     @media screen and (max-width: $tablet) {
       font-size: 2.5em;
@@ -99,7 +98,7 @@ html {
     }
 
     @media print {
-      margin: .375in .5in 0;
+      margin: 0.375in 0.5in 0;
     }
   }
 
@@ -122,7 +121,6 @@ html {
   }
 
   &__content {
-    
     // TEMPORARY TO TEST PDF LAYOUT
     // @media print {
     //   border: 1px solid Lime;
@@ -130,7 +128,7 @@ html {
     //     border: 1px solid Blue;
     //   }
     // }
-    
+
     font-family: $quire-primary-font;
     font-size: 1em;
     line-height: 1.78;
@@ -138,7 +136,7 @@ html {
     padding-top: 0;
     padding-bottom: 0;
     position: relative;
-    animation: .5s ease 0s 1 slideFromRight;
+    animation: 0.5s ease 0s 1 slideFromRight;
     color: background-color-text-classic($content-background-color);
     @media print {
       color: $print-text-color;
@@ -148,7 +146,7 @@ html {
     line-height: 1.6;
 
     table {
-      font-size: .875em;
+      font-size: 0.875em;
     }
 
     .container {
@@ -174,8 +172,8 @@ html {
           margin: 0 auto;
           background-color: transparent;
         }
-        
-        // eliminates a blank space that can otherwise show up between 
+
+        // eliminates a blank space that can otherwise show up between
         // abstract/tombstone and the main content
         > *:first-child {
           margin-top: 0;
@@ -185,7 +183,7 @@ html {
           background-color: transparent;
           overflow: visible;
           text-align: center;
-          
+
           &:after {
             @if $theme == classic {
               content: "✦\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0✦\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0✦";
@@ -193,11 +191,11 @@ html {
             } @else {
               content: "◆\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0◆\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0◆";
             }
-            font-size: .875rem;
+            font-size: 0.875rem;
             position: relative;
-            top: -.875rem;
+            top: -0.875rem;
           }
-        }  
+        }
 
         li {
           margin: 0 0 1em 0;
@@ -205,7 +203,8 @@ html {
 
         table {
           margin: 2em 0;
-          td, th {
+          td,
+          th {
             color: background-color-text($content-background-color);
             @media print {
               color: $print-text-color;
@@ -230,11 +229,11 @@ html {
               } @else {
                 content: "◆";
               }
-              font-size: .875rem;
+              font-size: 0.875rem;
               display: block;
               float: left;
               width: 1em;
-              margin-left: -1.3em;              
+              margin-left: -1.3em;
               box-sizing: border-box;
               vertical-align: text-top;
             }
@@ -261,8 +260,16 @@ html {
         blockquote {
           border-left: none;
           position: relative;
-          p, ul, ol, dl,
-          h1, h2, h3, h4, h5, h6 {
+          p,
+          ul,
+          ol,
+          dl,
+          h1,
+          h2,
+          h3,
+          h4,
+          h5,
+          h6 {
             position: relative;
             @media screen {
               &:first-child:before {
@@ -276,24 +283,25 @@ html {
                 font-size: 5em;
                 line-height: 0.1em;
                 margin-right: 0.25em;
-                content: '“';
+                content: "“";
                 position: absolute;
-                top: .35em;
-                left: -.55em;
+                top: 0.35em;
+                left: -0.55em;
                 @if $theme == classic {
                   font-family: $quire-headings-font;
                   font-style: normal;
                   font-weight: bold;
                   font-size: 4em;
                   color: background-color-text($content-background-color);
-                  top: .45em;
-                  left: -.7em;
+                  top: 0.45em;
+                  left: -0.7em;
                   font-size: 3.125em;
                 }
               }
-            }  
+            }
           }
-          ul, dl {
+          ul,
+          dl {
             margin-left: 0;
           }
           ol {
@@ -302,7 +310,7 @@ html {
               @if $theme == classic {
                 left: -1em;
               } @else {
-                left: -.75em;
+                left: -0.75em;
               }
             }
           }
@@ -310,16 +318,18 @@ html {
 
         .backmatter {
           font-family: $quire-footnotes-font;
-          font-size: .875rem;
+          font-size: 0.875rem;
           line-height: 1.6;
           padding-top: 1px;
 
-          h2, h3, h4 {
+          h2,
+          h3,
+          h4 {
             font-family: $quire-headings-font;
             @if $theme == classic {
-              letter-spacing: .5px;
+              letter-spacing: 0.5px;
             } @else {
-              letter-spacing: .25px;
+              letter-spacing: 0.25px;
             }
             color: background-color-text-classic($content-background-color);
             @media print {
@@ -330,12 +340,14 @@ html {
             text-transform: uppercase;
             margin-top: 20px;
             padding-bottom: 6px;
-            border-bottom: 1px solid background-color-text-classic($content-background-color);
+            border-bottom: 1px solid
+              background-color-text-classic($content-background-color);
             @media print {
               border-color: $print-text-color;
             }
           }
-          h3, h4 {
+          h3,
+          h4 {
             font-weight: bold;
             font-style: normal;
             border-bottom-width: 0;
@@ -361,7 +373,6 @@ html {
             line-height: 1.6em !important;
           }
           dl {
-
           }
 
           .media {
@@ -370,7 +381,7 @@ html {
         }
 
         .footnotes {
-          font-size: .875em;
+          font-size: 0.875em;
           font-family: $quire-footnotes-font;
           hr {
             display: none;
@@ -386,7 +397,7 @@ html {
                   font-size: 1em;
                   display: inline-block;
                   width: 1em;
-                  margin-left: -.75em;
+                  margin-left: -0.75em;
                   box-sizing: border-box;
                   vertical-align: text-bottom;
                 }
@@ -402,19 +413,18 @@ html {
   }
 
   &__abstract {
-    
     // TEMPORARY TO TEST PDF LAYOUT
     // @media print {
     //   border: 1px solid DarkViolet;
     // }
-    
+
     font-style: italic;
     padding-bottom: 0;
     padding-top: 1em;
     margin-bottom: -3.5em;
-    font-size: .875em;
+    font-size: 0.875em;
     line-height: 1.7em;
-    
+
     @media screen and (max-width: $tablet) {
       margin-bottom: -3.25em;
     }
@@ -463,17 +473,17 @@ html {
         background-color: transparent;
         font-style: normal;
         margin-top: 1em;
-        
+
         @media print {
           margin-top: 0;
         }
       }
-      
+
       .content {
         margin: 0;
         padding: 0 0 1em;
         line-height: 1.714em;
-        
+
         @media print {
           max-width: 100%;
         }
@@ -486,19 +496,16 @@ html {
       background-color: transparent;
     }
   }
-
 }
-
 
 // .quire-page-header
 // -----------------------------------------------------------------------------
 .quire-page__header {
-  
   // TEMPORARY TO TEST PDF LAYOUT
   // @media print {
   //   border: 1px solid OrangeRed;
   // }
-  
+
   background-color: $secondary-background-color;
   color: background-color-text($secondary-background-color);
   background-size: cover;
@@ -514,20 +521,21 @@ html {
   -o-animation: fadeIn 2s;
   /* Opera < 12.1 */
   animation: fadeIn 2s;
-  
+
   @media print {
     background-color: transparent;
     color: $print-text-color;
-    margin: 0 .5in 1in;
+    margin: 0 0.5in 1in;
     @if $print-width <= 7 {
       margin: 0 0 1in;
     }
   }
-  
+
   &.hero__image {
     height: 80vh;
     .quire-page__header {
-      &__title, &__subtitle {
+      &__title,
+      &__subtitle {
         color: $content-background-color;
       }
     }
@@ -551,11 +559,11 @@ html {
           background-color: $white;
         }
         color: $secondary-background-color;
-        padding: .35rem .45rem;
+        padding: 0.35rem 0.45rem;
         margin: 0 auto 1.7em;
         min-width: 2.6rem;
         @media print {
-          min-width: .3125in;
+          min-width: 0.3125in;
         }
       } @else {
         font-size: 1.2rem;
@@ -565,7 +573,7 @@ html {
         }
         border-top: 2px solid $accent-color;
         border-bottom: 2px solid $accent-color;
-        padding: .2rem .3rem;
+        padding: 0.2rem 0.3rem;
         letter-spacing: 0;
         margin: 0 auto 1.9em;
       }
@@ -575,21 +583,19 @@ html {
       margin: 0 5rem;
     }
   }
-
 }
 
 .quire-splash {
-    
-  .quire-page__header {  
-    &.hero-image {  
-      background-color: transparent; 
+  .quire-page__header {
+    &.hero-image {
+      background-color: transparent;
       height: 50vh;
       max-height: 500px;
-      background-position: center; 
+      background-position: center;
       @media print {
         $splash-page-width: $print-width + $print-bleed + $print-bleed;
         $splash-page-height: $print-height + $print-bleed + $print-bleed;
-        
+
         background-color: $print-splash-color;
         color: $white;
         width: $splash-page-width;
@@ -615,7 +621,7 @@ html {
         }
       }
     }
-    background-color: transparent;  
+    background-color: transparent;
     .hero-body {
       .quire-page__header__title {
         color: background-color-text($secondary-background-color);
@@ -647,14 +653,14 @@ html {
           margin-top: 0;
           margin-left: -0.09em;
           padding-right: 0.025em;
-          line-height: .85em;
+          line-height: 0.85em;
         }
       }
     }
   }
 }
 
-@supports (-moz-appearance:none) {
+@supports (-moz-appearance: none) {
   .quire-splash {
     .quire-page__content {
       p {
@@ -662,10 +668,10 @@ html {
           &:first-letter {
             font-size: 9em;
             float: left;
-            margin-top: .1em !important;
+            margin-top: 0.1em !important;
             margin-left: -0.09em;
             padding-right: 0.025em;
-            line-height: .85em;
+            line-height: 0.85em;
           }
         }
       }
@@ -674,10 +680,8 @@ html {
 }
 
 .quire-page__content {
-
   // Overrides to Bulma's .content styles where needed.
   .content {
-
     a {
       @media print {
         color: $print-text-color;
@@ -686,7 +690,9 @@ html {
       line-height: 1.6;
       @if $theme == classic {
         color: background-color-text-classic($content-background-color);
-        border-bottom: 1px dotted background-color-text-classic($content-background-color);
+        border-bottom: 1px
+          dotted
+          background-color-text-classic($content-background-color);
       } @else {
         color: $accent-color;
         border-bottom: 1px dotted $accent-color;
@@ -717,9 +723,9 @@ html {
         font-weight: normal;
         font-size: inherit;
       }
-      font-size: .925rem;
+      font-size: 0.925rem;
       line-height: 0;
-      margin-left: .1em;
+      margin-left: 0.1em;
       &:hover {
         color: link-hover-color($content-background-color) !important;
         border-bottom-width: 0 !important;
@@ -751,7 +757,8 @@ html {
       }
     }
 
-    ol, dl {
+    ol,
+    dl {
       margin-left: 3em;
     }
 
@@ -767,7 +774,7 @@ html {
         padding: 0 0 0 1.5em;
         margin: 1.5em 0 1.5em 1.5em;
       }
-      
+
       background-color: transparent;
       font-style: italic;
 
@@ -781,7 +788,7 @@ html {
     }
 
     .footnotes {
-      margin-top: -.35em;
+      margin-top: -0.35em;
 
       hr {
         background-color: $off-black;
@@ -798,19 +805,27 @@ html {
           margin-bottom: 1em;
         }
       }
-      
+
       blockquote {
         margin: 1em 0 1em 0;
-        p, ul, ol, dl,
-        h1, h2, h3, h4, h5, h6 {
+        p,
+        ul,
+        ol,
+        dl,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
           position: relative;
           @media screen {
             &:first-child:before {
-              content: '';
+              content: "";
             }
-          }  
+          }
         }
-      }  
+      }
     }
 
     .leaflet-control {
@@ -819,12 +834,12 @@ html {
       }
     }
 
-    @if $quire-page-paragraph-style=="indent" {
+    @if $quire-page-paragraph-style== "indent" {
       p {
         margin-bottom: 0;
         text-indent: 1.5em;
       }
-      
+
       > p:first-child,
       blockquote > p:first-child,
       .quire-contributor__details > p:first-of-type,
@@ -837,7 +852,7 @@ html {
       h6 + p {
         text-indent: 0;
       }
-      
+
       .footnotes {
         p {
           margin-bottom: 0;
@@ -851,11 +866,11 @@ html {
 
     @media print {
       h2 {
-        margin-bottom: .5em;
+        margin-bottom: 0.5em;
         margin-top: 1.5em;
 
-        +h3 {
-          margin-bottom: .5em;
+        + h3 {
+          margin-bottom: 0.5em;
           margin-top: 0;
         }
       }
@@ -869,15 +884,15 @@ html {
         margin-bottom: 0;
         margin-top: 0;
       }
-      @if $quire-page-paragraph-style=="indent" {
+      @if $quire-page-paragraph-style== "indent" {
         ul {
           margin-top: 1em;
         }
       }
-      
-      li+li {
+
+      li + li {
         margin-top: 0;
       }
     }
-  }  
+  }
 }
