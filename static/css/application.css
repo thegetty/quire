@@ -7255,10 +7255,13 @@ sub {
 template {
   display: none !important; }
 
+html {
+  overflow-y: auto; }
+
 [hidden] {
   display: none;
-  -webkit-animation: .25s ease-out 0s 1 fadeOut !important;
-          animation: .25s ease-out 0s 1 fadeOut !important; }
+  -webkit-animation: 0.25s ease-out 0s 1 fadeOut !important;
+          animation: 0.25s ease-out 0s 1 fadeOut !important; }
 
 .quire {
   width: 100%; }
@@ -7304,7 +7307,7 @@ template {
   .quire:not(.no-js) .quire__primary {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    /* height: 100vh; */
     transition-property: transform;
     transition-duration: 0.15s;
     transition-timing-function: linear;
@@ -10223,6 +10226,9 @@ body > div.mfp-bg.mfp-ready {
         color: #fff; }
       .quire-contents-buttons li.quire-nav-button:hover svg {
         fill: #fff; }
+
+html {
+  overflow: auto; }
 
 @media print {
   @page {

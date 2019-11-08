@@ -182,6 +182,63 @@ window["search"] = () => {
 };
 
 /**
+ * scrollToHash
+ * @description Scroll the #main area after each smoothState reload.
+ * If a hash id is present, scroll to the location of that element,
+ * taking into account the height of the navbar.
+ */
+function scrollToHash() {
+  // Select all links with hashes
+  $('a[href*="#"]')
+    // Remove links that don't actually link to anything
+    .not('[href="#"]')
+    .not('[href="#0"]')
+    .click(function() {
+      // Figure out element to scroll to
+      var hash = this.hash.replace(":", "\\:");
+      var target = $(hash);
+      target = target.length ? target : $("[name=" + this.hash.slice(1) + "]");
+      // Does a scroll target exist?
+      if (target.length) {
+        $("html, body").animate(
+          {
+            scrollTop: target.offset().top - $(".quire-navbar").height() - 7
+          },
+          1,
+          function() {
+            // Callback after animation
+            // Must change focus!
+            var $target = $(target);
+            $target.focus();
+            if ($target.is(":focus")) {
+              // Checking if the target was focused
+              return false;
+            } else {
+              $target.attr("tabindex", "-1"); // Adding tabindex for elements not focusable
+              $target.focus(); // Set focus again
+            }
+          }
+        );
+      }
+    });
+}
+
+function scrollToHashOnLoad() {
+  if (window.location.hash) {
+    var hash = window.location.hash;
+    hash = hash.replace(":", "\\:");
+    console.log(hash);
+    $("html, body").animate(
+      {
+        scrollTop: $(hash).offset().top - $(".quire-navbar").height() - 7
+      },
+      75,
+      "swing"
+    );
+  }
+}
+
+/**
  * globalSetup
  * @description Initial setup on first page load.
  */
@@ -226,33 +283,6 @@ let navigation;
 function navigationSetup() {
   if (!navigation) {
     navigation = new Navigation();
-  }
-}
-
-/**
- * scrollToHash
- * @description Scroll the #main area after each smoothState reload.
- * If a hash id is present, scroll to the location of that element,
- * taking into account the height of the navbar.
- */
-function scrollToHash() {
-  let $scroller = $("#main");
-  let $navbar = $(".quire-navbar");
-  let targetHash = window.location.hash;
-
-  if (targetHash) {
-    let targetHashEl = document.getElementById(targetHash.slice(1));
-    let $targetHashEl = $(targetHashEl);
-
-    if ($targetHashEl.length) {
-      let newPosition = $targetHashEl.offset().top;
-      if ($navbar.length) {
-        newPosition -= $navbar.height();
-      }
-      $scroller.scrollTop(newPosition);
-    }
-  } else {
-    $scroller.scrollTop(0);
   }
 }
 
@@ -468,7 +498,9 @@ function toggleCite() {
       let citeButtons = document.querySelectorAll(".quire-citation__button");
       let citesContents = document.querySelectorAll(".quire-citation__content");
       // hide all buttons
+      if (!citesContents) return;
       for (let i = 0; i < citesContents.length; i++) {
+        if (!citeButtons[i]) return;
         citeButtons[i].setAttribute("aria-expanded", "false");
         citesContents[i].setAttribute("hidden", "hidden");
       }
@@ -520,4 +552,5 @@ globalSetup();
 // Run when document is ready
 $(window).ready(() => {
   pageSetup();
+  scrollToHashOnLoad();
 });
