@@ -191,12 +191,11 @@ function globalSetup() {
   var classNames = [];
   if (navigator.userAgent.match(/(iPad|iPhone|iPod)/i))
     classNames.push("device-ios");
+
   if (navigator.userAgent.match(/android/i)) classNames.push("device-android");
 
-  var body = document.getElementsByTagName("body")[0];
-
   if (classNames.length) classNames.push("on-device");
-  // if (body) body.classList.add(...classNames);
+
   loadSearchData();
   scrollToHash();
 }
@@ -434,14 +433,18 @@ function validateSize(map) {
 function toggleCite() {
   let expandables = document.querySelectorAll(".expandable [aria-expanded]");
   for (let i = 0; i < expandables.length; i++) {
-    expandables[i].addEventListener("click", function() {
-      var expanded = this.getAttribute("aria-expanded");
+    expandables[i].addEventListener("click", event => {
+      // Allow these links to bubble up
+      event.stopPropagation();
+      let expanded = event.target.getAttribute("aria-expanded");
       if (expanded === "false") {
-        this.setAttribute("aria-expanded", "true");
+        event.target.setAttribute("aria-expanded", "true");
       } else {
-        this.setAttribute("aria-expanded", "false");
+        event.target.setAttribute("aria-expanded", "false");
       }
-      var content = this.parentNode.querySelector("span");
+      let content = event.target.parentNode.querySelector(
+        ".quire-citation__content"
+      );
       if (content) {
         content.getAttribute("hidden");
         if (typeof content.getAttribute("hidden") === "string") {
@@ -452,7 +455,7 @@ function toggleCite() {
       }
     });
   }
-  document.addEventListener("click", function(event) {
+  document.addEventListener("click", event => {
     let content = event.target.parentNode;
     if (!content) return;
     if (
@@ -462,7 +465,7 @@ function toggleCite() {
       // do nothing
     } else {
       // find all Buttons/Cites
-      let citeButtons = document.querySelectorAll(".quire-citation button");
+      let citeButtons = document.querySelectorAll(".quire-citation__button");
       let citesContents = document.querySelectorAll(".quire-citation__content");
       // hide all buttons
       for (let i = 0; i < citesContents.length; i++) {
