@@ -1,0 +1,22 @@
+{{/* 
+Run page position script before we load CSS and JS minified files 
+A lag is created if we run this after or async  
+*/}}
+<script>
+function scrollToHash(element, offset) {
+  var targetHash = window.location.hash;
+  targetHashEl = document.getElementById(targetHash.slice(1)),
+    offset = document.querySelector(element).offsetHeight + offset;
+  if (targetHashEl) {
+    var bodyRect = document.body.getBoundingClientRect().top,
+      elementRect = targetHashEl.getBoundingClientRect().top,
+      elementPosition = elementRect - bodyRect,
+      offsetPosition = elementPosition - offset;
+    document.documentElement.scrollTop = offsetPosition;
+    document.body.scrollTop = offsetPosition; // For Safari
+  }
+}
+window.onload = function () {
+  scrollToHash(".quire-navbar", 0)
+}
+</script>
