@@ -1,6 +1,6 @@
 <div class="{{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }} quire-contents-buttons remove-from-epub">
   <ul>
-      {{ with .Prev }}
+      {{ with .Next }}
       {{- if and (ne .Params.online false) (ne .Type "data") -}}
       <li class="quire-nav-button prev">
           <a href="{{ .Permalink | relURL }}">{{- partial "icon.html" (dict "type" "left-arrow" "description" "Go back a page") -}} <span class="nav-title">{{ $.Site.Params.prevPageButtonText }}</span></a>
@@ -8,7 +8,7 @@
       </li>
       {{ end }}
       {{ end }}
-      {{ with .Next }}
+      {{ with .Prev }}
       {{- if and (ne .Params.online false) (ne .Type "data") -}}
       <li class="quire-nav-button next">
           <a href="{{ .Permalink | relURL }}"><span class="nav-title">{{ $.Site.Params.nextPageButtonText }}</span> {{- partial "icon.html" (dict "type" "right-arrow" "description" "Go to next page") -}}</a>

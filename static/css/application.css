@@ -7255,10 +7255,13 @@ sub {
 template {
   display: none !important; }
 
+html {
+  overflow-y: auto; }
+
 [hidden] {
   display: none;
-  -webkit-animation: .25s ease-out 0s 1 fadeOut !important;
-          animation: .25s ease-out 0s 1 fadeOut !important; }
+  -webkit-animation: 0.25s ease-out 0s 1 fadeOut !important;
+          animation: 0.25s ease-out 0s 1 fadeOut !important; }
 
 .quire {
   width: 100%; }
@@ -7304,7 +7307,7 @@ template {
   .quire:not(.no-js) .quire__primary {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    /* height: 100vh; */
     transition-property: transform;
     transition-duration: 0.15s;
     transition-timing-function: linear;
@@ -7315,7 +7318,7 @@ template {
       color: #333333;
       flex: 1 1 auto;
       -webkit-overflow-scrolling: touch;
-      overflow-y: scroll;
+      /* overflow-y: scroll; */
       position: relative; }
       @media print {
         .quire:not(.no-js) .quire__primary #main {
@@ -7774,14 +7777,16 @@ template {
         fill: #ffffff; }
 
 html {
-  font-size: 16px; }
+  font-size: 16px;
+  overflow-y: visible; }
   @media print {
     html {
       font-size: 8.5pt; } }
   @media print {
     html {
       background-color: transparent; } }
-  html p, html div {
+  html p,
+  html div {
     -webkit-touch-callout: text;
     /* iOS Safari */
     -webkit-user-select: text;
@@ -7826,7 +7831,7 @@ html {
   margin: 1rem 0; }
   @media print {
     .quire-page h1, .quire-page__header__title {
-      margin-top: .75in; } }
+      margin-top: 0.75in; } }
   @media screen and (max-width: 500px) {
     .quire-page h1, .quire-page__header__title {
       font-size: 2.5em; } }
@@ -7852,7 +7857,7 @@ html {
     font-style: normal; }
   @media print {
     .quire-page__header__contributor {
-      margin: .375in .5in 0; } }
+      margin: 0.375in 0.5in 0; } }
 
 .quire-page h4 {
   font-size: 1.375rem;
@@ -7877,8 +7882,8 @@ html {
   padding-top: 0;
   padding-bottom: 0;
   position: relative;
-  -webkit-animation: .5s ease 0s 1 slideFromRight;
-          animation: .5s ease 0s 1 slideFromRight;
+  -webkit-animation: 0.5s ease 0s 1 slideFromRight;
+          animation: 0.5s ease 0s 1 slideFromRight;
   color: #333333;
   font-size: 1em;
   font-weight: 400;
@@ -7887,7 +7892,7 @@ html {
     .quire-page__content {
       color: #000000; } }
   .quire-page__content table {
-    font-size: .875em; }
+    font-size: 0.875em; }
   @media screen and (max-width: 500px) {
     .quire-page__content .container {
       margin-left: 0;
@@ -7915,18 +7920,20 @@ html {
       text-align: center; }
       .quire-page__content .container .content hr:after {
         content: "◆\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0◆\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0◆";
-        font-size: .875rem;
+        font-size: 0.875rem;
         position: relative;
-        top: -.875rem; }
+        top: -0.875rem; }
     .quire-page__content .container .content li {
       margin: 0 0 1em 0; }
     .quire-page__content .container .content table {
       margin: 2em 0; }
-      .quire-page__content .container .content table td, .quire-page__content .container .content table th {
+      .quire-page__content .container .content table td,
+      .quire-page__content .container .content table th {
         color: #333333;
         border-width: 0 0 1px; }
         @media print {
-          .quire-page__content .container .content table td, .quire-page__content .container .content table th {
+          .quire-page__content .container .content table td,
+          .quire-page__content .container .content table th {
             color: #000000; } }
       .quire-page__content .container .content table tbody td {
         border-left: 4px solid transparent;
@@ -7937,7 +7944,7 @@ html {
         margin-left: 1em; }
         .quire-page__content .container .content ul li:before {
           content: "◆";
-          font-size: .875rem;
+          font-size: 0.875rem;
           display: block;
           float: left;
           width: 1em;
@@ -7957,34 +7964,53 @@ html {
     .quire-page__content .container .content blockquote {
       border-left: none;
       position: relative; }
-      .quire-page__content .container .content blockquote p, .quire-page__content .container .content blockquote ul, .quire-page__content .container .content blockquote ol, .quire-page__content .container .content blockquote dl,
-      .quire-page__content .container .content blockquote h1, .quire-page__content .container .content blockquote h2, .quire-page__content .container .content blockquote h3, .quire-page__content .container .content blockquote h4, .quire-page__content .container .content blockquote h5, .quire-page__content .container .content blockquote h6 {
+      .quire-page__content .container .content blockquote p,
+      .quire-page__content .container .content blockquote ul,
+      .quire-page__content .container .content blockquote ol,
+      .quire-page__content .container .content blockquote dl,
+      .quire-page__content .container .content blockquote h1,
+      .quire-page__content .container .content blockquote h2,
+      .quire-page__content .container .content blockquote h3,
+      .quire-page__content .container .content blockquote h4,
+      .quire-page__content .container .content blockquote h5,
+      .quire-page__content .container .content blockquote h6 {
         position: relative; }
         @media screen {
-          .quire-page__content .container .content blockquote p:first-child:before, .quire-page__content .container .content blockquote ul:first-child:before, .quire-page__content .container .content blockquote ol:first-child:before, .quire-page__content .container .content blockquote dl:first-child:before,
-          .quire-page__content .container .content blockquote h1:first-child:before, .quire-page__content .container .content blockquote h2:first-child:before, .quire-page__content .container .content blockquote h3:first-child:before, .quire-page__content .container .content blockquote h4:first-child:before, .quire-page__content .container .content blockquote h5:first-child:before, .quire-page__content .container .content blockquote h6:first-child:before {
+          .quire-page__content .container .content blockquote p:first-child:before,
+          .quire-page__content .container .content blockquote ul:first-child:before,
+          .quire-page__content .container .content blockquote ol:first-child:before,
+          .quire-page__content .container .content blockquote dl:first-child:before,
+          .quire-page__content .container .content blockquote h1:first-child:before,
+          .quire-page__content .container .content blockquote h2:first-child:before,
+          .quire-page__content .container .content blockquote h3:first-child:before,
+          .quire-page__content .container .content blockquote h4:first-child:before,
+          .quire-page__content .container .content blockquote h5:first-child:before,
+          .quire-page__content .container .content blockquote h6:first-child:before {
             color: #c1d0d3;
             font-size: 5em;
             line-height: 0.1em;
             margin-right: 0.25em;
-            content: '“';
+            content: "“";
             position: absolute;
-            top: .35em;
-            left: -.55em; } }
-      .quire-page__content .container .content blockquote ul, .quire-page__content .container .content blockquote dl {
+            top: 0.35em;
+            left: -0.55em; } }
+      .quire-page__content .container .content blockquote ul,
+      .quire-page__content .container .content blockquote dl {
         margin-left: 0; }
       .quire-page__content .container .content blockquote ol {
         margin-left: 1em; }
         .quire-page__content .container .content blockquote ol:first-child:before {
-          left: -.75em; }
+          left: -0.75em; }
     .quire-page__content .container .content .backmatter {
       font-family: "Noto Serif", serif;
-      font-size: .875rem;
+      font-size: 0.875rem;
       line-height: 1.6;
       padding-top: 1px; }
-      .quire-page__content .container .content .backmatter h2, .quire-page__content .container .content .backmatter h3, .quire-page__content .container .content .backmatter h4 {
+      .quire-page__content .container .content .backmatter h2,
+      .quire-page__content .container .content .backmatter h3,
+      .quire-page__content .container .content .backmatter h4 {
         font-family: "IBM Plex Sans Condensed", sans-serif;
-        letter-spacing: .25px;
+        letter-spacing: 0.25px;
         color: #333333;
         font-size: 1em;
         line-height: 1.28em;
@@ -7993,12 +8019,17 @@ html {
         padding-bottom: 6px;
         border-bottom: 1px solid #333333; }
         @media print {
-          .quire-page__content .container .content .backmatter h2, .quire-page__content .container .content .backmatter h3, .quire-page__content .container .content .backmatter h4 {
+          .quire-page__content .container .content .backmatter h2,
+          .quire-page__content .container .content .backmatter h3,
+          .quire-page__content .container .content .backmatter h4 {
             color: #000000; } }
         @media print {
-          .quire-page__content .container .content .backmatter h2, .quire-page__content .container .content .backmatter h3, .quire-page__content .container .content .backmatter h4 {
+          .quire-page__content .container .content .backmatter h2,
+          .quire-page__content .container .content .backmatter h3,
+          .quire-page__content .container .content .backmatter h4 {
             border-color: #000000; } }
-      .quire-page__content .container .content .backmatter h3, .quire-page__content .container .content .backmatter h4 {
+      .quire-page__content .container .content .backmatter h3,
+      .quire-page__content .container .content .backmatter h4 {
         font-weight: bold;
         font-style: normal;
         border-bottom-width: 0;
@@ -8019,7 +8050,7 @@ html {
       .quire-page__content .container .content .backmatter .media {
         display: flex; }
     .quire-page__content .container .content .footnotes {
-      font-size: .875em;
+      font-size: 0.875em;
       font-family: "Noto Serif", serif; }
       .quire-page__content .container .content .footnotes hr {
         display: none; }
@@ -8033,7 +8064,7 @@ html {
   padding-bottom: 0;
   padding-top: 1em;
   margin-bottom: -3.5em;
-  font-size: .875em;
+  font-size: 0.875em;
   line-height: 1.7em; }
   @media screen and (max-width: 500px) {
     .quire-page__abstract {
@@ -8104,7 +8135,7 @@ html {
     .quire-page__header {
       background-color: transparent;
       color: #000000;
-      margin: 0 .5in 1in; } }
+      margin: 0 0.5in 1in; } }
   .quire-page__header.hero__image {
     height: 80vh; }
     .quire-page__header.hero__image .quire-page__header__title, .quire-page__header.hero__image .quire-page__header__subtitle {
@@ -8122,7 +8153,7 @@ html {
     color: #333333;
     border-top: 2px solid #CF4747;
     border-bottom: 2px solid #CF4747;
-    padding: .2rem .3rem;
+    padding: 0.2rem 0.3rem;
     letter-spacing: 0;
     margin: 0 auto 1.9em; }
     @media print {
@@ -8180,16 +8211,16 @@ html {
   margin-top: 0;
   margin-left: -0.09em;
   padding-right: 0.025em;
-  line-height: .85em; }
+  line-height: 0.85em; }
 
 @supports (-moz-appearance: none) {
   .quire-splash .quire-page__content p:first-child:first-letter {
     font-size: 9em;
     float: left;
-    margin-top: .1em !important;
+    margin-top: 0.1em !important;
     margin-left: -0.09em;
     padding-right: 0.025em;
-    line-height: .85em; } }
+    line-height: 0.85em; } }
 
 .quire-page__content .content a {
   line-height: 1.6;
@@ -8213,9 +8244,9 @@ html {
 .quire-page__content .content a.footnote-return {
   border-bottom-width: 0;
   font-weight: bold;
-  font-size: .925rem;
+  font-size: 0.925rem;
   line-height: 0;
-  margin-left: .1em; }
+  margin-left: 0.1em; }
   @media print {
     .quire-page__content .content .footnote-ref a,
     .quire-page__content .content a.footnote-return {
@@ -8241,7 +8272,8 @@ html {
   background-color: #F9F9A3;
   color: #333333 !important; }
 
-.quire-page__content .content ol, .quire-page__content .content dl {
+.quire-page__content .content ol,
+.quire-page__content .content dl {
   margin-left: 3em; }
 
 .quire-page__content .content hr {
@@ -8263,7 +8295,7 @@ html {
       border-left-width: 0; } }
 
 .quire-page__content .content .footnotes {
-  margin-top: -.35em; }
+  margin-top: -0.35em; }
   .quire-page__content .content .footnotes hr {
     background-color: #333333;
     height: 1px; }
@@ -8276,23 +8308,39 @@ html {
       margin-bottom: 1em; }
   .quire-page__content .content .footnotes blockquote {
     margin: 1em 0 1em 0; }
-    .quire-page__content .content .footnotes blockquote p, .quire-page__content .content .footnotes blockquote ul, .quire-page__content .content .footnotes blockquote ol, .quire-page__content .content .footnotes blockquote dl,
-    .quire-page__content .content .footnotes blockquote h1, .quire-page__content .content .footnotes blockquote h2, .quire-page__content .content .footnotes blockquote h3, .quire-page__content .content .footnotes blockquote h4, .quire-page__content .content .footnotes blockquote h5, .quire-page__content .content .footnotes blockquote h6 {
+    .quire-page__content .content .footnotes blockquote p,
+    .quire-page__content .content .footnotes blockquote ul,
+    .quire-page__content .content .footnotes blockquote ol,
+    .quire-page__content .content .footnotes blockquote dl,
+    .quire-page__content .content .footnotes blockquote h1,
+    .quire-page__content .content .footnotes blockquote h2,
+    .quire-page__content .content .footnotes blockquote h3,
+    .quire-page__content .content .footnotes blockquote h4,
+    .quire-page__content .content .footnotes blockquote h5,
+    .quire-page__content .content .footnotes blockquote h6 {
       position: relative; }
       @media screen {
-        .quire-page__content .content .footnotes blockquote p:first-child:before, .quire-page__content .content .footnotes blockquote ul:first-child:before, .quire-page__content .content .footnotes blockquote ol:first-child:before, .quire-page__content .content .footnotes blockquote dl:first-child:before,
-        .quire-page__content .content .footnotes blockquote h1:first-child:before, .quire-page__content .content .footnotes blockquote h2:first-child:before, .quire-page__content .content .footnotes blockquote h3:first-child:before, .quire-page__content .content .footnotes blockquote h4:first-child:before, .quire-page__content .content .footnotes blockquote h5:first-child:before, .quire-page__content .content .footnotes blockquote h6:first-child:before {
-          content: ''; } }
+        .quire-page__content .content .footnotes blockquote p:first-child:before,
+        .quire-page__content .content .footnotes blockquote ul:first-child:before,
+        .quire-page__content .content .footnotes blockquote ol:first-child:before,
+        .quire-page__content .content .footnotes blockquote dl:first-child:before,
+        .quire-page__content .content .footnotes blockquote h1:first-child:before,
+        .quire-page__content .content .footnotes blockquote h2:first-child:before,
+        .quire-page__content .content .footnotes blockquote h3:first-child:before,
+        .quire-page__content .content .footnotes blockquote h4:first-child:before,
+        .quire-page__content .content .footnotes blockquote h5:first-child:before,
+        .quire-page__content .content .footnotes blockquote h6:first-child:before {
+          content: ""; } }
 
 .quire-page__content .content .leaflet-control a {
   color: #333333; }
 
 @media print {
   .quire-page__content .content h2 {
-    margin-bottom: .5em;
+    margin-bottom: 0.5em;
     margin-top: 1.5em; }
     .quire-page__content .content h2 + h3 {
-      margin-bottom: .5em;
+      margin-bottom: 0.5em;
       margin-top: 0; }
   .quire-page__content .content h3 {
     margin-bottom: 1em;
