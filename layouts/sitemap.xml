@@ -12,12 +12,12 @@
     <xhtml:link
                 rel="alternate"
                 hreflang="{{ .Lang }}"
-                href="{{ .Permalink }}"
+                href="{{ .Permalink | relURL }}"
                 />{{ end }}
     <xhtml:link
                 rel="alternate"
                 hreflang="{{ .Lang }}"
-                href="{{ .Permalink }}"
+                href="{{ .Permalink | relURL }}"
                 />{{ end }}
   </url>
   {{ end }}
