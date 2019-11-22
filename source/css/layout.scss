@@ -26,7 +26,7 @@
 // -----------------------------------------------------------------------------
 [hidden] {
   display: none;
-  animation: .25s ease-out 0s 1 fadeOut !important;
+  animation: 0.25s ease-out 0s 1 fadeOut !important;
 }
 .quire {
   width: 100%;
@@ -50,7 +50,7 @@
       background-color: transparent;
     }
   }
-  
+
   &__secondary {
     background-color: $quire-menu-color;
     padding: 1.25em;
@@ -68,7 +68,6 @@
     min-height: 100vh;
 
     .quire__primary {
-
     }
 
     .quire__secondary {
@@ -82,7 +81,7 @@
     .quire__primary {
       display: flex;
       flex-direction: column;
-      height: 100vh;
+      /* height: 100vh; */
       transition-property: transform;
       transition-duration: 0.15s;
       transition-timing-function: linear;
@@ -94,13 +93,13 @@
         color: background-color-text($secondary-background-color);
         flex: 1 1 auto;
         -webkit-overflow-scrolling: touch;
-        overflow-y: scroll;
+        /* overflow-y: scroll; */
         position: relative;
         @media print {
           color: $print-text-color;
         }
       }
-      
+
       .section {
         padding-left: 0;
         padding-right: 0;
@@ -139,7 +138,7 @@
 
       &.is-expanded {
         overflow-y: scroll;
-        transform: translate3d(0, 0 ,0);
+        transform: translate3d(0, 0, 0);
         width: calc(#{$quire-menu-width} - 2em);
         // width: calc(100% - 3rem);
         @media screen and (max-width: $quire-menu-width) {
@@ -154,13 +153,13 @@
           // right: $quire-menu-width;
           // width: calc(100% - #{$quire-menu-width});
           // transform: translate3d($quire-menu-width, 0, 0);
-          transform: translate3d(calc(-#{$quire-menu-width} + 2em), 0 ,0);
+          transform: translate3d(calc(-#{$quire-menu-width} + 2em), 0, 0);
           // position: fixed;
           // transform: translate3d(-352px, 0 ,0);
           @media screen and (max-width: $quire-menu-width) {
             // right: $quire-menu-width;
             // width: calc(100vh - #{$quire-menu-width});
-            transform: translate3d(calc(-100% + 3rem), 0 ,0);
+            transform: translate3d(calc(-100% + 3rem), 0, 0);
             // right: calc(100vw - #{$navbar-height});
             // transform: translate3d(- $quire-menu-width, 0, 0);
             // width: #{$navbar-height};
@@ -180,9 +179,8 @@
       height: 100%;
     }
 
-    &__secondary { display: none; }
+    &__secondary {
+      display: none;
+    }
   }
 }
-
-
-

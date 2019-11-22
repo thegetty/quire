@@ -182,6 +182,63 @@ window["search"] = () => {
 };
 
 /**
+ * scrollToHash
+ * @description Scroll the #main area after each smoothState reload.
+ * If a hash id is present, scroll to the location of that element,
+ * taking into account the height of the navbar.
+ */
+function scrollToHash() {
+  // Select all links with hashes
+  $('a[href*="#"]')
+    // Remove links that don't actually link to anything
+    .not('[href="#"]')
+    .not('[href="#0"]')
+    .click(function() {
+      // Figure out element to scroll to
+      var hash = this.hash.replace(":", "\\:");
+      var target = $(hash);
+      target = target.length ? target : $("[name=" + this.hash.slice(1) + "]");
+      // Does a scroll target exist?
+      if (target.length) {
+        $("html, body").animate(
+          {
+            scrollTop: target.offset().top - $(".quire-navbar").height() - 7
+          },
+          1,
+          function() {
+            // Callback after animation
+            // Must change focus!
+            var $target = $(target);
+            $target.focus();
+            if ($target.is(":focus")) {
+              // Checking if the target was focused
+              return false;
+            } else {
+              $target.attr("tabindex", "-1"); // Adding tabindex for elements not focusable
+              $target.focus(); // Set focus again
+            }
+          }
+        );
+      }
+    });
+}
+
+function scrollToHashOnLoad() {
+  if (window.location.hash) {
+    var hash = window.location.hash;
+    hash = hash.replace(":", "\\:");
+    console.log(hash);
+    $("html, body").animate(
+      {
+        scrollTop: $(hash).offset().top - $(".quire-navbar").height() - 7
+      },
+      75,
+      "swing"
+    );
+  }
+}
+
+/**
  * globalSetup
  * @description Initial setup on first page load.
  */
@@ -191,12 +248,11 @@ function globalSetup() {
   var classNames = [];
   if (navigator.userAgent.match(/(iPad|iPhone|iPod)/i))
     classNames.push("device-ios");
+
   if (navigator.userAgent.match(/android/i)) classNames.push("device-android");
 
-  var body = document.getElementsByTagName("body")[0];
-
   if (classNames.length) classNames.push("on-device");
-  // if (body) body.classList.add(...classNames);
+
   loadSearchData();
   scrollToHash();
 }
@@ -227,33 +283,6 @@ let navigation;
 function navigationSetup() {
   if (!navigation) {
     navigation = new Navigation();
-  }
-}
-
-/**
- * scrollToHash
- * @description Scroll the #main area after each smoothState reload.
- * If a hash id is present, scroll to the location of that element,
- * taking into account the height of the navbar.
- */
-function scrollToHash() {
-  let $scroller = $("#main");
-  let $navbar = $(".quire-navbar");
-  let targetHash = window.location.hash;
-
-  if (targetHash) {
-    let targetHashEl = document.getElementById(targetHash.slice(1));
-    let $targetHashEl = $(targetHashEl);
-
-    if ($targetHashEl.length) {
-      let newPosition = $targetHashEl.offset().top;
-      if ($navbar.length) {
-        newPosition -= $navbar.height();
-      }
-      $scroller.scrollTop(newPosition);
-    }
-  } else {
-    $scroller.scrollTop(0);
   }
 }
 
@@ -434,14 +463,18 @@ function validateSize(map) {
 function toggleCite() {
   let expandables = document.querySelectorAll(".expandable [aria-expanded]");
   for (let i = 0; i < expandables.length; i++) {
-    expandables[i].addEventListener("click", function() {
-      var expanded = this.getAttribute("aria-expanded");
+    expandables[i].addEventListener("click", event => {
+      // Allow these links to bubble up
+      event.stopPropagation();
+      let expanded = event.target.getAttribute("aria-expanded");
       if (expanded === "false") {
-        this.setAttribute("aria-expanded", "true");
+        event.target.setAttribute("aria-expanded", "true");
       } else {
-        this.setAttribute("aria-expanded", "false");
+        event.target.setAttribute("aria-expanded", "false");
       }
-      var content = this.parentNode.querySelector(".quire-citation__content");
+      let content = event.target.parentNode.querySelector(
+        ".quire-citation__content"
+      );
       if (content) {
         content.getAttribute("hidden");
         if (typeof content.getAttribute("hidden") === "string") {
@@ -452,26 +485,27 @@ function toggleCite() {
       }
     });
   }
-  document.addEventListener("click", function(event) {
-    let content = event.target["parentNode"];
-    if (content) {
-      if (
-        content.classList.contains("quire-citation") ||
-        content.classList.contains("quire-citation__content")
-      ) {
-        // do nothing
-      } else {
-        // find all Buttons/Cites
-        let citeButtons = document.querySelectorAll(".quire-citation__button");
-        let citesContents = document.querySelectorAll(".quire-citation__content");
-        // hide all buttons
-        for (let i = 0; i < citesContents.length; i++) {
-          citeButtons[i].setAttribute("aria-expanded", "false");
-          citesContents[i].setAttribute("hidden", "hidden");
-        }
+  document.addEventListener("click", event => {
+    let content = event.target.parentNode;
+    if (!content) return;
+    if (
+      content.classList.contains("quire-citation") ||
+      content.classList.contains("quire-citation__content")
+    ) {
+      // do nothing
+    } else {
+      // find all Buttons/Cites
+      let citeButtons = document.querySelectorAll(".quire-citation__button");
+      let citesContents = document.querySelectorAll(".quire-citation__content");
+      // hide all buttons
+      if (!citesContents) return;
+      for (let i = 0; i < citesContents.length; i++) {
+        if (!citeButtons[i]) return;
+        citeButtons[i].setAttribute("aria-expanded", "false");
+        citesContents[i].setAttribute("hidden", "hidden");
       }
     }
- });
+  });
 }
 
 /**
@@ -518,4 +552,5 @@ globalSetup();
 // Run when document is ready
 $(window).ready(() => {
   pageSetup();
+  scrollToHashOnLoad();
 });
