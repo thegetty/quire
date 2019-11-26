@@ -314,8 +314,8 @@
 {{- end -}}
 {{- $checkid := plainify (replace (.page.Scratch.Get "name") " " "-") -}}
 {{ if eq $checkid .nameId }}
-<p>
-  <a href="{{ .pageLink | relURL }}" class="quire-contributor__page-link">
+<p class="quire-contributor__page-link">
+  <a href="{{ .pageLink | relURL }}">
     {{ $pagetitle := .pageTitle }}
     {{ if .pageLabel }}{{ .pageLabel }}{{ .labelDivider }}{{ end }}
     {{ markdownify $pagetitle }}{{ with .pageSubtitle }}{{- $endPunctuation := findRE "[!|?]$" $pagetitle -}}{{ if $endPunctuation }} {{ else }}: {{ end }}{{ markdownify . }}{{ end }}

@@ -320,7 +320,7 @@ html {
           font-family: $quire-footnotes-font;
           font-size: 0.875rem;
           line-height: 1.6;
-          padding-top: 1px;
+          padding-top: 0;
 
           h2,
           h3,
@@ -681,6 +681,7 @@ html {
 
 .quire-page__content {
   // Overrides to Bulma's .content styles where needed.
+  padding-bottom: 0;
   .content {
     a {
       @media print {
@@ -779,6 +780,11 @@ html {
       font-style: italic;
 
       em {
+        font-style: normal;
+      }
+      
+      // footnote numbers in blockquotes should be roman
+      sup.footnote-ref {
         font-style: normal;
       }
 
