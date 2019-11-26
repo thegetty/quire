@@ -82,7 +82,7 @@
 {{ end }}
 
 {{ $rangeAll := .Site.Pages }}
-{{ $rangePage := (where .Site.Pages "UniqueID" .Page.UniqueID) }}
+{{ $rangePage := (where .Site.Pages "File.UniqueID" .Page.File.UniqueID) }}
 {{ $rangeType := (where .Site.Data.publication.contributor "type" $listRange) }}
 
 {{- if eq $listRange "all" -}}
@@ -101,7 +101,7 @@
 {{/* Assign single page of contributors */}}
 {{/* ---------------------------------------------------------------------- */}}
 {{- if eq $listRange "page" -}}  
-  {{- $.Scratch.Add "pageRange" (where .Site.Pages "UniqueID" .Page.UniqueID) -}}
+  {{- $.Scratch.Add "pageRange" (where .Site.Pages "File.UniqueID" .Page.File.UniqueID) -}}
   
 {{/* Assign all pages of contributors */}}
 {{/* ---------------------------------------------------------------------- */}}

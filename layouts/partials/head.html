@@ -15,24 +15,18 @@
 {{- $pages := .Site.Pages -}}
 {{- $pages := where $pages "Params.online" "!=" "false" }}
 {{- $pages := where $pages ".Type" "!=" "data" -}}
-{{- range first 1 $pages -}}
-  {{- $.Scratch.Set "homepage" .UniqueID -}}
-{{- end -}}
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  {{- if eq .Params.online false -}}
+  {{ if eq .Params.online false -}}
   <meta name="robots" content="noindex, nofollow">
   {{- end }}
-  {{- $pages := .Site.Pages -}}
-  {{- $pages := where $pages "Params.online" "!=" "false" }}
-  {{- $pages := where $pages ".Type" "!=" "data" -}}
   {{- range first 1 $pages -}}
-    {{- $.Scratch.Set "homepage" .UniqueID -}}
+    {{- $.Scratch.Set "homepage" .File.UniqueID -}}
   {{- end -}}
-  <title>{{ if ne .UniqueID ($.Scratch.Get "homepage") }}{{ with .Title }}{{ . | markdownify | plainify }} | {{ end }}{{ end }}{{ .Site.Data.publication.title | markdownify | plainify }}</title>
+  <title>{{ if ne .File.UniqueID ($.Scratch.Get "homepage") }}{{ with .Title }}{{ . | markdownify | plainify }} | {{ end }}{{ end }}{{ .Site.Data.publication.title | markdownify | plainify }}</title>
   {{ partial "metadata.html" . }}
 
   <link rel="icon" href="{{ $icon }}" />
