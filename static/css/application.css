@@ -7930,9 +7930,6 @@ html {
             .quire-page__content .container .content table td,
             .quire-page__content .container .content table th {
               color: #000000; } }
-        .quire-page__content .container .content table tbody td {
-          border-left: 4px solid transparent;
-          border-right: 4px solid transparent; }
       .quire-page__content .container .content ul {
         list-style: none; }
         .quire-page__content .container .content ul li {
@@ -8000,7 +7997,7 @@ html {
         font-family: "Noto Serif", serif;
         font-size: 0.875rem;
         line-height: 1.6;
-        padding-top: 1px; }
+        padding-top: 0; }
         .quire-page__content .container .content .backmatter h2,
         .quire-page__content .container .content .backmatter h3,
         .quire-page__content .container .content .backmatter h4 {

@@ -13,10 +13,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 + CircleCI configuration to run Cypress Tests automatically on each pull request
 + Tests for all major JS functions and elements
 
+### Changed
+* Handling of references for bibliographies. Now use `id` instead of `short`.
+
 ### Fixed
-+ search.html to fix ref warning
+* search.html to fix ref warning
 + relURL to href and src
-+ JS bug fixes 
+* JS bug fixes 
+- Removed use of deprecated Hugo variables in templates 
+* logic in footer buttons and home page link
 
 ### Security
 * Updated NodeJS/NPM dependencies
