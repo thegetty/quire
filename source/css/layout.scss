@@ -89,7 +89,7 @@
       z-index: 9999;
 
       #main {
-        margin-top: $navbar-height;
+        /* margin-top: $navbar-height; */
         color: background-color-text($secondary-background-color);
         flex: 1 1 auto;
         -webkit-overflow-scrolling: touch;
