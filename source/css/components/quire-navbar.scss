@@ -27,7 +27,7 @@
   font-family: $quire-navigation-font;
   font-weight: 400;
   font-size: .875em;
-  position: fixed;
+  position: sticky;
   z-index: 1;
 
   svg {
