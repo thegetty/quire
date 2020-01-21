@@ -8231,7 +8231,9 @@ html {
   .quire-page__content .content figure > a:hover {
     border-bottom-width: 0 !important; }
   .quire-page__content .content .footnote-ref a,
-  .quire-page__content .content a.footnote-return {
+  .quire-page__content .content a.footnote-return,
+  .quire-page__content .content a.footnote-backref,
+  .quire-page__content .content a.footnote-ref {
     border-bottom-width: 0;
     font-weight: bold;
     font-size: 0.925rem;
@@ -8239,11 +8241,15 @@ html {
     margin-left: 0.1em; }
     @media print {
       .quire-page__content .content .footnote-ref a,
-      .quire-page__content .content a.footnote-return {
+      .quire-page__content .content a.footnote-return,
+      .quire-page__content .content a.footnote-backref,
+      .quire-page__content .content a.footnote-ref {
         font-weight: normal;
         font-size: inherit; } }
     .quire-page__content .content .footnote-ref a:hover,
-    .quire-page__content .content a.footnote-return:hover {
+    .quire-page__content .content a.footnote-return:hover,
+    .quire-page__content .content a.footnote-backref:hover,
+    .quire-page__content .content a.footnote-ref:hover {
       color: #a02a2a !important;
       border-bottom-width: 0 !important; }
   .quire-page__content .content .quire-page__content__references dl {
@@ -10513,6 +10519,7 @@ body > div.mfp-bg.mfp-ready {
   html body .select,
   html body .visually-hidden,
   html body .footnote-return,
+  html body .footnote-backref,
   html body .is-screen-only,
   html body .remove-from-epub {
     display: none; }
