@@ -489,7 +489,9 @@ a {
   text-decoration: none;
   border-bottom: 1px dotted $accent-color;
   &.footnote-return,
-  .footnote-ref & {
+  .footnote-ref &,
+  &.footnote-backref,
+  &.footnote-ref {
     font-weight: 700;
     border-bottom-width: 0;
   }

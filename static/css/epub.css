@@ -84,13 +84,11 @@ h1, h2, h3, h4, h5, h6, blockquote p cite, dt, pre, address, table, caption, th,
 
 h1, h2, h3, h4, h5, h6, dt, hr {
   page-break-inside: avoid;
-  -webkit-column-break-inside: avoid;
-     -moz-column-break-inside: avoid;
-          break-inside: avoid;
+  -moz-column-break-inside: avoid;
+       break-inside: avoid;
   page-break-after: avoid;
-  -webkit-column-break-after: avoid;
-     -moz-column-break-after: avoid;
-          break-after: avoid; }
+  -moz-column-break-after: avoid;
+       break-after: avoid; }
 
 p {
   text-indent: 0;
@@ -176,9 +174,8 @@ sup {
 /* FIGURES + IMAGES  */
 figure {
   page-break-inside: avoid;
-  -webkit-column-break-inside: avoid;
-     -moz-column-break-inside: avoid;
-          break-inside: avoid;
+  -moz-column-break-inside: avoid;
+       break-inside: avoid;
   margin: 1.5em 0; }
   figure img {
     background-color: #CCCCCC; }
@@ -254,8 +251,7 @@ table {
   max-width: 100%;
   margin: 1.5em auto;
   /* Note: legacy RMSDK sets auto to 0, which is permitted in a footnote of the EPUB2 specs */
-  -webkit-font-feature-settings: "tnum" 1;
-          font-feature-settings: "tnum" 1;
+  font-feature-settings: "tnum" 1;
   font-variant-numeric: tabular-nums; }
 
 caption {
@@ -367,7 +363,7 @@ a {
   text-decoration: none;
   border-bottom: 1px dotted #CF4747; }
   a.footnote-return,
-  .footnote-ref a {
+  .footnote-ref a, a.footnote-backref, a.footnote-ref {
     font-weight: 700;
     border-bottom-width: 0; }
 

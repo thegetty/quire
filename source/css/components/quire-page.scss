@@ -713,7 +713,9 @@ html {
     }
 
     .footnote-ref a,
-    a.footnote-return {
+    a.footnote-return,
+    a.footnote-backref,
+    a.footnote-ref {
       border-bottom-width: 0;
       font-weight: bold;
       @media print {
