@@ -2,7 +2,7 @@
 # See https://github.com/spf13/hugoThemes#themetoml for an example
 
 name = "Quire Starter Theme"
-theme_version = "v0.1.0.alpha.15"
+theme_version = "v0.18.0"
 license = ""
 licenselink = ""
 description = ""
@@ -12,8 +12,8 @@ features = []
 min_version = ""
 
 [author]
-  name = "Getty Publications, J. Paul Getty Trust"
-  homepage = "http://www.getty.edu/publications/"
+  name = "J. Paul Getty Trust"
+  homepage = "http://www.getty.edu/"
 
 # If porting an existing theme
 [original]
