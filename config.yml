@@ -25,9 +25,10 @@ disableKinds:
   - "taxonomy"
   - "taxonomyTerm"
 
-blackfriday:
-  fractions: false
-  hrefTargetBlank: true
+markup:
+  goldmark:
+    renderer:
+      unsafe: true # allows HTML tags within Markdown file
 
 # These values can be accessed in templates via .Site.Params
 params:
