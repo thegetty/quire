@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [v0.18.0] 
+## [v0.18.0] - 2020-01-21
 ### Added
 + Cypress testing suite
 + CircleCI configuration to run Cypress Tests automatically on each pull request
@@ -43,4 +43,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Updated NodeJS/NPM dependencies
 
 [Unreleased]: https://github.com/gettypubs/quire-starter-theme/compare/v0.18.0...HEAD
-[Unreleased]: https://github.com/gettypubs/quire-starter-theme/compare/v0.17.0...v0.18.0
+[0.18.0]: https://github.com/gettypubs/quire-starter-theme/compare/v0.17.0...v0.18.0
+[0.17.0]: https://github.com/gettypubs/quire-starter-theme/releases/tag/v0.17.0
