@@ -50,7 +50,7 @@
       
       {{- range $index, $element := $pages -}}
         {{- if eq $index  0 -}}
-          {{- $.Scratch.Set "homepage" .UniqueID -}}
+          {{- $.Scratch.Set "homepage" .File.UniqueID -}}
           {{- $.Scratch.Set "homepage-link" .Permalink -}}
         {{- end -}}
         {{- if eq $index  1 -}}
@@ -58,7 +58,7 @@
         {{- end -}}        
       {{- end -}}
 
-      {{- if eq .UniqueID ($.Scratch.Get "homepage") -}}
+      {{- if eq .File.UniqueID ($.Scratch.Get "homepage") -}}
 
         <li class="quire-navbar-page-controls__item quire-home-page">
           <a href='{{ $.Scratch.Get "secondpage-link" | relURL }}' rel="next">
@@ -98,7 +98,7 @@
         {{- end -}}
         {{- end -}}
 
-        {{/* <li class="quire-navbar-page-controls__item quire-home-page">
+        <li class="quire-navbar-page-controls__item quire-home-page">
           <a href='{{ $.Scratch.Get "homepage-link" | relURL }}' rel='home'>
             <span class="visually-hidden">Home Page: </span>
             <span class="quire-navbar-button home-button">
@@ -106,13 +106,13 @@
                 <switch>
                   <use xlink:href="#home-icon"></use>
                   <foreignObject width="32" height="32">
-                      <img src="{{ $imgDir | relURL }}/icons/rewind.png" alt="Home Page" />
+                      <img src="{{ $imgDir | relURL }}/icons/home.png" alt="Home Page" />
                   </foreignObject>
                 </switch>
               </svg>
             </span>
           </a>
-        </li> */}}
+        </li>
 
         {{- $nextPages := where $pages "Weight" "gt" .Weight -}}
         {{- if gt (len $nextPages) 0 -}}

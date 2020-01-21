@@ -24,7 +24,7 @@ Cover page layout. This controls the home page of the publication.
   {{- if .Params.image -}}
   {{- $imgPath := printf "%s/%s" ($.Scratch.Get "imageDir") .Params.image -}}
     <section class="quire-cover__hero hero is-fullheight">
-      <div class="quire-cover__overlay" style="background-image: url('{{ $imgPath | relURL }}');"></div>
+      <div class="quire-cover__overlay" style="background-image: url('{{ $imgPath }}');"></div>
   {{- else -}}
     <section class="quire-cover__hero hero is-fullheight">
       <div class="quire-cover__overlay"></div>

@@ -26,12 +26,12 @@
 {{- if eq .type "chicago" -}}
 
   {{/* ------------  CHICAGO ------------ */}}
-  {{ if .page.Params.contributor }}{{ template "page-contributors-chicago" .page }}. {{ end }}“{{ partial "page-title.html" .page }}.” In <em>{{ partial "site-title.html" .page }}</em>, by {{ partial "contributor-list.html" (dict "range" .site.Data.publication.contributor "contributorType" "primary" "listType" "string" "Site" .site) }}. {{ template "publishers-chicago" (dict "site" .site)}}{{ with .site.Data.publication.pub_date }}, {{ dateFormat "2006" . }}{{ end }}. {{ .page.Permalink }}.
+  {{ if .page.Params.contributor }}{{ template "page-contributors-chicago" .page }}. {{ end }}{{ if .page.Title }}“{{ partial "page-title.html" .page }}.” {{ else if .page.Params.label }}“{{ .page.Params.label }}.” {{ else }}Untitled. {{ end }}In <em>{{ partial "site-title.html" .page }}</em>, by {{ partial "contributor-list.html" (dict "range" .site.Data.publication.contributor "contributorType" "primary" "listType" "string" "Site" .site) }}. {{ template "publishers-chicago" (dict "site" .site)}}{{ with .site.Data.publication.pub_date }}, {{ dateFormat "2006" . }}{{ end }}. <span class="url-string">{{ if .site.Data.publication.url }}{{ .site.Data.publication.url }}{{ .page.RelPermalink }}{{ else }}{{ .page.Permalink }}{{ end }}</span>.
 
 {{- else if eq .type "mla" -}}
 
   {{/* ------------  MLA ------------ */}}
-  {{ if .page.Params.contributor }}{{ template "page-contributors-mla" .page }}. {{ end }}“{{ partial "page-title.html" .page }}.” <em>{{ partial "site-title.html" .page }}</em>, by {{ template "publication-contributors-mla" .page }}, {{ template "publishers-mla" (dict "site" .site)}}{{ with .site.Data.publication.pub_date }}, {{ dateFormat "2006" . }}{{ end }}. {{ .page.Permalink }}. Accessed <span class="cite-current-date">DD Mon. YYYY</span>.
+  {{ if .page.Params.contributor }}{{ template "page-contributors-mla" .page }}. {{ end }}{{ if .page.Title }}“{{ partial "page-title.html" .page }}.” {{ else if .page.Params.label }}“{{ .page.Params.label }}.” {{ else }}Untitled. {{ end }}<em>{{ partial "site-title.html" .page }}</em>, by {{ template "publication-contributors-mla" .page }}, {{ template "publishers-mla" (dict "site" .site)}}{{ with .site.Data.publication.pub_date }}, {{ dateFormat "2006" . }}{{ end }}. <span class="url-string">{{ if .site.Data.publication.url }}{{ .site.Data.publication.url }}{{ .page.RelPermalink }}{{ else }}{{ .page.Permalink }}{{ end }}</span>. Accessed <span class="cite-current-date">DD Mon. YYYY</span>.
 
 {{- end -}}
 

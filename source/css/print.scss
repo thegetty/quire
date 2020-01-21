@@ -409,6 +409,62 @@ $print-trim: $print-bleed * 2;
     }
   }
   
+// Improve page and line breaks
+// -----------------------------------------------------------------------------
+  html body * {
+    orphans: 2;
+    widows: 2;
+  }
+  
+  // Use PrinceXML prince-text-replace to insert zero-width-spaces in URLs
+  // that are printed in the text of the book, in order to facilitate better
+  // line breaking per Chicago Manual of Style
+  // https://www.chicagomanualofstyle.org/book/ed17/part3/ch14/psec018.html
+  a[target=_blank] {
+    prince-text-replace: "/" "\200B/"
+                          "~" "\200B~"
+                          "." "\200B."
+                          "," "\200B,"
+                          "-" "\200B-"
+                          "_" "\200B_"
+                          "?" "\200B?"
+                          "#" "\200B#"
+                          "%" "\200B%"
+                          "=" "\200B="
+                          "&" "\200B&"
+                          "+" "\200B+"
+                          ":" "\200B:"
+                          "\200B/\200B/" "//\200B"
+                          "\200B:\200B:" "\200B::";
+  }
+  
+  // Same method as above but to improve breaks around em-dashes
+  html body * {
+    prince-text-replace: "—" "—\200B";
+  }
+  
+  // For contributor bio lists/pages
+  .quire-contributor .title {
+    page-break-after: avoid;
+  }
+  .quire-contributor .media {
+    page-break-before: avoid;
+    page-break-inside: auto;
+  }
+  
+// Better list defaults and custom bullet alignment
+// -----------------------------------------------------------------------------
+  .quire-page__content .container .content ul {
+    margin-left: 1rem;
+  }
+  .quire-page__content .container .content ul li:before {
+    margin-top: .15em;
+    font-size: 7pt;
+  }
+  .quire-page__content .container .content hr:after {
+    font-size: 7pt;
+  }
+  
 // Globally hidden elements
 // -----------------------------------------------------------------------------
   html body {

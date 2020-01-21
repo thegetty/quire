@@ -84,7 +84,7 @@
       <li class="page-item">{{ template "contents-item-menu" . -}}</li>
     {{ end -}}
 
-    {{- if and (eq $.contentsLocation ".Params.toc") (ne $.contentsPage.UniqueID .UniqueID) }}
+    {{- if and (eq $.contentsLocation ".Params.toc") (ne $.contentsPage.File.UniqueID .File.UniqueID) }}
       <li class="page-item">{{ template "contents-item-toc" (dict "class" $.contentsPage.Params.class "Page" . "Site" .Site "pageOne" ($.contentsPage.Scratch.Get "pageOneWeight") ) -}}</li>
     {{ end -}}
 
@@ -96,7 +96,7 @@
         {{- if eq $.contentsLocation ".Params.menu" }}
           <li class="section-item">{{ template "contents-item-menu" . -}}
         {{- end -}}
-        {{- if and (eq $.contentsLocation ".Params.toc") (ne $.contentsPage.UniqueID .UniqueID) }}
+        {{- if and (eq $.contentsLocation ".Params.toc") (ne $.contentsPage.File.UniqueID .File.UniqueID) }}
           <li class="section-item">{{ template "contents-item-toc" (dict "class" $.contentsPage.Params.class "Page" . "Site" .Site "pageOne" ($.contentsPage.Scratch.Get "pageOneWeight") ) -}}
         {{- end -}}
       {{- else -}}

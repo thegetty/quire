@@ -468,7 +468,7 @@ render the figure from matching values found ther
           role="application"
           aria-label="Zoomable table">
           {{ $tableSrc := printf "%s/%s/%s" "static" ($.Scratch.Get "imageDir") .src }}
-          <figure class="leaflet-table" id="{{ .id | urlize }}">{{ readFile $tableSrc | safeHTML }}</figure>        
+          <figure class="leaflet-table">{{ readFile $tableSrc | safeHTML }}</figure>        
           </div>
         {{ else }}
           <div 
@@ -507,7 +507,8 @@ render the figure from matching values found ther
         <img
         id='{{ .id }}'
         class="quire-figure__image" 
-        src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
+        src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' 
+        alt='{{ with .alt }}{{ . }}{{ end }}' />
       {{ end }}
   {{ else }}
 
@@ -519,7 +520,7 @@ render the figure from matching values found ther
        class="quire-figure__image"  
        id='{{ .id }}'
        src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'
-       alt='{{ if $.Get "alt" }}{{ $.Get "alt" }}{{ else if .alt }}{{ .alt }}{{ end }}' />
+       alt='{{ with .alt }}{{ . }}{{ end }}' />
 
   {{ end }}
     

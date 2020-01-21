@@ -7,12 +7,14 @@
 .quire-citation {
   position: relative;
   text-indent: 0;
-  & button {
+  .quire-page__content .content blockquote & { font-style: normal; }
+  .quire-page__content .content blockquote & em { font-style: italic; }
+  &__button {
     border: none;
     padding: 0;
     font-size: 1em;
     background-color: inherit;
-    font-family: $quire-primary-font;
+    font-family: inherit;
     color: inherit;
     cursor: pointer;
     @if $theme == classic {
@@ -20,6 +22,7 @@
     } @else {
       border-bottom: 1px dotted $accent-color;
     }
+    @media print { border-bottom-width: 0; }
     &.material-icons {
       font-family: "Material Icons";
       font-weight: 600;
