@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [v0.18.0] - 2020-01-21
+## [0.18.0] - 2020-02-03
 ### Added
 + Rollup configuration for minification
 + Jest Test (tests run through each function that is included in the CLI)
@@ -29,7 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - fix id formatting for non h1 ids
 
-## [v0.17.0] - 2019-08-01
+## [0.17.0] - 2019-08-01
 ### Added
 + Prettier formatting 
 
