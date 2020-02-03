@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [v0.18.0] - 2020-01-21 
+## [0.18.0] - 2020-02-03 
 ### Added
 + Add CircleCI config
 
@@ -22,7 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Use of superscript in object dimensions
 * Page-to-page link syntax
 
-## [v0.17.0] - 2019-08-01
+## [0.17.0] - 2019-08-01
 ### Added
 + Add config params to support new options in contributor and citation handling
 
