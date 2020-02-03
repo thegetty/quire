@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [v0.18.0] - 2020-01-21
+## [0.18.0] - 2020-02-03
 ### Added
 + Cypress testing suite
 + CircleCI configuration to run Cypress Tests automatically on each pull request
@@ -26,7 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 * Updated NodeJS/NPM dependencies
 
-## [v0.17.0] - 2019-08-01
+## [0.17.0] - 2019-08-01
 ### Added
 + Support for tabled figures
 + Option to add in custom JavaScript
