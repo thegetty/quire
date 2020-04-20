@@ -119,9 +119,15 @@ export default function(gallerySelector, mapArr) {
     delegate: "a.popup",
     type: "image",
     closeBtnInside: false,
+    closeOnBgClick: false,
     fixedContentPos: "auto",
     fixedBgPos: "auto",
     overflowY: "hidden",
+    image: {
+      titleSrc: function(item) {
+        return item.el.find(".figure-caption-container").html();
+      }
+    },
     gallery: {
       enabled: true,
       preload: [0, 2], // read about this option in next Lazy-loading section
@@ -132,10 +138,7 @@ export default function(gallerySelector, mapArr) {
       tNext: "Next (Right arrow key)", // title for right button
       tCounter: "",
       closeMarkup:
-        '<button title="Close (Esc)" type="button" class="mfp-close"></button>',
-      titleSrc: function(item) {
-        return item.el.find(".figure-caption").html();
-      }
+        '<button title="Close (Esc)" type="button" class="mfp-close"></button>'
     },
     callbacks: {
       beforeOpen: function() {
