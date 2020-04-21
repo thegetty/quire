@@ -193,7 +193,8 @@ function scrollToHash() {
     // Remove links that don't actually link to anything
     .not('[href="#"]')
     .not('[href="#0"]')
-    .click(function() {
+    .click(function(event) {
+      event.preventDefault();
       // Figure out element to scroll to
       var hash = this.hash.replace(":", "\\:");
       var target = $(hash);
