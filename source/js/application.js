@@ -194,12 +194,16 @@ function scrollToHash() {
     .not('[href="#"]')
     .not('[href="#0"]')
     .click(function(event) {
-      // prevent default scrolling behavior
-      event.preventDefault();
-      // ensure the hash is manually set after preventing default
-      window.location.hash = this.hash;
-      // save current hash
+      // only override default link behavior if it points to the same page
+      if (this.pathname.includes(window.location.pathname)) {
+        // prevent default scrolling behavior
+        event.preventDefault();
+        // ensure the hash is manually set after preventing default
+        window.location.hash = this.hash;
+      }
+      // save current hash, prefixing all ':' and '.' with '\\' to make them query-selectable
       var hash = this.hash.replace(":", "\\:");
+      hash = hash.replace(".", "\\.");
       // Figure out element to scroll to
       var target = $(hash);
       target = target.length ? target : $("[name=" + this.hash.slice(1) + "]");
@@ -232,7 +236,7 @@ function scrollToHashOnLoad() {
   if (window.location.hash) {
     var hash = window.location.hash;
     hash = hash.replace(":", "\\:");
-    console.log(hash);
+    hash = hash.replace(".", "\\.");
     $("html, body").animate(
       {
         scrollTop: $(hash).offset().top - $(".quire-navbar").height() - 7
