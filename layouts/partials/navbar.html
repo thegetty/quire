@@ -92,7 +92,7 @@
                   </foreignObject>
                 </switch>
               </svg>
-              {{- with .Params.label }}{{ . }}{{ $.Site.Params.pageLabelDivider }}{{ end }}{{- if .Params.short_title }}{{ .Params.short_title | markdownify }} {{ else }}{{ .Title | markdownify | truncate 34 }}{{ end -}}
+              <span class="nav-label">{{- with .Params.label }}{{ . }}{{ $.Site.Params.pageLabelDivider }}{{ end }}{{- if .Params.short_title }}{{ .Params.short_title | markdownify }} {{ else }}{{ .Title | markdownify | truncate 34 }}{{ end -}}</span>
             </a>
           </li>
         {{- end -}}
@@ -120,7 +120,7 @@
         <li class="quire-navbar-page-controls__item quire-next-page">
           <a href='{{ .Permalink | relURL }}' rel='next'>
             <span class="visually-hidden">Next Page: </span>
-            {{- with .Params.label }}{{ . }}{{ $.Site.Params.pageLabelDivider }}{{ end }}{{- if .Params.short_title }}{{ .Params.short_title | markdownify }} {{ else }}{{ .Title | markdownify | truncate 34 }}{{ end -}}
+            <span class="nav-label">{{- with .Params.label }}{{ . }}{{ $.Site.Params.pageLabelDivider }}{{ end }}{{- if .Params.short_title }}{{ .Params.short_title | markdownify }} {{ else }}{{ .Title | markdownify | truncate 34 }}{{ end -}}</span>
             <svg class="remove-from-epub">
               <switch>
                 <use xlink:href="#right-arrow-icon"></use>
