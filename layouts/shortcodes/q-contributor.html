@@ -181,7 +181,7 @@
 {{- if eq $listFormat "bio" -}}
 <ul class="quire-contributors-list {{ $listFormat }}">
 {{- range ($.Page.Scratch.GetSortedMapValues "contributorlist") -}}
-{{- $nameid := plainify (replace (index . 0) " " "-") -}}
+{{- $nameid := anchorize (index . 0) -}}
 
   <li class="quire-contributor" id="{{ $nameid }}">
     <div class="title is-5"><span class="quire-contributor__name">{{ (index . 0) }}</span> 
@@ -240,7 +240,7 @@
 {{- else if or (or (eq $listFormat "name") (eq $listFormat "name-title")) (eq $listFormat "name-title-block") -}}
 <ul class="quire-contributors-list {{ $listFormat }} {{ with ($.Get "align") }}align-{{ . }}{{ end }}">
 {{- range ($.Page.Scratch.GetSortedMapValues "contributorlist") -}}
-{{- $nameid := plainify (replace (index . 0) " " "-") -}}
+{{- $nameid := anchorize (index . 0) -}}
   <li class="quire-contributor" id="{{ $nameid }}">
       <span class="quire-contributor__name">{{ index . 0 }}</span>
       {{- if or (eq ($.Get "format") "name-title") (eq ($.Get "format") "name-title-block") -}}
@@ -312,7 +312,7 @@
   {{ $name := add (add .person.first_name " ") .person.last_name }}
   {{ .page.Scratch.Set "name" $name }}
 {{- end -}}
-{{- $checkid := plainify (replace (.page.Scratch.Get "name") " " "-") -}}
+{{- $checkid := anchorize (.page.Scratch.Get "name") -}}
 {{ if eq $checkid .nameId }}
 <p class="quire-contributor__page-link">
   <a href="{{ .pageLink | relURL }}">
