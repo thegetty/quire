@@ -115,6 +115,10 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
       align-items: center;
       justify-content: center;
       position: relative;
+      
+      @media screen and (max-width: $desktop) {
+        height: 60vh;
+      }
 
       @media print {
         margin: 0 auto;
@@ -177,7 +181,12 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     &.fullscreen {
       img {
         margin: 0 auto;
-        max-height: calc(100vh - 6rem - 3rem);
+        max-height: calc(100vh - 6rem - 3rem);    
+        
+        @media screen and (max-width: $desktop) {
+          max-height: 60vh;
+        }
+        
       }
       figure {
         height: 100vh;
@@ -577,6 +586,11 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
           &.menu_open {
             width: calc(56% - 197px);
           }
+        }
+        
+        @media screen and (max-width: $desktop) {
+          height: 60vh;
+          min-height: inherit;
         }
 
         .quire-entry__image__group-container {
