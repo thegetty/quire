@@ -22,103 +22,57 @@
 
 */}}
 
-{{- if ne .range nil }}
+{{ $contributors := "" }}
+
+{{ if eq .contributorType "all" }}
+  {{ $contributors = .range }}
+{{ else }}  
+  {{ $contributors = where .range "type" .contributorType }}
+{{ end }}
+
+{{- if ne $contributors nil }}
 
   {{- if eq .listType "string" }}
 
-    {{- if eq .contributorType "all" }}
-
-      {{- $len := len .range -}}
-      {{- range $index, $element := .range -}}
-        {{- if eq $len 1 -}}
-          <span class="quire-contributor">{{ template "name-check" (dict "Site" $.Site "contributor" .) }}</span>
-        {{- else if eq (add $index 1) $len -}}
-          <span class="quire-contributor"> and {{ template "name-check" (dict "Site" $.Site "contributor" .) }}</span>
+    {{- $len := len $contributors -}}
+    {{- range $index, $element := $contributors -}}
+      {{- if eq $len 1 -}}
+        <span class="quire-contributor">{{ template "name-check" (dict "Site" $.Site "contributor" .) }}</span>
+      {{- else if eq (add $index 1) $len -}}
+        <span class="quire-contributor"> and {{ template "name-check" (dict "Site" $.Site "contributor" .) }}</span>
+      {{- else -}}
+        {{- if eq $len 2 -}}
+          <span class="quire-contributor">{{ template "name-check" (dict "Site" $.Site "contributor" .) }} </span>
         {{- else -}}
-          {{- if eq $len 2 -}}
-            <span class="quire-contributor">{{ template "name-check" (dict "Site" $.Site "contributor" .) }} </span>
-          {{- else -}}
-            <span class="quire-contributor">{{ template "name-check" (dict "Site" $.Site "contributor" .) }}, </span>
-          {{- end -}}
+          <span class="quire-contributor">{{ template "name-check" (dict "Site" $.Site "contributor" .) }}, </span>
         {{- end -}}
-      {{- end }}
-
-    {{- else }}
-
-      {{- $len := len (where .range "type" .contributorType) -}}
-      {{- range $index, $element := where .range "type" .contributorType -}}
-        {{- if eq $len 1 -}}
-          <span class="quire-contributor">{{ template "name-check" (dict "Site" $.Site "contributor" .) }}</span>
-        {{- else if eq (add $index 1) $len -}}
-          <span class="quire-contributor"> and {{ template "name-check" (dict "Site" $.Site "contributor" .) }}</span>
-        {{- else -}}
-          {{- if eq $len 2 -}}
-            <span class="quire-contributor">{{ template "name-check" (dict "Site" $.Site "contributor" .) }} </span>
-          {{- else -}}
-            <span class="quire-contributor">{{ template "name-check" (dict "Site" $.Site "contributor" .) }}, </span>
-          {{- end -}}
-        {{- end -}}
-      {{- end }}
-
+      {{- end -}}
     {{- end }}
 
   {{- else if eq .listType "list" }}
 
-    {{- if eq .contributorType "all" }}
-
-      <ul>
-        {{- range .range -}}
-          <li class="quire-contributor">{{ template "name-check" (dict "Site" $.Site "contributor" .) }}</li>
-        {{- end }}
-      </ul>
-
-    {{- else }}
-
-        <ul>
-          {{- range where .range "type" .contributorType -}}
-            <li class="quire-contributor">{{ template "name-check" (dict "Site" $.Site "contributor" .) }}</li>
-          {{- end }}
-        </ul>
-
-    {{- end }}
+    <ul>
+      {{- range $contributors -}}
+        <li class="quire-contributor">{{ template "name-check" (dict "Site" $.Site "contributor" .) }}</li>
+      {{- end }}
+    </ul>
 
   {{- else if eq .listType "list-plus" }}
 
-    {{- if eq .contributorType "all" }}
-
-      <ul>
-        {{- range .range -}}
-          <li class="quire-contributor">
-            {{- template "name-check" (dict "Site" $.Site "contributor" .) -}}
-            {{- if or .title .affiliation -}}
-              {{- template "title" . -}}
-            {{- else if .id }}
-              {{- range where $.Site.Data.publication.contributor "id" .id -}}
-              {{- template "title" . -}}
-              {{- end -}}
+    <ul>
+      {{- range $contributors -}}
+        <li class="quire-contributor">
+          {{- template "name-check" (dict "Site" $.Site "contributor" .) -}}
+          {{- if or .title .affiliation -}}
+            {{- template "title" . -}}
+          {{- else if .id }}
+            {{- range where $.Site.Data.publication.contributor "id" .id -}}
+            {{- template "title" . -}}
             {{- end -}}
-          </li>
-        {{- end }}
-      </ul>
-
-    {{- else }}
-
-      <ul>
-        {{- range where .range "type" .contributorType -}}
-          <li class="quire-contributor">
-            {{ template "name-check" (dict "Site" $.Site "contributor" .) }}
-            {{- if or .title .affiliation -}}
-              {{- template "title" . -}}
-            {{- else if .id }}
-              {{- range where $.Site.Data.publication.contributor "id" .id -}}
-              {{- template "title" . -}}
-              {{- end -}}
-            {{- end -}}
-          </li>
-        {{- end }}
-      </ul>
-
-    {{- end }}
+          {{- end -}}
+        </li>
+      {{- end }}
+    </ul>
 
   {{- end }}
 

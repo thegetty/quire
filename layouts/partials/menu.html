@@ -47,11 +47,11 @@ by default. Users with JS disabled will alwasy see the menu in its expanded stat
   <h6>Cite this Page</h6>
     <div class="cite-this" style="font-size: .857em; line-height: 1.5;">
       <span class="cite-this__heading" style="display: block; font-weight: bold; margin-top: 1em;">Chicago</span>
-      <span class="cite-this__text" style="user-select: all;">{{  partial "cite-this.html" (dict "page" . "site" .Site "type" "chicago") }}</span>
+      <span class="cite-this__text" style="user-select: all;">{{  partial "cite-this.html" (dict "page" . "site" .Site "type" "chicago" "range" "page") }}</span>
     </div>
     <div class="cite-this" style="font-size: .857em; line-height: 1.5;">
       <span class="cite-this__heading" style="display: block; font-weight: bold; margin-top: 1em;">MLA</span>
-      <span class="cite-this__text" style="user-select: all;">{{  partial "cite-this.html" (dict "page" . "site" .Site "type" "mla") }}</span>
+      <span class="cite-this__text" style="user-select: all;">{{  partial "cite-this.html" (dict "page" . "site" .Site "type" "mla" "range" "page") }}</span>
     </div>
   </div>
 
