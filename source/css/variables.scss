@@ -37,13 +37,17 @@ $quire-page-paragraph-style: line-space; // or use indent
 $quire-cover-text-color: $white;
 $quire-cover-text-scale: 1; // use decimal numbers such as .8 or 1.3
 
-// Menu colors
+// Menu
 // -----------------------------------------------------------------------------
+$quire-menu-width: 352px;
+
 $quire-menu-color: $off-black;
 $quire-menu-text-color: $white;
 
-// Image viewer colors (pop-up figure viewer & entry page viewer)
+// Image viewer (pop-up figure viewer & entry page viewer)
 // -----------------------------------------------------------------------------
+$quire-entry-header-height: 6rem;
+
 $quire-entry-image-color: $black;
 $quire-entry-image-icons-color: $white;
 
@@ -95,6 +99,9 @@ $quire-navigation-font: null; // navbar and next/prev buttons
 
 // Navbar
 // -----------------------------------------------------------------------------
+$navbar-height: 3rem;
+$quire-progress-bar-height: 2px;
+
 // Declare navbar colors
 $quire-navbar-color: null;
 $quire-navbar-hover-color: null;
@@ -132,8 +139,5 @@ $quire-cover-color-2: null;
 
 // Layout sizes
 // -----------------------------------------------------------------------------
-$quire-menu-width: 352px;
-$navbar-height: 3rem;
-$quire-entry-header-height: 6rem;
 $quire-map-height: 500px;
 $quire-deepzoom-height: 500px;

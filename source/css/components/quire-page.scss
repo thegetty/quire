@@ -42,7 +42,7 @@ html {
 // .quire-page
 // -----------------------------------------------------------------------------
 .quire-page {
-  min-height: calc(100vh - #{$navbar-height});
+  min-height: calc(100vh - #{$navbar-height} - #{$quire-progress-bar-height});
 
   h1,
   h2,

@@ -8431,7 +8431,7 @@ html {
                                   supported by Chrome and Opera */ }
 
 .quire-page {
-  min-height: calc(100vh - 3rem); }
+  min-height: calc(100vh - 3rem - 2px); }
   .quire-page h1,
   .quire-page h2,
   .quire-page h3,
@@ -8981,7 +8981,7 @@ html {
   top: 0;
   left: 0;
   width: 100%;
-  min-height: calc(95vh - 3rem);
+  min-height: calc(95vh - 3rem - 2px);
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover; }
@@ -8994,7 +8994,7 @@ html {
   background-image: -webkit-gradient(linear, left top, right top, from(#6A8EB8), to(#CF4747));
   background-image: linear-gradient(90deg, #6A8EB8, #CF4747);
   position: relative;
-  min-height: calc(95vh - 3rem) !important;
+  min-height: calc(95vh - 3rem - 2px) !important;
   text-align: left;
   display: -webkit-box;
   display: flex;
@@ -10058,7 +10058,7 @@ div.multimedia {
 
 .quire-entry__image {
   background-color: #000000;
-  min-height: calc(100vh - 6rem - 3rem);
+  min-height: calc(100vh - 6rem - 3rem - 2px);
   display: -webkit-box;
   display: flex;
   -webkit-box-align: center;
@@ -10107,7 +10107,7 @@ div.multimedia {
     -webkit-box-flex: 1;
             flex: 1 1 100%;
     width: 100%;
-    height: calc(100vh - 6rem - 3rem);
+    height: calc(100vh - 6rem - 3rem - 2px);
     display: -webkit-box;
     display: flex;
     -webkit-box-align: center;
@@ -10164,7 +10164,7 @@ div.multimedia {
         margin-top: 6px; }
   .quire-entry__image.fullscreen img {
     margin: 0 auto;
-    max-height: calc(100vh - 6rem - 3rem); }
+    max-height: calc(100vh - 6rem - 3rem - 2px); }
     @media screen and (max-width: 700px) {
       .quire-entry__image.fullscreen img {
         max-height: 60vh; } }
@@ -10429,7 +10429,7 @@ div.multimedia {
     .quire-entry div.side-by-side div.quire-entry__image-wrap div.quire-entry__image {
       position: relative;
       width: 100%;
-      height: calc(100vh - 6rem - 3rem); }
+      height: calc(100vh - 6rem - 3rem - 2px); }
       @media screen and (min-width: 1184px) {
         .quire-entry div.side-by-side div.quire-entry__image-wrap div.quire-entry__image {
           position: fixed;
@@ -10443,7 +10443,7 @@ div.multimedia {
           min-height: inherit; } }
       @media screen and (min-width: 1184px) {
         .quire-entry div.side-by-side div.quire-entry__image-wrap div.quire-entry__image .quire-entry__image__group-container figure {
-          height: calc(100vh - 3rem); } }
+          height: calc(100vh - 3rem - 2px); } }
       .quire-entry div.side-by-side div.quire-entry__image-wrap div.quire-entry__image.fullscreen {
         width: 100vw; }
         .quire-entry div.side-by-side div.quire-entry__image-wrap div.quire-entry__image.fullscreen .quire-entry__image__group-container figure {
