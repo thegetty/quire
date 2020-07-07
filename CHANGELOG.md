@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Better Chicago/MLA citation handling for different numbers of authors and editors, as well as series titles and numbers
+- Progress bar height variable, default is 2px
+- Better default layouts for cover and splash pages without content
+
+### Changed
+
+- The active page is now marked in the menu with an "active" class at build time, rather than client-side with JS
+- Hide navbar page labels on mobile
+- Made entry image shorter on mobile to increase target area for scrolling page
+
+### Fixed
+
+- Erroneous closing of figure modal
+- Bad scroll positions on some anchor links
+- Display of contributors in sidebar menu
+- Bad variable for tracking "page one" of publication
+- Spacing on page classes
+- Anchorizing of element IDs for contributors
+- Icon styling for citationPopupStyle: icon
+
+
 ## [0.18.0] - 2020-02-03
 ### Added
 + Cypress testing suite
