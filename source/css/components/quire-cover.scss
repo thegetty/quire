@@ -138,6 +138,9 @@
           margin-top: .3rem;
         }
       }
+      &.next-page {
+        transform: rotate(-90deg);
+      }
     }
   }
 

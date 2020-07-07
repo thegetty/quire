@@ -12,6 +12,13 @@
   text-align: center;
   padding-bottom: 3em;
   padding-top: 2em;
+  
+  &--fixed {
+    position: fixed; 
+    bottom: 30px; 
+    left: 0; 
+    right: 0;
+  }
 
   li.quire-nav-button {
     display: inline-block;
