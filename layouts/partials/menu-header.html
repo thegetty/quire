@@ -12,12 +12,14 @@
   {{ if ne .Kind "home" -}}
   </a>
   {{- end }}
-  <div class="quire-menu__header__contributors">
-    {{- if .Site.Data.publication.contributor_as_it_appears -}}
+  {{- if .Site.Data.publication.contributor_as_it_appears -}}
+    <div class="quire-menu__header__contributors">
     {{ .Site.Data.publication.contributor_as_it_appears | markdownify }}
-    {{ else }}
+    </div>
+  {{ else if .Site.Data.publication.contributor }}
+    <div class="quire-menu__header__contributors">
     <span class="visually-hidden">Contributors: </span>
-    <i>by {{ partial "contributor-list.html" (dict "range" .Site.Data.publication.contributor "contributorType" "primary" "listType" "string" "Site" $.Site) }}</i>
-    {{- end }}
-  </div>
+    {{ partial "contributor-list.html" (dict "range" .Site.Data.publication.contributor "contributorType" "primary" "listType" "string" "Site" $.Site) }}
+    </div>
+  {{- end }}
 </header>
