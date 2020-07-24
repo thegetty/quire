@@ -97,7 +97,6 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     @media print {
       display: block;
       background-color: transparent;
-      @include foreground-color($white, $black);
     }
 
     &__group-container {
@@ -207,16 +206,13 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
         z-index: 1046;
 
         @media print {
-          background-color: transparent;
-          display: block;
-          font-size: 9pt;
-          line-height: 14pt;
           position: relative;
-          text-align: center;
+          padding-top: 1rem;
+          padding-bottom: 0;
         }
 
         > span.quire-image-info__wrap {
-          color: $white;
+          color: $print-entry-caption-color;
           position: relative;
           display: block;
           padding: 6px 10px;
@@ -224,6 +220,15 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
           font-family: $quire-headings-font;
           font-size: 0.875rem;
           font-weight: bold;
+          
+          @media print {
+            background-color: transparent;
+            display: block;
+            font-size: 9pt;
+            line-height: 14pt;
+            text-align: center;
+            padding: 0;
+          }
         }
 
         &__caption {
