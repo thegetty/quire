@@ -116,7 +116,7 @@ $print-trim: $print-bleed * 2;
     }
   }
   
-  @page splash {
+  @page splash, splash-image {
     background-color: $print-splash-color;
   }
   
@@ -124,14 +124,14 @@ $print-trim: $print-bleed * 2;
     background-color: $print-entry-image-color;
   }
   
-  @page splash-image {
+  @page splash-image, cover {
     margin-top: 0;
     margin-bottom: -$print-bleed;
     margin-left: 0;
     margin-right: 0;
   }
 
-  @page no-footer, entry-image, splash-image {
+  @page no-footer, entry-image, splash-image, cover {
     @bottom-right {
       content: none;
     }
@@ -231,9 +231,16 @@ $print-trim: $print-bleed * 2;
   
   .quire-splash {
     page: splash;
-    background-color: $print-splash-color;
-    .quire-page__header.hero-image {
-      page: splash-image;
+    .quire-page__header {
+      &.hero-image {
+        page: splash-image; 
+        
+      }
+      &--full-height {
+        $print-splash-height: $print-height - $print-top-margin - $print-bottom-margin;
+        height: $print-splash-height;
+        page: splash-image;
+      }
     }
   }
   
@@ -254,7 +261,7 @@ $print-trim: $print-bleed * 2;
   }
   
   .quire-cover {
-    page: splash-image;
+    page: cover;
   }
 
   #content>div.container>div>figure:nth-child(11)>div:nth-child(1) .quire-figure--group-pdf {

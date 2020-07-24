@@ -622,6 +622,11 @@ html {
       &.hero-image {
         height: calc(100vh - #{$navbar-height} - #{$quire-progress-bar-height});
         max-height: initial;
+        .hero-body {
+          @media print {
+            margin-top: 0;
+          }
+        }  
       }
       .hero-body {
         display: flex;
@@ -635,13 +640,13 @@ html {
       .quire-page__header__title {
         color: background-color-text($secondary-background-color);
         @media print {
-          color: $print-text-color;
+          color: background-color-text($print-splash-color);
         }
       }
       .label {
         color: background-color-text($secondary-background-color);
         @media print {
-          color: $print-text-color;
+          color: background-color-text($print-splash-color);
         }
       }
     }
