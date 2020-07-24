@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Spacing on page classes
 - Anchorizing of element IDs for contributors
 - Icon styling for citationPopupStyle: icon
+- Plate images, captions and grid page number positioning in pdf
 
 
 ## [0.18.0] - 2020-02-03

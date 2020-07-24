@@ -200,17 +200,13 @@ $print-trim: $print-bleed * 2;
     }
     &.grid {
       .page-item {
-        a::after {
-          position: absolute;
-          bottom: 1em;
-          right: 1em;
-          font-size: .75em;
-        }
+        a::after,
         a.frontmatter-page::after {
           position: absolute;
           bottom: 1em;
           right: 1em;
           font-size: .75em;
+          margin-right: 0;
         }
       }
     }
