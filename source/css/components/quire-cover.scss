@@ -23,7 +23,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    min-height: calc(95vh - #{$navbar-height});
+    min-height: calc(95vh - #{$navbar-height} - #{$quire-progress-bar-height});
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -36,7 +36,7 @@
     background-color: $quire-cover-color-1;
     background-image: linear-gradient(90deg, $quire-cover-color-1, $quire-cover-color-2);
     position: relative;
-    min-height: calc(95vh - #{$navbar-height}) !important;
+    min-height: calc(95vh - #{$navbar-height} - #{$quire-progress-bar-height}) !important;
     text-align: left;
     display: flex;
     align-items: center;
@@ -137,6 +137,10 @@
         &:hover {
           margin-top: .3rem;
         }
+      }
+      &.next-page {
+        transform: rotate(-90deg);
+        margin-bottom: 0;
       }
     }
   }

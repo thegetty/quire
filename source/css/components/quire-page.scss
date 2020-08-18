@@ -42,7 +42,7 @@ html {
 // .quire-page
 // -----------------------------------------------------------------------------
 .quire-page {
-  min-height: calc(100vh - #{$navbar-height});
+  min-height: calc(100vh - #{$navbar-height} - #{$quire-progress-bar-height});
 
   h1,
   h2,
@@ -617,18 +617,36 @@ html {
         }
       }
     }
+    &--full-height {
+      height: calc(100vh - #{$navbar-height} - #{$quire-progress-bar-height});
+      &.hero-image {
+        height: calc(100vh - #{$navbar-height} - #{$quire-progress-bar-height});
+        max-height: initial;
+        .hero-body {
+          @media print {
+            margin-top: 0;
+          }
+        }  
+      }
+      .hero-body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-grow: .7;
+      }   
+    }
     background-color: transparent;
     .hero-body {
       .quire-page__header__title {
         color: background-color-text($secondary-background-color);
         @media print {
-          color: $print-text-color;
+          color: background-color-text($print-splash-color);
         }
       }
       .label {
         color: background-color-text($secondary-background-color);
         @media print {
-          color: $print-text-color;
+          color: background-color-text($print-splash-color);
         }
       }
     }

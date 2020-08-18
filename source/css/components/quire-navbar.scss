@@ -64,7 +64,7 @@
 // .quire-progress-bar
 // -----------------------------------------------------------------------------
 .quire-progress-bar {
-  height: 2px;
+  height: $quire-progress-bar-height;  
   -webkit-transition: all .25s ease;
   transition: all .25s ease;
   font-family: $quire-navigation-font;
@@ -76,7 +76,7 @@
     display: none;
   }
   div {
-    height: 2px;
+    height: $quire-progress-bar-height;
     width: 100%;
     background-color: $accent-color;
     text-align: right;
