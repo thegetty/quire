@@ -116,7 +116,7 @@ $print-trim: $print-bleed * 2;
     }
   }
   
-  @page splash {
+  @page splash, splash-image {
     background-color: $print-splash-color;
   }
   
@@ -124,14 +124,14 @@ $print-trim: $print-bleed * 2;
     background-color: $print-entry-image-color;
   }
   
-  @page splash-image {
+  @page splash-image, cover {
     margin-top: 0;
     margin-bottom: -$print-bleed;
     margin-left: 0;
     margin-right: 0;
   }
 
-  @page no-footer, entry-image, splash-image {
+  @page no-footer, entry-image, splash-image, cover {
     @bottom-right {
       content: none;
     }
@@ -200,17 +200,13 @@ $print-trim: $print-bleed * 2;
     }
     &.grid {
       .page-item {
-        a::after {
-          position: absolute;
-          bottom: 1em;
-          right: 1em;
-          font-size: .75em;
-        }
+        a::after,
         a.frontmatter-page::after {
           position: absolute;
           bottom: 1em;
           right: 1em;
           font-size: .75em;
+          margin-right: 0;
         }
       }
     }
@@ -235,9 +231,16 @@ $print-trim: $print-bleed * 2;
   
   .quire-splash {
     page: splash;
-    background-color: $print-splash-color;
-    .quire-page__header.hero-image {
-      page: splash-image;
+    .quire-page__header {
+      &.hero-image {
+        page: splash-image; 
+        
+      }
+      &--full-height {
+        $print-splash-height: $print-height - $print-top-margin - $print-bottom-margin;
+        height: $print-splash-height;
+        page: splash-image;
+      }
     }
   }
   
@@ -258,7 +261,7 @@ $print-trim: $print-bleed * 2;
   }
   
   .quire-cover {
-    page: splash-image;
+    page: cover;
   }
 
   #content>div.container>div>figure:nth-child(11)>div:nth-child(1) .quire-figure--group-pdf {
@@ -386,8 +389,13 @@ $print-trim: $print-bleed * 2;
 // -----------------------------------------------------------------------------
   $print-entry-image-width: $print-width - $print-inner-margin - $print-outer-margin;
   $print-entry-image-height: $print-height - $print-top-margin - $print-bottom-margin;
+  $print-entry-image-max-height: $print-entry-image-height - 1in;
   
   .quire-entry__image & figure {
+    display: flex;
+    flex-direction: column;
+    height: $print-entry-image-height;
+    margin-bottom: .5in;
     @if $print-entry-image-display == first {
       display: none;
       &:first-of-type {
@@ -397,14 +405,15 @@ $print-trim: $print-bleed * 2;
     break-after: page;    
     .quire-figure__media-fallback {
       .quire-figure__wrapper {
-        width: $print-entry-image-width;
-        height: $print-entry-image-height;
+        width: auto;
+        height: auto;
       }
       img {
-        max-width: 100%;
-        max-height: 100%;
+        max-width: $print-entry-image-width;
+        max-height: $print-entry-image-max-height;
+        margin: 0 auto;
         object-fit: contain;
-        display: block;      
+        display: block;
       }
     }
   }

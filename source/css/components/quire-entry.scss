@@ -88,7 +88,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
       $quire-entry-image-icons-color
     );
     background-color: $black;
-    min-height: calc(100vh - #{$quire-entry-header-height} - #{$navbar-height});
+    min-height: calc(100vh - #{$quire-entry-header-height} - #{$navbar-height} - #{$quire-progress-bar-height});
     display: flex;
     align-items: center;
     justify-content: center;
@@ -97,7 +97,6 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     @media print {
       display: block;
       background-color: transparent;
-      @include foreground-color($white, $black);
     }
 
     &__group-container {
@@ -110,11 +109,15 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     figure {
       flex: 1 1 100%;
       width: 100%;
-      height: calc(100vh - 6rem - 3rem);
+      height: calc(100vh - #{$quire-entry-header-height} - #{$navbar-height} - #{$quire-progress-bar-height});
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
+      
+      @media screen and (max-width: $desktop) {
+        height: 60vh;
+      }
 
       @media print {
         margin: 0 auto;
@@ -177,7 +180,12 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     &.fullscreen {
       img {
         margin: 0 auto;
-        max-height: calc(100vh - 6rem - 3rem);
+        max-height: calc(100vh - #{$quire-entry-header-height} - #{$navbar-height} - #{$quire-progress-bar-height});    
+        
+        @media screen and (max-width: $desktop) {
+          max-height: 60vh;
+        }
+        
       }
       figure {
         height: 100vh;
@@ -198,16 +206,13 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
         z-index: 1046;
 
         @media print {
-          background-color: transparent;
-          display: block;
-          font-size: 9pt;
-          line-height: 14pt;
           position: relative;
-          text-align: center;
+          padding-top: 1rem;
+          padding-bottom: 0;
         }
 
         > span.quire-image-info__wrap {
-          color: $white;
+          color: $print-entry-caption-color;
           position: relative;
           display: block;
           padding: 6px 10px;
@@ -215,6 +220,15 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
           font-family: $quire-headings-font;
           font-size: 0.875rem;
           font-weight: bold;
+          
+          @media print {
+            background-color: transparent;
+            display: block;
+            font-size: 9pt;
+            line-height: 14pt;
+            text-align: center;
+            padding: 0;
+          }
         }
 
         &__caption {
@@ -568,7 +582,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
       div.quire-entry__image {
         position: relative;
         width: 100%;
-        height: calc(100vh - 6rem - 3rem);
+        height: calc(100vh - #{$quire-entry-header-height} - #{$navbar-height} - #{$quire-progress-bar-height});
 
         @media screen and (min-width: $widescreen) {
           position: fixed;
@@ -578,11 +592,16 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
             width: calc(56% - 197px);
           }
         }
+        
+        @media screen and (max-width: $desktop) {
+          height: 60vh;
+          min-height: inherit;
+        }
 
         .quire-entry__image__group-container {
           figure {
             @media screen and (min-width: $widescreen) {
-              height: calc(100vh - 3rem);
+              height: calc(100vh - #{$navbar-height} - #{$quire-progress-bar-height});
             }
 
             .quire-image-info {
