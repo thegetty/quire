@@ -11,7 +11,7 @@ const quire = new CLI();
 const sandboxDir = tmp.dirSync({
   unsafeCleanup: true
 });
-const projectName = "quire-project";
+const projectName = "quire-starter";
 const themeName = "quire-starter-theme";
 const CONFIG = {
   STARTER_THEME: themeName,
