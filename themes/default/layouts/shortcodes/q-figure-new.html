@@ -1,0 +1,62 @@
+{{- $alt := "" -}}
+{{- $aspectRatio := "" -}}
+{{- $caption := "" -}}
+{{- $credit := "" -}}
+{{- $download := "" -}}
+{{- $id := "" -}}
+{{- $label := "" -}}
+{{- $mediaId := "" -}}
+{{- $mediaType := "" -}}
+{{- $src := "" -}}
+
+{{- if .Get "src" -}}
+
+{{- with (.Get "alt") }}{{ $alt = . }}{{ end -}}
+{{- with (.Get "aspectRatio") }}{{ $aspectRatio = . }}{{ end -}}
+{{- with (.Get "caption") }}{{ $caption = . }}{{ end -}}
+{{- with (.Get "credit") }}{{ $credit = . }}{{ end -}}
+{{- with (.Get "download") }}{{ $download = . }}{{ end -}}
+{{- with (.Get "id") }}{{ $id = . }}{{ end -}}
+{{- with (.Get "label") }}{{ $label = . }}{{ end -}}
+{{- with (.Get "mediaId") }}{{ $mediaId = . }}{{ end -}}
+{{- with (.Get "mediaType") }}{{ $mediaType = . }}{{ end -}}
+{{- with (.Get "src") }}{{ $src = . }}{{ end -}}
+
+{{- else if .Get "id" -}}
+
+{{- range where .Site.Data.figures.figure_list "id" "eq" (.Get "id") -}}
+
+{{- with .alt }}{{ $alt = . }}{{ end -}}
+{{- with .aspectRatio }}{{ $aspectRatio = . }}{{ end -}}
+{{- with .caption }}{{ $caption = . }}{{ end -}}
+{{- with .credit }}{{ $credit = . }}{{ end -}}
+{{- with .download }}{{ $download = . }}{{ end -}}
+{{- with .id }}{{ $id = . }}{{ end -}}
+{{- with .label }}{{ $label = . }}{{ end -}}
+{{- with .media_id }}{{ $mediaId = . }}{{ end -}}
+{{- with .media_type }}{{ $mediaType = . }}{{ end -}}
+{{- with .src }}{{ $src = . }}{{ end -}}
+
+{{- end -}}
+
+{{- else -}}
+
+{{- end -}}
+
+{{- $dict := dict "Site" .Site "alt" $alt "aspectRatio" $aspectRatio "caption" $caption "credit" $credit "download" $download "id" $id "label" $label "mediaId" $mediaId "mediaType" $mediaType "src" $src -}}
+
+<figure data="q-figure" class="quire-figure{{ with .Get "class" }} {{ . }}{{ end }}">
+<div class="q-figure__wrapper">
+
+{{ if eq $mediaType "youtube" -}}
+{{- else if eq $mediaType "vimeo" -}}
+{{- else if eq $mediaType "soundcloud" -}}
+{{- else if eq $mediaType "table" -}}
+{{- else -}}
+  {{- partial "figure-image.html" $dict -}}
+{{- end -}}
+
+{{- partial "figure-caption.html" $dict -}}
+
+</div>
+</figure>
