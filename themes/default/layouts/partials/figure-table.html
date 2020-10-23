@@ -1,0 +1,48 @@
+{{- $imageDir := "" -}}
+{{- if .Site.Params.imageDir -}}
+  {{- $imageDir = .Site.Params.imageDir -}}
+{{- else }}
+  {{- $imageDir = "img" -}}
+{{- end }}
+
+{{- $tableSrc := printf "%s/%s/%s" "static" $imageDir .src -}}
+
+{{- if eq .Site.Params.figureModal true -}}
+{{- $now := now.UnixNano -}}
+<figure
+  id="deepzoom-{{ $now }}"
+  title="{{ .caption | markdownify | safeHTML }}"
+  class="quire-figure leaflet-outer-wrapper mfp-hide notGet">
+  <div
+  id="js-deepzoomtable-{{ $now }}"
+  class="quire-deepzoom inset leaflet-inner-wrapper"
+  aria-live="polite"
+  role="application"
+  aria-label="Zoomable table">
+  <figure class="leaflet-table">{{ readFile $tableSrc | safeHTML }}</figure>
+  </div>
+  <span class="figure-caption visually-hidden">{{ with .caption }}{{ markdownify . }}{{ end }}{{ with .credit }} {{ markdownify . }}{{ end }}</span>
+</figure>
+<a
+  href="#deepzoom-{{ $now }}"
+  class="inline popup"
+  data-type="inline"
+  title="{{ .caption | markdownify | safeHTML }}" >
+{{- end -}}
+
+<figure class="quire-figure__table" id="{{ .id }}">
+  {{ readFile $tableSrc | safeHTML }}
+</figure>
+
+{{- if eq .Site.Params.figureModal true -}}
+  {{- if eq .Site.Params.figureLabelLocation "below" -}}
+    {{- if or .label (eq .Site.Params.figureModalIcons true )}}
+    <span class="quire-figure__modal">{{ if eq .Site.Params.figureModalIcons true }}<span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>{{ end }}<span class="quire-figure__label">{{ with .label }}{{ markdownify . }}{{ end }}</span></span>
+    {{- end -}}
+  {{- else -}}
+    {{- if or .label (eq .Site.Params.figureModalIcons true )}}
+    <span class="fig no-fullscreen">{{ if eq .Site.Params.figureModalIcons true }}<span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>{{ end }}<strong>{{ with .label }}{{ markdownify . }}{{ end }}</strong></span>
+    {{- end -}}
+  {{- end -}}
+</a>
+{{- end -}}
