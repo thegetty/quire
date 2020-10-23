@@ -49,6 +49,7 @@
 <div class="q-figure__wrapper">
 
 {{ if eq $mediaType "youtube" -}}
+  {{- partial "figure-youtube.html" $dict -}}
 {{- else if eq $mediaType "vimeo" -}}
 {{- else if eq $mediaType "soundcloud" -}}
 {{- else if eq $mediaType "table" -}}

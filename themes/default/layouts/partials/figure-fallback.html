@@ -1,0 +1,26 @@
+{{- $imageDir := "" -}}
+{{- if .Site.Params.imageDir -}}
+  {{- $imageDir = .Site.Params.imageDir -}}
+{{- else }}
+  {{- $imageDir = "img" -}}
+{{- end }}
+
+{{- if .src -}}
+
+<img
+  id="{{ .id }}"
+  class="quire-figure__image"
+  src="{{ printf "%s/%s" $imageDir .src | relURL }}"
+  alt="{{ .alt }}" />
+
+{{- else -}}
+
+<div class="quire-figure__media-fallback">
+<div class="placeholder">
+    <span class="fallback-image">
+      <img src='{{ $imageDir | relURL }}/icons/baseline-videocam-24px.png'/>
+    </span>
+</div>
+</div>
+
+{{- end -}}
