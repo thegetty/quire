@@ -8,7 +8,7 @@
 {{- else -}}
 
 <div  class="quire-figure__media-wrapper{{ if .aspectRatio }}--{{ .aspectRatio }}{{ else }}--widescreen{{ end }}">
-  <iframe id="{{ .id }}"
+  <iframe
     class="quire-figure__media"
     src="https://www.youtube-nocookie.com/embed/{{ .mediaId }}?rel=0&amp;showinfo=0"
     frameborder="0"

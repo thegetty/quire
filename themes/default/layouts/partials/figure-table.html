@@ -30,7 +30,7 @@
   title="{{ .caption | markdownify | safeHTML }}" >
 {{- end -}}
 
-<figure class="quire-figure__table" id="{{ .id }}">
+<figure class="quire-figure__table">
   {{ readFile $tableSrc | safeHTML }}
 </figure>
 
