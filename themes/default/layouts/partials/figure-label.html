@@ -1,0 +1,15 @@
+<span class="quire-figure__label quire-figure__label--{{ if .Site.Params.figureLabelLocation }}{{ .Site.Params.figureLabelLocation }}{{ else }}on-top{{ end }}">
+
+{{- if eq .Site.Params.figureModal true -}}
+<span class="quire-figure__label-icon">
+  {{- partial "icon.html" (dict "type" "fullscreen" "description" "Expand") -}}
+</span>
+{{- end -}}
+
+{{- with .label -}}
+<span class="quire-figure__label-text">
+  {{- markdownify . -}}
+</span>
+{{- end -}}
+
+</span>
