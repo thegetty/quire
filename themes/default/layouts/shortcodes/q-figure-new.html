@@ -54,6 +54,8 @@
   {{- partial "figure-vimeo.html" $dict -}}
 {{- else if eq $mediaType "soundcloud" -}}
   {{- partial "figure-soundcloud.html" $dict -}}
+{{- else if eq $mediaType "website" -}}
+  {{- partial "figure-website.html" $dict -}}
 {{- else if eq $mediaType "table" -}}
   {{- partial "figure-table.html" $dict -}}
 {{- else -}}
