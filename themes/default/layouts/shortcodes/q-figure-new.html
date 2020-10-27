@@ -12,14 +12,14 @@
 {{- if .Get "src" -}}
 
 {{- with (.Get "alt") }}{{ $alt = . }}{{ end -}}
-{{- with (.Get "aspectRatio") }}{{ $aspectRatio = . }}{{ end -}}
+{{- with (.Get "aspect_ratio") }}{{ $aspectRatio = . }}{{ end -}}
 {{- with (.Get "caption") }}{{ $caption = . }}{{ end -}}
 {{- with (.Get "credit") }}{{ $credit = . }}{{ end -}}
 {{- with (.Get "download") }}{{ $download = . }}{{ end -}}
 {{- with (.Get "id") }}{{ $id = . }}{{ end -}}
 {{- with (.Get "label") }}{{ $label = . }}{{ end -}}
-{{- with (.Get "mediaId") }}{{ $mediaId = . }}{{ end -}}
-{{- with (.Get "mediaType") }}{{ $mediaType = . }}{{ end -}}
+{{- with (.Get "media_id") }}{{ $mediaId = . }}{{ end -}}
+{{- with (.Get "media_type") }}{{ $mediaType = . }}{{ end -}}
 {{- with (.Get "src") }}{{ $src = . }}{{ end -}}
 
 {{- else if .Get "id" -}}
@@ -27,7 +27,7 @@
 {{- range where .Site.Data.figures.figure_list "id" "eq" (.Get "id") -}}
 
 {{- with .alt }}{{ $alt = . }}{{ end -}}
-{{- with .aspectRatio }}{{ $aspectRatio = . }}{{ end -}}
+{{- with .aspect_ratio }}{{ $aspectRatio = . }}{{ end -}}
 {{- with .caption }}{{ $caption = . }}{{ end -}}
 {{- with .credit }}{{ $credit = . }}{{ end -}}
 {{- with .download }}{{ $download = . }}{{ end -}}
@@ -51,7 +51,9 @@
 {{ if eq $mediaType "youtube" -}}
   {{- partial "figure-youtube.html" $dict -}}
 {{- else if eq $mediaType "vimeo" -}}
+  {{- partial "figure-vimeo.html" $dict -}}
 {{- else if eq $mediaType "soundcloud" -}}
+  {{- partial "figure-soundcloud.html" $dict -}}
 {{- else if eq $mediaType "table" -}}
   {{- partial "figure-table.html" $dict -}}
 {{- else -}}
