@@ -34,15 +34,11 @@
   {{ readFile $tableSrc | safeHTML }}
 </figure>
 
+{{- if or .label (eq .Site.Params.figureModal true ) }}
+  {{- $labelDict := dict "Site" .Site "label" .label -}}
+  {{- partial "figure-label.html" $labelDict -}}
+{{- end -}}
+
 {{- if eq .Site.Params.figureModal true -}}
-  {{- if eq .Site.Params.figureLabelLocation "below" -}}
-    {{- if or .label (eq .Site.Params.figureModalIcons true )}}
-    <span class="quire-figure__modal">{{ if eq .Site.Params.figureModalIcons true }}<span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>{{ end }}<span class="quire-figure__label">{{ with .label }}{{ markdownify . }}{{ end }}</span></span>
-    {{- end -}}
-  {{- else -}}
-    {{- if or .label (eq .Site.Params.figureModalIcons true )}}
-    <span class="fig no-fullscreen">{{ if eq .Site.Params.figureModalIcons true }}<span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>{{ end }}<strong>{{ with .label }}{{ markdownify . }}{{ end }}</strong></span>
-    {{- end -}}
-  {{- end -}}
 </a>
 {{- end -}}

@@ -184,13 +184,10 @@
     float: left;
     margin-right: .5rem;
     margin-top: -.2em;
-    @media print {
-      margin-top: .6em;
-    }
     .quire-figure__label-icon {
-      position: relative;
-      top: .6em;
-      margin: 0 -.25em;
+      float: left;
+      margin-top: .6em;
+      margin-left: -.3em;
       @media print {
         display: none;
       }
@@ -204,28 +201,28 @@
         height: 1.5rem;
       }
     }
+    .quire-figure__label-text {
+      margin-top: .8em;
+      display: inline-block;
+    }
     // The figure label with figureLabelLocation: on-top (default)
     &--on-top {
       color: $white;
       position: absolute;
       top: 0;
       left: 0;
-      height: 2.7em;
+      height: 2.6em;
       padding: 0 .6em;
       margin: 0;
       background: $black-semi-transparent;
-      @media print {
-        padding-top: .5rem;
-      }
       .quire-figure__label-icon {
-        top: .4em;
+        margin-top: .3em;
         svg {
           fill: $white;
         }
       }
       .quire-figure__label-text {
-        position: relative;
-        top: -.2em;
+        margin-top: .5em;
       }
     }
   }
