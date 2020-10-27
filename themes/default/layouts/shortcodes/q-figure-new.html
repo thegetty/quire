@@ -26,13 +26,13 @@
 
 {{- range where .Site.Data.figures.figure_list "id" "eq" (.Get "id") -}}
 
-{{- with .alt }}{{ $alt = . }}{{ end -}}
+{{- if ($.Get "alt") }}{{ $alt = ($.Get "alt") }}{{ else if .alt }}{{ $alt = .alt  }}{{ end -}}
 {{- with .aspect_ratio }}{{ $aspectRatio = . }}{{ end -}}
-{{- with .caption }}{{ $caption = . }}{{ end -}}
-{{- with .credit }}{{ $credit = . }}{{ end -}}
+{{- if ($.Get "caption") }}{{ $caption = ($.Get "caption") }}{{ else if .caption }}{{ $caption = .caption  }}{{ end -}}
+{{- if ($.Get "credit") }}{{ $credit = ($.Get "credit") }}{{ else if .credit }}{{ $credit = .credit  }}{{ end -}}
 {{- with .download }}{{ $download = . }}{{ end -}}
 {{- with .id }}{{ $id = . }}{{ end -}}
-{{- with .label }}{{ $label = . }}{{ end -}}
+{{- if ($.Get "label") }}{{ $label = ($.Get "label") }}{{ else if .label }}{{ $label = .label  }}{{ end -}}
 {{- with .media_id }}{{ $mediaId = . }}{{ end -}}
 {{- with .media_type }}{{ $mediaType = . }}{{ end -}}
 {{- with .src }}{{ $src = . }}{{ end -}}
