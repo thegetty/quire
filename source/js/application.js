@@ -371,22 +371,20 @@ function quickLinksSetup() {
  */
 function mlaDate(date) {
   const options = {
-    year: "numeric",
-    day: "numeric",
+    month: "long"
   };
-  const month = date.getMonth();
-  if ([4, 5, 6].includes(month)) {
-    options.month = 'long';
-    return date.toLocaleDateString("en-US", options);
+  const monthNum = date.getMonth();
+  let month;
+  if ([4, 5, 6].includes(monthNum)) {
+    let dateString = date.toLocaleDateString("en-US", options);
+    month = dateString.replace(/[^A-Za-z]+/, '');
   } else {
-    options.month = 'short';
-    const monthAbbr = (month === 8) ? "Sept" : date.toLocaleDateString("en-US", options).slice(0, 3);
-    return [
-      monthAbbr,
-      ". ",
-      date.toLocaleDateString("en-US", options).slice(4),
-    ].join("");
+    month = (month === 8) ? "Sept" : date.toLocaleDateString("en-US", options).slice(0, 3);
+    month += '.';
   }
+  const day = date.getDate();
+  const year = date.getFullYear();
+  return [day, month, year].join(' ');
 }
 
 /**
