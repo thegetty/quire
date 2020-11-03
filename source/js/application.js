@@ -364,6 +364,30 @@ function quickLinksSetup() {
 }
 
 /**
+ * Applies MLA format to date
+ * 
+ * @param  {Date}   date   javascript date object
+ * @return {String}        MLA formatted date
+ */
+function mlaDate(date) {
+  const options = {
+    month: "long"
+  };
+  const monthNum = date.getMonth();
+  let month;
+  if ([4, 5, 6].includes(monthNum)) {
+    let dateString = date.toLocaleDateString("en-US", options);
+    month = dateString.replace(/[^A-Za-z]+/, '');
+  } else {
+    month = (month === 8) ? "Sept" : date.toLocaleDateString("en-US", options).slice(0, 3);
+    month += '.';
+  }
+  const day = date.getDate();
+  const year = date.getFullYear();
+  return [day, month, year].join(' ');
+}
+
+/**
  * @description
  * Set the date for the cite this partial
  * https://github.com/gettypubs/quire/issues/153
@@ -372,21 +396,8 @@ function quickLinksSetup() {
  *
  */
 function setDate() {
-  let $date = $(".cite-current-date");
-  let options = {
-    year: "numeric",
-    month: "short",
-    day: "numeric"
-  };
-  let today = new Date();
-  let formattedDate =
-    today.toLocaleDateString("en-US", options).indexOf("May") !== -1
-      ? today.toLocaleDateString("en-US", options)
-      : [
-          today.toLocaleDateString("en-US", options).slice(0, 3),
-          ". ",
-          today.toLocaleDateString("en-US", options).slice(4)
-        ].join("");
+  const $date = $(".cite-current-date");
+  const formattedDate = mlaDate(new Date());
   $date.empty();
   $date.text(formattedDate);
 }
