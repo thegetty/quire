@@ -93,7 +93,10 @@ describe("CLI", () => {
     timeout
   );
 
-  test(
+  /**
+   * Skip test until circleci is reconfigured to run in macos and windows envs
+   */
+  xtest(
     "should successfully build a mobi",
     async done => {
       const testFilePath = path.join(CONFIG.STATIC_FILES_PATH, "test");
