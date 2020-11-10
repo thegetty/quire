@@ -82,7 +82,7 @@ describe("CLI", () => {
   test(
     "should successfully build a epub",
     async done => {
-      const testFilePath = path.join(CONFIG.STATIC_FILES_PATH, "test");
+      const testFilePath = path.join("static", "downloads", "test");
       await quire.epub(testFilePath);
       assert.equal(
         fs.existsSync(`${testFilePath}.epub`),
@@ -99,7 +99,7 @@ describe("CLI", () => {
   xtest(
     "should successfully build a mobi",
     async done => {
-      const testFilePath = path.join(CONFIG.STATIC_FILES_PATH, "test");
+      const testFilePath = path.join("static", "downloads", "test");
       await quire.mobi(testFilePath);
       assert.equal(
         fs.existsSync(`${testFilePath}.mobi`),
@@ -113,7 +113,7 @@ describe("CLI", () => {
   test(
     "should successfully build a pdf",
     async done => {
-      const testFilePath = path.join(CONFIG.STATIC_FILES_PATH, "test");
+      const testFilePath = path.join("static", "downloads", "test");
       await quire.pdf(testFilePath);
       assert.equal(
         fs.existsSync(`${testFilePath}.pdf`),
