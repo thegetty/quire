@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 + Documentation to reflect changes to install and use of CLI
 + Version Number
++ Replace kindlegen package with kindlegen from user-installed Kindle Previewer
 
 ### Removed
 - All author information from files
