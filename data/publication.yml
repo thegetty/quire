@@ -30,6 +30,7 @@ pub_type: book # book | journal-periodical | other
 
 identifier:
   isbn:
+  url:
 
 publisher:
   - name: J. Paul Getty Trust
