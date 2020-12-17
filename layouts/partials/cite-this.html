@@ -2,16 +2,16 @@
     Template for the "Cite this Page" feature. Called as a
     partial, such as:
 
-    partial "cite-this.html" (dict "page" . "site" .Site "type" "chicago" "range" "page") 
+    partial "cite-this.html" (dict "page" . "site" .Site "type" "chicago" "range" "page")
 
     Can accept "chicago" or "mla" as a type
-    
+
     Can accept "page" or "site" as a range
 
     Follows standard of using "et al" for more than ten
     authors in Chicago citations, and more than two authors
     in MLA citations.
-    
+
     ***Note***
     Edit this template with care as it is easy to introduce stray spaces occuring around punctuation.
 */}}
@@ -22,8 +22,13 @@
 {{- $endPunctuation := findRE "[!|?]$" .site.Data.publication.title -}}
 {{ $seriesStartNumber := findRE "^[0-9]" .site.Data.publication.number_in_series }}
 
-{{ $siteEditors := len (where .site.Data.publication.contributor "type" "primary") }}
+{{ $siteAuthorCount := "" }}
+{{ $siteEditorCount := "" }}
 
+{{ $siteAuthorCount = len (where .site.Data.publication.contributor "type" "primary") }}
+{{ if ne $siteAuthorCount 0 }}
+{{ $siteEditorCount = len (where .site.Data.publication.contributor "role" "editor") }}
+{{ end }}
 
 
 {{/* ------------  CHICAGO ------------ */}}
@@ -31,62 +36,62 @@
 
   {{- if eq $citationRange "page" -}}
 
-    {{ if .page.Params.contributor }}{{ template "page-contributors-chicago" .page }}. {{ end }}{{ if .page.Title }}“{{ partial "page-title.html" .page }}.” {{ else if .page.Params.label }}“{{ .page.Params.label }}.” {{ else }}Untitled. {{ end }}In <em>{{ partial "site-title.html" .page }}</em>, {{ if gt $siteEditors 0 }}edited {{ end }}by {{ template "publication-contributors-chicago" .page }}. {{ template "publishers-chicago" (dict "site" .site)}}{{ with .site.Data.publication.pub_date }}, {{ dateFormat "2006" . }}{{ end }}. <span class="url-string">{{ if .site.Data.publication.url }}{{ .site.Data.publication.url }}{{ .page.RelPermalink }}{{ else }}{{ .page.Permalink }}{{ end }}</span>.
-  
+    {{ if .page.Params.contributor }}{{ template "page-contributors-chicago" .page }}. {{ end }}{{ if .page.Title }}“{{ partial "page-title.html" .page }}.” {{ else if .page.Params.label }}“{{ .page.Params.label }}.” {{ else }}Untitled. {{ end }}In <em>{{ partial "site-title.html" .page }}</em>{{ if gt $siteAuthorCount 0 }}, {{ if gt $siteEditorCount 0 }}edited {{ end }}by {{ template "publication-contributors-chicago" .page }}{{ end }}. {{ template "publishers-chicago" (dict "site" .site)}}{{ with .site.Data.publication.pub_date }}, {{ dateFormat "2006" . }}{{ end }}. <span class="url-string">{{ if .site.Data.publication.identifier.url }}{{ .site.Data.publication.identifier.url }}{{ .page.RelPermalink }}{{ else }}{{ .page.Permalink }}{{ end }}</span>.
+
   {{- else if eq $citationRange "site" -}}
 
-    {{ template "publication-contributors" (dict "page" .page "Site" .site "type" $citationType) }}. <em>{{ .site.Data.publication.title }}{{ with .site.Data.publication.subtitle }}{{ if $endPunctuation }} {{ else }}: {{ end }}{{ . }}{{ end }}</em>. {{ if .site.Data.publication.series }}{{ .site.Data.publication.series }}{{ with .site.Data.publication.number_in_series }}{{ if $seriesStartNumber }} {{ else }}, {{ end }}{{ . }}{{ end }}.{{ end }} {{ template "publishers-chicago" (dict "site" .site) }}{{ with .site.Data.publication.pub_date }}, {{ dateFormat "2006" . }}{{ end }}. <span class="url-string">{{ with .site.Data.publication.identifier.url }}{{ . }}{{ end }}</span>.
-  
+    {{ template "publication-contributors" (dict "page" .page "Site" .site "type" $citationType) }}. <em>{{ .site.Data.publication.title }}{{ with .site.Data.publication.subtitle }}{{ if $endPunctuation }} {{ else }}: {{ end }}{{ . }}{{ end }}</em>. {{ if .site.Data.publication.series }}{{ .site.Data.publication.series }}{{ with .site.Data.publication.number_in_series }}{{ if $seriesStartNumber }} {{ else }}, {{ end }}{{ . }}{{ end }}.{{ end }} {{ template "publishers-chicago" (dict "site" .site) }}{{ with .site.Data.publication.pub_date }}, {{ dateFormat "2006" . }}{{ end }}.{{ with .site.Data.publication.identifier.url }} <span class="url-string">{{ . }}</span>.{{ end }}
+
   {{- end -}}
 
 {{/* ------------  MLA ------------ */}}
 {{- else if eq $citationType "mla" -}}
-  
+
   {{- if eq $citationRange "page" -}}
-  
-    {{ if .page.Params.contributor }}{{ template "page-contributors-mla" .page }}. {{ end }}{{ if .page.Title }}“{{ partial "page-title.html" .page }}.” {{ else if .page.Params.label }}“{{ .page.Params.label }}.” {{ else }}Untitled. {{ end }}<em>{{ partial "site-title.html" .page }}</em>, {{ if gt $siteEditors 0 }}edited {{ end }}by {{ template "publication-contributors-mla" .page }}. {{ template "publishers-mla" (dict "site" .site)}}{{ with .site.Data.publication.pub_date }}, {{ dateFormat "2006" . }}{{ end }}. <span class="url-string">{{ if .site.Data.publication.url }}{{ .site.Data.publication.url }}{{ .page.RelPermalink }}{{ else }}{{ .page.Permalink }}{{ end }}</span>. Accessed <span class="cite-current-date">DD Mon. YYYY</span>.
-  
+
+    {{ if .page.Params.contributor }}{{ template "page-contributors-mla" .page }}. {{ end }}{{ if .page.Title }}“{{ partial "page-title.html" .page }}.” {{ else if .page.Params.label }}“{{ .page.Params.label }}.” {{ else }}Untitled. {{ end }}<em>{{ partial "site-title.html" .page }}</em>{{ if gt $siteAuthorCount 0 }}, {{ if gt $siteEditorCount 0 }}edited {{ end }}by {{ template "publication-contributors-mla" .page }}{{ end }}. {{ template "publishers-mla" (dict "site" .site)}}{{ with .site.Data.publication.pub_date }}, {{ dateFormat "2006" . }}{{ end }}. <span class="url-string">{{ if .site.Data.publication.identifier.url }}{{ .site.Data.publication.identifier.url }}{{ .page.RelPermalink }}{{ else }}{{ .page.Permalink }}{{ end }}</span>. Accessed <span class="cite-current-date">DD Mon. YYYY</span>.
+
   {{- else if eq $citationRange "site" -}}
-  
-    {{ template "publication-contributors" (dict "page" .page "Site" .site "type" $citationType) }}. <em>{{ .site.Data.publication.title }}{{ with .site.Data.publication.subtitle }}{{ if $endPunctuation }} {{ else }}: {{ end }}{{ . }}{{ end }}.</em> {{ if .site.Data.publication.series }}{{ .site.Data.publication.series }}{{ with .site.Data.publication.number_in_series }}{{ if $seriesStartNumber }} {{ else }}, {{ end }}{{ . }}{{ end }}.{{ end }} {{ template "publishers-mla" (dict "site" .site) }}{{ with .site.Data.publication.pub_date }}, {{ dateFormat "2006" . }}{{ end }}. <span class="url-string">{{ with .site.Data.publication.identifier.url }}{{ . }}{{ end }}</span>. Accessed <span class="cite-current-date">Aug. 29, 2019</span>.
-  
+
+    {{ template "publication-contributors" (dict "page" .page "Site" .site "type" $citationType) }}. <em>{{ .site.Data.publication.title }}{{ with .site.Data.publication.subtitle }}{{ if $endPunctuation }} {{ else }}: {{ end }}{{ . }}{{ end }}.</em> {{ if .site.Data.publication.series }}{{ .site.Data.publication.series }}{{ with .site.Data.publication.number_in_series }}{{ if $seriesStartNumber }} {{ else }}, {{ end }}{{ . }}{{ end }}.{{ end }} {{ template "publishers-mla" (dict "site" .site) }}{{ with .site.Data.publication.pub_date }}, {{ dateFormat "2006" . }}{{ end }}. {{ with .site.Data.publication.identifier.url }}<span class="url-string">{{ . }}</span>{{ end }}. Accessed <span class="cite-current-date">DD Mon. YYYY</span>.
+
   {{- end -}}
 
 {{- end -}}
 
 
 {{- define "page-contributors-mla" -}}
-{{- if .Page.Params.contributor -}}  
+{{- if .Page.Params.contributor -}}
   {{- $len := len .Page.Params.contributor -}}
-  {{- range $index, $element := .Page.Params.contributor -}}  
+  {{- range $index, $element := .Page.Params.contributor -}}
     {{- if and (eq $len 1) (eq $index 0) -}}
     {{ template "contrib-name-reverse-last" (dict "site" $.Site "page" . )}}
-    {{ else if eq $index 0 }}
+    {{- else if eq $index 0 -}}
     {{ template "contrib-name-reverse" (dict "site" $.Site "page" . )}}
     {{- else -}}
     {{- if eq $len 2 }}, and {{ template "contrib-name-last" (dict "site" $.Site "page" . )}}{{ end -}}
     {{- end -}}
-  {{- end -}}  
+  {{- end -}}
   {{- if gt $len 2 }}, et al{{ end -}}
 {{- end -}}
 {{- end -}}
 
 {{- define "publication-contributors-mla" -}}
   {{- $len := len (where $.Site.Data.publication.contributor "type" "primary") -}}
-  {{- range $index, $element := (where $.Site.Data.publication.contributor "type" "primary") -}}  
+  {{- range $index, $element := (where $.Site.Data.publication.contributor "type" "primary") -}}
     {{ if eq $index 0 }}
     {{ template "contrib-name" (dict "site" $.Site "page" . )}}
     {{- else -}}
     {{- if eq $len 2 }} and {{ template "contrib-name-last" (dict "site" $.Site "page" . )}}{{ end -}}
     {{- end -}}
-  {{- end -}}  
+  {{- end -}}
   {{- if gt $len 2 }}, et al{{ end -}}
 {{- end -}}
 
 {{- define "page-contributors-chicago" -}}
-{{- if .Page.Params.contributor -}}  
+{{- if .Page.Params.contributor -}}
   {{- $len := len .Page.Params.contributor -}}
-  {{- range $index, $element := .Page.Params.contributor -}}    
+  {{- range $index, $element := .Page.Params.contributor -}}
     {{- if and (eq $len 1) (eq $index 0) -}}
     {{ template "contrib-name-reverse-last" (dict "site" $.Site "page" . )}}{{- else if eq $index 0 -}}
     {{ template "contrib-name-reverse" (dict "site" $.Site "page" . )}}, {{ end -}}
@@ -98,26 +103,28 @@
     {{- if or (and (gt $len 2) (eq $index 1)) (and (gt $len 3) (eq $index 2)) -}}
     {{ template "contrib-name" (dict "site" $.Site "page" . )}}, {{ end -}}
   {{- end -}}
-    
+
   {{- if gt $len 3 -}}
   et al
   {{- end -}}
-  
+
 {{- end -}}
 {{- end -}}
 
 {{- define "publication-contributors-chicago" -}}
   {{- $len := len (where $.Site.Data.publication.contributor "type" "primary") -}}
-  {{- range $index, $element := (where $.Site.Data.publication.contributor "type" "primary") -}}    
+  {{- range $index, $element := (where $.Site.Data.publication.contributor "type" "primary") -}}
     {{- if gt $index 2 -}}
+    {{- else if and (eq $index 0) (eq $len 1) }}
+      {{ template "contrib-name" (dict "site" $.Site "page" . )}}
     {{- else if eq $index (sub $len 1) }}
       and {{ template "contrib-name" (dict "site" $.Site "page" . )}}
     {{- else if and (eq $index 0) (eq $len 2) }}
       {{ template "contrib-name" (dict "site" $.Site "page" . )}}
     {{ else -}}
-      {{ template "contrib-name" (dict "site" $.Site "page" . )}}, 
+      {{ template "contrib-name" (dict "site" $.Site "page" . )}},
     {{ end -}}
-  {{- end -}}  
+  {{- end -}}
   {{- if gt $len 3 }}et al{{ end -}}
 {{- end -}}
 
