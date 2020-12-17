@@ -38,6 +38,7 @@ params:
   citationPageLocationDivider: ", "
   contributorByline: name-title # name | name-title | false
   displayBiblioShort: true
+  biblioHeading: "Bibliography"
   imageDir: "img"
   tocType: full
   menuType: full
