@@ -2,15 +2,15 @@
       references to the page-level bibliography list */}}
 {{/* ---------------------------------------------------------------------- */}}
 {{- range .Params.references -}}
-  
+
   {{- $id := . -}}
   {{- $full := "" -}}
   {{- $short := "" -}}
   {{- $alphaOrder := "" -}}
-  
-  {{- range $.Site.Data.references.entries -}} 
+
+  {{- range $.Site.Data.references.entries -}}
       {{- if eq .id $id -}}
-          
+
           {{- $full = .full -}}
 
           {{ if .short }}
@@ -18,29 +18,28 @@
           {{ else }}
             {{- $short = .id -}}
           {{ end }}
-          
+
           {{ if .sort }}
             {{- $alphaOrder = .sort -}}
           {{ else }}
             {{- $alphaOrder = .full -}}
-          {{ end }}  
-          
+          {{ end }}
+
       {{- end -}}
   {{- end -}}
-  
+
   {{- $alphaOrder := $alphaOrder | truncate 100 | urlize -}}
   {{- $.Page.Scratch.SetInMap "entry" "0" $short -}}
   {{- $.Page.Scratch.SetInMap "entry" "1" $full -}}
   {{- $entry := ($.Page.Scratch.GetSortedMapValues "entry") -}}
-  {{- $.Page.Scratch.SetInMap "cited" $alphaOrder $entry -}}  
+  {{- $.Page.Scratch.SetInMap "cited" $alphaOrder $entry -}}
   {{- $.Page.Scratch.Delete "entry" -}}
 
 {{- end -}}
 
 {{- if ($.Scratch.GetSortedMapValues "cited") }}
 <div class="quire-page__content__references backmatter">
-    <h2 id="{{ if .Site.Params.biblioHeading }}{{ .Site.Params.biblioHeading | urlize }}{{ else }}bibliography{{ end }}">{{ if .Site.Params.biblioHeading }}{{ .Site.Params.biblioHeading }}{{ else }}Bibliography{{ end }}</h2>
-    
+    {{ with .Site.Params.biblioHeading }}<h2 id="{{ urlize . }}">{{ . }}</h2>{{ end }}
     {{- if eq .Site.Params.displayBiblioShort true }}
     <dl>
         {{- range ($.Scratch.GetSortedMapValues "cited") }}
