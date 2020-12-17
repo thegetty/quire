@@ -1,11 +1,15 @@
 # Quire Starter Change Log
 
-All notable changes to the `quire-starter` will be documented in this file. 
+All notable changes to the `quire-starter` will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), 
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
+
+### Added
+- Config parameter to specify bibliography heading: `biblioHeading`
+- Use of `identifer.url` in publication.yml for use in Cite This feature, and eventually also in site metadata
 
 ## [0.18.0] - 2020-02-03 
 ### Added
@@ -13,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 + site.xml to work with Netlify deploy method
-+ moved package.json back to theme 
++ moved package.json back to theme
 - For Markdown rendering, removed Blackfriday config and used Goldmark config instead
 * Changed `short` to `id` in references.yml to support revised bibliogrpahy shortcode
 
