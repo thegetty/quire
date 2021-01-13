@@ -1,8 +1,8 @@
 # Quire Starter Theme Change Log
 
-All notable changes to the `quire-starter-theme` will be documented in this file. 
+All notable changes to the `quire-starter-theme` will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), 
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
@@ -18,6 +18,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The active page is now marked in the menu with an "active" class at build time, rather than client-side with JS
 - Hide navbar page labels on mobile
 - Made entry image shorter on mobile to increase target area for scrolling page
+- Citation URLs now specified in publication.yml with fallback to baseURL
+- Bibliography heading specified in config.yml rather thank being hard-coded in
 
 ### Fixed
 
@@ -43,8 +45,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 * search.html to fix ref warning
 + relURL to href and src
-* JS bug fixes 
-- Removed use of deprecated Hugo variables in templates 
+* JS bug fixes
+- Removed use of deprecated Hugo variables in templates
 * logic in footer buttons and home page link
 
 ### Security
