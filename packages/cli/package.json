@@ -1,0 +1,70 @@
+{
+  "name": "quire-cli",
+  "version": "0.18.0",
+  "description": "Command-line interface for Quire projects.",
+  "main": "index.js",
+  "contributors": [
+    "Nick Hulea <naeluh@gmail.org>",
+    "Eric Gardner"
+  ],
+  "scripts": {
+    "build": "./node_modules/.bin/rollup -c --compact",
+    "watch": "./node_modules/.bin/rollup -c -w --compact",
+    "test": "jest --verbose --colors --detectOpenHandles --runInBand"
+  },
+  "license": "MIT",
+  "bin": {
+    "quire": "./bin/index.js"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.7.7",
+    "axios": "^0.19.0",
+    "chalk": "^3.0.0",
+    "cheerio": "^1.0.0-rc.3",
+    "command-exists": "^1.2.8",
+    "commander": "^4.0.1",
+    "core-js": "^3.6.0",
+    "execa": "^4.0.0",
+    "file-url": "^3.0.0",
+    "fs-extra": "^8.1.0",
+    "glob": "~7.1.6",
+    "growl": "^1.10.5",
+    "hugo-bin": "0.49.0",
+    "js-yaml": "^3.13.1",
+    "lodash": "^4.17.15",
+    "ora": "^4.0.3",
+    "regenerator-runtime": "^0.13.3",
+    "rimraf": "^3.0.0",
+    "sanitize-html": "^1.20.1",
+    "striptags": "^3.1.1",
+    "upath": "^1.2.0",
+    "webpack": "^4.41.4",
+    "yaml-front-matter": "^3.4.0"
+  },
+  "devDependencies": {
+    "@babel/core": "*",
+    "@babel/plugin-transform-modules-commonjs": "*",
+    "@babel/plugin-transform-regenerator": "*",
+    "@babel/plugin-transform-runtime": "*",
+    "@babel/polyfill": "*",
+    "@babel/preset-env": "*",
+    "babel-jest": "*",
+    "jest": "*",
+    "jest-junit": "^10.0.0",
+    "rollup": "^1.27.13",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-multi-entry": "^2.1.0",
+    "rollup-plugin-node-builtins": "^2.1.2",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-preserve-shebang": "^0.1.6",
+    "rollup-plugin-replace": "^2.2.0",
+    "rollup-plugin-uglify": "^6.0.4",
+    "tmp": "0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gettypubs/quire-cli"
+  }
+}
