@@ -1,0 +1,3 @@
+<div class="{{ with .Get 0 }}{{ . }}{{ end }}">
+  {{ .Inner | markdownify }}
+</div>

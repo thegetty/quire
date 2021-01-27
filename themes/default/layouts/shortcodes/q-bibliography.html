@@ -1,0 +1,61 @@
+{{/*
+
+  This shortcode generates a bibliography from the entries in the project's
+  `references.yml` file.
+
+  By default, the bibliography will be sorted by each entry’s `full` value.
+  However, this can be overridden by including a `sort` value on any
+  individual entries that you want sorted otherwise.
+
+  Also, in `config.yml` the `displayBiblioShort` property can be set to "true"
+  to display both the short and the full bibliography values in the output.
+  Without this property set, the bibliography will not include the short form.
+
+*/}}
+
+{{- range $.Site.Data.references.entries -}}
+
+  {{- $bibFull := .full -}}
+  
+  {{- $bibShort := "" -}}
+  {{ if .short }}
+    {{- $bibShort = .short -}}
+  {{ else }}
+    {{- $bibShort = .id -}}
+  {{ end }}
+  
+  {{- $bibSort := "" -}}
+  {{ if .sort }}
+    {{- $bibSort = .sort -}}
+  {{ else }}
+    {{- $bibSort = .full -}}
+  {{ end }}  
+  {{- $bibSort = $bibSort | truncate 100 | urlize -}} 
+     
+  {{- $.Page.Scratch.SetInMap "ref" "0" $bibShort -}}
+  {{- $.Page.Scratch.SetInMap "ref" "1" $bibFull -}}
+  {{- $ref := ($.Page.Scratch.GetSortedMapValues "ref") -}}
+  {{- $.Page.Scratch.SetInMap "biblio" $bibSort $ref -}}  
+  {{- $.Page.Scratch.Delete "ref" -}}
+  
+{{- end -}}
+  
+{{- if ($.Page.Scratch.GetSortedMapValues "biblio") }}
+<div class="quire-page__content__references">
+    {{- if eq .Site.Params.displayBiblioShort true }}
+    <dl>
+        {{- range ($.Page.Scratch.GetSortedMapValues "biblio") -}}
+        {{/* the id is in a span because Pandoc otherwise strips them out from dt and dd for EPUBs for some reason */}}
+        <dt><span id="{{ urlize (index . 0) }}">{{ markdownify (index . 0) }}</span></dt>
+        <dd>{{ markdownify (index . 1)}}</dd>
+        {{- end }}
+    </dl>
+    {{- else }}
+    <ul>
+        {{- range ($.Page.Scratch.GetSortedMapValues "biblio") }}
+        <li id="{{ urlize (index . 0) }}">{{ markdownify (index . 1)}}</li>
+        {{- end }}
+    </ul>
+    {{- end }}
+</div>
+{{- end -}}

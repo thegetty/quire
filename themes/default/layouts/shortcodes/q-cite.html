@@ -1,0 +1,79 @@
+{{/*
+
+  This shortcode adds a linked Author Date citation reference to the text, and a
+  hover pop-up with the full citation text. It also adds the citation to a map
+  of cited works, which can then be output as a page-level bibliography on essay
+  and entry type pages. Example:
+
+  {{< q-cite "Faure 1909" "54" >}}
+
+  The first positional parameter is a short form citation that should match one
+  in `references.yml`. The second, optional parameter is a page reference. The
+  above sample would output as: Faure 1909, 54.
+  
+  A third optional parameter allows you to customize the text to appear in the 
+  link if not the short form of the citation. The following sample would appear 
+  simply as: 1909, 54.
+  
+  {{< q-cite "Faure 1909" "54" "1909" >}}
+  
+  In using this third parameter, you still need to have the second parameter 
+  even if it’s empty. The following sample would appear simply as: 1909.
+  
+  {{< q-cite "Faure 1909" "" "1909" >}}
+
+  The text element between the author date reference and the page can be changed
+  with the `citationPageLocationDivider` property in `config.yml`.
+
+*/}}
+
+{{- $errorMissingValue := dict "shortcode" "q-cite" "message" "1, 2 or 3 values must be supplied with this shortcode. The first is required and should match a short reference in the project’s `references.yml` file, the second is optional, and should be a page number or range of page numbers, the third is optional and should be the text to appear in the link if not the full short form of the reference" "example" "{{< q-cite &#34;Faure 1909&#34; &#34;304&#34; &#34;1909&#34; >}}" -}}
+
+{{- $errorMissingReference := dict "shortcode" "q-cite" "message" "The id supplied doesn’t match one in the project’s `references.yml` file" "example" "{{< q-cite &#34;Faure 1909&#34; >}}<br /><br />id: &#34;Faure 1909&#34;" -}}
+
+{{- if gt (len .Params) 3 -}}
+
+  {{- partial "error-message.html" $errorMissingValue -}}
+
+{{- else -}}
+
+  {{- $id := .Get 0 -}}
+  {{- $full := "" -}}
+  {{- $short := "" -}}
+  {{- $alphaOrder := "" -}}
+
+  {{- range $.Site.Data.references.entries -}}
+    {{- if eq .id $id -}}
+    
+        {{- $full = .full -}}
+        
+        {{- if .short -}}
+          {{- $short = .short -}}
+        {{- else -}}
+          {{- $short = .id -}}
+        {{- end -}}
+        
+        {{- if .sort -}}
+          {{- $alphaOrder = .sort -}}
+        {{- else -}}
+          {{- $alphaOrder = .full -}}
+        {{- end -}}
+        {{- $alphaOrder = $alphaOrder | truncate 100 | urlize -}}
+        
+    {{- end -}}
+  {{- end -}}
+
+  {{- if eq $full "" -}}
+
+    {{- partial "error-message.html" $errorMissingReference -}}
+
+  {{- else -}}
+
+    {{- $.Page.Scratch.SetInMap "entry" "0" $short -}}
+    {{- $.Page.Scratch.SetInMap "entry" "1" $full -}}
+    {{- $entry := ($.Page.Scratch.GetSortedMapValues "entry") -}}
+    {{- $.Page.Scratch.SetInMap "cited" $alphaOrder $entry -}}
+    <span class="quire-citation expandable">{{ if ne .Site.Params.citationPopupStyle "icon" }}<span class="quire-citation__button" role="button" tabindex="0" aria-expanded="false">{{ end }}{{- if eq (len .Params) 3 }}{{- .Get 2 -}}{{ else }}{{- markdownify $short -}}{{ end }}{{- if eq (len .Params) 2 }}{{ $.Site.Params.citationPageLocationDivider }}{{ .Get 1 }}{{ end -}}{{ if eq .Site.Params.citationPopupStyle "icon" }}<button class="quire-citation__button material-icons md-18 material-control-point" aria-expanded="false">control_point</button>{{ end }}{{ if ne .Site.Params.citationPopupStyle "icon" }}</span>{{ end }}<span hidden class="quire-citation__content"><span class="visually-hidden">Citation: </span>{{- markdownify $full -}}</span></span>
+  {{- end -}}
+
+{{- end -}}

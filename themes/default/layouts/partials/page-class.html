@@ -1,0 +1,9 @@
+quire-page{{ with .Params.class -}}
+{{- $classlist := split . " " -}}
+{{- range $classlist }} quire-page--{{ . }}{{ end -}}
+{{- end -}}
+
+{{- range first 1 (where .Site.Pages "Params.class" "in" "page-one") -}}
+   {{- $.Scratch.Set "pageOneWeight" .Weight -}}
+{{- end -}}
+{{- if lt .Weight ($.Scratch.Get "pageOneWeight") }} quire-page--frontmatter{{ end -}}

@@ -1,0 +1,16 @@
+{{/*
+  Reusable partial to display a list of links with arrow_forward
+*/}}
+
+<ul class="menu-list">
+  {{ range . }}
+  <li>
+    <a href="{{ .url | relURL }}" target="_blank" {{ with .link_relation }}rel="{{ . }}"{{ end }} {{ with .media_type }}type="{{ . }}"{{ end }}>
+      {{ .name }}
+      <span class="arrow remove-from-epub">
+        {{- partial "icon.html" (dict "type" "arrow-forward" "description" "") -}}
+      </span>
+    </a>
+  </li>
+  {{ end }}
+</ul>

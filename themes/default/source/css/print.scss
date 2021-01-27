@@ -1,0 +1,598 @@
+// =============================================================================
+// Print.scss
+// -----------------------------------------------------------------------------
+// Component print styles should be defined inside print media queries at the
+// component level. This stylesheet is for overrides and other special-case
+// rules which don't properly fit anywhere else and only show up in print.
+
+
+// Variables (others in the variables.scss file)
+// -----------------------------------------------------------------------------
+$print-base-text-column-width: 4.75in;
+
+$print-bottom-margin: 0.875in;
+$print-top-margin: 0.75in;
+$print-outer-margin: 0.75in;
+$print-inner-margin: 1in;
+
+@if $print-width <= 7 {
+  $print-inner-margin: $print-width - $print-base-text-column-width - $print-outer-margin;
+}
+
+@if $print-height <= 10 {
+  $print-top-margin: 0.5in;
+}
+
+$print-footer-font: $quire-headings-font;
+$print-footer-font-size: 8pt;
+
+$print-trim: $print-bleed * 2;
+
+
+@media print {    
+  
+// Paged Media CSS Setup for PrinceXML
+// -----------------------------------------------------------------------------
+  @page {
+    size: $print-width $print-height;
+    prince-bleed: $print-bleed;
+    bleed: $print-bleed;
+    prince-trim: $print-trim;
+    marks: crop;
+    margin-top: $print-top-margin;
+    margin-bottom: $print-bottom-margin;
+    font-family: $print-footer-font;
+    font-size: $print-footer-font-size;
+    color: $print-text-color;
+  }
+
+  @page:left {
+    margin-left: $print-outer-margin;
+    margin-right: $print-inner-margin;
+
+    @bottom-right {
+      content: string(sectiontitle);
+      text-transform: uppercase;
+      letter-spacing: 1pt;
+      font-size: 7.5pt;
+    }
+
+    @bottom-left {
+      content: counter(page);
+    }
+  }
+
+  @page:left:first {
+    @bottom-right {
+      content: none;
+    }
+  }
+
+  @page:right {
+    margin-left: $print-inner-margin;
+    margin-right: $print-outer-margin;
+
+    @bottom-left {
+      content: string(pagetitle);
+    }
+
+    @bottom-right {
+      text-align: right;
+      content: counter(page);
+    }
+  }
+
+  @page:right:first {
+    @bottom-left {
+      content: none;
+    }
+  }
+
+  @page frontmatter:left {
+    @bottom-left {
+      content: counter(page, lower-roman);
+    }
+  }
+  
+  @page frontmatter:right {
+    @bottom-right {
+      text-align: right;
+      content: counter(page, lower-roman);
+    }
+  }
+  
+  @page frontmatter-splash:left {
+    background-color: $print-splash-color;
+    @bottom-left {
+      content: counter(page, lower-roman);
+    }
+  }
+  
+  @page frontmatter-splash:right {
+    background-color: $print-splash-color;
+    @bottom-right {
+      text-align: right;
+      content: counter(page, lower-roman);
+    }
+  }
+  
+  @page splash, splash-image {
+    background-color: $print-splash-color;
+  }
+  
+  @page entry-image {
+    background-color: $print-entry-image-color;
+  }
+  
+  @page splash-image, cover {
+    margin-top: 0;
+    margin-bottom: -$print-bleed;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  @page no-footer, entry-image, splash-image, cover {
+    @bottom-right {
+      content: none;
+    }
+  
+    @bottom-left {
+      content: none;
+    }
+  }
+  
+  @page page-one:first {
+    @bottom-left {
+      content: none;
+    }
+  }
+  
+  @page :blank {
+    @bottom-left {
+      content: none;
+    }
+    @bottom-right {
+      content: none;
+    }
+  }
+
+  h1 {
+    prince-bookmark-level: 1;
+  }
+  h2, h3, h4, h5, h6 {
+    prince-bookmark-level: none;
+  }
+
+// Generated content for footers and page #s in TOC
+// -----------------------------------------------------------------------------
+  .pdf-page-title {
+    string-set: pagetitle content();
+  }
+
+  .pdf-page-section {
+    string-set: sectiontitle content();
+  }
+  
+  .pdf-page-label {
+    string-set: pagelabel content();
+  }
+
+  .quire-contents-list {
+    .page-item {
+      max-width: 90%;
+      a::after {
+        content: leader(dotted) ' 'target-counter(attr(href, url), page);
+        margin-left: 6pt; 
+        margin-right: -10%;
+        // This border is a hack for PrinceXML which doesn't
+        // otherwise recognize the box sizing for some reason
+        border: 1pt solid transparent;
+      }
+      a.frontmatter-page::after {
+        content: leader(dotted) ' 'target-counter(attr(href, url), page, lower-roman);
+        font-style: italic;
+        margin-left: 6pt; 
+        margin-right: -10%;
+        // This border is a hack for PrinceXML which doesn't
+        // otherwise recognize the box sizing for some reason
+        border: 1pt solid transparent;
+      }
+    }
+    &.grid {
+      .page-item {
+        a::after,
+        a.frontmatter-page::after {
+          position: absolute;
+          bottom: 1em;
+          right: 1em;
+          font-size: .75em;
+          margin-right: 0;
+        }
+      }
+    }
+  }
+
+// Assigning page types
+// -----------------------------------------------------------------------------
+  .quire-page--page-one {
+    page: page-one;
+    counter-reset: page 1;
+    page-break-before: right;
+  }
+
+  .quire-page--frontmatter {
+    page: frontmatter;
+  }
+  
+  #half-title .quire-page--frontmatter,
+  #title .quire-page--frontmatter {
+    page: no-footer;
+  }
+  
+  .quire-splash {
+    page: splash;
+    .quire-page__header {
+      &.hero-image {
+        page: splash-image; 
+        
+      }
+      &--full-height {
+        $print-splash-height: $print-height - $print-top-margin - $print-bottom-margin;
+        height: $print-splash-height;
+        page: splash-image;
+      }
+    }
+  }
+  
+  .quire-splash.quire-page--frontmatter {
+    page: frontmatter-splash;
+  }
+
+  .quire-entry__image {
+    .quire-entry__image__group-container {
+      figure {      
+        page: entry-image;
+        }
+      }
+    }
+
+  .quire-contents {
+    page: no-footer;
+  }
+  
+  .quire-cover {
+    page: cover;
+  }
+
+  #content>div.container>div>figure:nth-child(11)>div:nth-child(1) .quire-figure--group-pdf {
+    color: #fff;
+  }
+  
+// Set columns and widths for main page content
+// -----------------------------------------------------------------------------
+  .quire-page__content {
+    column-count: 1;
+    max-width: $print-base-text-column-width;
+    margin: 0 auto;
+    
+    #title .quire-page &,
+    #half-title .quire-page & {
+      margin: 0;
+      max-width: 100%;
+    }
+    
+    .quire-contents & {
+      margin: 0;
+      max-width: 100%;
+      
+      .quire-contents-list {
+        &:not(.grid) {
+          max-width: $print-base-text-column-width;
+          margin: 0 auto;
+        }
+      }
+    }
+    
+    @if $print-width > 7 {
+      .quire-essay &,
+      .quire-entry & {
+        column-count: 2;
+        column-fill: balance;
+        column-gap: .1875in;
+        max-width: 100%;
+        margin: 0;
+      
+        // with narrower columns, image should be full width
+        .quire-figure.is-pulled-left,
+        .quire-figure.is-pulled-right {      
+          float: none;
+          width: 100%;
+          margin-left: 0;
+          margin-right: 0;
+        }
+      }
+    }
+    
+  }
+  
+  // make other elements same width as single-column pages
+  .quire-page__abstract {
+    column-span: all;
+    column-count: 1;
+    margin: 0 auto 1.25em;
+    max-width: $print-base-text-column-width;
+  }
+  
+  .quire-entry__tombstone {
+    column-span: all;
+    column-count: 1;
+    margin: 0 auto .25in;
+    max-width: $print-base-text-column-width;
+  }
+  
+  .quire-page__header.hero-image .hero-body {
+    margin: 2.5in .5in 0;
+    @if $print-width <= 7 {
+      width: $print-base-text-column-width;
+      margin: 2.5in auto 0;
+    }
+  }
+  
+// Content list grid view
+// -----------------------------------------------------------------------------
+  $menu-grid-gap: .1875in;
+  $menu-grid-item-margin: $menu-grid-gap / 2;
+  
+  $menu-grid-item-width: ($print-width - $print-outer-margin - $print-inner-margin - (3 * $menu-grid-gap)) / 3;
+  
+  @if $print-width <= 7 {
+    $menu-grid-item-width: ($print-width - $print-outer-margin - $print-inner-margin - (2 * $menu-grid-gap)) / 2;
+  }
+  
+  .quire-contents-list.grid .menu-list ul {
+    .page-item {
+      width: $menu-grid-item-width;
+      height: 2.5in;
+      margin-bottom: $menu-grid-gap;
+      background-color: $print-splash-color;
+      padding: 1em;
+      position: relative;
+      * {
+        margin: 0;
+        padding: 0;
+        background-color: transparent;
+      }
+      margin: 0 $menu-grid-item-margin $menu-grid-gap;
+      a {
+        position: initial;
+      }
+      .card.image {
+        .card-content {
+          padding: $menu-grid-gap 0;
+          font-size: 1.25rem;
+          font-family: $quire-primary-font;
+        }
+        img {
+          max-height: 1.25in;
+          width: auto;
+        }
+      }
+    }
+    .section-item {
+      width: 100%;
+      border-bottom: 1px solid $print-text-color;
+      margin-bottom: .25in;
+    }
+  }    
+  
+// Entry image pages
+// -----------------------------------------------------------------------------
+  $print-entry-image-width: $print-width - $print-inner-margin - $print-outer-margin;
+  $print-entry-image-height: $print-height - $print-top-margin - $print-bottom-margin;
+  $print-entry-image-max-height: $print-entry-image-height - 1in;
+  
+  .quire-entry__image & figure {
+    display: flex;
+    flex-direction: column;
+    height: $print-entry-image-height;
+    margin-bottom: .5in;
+    @if $print-entry-image-display == first {
+      display: none;
+      &:first-of-type {
+        display: block;
+      }
+    }
+    break-after: page;    
+    .quire-figure__media-fallback {
+      .quire-figure__wrapper {
+        width: auto;
+        height: auto;
+      }
+      img {
+        max-width: $print-entry-image-width;
+        max-height: $print-entry-image-max-height;
+        margin: 0 auto;
+        object-fit: contain;
+        display: block;
+      }
+    }
+  }
+  
+// Improve page and line breaks
+// -----------------------------------------------------------------------------
+  html body * {
+    orphans: 2;
+    widows: 2;
+  }
+  
+  // Use PrinceXML prince-text-replace to insert zero-width-spaces in URLs
+  // that are printed in the text of the book, in order to facilitate better
+  // line breaking per Chicago Manual of Style
+  // https://www.chicagomanualofstyle.org/book/ed17/part3/ch14/psec018.html
+  a[target=_blank] {
+    prince-text-replace: "/" "\200B/"
+                          "~" "\200B~"
+                          "." "\200B."
+                          "," "\200B,"
+                          "-" "\200B-"
+                          "_" "\200B_"
+                          "?" "\200B?"
+                          "#" "\200B#"
+                          "%" "\200B%"
+                          "=" "\200B="
+                          "&" "\200B&"
+                          "+" "\200B+"
+                          ":" "\200B:"
+                          "\200B/\200B/" "//\200B"
+                          "\200B:\200B:" "\200B::";
+  }
+  
+  // Same method as above but to improve breaks around em-dashes
+  html body * {
+    prince-text-replace: "—" "—\200B";
+  }
+  
+  // For contributor bio lists/pages
+  .quire-contributor .title {
+    page-break-after: avoid;
+  }
+  .quire-contributor .media {
+    page-break-before: avoid;
+    page-break-inside: auto;
+  }
+  
+// Better list defaults and custom bullet alignment
+// -----------------------------------------------------------------------------
+  .quire-page__content .container .content ul {
+    margin-left: 1rem;
+  }
+  .quire-page__content .container .content ul li:before {
+    margin-top: .15em;
+    font-size: 7pt;
+  }
+  .quire-page__content .container .content hr:after {
+    font-size: 7pt;
+  }
+  
+// Globally hidden elements
+// -----------------------------------------------------------------------------
+  html body {
+    .button,
+    .input,
+    .textarea,
+    .select,
+    .visually-hidden,
+    .footnote-return,
+    .footnote-backref,
+    .is-screen-only,
+    .remove-from-epub {
+      display: none;
+    }
+    
+    // Leaflet
+    .leaflet-pane,
+    .leaflet-map-pane,
+    .leaflet-container,
+    .lvml {
+      display: none !important;
+    }
+  }
+
+// Title Page and Half Title Page
+// -----------------------------------------------------------------------------
+  .fullPageBreak {
+    break-after: region;
+    height: $print-height;
+    width: $print-width;
+  }
+  
+  $title-page-margin: $print-outer-margin + .5;
+
+  .title-page {
+    margin: 0 $print-bleed;
+    padding-right: $title-page-margin;
+    padding-left: $print-inner-margin;
+    height: $print-height;
+    @if $print-width <= 7 {
+      padding-right: $print-outer-margin;
+    }
+    text-align: right;
+    padding-top: 3.25in;
+    @if $print-height <= 9 {
+      padding-top: 2.25in;
+    }
+    font-family: $quire-headings-font;
+
+    span {
+      display: block;
+    }
+
+    .title-tp {
+      font-size: 4em;
+      font-weight: 700;
+      color: $accent-color;
+      line-height: 1.1;
+      margin-bottom: .3em;
+    }
+
+    .sub-title {
+      font-size: 2.5em;
+      line-height: 1.3;
+    }
+
+    .contributor {
+      font-size: 1.75em;
+      margin-top: .125in;
+      .quire-contributor {
+        display: inline;
+      }
+    }
+
+    .publisher {
+      font-size: 1.5em;
+      text-transform: uppercase;
+      letter-spacing: 1pt;
+      position: fixed;
+      bottom: 1.5in;
+      right: $title-page-margin;
+      @if $print-width <= 7 {
+        right: $print-outer-margin;
+      }
+    }
+    
+    br {
+      display: none;
+    }
+  }
+
+  .half-title-page {
+    margin: 0 $print-bleed;
+    padding-right: $title-page-margin;
+    padding-left: $print-inner-margin;
+    height: $print-height;
+    @if $print-width <= 7 {
+      padding-right: $print-outer-margin;
+    }
+    font-family: $quire-headings-font;
+    font-size: 1.5em;
+    color: $accent-color;
+    text-align: right;
+    padding-top: 3.5in;
+    @if $print-height <= 9 {
+      padding-top: 2.5in;
+    }
+
+    span {
+      display: block; 
+    }
+
+    .title-htp {    
+      font-weight: 700;
+    }
+
+    .sub-title {
+      display: none;
+    }
+  }
+
+}

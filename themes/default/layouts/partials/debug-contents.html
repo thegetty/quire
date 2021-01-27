@@ -1,0 +1,8 @@
+<ul>
+  <li><strong>[ kind: type ] Title URL</strong></li>
+  {{ range where .Site.Pages.ByWeight "Params.weight" ">=" 0 }}
+  <li>
+    [{{ .Kind }}{{ with .Params.Type }}: {{ .}}{{ end }}] {{ .Title }} {{ .URL }}
+  </li>
+  {{ end }}
+</ul>

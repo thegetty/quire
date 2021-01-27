@@ -1,0 +1,5 @@
+{{- $js := "js/application.js" | relURL -}}
+{{- $jsCustom := "js/custom.js" | relURL -}}
+<script type="text/javascript"> var figureModal ={{ .figureModal }}</script>
+<script src="{{ $js }}"></script>
+<script src="{{ $jsCustom }}"></script>

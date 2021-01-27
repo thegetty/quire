@@ -1,0 +1,20 @@
+{{/* Adds info to use in PrinceXML running page footers ------ */}}
+
+{{/* Get the Section’s landing page title if one exists */}}
+{{/* ---------------------------------------------------------------------- */}}
+{{- if .Section -}}
+  {{- range where $.Site.Pages "Section" .Section -}}
+    {{- if eq .Slug "." -}}
+        {{ $.Scratch.Set "sectionTitle" .Title }}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* Add info to page in hidden DIV */}}
+{{/* ---------------------------------------------------------------------- */}}
+<div style="display: none">
+  <span class="pdf-page-title">
+    {{ with .Params.label }}{{ . }}{{ $.Site.Params.pageLabelDivider }}{{ end }}{{ if .Params.short_title }}{{ .Params.short_title | markdownify }}{{ else }}{{ .Title | markdownify | truncate 35 }}{{ end }}</span>
+  <span class="pdf-page-section">{{ if ne ($.Scratch.Get "sectionTitle") "" }}{{ $.Scratch.Get "sectionTitle" }}{{ else }}{{ .Section | humanize }}{{ end }}</span>
+</div>
+{{- $.Scratch.Delete "sectionTitle" -}}

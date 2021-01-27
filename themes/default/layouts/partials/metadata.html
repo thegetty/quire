@@ -1,0 +1,27 @@
+<meta name="description" content="{{ if .Site.Data.publication.description.one_line }}{{ .Site.Data.publication.description.one_line }}{{ else }}{{ with .Site.Data.publication.description.full }}{{ . | truncate 160 }}{{ end }}{{ end }}">
+  <meta name="keywords" content="{{ if .Site.Data.publication.subject }}{{ range $index, $element := where .Site.Data.publication.subject "type" "keyword" }}{{ $len := len . -}}{{ .name }}{{ if ne $index (sub $len 1) }}, {{ else }}{{ end }}{{ end }}{{ end }}">
+  <link rel="canonical" href="{{ .Permalink | relURL }}">
+  <link rel="version-history" href="{{ .Site.Data.publication.repository_url }}">
+  {{ if .Site.Data.publication.publisher -}}
+  {{- range .Site.Data.publication.publisher -}}
+  {{- with .url -}}
+  <link rel="publisher" href="{{ . | relURL }}">
+  {{ end -}}
+  {{ end -}}
+  {{ end -}}
+  {{ if .Site.Data.publication.contributor -}}
+  {{ range where .Site.Data.publication.contributor "type" "primary" -}}
+  {{  with .url -}}
+  <link rel="author" href="{{ . | relURL }}">
+  {{ end -}}
+  {{ end -}}
+  {{ range where .Site.Data.publication.contributor "type" "secondary" -}}
+  {{  with .url -}}
+  <link rel="author" href="{{ . | relURL }}">
+  {{ end -}}
+  {{ end -}}
+  {{ end -}}
+  {{- partial "dublin-core.html" . -}}
+  {{- partial "open-graph.html" . -}}
+  {{- partial "twitter-card.html" . -}}
+  {{- partial "json-ld.html" . -}}

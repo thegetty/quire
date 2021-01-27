@@ -1,0 +1,327 @@
+{{/*
+
+  The q-contributor shortcode can be used to create a page of contributor
+  biographies, a section of bios for a single page, a list of contributors,
+  or a byline for a particular page.
+
+  This shortcode requires both a "range" and a "format" value. An optional 
+  "align" value can also be used for all formats except "bio", on which it
+  has no effect.
+
+  range         "page", "all", or an abritray value matching a contributor 
+                `type` such as "primary" or "secondary"
+  format        "initials", "name", "name-title", "name-title-block", "bio"
+  align         "left" (default), "center", "right"
+  
+  
+  "initials"          Looks for the capital letters in a contributor first 
+                      and last name and concatenates them together. Jane 
+                      Pauley, becomes J.P. Ralph Waldo Emerson becomes R.W.E.
+  "name"              Just the first and last name.
+  "name-title"        The first and last name, with, when available, their title
+                      and affiliation.
+  "name-title-block"  As above but with the title and affiliation on new lines 
+                      below the name.           
+  "bio"                Name, with pic, url, and bio.
+
+  Following the standard error message checks, in the first part of the
+  template below, creates a list of the requested contributors using the 
+  contirbutor-info.html partial, creating a sorted list of contributor names 
+  and information: a "contributorlist" map.
+
+  The second half of the template takes the "contributorlist" map and ranges
+  across it building the HTML as called for in the format value ("initials",
+  "name", "name_plus", or "bio").
+
+  NOTES:
+
+  Users can use a file_as value to control sort order. Otherwise lists are
+  sorted alphabetically by last_name. If you wanted, for example, a list of
+  essay contributors ordered in the way they are ordered in the page yaml, you
+  could assign a numeric file_as value to each. 1, 2, 3 etc. Note though that
+  this file_as override will cary over to other uses of the shortcode. For
+  example, a complete list of contributors at the end of a volume of collected
+  papers.
+
+  Contributors with the same exact name will override eachother. But using
+  a file_as value would fix this, and that value wouldn't show up in the
+  interface. For example if there are two Jane Smiths, assigning a file_as
+  value of "Smith, Jane 1" to one and "Smith, Jane 2" will sort them in that
+  order, but there names would still be listed as Jane Smith.
+
+*/}}
+
+{{/* Error messages */}}
+{{/* ---------------------------------------------------------------------- */}}
+{{ $errorRange := dict "shortcode" "q-contributor" "message" "This shortcode must include a value for `range`, and the supplied value for `range` may be “all”, “page”, or a specific contributor `type` such as “primary” ." "example" "{{< q-contributor range=&#34;all&#34; format=&#34;bio&#34; >}}" }}
+
+{{ $errorFormat := dict "shortcode" "q-contributor" "message" "This shortcode must include a value for `format`, and the supplied value for `format` must be  “initials”, “name”, “name-title”, “name-title-block”, or “bio”." "example" "{{< q-contributor range=&#34;all&#34; format=&#34;bio&#34; >}}" }}
+
+{{ $errorUpdate := dict "shortcode" "q-contributor" "message" "THIS SHORTCODE HAS BEEN UPDATED. Rather than using `type` please specify a `format`. The values that can be supplied as a `format` remain the same as they were for `type`: “initials”, “name”, “name-title”, “name-title-block”, or “bio”." "example" "{{< q-contributor range=&#34;all&#34; format=&#34;bio&#34; >}}" }}
+
+{{/* Image directory */}}
+{{/* ---------------------------------------------------------------------- */}}
+{{ if isset $.Site.Params "imagedir" }}
+{{ $.Scratch.Set "imageDir" $.Site.Params.imageDir }}
+{{ else }}
+{{ $.Scratch.Set "imageDir" "" }}
+{{ end }}
+
+{{/* Clear previous usage */}}
+{{/* ---------------------------------------------------------------------- */}}
+{{ if ne ($.Page.Scratch.Get "contributorList") "" }}
+{{ $.Page.Scratch.Delete "contributorlist" }}
+{{ end }}
+
+{{/* Contributor range variables */}}
+{{/* ---------------------------------------------------------------------- */}}
+{{ $listRange := $.Get "range" }}
+
+{{ if eq ($.Get "range") "" }}
+{{- partial "error-message.html" $errorRange -}}
+{{ end }}
+
+{{ $rangeAll := .Site.Pages }}
+{{ $rangePage := (where .Site.Pages "File.UniqueID" .Page.File.UniqueID) }}
+{{ $rangeType := (where .Site.Data.publication.contributor "type" $listRange) }}
+
+{{- if eq $listRange "all" -}}
+  {{- $.Scratch.Add "range" $rangeAll -}}
+{{- else if eq $listRange "page" -}}
+  {{- $.Scratch.Add "range" $rangePage -}}
+{{- else -}}
+  {{- $.Scratch.Add "range" $rangeType -}}
+{{- end -}}
+
+
+{{/* Contributor info */}}
+{{/* ---------------------------------------------------------------------- */}}
+{{/* ---------------------------------------------------------------------- */}}
+
+{{/* Assign single page of contributors */}}
+{{/* ---------------------------------------------------------------------- */}}
+{{- if eq $listRange "page" -}}  
+  {{- $.Scratch.Add "pageRange" (where .Site.Pages "File.UniqueID" .Page.File.UniqueID) -}}
+  
+{{/* Assign all pages of contributors */}}
+{{/* ---------------------------------------------------------------------- */}}
+{{- else -}}
+  {{- $.Scratch.Add "pageRange" .Site.Pages -}}
+  
+  {{/* Also get all contributors listed in publication.yml */}}
+  {{/* -------------------------------------------------------------------- */}}
+  {{- range .Site.Data.publication.contributor -}}
+    {{ if eq ($.Get "range") "all" }}
+      {{ partial "contributor-info.html" (dict "Page" $.Page "contributor" . ) }}
+    {{- else -}}
+      {{ if eq .type ($.Get "range") }}
+      {{ partial "contributor-info.html" (dict "Page" $.Page "contributor" . ) }}
+      {{- end -}} 
+    {{- end -}}
+  {{- end -}}
+
+{{- end -}}
+
+{{/* Range through assigned pages */}}
+{{/* ---------------------------------------------------------------------- */}}
+{{- range ($.Scratch.Get "pageRange") -}}
+
+  {{- range $index, $element := .Params.contributor -}}
+    
+    {{/* Page contributors listed in page YAML with an ID */}}
+    {{/* ------------------------------------------------------------------ */}}
+    {{ if .id }}
+      {{ range where $.Site.Data.publication.contributor "id" .id }}
+        {{/* Get all contributors on the page */}}
+        {{/* -------------------------------------------------------------- */}}
+        {{ if eq ($.Get "range") "page" }}
+          {{ partial "contributor-info.html" (dict "Page" $.Page "contributor" . "index" (string $index)) }}
+        {{ else if eq ($.Get "range") "all" }}
+          {{ partial "contributor-info.html" (dict "Page" $.Page "contributor" . ) }}  
+        {{- else -}}
+          {{/* Or, match contributors of desired type */}}
+          {{/* ------------------------------------------------------------ */}}
+          {{ if eq .type ($.Get "range") }}
+          {{ partial "contributor-info.html" (dict "Page" $.Page "contributor" . ) }}
+          {{- end -}}  
+        {{- end -}}
+      {{- end -}}
+
+    {{/* Page contributors listed in page YAML */}}
+    {{/* ------------------------------------------------------------------ */}}
+    {{- else -}}
+      {{/* Get all contributors on the page */}}
+      {{/* ---------------------------------------------------------------- */}}
+      {{ if eq ($.Get "range") "page" }}
+        {{ partial "contributor-info.html" (dict "Page" $.Page "contributor" . "index" (string $index)) }}
+      {{ else if eq ($.Get "range") "all" }}
+        {{ partial "contributor-info.html" (dict "Page" $.Page "contributor" . ) }}  
+      {{- else -}}
+        {{/* Or, match contributors of desired type */}}
+        {{/* -------------------------------------------------------------- */}}
+        {{ if eq .type ($.Get "range") }}
+        {{ partial "contributor-info.html" (dict "Page" $.Page "contributor" . ) }}
+        {{- end -}} 
+      {{- end -}}
+    {{- end -}}
+    
+  {{- end -}}
+  
+{{- end -}}
+
+
+{{/* List variables */}}
+{{/* ---------------------------------------------------------------------- */}}
+{{ $listFormat := $.Get "format" }}
+
+
+
+{{/* List layout: Bio */}}
+{{/* ---------------------------------------------------------------------- */}}
+{{- if eq $listFormat "bio" -}}
+<ul class="quire-contributors-list {{ $listFormat }}">
+{{- range ($.Page.Scratch.GetSortedMapValues "contributorlist") -}}
+{{- $nameid := anchorize (index . 0) -}}
+
+  <li class="quire-contributor" id="{{ $nameid }}">
+    <div class="title is-5"><span class="quire-contributor__name">{{ (index . 0) }}</span> 
+      {{ if ne (index . 4) "n/a" }}
+      <a href="{{ index . 4 | relURL }}" class="quire-contributor__url" target="_blank">
+      {{- partial "icon.html" (dict "type" "link" "description" "") -}}</a>
+      {{- end -}}
+    </div>
+
+    <div class="media">
+
+
+    <div class="quire-contributor__details media-content">
+      
+      {{- if ne (index . 5) "n/a" -}}
+      <div class="media-left">
+        <img class="image quire-contributor__pic"
+            src='{{ with index . 5 }}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
+            alt="Picture of {{ index . 0 }}"/>
+      </div>
+      {{- end -}}
+      <div class="quire-contributor__bio">
+        {{ if ne (index . 3) "n/a" }}{{ markdownify (index . 3) }}{{ end }}
+      </div>
+      
+      {{ if ne $listRange "page" }}
+      
+      {{ range $.Site.Pages }}
+        {{- $pagelabel := .Params.label -}}
+        {{- $labeldivider := $.Site.Params.pageLabelDivider -}}
+        {{- $pagetitle := .Params.title -}}
+        {{- $pagesubtitle := .Params.subtitle -}}
+        {{- $pagelink := .Permalink -}}
+        
+        {{ range .Params.contributor }}            
+          {{- if .id -}}
+            {{ range where $.Site.Data.publication.contributor "id" .id }}
+              {{ template "contribution" (dict "page" $.Page "person" . "nameId" $nameid "pageLabel" $pagelabel "labelDivider" $labeldivider "pageTitle" $pagetitle "pageSubtitle" $pagesubtitle "pageLink" $pagelink) }}
+            {{- end -}}
+          {{- else -}}
+            {{ template "contribution" (dict "page" $.Page "person" . "nameId" $nameid "pageLabel" $pagelabel "labelDivider" $labeldivider "pageTitle" $pagetitle "pageSubtitle" $pagesubtitle "pageLink" $pagelink) }}
+          {{- end -}}
+        {{- end -}}
+        
+      {{- end -}}
+      
+      {{- end -}}
+      </div>
+    </div>
+  </li>
+{{- end -}}
+</ul>
+
+{{/* List layout: Name, name-title */}}
+{{/* ---------------------------------------------------------------------- */}}
+{{- else if or (or (eq $listFormat "name") (eq $listFormat "name-title")) (eq $listFormat "name-title-block") -}}
+<ul class="quire-contributors-list {{ $listFormat }} {{ with ($.Get "align") }}align-{{ . }}{{ end }}">
+{{- range ($.Page.Scratch.GetSortedMapValues "contributorlist") -}}
+{{- $nameid := anchorize (index . 0) -}}
+  <li class="quire-contributor" id="{{ $nameid }}">
+      <span class="quire-contributor__name">{{ index . 0 }}</span>
+      {{- if or (eq ($.Get "format") "name-title") (eq ($.Get "format") "name-title-block") -}}
+    
+      {{- if ne ($.Get "format") "name-title-block" -}}
+      {{- if or (ne (index . 1) "n/a") (ne (index . 2) "n/a") }}, {{ end -}}
+      {{- end -}}
+      
+      {{- if ne (index . 1) "n/a" -}}
+      <span class="quire-contributor__title">{{ index . 1 }}</span>
+      {{- end -}}
+      
+      {{- if ne ($.Get "format") "name-title-block" -}}
+      {{- if and (ne (index . 1) "n/a") (ne (index . 2) "n/a") }}, {{ end -}}
+      {{- end -}}
+      
+      {{- if ne (index . 2) "n/a" -}}
+      <span class="quire-contributor__affiliation">{{ index . 2 }}</span>
+      {{- end -}}
+    {{- end -}}
+  </li>
+{{- end -}}
+</ul>
+
+{{/* List layout: Initials */}}
+{{/* ---------------------------------------------------------------------- */}}
+{{- else if eq $listFormat "initials" -}}
+<ul class="quire-contributors-list {{ $listFormat }} {{ with ($.Get "align") }}align-{{ . }}{{ end }}">
+  {{- if ($.Page.Scratch.GetSortedMapValues "contributorlist") -}}
+  {{- $len := len ($.Page.Scratch.GetSortedMapValues "contributorlist") -}}
+  {{- if gt $len 0 -}}
+
+    {{- $len := len ($.Page.Scratch.GetSortedMapValues "contributorlist") -}}
+    {{- range $index, $element := ($.Page.Scratch.GetSortedMapValues "contributorlist") -}}
+      {{- $initials := findRE "[[:upper:]]" (index . 0) -}}
+      {{- if eq $len 1 -}}
+      <li class="quire-contributor__name">{{ range $initials }}{{ . }}.{{ end }}</li>
+      {{- else if eq (add $index 1) $len -}}
+      <li class="quire-contributor__name"> and {{ range $initials }}{{ . }}.{{ end }}</li>
+      {{- else -}}
+        {{- if eq $len 2 -}}
+          <li class="quire-contributor__name">{{ range $initials }}{{ . }}.{{ end }} </li>
+        {{- else -}}
+          <li class="quire-contributor__name">{{ range $initials }}{{ . }}.{{ end }}, </li>
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+
+  {{- end -}}
+  {{- end -}}
+</ul>
+{{- else if and (eq $listFormat "") (ne ($.Get "type") "") }}
+
+  {{- partial "error-message.html" $errorUpdate -}}
+
+{{- else -}}
+
+  {{- partial "error-message.html" $errorFormat -}}
+
+{{- end -}}
+
+
+{{ define "contribution" }}
+
+{{- if .person.full_name }}
+  {{ $name := .person.full_name }}
+  {{ .page.Scratch.Set "name" $name }}
+{{ else if and .person.first_name .person.last_name }}
+  {{ $name := add (add .person.first_name " ") .person.last_name }}
+  {{ .page.Scratch.Set "name" $name }}
+{{- end -}}
+{{- $checkid := anchorize (.page.Scratch.Get "name") -}}
+{{ if eq $checkid .nameId }}
+<p class="quire-contributor__page-link">
+  <a href="{{ .pageLink | relURL }}">
+    {{ $pagetitle := .pageTitle }}
+    {{ if .pageLabel }}{{ .pageLabel }}{{ .labelDivider }}{{ end }}
+    {{ markdownify $pagetitle }}{{ with .pageSubtitle }}{{- $endPunctuation := findRE "[!|?]$" $pagetitle -}}{{ if $endPunctuation }} {{ else }}: {{ end }}{{ markdownify . }}{{ end }}
+  </a>
+</p>
+{{- end -}}
+{{ .page.Scratch.Delete "name" }}
+
+{{ end }}

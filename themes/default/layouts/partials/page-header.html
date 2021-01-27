@@ -1,0 +1,22 @@
+{{- if isset $.Site.Params "imagedir" }}
+{{ $.Scratch.Set "imageDir" $.Site.Params.imageDir }}
+{{ else }}
+{{ $.Scratch.Set "imageDir" "" }}
+{{ end -}}
+<section class="{{ if or (eq .Title "title page") (eq .Title "half title page") }} is-screen-only {{ end }} quire-page__header hero">
+  <div class="hero-body">
+    {{/* Page Title */}}
+    <h1 class="quire-page__header__title" id="{{ .Title | urlize }}">
+      {{- with .Params.label }}<span class="label">{{ . }}<span class="visually-hidden">{{ $.Site.Params.pageLabelDivider }}</span></span>{{ end -}}
+      {{- partial "page-title.html" . | markdownify -}}
+    </h1>
+    {{/* Contributors, if any */}}
+    {{ partial "page-contributor.html" . }}  
+  </div>
+</section>
+
+{{- if .Params.image -}}
+{{- $imgPath := printf "%s/%s" ($.Scratch.Get "imageDir") .Params.image -}}
+  <section class="{{ if or (eq .Title "title page") (eq .Title "half title page") }} is-screen-only {{ end }} quire-page__header hero__image" style="background-image: url('{{ $imgPath | relURL }}');">
+  </section>
+{{- end -}}

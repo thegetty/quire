@@ -1,0 +1,41 @@
+{{/*
+  Table of Contents (TOC) page template. Page content from the markdown will
+  appear in the .Content outlet below. The Table of Contents list will appear
+  below that. It is scoped to show the contents of the full site. Pages can be
+  removed from the TOC indivudally by adding "toc: false" to the page yaml.
+*/}}
+
+{{ define "main" }}
+<div class="{{ partial "page-class.html" . }} quire-contents" id="main" role="main">
+  {{ partial "page-header.html" . }}
+  
+  <section class="section quire-page__content" id="content">
+    
+    {{- if .Content -}}
+      <div class="container">
+        <div class="content">
+          {{ .Content }}
+        </div>
+      </div>
+    {{- end -}}
+    
+    <div class="container {{ if in .Params.class "grid" }}is-fullhd{{ end }}">
+      <div class="quire-contents-list {{ if in .Params.class "grid" }} grid{{ else if in .Params.class "abstract" }} abstract{{ else if in .Params.class "brief" }} brief{{ else }} list{{ end }}">
+        <div class="menu-list">
+          {{ if .Section }}
+            {{ $scope := where .Site.Pages "Section" .Section }}
+            {{- partial "contents-list.html" (dict "site" .Site "contentsScope" $scope "contentsType" .Site.Params.tocType "pdf" ".Params.pdf" "epub" ".Params.epub" "contentsLocation" ".Params.toc" "contentsPage" . ) -}}
+          {{ else }}
+            {{ $scope := .Site.Pages }}
+            {{- partial "contents-list.html" (dict "site" .Site "contentsScope" $scope "contentsType" .Site.Params.tocType "pdf" ".Params.pdf" "epub" ".Params.epub" "contentsLocation" ".Params.toc" "contentsPage" . ) -}}
+          {{ end }}
+        </div>
+        <div class="content">
+          {{ partial "page-bibliography.html" . }}
+        </div>
+      </div>
+      {{ partial "footer-buttons.html" . }}
+    </div>
+  </section>
+</div>
+{{ end }}

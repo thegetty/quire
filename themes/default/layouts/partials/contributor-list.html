@@ -1,0 +1,102 @@
+{{/*
+
+  A simple partial to create a list of contributor names. Looks first for
+  .full_name and otherwise combines first and last. Expects three values to be
+  passed in:
+
+  range             The range of contributors for the list. For example,
+                    .Site.Data.publication.contributor or .Params.contributor
+
+  contributorType   Can be "primary", "secondary", "project-team", or "all"
+
+  listType          Can be "string", "list", "list-plus". "string" creates a
+                    list of names with proper "and" or "," connectors. "list"
+                    creates and unordered list of names, and "list-plus" adds
+                    titles and affiliations when available.
+
+  Site              Usually just $.Site. Used to pass in context in order to
+                    grab contributor info from .Site.Data.publication by ID.
+
+  EXAMPLE PARTIAL USE:
+  partial "contributor-list.html" (dict "range" .Params.contributor "contributorType" "primary" "listType" "string" "Site" $.Site)
+
+*/}}
+
+{{ $contributors := "" }}
+
+{{ if eq .contributorType "all" }}
+  {{ $contributors = .range }}
+{{ else }}  
+  {{ $contributors = where .range "type" .contributorType }}
+{{ end }}
+
+{{- if ne $contributors nil }}
+
+  {{- if eq .listType "string" }}
+
+    {{- $len := len $contributors -}}
+    {{- range $index, $element := $contributors -}}
+      {{- if eq $len 1 -}}
+        <span class="quire-contributor">{{ template "name-check" (dict "Site" $.Site "contributor" .) }}</span>
+      {{- else if eq (add $index 1) $len -}}
+        <span class="quire-contributor"> and {{ template "name-check" (dict "Site" $.Site "contributor" .) }}</span>
+      {{- else -}}
+        {{- if eq $len 2 -}}
+          <span class="quire-contributor">{{ template "name-check" (dict "Site" $.Site "contributor" .) }} </span>
+        {{- else -}}
+          <span class="quire-contributor">{{ template "name-check" (dict "Site" $.Site "contributor" .) }}, </span>
+        {{- end -}}
+      {{- end -}}
+    {{- end }}
+
+  {{- else if eq .listType "list" }}
+
+    <ul>
+      {{- range $contributors -}}
+        <li class="quire-contributor">{{ template "name-check" (dict "Site" $.Site "contributor" .) }}</li>
+      {{- end }}
+    </ul>
+
+  {{- else if eq .listType "list-plus" }}
+
+    <ul>
+      {{- range $contributors -}}
+        <li class="quire-contributor">
+          {{- template "name-check" (dict "Site" $.Site "contributor" .) -}}
+          {{- if or .title .affiliation -}}
+            {{- template "title" . -}}
+          {{- else if .id }}
+            {{- range where $.Site.Data.publication.contributor "id" .id -}}
+            {{- template "title" . -}}
+            {{- end -}}
+          {{- end -}}
+        </li>
+      {{- end }}
+    </ul>
+
+  {{- end }}
+
+{{- end }}
+
+{{- define "name-check" -}}
+  {{- if or .contributor.full_name (and .contributor.first_name .contributor.last_name) -}}
+    {{- template "name" .contributor -}}
+  {{- else if .contributor.id -}}
+    {{- range where $.Site.Data.publication.contributor "id" .contributor.id }}{{ template "name" . }}{{ end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- define "name" -}}
+  {{- if .full_name -}}
+    {{ .full_name }}
+  {{- else -}}
+    {{ .first_name }} {{ .last_name }}
+  {{- end -}}
+{{- end -}}
+
+{{- define "title" -}}
+  {{- if or .title .affiliation}}, {{ end -}}
+  {{- with .title }}<span class="quire-contributor__title">{{ . }}</span>{{ end -}}
+  {{- if and .title .affiliation }}, {{ end -}}
+  {{- with .affiliation }}<span class="quire-contributor__affiliation">{{ . }}</span>{{ end -}}
+{{- end -}}

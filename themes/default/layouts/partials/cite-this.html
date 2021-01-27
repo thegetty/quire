@@ -1,0 +1,348 @@
+{{/*
+    Template for the "Cite this Page" feature. Called as a
+    partial, such as:
+
+    partial "cite-this.html" (dict "page" . "site" .Site "type" "chicago" "range" "page")
+
+    Can accept "chicago" or "mla" as a type
+
+    Can accept "page" or "site" as a range
+
+    Follows standard of using "et al" for more than ten
+    authors in Chicago citations, and more than two authors
+    in MLA citations.
+
+    ***Note***
+    Edit this template with care as it is easy to introduce stray spaces occuring around punctuation.
+*/}}
+
+{{ $citationType := .type }}
+{{ $citationRange := .range }}
+
+{{- $endPunctuation := findRE "[!|?]$" .site.Data.publication.title -}}
+{{ $seriesStartNumber := findRE "^[0-9]" .site.Data.publication.number_in_series }}
+
+{{ $siteAuthorCount := "" }}
+{{ $siteEditorCount := "" }}
+
+{{ $siteAuthorCount = len (where .site.Data.publication.contributor "type" "primary") }}
+{{ if ne $siteAuthorCount 0 }}
+{{ $siteEditorCount = len (where .site.Data.publication.contributor "role" "editor") }}
+{{ end }}
+
+
+{{/* ------------  CHICAGO ------------ */}}
+{{- if eq $citationType "chicago" -}}
+
+  {{- if eq $citationRange "page" -}}
+
+    {{ if .page.Params.contributor }}{{ template "page-contributors-chicago" .page }}. {{ end }}{{ if .page.Title }}“{{ partial "page-title.html" .page }}.” {{ else if .page.Params.label }}“{{ .page.Params.label }}.” {{ else }}Untitled. {{ end }}In <em>{{ partial "site-title.html" .page }}</em>{{ if gt $siteAuthorCount 0 }}, {{ if gt $siteEditorCount 0 }}edited {{ end }}by {{ template "publication-contributors-chicago" .page }}{{ end }}. {{ template "publishers-chicago" (dict "site" .site)}}{{ with .site.Data.publication.pub_date }}, {{ dateFormat "2006" . }}{{ end }}. <span class="url-string">{{ if .site.Data.publication.identifier.url }}{{ .site.Data.publication.identifier.url }}{{ .page.RelPermalink }}{{ else }}{{ .page.Permalink }}{{ end }}</span>.
+
+  {{- else if eq $citationRange "site" -}}
+
+    {{ template "publication-contributors" (dict "page" .page "Site" .site "type" $citationType) }}. <em>{{ .site.Data.publication.title }}{{ with .site.Data.publication.subtitle }}{{ if $endPunctuation }} {{ else }}: {{ end }}{{ . }}{{ end }}</em>. {{ if .site.Data.publication.series }}{{ .site.Data.publication.series }}{{ with .site.Data.publication.number_in_series }}{{ if $seriesStartNumber }} {{ else }}, {{ end }}{{ . }}{{ end }}.{{ end }} {{ template "publishers-chicago" (dict "site" .site) }}{{ with .site.Data.publication.pub_date }}, {{ dateFormat "2006" . }}{{ end }}.{{ with .site.Data.publication.identifier.url }} <span class="url-string">{{ . }}</span>.{{ end }}
+
+  {{- end -}}
+
+{{/* ------------  MLA ------------ */}}
+{{- else if eq $citationType "mla" -}}
+
+  {{- if eq $citationRange "page" -}}
+
+    {{ if .page.Params.contributor }}{{ template "page-contributors-mla" .page }}. {{ end }}{{ if .page.Title }}“{{ partial "page-title.html" .page }}.” {{ else if .page.Params.label }}“{{ .page.Params.label }}.” {{ else }}Untitled. {{ end }}<em>{{ partial "site-title.html" .page }}</em>{{ if gt $siteAuthorCount 0 }}, {{ if gt $siteEditorCount 0 }}edited {{ end }}by {{ template "publication-contributors-mla" .page }}{{ end }}. {{ template "publishers-mla" (dict "site" .site)}}{{ with .site.Data.publication.pub_date }}, {{ dateFormat "2006" . }}{{ end }}. <span class="url-string">{{ if .site.Data.publication.identifier.url }}{{ .site.Data.publication.identifier.url }}{{ .page.RelPermalink }}{{ else }}{{ .page.Permalink }}{{ end }}</span>. Accessed <span class="cite-current-date">DD Mon. YYYY</span>.
+
+  {{- else if eq $citationRange "site" -}}
+
+    {{ template "publication-contributors" (dict "page" .page "Site" .site "type" $citationType) }}. <em>{{ .site.Data.publication.title }}{{ with .site.Data.publication.subtitle }}{{ if $endPunctuation }} {{ else }}: {{ end }}{{ . }}{{ end }}.</em> {{ if .site.Data.publication.series }}{{ .site.Data.publication.series }}{{ with .site.Data.publication.number_in_series }}{{ if $seriesStartNumber }} {{ else }}, {{ end }}{{ . }}{{ end }}.{{ end }} {{ template "publishers-mla" (dict "site" .site) }}{{ with .site.Data.publication.pub_date }}, {{ dateFormat "2006" . }}{{ end }}. {{ with .site.Data.publication.identifier.url }}<span class="url-string">{{ . }}</span>{{ end }}. Accessed <span class="cite-current-date">DD Mon. YYYY</span>.
+
+  {{- end -}}
+
+{{- end -}}
+
+
+{{- define "page-contributors-mla" -}}
+{{- if .Page.Params.contributor -}}
+  {{- $len := len .Page.Params.contributor -}}
+  {{- range $index, $element := .Page.Params.contributor -}}
+    {{- if and (eq $len 1) (eq $index 0) -}}
+    {{ template "contrib-name-reverse-last" (dict "site" $.Site "page" . )}}
+    {{- else if eq $index 0 -}}
+    {{ template "contrib-name-reverse" (dict "site" $.Site "page" . )}}
+    {{- else -}}
+    {{- if eq $len 2 }}, and {{ template "contrib-name-last" (dict "site" $.Site "page" . )}}{{ end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if gt $len 2 }}, et al{{ end -}}
+{{- end -}}
+{{- end -}}
+
+{{- define "publication-contributors-mla" -}}
+  {{- $len := len (where $.Site.Data.publication.contributor "type" "primary") -}}
+  {{- range $index, $element := (where $.Site.Data.publication.contributor "type" "primary") -}}
+    {{ if eq $index 0 }}
+    {{ template "contrib-name" (dict "site" $.Site "page" . )}}
+    {{- else -}}
+    {{- if eq $len 2 }} and {{ template "contrib-name-last" (dict "site" $.Site "page" . )}}{{ end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if gt $len 2 }}, et al{{ end -}}
+{{- end -}}
+
+{{- define "page-contributors-chicago" -}}
+{{- if .Page.Params.contributor -}}
+  {{- $len := len .Page.Params.contributor -}}
+  {{- range $index, $element := .Page.Params.contributor -}}
+    {{- if and (eq $len 1) (eq $index 0) -}}
+    {{ template "contrib-name-reverse-last" (dict "site" $.Site "page" . )}}{{- else if eq $index 0 -}}
+    {{ template "contrib-name-reverse" (dict "site" $.Site "page" . )}}, {{ end -}}
+
+    {{- if or (and (eq $len 2) (eq $index 1)) (and (eq $len 3) (eq $index 2)) -}}
+    and {{ template "contrib-name-last" (dict "site" $.Site "page" . )}}
+    {{- end -}}
+
+    {{- if or (and (gt $len 2) (eq $index 1)) (and (gt $len 3) (eq $index 2)) -}}
+    {{ template "contrib-name" (dict "site" $.Site "page" . )}}, {{ end -}}
+  {{- end -}}
+
+  {{- if gt $len 3 -}}
+  et al
+  {{- end -}}
+
+{{- end -}}
+{{- end -}}
+
+{{- define "publication-contributors-chicago" -}}
+  {{- $len := len (where $.Site.Data.publication.contributor "type" "primary") -}}
+  {{- range $index, $element := (where $.Site.Data.publication.contributor "type" "primary") -}}
+    {{- if gt $index 2 -}}
+    {{- else if and (eq $index 0) (eq $len 1) }}
+      {{ template "contrib-name" (dict "site" $.Site "page" . )}}
+    {{- else if eq $index (sub $len 1) }}
+      and {{ template "contrib-name" (dict "site" $.Site "page" . )}}
+    {{- else if and (eq $index 0) (eq $len 2) }}
+      {{ template "contrib-name" (dict "site" $.Site "page" . )}}
+    {{ else -}}
+      {{ template "contrib-name" (dict "site" $.Site "page" . )}},
+    {{ end -}}
+  {{- end -}}
+  {{- if gt $len 3 }}et al{{ end -}}
+{{- end -}}
+
+{{/* This template creates a list of contributors for citations based on the "primary" contributors in the publication. It reverses the first name, adds "et al" as needed when the contributors list is beyond a certain length, handles adding ed(s)/editor(s) as called for. It returns the list without end punctuation, so should be followed by a period.
+
+See https://www.chicagomanualofstyle.org/book/ed17/part3/ch14/psec076.html for rules on the inclusion of contributors.
+--------------------------------------------------------------------------*/}}
+{{- define "publication-contributors" -}}
+
+  {{ $citationType := .type }}
+
+  {{ $contributors := (where $.Site.Data.publication.contributor "type" "primary") }}
+  {{- $contributorLength := len $contributors -}}
+
+  {{- $editors := (where $contributors "role" "eq" "editor") -}}
+  {{- $editorLength := len $editors -}}
+
+  {{/* Set the value of $editorTag
+    If the primary contributors are listed as role: editor, we need to add "ed(s)" or "editor(s)" to the list of contributor names
+  --------------------------------------------------------------------------*/}}
+  {{- $editorTag := "" -}}
+  {{- if eq $editorLength 1 }}
+    {{- if eq $citationType "chicago" -}}
+      {{- $editorTag = "ed" -}}
+    {{- else if eq $citationType "mla" -}}
+      {{- $editorTag = "editor" -}}
+    {{- end -}}
+  {{- else if gt $editorLength 1 -}}
+    {{- if eq $citationType "chicago" -}}
+      {{- $editorTag = "eds" -}}
+    {{- else if eq $citationType "mla" -}}
+      {{- $editorTag = "editors" -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{/* Chicago suggests that et al be used for
+  ------------------------------------------------------------------------*/}}
+  {{- $maxLength := "" -}}
+  {{- $displayLength := "" -}}
+  {{- if eq $citationType "chicago" -}}
+    {{- $maxLength = 10 -}}
+    {{- $displayLength = 7 -}}
+  {{- else if eq $citationType "mla" -}}
+    {{- $maxLength = 2 -}}
+    {{- $displayLength = 1 -}}
+  {{- end -}}
+
+  {{- range $index, $element := $contributors -}}
+
+    {{/* If the number of contributors is beyond a certain number, display only
+      a set ammount ($displayLength), and append the list with et al. Ignore subsequent contributors in the list beyond this. Lenghts vary bewtween Chicago and MLA formats
+    ------------------------------------------------------------------------*/}}
+    {{- if and (gt $contributorLength $maxLength) (eq $index $displayLength) -}}
+
+      et al{{ if $editorTag }}., {{ end -}}
+
+    {{- else if and (gt $contributorLength $maxLength) (gt $index $displayLength) -}}
+
+    {{/* If this is the last name ...
+    ------------------------------------------------------------------------*/}}
+    {{- else if eq $index (sub $contributorLength 1) -}}
+
+      {{/* First check if it's also the first name, and reverse it if so: LastName, FirstName
+      ----------------------------------------------------------------------*/}}
+      {{- if eq $index 0 -}}
+
+        {{/* If there's a role tag to add, leave any ending punctuation in the name, and add a comma
+        --------------------------------------------------------------------*/}}
+        {{- if $editorTag -}}
+
+            {{ template "contrib-name-reverse" (dict "site" $.Site "page" . )}},
+
+        {{/* Otherwise strip any ending punctuation
+        --------------------------------------------------------------------*/}}
+        {{ else -}}
+
+            {{ template "contrib-name-reverse-last" (dict "site" $.Site "page" . )}}
+
+        {{- end -}}
+
+      {{/* Second, if it's not the first name, display it in reading order. FirstName LastName
+      ----------------------------------------------------------------------*/}}
+      {{- else if gt $index 0 -}}
+
+        {{/* If there's a role tag to add, leave any ending punctuation in the name, and add a comma
+        --------------------------------------------------------------------*/}}
+        {{- if ne $editorTag "" -}}
+
+            and {{ template "contrib-name" (dict "site" $.Site "page" . )}},
+
+        {{/* Otherwise strip any ending punctuation
+        --------------------------------------------------------------------*/}}
+        {{ else -}}
+
+            and {{ template "contrib-name-last" (dict "site" $.Site "page" . )}}
+
+        {{- end -}}
+
+      {{- end -}}
+
+    {{/* If this is the first name, reverse it and add a comma: LastName, FirstName,
+    ------------------------------------------------------------------------*/}}
+    {{- else if eq $index 0 -}}
+
+          {{ template "contrib-name-reverse" (dict "site" $.Site "page" . )}},
+
+    {{/* If this is a name in the middle of the list, just add it in with a comma: FirstName LastName,
+    ------------------------------------------------------------------------*/}}
+    {{- else if (gt $index 0) (lt $index (sub $contributorLength 1) ) -}}
+
+      {{ template "contrib-name" (dict "site" $.Site "page" . )}},
+
+    {{ end -}}
+
+  {{/* End the range
+  --------------------------------------------------------------------------*/}}
+  {{- end -}}
+
+  {{/* If there's a role tag to add, do so now
+  --------------------------------------------------------------------------*/}}
+  {{- with $editorTag -}} {{ . }}{{- end -}}
+
+{{- end -}}
+
+
+
+{{- define "contrib-name-reverse" -}}
+  {{- if .page.id -}}
+    {{- range where .site.Data.publication.contributor "id" .page.id -}}
+      {{ template "name-string-reverse" . }}
+    {{- end -}}
+  {{- else -}}
+    {{ template "name-string-reverse" .page }}
+  {{- end -}}
+{{- end -}}
+
+{{- define "contrib-name" -}}
+  {{- if .page.id -}}
+    {{- range where .site.Data.publication.contributor "id" .page.id -}}
+      {{ template "name-string" . }}
+    {{- end -}}
+  {{- else -}}
+    {{ template "name-string" .page }}
+  {{- end -}}
+{{- end -}}
+
+{{- define "name-string" -}}
+  {{- if .full_name -}}
+    {{ .full_name }}
+  {{- else -}}
+    {{ printf "%s%s%s" .first_name " " .last_name }}
+  {{- end -}}
+{{- end -}}
+
+{{- define "name-string-reverse" -}}
+  {{- if .full_name -}}
+    {{ .full_name }}
+  {{- else -}}
+    {{ printf "%s%s%s" .last_name ", " .first_name }}
+  {{- end -}}
+{{- end -}}
+
+
+{{- define "contrib-name-reverse-last" -}}
+  {{- if .page.id -}}
+    {{- range where .site.Data.publication.contributor "id" .page.id -}}
+      {{ template "name-string-reverse-last" . }}
+    {{- end -}}
+  {{- else -}}
+    {{ template "name-string-reverse-last" .page }}
+  {{- end -}}
+{{- end -}}
+
+{{- define "contrib-name-last" -}}
+  {{- if .page.id -}}
+    {{- range where .site.Data.publication.contributor "id" .page.id -}}
+      {{ template "name-string-last" . }}
+    {{- end -}}
+  {{- else -}}
+    {{ template "name-string-last" .page }}
+  {{- end -}}
+{{- end -}}
+
+{{- define "name-string-last" -}}
+  {{- if .full_name -}}
+    {{ $nameLast := .full_name }}
+    {{ replaceRE "[.]$" "" $nameLast }}
+  {{- else -}}
+    {{ $nameLast := printf "%s%s%s" .first_name " " .last_name }}
+    {{ replaceRE "[.]$" "" $nameLast }}
+  {{- end -}}
+{{- end -}}
+
+{{- define "name-string-reverse-last" -}}
+  {{- if .full_name -}}
+    {{ $nameLast := .full_name }}
+    {{ replaceRE "[.]$" "" $nameLast }}
+  {{- else -}}
+    {{ $nameLast := printf "%s%s%s" .last_name ", " .first_name }}
+    {{ replaceRE "[.]$" "" $nameLast }}
+  {{- end -}}
+{{- end -}}
+
+
+{{- define "publishers-chicago" -}}
+  {{ $len := len .site.Data.publication.publisher }}
+  {{ range $index, $element := .site.Data.publication.publisher }}
+    {{ if eq $index (sub $len 1) }}
+    {{ .location }}: {{ .name }}{{ else }}
+    {{ .location }}: {{ .name }}; {{ end }}
+  {{- end }}
+{{- end -}}
+
+{{- define "publishers-mla" -}}
+  {{ $len := len .site.Data.publication.publisher }}
+  {{ range $index, $element := .site.Data.publication.publisher }}
+    {{ if eq $index (sub $len 1) }}
+    {{ .name }}{{ else }}
+    {{ .name }}, {{ end }}
+  {{- end }}
+{{- end -}}

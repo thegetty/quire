@@ -1,0 +1,11 @@
+{{/*
+
+  The `q-contributors` shortcode has been deprecated in favor of `q-contributor`
+
+*/}}
+
+{{/* Error messages */}}
+{{/* ---------------------------------------------------------------------- */}}
+{{ $errorNewShortcode := dict "shortcode" "q-contributor" "message" "THIS SHORTCODE HAS BEEN UPDATED. Instead of `q-contributors` (plural), it is now called with `q-contributor` (singular)." "example" "{{< q-contributor range=&#34;all&#34; format=&#34;bio&#34; >}}" }}
+
+{{- partial "error-message.html" $errorNewShortcode -}}

@@ -1,0 +1,62 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+version: 2
+jobs:
+  build:
+    docker:
+      - image: cypress/base:10
+        user: root
+    working_directory: ~/quire-starter-theme
+    parallelism: 1
+    steps:
+      - checkout
+      - run:
+          name: Add test directories
+          command: |
+            mkdir -p ~/quire-starter-theme/test-results/e2e/videos
+            mkdir -p ~/quire-starter-theme/test-results/e2e/screenshots
+      - add_ssh_keys:
+          fingerprints:
+            - "9b:ca:68:bb:73:d0:32:71:61:d5:44:19:c2:63:36:2e"
+      - run:
+          name: Clone and install quire-cli
+          command: |
+            git clone git@github.com:gettypubs/quire-cli.git ~/quire-cli
+            cd ~/quire-cli/
+            npm install -g
+            npm ci
+      - run:
+          name: Remove key from config to add new one
+          command: |
+            > ~/.ssh/config
+      - add_ssh_keys:
+          fingerprints:
+            - "f9:71:a0:e0:e1:a5:8c:9d:3a:a8:8a:47:e4:9a:8c:af"
+      - run:
+          name: Add quire-starter and move theme into themes folder and install theme dependencies
+          command: |
+            git clone git@github.com:gettypubs/quire-starter.git ~/quire-starter
+            mv ~/quire-starter-theme/ ~/quire-starter/themes/
+            cd ~/quire-starter/themes/quire-starter-theme/
+            npm ci
+      - run:
+          name: Run quire preview -v
+          command: |
+            cd ~/quire-starter/
+            quire preview -v
+          background: true
+      - save_cache:
+          paths:
+            - ~/quire-starter/themes/quire-starter-theme/node_modules
+            - ~/.npm
+            - ~/.cache
+          key: v3-dependency-cache-{{ checksum "~/quire-starter/themes/quire-starter-theme/package.json" }}
+      - run:
+          name: Run Cypress Tests
+          command: |
+            cd ~/quire-starter/themes/quire-starter-theme/
+            npm run test:e2e
+      - store_test_results:
+          path: ~/quire-starter/themes/quire-starter-theme/test-results
+      - store_artifacts:
+          path: ~/quire-starter/themes/quire-starter-theme/test-results

@@ -1,0 +1,22 @@
+# theme.toml template for a Hugo theme
+# See https://github.com/spf13/hugoThemes#themetoml for an example
+
+name = "Quire Starter Theme"
+theme_version = "v0.18.0"
+license = ""
+licenselink = ""
+description = ""
+homepage = "https://github.com/gettypubs/quire-starter-theme/"
+tags = []
+features = []
+min_version = ""
+
+[author]
+  name = "J. Paul Getty Trust"
+  homepage = "http://www.getty.edu/"
+
+# If porting an existing theme
+[original]
+  name = ""
+  homepage = ""
+  repo = ""

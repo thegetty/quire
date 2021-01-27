@@ -1,0 +1,29 @@
+{{- $pages := .Site.Pages -}}
+{{- $pages := where $pages "Params.online" "!=" "false" }}
+{{- $pages := where $pages ".Type" "!=" "data" -}}
+
+<div class="{{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }} quire-contents-buttons remove-from-epub">
+  <ul>
+    
+      {{- $previousPages := where $pages "Weight" "lt" .Weight -}}
+      {{- if gt (len $previousPages) 0 -}}
+      {{- range last 1 $previousPages -}}
+      <li class="quire-nav-button prev">
+          <a href="{{ .Permalink | relURL }}">{{- partial "icon.html" (dict "type" "left-arrow" "description" "Go back a page") -}} <span class="nav-title">{{ $.Site.Params.prevPageButtonText }}</span></a>
+          <span class="visually-hidden">Previous Page (left keyboard arrow or swipe)</span>
+      </li>
+      {{- end -}}
+      {{- end -}}
+      
+      {{- $nextPages := where $pages "Weight" "gt" .Weight -}}
+      {{- if gt (len $nextPages) 0 -}}
+      {{- range first 1 $nextPages -}}
+      <li class="quire-nav-button next">
+          <a href="{{ .Permalink | relURL }}"><span class="nav-title">{{ $.Site.Params.nextPageButtonText }}</span> {{- partial "icon.html" (dict "type" "right-arrow" "description" "Go to next page") -}}</a>
+          <span class="visually-hidden">Next Page (right keyboard arrow or swipe)</span>
+      </li>
+      {{- end -}}
+      {{- end -}}
+      
+  </ul>
+</div>

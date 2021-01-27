@@ -1,0 +1,128 @@
+{{/*
+Cover page layout. This controls the home page of the publication.
+*/}}
+
+{{ define "main" }}
+
+{{ if isset $.Site.Params "imagedir" }}
+{{ $.Scratch.Set "imageDir" $.Site.Params.imageDir }}
+{{ else }}
+{{ $.Scratch.Set "imageDir" "" }}
+{{ end }}
+
+<div class="{{ partial "page-class.html" . }} quire-cover" id="main" role="main">
+
+  {{ if eq $.Site.Params.epub true }}
+    {{- if .Site.Data.publication.promo_image -}}
+    {{- $imgCoverPath := printf "%s/%s" ($.Scratch.Get "imageDir") .Site.Data.publication.promo_image -}}
+    <img src="{{ $imgCoverPath | relURL }}" class="epub-cover-image" />
+    {{- end -}}
+  {{/* PDF full cover image */}}
+  {{ else }}
+
+  {{/* Begin full-page cover section */}}
+  {{- if .Params.image -}}
+  {{- $imgPath := printf "%s/%s" ($.Scratch.Get "imageDir") .Params.image -}}
+    <section class="quire-cover__hero hero is-fullheight">
+      <div class="quire-cover__overlay" style="background-image: url('{{ $imgPath }}');"></div>
+  {{- else -}}
+    <section class="quire-cover__hero hero is-fullheight">
+      <div class="quire-cover__overlay"></div>
+  {{- end -}}
+    <div class="quire-cover__hero-body hero-body">
+      <div class="container is-fluid">
+        {{/* Use .Site.Data.publication info if available */}}
+        {{ if .Site.Data.publication }}
+        
+        {{- $endPunctuation := findRE "[!|?]$" .Site.Data.publication.title -}}
+        <h1 class="title">
+          {{ .Site.Data.publication.title | markdownify }}
+          {{- with .Site.Data.publication.subtitle -}}
+          {{- if $endPunctuation }} {{ else }}<span class="visually-hidden">: </span>{{ end -}}
+          <span class="subtitle">{{ . | markdownify }}</span>
+          {{ end }}
+        </h1>
+
+        {{ with .Site.Data.publication.reading_line }}
+        <p class="reading-line">{{ . | markdownify }}</p>
+        {{ end }}
+
+        <div class="contributor">
+        {{- if .Site.Data.publication.contributor_as_it_appears -}}
+        {{ .Site.Data.publication.contributor_as_it_appears | markdownify }}
+        {{ else }}
+        <span class="visually-hidden">Contributors: </span>
+        
+          {{/* List primary contributors unless none are marked as primary
+               in which case list all contributors in publication.yml */}}
+          {{/* ------------------------------------------------------------ */}}
+          {{- range .Site.Data.publication.contributor -}}
+            {{- if .type -}}
+              {{ $.Scratch.Set "type" true }}
+            {{- end -}}
+          {{- end -}}
+          {{ if eq ($.Scratch.Get "type") true }}
+            <em>{{ partial "contributor-list.html" (dict "range" .Site.Data.publication.contributor "contributorType" "primary" "listType" "string" "Site" $.Site) }}</em>
+          {{- else -}}
+            <em>{{ partial "contributor-list.html" (dict "range" .Site.Data.publication.contributor "contributorType" "all" "listType" "string" "Site" $.Site) }}</em>
+          {{- end -}}        
+        {{- end -}}
+        </div>
+
+        {{ else }}
+        {{/* Fallback for when no publication.yml data is present */}}
+        <h1 class="title">{{ .Site.Title }}</h1>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+  {{/* End full-page cover section */}}
+  
+  {{/* Begin "below-the-fold" section */}}
+  {{ if .Content }}
+    <section class="quire-cover__more" >
+      <div class="quire-cover__more-body hero-more">
+        {{ if and (ne $.Site.Params.epub true) (ne $.Site.Params.pdf true) }}
+        <a href="#content">
+          {{- partial "icon.html" (dict "type" "down-arrow" "description" "Scroll down to read more") -}}
+        </a>
+        {{ end }}
+      </div>
+    </section>
+    <section class="section quire-page__content" id="content">
+      <div class="container is-fluid">
+        <div class="content">
+          {{ .Content }}
+          {{ partial "page-bibliography.html" . }}
+        </div>
+      </div>
+    </section>
+    {{ partial "footer-buttons.html" . }}
+  {{ else }}
+    {{- $pages := .Site.Pages -}}
+    {{- $pages := where $pages "Params.online" "!=" "false" }}
+    {{- $pages := where $pages ".Type" "!=" "data" -}}
+    {{- $nextPages := where $pages "Weight" "gt" .Weight -}}
+    {{- if gt (len $nextPages) 0 -}}
+    {{- range first 1 $nextPages -}}
+    <section class="quire-cover__more" >
+      <div class="quire-cover__more-body hero-more next-page">
+        {{ if and (ne $.Site.Params.epub true) (ne $.Site.Params.pdf true) }}
+        <a href="{{ .Permalink | relURL }}">
+          {{- partial "icon.html" (dict "type" "down-arrow" "description" "Scroll down to read more") -}}
+        </a>
+        {{ end }}
+      </div>
+    </section>
+    {{- end -}}
+    {{- end -}}
+  {{ end }}
+  {{/* End "below-the-fold" section */}}
+  
+  {{ if eq $.Site.Params.pdf true }}
+    {{ partial "pdf-title-pages.html" (dict "site" .Site) }}
+  {{ end }}
+</div>
+
+{{ end }}
+{{ end }}

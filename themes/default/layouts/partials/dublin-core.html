@@ -1,0 +1,21 @@
+<link rel="schema.dcterms" href="https://purl.org/dc/terms/">
+  <meta name="dcterms.title" content="{{ partial "site-title.html" . }}">
+  {{ if .Site.Data.publication.contributor -}}
+  {{ range where .Site.Data.publication.contributor "type" "primary" -}}
+  <meta name="dcterms.creator" content="{{ if .full_name }}{{ .full_name }}{{ else }}{{ .first_name }} {{ .last_name }}{{ end }}">
+  {{ end -}}
+  {{ range where .Site.Data.publication.contributor "type" "secondary" -}}
+  <meta name="dcterms.contributor" content="{{ if .full_name }}{{ .full_name }}{{ else }}{{ .first_name }} {{ .last_name }}{{ end }}">
+  {{ end -}}
+  {{ end -}}
+  <meta name="dcterms.date" content="{{ .Site.Data.publication.pub_date }}">
+  <meta name="dcterms.description" content="{{ if .Site.Data.publication.description.one_line }}{{ .Site.Data.publication.description.one_line }}{{ else }}{{ with .Site.Data.publication.description.full }}{{ . | truncate 160 }}{{ end }}{{ end }}">
+  <meta name="dcterms.identifier" content="{{ replace .Site.Data.publication.identifier.isbn "-" "" }}">
+  <meta name="dcterms.language" content="{{ .Site.Data.publication.language }}">
+  {{- range .Site.Data.publication.publisher -}}
+  <meta name="dcterms.publisher" content="{{ .name }}{{ with .location }}, {{ . }} {{ end }}">
+  {{- end -}}
+  <meta name="dcterms.rights" content="{{ .Site.Data.publication.copyright }}">
+  {{ range .Site.Data.publication.subject -}}
+    <meta name="dcterms.subject" content="{{ .name }}">
+  {{ end -}}

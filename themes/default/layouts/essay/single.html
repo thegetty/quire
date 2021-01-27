@@ -1,0 +1,24 @@
+{{/*
+  Essay layout. This layout describes a single-page template that has been
+  augmented with the ability to display a frontmatter-defined abstract (in
+  markdown format) as well as bibliography references.
+*/}}
+
+{{ define "main" }}
+<article class="{{ partial "page-class.html" . }} quire-essay" id="main" role="main">
+  {{ partial "page-header.html" . }}
+
+  <section id="content" class="section quire-page__content">
+    {{ if .Params.abstract }}
+    {{ partial "page-abstract.html" . }}
+    {{ end }}
+    <div class="container">
+      <div class="content">
+        {{ .Content }}
+        {{ partial "page-bibliography.html" . }}
+      </div>
+      {{ partial "footer-buttons.html" . }}
+    </div>
+  </section>
+</article>
+{{ end }}

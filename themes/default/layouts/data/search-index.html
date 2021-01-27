@@ -1,0 +1,65 @@
+{{/*
+Search Index Data template
+
+This template builds a single JSON file ("/search.json" by default) with data
+suitable for being fed into a client-side search tool such as Lunr.js.
+
+In order for Hugo to actually output this data as a static file, add an empty
+Markdown file somewhere in your main "content" folder that has the type of
+"data" and the layout of "search-index". Set the URL params to whatever you want
+the output file to be called. Ex:
+
+project_root/content/search-index.md
+
+---
+type: data
+layout: search-index
+url: search.json
+---
+
+NB: This solution makes use of **both** the standard $.Scratch register AND a
+block-scoped .Scratch inside the `range` loop.
+*/}}
+
+{{- $.Scratch.Add "index" slice -}}
+
+{{- $searchablePages := where .Site.Pages ".Kind" "page" }}
+{{ $searchablePages := where $searchablePages "Params.online" "!=" "false" }}
+{{ $searchablePages := where $searchablePages ".Type" "!=" "data" }}
+{{- $searchablePages := where $searchablePages "Params.search" "!=" "false" -}}
+
+{{- range $index, $page := $searchablePages -}}
+
+{{- .Scratch.Set "pageData" "" -}}
+{{- .Scratch.Set "searchContent" "" -}}
+{{- .Scratch.Set "pageURL" "" -}}
+{{- .Scratch.Set "parentSection" "" -}}
+{{- .Scratch.Set "pageTitle" "" -}}
+{{- .Scratch.Set "pageType" "" -}}
+{{- .Scratch.Set "pageLength" "" -}}
+
+{{- if gt (len $page.Content) 0 -}}
+{{- .Scratch.Set "searchContent" $page.Plain -}}
+{{- .Scratch.Set "pageURL" $page.Permalink -}}
+{{- .Scratch.Set "pageType" $page.Type -}}
+{{- .Scratch.Set "pageLength" $page.WordCount -}}
+
+{{- end -}}
+
+{{- if $page.Params.label -}}
+  {{ .Scratch.Set "pageTitle" (printf "%s%s%s" (string $page.Params.label) .Site.Params.pageLabelDivider $page.Title) }}
+{{- else -}}
+  {{ .Scratch.Set "pageTitle" $page.Title }}
+{{- end -}}
+
+{{- if $page.Params.subtitle -}}
+  {{ .Scratch.Set "pageFullTitle" (printf "%s: %s" (.Scratch.Get "pageTitle") $page.Params.subtitle) }}
+{{- else -}}
+  {{ .Scratch.Set "pageFullTitle" (.Scratch.Get "pageTitle") }}
+{{- end -}}
+
+{{- .Scratch.Set "pageData" (dict "id" $index "title" (.Scratch.Get "pageFullTitle") "url" (.Scratch.Get "pageURL") "type" (.Scratch.Get "pageType") "length" (.Scratch.Get "pageLength") "content" (.Scratch.Get "searchContent")) -}}
+
+{{- $.Scratch.Add "index" (.Scratch.Get "pageData") -}}
+{{- end -}}
+{{- $.Scratch.Get "index" | jsonify -}}

@@ -1,0 +1,46 @@
+{{/*
+  This is the document <head> (without an opening <body> tag; that lives in the
+  baseof layout). This document currently links to the CDN verison of JQuery,
+  but other dependencies can be added as <link> tags as well.
+
+  TODO: include a placeholder for custom fonts...
+*/}}
+
+
+
+{{- $css := "css/application.css" | relURL -}}
+{{- $customCSS := "css/custom.css" | relURL -}}
+{{- $icon := "img/icons/favicon.ico" | relURL -}}
+
+{{- $pages := .Site.Pages -}}
+{{- $pages := where $pages "Params.online" "!=" "false" }}
+{{- $pages := where $pages ".Type" "!=" "data" -}}
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  {{ if eq .Params.online false -}}
+  <meta name="robots" content="noindex, nofollow">
+  {{- end }}
+  {{- range first 1 $pages -}}
+    {{- $.Scratch.Set "homepage" .File.UniqueID -}}
+  {{- end -}}
+  <title>{{ if ne .File.UniqueID ($.Scratch.Get "homepage") }}{{ with .Title }}{{ . | markdownify | plainify }} | {{ end }}{{ end }}{{ .Site.Data.publication.title | markdownify | plainify }}</title>
+  {{ partial "metadata.html" . }}
+
+  <link rel="icon" href="{{ $icon }}" />
+  <link rel="stylesheet" href="{{ $css }}">
+  <link rel="stylesheet" href="{{ $customCSS }}">
+
+  <script>
+   // Part of the HTML5 Template Polyfill for IE/Edge; required for client-side
+   // search. More info: https://www.npmjs.com/package/template-polyfill
+   document.createElement('template')
+  </script>
+  
+  {{ if .Site.GoogleAnalytics}}
+  {{ partial "analytics.html" . }}
+  {{ end }}
+
+</head>

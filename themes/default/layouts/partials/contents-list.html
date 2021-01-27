@@ -1,0 +1,207 @@
+{{/*
+  This partial generates a contents list. It is used in the publication menu
+  and in the "contents" page type, but could be extended for further use. It
+  expects five specific variables to be passed:
+  
+  site              .Site
+  contentsScope     Typically .Site.Pages or narrowed down to pages within a
+                    specific section.
+  contentsType      Must be either "short" or "full". Often defined in
+                    config.yml. Short doesn't display any sub-section pages.
+  contentsLocation  Must be either ".Params.menu" or ".Params.toc". Determines
+                    in what context the partial is being shown so that
+                    individual pages can be hidden as called for. For example,
+                    if contentsLocation is "toc" any pages in the publication
+                    with "toc: false" will be omitted from the generated
+                    contents list. The "menu" option also shows a shorter
+                    version of each page in the list, with no subtitle or
+                    contributors.
+  contentsPage      Typically . This just passes the page context through to
+                    allow a Scratch variable to be set when creating sections.
+
+  Content can either be in top-level files in the `content` directory, or
+  in sub-directories to create sections. Currently, nested sections are not
+  supported.
+
+  For users to cstomize their publiction, this partial response to `class` values in the page YAML as well.
+
+  `grid`            A grid of cards, using images defined in indivudal page
+                    yaml when avaialble
+
+  `abstract`        Title and contributor headings, and a page abstract
+                    if one is provided, or the page Summary. If `abstract` is
+                    an empty value `""`, no abstract or summary will be shown
+                    in the contents list.
+
+  `list`            Lists the title, subtitle and contributors as included. The
+                    default value, if no `class` is specified.
+
+  `brief`           Lists only the title, or short_title when available.
+
+  EXAMPLE PARTIAL USE:
+  partial "contents-list.html" (dict "site" .Site "contentsScope" .Site.Pages 
+  "contentsType" .Site.Params.tocType "contentsLocation" ".Params.toc" 
+  "contentsPage" . )
+
+*/}}
+
+{{- $contentsType := .contentsType }}
+{{ $contentsLocation := .contentsLocation }}
+{{ $imageDir := .imageDir -}}
+
+{{- .contentsPage.Scratch.Set "renderedSection" "" -}}
+
+{{/* Start a list of pages, but remove data & those hidden from toc/menu  */}}
+{{/* ---------------------------------------------------------------------- */}}
+{{ $pages := where .contentsScope ".Kind" "page" }}
+{{ $pages := where $pages ".Type" "!=" "data" }}
+{{ $pages := where $pages .contentsLocation "!=" "false" }}
+
+{{/* Remove pages based on output type */}}
+{{/* ---------------------------------------------------------------------- */}}
+{{- if eq .site.Params.pdf true -}}
+  {{ $pages := where $pages "Params.pdf" "!=" "false" }}
+  {{ $.contentsPage.Scratch.Set "pages" $pages }}
+{{- else if eq .site.Params.epub true -}}
+  {{ $pages := where $pages "Params.epub" "!=" "false" }}
+  {{ $.contentsPage.Scratch.Set "pages" $pages }}
+{{- else -}}
+  {{ $pages := where $pages "Params.online" "!=" "false" }}
+  {{ $.contentsPage.Scratch.Set "pages" $pages }}
+{{- end -}}
+{{ $pages := $.contentsPage.Scratch.Get "pages" }}
+{{ $.contentsPage.Scratch.Delete "pages" }}
+
+{{- range first 1 (where $pages "Params.class" "in" "page-one") -}}
+   {{- $.contentsPage.Scratch.Set "pageOneWeight" .Weight -}}
+{{- end -}}
+
+<ul>
+{{- range $pages -}}
+  {{- if or (eq .Section "") (and (ne $.contentsPage.Section "") (ne $.contentsLocation ".Params.menu" )) -}}
+
+    {{- if eq $.contentsLocation ".Params.menu" }}
+      <li class="page-item">{{ template "contents-item-menu" . -}}</li>
+    {{ end -}}
+
+    {{- if and (eq $.contentsLocation ".Params.toc") (ne $.contentsPage.File.UniqueID .File.UniqueID) }}
+      <li class="page-item">{{ template "contents-item-toc" (dict "class" $.contentsPage.Params.class "Page" . "Site" .Site "pageOne" ($.contentsPage.Scratch.Get "pageOneWeight") ) -}}</li>
+    {{ end -}}
+
+  {{- else if and .Section (ne .Section ($.contentsPage.Scratch.Get "renderedSection")) -}}
+
+    {{- $.contentsPage.Scratch.Set "renderedSection" .Section -}}
+
+      {{- if eq .Params.slug "." -}}
+        {{- if eq $.contentsLocation ".Params.menu" }}
+          <li class="section-item">{{ template "contents-item-menu" . -}}
+        {{- end -}}
+        {{- if and (eq $.contentsLocation ".Params.toc") (ne $.contentsPage.File.UniqueID .File.UniqueID) }}
+          <li class="section-item">{{ template "contents-item-toc" (dict "class" $.contentsPage.Params.class "Page" . "Site" .Site "pageOne" ($.contentsPage.Scratch.Get "pageOneWeight") ) -}}
+        {{- end -}}
+      {{- else -}}
+
+        {{- range first 1 (where $pages "Section" .Section) }}
+          <li class="section-item no-landing">{{ if and (eq $.contentsLocation ".Params.menu") (eq $contentsType "short") }}<a href="{{ .Permalink | relURL }}"{{- if lt .Weight ($.contentsPage.Scratch.Get "pageOneWeight") }} class="frontmatter-page"{{ end }}>{{ .Section | title }}</a>{{ else }}<div class="list-header">{{ .Section | humanize | title }}</div>{{ end -}}
+        {{- end -}}
+
+      {{- end -}}
+
+      {{- if eq $contentsType "full" -}}
+      <ul>
+        {{- range where $pages "Section" .Section -}}
+          {{ if ne .Params.slug "." -}}
+            {{ if eq $.contentsLocation ".Params.menu" }}
+              <li class="page-item">{{ template "contents-item-menu" . -}}</li>
+            {{ else }}
+              <li class="page-item">{{ template "contents-item-toc" (dict "class" $.contentsPage.Params.class "Page" . "Site" .Site "pageOne" ($.contentsPage.Scratch.Get "pageOneWeight") ) -}}</li>
+            {{ end -}}
+          {{ end -}}
+        {{- end -}}
+      </ul>
+      {{- end -}}
+
+      </li>
+
+    {{- end -}}
+{{- end -}}
+</ul>
+
+{{- define "contents-item-toc" }}
+{{ if isset $.Site.Params "imagedir" }}
+{{ $.Page.Scratch.Set "imageDir" $.Site.Params.imageDir }}
+{{ else }}
+{{ $.Page.Scratch.Set "imagedir" "" }}
+{{- end -}}
+  {{- if in .class "grid" -}}
+    <a href="{{ .Page.Permalink | relURL }}"{{- if lt .Page.Weight .pageOne }} class="frontmatter-page"{{ end }}><div class="card {{ if or .Page.Params.image .Page.Params.object }}image{{ else }}no-image{{ end }}{{ if and (ne .Page.Section "") (eq .Page.Slug ".") }} slug-page{{ end }}">
+      {{ if .Page.Params.image }}
+        {{ $imgPath := printf "%s/%s" ($.Page.Scratch.Get "imageDir") .Page.Params.image }}
+        <div class="card-image">
+          <figure class="image">
+            <img src="{{ $imgPath | relURL }}" alt="" />
+          </figure>
+        </div>
+      {{ else if .Page.Params.object -}}
+        {{ range .Page.Params.object -}}
+          {{ if .id -}}
+            {{ range where $.Site.Data.objects.object_list "id" "eq" .id -}}
+            {{ range first 1 .figure -}}
+              {{ if .id -}}
+                {{ range where $.Site.Data.figures.figure_list "id" "eq" .id -}}
+                  {{ template "contents-image" (dict "imageDir" ($.Page.Scratch.Get "imageDir") "figure" . ) -}}
+                {{- end -}}
+              {{ else if .src -}}
+                {{ template "contents-image" (dict "imageDir" ($.Page.Scratch.Get "imageDir") "figure" . ) -}}
+              {{- end -}}
+            {{- end -}}
+            {{- end -}}
+          {{ else if .figure -}}
+          {{ range first 1 .figure -}}
+            {{ if .id -}}
+              {{ range where $.Site.Data.figures.figure_list "id" "eq" .id -}}
+                {{ template "contents-image" (dict "imageDir" ($.Page.Scratch.Get "imageDir") "figure" . ) -}}
+              {{- end -}}
+            {{ else if .src -}}
+              {{ template "contents-image" (dict "imageDir" ($.Page.Scratch.Get "imageDir") "figure" . ) -}}
+            {{- end -}}
+          {{- end -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+      <div class="card-content">
+        <div class="title">
+        {{- with .Page.Params.label }}{{ . }}{{ $.Site.Params.pageLabelDivider }}{{ end }}{{ if and .Page.Params.short_title (in .class "brief")}}{{ .Page.Params.short_title | markdownify }}{{ else if in .class "brief" }}{{ .Page.Title | markdownify }}{{ else }}{{ partial "page-title.html" . | markdownify }}{{ if .Page.Params.contributor }}<span class="contributor"> — {{ partial "contributor-list.html" (dict "range" .Page.Params.contributor "contributorType" "all" "listType" "string" "Site" .Site) }}</span>{{- end -}}{{- end -}}<span class="arrow remove-from-epub">&nbsp;{{- partial "icon.html" (dict "type" "arrow-forward" "description" "") -}}</span></div>
+      </div>
+    </div></a>
+
+  {{- else -}}
+
+    <div class="title"><a href="{{ .Page.Permalink | relURL }}"{{- if lt .Page.Weight .pageOne }} class="frontmatter-page"{{ end }}>{{ with .Page.Params.label }}{{ . }}{{ $.Site.Params.pageLabelDivider }}{{ end }}{{ if and .Page.Params.short_title (in .class "brief")}}{{ .Page.Params.short_title | markdownify }}{{ else if in .class "brief" }}{{ .Page.Title | markdownify }}{{ else }}{{ partial "page-title.html" . | markdownify }}{{ if .Page.Params.contributor }}<span class="contributor"> — {{ partial "contributor-list.html" (dict "range" .Page.Params.contributor "contributorType" "all" "listType" "string" "Site" .Site) }}</span>{{- end -}}{{- end -}}<span class="arrow remove-from-epub">&nbsp;{{- partial "icon.html" (dict "type" "arrow-forward" "description" "") -}}</span></a></div>
+
+    {{ if and (in .class "abstract") (ne .Page.Params.abstract "") }}
+      <div class="abstract-text">
+        {{ if .Page.Params.abstract }}
+          {{/* Returns abstract with any links stripped out ------ */}}
+          {{ .Page.Params.abstract | markdownify | replaceRE "</?a(|\\s*[^>]+)>" "" | htmlUnescape | safeHTML }}
+        {{ else }}
+          {{ .Page.Summary }}
+        {{- end -}}
+      </div>
+    {{ end -}}
+
+  {{ end -}}
+{{ end -}}
+
+{{- define "contents-item-menu" }}
+    <a href="{{ .Permalink | relURL }}">{{ with .Params.label }}{{ . }}{{ $.Site.Params.pageLabelDivider }}{{ end }}{{ if .Params.short_title }}{{ .Params.short_title | markdownify }}{{ else }}{{ .Title | markdownify }}{{- end -}}</a>
+{{ end -}}
+
+{{- define "contents-image" }}
+{{ $imgPath := printf "%s/%s" .imageDir .figure.src }}
+<div class="card-image">
+  <figure class="image">
+    <img src="{{ $imgPath | relURL }}" alt="" />
+  </figure>
+</div>
+{{ end -}}
