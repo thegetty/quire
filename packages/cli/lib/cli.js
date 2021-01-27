@@ -67,16 +67,14 @@ export default class CLI extends EventEmitter {
    */
   create(projectName) {
     const quireDir = path.resolve(__dirname, "..", "..", "..");
+    const starter = "default";
+    const theme = "default";
 
-    const localStarterDir = path.resolve(quireDir, "starters", "default");
-    const localThemeDir = path.resolve(quireDir, "themes", "default");
+    const localStarterDir = path.resolve(quireDir, "starters", starter);
+    const localThemeDir = path.resolve(quireDir, "themes", theme);
 
     const projectDir = path.resolve(projectName);
-    const projectThemeDir = path.resolve(
-      projectName,
-      "themes",
-      "quire-starter-theme"
-    );
+    const projectThemeDir = path.resolve(projectName, "themes", theme);
 
     return new Promise(async (resolve, reject) => {
       if (commandMissing("git")) {
@@ -100,11 +98,7 @@ export default class CLI extends EventEmitter {
         spawnSync("git", ["init"]);
         this.notice("Comitting starter files...");
         spawnSync("git", ["add", "-A"]);
-        spawnSync("git", [
-          "commit",
-          "-m",
-          "Add quire-starter-theme to project"
-        ]);
+        spawnSync("git", ["commit", "-m", "Add starter and theme to project"]);
 
         // Install Dependencies
         this.notice("Installing dependencies. This may take a minute...");
