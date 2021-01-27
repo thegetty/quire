@@ -1,0 +1,24 @@
+{
+  "name": "root",
+  "private": true,
+  "version": "0.0.0",
+  "description": "a multi-format book publishing framework",
+  "author": "Getty Digital",
+  "license": "MIT",
+  "scripts": {
+    "postinstall": "lerna bootstrap --hoist",
+    "test": "jest",
+    "test:cli": "npm test --prefix packages/cli"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thegetty/quire.git"
+  },
+  "bugs": {
+    "url": "https://github.com/thegetty/quire/issues"
+  },
+  "homepage": "https://quire.getty.edu/",
+  "devDependencies": {
+    "lerna": "^3.22.1"
+  }
+}

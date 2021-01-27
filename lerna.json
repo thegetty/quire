@@ -1,0 +1,9 @@
+{
+  "packages": [
+    "docs/*",
+    "packages/*",
+    "starters/*",
+    "themes/*"
+  ],
+  "version": "0.0.0"
+}
