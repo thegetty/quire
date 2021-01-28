@@ -7,7 +7,7 @@ export async function copy(source, destination) {
   await fs.ensureDir(destination);
 
   if (!fs.existsSync(source)) {
-    throw new Error(`${source} doesn't exist`);
+    throw new Error(`${source} does not exist`);
   }
 
   await fs.copy(source, destination);
