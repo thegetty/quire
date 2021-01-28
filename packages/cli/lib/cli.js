@@ -84,21 +84,23 @@ export default class CLI extends EventEmitter {
           `${projectDir} directory already exists, please select another project name.`
         );
       } else {
+        this.notice("Creating project...");
+
         // Copy Starter
-        this.notice("Creating starter...");
+        this.notice(`Using starter: ${starter}`)
         await copy(localStarterDir, projectDir);
 
         // Copy Theme
-        this.notice("Adding theme...");
+        this.notice(`Using theme: ${theme}`);
         await copy(localThemeDir, projectThemeDir);
 
         // First Commit
         this.notice("Initializing git...");
         process.chdir(projectDir);
         spawnSync("git", ["init"]);
-        this.notice("Comitting starter files...");
+        this.notice("Committing starter files...");
         spawnSync("git", ["add", "-A"]);
-        spawnSync("git", ["commit", "-m", "Add starter and theme to project"]);
+        spawnSync("git", ["commit", "-m", `Add starter and theme to project`]);
 
         // Install Dependencies
         this.notice("Installing dependencies. This may take a minute...");
