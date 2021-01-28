@@ -95,7 +95,7 @@ export default class CLI extends EventEmitter {
         await copy(localThemeDir, projectThemeDir);
 
         // First Commit
-        this.notice("Initializing git...");
+        this.notice("Initializing git in the new project directory...");
         process.chdir(projectDir);
         spawnSync("git", ["init"]);
         this.notice("Committing starter files...");
