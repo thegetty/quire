@@ -376,11 +376,11 @@ class Build extends EventEmitter {
           decodeEntities: false
         });
 
-        const updateHTML = $("html");
+        const htmlObj = $("html");
         let idCounts = {};
 
         // increment IDs to remove duplicates
-        updateHTML.find("[id]").attr("id", (index, id) => {
+        htmlObj.find("[id]").attr("id", (index, id) => {
           idCounts[id] = (idCounts[id] || 0) + 1;
           if (id.indexOf("fn-") !== -1 || id.indexOf("fnref-") !== -1) {
             return id;
@@ -393,21 +393,21 @@ class Build extends EventEmitter {
         });
 
         // Remove these items before final compile
-        updateHTML
+        htmlObj
           .find(
             ".remove-from-epub, .visually-hidden, .is-screen-only, .is-print-only"
           )
           .remove();
 
         // Remove wrapper to figure group
-        updateHTML.find(".quire-figure--group").each((index, el) => {
+        htmlObj.find(".quire-figure--group").each((index, el) => {
           let html = $(el).html();
           return $(el).replaceWith(`${html}`);
         });
 
         // Move ID from img tag to span tag preceding the figure tag pandoc wont reference img tags
         // It is possible to do but would require a larger install process for the user
-        updateHTML.find("figure").each((index, el) => {
+        htmlObj.find("figure").each((index, el) => {
           let imgId =
             $(el)
               .find("img")
@@ -439,7 +439,7 @@ class Build extends EventEmitter {
 
         // convert reference links on other pages this returns an updated link tat corresponds to the section ID
         // that pandoc generates. If there is a match in the path then the link is updated to the appropriate internal link
-        updateHTML.find("a").attr("href", (index, href) => {
+        htmlObj.find("a").attr("href", (index, href) => {
           // console.info(href)
           if (href.indexOf(`empty`) !== -1) {
             let page = href.replace("#empty-", "");
@@ -455,7 +455,7 @@ class Build extends EventEmitter {
 
         // in pandoc there is not enough space to add attributes to all elements so the sup loses its ability to accommodate an ID
         // so we move the ID on to a span inside the sup to retain the sup style
-        updateHTML.find("sup").each((index, el) => {
+        htmlObj.find("sup").each((index, el) => {
           let attrs = $(el).attr();
           let innerHTML = $(el).html();
           let supClass =
@@ -472,7 +472,9 @@ class Build extends EventEmitter {
           fs.copyFileSync("epub/template.xhtml", "html/template.xhtml");
         }
 
-        writeFile("html/epub.xhtml", updateHTML);
+        const epubHtml = $("<div>").append(htmlObj.clone()).html();
+
+        writeFile("html/epub.xhtml", epubHtml);
 
         resolve($.html());
       }
