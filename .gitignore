@@ -83,6 +83,10 @@ public
 site
 static
 
+### CLI ###
+# build output
+packages/cli/bin/index.js
+
 ### macOS ###
 # General
 .DS_Store
