@@ -1,12 +1,23 @@
 {
-  "name": "quire-starter-theme",
-  "version": "0.1.0",
-  "description": "A theme for creating digital publications similar to art catalogues using the Hugo static-site generator.",
+  "name": "quire-theme-default",
+  "description": "default theme for Quire digital publications",
+  "version": "0.18.0",
+  "author": "Getty Digital",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/thegetty/quire/issues"
+  },
+  "homepage": "https://github.com/thegetty/quire/tree/main/themes/default#readme",
+  "keywords": [
+    "quire",
+    "themes"
+  ],
+  "main": "webpack/webpack.config.dev.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/gettypubs/quire-starter-theme"
+    "url": "https://github.com/thegetty/quire.git",
+    "directory": "themes/default"
   },
-  "main": "webpack/webpack.config.dev.js",
   "scripts": {
     "build:preview": "webpack --config webpack/webpack.config.prod.js && cd ../../ && hugo --config config.yml,config/site.yml",
     "build:production": "webpack --config webpack/webpack.config.prod.js && cd ../../ && hugo --config config.yml,config/site.yml --minify -v",
@@ -16,8 +27,6 @@
     "test:e2e:open": "./node_modules/.bin/cypress open",
     "test:e2e:local": "npm run quire:cypress & ./node_modules/.bin/wait-on http://localhost:1313 & ./node_modules/.bin/cypress open -b electron --env CYPRESS=true"
   },
-  "author": "Getty Publications",
-  "license": "BSD-3-Clause",
   "devDependencies": {
     "@babel/core": "^7.7.7",
     "@babel/preset-env": "^7.7.7",

@@ -1,18 +1,28 @@
 {
   "name": "quire-cli",
+  "description": "Quire command-line interface",
   "version": "0.18.0",
-  "description": "Command-line interface for Quire projects.",
-  "main": "index.js",
-  "contributors": [
-    "Nick Hulea <naeluh@gmail.org>",
-    "Eric Gardner"
+  "author": "Getty Digital",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/thegetty/quire/issues"
+  },
+  "homepage": "https://github.com/thegetty/quire/tree/main/packages/cli#readme",
+  "keywords": [
+    "cli",
+    "quire"
   ],
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thegetty/quire.git",
+    "directory": "packages/cli"
+  },
   "scripts": {
     "build": "./node_modules/.bin/rollup -c --compact",
     "watch": "./node_modules/.bin/rollup -c -w --compact",
     "test": "jest --verbose --colors --detectOpenHandles --runInBand"
   },
-  "license": "MIT",
   "bin": {
     "quire": "./bin/index.js"
   },
@@ -62,9 +72,5 @@
     "rollup-plugin-replace": "^2.2.0",
     "rollup-plugin-uglify": "^6.0.4",
     "tmp": "0.1.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/gettypubs/quire-cli"
   }
 }
