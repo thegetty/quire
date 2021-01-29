@@ -1,7 +1,19 @@
-const fs = require("fs");
+const fs = require("fs-extra");
 const exists = require("command-exists").sync;
 const yaml = require("js-yaml");
 const { URL } = require("url");
+
+export async function copy(source, destination) {
+  await fs.ensureDir(destination);
+
+  if (!fs.existsSync(source)) {
+    throw new Error(`${source} does not exist`);
+  }
+
+  await fs.copy(source, destination);
+
+  return true;
+}
 
 export function readYAML(file) {
   const doc = yaml.safeLoad(fs.readFileSync(file, "utf8"));
@@ -43,7 +55,7 @@ export function deleteFolderRecursive(pth) {
   var files = [];
   if (fs.existsSync(pth)) {
     files = fs.readdirSync(pth);
-    files.forEach(function(file, index) {
+    files.forEach(function (file, index) {
       var curPath = pth + "/" + file;
       if (fs.statSync(curPath).isDirectory()) {
         // recurse

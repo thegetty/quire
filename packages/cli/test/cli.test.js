@@ -12,7 +12,7 @@ const sandboxDir = tmp.dirSync({
   unsafeCleanup: true
 });
 const projectName = "quire-starter";
-const themeName = "quire-starter-theme";
+const themeName = "default";
 const CONFIG = {
   STARTER_THEME: themeName,
   DEFAULT_PROJECT_NAME: projectName,

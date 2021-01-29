@@ -11,7 +11,7 @@ baseURL: ""
 
 title: "Quire Starter"
 languageCode: "en-us"
-theme: "quire-starter-theme"
+theme: "default"
 publishDir: site
 
 footnoteReturnLinkContents: "↩"

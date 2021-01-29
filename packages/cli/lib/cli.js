@@ -14,55 +14,7 @@ const readline = require("readline");
 const fs = require("fs-extra");
 
 import Project from "./project";
-import { commandMissing } from "./utils";
-
-/**
- * Config object.
- * @description Stashing some fixed values as globals here for now.
- */
-const CONFIG = {
-  STARTER_REPOSITORY_NAME: "gettypubs/quire-starter",
-  STARTER_THEME_REPOSITORY_NAME: "gettypubs/quire-starter-theme",
-  CURRENT_VERSION: "master",
-  STARTER_THEME: "quire-starter-theme",
-  DEFAULT_PROJECT_NAME: "quire-project",
-  LOCALHOST: "http://localhost:1313"
-};
-
-async function gitURL(repository_name, circleci) {
-  try {
-    if (circleci) {
-      /**
-       * Circleci Note:
-       * Set the host to gettygithub.com to pickup the
-       * private key created for circleci.
-       * This is only used if the enviroment variable
-       * is set by circleci. Do not set THEME_SSH_KEY_FILE_NAME
-       * enviroment variable in a local or other remote enviroments
-       * or issue will arise since the key was not created.
-       */
-      const repository_url = `git@getty.github.com:${repository_name}.git`;
-      return repository_url;
-    } else {
-      if (fs.existsSync(path.join(__dirname, "..", ".git"))) {
-        const { stdout } = await execa("git", ["ls-remote", "--get-url"], {
-          cwd: __dirname
-        });
-        const connection_protocol =
-          stdout.indexOf("@") !== -1
-            ? "git@github.com:"
-            : "https://github.com/";
-        const repository_url = `${connection_protocol}${repository_name}.git`;
-        return repository_url;
-      } else {
-        const repository_url = `https://github.com/${repository_name}.git`;
-        return repository_url;
-      }
-    }
-  } catch (error) {
-    throw new Error(error);
-  }
-}
+import { commandMissing, copy } from "./utils";
 
 /**
  * CLI class.
@@ -114,90 +66,61 @@ export default class CLI extends EventEmitter {
    * will emit a warning and exit with code 1 if `git` is not available.
    */
   create(projectName) {
+    const quireDir = path.resolve(__dirname, "..", "..", "..");
+    const starter = "default";
+    const theme = "default";
+
+    const localStarterDir = path.resolve(quireDir, "starters", starter);
+    const localThemeDir = path.resolve(quireDir, "themes", theme);
+
     const projectDir = path.resolve(projectName);
-    const themeDir = path.resolve(projectName, "themes", CONFIG.STARTER_THEME);
-    async function runGit(themeDir, projectDir, self, reject, resolve) {
-      try {
-        let gitArgs = [
-          "clone",
-          "--branch",
-          CONFIG.CURRENT_VERSION,
-          await gitURL(CONFIG.STARTER_REPOSITORY_NAME),
-          projectName
-        ];
-        await execa("git", gitArgs);
-        self.notice("Configuring project...");
-        process.chdir(projectDir);
-        let gitmoduleURL = await gitURL(
-          CONFIG.STARTER_THEME_REPOSITORY_NAME,
-          process.env.THEME_SSH_KEY_FILE_NAME
+    const projectThemeDir = path.resolve(projectName, "themes", theme);
+
+    return new Promise(async (resolve, reject) => {
+      if (commandMissing("git")) {
+        this.error("Please install Git before continuing.");
+      } else if (fs.existsSync(projectDir)) {
+        this.error(
+          `${projectDir} directory already exists, please select another project name.`
         );
-        spawnSync("git", ["checkout", "-b", "master"]);
-        await execa("git", [
-          "config",
-          "--file=.gitmodules",
-          "submodule.themes/quire-starter-theme.url",
-          gitmoduleURL
-        ]);
-        await execa("git", ["submodule", "sync"]);
-        await execa("git", [
-          "submodule",
-          "update",
-          "--init",
-          "--recursive",
-          "--remote"
-        ]);
-        spawnSync("git", ["remote", "rm", "origin"]);
-        spawnSync("git", ["rm", ".gitmodules"]);
-        spawnSync("git", [
-          "rm",
-          "--cached",
-          path.join("themes", CONFIG.STARTER_THEME)
-        ]);
-        self.notice("Setting up theme...");
-        process.chdir(themeDir);
-        rimraf.sync(".git");
+      } else {
+        this.notice("Creating project...");
+
+        // Copy Starter
+        this.notice(`Using starter: ${starter}`)
+        await copy(localStarterDir, projectDir);
+
+        // Copy Theme
+        this.notice(`Using theme: ${theme}`);
+        await copy(localThemeDir, projectThemeDir);
+
+        // First Commit
+        this.notice("Initializing git in the new project directory...");
         process.chdir(projectDir);
+        spawnSync("git", ["init"]);
+        this.notice("Committing starter files...");
         spawnSync("git", ["add", "-A"]);
-        spawnSync("git", [
-          "commit",
-          "-m",
-          "Add quire-starter-theme to project"
-        ]);
-        self.notice("Installing dependencies...");
-        self.npmInstall(themeDir);
-        self.confirm("Theme and dependencies successfully installed.");
-        self.notice(
+        spawnSync("git", ["commit", "-m", `Add starter and theme to project`]);
+
+        // Install Dependencies
+        this.notice("Installing dependencies. This may take a minute...");
+        this.npmInstall(projectThemeDir);
+
+        this.confirm("Theme and dependencies successfully installed.");
+        this.notice(
           "Run quire preview in your project folder to view changes locally."
         );
         resolve(true);
         return true;
-      } catch (error) {
-        self.error(error.message);
-        reject(self.error(error.message));
-        return false;
-      }
-    }
-    let self = this;
-    return new Promise((resolve, reject) => {
-      if (commandMissing("git")) {
-        self.error("Please install Git before continuing.");
-      } else if (fs.existsSync(projectDir)) {
-        self.error(
-          `${projectDir} directory already exists, please select another project name.`
-        );
-      } else {
-        this.notice("Installing starter kit...");
-        runGit(themeDir, projectDir, self, reject, resolve);
       }
     });
   }
 
   preview() {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this.project = new Project(this.verbose);
       this.project.on("info", this.notice);
-      this.project.on("error", msg => {
+      this.project.on("error", (msg) => {
         this.error(msg);
         this.shutdown();
       });
@@ -313,7 +236,7 @@ export default class CLI extends EventEmitter {
         // cwd: cwd, stdio: 'inherit'
         cwd: cwd
       },
-      function(err) {
+      function (err) {
         if (err) this.emit("error", err);
       }
     );
@@ -344,7 +267,7 @@ export default class CLI extends EventEmitter {
       input: process.stdin
     });
 
-    rl.on("line", input => {
+    rl.on("line", (input) => {
       let command = input.replace("quire ", "");
       switch (command) {
         case "stop":
