@@ -6,11 +6,11 @@
   "author": "Getty Digital",
   "license": "MIT",
   "scripts": {
-    "postinstall": "lerna bootstrap --hoist && npm run cli:install",
-    "test": "jest",
     "cli:build": "cd packages/cli && npm install && rollup -c --compact",
-    "cli:install": "npm run cli:build && npm install -g packages/cli",
-    "cli:uninstall": "cd packages/cli && npm uninstall -g"
+    "cli:install": "lerna bootstrap --hoist && npm run cli:build && npm install -g packages/cli",
+    "cli:uninstall": "cd packages/cli && npm uninstall -g",
+    "postinstall": "lerna bootstrap --hoist",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
