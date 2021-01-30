@@ -6,7 +6,7 @@
   "author": "Getty Digital",
   "license": "MIT",
   "scripts": {
-    "postinstall": "lerna bootstrap --hoist",
+    "postinstall": "lerna bootstrap --hoist && npm run cli:install",
     "test": "jest",
     "cli:build": "cd packages/cli && npm install && rollup -c --compact",
     "cli:install": "npm run cli:build && npm install -g packages/cli",
