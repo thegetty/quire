@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "cli:build": "cd packages/cli && npm install && rollup -c --compact",
-    "cli:install": "lerna bootstrap --hoist && npm run cli:build && npm install -g packages/cli",
+    "cli:install": "npm run cli:build && npm install -g packages/cli",
     "cli:uninstall": "cd packages/cli && npm uninstall -g",
     "postinstall": "lerna bootstrap --hoist",
     "test": "jest"
