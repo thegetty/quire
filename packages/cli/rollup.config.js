@@ -1,4 +1,5 @@
 import babel from "rollup-plugin-babel";
+import copy from 'rollup-plugin-copy';
 import resolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
 import { uglify } from "rollup-plugin-uglify";
@@ -32,6 +33,11 @@ export default {
   plugins: [
     commonjs({
       include: "node_modules/**"
+    }),
+    copy({
+      targets: [
+        { src: ['../../starters', '../../themes'], dest: './bin' }
+      ]
     }),
     babel({
       babelrc: false,
