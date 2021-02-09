@@ -78,13 +78,13 @@ export function deleteFolderRecursive(pth) {
  * @param {string} to        - copy destination
  * @param {array}  exclude   - excluded filename(s)
  */
-export function copyDirRecursive(from, to, exclude = []) {
+export function copyDirRecursive(from, to, exclude) {
   fs.mkdirSync(to, { recursive: true });
   fs.readdirSync(from).forEach((file) => {
     const fromFile = path.join(from, file);
     const toFile = path.join(to, file);
 
-    const isExcluded = fromFile.includes(...exclude);
+    const isExcluded = exclude && fromFile.includes(exclude.join(','));
     const isFile = fs.statSync(fromFile).isFile();
 
     if (!isExcluded) {

@@ -1,5 +1,5 @@
 import babel from "rollup-plugin-babel";
-import copy from 'rollup-plugin-copy';
+import copy from './plugins/rollupCopy';
 import resolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
 import { uglify } from "rollup-plugin-uglify";
@@ -44,7 +44,7 @@ export default {
     }),
     copy([
       { from: "../../starters", to: "./bin/starters" },
-      { from: "../../themes", to: "./bin/themes", exclude: "node_modules" }
+      { from: "../../themes", to: "./bin/themes", exclude: ["node_modules"] }
     ]),
     json(),
     multiEntry(),
