@@ -1,3 +1,4 @@
+import path from 'path';
 const fs = require("fs-extra");
 const exists = require("command-exists").sync;
 const yaml = require("js-yaml");
@@ -67,4 +68,37 @@ export function deleteFolderRecursive(pth) {
     });
     fs.rmdirSync(pth);
   }
+}
+
+/**
+ * Copy directory recursively,
+ * optionally excluding files or subdirectories
+ *
+ * @param {string} from      - path to copy from
+ * @param {string} to        - copy destination
+ * @param {array}  exclude   - excluded filename(s)
+ */
+export function copyDirRecursive(from, to, exclude = []) {
+  fs.mkdirSync(to, { recursive: true });
+  fs.readdirSync(from).forEach((file) => {
+    const fromFile = path.join(from, file);
+    const toFile = path.join(to, file);
+
+    const isExcluded = fromFile.includes(...exclude);
+    const isFile = fs.statSync(fromFile).isFile();
+
+    if (!isExcluded) {
+      if (!isFile) {
+        copyDirRecursive(fromFile, toFile, exclude);
+        return;
+      }
+      fs.copyFileSync(path.resolve(fromFile), path.resolve(toFile));
+    }
+  });
+};
+
+export function rollupCopy(paths = []) {
+  paths.forEach(({ from, to, exclude }) => {
+    copyDirRecursive(from, to, exclude);
+  });
 }
