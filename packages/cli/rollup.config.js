@@ -1,12 +1,12 @@
-import babel from "@rollup/plugin-babel";
-import copy from "./plugins/rollupCopy";
-import resolve from "@rollup/plugin-node-resolve";
-import commonjs from "@rollup/plugin-commonjs";
+import babel from "rollup-plugin-babel";
+import copy from 'rollup-plugin-copy';
+import resolve from "rollup-plugin-node-resolve";
+import commonjs from "rollup-plugin-commonjs";
 import { uglify } from "rollup-plugin-uglify";
-import multiEntry from "@rollup/plugin-multi-entry";
+import multiEntry from "rollup-plugin-multi-entry";
 import nodePolyfills from 'rollup-plugin-node-polyfills';
-import replace from "@rollup/plugin-replace";
-import json from "@rollup/plugin-json";
+import replace from "rollup-plugin-replace";
+import json from "rollup-plugin-json";
 import path from "path";
 
 const onwarn = warning => {
@@ -34,7 +34,7 @@ export default {
   plugins: [
     babel({
       babelrc: false,
-      babelHelpers: "runtime",
+      runtimeHelpers: true,
       exclude: "node_modules/**",
       presets: [["@babel/env", { modules: false }]],
       plugins: ["@babel/transform-runtime"]
