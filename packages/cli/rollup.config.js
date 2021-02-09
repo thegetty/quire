@@ -1,11 +1,12 @@
-import babel from "rollup-plugin-babel";
-import copy from 'rollup-plugin-copy';
-import resolve from "rollup-plugin-node-resolve";
-import commonjs from "rollup-plugin-commonjs";
+import babel from "@rollup/plugin-babel";
+import copy from "./plugins/rollupCopy";
+import resolve from "@rollup/plugin-node-resolve";
+import commonjs from "@rollup/plugin-commonjs";
 import { uglify } from "rollup-plugin-uglify";
-import multiEntry from "rollup-plugin-multi-entry";
-import replace from "rollup-plugin-replace";
-import json from "rollup-plugin-json";
+import multiEntry from "@rollup/plugin-multi-entry";
+import nodePolyfills from 'rollup-plugin-node-polyfills';
+import replace from "@rollup/plugin-replace";
+import json from "@rollup/plugin-json";
 import path from "path";
 
 const onwarn = warning => {
@@ -31,22 +32,23 @@ export default {
     name: "quire"
   },
   plugins: [
-    commonjs({
-      include: "node_modules/**"
-    }),
-    copy({
-      targets: [
-        { src: ['../../starters', '../../themes'], dest: './bin' }
-      ]
-    }),
     babel({
       babelrc: false,
-      runtimeHelpers: true,
+      babelHelpers: "runtime",
       exclude: "node_modules/**",
       presets: [["@babel/env", { modules: false }]],
       plugins: ["@babel/transform-runtime"]
     }),
+    commonjs({
+      include: "node_modules/**"
+    }),
+    copy([
+      { from: "../../starters", to: "./bin/starters" },
+      { from: "../../themes", to: "./bin/themes", exclude: "node_modules" }
+    ]),
+    json(),
     multiEntry(),
+    nodePolyfills(),
     replace({
       delimiters: ["", ""],
       "#!/usr/bin/env node": ""
@@ -55,7 +57,6 @@ export default {
       preferBuiltins: false,
       browser: true
     }),
-    uglify(),
-    json()
+    uglify()
   ]
 };
