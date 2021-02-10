@@ -6,10 +6,9 @@
   "author": "Getty Digital",
   "license": "MIT",
   "scripts": {
-    "cli:build": "cd packages/cli && npm install && rollup -c --compact",
+    "cli:build": "cd packages/cli && npm run build",
     "cli:install": "npm run cli:build && npm install -g packages/cli",
     "cli:uninstall": "cd packages/cli && npm uninstall -g",
-    "postinstall": "lerna bootstrap",
     "test": "jest"
   },
   "repository": {
