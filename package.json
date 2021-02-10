@@ -9,7 +9,7 @@
     "cli:build": "cd packages/cli && npm install && rollup -c --compact",
     "cli:install": "npm run cli:build && npm install -g packages/cli",
     "cli:uninstall": "cd packages/cli && npm uninstall -g",
-    "postinstall": "lerna bootstrap --hoist",
+    "postinstall": "lerna bootstrap",
     "test": "jest"
   },
   "repository": {
@@ -23,5 +23,9 @@
   "devDependencies": {
     "lerna": "^3.22.1"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "workspaces": [
+    "packages/*",
+    "themes/*"
+  ]
 }
