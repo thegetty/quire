@@ -18,7 +18,13 @@ Quire uses [lerna](https://github.com/lerna/lerna) for version management, with 
 Installation
 ------------
 Install `lerna`:
-`npm install -g lerna`
+
+```
+npm install -g lerna
+```
 
 Install dependencies:
-`lerna bootstrap`
+
+```
+lerna bootstrap
+```
