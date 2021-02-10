@@ -1,6 +1,6 @@
-import path from 'path';
-const fs = require("fs-extra");
 const exists = require("command-exists").sync;
+const fs = require("fs-extra");
+import path from 'path';
 const yaml = require("js-yaml");
 const { URL } = require("url");
 
