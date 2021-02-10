@@ -66,12 +66,11 @@ export default class CLI extends EventEmitter {
    * will emit a warning and exit with code 1 if `git` is not available.
    */
   create(projectName) {
-    const quireDir = path.resolve(__dirname, "..", "..", "..");
-    const starter = "default";
+    const rootDir = path.resolve(__dirname, "..", "bin");
+    const starter= "default";
     const theme = "default";
-
-    const localStarterDir = path.resolve(quireDir, "starters", starter);
-    const localThemeDir = path.resolve(quireDir, "themes", theme);
+    const localStarterDir = path.resolve(rootDir, "starters", starter);
+    const localThemeDir = path.resolve(rootDir, "themes", theme);
 
     const projectDir = path.resolve(projectName);
     const projectThemeDir = path.resolve(projectName, "themes", theme);
