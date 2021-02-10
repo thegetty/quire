@@ -96,9 +96,3 @@ export function copyDirRecursive(from, to, exclude) {
     }
   });
 };
-
-export function rollupCopy(paths = []) {
-  paths.forEach(({ from, to, exclude }) => {
-    copyDirRecursive(from, to, exclude);
-  });
-}
