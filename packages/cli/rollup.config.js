@@ -1,3 +1,4 @@
+import alias from '@rollup/plugin-alias';
 import babel from "rollup-plugin-babel";
 import resolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
@@ -30,6 +31,11 @@ export default {
     name: "quire"
   },
   plugins: [
+    alias({
+      entries: [
+        { find: '@src', replacement: '../lib' },
+      ]
+    }),
     commonjs({
       include: "node_modules/**"
     }),

@@ -13,8 +13,8 @@ const spawnSync = require("child_process").spawnSync;
 const readline = require("readline");
 const fs = require("fs-extra");
 
-import Project from "./project";
-import { commandMissing, copy } from "./utils";
+import Project from "@src/project";
+import { commandMissing, copy } from "@src/utils";
 
 /**
  * CLI class.

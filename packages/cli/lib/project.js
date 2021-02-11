@@ -25,8 +25,8 @@ const ora = require("ora");
 const yaml = require("js-yaml");
 const { performance } = require("perf_hooks");
 
-import Epub from "./epub";
-import Build from "./build";
+import Epub from "@src/epub";
+import Build from "@src/build";
 import {
   commandMissing,
   removeFile,

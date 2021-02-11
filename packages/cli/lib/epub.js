@@ -14,8 +14,8 @@ const { URL } = require("url");
 const striptags = require("striptags");
 const LOCALHOST = "http://localhost:1313";
 
-import Chapter from "./chapter";
-import { determineBaseURL } from "./utils";
+import Chapter from "@src/chapter";
+import { determineBaseURL } from "@src/utils";
 class Epub extends EventEmitter {
   constructor(bookData, configData) {
     super();
