@@ -2,9 +2,9 @@ const path = require("path");
 const dir = path.join(process.cwd(), "test-results", "jest");
 
 module.exports = {
-  "moduleNameMapper": {
+  moduleNameMapper: {
     "^@src(.*)$": "<rootDir>/lib$1"
-  } ,
+  },
   reporters: [
     "default",
     [
