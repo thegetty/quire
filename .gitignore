@@ -85,7 +85,7 @@ static
 
 ### CLI ###
 # build output
-packages/cli/bin/index.js
+packages/cli/bin
 
 ### macOS ###
 # General
