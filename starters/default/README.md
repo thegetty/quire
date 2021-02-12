@@ -2,8 +2,7 @@
 _A Digital Publishing Framework from Getty Publications_
 
 This is the starter template for
-[Quire](https://www.getty.edu/publications/digital/platforms-tools.html), an
-open-source multi-format publishing framework built on
+[Quire](https://www.getty.edu/publications/digital/platforms-tools.html), a multi-format publishing framework built on
 [Hugo](https://github.com/gohugoio/hugo). Quire consists of:
 
 - [quire-cli](https://github.com/gettypubs/quire-cli)
