@@ -14,7 +14,7 @@ const sanitizeHtml = require("sanitize-html");
 const path = require("path");
 const cheerio = require("cheerio");
 
-import pandocTemplate from "./epubTemplate";
+import pandocTemplate from "@src/epubTemplate";
 
 // Helper Functions - Consider moving to utils
 const checkFilesCreated = (dir, done) => {

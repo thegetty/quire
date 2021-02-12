@@ -3,7 +3,7 @@ const path = require("path");
 const tmp = require("tmp");
 const fs = require("fs");
 const exec = require("child_process").exec;
-import CLI from "../lib/cli";
+import CLI from "@src/cli";
 const timeout = 5e4;
 const quire = new CLI();
 

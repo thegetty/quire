@@ -1,3 +1,4 @@
+import alias from '@rollup/plugin-alias';
 import babel from "rollup-plugin-babel";
 import copy from './plugins/rollupCopy';
 import resolve from "rollup-plugin-node-resolve";
@@ -32,6 +33,11 @@ export default {
     name: "quire"
   },
   plugins: [
+    alias({
+      entries: [
+        { find: '@src', replacement: '../lib' },
+      ]
+    }),
     babel({
       babelrc: false,
       runtimeHelpers: true,

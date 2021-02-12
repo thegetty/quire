@@ -1,4 +1,4 @@
-import { copyDirRecursive } from "../../../../lib/utils";
+import { copyDirRecursive } from "@src/utils";
 import fs from "fs";
 import path from "path";
 
