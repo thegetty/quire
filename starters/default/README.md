@@ -12,7 +12,7 @@ This is the starter template for
 
 ## Getting Started
 
-### Quire-CLI
+### Quire CLI
 
 There are two ways to get started using this template for your own projects. If
 you are using the [quire-cli](https://github.com/gettypubs/quire-cli), this
@@ -106,4 +106,7 @@ Any web server capable of hosting static files will work (S3, FTP server, etc.),
 but you will likely need to customize the values in `config.build.yml` to suit
 your needs.
 
+### License
+
+Copyright (c) 2021, J Paul Getty Trust.
 
