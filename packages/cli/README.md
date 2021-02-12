@@ -338,4 +338,6 @@ To uninstall Quire:
 
 2. In the folder/finder view, go to your user/home directory where you initially installed Quire, look for the `quire-cli` folder and delete it.
 
+### License
 
+Copyright (c) 2021, J Paul Getty Trust.
