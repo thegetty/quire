@@ -26,32 +26,15 @@ Check out [the demo site](https://thegetty.github.io/quire-starter/), and [some 
 
 If you’re considering using Quire for the first time, please be sure to visit our [*Implementation Considerations.*](https://quire.getty.edu/documentation/implementation/) If you’re a developer please also visit the [*For Developers*](https://quire.getty.edu/documentation/for-developers/) section of our documentation.
 
-We encourage you to sign up for a [free GitHub account](https://github.com/join) to access the [Quire Community Forum](https://github.com/thegetty/quire/discussions/11). You can utilize the forum to ask and answer questions, share ideas, provide feedback, and assist your fellow Quire users. [Subscribe to our newsletter](http://eepurl.com/hg8ROf) for the latest news and events, new feature updates, and highlights from our community. 
+We encourage you to sign up for a [free GitHub account](https://github.com/join) to access the [Quire Community Forum](https://github.com/thegetty/quire/discussions). You can utilize the forum to ask and answer questions, share ideas, provide feedback, and assist your fellow Quire users. [Subscribe to our newsletter](http://eepurl.com/hg8ROf) for the latest news and events, new feature updates, and highlights from our community. 
 
-## Dependencies
-
-Quire is centered around the static-site generator [Hugo](https://github.com/gohugoio/hugo) and uses [Node.js](https://nodejs.org/en/).
-
-In order to produce multiple formats using Quire, you must first install the following support software:
-
-- [PrinceXML](https://www.princexml.com/download/) for PDF generation 
-- [Pandoc](https://pandoc.org/installing.html) for EPUBs
-- [Kindle Previewer](https://www.amazon.com/gp/feature.html?ie=UTF8&docId=1000765261) for MOBIs
-
-## License
-
-Copyright (c) 2021, J Paul Getty Trust.
-
-## This Repository
+## Installing Quire
 
 This is the mono-repository for [Quire](https://quire.getty.edu/). It contains:
 
 -   [packages/cli](https://github.com/thegetty/quire/tree/main/packages): the quire command-line interface
 -   [starters/default](https://github.com/thegetty/quire/tree/main/starters): a default starter project
 -   [themes/default](https://github.com/thegetty/quire/tree/main/themes): the default publication them
-
-
-## Installing the Quire CLI
 
 ### Quick Install: MacOS
 
@@ -70,8 +53,17 @@ This is the mono-repository for [Quire](https://quire.getty.edu/). It contains:
 
 For full installation instructions, and information about updating and uninstalling Quire please see our [documentation.](https://quire.netlify.app/documentation/install-uninstall/)
 
-### Quire CLI Commands 
+### Dependencies
 
+Quire is centered around the static-site generator [Hugo](https://github.com/gohugoio/hugo) and uses [Node.js](https://nodejs.org/en/).
+
+In order to produce multiple formats using Quire, you must first install the following support software:
+
+- [PrinceXML](https://www.princexml.com/download/) for PDF generation 
+- [Pandoc](https://pandoc.org/installing.html) for EPUBs and MOBIs
+- [Kindle Previewer](https://www.amazon.com/gp/feature.html?ie=UTF8&docId=1000765261) for MOBIs
+
+## Quire Commands 
 
 | Option          | Result                                  | 
 | --------------- | --------------------------------------- | 
@@ -94,7 +86,7 @@ For full installation instructions, and information about updating and uninstall
 | template            | Download templates to customize your file output (only for EPUB)  |
 | debug               | Development use only - log info about current  project            |
 
-For more commands please see the [*Quire Commands*](https://quire.getty.edu/documentation/quire-commands/) section of our [documentation](https://quire.getty.edu/documentation/quire-commands/) 
+For more information about these commands please see the [*Quire Commands*](https://quire.getty.edu/documentation/quire-commands/) section of our [documentation](https://quire.getty.edu/documentation/quire-commands/) 
 
 ## Contributing to Quire 
 
@@ -160,3 +152,8 @@ Thank you to all our growing list of contributors who have made Quire what it is
 -   [\@oncletom](https://github.com/oncletom)
 -   [\@swambold1](https://github.com/swambold1)
 -   [\@victoriabarry](https://github.com/victoriabarry)
+
+
+## License
+
+Copyright © 2021, J Paul Getty Trust.
