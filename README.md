@@ -32,9 +32,9 @@ We encourage you to sign up for a [free GitHub account](https://github.com/join)
 
 This is the mono-repository for [Quire](https://quire.getty.edu/). It contains:
 
--   [packages/cli](https://github.com/thegetty/quire/tree/main/packages): the quire command-line interface
--   [starters/default](https://github.com/thegetty/quire/tree/main/starters): a default starter project
--   [themes/default](https://github.com/thegetty/quire/tree/main/themes): the default publication them
+-   [packages/cli](https://github.com/thegetty/quire/tree/main/packages): the quire command-line interface for Quire
+-   [starters/default](https://github.com/thegetty/quire/tree/main/starters): default starter content used as placeholder content when starting a new Quire project
+-   [themes/default](https://github.com/thegetty/quire/tree/main/themes): default theme designed to broadly cover a full range of use-cases and to demonstrate the range of Quire content model
 
 ### Quick Install: MacOS
 
@@ -55,7 +55,7 @@ For full installation instructions, and information about updating and uninstall
 
 ### Dependencies
 
-Quire is centered around the static-site generator [Hugo](https://github.com/gohugoio/hugo) and uses [Node.js](https://nodejs.org/en/).
+Quire is centered around the static-site generator [Hugo](https://github.com/gohugoio/hugo). It is written in Javascript and requires [Node.js LTS](https://nodejs.org/en/) to run.
 
 In order to produce multiple formats using Quire, you must first install the following support software:
 
