@@ -34,7 +34,7 @@ This is the mono-repository for [Quire](https://quire.getty.edu/). It contains:
 
 -   [packages/cli](https://github.com/thegetty/quire/tree/main/packages): the quire command-line interface for Quire
 -   [starters/default](https://github.com/thegetty/quire/tree/main/starters): default starter content used as placeholder content when starting a new Quire project
--   [themes/default](https://github.com/thegetty/quire/tree/main/themes): default theme designed to broadly cover a full range of use-cases and to demonstrate the range of Quire content model
+-   [themes/default](https://github.com/thegetty/quire/tree/main/themes): default theme designed to broadly cover a full range of use-cases and to demonstrate the range of the Quire content model
 
 ### Quick Install: MacOS
 
