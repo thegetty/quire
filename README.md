@@ -55,7 +55,7 @@ For full installation instructions, and information about updating and uninstall
 
 ### Dependencies
 
-Quire is centered around the static-site generator [Hugo](https://github.com/gohugoio/hugo). It is written in Javascript and requires [Node.js LTS](https://nodejs.org/en/) to run.
+Quire is centered around the static-site generator [Hugo](https://github.com/gohugoio/hugo). The Quire command-line interface is written in Javascript and requires [Node.js LTS](https://nodejs.org/en/) to run.
 
 In order to produce multiple formats using Quire, you must first install the following support software:
 
