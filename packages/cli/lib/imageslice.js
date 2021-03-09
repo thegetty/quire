@@ -123,14 +123,14 @@ export default async function () {
           let stat = fs.lstatSync(fullPath);
           let fullProcessPath = path.join(iiifProcessed, files[i]);
 
-          const params = [".jpg", ".jpeg", ".png", ".svg", ".jp2"];
+          const fileExtensions = [".jpg", ".jpeg", ".png", ".svg", ".jp2"];
           if (stat.isDirectory()) {
             spinner.fail(
               `Directories found! Please delete and move images you'd like to slice to ${iiifSeed}`
             );
             throw new error();
           } else {
-            if (params.some((el) => fullPath.includes(el))) {
+            if (fileExtensions.some((extension) => fullPath.toLowerCase().includes(extension))) {
               images.push(fullPath);
             } else {
               spinner.fail(`No images found! Add images in: ${iiifSeed}`);
