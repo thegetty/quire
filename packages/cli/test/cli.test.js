@@ -123,4 +123,17 @@ describe("CLI", () => {
     },
     timeout
   );
+
+  test(
+    "should successfully slice a test image to IIIF",
+    async done => {
+      await quire.imageslice();
+      assert.equal(
+        fs.existsSync(path.join(sandboxDir.name, projectName, "static", "img", "iiif", "processed")),
+        true
+      );
+      done();
+    },
+    timeout
+  );
 });
