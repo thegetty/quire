@@ -85,7 +85,12 @@ static
 
 ### CLI ###
 # build output
-packages/cli/bin
+packages/cli/bin/index.js
+
+# Bundled starters and themes
+packages/cli/bin/starters
+packages/cli/bin/themes
+
 
 ### macOS ###
 # General
