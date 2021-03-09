@@ -33,7 +33,7 @@ export default async function () {
 
     // check if processed folder exists
     if (!fs.existsSync(iiifProcessed)) {
-      fs.mkdirSync(iiifProcessed);
+      fs.mkdirSync(iiifProcessed, { recursive: true });
     }
 
     // Read the config template and create a local state of the config to overwrite
