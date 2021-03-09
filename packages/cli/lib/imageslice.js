@@ -3,6 +3,7 @@ const fs = require("fs-extra");
 const ora = require("ora");
 const path = require("path");
 const rimraf = require("rimraf");
+import { isWin } from "./utils";
 
 /**
  * imageslice - image slicing
@@ -11,7 +12,7 @@ const rimraf = require("rimraf");
  * that the script will look for any images in there to slice and create the folders/zoom depth.
  * If it happens to detect folders are already there, it'll error out and tell you to remove them
  */
-export default async function (context) {
+export default async function () {
   return new Promise((resolve) => {
     let spinner = ora({
       text: "Creating IIIF images..."
@@ -23,7 +24,7 @@ export default async function (context) {
     let imageProcessed = false;
     let iterations = 0;
     let requests = 0;
-    let iiifTiler = context.isWin()
+    let iiifTiler = isWin()
       ? "/go-iiif/bin/iiif-tile-seed-win"
       : process.platform === "linux"
       ? "/go-iiif/bin/iiif-tile-seed-linux"

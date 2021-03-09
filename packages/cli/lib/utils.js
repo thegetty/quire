@@ -96,3 +96,11 @@ export function copyDirRecursive(from, to, exclude) {
     }
   });
 };
+
+/**
+ * check Operating System
+ * @returns {boolean}
+ */
+export function isWin() {
+  return process.platform === "win32" ? true : false;
+}

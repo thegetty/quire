@@ -30,6 +30,7 @@ import imageslice from "@src/imageslice";
 import Build from "@src/build";
 import {
   commandMissing,
+  isWin,
   removeFile,
   determineBaseURL,
   readYAML
@@ -79,7 +80,7 @@ class Project extends EventEmitter {
   }
 
   async imageslice() {
-    await imageslice(this);
+    await imageslice();
   }
 
   /**
@@ -129,14 +130,6 @@ class Project extends EventEmitter {
   }
 
   /**
-   * check Operating System
-   * @returns {boolean}
-   */
-  isWin() {
-    return process.platform === "win32" ? true : false;
-  }
-
-  /**
    * preview
    * @description runs `webpack --watch` and `hugo server` as child processes.
    */
@@ -146,7 +139,7 @@ class Project extends EventEmitter {
     webpackConfig = "webpack/" + webpackConfig;
     let stdio = this.verbose ? "inherit" : ["pipe", "pipe", process.stderr];
     let cwd = path.join("themes", this.theme);
-    let webpackCmd = this.isWin() ? "webpack.cmd" : "webpack";
+    let webpackCmd = isWin() ? "webpack.cmd" : "webpack";
     let webpackBin = path.join("node_modules", ".bin", webpackCmd);
     this.emit("info", "Launching preview server");
     let spinner = ora({
@@ -176,7 +169,7 @@ class Project extends EventEmitter {
   install() {
     return new Promise(resolve => {
       let theme = this.config.theme;
-      let npmCmd = this.isWin() ? "npm.cmd" : "npm";
+      let npmCmd = isWin() ? "npm.cmd" : "npm";
       let spinner = ora({
         text: "Installing theme dependencies..."
       }).start();
@@ -209,7 +202,7 @@ class Project extends EventEmitter {
       webpackArguments.push(baseURL);
     }
     let stdio = this.verbose ? "inherit" : ["pipe", "pipe", process.stderr];
-    let webpackCmd = this.isWin() ? `webpack.cmd` : `webpack`;
+    let webpackCmd = isWin() ? `webpack.cmd` : `webpack`;
     let webpackBin = path.join("node_modules", ".bin", webpackCmd);
     return execa(webpackBin, webpackArguments, {
       cwd: path.join("themes", this.theme),
@@ -319,13 +312,13 @@ class Project extends EventEmitter {
       path.join("themes", this.theme, "static", "css", "application.css")
     );
 
-    let princeCmd = this.isWin()
+    let princeCmd = isWin()
       ? "C:\\Program Files (x86)\\Prince\\engine\\bin\\prince.exe"
       : "prince";
     let spinner = ora("Building PDF").start();
     let start = performance.now();
     let princeArgs;
-    if (!this.isWin()) {
+    if (!isWin()) {
       this.checkForCommand(princeCmd, spinner);
     }
 
@@ -671,7 +664,7 @@ class Project extends EventEmitter {
           const fileNamePath = path.join(filePath, fileName);
           let args = `-f html-native_divs+native_spans -t epub html/epub.xhtml -o ${fileNamePath}-mobi.epub --epub-metadata=html/dc.xml ${cover} --template=html/template.xhtml --css=${outputDir}/css/epub.css -s`;
           execSync(`pandoc ${args}`);
-          const kindlegenCmd = this.isWin()
+          const kindlegenCmd = isWin()
             ? "C:\\Program Files (x86)\\Kindle Previewer 3\\lib\\fc\\bin\\kindlegen"
             : "/Applications/Kindle Previewer 3.app/Contents/lib/fc/bin/kindlegen";
           if (!fs.existsSync(kindlegenCmd)) {
