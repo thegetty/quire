@@ -76,7 +76,7 @@ export default async function () {
         iiifTiler
       )} -config-source file://${path.normalize(__dirname)}${path.normalize(
         iiifConfig
-      )} -quality default -verbose -refresh -scale-factors 128,64,32,16,8,4,2,1,0 ${imageName}`;
+      )} -quality default -verbose -refresh -noextension -scale-factors 128,64,32,16,8,4,2,1,0 ${imageName}`;
 
       return new Promise(function (resolve, reject) {
         // execSync(cmd); // alternative command, more console logs
