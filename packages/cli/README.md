@@ -1,8 +1,12 @@
-# Quire CLI
+# Quire 
 
-For information on **installing, updating, and uninstalling Quire (macOS + Windows) and Quire commands** please refer to the main [README.md](https://github.com/thegetty/quire/blob/main/README.md) for this repository. 
+Developed by Getty, Quire is a new, multiformat publishing tool available for immediate access and use. Quire is in a limited beta, © J. Paul Getty Trust, and not yet released as open-source software. For a free license to use Quire, please complete [this form](https://docs.google.com/forms/d/e/1FAIpQLScKOJEq9ivhwizmdazjuhxBII-s-5SUsnerWmyF8VteeeRBhA/viewform).
 
-## **Developing the Quire CLI**
+## Quire CLI
+
+For information on **installing, updating, and uninstalling Quire (macOS + Windows) and Quire commands** please refer to the [Quire documentation](https://quire.getty.edu/documentation/install-uninstall/). 
+
+### **Developing the Quire CLI**
 
 1. Enter the quire root directory
     ```tx
@@ -23,7 +27,7 @@ For information on **installing, updating, and uninstalling Quire (macOS + Windo
 
 5. If running the watch command `Control + C` to quit
 
-## **Testing the Quire CLI**
+### **Testing the Quire CLI**
 
 1. Enter the quire root directory
     ```tx
