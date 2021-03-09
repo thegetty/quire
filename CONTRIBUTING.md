@@ -10,7 +10,8 @@ There are [many ways to contribute](#identify-a-contribution-to-make) including 
 
 🗣**CALLING ALL FIRST-TIMERS!** — We can’t stress enough that Quire is open to contributors at all levels. That could mean making a modest fix, like correcting a typo or fixing a broken link, or more intensive contributions like adding Quire CSS styles and JavaScript, or even copyediting one of our documentation pages. Here are a few resources especially for you:
 
-- Find the [“good first issues”](https://github.com/thegetty/quire/issues) tagged in our issue tracker
+- Find [“good first issues”](https://github.com/thegetty/quire/issues) tagged in our issue tracker for the main thegetty/quire repo
+- Find [“good first issues”](https://github.com/thegetty/quire-docs/issues) tagged in our issue tracker for the thegetty/quire-docs repo
 - Read the Quire guide to Making Your First Contribution — *in progress*
 - Learn more about contributing to open source at [First Timers Only](http://www.firsttimersonly.com/)
 
