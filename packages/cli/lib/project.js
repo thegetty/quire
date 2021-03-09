@@ -26,6 +26,7 @@ const yaml = require("js-yaml");
 const { performance } = require("perf_hooks");
 
 import Epub from "@src/epub";
+import imageslice from "@src/imageslice";
 import Build from "@src/build";
 import {
   commandMissing,
@@ -75,6 +76,10 @@ class Project extends EventEmitter {
         return c.baseURL !== undefined;
       });
     return url;
+  }
+
+  async imageslice() {
+    await imageslice(this);
   }
 
   /**

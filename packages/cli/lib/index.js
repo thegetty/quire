@@ -121,6 +121,19 @@ program
     cli.emit("epub", file, env);
   });
 
+// quire imageslice
+//
+// generate IIIF image tiles
+//
+program
+  .command("imageslice")
+  .description("Slice image and create manifest file & directory.")
+  .action(function (env) {
+    cli.verbose = program.verbose;
+    cli.emit("imageslice", env);
+  });
+
+
 // quire epub
 //
 // run the build command in the current directory
