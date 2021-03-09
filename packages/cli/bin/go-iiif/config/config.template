@@ -1,0 +1,55 @@
+{
+  "level": {
+    "compliance": "2"
+  },
+  "profile": {
+    "services": {
+      "enable": ["palette"]
+    }
+  },
+  "palette": {
+    "extruder": { "name": "vibrant", "count": 5 },
+    "grid": { "name": "euclidian" },
+    "palette": [{ "name": "crayola" }, { "name": "css4" }]
+  },
+  "blurhash": { "x": 8, "y": 8, "size": 200 },
+  "imagehash": {},
+  "graphics": {
+    "source": { "name": "native" }    
+  },
+  "features": {
+    "enable": {
+      "size": ["max"],
+      "format": ["webp", "tif", "gif"],
+      "rotation": ["noAutoRotate"]
+    },
+    "disable": {
+      "rotation": ["rotationArbitrary"],
+      "quality": ["bitonal"]
+    },
+    "append": {
+      "quality": {
+        "dither": {
+          "syntax": "dither",
+          "required": false,
+          "supported": true,
+          "match": "^dither$"
+        },
+        "primitive": {
+          "syntax": "primitive:mode,iterations,alpha",
+          "required": false,
+          "supported": true,
+          "match": "^primitive\\:[0-5]\\,\\d+\\,\\d+$"
+        }
+      }
+    }
+  },
+  "primitive": { "max_iterations": 100 },
+  "images": {
+    "source": { "name": "Disk", "path": "static/img/iiif/images" },
+    "cache": { "name": "Memory", "ttl": 300, "limit": 100 }
+  },
+  "derivatives": {
+    "cache": { "name": "Disk", "path": "static/img/iiif/processed" }
+  }
+}
