@@ -6,11 +6,12 @@ const rimraf = require("rimraf");
 import { isWin } from "./utils";
 
 /**
- * imageslice - image slicing
- * @description Slice images to IIIF standard.  It determines has a few requirements.
- * It needs to have the images that need to be sliced, living in `static/img/iiif`, so
- * that the script will look for any images in there to slice and create the folders/zoom depth.
- * If it happens to detect folders are already there, it'll error out and tell you to remove them
+ * imageslice
+ *
+ * @description Tile images to IIIF Image API level 0 specification
+ *
+ * Images in `static/img/iiif/images` will be tiled and output to `static/img/iiif/processed/{image_filename}`
+ * If an existing processed image directory with the same name is found, it will be removed and re-written
  */
 export default async function () {
   return new Promise((resolve) => {
