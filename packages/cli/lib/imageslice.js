@@ -3,7 +3,7 @@ const fs = require("fs-extra");
 const ora = require("ora");
 const path = require("path");
 const rimraf = require("rimraf");
-import { isWin } from "./utils";
+import { isWin32 } from "./utils";
 
 /**
  * imageslice
@@ -25,7 +25,7 @@ export default async function () {
     let imageProcessed = false;
     let iterations = 0;
     let requests = 0;
-    let iiifTiler = isWin()
+    let iiifTiler = isWin32()
       ? "/go-iiif/bin/iiif-tile-seed-win"
       : process.platform === "linux"
       ? "/go-iiif/bin/iiif-tile-seed-linux"

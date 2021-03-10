@@ -101,6 +101,6 @@ export function copyDirRecursive(from, to, exclude) {
  * check Operating System
  * @returns {boolean}
  */
-export function isWin() {
+export function isWin32() {
   return process.platform === "win32" ? true : false;
 }
