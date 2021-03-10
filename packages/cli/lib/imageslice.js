@@ -63,17 +63,26 @@ export default async function () {
     }
 
     // function to execute the command to slice the images
-    async function iiifSlice(imageUrl) {
-      const imageName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
-      const cmd = `${path.normalize(__dirname)}${path.normalize(
-        iiifTiler
-      )} -config-source file://${path.normalize(__dirname)}${path.normalize(
-        iiifConfig
-      )} -quality default -verbose -refresh -noextension -scale-factors 128,64,32,16,8,4,2,1,0 ${imageName}`;
-
+    async function iiifSlice(imagePath) {
+      const configPath = `file://${path.normalize(__dirname)}${path.normalize(iiifConfig)}`;
+      const iiifTilerPath = `${path.normalize(__dirname)}${path.normalize(iiifTiler)}`;
+      const imageName = path.parse(imagePath).base;
+      const cmdArgs = [
+        iiifTilerPath,
+        '-config-source',
+        configPath,
+        '-quality',
+        'default',
+        '-verbose',
+        '-refresh',
+        '-noextension',
+        '-scale-factors',
+        '128,64,32,16,8,4,2,1,0',
+        imageName
+      ];
       return new Promise(function (resolve, reject) {
         // execSync(cmd); // alternative command, more console logs
-        return execa.commandSync(cmd) ? resolve(true) : reject(true);
+        return execa.commandSync(cmdArgs.join(' ')) ? resolve(true) : reject(true);
       });
     }
 
@@ -124,7 +133,7 @@ export default async function () {
             spinner.fail(`Cannot slice file ${files[i]}. File type must be: ${supportedExts.join(', ')}.`);
           }
           if (fs.existsSync(dest)) {
-            let statProcessed = fs.lstatSync(dest);
+            const statProcessed = fs.lstatSync(dest);
             if (statProcessed.isDirectory()) {
               spinner.info(
                 `IIIF image files already exist for ${base}. They will be removed and rewritten.`
