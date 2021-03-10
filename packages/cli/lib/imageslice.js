@@ -117,7 +117,7 @@ export default async function () {
           const filePath = path.join(iiifSeed, files[i]);
           const dest = path.join(iiifProcessed, name);
 
-          const supportedExts = [".jpg", ".jpeg", ".png", ".svg", ".jp2"];
+          const supportedExts = [".jp2", ".jpg", ".jpeg", ".png", ".svg"];
           if (supportedExts.some((supportedExt) => supportedExt === ext)) {
             originalImages.push(filePath);
           } else {
