@@ -21,10 +21,7 @@ export default async function () {
     const iiifSeed = "static/img/iiif/images";
     const iiifProcessed = "static/img/iiif/processed";
     const originalImages = [];
-    let finished = false;
-    let imageProcessed = false;
-    let iterations = 0;
-    let requests = 0;
+    let imagesSliced = 0;
     let iiifTiler = isWin32()
       ? "/go-iiif/bin/iiif-tile-seed-win"
       : process.platform === "linux"
@@ -150,49 +147,32 @@ export default async function () {
       }
     }
 
-    // parse the images that are found
-    function parseImages() {
-      try {
-        for (let i = 0; i < originalImages.length; i++) {
-          iterations++;
-          requests++;
-          let image = originalImages[i];
-          iiifSlice(image).then(() => {
-            imageProcessed = true;
-            requests--;
-            finished = true;
-            if (requests === 0) imagesDone();
-          });
-        }
-        if (originalImages.length === 0) {
-          spinner.fail(`No images found in ${iiifSeed}`);
-          imagesDone();
-        }
-        return new Promise((resolve) => {
-          resolve(true);
-        });
-      } catch (error) {
-        return new Promise((reject) => {
-          reject(true);
-          spinner.fail("Image failed to slice!");
+    // Slice Images
+    function sliceImages() {
+      let imagesToSlice = originalImages.length;
+      if (imagesToSlice === 0) {
+        spinner.fail(`No images found in ${iiifSeed}`);
+        resetConfigPath();
+      }
+      for (let i = 0; i < originalImages.length; i++) {
+        const image = originalImages[i];
+        iiifSlice(image).then(() => {
+          imagesSliced++;
+          imagesToSlice--;
+          if (imagesToSlice === 0) imagesDone();
         });
       }
+      return new Promise((resolve) => {
+        resolve(true);
+      });
     }
 
-    // Display images done or not
+    // Verify expected images were sliced
+    // Log success
     async function imagesDone() {
-      if (finished) {
-        await compareSlicedResults();
-        getAllImagesAndRename(path.normalize("static/img/iiif/processed"));
-        if (iterations === 1 && imageProcessed) {
-          spinner.succeed(`${iterations} image has been sliced!`);
-        } else {
-          spinner.succeed(`${iterations} images have been sliced!`);
-        }
-        spinner.succeed("IIIF manifest and file(s) generated!");
-      } else {
-        spinner.warn("No sliced images generated");
-      }
+      spinner.succeed(`Done processing ${imagesSliced} images.`);
+      await compareSlicedResults();
+      getAllImagesAndRename(path.normalize("static/img/iiif/processed"));
       resetConfigPath();
     }
 
@@ -204,18 +184,24 @@ export default async function () {
       let failed = [];
       let completed = [];
       for (let i = 0; i < originalImages.length; i++) {
-        for (let j = 0; j < processedImages.length; j++) {
-          originalImages[i].includes(processedImages[j])
-            ? completed.push(
-                originalImages[i].substring(originalImages[i].lastIndexOf("/") + 1)
-              )
-            : failed.push(originalImages[i].substring(originalImages[i]));
+        const originalImageFile = path.parse(originalImages[i]).base;
+        const originalImageFileName = path.parse(originalImages[i]).name;
+        if (processedImages.includes(originalImageFileName)) {
+          completed.push(originalImageFile);
+        } else {
+          failed.push(originalImageFile);
         }
       }
-      failed.length
-        ? spinner.warn(`Failed to slice these images: ${failed} | Ensure the seed file has proper exif headings`)
-        : spinner.info(`Succeeded in slicing: ${completed}`);
-      iterations -= failed.length;
+      if (failed.length) {
+        spinner.warn(
+          `${failed.length}/${imagesSliced} failed. Ensure these files have proper exif headings: ${['', ...failed].join('\n - ')}`
+        )
+      }
+      if (completed.length) {
+        spinner.succeed(
+          `${completed.length}/${imagesSliced} succeeded:${['', ...completed].join('\n - ')}`
+        );
+      }
     }
 
     // done function, trigger finish and resolve true to the Promise
@@ -243,6 +229,6 @@ export default async function () {
       });
     }
 
-    setTimeout(parseImages, 10);
+    setTimeout(sliceImages, 10);
   });
 }
