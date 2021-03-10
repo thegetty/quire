@@ -1,6 +1,12 @@
-# Quire Starter Theme
+# Quire 
 
-This starter theme is a full-featured theme designed to showcase and make use of Quire’s core features out of the box, and is included by default when starting a new Quire project with the `quire new` command. The theme includes support for a variety of page types: page, contents, cover, essay, entry, and splash. Also included are two sub-themes, "modern" (first three screenshots below) and "classic" (second three screenshots below), which can be controlled with the `$theme` variable as documented below.
+Developed by Getty, Quire is a new, multiformat publishing tool available for immediate access and use. Quire is in a limited beta, © J. Paul Getty Trust, and not yet released as open-source software. For a free license to use Quire, please complete [this form](https://docs.google.com/forms/d/e/1FAIpQLScKOJEq9ivhwizmdazjuhxBII-s-5SUsnerWmyF8VteeeRBhA/viewform).
+
+For information on **installing, updating, and uninstalling Quire (macOS + Windows) and Quire commands** please refer to the [Quire documentation](https://quire.getty.edu/documentation/install-uninstall/). 
+
+## Quire Default Theme
+
+This default theme is a full-featured theme designed to showcase and make use of Quire’s core features out of the box, and is included by default when starting a new Quire project with the `quire new` command. The default theme includes support for a variety of page types: page, contents, cover, essay, entry, and splash. Also included are two sub-themes, "modern" (first three screenshots below) and "classic" (second three screenshots below), which can be controlled with the `$theme` variable as documented below.
 
 ![test](source/img/promo-screenshots/modern-cover.png)
 
@@ -16,7 +22,7 @@ This starter theme is a full-featured theme designed to showcase and make use of
 
 ## Defined Variables
 
-This theme includes a number of style variables intended to allow for relatively easy customization without having to dig into the stylesheets and CSS markup. They are explained below and can be found and changed in `/source/css/variables.scss` file. Take special note of thee `$theme` variable which can be set to "modern" or "classic", and the `$accent-color` variable which will give your publication a distinct feel in coloring all links, buttons and other navigation elements.
+This default theme includes a number of style variables intended to allow for relatively easy customization without having to dig into the stylesheets and CSS markup. They are explained below and can be found and changed in `/source/css/variables.scss` file. Take special note of thee `$theme` variable which can be set to "modern" or "classic", and the `$accent-color` variable which will give your publication a distinct feel in coloring all links, buttons and other navigation elements.
 
 | Variable Type | Variable | Expected Value | Description | 
 | ------------- | -------- | -------------- | ----------- |
@@ -93,14 +99,14 @@ Outside of the theme files themselves, a Quire project will also have a config.y
 
 ## Development Info
 
-This theme is paired with the [Quire Starter](https://github.com/gettypubs/quire-starter) demo content, and is included by default when running `quire new` from the [Quire CLI](https://github.com/gettypubs/quire-cli).
+The default theme is paired with the [default starter](https://github.com/thegetty/quire/starters/default) demo content, and is included when running `quire new`.
 
-Consult [the Quire documentation site](https://gettypubs.github.io/quire/) for more detailed information on publishing with Quire.
+Consult [the Quire documentation](https://quire.getty.edu/) for more detailed information on publishing with Quire.
 
 ### Testing
 
-The testing framework used for the `quire-starter-theme` is [Cypress](https://www.cypress.io/). The cypress tests are run for every pull request through circleci. However if you are developing the `quire-starter-theme` you can run the tests locally also. This is possible by running `npm install` and then running `npm run test:e2e:local` from the `quire-starter-theme`directory.
+The testing framework used for the `default-theme` is [Cypress](https://www.cypress.io/). The cypress tests are run for every pull request through circleci. However if you are developing the `default-theme` you can run the tests locally also. This is possible by running `npm install` and then running `npm run test:e2e:local` from the `default-theme`directory.
 
-## Copyright
+## License
 
-© J. Paul Getty Trust, 2019
+Copyright © 2021, J Paul Getty Trust.
