@@ -1,4 +1,4 @@
-![Quire logo](static/img/quire_logo_tm.png)
+# Quire
 
 ## About Quire 
 
