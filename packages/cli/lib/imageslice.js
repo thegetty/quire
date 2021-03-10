@@ -119,7 +119,7 @@ export default async function () {
       spinner.info("Getting all images");
       if (fs.existsSync(iiifSeed)) {
         const files = fs.readdirSync(iiifSeed);
-        for (let i = 0, len = files.length; i < len; i++) {
+        for (let i = 0; i < files.length; i++) {
           const { ext, name } = path.parse(files[i]);
           const filePath = path.join(iiifSeed, files[i]);
           const dest = path.join(iiifProcessed, name);
@@ -153,7 +153,7 @@ export default async function () {
     // parse the images that are found
     function parseImages() {
       try {
-        for (let i = 0, len = originalImages.length; i < len; i++) {
+        for (let i = 0; i < originalImages.length; i++) {
           iterations++;
           requests++;
           let image = originalImages[i];
@@ -203,8 +203,8 @@ export default async function () {
       const processedImages = fs.readdirSync(iiifProcessed);
       let failed = [];
       let completed = [];
-      for (let i = 0, len = originalImages.length; i < len; i++) {
-        for (let j = 0, flen = processedImages.length; j < flen; j++) {
+      for (let i = 0; i < originalImages.length; i++) {
+        for (let j = 0; j < processedImages.length; j++) {
           originalImages[i].includes(processedImages[j])
             ? completed.push(
                 originalImages[i].substring(originalImages[i].lastIndexOf("/") + 1)
