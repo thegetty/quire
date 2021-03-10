@@ -125,7 +125,7 @@ describe("CLI", () => {
   );
 
   test(
-    "should successfully slice a test image to IIIF",
+    "quire imageslice should create 'img/iiif/processed' image directory",
     async done => {
       await quire.imageslice();
       assert.equal(
