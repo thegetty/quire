@@ -6,11 +6,12 @@ const rimraf = require("rimraf");
 import { isWin } from "./utils";
 
 /**
- * imageslice - image slicing
- * @description Slice images to IIIF standard.  It determines has a few requirements.
- * It needs to have the images that need to be sliced, living in `static/img/iiif`, so
- * that the script will look for any images in there to slice and create the folders/zoom depth.
- * If it happens to detect folders are already there, it'll error out and tell you to remove them
+ * imageslice
+ *
+ * @description Tile images to IIIF Image API level 0 specification
+ *
+ * Images in `static/img/iiif/images` will be tiled and output to `static/img/iiif/processed/{image_filename}`
+ * If an existing processed image directory with the same name is found, it will be removed and re-written
  */
 export default async function () {
   return new Promise((resolve) => {
@@ -19,7 +20,7 @@ export default async function () {
     }).start();
     const iiifSeed = "static/img/iiif/images";
     const iiifProcessed = "static/img/iiif/processed";
-    let images = [];
+    const originalImages = [];
     let finished = false;
     let imageProcessed = false;
     let iterations = 0;
@@ -75,7 +76,7 @@ export default async function () {
         iiifTiler
       )} -config-source file://${path.normalize(__dirname)}${path.normalize(
         iiifConfig
-      )} -quality default -verbose -refresh -scale-factors 128,64,32,16,8,4,2,1,0 ${imageName}`;
+      )} -quality default -verbose -refresh -noextension -scale-factors 128,64,32,16,8,4,2,1,0 ${imageName}`;
 
       return new Promise(function (resolve, reject) {
         // execSync(cmd); // alternative command, more console logs
@@ -117,36 +118,28 @@ export default async function () {
     function getAllImages() {
       spinner.info("Getting all images");
       if (fs.existsSync(iiifSeed)) {
-        let files = fs.readdirSync(iiifSeed);
+        const files = fs.readdirSync(iiifSeed);
         for (let i = 0, len = files.length; i < len; i++) {
-          let fullPath = path.join(iiifSeed, files[i]);
-          let stat = fs.lstatSync(fullPath);
-          let fullProcessPath = path.join(iiifProcessed, files[i]);
+          const { ext, name } = path.parse(files[i]);
+          const filePath = path.join(iiifSeed, files[i]);
+          const dest = path.join(iiifProcessed, name);
 
-          const params = [".jpg", ".jpeg", ".png", ".svg", ".jp2"];
-          if (stat.isDirectory()) {
-            spinner.fail(
-              `Directories found! Please delete and move images you'd like to slice to ${iiifSeed}`
-            );
-            throw new error();
+          const supportedExts = [".jpg", ".jpeg", ".png", ".svg", ".jp2"];
+          if (supportedExts.some((supportedExt) => supportedExt === ext)) {
+            originalImages.push(filePath);
           } else {
-            if (params.some((el) => fullPath.includes(el))) {
-              images.push(fullPath);
-            } else {
-              spinner.fail(`No images found! Add images in: ${iiifSeed}`);
-              throw new error();
-            }
+            spinner.fail(`Cannot slice file ${files[i]}. File type must be: ${supportedExts.join(', ')}.`);
           }
-          if (fs.existsSync(fullProcessPath)) {
-            let statProcessed = fs.lstatSync(fullProcessPath);
+          if (fs.existsSync(dest)) {
+            let statProcessed = fs.lstatSync(dest);
             if (statProcessed.isDirectory()) {
               spinner.info(
                 "Processed image found; cleaning up processed image directory"
               );
               // execa.commandSync(`rm -rf ${statProcessed}`);
-              rimraf.sync(fullProcessPath);
+              rimraf.sync(dest);
               spinner.succeed(
-                `Processed image directory ${fullProcessPath} has been cleared`
+                `Processed image directory ${dest} has been cleared`
               );
             }
           }
@@ -160,10 +153,10 @@ export default async function () {
     // parse the images that are found
     function parseImages() {
       try {
-        for (let i = 0, len = images.length; i < len; i++) {
+        for (let i = 0, len = originalImages.length; i < len; i++) {
           iterations++;
           requests++;
-          let image = images[i];
+          let image = originalImages[i];
           iiifSlice(image).then(() => {
             imageProcessed = true;
             requests--;
@@ -171,7 +164,7 @@ export default async function () {
             if (requests === 0) imagesDone();
           });
         }
-        if (images.length === 0) {
+        if (originalImages.length === 0) {
           spinner.fail(`No images found in ${iiifSeed}`);
           imagesDone();
         }
@@ -207,16 +200,16 @@ export default async function () {
     // subtract the amount failed from the iterations to display the correct amount
     // in imagesDone()
     async function compareSlicedResults() {
-      const files = fs.readdirSync(iiifProcessed);
+      const processedImages = fs.readdirSync(iiifProcessed);
       let failed = [];
       let completed = [];
-      for (let i = 0, len = images.length; i < len; i++) {
-        for (let j = 0, flen = files.length; j < flen; j++) {
-          images[i].includes(files[j])
+      for (let i = 0, len = originalImages.length; i < len; i++) {
+        for (let j = 0, flen = processedImages.length; j < flen; j++) {
+          originalImages[i].includes(processedImages[j])
             ? completed.push(
-                images[i].substring(images[i].lastIndexOf("/") + 1)
+                originalImages[i].substring(originalImages[i].lastIndexOf("/") + 1)
               )
-            : failed.push(images[i].substring(images[i]));
+            : failed.push(originalImages[i].substring(originalImages[i]));
         }
       }
       failed.length
