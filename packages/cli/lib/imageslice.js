@@ -22,7 +22,7 @@ export default async function () {
     const iiifProcessed = "static/img/iiif/processed";
     const originalImages = [];
     let imagesSliced = 0;
-    let iiifTiler = isWin32()
+    const iiifTiler = isWin32()
       ? "/go-iiif/bin/iiif-tile-seed-win"
       : process.platform === "linux"
       ? "/go-iiif/bin/iiif-tile-seed-linux"
@@ -37,7 +37,6 @@ export default async function () {
     // Read the config template and create a local state of the config to overwrite
     // values that will allow it to work per project.  Create file after values set.
     function updateConfigPath() {
-      spinner.info("Updating go-iiif config");
       let config = fs.readFileSync(
         __dirname + path.normalize("/go-iiif/config/config.template")
       );
@@ -54,15 +53,12 @@ export default async function () {
         config,
         "utf8"
       );
-      spinner.succeed("go-iiif config created!");
     }
 
     // Log to spinner the process and then remove config file so only the template remains,
     // Trigger done function
     function resetConfigPath() {
-      spinner.info("Cleaning up go-iiif config");
       fs.unlink(__dirname + path.normalize("/go-iiif/config/config.json"));
-      spinner.succeed("go-iiif config cleaned up");
       done();
     }
 
@@ -113,11 +109,11 @@ export default async function () {
     // also check if any images have been processed and 
     // delete them so it can do a fresh slice
     function getAllImages() {
-      spinner.info("Getting all images");
+      spinner.info("Finding images to process...");
       if (fs.existsSync(iiifSeed)) {
         const files = fs.readdirSync(iiifSeed);
         for (let i = 0; i < files.length; i++) {
-          const { ext, name } = path.parse(files[i]);
+          const { ext, name, base } = path.parse(files[i]);
           const filePath = path.join(iiifSeed, files[i]);
           const dest = path.join(iiifProcessed, name);
 
@@ -131,13 +127,9 @@ export default async function () {
             let statProcessed = fs.lstatSync(dest);
             if (statProcessed.isDirectory()) {
               spinner.info(
-                "Processed image found; cleaning up processed image directory"
+                `IIIF image files already exist for ${base}. They will be removed and rewritten.`
               );
-              // execa.commandSync(`rm -rf ${statProcessed}`);
               rimraf.sync(dest);
-              spinner.succeed(
-                `Processed image directory ${dest} has been cleared`
-              );
             }
           }
         }
@@ -193,7 +185,7 @@ export default async function () {
         }
       }
       if (failed.length) {
-        spinner.warn(
+        spinner.fail(
           `${failed.length}/${imagesSliced} failed. Ensure these files have proper exif headings: ${['', ...failed].join('\n - ')}`
         )
       }
