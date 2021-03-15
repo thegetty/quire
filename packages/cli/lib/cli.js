@@ -36,17 +36,18 @@ export default class CLI extends EventEmitter {
   constructor() {
     super();
     // this.currentDir = process.cwd()
-    this.on("new", this.create);
-    this.on("preview", this.preview);
-    this.on("install", this.install);
-    this.on("site", this.site);
-    this.on("epub", this.epub);
-    this.on("template", this.template);
-    this.on("mobi", this.mobi);
-    this.on("pdf", this.pdf);
-    this.on("error", this.warn);
     this.on("debug", this.debug);
+    this.on("epub", this.epub);
+    this.on("error", this.warn);
+    this.on("imageslice", this.imageslice);
+    this.on("install", this.install);
+    this.on("mobi", this.mobi);
+    this.on("new", this.create);
+    this.on("pdf", this.pdf);
+    this.on("preview", this.preview);
     this.once("shutdown", this.shutdown);
+    this.on("site", this.site);
+    this.on("template", this.template);
 
     // TODO: handle errors emitted by the Project object here somewhere.
     // project.on('error', this.warn)
@@ -112,6 +113,19 @@ export default class CLI extends EventEmitter {
         resolve(true);
         return true;
       }
+    });
+  }
+
+  imageslice() {
+    return new Promise((resolve) => {
+      this.project = new Project(this.verbose);
+      this.project.on("info", this.notice);
+      this.project.on("error", (msg) => {
+        this.error(msg);
+        this.shutdown();
+      });
+      this.project.imageslice();
+      resolve(true);
     });
   }
 

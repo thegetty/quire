@@ -1,0 +1,10 @@
+{
+  "o": {"size": "full", "format": "", "rotation": "-1"},
+  "b": {"size": "!2048,1536", "format": "jpg"},
+  "d": {
+    "size": "full",
+    "quality": "dither",
+    "region": "-1,-1,320,320",
+    "format": "jpg"
+  }
+}
