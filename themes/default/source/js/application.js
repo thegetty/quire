@@ -526,8 +526,7 @@ function toggleCite() {
         } else {
           content.setAttribute("hidden", "hidden");
         }
-        const container = document.documentElement;
-        setPositionInContainer(content, container);
+        setPositionInContainer(content, document.documentElement);
       }
     });
   }
