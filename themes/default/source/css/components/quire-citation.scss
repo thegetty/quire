@@ -63,7 +63,7 @@
     z-index: 1;
     bottom: 150%;
     left: 50%;
-    margin-left: -200px;
+    transform: translateX(-200px);
     -webkit-box-shadow: 0px 0px 6px 0px $black-semi-transparent;
     -moz-box-shadow: 0px 0px 6px 0px $black-semi-transparent;
     box-shadow: 0px 0px 6px 0px $black-semi-transparent;
@@ -71,12 +71,12 @@
     @media screen and (max-width: $desktop) {
       width: auto;
       right: 0;
-      margin-left: -100px;
+      transform: translateX(-100px);
     }
     @media screen and (min-width: $desktop) and (max-width: 978px) {
       width: 200px;
       right: 0;
-      margin-left: -100px;
+      transform: translateX(-100px);
     }
   }
 }
