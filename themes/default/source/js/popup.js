@@ -120,7 +120,7 @@ export default function(gallerySelector, mapArr) {
     type: "image",
     closeBtnInside: false,
     closeOnBgClick: false,
-    fixedContentPos: "auto",
+    fixedContentPos: false,
     fixedBgPos: "auto",
     overflowY: "hidden",
     image: {
