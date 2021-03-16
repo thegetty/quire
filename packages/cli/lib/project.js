@@ -136,7 +136,7 @@ class Project extends EventEmitter {
   preview(webpackConfig) {
     webpackConfig =
       webpackConfig !== undefined ? webpackConfig : `webpack.config.dev.js`;
-    webpackConfig = "webpack/" + webpackConfig;
+    webpackConfig = path.join("webpack", webpackConfig);
     let stdio = this.verbose ? "inherit" : ["pipe", "pipe", process.stderr];
     let cwd = path.join("themes", this.theme);
     let webpackCmd = isWin32() ? "webpack.cmd" : "webpack";
