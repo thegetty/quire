@@ -26,7 +26,7 @@ Check out [the demo site](https://thegetty.github.io/quire-starter/), and [some 
 
 If you’re considering using Quire for the first time, please be sure to visit our [*Implementation Considerations.*](https://quire.getty.edu/documentation/implementation/) If you’re a developer please also visit the [*For Developers*](https://quire.getty.edu/documentation/for-developers/) section of our documentation.
 
-We encourage you to sign up for a [free GitHub account](https://github.com/join) to access the [Quire Community Forum](https://github.com/thegetty/quire/discussions). You can utilize the forum to ask and answer questions, share ideas, provide feedback, and assist your fellow Quire users. [Subscribe to our newsletter](http://eepurl.com/hg8ROf) for the latest news and events, new feature updates, and highlights from our community. 
+We encourage you to sign up for a [free GitHub account](https://github.com/join) to access the [Quire Community Forum](https://github.com/thegetty/quire/discussions). You can utilize the forum to ask and answer questions, share ideas, provide feedback, and assist your fellow Quire users. [Subscribe to our newsletter](https://newsletters.getty.edu/h/t/3482055B10CD0F24) for the latest news and events, new feature updates, and highlights from our community. 
 
 ## Installing Quire
 
