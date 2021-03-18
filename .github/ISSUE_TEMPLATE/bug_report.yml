@@ -1,15 +1,13 @@
 ---
 name: Quire Bug Report
-about: Create a report to help us improve Quire
+description: Create a report to help us improve Quire
 labels: "bug"
 issue_body: true
 body:
 - type: markdown
   attributes:
     value: |
-      **Thank you for opening a new issue!**
-
-      Before submitting your bug report, please search existing issues first, to ensure the problem you've encountered has not been previously reported.
+      **Thank you for opening a new issue!** Before submitting your bug report, please search existing issues first to ensure the problem you've encountered has not been previously reported.
 - type: textarea
   attributes:
     label: Describe the issue
@@ -50,7 +48,7 @@ body:
     value: |
       ## Helpful Attachments
 
-      Please be sure to add the following files and any additiuonal helpful information to the comments below to help us better understand your issue:
+      In the comments below, please attach the following files and any other information that may help us better understand your issue:
 
         - Save Terminal/Shell output and attach as a text file.
-        - If useful, includes screenshots showing the problem
+        - Include screenshots showing the problem encountered
