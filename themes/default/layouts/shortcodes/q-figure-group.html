@@ -129,9 +129,8 @@ the figure for each into a figure group
 
      {{ $Id := now.UnixNano }}
 
-  <div class="q-figure__wrapper">
+  <div id="deepzoom-{{ $Id }}" class="q-figure__wrapper">
     <figure 
-      id="deepzoom-{{ $Id }}"
       {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}  
       class="quire-figure leaflet-outer-wrapper mfp-hide">
         <div 

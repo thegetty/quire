@@ -23,14 +23,11 @@ document and render only the values given in the shortcode
 
 {{ if eq $.Site.Params.figureModal true }}
 
-<div class="q-figure__wrapper">
-
 {{ if eq (.Get "media_type") "map" }}
 
 {{ $Id := now.UnixNano }}
-
+  <div id="map-{{ $Id }}" class="q-figure__wrapper">
     <figure       
-      id="map-{{ $Id }}" 
       {{ if .Get "caption" }} title='{{ .Get "caption" | markdownify | safeHTML }}' {{ end }} 
       class="quire-figure leaflet-outer-wrapper mfp-hide">
         <div 
@@ -66,9 +63,8 @@ document and render only the values given in the shortcode
 {{ else if eq (.Get "media_type") "iiif" }}
 
 {{ $Id := now.UnixNano }}
-
+    <div id="iiif-{{ $Id }}" class="q-figure__wrapper">
       <figure    
-      id="iiif-{{ $Id }}" 
       {{ if .Get "caption" }}  title='{{ .Get "caption" | markdownify | safeHTML }}' {{ end }} 
       class="quire-figure leaflet-outer-wrapper mfp-hide">
         <div 
@@ -106,9 +102,8 @@ document and render only the values given in the shortcode
 {{ else }}
 
 {{ $Id := now.UnixNano }}
-
+<div id="deepzoom-{{ $Id }}" class="q-figure__wrapper">
   <figure   
-  id="deepzoom-{{ $Id }}" 
   {{ if .Get "caption" }}  
   title='{{ .Get "caption" | markdownify | safeHTML }}' {{ end }} 
   class="quire-figure leaflet-outer-wrapper mfp-hide">
@@ -296,14 +291,11 @@ alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
 
 {{ if eq $.Site.Params.figureModal true }}
 
-<div class="q-figure__wrapper">
-
 {{ if eq .media_type "map"  }}
 
 {{ $Id := now.UnixNano }}
-
+    <div id="map-{{ $Id }}" class="q-figure__wrapper">
       <figure 
-        id="map-{{ $Id }}" 
         {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }} 
         class="quire-figure leaflet-outer-wrapper mfp-hide">
         <div 
@@ -337,9 +329,8 @@ alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
 {{ else if eq .media_type "iiif" }}
 
 {{ $Id := now.UnixNano }}
-
+  <div id="iiif-{{ $Id }}" class="q-figure__wrapper">
     <figure 
-    id="iiif-{{ $Id }}" 
     {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }} 
     class="quire-figure leaflet-outer-wrapper mfp-hide">
       <div 
@@ -375,9 +366,8 @@ alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
 {{ else }}
 
 {{ $Id := now.UnixNano }}
-
+  <div id="deepzoom-{{ $Id }}" class="q-figure__wrapper">
     <figure 
-      id="deepzoom-{{ $Id }}"
       {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}  
       class="quire-figure leaflet-outer-wrapper mfp-hide hi">
         <div 
