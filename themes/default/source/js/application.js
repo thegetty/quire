@@ -484,14 +484,14 @@ function setPositionInContainer(el, container, margin = 0) {
   const elRect = el.getBoundingClientRect();
   const containerRect = container.getBoundingClientRect();
 
-  const leftDiff = elRect.left - containerRect.left;
-  const rightDiff = containerRect.right - elRect.right;
+  const leftDiff = containerRect.left - elRect.left;
+  const rightDiff = elRect.right - containerRect.right;
   const halfElWidth = elRect.width/2;
   // x
-  if (rightDiff < 0) {
-    el.style.transform = `translateX(-${halfElWidth-rightDiff+margin}px)`;
-  } else if (leftDiff < 0) {
-    el.style.transform = `translateX(-${halfElWidth+leftDiff+margin}px)`;
+  if (rightDiff > 0) {
+    el.style.transform = `translateX(-${halfElWidth+rightDiff+margin}px)`;
+  } else if (leftDiff > 0) {
+    el.style.transform = `translateX(-${halfElWidth-leftDiff-margin}px)`;
   }
   // @todo y
 }
