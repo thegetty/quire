@@ -69,6 +69,7 @@ class Project extends EventEmitter {
   * @param {string} the path to the cover image
   */
   runPandoc(outputFile, cover) {
+    // @see https://pandoc.org/MANUAL.html#general-options
     const args = [
       `--from=html-native_divs+native_spans`,
       `--to=epub ${path.join("html","epub.xhtml")}`,
