@@ -64,6 +64,26 @@ class Project extends EventEmitter {
   }
 
   /**
+  * Runs pandoc command for buildEpub and buildMobi
+  * @param {string} the destination for the output file
+  * @param {string} the path to the cover image
+  */
+  runPandoc(outputFile, coverImage) {
+    // @see https://pandoc.org/MANUAL.html#general-options
+    const args = [
+      `--from=html-native_divs+native_spans`,
+      `--to=epub ${path.join("html","epub.xhtml")}`,
+      `--output=${outputFile}`,
+      `--epub-metadata=${path.join("html", "dc.xml")}`,
+      `--epub-cover-image=${coverImage}`,
+      `--template=${path.join("html", "template.xhtml")}`,
+      `--css=${path.join(this.config.publishDir, "css", "epub.css")}`,
+      `--standalone`
+    ];
+    execSync(`pandoc ${args.join(' ')}`);
+  }
+
+  /**
    * getBaseUrl
    * @returns {Object} YAML data
    * @description Loop through config file to attempt to get the baseURL path for webpack config
@@ -136,7 +156,7 @@ class Project extends EventEmitter {
   preview(webpackConfig) {
     webpackConfig =
       webpackConfig !== undefined ? webpackConfig : `webpack.config.dev.js`;
-    webpackConfig = "webpack/" + webpackConfig;
+    webpackConfig = path.join("webpack", webpackConfig);
     let stdio = this.verbose ? "inherit" : ["pipe", "pipe", process.stderr];
     let cwd = path.join("themes", this.theme);
     let webpackCmd = isWin32() ? "webpack.cmd" : "webpack";
@@ -155,7 +175,7 @@ class Project extends EventEmitter {
     );
     this.hugo = this.spawnHugo(
       "server",
-      "--config=config.yml,config/environments/dev.yml",
+      `--config=config.yml,${path.join("config", "environments", "dev.yml")}`,
       "--watch"
     );
     spinner.info("Navigate to http://localhost:1313 to see your changes.");
@@ -195,7 +215,7 @@ class Project extends EventEmitter {
     baseURL = baseURL.replace(/\/?$/, "/");
     webpackConfig =
       webpackConfig !== undefined ? webpackConfig : `webpack.config.dev.js`;
-    webpackConfig = "webpack/" + webpackConfig;
+    webpackConfig = path.join("webpack", webpackConfig);
     let webpackArguments = ["--config", webpackConfig];
     if (webpackConfig.indexOf("prod") !== -1) {
       webpackArguments.push("--output-public-path");
@@ -216,10 +236,9 @@ class Project extends EventEmitter {
    * runs `hugo` in the current project folder.
    */
   async buildWeb(env) {
-    let outputDir = this.config.publishDir || "site";
-    let configs = ["config.yml", "config/site.yml"];
+    let configs = ["config.yml", path.join("config", "site.yml")];
     if (env) {
-      configs.push(`config/environments/${env}.yml`);
+      configs.push(path.join(`config`, `environments`, `${env}.yml`));
     }
     configs.forEach(c => {
       let config = this.loadConfig(c);
@@ -249,7 +268,7 @@ class Project extends EventEmitter {
         stdio: "inherit"
       });
       spinner.succeed("Site built successfully");
-      spinner.succeed(`Files output to: ${outputDir}`);
+      spinner.succeed(`Files output to: ${this.config.publishDir}`);
       return new Promise(resolve => {
         resolve(true);
       });
@@ -322,16 +341,16 @@ class Project extends EventEmitter {
       this.checkForCommand(princeCmd, spinner);
     }
 
-    let configs = ["config.yml", "config/pdf.yml"];
+    let configs = ["config.yml", path.join("config", "pdf.yml")];
     if (env) {
-      configs.push(`config/environments/${env}.yml`);
+      configs.push(path.join(`config`, `environments`, `${env}.yml`));
     }
 
     configs.forEach(c => {
       let config = this.loadConfig(c);
       this.config = _.merge(this.config, config);
     });
-    file = file !== undefined ? file : `static/downloads/output`;
+    file = file !== undefined ? file : path.join(`static`, `downloads`, `output`);
 
     let fileName = path.basename(file);
 
@@ -348,7 +367,7 @@ class Project extends EventEmitter {
       this.errorExit(`${error}`, spinner);
     }
     filePath =
-      filePath !== undefined && filePath !== "" ? filePath : "static/downloads";
+      filePath !== undefined && filePath !== "" ? filePath : path.join("static", "downloads");
     fileName = fileName !== undefined && fileName !== "" ? fileName : "output";
 
     const fileNamePath = path.join(filePath, fileName);
@@ -424,7 +443,6 @@ class Project extends EventEmitter {
    *
    */
   async buildEpub(file, env) {
-    let outputDir = this.config.publishDir || "site";
     let spinner = ora("Building EPUB").start();
     let start = performance.now();
     let pub;
@@ -433,9 +451,9 @@ class Project extends EventEmitter {
     await removeFile(
       path.join("themes", this.theme, "static", "css", "epub.css")
     );
-    let configs = ["config.yml", "config/epub.yml"];
+    let configs = ["config.yml", path.join("config", "epub.yml")];
     if (env) {
-      configs.push(`config/environments/${env}.yml`);
+      configs.push(path.join(`config`, `environments`, `${env}.yml`));
     }
     configs.forEach(c => {
       let config = this.loadConfig(c);
@@ -443,7 +461,7 @@ class Project extends EventEmitter {
     });
 
     try {
-      pub = yaml.safeLoad(fs.readFileSync("data/publication.yml", "utf8"));
+      pub = yaml.safeLoad(fs.readFileSync(path.join("data", "publication.yml"), "utf8"));
     } catch (error) {
       if (error) return this.errorExit(`${error}`, spinner);
     }
@@ -501,39 +519,30 @@ class Project extends EventEmitter {
         let ebook = await new Epub(bookData, configData);
         let data = await ebook.generate();
         let epub = await new Build(data, spinner);
-        let dir = "html/";
-        let epubfile = file !== undefined ? file : "static/downloads/output";
+        let dir = "html";
         let dirCreated = fs.existsSync(dir);
 
         if (dirCreated) {
-          let fileName = path.basename(epubfile);
-          if (fileName.indexOf(".") !== -1) {
-            file = fileName.split(".");
-            fileName = file[0];
-          }
-          let filePath = epubfile.substring(0, epubfile.lastIndexOf("/"));
-          filePath =
-            filePath !== undefined && filePath !== ""
-              ? filePath
-              : "static/downloads";
-          fileName =
-            fileName !== undefined && fileName !== "" ? fileName : "output";
+          const fileNamePath = file !== undefined ? file : path.join("static", "downloads", "output");
+          const filePath = path.dirname(fileNamePath);
+          const fileName = path.basename(fileNamePath);
           await fs.ensureDir(filePath);
-          let cover =
-            epub.data.cover !== undefined
-              ? epub.data.cover.replace("http://localhost:1313/img/", "")
-              : "";
-          cover = cover !== "" ? `--epub-cover-image=static/img/${cover}` : "";
-          const fileNamePath = path.join(filePath, fileName);
-          let args = `-f html-native_divs+native_spans -t epub html/epub.xhtml -o ${fileNamePath}.epub --epub-metadata=html/dc.xml ${cover} --template=html/template.xhtml --css=${outputDir}/css/epub.css -s`;
-          execSync(`pandoc ${args}`);
+          const coverImage = epub.data.cover
+            ? path.join(
+                "static",
+                "img",
+                epub.data.cover.replace("http://localhost:1313/img/", "")
+              )
+            : "";
+          const outputFile = `${fileNamePath}.epub`;
+          this.runPandoc(outputFile, coverImage);
           spinner.succeed(`Filepath: ${fileNamePath}.epub`);
           spinner.info(
             `Execution Time: ${((performance.now() - start) / 1000).toFixed(
               3
             )} seconds`
           );
-          await removeFile(`site/source.js`);
+          await removeFile(path.join(`site`, `source.js`));
           await removeFile(
             path.join("themes", this.theme, "static", "source.js")
           );
@@ -564,7 +573,6 @@ class Project extends EventEmitter {
    *
    */
   async buildMobi(file, env) {
-    let outputDir = this.config.publishDir || "site";
     let spinner = ora("Building MOBI").start();
     let start = performance.now();
     let pub;
@@ -573,9 +581,9 @@ class Project extends EventEmitter {
     await removeFile(
       path.join("themes", this.theme, "static", "css", "epub.css")
     );
-    let configs = ["config.yml", "config/epub.yml"];
+    let configs = ["config.yml", path.join("config", "epub.yml")];
     if (env) {
-      configs.push(`config/environments/${env}.yml`);
+      configs.push(path.join(`config`, `environments`, `${env}.yml`));
     }
     configs.forEach(c => {
       let config = this.loadConfig(c);
@@ -583,7 +591,7 @@ class Project extends EventEmitter {
     });
 
     try {
-      pub = yaml.safeLoad(fs.readFileSync("data/publication.yml", "utf8"));
+      pub = yaml.safeLoad(fs.readFileSync(path.join("data", "publication.yml"), "utf8"));
     } catch (error) {
       if (error) return this.errorExit(`${error}`, spinner);
     }
@@ -639,31 +647,22 @@ class Project extends EventEmitter {
         let ebook = await new Epub(bookData, configData);
         let data = await ebook.generate();
         let epub = await new Build(data, spinner);
-        let dir = "html/";
-        let epubfile = file !== undefined ? file : "static/downloads/output";
+        let dir = "html";
         let dirCreated = fs.existsSync(dir);
         if (dirCreated) {
-          let fileName = path.basename(epubfile);
-          if (fileName.indexOf(".") !== -1) {
-            file = fileName.split(".");
-            fileName = file[0];
-          }
-          let filePath = epubfile.substring(0, epubfile.lastIndexOf("/"));
-          filePath =
-            filePath !== undefined && filePath !== ""
-              ? filePath
-              : "static/downloads";
-          fileName =
-            fileName !== undefined && fileName !== "" ? fileName : "output";
+          const fileNamePath = file !== undefined ? file : path.join("static", "downloads", "output");
+          const filePath = path.dirname(fileNamePath);
+          const fileName = path.basename(fileNamePath);
           await fs.ensureDir(filePath);
-          let cover =
-            epub.data.cover !== undefined
-              ? epub.data.cover.replace("http://localhost:1313/img/", "")
-              : "";
-          cover = cover !== "" ? `--epub-cover-image=static/img/${cover}` : "";
-          const fileNamePath = path.join(filePath, fileName);
-          let args = `-f html-native_divs+native_spans -t epub html/epub.xhtml -o ${fileNamePath}-mobi.epub --epub-metadata=html/dc.xml ${cover} --template=html/template.xhtml --css=${outputDir}/css/epub.css -s`;
-          execSync(`pandoc ${args}`);
+          const coverImage = epub.data.cover
+            ? path.join(
+                "static",
+                "img",
+                epub.data.cover.replace("http://localhost:1313/img/", "")
+              )
+            : "";
+          const outputFile = `${fileNamePath}-mobi.epub`;
+          this.runPandoc(outputFile, coverImage);
           const kindlegenCmd = isWin32()
             ? "C:\\Program Files (x86)\\Kindle Previewer 3\\lib\\fc\\bin\\kindlegen"
             : "/Applications/Kindle Previewer 3.app/Contents/lib/fc/bin/kindlegen";
@@ -679,7 +678,7 @@ class Project extends EventEmitter {
           );
 
           // Clean up
-          await removeFile(`${fileNamePath}-mobi.epub`);
+          await removeFile(outputFile);
 
           this.hugo.kill();
           epub.removeHTML();
