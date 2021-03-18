@@ -475,6 +475,8 @@ function validateSize(map) {
 /**
 * Translates the X-position of an element inside a container so that its contents
 * are contained
+* Expects the contained element to already be translated so that it's centered above
+* another element
 *
 * @param {object} element to position
 * @param {object} container element
