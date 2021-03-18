@@ -46,9 +46,9 @@ body:
 - type: markdown
   attributes:
     value: |
-      ## Helpful Attachments
+      ## Supporting Information
 
-      In the comments below, please attach the following files and any other information that may help us better understand your issue:
+      In the comments below, please attach the following files by dragging and dropping, and include any other information that may help us better understand your issue:
 
-        - Save Terminal/Shell output and attach as a text file.
+        - Save Terminal/Shell output and attach as a text file
         - Include screenshots showing the problem encountered
