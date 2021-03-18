@@ -1,15 +1,18 @@
 ---
 name: Quire Bug Report
-about: Tell us about the bug you encountered.
+about: Create a report to help us improve Quire
 labels: "bug"
 issue_body: true
 body:
 - type: markdown
   attributes:
-    value: Thank you for opening a new issue! Please search exisint gissues first to ensure the problem you've encountered has not been previously reported.
+    value: |
+    Thank you for opening a new issue!
+
+    Before submitting your bug report, please search existing issues first, to ensure the problem you've encountered has not been previously reported.
 - type: textarea
   attributes:
-    label: Description of issue
+    label: Describe the issue
     description: Tell us what happened.
   validations:
     required: true
@@ -17,6 +20,11 @@ body:
   attributes:
     label: Steps to reproduce
     description: What steps did you take that led to the issue?
+    placeholder: |
+      1. Go to '...'
+      2. Click on '....'
+      2. Scroll down to '....'
+      4. See error
   validations:
     required: true
 - type: textarea
@@ -37,7 +45,12 @@ body:
     description: Run `quire --version` and tell us what version you're currently running.
   validations:
     required: true
-- type: textarea
+- type: markdown
   attributes:
-    label: Text file of Terminal/Shell output
-    description: Please attach a text file with the output when this error occured.
+    value: |
+      ## Helpful Attachments
+
+      Please be sure to add the following files and any additiuonal helpful information to the comments below to help us better understand your issue:
+
+        - Save Terminal/Shell output and attach as a text file.
+        - If useful, includes screenshots showing the problem
