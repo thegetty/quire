@@ -1,36 +1,43 @@
 ---
-name: Quire Bug Report
+name: Quire Bug Report :bug:
 about: Tell us about the bug you encountered.
+labels: "bug"
+issue_body: true
 body:
 - type: markdown
   attributes:
     value: Thank you for opening a new issue! Please search exisint gissues first to ensure the problem you've encountered has not been previously reported.
-- type: markdown
+- type: textarea
   attributes:
     label: Description of issue
-    required: true
     description: Tell us what happened.
-- type: markdown
+  validations:
+    required: true
+- type: textarea
   attributes:
     label: Steps to reproduce
-    required: true
     description: What steps did you take that led to the issue?
-- type: markdown
+  validations:
+    required: true
+- type: textarea
   attributes:
     label: Expected behavior
-    required: true
     description: What did you expect to happen?
-- type: markdown
+  validations:
+    required: true
+- type: textarea
   attributes:
     label: Actual behavior
-    required: true
     description: What actually happened?
-- type: markdown
+  validations:
+    required: true
+- type: textarea
   attributes:
     label: Version numbers
-    required: true
     description: Run `quire --version` and tell us what version you're currently running.
-- type: markdown
+  validations:
+    required: true
+- type: textarea
   attributes:
     label: Text file of Terminal/Shell output
     description: Please attach a text file with the output when this error occured.
