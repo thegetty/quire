@@ -68,14 +68,14 @@ class Project extends EventEmitter {
   * @param {string} the destination for the output file
   * @param {string} the path to the cover image
   */
-  runPandoc(outputFile, cover) {
+  runPandoc(outputFile, coverImage) {
     // @see https://pandoc.org/MANUAL.html#general-options
     const args = [
       `--from=html-native_divs+native_spans`,
       `--to=epub ${path.join("html","epub.xhtml")}`,
       `--output=${outputFile}`,
       `--epub-metadata=${path.join("html", "dc.xml")}`,
-      `--epub-cover-image=${cover}`,
+      `--epub-cover-image=${coverImage}`,
       `--template=${path.join("html", "template.xhtml")}`,
       `--css=${path.join(this.config.publishDir, "css", "epub.css")}`,
       `--standalone`
@@ -527,13 +527,15 @@ class Project extends EventEmitter {
           const filePath = path.dirname(fileNamePath);
           const fileName = path.basename(fileNamePath);
           await fs.ensureDir(filePath);
-          let cover =
-            epub.data.cover !== undefined
-              ? epub.data.cover.replace("http://localhost:1313/img/", "")
-              : "";
-          cover = cover !== "" ? `${path.join("static", "img", cover)}` : "";
+          const coverImage = epub.data.cover
+            ? path.join(
+                "static",
+                "img",
+                epub.data.cover.replace("http://localhost:1313/img/", "")
+              )
+            : "";
           const outputFile = `${fileNamePath}.epub`;
-          this.runPandoc(outputFile, cover);
+          this.runPandoc(outputFile, coverImage);
           spinner.succeed(`Filepath: ${fileNamePath}.epub`);
           spinner.info(
             `Execution Time: ${((performance.now() - start) / 1000).toFixed(
@@ -652,13 +654,15 @@ class Project extends EventEmitter {
           const filePath = path.dirname(fileNamePath);
           const fileName = path.basename(fileNamePath);
           await fs.ensureDir(filePath);
-          let cover =
-            epub.data.cover !== undefined
-              ? epub.data.cover.replace("http://localhost:1313/img/", "")
-              : "";
-          cover = cover !== "" ? `${path.join("static", "img", cover)}` : "";
+          const coverImage = epub.data.cover
+            ? path.join(
+                "static",
+                "img",
+                epub.data.cover.replace("http://localhost:1313/img/", "")
+              )
+            : "";
           const outputFile = `${fileNamePath}-mobi.epub`;
-          this.runPandoc(outputFile, cover);
+          this.runPandoc(outputFile, coverImage);
           const kindlegenCmd = isWin32()
             ? "C:\\Program Files (x86)\\Kindle Previewer 3\\lib\\fc\\bin\\kindlegen"
             : "/Applications/Kindle Previewer 3.app/Contents/lib/fc/bin/kindlegen";
