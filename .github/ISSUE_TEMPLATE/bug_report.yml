@@ -7,9 +7,9 @@ body:
 - type: markdown
   attributes:
     value: |
-    Thank you for opening a new issue!
+      **Thank you for opening a new issue!**
 
-    Before submitting your bug report, please search existing issues first, to ensure the problem you've encountered has not been previously reported.
+      Before submitting your bug report, please search existing issues first, to ensure the problem you've encountered has not been previously reported.
 - type: textarea
   attributes:
     label: Describe the issue
