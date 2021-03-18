@@ -70,18 +70,14 @@ class Project extends EventEmitter {
   */
   runPandoc(outputFile, cover) {
     const args = [
-      `-f`,
-      `html-native_divs+native_spans`,
-      `-t`,
-      `epub`,
-      path.join("html","epub.xhtml"),
-      `-o`,
-      outputFile,
+      `--from=html-native_divs+native_spans`,
+      `--to=epub ${path.join("html","epub.xhtml")}`,
+      `--output=${outputFile}`,
       `--epub-metadata=${path.join("html", "dc.xml")}`,
-      cover,
+      `--epub-cover-image=${cover}`,
       `--template=${path.join("html", "template.xhtml")}`,
       `--css=${path.join(this.config.publishDir, "css", "epub.css")}`,
-      `-s`
+      `--standalone`
     ];
     execSync(`pandoc ${args.join(' ')}`);
   }
@@ -534,7 +530,7 @@ class Project extends EventEmitter {
             epub.data.cover !== undefined
               ? epub.data.cover.replace("http://localhost:1313/img/", "")
               : "";
-          cover = cover !== "" ? `--epub-cover-image=${path.join("static", "img", cover)}` : "";
+          cover = cover !== "" ? `${path.join("static", "img", cover)}` : "";
           const outputFile = `${fileNamePath}.epub`;
           this.runPandoc(outputFile, cover);
           spinner.succeed(`Filepath: ${fileNamePath}.epub`);
@@ -659,7 +655,7 @@ class Project extends EventEmitter {
             epub.data.cover !== undefined
               ? epub.data.cover.replace("http://localhost:1313/img/", "")
               : "";
-          cover = cover !== "" ? `--epub-cover-image=${path.join("static", "img", cover)}` : "";
+          cover = cover !== "" ? `${path.join("static", "img", cover)}` : "";
           const outputFile = `${fileNamePath}-mobi.epub`;
           this.runPandoc(outputFile, cover);
           const kindlegenCmd = isWin32()
