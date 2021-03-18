@@ -473,6 +473,32 @@ function validateSize(map) {
 }
 
 /**
+* Translates the X-position of an element inside a container so that its contents
+* are contained
+* Expects the contained element to already be translated so that it's centered above
+* another element
+*
+* @param {object} element to position
+* @param {object} container element
+* @param {number} container margin
+*/
+function setPositionInContainer(el, container, margin = 0) {
+  const elRect = el.getBoundingClientRect();
+  const containerRect = container.getBoundingClientRect();
+
+  const leftDiff = containerRect.left - elRect.left;
+  const rightDiff = elRect.right - containerRect.right;
+  const halfElWidth = elRect.width/2;
+  // x
+  if (rightDiff > 0) {
+    el.style.transform = `translateX(-${halfElWidth+rightDiff+margin}px)`;
+  } else if (leftDiff > 0) {
+    el.style.transform = `translateX(-${halfElWidth-leftDiff-margin}px)`;
+  }
+  // @todo y
+}
+
+/**
  * @description
  * find expandable class and look for aria-expanded
  * https://github.com/gettypubs/quire/issues/152
@@ -502,6 +528,7 @@ function toggleCite() {
         } else {
           content.setAttribute("hidden", "hidden");
         }
+        setPositionInContainer(content, document.documentElement);
       }
     });
   }
