@@ -104,7 +104,7 @@ window["toggleSearch"] = () => {
  * @description Set up the simple image slider used on catalogue entry pages for
  * objects with multiple figure images. See also slideImage function below.
  */
-function sliderSetup() {
+async function sliderSetup() {
   toggleFullscreen(
     mapArr,
     document.getElementById("toggleFullscreen"),
@@ -132,17 +132,16 @@ function sliderSetup() {
     firstImage.css("display", "flex");
     lastImage.addClass("last-image");
   });
-  let images = [...document.querySelectorAll(".quire-deepzoom-entry")]
-    .filter(v => {
+  const images = [...document.querySelectorAll(".quire-deepzoom-entry")];
+  const imageSrcs = images.filter(v => {
       return v.getAttribute("src") !== null ? v : "";
     })
     .map(v => {
       return v.getAttribute("src");
     });
-  preloadImages(images, () => {
-    mapSetup(".quire-map-entry");
-    deepZoomSetup(".quire-deepzoom-entry", mapArr);
-  });
+  await preloadImages(imageSrcs);
+  mapSetup(".quire-map-entry");
+  deepZoomSetup(".quire-deepzoom-entry", mapArr);
 }
 
 /**
