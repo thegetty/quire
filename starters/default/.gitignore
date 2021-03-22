@@ -1,0 +1,16 @@
+# Quire starter project ignored files
+
+.DS_Store
+.bundle
+.cache
+.sass-cache
+public
+site
+node_modules
+.tmp
+build
+Gemfile.lock
+themes/default/static/css/application.css
+themes/default/static/js/application.js
+themes/default/tests/e2e/
+themes/default/test-results/
