@@ -102,8 +102,9 @@ export const enableScroll = element => {
 };
 
 /**
- * Preload
+ * Preload Images
  * @param  {Array} srcs array of images
+ * @return {Promise}
  */
 export const preloadImages = (srcs) => {
   return new Promise((resolve, reject) => {
