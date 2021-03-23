@@ -98,8 +98,11 @@ class Project extends EventEmitter {
       });
     return url;
   }
-
-  async imageslice() {
+  /**
+   * iiif
+   * @description Tiles images to IIIF specification. Called with `quire process --iiif`.
+   */
+  async iiif() {
     await imageslice();
   }
 
