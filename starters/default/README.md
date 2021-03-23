@@ -1,17 +1,25 @@
-# Quire
+## Quire
 
-Developed by Getty, Quire is a new, multiformat publishing tool available for immediate access and use. Quire is in a limited beta, © J. Paul Getty Trust, and not yet released as open-source software. For a free license to use Quire, please complete [this form](https://docs.google.com/forms/d/e/1FAIpQLScKOJEq9ivhwizmdazjuhxBII-s-5SUsnerWmyF8VteeeRBhA/viewform).
+This publication was created using Quire™, a multiplatform publishing tool owned by the J. Paul Getty Trust. If you are new to Quire and would like learn more please visit our [documentation](https://quire.getty.edu). For a free license to use Quire, complete [this form](https://docs.google.com/forms/d/e/1FAIpQLScKOJEq9ivhwizmdazjuhxBII-s-5SUsnerWmyF8VteeeRBhA/viewform).
 
-For information on **installing, updating, and uninstalling Quire (macOS + Windows) and Quire commands** please refer to the [Quire documentation](https://quire.getty.edu/documentation/install-uninstall/). 
+## Quire Starter README.md
 
-## Quire Default Starter
+This is placeholder text for Quire's default starter README.md; it is automatically generated when running `quire new` along with the content of this default starter project. We invite you to update this README.md with information relevant to the project you are working on. Learn more about what a README.md is and how to create an effective one for your project in the [GitHub docs](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/about-readmes). 
 
-The default starter contains demo content used as placeholder when starting a new Quire project. It is included by default when starting a new Quire project with the `quire new` command. 
+For more information on updating the content of your publication please see below. 
 
-The default starter is paired with the [default theme](https://github.com/thegetty/quire/themes/default), designed to showcase and make use of Quire’s core features out of the box.
+- The `content` directory holds all the main text content of the publication in a standard Markdown format.
+
+- Customizations to the default theme will appear in the `layout` directory if one is present, as well as in the `static/css/custom.css` and `static/js/custom.js` files.
+
+- The `data` directory holds information on the publication, as well as any figure images, bibliographic references, and objects; all in a YAML format.
+
+- Figures are held in the `static/img` directory, typically in JPG, PNG, GIF or SVG formats.
+
+Please visit the [_Get Started_](https://quire.getty.edu/documentation/getting-started/) section of our documentation to learn more. 
 
 ### License
 
-Copyright © 2021, J Paul Getty Trust.
+Quire Copyright © 2021, J Paul Getty Trust.
 
 
