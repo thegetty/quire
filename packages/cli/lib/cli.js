@@ -116,6 +116,7 @@ export default class CLI extends EventEmitter {
     });
   }
   /**
+   * @description Handler for Quire processes. Calls this.project[option], or logs error if option is invalid.
    * @param {string} option flag passed to `quire process`. Possible values: iiif
    */
   process(option) {
