@@ -81,6 +81,7 @@ In order to produce multiple formats using Quire, you must first install the fol
 | install             | Install this project's theme dependencies                         |
 | site                | Run the build command in the current directory                    |
 | pdf                 | Generate a PDF version of the current project                     |
+| process             | Run a Quire process. Currently only supports the "--iiif" option  |
 | epub                | Generate an EPUB version of the current project                   |
 | mobi                | Generate an MOBI version of the current project                   |
 | template            | Download templates to customize your file output (only for EPUB)  |

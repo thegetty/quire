@@ -39,7 +39,7 @@ export default class CLI extends EventEmitter {
     this.on("debug", this.debug);
     this.on("epub", this.epub);
     this.on("error", this.warn);
-    this.on("imageslice", this.imageslice);
+    this.on("process", this.process);
     this.on("install", this.install);
     this.on("mobi", this.mobi);
     this.on("new", this.create);
@@ -115,16 +115,22 @@ export default class CLI extends EventEmitter {
       }
     });
   }
-
-  imageslice() {
+  /**
+   * @param {string} option flag passed to `quire process`. Possible values: iiif
+   */
+  process(option) {
     return new Promise((resolve) => {
       this.project = new Project(this.verbose);
+      if (!this.project[option]) {
+        this.error(`${option} is not a valid process option.`);
+        this.shutdown();
+      }
       this.project.on("info", this.notice);
       this.project.on("error", (msg) => {
         this.error(msg);
         this.shutdown();
       });
-      this.project.imageslice();
+      this.project[option]();
       resolve(true);
     });
   }

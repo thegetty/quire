@@ -121,16 +121,26 @@ program
     cli.emit("epub", file, env);
   });
 
-// quire imageslice
+// quire process
 //
-// generate IIIF image tiles
+// Run Quire processes.
+// Options:
+// --iiif Tile images for IIIF
 //
 program
-  .command("imageslice")
-  .description("Slice image and create manifest file & directory.")
-  .action(function (env) {
+  .command("process")
+  .option("--iiif", "Tile images for IIIF.")
+  .description("Run Quire processes.")
+  .action((options) => {
+    const validOptions = options.options.map((o) => o.long.replace('--', ''));
+    const option = validOptions.find((key) => options[key]);
+    if (!option) {
+      console.error(`"quire process" requires an option. Run "quire process --help" to list options.`);
+      return false;
+    }
+
     cli.verbose = program.verbose;
-    cli.emit("imageslice", env);
+    cli.emit("process", option);
   });
 
 
