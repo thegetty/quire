@@ -20,6 +20,6 @@ Please visit the [_Get Started_](https://quire.getty.edu/documentation/getting-s
 
 ### License
 
-Copyright © 2021, J Paul Getty Trust.
+Quire Copyright © 2021, J Paul Getty Trust.
 
 
