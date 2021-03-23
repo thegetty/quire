@@ -192,6 +192,7 @@ function scrollToHash() {
     // Remove links that don't actually link to anything
     .not('[href="#"]')
     .not('[href="#0"]')
+    .not('.popup')
     .click(function(event) {
       // only override default link behavior if it points to the same page
       if (this.pathname.includes(window.location.pathname)) {
