@@ -196,6 +196,7 @@ we start with media figures
     aria-live="polite" 
     role="application" 
     aria-label="Zoomable image" 
+    {{ if .zoom_max }} data-zoom-max="{{ .zoom_max }}" {{ end }}
     src="{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}">
     </div>
     <span class="figure-caption visually-hidden">
@@ -477,6 +478,7 @@ render the figure from matching values found ther
           aria-live="polite" 
           role="application"
           aria-label="Zoomable image" 
+          {{ if .zoom_max }} data-zoom-max="{{ .zoom_max }}" {{ end }}
           src="{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}">
           </div>
           <span class="figure-caption visually-hidden">

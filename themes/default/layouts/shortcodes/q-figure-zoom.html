@@ -78,7 +78,7 @@ document and render only the values given in the shortcode
         role="application" 
         aria-label="Zoomable image" 
         {{ if .Get "iiif" }} data-iiif="{{ .Get "iiif" }}" {{ end }}
-        {{ if .Get "zoom_level" }} data-zoom="{{ .Get "zoom_level" }}" {{ end }}
+        {{ if .Get "zoom_max" }} data-zoom-max="{{ .Get "zoom_max" }}" {{ end }}
         >
         </div>
         <span class="figure-caption visually-hidden">
@@ -118,6 +118,7 @@ document and render only the values given in the shortcode
     aria-live="polite" 
     role="application" 
     aria-label="Zoomable image" 
+    {{ if .zoom_max }} data-zoom-max="{{ .zoom_max }}" {{ end }}
     src="{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}">
     </div>
     <span class="figure-caption visually-hidden">
@@ -169,7 +170,7 @@ document and render only the values given in the shortcode
  role="application" 
  aria-label="Zoomable image" 
  {{ if .Get "iiif" }} data-iiif="{{ .Get "iiif" }}" {{ end }}
- {{ if .Get "zoom_level" }} data-zoom="{{ .Get "zoom_level" }}" {{ end }}
+ {{ if .Get "zoom_max" }} data-zoom-max="{{ .Get "zoom_max" }}" {{ end }}
  >
 </div>
 
@@ -181,7 +182,9 @@ document and render only the values given in the shortcode
  aria-live="polite" 
  role="application" 
  aria-label="Zoomable image" 
- src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'>
+ src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
+ {{ if .Get "zoom_max" }} data-zoom-max="{{ .Get "zoom_max" }}" {{ end }}
+ >
 </div>
     
 {{ end }}
@@ -349,7 +352,7 @@ alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
       role="application" 
       aria-label="Zoomable image" 
       data-iiif="{{ .iiif }}" 
-      data-zoom="{{ .zoom_level }}">
+      {{ if .zoom_max }} data-zoom-max="{{ .zoom_max }}" {{ end }}>
       </div>
       <span class="figure-caption visually-hidden">
           {{ if $.Get "caption" }}
@@ -432,7 +435,7 @@ alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
     id="js-iiif-{{ now.UnixNano }}" 
     {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }} 
     data-iiif="{{ .iiif }}" 
-    data-zoom="{{ .zoom_level }}"
+    {{ if .zoom_max }} data-zoom-max="{{ .zoom_max }}" {{ end }}
     class="no-popup-quire-deepzoom quire-deepzoom inset" 
     aria-live="polite" 
     role="application" 
@@ -447,6 +450,7 @@ alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
     aria-live="polite" 
     role="application" 
     aria-label="Zoomable image" 
+    {{ if .zoom_max }} data-zoom-max="{{ .zoom_max }}" {{ end }}
     src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'>
   </div>
 
