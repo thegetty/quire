@@ -102,22 +102,21 @@ export const enableScroll = element => {
 };
 
 /**
- * Preload
+ * Preload Images
  * @param  {Array} srcs array of images
+ * @return {Promise}
  */
-export const preloadImages = (srcs, callback) => {
-  let img;
-  let remaining = srcs.length;
-  for (let i = 0; i < srcs.length; i++) {
-    img = new Image();
-    img.onload = () => {
-      --remaining;
-      if (remaining <= 0) {
-        callback();
-      }
-    };
-    img.src = srcs[i];
-  }
+export const preloadImages = (srcs) => {
+  return new Promise((resolve) => {
+    if (!srcs.length) resolve();
+    for (let i = srcs.length; i >= 0; --i) {
+      const img = new Image();
+      img.onload = () => {
+        if (i <= 0) resolve();
+      };
+      img.src = srcs[i];
+    }
+  });
 };
 
 /**
