@@ -98,6 +98,12 @@ export default class CLI extends EventEmitter {
         this.notice("Initializing git in the new project directory...");
         process.chdir(projectDir);
         spawnSync("git", ["init"]);
+        const lfsCmd = `git-lfs track "img/**/*"`;
+        if (commandMissing("git-lfs")) {
+          this.warn(`Warning: Please install "git-lfs". This is recommended for managing file storage, such as large images. Please see the Quire docs for instructions on how to install it: https://quire.netlify.app/`);
+        } else {
+          spawnSync(`lfsCmd`);
+        }
         this.notice("Committing starter files...");
         spawnSync("git", ["add", "-A"]);
         spawnSync("git", ["commit", "-m", `Add starter and theme to project`]);
