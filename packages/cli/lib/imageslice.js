@@ -131,7 +131,7 @@ export default async function () {
           if (supportedExts.some((supportedExt) => supportedExt === ext)) {
             originalImages.push(filePath);
           } else if (warnList.some((warnExt) => warnExt === ext)) {
-            spinner.fail(`Cannot slice file ${files[i]}. File type must be: ${supportedExts.join(', ')}.`);
+            spinner.fail(`Cannot process "${files[i]}" for IIIF. File type must be one of the following: ${supportedExts.join(', ')}.`);
           }
           if (fs.existsSync(dest)) {
             const statProcessed = fs.lstatSync(dest);
