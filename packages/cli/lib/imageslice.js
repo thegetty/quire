@@ -127,9 +127,10 @@ export default async function () {
           const dest = path.join(iiifProcessed, name);
 
           const supportedExts = [".jp2", ".jpg", ".jpeg", ".png", ".svg"];
+          const warnList = [".tiff", ".gif", ".bmp", ".webp", ".psd", ".heif", ".raw", ".pdf", ".ai", ".ind"];
           if (supportedExts.some((supportedExt) => supportedExt === ext)) {
             originalImages.push(filePath);
-          } else {
+          } else if (warnList.some((warnExt) => warnExt === ext)) {
             spinner.fail(`Cannot slice file ${files[i]}. File type must be: ${supportedExts.join(', ')}.`);
           }
           if (fs.existsSync(dest)) {
