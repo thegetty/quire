@@ -28,8 +28,8 @@ class DeepZoom {
     this.iiif = this.el.getAttribute("data-iiif");
 
     const zoom = {
-      min: 1,
       default: 1,
+      min: 1,
       max: this.el.getAttribute('data-zoom-max') || 6
     };
 
