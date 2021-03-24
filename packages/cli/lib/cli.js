@@ -101,7 +101,7 @@ export default class CLI extends EventEmitter {
         if (commandMissing("git-lfs")) {
           this.warn(`Warning: Please install "git-lfs". This is recommended for managing file storage, such as large images. Please see the Quire docs for instructions on how to install it: https://quire.netlify.app/`);
         } else {
-          spawnSync(`git-lfs track "img/**/*"`);
+          spawnSync(`git-lfs`, [`track`, `"img/**/*"`]);
         }
         this.notice("Committing starter files...");
         spawnSync("git", ["add", "-A"]);
