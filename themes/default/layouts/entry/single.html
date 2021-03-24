@@ -222,7 +222,7 @@ a single image or object needs to be featured prominently.\
     aria-label="Zoomable image"
     data-catalogue-entry="true"
     {{ if .figure.iiif }} data-iiif="{{ .figure.iiif }}" {{ end }}
-    {{ if .figure.zoom_level }} data-zoom="{{ .figure.zoom_level }}" {{ end }}
+    {{ if .figure.zoom_max }} data-zoom-max="{{ .figure.zoom_max }}" {{ end }}
     {{ if .figure.caption }} data-caption='{{ .figure.caption | markdownify | safeHTML }}' {{ end }}
   >
   </div>

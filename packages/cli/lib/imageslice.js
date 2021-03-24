@@ -77,7 +77,7 @@ export default async function () {
         '-refresh',
         '-noextension',
         '-scale-factors',
-        '128,64,32,16,8,4,2,1,0',
+        '32,16,8,4,2,1',
         imageName
       ];
       return new Promise(function (resolve, reject) {
