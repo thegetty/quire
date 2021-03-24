@@ -127,10 +127,12 @@ export default async function () {
           const dest = path.join(iiifProcessed, name);
 
           const supportedExts = [".jp2", ".jpg", ".jpeg", ".png", ".svg"];
+          // list of file extensions for common image types that can not be sliced into IIIF image tiles
+          const warnList = [".ai", ".bmp", ".gif", ".heif", ".ind", ".pdf", ".psd", ".raw", ".tiff", ".webp"];
           if (supportedExts.some((supportedExt) => supportedExt === ext)) {
             originalImages.push(filePath);
-          } else {
-            spinner.fail(`Cannot slice file ${files[i]}. File type must be: ${supportedExts.join(', ')}.`);
+          } else if (warnList.some((item) => item === ext)) {
+            spinner.fail(`Cannot process "${files[i]}" for IIIF. File type must be one of the following: ${supportedExts.join(', ')}.`);
           }
           if (fs.existsSync(dest)) {
             const statProcessed = fs.lstatSync(dest);
