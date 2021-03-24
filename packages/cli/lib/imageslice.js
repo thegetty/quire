@@ -130,7 +130,7 @@ export default async function () {
           const warnList = [".tiff", ".gif", ".bmp", ".webp", ".psd", ".heif", ".raw", ".pdf", ".ai", ".ind"];
           if (supportedExts.some((supportedExt) => supportedExt === ext)) {
             originalImages.push(filePath);
-          } else if (warnList.some((warnExt) => warnExt === ext)) {
+          } else if (warnList.some((item) => item === ext)) {
             spinner.fail(`Cannot process "${files[i]}" for IIIF. File type must be one of the following: ${supportedExts.join(', ')}.`);
           }
           if (fs.existsSync(dest)) {
