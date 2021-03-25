@@ -111,7 +111,7 @@ The Quire community is global and we hope to be able to continue to expand acces
 
 ## Submit Your Contribution
 
-*We manage Quire through GitHub. If you are new to GitHub, we recommend starting with [GitHub Docs](https://docs.github.com/en/free-pro-team@latest/github) to learn by topic, and for a broad overview, [GitHub Guides](https://guides.github.com/). We also encourage you to check out Coding Train’s video series is a great resource as well [Git and Github for Poets](https://www.youtube.com/playlist?list=PLRqwX-V7Uu6ZF9C0YMKuns9sLDzK6zoiV). GitHub can be accessed through the command line or [GitHub Desktop](https://desktop.github.com/).*
+*We manage Quire through GitHub. If you are new to GitHub, we recommend starting with [GitHub Docs](https://docs.github.com/en/free-pro-team@latest/github) to learn by topic, and for a broad overview, [GitHub Guides](https://guides.github.com/). We also encourage you to check out Coding Train’s video series as a great resource as well [Git and Github for Poets](https://www.youtube.com/playlist?list=PLRqwX-V7Uu6ZF9C0YMKuns9sLDzK6zoiV). GitHub can be accessed through the command line or [GitHub Desktop](https://desktop.github.com/).*
 
 Once you’ve identified your contribution on our GitHub [issues board](https://github.com/thegetty/quire/issues), you’ll next work on it and prepare to submit it to us for review as a pull request. A pull request says, “Hey, I did something useful for you, want to pull it in and merge it into your project?”
 
