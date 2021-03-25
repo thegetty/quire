@@ -51,20 +51,20 @@
 <div class="q-figure__wrapper">
 
 {{ if eq $mediaType "youtube" -}}
-  {{- partial "figure-youtube.html" $dict -}}
+  {{- partial "figures/media-types/youtube.html" $dict -}}
 {{- else if eq $mediaType "vimeo" -}}
-  {{- partial "figure-vimeo.html" $dict -}}
+  {{- partial "figures/media-types/vimeo.html" $dict -}}
 {{- else if eq $mediaType "soundcloud" -}}
-  {{- partial "figure-soundcloud.html" $dict -}}
+  {{- partial "figures/media-types/soundcloud.html" $dict -}}
 {{- else if eq $mediaType "website" -}}
-  {{- partial "figure-website.html" $dict -}}
+  {{- partial "figures/media-types/website.html" $dict -}}
 {{- else if eq $mediaType "table" -}}
-  {{- partial "figure-table.html" $dict -}}
+  {{- partial "figures/media-types/table.html" $dict -}}
 {{- else -}}
-  {{- partial "figure-image.html" $dict -}}
+  {{- partial "figures/media-types/image.html" $dict -}}
 {{- end -}}
 
-{{- partial "figure-caption.html" $dict -}}
+{{- partial "figures/caption.html" $dict -}}
 
 </div>
 </figure>

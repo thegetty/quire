@@ -36,7 +36,7 @@
 
   {{- if or .label (eq .Site.Params.figureModal true ) }}
     {{- $labelDict := dict "Site" .Site "label" .label -}}
-    {{- partial "figure-label.html" $labelDict -}}
+    {{- partial "figures/label.html" $labelDict -}}
   {{- end -}}
 
 {{- if eq .Site.Params.figureModal true -}}

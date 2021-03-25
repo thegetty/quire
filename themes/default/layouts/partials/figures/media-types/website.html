@@ -1,7 +1,7 @@
 {{- if or (eq .Site.Params.epub true) (eq .Site.Params.pdf true) -}}
 
   {{- $fallbackDict := dict "Site" .Site "alt" .alt "id" .id "mediaType" .mediaType "src" .src -}}
-  {{- partial "figure-fallback.html" $fallbackDict -}}
+  {{- partial "figures/media-types/fallback.html" $fallbackDict -}}
 
   <figcaption class="quire-figure__caption caption"><a href="{{ safeURL .mediaId }}" target="_blank" >{{ .mediaId }}</a></figcaption>
 
@@ -16,6 +16,6 @@
 
 {{- if .label }}
   {{- $labelDict := dict "Site" .Site "label" .label "icon" false -}}
-  {{- partial "figure-label.html" $labelDict -}}
+  {{- partial "figures/label.html" $labelDict -}}
 {{- end -}}
 

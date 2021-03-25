@@ -27,5 +27,5 @@
 
 {{- if .label }}
   {{- $labelDict := dict "Site" .Site "label" .label "icon" false -}}
-  {{- partial "figure-label.html" $labelDict -}}
+  {{- partial "figures/label.html" $labelDict -}}
 {{- end -}}
