@@ -670,7 +670,7 @@ class Project extends EventEmitter {
             ? "C:\\Program Files (x86)\\Kindle Previewer 3\\lib\\fc\\bin\\kindlegen"
             : "/Applications/Kindle Previewer 3.app/Contents/lib/fc/bin/kindlegen";
           if (!fs.existsSync(kindlegenCmd)) {
-            this.errorExit("The Kindle Previewer application is required to generate MOBI files. Please visit the Quire docs for download instructions: https://gettypubs.github.io/quire/", spinner);
+            this.errorExit("Warning: Kindle Previewer is required to generate MOBI files. Please visit https://kdp.amazon.com/en_US/help/topic/G202131170 for more info and install instructions.", spinner);
           }
           execSync(`"${kindlegenCmd}" ${fileNamePath}-mobi.epub -o ${fileName}.mobi`);
           spinner.succeed(`Filepath: ${filePath}.mobi`);

@@ -98,6 +98,11 @@ export default class CLI extends EventEmitter {
         this.notice("Initializing git in the new project directory...");
         process.chdir(projectDir);
         spawnSync("git", ["init"]);
+        if (commandMissing("git-lfs")) {
+          this.warn(`Warning: Git LFS (Large File Storage) is required to publish repositories with files over 100 MB to GitHub. See documentation for more info and install instructions: https://quire.getty.edu/documentation/github. This message will not impact initialization of new project directory.`);
+        } else {
+          spawnSync(`git-lfs`, [`track`, `"downloads/**/*"`, `"img/**/*"`]);
+        }
         this.notice("Committing starter files...");
         spawnSync("git", ["add", "-A"]);
         spawnSync("git", ["commit", "-m", `Add starter and theme to project`]);
