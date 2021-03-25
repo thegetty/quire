@@ -104,3 +104,10 @@ export function copyDirRecursive(from, to, exclude) {
 export function isWin32() {
   return process.platform === "win32" ? true : false;
 }
+
+/**
+ * Very simple pluralize function that adds an s if n != 1
+ * @param {number} The number of things
+ * @param {string} The name of the things
+ */
+export function pluralize(word, n) { return n === 1 ? word : `${word}s` };

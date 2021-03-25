@@ -3,7 +3,7 @@ const fs = require("fs-extra");
 const ora = require("ora");
 const path = require("path");
 const rimraf = require("rimraf");
-import { isWin32 } from "./utils";
+import { isWin32, pluralize } from "./utils";
 
 /**
  * imageslice
@@ -14,14 +14,14 @@ import { isWin32 } from "./utils";
  * If an existing processed image directory with the same name is found, it will be removed and re-written
  */
 export default async function () {
+  const spinner = ora();
+
   return new Promise((resolve) => {
-    let spinner = ora({
-      text: "Creating IIIF images..."
-    }).start();
     const iiifSeed = "static/img/iiif/images";
     const iiifProcessed = "static/img/iiif/processed";
     const originalImages = [];
     let imagesSliced = 0;
+    const results = [];
     const iiifTiler = isWin32()
       ? "/go-iiif/bin/iiif-tile-seed-win"
       : process.platform === "linux"
@@ -55,11 +55,9 @@ export default async function () {
       );
     }
 
-    // Log to spinner the process and then remove config file so only the template remains,
-    // Trigger done function
+    // Remove config file so only the template remains
     function resetConfigPath() {
       fs.unlink(__dirname + path.normalize("/go-iiif/config/config.json"));
-      done();
     }
 
     // function to execute the command to slice the images
@@ -115,7 +113,6 @@ export default async function () {
     // also check if any images have been processed and 
     // delete them so it can do a fresh slice
     function getAllImages() {
-      spinner.info("Finding images to process...");
       if (fs.existsSync(iiifSeed)) {
         const files = fs.readdirSync(iiifSeed);
         for (let i = 0; i < files.length; i++) {
@@ -129,14 +126,15 @@ export default async function () {
           if (supportedExts.some((item) => item === ext.toLowerCase())) {
             originalImages.push(filePath);
           } else if (warnList.some((item) => item === ext.toLowerCase())) {
-            spinner.fail(`Cannot process "${files[i]}" for IIIF. File type must be one of the following: ${supportedExts.join(', ')}.`);
+            results.push({ 
+              image: files[i],
+              status: 'error',
+              message: `File type must be one of the following: ${supportedExts.join(', ')}.` 
+            })
           }
           if (fs.existsSync(dest)) {
             const statProcessed = fs.lstatSync(dest);
             if (statProcessed.isDirectory()) {
-              spinner.info(
-                `IIIF image files already exist for ${base}. They will be removed and rewritten.`
-              );
               rimraf.sync(dest);
             }
           }
@@ -149,14 +147,20 @@ export default async function () {
 
     // Slice Images
     function sliceImages() {
-      spinner.start('Processing images. This may take a while depending on the image file sizes...');
+      console.log(`\nProcessing project image resources for IIIF.`);
       let imagesToSlice = originalImages.length;
       if (imagesToSlice === 0) {
-        spinner.fail(`No images found in ${iiifSeed}`);
+        console.log('\n');
+        spinner.fail(`No images found in ${iiifSeed}\n`);
         resetConfigPath();
+        resolve(true);
+        return;
       }
+      console.log(`\nGenerating IIIF image tiles may take a while depending on the size of each image file.\n`);
+      spinner.start(`Processing images...`);
       for (let i = 0; i < originalImages.length; i++) {
         const image = originalImages[i];
+        // @todo output "processing <i> of <n> images"
         iiifSlice(image).then(() => {
           imagesSliced++;
           imagesToSlice--;
@@ -171,10 +175,10 @@ export default async function () {
     // Verify expected images were sliced
     // Log success
     async function imagesDone() {
-      spinner.succeed(`Done processing ${imagesSliced} images.`);
       await compareSlicedResults();
       getAllImagesAndRename(path.normalize("static/img/iiif/processed"));
       resetConfigPath();
+      done();
     }
 
     // compared the finished folders with the injested results to see which failed/passed
@@ -182,38 +186,48 @@ export default async function () {
     // in imagesDone()
     async function compareSlicedResults() {
       const processedImages = fs.readdirSync(iiifProcessed);
-      let failed = [];
-      let completed = [];
       for (let i = 0; i < originalImages.length; i++) {
         const originalImageFile = path.parse(originalImages[i]).base;
         const originalImageFileName = path.parse(originalImages[i]).name;
         if (processedImages.includes(originalImageFileName)) {
-          completed.push(originalImageFile);
+          results.push({
+            image: originalImageFile,
+            status: 'success'
+          })
         } else {
-          failed.push(originalImageFile);
+          results.push({
+            image: originalImageFile,
+            status: 'error',
+            message: 'Ensure file has proper exif headings'
+          })
         }
-      }
-      if (failed.length) {
-        spinner.fail(
-          `${failed.length}/${imagesSliced} failed. Ensure these files have proper exif headings: ${['', ...failed].join('\n - ')}`
-        )
-      }
-      if (completed.length) {
-        spinner.succeed(
-          `${completed.length}/${imagesSliced} succeeded:${['', ...completed].join('\n - ')}`
-        );
       }
     }
 
     // done function, trigger finish and resolve true to the Promise
     function done() {
-      spinner.succeed("IIIF Process Finished!");
+      if (results.length) {
+        const failures = results.filter((image) => image.status === "error");
+        spinner.clear();
+        console.log(`::Summary::`);
+        let message = `Processed ${results.length} ${pluralize('item', results.length)}`;
+        const failureMessage = failures.length ? ` with ${failures.length} ${pluralize('failure', failures.length)}` : '';
+        message += failureMessage;
+        console.log(message);
+        if (failures.length) {
+          console.log('\nUnable to process the following files.')
+          failures.forEach((result) => {
+            spinner.fail(`${result.image} - ${result.message}`);
+          })
+        }
+        console.log('\n');
+        spinner.succeed("Completed processing images.\n");
+      }
       resolve(true);
     }
 
     // startup process
     try {
-      spinner.info("Starting IIIF Process");
       updateConfigPath();
     } catch (error) {
       return new Promise((reject) => {
