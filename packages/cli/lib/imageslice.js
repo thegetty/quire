@@ -157,8 +157,7 @@ export default async function () {
         resolve(true);
         return;
       }
-      console.log(`\nGenerating IIIF image tiles may take a while depending on the size of each image file.`);
-      console.log('\n');
+      console.log(`\nGenerating IIIF image tiles may take a while depending on the size of each image file.\n`);
       spinner.start(`Processing images...`);
       for (let i = 0; i < originalImages.length; i++) {
         const image = originalImages[i];
