@@ -221,8 +221,7 @@ export default async function () {
           })
         }
         console.log('\n');
-        spinner.succeed("Completed processing images.");
-        console.log('\n');
+        spinner.succeed("Completed processing images.\n");
       }
       resolve(true);
     }
