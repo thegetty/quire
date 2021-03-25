@@ -99,7 +99,7 @@ export default class CLI extends EventEmitter {
         process.chdir(projectDir);
         spawnSync("git", ["init"]);
         if (commandMissing("git-lfs")) {
-          this.warn(`Warning: Please install "git-lfs". This is recommended for managing file storage, such as large images. Please see the Quire docs for instructions on how to install it: https://quire.netlify.app/`);
+          this.warn(`Warning: Git LFS (Large File Storage) is required to publish repositories with files over 100 MB to GitHub. See documentation for more info and install instructions: https://quire.getty.edu/documentation/github. This message will not impact initialization of new project directory.`);
         } else {
           spawnSync(`git-lfs`, [`track`, `"downloads/**/*"`, `"img/**/*"`]);
         }
