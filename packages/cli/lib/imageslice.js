@@ -67,8 +67,8 @@ export default async function () {
       const configPath = `file://${path.normalize(__dirname)}${path.normalize(iiifConfig)}`;
       const iiifTilerPath = `${path.normalize(__dirname)}${path.normalize(iiifTiler)}`;
       const imageName = path.parse(imagePath).base;
+      const tilerCmd = iiifTilerPath;
       const cmdArgs = [
-        iiifTilerPath,
         '-config-source',
         configPath,
         '-quality',
@@ -80,10 +80,7 @@ export default async function () {
         '32,16,8,4,2,1',
         imageName
       ];
-      return new Promise(function (resolve, reject) {
-        // execSync(cmd); // alternative command, more console logs
-        return execa.commandSync(cmdArgs.join(' ')) ? resolve(true) : reject(true);
-      });
+      return await execa(tilerCmd, cmdArgs);
     }
 
     // Get all images in directory recursively, if it happens to detect any files
@@ -150,6 +147,7 @@ export default async function () {
 
     // Slice Images
     function sliceImages() {
+      spinner.start('Processing images. This may take a while depending on the image file sizes...');
       let imagesToSlice = originalImages.length;
       if (imagesToSlice === 0) {
         spinner.fail(`No images found in ${iiifSeed}`);
@@ -161,11 +159,11 @@ export default async function () {
           imagesSliced++;
           imagesToSlice--;
           if (imagesToSlice === 0) imagesDone();
+        }).catch(() => {
+          imagesToSlice--;
+          if (imagesToSlice === 0) imagesDone();
         });
       }
-      return new Promise((resolve) => {
-        resolve(true);
-      });
     }
 
     // Verify expected images were sliced
