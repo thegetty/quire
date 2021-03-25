@@ -3,7 +3,7 @@ const fs = require("fs-extra");
 const ora = require("ora");
 const path = require("path");
 const rimraf = require("rimraf");
-import { isWin32 } from "./utils";
+import { isWin32, pluralize } from "./utils";
 
 /**
  * imageslice
@@ -151,8 +151,7 @@ export default async function () {
       let imagesToSlice = originalImages.length;
       if (imagesToSlice === 0) {
         console.log('\n');
-        spinner.fail(`No images found in ${iiifSeed}`);
-        console.log('\n');
+        spinner.fail(`No images found in ${iiifSeed}\n`);
         resetConfigPath();
         resolve(true);
         return;
@@ -211,11 +210,14 @@ export default async function () {
         const failures = results.filter((image) => image.status === "error");
         spinner.clear();
         console.log(`::Summary::`);
-        console.log(`Processed ${results.length} ${results.length === 1 ? 'image' : 'images'}${failures.length ? ` with ${failures.length} ${failures.length === 1 ? 'failure' : 'failures'}` : ''}.`);
+        let message = `Processed ${results.length} ${pluralize('item', results.length)}`;
+        const failureMessage = failures.length ? ` with ${failures.length} ${pluralize('failure', failures.length)}` : '';
+        message += failureMessage;
+        console.log(message);
         if (failures.length) {
-          console.log('\nUnable to process the following files.');
+          console.log('\nUnable to process the following files.')
           failures.forEach((result) => {
-            spinner.fail(result.image+' - '+result.message);
+            spinner.fail(`${result.image} - ${result.message}`);
           })
         }
         console.log('\n');
