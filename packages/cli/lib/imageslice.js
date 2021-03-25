@@ -213,8 +213,7 @@ export default async function () {
         console.log(`::Summary::`);
         console.log(`Processed ${results.length} ${results.length === 1 ? 'image' : 'images'}${failures.length ? ` with ${failures.length} ${failures.length === 1 ? 'failure' : 'failures'}` : ''}.`);
         if (failures.length) {
-          console.log('\n');
-          console.log('Unable to process the following files.')
+          console.log('\nUnable to process the following files.');
           failures.forEach((result) => {
             spinner.fail(result.image+' - '+result.message);
           })
