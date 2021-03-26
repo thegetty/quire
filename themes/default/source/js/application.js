@@ -482,7 +482,8 @@ function validateSize(map) {
 * @param {object} container element
 * @param {number} container margin
 */
-function setPositionInContainer(el, container, margin = 0) {
+function setPositionInContainer(el, container) {
+  const margin = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gap'));
   const elRect = el.getBoundingClientRect();
   const containerRect = container.getBoundingClientRect();
 
