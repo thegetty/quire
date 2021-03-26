@@ -1,0 +1,10 @@
+{
+  "overrides": [
+    {
+      "files": ["themes/default/**/*.html"],
+      "options": {
+        "parser": "go-template"
+      }
+    }
+  ]
+}

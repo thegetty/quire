@@ -1,44 +1,48 @@
 {{- $imageDir := "" -}}
 {{- if .Site.Params.imageDir -}}
   {{- $imageDir = .Site.Params.imageDir -}}
-{{- else }}
+  {{- else }}
   {{- $imageDir = "img" -}}
 {{- end }}
 
 {{- if eq .Site.Params.figureModal true -}}
-{{- $now := now.UnixNano -}}
-<figure
-  id="deepzoom-{{ $now }}"
-  title="{{ .caption | markdownify | safeHTML }}"
-  class="quire-figure leaflet-outer-wrapper mfp-hide notGet">
-  <div
-    id="js-deepzoom-{{ $now }}"
-    class="quire-deepzoom inset leaflet-inner-wrapper "
-    aria-live="polite"
-    role="application"
-    aria-label="Zoomable image"
-    src="{{ printf "%s/%s" $imageDir .src | relURL }}">
-  </div>
-  <span class="figure-caption visually-hidden">{{ with .caption }}{{ markdownify . }}{{ end }}{{ with .credit }} {{ markdownify . }}{{ end }}</span>
-</figure>
-<a
-  href="#deepzoom-{{ $now }}"
-  class="inline popup"
-  data-type="inline"
-  title="{{ .caption | markdownify | safeHTML }}" >
-{{- end -}}
+  {{- $now := now.UnixNano -}}
+  <figure
+    id="deepzoom-{{ $now }}"
+    title="{{ .caption | markdownify | safeHTML }}"
+    class="quire-figure leaflet-outer-wrapper mfp-hide notGet"
+  >
+    <div
+      id="js-deepzoom-{{ $now }}"
+      class="quire-deepzoom inset leaflet-inner-wrapper "
+      aria-live="polite"
+      role="application"
+      aria-label="Zoomable image"
+      src="{{ printf "%s/%s" $imageDir .src | relURL }}"
+    ></div>
+    <span class="figure-caption visually-hidden"
+      >{{ with .caption }}{{ markdownify . }}{{ end }}
+      {{ with .credit }} {{ markdownify . }}{{ end }}</span
+    >
+  </figure>
+  <a
+    href="#deepzoom-{{ $now }}"
+    class="inline popup"
+    data-type="inline"
+    title="{{ .caption | markdownify | safeHTML }}">
+  {{- end -}}
 
   <img
     class="quire-figure__image"
     src="{{ printf "%s/%s" $imageDir .src | relURL }}"
-    alt="{{ .alt }}" />
+    alt="{{ .alt }}"
+  />
 
-
-  {{- if or .label (eq .Site.Params.figureModal true ) }}
-    {{- $labelDict := dict "Site" .Site "label" .label -}}
-    {{- partial "figures/label.html" $labelDict -}}
-  {{- end -}}
+{{- if or .label (eq .Site.Params.figureModal true ) }}
+  {{- $labelDict := dict "Site" .Site "label" .label -}}
+  {{- partial "figures/label.html" $labelDict -}}
+{{- end -}}
 
 {{- if eq .Site.Params.figureModal true -}}
-</a>
+  </a>
 {{- end -}}

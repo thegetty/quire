@@ -1,21 +1,24 @@
 {{- if or (eq .Site.Params.epub true) (eq .Site.Params.pdf true) -}}
-
   {{- $fallbackDict := dict "Site" .Site "alt" .alt "id" .id "mediaType" .mediaType "src" .src -}}
   {{- partial "figures/media-types/fallback.html" $fallbackDict -}}
 
-  <figcaption class="quire-figure__caption caption"><a href="https://youtu.be/{{ .mediaId }}" target="_blank" >https://vimeo.com/{{ .mediaId }}</a></figcaption>
+  <figcaption class="quire-figure__caption caption">
+    <a href="https://youtu.be/{{ .mediaId }}" target="_blank">https://vimeo.com/{{ .mediaId }}</a>
+  </figcaption>
 
 {{- else -}}
 
-<div  class="quire-figure__media-wrapper{{ if .aspectRatio }}--{{ .aspectRatio }}{{ else }}--widescreen{{ end }}">
-  <iframe
-    class="quire-figure__media"
-    src="https://player.vimeo.com/video/{{ .mediaId }}"
-    frameborder="0"
-    allow="autoplay; fullscreen"
-    allowfullscreen></iframe>
-</div>
-
+  <div
+    class="quire-figure__media-wrapper{{ if .aspectRatio }}--{{ .aspectRatio }}{{ else }}--widescreen{{ end }}"
+  >
+    <iframe
+      class="quire-figure__media"
+      src="https://player.vimeo.com/video/{{ .mediaId }}"
+      frameborder="0"
+      allow="autoplay; fullscreen"
+      allowfullscreen
+    ></iframe>
+  </div>
 {{- end -}}
 
 {{- if .label }}

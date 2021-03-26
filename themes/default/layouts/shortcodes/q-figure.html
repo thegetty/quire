@@ -10,61 +10,65 @@
 {{- $src := "" -}}
 
 {{- if .Get "src" -}}
-
-{{- with (.Get "alt") }}{{ $alt = . }}{{ end -}}
-{{- with (.Get "aspect_ratio") }}{{ $aspectRatio = . }}{{ end -}}
-{{- with (.Get "caption") }}{{ $caption = . }}{{ end -}}
-{{- with (.Get "credit") }}{{ $credit = . }}{{ end -}}
-{{- with (.Get "download") }}{{ $download = . }}{{ end -}}
-{{- with (.Get "id") }}{{ $id = . }}{{ end -}}
-{{- with (.Get "label") }}{{ $label = . }}{{ end -}}
-{{- with (.Get "media_id") }}{{ $mediaId = . }}{{ end -}}
-{{- with (.Get "media_type") }}{{ $mediaType = . }}{{ end -}}
-{{- with (.Get "src") }}{{ $src = . }}{{ end -}}
+  {{- with (.Get "alt") }}{{ $alt = . }}{{ end -}}
+  {{- with (.Get "aspect_ratio") }}{{ $aspectRatio = . }}{{ end -}}
+  {{- with (.Get "caption") }}{{ $caption = . }}{{ end -}}
+  {{- with (.Get "credit") }}{{ $credit = . }}{{ end -}}
+  {{- with (.Get "download") }}{{ $download = . }}{{ end -}}
+  {{- with (.Get "id") }}{{ $id = . }}{{ end -}}
+  {{- with (.Get "label") }}{{ $label = . }}{{ end -}}
+  {{- with (.Get "media_id") }}{{ $mediaId = . }}{{ end -}}
+  {{- with (.Get "media_type") }}{{ $mediaType = . }}{{ end -}}
+  {{- with (.Get "src") }}{{ $src = . }}{{ end -}}
 
 {{- else if .Get "id" -}}
 
-{{- range where .Site.Data.figures.figure_list "id" "eq" (.Get "id") -}}
+  {{- range where .Site.Data.figures.figure_list "id" "eq" (.Get "id") -}}
+    {{- if ($.Get "alt") }}
+      {{ $alt = ($.Get "alt") }}{{ else if .alt }}{{ $alt = .alt }}{{ end -}}
 
-{{- if ($.Get "alt") }}{{ $alt = ($.Get "alt") }}{{ else if .alt }}{{ $alt = .alt  }}{{ end -}}
-{{- with .aspect_ratio }}{{ $aspectRatio = . }}{{ end -}}
-{{- if ($.Get "caption") }}{{ $caption = ($.Get "caption") }}{{ else if .caption }}{{ $caption = .caption  }}{{ end -}}
-{{- if ($.Get "credit") }}{{ $credit = ($.Get "credit") }}{{ else if .credit }}{{ $credit = .credit  }}{{ end -}}
-{{- with .download }}{{ $download = . }}{{ end -}}
-{{- with .id }}{{ $id = . }}{{ end -}}
-{{- if ($.Get "label") }}{{ $label = ($.Get "label") }}{{ else if .label }}{{ $label = .label  }}{{ end -}}
-{{- with .media_id }}{{ $mediaId = . }}{{ end -}}
-{{- with .media_type }}{{ $mediaType = . }}{{ end -}}
-{{- with .src }}{{ $src = . }}{{ end -}}
+    {{- with .aspect_ratio }}{{ $aspectRatio = . }}{{ end -}}
+    {{- if ($.Get "caption") }}
+      {{ $caption = ($.Get "caption") }}{{ else if .caption }}{{ $caption = .caption }}{{ end -}}
 
-{{- end -}}
+    {{- if ($.Get "credit") }}
+      {{ $credit = ($.Get "credit") }}{{ else if .credit }}{{ $credit = .credit }}{{ end -}}
+
+    {{- with .download }}{{ $download = . }}{{ end -}}
+    {{- with .id }}{{ $id = . }}{{ end -}}
+    {{- if ($.Get "label") }}
+      {{ $label = ($.Get "label") }}{{ else if .label }}{{ $label = .label }}{{ end -}}
+
+    {{- with .media_id }}{{ $mediaId = . }}{{ end -}}
+    {{- with .media_type }}{{ $mediaType = . }}{{ end -}}
+    {{- with .src }}{{ $src = . }}{{ end -}}
+  {{- end -}}
 
 {{- else -}}
-
 {{- end -}}
 
 {{- $dict := dict "Site" .Site "alt" $alt "aspectRatio" $aspectRatio "caption" $caption "credit" $credit "download" $download "id" $id "label" $label "mediaId" $mediaId "mediaType" $mediaType "src" $src -}}
 
-<figure data="q-figure"
-        class="quire-figure{{ with .Get "class" }} {{ . }}{{ end }}"
-        id="{{ $id }}">
-<div class="q-figure__wrapper">
+<figure
+  data="q-figure"
+  class="quire-figure{{ with .Get "class" }} {{ . }}{{ end }}"
+  id="{{ $id }}"
+>
+  <div class="q-figure__wrapper">
+    {{ if eq $mediaType "youtube" -}}
+      {{- partial "figures/media-types/youtube.html" $dict -}}
+    {{- else if eq $mediaType "vimeo" -}}
+      {{- partial "figures/media-types/vimeo.html" $dict -}}
+    {{- else if eq $mediaType "soundcloud" -}}
+      {{- partial "figures/media-types/soundcloud.html" $dict -}}
+    {{- else if eq $mediaType "website" -}}
+      {{- partial "figures/media-types/website.html" $dict -}}
+    {{- else if eq $mediaType "table" -}}
+      {{- partial "figures/media-types/table.html" $dict -}}
+    {{- else -}}
+      {{- partial "figures/media-types/image.html" $dict -}}
+    {{- end -}}
 
-{{ if eq $mediaType "youtube" -}}
-  {{- partial "figures/media-types/youtube.html" $dict -}}
-{{- else if eq $mediaType "vimeo" -}}
-  {{- partial "figures/media-types/vimeo.html" $dict -}}
-{{- else if eq $mediaType "soundcloud" -}}
-  {{- partial "figures/media-types/soundcloud.html" $dict -}}
-{{- else if eq $mediaType "website" -}}
-  {{- partial "figures/media-types/website.html" $dict -}}
-{{- else if eq $mediaType "table" -}}
-  {{- partial "figures/media-types/table.html" $dict -}}
-{{- else -}}
-  {{- partial "figures/media-types/image.html" $dict -}}
-{{- end -}}
-
-{{- partial "figures/caption.html" $dict -}}
-
-</div>
+    {{- partial "figures/caption.html" $dict -}}
+  </div>
 </figure>
