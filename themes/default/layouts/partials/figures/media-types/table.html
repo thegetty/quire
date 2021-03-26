@@ -17,9 +17,9 @@
     <div
       id="js-deepzoomtable-{{ $now }}"
       class="quire-deepzoom inset leaflet-inner-wrapper"
+      aria-label="Zoomable table"
       aria-live="polite"
       role="application"
-      aria-label="Zoomable table"
     >
       <figure class="leaflet-table">{{ readFile $tableSrc | safeHTML }}</figure>
     </div>
