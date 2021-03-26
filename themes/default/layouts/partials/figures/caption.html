@@ -1,9 +1,9 @@
 <figcaption class="quire-figure__caption caption">
-  {{ if eq .Site.Params.epub true }}
+  {{- if eq .Site.Params.epub true -}}
     <span class="quire-figure__label">{{ .label }}</span>
-  {{ end }}
-  {{ with .caption }}{{ markdownify . }}{{ end }}
-  {{ with .credit }}
+  {{- end -}}
+  {{- with .caption -}}{{ markdownify . }}{{- end -}}
+  {{- with .credit -}}
     <span class="quire-figure__credit">{{ markdownify . }}</span>
-  {{ end }}
+  {{- end -}}
 </figcaption>
