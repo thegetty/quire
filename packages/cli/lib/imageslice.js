@@ -122,10 +122,10 @@ export default async function () {
 
           const supportedExts = [".jp2", ".jpg", ".jpeg", ".png", ".svg"];
           // list of file extensions for common image types that can not be sliced into IIIF image tiles
-          const warnList = [".ai", ".bmp", ".gif", ".heif", ".ind", ".pdf", ".psd", ".raw", ".tiff", ".webp"];
-          if (supportedExts.some((supportedExt) => supportedExt === ext)) {
+          const warnList = [".ai", ".bmp", ".gif", ".heif", ".ind", ".pdf", ".psd", ".raw", ".tif", ".tiff", ".webp"];
+          if (supportedExts.some((item) => item === ext.toLowerCase())) {
             originalImages.push(filePath);
-          } else if (warnList.some((item) => item === ext)) {
+          } else if (warnList.some((item) => item === ext.toLowerCase())) {
             results.push({ 
               image: files[i],
               status: 'error',
