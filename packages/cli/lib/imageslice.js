@@ -17,7 +17,7 @@ export default async function () {
   const spinner = ora();
 
   return new Promise((resolve) => {
-    const iiifSeed = "static/img/iiif/images";
+    const iiifSeed = "static/img/iiif/";
     const iiifProcessed = "static/img/iiif/processed";
     const originalImages = [];
     let imagesSliced = 0;
