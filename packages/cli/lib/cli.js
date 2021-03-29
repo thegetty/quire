@@ -257,9 +257,10 @@ export default class CLI extends EventEmitter {
   }
 
   npmInstall(cwd) {
+    const npmCmd = isWin32() ? "npm.cmd" : "npm";
     cwd = cwd || process.cwd();
     spawnSync(
-      "npm",
+      npmCmd,
       ["install"],
       {
         // cwd: cwd, stdio: 'inherit'
