@@ -200,57 +200,12 @@ alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
 
 {{ end }}     
 
-{{/* -------------------- START FIGURE LABEL ON TOP BLOCK -------------------- */}}
-  {{ if eq $.Site.Params.figureLabelLocation "on-top" }}
-
-  {{ if eq $.Site.Params.figureModal true }}
-  {{ if eq $.Site.Params.figureModalIcons true }}
-  <span class="fig"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
-  {{ else }}
-  <span class="fig no-fullscreen {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
-  {{ end }}
-  {{ else }}
-  <span class="fig no-fullscreen {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
-  {{ end }}
-
-  {{ if or (ne .label "") ($.Get "label") }}
-    <strong>    
-        {{ if $.Get "label" }}
-        {{ $.Get "label" | markdownify }}
-        {{ else if ne .label "" }}
-        {{ if .label }}
-        {{ .label | markdownify }}
-        {{ end }}
-        {{ end }}
-    </strong>
-    {{ end }}
-  </span>
-  {{ end }}
-{{/* -------------------- END FIGURE LABEL ON TOP BLOCK -------------------- */}}
-
-{{ if eq $.Site.Params.figureModal true }}
-
-  {{ if eq $.Site.Params.figureLabelLocation "below" }}
-    <span class="quire-figure__modal">
-      {{ if eq $.Site.Params.figureModalIcons true }}
-      <span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
-      {{ end }}
-      <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }} {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
-      {{ if or (ne .label "") ($.Get "label") }}
-        {{ if $.Get "label" }}
-        {{ $.Get "label" | markdownify }}
-        {{ else if ne .label "" }}
-        {{ if .label }}
-        {{ .label | markdownify }}
-        {{ end }}
-        {{ end }}
-      {{ end }}
-      </span>
-   </span>
-  {{ end }}
-
-  </a>
-{{ end }}
+{{/* -------------------- BEGIN LABEL BLOCK -------------------- */}}
+{{- if or .label (eq $.Site.Params.figureModal true ) }}
+  {{- $labelDict := dict "Site" $.Site "label" .label -}}
+  {{- partial "figures/label.html" $labelDict -}}
+{{- end -}}
+{{/* -------------------- END LABEL BLOCK -------------------- */}}
 
 {{/* -------------------- BEGIN CAPTION BLOCK AND BELOW LABELING -------------------- */}}
   <figcaption class="quire-figure__caption caption">
@@ -467,56 +422,12 @@ src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
 
 {{ end }}
 
-{{/* -------------------- START FIGURE LABEL ON TOP BLOCK -------------------- */}}
-  {{ if eq $.Site.Params.figureLabelLocation "on-top" }}
-
-  {{ if eq $.Site.Params.figureModal true }}
-  {{ if eq $.Site.Params.figureModalIcons true }}
-  <span class="fig"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
-  {{ else }}
-  <span class="fig no-fullscreen {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
-  {{ end }}
-  {{ else }}
-  <span class="fig no-fullscreen {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
-  {{ end }}
-
-  {{ if or (ne .label "") ($.Get "label") }}
-    <strong>    
-        {{ if $.Get "label" }}
-        {{ $.Get "label" | markdownify }}
-        {{ else if ne .label "" }}
-        {{ if .label }}
-        {{ .label | markdownify }}
-        {{ end }}
-        {{ end }}
-    </strong>
-    {{ end }}
-  </span>
-  {{ end }}
-{{/* -------------------- END FIGURE LABEL ON TOP BLOCK -------------------- */}}
-
-  {{ if eq $.Site.Params.figureLabelLocation "below" }}
-    <span class="quire-figure__modal">
-      {{ if and (eq $.Site.Params.figureModalIcons true) (eq $.Site.Params.figureModal true) }}
-        <span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
-      {{ end }}
-      <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }} {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
-        {{ if or (ne .label "") ($.Get "label") }}
-          {{ if $.Get "label" }}
-          {{ $.Get "label" | markdownify }}
-          {{ else if ne .label "" }}
-          {{ if .label }}
-          {{ .label | markdownify }}
-          {{ end }}
-          {{ end }}
-        {{ end }}
-      </span>
-    </span>
-  {{ end }}
-
-  {{ if eq $.Site.Params.figureModal true }}
-    </a>
-  {{ end }}
+{{/* -------------------- BEGIN LABEL BLOCK -------------------- */}}
+{{- if or .label (eq $.Site.Params.figureModal true ) }}
+  {{- $labelDict := dict "Site" $.Site "label" .label -}}
+  {{- partial "figures/label.html" $labelDict -}}
+{{- end -}}
+{{/* -------------------- END LABEL BLOCK -------------------- */}}
 
 {{/* -------------------- BEGIN CAPTION BLOCK AND BELOW LABELING -------------------- */}}
   <figcaption class="quire-figure__caption caption">

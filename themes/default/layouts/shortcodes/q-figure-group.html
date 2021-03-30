@@ -174,64 +174,14 @@ the figure for each into a figure group
     {{/* -------------------- END NO_MEDIA_ID BLOCK -------------------- */}}
     {{ end }}
 
-
-{{/* -------------------- START FIGURE LABEL ON TOP BLOCK -------------------- */}}
-
-{{ if eq $.Site.Params.figureLabelLocation "on-top" }}
-
-  {{ if and (ne .media_type "audio") (ne .media_type "soundcloud") (ne .media_type "vimeo") (ne .media_type "youtube") (ne .media_type "website") (eq $.Site.Params.figureModal true) }}
-
-{{ if eq $.Site.Params.figureModalIcons true }}
-<span class="fig"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
-{{ else }}
-<span class="fig no-fullscreen {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
-{{ end }}
-
-{{ else }}
-<span class="fig no-fullscreen {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
-{{ end }}
-
-{{ if or (isset . "label") ($.Get "label") }}
-<strong>  
-  {{ if $.Get "label" }}
-  {{ $.Get "label" | markdownify }}
-  {{ else if isset . "label" }}
-  {{ if .label }}
-  {{ .label | markdownify }}
-  {{ end }}
-  {{ end }}
-</strong>
-{{ end }}
-</span>
-{{ end }}
-
-{{/* -------------------- END FIGURE LABEL ON TOP BLOCK -------------------- */}}
-
-{{ if eq $.Site.Params.figureModal true }}
-
-{{ if eq $.Site.Params.figureLabelLocation "below" }}
-  {{ if and (ne .media_type "audio") (ne .media_type "soundcloud") (ne .media_type "vimeo") (ne .media_type "youtube") (ne .media_type "website") (eq $.Site.Params.figureModal true) }}
-    <span class="quire-figure__modal">
-      {{ if eq $.Site.Params.figureModalIcons true }}
-        <span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
-      {{ end }}
-      <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }} {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
-      {{ if or (isset . "label") ($.Get "label") }}
-        {{ if $.Get "label" }}
-        {{ $.Get "label" | markdownify }}
-        {{ else if isset . "label" }}
-        {{ if .label }}
-        {{ .label | markdownify }}
-        {{ end }}
-        {{ end }}
-      {{ end }}
-      </span>
-    </span>
-  {{ end }}
-{{ end }}
-
-</a>
-{{ end }}
+  {{/* -------------------- BEGIN LABEL BLOCK -------------------- */}}
+  {{ if and (ne .media_type "audio") (ne .media_type "soundcloud") (ne .media_type "vimeo") (ne .media_type "youtube") (ne .media_type "website") }}
+    {{- if or .label (eq $.Site.Params.figureModal true ) }}
+      {{- $labelDict := dict "Site" $.Site "label" .label -}}
+      {{- partial "figures/label.html" $labelDict -}}
+    {{- end -}}
+  {{- end -}}
+  {{/* -------------------- END LABEL BLOCK -------------------- */}}
 
 
   {{ if eq ($.Get "caption") "" }}
