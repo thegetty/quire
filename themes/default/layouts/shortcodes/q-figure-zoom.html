@@ -51,6 +51,7 @@ document and render only the values given in the shortcode
           </span>
     </figure>
 
+  {{/* -------------------- BEGIN FIGURE MODAL WRAPPER -------------------- */}}
     <a 
     href="#map-{{ $Id }}"     
     class='inline popup'
@@ -198,16 +199,22 @@ alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
 
 {{ end }}
 
-{{ end }}     
+{{ end }}
+
+{{/* -------------------- END FIGURE MODAL WRAPPER -------------------- */}}
+{{ if eq $.Site.Params.figureModal true }}
+  </a>
+{{ end }}
 
 {{/* -------------------- BEGIN LABEL BLOCK -------------------- */}}
+
 {{- if or .label (eq $.Site.Params.figureModal true ) }}
   {{- $labelDict := dict "Site" $.Site "label" .label -}}
   {{- partial "figures/label.html" $labelDict -}}
 {{- end -}}
 {{/* -------------------- END LABEL BLOCK -------------------- */}}
 
-{{/* -------------------- BEGIN CAPTION BLOCK AND BELOW LABELING -------------------- */}}
+{{/* -------------------- BEGIN CAPTION BLOCK -------------------- */}}
   <figcaption class="quire-figure__caption caption">
 
     {{ if eq $.Site.Params.pdf true }}<span class="media-caption">{{ end }}
@@ -233,7 +240,7 @@ alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
     {{ end }}
 
   </figcaption>
-{{/* -------------------- END CAPTION BLOCK AND BELOW LABELING -------------------- */}}
+{{/* -------------------- END CAPTION BLOCK -------------------- */}}
 
 {{ if eq $.Site.Params.figureModal true }}
   </div>
@@ -420,6 +427,11 @@ src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
 
 {{ end }}
 
+{{ end }}
+
+{{/* -------------------- END FIGURE MODAL WRAPPER -------------------- */}}
+{{ if eq $.Site.Params.figureModal true }}
+  </a>
 {{ end }}
 
 {{/* -------------------- BEGIN LABEL BLOCK -------------------- */}}
