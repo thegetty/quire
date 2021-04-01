@@ -186,25 +186,11 @@ the figure for each into a figure group
 
   {{ if eq ($.Get "caption") "" }}
     {{/* -------------------- BEGIN CAPTION BLOCK -------------------- */}}
-    <figcaption class="quire-figure__caption">
-    
-    {{ if eq $.Site.Params.pdf true }}<span class="media-caption">{{ end }}
-        <span class="figure-caption">
-        {{ if $.Get "caption" }}
-        {{ $.Get "caption" | markdownify }}
-        {{ else if isset . "caption" }}
-        {{ if .caption }}
-        {{ .caption | markdownify }}
-        {{ end }}
-        {{ end }}
-        </span>
-    {{ if eq $.Site.Params.pdf true }}</span>{{ end }}
 
-    {{ if .credit }}
-      <span class="quire-figure__credit">{{ .credit | markdownify }}</span>
-    {{ end }}
+    {{- $dict := dict "Site" $.Site "caption" .caption "credit" .credit "label" .label -}}
 
-    </figcaption>
+    {{- partial "figures/caption.html" $dict -}}
+
     {{/* -------------------- END CAPTION BLOCK -------------------- */}}
   
   {{/* -------------------- END q-figure__wrapper BLOCK -------------------- */}}

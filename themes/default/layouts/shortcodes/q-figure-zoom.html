@@ -215,31 +215,9 @@ alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
 {{/* -------------------- END LABEL BLOCK -------------------- */}}
 
 {{/* -------------------- BEGIN CAPTION BLOCK -------------------- */}}
-  <figcaption class="quire-figure__caption caption">
+{{- $dict := dict "Site" $.Site "caption" .caption "credit" .credit "label" .label -}}
 
-    {{ if eq $.Site.Params.pdf true }}<span class="media-caption">{{ end }}
-        {{ if $.Get "caption" }}
-        {{ $.Get "caption" | markdownify }}
-        {{ else if isset . "caption" }}
-        {{ if .caption }}
-        {{ .caption | markdownify }}
-        {{ end }}
-        {{ end }}
-    {{ if eq $.Site.Params.pdf true }}</span>{{ end }}
-
-    {{ if $.Get "credit" }}
-    <span class="quire-figure__credit">
-      {{ $.Get "credit" | markdownify }}
-    </span>
-    {{ else if isset . "credit" }}
-    {{ if .credit }}
-    <span class="quire-figure__credit">
-      {{ .credit | markdownify }}
-    </span>
-    {{ end }}
-    {{ end }}
-
-  </figcaption>
+{{- partial "figures/caption.html" $dict -}}
 {{/* -------------------- END CAPTION BLOCK -------------------- */}}
 
 {{ if eq $.Site.Params.figureModal true }}
@@ -442,31 +420,9 @@ src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
 {{/* -------------------- END LABEL BLOCK -------------------- */}}
 
 {{/* -------------------- BEGIN CAPTION BLOCK AND BELOW LABELING -------------------- */}}
-  <figcaption class="quire-figure__caption caption">
+{{- $dict := dict "Site" $.Site "caption" .caption "credit" .credit "label" .label -}}
 
-    {{ if eq $.Site.Params.pdf true }}<span class="media-caption">{{ end }}
-        {{ if $.Get "caption" }}
-        {{ $.Get "caption" | markdownify }}
-        {{ else if isset . "caption" }}
-        {{ if .caption }}
-        {{ .caption | markdownify }}
-        {{ end }}
-        {{ end }}
-    {{ if eq $.Site.Params.pdf true }}</span>{{ end }}
-
-    {{ if $.Get "credit" }}
-    <span class="quire-figure__credit">
-      {{ $.Get "credit" | markdownify }}
-    </span>
-    {{ else if isset . "credit" }}
-    {{ if .credit }}
-    <span class="quire-figure__credit">
-      {{ .credit | markdownify }}
-    </span>
-    {{ end }}
-    {{ end }}
-
-  </figcaption>
+{{- partial "figures/caption.html" $dict -}}
 {{/* -------------------- END CAPTION BLOCK AND BELOW LABELING -------------------- */}}
 
 {{ if eq $.Site.Params.figureModal true }}
