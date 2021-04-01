@@ -474,6 +474,10 @@
     }
   }
 
+  .quire-figure__caption-content + .quire-figure__credit {
+    margin-left: .25rem;
+  }
+
   @media print {
     column-span: none;
     -webkit-column-break-inside: avoid;
