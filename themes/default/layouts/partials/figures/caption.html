@@ -6,8 +6,6 @@
     <span class="quire-figure__caption-content">{{- with .caption -}}{{ markdownify . }}{{- end -}}</span>
   {{- end -}}
   {{- if .credit -}}
-    {{- with .credit -}}
-      <span class="quire-figure__credit">{{ markdownify . }}</span>
-    {{- end -}}
+    <span class="quire-figure__credit">{{ if .caption }} {{ end }}{{ markdownify .credit }}</span>
   {{- end -}}
 </figcaption>
