@@ -4,6 +4,9 @@
 {{ $.Scratch.Set "imageDir" "" }}
 {{ end }}
 
+{{- $figureId := "" -}}
+{{- $modalLink := "" -}}
+
 {{ $errorNoMediaType := dict "shortcode" "q-figure-group" "message" "One of your figures in this group is missing the `media_type` attribute, which must be included in your `data/figures.yml` file for this figure `id`, and must be either “youtube” or “vimeo”." "example" "- id: &#34;3.1&#34;<br />  media_id: &#34;VYqDpNmnu8I&#34;<br />  media_type: &#34;youtube&#34;" }}
 
 {{ $errorBadId := dict "shortcode" "q-figure-group" "message" "One or more of the `id` values supplied in this shortcode do not match any corresponding `id` values in your `data/figures.yml` file. Or, the `id` values were not fully comma separated." "example" "{{< q-figure-group id=&#34;3.1, 3.2, 3.3&#34; >}}" }}
@@ -124,18 +127,17 @@ the figure for each into a figure group
 
     {{/* -------------------- BEGIN NO_MEDIA_ID BLOCK -------------------- */}}
 
-      {{ if eq $.Site.Params.figureZoom true }}
+    {{ if eq $.Site.Params.figureZoom true }}
 
-
-     {{ $Id := now.UnixNano }}
+    {{ $figureId = printf "%s-%d" "deepzoom" now.UnixNano }}
 
   <div class="q-figure__wrapper">
     <figure 
-      id="deepzoom-{{ $Id }}"
+      id="{{ $figureId }}"
       {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}  
       class="quire-figure leaflet-outer-wrapper mfp-hide">
         <div 
-        id="js-deepzoom-{{ now.UnixNano }}" 
+        id="js-{{ $figureId }}" 
         class="quire-deepzoom inset leaflet-inner-wrapper " 
         aria-live="polite" 
         role="application"
@@ -147,8 +149,9 @@ the figure for each into a figure group
     </figure>
 
     {{ if eq $.Site.Params.figureModal true }}
+    {{ $modalLink = printf "%s%s" "#" $figureId }}
     <a
-    href="#deepzoom-{{ $Id }}"
+    href="{{ $modalLink }}"
     class='inline popup'
     data-type='inline'
     {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
@@ -161,12 +164,14 @@ the figure for each into a figure group
 
   {{ else }}
 
+    {{ $modalLink = printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}
+    <!-- What's going on here -->
     <div class='q-figure__wrapper'>
       {{ if eq $.Site.Params.figureModal true }}
-      <a class="image popup" href='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
+      <a class="image popup" href='{{ $modalLink }}' {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
       {{ end }}
       <img id="{{ .id }}" class="quire-figure__image"
-         src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}'
+         src='{{ $modalLink }}'
          alt='{{ with .alt }}{{ . }}{{ end }}' />
     
     {{ end }}
@@ -175,21 +180,21 @@ the figure for each into a figure group
     {{ end }}
 
   {{/* -------------------- BEGIN LABEL BLOCK -------------------- */}}
-  {{ if and (ne .media_type "audio") (ne .media_type "soundcloud") (ne .media_type "vimeo") (ne .media_type "youtube") (ne .media_type "website") }}
-    {{- if or .label (eq $.Site.Params.figureModal true ) }}
-      {{- $labelDict := dict "Site" $.Site "label" .label -}}
-      {{- partial "figures/label.html" $labelDict -}}
-    {{- end -}}
-  {{- end -}}
+
+  {{ if eq $.Site.Params.figureLabelLocation "on-top" }}
+    {{- $labelDict := dict "Site" $.Site "label" .label "modalLink" $modalLink -}}
+    {{- partial "figures/label.html" $labelDict -}}
+  {{ end }}
+
   {{/* -------------------- END LABEL BLOCK -------------------- */}}
 
 
   {{ if eq ($.Get "caption") "" }}
     {{/* -------------------- BEGIN CAPTION BLOCK -------------------- */}}
 
-    {{- $dict := dict "Site" $.Site "caption" .caption "credit" .credit "label" .label -}}
+    {{- $captionDict := dict "Site" $.Site "caption" .caption "credit" .credit "label" .label "modalLink" $modalLink -}}
 
-    {{- partial "figures/caption.html" $dict -}}
+    {{- partial "figures/caption.html" $captionDict -}}
 
     {{/* -------------------- END CAPTION BLOCK -------------------- */}}
   

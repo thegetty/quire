@@ -6,7 +6,7 @@
     <a href="https://youtu.be/{{ .mediaId }}" target="_blank">https://youtu.be/{{ .mediaId }}</a>
   </figcaption>
 
-  {{- else -}}
+{{- else -}}
 
   <div class="quire-figure__media-wrapper{{ if .aspectRatio }}--{{ .aspectRatio }}{{ else }}--widescreen{{ end }}">
     <iframe
@@ -18,7 +18,12 @@
   </div>
 {{- end -}}
 
+{{- $dict := dict "Site" .Site "caption" .caption "credit" .credit "label" .label -}}
+
 {{- if .label }}
-  {{- $labelDict := dict "Site" .Site "label" .label "icon" false -}}
-  {{- partial "figures/label.html" $labelDict -}}
+  {{ if eq .Site.Params.figureLabelLocation "on-top" }}
+    {{- partial "figures/label.html" $dict -}}
+  {{ end }}
 {{- end -}}
+
+{{- partial "figures/caption.html" $dict -}}

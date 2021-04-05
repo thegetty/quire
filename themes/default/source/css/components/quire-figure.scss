@@ -178,16 +178,14 @@
     } @else {
       color: $accent-color;
     }
-    font-size: 0.75em;
     height: 1.2em;
     font-weight: 700;
-    float: left;
     margin-right: .5rem;
     margin-top: -.2em;
     .quire-figure__label-icon {
-      float: left;
-      margin-top: .6em;
+      margin-top: 0;
       margin-left: -.3em;
+      vertical-align: middle;
       @media print {
         display: none;
       }
@@ -201,14 +199,13 @@
         height: 1.5rem;
       }
     }
-    .quire-figure__label-text {
-      margin-top: .8em;
-      display: inline-block;
-    }
     // The figure label with figureLabelLocation: on-top (default)
     &--on-top {
+      display: flex;
+      align-items: center;
       color: $white;
       position: absolute;
+      font-size: 0.75em;
       top: 0;
       left: 0;
       height: 2.6em;
@@ -220,9 +217,6 @@
         svg {
           fill: $white;
         }
-      }
-      .quire-figure__label-text {
-        margin-top: .5em;
       }
     }
   }
@@ -581,3 +575,13 @@ div.multimedia {
 }
 
 /** VIDEO/AUDIO FALLBACK ELEMENTS **/
+
+/* Override global link styles on icon in caption */
+.quire-page__content .quire-figure__caption {
+  .popup, .popup:hover {
+    border-bottom: none!important;
+  }
+  .popup:focus {
+    background-color: inherit!important;
+  }
+}
