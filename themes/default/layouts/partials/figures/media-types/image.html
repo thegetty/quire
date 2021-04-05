@@ -24,10 +24,6 @@
       role="application"
       src="{{ printf "%s/%s" $imageDir .src | relURL }}"
     ></div>
-    <span class="figure-caption visually-hidden"
-      >{{ with .caption }}{{ markdownify . }}{{ end }}
-      {{ with .credit }} {{ markdownify . }}{{ end }}</span
-    >
   </figure>
   <a
     href="{{ $modalLink }}"

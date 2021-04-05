@@ -26,10 +26,6 @@
     >
       <figure class="leaflet-table">{{ readFile $tableSrc | safeHTML }}</figure>
     </div>
-    <span class="figure-caption visually-hidden"
-      >{{ with .caption }}{{ markdownify . }}{{ end }}
-      {{ with .credit }} {{ markdownify . }}{{ end }}</span
-    >
   </figure>
   <a
     href="{{ $modalLink }}"
