@@ -324,35 +324,35 @@ If the shortcode has no id, post an error message.
       {{ end }}
   </h5>
 
-    {{ if isset .map "media_type" }}
+  {{ if isset .map "media_type" }}
 
-    <p class="caption">
+    <figcaption class="caption">
 
-    {{- if eq .map.media_type "youtube" }}
-    <a href='https://youtu.be/{{ .map.media_id }}' alt="" title="" target="_blank" ><em>https://youtu.be/{{ .map.media_id }}</em></a>
-    {{ end }}
-    {{- if eq .map.media_type "vimeo" }}
-    <a href='https://vimeo.com/{{ .map.media_id }}' alt="" title="" target="_blank" ><em>https://vimeo.com/{{ .map.media_id }}</em></a>
-    {{ end }}
-    {{- if eq .map.media_type "soundcloud" }}
-    <a href="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .map.media_id }}" alt="" title="" target="_blank" ><em>https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .map.media_id }}</em></a>
-    {{ end }}
+      {{- if eq .map.media_type "youtube" }}
+        <a href='https://youtu.be/{{ .map.media_id }}' alt="" title="" target="_blank" ><em>https://youtu.be/{{ .map.media_id }}</em></a>
+      {{ end }}
+      {{- if eq .map.media_type "vimeo" }}
+        <a href='https://vimeo.com/{{ .map.media_id }}' alt="" title="" target="_blank" ><em>https://vimeo.com/{{ .map.media_id }}</em></a>
+      {{ end }}
+      {{- if eq .map.media_type "soundcloud" }}
+        <a href="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .map.media_id }}" alt="" title="" target="_blank" ><em>https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .map.media_id }}</em></a>
+      {{ end }}
 
     {{ else }}
 
-    {{- if eq (.site.Get "media_type") "youtube" }}
-    <a href='https://youtu.be/{{ .site.Get.media_id }}' alt="" title="" target="_blank" ><em>https://youtu.be/{{ .site.Get "media_id" }}</em></a></p>
-    {{ end }}
-    {{- if eq (.site.Get "media_type") "vimeo" }}
-    <a href='https://vimeo.com/{{ .site.Get.media_id }}' alt="" title="" target="_blank" ><em>https://vimeo.com/{{ .site.Get "media_id" }}</em></a></p>
-    {{ end }}
-    {{- if eq (.site.Get "media_type") "soundcloud" }}
-    <a href="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .site.Get.media_id }}" alt="" title="" target="_blank" ><em>https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .site.Get "media_id" }}</em></a>
-    {{ end }}
+      {{- if eq (.site.Get "media_type") "youtube" }}
+        <a href='https://youtu.be/{{ .site.Get.media_id }}' alt="" title="" target="_blank" ><em>https://youtu.be/{{ .site.Get "media_id" }}</em></a>
+      {{ end }}
+      {{- if eq (.site.Get "media_type") "vimeo" }}
+        <a href='https://vimeo.com/{{ .site.Get.media_id }}' alt="" title="" target="_blank" ><em>https://vimeo.com/{{ .site.Get "media_id" }}</em></a>
+      {{ end }}
+      {{- if eq (.site.Get "media_type") "soundcloud" }}
+        <a href="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .site.Get.media_id }}" alt="" title="" target="_blank" ><em>https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .site.Get "media_id" }}</em></a>
+      {{ end }}
     
-    </p>
+    </figcaption>
 
-    {{ end }}
+  {{ end }}
 
 {{- end -}}
 
