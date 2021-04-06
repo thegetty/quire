@@ -276,7 +276,7 @@ If the shortcode has no id, post an error message.
 {{- if eq .map.media_type "website" }}
 
 {{ if eq .site.Site.Params.epub true }}
-<span class="fallback-image"><img src='{{ .site.Scratch.Get "imageDir" | relURL }}/icons/baseline-website-24px.png'/></span>
+<span class="fallback-image"><img src='{{ .site.Scratch.Get "imageDir" | relURL }}/icons/website.png'/></span>
 {{ else }}
 <iframe id='{{ .map.id }}' class='quire-figure__media' src='{{ .map.media_id }}'></iframe>
 {{ end }}
@@ -284,7 +284,7 @@ If the shortcode has no id, post an error message.
 {{ else if (.site.Get "media_type") "website"}}
 
 {{ if eq .site.Site.Params.epub true }}
-<span class="fallback-image"><img src='{{ .site.Scratch.Get "imageDir" | relURL }}/icons/baseline-website-24px.png'/></span>
+<span class="fallback-image"><img src='{{ .site.Scratch.Get "imageDir" | relURL }}/icons/website.png'/></span>
 {{ else }}
 <iframe id='{{ .site.Get "id" }}' class='quire-figure__media' src='{{ .site.Get "media_id"}}'></iframe>
 {{ end }}
@@ -307,28 +307,11 @@ If the shortcode has no id, post an error message.
 {{ else }}
 
 <div class="placeholder">
-
-    {{ if isset .map "media_type" }}
-
-    {{- if or (eq .map.media_type "youtube")  (eq .map.media_type "vimeo") }}
-    <i class="material-icons md-24">videocam</i>
-    {{ end }}
-    {{- if or (eq .map.media_type "soundcloud")  (eq .map.media_type "audio") }}
-    <i class="material-icons md-24 audio">headset</i>
-    {{ end }}
-
-    {{ else }}
-
-    {{- if or (eq (.site.Get "media_type") "youtube")  (eq (.site.Get "media_type") "vimeo") }}
-    <i class="material-icons md-24">videocam</i>
-    {{ end }}
-    {{- if or (eq (.site.Get "media_type") "soundcloud")  (eq (.site.Get "media_type") "audio") }}
-    <i class="material-icons md-24 audio">headset</i>
-    {{ end }}
-
-    {{ end }}
-
+  {{ if isset .map "media_type" }}
+    <span class="fallback-image"><img src='{{ .site.Scratch.Get "imageDir" | relURL }}/icons/{{ .map.media_type }}.png'/></span>
+  {{ end }}
 </div>
+
 {{- end -}}
 
   <h5 class="header">
@@ -378,7 +361,7 @@ If the shortcode has no id, post an error message.
 {{- if (.site.Get "media_type") "website"  }}
 
 {{ if eq .site.Site.Params.epub true }}
-<span class="fallback-image"><img src='{{ .site.Scratch.Get "imageDir" | relURL }}/icons/baseline-website-24px.png'/></span>
+<span class="fallback-image"><img src='{{ .site.Scratch.Get "imageDir" | relURL }}/icons/website.png'/></span>
 {{ else }}
 <iframe id='{{ .site.Get "id" }}' class='quire-figure__media' src='{{ .site.Get "media_id"}}'></iframe>
 {{ end }}
