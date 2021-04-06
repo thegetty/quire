@@ -9,7 +9,14 @@
 {{- $mediaType := "" -}}
 {{- $src := "" -}}
 
-{{- if .Get "src" -}}
+{{- if or (.Get "src") (.Get "media_id") -}}
+
+  {{/*
+  ----------------------------------------------------------------------------
+  Get attributes defined directly on shortcode
+  ----------------------------------------------------------------------------
+  */}}
+
   {{- with (.Get "alt") }}{{ $alt = . }}{{ end -}}
   {{- with (.Get "aspect_ratio") }}{{ $aspectRatio = . }}{{ end -}}
   {{- with (.Get "caption") }}{{ $caption = . }}{{ end -}}
@@ -21,7 +28,14 @@
   {{- with (.Get "media_type") }}{{ $mediaType = . }}{{ end -}}
   {{- with (.Get "src") }}{{ $src = . }}{{ end -}}
 
+
 {{- else if .Get "id" -}}
+
+  {{/*
+  ----------------------------------------------------------------------------
+  Get attributes from figures.yml
+  ----------------------------------------------------------------------------
+  */}}
 
   {{- range where .Site.Data.figures.figure_list "id" "eq" (.Get "id") -}}
     {{- if ($.Get "alt") }}
