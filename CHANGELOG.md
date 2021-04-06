@@ -12,3 +12,11 @@ Project versions conform to [Semantic Versioning](https://semver.org/)
 - `Deprecated`: for once-stable features removed in upcoming releases
 * `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
+
+<a name="unreleased"></a>
+
+## [unreleased]
+
+### Changed
+- Refactor `q-figure` shortcode to use partials for each media type
+- Refactor `q-figure-group` and `q-figure-zoom` shortcodes to use `caption` and `label` partials
