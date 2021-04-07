@@ -14,7 +14,7 @@ const readline = require("readline");
 const fs = require("fs-extra");
 
 import Project from "@src/project";
-import { commandMissing, copy } from "@src/utils";
+import { commandMissing, copy, isWin32 } from "@src/utils";
 
 /**
  * CLI class.
