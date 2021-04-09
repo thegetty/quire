@@ -14,7 +14,7 @@ const readline = require("readline");
 const fs = require("fs-extra");
 
 import Project from "@src/project";
-import { commandMissing, copy } from "@src/utils";
+import { commandMissing, copy, isWin32 } from "@src/utils";
 
 /**
  * CLI class.
@@ -257,9 +257,10 @@ export default class CLI extends EventEmitter {
   }
 
   npmInstall(cwd) {
+    const npmCmd = isWin32() ? "npm.cmd" : "npm";
     cwd = cwd || process.cwd();
     spawnSync(
-      "npm",
+      npmCmd,
       ["install"],
       {
         // cwd: cwd, stdio: 'inherit'

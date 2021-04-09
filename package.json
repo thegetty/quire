@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "description": "a multi-format book publishing framework",
   "author": "Getty Digital",
-  "license": "MIT",
+  "license": "J Paul Getty Trust",
   "scripts": {
     "cli:build": "cd packages/cli && npm install && npm run build",
     "cli:install": "npm run cli:build && npm install -g packages/cli",

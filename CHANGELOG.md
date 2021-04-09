@@ -13,10 +13,28 @@ Project versions conform to [Semantic Versioning](https://semver.org/)
 * `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
-<a name="unreleased"></a>
 
-## [unreleased]
+<a name="0.19.1"></a>
+
+## [0.19.1]
 
 ### Changed
 - Refactor `q-figure` shortcode to use partials for each media type
 - Refactor `q-figure-group` and `q-figure-zoom` shortcodes to use `caption` and `label` partials
+
+<a name="0.19.0"></a>
+
+## [0.19.0]
+
+### Added
+- `quire process --iiif` command to generate IIIF compatible image tiles
+- Set an image's zoom level in Leaflet using `zoom_max` in `figures.yml`
+
+### Fixed
+- Translate popup annotations so they are always contained by the document body
+- Preserve scroll position when image modals are opened and closed
+
+### Changed
+- Disabled scroll and touch zoom on entry viewer images
+- Update `README` for CLI, default starter, default theme, and monorepo
+>>>>>>> main

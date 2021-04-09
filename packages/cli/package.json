@@ -1,9 +1,9 @@
 {
   "name": "@thegetty/quire-cli",
   "description": "Quire command-line interface",
-  "version": "0.18.2",
+  "version": "0.19.0",
   "author": "Getty Digital",
-  "license": "MIT",
+  "license": "J Paul Getty Trust",
   "bugs": {
     "url": "https://github.com/thegetty/quire/issues"
   },
@@ -11,6 +11,9 @@
   "keywords": [
     "cli",
     "quire"
+  ],
+  "files": [
+    "bin"
   ],
   "main": "index.js",
   "repository": {
