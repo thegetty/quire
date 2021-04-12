@@ -430,6 +430,7 @@ class Build extends EventEmitter {
             caption = $('<figcaption></figcaption>');
             captionEls.each((i, el) => {
               caption.append($(el).html());
+              (i < captionEls.length - 1) ? caption.append('<br/>') : null;
             });
           }
           return $(el).replaceWith(
