@@ -29,7 +29,7 @@ Props:
         {{ end }}
         {{- $labelDict := dict "Site" .Site "label" .label "modalLink" .modalLink -}}
         {{- partial "figures/label.html" $labelDict -}}
-        {{ if eq .Site.Params.figureModal true }}
+        {{ if and (eq .Site.Params.figureModal true) .modalLink }}
           </a>
         {{ end }}
       {{- end -}}
