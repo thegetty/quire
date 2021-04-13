@@ -1,0 +1,35 @@
+{{/*
+----------------------------------------------------------------------------
+Label 
+---------
+The figure label element
+
+Props:
+- Site: Site Object
+- modalLink: the link to open the figure modal element. If provided, the label will include a fullscreen icon.
+- label: the figure's label
+----------------------------------------------------------------------------
+*/}}
+
+{{- $showIcon := false -}}
+{{- if and .modalLink (eq .Site.Params.figureModal true) (ne .Site.Params.pdf true) (ne .Site.Params.epub true) }}
+  {{ $showIcon = true }}
+{{- end -}}
+
+{{- if or $showIcon .label }}
+<span
+  class="quire-figure__label quire-figure__label--{{ if .Site.Params.figureLabelLocation }}{{ .Site.Params.figureLabelLocation }}{{ else }}on-top{{ end }}"
+>
+  {{- if $showIcon -}}
+    <span class="quire-figure__label-icon">
+      {{- partial "icon.html" (dict "type" "fullscreen" "description" "Expand") -}}
+    </span>
+  {{- end -}}
+
+  {{- with .label -}}
+    <span class="quire-figure__label-text">
+      {{- markdownify . -}}
+    </span>
+  {{- end -}}
+</span>
+{{- end -}}

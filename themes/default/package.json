@@ -1,5 +1,5 @@
 {
-  "name": "quire-theme-default",
+  "name": "@thegetty/quire-theme-default",
   "description": "default theme for Quire digital publications",
   "version": "0.18.0",
   "author": "Getty Digital",
@@ -58,6 +58,8 @@
     "nyc": "^14.1.1",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "postcss-loader": "^3.0.0",
+    "prettier": "^2.2.1",
+    "prettier-plugin-go-template": "^0.0.10",
     "purify-css": "^1.2.5",
     "purifycss-webpack": "^0.7.0",
     "sass-loader": "^8.0.0",

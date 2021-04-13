@@ -1,0 +1,35 @@
+{{- if or (eq .Site.Params.epub true) (eq .Site.Params.pdf true) -}}
+  {{- $fallbackDict := dict "Site" .Site "alt" .alt "id" .id "mediaType" .mediaType "src" .src -}}
+  {{- partial "figures/media-types/fallback.html" $fallbackDict -}}
+
+  <figcaption class="quire-figure__caption caption">
+    <a
+      href="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .mediaId }}"
+      target="_blank"
+      >https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .mediaId }}</a
+    >
+  </figcaption>
+
+{{- else -}}
+
+  <div class="quire-figure__media-wrapper">
+    <iframe
+      width="100%"
+      height="166"
+      scrolling="no"
+      frameborder="no"
+      allow="autoplay"
+      src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .mediaId }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"
+    ></iframe>
+  </div>
+{{- end -}}
+
+{{- $dict := dict "Site" .Site "caption" .caption "credit" .credit "label" .label -}}
+
+{{- if .label }}
+  {{ if eq .Site.Params.figureLabelLocation "on-top" }}
+    {{- partial "figures/label.html" $dict -}}
+  {{ end }}
+{{- end -}}
+
+{{- partial "figures/caption.html" $dict -}}

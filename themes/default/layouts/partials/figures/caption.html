@@ -1,0 +1,44 @@
+{{/*
+----------------------------------------------------------------------------
+Caption 
+---------
+Figure caption and credit element.
+Includes the `label` element for epub and when Site.Params.figureLabelPosition === "below"
+If Site.Params.figureModal === true, the label is also a link to open the modal
+
+Props:
+- Site: Site Object
+- modalLink: the link to open the figure modal element
+- label: the figure's label
+- caption: the figure's caption
+- credit: the figure's credit
+----------------------------------------------------------------------------
+*/}}
+
+{{- if or .caption .credit .label -}}
+  <figcaption class="quire-figure__caption caption">
+    {{- if .label -}}
+      {{- if eq .Site.Params.epub true -}}
+        <span class="quire-figure__label">{{ .label }}</span>
+      {{ else if eq .Site.Params.figureLabelLocation "below" }}
+        {{ if and (eq .Site.Params.figureModal true) .modalLink }}
+          <a href="{{ .modalLink }}"
+            class="inline popup"
+            data-type="inline"
+            title="{{ .caption | markdownify | safeHTML }}">
+        {{ end }}
+        {{- $labelDict := dict "Site" .Site "label" .label "modalLink" .modalLink -}}
+        {{- partial "figures/label.html" $labelDict -}}
+        {{ if and (eq .Site.Params.figureModal true) .modalLink }}
+          </a>
+        {{ end }}
+      {{- end -}}
+    {{- end -}}
+    {{- if .caption -}}
+      <span class="quire-figure__caption-content">{{- with .caption -}}{{ markdownify . }}{{- end -}}</span>
+    {{- end -}}
+    {{- if .credit -}}
+      <span class="quire-figure__credit">{{ if .caption }} {{ end }}{{ markdownify .credit }}</span>
+    {{- end -}}
+  </figcaption>
+{{- end -}}
