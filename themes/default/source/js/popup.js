@@ -23,6 +23,10 @@ export default function(gallerySelector, mapArr) {
     </a>
   </div>
   `;
+  /**
+  * The Leaflet map instance
+  */
+  let leafletMap;
 
   /**
    * @description Find all instances of soundcloud players
@@ -188,6 +192,9 @@ export default function(gallerySelector, mapArr) {
         }
       },
       change: function() {
+        if (leafletMap) {
+          leafletMap.remove();
+        }
         this.current = this.index + 1;
         if (document.querySelector(".counter")) {
           document.querySelector(
@@ -200,7 +207,7 @@ export default function(gallerySelector, mapArr) {
         if (id !== "" || id !== undefined) {
           if (id.indexOf("map") !== -1) {
             setTimeout(() => {
-              new Map(id);
+              leafletMap = new Map(id);
             }, waitForDOMUpdate);
           }
           if (id.indexOf("deepzoom") !== -1) {
@@ -209,13 +216,15 @@ export default function(gallerySelector, mapArr) {
               let image = new Image();
               image.src = url;
               image.onload = function() {
-                new DeepZoom(id, mapArr);
+                leafletMap = new DeepZoom(id, mapArr);
+                leafletMap = leafletMap.map;
               };
             }, waitForDOMUpdate);
           }
           if (id.indexOf("iiif") !== -1) {
             setTimeout(() => {
-              new DeepZoom(id, mapArr);
+              leafletMap = new DeepZoom(id, mapArr);
+              leafletMap = leafletMap.map;
             }, waitForDOMUpdate);
           }
         }
