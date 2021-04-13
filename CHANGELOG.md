@@ -13,6 +13,13 @@ Project versions conform to [Semantic Versioning](https://semver.org/)
 * `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
+<a name="0.19.2"></a>
+
+## [0.19.2]
+
+### Fixed
+
+- Fix navigation to previously-viewed images in popup by removing Leaflet map on change.
 
 <a name="0.19.1"></a>
 
@@ -37,4 +44,3 @@ Project versions conform to [Semantic Versioning](https://semver.org/)
 ### Changed
 - Disabled scroll and touch zoom on entry viewer images
 - Update `README` for CLI, default starter, default theme, and monorepo
->>>>>>> main
