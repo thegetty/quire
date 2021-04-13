@@ -37,4 +37,3 @@ Project versions conform to [Semantic Versioning](https://semver.org/)
 ### Changed
 - Disabled scroll and touch zoom on entry viewer images
 - Update `README` for CLI, default starter, default theme, and monorepo
->>>>>>> main
