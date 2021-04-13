@@ -1,0 +1,32 @@
+{{- $imageDir := "" -}}
+{{- if .Site.Params.imageDir -}}
+  {{- $imageDir = .Site.Params.imageDir -}}
+{{- else }}
+  {{- $imageDir = "img" -}}
+{{- end }}
+
+{{- if .src -}}
+  <img
+    id="{{ .id }}"
+    class="quire-figure__image"
+    src="{{ printf "%s/%s" $imageDir .src | relURL }}"
+    alt="{{ .alt }}"
+  />
+
+{{- else -}}
+
+  <div class="quire-figure__media-fallback">
+    <div class="placeholder">
+      <span class="fallback-image">
+        <img src="{{ $imageDir | relURL }}/icons/{{ .mediaType }}.png" />
+      </span>
+    </div>
+  </div>
+{{- end -}}
+
+{{- if .label }}
+  {{ if eq .Site.Params.figureLabelLocation "on-top" }}
+    {{- $dict := dict "Site" .Site "label" .label -}}
+    {{- partial "figures/label.html" $dict -}}
+  {{ end }}
+{{- end -}}

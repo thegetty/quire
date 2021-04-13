@@ -40,10 +40,6 @@
       border: none;
 
       &:hover {
-        span.fig {
-          background-color: $accent-color;
-          transition: background-color 0.25s;
-        }
 
         img {
           -webkit-transition: -webkit-box-shadow 0.35s;
@@ -53,52 +49,17 @@
           box-shadow: 0px 0px 6px 0px $black-semi-transparent;
         }
 
-        span.quire-figure__fig {
-          background: $accent-color;
-        }
-
-        span.quire-figure__modal * {
+        .quire-figure__label--below {
+          transition: background-color 0.35s;
           color: link-hover-color($content-background-color);
+          svg {
+            fill: link-hover-color($content-background-color);
+          }
         }
-      }
-    }
 
-    span.fig {
-      font-size: 0.75em;
-      /** approx 12px **/
-      background: $black-semi-transparent;
-      /** sets transparent background without affecting text color **/
-      position: absolute;
-      display: flex;
-      align-items: center;
-      padding: 0;
-      @media print {
-        padding: 2px 3px 2px 6px;
-        .material-icons {
-          display: none;
-        }
-      }
-      left: 0;
-      top: 0;
-      color: $white;
-      margin: 0 auto;
-
-      span {
-        font-size: 1.125rem;
-        line-height: 1.5;
-        padding: 0 0.2em;
-      }
-
-      strong {
-        color: $white;
-        margin-right: 5px;
-      }
-
-      &.no-fullscreen {
-        padding: 0.4em 0.2em;
-        strong {
-          margin-top: 0;
-          margin-left: 6px;
+        .quire-figure__label--on-top {
+          transition: background-color 0.35s;
+          background-color: $accent-color;
         }
       }
     }
@@ -140,7 +101,7 @@
       border-bottom: 0;
     }
     margin: 0 !important;
-    padding-bottom: 1em;  
+    padding-bottom: 1em;
     font-size: 0.8rem;
     &.q-table-scale-1 {
       font-size: 0.1rem;
@@ -210,56 +171,55 @@
   &__credit {
   }
 
-  &__modal {
-    @if $theme == classic {
-      color: background-color-text-classic($content-background-color);
-    } @else {
-      color: $accent-color;
-    }
-    font-weight: 700;
-    margin-top: 0.5px;
-    height: 0.875em;
-    float: left;
-    position: relative;
-    top: 0.125em;
-
-    .material-fullscreen,
-    .material-slides {
-      top: 1px;
-      width: 20px;
-      left: -4px;
-      position: relative;
-      font-weight: 400;
-      float: left;
-      @media print {
-        display: none;
-      }
-    }
-  }
-
+  // The figure label with figureLabelLocation: below
   &__label {
     @if $theme == classic {
       color: background-color-text-classic($content-background-color);
     } @else {
       color: $accent-color;
     }
-    @media print {
-      color: $print-text-color;
-    }
+    height: 1.2em;
     font-weight: 700;
-    margin-right: 0.5em;
-
-    .material-fullscreen,
-    .material-slides {
-      top: 7px;
-      width: 16px;
-      left: -4px;
-      position: relative;
-      font-weight: 400;
+    margin-right: .5rem;
+    margin-top: -.2em;
+    .quire-figure__label-icon {
+      display: inline-block;
+      line-height: 1;
+      margin-top: 0;
+      margin-left: -.3em;
+      vertical-align: middle;
+      @media print {
+        display: none;
+      }
+      svg {
+        @if $theme == classic {
+          fill: background-color-text-classic($content-background-color);
+        } @else {
+        fill: $accent-color;
+        }
+        width: 1.5rem;
+        height: 1.5rem;
+      }
     }
-
-    .quire-figure__modal & {
+    // The figure label with figureLabelLocation: on-top (default)
+    &--on-top {
+      display: flex;
+      align-items: center;
+      color: $white;
+      position: absolute;
       font-size: 0.75em;
+      top: 0;
+      left: 0;
+      height: 2.6em;
+      padding: 0 .6em;
+      margin: 0;
+      background: $black-semi-transparent;
+      .quire-figure__label-icon {
+        margin-top: .3em;
+        svg {
+          fill: $white;
+        }
+      }
     }
   }
 
@@ -617,3 +577,13 @@ div.multimedia {
 }
 
 /** VIDEO/AUDIO FALLBACK ELEMENTS **/
+
+/* Override global link styles on icon in caption */
+.quire-page__content .quire-figure__caption {
+  .popup, .popup:hover {
+    border-bottom: none!important;
+  }
+  .popup:focus {
+    background-color: inherit!important;
+  }
+}

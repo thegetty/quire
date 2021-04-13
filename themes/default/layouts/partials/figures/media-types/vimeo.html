@@ -1,0 +1,32 @@
+{{- if or (eq .Site.Params.epub true) (eq .Site.Params.pdf true) -}}
+  {{- $fallbackDict := dict "Site" .Site "alt" .alt "id" .id "mediaType" .mediaType "src" .src -}}
+  {{- partial "figures/media-types/fallback.html" $fallbackDict -}}
+
+  <figcaption class="quire-figure__caption caption">
+    <a href="https://vimeo.com/{{ .mediaId }}" target="_blank">https://vimeo.com/{{ .mediaId }}</a>
+  </figcaption>
+
+{{- else -}}
+
+  <div
+    class="quire-figure__media-wrapper{{ if .aspectRatio }}--{{ .aspectRatio }}{{ else }}--widescreen{{ end }}"
+  >
+    <iframe
+      class="quire-figure__media"
+      src="https://player.vimeo.com/video/{{ .mediaId }}"
+      frameborder="0"
+      allow="autoplay; fullscreen"
+      allowfullscreen
+    ></iframe>
+  </div>
+{{- end -}}
+
+{{- $dict := dict "Site" .Site "caption" .caption "credit" .credit "label" .label -}}
+
+{{- if .label }}
+  {{ if eq .Site.Params.figureLabelLocation "on-top" }}
+    {{- partial "figures/label.html" $dict -}}
+  {{ end }}
+{{- end -}}
+
+{{- partial "figures/caption.html" $dict -}}

@@ -408,32 +408,33 @@ class Build extends EventEmitter {
         // Move ID from img tag to span tag preceding the figure tag pandoc wont reference img tags
         // It is possible to do but would require a larger install process for the user
         htmlObj.find("figure").each((index, el) => {
-          let imgId =
+          const imgId =
             $(el)
               .find("img")
               .attr("id") !== undefined
-              ? `id="${$(el)
+              ? $(el)
                   .find("img")
-                  .attr("id")}"`
+                  .attr("id")
               : "";
-          let imgSrc =
+          const imgSrc =
             $(el)
               .find("img")
               .attr("src") !== undefined
-              ? `src="${$(el)
+              ? $(el)
                   .find("img")
-                  .attr("src")}"`
+                  .attr("src")
               : "";
-          let figCaption =
-            $(el)
-              .find("figcaption")
-              .html() !== null
-              ? `<figcaption>${$(el)
-                  .find("figcaption")
-                  .html()}</figcaption>`
-              : "";
+          let caption;
+          const captionEls = $(el).find(`figcaption`);
+          if (captionEls.length) {
+            caption = $('<figcaption></figcaption>');
+            captionEls.each((i, el) => {
+              caption.append($(el).html());
+              (i < captionEls.length - 1) ? caption.append('<br/>') : null;
+            });
+          }
           return $(el).replaceWith(
-            `<span ${imgId}></span><figure><img ${imgSrc}/>${figCaption}</figure>`
+            `<span id="${imgId}"></span><figure><img src="${imgSrc}"/>${caption}</figure>`
           );
         });
 

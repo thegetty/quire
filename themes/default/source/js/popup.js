@@ -60,16 +60,17 @@ export default function(gallerySelector, mapArr) {
     const setCaption = self => {
       if (self) {
         $(".mfp-title").hide();
-        self.caption =
-          $(self.currItem.el)
-            .find(".figure-caption")
-            .html() ||
-          $(self.currItem.el)
-            .parent()
-            .find("figcaption")
-            .html();
-        if (self.caption !== undefined) {
-          self.captionCont = `<div class="quire-caption-container"><span class="caption">${self.caption}</span></div>`;
+        const figureWrapper = $(self.currItem.el).closest('.q-figure__wrapper');
+        const caption =
+          $(figureWrapper).find(".quire-figure__caption-content").prop('outerHTML');
+        const credit =
+          $(figureWrapper).find(".quire-figure__credit").prop('outerHTML');
+        const captionWrapper =$(`<span class="caption"></span>`);
+        caption ? captionWrapper.append(caption) : null;
+        credit ? captionWrapper.append(credit) : null;
+        if (captionWrapper.html()) {
+          self.captionCont = `
+            <div class="quire-caption-container">${captionWrapper.prop('outerHTML')}</div>`;
           $(".mfp-wrap").prepend(self.captionCont);
         }
       } else {

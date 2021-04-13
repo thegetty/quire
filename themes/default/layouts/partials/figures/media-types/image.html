@@ -1,0 +1,54 @@
+{{- $imageDir := "" -}}
+{{- if .Site.Params.imageDir -}}
+  {{- $imageDir = .Site.Params.imageDir -}}
+  {{- else }}
+  {{- $imageDir = "img" -}}
+{{- end }}
+
+{{- $now := now.UnixNano -}}
+
+{{ $figureId := printf "%s-%d" "deepzoom" $now }}
+{{ $modalLink := printf "%s%s" "#" $figureId }}
+
+{{- if eq .Site.Params.figureModal true -}}
+  <figure
+    id="{{ $figureId }}"
+    title="{{ .caption | markdownify | safeHTML }}"
+    class="quire-figure leaflet-outer-wrapper mfp-hide notGet"
+  >
+    <div
+      id="js-{{ $figureId }}"
+      class="quire-deepzoom inset leaflet-inner-wrapper "
+      aria-label="Zoomable image"
+      aria-live="polite"
+      role="application"
+      src="{{ printf "%s/%s" $imageDir .src | relURL }}"
+    ></div>
+  </figure>
+  <a
+    href="{{ $modalLink }}"
+    class="inline popup"
+    data-type="inline"
+    title="{{ .caption | markdownify | safeHTML }}">
+{{- end -}}
+
+  <img
+    class="quire-figure__image"
+    src="{{ printf "%s/%s" $imageDir .src | relURL }}"
+    alt="{{ .alt }}"
+  />
+
+{{- $dict := dict "Site" .Site "caption" .caption "credit" .credit "label" .label "modalLink" $modalLink -}}
+
+{{- if or .label (eq .Site.Params.figureModal true ) }}
+  {{ if eq .Site.Params.figureLabelLocation "on-top" }}
+    {{- partial "figures/label.html" $dict -}}
+  {{ end }}
+{{- end -}}
+
+{{- if eq .Site.Params.figureModal true -}}
+  </a>
+{{- end -}}
+
+{{- partial "figures/caption.html" $dict -}}
+

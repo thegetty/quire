@@ -4,6 +4,9 @@
 {{ $.Scratch.Set "imageDir" "" }}
 {{ end }}
 
+{{- $figureId := "" -}}
+{{- $modalLink := "" -}}
+
 {{ $errorBadId := dict "shortcode" "q-figure" "message" "The supplied value for `id` does not match an `id` value in your `data/figures.yml` file. Or, if you are not using a `data/figures.yml` file, a value for `src` should also be included in the shortcode, and should match the filename of an image file in your `static/img` directory." "example" "{{< q-figure id=&#34;3.1&#34; >}}<br /><br />{{< q-figure id=&#34;3.1&#34; src=&#34;fig-3-1-duchamp.jpg&#34; >}}" }}
 
 {{ $errorNoMediaType := dict "shortcode" "q-figure" "message" "For multimedia figures, the `media_type` attribute must be included in your `data/figures.yml` file for this figure `id`, and must be either “youtube”, “vimeo” or “website”." "example" "- id: &#34;3.1&#34;<br />  media_id: &#34;VYqDpNmnu8I&#34;<br />  media_type: &#34;youtube&#34;" }}
@@ -27,32 +30,25 @@ document and render only the values given in the shortcode
 
 {{ if eq (.Get "media_type") "map" }}
 
-{{ $Id := now.UnixNano }}
+{{ $figureId = printf "%s-%d" "map" now.UnixNano }}
+{{ $modalLink = printf "%s%s" "#" $figureId }}
 
     <figure       
-      id="map-{{ $Id }}" 
+      id="{{ $figureId }}"
       {{ if .Get "caption" }} title='{{ .Get "caption" | markdownify | safeHTML }}' {{ end }} 
       class="quire-figure leaflet-outer-wrapper mfp-hide">
-        <div 
-        id="js-map-{{ now.UnixNano }}" 
+      <div 
+        id="js-{{ $figureId }}" 
         class="quire-map leaflet-inner-wrapper inset"
         {{ with .Get "lat" }}data-lat="{{.}}"{{ end }}
         {{ with .Get "long" }}data-long="{{.}}"{{ end }}
         {{ if .Get "geojson" }}data-geojson="{{ .Site.BaseURL }}{{ .Get "geojson" }}"{{ end }}>
-        </div>
-        <span class="figure-caption visually-hidden">
-            {{ if $.Get "caption" }}
-            {{ $.Get "caption" | markdownify }}
-            {{ else if isset . "caption" }}
-            {{ if .caption }}
-            {{ .caption | markdownify }}
-            {{ end }}
-            {{ end }}
-          </span>
+      </div>
     </figure>
 
+  {{/* -------------------- BEGIN FIGURE MODAL WRAPPER -------------------- */}}
     <a 
-    href="#map-{{ $Id }}"     
+    href="{{ $modalLink }}"     
     class='inline popup'
     data-type="inline" 
     title='{{ .Get "caption" | markdownify | safeHTML }}'>
@@ -65,35 +61,27 @@ document and render only the values given in the shortcode
 
 {{ else if eq (.Get "media_type") "iiif" }}
 
-{{ $Id := now.UnixNano }}
+{{ $figureId = printf "%s-%d" "iiif" now.UnixNano }}
+{{ $modalLink = printf "%s%s" "#" $figureId }}
 
-      <figure    
-      id="iiif-{{ $Id }}" 
+    <figure    
+      id="{{ $figureId }}" 
       {{ if .Get "caption" }}  title='{{ .Get "caption" | markdownify | safeHTML }}' {{ end }} 
       class="quire-figure leaflet-outer-wrapper mfp-hide">
         <div 
-        id="js-iiif-{{ now.UnixNano }}" 
-        class="quire-deepzoom inset leaflet-inner-wrapper" 
-        aria-live="polite" 
-        role="application" 
-        aria-label="Zoomable image" 
-        {{ if .Get "iiif" }} data-iiif="{{ .Get "iiif" }}" {{ end }}
-        {{ if .Get "zoom_max" }} data-zoom-max="{{ .Get "zoom_max" }}" {{ end }}
+          id="js-{{ $figureId }}" 
+          class="quire-deepzoom inset leaflet-inner-wrapper" 
+          aria-live="polite" 
+          role="application" 
+          aria-label="Zoomable image" 
+          {{ if .Get "iiif" }} data-iiif="{{ .Get "iiif" }}" {{ end }}
+          {{ if .Get "zoom_max" }} data-zoom-max="{{ .Get "zoom_max" }}" {{ end }}
         >
         </div>
-        <span class="figure-caption visually-hidden">
-            {{ if $.Get "caption" }}
-            {{ $.Get "caption" | markdownify }}
-            {{ else if isset . "caption" }}
-            {{ if .caption }}
-            {{ .caption | markdownify }}
-            {{ end }}
-            {{ end }}
-          </span>
       </figure>
 
     <a
-    href="#iiif-{{ $Id }}" 
+    href="{{ $modalLink }}" 
     class='inline popup'
     data-type='inline' 
     {{ if .Get "caption" }}  title='{{ .Get "caption" | markdownify | safeHTML }}' {{ end }}>
@@ -105,39 +93,31 @@ document and render only the values given in the shortcode
 
 {{ else }}
 
-{{ $Id := now.UnixNano }}
+{{ $figureId = printf "%s-%d" "deepzoom" now.UnixNano }}
+{{ $modalLink = printf "%s%s" "#" $figureId }}
 
   <figure   
-  id="deepzoom-{{ $Id }}" 
+  id="{{ $figureId }}" 
   {{ if .Get "caption" }}  
   title='{{ .Get "caption" | markdownify | safeHTML }}' {{ end }} 
   class="quire-figure leaflet-outer-wrapper mfp-hide">
     <div 
-    id="js-deepzoom-{{ now.UnixNano }}" 
-    class="quire-deepzoom inset leaflet-inner-wrapper " 
-    aria-live="polite" 
-    role="application" 
-    aria-label="Zoomable image" 
-    {{ if .zoom_max }} data-zoom-max="{{ .zoom_max }}" {{ end }}
-    src="{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}">
+      id="js-{{ $figureId }}" 
+      class="quire-deepzoom inset leaflet-inner-wrapper " 
+      aria-live="polite" 
+      role="application" 
+      aria-label="Zoomable image" 
+      {{ if .zoom_max }} data-zoom-max="{{ .zoom_max }}" {{ end }}
+      src="{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}">
     </div>
-    <span class="figure-caption visually-hidden">
-        {{ if $.Get "caption" }}
-        {{ $.Get "caption" | markdownify }}
-        {{ else if isset . "caption" }}
-        {{ if .caption }}
-        {{ .caption | markdownify }}
-        {{ end }}
-        {{ end }}
-      </span>
   </figure>
 
-    <a
-    href="#deepzoom-{{ $Id }}" 
+  <a
+    href="{{ $modalLink }}" 
     class='inline popup'
     data-type='inline' 
     {{ if .Get "caption" }}  title='{{ .Get "caption" | markdownify | safeHTML }}' {{ end }}>
-      <img
+    <img
       id='{{ with .Get "id" }}{{ . | urlize }}{{ end }}'
       class="quire-figure__image" 
       src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
@@ -198,87 +178,28 @@ alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
 
 {{ end }}
 
-{{ end }}     
-
-{{/* -------------------- START FIGURE LABEL ON TOP BLOCK -------------------- */}}
-  {{ if eq $.Site.Params.figureLabelLocation "on-top" }}
-
-  {{ if eq $.Site.Params.figureModal true }}
-  {{ if eq $.Site.Params.figureModalIcons true }}
-  <span class="fig"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
-  {{ else }}
-  <span class="fig no-fullscreen {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
-  {{ end }}
-  {{ else }}
-  <span class="fig no-fullscreen {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
-  {{ end }}
-
-  {{ if or (ne .label "") ($.Get "label") }}
-    <strong>    
-        {{ if $.Get "label" }}
-        {{ $.Get "label" | markdownify }}
-        {{ else if ne .label "" }}
-        {{ if .label }}
-        {{ .label | markdownify }}
-        {{ end }}
-        {{ end }}
-    </strong>
-    {{ end }}
-  </span>
-  {{ end }}
-{{/* -------------------- END FIGURE LABEL ON TOP BLOCK -------------------- */}}
-
-{{ if eq $.Site.Params.figureModal true }}
-
-  {{ if eq $.Site.Params.figureLabelLocation "below" }}
-    <span class="quire-figure__modal">
-      {{ if eq $.Site.Params.figureModalIcons true }}
-      <span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
-      {{ end }}
-      <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }} {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
-      {{ if or (ne .label "") ($.Get "label") }}
-        {{ if $.Get "label" }}
-        {{ $.Get "label" | markdownify }}
-        {{ else if ne .label "" }}
-        {{ if .label }}
-        {{ .label | markdownify }}
-        {{ end }}
-        {{ end }}
-      {{ end }}
-      </span>
-   </span>
-  {{ end }}
-
-  </a>
 {{ end }}
 
-{{/* -------------------- BEGIN CAPTION BLOCK AND BELOW LABELING -------------------- */}}
-  <figcaption class="quire-figure__caption caption">
+{{/* -------------------- BEGIN TOP LABEL BLOCK -------------------- */}}
 
-    {{ if eq $.Site.Params.pdf true }}<span class="media-caption">{{ end }}
-        {{ if $.Get "caption" }}
-        {{ $.Get "caption" | markdownify }}
-        {{ else if isset . "caption" }}
-        {{ if .caption }}
-        {{ .caption | markdownify }}
-        {{ end }}
-        {{ end }}
-    {{ if eq $.Site.Params.pdf true }}</span>{{ end }}
+{{- if or .label (eq $.Site.Params.figureModal true ) }}
+  {{ if eq $.Site.Params.figureLabelLocation "on-top" }}
+    {{- $labelDict := dict "Site" $.Site "label" .label -}}
+    {{- partial "figures/label.html" $labelDict -}}
+  {{ end }}
+{{- end -}}
+{{/* -------------------- END TOP LABEL BLOCK -------------------- */}}
 
-    {{ if $.Get "credit" }}
-    <span class="quire-figure__credit">
-      {{ $.Get "credit" | markdownify }}
-    </span>
-    {{ else if isset . "credit" }}
-    {{ if .credit }}
-    <span class="quire-figure__credit">
-      {{ .credit | markdownify }}
-    </span>
-    {{ end }}
-    {{ end }}
+{{ if eq $.Site.Params.figureModal true }}
+  </a>
+{{ end }}
+{{/* -------------------- END FIGURE MODAL WRAPPER -------------------- */}}
 
-  </figcaption>
-{{/* -------------------- END CAPTION BLOCK AND BELOW LABELING -------------------- */}}
+{{/* -------------------- BEGIN CAPTION BLOCK -------------------- */}}
+{{- $captionDict := dict "Site" $.Site "caption" .caption "credit" .credit "label" .label "modalLink" $modalLink -}}
+
+{{- partial "figures/caption.html" $captionDict -}}
+{{/* -------------------- END CAPTION BLOCK -------------------- */}}
 
 {{ if eq $.Site.Params.figureModal true }}
   </div>
@@ -303,32 +224,24 @@ alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
 
 {{ if eq .media_type "map"  }}
 
-{{ $Id := now.UnixNano }}
+{{ $figureId = printf "%s-%d" "map" now.UnixNano }}
+{{ $modalLink = printf "%s%s" "#" $figureId }}
 
       <figure 
-        id="map-{{ $Id }}" 
+        id="{{ $figureId }}" 
         {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }} 
         class="quire-figure leaflet-outer-wrapper mfp-hide">
         <div 
-          id="js-map-{{ now.UnixNano }}" 
+          id="js-{{ $figureId }}" 
           class="quire-map leaflet-inner-wrapper inset" 
           data-lat="{{ .lat }}"
           data-long="{{ .long }}" 
           data-geojson="{{ .Site.BaseURL }}{{ .geojson }}">
         </div>
-        <span class="figure-caption visually-hidden">
-            {{ if $.Get "caption" }}
-            {{ $.Get "caption" | markdownify }}
-            {{ else if isset . "caption" }}
-            {{ if .caption }}
-            {{ .caption | markdownify }}
-            {{ end }}
-            {{ end }}
-          </span>
       </figure>
 
       <a 
-        href="#map-{{ $Id }}" 
+        href="{{ $modalLink }}" 
         class='inline popup'
         data-type="inline"
         {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
@@ -339,78 +252,62 @@ alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
 
 {{ else if eq .media_type "iiif" }}
 
-{{ $Id := now.UnixNano }}
+{{ $figureId = printf "%s-%d" "iiif" now.UnixNano }}
+{{ $modalLink = printf "%s%s" "#" $figureId }}
 
-    <figure 
-    id="iiif-{{ $Id }}" 
+  <figure 
+    id="{{ $figureId }}" 
     {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }} 
     class="quire-figure leaflet-outer-wrapper mfp-hide">
-      <div 
-      id="js-iiif-{{ now.UnixNano }}" 
+    <div 
+      id="js-{{ $figureId }}" 
       class="quire-deepzoom inset leaflet-inner-wrapper" 
       aria-live="polite" 
       role="application" 
       aria-label="Zoomable image" 
       data-iiif="{{ .iiif }}" 
       {{ if .zoom_max }} data-zoom-max="{{ .zoom_max }}" {{ end }}>
-      </div>
-      <span class="figure-caption visually-hidden">
-          {{ if $.Get "caption" }}
-          {{ $.Get "caption" | markdownify }}
-          {{ else if isset . "caption" }}
-          {{ if .caption }}
-          {{ .caption | markdownify }}
-          {{ end }}
-          {{ end }}
-        </span>
-    </figure>
+    </div>
+  </figure>
 
-    <a
+  <a
     class='inline popup'
-    href="#iiif-{{ $Id }}"
+    href="{{ $modalLink }}"
     data-type='inline'
     {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
-      <img
+    <img
       id='{{ .id }}'
       class="quire-figure__image" 
       src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
 
 {{ else }}
 
-{{ $Id := now.UnixNano }}
+{{ $figureId = printf "%s-%d" "deepzoom" now.UnixNano }}
+{{ $modalLink = printf "%s%s" "#" $figureId }}
 
     <figure 
-      id="deepzoom-{{ $Id }}"
+      id="{{ $figureId }}"
       {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}  
       class="quire-figure leaflet-outer-wrapper mfp-hide hi">
         <div 
-        id="js-deepzoom-{{ now.UnixNano }}" 
-        class="quire-deepzoom inset leaflet-inner-wrapper " 
-        aria-live="polite" 
-        role="application"
-        aria-label="Zoomable image" 
-        src="{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}">
+          id="js-{{ $figureId }}" 
+          class="quire-deepzoom inset leaflet-inner-wrapper " 
+          aria-live="polite" 
+          role="application"
+          aria-label="Zoomable image" 
+          src="{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}">
         </div>
-        <span class="figure-caption visually-hidden">
-            {{ if $.Get "caption" }}
-            {{ $.Get "caption" | markdownify }}
-            {{ else if isset . "caption" }}
-            {{ if .caption }}
-            {{ .caption | markdownify }}
-            {{ end }}
-            {{ end }}
-          </span>
     </figure>
 
     <a
-    href="#deepzoom-{{ $Id }}"
-    class='inline popup'
-    data-type='inline'
-    {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
+      href="{{ $modalLink }}"
+      class='inline popup'
+      data-type='inline'
+      {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
       <img
-      id='{{ .id }}'
-      class="quire-figure__image" 
-      src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
+        id='{{ .id }}'
+        class="quire-figure__image" 
+        src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
 
 {{ end }}
 
@@ -467,83 +364,24 @@ src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
 
 {{ end }}
 
-{{/* -------------------- START FIGURE LABEL ON TOP BLOCK -------------------- */}}
+{{/* -------------------- BEGIN LABEL BLOCK -------------------- */}}
+{{- if or .label (eq $.Site.Params.figureModal true ) }}
   {{ if eq $.Site.Params.figureLabelLocation "on-top" }}
+    {{- $labelDict := dict "Site" $.Site "label" .label -}}
+    {{- partial "figures/label.html" $labelDict -}}
+  {{ end }}
+{{- end -}}
+{{/* -------------------- END LABEL BLOCK -------------------- */}}
 
-  {{ if eq $.Site.Params.figureModal true }}
-  {{ if eq $.Site.Params.figureModalIcons true }}
-  <span class="fig"><span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span> 
-  {{ else }}
-  <span class="fig no-fullscreen {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
-  {{ end }}
-  {{ else }}
-  <span class="fig no-fullscreen {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
-  {{ end }}
-
-  {{ if or (ne .label "") ($.Get "label") }}
-    <strong>    
-        {{ if $.Get "label" }}
-        {{ $.Get "label" | markdownify }}
-        {{ else if ne .label "" }}
-        {{ if .label }}
-        {{ .label | markdownify }}
-        {{ end }}
-        {{ end }}
-    </strong>
-    {{ end }}
-  </span>
-  {{ end }}
-{{/* -------------------- END FIGURE LABEL ON TOP BLOCK -------------------- */}}
-
-  {{ if eq $.Site.Params.figureLabelLocation "below" }}
-    <span class="quire-figure__modal">
-      {{ if and (eq $.Site.Params.figureModalIcons true) (eq $.Site.Params.figureModal true) }}
-        <span class="material-icons md-24 material-fullscreen" aria-hidden="true">fullscreen</span>
-      {{ end }}
-      <span class="quire-figure__label {{ if eq $.Site.Params.pdf true }} media-caption {{ end }} {{ if and (eq ($.Get "label") "") (eq (isset . "label") false) }} visually-hidden {{ end }}">
-        {{ if or (ne .label "") ($.Get "label") }}
-          {{ if $.Get "label" }}
-          {{ $.Get "label" | markdownify }}
-          {{ else if ne .label "" }}
-          {{ if .label }}
-          {{ .label | markdownify }}
-          {{ end }}
-          {{ end }}
-        {{ end }}
-      </span>
-    </span>
-  {{ end }}
-
-  {{ if eq $.Site.Params.figureModal true }}
-    </a>
-  {{ end }}
+{{ if eq $.Site.Params.figureModal true }}
+  </a>
+{{ end }}
+{{/* -------------------- END FIGURE MODAL WRAPPER -------------------- */}}
 
 {{/* -------------------- BEGIN CAPTION BLOCK AND BELOW LABELING -------------------- */}}
-  <figcaption class="quire-figure__caption caption">
+{{- $dict := dict "Site" $.Site "caption" .caption "credit" .credit "label" .label "modalLink" $modalLink -}}
 
-    {{ if eq $.Site.Params.pdf true }}<span class="media-caption">{{ end }}
-        {{ if $.Get "caption" }}
-        {{ $.Get "caption" | markdownify }}
-        {{ else if isset . "caption" }}
-        {{ if .caption }}
-        {{ .caption | markdownify }}
-        {{ end }}
-        {{ end }}
-    {{ if eq $.Site.Params.pdf true }}</span>{{ end }}
-
-    {{ if $.Get "credit" }}
-    <span class="quire-figure__credit">
-      {{ $.Get "credit" | markdownify }}
-    </span>
-    {{ else if isset . "credit" }}
-    {{ if .credit }}
-    <span class="quire-figure__credit">
-      {{ .credit | markdownify }}
-    </span>
-    {{ end }}
-    {{ end }}
-
-  </figcaption>
+{{- partial "figures/caption.html" $dict -}}
 {{/* -------------------- END CAPTION BLOCK AND BELOW LABELING -------------------- */}}
 
 {{ if eq $.Site.Params.figureModal true }}
