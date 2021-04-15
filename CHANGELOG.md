@@ -13,6 +13,13 @@ Project versions conform to [Semantic Versioning](https://semver.org/)
 * `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
+<a name="0.19.2"></a>
+
+## [0.19.2]
+
+### Fixed
+
+- Fix navigation to previously-viewed images in popup by removing Leaflet map on change.
 
 <a name="0.19.1"></a>
 
