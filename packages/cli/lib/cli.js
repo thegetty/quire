@@ -105,7 +105,7 @@ export default class CLI extends EventEmitter {
         if (commandMissing("git-lfs")) {
           this.warn(`Warning: Git LFS (Large File Storage) is required to publish repositories with files over 100 MB to GitHub. See documentation for more info and install instructions: https://quire.getty.edu/documentation/github. This message will not impact initialization of new project directory.`);
         } else {
-          spawnSync(`git-lfs`, [`track`, `"downloads/**/*"`, `"img/**/*"`]);
+          spawnSync(`git-lfs`, [`track`, `"static/downloads/**/*"`, `"static/img/**/*"`]);
         }
         this.notice("Committing starter files...");
         spawnSync("git", ["add", "-A"]);
