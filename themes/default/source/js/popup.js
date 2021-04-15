@@ -23,10 +23,12 @@ export default function(gallerySelector, mapArr) {
     </a>
   </div>
   `;
+
   /**
-  * The Leaflet map instance
+  * Popup Leaflet instances
   */
-  let leafletMap;
+  let deepzoom;
+  let map;
 
   /**
    * @description Find all instances of soundcloud players
@@ -93,6 +95,22 @@ export default function(gallerySelector, mapArr) {
       default:
         setCaption();
         break;
+    }
+  };
+
+  /**
+   * If map or deepzoom leaflet instances are defined, removes them.
+   * There should only be one defined at a time
+   * @todo The Map and Deepzoom classes should be refactored, at least to have the same signature
+   */
+  const tearDownMap = () => {
+    if (deepzoom) {
+      deepzoom.map.remove();
+      return;
+    }
+    if (map) {
+      map.remove();
+      return;
     }
   };
 
@@ -193,9 +211,7 @@ export default function(gallerySelector, mapArr) {
         }
       },
       change: function() {
-        if (leafletMap) {
-          leafletMap.remove();
-        }
+        tearDownMap();
         this.current = this.index + 1;
         if (document.querySelector(".counter")) {
           document.querySelector(
@@ -208,7 +224,7 @@ export default function(gallerySelector, mapArr) {
         if (id !== "" || id !== undefined) {
           if (id.indexOf("map") !== -1) {
             setTimeout(() => {
-              leafletMap = new Map(id);
+              map = new Map(id);
             }, waitForDOMUpdate);
           }
           if (id.indexOf("deepzoom") !== -1) {
@@ -217,15 +233,13 @@ export default function(gallerySelector, mapArr) {
               let image = new Image();
               image.src = url;
               image.onload = function() {
-                leafletMap = new DeepZoom(id, mapArr);
-                leafletMap = leafletMap.map;
+                deepzoom = new DeepZoom(id, mapArr);
               };
             }, waitForDOMUpdate);
           }
           if (id.indexOf("iiif") !== -1) {
             setTimeout(() => {
-              leafletMap = new DeepZoom(id, mapArr);
-              leafletMap = leafletMap.map;
+              deepzoom = new DeepZoom(id, mapArr);
             }, waitForDOMUpdate);
           }
         }
