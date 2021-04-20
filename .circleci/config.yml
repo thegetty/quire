@@ -7,8 +7,7 @@ anchors:
       at: *workspace_root
   - &docker_image
     docker:
-      - image: circleci/buildpack-deps:trusty
-        user: root
+      - image: cimg/node:15.1
   - &npm_cache_key dependency-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
 
 jobs:
@@ -22,7 +21,7 @@ jobs:
           name: Install Prince XML
           command: |
             wget -q -O /tmp/prince.deb https://www.princexml.com/download/prince_12.5-1_ubuntu14.04_amd64.deb
-            dpkg -i /tmp/prince.deb
+            gdebi /tmp/prince.deb
             rm /tmp/prince.deb
       - run:
           name: Install Pandoc
