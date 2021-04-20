@@ -54,7 +54,7 @@ jobs:
       - save_cache:
           key: *npm_cache_key
           paths:
-            - ~/.nvm
+            - ~/node_modules
   build:
     <<: *docker_image
     steps:
