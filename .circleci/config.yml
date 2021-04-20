@@ -90,7 +90,9 @@ workflows:
   install_build_test:
     jobs:
       - checkout
-      - install_dependencies
+      - install_dependencies:
+          requires: 
+            - checkout
       - build:
           requires:
             - install_dependencies
