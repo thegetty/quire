@@ -1,7 +1,7 @@
 {
   "name": "@thegetty/quire-cli",
   "description": "Quire command-line interface",
-  "version": "0.19.3",
+  "version": "0.19.1",
   "author": "Getty Digital",
   "license": "J Paul Getty Trust",
   "bugs": {
