@@ -34,9 +34,9 @@ describe("CLI", () => {
     done => {
       exec("quire", function(error, stdout, stderr) {
         if (error) done(error);
-        let capturedStdout1 = stdout;
-        let helpOutput = "Usage: quire [options] [command]";
-        assert.equal(capturedStdout1.indexOf(helpOutput) !== -1, true);
+        const capturedStdout1 = stdout.substring(0, 32);
+        const helpOutput = "Usage: quire [options] [command]";
+        assert.equal(capturedStdout1, helpOutput);
         done();
       });
     },
@@ -96,7 +96,7 @@ describe("CLI", () => {
   /**
    * Skip test until circleci is reconfigured to run in macos and windows envs
    */
-  xtest(
+  test(
     "should successfully build a mobi",
     async done => {
       const testFilePath = path.join("static", "downloads", "test");

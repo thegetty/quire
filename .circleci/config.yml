@@ -1,75 +1,161 @@
-# Javascript Node CircleCI 2.0 configuration file
-#
-#
-version: 2
-jobs:
-  build:
+version: 2.1
+
+orbs:
+  cypress: cypress-io/cypress@1.27.0
+  mac: circleci/macos@1.1.0
+  node: circleci/node@4.2.1
+  win: circleci/windows@2.4.0
+
+executors:
+  linux:
     docker:
       - image: circleci/buildpack-deps:trusty
         user: root
-    working_directory: ~/repo
+  macos:
+    macos:
+      xcode: 11.4
+  win/default:
+    shell: powershell.exe
+
+anchors:
+  - &workspace_root ~/
+
+  - &attach_workspace
+    attach_workspace:
+      at: *workspace_root
+
+  - &npm_cache_key package-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
+
+  - &os_param
+    parameters:
+      os:
+        type: string
+
+  - &matrix_params
+    matrix:
+      parameters:
+        os: [ 'linux', 'macos', 'win/default' ]
+
+commands:
+  build_install_cli-linux-macos:
     steps:
-      - checkout
+      - node/install:
+          lts: true
+      - run:
+          name: Install CLI dependencies
+          command: cd packages/cli && npm install
+      - run:
+          name: Build CLI
+          command: cd packages/cli && npm run build
+      - run:
+          name: Install CLI
+          command: cd packages/cli && npm install -g
+
+  build_install_cli-win:
+    steps:
+      - run:
+          name: Install CLI dependencies
+          shell: bash.exe
+          command: cd packages/cli && npm install
+      - run:
+          name: Build CLI
+          shell: bash.exe
+          command: cd packages/cli && npm run build
+      - run:
+          name: Install CLI
+          shell: bash.exe
+          command: cd packages/cli && npm install -g
+
+  install_deps-linux:
+    steps:
+      - run:
+          name: Install External Dependencies
+          command: |
+            chmod +x install-deps/linux.sh
+            install-deps/linux.sh
+
+  install_deps-macos:
+    steps:
+      - run:
+          name: Install External Dependencies
+          command: |
+            chmod +x install-deps/macos.sh
+            install-deps/macos.sh
+
+  install_deps-win:
+    steps:
+      - run:
+          name: Install External Dependencies
+          command: .\install-deps\win.ps1
+
+  test-linux-macos:
+    steps:
       - run:
           name: Add test report directory
-          command: mkdir -p ~/repo/test-results/jest
-      - run:
-          name: Add temporary directory to hold downloaded files
-          command: mkdir -p /tmp
-      - run:
-          name: Install NodeJS and NPM
-          command: |
-            set +e             
-            touch $BASH_ENV  
-            curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            nvm install --lts
-            echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
-            echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
-      - run:
-          name: Install Prince XML
-          command: |
-            wget -q -O /tmp/prince.deb https://www.princexml.com/download/prince_12.5-1_ubuntu14.04_amd64.deb
-            dpkg -i /tmp/prince.deb
-            rm /tmp/prince.deb
-      - run:
-          name: Install Pandoc
-          command: |
-            wget -q -O /tmp/pandoc.deb https://github.com/jgm/pandoc/releases/download/2.7.3/pandoc-2.7.3-1-amd64.deb
-            dpkg -i /tmp/pandoc.deb
-            rm /tmp/pandoc.deb
-      - run:
-          name: Add new host and id file
-          command: |
-            mkdir -p ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n\t\nHost getty.github.com\n\tStrictHostKeyChecking no\n\tHostname github.com\n\tIdentityFile ~/.ssh/${THEME_SSH_KEY_FILE_NAME}" > ~/.ssh/config
-      - run:
-          name: Add quire-starter-theme private key
-          command: |
-            echo -e "${PRIVATE_THEME_SSH_KEY//_/\\n}" > ~/.ssh/${THEME_SSH_KEY_FILE_NAME}
-            chmod 600 ~/.ssh/${THEME_SSH_KEY_FILE_NAME}
-      - add_ssh_keys:
-          fingerprints:
-            - "f9:71:a0:e0:e1:a5:8c:9d:3a:a8:8a:47:e4:9a:8c:af"
-      - run:
-          name: Install npm dependencies
-          command: npm ci
-      - run:
-          name: Install the quire-cli command
-          command: npm install -g
-      - save_cache:
-          paths:
-            - node_modules
-            - ~/.npm
-            - ~/.cache
-          key: v3-dependency-cache-{{ checksum "package.json" }}
-      - run:
-          name: Run Build Command
-          command: npm run build
+          command: mkdir -p test-results
       - run:
           name: Run Quire Commands Test
-          command: npm run test
+          command: cd packages/cli && npm run test cli.test.js
       - store_test_results:
           path: test-results
       - store_artifacts:
           path: test-results
+
+  test-win:
+    steps:
+      - run:
+          name: Add test report directory
+          shell: bash.exe
+          command: mkdir -p ~/test-results
+      - run:
+          name: Run Quire Commands Test
+          shell: bash.exe
+          command: cd packages/cli && npm run test cli.test.js
+      - store_test_results:
+          path: test-results
+      - store_artifacts:
+          path: test-results
+
+jobs:
+  install_build_test:
+    <<: *os_param
+    executor: << parameters.os >>
+    steps:
+      # - restore_cache:
+      #     keys:
+      #       - *npm_cache_key
+      - checkout
+      - when:
+          condition:
+            equal: [ 'win/default', << parameters.os >>]
+          steps:
+            - build_install_cli-win
+            - install_deps-win
+            - test-win
+      - when:
+          condition:
+            equal: [ 'linux', << parameters.os >>]
+          steps:
+            - build_install_cli-linux-macos
+            - install_deps-linux
+            - test-linux-macos
+      - when:
+          condition:
+            equal: [ 'macos', << parameters.os >>]
+          steps:
+            - build_install_cli-linux-macos
+            - install_deps-macos
+            - test-linux-macos
+    # - save_cache:
+    #     key: *npm_cache_key
+        # paths:
+        #   - node_modules
+        #   - ~/.npm
+        #   - ~/.cache
+
+workflows:
+  install_build_test:
+    jobs:
+      - install_build_test:
+          <<: *matrix_params
+          name: install_build_test-<< matrix.os >>
