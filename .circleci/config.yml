@@ -8,6 +8,7 @@ anchors:
   - &docker_image
     docker:
       - image: cimg/node:15.1
+        user: root
   - &npm_cache_key dependency-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
 
 jobs:
@@ -16,7 +17,7 @@ jobs:
     steps:
       - run:
           name: Add temporary download directory
-          command: mkdir -p ~/tmp
+          command: mkdir -p /tmp
       - run:
           name: Install Prince XML
           command: |
