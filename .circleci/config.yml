@@ -34,7 +34,7 @@ jobs:
       #     name: [todo] install kindle previewer
       - persist_to_workspace:
           root: *workspace_root
-          paths: tmp
+          paths: ~/tmp
   build:
     <<: *docker_image
     steps:
