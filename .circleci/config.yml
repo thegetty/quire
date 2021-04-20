@@ -7,7 +7,7 @@ anchors:
       at: *workspace_root
   - &docker_image
     docker:
-      - image: cimg/node:15.1
+      - image: circleci/buildpack-deps:trusty
         user: root
   - &npm_cache_key dependency-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
 
