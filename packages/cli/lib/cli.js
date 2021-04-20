@@ -129,20 +129,17 @@ export default class CLI extends EventEmitter {
    * @param {string} option flag passed to `quire process`. Possible values: iiif
    */
   process(option) {
-    return new Promise((resolve) => {
-      this.project = new Project(this.verbose);
-      if (!this.project[option]) {
-        this.error(`${option} is not a valid process option.`);
-        this.shutdown();
-      }
-      this.project.on("info", this.notice);
-      this.project.on("error", (msg) => {
-        this.error(msg);
-        this.shutdown();
-      });
-      this.project[option]();
-      resolve(true);
+    this.project = new Project(this.verbose);
+    if (!this.project[option]) {
+      this.error(`${option} is not a valid process option.`);
+      this.shutdown();
+    }
+    this.project.on("info", this.notice);
+    this.project.on("error", (msg) => {
+      this.error(msg);
+      this.shutdown();
     });
+    this.project[option]();
   }
 
   preview() {

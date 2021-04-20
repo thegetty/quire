@@ -127,7 +127,7 @@ describe("CLI", () => {
   test(
     "quire imageslice should create 'img/iiif/processed' image directory",
     async done => {
-      await quire.imageslice();
+      await quire.process('iiif');
       assert.equal(
         fs.existsSync(path.join(sandboxDir.name, projectName, "static", "img", "iiif", "processed")),
         true
