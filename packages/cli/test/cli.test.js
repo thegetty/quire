@@ -43,7 +43,7 @@ describe("CLI", () => {
     timeout
   );
 
-  test(
+  xtest(
     "should successfully create a starter project",
     async done => {
       await quire.create(CONFIG.DEFAULT_PROJECT_NAME);
@@ -53,7 +53,7 @@ describe("CLI", () => {
     timeout
   );
 
-  test(
+  xtest(
     "should successfully install node modules in a starter project theme",
     async done => {
       await quire.install();
@@ -66,7 +66,7 @@ describe("CLI", () => {
     timeout
   );
 
-  test(
+  xtest(
     "should successfully build a static site",
     async done => {
       await quire.site();
@@ -79,7 +79,7 @@ describe("CLI", () => {
     timeout
   );
 
-  test(
+  xtest(
     "should successfully build a epub",
     async done => {
       const testFilePath = path.join("static", "downloads", "test");
@@ -110,7 +110,7 @@ describe("CLI", () => {
     timeout
   );
 
-  test(
+  xtest(
     "should successfully build a pdf",
     async done => {
       const testFilePath = path.join("static", "downloads", "test");
@@ -124,7 +124,7 @@ describe("CLI", () => {
     timeout
   );
 
-  test(
+  xtest(
     "quire imageslice should create 'img/iiif/processed' image directory",
     async done => {
       await quire.process('iiif');
