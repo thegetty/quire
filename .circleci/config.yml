@@ -14,7 +14,7 @@ anchors:
 jobs:
   checkout:
     <<: *docker_image
-    step:
+    steps:
       - checkout
       - persist_to_workspace:
           root: *workspace_root
