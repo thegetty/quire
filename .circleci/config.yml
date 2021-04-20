@@ -12,6 +12,13 @@ anchors:
   - &npm_cache_key dependency-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
 
 jobs:
+  checkout:
+    <<: *docker_image
+    step:
+      - checkout
+      - persist_to_workspace:
+          root: *workspace_root
+          paths: .
   install_dependencies:
     <<: *docker_image
     steps:
@@ -54,19 +61,12 @@ jobs:
       - restore_cache:
           keys:
             - *npm_cache_key
-      - checkout
       - run:
           name: Build and install the Quire CLI
           command: npm run cli:install
       - persist_to_workspace:
           root: *workspace_root
           paths: .
-      - save_cache:
-          key: *npm_cache_key
-          paths:
-            - node_modules
-            - ~/.cache
-            - ~/.npm
   test:
     <<: *docker_image
     steps:
@@ -89,6 +89,7 @@ workflows:
   version: 2
   install_build_test:
     jobs:
+      - checkout
       - install_dependencies
       - build:
           requires:
