@@ -7,7 +7,8 @@ anchors:
       at: *workspace_root
   - &docker_image
     docker:
-      - image: cimg/node:15.1
+      - image: circleci/buildpack-deps:trusty
+        user: root
   - &npm_cache_key dependency-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
 
 jobs:
@@ -15,13 +16,24 @@ jobs:
     <<: *docker_image
     steps:
       - run:
+          name: Install Node and NPM
+          command: |
+            set +e             
+            touch $BASH_ENV  
+            curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            nvm install --lts
+            echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
+            echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
+      - run:
           name: Add temporary download directory
           command: mkdir -p /tmp
       - run:
           name: Install Prince XML
           command: |
             wget -q -O /tmp/prince.deb https://www.princexml.com/download/prince_12.5-1_ubuntu14.04_amd64.deb
-            gdebi /tmp/prince.deb
+            dpkg -i /tmp/prince.deb
             rm /tmp/prince.deb
       - run:
           name: Install Pandoc
