@@ -22,6 +22,7 @@ jobs:
   install_dependencies:
     <<: *docker_image
     steps:
+      - *attach_workspace
       - run:
           name: Install Node and NPM
           command: |
