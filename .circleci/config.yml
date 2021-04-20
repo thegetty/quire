@@ -43,10 +43,17 @@ jobs:
             rm /tmp/pandoc.deb
       # - run: 
       #     name: [todo] install kindle previewer
+      - save_cache:
+          key: *npm_cache_key
+          paths:
+            - ~/.nvm
   build:
     <<: *docker_image
     steps:
       - *attach_workspace
+      - restore_cache:
+          keys:
+            - *npm_cache_key
       - checkout
       - run:
           name: Build and install the Quire CLI
