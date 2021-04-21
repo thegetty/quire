@@ -161,10 +161,8 @@ export default async function () {
         await iiifSlice(image).then(() => {
           imagesToSlice--;
           imagesSliced++;
-          if (imagesToSlice === 0) imagesDone();
         }).catch(() => {
           imagesToSlice--;
-          if (imagesToSlice === 0) imagesDone();
         }).finally(() => {
           spinner.start(`Processed ${imagesSliced}/${originalImages.length} ${pluralize('image', originalImages.length)}...`);
         });
