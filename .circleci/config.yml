@@ -1,86 +1,119 @@
 version: 2.1
 
+orbs:
+  cypress: cypress-io/cypress@1.27.0
+  mac: circleci/macos@1.1.0
+  node: circleci/node@4.2.1
+  win: circleci/windows@2.4.0
+
+executors:
+  linux:
+    machine:
+      image: ubuntu-2004:202010-01
+  macos:
+    xcode: 11.4
+  win:
+    name: win/default
+    shell: powershell.exe
+
 anchors:
-  - &workspace_root ~/project
-  - &attach_workspace
-    attach_workspace:
-      at: *workspace_root
-  - &docker_image
-    docker:
-      - image: circleci/buildpack-deps:trusty
-        user: root
-  - &npm_cache_key dependency-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
+  &attach_workspace
+  attach_workspace:
+    at: *workspace_root
+
+  &job_params
+    parameters:
+      os:
+        type: string
+
+  &matrix_params
+  matrix:
+    parameters:
+      os: [ 'linux', 'macos', 'win' ]
+
+  &npm_cache_key
+  package-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
+
+  &workspace_root
+  ~/project
 
 jobs:
   checkout:
-    <<: *docker_image
+    <<: *job_params
+    executor: <<parameters.os>>
     steps:
       - checkout
       - persist_to_workspace:
           root: *workspace_root
           paths: .
+
   install_dependencies:
-    <<: *docker_image
+    <<: *job_params
+    executor: <<parameters.os>>
     steps:
       - *attach_workspace
+      - node/install
+          npm-version: 12.8.3
       - run:
-          name: Install Node and NPM
-          command: |
-            set +e             
-            touch $BASH_ENV  
-            curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            nvm install --lts
-            echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
-            echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
-      - run:
-          name: Add temporary download directory
+          description: Create a temporary directory for downloads
           command: mkdir -p /tmp
       - run:
-          name: Install Prince XML
+          description: Install Prince XML
           command: |
             wget -q -O /tmp/prince.deb https://www.princexml.com/download/prince_12.5-1_ubuntu14.04_amd64.deb
             dpkg -i /tmp/prince.deb
             rm /tmp/prince.deb
       - run:
-          name: Install Pandoc
+          description: Install Pandoc
           command: |
             wget -q -O /tmp/pandoc.deb https://github.com/jgm/pandoc/releases/download/2.7.3/pandoc-2.7.3-1-amd64.deb
             dpkg -i /tmp/pandoc.deb
             rm /tmp/pandoc.deb
-      # - run: 
-      #     name: [todo] install kindle previewer
+      # - run:
+      #     description: [TODO] Install Kindle Previewer app
+      - persist_to_workspace:
+          root: *workspace_root
+          paths: .
+
+  build:
+    <<: *job_params
+    executor: <<parameters.os>>
+    steps:
+      - *attach_workspace
+      - restore_cache:
+          keys:
+            - *package_cache_key
+      - run:
+          description: Build and install the Quire CLI
+          command: npm run cli:install
       - save_cache:
           key: *npm_cache_key
           paths:
             - ~/node_modules
-  build:
-    <<: *docker_image
-    steps:
-      - *attach_workspace
-      - restore_cache:
-          keys:
-            - *npm_cache_key
-      - run:
-          name: Build and install the Quire CLI
-          command: npm run cli:install
+            - ~/.cache
+            - ~/.npm
       - persist_to_workspace:
           root: *workspace_root
           paths: .
+
   test:
-    <<: *docker_image
+    <<: *job_params
+    executor: <<parameters.os>>
     steps:
       - *attach_workspace
-      - restore_cache:
-          keys:
-            - *npm_cache_key
+      # - cypress/run:
+      #     working_directory: packages/cli
+      #     store_artifacts: true
+      #     post-steps:
+      #       - store_test_results:
+      #           path: cypress/results
       - run:
-          name: Add test report directory
+          description: Add test report directory
           command: mkdir -p ~/test-results
       - run:
-          name: Run Quire Commands Test
-          command: cd packages/cli && npm run test cli.test.js
+          description: Run cli unit tests
+          command: npm run test cli.test.js
+          working_directory: packages/cli
       - store_test_results:
           path: test-results
       - store_artifacts:
@@ -90,13 +123,23 @@ workflows:
   version: 2
   install_build_test:
     jobs:
-      - checkout
+      - checkout:
+          <<: *matrix_params
+          context:
+            - GETTY
       - install_dependencies:
-          requires: 
-            - checkout
+          <<: *matrix_params
+          context:
+            - GETTY
+          requires:
+            - << matrix.os >>-checkout
       - build:
+          <<: *matrix_params
+          context:
+            - GETTY
           requires:
-            - install_dependencies
+            - << matrix.os >>-install_dependencies
       - test:
+          <<: *matrix_params
           requires:
-            - build
+            - << matrix.os >>-build
