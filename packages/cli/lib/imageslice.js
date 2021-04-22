@@ -144,7 +144,7 @@ export default async function () {
     }
   }
 
-  // Slice Images
+  // Slice images sequentially
   async function sliceImages() {
     imagesToSlice = originalImages.length;
     console.log(`\nProcessing project image resources for IIIF.`);
@@ -155,8 +155,9 @@ export default async function () {
     }
     console.log(`\nGenerating IIIF image tiles may take a while depending on the size of each image file.\n`);
     spinner.start(`Processing ${imagesToSlice} ${pluralize('image', originalImages.length)}...`);
-    await Promise.all(
-      originalImages.map(async (image) => {
+
+    await (async () => {
+      for (const image of originalImages) {
         await iiifSlice(image).then(() => {
           imagesToSlice--;
           imagesSliced++;
@@ -165,8 +166,8 @@ export default async function () {
         }).finally(() => {
           spinner.start(`Processed ${imagesSliced}/${originalImages.length} ${pluralize('image', originalImages.length)}...`);
         });
-      })
-    );
+      }
+    })();
   }
 
   // Verify expected images were sliced
