@@ -121,10 +121,10 @@ jobs:
     <<: *os_param
     executor: << parameters.os >>
     steps:
-      # - restore_cache:
-      #     keys:
-      #       - *npm_cache_key
       - checkout
+      - restore_cache:
+          keys:
+            - *npm_cache_key
       - when:
           condition:
             equal: [ 'win/default', << parameters.os >>]
@@ -146,12 +146,12 @@ jobs:
             - build_install_cli-linux-macos
             - install_deps-macos
             - test-linux-macos
-    # - save_cache:
-    #     key: *npm_cache_key
-        # paths:
-        #   - node_modules
-        #   - ~/.npm
-        #   - ~/.cache
+      - save_cache:
+          key: *npm_cache_key
+          paths:
+            - node_modules
+            - ~/.npm
+            - ~/.cache
 
 workflows:
   install_build_test:
