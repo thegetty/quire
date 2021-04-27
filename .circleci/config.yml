@@ -48,6 +48,14 @@ commands:
           name: Install CLI
           command: cd packages/cli && npm install -g
 
+  build_install_cli-linux:
+    steps:
+      - build_install_cli-linux-macos
+
+  build_install_cli-macos:
+    steps:
+      - build_install_cli-linux-macos
+
   build_install_cli-win:
     steps:
       - run:
@@ -85,6 +93,13 @@ commands:
           name: Install External Dependencies
           command: .\install-deps\win.ps1
 
+  store-test-data:
+    steps:
+      - store_test_results:
+          path: test-results
+      - store_artifacts:
+          path: test-results
+
   test-linux-macos:
     steps:
       - run:
@@ -93,25 +108,27 @@ commands:
       - run:
           name: Run Quire Commands Test
           command: cd packages/cli && npm run test cli.test.js
-      - store_test_results:
-          path: test-results
-      - store_artifacts:
-          path: test-results
+      - store-test-data
+
+  test-linux:
+    steps:
+      - test-linux-macos
+
+  test-macos:
+    steps:
+      - test-linux-macos
 
   test-win:
     steps:
       - run:
           name: Add test report directory
           shell: bash.exe
-          command: mkdir -p ~/test-results
+          command: mkdir -p test-results
       - run:
           name: Run Quire Commands Test
           shell: bash.exe
           command: cd packages/cli && npm run test cli.test.js
-      - store_test_results:
-          path: test-results
-      - store_artifacts:
-          path: test-results
+      - store-test-data
 
 jobs:
   build_install_test:
@@ -119,36 +136,18 @@ jobs:
     executor: << parameters.os >>
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - *npm_cache_key
-      - when:
-          condition:
-            equal: [ 'linux', << parameters.os >>]
-          steps:
-            - build_install_cli-linux-macos
-            - install_deps-linux
-            - test-linux-macos
-      - when:
-          condition:
-            equal: [ 'macos', << parameters.os >>]
-          steps:
-            - build_install_cli-linux-macos
-            - install_deps-macos
-            - test-linux-macos
-      - when:
-          condition:
-            equal: [ 'win', << parameters.os >>]
-          steps:
-            - build_install_cli-win
-            - install_deps-win
-            - test-win
-      - save_cache:
-          key: *npm_cache_key
-          paths:
-            - node_modules
-            - ~/.npm
-            - ~/.cache
+      # - restore_cache:
+      #     keys:
+      #       - *npm_cache_key
+      - build_install_cli-<< parameters.os >>
+      - install_deps-<< parameters.os >>
+      - test-<< parameters.os >>
+      # - save_cache:
+      #     key: *npm_cache_key
+      #     paths:
+      #       - node_modules
+      #       - ~/.npm
+      #       - ~/.cache
 
 workflows:
   build_install_test:
