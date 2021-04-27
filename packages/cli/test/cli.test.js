@@ -93,22 +93,18 @@ describe("CLI", () => {
     timeout
   );
 
-  /**
-   * Skip test until circleci is reconfigured to run in macos and windows envs
-   */
-  test(
-    "should successfully build a mobi",
-    async done => {
-      const testFilePath = path.join("static", "downloads", "test");
-      await quire.mobi(testFilePath);
-      assert.equal(
-        fs.existsSync(`${testFilePath}.mobi`),
-        true
-      );
-      done();
-    },
-    timeout
-  );
+  if (process.platform !== "linux") {
+    test(
+      "should successfully build a mobi",
+      async (done) => {
+        const testFilePath = path.join("static", "downloads", "test");
+        await quire.mobi(testFilePath);
+        assert.equal(fs.existsSync(`${testFilePath}.mobi`), true);
+        done();
+      },
+      timeout
+    );
+  }
 
   test(
     "should successfully build a pdf",
