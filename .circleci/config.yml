@@ -14,8 +14,11 @@ executors:
   macos:
     macos:
       xcode: 11.4
-  win/default:
-    shell: powershell.exe
+  win: 
+    machine:
+      image: windows-server-2019-vs2019:stable
+      resource_class: windows.medium
+      shell: powershell.exe
 
 anchors:
   - &npm_cache_key package-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
@@ -28,7 +31,7 @@ anchors:
   - &matrix_params
     matrix:
       parameters:
-        os: [ 'linux', 'macos', 'win/default' ]
+        os: [ 'linux', 'macos', 'win' ]
 
 commands:
   build_install_cli-linux-macos:
@@ -135,7 +138,7 @@ jobs:
             - test-linux-macos
       - when:
           condition:
-            equal: [ 'win/default', << parameters.os >>]
+            equal: [ 'win', << parameters.os >>]
           steps:
             - build_install_cli-win
             - install_deps-win
