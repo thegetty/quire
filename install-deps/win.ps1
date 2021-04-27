@@ -7,5 +7,5 @@ choco install pandoc
 pandoc --version
 
 # Install Kindle Previewer
-# choco install kindlepreviewer
+# choco install kindlepreviewer --ignore-checksums
 # kindlepreviewer --help
