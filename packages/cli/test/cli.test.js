@@ -93,6 +93,9 @@ describe("CLI", () => {
     timeout
   );
 
+  /**
+  * Skip Mobi test on Linux since it requires Kindle Previewer, which is not supported on Linux
+  */
   if (process.platform !== "linux") {
     test(
       "should successfully build a mobi",
