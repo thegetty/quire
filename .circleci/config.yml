@@ -18,12 +18,6 @@ executors:
     shell: powershell.exe
 
 anchors:
-  - &workspace_root ~/
-
-  - &attach_workspace
-    attach_workspace:
-      at: *workspace_root
-
   - &npm_cache_key package-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
 
   - &os_param
