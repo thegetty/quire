@@ -85,18 +85,18 @@ class Project extends EventEmitter {
 
   /**
    * getBaseUrl
-   * @returns {String} config.BaseURL
-   * @description Loop through config files and return first defined baseURL
+   * @returns {Object} YAML data
+   * @description Loop through config file to attempt to get the baseURL path for webpack config
    */
   getBaseUrl(arr) {
-    const configs = arr
+    let url = arr
       .map(path => {
         return this.loadConfig(path);
       })
       .filter(c => {
-        return !!c.baseURL === true;
+        return c.baseURL !== undefined;
       });
-    return configs[0].baseURL;
+    return url;
   }
   /**
    * iiif
@@ -239,7 +239,7 @@ class Project extends EventEmitter {
    * runs `hugo` in the current project folder.
    */
   async buildWeb(env) {
-    const configs = ["config.yml", path.join("config", "site.yml")];
+    let configs = ["config.yml", path.join("config", "site.yml")];
     if (env) {
       configs.push(path.join(`config`, `environments`, `${env}.yml`));
     }
@@ -248,7 +248,14 @@ class Project extends EventEmitter {
       this.config = _.merge(this.config, config);
     });
 
-    const baseURL = this.getBaseUrl(configs);
+    let getURL =
+      this.getBaseUrl(configs) !== "" ? this.getBaseUrl(configs) : "/";
+    let baseURL =
+      getURL[0] !== undefined &&
+      getURL[0].baseURL !== " " &&
+      getURL[0].baseURL !== ""
+        ? getURL[0].baseURL
+        : "/";
 
     let spinner = ora({
       text: "Building theme assets..."
@@ -368,7 +375,17 @@ class Project extends EventEmitter {
 
     const fileNamePath = path.join(filePath, fileName);
 
-    const baseURL = this.getBaseUrl(configs);
+    let getURL =
+      this.getBaseUrl(configs) !== ""
+        ? this.getBaseUrl(configs)
+        : "localhost:1313";
+
+    let baseURL =
+      getURL[0] !== undefined &&
+      getURL[0].baseURL !== " " &&
+      getURL[0].baseURL !== ""
+        ? getURL[0].baseURL
+        : "localhost:1313";
 
     let prefix = "http://";
     if (baseURL.substr(0, prefix.length) !== prefix) {
@@ -470,7 +487,14 @@ class Project extends EventEmitter {
       );
     }
 
-    const baseURL = this.getBaseUrl(configs);
+    let getURL =
+      this.getBaseUrl(configs) !== "" ? this.getBaseUrl(configs) : "/";
+    let baseURL =
+      getURL[0] !== undefined &&
+      getURL[0].baseURL !== " " &&
+      getURL[0].baseURL !== ""
+        ? getURL[0].baseURL
+        : "/";
 
     try {
       this.hugo = await this.spawnHugo(
@@ -593,7 +617,14 @@ class Project extends EventEmitter {
       );
     }
 
-    const baseURL = this.getBaseUrl(configs);
+    let getURL =
+      this.getBaseUrl(configs) !== "" ? this.getBaseUrl(configs) : "/";
+    let baseURL =
+      getURL[0] !== undefined &&
+      getURL[0].baseURL !== " " &&
+      getURL[0].baseURL !== ""
+        ? getURL[0].baseURL
+        : "/";
 
     try {
       this.hugo = await this.spawnHugo(
