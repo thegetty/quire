@@ -1,0 +1,157 @@
+version: 2.1
+
+orbs:
+  cypress: cypress-io/cypress@1.27.0
+  mac: circleci/macos@1.1.0
+  node: circleci/node@4.2.1
+  win: circleci/windows@2.4.0
+
+executors:
+  linux:
+    docker:
+      - image: circleci/buildpack-deps:trusty
+        user: root
+  macos:
+    macos:
+      xcode: 11.4
+  win: 
+    machine:
+      image: windows-server-2019-vs2019:stable
+      resource_class: windows.medium
+      shell: powershell.exe
+
+anchors:
+  - &npm_cache_key package-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ .Environment.CACHE_VERSION }}
+
+  - &os_param
+    parameters:
+      os:
+        type: string
+
+  - &matrix_params
+    matrix:
+      parameters:
+        os: [ 'linux', 'macos', 'win' ]
+
+commands:
+  build_install_cli-linux-macos:
+    steps:
+      - node/install:
+          lts: true
+      - run:
+          name: Install CLI dependencies
+          command: cd packages/cli && npm install
+      - run:
+          name: Build CLI
+          command: cd packages/cli && npm run build
+      - run:
+          name: Install CLI
+          command: cd packages/cli && npm install -g
+
+  build_install_cli-linux:
+    steps:
+      - build_install_cli-linux-macos
+
+  build_install_cli-macos:
+    steps:
+      - build_install_cli-linux-macos
+
+  build_install_cli-win:
+    steps:
+      - run:
+          name: Install CLI dependencies
+          shell: bash.exe
+          command: cd packages/cli && npm install
+      - run:
+          name: Build CLI
+          shell: bash.exe
+          command: cd packages/cli && npm run build
+      - run:
+          name: Install CLI
+          shell: bash.exe
+          command: cd packages/cli && npm install -g
+
+  install_deps-linux:
+    steps:
+      - run:
+          name: Install External Dependencies
+          command: |
+            chmod +x scripts/install-deps-linux.sh
+            scripts/install-deps-linux.sh
+
+  install_deps-macos:
+    steps:
+      - run:
+          name: Install External Dependencies
+          command: |
+            chmod +x scripts/install-deps-macos.sh
+            scripts/install-deps-macos.sh
+
+  install_deps-win:
+    steps:
+      - run:
+          name: Install External Dependencies
+          command: .\scripts\install-deps-win.ps1
+
+  store-test-data:
+    steps:
+      - store_test_results:
+          path: test-results
+      - store_artifacts:
+          path: test-results
+
+  test-linux-macos:
+    steps:
+      - run:
+          name: Add test report directory
+          command: mkdir -p test-results
+      - run:
+          name: Run Quire Commands Test
+          command: cd packages/cli && npm run test cli.test.js
+      - store-test-data
+
+  test-linux:
+    steps:
+      - test-linux-macos
+
+  test-macos:
+    steps:
+      - test-linux-macos
+
+  test-win:
+    steps:
+      - run:
+          name: Add test report directory
+          shell: bash.exe
+          command: mkdir -p test-results
+      - run:
+          name: Run Quire Commands Test
+          shell: bash.exe
+          command: cd packages/cli && npm run test cli.test.js
+      - store-test-data
+
+jobs:
+  build_install_test:
+    <<: *os_param
+    executor: << parameters.os >>
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - *npm_cache_key
+      - build_install_cli-<< parameters.os >>
+      - install_deps-<< parameters.os >>
+      - test-<< parameters.os >>
+      - save_cache:
+          key: *npm_cache_key
+          paths:
+            - node_modules
+            - ~/.npm
+            - ~/.cache
+
+workflows:
+  build_install_test:
+    jobs:
+      - build_install_test:
+          <<: *matrix_params
+          name: build_install_test-<< matrix.os >>

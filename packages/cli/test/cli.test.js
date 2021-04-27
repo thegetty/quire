@@ -34,9 +34,9 @@ describe("CLI", () => {
     done => {
       exec("quire", function(error, stdout, stderr) {
         if (error) done(error);
-        let capturedStdout1 = stdout;
-        let helpOutput = "Usage: quire [options] [command]";
-        assert.equal(capturedStdout1.indexOf(helpOutput) !== -1, true);
+        const capturedStdout1 = stdout.substring(0, 32);
+        const helpOutput = "Usage: quire [options] [command]";
+        assert.equal(capturedStdout1, helpOutput);
         done();
       });
     },
@@ -94,21 +94,20 @@ describe("CLI", () => {
   );
 
   /**
-   * Skip test until circleci is reconfigured to run in macos and windows envs
-   */
-  xtest(
-    "should successfully build a mobi",
-    async done => {
-      const testFilePath = path.join("static", "downloads", "test");
-      await quire.mobi(testFilePath);
-      assert.equal(
-        fs.existsSync(`${testFilePath}.mobi`),
-        true
-      );
-      done();
-    },
-    timeout
-  );
+  * Skip Mobi test on Linux since it requires Kindle Previewer, which is not supported on Linux
+  */
+  if (process.platform !== "linux") {
+    test(
+      "should successfully build a mobi",
+      async (done) => {
+        const testFilePath = path.join("static", "downloads", "test");
+        await quire.mobi(testFilePath);
+        assert.equal(fs.existsSync(`${testFilePath}.mobi`), true);
+        done();
+      },
+      timeout
+    );
+  }
 
   test(
     "should successfully build a pdf",
