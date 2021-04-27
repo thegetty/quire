@@ -121,13 +121,6 @@ jobs:
             - *npm_cache_key
       - when:
           condition:
-            equal: [ 'win/default', << parameters.os >>]
-          steps:
-            - build_install_cli-win
-            - install_deps-win
-            - test-win
-      - when:
-          condition:
             equal: [ 'linux', << parameters.os >>]
           steps:
             - build_install_cli-linux-macos
@@ -140,6 +133,13 @@ jobs:
             - build_install_cli-linux-macos
             - install_deps-macos
             - test-linux-macos
+      - when:
+          condition:
+            equal: [ 'win/default', << parameters.os >>]
+          steps:
+            - build_install_cli-win
+            - install_deps-win
+            - test-win
       - save_cache:
           key: *npm_cache_key
           paths:
