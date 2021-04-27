@@ -21,7 +21,7 @@ executors:
       shell: powershell.exe
 
 anchors:
-  - &npm_cache_key package-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
+  - &npm_cache_key package-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ .Environment.CACHE_VERSION }}
 
   - &os_param
     parameters:
