@@ -111,7 +111,7 @@ commands:
           path: test-results
 
 jobs:
-  install_build_test:
+  build_install_test:
     <<: *os_param
     executor: << parameters.os >>
     steps:
@@ -148,8 +148,8 @@ jobs:
             - ~/.cache
 
 workflows:
-  install_build_test:
+  build_install_test:
     jobs:
-      - install_build_test:
+      - build_install_test:
           <<: *matrix_params
-          name: install_build_test-<< matrix.os >>
+          name: build_install_test-<< matrix.os >>
