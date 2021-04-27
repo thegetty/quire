@@ -136,18 +136,18 @@ jobs:
     executor: << parameters.os >>
     steps:
       - checkout
-      # - restore_cache:
-      #     keys:
-      #       - *npm_cache_key
+      - restore_cache:
+          keys:
+            - *npm_cache_key
       - build_install_cli-<< parameters.os >>
       - install_deps-<< parameters.os >>
       - test-<< parameters.os >>
-      # - save_cache:
-      #     key: *npm_cache_key
-      #     paths:
-      #       - node_modules
-      #       - ~/.npm
-      #       - ~/.cache
+      - save_cache:
+          key: *npm_cache_key
+          paths:
+            - node_modules
+            - ~/.npm
+            - ~/.cache
 
 workflows:
   build_install_test:
