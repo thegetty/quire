@@ -76,22 +76,22 @@ commands:
       - run:
           name: Install External Dependencies
           command: |
-            chmod +x install-deps/linux.sh
-            install-deps/linux.sh
+            chmod +x scripts/install-deps-linux.sh
+            scripts/install-deps-linux.sh
 
   install_deps-macos:
     steps:
       - run:
           name: Install External Dependencies
           command: |
-            chmod +x install-deps/macos.sh
-            install-deps/macos.sh
+            chmod +x scripts/install-deps-macos.sh
+            scripts/install-deps-macos.sh
 
   install_deps-win:
     steps:
       - run:
           name: Install External Dependencies
-          command: .\install-deps\win.ps1
+          command: .\scripts\install-deps-win.ps1
 
   store-test-data:
     steps:
