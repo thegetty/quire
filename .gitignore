@@ -53,6 +53,7 @@ typings/
 
 # Jest test outputs
 test-results/
+tests/e2e/fixtures/project/
 tests/e2e/screenshots/
 tests/e2e/videos/
 
