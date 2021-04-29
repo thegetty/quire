@@ -50,6 +50,9 @@ commands:
       - run:
           name: Install CLI
           command: cd packages/cli && npm install -g
+      - run:
+          name: Quire Version
+          command: quire --version
 
   build_install_cli-linux:
     steps:
@@ -77,6 +80,10 @@ commands:
           name: Install CLI
           shell: bash.exe
           command: cd packages/cli && npm install -g
+      - run:
+          name: Quire Version
+          shell: bash.exe
+          command: quire --version
 
   install_deps-linux:
     steps:
