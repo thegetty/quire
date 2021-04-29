@@ -8,9 +8,15 @@
   "scripts": {
     "cli:build": "cd packages/cli && npm install && npm run build",
     "cli:install": "npm run cli:build && npm install -g packages/cli",
+    "cli:install-deps": "cd packages/cli && npm install",
     "cli:uninstall": "cd packages/cli && npm uninstall -g",
     "postinstall": "lerna bootstrap --hoist",
-    "test": "jest"
+    "test:cli": "jest tests/e2e/specs/cli",
+    "test": "npm run test:setup && npm run test:cli && npm run test:cypress && npm run test:teardown",
+    "test:cypress": "cd tests/e2e/fixtures/project && quire preview & ./node_modules/.bin/wait-on http://localhost:1313 & ./node_modules/.bin/cypress run --spec **/*.spec.js",
+    "test:setup": "node tests/e2e/fixtures/setup.js",
+    "test:teardown": "node tests/e2e/fixtures/teardown.js",
+    "test:unit": "cd packages/cli && npm run test"
   },
   "repository": {
     "type": "git",
