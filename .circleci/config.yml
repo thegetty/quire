@@ -106,8 +106,8 @@ commands:
           name: Add test report directory
           command: mkdir -p test-results
       - run:
-          name: Run Quire Commands Test
-          command: cd packages/cli && npm run test cli.test.js
+          name: Run E2E Tests
+          command: npm run test
       - store-test-data
 
   test-linux:
@@ -127,7 +127,7 @@ commands:
       - run:
           name: Run Quire Commands Test
           shell: bash.exe
-          command: cd packages/cli && npm run test cli.test.js
+          command: npm run test
       - store-test-data
 
 jobs:
