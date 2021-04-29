@@ -38,13 +38,17 @@ div {
       padding: 6px 10px;
       background: $off-black-semi-transparent;
       font-family: $font_0;
-      font-size: 0.75rem;
-      font-weight: bold;
+      font-size: 0.875rem;
 
       a {
         color: $accent-color;
         border-bottom: 1px dotted;
       }
+    }
+
+    .quire-figure__label-text {
+      margin-right: .5rem;
+      font-weight: bold;
     }
 
     a {

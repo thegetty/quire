@@ -18,8 +18,10 @@ Project versions conform to [Semantic Versioning](https://semver.org/)
 ## [unreleased]
 
 ### Changed
-
 - Process IIIF images sequentially in `process --iiif` command.
+
+### Fixed
+- Include label in image modal caption/credit block
 
 <a name="0.19.1"></a>
 
