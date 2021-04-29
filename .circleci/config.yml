@@ -39,6 +39,9 @@ commands:
       - node/install:
           lts: true
       - run:
+          name: Install NPM dependencies
+          command: npm install
+      - run:
           name: Install CLI dependencies
           command: cd packages/cli && npm install
       - run:
@@ -58,6 +61,10 @@ commands:
 
   build_install_cli-win:
     steps:
+      - run:
+          name: Install NPM dependencies
+          shell: bash.exe
+          command: npm install
       - run:
           name: Install CLI dependencies
           shell: bash.exe
