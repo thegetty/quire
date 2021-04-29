@@ -21,7 +21,9 @@
   },
   "homepage": "https://quire.getty.edu/",
   "devDependencies": {
-    "lerna": "^3.22.1"
+    "cypress": "^3.8.0",
+    "lerna": "^3.22.1",
+    "wait-on": "^3.3.0"
   },
   "dependencies": {}
 }
