@@ -108,7 +108,6 @@ describe("CLI", () => {
       assert.equal(
         fs.existsSync(
           path.join(
-            CONFIG.PROJECT_FOLDER,
             "static",
             "img",
             "iiif",
