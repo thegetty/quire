@@ -7,6 +7,7 @@ const path = require("path");
 const CONFIG = require("./project-config");
 
 console.log("Generating test project, this may take a while...");
+console.log(`Running: quire new ${path.join(CONFIG.FIXTURES_DIR, CONFIG.PROJECT_FOLDER)}`)
 spawnSync("quire", [
   "new",
   path.join(CONFIG.FIXTURES_DIR, CONFIG.PROJECT_FOLDER),
