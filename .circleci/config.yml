@@ -114,8 +114,11 @@ commands:
       - store_artifacts:
           path: test-results
 
-  test-linux-macos:
+  test-linux:
     steps:
+      - run:
+          name: Install Cypress Dependencies
+          command: apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
       - run:
           name: Add test report directory
           command: mkdir -p test-results
@@ -133,13 +136,24 @@ commands:
           command: npm run test:teardown
       - store-test-data
 
-  test-linux:
-    steps:
-      - test-linux-macos
-
   test-macos:
     steps:
-      - test-linux-macos
+      - run:
+          name: Add test report directory
+          command: mkdir -p test-results
+      - run:
+          name: Setup Test Project
+          command: npm run test:setup
+      - run:
+          name: Run CLI E2E Tests
+          command: npm run test:cli
+      - run:
+          name: Run Cypress Tests
+          command: npm run test:cypress
+      - run:
+          name: Teardown Test Project
+          command: npm run test:teardown
+      - store-test-data
 
   test-win:
     steps:
