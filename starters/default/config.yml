@@ -23,7 +23,7 @@ disableKinds:
   - "home"
   - "section"
   - "taxonomy"
-  - "taxonomyTerm"
+  - "term"
 
 markup:
   goldmark:
