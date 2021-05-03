@@ -120,8 +120,17 @@ commands:
           name: Add test report directory
           command: mkdir -p test-results
       - run:
-          name: Run E2E Tests
-          command: npm run test
+          name: Setup Test Project
+          command: npm run test:setup
+      - run:
+          name: Run CLI E2E Tests
+          command: npm run test:cli
+      - run:
+          name: Run Cypress Tests
+          command: npm run test:cypress
+      - run:
+          name: Teardown Test Project
+          command: npm run test:teardown
       - store-test-data
 
   test-linux:
@@ -139,9 +148,21 @@ commands:
           shell: bash.exe
           command: mkdir -p test-results
       - run:
-          name: Run Quire Commands Test
+          name: Setup Test Project
           shell: bash.exe
-          command: npm run test
+          command: npm run test:setup
+      - run:
+          name: Run CLI E2E Tests
+          shell: bash.exe
+          command: npm run test:cli
+      - run:
+          name: Run Cypress Tests
+          shell: bash.exe
+          command: npm run test:cypress
+      - run:
+          name: Teardown Test Project
+          shell: bash.exe
+          command: npm run test:teardown
       - store-test-data
 
 jobs:
