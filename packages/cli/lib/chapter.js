@@ -234,13 +234,14 @@ class Chapter {
 
     function reformatImgSources() {
       chapter.images.attr("src", (index, src) => {
+        const imgPath = src.replace(/^(\.+\/)+img\//, "");
         let localPath = path
           .resolve(
             path.join(chapter.config.outputDir, chapter.config.imageDir),
-            src
+            imgPath
           )
           .replace(/\/localhost:1313/, chapter.config.outputDir);
-        return "./" + localPath;
+        return localPath;
       });
     }
 
