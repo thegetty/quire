@@ -661,7 +661,7 @@ class Project extends EventEmitter {
             ? path.join(
                 "static",
                 "img",
-                epub.data.cover.replace("http://localhost:1313/img/", "")
+                epub.data.cover
               )
             : "";
           const outputFile = `${fileNamePath}-mobi.epub`;
