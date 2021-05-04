@@ -15,15 +15,6 @@ describe("CLI", () => {
   });
 
   test(
-    "test project exists",
-    async (done) => {
-      await assert.equal(fs.existsSync(projectPath), true);
-      done();
-    },
-    timeout
-  );
-
-  test(
     "no arguments on quire command should out put help",
     (done) => {
       exec("quire", function (error, stdout, stderr) {
