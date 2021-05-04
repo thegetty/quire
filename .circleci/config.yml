@@ -91,8 +91,14 @@ commands:
           shell: powershell.exe
           command: .\scripts\install-deps-win.ps1
 
-  store-test-data:
+  run_tests:
     steps:
+      - run:
+          name: Add test report directory
+          command: mkdir -p test-results
+      - run:
+          name: Run e2e tests
+          command: npm test
       - store_test_results:
           path: test-results
       - store_artifacts:
@@ -103,33 +109,15 @@ commands:
       - run:
           name: Install Cypress Dependencies
           command: apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
-      - run:
-          name: Add test report directory
-          command: mkdir -p test-results
-      - run:
-          name: Run e2e tests
-          command: npm test
-      - store-test-data
+      - run_tests
 
   test-macos:
     steps:
-      - run:
-          name: Add test report directory
-          command: mkdir -p test-results
-      - run:
-          name: Run e2e tests
-          command: npm test
-      - store-test-data
+      - run_tests
 
   test-win:
     steps:
-      - run:
-          name: Add test report directory
-          command: mkdir -p test-results
-      - run:
-          name: Run e2e tests
-          command: npm test
-      - store-test-data
+      - run_tests
 
 jobs:
   build_install_test:
