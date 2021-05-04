@@ -18,7 +18,7 @@ executors:
     machine:
       image: windows-server-2019-vs2019:stable
       resource_class: windows.medium
-      shell: powershell.exe
+      shell: bash.exe
 
 anchors:
   - &npm_cache_key package-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ .Environment.CACHE_VERSION }}
@@ -34,10 +34,11 @@ anchors:
         os: [ 'linux', 'macos', 'win' ]
 
 commands:
-  build_install_cli-linux-macos:
+  build_install_cli:
     steps:
-      - node/install:
-          lts: true
+      - run:
+          name: Install NPM dependencies
+          command: npm install
       - run:
           name: Install CLI dependencies
           command: cd packages/cli && npm install
@@ -47,29 +48,25 @@ commands:
       - run:
           name: Install CLI
           command: cd packages/cli && npm install -g
+      - run:
+          name: Quire Version
+          command: quire --version
 
   build_install_cli-linux:
     steps:
-      - build_install_cli-linux-macos
+      - node/install:
+          lts: true
+      - build_install_cli
 
   build_install_cli-macos:
     steps:
-      - build_install_cli-linux-macos
+      - node/install:
+          lts: true
+      - build_install_cli
 
   build_install_cli-win:
     steps:
-      - run:
-          name: Install CLI dependencies
-          shell: bash.exe
-          command: cd packages/cli && npm install
-      - run:
-          name: Build CLI
-          shell: bash.exe
-          command: cd packages/cli && npm run build
-      - run:
-          name: Install CLI
-          shell: bash.exe
-          command: cd packages/cli && npm install -g
+      - build_install_cli
 
   install_deps-linux:
     steps:
@@ -91,44 +88,36 @@ commands:
     steps:
       - run:
           name: Install External Dependencies
+          shell: powershell.exe
           command: .\scripts\install-deps-win.ps1
 
-  store-test-data:
+  run_tests:
     steps:
+      - run:
+          name: Add test report directory
+          command: mkdir -p test-results
+      - run:
+          name: Run e2e tests
+          command: npm test
       - store_test_results:
           path: test-results
       - store_artifacts:
           path: test-results
 
-  test-linux-macos:
-    steps:
-      - run:
-          name: Add test report directory
-          command: mkdir -p test-results
-      - run:
-          name: Run Quire Commands Test
-          command: cd packages/cli && npm run test cli.test.js
-      - store-test-data
-
   test-linux:
     steps:
-      - test-linux-macos
+      - run:
+          name: Install Cypress Dependencies
+          command: apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+      - run_tests
 
   test-macos:
     steps:
-      - test-linux-macos
+      - run_tests
 
   test-win:
     steps:
-      - run:
-          name: Add test report directory
-          shell: bash.exe
-          command: mkdir -p test-results
-      - run:
-          name: Run Quire Commands Test
-          shell: bash.exe
-          command: cd packages/cli && npm run test cli.test.js
-      - store-test-data
+      - run_tests
 
 jobs:
   build_install_test:

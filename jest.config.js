@@ -3,7 +3,7 @@ const dir = path.join(process.cwd(), "test-results", "jest");
 
 module.exports = {
   moduleNameMapper: {
-    "^@src(.*)$": "<rootDir>/lib$1"
+    "^@src(.*)$": "<rootDir>/packages/cli/lib/$1"
   },
   reporters: [
     "default",
