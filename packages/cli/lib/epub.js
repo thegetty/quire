@@ -120,20 +120,11 @@ class Epub extends EventEmitter {
     return result;
   }
 
-  cover() {
-    if (this.data.promo_image) {
-      let coverUrl = this.getURLforImage(this.data.promo_image);
-      return `${coverUrl}`;
-    } else {
-      return "";
-    }
-  }
-
   async generate() {
     // build the data structure
     let publication = {
       title: this.title(),
-      cover: this.cover(),
+      cover: this.data.promo_image,
       url: this.data.publisher[0].url,
       isbn: this.data.identifier.isbn,
       language: this.data.language,
@@ -165,22 +156,6 @@ class Epub extends EventEmitter {
       resolve(publication);
       return publication;
     });
-  }
-
-  /**
-   * getURLforImage
-   * @param {String} image path
-   * @returns {String} Localhost URL
-   * @description When given the relative path for a image, returns the
-   * appropriate URL to view the content when the preview server is running.
-   */
-  getURLforImage(image) {
-    let imageDir = this.config.imageDir || "img";
-    // let relPath = path.parse(path.relative(imageDir, image))
-    let baseURL = determineBaseURL(this.config.baseURL);
-    let imagePath = path.join(baseURL, imageDir, image);
-
-    return new URL(imagePath, LOCALHOST).href.toLowerCase();
   }
 
   /**
