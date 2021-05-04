@@ -6,9 +6,9 @@ const projectName = "project";
 const themeName = "default";
 
 module.exports = {
-  FULL_PATH: path.join("tests", "e2e", "fixtures", projectName),
   FIXTURES_DIR: path.join("tests", "e2e", "fixtures"),
-  STARTER_THEME: themeName,
+  FULL_PATH: path.join("tests", "e2e", "fixtures", projectName),
   PROJECT_FOLDER: projectName,
-  THEME_PATH: path.join("themes", themeName),
+  STARTER_THEME: themeName,
+  THEME_PATH: path.join("themes", themeName)
 };
