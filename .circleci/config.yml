@@ -34,10 +34,8 @@ anchors:
         os: [ 'linux', 'macos', 'win' ]
 
 commands:
-  build_install_cli-linux-macos:
+  build_install_cli:
     steps:
-      - node/install:
-          lts: true
       - run:
           name: Install NPM dependencies
           command: npm install
@@ -56,29 +54,19 @@ commands:
 
   build_install_cli-linux:
     steps:
-      - build_install_cli-linux-macos
+      - node/install:
+          lts: true
+      - build_install_cli
 
   build_install_cli-macos:
     steps:
-      - build_install_cli-linux-macos
+      - node/install:
+          lts: true
+      - build_install_cli
 
   build_install_cli-win:
     steps:
-      - run:
-          name: Install NPM dependencies
-          command: npm install
-      - run:
-          name: Install CLI dependencies
-          command: cd packages/cli && npm install
-      - run:
-          name: Build CLI
-          command: cd packages/cli && npm run build
-      - run:
-          name: Install CLI
-          command: cd packages/cli && npm install -g
-      - run:
-          name: Quire Version
-          command: quire --version
+      - build_install_cli
 
   install_deps-linux:
     steps:
