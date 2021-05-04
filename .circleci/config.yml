@@ -123,17 +123,8 @@ commands:
           name: Add test report directory
           command: mkdir -p test-results
       - run:
-          name: Setup Test Project
-          command: npm run test:setup
-      - run:
-          name: Run CLI E2E Tests
-          command: npm run test:cli
-      - run:
-          name: Run Cypress Tests
-          command: npm run test:cypress
-      - run:
-          name: Teardown Test Project
-          command: npm run test:teardown
+          name: Run e2e tests
+          command: npm test
       - store-test-data
 
   test-macos:
@@ -142,17 +133,8 @@ commands:
           name: Add test report directory
           command: mkdir -p test-results
       - run:
-          name: Setup Test Project
-          command: npm run test:setup
-      - run:
-          name: Run CLI E2E Tests
-          command: npm run test:cli
-      - run:
-          name: Run Cypress Tests
-          command: npm run test:cypress
-      - run:
-          name: Teardown Test Project
-          command: npm run test:teardown
+          name: Run e2e tests
+          command: npm test
       - store-test-data
 
   test-win:
@@ -162,21 +144,9 @@ commands:
           shell: bash.exe
           command: mkdir -p test-results
       - run:
-          name: Setup Test Project
+          name: Run e2e tests
           shell: bash.exe
-          command: npm run test:setup
-      - run:
-          name: Run CLI E2E Tests
-          shell: bash.exe
-          command: npm run test:cli
-      - run:
-          name: Run Cypress Tests
-          shell: bash.exe
-          command: npm run test:cypress
-      - run:
-          name: Teardown Test Project
-          shell: bash.exe
-          command: npm run test:teardown
+          command: npm test
       - store-test-data
 
 jobs:

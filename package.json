@@ -11,11 +11,11 @@
     "cli:install-deps": "cd packages/cli && npm install",
     "cli:uninstall": "cd packages/cli && npm uninstall -g",
     "postinstall": "lerna bootstrap --hoist",
+    "posttest": "node tests/e2e/fixtures/teardown.js",
+    "pretest": "node tests/e2e/fixtures/setup.js",
     "test:cli": "jest tests/e2e/specs/cli",
-    "test": "npm run test:setup && npm run test:cli && npm run test:cypress && npm run test:teardown",
+    "test": "npm run test:cli && npm run test:cypress",
     "test:cypress": "cd tests/e2e/fixtures/project && quire preview & ./node_modules/.bin/wait-on http://localhost:1313 & ./node_modules/.bin/cypress run --spec **/*.spec.js",
-    "test:setup": "node tests/e2e/fixtures/setup.js",
-    "test:teardown": "node tests/e2e/fixtures/teardown.js",
     "test:unit": "cd packages/cli && npm run test"
   },
   "repository": {
