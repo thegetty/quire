@@ -105,20 +105,11 @@ describe("CLI", () => {
   );
 
   test(
-    "quire imageslice should create 'img/iiif/processed' image directory",
+    "quire process --iiif should create 'img/iiif/processed' image directory",
     async (done) => {
+      const processedImgPath = path.join("static", "img", "iiif", "processed");
       await quire.process("iiif");
-      assert.equal(
-        fs.existsSync(
-          path.join(
-            "static",
-            "img",
-            "iiif",
-            "processed"
-          )
-        ),
-        true
-      );
+      assert.equal(fs.existsSync(processedImgPath), true);
       done();
     },
     timeout
