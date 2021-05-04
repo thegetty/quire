@@ -6,15 +6,18 @@ import CLI from "@src/cli";
 const timeout = 5e4;
 const quire = new CLI();
 import CONFIG from "../../fixtures/project-config.js";
+let projectPath;
 
 describe("CLI", () => {
+  beforeAll(() => {
+    projectPath = path.join(CONFIG.FIXTURES_DIR, CONFIG.PROJECT_FOLDER);
+    process.chdir(projectPath);
+  });
+
   test(
     "test project exists",
     async (done) => {
-      await assert.equal(fs.existsSync(path.join(CONFIG.FIXTURES_DIR, CONFIG.PROJECT_FOLDER)), true);
-
-      process.chdir(path.join(CONFIG.FIXTURES_DIR, CONFIG.PROJECT_FOLDER));
-
+      await assert.equal(fs.existsSync(projectPath), true);
       done();
     },
     timeout
