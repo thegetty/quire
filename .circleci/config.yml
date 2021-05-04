@@ -18,7 +18,7 @@ executors:
     machine:
       image: windows-server-2019-vs2019:stable
       resource_class: windows.medium
-      shell: powershell.exe
+      shell: bash.exe
 
 anchors:
   - &npm_cache_key package-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ .Environment.CACHE_VERSION }}
@@ -66,23 +66,18 @@ commands:
     steps:
       - run:
           name: Install NPM dependencies
-          shell: bash.exe
           command: npm install
       - run:
           name: Install CLI dependencies
-          shell: bash.exe
           command: cd packages/cli && npm install
       - run:
           name: Build CLI
-          shell: bash.exe
           command: cd packages/cli && npm run build
       - run:
           name: Install CLI
-          shell: bash.exe
           command: cd packages/cli && npm install -g
       - run:
           name: Quire Version
-          shell: bash.exe
           command: quire --version
 
   install_deps-linux:
@@ -105,6 +100,7 @@ commands:
     steps:
       - run:
           name: Install External Dependencies
+          shell: powershell.exe
           command: .\scripts\install-deps-win.ps1
 
   store-test-data:
@@ -141,11 +137,9 @@ commands:
     steps:
       - run:
           name: Add test report directory
-          shell: bash.exe
           command: mkdir -p test-results
       - run:
           name: Run e2e tests
-          shell: bash.exe
           command: npm test
       - store-test-data
 
