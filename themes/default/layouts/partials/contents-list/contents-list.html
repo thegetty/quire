@@ -76,6 +76,7 @@
    {{- $.contentsPage.Scratch.Set "pageOneWeight" .Weight -}}
 {{- end -}}
 
+{{ $class := .contentsPage.Params.class }}
 
 {{ $lastIndentLevel := 0 }}
 {{ $lastFileDirectory := "/" }}
@@ -95,15 +96,17 @@
   {{- if and (ne $lastFileDirectory $fileDirectory) (ge $indentLevel $lastIndentLevel) -}}
 
     {{- if ne .Params.slug "." }}
-      <div class="indent-{{ sub $indentLevel 1 }} directory" role="listitem">XXX: {{ $fileDirectory }} ({{ .Title }})</div>
-      <div class="indent-{{ $indentLevel }}" role="listitem">AA {{ .Weight }}: {{ $fileDirectory }} ({{ .Title }})</div>
+      {{ $noLinkHeading :=  findRE "(.[^/]*)/$" $fileDirectory }}
+      {{ $noLinkHeading =  delimit $noLinkHeading "" | humanize | title }}
+      <div class="XX indent-{{ sub $indentLevel 1 }} directory no-link-heading-{{ $class }}" role="listitem">{{ $noLinkHeading }}</div>
+      <div class="AA indent-{{ $indentLevel }}" role="listitem">{{ template "contents-item-selector" (dict "Page" . "Class" $class) }}</div>
     {{- else }}
-      <div class="indent-{{ sub $indentLevel 1 }} directory" role="listitem">BB {{ .Weight }}: {{ $fileDirectory }} ({{ .Title }})</div>
+      <div class="BB indent-{{ sub $indentLevel 1 }} directory" role="listitem">{{ template "contents-item-selector" (dict "Page" . "Class" $class) }}</div>
     {{- end -}}
 
   {{- else }}
 
-    <div class="indent-{{ $indentLevel }}" role="listitem">CC {{ .Weight }}: {{ $fileDirectory }} ({{ .Title }})</div>
+    <div class="CC indent-{{ $indentLevel }}" role="listitem">{{ template "contents-item-selector" (dict "Page" . "Class" $class) }}</div>
 
   {{- end -}}
 
@@ -115,13 +118,27 @@
 
 <style>
 [role=list] { margin-bottom: 3rem;}
-.indent-1 { margin-left: 1.5rem;}
-.indent-2 { margin-left: 3rem;}
-.indent-3 { margin-left: 4.5rem;}
-.directory { font-weight: bold;}
+.indent-0 { margin-left: 0rem; list-style: disc; }
+.indent-1 { margin-left: 1.5rem; list-style: circle; font-size: .875em; }
+.indent-2 { margin-left: 3rem; list-style: square; font-size: .75em; }
+.indent-3 { margin-left: 4.5rem; list-style: disc; font-size: .75em; }
+.directory { font-weight: bold; }
 </style>
 
 
+{{ define "contents-item-selector" }}
+
+{{ if in .Class "grid" }}
+  {{ partial "contents-list/list-item-types/grid.html" .Page }}
+{{ else if in .Class "abstract" }}
+  {{ partial "contents-list/list-item-types/abstract.html" .Page }}
+{{ else if in .Class "brief" }}
+  {{ partial "contents-list/list-item-types/brief.html" .Page }}
+{{ else }}
+  {{ partial "contents-list/list-item-types/list.html" .Page }}
+{{ end }}
+
+{{ end }}
 
 
 <ul>
