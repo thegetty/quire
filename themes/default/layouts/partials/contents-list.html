@@ -2,7 +2,7 @@
   This partial generates a contents list. It is used in the publication menu
   and in the "contents" page type, but could be extended for further use. It
   expects five specific variables to be passed:
-  
+
   site              .Site
   contentsScope     Typically .Site.Pages or narrowed down to pages within a
                     specific section.
@@ -39,8 +39,8 @@
   `brief`           Lists only the title, or short_title when available.
 
   EXAMPLE PARTIAL USE:
-  partial "contents-list.html" (dict "site" .Site "contentsScope" .Site.Pages 
-  "contentsType" .Site.Params.tocType "contentsLocation" ".Params.toc" 
+  partial "contents-list.html" (dict "site" .Site "contentsScope" .Site.Pages
+  "contentsType" .Site.Params.tocType "contentsLocation" ".Params.toc"
   "contentsPage" . )
 
 */}}
@@ -75,6 +75,54 @@
 {{- range first 1 (where $pages "Params.class" "in" "page-one") -}}
    {{- $.contentsPage.Scratch.Set "pageOneWeight" .Weight -}}
 {{- end -}}
+
+
+{{ $lastIndentLevel := 0 }}
+{{ $lastFileDirectory := "/" }}
+
+<div role="list">
+{{- range $pages -}}
+
+  {{- $indentLevel := "" -}}
+  {{- $fileDirectory := .File.Dir -}}
+
+  {{- if eq $fileDirectory "/" -}}
+    {{- $indentLevel = 0 -}}
+  {{- else -}}
+    {{- $indentLevel = len (findRE "/" $fileDirectory) -}}
+  {{- end -}}
+
+  {{- if and (ne $lastFileDirectory $fileDirectory) (ge $indentLevel $lastIndentLevel) -}}
+
+    {{- if ne .Params.slug "." }}
+      <div class="indent-{{ sub $indentLevel 1 }} directory" role="listitem">XXX: {{ $fileDirectory }} ({{ .Title }})</div>
+      <div class="indent-{{ $indentLevel }}" role="listitem">AA {{ .Weight }}: {{ $fileDirectory }} ({{ .Title }})</div>
+    {{- else }}
+      <div class="indent-{{ sub $indentLevel 1 }} directory" role="listitem">BB {{ .Weight }}: {{ $fileDirectory }} ({{ .Title }})</div>
+    {{- end -}}
+
+  {{- else }}
+
+    <div class="indent-{{ $indentLevel }}" role="listitem">CC {{ .Weight }}: {{ $fileDirectory }} ({{ .Title }})</div>
+
+  {{- end -}}
+
+  {{- $lastIndentLevel = $indentLevel -}}
+  {{ $lastFileDirectory = $fileDirectory -}}
+
+{{- end -}}
+</div>
+
+<style>
+[role=list] { margin-bottom: 3rem;}
+.indent-1 { margin-left: 1.5rem;}
+.indent-2 { margin-left: 3rem;}
+.indent-3 { margin-left: 4.5rem;}
+.directory { font-weight: bold;}
+</style>
+
+
+
 
 <ul>
 {{- range $pages -}}
