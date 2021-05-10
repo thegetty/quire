@@ -30,13 +30,13 @@ Erin Cecele Dunigan ([@Erin-Cecele](https://github.com/Erin-Cecele)), community 
 
 Contact us at [quire@getty.edu](mailto:quire@getty.edu)
 
-**All are welcome.** As an open-source community, Quire is committed to providing a safe, welcoming, transparent, and inclusive environment for all our community members and those wishing to become involved. Please see our **[Code of Conduct](https://github.com/thegetty/quire/blob/main/CODE_OF_CONDUCT.md)** for more on the expecations and protections for our community members.
+**All are welcome.** As an open-source community, Quire is committed to providing a safe, welcoming, transparent, and inclusive environment for all our community members and those wishing to become involved. Please see our **[Code of Conduct](https://github.com/thegetty/quire/blob/main/CODE_OF_CONDUCT.md)** for more on the expectations and protections for our community members.
 
 ## Quire Code Repositories
 
-There are two main code repositories for Quire hosted on GitHub. 
+There are two main code repositories for Quire hosted on GitHub.
 
-- [**quire**](https://github.com/thegetty/quire): The command-line interface for Quire, default starter content, and default theme. 
+- [**quire**](https://github.com/thegetty/quire): The command-line interface for Quire, default starter content, and default theme.
 - [**quire-docs**](https://github.com/thegetty/quire-docs): The Quire website and documentation.
 
 ## Identify a Contribution to Make
@@ -63,15 +63,15 @@ When submitting a new bug please be sure to include the following information:
 - Expected behavior
 - Actual behavior
 - Version numbers
-- Text file of Terminal/Shell output 
+- Text file of Terminal/Shell output
 
 ### Develop a New Feature or Theme
 
-In Quire, themes contain all of a Quire publication’s key features in templates, shortcodes, styles and scripts. Themes can be complete packages of base styles and features, like [Quire’s default theme](https://github.com/thegetty/quire/tree/main/themes/default), or can be smaller packages of just one or more features to be layered on top of a base theme.
+In Quire, themes contain all of a Quire publication’s key features in templates, shortcodes, styles and scripts. Themes can be complete packages of base styles and features, like [Quire’s default theme](https://github.com/thegetty/quire/tree/main/themes/default), or they can be smaller packages of just one or more features to be layered on top of a base theme.
 
 So, when creating a new feature of some kind, you’ll be looking to do so either within the Quire default theme, or as a standalone theme, which other Quire users can add to their projects as they’d like.
 
-If you’re interested in it being added to the core Quire default theme, keep in mind some of the questions the core team and the community will be asking:
+If you’re interested in adding your new feature to the core Quire default theme, keep in mind some of the questions the core team and the community will be asking:
 
 - Does this feature add something new that would be useful to a broad section of Quire’s user base?
 - Does this feature positively effect Quire’s primary tenants of producing publications optimized for discoverability, longevity, beauty and accessibility?
@@ -85,9 +85,9 @@ Even if you plan on developing your custom theme/feature independently and offer
 
 Quire is very extensible. We’re eager to see more development work come from you as you create and customize your own publications in ways that can then be shared back. Quire is in the early stages of defining how this kind of contribution will work, please don’t hesitate to [email us](mailto:quire@getty.edu) with your questions or ideas.
 
-### Write an Article 
+### Write an Article
 
-We’re always interested in adding articles about specific aspects of working in Quire to our Learn knowledge base. Maybe you have some tips on modifying shortcodes, or styling is CSS in the custom.css. Chances are the community would love to read about it.
+We’re always interested in adding articles about specific aspects of working in Quire to our Learn knowledge base. Maybe you have some tips on modifying shortcodes or styling is CSS in the custom.css. Chances are the community would love to read about it.
 
 [Share your article idea](https://github.com/thegetty/quire/issues/new)
 
@@ -95,7 +95,7 @@ We’re always interested in adding articles about specific aspects of working i
 
 ### Improve the Documentation
 
-The Quire documentation is hosted in a seperate repository along with the website, and can be found [here](https://github.com/thegetty/quire-doc). The Quire documentation is continuously being updated for clarity and completeness, but it’s not always easy to keep up with the pace of Quire’s development!
+The Quire documentation is hosted in a separate repository along with the website, and can be found [here](https://github.com/thegetty/quire-doc). The Quire documentation is continuously being updated for clarity and completeness, but it’s not always easy to keep up with the pace of Quire’s development!
 
 If there’s a section you think it missing or could be improved, we’d love for your help. And the documentation is itself a Quire site, so it should be familiar to work in.
 
