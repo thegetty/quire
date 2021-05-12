@@ -120,48 +120,6 @@ Possible contributions include:
 
 For more information visit our complete [Contributing Guidelines](https://github.com/thegetty/quire-docs/blob/new-design-v1/CONTRIBUTING.md). 
 
-## Quire Contributors
-
-### Core Team
-
--   Greg Albers ([\@geealbers](https://github.com/geealbers)), product manager
--   David Newbury ([\@workergnome](https://github.com/workergnome)), product manager
--   Matthew Hrudka ([\@mphstudios](https://github.com/mphstudios)), lead maintainer
--   Erin Cecele Dunigan ([\@Erin-Cecele](https://github.com/Erin-Cecele)), community manager
-
-Contact us at [quire\@getty.edu](mailto:quire@getty.edu).
-
-### Contributors
-
-Thank you to all our growing list of contributors who have made Quire what it is, and are working on what it will be! They’ve contributed code, written and edited documentation, answered questions or shared their work on our forum, run events, and blogged or spoken about Quire.
-
-- [@1000camels](https://github.com/1000camels)
-- [@aheltonsjma](https://github.com/aheltonsjma)
-- [@anderspollack](https://github.com/anderspollack)
-- [@antoinentl](https://github.com/antoinentl)
-- [@chrisdiaz](https://github.com/chrisdaaz)
-- [@daniel-keller](https://github.com/daniel-keller)
-- [@fchasen](https://github.com/fchasen)
-- [@garrettdashnelson](https://github.com/garrettdashnelson)
-- [@garciagregg](https://github.com/garciagregg)
-- [@hbalenda](https://github.com/hbalenda)
-- [@hlj24](https://github.com/hlj24)
-- [@kalvarenga](https://github.com/kalvarenga)
-- [@kristhayer11](https://github.com/kristhayer11)
-- [@mgray4](https://github.com/mgray4)
-- [@mandrijauskas](https://github.com/mandrijauskas)
-- [@MillsArtMuseum](https://github.com/MillsArtMuseum)
-- [@mbelhu](https://github.com/mbelhu)
-- [@naeluh](https://github.com/naeluh)
-- [@nancyum](https://github.com/nancyum)
-- [@oncletom](https://github.com/oncletom)
-- [@swambold1](https://github.com/swambold1)
-- [@swroberts](https://github.com/swroberts)
-- [@tipeslowly](https://github.com/tipeslowly)
-- [@victoriabarry](https://github.com/victoriabarry)
-
-Special acknowledgement is due to Eric Gardner ([@egardner](https://github.com/egardner)) who served as Digital Publications Developer at Getty from 2014 to 2018, and who conceived and spearheaded the original development of Quire. Thank you, Eric!
-
 ## License
 
 Copyright © 2021, J Paul Getty Trust.
