@@ -145,6 +145,36 @@ This is something like what the development process may look like for you:
 
 Learn more in the *Open Source Guide*’s [“How to Contribute to Open Source”](https://opensource.guide/how-to-contribute/).
 
----
-
 **At this point, we hope you feel ready to contribute! But don’t hesitate to [ask for help or clarification](mailto:quire@getty.edu), everyone’s a beginner at first. And thank you again for your interest in making Quire a better tool for all!** 🦄
+
+## Quire Contributors
+
+Thank you to all our growing list of contributors who have made Quire what it is, and are working on what it will be! They’ve contributed code, written and edited documentation, answered questions or shared their work on our forum, run events, and blogged or spoken about Quire.
+
+- [@1000camels](https://github.com/1000camels)
+- [@aheltonsjma](https://github.com/aheltonsjma)
+- [@anderspollack](https://github.com/anderspollack)
+- [@antoinentl](https://github.com/antoinentl)
+- [@chrisdiaz](https://github.com/chrisdaaz)
+- [@daniel-keller](https://github.com/daniel-keller)
+- [@fchasen](https://github.com/fchasen)
+- [@garrettdashnelson](https://github.com/garrettdashnelson)
+- [@ggarcia0596](https://github.com/ggarcia0596)
+- [@hbalenda](https://github.com/hbalenda)
+- [@hlj24](https://github.com/hlj24)
+- [@kalvarenga](https://github.com/kalvarenga)
+- [@kristhayer11](https://github.com/kristhayer11)
+- [@mgray4](https://github.com/mgray4)
+- [@mandrijauskas](https://github.com/mandrijauskas)
+- [@MillsArtMuseum](https://github.com/MillsArtMuseum)
+- [@mbelhu](https://github.com/mbelhu)
+- [@naeluh](https://github.com/naeluh)
+- [@nancyum](https://github.com/nancyum)
+- [@oncletom](https://github.com/oncletom)
+- [@swambold1](https://github.com/swambold1)
+- [@swroberts](https://github.com/swroberts)
+- [@tipeslowly](https://github.com/tipeslowly)
+- [@victoriabarry](https://github.com/victoriabarry)
+
+Special acknowledgement is due to Eric Gardner ([@egardner](https://github.com/egardner)) who served as Digital Publications Developer at Getty from 2014 to 2018, and who conceived and spearheaded the original development of Quire. Thank you, Eric!
+
