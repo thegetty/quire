@@ -20,11 +20,11 @@ Quire books feature:
 - Web accessibility and SEO optimized
 - Outputs to web, PDF, and EPUB formats
 
-To learn more about Quire, please refere to our in progress [documentation](https://quire.getty.edu)
+To learn more about Quire, please visit our [website](https://quire.getty.edu) which includes documentation, a showcase of Quire publications, helpful tutorials & guides, and more information about Quire and how to get involved with the community. 
 
-Check out [the demo site](https://thegetty.github.io/quire-starter/), and [some of Getty’s books developed with Quire](http://www.getty.edu/publications/digital/digitalpubs.html)
+Check out [the demo site](https://thegetty.github.io/quire-starter/) and [some of Getty’s books developed with Quire](http://www.getty.edu/publications/digital/digitalpubs.html).
 
-If you’re considering using Quire for the first time, please be sure to visit our [*Implementation Considerations.*](https://quire.getty.edu/documentation/implementation/) If you’re a developer please also visit the [*For Developers*](https://quire.getty.edu/documentation/for-developers/) section of our documentation.
+If you’re considering using Quire for the first time, please be sure to visit our [*Implementation Considerations*](https://quire.getty.edu/documentation/implementation/). If you’re a developer, please also visit the [*For Developers*](https://quire.getty.edu/documentation/for-developers/) section of our documentation.
 
 We encourage you to sign up for a [free GitHub account](https://github.com/join) to access the [Quire Community Forum](https://github.com/thegetty/quire/discussions). You can utilize the forum to ask and answer questions, share ideas, provide feedback, and assist your fellow Quire users. [Subscribe to our newsletter](https://newsletters.getty.edu/h/t/3482055B10CD0F24) for the latest news and events, new feature updates, and highlights from our community. 
 
@@ -51,7 +51,7 @@ This is the mono-repository for [Quire](https://quire.getty.edu/). It contains:
 4.  Install Quire with: `npm install --global \@thegetty/quire-cli`
 5.  Confirm by pulling up a list of Quire commands: `quire --help`
 
-For full installation instructions, and information about updating and uninstalling Quire please see our [documentation.](https://quire.netlify.app/documentation/install-uninstall/)
+For full installation instructions, and information about updating and uninstalling Quire, please see our [documentation.](https://quire.getty.edu/documentation/install-uninstall/)
 
 ### Dependencies
 
@@ -87,11 +87,11 @@ In order to produce multiple formats using Quire, you must first install the fol
 | template            | Download templates to customize your file output (only for EPUB)  |
 | debug               | Development use only - log info about current  project            |
 
-For more information about these commands please see the [*Quire Commands*](https://quire.getty.edu/documentation/quire-commands/) section of our [documentation](https://quire.getty.edu/documentation/quire-commands/) 
+For more information about these commands please see the [*Quire Commands*](https://quire.getty.edu/documentation/quire-commands/) section of our documentation.
 
 ## Contributing to Quire 
 
-There are [many ways to contribute](https://github.com/thegetty/quire-docs/blob/new-design-v1/CONTRIBUTING.md#identify-a-contribution-to-make). No matter what level of experience you have, we welcome all contributions, big and small.
+There are [many ways to contribute](https://github.com/thegetty/quire/blob/main/CONTRIBUTING.md#identify-a-contribution-to-make). No matter what level of experience you have, we welcome all contributions, big and small.
 
 The first step to any contribution is to post a new issue or comment on an existing issue [on our issue tracker](https://github.com/thegetty/quire/issues). Please label your issues to the best of your abilities.
 
@@ -102,23 +102,20 @@ Possible contributions include:
 -   [Find an existing bug to work on](https://github.com/thegetty/quire/issues)
 
 **Improve Documentation**
--   [Navigate to Quire documentation repo](https://github.com/thegetty/quire-docs)
 -   [Propose a new section or edit](https://github.com/thegetty/quire-docs/issues) 
--   [Find an existing issue](https://github.com/thegetty/quire-docs/issues)
--   [Read the Quire Documentation Style Guide](https://github.com/thegetty/quire-docs/wiki/Quire-Website-&-Documentation-Style-Guide)
+-   [Find an existing improvement to work on](https://github.com/thegetty/quire-docs/issues)
 
 **Translate the Documentation**
--   [Volunteer to do some translation](https://github.com/thegetty/quire/issues)
+-   [Volunteer to do some translation](https://github.com/thegetty/quire-docs/issues)
 
 **Write an Article**
 -   [Share your article idea](https://github.com/thegetty/quire/issues)
 
 **Develop a New Feature or Theme**
--   [Review features in development](https://github.com/thegetty/quire/discussions/13) 
--   [Read the Quire Technical Style Guide](https://github.com/thegetty/quire/wiki/Quire-Technical-Style-Guide)
+
 -   [Post your feature idea](https://github.com/thegetty/quire/issues)
 
-For more information visit our complete [Contributing Guidelines](https://github.com/thegetty/quire-docs/blob/new-design-v1/CONTRIBUTING.md). 
+For more information visit our complete [Contributing Guidelines](https://github.com/thegetty/quire/blob/main/CONTRIBUTING.md). 
 
 ## License
 
