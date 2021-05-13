@@ -78,8 +78,20 @@
 
 {{ $class := .contentsPage.Params.class }}
 
+
+{{/* This contents list is built based on the number of section levels any given page is at, which is determined by looking at its File.Dir.
+
+  Section level 1: section/
+  Section level 2: section/sub-section/
+  Section level 3: section/sub-section/sub-sub-section/
+  &tc.
+
+In order to properly close the /ul/li elements and nest sub-sections, the logic in this partial compares the File.Dirs, tracks sections that have been rendered but not yet closed, and looks at the difference in section levels from one page to the next.
+--------------------------------------------------------------------------- */}}
+
 {{ $lastIndentLevel := 0 }}
 {{ $lastFileDirectory := "/" }}
+{{ $openSections := dict }}
 
 <h2>TESTING</h2>
 
@@ -88,8 +100,19 @@
 
   {{- $fileDirectory := .File.Dir -}}
   {{- $indentLevel := len (findRE "(.+?)/" $fileDirectory) -}}
+  {{- $sameAsOpenSection := false -}}
 
-  {{- if and (ne $lastFileDirectory $fileDirectory) (ge $indentLevel $lastIndentLevel) -}}
+  {{/* The $openSections map tracks the File.Dir of most recently rendered page from any give section level. If the new page is part of that same section, the section is still open.
+  ------------------------------------------------------------------------- */}}
+  {{ $sectionLevelKey := printf "%s%s" "s" (string $indentLevel) }}
+  {{- range $key, $value := $openSections -}}
+    {{- if and (eq $key $sectionLevelKey) (eq $fileDirectory $value) -}}
+      {{ $sameAsOpenSection = true }}
+    {{- end -}}
+  {{- end -}}
+  {{- $openSections = merge $openSections (dict $sectionLevelKey $fileDirectory) -}}
+
+  {{- if and (ne $lastFileDirectory $fileDirectory) (eq $sameAsOpenSection false) -}}
 
     {{- if ne .Params.slug "." }}
       {{ $noLanderHeading := findRE "(.[^/]*)/$" $fileDirectory }}
@@ -99,7 +122,7 @@
       <ul>
 
       <li class="page-item">{{ template "contents-list--add-item-by-class" (dict "Page" . "Class" $class) }}</li>
-      {{ template "contents-list--add-closing-tags" (dict "Page" . "AllPages" $pages "PageIndex" $index ) }}
+      {{ template "contents-list--add-closing-tags" (dict "Page" . "AllPages" $pages "PageIndex" $index "openSections" $openSections) }}
 
     {{- else }}
       <li class="section-item">{{ template "contents-list--add-item-by-class" (dict "Page" . "Class" $class) }}
@@ -109,7 +132,7 @@
   {{- else }}
 
     <li class="page-item">{{ template "contents-list--add-item-by-class" (dict "Page" . "Class" $class) }}</li>
-    {{ template "contents-list--add-closing-tags" (dict "Page" . "AllPages" $pages "PageIndex" $index ) }}
+    {{ template "contents-list--add-closing-tags" (dict "Page" . "AllPages" $pages "PageIndex" $index "openSections" $openSections) }}
 
   {{- end -}}
 
@@ -149,10 +172,11 @@
 
 {{- if ne $currentPageDirectory "/" -}}
 
-  {{/* Find the last page within the same .File.Dir as the current page, if the current page IS the last page, we need to add at least one set of closing /li/ul tags. to determine how many sets of tags are needed, check the sub-section level difference between the current page and the next page. For example, a page with a file directory of `section/sub-section/sub-sub-section/` is at sub-section level of 3. If the next page is at `section/`, with sub-section level of 1, there are 2 levels of difference between them and so we need 2 sets of closing tags. (We use a findRE pattern to count the number of instances of one or more characters followed by a slash in the .File.Dir to determine the sub-section level.)
+  {{/* Find the last page within the same .File.Dir as the current page, if the current page IS the last page, we need to add at least one set of closing /ul/li tags. to determine how many sets of tags are needed, check the sub-section level difference between the current page and the next page. For example, a page with a file directory of `section/sub-section/sub-sub-section/` is at sub-section level of 3. If the next page is at `section/`, with sub-section level of 1, there are 2 levels of difference between them and so we need 2 sets of closing tags. (We use a findRE pattern to count the number of instances of one or more characters followed by a slash in the .File.Dir to determine the sub-section level.)
   ------------------------------------------------------------------------- */}}
   {{- $currentPageID := .Page.File.UniqueID -}}
   {{- $pagesInSection := where .AllPages "File.Dir" "eq" $currentPageDirectory -}}
+  {{ $openSections := .openSections }}
 
   {{- range last 1 $pagesInSection }}
 
@@ -167,6 +191,17 @@
       {{- else -}}
         {{- range after 0 (seq $indentDifference) }}
         </ul></li>
+        {{- end -}}
+      {{- end -}}
+
+      {{/* If the section of the last page rendered is not the same as the section of the next page that’s going to be rendered, we have to add in an additional set of /ul/li tags to close the section.
+      --------------------------------------------------------------------- */}}
+      {{- if and ($nextPageSubSectionLevel) (ne $currentPageSubSectionLevel $nextPageSubSectionLevel) -}}
+        {{ $sectionLevelKey := printf "%s%s" "s" (string $nextPageSubSectionLevel) }}
+        {{- range $key, $value := $openSections -}}
+          {{- if and (eq $key $sectionLevelKey) (ne . $nextPageDirectory) -}}
+          </ul><span class="mark"></span></li>
+          {{- end -}}
         {{- end -}}
       {{- end -}}
 
