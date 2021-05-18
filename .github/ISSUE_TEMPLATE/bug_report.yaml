@@ -1,5 +1,5 @@
 name: Bug Report
-description: Create a report to help us improve Quire
+description: Create a bug report to help us improve Quire
 title: "[Bug]: "
 labels: [bug]
 assignees:
@@ -61,6 +61,15 @@ body:
     label: Relevant log output
     description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
     render: shell
+- type: markdown
+  attributes:
+    value: |
+      ## Supporting Information
+
+      In the comments below, please attach the following files by dragging and dropping, and include any other information that may help us better understand your issue:
+
+        - Save Terminal/Shell output and attach as a text file
+        - Include screenshots showing the problem encountered
 - type: input
   id: contact
   attributes:
