@@ -11,7 +11,7 @@ body:
     value: |
       **Thank you for opening a new issue!** Before submitting your bug report, please search existing issues first to ensure the problem you've encountered has not been previously reported.
 - type: textarea
-  id: what-happened
+  id: describe-issue
   attributes:
     label: Describe the issue
     description: Tell us what happened.
@@ -22,11 +22,6 @@ body:
   attributes:
     label: Steps to reproduce
     description: What steps did you take that led to the issue?
-    placeholder: |
-      1. Go to '...'
-      2. Click on '....'
-      2. Scroll down to '....'
-      4. See error
   validations:
     required: true
 - type: textarea
@@ -49,6 +44,7 @@ body:
     label: Version numbers
     description: Run `quire --version` and tell us what version you're currently running.
   validations:
+    required: true
 - type: dropdown
   id: browsers
   attributes:
@@ -65,7 +61,7 @@ body:
     label: Relevant log output
     description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
     render: shell
- - type: input
+- type: input
   id: contact
   attributes:
     label: Contact Details
