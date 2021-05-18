@@ -1,20 +1,24 @@
----
-name: Quire Bug Report
+name: Bug Report
 description: Create a report to help us improve Quire
-labels: "bug"
-issue_body: true
+title: "[Bug]: "
+labels: [bug]
+assignees:
+- erin-cecele
+- geealbers
 body:
 - type: markdown
   attributes:
     value: |
       **Thank you for opening a new issue!** Before submitting your bug report, please search existing issues first to ensure the problem you've encountered has not been previously reported.
 - type: textarea
+  id: what-happened
   attributes:
     label: Describe the issue
     description: Tell us what happened.
   validations:
     required: true
 - type: textarea
+  id: reproduce
   attributes:
     label: Steps to reproduce
     description: What steps did you take that led to the issue?
@@ -26,29 +30,46 @@ body:
   validations:
     required: true
 - type: textarea
+  id: expected
   attributes:
     label: Expected behavior
     description: What did you expect to happen?
   validations:
     required: true
 - type: textarea
+  id: actual
   attributes:
     label: Actual behavior
     description: What actually happened?
   validations:
     required: true
 - type: textarea
+  id: version 
   attributes:
     label: Version numbers
     description: Run `quire --version` and tell us what version you're currently running.
   validations:
-    required: true
-- type: markdown
+- type: dropdown
+  id: browsers
   attributes:
-    value: |
-      ## Supporting Information
-
-      In the comments below, please attach the following files by dragging and dropping, and include any other information that may help us better understand your issue:
-
-        - Save Terminal/Shell output and attach as a text file
-        - Include screenshots showing the problem encountered
+    label: What browsers are you seeing the problem on?
+    multiple: true
+    options:
+    - Firefox
+    - Chrome
+    - Safari
+    - Microsoft Edge
+- type: textarea
+  id: logs
+  attributes:
+    label: Relevant log output
+    description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+    render: shell
+ - type: input
+  id: contact
+  attributes:
+    label: Contact Details
+    description: How can we get in touch with you if we need more info?
+    placeholder: ex. email@example.com
+  validations:
+    required: false
