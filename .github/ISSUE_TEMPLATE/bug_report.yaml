@@ -55,8 +55,8 @@ body:
     - Chrome
     - Safari
     - Microsoft Edge
-   validations:
-     required: true
+  validations:
+    required: true
 - type: textarea
   id: logs
   attributes:
@@ -73,4 +73,4 @@ body:
 
       If you have additional files that would be useful in describing the issue (Terminal output, screenshots, Quire output files) attach them by dragging and dropping in the comments below.
   validations:
-     required: false
+    required: false
