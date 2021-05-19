@@ -1,4 +1,4 @@
-name: Bug Report
+name: :Bug: Bug Report
 description: Create a bug report to help us improve Quire
 labels: [bug]
 assignees:
@@ -9,7 +9,7 @@ body:
   attributes:
     value: |
       **Thank you for opening a new issue!** 
-     Before submitting your bug report, please search [existing issues](https://github.com/thegetty/quire/issues) first to ensure the problem you've encountered has not been previously reported. If you have a general question, please post it to the Get Help section of our [community forum](https://github.com/thegetty/quire/discussions) instead. 
+     :Warning: "Before submitting your bug report, please search [existing issues](https://github.com/thegetty/quire/issues) first to ensure the problem you've encountered has not been previously reported. If you have a general question, please post it to the Get Help section of our [community forum](https://github.com/thegetty/quire/discussions) instead." 
 - type: textarea
   id: reproduce
   attributes:
