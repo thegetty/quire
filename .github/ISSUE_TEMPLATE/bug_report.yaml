@@ -36,10 +36,8 @@ body:
   id: version 
   attributes:
     label: Version numbers
-    description: Providing version numbers will help us diagnose the issue more quickly. Run quire --version to get the Quire version number and node --version to get the Node version number. 
-    placeholder: |
-    
-    Please include operating system (macOS/Windows), operating system version, Quire version, Node version, and any other version numbers relevant to the issue.
+    description: Providing version numbers will help us diagnose the issue more quickly. Run `quire --version` to get the Quire version number and `node --version` to get the Node version number. 
+    placeholder: Please include operating system (macOS/Windows), operating system version, Quire version, Node version, and any other version numbers relevant to the issue.
   validations:
     required: true
 - type: dropdown
