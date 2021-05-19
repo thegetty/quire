@@ -19,17 +19,17 @@ body:
   validations:
     required: true
 - type: textarea
-  id: expected
-  attributes:
-    label: Expected behavior
-    description: Describe what you expected to happen when you followed the steps above.
-  validations:
-    required: true
-- type: textarea
   id: actual
   attributes:
     label: Actual behavior
-    description: Describe what actually happened and how it diverged from the expected behavior.
+    description: Describe what happened and how it diverged from what was anticipated.
+  validations:
+    required: true
+- type: textarea
+  id: expected
+  attributes:
+    label: Expected behavior
+    description: Describe what you expected to happen had everything operated accordingly. 
   validations:
     required: true
 - type: textarea
