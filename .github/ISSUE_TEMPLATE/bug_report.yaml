@@ -8,11 +8,11 @@ body:
 - type: markdown
   attributes:
     value: |
-      ##Thank you for opening a new issue!
+      "## Thank you for opening a new issue!"
 - type: markdown
   attributes:
     value: |
-      Before submitting your bug report, please search [existing issues](https://github.com/thegetty/quire/issues) first to ensure the problem you've encountered hasn't already been previously reported. If you need help, please post your question on the [community forum](https://github.com/thegetty/quire/discussions) instead. 
+      ⚠ Before submitting your bug report, please search [existing issues](https://github.com/thegetty/quire/issues) first to ensure the problem you've encountered hasn't already been previously reported. If you need help, please post your question on the [community forum](https://github.com/thegetty/quire/discussions) instead. 
 - type: textarea
   id: reproduce
   attributes:
