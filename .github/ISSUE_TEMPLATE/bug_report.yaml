@@ -72,5 +72,5 @@ body:
       ## Supporting Information
 
       If you have additional files that would be useful in describing the issue (Terminal output, screenshots, Quire output files) attach them by dragging and dropping in the comments below.
-   validations:
+  validations:
      required: false
