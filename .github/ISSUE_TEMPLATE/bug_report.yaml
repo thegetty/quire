@@ -11,17 +11,11 @@ body:
     value: |
       **Thank you for opening a new issue!** Before submitting your bug report, please search existing issues first to ensure the problem you've encountered has not been previously reported.
 - type: textarea
-  id: describe-issue
-  attributes:
-    label: Describe the issue
-    description: Tell us what happened.
-  validations:
-    required: true
-- type: textarea
   id: reproduce
   attributes:
     label: Steps to reproduce
     description: What steps did you take that led to the issue?
+    placeholder: Being able to reproduce the issue will help us solve it, please be as specific as possible.
   validations:
     required: true
 - type: textarea
@@ -42,7 +36,12 @@ body:
   id: version 
   attributes:
     label: Version numbers
-    description: Run `quire --version` and tell us what version you're currently running.
+    description: Sharing version numbers for the relevant programs will help us diagnose the issue. 
+    placeholder: |
+     Operating system (macOS/Windows)
+     Operating system version
+     Quire version (Run `quire --version`)
+     Node version (Run `node --version`)
   validations:
     required: true
 - type: dropdown
@@ -58,23 +57,12 @@ body:
 - type: textarea
   id: logs
   attributes:
-    label: Relevant log output
-    description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+    label: Relevant Terminal/Shell output
+    description: Please copy and paste any relevant log output. (If it's a preview issue run `quire preview --verbose`.)
     render: shell
 - type: markdown
   attributes:
     value: |
       ## Supporting Information
 
-      In the comments below, please attach the following files by dragging and dropping, and include any other information that may help us better understand your issue:
-
-        - Save Terminal/Shell output and attach as a text file
-        - Include screenshots showing the problem encountered
-- type: input
-  id: contact
-  attributes:
-    label: Contact Details
-    description: How can we get in touch with you if we need more info?
-    placeholder: ex. email@example.com
-  validations:
-    required: false
+      If you have additional files that would be useful in describing the issue (Terminal output, screenshots, Quire output files) attach them by dragging and dropping in the comments below.
