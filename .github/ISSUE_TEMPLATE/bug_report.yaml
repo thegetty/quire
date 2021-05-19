@@ -54,7 +54,7 @@ body:
   id: logs
   attributes:
     label: Relevant Terminal/Shell output
-    description: Please copy and paste all output from your Terminal/Shell. If you encountered a preview issue run `quire preview --verbose` and inclue the full output below.
+    description: Please copy and paste all relevant messaging from your Terminal/Shell. If you encountered a preview issue run `quire preview --verbose` and inclue the output below.
     render: shell
 - type: textarea
   id: supporting_info
