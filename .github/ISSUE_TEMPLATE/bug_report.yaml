@@ -1,6 +1,5 @@
-name: Bug Report
+name: :Bug: Bug Report
 description: Create a bug report to help us improve Quire
-title: "[Bug]: "
 labels: [bug]
 assignees:
 - erin-cecele
@@ -11,7 +10,7 @@ body:
     value: |
       **Thank you for opening a new issue!** 
       
-     Before submitting your bug report, please search [existing issues](https://github.com/thegetty/quire/issues) first to ensure the problem you've encountered has not been previously reported. If you have a general question, please post it to the Get Help section of our [community forum](https://github.com/thegetty/quire/discussions) instead. 
+     :Warning: Before submitting your bug report, please search [existing issues](https://github.com/thegetty/quire/issues) first to ensure the problem you've encountered has not been previously reported. If you have a general question, please post it to the Get Help section of our [community forum](https://github.com/thegetty/quire/discussions) instead. 
 - type: textarea
   id: reproduce
   attributes:
@@ -37,9 +36,7 @@ body:
   id: version 
   attributes:
     label: Version numbers
-    description: |
-    
-    Providing version numbers will help us diagnose the issue more quickly. Run `quire --version` to get the Quire version number and `node --version` to get the Node version number. 
+    description: Providing version numbers will help us diagnose the issue more quickly. Run `quire --version` to get the Quire version number and `node --version` to get the Node version number. 
     placeholder: |
     
     Please include operating system (macOS/Windows), operating system version, Quire version, Node version, and any other version numbers relevant to the issue.
@@ -68,5 +65,3 @@ body:
       ## Supporting Information
 
       If you have additional files that would be useful in describing the issue (Terminal output, screenshots, Quire output files) attach them by dragging and dropping in the comments below.
-  validations:
-    required: false
