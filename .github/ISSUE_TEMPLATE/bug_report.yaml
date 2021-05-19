@@ -1,4 +1,4 @@
-name: Bug Report
+name: :Bug: Bug Report
 description: Create a bug report to help us improve Quire
 title: "[Bug]: "
 labels: [bug]
@@ -9,39 +9,40 @@ body:
 - type: markdown
   attributes:
     value: |
-      **Thank you for opening a new issue!** Before submitting your bug report, please search existing issues first to ensure the problem you've encountered has not been previously reported.
+      **Thank you for opening a new issue!** 
+      
+      :Warning: Before submitting your bug report, please search [existing issues](https://github.com/thegetty/quire/issues) first to ensure the problem you've encountered has not been previously reported. If you have a general question, please post it to the Get Help section of our [community forum](https://github.com/thegetty/quire/discussions) instead. 
 - type: textarea
   id: reproduce
   attributes:
     label: Steps to reproduce
-    description: What steps did you take that led to the issue?
-    placeholder: Being able to reproduce the issue will help us solve it, please be as specific as possible.
+    description: Describe what steps you took that led to the issue. Please be as specific as possible.
   validations:
     required: true
 - type: textarea
   id: expected
   attributes:
     label: Expected behavior
-    description: What did you expect to happen?
+    description: Describe what you expected to happen when you followed the steps above.
   validations:
     required: true
 - type: textarea
   id: actual
   attributes:
     label: Actual behavior
-    description: What actually happened?
+    description: Describe what actually happened
   validations:
     required: true
 - type: textarea
   id: version 
   attributes:
     label: Version numbers
-    description: Sharing version numbers for the relevant programs will help us diagnose the issue. 
+    description: |
+    
+    Providing version numbers will help us diagnose the issue more quickly. Run `quire --version` to get the Quire version number and `node --version` to get the Node version number. 
     placeholder: |
-     Operating system (macOS/Windows)
-     Operating system version
-     Quire version (Run `quire --version`)
-     Node version (Run `node --version`)
+    
+    Please include operating system (macOS/Windows), operating system version, Quire version, Node version, and any other version numbers relevant to the issue.
   validations:
     required: true
 - type: dropdown
@@ -54,15 +55,22 @@ body:
     - Chrome
     - Safari
     - Microsoft Edge
+   validations:
+     required: true
 - type: textarea
   id: logs
   attributes:
     label: Relevant Terminal/Shell output
-    description: Please copy and paste any relevant log output. (If it's a preview issue run `quire preview --verbose`.)
+    description: Please copy and paste any relevant log output. If it's a preview issue run `quire preview --verbose`.
     render: shell
-- type: markdown
+  validations:
+    required: false
+- type: textarea
+  id: supporting_info
   attributes:
-    value: |
+    description: |
       ## Supporting Information
 
       If you have additional files that would be useful in describing the issue (Terminal output, screenshots, Quire output files) attach them by dragging and dropping in the comments below.
+   validations:
+     required: false
