@@ -55,16 +55,12 @@ body:
     - Chrome
     - Safari
     - Microsoft Edge
-  validations:
-    required: true
 - type: textarea
   id: logs
   attributes:
     label: Relevant Terminal/Shell output
     description: Please copy and paste any relevant log output. If it's a preview issue run `quire preview --verbose`.
     render: shell
-  validations:
-    required: false
 - type: textarea
   id: supporting_info
   attributes:
