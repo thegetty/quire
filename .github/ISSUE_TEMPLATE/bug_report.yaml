@@ -8,7 +8,9 @@ body:
 - type: markdown
   attributes:
     value: |
-      **Thank you for opening a new issue!** :Warning: Before submitting your bug report, please search [existing issues](https://github.com/thegetty/quire/issues) first to ensure the problem you've encountered has not been previously reported. If you have a general question, please post it to the Get Help section of our [community forum](https://github.com/thegetty/quire/discussions) instead. 
+      **Thank you for opening a new issue!** 
+      
+      :Warning: Before submitting your bug report, please search [existing issues](https://github.com/thegetty/quire/issues) first to ensure the problem you've encountered has not been previously reported. If you have a general question, please post it to the Get Help section of our [community forum](https://github.com/thegetty/quire/discussions) instead. 
 - type: textarea
   id: reproduce
   attributes:
@@ -27,14 +29,14 @@ body:
   id: actual
   attributes:
     label: Actual behavior
-    description: Describe what actually happened
+    description: Describe what actually happened and how it diverged from the expected behavior.
   validations:
     required: true
 - type: textarea
   id: version 
   attributes:
     label: Version numbers
-    description: Providing version numbers will help us diagnose the issue more quickly. Run `quire --version` to get the Quire version number and `node --version` to get the Node version number. 
+    description: Providing version numbers will help us diagnose the issue more quickly. Run quire --version to get the Quire version number and node --version to get the Node version number. 
     placeholder: |
     
     Please include operating system (macOS/Windows), operating system version, Quire version, Node version, and any other version numbers relevant to the issue.
