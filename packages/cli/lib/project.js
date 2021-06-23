@@ -335,7 +335,7 @@ class Project extends EventEmitter {
     );
 
     let princeCmd = isWin32()
-      ? "C:\\Program Files (x86)\\Prince\\engine\\bin\\prince.exe"
+      ? 'C:\\"Program Files (x86)"\\Prince\\engine\\bin\\prince.exe'
       : "prince";
     let spinner = ora("Building PDF").start();
     let start = performance.now();
