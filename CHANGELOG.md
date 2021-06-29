@@ -22,6 +22,7 @@ Project versions conform to [Semantic Versioning](https://semver.org/)
 
 ### Fixed
 - Include label in image modal caption/credit block
+- Wrap Windows Prince command in quotes
 
 <a name="0.19.1"></a>
 
