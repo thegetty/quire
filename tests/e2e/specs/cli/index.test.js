@@ -34,7 +34,7 @@ describe("CLI", () => {
   test(
     "should successfully install node modules in a starter project theme",
     async (done) => {
-      await quire.install();
+      const response = await quire.install();
       assert.equal(
         fs.existsSync(path.join(CONFIG.THEME_PATH, "node_modules")),
         true
@@ -61,7 +61,7 @@ describe("CLI", () => {
     "should successfully build a epub",
     async (done) => {
       const testFilePath = path.join("static", "downloads", "test");
-      await quire.epub(testFilePath);
+      const response = await quire.epub(testFilePath);
       assert.equal(fs.existsSync(`${testFilePath}.epub`), true);
       done();
     },
@@ -76,7 +76,7 @@ describe("CLI", () => {
       "should successfully build a mobi",
       async (done) => {
         const testFilePath = path.join("static", "downloads", "test");
-        await quire.mobi(testFilePath);
+        const response = await quire.mobi(testFilePath);
         assert.equal(fs.existsSync(`${testFilePath}.mobi`), true);
         done();
       },
@@ -88,7 +88,7 @@ describe("CLI", () => {
     "should successfully build a pdf",
     async (done) => {
       const testFilePath = path.join("static", "downloads", "test");
-      await quire.pdf(testFilePath);
+      const response = await quire.pdf(testFilePath);
       assert.equal(fs.existsSync(`${testFilePath}.pdf`), true);
       done();
     },
@@ -99,7 +99,7 @@ describe("CLI", () => {
     "quire process --iiif should create 'img/iiif/processed' image directory",
     async (done) => {
       const processedImgPath = path.join("static", "img", "iiif", "processed");
-      await quire.process("iiif");
+      const response = await quire.process("iiif");
       assert.equal(fs.existsSync(processedImgPath), true);
       done();
     },
