@@ -14,95 +14,80 @@ describe("CLI", () => {
     process.chdir(projectPath);
   });
 
-  test(
-    "no arguments on quire command should out put help",
-    (done) => {
+  test("no arguments on quire command should out put help", () => {
+    return new Promise((resolve, reject) => {
       exec("quire", function (error, stdout, stderr) {
-        if (error) done(error);
+        if (error) reject();
         const capturedStdout1 = stdout.substring(0, 32);
         const helpOutput = "Usage: quire [options] [command]";
         assert.equal(capturedStdout1, helpOutput);
-        done();
+        resolve();
       });
-    },
-    timeout
-  );
+    });
+  }, timeout);
 
   /**
    * @todo Mock install
    */
-  test(
-    "should successfully install node modules in a starter project theme",
-    async (done) => {
-      const response = await quire.install();
-      assert.equal(
-        fs.existsSync(path.join(CONFIG.THEME_PATH, "node_modules")),
-        true
-      );
-      done();
-    },
-    timeout
-  );
+  test("should successfully install node modules in a starter project theme", () => {
+    return new Promise((resolve) => {
+      quire.install().then(() => {
+        assert.equal(
+          fs.existsSync(path.join(CONFIG.THEME_PATH, "node_modules")),
+          true
+        );
+        resolve();
+      });
+    });
+  }, timeout);
 
-  test(
-    "should successfully build a static site",
-    async (done) => {
-      await quire.site();
-      assert.equal(
-        fs.existsSync(path.join("site")),
-        true
-      );
-      done();
-    },
-    timeout
-  );
+  test("should successfully build a static site", () => {
+    return new Promise((resolve) => {
+      quire.site().then(() => {
+        assert.equal(fs.existsSync(path.join("site")), true);
+        resolve();
+      });
+    });
+  }, timeout);
 
-  test(
-    "should successfully build a epub",
-    async (done) => {
-      const testFilePath = path.join("static", "downloads", "test");
-      const response = await quire.epub(testFilePath);
-      assert.equal(fs.existsSync(`${testFilePath}.epub`), true);
-      done();
-    },
-    timeout
-  );
+  test("should successfully build a epub", () => {
+    const testFilePath = path.join("static", "downloads", "test");
+    return new Promise((resolve) => {
+      quire.epub(testFilePath).then(() => {
+        assert.equal(fs.existsSync(`${testFilePath}.epub`), true);
+        resolve();
+      });
+    });
+  }, timeout);
 
   /**
    * Skip Mobi test on Linux since it requires Kindle Previewer, which is not supported on Linux
    */
   if (process.platform !== "linux") {
-    test(
-      "should successfully build a mobi",
-      async (done) => {
-        const testFilePath = path.join("static", "downloads", "test");
-        const response = await quire.mobi(testFilePath);
-        assert.equal(fs.existsSync(`${testFilePath}.mobi`), true);
-        done();
-      },
-      timeout
-    );
+    test("should successfully build a mobi", () => {
+      const testFilePath = path.join("static", "downloads", "test");
+      return new Promise((resolve) => {
+        quire.mobi(testFilePath).then(() => {
+          assert.equal(fs.existsSync(`${testFilePath}.mobi`), true);
+          resolve();
+        });
+      });
+    }, timeout);
   }
 
-  test(
-    "should successfully build a pdf",
-    async (done) => {
-      const testFilePath = path.join("static", "downloads", "test");
-      const response = await quire.pdf(testFilePath);
-      assert.equal(fs.existsSync(`${testFilePath}.pdf`), true);
-      done();
-    },
-    timeout
-  );
+  test("should successfully build a pdf", () => {
+    const testFilePath = path.join("static", "downloads", "test");
+    return new Promise((resolve) => {
+      quire.pdf(testFilePath).then(() => {
+        assert.equal(fs.existsSync(`${testFilePath}.pdf`), true);
+        resolve();
+      });
+    });
+  }, timeout);
 
-  test(
-    "quire process --iiif should create 'img/iiif/processed' image directory",
-    async (done) => {
-      const processedImgPath = path.join("static", "img", "iiif", "processed");
-      const response = await quire.process("iiif");
-      assert.equal(fs.existsSync(processedImgPath), true);
-      done();
-    },
-    timeout
-  );
+  test("quire process --iiif should create 'img/iiif/processed' image directory", () => {
+    const processedImgPath = path.join("static", "img", "iiif", "processed");
+    quire.process("iiif");
+    assert.equal(fs.existsSync(processedImgPath), true);
+  });
 });
