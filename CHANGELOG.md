@@ -13,9 +13,9 @@ Project versions conform to [Semantic Versioning](https://semver.org/)
 * `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
-<a name="unreleased"></a>
+<a name="0.19.2"></a>
 
-## [unreleased]
+## [0.19.2]
 
 ### Changed
 - Process IIIF images sequentially in `process --iiif` command.
