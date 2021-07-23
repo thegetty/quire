@@ -4,11 +4,11 @@ Thank you for your proposed bug fix. If this is a new bug, please be sure to pos
 
 Put an `x` next to the boxes that apply.
 
--[ ] I have read the [CONTRIBUTING.md](https://github.com/thegetty/quire/blob/main/CONTRIBUTING.md) file
+- [ ] I have read the [CONTRIBUTING.md](https://github.com/thegetty/quire/blob/main/CONTRIBUTING.md) file
 
--[ ] I have made my changes in a new branch and not directly in the master branch
+- [ ] I have made my changes in a new branch and not directly in the master branch
 
--[ ] I have added tests that prove my fix is effective
+- [ ] I have added tests that prove my fix is effective
 
 ## What is the current behavior/bug?
 
