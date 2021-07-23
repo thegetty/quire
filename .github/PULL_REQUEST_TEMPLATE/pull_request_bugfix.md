@@ -1,6 +1,6 @@
-## Checklist 
+Thank you for your proposed bug fix! If this is a new bug, please be sure to post it on our [issue tracker](https://github.com/thegetty/quire/issues/new?assignees=erin-cecele%2Cgeealbers&labels=bug&template=bug_report.yaml_) first. If you have questions or need assistance, please post on our [community forum](https://github.com/thegetty/quire/discussions). 
 
-Thank you for your proposed bug fix. If this is a new bug, please be sure to post it on our [issue tracker](https://github.com/thegetty/quire/issues/new?assignees=erin-cecele%2Cgeealbers&labels=bug&template=bug_report.yaml_) first. If you have questions or need assistance, please post on our [community forum](https://github.com/thegetty/quire/discussions). 
+## Checklist 
 
 Put an `x` next to the boxes that apply.
 
