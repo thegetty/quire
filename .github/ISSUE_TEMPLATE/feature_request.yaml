@@ -1,0 +1,65 @@
+name:💡 Feature Request
+description: Submit a new feature idea to help us improve Quire
+labels: [feature]
+assignees:
+- erin-cecele
+- geealbers
+body:
+- type: markdown
+  attributes:
+    value: |
+      **Thank you for opening a new issue!**
+    
+      ⚠ Before submitting your new feature idea, please review our [CONTRIBUTING.md](https://github.com/thegetty/quire/blob/docs/bug-fix-template_ed/CONTRIBUTING.md) file to ensure your contribution adheres to Quire's core principles. 
+- type: textarea
+  id: reproduce
+  attributes:
+    label: Steps to reproduce
+    description: Describe what steps you took that led to the issue. Please be as specific as possible.
+  validations:
+    required: true
+- type: textarea
+  id: actual
+  attributes:
+    label: Actual behavior
+    description: Describe what happened and how it diverged from what was anticipated.
+  validations:
+    required: true
+- type: textarea
+  id: expected
+  attributes:
+    label: Expected behavior
+    description: Describe what you expected to happen had everything operated accordingly. 
+  validations:
+    required: true
+- type: textarea
+  id: version 
+  attributes:
+    label: Version numbers
+    description: Providing version numbers will help us diagnose the issue more quickly. Run `quire --version` to get the Quire version number and `node --version` to get the Node version number. 
+    placeholder: Please include operating system (macOS/Windows), operating system version, Quire version, Node version, and any other version numbers relevant to the issue.
+  validations:
+    required: true
+- type: dropdown
+  id: browsers
+  attributes:
+    label: What browsers are you seeing the problem on?
+    multiple: true
+    options:
+    - Firefox
+    - Chrome
+    - Safari
+    - Microsoft Edge
+- type: textarea
+  id: logs
+  attributes:
+    label: Relevant Terminal/Shell output
+    description: Please copy and paste all relevant messaging from your Terminal/Shell. If you encountered a preview issue run `quire preview --verbose` and inclue the output below.
+    render: shell
+- type: textarea
+  id: supporting_info
+  attributes:
+    label: Supporting Information
+    description: If you have additional files that would be useful in describing the issue (Terminal output, screenshots, Quire output files) attach them by dragging and dropping in the comments below.
+  validations:
+    required: false
