@@ -18,4 +18,15 @@ Please put an `x` next to the boxes that apply
 ## Please describe any necessary documentation updates.
 
 
-## Additional comments
+## Does this change address an open issue? If so, reference the number. 
+
+
+## Is this PR a work in progress? If yes, please explain where you are in the process. 
+
+
+## Include screenshots of before/after if your changes include differences in HTML/CSS.
+
+
+## Additional Comments
+
+
