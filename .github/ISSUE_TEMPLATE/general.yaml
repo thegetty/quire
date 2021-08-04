@@ -6,13 +6,11 @@ assignees:
 - geealbers
 body:
 - type: markdown
+  value: “**Thank you for opening a new issue!**“
+- type: markdown
   attributes:
-  value: |   
- 
-    **Thank you for opening a new issue!**
-    
+    value: |  
     ⚠️ Before submitting your proposal, please review our [CONTRIBUTING.md](https://github.com/thegetty/quire/blob/docs/bug-fix-template_ed/CONTRIBUTING.md) file to ensure your contribution adheres to Quire‘s core principles and desired functionality. 
-      
 - type: textarea
   id: reproduce
   attributes:
