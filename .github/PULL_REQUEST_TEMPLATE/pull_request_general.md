@@ -6,7 +6,7 @@ Please put an `x` next to the boxes that apply
 
 - [ ] I have read the [CONTRIBUTING.md](https://github.com/thegetty/quire/blob/main/CONTRIBUTING.md) file.
 
-- [ ] I have made my changes in a new branch and not directly in the master branch
+- [ ] I have made my changes in a new branch and not directly in the main branch
 
 - [ ] I have added tests that prove my fix is effective
 
