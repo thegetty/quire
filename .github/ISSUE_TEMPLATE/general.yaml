@@ -23,7 +23,7 @@ body:
   id: actual
   attributes:
     label: Potential Impact 
-    description: Please explain any potential impact of these changes on Quire‘s core code.
+    description: Please explain any potential impact these changes may hvae on Quire‘s core code.
   validations:
     required: false
 - type: textarea
