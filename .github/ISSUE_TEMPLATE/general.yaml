@@ -11,7 +11,7 @@ body:
     
       **Thank you for opening a new issue!**
     
-      Before submitting your proposal, please review our [CONTRIBUTING.md](https://github.com/thegetty/quire/blob/docs/bug-fix-template_ed/CONTRIBUTING.md) file to ensure your contribution adheres to Quire‘s core principles and desired functionality.“
+      Before submitting your proposal, please review our [CONTRIBUTING.md](https://github.com/thegetty/quire/blob/docs/bug-fix-template_ed/CONTRIBUTING.md) file to ensure your contribution adheres to Quire‘s core principles and desired functionality.
 - type: textarea
   id: reproduce
   attributes:
@@ -25,7 +25,7 @@ body:
     label: Potential Impact 
     description: Please explain any potential impact of these changes on Quire‘s core code.
   validations:
-    required: true
+    required: false
 - type: textarea
   id: supporting_info
   attributes:
