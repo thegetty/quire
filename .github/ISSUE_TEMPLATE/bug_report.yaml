@@ -6,17 +6,26 @@ assignees:
 - geealbers
 body:
 - type: markdown
-  attributes: 
+  attributes:
     value: |
-  
-      **Thank you for opening a new issue!**     
+   
+      **Thank you for opening a new issue!**
+    
+      ⚠ Before submitting your proposal, please review our [Contributing Guidelines](##).
 - type: checkboxes
   attributes:
     label: Is there an existing issue for this?
-    description: Please search to see if an issue already exists for the bug you encountered.
+    description:
     options:
     - label: I have searched the existing issues
-      required: true
+      required: true    
+- type: input
+  id: number
+  attributes:
+    label: Issue number
+    description: If there is an existing issue, what is the number, please include it below.
+  validations:
+    required: false
 - type: textarea
   id: reproduce
   attributes:
