@@ -7,7 +7,7 @@ assignees:
 body:
 - type: markdown
   attributes:
-    value: “## Thank you for opening a new issue!**“     
+    value: “## Thank you for opening a new issue!“     
 - type: checkboxes
   attributes:
     label: Is there an existing issue for this?
