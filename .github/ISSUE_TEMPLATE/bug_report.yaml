@@ -6,7 +6,10 @@ assignees:
 - geealbers
 body:
 - type: markdown
-  value: **Thank you for opening a new issue!**     
+  attributes: 
+    value: |
+  
+      **Thank you for opening a new issue!**     
 - type: checkboxes
   attributes:
     label: Is there an existing issue for this?
