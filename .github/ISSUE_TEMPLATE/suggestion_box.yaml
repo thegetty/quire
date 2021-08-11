@@ -19,16 +19,16 @@ body:
       As a general rule of thumb, any feature that would only be of interest to a small subgroup of users should be implemented as a third-party add-on to Quire, or perhaps initially just to your project alone.
 - type: checkboxes
   attributes:
-    label: Before proceeding, check to make sure there isn’t an existing issue for this bug.
+    label: Before proceeding, check to make sure there isn’t an existing issue for this idea or a similar one.
     description:
     options:
-    - label: I have searched the existing issues and determined this is a new bug.
+    - label: I have searched the existing issues and determined this is a new proposal.
       required: true     
 - type: textarea
   id: reproduce
   attributes:
     label: Proposed change
-    description: Describe your contribution and how it improves Quire.
+    description: Describe your suggested change or new feature and how it improves Quire.
   validations:
     required: true
 - type: textarea
