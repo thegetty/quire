@@ -24,13 +24,6 @@ body:
     options:
     - label: I have searched the existing issues and determined this is a new bug.
       required: true     
-- type: input
-  id: number
-  attributes:
-    label: Issue number
-    description: If there is an existing issue, what is the number, please include it below.
-  validations:
-    required: false
 - type: textarea
   id: reproduce
   attributes:
