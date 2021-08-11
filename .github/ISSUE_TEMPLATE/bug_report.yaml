@@ -9,22 +9,13 @@ body:
   attributes:
     value: |
       # Thank you for opening a new issue! 
-    
-      ⚠ Before submitting your proposal, please review our [Contributing Guidelines](##).
 - type: checkboxes
   attributes:
-    label: Is there an existing issue for this?
+    label: Before proceeding, check to make sure there isn’t an existing issue for this bug.
     description:
     options:
-    - label: I have searched the existing issues
+    - label: I have searched the existing issues and determined this is a new bug.
       required: true    
-- type: input
-  id: number
-  attributes:
-    label: Issue number
-    description: If there is an existing issue, what is the number, please include it below.
-  validations:
-    required: false
 - type: textarea
   id: reproduce
   attributes:
