@@ -1,0 +1,48 @@
+name: ⚡ General Contribution
+description: Submit a contribution proposal for our team to review.
+labels: [feature]
+assignees:
+- erin-cecele
+- geealbers
+body:
+- type: markdown
+  attributes:
+    value: |
+      # Thank you for opening a new issue!
+    
+      ⚠ Before submitting your proposal, please review our [CONTRIBUTING.md](https://github.com/thegetty/quire/blob/docs/bug-fix-template_ed/CONTRIBUTING.md) file to ensure your contribution adheres to Quire‘s core principles and desired functionality.
+- type: checkboxes
+  attributes:
+    label: Is there an existing issue for this?
+    description:
+    options:
+    - label: I have searched the existing issues
+      required: true    
+- type: input
+  id: number
+  attributes:
+    label: Issue number
+    description: If there is an existing issue, what is the number, please include it below.
+  validations:
+    required: false
+- type: textarea
+  id: reproduce
+  attributes:
+    label: Proposed change
+    description: Describe your contribution and how it improves Quire.
+  validations:
+    required: true
+- type: textarea
+  id: actual
+  attributes:
+    label: Potential Impact 
+    description: Please explain any potential impact these changes may hvae on Quire‘s core code.
+  validations:
+    required: false
+- type: textarea
+  id: supporting_info
+  attributes:
+    label: Supporting Information
+    description: If you have additional files that would be useful attach them by dragging and dropping in the comments below.
+  validations:
+    required: false
