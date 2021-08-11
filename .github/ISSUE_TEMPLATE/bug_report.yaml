@@ -8,7 +8,7 @@ body:
 - type: markdown
   attributes:
     value: |
-      ## Thank you for opening a new issue! 
+      # Thank you for opening a new issue! 
     
       ⚠ Before submitting your proposal, please review our [Contributing Guidelines](##).
 - type: checkboxes
