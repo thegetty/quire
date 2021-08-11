@@ -1,5 +1,5 @@
-name: ⚡ General Contribution
-description: Submit a contribution proposal for our team to review.
+name: 🗳️ Suggestion Box
+description: Submit a proposal for a change or new feature.
 labels: [feature]
 assignees:
 - erin-cecele
@@ -10,14 +10,20 @@ body:
     value: |
       # Thank you for opening a new issue!
     
-      ⚠ Before submitting your proposal, please review our [CONTRIBUTING.md](https://github.com/thegetty/quire/blob/docs/bug-fix-template_ed/CONTRIBUTING.md) file to ensure your contribution adheres to Quire‘s core principles and desired functionality.
+      We welcome suggestions for changes to Quire or new features. Before submitting your idea, please consider the following questions.
+       
+      - Is this change/feature useful to a majority of Quire users?
+      - Does this change/feature support Quire’s core principles in creating publications that are discoverable, enduring, beautiful, and accessible?
+      - Does this change/feature require significant added dependencies or have any potential long-term maintenance requirements?
+
+      As a general rule of thumb, any feature that would only be of interest to a small subgroup of users should be implemented as a third-party add-on to Quire, or perhaps initially just to your project alone.
 - type: checkboxes
   attributes:
-    label: Is there an existing issue for this?
+    label: Before proceeding, check to make sure there isn’t an existing issue for this bug.
     description:
     options:
-    - label: I have searched the existing issues
-      required: true    
+    - label: I have searched the existing issues and determined this is a new bug.
+      required: true     
 - type: input
   id: number
   attributes:
