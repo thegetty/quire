@@ -5,9 +5,9 @@ contact_links:
   about: If you have questions, please post them in our GitHub Discussions forum.
 - name: 📝 Contributing Guidelines
   url: https://github.com/thegetty/quire/blob/main/CONTRIBUTING.md 
-  about: Please review our CONTRIBUTING.md file for guidelines. 
-- name: ✉️ Contact Us
-  url: mailto:quire@getty.edu
-  about: Need assistance? Send us an email. 
+  about: Please take time to review our CONTRIBUTING.md file. 
+- name: 🖥️ Website 
+  url: https://quire.getty.edu
+  about: Visit our website to learn more about Quire.
 
 
