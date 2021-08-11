@@ -1,0 +1,47 @@
+name: 🗳️ Suggestion Box
+description: Submit a proposal for a change or new feature.
+labels: [feature]
+assignees:
+- erin-cecele
+- geealbers
+body:
+- type: markdown
+  attributes:
+    value: |
+      # Thank you for opening a new issue!
+    
+      We welcome suggestions for changes to Quire or new features. Before submitting your idea, please consider the following questions.
+       
+      - Is this change/feature useful to a majority of Quire users?
+      - Does this change/feature support Quire’s core principles in creating publications that are discoverable, enduring, beautiful, and accessible?
+      - Does this change/feature require significant added dependencies or have any potential long-term maintenance requirements?
+
+      As a general rule of thumb, any feature that would only be of interest to a small subgroup of users should be implemented as a third-party add-on to Quire, or perhaps initially just to your project alone.
+- type: checkboxes
+  attributes:
+    label: Before proceeding, check to make sure there isn’t an existing issue for this bug.
+    description:
+    options:
+    - label: I have searched the existing issues and determined this is a new bug.
+      required: true     
+- type: textarea
+  id: reproduce
+  attributes:
+    label: Proposed change
+    description: Describe your contribution and how it improves Quire.
+  validations:
+    required: true
+- type: textarea
+  id: actual
+  attributes:
+    label: Potential Impact 
+    description: Please explain any potential impact these changes may have on Quire‘s core code.
+  validations:
+    required: true
+- type: textarea
+  id: supporting_info
+  attributes:
+    label: Supporting Information
+    description: If you have additional files that would be useful, attach them by dragging and dropping in the comments below.
+  validations:
+    required: false
