@@ -1,6 +1,6 @@
-Thank you for your proposed bug fix and for contributing to Quire!
+Thank you for your proposed bug fix and for contributing to Quire! Please complete the form below to submit your pull request for review. 
 
-## Checklist 
+### Checklist 
 
 Put an `x` next to the boxes that apply.
 
@@ -13,19 +13,19 @@ Put an `x` next to the boxes that apply.
 - [ ] I am requesting feedback on a draft pull request
 
 
-## Is this pull request related to an open issue? If so, what is the issue number?
+### Is this pull request related to an open issue? If so, what is the issue number?
 
 
 
-## If this is a new issue, please describe the bug and how you fixed it?
+### If this is a new issue, please describe the bug and how you fixed it?
 
 
 
-## Include screenshots of before/after if applicable.
+### Include screenshots of before/after if applicable.
 
 
 
-## Additional Comments
+### Additional Comments
 
 
 
