@@ -35,13 +35,13 @@ body:
   id: actual
   attributes:
     label: Potential Impact 
-    description: Please explain any potential impact these changes may hvae on Quire‘s core code.
+    description: Please explain any potential impact these changes may have on Quire‘s core code.
   validations:
-    required: false
+    required: true
 - type: textarea
   id: supporting_info
   attributes:
     label: Supporting Information
-    description: If you have additional files that would be useful attach them by dragging and dropping in the comments below.
+    description: If you have additional files that would be useful, attach them by dragging and dropping in the comments below.
   validations:
     required: false
