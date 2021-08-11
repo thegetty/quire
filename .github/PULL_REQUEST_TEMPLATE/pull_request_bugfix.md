@@ -8,8 +8,6 @@ Put an `x` next to the boxes that apply.
 
 - [ ] I have made my changes in a new branch and not directly in the main branch
 
-- [ ] I have added tests that prove my fix is effective
-
 - [ ] I am requesting feedback on a draft pull request
 
 
