@@ -1,6 +1,6 @@
-Thank you for contributing to Quire! 
+Thank you for contributing to Quire! Please complete the form below to submit your pull request for review.
 
-## Checklist 
+### Checklist 
 
 Please put an `x` next to the boxes that apply
 
@@ -13,22 +13,22 @@ Please put an `x` next to the boxes that apply
 - [ ] I am requesting feedback on a draft pull request
 
 
-## Is this pull request related to an open issue? If so, what is the issue number?
+### Is this pull request related to an open issue? If so, what is the issue number?
 
 
 
-## Please describe the goal of this pull request and how it may impact Quire's functionality?
+### Please describe the goal of this pull request and how it may impact Quire's functionality?
 
 
 
-## Does this pull request necessitate changes to Quire's documentation?
+### Does this pull request necessitate changes to Quire's documentation?
 
 
 
-## Include screenshots of before/after if applicable.
+### Include screenshots of before/after if applicable.
 
 
 
-## Additional Comments
+### Additional Comments
 
 
