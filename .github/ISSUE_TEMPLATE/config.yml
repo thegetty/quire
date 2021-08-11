@@ -1,1 +1,13 @@
+blank_issues_enabled: false  # default: true
+contact_links:
+- name: 💬 Community Forum 
+  url: https://github.com/thegetty/quire/discussions
+  about: If you have questions, please post them in our GitHub Discussions forum.
+- name: 📝 Contributing Guidelines
+  url: https://github.com/thegetty/quire/blob/main/CONTRIBUTING.md 
+  about: Please review our CONTRIBUTING.md file for guidelines. 
+- name: ✉️ Contact Us
+  url: mailto:quire@getty.edu
+  about: Need assistance? Send us an email. 
+
 
