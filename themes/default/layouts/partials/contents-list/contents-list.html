@@ -142,7 +142,7 @@ In order to properly close the /ul/li elements and nest sub-sections, the logic 
 
         {{/* Add heading for parent directory
         ------------------------------------------------------------------- */}}
-        {{ partial "contents-list/add-directory-heading" $parentDirectory }}
+        {{ partial "contents-list/add-directory-heading" (dict "Directory" $parentDirectory "Level" (sub $parentLength 1) ) }}
 
       {{- end -}}
 
@@ -152,20 +152,20 @@ In order to properly close the /ul/li elements and nest sub-sections, the logic 
 
       {{/* Add heading for file directory
       ------------------------------------------------------------------- */}}
-      {{ partial "contents-list/add-directory-heading" $fileDirectory }}
+      {{ partial "contents-list/add-directory-heading" (dict "Directory" $fileDirectory "Level" (sub $indentLevel 1) ) }}
 
-      <li class="page-item">{{ partial "contents-list/contents-list--add-list-item-type" (dict "Page" . "Class" $class) }}</li>
-      {{ partial "contents-list/contents-list--add-closing-tags" (dict "Page" . "AllPages" $pages "PageIndex" $index "openSections" $openSections) }}
+      <li class="page-item level-{{ $indentLevel }}">{{ partial "contents-list/add-list-item-type" (dict "Page" . "Class" $class) }}</li>
+      {{ partial "contents-list/add-closing-tags" (dict "Page" . "AllPages" $pages "PageIndex" $index "openSections" $openSections) }}
 
     {{- else }}
-      <li class="section-item">{{ partial "contents-list/contents-list--add-list-item-type" (dict "Page" . "Class" $class) }}
+      <li class="section-item level-{{ $indentLevel }}">{{ partial "contents-list/add-list-item-type" (dict "Page" . "Class" $class) }}
       <ul>
     {{- end -}}
 
   {{- else }}
 
-    <li class="page-item">{{ partial "contents-list/contents-list--add-list-item-type" (dict "Page" . "Class" $class) }}</li>
-    {{ partial "contents-list/contents-list--add-closing-tags" (dict "Page" . "AllPages" $pages "PageIndex" $index "openSections" $openSections) }}
+    <li class="page-item level-{{ $indentLevel }}">{{ partial "contents-list/add-list-item-type" (dict "Page" . "Class" $class) }}</li>
+    {{ partial "contents-list/add-closing-tags" (dict "Page" . "AllPages" $pages "PageIndex" $index "openSections" $openSections) }}
 
   {{- end -}}
 
