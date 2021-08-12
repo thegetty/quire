@@ -115,7 +115,7 @@ In order to properly close the /ul/li elements and nest sub-sections, the logic 
 
   {{- if and (ne $lastFileDirectory $fileDirectory) (eq $sameAsOpenSection false) -}}
 
-    {{/* This checks all of the parent directories of the current page to see if they've already been rendered in the contents list, if they haven’t a heading is added for each. This is needed in the case where directories don’t have their own child pages and so would have been be skipped over and not rendered without this specific check. Based on the number of levels deep the page is, parent directories are checked one at a time, from the top most, to the most direct:     xxxx/..../..../page
+    {{/* This checks all of the parent directories of the current page to see if they've already been rendered in the contents list, if they haven’t a heading is added for each. This is needed in the case where directories don’t have their own child pages and so would have been be skipped over and not rendered without this specific check. Based on the number of levels deep the page is, parent directories are checked one at a time, from the top-most, to the most direct:     xxxx/..../..../page
                                       xxxx/xxxx/..../page
                                       xxxx/xxxx/xxxx/page
     ----------------------------------------------------------------------- */}}
@@ -140,23 +140,19 @@ In order to properly close the /ul/li elements and nest sub-sections, the logic 
         </ul>
         {{- end -}}
 
-        {{/* Create section heading
+        {{/* Add heading for parent directory
         ------------------------------------------------------------------- */}}
-        {{ $parentDirectoryHeading := findRE "(.[^/]*)/$" $parentDirectory }}
-        {{ $parentDirectoryHeading = delimit $parentDirectoryHeading "" }}
-        {{ $parentDirectoryHeading = replaceRE "/" "" $parentDirectoryHeading }}
-        <li class="section-item no-landing"><div class="list-header">{{ $parentDirectoryHeading | humanize | title }}</div>
-        <ul>
+        {{ partial "contents-list/add-directory-heading" $parentDirectory }}
+
       {{- end -}}
 
     {{- end -}}
 
     {{- if ne .Params.slug "." }}
-      {{ $noLanderHeading := findRE "(.[^/]*)/$" $fileDirectory }}
-      {{ $noLanderHeading = delimit $noLanderHeading "" }}
-      {{ $noLanderHeading = replaceRE "/" "" $noLanderHeading }}
-      <li class="section-item no-landing"><div class="list-header">{{ $noLanderHeading | humanize | title }}</div>
-      <ul>
+
+      {{/* Add heading for file directory
+      ------------------------------------------------------------------- */}}
+      {{ partial "contents-list/add-directory-heading" $fileDirectory }}
 
       <li class="page-item">{{ partial "contents-list/contents-list--add-list-item-type" (dict "Page" . "Class" $class) }}</li>
       {{ partial "contents-list/contents-list--add-closing-tags" (dict "Page" . "AllPages" $pages "PageIndex" $index "openSections" $openSections) }}
