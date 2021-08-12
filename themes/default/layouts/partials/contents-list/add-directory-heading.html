@@ -1,5 +1,0 @@
-{{ $dirHeading := findRE "(.[^/]*)/$" .Directory }}
-{{ $dirHeading = delimit $dirHeading "" }}
-{{ $dirHeading = replaceRE "/" "" $dirHeading }}
-<li class="section-item no-landing level-{{ .Level }}"><div class="list-header">{{ $dirHeading | humanize | title }}</div>
-<ul>

@@ -1,9 +1,9 @@
-{{ if in .Class "grid" }}
+{{- if in .Class "grid" -}}
   {{ partial "contents-list/list-item-types/grid.html" .Page }}
-{{ else if in .Class "abstract" }}
+{{- else if in .Class "abstract" -}}
   {{ partial "contents-list/list-item-types/abstract.html" .Page }}
-{{ else if in .Class "brief" }}
+{{- else if in .Class "brief" -}}
   {{ partial "contents-list/list-item-types/brief.html" .Page }}
-{{ else }}
+{{- else -}}
   {{ partial "contents-list/list-item-types/list.html" .Page }}
-{{ end }}
+{{- end -}}

@@ -1,12 +1,12 @@
 {{/*  If the .File.Dir of the current page matches the START of the .File.Dir of the next page, we’re still in the same section, so do nothing. Otherwise proceed to next section to add the appropriate number of closing /ul/li tags to close section(s)
 --------------------------------------------------------------------------- */}}
-{{ $currentPageDirectory := (index .AllPages .PageIndex).File.Dir }}
-{{ $nextPageDirectory := (index .AllPages (add .PageIndex 1)).File.Dir }}
-{{ $findPattern := printf "%s%s" "^" $currentPageDirectory }}
+{{- $currentPageDirectory := (index .AllPages .PageIndex).File.Dir -}}
+{{- $nextPageDirectory := (index .AllPages (add .PageIndex 1)).File.Dir -}}
+{{- $findPattern := printf "%s%s" "^" $currentPageDirectory -}}
 
-{{ if (findRE $findPattern $nextPageDirectory) }}
+{{- if (findRE $findPattern $nextPageDirectory) -}}
 
-{{ else }}
+{{- else -}}
 
 {{- if ne $currentPageDirectory "/" -}}
 
@@ -14,9 +14,9 @@
   ------------------------------------------------------------------------- */}}
   {{- $currentPageID := .Page.File.UniqueID -}}
   {{- $pagesInSection := where .AllPages "File.Dir" "eq" $currentPageDirectory -}}
-  {{ $openSections := .openSections }}
+  {{- $openSections := .openSections -}}
 
-  {{- range last 1 $pagesInSection }}
+  {{- range last 1 $pagesInSection -}}
 
     {{- if eq .Page.File.UniqueID $currentPageID -}}
 

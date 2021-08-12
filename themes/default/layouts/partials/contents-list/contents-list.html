@@ -89,89 +89,87 @@
 In order to properly close the /ul/li elements and nest sub-sections, the logic in this partial compares the File.Dirs, tracks sections that have been rendered but not yet closed, and looks at the difference in section levels from one page to the next.
 --------------------------------------------------------------------------- */}}
 
-{{ $lastIndentLevel := 0 }}
-{{ $lastFileDirectory := "/" }}
-{{ $openSections := dict }}
-{{ $renderedDirectories := "/" }}
+{{- $lastSection := "/" -}}
+{{- $openSections := dict -}}
+{{- $renderedSections := "/" -}}
 
 <h2>TESTING</h2>
 
 <ul>
 {{- range $index, $page := $pages -}}
 
-  {{- $fileDirectory := .File.Dir -}}
-  {{- $indentLevel := len (findRE "(.+?)/" $fileDirectory) -}}
+  {{- $section := .File.Dir -}}
+  {{- $sectionLevel := len (findRE "(.+?)/" $section) -}}
   {{- $sameAsOpenSection := false -}}
 
   {{/* The $openSections map tracks the File.Dir of most recently rendered page from any give section level. If the new page is part of that same section, the section is still open.
   ------------------------------------------------------------------------- */}}
-  {{ $sectionLevelKey := printf "%s%s" "s" (string $indentLevel) }}
+  {{- $sectionLevelKey := printf "%s%s" "s" (string $sectionLevel) -}}
   {{- range $key, $value := $openSections -}}
-    {{- if and (eq $key $sectionLevelKey) (eq $fileDirectory $value) -}}
+    {{- if and (eq $key $sectionLevelKey) (eq $section $value) -}}
       {{ $sameAsOpenSection = true }}
     {{- end -}}
   {{- end -}}
-  {{- $openSections = merge $openSections (dict $sectionLevelKey $fileDirectory) -}}
+  {{- $openSections = merge $openSections (dict $sectionLevelKey $section) -}}
 
-  {{- if and (ne $lastFileDirectory $fileDirectory) (eq $sameAsOpenSection false) -}}
+  {{- if and (ne $lastSection $section) (eq $sameAsOpenSection false) -}}
 
-    {{/* This checks all of the parent directories of the current page to see if they've already been rendered in the contents list, if they haven’t a heading is added for each. This is needed in the case where directories don’t have their own child pages and so would have been be skipped over and not rendered without this specific check. Based on the number of levels deep the page is, parent directories are checked one at a time, from the top-most, to the most direct:     xxxx/..../..../page
+    {{/* This checks all of the parent sections/directories of the current page to see if they've already been rendered in the contents list, if they haven’t a heading is added for each. This is needed in the case where sections don’t have their own child pages and so would have been be skipped over and not rendered without this specific check. Based on the number of levels deep the page is, parent sections are checked one at a time, from the top-most, to the most direct: xxxx/..../..../page
                                       xxxx/xxxx/..../page
                                       xxxx/xxxx/xxxx/page
     ----------------------------------------------------------------------- */}}
-    {{- range $index, $num := (seq (sub $indentLevel 1)) -}}
+    {{- range $index, $num := (seq (sub $sectionLevel 1)) -}}
 
       {{- $pattern := printf "%s%s%s" "^((.[^/]*)/){" (string $num) "}" -}}
-      {{- $parentDirectory := findRE $pattern $fileDirectory -}}
-      {{- $parentDirectory = delimit $parentDirectory "" -}}
+      {{- $parentSection := findRE $pattern $section -}}
+      {{- $parentSection = delimit $parentSection "" -}}
 
-      {{- if not (in $renderedDirectories $parentDirectory) -}}
+      {{- if not (in $renderedSections $parentSection) -}}
 
         {{/* Update $openSections map
         ------------------------------------------------------------------- */}}
-        {{- $parentLength := len (findRE "(.+?)/" $parentDirectory) -}}
-        {{- $parentLevelKey := printf "%s%s" "s" (string $parentLength) -}}
-        {{- $openSections = merge $openSections (dict $parentLevelKey $parentDirectory) -}}
+        {{- $parentSectionLevel := len (findRE "(.+?)/" $parentSection) -}}
+        {{- $parentSectionLevelKey := printf "%s%s" "s" (string $parentSectionLevel) -}}
+        {{- $openSections = merge $openSections (dict $parentSectionLevelKey $parentSection) -}}
 
         {{/* Add closing UL tag if this is not a deeper section than the last
         ------------------------------------------------------------------- */}}
-        {{- $lastFileDirLength := len (findRE "(.+?)/" $lastFileDirectory) -}}
-        {{- if gt (sub $lastFileDirLength $parentLength) 0 -}}
+        {{- $lastSectionLevel := len (findRE "(.+?)/" $lastSection) -}}
+        {{- if gt (sub $lastSectionLevel $parentSectionLevel) 0 -}}
         </ul>
         {{- end -}}
 
-        {{/* Add heading for parent directory
+        {{/* Add heading for parent section
         ------------------------------------------------------------------- */}}
-        {{ partial "contents-list/add-directory-heading" (dict "Directory" $parentDirectory "Level" (sub $parentLength 1) ) }}
+        {{- partial "contents-list/add-section-heading" (dict "Section" $parentSection "Level" (sub $parentSectionLevel 1) ) -}}
 
       {{- end -}}
 
     {{- end -}}
 
-    {{- if ne .Params.slug "." }}
+    {{- if ne .Params.slug "." -}}
 
-      {{/* Add heading for file directory
+      {{/* Add heading for file section
       ------------------------------------------------------------------- */}}
-      {{ partial "contents-list/add-directory-heading" (dict "Directory" $fileDirectory "Level" (sub $indentLevel 1) ) }}
+      {{- partial "contents-list/add-section-heading" (dict "Section" $section "Level" (sub $sectionLevel 1) ) -}}
 
-      <li class="page-item level-{{ $indentLevel }}">{{ partial "contents-list/add-list-item-type" (dict "Page" . "Class" $class) }}</li>
-      {{ partial "contents-list/add-closing-tags" (dict "Page" . "AllPages" $pages "PageIndex" $index "openSections" $openSections) }}
+      <li class="page-item level-{{ $sectionLevel }}">{{ partial "contents-list/add-list-item-type" (dict "Page" . "Class" $class) }}</li>
+      {{ partial "contents-list/add-closing-tags" (dict "Page" . "AllPages" $pages "PageIndex" $index "openSections" $openSections) -}}
 
-    {{- else }}
-      <li class="section-item level-{{ $indentLevel }}">{{ partial "contents-list/add-list-item-type" (dict "Page" . "Class" $class) }}
+    {{- else -}}
+      <li class="section-item level-{{ $sectionLevel }}">{{ partial "contents-list/add-list-item-type" (dict "Page" . "Class" $class) }}
       <ul>
     {{- end -}}
 
-  {{- else }}
+  {{- else -}}
 
-    <li class="page-item level-{{ $indentLevel }}">{{ partial "contents-list/add-list-item-type" (dict "Page" . "Class" $class) }}</li>
-    {{ partial "contents-list/add-closing-tags" (dict "Page" . "AllPages" $pages "PageIndex" $index "openSections" $openSections) }}
+    <li class="page-item level-{{ $sectionLevel }}">{{ partial "contents-list/add-list-item-type" (dict "Page" . "Class" $class) }}</li>
+    {{ partial "contents-list/add-closing-tags" (dict "Page" . "AllPages" $pages "PageIndex" $index "openSections" $openSections) -}}
 
   {{- end -}}
 
-  {{- $lastIndentLevel = $indentLevel -}}
-  {{- $lastFileDirectory = $fileDirectory -}}
-  {{ $renderedDirectories = delimit (uniq (slice $renderedDirectories $fileDirectory)) ", " }}
+  {{- $lastSection = $section -}}
+  {{- $renderedSections = delimit (uniq (slice $renderedSections $section)) ", " -}}
 
 {{- end -}}
 </ul>
