@@ -92,6 +92,7 @@ In order to properly close the /ul/li elements and nest sub-sections, the logic 
 {{ $lastIndentLevel := 0 }}
 {{ $lastFileDirectory := "/" }}
 {{ $openSections := dict }}
+{{ $renderedDirectories := "/" }}
 
 <h2>TESTING</h2>
 
@@ -113,6 +114,42 @@ In order to properly close the /ul/li elements and nest sub-sections, the logic 
   {{- $openSections = merge $openSections (dict $sectionLevelKey $fileDirectory) -}}
 
   {{- if and (ne $lastFileDirectory $fileDirectory) (eq $sameAsOpenSection false) -}}
+
+    {{/* This checks all of the parent directories of the current page to see if they've already been rendered in the contents list, if they haven’t a heading is added for each. This is needed in the case where directories don’t have their own child pages and so would have been be skipped over and not rendered without this specific check. Based on the number of levels deep the page is, parent directories are checked one at a time, from the top most, to the most direct:     xxxx/..../..../page
+                                      xxxx/xxxx/..../page
+                                      xxxx/xxxx/xxxx/page
+    ----------------------------------------------------------------------- */}}
+    {{- range $index, $num := (seq (sub $indentLevel 1)) -}}
+
+      {{- $pattern := printf "%s%s%s" "^((.[^/]*)/){" (string $num) "}" -}}
+      {{- $parentDirectory := findRE $pattern $fileDirectory -}}
+      {{- $parentDirectory = delimit $parentDirectory "" -}}
+
+      {{- if not (in $renderedDirectories $parentDirectory) -}}
+
+        {{/* Update $openSections map
+        ------------------------------------------------------------------- */}}
+        {{- $parentLength := len (findRE "(.+?)/" $parentDirectory) -}}
+        {{- $parentLevelKey := printf "%s%s" "s" (string $parentLength) -}}
+        {{- $openSections = merge $openSections (dict $parentLevelKey $parentDirectory) -}}
+
+        {{/* Add closing UL tag if this is not a deeper section than the last
+        ------------------------------------------------------------------- */}}
+        {{- $lastFileDirLength := len (findRE "(.+?)/" $lastFileDirectory) -}}
+        {{- if gt (sub $lastFileDirLength $parentLength) 0 -}}
+        </ul>
+        {{- end -}}
+
+        {{/* Create section heading
+        ------------------------------------------------------------------- */}}
+        {{ $parentDirectoryHeading := findRE "(.[^/]*)/$" $parentDirectory }}
+        {{ $parentDirectoryHeading = delimit $parentDirectoryHeading "" }}
+        {{ $parentDirectoryHeading = replaceRE "/" "" $parentDirectoryHeading }}
+        <li class="section-item no-landing"><div class="list-header">{{ $parentDirectoryHeading | humanize | title }}</div>
+        <ul>
+      {{- end -}}
+
+    {{- end -}}
 
     {{- if ne .Params.slug "." }}
       {{ $noLanderHeading := findRE "(.[^/]*)/$" $fileDirectory }}
@@ -138,6 +175,7 @@ In order to properly close the /ul/li elements and nest sub-sections, the logic 
 
   {{- $lastIndentLevel = $indentLevel -}}
   {{- $lastFileDirectory = $fileDirectory -}}
+  {{ $renderedDirectories = delimit (uniq (slice $renderedDirectories $fileDirectory)) ", " }}
 
 {{- end -}}
 </ul>
