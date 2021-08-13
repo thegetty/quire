@@ -72,8 +72,9 @@
 {{ $pages := $.contentsPage.Scratch.Get "pages" }}
 {{ $.contentsPage.Scratch.Delete "pages" }}
 
+{{- $pageOne := "" -}}
 {{- range first 1 (where $pages "Params.class" "in" "page-one") -}}
-   {{- $.contentsPage.Scratch.Set "pageOneWeight" .Weight -}}
+  {{- $pageOne = .Weight -}}
 {{- end -}}
 
 {{ $class := .contentsPage.Params.class }}
@@ -153,17 +154,17 @@ In order to properly close the /ul/li elements and nest sub-sections, the logic 
       ------------------------------------------------------------------- */}}
       {{- partial "contents-list/add-section-heading" (dict "Section" $section "Level" (sub $sectionLevel 1) ) -}}
 
-      <li class="page-item level-{{ $sectionLevel }}">{{ partial "contents-list/add-list-item-type" (dict "Page" . "Class" $class) }}</li>
+      <li class="page-item level-{{ $sectionLevel }}{{ if lt .Page.Weight $pageOne }} frontmatter-page{{ end }}">{{ partial "contents-list/add-list-item-type" (dict "Page" . "Class" $class) }}</li>
       {{ partial "contents-list/add-closing-tags" (dict "Page" . "AllPages" $pages "PageIndex" $index "openSections" $openSections) -}}
 
     {{- else -}}
-      <li class="section-item level-{{ $sectionLevel }}">{{ partial "contents-list/add-list-item-type" (dict "Page" . "Class" $class) }}
+      <li class="section-item level-{{ if eq .Slug "." }}{{ sub $sectionLevel 1 }}{{ else }}{{ $sectionLevel }}{{ end }}{{ if lt .Page.Weight $pageOne }} frontmatter-page{{ end }}">{{ partial "contents-list/add-list-item-type" (dict "Page" . "Class" $class) }}
       <ul>
     {{- end -}}
 
   {{- else -}}
 
-    <li class="page-item level-{{ $sectionLevel }}">{{ partial "contents-list/add-list-item-type" (dict "Page" . "Class" $class) }}</li>
+    <li class="page-item level-{{ $sectionLevel }}{{ if lt .Page.Weight $pageOne }} frontmatter-page{{ end }}">{{ partial "contents-list/add-list-item-type" (dict "Page" . "Class" $class) }}</li>
     {{ partial "contents-list/add-closing-tags" (dict "Page" . "AllPages" $pages "PageIndex" $index "openSections" $openSections) -}}
 
   {{- end -}}
