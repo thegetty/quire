@@ -21,15 +21,13 @@
 
     <div class="container {{ if in .Params.class "grid" }}is-fullhd{{ end }}">
       <div class="quire-contents-list {{ if in .Params.class "grid" }} grid{{ else if in .Params.class "abstract" }} abstract{{ else if in .Params.class "brief" }} brief{{ else }} list{{ end }}">
-        <div class="menu-list">
-          {{ if .Section }}
-            {{ $scope := where .Site.Pages "Section" .Section }}
-            {{- partial "contents-list/contents-list.html" (dict "site" .Site "contentsScope" $scope "contentsType" .Site.Params.tocType "pdf" ".Params.pdf" "epub" ".Params.epub" "contentsLocation" ".Params.toc" "contentsPage" . ) -}}
-          {{ else }}
-            {{ $scope := .Site.Pages }}
-            {{- partial "contents-list/contents-list.html" (dict "site" .Site "contentsScope" $scope "contentsType" .Site.Params.tocType "pdf" ".Params.pdf" "epub" ".Params.epub" "contentsLocation" ".Params.toc" "contentsPage" . ) -}}
-          {{ end }}
-        </div>
+        {{ if .Section }}
+          {{ $scope := where .Site.Pages "Section" .Section }}
+          {{- partial "contents-list/contents-list.html" (dict "site" .Site "contentsScope" $scope "contentsType" .Site.Params.tocType "pdf" ".Params.pdf" "epub" ".Params.epub" "contentsLocation" ".Params.toc" "contentsPage" . ) -}}
+        {{ else }}
+          {{ $scope := .Site.Pages }}
+          {{- partial "contents-list/contents-list.html" (dict "site" .Site "contentsScope" $scope "contentsType" .Site.Params.tocType "pdf" ".Params.pdf" "epub" ".Params.epub" "contentsLocation" ".Params.toc" "contentsPage" . ) -}}
+        {{ end }}
         <div class="content">
           {{ partial "page-bibliography.html" . }}
         </div>
