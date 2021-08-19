@@ -19,9 +19,9 @@
       </div>
     {{- end -}}
 
-    {{ $classes := delimit .Params.class "," }}
-    <div class="container {{ if in .Params.class "grid" }}is-fullhd{{ end }}">
-      <div class="quire-contents-list {{ if in $classes "grid" }} grid{{ else if in $classes "abstract" }} abstract{{ else if in $classes "brief" }} brief{{ else }} list{{ end }}">
+    {{ $class := .Params.class }}
+    <div class="container {{ if in $class "grid" }}is-fullhd{{ end }}">
+      <div class="quire-contents-list {{ if in $class "grid" }} grid{{ else if in $class "abstract" }} abstract{{ else if in $class "brief" }} brief{{ else }} list{{ end }}">
         {{ if .Section }}
           {{ $scope := where .Site.Pages "Section" .Section }}
           {{- partial "contents-list/contents-list.html" (dict "site" .Site "contentsScope" $scope "contentsLocation" ".Params.toc" "contentsPage" . ) -}}

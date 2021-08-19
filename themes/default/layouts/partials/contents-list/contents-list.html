@@ -1,7 +1,7 @@
 {{/*
   This partial generates a contents list. It is used in the publication menu
   and in the "contents" page type, but could be extended for further use. It
-  expects five specific variables to be passed:
+  expects four specific variables to be passed:
 
   site              .Site
   contentsScope     Typically .Site.Pages or narrowed down to pages within a
@@ -11,17 +11,16 @@
                     individual pages can be hidden as called for. For example,
                     if contentsLocation is "toc" any pages in the publication
                     with "toc: false" will be omitted from the generated
-                    contents list. The "menu" option also shows a shorter
-                    version of each page in the list, with no subtitle or
-                    contributors.
+                    contents list.
   contentsPage      Typically . This just passes the page context through to
                     allow a Scratch variable to be set when creating sections.
 
   Content can either be in top-level files in the `content` directory, or
-  in sub-directories to create sections. Currently, nested sections are not
-  supported.
+  in sub-directories to create sections.
 
-  For users to cstomize their publiction, this partial response to `class` values in the page YAML as well.
+  For users to customize their publiction, this partial response to `class`
+  values in the page YAML as well. For the menu, the class can be set in the
+  config.yml of the project with the menuClass parameter.
 
   `grid`            A grid of cards, using images defined in indivudal page
                     yaml when avaialble
@@ -57,6 +56,8 @@
   {{- $pages = where $pages "Params.online" "!=" "false" -}}
 {{- end -}}
 
+{{/* To mark items as frontmatter for page numbering styles in PDF
+--------------------------------------------------------------------------- */}}
 {{- $pageOne := "" -}}
 {{- range first 1 (where $pages "Params.class" "in" "page-one") -}}
   {{- $pageOne = .Weight -}}
