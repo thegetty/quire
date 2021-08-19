@@ -10,11 +10,11 @@
 // -----------------------------------------------------------------------------
 
 .quire-contents-list {
+  color: background-color-text-classic($secondary-background-color);
   &.list {
     // Bulma overrides
     background-color: transparent;
     box-shadow: none;
-    color: background-color-text-classic($secondary-background-color);
   }
   @media screen {
     font-family: $quire-headings-font;
@@ -51,6 +51,16 @@
   }
   .arrow svg {
     display: none;
+    position: absolute;
+    width: 1em;
+    height: 1em;
+    transition: all .25s ease;
+    @if $theme == classic {
+      margin-top: .25em;
+    } @else {
+      margin-top: .375em;
+    }
+    fill: background-color-text-classic($secondary-background-color);
   }
   @media screen {
     .level-0 > a,
@@ -60,16 +70,16 @@
       border-bottom-width: 0;
       .arrow svg {
         display: inline-block;
-        position: absolute;
-        width: 1em;
-        height: 1em;
-        transition: all .25s ease;
-        @if $theme == classic {
-          margin-top: .25em;
-        } @else {
-          margin-top: .375em;
-        }
-        fill: background-color-text-classic($secondary-background-color);
+        // position: absolute;
+        // width: 1em;
+        // height: 1em;
+        // transition: all .25s ease;
+        // @if $theme == classic {
+        //   margin-top: .25em;
+        // } @else {
+        //   margin-top: .375em;
+        // }
+        // fill: background-color-text-classic($secondary-background-color);
       }
       &:hover {
         border-bottom-width: 0;
@@ -105,3 +115,176 @@
     }
   }
 }
+
+.quire-contents-list.grid {
+  ul {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 1rem;
+  }
+  li li {
+    padding-left: 0;
+  }
+  @media screen and (min-width: $desktop) {
+    ul {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media screen and (min-width: $widescreen) {
+    ul {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+  @media screen and (min-width: $fullhd) {
+    ul {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+  }
+
+
+  // Headers that aren't links/cards
+  .section-item {
+    grid-column: 1/-1;
+    font-size: 1.125rem;
+    .list-header {
+      text-align: center;
+    }
+    &.level-0 {
+      padding: 1.5rem 0;
+      margin-bottom: 1.5rem;
+      border-top: 1px solid;
+      border-bottom: 1px solid;
+      @if (lightness($secondary-background-color) > 50) {
+        border-color: darken($secondary-background-color, 20%);
+      } @else {
+        border-color: lighten($secondary-background-color, 20%);
+      }
+      > .list-header {
+        font-size: 1.75rem;
+      }
+    }
+  }
+
+  // Cards
+  .section-item .card,
+  .page-item .card {
+    box-shadow: none;
+    padding: 1.25rem;
+    min-height: 300px;
+    .card-content {
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1.25;
+      padding: 0;
+      color: $accent-color;
+      .arrow svg {
+        display: inline-block;
+        fill: $accent-color;
+        @if $theme == classic {
+          margin-top: 0;
+        } @else {
+          margin-top: .1625em;
+        }
+      }
+    }
+    .card-image {
+      transition: all .25s ease;
+    }
+    .card-image + .card-content {
+      padding-top: 1.25rem;
+      padding-bottom: .25rem;
+      font-size: 1.125rem;
+      line-height: 1.35;
+    }
+    &:hover {
+      .card-image {
+        box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75);
+        transition: all .25s ease;
+      }
+      .card-content {
+        color: darken($accent-color, 15%);
+        .arrow svg {
+          fill: darken($accent-color, 15%);
+        }
+      }
+    }
+  }
+
+  @media print {
+
+    $column-width: $print-width - $print-outer-margin - $print-inner-margin;
+    $card-width: ($column-width - .5625in) / 3;
+    $card-height: ($card-width * 1.25);
+
+    ul {
+      display: block;
+    }
+    .page-item {
+      float: left;
+      width: $card-width;
+      margin: 0 .09375in;
+      .card {
+        background-color: whitesmoke;
+        page-break-inside: avoid;
+        height: $card-height;
+        min-height: inherit;
+        .card-content {
+          color: $print-text-color;
+          font-size: 1.75rem;
+        }
+      }
+      a::after {
+        position: inherit;
+        text-align: right;
+        display: block;
+        margin-left: 0;
+        font-size: 1.125rem;
+        font-weight: 700;
+        padding: 0 .5rem;
+        background-color: whitesmoke;
+        margin-bottom: 3rem;
+        page-break-before: avoid;
+      }
+    }
+    .card-image img {
+      height: 1in;
+      width: auto;
+    }
+    .section-item {
+      width: $column-width;
+      margin: 0;
+      float: none;
+      clear: both;
+      page-break-after: avoid;
+      + .page-item {
+        clear: left;
+      }
+      > a {
+        max-width: inherit;
+        text-align: center;
+        margin-bottom: 0;
+        .card {
+          min-height: inherit;
+          .card-content {
+            color: $print-text-color;
+            font-size: 1.75rem;
+            font-weight: 400;
+          }
+        }
+        &::after {
+          display: none;
+        }
+      }
+    }
+    .section-item.level-0 {
+      border-width: 0;
+    }
+  }
+}
+
+@media print {
+  .quire-page__content .container.is-fullhd {
+    padding: 0;
+  }
+}
+
