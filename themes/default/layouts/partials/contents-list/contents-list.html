@@ -6,8 +6,6 @@
   site              .Site
   contentsScope     Typically .Site.Pages or narrowed down to pages within a
                     specific section.
-  contentsType      Must be either "short" or "full". Often defined in
-                    config.yml. Short doesn't display any sub-section pages.
   contentsLocation  Must be either ".Params.menu" or ".Params.toc". Determines
                     in what context the partial is being shown so that
                     individual pages can be hidden as called for. For example,
@@ -39,13 +37,10 @@
   `brief`           Lists only the title, or short_title when available.
 
   EXAMPLE PARTIAL USE:
-  partial "contents-list.html" (dict "site" .Site "contentsScope" .Site.Pages
-  "contentsType" .Site.Params.tocType "contentsLocation" ".Params.toc"
-  "contentsPage" . )
+  partial "contents-list.html" (dict "site" .Site "contentsScope" .Site.Pages "contentsLocation" ".Params.toc" "contentsPage" . )
 
 */}}
 
-{{- $contentsType := .contentsType -}}
 {{- $contentsLocation := .contentsLocation -}}
 
 {{/* List pages, but remove data pages, those hidden from toc/menu, and those hidden from specific output formats as needed
@@ -67,7 +62,12 @@
   {{- $pageOne = .Weight -}}
 {{- end -}}
 
-{{- $class := .contentsPage.Params.class -}}
+{{- $class := "" -}}
+{{- if eq .contentsLocation ".Params.toc" -}}
+  {{- $class = .contentsPage.Params.class -}}
+{{- else -}}
+  {{- $class = .site.Params.menuClass -}}
+{{- end -}}
 
 {{/* This contents list is built based on the number of section levels any given page is at, which is determined by looking at its File.Dir.
 
