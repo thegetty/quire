@@ -9492,6 +9492,13 @@ html {
 .quire-cover .quire-contents-buttons .nav-title {
   font-size: initial; }
 
+.quire-contents .quire-page__content .container .content {
+  background-color: transparent;
+  padding-left: 0;
+  padding-right: 0;
+  margin-bottom: 2.5rem;
+  color: #333333; }
+
 .quire-contents-list {
   color: #333333; }
   .quire-contents-list.list {
@@ -9499,7 +9506,8 @@ html {
     box-shadow: none; }
   @media screen {
     .quire-contents-list {
-      font-family: "IBM Plex Sans Condensed", sans-serif; } }
+      font-family: "IBM Plex Sans Condensed", sans-serif;
+      margin-bottom: 5rem !important; } }
   .quire-contents-list .quire-contributor {
     font-style: italic; }
   .quire-contents-list .page-item,

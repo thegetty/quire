@@ -9,6 +9,15 @@
 // .quire-contents
 // -----------------------------------------------------------------------------
 
+
+.quire-contents .quire-page__content .container .content {
+  background-color: transparent;
+  padding-left: 0;
+  padding-right: 0;
+  margin-bottom: 2.5rem;
+  color: background-color-text-classic($secondary-background-color);
+}
+
 .quire-contents-list {
   color: background-color-text-classic($secondary-background-color);
   &.list {
@@ -18,6 +27,7 @@
   }
   @media screen {
     font-family: $quire-headings-font;
+    margin-bottom: 5rem !important;
   }
   .quire-contributor {
     font-style: italic;
