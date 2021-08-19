@@ -37,6 +37,7 @@
   .section-item > .list-header {
     display: block;
     margin-bottom: 1.375rem;
+    width: fit-content;
     @media print {
       margin-bottom: 1rem;
     }
@@ -150,9 +151,13 @@
       grid-template-columns: 1fr 1fr 1fr 1fr;
     }
   }
+  .page-item,
+  .section-item > a,
+  .section-item > .list-header {
+    width: inherit;
+  }
 
-
-  // Headers that aren't links/cards
+  // Headers that aren't links
   .section-item {
     grid-column: 1/-1;
     font-size: 1.125rem;
@@ -174,6 +179,26 @@
       }
     }
   }
+  // Headers that are links
+  .section-item {
+    > a {
+      max-width: inherit;
+      text-align: center;
+      margin-bottom: 0;
+      border-bottom-width: 0;
+      .card {
+        min-height: inherit;
+        background-color: transparent;
+        .card-content {
+          font-size: 1.75rem;
+          .arrow {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+
 
   // Cards
   .section-item .card,
@@ -219,6 +244,15 @@
       }
     }
   }
+  @if $theme == classic {
+    .page-item .card {
+      padding: 0 0 1.25rem 0;
+      &.no-image {
+        padding: 1.25rem;
+        background-color: $off-white;
+      }
+    }
+  }
 
   @media print {
 
@@ -234,7 +268,7 @@
       width: $card-width;
       margin: 0 .09375in;
       .card {
-        background-color: whitesmoke;
+        background-color: $off-white;
         page-break-inside: avoid;
         height: $card-height;
         min-height: inherit;
@@ -251,7 +285,7 @@
         font-size: 1.125rem;
         font-weight: 700;
         padding: 0 .5rem;
-        background-color: whitesmoke;
+        background-color: $off-white;
         margin-bottom: 3rem;
         page-break-before: avoid;
       }
@@ -270,14 +304,9 @@
         clear: left;
       }
       > a {
-        max-width: inherit;
-        text-align: center;
-        margin-bottom: 0;
         .card {
-          min-height: inherit;
           .card-content {
             color: $print-text-color;
-            font-size: 1.75rem;
             font-weight: 400;
           }
         }
