@@ -17,7 +17,14 @@
   margin-bottom: 2.5rem;
   color: background-color-text-classic($secondary-background-color);
 }
+@media print {
+  .quire-page__content .container.is-fullhd {
+    padding: 0;
+  }
+}
 
+// Default list styles
+// -----------------------------------------------------------------------------
 .quire-contents-list {
   color: background-color-text-classic($secondary-background-color);
   &.list {
@@ -81,16 +88,6 @@
       border-bottom-width: 0;
       .arrow svg {
         display: inline-block;
-        // position: absolute;
-        // width: 1em;
-        // height: 1em;
-        // transition: all .25s ease;
-        // @if $theme == classic {
-        //   margin-top: .25em;
-        // } @else {
-        //   margin-top: .375em;
-        // }
-        // fill: background-color-text-classic($secondary-background-color);
       }
       &:hover {
         border-bottom-width: 0;
@@ -104,12 +101,16 @@
   }
 }
 
+// Additional "brief" list styles
+// -----------------------------------------------------------------------------
 .quire-contents-list.brief {
   li li {
     display: none;
   }
 }
 
+// Additional "abstract" list styles
+// -----------------------------------------------------------------------------
 .quire-contents-list.abstract {
   .abstract-text {
     font-size: 1rem;
@@ -127,6 +128,8 @@
   }
 }
 
+// Additional "grid" list styles
+// -----------------------------------------------------------------------------
 .quire-contents-list.grid {
   ul {
     display: grid;
@@ -199,7 +202,6 @@
     }
   }
 
-
   // Cards
   .section-item .card,
   .page-item .card {
@@ -254,6 +256,7 @@
     }
   }
 
+  // Grid print styles
   @media print {
 
     $column-width: $print-width - $print-outer-margin - $print-inner-margin;
@@ -320,10 +323,3 @@
     }
   }
 }
-
-@media print {
-  .quire-page__content .container.is-fullhd {
-    padding: 0;
-  }
-}
-

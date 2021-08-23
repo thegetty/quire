@@ -9499,6 +9499,10 @@ html {
   margin-bottom: 2.5rem;
   color: #333333; }
 
+@media print {
+  .quire-page__content .container.is-fullhd {
+    padding: 0; } }
+
 .quire-contents-list {
   color: #333333; }
   .quire-contents-list.list {
@@ -9716,10 +9720,6 @@ html {
       display: none; }
   .quire-contents-list.grid .section-item.level-0 {
     border-width: 0; } }
-
-@media print {
-  .quire-page__content .container.is-fullhd {
-    padding: 0; } }
 
 .quire-figure {
   border-top: 1px solid #CF4747;

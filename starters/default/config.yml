@@ -13,7 +13,6 @@ title: "Quire Starter"
 languageCode: "en-us"
 theme: "default"
 publishDir: site
-themesDir: "../../themes"
 
 footnoteReturnLinkContents: "↩"
 metaDataFormat: "yaml"
