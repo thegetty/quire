@@ -1,0 +1,9 @@
+{{ $themeDependencies := "themes/default/node_modules" }}
+
+{{ if fileExists $themeDependencies }}
+
+{{ else }}
+
+  {{ errorf "%q is missing! \n\nQUIRE FIX --> Run `quire install`. Running `quire install` will install missing theme node_modules dependencies. It only needs to be run once for this project. It is necessary when cloning/copying an existing Quire project from another source rather than starting it with `quire new`.\n"  $themeDependencies }}
+
+{{ end }}
