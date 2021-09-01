@@ -1,4 +1,4 @@
-{{ if eq .Site.Params.runTests true }}
+{{ if ne .Site.Params.runTests false }}
 
   {{ partial "tests/check-node-modules.html" . }}
 
