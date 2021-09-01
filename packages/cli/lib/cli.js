@@ -245,7 +245,7 @@ export default class CLI extends EventEmitter {
   }
 
   error(msg) {
-    console.log(chalk.red(msg));
+    console.log(chalk.red(msg + "Run `quire preview --verbose` for details"));
     process.exitCode = 1;
   }
 
