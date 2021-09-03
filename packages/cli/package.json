@@ -43,7 +43,6 @@
     "fs-extra": "^8.1.0",
     "glob": "~7.1.6",
     "growl": "^1.10.5",
-    "hugo-bin": "^0.70.2",
     "js-yaml": "^3.13.1",
     "lodash": "^4.17.15",
     "ora": "^4.0.3",
@@ -56,6 +55,7 @@
     "yaml-front-matter": "^3.4.0"
   },
   "devDependencies": {
+    "@11ty/eleventy": "^0.12.1",
     "@babel/core": "*",
     "@babel/plugin-transform-modules-commonjs": "*",
     "@babel/plugin-transform-regenerator": "*",
