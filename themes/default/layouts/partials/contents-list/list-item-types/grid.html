@@ -1,7 +1,7 @@
 <a href="{{ .Page.Permalink | relURL }}">
 <div class="card {{ if or .Page.Params.image .Page.Params.object }}image{{ else }}no-image{{ end }}{{ if and (ne .Page.Section "") (eq .Page.Slug ".") }} slug-page{{ end }}">
   {{ if .Page.Params.image }}
-    {{ partial "contents-list/add-card-image" (dict "site" .Site "src" .Page.Params.image) }}
+    {{ partial "contents-list/card-image" (dict "site" .Site "src" .Page.Params.image) }}
   {{ else if .Page.Params.object -}}
     {{ range .Page.Params.object -}}
       {{ if .id -}}
@@ -9,10 +9,10 @@
         {{ range first 1 .figure -}}
           {{ if .id -}}
             {{ range where $.Site.Data.figures.figure_list "id" "eq" .id -}}
-              {{ partial "contents-list/add-card-image" (dict "site" .Site "src" .src) }}
+              {{ partial "contents-list/card-image" (dict "site" .Site "src" .src) }}
             {{- end -}}
           {{ else if .src -}}
-            {{ partial "contents-list/add-card-image" (dict "site" .Site "src" .src) }}
+            {{ partial "contents-list/card-image" (dict "site" .Site "src" .src) }}
           {{- end -}}
         {{- end -}}
         {{- end -}}

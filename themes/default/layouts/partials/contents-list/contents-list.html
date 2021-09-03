@@ -130,7 +130,7 @@ In order to properly close the /ul/li elements and nest sub-sections, the logic 
 
         {{/* Add heading for parent section
         ------------------------------------------------------------------- */}}
-        {{- partial "contents-list/add-section-heading" (dict "Section" $parentSection "Level" (sub $parentSectionLevel 1) ) -}}
+        {{- partial "contents-list/section-heading" (dict "Section" $parentSection "Level" (sub $parentSectionLevel 1) ) -}}
 
       {{- end -}}
 
@@ -140,20 +140,20 @@ In order to properly close the /ul/li elements and nest sub-sections, the logic 
 
       {{/* Add heading for file section
       ------------------------------------------------------------------- */}}
-      {{- partial "contents-list/add-section-heading" (dict "Section" $section "Level" (sub $sectionLevel 1) ) -}}
+      {{- partial "contents-list/section-heading" (dict "Section" $section "Level" (sub $sectionLevel 1) ) -}}
 
-      <li class="page-item level-{{ $sectionLevel }}{{ if lt .Page.Weight $pageOne }} frontmatter-page{{ end }}">{{ partial "contents-list/add-list-item-type" (dict "Page" . "Class" $class) }}</li>
-      {{ partial "contents-list/add-closing-tags" (dict "Page" . "AllPages" $pages "PageIndex" $index "openSections" $openSections) -}}
+      <li class="page-item level-{{ $sectionLevel }}{{ if lt .Page.Weight $pageOne }} frontmatter-page{{ end }}">{{ partial "contents-list/list-item-type" (dict "Page" . "Class" $class) }}</li>
+      {{ partial "contents-list/closing-tags" (dict "Page" . "AllPages" $pages "PageIndex" $index "openSections" $openSections) -}}
 
     {{- else -}}
-      <li class="section-item level-{{ if eq .Slug "." }}{{ sub $sectionLevel 1 }}{{ else }}{{ $sectionLevel }}{{ end }}{{ if lt .Page.Weight $pageOne }} frontmatter-page{{ end }}">{{ partial "contents-list/add-list-item-type" (dict "Page" . "Class" $class) }}
+      <li class="section-item level-{{ if eq .Slug "." }}{{ sub $sectionLevel 1 }}{{ else }}{{ $sectionLevel }}{{ end }}{{ if lt .Page.Weight $pageOne }} frontmatter-page{{ end }}">{{ partial "contents-list/list-item-type" (dict "Page" . "Class" $class) }}
       <ul>
     {{- end -}}
 
   {{- else -}}
 
-    <li class="page-item level-{{ $sectionLevel }}{{ if lt .Page.Weight $pageOne }} frontmatter-page{{ end }}">{{ partial "contents-list/add-list-item-type" (dict "Page" . "Class" $class) }}</li>
-    {{ partial "contents-list/add-closing-tags" (dict "Page" . "AllPages" $pages "PageIndex" $index "openSections" $openSections) -}}
+    <li class="page-item level-{{ $sectionLevel }}{{ if lt .Page.Weight $pageOne }} frontmatter-page{{ end }}">{{ partial "contents-list/list-item-type" (dict "Page" . "Class" $class) }}</li>
+    {{ partial "contents-list/closing-tags" (dict "Page" . "AllPages" $pages "PageIndex" $index "openSections" $openSections) -}}
 
   {{- end -}}
 
