@@ -1,0 +1,13 @@
+{{ if ne .Site.Params.runTests false }}
+
+  {{ partial "tests/check-node-modules.html" . }}
+
+  {{ partial "tests/check-page-weights.html" . }}
+
+  {{ partial "tests/check-page-one-class.html" . }}
+
+{{ else }}
+
+  {{ warnf "\n\nQuire tests are currently disabled. To enable them, set the `runTests` parameter to true in your projects’s config.yml file." }}
+
+{{ end }}
