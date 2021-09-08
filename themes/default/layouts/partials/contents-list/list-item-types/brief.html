@@ -1,0 +1,7 @@
+<a href="{{ .Page.Permalink | relURL }}">
+
+{{- with .Page.Params.label }}{{ . }}{{ $.Site.Params.pageLabelDivider }}{{ end -}}
+
+{{- .Page.Title | markdownify -}}
+
+<span class="arrow remove-from-epub">&nbsp;{{- partial "icon.html" (dict "type" "arrow-forward" "description" "") -}}</span></a>
