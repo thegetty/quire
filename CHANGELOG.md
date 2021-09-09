@@ -13,8 +13,11 @@ Project versions conform to [Semantic Versioning](https://semver.org/)
 * `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
-<a name="0.19.2"></a>
+## [0.20.0]
 
+### Added
+- Implementation of multi-level subsections
+ 
 ## [0.19.2]
 
 ### Changed
@@ -23,8 +26,6 @@ Project versions conform to [Semantic Versioning](https://semver.org/)
 ### Fixed
 - Include label in image modal caption/credit block
 - Wrap Windows Prince command in quotes
-
-<a name="0.19.1"></a>
 
 ## [0.19.1]
 
@@ -35,8 +36,6 @@ Project versions conform to [Semantic Versioning](https://semver.org/)
 ### Changed
 - Refactor `q-figure` shortcode to use partials for each media type
 - Refactor `q-figure-group` and `q-figure-zoom` shortcodes to use `caption` and `label` partials
-
-<a name="0.19.0"></a>
 
 ## [0.19.0]
 
