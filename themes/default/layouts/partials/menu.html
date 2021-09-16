@@ -4,7 +4,7 @@ available on all pages. For users with Javascript enabled, this menu is hidden
 by default. Users with JS disabled will alwasy see the menu in its expanded state.
 */}}
 
-{{- $contents := dict "site" .Site "contentsScope" .Site.Pages "contentsLocation" ".Params.menu" "contentsPage" . }}
+{{- $contents := dict "site" .Site "contentsScope" "" "contentsLocation" ".Params.menu" "contentsPage" . }}
 
 <div  class="quire-menu menu"
       role="banner"

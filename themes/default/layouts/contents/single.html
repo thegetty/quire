@@ -23,10 +23,10 @@
     <div class="container {{ if in $class "grid" }}is-fullhd{{ end }}">
       <div class="quire-contents-list {{ if in $class "grid" }} grid{{ else if in $class "abstract" }} abstract{{ else if in $class "brief" }} brief{{ else }} list{{ end }}">
         {{ if .Section }}
-          {{ $scope := where .Site.Pages "Section" .Section }}
+          {{ $scope := .File.Dir }}
           {{- partial "contents-list/contents-list.html" (dict "site" .Site "contentsScope" $scope "contentsLocation" ".Params.toc" "contentsPage" . ) -}}
         {{ else }}
-          {{ $scope := .Site.Pages }}
+          {{ $scope := "" }}
           {{- partial "contents-list/contents-list.html" (dict "site" .Site "contentsScope" $scope "contentsLocation" ".Params.toc" "contentsPage" . ) -}}
         {{ end }}
       </div>
