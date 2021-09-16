@@ -81,8 +81,9 @@
     fill: background-color-text-classic($secondary-background-color);
   }
   @media screen {
-    .level-0 > a,
-    .level-0 > .list-header {
+    // Special styling for top-level list items
+    ul:first-child > li > a,
+    ul:first-child > li > .list-header {
       font-size: 1.375em;
       padding-bottom: 0;
       border-bottom-width: 0;
@@ -160,26 +161,28 @@
     width: inherit;
   }
 
-  // Headers that aren't links
+  // Grid headers that aren't links
+  // Top-level headers
+  ul:first-child > li.section-item {
+    padding: 1.5rem 0;
+    margin-bottom: 1.5rem;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    @if (lightness($secondary-background-color) > 50) {
+      border-color: darken($secondary-background-color, 20%);
+    } @else {
+      border-color: lighten($secondary-background-color, 20%);
+    }
+    > .list-header {
+      font-size: 1.75rem;
+    }
+  }
+  // All other headers
   .section-item {
     grid-column: 1/-1;
     font-size: 1.125rem;
     .list-header {
       text-align: center;
-    }
-    &.level-0 {
-      padding: 1.5rem 0;
-      margin-bottom: 1.5rem;
-      border-top: 1px solid;
-      border-bottom: 1px solid;
-      @if (lightness($secondary-background-color) > 50) {
-        border-color: darken($secondary-background-color, 20%);
-      } @else {
-        border-color: lighten($secondary-background-color, 20%);
-      }
-      > .list-header {
-        font-size: 1.75rem;
-      }
     }
   }
   // Headers that are links
@@ -318,7 +321,8 @@
         }
       }
     }
-    .section-item.level-0 {
+    // Remove border for top-level items
+    ul:first-child > li.section-item {
       border-width: 0;
     }
   }

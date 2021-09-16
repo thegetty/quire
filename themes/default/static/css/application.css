@@ -9552,19 +9552,19 @@ html {
     margin-top: .375em;
     fill: #333333; }
   @media screen {
-    .quire-contents-list .level-0 > a,
-    .quire-contents-list .level-0 > .list-header {
+    .quire-contents-list ul:first-child > li > a,
+    .quire-contents-list ul:first-child > li > .list-header {
       font-size: 1.375em;
       padding-bottom: 0;
       border-bottom-width: 0; }
-      .quire-contents-list .level-0 > a .arrow svg,
-      .quire-contents-list .level-0 > .list-header .arrow svg {
+      .quire-contents-list ul:first-child > li > a .arrow svg,
+      .quire-contents-list ul:first-child > li > .list-header .arrow svg {
         display: inline-block; }
-      .quire-contents-list .level-0 > a:hover,
-      .quire-contents-list .level-0 > .list-header:hover {
+      .quire-contents-list ul:first-child > li > a:hover,
+      .quire-contents-list ul:first-child > li > .list-header:hover {
         border-bottom-width: 0; }
-        .quire-contents-list .level-0 > a:hover .arrow svg,
-        .quire-contents-list .level-0 > .list-header:hover .arrow svg {
+        .quire-contents-list ul:first-child > li > a:hover .arrow svg,
+        .quire-contents-list ul:first-child > li > .list-header:hover .arrow svg {
           margin-left: .75rem;
           fill: #CF4747;
           -webkit-transition: all .25s ease;
@@ -9610,19 +9610,20 @@ html {
 .quire-contents-list.grid .section-item > .list-header {
   width: inherit; }
 
+.quire-contents-list.grid ul:first-child > li.section-item {
+  padding: 1.5rem 0;
+  margin-bottom: 1.5rem;
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+  border-color: #b2c4c9; }
+  .quire-contents-list.grid ul:first-child > li.section-item > .list-header {
+    font-size: 1.75rem; }
+
 .quire-contents-list.grid .section-item {
   grid-column: 1/-1;
   font-size: 1.125rem; }
   .quire-contents-list.grid .section-item .list-header {
     text-align: center; }
-  .quire-contents-list.grid .section-item.level-0 {
-    padding: 1.5rem 0;
-    margin-bottom: 1.5rem;
-    border-top: 1px solid;
-    border-bottom: 1px solid;
-    border-color: #b2c4c9; }
-    .quire-contents-list.grid .section-item.level-0 > .list-header {
-      font-size: 1.75rem; }
 
 .quire-contents-list.grid .section-item > a {
   max-width: inherit;
@@ -9718,7 +9719,7 @@ html {
       font-weight: 400; }
     .quire-contents-list.grid .section-item > a::after {
       display: none; }
-  .quire-contents-list.grid .section-item.level-0 {
+  .quire-contents-list.grid ul:first-child > li.section-item {
     border-width: 0; } }
 
 .quire-figure {
