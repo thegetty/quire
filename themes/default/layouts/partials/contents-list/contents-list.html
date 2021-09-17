@@ -45,7 +45,7 @@
 {{/* List pages, but remove data pages, those hidden from toc/menu, and those hidden from specific output formats as needed
 --------------------------------------------------------------------------- */}}
 {{- $pages := "" -}}
-{{- $pages = where .contentsScope ".Kind" "page" -}}
+{{- $pages = where .site.Pages ".Kind" "page" -}}
 {{- $pages = where $pages ".Type" "!=" "data" -}}
 {{- $pages = where $pages .contentsLocation "!=" "false" -}}
 {{- if eq .site.Params.pdf true -}}
@@ -63,11 +63,14 @@
   {{- $pageOne = .Weight -}}
 {{- end -}}
 
-{{- $class := "" -}}
+{{- $contentsPageClass := "" -}}
+{{- $contentsPageID := "" -}}
 {{- if eq .contentsLocation ".Params.toc" -}}
-  {{- $class = .contentsPage.Params.class -}}
+  {{- $contentsPageClass = .contentsPage.Params.class -}}
+  {{- $contentsPageID = .contentsPage.File.UniqueID -}}
 {{- else -}}
-  {{- $class = .site.Params.menuClass -}}
+  {{- $contentsPageClass = .site.Params.menuClass -}}
+  {{- $contentsPageID = "" -}}
 {{- end -}}
 
 {{/* This contents list is built based on the number of section levels any given page is at, which is determined by looking at its File.Dir.
@@ -82,7 +85,9 @@ In order to properly close the /ul/li elements and nest sub-sections, the logic 
 
 {{- $lastSection := "/" -}}
 {{- $openSections := dict -}}
-{{- $renderedSections := "/" -}}
+{{- $renderedSections := .contentsScope -}}
+{{- $contentsScopePattern := printf "%s%s" "^" $renderedSections -}}
+{{- $contentsPageID := .contentsPage.File.UniqueID -}}
 
 <ul>
 {{- range $index, $page := $pages -}}
@@ -100,6 +105,11 @@ In order to properly close the /ul/li elements and nest sub-sections, the logic 
     {{- end -}}
   {{- end -}}
   {{- $openSections = merge $openSections (dict $sectionLevelKey $section) -}}
+
+  {{/* Check to make sure the page is within the section that the contents list is being rendederd in (the "contents scope"). If it is, and it’s not also the contents page itself, render the list item for it.
+  ------------------------------------------------------------------------- */}}
+  {{- $pageWithinThisScope := findRE $contentsScopePattern $section -}}
+  {{- if and $pageWithinThisScope (ne $contentsPageID .File.UniqueID) -}}
 
   {{- if and (ne $lastSection $section) (eq $sameAsOpenSection false) -}}
 
@@ -142,23 +152,25 @@ In order to properly close the /ul/li elements and nest sub-sections, the logic 
       ------------------------------------------------------------------- */}}
       {{- partial "contents-list/section-heading" (dict "Section" $section "Level" (sub $sectionLevel 1) ) -}}
 
-      <li class="page-item level-{{ $sectionLevel }}{{ if lt .Page.Weight $pageOne }} frontmatter-page{{ end }}">{{ partial "contents-list/list-item-type" (dict "Page" . "Class" $class) }}</li>
+      <li class="page-item level-{{ $sectionLevel }}{{ if lt .Page.Weight $pageOne }} frontmatter-page{{ end }}">{{ partial "contents-list/list-item-type" (dict "Page" . "Class" $contentsPageClass) }}</li>
       {{ partial "contents-list/closing-tags" (dict "Page" . "AllPages" $pages "PageIndex" $index "openSections" $openSections) -}}
 
     {{- else -}}
-      <li class="section-item level-{{ if eq .Slug "." }}{{ sub $sectionLevel 1 }}{{ else }}{{ $sectionLevel }}{{ end }}{{ if lt .Page.Weight $pageOne }} frontmatter-page{{ end }}">{{ partial "contents-list/list-item-type" (dict "Page" . "Class" $class) }}
+      <li class="section-item level-{{ if eq .Slug "." }}{{ sub $sectionLevel 1 }}{{ else }}{{ $sectionLevel }}{{ end }}{{ if lt .Page.Weight $pageOne }} frontmatter-page{{ end }}">{{ partial "contents-list/list-item-type" (dict "Page" . "Class" $contentsPageClass) }}
       <ul>
     {{- end -}}
 
   {{- else -}}
 
-    <li class="page-item level-{{ $sectionLevel }}{{ if lt .Page.Weight $pageOne }} frontmatter-page{{ end }}">{{ partial "contents-list/list-item-type" (dict "Page" . "Class" $class) }}</li>
+    <li class="page-item level-{{ $sectionLevel }}{{ if lt .Page.Weight $pageOne }} frontmatter-page{{ end }}">{{ partial "contents-list/list-item-type" (dict "Page" . "Class" $contentsPageClass) }}</li>
     {{ partial "contents-list/closing-tags" (dict "Page" . "AllPages" $pages "PageIndex" $index "openSections" $openSections) -}}
 
   {{- end -}}
 
   {{- $lastSection = $section -}}
   {{- $renderedSections = delimit (uniq (slice $renderedSections $section)) ", " -}}
+
+  {{- end -}}
 
 {{- end -}}
 </ul>
