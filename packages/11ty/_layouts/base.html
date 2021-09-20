@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="{{ meta.language }}">
+  {% render 'head.html' %}
+  <body>
+    {% render 'icons.html' }
+
+    {% if config.licenseIcons %}
+      {% render 'icons-cc.html' }
+    {% endif %}
+
+    {% if config.pdf %}
+      {% render 'pdf-info.html' %}
+    {% endif %}
+
+    <div class="quire no-js" id="container">
+      <div
+        class="quire__secondary remove-from-epub"
+        id="site-menu"
+        aria-expanded="false"
+        role="contentinfo"
+      >
+        {% render 'menu.html' %}
+      </div>
+
+      <div class="quire__primary" id="{{ section }}">
+        {% render 'navbar.html' %}
+        {{ content }}
+      </div>
+
+      {% render 'search.html' %}
+
+    </div>
+    {% render 'scripts.html' %}
+  </body>
+</html>

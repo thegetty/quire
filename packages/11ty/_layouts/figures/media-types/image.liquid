@@ -1,0 +1,45 @@
+{% assign figureId = printf "%s-%d" "deepzoom" $now %}
+{% assign imageDir = data.imageDir %}
+{% assign modalLink = printf "%s%s" "#" $figureId %}
+{% assign now = {{ 'now' | date }} %}
+
+{% if figureModal %}
+  <figure
+    class="q-figure leaflet-outer-wrapper mfp-hide notGet"
+    id="{{ figureId }}"
+    title="{{ caption }}"
+  >
+    <div
+      id="js-{{ figureId }}"
+      class="quire-deepzoom inset leaflet-inner-wrapper "
+      aria-label="Zoomable image"
+      aria-live="polite"
+      role="application"
+      src="{{ printf "%s/%s" $imageDir .src | relURL }}"
+    />
+  </figure>
+  <a
+    class="inline popup"
+    data-type="inline"
+    href="{{ link }}"
+    title="{{ caption }}"
+  >
+{% endif %}
+
+  <img
+    class="q-figure__image"
+    src="{{ printf "%s/%s" $imageDir .src | relURL }}"
+    alt="{{ alt }}"
+  />
+
+{% if figureModal and label %}
+  {% if figureLabelLocation == 'on-top' %}
+    {% render 'figures/label' caption credit label link %}
+  {% endif %}
+{% endif %}
+
+{% if figureModal %}
+  </a>
+{% endif %}
+
+{% render 'figures/caption' %}

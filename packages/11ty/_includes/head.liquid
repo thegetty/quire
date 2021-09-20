@@ -1,0 +1,40 @@
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+
+  {% if config.online %}
+  <meta name="robots" content="noindex, nofollow"/>
+  {% endif %}
+
+  <title>{{ meta.title }}</title>
+
+  <meta name="description" content="{{ data.publication.description }}">
+  <meta name="keywords" content="{{ data.publication.subject }}">
+
+  <link rel="canonical" href="{{ permalink | url }}">
+  <link rel="version-history" href="{{ data.publication.repositoryUrl | url }}">
+
+  {% for publisher in data.data.publication.publishers -%}
+  <link rel="publisher" href="{{ publisher.url | url }}">
+  {% endfor -%}
+
+  {% for contributor in data.publication.contributors -%}
+  <link rel="author" href="{{ contributor.url | url }}">
+  {% endfor -%}
+
+  {% render 'dublin-core.html' }}
+  {% render 'open-graph.html' }}
+  {% render 'twitter-card.html' }}
+  {% render 'json-ld.html' }}
+
+  <link rel="icon" href="{{ icon }}"/>
+  <link rel="stylesheet" href="{{ css | url }}"/>
+  <link rel="stylesheet" href="{{ customCSS | url }}"/>
+
+  {% render 'polyfills/template.html' }
+
+  {% if config.analytics false %}
+  {% render 'analytics.html' }
+  {% endif %}
+</head>

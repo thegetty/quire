@@ -1,0 +1,26 @@
+{
+  "name": "11ty-quire-plugin",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": ".eleventy.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "eleventy",
+    "quire"
+  ],
+  "author": "Getty Digital",
+  "license": "J Paul Getty Trust",
+  "devDependencies": {
+    "@11ty/eleventy": "^0.12.1",
+    "@11ty/eleventy-img": "^0.10.0",
+    "@11ty/eleventy-navigation": "^0.3.2",
+    "@11ty/eleventy-plugin-syntaxhighlight": "^3.1.2",
+    "eslint": "^7.32.0",
+    "iiif-processor": "^0.3.6",
+    "js-yaml": "^4.1.0",
+    "toml": "^3.0.0"
+  }
+}

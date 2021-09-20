@@ -1,0 +1,457 @@
+{{ if isset $.Site.Params "imagedir" }}
+{{ $.Scratch.Set "imageDir" $.Site.Params.imageDir }}
+{{ else }}
+{{ $.Scratch.Set "imageDir" "" }}
+{{ end }}
+
+{{- $figureId := "" -}}
+{{- $modalLink := "" -}}
+
+{{ $errorNoMediaType := dict "shortcode" "q-figure-group" "message" "One of your figures in this group is missing the `media_type` attribute, which must be included in your `data/figures.yml` file for this figure `id`, and must be either “youtube” or “vimeo”." "example" "- id: &#34;3.1&#34;<br />  media_id: &#34;VYqDpNmnu8I&#34;<br />  media_type: &#34;youtube&#34;" }}
+
+{{ $errorBadId := dict "shortcode" "q-figure-group" "message" "One or more of the `id` values supplied in this shortcode do not match any corresponding `id` values in your `data/figures.yml` file. Or, the `id` values were not fully comma separated." "example" "{{< q-figure-group id=&#34;3.1, 3.2, 3.3&#34; >}}" }}
+
+{{ $errorNoId := dict "shortcode" "q-figure-group" "message" "This shortcode must include one or more values for `id` that match corresponding `id` values in your `data/figures.yml` file." "example" "{{< q-figure-group id=&#34;3.1, 3.2, 3.3&#34; >}}" }}
+
+
+{{ if .Get "id" }}
+
+{{/* -------------------- BEGIN ID BLOCK -------------------- */}}
+{{/*
+----------------------------------------------------------------------------
+If the shortcode has an id, split all id values into an array and render
+the figure for each into a figure group
+----------------------------------------------------------------------------
+*/}}
+
+{{ $idstring := replace (.Get "id") " " "" }}
+{{ $idlist := split $idstring "," }}
+
+<figure class='quire-figure quire-figure--group {{ with .Get "class" }}{{ . }}{{ end }} {{ if eq $.Site.Params.pdf true }}quire-figure--group-pdf {{ end }}'>
+  {{ with .Get "grid" }}
+  {{ $.Scratch.Add "grid" . }}
+  {{ else }}
+  {{ $.Scratch.Add "grid" 1 }}
+  {{ end }}
+  {{/* -------------------- BEGIN IDLIST RANGE -------------------- */}}
+  {{ range $i, $e := $idlist }}
+  {{ $x := . | string }}
+  
+
+  {{ if modBool $i ($.Scratch.Get "grid") }}
+  {{ if ne $i 0 }}</div>{{ end }}
+  <div class="quire-figure--group__row columns">
+  {{ end }}
+
+  {{/* -------------------- BEGIN FIGURELIST RANGE -------------------- */}}
+  {{ range where $.Site.Data.figures.figure_list "id" "eq" $x }}
+  {{ $.Scratch.Add "figCount" 1 }}
+
+  <figure class=" column quire-grid--{{ $.Scratch.Get "grid" }} quire-figure--group__item {{ if .media_id }}{{ if or (eq .media_type "audio") (eq .media_type "soundcloud") (eq .media_type "youtube") (eq .media_type "vimeo") }}quire-figure--group__item-pdf {{ .media_type }}{{ end }}{{ end }}">
+
+  {{ if .media_id }}
+    {{/* -------------------- BEGIN VIDEO BLOCK -------------------- */}}
+
+  {{ if and (and (ne .media_type "youtube") (ne .media_type "vimeo")) (ne .media_type "website") (ne .media_type "audio") (ne .media_type "soundcloud")}}
+    {{ partial "error-message.html" $errorNoMediaType }}
+  {{ else }}
+
+  {{/* -------------------- START q-figure__wrapper BLOCK -------------------- */}}
+  <div class='q-figure__wrapper '>
+  {{/* -------------------- START q-figure__wrapper BLOCK -------------------- */}}
+
+  <div class=' quire-figure__media-wrapper{{ if .aspect_ratio }}--{{ .aspect_ratio }} {{ else if eq .media_type "soundcloud" }} {{ else if eq .media_type "audio" }} {{ else }}--widescreen{{ end }}'>
+
+
+  {{ if ne $.Site.Params.pdf true }}
+  {{ if eq .media_type "youtube" }}
+  <iframe id="{{ .id }}"
+          title='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .title }}{{ .title | markdownify }}{{ end }}'
+          class="quire-figure__media {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"
+          src="https://www.youtube-nocookie.com/embed/{{ .media_id }}?rel=0&amp;showinfo=0"
+          frameborder="0"
+          allowfullscreen></iframe>
+  {{ else if eq .media_type "vimeo" }}
+  <iframe id="{{ .id }}"
+          title='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .title }}{{ .title | markdownify }}{{ end }}'
+          class="quire-figure__media {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"
+          src="https://player.vimeo.com/video/{{ .media_id }}"
+          frameborder="0"
+          webkitallowfullscreen
+          mozallowfullscreen
+          allowfullscreen></iframe>
+  {{ else if eq .media_type "audio" }}
+  <iframe id='{{ .id }}'
+          class=" {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"
+          title='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .title }}{{ .title | markdownify }}{{ end }}'
+          width="100%" 
+          height="166" 
+          scrolling="no" 
+          frameborder="no" 
+          allow="autoplay" 
+          src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe> 
+  {{ else if eq .media_type "soundcloud" }} 
+  <iframe id='{{ .id }}'
+          class=" {{ if eq $.Site.Params.pdf true }} visually-hidden {{ end }}"
+          title='{{ if $.Get "title" }}{{ $.Get "title" | markdownify }}{{ else if .title }}{{ .title | markdownify }}{{ end }}'
+          width="100%" 
+          height="166" 
+          scrolling="no" 
+          frameborder="no" 
+          allow="autoplay" 
+          src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .media_id }}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe> 
+  {{ end }}
+  </div>
+  {{ end }}
+
+      <div class="quire-figure__video-fallback visually-hidden">
+        {{ if .src }}
+        <img id="{{ .id }}" src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' alt="{{ if .alt }}{{ .alt }}{{ end }}" />
+        {{ else }}
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 36" fill="darkgray">
+          <path  d="M41.9,13.8C42,15.2,42,16.6,42,18s0,2.8-0.1,4.2c0,0.9-0.3,1.6-0.8,2.2s-1.2,0.9-2.1,0.9c-2,0.1-4.3,0.2-7,0.2 s-5-0.1-7-0.2c-0.8,0-1.5-0.3-2.1-0.9s-0.8-1.4-0.8-2.2C22,20.8,22,19.4,22,18c0-0.9,0.1-2.3,0.2-4.2c0-0.9,0.3-1.6,0.8-2.2 s1.2-0.9,2-0.9c1.9-0.1,4.1-0.2,6.6-0.2H32h0.4c2.5,0,4.7,0.1,6.6,0.2c0.8,0,1.5,0.3,2.1,0.9S41.9,12.9,41.9,13.8z M30.1,21.8 l5.7-3.8l-5.7-3.9V21.8z"/>
+          <path d="M0,0v36h64V0H0z M63,35H1V1h62V35z"/>
+        </svg>
+        {{ end }}
+      </div>
+
+
+      <div class="quire-figure__media-fallback">
+          {{ template "figure-fallback" (dict "map" . "site" $ ) }}
+        </div>
+
+
+    {{ end }}
+    {{/* -------------------- END VIDEO BLOCK -------------------- */}}
+    {{ else }}
+
+    {{/* -------------------- BEGIN NO_MEDIA_ID BLOCK -------------------- */}}
+
+    {{ if eq $.Site.Params.figureZoom true }}
+
+    {{ $figureId = printf "%s-%d" "deepzoom" now.UnixNano }}
+
+  <div class="q-figure__wrapper">
+    <figure 
+      id="{{ $figureId }}"
+      {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}  
+      class="quire-figure leaflet-outer-wrapper mfp-hide">
+        <div 
+        id="js-{{ $figureId }}" 
+        class="quire-deepzoom inset leaflet-inner-wrapper " 
+        aria-live="polite" 
+        role="application"
+        aria-label="Zoomable image"
+        {{ if .zoom_max }} data-zoom-max="{{ .zoom_max }}" {{ end }}
+        src="{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}">
+        </div>
+
+    </figure>
+
+    {{ if eq $.Site.Params.figureModal true }}
+    {{ $modalLink = printf "%s%s" "#" $figureId }}
+    <a
+    href="{{ $modalLink }}"
+    class='inline popup'
+    data-type='inline'
+    {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
+    {{ end }}
+      <img
+      id="{{ .id }}"
+      class="quire-figure__image" 
+      src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' 
+      alt='{{ with .alt }}{{ . }}{{ end }}' />
+
+  {{ else }}
+
+    {{ $modalLink = printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}
+    <!-- What's going on here -->
+    <div class='q-figure__wrapper'>
+      {{ if eq $.Site.Params.figureModal true }}
+      <a class="image popup" href='{{ $modalLink }}' {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
+      {{ end }}
+      <img id="{{ .id }}" class="quire-figure__image"
+         src='{{ $modalLink }}'
+         alt='{{ with .alt }}{{ . }}{{ end }}' />
+    
+    {{ end }}
+
+    {{/* -------------------- END NO_MEDIA_ID BLOCK -------------------- */}}
+    {{ end }}
+
+  {{/* -------------------- BEGIN LABEL BLOCK -------------------- */}}
+
+  {{ if eq $.Site.Params.figureLabelLocation "on-top" }}
+    {{- $labelDict := dict "Site" $.Site "label" .label "modalLink" $modalLink -}}
+    {{- partial "figures/label.html" $labelDict -}}
+  {{ end }}
+
+  </a>
+
+  {{/* -------------------- END LABEL BLOCK -------------------- */}}
+
+
+  {{ if eq ($.Get "caption") "" }}
+    {{/* -------------------- BEGIN CAPTION BLOCK -------------------- */}}
+
+    {{- $captionDict := dict "Site" $.Site "caption" .caption "credit" .credit "label" .label "modalLink" $modalLink -}}
+
+    {{- partial "figures/caption.html" $captionDict -}}
+
+    {{/* -------------------- END CAPTION BLOCK -------------------- */}}
+  
+  {{/* -------------------- END q-figure__wrapper BLOCK -------------------- */}}
+  </div>
+  {{/* -------------------- END q-figure__wrapper BLOCK -------------------- */}}
+
+  {{ end }}
+  </figure>
+
+  {{/* -------------------- END FIGURELIST RANGE -------------------- */}}
+  {{ end }}
+
+  {{/* -------------------- END IDLIST RANGE -------------------- */}}
+  {{ end }}
+
+  {{ with .Get "grid" }}</div>{{ end }}
+
+  {{/* -------------------- BEGIN ERROR BLOCK -------------------- */}}
+  {{ if ne (len $idlist) ($.Scratch.Get "figCount") }}
+  {{/*
+  ------------------------------------------------------------------------
+  If after ranging through figure.yml, the count of figures rendered
+  is not equal to the count of IDs supplied, post error message
+  ------------------------------------------------------------------------
+  */}}
+
+    {{ partial "error-message.html" $errorBadId }}
+
+  {{/* -------------------- END ERROR BLOCK -------------------- */}}
+  {{ end }}
+
+  {{/* -------------------- BEGIN GROUP CAPTION BLOCK -------------------- */}}
+  {{ if or (.Get "caption") (.Get "credit") }}
+  <figcaption class="quire-figure__caption">
+
+
+    {{ if .Get "popup" }}
+      {{ .Get "popup" | markdownify }}
+    {{ end }}
+
+    {{ if .Get "caption" }}
+      {{ .Get "caption" | markdownify }}
+    {{ end }}
+
+    {{ if $.Get "credit" }}
+      <span class="quire-figure__credit">{{ $.Get "credit" | markdownify }}</span>
+    {{ end }}
+  </figcaption>
+
+  {{/* -------------------- END GROUP CAPTION BLOCK -------------------- */}}
+  {{ end }}
+</figure>
+
+{{/* -------------------- END ID BLOCK -------------------- */}}
+
+{{ else }}
+{{/* -------------------- BEGIN ERROR BLOCK -------------------- */}}
+{{/*
+----------------------------------------------------------------------------
+If the shortcode has no id, post an error message.
+----------------------------------------------------------------------------
+*/}}
+
+  {{ partial "error-message.html" $errorNoId }}
+
+{{/* -------------------- END ERROR BLOCK -------------------- */}}
+{{ end }}
+
+
+{{ define "figure-fallback" }}
+
+{{/* -------------------- BEGIN FALL BACK BLOCK -------------------- */}}
+
+{{ if or (eq .site.Site.Params.pdf true) (eq .site.Site.Params.epub true) }}
+
+{{ if  isset .map "media_type" }}
+
+{{- if eq .map.media_type "website" }}
+
+{{ if eq .site.Site.Params.epub true }}
+<span class="fallback-image"><img src='{{ .site.Scratch.Get "imageDir" | relURL }}/icons/website.png'/></span>
+{{ else }}
+<iframe id='{{ .map.id }}' class='quire-figure__media' src='{{ .map.media_id }}'></iframe>
+{{ end }}
+
+{{ else if (.site.Get "media_type") "website"}}
+
+{{ if eq .site.Site.Params.epub true }}
+<span class="fallback-image"><img src='{{ .site.Scratch.Get "imageDir" | relURL }}/icons/website.png'/></span>
+{{ else }}
+<iframe id='{{ .site.Get "id" }}' class='quire-figure__media' src='{{ .site.Get "media_id"}}'></iframe>
+{{ end }}
+
+
+{{ else }}
+
+{{ if isset .map "src" }}
+{{ if .map.src }}
+<div class="quire-figure__wrapper">
+<img src='{{ printf "%s/%s" (.site.Scratch.Get "imageDir") .map.src | relURL }}'/>
+</div>
+{{ end }}
+
+{{ else if .site.Get "src" }}
+<div class="quire-figure__wrapper">
+<img src='{{ with .site.Get "src"}}{{ printf "%s/%s" (.site.Scratch.Get "imageDir") . | relURL }}{{ end }}' />
+</div>
+
+{{ else }}
+
+<div class="placeholder">
+  {{ if isset .map "media_type" }}
+    <span class="fallback-image"><img src='{{ .site.Scratch.Get "imageDir" | relURL }}/icons/{{ .map.media_type }}.png'/></span>
+  {{ end }}
+</div>
+
+{{- end -}}
+
+  <h5 class="header">
+      {{ if .site.Get "title" }}
+      {{ .site.Get "title" | markdownify }}
+      {{ else if isset .map "title" }}
+      {{ if .map.title }}
+      {{ .map.title | markdownify }}
+      {{ end }}
+      {{ end }}
+  </h5>
+
+  {{ if isset .map "media_type" }}
+
+    <figcaption class="caption">
+
+      {{- if eq .map.media_type "youtube" }}
+        <a href='https://youtu.be/{{ .map.media_id }}' alt="" title="" target="_blank" ><em>https://youtu.be/{{ .map.media_id }}</em></a>
+      {{ end }}
+      {{- if eq .map.media_type "vimeo" }}
+        <a href='https://vimeo.com/{{ .map.media_id }}' alt="" title="" target="_blank" ><em>https://vimeo.com/{{ .map.media_id }}</em></a>
+      {{ end }}
+      {{- if eq .map.media_type "soundcloud" }}
+        <a href="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .map.media_id }}" alt="" title="" target="_blank" ><em>https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .map.media_id }}</em></a>
+      {{ end }}
+
+    {{ else }}
+
+      {{- if eq (.site.Get "media_type") "youtube" }}
+        <a href='https://youtu.be/{{ .site.Get.media_id }}' alt="" title="" target="_blank" ><em>https://youtu.be/{{ .site.Get "media_id" }}</em></a>
+      {{ end }}
+      {{- if eq (.site.Get "media_type") "vimeo" }}
+        <a href='https://vimeo.com/{{ .site.Get.media_id }}' alt="" title="" target="_blank" ><em>https://vimeo.com/{{ .site.Get "media_id" }}</em></a>
+      {{ end }}
+      {{- if eq (.site.Get "media_type") "soundcloud" }}
+        <a href="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .site.Get.media_id }}" alt="" title="" target="_blank" ><em>https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .site.Get "media_id" }}</em></a>
+      {{ end }}
+    
+    </figcaption>
+
+  {{ end }}
+
+{{- end -}}
+
+{{ else if (.site.Get "media_type") }}
+
+{{- if (.site.Get "media_type") "website"  }}
+
+{{ if eq .site.Site.Params.epub true }}
+<span class="fallback-image"><img src='{{ .site.Scratch.Get "imageDir" | relURL }}/icons/website.png'/></span>
+{{ else }}
+<iframe id='{{ .site.Get "id" }}' class='quire-figure__media' src='{{ .site.Get "media_id"}}'></iframe>
+{{ end }}
+
+{{ else }}
+
+{{ if isset .map "src" }}
+
+{{ if .map.src }}
+<div class="quire-figure__wrapper">
+<img src='{{ printf "%s/%s" (.site.Scratch.Get "imageDir") .map.src | relURL }}' class='quire-figure__media'/>
+</div>
+{{ else }}
+
+<div class="placeholder">
+
+    {{ if isset .map "media_type" }}
+
+    {{- if or (eq .map.media_type "youtube")  (eq .map.media_type "vimeo") }}
+    <i class="material-icons md-24">videocam</i>
+    {{ end }}
+    {{- if or (eq .map.media_type "soundcloud")  (eq .map.media_type "audio") }}
+    <i class="material-icons md-24 audio">headset</i>
+    {{ end }}
+
+    {{ else }}
+
+    {{- if or (eq (.site.Get "media_type") "youtube")  (eq (.site.Get "media_type") "vimeo") }}
+    <i class="material-icons md-24">videocam</i>
+    {{ end }}
+    {{- if or (eq (.site.Get "media_type") "soundcloud")  (eq (.site.Get "media_type") "audio") }}
+    <i class="material-icons md-24 audio">headset</i>
+    {{ end }}
+
+    {{ end }}
+
+</div>
+{{- end -}}
+
+  <h5 class="header">
+      {{ if .site.Get "title" }}
+      {{ .site.Get "title" | markdownify }}
+      {{ else if isset .map "title" }}
+      {{ if .map.title }}
+      {{ .map.title | markdownify }}
+      {{ end }}
+      {{ end }}
+  </h5>
+
+    {{ if isset .map "media_type" }}
+
+    <p class="caption">
+
+    {{- if eq .map.media_type "youtube" }}
+    <a href='https://youtu.be/{{ .map.media_id }}' alt="" title="" target="_blank" ><em>https://youtu.be/{{ .map.media_id }}</em></a>
+    {{ end }}
+    {{- if eq .map.media_type "vimeo" }}
+    <a href='https://vimeo.com/{{ .map.media_id }}' alt="" title="" target="_blank" ><em>https://vimeo.com/{{ .map.media_id }}</em></a>
+    {{ end }}
+    {{- if eq .map.media_type "soundcloud" }}
+    <a href="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .map.media_id }}" alt="" title="" target="_blank" ><em>https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .map.media_id }}</em></a>
+    {{ end }}
+
+    {{ else }}
+
+    {{- if eq (.site.Get "media_type") "youtube" }}
+    <a href='https://youtu.be/{{ .site.Get.media_id }}' alt="" title="" target="_blank" ><em>https://youtu.be/{{ .site.Get "media_id" }}</em></a></p>
+    {{ end }}
+    {{- if eq (.site.Get "media_type") "vimeo" }}
+    <a href='https://vimeo.com/{{ .site.Get.media_id }}' alt="" title="" target="_blank" ><em>https://vimeo.com/{{ .site.Get "media_id" }}</em></a></p>
+    {{ end }}
+    {{- if eq (.site.Get "media_type") "soundcloud" }}
+    <a href="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .site.Get.media_id }}" alt="" title="" target="_blank" ><em>https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ .site.Get "media_id" }}</em></a>
+    {{ end }}
+    
+    </p>
+
+    {{ end }}
+    
+    {{ end }}
+
+{{- end -}}
+
+{{ end }}
+
+{{ end }}
+
+
+{{/* -------------------- END FALL BACK BLOCK -------------------- */}}
+
+{{ end }}

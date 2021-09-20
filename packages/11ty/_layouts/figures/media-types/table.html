@@ -1,0 +1,53 @@
+{{- $imageDir := "" -}}
+{{- if .Site.Params.imageDir -}}
+  {{- $imageDir = .Site.Params.imageDir -}}
+  {{- else }}
+  {{- $imageDir = "img" -}}
+{{- end }}
+
+{{- $tableSrc := printf "%s/%s/%s" "static" $imageDir .src -}}
+
+{{- $now := now.UnixNano -}}
+{{ $figureId := printf "%s-%d" "deepzoomtable" $now }}
+{{ $modalLink := printf "%s%s" "#" $figureId }}
+
+{{- if eq .Site.Params.figureModal true -}}
+  <figure
+    id="{{ $figureId }}"
+    title="{{ .caption | markdownify | safeHTML }}"
+    class="quire-figure leaflet-outer-wrapper mfp-hide notGet"
+  >
+    <div
+      id="js-{{ $figureId }}"
+      class="quire-deepzoom inset leaflet-inner-wrapper"
+      aria-label="Zoomable table"
+      aria-live="polite"
+      role="application"
+    >
+      <figure class="leaflet-table">{{ readFile $tableSrc | safeHTML }}</figure>
+    </div>
+  </figure>
+  <a
+    href="{{ $modalLink }}"
+    class="inline popup"
+    data-type="inline"
+    title="{{ .caption | markdownify | safeHTML }}">
+  {{- end -}}
+
+    <figure class="quire-figure__table">
+      {{ readFile $tableSrc | safeHTML }}
+    </figure>
+
+{{- $dict := dict "Site" .Site "caption" .caption "credit" .credit "label" .label "modalLink" $modalLink -}}
+
+{{- if or .label (eq .Site.Params.figureModal true ) }}
+  {{ if eq .Site.Params.figureLabelLocation "on-top" }}
+    {{- partial "figures/label.html" $dict -}}
+  {{ end }}
+{{- end -}}
+
+{{- if eq .Site.Params.figureModal true -}}
+  </a>
+{{- end -}}
+
+{{- partial "figures/caption.html" $dict -}}

@@ -1,0 +1,24 @@
+{{- if or (eq .Site.Params.epub true) (eq .Site.Params.pdf true) -}}
+  {{- $fallbackDict := dict "Site" .Site "alt" .alt "id" .id "mediaType" .mediaType "src" .src -}}
+  {{- partial "figures/media-types/fallback.html" $fallbackDict -}}
+
+  <figcaption class="quire-figure__caption caption">
+    <a href="{{ safeURL .mediaId }}" target="_blank">{{ .mediaId }}</a>
+  </figcaption>
+
+{{- else -}}
+
+  <div class="quire-figure__media-wrapper{{ if .aspectRatio }}--{{ .aspectRatio }}{{ else }}--widescreen{{ end }}">
+    <iframe class="quire-figure__media" src="{{ safeURL .mediaId }}"></iframe>
+  </div>
+{{- end -}}
+
+{{- $dict := dict "Site" .Site "caption" .caption "credit" .credit "label" .label -}}
+
+{{- if .label }}
+  {{ if eq .Site.Params.figureLabelLocation "on-top" }}
+    {{- partial "figures/label.html" $dict -}}
+  {{ end }}
+{{- end -}}
+
+{{- partial "figures/caption.html" $dict -}}

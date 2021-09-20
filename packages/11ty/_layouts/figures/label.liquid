@@ -1,0 +1,17 @@
+{% comment %}
+
+  The figure label element
+
+  @params {string} label - the figure's label
+  @params {string} link - the link that opens the figure modal element. If provided, the label will include a fullscreen icon.
+
+{% endcomment %}
+
+<span class="q-figure__label q-figure__label--{{ figureLabelLocation }}">
+  {% if showIcon and link %}
+  <span class="q-figure__label-icon">
+    {% render 'icon.html' 'type' 'fullscreen' 'description' 'Expand' %}
+  </span>
+  {% endif %}
+  <span class="q-figure__label-text">{{ label }}</span>
+</span>
