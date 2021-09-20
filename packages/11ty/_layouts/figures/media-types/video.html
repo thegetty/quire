@@ -1,0 +1,12 @@
+<!--
+  @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video
+-->
+{% assign unSupported = "Sorry, your browser does not support embedded videos." %}
+
+<figure class="q-figure">
+  <videocontrols width="250">
+    <source src="{{ mp4Source }}" type="video/mp4"/>
+    <source src="{{ webmSource }}" type="video/webm"/>
+    {{ unSupported }}
+  </video>
+</figure>
