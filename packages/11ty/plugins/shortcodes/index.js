@@ -1,7 +1,7 @@
-const figure require ('./shortcodes/figure')
-const styleClass require ('./shortcodes/class')
+const figure = require ('./figure')
+const styleClass = require ('./styleClass')
 
 module.exports = function(eleventyConfig, options) {
-  eleventyConfig.addPairedShortcode('q-class', styleClass)
-  eleventyConfig.addShortcode('q-figure', figure)
+  eleventyConfig.addPairedShortcode('qclass', styleClass)
+  eleventyConfig.addShortcode('qfigure', figure)
 }

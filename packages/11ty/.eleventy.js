@@ -22,7 +22,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addDataExtension('yaml', (contents) => yaml.load(contents))
   eleventyConfig.addDataExtension('geojson', (contents) => JSON.parse(contents))
 
-  eleventyConfig.namespace('q-', () => {
+  eleventyConfig.namespace('q', () => {
     eleventyConfig.addPlugin(qFilters)
     eleventyConfig.addPlugin(qFrontmatter)
     eleventyConfig.addPlugin(qShortcodes)
