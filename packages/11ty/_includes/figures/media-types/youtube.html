@@ -1,29 +1,34 @@
-{{- if or (eq .Site.Params.epub true) (eq .Site.Params.pdf true) -}}
-  {{- $fallbackDict := dict "Site" .Site "alt" .alt "id" .id "mediaType" .mediaType "src" .src -}}
-  {{- partial "figures/media-types/fallback.html" $fallbackDict -}}
+{% assign src = "https://youtu.be/" | append: mediaId %}
+
+{% if site.params.epub or site.params.pdf %}
+  {% render 'fallback', alt: alt, id: id, mediaType: mediaType, src: src %}
 
   <figcaption class="quire-figure__caption caption">
-    <a href="https://youtu.be/{{ .mediaId }}" target="_blank">https://youtu.be/{{ .mediaId }}</a>
+    <a href="src" target="_blank">{{ src }}</a>
   </figcaption>
 
-{{- else -}}
+{% else %}
 
-  <div class="quire-figure__media-wrapper{{ if .aspectRatio }}--{{ .aspectRatio }}{{ else }}--widescreen{{ end }}">
+  <figcaption class="quire-figure__caption caption">
+    <a href="{{ src }}" target="_blank">{{ src }}</a>
+  </figcaption>
+
+{% else %}
+
+  <div class="quire-figure__media-wrapper--{{ aspectRatio or 'widescreen' }}">
     <iframe
-      class="quire-figure__media"
-      src="https://www.youtube-nocookie.com/embed/{{ .mediaId }}?rel=0&amp;showinfo=0"
-      frameborder="0"
       allowfullscreen
-    ></iframe>
+      class="quire-figure__media"
+      frameborder="0"
+      src="https://www.youtube-nocookie.com/embed/{{ mediaId }}?rel=0&amp;showinfo=0"
+    />
   </div>
-{{- end -}}
+{% endif %}
 
-{{- $dict := dict "Site" .Site "caption" .caption "credit" .credit "label" .label -}}
+{% assign params = { caption: caption, credit: credit, label: label } %}
 
-{{- if .label }}
-  {{ if eq .Site.Params.figureLabelLocation "on-top" }}
-    {{- partial "figures/label.html" $dict -}}
-  {{ end }}
-{{- end -}}
+{% label and site.params.figureLabelLocation == 'on-top' %}
+  {% render '../label.liquid', params %}
+{% endif %}
 
-{{- partial "figures/caption.html" $dict -}}
+{% render '../caption.liquid', params %}
