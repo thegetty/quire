@@ -1,0 +1,32 @@
+<section class="{{ if or (eq .Title "title page") (eq .Title "half title page") }} is-screen-only {{ end }} quire-page__header hero">
+  <div class="hero-body">
+
+    {% comment %}
+    Page Title
+    {% endcomment %}
+
+    <h1 class="quire-page__header__title" id="{{ .Title | urlize }}">
+      {%- if label -%}
+        <span class="label">{{- label -}}<span class="visually-hidden">
+          {{- site.params.pageLabelDivider -}}
+        </span></span>
+      {%- end %}
+      {% render "page/title" | markdownify -%}
+    </h1>
+
+    {% comment %}
+    Contributors, if any
+    {% endcomment %}
+
+    {% render "page-contributor" %}
+  </div>
+</section>
+
+{% if image -%}
+  {% assign imgPath = site.params.imgDir | append: "/" | append: image %}
+  <section
+    class="{% if title == 'title page' or title == 'half title page' %}is-screen-only{% endif %} quire-page__header hero__image"
+    style="background-image: url('{{ imgPath }}');"
+  >
+  </section>
+{% endif %}
