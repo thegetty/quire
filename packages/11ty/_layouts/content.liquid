@@ -1,6 +1,6 @@
 {% comment %}
   Table of Contents (TOC) page template. Page content from the markdown will
-  appear in the .Content outlet below. The Table of Contents list will appear
+  appear in the content outlet below. The Table of Contents list will appear
   below that. It is scoped to show the contents of the full site. Pages can be
   removed from the TOC indivudally by adding "toc: false" to the page yaml.
 {% endcomment %}
@@ -11,48 +11,55 @@
   
   <section class="section quire-page__content" id="content">
     
-    {%- if .Content -%}
+    {%- if content -%}
       <div class="container">
         <div class="content">
-          {{ .Content }}
+          {{ content }}
         </div>
       </div>
     {%- endif -%}
     
-    {% for class in .Params.class %}
-      {% if class === "grid" or class === "abstract" or class === "brief" %}
-        {% assign contentsListClass = class %}
-        {% if class === "grid" %}
-          {% assign containerClass = "is-fullhd" %}
-        {% endif %}
-      {% else %}
-        {% assign contentsListClass = "list" %}
+    {% comment %}
+    the following class variable is defined in the page's front matter,
+    likely it should be namespaced
+    {% endcomment %}
+    {% if class === "grid" or class === "abstract" or class === "brief" %}
+      {% assign contentsListClass = class %}
+      {% if class === "grid" %}
+        {% assign containerClass = "is-fullhd" %}
       {% endif %}
-    {% endfor %}
+    {% else %}
+      {% assign contentsListClass = "list" %}
+    {% endif %}
 
     <div class="container {{ containerClass }}">
       <div class="quire-contents-list {{ contentsListClass }}">
         <div class="menu-list">
-          {% if .Section %}
+          {% if section %}
+            {% comment %}
+            @todo Should see if contentsList can be refactored with the 11ty navigation plugin
+            and should replace ".Site.Pages" with "collections.page"
+            {% endcomment %}
             {% for page in .Site.Pages %}
-              {% if page.Section = .Section %}
-                {% assign $scope = .Section %}
+              {% if page.section = section %}
+                {% assign scope = section %}
                 {%- render 'contentsList',
                     "site": .Site,
-                    "contentsScope": $scope,
+                    "contentsScope": scope,
                     "contentsType": .Site.Params.tocType,
                     "pdf": ".Params.pdf",
                     "epub": ".Params.epub",
                     "contentsLocation": ".Params.toc",
-                    "contentsPage": . 
+                    "contentsPage": .
                 -%}
                 }
               {% endif %}
+            }
           {% else %}
-            {% assign $scope = .Site.Pages %}
+            {% assign scope = .Site.Pages %}
             {%- render 'contentsList',
                 "site": .Site,
-                "contentsScope": $scope,
+                "contentsScope": scope,
                 "contentsType": .Site.Params.tocType,
                 "pdf": ".Params.pdf",
                 "epub": ".Params.epub",
