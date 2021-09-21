@@ -63,7 +63,7 @@ description: Cover page layout. This controls the home page of the publication.
                   {% assign hasContributorType = true %}
                 {% endif %}
               {% endfor %}
-              {% assign params = { contributors: site.data.publication.contributor, contributorType: "all", listType: "string" } %}
+              {% assign params = { contributor: site.data.publication.contributor, contributorType: "all", listType: "string" } %}
               {%- if hasContributorType -%}
                 {% assign params.contributorType = "primary" %}
               {%- endif -%}
