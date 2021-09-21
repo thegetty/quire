@@ -1,0 +1,14 @@
+{% comment %}
+
+  Concatenates the site title and subtitle, using a colon, or if the title ends with a ! or ?, no colon is included.
+
+  See also page-title.html
+
+{% endcomment %}
+
+{% assign lastLetter = publication.title | split "" | last %}
+{% unless "!?" | split "" contains lastLetter %}
+  {% endPunctuation = ":" %}
+{% endif %}
+
+{{ publication.title }}{{endPunctuation}}{% if publication.subtitle %} {{ publication.subtitle }}{% endif %}{% if publication.readingLine %} ({{ publication.readingLine }}){% endif %}
