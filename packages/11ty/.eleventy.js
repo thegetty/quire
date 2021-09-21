@@ -13,7 +13,17 @@ module.exports = function(eleventyConfig) {
   const projectDir = 'src'
 
   /**
-   * Setup custom data format extensions
+   * Configure the Liquid template engine
+   * @see https://www.11ty.dev/docs/languages/liquid/#liquid-options
+   * @see https://github.com/11ty/eleventy/blob/master/src/Engines/Liquid.js
+   */
+  eleventyConfig.setLiquidOptions({
+    dynamicPartials: false,
+    strictFilters: false
+  })
+
+  /**
+   * Custom data formats
    * Nota bene: the order in which extensions are added sets their precedence
    * in the data cascade, the last added will take precedence over the first.
    * @see https://www.11ty.dev/docs/data-cascade/
