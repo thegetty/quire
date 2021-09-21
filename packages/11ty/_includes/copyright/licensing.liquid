@@ -1,0 +1,28 @@
+{%- if $license.scope === "some-exceptions" -%}
+  Except where otherwise noted, this work is licensed under a
+  {% if $license.url %}<a rel="license" href="{{ $license.url | relURL }}" target="_blank">{% endif %}
+  {{ $license.name }}
+  {% if $license.url %}</a>{{ endif }}.
+
+{%- else if eq $license.scope "text-only" -%}
+  The text of this work is licensed under a
+  {% if $license.url %}<a rel="license" href="{{ $license.url | relURL }}" target="_blank">{% endif %}
+  {{ $license.name }}
+  {% if $license.url %}</a>{% endif %}. 
+  Unless otherwise noted, all illustrations are excluded from the
+  {% if $license.abbreviation %}
+  {{ $license.abbreviation }}
+  {% else %}
+  {{ $license.name }}
+  {% endif %} license.
+{%- else -%}
+  This work is licensed under a
+  {% if $license.url %}<a rel="license" href="{{ $license.url | relURL }}" target="_blank">{% endif %}
+  {{ $license.name }}
+  {% if $license.url %}</a>{% end %}
+{%- endif -%}
+<span class="is-print-only">
+  To view a copy of this license{% if $license.url %},
+  visit {{ $license.url }} or{% endif %}
+  send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042.
+</span>
