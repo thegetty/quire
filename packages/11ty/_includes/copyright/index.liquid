@@ -17,48 +17,48 @@ If copyright info is defined, show information about it here
   {% comment %}
   If a license is defined, show information about it here
   {% endcomment %}
-  {%- if $license.name -%}
+  {%- if license.name -%}
 
     {% comment %}
     License icons (ex. CC icons) if any
     {% endcomment %}
     {%- if site.params.licenseIcons === true -%}
 
-      {% assign $license = publication.license %}
+      {% assign license = publication.license %}
 
-      {%- if $license -%}
+      {%- if license -%}
 
-        <a rel="license" class="quire-copyright__icon__link" href="{{ $license.url }}" target="_blank">
+        <a rel="license" class="quire-copyright__icon__link" href="{{ license.url }}" target="_blank">
 
-        {% assign $licenseAbbreviations = $license.abbreviation | split: " " -%}
+        {% assign licenseAbbreviations = license.abbreviation | split: " " -%}
 
         <svg class="quire-copyright__icon">
-          {% if $license.abbreviation contains "CC" %}
+          {% if license.abbreviation contains "CC" %}
             <switch>
               <use xlink:href="#cc"></use>
             </switch>
-            {% if $license.abbreviation contains "BY" %}
+            {% if license.abbreviation contains "BY" %}
               <switch>
                 <use xlink:href="#cc-by"></use>
                 <foreignObject width="135" height="30">
                     <img src="{{ site.params.imageDir }}/icons/cc-by.png" alt="CC-BY" />
                 </foreignObject>
               </switch>
-              {% if $license.abbreviation contains "BY-NC" %}
+              {% if license.abbreviation contains "BY-NC" %}
                 <switch>
                   <use xlink:href="#cc-by-nc"></use>
                   <foreignObject width="135" height="30">
                       <img src="{{ site.params.imageDir }}/icons/cc-by-nc.png" alt="CC-BY-NC" />
                   </foreignObject>
                 </switch>
-                {% if $license.abbreviation contains "BY-NC-SA" %}
+                {% if license.abbreviation contains "BY-NC-SA" %}
                   <switch>
                     <use xlink:href="#cc-by-nc-sa"></use>
                     <foreignObject width="135" height="30">
                         <img src="{{ site.params.imageDir }}/icons/cc-by-nc-sa.png" alt="CC-BY-NC-SA" />
                     </foreignObject>
                   </switch>
-                {% elsif $license contains.abbreviation "BY-NC-ND" %}
+                {% elsif license contains.abbreviation "BY-NC-ND" %}
                   <switch>
                     <use xlink:href="#cc-by-nc-nd"></use>
                     <foreignObject width="135" height="30">
@@ -66,14 +66,14 @@ If copyright info is defined, show information about it here
                     </foreignObject>
                   </switch>
                 {% endif %}
-              {% else if $license contains.abbreviation "BY-SA" %}
+              {% else if license contains.abbreviation "BY-SA" %}
                 <switch>
                   <use xlink:href="#cc-by-sa"></use>
                   <foreignObject width="135" height="30">
                       <img src="{{ site.params.imageDir }}/icons/cc-by-sa.png" alt="CC-BY-SA" />
                   </foreignObject>
                 </switch>
-              {% else if $license contains.abbreviation "BY-ND" %}
+              {% else if license contains.abbreviation "BY-ND" %}
                 <switch>
                   <use xlink:href="#cc-by-nd"></use>
                   <foreignObject width="135" height="30">
@@ -81,7 +81,7 @@ If copyright info is defined, show information about it here
                   </foreignObject>
                 </switch>
               {% endif %}
-            {% elsif $license contains.abbreviation "0" %}
+            {% elsif license contains.abbreviation "0" %}
               <switch>
                 <use xlink:href="#cc-zero"></use>
                 <foreignObject width="135" height="30">
@@ -101,23 +101,23 @@ If copyright info is defined, show information about it here
     License details
     {% endcomment %}
 
-    {% if $license.online_text %}
+    {% if license.online_text %}
       <div class="is-screen-only">
-      {{ $license.online_text | markdownify }}
+      {{ license.online_text | markdownify }}
       </div>
     {% elsif %}
       <div class="is-screen-only">
-      {% render "copyright/licensing", $license: $license %}
+      {% render "copyright/licensing", license: license %}
       </div>
     {% endif %}
 
-    {% if $license.pdf_ebook_text %}
+    {% if license.pdf_ebook_text %}
       <div class="is-print-only">
-      {{ $license.pdf_ebook_text | markdownify }}
+      {{ license.pdf_ebook_text | markdownify }}
       </div>
     {% elsif %}
       <div class="is-print-only">
-      {% render "copyright/licensing", $license: $license %}
+      {% render "copyright/licensing", license: license %}
       </div>
     {% endif %}
 
