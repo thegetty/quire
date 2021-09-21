@@ -1,5 +1,6 @@
 const epubPlugin = require('./plugins/epub')
 const iiifPlugin = require('./plugins/iiif')
+const json5 = require('json5')
 const navigationPlugin = require('@11ty/eleventy-navigation')
 const qFilters = require('./plugins/filters')
 const qFrontmatter = require('./plugins/frontmatter')
@@ -12,12 +13,23 @@ module.exports = function(eleventyConfig) {
   const projectDir = 'src'
 
   /**
-   * Setup custom data format extensions
+   * Configure the Liquid template engine
+   * @see https://www.11ty.dev/docs/languages/liquid/#liquid-options
+   * @see https://github.com/11ty/eleventy/blob/master/src/Engines/Liquid.js
+   */
+  eleventyConfig.setLiquidOptions({
+    dynamicPartials: false,
+    strictFilters: false
+  })
+
+  /**
+   * Custom data formats
    * Nota bene: the order in which extensions are added sets their precedence
    * in the data cascade, the last added will take precedence over the first.
    * @see https://www.11ty.dev/docs/data-cascade/
    * @see https://www.11ty.dev/docs/data-custom/
    */
+  eleventyConfig.addDataExtension('json5', (contents) => json5.parse(contents))
   eleventyConfig.addDataExtension('toml', (contents) => toml.load(contents))
   eleventyConfig.addDataExtension('yaml', (contents) => yaml.load(contents))
   eleventyConfig.addDataExtension('geojson', (contents) => JSON.parse(contents))
