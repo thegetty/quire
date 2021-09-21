@@ -23,7 +23,7 @@
 {% assign params = { caption: caption, credit: credit, label: label } %}
 
 {% label and site.params.figureLabelLocation == 'on-top' %}
-  {% render '../label/.liquid', params %}
+  {% render '../label.liquid' with params %}
 {% endif %}
 
-{% render '../caption/.liquid', params %}
+{% render '../caption.liquid' with params %}
