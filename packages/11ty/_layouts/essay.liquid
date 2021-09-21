@@ -1,0 +1,20 @@
+---
+layout: base
+description: Essay layout. This layout describes a single-page template that has been augmented with the ability to display a frontmatter-defined abstract (in markdown format) as well as bibliography references.
+---
+<article class="{% include 'page/class' %} quire-essay" id="main" role="main">
+  {% include 'page/header' %}
+
+  <section id="content" class="section quire-page__content">
+    {% if abstract %}
+      {% include "page/abstract" %}
+    {% endif %}
+    <div class="container">
+      <div class="content">
+        {{ content }}
+        {% include "page/bibliography" %}
+      </div>
+      {% include "footer-buttons" %}
+    </div>
+  </section>
+</article>
