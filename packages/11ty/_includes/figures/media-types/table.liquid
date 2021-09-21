@@ -1,53 +1,44 @@
-{{- $imageDir := "" -}}
-{{- if .Site.Params.imageDir -}}
-  {{- $imageDir = .Site.Params.imageDir -}}
-  {{- else }}
-  {{- $imageDir = "img" -}}
-{{- end }}
+{% assign tableSrc = 'static' | imageDir | src | join: '' %}
 
-{{- $tableSrc := printf "%s/%s/%s" "static" $imageDir .src -}}
+{% assign figureId = 'deepzoomtable' | append: date }}
+{% assign modalLink = 'figureId' | prepend: '#' }}
 
-{{- $now := now.UnixNano -}}
-{{ $figureId := printf "%s-%d" "deepzoomtable" $now }}
-{{ $modalLink := printf "%s%s" "#" $figureId }}
-
-{{- if eq .Site.Params.figureModal true -}}
+{% if site.params.figureModal %}
   <figure
-    id="{{ $figureId }}"
-    title="{{ .caption | markdownify | safeHTML }}"
     class="quire-figure leaflet-outer-wrapper mfp-hide notGet"
+    id="{{ figureId }}"
+    title="{{ caption | markdownify }}"
   >
     <div
-      id="js-{{ $figureId }}"
-      class="quire-deepzoom inset leaflet-inner-wrapper"
       aria-label="Zoomable table"
       aria-live="polite"
+      class="quire-deepzoom inset leaflet-inner-wrapper"
+      id="js-{{ figureId }}"
       role="application"
     >
-      <figure class="leaflet-table">{{ readFile $tableSrc | safeHTML }}</figure>
+      <figure class="leaflet-table">{% include tableSrc %}</figure>
     </div>
   </figure>
   <a
-    href="{{ $modalLink }}"
     class="inline popup"
     data-type="inline"
-    title="{{ .caption | markdownify | safeHTML }}">
-  {{- end -}}
+    href="{{ modalLink }}"
+    title="{{ caption | markdownify }}"
+  >
+{% endif %}
 
     <figure class="quire-figure__table">
-      {{ readFile $tableSrc | safeHTML }}
+      {% include tableSrc %}
     </figure>
 
-{{- $dict := dict "Site" .Site "caption" .caption "credit" .credit "label" .label "modalLink" $modalLink -}}
+{% assign params = { caption: caption, credit: credit, label: label, modalLink: modalLink } %}
 
-{{- if or .label (eq .Site.Params.figureModal true ) }}
-  {{ if eq .Site.Params.figureLabelLocation "on-top" }}
-    {{- partial "figures/label.html" $dict -}}
-  {{ end }}
-{{- end -}}
+{% label and site.params.figureLabelLocation == 'on-top' %}
+  {% render '../label.liquid' with params %}
+{% endif %}
 
-{{- if eq .Site.Params.figureModal true -}}
+{% if site.params.figureModal %}
   </a>
-{{- end -}}
+{% endif %}
 
-{{- partial "figures/caption.html" $dict -}}
+{% render '../caption.liquid' with params %}
