@@ -1,0 +1,72 @@
+{% comment %}
+  Table of Contents (TOC) page template. Page content from the markdown will
+  appear in the .Content outlet below. The Table of Contents list will appear
+  below that. It is scoped to show the contents of the full site. Pages can be
+  removed from the TOC indivudally by adding "toc: false" to the page yaml.
+{% endcomment %}
+
+{% block main %}
+<div class="{% render "page-class.html" %} quire-contents" id="main" role="main">
+  {% render "page-header.html" %}
+  
+  <section class="section quire-page__content" id="content">
+    
+    {%- if .Content -%}
+      <div class="container">
+        <div class="content">
+          {{ .Content }}
+        </div>
+      </div>
+    {%- endif -%}
+    
+    {% for class in .Params.class %}
+      {% if class === "grid" or class === "abstract" or class === "brief" %}
+        {% assign contentsListClass = class %}
+        {% if class === "grid" %}
+          {% assign containerClass = "is-fullhd" %}
+        {% endif %}
+      {% else %}
+        {% assign contentsListClass = "list" %}
+      {% endif %}
+    {% endfor %}
+
+    <div class="container {{ containerClass }}">
+      <div class="quire-contents-list {{ contentsListClass }}">
+        <div class="menu-list">
+          {% if .Section %}
+            {% for page in .Site.Pages %}
+              {% if page.Section = .Section %}
+                {% assign $scope = .Section %}
+                {%- render 'contentsList',
+                    "site": .Site,
+                    "contentsScope": $scope,
+                    "contentsType": .Site.Params.tocType,
+                    "pdf": ".Params.pdf",
+                    "epub": ".Params.epub",
+                    "contentsLocation": ".Params.toc",
+                    "contentsPage": . 
+                -%}
+                }
+              {% endif %}
+          {% else %}
+            {% assign $scope = .Site.Pages %}
+            {%- render 'contentsList',
+                "site": .Site,
+                "contentsScope": $scope,
+                "contentsType": .Site.Params.tocType,
+                "pdf": ".Params.pdf",
+                "epub": ".Params.epub",
+                "contentsLocation": ".Params.toc",
+                "contentsPage": .
+            -%}
+          {% endif %}
+        </div>
+        <div class="content">
+          {% render "page-bibliography.html" %}
+        </div>
+      </div>
+      {% render "footer-buttons.html" %}
+    </div>
+  </section>
+</div>
+{% endblock %}
