@@ -1,0 +1,25 @@
+{% comment %}
+ Entry tombstone data
+{% endcomment %}
+
+{% for object in page.object %}
+  {% assign objectData = objects.object_list[object.id] %}
+  {% if objectData }
+    <section class="quire-entry__tombstone">
+      <div class="container">
+        <table class="table is-fullwidth">
+          <tbody>
+          {% tablerow key in objects.object_display_order %}
+            {% if objectData[key] }
+            <td>{{ key | capitalize }}</td>
+            <td>{{ objectData[key] | markdownify }}</td>
+          {% endtablerow %}
+          </tbody>
+        </table>
+        {% if objectData.link %}
+          <a class="button" href="{{ objectData.link }}" target="_blank">{{ site.entryPageObjectLinkText }} {% render '_includes/icon', type: 'link', description: '' }}</a>
+        {% endif %}
+      </div>
+    </section>
+  {% endif %}
+{% endfor %}
