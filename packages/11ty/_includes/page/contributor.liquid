@@ -46,7 +46,7 @@ Check global setting, do nothing if set to false w/ no page override
     {%- elsif contributor -%}
       <div class="quire-page__header__contributor">
         {% assign params = { contributor: contributor, contributorType: "all", listType: listType } %}
-        {% render "contributor/list", params %}
+        {% render "../contributor/list", params %}
       </div>
     {%- endif -%}
   {%- endif -%}
