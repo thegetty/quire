@@ -1,5 +1,6 @@
 const epubPlugin = require('./plugins/epub')
 const iiifPlugin = require('./plugins/iiif')
+const json5 = require('json5')
 const navigationPlugin = require('@11ty/eleventy-navigation')
 const qFilters = require('./plugins/filters')
 const qFrontmatter = require('./plugins/frontmatter')
@@ -18,6 +19,7 @@ module.exports = function(eleventyConfig) {
    * @see https://www.11ty.dev/docs/data-cascade/
    * @see https://www.11ty.dev/docs/data-custom/
    */
+  eleventyConfig.addDataExtension('json5', (contents) => json5.parse(contents))
   eleventyConfig.addDataExtension('toml', (contents) => toml.load(contents))
   eleventyConfig.addDataExtension('yaml', (contents) => yaml.load(contents))
   eleventyConfig.addDataExtension('geojson', (contents) => JSON.parse(contents))
