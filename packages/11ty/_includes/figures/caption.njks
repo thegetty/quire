@@ -17,7 +17,7 @@ If Site.Params.figureModal === true, the label is also a link to open the modal
     {% if label %}
       {% if config.epub %}
         <span class="q-figure__label">{{ label }}</span>
-      {% elseif figureLabelLocation == "below" %}
+      {% elseif figureLabelLocation == 'below' %}
         {% if figureModal and link %}
           <a
             class="inline popup"
@@ -25,7 +25,7 @@ If Site.Params.figureModal === true, the label is also a link to open the modal
             href="{{ link | slugify }}"
             title="{{ caption }}"
           >
-            {% render 'figures/label.html' label link %}
+            {% render 'figures/label.html', label, link %}
           </a>
         {% endif %}
       {% endif %}
