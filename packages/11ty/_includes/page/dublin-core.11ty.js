@@ -1,31 +1,85 @@
-<link rel="schema.dcterms" href="https://purl.org/dc/terms/">
+const path = require('path')
 
-<meta name="dcterms.title" content="{{ site.params.title }}">
+/**
+ * Renders <head> meta data tags
+ *
+ * @param      {Object}  data    data
+ * @return     {String}  HTML meta and link elements
+ */
+module.exports = class MetaData {
+  data() {
+    const link: [
+      { rel: 'schema.dcterms', href: 'https://purl.org/dc/terms/' }
+    ]
 
-{% for contributor in publication.contributor | where: 'type', 'primary' %}
-  <meta name="dcterms.creator" content="{{ contributor }}">
-{% endfor %}
+    const meta: [
+      {
+        name: 'dcterms.title',
+        content: site.params.title },
+      {
+        name: 'dcterms.date',
+        content: publication.pub_date
+      },
+      {
+        name: 'dcterms.description',
+        content: publication.description.one_line || publication.description.full
+      },
+      {
+        name: 'dcterms.identifier',
+        content: publication.identifier.isbn.replace(/-/g, '')
+      },
+      {
+        name: 'dcterms.language',
+        content: publication.language
+      },
+      {
+        name: 'dcterms.rights',
+        content: publication.copyright
+      }
+    ]
 
-{% for contributor in publication.contributor | where: 'type', 'secondary' %}
-  {% assign name = contributor.full_name or contributor.first_name | contributor.last_name | join: ' ' %}
-  <meta name="dcterms.contributor" content="{{ name }}">
-{% endfor %}
+    publication.contributor.forEach((contributor) => {
+      const { type, full_name, first_name, last_name } = contributor
+      const name = full_name || `${first_name} ${last_name}`
+      switch (type) {
+        case 'primary':
+          meta.push({ name: 'dcterms.creator' content: name })
+          break
+        case 'secondary':
+          meta.push({ name: 'dcterms.contributor', content: name })
+          break
+        default:
+          break
+      }
+    })
 
-<meta name="dcterms.date" content="{{ publication.pub_date }}">
+    publication.publisher.forEach(({ name, location }) => {
+      meta.push({
+        name: 'dcterms.publisher',
+        content: `${name}, ${location}`
+      })
+    })
 
-{% assign description = publication.description.one_line or publication.description.full %}
-<meta name="dcterms.description" content="{{ description | truncate 160 }}">
+    publication.subject.forEach(({ name }) => {
+      meta.push({
+        name: 'dcterms.subject',
+        content: name
+      })
+    })
+  }
 
-<meta name="dcterms.identifier" content="{{ publication.identifier.isbn | replace: '-', '' }}">
+  render({ link, meta }) {
+    const linkTags = links.map(({ rel, href }) => (
+      `<link rel="${rel}" href="${href}">`
+    ))
 
-<meta name="dcterms.language" content="{{ publication.language }}">
+    const metaTags = meta.map(({ name, content }) => (
+      `<meta name="${name}" content="${content}">`
+    ))
 
-{% for publisher in publication.publisher %}
-  <meta name="dcterms.publisher" content="{{ publisher.name }}, {{ publisher.location }}">
-{% endfor %}
-
-<meta name="dcterms.rights" content="{{ publication.copyright }}">
-
-{% for subject in  publication.subject %}
-  <meta name="dcterms.subject" content="{{ subject }}">
-{% end %}
+    return `
+      ${linkTags.join('\n')}
+      ${metaTags.join('\n')}
+    `
+  }
+}
