@@ -77,7 +77,7 @@
   {{- end -}}
 {{- end -}}
 */
-module.exports = (data) => {
+module.exports = function(data) {
   return `
     <span class="quire-citation expandable">
       {{ if ne .Site.Params.citationPopupStyle "icon" }}

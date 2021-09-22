@@ -407,6 +407,6 @@
 
 // </figure>
 // 
-module.exports = (data) => {
+module.exports = function(data) {
   return ``
 }

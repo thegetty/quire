@@ -45,7 +45,7 @@ Without this property set, the bibliography will not include the short form.
  *
  * @return     {boolean}  { description_of_the_return_value }
  */
-module.exports = (data) => {
+module.exports = function(data) {
   const slugify = eleventyConfig.getFilter('slugify')
 
   return params.displayBiblioShort
