@@ -2,6 +2,7 @@ const epubPlugin = require('./plugins/epub')
 const iiifPlugin = require('./plugins/iiif')
 const json5 = require('json5')
 const navigationPlugin = require('@11ty/eleventy-navigation')
+const path = require('path')
 const qFilters = require('./plugins/filters')
 const qFrontmatter = require('./plugins/frontmatter')
 const qShortcodes = require('./plugins/shortcodes')
@@ -59,8 +60,8 @@ module.exports = function(eleventyConfig) {
       output: 'site',
       // ⚠️ the following values are _relative_ to the `input` directory
       data: '_data',
-      includes: "_includes",
-      layouts: "_layouts"
+      includes: path.relative(projectDir, '_includes'),
+      layouts:  path.relative(projectDir, '_layouts')
     },
     /**
      * All of the following template formats support universal shortcodes.
