@@ -7,11 +7,11 @@
 // {{- $figureId := "" -}}
 // {{- $modalLink := "" -}}
 
-// {{ $errorNoMediaType := dict "shortcode" "q-figure-group" "message" "One of your figures in this group is missing the `media_type` attribute, which must be included in your `data/figures.yml` file for this figure `id`, and must be either “youtube” or “vimeo”." "example" "- id: &#34;3.1&#34;<br />  media_id: &#34;VYqDpNmnu8I&#34;<br />  media_type: &#34;youtube&#34;" }}
+// {{ $errorNoMediaType := dict "shortcode" "qfiguregroup" "message" "One of your figures in this group is missing the `media_type` attribute, which must be included in your `data/figures.yml` file for this figure `id`, and must be either “youtube” or “vimeo”." "example" "- id: &#34;3.1&#34;<br />  media_id: &#34;VYqDpNmnu8I&#34;<br />  media_type: &#34;youtube&#34;" }}
 
-// {{ $errorBadId := dict "shortcode" "q-figure-group" "message" "One or more of the `id` values supplied in this shortcode do not match any corresponding `id` values in your `data/figures.yml` file. Or, the `id` values were not fully comma separated." "example" "{{< q-figure-group id=&#34;3.1, 3.2, 3.3&#34; >}}" }}
+// {{ $errorBadId := dict "shortcode" "qfiguregroup" "message" "One or more of the `id` values supplied in this shortcode do not match any corresponding `id` values in your `data/figures.yml` file. Or, the `id` values were not fully comma separated." "example" "{{< qfiguregroup id=&#34;3.1, 3.2, 3.3&#34; >}}" }}
 
-// {{ $errorNoId := dict "shortcode" "q-figure-group" "message" "This shortcode must include one or more values for `id` that match corresponding `id` values in your `data/figures.yml` file." "example" "{{< q-figure-group id=&#34;3.1, 3.2, 3.3&#34; >}}" }}
+// {{ $errorNoId := dict "shortcode" "qfiguregroup" "message" "This shortcode must include one or more values for `id` that match corresponding `id` values in your `data/figures.yml` file." "example" "{{< qfiguregroup id=&#34;3.1, 3.2, 3.3&#34; >}}" }}
 
 
 // {{ if .Get "id" }}

@@ -13,6 +13,6 @@ module.exports = function(eleventyConfig, options) {
   eleventyConfig.addShortcode('qcite', (data) => cite(config, data))
   eleventyConfig.addShortcode('qcontributor', (data) => contributor(config, data))
   eleventyConfig.addShortcode('qfigure', (data) => figure(config, data))
-  eleventyConfig.addShortcode('qfigureGroup', (data) => figureGroup(config, data))
-  eleventyConfig.addShortcode('qfigureZoom', (data) => figureZoom(config, data))
+  eleventyConfig.addShortcode('qfiguregroup', (data) => figureGroup(config, data))
+  eleventyConfig.addShortcode('qfigurezoom', (data) => figureZoom(config, data))
 }
