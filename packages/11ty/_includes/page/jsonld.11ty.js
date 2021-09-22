@@ -3,7 +3,7 @@ const path = require('path')
 /**
  * Renders a JSON-LD representation of the page
  *
- * @param      {<type>}  data    data
+ * @param      {Object}  data    data
  * @return     {String}  An HTML script element with JSON-LD
  */
 module.exports = class JsonLd {
@@ -11,14 +11,14 @@ module.exports = class JsonLd {
     const Article = {
       // '@type': this.page.type === 'essay' ? 'Article' : 'Publication',
       '@type': 'Article',
-      author: [...authors()],
+      author: [...pageContributors],
       description: this.page.abstract.replace(/\n/g,' '),
       headline: this.page.title,
       image: path.join(site.BaseURL, imageDir, figureSubDir, this.page.cover),
       partOf: {
         // Book | PeriodicalIssue | Website
         about,
-        author: [...publicationAuthors]
+        author: [...publicationContributors]
         datePublished: publication.pub_date,
         dateModified: publication.revision_history.date,
         image: path.join(site.BaseURL, imageDir, publication.promo_image),
@@ -75,19 +75,28 @@ module.exports = class JsonLd {
         }
       })
 
-    const authors = this.page.contributor
-      // .filter((contributor) => contributor.type === 'primary')
+    const pageContributors = this.page.contributor
       .map((contributor, { id }) => {
-      contributor = id ? publication.contributor[id] : contributor
-      const { full_name, first_name, last_name } = contributor
-      return {
-        type: 'Person',
-        name: full_name || `${first_name} ${last_name}`,
-        // jobTitle: contributor.title,
-        // affiliation: contributor.affiliation,
-        // identifier: contributor.url
-      }
-    })
+        contributor = id ? publication.contributor[id] : contributor
+        const { full_name, first_name, last_name } = contributor
+        return {
+          type: 'Person',
+          name: full_name || `${first_name} ${last_name}`
+        }
+      })
+
+    const publicationContributors = publication.contributor
+      .filter((contributor) => contributor.type === 'primary')
+      .map((contributor) => {
+        const { full_name, first_name, last_name } = contributor
+        return {
+          type: 'Person',
+          name: full_name || `${first_name} ${last_name}`,
+          jobTitle: contributor.title,
+          affiliation: contributor.affiliation,
+          identifier: contributor.url
+        }
+      })
 
     const publisher = {
       type: 'Organization',
@@ -107,6 +116,6 @@ module.exports = class JsonLd {
 
   render(data) {
     const jsonld = JSON.stringify(data)
-    return `<script type=application/ld+json>${jsonld}</script>`
+    return `<script type="application/ld+json">${jsonld}</script>`
   }
 }
