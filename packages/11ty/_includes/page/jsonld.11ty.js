@@ -17,7 +17,7 @@ module.exports = class JsonLd {
       partOf: {
         ...partOf(publication.pub_type),
         about,
-        author: [...publicationContributors]
+        author: [...publicationContributors],
         datePublished: publication.pub_date,
         dateModified: publication.revision_history.date,
         image: path.join(site.BaseURL, imageDir, publication.promo_image),
