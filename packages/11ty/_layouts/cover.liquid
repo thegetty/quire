@@ -33,9 +33,10 @@ description: Cover page layout. This controls the home page of the publication.
         {% if site.data.publication %}
           <h1 class="title">
             {% assign lastLetter = site.data.publication.title | split "" | last %}
-            {% unless "!?" | split "" contains lastLetter %}
+            {% assign exceptions = "!?" | split "" %}
+            {% unless exceptions contains lastLetter %}
               {% assign endPunctuation = ":" %}
-            {% endif %}
+            {% endunless %}
 
             {{- site.data.publication.title | markdownify -}}
             {% if site.data.publication.subtitle %}
@@ -73,7 +74,7 @@ description: Cover page layout. This controls the home page of the publication.
               <em>{% render "contributor/list", params %}</em>
             {% endif %}
           </div>
-        {{ else }}
+        {% else %}
 
         {% comment %}
         Fallback for when no publication.yml data is present
