@@ -7,6 +7,11 @@ const figureZoom = require ('./figureZoom.11ty.js')
 const styleClass = require ('./styleClass.11ty.js')
 
 module.exports = function(eleventyConfig, options) {
+  eleventyConfig.addShortcode('bibliography', bibliography)
+  eleventyConfig.addShortcode('cite', cite)
   eleventyConfig.addPairedShortcode('class', styleClass)
+  eleventyConfig.addShortcode('conttributor', contributor)
   eleventyConfig.addShortcode('figure', figure)
+  eleventyConfig.addShortcode('figureGroup', figureGroup)
+  eleventyConfig.addShortcode('figureZoom', figureZoom)
 }
