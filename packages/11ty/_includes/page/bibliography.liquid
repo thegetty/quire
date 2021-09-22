@@ -1,0 +1,56 @@
+{% comment %}
+Duplicates part of the code from q-cite.html in order to add
+references to the page-level bibliography list
+{% endcomment %}
+
+{% for reference in references %}
+  {% assign id = reference %}
+  {% assign full = nil %}
+  {% assign short = nil %}
+  {% assign alphaOrder = nil %}
+
+  {% for item in site.data.references.entries %}
+    {% if item.id == id %}
+      {% assign full = item.full %}
+      {% if item.short %}
+        {% assign short = item.short %}
+      {% else %}
+        {% assign short = item.id %}
+      {% endif %}
+
+      {% if item.sort %}
+        {% assign alphaOrder = item.sort %}
+      {% else %}
+        {% assign alphaOrder = item.full %}
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+
+  {% assign alphaOrder = alphaOrder | truncate: 100 | slugify %}
+  {% assign entry[0] = short %}
+  {% assign entry[1] = full %}
+  {% assign cited[alphaOrder] = entry  %}
+{% endfor %}
+
+{% if cited %}
+  <div class="quire-page__content__references backmatter">
+    {% if site.params.biblioHeading %}<h2 id="{{ site.params.biblioHeading | slugify }}">{{ site.params.biblioHeading }}</h2>{% endif %}
+    {% if site.params.displayBiblioShort == true %}
+      <dl>
+        {% for item in cited | sort %}
+          {% comment %}
+          the id is in a span because Pandoc otherwise strips them out from dt and dd for EPUBs for some reason
+          {% endcomment %}
+          <dt><span id="{{ item[0] | slugify }}">{{ item[0] | markdownify }}</span></dt>
+          <dd>{{ item[1] | markdownify }}</dd>
+        {% endfor %}
+      </dl>
+    {% else %}
+      <ul>
+        {% for item in cited | sort %}
+          <li id="{{ item[0] | urlize }}">{{ item[1] | markdownify }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+{% endif %}
