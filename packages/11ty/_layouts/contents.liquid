@@ -37,13 +37,13 @@ description: Table of Contents (TOC) page template. Page content from the markdo
             @todo Should see if contentsList can be refactored with the 11ty navigation plugin
             and should replace ".Site.Pages" with "collections.page"
             {% endcomment %}
-            {% for page in .Site.Pages %}
-              {% if page.section = section %}
+            {% for page in collection.all %}
+              {% if page.section == section %}
                 {% assign scope = section %}
                 {%- render 'contentsList',
                     "site": .Site,
                     "contentsScope": scope,
-                    "contentsType": .Site.Params.tocType,
+                    "contentsType": site.params.tocType,
                     "pdf": ".Params.pdf",
                     "epub": ".Params.epub",
                     "contentsLocation": ".Params.toc",
@@ -51,13 +51,13 @@ description: Table of Contents (TOC) page template. Page content from the markdo
                 -%}
                 }
               {% endif %}
-            }
+            {% endfor %}
           {% else %}
-            {% assign scope = .Site.Pages %}
+            {% assign scope = collection.all %}
             {%- render 'contentsList',
                 "site": .Site,
                 "contentsScope": scope,
-                "contentsType": .Site.Params.tocType,
+                "contentsType": site.params.tocType,
                 "pdf": ".Params.pdf",
                 "epub": ".Params.epub",
                 "contentsLocation": ".Params.toc",
