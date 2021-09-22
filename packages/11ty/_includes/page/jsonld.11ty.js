@@ -9,14 +9,13 @@ const path = require('path')
 module.exports = class JsonLd {
   data() {
     const Article = {
-      // '@type': this.page.type === 'essay' ? 'Article' : 'Publication',
       '@type': 'Article',
       author: [...pageContributors],
       description: this.page.abstract.replace(/\n/g,' '),
       headline: this.page.title,
       image: path.join(site.BaseURL, imageDir, figureSubDir, this.page.cover),
       partOf: {
-        // Book | PeriodicalIssue | Website
+        ...partOf(publication.pub_type),
         about,
         author: [...publicationContributors]
         datePublished: publication.pub_date,
@@ -33,7 +32,17 @@ module.exports = class JsonLd {
       url: this.page.permalink
     }
 
-    // if publication.pub_type === 'book'
+    const partOf = (type) => {
+      switch (true) {
+        case type === 'book':
+          return Book
+        case type === 'journal-periodical':
+          return Periodical
+        default:
+          return WebSite
+      }
+    }
+
     const Book = {
       type: 'Book',
       name: site.title,
@@ -41,7 +50,6 @@ module.exports = class JsonLd {
       isbn: publication.identifier.isbn.replace(/-/g, '')
     }
 
-    // if publication.pub_type === 'journal-periodical'
     const Periodical = {
       type: 'PublicationIssue',
       name:  site.title,
@@ -110,7 +118,7 @@ module.exports = class JsonLd {
 
     return {
       '@context': 'http://schema.org/',
-      // Article
+      ...Article
     }
   }
 
