@@ -1,50 +1,71 @@
-{% liquid
-if type != 'essay'
-  assign title = site.title
-  assign url = site.baseURL
-  assign description = publication.description.one_line or publication.description.full
-  assign image = publication.promo_image
-else
-  assign title = page.title
-  assign url = permalink
-  assign description = page.abstract or publication.description.one_line or publication.description.full
-  assign image = page.cover or publication.promo_image
-endif %}
+/**
+ * Renders <head> <meta> data tags for Open Graph protocol data
+ *
+ * @param      {Object}  data    data
+ * @return     {String}  HTML meta and link elements
+ */
+module.exports = class OpenGraph {
+  data() {
+    const { description, identifier, promo_image, pub_date, pub_type } = publication
+    const pageType = this.page.type
 
-<meta property="og:title" content="{{ title }}" />
-<meta property="og:url" content="{{ url }}" />
-<meta property="og:image" content="{{ image }}" />
-<meta property="og:description" content="{{ description | truncate 160 }}" />
+    const meta: [
+      {
+        property: 'og:title',
+        content: pageType != 'essay' ? site.title : page.title
+      },
+      {
+        property: 'og:url',
+        content: pageType != 'essay' ? site.baseURL : permalink
+      },
+      {
+        property: 'og:image',
+        content: pageType != 'essay'
+          ? promo_image
+          : page.cover || promo_image
+      },
+      {
+        property: 'og:description',
+        content: pageType != 'essay'
+          ? description.one_line || description.full
+          : page.abstract || description.one_line || description.full
+      }
+    ]
 
-{% if type != 'essay' %}
-  {% if publication.pub_type == 'book' %}
-    <meta property="og:type" content="book" />
-    {% assign contributors = publication.contributor | where: 'type', 'primary' %}
-    {% for contributor in contributors %}
-      {% if contributor.full_name %}
-        {% assign name = contributor.full_name %}
-      {% else %}
-        {% assign name = contributor.first_name | contributor.last_name | join: ' ' %}
-      {% endif %}
-      <meta property="og:book:author" content="{{ name }}"/>
-    {% endfor %}
-    <meta property="og:book:isbn" content="{{ publication.identifier.isbn | replace: '-' '' }}" />
-    <meta property="og:book:release_date" content="{{ publication.pub_date }}" />
-  {% endif %}
+    if (pageType != 'essay' && pub_type === 'book') {
+      meta.push({ property: 'og:type', content: 'book' })
+      meta.push({
+        property: 'og:book:isbn', content: identifier.isbn.replace(/-/g, '')
+      })
+      meta.push({ property: 'og:book:release_date', content: pub_date })
+    } else {
+      meta.push({ property: 'og:type', content: 'article' })
+      meta.push({ property: 'og:site_name', content: site.title })
+      meta.push({ property: 'og:article:published_time', content: pub_date })
+    }
 
-{% else %}
-  <meta property="og:type" content="article" />
-  <meta property="og:site_name" content="{{ site.title }}" />
-  <meta property="og:article:published_time" content="{{ publication.pub_date }}" />
-  {% for contributor in page.contributors %}
-    {% if contributor.id %}
-      {% assign contributor = publication.contributor[contributor.id] %}
-      {% if contributor.full_name %}
-        {% assign name = contributor.full_name %}
-      {% else %}
-        {% assign name = contributor.first_name | contributor.last_name | join: ' ' %}
-      {% endif %}
-    {% else %}
-    <meta property="og:article:author" content="{{ name }}" />
-  {% endfor %}
-{% endif %}
+    /**
+     * Builds an array of page or publication contributor objects
+     */
+    publication.contributor.forEach((contributor, { id }) => {
+      // resolve a page contributor id to a publication contributor
+      contributor = publication.contributor[id] ?? contributor
+
+      const { type, full_name, first_name, last_name } = contributor
+      const name = full_name || `${first_name} ${last_name}`
+
+      if (pageType === 'essay') {
+        meta.push({ name: 'og:article:author', content: name })
+      } else if (pub_type === 'book' && type === 'primary') {
+        meta.push({ name: 'og:book:author', content: name })
+      }
+    })
+  }
+
+  render({ link, meta }) {
+    const metaTags = meta.map(({ property, content }) => (
+      `<meta property="${property}" content="${content}">`
+    ))
+    return `${metaTags.join('\n')}`
+  }
+}
