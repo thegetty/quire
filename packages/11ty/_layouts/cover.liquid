@@ -114,14 +114,14 @@ description: Cover page layout. This controls the home page of the publication.
     {% assign pages = site.pages | where: "online" %}
     {% for page in pages %}
       {% if page.type == "data" %}
-        {% assign pages[forLoop.index] = nil %}
+        {% assign pages[forloop.index] = nil %}
       {% endif %}
     {% endfor %}
     {% assign pages = pages | compact %}
     {% assign nextPages = pages %}
     {% for page in nextPages %}
       {% if page.weight > weight %}
-        {% assign nextPages[forLoop.index] = nil %}
+        {% assign nextPages[forloop.index] = nil %}
       {% endif %}
     {% endfor %}
     {% assign nextPages = nextPages | compact %}

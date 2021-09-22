@@ -9,12 +9,12 @@
 {% if contributorList %}
   {% if listType == "string" %}
     {% for contributorItem in contributorList %}
-      {%- if forLoop.length == 1 -%}
+      {%- if forloop.length == 1 -%}
         <span class="quire-contributor">{% render "name-check", contributor: contributorItem %}</span>
-      {%- elsif forLoop.index | plus: 1 == forLoop.length -%}
+      {%- elsif forloop.index | plus: 1 == forloop.length -%}
         <span class="quire-contributor"> and {% render "name-check", contributor: contributorItem %}</span>
       {%- else -%}
-        {%- if forLoop.length == 2 -%}
+        {%- if forloop.length == 2 -%}
           <span class="quire-contributor">{% render "name-check", contributor: contributorItem %} </span>
         {%- else -%}
           <span class="quire-contributor">{% render "name-check", contributor: contributorItem %}, </span>
