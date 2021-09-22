@@ -8,16 +8,16 @@ See https://www.chicagomanualofstyle.org/book/ed17/part3/ch14/psec076.html for r
 {% assign publicationEditorCount = publicationEditors | size %}
 
 {% assign editorTag = "" %}
-{% if publicationEditorCount === 1 %}
-  {% if type === "mla" %}
+{% if publicationEditorCount == 1 %}
+  {% if type == "mla" %}
     {% assign editorTag = "editor" %}
-  {% elsif type === "chicago" %}
+  {% elsif type == "chicago" %}
     {% assign editorTag = "ed" %}
   {% endif %}
 {% elsif publicationEditorCount > 1 %}
-    {% if type === "mla" %}
+    {% if type == "mla" %}
     {% assign editorTag = "editors" %}
-  {% elsif type === "chicago" %}
+  {% elsif type == "chicago" %}
     {% assign editorTag = "eds" %}
   {% endif %}
 {% endif %}
@@ -30,7 +30,7 @@ See https://www.chicagomanualofstyle.org/book/ed17/part3/ch14/psec076.html for r
   {% comment %} If the number of contributors is beyond a certain number, display only
     a set amount (displayLength), and append the list with et al. Ignore subsequent contributors in the list beyond this. Lenghts vary bewtween Chicago and MLA formats
   ------------------------------------------------------------------------{% endcomment %}
-  {%- if publicationAuthorCount > maxLength and forloop.index0 === displayLength -%}
+  {%- if publicationAuthorCount > maxLength and forloop.index0 == displayLength -%}
 
     et al{% if editorTag %}., {% endif -%}
 

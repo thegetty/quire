@@ -1,4 +1,4 @@
-{%- if license.scope === "some-exceptions" -%}
+{%- if license.scope == "some-exceptions" -%}
   Except where otherwise noted, this work is licensed under a
   {% if license.url %}<a rel="license" href="{{ license.url | relURL }}" target="_blank">{% endif %}
   {{ license.name }}

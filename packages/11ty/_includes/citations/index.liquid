@@ -36,26 +36,26 @@ TODO use regex filter or calculated data
 {% assign publicationEditorCount = publicationEditors | size %}
 
 {% comment %} ------------  CHICAGO ------------ {% endcomment %}
-{%- if type === "chicago" -%}
+{%- if type == "chicago" -%}
 
-  {%- if range === "page" -%}
+  {%- if range == "page" -%}
 
     {% if contributor %}{% render "citation/chicago/page-contributors", "contributor": contributor %}. {% endif %}{% if title %}“{% render "page/title", title: title, subtitle: subtitle %}.” {% elsif label %}“{{ label }}.” {% else %}Untitled. {% endif %}In <em>{% include "site-title" %}</em>{% if publicationAuthorCount > 0 %}, {% if publicationEditorCount > 0 %}edited {% endif %}by {% render "citation/chicago/publication-contributors" for publicationAuthors as contributor %}{% endif %}. {% render 'citation/chicago/publisher' for publication.publisher as publisher %}{% if publication.pub_date %}, {{ publication.pub_date | date: "%Y" }}{% end %}. <span class="url-string">{% if publication.identifier.url %}{% publication.identifier.url %}{{ permalink }}{% else %}{{ permalink }}{% endif %}</span>.
 
-  {%- elsif range === "site" -%}
+  {%- elsif range == "site" -%}
 
     {% include "publication-contributors", type: type, contributor: contributor %}. <em>{% publication.title %}{% if publication.subtitle %}{% if endPunctuation %} {% else %}{{ endPunctuation}}{% endif %} {{ publication.subtitle }}{% endif %}.</em> {% if publication.series %}{% publication.series %}{% if publication.number_in_series %}{% if seriesStartsWithNumber %} {% else %}, {% endif %}{{ publication.number_in_series }}{% endif %}.{% endif %} {% render 'citation/chicago/publisher' for publication.publisher as publisher %}{% if publication.pub_date %}, {{ publication.pub_date | date: "%Y" }}{% endif %}.{% if publication.identifier.url %} <span class="url-string">{{ publication.identifier.url }}</span>.{% endif %}
 
   {%- endif -%}
 
 {% comment %} ------------  MLA ------------ {% endcomment %}
-{%- elsif type === "mla" -%}
+{%- elsif type == "mla" -%}
 
-  {%- if range === "page" -%}
+  {%- if range == "page" -%}
 
     {% if contributor %}{% render "citation/mla/page-contributors", contributor: contributor %}. {% endif %}{% if title %}“{% render "page/title", title: title, subtitle: subtitle %}.” {% elsif label %}“{{ label }}.” {% else %}Untitled. {% endif %}<em>{% include "site-title" %}</em>{% if publicationAuthorCount > 0 %}, {% if publicationEditorCount > 0 %}edited {% endif %}by {% render "citation/mla/publication-contributors" for publicationAuthors as contributor %}{% endif %}. {% render "citation/mla/publishers" for publication.publisher as publisher %}{% if publication.pub_date %}, {{ publication.pub_date | date: "%Y" }}{% endif %}. <span class="url-string">{% if publication.identifier.url %}{% publication.identifier.url %}{{ permalink }}{% else %}{{ permalink }}{% endif %}</span>. Accessed <span class="cite-current-date">DD Mon. YYYY</span>.
 
-  {%- elsif range === "site" -%}
+  {%- elsif range == "site" -%}
 
     {% include "publication-contributors", type: type, contributor: contributor %}. <em>{% publication.title %}{% if publication.subtitle %}{% if endPunctuation %} {% else %}{{ endPunctuation}}{% endif %} {{ publication.subtitle }}{% endif %}.</em> {% if publication.series %}{% publication.series %}{% if publication.number_in_series %}{% if seriesStartsWithNumber %} {% else %}, {% endif %}{{ publication.number_in_series }}{% endif %}.{% endif %} {% render "citation/mla/publishers" for publication.publisher as publisher %}{% if publication.pub_date %}, {{ publication.pub_date | date: "%Y" }}{% endif %}.{% if publication.identifier.url %} <span class="url-string">{{ publication.identifier.url }}</span>{% endif %}. Accessed <span class="cite-current-date">DD Mon. YYYY</span>.
 

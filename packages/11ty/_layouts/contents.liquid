@@ -20,9 +20,9 @@ description: Table of Contents (TOC) page template. Page content from the markdo
     the following class variable is defined in the page's front matter,
     likely it should be namespaced
     {% endcomment %}
-    {% if class === "grid" or class === "abstract" or class === "brief" %}
+    {% if class == "grid" or class == "abstract" or class == "brief" %}
       {% assign contentsListClass = class %}
-      {% if class === "grid" %}
+      {% if class == "grid" %}
         {% assign containerClass = "is-fullhd" %}
       {% endif %}
     {% else %}
