@@ -1,37 +1,37 @@
 {% assign contributorList = nil %}
 
 {% if contributorType == "all" %}
-  {% assign contributorList = contributors %}
+  {% assign contributorList = contributor %}
 {% else %}
-  {% assign contributorList = contributors | where: "type", "contributorType" %}
+  {% assign contributorList = contributor | where: "type", "contributorType" %}
 {% endif %}
 
 {% if contributorList %}
   {% if listType == "string" %}
-    {% for contributor in contributorList %}
+    {% for contributorItem in contributorList %}
       {%- if forLoop.length == 1 -%}
-        <span class="quire-contributor">{% render "name-check", contributor: contributor %}</span>
+        <span class="quire-contributor">{% render "name-check", contributor: contributorItem %}</span>
       {%- elsif forLoop.index | plus: 1 == forLoop.length -%}
-        <span class="quire-contributor"> and {% render "name-check", contributor: contributor %}</span>
+        <span class="quire-contributor"> and {% render "name-check", contributor: contributorItem %}</span>
       {%- else -%}
         {%- if forLoop.length == 2 -%}
-          <span class="quire-contributor">{% render "name-check", contributor: contributor %} </span>
+          <span class="quire-contributor">{% render "name-check", contributor: contributorItem %} </span>
         {%- else -%}
-          <span class="quire-contributor">{% render "name-check", contributor: contributor %}, </span>
+          <span class="quire-contributor">{% render "name-check", contributor: contributorItem %}, </span>
         {%- endif -%}
       {%- endif -%}
     {% endfor %}
   {% elsif listType == "list" %}
     <ul>
-      {% for contributor in contributorList -%}
-        <li class="quire-contributor">{% render "name-check", contributor: contributor %}</li>
+      {% for contributorItem in contributorList -%}
+        <li class="quire-contributor">{% render "name-check", contributor: contributorItem %}</li>
       {%- endfor %}
     </ul>
   {% elsif listType == "list-plus" %}
     <ul>
-      {% for contributor in contributorList -%}
+      {% for contributorItem in contributorList -%}
         <li class="quire-contributor">
-          {%- render "name-check", contributor: contributor -%}
+          {%- render "name-check", contributor: contributorItem -%}
           {% if title or affiliation %}
             {%- render "title", title: title, affiliation: affiliation -%}
           {% elsif id %}

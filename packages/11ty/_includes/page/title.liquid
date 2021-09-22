@@ -1,0 +1,12 @@
+{% comment %}
+Concatenates the page title and subtitle, using a colon, or if the title ends with a ! or ?, no colon is included.
+
+See also site-title.liquid
+{% endcomment %}
+
+{% assign lastLetter = title | split "" | last %}
+{% unless "!?" | split "" contains lastLetter %}
+  {% assign endPunctuation = ":" %}
+{% endif %}
+
+{{- title }}{{endPunctuation}}{% if subtitle %} {{ subtitle }}{% endif -%}
