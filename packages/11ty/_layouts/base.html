@@ -2,13 +2,13 @@
 <html lang="{{ meta.language }}">
   {% render 'head.html' %}
   <body>
-    {% render 'icons.html' }
+    {% render 'icons.html' %}
 
-    {% if config.licenseIcons %}
-      {% render 'icons-cc.html' }
+    {% if site.params.licenseIcons %}
+      {% render 'icons-cc.html' %}
     {% endif %}
 
-    {% if config.pdf %}
+    {% if site.params.pdf %}
       {% render 'pdf-info.html' %}
     {% endif %}
 
@@ -33,3 +33,4 @@
     {% render 'scripts.html' %}
   </body>
 </html>
+
