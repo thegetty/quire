@@ -17,7 +17,7 @@ description: Entry layout. This template is intended for use in catalogue-style 
 Entry content, including entry image and tombstone data
 {% endcomment %}
 
-<article class="{% render "page-class" %} quire-entry" id="main" role="main">
+<article class="{% render "page/class" %} quire-entry" id="main" role="main">
   <div {% if entryPageSideBySideLayout === true or pageClasses contains "side-by-side" %} {% if pdf !== true and epub !== true %} class="side-by-side" {% endif %} {% endif %} data="{{ zoom }}">  
     
     {% if epub === true %}
@@ -26,7 +26,7 @@ Entry content, including entry image and tombstone data
           {% comment %} Title {% endcomment %}
           <h1 class="quire-page__header__title" id="{{ title | slugify }}">
             {% if label %}<span>{{ label }}{{ site.params.pageLabelDivider }}</span>{% endif %}
-            {% include "page-title" | markdownify %}
+            {% render "page/title", title: title, subtitle: subtitle | markdownify %}
           </h1>
       </div>
     </header>
@@ -92,24 +92,24 @@ Entry content, including entry image and tombstone data
           <div class="container">
             <h1 class="quire-page__header__title" id="{{ title | urlize }}">
               {% if label %}<span>{{ label }}{{ site.params.pageLabelDivider }}</span>{% endif %}
-              {% render "page-title" | markdownify %}
+              {% render "page/title", title: title, subtitle: subtitle | markdownify %}
             </h1>
-            {% render "page-contributor" %}
+            {% render "page/contributor" %}
           </div>
         </header>
       {% endif %}
 
-      {% render "page-tombstone" %}
+      {% render "page/tombstone" %}
 
       {% if abstract %}
-        {% render "page-abstract", abstract: abstract %}
+        {% render "page/abstract", abstract: abstract %}
       {% endif %}
 
       <section class="section quire-page__content" id="content">
         <div class="container">
           <div class="content">
             {{ content }}
-            {% render "page-bibliography" %}
+            {% include "page/bibliography" %}
           </div>
         </div>
       </section>
