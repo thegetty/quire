@@ -6,7 +6,7 @@ const path = require('path')
  * @param      {Object}  data    data
  * @return     {String}  HTML meta and link elements
  */
-module.exports = class OpenGraph {
+module.exports = class TwitterCard {
   data() {
     const { description, promo_image } = publication
     const pageType = this.page.type
