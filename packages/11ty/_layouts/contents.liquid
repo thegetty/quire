@@ -1,11 +1,8 @@
-{% comment %}
-  Table of Contents (TOC) page template. Page content from the markdown will
-  appear in the content outlet below. The Table of Contents list will appear
-  below that. It is scoped to show the contents of the full site. Pages can be
-  removed from the TOC indivudally by adding "toc: false" to the page yaml.
-{% endcomment %}
+---
+layout: base
+description: Table of Contents (TOC) page template. Page content from the markdown will appear in the content outlet below. The Table of Contents list will appear below that. It is scoped to show the contents of the full site. Pages can be removed from the TOC indivudally by setting toc to `false` in the page yaml.
+---
 
-{% block main %}
 <div class="{% render "page-class.html" %} quire-contents" id="main" role="main">
   {% render "page-header.html" %}
   
@@ -76,4 +73,3 @@
     </div>
   </section>
 </div>
-{% endblock %}
