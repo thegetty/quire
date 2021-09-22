@@ -408,5 +408,5 @@
 // </figure>
 // 
 module.exports = function(eleventyConfig, data) {
-  return ``
+  return `qfigureZoom`
 }

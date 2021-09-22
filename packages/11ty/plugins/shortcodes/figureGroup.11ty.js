@@ -457,5 +457,5 @@
 // {{ end }}
 
 module.exports = function(eleventyConfig, data) {
-  return ``
+  return `qfigureGroup`
 }

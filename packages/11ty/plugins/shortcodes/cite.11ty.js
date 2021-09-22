@@ -78,35 +78,36 @@
 {{- end -}}
 */
 module.exports = function(eleventyConfig, data) {
-  return `
-    <span class="quire-citation expandable">
-      {{ if ne .Site.Params.citationPopupStyle "icon" }}
-        <span class="quire-citation__button" role="button" tabindex="0" aria-expanded="false">
-      {{ end }}
+  // return `
+  //   <span class="quire-citation expandable">
+  //     {{ if ne .Site.Params.citationPopupStyle "icon" }}
+  //       <span class="quire-citation__button" role="button" tabindex="0" aria-expanded="false">
+  //     {{ end }}
 
-      {{- if eq (len .Params) 3 }}
-        {{- .Get 2 -}}
-      {{ else }}
-        {{ shortCitation }}
-      {{ end }}
+  //     {{- if eq (len .Params) 3 }}
+  //       {{- .Get 2 -}}
+  //     {{ else }}
+  //       {{ shortCitation }}
+  //     {{ end }}
 
-      {{- if eq (len .Params) 2 }}
-        {{ $.Site.Params.citationPageLocationDivider }}
-        {{ .Get 1 }}
-      {{ end -}}
+  //     {{- if eq (len .Params) 2 }}
+  //       {{ $.Site.Params.citationPageLocationDivider }}
+  //       {{ .Get 1 }}
+  //     {{ end -}}
 
-      {{ if eq .Site.Params.citationPopupStyle "icon" }}
-        <button class="quire-citation__button material-icons md-18 material-control-point" aria-expanded="false">control_point</button>
-      {{ end }}
+  //     {{ if eq .Site.Params.citationPopupStyle "icon" }}
+  //       <button class="quire-citation__button material-icons md-18 material-control-point" aria-expanded="false">control_point</button>
+  //     {{ end }}
 
-      {{ if ne .Site.Params.citationPopupStyle "icon" }}
-        </span>
-      {{ end }}
+  //     {{ if ne .Site.Params.citationPopupStyle "icon" }}
+  //       </span>
+  //     {{ end }}
 
-      <span hidden class="quire-citation__content">
-        <span class="visually-hidden">Citation:&nbsp;</span>
-        {{ fullCitation }}
-      </span>
-    </span>
-  `
+  //     <span hidden class="quire-citation__content">
+  //       <span class="visually-hidden">Citation:&nbsp;</span>
+  //       {{ fullCitation }}
+  //     </span>
+  //   </span>
+  // `
+  return `qcite`
 }
