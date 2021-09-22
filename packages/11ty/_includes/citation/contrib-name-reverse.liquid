@@ -1,0 +1,7 @@
+{%- if contributor.id -%}
+  {%- for item in publication.contributor | where: "id" contributor.id -%}
+    {% render "name-string-reverse", person: item %}
+  {%- endfor -%}
+{%- else -%}
+  {% render "name-string-reverse", person: contributor %}
+{%- endif -%}

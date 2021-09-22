@@ -1,0 +1,5 @@
+{%- if person.full_name -%}
+  {{ person.full_name }}
+{%- else -%}
+  {{ person.last_name }}{%-if person.first_name %}, {{ person.first_name }}{% endif %}
+{%- endif -%}

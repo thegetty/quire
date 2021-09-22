@@ -1,0 +1,7 @@
+{%- for author in publicationAuthors -%}
+  {% if forloop.first %}
+    {% render "contrib-name", contributor: author %}
+  {%- elsif publicationAuthorCount === 2 %} and {% render "contrib-name-last", contributor: author%}
+  {%- endif -%}
+{%- endif -%}
+{%- if publicationAuthorCount > 2 %}, et al{% endif -%}

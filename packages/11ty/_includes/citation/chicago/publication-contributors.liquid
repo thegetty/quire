@@ -1,0 +1,11 @@
+{%- if forloop.index0 > 2 -%}
+{%- elsif forloop.first and forloop.length === 1 %}
+  {% render "contrib-name", contributor: contributor %}
+{%- elsif forloop.last %}
+  and {% render "contrib-name", contributor: contributor %}
+{%- elsif forloop.first and forloop.length === 2) %}
+  {% render "contrib-name", contributor: contributor %}
+{% else -%}
+  {% render "contrib-name", contributor: contributor %},
+{% endif -%}
+{%- if forloop.length > 3 %}et al{% endif -%}

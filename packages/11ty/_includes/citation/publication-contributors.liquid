@@ -1,0 +1,85 @@
+{% comment %} This template creates a list of contributors for citations based on the "primary" contributors in the publication. It reverses the first name, adds "et al" as needed when the contributors list is beyond a certain length, handles adding ed(s)/editor(s) as called for. It returns the list without end punctuation, so should be followed by a period.
+
+See https://www.chicagomanualofstyle.org/book/ed17/part3/ch14/psec076.html for rules on the inclusion of contributors.
+--------------------------------------------------------------------------{% endcomment %}
+  {% if publicationEditorCount > 0 %}
+    {% assign editorTag = citations[type]editorTag %}
+  {% endif %}
+
+  {% assign displayLength = citations[type]displayLength %}
+  {% assign maxLength = citations[type]maxLength %}
+
+  {%- for author in publicationAuthors -%}
+
+    {% comment %} If the number of contributors is beyond a certain number, display only
+      a set amount (displayLength), and append the list with et al. Ignore subsequent contributors in the list beyond this. Lenghts vary bewtween Chicago and MLA formats
+    ------------------------------------------------------------------------{% endcomment %}
+    {%- if publicationAuthorCount > maxLength and forloop.index0 === displayLength -%}
+
+      et al{% if editorTag %}., {% endif -%}
+
+    {%- elsif publicationAuthorCount > maxLength and forloop.index0 > displayLength -%}
+
+    {% comment %} If this is the last name ...
+    ------------------------------------------------------------------------{% endcomment %}
+    {%- elsif forloop.index0 === (sub publicationAuthorCount 1) -%}
+
+      {% comment %} First check if it's also the first name, and reverse it if so: LastName, FirstName
+      ----------------------------------------------------------------------{% endcomment %}
+      {%- if forloop.index0 === 0 -%}
+
+        {% comment %} If there's a role tag to add, leave any ending punctuation in the name, and add a comma
+        --------------------------------------------------------------------{% endcomment %}
+        {%- if editorTag -%}
+
+            {% render "contrib-name-reverse", contributor: author %},
+
+        {% comment %} Otherwise strip any ending punctuation
+        --------------------------------------------------------------------{% endcomment %}
+        {% else -%}
+
+            {% render "contrib-name-reverse-last", contributor: author %}
+
+        {%- endif -%}
+
+      {% comment %} Second, if it's not the first name, display it in reading order. FirstName LastName
+      ----------------------------------------------------------------------{% endcomment %}
+      {%- elsif forloop.index0 > 0 -%}
+
+        {% comment %} If there's a role tag to add, leave any ending punctuation in the name, and add a comma
+        --------------------------------------------------------------------{% endcomment %}
+        {%- if editorTag -%}
+
+            and {% render "contrib-name", contributor: author %},
+
+        {% comment %} Otherwise strip any ending punctuation
+        --------------------------------------------------------------------{% endcomment %}
+        {% else -%}
+
+            and {% render "contrib-name-last", contributor: author %}
+
+        {%- endif -%}
+
+      {%- end -%}
+
+    {% comment %} If this is the first name, reverse it and add a comma: LastName, FirstName,
+    ------------------------------------------------------------------------{% endcomment %}
+    {%- elsif forloop.first -%}
+
+          {% render "contrib-name-reverse" %},
+
+    {% comment %} If this is a name in the middle of the list, just add it in with a comma: FirstName LastName,
+    ------------------------------------------------------------------------{% endcomment %}
+    {%- elsif forloop.index0 > 0 and forloop.index < forloop.length -%}
+
+      {% render "contrib-name", contributor: author %},
+
+    {% endif -%}
+
+  {% comment %} End the range
+  --------------------------------------------------------------------------{% endcomment %}
+  {%- endfor -%}
+
+  {% comment %} If there's a role tag to add, do so now
+  --------------------------------------------------------------------------{% endcomment %}
+  {%- if editorTag -%} {{ editorTag }}{%- endif -%}
