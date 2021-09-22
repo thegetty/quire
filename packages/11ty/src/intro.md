@@ -2,7 +2,7 @@
 title: Introduction
 subtitle: A Tale of Two Photographers
 weight: 3
-type: splash
+layout: splash
 image: figures/lange-house.jpg
 ---
 

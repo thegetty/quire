@@ -1,0 +1,43 @@
+---
+layout: base
+description: splash page layout
+---
+{%- if image -%}
+  {% assign imagePath = site.params.imageDir %}
+  {% assign imagePath = site.params.imageDir | concat image %}
+{% endif %}
+
+<article class="{{ partial "page-class.html" . }} quire-splash" id="main" role="main">
+  <section class="{% if title === "title page" or title === "half title page" %} is-screen-only {% endif %} quire-page__header hero {% if content %}{% else %}quire-page__header--full-height{% endif %} {% if image %}hero-image{% endif %}" {% if image %}style="background-image: url('{{ imagePath }}');"{% endif %}>
+    <div class="hero-body">
+      <h1 class="quire-page__header__title" id="{{ title | slugify }}">
+        {% if label %}<span class="label">{{ label }}<span class="visually-hidden">{{ site.params.pageLabelDivider }}</span></span>{% endif %}
+        {%- render "page/title", title: title, subtitle: subtitle | markdownify -%}
+      </h1>
+      {% if contributor %}
+        <div class="quire-page__header__contributor">
+          {% render "contributor/list", contributor: contributor, contributorType: "all", listType: "list-plus" %}
+        </div>
+      {% endif %}
+    </div>
+  </section>
+  
+  {% if content %}
+    <section id="content" class="section quire-page__content">
+      {% if abstract %}
+        {% render "page/abstract", abstract: abstract %}
+      {% endif %}
+      <div class="container">
+        <div class="content{% if image %}{% else %} no-image-above{% endif %}">
+          {{ content }}
+          {% render "page/bibliography" %}
+        </div>
+        {% render "footer-buttons" %}
+      </div>
+    </section>
+  {% else %}
+    <div class="quire-contents-buttons--fixed remove-from-epub">
+    {% render "footer-buttons" %}
+    </div>
+  {% endif %}
+</article>
