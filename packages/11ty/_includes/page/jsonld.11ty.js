@@ -25,9 +25,9 @@ module.exports = class JsonLd {
         keywords: publication.subject
           .filter(({ type }) => type === 'keyword')
           .map((name) => name)
-          .join(','),
+          .toString(),
         publisher: [publisher],
-        url: site.baseURL,
+        url: site.baseURL
       },
       url: this.page.permalink
     }
