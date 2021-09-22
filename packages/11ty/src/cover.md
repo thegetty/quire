@@ -1,8 +1,8 @@
 ---
 title: Cover
 weight: 1
+layout: cover
 menu: false
-type: cover
 slug: .
 toc: false
 image: pattern-spiral-overlay.png
