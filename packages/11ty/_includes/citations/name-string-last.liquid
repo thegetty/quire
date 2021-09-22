@@ -8,7 +8,7 @@ Returns "Firstname Lastname" and removes trailing "."
   {% assign name = person.first_name %}
   {% assign name = name | append: person.last_name | join(" ") %}
 {%- endif -%}
-{% if name.last === '.' %}
+{% if name.last == '.' %}
   {% assign size = name | size | minus: 1 %}
   {% name = name | slice: 0, size %}
 {% endif %}

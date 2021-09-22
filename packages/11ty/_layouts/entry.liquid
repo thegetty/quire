@@ -18,9 +18,9 @@ Entry content, including entry image and tombstone data
 {% endcomment %}
 
 <article class="{% render "page/class" %} quire-entry" id="main" role="main">
-  <div {% if entryPageSideBySideLayout === true or pageClasses contains "side-by-side" %} {% if pdf !== true and epub !== true %} class="side-by-side" {% endif %} {% endif %} data="{{ zoom }}">  
+  <div {% if entryPageSideBySideLayout == true or pageClasses contains "side-by-side" %} {% if pdf !== true and epub !== true %} class="side-by-side" {% endif %} {% endif %} data="{{ zoom }}">  
     
-    {% if epub === true %}
+    {% if epub == true %}
     <header class="quire-entry__header">
       <div class="container">
           {% comment %} Title {% endcomment %}

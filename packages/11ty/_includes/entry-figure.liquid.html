@@ -3,7 +3,7 @@
 
 <figure data-media-type="{{ figure.media_type }}">
 
-  {% if pdf === true or epub === true %}
+  {% if pdf == true or epub == true %}
 
     <div class="quire-figure__media-fallback">
       {% if figure.src %}
@@ -18,9 +18,9 @@
 
       <div class="placeholder">
 
-        {%- if figure.media_type === "youtube" or figure.media_type === "vimeo" %}
+        {%- if figure.media_type == "youtube" or figure.media_type == "vimeo" %}
 
-          {% if pdf === true %}
+          {% if pdf == true %}
             <i class="material-icons md-24">videocam</i>
           {% else %}
             <img src='{{ imageDir }}/icons/baseline-videocam-24px.png' />
@@ -28,9 +28,9 @@
 
         {% endif %}
 
-        {%- if figure.media_type === "soundcloud" or figure.media_type === "audio" %}
+        {%- if figure.media_type == "soundcloud" or figure.media_type == "audio" %}
 
-          {% if pdf === true %}
+          {% if pdf == true %}
             <i class="material-icons md-24 audio">headset</i>
           {% else %}
             <img src='{{ imageDir }}/icons/baseline-headset-24px.png'/>
@@ -50,13 +50,13 @@
     {% if figure.media_type %}
       <p class="caption">
 
-      {%- if figure.media_type === "youtube" %}
+      {%- if figure.media_type == "youtube" %}
       <a href='https://youtu.be/{{ figure.media_id }}' alt="" title="" target="_blank" ><em>https://youtu.be/{{ figure.media_id }}</em></a>
       {% endif %}
-      {%- if figure.media_type === "vimeo" %}
+      {%- if figure.media_type == "vimeo" %}
       <a href='https://vimeo.com/{{ figure.media_id }}' alt="" title="" target="_blank" ><em>https://vimeo.com/{{ figure.media_id }}</em></a>
       {% endif %}
-      {%- if figure.media_type === "soundcloud" %}
+      {%- if figure.media_type == "soundcloud" %}
       <a href="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ figure.media_id }}" alt="" title="" target="_blank" ><em>https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ figure.media_id }}</em></a>
       {% endif %}
 
@@ -66,9 +66,9 @@
   </div>
   {% else %}
 
-    {% if zoom === true %}
+    {% if zoom == true %}
 
-      {% if figure.media_type === "iiif" %}
+      {% if figure.media_type == "iiif" %}
 
         <div
           id="js-iiif-{{ now.UnixNano }}"
@@ -82,7 +82,7 @@
           {% if figure.caption %} data-caption='{{ figure.caption | markdownify | safe }}' {% endif %}
         />
 
-      {% else if figure.media_type === "map" %}
+      {% else if figure.media_type == "map" %}
 
         <div
           id="js-map-{{ now.UnixNano }}"
@@ -97,7 +97,7 @@
         >
         </div>
 
-      {% else if figure.media_type === "youtube" %}
+      {% else if figure.media_type == "youtube" %}
 
         <iframe
           id='{{ figure.id }}'
@@ -115,7 +115,7 @@
         >
         </iframe>
 
-      {% else if figure.media_type === "vimeo" %}
+      {% else if figure.media_type == "vimeo" %}
 
         <iframe
           id='{% figure.id %}'
@@ -153,7 +153,7 @@
 
     {% else %}
 
-      {% if figure.media_type === "youtube" %}
+      {% if figure.media_type == "youtube" %}
 
         <iframe
           id='{{ .id }}'
@@ -171,7 +171,7 @@
         >
         </iframe>
 
-      {% else if figure.media_type === "vimeo" %}
+      {% else if figure.media_type == "vimeo" %}
 
         <iframe
           id='{{ .id }}'
