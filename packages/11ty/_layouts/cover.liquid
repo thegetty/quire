@@ -32,12 +32,15 @@ description: Cover page layout. This controls the home page of the publication.
 
         {% if site.data.publication %}
           <h1 class="title">
+            {% assign lastLetter = site.data.publication.title | split "" | last %}
+            {% unless "!?" | split "" contains lastLetter %}
+              {% assign endPunctuation = ":" %}
+            {% endif %}
+
             {{- site.data.publication.title | markdownify -}}
             {% if site.data.publication.subtitle %}
-              {% if site.data.publication.title | slice: -1, 1 == "!" or site.data.publication.title | slice: -1, 1 == "?" %}
-                {% comment %} if title ends with "!" or "?", render whitespace only {% endcomment %}
-              {% else -%}
-                <span class="visually-hidden">: </span>
+              {%- if endPunctuation -%}
+                <span class="visually-hidden">{{ endPunctuation }} </span>
               {%- endif %}
               <span class="subtitle">{{ site.data.publication.subtitle | markdownify }}</span>
             {%- endif -%}
