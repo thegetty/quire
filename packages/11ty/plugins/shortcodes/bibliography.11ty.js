@@ -46,16 +46,17 @@ Without this property set, the bibliography will not include the short form.
  * @return     {boolean}  { description_of_the_return_value }
  */
 module.exports = function(eleventyConfig, data) {
-  const slugify = eleventyConfig.getFilter('slugify')
+  // const slugify = eleventyConfig.getFilter('slugify')
 
-  return params.displayBiblioShort
-    ? `<dl>
-        <dt><span id="${data.index}">${data.biblio[0]}</span></dt>
-        <dd>${data.biblio[1]}</dd>
-      </dl>`
-    : `<div class="quire-page__content__references">
-        <ul>
-          <li id="${data.index}">${data.biblio[1]}</li>
-        </ul>
-      </div>`
+  // return params.displayBiblioShort
+  //   ? `<dl>
+  //       <dt><span id="${data.index}">${data.biblio[0]}</span></dt>
+  //       <dd>${data.biblio[1]}</dd>
+  //     </dl>`
+  //   : `<div class="quire-page__content__references">
+  //       <ul>
+  //         <li id="${data.index}">${data.biblio[1]}</li>
+  //       </ul>
+  //     </div>`
+  return `qbibliography`
 }
