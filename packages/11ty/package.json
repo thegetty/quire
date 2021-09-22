@@ -14,7 +14,7 @@
   "author": "Getty Digital",
   "license": "J Paul Getty Trust",
   "devDependencies": {
-    "@11ty/eleventy": "^0.12.1",
+    "@11ty/eleventy": "^1.0.0-canary.41",
     "@11ty/eleventy-img": "^0.10.0",
     "@11ty/eleventy-navigation": "^0.3.2",
     "@11ty/eleventy-plugin-syntaxhighlight": "^3.1.2",
