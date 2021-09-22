@@ -7,7 +7,7 @@ description: splash page layout
   {% assign imagePath = site.params.imageDir | concat image %}
 {% endif %}
 
-<article class="{{ partial "page-class.html" . }} quire-splash" id="main" role="main">
+<article class="{% render "page/class" %} quire-splash" id="main" role="main">
   <section class="{% if title == "title page" or title == "half title page" %} is-screen-only {% endif %} quire-page__header hero {% if content %}{% else %}quire-page__header--full-height{% endif %} {% if image %}hero-image{% endif %}" {% if image %}style="background-image: url('{{ imagePath }}');"{% endif %}>
     <div class="hero-body">
       <h1 class="quire-page__header__title" id="{{ title | slugify }}">
