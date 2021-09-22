@@ -10,7 +10,7 @@ module.exports = function(eleventyConfig, options) {
   eleventyConfig.addShortcode('bibliography', bibliography)
   eleventyConfig.addShortcode('cite', cite)
   eleventyConfig.addPairedShortcode('class', styleClass)
-  eleventyConfig.addShortcode('conttributor', contributor)
+  eleventyConfig.addShortcode('contributor', contributor)
   eleventyConfig.addShortcode('figure', figure)
   eleventyConfig.addShortcode('figureGroup', figureGroup)
   eleventyConfig.addShortcode('figureZoom', figureZoom)
