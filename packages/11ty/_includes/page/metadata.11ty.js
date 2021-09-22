@@ -1,28 +1,64 @@
-{% liquid
-assign description = page.abstract or publication.description.one_line or publication.description.full
-assign keywords = publication.subject | where: 'type', 'keyword' | name
-assign primary_contributors = publication.contributor | where: 'type', 'primary'
-assign secondary_contributors = publication.contributor | where: 'type', 'secondary'
-assign contributors = primary_contributors | concat secondary_contributors
-%}
+/**
+ * Renders <head> <meta> data tags for Open Graph protocol data
+ *
+ * @param      {Object}  data    data
+ * @return     {String}  HTML meta and link elements
+ */
+module.exports = class MetaData {
+  data() {
+    const { description, subjects } = publication
 
-<link rel="canonical" href="{{ permalink }}">
+    const keywords = subjects.map(({ type, name }) => {
+      if (type === 'keyword') return name
+    })
 
-<meta name="description" content="{{ description | truncate 160 }}">
+    const link: [
+      { rel: 'canonical', href: permalink },
+      { rel: 'version-history', href: publication.repository_url }
+    ]
 
-<meta name="keywords" content="{{ keywords }}">
+    const contributors = publication.contributor.filter(({ type }) =>
+      type === 'primary' || type === 'secondary'
+    )
 
-<link rel="version-history" href="{{ publication.repository_url }}">
+    contributors.forEach(({ type, url }) => {
+      if (type === 'primary') {
+        link.push({ rel: 'author', href: url })
+      }
+    })
 
-{% for publisher in publication.publisher %}
-  <link rel="publisher" href="{{ publisher.url }}">
-{% endfor %}
+    publication.publisher.forEach(({ url }) => {
+      link.push({ rel: 'publisher', href: url })
+    })
 
-{% for contributor in publication.contributor | where: 'type', 'primary' %}
-  <link rel="author" href="{{ contributor.url }}">
-{% endfor %}
+    const meta: [
+      {
+        name: 'description',
+        content: page.abstract || description.one_line || description.full
+      },
+      {
+        name: 'keywords',
+        content: keywords.toString()
+      }
+    ]
+  }
 
-{% render '_includes/dublin-core' %}
-{% render '_includes/json-ld' %}
-{% render '_includes/open-graph' %}
-{% render '_includes/twitter-card' %}
+  render({ link, meta }) {
+    const linkTags = links.map(({ rel, href }) => (
+      `<link rel="${rel}" href="${href}">`
+    ))
+
+    const metaTags = meta.map(({ name, content }) => (
+      `<meta name="${name}" content="${content}">`
+    ))
+
+    return `
+      ${linkTags.join('\n')}
+      ${metaTags.join('\n')}
+      ${dublin-core()}
+      ${opengraph()}
+      ${twitter-card()}
+      ${json-ld()}
+    `
+  }
+}
