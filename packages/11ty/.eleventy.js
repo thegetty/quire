@@ -59,7 +59,7 @@ module.exports = function(eleventyConfig) {
       input: projectDir,
       output: 'site',
       // ⚠️ the following values are _relative_ to the `input` directory
-      data: '_data',
+      data: path.relative(projectDir, '_data'),
       includes: path.relative(projectDir, '_includes'),
       layouts:  path.relative(projectDir, '_layouts')
     },
