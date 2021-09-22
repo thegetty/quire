@@ -1,0 +1,124 @@
+---
+layout: base
+description: Entry layout. This template is intended for use in catalogue-style pages where a single image or object needs to be featured prominently.
+---
+
+{% assign entryPageSideBySideLayout =  site.params.entryPageSideBySideLayout %}
+{% assign epub =  site.params.epub %}
+{% assign imageDir =  site.params.imageDir %}
+{% assign pdf =  site.params.pdf %}
+{% assign zoom =  site.params.figureZoom %}
+{% assign pageClasses = class %}
+{% assign pageObjects = object %}
+
+{{ $site :=  $ }}
+
+{% comment %}
+Entry content, including entry image and tombstone data
+{% endcomment %}
+
+<article class="{% render "page-class" %} quire-entry" id="main" role="main">
+  <div {% if entryPageSideBySideLayout === true or pageClasses contains "side-by-side" %} {% if pdf !== true and epub !== true %} class="side-by-side" {% endif %} {% endif %} data="{{ zoom }}">  
+    
+    {% if epub === true %}
+    <header class="quire-entry__header">
+      <div class="container">
+          {% comment %} Title {% endcomment %}
+          <h1 class="quire-page__header__title" id="{{ title | slugify }}">
+            {% if label %}<span>{{ label }}{{ site.params.pageLabelDivider }}</span>{% endif %}
+            {% include "page-title" | markdownify %}
+          </h1>
+      </div>
+    </header>
+    {% endif %}
+
+    {% comment %} Full-width entry image header {% endcomment %}
+    <div class="quire-entry__image-wrap">
+      <div id="quire-entry__image" class="quire-entry__image">
+        <div class="leaflet-control-fullscreen leaflet-bar leaflet-control remove-from-epub">
+          <a
+            id="toggleFullscreen" 
+            class="leaflet-control-fullscreen-button leaflet-bar-part" 
+            href="#" 
+            title="View Fullscreen" 
+            style="outline: none;"></a>
+        </div>
+        {% if image %}
+          {%- assign imgPath = imageDir %}
+          {%- assign imgPath = imgPath | concat: image | join: "/" %}
+          <img src="{{ imgPath }}" alt="" />
+        {% elsif pageObjects %}
+          {% for pageObject in pageObjects %}
+            {% if pageObject.id %}
+              {% for object in objects.object_list | where: "id" pageObject.id %}
+              <div class="quire-entry__image__group-container">
+                {% assign figureLength = object.figure | size %}
+                {% if figureLength > 1 and pdf !== true -%}
+                  <button class="remove-from-epub quire-image-control quire-image-control--prev-image" id="prev-image" title="Previous image"></button>
+                  <button class="remove-from-epub quire-image-control quire-image-control--next-image" id="next-image" title="Next image"></button>
+                {% endif -%}
+                {% for objectFigure in object.figure %}
+                  {% if objectFigure.id %}
+                    {% for figure in figures.figure_list | where: "id"  objectFigure.id %}
+                      {% render "entry-figure", "pdf": pdf, "zoom": zoom, "imageDir": imageDir, "figure": figure %}
+                    {% endfor %}
+                  {% elsif objectFigure.src %}
+                    {% render "entry-figure", "pdf": pdf, "zoom": zoom, "imageDir": imageDir, "figure": objectFigure %}
+                  {% endif %}
+                {% endfor %}
+              </div>
+              {{ end }}
+            {% elsif pageObject.figure %}
+            <div class="quire-entry__image__group-container">
+            {% for pageObjectFigure in pageObject.figure %}
+              {% if pageObjectFigure.id %}
+                {% for figure in figures.figure_list | where: "id" pageObjectFigure.id %}
+                  {% render "entry-figure", "pdf": pdf, "zoom": zoom, "imageDir": imageDir, "figure" figure %}
+                {% endfor %}
+              {% else if pageObjectFigure.src %}
+                {% render "entry-figure", "pdf": pdf, "zoom": zoom, "imageDir": imageDir, "figure": pageObjectFigure %}
+              {% endif %}
+            {% endfor %}
+            </div>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="quire-entry__content">
+      {% if epub !== true %}
+        <header class="quire-entry__header">
+          <div class="container">
+            <h1 class="quire-page__header__title" id="{{ title | urlize }}">
+              {% if label %}<span>{{ label }}{{ site.params.pageLabelDivider }}</span>{% endif %}
+              {% render "page-title" | markdownify %}
+            </h1>
+            {% render "page-contributor" %}
+          </div>
+        </header>
+      {% endif %}
+
+      {% render "page-tombstone" %}
+
+      {% if abstract %}
+        {% render "page-abstract", abstract: abstract %}
+      {% endif %}
+
+      <section class="section quire-page__content" id="content">
+        <div class="container">
+          <div class="content">
+            {{ content }}
+            {% render "page-bibliography" %}
+          </div>
+        </div>
+      </section>
+
+      <section class="section quire-page__content">
+        <div class="container">
+          {% render "footer-buttons" %}
+        </div>
+      </section>
+    </div>
+  </div>
+</article>
