@@ -76,6 +76,7 @@ module.exports = function(eleventyConfig) {
       '11ty.js', // JavaScript
       'hbs',     // Handlebars
       'liquid',  // Liquid
+      'md',      // Markdown
       'njk',     // Nunjucks
     ]
   }
