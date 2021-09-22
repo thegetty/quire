@@ -77,7 +77,7 @@
   {{- end -}}
 {{- end -}}
 */
-module.exports = function(data) {
+module.exports = function(eleventyConfig, data) {
   return `
     <span class="quire-citation expandable">
       {{ if ne .Site.Params.citationPopupStyle "icon" }}

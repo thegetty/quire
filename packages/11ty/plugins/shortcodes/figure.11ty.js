@@ -16,7 +16,7 @@
  *
  * @return     {boolean}  { description_of_the_return_value }
  */
-module.exports = function(data) {
+module.exports = function(eleventyConfig, data) {
   const slugify = eleventyConfig.getFilter('slugify')
 
   let classes,

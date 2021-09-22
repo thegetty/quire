@@ -319,6 +319,6 @@
 
 // {{ end }}
 
-module.exports = function(data) {
+module.exports = function(eleventyConfig, data) {
   return ``
 }
