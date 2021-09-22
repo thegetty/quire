@@ -48,7 +48,7 @@ references to the page-level bibliography list
     {% else %}
       <ul>
         {% for item in cited | sort %}
-          <li id="{{ item[0] | urlize }}">{{ item[1] | markdownify }}</li>
+          <li id="{{ item[0] | slugify }}">{{ item[1] | markdownify }}</li>
         {% endfor %}
       </ul>
     {% endif %}
