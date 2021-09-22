@@ -45,7 +45,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(navigationPlugin)
   eleventyConfig.addPlugin(syntaxHighlight)
 
-  eleventyConfig.ignores.add('README.md')
+  // eleventyConfig.ignores.add('README.md')
 
   eleventyConfig.addPassthroughCopy(`${projectDir}/css/`)
   eleventyConfig.addWatchTarget(`${projectDir}/css/`)
