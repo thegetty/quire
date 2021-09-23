@@ -11,7 +11,7 @@
           {{- site.params.pageLabelDivider -}}
         </span></span>
       {%- endif %}
-      {% render "page/title" | markdownify -%}
+      {% render "page/title", title: title, subtitle: subtitle | markdownify -%}
     </h1>
 
     {% comment %}
