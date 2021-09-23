@@ -23,18 +23,18 @@
   <link rel="author" href="{{ contributor.url | url }}">
   {% endfor -%}
 
-  {% render 'dublin-core.html' }}
-  {% render 'open-graph.html' }}
-  {% render 'twitter-card.html' }}
-  {% render 'json-ld.html' }}
+  {% render 'dublin-core' %}
+  {% render 'open-graph' %}
+  {% render 'twitter-card' %}
+  {% render 'json-ld' %}
 
   <link rel="icon" href="{{ icon }}"/>
   <link rel="stylesheet" href="{{ css | url }}"/>
   <link rel="stylesheet" href="{{ customCSS | url }}"/>
 
-  {% render 'polyfills/template.html' }
+  {% render 'polyfills/template' %}
 
   {% if config.analytics false %}
-  {% render 'analytics.html' }
+  {% render 'analytics' %}
   {% endif %}
 </head>
