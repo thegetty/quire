@@ -13,9 +13,9 @@ TODO: determine if this should get a default value, perhaps "string"
 {% assign listType = nil %}
 {%- if contributor_byline == "name" -%}
   {% assign listType = "list" %}
-{%- if contributor_byline == "name-title" -%}
+{%- elsif contributor_byline == "name-title" -%}
   {% assign listType = "list-plus" %}
-{%- else -%}
+{%- else -%}f
   {% assign globalByline = site.params.contributorByline %}
   {%- if globalByLine == "name" -%}
     {% assign listType = "list" %}
@@ -41,7 +41,7 @@ Check global setting, do nothing if set to false w/ no page override
   {%- if contributor_byline != false -%}
     {%- if contributor_as_it_appears -%}
       <div class="quire-page__header__contributor">
-        <p class="quire-contributor">{{ markdownify .Params.contributor_as_it_appears }}<p>
+        <p class="quire-contributor">{{ contributor_as_it_appears | markdownify }}<p>
       </div>
     {%- elsif contributor -%}
       <div class="quire-page__header__contributor">
