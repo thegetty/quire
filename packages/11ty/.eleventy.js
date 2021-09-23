@@ -19,7 +19,7 @@ module.exports = function(eleventyConfig) {
    * @see https://github.com/11ty/eleventy/blob/master/src/Engines/Liquid.js
    */
   eleventyConfig.setLiquidOptions({
-    dynamicPartials: false,
+    dynamicPartials: true,
     strictFilters: false
   })
 
