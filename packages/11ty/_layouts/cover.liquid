@@ -67,10 +67,12 @@ description: Cover page layout. This controls the home page of the publication.
                   {% assign hasContributorType = true %}
                 {% endif %}
               {% endfor %}
-              {% assign params = { contributor: site.data.publication.contributor, contributorType: "all", listType: "string" } %}
               {%- if hasContributorType -%}
-                {% assign params.contributorType = "primary" %}
+                {% assign contributorType = "primary" %}
+              {% else %}
+                {% assign contributorType = "all" %}
               {%- endif -%}
+              {% assign params = { contributor: site.data.publication.contributor, contributorType: contributorType, listType: "string" } %}
               <em>{% render "contributor/list", params %}</em>
             {% endif %}
           </div>
@@ -116,19 +118,18 @@ description: Cover page layout. This controls the home page of the publication.
     TODO: think of a better way to simulate array.filter with a compare fn
     {% endcomment %}
     {% assign pages = site.pages | where: "online" %}
+    {% assign filteredPages = nil %}
     {% for page in pages %}
-      {% if page.type == "data" %}
-        {% assign pages[forloop.index] = nil %}
-      {% endif %}
+      {% unless page.type == "data" %}
+        {% assign filteredPages = filteredPages | concat: page %}
+      {% endunless %}
     {% endfor %}
-    {% assign pages = pages | compact %}
-    {% assign nextPages = pages %}
-    {% for page in nextPages %}
-      {% if page.weight < weight %}
-        {% assign nextPages[forloop.index] = nil %}
-      {% endif %}
+    {% assign nextPages = nil %}
+    {% for page in filteredPages %}
+      {% unless page.weight < weight %}
+        {% assign nextPages = nextPages | concat page%}
+      {% endunless %}
     {% endfor %}
-    {% assign nextPages = nextPages | compact %}
     {% if nextPages.size > 0 %}
       <section class="quire-cover__more" >
         <div class="quire-cover__more-body hero-more next-page">
@@ -148,5 +149,6 @@ description: Cover page layout. This controls the home page of the publication.
 
   {% if site.params.pdf %}
     {% render "pdf-title-pages" %}
+  {% endif %}
   {% endif %}
 </div>
