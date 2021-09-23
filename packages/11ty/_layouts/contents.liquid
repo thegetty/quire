@@ -40,7 +40,7 @@ description: Table of Contents (TOC) page template. Page content from the markdo
             {% for page in collection.all %}
               {% if page.section == section %}
                 {% assign scope = section %}
-                {%- render 'contentsList',
+                {%- render 'contents-list',
                     "site": .Site,
                     "contentsScope": scope,
                     "contentsType": site.params.tocType,
@@ -54,7 +54,7 @@ description: Table of Contents (TOC) page template. Page content from the markdo
             {% endfor %}
           {% else %}
             {% assign scope = collection.all %}
-            {%- render 'contentsList',
+            {%- render 'contents-list',
                 "site": .Site,
                 "contentsScope": scope,
                 "contentsType": site.params.tocType,

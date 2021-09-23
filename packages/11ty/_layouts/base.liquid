@@ -1,15 +1,15 @@
 <!doctype html>
 <html lang="{{ meta.language }}">
-  {% render 'head.html' %}
+  {% render 'head' %}
   <body>
-    {% render 'icons.html' %}
+    {% render 'icons' %}
 
     {% if site.params.licenseIcons %}
-      {% render 'icons-cc.html' %}
+      {% render 'icons-cc' %}
     {% endif %}
 
     {% if site.params.pdf %}
-      {% render 'pdf-info.html' %}
+      {% render 'pdf-info' %}
     {% endif %}
 
     <div class="quire no-js" id="container">
@@ -19,18 +19,18 @@
         aria-expanded="false"
         role="contentinfo"
       >
-        {% render 'menu.html' %}
+        {% render 'menu' %}
       </div>
 
       <div class="quire__primary" id="{{ section }}">
-        {% render 'navbar.html' %}
+        {% render 'navbar' %}
         {{ content }}
       </div>
 
-      {% render 'search.html' %}
+      {% render 'search' %}
 
     </div>
-    {% render 'scripts.html' %}
+    {% render 'scripts' %}
   </body>
 </html>
 
