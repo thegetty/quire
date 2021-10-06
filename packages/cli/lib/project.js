@@ -179,7 +179,8 @@ class Project extends EventEmitter {
     this.hugo = this.spawnHugo(
       "server",
       `--config=config.yml,${path.join("config", "environments", "dev.yml")}`,
-      "--watch"
+      "--watch",
+      "--disableFastRender"
     );
     spinner.info("Navigate to http://localhost:1313 to see your changes.");
     spinner.info('Press Control+C or type "quire stop" to stop the preview.');
