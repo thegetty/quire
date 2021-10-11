@@ -1,0 +1,6 @@
+{{/* Converts the given .File.Dir to a path that uses forward slashes to make it consistent for both Windows and macOS/Linux/Unix users
+--------------------------------------------------------------------------- */}}
+{{- $filePath := path.Dir . -}}
+{{- $filePath = printf "%s%s" $filePath "/" -}}
+{{- $filePath = replaceRE "//" "/" $filePath -}}
+{{- return $filePath -}}
