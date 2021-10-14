@@ -3,7 +3,7 @@ layout: base
 description: Cover page layout. This controls the home page of the publication.
 ---
 {% assign imageDir = data.imageDir %}
-<div class="{% include 'page/class' %} quire-cover" id="main" role="main">
+<div class="{% render 'page/class' %} quire-cover" id="main" role="main">
   {% if config.epub %}
     {% if site.data.publication.promo_image -%}
       {% assign imgCoverPath = site.params.imgDir | append | site.data.publication.promo_image %}
@@ -127,7 +127,7 @@ description: Cover page layout. This controls the home page of the publication.
     {% assign nextPages = nil %}
     {% for page in filteredPages %}
       {% unless page.weight < weight %}
-        {% assign nextPages = nextPages | concat page%}
+        {% assign nextPages = nextPages | concat: page %}
       {% endunless %}
     {% endfor %}
     {% if nextPages.size > 0 %}

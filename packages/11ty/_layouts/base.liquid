@@ -2,10 +2,10 @@
 <html lang="{{ meta.language }}">
   {% render 'head' %}
   <body>
-    {% render 'icons' %}
+    {% render 'icons.html' %}
 
     {% if site.params.licenseIcons %}
-      {% render 'icons-cc' %}
+      {% render 'icons-cc.html' %}
     {% endif %}
 
     {% if site.params.pdf %}

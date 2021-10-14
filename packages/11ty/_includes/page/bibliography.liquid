@@ -27,8 +27,9 @@ references to the page-level bibliography list
   {% endfor %}
 
   {% assign alphaOrder = alphaOrder | truncate: 100 | slugify %}
-  {% assign entry[0] = short %}
-  {% assign entry[1] = full %}
+  {% assign entry = "" | split: "," %}
+  {% assign entry = entry | push: short %}
+  {% assign entry = entry | push: full %}
   {% assign cited[alphaOrder] = entry  %}
 {% endfor %}
 
