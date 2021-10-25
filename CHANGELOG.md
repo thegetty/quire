@@ -13,7 +13,7 @@ Project versions conform to [Semantic Versioning](https://semver.org/)
 * `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
-## [Unreleased]
+## [0.20.2]
 - Adds `disableFastRender` option to `quire preview` command
 - Adds `contents-list/file-dir` partial to normalize directories in `contents-list`
 
