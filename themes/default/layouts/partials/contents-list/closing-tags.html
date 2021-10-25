@@ -1,12 +1,12 @@
 {{/*  If the .File.Dir of the current page matches the START of the .File.Dir of the next page, we’re still in the same section, so do nothing. Otherwise proceed to next section to add the appropriate number of closing /ul/li tags to close section(s)
 --------------------------------------------------------------------------- */}}
 {{- $currentPage := (index .AllPages .PageIndex).File.Dir -}}
-{{- $currentPageDirectory := partial "contents-list/file-path.html" $currentPage -}}
+{{- $currentPageDirectory := partial "contents-list/file-dir.html" $currentPage -}}
 
 {{- $nextPage := (index .AllPages (add .PageIndex 1)).File.Dir -}}
 {{- $nextPageDirectory := "" -}}
 {{- if $nextPage }}
-{{- $nextPageDirectory = partial "contents-list/file-path.html" $nextPage -}}
+{{- $nextPageDirectory = partial "contents-list/file-dir.html" $nextPage -}}
 {{- end -}}
 
 {{- $findPattern := printf "%s%s" "^" $currentPageDirectory -}}

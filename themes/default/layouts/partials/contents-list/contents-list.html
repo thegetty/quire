@@ -87,7 +87,7 @@ In order to properly close the /ul/li elements and nest sub-sections, the logic 
 {{- $openSections := dict -}}
 {{- $renderedSections := "" -}}
 {{- if .contentsScope -}}
-{{- $renderedSections = partial "contents-list/file-path.html" .contentsScope -}}
+{{- $renderedSections = partial "contents-list/file-dir.html" .contentsScope -}}
 {{- end -}}
 {{- $contentsScopePattern := printf "%s%s" "^" $renderedSections -}}
 {{- $contentsPageID := .contentsPage.File.UniqueID -}}
@@ -95,7 +95,7 @@ In order to properly close the /ul/li elements and nest sub-sections, the logic 
 <ul>
 {{- range $index, $page := $pages -}}
 
-  {{- $section := partial "contents-list/file-path.html" .File.Dir -}}
+  {{- $section := partial "contents-list/file-dir.html" .File.Dir -}}
   {{- $sectionLevel := len (findRE "(.+?)/" $section) -}}
   {{- $sameAsOpenSection := false -}}
 
