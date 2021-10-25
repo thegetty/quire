@@ -1,6 +1,7 @@
-{{/* Converts the given .File.Dir to a path that uses forward slashes to make it consistent for both Windows and macOS/Linux/Unix users
+{{/* Uses the Hugo `path.Dir` function to return the given path's directory and normalize it, making it consistent for both Windows and macOS/Linux/Unix users
 --------------------------------------------------------------------------- */}}
 {{- $filePath := path.Dir . -}}
-{{- $filePath = printf "%s%s" $filePath "/" -}}
-{{- $filePath = replaceRE "//" "/" $filePath -}}
+{{- if ne $filePath "/" -}}
+  {{- $filePath = printf "%s%s" $filePath "/" -}}
+{{- end -}}
 {{- return $filePath -}}
