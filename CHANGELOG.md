@@ -13,6 +13,9 @@ Project versions conform to [Semantic Versioning](https://semver.org/)
 * `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
+## [Unreleased]
+- Adds `disableFastRender` option to `quire preview` command
+
 ## [0.20.1]
 
 ### Fixed
