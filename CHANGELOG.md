@@ -15,6 +15,7 @@ Project versions conform to [Semantic Versioning](https://semver.org/)
 
 ## [Unreleased]
 - Adds `disableFastRender` option to `quire preview` command
+- Adds `contents-list/file-dir` partial to normalize directories in `contents-list`
 
 ## [0.20.1]
 
