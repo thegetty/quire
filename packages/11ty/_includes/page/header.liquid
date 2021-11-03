@@ -1,29 +1,19 @@
 <section class="{% if title == 'title page' or title == 'half title page' %}is-screen-only {% endif %}quire-page__header hero">
   <div class="hero-body">
-
-    {% comment %}
-    Page Title
-    {% endcomment %}
-
     <h1 class="quire-page__header__title" id="{{ title | slugify }}">
       {%- if label -%}
         <span class="label">{{- label -}}<span class="visually-hidden">
           {{- site.params.pageLabelDivider -}}
         </span></span>
       {%- endif %}
-      {% render "page/title", title: title, subtitle: subtitle | markdownify -%}
+      {% render 'page/title', title: title, subtitle: subtitle | markdownify -%}
     </h1>
-
-    {% comment %}
-    Contributors, if any
-    {% endcomment %}
-
-    {% render "page/contributor" %}
+    {% render 'page/contributor' %}
   </div>
 </section>
 
 {% if image -%}
-  {% assign imgPath = site.params.imgDir | append: "/" | append: image %}
+  {% assign imgPath = site.params.imgDir | append: '/' | append: image %}
   <section
     class="{% if title == 'title page' or title == 'half title page' %}is-screen-only{% endif %} quire-page__header hero__image"
     style="background-image: url('{{ imgPath }}');"

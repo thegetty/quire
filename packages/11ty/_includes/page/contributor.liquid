@@ -11,18 +11,18 @@ TODO: determine if this should get a default value, perhaps "string"
 {% endcomment %}
 
 {% assign listType = nil %}
-{%- if contributor_byline == "name" -%}
-  {% assign listType = "list" %}
-{%- elsif contributor_byline == "name-title" -%}
-  {% assign listType = "list-plus" %}
-{%- else -%}f
+{%- if contributor_byline == 'name' -%}
+  {% assign listType = 'list' %}
+{%- elsif contributor_byline == 'name-title' -%}
+  {% assign listType = 'list-plus' %}
+{%- else -%}
   {% assign globalByline = site.params.contributorByline %}
-  {%- if globalByLine == "name" -%}
-    {% assign listType = "list" %}
-  {%- elsif globalByLine == "name-title" -%}
-    {% assign listType = "list-plus" %}
+  {%- if globalByLine == 'name' -%}
+    {% assign listType = 'list' %}
+  {%- elsif globalByLine == 'name-title' -%}
+    {% assign listType = 'list-plus' %}
   {%- else -%}
-    {% assign listType = "list-plus" %}
+    {% assign listType = 'list-plus' %}
   {%- endif -%}
 {%- endif -%}
 
@@ -45,8 +45,8 @@ Check global setting, do nothing if set to false w/ no page override
       </div>
     {%- elsif contributor -%}
       <div class="quire-page__header__contributor">
-        {% assign params = { contributor: contributor, contributorType: "all", listType: listType } %}
-        {% render "../contributor/list", params %}
+        {% assign params = { contributor: contributor, contributorType: 'all', listType: listType } %}
+        {% render '../contributor/list', params %}
       </div>
     {%- endif -%}
   {%- endif -%}
