@@ -8,29 +8,14 @@ references to the page-level bibliography list
   {% assign full = nil %}
   {% assign short = nil %}
   {% assign alphaOrder = nil %}
+  {% assign cited = "" | split: "," %}
 
   {% for item in site.data.references.entries %}
     {% if item.id == id %}
-      {% assign full = item.full %}
-      {% if item.short %}
-        {% assign short = item.short %}
-      {% else %}
-        {% assign short = item.id %}
-      {% endif %}
-
-      {% if item.sort %}
-        {% assign alphaOrder = item.sort %}
-      {% else %}
-        {% assign alphaOrder = item.full %}
-      {% endif %}
+      {% assign cited = cited | push: item %}
     {% endif %}
   {% endfor %}
 
-  {% assign alphaOrder = alphaOrder | truncate: 100 | slugify %}
-  {% assign entry = "" | split: "," %}
-  {% assign entry = entry | push: short %}
-  {% assign entry = entry | push: full %}
-  {% assign cited[alphaOrder] = entry  %}
 {% endfor %}
 
 {% if cited %}
@@ -38,18 +23,19 @@ references to the page-level bibliography list
     {% if site.params.biblioHeading %}<h2 id="{{ site.params.biblioHeading | slugify }}">{{ site.params.biblioHeading }}</h2>{% endif %}
     {% if site.params.displayBiblioShort == true %}
       <dl>
-        {% for item in cited | sort %}
+        {% for item in cited | sort: 'sort, full' %}
           {% comment %}
           the id is in a span because Pandoc otherwise strips them out from dt and dd for EPUBs for some reason
           {% endcomment %}
-          <dt><span id="{{ item[0] | slugify }}">{{ item[0] | markdownify }}</span></dt>
-          <dd>{{ item[1] | markdownify }}</dd>
+
+          <dt><span id="{{ item.id | slugify }}">{{ item.short | markdownify }}</span></dt>
+          <dd>{{ item.full | markdownify }}</dd>
         {% endfor %}
       </dl>
     {% else %}
       <ul>
         {% for item in cited | sort %}
-          <li id="{{ item[0] | slugify }}">{{ item[1] | markdownify }}</li>
+          <li id="{{ item.id | slugify }}">{{ item.full | markdownify }}</li>
         {% endfor %}
       </ul>
     {% endif %}
