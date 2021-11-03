@@ -1,7 +1,5 @@
 ---
 title: Bibliography
 weight: 200
-layout: page
+layout: bibliography
 ---
-
-{% qbibliography %}
