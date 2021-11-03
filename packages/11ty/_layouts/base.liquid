@@ -19,15 +19,33 @@
         aria-expanded="false"
         role="contentinfo"
       >
-        {% render 'menu' %}
+        {% comment %}
+          TODO: replace menu partial with  11ty navigation or refactor as liquid template
+        {% endcomment %}
+
+        {% comment %}
+          {% render 'menu' %}
+        {% endcomment %}
       </div>
 
       <div class="quire__primary" id="{{ section }}">
-        {% render 'navbar' %}
+        {% comment %}
+          TODO: replace navbar partial with  11ty navigation or refactor as liquid template
+        {% endcomment %}
+
+        {% comment %}
+          {% render 'navbar' %}
+        {% endcomment %}
         {{ content }}
       </div>
 
-      {% render 'search' %}
+        {% comment %}
+          TODO: replace search or refactor as liquid template
+        {% endcomment %}
+
+        {% comment %}
+          {% render 'search' %}
+        {% endcomment %}
 
     </div>
     {% render 'scripts' %}
