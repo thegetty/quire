@@ -1,7 +1,7 @@
 const backmatter = require ('./backmatter.11ty.js')
 const cite = require ('./cite.11ty.js')
 const contributor = require ('./contributor.11ty.js')
-const figure = require ('./figure.11ty.js')
+const figure = require ('./figure/index.11ty.js')
 const figureGroup = require ('./figureGroup.11ty.js')
 
 module.exports = function(eleventyConfig, options) {
