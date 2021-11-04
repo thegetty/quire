@@ -7,10 +7,6 @@ disableKinds:
 footnoteReturnLinkContents: "↩"
 GoogleAnalytics: ''
 languageCode: en-us
-markup:
-  goldmark:
-    renderer:
-      unsafe: true # allows HTML tags within Markdown file
 metaDataFormat: yaml
 pluralizeListTitles: true
 publishDir: site
