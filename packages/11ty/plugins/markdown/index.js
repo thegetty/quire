@@ -1,6 +1,6 @@
+const MarkdownIt = require('markdown-it')
 const anchors = require('markdown-it-anchor')
 const footnotes = require('markdown-it-footnote')
-const markdownIt = require('markdown-it')
 
 /**
  * An Eleventy plugin to configure the markdown library
@@ -27,7 +27,7 @@ module.exports = function(eleventyConfig, options) {
    */
   const anchorOptions = {}
 
-  const markdownLibrary = markdownIt(Object.assign(defaultOptions, options))
+  const markdownLibrary = MarkdownIt(Object.assign(defaultOptions, options))
     .use(anchors, anchorOptions)
     .use(footnotes)
 
@@ -37,17 +37,17 @@ module.exports = function(eleventyConfig, options) {
   markdownLibrary.renderer.rules.footnote_caption = (tokens, idx) => {
     let n = Number(tokens[idx].meta.id + 1).toString()
     if (tokens[idx].meta.subId > 0) {
-      n += ":" + tokens[idx].meta.subId
+      n += ':' + tokens[idx].meta.subId
     }
     return n
   }
 
   eleventyConfig.setLibrary('md', markdownLibrary)
 
-
-  const renderer = new MarkdownIt()
-
+  /**
+   * Add a universal template filter to render markdown inline
+   */
   eleventyConfig.addFilter('markdownify', (content) => {
-    return renderer.renderInline(content)
+    return markdownLibrary.renderInline(content)
   })
 }
