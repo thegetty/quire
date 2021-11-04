@@ -1,0 +1,39 @@
+---
+baseURL: ''
+disableKinds:
+  - home
+  - section
+  - taxonomy
+  - term
+footnoteReturnLinkContents: "↩"
+GoogleAnalytics: ''
+languageCode: en-us
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+metaDataFormat: yaml
+pluralizeListTitles: true
+publishDir: site
+theme: default
+title: Quire Starter
+params:
+  biblioHeading: Bibliography
+  citationPageLocationDivider: ", "
+  citationPopupStyle: text
+  contributorByline: name-title
+  displayBiblioShort: true
+  entryPageObjectLinkText: View in Collection
+  entryPageSideBySideLayout: false
+  figureLabelLocation: on-top
+  figureModal: true
+  figureModalIcons: true
+  figureZoom: true
+  imageDir: img
+  licenseIcons: true
+  menuType: full
+  nextPageButtonText: Next
+  pageLabelDivider: ". "
+  prevPageButtonText: Back
+  searchEnabled: true
+  tocType: full
