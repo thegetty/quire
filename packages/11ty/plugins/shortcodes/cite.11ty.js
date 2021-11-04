@@ -1,3 +1,5 @@
+const { oneLine } = require('common-tags')
+
 /**
  *  This shortcode adds a linked Author Date citation reference to the text, and a
  *  hover pop-up with the full citation text. It also adds the citation to a map
@@ -47,12 +49,12 @@ module.exports = function(eleventyConfig, data) {
 
   const content = data
 
-  return `
+  return oneLine `
     <span class="quire-citation expandable">
       <span class="quire-citation__content">
         <span class="visually-hidden">Citation:&nbsp;</span>
         ${content}
       </span>
     </span>
-  `.trim()
+  `
 }
