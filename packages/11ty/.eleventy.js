@@ -13,6 +13,7 @@ const yaml = require('js-yaml')
 
 module.exports = function(eleventyConfig) {
   const projectDir = 'src'
+  const assetsDir = path.join(projectDir, 'assets')
 
   /**
    * Configure the Liquid template engine
@@ -55,11 +56,14 @@ module.exports = function(eleventyConfig) {
 
   // eleventyConfig.ignores.add('README.md')
 
-  eleventyConfig.addPassthroughCopy(path.relative(projectDir, 'css'))
-  eleventyConfig.addWatchTarget(path.relative(projectDir, 'css'))
+  // eleventyConfig.addPassthroughCopy(path.relative(projectDir, 'css'))
+  // eleventyConfig.addWatchTarget(path.relative(projectDir, 'css'))
+  //
+  // eleventyConfig.addPassthroughCopy(path.relative(projectDir, 'js'))
+  // eleventyConfig.addWatchTarget(path.relative(projectDir, 'js'))
 
-  eleventyConfig.addPassthroughCopy(path.relative(projectDir, 'js'))
-  eleventyConfig.addWatchTarget(path.relative(projectDir, 'js'))
+  eleventyConfig.addPassthroughCopy(path.join(assetsDir, 'img/*'))
+  eleventyConfig.addPassthroughCopy(path.join(assetsDir,'styles/custom.css'))
 
   return {
     dir: {
