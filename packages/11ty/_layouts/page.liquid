@@ -1,23 +1,23 @@
 ---
 layout: base
-description: Single page default template. Normal page content will appear in the content outlet below.
+description: Single page default template
 ---
 
-<article class='{% render "page/class", class: class, weight: weight %} quire-page' id="main" role="main">
-  {% render "page/header" %}
+<article class="{% render 'page/class', class: class, weight: weight %} quire-page" id="main" role="main">
+  {% render 'page/header' %}
   {% if content %}
   <section class="section quire-page__content" id="content">
     <div class="container">
       <div class="content">
         {{ content }}
-        {% render "page/bibliography" %}
+        {% render 'page/bibliography' %}
       </div>
     </div>
   </section>
   {% endif %}
   <section class="section quire-page__content">
     <div class="container">
-      {% render "footer-buttons" %}
+      {% render 'footer-buttons' %}
     </div>
   </section>
 </article>

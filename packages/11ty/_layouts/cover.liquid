@@ -16,7 +16,7 @@ description: Cover page layout. This controls the home page of the publication.
   {% endcomment %}
 
   {% if image -%}
-    {% assign imgPath = site.params.imgDir | append: "/" | append: image %}
+    {% assign imgPath = site.params.imgDir | append: '/' | append: image %}
     <section class="quire-cover__hero hero is-fullheight">
       <div class="quire-cover__overlay" style="background-image: url('{{ imgPath }}');"></div>
   {%- else -%}
@@ -32,10 +32,10 @@ description: Cover page layout. This controls the home page of the publication.
 
         {% if site.data.publication %}
           <h1 class="title">
-            {% assign lastLetter = site.data.publication.title | split "" | last %}
-            {% assign exceptions = "!?" | split "" %}
+            {% assign lastLetter = site.data.publication.title | split '' | last %}
+            {% assign exceptions = '!?' | split '' %}
             {% unless exceptions contains lastLetter %}
-              {% assign endPunctuation = ":" %}
+              {% assign endPunctuation = ':' %}
             {% endunless %}
 
             {{- site.data.publication.title | markdownify -}}
