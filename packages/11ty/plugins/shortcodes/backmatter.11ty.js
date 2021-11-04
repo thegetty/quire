@@ -6,7 +6,6 @@
  *
  * @return     {boolean}  { description_of_the_return_value }
  */
-module.exports = (content, data) => {
-  // return `<div class="${data.classes}">${content}</div>`
-  return `${content}`
+module.exports = (content) => {
+  return `<div class="backmatter">${content}</div>`
 }
