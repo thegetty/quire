@@ -31,83 +31,28 @@
 
 {{- $errorMissingReference := dict "shortcode" "q-cite" "message" "The id supplied doesn’t match one in the project’s `references.yml` file" "example" "{{< q-cite &#34;Faure 1909&#34; >}}<br /><br />id: &#34;Faure 1909&#34;" -}}
 
-{{- if gt (len .Params) 3 -}}
-
-  {{- partial "error-message.html" $errorMissingValue -}}
-
-{{- else -}}
-
-  {{- $id := .Get 0 -}}
-  {{- $full := "" -}}
-  {{- $short := "" -}}
-  {{- $alphaOrder := "" -}}
-
-  {{- range $.Site.Data.references.entries -}}
-    {{- if eq .id $id -}}
-    
-        {{- $full = .full -}}
-        
-        {{- if .short -}}
-          {{- $short = .short -}}
-        {{- else -}}
-          {{- $short = .id -}}
-        {{- end -}}
-        
-        {{- if .sort -}}
-          {{- $alphaOrder = .sort -}}
-        {{- else -}}
-          {{- $alphaOrder = .full -}}
-        {{- end -}}
-        {{- $alphaOrder = $alphaOrder | truncate 100 | urlize -}}
-        
-    {{- end -}}
-  {{- end -}}
-
-  {{- if eq $full "" -}}
-
-    {{- partial "error-message.html" $errorMissingReference -}}
-
-  {{- else -}}
-
-    {{- $.Page.Scratch.SetInMap "entry" "0" $short -}}
-    {{- $.Page.Scratch.SetInMap "entry" "1" $full -}}
-    {{- $entry := ($.Page.Scratch.GetSortedMapValues "entry") -}}
-    {{- $.Page.Scratch.SetInMap "cited" $alphaOrder $entry -}}
-    <span class="quire-citation expandable">{{ if ne .Site.Params.citationPopupStyle "icon" }}<span class="quire-citation__button" role="button" tabindex="0" aria-expanded="false">{{ end }}{{- if eq (len .Params) 3 }}{{- .Get 2 -}}{{ else }}{{- markdownify $short -}}{{ end }}{{- if eq (len .Params) 2 }}{{ $.Site.Params.citationPageLocationDivider }}{{ .Get 1 }}{{ end -}}{{ if eq .Site.Params.citationPopupStyle "icon" }}<button class="quire-citation__button material-icons md-18 material-control-point" aria-expanded="false">control_point</button>{{ end }}{{ if ne .Site.Params.citationPopupStyle "icon" }}</span>{{ end }}<span hidden class="quire-citation__content"><span class="visually-hidden">Citation: </span>{{- markdownify $full -}}</span></span>
-  {{- end -}}
-{{- end -}}
+  @todo grab data from site.data.references.entries
+  @todo refactor button
+  @todo fullCitation | shortCitation
+  @todo "error-message.html" $errorMissingReference
+  @todo markdownify citation content
+  @todo ${site.params.citationPageLocationDivider}
 */
 module.exports = function(eleventyConfig, data) {
-  // return `
-  //   <span class="quire-citation expandable">
-  //     {{ if ne .Site.Params.citationPopupStyle "icon" }}
-  //       <span class="quire-citation__button" role="button" tabindex="0" aria-expanded="false">
-  //     {{ end }}
-
-  //     {{- if eq (len .Params) 3 }}
-  //       {{- .Get 2 -}}
-  //     {{ else }}
-  //       {{ shortCitation }}
-  //     {{ end }}
-
-  //     {{- if eq (len .Params) 2 }}
-  //       {{ $.Site.Params.citationPageLocationDivider }}
-  //       {{ .Get 1 }}
-  //     {{ end -}}
-
-  //     {{ if eq .Site.Params.citationPopupStyle "icon" }}
+  // const button = site.Params.citationPopupStyle === 'icon'
+  //   ? `<span class="quire-citation__button" role="button" tabindex="0" aria-expanded="false">
   //       <button class="quire-citation__button material-icons md-18 material-control-point" aria-expanded="false">control_point</button>
-  //     {{ end }}
+  //     </span>`
+  //   : ''
 
-  //     {{ if ne .Site.Params.citationPopupStyle "icon" }}
-  //       </span>
-  //     {{ end }}
+  const content = data
 
-  //     <span hidden class="quire-citation__content">
-  //       <span class="visually-hidden">Citation:&nbsp;</span>
-  //       {{ fullCitation }}
-  //     </span>
-  //   </span>
-  // `
-  return `qcite`
+  return `
+    <span class="quire-citation expandable">
+      <span class="quire-citation__content">
+        <span class="visually-hidden">Citation:&nbsp;</span>
+        ${content}
+      </span>
+    </span>
+  `.trim()
 }
