@@ -1,0 +1,589 @@
+// =============================================================================
+// Quire-figure.scss
+// -----------------------------------------------------------------------------
+//
+// Quire-figure component. The q-figure shortcode outputs the following markup:
+// <figure class="quire-figure">
+//   <img class="quire-figure__image" />
+//   <span class="quire-figure__label"></span>
+//   <figcaption class="quire-figure__caption"></figcaption>
+// </figure>
+//
+// In most cases the default styling from Bulma's figure and .content figure
+// rules should be sufficient, but additional styling can go here.
+//
+// Figure groups get the additional class .quire-figure--group
+//
+// scss-lint:disable EmptyRule
+
+// .quire-figure
+// -----------------------------------------------------------------------------
+.quire-figure {
+  border-top: 1px solid $accent-color;
+  border-bottom: 1px solid $accent-color;
+  padding: 1em 0;
+  margin-top: 0.5em;
+  margin-left: 0;
+  margin-right: 0;
+
+  @if $theme == classic {
+    border: none;
+    padding: 0;
+  }
+
+  .q-figure__wrapper {
+    border: none;
+    display: block;
+    position: relative;
+
+    > a {
+      border: none;
+
+      &:hover {
+
+        img {
+          -webkit-transition: -webkit-box-shadow 0.35s;
+          transition: box-shadow 0.35s;
+          -webkit-box-shadow: 0px 0px 6px 0px $black-semi-transparent;
+          -moz-box-shadow: 0px 0px 6px 0px $black-semi-transparent;
+          box-shadow: 0px 0px 6px 0px $black-semi-transparent;
+        }
+
+        .quire-figure__label--below {
+          transition: background-color 0.35s;
+          color: link-hover-color($content-background-color);
+          svg {
+            fill: link-hover-color($content-background-color);
+          }
+        }
+
+        .quire-figure__label--on-top {
+          transition: background-color 0.35s;
+          background-color: $accent-color;
+        }
+      }
+    }
+
+    img {
+      object-fit: cover;
+      width: 100%;
+    }
+  }
+
+  &__table {
+    &-wrapper {
+    }
+  }
+
+  &__table {
+    table {
+      margin: 0 !important;
+      caption {
+        font-size: 1rem;
+        margin: 1rem;
+      }
+      tfoot {
+        ul {
+          li {
+            &:before {
+              content: "" !important;
+            }
+          }
+        }
+      }
+    }
+    th {
+      border-bottom: 0;
+    }
+    td {
+      border-right-width: 0px;
+      border-left-width: 0px;
+      border-bottom: 0;
+    }
+    margin: 0 !important;
+    padding-bottom: 1em;
+    font-size: 0.8rem;
+    &.q-table-scale-1 {
+      font-size: 0.1rem;
+    }
+
+    &.q-table-scale-2 {
+      font-size: 0.2rem;
+    }
+
+    &.q-table-scale-3 {
+      font-size: 0.3rem;
+    }
+
+    &.q-table-scale-4 {
+      font-size: 0.4rem;
+    }
+
+    &.q-table-scale-5 {
+      font-size: 0.5rem;
+    }
+
+    &.q-table-scale-6 {
+      font-size: 0.6rem;
+    }
+
+    &.q-table-scale-7 {
+      font-size: 0.7rem;
+    }
+
+    &.q-table-scale-8 {
+      font-size: 0.8rem;
+    }
+
+    &.q-table-scale-9 {
+      font-size: 0.9rem;
+    }
+  }
+
+  .content & {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  &__image {
+    .content figure & {
+      display: block;
+      margin: 0 auto;
+    }
+  }
+
+  .content figure &__caption {
+    font-size: 0.75em;
+    line-height: 1.5;
+    margin-top: 0.5rem;
+    font-style: normal;
+    text-align: left;
+    color: background-color-text($content-background-color);
+    @media print {
+      color: $print-text-color;
+    }
+    user-select: text;
+    a {
+      line-height: 1.5;
+    }
+  }
+
+  &__credit {
+  }
+
+  // The figure label with figureLabelLocation: below
+  &__label {
+    @if $theme == classic {
+      color: background-color-text-classic($content-background-color);
+    } @else {
+      color: $accent-color;
+    }
+    height: 1.2em;
+    font-weight: 700;
+    margin-right: .5rem;
+    margin-top: -.2em;
+    .quire-figure__label-icon {
+      display: inline-block;
+      line-height: 1;
+      margin-top: 0;
+      margin-left: -.3em;
+      vertical-align: middle;
+      @media print {
+        display: none;
+      }
+      svg {
+        @if $theme == classic {
+          fill: background-color-text-classic($content-background-color);
+        } @else {
+        fill: $accent-color;
+        }
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+    }
+    // The figure label with figureLabelLocation: on-top (default)
+    &--on-top {
+      display: flex;
+      align-items: center;
+      color: $white;
+      position: absolute;
+      font-size: 0.75em;
+      top: 0;
+      left: 0;
+      height: 2.6em;
+      padding: 0 .6em;
+      margin: 0;
+      background: $black-semi-transparent;
+      .quire-figure__label-icon {
+        margin-top: .3em;
+        svg {
+          fill: $white;
+        }
+      }
+    }
+  }
+
+  &__media-wrapper {
+    &--standard {
+      padding-bottom: 75%;
+      position: relative;
+
+      @media print {
+        padding-bottom: 0;
+        position: inherit;
+      }
+    }
+
+    &--widescreen {
+      padding-bottom: 56.25%;
+      position: relative;
+
+      @media print {
+        padding-bottom: 0;
+        position: inherit;
+      }
+    }
+  }
+
+  &__media {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__media-fallback {
+    .quire-figure__wrapper {
+      margin-bottom: 0.5em;
+    }
+    .fallback-image {
+      background-color: $gray;
+      img {
+        width: 50px;
+      }
+    }
+    iframe {
+      position: relative;
+    }
+    h5.header {
+      font-family: $quire-primary-font;
+      font-size: 0.85em;
+      color: $black;
+      font-weight: 400;
+      text-align: left;
+      margin-bottom: 0.5em;
+    }
+    p.caption {
+      text-align: left;
+      font-size: 0.85em;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      a {
+        font-size: 0.85em;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+      }
+    }
+    .placeholder {
+      color: $white;
+      background-color: $gray;
+      width: 100%;
+      height: 80px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: center;
+      margin-bottom: 1em;
+      i {
+        font-size: 50px;
+        color: $white;
+        &.audio {
+        }
+      }
+    }
+
+    .content figure & {
+      display: none;
+
+      @media print {
+        display: block;
+        width: 100%;
+      }
+    }
+
+    &__text {
+      display: none;
+
+      @media print {
+        display: inline;
+      }
+    }
+  }
+
+  &__video {
+    width: 100%;
+  }
+
+  &.is-pulled-left,
+  &.is-pulled-right {
+    @media screen and (min-width: $tablet) {
+      width: 50%;
+    }
+
+    @media print {
+      width: 2.75in;
+    }
+  }
+
+  &.is-pulled-left {
+    margin-left: 0;
+    margin-right: 1.25em;
+    @media print {
+      margin-right: 1.75em;
+    }
+  }
+  &.is-pulled-right {
+    margin-right: 0;
+    margin-left: 1em;
+    @media print {
+      margin-left: 1.5em;
+    }
+  }
+
+  .content &.is-pulled-left,
+  .content &.is-pulled-right {
+    margin-top: 0.75em;
+    margin-bottom: 1em;
+    @media screen and (max-width: $tablet) {
+      margin: 0 0 1em 0;
+    }
+  }
+
+  &--group {
+    &__row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+      flex-wrap: wrap;
+
+      @media print {
+        display: inline-block;
+        margin-bottom: 0;
+        clear: both;
+      }
+      @media screen and (max-width: $tablet) {
+        display: block;
+      }
+    }
+
+    &__item {
+      display: block;
+      flex-basis: 0;
+      flex-grow: 1;
+      flex-shrink: 1;
+
+      .content & {
+        margin-left: 0;
+        margin-right: 0;
+        margin-top: 0;
+      }
+
+      .content &:not(:last-child) {
+        margin-bottom: 0;
+      }
+
+      .content &:not(:first-child) {
+        margin-top: 0;
+      }
+
+      + .quire-figure__caption {
+        clear: both;
+        padding-top: 1rem;
+      }
+    }
+
+    .quire-grid--2 {
+      width: 49%;
+
+      @media print {
+        width: 48%;
+      }
+    }
+
+    .quire-grid--3 {
+      width: 32%;
+
+      @media print {
+        width: 31.3%;
+      }
+    }
+
+    .quire-grid--4 {
+      width: 23.5%;
+
+      @media print {
+        width: 23%;
+      }
+    }
+
+    .quire-grid--5 {
+      width: 18.4%;
+
+      @media print {
+        width: 18%;
+      }
+    }
+
+    .quire-grid--6 {
+      width: 15%;
+
+      @media print {
+        width: 14.6%;
+      }
+    }
+
+    .quire-grid {
+      &--2,
+      &--3,
+      &--4,
+      &--5,
+      &--6 {
+        @media screen and (max-width: $tablet) {
+          width: 100%;
+        }
+      }
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    .soundcloud,
+    .youtube,
+    .vimeo {
+    }
+
+    .quire-figure__caption {
+      width: 100%;
+    }
+  }
+
+  @media print {
+    column-span: none;
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+}
+
+/** VIDEO/AUDIO FALLBACK ELEMENTS **/
+
+div.multimedia {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  border: 1px solid $gray;
+  padding: 0;
+  text-align: left;
+  position: relative;
+  display: flex;
+  margin-bottom: 0.5em;
+
+  .placeholder {
+    color: $white;
+    background-color: $black;
+    min-width: 80px;
+    max-width: 80px;
+    width: 80px;
+    height: 100%;
+    min-height: 80px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: 0.5em;
+
+    i,
+    div {
+      color: $white;
+    }
+  }
+
+  .multimedia-metadata {
+    position: relative;
+    margin: 0.5em;
+
+    h5.header {
+      font-family: "Noto Sans", sans-serif;
+      font-size: 1em;
+      color: $black;
+      font-weight: 400;
+    }
+  }
+
+  &-grid {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    display: block;
+    border: 1px solid $gray;
+    padding: 0;
+    text-align: left;
+    position: relative;
+
+    .placeholder {
+      text-align: center;
+      color: $white;
+      height: 80px;
+      background-color: $black;
+      margin-right: 0.75em;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: center;
+
+      i,
+      div {
+        color: $white;
+      }
+    }
+
+    .multimedia-metadata {
+      position: relative;
+      margin: 0.75em;
+
+      h5.header {
+        font-family: "Noto Sans", sans-serif;
+        font-size: 1em;
+        font-weight: 400;
+        margin: 0.5em 0 0 0;
+        color: $black;
+      }
+    }
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .caption {
+    font-size: 0.75em;
+    line-height: 1.8em;
+    color: $black;
+    word-break: break-all;
+  }
+}
+
+/** VIDEO/AUDIO FALLBACK ELEMENTS **/
+
+/* Override global link styles on icon in caption */
+.quire-page__content .quire-figure__caption {
+  .popup, .popup:hover {
+    border-bottom: none!important;
+  }
+  .popup:focus {
+    background-color: inherit!important;
+  }
+}

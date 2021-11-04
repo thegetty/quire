@@ -12,7 +12,7 @@ module.exports = class MetaData {
       { rel: 'schema.dcterms', href: 'https://purl.org/dc/terms/' }
     ]
 
-    const meta: [
+    const meta = [
       {
         name: 'dcterms.title',
         content: site.params.title },
