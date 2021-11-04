@@ -52,11 +52,11 @@ module.exports = function(eleventyConfig) {
 
   // eleventyConfig.ignores.add('README.md')
 
-  eleventyConfig.addPassthroughCopy(`${projectDir}/css/`)
-  eleventyConfig.addWatchTarget(`${projectDir}/css/`)
+  eleventyConfig.addPassthroughCopy(path.relative(projectDir, 'css'))
+  eleventyConfig.addWatchTarget(path.relative(projectDir, 'css'))
 
-  eleventyConfig.addPassthroughCopy(`${projectDir}/js/`)
-  eleventyConfig.addWatchTarget(`${projectDir}/js/`)
+  eleventyConfig.addPassthroughCopy(path.relative(projectDir, 'js'))
+  eleventyConfig.addWatchTarget(path.relative(projectDir, 'js'))
 
   return {
     dir: {
@@ -65,7 +65,7 @@ module.exports = function(eleventyConfig) {
       // ⚠️ the following values are _relative_ to the `input` directory
       data: path.relative(projectDir, '_data'),
       includes: path.relative(projectDir, '_includes'),
-      layouts:  path.relative(projectDir, '_layouts')
+      layouts: path.relative(projectDir, '_layouts')
     },
     /**
      * All of the following template formats support universal shortcodes.
