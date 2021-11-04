@@ -1,6 +1,6 @@
+const anchors = require('markdown-it-anchor')
+const footnotes = require('markdown-it-footnote')
 const markdownIt = require('markdown-it')
-// const markdownItAnchor = require('markdown-it-anchor')
-const markdownItFootnote = require('markdown-it-footnote')
 
 /**
  * An Eleventy plugin to configure the markdown library
@@ -8,6 +8,11 @@ const markdownItFootnote = require('markdown-it-footnote')
  *
  * @param      {Object}  eleventyConfig  eleventy configuration
  * @param      {Object}  [options]       markdown-it options
+ * @see https://github.com/markdown-it/markdown-it#init-with-presets-and-options
+ * @property {boolean} [options.breaks] Convert '\n' in paragraphs into <br>
+ * @property {boolean} [options.html]   Enable HTML tags in source
+ * @property {boolean} [options.linkify] Autoconvert URL-like text to links
+ * @property {boolean} [options.typographer] Enable some language-neutral replacement + quotes beautification
  */
 module.exports = function(eleventyConfig, options) {
   const defaultOptions = {
@@ -17,13 +22,14 @@ module.exports = function(eleventyConfig, options) {
     typographer: true,
   }
 
+  /**
+   * @see https://github.com/valeriangalliat/markdown-it-anchor#usage
+   */
+  const anchorOptions = {}
+
   const markdownLibrary = markdownIt(Object.assign(defaultOptions, options))
-    // .use(markdownItAnchor, {
-    //   permalink: true,
-    //   permalinkClass: 'direct-link',
-    //   permalinkSymbol: '#',
-    // })
-    .use(markdownItFootnote)
+    .use(anchors, anchorOptions)
+    .use(footnotes)
 
   /**
    * Configure renderer to exclude brakcets from footnotes
