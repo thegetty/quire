@@ -1,10 +1,9 @@
 /**
  * { function_description }
  *
- * @param      {<type>}   content  The content
- * @param      {<type>}   data     The data
+ * @param      {String}  content  content between shortcode tags
  *
- * @return     {boolean}  { description_of_the_return_value }
+ * @return     {boolean}  A styled HTML <div> element with the content
  */
 module.exports = (content) => {
   return `<div class="backmatter">${content}</div>`
