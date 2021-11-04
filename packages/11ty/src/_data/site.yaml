@@ -1,4 +1,3 @@
----
 baseURL: ''
 disableKinds:
   - home
@@ -11,7 +10,7 @@ languageCode: en-us
 markup:
   goldmark:
     renderer:
-      unsafe: true
+      unsafe: true # allows HTML tags within Markdown file
 metaDataFormat: yaml
 pluralizeListTitles: true
 publishDir: site
@@ -20,12 +19,12 @@ title: Quire Starter
 params:
   biblioHeading: Bibliography
   citationPageLocationDivider: ", "
-  citationPopupStyle: text
-  contributorByline: name-title
+  citationPopupStyle: text # text | icon
+  contributorByline: name-title # name | name-title | false
   displayBiblioShort: true
   entryPageObjectLinkText: View in Collection
   entryPageSideBySideLayout: false
-  figureLabelLocation: on-top
+  figureLabelLocation: on-top # below | on-top
   figureModal: true
   figureModalIcons: true
   figureZoom: true

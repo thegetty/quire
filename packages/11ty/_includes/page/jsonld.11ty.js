@@ -123,7 +123,6 @@ module.exports = class JsonLd {
   }
 
   render(data) {
-    const jsonld = JSON.stringify(data)
-    return `<script type="application/ld+json">${jsonld}</script>`
+    return JSON.stringify(data)
   }
 }

@@ -15,22 +15,22 @@
   <link rel="canonical" href="{{ permalink | url }}">
   <link rel="version-history" href="{{ data.publication.repositoryUrl | url }}">
 
-  {% for publisher in data.data.publication.publishers -%}
+  {% for publisher in data.data.publication.publishers %}
   <link rel="publisher" href="{{ publisher.url | url }}">
-  {% endfor -%}
+  {% endfor %}
 
-  {% for contributor in data.publication.contributors -%}
+  {% for contributor in data.publication.contributors %}
   <link rel="author" href="{{ contributor.url | url }}">
-  {% endfor -%}
+  {% endfor %}
 
-  {% render 'page/dublin-core.11ty.js' %}
-  {% render 'page/opengraph.11ty.js' %}
-  {% render 'page/twitter-card.11ty.js' %}
-  {% render 'page/jsonld.11ty.js' %}
+  <script>{% render 'page/dublin-core.11ty.js' %}</script>
+  <script>{% render 'page/opengraph.11ty.js' %}</script>
+  <script>{% render 'page/twitter-card.11ty.js' %}</script>
+  <script type="application/ld+json">{% render 'page/jsonld.11ty.js' %}</script>
 
-  <link rel="icon" href="{{ icon }}"/>
-  <link rel="stylesheet" href="{{ css | url }}"/>
-  <link rel="stylesheet" href="{{ customCSS | url }}"/>
+  <link rel="icon" href="/assets/img/icons/favicon.ico" />
+  <link rel="stylesheet" href="/assets/styles/custom.css" />
+  <link rel="stylesheet" href="/assets/styles/application.css" />
 
   {% render 'polyfills/template.html' %}
 
