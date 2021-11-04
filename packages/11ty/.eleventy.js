@@ -11,6 +11,13 @@ const syntaxHighlight = require('@11ty/eleventy-plugin-syntaxhighlight')
 const toml = require('toml')
 const yaml = require('js-yaml')
 
+/**
+ * Eleventy configuration
+ * @see https://www.11ty.dev/docs/config/
+ *
+ * @param      {Object}  base eleventy configuration
+ * @return     {Object}  A modified eleventy configuation
+ */
 module.exports = function(eleventyConfig) {
   const projectDir = 'src'
 
@@ -66,10 +73,16 @@ module.exports = function(eleventyConfig) {
       input: projectDir,
       output: 'site',
       // ⚠️ the following values are _relative_ to the `input` directory
-      data: path.relative(projectDir, '_data'),
-      includes: path.relative(projectDir, '_includes'),
-      layouts: path.relative(projectDir, '_layouts')
+      data: `./_data`,
+      includes: '../_includes',
+      layouts: '../_layouts',
     },
+    /**
+     * Suffix for template and directory specific data files
+     * @example '.11tydata' will search for *.11tydata.js and *.11tydata.json data files.
+     * @see [Template and Directory Specific Data Files](https://www.11ty.dev/docs/data-template-dir/)
+     */
+    jsDataFileSuffix: '.11tydata',
     /**
      * All of the following template formats support universal shortcodes.
      *
