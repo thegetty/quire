@@ -10,7 +10,7 @@ figure_list:
   - id: "fig-1"
     label: "Figure 1"
     src: figures/evans-legionnaire.jpg
-    caption: "Walker Evans. *[American Legionnaire]*, 1935. "
+    caption: "Walker Evans. *[American Legionnaire]*, 1935."
     credit: "The J. Paul Getty Museum, Los Angeles"
   - id: "fig-2"
     label: "Figure 2"
@@ -87,4 +87,3 @@ figure_list:
     src: figures/family.jpg
     caption: "Walker Evans, *Burrough’s Family, Hale County, Alabama*, 1935."
     credit: The J. Paul Getty Museum, Los Angeles
-
