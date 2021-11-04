@@ -17,10 +17,13 @@ module.exports = function(eleventyConfig) {
    * Configure the Liquid template engine
    * @see https://www.11ty.dev/docs/languages/liquid/#liquid-options
    * @see https://github.com/11ty/eleventy/blob/master/src/Engines/Liquid.js
+   *
+   * @property {boolean} [dynamicPartials=false]
+   * @property {boolean} [strictFilters=false]
    */
   eleventyConfig.setLiquidOptions({
     dynamicPartials: true,
-    strictFilters: false
+    strictFilters: true
   })
 
   /**
@@ -28,15 +31,16 @@ module.exports = function(eleventyConfig) {
    * Nota bene: the order in which extensions are added sets their precedence
    * in the data cascade, the last added will take precedence over the first.
    * @see https://www.11ty.dev/docs/data-cascade/
-   * @see https://www.11ty.dev/docs/data-custom/
+   * @see https://www.11ty.dev/docs/data-custom/#ordering-in-the-data-cascade
    */
   eleventyConfig.addDataExtension('json5', (contents) => json5.parse(contents))
   eleventyConfig.addDataExtension('toml', (contents) => toml.load(contents))
   eleventyConfig.addDataExtension('yaml', (contents) => yaml.load(contents))
   eleventyConfig.addDataExtension('geojson', (contents) => JSON.parse(contents))
 
+  eleventyConfig.addPlugin(qFilters)
+
   eleventyConfig.namespace('q', () => {
-    eleventyConfig.addPlugin(qFilters)
     eleventyConfig.addPlugin(qFrontmatter)
     eleventyConfig.addPlugin(qShortcodes)
   })
