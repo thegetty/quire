@@ -1,11 +1,11 @@
 const epubPlugin = require('./plugins/epub')
 const iiifPlugin = require('./plugins/iiif')
 const json5 = require('json5')
+const markdown = require('./plugins/markdown')
 const navigationPlugin = require('@11ty/eleventy-navigation')
 const path = require('path')
 const qFilters = require('./plugins/filters')
 const qFrontmatter = require('./plugins/frontmatter')
-const qMarkdown = require('./plugins/markdown')
 const qShortcodes = require('./plugins/shortcodes')
 const syntaxHighlight = require('@11ty/eleventy-plugin-syntaxhighlight')
 const toml = require('toml')
@@ -39,10 +39,11 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addDataExtension('yaml', (contents) => yaml.load(contents))
   eleventyConfig.addDataExtension('geojson', (contents) => JSON.parse(contents))
 
-  eleventyConfig.addPlugin(qFilters)
-  eleventyConfig.addPlugin(qMarkdown)
+  // load custom markdown configuration plugin
+  eleventyConfig.addPlugin(markdown)
 
   eleventyConfig.namespace('q', () => {
+    eleventyConfig.addPlugin(qFilters)
     eleventyConfig.addPlugin(qFrontmatter)
     eleventyConfig.addPlugin(qShortcodes)
   })

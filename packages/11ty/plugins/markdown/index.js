@@ -4,6 +4,7 @@ const markdownItFootnote = require('markdown-it-footnote')
 
 /**
  * An Eleventy plugin to configure the markdown library
+ * and add a `markdownify` universal template filter.
  *
  * @param      {Object}  eleventyConfig  eleventy configuration
  * @param      {Object}  [options]       markdown-it options
@@ -36,4 +37,11 @@ module.exports = function(eleventyConfig, options) {
   }
 
   eleventyConfig.setLibrary('md', markdownLibrary)
+
+
+  const renderer = new MarkdownIt()
+
+  eleventyConfig.addFilter('markdownify', (content) => {
+    return renderer.renderInline(content)
+  })
 }

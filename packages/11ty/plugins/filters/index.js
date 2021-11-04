@@ -1,5 +1,3 @@
-const markdownify = require('./markdownify')
-
 module.exports = function(eleventyConfig, options) {
-  eleventyConfig.addFilter('markdownify', markdownify)
+  // @see https://www.11ty.dev/docs/filters/#universal-filters
 }
