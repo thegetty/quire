@@ -390,8 +390,10 @@ $print-trim: $print-bleed * 2;
   $print-entry-image-width: $print-width - $print-inner-margin - $print-outer-margin;
   $print-entry-image-height: $print-height - $print-top-margin - $print-bottom-margin;
   $print-entry-image-max-height: $print-entry-image-height - 1in;
-  
-  .quire-entry__image & figure {
+
+  // @todo determine why below with `&` was failing in webpack
+  // .quire-entry__image & figure {
+  .quire-entry__image figure {
     display: flex;
     flex-direction: column;
     height: $print-entry-image-height;
