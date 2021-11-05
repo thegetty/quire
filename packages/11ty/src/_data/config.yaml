@@ -1,53 +1,37 @@
-# ==============================================================================
-# Config.yml
-# ------------------------------------------------------------------------------
-#
-# This is the main configuration file for the website. The 'theme' value should
-# match the name of the folder in /themes that contains your theme files; if
-# you've copied the default theme and given it a different name make sure to
-# update the value here too.
-
 baseURL: ""
 
-title: "Quire Starter"
-languageCode: "en-us"
-theme: "default"
+title: Quire Starter
+languageCode: en-us
+theme: default
 publishDir: site
 
-footnoteReturnLinkContents: "↩"
-metaDataFormat: "yaml"
-GoogleAnalytics: ""
+footnoteReturnLinkContents: '↩'
+GoogleAnalytics: ''
 
 pluralizeListTitles: true
 disableKinds:
-  - "home"
-  - "section"
-  - "taxonomy"
-  - "term"
+  - home
+  - section
+  - taxonomy
+  - term
 
-markup:
-  goldmark:
-    renderer:
-      unsafe: true # allows HTML tags within Markdown file
-
-# These values can be accessed in templates via .Site.Params
 params:
-  searchEnabled: true
-  licenseIcons: true
-  pageLabelDivider: ". "
-  citationPageLocationDivider: ", "
+  biblioHeading: Bibliography
+  citationPageLocationDivider: ', '
+  citationPopupStyle: text # text | icon
   contributorByline: name-title # name | name-title | false
   displayBiblioShort: true
-  biblioHeading: "Bibliography"
-  imageDir: "img"
-  tocType: full
-  menuType: full
-  prevPageButtonText: "Back"
-  nextPageButtonText: "Next"
+  entryPageObjectLinkText: View in Collection
   entryPageSideBySideLayout: false
-  entryPageObjectLinkText: "View in Collection"
   figureLabelLocation: on-top # below | on-top
   figureModal: true
   figureModalIcons: true
   figureZoom: true
-  citationPopupStyle: text # text | icon
+  imageDir: img
+  licenseIcons: true
+  menuType: full
+  nextPageButtonText: Next
+  pageLabelDivider: '. '
+  prevPageButtonText: Back
+  searchEnabled: true
+  tocType: full
