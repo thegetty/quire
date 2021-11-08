@@ -20,7 +20,6 @@ const yaml = require('js-yaml')
  */
 module.exports = function(eleventyConfig) {
   const projectDir = 'src'
-  const assetsDir = path.join(projectDir, '_assets')
 
   /**
    * Ignore README.md when processing templates
@@ -79,9 +78,7 @@ module.exports = function(eleventyConfig) {
    * Copy static assets to the output directory
    * @see {@link https://www.11ty.dev/docs/copy/ Passthrough copy in 11ty}
    */
-  eleventyConfig.addPassthroughCopy('css')
-  eleventyConfig.addPassthroughCopy(path.join(assetsDir, 'img/*'))
-  eleventyConfig.addPassthroughCopy(path.join(assetsDir,'styles/custom.css'))
+  eleventyConfig.addPassthroughCopy('_assets')
 
   /**
    * Watch the following additional files for changes and live browsersync
