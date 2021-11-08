@@ -13,14 +13,20 @@ const yaml = require('js-yaml')
 
 /**
  * Eleventy configuration
- * @see https://www.11ty.dev/docs/config/
+ * @see {@link https://www.11ty.dev/docs/config/ Configuring 11ty}
  *
  * @param      {Object}  base eleventy configuration
  * @return     {Object}  A modified eleventy configuation
  */
 module.exports = function(eleventyConfig) {
   const projectDir = 'src'
-  const assetsDir = path.join(projectDir, 'assets')
+  const assetsDir = path.join(projectDir, '_assets')
+
+  /**
+   * Ignore README.md when processing templates
+   * @see {@link https://www.11ty.dev/docs/ignores/ Ignoring Template Files }
+   */
+  eleventyConfig.ignores.add('README.md')
 
   /**
    * Configure the Liquid template engine
@@ -47,30 +53,42 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addDataExtension('yaml', (contents) => yaml.load(contents))
   eleventyConfig.addDataExtension('geojson', (contents) => JSON.parse(contents))
 
-  // load custom markdown configuration plugin
+  /**
+   * Load plugin for custom configuration of the markdown library
+   */
   eleventyConfig.addPlugin(markdown)
 
+  /**
+   * Load Quire template filters, frontmatter, and shortcodes with namespace
+   */
   eleventyConfig.namespace('q', () => {
     eleventyConfig.addPlugin(qFilters)
     eleventyConfig.addPlugin(qFrontmatter)
     eleventyConfig.addPlugin(qShortcodes)
   })
 
+  /**
+   * Load additional plugins used for Quire projects
+   */
   eleventyConfig.addPlugin(epubPlugin)
   eleventyConfig.addPlugin(iiifPlugin)
   eleventyConfig.addPlugin(navigationPlugin)
   eleventyConfig.addPlugin(syntaxHighlight)
 
-  // eleventyConfig.ignores.add('README.md')
-
-  // eleventyConfig.addPassthroughCopy(path.relative(projectDir, 'css'))
-  // eleventyConfig.addWatchTarget(path.relative(projectDir, 'css'))
-  //
-  // eleventyConfig.addPassthroughCopy(path.relative(projectDir, 'js'))
-  // eleventyConfig.addWatchTarget(path.relative(projectDir, 'js'))
-
+  /**
+   * Copy static assets to the output directory
+   * @see {@link https://www.11ty.dev/docs/copy/ Passthrough copy in 11ty}
+   */
+  eleventyConfig.addPassthroughCopy('css')
   eleventyConfig.addPassthroughCopy(path.join(assetsDir, 'img/*'))
   eleventyConfig.addPassthroughCopy(path.join(assetsDir,'styles/custom.css'))
+
+  /**
+   * Watch the following additional files for changes and live browsersync
+   * @see @{@link https://www.11ty.dev/docs/config/#add-your-own-watch-targets Add your own watch targets in 11ty}
+   */
+  eleventyConfig.addWatchTarget('./**/*.css')
+  eleventyConfig.addWatchTarget('./**/*.js')
 
   return {
     dir: {
