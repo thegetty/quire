@@ -7,7 +7,7 @@ const path = require('path')
  * @return     {String}  An HTML script element with JSON-LD
  */
 module.exports = function(data) {
-  const { config, contributor, publication } = data
+  const { config, contributor, imageDir, publication } = data
   const pageContributors = contributor ? contributor
     .map((contributor, { id }) => {
       contributor = id ? publication.contributor[id] : contributor
@@ -101,14 +101,14 @@ module.exports = function(data) {
     author: [...pageContributors],
     description: data.abstract && data.abstract.replace(/\n/g,' '),
     headline: data.title,
-    image: config.baseURL && path.join(config.baseURL, imageDir, figureSubDir, data.cover),
+    image: data.cover && path.join(imageDir, data.cover),
     partOf: {
       ...partOf(publication.pub_type),
       about,
       author: [...publicationContributors],
       datePublished: publication.pub_date,
       dateModified: publication.revision_history.date,
-      image: config.baseURL && path.join(config.BaseURL, imageDir, publication.promo_image),
+      image: path.join(imageDir, publication.promo_image),
       license: publication.license.url,
       keywords: publication.subject
         .filter(({ type }) => type === 'keyword')
