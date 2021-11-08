@@ -49,9 +49,9 @@ module.exports = function(data) {
       ${twitterCard(data)}
       <script type="application/ld+json">${jsonld(data)}</script>
 
-      <link rel="icon" href="/assets/img/icons/favicon.ico" />
-      <link rel="stylesheet" href="/assets/styles/custom.css" />
-      <link rel="stylesheet" href="/assets/styles/application.css" />
+      <link rel="icon" href="/_assets/img/icons/favicon.ico" />
+      <link rel="stylesheet" href="/css/custom.css" />
+      <link rel="stylesheet" href="/css/application.css" />
 
       <!-- {% render 'polyfills/template.html' %} -->
 
