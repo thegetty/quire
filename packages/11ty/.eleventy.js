@@ -77,7 +77,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(syntaxHighlight)
 
   eleventyConfig.on('beforeBuild', () => {
-    const outputDir = path.relative(__dirname, 'site')
+    const outputDir = path.relative(__dirname, '_site')
     if (!fs.existsSync(outputDir)) {
       fs.mkdirSync(outputDir)
     }
