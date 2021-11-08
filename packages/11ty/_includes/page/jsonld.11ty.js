@@ -6,123 +6,124 @@ const path = require('path')
  * @param      {Object}  data    data
  * @return     {String}  An HTML script element with JSON-LD
  */
-module.exports = class JsonLd {
-  data() {
-    const Article = {
-      '@type': 'Article',
-      author: [...pageContributors],
-      description: this.page.abstract.replace(/\n/g,' '),
-      headline: this.page.title,
-      image: path.join(site.BaseURL, imageDir, figureSubDir, this.page.cover),
-      partOf: {
-        ...partOf(publication.pub_type),
-        about,
-        author: [...publicationContributors],
-        datePublished: publication.pub_date,
-        dateModified: publication.revision_history.date,
-        image: path.join(site.BaseURL, imageDir, publication.promo_image),
-        license: publication.license.url,
-        keywords: publication.subject
-          .filter(({ type }) => type === 'keyword')
-          .map((name) => name)
-          .toString(),
-        publisher: [publisher],
-        url: site.baseURL
-      },
-      url: this.page.permalink
-    }
-
-    const partOf = (type) => {
-      switch (true) {
-        case type === 'book':
-          return Book
-        case type === 'journal-periodical':
-          return Periodical
-        default:
-          return WebSite
+module.exports = function(data) {
+  const { config, contributor, publication } = data
+  const pageContributors = contributor ? contributor
+    .map((contributor, { id }) => {
+      contributor = id ? publication.contributor[id] : contributor
+      if (!contributor) return
+      const { full_name, first_name, last_name } = contributor
+      return {
+        type: 'Person',
+        name: full_name || `${first_name} ${last_name}`
       }
-    }
+    }) : []
 
-    const Book = {
-      type: 'Book',
-      name: site.title,
-      description: publication.description.full.replace(/\n/g,' '),
-      isbn: publication.identifier.isbn.replace(/-/g, '')
-    }
-
-    const Periodical = {
-      type: 'PublicationIssue',
-      name:  site.title,
-      description: publication.description.full.replace(/\n/g,' '),
-      issueNumber: publication.series_issue_number,
-      isPartOf: {
-        type: 'Periodical',
-        name: publication.title,
-        issn: publication.identifier.issn
+  const publicationContributors = publication.contributor
+    .filter((contributor) => contributor.type === 'primary')
+    .map((contributor) => {
+      const { full_name, first_name, last_name } = contributor
+      return {
+        type: 'Person',
+        name: full_name || `${first_name} ${last_name}`,
+        jobTitle: contributor.title,
+        affiliation: contributor.affiliation,
+        identifier: contributor.url
       }
+    })
+
+  const isbn = publication.identifier.isbn
+  const publicationDescription = publication.description.full
+
+  const Book = {
+    type: 'Book',
+    name: config.title,
+    description: publicationDescription.replace(/\n/g,' '),
+    isbn: isbn && isbn.replace(/-/g, '')
+  }
+
+  const Periodical = {
+    type: 'PublicationIssue',
+    name:  config.title,
+    description: publicationDescription.replace(/\n/g,' '),
+    issueNumber: publication.series_issue_number,
+    isPartOf: {
+      type: 'Periodical',
+      name: publication.title,
+      issn: publication.identifier.issn
     }
+  }
 
-    // publication.pub_type === null
-    const WebSite = {
-      type: 'WebSite',
-      name: site.title,
+  // publication.pub_type === null
+  const WebSite = {
+    type: 'WebSite',
+    name: config.title,
+  }
+
+  const partOf = (type) => {
+    switch (true) {
+      case type === 'book':
+        return Book
+      case type === 'journal-periodical':
+        return Periodical
+      default:
+        return WebSite
     }
+  }
 
-    const about = publication.subject
-      .filter(({ type }) => type === 'getty')
-      .map(({ identifier, name }) => {
-        const vocab = {
-          '/aat/': 'Thing',
-          '/tgn/': 'Place',
-          '/ulan/': 'Person'
-        }
-        return {
-          type: vocab[identifier] || 'Thing',
-          name,
-          identifier
-        }
-      })
+  const about = publication.subject
+    .filter(({ type }) => type === 'getty')
+    .map(({ identifier, name }) => {
+      const vocab = {
+        '/aat/': 'Thing',
+        '/tgn/': 'Place',
+        '/ulan/': 'Person'
+      }
+      return {
+        type: vocab[identifier] || 'Thing',
+        name,
+        identifier
+      }
+    })
 
-    const pageContributors = this.page.contributor
-      .map((contributor, { id }) => {
-        contributor = id ? publication.contributor[id] : contributor
-        const { full_name, first_name, last_name } = contributor
-        return {
-          type: 'Person',
-          name: full_name || `${first_name} ${last_name}`
-        }
-      })
+  const publisher = {
+    type: 'Organization',
+    name: publication.publisher.name,
+    location: {
+      type: 'PostalAddress',
+      addressLocality: publication.publisher.location
+    },
+    identifier: publication.publisher.url
+  }
 
-    const publicationContributors = publication.contributor
-      .filter((contributor) => contributor.type === 'primary')
-      .map((contributor) => {
-        const { full_name, first_name, last_name } = contributor
-        return {
-          type: 'Person',
-          name: full_name || `${first_name} ${last_name}`,
-          jobTitle: contributor.title,
-          affiliation: contributor.affiliation,
-          identifier: contributor.url
-        }
-      })
+  const Article = {
+    '@type': 'Article',
+    author: [...pageContributors],
+    description: data.abstract && data.abstract.replace(/\n/g,' '),
+    headline: data.title,
+    image: config.baseURL && path.join(config.baseURL, imageDir, figureSubDir, data.cover),
+    partOf: {
+      ...partOf(publication.pub_type),
+      about,
+      author: [...publicationContributors],
+      datePublished: publication.pub_date,
+      dateModified: publication.revision_history.date,
+      image: config.baseURL && path.join(config.BaseURL, imageDir, publication.promo_image),
+      license: publication.license.url,
+      keywords: publication.subject
+        .filter(({ type }) => type === 'keyword')
+        .map((name) => name)
+        .toString(),
+      publisher: [publisher],
+      url: config.baseURL
+    },
+    url: data.canonicalURL
+  }
 
-    const publisher = {
-      type: 'Organization',
-      name: publisher.name,
-      location: {
-        type: 'PostalAddress',
-        addressLocality: publisher.location
-      },
-      identifier: publisher.url
-    }
-
-    return {
+  return JSON.stringify(
+    {
       '@context': 'http://schema.org/',
       ...Article
     }
-  }
-
-  render(data) {
-    return JSON.stringify(data)
-  }
+  )
 }
