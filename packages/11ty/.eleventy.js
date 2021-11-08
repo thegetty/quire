@@ -1,3 +1,4 @@
+const fs = require('fs')
 const epubPlugin = require('./plugins/epub')
 const iiifPlugin = require('./plugins/iiif')
 const json5 = require('json5')
@@ -7,6 +8,7 @@ const path = require('path')
 const qFilters = require('./plugins/filters')
 const qFrontmatter = require('./plugins/frontmatter')
 const qShortcodes = require('./plugins/shortcodes')
+const sass = require('sass')
 const syntaxHighlight = require('@11ty/eleventy-plugin-syntaxhighlight')
 const toml = require('toml')
 const yaml = require('js-yaml')
@@ -74,11 +76,27 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(navigationPlugin)
   eleventyConfig.addPlugin(syntaxHighlight)
 
+  eleventyConfig.on('beforeBuild', () => {
+    const outputDir = path.relative(__dirname, 'site')
+    if (!fs.existsSync(outputDir)) {
+      fs.mkdirSync(outputDir)
+    }
+    const { css } = sass.renderSync({
+      file: 'src/css/application.scss',
+      includePaths: ['node_modules', 'src/css']
+    })
+    const cssOutputDir = path.join(outputDir, 'css')
+    if (!fs.existsSync(cssOutputDir)) {
+      fs.mkdirSync(cssOutputDir)
+    }
+    fs.writeFileSync(path.join(cssOutputDir, 'application.css'), css.toString(), { encoding: 'utf8' })
+  });
   /**
    * Copy static assets to the output directory
    * @see {@link https://www.11ty.dev/docs/copy/ Passthrough copy in 11ty}
    */
-  eleventyConfig.addPassthroughCopy('_assets')
+  eleventyConfig.addPassthroughCopy('src/_assets')
+  eleventyConfig.addPassthroughCopy('src/css')
 
   /**
    * Watch the following additional files for changes and live browsersync

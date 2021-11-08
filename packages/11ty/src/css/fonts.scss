@@ -2,7 +2,7 @@
 // Fonts.scss
 // -----------------------------------------------------------------------------
 // Custom font declarations (if any) can be imported here
-$assets-dir: "../" !default;
+$assets-dir: "../_assets/" !default;
 
 @function font($file) {
   @return url($assets-dir + 'fonts/' + $file);
@@ -158,6 +158,6 @@ $assets-dir: "../" !default;
 * Load material icon font
 */
 
-$material-icons-font-path: '~material-icons/iconfont/';
+$material-icons-font-path: 'material-icons/iconfont/';
 
-@import '~material-icons/iconfont/material-icons.scss';
+@import 'material-icons/iconfont/material-icons.scss';

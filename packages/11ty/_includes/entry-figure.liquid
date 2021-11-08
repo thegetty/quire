@@ -92,7 +92,7 @@
           data-catalogue-entry="true"
           {% if figure.lat %}  data-lat="{{ figure.lat }}" {% endif %}
           {% if figure.long %} data-long="{{ figure.long }}" {% endif %}
-          {% if figure.geojson %} data-geojson="{{ .Site.BaseURL }}{{ figure.geojson }}" {% endif %}
+          {% if figure.geojson %} data-geojson="{{ config.baseURL }}{{ figure.geojson }}" {% endif %}
           {% if figure.caption %} data-caption='{{ figure.caption | markdownify | safe }}' {% endif %}
         >
         </div>
