@@ -95,7 +95,7 @@ module.exports = function(eleventyConfig) {
    * Copy static assets to the output directory
    * @see {@link https://www.11ty.dev/docs/copy/ Passthrough copy in 11ty}
    */
-  eleventyConfig.addPassthroughCopy('_assets')
+  eleventyConfig.addPassthroughCopy('src/_assets')
   eleventyConfig.addPassthroughCopy('src/css')
 
   /**
