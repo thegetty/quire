@@ -7,7 +7,7 @@ const path = require('path')
  * @return     {String}  HTML meta and link elements
  */
 module.exports = function(data) {
-  const { abstract, config, cover, layout, publication } = data
+  const { abstract, config, cover, imageDir, layout, publication } = data
 
   const { description, promo_image } = publication
   const pageType = layout
@@ -15,12 +15,10 @@ module.exports = function(data) {
   const imagePath = () => {
     if (!config.baseURL) return
     if (pageType !== 'essay' ) {
-      return config.baseURL && path.join(config.baseURL, config.imageDir, promo_image)
+      return path.join(imageDir, promo_image)
     } else {
       const image = cover || promo_image
-      return 
-        config.baseURL && 
-        path.join(config.baseURL, config.imageDir, config.figureSubDir, image)
+      return path.join(imageDir, image)
     }
   }
 
