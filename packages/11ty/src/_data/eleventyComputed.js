@@ -4,8 +4,8 @@ const path = require('path')
  */
 module.exports = {
   canonicalURL: ({ config, page }) => path.join(config.baseURL, page.url),
-  imageDir: ({ config }) => path.join(config.baseURL, config.params.imageDir),
   data: (data) => data,
+  imageDir: ({ config }) => path.join(config.baseURL, config.params.imageDir),
   navigation: {
     id: (data) => data.title,
     parent: (data) => data.parent
