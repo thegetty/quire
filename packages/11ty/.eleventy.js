@@ -90,7 +90,7 @@ module.exports = function(eleventyConfig) {
   return {
     dir: {
       input: projectDir,
-      output: 'site',
+      output: '_site',
       // ⚠️ the following values are _relative_ to the `input` directory
       data: `./_data`,
       includes: '../_includes',
