@@ -41,6 +41,6 @@
 {% render 'figures/caption' %}
 */
 
-module.exports = function(eleventyConfig, data) {
+module.exports = function(data) {
   return `<img alt="${data.alt}" class="q-figure__image" src="${data.src}" />`
 }

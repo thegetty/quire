@@ -1,4 +1,5 @@
 const { html } = require('common-tags')
+const path = require('path')
 
 /**
  * Render an HTML <figure> element
@@ -21,14 +22,15 @@ const { html } = require('common-tags')
  * @return     {boolean}  An HTML <figure> element
  */
 module.exports = function (eleventyConfig, figures, id, modifier) {
-  const currentFigure = figures[id]
-  const { caption, src } = currentFigure
   const slugify = eleventyConfig.getFilter('slugify')
+
+  const { alt, caption, credit, src } = figures[id]
+  const imageSrc = path.join(`_assets/img`, src)
 
   return html`
     <figure id="${slugify(id)}" class="q-figure ${modifier}">
       <div class="q-figure__wrapper">
-        <img alt="${caption}" class="q-figure__image" src="/_assets/img/${src}"/>
+        <img alt="${alt}" class="q-figure__image" src="${imageSrc}"/>
       </div>
     </figure>
   `
