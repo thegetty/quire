@@ -86,7 +86,7 @@ module.exports = function(eleventyConfig) {
      * @example '.11tydata' will search for *.11tydata.js and *.11tydata.json data files.
      * @see [Template and Directory Specific Data Files](https://www.11ty.dev/docs/data-template-dir/)
      */
-    jsDataFileSuffix: '.11tydata',
+    jsDataFileSuffix: '.quire',
     /**
      * All of the following template formats support universal shortcodes.
      *
