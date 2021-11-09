@@ -1,5 +1,5 @@
 const { html } = require('common-tags')
-const path = require('path')
+const image = require('./components/image')
 
 /**
  * Render an HTML <figure> element
@@ -22,15 +22,19 @@ const path = require('path')
  * @return     {boolean}  An HTML <figure> element
  */
 module.exports = function (eleventyConfig, figures, id, modifier) {
-  const slugify = eleventyConfig.getFilter('slugify')
+  if (!figures || !figures[id]) {
+    console.warn(`Error: the id '${id}' was not found in 'figures.yaml'`)
+    return ''
+  }
 
-  const { alt, caption, credit, src='' } = figures[id]
-  const imageSrc = path.join('/_assets/img', src)
+  const slugify = eleventyConfig.getFilter('slugify')
+  const { alt, caption, credit, src } = figures[id]
+  const imageElement = image(eleventyConfig, { alt, src })
 
   return html`
     <figure id="${slugify(id)}" class="q-figure ${modifier}">
       <div class="q-figure__wrapper">
-        <img alt="${alt}" class="q-figure__image" src="${imageSrc}"/>
+        ${imageElement}
       </div>
     </figure>
   `

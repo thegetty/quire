@@ -29,5 +29,6 @@ module.exports = function(eleventyConfig, options) {
     return [ id, { caption, credit, src }]
   }))
   eleventyConfig.addShortcode('figure', (data) => figure(eleventyConfig, figures, data))
-  eleventyConfig.addShortcode('figuregroup', (data) => figureGroup(eleventyConfig, figures, data))
+
+  eleventyConfig.addShortcode('figuregroup', (columns, ids) => figureGroup(eleventyConfig, figures, columns, ids))
 }
