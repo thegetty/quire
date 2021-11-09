@@ -22,7 +22,12 @@ const image = require('./components/image')
  * @return     {boolean}  An HTML <figure> element
  */
 module.exports = function (eleventyConfig, figures, id, modifier) {
-  if (!figures || !figures[id]) {
+  if (!figures) {
+    console.warn(`Error: Unable to find figures data, see docs`)
+    return ''
+  }
+
+  if (!figures[id]) {
     console.warn(`Error: the id '${id}' was not found in 'figures.yaml'`)
     return ''
   }
