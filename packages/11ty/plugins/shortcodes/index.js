@@ -11,11 +11,12 @@ const yaml = require('js-yaml')
 module.exports = function(eleventyConfig, options) {
   eleventyConfig.addPairedShortcode('backmatter', (data) => backmatter(data))
 
+  const config = yaml.load(fs.readFileSync('./src/_data/config.yaml'))
   const { entries } = yaml.load(fs.readFileSync('./src/_data/references.yaml'))
   const references = Object.fromEntries(
-    entries.map(({ id, full }) => [id, full])
+    entries.map(({ id, full, short }) => [id, { full, short }])
   )
-  eleventyConfig.addShortcode('cite', (data) => cite(eleventyConfig, references, data))
+  eleventyConfig.addShortcode('cite', (data) => cite(eleventyConfig, { config, references }, data))
 
   const publication = yaml.load(fs.readFileSync('./src/_data/publication.yaml'))
   eleventyConfig.addShortcode('contributor', (data) => {

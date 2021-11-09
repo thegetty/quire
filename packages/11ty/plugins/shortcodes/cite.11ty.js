@@ -2,9 +2,7 @@ const { oneLine } = require('common-tags')
 
 /**
  *  This shortcode adds a linked Author Date citation reference to the text, and a
- *  hover pop-up with the full citation text. It also adds the citation to a map
- *  of cited works, which can then be output as a page-level bibliography on essay
- *  and entry type pages. Example:
+ *  hover pop-up with the full citation text. Example:
  *
  *  {{< q-cite "Faure 1909" "54" >}}
  *
@@ -29,31 +27,42 @@ const { oneLine } = require('common-tags')
  */
 
 /*
-{{- $errorMissingValue := dict "shortcode" "q-cite" "message" "1, 2 or 3 values must be supplied with this shortcode. The first is required and should match a short reference in the project’s `references.yml` file, the second is optional, and should be a page number or range of page numbers, the third is optional and should be the text to appear in the link if not the full short form of the reference" "example" "{{< q-cite &#34;Faure 1909&#34; &#34;304&#34; &#34;1909&#34; >}}" -}}
+ *  @todo fix icon not rendering
+ *  @todo handle page-level sorted bibliography (likely in a different component or shortcode)
+ *  @todo markdownify citation content
+ */
+module.exports = function(eleventyConfig, { config, references }, id, page, year) {
+  if (!id) {
+    console.warn('1, 2 or 3 values must be supplied with this shortcode. The first is required and should match a short reference in the project’s `references.yml` file, the second is optional, and should be a page number or range of page numbers, the third is optional and should be the text to appear in the link if not the full short form of the reference" "example" "{% qcite &#34;Faure 1909&#34; &#34;304&#34; &#34;1909&#34; %}')
+    return ''
+  }
 
-{{- $errorMissingReference := dict "shortcode" "q-cite" "message" "The id supplied doesn’t match one in the project’s `references.yml` file" "example" "{{< q-cite &#34;Faure 1909&#34; >}}<br /><br />id: &#34;Faure 1909&#34;" -}}
+  const cited = references[id]
 
-  @todo grab data from site.data.references.entries
-  @todo refactor button
-  @todo fullCitation | shortCitation
-  @todo "error-message.html" $errorMissingReference
-  @todo markdownify citation content
-  @todo ${site.params.citationPageLocationDivider}
-*/
-module.exports = function(eleventyConfig, data) {
-  // const button = site.Params.citationPopupStyle === 'icon'
-  //   ? `<span class="quire-citation__button" role="button" tabindex="0" aria-expanded="false">
-  //       <button class="quire-citation__button material-icons md-18 material-control-point" aria-expanded="false">control_point</button>
-  //     </span>`
-  //   : ''
+  if (!cited) {
+    console.warn('The id supplied doesn’t match one in the project’s `references.yml` file" "example" "{{< q-cite &#34;Faure 1909&#34; >}}<br /><br />id: &#34;Faure 1909&#34;')
+    return ''
+  }
 
-  const content = data
+  let buttonText = (year) ? year : cited.short || id
+  if (page) buttonText += config.params.citationPageLocationDivider + page
+
+  const button = config.params.citationPopupStyle === 'icon'
+    ? `${buttonText}
+        <button class="quire-citation__button material-icons md-18 material-control-point" aria-expanded="false">
+          control_point
+        </button>`
+    : 
+    `<span class="quire-citation__button" role="button" tabindex="0" aria-expanded="false">
+      ${buttonText}
+    </span>`
 
   return oneLine `
     <span class="quire-citation expandable">
+      ${button}
       <span class="quire-citation__content">
         <span class="visually-hidden">Citation:&nbsp;</span>
-        ${content}
+        ${cited.full}
       </span>
     </span>
   `
