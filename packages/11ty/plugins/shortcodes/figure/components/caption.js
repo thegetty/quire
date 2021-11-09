@@ -10,34 +10,20 @@ const { html } = require('common-tags')
  * @property   {String} data.link   URL used to open the figure modal element
  * @return     {String}  An HTML <figcaption> element
  */
-module.exports = function(eleventyConfig, data) {
+module.exports = function(eleventyConfig, { config }, data) {
   const markdownify = eleventyConfig.getFilter('markdownify')
+  const qfigurelabel = eleventyConfig.getFilter('qfigurelabel')
   const slugify = eleventyConfig.getFilter('slugify')
 
-  const { caption, credit, label, link } = data
+  const { caption, credit, label, src } = data
 
-  const labelElement = ''
-
-  if (this.config.epub) {
-    labelElement = `<span class="q-figure__label">${markdownify(label)}</span>`
-  } else if (this.config.figureLabelLocation === 'below') {
-    labelElement = html`
-      <a
-        class="inline popup"
-        data-type="inline"
-        href="${slugify(link)}"
-        title="${caption}"
-      >
-        {% render 'figures/label.html', label, link %}
-      </a>
-    `
-  }
+  const labelElement = qfigurelabel({ label, src })
 
   return html`
+    ${labelElement}
     <figcaption class="q-figure__caption">
-      ${labelElement}
-      <span class="q-figure__caption-content">${markdownify(caption)}</span>
-      <span class="q-figure__credit">${markdownify(credit)}</span>
+      <span class="q-figure__caption-content">${caption && markdownify(caption)}</span>
+      <span class="q-figure__credit">${credit && markdownify(credit)}</span>
     </figcaption>
   `
 }

@@ -1,13 +1,13 @@
 const { html } = require('common-tags')
-const caption = require('./caption')
-const label = require('./label')
 
 /**
  * A shortcode for embedding a table into the document.
  * @param {String}
  * @return {String}  An HTML <table> element
  */
-module.exports = function(eleventyConfig, { data }) {
+module.exports = function(eleventyConfig, { config }, { data }) {
+  const qfigurecaption = eleventyConfig.getFilter('qfigurecaption')
+  const qfigurelabel = eleventyConfig.getFilter('qfigurelabel')
   const markdownify = eleventyConfig.getFilter('markdownify')
 
   const tableSrc = path.join('static', imageDir, data.src)
@@ -15,9 +15,9 @@ module.exports = function(eleventyConfig, { data }) {
   // const modalLink = 'figureId' | prepend: '#'
   const title = markdownify(caption)
 
-  const figcaption = caption(data)
-  const figureLabel = this.config.figureLabelLocation === 'on-top'
-    ? label(data)}
+  const figcaption = qfigurecaption(data)
+  const figureLabel = config.figureLabelLocation === 'on-top'
+    ? qfigurelabel(data)
     : ''
 
   const figureModal = (tableSrc) => html`
