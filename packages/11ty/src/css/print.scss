@@ -1,3 +1,5 @@
+@use "sass:math";
+
 // =============================================================================
 // Print.scss
 // -----------------------------------------------------------------------------
@@ -341,12 +343,12 @@ $print-trim: $print-bleed * 2;
 // Content list grid view
 // -----------------------------------------------------------------------------
   $menu-grid-gap: .1875in;
-  $menu-grid-item-margin: $menu-grid-gap / 2;
+  $menu-grid-item-margin: math.div($menu-grid-gap, 2);
   
-  $menu-grid-item-width: ($print-width - $print-outer-margin - $print-inner-margin - (3 * $menu-grid-gap)) / 3;
+  $menu-grid-item-width: math.div($print-width - $print-outer-margin - $print-inner-margin - 3 * $menu-grid-gap, 3);
   
   @if $print-width <= 7 {
-    $menu-grid-item-width: ($print-width - $print-outer-margin - $print-inner-margin - (2 * $menu-grid-gap)) / 2;
+    $menu-grid-item-width: math.div($print-width - $print-outer-margin - $print-inner-margin - (2 * $menu-grid-gap), 2);
   }
   
   .quire-contents-list.grid .menu-list ul {
