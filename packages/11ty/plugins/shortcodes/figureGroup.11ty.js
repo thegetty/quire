@@ -9,10 +9,11 @@ const example = "{% qfiguregroup 2, '3.1, 3.2, 3.3' %}"
  * @param      {Array<id>}  ids             The identifiers
  * @return     {String}  An HTML string of the element to render
  */
-module.exports = function (eleventyConfig, figures, columns, ids) {
-  // const figure = eleventyConfig.getFilter('qfigure')
+module.exports = function (eleventyConfig, figures, columns, ids=[]) {
+  const figure = eleventyConfig.getFilter('qfigure')
 
-  ids = ids ? ids.split(',') : []
+  // parse the string of figure identifiers
+  ids = ids.split(',').map((id) => id.trim())
 
   if (!ids.length) {
     console.warn(`Error: NoId: the q-figures shortcode must include one or more 'id' values that correspond to an 'id' in the 'figures.yaml' file. @example ${example}`)
@@ -27,14 +28,12 @@ module.exports = function (eleventyConfig, figures, columns, ids) {
   // }
 
   const figureTags = (ids) => {
-    const output = ``
-    ids.forEach((id) => output + eleventyConfig.javascriptFunctions.figure(eleventyConfig, figures, id))
-    return output
+    return ids.reduce((output, id) => output + figure(id), '')
   }
 
-  return html `
+  return html`
     <div class="quire-figure-group__row columns">
-      ${figureTags}
+      ${figureTags(ids)}
     </div>
   `
 }
