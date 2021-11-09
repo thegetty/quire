@@ -24,8 +24,8 @@ const path = require('path')
 module.exports = function (eleventyConfig, figures, id, modifier) {
   const slugify = eleventyConfig.getFilter('slugify')
 
-  const { alt, caption, credit, src } = figures[id]
-  const imageSrc = path.join(`_assets/img`, src)
+  const { alt, caption, credit, src='' } = figures[id]
+  const imageSrc = path.join('/_assets/img', src)
 
   return html`
     <figure id="${slugify(id)}" class="q-figure ${modifier}">
