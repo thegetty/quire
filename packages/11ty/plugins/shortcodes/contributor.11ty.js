@@ -319,6 +319,6 @@
 
 // {{ end }}
 
-module.exports = function(eleventyConfig, data) {
+module.exports = function(eleventyConfig, { publication }, data) {
   return `qcontributor`
 }

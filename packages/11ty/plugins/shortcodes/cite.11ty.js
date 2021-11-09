@@ -37,6 +37,10 @@ module.exports = function(eleventyConfig, { config, references }, id, page, year
     return ''
   }
 
+  references = Object.fromEntries(
+    references.entries.map(({ id, full, short }) => [id, { full, short }])
+  )
+
   const cited = references[id]
 
   if (!cited) {

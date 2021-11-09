@@ -21,7 +21,12 @@ const image = require('./components/image')
  *
  * @return     {boolean}  An HTML <figure> element
  */
-module.exports = function (eleventyConfig, figures, id, modifier) {
+module.exports = function (eleventyConfig, { figures }, id, modifier) {
+  figures = Object.fromEntries(figures.figure_list.map((figure) => {
+    const { caption, credit, id, src } = figure
+    return [ id, { caption, credit, src }]
+  }))
+
   if (!figures) {
     console.warn(`Error: Unable to find figures data, see docs`)
     return ''

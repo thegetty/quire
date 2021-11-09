@@ -9,7 +9,7 @@ const example = "{% qfiguregroup 2, '3.1, 3.2, 3.3' %}"
  * @param      {Array<id>}  ids             The identifiers
  * @return     {String}  An HTML string of the element to render
  */
-module.exports = function (eleventyConfig, figures, columns, ids=[]) {
+module.exports = function (eleventyConfig, globalData, columns, ids=[]) {
   const figure = eleventyConfig.getFilter('qfigure')
 
   // parse the string of figure identifiers
