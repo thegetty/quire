@@ -1,12 +1,12 @@
 {% if src %}
   <img
     id="{{ id }}"
-    class="quire-figure__image"
+    class="q-figure__image"
     src="{{ site.params.imageDir }}/{{ src }}"
     alt="{{ alt }}"
   />
 {% else %}
-  <div class="quire-figure__media-fallback">
+  <div class="q-figure__media-fallback">
     <div class="placeholder">
       <span class="fallback-image">
         <img src="{{ site.params.imageDir }}/icons/{{ mediaType }}.png" />

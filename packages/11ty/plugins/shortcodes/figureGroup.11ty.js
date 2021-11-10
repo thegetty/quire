@@ -32,7 +32,7 @@ module.exports = function (eleventyConfig, globalData, columns, ids=[]) {
   }
 
   return html`
-    <div class="quire-figure-group__row columns">
+    <div class="q-figure-group__row columns">
       ${figureTags(ids)}
     </div>
   `

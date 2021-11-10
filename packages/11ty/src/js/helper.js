@@ -53,7 +53,7 @@ const preventDefaultForScrollKeys = e => {
 export const smoothScroll = e => {
   return new SmoothScroll('a[href*="#"]', {
     // Selectors
-    ignore: ".quire-navbar, .quire-figure a", // Selector for links to ignore (must be a valid CSS selector)
+    ignore: ".quire-navbar, .q-figure a", // Selector for links to ignore (must be a valid CSS selector)
     header: ".quire-navbar", // Selector for fixed headers (must be a valid CSS selector)
     topOnEmtyHash: true, // Scroll to the top of the page for links with href="#"
     // Speed & Duration

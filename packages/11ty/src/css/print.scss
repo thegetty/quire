@@ -266,7 +266,7 @@ $print-trim: $print-bleed * 2;
     page: cover;
   }
 
-  #content>div.container>div>figure:nth-child(11)>div:nth-child(1) .quire-figure--group-pdf {
+  #content>div.container>div>figure:nth-child(11)>div:nth-child(1) .q-figure--group-pdf {
     color: #fff;
   }
   
@@ -305,8 +305,8 @@ $print-trim: $print-bleed * 2;
         margin: 0;
       
         // with narrower columns, image should be full width
-        .quire-figure.is-pulled-left,
-        .quire-figure.is-pulled-right {      
+        .q-figure.is-pulled-left,
+        .q-figure.is-pulled-right {      
           float: none;
           width: 100%;
           margin-left: 0;
@@ -407,8 +407,8 @@ $print-trim: $print-bleed * 2;
       }
     }
     break-after: page;    
-    .quire-figure__media-fallback {
-      .quire-figure__wrapper {
+    .q-figure__media-fallback {
+      .q-figure__wrapper {
         width: auto;
         height: auto;
       }

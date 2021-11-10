@@ -3,22 +3,22 @@
 {% if site.params.epub or site.params.pdf %}
   {% render 'fallback', alt: alt, id: id, mediaType: mediaType, src: src %}
 
-  <figcaption class="quire-figure__caption caption">
+  <figcaption class="q-figure__caption caption">
     <a href="src" target="_blank">{{ src }}</a>
   </figcaption>
 
 {% else %}
 
-  <figcaption class="quire-figure__caption caption">
+  <figcaption class="q-figure__caption caption">
     <a href="{{ src }}" target="_blank">{{ src }}</a>
   </figcaption>
 
 {% else %}
 
-  <div class="quire-figure__media-wrapper--{{ aspectRatio or 'widescreen' }}">
+  <div class="q-figure__media-wrapper--{{ aspectRatio or 'widescreen' }}">
     <iframe
       allowfullscreen
-      class="quire-figure__media"
+      class="q-figure__media"
       frameborder="0"
       src="https://www.youtube-nocookie.com/embed/{{ mediaId }}?rel=0&amp;showinfo=0"
     />

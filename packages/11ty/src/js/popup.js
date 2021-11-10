@@ -35,7 +35,7 @@ export default function(gallerySelector, mapArr) {
    * and stop them
    */
   const findSoundCloudWidgetsAndStopThem = () => {
-    const items = [...document.querySelectorAll(`.quire-figure`)];
+    const items = [...document.querySelectorAll(`.q-figure`)];
     items
       .filter(item => {
         return [...item.children][0].src !== undefined &&
@@ -66,7 +66,7 @@ export default function(gallerySelector, mapArr) {
         const captionParts = ['label-text', 'caption-content', 'credit'];
         const captionWrapper =$(`<span class="caption"></span>`);
         captionParts.forEach((item) => {
-          const content = $(figureWrapper).find(`.quire-figure__${item}`).prop('outerHTML');
+          const content = $(figureWrapper).find(`.q-figure__${item}`).prop('outerHTML');
           content ? captionWrapper.append(content) : null;
         })
         if (captionWrapper.html()) {
@@ -115,7 +115,7 @@ export default function(gallerySelector, mapArr) {
 
   // add link to first slide when view as slides is present
   const updateViewSlidesLink = () => {
-    let items = [...document.querySelectorAll(`.quire-figure--group`)];
+    let items = [...document.querySelectorAll(`.q-figure--group`)];
     items
       .filter(item => {
         return item;

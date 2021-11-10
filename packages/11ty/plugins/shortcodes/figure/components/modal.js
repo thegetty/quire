@@ -16,7 +16,7 @@ module.exports = function(eleventyConfig, data) {
   return html`
     <figure
       id="${figureId}"
-      class="quire-figure leaflet-outer-wrapper mfp-hide notGet"
+      class="q-figure leaflet-outer-wrapper mfp-hide notGet"
       title="${title}"
     >
       <div

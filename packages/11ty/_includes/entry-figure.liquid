@@ -5,9 +5,9 @@
 
   {% if pdf == true or epub == true %}
 
-    <div class="quire-figure__media-fallback">
+    <div class="q-figure__media-fallback">
       {% if figure.src %}
-        <div class="quire-figure__wrapper">
+        <div class="q-figure__wrapper">
           <img src='{{ printf "%s/%s" (.site.Scratch.Get "imageDir") figure.src }}'/>
         </div>
       {% endif %}
@@ -106,7 +106,7 @@
           {% if figure.caption %} data-caption='{{ figure.caption | markdownify | safe }}' {% endif %}
           data-catalogue-entry="true"
           aria-label="youtube video"
-          class='quire-figure__media'
+          class='q-figure__media'
           src='https://www.youtube-nocookie.com/embed/{{ figure.media_id }}?rel=0&amp;showinfo=0'
           frameborder='0'
           webkitallowfullscreen
@@ -124,7 +124,7 @@
           {% if figure.caption %} data-caption='{{ figure.caption | markdownify | safe }}' {% endif %}
           data-catalogue-entry="true"
           aria-label="vimeo video"
-          class='quire-figure__media'
+          class='q-figure__media'
           src='https://player.vimeo.com/video/{{ figure.media_id }}'
           frameborder='0'
           webkitallowfullscreen
@@ -162,7 +162,7 @@
           {% if figure.caption %} data-caption='{{ figure.caption | markdownify | safe }}'{% endif %}
           data-catalogue-entry="true"
           aria-label="youtube video"
-          class='quire-figure__media'
+          class='q-figure__media'
           src='https://www.youtube-nocookie.com/embed/{{ figure.media_id }}?rel=0&amp;showinfo=0'
           frameborder='0'
           webkitallowfullscreen
@@ -180,7 +180,7 @@
           {% if figure.caption %} data-caption='{{ figure.caption | markdownify | safe }}'{% endif %}
           data-catalogue-entry="true"
           aria-label="vimeo video"
-          class='quire-figure__media'
+          class='q-figure__media'
           src='https://player.vimeo.com/video/{{ figure.media_id }}'
           frameborder='0'
           webkitallowfullscreen

@@ -13,7 +13,7 @@
 
 // {{ $errorNoSourceNoId := dict "shortcode" "q-figure" "message" "This shortcode must include a value for `src` that matches the filename of an image in your `static/img` directory; or a value for `id` that matches an `id` value in your `data/figures.yml` file." "example" "{{< q-figure id=&#34;3.1&#34; >}}<br /><br />{{< q-figure id=&#34;3.1&#34; src=&#34;fig-3-1-duchamp.jpg&#34; >}}" }}
 
-// <figure class="quire-figure">
+// <figure class="q-figure">
 
 // {{ if .Get "src" }}
 // {{/* -------------------- BEGIN SRC BLOCK -------------------- */}}
@@ -36,7 +36,7 @@
 //     <figure       
 //       id="{{ $figureId }}"
 //       {{ if .Get "caption" }} title='{{ .Get "caption" | markdownify | safeHTML }}' {{ end }} 
-//       class="quire-figure leaflet-outer-wrapper mfp-hide">
+//       class="q-figure leaflet-outer-wrapper mfp-hide">
 //       <div 
 //         id="js-{{ $figureId }}" 
 //         class="quire-map leaflet-inner-wrapper inset"
@@ -54,7 +54,7 @@
 //     title='{{ .Get "caption" | markdownify | safeHTML }}'>
 //     <img
 //       id='{{ with .Get "id" }}{{ . | urlize }}{{ end }}'
-//       class="quire-figure__image" 
+//       class="q-figure__image" 
 //       src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
 //       alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
       
@@ -67,7 +67,7 @@
 //     <figure    
 //       id="{{ $figureId }}" 
 //       {{ if .Get "caption" }}  title='{{ .Get "caption" | markdownify | safeHTML }}' {{ end }} 
-//       class="quire-figure leaflet-outer-wrapper mfp-hide">
+//       class="q-figure leaflet-outer-wrapper mfp-hide">
 //         <div 
 //           id="js-{{ $figureId }}" 
 //           class="quire-deepzoom inset leaflet-inner-wrapper" 
@@ -87,7 +87,7 @@
 //     {{ if .Get "caption" }}  title='{{ .Get "caption" | markdownify | safeHTML }}' {{ end }}>
 //       <img
 //       id='{{ with .Get "id" }}{{ . | urlize }}{{ end }}'
-//       class="quire-figure__image" 
+//       class="q-figure__image" 
 //       src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
 //       alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
 
@@ -100,7 +100,7 @@
 //   id="{{ $figureId }}" 
 //   {{ if .Get "caption" }}  
 //   title='{{ .Get "caption" | markdownify | safeHTML }}' {{ end }} 
-//   class="quire-figure leaflet-outer-wrapper mfp-hide">
+//   class="q-figure leaflet-outer-wrapper mfp-hide">
 //     <div 
 //       id="js-{{ $figureId }}" 
 //       class="quire-deepzoom inset leaflet-inner-wrapper " 
@@ -119,7 +119,7 @@
 //     {{ if .Get "caption" }}  title='{{ .Get "caption" | markdownify | safeHTML }}' {{ end }}>
 //     <img
 //       id='{{ with .Get "id" }}{{ . | urlize }}{{ end }}'
-//       class="quire-figure__image" 
+//       class="q-figure__image" 
 //       src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
 //       alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
 
@@ -172,7 +172,7 @@
 // {{ else }}
 // <img
 // id='{{ with .Get "id" }}{{ . | urlize }}{{ end }}'
-// class="quire-figure__image" 
+// class="q-figure__image" 
 // src='{{ with .Get "src"}}{{ printf "%s/%s" ($.Scratch.Get "imageDir") . | relURL }}{{ end }}'
 // alt='{{ with .Get "alt" }}{{ . }}{{ end }}' />
 
@@ -230,7 +230,7 @@
 //       <figure 
 //         id="{{ $figureId }}" 
 //         {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }} 
-//         class="quire-figure leaflet-outer-wrapper mfp-hide">
+//         class="q-figure leaflet-outer-wrapper mfp-hide">
 //         <div 
 //           id="js-{{ $figureId }}" 
 //           class="quire-map leaflet-inner-wrapper inset" 
@@ -247,7 +247,7 @@
 //         {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
 //         <img
 //           id='{{ .id }}'
-//           class="quire-figure__image" 
+//           class="q-figure__image" 
 //           src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
 
 // {{ else if eq .media_type "iiif" }}
@@ -258,7 +258,7 @@
 //   <figure 
 //     id="{{ $figureId }}" 
 //     {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }} 
-//     class="quire-figure leaflet-outer-wrapper mfp-hide">
+//     class="q-figure leaflet-outer-wrapper mfp-hide">
 //     <div 
 //       id="js-{{ $figureId }}" 
 //       class="quire-deepzoom inset leaflet-inner-wrapper" 
@@ -277,7 +277,7 @@
 //     {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
 //     <img
 //       id='{{ .id }}'
-//       class="quire-figure__image" 
+//       class="q-figure__image" 
 //       src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
 
 // {{ else }}
@@ -288,7 +288,7 @@
 //     <figure 
 //       id="{{ $figureId }}"
 //       {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}  
-//       class="quire-figure leaflet-outer-wrapper mfp-hide hi">
+//       class="q-figure leaflet-outer-wrapper mfp-hide hi">
 //         <div 
 //           id="js-{{ $figureId }}" 
 //           class="quire-deepzoom inset leaflet-inner-wrapper " 
@@ -306,7 +306,7 @@
 //       {{ if .caption }} title='{{ .caption | markdownify | safeHTML }}' {{ end }}>
 //       <img
 //         id='{{ .id }}'
-//         class="quire-figure__image" 
+//         class="q-figure__image" 
 //         src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
 
 // {{ end }}
@@ -357,7 +357,7 @@
 
 // <img
 // id='{{ .id }}'
-// class="quire-figure__image" 
+// class="q-figure__image" 
 // src='{{ printf "%s/%s" ($.Scratch.Get "imageDir") .src | relURL }}' />
 
 // {{ end }}

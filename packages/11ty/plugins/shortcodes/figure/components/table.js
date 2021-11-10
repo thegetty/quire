@@ -23,7 +23,7 @@ module.exports = function(eleventyConfig, { config }, { data }) {
   const figureModal = (tableSrc) => html`
     <figure
       id="${figureId}"
-      class="quire-figure leaflet-outer-wrapper mfp-hide notGet"
+      class="q-figure leaflet-outer-wrapper mfp-hide notGet"
       title="${title}"
     >
       <div
@@ -47,7 +47,7 @@ module.exports = function(eleventyConfig, { config }, { data }) {
   `
 
   return html`
-    <figure class="quire-figure__table">
+    <figure class="q-figure__table">
       ${tableSrc}
     </figure>
   `

@@ -3,12 +3,12 @@
 {% if site.params.epub or site.params.pdf %}
   {% render 'fallback', alt: alt, id: id, mediaType: mediaType, src: src %}
 
-  <figcaption class="quire-figure__caption caption">
+  <figcaption class="q-figure__caption caption">
     <a href="src" target="_blank">{{ src }}</a>
   </figcaption>
 
 {% else %}
-  <div class="quire-figure__media-wrapper">
+  <div class="q-figure__media-wrapper">
     <iframe
       allow="autoplay"
       frameborder="no"
