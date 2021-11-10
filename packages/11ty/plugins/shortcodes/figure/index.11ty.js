@@ -16,11 +16,13 @@ const { html } = require('common-tags')
  *
  * @return     {boolean}  An HTML <figure> element
  */
-module.exports = function (eleventyConfig, { config, figures }, id, modifier) {
+module.exports = function (eleventyConfig, { config, figures }, id, classes=[]) {
   figures = Object.fromEntries(figures.figure_list.map((figure) => {
     const { caption, credit, download, id, label, media_id, media_type, src } = figure
     return [ id, { caption, credit, download, id, label, media_id, media_type, src }]
   }))
+
+  classes = typeof classes === 'string' ? [classes] : classes
 
   const qfigurecaption = eleventyConfig.getFilter('qfigurecaption')
   const qfigureimage = eleventyConfig.getFilter('qfigureimage')
@@ -49,7 +51,7 @@ module.exports = function (eleventyConfig, { config, figures }, id, modifier) {
     : qfigurecaption(figure)
 
   return html`
-    <figure id="${slugify(id)}" class="q-figure ${modifier}">
+    <figure id="${slugify(id)}" class="q-figure ${classes.join(' ')}">
       <div class="q-figure__wrapper">
         ${imageElement}
         ${imageCaptionElement}

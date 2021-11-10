@@ -16,7 +16,9 @@ module.exports = function(eleventyConfig, options) {
   eleventyConfig.addShortcode('icon', (name, description) => 
     icon(eleventyConfig, globalData, name, description)
   )
-  eleventyConfig.addShortcode('figure', (data) => figure(eleventyConfig, globalData, data))
+  eleventyConfig.addShortcode("figure", (id, classes) =>
+    figure(eleventyConfig, globalData, id, classes)
+  )
   eleventyConfig.addShortcode('figuregroup', (columns, ids) =>
     figureGroup(eleventyConfig, globalData, columns, ids)
   )

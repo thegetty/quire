@@ -28,7 +28,8 @@ module.exports = function (eleventyConfig, globalData, columns, ids=[]) {
   // }
 
   const figureTags = (ids) => {
-    return ids.reduce((output, id) => output + figure(id), '')
+    const classes = ['quire-figure--group__item', `quire-grid--${columns}`]
+    return ids.reduce((output, id) => output + figure(id, classes), '')
   }
 
   return html`
