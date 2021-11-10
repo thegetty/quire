@@ -29,6 +29,8 @@ module.exports = function(eleventyConfig, options) {
     figureGroup(eleventyConfig, globalData, columns, ids)
   )
 
+  eleventyConfig.addShortcode('ref', (ids) => ref(ids))
+
   /**
    * Figure subcomponents
    */
@@ -37,8 +39,4 @@ module.exports = function(eleventyConfig, options) {
       eleventyConfig.addShortcode(name, (...args) => figureComponents[name](eleventyConfig, globalData, ...args))
     )
   })
-
-  eleventyConfig.addShortcode('ref', (ids) =>
-    refs(eleventyConfig, globalData, ids)
-  )
 }
