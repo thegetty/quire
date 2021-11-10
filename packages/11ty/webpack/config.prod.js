@@ -6,9 +6,11 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 
 const PATHS = {
-  source: path.resolve(__dirname, '../src/_assets'),
-  build: path.resolve(__dirname, '../site/_assets')
+  source: path.resolve(__dirname, '../src/'),
+  build: path.resolve(__dirname, '../_site/')
 };
+
+const ASSET_PATH = process.env.ASSET_PATH || "../";
 
 module.exports = {
   mode: 'production',
@@ -19,12 +21,12 @@ module.exports = {
   performance: { hints: 'warning' },
   entry: [
     path.resolve(PATHS.source, 'js', 'application.js'),
-    path.resolve(PATHS.source, 'styles', 'application.scss')
+    path.resolve(PATHS.source, 'css', 'application.scss')
   ],
   output: {
     filename: path.join('js', 'application.js'),
     path: PATHS.build,
-    publicPath: '/_assets/'
+    publicPath: ASSET_PATH
   },
   module: {
     rules: [
@@ -92,7 +94,7 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: path.join('styles', 'application.css')
+      filename: path.join('css', 'application.css')
     }),
     new WebpackManifestPlugin(),
     new webpack.ProvidePlugin({

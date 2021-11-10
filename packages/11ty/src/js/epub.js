@@ -6,4 +6,4 @@
  */
 
 // Stylesheets
-import '../styles/epub.scss';
+import '../css/epub.scss';

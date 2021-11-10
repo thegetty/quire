@@ -5,8 +5,8 @@
   "description": "",
   "main": ".eleventy.js",
   "scripts": {
-    "dev": "webpack --config webpack/webpack.config.prod.js && eleventy --serve --watch",
-    "build": "webpack --config webpack/webpack.config.prod.js && eleventy",
+    "dev": "eleventy --serve --watch",
+    "build": "eleventy",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

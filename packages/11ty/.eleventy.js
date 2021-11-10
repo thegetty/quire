@@ -11,6 +11,9 @@ const qShortcodes = require('./plugins/shortcodes')
 const sass = require('sass')
 const syntaxHighlight = require('@11ty/eleventy-plugin-syntaxhighlight')
 const toml = require('toml')
+const webpack = require('webpack')
+const webpackProdConfig = require('./webpack/config.prod.js')
+const webpackDevConfig = require('./webpack/config.dev.js')
 const yaml = require('js-yaml')
 
 /**
@@ -76,21 +79,31 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(navigationPlugin)
   eleventyConfig.addPlugin(syntaxHighlight)
 
+  /**
+   * Compile webpack bundle once before build
+   */
   eleventyConfig.on('beforeBuild', () => {
-    const outputDir = path.relative(__dirname, '_site')
-    if (!fs.existsSync(outputDir)) {
-      fs.mkdirSync(outputDir)
-    }
-    const { css } = sass.renderSync({
-      file: 'src/css/application.scss',
-      includePaths: ['node_modules', 'src/css']
-    })
-    const cssOutputDir = path.join(outputDir, 'css')
-    if (!fs.existsSync(cssOutputDir)) {
-      fs.mkdirSync(cssOutputDir)
-    }
-    fs.writeFileSync(path.join(cssOutputDir, 'application.css'), css.toString(), { encoding: 'utf8' })
+    const compiler = webpack(webpackProdConfig)
+    compiler.run((error) => {
+      if (error) console.warn(error)
+      compiler.close()
+    });
   });
+  /**
+   * compile webpack bundle and watch for changes when using --watch flag
+   */
+  eleventyConfig.on('beforeWatch', () => {
+    const compiler = webpack(webpackDevConfig)
+    compiler.watch(
+      {
+        aggregateTimeout: 300,
+        poll: false
+      },
+      (error) => {
+        if (error) console.warn(error)
+      }
+    )
+  })
   /**
    * Copy static assets to the output directory
    * @see {@link https://www.11ty.dev/docs/copy/ Passthrough copy in 11ty}

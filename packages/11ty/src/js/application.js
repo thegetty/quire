@@ -10,7 +10,7 @@
 // Stylesheets
 import "intersection-observer";
 import "leaflet-fullscreen/dist/leaflet.fullscreen.css";
-import "../styles/application.scss";
+import "../css/application.scss";
 import "leaflet/dist/leaflet.css";
 import quicklink from "quicklink";
 
