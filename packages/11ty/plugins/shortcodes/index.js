@@ -8,20 +8,26 @@ const figureComponents = require('./figure/components');
 const globalData = require('../globalData')
 
 module.exports = function(eleventyConfig, options) {
-  eleventyConfig.addPairedShortcode('backmatter', (data) => backmatter(data, globalData))
+  eleventyConfig.addPairedShortcode('backmatter', (content) => backmatter(content))
+
   eleventyConfig.addShortcode('cite', (data) => cite(eleventyConfig, globalData, data))
+
   eleventyConfig.addShortcode('contributor', (data) =>
     contributor(eleventyConfig, globalData, data)
   )
-  eleventyConfig.addShortcode('icon', (name, description) => 
+
+  eleventyConfig.addShortcode('icon', (name, description) =>
     icon(eleventyConfig, globalData, name, description)
   )
+
   eleventyConfig.addShortcode("figure", (id, classes) =>
     figure(eleventyConfig, globalData, id, classes)
   )
+
   eleventyConfig.addShortcode('figuregroup', (columns, ids) =>
     figureGroup(eleventyConfig, globalData, columns, ids)
   )
+
   /**
    * Figure subcomponents
    */
