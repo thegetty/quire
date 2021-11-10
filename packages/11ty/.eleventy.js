@@ -79,30 +79,27 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(navigationPlugin)
   eleventyConfig.addPlugin(syntaxHighlight)
 
+  const compileBundle = (compiler) => {
+    compiler.run((error) => {
+      if (error) console.warn(error)
+      compiler.close((closeError) => {
+        if (closeError) console.warn(closeError)
+      })
+    });
+  }
   /**
    * Compile webpack bundle once before build
    */
   eleventyConfig.on('beforeBuild', () => {
     const compiler = webpack(webpackProdConfig)
-    compiler.run((error) => {
-      if (error) console.warn(error)
-      compiler.close()
-    });
+    compileBundle(compiler)
   });
   /**
-   * compile webpack bundle and watch for changes when using --watch flag
+   * compile webpack bundle with dev config when using --watch or --serve flags; this enables webpack to watch for changes to styles and scripts
    */
   eleventyConfig.on('beforeWatch', () => {
     const compiler = webpack(webpackDevConfig)
-    compiler.watch(
-      {
-        aggregateTimeout: 300,
-        poll: false
-      },
-      (error) => {
-        if (error) console.warn(error)
-      }
-    )
+    compileBundle(compiler)
   })
   /**
    * Copy static assets to the output directory
