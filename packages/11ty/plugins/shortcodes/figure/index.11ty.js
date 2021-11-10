@@ -33,7 +33,8 @@ module.exports = function (eleventyConfig, { config, figures }, id, classes=[]) 
 
   const qfigureimage = eleventyConfig.getFilter('qfigureimage')
   const qfigurelabel = eleventyConfig.getFilter('qfigurelabel')
-  const modalLink = eleventyConfig.getFilter('qfiguremodallink')
+  const qfiguremodallink = eleventyConfig.getFilter('qfiguremodallink')
+  const qfigureyoutube = eleventyConfig.getFilter('qfigureyoutube')
   const slugify = eleventyConfig.getFilter('slugify')
 
   if (!figures) {
@@ -51,6 +52,7 @@ module.exports = function (eleventyConfig, { config, figures }, id, classes=[]) 
   const mediaElement = (figure) => {
     switch(true) {
       case figure.media_type === 'youtube':
+        return qfigureyoutube(figure)
         break
       case figure.media_type === 'vimeo':
         break
@@ -63,7 +65,7 @@ module.exports = function (eleventyConfig, { config, figures }, id, classes=[]) 
       default:
         const imageElement = qfigureimage(figure)
         return (config.params.figureLabelLocation === 'on-top') 
-          ? modalLink(figure, imageElement + qfigurelabel(figure))
+          ? qfiguremodallink(figure, imageElement + qfigurelabel(figure))
           : imageElement
         break
     }

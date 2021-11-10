@@ -5,6 +5,7 @@
   "description": "",
   "main": ".eleventy.js",
   "scripts": {
+    "clean": "del ./_site",
     "debug": "DEBUG=Eleventy* eleventy",
     "dev": "eleventy --serve --watch",
     "build": "eleventy",
@@ -28,6 +29,7 @@
     "common-tags": "^1.8.0",
     "css-loader": "^6.5.1",
     "css-minimizer-webpack-plugin": "^3.1.1",
+    "del-cli": "^4.0.1",
     "eslint": "^8.2.0",
     "iiif-processor": "^1.0.0",
     "js-yaml": "^4.1.0",
