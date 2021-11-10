@@ -21,7 +21,7 @@ module.exports = function(eleventyConfig, { config }, { label, src }) {
   if (config.epub && label) {
     labelElement = `<span class="q-figure__label">${markdownify(label)}</span>`
   } else {
-    const modifier = config.figureLabelLocation || ''
+    const modifier = config.params.figureLabelLocation || ''
     const labelText = label ? `<span class="q-figure__label-text">${markdownify(label)}</span>` : ''
     labelElement = `<span class="q-figure__label q-figure__label--${modifier}">
       ${labelIcon}
