@@ -1,11 +1,12 @@
 const backmatter = require('./backmatter.11ty.js')
 const cite = require('./cite.11ty.js')
 const contributor = require('./contributor.11ty.js')
-const icon = require('./icon.11ty.js')
 const figure = require('./figure/index.11ty.js')
+const figureComponents = require('./figure/components')
 const figureGroup = require('./figureGroup.11ty.js')
-const figureComponents = require('./figure/components');
 const globalData = require('../globalData')
+const icon = require('./icon.11ty.js')
+const ref = require('./figureRef.11ty.js')
 
 module.exports = function(eleventyConfig, options) {
   eleventyConfig.addPairedShortcode('backmatter', (content) => backmatter(content))
@@ -20,7 +21,7 @@ module.exports = function(eleventyConfig, options) {
     icon(eleventyConfig, globalData, name, description)
   )
 
-  eleventyConfig.addShortcode("figure", (id, classes) =>
+  eleventyConfig.addShortcode('figure', (id, classes) =>
     figure(eleventyConfig, globalData, id, classes)
   )
 
@@ -36,4 +37,8 @@ module.exports = function(eleventyConfig, options) {
       eleventyConfig.addShortcode(name, (...args) => figureComponents[name](eleventyConfig, globalData, ...args))
     )
   })
+
+  eleventyConfig.addShortcode('ref', (ids) =>
+    refs(eleventyConfig, globalData, ids)
+  )
 }
