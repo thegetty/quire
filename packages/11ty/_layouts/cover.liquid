@@ -99,7 +99,7 @@ description: Cover page layout. This controls the home page of the publication.
       <div class="quire-cover__more-body hero-more">
         {% if site.params.epub != true and site.params.pdf != true %}
         <a href="#content">
-          {%- render "icon", type: "down-arrow", description: "Scroll down to read more" -%}
+          {%- qicon "down-arrow" "Scroll down to read more" -%}
         </a>
         {% endif %}
       </div>
@@ -135,7 +135,7 @@ description: Cover page layout. This controls the home page of the publication.
         <div class="quire-cover__more-body hero-more next-page">
           {% if site.params.epub != true and site.params.pdf != true %}
             <a href="{{ nextPages[0].permalink }}">
-              {%- render "icon", type: "down-arrow", description: "Scroll down to read more" -%}
+              {%- qicon "down-arrow" "Scroll down to read more" -%}
             </a>
           {% endif %}
         </div>
