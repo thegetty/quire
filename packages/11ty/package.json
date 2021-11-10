@@ -5,6 +5,7 @@
   "description": "",
   "main": ".eleventy.js",
   "scripts": {
+    "debug": "DEBUG=Eleventy* eleventy",
     "dev": "eleventy --serve --watch",
     "build": "eleventy",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -16,7 +17,7 @@
   "author": "Getty Digital",
   "license": "J Paul Getty Trust",
   "devDependencies": {
-    "@11ty/eleventy": "^1.0.0-beta.3",
+    "@11ty/eleventy": "^1.0.0-beta.4",
     "@11ty/eleventy-img": "^1.0.0",
     "@11ty/eleventy-navigation": "^0.3.2",
     "@11ty/eleventy-plugin-syntaxhighlight": "^3.1.3",
