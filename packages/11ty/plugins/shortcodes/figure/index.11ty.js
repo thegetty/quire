@@ -31,7 +31,6 @@ module.exports = function (eleventyConfig, { config, figures }, id, classes=[]) 
     classes.push('q-figure')
   }
 
-  const qfigurecaption = eleventyConfig.getFilter('qfigurecaption')
   const qfigureimage = eleventyConfig.getFilter('qfigureimage')
   const qfigurelabel = eleventyConfig.getFilter('qfigurelabel')
   const modalLink = eleventyConfig.getFilter('qfiguremodallink')
@@ -48,20 +47,32 @@ module.exports = function (eleventyConfig, { config, figures }, id, classes=[]) 
     console.warn(`Error: the id '${id}' was not found in 'figures.yaml'`)
     return ''
   }
-  const labelElement = qfigurelabel(figure)
-  const imageElement = (config.params.figureLabelLocation === 'on-top') 
-    ? modalLink(figure, qfigureimage(figure) + labelElement)
-    : qfigureimage(figure)
 
-  const imageCaptionElement = (config.params.figureLabelLocation === 'below') 
-    ? qfigurecaption(figure, labelElement) 
-    : qfigurecaption(figure)
+  const mediaElement = (figure) => {
+    switch(true) {
+      case figure.media_type === 'youtube':
+        break
+      case figure.media_type === 'vimeo':
+        break
+      case figure.media_type === 'soundcloud':
+        break
+      case figure.media_type === 'website':
+        break
+      case figure.media_type === 'table':
+        break
+      default:
+        const imageElement = qfigureimage(figure)
+        return (config.params.figureLabelLocation === 'on-top') 
+          ? modalLink(figure, imageElement + qfigurelabel(figure))
+          : imageElement
+        break
+    }
+  }
 
   return html`
     <figure id="${slugify(id)}" class="${classes.join(' ')}">
       <div class="q-figure__wrapper">
-        ${imageElement}
-        ${imageCaptionElement}
+        ${mediaElement(figure)}
       </div>
     </figure>
   `
