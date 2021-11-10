@@ -6,6 +6,7 @@ const modallink = require('./modalLink')
 const placeholder = require('./placeholder')
 const table = require('./table')
 const video = require('./video')
+const youtube = require('./youtube')
 
 module.exports = {
   caption,
@@ -16,4 +17,5 @@ module.exports = {
   placeholder,
   table,
   video,
+  youtube,
 }
