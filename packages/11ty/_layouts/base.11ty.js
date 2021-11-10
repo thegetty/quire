@@ -1,7 +1,10 @@
 const head = require('../_includes/head.11ty.js')
 const icons = require('../_includes/icons.11ty.js')
 const iconscc = require('../_includes/icons-cc.11ty.js')
+const menu = require('../_includes/menu.11ty.js')
+const navBar = require('../_includes/nav-bar.11ty.js')
 const pdfInfo = require ('../_includes/pdf/info.11ty.js')
+const scripts = require ('../_includes/scripts.11ty.js')
 
 module.exports = function(data) {
   const { content, publication } = data
@@ -24,15 +27,16 @@ module.exports = function(data) {
             aria-expanded="false"
             role="contentinfo"
           >
-            <!-- {#% render 'menu' %#} -->
+            ${menu(data)}
           </div>
 
           <div class="quire__primary" id="{{ section }}">
-            <!--{#% render 'navbar' %#}-->
+            ${navBar(data)}
             ${ content }
           </div>
           <!--  {#% render 'search' %#} -->
         </div>
+        ${scripts(data)}
       </body>
     </html>
   `
