@@ -1,6 +1,7 @@
 /*
  * Complete title block for publication.
-  */
+ */
+const siteTitle = require('./site-title.11ty.js')
 
 module.exports = function(data) {
   return `
@@ -10,7 +11,7 @@ module.exports = function(data) {
       {{- end }}
       <h4 class="quire-menu__header__title">
         <span class="visually-hidden">Site Title: </span>
-        {{- partial "site-title.html" . | markdownify -}}
+        ${siteTitle(data)}
       </h4>
       {{ if ne .Kind "home" -}}
       </a>
