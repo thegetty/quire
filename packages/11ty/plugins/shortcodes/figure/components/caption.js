@@ -1,4 +1,4 @@
-const { html } = require('common-tags')
+const { oneLine } = require('common-tags')
 
 /**
  * Figure caption and credit
@@ -10,18 +10,16 @@ const { html } = require('common-tags')
  * @property   {String} data.link   URL used to open the figure modal element
  * @return     {String}  An HTML <figcaption> element
  */
-module.exports = function(eleventyConfig, { config }, { caption, credit, id, label, src }) {
+module.exports = function(eleventyConfig, { config }, figure, content='') {
+  const { caption, credit, id, label, src } = figure
   const markdownify = eleventyConfig.getFilter('markdownify')
-  const qfigurelabel = eleventyConfig.getFilter('qfigurelabel')
   const slugify = eleventyConfig.getFilter('slugify')
 
-  const labelElement = qfigurelabel({ caption, id, label, src })
-
-  return html`
+  return oneLine`
     <figcaption class="q-figure__caption">
-      ${labelElement}
-      <span class="q-figure__caption-content">${caption && markdownify(caption)}</span>
-      <span class="q-figure__credit">${credit && markdownify(credit)}</span>
+      ${content}
+      <span class="q-figure__caption-content">${markdownify(caption || '')}</span>
+      <span class="q-figure__credit">${markdownify(credit || '')}</span>
     </figcaption>
   `
 }

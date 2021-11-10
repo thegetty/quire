@@ -16,29 +16,37 @@ const { html } = require('common-tags')
  *
  * @return     {boolean}  An HTML <figure> element
  */
-module.exports = function (eleventyConfig, { figures }, id, modifier) {
+module.exports = function (eleventyConfig, { config, figures }, id, modifier) {
   figures = Object.fromEntries(figures.figure_list.map((figure) => {
     const { caption, credit, download, id, label, media_id, media_type, src } = figure
-    return [ id, { caption, credit, download, label, media_id, media_type, src }]
+    return [ id, { caption, credit, download, id, label, media_id, media_type, src }]
   }))
 
   const qfigurecaption = eleventyConfig.getFilter('qfigurecaption')
   const qfigureimage = eleventyConfig.getFilter('qfigureimage')
+  const qfigurelabel = eleventyConfig.getFilter('qfigurelabel')
+  const modalLink = eleventyConfig.getFilter('qfiguremodallink')
+  const slugify = eleventyConfig.getFilter('slugify')
 
   if (!figures) {
     console.warn(`Error: Unable to find figures data, see docs`)
     return ''
   }
 
-  if (!figures[id]) {
+  const figure = figures[id]
+
+  if (!figure) {
     console.warn(`Error: the id '${id}' was not found in 'figures.yaml'`)
     return ''
   }
+  const labelElement = qfigurelabel(figure)
+  const imageElement = (config.params.figureLabelLocation === 'on-top') 
+    ? modalLink(figure, qfigureimage(figure) + labelElement)
+    : qfigureimage(figure)
 
-  const slugify = eleventyConfig.getFilter('slugify')
-  const { alt, caption, credit, label, src } = figures[id]
-  const imageCaptionElement = qfigurecaption({ caption, credit, id, label, src })
-  const imageElement = qfigureimage({ alt, src })
+  const imageCaptionElement = (config.params.figureLabelLocation === 'below') 
+    ? qfigurecaption(figure, labelElement) 
+    : qfigurecaption(figure)
 
   return html`
     <figure id="${slugify(id)}" class="q-figure ${modifier}">

@@ -7,10 +7,10 @@ const { html } = require('common-tags')
  */
 module.exports = function(eleventyConfig, data) {
   const markdownify = eleventyConfig.getFilter('markdownify')
+  const modalLink = eleventyConfig.getFilter('qfiguremodallink')
 
   const tableSrc = path.join('static', imageDir, data.src)
   // const figureId = 'deepzoomtable' | append: date
-  // const modalLink = 'figureId' | prepend: '#'
   const title = markdownify(caption)
 
   return html`
@@ -29,13 +29,6 @@ module.exports = function(eleventyConfig, data) {
         <figure class="leaflet-table">{% include tableSrc %}</figure>
       </div>
     </figure>
-    <a
-      class="inline popup"
-      data-type="inline"
-      href="${modalLink}"
-      title="${title}"
-    >
-      ${data.content}
-    </a>
+    ${modalLink(data.content)}
   `
 }
