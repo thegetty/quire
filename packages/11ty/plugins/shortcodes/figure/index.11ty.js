@@ -24,6 +24,13 @@ module.exports = function (eleventyConfig, { config, figures }, id, classes=[]) 
 
   classes = typeof classes === 'string' ? [classes] : classes
 
+  /**
+   * @todo refactor q-figure--group styles using BEM and remove this conditional
+   */
+  if (!classes.includes('q-figure--group__item')) {
+    classes.push('q-figure')
+  }
+
   const qfigurecaption = eleventyConfig.getFilter('qfigurecaption')
   const qfigureimage = eleventyConfig.getFilter('qfigureimage')
   const qfigurelabel = eleventyConfig.getFilter('qfigurelabel')
@@ -51,7 +58,7 @@ module.exports = function (eleventyConfig, { config, figures }, id, classes=[]) 
     : qfigurecaption(figure)
 
   return html`
-    <figure id="${slugify(id)}" class="q-figure ${classes.join(' ')}">
+    <figure id="${slugify(id)}" class="${classes.join(' ')}">
       <div class="q-figure__wrapper">
         ${imageElement}
         ${imageCaptionElement}

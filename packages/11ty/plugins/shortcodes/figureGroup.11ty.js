@@ -10,6 +10,7 @@ const example = "{% qfiguregroup 2, '3.1, 3.2, 3.3' %}"
  * @return     {String}  An HTML string of the element to render
  */
 module.exports = function (eleventyConfig, globalData, columns, ids=[]) {
+  columns = parseInt(columns)
   const figure = eleventyConfig.getFilter('qfigure')
 
   // parse the string of figure identifiers
@@ -27,14 +28,19 @@ module.exports = function (eleventyConfig, globalData, columns, ids=[]) {
   //   console.warn(`Error: NoMediaType: One of the figures passed to the q-figures shortcode is missing the 'media_type' attribute. Figures in 'figures.yaml' must be have a 'media_type' attribute with a value of either  "vimeo" or "youtube"`)
   // }
 
-  const figureTags = (ids) => {
-    const classes = ['quire-figure--group__item', `quire-grid--${columns}`]
-    return ids.reduce((output, id) => output + figure(id, classes), '')
+  const classes = ['column', 'q-figure--group__item', `quire-grid--${columns}`]
+  const rows = Math.ceil(ids.length / columns)
+  let figureTags = []
+  for (i=0; i<rows; i++) {
+    const startIndex = i * columns
+    const row = ids.slice(startIndex, columns + startIndex)
+      .reduce((output, id) => output + figure(id, classes), '')
+    figureTags.push(`<div class="q-figure--group__row columns">${row}</div>`)
   }
 
   return html`
-    <div class="q-figure-group__row columns">
-      ${figureTags(ids)}
-    </div>
+    <figure class="q-figure q-figure--group">
+      ${figureTags.join('')}
+    </figure>
   `
 }
