@@ -7,10 +7,20 @@ const path = require('path')
  * @param      {Object}   data    Image alt text and src properties
  * @return     {String}  An HTML <img> element
  */
-module.exports = function (eleventyConfig, globalData, { alt='', src='' }) {
+module.exports = function (eleventyConfig, { config }, figure) {
+  const { alt='', src='' } = figure
   const imageSrc = path.join('/_assets/img', src)
+
+  const qfigurecaption = eleventyConfig.getFilter('qfigurecaption')
+  const qfigurelabel = eleventyConfig.getFilter('qfigurelabel')
+
+  const labelElement = qfigurelabel(figure)
+  const imageCaptionElement = (config.params.figureLabelLocation === 'below') 
+    ? qfigurecaption(figure, labelElement) 
+    : qfigurecaption(figure)
 
   return html`
     <img alt="${alt}" class="q-figure__image" src="${imageSrc}"/>
+    ${imageCaptionElement}
   `
 }
