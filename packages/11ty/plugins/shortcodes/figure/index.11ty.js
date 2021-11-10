@@ -63,10 +63,7 @@ module.exports = function (eleventyConfig, { config, figures }, id, classes=[]) 
       case figure.media_type === 'table':
         break
       default:
-        const imageElement = qfigureimage(figure)
-        return (config.params.figureLabelLocation === 'on-top') 
-          ? qfiguremodallink(figure, imageElement + qfigurelabel(figure))
-          : imageElement
+        return qfigureimage(figure)
         break
     }
   }
