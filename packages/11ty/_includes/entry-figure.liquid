@@ -8,38 +8,37 @@
     <div class="q-figure__media-fallback">
       {% if figure.src %}
         <div class="q-figure__wrapper">
-          <img src='{{ printf "%s/%s" (.site.Scratch.Get "imageDir") figure.src }}'/>
+          <img src='{{ imgPath }}'/>
         </div>
       {% endif %}
 
-  {% else %}
+      {% if figure.media_type %}
 
-    {% if figure.media_type %}
+        <div class="placeholder">
 
-      <div class="placeholder">
+          {%- if figure.media_type == "youtube" or figure.media_type == "vimeo" %}
 
-        {%- if figure.media_type == "youtube" or figure.media_type == "vimeo" %}
+            {% if pdf == true %}
+              <i class="material-icons md-24">videocam</i>
+            {% else %}
+              <img src='{{ imageDir }}/icons/baseline-videocam-24px.png' />
+            {% endif %}
 
-          {% if pdf == true %}
-            <i class="material-icons md-24">videocam</i>
-          {% else %}
-            <img src='{{ imageDir }}/icons/baseline-videocam-24px.png' />
           {% endif %}
 
-        {% endif %}
+          {%- if figure.media_type == "soundcloud" or figure.media_type == "audio" %}
 
-        {%- if figure.media_type == "soundcloud" or figure.media_type == "audio" %}
+            {% if pdf == true %}
+              <i class="material-icons md-24 audio">headset</i>
+            {% else %}
+              <img src='{{ imageDir }}/icons/baseline-headset-24px.png'/>
+            {% endif %}
 
-          {% if pdf == true %}
-            <i class="material-icons md-24 audio">headset</i>
-          {% else %}
-            <img src='{{ imageDir }}/icons/baseline-headset-24px.png'/>
           {% endif %}
-
-        {% endif %}
-    {% endif %}
+      {% endif %}
     </div>
-  {%- endif -%}
+
+  {% else %}
 
   {% if figure.title %}
     <h5 class="header">
@@ -64,7 +63,6 @@
 
     {% endif %}
   </div>
-  {% else %}
 
     {% if zoom == true %}
 
@@ -79,7 +77,7 @@
           data-catalogue-entry="true"
           {% if figure.iiif %} data-iiif="{{ figure.iiif }}" {% endif %}
           {% if figure.zoom_max %} data-zoom-max="{{ figure.zoom_max }}" {% endif %}
-          {% if figure.caption %} data-caption='{{ figure.caption | markdownify | safe }}' {% endif %}
+          {% if figure.caption %} data-caption='{{ figure.caption | markdownify | strip_html }}' {% endif %}
         />
 
       {% else if figure.media_type == "map" %}
@@ -93,7 +91,7 @@
           {% if figure.lat %}  data-lat="{{ figure.lat }}" {% endif %}
           {% if figure.long %} data-long="{{ figure.long }}" {% endif %}
           {% if figure.geojson %} data-geojson="{{ config.baseURL }}{{ figure.geojson }}" {% endif %}
-          {% if figure.caption %} data-caption='{{ figure.caption | markdownify | safe }}' {% endif %}
+          {% if figure.caption %} data-caption='{{ figure.caption | markdownify | strip_html }}' {% endif %}
         >
         </div>
 
@@ -103,7 +101,7 @@
           id='{{ figure.id }}'
           title='{% if figure.title %}{{ figure.title | markdownify }}{% endif %}'
           alt='{% if figure.title %}{{ figure.title | markdownify }}{% endif %}'
-          {% if figure.caption %} data-caption='{{ figure.caption | markdownify | safe }}' {% endif %}
+          {% if figure.caption %} data-caption='{{ figure.caption | markdownify | strip_html }}' {% endif %}
           data-catalogue-entry="true"
           aria-label="youtube video"
           class='q-figure__media'
@@ -118,10 +116,10 @@
       {% else if figure.media_type == "vimeo" %}
 
         <iframe
-          id='{% figure.id %}'
+          id='{{ figure.id }}'
           title='{% if figure.title %}{{ figure.title | markdownify }}{% endif %}'
           alt='{% if figure.title %}{{ figure.title | markdownify }}{% endif %}'
-          {% if figure.caption %} data-caption='{{ figure.caption | markdownify | safe }}' {% endif %}
+          {% if figure.caption %} data-caption='{{ figure.caption | markdownify | strip_html }}' {% endif %}
           data-catalogue-entry="true"
           aria-label="vimeo video"
           class='q-figure__media'
@@ -138,7 +136,7 @@
         <div
           id="js-deepzoom-{{ now.UnixNano }}"
           class="quire-deepzoom-entry inset"
-          {% if figure.caption %} data-caption='{{ figure.caption | markdownify | safe }}'{% endif %}
+          {% if figure.caption %} data-caption='{{ figure.caption | markdownify | strip_html }}'{% endif %}
           alt="{{ figure.alt }}"
           aria-live="polite"
           role="application"
@@ -156,10 +154,10 @@
       {% if figure.media_type == "youtube" %}
 
         <iframe
-          id='{{ .id }}'
-          title='{% if figure.title %}{{ figure.title | markdownify }}{{ end }}'
-          alt='{% if figure.title %}{{ figure.title | markdownify }}{{ end }}'
-          {% if figure.caption %} data-caption='{{ figure.caption | markdownify | safe }}'{% endif %}
+          id='{{ figure.id }}'
+          title='{% if figure.title %}{{ figure.title | markdownify }}{% endif %}'
+          alt='{% if figure.title %}{{ figure.title | markdownify }}{% endif %}'
+          {% if figure.caption %} data-caption='{{ figure.caption | markdownify | strip_html }}'{% endif %}
           data-catalogue-entry="true"
           aria-label="youtube video"
           class='q-figure__media'
@@ -174,10 +172,10 @@
       {% else if figure.media_type == "vimeo" %}
 
         <iframe
-          id='{{ .id }}'
-          title='{% if figure.title %}{{ figure.title | markdownify }}{{ end }}'
-          alt='{% if figure.title %}{{ figure.title | markdownify }}{{ end }}'
-          {% if figure.caption %} data-caption='{{ figure.caption | markdownify | safe }}'{% endif %}
+          id='{{ figure.id }}'
+          title='{% if figure.title %}{{ figure.title | markdownify }}{% endif %}'
+          alt='{% if figure.title %}{{ figure.title | markdownify }}{% endif %}'
+          {% if figure.caption %} data-caption='{{ figure.caption | markdownify | strip_html }}'{% endif %}
           data-catalogue-entry="true"
           aria-label="vimeo video"
           class='q-figure__media'
