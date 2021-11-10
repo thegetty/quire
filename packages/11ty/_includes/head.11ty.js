@@ -6,7 +6,7 @@ const jsonld = require('./page/jsonld.11ty.js')
 
 module.exports = function(data) {
 
-  const { canonicalURL, config, publication } = data
+  const { canonicalURL, config, publication, title } = data
 
   const publisherLinks = publication.publisher
     .filter(({ url }) => url)
@@ -32,7 +32,7 @@ module.exports = function(data) {
 
       ${config.online ? '<meta name="robots" content="noindex, nofollow"/>' : ''}
 
-      <title>${ config.title }</title>
+      <title>${ [title, publication.title].join(' | ') }</title>
 
       <meta name="description" content="${ publication.description.full || publication.description.one_line }">
       <meta name="keywords" content="${ keywords.join(', ') }">
