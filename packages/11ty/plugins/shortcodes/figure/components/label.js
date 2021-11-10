@@ -5,16 +5,23 @@ const { oneLine } = require('common-tags')
  * @params {string} link - the link that opens the figure modal element. If provided, the label will include a fullscreen icon.
  * @return
  */
-module.exports = function(eleventyConfig, { config }, { label, src }) {
+module.exports = function(eleventyConfig, { config }, { caption, id, label, src }) {
   const qicon = eleventyConfig.getFilter('qicon')
   const markdownify = eleventyConfig.getFilter('markdownify')
   const slugify = eleventyConfig.getFilter('slugify')
 
-  const labelIcon = src //&& showIcon
-    ? `<span class="q-figure__label-icon">
-        ${qicon('fullscreen', 'Expand')}
-      </span>`
-    : ''
+  const modalLink = function (content) {
+    return config.params.figureModal
+      ? `<a
+            href="#deepzoom-${ id }"
+            class="inline popup"
+            data-type="inline"
+            title="${markdownify(caption)}}">
+            <span class="q-figure__label-icon">${qicon('fullscreen', 'Expand')}</span>
+            ${content}
+          </a>`
+      : content
+  }
 
   let labelElement
 
@@ -24,8 +31,7 @@ module.exports = function(eleventyConfig, { config }, { label, src }) {
     const modifier = config.params.figureLabelLocation || ''
     const labelText = label ? `<span class="q-figure__label-text">${markdownify(label)}</span>` : ''
     labelElement = `<span class="q-figure__label q-figure__label--${modifier}">
-      ${labelIcon}
-      ${labelText}
+      ${modalLink(labelText)}
     </span>`
   }
 

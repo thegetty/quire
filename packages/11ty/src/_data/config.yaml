@@ -23,7 +23,7 @@ params:
   displayBiblioShort: true
   entryPageObjectLinkText: View in Collection
   entryPageSideBySideLayout: false
-  figureLabelLocation: on-top # below | on-top
+  figureLabelLocation: below # below | on-top
   figureModal: true
   figureModalIcons: true
   figureZoom: true

@@ -3,10 +3,6 @@ const { html } = require('common-tags')
 /**
  * Render an HTML <figure> element
  *
- * @todo
- * Get attributes defined directly on shortcode
- * Get attributes from figures.yml
- *
  * @param      {string}   alt
  * @param      {string}   aspectRatio
  * @param      {string}   caption
@@ -41,7 +37,7 @@ module.exports = function (eleventyConfig, { figures }, id, modifier) {
 
   const slugify = eleventyConfig.getFilter('slugify')
   const { alt, caption, credit, label, src } = figures[id]
-  const imageCaptionElement = qfigurecaption({ caption, credit, label, src })
+  const imageCaptionElement = qfigurecaption({ caption, credit, id, label, src })
   const imageElement = qfigureimage({ alt, src })
 
   return html`
