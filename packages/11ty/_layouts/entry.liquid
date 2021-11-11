@@ -45,10 +45,11 @@ Entry content, including entry image and tombstone data
           {%- assign imgPath = imageDir %}
           {%- assign imgPath = imgPath | concat: image | join: "/" %}
           <img src="{{ imgPath }}" alt="" />
-        {% else if pageObjects %}
+        {% elsif pageObjects %}
           {% for pageObject in pageObjects %}
             {% if pageObject.id %}
-              {% for object in objects.object_list | where: "id" pageObject.id %}
+              {% assign objects = objects.object_list | where: "id", pageObject.id %}
+              {% for object in objects %}
                 <div class="quire-entry__image__group-container">
                   {% assign figureLength = object.figure | size %}
                   {% if figureLength > 1 and pdf != true -%}
@@ -57,24 +58,27 @@ Entry content, including entry image and tombstone data
                   {% endif -%}
                   {% for objectFigure in object.figure %}
                     {% if objectFigure.id %}
-                      {% for figure in figures.figure_list | where: "id"  objectFigure.id %}
-                        {% render "entry-figure", "epub": epub, "pdf": pdf, "zoom": zoom, "imageDir": imageDir, "figure": figure %}
+                      {% assign objectFigures = figures.figure_list | where: "id", objectFigure.id %}
+                      {% for figure in objectFigures %}
+                        {% render "entry-figure", epub: epub, pdf: pdf, zoom: zoom, imageDir: imageDir, figure: figure %}
                       {% endfor %}
-                    {% else if objectFigure.src %}
-                      {% render "entry-figure", "epub": epub, "pdf": pdf, "zoom": zoom, "imageDir": imageDir, "figure": objectFigure %}
+                    {% elsif objectFigure.src %}
+                      {% render "entry-figure", epub: epub, pdf: pdf, zoom: zoom, imageDir: imageDir, figure: objectFigure %}
                     {% endif %}
+
                   {% endfor %}
                 </div>
               {% endfor %}
-            {% else if pageObject.figure %}
+            {% elsif pageObject.figure %}
               <div class="quire-entry__image__group-container">
               {% for pageObjectFigure in pageObject.figure %}
                 {% if pageObjectFigure.id %}
-                  {% for figure in figures.figure_list | where: "id" pageObjectFigure.id %}
-                    {% render "entry-figure", "epub": epub, "pdf": pdf, "zoom": zoom, "imageDir": imageDir, "figure" figure %}
+                  {% assign figures = figures.figure_list | where: "id", pageObjectFigure.id %}
+                  {% for figure in figures %}
+                    {% render "entry-figure", epub: epub, pdf: pdf, zoom: zoom, imageDir: imageDir, figure figure %}
                   {% endfor %}
-                {% else if pageObjectFigure.src %}
-                  {% render "entry-figure", "epub": epub, "pdf": pdf, "zoom": zoom, "imageDir": imageDir, "figure": pageObjectFigure %}
+                {% elsif pageObjectFigure.src %}
+                  {% render "entry-figure", epub: epub, pdf: pdf, zoom: zoom, imageDir: imageDir, figure: pageObjectFigure %}
                 {% endif %}
               {% endfor %}
             </div>
