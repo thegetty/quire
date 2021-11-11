@@ -22,7 +22,5 @@ module.exports = function(ids=[]) {
     console.warn(`Error: NoId: the q-ref shortcode must include one or more 'id' values that correspond to the 'id' of a figure on the page. @example {% q-ref 'fig-1', 'fig-7', 'fig-11' %}`)
   }
 
-  console.log(ids)
-
   return oneLineCommaLists`${fig} ${ids}`
 }
