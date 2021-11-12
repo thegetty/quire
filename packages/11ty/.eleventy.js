@@ -80,25 +80,28 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(syntaxHighlight)
 
   const compileBundle = (webpackConfig) => {
-    const compiler = webpack(webpackConfig)
-    compiler.run((error) => {
-      if (error) console.warn(error)
-      compiler.close((closeError) => {
-        if (closeError) console.warn(closeError)
-      })
-    });
+    return new Promise((resolve) => {
+      const compiler = webpack(webpackConfig)
+      compiler.run((error) => {
+        if (error) console.warn(error)
+        compiler.close((closeError) => {
+          if (closeError) console.warn(closeError)
+        })
+        resolve()
+      });
+    })
   }
   /**
    * Compile webpack bundle once before build
    */
-  eleventyConfig.on('beforeBuild', () => {
-    compileBundle(webpackProdConfig)
+  eleventyConfig.on('beforeBuild', async () => {
+    await compileBundle(webpackProdConfig)
   });
   /**
    * compile webpack bundle with dev config when using --watch or --serve flags; this enables webpack to watch for changes to styles and scripts
    */
-  eleventyConfig.on('beforeWatch', () => {
-    compileBundle(webpackDevConfig)
+  eleventyConfig.on('beforeWatch', async () => {
+    await compileBundle(webpackDevConfig)
   })
   /**
    * Copy static assets to the output directory
