@@ -4,7 +4,8 @@
  * Should be passed with a "type" that corresponds to an id in the "icons" partial, and an optional "description"
  *
  * Example: 
- * icon("link", "Open in new window")
+ * qicon("link", "Open in new window")
+ * {% qicon "link", "Open in new window" %}
  */
 
 const path = require('path')

@@ -3,29 +3,27 @@ layout: base.11ty.js
 description: Entry layout. This template is intended for use in catalogue-style pages where a single image or object needs to be featured prominently.
 ---
 
-{% assign entryPageSideBySideLayout =  site.params.entryPageSideBySideLayout %}
-{% assign epub =  site.params.epub %}
-{% assign imageDir =  site.params.imageDir %}
-{% assign pdf =  site.params.pdf %}
-{% assign zoom =  site.params.figureZoom %}
+{% assign entryPageSideBySideLayout =  config.params.entryPageSideBySideLayout %}
+{% assign epub = config.params.epub %}
+{% assign imageDir = config.params.imageDir %}
+{% assign pdf = config.params.pdf %}
+{% assign zoom = config.params.figureZoom %}
 {% assign pageClasses = class %}
 {% assign pageObjects = object %}
-
-{{ $site :=  $ }}
 
 {% comment %}
 Entry content, including entry image and tombstone data
 {% endcomment %}
 
 <article class="{% render "page/class" %} quire-entry" id="main" role="main">
-  <div {% if entryPageSideBySideLayout == true or pageClasses contains "side-by-side" %} {% if pdf !== true and epub !== true %} class="side-by-side" {% endif %} {% endif %} data="{{ zoom }}">  
+  <div {% if entryPageSideBySideLayout == true or pageClasses contains "side-by-side" %} {% if pdf != true and epub != true %} class="side-by-side" {% endif %} {% endif %} data="{{ zoom }}">  
     
     {% if epub == true %}
     <header class="quire-entry__header">
       <div class="container">
           {% comment %} Title {% endcomment %}
           <h1 class="quire-page__header__title" id="{{ title | slugify }}">
-            {% if label %}<span>{{ label }}{{ site.params.pageLabelDivider }}</span>{% endif %}
+            {% if label %}<span>{{ label }}{{ config.params.pageLabelDivider }}</span>{% endif %}
             {% render "page/title", title: title, subtitle: subtitle | markdownify %}
           </h1>
       </div>
@@ -50,35 +48,39 @@ Entry content, including entry image and tombstone data
         {% elsif pageObjects %}
           {% for pageObject in pageObjects %}
             {% if pageObject.id %}
-              {% for object in objects.object_list | where: "id" pageObject.id %}
-              <div class="quire-entry__image__group-container">
-                {% assign figureLength = object.figure | size %}
-                {% if figureLength > 1 and pdf !== true -%}
-                  <button class="remove-from-epub quire-image-control quire-image-control--prev-image" id="prev-image" title="Previous image"></button>
-                  <button class="remove-from-epub quire-image-control quire-image-control--next-image" id="next-image" title="Next image"></button>
-                {% endif -%}
-                {% for objectFigure in object.figure %}
-                  {% if objectFigure.id %}
-                    {% for figure in figures.figure_list | where: "id"  objectFigure.id %}
-                      {% render "entry-figure", "pdf": pdf, "zoom": zoom, "imageDir": imageDir, "figure": figure %}
-                    {% endfor %}
-                  {% elsif objectFigure.src %}
-                    {% render "entry-figure", "pdf": pdf, "zoom": zoom, "imageDir": imageDir, "figure": objectFigure %}
-                  {% endif %}
-                {% endfor %}
-              </div>
-              {{ end }}
+              {% assign objects = objects.object_list | where: "id", pageObject.id %}
+              {% for object in objects %}
+                <div class="quire-entry__image__group-container">
+                  {% assign figureLength = object.figure | size %}
+                  {% if figureLength > 1 and pdf != true -%}
+                    <button class="remove-from-epub quire-image-control quire-image-control--prev-image" id="prev-image" title="Previous image"></button>
+                    <button class="remove-from-epub quire-image-control quire-image-control--next-image" id="next-image" title="Next image"></button>
+                  {% endif -%}
+                  {% for objectFigure in object.figure %}
+                    {% if objectFigure.id %}
+                      {% assign objectFigures = figures.figure_list | where: "id", objectFigure.id %}
+                      {% for figure in objectFigures %}
+                        {% render "entry-figure", epub: epub, pdf: pdf, zoom: zoom, imageDir: imageDir, figure: figure %}
+                      {% endfor %}
+                    {% elsif objectFigure.src %}
+                      {% render "entry-figure", epub: epub, pdf: pdf, zoom: zoom, imageDir: imageDir, figure: objectFigure %}
+                    {% endif %}
+
+                  {% endfor %}
+                </div>
+              {% endfor %}
             {% elsif pageObject.figure %}
-            <div class="quire-entry__image__group-container">
-            {% for pageObjectFigure in pageObject.figure %}
-              {% if pageObjectFigure.id %}
-                {% for figure in figures.figure_list | where: "id" pageObjectFigure.id %}
-                  {% render "entry-figure", "pdf": pdf, "zoom": zoom, "imageDir": imageDir, "figure" figure %}
-                {% endfor %}
-              {% else if pageObjectFigure.src %}
-                {% render "entry-figure", "pdf": pdf, "zoom": zoom, "imageDir": imageDir, "figure": pageObjectFigure %}
-              {% endif %}
-            {% endfor %}
+              <div class="quire-entry__image__group-container">
+              {% for pageObjectFigure in pageObject.figure %}
+                {% if pageObjectFigure.id %}
+                  {% assign figures = figures.figure_list | where: "id", pageObjectFigure.id %}
+                  {% for figure in figures %}
+                    {% render "entry-figure", epub: epub, pdf: pdf, zoom: zoom, imageDir: imageDir, figure figure %}
+                  {% endfor %}
+                {% elsif pageObjectFigure.src %}
+                  {% render "entry-figure", epub: epub, pdf: pdf, zoom: zoom, imageDir: imageDir, figure: pageObjectFigure %}
+                {% endif %}
+              {% endfor %}
             </div>
             {% endif %}
           {% endfor %}
@@ -87,11 +89,11 @@ Entry content, including entry image and tombstone data
     </div>
 
     <div class="quire-entry__content">
-      {% if epub !== true %}
+      {% if epub != true %}
         <header class="quire-entry__header">
           <div class="container">
-            <h1 class="quire-page__header__title" id="{{ title | urlize }}">
-              {% if label %}<span>{{ label }}{{ site.params.pageLabelDivider }}</span>{% endif %}
+            <h1 class="quire-page__header__title" id="{{ title | url }}">
+              {% if label %}<span>{{ label }}{{ config.params.pageLabelDivider }}</span>{% endif %}
               {% render "page/title", title: title, subtitle: subtitle | markdownify %}
             </h1>
             {% render "page/contributor" %}

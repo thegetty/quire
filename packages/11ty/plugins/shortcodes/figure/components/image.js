@@ -8,19 +8,42 @@ const path = require('path')
  * @return     {String}  An HTML <img> element
  */
 module.exports = function (eleventyConfig, { config }, figure) {
-  const { alt='', src='' } = figure
+  const { alt='', caption, id, src='' } = figure
   const imageSrc = path.join('/_assets/img', src)
 
+  const markdownify = eleventyConfig.getFilter('markdownify')
   const qfigurecaption = eleventyConfig.getFilter('qfigurecaption')
   const qfigurelabel = eleventyConfig.getFilter('qfigurelabel')
+  const qfiguremodallink = eleventyConfig.getFilter('qfiguremodallink')
 
   const labelElement = qfigurelabel(figure)
+  const imageElement = `<img alt="${alt}" class="q-figure__image" src="${imageSrc}"/>`
+
+  const imagePreviewElement =
+    (config.params.figureLabelLocation === 'on-top')
+      ? qfiguremodallink(figure, imageElement + qfigurelabel(figure))
+      : imageElement
+
   const imageCaptionElement = (config.params.figureLabelLocation === 'below') 
     ? qfigurecaption(figure, labelElement) 
     : qfigurecaption(figure)
 
   return html`
-    <img alt="${alt}" class="q-figure__image" src="${imageSrc}"/>
+    <figure
+      id="deepzoom-${id}"
+      title="${markdownify(caption)}"
+      class="quire-figure leaflet-outer-wrapper mfp-hide notGet"
+    >
+      <div
+        id="js-deepzoom-${ id }"
+        class="quire-deepzoom inset leaflet-inner-wrapper "
+        aria-label="Zoomable image"
+        aria-live="polite"
+        role="application"
+        src="${imageSrc}"
+      ></div>
+    </figure>
+    ${imagePreviewElement}
     ${imageCaptionElement}
   `
 }

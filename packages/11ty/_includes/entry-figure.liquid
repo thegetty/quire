@@ -1,51 +1,47 @@
-{% assign imgPath = imageDir %}
-{% assign imgPath = imageDir | concat: figure.src | join: "/" %}
+{% assign imgPath = '/_assets' | concat: imageDir | concat: figure.src | join: "/" | url %}
 
 <figure data-media-type="{{ figure.media_type }}">
 
   {% if pdf == true or epub == true %}
-
+    pdf
     <div class="q-figure__media-fallback">
       {% if figure.src %}
         <div class="q-figure__wrapper">
-          <img src='{{ printf "%s/%s" (.site.Scratch.Get "imageDir") figure.src }}'/>
+          <img src='{{ imgPath }}'/>
         </div>
       {% endif %}
 
-  {% else %}
+      {% if figure.media_type %}
 
-    {% if figure.media_type %}
+        <div class="placeholder">
 
-      <div class="placeholder">
+          {%- if figure.media_type == "youtube" or figure.media_type == "vimeo" %}
+            {% if pdf == true %}
+              <i class="material-icons md-24">videocam</i>
+            {% else %}
+              <img src='{{ imageDir }}/icons/baseline-videocam-24px.png' />
+            {% endif %}
 
-        {%- if figure.media_type == "youtube" or figure.media_type == "vimeo" %}
-
-          {% if pdf == true %}
-            <i class="material-icons md-24">videocam</i>
-          {% else %}
-            <img src='{{ imageDir }}/icons/baseline-videocam-24px.png' />
           {% endif %}
 
-        {% endif %}
+          {%- if figure.media_type == "soundcloud" or figure.media_type == "audio" %}
 
-        {%- if figure.media_type == "soundcloud" or figure.media_type == "audio" %}
+            {% if pdf == true %}
+              <i class="material-icons md-24 audio">headset</i>
+            {% else %}
+              <img src='{{ imageDir }}/icons/baseline-headset-24px.png'/>
+            {% endif %}
 
-          {% if pdf == true %}
-            <i class="material-icons md-24 audio">headset</i>
-          {% else %}
-            <img src='{{ imageDir }}/icons/baseline-headset-24px.png'/>
           {% endif %}
-
-        {% endif %}
-    {% endif %}
+        </div>
+      {% endif %}
     </div>
-  {%- endif -%}
 
-  {% if figure.title %}
-    <h5 class="header">
-      {{ figure.title | markdownify }}
-    </h5>
-  {% endif %}
+    {% if figure.title %}
+      <h5 class="header">
+        {{ figure.title | markdownify }}
+      </h5>
+    {% endif %}
 
     {% if figure.media_type %}
       <p class="caption">
@@ -61,84 +57,76 @@
       {% endif %}
 
       </p>
-
     {% endif %}
-  </div>
+
   {% else %}
+    {% if figure.media_type == "iiif" %}
+      <div
+        id="js-iiif-{{ figure.id }}"
+        class="quire-deepzoom-entry inset"
+        aria-live="polite"
+        role="application"
+        aria-label="Zoomable image"
+        data-catalogue-entry="true"
+        {% if figure.iiif %} data-iiif="{{ figure.iiif }}" {% endif %}
+        {% if figure.zoom_max %} data-zoom-max="{{ figure.zoom_max }}" {% endif %}
+        {% if figure.caption %} data-caption='{{ figure.caption | markdownify | strip_html }}' {% endif %}
+      ></div>
 
-    {% if zoom == true %}
+    {% elsif figure.media_type == "map" %}
+      <div
+        id="js-map-{{ figure.id }}"
+        class="quire-map-entry inset"
+        aria-live="polite"
+        aria-label="Zoomable map"
+        data-catalogue-entry="true"
+        {% if figure.lat %}  data-lat="{{ figure.lat }}" {% endif %}
+        {% if figure.long %} data-long="{{ figure.long }}" {% endif %}
+        {% if figure.geojson %} data-geojson="{{ config.baseURL }}{{ figure.geojson }}" {% endif %}
+        {% if figure.caption %} data-caption='{{ figure.caption | markdownify | strip_html }}' {% endif %}
+      >
+      </div>
 
-      {% if figure.media_type == "iiif" %}
+    {% elsif figure.media_type == "youtube" %}
+      <iframe
+        id='{{ figure.id }}'
+        {% if figure.title %} title='{{ figure.title | markdownify }}'{% endif %}
+        {% if figure.title %} alt='{{ figure.title | markdownify }}'{% endif %}
+        {% if figure.caption %} data-caption='{{ figure.caption | markdownify | strip_html }}' {% endif %}
+        data-catalogue-entry="true"
+        aria-label="youtube video"
+        class='q-figure__media'
+        src='https://www.youtube-nocookie.com/embed/{{ figure.media_id }}?rel=0&amp;showinfo=0'
+        frameborder='0'
+        webkitallowfullscreen
+        mozallowfullscreen
+        allowfullscreen
+      >
+      </iframe>
 
+    {% elsif figure.media_type == "vimeo" %}
+      <iframe
+        id='{{ figure.id }}'
+        title='{% if figure.title %}{{ figure.title | markdownify }}{% endif %}'
+        alt='{% if figure.title %}{{ figure.title | markdownify }}{% endif %}'
+        {% if figure.caption %} data-caption='{{ figure.caption | markdownify | strip_html }}' {% endif %}
+        data-catalogue-entry="true"
+        aria-label="vimeo video"
+        class='q-figure__media'
+        src='https://player.vimeo.com/video/{{ figure.media_id }}'
+        frameborder='0'
+        webkitallowfullscreen
+        mozallowfullscreen
+        allowfullscreen
+      >
+      </iframe>
+
+    {% else %}
+      {% if zoom == true %}
         <div
-          id="js-iiif-{{ now.UnixNano }}"
+          id="js-deepzoom-{{ figure.id }}"
           class="quire-deepzoom-entry inset"
-          aria-live="polite"
-          role="application"
-          aria-label="Zoomable image"
-          data-catalogue-entry="true"
-          {% if figure.iiif %} data-iiif="{{ figure.iiif }}" {% endif %}
-          {% if figure.zoom_max %} data-zoom-max="{{ figure.zoom_max }}" {% endif %}
-          {% if figure.caption %} data-caption='{{ figure.caption | markdownify | safe }}' {% endif %}
-        />
-
-      {% else if figure.media_type == "map" %}
-
-        <div
-          id="js-map-{{ now.UnixNano }}"
-          class="quire-map-entry inset"
-          aria-live="polite"
-          aria-label="Zoomable map"
-          data-catalogue-entry="true"
-          {% if figure.lat %}  data-lat="{{ figure.lat }}" {% endif %}
-          {% if figure.long %} data-long="{{ figure.long }}" {% endif %}
-          {% if figure.geojson %} data-geojson="{{ config.baseURL }}{{ figure.geojson }}" {% endif %}
-          {% if figure.caption %} data-caption='{{ figure.caption | markdownify | safe }}' {% endif %}
-        >
-        </div>
-
-      {% else if figure.media_type == "youtube" %}
-
-        <iframe
-          id='{{ figure.id }}'
-          title='{% if figure.title %}{{ figure.title | markdownify }}{% endif %}'
-          alt='{% if figure.title %}{{ figure.title | markdownify }}{% endif %}'
-          {% if figure.caption %} data-caption='{{ figure.caption | markdownify | safe }}' {% endif %}
-          data-catalogue-entry="true"
-          aria-label="youtube video"
-          class='q-figure__media'
-          src='https://www.youtube-nocookie.com/embed/{{ figure.media_id }}?rel=0&amp;showinfo=0'
-          frameborder='0'
-          webkitallowfullscreen
-          mozallowfullscreen
-          allowfullscreen
-        >
-        </iframe>
-
-      {% else if figure.media_type == "vimeo" %}
-
-        <iframe
-          id='{% figure.id %}'
-          title='{% if figure.title %}{{ figure.title | markdownify }}{% endif %}'
-          alt='{% if figure.title %}{{ figure.title | markdownify }}{% endif %}'
-          {% if figure.caption %} data-caption='{{ figure.caption | markdownify | safe }}' {% endif %}
-          data-catalogue-entry="true"
-          aria-label="vimeo video"
-          class='q-figure__media'
-          src='https://player.vimeo.com/video/{{ figure.media_id }}'
-          frameborder='0'
-          webkitallowfullscreen
-          mozallowfullscreen
-          allowfullscreen
-        >
-        </iframe>
-
-      {% else %}
-
-        <div
-          id="js-deepzoom-{{ now.UnixNano }}"
-          class="quire-deepzoom-entry inset"
-          {% if figure.caption %} data-caption='{{ figure.caption | markdownify | safe }}'{% endif %}
+          {% if figure.caption %} data-caption='{{ figure.caption | markdownify | strip_html }}'{% endif %}
           alt="{{ figure.alt }}"
           aria-live="polite"
           role="application"
@@ -148,70 +136,26 @@
         >
         </div>
         <img style="display: none" src="{{ imgPath }}" alt="{{ figure.alt }}" />
-
-      {% endif %}
-
-    {% else %}
-
-      {% if figure.media_type == "youtube" %}
-
-        <iframe
-          id='{{ .id }}'
-          title='{% if figure.title %}{{ figure.title | markdownify }}{{ end }}'
-          alt='{% if figure.title %}{{ figure.title | markdownify }}{{ end }}'
-          {% if figure.caption %} data-caption='{{ figure.caption | markdownify | safe }}'{% endif %}
-          data-catalogue-entry="true"
-          aria-label="youtube video"
-          class='q-figure__media'
-          src='https://www.youtube-nocookie.com/embed/{{ figure.media_id }}?rel=0&amp;showinfo=0'
-          frameborder='0'
-          webkitallowfullscreen
-          mozallowfullscreen
-          allowfullscreen
-        >
-        </iframe>
-
-      {% else if figure.media_type == "vimeo" %}
-
-        <iframe
-          id='{{ .id }}'
-          title='{% if figure.title %}{{ figure.title | markdownify }}{{ end }}'
-          alt='{% if figure.title %}{{ figure.title | markdownify }}{{ end }}'
-          {% if figure.caption %} data-caption='{{ figure.caption | markdownify | safe }}'{% endif %}
-          data-catalogue-entry="true"
-          aria-label="vimeo video"
-          class='q-figure__media'
-          src='https://player.vimeo.com/video/{{ figure.media_id }}'
-          frameborder='0'
-          webkitallowfullscreen
-          mozallowfullscreen
-          allowfullscreen
-        >
-        </iframe>
-
       {% else %}
-
         <img src="{{ imgPath }}" alt="{{ figure.alt }}" />
-
       {% endif %}
-
     {% endif %}
 
   {% endif %}
 
   {% if figure.caption or figure.credit %}
-      <div class="quire-image-control quire-image-info">
-        <span class="quire-image-info__wrap">
-          {% if figure.caption %}<span class="quire-image-info__caption">{{ figure.caption | markdownify }}</span>{% endif %}
-          {% if figure.credit %}<span class="quire-image-info__credit">{{ figure.credit | markdownify }}</span>{% endif %}
-        </span>
-      </div>
+    <div class="quire-image-control quire-image-info">
+      <span class="quire-image-info__wrap">
+        {% if figure.caption %}<span class="quire-image-info__caption">{{ figure.caption | markdownify }}</span>{% endif %}
+        {% if figure.credit %}<span class="quire-image-info__credit">{{ figure.credit | markdownify }}</span>{% endif %}
+      </span>
+    </div>
   {% endif %}
 
   <div class="quire-image-counter-download-container wtf">
     {% if figure.download %}
       <a href="{{ imgPath }}" target="_blank" class="remove-from-epub quire-image-control quire-image-control--download" title="Download image" download>
-        {%- render "icon", type: "download", description: "Download image" -%}
+        {%- qicon "download" "Download image" -%}
       </a>
     {% endif %}
   </div>
