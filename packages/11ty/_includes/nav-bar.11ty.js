@@ -192,16 +192,9 @@ module.exports = function(data) {
       </nav>
 
       <div class="quire-progress-bar">
-        <!--
-        {{ $len := len $pages }}
-        {{ range $index, $element := $pages }}
-          {{ if eq . $.Page }}
-            <div style="width: calc(100% * ({{ add $index 1 }} / {{ $len }}));">
-              <span>{{ add $index 1 }}/{{ $len }}</span>
-            </div>
-          {{ end }}
-        {{ end }}
-        -->
+        <div style="width: calc(100% * (${currentPageIndex + 1} / ${pages.length}));">
+          <span>${currentPageIndex + 1}/${pages.length}</span>
+        </div>
       </div>
 
     </div>
