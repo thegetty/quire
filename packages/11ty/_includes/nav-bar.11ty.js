@@ -42,7 +42,7 @@ module.exports = function(data) {
   const home = '/'
   const isHomePage = page.url === home
 
-  // @TODO figure out js module-friendly filters
+  // @TODO figure out js module-friendly filters @see ./menu-header.11ty.js
   const markdownify = (input) => input ? input : ''
   // @TODO figure out js module-friendly filters -- this one should work though
   const truncate = (text, limit) => text.slice(0, limit)
