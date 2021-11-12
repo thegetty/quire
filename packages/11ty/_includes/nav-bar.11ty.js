@@ -71,7 +71,8 @@ module.exports = function(data) {
 
   const navBarPreviousButton = () => {
     if (!previousPage) return ''
-    const { label, short_title, title, url } = previousPage
+    const { data, label, url } = previousPage
+    const { short_title, title } = data
     return `
       <li class="quire-navbar-page-controls__item quire-previous-page">
         <a href="${url}" rel="previous">
@@ -113,7 +114,8 @@ module.exports = function(data) {
 
   const navBarNextButton = () => {
     if (isHomePage || !nextPage) return ''
-    const { label, short_title, title, url } = nextPage
+    const { data, label, url } = nextPage
+    const { short_title, title } = data
     return `
       <li class="quire-navbar-page-controls__item quire-next-page">
         <a href="${url}" rel='next'>
