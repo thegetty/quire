@@ -3,8 +3,8 @@ layout: base
 description: splash page layout
 ---
 {%- if image -%}
-  {% assign imagePath = site.params.imageDir %}
-  {% assign imagePath = site.params.imageDir | concat: image %}
+  {% assign imagePath = eleventyComputed.imageDir %}
+  {% assign imagePath = eleventyComputed.imageDir | append: '/' | append: image %}
 {% endif %}
 
 <article class="{% render "page/class" %} quire-splash" id="main" role="main">
