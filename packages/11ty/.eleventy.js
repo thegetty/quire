@@ -86,23 +86,19 @@ module.exports = function(eleventyConfig) {
         if (error) console.warn(error)
         compiler.close((closeError) => {
           if (closeError) console.warn(closeError)
+          resolve()
         })
-        resolve()
       });
     })
   }
+
   /**
    * Compile webpack bundle once before build
    */
   eleventyConfig.on('beforeBuild', async () => {
     await compileBundle(webpackProdConfig)
   });
-  /**
-   * compile webpack bundle with dev config when using --watch or --serve flags; this enables webpack to watch for changes to styles and scripts
-   */
-  eleventyConfig.on('beforeWatch', async () => {
-    await compileBundle(webpackDevConfig)
-  })
+
   /**
    * Copy static assets to the output directory
    * @see {@link https://www.11ty.dev/docs/copy/ Passthrough copy in 11ty}
