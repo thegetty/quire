@@ -17,7 +17,7 @@ module.exports = function(data) {
 
   /**
    * A sorted list of all pages
-   * @TODO this should probably be handled elsewhere and made globally available, like `eleventyComputed.js`
+   * @TODO refactor this hacky pages/nextPage/previousPage stuff to use Eleventy pagination https://www.11ty.dev/docs/pagination/nav/
    */
   const pages = collections.all
     .sort((a, b) => a.data.weight - b.data.weight)
