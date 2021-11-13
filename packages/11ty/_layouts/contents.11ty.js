@@ -59,7 +59,7 @@ module.exports = class Contents {
     const listItems = pages.map((page) => {
       let listItem = ''
       const currentPage = page.url === tocPage.url;
-      if (page.data.layout !== 'contents' && !page.data.section) {
+      if (page.data.layout !== 'contents' && !section && !page.data.section) {
         if (!currentPage) {
           return `
             <li class="page-item">
@@ -75,9 +75,9 @@ module.exports = class Contents {
           listItem += `<li class="section-item">${contentsItemToc(this, data, page)}`;
         } else {
           const sectionPage = pages.find(
-            (item) => page.data.section === item.data.section
+            (item) => page.data.section === item.data.section && item.data.layout === 'contents'
           );
-          listItem += `<li class="section-item no-landing">`;
+          listItem += `<li class="section-item no-landing">`
           listItem += `<div class="list-header">${sectionPage.data.title}</div>`;
         }
         if (config.params.tocType === 'full') {
