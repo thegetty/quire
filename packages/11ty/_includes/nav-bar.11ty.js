@@ -15,16 +15,20 @@ module.exports = function(data) {
 
   const { imageDir, pageLabelDivider } = config.params
 
+  const home = '/'
+  const isHomePage = page.url === home
+
   /**
    * A sorted list of all pages
    * @TODO refactor this hacky pages/nextPage/previousPage stuff to use Eleventy pagination https://www.11ty.dev/docs/pagination/nav/
    */
   const pages = collections.all
-    .sort((a, b) => a.data.weight - b.data.weight)
-    .filter(({ type, url }) => type !== 'data' &&
+    .filter(({ data, title, type, url }) => data.weight &&
+      type !== 'data' &&
       url !== '/cover/' && // handles duplicate `/cover/`, `/` routes with added `index.md`
       url !== '/catalogue/catalogue-index/' // handles duplicate `/catalogue/catalogue-index`, `/catalogue/`, routes with added `/catalogue/index.md`
     )
+    .sort((a, b) => parseInt(a.data.weight) - parseInt(b.data.weight))
 
   const currentPageIndex = pages.findIndex(({ url }) => url === page.url)
 
@@ -38,9 +42,6 @@ module.exports = function(data) {
   )
     ? pages[currentPageIndex + 1]
     : null
-
-  const home = '/'
-  const isHomePage = page.url === home
 
   // @TODO figure out js module-friendly filters @see ./menu-header.11ty.js
   const markdownify = (input) => input ? input : ''
