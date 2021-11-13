@@ -1,3 +1,4 @@
+const { html } = require('common-tags')
 const head = require('../_includes/head.11ty.js')
 const icons = require('../_includes/icons.11ty.js')
 const iconscc = require('../_includes/icons-cc.11ty.js')
@@ -9,8 +10,8 @@ const scripts = require ('../_includes/scripts.11ty.js')
 module.exports = function(data) {
   const { content, publication } = data
 
-  return `
-  <!doctype html>
+  return html`
+    <!doctype html>
     <html lang="${ publication.language }">
       ${head(data)}
       <body>
