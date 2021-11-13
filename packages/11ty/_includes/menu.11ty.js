@@ -4,34 +4,22 @@
  * by default. Users with JS disabled will alwasy see the menu in its expanded state.
  */
 // const copyright = require('./copyright.11ty.js')
-// const contentsList = require('./contents-list.11ty.js')
+const menuList = require('./menuList.11ty.js')
 const menuHeader = require('./menu-header.11ty.js')
 // const linkList = require('./link-list.html')
 
 module.exports = function(data) {
+  const { imageDir } = data
   return `
-    <!--
-      {{- $contents := dict "site" .Site "contentsScope" .Site.Pages "contentsType" .Site.Params.menuType "contentsLocation" ".Params.menu" "contentsPage" . }}
-    -->
     <div
       class="quire-menu menu"
       role="banner"
       id="site-menu__inner"
     >
-      <!--
-        {{- if isset $.Site.Params "imagedir" }}
-        {{ $.Scratch.Set "imageDir" $.Site.Params.imageDir }}
-        {{ else }}
-        {{ $.Scratch.Set "imageDir" "" }}
-        {{ end -}}
-        {{- $imgDir := $.Scratch.Get "imageDir" -}}
-      -->
       ${menuHeader(data)}
       <nav id="nav" class="quire-menu__list menu-list" role="navigation" aria-label="full">
         <h3 class="visually-hidden">Table of Contents</h3>
-        <!--
-##        {{- partial "contents-list.html" $contents -}}
-        -->
+        <ul>${menuList(data)}</ul>
       </nav>
 
       <!--
