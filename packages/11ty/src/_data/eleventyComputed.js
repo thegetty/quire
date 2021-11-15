@@ -9,6 +9,18 @@ module.exports = {
   imageDir: '/_assets/img/',
   navigation: {
     id: (data) => data.title,
-    parent: (data) => data.parent
-  }
+    parent: (data) => data.parent,
+  },
+  pages: ({ collections, config }) => {
+    if (!collections.all) return [];
+    return collections.all
+      .filter(({ data }) => {
+        return (
+          !(config.params.pdf && data.pdf === false) &&
+          !(config.params.epub && data.epub === false) &&
+          data.type !== 'data'
+        )
+      })
+      .map((item) => item)
+  },
 }
