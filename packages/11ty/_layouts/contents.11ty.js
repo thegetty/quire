@@ -73,7 +73,7 @@ module.exports = class Contents {
           listItem += `<ul>${subListItems.join('')}</ul>`;
         }
         listItem += "</li>";
-        return listItem;
+        return listItem
       }
     });
 
