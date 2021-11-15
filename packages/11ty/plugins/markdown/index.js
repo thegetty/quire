@@ -48,6 +48,6 @@ module.exports = function(eleventyConfig, options) {
    * Add a universal template filter to render markdown inline
    */
   eleventyConfig.addFilter('markdownify', (content) => {
-    return markdownLibrary.renderInline(content)
+    return content ? markdownLibrary.renderInline(content) : ''
   })
 }
