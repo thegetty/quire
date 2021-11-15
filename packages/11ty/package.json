@@ -5,10 +5,14 @@
   "description": "",
   "main": ".eleventy.js",
   "scripts": {
-    "clean": "del ./_site",
-    "debug": "DEBUG=Eleventy* eleventy",
-    "dev": "eleventy --serve --watch",
-    "build": "eleventy",
+    "build": "ELEVENTY_ENV=production npx eleventy",
+    "clean": "npx del ./_site",
+    "debug": "DEBUG=Eleventy* npx eleventy --dryrun",
+    "dev": "ELEVENTY_ENV=development npx eleventy --serve",
+    "prebuild": "npm run clean",
+    "prestart": "npm run build",
+    "serve": "npx http-server ./_site",
+    "start": "npm run serve",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -18,7 +22,7 @@
   "author": "Getty Digital",
   "license": "J Paul Getty Trust",
   "devDependencies": {
-    "@11ty/eleventy": "^1.0.0-beta.4",
+    "@11ty/eleventy": "^1.0.0-beta.6",
     "@11ty/eleventy-img": "^1.0.0",
     "@11ty/eleventy-navigation": "^0.3.2",
     "@11ty/eleventy-plugin-syntaxhighlight": "^3.1.3",
@@ -31,6 +35,7 @@
     "css-minimizer-webpack-plugin": "^3.1.1",
     "del-cli": "^4.0.1",
     "eslint": "^8.2.0",
+    "http-server": "^14.0.0",
     "iiif-processor": "^1.0.0",
     "js-yaml": "^4.1.0",
     "json5": "^2.2.0",
@@ -52,6 +57,7 @@
   },
   "dependencies": {
     "bulma": "^0.9.3",
+    "fs": "0.0.1-security",
     "hammerjs": "^2.0.8",
     "intersection-observer": "^0.12.0",
     "jquery": "^3.6.0",
