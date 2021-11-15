@@ -11,7 +11,7 @@
  * one in the range is linked to.
  */
 module.exports = function(data) {
-  const { collections, config, page } = data
+  const { collections, config, pages, page } = data
 
   const { imageDir, pageLabelDivider } = config.params
 
@@ -22,13 +22,6 @@ module.exports = function(data) {
    * A sorted list of all pages
    * @TODO refactor this hacky pages/nextPage/previousPage stuff to use Eleventy pagination https://www.11ty.dev/docs/pagination/nav/
    */
-  const pages = collections.all
-    .filter(({ data, title, type, url }) => data.weight &&
-      type !== 'data' &&
-      url !== '/cover/' && // handles duplicate `/cover/`, `/` routes with added `index.md`
-      url !== '/catalogue/catalogue-index/' // handles duplicate `/catalogue/catalogue-index`, `/catalogue/`, routes with added `/catalogue/index.md`
-    )
-    .sort((a, b) => parseInt(a.data.weight) - parseInt(b.data.weight))
 
   const currentPageIndex = pages.findIndex(({ url }) => url === page.url)
 
