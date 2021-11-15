@@ -5,12 +5,12 @@
  * It is scoped to show the contents of the full site. 
  * Pages can be removed from the TOC indivudally by setting toc to `false` in the page yaml.
  */
-const contentsItemToc = require("../_includes/contentsItemToc.11ty.js");
+const contentsItemToc = require("../_includes/contentsItemToc.11ty.js")
 
 module.exports = class Contents {
   data() {
     return {
-      layout: "base.11ty.js"
+      layout: 'base.11ty.js'
     }
   }
 
@@ -21,8 +21,9 @@ module.exports = class Contents {
       config,
       content,
       page: tocPage,
+      pages,
       section
-    } = data;
+    } = data
 
     const contentElement = content
       ? `
@@ -32,29 +33,11 @@ module.exports = class Contents {
           </div>
         </div>
         `
-      : "";
-    const containerClass = className === "grid" ? "is-fullhd" : "";
-    const contentsListClass = ["abstract", "brief", "grid"].includes(className)
+      : ""
+    const containerClass = className === 'grid' ? 'is-fullhd' : ''
+    const contentsListClass = ['abstract', 'brief', 'grid'].includes(className)
       ? className
-      : "list";
-
-    /**
-     * @todo get pages from global data
-     */
-    let pages;
-    switch (true) {
-      case config.params.pdf:
-        pages = collections.all.filter(({ pdf }) => pdf);
-        break;
-      case config.params.epub:
-        pages = collections.all.filter(({ epub }) => epub);
-        break;
-      default:
-        pages = collections.all; // this might need to be filtered by online != 'false'
-        break;
-    }
-    pages = pages.filter(({data}) => data.type !== 'data')
-
+      : 'list'
     let renderedSection
     const listItems = pages.map((page) => {
       let listItem = ''

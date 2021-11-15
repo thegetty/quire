@@ -3,13 +3,9 @@ const contentsItemMenu = require("./contentsItemMenu.11ty.js")
 module.exports = function (data) {
   const {
     collections,
-    config
+    config,
+    pages
   } = data
-
-  /**
-   * @todo get pages from global data
-   */
-  const pages = collections.all.filter(({ data }) => data.type !== "data")
 
   let renderedSection
 
