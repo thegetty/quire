@@ -8,6 +8,7 @@ const path = require('path')
 const qFilters = require('./plugins/filters')
 const qFrontmatter = require('./plugins/frontmatter')
 const qShortcodes = require('./plugins/shortcodes')
+const renderPlugin = require("@11ty/eleventy/src/Plugins/RenderPlugin");
 const sass = require('sass')
 const syntaxHighlight = require('@11ty/eleventy-plugin-syntaxhighlight')
 const toml = require('toml')
@@ -78,6 +79,11 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(iiifPlugin)
   eleventyConfig.addPlugin(navigationPlugin)
   eleventyConfig.addPlugin(syntaxHighlight)
+
+  /**
+   * Allow templating languages to be freely mixed with `this.renderTemplate()`
+   */
+  eleventyConfig.addPlugin(renderPlugin)
 
   const compileBundle = (webpackConfig) => {
     return new Promise((resolve) => {

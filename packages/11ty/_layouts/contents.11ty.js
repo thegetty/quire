@@ -94,8 +94,8 @@ module.exports = class Contents {
       }
     });
 
-    return `
-      <div class="{% render "page/class" %} quire-contents" id="main" role="main">
+    return this.renderTemplate(
+      `<div class="{% render "page/class" %} quire-contents" id="main" role="main">
         {% render "page/header" %}
         <section class="section quire-page__content" id="content">
           ${contentElement}
@@ -113,7 +113,9 @@ module.exports = class Contents {
             {% render "footer-buttons" %}
           </div>
         </section>
-      </div>
-      `;
+      </div>`,
+      "liquid",
+      data.argData
+    );
   }
 };
