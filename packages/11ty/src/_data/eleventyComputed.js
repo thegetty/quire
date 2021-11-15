@@ -15,12 +15,13 @@ module.exports = {
     if (!collections.all) return [];
     return collections.all
       .filter(({ data }) => {
+        const { epub, pdf, type, url } = data
         return (
-          !(config.params.pdf && data.pdf === false) &&
-          !(config.params.epub && data.epub === false) &&
-          data.type !== 'data'
+          !(config.params.pdf && pdf === false) &&
+          !(config.params.epub && epub === false) &&
+          type !== 'data'
         )
       })
-      .map((item) => item)
+      .sort((a, b) => parseInt(a.data.weight) - parseInt(b.data.weight))
   },
 }
