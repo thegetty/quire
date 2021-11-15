@@ -1,3 +1,5 @@
-Eleventy _template_ files
+## Language agnostic _template_ files
 
-> Just like the `_includes` directory, these files will not be processed as full template files, but can be consumed by other templates.
+> Just like files in the `_includes` directory, files in this directory will not be processed as full template files, but can be consumed by other templates.
+
+See [Eleventy documention for optional directory for layouts](https://www.11ty.dev/docs/config/#directory-for-layouts-(optional))
