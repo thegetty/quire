@@ -1,3 +1,8 @@
+{% assign config = data.config %}
+{% assign image = data.image %}
+{% assign subtitle = data.subtitle %}
+{% assign title = data.title %}
+
 <section class="{% if title == 'title page' or title == 'half title page' %}is-screen-only {% endif %}quire-page__header hero">
   <div class="hero-body">
     <h1 class="quire-page__header__title" id="{{ title | slugify }}">
