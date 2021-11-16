@@ -9,8 +9,8 @@ module.exports = function({ publication }) {
   const endPunctuation = '!?'.includes(lastLetter)
     ? ''
     : ':'
-  let siteTitle = `${title}${endPunctuation}`
-  if (subtitle) siteTitle += ` ${subtitle}`
+  let siteTitle = `${title}`
+  if (subtitle) siteTitle += `${endPunctuation} ${subtitle}`
   if (readingLine) siteTitle += ` ${readingLine}`
   return siteTitle
 }
