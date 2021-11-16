@@ -10,4 +10,4 @@ See also site-title.liquid
   {% assign endPunctuation = ":" %}
 {% endunless %}
 
-{{- title }}{{endPunctuation}}{% if subtitle %} {{ subtitle }}{% endif -%}
+{{- title }}{% if subtitle %}{{endPunctuation}} {{ subtitle }}{% endif -%}
