@@ -9,7 +9,6 @@ description: Entry layout. This template is intended for use in catalogue-style 
 {% assign pdf = config.params.pdf %}
 {% assign zoom = config.params.figureZoom %}
 {% assign pageClasses = class %}
-{% assign pageObjects = object %}
 
 {% comment %}
 Entry content, including entry image and tombstone data
@@ -46,43 +45,17 @@ Entry content, including entry image and tombstone data
           {%- assign imgPath = imgPath | concat: image | join: "/" %}
           <img src="{{ imgPath }}" alt="" />
         {% elsif pageObjects %}
-          {% for pageObject in pageObjects %}
-            {% if pageObject.id %}
-              {% assign objects = objects.object_list | where: "id", pageObject.id %}
-              {% for object in objects %}
-                <div class="quire-entry__image__group-container">
-                  {% assign figureLength = object.figure | size %}
-                  {% if figureLength > 1 and pdf != true -%}
-                    <button class="remove-from-epub quire-image-control quire-image-control--prev-image" id="prev-image" title="Previous image"></button>
-                    <button class="remove-from-epub quire-image-control quire-image-control--next-image" id="next-image" title="Next image"></button>
-                  {% endif -%}
-                  {% for objectFigure in object.figure %}
-                    {% if objectFigure.id %}
-                      {% assign objectFigures = figures.figure_list | where: "id", objectFigure.id %}
-                      {% for figure in objectFigures %}
-                        {% render "entry-figure", epub: epub, pdf: pdf, zoom: zoom, imageDir: imageDir, figure: figure %}
-                      {% endfor %}
-                    {% elsif objectFigure.src %}
-                      {% render "entry-figure", epub: epub, pdf: pdf, zoom: zoom, imageDir: imageDir, figure: objectFigure %}
-                    {% endif %}
-
-                  {% endfor %}
-                </div>
-              {% endfor %}
-            {% elsif pageObject.figure %}
-              <div class="quire-entry__image__group-container">
-              {% for pageObjectFigure in pageObject.figure %}
-                {% if pageObjectFigure.id %}
-                  {% assign figures = figures.figure_list | where: "id", pageObjectFigure.id %}
-                  {% for figure in figures %}
-                    {% render "entry-figure", epub: epub, pdf: pdf, zoom: zoom, imageDir: imageDir, figure figure %}
-                  {% endfor %}
-                {% elsif pageObjectFigure.src %}
-                  {% render "entry-figure", epub: epub, pdf: pdf, zoom: zoom, imageDir: imageDir, figure: pageObjectFigure %}
-                {% endif %}
+          {% for object in pageObjects %}
+            <div class="quire-entry__image__group-container">
+              {% assign figureLength = object.figure | size %}
+              {% if figureLength > 1 and pdf != true -%}
+                <button class="remove-from-epub quire-image-control quire-image-control--prev-image" id="prev-image" title="Previous image"></button>
+                <button class="remove-from-epub quire-image-control quire-image-control--next-image" id="next-image" title="Next image"></button>
+              {% endif -%}
+              {% for objectFigure in object.figures %}
+                {% render "entry-figure", epub: epub, pdf: pdf, zoom: zoom, imageDir: imageDir, figure: objectFigure %}
               {% endfor %}
             </div>
-            {% endif %}
           {% endfor %}
         {% endif %}
       </div>
@@ -101,7 +74,7 @@ Entry content, including entry image and tombstone data
         </header>
       {% endif %}
 
-      {% render "page/tombstone" %}
+      {% qtombstone pageObjects %}
 
       {% if abstract %}
         {% render "page/abstract", abstract: abstract %}

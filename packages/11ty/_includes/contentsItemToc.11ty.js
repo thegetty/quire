@@ -1,7 +1,17 @@
+const path = require ('path')
 const contentsImage = require('./contentsImage.11ty.js')
 const pageTitlePartial = require('./page/title.11ty.js')
-module.exports = function ({ markdownify, qicon, url }, data, page) {
-  const { config, class: contentsPageClass, figures, imageDir, objects } = data
+module.exports = function ({ getFigure, markdownify, stripHtml, qicon, url }, data, page) {
+  const {
+    config,
+    class: contentsPageClass,
+    figures,
+    image,
+    imageDir,
+    objects,
+    pageFigures,
+    pageObjects
+  } = data
 
   const brief = contentsPageClass.includes('brief')
   const grid = contentsPageClass.includes('grid')
@@ -39,28 +49,22 @@ module.exports = function ({ markdownify, qicon, url }, data, page) {
       const slugPageAttribute = page.data.layout === 'contents' ? "slug-page" : ""
       let imageElement
       switch (true) {
-        case !!page.data.figure:
+        case !!image:
           imageElement = `<div class="card-image">
               <figure class="image">
-                <img src="{{ $imgPath | relURL }}" alt="" />
+                <img src="${path.join(imageDir, image)}" alt="" />
               </figure>
             </div>`
           break
-        case !!page.data.object:
-          let firstPageFigure = page.data.object.map((object) => {
-            if (object.id) {
-              return objects.object_list.find(({ id }) => id === object.id)
-                .figure[0]
-            } else if (object.figure) {
-              return object.figure[0]
-            }
-          })[0]
-          if (firstPageFigure.id) {
-            firstPageFigure = figures.figure_list.find(
-              ({ id }) => id === firstPageFigure.id
-            )
-          }
-          imageElement = contentsImage(data, firstPageFigure)
+        case pageFigures:
+          imageElement = contentsImage(data, pageFigures[0])
+          break
+        case pageObjects:
+          const objectFigures = pageObjects
+            .map((object) => object.figure)
+            .flat()
+            .map((figure) => getFigure(figure.id))
+          imageElement = contentsImage(data, objectFigures[0])
           break
         default:
           imageElement = ''
