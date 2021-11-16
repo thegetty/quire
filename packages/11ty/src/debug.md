@@ -1,4 +1,6 @@
 ---
+title: Quire DEBUG
+toc: false
 ---
 
 <pre>
