@@ -83,7 +83,7 @@ module.exports = class Contents {
 
     return this.renderTemplate(
       `<div class="{% render 'page/class' %} quire-contents" id="main" role="main">
-        {% render "page/header" %}
+        {% render "page/header", data: data %}
         <section class="section quire-page__content" id="content">
           ${contentElement}
           <div class="container ${containerClass}">
@@ -102,7 +102,7 @@ module.exports = class Contents {
         </section>
       </div>`,
       'liquid',
-      data.argData
+      data
     );
   }
 };
