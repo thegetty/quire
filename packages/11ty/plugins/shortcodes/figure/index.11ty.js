@@ -16,12 +16,7 @@ const { html } = require('common-tags')
  *
  * @return     {boolean}  An HTML <figure> element
  */
-module.exports = function (eleventyConfig, { config, figures }, id, classes=[]) {
-  figures = Object.fromEntries(figures.figure_list.map((figure) => {
-    const { caption, credit, download, id, label, media_id, media_type, src } = figure
-    return [ id, { caption, credit, download, id, label, media_id, media_type, src }]
-  }))
-
+module.exports = function (eleventyConfig, { config }, id, classes=[]) {
   classes = typeof classes === 'string' ? [classes] : classes
 
   /**
@@ -31,23 +26,14 @@ module.exports = function (eleventyConfig, { config, figures }, id, classes=[]) 
     classes.push('q-figure')
   }
 
+  const getFigure = eleventyConfig.getFilter('getFigure')
   const qfigureimage = eleventyConfig.getFilter('qfigureimage')
   const qfigurelabel = eleventyConfig.getFilter('qfigurelabel')
   const qfiguremodallink = eleventyConfig.getFilter('qfiguremodallink')
   const qfigureyoutube = eleventyConfig.getFilter('qfigureyoutube')
   const slugify = eleventyConfig.getFilter('slugify')
 
-  if (!figures) {
-    console.warn(`Error: Unable to find figures data, see docs`)
-    return ''
-  }
-
-  const figure = figures[id]
-
-  if (!figure) {
-    console.warn(`Error: the id '${id}' was not found in 'figures.yaml'`)
-    return ''
-  }
+  const figure = getFigure(id)
 
   const mediaElement = (figure) => {
     switch(true) {

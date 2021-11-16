@@ -67,10 +67,10 @@ module.exports = function(eleventyConfig) {
    * Load Quire template filters, frontmatter, and shortcodes with namespace
    */
   eleventyConfig.namespace('q', () => {
-    eleventyConfig.addPlugin(qFilters)
     eleventyConfig.addPlugin(qFrontmatter)
     eleventyConfig.addPlugin(qShortcodes)
   })
+  eleventyConfig.addPlugin(qFilters)
 
   /**
    * Load additional plugins used for Quire projects

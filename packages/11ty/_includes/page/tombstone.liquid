@@ -2,25 +2,20 @@
  Entry tombstone data
 {% endcomment %}
 
-{% for object in page.object %}
-  {% assign objectData = objects.object_list[object.id] %}
-  {% if objectData %}
-    <section class="quire-entry__tombstone">
-      <div class="container">
-        <table class="table is-fullwidth">
-          <tbody>
-          {% tablerow key in objects.object_display_order %}
-            {% if objectData[key] %}
-            <td>{{ key | capitalize }}</td>
-            <td>{{ objectData[key] | markdownify }}</td>
-            {% endif %}
-          {% endtablerow %}
-          </tbody>
-        </table>
-        {% if objectData.link %}
-          <a class="button" href="{{ objectData.link }}" target="_blank">{{ config.params.entryPageObjectLinkText }} {% qicon 'link' '' %}</a>
+<section class="quire-entry__tombstone">
+  <div class="container">
+    <table class="table is-fullwidth">
+      <tbody>
+      {% tablerow key in object_display_order %}
+        {% if object[key] %}
+        <td>{{ key | capitalize }}</td>
+        <td>{{ object[key] | markdownify }}</td>
         {% endif %}
-      </div>
-    </section>
-  {% endif %}
-{% endfor %}
+      {% endtablerow %}
+      </tbody>
+    </table>
+    {% if object.link %}
+      <a class="button" href="{{ object.link }}" target="_blank">{{ config.params.entryPageObjectLinkText }} {% qicon 'link' '' %}</a>
+    {% endif %}
+  </div>
+</section>
