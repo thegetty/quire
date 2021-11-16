@@ -1,3 +1,4 @@
+const { EleventyRenderPlugin } = require('@11ty/eleventy')
 const fs = require('fs')
 const epubPlugin = require('./plugins/epub')
 const iiifPlugin = require('./plugins/iiif')
@@ -8,7 +9,6 @@ const path = require('path')
 const qFilters = require('./plugins/filters')
 const qFrontmatter = require('./plugins/frontmatter')
 const qShortcodes = require('./plugins/shortcodes')
-const renderPlugin = require("@11ty/eleventy/src/Plugins/RenderPlugin");
 const sass = require('sass')
 const syntaxHighlight = require('@11ty/eleventy-plugin-syntaxhighlight')
 const toml = require('toml')
@@ -81,9 +81,11 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(syntaxHighlight)
 
   /**
-   * Allow templating languages to be freely mixed with `this.renderTemplate()`
+   * Add shortcodes to render an Eleventy template inside of another template,
+   * allowing JavaScript, Liquid, and Nunjucks templates to be freely mixed.
+   * @see {@link https://www.11ty.dev/docs/plugins/render/}
    */
-  eleventyConfig.addPlugin(renderPlugin)
+  eleventyConfig.addPlugin(EleventyRenderPlugin)
 
   const compileBundle = (webpackConfig) => {
     return new Promise((resolve) => {
