@@ -24,5 +24,5 @@ module.exports = function(eleventyConfig, { config }, type, description) {
       </svg>
       <span class="visually-hidden">${ description }</span>
     </span>
-`
+  `
 }

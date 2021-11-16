@@ -1,4 +1,5 @@
 const path = require('path')
+
 /**
  * Global computed data
  */
@@ -24,4 +25,13 @@ module.exports = {
       })
       .sort((a, b) => parseInt(a.data.weight) - parseInt(b.data.weight))
   },
+  pagination: ({ page, pages }) => {
+    if (!page || !pages) return {}
+    const currentPageIndex = pages.findIndex(({ url }) => url === page.url)
+    return {
+      currentPageIndex,
+      nextPage: pages[currentPageIndex + 1],
+      previousPage: pages[currentPageIndex - 1]
+    }
+  }
 }

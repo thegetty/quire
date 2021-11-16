@@ -7,6 +7,7 @@ const figureGroup = require('./figureGroup.11ty.js')
 const globalData = require('../globalData')
 const icon = require('./icon.11ty.js')
 const ref = require('./figureRef.11ty.js')
+const title = require('./title.11ty.js')
 
 module.exports = function(eleventyConfig, options) {
   eleventyConfig.addPairedShortcode('backmatter', (content) => backmatter(content))
@@ -30,6 +31,8 @@ module.exports = function(eleventyConfig, options) {
   )
 
   eleventyConfig.addShortcode('ref', (ids) => ref(ids))
+
+  eleventyConfig.addShortcode('title', () => title(eleventyConfig, globalData))
 
   /**
    * Figure subcomponents
