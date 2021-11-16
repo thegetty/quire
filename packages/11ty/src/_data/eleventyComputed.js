@@ -8,15 +8,17 @@ module.exports = {
   data: (data) => data,
   eleventyNavigation: {
     key: (data) => {
-      const parts = path.dirname(data.page.url).split('/')
-      return data.key || parts.slice(1).join('/')
+      const segments = data.page.url.split('/')
+      const key = segments.slice(1, segments.length - 1).join('/')
+      return data.key || key
     },
     order: (data) => data.order,
     parent: (data) => {
-      const parts = path.dirname(data.page.url).split('/')
-      return data.parent || parts.slice(1, parts.length - 1).join('/')
+      const segments = data.page.url.split('/')
+      const parent = segments.slice(1, segments.length - 2).join('/')
+      return data.parent || parent
     },
-    title: (data) => data.title
+    title: (data) => data.title,
   },
   // imageDir: ({ config }) => path.join(config.baseURL, config.params.imageDir),
   imageDir: '/_assets/img/',
