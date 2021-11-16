@@ -1,12 +1,14 @@
+const globalData = require('../globalData')
+
 const backmatter = require('./backmatter.11ty.js')
 const cite = require('./cite.11ty.js')
 const contributor = require('./contributor.11ty.js')
 const figure = require('./figure/index.11ty.js')
 const figureComponents = require('./figure/components')
 const figureGroup = require('./figureGroup.11ty.js')
-const globalData = require('../globalData')
 const icon = require('./icon.11ty.js')
 const ref = require('./figureRef.11ty.js')
+const tombstone = require('./tombstone.11ty.js')
 
 module.exports = function(eleventyConfig, options) {
   eleventyConfig.addPairedShortcode('backmatter', (content) => backmatter(content))
@@ -30,6 +32,10 @@ module.exports = function(eleventyConfig, options) {
   )
 
   eleventyConfig.addShortcode('ref', (ids) => ref(ids))
+
+  eleventyConfig.addShortcode('tombstone', (pageObjects) => 
+    tombstone(eleventyConfig, globalData, pageObjects)
+  )
 
   /**
    * Figure subcomponents
