@@ -5,12 +5,12 @@
  * It is scoped to show the contents of the full site. 
  * Pages can be removed from the TOC indivudally by setting toc to `false` in the page yaml.
  */
-const contentsItemToc = require("../_includes/contentsItemToc.11ty.js")
+const contentsItemToc = require('../_includes/contentsItemToc.11ty.js');
 
 module.exports = class Contents {
   data() {
     return {
-      layout: 'base.11ty.js'
+      layout: 'base'
     }
   }
 
@@ -21,9 +21,8 @@ module.exports = class Contents {
       config,
       content,
       page: tocPage,
-      pages,
       section
-    } = data
+    } = data;
 
     const contentElement = content
       ? `
@@ -33,11 +32,29 @@ module.exports = class Contents {
           </div>
         </div>
         `
-      : ""
-    const containerClass = className === 'grid' ? 'is-fullhd' : ''
+      : '';
+    const containerClass = className === 'grid' ? 'is-fullhd' : '';
     const contentsListClass = ['abstract', 'brief', 'grid'].includes(className)
       ? className
-      : 'list'
+      : 'list';
+
+    /**
+     * @todo get pages from global data
+     */
+    let pages;
+    switch (true) {
+      case config.params.pdf:
+        pages = collections.all.filter(({ pdf }) => pdf);
+        break;
+      case config.params.epub:
+        pages = collections.all.filter(({ epub }) => epub);
+        break;
+      default:
+        pages = collections.all; // this might need to be filtered by online != 'false'
+        break;
+    }
+    pages = pages.filter(({data}) => data.type !== 'data')
+
     let renderedSection
     const listItems = pages.map((page) => {
       let listItem = ''
@@ -72,13 +89,13 @@ module.exports = class Contents {
             });
           listItem += `<ul>${subListItems.join('')}</ul>`;
         }
-        listItem += "</li>";
-        return listItem
+        listItem += '</li>';
+        return listItem;
       }
     });
 
     return this.renderTemplate(
-      `<div class="{% render "page/class" %} quire-contents" id="main" role="main">
+      `<div class="{% render 'page/class' %} quire-contents" id="main" role="main">
         {% render "page/header" %}
         <section class="section quire-page__content" id="content">
           ${contentElement}
@@ -90,14 +107,14 @@ module.exports = class Contents {
                 </ul>
               </div>
               <div class="content">
-                {% render "page/bibliography" %}
+                {% render 'page/bibliography' %}
               </div>
             </div>
-            {% render "footer-buttons" %}
+            {% render 'footer-buttons' %}
           </div>
         </section>
       </div>`,
-      "liquid",
+      'liquid',
       data.argData
     );
   }
