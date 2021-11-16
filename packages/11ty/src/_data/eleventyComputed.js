@@ -6,12 +6,20 @@ const path = require('path')
 module.exports = {
   canonicalURL: ({ config, page }) => path.join(config.baseURL, page.url),
   data: (data) => data,
+  eleventyNavigation: {
+    key: (data) => {
+      const parts = path.dirname(data.page.url).split('/')
+      return data.key || parts.slice(1).join('/')
+    },
+    order: (data) => data.order,
+    parent: (data) => {
+      const parts = path.dirname(data.page.url).split('/')
+      return data.parent || parts.slice(1, parts.length - 1).join('/')
+    },
+    title: (data) => data.title
+  },
   // imageDir: ({ config }) => path.join(config.baseURL, config.params.imageDir),
   imageDir: '/_assets/img/',
-  navigation: {
-    id: (data) => data.title,
-    parent: (data) => data.parent,
-  },
   /**
    * Figures data for figures referenced by id in page frontmatter 
    */
