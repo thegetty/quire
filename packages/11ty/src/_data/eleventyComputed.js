@@ -12,7 +12,7 @@ module.exports = {
       const key = segments.slice(1, segments.length - 1).join('/')
       return data.key || key
     },
-    order: (data) => data.order,
+    order: (data) => data.order || data.weight,
     parent: (data) => {
       const segments = data.page.url.split('/')
       const parent = segments.slice(1, segments.length - 2).join('/')
