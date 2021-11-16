@@ -53,6 +53,8 @@ exports.render = function(data) {
         </div>
       </section>
 
+      ${pageButtons(data)}
+
       <!--
       {% if config.params.pdf %}
         {% render "pdf-title-pages" %}
