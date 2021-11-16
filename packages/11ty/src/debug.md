@@ -1,5 +1,6 @@
 ---
 title: Quire DEBUG
+menu: false
 toc: false
 ---
 
