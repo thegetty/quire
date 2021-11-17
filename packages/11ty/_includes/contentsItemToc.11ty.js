@@ -1,16 +1,11 @@
 const path = require ('path')
 const contentsImage = require('./contentsImage.11ty.js')
 const pageTitlePartial = require('./page/title.11ty.js')
-module.exports = function ({ getFigure, markdownify, stripHtml, qicon, url }, data, page) {
+module.exports = function ({ getFigure, getObject, markdownify, stripHtml, qicon, url }, data, page) {
   const {
     config,
     class: contentsPageClass,
-    figures,
-    image,
-    imageDir,
-    objects,
-    pageFigures,
-    pageObjects
+    imageDir
   } = data
 
   const brief = contentsPageClass.includes('brief')
@@ -47,24 +42,25 @@ module.exports = function ({ getFigure, markdownify, stripHtml, qicon, url }, da
     if (grid) {
       const imageAttribute = page.data.figure || page.data.object ? "image" : "no-image"
       const slugPageAttribute = page.data.layout === 'contents' ? "slug-page" : ""
+      let figure
       let imageElement
       switch (true) {
-        case !!image:
+        case !!page.data.image:
           imageElement = `<div class="card-image">
               <figure class="image">
-                <img src="${path.join(imageDir, image)}" alt="" />
+                <img src="${path.join(imageDir, page.image)}" alt="" />
               </figure>
             </div>`
           break
-        case pageFigures:
-          imageElement = contentsImage(data, pageFigures[0])
+        case !!page.data.figure:
+          const firstFigure = firstPageFigure ? getFigure(page.data.figure[0]) : null
+          imageElement = firstFigure ? contentsImage(data, firstFigure) : ''
           break
-        case pageObjects:
-          const objectFigures = pageObjects
-            .map((object) => object.figure)
-            .flat()
-            .map((figure) => getFigure(figure.id))
-          imageElement = contentsImage(data, objectFigures[0])
+        case !!page.data.object:
+          const firstObjectId = page.data.object[0].id
+          const object = getObject(firstObjectId)
+          const firstObjectFigure = object ? getFigure(object.figure[0].id) : null
+          imageElement = firstObjectFigure ? contentsImage(data, firstObjectFigure) : ''
           break
         default:
           imageElement = ''

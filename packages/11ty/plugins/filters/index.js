@@ -2,6 +2,7 @@ const globalData = require('../globalData')
 
 const capitalize = require('./capitalize')
 const getFigure = require('./getFigure')
+const getObject = require('./getObject')
 const json = require('./json')
 
 module.exports = function(eleventyConfig, options) {
@@ -9,5 +10,6 @@ module.exports = function(eleventyConfig, options) {
 
   eleventyConfig.addFilter('capitalize', (string) => capitalize(string))
   eleventyConfig.addFilter('getFigure', (id) => getFigure(eleventyConfig, globalData, id))
+  eleventyConfig.addFilter('getObject', (id) => getObject(eleventyConfig, globalData, id))
   eleventyConfig.addFilter('json', (string) => json(string))
 }
