@@ -1,32 +1,37 @@
 const path = require ('path')
+const { oneLine } = require('common-tags')
 const contentsImage = require('./contentsImage.11ty.js')
 const pageTitlePartial = require('../page/title.11ty.js')
 
-module.exports = function ({ getFigure, getObject, markdownify, stripHtml, qicon, url }, data, page) {
+module.exports = function (eleventyConfig, globalData, data, page) {
+  const { config } = globalData
   const {
-    config,
     class: contentsPageClass,
     imageDir
   } = data
+
+  const contributorList = eleventyConfig.getFilter('contributorList')
+  const getFigure = eleventyConfig.getFilter('getFigure')
+  const getObject = eleventyConfig.getFilter('getObject')
+  const markdownify = eleventyConfig.getFilter('markdownify')
+  const qicon = eleventyConfig.getFilter('qicon')
+  const url = eleventyConfig.getFilter('url')
 
   const brief = contentsPageClass.includes('brief')
   const grid = contentsPageClass.includes('grid')
 
   // const itemClassName = page.data.weight < pageOne.data.weight ? "frontmatter-page" : ""
   const itemClassName = ''
-
-  // const pageContributors = page.data.contributor
-  // ? `<span class="contributor"> — {{ partial "contributor-list.html" (dict "range" page.data.contributor "contributorType" "all" "listType" "string" "Site" .Site) }}
-  //   </span>`
-  // : ""
-  const pageContributors = ''
+  const pageContributors = page.data.contributor
+  ? `<span class="contributor"> — ${contributorList(page.data.contributor, 'all', 'string')}</span>`
+  : ""
   let pageTitle = page.data.label ? page.data.label + config.params.pageLabelDivider : ''
   if (page.data.short_title && brief) {
     pageTitle += page.data.short_title
   } else if (brief) {
     pageTitle += page.data.title
   } else {
-    pageTitle += `${pageTitlePartial(page)}${pageContributors}`
+    pageTitle += oneLine`${pageTitlePartial(page)}${pageContributors}`
   }
   const arrowIcon = `<span class="arrow remove-from-epub">&nbsp${qicon("arrow-forward", "")}</span>`
 

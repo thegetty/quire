@@ -5,7 +5,6 @@
  * It is scoped to show the contents of the full site. 
  * Pages can be removed from the TOC indivudally by setting toc to `false` in the page yaml.
  */
-const contentsItemToc = require('../_includes/components/contentsItemToc.11ty.js');
 
 module.exports = class Contents {
   data() {
@@ -50,7 +49,7 @@ module.exports = class Contents {
           if (!currentPage) {
             return `
               <li class="page-item">
-                ${contentsItemToc(this, data, page)}
+                ${this.contentsItemToc(data, page)}
               </li>`;
           }
         } else if (
@@ -59,7 +58,7 @@ module.exports = class Contents {
         ) {
           renderedSection = page.data.section;
           if (!currentPage) {
-            listItem += `<li class="section-item">${contentsItemToc(this, data, page)}`;
+            listItem += `<li class="section-item">${this.contentsItemToc(data, page)}`;
           } else {
             const sectionPage = pages.find(
               (item) => page.data.section === item.data.section && item.data.layout === 'contents'
@@ -72,7 +71,7 @@ module.exports = class Contents {
               .filter((item) => item.data.section === page.data.section && item.data.layout !== 'contents')
               .map((item) => {
                 if (page.fileSlug !== item.fileSlug)
-                  return `<li class="page-item">${contentsItemToc(this, data, item)}</li>`;
+                  return `<li class="page-item">${this.contentsItemToc(data, item)}</li>`;
               });
             listItem += `<ul>${subListItems.join('')}</ul>`;
           }
