@@ -1,12 +1,9 @@
+const { html } = require('common-tags')
+
 /**
- * Template to render previous and next page buttons
+ * Renders previous page and next page buttons
  */
-
-exports.data = {
-  data: (data) => data
-}
-
-exports.render = (data) => {
+module.exports = function(data) {
   const { config, pagination } = data
   const { nextPage, previousPage } = pagination
 

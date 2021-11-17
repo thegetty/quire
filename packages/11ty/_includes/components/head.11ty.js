@@ -1,8 +1,8 @@
 const analytics = require('./analytics.11ty.js')
-const dublinCore = require('./page/dublin-core.11ty.js')
-const opengraph = require('./page/opengraph.11ty.js')
-const twitterCard = require('./page/twitter-card.11ty.js')
-const jsonld = require('./page/jsonld.11ty.js')
+const dublinCore = require('../page/dublin-core.11ty.js')
+const opengraph = require('../page/opengraph.11ty.js')
+const twitterCard = require('../page/twitter-card.11ty.js')
+const jsonld = require('../page/jsonld.11ty.js')
 
 module.exports = function(data) {
 

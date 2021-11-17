@@ -1,0 +1,17 @@
+<div class="quire-contents-buttons remove-from-epub {% if data.config.params.pdf == true %} visually-hidden {% endif %}">
+  <ul>
+  {% if data.pagination.currentPageIndex > 0 %}
+    <li class="quire-nav-button prev">
+      <a href="{{ data.pagination.previousPage.url }}">{%- qicon 'left-arrow' 'Go back a page' -%} <span class="nav-title">{{ data.config.params.prevPageButtonText }}</span></a>
+      <span class="visually-hidden">Previous Page (left keyboard arrow or swipe)</span>
+    </li>
+  {% endif %}
+
+  {% if data.pagination.currentPageIndex < data.pages.length %}
+    <li class="quire-nav-button next">
+      <a href="{{ data.pagination.nextPage.url }}"><span class="nav-title">{{ data.config.params.nextPageButtonText }}</span> {%- qicon 'right-arrow' 'Go to next page' -%}</a>
+      <span class="visually-hidden">Next Page (right keyboard arrow or swipe)</span>
+    </li>
+  {% endif %}
+  </ul>
+</div>
