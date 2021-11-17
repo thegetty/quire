@@ -11,7 +11,7 @@ const qFiltersPlugin = require('./plugins/filters')
 const qFrontmatterPlugin = require('./plugins/frontmatter')
 const qShortcodesPlugin = require('./plugins/shortcodes')
 const sass = require('sass')
-const syntaxHighlight = require('@11ty/eleventy-plugin-syntaxhighlight')
+const syntaxHighlightPlugin = require('@11ty/eleventy-plugin-syntaxhighlight')
 const toml = require('toml')
 const webpack = require('webpack')
 const webpackProdConfig = require('./webpack/config.prod.js')
@@ -81,7 +81,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(epubPlugin)
   eleventyConfig.addPlugin(iiifPlugin)
   eleventyConfig.addPlugin(navigationPlugin)
-  eleventyConfig.addPlugin(syntaxHighlight)
+  eleventyConfig.addPlugin(syntaxHighlightPlugin)
 
   /**
    * Add shortcodes to render an Eleventy template inside of another template,
