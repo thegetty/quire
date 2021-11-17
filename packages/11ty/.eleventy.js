@@ -116,6 +116,7 @@ module.exports = function(eleventyConfig) {
    */
   eleventyConfig.addPassthroughCopy('src/_assets')
   eleventyConfig.addPassthroughCopy('src/css/*.css')
+  eleventyConfig.addPassthroughCopy('src/js/custom.js')
 
   /**
    * Watch the following additional files for changes and live browsersync
