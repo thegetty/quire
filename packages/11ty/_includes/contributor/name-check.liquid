@@ -1,7 +1,0 @@
-{% if contributor.full_name or contributor.first_name and contributor.last_name %}
-  {%- render 'name', contributor -%}
-{% elsif contributor.id %}
-  {% for contributorById in site.data.publication.contributor | where: 'id', contributor.id %}
-    {%- render 'name', contributor -%}
-  {% endfor %}
-{% endif %}

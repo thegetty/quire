@@ -1,4 +1,5 @@
 const components = require('../../_includes/components')
+const globalData = require('../globalData')
 
 /**
  * Define components as universal template shortcodes
@@ -8,6 +9,8 @@ const components = require('../../_includes/components')
  */
 module.exports = function(eleventyConfig, options) {
   for (const component in components) {
-    eleventyConfig.addShortcode(component, component)
+    eleventyConfig.addShortcode(
+      component, 
+      (...args) => components[component](eleventyConfig, globalData, ...args))
   }
 }
