@@ -30,6 +30,7 @@ module.exports = function (eleventyConfig, { config }, id, classes=[]) {
   const qfigureimage = eleventyConfig.getFilter('qfigureimage')
   const qfigurelabel = eleventyConfig.getFilter('qfigurelabel')
   const qfiguremodallink = eleventyConfig.getFilter('qfiguremodallink')
+  const qfiguresoundcloud = eleventyConfig.getFilter('qfiguresoundcloud')
   const qfigureyoutube = eleventyConfig.getFilter('qfigureyoutube')
   const slugify = eleventyConfig.getFilter('slugify')
 
@@ -43,14 +44,13 @@ module.exports = function (eleventyConfig, { config }, id, classes=[]) {
       case figure.media_type === 'vimeo':
         break
       case figure.media_type === 'soundcloud':
-        break
+        return qfiguresoundcloud(figure)
       case figure.media_type === 'website':
         break
       case figure.media_type === 'table':
         break
       default:
         return qfigureimage(figure)
-        break
     }
   }
 

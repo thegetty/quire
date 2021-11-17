@@ -1,12 +1,12 @@
 const { html } = require('common-tags')
 
 /**
- * Renders an iframe element with a Youtube video player
+ * Renders an iframe element with the SoundCloud audio player
  *
  * @param      {Object}  eleventyConfig  eleventy configuration
  * @param      {Object}  globalData      global data
  * @param      {Object}  figure          The figure
- * @return     {String}  An HTML
+ * @return     {String}  HTML to display a SoundCloud player
  */
 module.exports = function (eleventyConfig, { config }, figure) {
   const qfigurecaption = eleventyConfig.getFilter('qfigurecaption')
@@ -14,11 +14,12 @@ module.exports = function (eleventyConfig, { config }, figure) {
   const qfigureplaceholder = eleventyConfig.getFilter('qfigureplaceholder')
   const qfigurelabel = eleventyConfig.getFilter('qfigurelabel')
 
-  const { aspectRatio, id, label, media_id } = figure
-  const src = `https://youtu.be/${media_id}`
+  const { id, label, media_id } = figure
+
+  const src = `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${media_id}`
 
   if (!media_id) {
-    console.warn(`Error: Cannot render Youtube component without 'media_id'. Check that figures data for id: ${id} has a valid 'media_id'`)
+    console.warn(`Error: Cannot render SoundCloud component without 'media_id'. Check that figures data for id: ${id} has a valid 'media_id'`)
     return ''
   }
 
@@ -26,24 +27,24 @@ module.exports = function (eleventyConfig, { config }, figure) {
    * Render a placeholder for EPUB and PDF output
    */
   if (config.params.epub || config.params.pdf) {
-    return oneLine`
+    return html`
       ${qfigureplaceholder(figure)}
       <figcaption class="quire-figure__caption caption">
-        <a href="https://youtu.be/${media_id}" target="_blank">${src}</a>
+        <a href="${src}" target="_blank">${src}</a>
       </figcaption>
     `
   }
 
   return html`
-    <div class="q-figure__media-wrapper--${ aspectRatio || 'widescreen' }">
-      <iframe
-        allowfullscreen
-        class="q-figure__media"
-        frameborder="0"
-        src="https://www.youtube.com/embed/${media_id}?rel=0&amp;showinfo=0"
-      />
-    </div>
-    ${label && config.params.figureLabelLocation === 'on-top' ? qfigurelabel(figure) : ''}
+    <iframe
+      allow="autoplay"
+      frameborder="no"
+      height="166"
+      scrolling="no"
+      src="${src}&auto_play=false&color=%23ff5500&hide_related=true&show_comments=false&show_reposts=false&show_teaser=false&show_user=false"
+      width="100%"
+    />
+    ${label && config.params.figureLabelLocation === 'on-top' ? qfigurelabel(figure) : '' }
     ${qfigurecaption(figure)}
   `
 }
