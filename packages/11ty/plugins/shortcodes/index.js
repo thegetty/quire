@@ -16,8 +16,8 @@ module.exports = function(eleventyConfig, options) {
 
   eleventyConfig.addShortcode('cite', (data) => cite(eleventyConfig, globalData, data))
 
-  eleventyConfig.addShortcode('contributor', (data) =>
-    contributor(eleventyConfig, globalData, data)
+  eleventyConfig.addShortcode('contributor', (...args) =>
+    contributor(eleventyConfig, globalData, ...args)
   )
 
   eleventyConfig.addShortcode('icon', (name, description) =>
