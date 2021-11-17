@@ -9,7 +9,12 @@ module.exports = function(eleventyConfig, options) {
   // @see https://www.11ty.dev/docs/filters/#universal-filters
 
   eleventyConfig.addFilter('capitalize', (string) => capitalize(string))
+
   eleventyConfig.addFilter('getFigure', (id) => getFigure(eleventyConfig, globalData, id))
+
   eleventyConfig.addFilter('getObject', (id) => getObject(eleventyConfig, globalData, id))
+
+  eleventyConfig.addFilter('keywords', () => keywords(eleventyConfig, globalData))
+
   eleventyConfig.addFilter('json', (string) => json(string))
 }
