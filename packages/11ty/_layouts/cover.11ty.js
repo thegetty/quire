@@ -1,4 +1,5 @@
 const { html, oneLine } = require('common-tags')
+const pageButtons = require('../_includes/components/pageButtons.11ty.js')
 const path = require('path')
 
 exports.data = {
@@ -52,8 +53,6 @@ exports.render = function(data) {
           </a>
         </div>
       </section>
-
-      ${pageButtons(data)}
 
       <!--
       {% if config.params.pdf %}

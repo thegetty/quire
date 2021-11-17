@@ -1,6 +1,6 @@
 const path = require ('path')
 const contentsImage = require('./contentsImage.11ty.js')
-const pageTitlePartial = require('./page/title.11ty.js')
+const pageTitlePartial = require('../page/title.11ty.js')
 module.exports = function ({ getFigure, markdownify, stripHtml, qicon, url }, data, page) {
   const {
     config,

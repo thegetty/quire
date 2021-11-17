@@ -5,7 +5,7 @@
  * It is scoped to show the contents of the full site. 
  * Pages can be removed from the TOC indivudally by setting toc to `false` in the page yaml.
  */
-const contentsItemToc = require('../_includes/contentsItemToc.11ty.js');
+const contentsItemToc = require('../_includes/components/contentsItemToc.11ty.js');
 
 module.exports = class Contents {
   data() {

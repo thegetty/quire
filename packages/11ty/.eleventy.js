@@ -1,14 +1,15 @@
 const { EleventyRenderPlugin } = require('@11ty/eleventy')
+const componentsPlugin = require('./plugins/components')
 const fs = require('fs')
 const epubPlugin = require('./plugins/epub')
 const iiifPlugin = require('./plugins/iiif')
 const json5 = require('json5')
-const markdown = require('./plugins/markdown')
+const markdownPlugin = require('./plugins/markdown')
 const navigationPlugin = require('@11ty/eleventy-navigation')
 const path = require('path')
-const qFilters = require('./plugins/filters')
-const qFrontmatter = require('./plugins/frontmatter')
-const qShortcodes = require('./plugins/shortcodes')
+const qFiltersPlugin = require('./plugins/filters')
+const qFrontmatterPlugin = require('./plugins/frontmatter')
+const qShortcodesPlugin = require('./plugins/shortcodes')
 const sass = require('sass')
 const syntaxHighlight = require('@11ty/eleventy-plugin-syntaxhighlight')
 const toml = require('toml')
@@ -61,20 +62,22 @@ module.exports = function(eleventyConfig) {
   /**
    * Load plugin for custom configuration of the markdown library
    */
-  eleventyConfig.addPlugin(markdown)
+  eleventyConfig.addPlugin(markdownPlugin)
 
   /**
    * Load Quire template filters, frontmatter, and shortcodes with namespace
    */
   eleventyConfig.namespace('q', () => {
-    eleventyConfig.addPlugin(qFrontmatter)
-    eleventyConfig.addPlugin(qShortcodes)
+    eleventyConfig.addPlugin(qFrontmatterPlugin)
+    eleventyConfig.addPlugin(qShortcodesPlugin)
   })
-  eleventyConfig.addPlugin(qFilters)
+
+  eleventyConfig.addPlugin(qFiltersPlugin)
 
   /**
    * Load additional plugins used for Quire projects
    */
+  eleventyConfig.addPlugin(componentsPlugin)
   eleventyConfig.addPlugin(epubPlugin)
   eleventyConfig.addPlugin(iiifPlugin)
   eleventyConfig.addPlugin(navigationPlugin)

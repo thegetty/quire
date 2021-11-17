@@ -6,9 +6,7 @@
 module.exports = function({ publication }) {
   const { reading_line: readingLine, subtitle, title } = publication
   const lastLetter = title.slice(-1)
-  const endPunctuation = '!?'.includes(lastLetter)
-    ? ''
-    : ':'
+  const endPunctuation = '!?'.includes(lastLetter) ? '' : ':'
   let siteTitle = `${title}`
   if (subtitle) siteTitle += `${endPunctuation} ${subtitle}`
   if (readingLine) siteTitle += ` ${readingLine}`
