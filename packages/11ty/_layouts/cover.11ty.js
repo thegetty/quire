@@ -22,7 +22,7 @@ exports.render = function(data) {
             <div class="contributor">
               ${this.markdownify(publication.contributor_as_it_appears)}
               <span class="visually-hidden">Contributors:&nbsp;</span>
-              ${this.contributors}
+              <em>${this.contributorList(publication.contributor, 'primary', 'string')}</em>
             </div>
           </div>
         </div>
