@@ -156,7 +156,7 @@ module.exports = function(eleventyConfig) {
      * Use false to avoid pre-processing and only transform markdown.
      * @see {@link https://www.11ty.dev/docs/config/#default-template-engine-for-markdown-files}
      */
-    markdownTemplateEngine: 'liquid',
+    markdownTemplateEngine: 'njk',
     /**
      * @see {@link https://www.11ty.dev/docs/config/#deploy-to-a-subdirectory-with-a-path-prefix}
      */
