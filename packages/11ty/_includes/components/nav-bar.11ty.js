@@ -11,7 +11,7 @@
  * one in the range is linked to.
  */
 module.exports = function(data) {
-  const { collections, config, pages, page } = data
+  const { collections, config, page } = data
 
   const { imageDir, pageLabelDivider } = config.params
 
@@ -22,6 +22,7 @@ module.exports = function(data) {
    * A sorted list of all pages
    * @TODO refactor this hacky pages/nextPage/previousPage stuff to use Eleventy pagination https://www.11ty.dev/docs/pagination/nav/
    */
+  pages = data.pages.filter((page) => page.data.menu !== false)
 
   const currentPageIndex = pages.findIndex(({ url }) => url === page.url)
 
