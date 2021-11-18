@@ -10,6 +10,23 @@ exports.render = function(data) {
   const coverImage = data.image || publication.promo_image
   const imagePath = path.join('/', '_assets', config.params.imageDir, coverImage)
 
+  const pageContent = content 
+    ? `<section id="content" class="section quire-page__content">
+        <div class="container is-fluid">
+          <div class="content">
+            ${content}
+            <!-- {% render "page/bibliography" %} -->
+          </div>
+        </div>
+      </section>`
+    : `<section class="quire-cover__more">
+      <div class="quire-cover__more-body hero-more next-page">
+        <a href="${data.pages[1].permalink}">
+          ${this.qicon('down-arrow', 'Scroll down to read more')}
+        </a>
+      </div>
+    </section>`
+
   return html`
     <div id="main" class="quire-cover" role="main">
 
@@ -36,22 +53,7 @@ exports.render = function(data) {
         </div>
       </section>
 
-      <section id="content" class="section quire-page__content">
-        <div class="container is-fluid">
-          <div class="content">
-            ${content}
-            <!-- {% render "page/bibliography" %} -->
-          </div>
-        </div>
-      </section>
-
-      <section class="quire-cover__more">
-        <div class="quire-cover__more-body hero-more next-page">
-          <a href="${data.pages[1].permalink}">
-            ${this.qicon('down-arrow', 'Scroll down to read more')}
-          </a>
-        </div>
-      </section>
+      ${pageContent}
 
       ${this.pageButtons(pagination)}
 
