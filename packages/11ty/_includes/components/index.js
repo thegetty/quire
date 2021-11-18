@@ -13,7 +13,7 @@ module.exports = {
   icons: require('./icons.11ty.js'),
   index: require('./index.js'),
   menuHeader: require('./menu/header.11ty.js'),
-  menu: require('./menu.11ty.js'),
+  menu: require('./menu/index.11ty.js'),
   menuItem: require('./menu/item.11ty.js'),
   menuList: require('./menu/list.11ty.js'),
   nav: require('./nav-bar.11ty.js'),
