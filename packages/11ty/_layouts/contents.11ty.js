@@ -21,6 +21,7 @@ module.exports = class Contents {
       content,
       page: tocPage,
       pages,
+      pagination,
       section
     } = data;
 
@@ -96,7 +97,7 @@ module.exports = class Contents {
                 {% render 'page/bibliography' %}
               </div>
             </div>
-            {% render 'footer-buttons' %}
+            ${this.pageButtons(pagination)}
           </div>
         </section>
       </div>`,
