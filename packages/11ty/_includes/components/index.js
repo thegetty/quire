@@ -3,8 +3,8 @@
  */
 module.exports = {
   analytics: require('./analytics.11ty.js'),
-  contentsImage: require('./contentsImage.11ty.js'),
-  contentsItemToc: require('./contentsItemToc.11ty.js'),
+  contentsImage: require('./contents/image.11ty.js'),
+  contentsItem: require('./contents/item.11ty.js'),
   contributorList: require('./contributor/list.11ty.js'),
   contributorName: require('./contributor/name.11ty.js'),
   contributorTitle: require('./contributor/title.11ty.js'),

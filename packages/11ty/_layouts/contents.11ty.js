@@ -49,7 +49,7 @@ module.exports = class Contents {
           if (!currentPage) {
             return `
               <li class="page-item">
-                ${this.contentsItemToc(data, page)}
+                ${this.contentsItem(data, page)}
               </li>`;
           }
         } else if (
@@ -58,7 +58,7 @@ module.exports = class Contents {
         ) {
           renderedSection = page.data.section;
           if (!currentPage) {
-            listItem += `<li class="section-item">${this.contentsItemToc(data, page)}`;
+            listItem += `<li class="section-item">${this.contentsItem(data, page)}`;
           } else {
             const sectionPage = pages.find(
               (item) => page.data.section === item.data.section && item.data.layout === 'contents'
@@ -71,7 +71,7 @@ module.exports = class Contents {
               .filter((item) => item.data.section === page.data.section && item.data.layout !== 'contents')
               .map((item) => {
                 if (page.fileSlug !== item.fileSlug)
-                  return `<li class="page-item">${this.contentsItemToc(data, item)}</li>`;
+                  return `<li class="page-item">${this.contentsItem(data, item)}</li>`;
               });
             listItem += `<ul>${subListItems.join('')}</ul>`;
           }

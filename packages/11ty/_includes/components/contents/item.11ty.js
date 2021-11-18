@@ -1,7 +1,6 @@
 const path = require ('path')
 const { oneLine } = require('common-tags')
-const contentsImage = require('./contentsImage.11ty.js')
-const pageTitlePartial = require('../page/title.11ty.js')
+const pageTitlePartial = require('../../page/title.11ty.js')
 
 module.exports = function (eleventyConfig, globalData, data, page) {
   const { config } = globalData
@@ -10,6 +9,7 @@ module.exports = function (eleventyConfig, globalData, data, page) {
     imageDir
   } = data
 
+  const contentsImage = eleventyConfig.getFilter('contentsImage')
   const contributorList = eleventyConfig.getFilter('contributorList')
   const getFigure = eleventyConfig.getFilter('getFigure')
   const getObject = eleventyConfig.getFilter('getObject')
@@ -60,13 +60,13 @@ module.exports = function (eleventyConfig, globalData, data, page) {
           break
         case !!page.data.figure:
           const firstFigure = firstPageFigure ? getFigure(page.data.figure[0]) : null
-          imageElement = firstFigure ? contentsImage(data, firstFigure) : ''
+          imageElement = firstFigure ? contentsImage(data.imageDir, firstFigure.src) : ''
           break
         case !!page.data.object:
           const firstObjectId = page.data.object[0].id
           const object = getObject(firstObjectId)
           const firstObjectFigure = object ? getFigure(object.figure[0].id) : null
-          imageElement = firstObjectFigure ? contentsImage(data, firstObjectFigure) : ''
+          imageElement = firstObjectFigure ? contentsImage(data.imageDir, firstObjectFigure.src) : ''
           break
         default:
           imageElement = ''
