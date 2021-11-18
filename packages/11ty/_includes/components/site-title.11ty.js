@@ -3,7 +3,7 @@
  * See also page/title.liquid
  */
 
-module.exports = function({ publication }) {
+module.exports = function(eleventyConfig, { publication }) {
   const { reading_line: readingLine, subtitle, title } = publication
   const lastLetter = title.slice(-1)
   const endPunctuation = '!?'.includes(lastLetter) ? '' : ':'

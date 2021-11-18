@@ -4,7 +4,6 @@
 module.exports = {
   analytics: require('./analytics.11ty.js'),
   contentsImage: require('./contentsImage.11ty.js'),
-  contentsItemMenu: require('./contentsItemMenu.11ty.js'),
   contentsItemToc: require('./contentsItemToc.11ty.js'),
   contributorList: require('./contributor/list.11ty.js'),
   contributorName: require('./contributor/name.11ty.js'),
@@ -13,11 +12,12 @@ module.exports = {
   icons: require('./icons-cc.11ty.js'),
   icons: require('./icons.11ty.js'),
   index: require('./index.js'),
-  menu: require('./menu-header.11ty.js'),
+  menuHeader: require('./menu/header.11ty.js'),
   menu: require('./menu.11ty.js'),
-  menuList: require('./menuList.11ty.js'),
+  menuItem: require('./menu/item.11ty.js'),
+  menuList: require('./menu/list.11ty.js'),
   nav: require('./nav-bar.11ty.js'),
   pageButtons: require('./pageButtons.11ty.js'),
   scripts: require('./scripts.11ty.js'),
-  site: require('./site-title.11ty.js'),
+  siteTitle: require('./site-title.11ty.js'),
 }

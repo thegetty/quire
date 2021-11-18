@@ -1,4 +1,4 @@
-module.exports = function({ config }, page) {
+module.exports = function(eleventyConfig, { config }, page) {
   let pageTitle = page.data.label ? page.data.label+config.params.pageLabelDivider : ''
   pageTitle += page.data.short_title || page.data.title
   return `      
