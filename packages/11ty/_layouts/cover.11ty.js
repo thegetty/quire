@@ -1,5 +1,4 @@
 const { html, oneLine } = require('common-tags')
-const pageButtons = require('../_includes/components/pageButtons.11ty.js')
 const path = require('path')
 
 exports.data = {
@@ -7,7 +6,7 @@ exports.data = {
 };
 
 exports.render = function(data) {
-  const { config, content, publication } = data
+  const { config, content, pagination, publication } = data
   const coverImage = data.image || publication.promo_image
   const imagePath = path.join('/', '_assets', config.params.imageDir, coverImage)
 
@@ -53,6 +52,8 @@ exports.render = function(data) {
           </a>
         </div>
       </section>
+
+      ${this.pageButtons(pagination)}
 
       <!--
       {% if config.params.pdf %}
