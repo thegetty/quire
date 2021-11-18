@@ -1,10 +1,12 @@
 /*
- * Complete title block for publication.
+ * Publication title block in menu
  */
-const siteTitle = require('./site-title.11ty.js')
 
-module.exports = function(data) {
-  const { page, publication } = data
+module.exports = function(eleventyConfig, { publication }, page) {
+  const contributorList = eleventyConfig.getFilter('contributorList')
+  const markdownify = eleventyConfig.getFilter('markdownify')
+  const siteTitle = eleventyConfig.getFilter('siteTitle')
+
   const { contributor, contributor_as_it_appears: contributorAsItAppears } = publication
 
   const home = '/'
@@ -13,10 +15,7 @@ module.exports = function(data) {
   const homePageLinkOpenTag = isHomePage ? `<a class="quire-menu__header__title-link" href="${home}">` : ''
   const homePageLinkCloseTag = isHomePage ? `</a>` : ''
 
-  // @TODO figure out js module-friendly filters @see ./nav-bar.11ty.js
-  const markdownify = (input) => input ? input : ''
-
-  const contributorMarkup = () => {
+  const contributorElement = () => {
     if (!contributor && !contributorAsItAppears) return ''
 
     if (contributorAsItAppears) {
@@ -24,8 +23,7 @@ module.exports = function(data) {
     } else if (contributor) {
       return `
         <span class="visually-hidden">Contributors: </span>
-        <!--@TODO add updated contributor-list include-->
-        <!--{{ partial "contributor-list.html" (dict "range" .Site.Data.publication.contributor "contributorType" "primary" "listType" "string" "Site" $.Site) }}-->
+        ${contributorList(contributor, 'primary', 'string')}
       `
     }
   }
@@ -35,12 +33,12 @@ module.exports = function(data) {
       ${homePageLinkOpenTag}
         <h4 class="quire-menu__header__title">
           <span class="visually-hidden">Site Title: </span>
-          ${siteTitle(data)}
+          ${siteTitle()}
         </h4>
       ${homePageLinkCloseTag}
 
       <div class="quire-menu__header__contributors">
-        ${contributorMarkup()}
+        ${contributorElement()}
       </div>
     </header>
   `
