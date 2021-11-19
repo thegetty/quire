@@ -25,10 +25,6 @@ module.exports = function (eleventyConfig, globalData, { columns, ids=[] }) {
     console.warn(`Error: NoId: the q-figures shortcode must include one or more 'id' values that correspond to an 'id' in the 'figures.yaml' file. @example {% qfiguregroup columns=2, ids='3.1, 3.2, 3.3' %}`)
   }
 
-  // if (ErrorBadId) {
-  //   console.warn(`Error: ErrorBadId: One or more of the 'id' values supplied to the q-figures shortcode do not match any 'id' values in the 'figures.yaml' file. @example ${example}`)
-  // }
-
   // if (ErrorNoMediaType) {
   //   console.warn(`Error: NoMediaType: One of the figures passed to the q-figures shortcode is missing the 'media_type' attribute. Figures in 'figures.yaml' must be have a 'media_type' attribute with a value of either  "vimeo" or "youtube"`)
   // }
@@ -39,7 +35,7 @@ module.exports = function (eleventyConfig, globalData, { columns, ids=[] }) {
   for (let i=0; i < rows; ++i) {
     const startIndex = i * columns
     const row = ids.slice(startIndex, columns + startIndex)
-      .reduce((output, id) => output + figure({ id, classes }), '')
+      .reduce((output, id) => output + figure({ id, class: classes }), '')
     figureTags.push(`<div class="q-figure--group__row columns">${row}</div>`)
   }
 
