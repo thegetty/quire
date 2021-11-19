@@ -14,9 +14,6 @@ const qShortcodesPlugin = require('./plugins/shortcodes')
 const sass = require('sass')
 const syntaxHighlightPlugin = require('@11ty/eleventy-plugin-syntaxhighlight')
 const toml = require('toml')
-const webpack = require('webpack')
-const webpackProdConfig = require('./webpack/config.prod.js')
-const webpackDevConfig = require('./webpack/config.dev.js')
 const yaml = require('js-yaml')
 
 /**
@@ -92,33 +89,13 @@ module.exports = function(eleventyConfig) {
    */
   eleventyConfig.addPlugin(EleventyRenderPlugin)
 
-  const compileBundle = (webpackConfig) => {
-    return new Promise((resolve) => {
-      const compiler = webpack(webpackConfig)
-      compiler.run((error) => {
-        if (error) console.warn(error)
-        compiler.close((closeError) => {
-          if (closeError) console.warn(closeError)
-          resolve()
-        })
-      });
-    })
-  }
-
-  /**
-   * Compile webpack bundle once before build
-   */
-  eleventyConfig.on('beforeBuild', async () => {
-    await compileBundle(webpackProdConfig)
-  })
-
   /**
    * Copy static assets to the output directory
    * @see {@link https://www.11ty.dev/docs/copy/ Passthrough copy in 11ty}
    */
   eleventyConfig.addPassthroughCopy('src/_assets')
-  eleventyConfig.addPassthroughCopy('src/css/*.css')
-  eleventyConfig.addPassthroughCopy('src/js/custom.js')
+  eleventyConfig.addPassthroughCopy('src/css/**')
+  eleventyConfig.addPassthroughCopy('src/js/**')
 
   /**
    * Watch the following additional files for changes and live browsersync
