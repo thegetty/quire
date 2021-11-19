@@ -17,7 +17,7 @@ module.exports = function(eleventyConfig, { config }, figure, content='') {
 
   return oneLine`
     <figcaption class="q-figure__caption">
-      ${content}
+      ${markdownify(content)}
       <span class="q-figure__caption-content">${markdownify(caption || '')}</span>
       <span class="q-figure__credit">${markdownify(credit || '')}</span>
     </figcaption>

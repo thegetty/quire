@@ -31,17 +31,17 @@ module.exports = function (eleventyConfig, { config }, figure) {
   return html`
     <figure
       id="deepzoom-${id}"
-      title="${markdownify(caption)}"
+      title="${caption}"
       class="quire-figure leaflet-outer-wrapper mfp-hide notGet"
     >
       <div
-        id="js-deepzoom-${ id }"
+        id="js-deepzoom-${id}"
         class="quire-deepzoom inset leaflet-inner-wrapper "
         aria-label="Zoomable image"
         aria-live="polite"
         role="application"
         src="${imageSrc}"
-      ></div>
+      />
     </figure>
     ${imagePreviewElement}
     ${imageCaptionElement}
