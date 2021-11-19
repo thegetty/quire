@@ -1,5 +1,5 @@
 import SmoothScroll from "smooth-scroll";
-import fullscreen from "./fullscreen";
+import * as fullscreen from "./fullscreen";
 
 /**
  * @fileOverview

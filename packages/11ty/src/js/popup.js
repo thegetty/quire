@@ -5,8 +5,7 @@ import DeepZoom from "./deepzoom.js";
 import Map from "./map.js";
 import { toggleFullscreen } from "./helper";
 import "magnific-popup/dist/magnific-popup.css";
-// eslint-disable-next-line no-undef
-require("magnific-popup");
+import 'magnific-popup'
 
 export default function(gallerySelector, mapArr) {
   /** set var */
