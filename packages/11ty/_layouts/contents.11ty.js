@@ -23,7 +23,7 @@ module.exports = class Contents {
       pages,
       pagination,
       section
-    } = data;
+    } = data
 
     const contentElement = content
       ? `
@@ -33,53 +33,54 @@ module.exports = class Contents {
           </div>
         </div>
         `
-      : '';
-    const containerClass = className === 'grid' ? 'is-fullhd' : '';
+      : ''
+    const containerClass = className === 'grid' ? 'is-fullhd' : ''
     const contentsListClass = ['abstract', 'brief', 'grid'].includes(className)
       ? className
-      : 'list';
+      : 'list'
 
     let renderedSection
 
     const listItems = pages
-      .filter((page) => page.data.type !== 'data' && page.data.toc !== false)
+      .filter((page) => 
+        page.url !== tocPage.url
+        && (!section || section && page.data.section === section)
+        && page.data.type !== 'data' 
+        && page.data.toc !== false)
       .map((page) => {
         let listItem = ''
-        const currentPage = page.url === tocPage.url;
-        if (page.data.layout !== 'contents' && !section && !page.data.section) {
-          if (!currentPage) {
-            return `
-              <li class="page-item">
-                ${this.contentsItem(data, page)}
-              </li>`;
-          }
-        } else if (
-          page.data.layout === 'contents' &&
-          page.data.section !== renderedSection
-        ) {
-          renderedSection = page.data.section;
-          if (!currentPage) {
-            listItem += `<li class="section-item">${this.contentsItem(data, page)}`;
-          } else {
-            const sectionPage = pages.find(
-              (item) => page.data.section === item.data.section && item.data.layout === 'contents'
-            );
-            listItem += `<li class="section-item no-landing">`
-            listItem += `<div class="list-header">${sectionPage.data.title}</div>`;
-          }
-          if (config.params.tocType === 'full') {
-            const subListItems = pages
-              .filter((item) => item.data.section === page.data.section && item.data.layout !== 'contents')
-              .map((item) => {
-                if (page.fileSlug !== item.fileSlug)
-                  return `<li class="page-item">${this.contentsItem(data, item)}</li>`;
-              });
-            listItem += `<ul>${subListItems.join('')}</ul>`;
-          }
-          listItem += '</li>';
-          return listItem;
+
+        if (page.data.layout === 'contents' && page.data.section !== renderedSection) {
+          renderedSection = page.data.section 
+
+          const subPages =
+            config.params.tocType === 'full'
+              ? pages
+                  .filter(
+                    (item) =>
+                      item.data.section === page.data.section &&
+                      item.data.layout !== 'contents'
+                  )
+                  .map((item) => {
+                    if (page.fileSlug !== item.fileSlug)
+                      return `<li class="page-item">${this.contentsItem(data, item)}</li>`
+                  })
+              : []
+
+          return `
+            <li class="section-item">
+              ${this.contentsItem(data, page)}
+              <ul>${subPages.join('')}</ul>
+            </li>
+          `
+        } else if (section || !page.data.section) {
+          return `
+            <li class="page-item">
+              ${this.contentsItem(data, page)}
+            </li>
+          `
         }
-      });
+      })
 
     return this.renderTemplate(
       `<div class="{% render 'page/class' %} quire-contents" id="main" role="main">
@@ -103,6 +104,6 @@ module.exports = class Contents {
       </div>`,
       'liquid',
       data
-    );
+    )
   }
-};
+}
