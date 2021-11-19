@@ -1,4 +1,4 @@
-const { html } = require('common-tags')
+const { oneLine } = require('common-tags')
 
 /**
  * Render an HTML <figure> element
@@ -16,7 +16,7 @@ const { html } = require('common-tags')
  *
  * @return     {boolean}  An HTML <figure> element
  */
-module.exports = function (eleventyConfig, { config }, { id, classes=[] }) {
+module.exports = function (eleventyConfig, { config }, { id, ['class']: classes=[] }) {
   classes = typeof classes === 'string' ? [classes] : classes
 
   /**
@@ -36,7 +36,7 @@ module.exports = function (eleventyConfig, { config }, { id, classes=[] }) {
 
   const figure = getFigure(id)
 
-  const mediaElement = (figure) => {
+  const component = (figure) => {
     switch(true) {
       case figure.media_type === 'youtube':
         return qfigureyoutube(figure)
@@ -54,10 +54,10 @@ module.exports = function (eleventyConfig, { config }, { id, classes=[] }) {
     }
   }
 
-  return html`
+  return oneLine`
     <figure id="${slugify(id)}" class="${classes.join(' ')}">
       <div class="q-figure__wrapper">
-        ${mediaElement(figure)}
+        ${component(figure)}
       </div>
     </figure>
   `
