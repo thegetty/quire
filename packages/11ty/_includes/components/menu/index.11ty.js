@@ -4,22 +4,22 @@
  * by default. Users with JS disabled will alwasy see the menu in its expanded state.
  */
 // const copyright = require('./copyright.11ty.js')
-const menuList = require('./menuList.11ty.js')
-const menuHeader = require('./menu-header.11ty.js')
 // const linkList = require('./link-list.html')
 
-module.exports = function(data) {
-  const { imageDir } = data
+module.exports = function(eleventyConfig, globalData, data) {
+  const menuHeader = eleventyConfig.getFilter('menuHeader')
+  const menuList = eleventyConfig.getFilter('menuList')
+  const { imageDir, page, pages } = data
   return `
     <div
       class="quire-menu menu"
       role="banner"
       id="site-menu__inner"
     >
-      ${menuHeader(data)}
+      ${menuHeader(page)}
       <nav id="nav" class="quire-menu__list menu-list" role="navigation" aria-label="full">
         <h3 class="visually-hidden">Table of Contents</h3>
-        <ul>${menuList(data)}</ul>
+        <ul>${menuList(pages)}</ul>
       </nav>
 
       <!--

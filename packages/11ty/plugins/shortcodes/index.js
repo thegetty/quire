@@ -3,6 +3,7 @@ const globalData = require('../globalData')
 const backmatter = require('./backmatter.11ty.js')
 const cite = require('./cite.11ty.js')
 const contributor = require('./contributor.11ty.js')
+const div = require('./div.11ty.js')
 const figure = require('./figure/index.11ty.js')
 const figureComponents = require('./figure/components')
 const figureGroup = require('./figureGroup.11ty.js')
@@ -13,6 +14,8 @@ const tombstone = require('./tombstone.11ty.js')
 
 module.exports = function(eleventyConfig, options) {
   eleventyConfig.addPairedShortcode('backmatter', (content) => backmatter(content))
+
+  eleventyConfig.addPairedShortcode('class', (content, classes) => div(eleventyConfig, content, classes))
 
   eleventyConfig.addShortcode('cite', (data) => cite(eleventyConfig, globalData, data))
 

@@ -1,0 +1,3 @@
+## Eleventy linter configuration plugin
+
+

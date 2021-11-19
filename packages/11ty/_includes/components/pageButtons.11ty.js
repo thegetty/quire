@@ -3,8 +3,9 @@ const { html } = require('common-tags')
 /**
  * Renders previous page and next page buttons
  */
-module.exports = function(data) {
-  const { config, pagination } = data
+module.exports = function(eleventyConfig, { config }, pagination) {
+  const qicon = eleventyConfig.getFilter('qicon')
+
   const { nextPage, previousPage } = pagination
 
   const prevPageButton = () => {
@@ -12,7 +13,7 @@ module.exports = function(data) {
     if (!previousPage) return
     return html`
       <li class="quire-nav-button prev">
-        <a href="${previousPage.url}">${this.qicon('left-arrow', 'Go back a page')}&nbsp;<span class="nav-title">${buttonText}</span></a>
+        <a href="${previousPage.url}">${qicon('left-arrow', 'Go back a page')}&nbsp;<span class="nav-title">${buttonText}</span></a>
         <span class="visually-hidden">Previous Page (left keyboard arrow or swipe)</span>
       </li>
     `
@@ -23,7 +24,7 @@ module.exports = function(data) {
     if (!nextPage) return
     return html`
       <li class="quire-nav-button next">
-        <a href="${nextPage.url}"><span class="nav-title">${buttonText}</span>&nbsp;${this.qicon('right-arrow', 'Go back next page')}</a>
+        <a href="${nextPage.url}"><span class="nav-title">${buttonText}</span>&nbsp;${qicon('right-arrow', 'Go back next page')}</a>
           <span class="visually-hidden">Next Page (right keyboard arrow or swipe)</span>
       </li>
     `

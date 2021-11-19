@@ -7,7 +7,7 @@ module.exports = function (eleventyConfig, { config }, contributors, contributor
   contributorList = (contributorType === 'all') 
     ? contributorList 
     : contributorList.filter((item) => item.type === contributorType)
-  // console.log(contributorList)
+
   if (!contributorList.length) return ''
 
   const contributorNames = contributorList.map((item) => contributorName(item))

@@ -1,5 +1,4 @@
 const { html, oneLine } = require('common-tags')
-const pageButtons = require('../_includes/components/pageButtons.11ty.js')
 const path = require('path')
 
 exports.data = {
@@ -7,9 +6,26 @@ exports.data = {
 };
 
 exports.render = function(data) {
-  const { config, content, publication } = data
+  const { config, content, pagination, publication } = data
   const coverImage = data.image || publication.promo_image
   const imagePath = path.join('/', '_assets', config.params.imageDir, coverImage)
+
+  const pageContent = content 
+    ? `<section id="content" class="section quire-page__content">
+        <div class="container is-fluid">
+          <div class="content">
+            ${content}
+            <!-- {% render "page/bibliography" %} -->
+          </div>
+        </div>
+      </section>`
+    : `<section class="quire-cover__more">
+      <div class="quire-cover__more-body hero-more next-page">
+        <a href="${data.pages[1].permalink}">
+          ${this.qicon('down-arrow', 'Scroll down to read more')}
+        </a>
+      </div>
+    </section>`
 
   return html`
     <div id="main" class="quire-cover" role="main">
@@ -23,7 +39,7 @@ exports.render = function(data) {
             <div class="contributor">
               ${this.markdownify(publication.contributor_as_it_appears)}
               <span class="visually-hidden">Contributors:&nbsp;</span>
-              ${this.contributors}
+              <em>${this.contributorList(publication.contributor, 'primary', 'string')}</em>
             </div>
           </div>
         </div>
@@ -37,22 +53,9 @@ exports.render = function(data) {
         </div>
       </section>
 
-      <section id="content" class="section quire-page__content">
-        <div class="container is-fluid">
-          <div class="content">
-            ${content}
-            <!-- {% render "page/bibliography" %} -->
-          </div>
-        </div>
-      </section>
+      ${pageContent}
 
-      <section class="quire-cover__more">
-        <div class="quire-cover__more-body hero-more next-page">
-          <a href="${data.pages[1].permalink}">
-            ${this.qicon('down-arrow', 'Scroll down to read more')}
-          </a>
-        </div>
-      </section>
+      ${this.pageButtons(pagination)}
 
       <!--
       {% if config.params.pdf %}

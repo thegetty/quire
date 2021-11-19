@@ -4,6 +4,7 @@ const fs = require('fs')
 const epubPlugin = require('./plugins/epub')
 const iiifPlugin = require('./plugins/iiif')
 const json5 = require('json5')
+const lintingPlugin = require('./plugins/linting')
 const markdownPlugin = require('./plugins/markdown')
 const navigationPlugin = require('@11ty/eleventy-navigation')
 const path = require('path')
@@ -78,6 +79,7 @@ module.exports = function(eleventyConfig) {
    * Load additional plugins used for Quire projects
    */
   eleventyConfig.addPlugin(componentsPlugin)
+  eleventyConfig.addPlugin(lintingPlugin)
   eleventyConfig.addPlugin(epubPlugin)
   eleventyConfig.addPlugin(iiifPlugin)
   eleventyConfig.addPlugin(navigationPlugin)
@@ -108,7 +110,7 @@ module.exports = function(eleventyConfig) {
    */
   eleventyConfig.on('beforeBuild', async () => {
     await compileBundle(webpackProdConfig)
-  });
+  })
 
   /**
    * Copy static assets to the output directory
@@ -126,6 +128,9 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addWatchTarget('./**/*.js')
 
   return {
+    /**
+     * @see {@link https://www.11ty.dev/docs/config/#configuration-options}
+     */
     dir: {
       input: projectDir,
       output: '_site',
@@ -135,11 +140,27 @@ module.exports = function(eleventyConfig) {
       layouts: '../_layouts',
     },
     /**
+     * The default global template engine to pre-process HTML files.
+     * Use false to avoid pre-processing and passthrough copy the content (HTML is not transformed, so technically this could be any plaintext).
+     * @see {@link https://www.11ty.dev/docs/config/#default-template-engine-for-html-files}
+     */
+    htmlTemplateEngine: 'liquid',
+    /**
      * Suffix for template and directory specific data files
      * @example '.11tydata' will search for *.11tydata.js and *.11tydata.json data files.
      * @see [Template and Directory Specific Data Files](https://www.11ty.dev/docs/data-template-dir/)
      */
     jsDataFileSuffix: '.quire',
+    /**
+     * The default global template engine to pre-process markdown files.
+     * Use false to avoid pre-processing and only transform markdown.
+     * @see {@link https://www.11ty.dev/docs/config/#default-template-engine-for-markdown-files}
+     */
+    markdownTemplateEngine: 'njk',
+    /**
+     * @see {@link https://www.11ty.dev/docs/config/#deploy-to-a-subdirectory-with-a-path-prefix}
+     */
+    pathPrefix: '/',
     /**
      * All of the following template formats support universal shortcodes.
      *
@@ -149,6 +170,7 @@ module.exports = function(eleventyConfig) {
      * in Markdown files. Likewise, if you change the template engine for
      * Markdown files, the shortcodes available for that templating language
      * will also be available in Markdown files.
+     * @see {@link https://www.11ty.dev/docs/config/#template-formats}
      */
     templateFormats: [
       '11ty.js', // JavaScript

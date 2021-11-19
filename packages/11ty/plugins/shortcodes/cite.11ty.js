@@ -33,7 +33,7 @@ const { oneLine } = require('common-tags')
  */
 module.exports = function(eleventyConfig, { config, references }, id, page, year) {
   if (!id) {
-    console.warn('1, 2 or 3 values must be supplied with this shortcode. The first is required and should match a short reference in the project’s `references.yml` file, the second is optional, and should be a page number or range of page numbers, the third is optional and should be the text to appear in the link if not the full short form of the reference" "example" "{% qcite &#34;Faure 1909&#34; &#34;304&#34; &#34;1909&#34; %}')
+    console.warn('1, 2 or 3 values must be supplied with this shortcode. The first is required and should match a reference in the project’s `references.yml` data file; the second is optional, and should be a page number or range of page numbers; the third is optional, and should be the text to appear in the link if not the full short form of the reference, example \"{% qcite \"Faure 1909\" \"304\" \"1909\" %}\"')
     return ''
   }
 

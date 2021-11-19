@@ -43,7 +43,7 @@ module.exports = function (eleventyConfig, { config }, figure) {
       scrolling="no"
       src="${src}&auto_play=false&color=%23ff5500&hide_related=true&show_comments=false&show_reposts=false&show_teaser=false&show_user=false"
       width="100%"
-    />
+    ></iframe>
     ${label && config.params.figureLabelLocation === 'on-top' ? qfigurelabel(figure) : '' }
     ${qfigurecaption(figure)}
   `
