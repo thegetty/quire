@@ -41,7 +41,7 @@ module.exports = function (eleventyConfig, { config }, figure) {
         class="q-figure__media"
         frameborder="0"
         src="https://www.youtube.com/embed/${media_id}?rel=0&amp;showinfo=0"
-      />
+      ></iframe>
     </div>
     ${label && config.params.figureLabelLocation === 'on-top' ? qfigurelabel(figure) : ''}
     ${qfigurecaption(figure)}
