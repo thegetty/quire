@@ -5,13 +5,13 @@
   "description": "",
   "main": ".eleventy.js",
   "scripts": {
-    "build": "ELEVENTY_ENV=production npx eleventy",
+    "build": "ELEVENTY_ENV=production eleventy && vite build",
     "clean": "npx del ./_site",
     "debug": "DEBUG=Eleventy* npx eleventy --dryrun",
-    "dev": "ELEVENTY_ENV=development (npx eleventy --watch) && & npx vite _site",
+    "dev": "ELEVENTY_ENV=development $(eleventy --watch --serve) & vite serve _site",
     "prebuild": "npm run clean",
     "prestart": "npm run build",
-    "serve": "npx http-server ./site",
+    "serve": "ELEVENTY_ENV=production eleventy && vite preview _site",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
