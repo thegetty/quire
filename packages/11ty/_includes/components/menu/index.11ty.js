@@ -9,7 +9,9 @@
 module.exports = function(eleventyConfig, globalData, data) {
   const menuHeader = eleventyConfig.getFilter('menuHeader')
   const menuList = eleventyConfig.getFilter('menuList')
-  const { imageDir, page, pages } = data
+  const menuResources = eleventyConfig.getFilter('menuResources')
+  const { imageDir, page, pages, publication } = data
+
   return `
     <div
       class="quire-menu menu"
@@ -22,36 +24,7 @@ module.exports = function(eleventyConfig, globalData, data) {
         <ul>${menuList(pages)}</ul>
       </nav>
 
-      <!--
-      {{ if isset .Site.Data.publication "resource_link" -}}
-          {{ $otherFormats := where .Site.Data.publication.resource_link "type" "other-format" }}
-          {{ $relatedResources := where .Site.Data.publication.resource_link "type" "related-resource" }}
-          {{ if gt (len $relatedResources) 0 -}}
-      -->
-          <div class="quire-menu__formats">
-          <h6>Resources</h6>
-              <div role="complementary" aria-label="related resources">
-              <!--
-##              {{- partial "link-list.html" $relatedResources -}}
-              -->
-              </div>
-          </div>
-      <!--
-          {{ end -}}
-          {{ if gt (len $otherFormats) 0 -}}
-      -->
-          <div class="quire-menu__formats">
-          <h6>Other Formats</h6>
-              <div role="complementary" aria-label="downloads">
-              <!--
-##              {{- partial "link-list.html" $otherFormats -}}
-              -->
-              </div>
-          </div>
-      <!--
-          {{ end -}}
-      {{ end -}}
-      -->
+      ${menuResources()}
 
       <div class="quire-menu__formats">
       <h6>Cite this Page</h6>
