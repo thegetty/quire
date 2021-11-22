@@ -64,7 +64,7 @@ module.exports = function(eleventyConfig, { config, references }, id, page, year
   return oneLine `
     <span class="quire-citation expandable">
       ${button}
-      <span class="quire-citation__content">
+      <span hidden class="quire-citation__content">
         <span class="visually-hidden">Citation:&nbsp;</span>
         ${cited.full}
       </span>
