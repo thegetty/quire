@@ -274,6 +274,10 @@ function globalSetup() {
 function loadSearchData() {
   // Grab search data
   let dataURL = $("#js-search").data("search-index");
+  if (!dataURL) {
+    console.warn('Search data url is undefined')
+    return
+  }
   $.get(dataURL, {
     cache: true
   }).done(data => {
