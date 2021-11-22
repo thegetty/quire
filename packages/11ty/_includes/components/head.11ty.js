@@ -32,7 +32,7 @@ module.exports = function(data) {
 
       ${config.online ? '<meta name="robots" content="noindex, nofollow"/>' : ''}
 
-      <title>${ [title, publication.title].join(' | ') }</title>
+      <title>${ title ? [title, publication.title].join(' | ') : publication.title }</title>
 
       <meta name="description" content="${ publication.description.full || publication.description.one_line }">
       <meta name="keywords" content="${ keywords.join(', ') }">
