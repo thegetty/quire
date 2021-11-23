@@ -8,9 +8,11 @@
 
 module.exports = function(eleventyConfig, globalData, data) {
   const menuHeader = eleventyConfig.getFilter('menuHeader')
+  const linkList = eleventyConfig.getFilter('linkList')
   const menuList = eleventyConfig.getFilter('menuList')
   const menuResources = eleventyConfig.getFilter('menuResources')
   const { imageDir, page, pages, publication } = data
+  const footerLinks = publication.resource_link.filter(({ type }) => type === 'footer-link')
 
   return `
     <div
@@ -45,18 +47,7 @@ module.exports = function(eleventyConfig, globalData, data) {
 ##        {{ partial "copyright.html" . }}
 
         -->
-        <!--
-          {{ if isset .Site.Data.publication "resource_link" -}}
-          {{ $footerLinks := where .Site.Data.publication.resource_link "type" "footer-link" }}
-          {{ if gt (len $footerLinks) 0 -}}
-        -->
-        <!--
-##        {{- partial "link-list.html" $footerLinks -}}
-        -->
-        <!--
-          {{- end -}}
-          {{- end -}}
-        -->
+        ${linkList(footerLinks, ["menu-list"] } )}
       </footer>
     </div>
   `
