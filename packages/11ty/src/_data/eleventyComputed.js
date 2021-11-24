@@ -63,8 +63,9 @@ module.exports = {
     if (!collections.all) return [];
     return collections.all
       .filter(({ data }) => {
-        const { epub, pdf, type, url } = data
+        const { online, epub, menu, pdf, type } = data
         return (
+          online !== false &&
           !(config.params.pdf && pdf === false) &&
           !(config.params.epub && epub === false) &&
           type !== 'data'
@@ -76,6 +77,7 @@ module.exports = {
     if (!page || !pages) return {}
     const currentPageIndex = pages.findIndex(({ url }) => url === page.url)
     return {
+      currentPage: pages[currentPageIndex],
       currentPageIndex,
       nextPage: pages[currentPageIndex + 1],
       previousPage: pages[currentPageIndex - 1]

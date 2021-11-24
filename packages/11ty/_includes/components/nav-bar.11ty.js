@@ -10,35 +10,15 @@
  * eligible pages are ranged through and based on weight, the next or previous
  * one in the range is linked to.
  */
-module.exports = function(data) {
-  const { collections, config, page } = data
+module.exports = function(eleventyConfig, { config }, { collections, pagination, pages, title }) {
+  const eleventyNavigation = eleventyConfig.getFilter('eleventyNavigation')
+  const markdownify = eleventyConfig.getFilter('markdownify')
 
   const { imageDir, pageLabelDivider } = config.params
-
+  const { currentPage, currentPageIndex, nextPage, previousPage } = pagination
   const home = '/'
-  const isHomePage = page.url === home
+  const isHomePage = currentPage.url === home
 
-  /**
-   * A sorted list of all pages
-   * @TODO refactor this hacky pages/nextPage/previousPage stuff to use Eleventy pagination https://www.11ty.dev/docs/pagination/nav/
-   */
-  pages = data.pages.filter((page) => page.data.menu !== false)
-
-  const currentPageIndex = pages.findIndex(({ url }) => url === page.url)
-
-  const previousPage = currentPageIndex > 0
-    ? pages[currentPageIndex - 1]
-    : null
-
-  const nextPage = (
-    currentPageIndex > 0 &&
-    currentPageIndex < pages.length - 1
-  )
-    ? pages[currentPageIndex + 1]
-    : null
-
-  // @TODO figure out js module-friendly filters @see ./menu-header.11ty.js
-  const markdownify = (input) => input ? input : ''
   // @TODO figure out js module-friendly filters -- this one should work though
   const truncate = (text, limit) => text.slice(0, limit)
 

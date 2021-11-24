@@ -2,7 +2,6 @@ const { html } = require('common-tags')
 const head = require('../_includes/components/head.11ty.js')
 const icons = require('../_includes/components/icons.11ty.js')
 const iconscc = require('../_includes/components/icons-cc.11ty.js')
-const navBar = require('../_includes/components/nav-bar.11ty.js')
 const pdfInfo = require ('../_includes/pdf/info.11ty.js')
 const scripts = require ('../_includes/components/scripts.11ty.js')
 
@@ -27,11 +26,11 @@ module.exports = function(data) {
             aria-expanded="false"
             role="contentinfo"
           >
-            ${this.menu(data, this)}
+            ${this.menu(data)}
           </div>
 
           <div class="quire__primary" id="{{ section }}">
-            ${navBar(data)}
+            ${this.nav(data)}
             ${ content }
           </div>
           <!--  {#% render 'search' %#} -->
