@@ -14,11 +14,11 @@
  */
 const { oneLine } = require('common-tags')
 const path = require('path')
-const pageTitlePartial = require('../../_includes/page/title.11ty.js')
 
 module.exports = function(eleventyConfig, { config, publication }, contributor, format) {
   const contributorName = eleventyConfig.getFilter('contributorName')
   const getContributor = eleventyConfig.getFilter('getContributor')
+  const pageTitlePartial = eleventyConfig.getFilter('pageTitle')
   const qicon = eleventyConfig.getFilter('qicon')
   const slugify = eleventyConfig.getFilter('slugify')
 

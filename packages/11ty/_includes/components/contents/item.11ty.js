@@ -1,6 +1,5 @@
 const path = require ('path')
 const { oneLine } = require('common-tags')
-const pageTitlePartial = require('../../page/title.11ty.js')
 
 module.exports = function (eleventyConfig, globalData, data, page) {
   const { config } = globalData
@@ -14,6 +13,7 @@ module.exports = function (eleventyConfig, globalData, data, page) {
   const getFigure = eleventyConfig.getFilter('getFigure')
   const getObject = eleventyConfig.getFilter('getObject')
   const markdownify = eleventyConfig.getFilter('markdownify')
+  const pageTitlePartial = eleventyConfig.getFilter('pageTitle')
   const qicon = eleventyConfig.getFilter('qicon')
   const url = eleventyConfig.getFilter('url')
 

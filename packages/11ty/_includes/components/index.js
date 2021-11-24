@@ -20,6 +20,7 @@ module.exports = {
   menuResources: require('./menu/resources.11ty.js'),
   nav: require('./nav-bar.11ty.js'),
   pageButtons: require('./pageButtons.11ty.js'),
+  pageTitle: require('./page-title.11ty.js'),
   scripts: require('./scripts.11ty.js'),
   siteTitle: require('./site-title.11ty.js'),
 }
