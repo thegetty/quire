@@ -201,5 +201,21 @@
   a.quire-copyright__icon__link:hover {
     background-color: transparent;
   }
+
+  /* "Cite this Page" Section */
+  .cite-this {
+    font-size: .857em;
+    line-height: 1.5;
+  }
+
+  .cite-this__heading {
+    display: block; 
+    font-weight: bold; 
+    margin-top: 1em;
+  }
+
+  .cite-this__text {
+    user-select: all;
+  }
 }
 
