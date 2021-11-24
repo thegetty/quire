@@ -13,7 +13,11 @@ In the project `config.yml` file, the `displayBiblioShort` property can be set t
 
 {% endcomment %}
 
-{% assign entries = references.entries | sort: "full" %}
+{% unless sort %}
+  {% assign sort = "full" %}
+{% endunless %}
+
+{% assign entries = references.entries | sort: sort %}
 
 <div class="quire-page__content__references">
   {% if config.params.displayBiblioShort == true %}
