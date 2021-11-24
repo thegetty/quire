@@ -23,6 +23,14 @@ module.exports = {
   // imageDir: ({ config }) => path.join(config.baseURL, config.params.imageDir),
   imageDir: '/_assets/img/',
   /**
+   * Compute a 'pageData' property that includes the page and collection page data
+   * @todo figure out how to have this override the page property
+   */
+  pageData: ({ collections, page }) => {
+    if (!collections) return
+    return collections.all.find(({ url }) => url === page.url)
+  },
+  /**
    * Figures data for figures referenced by id in page frontmatter 
    */
   pageFigures: ({ figure, figures }) => {
