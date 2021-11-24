@@ -1,6 +1,8 @@
 /**
  * Export all component includes
  */
+const licenseIcons = require('./license-icons')
+
 module.exports = {
   analytics: require('./analytics.11ty.js'),
   citation: require('./citation/index.11ty.js'),
@@ -18,6 +20,8 @@ module.exports = {
   citationPubSeries: require('./citation/pub-series.11ty.js'),
   citationContributors: require('./citation/contributors.11ty.js'),
   contentsImage: require('./contents/image.11ty.js'),
+  copyright: require('./copyright/index.11ty.js'),
+  copyrightLicensing: require('./copyright/licensing.11ty.js'),
   contentsItem: require('./contents/item.11ty.js'),
   contributorList: require('./contributor/list.11ty.js'),
   contributorName: require('./contributor/name.11ty.js'),
@@ -26,6 +30,7 @@ module.exports = {
   icons: require('./icons-cc.11ty.js'),
   icons: require('./icons.11ty.js'),
   index: require('./index.js'),
+  ...licenseIcons,
   linkList: require('./linkList.js'),
   menuHeader: require('./menu/header.11ty.js'),
   menu: require('./menu/index.11ty.js'),

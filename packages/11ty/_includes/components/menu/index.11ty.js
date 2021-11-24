@@ -3,11 +3,10 @@
  * available on all pages. For users with Javascript enabled, this menu is hidden
  * by default. Users with JS disabled will alwasy see the menu in its expanded state.
  */
-// const copyright = require('./copyright.11ty.js')
-// const linkList = require('./link-list.html')
 
 module.exports = function(eleventyConfig, globalData, data) {
   const citation = eleventyConfig.getFilter('citation')
+  const copyright = eleventyConfig.getFilter('copyright')
   const menuHeader = eleventyConfig.getFilter('menuHeader')
   const linkList = eleventyConfig.getFilter('linkList')
   const menuList = eleventyConfig.getFilter('menuList')
@@ -53,7 +52,7 @@ module.exports = function(eleventyConfig, globalData, data) {
       </div>
 
       <footer class="quire-menu__footer" role="contentinfo">
-        {% include "copyright/index", data: data %}
+        ${copyright()}
         ${linkList(footerLinks, ["menu-list"]) }
       </footer>
     </div>
