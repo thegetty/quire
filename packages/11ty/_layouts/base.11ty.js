@@ -27,7 +27,7 @@ module.exports = function(data) {
             aria-expanded="false"
             role="contentinfo"
           >
-            ${this.menu(data)}
+            ${this.menu(data, this)}
           </div>
 
           <div class="quire__primary" id="{{ section }}">

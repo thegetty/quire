@@ -7,11 +7,14 @@
 // const linkList = require('./link-list.html')
 
 module.exports = function(eleventyConfig, globalData, data) {
+  const citation = eleventyConfig.getFilter('citation')
   const menuHeader = eleventyConfig.getFilter('menuHeader')
   const linkList = eleventyConfig.getFilter('linkList')
   const menuList = eleventyConfig.getFilter('menuList')
   const menuResources = eleventyConfig.getFilter('menuResources')
-  const { imageDir, page, pages, publication } = data
+
+  const { imageDir, page, pageData, pages, publication } = data
+
   const footerLinks = publication.resource_link.filter(({ type }) => type === 'footer-link')
 
   return `
@@ -29,25 +32,29 @@ module.exports = function(eleventyConfig, globalData, data) {
       ${menuResources()}
 
       <div class="quire-menu__formats">
-      <h6>Cite this Page</h6>
-          <div class="cite-this" style="font-size: .857em; line-height: 1.5;">
-          <span class="cite-this__heading" style="display: block; font-weight: bold; margin-top: 1em;">Chicago</span>
-          <!--@TODO add cite-this include -->
-          <span class="cite-this__text" style="user-select: all;"><!--{{  partial "cite-this.html" (dict "page" . "site" .Site "type" "chicago" "range" "page") }}--></span>
-          </div>
-          <div class="cite-this" style="font-size: .857em; line-height: 1.5;">
-          <span class="cite-this__heading" style="display: block; font-weight: bold; margin-top: 1em;">MLA</span>
-          <!--@TODO add cite-this include -->
-          <span class="cite-this__text" style="user-select: all;"><!--{{  partial "cite-this.html" (dict "page" . "site" .Site "type" "mla" "range" "page") }}--></span>
-          </div>
+        <h6>Cite this Page</h6>
+        <div class="cite-this">
+          <span class="cite-this__heading">
+            Chicago
+          </span>
+          <span class="cite-this__text">
+          ${citation({ type: 'chicago', range: 'page', page: pageData })}
+          </span>
+        </div>
+
+        <div class="cite-this">
+          <span class="cite-this__heading">
+            MLA
+          </span>
+          <span class="cite-this__text">
+            ${citation({ type: 'mla', range: 'page', page: pageData })}
+          </span>
+        </div>
       </div>
 
       <footer class="quire-menu__footer" role="contentinfo">
-        <!--
-##        {{ partial "copyright.html" . }}
-
-        -->
-        ${linkList(footerLinks, ["menu-list"] } )}
+        {% include "copyright/index", data: data %}
+        ${linkList(footerLinks, ["menu-list"]) }
       </footer>
     </div>
   `

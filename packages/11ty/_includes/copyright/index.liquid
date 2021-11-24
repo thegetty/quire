@@ -1,3 +1,6 @@
+{% assign config = data.config %}
+{% assign publication = data.publication %}
+
 <div class="quire-copyright">
 
 {% comment %}
@@ -6,9 +9,9 @@ If copyright info is defined, show information about it here
 
   {% for publisher in publication.publisher %}
     {%- if publisher.logo -%}
-      <img src="{{ site.params.imageDir }}/{{ publisher.logo }}" class="quire-copyright__icon__logo" alt="logo" />
+      <img src="{{ config.params.imageDir }}/{{ publisher.logo }}" class="quire-copyright__icon__logo" alt="logo" />
     {% endif %}
-  {{ endif }}
+  {% endfor %}
 
   {%- if publication.copyright -%}
     <p>{{ publication.copyright | markdownify }}</p>
@@ -22,7 +25,7 @@ If copyright info is defined, show information about it here
     {% comment %}
     License icons (ex. CC icons) if any
     {% endcomment %}
-    {%- if site.params.licenseIcons == true -%}
+    {%- if config.params.licenseIcons == true -%}
 
       {% assign license = publication.license %}
 
@@ -33,59 +36,59 @@ If copyright info is defined, show information about it here
         {% assign licenseAbbreviations = license.abbreviation | split: " " -%}
 
         <svg class="quire-copyright__icon">
-          {% if license.abbreviation contains "CC" %}
+          {% if licenseAbbreviations contains "CC" %}
             <switch>
               <use xlink:href="#cc"></use>
             </switch>
-            {% if license.abbreviation contains "BY" %}
+            {% if licenseAbbreviations contains "BY" %}
               <switch>
                 <use xlink:href="#cc-by"></use>
                 <foreignObject width="135" height="30">
-                    <img src="{{ site.params.imageDir }}/icons/cc-by.png" alt="CC-BY" />
+                    <img src="{{ config.params.imageDir }}/icons/cc-by.png" alt="CC-BY" />
                 </foreignObject>
               </switch>
-              {% if license.abbreviation contains "BY-NC" %}
+              {% if licenseAbbreviations contains "BY-NC" %}
                 <switch>
                   <use xlink:href="#cc-by-nc"></use>
                   <foreignObject width="135" height="30">
-                      <img src="{{ site.params.imageDir }}/icons/cc-by-nc.png" alt="CC-BY-NC" />
+                      <img src="{{ config.params.imageDir }}/icons/cc-by-nc.png" alt="CC-BY-NC" />
                   </foreignObject>
                 </switch>
-                {% if license.abbreviation contains "BY-NC-SA" %}
+                {% if licenseAbbreviations contains "BY-NC-SA" %}
                   <switch>
                     <use xlink:href="#cc-by-nc-sa"></use>
                     <foreignObject width="135" height="30">
-                        <img src="{{ site.params.imageDir }}/icons/cc-by-nc-sa.png" alt="CC-BY-NC-SA" />
+                        <img src="{{ config.params.imageDir }}/icons/cc-by-nc-sa.png" alt="CC-BY-NC-SA" />
                     </foreignObject>
                   </switch>
-                {% elsif license contains.abbreviation "BY-NC-ND" %}
+                {% elsif licenseAbbreviations contains "BY-NC-ND" %}
                   <switch>
                     <use xlink:href="#cc-by-nc-nd"></use>
                     <foreignObject width="135" height="30">
-                        <img src="{{ site.params.imageDir }}/icons/cc-by-nc-nd.png" alt="CC-BY-NC-ND" />
+                        <img src="{{ config.params.imageDir }}/icons/cc-by-nc-nd.png" alt="CC-BY-NC-ND" />
                     </foreignObject>
                   </switch>
                 {% endif %}
-              {% else if license contains.abbreviation "BY-SA" %}
+              {% else if licenseAbbreviations contains "BY-SA" %}
                 <switch>
                   <use xlink:href="#cc-by-sa"></use>
                   <foreignObject width="135" height="30">
-                      <img src="{{ site.params.imageDir }}/icons/cc-by-sa.png" alt="CC-BY-SA" />
+                      <img src="{{ config.params.imageDir }}/icons/cc-by-sa.png" alt="CC-BY-SA" />
                   </foreignObject>
                 </switch>
-              {% else if license contains.abbreviation "BY-ND" %}
+              {% else if licenseAbbreviations contains "BY-ND" %}
                 <switch>
                   <use xlink:href="#cc-by-nd"></use>
                   <foreignObject width="135" height="30">
-                      <img src="{{ site.params.imageDir }}/icons/cc-by-nd.png" alt="CC-BY-ND" />
+                      <img src="{{ config.params.imageDir }}/icons/cc-by-nd.png" alt="CC-BY-ND" />
                   </foreignObject>
                 </switch>
               {% endif %}
-            {% elsif license contains.abbreviation "0" %}
+            {% elsif licenseAbbreviations contains "0" %}
               <switch>
                 <use xlink:href="#cc-zero"></use>
                 <foreignObject width="135" height="30">
-                    <img src="{{ site.params.imageDir }}/icons/cc-zero.png" alt="CC-ZERO" />
+                    <img src="{{ config.params.imageDir }}/icons/cc-zero.png" alt="CC-ZERO" />
                 </foreignObject>
               </switch>
             {% endif %}
