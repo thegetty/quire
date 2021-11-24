@@ -16,11 +16,14 @@ module.exports = function(eleventyConfig, { publication }, page) {
 
   if (pageContributors) citationParts.push(`${pageContributors}. `)
 
-  let pageTitle = page.data.title 
-    ? `"${pageTitlePartial(page)}."`
-    : `"${page.data.label}."` || 'Untitled.'
+  let pageTitle 
+  if (page.data.title) {
+    pageTitle = `"${pageTitlePartial(page)}."`
+  } else if (page.data.label) {
+    pageTitle = `"${page.data.label}."`
+  }
 
-  citationParts.push(pageTitle)
+  citationParts.push(pageTitle || 'Untitled.')
 
   let publicationCitation = 
     [` <em>${siteTitle()}</em>`, citationMLAPublicationContributors()]
