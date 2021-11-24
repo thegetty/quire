@@ -10,7 +10,7 @@ references to the page-level bibliography list
   {% assign alphaOrder = nil %}
   {% assign cited = "" | split: "," %}
 
-  {% for item in site.data.references.entries %}
+  {% for item in references.entries %}
     {% if item.id == id %}
       {% assign cited = cited | push: item %}
     {% endif %}
@@ -20,8 +20,8 @@ references to the page-level bibliography list
 
 {% if cited %}
   <div class="quire-page__content__references backmatter">
-    {% if site.params.biblioHeading %}<h2 id="{{ site.params.biblioHeading | slugify }}">{{ site.params.biblioHeading }}</h2>{% endif %}
-    {% if site.params.displayBiblioShort == true %}
+    {% if config.params.biblioHeading %}<h2 id="{{ config.params.biblioHeading | slugify }}">{{ config.params.biblioHeading }}</h2>{% endif %}
+    {% if config.params.displayBiblioShort == true %}
       <dl>
         {% for item in cited | sort: 'sort, full' %}
           {% comment %}
