@@ -68,7 +68,10 @@ module.exports = function(eleventyConfig, options) {
    */
   eleventyConfig.namespace('qfigure', () => {
     Object.keys(figureComponents).forEach((name) => 
-      eleventyConfig.addShortcode(name, (...args) => figureComponents[name](eleventyConfig, globalData, ...args))
+      eleventyConfig.addShortcode(name, function(...args) {
+        const context = { eleventyConfig, globalData, page: this.page }
+        return figureComponents[name](context, ...args)
+      })
     )
   })
 }

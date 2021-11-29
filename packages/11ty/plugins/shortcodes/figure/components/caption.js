@@ -10,7 +10,8 @@ const { oneLine } = require('common-tags')
  * @property   {String} data.link   URL used to open the figure modal element
  * @return     {String}  An HTML <figcaption> element
  */
-module.exports = function(eleventyConfig, { config }, figure, content='') {
+module.exports = function(context, figure, content='') {
+  const { eleventyConfig, globalData: { config } } = context
   const { caption, credit, id, label, src } = figure
   const markdownify = eleventyConfig.getFilter('markdownify')
   const slugify = eleventyConfig.getFilter('slugify')

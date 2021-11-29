@@ -8,7 +8,8 @@ const { html } = require('common-tags')
  * @param      {Object}  figure          The figure
  * @return     {String}  An HTML
  */
-module.exports = function (eleventyConfig, { config }, figure) {
+module.exports = function (context, figure) {
+  const { eleventyConfig, globalData: { config } } = context
   const qfigurecaption = eleventyConfig.getFilter('qfigurecaption')
   const qfigureimage = eleventyConfig.getFilter('qfigureimage')
   const qfigureplaceholder = eleventyConfig.getFilter('qfigureplaceholder')

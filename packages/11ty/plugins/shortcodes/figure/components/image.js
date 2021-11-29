@@ -7,7 +7,8 @@ const path = require('path')
  * @param      {Object}   data    Image alt text and src properties
  * @return     {String}  An HTML <img> element
  */
-module.exports = function (eleventyConfig, { config }, figure) {
+module.exports = function (context, figure) {
+  const { eleventyConfig, globalData: { config } } = context
   const { alt='', caption, id, src='' } = figure
   const imageSrc = path.join('/_assets/img', src)
 

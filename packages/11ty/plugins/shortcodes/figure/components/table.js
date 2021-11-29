@@ -5,7 +5,8 @@ const { html } = require('common-tags')
  * @param {String}
  * @return {String}  An HTML <table> element
  */
-module.exports = function(eleventyConfig, { config }, { data }) {
+module.exports = function(context, { data }) {
+  const { eleventyConfig, globalData: { config } } = context
   const qfigurecaption = eleventyConfig.getFilter('qfigurecaption')
   const qfigurelabel = eleventyConfig.getFilter('qfigurelabel')
   const markdownify = eleventyConfig.getFilter('markdownify')

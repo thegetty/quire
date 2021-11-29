@@ -5,7 +5,8 @@ const { oneLine } = require('common-tags')
  * @params {string} link - the link that opens the figure modal element. If provided, the label will include a fullscreen icon.
  * @return
  */
-module.exports = function(eleventyConfig, { config }, figure) {
+module.exports = function(context, figure) {
+  const { eleventyConfig, globalData: { config } } = context
   const { caption, id, label, src } = figure
   const markdownify = eleventyConfig.getFilter('markdownify')
   const modalLink = eleventyConfig.getFilter('qfiguremodallink')

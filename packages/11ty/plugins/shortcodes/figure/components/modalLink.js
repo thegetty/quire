@@ -1,6 +1,7 @@
 const { html } = require('common-tags')
 
-module.exports = function (eleventyConfig, { config }, { caption, id }, content) {
+module.exports = function (context, { caption, id }, content) {
+  const { eleventyConfig, globalData: { config } } = context
   const qicon = eleventyConfig.getFilter('qicon')
   const markdownify = eleventyConfig.getFilter('markdownify')
   const icon = config.params.figureLabelLocation === 'below' 

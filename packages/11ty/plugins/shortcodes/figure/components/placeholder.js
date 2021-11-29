@@ -1,4 +1,4 @@
-module.exports = function (eleventyConfig, globalData, figure) {
+module.exports = function (context, figure) {
   return `
     {% if src %}
       <img
