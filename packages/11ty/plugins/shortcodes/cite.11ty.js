@@ -29,7 +29,9 @@ const { oneLine } = require('common-tags')
  *  with the `citationPageLocationDivider` property in `config.yml`
  *
  */
-module.exports = function(eleventyConfig, { config, references }, page, id, pageNumber, year) {
+module.exports = function(context, id, pageNumber, year) {
+  const { eleventyConfig, globalData, globalData: { config }, page } = context
+  let references = globalData.references
   const markdownify = eleventyConfig.getFilter('markdownify')
 
   if (!id) {

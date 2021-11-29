@@ -8,9 +8,11 @@ const { html } = require('common-tags')
  * @param      {Array<id>}  ids          An array or list of figure identifiers
  * @return     {String}  An HTML string of the elements to render
  */
-module.exports = function (eleventyConfig, globalData, { columns, ids=[] }) {
-  columns = parseInt(columns)
+module.exports = function (context, { columns, ids=[] }) {
+  const { eleventyConfig } = context
   const figure = eleventyConfig.getFilter('qfigure')
+
+  columns = parseInt(columns)
 
   /**
    * Parse the ids arg for figure identifiers

@@ -6,7 +6,8 @@
  *
  * @return     {boolean}  A styled HTML <div> element containing the content
  */
-module.exports = (eleventyConfig, content, classes=[]) => {
+module.exports = (context, content, classes=[]) => {
+  const { eleventyConfig } = context
   const markdownify = eleventyConfig.getFilter('markdownify')
   classes = [classes].flatMap((item) => item).join(' ')
   return `<div class="${classes}">${markdownify(content)}</div>`

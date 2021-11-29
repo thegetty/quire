@@ -1,3 +1,6 @@
+const { oneLine } = require('common-tags')
+const path = require('path')
+
 /**
  * qcontributor shortcode
  * Renders contributor data with bio for contributors page
@@ -12,10 +15,8 @@
  * @param  {String} format              bio or... ?
  * @return {String} contributor markup 
  */
-const { oneLine } = require('common-tags')
-const path = require('path')
-
-module.exports = function(eleventyConfig, { config, publication }, contributor, format) {
+module.exports = function(context, contributor, format) {
+  const { eleventyConfig, globalData: { config, references }, page } = context
   const contributorName = eleventyConfig.getFilter('contributorName')
   const getContributor = eleventyConfig.getFilter('getContributor')
   const pageTitlePartial = eleventyConfig.getFilter('pageTitle')

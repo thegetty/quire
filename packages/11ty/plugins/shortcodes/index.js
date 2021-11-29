@@ -13,37 +13,55 @@ const title = require('./title.11ty.js')
 const tombstone = require('./tombstone.11ty.js')
 
 module.exports = function(eleventyConfig, options) {
-  eleventyConfig.addPairedShortcode('backmatter', (content) => backmatter(content))
-
-  eleventyConfig.addPairedShortcode('class', (content, classes) => div(eleventyConfig, content, classes))
-
-  eleventyConfig.addShortcode('cite', function (data) {
-    return cite(eleventyConfig, globalData, this.page, data)
+  eleventyConfig.addPairedShortcode('backmatter', function(content, ...args) {
+    const context = { eleventyConfig, globalData, page: this.page }
+    return backmatter(context, content, ...args)
   })
 
-  eleventyConfig.addShortcode('contributor', (...args) =>
-    contributor(eleventyConfig, globalData, ...args)
-  )
+  eleventyConfig.addPairedShortcode('class', function(content, ...args) {
+    const context = { eleventyConfig, globalData, page: this.page }
+    return div(context, content, ...args)
+  })
 
-  eleventyConfig.addShortcode('icon', (name, description) =>
-    icon(eleventyConfig, globalData, name, description)
-  )
+  eleventyConfig.addShortcode('cite', function(...args) {
+    const context = { eleventyConfig, globalData, page: this.page }
+    return cite(context, ...args)
+  })
 
-  eleventyConfig.addShortcode('figure', (id, classes) =>
-    figure(eleventyConfig, globalData, id, classes)
-  )
+  eleventyConfig.addShortcode('contributor', function(...args) {
+    const context = { eleventyConfig, globalData, page: this.page }
+    return contributor(context, ...args)
+  })
 
-  eleventyConfig.addShortcode('figuregroup', (columns, ids) =>
-    figureGroup(eleventyConfig, globalData, columns, ids)
-  )
+  eleventyConfig.addShortcode('icon', function(...args) {
+    const context = { eleventyConfig, globalData, page: this.page }
+    return icon(context, ...args)
+  })
 
-  eleventyConfig.addShortcode('ref', (ids) => ref(ids))
+  eleventyConfig.addShortcode('figure', function(...args) {
+    const context = { eleventyConfig, globalData, page: this.page }
+    return figure(context, ...args)
+  })
 
-  eleventyConfig.addShortcode('title', () => title(eleventyConfig, globalData))
+  eleventyConfig.addShortcode('figuregroup', function(...args) {
+    const context = { eleventyConfig, globalData, page: this.page }
+    return figureGroup(context, ...args)
+  })
 
-  eleventyConfig.addShortcode('tombstone', (pageObjects) =>
-    tombstone(eleventyConfig, globalData, pageObjects)
-  )
+  eleventyConfig.addShortcode('ref', function(ids) {
+    const context = { eleventyConfig, globalData, page: this.page }
+    return ref(context, ids)
+  })
+
+  eleventyConfig.addShortcode('title', function() {
+    const context = { eleventyConfig, globalData, page: this.page }
+    return title(context)
+  })
+
+  eleventyConfig.addShortcode('tombstone', function(...args) {
+    const context = { eleventyConfig, globalData, page: this.page }
+    return tombstone(context, ...args)
+  })
 
   /**
    * Figure subcomponents

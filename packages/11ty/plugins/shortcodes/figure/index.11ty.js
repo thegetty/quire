@@ -16,7 +16,9 @@ const { oneLine } = require('common-tags')
  *
  * @return     {boolean}  An HTML <figure> element
  */
-module.exports = function (eleventyConfig, { config }, params) {
+module.exports = function (context, params) {
+  const { eleventyConfig, globalData: { config } } = context
+
   let { id, ['class']: classes=[] } = params
   classes = typeof classes === 'string' ? [classes] : classes
 

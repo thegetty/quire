@@ -4,7 +4,8 @@ const { oneLine } = require('common-tags')
  * A shortcode for the Quire project or publication title,
  * currently used for the Quire cover template.
  */
-module.exports = function(eleventyConfig, { publication }) {
+module.exports = function(context) {
+  const { eleventyConfig, globalData: { publication } } = context
   const markdownify = eleventyConfig.getFilter('markdownify')
 
   const seperator = publication.title.slice(-1).match(/[a-zA-Z]/)
