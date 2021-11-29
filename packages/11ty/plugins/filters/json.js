@@ -4,5 +4,5 @@
  * @return     {String}  A formatted JSON string
  */
 module.exports = function(data) {
-  return JSON.stringify(data, null, 2)
+  return `<pre><code>${JSON.stringify(data, null, 2)}</code></pre>`
 }
