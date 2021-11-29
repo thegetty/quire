@@ -4,29 +4,22 @@ const { oneLine } = require('common-tags')
  *  This shortcode adds a linked Author Date citation reference to the text,
  *  and a hover pop-up with the full citation text.
  *
- *  @example
+ *  @param      {String} id   Id of an entry in the project `references.yml`
+ *  @param      {String} pageNumber   Refernced page number(s)
+ *  @param      {String} text   Custom text to display instead of the reference id.
  *
+ *  @example
  *  {% q-cite "Faure 1909" "54" %}
  *
- *  The first positional parameter is a short form citation that should match one
- *  in `references.yml`. The second, optional parameter is a page reference. The
- *  above sample would output as: Faure 1909, 54.
- *
- *  A third optional parameter allows you to customize the text that appears in the
- *  link if not the short form of the citation. The following sample would appear
- *  simply as: 1909, 54.
+ *  renders the follwing text "1909, 54"
  *
  *  @example
  *  {% q-cite "Faure 1909" "54" "1909" %}
  *
- *  In using this third parameter, you still need to have the second parameter,
- *  even if it’s empty. The following sample would appear simply as: 1909.
+ *  When using the third parameter, the second parameter is required,
  *
  *  @example
  *  {% q-cite "Faure 1909" "" "1909" %}
- *
- *  The text element between the author date reference and the page can be changed
- *  with the `citationPageLocationDivider` property in `config.yml`
  *
  */
 module.exports = function(context, id, pageNumber, year) {
@@ -56,11 +49,9 @@ module.exports = function(context, id, pageNumber, year) {
   const {
     citationPageLocationDivider: divider,
     citationPopupStyle: popupStyle
-   } = config.params
+  } = config.params
 
-  let buttonText = (year)
-    ? `<time datetime="${year}">${year}</time>`
-    : citation.short || id
+  let buttonText = (text) ? text : citation.short || id
 
   if (pageNumber) buttonText += divider + pageNumber
 
