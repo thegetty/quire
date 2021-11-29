@@ -17,7 +17,9 @@ module.exports = function(eleventyConfig, options) {
 
   eleventyConfig.addPairedShortcode('class', (content, classes) => div(eleventyConfig, content, classes))
 
-  eleventyConfig.addShortcode('cite', (data) => cite(eleventyConfig, globalData, data))
+  eleventyConfig.addShortcode('cite', function (data) {
+    return cite(eleventyConfig, globalData, this.page, data)
+  })
 
   eleventyConfig.addShortcode('contributor', (...args) =>
     contributor(eleventyConfig, globalData, ...args)

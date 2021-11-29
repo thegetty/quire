@@ -12,7 +12,7 @@ description: Essay layout. This layout describes a single-page template that has
     <div class="container">
       <div class="content">
         {{ content }}
-        {% render "page/bibliography" %}
+        {% render "page/bibliography" config: config, page: page %}
       </div>
       {% pageButtons pagination %}
     </div>
