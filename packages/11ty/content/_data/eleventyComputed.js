@@ -12,6 +12,7 @@ module.exports = {
       const key = segments.slice(1, segments.length - 1).join('/')
       return data.key || key
     },
+    menu: (data) => !!data.menu,
     order: (data) => data.order || data.weight,
     parent: (data) => {
       const segments = data.page.url.split('/')
@@ -19,7 +20,7 @@ module.exports = {
       return data.parent || parent
     },
     title: (data) => data.title,
-    toc: (data) => !!data.toc
+    toc: (data) => !!data.toc,
   },
   // imageDir: ({ config }) => path.join(config.baseURL, config.params.imageDir),
   imageDir: '/_assets/img/',
