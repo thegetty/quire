@@ -51,7 +51,7 @@ module.exports = function(eleventyConfig, { config, publication }) {
   } else {
     licenseText += `
       <div class="is-print-only">
-        {% render "copyright/licensing", license: license %}
+        ${copyrightLicensing()}
       </div>
     `
   }
