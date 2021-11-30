@@ -6,23 +6,25 @@ const { oneLine } = require('common-tags')
  *
  *  @param      {String} id   Id of an entry in the project `references.yml`
  *  @param      {String} pageNumber   Refernced page number(s)
- *  @param      {String} text   Custom text to display instead of the reference id.
+ *  @param      {String} text   Custom inline citation text to render.
  *
- *  @example
- *  {% q-cite "Faure 1909" "54" %}
+ *  @example {% q-cite "Faure 1909" %}
+ *  renders the citation "Faure 1909"
  *
- *  renders the follwing text "1909, 54"
+ *  @example {% q-cite "Faure 1909" "54" %}
+ *  renders the citation "Faure 1909, 54"
  *
- *  @example
- *  {% q-cite "Faure 1909" "54" "1909" %}
+ *  Using the citatation id as the text can be overridden using the third
+ *  positional parameter,
+ *  @example {% q-cite "Faure 1909" "54" "1909" %}
+ *  renders the citation "1909"
  *
- *  When using the third parameter, the second parameter is required,
- *
- *  @example
- *  {% q-cite "Faure 1909" "" "1909" %}
+ *  Nota bene: parameters are positional, therefore the second parameter is required, even if blank, when using the third parameter,
+ *  @example {% q-cite "Faure 1909" "" "1909" %}
+ *  renders the citation "1909"
  *
  */
-module.exports = function(context, id, pageNumber, year) {
+module.exports = function(context, id, pageNumber, text) {
   const { eleventyConfig, globalData, globalData: { config }, page } = context
   let references = globalData.references
   const markdownify = eleventyConfig.getFilter('markdownify')
