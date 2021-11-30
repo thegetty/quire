@@ -24,7 +24,7 @@ const yaml = require('js-yaml')
  * @return     {Object}  A modified eleventy configuation
  */
 module.exports = function(eleventyConfig) {
-  const projectDir = 'src'
+  const projectDir = 'content'
 
   /**
    * Ignore README.md when processing templates

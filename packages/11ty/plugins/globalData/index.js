@@ -1,10 +1,16 @@
-const fs   = require('fs')
+const fs = require('fs')
+const path = require('path')
 const yaml = require('js-yaml')
 
-const config = yaml.load(fs.readFileSync('./src/_data/config.yaml'))
-const figures = yaml.load(fs.readFileSync('./src/_data/figures.yaml'))
-const objects = yaml.load(fs.readFileSync('./src/_data/objects.yaml'))
-const publication = yaml.load(fs.readFileSync('./src/_data/publication.yaml'))
-const references = yaml.load(fs.readFileSync('./src/_data/references.yaml'))
+const loadData = (fileName) => {
+  const filePath = path.join('content', '_data', fileName)
+  return yaml.load(fs.readFileSync(filePath))
+}
+
+const config = loadData('config.yaml')
+const figures = loadData('figures.yaml')
+const objects = loadData('objects.yaml')
+const publication = loadData('publication.yaml')
+const references = loadData('references.yaml')
 
 module.exports = { config, figures, objects, publication, references }
