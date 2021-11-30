@@ -11,6 +11,7 @@ const path = require('path')
 const qFiltersPlugin = require('./plugins/filters')
 const qFrontmatterPlugin = require('./plugins/frontmatter')
 const qShortcodesPlugin = require('./plugins/shortcodes')
+const search = require('./plugins/search')
 const sass = require('sass')
 const syntaxHighlightPlugin = require('@11ty/eleventy-plugin-syntaxhighlight')
 const toml = require('toml')
@@ -80,6 +81,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(epubPlugin)
   eleventyConfig.addPlugin(iiifPlugin)
   eleventyConfig.addPlugin(navigationPlugin)
+  eleventyConfig.addPlugin(search)
   eleventyConfig.addPlugin(syntaxHighlightPlugin)
 
   /**
@@ -93,9 +95,9 @@ module.exports = function(eleventyConfig) {
    * Copy static assets to the output directory
    * @see {@link https://www.11ty.dev/docs/copy/ Passthrough copy in 11ty}
    */
-  eleventyConfig.addPassthroughCopy('src/_assets')
-  eleventyConfig.addPassthroughCopy('src/css/**')
-  eleventyConfig.addPassthroughCopy('src/js/**')
+  eleventyConfig.addPassthroughCopy('content/_assets')
+  eleventyConfig.addPassthroughCopy('content/css/**')
+  eleventyConfig.addPassthroughCopy('content/js/**')
 
   /**
    * Watch the following additional files for changes and live browsersync

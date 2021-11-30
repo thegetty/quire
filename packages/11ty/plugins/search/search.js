@@ -8,27 +8,9 @@ import lunr from 'lunr'
 export default class Search {
   constructor(data) {
     this.contentList = data
-    this.index = this.buildIndex(data)
+    this.index = lunr.Index.load(data)
   }
 
-  /**
-   * Construct the content index
-   *
-   * @param      {Array}  data    An array of items to index
-   * @return     {Object}  An index of the content
-   */
-  buildIndex(data) {
-    return lunr(function() {
-      this.field('abstract')
-      this.field('content')
-      this.filed('contributor')
-      this.field('subtitle', { boost: 90 })
-      this.field('title', { boost: 100 })
-      this.field('url', { boost: 10 })
-      this.ref('id')
-      data.forEach((item) => this.add(item))
-    })
-  }
 
   /**
    * Query the index of for the provided string or terms
