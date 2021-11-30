@@ -19,6 +19,7 @@ module.exports = {
       return data.parent || parent
     },
     title: (data) => data.title,
+    toc: (data) => !!data.toc
   },
   // imageDir: ({ config }) => path.join(config.baseURL, config.params.imageDir),
   imageDir: '/_assets/img/',
