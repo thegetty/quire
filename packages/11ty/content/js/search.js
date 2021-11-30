@@ -1,35 +1,24 @@
-import lunr from 'lunr';
+import lunr from 'lunr'
 
-class Search {
+export default class Search {
   constructor(data) {
-    this.index = this.buildIndex(data);
-    this.contentList = data;
+    this.contentList = data
+    this.index = this.buildIndex(data)
   }
 
   buildIndex(data) {
     return lunr(function () {
-      this.field('title', {
-        boost: 100
-      });
-      this.field('url', {
-        boost: 10
-      });
-      this.field('content');
-      this.ref('id');
-      data.forEach(item => {
-        this.add(item);
-      });
-    });
+      this.field('content')
+      this.field('title', { boost: 100 })
+      this.field('url', { boost: 10 })
+      this.ref('id')
+      data.forEach((item) => this.add(item))
+    })
   }
 
   // Return results in order of relevance
   search(query) {
-    let results = this.index.search(query);
-    return results.map((result) => {
-      return this.contentList[result.ref];
-    });
+    const results = this.index.search(query)
+    return results.map((result) => this.contentList[result.ref])
   }
 }
-
-export default Search
-;
