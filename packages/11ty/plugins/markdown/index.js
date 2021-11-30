@@ -1,5 +1,6 @@
 const MarkdownIt = require('markdown-it')
 const anchors = require('markdown-it-anchor')
+const deflist = require('markdown-it-deflist')
 const footnotes = require('markdown-it-footnote')
 
 /**
@@ -29,6 +30,7 @@ module.exports = function(eleventyConfig, options) {
 
   const markdownLibrary = MarkdownIt(Object.assign(defaultOptions, options))
     .use(anchors, anchorOptions)
+    .use(deflist)
     .use(footnotes)
 
   /**
