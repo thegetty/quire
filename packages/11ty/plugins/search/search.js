@@ -8,9 +8,23 @@ import lunr from 'lunr'
 export default class Search {
   constructor(data) {
     this.contentList = data
-    this.index = lunr.Index.load(data)
+    this.index = this.buildIndex(data)
   }
 
+  buildIndex(pages) {
+    return lunr(function () {
+      this.field('abstract')
+      this.field('content')
+      this.field('contributor')
+      this.field('subtitle')
+      this.field('title')
+      this.field('url')
+      this.ref('url')
+      pages.forEach((page) => {
+        this.add(page)
+      });
+    });
+  }
 
   /**
    * Query the index of for the provided string or terms
@@ -20,6 +34,6 @@ export default class Search {
    */
   search(query) {
     const results = this.index.search(query)
-    return results.map((result) => this.contentList[result.ref])
+    return results.map((result) => this.contentList.find(({url}) => url === result.ref))
   }
 }

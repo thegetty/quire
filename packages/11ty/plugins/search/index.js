@@ -1,5 +1,3 @@
-const searchFilter = require('./filter')
-
 /**
  * An Eleventy plugin for full-text search
  *
@@ -7,9 +5,6 @@ const searchFilter = require('./filter')
  * @param      {Object}  [options]       search engine options
  */
 module.exports = function(eleventyConfig, options) {
-
-  eleventyConfig.addFilter('search', searchFilter)
-
   /**
    * Copy search module to the output directory
    * @see {@link https://www.11ty.dev/docs/copy/ Passthrough copy in 11ty}
