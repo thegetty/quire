@@ -7,7 +7,8 @@ const loadData = (fileName) => {
   return yaml.load(fs.readFileSync(filePath))
 }
 
-const config = loadData('config.yaml')
+const config = yaml.load(fs.readFileSync('./config.yaml'))
+
 const figures = loadData('figures.yaml')
 const objects = loadData('objects.yaml')
 const publication = loadData('publication.yaml')

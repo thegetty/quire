@@ -46,6 +46,23 @@ module.exports = function(eleventyConfig) {
   })
 
   /**
+   * Add Quire configuration to global data
+   *
+   * @todo refactor this to look for a configuration file
+   * in order of preference:
+   *
+   * Quire < 1.0
+   *  <projectDir>/config.yml
+   *
+   * Quire >= 1.0
+   *  <projectDir>/<dataDir>/.quire.config.js
+   *  <projectDir>/.quire.config.js
+   *  ./.quire.config.js
+   *  ./config.[js|json|ya?ml]
+   */
+  eleventyConfig.addGlobalData('config', require('./config.yml'))
+
+  /**
    * Custom data formats
    * Nota bene: the order in which extensions are added sets their precedence
    * in the data cascade, the last added will take precedence over the first.
