@@ -1,0 +1,500 @@
+/* 
+Spectral
+https://github.com/productiontype/Spectral
+Open Font License 1.1 (https://scripts.sil.org/OFL)
+
+Spectral Light
+*/
+@font-face {
+  font-family: "Spectral";
+  src: url("../fonts/spectral-light.woff2") format("woff2"),
+       url("../fonts/spectral-light.woff") format("woff"),
+       url("../fonts/spectral-light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+/* Spectral Semi-Bold 
+*/
+@font-face {
+  font-family: "Spectral";
+  src: url("../fonts/spectral-semibold.woff2") format("woff2"),
+       url("../fonts/spectral-semibold.woff") format("woff"),
+       url("../fonts/spectral-semibold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* Cover customization to match previous collection catalogues */
+.hero-body .container.is-fluid {
+  bottom: 0;
+  right: 0;
+  margin-left: 0;
+  margin-right: 0;
+  padding: 3rem;
+  text-align: center;
+  background: -webkit-linear-gradient(top, transparent, rgba(0,0,0,0.7));
+  background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.7));
+  text-shadow: 3px 3px 5px rgba(0,0,0,0.9);
+}
+.quire-cover__hero .title {
+  font-family: "Spectral", serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  line-height: 1;
+}
+.quire-cover__hero .title .title-large {
+  display: block;
+  font-size: 5.25rem;
+  font-weight: 300;
+  padding-top: 5px
+}
+.quire-cover__hero .contributor {
+  font-family: 'Noto Sans', sans-serif; 
+  font-size: 1.35rem;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: .5px;
+  margin-top: 2rem;
+}
+.quire-cover__hero .contributor em {
+  font-style: normal;
+}
+.quire-cover__more .hero-more {
+  background: #c77405;
+}
+@media print {
+  .quire-cover__hero .hero-body .container {
+    width: 100%;
+    padding-bottom: 1in;
+  }
+  .quire-cover__hero .title {
+    font-size: 22pt;
+  }
+  .quire-cover__hero .title .title-large {
+    font-size: 60pt;
+  }
+  .title-page .contributor {
+    max-width: 4.75in;
+    float: right;
+  }
+  .title-page .contributor p {
+    margin-bottom: 1em;
+  }
+}
+
+/* Customization for q-object shortcode */
+.quire-object .quire-citation__content {
+  margin-top: 0;
+  max-width: 16em;
+  margin-left: -8em;
+}
+
+/* Fixes margins on HTML footnotes in Introduction section */
+.quire-page__content .content .backmatter ol {
+  margin-left: 2em;
+}
+
+/* Indent catalogue subsection in TOC and menu */
+.quire-menu .menu-list ul li:nth-child(n+4) {
+  margin-left: 1.5rem;
+}
+.quire-menu .menu-list ul li:nth-child(n+14) {
+  margin-left: 0;
+}
+.quire-menu li:nth-child(n+4) a.active {
+  margin-left: -2.75em;
+  padding-left: calc(2.25em + 4px);
+}
+.quire-menu li:nth-child(n+14) a.active {
+  margin-left: -1.25em;
+  padding-left: calc(.75em + 4px);
+}
+#contents .quire-contents-list.list li.section-item:nth-child(n+3) {
+  margin-left: 1.5rem;
+}
+#contents .quire-contents-list.list li.section-item:nth-child(n+13) {
+  margin-left: 0;
+}
+
+.quire-contents-list .section-item a::after {
+  content: leader(dotted) ' 'target-counter(attr(href, url), page);
+  margin-left: 6pt;
+  padding-right: 4pt;
+  border: 1pt solid transparent;
+}
+.quire-contents-list .section-item .page-item a::after {
+  padding-right: 0;
+}
+
+/* Footnote numbers in blockquotes should be roman text */
+blockquote sup.footnote-ref {
+  font-style: normal;
+}
+
+/* Make proper fraction typography within figure captions */
+.content figcaption sup,
+.content figcaption sub {
+  font-size: 60%;
+  position: relative;
+}
+.content figcaption sup {
+  margin-right: .2em;
+}
+.content figcaption sub {
+  bottom: .25em;
+  margin-left: .1em;
+}
+@media print {
+  .content figcaption sup {
+    top: .25em;
+    margin-left: .15em;
+  }
+  .content figcaption sub {
+    bottom: .15em;
+    margin-left: .15em;
+  }
+}
+
+/* Improve table styling */
+table caption {
+  font-size: 1rem;
+  margin: 1rem;
+}
+.quire-page__content .container .content table tbody td {
+  border-left-width: 0px;
+  border-right-width: 0px;
+}
+#techessay .quire-page__content .container .content .tech-table {
+  margin-bottom: 4em;
+  column-span: all;
+}
+
+/* LOC Cataloguing in Publication format */
+.quire-page__content .container .content .cip-data p {
+  display: none;
+}
+.quire-page__content .container .content .cip-data ul {
+  margin-left: 0;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+.quire-page__content .container .content .cip-data ul li {
+  line-height: 1.6;
+  margin: 0;
+  padding-left: 1.5em;
+  text-indent: -1.5em;
+}
+.quire-page__content .container .content .cip-data ul li::before {
+  display: none;
+}
+@media print {
+  .quire-page__content .container .content .cip-data {
+    column-break-before: always;
+  }
+}
+
+/* Color text links to distinguish from pop-ups, 
+   use WCAG 2.0 contrasting color */
+.quire-page__content .content a {
+    color: #AB6203;
+    border-bottom-color: #AB6203;
+}
+.quire-page__content .content sup a,
+.quire-page__content .content a.footnote-return {
+  color: #000;
+}
+@media print {
+  .quire-page__content .content a {
+      color: #000;
+      border-bottom-color: #000;
+  }
+}
+
+/* Customize footers on technical essay */
+@media print {
+  #techessay .quire-essay {
+    page: techessay;
+  }
+  
+  .pdf-page-title {
+    string-set: pagetitle content();
+  }
+  .pdf-page-subtitle {
+    string-set: pagesubtitle content();
+  }
+  
+  @page techessay:left {
+    @bottom-right {
+      content: string(pagetitle);
+      text-transform: uppercase;
+      letter-spacing: 1pt;
+      font-size: 7.5pt;
+    }
+  }
+
+  @page techessay:right {
+    @bottom-left {
+      content: string(pagesubtitle);
+    }
+  }
+  
+}
+
+/* Style copyright for PDF/Print output */
+@media print {
+  #copyright .quire-page.quire-page--frontmatter {
+    page: no-footer;
+  }
+  #copyright .quire-page__header {
+    display: none;
+  }
+  #copyright .quire-page__content {
+    column-count: 2;
+    column-gap: .1875in;
+    column-fill: auto;
+    max-width: 100%;
+    height: 100%;
+    margin: 0;
+    text-align: left;
+  }
+  /* #copyright .cip-data {
+    column-break-after: always;
+  } */
+  #copyright img {
+    height: .25in;
+  }
+  #copyright hr {
+    width: 70%;
+  }
+  /* #copyright .content ul {
+    margin-left: .5rem;
+  } */
+}
+
+.quire-page h2 {
+  text-transform: none;
+}
+
+/* Remove decorative quote before blockquote */
+.quire-page__content .container .content blockquote p:first-child::before, .quire-page__content .container .content blockquote ul:first-child::before, .quire-page__content .container .content blockquote ol:first-child::before, .quire-page__content .container .content blockquote dl:first-child::before, .quire-page__content .container .content blockquote h1:first-child::before, .quire-page__content .container .content blockquote h2:first-child::before, .quire-page__content .container .content blockquote h3:first-child::before, .quire-page__content .container .content blockquote h4:first-child::before, .quire-page__content .container .content blockquote h5:first-child::before, .quire-page__content .container .content blockquote h6:first-child::before {
+  display: none;
+}
+.quire-page__content .content blockquote {
+  margin-left: 1em;
+}
+
+@media print {
+  
+  p,
+  li,
+  dd {
+    orphans: 2;
+    widows: 2;
+  }
+  
+  /* Not a real page type, just clears the default so pages are numbered */
+  #orientalizing-group-group .quire-contents,
+  #ship-with-figures-group .quire-contents,
+  #korai-group .quire-contents,
+  #human-heads-group .quire-contents,
+  #animals-group .quire-contents,
+  #lions-heads-group .quire-contents,
+  #boars-group .quire-contents,
+  #rams-heads-group .quire-contents,
+  #other-animal-heads-group .quire-contents,
+  #forgery-group .quire-contents {
+    page: group-page;
+  }
+  
+  #orientalizing-group-group .quire-contents-list.grid,
+  #ship-with-figures-group .quire-contents-list.grid,
+  #korai-group .quire-contents-list.grid,
+  #human-heads-group .quire-contents-list.grid,
+  #animals-group .quire-contents-list.grid,
+  #lions-heads-group .quire-contents-list.grid,
+  #boars-group .quire-contents-list.grid,
+  #rams-heads-group .quire-contents-list.grid,
+  #other-animal-heads-group .quire-contents-list.grid,
+  #forgery-group .quire-contents-list.grid {
+    display: none;
+  }
+  #orientalizing-group-group .quire-page__content,
+  #ship-with-figures-group .quire-page__content,
+  #korai-group .quire-page__content,
+  #human-heads-group .quire-page__content,
+  #animals-group .quire-page__content,
+  #lions-heads-group .quire-page__content,
+  #boars-group .quire-page__content,
+  #rams-heads-group .quire-page__content,
+  #other-animal-heads-group .quire-page__content,
+  #forgery-group .quire-page__content {
+    column-count: 2;
+    column-fill: balance;
+    column-gap: .1875in;
+    max-width: 100%;
+    margin: 0;
+  }
+  
+  .quire-page__content__references.backmatter {
+    display: none;
+  }
+  #bibliography .quire-page__content,
+  #acknowledgments .quire-page__content,
+  #authors .quire-page__content {
+    column-count: 2;
+    column-fill: balance;
+    column-gap: .1875in;
+    max-width: 100%;
+    margin: 0;
+  }
+  dt {
+    page-break-after: avoid;
+  }
+  dd {
+    page-break-inside: avoid;
+  }
+  
+  .quire-entry__image-wrap {
+    display: none;
+  }
+  
+  .quire-entry table.table tr td:first-child {
+    font-weight: 700;
+  } 
+  
+  #intro-intro .quire-page__header,
+  #catalogue .quire-page__header {
+    page: splash;
+  }
+  #intro-intro .quire-page__content,
+  #catalogue .quire-page__content {
+    display: none;
+  }  
+  .quire__primary:not(#intro-intro):not(#catalogue) .quire-page h1,
+  .quire__primary:not(#intro-intro):not(#catalogue) .quire-page__header__title {
+    margin-top: .625in;
+    font-size: 1.75rem;
+    line-height: 1.2;
+    font-weight: 400;
+  }
+  .quire-page__header {
+    margin-bottom: .5in;
+  }
+  #intro-intro .quire-page h1,
+  #intro-intro .quire-page__header__title,
+  #catalogue .quire-page h1,
+  #catalogue .quire-page__header__title {
+    margin-top: 2in;
+    color: #fff;
+  }  
+  @page splash:first {
+    @bottom-left {
+      content: none;
+    }
+    @bottom-right {
+      content: none;
+    }
+  }
+  
+  #authors .quire-page__content .container .content hr {
+    display: none;
+  }
+  #authors .quire-contributors-list:first-child {
+    column-break-after: always;
+  }
+  .quire-contributor__bio,
+  .quire-page__content {
+    line-height: 1.5;
+  }
+  
+  /* Eliminates blank page in PDF that was created because of extra padding */
+  #rams-heads-52 .quire-entry .quire-page__content {
+    padding-bottom: 0 !important;
+  }
+
+}
+
+/* Adjust URL breaks in PDF */
+@media print {
+  /* PrinceXML doesn’t seem to support <wbr> embedded in the URLs as a
+  method for suggesting places to break words, instead we're using here
+  the prince-text-replace specialty attribute to insert zero-width-spaces */
+  a[target=_blank] {
+    prince-text-replace: "/" "\200B/"
+                          "~" "\200B~"
+                          "." "\200B."
+                          "," "\200B,"
+                          "-" "\200B-"
+                          "_" "\200B_"
+                          "?" "\200B?"
+                          "#" "\200B#"
+                          "%" "\200B%"
+                          "=" "\200B="
+                          "&" "\200B&"
+                          "+" "\200B+"
+                          "\200B/\200B/" "//\200B";
+  }
+}
+
+/* Following the same pattern as above, this improves breaking after 
+em dashes */
+@media print {
+  body * {
+    prince-text-replace: "—" "—\200B"
+  }
+}
+
+/* Make the button font the same as the text around it */
+.quire-citation__button {
+  font-family: inherit;
+}
+
+/* 
+  In instances in the PDF where there is only a little bit of text on the last
+  page of chapter, the desired output is to have that text fill just one of the 
+  two columns and not break across it. This can be acheived by adding 
+  
+    class: pdf-single-column-last-page 
+  
+  to the page YAML of the specific pages where this is an issue 
+*/
+@media print {
+  .quire-essay.quire-page--pdf-single-column-last-page .quire-page__content,
+  .quire-entry.quire-page--pdf-single-column-last-page .quire-page__content {
+    column-fill: auto;
+  }
+}
+
+/* remove bottom padding to avoid creating new page in pdf when not needed */
+@media print {
+  .section.quire-page__content {
+    padding-bottom: 0;
+  }
+}
+
+/* Fix spacing above Notes header in PDF */
+@media print {
+  .quire-page__content .container .content .backmatter {
+    padding-top: 0;
+  }
+}
+
+/* Custom class to wrap around inline text that shouldn't break across lines */
+span.no-break {
+  white-space: nowrap;
+}
+
+/* Custom class to make image full width in PDF */
+@media print {
+  .quire-figure.pdf-full-width {
+    column-span: all;
+  }
+}
+
+/* Break the Tables heading onto the page where the tables start */
+@media print {
+  #techessay h2#tables {
+    page-break-before: always;
+  }
+}

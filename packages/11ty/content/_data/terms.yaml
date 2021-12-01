@@ -1,0 +1,180 @@
+entries:
+  - name: "Animals, in amber"
+    artifacts:
+      - 27
+      - 29
+      - 32
+      - 54
+      - 55
+      - 56
+  - name: "Bird"
+    artifacts:
+      - 1
+      - 2
+      - 5
+  - name: "Boar"
+    artifacts:
+      - 37
+      - 38
+  - name: "Hare"
+    artifacts:
+      - 4
+      - 30
+  - name: "Ram"
+    artifacts:
+      - 39
+      - 40
+      - 41
+      - 42
+      - 43
+      - 44
+      - 45
+      - 46
+      - 47
+      - 48
+      - 49
+      - 50
+      - 51
+      - 52
+      - 53
+  - name: "Lion"
+    artifacts:
+      - 5
+      - 6
+      - 31
+      - 32
+      - 33
+      - 34
+      - 35
+      - 36
+      - 38
+  - name: "Amulets"
+    artifacts:
+      - 1
+      - 5
+      - 37
+      - 54
+      - 55
+  - name: "Artemis"
+    artifacts:
+      - 1
+      - 4
+      - 8
+      - 27
+      - 38
+  - name: "Childbirth"
+    artifacts:
+      - 4
+      - 8
+      - 14
+  - name: "Dionysos, cult of (also Satyr)"
+    artifacts:
+      - 12
+      - 13
+      - 27
+      - 55
+  - name: "Egypt"
+    artifacts:
+      - 3
+      - 4
+      - 6
+      - 8
+      - 28
+      - 30
+      - 31
+      - 54
+  - name: "Etruscan culture"
+    artifacts:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 14
+      - 16
+      - 18
+      - 21
+      - 26
+      - 29
+      - 36
+      - 38
+      - 55
+  - name: "Fertility"
+    artifacts:
+      - 2
+      - 8
+      - 30
+      - 32
+  - name: "Funerary use of amber (also Burial)"
+    artifacts:
+      - 1
+      - 2
+      - 7
+      - 27
+      - 33
+  - name: "Inclusions"
+    artifacts:
+      - 12
+      - 15
+      - 21
+      - 29
+      - 32
+      - 40
+      - 55
+      - 56
+  - name: "Ionia, Greece (also Ionian, Greek)"
+    artifacts:
+      - 1
+      - 2
+      - 4
+      - 8
+      - 9
+      - 11
+      - 26
+      - 31
+      - 37
+      - 39
+  - name: "Jewelry"
+    artifacts:
+      - 7
+      - 10
+      - 11
+      - 13
+      - 14
+      - 28
+      - 36
+      - 39
+      - 52
+      - 53
+  - name: "Kourotrophos"
+    artifacts:
+      - 1
+      - 2
+  - name: "Magic"
+    artifacts:
+      - 3
+      - 4
+      - 7
+      - 8
+      - 21
+      - 23
+      - 55
+  - name: "Potnia Theron"
+    artifacts:
+      - 2
+      - 4
+  - name: "Color"
+    artifacts:
+      - 28
+      - 30
+  - name: "Transparency"
+    artifacts:
+      - 30
+      - 31
+  - name: "Sphinx"
+    artifacts:
+      - 10
+      - 11
+      - 28
+  - name: "Samos, Greece (also Samian, Greek)"
+    artifacts: 10

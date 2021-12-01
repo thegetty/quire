@@ -1,89 +1,1192 @@
 figure_list:
-  - id: "dog1"
-    src: figures/lange.jpg
-    caption: "*Dorothea Lange, Resettlement Administration photographer, in California*, 1936."
-    credit: "Library of Congress Prints and Photographs Division"
-  - id: "dog2"
-    src: figures/evans.jpg
-    caption: "*Walker Evans, profile, hand up to face*, 1937."
-    credit: "Library of Congress Prints and Photographs Division"
-  - id: "fig-1"
+  - id: "intro1"
+    src: "figures/fig01.jpg"
     label: "Figure 1"
-    src: figures/evans-legionnaire.jpg
-    caption: "Walker Evans. *[American Legionnaire]*, 1935."
-    credit: "The J. Paul Getty Museum, Los Angeles"
-  - id: "fig-2"
+    caption: "*Head of Medusa*, Roman, 1st–2nd century A.D. Amber, H: 5.8 cm (2<sup>3</sup>⁄<sub>10</sub> in.), W: 5.8 cm (2<sup>3</sup>⁄<sub>10</sub> in.). Los Angeles, J. Paul Getty Museum, [71.AO.355](https://www.getty.edu/art/collection/objects/6808)."
+
+  - id: "intro2"
+    src: "figures/fig02.jpg"
     label: "Figure 2"
-    src: figures/evans-sons.jpg
-    caption: "Walker Evans. *Sons of the American Legion, Bethlehem, Pennsylvania*, 1935."
-    credit: "The J. Paul Getty Museum, Los Angeles"
-  - id: "fig-3"
+    caption: "Ring dedicated to Hera, Greek, ca. 575 B.C. Gilded silver, Diam. (outer): 2.2 cm (<sup>7</sup>⁄<sub>8</sub> in.), Diam. (inner): 1.8 cm (<sup>11</sup>⁄<sub>16</sub> in.). Los Angeles, J. Paul Getty Museum, [85.AM.264](https://www.getty.edu/art/collection/objects/10993)."
+
+  - id: "intro3"
+    src: "figures/fig03.jpg"
     label: "Figure 3"
-    src: figures/evans-graveyard.jpg
-    caption: "Walker Evans. *Graveyard, Houses and Steel Mill, Bethlehem, Pennsylvania*, 1935; printed later."
-    credit: "The J. Paul Getty Museum, Los Angeles"
-  - id: "fig-4"
+    caption: "Amber necklaces and gold ornaments from the young girl’s Tomb 102, Braida di Serra di Vaglio, Italy, ca. 500 B.C. The sphinx pendant, the largest amber pendant, has H: 4.6 cm (1<sup>3</sup>⁄<sub>4</sub> in.), L: 8.3 cm (3<sup>1</sup>⁄<sub>4</sub> in.), W: 1.5 cm (<sup>5</sup>⁄<sub>8</sub> in.). Approximate total length of strings of amber: 240 cm (94<sup>1</sup>⁄<sub>2</sub> in.). Potenza, Museo Archeologico Nazionale “Dinu Adamesteanu.”"
+    credit: "By permission of il Ministero dei Beni e delle Attività Culturali—Direzione Regionale per i Beni Culturali e Paesaggistici della Basilicata—Soprintendenza per i Beni Archeologici della Basilicata / IKONA."
+
+  - id: "intro4"
+    src: "figures/fig04.jpg"
     label: "Figure 4"
-    src: figures/evans-hymns.jpg
-    caption: "Walker Evans. *Alabama Tenant Farmer Family Singing Hymns / The Tengle Family, Hale County, Alabama*, 1936."
-    credit: "The J. Paul Getty Museum, Los Angeles"
-  - id: "fig-5"
+    caption: "<em>Female Head in Profile</em> pendant, Italic, 500–480 B.C. Amber, H: 4.4 cm (1<sup>7</sup>⁄<sub>10</sub> in.), W: 3.8 cm (1<sup>1</sup>⁄<sub>2</sub> in.), D: 1.6 cm (<sup>3</sup>⁄<sub>5</sub> in). Los Angeles, J. Paul Getty Museum, 77.AO.81.30. Gift of Gordon McLendon. See [cat. no. 25](/objects/25/)."
+
+  - id: "intro5"
+    src: "figures/fig05.jpg"
     label: "Figure 5"
-    src: figures/evans-burroughs.jpg
-    caption: "Walker Evans. *Floyd and Lucille Burroughs, Hale County, Alabama*, 1936."
-    credit: "The J. Paul Getty Museum, Los Angeles"
-  - id: "fig-6"
+    caption: "<em>Addorsed Females</em> pendant, Etruscan, 600–550 B.C. Amber, H: 4.0 cm (1<sup>3</sup>⁄<sub>5</sub> in.), W: 10.2 cm (4 in.), D: 1.3 cm (<sup>1</sup>⁄<sub>2</sub> in.). Los Angeles, J. Paul Getty Museum, 77.AO.81.1. Gift of Gordon McLendon. See [cat. no. 3](/objects/3/)."
+
+  - id: "intro6"
+    src: "figures/fig06.jpg"
     label: "Figure 6"
-    src: figures/evans-washroom.jpg
-    caption: "Walker Evans. *Washroom in the Dog Run of the Burroughs Home, Hale County, Alabama*, 1936."
-    credit: "The J. Paul Getty Museum, Los Angeles"
-  - id: "fig-7"
+    caption: "<em>Ship with Figures</em> pendant, Etruscan, 600–575 B.C. Amber, L: 12 cm (4<sup>7</sup>⁄<sub>10</sub> in.), W: 3.5 cm (1<sup>3</sup>⁄<sub>8</sub> in.), D: 1 cm (<sup>3</sup>⁄<sub>10</sub> in.). Los Angeles, J. Paul Getty Museum, 76.AO.76. Gift of Gordon McLendon. See [cat. no. 7](/objects/7/)."
+
+  - id: "intro7"
+    src: "figures/fig07.jpg"
     label: "Figure 7"
-    src: figures/evans-child.jpg
-    caption: "Walker Evans. *Farmer's Child, Alabama / Othel Lee (Squeakie) Burroughs, Hale County, Alabama*, 1936."
-    credit: "The J. Paul Getty Museum, Los Angeles"
-  - id: "fig-8"
+    caption: "<em>Engraved Scarab with Nike Crowning Herakles</em>, Etruscan, 400–380 B.C. Banded agate, H: 1.8 cm (<sup>3</sup>⁄<sub>4</sub> in.), W: 1.4 cm (<sup>9</sup>⁄<sub>16</sub> in.), D: 0.9 cm (<sup>3</sup>⁄<sub>8</sub> in.). Los Angeles, J. Paul Getty Museum, [85.AN.123](https://www.getty.edu/art/collection/objects/10959)."
+
+  - id: "intro8"
+    src: "figures/fig08.jpg"
     label: "Figure 8"
-    src: figures/evans-refugee.jpg
-    caption: "Walker Evans. *Arkansas Flood Refugee*, 1937."
-    credit: "The J. Paul Getty Museum, Los Angeles"
-  - id: "lange-house"
-    src: figures/lange-house.jpg
-    caption: "Dorothea Lange. *Abandoned Dust Bowl Home*, about 1935–1940."
-    credit: The J. Paul Getty Museum, Los Angeles
-  - id: "evans-video"
-    src: figures/evans-video-still.jpg
-    media_id: BpGN0UUtqqU
-    media_type: youtube
-    caption: "A selection of Walker Evans photos from the across the United States of America, 1930s."
-    credit: The J. Paul Getty Museum, Los Angeles
-  - id: "photo-podcast"
-    media_id: 336879231
-    media_type: soundcloud
-    caption: "Echoing the work of Lange and Evans, contemporary photographer Chris Killip documents social landscapes and is known for a series of powerful images of struggling industrial communities in North East England."
-  - id: "mother"
-    src: figures/mother.jpg
-    caption: "Dorothea Lange, *Human Erosion in California / Migrant Mother*, 1936."
-    credit: The J. Paul Getty Museum, Los Angeles
+    caption: "Sources of amber in the ancient world. Map by David Fuller."
+
+  - id: "intro9"
+    src: "figures/fig09.jpg"
+    label: "Figure 9"
+    caption: "Amber formed on trees. In <em>Tractatus De lapidus, Ortus sanitatis</em> (Mainz: Jacob Meydenbach, June 23, 1491), sequence 776. Folio: 30.2 x 20.6 cm (11<sup>7</sup>⁄<sub>8</sub> x 8<sup>1</sup>⁄<sub>8</sub> in.). Handcolored woodcut."
+    credit: "Courtesy of the Boston Medical Library in the Francis A. Countway Library of Medicine."
+
+  - id: "intro10"
+    src: "figures/fig10.jpg"
+    label: "Figure 10"
+    caption: "Damselfly in Dominican amber, L: 4.6 cm (1<sup>4</sup>⁄<sub>5</sub> in.). Private collection."
+    credit: "Photo: D. Grimaldi / American Museum of Natural History."
+
+  - id: "intro11"
+    src: "figures/fig11.jpg"
+    label: "Figure 11"
+    caption: "Cone in Baltic amber, L: 15.2 cm (6 in.). Private collection."
+    credit: "Photo: D. Grimaldi / American Museum of Natural History."
+
+  - id: "intro12"
+    src: "figures/fig12.jpg"
+    label: "Figure 12"
+    caption: "Baltic amber, L: 2.2 cm (<sup>7</sup>⁄<sub>8</sub> in.). Private collection."
+    credit: "Photograph © Lee B. Ewing."
+
+  - id: "intro13"
+    src: "figures/fig13.jpg"
+    label: "Figure 13"
+    caption: "Extinct termite, <em>Mastotermes electrodominicus</em>, in Dominican amber, L: 4.6 cm (1<sup>4</sup>⁄<sub>5</sub> in.)."
+    credit: "Photo: D. Grimaldi / American Museum of Natural History."
+
+  - id: "intro14"
+    src: "figures/fig14.jpg"
+    label: "Figure 14"
+    caption: "Two typical pieces of Baltic amber. Pale yellow amber was preferred by the ancient Greeks and Etruscans. Opaque orange amber was especially fashionable in Imperial Rome. L (orange amber): 9 cm (3<sup>1</sup>⁄<sub>2</sub> in.). L (yellow amber): 5 cm (2 in.). Private collection."
+    credit: "Photograph © Lee B. Ewing."
+
+  - id: "intro15"
+    src: "figures/fig15.jpg"
+    label: "Figure 15"
+    caption: "Female Head Pendants, from Tomb 740 B, Valle Pega, Spina, a tomb dating to the end of the 5th century B.C. Amber, H: 4.8 cm (1<sup>7</sup>⁄<sub>8</sub> in.), W: 2.8 cm (1<sup>1</sup>⁄<sub>8</sub> in.), D: 1.2 cm (<sup>1</sup>⁄<sub>2</sub> in.) and H: 4.5 cm (1<sup>3</sup>⁄<sub>4</sub> in.), W: 2.8 cm (1<sup>1</sup>⁄<sub>8</sub> in.), D: 1.4 cm (<sup>1</sup>⁄<sub>2</sub> in.). Ferrara, Museo Archeologico Nazionale, 44877 and 44878."
+    credit: "Ferrara, Museo Archeologico Nazionale / IKONA."
+
+  - id: "intro16"
+    src: "figures/fig16.jpg"
+    label: "Figure 16"
+    caption: "Earrings, from Tomb 23, Podere Lippi, Verucchio. First half of the 7th century B.C. Amber and gold, Diam. (amber, max): 6 cm (2<sup>3</sup>⁄<sub>8</sub> in.). Verucchio, Museo Civico Archeologico, 8410-850."
+    credit: "Verucchio, Museo Civico Archeologico / IKONA."
+
+  - id: "intro17"
+    src: "figures/fig17.jpg"
+    label: "Figure 17"
+    caption: "<em>Satyr and Maenad</em> pendant, Etruscan or Etrusco-Campanian, late 6th century B.C. Amber, H: 17.3 cm (6<sup>4</sup>⁄<sub>5</sub> in.), W: 9.5 cm (3<sup>3</sup>⁄<sub>4</sub> in.), D: 4.5 cm (1<sup>3</sup>⁄<sub>4</sub> in.). London, British Museum, 1865,0103.46."
+    credit: "© The Trustees of the British Museum."
+
+  - id: "intro18"
+    src: "figures/fig18.jpg"
+    label: "Figure 18"
+    caption: "<em>Head of a Female Divinity or Sphinx</em> pendant, Etruscan, 550–525 B.C. Amber, H: 3.2 cm (1<sup>1</sup>⁄<sub>4</sub> in.), W: 2.6 cm (1 in.), D (face): 1.2 cm (<sup>2</sup>⁄<sub>5</sub> in.), D (back): 0.5 cm (<sup>1</sup>⁄<sub>5</sub> in.), D (joined): 1.7 cm (<sup>7</sup>⁄<sub>10</sub> in.). Los Angeles, J. Paul Getty Museum, 76.AO.85.1 and 76.AO.86. Gift of Gordon McLendon. See [cat. no. 10](/objects/10/)."
+
+  - id: "intro19"
+    src: "figures/fig19.jpg"
+    label: "Figure 19"
+    caption: "Necklace with a pendant scarab, Italic or Etruscan and Greek, 550–400 B.C. Amber, gold, and carnelian. L: 39.5 cm (15<sup>9</sup>⁄<sub>16</sub> in.). Los Angeles, J. Paul Getty Museum, [77.AO.77.1](https://www.getty.edu/art/collection/objects/12961). Gift of Gordon McLendon."
+
+  - id: "intro20"
+    src: "figures/fig20.jpg"
+    label: "Figure 20"
+    caption: "Lynx urine hardens into a stone. In <em>Bestiarius</em> GKS 1633 4º, 6r, English, 15th century. Parchment, H: 21 cm (8<sup>1</sup>⁄<sub>4</sub> in.), W: 13.5 cm (5<sup>3</sup>⁄<sub>10</sub> in.). Courtesy of The Royal Library of Denmark."
+
+  - id: "intro21"
+    src: "figures/fig21.jpg"
+    label: "Figure 21"
+    caption: "Hove tumulus cup, Wessex culture, Bronze Age. Amber, D: 8.9 cm (3<sup>1</sup>⁄<sub>2</sub> in.). Brighton & Hove, Royal Pavilion & Museums."
+
+  - id: "intro22"
+    src: "figures/fig22.jpg"
+    label: "Figure 22"
+    caption: "Baltic amber encrusted with barnacles. L: 8.6 cm (3<sup>3</sup>⁄<sub>8</sub> in.)."
+    credit: "Photo: D. Grimaldi / American Museum of Natural History."
+
+  - id: "intro23"
+    src: "figures/fig23.jpg"
+    label: "Figure 23"
+    caption: "Fall of Phaethon, engraving by Thomas de Leu after a painting by Antoine Caron."
+    credit: "From *Les images ou tableaux de platte peinture des deux Philostrates sophistes grecs, et Les statues de Callistrate* (Paris, 1615), p. 90. Courtesy of the National Gallery of Art Library, A. W. Mellon New Century Fund."
+
+  - id: "intro24"
+    src: "figures/fig24.jpg"
+    label: "Figure 24"
+    caption: "Bow of a Fibula (Safety Pin) with Reclining Figures, Attendant, and Bird, Etruscan, ca. 500 B.C. Amber, L: 14 cm (5<sup>1</sup>⁄<sub>2</sub> in.). New York, Metropolitan Museum of Art, 17.190.2067. Gift of J. Pierpont Morgan, 1917."
+    credit: "© The Metropolitan Museum of Art / Art Resource, NY."
+
+  - id: "intro25"
+    src: "figures/fig25.jpg"
+    label: "Figure 25"
+    caption: "<em>Seated Divinity</em> statuette, modern. Amber, H: 28 cm (11 in.), W (of base): 13.5 cm (5<sup>3</sup>⁄<sub>10</sub> in.). Los Angeles, J. Paul Getty Museum, 82.AO.51. Gift of Vasek Polak. See [cat. no. 57](/objects/57/)."
+
+  - id: "intro26"
+    src: "figures/fig26.jpg"
+    label: "Figure 26"
+    caption: "<em>Female Head in Profile</em> pendant, Etruscan, 525–480 B.C. Amber, H: 5.7 cm (2<sup>1</sup>⁄<sub>4</sub> in.), W: 5.6 cm (2<sup>1</sup>⁄<sub>5</sub> in.), D: 3 cm (1<sup>1</sup>⁄<sub>5</sub> in.). Los Angeles, J. Paul Getty Museum, 77.AO.81.4. Gift of Gordon McLendon. See [cat. no. 14](/objects/14/)."
+
+  - id: "intro27"
+    src: "figures/fig27.jpg"
+    label: "Figure 27"
+    caption: "<em>Lion with Bird</em> pendant, Etruscan, 600–550 B.C. Amber, H: 4.2 cm (1<sup>3</sup>⁄<sub>5</sub> in.), W: 6 cm (2<sup>3</sup>⁄<sub>8</sub> in.), D: 1.5 cm (<sup>3</sup>⁄<sub>5</sub> in.). Los Angeles, J. Paul Getty Museum, 77.AO.81.2. Gift of Gordon McLendon. See [cat. no. 5](/objects/5/)."
+
+  - id: "intro28"
+    src: "figures/fig28.jpg"
+    label: "Figure 28"
+    caption: "Piece of burning Baltic amber, producing its distinctive flame color and characteristic smoke. Length of amber before burning: 3 cm (1<sup>1</sup>⁄<sub>8</sub> in.). Private collection."
+    credit: "Photograph © Lee B. Ewing."
+
+  - id: "intro29"
+    src: "figures/fig29.jpg"
+    label: "Figure 29"
+    caption: "<em>Ram’s Head</em> pendant, Italic, 500–400 B.C. Amber, L: 3.6 cm (1<sup>2</sup>⁄<sub>5</sub> in.), W: 1.9 cm (<sup>3</sup>⁄<sub>4</sub> in.), D: 1.5 cm (<sup>3</sup>⁄<sub>5</sub> in.). Los Angeles, J. Paul Getty Museum, 77.AO.81.15. Gift of Gordon McLendon. See [cat. no. 45](/objects/45/)."
+
+  - id: "intro30"
+    src: "figures/fig30.jpg"
+    label: "Figure 30"
+    caption: "<em>Addorsed Lions’ Heads with Boar in Relief</em> plaque, Etruscan, 500–480 B.C. Amber, H: 3.6 cm (1<sup>2</sup>⁄<sub>5</sub> in.), W: 8.2 cm (3<sup>1</sup>⁄<sub>5</sub> in.), D: 1.2 cm (<sup>1</sup>⁄<sub>2</sub> in.). Los Angeles, J. Paul Getty Museum, 77.AO.83. Gift of Gordon McLendon. See [cat. no. 38](/objects/38/)."
+
+  - id: "intro31"
+    src: "figures/fig31.jpg"
+    label: "Figure 31"
+    caption: "Pendant inscribed with two Egyptianizing hieroglyphs, 7th century B.C. Amber, H: 3.8 cm (1<sup>1</sup>⁄<sub>2</sub> in.), W: 2.2 cm (<sup>7</sup>⁄<sub>8</sub> in.), D: 0.8 cm (<sup>3</sup>⁄<sub>10</sub> in.). Los Angeles, J. Paul Getty Museum, [82.AO.161.285](https://www.getty.edu/art/collection/objects/22044)."
+
+  - id: "intro32"
+    src: "figures/fig32.jpg"
+    label: "Figure 32"
+    caption: "Red-figure crater attributed to the Argonaut Group (detail), Etruscan, early 4th century B.C. Florence, Museo Archeologico Nazionale, 4026."
+    credit: "Photo: Nicolo Orsi Battaglini / IKONA."
+
+  - id: "intro33"
+    src: "figures/fig33.jpg"
+    label: "Figure 33"
+    caption: "Mirror with Peleus, Thetis, and Galene, Etruscan, Late Classical, ca. 350 B.C. Bronze, Diam.: 16.2 cm (6<sup>3</sup>⁄<sub>8</sub> in.). New York, The Metropolitan Museum of Art, Rogers Fund, 1909, 09.221.16."
+    credit: "© The Metropolitan Museum of Art / Art Resource, NY."
+
+  - id: "intro34"
+    src: "figures/fig34.jpg"
+    label: "Figure 34"
+    caption: "Necklace, Italic or Etruscan, 550–475 B.C. Amber and gold, L (approx.): 39.5 cm (15<sup>9</sup>⁄<sub>16</sub> in.). Los Angeles, J. Paul Getty Museum, [77.AO.77.5](https://www.getty.edu/art/collection/objects/12965). Gift of Gordon McLendon."
+
+  - id: "intro35"
+    src: "figures/fig35.jpg"
+    label: "Figure 35"
+    caption: "<em>Female Holding a Child (Kourotrophos)</em>, Etruscan, 600-550 B.C. Amber, H: 13 cm (5<sup>1</sup>⁄<sub>8</sub> in.), W: 4.5 cm (1<sup>3</sup>⁄<sub>4</sub> in.), D: 1.8 cm (<sup>7</sup>⁄<sub>10</sub> in.). Los Angeles, J. Paul Getty Museum, 77.AO.84. Gift of Gordon McLendon. See [cat. no. 1](/objects/1/)."
+
+  - id: "intro36"
+    src: "figures/fig36.jpg"
+    label: "Figure 36"
+    caption: "<em>Dancing Figure or Head of Satyr</em>, Etruscan or Italic, early 5th century B.C. Amber, legacy dimension: 7.5 x 4.7 cm (2<sup>15</sup>⁄<sub>16</sub> x 1<sup>7</sup>⁄<sub>8</sub> in.). Museum of Fine Arts, Boston. Gift of Miss C. Wissmann, 02.253."
+    credit: "Photograph © 2011, Museum of Fine Arts, Boston."
+
+  - id: "intro37"
+    src: "figures/fig37.jpg"
+    label: "Figure 37"
+    caption: "<em>Winged Female Head in Profile</em>, Etruscan, 525-480 B.C. Amber, H: 7.9 cm (3<sup>1</sup>⁄<sub>8</sub> in.), W: 4.9 cm (1<sup>9</sup>⁄<sub>10</sub> in.), D: 2.5 cm (1 in.). Los Angeles, J. Paul Getty Museum, 76.AO.85.2. Gift of Gordon McLendon. See [cat. no. 15](/objects/15/)."
+
+  - id: "intro38"
+    src: "figures/fig38.jpg"
+    label: "Figure 38"
+    caption: "*Reclining Couple with an Attendant*, back wall of the Tomb of Hunting and Fishing, Tarquinia, Etruscan, ca. 510 B.C. Fresco."
+    credit: "By permission of La Soprintendenza per i Beni Archeologici dell'Etruria Meridionale, Roma / IKONA."
+
+  - id: "intro39"
+    src: "figures/fig39.jpg"
+    label: "Figure 39"
+    caption: "*Ram’s Head* pendant, Etruscan, 525–480 B.C. Amber, L: 3.6 cm (1<sup>2</sup>⁄<sub>5</sub> in.), W: 2 cm (<sup>4</sup>⁄<sub>5</sub> in.), D: 1.8 cm (<sup>7</sup>⁄<sub>10</sub> in.). Los Angeles, J. Paul Getty Museum, 76.AO.82. Gift of Gordon McLendon. See [cat. no. 39](/objects/39/)."
+
+  - id: "intro40"
+    src: "figures/fig40.jpg"
+    label: "Figure 40"
+    caption: "Figured amulet necklaces in the antechamber of the Tomb of Hunting and Fishing, Tarquinia, Etruscan, ca. 510 B.C. Fresco. Details from nineteenth-century watercolor painting by G. Mariani."
+    credit: "From [Steingräber 2006](#steingr%C3%A4ber-2006), p. 96."
+
+  - id: "intro41"
+    src: "figures/fig41.jpg"
+    label: "Figure 41"
+    caption: "*Lion’s Head* pendant, Etruscan, 550–500 B.C. Amber, H: 2.8 cm (1<sup>1</sup>⁄<sub>10</sub> in.), W: 2.2 cm (<sup>9</sup>⁄<sub>10</sub> in.), D: 3.8 cm (1<sup>1</sup>⁄<sub>2</sub> in.). Los Angeles, J. Paul Getty Museum, 76.AO.80. Gift of Gordon McLendon. See [cat. no. 33](/objects/33/)."
+
+  - id: "intro42"
+    src: "figures/fig42.jpg"
+    label: "Figure 42"
+    caption: "a & b. *Cowrie Shell / Hare* pendant, Italic or Etruscan, 600–500 B.C. Amber, H: 3.7 cm (1<sup>1</sup>⁄<sub>2</sub> in.), W: 2.6 cm (1 in.), D: 1.4 cm (<sup>1</sup>⁄<sub>2</sub> in.). Los Angeles, J. Paul Getty Museum, 79.AO.75.28. Gift of Stanley Silverman. a) front; b) back. See [cat. no. 30](/objects/30/)."
+
+  - id: "intro43"
+    src: "figures/fig43.jpg"
+    label: "Figure 43"
+    caption: "<em>Foreparts of a Recumbent Boar</em> pendant, Etruscan, 525–480 B.C. Amber, L: 5 cm (1<sup>9</sup>⁄<sub>10</sub> in.), D: 1.3 cm (<sup>1</sup>⁄<sub>2</sub> in.), H: 2.4 cm (<sup>9</sup>⁄<sub>10</sub> in.). Los Angeles, J. Paul Getty Museum, 76.AO.84. Gift of Gordon McLendon. See [cat. no. 37](/objects/37/)."
+
+  - id: "intro44"
+    src: "figures/fig44.jpg"
+    label: "Figure 44"
+    caption: "<em>Divinity Holding Hares</em> pendant, Etruscan, 600–550 B.C. Amber, H: 9.7 cm (3<sup>4</sup>⁄<sub>5</sub> in.), W: 6.4 cm (2<sup>1</sup>⁄<sub>2</sub> in.), D: 2.4 cm (<sup>9</sup>⁄<sub>10</sub> in.). Los Angeles, J. Paul Getty Museum, 77.AO.82. Gift of Gordon McLendon. See [cat. no. 4](/objects/4/)."
+
+  - id: "intro45"
+    src: "figures/fig45.jpg"
+    label: "Figure 45"
+    caption: "<em>Head of a Female Divinity or Sphinx</em> pendant, Etruscan, 550–520 B.C. Amber, H: 3.4 cm (1<sup>3</sup>⁄<sub>10</sub> in.), W: 2.4 cm (<sup>9</sup>⁄<sub>10</sub> in.), D: 1.6 cm (<sup>3</sup>⁄<sub>5</sub> in.). Los Angeles, J. Paul Getty Museum, 76.AO.79. Gift of Gordon McLendon. See [cat. no. 11](/objects/11/)."
+
+  - id: "intro46"
+    src: "figures/fig46.jpg"
+    label: "Figure 46"
+    caption: "<em>Standing Female Figure (Kore)</em> pendant, Etruscan, 525–500 B.C. Amber, H: 6.7 cm (2<sup>5</sup>⁄<sub>8</sub> in.), W: 2 cm (<sup>7</sup>⁄<sub>10</sub> in.), D: 0.9 cm (<sup>3</sup>⁄<sub>8</sub> in.). Los Angeles, J. Paul Getty Museum, 76.AO.77. Gift of Gordon McLendon. See [cat. no. 8](/objects/8/)."
+
+  - id: "intro47"
+    src: "figures/fig47.jpg"
+    label: "Figure 47"
+    caption: "<em>Female Head</em> pendant, Italic or Campanian, 500–480 B.C. Amber, H: 3 cm (1<sup>1</sup>⁄<sub>5</sub> in.), W: 2.6 cm (1 in.), D: 0.4 cm (<sup>1</sup>⁄<sub>10</sub> in.). Los Angeles, J. Paul Getty Museum, 83.AO.202.12. Gift of Vasek Polak. See [cat. no. 21](/objects/21/)."
+
+  - id: "intro48"
+    src: "figures/fig48.jpg"
+    label: "Figure 48"
+    caption: "Head from the <em>Statue of the Young Bacchus</em> (Dionysos), Roman, A.D. 1–50. Bronze with silver, H: 21.6 cm (8<sup>1</sup>⁄<sub>2</sub> in.), W: 18 cm (7<sup>1</sup>⁄<sub>16</sub> in.), D: 19 cm (7<sup>1</sup>⁄<sub>2</sub> in.). Los Angeles, J. Paul Getty Museum, [96.AB.52](https://www.getty.edu/art/collection/objects/29487)."
+
+  - id: "intro49"
+    src: "figures/fig49.jpg"
+    label: "Figure 49"
+    caption: "<em>Satyr Head in Profile</em> pendant, Etruscan, 525–480 B.C. Amber, H: 6.5 cm (2<sup>1</sup>⁄<sub>2</sub> in.), W: 6.8 cm (2<sup>7</sup>⁄<sub>10</sub> in.), D: 3.5 cm (1<sup>3</sup>⁄<sub>8</sub> in.). Los Angeles, J. Paul Getty Museum, 83.AO.202.1. Gift of Vasek Polak. See [cat. no. 12](/objects/12/)."
+
+  - id: "intro50"
+    src: "figures/fig50.jpg"
+    label: "Figure 50"
+    caption: "<em>Votive Statuette of Hercle</em>, Etruscan, 320–280 B.C. Bronze, H: 24.3 cm (9<sup>5</sup>⁄<sub>8</sub> in.), W: 7 cm (2<sup>3</sup>⁄<sub>4</sub> in.), D: 8.7 cm (3<sup>7</sup>⁄<sub>16</sub> in.). Los Angeles, J. Paul Getty Museum, [96.AB.36](https://www.getty.edu/art/collection/objects/29508)."
+
+  - id: "intro51"
+    src: "figures/fig51.jpg"
+    label: "Figure 51"
+    caption: "a & b. <em>Silver Pin with Amber Satyr Head</em> pendant, Italic, 5th century B.C. Amber, H: 6.8 cm (2<sup>7</sup>⁄<sub>10</sub> in.), W: 4.9 cm (1<sup>9</sup>⁄<sub>10</sub> in.), D: 2.2 cm (<sup>7</sup>⁄<sub>8</sub> in.). Taranto, Museo Archeologico Nazionale, 138144. a) front; b) back."
+    credit: "By permission of Il Ministero per i Beni e le Attività Culturali⁠—Direzione Regionale per i Beni Culturali e Paesaggistici della Puglia⁠—Soprintendenza per i Beni Archeologici della Puglia."
+
+  - id: "intro52"
+    src: "figures/fig52.jpg"
+    label: "Figure 52"
+    caption: "<em>Hippocamp</em> pendant, Etruscan, 575–550 B.C. Amber, L: 7 cm (2<sup>3</sup>⁄<sub>4</sub> in.), W: 4.3 cm (1<sup>7</sup>⁄<sub>10</sub> in.), D: 2.7 cm (1<sup>1</sup>⁄<sub>10</sub> in.). Los Angeles, J. Paul Getty Museum, 78.AO.286.1. Gift of Gordon McLendon. See [cat. no. 29](/objects/29/)."
+
+  - id: "intro53"
+    src: "figures/fig53.jpg"
+    label: "Figure 53"
+    caption: "<em>Female Holding a Child (Kourotrophos) with Bird</em> pendant, Etruscan, 600–550 B.C. Amber, H: 8.3 cm (3<sup>1</sup>⁄<sub>4</sub> in.), W: 5 cm (1<sup>15</sup>⁄<sub>16</sub> in.), D: 5 cm (1<sup>15</sup>⁄<sub>16</sub> in.). Los Angeles, J. Paul Getty Museum, 77.AO.85. Gift of Gordon McLendon. See [cat. no. 2](/objects/2/)."
+
+  - id: "intro54"
+    src: "figures/fig54.jpg"
+    label: "Figure 54"
+    caption: "a & b. <em>Lion</em> pendant, Etruscan or Campanian, 525–480 B.C. Amber, L (as preserved): 10.5 cm (4<sup>1</sup>⁄<sub>8</sub> in.), L (estimated original): 11.5 cm (4<sup>1</sup>⁄<sub>2</sub> in.), W: 4 cm (1<sup>1</sup>⁄<sub>2</sub> in), D (at chest): 1.8 cm (<sup>7</sup>⁄<sub>10</sub> in.). Los Angeles, J. Paul Getty Museum, 76.AO.78. Gift of Gordon McLendon. a) front; b) back. See [cat. no. 31](/objects/31/)."
+
+  - id: "intro55"
+    src: "figures/fig55.jpg"
+    label: "Figure 55"
+    caption: "<em>Dancing Figure</em>. Etruscan or Italic, early 5th century B.C. Amber, 7.2 x 3.7 cm (2<sup>13</sup>⁄<sub>16</sub> x 1<sup>7</sup>⁄<sub>16</sub> in.). Museum of Fine Arts, Boston. Gift of Miss C. Wissmann, 02.254."
+    credit: "Photograph © 2011 Museum of Fine Arts, Boston."
+
+  - id: "intro56"
+    src: "figures/fig56.jpg"
+    label: "Figure 56"
+    caption: "<em>Asinine Head in Profile</em> pendant, Italic, 500–400 B.C. Amber, H: 4.8 cm (1<sup>7</sup>⁄<sub>8</sub> in.), W: 5.9 cm (2<sup>5</sup>⁄<sub>16</sub> in.), D: 1.9 cm (<sup>3</sup>⁄<sub>4</sub> in.). Los Angeles, J. Paul Getty Museum, 77.AO.81.24. Gift of Gordon McLendon. See [cat. no. 56](/objects/56/)."
+
+  - id: "intro57"
+    src: "figures/fig57.jpg"
+    label: "Figure 57"
+    caption: "<em>Lion’s Head</em> spout or finial, Etruscan, 525–480 B.C. Amber, H: 1.9 cm (<sup>3</sup>⁄<sub>4</sub> in.), W: 1.7 cm (<sup>2</sup>⁄<sub>3</sub> in.), D: 2 cm (<sup>7</sup>⁄<sub>10</sub> in.). Los Angeles, J. Paul Getty Museum, 76.AO.81. Gift of Gordon McLendon. See [cat. no. 34](/objects/34/)."
+
+  - id: "techfig1"
+    src: "techessay/techfig1.jpg"
+    label: "Figure 1"
+    caption: "FTIR results for Baltic amber and amber object 76.AO.84 ([cat. no. 37](/objects/37))."
+
+  - id: "techfig2"
+    src: "techessay/techfig2.jpg"
+    label: "Figure 2"
+    caption: "THM-Py-GC/MS results for Baltic and Dominican ambers."
+
+  - id: "techfig3"
+    src: "techessay/techfig3.jpg"
+    label: "Figure 3"
+    caption: "THM-Py-GC/MS results for core sample from amber object <span class='no-break'>[82.AO.161.285](https://www.getty.edu/art/collection/objects/22044/)</span>."
+
+  - id: "techfig4"
+    src: "techessay/techfig4.jpg"
+    label: "Figure 4"
+    caption: "Variation in FTIR spectrum with succinate content for amber objects (core samples)."
+
+  - id: "techfig5"
+    src: "techessay/techfig5.jpg"
+    label: "Figure 5"
+    caption: "THM-Py-GC/MS results for dark surface and inner core of amber from Verfmolen ‘De Kat.’"
+
+  - id: "techfig6"
+    src: "techessay/techfig6.jpg"
+    label: "Figure 6"
+    caption: "THM-Py-GC/MS results for surface and inner core samples from 83.AO.202.1 ([cat. no. 12](/objects/12))."
+
+  - id: "techfig7"
+    src: "techessay/techfig7.jpg"
+    label: "Figure 7"
+    caption: "FTIR spectra for surface and core samples from 83.AO.202.1 ([cat. no. 12](/objects/12))."
+
+  - id: "techfig8"
+    src: "techessay/techfig8.jpg"
+    label: "Figure 8"
+    caption: "FTIR spectra for surface and core samples from 82.AO.161.7 ([cat. no. 24](/objects/24))."
+
+  - id: "techfig9"
+    src: "techessay/techfig9.jpg"
+    label: "Figure 9"
+    caption: "THM-Py-GC/MS results for surface samples from treated amber objects."
+
+  - id: "techfig10"
+    src: "techessay/techfig10.jpg"
+    label: "Figure 10"
+    caption: "FTIR results for core samples from treated amber objects."
+
+  - id: "pl01-1"
+    src: objects/gm_00906701.jpg
+    caption: "Female Holding a Child "
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
     download: true
-  - id: "mother-b"
-    src: figures/mother-b.jpg
-    caption: "Dorothea Lange, alternate version of *Migrant Mother*, 1936."
-    credit: Library of Congress Prints and Photographs Division
-  - id: "mother-c"
-    src: figures/mother-c.jpg
-    caption: "Dorothea Lange, alternate version of *Migrant Mother*, 1936."
-    credit: Library of Congress Prints and Photographs Division
-  - id: "pickers"
-    src: figures/pickers.jpg
-    caption: "Dorothea Lange, *Pea Pickers, Nipomo, California*, 1936."
-    credit: The J. Paul Getty Museum, Los Angeles
-  - id: "duo"
-    src: figures/duo.jpg
-    caption: "Walker Evans, *Bud Fields with His Wife Ivy, and His Daughter Ellen, Hale County, Alabama*, 1936."
-    credit: The J. Paul Getty Museum, Los Angeles
+    accession_number: "77.AO.84"
+    cat_no: 1
+
+  - id: "pl01-2"
+    src: objects/gm_009067F1V1.jpg
+    caption: "Female Holding a Child, back"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
     download: true
-  - id: "family"
-    src: figures/family.jpg
-    caption: "Walker Evans, *Burrough’s Family, Hale County, Alabama*, 1935."
-    credit: The J. Paul Getty Museum, Los Angeles
+    accession_number: "77.AO.84"
+    cat_no: 1
+
+  - id: "pl01-3"
+    src: objects/gm_009067D1V1.jpg
+    caption: "Female Holding a Child, detail of Female"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.84"
+    cat_no: 1
+
+  - id: "pl01-4"
+    src: objects/gm_009067D2V1.jpg
+    caption: "Female Holding a Child, detail of Child"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.84"
+    cat_no: 1
+
+  - id: "pl02-1"
+    src: objects/gm_00906801.jpg
+    caption: "Female Holding a Child with Bird"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.85"
+    cat_no: 2
+
+  - id: "pl02-2"
+    src: objects/gml_009068F2V1.jpg
+    caption: "Female Holding a Child with Bird, left side"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.85"
+    cat_no: 2
+
+  - id: "pl02-3"
+    src: objects/gml_009068F3V1.jpg
+    caption: "Female Holding a Child with Bird, right side"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.85"
+    cat_no: 2
+
+  - id: "pl02-4"
+    src: objects/gml_009068F4V1.jpg
+    caption: "Female Holding a Child with Bird, back"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.85"
+    cat_no: 2
+
+  - id: "pl03-1"
+    src: objects/gm_00903501.jpg
+    caption: "Addorsed Females"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.81.1"
+    cat_no: 3
+
+  - id: "pl04-1"
+    src: objects/gm_00906501.jpg
+    caption: "Divinity Holding Hares"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.82"
+    cat_no: 4
+
+  - id: "pl04-2"
+    src: objects/gm_009065F1V1.jpg
+    caption: "Divinity Holding Hares, back"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.82"
+    cat_no: 4
+
+  - id: "pl04-3"
+    src: objects/gm_009065D1V1.jpg
+    caption: "Divinity Holding Hares, detail of Divinity"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.82"
+    cat_no: 4
+
+  - id: "pl04-4"
+    src: objects/gm_009065D2V1.jpg
+    caption: "Divinity Holding Hares, detail of Hares"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.82"
+    cat_no: 4
+
+  - id: "pl05-1"
+    src: objects/gm_00903601.jpg
+    caption: "Lion with Bird"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.81.2"
+    cat_no: 5
+
+  - id: "pl05-2"
+    src: objects/gm_009036D1V1.jpg
+    caption: "Lion with Bird, detail"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.81.2"
+    cat_no: 5
+
+  - id: "pl06-1"
+    src: objects/gm_00903701.jpg
+    caption: "Paired Lions"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.81.3"
+    cat_no: 6
+
+  - id: "pl06-2"
+    src: objects/gml_009037F3V1.jpg
+    caption: "Paired Lions, top"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.81.3"
+    cat_no: 6
+
+  - id: "pl07-1"
+    src: objects/gm_00848101.jpg
+    caption: "Ship with Figures"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "76.AO.76"
+    cat_no: 7
+
+  - id: "pl07-2"
+    src: objects/gm_008481D5V1.jpg
+    caption: "Ship with Figures, top"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "76.AO.76"
+    cat_no: 7
+
+  - id: "pl07-3"
+    src: objects/gm_008481D1V1.jpg
+    caption: "Ship with Figures, detail of heads, port side"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "76.AO.76"
+    cat_no: 7
+
+  - id: "pl07-4"
+    src: objects/gm_008481D2V1.jpg
+    caption: "Ship with Figures, detail of heads, starboard side"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "76.AO.76"
+    cat_no: 7
+
+  - id: "pl07-5"
+    src: objects/gm_008481D3V1.jpg
+    caption: "Ship with Figures, detail of bearded man, port side"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "76.AO.76"
+    cat_no: 7
+
+  - id: "pl07-6"
+    src: objects/gm_008481D4V1.jpg
+    caption: "Ship with Figures, detail of bearded man, starboard side"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "76.AO.76"
+    cat_no: 7
+
+  - id: "pl08-1"
+    src: objects/gml_008482F1V1.jpg
+    caption: "Standing Female Figure"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "76.AO.77"
+    cat_no: 8
+
+  - id: "pl08-2"
+    src: objects/gml_008482F3V1.jpg
+    caption: "Standing Female Figure, left side"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "76.AO.77"
+    cat_no: 8
+
+  - id: "pl08-3"
+    src: objects/gml_008482F4V1.jpg
+    caption: "Standing Female Figure, back"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "76.AO.77"
+    cat_no: 8
+
+  - id: "pl08-4"
+    src: objects/gm_008482D3V1.jpg
+    caption: "Standing Female Figure, detail of head"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "76.AO.77"
+    cat_no: 8
+
+  - id: "pl08-5"
+    src: objects/gm_008482D4V1.jpg
+    caption: "Standing Female Figure, detail of drapery"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "76.AO.77"
+    cat_no: 8
+
+  - id: "pl09-1"
+    src: objects/gm_02672601.jpg
+    caption: "Head Fragment from a Standing Female Figure"
+    # credit: "The J. Paul Getty Museum"
+    download: true
+    accession_number: "82.AO.161.6"
+    cat_no: 9
+
+  - id: "pl10-1"
+    src: objects/gm_015478F6V1.jpg
+    caption: "Head of a Female Divinity or Sphinx"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "76.AO.85.1"
+    cat_no: 10
+
+  - id: "pl10-2"
+    src: objects/gm_015478F5V1.jpg
+    caption: "Head of a Female Divinity or Sphinx, right side"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "76.AO.85.1"
+    cat_no: 10
+
+  - id: "pl10-3"
+    src: objects/gm_015478F4V1.jpg
+    caption: "Head of a Female Divinity or Sphinx, left side"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "76.AO.85.1"
+    cat_no: 10
+
+  - id: "pl10-4"
+    src: objects/gm_015478F1V1.jpg
+    caption: "Head of a Female Divinity or Sphinx, back"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "76.AO.85.1"
+    cat_no: 10
+
+  - id: "pl11-1"
+    src: objects/gm_00848401.jpg
+    caption: "Head of a Female Divinity or Sphinx"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "76.AO.79"
+    cat_no: 11
+
+  - id: "pl12-1"
+    src: objects/gm_02024901.jpg
+    caption: "Satyr Head in Profile"
+    # credit: "The J. Paul Getty Museum, Gift of Vasek Polak"
+    download: true
+    accession_number: "83.AO.202.1"
+    cat_no: 12
+
+  - id: "pl13-1"
+    src: objects/gm_02672101.jpg
+    caption: "Satyr Head"
+    # credit: "The J. Paul Getty Museum"
+    download: true
+    accession_number: "82.AO.161.1"
+    cat_no: 13
+
+  - id: "pl14-1"
+    src: objects/gm_00903801.jpg
+    caption: "Female Head in Profile"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.81.4"
+    cat_no: 14
+
+  - id: "pl15-1"
+    src: objects/gm_01547901.jpg
+    caption: "Winged Female Head in Profile"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "76.AO.85.2"
+    cat_no: 15
+
+  - id: "pl15-2"
+    src: objects/gm_015479D2V1.jpg
+    caption: "Winged Female Head in Profile, detail of Wing"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "76.AO.85.2"
+    cat_no: 15
+
+  - id: "pl16-1"
+    src: objects/gm_00906301.jpg
+    caption: "Winged Female Head"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.81.29"
+    cat_no: 16
+
+  - id: "pl17-1"
+    src: objects/gm_02672301.jpg
+    caption: "Female Head in Profile"
+    # credit: "The J. Paul Getty Museum"
+    download: true
+    accession_number: "82.AO.161.3"
+    cat_no: 17
+
+  - id: "pl18-1"
+    src: objects/gm_02025201.jpg
+    caption: "Female Head"
+    # credit: "The J. Paul Getty Museum, Gift of Vasek Polak"
+    download: true
+    accession_number: "83.AO.202.4"
+    cat_no: 18
+
+  - id: "pl18-2"
+    src: objects/gm_020252F1V1.jpg
+    caption: "Female Head, left side"
+    # credit: "The J. Paul Getty Museum, Gift of Vasek Polak"
+    download: true
+    accession_number: "83.AO.202.4"
+    cat_no: 18
+
+  - id: "pl19-1"
+    src: objects/gm_02025301.jpg
+    caption: "Female Head"
+    # credit: "The J. Paul Getty Museum, Gift of Vasek Polak"
+    download: true
+    accession_number: "83.AO.202.5"
+    cat_no: 19
+
+  - id: "pl20-1"
+    src: objects/gm_02025401.jpg
+    caption: "Female Head in Profile"
+    # credit: "The J. Paul Getty Museum, Gift of Vasek Polak"
+    download: true
+    accession_number: "83.AO.202.6"
+    cat_no: 20
+
+  - id: "pl21-1"
+    src: objects/gm_02026001.jpg
+    caption: "Female Head"
+    # credit: "The J. Paul Getty Museum, Gift of Vasek Polak"
+    download: true
+    accession_number: "83.AO.202.12"
+    cat_no: 21
+
+  - id: "pl22-1"
+    src: objects/gm_02026601.jpg
+    caption: "Female Head"
+    # credit: "The J. Paul Getty Museum, Gift of Vasek Polak"
+    download: true
+    accession_number: "83.AO.202.18"
+    cat_no: 22
+
+  - id: "pl23-1"
+    src: objects/gm_00903901.jpg
+    caption: "Winged Female Head"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.81.5"
+    cat_no: 23
+
+  - id: "pl24-1"
+    src: objects/gm_02672701.jpg
+    caption: "Female Head"
+    # credit: "The J. Paul Getty Museum"
+    download: true
+    accession_number: "82.AO.161.7"
+    cat_no: 24
+
+  - id: "pl25-1"
+    src: objects/gm_00906401.jpg
+    caption: "Female Head in Profile"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.81.30"
+    cat_no: 25
+
+  - id: "pl26-1"
+    src: objects/gm_00905901.jpg
+    caption: "Female Head"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.81.25"
+    cat_no: 26
+
+  - id: "pl27-1"
+    src: objects/gm_02672201.jpg
+    caption: "Animal"
+    # credit: "The J. Paul Getty Museum"
+    download: true
+    accession_number: "82.AO.161.2"
+    cat_no: 27
+
+  - id: "pl28-1"
+    src: objects/gm_00943201.jpg
+    caption: "Addorsed Sphinxes"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "78.AO.286.2"
+    cat_no: 28
+
+  - id: "pl29-1"
+    src: objects/gm_009431F4V1.jpg
+    caption: "Hippocamp"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "78.AO.286.1"
+    cat_no: 29
+
+  - id: "pl29-2"
+    src: objects/gm_009431F5V1.jpg
+    caption: "Hippocamp, back"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "78.AO.286.1"
+    cat_no: 29
+
+  - id: "pl29-3"
+    src: objects/gm_009431D1V1.jpg
+    caption: "Hippocamp, detail of head"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "78.AO.286.1"
+    cat_no: 29
+
+  - id: "pl30-1"
+    src: objects/gm_017656F6V1.jpg
+    caption: "Cowrie Shell / Hare, view of Hare"
+    # credit: "The J. Paul Getty Museum, Gift of Stanley Silverman"
+    download: true
+    accession_number: "79.AO.75.28"
+    cat_no: 30
+
+  - id: "pl30-2"
+    src: objects/gm_017656F7V1.jpg
+    caption: "Cowrie Shell / Hare, view of Shell"
+    # credit: "The J. Paul Getty Museum, Gift of Stanley Silverman"
+    download: true
+    accession_number: "79.AO.75.28"
+    cat_no: 30
+
+  - id: "pl30-3"
+    src: objects/gm_017656F8V1.jpg
+    caption: "Cowrie Shell / Hare, left side"
+    # credit: "The J. Paul Getty Museum, Gift of Stanley Silverman"
+    download: true
+    accession_number: "79.AO.75.28"
+    cat_no: 30
+
+  - id: "pl30-4"
+    src: objects/gm_017656F5V1.jpg
+    caption: "Cowrie Shell / Hare, right side"
+    # credit: "The J. Paul Getty Museum, Gift of Stanley Silverman"
+    download: true
+    accession_number: "79.AO.75.28"
+    cat_no: 30
+
+  - id: "pl30-5"
+    src: objects/gm_017656D1V1.jpg
+    caption: "Cowrie Shell / Hare, detail of Hare"
+    # credit: "The J. Paul Getty Museum, Gift of Stanley Silverman"
+    download: true
+    accession_number: "79.AO.75.28"
+    cat_no: 30
+
+  - id: "pl31-1"
+    src: objects/gm_00848301.jpg
+    caption: "Lion, top"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "76.AO.78"
+    cat_no: 31
+
+  - id: "pl31-2"
+    src: objects/gm_008483F1V1.jpg
+    caption: "Lion, underside"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "76.AO.78"
+    cat_no: 31
+
+  - id: "pl31-3"
+    src: objects/gm_008483D1V1.jpg
+    caption: "Lion, detail of head"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "76.AO.78"
+    cat_no: 31
+
+  - id: "pl31-4"
+    src: objects/gm_008483D2V1.jpg
+    caption: "Lion, detail of tail"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "76.AO.78"
+    cat_no: 31
+
+  - id: "pl31-5"
+    src: objects/gm_008483D3V1.jpg
+    caption: "Lion, detail of front paws"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "76.AO.78"
+    cat_no: 31
+
+  - id: "pl31-6"
+    src: objects/gm_008483D4V1.jpg
+    caption: "Lion, detail of back paws"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "76.AO.78"
+    cat_no: 31
+
+  - id: "pl32-1"
+    src: objects/gm_00904201.jpg
+    caption: "Female Animal (Lioness?)"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.81.8"
+    cat_no: 32
+
+  - id: "pl32-2"
+    src: objects/gm_009042F6V1.jpg
+    caption: "Female Animal (Lioness?), right side"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.81.8"
+    cat_no: 32
+
+  - id: "pl33-1"
+    src: objects/gm_00848501.jpg
+    caption: "Lion’s Head, right side"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "76.AO.80"
+    cat_no: 33
+
+  - id: "pl33-2"
+    src: objects/gm_008485F1V1.jpg
+    caption: "Lion’s Head, left side"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "76.AO.80"
+    cat_no: 33
+
+  - id: "pl34-1"
+    src: objects/gm_00848601.jpg
+    caption: "Lion’s Head"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "76.AO.81"
+    cat_no: 34
+
+  - id: "pl35-1"
+    src: objects/gm_00904301.jpg
+    caption: "Lion’s Head"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.81.9"
+    cat_no: 35
+
+  - id: "pl36-1"
+    src: objects/gm_00904401.jpg
+    caption: "Lion’s Head"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.81.10"
+    cat_no: 36
+
+  - id: "pl37-1"
+    src: objects/gm_00848901.jpg
+    caption: "Foreparts of a Recumbent Boar"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "76.AO.84"
+    cat_no: 37
+
+  - id: "pl38-1"
+    src: objects/gm_00906601.jpg
+    caption: "Addorsed Lions’ Heads with Boar in Relief"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.83"
+    cat_no: 38
+
+  - id: "pl38-2"
+    src: objects/gm_009066D1V1.jpg
+    caption: "Addorsed Lions’ Heads with Boar in Relief, detail of left side"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.83"
+    cat_no: 38
+
+  - id: "pl38-3"
+    src: objects/gm_009066D2V1.jpg
+    caption: "Addorsed Lions’ Heads with Boar in Relief, detail of right side"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.83"
+    cat_no: 38
+
+  - id: "pl39-1"
+    src: objects/gm_00848701.jpg
+    caption: "Ram’s Head, left side"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "76.AO.82"
+    cat_no: 39
+
+  - id: "pl39-2"
+    src: objects/gm_008487F1V1.jpg
+    caption: "Ram’s Head, right side"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "76.AO.82"
+    cat_no: 39
+
+  - id: "pl39-3"
+    src: objects/gm_008487D1V1.jpg
+    caption: "Ram’s Head, detail of horn"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "76.AO.82"
+    cat_no: 39
+
+  - id: "pl40-1"
+    src: objects/gm_00848801.jpg
+    caption: "Ram’s Head"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "76.AO.83"
+    cat_no: 40
+
+  - id: "pl41-1"
+    src: objects/gm_00904101.jpg
+    caption: "Ram’s Head"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.81.7"
+    cat_no: 41
+
+  - id: "pl42-1"
+    src: objects/gm_00904501.jpg
+    caption: "Ram’s Head"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.81.11"
+    cat_no: 42
+
+  - id: "pl43-1"
+    src: objects/gm_00904701.jpg
+    caption: "Ram’s Head"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.81.13"
+    cat_no: 43
+
+  - id: "pl44-1"
+    src: objects/gm_00904801.jpg
+    caption: "Ram’s Head"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.81.14"
+    cat_no: 44
+
+  - id: "pl45-1"
+    src: objects/gm_00904901.jpg
+    caption: "Ram’s Head"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.81.15"
+    cat_no: 45
+
+  - id: "pl46-1"
+    src: objects/gm_00905001.jpg
+    caption: "Ram’s Head"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.81.16"
+    cat_no: 46
+
+  - id: "pl47-1"
+    src: objects/gm_00905101.jpg
+    caption: "Ram’s Head"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.81.17"
+    cat_no: 47
+
+  - id: "pl48-1"
+    src: objects/gm_00905201.jpg
+    caption: "Ram’s Head"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.81.18"
+    cat_no: 48
+
+  - id: "pl49-1"
+    src: objects/gm_00905301.jpg
+    caption: "Ram’s Head"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.81.19"
+    cat_no: 49
+
+  - id: "pl50-1"
+    src: objects/gm_00905501.jpg
+    caption: "Ram’s Head"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.81.21"
+    cat_no: 50
+
+  - id: "pl51-1"
+    src: objects/gm_00905601.jpg
+    caption: "Ram’s Head"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.81.22"
+    cat_no: 51
+
+  - id: "pl52-1"
+    src: objects/gm_00904601.jpg
+    caption: "Ram’s Head"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.81.12"
+    cat_no: 52
+
+  - id: "pl53-1"
+    src: objects/gm_02672401.jpg
+    caption: "Ram’s Head"
+    # credit: "The J. Paul Getty Museum"
+    download: true
+    accession_number: "82.AO.161.4"
+    cat_no: 53
+
+  - id: "pl54-1"
+    src: objects/gm_00905401.jpg
+    caption: "Bovine Head"
+    # credit: "The J. Paul Getty Museum"
+    download: true
+    accession_number: "77.AO.81.20"
+    cat_no: 54
+
+  - id: "pl55-1"
+    src: objects/gm_00904001.jpg
+    caption: "Horse’s Head in Profile"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.81.6"
+    cat_no: 55
+
+  - id: "pl56-1"
+    src: objects/gm_00905801.jpg
+    caption: "Asinine Head in Profile"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.81.24"
+    cat_no: 56
+
+  - id: "pl56-2"
+    src: objects/gm_009058D2V1.jpg
+    caption: "Asinine Head in Profile, detail of bore hole"
+    # credit: "The J. Paul Getty Museum, Gift of Gordon McLendon"
+    download: true
+    accession_number: "77.AO.81.24"
+    cat_no: 56
+
+  - id: "pl57-1"
+    src: objects/gm_01209501.jpg
+    caption: "Seated Divinity"
+    # credit: "The J. Paul Getty Museum, Gift of Vasek Polak"
+    download: true
+    accession_number: "82.AO.51"
+    cat_no: 57
+
+  - id: "table-1"
+    src: tables/table-1.html
+    media_type: table
+
+  - id: "table-2"
+    src: tables/table-2.html
+    media_type: table
+
+  - id: "table-3"
+    src: tables/table-3.html
+    media_type: table
+
+  - id: "table-4"
+    src: tables/table-4.html
+    media_type: table
+
+  - id: "table-5"
+    src: tables/table-5.html
+    media_type: table
+
+  - id: "table-6"
+    src: tables/table-6.html
+    media_type: table
+
+  - id: "table-7"
+    src: tables/table-7.html
+    media_type: table
+
+  - id: "table-8"
+    src: tables/table-8.html
+    media_type: table
+
+  - id: "table-9"
+    src: tables/table-9.html
+    media_type: table

@@ -1,7 +1,7 @@
 ---
-class: list
-layout: contents
-search: false
 title: Contents
-weight: 2
+weight: 5
+type: contents
+class: list
+search: false
 ---

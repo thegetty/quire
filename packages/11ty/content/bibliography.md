@@ -1,5 +1,17 @@
 ---
 title: Bibliography
-layout: bibliography
-weight: 200
+type: page
+weight: 1402
 ---
+
+## Abbreviations
+
+{{< q-abbreviations-table >}}
+
+## Frequently Cited Sources
+
+{% qclass "backmatter" %}
+
+  {% qbibliography sort="sort_as" %}
+
+{% endqclass %}
