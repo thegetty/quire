@@ -192,9 +192,8 @@ object_list:
     date: 525–480 B.C.
     dimensions: "Height: 57 mm; width: 56 mm; depth: 30 mm; Weight: 49.8 g"
     provenance: "Gift of Gordon McLendon"
-    subjects: Childbirth; Etruscan culture;
+    subjects: Childbirth; Etruscan culture; Jewelry
     dor_id: 7918
-    subjects: Jewelry
     figure:
       - id: pl14-1
 
@@ -277,9 +276,8 @@ object_list:
     date: 500–480 B.C.
     dimensions: "Height: 30 mm; width: 26 mm; depth: 4 mm; Weight: 2.4 g"
     provenance: "Gift of Vasek Polak"
-    subjects: Etruscan culture; Inclusions;
+    subjects: Etruscan culture; Inclusions; Magic
     dor_id: 16261
-    subjects: Magic
     figure:
       - id: pl21-1
 
