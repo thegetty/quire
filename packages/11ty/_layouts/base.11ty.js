@@ -8,7 +8,7 @@ const scripts = require ('../_includes/components/scripts.11ty.js')
 module.exports = function(data) {
   const { content, publication } = data
 
-  return html`
+  return this.renderTemplate(`
     <!doctype html>
     <html lang="${ publication.language }">
       ${head(data)}
@@ -33,10 +33,12 @@ module.exports = function(data) {
             ${this.nav(data)}
             ${ content }
           </div>
-          <!--  {#% render 'search' %#} -->
+          {% render 'search' %}
         </div>
         ${scripts(data)}
       </body>
     </html>
-  `
+  `, 
+  'liquid'
+  )
 }
