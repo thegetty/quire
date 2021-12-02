@@ -4,5 +4,5 @@ layout: contents
 class: grid
 weight: 700
 slug: .
-url: objects/groups/5
+permalink: objects/groups/5
 ---

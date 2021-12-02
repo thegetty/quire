@@ -4,7 +4,7 @@ layout: contents
 class: grid
 weight: 300
 slug: .
-url: objects/groups/1
+permalink: objects/groups/1
 ---
 
 The first six objects presented here, *Female Holding a Child (Kourotrophos)* ({% qobject "77.AO.84", "," %}), *Female Holding a Child (Kourotrophos) with Bird* ({% qobject "77.AO.85", "," %}), *Addorsed Females* ({% qobject "77.AO.81.1", "," %}), *Divinity Holding Hares* ({% qobject "77.AO.82", "," %}), *Lion with Bird* ({% qobject "77.AO.81.2", "," %}), and *Paired Lions* ({% qobject "77.AO.81.3", "," %}), are similar in style, technique, state of conservation, and size. Subject also relates them. Because of this, and because the six were part of the same donation, it is posited that they come from the same original context.

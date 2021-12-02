@@ -4,7 +4,7 @@ layout: contents
 class: grid
 weight: 1000
 slug: .
-url: objects/groups/8
+permalink: objects/groups/8
 ---
 
 The subject of a ram or ram's head for adornment, amulets, and amuletic jewelry is age-old, and the animal is one of the earliest to appear in these forms. Rams' heads are among the most numerous of pre-Roman amber subjects and range considerably in style.[^1] The earliest ones can be dated to the third quarter of the sixth century B.C., but the first documented examples date to the last decade of the sixth. There are a number from fifth-century contexts and a group from the fourth century. Some, such as {% qobject "76.AO.82" %}, are minor masterpieces of Archaic art, while others are vaguely blocked out and defined with schematic scratchings. The differences among the rams' heads throughout the period of their production suggest that they were made by any number of carvers, some highly skilled, others not, for acquirers from all parts of the Italian peninsula and areas within close sailing distance. The findspots include central and south Italy, two sites in ancient Illyria, and Alalia (Corsica). Many others that can be dated by style to the sixth and fifth centuries have come to light without secure documentation. Of the examples in the Getty collection, three are dated here by style to the sixth century, and twelve examples to the fifth.

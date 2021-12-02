@@ -4,7 +4,7 @@ layout: contents
 class: grid
 weight: 800
 slug: .
-url: objects/groups/6
+permalink: objects/groups/6
 ---
 
 After rams', lions' are the most numerous of all pre-Roman animal heads in amber. The Getty collection reflects the relative popularity of these two animal subjects: there are four lions' and fifteen rams' heads. A feature found on almost all the amber animal heads is the collarlike finial section in imitation of a metal mount, which shows that the amber examples imitate pendants made entirely of gold (or another precious metal) or of another material such as ivory set in a metal mount.

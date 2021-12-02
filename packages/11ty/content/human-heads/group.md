@@ -4,7 +4,7 @@ layout: contents
 class: grid
 weight: 600
 slug: .
-url: objects/groups/4
+permalink: objects/groups/4
 ---
 
 The human head is the most common of all amber pendant subjects and enjoyed the longest duration, from the late eighth to the late fourth century B.C. From the beginning, they appear to follow a much older convention, whereby one part of a figure is sufficient to represent the whole. The symbolic meaning of the detached head as a pendant varies according to its type and use, but the head always represents a demon, hero, or divinity.
