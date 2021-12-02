@@ -1,5 +1,6 @@
 const globalData = require('../globalData')
 
+const abbr = require('./abbr.11ty.js')
 const backmatter = require('./backmatter.11ty.js')
 const cite = require('./cite.11ty.js')
 const contributor = require('./contributor.11ty.js')
@@ -7,6 +8,7 @@ const div = require('./div.11ty.js')
 const figure = require('./figure/index.11ty.js')
 const figureComponents = require('./figure/components')
 const figureGroup = require('./figureGroup.11ty.js')
+const object = require('./object.11ty.js')
 const icon = require('./icon.11ty.js')
 const ref = require('./figureRef.11ty.js')
 const title = require('./title.11ty.js')
@@ -21,6 +23,11 @@ module.exports = function(eleventyConfig, options) {
   eleventyConfig.addPairedShortcode('class', function(content, ...args) {
     const context = { eleventyConfig, globalData, page: this.page }
     return div(context, content, ...args)
+  })
+
+  eleventyConfig.addShortcode('abbr', function(...args) {
+    const context = { eleventyConfig, globalData, page: this.page }
+    return abbr(context, ...args)
   })
 
   eleventyConfig.addShortcode('cite', function(...args) {
@@ -46,6 +53,11 @@ module.exports = function(eleventyConfig, options) {
   eleventyConfig.addShortcode('figuregroup', function(...args) {
     const context = { eleventyConfig, globalData, page: this.page }
     return figureGroup(context, ...args)
+  })
+
+  eleventyConfig.addShortcode('object', function(...args) {
+    const context = { eleventyConfig, globalData, page: this.page }
+    return object(context, ...args)
   })
 
   eleventyConfig.addShortcode('ref', function(ids) {

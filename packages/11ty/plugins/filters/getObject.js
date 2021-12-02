@@ -11,5 +11,6 @@ module.exports = function(eleventyConfig, { objects }, id) {
     console.warn(`Error: the id '${id}' was not found in 'objects.yaml'`)
     return ''
   }
+
   return object
 }
