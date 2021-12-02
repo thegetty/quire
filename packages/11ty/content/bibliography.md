@@ -1,17 +1,18 @@
 ---
 title: Bibliography
 type: page
+layout: bibliography
 weight: 1402
 ---
 
 ## Abbreviations
 
-{{< q-abbreviations-table >}}
+<!-- {# qabbreviations-table #} -->
 
 ## Frequently Cited Sources
 
 {% qclass "backmatter" %}
 
-  {% qbibliography sort="sort_as" %}
+  {# qbibliography sort="sort_as" #}
 
 {% endqclass %}

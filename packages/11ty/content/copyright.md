@@ -58,7 +58,7 @@ Library of Congress Cataloging-in-Publication Data
 
 {% endqclass %}
 
-Front cover: *Pendant: Divinity Holding Hares* (detail, {% qobject "77.AO.82" "," %}).
+Front cover: *Pendant: Divinity Holding Hares* (detail, {% qobject "77.AO.82", "," %}).
 
 Every effort has been made to contact the owners and photographers of objects reproduced here whose names do not appear in the captions. Anyone having further information concerning copyright holders is asked to contact Getty Publications so this information can be included in future printings.
 

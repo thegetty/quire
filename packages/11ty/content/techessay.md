@@ -42,7 +42,7 @@ The samples were analyzed on a Nic-plan infrared microscope equipped with a nitr
 ## THM–Pyrolysis–Gas Chromatography / Mass Spectrometry Procedure
 Samples were tested on an HP 5972 gas chromatograph / mass spectrometer using a CDS Pyroprobe 2000, fitted with a valved interface at 330°C and purged with helium at 25 ml/minute. The split injector was at 340°C (30:1 ratio), and the MS transfer line was set to 300°C. A DB-5MS capillary column (30 M x 0.25 mm x 0.25 µm) was used, with helium at 44 cm/sec. The GC oven temperature program was 2 minutes at 40°C, then rising 6°C/minute to 310°C, and 13-minute isothermal. The solvent delay was 2.5 minutes. The mass spectrometer was scanned from <span class="no-break">*m/z*</span> 35–700. Samples were placed into quartz tubes fitted with quartz wool, and three microliters of 25% tetramethyl ammonium hydroxide (TMAH) in methanol were introduced for derivatization. After 3 minutes, the tube was placed into a coiled filament probe, which was inserted into the valved interface. After purging for 3 seconds before pyrolysis, samples were pyrolyzed using the following temperature program: 200°C for 1 second, then ramped at 10°C/millisecond to 700°C, and held isothermally for 10 seconds.
 
-[Figure 1](#techfig1), an overlay of the FTIR spectra for Baltic amber and an amber object ({% qobject "76.AO.84" "," %}), reveals characteristic spectral differences that make it possible to positively identify Baltic amber. The infrared spectrum of Baltic amber shows characteristic intense absorption bands at 2926, 2868, and 2849 cm<sup>-1</sup>, attributed to C-H stretching modes of the CH<sub>2</sub> and CH<sub>3</sub> groups. A doublet for carbonyl C=O stretching peaks at 1738 and 1715 cm<sup>-1</sup> is characteristic of ester and acid groups. Additional bands at 1259 and 1158 cm<sup>-1</sup> are assigned to CO-O- modes of the succinate group, whereas the C-H bending modes for the terminal olefins are located at 888 cm<sup>-1</sup>. Finally, the peak located at 1643 cm<sup>-1</sup> is attributed to the exocyclic methylene group.
+[Figure 1](#techfig1), an overlay of the FTIR spectra for Baltic amber and an amber object ({% qobject "76.AO.84", "," %}), reveals characteristic spectral differences that make it possible to positively identify Baltic amber. The infrared spectrum of Baltic amber shows characteristic intense absorption bands at 2926, 2868, and 2849 cm<sup>-1</sup>, attributed to C-H stretching modes of the CH<sub>2</sub> and CH<sub>3</sub> groups. A doublet for carbonyl C=O stretching peaks at 1738 and 1715 cm<sup>-1</sup> is characteristic of ester and acid groups. Additional bands at 1259 and 1158 cm<sup>-1</sup> are assigned to CO-O- modes of the succinate group, whereas the C-H bending modes for the terminal olefins are located at 888 cm<sup>-1</sup>. Finally, the peak located at 1643 cm<sup>-1</sup> is attributed to the exocyclic methylene group.
 
 {% qfigure id="techfig1" %}
 
@@ -60,7 +60,7 @@ In the THM-Py-GC/MS results for the core samples from the untreated amber object
 
 {% qfigure id="techfig4" %}
 
-One concern in this study was that the composition of the surface crusts of the amber objects might be considerably different from that of the inner cores, due to hydrolysis, weathering, handling, and treatment. This is why core samples were removed from the objects by microdrilling. In [figure 5](#techfig5), the THM-Py-GC/MS results for the dark surface and inner core of a large piece of reference amber, it is clear that the surface has become partially depleted in succinate, with few other changes apparent. [Table 8](#table-8) shows the results for pairs of surface and core samples from the amber objects, and [figure 6](#techfig6) shows a typical chromatographic result (for {% qobject "83.AO.202.1" "," %}). The surfaces of these objects have also been depleted in succinate, but the sesquiterpenes and diterpenes also have been radically reduced. These compounds are not chemically bound to the polymeric network of the amber, which would make them more susceptible to leaching during burial.
+One concern in this study was that the composition of the surface crusts of the amber objects might be considerably different from that of the inner cores, due to hydrolysis, weathering, handling, and treatment. This is why core samples were removed from the objects by microdrilling. In [figure 5](#techfig5), the THM-Py-GC/MS results for the dark surface and inner core of a large piece of reference amber, it is clear that the surface has become partially depleted in succinate, with few other changes apparent. [Table 8](#table-8) shows the results for pairs of surface and core samples from the amber objects, and [figure 6](#techfig6) shows a typical chromatographic result (for {% qobject "83.AO.202.1", "," %}). The surfaces of these objects have also been depleted in succinate, but the sesquiterpenes and diterpenes also have been radically reduced. These compounds are not chemically bound to the polymeric network of the amber, which would make them more susceptible to leaching during burial.
 
 {% qfigure id="techfig5" %}
 
@@ -83,23 +83,23 @@ This study has demonstrated that chemical analysis using FTIR and THM-Py-GC/MS c
 
 ## Tables
 
-{% qfigure id="table-1" class="tech-table" %}
+{% qfigure id="table-1", class="" %}
 
-{% qfigure id="table-2" class="tech-table" %}
+{% qfigure id="table-2", class="" %}
 
-{% qfigure id="table-3" class="tech-table" %}
+{% qfigure id="table-3", class="" %}
 
-{% qfigure id="table-4" class="tech-table" %}
+{% qfigure id="table-4", class="" %}
 
-{% qfigure id="table-5" class="tech-table" %}
+{% qfigure id="table-5", class="" %}
 
-{% qfigure id="table-6" class="tech-table" %}
+{% qfigure id="table-6", class="" %}
 
-{% qfigure id="table-7" class="tech-table" %}
+{% qfigure id="table-7", class="" %}
 
-{% qfigure id="table-8" class="tech-table" %}
+{% qfigure id="table-8", class="" %}
 
-{% qfigure id="table-9" class="tech-table" %}
+{% qfigure id="table-9", class="" %}
 
 
 {% qclass "backmatter" %}

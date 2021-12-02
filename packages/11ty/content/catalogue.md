@@ -1,7 +1,7 @@
 ---
 title: Catalogue
 type: contents
-layout: all-entries
+layout: base
 class: grid
 weight: 250
 epub: false

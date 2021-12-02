@@ -18,11 +18,11 @@ This open-access catalogue is available for free online and in multiple formats 
 
 ### Chicago
 
-Causey, Faya. *Ancient Carved Ambers in the J. Paul Getty Museum*. Los Angeles: J. Paul Getty Museum, 2012. https://www.getty.edu​/publications​/ambers/.
+Causey, Faya. *Ancient Carved Ambers in the J. Paul Getty Museum*. Los Angeles: J. Paul Getty Museum, 2012. https://www.getty.edu/publications/ambers/.
 
 ### MLA
 
-Causey, Faya. *Ancient Carved Ambers in the J. Paul Getty Museum*. J. Paul Getty Museum, 2012. https://www.getty.edu​/publications​/ambers/. Accessed <span class="cite-current-date">Aug. 26, 2019</span>.
+Causey, Faya. *Ancient Carved Ambers in the J. Paul Getty Museum*. J. Paul Getty Museum, 2012. https://www.getty.edu/publications/ambers/. Accessed <span class="cite-current-date">Aug. 26, 2019</span>.
 
 ### Permanent URL
 
@@ -62,7 +62,7 @@ Any revisions or corrections made to this publication after the first edition da
 <switch>
   <use xlink:href="#cc-by"></use>
   <foreignObject width="135" height="30">
-      <img src="{{ $imgDir | relURL }}/icons/cc-by.png" alt="CC-BY" />
+      <img src="{{ config.params.img }}/icons/cc-by.png" alt="CC-BY" />
   </foreignObject>
 </switch>
 </svg>
@@ -97,14 +97,14 @@ Library of Congress Cataloging-in-Publication Data
 - Title: Ancient carved ambers in the J. Paul Getty Museum / Faya Causey ; with technical analysis by Jeff Maish, Herant Khanjian, and Michael Schilling.  
 - Description: Los Angeles : The J. Paul Getty Museum, [2019] | Includes bibliographical references. | Summary: "This catalogue provides a general introduction to amber in the ancient world followed by detailed catalogue entries for fifty-six Etruscan, Greek, and Italic carved ambers from the J. Paul Getty Museum. The volume concludes with technical notes about scientific investigations of these objects and Baltic amber"—Provided by publisher.  
 - Identifiers: LCCN 2019016671 (print) | LCCN 2019981057 (ebook) | ISBN 9781606066348 (paperback) | ISBN 9781606066355 (epub) | ISBN 9781606060513 (ebook other)  
-- Subjects: LCSH: J. Paul Getty Museum⁠—Catalogs. | Amber art objects—Catalogs. | Art objects, Ancient—Catalogs. | Art objects, Etruscan—Catalogs. | Art objects—California—Los Angeles—Catalogs. | LCGFT: Collection catalogs. 
+- Subjects: LCSH: J. Paul Getty Museum—Catalogs. | Amber art objects—Catalogs. | Art objects, Ancient—Catalogs. | Art objects, Etruscan—Catalogs. | Art objects—California—Los Angeles—Catalogs. | LCGFT: Collection catalogs.
 - Classification: LCC NK6000 .J3 2019  (print) | LCC NK6000  (ebook) | DDC 709.0109794/94—dc23 
 - LC record available at https://lccn.loc.gov/2019016671
 - LC ebook record available at https://lccn.loc.gov/2019981057
 
 {% endqclass %}
 
-Front cover: *Pendant: Divinity Holding Hares* (detail, {% qobject "77.AO.82" "," %}).
+Front cover: *Pendant: Divinity Holding Hares* (detail, {% qobject "77.AO.82", "," %}).
 
 Every effort has been made to contact the owners and photographers of objects reproduced here whose names do not appear in the captions. Anyone having further information concerning copyright holders is asked to contact Getty Publications so this information can be included in future printings.
 
