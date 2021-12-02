@@ -62,6 +62,6 @@ Front cover: *Pendant: Divinity Holding Hares* (detail, {% qobject "77.AO.82", "
 
 Every effort has been made to contact the owners and photographers of objects reproduced here whose names do not appear in the captions. Anyone having further information concerning copyright holders is asked to contact Getty Publications so this information can be included in future printings.
 
-URLs cited throughout this catalogue were accessed prior to first publication in 2012; during preparation of the present editions in 2019, some electronic content was found to be no longer available. Where URLs are no longer valid, the author’s original citations have been retained, but hyperlinks have been disabled in the online and ebook editions.
+URLs cited throughout this catalogue were accessed prior to first publication in 2012; during preparation of the present editions in 2019, some electronic content was found to be no longer available. Where URLs are no longer valid, the author's original citations have been retained, but hyperlinks have been disabled in the online and ebook editions.
 
 {% endqclass %}

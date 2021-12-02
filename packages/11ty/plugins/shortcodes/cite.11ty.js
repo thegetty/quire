@@ -44,7 +44,7 @@ module.exports = function(context, id, pageNumber, text) {
   page.citations.push(citation)
 
   if (!citation) {
-    console.warn('The id supplied does not match a reference in the project `references.yml` data file.')
+    console.warn(`${page.inputPath} cite "${id}" does not match a reference in the project 'references.yaml' data file.`)
     return ''
   }
 

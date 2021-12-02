@@ -9,7 +9,7 @@ const { html } = require('common-tags')
  * @return     {String}  An HTML string of the elements to render
  */
 module.exports = function (context, { columns, ids=[] }) {
-  const { eleventyConfig } = context
+  const { eleventyConfig, page } = context
   const figure = eleventyConfig.getFilter('qfigure')
 
   columns = parseInt(columns)
@@ -24,7 +24,7 @@ module.exports = function (context, { columns, ids=[] }) {
   ids = Array.isArray(ids) ? ids : ids.split(',').map((id) => id.trim())
 
   if (!ids.length) {
-    console.warn(`Error: NoId: the q-figures shortcode must include one or more 'id' values that correspond to an 'id' in the 'figures.yaml' file. @example {% qfiguregroup columns=2, ids='3.1, 3.2, 3.3' %}`)
+    console.warn(`${page.inputPath} Error: NoId: the figuregroup shortcode must include one or more 'id' values that correspond to an 'id' in the project 'figures.yaml' data file.\n@example {% qfiguregroup columns=2, ids='3.1, 3.2, 3.3' %}`)
   }
 
   // if (ErrorNoMediaType) {
