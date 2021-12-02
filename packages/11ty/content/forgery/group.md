@@ -1,6 +1,6 @@
 ---
 title: Forgery
-type: contents
+layout: contents
 class: grid
 weight: 1200
 slug: .

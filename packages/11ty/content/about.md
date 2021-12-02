@@ -1,6 +1,6 @@
 ---
 title: About
-type: page
+layout: page
 weight: 1404
 pdf: false
 epub: false

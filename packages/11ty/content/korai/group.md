@@ -1,6 +1,6 @@
 ---
 title: Korai
-type: contents
+layout: contents
 class: grid
 weight: 500
 slug: .

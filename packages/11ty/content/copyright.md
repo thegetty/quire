@@ -1,6 +1,6 @@
 ---
 title: Copyright
-type: page
+layout: page
 weight: 3
 online: false
 search: false

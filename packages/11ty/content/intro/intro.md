@@ -1,6 +1,6 @@
 ---
 title: Introduction
-type: contents
+layout: contents
 class: page-one
 weight: 200
 slug: .

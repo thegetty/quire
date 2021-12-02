@@ -1,7 +1,6 @@
 ---
 title: Catalogue
-type: contents
-layout: base
+layout: contents
 class: grid
 weight: 250
 epub: false

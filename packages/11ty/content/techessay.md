@@ -3,7 +3,7 @@ title: Technical Essay
 subtitle: Analysis of Selected Ambers from the Collections of the J. Paul Getty Museum
 short_title:
 short_subtitle: Analysis of Selected Ambers
-type: essay
+layout: essay
 weight: 1300
 contributor:
   - first_name: Jeff

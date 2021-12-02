@@ -1,6 +1,6 @@
 ---
 title: Orientalizing Group
-type: contents
+layout: contents
 class: grid
 weight: 300
 slug: .

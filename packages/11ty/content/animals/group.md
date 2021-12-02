@@ -1,6 +1,6 @@
 ---
 title: Animals
-type: contents
+layout: contents
 class: grid
 weight: 700
 slug: .

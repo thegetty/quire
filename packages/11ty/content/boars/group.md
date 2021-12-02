@@ -1,6 +1,6 @@
 ---
 title: Boars
-type: contents
+layout: contents
 class: grid
 weight: 900
 slug: .

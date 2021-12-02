@@ -1,6 +1,6 @@
 ---
 title: "Rams' Heads"
-type: contents
+layout: contents
 class: grid
 weight: 1000
 slug: .

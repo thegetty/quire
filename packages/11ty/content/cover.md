@@ -4,7 +4,7 @@ weight: 1
 menu: false
 toc: false
 epub: false
-type: cover
+layout: cover
 permalink: index.html
 image: cover-background.jpg
 ---

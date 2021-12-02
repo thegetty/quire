@@ -1,6 +1,6 @@
 ---
 title: "Lions' Heads"
-type: contents
+layout: contents
 class: grid
 weight: 800
 slug: .

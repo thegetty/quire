@@ -1,6 +1,6 @@
 ---
 title: Other Animal Heads
-type: contents
+layout: contents
 class: grid
 weight: 1100
 slug: .

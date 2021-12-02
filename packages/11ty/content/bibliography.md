@@ -1,6 +1,5 @@
 ---
 title: Bibliography
-type: page
 layout: bibliography
 weight: 1402
 ---

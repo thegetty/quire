@@ -1,6 +1,6 @@
 ---
 title: Ship with Figures
-type: contents
+layout: contents
 class: grid
 weight: 400
 slug: .

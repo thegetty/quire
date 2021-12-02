@@ -1,6 +1,6 @@
 ---
 title: Human Heads
-type: contents
+layout: contents
 class: grid
 weight: 600
 slug: .

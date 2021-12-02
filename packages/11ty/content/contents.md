@@ -1,7 +1,7 @@
 ---
 title: Contents
 weight: 5
-type: contents
+layout: contents
 class: list
 search: false
 ---
