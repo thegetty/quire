@@ -1,11 +1,9 @@
 ---
 title: About the Authors
-layout: page
+layout: contributors
 weight: 1403
+contributorTypes:
+  - 'primary'
+  - 'secondary'
+format: 'bio'
 ---
-
-{# qcontributor range="primary", format="bio" #}
-
----
-
-{# qcontributor range="secondary", format="bio" #}
