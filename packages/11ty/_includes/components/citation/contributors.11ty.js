@@ -15,6 +15,13 @@
 module.exports = function(eleventyConfig, { publication }, contributors, options = {}) {
   if (!Array.isArray(contributors)) return ''
 
+  const optionDefaults = {
+    reverse: false,
+    separator: ',',
+  }
+
+  options = Object.assign({}, optionDefaults, options)
+
   const getContributor = eleventyConfig.getFilter('getContributor')
   const contributorName = eleventyConfig.getFilter('contributorName')
 
@@ -26,17 +33,13 @@ module.exports = function(eleventyConfig, { publication }, contributors, options
     if (i <= options.max) {
       pageContributors.push(contributorName(contributor, { reverse: options.reverse }))
     }
-    if (contributors.length === 1) {
-      pageContributors = pageContributors.join('')
-    }
-    if (i === 1) {
-      pageContributors = pageContributors.join(options.separator)
-    }
-    if (contributors.length > options.max) {
-      pageContributors+=', et al'
-    }
-    if (i === options.max) break
   }
 
-  return pageContributors.replace(/\.$/, '')
+  pageContributors = pageContributors.join(options.separator)
+
+  if (contributors.length > options.max) {
+    pageContributors += ', et al'
+  }
+
+  return pageContributors
 }

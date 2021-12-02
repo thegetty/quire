@@ -16,10 +16,12 @@ module.exports = function(eleventyConfig, { config }, { collections, pagination,
 
   const { imageDir, pageLabelDivider } = config.params
   const { currentPage, currentPageIndex, nextPage, previousPage } = pagination
-  const home = '/'
-  const isHomePage = currentPage.url === home
 
-  // @TODO figure out js module-friendly filters -- this one should work though
+  // @todo refactor; currentPage should aways be an object
+  const home = '/'
+  const isHomePage = currentPage ? currentPage.url === home : false
+
+  // @todo figure out js module-friendly filters -- this one should work though
   const truncate = (text, limit) => text.slice(0, limit)
 
   const navBarStartButton = () => {
