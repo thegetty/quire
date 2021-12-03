@@ -5,7 +5,7 @@ const { defineConfig } = require('vite')
  */
 module.exports = defineConfig({
   /**
-   * @see {@link https://vitejs.dev/config/#build-options}
+   * @see {@link https://vitejs.dev/config/#build-options Build Options}
    */
   build: {
     /**
@@ -29,6 +29,14 @@ module.exports = defineConfig({
    * Render Eleventy output in the console alongside Vite output
    */
   clearScreen: false,
+  /**
+   * @see {@link https://vitejs.dev/config/#server-host Server Options}
+   */
+  server: {
+    hmr: {
+      overlay: false
+    }
+  },
   /**
    * Project root directory
    * This can be an absolute path, or a path relative to the location of the config file itself.
