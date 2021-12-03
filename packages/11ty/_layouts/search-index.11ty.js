@@ -1,3 +1,10 @@
+/**
+ * Renders a the content index to a JSON file for search
+ *
+ * @param      {Object}  arg1        The argument 1
+ * @param      {<type>}  arg1.pages  The pages
+ * @return     {<type>}  { description_of_the_return_value }
+ */
 module.exports = function ({ pages }) {
   return JSON.stringify(
     pages.map((page) => {
@@ -5,7 +12,7 @@ module.exports = function ({ pages }) {
         abstract: page.data.abstract,
         contributor: page.data.contributor,
         content: page.data.content,
-        length: page.data.content.split(' ').length, // @todo replace with a real wordcount if wordcount is necessary
+        // length: page.data.content.split(' ').length, // @todo replace with a real wordcount if wordcount is necessary
         subtitle: page.data.subtitle,
         title: page.data.title,
         type: page.data.layout,
