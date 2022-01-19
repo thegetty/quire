@@ -1,9 +1,5 @@
 const { html } = require('common-tags')
-const head = require('../_includes/components/head.11ty.js')
-const icons = require('../_includes/components/icons.11ty.js')
-const iconscc = require('../_includes/components/icons-cc.11ty.js')
 const pdfInfo = require ('../_includes/pdf/info.11ty.js')
-const scripts = require ('../_includes/components/scripts.11ty.js')
 
 module.exports = function(data) {
   const { content, publication } = data
@@ -11,11 +7,11 @@ module.exports = function(data) {
   return this.renderTemplate(`
     <!doctype html>
     <html lang="${ publication.language }">
-      ${head(data)}
+      ${this.head(data)}
       <body>
-        ${icons(data)}
+        ${this.icons(data)}
 
-        ${iconscc(data)}
+        ${this.iconscc(data)}
 
         ${pdfInfo(data)}
 
@@ -35,7 +31,7 @@ module.exports = function(data) {
           </div>
           {% render 'search' %}
         </div>
-        ${scripts(data)}
+        ${this.scripts(data)}
       </body>
     </html>
   `, 
