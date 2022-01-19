@@ -14,11 +14,13 @@ Data from the yaml files in `content/_data`
 ### Example Usage
 
 #### In an `11ty.js` `_include`
-```
+```javascript
+const { html } = require('common-tags')
+
 module.exports = function(eleventyConfig, globalData, page) {
   const siteTitle = eleventyConfig.getFilter('siteTitle')
 
-  return `
+  return html`
     <header class="quire-menu__header">
       <h4 class="quire-menu__header__title">
         ${siteTitle()}
@@ -29,7 +31,7 @@ module.exports = function(eleventyConfig, globalData, page) {
 ```
 
 #### In an `11ty.js` `_layout`
-```
+```javascript
 const { html } = require('common-tags')
 
 exports.data = {

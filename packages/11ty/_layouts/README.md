@@ -10,7 +10,7 @@ todo
 ### Example Usage
 
 `/content/bibliography.md`
-```
+```markdown
 ---
 title: Works Cited
 layout: bibliography
