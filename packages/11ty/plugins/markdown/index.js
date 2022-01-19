@@ -1,5 +1,6 @@
 const MarkdownIt = require('markdown-it')
 const anchors = require('markdown-it-anchor')
+const defaults = require('./defaults')
 const deflist = require('markdown-it-deflist')
 const footnotes = require('markdown-it-footnote')
 
@@ -16,19 +17,12 @@ const footnotes = require('markdown-it-footnote')
  * @property {boolean} [options.typographer] Enable some language-neutral replacement + quotes beautification
  */
 module.exports = function(eleventyConfig, options) {
-  const defaultOptions = {
-    breaks: true,
-    html: true,
-    linkify: true,
-    typographer: true,
-  }
-
   /**
    * @see https://github.com/valeriangalliat/markdown-it-anchor#usage
    */
   const anchorOptions = {}
 
-  const markdownLibrary = MarkdownIt(Object.assign(defaultOptions, options))
+  const markdownLibrary = MarkdownIt(Object.assign(defaults, options))
     .use(anchors, anchorOptions)
     .use(deflist)
     .use(footnotes)
