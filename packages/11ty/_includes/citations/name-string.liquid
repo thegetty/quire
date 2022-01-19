@@ -1,7 +1,0 @@
-{% if editorTag %}
-
-{%- if person.full_name -%}
-  {{ person.full_name }}
-{%- else -%}
-  {{ person.first_name }}{% if person.last_name %} {{ person.last_name }}{% endif%}
-{%- endif -%}
