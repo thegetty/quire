@@ -10,7 +10,7 @@
 // Stylesheets
 import "intersection-observer";
 import "leaflet-fullscreen/dist/leaflet.fullscreen.css";
-import "../css/application.scss";
+import "../../styles/application.scss";
 import "leaflet/dist/leaflet.css";
 import quicklink from "quicklink";
 
@@ -22,7 +22,7 @@ import "./soundcloud-api";
 
 // Modules (feel free to define your own and import here)
 import { preloadImages, stopVideo, toggleFullscreen } from "./helper";
-import Search from "../plugins/search/search.js";
+import Search from "../../../../plugins/search/search.js";
 import Navigation from "./navigation";
 import Popup from "./popup";
 import DeepZoom from "./deepzoom";
