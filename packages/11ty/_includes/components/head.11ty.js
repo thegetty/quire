@@ -50,8 +50,8 @@ module.exports = function(data) {
       <script type="application/ld+json">${jsonld(data)}</script>
 
       <link rel="icon" href="/_assets/img/icons/favicon.ico" />
-      <link rel="stylesheet" href="/css/custom.css" />
-      <link rel="stylesheet" href="/css/application.css" />
+      <link rel="stylesheet" href="/_assets/styles/custom.css" />
+      <link rel="stylesheet" href="/_assets/styles/application.css" />
 
       <!-- {% render 'polyfills/template.html' %} -->
 
