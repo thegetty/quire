@@ -1,0 +1,44 @@
+---
+description: Quire publication cover page
+layout: base.11ty.js
+---
+
+<div id="main" class="quire-cover" role="main">
+
+  <section class="quire-cover__hero hero is-fullheight">
+    <div class="quire-cover__overlay" style="background-image: url('{{ imagePath }}');"/>
+    <div class="quire-cover__hero-body hero-body">
+      <div class="container is-fluid">
+        <h1 class="title">{{ title }}</h1>
+        <p class="reading-line">{{ publication.reading_line }}</p>
+        <div class="contributor">
+          {{ publication.contributor_as_it_appears }}
+          <span class="visually-hidden">Contributors:&nbsp;</span>
+          <em>{% contributorList(publication.contributor, 'primary', 'string') %}</em>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% if content %}
+    <section id="content" class="section quire-page__content">
+      <div class="container is-fluid">
+        <div class="content">
+          {{ content }}
+          {% render "page/bibliography" %}
+        </div>
+      </div>
+    </section>
+  {% else %}
+    <section class="quire-cover__more">
+      <div class="quire-cover__more-body hero-more next-page">
+        <a href="{{ data.pages[1].permalink }}">
+          {% qicon 'down-arrow', 'Scroll down to read more' %}
+        </a>
+      </div>
+    </section>
+  {% endif %}
+
+  {% render pageButtons %}
+
+</div>
