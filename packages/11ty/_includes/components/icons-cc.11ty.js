@@ -3,7 +3,7 @@
   The individual svg elements are assembled according to the specific license used:
   "CC 0", "CC BY", "CC BY-SA", "CC BY-ND", "CC BY-NC", "CC BY-NC-SA", or "CC BY-NC-ND".
  */
-module.exports = function({ config }) {
+module.exports = function(eleventyConfig, { config }) {
   if (!config.params.licenseIcons) return ''
 
   return `

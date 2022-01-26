@@ -4,10 +4,9 @@ const opengraph = require('../page/opengraph.11ty.js')
 const twitterCard = require('../page/twitter-card.11ty.js')
 const jsonld = require('../page/jsonld.11ty.js')
 
-module.exports = function(data) {
-
-  const { canonicalURL, config, publication, title } = data
-
+module.exports = function(eleventyConfig, globalData, data) {
+  const { canonicalURL, title } = data;
+  const { config, publication } = globalData
   const publisherLinks = publication.publisher
     .filter(({ url }) => url)
     .map(({ url }) => {
