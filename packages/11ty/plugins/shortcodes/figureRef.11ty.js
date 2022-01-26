@@ -11,8 +11,6 @@ const { oneLineCommaLists } = require('common-tags')
 module.exports = function(context, ids=[]) {
   const fig = 'fig.'
 
-  console.log('figRef', ids)
-
   // parse the string of figure identifiers
   ids = ids.split(',').map((id) => {
     id = id.trim()
