@@ -3,10 +3,17 @@ description: Quire publication cover page
 layout: base.11ty.js
 ---
 
+{% assign coverImage = image || publication.promo_image %}
+{% assign imageDir = '/_assets' | concat: config.params.imageDir %}
+{% assign imagePath = imageDir | concat: coverImage | join: '/' %}
+
 <div id="main" class="quire-cover" role="main">
 
   <section class="quire-cover__hero hero is-fullheight">
-    <div class="quire-cover__overlay" style="background-image: url('{{ imagePath }}');"/>
+    <div
+      class="quire-cover__overlay"
+      style="background-image: url('{{ imagePath }}');"
+    />
     <div class="quire-cover__hero-body hero-body">
       <div class="container is-fluid">
         <h1 class="title">{{ title }}</h1>
@@ -14,7 +21,7 @@ layout: base.11ty.js
         <div class="contributor">
           {{ publication.contributor_as_it_appears }}
           <span class="visually-hidden">Contributors:&nbsp;</span>
-          <em>{% contributorList(publication.contributor, 'primary', 'string') %}</em>
+          <em>{% contributorList publication.contributor 'primary' 'string' %}</em>
         </div>
       </div>
     </div>
@@ -25,7 +32,7 @@ layout: base.11ty.js
       <div class="container is-fluid">
         <div class="content">
           {{ content }}
-          {% render "page/bibliography" %}
+          {% render 'page/bibliography' config: config, page: page %}
         </div>
       </div>
     </section>
@@ -39,6 +46,6 @@ layout: base.11ty.js
     </section>
   {% endif %}
 
-  {% render pageButtons %}
+  {% pageButtons pagination %}
 
 </div>
