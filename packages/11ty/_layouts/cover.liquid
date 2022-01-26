@@ -26,7 +26,15 @@ layout: base.11ty.js
     </div>
   </section>
 
-  {% if content %}
+  {% if content != '' %}
+    <section class="quire-cover__more next-page">
+      <div class="quire-cover__more-body hero-more">
+        <a href="#content">
+          {% qicon 'down-arrow', 'Scroll down to read more' %}
+        </a>
+      </div>
+    </section>
+
     <section id="content" class="section quire-page__content">
       <div class="container is-fluid">
         <div class="content">
@@ -35,16 +43,17 @@ layout: base.11ty.js
         </div>
       </div>
     </section>
+
+    {% pageButtons pagination %}
+
   {% else %}
     <section class="quire-cover__more">
       <div class="quire-cover__more-body hero-more next-page">
-        <a href="{{ data.pages[1].permalink }}">
+        <a href="{{ pagination.nextPage.url }}">
           {% qicon 'down-arrow', 'Scroll down to read more' %}
         </a>
       </div>
     </section>
   {% endif %}
-
-  {% pageButtons pagination %}
 
 </div>
