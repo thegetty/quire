@@ -18,7 +18,7 @@ function loadData = (filePath) => {
     case ext === 'geojson':
       return JSON.parse(data)
     case ext === 'json5':
-      return json5.load(data)
+      return json5.parse(data)
     case ext === 'toml':
       return toml.load(data)
     case ext === 'yaml':
