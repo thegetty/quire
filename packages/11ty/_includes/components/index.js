@@ -25,6 +25,7 @@ module.exports = {
   contentsItem: require('./contents/item.11ty.js'),
   contributorList: require('./contributor/list.11ty.js'),
   contributorName: require('./contributor/name.11ty.js'),
+  contributorPageLinks: require('./contributor/page-links.js'),
   contributorTitle: require('./contributor/title.11ty.js'),
   head: require('./head.11ty.js'),
   icons: require('./icons.11ty.js'),

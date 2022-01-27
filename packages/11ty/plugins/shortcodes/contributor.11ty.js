@@ -18,6 +18,7 @@ const path = require('path')
 module.exports = function(context, contributor, format) {
   const { eleventyConfig, globalData: { config, references }, page } = context
   const contributorName = eleventyConfig.getFilter('contributorName')
+  const contributorPageLinks = eleventyConfig.getFilter('contributorPageLinks')
   const getContributor = eleventyConfig.getFilter('getContributor')
   const pageTitlePartial = eleventyConfig.getFilter('pageTitle')
   const qicon = eleventyConfig.getFilter('qicon')
@@ -27,17 +28,6 @@ module.exports = function(context, contributor, format) {
   const imagePath = path.join('..', '_assets', config.params.imageDir, pic)
   const name = contributorName(contributor)
 
-  const pageLinkElements = pages ? pages.map(({ data, url }) => {
-    const pageTitle = data.label 
-      ? `${data.label}${config.params.pageLabelDivider} ${pageTitlePartial(data)}` 
-      : pageTitlePartial(data)
-    return `
-      <p class="quire-contributor__page-link">
-        <a href="${url}">
-          ${pageTitle}
-        </a>
-      </p>`
-  }) : []
   return oneLine`
     <ul class="quire-contributors-list bio">
       <li class="quire-contributor" id="${slugify(name)}">
@@ -55,7 +45,7 @@ module.exports = function(context, contributor, format) {
             <div class="quire-contributor__bio">
               ${bio}
             </div>
-            ${pageLinkElements.join('')}
+            ${contributorPageLinks(contributor)}
           </div>
         </div>
       </li>
