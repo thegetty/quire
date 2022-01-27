@@ -1,5 +1,5 @@
 const { html } = require('common-tags')
-const pdfInfo = require ('../_includes/pdf/info.11ty.js')
+const pdfInfo = require ('../_includes/pdf/info.js')
 
 module.exports = function(data) {
   const { content, publication } = data
