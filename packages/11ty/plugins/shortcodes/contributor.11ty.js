@@ -15,7 +15,7 @@ const path = require('path')
  * @param  {Object} params
  * @property  {Object} contributor
  * @property  {String} format              "bio" or... ?
- * @property  {String} type "publication" or "page"
+ * @property  {String} entryType "publication" or "page"
  * @return {String} contributor markup
  */
 module.exports = function ({ eleventyConfig }, { contributor, format, entryType }) {
