@@ -6,10 +6,11 @@
   "main": ".eleventy.js",
   "scripts": {
     "build": "ELEVENTY_ENV=production eleventy && vite build",
-    "clean": "npx del ./_site",
+    "clean": "del ./_site",
     "debug": "DEBUG=Eleventy* npx eleventy --dryrun",
     "dev": "ELEVENTY_ENV=development $(eleventy --watch --serve) & vite serve _site",
     "prebuild": "npm run clean",
+    "predev": "npm run clean",
     "prestart": "npm run build",
     "serve": "ELEVENTY_ENV=production eleventy && vite preview _site",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -28,7 +29,7 @@
     "babel-polyfill": "^6.26.0",
     "common-tags": "^2.0.0-alpha.1",
     "css-loader": "^6.5.1",
-    "del-cli": "^4.0.1",
+    "del-cli": "^3.0.1",
     "eslint": "^8.7.0",
     "http-server": "^14.1.0",
     "iiif-processor": "^1.0.0",
