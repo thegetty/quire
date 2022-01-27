@@ -2,6 +2,8 @@
  * Publication title block in menu
  */
 
+const { html } = require('common-tags')
+
 module.exports = function(eleventyConfig, { publication }, page) {
   const contributorList = eleventyConfig.getFilter('contributorList')
   const markdownify = eleventyConfig.getFilter('markdownify')
@@ -28,7 +30,7 @@ module.exports = function(eleventyConfig, { publication }, page) {
     }
   }
 
-  return `
+  return html`
     <header class="quire-menu__header">
       ${homePageLinkOpenTag}
         <h4 class="quire-menu__header__title">

@@ -1,5 +1,5 @@
 ---
 title: Bibliography
-layout: publication-bibliography
+layout: bibliography
 weight: 200
 ---

@@ -1,3 +1,5 @@
+const { html } = require('common-tags')
+
 module.exports = function(eleventyConfig, { publication }, page) {
   const citationContributors = eleventyConfig.getFilter('citationContributors')
   const citationChicagoPublicationContributors = eleventyConfig.getFilter('citationChicagoPublicationContributors')
@@ -32,6 +34,6 @@ module.exports = function(eleventyConfig, { publication }, page) {
     ].join(' ')
   }
 
-  return  `${pageContributors} "${pageTitle}" ${publicationCitation}`
+  return html`${pageContributors} "${pageTitle}" ${publicationCitation}`
   
 }
