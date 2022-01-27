@@ -5,6 +5,25 @@ const path = require('path')
  */
 module.exports = {
   canonicalURL: ({ config, page }) => path.join(config.baseURL, page.url),
+  /**
+   * Contributors with a `pages` property containing data about the pages they contributed to
+   */
+  contributors: ({ config, publication, pages }) => {
+    return publication.contributor.map((contributor) => {
+      const { pic } = contributor
+      contributor.imagePath = pic
+        ? path.join('..', '_assets', config.params.imageDir, pic)
+        : null
+      contributor.pages = pages && pages.filter(
+        ({ data }) =>
+          data.contributor &&
+          data.contributor.find(
+            (pageContributor) => pageContributor.id === contributor.id
+          )
+      )
+      return contributor
+    })
+  },
   data: (data) => data,
   eleventyNavigation: {
     key: (data) => {
