@@ -1,4 +1,13 @@
-module.exports = function (eleventyConfig, { config }, contributors, contributorType, listType) {
+/**
+ * @param  {Object} context
+ * @param  {Array} contributors
+ * @param  {String} contributorType - "primary", "secondary" or "all"
+ * @param  {String} listType - "string", "list", or "list-plus"
+ * 
+ * @return {String}                 Markup for contributors
+ */
+module.exports = function ({ eleventyConfig, globalData }, contributors, contributorType, listType) {
+  const { config } = globalData
   const getContributor = eleventyConfig.getFilter('getContributor')
   const contributorName = eleventyConfig.getFilter('contributorName')
   const contributorTitle = eleventyConfig.getFilter('contributorTitle')

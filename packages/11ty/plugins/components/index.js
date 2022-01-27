@@ -11,7 +11,7 @@ module.exports = function(eleventyConfig, options) {
   for (const component in components) {
     const context = { eleventyConfig, globalData, page: this.page }
     eleventyConfig.addShortcode(
-      component, 
+      component,
       (...args) => components[component](context, ...args))
   }
 }

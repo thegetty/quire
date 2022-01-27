@@ -1,12 +1,11 @@
 /**
  * Contributor page links
- * @param  {Object} eleventyConfig
- * @param  {Object} globalData
+ * @param  {Object} context
  * @param  {Object} contributor
  *
  * @return {String}                Links to the provided contributor's pages
  */
-module.exports = function (eleventyConfig, globalData, contributor) {
+module.exports = function ({ eleventyConfig }, contributor) {
   const link = eleventyConfig.getFilter('link')
   const pageTitle = eleventyConfig.getFilter('pageTitle')
 
