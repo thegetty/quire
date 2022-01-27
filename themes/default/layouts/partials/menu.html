@@ -4,7 +4,7 @@ available on all pages. For users with Javascript enabled, this menu is hidden
 by default. Users with JS disabled will alwasy see the menu in its expanded state.
 */}}
 
-{{- $contents := dict "site" .Site "contentsScope" .Site.Pages "contentsType" .Site.Params.menuType "contentsLocation" ".Params.menu" "contentsPage" . }}
+{{- $contents := dict "site" .Site "contentsScope" "" "contentsLocation" ".Params.menu" "contentsPage" . }}
 
 <div  class="quire-menu menu"
       role="banner"
@@ -19,7 +19,7 @@ by default. Users with JS disabled will alwasy see the menu in its expanded stat
 
   <nav id="nav" class="quire-menu__list menu-list" role="navigation" aria-label="full">
     <h3 class="visually-hidden">Table of Contents</h3>
-    {{- partial "contents-list.html" $contents -}}
+    {{- partial "contents-list/contents-list.html" $contents -}}
   </nav>
 
   {{ if isset .Site.Data.publication "resource_link" -}}
@@ -42,7 +42,7 @@ by default. Users with JS disabled will alwasy see the menu in its expanded stat
       </div>
     {{ end -}}
   {{ end -}}
-  
+
   <div class="quire-menu__formats">
   <h6>Cite this Page</h6>
     <div class="cite-this" style="font-size: .857em; line-height: 1.5;">

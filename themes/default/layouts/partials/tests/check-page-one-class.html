@@ -1,0 +1,21 @@
+{{ $pages := .Site.Pages }}
+{{ $pages = where $pages ".Type" "!=" "data" }}
+{{ $pageClassOne := slice }}
+
+{{ range $pages }}
+
+  {{ if in .Params.class "page-one" }}
+
+    {{ $pageClassOne = $pageClassOne | append .Path }}
+
+  {{ end }}
+
+{{ end }}
+
+{{ if gt $pageClassOne 1 }}
+
+  {{ $pageList := delimit $pageClassOne ", " }}
+
+  {{ errorf "More than one page with `class: page-one`! \n\nQUIRE FIX --> Remove `class: page-one` from all but one of these Markdown files: %s. Using `class: page-one` in the YAML of a page sets sets that page to be numbered as page 1 in the PDF output of your project. Pages before `page-one` will be numbered with lowercase Roman numerals (i, ii, iii, ix, etc.).\n" $pageList }}
+
+{{ end }}

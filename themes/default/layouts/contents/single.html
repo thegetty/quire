@@ -8,9 +8,9 @@
 {{ define "main" }}
 <div class="{{ partial "page-class.html" . }} quire-contents" id="main" role="main">
   {{ partial "page-header.html" . }}
-  
+
   <section class="section quire-page__content" id="content">
-    
+
     {{- if .Content -}}
       <div class="container">
         <div class="content">
@@ -18,21 +18,17 @@
         </div>
       </div>
     {{- end -}}
-    
-    <div class="container {{ if in .Params.class "grid" }}is-fullhd{{ end }}">
-      <div class="quire-contents-list {{ if in .Params.class "grid" }} grid{{ else if in .Params.class "abstract" }} abstract{{ else if in .Params.class "brief" }} brief{{ else }} list{{ end }}">
-        <div class="menu-list">
-          {{ if .Section }}
-            {{ $scope := where .Site.Pages "Section" .Section }}
-            {{- partial "contents-list.html" (dict "site" .Site "contentsScope" $scope "contentsType" .Site.Params.tocType "pdf" ".Params.pdf" "epub" ".Params.epub" "contentsLocation" ".Params.toc" "contentsPage" . ) -}}
-          {{ else }}
-            {{ $scope := .Site.Pages }}
-            {{- partial "contents-list.html" (dict "site" .Site "contentsScope" $scope "contentsType" .Site.Params.tocType "pdf" ".Params.pdf" "epub" ".Params.epub" "contentsLocation" ".Params.toc" "contentsPage" . ) -}}
-          {{ end }}
-        </div>
-        <div class="content">
-          {{ partial "page-bibliography.html" . }}
-        </div>
+
+    {{ $class := .Params.class }}
+    <div class="container {{ if in $class "grid" }}is-fullhd{{ end }}">
+      <div class="quire-contents-list {{ if in $class "grid" }} grid{{ else if in $class "abstract" }} abstract{{ else if in $class "brief" }} brief{{ else }} list{{ end }}">
+        {{ if .Section }}
+          {{ $scope := .File.Dir }}
+          {{- partial "contents-list/contents-list.html" (dict "site" .Site "contentsScope" $scope "contentsLocation" ".Params.toc" "contentsPage" . ) -}}
+        {{ else }}
+          {{ $scope := "" }}
+          {{- partial "contents-list/contents-list.html" (dict "site" .Site "contentsScope" $scope "contentsLocation" ".Params.toc" "contentsPage" . ) -}}
+        {{ end }}
       </div>
       {{ partial "footer-buttons.html" . }}
     </div>

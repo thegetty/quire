@@ -1,0 +1,179 @@
+{{/*
+  This partial generates a contents list. It is used in the publication menu
+  and in the "contents" page type, but could be extended for further use. It
+  expects four specific variables to be passed:
+
+  site              .Site
+  contentsScope     Typically .Site.Pages or narrowed down to pages within a
+                    specific section.
+  contentsLocation  Must be either ".Params.menu" or ".Params.toc". Determines
+                    in what context the partial is being shown so that
+                    individual pages can be hidden as called for. For example,
+                    if contentsLocation is "toc" any pages in the publication
+                    with "toc: false" will be omitted from the generated
+                    contents list.
+  contentsPage      Typically . This just passes the page context through to
+                    allow a Scratch variable to be set when creating sections.
+
+  Content can either be in top-level files in the `content` directory, or
+  in sub-directories to create sections.
+
+  For users to customize their publiction, this partial response to `class`
+  values in the page YAML as well. For the menu, the class can be set in the
+  config.yml of the project with the menuClass parameter.
+
+  `grid`            A grid of cards, using images defined in indivudal page
+                    yaml when avaialble
+
+  `abstract`        Title and contributor headings, and a page abstract
+                    if one is provided, or the page Summary. If `abstract` is
+                    an empty value `""`, no abstract or summary will be shown
+                    in the contents list.
+
+  `list`            Lists the title, subtitle and contributors as included. The
+                    default value, if no `class` is specified.
+
+  `brief`           Lists only the title, or short_title when available.
+
+  EXAMPLE PARTIAL USE:
+  partial "contents-list.html" (dict "site" .Site "contentsScope" .Site.Pages "contentsLocation" ".Params.toc" "contentsPage" . )
+
+*/}}
+
+{{- $contentsLocation := .contentsLocation -}}
+
+{{/* List pages, but remove data pages, those hidden from toc/menu, and those hidden from specific output formats as needed
+--------------------------------------------------------------------------- */}}
+{{- $pages := "" -}}
+{{- $pages = where .site.Pages ".Kind" "page" -}}
+{{- $pages = where $pages ".Type" "!=" "data" -}}
+{{- $pages = where $pages .contentsLocation "!=" "false" -}}
+{{- if eq .site.Params.pdf true -}}
+  {{- $pages = where $pages "Params.pdf" "!=" "false" -}}
+{{- else if eq .site.Params.epub true -}}
+  {{- $pages = where $pages "Params.epub" "!=" "false" -}}
+{{- else -}}
+  {{- $pages = where $pages "Params.online" "!=" "false" -}}
+{{- end -}}
+
+{{/* To mark items as frontmatter for page numbering styles in PDF
+--------------------------------------------------------------------------- */}}
+{{- $pageOne := "" -}}
+{{- range first 1 (where $pages "Params.class" "in" "page-one") -}}
+  {{- $pageOne = .Weight -}}
+{{- end -}}
+
+{{- $contentsPageClass := "" -}}
+{{- $contentsPageID := "" -}}
+{{- if eq .contentsLocation ".Params.toc" -}}
+  {{- $contentsPageClass = .contentsPage.Params.class -}}
+  {{- $contentsPageID = .contentsPage.File.UniqueID -}}
+{{- else -}}
+  {{- $contentsPageClass = .site.Params.menuClass -}}
+  {{- $contentsPageID = "" -}}
+{{- end -}}
+
+{{/* This contents list is built based on the number of section levels any given page is at, which is determined by looking at its File.Dir.
+
+  Section level 1: section/
+  Section level 2: section/sub-section/
+  Section level 3: section/sub-section/sub-sub-section/
+  &tc.
+
+In order to properly close the /ul/li elements and nest sub-sections, the logic in this partial compares the File.Dirs, tracks sections that have been rendered but not yet closed, and looks at the difference in section levels from one page to the next.
+--------------------------------------------------------------------------- */}}
+
+{{- $lastSection := "/" -}}
+{{- $openSections := dict -}}
+{{- $renderedSections := "" -}}
+{{- if .contentsScope -}}
+{{- $renderedSections = partial "contents-list/file-dir.html" .contentsScope -}}
+{{- end -}}
+{{- $contentsScopePattern := printf "%s%s" "^" $renderedSections -}}
+{{- $contentsPageID := .contentsPage.File.UniqueID -}}
+
+<ul>
+{{- range $index, $page := $pages -}}
+
+  {{- $section := partial "contents-list/file-dir.html" .File.Dir -}}
+  {{- $sectionLevel := len (findRE "(.+?)/" $section) -}}
+  {{- $sameAsOpenSection := false -}}
+
+  {{/* The $openSections map tracks the File.Dir of most recently rendered page from any give section level. If the new page is part of that same section, the section is still open.
+  ------------------------------------------------------------------------- */}}
+  {{- $sectionLevelKey := printf "%s%s" "s" (string $sectionLevel) -}}
+  {{- range $key, $value := $openSections -}}
+    {{- if and (eq $key $sectionLevelKey) (eq $section $value) -}}
+      {{ $sameAsOpenSection = true }}
+    {{- end -}}
+  {{- end -}}
+  {{- $openSections = merge $openSections (dict $sectionLevelKey $section) -}}
+
+  {{/* Check to make sure the page is within the section that the contents list is being rendederd in (the "contents scope"). If it is, and it’s not also the contents page itself, render the list item for it.
+  ------------------------------------------------------------------------- */}}
+  {{- $pageWithinThisScope := findRE $contentsScopePattern $section -}}
+  {{- if and $pageWithinThisScope (ne $contentsPageID .File.UniqueID) -}}
+
+  {{- if and (ne $lastSection $section) (eq $sameAsOpenSection false) -}}
+
+    {{/* This checks all of the parent sections/directories of the current page to see if they've already been rendered in the contents list, if they haven’t a heading is added for each. This is needed in the case where sections don’t have their own child pages and so would have been be skipped over and not rendered without this specific check. Based on the number of levels deep the page is, parent sections are checked one at a time, from the top-most, to the most direct: xxxx/..../..../page
+                                      xxxx/xxxx/..../page
+                                      xxxx/xxxx/xxxx/page
+    ----------------------------------------------------------------------- */}}
+    {{- range $index, $num := (seq (sub $sectionLevel 1)) -}}
+
+      {{- $pattern := printf "%s%s%s" "^((.[^/]*)/){" (string $num) "}" -}}
+      {{- $parentSection := findRE $pattern $section -}}
+      {{- $parentSection = delimit $parentSection "" -}}
+
+      {{- if not (in $renderedSections $parentSection) -}}
+
+        {{/* Update $openSections map
+        ------------------------------------------------------------------- */}}
+        {{- $parentSectionLevel := len (findRE "(.+?)/" $parentSection) -}}
+        {{- $parentSectionLevelKey := printf "%s%s" "s" (string $parentSectionLevel) -}}
+        {{- $openSections = merge $openSections (dict $parentSectionLevelKey $parentSection) -}}
+
+        {{/* Add closing UL tag if this is not a deeper section than the last
+        ------------------------------------------------------------------- */}}
+        {{- $lastSectionLevel := len (findRE "(.+?)/" $lastSection) -}}
+        {{- if gt (sub $lastSectionLevel $parentSectionLevel) 0 -}}
+        </ul>
+        {{- end -}}
+
+        {{/* Add heading for parent section
+        ------------------------------------------------------------------- */}}
+        {{- partial "contents-list/section-heading" (dict "Section" $parentSection "Level" (sub $parentSectionLevel 1) ) -}}
+
+      {{- end -}}
+
+    {{- end -}}
+
+    {{- if ne .Params.slug "." -}}
+
+      {{/* Add heading for file section
+      ------------------------------------------------------------------- */}}
+      {{- partial "contents-list/section-heading" (dict "Section" $section "Level" (sub $sectionLevel 1) ) -}}
+
+      <li class="page-item level-{{ $sectionLevel }}{{ if lt .Page.Weight $pageOne }} frontmatter-page{{ end }}">{{ partial "contents-list/list-item-type" (dict "Page" . "Class" $contentsPageClass) }}</li>
+      {{ partial "contents-list/closing-tags" (dict "Page" . "AllPages" $pages "PageIndex" $index "openSections" $openSections) -}}
+
+    {{- else -}}
+      <li class="section-item level-{{ if eq .Slug "." }}{{ sub $sectionLevel 1 }}{{ else }}{{ $sectionLevel }}{{ end }}{{ if lt .Page.Weight $pageOne }} frontmatter-page{{ end }}">{{ partial "contents-list/list-item-type" (dict "Page" . "Class" $contentsPageClass) }}
+      <ul>
+    {{- end -}}
+
+  {{- else -}}
+
+    <li class="page-item level-{{ $sectionLevel }}{{ if lt .Page.Weight $pageOne }} frontmatter-page{{ end }}">{{ partial "contents-list/list-item-type" (dict "Page" . "Class" $contentsPageClass) }}</li>
+    {{ partial "contents-list/closing-tags" (dict "Page" . "AllPages" $pages "PageIndex" $index "openSections" $openSections) -}}
+
+  {{- end -}}
+
+  {{- $lastSection = $section -}}
+  {{- $renderedSections = delimit (uniq (slice $renderedSections $section)) ", " -}}
+
+  {{- end -}}
+
+{{- end -}}
+</ul>

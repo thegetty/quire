@@ -32,6 +32,7 @@ markup:
 
 # These values can be accessed in templates via .Site.Params
 params:
+  runTests: true
   searchEnabled: true
   licenseIcons: true
   pageLabelDivider: ". "
@@ -40,8 +41,7 @@ params:
   displayBiblioShort: true
   biblioHeading: "Bibliography"
   imageDir: "img"
-  tocType: full
-  menuType: full
+  menuClass: brief # brief | list
   prevPageButtonText: "Back"
   nextPageButtonText: "Next"
   entryPageSideBySideLayout: false
