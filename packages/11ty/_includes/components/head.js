@@ -1,8 +1,8 @@
-const analytics = require('./analytics.11ty.js')
-const dublinCore = require('../page/dublin-core.11ty.js')
-const opengraph = require('../page/opengraph.11ty.js')
-const twitterCard = require('../page/twitter-card.11ty.js')
-const jsonld = require('../page/jsonld.11ty.js')
+const analytics = require('./analytics.js')
+const dublinCore = require('../page/dublin-core.js')
+const opengraph = require('../page/opengraph.js')
+const twitterCard = require('../page/twitter-card.js')
+const jsonld = require('../page/jsonld.js')
 
 module.exports = function(eleventyConfig, globalData, data) {
   const { config, publication } = globalData
