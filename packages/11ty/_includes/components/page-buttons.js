@@ -2,8 +2,14 @@ const { html } = require('common-tags')
 
 /**
  * Renders previous page and next page buttons
+ *
+ * @param {Object} context
+ * @param {Object} pagination - eleventyComputed pagination property
+ *
+ * @return {String} "previous" and "next" buttons
  */
-module.exports = function(eleventyConfig, { config }, pagination) {
+module.exports = function({ eleventyConfig, globalData }, pagination) {
+  const { config } = globalData
   const qicon = eleventyConfig.getFilter('qicon')
 
   const { nextPage, previousPage } = pagination

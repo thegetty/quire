@@ -40,7 +40,7 @@ module.exports = {
   menuList: require('./menu/list.js'),
   menuResources: require('./menu/resources.js'),
   nav: require('./nav-bar.js'),
-  pageButtons: require('./pageButtons.js'),
+  pageButtons: require('./page-buttons.js'),
   pageTitle: require('./page-title.js'),
   scripts: require('./scripts.js'),
   siteTitle: require('./site-title.js'),
