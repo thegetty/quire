@@ -1,6 +1,10 @@
 const { html } = require('common-tags')
 
-module.exports = function(eleventyConfig, { publication }, page) {
+/**
+ * @param  {Object} context
+ */
+module.exports = function({ eleventyConfig, globalData, page }) {
+  const { publication } = globalData
   const citationContributors = eleventyConfig.getFilter('citationContributors')
   const citationChicagoPublicationContributors = eleventyConfig.getFilter('citationChicagoPublicationContributors')
   const citationChicagoPublishers = eleventyConfig.getFilter('citationChicagoPublishers')
