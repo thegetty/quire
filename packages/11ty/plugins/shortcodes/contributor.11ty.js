@@ -7,25 +7,26 @@ const path = require('path')
  * ---
  * @todo
  * ---
- * Previously this shortcode did A LOT. 
- * it needs to be broken into multiple components that:
- * @param  {Object} eleventyConfig      
- * @param  {Object} globalData          
- * @param  {Object} contributor         
- * @param  {String} format              bio or... ?
- * @return {String} contributor markup 
+ * Previously this shortcode did A LOT.
+ * it still needs to be broken into multiple components
+ *
+ * @param  {Object} eleventyConfig
+ * @param  {Object} globalData
+ * @param  {Object} params
+ * @property  {Object} contributor
+ * @property  {String} format              "bio" or... ?
+ * @property  {String} type "publication" or "page"
+ * @return {String} contributor markup
  */
-module.exports = function(context, contributor, format) {
-  const { eleventyConfig, globalData: { config, references }, page } = context
+module.exports = function ({ eleventyConfig }, { contributor, format, entryType }) {
   const contributorName = eleventyConfig.getFilter('contributorName')
   const contributorPageLinks = eleventyConfig.getFilter('contributorPageLinks')
   const getContributor = eleventyConfig.getFilter('getContributor')
-  const pageTitlePartial = eleventyConfig.getFilter('pageTitle')
+  const link = eleventyConfig.getFilter('link')
   const qicon = eleventyConfig.getFilter('qicon')
   const slugify = eleventyConfig.getFilter('slugify')
 
-  const { bio, id, pages, pic, url } = contributor
-  const imagePath = path.join('..', '_assets', config.params.imageDir, pic)
+  const { bio, id, imagePath, pages, url } = contributor
   const name = contributorName(contributor)
 
   return oneLine`
@@ -33,9 +34,7 @@ module.exports = function(context, contributor, format) {
       <li class="quire-contributor" id="${slugify(name)}">
         <div class="title is-5">
           <span class="quire-contributor__name">${name}</span> 
-          <a href="${url}" class="quire-contributor__url" taget="_blank">
-            ${qicon('link', '')}
-          </a>
+          ${link({ classes: ["quire-contributor__url"], name: qicon("link", ""), url })}
         </div>
         <div class="media">
           <div class="quire-contributor__details media-content">
