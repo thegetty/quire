@@ -1,16 +1,16 @@
 const globalData = require('../globalData')
 
-const backmatter = require('./backmatter.js')
-const cite = require('./cite.js')
+const backmatter = require('./backmatter')
+const cite = require('./cite')
 const contributor = require('./contributor')
-const div = require('./div.js')
-const figure = require('./figure/index.js')
-const figureComponents = require('../../_includes/components/figure')
-const figureGroup = require('./figureGroup.js')
-const icon = require('./icon.js')
-const ref = require('./figureRef.js')
-const title = require('./title.js')
-const tombstone = require('./tombstone.js')
+const div = require('./div')
+const figure = require('./figure')
+const figureComponents = require('../../_includes/components/figure/')
+const figureGroup = require('./figureGroup')
+const icon = require('./icon')
+const ref = require('./figureRef')
+const title = require('./title')
+const tombstone = require('./tombstone')
 
 module.exports = function(eleventyConfig, options) {
   eleventyConfig.addPairedShortcode('backmatter', function(content, ...args) {
