@@ -1,6 +1,7 @@
 const path = require('path')
 
-module.exports = function(eleventyConfig, { config }) {
+module.exports = function({ eleventyConfig, globalData }) {
+  const { config } = globalData
   return `
     <switch>
       <use xlink:href="#cc-by-nc"></use>
