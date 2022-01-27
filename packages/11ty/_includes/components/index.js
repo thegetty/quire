@@ -31,6 +31,7 @@ module.exports = {
   iconscc: require('./icons-cc.11ty.js'),
   index: require('./index.js'),
   ...licenseIcons,
+  link: require('./link.js'),
   linkList: require('./linkList.js'),
   menuHeader: require('./menu/header.11ty.js'),
   menu: require('./menu/index.11ty.js'),
