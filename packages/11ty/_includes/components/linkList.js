@@ -1,7 +1,9 @@
+const { html } = require('common-tags');
+
 /**
  * Renders a list of links with optional wrapper classes
- * 
- * @param  {Object} eleventyConfig 
+ *
+ * @param  {Object} eleventyConfig
  * @param  {Object} globalData
  * @param  {Array<Object>} links
  * @property  {String} link_relation The value of the anchor tag 'rel' property
@@ -11,15 +13,13 @@
  * @param  {Array<String>} classes
  * @return {String}                Unordered list of links
  */
-module.exports = function(eleventyConfig, globalData, links=[], classes=[]) {
-  const items = links.map(({ link_relation, media_type, name, url }) => {
-    return `
-      <li>
-        <a href="${url}" target="_blank" rel="${link_relation}" type="${ media_type }">
-          ${name}
-        </a>
-      </li>`
-  })
+module.exports = function (eleventyConfig, globalData, links = [], classes = []) {
+  if (!links.length) return ''
 
-  return `<ul class="${classes.join(' ')}">${items.join('')}</ul>`
-}
+  const link = eleventyConfig.getFilter('link')
+  return html`
+    <ul class="${classes.join(' ')}">
+      ${links.map((item) => `<li>${link(item)}</li>`).join('')}
+    </ul>
+  `
+};
