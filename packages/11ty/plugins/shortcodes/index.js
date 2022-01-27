@@ -2,7 +2,7 @@ const globalData = require('../globalData')
 
 const backmatter = require('./backmatter.11ty.js')
 const cite = require('./cite.11ty.js')
-const contributor = require('./contributor.11ty.js')
+const contributor = require('./contributor')
 const div = require('./div.11ty.js')
 const figure = require('./figure/index.11ty.js')
 const figureComponents = require('./figure/components')
