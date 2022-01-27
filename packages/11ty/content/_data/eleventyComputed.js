@@ -10,7 +10,7 @@ module.exports = {
    */
   contributors: ({ config, publication, pages }) => {
     return publication.contributor.map((contributor) => {
-      const { pages, pic } = contributor
+      const { pic } = contributor
       contributor.imagePath = pic
         ? path.join('..', '_assets', config.params.imageDir, pic)
         : null
