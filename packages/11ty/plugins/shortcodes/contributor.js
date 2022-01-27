@@ -16,6 +16,7 @@ const path = require('path')
  * @property  {Object} contributor
  * @property  {String} format              "bio" or... ?
  * @property  {String} entryType "publication" or "page"
+ * 
  * @return {String} contributor markup
  */
 module.exports = function ({ eleventyConfig }, { contributor, format, entryType }) {
@@ -29,7 +30,8 @@ module.exports = function ({ eleventyConfig }, { contributor, format, entryType 
   const { bio, id, imagePath, pages, url } = contributor
   const name = contributorName(contributor)
 
-  return html`<ul class="quire-contributors-list bio">
+  return html`
+    <ul class="quire-contributors-list bio">
       <li class="quire-contributor" id="${slugify(name)}">
         <div class="title is-5">
           <span class="quire-contributor__name">${name}</span> 
