@@ -8,9 +8,13 @@ module.exports = {
   /**
    * Contributors with a `pages` property containing data about the pages they contributed to
    */
-  contributors: ({ publication, pages }) => {
+  contributors: ({ config, publication, pages }) => {
     return publication.contributor.map((contributor) => {
-      contributor.pages = pages.filter(
+      const { pages, pic } = contributor
+      contributor.imagePath = pic
+        ? path.join('..', '_assets', config.params.imageDir, pic)
+        : null
+      contributor.pages = pages && pages.filter(
         ({ data }) =>
           data.contributor &&
           data.contributor.find(
