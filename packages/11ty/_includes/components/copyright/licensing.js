@@ -1,4 +1,5 @@
-module.exports = function(eleventyConfig, { publication }) {
+module.exports = function({ eleventyConfig, globalData }) {
+  const { publication } = globalData
   const { license } = publication
 
   let licenseText = ''
