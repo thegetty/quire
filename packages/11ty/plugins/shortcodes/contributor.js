@@ -1,4 +1,4 @@
-const { html } = require('common-tags')
+const { oneLine } = require('common-tags')
 const path = require('path')
 
 /**
@@ -7,14 +7,13 @@ const path = require('path')
  * ---
  * @todo
  * ---
- * Previously this shortcode did A LOT.
- * it still needs to be broken into multiple components
+ * Render formats other than 'bio'
  *
  * @param  {Object} eleventyConfig
  * @param  {Object} globalData
  * @param  {Object} params
  * @property  {Object} contributor
- * @property  {String} format              "bio" or... ?
+ * @property  {String} format              'bio' or... ?
  * @property  {String} entryType "publication" or "page"
  * 
  * @return {String} contributor markup
@@ -30,12 +29,12 @@ module.exports = function ({ eleventyConfig }, { contributor, format, entryType 
   const { bio, id, imagePath, pages, url } = contributor
   const name = contributorName(contributor)
 
-  return html`
+  return oneLine`
     <ul class="quire-contributors-list bio">
       <li class="quire-contributor" id="${slugify(name)}">
         <div class="title is-5">
           <span class="quire-contributor__name">${name}</span> 
-          ${link({ classes: ["quire-contributor__url"], name: qicon("link", ""), url })}
+          ${link({ classes: ["quire-contributor__url"], name: qicon('link', ''), url })}
         </div>
         <div class="media">
           <div class="quire-contributor__details media-content">
