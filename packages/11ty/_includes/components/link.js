@@ -1,4 +1,4 @@
-const { html } = require('common-tags');
+const { oneLine } = require('common-tags');
 
 /**
  * Renders a link
@@ -18,7 +18,7 @@ module.exports = function (
   globalData,
   { classes = [], link_relation, media_type, name, url }
 ) {
-  return html`
+  return oneLine`
     <a href="${url}" class="${classes.join(' ')}" target="_blank" rel="${link_relation}" type="${media_type}">
       ${name}
     </a>
