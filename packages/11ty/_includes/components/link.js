@@ -14,8 +14,7 @@ const { oneLine } = require('common-tags');
  * @return {String}                anchor tag
  */
 module.exports = function (
-  eleventyConfig,
-  globalData,
+  { eleventyConfig, globalData },
   { classes = [], link_relation, media_type, name, url }
 ) {
   return oneLine`
