@@ -8,7 +8,8 @@
  * @property {Boolean} withLabel - if true, prepends title with page.label
  * @return {string} `page title: subtitle`
  */
-module.exports = function(eleventyConfig, { config }, page, options={}) {
+module.exports = function({ eleventyConfig, globalData }, page, options={}) {
+  const { config } = globalData
   const { label, subtitle, title } = page.data
   const separator = title && !title.match(/\?|\!/) ? ': ' : ' '
 
