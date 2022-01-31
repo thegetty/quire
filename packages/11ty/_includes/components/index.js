@@ -33,7 +33,7 @@ module.exports = {
   index: require('./index.js'),
   ...licenseIcons,
   link: require('./link.js'),
-  linkList: require('./linkList.js'),
+  linkList: require('./link-list.js'),
   menuHeader: require('./menu/header.js'),
   menu: require('./menu/index.js'),
   menuItem: require('./menu/item.js'),
