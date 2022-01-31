@@ -1,7 +1,16 @@
 const path = require ('path')
 const { oneLine } = require('common-tags')
 
-module.exports = function (eleventyConfig, globalData, data, page) {
+/**
+ * Renders a TOC item
+ *
+ * @param  {Object} context
+ * @param  {String} data - all the eleventy data
+ * @param  {String} page - page data
+ *
+ * @return {String} TOC item markup
+ */
+module.exports = function ({ eleventyConfig, globalData }, data, page) {
   const { config } = globalData
   const {
     class: contentsPageClass,
