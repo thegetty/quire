@@ -1,7 +1,13 @@
 /**
- * Render the "Other Formats" and "Resources" sections of the menu
+ * Renders the "Other Formats" and "Resources" sections of the menu
+ *
+ * @param  {Object} context
+ *
+ * @return {String} Other Formats & Resources
  */
-module.exports = function(eleventyConfig, { publication }) {
+module.exports = function({ eleventyConfig, globalData }) {
+  const { publication } = globalData
+
   if (!Array.isArray(publication.resource_link)) return ''
 
   const linkList = eleventyConfig.getFilter('linkList')
@@ -32,7 +38,7 @@ module.exports = function(eleventyConfig, { publication }) {
   : ''
 
   return `
-  ${resourceElement}
-  ${otherFormatElement}
+    ${resourceElement}
+    ${otherFormatElement}
   `
 }

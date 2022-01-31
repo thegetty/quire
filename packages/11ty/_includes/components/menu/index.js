@@ -1,10 +1,16 @@
 /**
+ * Menu
+ * 
  * This controlls the global table of contents for the publication, which is
  * available on all pages. For users with Javascript enabled, this menu is hidden
  * by default. Users with JS disabled will alwasy see the menu in its expanded state.
+ *
+ * @param  {Object} context
+ * @param  {Object} eleventyComputed data
+ * 
+ * @return {String} Menu header markup
  */
-
-module.exports = function(eleventyConfig, globalData, data) {
+module.exports = function({ eleventyConfig, globalData, page }, eleventyComputed) {
   const citation = eleventyConfig.getFilter('citation')
   const copyright = eleventyConfig.getFilter('copyright')
   const menuHeader = eleventyConfig.getFilter('menuHeader')
@@ -12,7 +18,9 @@ module.exports = function(eleventyConfig, globalData, data) {
   const menuList = eleventyConfig.getFilter('menuList')
   const menuResources = eleventyConfig.getFilter('menuResources')
 
-  const { imageDir, page, pageData, pages, publication } = data
+
+  const { publication } = globalData
+  const { imageDir, pageData, pages } = eleventyComputed
 
   const footerLinks = publication.resource_link.filter(({ type }) => type === 'footer-link')
 

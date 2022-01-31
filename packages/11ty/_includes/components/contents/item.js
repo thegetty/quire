@@ -6,7 +6,7 @@ const { oneLine } = require('common-tags')
  *
  * @param  {Object} context
  * @param  {String} data - all the eleventy data
- * @param  {String} page - page data
+ * @param  {String} page - The TOC item's page data
  *
  * @return {String} TOC item markup
  */

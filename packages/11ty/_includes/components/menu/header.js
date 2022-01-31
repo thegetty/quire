@@ -1,10 +1,14 @@
-/*
- * Publication title block in menu
- */
-
 const { html } = require('common-tags')
 
-module.exports = function(eleventyConfig, { publication }, page) {
+/**
+ * Publication title block in menu
+ *
+ * @param  {Object} context
+ * 
+ * @return {String} Menu header markup
+ */
+module.exports = function({ eleventyConfig, globalData, page }) {
+  const { publication } = globalData
   const contributorList = eleventyConfig.getFilter('contributorList')
   const markdownify = eleventyConfig.getFilter('markdownify')
   const siteTitle = eleventyConfig.getFilter('siteTitle')
