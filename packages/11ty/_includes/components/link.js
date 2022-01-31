@@ -3,8 +3,7 @@ const { oneLine } = require('common-tags');
 /**
  * Renders a link
  *
- * @param  {Object} eleventyConfig
- * @param  {Object} globalData
+ * @param  {Object} context
  * @param  {Object} link
  * @property  {String} link_relation The value of the anchor tag 'rel' property
  * @property  {String} media_type The value of the anchor tag 'type' property
