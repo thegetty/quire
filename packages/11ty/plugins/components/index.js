@@ -9,9 +9,9 @@ const globalData = require('../globalData')
  */
 module.exports = function(eleventyConfig, options) {
   for (const component in components) {
-    const context = { eleventyConfig, globalData, page: this.page }
-    eleventyConfig.addShortcode(
-      component,
-      (...args) => components[component](context, ...args))
+    eleventyConfig.addShortcode(component, function(...args) {
+      const context = { eleventyConfig, globalData, page: this.page }
+      return components[component](context, ...args)
+    })
   }
 }
