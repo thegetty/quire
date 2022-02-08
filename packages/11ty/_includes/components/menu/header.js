@@ -7,7 +7,7 @@ const { html } = require('common-tags')
  * 
  * @return {String} Menu header markup
  */
-module.exports = function({ eleventyConfig, globalData, page }) {
+module.exports = function({ eleventyConfig, globalData }, page) {
   const { publication } = globalData
   const contributorList = eleventyConfig.getFilter('contributorList')
   const markdownify = eleventyConfig.getFilter('markdownify')
