@@ -1,12 +1,13 @@
 const path = require('path')
 /**
  * Copyright info
- * @param  {Object} context
+ * @param  {Object} eleventyConfig
+ * @param  {Object} data
  * 
  * @return {String}
  */
-module.exports = function({ eleventyConfig, globalData }) {
-  const { config, publication } = globalData
+module.exports = function(eleventyConfig, data) {
+  const { config, publication } = data
   const copyrightLicensing = eleventyConfig.getFilter('copyrightLicensing')
   const markdownify = eleventyConfig.getFilter('markdownify')
 
