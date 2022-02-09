@@ -15,8 +15,8 @@ module.exports = function(eleventyConfig, data) {
   const { contributors, options = {}, publication } = data
   if (!Array.isArray(contributors)) return ''
     
+  const fullName = eleventyConfig.getFilter('fullName')
   const getContributor = eleventyConfig.getFilter('getContributor')
-  const contributorName = eleventyConfig.getFilter('contributorName')
 
   contributors = contributors.map((item) => item.id ? getContributor(item.id) : item)
 
@@ -24,7 +24,7 @@ module.exports = function(eleventyConfig, data) {
 
   for (const [i, contributor] of contributors.entries()) {
     if (i <= options.max) {
-      pageContributors.push(contributorName(contributor, { reverse: options.reverse }))
+      pageContributors.push(fullName(contributor, { reverse: options.reverse }))
     }
     if (contributors.length === 1) {
       pageContributors = pageContributors.join('')

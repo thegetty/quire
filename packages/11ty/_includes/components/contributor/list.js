@@ -8,9 +8,9 @@
  */
 module.exports = function (eleventyConfig, globalData) {
   const { config, contributors, contributorType, listType } = data
-  const getContributor = eleventyConfig.getFilter('getContributor')
-  const contributorName = eleventyConfig.getFilter('contributorName')
   const contributorTitle = eleventyConfig.getFilter('contributorTitle')
+  const fullName = eleventyConfig.getFilter('fullName')
+  const getContributor = eleventyConfig.getFilter('getContributor')
 
   let contributorList = contributors.map((item) => item.id ? getContributor(item.id) : item)
   contributorList = (contributorType === 'all') 
@@ -19,7 +19,7 @@ module.exports = function (eleventyConfig, globalData) {
 
   if (!contributorList.length) return ''
 
-  const contributorNames = contributorList.map((item) => contributorName(item))
+  const contributorNames = contributorList.map(fullName)
   let contributorElement
   let listItems
   switch(listType) {

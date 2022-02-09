@@ -20,14 +20,14 @@ const link = require('../../_includes/link.js')
  * @return {String} contributor markup
  */
 module.exports = function ({ eleventyConfig }, { contributor, format, entryType }) {
-  const contributorName = eleventyConfig.getFilter('contributorName')
+  const fullName = eleventyConfig.getFilter('fullName')
   const contributorPageLinks = eleventyConfig.getFilter('contributorPageLinks')
   const getContributor = eleventyConfig.getFilter('getContributor')
   const qicon = eleventyConfig.getFilter('qicon')
   const slugify = eleventyConfig.getFilter('slugify')
 
   const { bio, id, imagePath, pages, url } = contributor
-  const name = contributorName(contributor)
+  const name = fullName(contributor)
   return oneLine`
     <ul class="quire-contributors-list bio">
       <li class="quire-contributor" id="${slugify(name)}">

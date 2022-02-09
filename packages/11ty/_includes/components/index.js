@@ -22,7 +22,6 @@ module.exports = {
   contentsImage: require('./contents/image.js'),
   contentsItem: require('./contents/item.js'),
   contributorList: require('./contributor/list.js'),
-  contributorName: require('./contributor/name.js'),
   contributorPageLinks: require('./contributor/page-links.js'),
   contributorTitle: require('./contributor/title.js'),
   copyright: require('./copyright/index.js'),
