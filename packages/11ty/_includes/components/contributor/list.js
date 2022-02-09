@@ -6,8 +6,8 @@
  * 
  * @return {String}                 Markup for contributors
  */
-module.exports = function ({ eleventyConfig, globalData }, contributors, contributorType, listType) {
-  const { config } = globalData
+module.exports = function (eleventyConfig, globalData) {
+  const { config, contributors, contributorType, listType } = data
   const getContributor = eleventyConfig.getFilter('getContributor')
   const contributorName = eleventyConfig.getFilter('contributorName')
   const contributorTitle = eleventyConfig.getFilter('contributorTitle')

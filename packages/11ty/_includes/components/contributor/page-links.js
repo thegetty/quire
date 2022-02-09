@@ -6,7 +6,8 @@ const link = require('../../link.js')
  *
  * @return {String}                Links to the provided contributor's pages
  */
-module.exports = function ({ eleventyConfig }, contributor) {
+module.exports = function (eleventyConfig , data) {
+  const { contributor } = data
   const link = eleventyConfig.getFilter('link')
   const pageTitle = eleventyConfig.getFilter('pageTitle')
 

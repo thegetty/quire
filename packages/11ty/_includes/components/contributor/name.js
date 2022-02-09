@@ -5,7 +5,8 @@
  *
  * @return {String} contributor display name
  */
-module.exports = function (context, contributor, options={}) {
+module.exports = function (eleventyConfig, data) {
+  const { contributor, options={} } = data
   const { first_name, full_name, last_name } = contributor
   const nameParts = [first_name, last_name].filter(item => item)
   let joinedName
