@@ -1,3 +1,4 @@
+const link = require('../../link.js')
 /**
  * Contributor page links
  * @param  {Object} context

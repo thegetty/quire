@@ -1,5 +1,4 @@
 const components = require('../../_includes/components')
-const globalData = require('../globalData')
 
 /**
  * Define components as universal template shortcodes

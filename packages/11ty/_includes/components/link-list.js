@@ -1,4 +1,5 @@
-const { html } = require('common-tags');
+const { html } = require('common-tags')
+const link = require('../link.js')
 
 /**
  * Renders a list of links with optional wrapper classes
@@ -16,7 +17,6 @@ const { html } = require('common-tags');
 module.exports = function (eleventyConfig, data, { links = [], classes = [] }) {
   if (!links.length) return ''
 
-  const link = eleventyConfig.getFilter('link')
   return html`
     <ul class="${classes.join(' ')}">
       ${links.map((item) => `<li>${link(item)}</li>`).join('')}

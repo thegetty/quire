@@ -34,7 +34,6 @@ module.exports = {
   index: require('./index.js'),
   jsonld: require('./page/jsonld.js'),
   ...licenseIcons,
-  link: require('./link.js'),
   linkList: require('./link-list.js'),
   menu: require('./menu/index.js'),
   menuHeader: require('./menu/header.js'),
