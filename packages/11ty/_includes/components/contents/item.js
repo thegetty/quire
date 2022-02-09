@@ -11,7 +11,7 @@ const { oneLine } = require('common-tags')
  * @return {String} TOC item markup
  */
 module.exports = function (eleventyConfig, data) {
-  const { class: contentsPageClass, config, imageDir page } = data
+  const { class: contentsPageClass, config, imageDir, page } = data
 
   const contentsImage = eleventyConfig.getFilter('contentsImage')
   const contributorList = eleventyConfig.getFilter('contributorList')
