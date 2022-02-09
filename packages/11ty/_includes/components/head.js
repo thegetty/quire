@@ -1,10 +1,9 @@
-const dublinCore = require('../page/dublin-core.js')
-const opengraph = require('../page/opengraph.js')
-const twitterCard = require('../page/twitter-card.js')
-const jsonld = require('../page/jsonld.js')
-
 module.exports = function(eleventyConfig, data) {
   const analytics = eleventyConfig.getFilter('analytics')
+  const dublinCore = eleventyConfig.getFilter('dublinCore')
+  const jsonld = eleventyConfig.getFilter('jsonld')
+  const opengraph = eleventyConfig.getFilter('opengraph')
+  const twitterCard = eleventyConfig.getFilter('twitterCard')
 
   const { canonicalURL, config, page, publication } = data
 
