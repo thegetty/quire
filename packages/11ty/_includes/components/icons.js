@@ -2,7 +2,7 @@
  * This file contains inline SVG elements which can be referenced elsewhere in
  * the templates. This file can be included at the end of the <body> tag.
  */
-module.exports = function() {
+module.exports = function(eleventyConfig, data) {
   return `
     <svg style="display:none">
       <symbol id="left-arrow-icon" viewBox="0 0 18 32">

@@ -41,7 +41,7 @@ module.exports = {
   menuItem: require('./menu/item.js'),
   menuList: require('./menu/list.js'),
   menuResources: require('./menu/resources.js'),
-  nav: require('./nav-bar.js'),
+  navigation: require('./navigation.js'),
   opengraph: require('./page/opengraph.js'),
   pageButtons: require('./page-buttons.js'),
   pageTitle: require('./page-title.js'),

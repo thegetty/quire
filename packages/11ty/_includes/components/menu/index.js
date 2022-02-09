@@ -61,7 +61,7 @@ module.exports = function({ eleventyConfig, globalData, page }, eleventyComputed
 
       <footer class="quire-menu__footer" role="contentinfo">
         ${copyright()}
-        ${linkList(footerLinks, ["menu-list"]) }
+        ${linkList(data, footerLinks, ["menu-list"]) }
       </footer>
     </div>
   `
