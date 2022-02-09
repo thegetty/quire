@@ -8,6 +8,6 @@ module.exports = function(eleventyConfig, data) {
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   
   return `
-    ${citationChicagoPublicationContributors()}. <em>${pageTitle(page)}</em> ${citationChicagoPublication()}
+    ${citationChicagoPublicationContributors()}. <em>${pageTitle(data, page)}</em> ${citationChicagoPublication()}
   ` 
 }
