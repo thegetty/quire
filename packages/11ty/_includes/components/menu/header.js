@@ -3,15 +3,15 @@ const { html } = require('common-tags')
 /**
  * Publication title block in menu
  *
- * @param  {Object} context
- * 
- * @return {String} Menu header markup
+ * @param      {Object}  eleventyConfig
+ * @param      {Object}  data
  */
-module.exports = function({ eleventyConfig, globalData }, page) {
-  const { publication } = globalData
+module.exports = function(eleventyConfig, data) {
   const contributorList = eleventyConfig.getFilter('contributorList')
   const markdownify = eleventyConfig.getFilter('markdownify')
   const siteTitle = eleventyConfig.getFilter('siteTitle')
+
+  const { page, publication } = data
 
   const { contributor, contributor_as_it_appears: contributorAsItAppears } = publication
 
@@ -29,7 +29,7 @@ module.exports = function({ eleventyConfig, globalData }, page) {
     } else if (contributor) {
       return `
         <span class="visually-hidden">Contributors: </span>
-        ${contributorList(contributor, 'primary', 'string')}
+        ${contributorList(data, contributor, 'primary', 'string')}
       `
     }
   }
@@ -39,12 +39,12 @@ module.exports = function({ eleventyConfig, globalData }, page) {
       ${homePageLinkOpenTag}
         <h4 class="quire-menu__header__title">
           <span class="visually-hidden">Site Title: </span>
-          ${siteTitle()}
+          ${siteTitle(data)}
         </h4>
       ${homePageLinkCloseTag}
 
       <div class="quire-menu__header__contributors">
-        ${contributorElement()}
+        ${contributorElement(data)}
       </div>
     </header>
   `

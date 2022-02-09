@@ -1,14 +1,13 @@
 /**
  * Renders the menu list
  *
- * @param  {Object} context
- * @param  {Array<Object>} pages - the eleventyComputed `pages` property
- *
- * @return {String} Menu list markup
+ * @param      {Object}  eleventyConfig
+ * @param      {Object}  data
  */
-module.exports = function ({ eleventyConfig, globalData }, pages) {
-  const { config } = globalData
+module.exports = function(eleventyConfig, data) {
   const menuItem = eleventyConfig.getFilter('menuItem')
+
+  const { config, page } = data
 
   let renderedSection
 
