@@ -1,10 +1,11 @@
-const analytics = require('./analytics.js')
 const dublinCore = require('../page/dublin-core.js')
 const opengraph = require('../page/opengraph.js')
 const twitterCard = require('../page/twitter-card.js')
 const jsonld = require('../page/jsonld.js')
 
-module.exports = function({ globalData, page }, eleventyComputed) {
+module.exports = function({ eleventyConfig, globalData, page }, eleventyComputed) {
+  const analytics = eleventyConfig.getFilter('analytics')
+
   const { config, publication } = globalData
 
   const title = page.title
@@ -61,7 +62,7 @@ module.exports = function({ globalData, page }, eleventyComputed) {
 
       <!-- {% render 'polyfills/template.html' %} -->
 
-      ${analytics(eleventyComputed)}
+      ${analytics()}
     </head>
   `
 }

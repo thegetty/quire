@@ -3,7 +3,8 @@ const { html } = require('common-tags')
 /**
  * Google Analytics
  */
-module.exports = function ({ config }) {
+module.exports = function ({ globalData }) {
+  const { config } = globalData
   if (!config.analytics || !config.GoogleAnalytics) return ''
   return html`
     <script>
