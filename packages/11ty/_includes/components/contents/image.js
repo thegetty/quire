@@ -8,7 +8,8 @@ const path = require('path')
  *
  * @return {String} TOC image markup
  */
-module.exports = function(context, imageDir, src) {
+module.exports = function(eleventyConfig, data) {
+  const { imageDir, src } = data
   if (!imageDir || !src) return ''
   const imgPath = path.join(imageDir, src)
   return `
