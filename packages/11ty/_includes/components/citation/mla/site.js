@@ -2,7 +2,7 @@
  * @todo write this component!?
  * @param  {Object} context
  */
-module.exports = function({ eleventyConfig, globalData, page }) {
-  const { publication } = globalData
+module.exports = function(eleventyConfig, data) {
+  const { publication } = data
   return ''
 }

@@ -16,7 +16,8 @@
  * @return {String}                citation markup
  */
 
-module.exports = function({ eleventyConfig, globalData }, { type, range }) {
+module.exports = function(eleventyConfig, data) {
+  const { type, range } = data;
   if (!type) {
     console.warn(`"type" is required for the citation shortcode. Options are: "chicago" or "mla"`)
     return ''

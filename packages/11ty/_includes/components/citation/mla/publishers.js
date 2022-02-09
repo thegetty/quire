@@ -1,8 +1,8 @@
 /**
  * @param  {Object} context
  */
-module.exports = function({ globalData }) {
-  const { publication } = globalData
+module.exports = function(eleventyConfig, data) {
+  const { publication } = data
   const publishers = publication.publisher
 
   return publishers

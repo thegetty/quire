@@ -11,10 +11,10 @@
  * 
  * @return {String}
  */
-module.exports = function({ eleventyConfig, globalData }, contributors, options = {}) {
+module.exports = function(eleventyConfig, data) {
+  const { contributors, options = {}, publication } = data
   if (!Array.isArray(contributors)) return ''
     
-  const { publication } = globalData
   const getContributor = eleventyConfig.getFilter('getContributor')
   const contributorName = eleventyConfig.getFilter('contributorName')
 

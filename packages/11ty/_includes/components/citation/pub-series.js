@@ -1,5 +1,5 @@
-module.exports = function({ globalData }) {
-  const { publication } = globalData
+module.exports = function(eleventyConfig, data) {
+  const { publication } = data
   const { series, number_in_series } = publication
 
   const seriesStartsWithNumber = number_in_series && number_in_series.charAt(0).match(/\d/)

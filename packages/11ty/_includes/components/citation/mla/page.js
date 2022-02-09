@@ -1,8 +1,8 @@
 /**
  * @param  {Object} context
  */
-module.exports = function({ eleventyConfig, globalData, page }) {
-  const { publication } = globalData
+module.exports = function(eleventyConfig, data) {
+  const { publication } = data
   const citationContributors = eleventyConfig.getFilter('citationContributors')
   const citationMLAPublicationContributors = eleventyConfig.getFilter('citationMLAPublicationContributors')
   const citationMLAPublishers = eleventyConfig.getFilter('citationMLAPublishers')

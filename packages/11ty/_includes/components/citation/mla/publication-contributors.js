@@ -1,8 +1,8 @@
 /**
  * @param  {Object} context
  */
-module.exports = function({ eleventyConfig, globalData }) {
-  const { publication } = globalData
+module.exports = function(eleventyConfig, data) {
+  const { publication } = data
   const citationContributors = eleventyConfig.getFilter('citationContributors')
 
   const publicationAuthors = publication.contributor.filter(({ type }) => type === 'primary')
