@@ -3,10 +3,10 @@ const opengraph = require('../page/opengraph.js')
 const twitterCard = require('../page/twitter-card.js')
 const jsonld = require('../page/jsonld.js')
 
-module.exports = function({ eleventyConfig, globalData, page }, eleventyComputed) {
+module.exports = function(eleventyConfig, data) {
   const analytics = eleventyConfig.getFilter('analytics')
 
-  const { config, publication } = globalData
+  const { canonicalURL, config, page, publication } = data
 
   const title = page.title
     ? `${page.title} | ${publication.title}`
@@ -41,20 +41,20 @@ module.exports = function({ eleventyConfig, globalData, page }, eleventyComputed
       <meta name="description" content="${description}">
       <meta name="keywords" content="${keywords}">
 
-      <link rel="canonical" href="${eleventyComputed.canonicalURL}">
+      <link rel="canonical" href="${canonicalURL}">
       <link rel="version-history" href="${publication.repositoryUrl}">
 
       ${publisherLinks}
 
       ${contributorLinks}
 
-      ${dublinCore(eleventyComputed)}
+      ${dublinCore(data)}
 
-      ${opengraph(eleventyComputed)}
+      ${opengraph(data)}
 
-      ${twitterCard(eleventyComputed)}
+      ${twitterCard(data)}
 
-      <script type="application/ld+json">${jsonld(eleventyComputed)}</script>
+      <script type="application/ld+json">${jsonld(data)}</script>
 
       <link rel="icon" href="/_assets/img/icons/favicon.ico" />
       <link rel="stylesheet" href="/_assets/styles/custom.css" />
@@ -62,7 +62,7 @@ module.exports = function({ eleventyConfig, globalData, page }, eleventyComputed
 
       <!-- {% render 'polyfills/template.html' %} -->
 
-      ${analytics()}
+      ${analytics(data)}
     </head>
   `
 }

@@ -1,8 +1,14 @@
 const { html } = require('common-tags')
 const pdfInfo = require ('../_includes/pdf/info.js')
 
+/**
+ * Base layout as a JavaScript method
+ *
+ * @param      {Object}  data    Final data from the Eleventy data cascade
+ * @return     {Function}  Template render function
+ */
 module.exports = function(data) {
-  const { content, publication } = data
+  const { content, page, publication } = data
 
   return this.renderTemplate(`
     <!doctype html>
