@@ -3,10 +3,12 @@ const path = require('path')
 /**
  * Renders <head> meta and link tags
  *
- * @param      {Object}  data    data
+ * @param      {Object}  eleventyConfig
+ * @param      {Object}  data
+ * 
  * @return     {String}  HTML meta and link elements
  */
-module.exports = function(data) {
+module.exports = function(eleventyConfig, data) {
   const { config, publication } = data
 
   const links = [

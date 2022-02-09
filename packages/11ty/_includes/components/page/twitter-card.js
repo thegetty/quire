@@ -1,12 +1,14 @@
 const path = require('path')
 
 /**
- * Renders <head> <meta> data tags for Open Graph protocol data
+ * Renders <head> <meta> data tags for Twitter Cards
  *
- * @param      {Object}  data    data
+ * @param      {Object}  eleventyConfig
+ * @param      {Object}  data
+ * 
  * @return     {String}  HTML meta and link elements
  */
-module.exports = function(data) {
+module.exports = function(eleventyConfig, data) {
   const { abstract, config, cover, imageDir, layout, publication } = data
 
   const { description, promo_image } = publication

@@ -1,10 +1,12 @@
 /**
  * Renders <head> <meta> data tags for Open Graph protocol data
  *
- * @param      {Object}  data    data
+ * @param      {Object}  eleventyConfig
+ * @param      {Object}  data
+ * 
  * @return     {String}  HTML meta and link elements
  */
-module.exports = function(data) {
+module.exports = function(eleventyConfig, data) {
   const { config, page, publication } = data
 
   const { description, identifier, promo_image, pub_date, pub_type } = publication

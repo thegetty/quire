@@ -1,5 +1,4 @@
 const { html } = require('common-tags')
-const pdfInfo = require ('../_includes/pdf/info.js')
 
 /**
  * Base layout as a JavaScript method
@@ -19,7 +18,7 @@ module.exports = function(data) {
 
         ${this.iconscc(data)}
 
-        ${pdfInfo(data)}
+        ${this.pdfInfo(data)}
 
         <div class="quire no-js" id="container">
           <div

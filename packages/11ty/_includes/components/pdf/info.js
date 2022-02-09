@@ -3,7 +3,7 @@
  *   @todo if there are sections, set section title to title if slug == '.'
  */
 
-module.exports = function(data) {
+module.exports = function(eleventyConfig, data) {
   const { config, label } = data
 
   if (!config.params.pdf) return ''
