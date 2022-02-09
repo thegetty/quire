@@ -31,7 +31,7 @@ module.exports = function(data) {
           </div>
 
           <div class="quire__primary" id="{{ section }}">
-            ${this.nav(data)}
+            ${this.navigation(data)}
             ${ content }
           </div>
           {% render 'search' %}

@@ -2,9 +2,11 @@ const { html } = require('common-tags')
 
 /**
  * Google Analytics
+ * @param      {Object}  eleventyConfig
+ * @param      {Object}  data
  */
-module.exports = function ({ globalData }) {
-  const { config } = globalData
+module.exports = function (eleventyConfig, data) {
+  const { config } = data
   if (!config.analytics || !config.GoogleAnalytics) return ''
   return html`
     <script>

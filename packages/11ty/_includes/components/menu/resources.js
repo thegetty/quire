@@ -20,7 +20,7 @@ module.exports = function({ eleventyConfig, globalData }) {
         <div class="quire-menu__formats">
           <h6>Resources</h6>
           <div role="complementary" aria-label="related resources">
-            ${linkList(relatedResources, ["menu-list"])}
+            ${linkList(data, relatedResources, ["menu-list"])}
           </div>
         </div>
       `
@@ -31,7 +31,7 @@ module.exports = function({ eleventyConfig, globalData }) {
     <div class="quire-menu__formats">
       <h6>Other Formats</h6>
       <div role="complementary" aria-label="downloads">
-        ${linkList(otherFormats, ["menu-list"])}
+        ${linkList(data, otherFormats, ["menu-list"])}
       </div>
     </div>
       `

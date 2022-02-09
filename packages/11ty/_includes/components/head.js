@@ -1,3 +1,9 @@
+/**
+ * Head Tag
+ * 
+ * @param      {Object}  eleventyConfig
+ * @param      {Object}  data
+ */
 module.exports = function(eleventyConfig, data) {
   const analytics = eleventyConfig.getFilter('analytics')
   const dublinCore = eleventyConfig.getFilter('dublinCore')

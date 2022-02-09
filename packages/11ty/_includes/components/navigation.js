@@ -10,8 +10,8 @@
  * eligible pages are ranged through and based on weight, the next or previous
  * one in the range is linked to.
  */
-module.exports = function({ eleventyConfig, globalData }, { collections, pagination, pages, title }) {
-  const { config } = globalData
+module.exports = function(eleventyConfig, data) {
+  const { collections, config, pages, pagination, title } = data
   const eleventyNavigation = eleventyConfig.getFilter('eleventyNavigation')
   const markdownify = eleventyConfig.getFilter('markdownify')
 
