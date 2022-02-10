@@ -1,7 +1,7 @@
 const globalData = require('../globalData')
 
 const capitalize = require('./capitalize')
-const fullName = require('./fullName')
+const fullname = require('./fullname')
 const getContributor = require('./getContributor')
 const getFigure = require('./getFigure')
 const getObject = require('./getObject')
@@ -12,7 +12,7 @@ module.exports = function(eleventyConfig, options) {
 
   eleventyConfig.addFilter('capitalize', (string) => capitalize(string))
 
-  eleventyConfig.addFilter('fullName', (person, options) => fullName(person, options))
+  eleventyConfig.addFilter('fullname', (person, options) => fullname(person, options))
 
   eleventyConfig.addFilter('getContributor', (id) => getContributor(eleventyConfig, globalData, id))
 
