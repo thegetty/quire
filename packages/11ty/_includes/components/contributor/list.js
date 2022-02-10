@@ -1,28 +1,29 @@
 /**
  * @param  {Object} context
- * @param  {Array} contributors
- * @param  {String} contributorType - "primary", "secondary" or "all"
- * @param  {String} listType - "string", "list", or "list-plus"
+ * @param  {Array}  contributors
+ * @param  {String} type - "all" (default), "primary", or "secondary"
+ * @param  {String} format - "string" (default), "list", or "list-plus"
  * 
  * @return {String}                 Markup for contributors
  */
-module.exports = function (eleventyConfig, globalData) {
-  const { config, contributors, contributorType, listType } = data
+module.exports = function (eleventyConfig, params) {
   const contributorTitle = eleventyConfig.getFilter('contributorTitle')
-  const fullName = eleventyConfig.getFilter('fullName')
+  const fullname = eleventyConfig.getFilter('fullname')
   const getContributor = eleventyConfig.getFilter('getContributor')
 
+  const { contributors, type = 'all', format = 'string' } = params
+
   let contributorList = contributors.map((item) => item.id ? getContributor(item.id) : item)
-  contributorList = (contributorType === 'all') 
-    ? contributorList 
-    : contributorList.filter((item) => item.type === contributorType)
+  contributorList = (type === 'all') 
+    ? contributorList
+    : contributorList.filter((item) => item.type === type)
 
   if (!contributorList.length) return ''
 
-  const contributorNames = contributorList.map(fullName)
+  const contributorNames = contributorList.map(fullname)
   let contributorElement
   let listItems
-  switch(listType) {
+  switch(format) {
     case 'string':
       const last = contributorNames.pop();
       const namesString = contributorNames.length > 1 ? contributorNames.join(', ') + ' and ' + last : last

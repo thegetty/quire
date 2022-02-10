@@ -1,5 +1,4 @@
 const { html } = require('common-tags')
-const link = require('../link.js')
 
 /**
  * Renders a list of links with optional wrapper classes
@@ -15,6 +14,8 @@ const link = require('../link.js')
  * @return {String}                Unordered list of links
  */
 module.exports = function (eleventyConfig, data, { links = [], classes = [] }) {
+  const link = eleventyConfig.getFilter('link')
+
   if (!links.length) return ''
 
   return html`

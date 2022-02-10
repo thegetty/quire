@@ -11,7 +11,7 @@ const { oneLine } = require('common-tags');
  * @param  {Array<String>} classes
  * @return {String}                anchor tag
  */
-module.exports = function ({ classes = [], link_relation, media_type, name, url }) {
+module.exports = function (eleventyConfig, { classes = [], link_relation, media_type, name, url }) {
   return oneLine`
     <a href="${url}" class="${classes.join(' ')}" target="_blank" rel="${link_relation}" type="${media_type}">
       ${name}

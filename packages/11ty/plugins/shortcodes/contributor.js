@@ -1,6 +1,5 @@
 const { oneLine } = require('common-tags')
 const path = require('path')
-const link = require('../../_includes/link.js')
 
 /**
  * qcontributor shortcode
@@ -20,15 +19,24 @@ const link = require('../../_includes/link.js')
  * @return {String} contributor markup
  */
 module.exports = function ({ eleventyConfig }, { contributor, format, entryType }) {
-  const contributorPageLinks = eleventyConfig.getFilter('contributorPageLinks')
   const getContributor = eleventyConfig.getFilter('getContributor')
   const fullname = eleventyConfig.getFilter('fullname')
+  const link = eleventyConfig.getFilter('link')
+  const pageTitle = eleventyConfig.getFilter('pageTitle')
   const qicon = eleventyConfig.getFilter('qicon')
   const slugify = eleventyConfig.getFilter('slugify')
 
-  const { bio, id, imagePath, pages, url } = contributor
+  const { bio, id, imagePath, pages=[], url } = contributor
 
   const name = fullname(contributor)
+
+  const contributorPages = pages.map(({ data, url }) => {
+    return `${link({
+      classes: ['quire-contributor__page-link'],
+      name: pageTitle(data, { withLabel: true }),
+      url,
+    })}`
+  })
   return oneLine`
     <ul class="quire-contributors-list bio">
       <li class="quire-contributor" id="${slugify(name)}">
@@ -44,7 +52,7 @@ module.exports = function ({ eleventyConfig }, { contributor, format, entryType 
             <div class="quire-contributor__bio">
               ${bio}
             </div>
-            ${contributorPageLinks(contributor)}
+            ${contributorPages}
           </div>
         </div>
       </li>

@@ -29,7 +29,7 @@ module.exports = function(eleventyConfig, data) {
     } else if (contributor) {
       return `
         <span class="visually-hidden">Contributors: </span>
-        ${contributorList(data, contributor, 'primary', 'string')}
+        ${contributorList({ contributors: contributor, type: 'primary' })}
       `
     }
   }
