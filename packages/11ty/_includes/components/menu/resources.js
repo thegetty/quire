@@ -4,24 +4,24 @@ const { html } = require('common-tags')
  * Renders the "Other Formats" and "Resources" sections of the menu
  *
  * @param      {Object}  eleventyConfig
- * @param      {Object}  data
+ * @param      {Object}  params
  */
-module.exports = function(eleventyConfig, data) {
-  const { publication } = data
+module.exports = function(eleventyConfig, params) {
+  const { resourceLinks } = params
 
-  if (!Array.isArray(publication.resource_link)) return ''
+  if (!Array.isArray(resourceLinks)) return ''
 
   const linkList = eleventyConfig.getFilter('linkList')
 
-  const otherFormats = publication.resource_link.filter(({ type }) => type === 'other-format')
-  const relatedResources = publication.resource_link.filter(({ type }) => type === 'related-resource')
+  const otherFormats = resourceLinks.filter(({ type }) => type === 'other-format')
+  const relatedResources = resourceLinks.filter(({ type }) => type === 'related-resource')
 
   const resourceElement = relatedResources.length
   ? html`
     <div class="quire-menu__formats">
       <h6>Resources</h6>
       <div role="complementary" aria-label="related resources">
-        ${linkList(data, relatedResources, ['menu-list'])}
+        ${linkList({ links: relatedResources, classes: ['menu-list'] })}
       </div>
     </div>`
   : ''
@@ -31,7 +31,7 @@ module.exports = function(eleventyConfig, data) {
     <div class="quire-menu__formats">
       <h6>Other Formats</h6>
       <div role="complementary" aria-label="downloads">
-        ${linkList(data, otherFormats, ['menu-list'])}
+        ${linkList({ links: otherFormats, classes: ['menu-list'] })}
       </div>
     </div>`
   : ''

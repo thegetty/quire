@@ -4,33 +4,32 @@ const { html } = require('common-tags')
  * Publication title block in menu
  *
  * @param      {Object}  eleventyConfig
- * @param      {Object}  data
+ * @param      {Object}  params
+ * @property   {String}  currentURL
+ * @property   {Array|String}   contributors - publication contributors array or string override
  */
-module.exports = function(eleventyConfig, data) {
+module.exports = function(eleventyConfig, params) {
   const contributorList = eleventyConfig.getFilter('contributorList')
   const markdownify = eleventyConfig.getFilter('markdownify')
   const siteTitle = eleventyConfig.getFilter('siteTitle')
 
-  const { page, publication } = data
+  const { currentURL, contributors } = params
 
-  const { contributor, contributor_as_it_appears: contributorAsItAppears } = publication
+  const isHomePage = currentURL === '/'
 
-  const home = '/'
-  const isHomePage = page.url === home
-
-  const homePageLinkOpenTag = isHomePage ? `<a class="quire-menu__header__title-link" href="${home}">` : ''
+  const homePageLinkOpenTag = isHomePage ? `<a class="quire-menu__header__title-link" href="/">` : ''
   const homePageLinkCloseTag = isHomePage ? `</a>` : ''
 
   const contributorElement = () => {
-    if (!contributor && !contributorAsItAppears) return ''
-
-    if (contributorAsItAppears) {
-      return `${markdownify(contributorAsItAppears)}`
-    } else if (contributor) {
+    if (typeof contributors === 'string') {
+      return `${markdownify(contributors)}`
+    } else if (Array.isArray(contributors)) {
       return `
         <span class="visually-hidden">Contributors: </span>
-        ${contributorList({ contributors: contributor, type: 'primary' })}
+        ${contributorList({ contributors, type: 'primary' })}
       `
+    } else {
+      return ''
     }
   }
 

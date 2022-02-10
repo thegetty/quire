@@ -7,7 +7,7 @@ const { html } = require('common-tags')
  * @return     {Function}  Template render function
  */
 module.exports = function(data) {
-  const { content, page, publication } = data
+  const { content, imageDir, pageData, pages, publication } = data
 
   return this.renderTemplate(`
     <!doctype html>
@@ -27,7 +27,7 @@ module.exports = function(data) {
             aria-expanded="false"
             role="contentinfo"
           >
-            ${this.menu(data)}
+            ${this.menu({ imageDir, pageData, pages, publication})}
           </div>
 
           <div class="quire__primary" id="{{ section }}">

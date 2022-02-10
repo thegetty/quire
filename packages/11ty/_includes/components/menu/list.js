@@ -2,12 +2,12 @@
  * Renders the menu list
  *
  * @param      {Object}  eleventyConfig
- * @param      {Object}  data
+ * @param      {Object}  params
  */
-module.exports = function(eleventyConfig, data) {
+module.exports = function(eleventyConfig, params) {
   const menuItem = eleventyConfig.getFilter('menuItem')
 
-  const { config, page } = data
+  const { config, pages } = params
 
   let renderedSection
 
@@ -16,19 +16,19 @@ module.exports = function(eleventyConfig, data) {
     .map((page) => {
       let listItem = ''
       if (page.data.layout !== 'contents' && !page.data.section) {
-        return `<li class="page-item">${menuItem(page)}</li>`
+        return `<li class="page-item">${menuItem({ config, page })}</li>`
       } else if (
         page.data.layout === 'contents' &&
         page.data.section !== renderedSection
       ) {
         renderedSection = page.data.section
-        listItem += `<li class="section-item">${menuItem(page)}`
+        listItem += `<li class="section-item">${menuItem({ config, page })}`
         if (config.params.tocType === 'full') {
           subListItems = pages
             .filter((item) => item.data.section === page.data.section && item.data.layout !== 'contents')
             .map((item) => {
               if (page.fileSlug !== item.fileSlug)
-                return `<li class="page-item">${menuItem(item)}</li>`
+                return `<li class="page-item">${menuItem({ config, page: item })}</li>`
             })
           listItem += `<ul>${subListItems.join('')}</ul>`
         }

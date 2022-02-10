@@ -8,9 +8,9 @@ const { html } = require('common-tags')
  * by default. Users with JS disabled will alwasy see the menu in its expanded state.
  *
  * @param      {Object}  eleventyConfig
- * @param      {Object}  data
+ * @param      {Object}  params
  */
-module.exports = function(eleventyConfig, data) {
+module.exports = function(eleventyConfig, params) {
   const citation = eleventyConfig.getFilter('citation')
   const copyright = eleventyConfig.getFilter('copyright')
   const linkList = eleventyConfig.getFilter('linkList')
@@ -18,9 +18,13 @@ module.exports = function(eleventyConfig, data) {
   const menuList = eleventyConfig.getFilter('menuList')
   const menuResources = eleventyConfig.getFilter('menuResources')
 
-  const { imageDir, pageData, pages, publication } = data
+  const { imageDir, pageData, pages, publication } = params
 
-  const footerLinks = publication.resource_link.filter(({ type }) => type === 'footer-link')
+  const { contributor, contributor_as_it_appears, resource_link: resourceLinks } = publication
+
+  const footerLinks = resourceLinks.filter(({ type }) => type === 'footer-link')
+
+  const contributors = contributor_as_it_appears || contributor
 
   return html`
     <div
@@ -28,13 +32,13 @@ module.exports = function(eleventyConfig, data) {
       role="banner"
       id="site-menu__inner"
     >
-      ${menuHeader(data)}
+      ${menuHeader({ currentURL: pageData.url, contributors })}
       <nav id="nav" class="quire-menu__list menu-list" role="navigation" aria-label="full">
         <h3 class="visually-hidden">Table of Contents</h3>
-        <ul>${menuList(data)}</ul>
+        <ul>${menuList({ config, pages })}</ul>
       </nav>
 
-      ${menuResources(data)}
+      ${menuResources({ resourceLinks })}
 
       <div class="quire-menu__formats">
         <h6>Cite this Page</h6>
@@ -58,8 +62,8 @@ module.exports = function(eleventyConfig, data) {
       </div>
 
       <footer class="quire-menu__footer" role="contentinfo">
-        ${copyright(data)}
-        ${linkList(data, footerLinks, ["menu-list"]) }
+        ${copyright({ config, publication })}
+        ${linkList({ links: footerLinks, classes: ["menu-list"]}) }
       </footer>
     </div>
   `
