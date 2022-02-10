@@ -11,10 +11,25 @@ const { oneLine } = require('common-tags')
  * @return {String} TOC item markup
  */
 module.exports = function (eleventyConfig, data) {
-  const { class: contentsPageClass, config, imageDir, page } = data
+  const { 
+    abstract,
+    class: contentsPageClass,
+    config,
+    contributors: pageContributors,
+    figure: pageFigure,
+    image,
+    imageDir,
+    label,
+    layout,
+    object: pageObject,
+    page,
+    short_title,
+    summary,
+    title,
+    weight
+  } = data
 
   const contentsImage = eleventyConfig.getFilter('contentsImage')
-  const contributorList = eleventyConfig.getFilter('contributorList')
   const getFigure = eleventyConfig.getFilter('getFigure')
   const getObject = eleventyConfig.getFilter('getObject')
   const markdownify = eleventyConfig.getFilter('markdownify')
@@ -25,50 +40,49 @@ module.exports = function (eleventyConfig, data) {
   const brief = contentsPageClass.includes('brief')
   const grid = contentsPageClass.includes('grid')
 
-  // const itemClassName = page.data.weight < pageOne.data.weight ? "frontmatter-page" : ""
+  // const itemClassName = weight < pageOne.data.weight ? "frontmatter-page" : ""
   const itemClassName = ''
-  const pageContributors = page.data.contributor
-  ? `<span class="contributor"> — ${contributorList(page.data.contributor, 'all', 'string')}</span>`
+  const pageContributorsElement = pageContributors
+  ? `<span class="contributor"> — ${pageContributors.map()}</span>`
   : ""
-  let pageTitle = page.data.label ? page.data.label + config.params.pageLabelDivider : ''
-  if (page.data.short_title && brief) {
-    pageTitle += page.data.short_title
+  let pageTitle = label ? label + config.params.pageLabelDivider : ''
+  if (short_title && brief) {
+    pageTitle += short_title
   } else if (brief) {
-    pageTitle += page.data.title
+    pageTitle += title
   } else {
-    pageTitle += oneLine`${pageTitlePartial(page)}${pageContributors}`
+    pageTitle += oneLine`${pageTitlePartial(page)}${pageContributorsElement}`
   }
   const arrowIcon = `<span class="arrow remove-from-epub">&nbsp${qicon("arrow-forward", "")}</span>`
 
   // Returns abstract with any links stripped out
-  const abstract =
-    contentsPageClass === 'abstract' && (page.data.abstract || page.data.summary)
+  const abstractText =
+    contentsPageClass === 'abstract' && (abstract || summary)
       ? `<div class="abstract-text">
-          {{ markdownify(page.data.abstract) | replaceRE "</?a(|\\s*[^>]+)>" "" | strip_html }}
+          {{ markdownify(abstract) | replaceRE "</?a(|\\s*[^>]+)>" "" | strip_html }}
       </div>`
       : ""
 
     let mainElement
 
     if (grid) {
-      const imageAttribute = page.data.figure || page.data.object ? "image" : "no-image"
-      const slugPageAttribute = page.data.layout === 'contents' ? "slug-page" : ""
-      let figure
+      const imageAttribute = pageFigure || pageObject ? "image" : "no-image"
+      const slugPageAttribute = layout === 'contents' ? "slug-page" : ""
       let imageElement
       switch (true) {
-        case !!page.data.image:
+        case !!image:
           imageElement = `<div class="card-image">
               <figure class="image">
                 <img src="${path.join(imageDir, page.image)}" alt="" />
               </figure>
             </div>`
           break
-        case !!page.data.figure:
-          const firstFigure = firstPageFigure ? getFigure(page.data.figure[0]) : null
+        case !!pageFigure:
+          const firstFigure = firstPageFigure ? getFigure(pageFigure[0]) : null
           imageElement = firstFigure ? contentsImage(data.imageDir, firstFigure.src) : ''
           break
-        case !!page.data.object:
-          const firstObjectId = page.data.object[0].id
+        case !!pageObject:
+          const firstObjectId = pageObject[0].id
           const object = getObject(firstObjectId)
           const firstObjectFigure = object ? getFigure(object.figure[0].id) : null
           imageElement = firstObjectFigure ? contentsImage(data.imageDir, firstObjectFigure.src) : ''
@@ -96,7 +110,7 @@ module.exports = function (eleventyConfig, data) {
             ${arrowIcon}
           </a>
         </div>
-        ${abstract}
+        ${abstractText}
       `
     }
   return mainElement
