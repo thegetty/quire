@@ -1,10 +1,13 @@
 const { html } = require('common-tags')
 
 /**
- * @param  {Object} context
+ * @param  {Object} eleventyConfig
+ * @param  {Object} params
+ * @property  {Object} publication
+ * @property  {Object} page
  */
-module.exports = function(eleventyConfig, data) {
-  const { publication, contributor } = data
+module.exports = function(eleventyConfig, params) {
+  const { page, publication } = params
   const citationContributors = eleventyConfig.getFilter('citationContributors')
   const citationChicagoPublicationContributors = eleventyConfig.getFilter('citationChicagoPublicationContributors')
   const citationChicagoPublishers = eleventyConfig.getFilter('citationChicagoPublishers')
@@ -12,7 +15,7 @@ module.exports = function(eleventyConfig, data) {
   const pageTitlePartial = eleventyConfig.getFilter('pageTitle')
   const siteTitle = eleventyConfig.getFilter('siteTitle')
 
-  const pageContributors = citationContributors(contributor, {
+  const pageContributors = citationContributors({ contributors: page.contributor }, {
     max: 3,
     reverse: true,
     separator: ', '
@@ -23,7 +26,7 @@ module.exports = function(eleventyConfig, data) {
     : data.label || 'Untitled.'
 
   let publicationCitation = 
-    [`In <em>${siteTitle()}</em>`, citationChicagoPublicationContributors()]
+    [`In <em>${siteTitle()}</em>`, citationChicagoPublicationContributors({ contributors: publication.contributor })]
     .filter(item => item)
     .join(', ')
 

@@ -1,8 +1,11 @@
 /**
- * @param  {Object} context
+ * @param  {Object} eleventyConfig
+ * @param  {Object} params
+ * @property  {Object} page
+ * @property  {Object} publication
  */
-module.exports = function(eleventyConfig, data) {
-  const { publication } = data
+module.exports = function(eleventyConfig, params) {
+  const { page, publication } = params
   const citationContributors = eleventyConfig.getFilter('citationContributors')
   const citationMLAPublicationContributors = eleventyConfig.getFilter('citationMLAPublicationContributors')
   const citationMLAPublishers = eleventyConfig.getFilter('citationMLAPublishers')
@@ -30,7 +33,7 @@ module.exports = function(eleventyConfig, data) {
   citationParts.push(pageTitle || 'Untitled.')
 
   let publicationCitation = 
-    [` <em>${siteTitle()}</em>`, citationMLAPublicationContributors()]
+    [` <em>${siteTitle()}</em>`, citationMLAPublicationContributors({ contributors: publication.contributor })]
     .filter(item => item)
     .join(', ')
 

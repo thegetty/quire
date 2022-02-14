@@ -47,7 +47,7 @@ module.exports = function(eleventyConfig, params) {
             Chicago
           </span>
           <span class="cite-this__text">
-          ${citation({ type: 'chicago', range: 'page', page: pageData })}
+          ${citation({ type: 'chicago', range: 'page', page: pageData, publication })}
           </span>
         </div>
 
@@ -56,7 +56,7 @@ module.exports = function(eleventyConfig, params) {
             MLA
           </span>
           <span class="cite-this__text">
-            ${citation({ type: 'mla', range: 'page', page: pageData })}
+            ${citation({ type: 'mla', range: 'page', page: pageData, publication })}
           </span>
         </div>
       </div>

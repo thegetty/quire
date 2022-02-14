@@ -8,16 +8,18 @@
  * authors in Chicago citations, and more than two authors
  * in MLA citations.
  *
- * @param  {Object} context
+ * @param  {Object} eleventyConfig
  * @param  {Object} params
+ * @property  {Object} page
+ * @property  {Object} publication
  * @property  {String} type - "chicago" or "mla"
  * @property  {String} range - "page" or "site"
  * 
  * @return {String}                citation markup
  */
 
-module.exports = function(eleventyConfig, data) {
-  const { type, range } = data;
+module.exports = function(eleventyConfig, params) {
+  const { page, publication, range, type } = params
   if (!type) {
     console.warn(`"type" is required for the citation shortcode. Options are: "chicago" or "mla"`)
     return ''
@@ -34,11 +36,11 @@ module.exports = function(eleventyConfig, data) {
 
   const shortcodes = {
     chicago: {
-      page: citationChicagoPage(),
+      page: citationChicagoPage({ page, publication }),
       site: citationChicagoSite()
     },
     mla: {
-      page: citationMLAPage(),
+      page: citationMLAPage({ page, publication }),
       site: citationMLASite()
     }
   }

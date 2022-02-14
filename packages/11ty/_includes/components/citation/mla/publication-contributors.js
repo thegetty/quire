@@ -1,13 +1,17 @@
 /**
- * @param  {Object} context
+ * MLA Publication Contributors
+ * 
+ * @param  {Object} eleventyConfig
+ * @param  {Object} params
+ * @property  {Object} contributors - publication contributors
  */
-module.exports = function(eleventyConfig, data) {
-  const { publication } = data
+module.exports = function(eleventyConfig, params) {
+  const { contributors } = params
   const citationContributors = eleventyConfig.getFilter('citationContributors')
 
-  const publicationAuthors = publication.contributor.filter(({ type }) => type === 'primary')
+  const publicationAuthors = contributors.filter(({ type }) => type === 'primary')
   const publicationAuthorCount = publicationAuthors.length
-  const publicationEditors = publication.contributor.filter(({ role }) => role === 'editor')
+  const publicationEditors = contributors.filter(({ role }) => role === 'editor')
   const publicationEditorCount = publicationEditors.length
 
   let stringParts = []

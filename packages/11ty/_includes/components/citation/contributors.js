@@ -2,17 +2,19 @@
  * Renders a list of contributors with options
  * Used across MLA and Chicago formats
  * 
- * @param  {Object} context
- * @param  {Object} options
+ * @param     {Object}  eleventyConfig
+ * @param     {Object}  params
+ * @property  {Array}   contributors
+ * @param     {Object}  options
  * @property  {Boolean} reverse If true, returns family name before surname
- * @property  {Number} max The maximum number of contributors who will be listed by name. 
+ * @property  {Number}  max The maximum number of contributors who will be listed by name. 
  * If there are more than the max, ", et al" will be appended.
- * @property  {String} separator The separator that will be used to join names
+ * @property  {String}  separator The separator that will be used to join names
  * 
  * @return {String}
  */
-module.exports = function(eleventyConfig, data) {
-  const { contributors, options = {}, publication } = data
+module.exports = function(eleventyConfig, params, options = {}) {
+  const { contributors } = params
   if (!Array.isArray(contributors)) return ''
     
   const fullname = eleventyConfig.getFilter('fullname')
