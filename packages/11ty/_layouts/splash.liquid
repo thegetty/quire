@@ -32,12 +32,12 @@ description: splash page layout
           {{ content }}
           {% render "page/bibliography" %}
         </div>
-        {% pageButtons pagination %}
+        {% pageButtons config: config, pagination: pagination %}
       </div>
     </section>
   {% else %}
     <div class="quire-contents-buttons--fixed remove-from-epub">
-    {% pageButtons pagination %}
+    {% pageButtons config: config, pagination: pagination %}
     </div>
   {% endif %}
 </article>

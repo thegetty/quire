@@ -54,13 +54,13 @@ exports.data = {
 }
 
 exports.render = function(data) {
-  const { content, pagination } = data
+  const { config, content, pagination } = data
 
   return html`
     <div class="lorem-ipsum">
       ${content}
 
-      ${this.pageButtons(pagination)}
+      ${this.pageButtons({ config, pagination })}
 
     </div>
   `
