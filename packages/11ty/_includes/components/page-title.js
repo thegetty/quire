@@ -8,7 +8,8 @@
  * @return {string} `page title: subtitle`
  */
 module.exports = function(eleventyConfig, params, options={}) {
-  const { config, label, subtitle, title } = params
+  const { config, page } = params
+  const { label, subtitle, title } = page
 
   const separator = title && !title.match(/\?|\!/) ? ': ' : ' '
 

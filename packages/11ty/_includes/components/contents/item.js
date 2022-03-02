@@ -41,7 +41,7 @@ module.exports = function (eleventyConfig, params) {
   const markdownify = eleventyConfig.getFilter('markdownify')
   const pageTitlePartial = eleventyConfig.getFilter('pageTitle')
   const qicon = eleventyConfig.getFilter('qicon')
-  const url = eleventyConfig.getFilter('url')
+  const urlFilter = eleventyConfig.getFilter('url')
 
   const brief = className.includes('brief')
   const grid = className.includes('grid')
@@ -57,7 +57,7 @@ module.exports = function (eleventyConfig, params) {
   } else if (brief) {
     pageTitle += title
   } else {
-    pageTitle += oneLine`${pageTitlePartial(page)}${pageContributorsElement}`
+    pageTitle += oneLine`${pageTitlePartial({ config, page })}${pageContributorsElement}`
   }
   const arrowIcon = `<span class="arrow remove-from-epub">&nbsp${qicon("arrow-forward", "")}</span>`
 
@@ -97,7 +97,7 @@ module.exports = function (eleventyConfig, params) {
           imageElement = ''
       }
       mainElement = `
-        <a href="${url(url)}" class="${itemClassName}">
+        <a href="${urlFilter(url)}" class="${itemClassName}">
           <div class="card ${imageAttribute} ${slugPageAttribute}">
             ${imageElement}
             <div class="card-content">
@@ -111,7 +111,7 @@ module.exports = function (eleventyConfig, params) {
     } else {
       mainElement = `
         <div class="title">
-          <a href="${url(url)}" class="${itemClassName}">
+          <a href="${urlFilter(url)}" class="${itemClassName}">
             ${markdownify(pageTitle)}
             ${arrowIcon}
           </a>
