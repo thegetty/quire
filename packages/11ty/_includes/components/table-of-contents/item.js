@@ -34,12 +34,12 @@ module.exports = function (eleventyConfig, params) {
     weight,
   } = page
 
-  const contentsImage = eleventyConfig.getFilter('contentsImage')
   const contributorList = eleventyConfig.getFilter('contributorList')
   const getFigure = eleventyConfig.getFilter('getFigure')
   const getObject = eleventyConfig.getFilter('getObject')
   const markdownify = eleventyConfig.getFilter('markdownify')
   const pageTitlePartial = eleventyConfig.getFilter('pageTitle')
+  const tableOfContentsImage = eleventyConfig.getFilter('tableOfContentsImage')
   const qicon = eleventyConfig.getFilter('qicon')
   const urlFilter = eleventyConfig.getFilter('url')
 
@@ -85,13 +85,13 @@ module.exports = function (eleventyConfig, params) {
           break
         case !!pageFigure:
           const firstFigure = firstPageFigure ? getFigure(pageFigure[0]) : null
-          imageElement = firstFigure ? contentsImage({ imageDir, src: firstFigure.src }) : ''
+          imageElement = firstFigure ? tableOfContentsImage({ imageDir, src: firstFigure.src }) : ''
           break
         case !!pageObject:
           const firstObjectId = pageObject[0].id
           const object = getObject(firstObjectId)
           const firstObjectFigure = object ? getFigure(object.figure[0].id) : null
-          imageElement = firstObjectFigure ? contentsImage({ imageDir, src: firstObjectFigure.src }) : ''
+          imageElement = firstObjectFigure ? tableOfContentsImage({ imageDir, src: firstObjectFigure.src }) : ''
           break
         default:
           imageElement = ''

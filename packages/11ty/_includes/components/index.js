@@ -19,8 +19,6 @@ module.exports = {
   citationMLASite: require('./citation/mla/site.js'),
   citationPubDate: require('./citation/pub-date.js'),
   citationPubSeries: require('./citation/pub-series.js'),
-  contentsImage: require('./contents/image.js'),
-  contentsItem: require('./contents/item.js'),
   contributorList: require('./contributor/list.js'),
   contributorTitle: require('./contributor/title.js'),
   copyright: require('./copyright/index.js'),
@@ -46,5 +44,7 @@ module.exports = {
   pdfInfo: require('./pdf/info.js'),
   scripts: require('./scripts.js'),
   siteTitle: require('./site-title.js'),
+  tableOfContentsImage: require('./table-of-contents/image.js'),
+  tableOfContentsItem: require('./table-of-contents/item.js'),
   twitterCard: require('./page/twitter-card.js'),
 }
