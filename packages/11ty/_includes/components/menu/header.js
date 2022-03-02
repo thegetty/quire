@@ -13,7 +13,7 @@ module.exports = function(eleventyConfig, params) {
   const markdownify = eleventyConfig.getFilter('markdownify')
   const siteTitle = eleventyConfig.getFilter('siteTitle')
 
-  const { currentURL, contributors } = params
+  const { currentURL, contributors, publication } = params
 
   const isHomePage = currentURL === '/'
 
@@ -38,7 +38,7 @@ module.exports = function(eleventyConfig, params) {
       ${homePageLinkOpenTag}
         <h4 class="quire-menu__header__title">
           <span class="visually-hidden">Site Title: </span>
-          ${siteTitle(data)}
+          ${siteTitle({ publication })}
         </h4>
       ${homePageLinkCloseTag}
 

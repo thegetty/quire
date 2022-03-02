@@ -23,7 +23,7 @@ For example to allow [`_includes/components/head`](blob/main/_includes/component
 
 #### `data`
 
-The `data` property contains the final data from the Elevent data cascade, including Quire specific global data files located in the `content/_data/` directory.
+The `data` property contains the final data from the Eleventy data cascade, including Quire specific global data files located in the `content/_data/` directory.
 
 ### Example Usage
 
@@ -31,13 +31,14 @@ The `data` property contains the final data from the Elevent data cascade, inclu
 ```javascript
 const { html } = require('common-tags')
 
-module.exports = function(eleventyConfig, data) {
+module.exports = function(eleventyConfig, params) {
+  const { publication } = params
   const siteTitle = eleventyConfig.getFilter('siteTitle')
 
   return html`
     <header class="quire-menu__header">
       <h4 class="quire-menu__header__title">
-        ${siteTitle(data)}
+        ${siteTitle({ publication })}
       </h4>
     </header>
   `

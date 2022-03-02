@@ -1,28 +1,32 @@
 /**
  * @param  {Object} context
  */
-module.exports = function(eleventyConfig, data) {
-  const { publication } = data
-  const citationPubDate = eleventyConfig.getFilter('citationPubDate')()
-  const citationPubSeries = eleventyConfig.getFilter('citationPubSeries')()
-  const publishersCitation = eleventyConfig.getFilter('citationMLAPublishers')
+module.exports = function(eleventyConfig, params) {
+  const { publication } = params
+  const { identifier, pub_date: pubDate, publisher } = publication
+
+  const citationPubDate = eleventyConfig.getFilter('citationPubDate')
+  const citationPublishers = eleventyConfig.getFilter('citationMLAPublishers')
+  const citationPubSeries = eleventyConfig.getFilter('citationPubSeries')
 
   const publisherShortcode = publisherShortcodes[type]
 
   let publicationCitationParts = []
 
-  if (citationPubSeries) publicationCitationParts.push(citationPubSeries)
+  if (citationPubSeries({ publication })) publicationCitationParts.push(citationPubSeries({ publication }))
 
-  if (publication.publisher.length) {
-    publicationCitationParts.push(publishersCitation())
+  if (publisher.length) {
+    publicationCitationParts.push(citationPublishers({ publication }))
   }
 
-  if (citationPubDate) publicationCitationParts.push(', ', citationPubDate)
+  if (citationPubDate(pubDate)) {
+    publicationCitationParts.push(', ', new Date(citationPubDate(pubDate)).getFullYear())
+  }
 
   publicationCitationParts.push('. ')
 
-  if (publication.identifier.url) {
-    publicationCitationParts.push(`<span class="url-string">${ publication.identifier.url }</span>.`)
+  if (identifier.url) {
+    publicationCitationParts.push(`<span class="url-string">${ identifier.url }</span>.`)
   }
 
   return publicationCitationParts.join('')

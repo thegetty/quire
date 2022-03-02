@@ -1,13 +1,15 @@
 /**
  * @param  {Object} context
  */
-module.exports = function(eleventyConfig, data) {
-  const { publication } = data
+module.exports = function(eleventyConfig, params) {
+  const { config, page, publication } = params
   const citationChicagoPublication = eleventyConfig.getFilter('citationChicagoPublication')
   const citationChicagoPublicationContributors = eleventyConfig.getFilter('citationChicagoPublicationContributors')
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   
-  return `
-    ${citationChicagoPublicationContributors()}. <em>${pageTitle(data, page)}</em> ${citationChicagoPublication()}
-  ` 
+  return [
+    `${citationChicagoPublicationContributors({ contributors: publication.contributor })}.`,
+    `<em>${pageTitle({ config, page })}</em>`,
+    `${citationChicagoPublication({ publication })}`
+  ].join(' ')
 }

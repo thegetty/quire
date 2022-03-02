@@ -5,7 +5,8 @@
  * @property  {Object} publication
  */
 module.exports = function(eleventyConfig, params) {
-  const { page, publication } = params
+  const { config, page, publication } = params
+  const { pub_date: pubDate } = publication
   const citationContributors = eleventyConfig.getFilter('citationContributors')
   const citationMLAPublicationContributors = eleventyConfig.getFilter('citationMLAPublicationContributors')
   const citationMLAPublishers = eleventyConfig.getFilter('citationMLAPublishers')
@@ -15,17 +16,22 @@ module.exports = function(eleventyConfig, params) {
 
   const citationParts = []
 
-  const pageContributors = citationContributors(page.contributor, {
-    max: 2,
-    reverse: true,
-    separator: ', '
-  })
+  const pageContributors = citationContributors(
+    {
+      contributors: page.contributor
+    },
+    {
+      max: 2,
+      reverse: true,
+      separator: ', '
+    }
+  )
 
   if (pageContributors) citationParts.push(`${pageContributors}. `)
 
   let pageTitle 
   if (page.data.title) {
-    pageTitle = `"${pageTitlePartial(page)}."`
+    pageTitle = `"${pageTitlePartial({ config, page })}."`
   } else if (page.data.label) {
     pageTitle = `"${page.data.label}."`
   }
@@ -33,13 +39,13 @@ module.exports = function(eleventyConfig, params) {
   citationParts.push(pageTitle || 'Untitled.')
 
   let publicationCitation = 
-    [` <em>${siteTitle()}</em>`, citationMLAPublicationContributors({ contributors: publication.contributor })]
+    [` <em>${siteTitle({ publication })}</em>`, citationMLAPublicationContributors({ contributors: publication.contributor })]
     .filter(item => item)
     .join(', ')
 
-  publicationCitation += ` ${citationMLAPublishers()}`
+  publicationCitation += ` ${citationMLAPublishers({ publicatoin })}`
 
-  if (citationPubDate()) publicationCitation+=(`, ${citationPubDate()}.`)
+  if (citationPubDate(pubDate)) publicationCitation+=(`, ${citationPubDate(pubDate)}.`)
 
   if (publication.identifier.url) {
     publicationCitation+=(`<span class="url-string">${publication.identifier.url || permalink}</span>.`)

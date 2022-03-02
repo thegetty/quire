@@ -19,7 +19,7 @@
  */
 
 module.exports = function(eleventyConfig, params) {
-  const { page, publication, range, type } = params
+  const { config, page, publication, range, type } = params
   if (!type) {
     console.warn(`"type" is required for the citation shortcode. Options are: "chicago" or "mla"`)
     return ''
@@ -36,12 +36,12 @@ module.exports = function(eleventyConfig, params) {
 
   const shortcodes = {
     chicago: {
-      page: citationChicagoPage({ page, publication }),
-      site: citationChicagoSite()
+      page: citationChicagoPage({ config, page, publication }),
+      site: citationChicagoSite({ config, page, publication })
     },
     mla: {
-      page: citationMLAPage({ page, publication }),
-      site: citationMLASite()
+      page: citationMLAPage({ config, page, publication }),
+      site: citationMLASite({ config, page, publication })
     }
   }
 

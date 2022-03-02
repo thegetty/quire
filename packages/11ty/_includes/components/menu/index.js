@@ -32,7 +32,7 @@ module.exports = function(eleventyConfig, params) {
       role="banner"
       id="site-menu__inner"
     >
-      ${menuHeader({ currentURL: pageData.url, contributors })}
+      ${menuHeader({ currentURL: pageData.url, contributors, publication })}
       <nav id="nav" class="quire-menu__list menu-list" role="navigation" aria-label="full">
         <h3 class="visually-hidden">Table of Contents</h3>
         <ul>${menuList({ config, pages })}</ul>

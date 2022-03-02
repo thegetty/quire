@@ -3,12 +3,12 @@
  * See also page/title.liquid
  *
  * @param  {Object} eleventyConfig
- * @param  {Object} data
+ * @param  {Object} params
  * 
  * @return  {String} Site title
  */
-module.exports = function(eleventyConfig, data) {
-  const { publication } = data
+module.exports = function(eleventyConfig, params) {
+  const { publication } = params
   const { reading_line: readingLine, subtitle, title } = publication
   const lastLetter = title.slice(-1)
   const endPunctuation = '!?'.includes(lastLetter) ? '' : ':'
