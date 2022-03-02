@@ -1,7 +1,7 @@
 ---
 title: Catalogue
 weight: 100
-layout: contents
+layout: table-of-contents
 class: grid
 epub: false
 section: catalogue
