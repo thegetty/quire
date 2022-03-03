@@ -1,4 +1,5 @@
 const { html, oneLine } = require('common-tags')
+const icon = require('../../_includes/components/icon.js')
 const path = require('path')
 
 /**
@@ -9,7 +10,6 @@ module.exports = function(context, pageObjects) {
   const capitalize = eleventyConfig.getFilter('capitalize')
   const markdownify = eleventyConfig.getFilter('markdownify')
   const properties = objects.object_display_order
-  const qicon = eleventyConfig.getFilter('qicon')
 
   const tableRow = (object, property) => {
     if (!object || !property || !object[property]) return ''
@@ -25,7 +25,7 @@ module.exports = function(context, pageObjects) {
   const objectLink = (object) => object.link 
     ? oneLine`
       <a class="button" href="${object.link}" target="_blank">
-        ${config.params.entryPageObjectLinkText} ${qicon('link', '')}
+        ${config.params.entryPageObjectLinkText} ${icon('link', '')}
       </a>`
     : ''
 

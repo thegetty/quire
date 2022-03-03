@@ -1,4 +1,6 @@
 const { oneLine } = require('common-tags')
+const icon = require('../../../../_includes/components/icon.js')
+
 /**
  * A figure label element
  * @params {string} label - the figure's label
@@ -10,7 +12,6 @@ module.exports = function(context, figure) {
   const { caption, id, label, src } = figure
   const markdownify = eleventyConfig.getFilter('markdownify')
   const modalLink = eleventyConfig.getFilter('qfiguremodallink')
-  const qicon = eleventyConfig.getFilter('qicon')
   const slugify = eleventyConfig.getFilter('slugify')
 
   let labelElement
@@ -21,7 +22,7 @@ module.exports = function(context, figure) {
     const modifier = config.params.figureLabelLocation || ''
 
     let content = config.params.figureLabelLocation === 'on-top' 
-    ? `<span class="q-figure__label-icon">${qicon('fullscreen', 'Expand')}</span>` 
+    ? `<span class="q-figure__label-icon">${icon('fullscreen', 'Expand')}</span>`
     : ''
     content += `<span class="q-figure__label-text">${markdownify(label || '')}</span>`
 

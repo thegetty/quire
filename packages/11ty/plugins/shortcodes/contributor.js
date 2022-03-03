@@ -1,4 +1,5 @@
 const { oneLine } = require('common-tags')
+const icon = require('../../_includes/components/icon.js')
 const path = require('path')
 
 /**
@@ -23,7 +24,6 @@ module.exports = function ({ eleventyConfig }, { contributor, format, entryType 
   const fullname = eleventyConfig.getFilter('fullname')
   const link = eleventyConfig.getFilter('link')
   const pageTitle = eleventyConfig.getFilter('pageTitle')
-  const qicon = eleventyConfig.getFilter('qicon')
   const slugify = eleventyConfig.getFilter('slugify')
 
   const { bio, id, imagePath, pages=[], url } = contributor
@@ -42,7 +42,7 @@ module.exports = function ({ eleventyConfig }, { contributor, format, entryType 
       <li class="quire-contributor" id="${slugify(name)}">
         <div class="title is-5">
           <span class="quire-contributor__name">${name}</span> 
-          ${link({ classes: ["quire-contributor__url"], name: qicon('link', ''), url })}
+          ${link({ classes: ["quire-contributor__url"], name: icon('link', ''), url })}
         </div>
         <div class="media">
           <div class="quire-contributor__details media-content">
