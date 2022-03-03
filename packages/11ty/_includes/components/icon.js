@@ -12,21 +12,24 @@ const path = require('path')
  * @example.liquid
  * {% icon type="link", description="Open in new window" %}
  */
-module.exports = function(eleventyConfig, params) {
-  const { config, description, type } = params
-  const iconPath = path.join(config.params.imageDir, 'icons', `${type}.png`)
+module.exports = function(globalData) {
+  const imageDir = globalData.config.params.imageDir
+  return function (params) {
+    const { description, type } = params
+    const iconPath = path.join(imageDir, 'icons', `${type}.png`)
 
-  return html`
-    <span class="remove-from-epub">
-      <svg>
-        <switch>
-          <use xlink:href="#${type}-icon"></use>
-          <foreignObject width="24" height="24">
-            <img src="${iconPath}" alt="${description}" />
-          </foreignObject>
-        </switch>
-      </svg>
-      <span class="visually-hidden">${description}</span>
-    </span>
-  `
+    return html`
+      <span class="remove-from-epub">
+        <svg>
+          <switch>
+            <use xlink:href="#${type}-icon"></use>
+            <foreignObject width="24" height="24">
+              <img src="${iconPath}" alt="${description}" />
+            </foreignObject>
+          </switch>
+        </svg>
+        <span class="visually-hidden">${description}</span>
+      </span>
+    `
+  }
 }
