@@ -30,7 +30,7 @@ layout: base.11ty.js
     <section class="quire-cover__more next-page">
       <div class="quire-cover__more-body hero-more">
         <a href="#content">
-          {% qicon 'down-arrow', 'Scroll down to read more' %}
+          {% render 'icon' type: 'down-arrow', description: 'Scroll down to read more' %}
         </a>
       </div>
     </section>
@@ -50,7 +50,7 @@ layout: base.11ty.js
     <section class="quire-cover__more">
       <div class="quire-cover__more-body hero-more next-page">
         <a href="{{ pagination.nextPage.url }}">
-          {% qicon 'down-arrow', 'Scroll down to read more' %}
+          {% render 'icon' type: 'down-arrow', description: 'Scroll down to read more' %}
         </a>
       </div>
     </section>
