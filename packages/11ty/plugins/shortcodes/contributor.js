@@ -42,7 +42,7 @@ module.exports = function ({ eleventyConfig }, { contributor, format, entryType 
       <li class="quire-contributor" id="${slugify(name)}">
         <div class="title is-5">
           <span class="quire-contributor__name">${name}</span> 
-          ${link({ classes: ["quire-contributor__url"], name: icon('link', ''), url })}
+          ${link({ classes: ["quire-contributor__url"], name: icon({ type: 'link', desciption:'' }), url })}
         </div>
         <div class="media">
           <div class="quire-contributor__details media-content">
