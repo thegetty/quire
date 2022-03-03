@@ -1,3 +1,4 @@
+const globalData = require('../globalData')
 const liquidArgs = require('liquid-args')
 // const { Liquid, Hash } = require('liquidjs')
 const components = require('../../_includes/components')
