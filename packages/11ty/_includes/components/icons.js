@@ -1,9 +1,11 @@
+const { html } = require('common-tags')
+
 /**
  * This file contains inline SVG elements which can be referenced elsewhere in
  * the templates. This file can be included at the end of the <body> tag.
  */
 module.exports = function(eleventyConfig, data) {
-  return `
+  return html`
     <svg style="display:none">
       <symbol id="left-arrow-icon" viewBox="0 0 18 32">
         <path d="M23.1,11.1L21,9l-9,9l9,9l2.1-2.1L16.2,18L23.1,11.1z"/>
