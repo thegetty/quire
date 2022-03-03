@@ -1,3 +1,4 @@
+const icon = require ('../icon.js')
 const path = require ('path')
 const { oneLine } = require('common-tags')
 
@@ -40,7 +41,6 @@ module.exports = function (eleventyConfig, params) {
   const getObject = eleventyConfig.getFilter('getObject')
   const markdownify = eleventyConfig.getFilter('markdownify')
   const pageTitlePartial = eleventyConfig.getFilter('pageTitle')
-  const qicon = eleventyConfig.getFilter('qicon')
   const urlFilter = eleventyConfig.getFilter('url')
 
   const brief = className.includes('brief')
@@ -59,7 +59,7 @@ module.exports = function (eleventyConfig, params) {
   } else {
     pageTitle += oneLine`${pageTitlePartial({ config, page })}${pageContributorsElement}`
   }
-  const arrowIcon = `<span class="arrow remove-from-epub">&nbsp${qicon("arrow-forward", "")}</span>`
+  const arrowIcon = `<span class="arrow remove-from-epub">&nbsp${icon({ type: 'arrow-forward', description: '' })}</span>`
 
   // Returns abstract with any links stripped out
   const abstractText =
