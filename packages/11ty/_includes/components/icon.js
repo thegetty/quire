@@ -6,14 +6,14 @@ const path = require('path')
  *
  * Should be passed with a "type" that corresponds to an id in the "icons" partial, and an optional "description"
  *
- * @example
- * qicon("link", "Open in new window")
+ * @example.js
+ * icon("link", "Open in new window")
  *
- * @example
- * {% qicon "link", "Open in new window" %}
+ * @example.liquid
+ * {% icon type="link", description="Open in new window" %}
  */
-module.exports = function(context, type, description) {
-  const { eleventyConfig, globalData: { config } } = context
+module.exports = function(eleventyConfig, params) {
+  const { config, description, type } = params
   const iconPath = path.join(config.params.imageDir, 'icons', `${type}.png`)
 
   return html`
