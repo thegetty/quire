@@ -1,6 +1,6 @@
 ---
 class: list
-layout: contents
+layout: table-of-contents
 search: false
 title: Contents
 weight: 2
