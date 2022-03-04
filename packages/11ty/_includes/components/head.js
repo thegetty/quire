@@ -2,7 +2,7 @@
  * Head Tag
  * 
  * @param      {Object}  eleventyConfig
- * @param      {Object}  data
+ * @param      {Object}  globalData
  */
 module.exports = function(eleventyConfig, globalData) {
   const analytics = eleventyConfig.getFilter('analytics')
@@ -11,11 +11,16 @@ module.exports = function(eleventyConfig, globalData) {
   const opengraph = eleventyConfig.getFilter('opengraph')
   const twitterCard = eleventyConfig.getFilter('twitterCard')
 
-  const { canonicalURL, config, page, publication } = globalData
+  const { config, publication } = globalData
 
+  /**
+   * @param  {Object} params The Whole Dang Data Object, from base.11ty.js
+   */
   return function (params) {
-    const title = page.title
-      ? `${page.title} | ${publication.title}`
+    const { abstract, canonicalURL, cover, imageDir, layout, title } = params
+
+    const pageTitle = title
+      ? `${title} | ${publication.title}`
       : publication.title
 
     const description = publication.description.full || publication.description.one_line
@@ -42,7 +47,7 @@ module.exports = function(eleventyConfig, globalData) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <meta name="robots" content="noindex, nofollow"/>
 
-        <title>${title}</title>
+        <title>${pageTitle}</title>
 
         <meta name="description" content="${description}">
         <meta name="keywords" content="${keywords}">
@@ -58,7 +63,7 @@ module.exports = function(eleventyConfig, globalData) {
 
         ${opengraph(data)}
 
-        ${twitterCard(data)}
+        ${twitterCard({ abstract, cover, imageDir, layout })}
 
         <script type="application/ld+json">${jsonld(data)}</script>
 

@@ -9,7 +9,6 @@ const components = require('../../_includes/components')
  * @param      {Object}  eleventyConfig  eleventy configuration
  * @param      {Object}  options         options
  */
-const needsGlobalData = ['icon'];
 
 module.exports = function(eleventyConfig, options) {
   for (const component in components) {
