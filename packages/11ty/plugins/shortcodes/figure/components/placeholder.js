@@ -1,4 +1,4 @@
-const path = rquire('path')
+const path = require('path')
 const { html } = require('common-tags')
 
 module.exports = function(eleventyConfig, globalData) {
