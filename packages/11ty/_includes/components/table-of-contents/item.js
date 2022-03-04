@@ -13,27 +13,7 @@ const { oneLine } = require('common-tags')
  *
  * @return {String} TOC item markup
  */
-module.exports = function (eleventyConfig, params) {
-  /**
-   * @todo move "pageLabelDivider" transfomration into a shortcode and remove "config" from params
-   */
-  const { className, config, page, imageDir } = params
-
-  const {
-    abstract,
-    contributors: pageContributors,
-    figure: pageFigure,
-    image,
-    label,
-    layout,
-    object: pageObject,
-    short_title,
-    summary,
-    title,
-    url,
-    weight,
-  } = page
-
+module.exports = function (eleventyConfig, globalData) {
   const contributorList = eleventyConfig.getFilter('contributorList')
   const getFigure = eleventyConfig.getFilter('getFigure')
   const getObject = eleventyConfig.getFilter('getObject')
@@ -43,31 +23,52 @@ module.exports = function (eleventyConfig, params) {
   const tableOfContentsImage = eleventyConfig.getFilter('tableOfContentsImage')
   const urlFilter = eleventyConfig.getFilter('url')
 
-  const brief = className.includes('brief')
-  const grid = className.includes('grid')
+  return function (params) {
+    /**
+     * @todo move "pageLabelDivider" transfomration into a shortcode and remove "config" from params
+     */
+    const { className, config, page, imageDir } = params
 
-  // const itemClassName = weight < pageOne.data.weight ? "frontmatter-page" : ""
-  const itemClassName = ''
-  const pageContributorsElement = pageContributors
-    ? `<span class="contributor"> — ${contributorList({ contributors: pageContributors })}</span>`
-    : ''
-  let pageTitle = label ? label + config.params.pageLabelDivider : ''
-  if (short_title && brief) {
-    pageTitle += short_title
-  } else if (brief) {
-    pageTitle += title
-  } else {
-    pageTitle += oneLine`${pageTitlePartial({ config, page })}${pageContributorsElement}`
-  }
-  const arrowIcon = `<span class="arrow remove-from-epub">&nbsp${icon({ type: 'arrow-forward', description: '' })}</span>`
+    const {
+      abstract,
+      contributors: pageContributors,
+      figure: pageFigure,
+      image,
+      label,
+      layout,
+      object: pageObject,
+      short_title,
+      summary,
+      title,
+      url,
+      weight,
+    } = page
 
-  // Returns abstract with any links stripped out
-  const abstractText =
-    className === 'abstract' && (abstract || summary)
-      ? `<div class="abstract-text">
-          {{ markdownify(abstract) | replaceRE "</?a(|\\s*[^>]+)>" "" | strip_html }}
-      </div>`
-      : ""
+    const brief = className.includes('brief')
+    const grid = className.includes('grid')
+
+    // const itemClassName = weight < pageOne.data.weight ? "frontmatter-page" : ""
+    const itemClassName = ''
+    const pageContributorsElement = pageContributors
+      ? `<span class="contributor"> — ${contributorList({ contributors: pageContributors })}</span>`
+      : ''
+    let pageTitle = label ? label + config.params.pageLabelDivider : ''
+    if (short_title && brief) {
+      pageTitle += short_title
+    } else if (brief) {
+      pageTitle += title
+    } else {
+      pageTitle += oneLine`${pageTitlePartial({ config, page })}${pageContributorsElement}`
+    }
+    const arrowIcon = `<span class="arrow remove-from-epub">&nbsp${icon({ type: 'arrow-forward', description: '' })}</span>`
+
+    // Returns abstract with any links stripped out
+    const abstractText =
+      className === 'abstract' && (abstract || summary)
+        ? `<div class="abstract-text">
+            {{ markdownify(abstract) | replaceRE "</?a(|\\s*[^>]+)>" "" | strip_html }}
+        </div>`
+        : ''
 
     let mainElement
 
@@ -119,5 +120,6 @@ module.exports = function (eleventyConfig, params) {
         ${abstractText}
       `
     }
-  return mainElement
+    return mainElement
+  }
 }
