@@ -13,12 +13,12 @@ module.exports = function(eleventyConfig, globalData) {
 
   const { config, publication } = globalData
 
+  const { imageDir } = config.params
+
   /**
    * @param  {Object} params The Whole Dang Data Object, from base.11ty.js
    */
-  return function (params) {
-    const { abstract, canonicalURL, cover, imageDir, layout, title } = params
-
+  return function ({ abstract, canonicalURL, cover, layout, title }) {
     const pageTitle = title
       ? `${title} | ${publication.title}`
       : publication.title
@@ -59,13 +59,13 @@ module.exports = function(eleventyConfig, globalData) {
 
         ${contributorLinks}
 
-        ${dublinCore(data)}
+        ${dublinCore()}
 
-        ${opengraph(data)}
+        ${opengraph({ page: this.page })}
 
-        ${twitterCard({ abstract, cover, imageDir, layout })}
+        ${twitterCard({ abstract, cover, layout })}
 
-        <script type="application/ld+json">${jsonld(data)}</script>
+        <script type="application/ld+json">${jsonld(canonicalURL, this.page)}</script>
 
         <link rel="icon" href="/_assets/img/icons/favicon.ico" />
         <link rel="stylesheet" href="/_assets/styles/custom.css" />
@@ -73,7 +73,7 @@ module.exports = function(eleventyConfig, globalData) {
 
         <!-- {% render 'polyfills/template.html' %} -->
 
-        ${analytics(data)}
+        ${analytics()}
       </head>
     `
   }

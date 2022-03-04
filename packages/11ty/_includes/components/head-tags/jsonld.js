@@ -10,10 +10,10 @@ const path = require('path')
  */
 module.exports = function(eleventyConfig, globalData) {
   const { config, publication } = globalData
+  const { imageDir } = config.params
 
-  return function (params) {
-    const { canonicalURL, contributor, imageDir, page } = params
-    const { abstract, cover, title } = page
+  return function ({ canonicalURL, page }) {
+    const { abstract, contributor, cover, title } = page
     const pageContributors = contributor ? contributor
       .map((contributor, { id }) => {
         contributor = id ? publication.contributor[id] : contributor

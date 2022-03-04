@@ -9,9 +9,7 @@
 module.exports = function(eleventyConfig, globalData) {
   const { config, publication } = globalData
 
-  return function (params) {
-    const { page } = params
-
+  return function ({ page }) {
     const { description, identifier, promo_image, pub_date, pub_type } = publication
     const pageType = page && page.type
 

@@ -10,12 +10,10 @@ const path = require('path')
  */
 module.exports = function(eleventyConfig, globalData) {
   const { config, publication } = globalData
-
   const { description, promo_image } = publication
+  const { imageDir } = config.params
 
-  return function(params) {
-    const { abstract, cover, imageDir, layout } = params
-
+  return function({ abstract, cover, layout }) {
     const imagePath = () => {
       if (!config.baseURL) return
       if (layout !== 'essay' ) {
