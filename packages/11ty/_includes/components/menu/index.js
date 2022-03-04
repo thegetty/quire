@@ -19,7 +19,8 @@ module.exports = function(eleventyConfig, globalData) {
   const menuList = eleventyConfig.getFilter('menuList')
   const menuResources = eleventyConfig.getFilter('menuResources')
 
-  const { publication } = globalData
+  const { config, publication } = globalData
+  const { resource_link: resourceLinks } = publication
 
   return function(params) {
     const { imageDir, pageData, pages } = params

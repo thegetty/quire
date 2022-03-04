@@ -21,11 +21,11 @@ module.exports = function(eleventyConfig, globalData) {
     const { contributors, max, reverse, separator } = params
     if (!Array.isArray(contributors)) return ''
 
-    contributors = contributors.map((item) => item.id ? getContributor(item.id) : item)
+    const contributorObjects = contributors.map((item) => item.id ? getContributor(item.id) : item)
 
     let pageContributors = []
 
-    for (const [i, contributor] of contributors.entries()) {
+    for (const [i, contributor] of contributorObjects.entries()) {
       if (i <= max) {
         pageContributors.push(fullname(contributor, { reverse: reverse }))
       }

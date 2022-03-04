@@ -15,9 +15,10 @@ const { html } = require('common-tags');
 module.exports = function(eleventyConfig, globalData) {
   const eleventyNavigation = eleventyConfig.getFilter('eleventyNavigation')
   const markdownify = eleventyConfig.getFilter('markdownify')
+  const { config } = globalData
 
   return function (params) {
-    const { collections, config, pages, pagination, title } = globalData
+    const { collections, pages, pagination, title } = params
     const { imageDir, pageLabelDivider } = config.params
     const { currentPage, currentPageIndex, nextPage, previousPage } = pagination
     const home = '/'
