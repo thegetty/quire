@@ -6,7 +6,7 @@
  * Pages can be removed from the TOC indivudally by setting toc to `false` in the page yaml.
  */
 
-module.exports = class Contents {
+module.exports = class TableOfContents {
   data() {
     return {
       layout: 'base'
@@ -73,7 +73,7 @@ module.exports = class Contents {
                     if (page.fileSlug !== item.fileSlug)
                       return `
                         <li class="page-item">
-                          ${this.contentsItem({ ...defaultContentsItemParams, page: item })}
+                          ${this.tableOfContentsItem({ ...defaultContentsItemParams, page: item })}
                         </li>
                       `
                   })
@@ -81,14 +81,14 @@ module.exports = class Contents {
 
           return `
             <li class="section-item">
-              ${this.contentsItem({ ...defaultContentsItemParams, page })}
+              ${this.tableOfContentsItem({ ...defaultContentsItemParams, page })}
               <ul>${subPages.join('')}</ul>
             </li>
           `
         } else if (section || !page.data.section) {
           return `
             <li class="page-item">
-              ${this.contentsItem({ ...defaultContentsItemParams, page })}
+              ${this.tableOfContentsItem({ ...defaultContentsItemParams, page })}
             </li>
           `
         }

@@ -1,6 +1,9 @@
 const { oneLine } = require('common-tags')
 
 /**
+ *  @todo Remove reliance on `this.page` in context. 
+ *  This was a workaround, and we should reassess how this component provides citations data to the in-page bibliograph.
+ * 
  *  This shortcode adds a linked Author Date citation reference to the text,
  *  and a hover pop-up with the full citation text.
  *
@@ -40,13 +43,13 @@ module.exports = function(context, id, pageNumber, text) {
 
   const citation = references[id]
 
-  if (!page.citations) page.citations = []
-  page.citations.push(citation)
-
   if (!citation) {
     console.warn('The id supplied does not match a reference in the project `references.yml` data file.')
     return ''
   }
+
+  if (!page.citations) page.citations = []
+  page.citations.push(citation)
 
   const {
     citationPageLocationDivider: divider,
