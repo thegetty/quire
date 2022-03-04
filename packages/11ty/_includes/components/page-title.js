@@ -11,7 +11,7 @@
 module.exports = function(eleventyConfig, globalData) {
   const { config } = globalData
   return function(params) {
-    const { withLabel, page } = params
+    const { page, withLabel } = params
     const { label, subtitle, title } = page
 
     const separator = title && !title.match(/\?|\!/) ? ': ' : ' '

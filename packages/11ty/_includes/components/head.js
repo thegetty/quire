@@ -13,10 +13,13 @@ module.exports = function(eleventyConfig, globalData) {
 
   const { config, publication } = globalData
 
+  /**
+   * @param  {Object} params The Whole Dang Data Object, from base.11ty.js
+   */
   return function (params) {
     const { abstract, canonicalURL, cover, imageDir, layout, title } = params
 
-    const title = title
+    const pageTitle = title
       ? `${title} | ${publication.title}`
       : publication.title
 
@@ -44,7 +47,7 @@ module.exports = function(eleventyConfig, globalData) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <meta name="robots" content="noindex, nofollow"/>
 
-        <title>${title}</title>
+        <title>${pageTitle}</title>
 
         <meta name="description" content="${description}">
         <meta name="keywords" content="${keywords}">
