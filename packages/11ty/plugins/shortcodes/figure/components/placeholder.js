@@ -1,30 +1,36 @@
+import path from 'path'
+const { html } = require('common-tags')
+
 module.exports = function(eleventyConfig, globalData) {
   const { config } = globalData
+  const qfigurelabel = eleventyConfig.getFilter('qfigurelabel')
 
   return function(params) {
     const { figure } = params
-    const { id, label, mediaType, src } = figure
-    return `
-      {% if src %}
-        <img
-          id="{{ id }}"
+    const { id, label, media_type: mediaType, src } = figure
+
+    let element;
+    if (src) {
+      const imagePath = path.join(config.params.imageDir, src)
+      element = `<img
+          id="${id}"
           class="q-figure__image"
-          src="{{ config.params.imageDir }}/{{ src }}"
-          alt="{{ alt }}"
-        />
-      {% else %}
-        <div class="q-figure__media-fallback">
+          src="${imagePath}"
+          alt="${alt}"
+        />`
+    } else {
+      const imagePath = path.join(config.params.imageDir, 'icons', `${mediaType}.png`)
+      element = `<div class="q-figure__media-fallback">
           <div class="placeholder">
             <span class="fallback-image">
-              <img src="{{ config.params.imageDir }}/icons/{{ mediaType }}.png" />
+              <img src="${imagePath}" />
             </span>
           </div>
-        </div>
-      {% endif %}
+        </div>`
+    }
 
-      {% if label && config.params.figureLabelLocation and 'on-top' %}
-        {% render 'figures/label', label: label %}
-      {% endif %}
-    `
+    const labelElement = label && config.params.figureLabelLocation === 'on-top' ? qfigurelabel({ figure }) : ''
+
+    return html`${element}${labelElement}`
   }
 }
