@@ -26,7 +26,7 @@ module.exports = function (eleventyConfig, globalData) {
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const slugify = eleventyConfig.getFilter('slugify')
 
-  return function(params) {
+  return function (params) {
     const { contributor, format, entryType } = params
     const { bio, id, imagePath, pages=[], url } = contributor
 

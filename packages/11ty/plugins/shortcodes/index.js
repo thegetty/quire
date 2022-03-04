@@ -44,10 +44,9 @@ module.exports = function(eleventyConfig, options) {
   })
   liquidTag(eleventyConfig, figureGroup, 'figuregroup')
 
-  eleventyConfig.addJavaScriptFunction('ref', function(...args) {
-    return cite(eleventyConfig, globalData)(...args)
+  eleventyConfig.addShortcode('ref', function(...args) {
+    return ref(eleventyConfig, globalData)(...args)
   })
-  liquidTag(eleventyConfig, ref, 'ref')
 
   eleventyConfig.addJavaScriptFunction('title', function(...args) {
     return cite(eleventyConfig, title)(...args)
