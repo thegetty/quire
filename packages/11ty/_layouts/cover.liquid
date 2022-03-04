@@ -20,7 +20,7 @@ layout: base.11ty.js
         <div class="contributor">
           {{ publication.contributor_as_it_appears }}
           <span class="visually-hidden">Contributors:&nbsp;</span>
-          <em>{% contributorList contributors: publication.contributor, type: 'primary' %}</em>
+          <em>{% contributorList contributors=publication.contributor, type='primary' %}</em>
         </div>
       </div>
     </div>
@@ -30,7 +30,7 @@ layout: base.11ty.js
     <section class="quire-cover__more next-page">
       <div class="quire-cover__more-body hero-more">
         <a href="#content">
-          {% render 'icon' type: 'down-arrow', description: 'Scroll down to read more' %}
+          {% icon type='down-arrow', description='Scroll down to read more' %}
         </a>
       </div>
     </section>
@@ -44,13 +44,13 @@ layout: base.11ty.js
       </div>
     </section>
 
-    {% pageButtons pagination: pagination %}
+    {% pageButtons pagination=pagination %}
 
   {% else %}
     <section class="quire-cover__more">
       <div class="quire-cover__more-body hero-more next-page">
         <a href="{{ pagination.nextPage.url }}">
-          {% render 'icon' type: 'down-arrow', description: 'Scroll down to read more' %}
+          {% icon type='down-arrow', description='Scroll down to read more' %}
         </a>
       </div>
     </section>
