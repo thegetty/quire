@@ -6,47 +6,50 @@ const { html } = require('common-tags')
  * @property  {Object} publication
  * @property  {Object} page
  */
-module.exports = function(eleventyConfig, params) {
-  const { config, page, publication } = params
-  const { pub_date: pubDate } = publication
+module.exports = function(eleventyConfig, globalData) {
   const citationContributors = eleventyConfig.getFilter('citationContributors')
   const citationChicagoPublicationContributors = eleventyConfig.getFilter('citationChicagoPublicationContributors')
   const citationChicagoPublishers = eleventyConfig.getFilter('citationChicagoPublishers')
   const citationPubDate = eleventyConfig.getFilter('citationPubDate')
+  const { config } = globalData
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const siteTitle = eleventyConfig.getFilter('siteTitle')
 
-  const pageContributors = citationContributors(
-    { 
-      contributors: page.contributor 
-    }, 
-    {
-      max: 3,
-      reverse: true,
-      separator: ', '
+  return function (params) {
+    const { page, publication } = params
+    const { contributor, label, title } = page
+    const { pub_date: pubDate } = publication
+    const pageContributors = citationContributors(
+      {
+        contributors: contributor
+      },
+      {
+        max: 3,
+        reverse: true,
+        separator: ', '
+      }
+    )
+
+    let pageTitleElement = title
+      ? pageTitle({ page })
+      : label || 'Untitled.'
+
+    let publicationCitation =
+      [`In <em>${siteTitle()}</em>`, citationChicagoPublicationContributors({ contributors: publication.contributor })]
+        .filter(item => item)
+        .join(', ')
+
+    publicationCitation = [publicationCitation, citationChicagoPublishers({ publication })].join(' ')
+
+    if (citationPubDate(pubDate)) publicationCitation = [publicationCitation, `${citationPubDate(pubDate)}.`].join(', ')
+
+    if (publication.identifier.url) {
+      publicationCitation = [
+        publicationCitation,
+        `<span class="url-string">${publication.identifier.url || permalink}</span>.`
+      ].join(' ')
     }
-  )
 
-  let pageTitleElement = data.title
-    ? pageTitle({ page })
-    : data.label || 'Untitled.'
-
-  let publicationCitation = 
-    [`In <em>${siteTitle()}</em>`, citationChicagoPublicationContributors({ contributors: publication.contributor })]
-    .filter(item => item)
-    .join(', ')
-
-  publicationCitation = [publicationCitation, citationChicagoPublishers({ publication })].join(' ')
-
-  if (citationPubDate(pubDate)) publicationCitation = [publicationCitation, `${citationPubDate(pubDate)}.`].join(', ')
-
-  if (publication.identifier.url) {
-    publicationCitation = [
-      publicationCitation,
-      `<span class="url-string">${publication.identifier.url || permalink}</span>.`
-    ].join(' ')
+    return html`${pageContributors} "${pageTitleElement}" ${publicationCitation}`
   }
-
-  return html`${pageContributors} "${pageTitleElement}" ${publicationCitation}`
-  
 }

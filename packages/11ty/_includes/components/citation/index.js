@@ -18,32 +18,35 @@
  * @return {String}                citation markup
  */
 
-module.exports = function(eleventyConfig, params) {
-  const { config, page, publication, range, type } = params
-  if (!type) {
-    console.warn(`"type" is required for the citation shortcode. Options are: "chicago" or "mla"`)
-    return ''
-  }
-  if (!range) {
-    console.warn(`"range" is required for the citation shortcode. Options are: "page" or "site"`)
-    return ''
-  }
-
+module.exports = function(eleventyConfig, globalData) {
   const citationChicagoPage = eleventyConfig.getFilter('citationChicagoPage')
   const citationChicagoSite = eleventyConfig.getFilter('citationChicagoSite')
   const citationMLAPage = eleventyConfig.getFilter('citationMLAPage')
   const citationMLASite = eleventyConfig.getFilter('citationMLASite')
+  const { config } = globalData
 
-  const shortcodes = {
-    chicago: {
-      page: citationChicagoPage({ config, page, publication }),
-      site: citationChicagoSite({ config, page, publication })
-    },
-    mla: {
-      page: citationMLAPage({ config, page, publication }),
-      site: citationMLASite({ config, page, publication })
+  return function (params) {
+    const { page, publication, range, type } = params
+    if (!type) {
+      console.warn(`"type" is required for the citation shortcode. Options are: "chicago" or "mla"`)
+      return ''
     }
-  }
+    if (!range) {
+      console.warn(`"range" is required for the citation shortcode. Options are: "page" or "site"`)
+      return ''
+    }
 
-  return shortcodes[type][range]
+    const shortcodes = {
+      chicago: {
+        page: citationChicagoPage({ config, page, publication }),
+        site: citationChicagoSite({ config, page, publication })
+      },
+      mla: {
+        page: citationMLAPage({ config, page, publication }),
+        site: citationMLASite({ config, page, publication })
+      }
+    }
+
+    return shortcodes[type][range]
+  }
 }
