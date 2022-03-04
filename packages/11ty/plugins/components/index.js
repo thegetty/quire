@@ -1,4 +1,4 @@
-const addComponentTag = require('./liquidTag')
+const addComponentTag = require('./addComponentTag')
 
 // Shortcode components
 const components = require('../../_includes/components')
