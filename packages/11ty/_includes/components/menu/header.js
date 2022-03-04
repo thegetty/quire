@@ -47,7 +47,7 @@ module.exports = function(eleventyConfig, globalData) {
         ${homePageLinkCloseTag}
 
         <div class="quire-menu__header__contributors">
-          ${contributorElement(data)}
+          ${contributorElement()}
         </div>
       </header>
     `

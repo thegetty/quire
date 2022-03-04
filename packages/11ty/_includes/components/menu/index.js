@@ -47,7 +47,7 @@ module.exports = function(eleventyConfig, globalData) {
               Chicago
             </span>
             <span class="cite-this__text">
-            ${citation({ type: 'chicago', range: 'page', page: pageData, publication })}
+            ${citation({ type: 'chicago', range: 'page', page: pageData })}
             </span>
           </div>
 
@@ -56,13 +56,13 @@ module.exports = function(eleventyConfig, globalData) {
               MLA
             </span>
             <span class="cite-this__text">
-              ${citation({ type: 'mla', range: 'page', page: pageData, publication })}
+              ${citation({ type: 'mla', range: 'page', page: pageData })}
             </span>
           </div>
         </div>
 
         <footer class="quire-menu__footer" role="contentinfo">
-          ${copyright({ config, publication })}
+          ${copyright({ config })}
           ${linkList({ links: footerLinks, classes: ["menu-list"]}) }
         </footer>
       </div>
