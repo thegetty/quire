@@ -18,7 +18,8 @@ module.exports = function(eleventyConfig, globalData) {
   /**
    * @param  {Object} params The Whole Dang Data Object, from base.11ty.js
    */
-  return function ({ abstract, canonicalURL, cover, layout, title }) {
+  return function (page) {
+    const { abstract, canonicalURL, cover, layout, title } = page
     const pageTitle = title
       ? `${title} | ${publication.title}`
       : publication.title
@@ -61,11 +62,11 @@ module.exports = function(eleventyConfig, globalData) {
 
         ${dublinCore()}
 
-        ${opengraph({ page: this.page })}
+        ${opengraph({ page })}
 
         ${twitterCard({ abstract, cover, layout })}
 
-        <script type="application/ld+json">${jsonld(canonicalURL, this.page)}</script>
+        <script type="application/ld+json">${jsonld({ canonicalURL, page })}</script>
 
         <link rel="icon" href="/_assets/img/icons/favicon.ico" />
         <link rel="stylesheet" href="/_assets/styles/custom.css" />
