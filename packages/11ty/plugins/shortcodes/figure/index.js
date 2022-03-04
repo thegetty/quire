@@ -53,7 +53,7 @@ module.exports = function (context, params) {
       case figure.media_type === 'table':
         break
       default:
-        return qfigureimage(figure)
+        return qfigureimage({ figure })
     }
   }
 
