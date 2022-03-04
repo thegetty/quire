@@ -38,7 +38,7 @@ module.exports = function(eleventyConfig, params) {
       ${homePageLinkOpenTag}
         <h4 class="quire-menu__header__title">
           <span class="visually-hidden">Site Title: </span>
-          ${siteTitle({ publication })}
+          ${siteTitle()}
         </h4>
       ${homePageLinkCloseTag}
 

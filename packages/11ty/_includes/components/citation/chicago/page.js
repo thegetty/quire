@@ -13,7 +13,7 @@ module.exports = function(eleventyConfig, params) {
   const citationChicagoPublicationContributors = eleventyConfig.getFilter('citationChicagoPublicationContributors')
   const citationChicagoPublishers = eleventyConfig.getFilter('citationChicagoPublishers')
   const citationPubDate = eleventyConfig.getFilter('citationPubDate')
-  const pageTitlePartial = eleventyConfig.getFilter('pageTitle')
+  const pageTitle = eleventyConfig.getFilter('pageTitle')
   const siteTitle = eleventyConfig.getFilter('siteTitle')
 
   const pageContributors = citationContributors(
@@ -27,12 +27,12 @@ module.exports = function(eleventyConfig, params) {
     }
   )
 
-  let pageTitle = data.title
-    ? pageTitlePartial({ config, page })
+  let pageTitleElement = data.title
+    ? pageTitle({ page })
     : data.label || 'Untitled.'
 
   let publicationCitation = 
-    [`In <em>${siteTitle({ publication })}</em>`, citationChicagoPublicationContributors({ contributors: publication.contributor })]
+    [`In <em>${siteTitle()}</em>`, citationChicagoPublicationContributors({ contributors: publication.contributor })]
     .filter(item => item)
     .join(', ')
 
@@ -47,6 +47,6 @@ module.exports = function(eleventyConfig, params) {
     ].join(' ')
   }
 
-  return html`${pageContributors} "${pageTitle}" ${publicationCitation}`
+  return html`${pageContributors} "${pageTitleElement}" ${publicationCitation}`
   
 }

@@ -110,7 +110,7 @@ module.exports = class Contents {
                 {% render 'page/bibliography' %}
               </div>
             </div>
-            ${this.pageButtons({ config, pagination })}
+            ${this.pageButtons({ pagination })}
           </div>
         </section>
       </div>`,
