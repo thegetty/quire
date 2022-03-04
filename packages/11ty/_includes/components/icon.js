@@ -12,8 +12,9 @@ const path = require('path')
  * @example.liquid
  * {% icon type="link", description="Open in new window" %}
  */
-module.exports = function(globalData) {
+module.exports = function(eleventyConfig, globalData) {
   const imageDir = globalData.config.params.imageDir
+
   return function (params) {
     const { description, type } = params
     const iconPath = path.join(imageDir, 'icons', `${type}.png`)

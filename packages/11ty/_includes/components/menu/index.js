@@ -8,9 +8,10 @@ const { html } = require('common-tags')
  * by default. Users with JS disabled will alwasy see the menu in its expanded state.
  *
  * @param      {Object}  eleventyConfig
+ * @param      {Object}  globalData
  * @param      {Object}  params
  */
-module.exports = function(eleventyConfig, params) {
+module.exports = function(eleventyConfig, globalData) {
   const citation = eleventyConfig.getFilter('citation')
   const copyright = eleventyConfig.getFilter('copyright')
   const linkList = eleventyConfig.getFilter('linkList')
@@ -18,53 +19,54 @@ module.exports = function(eleventyConfig, params) {
   const menuList = eleventyConfig.getFilter('menuList')
   const menuResources = eleventyConfig.getFilter('menuResources')
 
-  const { imageDir, pageData, pages, publication } = params
+  const { config, publication } = globalData
+  const { resource_link: resourceLinks } = publication
 
-  const { contributor, contributor_as_it_appears, resource_link: resourceLinks } = publication
+  return function(params) {
+    const { imageDir, pageData, pages } = params
 
-  const footerLinks = resourceLinks.filter(({ type }) => type === 'footer-link')
+    const footerLinks = resourceLinks.filter(({ type }) => type === 'footer-link')
 
-  const contributors = contributor_as_it_appears || contributor
+    return html`
+      <div
+        class="quire-menu menu"
+        role="banner"
+        id="site-menu__inner"
+      >
+        ${menuHeader({ currentURL: pageData.url })}
+        <nav id="nav" class="quire-menu__list menu-list" role="navigation" aria-label="full">
+          <h3 class="visually-hidden">Table of Contents</h3>
+          <ul>${menuList({ config, pages })}</ul>
+        </nav>
 
-  return html`
-    <div
-      class="quire-menu menu"
-      role="banner"
-      id="site-menu__inner"
-    >
-      ${menuHeader({ currentURL: pageData.url, contributors, publication })}
-      <nav id="nav" class="quire-menu__list menu-list" role="navigation" aria-label="full">
-        <h3 class="visually-hidden">Table of Contents</h3>
-        <ul>${menuList({ config, pages })}</ul>
-      </nav>
+        ${menuResources()}
 
-      ${menuResources({ resourceLinks })}
+        <div class="quire-menu__formats">
+          <h6>Cite this Page</h6>
+          <div class="cite-this">
+            <span class="cite-this__heading">
+              Chicago
+            </span>
+            <span class="cite-this__text">
+            ${citation({ type: 'chicago', range: 'page', page: pageData })}
+            </span>
+          </div>
 
-      <div class="quire-menu__formats">
-        <h6>Cite this Page</h6>
-        <div class="cite-this">
-          <span class="cite-this__heading">
-            Chicago
-          </span>
-          <span class="cite-this__text">
-          ${citation({ type: 'chicago', range: 'page', page: pageData, publication })}
-          </span>
+          <div class="cite-this">
+            <span class="cite-this__heading">
+              MLA
+            </span>
+            <span class="cite-this__text">
+              ${citation({ type: 'mla', range: 'page', page: pageData })}
+            </span>
+          </div>
         </div>
 
-        <div class="cite-this">
-          <span class="cite-this__heading">
-            MLA
-          </span>
-          <span class="cite-this__text">
-            ${citation({ type: 'mla', range: 'page', page: pageData, publication })}
-          </span>
-        </div>
+        <footer class="quire-menu__footer" role="contentinfo">
+          ${copyright({ config })}
+          ${linkList({ links: footerLinks, classes: ["menu-list"]}) }
+        </footer>
       </div>
-
-      <footer class="quire-menu__footer" role="contentinfo">
-        ${copyright({ config, publication })}
-        ${linkList({ links: footerLinks, classes: ["menu-list"]}) }
-      </footer>
-    </div>
-  `
+    `
+  }
 }

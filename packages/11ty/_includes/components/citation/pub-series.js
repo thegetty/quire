@@ -1,11 +1,14 @@
-module.exports = function(eleventyConfig, params) {
-  const { publication } = params
-  const { series, number_in_series } = publication
+module.exports = function(eleventyConfig, globalData) {
+  const { publication } = globalData
 
-  const seriesStartsWithNumber = number_in_series && number_in_series.charAt(0).match(/\d/)
-  const separator = seriesStartsWithNumber ? ' ' : ', '
+  return function (params) {
+    const { series, number_in_series } = publication
 
-  return number_in_series 
-    ? [series, number_in_series].join(separator) 
-    : series
+    const seriesStartsWithNumber = number_in_series && number_in_series.charAt(0).match(/\d/)
+    const separator = seriesStartsWithNumber ? ' ' : ', '
+
+    return number_in_series
+      ? [series, number_in_series].join(separator)
+      : series
+  }
 }

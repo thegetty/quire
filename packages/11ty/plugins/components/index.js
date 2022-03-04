@@ -1,6 +1,6 @@
-const globalData = require('../globalData')
-const liquidArgs = require('liquid-args')
-// const { Liquid, Hash } = require('liquidjs')
+const addComponentTag = require('./addComponentTag')
+
+// Shortcode components
 const components = require('../../_includes/components')
 
 /**
@@ -9,59 +9,8 @@ const components = require('../../_includes/components')
  * @param      {Object}  eleventyConfig  eleventy configuration
  * @param      {Object}  options         options
  */
-const needsGlobalData = ['icon'];
-
 module.exports = function(eleventyConfig, options) {
   for (const component in components) {
-
-    if (needsGlobalData.includes(component)) {
-      eleventyConfig.addJavaScriptFunction(component, function(...args) {
-        return components[component](globalData)(...args)
-      })
-
-      const renderComponent = function(...args) {
-        const kwargs = args.find((arg) => arg.__keywords)
-        return components[component](globalData)(kwargs)
-      }
-
-      eleventyConfig.addLiquidTag(component, function(liquidEngine) {
-        return {
-          parse: function(tagToken) {
-            this.args = tagToken.args //new Hash(tagToken.args)
-          },
-          render: async function(scope) {
-            const evalValue = (arg) => liquidEngine.evalValue(arg, scope)
-            const args = await Promise.all(liquidArgs(this.args, evalValue))
-            return renderComponent(...args)
-          }
-        }
-      })
-    } else {
-      eleventyConfig.addJavaScriptFunction(component, function(...args) {
-        return components[component](eleventyConfig, ...args)
-      })
-
-      const renderComponent = function(...args) {
-        const kwargs = args.find((arg) => arg.__keywords)
-        return components[component](eleventyConfig, kwargs)
-      }
-
-      eleventyConfig.addLiquidTag(component, function(liquidEngine) {
-        return {
-          parse: function(tagToken) {
-            this.args = tagToken.args //new Hash(tagToken.args)
-          },
-          render: async function(scope) {
-            const evalValue = (arg) => liquidEngine.evalValue(arg, scope)
-            const args = await Promise.all(liquidArgs(this.args, evalValue))
-            return renderComponent(...args)
-          }
-          // * render(context, emitter) {
-          //   const args = yield this.args.render(context)
-          //   emitter.write(component[component](eleventyConfig, ...args))
-          // }
-        }
-      })
-    }
+    addComponentTag(eleventyConfig, components[component], `${component}`)
   }
 }

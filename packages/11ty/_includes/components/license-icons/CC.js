@@ -1,7 +1,9 @@
-module.exports = function(eleventyConfig, data) {
-  return `
-    <switch>
-      <use xlink:href="#cc"></use>
-    </switch>
-  `
+module.exports = function(eleventyConfig, globalData) {
+  return function(params) {
+    return `
+      <switch>
+        <use xlink:href="#cc"></use>
+      </switch>
+    `
+  }
 }
