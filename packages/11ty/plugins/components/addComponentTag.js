@@ -15,29 +15,22 @@ const liquidArgs = require('liquid-args')
  */
 module.exports = function(eleventyConfig, component, tagName) {
   /**
-   * JavaScript template tag
-   * @see https://www.11ty.dev/docs/languages/javascript/
+   * JavaScript template function
+   * @see https://www.11ty.dev/docs/languages/javascript/#javascript-template-functions
+   * @see https://www.11ty.dev/docs/languages/javascript/#relationship-to-filters-and-shortcodes
    */
   eleventyConfig.addJavaScriptFunction(tagName, function(...args) {
     return component(eleventyConfig, globalData)(...args)
   })
 
-  /**
-   * Nunjucks template tag
-   * @see https://www.11ty.dev/docs/languages/nunjucks/#single-shortcode
-   */
-  eleventyConfig.addNunjucksShortcode(tagName, function(...args) {
-    return component(eleventyConfig, globalData)(...args)
-  })
-
-  // Component function from a Liquid tag with keyword arguments
+  // Component function for a Liquid tag with keyword arguments
   const renderComponent = function(...args) {
     const kwargs = args.find((arg) => arg.__keywords)
     return component(eleventyConfig, globalData)(kwargs)
   }
 
   /**
-   * Liquid template custom tag
+   * Liquid template custom tag with keyword args
    * @see https://www.11ty.dev/docs/custom-tags/
    */
   eleventyConfig.addLiquidTag(tagName, function(liquidEngine) {
@@ -51,5 +44,21 @@ module.exports = function(eleventyConfig, component, tagName) {
         return renderComponent(...args)
       }
     }
+  })
+
+  /**
+   * Nunjucks template tag
+   * @see https://www.11ty.dev/docs/languages/nunjucks/#single-shortcode
+   */
+  eleventyConfig.addNunjucksShortcode(tagName, function(...args) {
+    return component(eleventyConfig, globalData)(...args)
+  })
+
+  /**
+   * Handlebars template tag
+   * @see https://www.11ty.dev/docs/languages/handlebars/#single-shortcode
+   */
+  eleventyConfig.addHandlebarsShortcode(tagName, function(...args) {
+    return component(eleventyConfig, globalData)(...args)
   })
 }
