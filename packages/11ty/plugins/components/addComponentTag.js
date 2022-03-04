@@ -3,22 +3,43 @@ const liquidArgs = require('liquid-args')
 // const { Liquid, Hash } = require('liquidjs')
 
 /**
- * Define components as universal template shortcodes
+ * Adds a custom tag to template languages for a shortcode component.
  *
- * @param      {Object}  eleventyConfig  eleventy configuration
- * @param      {Object}  options         options
+ * Shortcodes are added for supported template languages individually,
+ * rather than as [universal shortcodes](https://www.11ty.dev/docs/shortcodes/),
+ * to allow a custom tag for Liquid templates that accepts keyword arguments.
+ *
+ * @param      {Object}  eleventyConfig  The Eleventy configuration instance
+ * @param      {Object}  component       A JavaScript shortcode component
+ * @param      {String}  tagName         A template tag name for the component
  */
 module.exports = function(eleventyConfig, component, tagName) {
-  // add a corresponding JavaScript tag
+  /**
+   * JavaScript template tag
+   * @see https://www.11ty.dev/docs/languages/javascript/
+   */
   eleventyConfig.addJavaScriptFunction(tagName, function(...args) {
     return component(eleventyConfig, globalData)(...args)
   })
 
+  /**
+   * Nunjucks template tag
+   * @see https://www.11ty.dev/docs/languages/nunjucks/#single-shortcode
+   */
+  eleventyConfig.addNunjucksShortcode(tagName, function(...args) {
+    return component(eleventyConfig, globalData)(...args)
+  })
+
+  // Component function from a Liquid tag with keyword arguments
   const renderComponent = function(...args) {
     const kwargs = args.find((arg) => arg.__keywords)
     return component(eleventyConfig, globalData)(kwargs)
   }
 
+  /**
+   * Liquid template custom tag
+   * @see https://www.11ty.dev/docs/custom-tags/
+   */
   eleventyConfig.addLiquidTag(tagName, function(liquidEngine) {
     return {
       parse: function(tagToken) {

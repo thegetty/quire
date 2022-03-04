@@ -1,6 +1,4 @@
 const addComponentTag = require('../../plugins/components/addComponentTag')
-const globalData = require('../globalData')
-
 const backmatter = require('./backmatter.js')
 const cite = require('./cite.js')
 const contributor = require('./contributor')
@@ -11,6 +9,8 @@ const figureGroup = require('./figureGroup.js')
 const ref = require('./figureRef.js')
 const title = require('./title.js')
 const tombstone = require('./tombstone.js')
+
+const globalData = require('../globalData')
 
 module.exports = function(eleventyConfig, options) {
   eleventyConfig.addPairedShortcode('backmatter', function(content, ...args) {
