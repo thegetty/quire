@@ -53,10 +53,9 @@ module.exports = function(eleventyConfig, options) {
   })
   liquidTag(eleventyConfig, title, 'figuregroup')
 
-  eleventyConfig.addJavaScriptFunction('tombstone', function(...args) {
-    return cite(eleventyConfig, globalData)(...args)
+  eleventyConfig.addShortcode('tombstone', function(...args) {
+    return tombstone(eleventyConfig, globalData)(...args)
   })
-  liquidTag(eleventyConfig, tombstone, 'tombstone')
 
   /**
    * Figure subcomponents
