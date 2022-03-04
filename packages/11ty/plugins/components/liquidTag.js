@@ -9,6 +9,11 @@ const liquidArgs = require('liquid-args')
  * @param      {Object}  options         options
  */
 module.exports = function(eleventyConfig, component, tagName) {
+  // add a corresponding JavaScript tag
+  eleventyConfig.addJavaScriptFunction(tagName, function(...args) {
+    return component(eleventyConfig, globalData)(...args)
+  })
+
   const renderComponent = function(...args) {
     const kwargs = args.find((arg) => arg.__keywords)
     return component(eleventyConfig, globalData)(kwargs)
