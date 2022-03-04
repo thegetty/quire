@@ -5,24 +5,26 @@
  * @param  {Object} params
  * @property  {Object} contributors - publication contributors
  */
-module.exports = function(eleventyConfig, params) {
-  const { contributors } = params
+module.exports = function(eleventyConfig, globalData) {
   const citationContributors = eleventyConfig.getFilter('citationContributors')
 
-  const publicationAuthors = contributors.filter(({ type }) => type === 'primary')
-  const publicationAuthorCount = publicationAuthors.length
-  const publicationEditors = contributors.filter(({ role }) => role === 'editor')
-  const publicationEditorCount = publicationEditors.length
+  return function (params) {
+    const { contributors } = params
+    const publicationAuthors = contributors.filter(({ type }) => type === 'primary')
+    const publicationAuthorCount = publicationAuthors.length
+    const publicationEditors = contributors.filter(({ role }) => role === 'editor')
+    const publicationEditorCount = publicationEditors.length
 
-  let stringParts = []
+    let stringParts = []
 
-  if (publicationEditorCount) stringParts.push('edited ')
+    if (publicationEditorCount) stringParts.push('edited ')
 
-  stringParts.push('by ')
+    stringParts.push('by ')
 
-  stringParts.push(citationContributors({ contributors: publicationAuthors }, { max: 2, separator: ' and '}))
+    stringParts.push(citationContributors({ contributors: publicationAuthors }, { max: 2, separator: ' and '}))
 
-  stringParts.push('.')
+    stringParts.push('.')
 
-  return stringParts.join('')
+    return stringParts.join('')
+  }
 }

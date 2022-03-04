@@ -2,11 +2,15 @@
  * Renders a menu item
  *
  * @param      {Object}  eleventyConfig
- * @param      {Object}  data
+ * @param      {Object}  globalData
+ * @param      {Object}  params
  */
-module.exports = function(eleventyConfig, params) {
+module.exports = function(eleventyConfig, globalData) {
   const pageTitle = eleventyConfig.getFilter('pageTitle')
-  const { config, page } = params
 
-  return `<a href="${page.url}">${pageTitle({ config, ...page })}</a>`
+  return function(params) {
+    const { page } = params
+
+    return `<a href="${page.url}">${pageTitle({ page })}</a>`
+  }
 }

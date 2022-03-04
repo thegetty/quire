@@ -13,61 +13,63 @@ const { oneLine } = require('common-tags')
  *
  * @return {String} TOC item markup
  */
-module.exports = function (eleventyConfig, params) {
-  /**
-   * @todo move "pageLabelDivider" transfomration into a shortcode and remove "config" from params
-   */
-  const { className, config, page, imageDir } = params
-
-  const {
-    abstract,
-    contributors: pageContributors,
-    figure: pageFigure,
-    image,
-    label,
-    layout,
-    object: pageObject,
-    short_title,
-    summary,
-    title,
-    url,
-    weight,
-  } = page
-
+module.exports = function (eleventyConfig, globalData) {
   const contributorList = eleventyConfig.getFilter('contributorList')
   const getFigure = eleventyConfig.getFilter('getFigure')
   const getObject = eleventyConfig.getFilter('getObject')
+  const icon = eleventyConfig.getFilter('icon')
   const markdownify = eleventyConfig.getFilter('markdownify')
-  const pageTitlePartial = eleventyConfig.getFilter('pageTitle')
+  const pageTitle = eleventyConfig.getFilter('pageTitle')
   const tableOfContentsImage = eleventyConfig.getFilter('tableOfContentsImage')
-  const qicon = eleventyConfig.getFilter('qicon')
   const urlFilter = eleventyConfig.getFilter('url')
 
-  const brief = className.includes('brief')
-  const grid = className.includes('grid')
+  return function (params) {
+    /**
+     * @todo move "pageLabelDivider" transfomration into a shortcode and remove "config" from params
+     */
+    const { className, config, page, imageDir } = params
 
-  // const itemClassName = weight < pageOne.data.weight ? "frontmatter-page" : ""
-  const itemClassName = ''
-  const pageContributorsElement = pageContributors
-    ? `<span class="contributor"> — ${contributorList({ contributors: pageContributors })}</span>`
-    : ''
-  let pageTitle = label ? label + config.params.pageLabelDivider : ''
-  if (short_title && brief) {
-    pageTitle += short_title
-  } else if (brief) {
-    pageTitle += title
-  } else {
-    pageTitle += oneLine`${pageTitlePartial({ config, page })}${pageContributorsElement}`
-  }
-  const arrowIcon = `<span class="arrow remove-from-epub">&nbsp${qicon("arrow-forward", "")}</span>`
+    const {
+      abstract,
+      contributors: pageContributors,
+      figure: pageFigure,
+      image,
+      label,
+      layout,
+      object: pageObject,
+      short_title,
+      summary,
+      title,
+      url,
+      weight,
+    } = page
 
-  // Returns abstract with any links stripped out
-  const abstractText =
-    className === 'abstract' && (abstract || summary)
-      ? `<div class="abstract-text">
-          {{ markdownify(abstract) | replaceRE "</?a(|\\s*[^>]+)>" "" | strip_html }}
-      </div>`
-      : ""
+    const brief = className.includes('brief')
+    const grid = className.includes('grid')
+
+    // const itemClassName = weight < pageOne.data.weight ? "frontmatter-page" : ""
+    const itemClassName = ''
+    const pageContributorsElement = pageContributors
+      ? `<span class="contributor"> — ${contributorList({ contributors: pageContributors })}</span>`
+      : ''
+
+    let pageTitleElement = ''
+    if (short_title && brief) {
+      pageTitleElement += short_title
+    } else if (brief) {
+      pageTitleElement += title
+    } else {
+      pageTitleElement += oneLine`${pageTitle({ page: page.data, withLabel: true })}${pageContributorsElement}`
+    }
+    const arrowIcon = `<span class="arrow remove-from-epub">&nbsp${icon({ type: 'arrow-forward', description: '' })}</span>`
+
+    // Returns abstract with any links stripped out
+    const abstractText =
+      className === 'abstract' && (abstract || summary)
+        ? `<div class="abstract-text">
+            {{ markdownify(abstract) | replaceRE "</?a(|\\s*[^>]+)>" "" | strip_html }}
+        </div>`
+        : ''
 
     let mainElement
 
@@ -102,7 +104,7 @@ module.exports = function (eleventyConfig, params) {
             ${imageElement}
             <div class="card-content">
               <div class="title">
-                ${markdownify(pageTitle)}
+                ${markdownify(pageTitleElement)}
                 ${arrowIcon}
               </div>
             </div>
@@ -112,12 +114,13 @@ module.exports = function (eleventyConfig, params) {
       mainElement = `
         <div class="title">
           <a href="${urlFilter(url)}" class="${itemClassName}">
-            ${markdownify(pageTitle)}
+            ${markdownify(pageTitleElement)}
             ${arrowIcon}
           </a>
         </div>
         ${abstractText}
       `
     }
-  return mainElement
+    return mainElement
+  }
 }

@@ -4,44 +4,50 @@ const { html } = require('common-tags')
  * Renders previous page and next page buttons
  *
  * @param {Object} eleventyConfig
+ * @param {Object} globalData
+ * 
  * @param {Object} params
+ * @param {Object} options
  *
  * @return {String} "previous" and "next" buttons
  */
-module.exports = function(eleventyConfig, params) {
-  const qicon = eleventyConfig.getFilter('qicon')
+module.exports = function(eleventyConfig, globalData) {
+  const icon = eleventyConfig.getFilter('icon')
+  const { config } = globalData
 
-  const { config, pagination } = params
-  const { nextPage, previousPage } = pagination
+  return function(params, options={}) {
+    const { pagination } = params
+    const { nextPage, previousPage } = pagination
 
-  const prevPageButton = () => {
-    const buttonText = config.params.prevPageButtonText
-    if (!previousPage) return
+    const prevPageButton = () => {
+      const buttonText = config.params.prevPageButtonText
+      if (!previousPage) return
+      return html`
+        <li class="quire-nav-button prev">
+          <a href="${previousPage.url}">${icon({ type: 'left-arrow', description: 'Go back a page'})}&nbsp;<span class="nav-title">${buttonText}</span></a>
+          <span class="visually-hidden">Previous Page (left keyboard arrow or swipe)</span>
+        </li>
+      `
+    }
+
+    const nextPageButton = () => {
+      const buttonText = config.params.nextPageButtonText
+      if (!nextPage) return
+      return html`
+        <li class="quire-nav-button next">
+          <a href="${nextPage.url}"><span class="nav-title">${buttonText}</span>&nbsp;${icon({ type: 'right-arrow', description: 'Go back next page' })}</a>
+            <span class="visually-hidden">Next Page (right keyboard arrow or swipe)</span>
+        </li>
+      `
+    }
+
     return html`
-      <li class="quire-nav-button prev">
-        <a href="${previousPage.url}">${qicon('left-arrow', 'Go back a page')}&nbsp;<span class="nav-title">${buttonText}</span></a>
-        <span class="visually-hidden">Previous Page (left keyboard arrow or swipe)</span>
-      </li>
+      <div class="quire-contents-buttons remove-from-epub ${ config.params.pdf ? 'visually-hidden' : '' }">
+        <ul>
+          ${prevPageButton()}
+          ${nextPageButton()}
+        </ul>
+      </div>
     `
   }
-
-  const nextPageButton = () => {
-    const buttonText = config.params.nextPageButtonText
-    if (!nextPage) return
-    return html`
-      <li class="quire-nav-button next">
-        <a href="${nextPage.url}"><span class="nav-title">${buttonText}</span>&nbsp;${qicon('right-arrow', 'Go back next page')}</a>
-          <span class="visually-hidden">Next Page (right keyboard arrow or swipe)</span>
-      </li>
-    `
-  }
-
-  return html`
-    <div class="quire-contents-buttons remove-from-epub ${ config.params.pdf ? 'visually-hidden' : '' }">
-      <ul>
-        ${prevPageButton()}
-        ${nextPageButton()}
-      </ul>
-    </div>
-  `
 }

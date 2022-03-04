@@ -38,7 +38,7 @@ module.exports = function(eleventyConfig, params) {
   return html`
     <header class="quire-menu__header">
       <h4 class="quire-menu__header__title">
-        ${siteTitle({ publication })}
+        ${siteTitle()}
       </h4>
     </header>
   `
@@ -54,13 +54,13 @@ exports.data = {
 }
 
 exports.render = function(data) {
-  const { config, content, pagination } = data
+  const { content, pagination } = data
 
   return html`
     <div class="lorem-ipsum">
       ${content}
 
-      ${this.pageButtons({ config, pagination })}
+      ${this.pageButtons({ pagination })}
 
     </div>
   `

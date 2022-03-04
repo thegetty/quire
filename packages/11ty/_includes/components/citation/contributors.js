@@ -13,32 +13,34 @@
  * 
  * @return {String}
  */
-module.exports = function(eleventyConfig, params, options = {}) {
-  const { contributors } = params
-  if (!Array.isArray(contributors)) return ''
-    
+module.exports = function(eleventyConfig, globalData) {
   const fullname = eleventyConfig.getFilter('fullname')
   const getContributor = eleventyConfig.getFilter('getContributor')
 
-  contributors = contributors.map((item) => item.id ? getContributor(item.id) : item)
+  return function (params) {
+    const { contributors, max, reverse, separator } = params
+    if (!Array.isArray(contributors)) return ''
 
-  let pageContributors = []
+    const contributorObjects = contributors.map((item) => item.id ? getContributor(item.id) : item)
 
-  for (const [i, contributor] of contributors.entries()) {
-    if (i <= options.max) {
-      pageContributors.push(fullname(contributor, { reverse: options.reverse }))
+    let pageContributors = []
+
+    for (const [i, contributor] of contributorObjects.entries()) {
+      if (i <= max) {
+        pageContributors.push(fullname(contributor, { reverse: reverse }))
+      }
+      if (contributors.length === 1) {
+        pageContributors = pageContributors.join('')
+      }
+      if (i === 1) {
+        pageContributors = pageContributors.join(separator)
+      }
+      if (contributors.length > max) {
+        pageContributors+=', et al'
+      }
+      if (i === max) break
     }
-    if (contributors.length === 1) {
-      pageContributors = pageContributors.join('')
-    }
-    if (i === 1) {
-      pageContributors = pageContributors.join(options.separator)
-    }
-    if (contributors.length > options.max) {
-      pageContributors+=', et al'
-    }
-    if (i === options.max) break
+
+    return pageContributors.replace(/\.$/, '')
   }
-
-  return pageContributors.replace(/\.$/, '')
 }

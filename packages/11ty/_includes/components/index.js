@@ -25,6 +25,7 @@ module.exports = {
   copyrightLicensing: require('./copyright/licensing.js'),
   dublinCore: require('./head-tags/dublin-core.js'),
   head: require('./head.js'),
+  icon: require('./icon.js'),
   icons: require('./icons.js'),
   iconscc: require('./icons-cc.js'),
   index: require('./index.js'),
