@@ -23,7 +23,7 @@ module.exports = function(eleventyConfig, options) {
     return div(context, content, ...args)
   })
 
-  addComponentTag(eleventyConfig, cite, 'cite', { page: this.page })
+  addComponentTag(eleventyConfig, cite, 'cite')
   addComponentTag(eleventyConfig, contributor, 'contributor')
   addComponentTag(eleventyConfig, figure, 'figure')
   addComponentTag(eleventyConfig, figureGroup, 'figuregroup')

@@ -14,20 +14,20 @@ const liquidArgs = require('liquid-args')
  * @param  {String}  tagName         A template tag name for the component
  * @param  {any} scopeArgs           Additional args available via the function closure
  */
-module.exports = function(eleventyConfig, component, tagName, scopeArgs = {}) {
+module.exports = function(eleventyConfig, component, tagName) {
   /**
    * JavaScript template function
    * @see https://www.11ty.dev/docs/languages/javascript/#javascript-template-functions
    * @see https://www.11ty.dev/docs/languages/javascript/#relationship-to-filters-and-shortcodes
    */
   eleventyConfig.addJavaScriptFunction(tagName, function(...args) {
-    return component(eleventyConfig, globalData, scopeArgs)(...args)
+    return component(eleventyConfig, globalData, { page: this.page })(...args)
   })
 
   // Component function for a Liquid tag with keyword arguments
   const renderComponent = function(...args) {
     const kwargs = args.find((arg) => arg.__keywords)
-    return component(eleventyConfig, globalData, scopeArgs)(kwargs)
+    return component(eleventyConfig, globalData, { page: this.page })(kwargs)
   }
 
   /**
@@ -52,7 +52,7 @@ module.exports = function(eleventyConfig, component, tagName, scopeArgs = {}) {
    * @see https://www.11ty.dev/docs/languages/nunjucks/#single-shortcode
    */
   eleventyConfig.addNunjucksShortcode(tagName, function(...args) {
-    return component(eleventyConfig, globalData, scopeArgs)(...args)
+    return component(eleventyConfig, globalData, { page: this.page })(...args)
   })
 
   /**
@@ -60,6 +60,6 @@ module.exports = function(eleventyConfig, component, tagName, scopeArgs = {}) {
    * @see https://www.11ty.dev/docs/languages/handlebars/#single-shortcode
    */
   eleventyConfig.addHandlebarsShortcode(tagName, function(...args) {
-    return component(eleventyConfig, globalData, scopeArgs)(...args)
+    return component(eleventyConfig, globalData, { page: this.page })(...args)
   })
 }
