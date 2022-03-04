@@ -23,35 +23,18 @@ module.exports = function(eleventyConfig, options) {
     return div(context, content, ...args)
   })
 
-  const context = { eleventyConfig, globalData, page: this.page }
-  eleventyConfig.addJavaScriptFunction('cite', function(...args) {
-    return cite(eleventyConfig, globalData)(...args)
-  })
   liquidTag(eleventyConfig, cite, 'cite')
-
-  eleventyConfig.addJavaScriptFunction('contributor', function(...args) {
-    return cite(eleventyConfig, globalData)(...args)
-  })
   liquidTag(eleventyConfig, contributor, 'contributor')
-
-  eleventyConfig.addJavaScriptFunction('figure', function(...args) {
-    return cite(eleventyConfig, globalData)(...args)
-  })
   liquidTag(eleventyConfig, figure, 'figure')
-
-  eleventyConfig.addJavaScriptFunction('figuregroup', function(...args) {
-    return cite(eleventyConfig, globalData)(...args)
-  })
   liquidTag(eleventyConfig, figureGroup, 'figuregroup')
 
   eleventyConfig.addShortcode('ref', function(...args) {
     return ref(eleventyConfig, globalData)(...args)
   })
 
-  eleventyConfig.addJavaScriptFunction('title', function(...args) {
-    return cite(eleventyConfig, title)(...args)
+  eleventyConfig.addShortcode('title', function(...args) {
+    return title(eleventyConfig, title)(...args)
   })
-  liquidTag(eleventyConfig, title, 'figuregroup')
 
   eleventyConfig.addShortcode('tombstone', function(...args) {
     return tombstone(eleventyConfig, globalData)(...args)

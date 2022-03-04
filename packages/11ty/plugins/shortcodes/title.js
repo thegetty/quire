@@ -8,7 +8,7 @@ module.exports = function(eleventyConfig, globalData) {
   const markdownify = eleventyConfig.getFilter('markdownify')
   const { publication } = globalData
 
-  return function() {
+  return function(params) {
     const seperator = publication.title.slice(-1).match(/[a-zA-Z]/)
       ? `<span class="visually-hidden">:</span>`
       : ''
