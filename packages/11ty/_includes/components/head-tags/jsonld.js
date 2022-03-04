@@ -9,10 +9,10 @@ const path = require('path')
  * @return     {String}  An HTML script element with JSON-LD
  */
 module.exports = function(eleventyConfig, globalData) {
-  const { config } = globalData
+  const { config, publication } = globalData
 
   return function (params) {
-    const { canonicalURL, contributor, imageDir, page, publication } = params
+    const { canonicalURL, contributor, imageDir, page } = params
     const { abstract, cover, title } = page
     const pageContributors = contributor ? contributor
       .map((contributor, { id }) => {

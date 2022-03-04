@@ -7,10 +7,10 @@
  * @return     {String}  HTML meta and link elements
  */
 module.exports = function(eleventyConfig, globalData) {
-  const { config } = globalData
+  const { config, publication } = globalData
 
   return function (params) {
-    const { page, publication } = params
+    const { page } = params
 
     const { description, identifier, promo_image, pub_date, pub_type } = publication
     const pageType = page && page.type

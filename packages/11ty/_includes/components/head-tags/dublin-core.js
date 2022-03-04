@@ -9,11 +9,9 @@ const path = require('path')
  * @return     {String}  HTML meta and link elements
  */
 module.exports = function(eleventyConfig, globalData) {
-  const { config } = globalData
+  const { config, publication } = globalData
 
   return function (params) {
-    const { publication } = params
-
     const links = [
       { rel: 'schema.dcterms', href: 'https://purl.org/dc/terms/' }
     ]
