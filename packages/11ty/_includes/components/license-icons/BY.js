@@ -7,7 +7,7 @@ module.exports = function(eleventyConfig, globalData) {
       <switch>
         <use xlink:href="#cc-by"></use>
         <foreignObject width="135" height="30">
-            <img src="${path.join(imageDir, 'icons', 'cc-by.png')}" alt="CC-BY" />
+          <img src="${path.join(imageDir, 'icons', 'cc-by.png')}" alt="CC-BY" />
         </foreignObject>
       </switch>
     `
