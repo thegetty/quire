@@ -13,7 +13,7 @@ module.exports = function(eleventyConfig, globalData) {
 
   return function (ids) {
     // transform the array of figure ids into and array of markdown links
-    const links = ids.map((id) => {
+    const links = ids.split(',').map((id) => {
       id = id.trim()
       const text = id.replace('fig-', '')
       return `[${text}](#${id})`

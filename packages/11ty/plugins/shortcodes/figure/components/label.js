@@ -11,7 +11,7 @@ module.exports = function(eleventyConfig, globalData) {
   const markdownify = eleventyConfig.getFilter('markdownify')
   const modalLink = eleventyConfig.getFilter('figuremodallink')
 
-  const { epub } = globalData.config.epub
+  const { epub } = globalData.config
   const { figureLabelLocation } = globalData.config.params
 
   return function({ figure }) {

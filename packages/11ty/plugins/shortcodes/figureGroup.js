@@ -9,7 +9,7 @@ const { html } = require('common-tags')
  * @return     {String}  An HTML string of the elements to render
  */
 module.exports = function (eleventyConfig, globalData) {
-  const figure = eleventyConfig.getFilter('qfigure')
+  const figure = eleventyConfig.getFilter('figure')
 
   return function (params) {
     let { columns, ids=[] } = params
