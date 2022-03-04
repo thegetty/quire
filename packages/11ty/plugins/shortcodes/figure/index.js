@@ -34,6 +34,7 @@ module.exports = function (context, params) {
   const qfigurelabel = eleventyConfig.getFilter('qfigurelabel')
   const qfiguremodallink = eleventyConfig.getFilter('qfiguremodallink')
   const qfiguresoundcloud = eleventyConfig.getFilter('qfiguresoundcloud')
+  const qfigurtable = eleventyConfig.getFilter('qfigurtable')
   const qfigureyoutube = eleventyConfig.getFilter('qfigureyoutube')
   const slugify = eleventyConfig.getFilter('slugify')
 
@@ -42,15 +43,16 @@ module.exports = function (context, params) {
   const component = (figure) => {
     switch(true) {
       case figure.media_type === 'youtube':
-        return qfigureyoutube(figure)
+        return qfigureyoutube({ figure })
         break
       case figure.media_type === 'vimeo':
         break
       case figure.media_type === 'soundcloud':
-        return qfiguresoundcloud(figure)
+        return qfiguresoundcloud({ figure })
       case figure.media_type === 'website':
         break
       case figure.media_type === 'table':
+        return qfiguretable({ figure })
         break
       default:
         return qfigureimage({ figure })
