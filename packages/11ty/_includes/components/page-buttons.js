@@ -1,4 +1,3 @@
-const icon = require ('./icon.js')
 const { html } = require('common-tags')
 
 /**
@@ -10,6 +9,7 @@ const { html } = require('common-tags')
  * @return {String} "previous" and "next" buttons
  */
 module.exports = function(eleventyConfig, params) {
+  const icon = eleventyConfig.getFilter('icon')
 
   const { config, pagination } = params
   const { nextPage, previousPage } = pagination

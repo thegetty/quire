@@ -1,4 +1,3 @@
-const icon = require ('../icon.js')
 const path = require ('path')
 const { oneLine } = require('common-tags')
 
@@ -39,6 +38,7 @@ module.exports = function (eleventyConfig, params) {
   const contributorList = eleventyConfig.getFilter('contributorList')
   const getFigure = eleventyConfig.getFilter('getFigure')
   const getObject = eleventyConfig.getFilter('getObject')
+  const icon = eleventyConfig.getFilter('icon')
   const markdownify = eleventyConfig.getFilter('markdownify')
   const pageTitlePartial = eleventyConfig.getFilter('pageTitle')
   const urlFilter = eleventyConfig.getFilter('url')

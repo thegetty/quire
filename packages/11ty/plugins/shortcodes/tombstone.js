@@ -1,5 +1,4 @@
 const { html, oneLine } = require('common-tags')
-const icon = require('../../_includes/components/icon.js')
 const path = require('path')
 
 /**
@@ -8,6 +7,7 @@ const path = require('path')
 module.exports = function(context, pageObjects) {
   const { eleventyConfig, globalData: { config, objects } } = context
   const capitalize = eleventyConfig.getFilter('capitalize')
+  const icon = eleventyConfig.getFilter('icon')
   const markdownify = eleventyConfig.getFilter('markdownify')
   const properties = objects.object_display_order
 

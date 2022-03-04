@@ -1,8 +1,8 @@
 const { html } = require('common-tags')
-const icon = require('../../../../_includes/components/icon.js')
 
 module.exports = function (context, { caption, id }, content) {
   const { eleventyConfig, globalData: { config } } = context
+  const icon = eleventyConfig.getFilter('icon')
   const markdownify = eleventyConfig.getFilter('markdownify')
   const iconElement = config.params.figureLabelLocation === 'below'
     ? icon('fullscreen', 'Expand')

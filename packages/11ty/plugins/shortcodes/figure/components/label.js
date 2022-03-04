@@ -1,5 +1,4 @@
 const { oneLine } = require('common-tags')
-const icon = require('../../../../_includes/components/icon.js')
 
 /**
  * A figure label element
@@ -10,6 +9,7 @@ const icon = require('../../../../_includes/components/icon.js')
 module.exports = function(context, figure) {
   const { eleventyConfig, globalData: { config } } = context
   const { caption, id, label, src } = figure
+  const icon = eleventyConfig.getFilter('icon')
   const markdownify = eleventyConfig.getFilter('markdownify')
   const modalLink = eleventyConfig.getFilter('qfiguremodallink')
   const slugify = eleventyConfig.getFilter('slugify')
