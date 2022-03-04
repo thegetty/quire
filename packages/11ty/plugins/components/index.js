@@ -15,7 +15,7 @@ const needsGlobalData = ['icon'];
 module.exports = function(eleventyConfig, options) {
   for (const component in components) {
     eleventyConfig.addJavaScriptFunction(component, function(...args) {
-      return components[component](globalData)(...args)
+      return components[component](eleventyConfig, globalData)(...args)
     })
     liquidTag(eleventyConfig, components[component], `${component}`)
   }
