@@ -3,8 +3,10 @@
  * @param  {Object} context
  */
 module.exports = function(eleventyConfig, globalData) {
+  const { config, publication } = globalData
+
   return function (params) {
-    const { config, page, publication } = params
+    const { page } = params
     return ''
   }
 }

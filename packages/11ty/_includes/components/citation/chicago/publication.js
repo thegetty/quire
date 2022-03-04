@@ -6,9 +6,9 @@ module.exports = function(eleventyConfig, globalData) {
   const citationPubDate = eleventyConfig.getFilter('citationPubDate')
   const citationPubSeries = eleventyConfig.getFilter('citationPubSeries')
   const citationPublishers = eleventyConfig.getFilter('citationChicagoPublishers')
+  const { publication } = globalData
 
   return function (params) {
-    const { publication } = params
     const { identifier, pub_date: pubDate, publisher } = publication
 
     let publicationCitationParts = []

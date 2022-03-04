@@ -11,12 +11,12 @@ module.exports = function(eleventyConfig, globalData) {
   const citationChicagoPublicationContributors = eleventyConfig.getFilter('citationChicagoPublicationContributors')
   const citationChicagoPublishers = eleventyConfig.getFilter('citationChicagoPublishers')
   const citationPubDate = eleventyConfig.getFilter('citationPubDate')
-  const { config } = globalData
+  const { config, publication } = globalData
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const siteTitle = eleventyConfig.getFilter('siteTitle')
 
   return function (params) {
-    const { page, publication } = params
+    const { page } = params
     const { contributor, label, title } = page
     const { pub_date: pubDate } = publication
     const pageContributors = citationContributors(

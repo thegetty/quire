@@ -1,6 +1,7 @@
 module.exports = function(eleventyConfig, globalData) {
+  const { publication } = globalData
+
   return function (params) {
-    const { publication } = params
     const { series, number_in_series } = publication
 
     const seriesStartsWithNumber = number_in_series && number_in_series.charAt(0).match(/\d/)

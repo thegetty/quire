@@ -23,10 +23,10 @@ module.exports = function(eleventyConfig, globalData) {
   const citationChicagoSite = eleventyConfig.getFilter('citationChicagoSite')
   const citationMLAPage = eleventyConfig.getFilter('citationMLAPage')
   const citationMLASite = eleventyConfig.getFilter('citationMLASite')
-  const { config } = globalData
+  const { config, publication } = globalData
 
   return function (params) {
-    const { page, publication, range, type } = params
+    const { page, range, type } = params
     if (!type) {
       console.warn(`"type" is required for the citation shortcode. Options are: "chicago" or "mla"`)
       return ''
