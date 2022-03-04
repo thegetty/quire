@@ -1,6 +1,7 @@
 /**
- * @param  {Object} context
- * @param  {Object} contributor
+ * @param  {Object} eleventyConfig
+ * @param  {Object} globalData
+ * @param  {Object} params
  * @property  {String} affiliation
  * @property  {String} title
  * 
@@ -8,7 +9,7 @@
  */
 module.exports = function(eleventyConfig, globalData) {
   return function (params) {
-    const { affiliation, title } = contributor
+    const { affiliation, title } = params
     affiliation = affiliation ? `<span class="quire-contributor__affiliation">${ affiliation }</span>` : ''
     title = title ? `<span class="quire-contributor__title">${ title }</span>` : ''
     return [title, affiliation].join(', ')
