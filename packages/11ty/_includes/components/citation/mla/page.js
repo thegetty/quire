@@ -11,7 +11,7 @@ module.exports = function(eleventyConfig, params) {
   const citationMLAPublicationContributors = eleventyConfig.getFilter('citationMLAPublicationContributors')
   const citationMLAPublishers = eleventyConfig.getFilter('citationMLAPublishers')
   const citationPubDate = eleventyConfig.getFilter('citationPubDate')
-  const pageTitlePartial = eleventyConfig.getFilter('pageTitle')
+  const pageTitle = eleventyConfig.getFilter('pageTitle')
   const siteTitle = eleventyConfig.getFilter('siteTitle')
 
   const citationParts = []
@@ -29,17 +29,17 @@ module.exports = function(eleventyConfig, params) {
 
   if (pageContributors) citationParts.push(`${pageContributors}. `)
 
-  let pageTitle 
+  let pageTitleElement 
   if (page.data.title) {
-    pageTitle = `"${pageTitlePartial({ config, page })}."`
+    pageTitleElement = `"${pageTitle({ page })}."`
   } else if (page.data.label) {
-    pageTitle = `"${page.data.label}."`
+    pageTitleElement = `"${page.data.label}."`
   }
 
-  citationParts.push(pageTitle || 'Untitled.')
+  citationParts.push(pageTitleElement || 'Untitled.')
 
   let publicationCitation = 
-    [` <em>${siteTitle({ publication })}</em>`, citationMLAPublicationContributors({ contributors: publication.contributor })]
+    [` <em>${siteTitle()}</em>`, citationMLAPublicationContributors({ contributors: publication.contributor })]
     .filter(item => item)
     .join(', ')
 

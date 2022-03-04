@@ -8,5 +8,5 @@ module.exports = function(eleventyConfig, params) {
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const { config, page } = params
 
-  return `<a href="${page.url}">${pageTitle({ config, ...page })}</a>`
+  return `<a href="${page.url}">${pageTitle({ page })}</a>`
 }
