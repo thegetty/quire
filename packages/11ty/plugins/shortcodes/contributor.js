@@ -32,10 +32,10 @@ module.exports = function (eleventyConfig, globalData) {
 
     const name = fullname(contributor)
 
-    const contributorPages = pages.map(({ page, url }) => {
+    const contributorPages = pages.map(({ data, url }) => {
       return `${link({
         classes: ['quire-contributor__page-link'],
-        name: pageTitle({ page, withLabel: true }),
+        name: pageTitle({ page: data, withLabel: true }),
         url,
       })}`
     })
