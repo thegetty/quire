@@ -26,7 +26,7 @@ const { oneLine } = require('common-tags')
  *  @example {% cite "Faure 1909" "" "1909" %}
  *  renders the citation "1909"
  */
-module.exports = function(eleventyConfig, globalData) {
+module.exports = function(eleventyConfig, globalData, scopeArgs = {}) {
   const markdownify = eleventyConfig.getFilter('markdownify')
 
   const {
@@ -36,9 +36,9 @@ module.exports = function(eleventyConfig, globalData) {
 
   let references = globalData.references
 
-  return function({ id, page, pageNumber, text }) {
-    console.warn('CITE', this.page)
+  const { page } = scopeArgs
 
+  return function({ id, pageNumber, text }) {
     if (!id) {
       console.warn('1, 2 or 3 values must be supplied with this shortcode. The first is required and should match a reference in the project `references.yml` data file; the second is optional, and should be a page number or range of page numbers; the third is optional, and should be the text to appear in the link if not the full short form of the reference, example \"{% qcite \"Faure 1909\" \"304\" \"1909\" %}\"')
       return ''
