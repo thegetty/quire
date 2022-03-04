@@ -18,12 +18,12 @@ const { oneLine } = require('common-tags')
  */
 module.exports = function (eleventyConfig, globalData) {
   const getFigure = eleventyConfig.getFilter('getFigure')
-  const figureimage = eleventyConfig.getFilter('qfigureimage')
-  const figurelabel = eleventyConfig.getFilter('qfigurelabel')
-  const figuremodallink = eleventyConfig.getFilter('qfiguremodallink')
-  const figuresoundcloud = eleventyConfig.getFilter('qfiguresoundcloud')
-  const figurtable = eleventyConfig.getFilter('qfigurtable')
-  const figureyoutube = eleventyConfig.getFilter('qfigureyoutube')
+  const figureimage = eleventyConfig.getFilter('figureimage')
+  const figurelabel = eleventyConfig.getFilter('figurelabel')
+  const figuremodallink = eleventyConfig.getFilter('figuremodallink')
+  const figuresoundcloud = eleventyConfig.getFilter('figuresoundcloud')
+  const figurtable = eleventyConfig.getFilter('figurtable')
+  const figureyoutube = eleventyConfig.getFilter('figureyoutube')
   const slugify = eleventyConfig.getFilter('slugify')
 
   return function ({ id, ['class']: classes=[] }) {
