@@ -26,7 +26,7 @@ const { oneLine } = require('common-tags')
  *  @example {% cite "Faure 1909" "" "1909" %}
  *  renders the citation "1909"
  */
-module.exports = function(eleventyConfig, globalData, scopeArgs = {}) {
+module.exports = function(eleventyConfig, globalData, { page }) {
   const markdownify = eleventyConfig.getFilter('markdownify')
 
   const {
@@ -35,8 +35,6 @@ module.exports = function(eleventyConfig, globalData, scopeArgs = {}) {
   } = globalData.config.params
 
   let references = globalData.references
-
-  const { page } = scopeArgs
 
   return function({ id, pageNumber, text }) {
     if (!id) {
@@ -55,7 +53,9 @@ module.exports = function(eleventyConfig, globalData, scopeArgs = {}) {
       return ''
     }
 
-    if (!this.page.citations) page.citations = []
+    if (!page) return;
+
+    if (!page.citations) page.citations = []
     page.citations.push(citation)
 
     let buttonText = (text) ? text : citation.short || id
