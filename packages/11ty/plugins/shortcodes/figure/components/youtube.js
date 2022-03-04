@@ -9,14 +9,14 @@ const { html } = require('common-tags')
  * @return     {String}  An HTML
  */
 module.exports = function(eleventyConfig, globalData) {
-  const { config } = globalData
-  const qfigurecaption = eleventyConfig.getFilter('qfigurecaption')
-  const qfigureimage = eleventyConfig.getFilter('qfigureimage')
-  const qfigureplaceholder = eleventyConfig.getFilter('qfigureplaceholder')
-  const qfigurelabel = eleventyConfig.getFilter('qfigurelabel')
+  const figurecaption = eleventyConfig.getFilter('figurecaption')
+  const figureimage = eleventyConfig.getFilter('figureimage')
+  const figureplaceholder = eleventyConfig.getFilter('figureplaceholder')
+  const figurelabel = eleventyConfig.getFilter('figurelabel')
 
-  return function(params) {
-    const { figure } = params
+  const { figureLabelLocation, epub, pdf } = globalData.config.params
+
+  return function({ figure }) {
     const { aspectRatio, id, label, media_id } = figure
     const src = `https://youtu.be/${media_id}`
 
@@ -28,9 +28,9 @@ module.exports = function(eleventyConfig, globalData) {
     /**
      * Render a placeholder for EPUB and PDF output
      */
-    if (config.params.epub || config.params.pdf) {
+    if (epub || pdf) {
       return oneLine`
-        ${qfigureplaceholder(figure)}
+        ${figureplaceholder(figure)}
         <figcaption class="quire-figure__caption caption">
           <a href="https://youtu.be/${media_id}" target="_blank">${src}</a>
         </figcaption>
@@ -46,8 +46,8 @@ module.exports = function(eleventyConfig, globalData) {
           src="https://www.youtube.com/embed/${media_id}?rel=0&amp;showinfo=0"
         ></iframe>
       </div>
-      ${label && config.params.figureLabelLocation === 'on-top' ? qfigurelabel({ figure }) : ''}
-      ${qfigurecaption({ figure })}
+      ${label && figureLabelLocation === 'on-top' ? figurelabel({ figure }) : ''}
+      ${figurecaption({ figure })}
     `
   }
 }

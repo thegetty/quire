@@ -8,9 +8,9 @@ const { html } = require('common-tags')
 module.exports = function(eleventyConfig, globalData) {
   const unsupported = 'Sorry, your browser does not support embedded videos.'
 
-  return function(params) {
-    const { figure } = params
+  return function({ figure }) {
     const { src } = figure
+
     return html`
       <video controls width="250">
         <source src="${src}" type="video/mp4"/>

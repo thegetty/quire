@@ -8,13 +8,13 @@ const { html } = require('common-tags')
  */
 module.exports = function(eleventyConfig, globalData) {
   const markdownify = eleventyConfig.getFilter('markdownify')
-  const modalLink = eleventyConfig.getFilter('qfiguremodallink')
-  const { config } = globalData
+  const modalLink = eleventyConfig.getFilter('figuremodallink')
 
-  return function(params) {
-    const { content, figure } = params
-    const tableSrc = path.join('static', config.params.imageDir, figure.src)
+  const { imageDir } = globalData.config.params
+
+  return function({ content, figure }) {
     // const figureId = 'deepzoomtable' | append: date
+    const tableSrc = path.join('static', imageDir, figure.src)
     const title = markdownify(caption)
 
     return html`

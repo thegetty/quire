@@ -28,6 +28,15 @@ module.exports = function(eleventyConfig, options) {
   addComponentTag(eleventyConfig, figure, 'figure')
   addComponentTag(eleventyConfig, figureGroup, 'figuregroup')
 
+  /**
+   * figure shortcode subcomponents
+   */
+  eleventyConfig.namespace('figure', () => {
+    Object.keys(figureComponents).forEach((name) => {
+      addComponentTag(eleventyConfig, figureComponents[name], name)
+    })
+  })
+
   eleventyConfig.addShortcode('ref', function(...args) {
     return ref(eleventyConfig, globalData)(...args)
   })
@@ -38,14 +47,5 @@ module.exports = function(eleventyConfig, options) {
 
   eleventyConfig.addShortcode('tombstone', function(...args) {
     return tombstone(eleventyConfig, globalData)(...args)
-  })
-
-  /**
-   * Figure subcomponents
-   */
-  eleventyConfig.namespace('qfigure', () => {
-    Object.keys(figureComponents).forEach((name) => {
-      addComponentTag(eleventyConfig, figureComponents[name], name)
-    })
   })
 }

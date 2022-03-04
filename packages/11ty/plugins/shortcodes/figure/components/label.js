@@ -7,23 +7,23 @@ const { oneLine } = require('common-tags')
  * @return
  */
 module.exports = function(eleventyConfig, globalData) {
-  const { config } = globalData
   const icon = eleventyConfig.getFilter('icon')
   const markdownify = eleventyConfig.getFilter('markdownify')
-  const modalLink = eleventyConfig.getFilter('qfiguremodallink')
-  const slugify = eleventyConfig.getFilter('slugify')
+  const modalLink = eleventyConfig.getFilter('figuremodallink')
 
-  return function(params) {
-    const { figure } = params
+  const { epub } = globalData.config.epub
+  const { figureLabelLocation } = globalData.config.params
+
+  return function({ figure }) {
 
     let labelElement
 
-    if (config.epub) {
+    if (epub) {
       labelElement = `<span class="q-figure__label">${markdownify(figure.label)}</span>`
     } else {
-      const modifier = config.params.figureLabelLocation || ''
+      const modifier = figureLabelLocation || ''
 
-      let content = config.params.figureLabelLocation === 'on-top' 
+      let content = figureLabelLocation === 'on-top'
       ? `<span class="q-figure__label-icon">${icon('fullscreen', 'Expand')}</span>`
       : ''
       content += `<span class="q-figure__label-text">${markdownify(figure.label || '')}</span>`

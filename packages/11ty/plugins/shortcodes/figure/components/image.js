@@ -10,28 +10,28 @@ const path = require('path')
  * @return     {String}  An HTML <img> element
  */
 module.exports = function(eleventyConfig, globalData) {
-  const { config } = globalData
+  const figurecaption = eleventyConfig.getFilter('figurecaption')
+  const figurelabel = eleventyConfig.getFilter('figurelabel')
+  const figuremodallink = eleventyConfig.getFilter('figuremodallink')
   const markdownify = eleventyConfig.getFilter('markdownify')
-  const qfigurecaption = eleventyConfig.getFilter('qfigurecaption')
-  const qfigurelabel = eleventyConfig.getFilter('qfigurelabel')
-  const qfiguremodallink = eleventyConfig.getFilter('qfiguremodallink')
 
-  return function(params) {
-    const { figure } = params
+  const { figureLabelLocation } = globalData.config.params
+
+  return function({ figure }) {
     const { alt='', caption, id, src='' } = figure
 
     const imageSrc = path.join('/_assets/img', src)
-    const labelElement = qfigurelabel({ figure })
+    const labelElement = figurelabel({ figure })
     const imageElement = `<img alt="${alt}" class="q-figure__image" src="${imageSrc}"/>`
 
     const imagePreviewElement =
-      (config.params.figureLabelLocation === 'on-top')
-        ? qfiguremodallink({ figure, content: imageElement + qfigurelabel({ figure }) })
+      (figureLabelLocation === 'on-top')
+        ? figuremodallink({ figure, content: imageElement + figurelabel({ figure }) })
         : imageElement
 
-    const imageCaptionElement = (config.params.figureLabelLocation === 'below') 
-      ? qfigurecaption({ figure, content: labelElement }) 
-      : qfigurecaption({ figure })
+    const imageCaptionElement = (figureLabelLocation === 'below')
+      ? figurecaption({ figure, content: labelElement })
+      : figurecaption({ figure })
 
     return html`
       <figure

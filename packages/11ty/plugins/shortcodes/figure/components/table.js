@@ -6,21 +6,21 @@ const { html } = require('common-tags')
  * @return {String}  An HTML <table> element
  */
 module.exports = function(eleventyConfig, globalData) {
-  const { config } = globalData
-  const qfigurecaption = eleventyConfig.getFilter('qfigurecaption')
-  const qfigurelabel = eleventyConfig.getFilter('qfigurelabel')
+  const figurecaption = eleventyConfig.getFilter('figurecaption')
+  const figurelabel = eleventyConfig.getFilter('figurelabel')
   const markdownify = eleventyConfig.getFilter('markdownify')
 
-  return function(params) {
-    const { figure } = params
+  const { figureLabelLocation, imageDir } = globalData.config.params
+
+  return function({ figure }) {
     // const figureId = 'deepzoomtable' | append: date
     const modalLink = `#${figure.id}`
-    const tableSrc = path.join('static', config.params.imageDir, figure.src)
+    const tableSrc = path.join('static', imageDir, figure.src)
     const title = markdownify(caption)
 
-    const figcaption = qfigurecaption({ figure })
-    const figureLabel = config.params.figureLabelLocation === 'on-top'
-      ? qfigurelabel({ figure })
+    const figcaption = figurecaption({ figure })
+    const figureLabel = figureLabelLocation === 'on-top'
+      ? figurelabel({ figure })
       : ''
 
     const figureModal = (tableSrc) => html`
