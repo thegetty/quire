@@ -18,7 +18,7 @@ module.exports = function(eleventyConfig, globalData) {
 
     let pageTitle = subtitle ? [title, subtitle].join(separator) : title
 
-    if (withLabel) {
+    if (label && withLabel) {
       pageTitle = `${label}${config.params.pageLabelDivider} ${pageTitle}`
     }
 
