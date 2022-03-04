@@ -24,7 +24,6 @@ module.exports = {
       return contributor
     })
   },
-  data: (data) => data,
   eleventyNavigation: {
     key: (data) => {
       const segments = data.page.url.split('/')

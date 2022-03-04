@@ -19,7 +19,7 @@ module.exports = function (eleventyConfig, globalData) {
   const getObject = eleventyConfig.getFilter('getObject')
   const icon = eleventyConfig.getFilter('icon')
   const markdownify = eleventyConfig.getFilter('markdownify')
-  const pageTitlePartial = eleventyConfig.getFilter('pageTitle')
+  const pageTitle = eleventyConfig.getFilter('pageTitle')
   const tableOfContentsImage = eleventyConfig.getFilter('tableOfContentsImage')
   const urlFilter = eleventyConfig.getFilter('url')
 
@@ -52,13 +52,14 @@ module.exports = function (eleventyConfig, globalData) {
     const pageContributorsElement = pageContributors
       ? `<span class="contributor"> — ${contributorList({ contributors: pageContributors })}</span>`
       : ''
-    let pageTitle = label ? label + config.params.pageLabelDivider : ''
+
+    let pageTitleElement = ''
     if (short_title && brief) {
-      pageTitle += short_title
+      pageTitleElement += short_title
     } else if (brief) {
-      pageTitle += title
+      pageTitleElement += title
     } else {
-      pageTitle += oneLine`${pageTitlePartial({ config, page })}${pageContributorsElement}`
+      pageTitleElement += oneLine`${pageTitle({ page: page.data, withLabel: true })}${pageContributorsElement}`
     }
     const arrowIcon = `<span class="arrow remove-from-epub">&nbsp${icon({ type: 'arrow-forward', description: '' })}</span>`
 
@@ -103,7 +104,7 @@ module.exports = function (eleventyConfig, globalData) {
             ${imageElement}
             <div class="card-content">
               <div class="title">
-                ${markdownify(pageTitle)}
+                ${markdownify(pageTitleElement)}
                 ${arrowIcon}
               </div>
             </div>
@@ -113,7 +114,7 @@ module.exports = function (eleventyConfig, globalData) {
       mainElement = `
         <div class="title">
           <a href="${urlFilter(url)}" class="${itemClassName}">
-            ${markdownify(pageTitle)}
+            ${markdownify(pageTitleElement)}
             ${arrowIcon}
           </a>
         </div>
