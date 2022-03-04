@@ -7,7 +7,7 @@ module.exports = function(eleventyConfig, globalData) {
 
   return function(params) {
     const { figure } = params
-    const { id, label, mediaType, src } = figure
+    const { id, label, media_type: mediaType, src } = figure
 
     let element;
     if (src) {
