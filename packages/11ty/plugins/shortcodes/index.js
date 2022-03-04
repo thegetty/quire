@@ -1,4 +1,5 @@
 const globalData = require('../globalData')
+const liquidTag = require('../../plugins/components/liquidTag')
 
 const backmatter = require('./backmatter.js')
 const cite = require('./cite.js')
@@ -11,8 +12,6 @@ const ref = require('./figureRef.js')
 const title = require('./title.js')
 const tombstone = require('./tombstone.js')
 
-const liquidArgs = require('liquid-args')
-
 module.exports = function(eleventyConfig, options) {
   eleventyConfig.addPairedShortcode('backmatter', function(content, ...args) {
     const context = { eleventyConfig, globalData }
@@ -24,73 +23,55 @@ module.exports = function(eleventyConfig, options) {
     return div(context, content, ...args)
   })
 
+  const context = { eleventyConfig, globalData, page: this.page }
   eleventyConfig.addJavaScriptFunction('cite', function(...args) {
-    const context = { eleventyConfig, globalData, page: this.page }
-    return cite(context, ...args)
+    return cite(eleventyConfig, globalData)(...args)
   })
+  liquidTag(eleventyConfig, cite, 'cite')
 
-  eleventyConfig.addShortcode('contributor', function(...args) {
-    const context = { eleventyConfig, globalData }
-    return contributor(context, ...args)
+  eleventyConfig.addJavaScriptFunction('contributor', function(...args) {
+    return cite(eleventyConfig, globalData)(...args)
   })
+  liquidTag(eleventyConfig, contributor, 'contributor')
 
-  eleventyConfig.addShortcode('icon', function(...args) {
-    const context = { eleventyConfig, globalData }
-    return icon(context, ...args)
+  eleventyConfig.addJavaScriptFunction('figure', function(...args) {
+    return cite(eleventyConfig, globalData)(...args)
   })
+  liquidTag(eleventyConfig, figure, 'figure')
 
-  eleventyConfig.addShortcode('figure', function(...args) {
-    const context = { eleventyConfig, globalData }
-    return figure(context, ...args)
+  eleventyConfig.addJavaScriptFunction('figuregroup', function(...args) {
+    return cite(eleventyConfig, globalData)(...args)
   })
+  liquidTag(eleventyConfig, figureGroup, 'figuregroup')
 
-  eleventyConfig.addShortcode('figuregroup', function(...args) {
-    const context = { eleventyConfig, globalData }
-    return figureGroup(context, ...args)
+  eleventyConfig.addJavaScriptFunction('ref', function(...args) {
+    return cite(eleventyConfig, globalData)(...args)
   })
+  liquidTag(eleventyConfig, ref, 'ref')
 
-  eleventyConfig.addLiquidTag('figuregroup', function(liquidEngine) {
-    const context = { eleventyConfig, globalData, page: this.page }
-    const renderComponent = function(...args) {
-      const kwargs = args.find((arg) => arg.__keywords)
-      return figureGroup(context, kwargs)
-    }
-    return {
-      parse: function(tagToken) {
-        this.args = tagToken.args
-      },
-      render: async function(scope) {
-        const evalValue = (arg) => liquidEngine.evalValue(arg, scope)
-        const args = await Promise.all(liquidArgs(this.args, evalValue))
-        return renderComponent(...args)
-      }
-    }
+  eleventyConfig.addJavaScriptFunction('title', function(...args) {
+    return cite(eleventyConfig, title)(...args)
   })
+  liquidTag(eleventyConfig, title, 'figuregroup')
 
-  eleventyConfig.addShortcode('ref', function(ids) {
-    const context = { eleventyConfig, globalData }
-    return ref(context, ids)
+  eleventyConfig.addJavaScriptFunction('tombstone', function(...args) {
+    return cite(eleventyConfig, globalData)(...args)
   })
-
-  eleventyConfig.addShortcode('title', function() {
-    const context = { eleventyConfig, globalData }
-    return title(context)
-  })
-
-  eleventyConfig.addShortcode('tombstone', function(...args) {
-    const context = { eleventyConfig, globalData }
-    return tombstone(context, ...args)
-  })
+  liquidTag(eleventyConfig, tombstone, 'tombstone')
 
   /**
    * Figure subcomponents
    */
   eleventyConfig.namespace('qfigure', () => {
-    Object.keys(figureComponents).forEach((name) => 
-      eleventyConfig.addShortcode(name, function(...args) {
-        const context = { eleventyConfig, globalData }
-        return figureComponents[name](context, ...args)
+    Object.keys(figureComponents).forEach((name) => {
+      // eleventyConfig.addShortcode(name, function(...args) {
+      //   const context = { eleventyConfig, globalData }
+      //   return figureComponents[name](context, ...args)
+      // })
+      eleventyConfig.addJavaScriptFunction(name, function(...args) {
+        return figureComponents[name](eleventyConfig, globalData)(...args)
       })
-    )
+      liquidTag(eleventyConfig, figureComponents[name], name)
+    })
   })
 }
