@@ -1,6 +1,4 @@
-const globalData = require('../globalData')
-const liquidTag = require('../../plugins/components/liquidTag')
-
+const addComponentTag = require('../../plugins/components/addComponentTag')
 const backmatter = require('./backmatter.js')
 const cite = require('./cite.js')
 const contributor = require('./contributor')
@@ -11,6 +9,8 @@ const figureGroup = require('./figureGroup.js')
 const ref = require('./figureRef.js')
 const title = require('./title.js')
 const tombstone = require('./tombstone.js')
+
+const globalData = require('../globalData')
 
 module.exports = function(eleventyConfig, options) {
   eleventyConfig.addPairedShortcode('backmatter', function(content, ...args) {
@@ -23,10 +23,10 @@ module.exports = function(eleventyConfig, options) {
     return div(context, content, ...args)
   })
 
-  liquidTag(eleventyConfig, cite, 'cite')
-  liquidTag(eleventyConfig, contributor, 'contributor')
-  liquidTag(eleventyConfig, figure, 'figure')
-  liquidTag(eleventyConfig, figureGroup, 'figuregroup')
+  addComponentTag(eleventyConfig, cite, 'cite')
+  addComponentTag(eleventyConfig, contributor, 'contributor')
+  addComponentTag(eleventyConfig, figure, 'figure')
+  addComponentTag(eleventyConfig, figureGroup, 'figuregroup')
 
   eleventyConfig.addShortcode('ref', function(...args) {
     return ref(eleventyConfig, globalData)(...args)
@@ -45,14 +45,7 @@ module.exports = function(eleventyConfig, options) {
    */
   eleventyConfig.namespace('qfigure', () => {
     Object.keys(figureComponents).forEach((name) => {
-      // eleventyConfig.addShortcode(name, function(...args) {
-      //   const context = { eleventyConfig, globalData }
-      //   return figureComponents[name](context, ...args)
-      // })
-      eleventyConfig.addJavaScriptFunction(name, function(...args) {
-        return figureComponents[name](eleventyConfig, globalData)(...args)
-      })
-      liquidTag(eleventyConfig, figureComponents[name], name)
+      addComponentTag(eleventyConfig, figureComponents[name], name)
     })
   })
 }

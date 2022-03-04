@@ -1,6 +1,6 @@
-const globalData = require('../globalData')
-const liquidTag = require('./liquidTag')
+const addComponentTag = require('./liquidTag')
 
+// Shortcode components
 const components = require('../../_includes/components')
 
 /**
@@ -9,12 +9,8 @@ const components = require('../../_includes/components')
  * @param      {Object}  eleventyConfig  eleventy configuration
  * @param      {Object}  options         options
  */
-
 module.exports = function(eleventyConfig, options) {
   for (const component in components) {
-    eleventyConfig.addJavaScriptFunction(component, function(...args) {
-      return components[component](eleventyConfig, globalData)(...args)
-    })
-    liquidTag(eleventyConfig, components[component], `${component}`)
+    addComponentTag(eleventyConfig, components[component], `${component}`)
   }
 }
