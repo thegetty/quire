@@ -1,19 +1,27 @@
+const fs = require('fs')
+const path = require('path')
+
+/**
+ * Quire features are implemented as Eleventy plugins
+ */
 const { EleventyRenderPlugin } = require('@11ty/eleventy')
 const componentsPlugin = require('./plugins/components')
-const fs = require('fs')
 const epubPlugin = require('./plugins/epub')
+const filtersPlugin = require('./plugins/filters')
+const frontmatterPlugin = require('./plugins/frontmatter')
 const iiifPlugin = require('./plugins/iiif')
-const json5 = require('json5')
 const lintingPlugin = require('./plugins/linting')
 const markdownPlugin = require('./plugins/markdown')
 const navigationPlugin = require('@11ty/eleventy-navigation')
-const path = require('path')
-const qFiltersPlugin = require('./plugins/filters')
-const qFrontmatterPlugin = require('./plugins/frontmatter')
-const qShortcodesPlugin = require('./plugins/shortcodes')
-const search = require('./plugins/search')
-const sass = require('sass')
+const searchPlugin = require('./plugins/search')
+const shortcodesPlugin = require('./plugins/shortcodes')
 const syntaxHighlightPlugin = require('@11ty/eleventy-plugin-syntaxhighlight')
+
+/**
+ * Parsing libraries for additional data file formats
+ */
+const json5 = require('json5')
+const sass = require('sass')
 const toml = require('toml')
 const yaml = require('js-yaml')
 
@@ -64,24 +72,21 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(markdownPlugin)
 
   /**
-   * Load Quire template filters, frontmatter, and shortcodes with namespace
+   * Load plugins for the Quire template shortcodes and filters
    */
-  eleventyConfig.namespace('q', () => {
-    eleventyConfig.addPlugin(qFrontmatterPlugin)
-    eleventyConfig.addPlugin(qShortcodesPlugin)
-  })
-
-  eleventyConfig.addPlugin(qFiltersPlugin)
+  eleventyConfig.addPlugin(componentsPlugin)
+  eleventyConfig.addPlugin(filtersPlugin)
+  eleventyConfig.addPlugin(frontmatterPlugin)
+  eleventyConfig.addPlugin(shortcodesPlugin)
 
   /**
    * Load additional plugins used for Quire projects
    */
-  eleventyConfig.addPlugin(componentsPlugin)
   eleventyConfig.addPlugin(lintingPlugin)
   eleventyConfig.addPlugin(epubPlugin)
   eleventyConfig.addPlugin(iiifPlugin)
   eleventyConfig.addPlugin(navigationPlugin)
-  eleventyConfig.addPlugin(search)
+  eleventyConfig.addPlugin(searchPlugin)
   eleventyConfig.addPlugin(syntaxHighlightPlugin)
 
   /**
