@@ -13,13 +13,11 @@ const globalData = require('../globalData')
 
 module.exports = function(eleventyConfig, options) {
   eleventyConfig.addPairedShortcode('backmatter', function(content, ...args) {
-    const context = { eleventyConfig, globalData }
-    return backmatter(context, content, ...args)
+    return backmatter(eleventyConfig, globalData)(content, ...args)
   })
 
   eleventyConfig.addPairedShortcode('class', function(content, ...args) {
-    const context = { eleventyConfig, globalData }
-    return div(context, content, ...args)
+    return div(eleventyConfig, globalData)(content, ...args)
   })
 
   addComponentTag(eleventyConfig, cite, 'cite')
