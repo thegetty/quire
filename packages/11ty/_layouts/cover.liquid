@@ -4,7 +4,7 @@ layout: base.11ty.js
 ---
 
 {% assign coverImage = image || publication.promo_image %}
-{% assign imagePath = imageDir | concat: coverImage | join: '/' %}
+{% assign imagePath = config.params.imageDir | concat: coverImage | join: '/' %}
 
 <div id="main" class="quire-cover" role="main">
 
@@ -15,12 +15,12 @@ layout: base.11ty.js
     />
     <div class="quire-cover__hero-body hero-body">
       <div class="container is-fluid">
-        <h1 class="title">{{ title }}</h1>
+        <h1 class="title">{{ publication.title }}</h1>
         <p class="reading-line">{{ publication.reading_line }}</p>
         <div class="contributor">
           {{ publication.contributor_as_it_appears }}
           <span class="visually-hidden">Contributors:&nbsp;</span>
-          <em>{% contributorList publication.contributor 'primary' 'string' %}</em>
+          <em>{% contributorList contributors=publication.contributor, type='primary' %}</em>
         </div>
       </div>
     </div>
@@ -30,7 +30,7 @@ layout: base.11ty.js
     <section class="quire-cover__more next-page">
       <div class="quire-cover__more-body hero-more">
         <a href="#content">
-          {% qicon 'down-arrow', 'Scroll down to read more' %}
+          {% icon type='down-arrow', description='Scroll down to read more' %}
         </a>
       </div>
     </section>
@@ -44,13 +44,13 @@ layout: base.11ty.js
       </div>
     </section>
 
-    {% pageButtons pagination %}
+    {% pageButtons pagination=pagination %}
 
   {% else %}
     <section class="quire-cover__more">
       <div class="quire-cover__more-body hero-more next-page">
         <a href="{{ pagination.nextPage.url }}">
-          {% qicon 'down-arrow', 'Scroll down to read more' %}
+          {% icon type='down-arrow', description='Scroll down to read more' %}
         </a>
       </div>
     </section>

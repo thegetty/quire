@@ -35,6 +35,7 @@
     "iiif-processor": "^1.0.0",
     "js-yaml": "^4.1.0",
     "json5": "^2.2.0",
+    "liquid-args": "^1.0.0",
     "markdown-it": "^12.3.2",
     "markdown-it-anchor": "^8.4.1",
     "markdown-it-deflist": "^2.1.0",

@@ -3,8 +3,7 @@ layout: base
 description: splash page layout
 ---
 {%- if image -%}
-  {% assign imagePath = eleventyComputed.imageDir %}
-  {% assign imagePath = eleventyComputed.imageDir | append: '/' | append: image %}
+  {% assign imagePath = config.params.imageDir | append: '/' | append: image %}
 {% endif %}
 
 <article class="{% render "page/class" %} quire-splash" id="main" role="main">
@@ -32,12 +31,12 @@ description: splash page layout
           {{ content }}
           {% render "page/bibliography" %}
         </div>
-        {% pageButtons pagination %}
+        {% pageButtons pagination=pagination %}
       </div>
     </section>
   {% else %}
     <div class="quire-contents-buttons--fixed remove-from-epub">
-    {% pageButtons pagination %}
+    {% pageButtons pagination=pagination %}
     </div>
   {% endif %}
 </article>

@@ -5,51 +5,54 @@ const { html } = require('common-tags')
  * @param {String}
  * @return {String}  An HTML <table> element
  */
-module.exports = function(context, { data }) {
-  const { eleventyConfig, globalData: { config } } = context
-  const qfigurecaption = eleventyConfig.getFilter('qfigurecaption')
-  const qfigurelabel = eleventyConfig.getFilter('qfigurelabel')
+module.exports = function(eleventyConfig, globalData) {
+  const figurecaption = eleventyConfig.getFilter('figurecaption')
+  const figurelabel = eleventyConfig.getFilter('figurelabel')
   const markdownify = eleventyConfig.getFilter('markdownify')
 
-  const tableSrc = path.join('static', imageDir, data.src)
-  // const figureId = 'deepzoomtable' | append: date
-  // const modalLink = 'figureId' | prepend: '#'
-  const title = markdownify(caption)
+  const { figureLabelLocation, imageDir } = globalData.config.params
 
-  const figcaption = qfigurecaption(data)
-  const figureLabel = config.figureLabelLocation === 'on-top'
-    ? qfigurelabel(data)
-    : ''
+  return function({ figure }) {
+    // const figureId = 'deepzoomtable' | append: date
+    const modalLink = `#${figure.id}`
+    const tableSrc = path.join('static', imageDir, figure.src)
+    const title = markdownify(caption)
 
-  const figureModal = (tableSrc) => html`
-    <figure
-      id="${figureId}"
-      class="q-figure leaflet-outer-wrapper mfp-hide notGet"
-      title="${title}"
-    >
-      <div
-        aria-label="Zoomable table"
-        aria-live="polite"
-        class="quire-deepzoom inset leaflet-inner-wrapper"
-        id="js-${figureId}"
-        role="application"
+    const figcaption = figurecaption({ figure })
+    const figureLabel = figureLabelLocation === 'on-top'
+      ? figurelabel({ figure })
+      : ''
+
+    const figureModal = (tableSrc) => html`
+      <figure
+        id="${figureId}"
+        class="q-figure leaflet-outer-wrapper mfp-hide notGet"
+        title="${title}"
       >
-        <figure class="leaflet-table">${tableSrc}</figure>
-      </div>
-    </figure>
-    <a
-      class="inline popup"
-      data-type="inline"
-      href="${modalLink}"
-      title="${title}"
-    >
-      ${tableSrc}
-    </a>
-  `
+        <div
+          aria-label="Zoomable table"
+          aria-live="polite"
+          class="quire-deepzoom inset leaflet-inner-wrapper"
+          id="js-${figureId}"
+          role="application"
+        >
+          <figure class="leaflet-table">${tableSrc}</figure>
+        </div>
+      </figure>
+      <a
+        class="inline popup"
+        data-type="inline"
+        href="${modalLink}"
+        title="${title}"
+      >
+        ${tableSrc}
+      </a>
+    `
 
-  return html`
-    <figure class="q-figure__table">
-      ${tableSrc}
-    </figure>
-  `
+    return html`
+      <figure class="q-figure__table">
+        ${tableSrc}
+      </figure>
+    `
+  }
 }

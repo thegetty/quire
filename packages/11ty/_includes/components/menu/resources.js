@@ -1,38 +1,48 @@
+const { html } = require('common-tags')
+
 /**
- * Render the "Other Formats" and "Resources" sections of the menu
+ * Renders the "Other Formats" and "Resources" sections of the menu
+ *
+ * @param      {Object}  eleventyConfig
+ * @param      {Object}  globalData
+ * @param      {Object}  params
  */
-module.exports = function(eleventyConfig, { publication }) {
-  if (!Array.isArray(publication.resource_link)) return ''
+module.exports = function(eleventyConfig, globalData) {
+  const { publication } = globalData
+  const { resource_link: resourceLinks } = publication
 
-  const linkList = eleventyConfig.getFilter('linkList')
+  return function() {
 
-  const otherFormats = publication.resource_link.filter(({ type }) => type === 'other-format')
-  const relatedResources = publication.resource_link.filter(({ type }) => type === 'related-resource')
+    if (!Array.isArray(resourceLinks)) return ''
 
-  const resourceElement = relatedResources.length
-  ? `
-        <div class="quire-menu__formats">
-          <h6>Resources</h6>
-          <div role="complementary" aria-label="related resources">
-            ${linkList(relatedResources, ["menu-list"])}
-          </div>
+    const linkList = eleventyConfig.getFilter('linkList')
+
+    const otherFormats = resourceLinks.filter(({ type }) => type === 'other-format')
+    const relatedResources = resourceLinks.filter(({ type }) => type === 'related-resource')
+
+    const resourceElement = relatedResources.length
+    ? html`
+      <div class="quire-menu__formats">
+        <h6>Resources</h6>
+        <div role="complementary" aria-label="related resources">
+          ${linkList({ links: relatedResources, classes: ['menu-list'] })}
         </div>
-      `
-  : ''
+      </div>`
+    : ''
 
-  const otherFormatElement = otherFormats.length
-  ? `
-    <div class="quire-menu__formats">
-      <h6>Other Formats</h6>
-      <div role="complementary" aria-label="downloads">
-        ${linkList(otherFormats, ["menu-list"])}
-      </div>
-    </div>
-      `
-  : ''
+    const otherFormatElement = otherFormats.length
+    ? html`
+      <div class="quire-menu__formats">
+        <h6>Other Formats</h6>
+        <div role="complementary" aria-label="downloads">
+          ${linkList({ links: otherFormats, classes: ['menu-list'] })}
+        </div>
+      </div>`
+    : ''
 
-  return `
-  ${resourceElement}
-  ${otherFormatElement}
-  `
+    return html`
+      ${resourceElement}
+      ${otherFormatElement}
+    `
+  }
 }

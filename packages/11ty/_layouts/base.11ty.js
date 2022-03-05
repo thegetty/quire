@@ -1,8 +1,13 @@
 const { html } = require('common-tags')
-const pdfInfo = require ('../_includes/pdf/info.js')
 
+/**
+ * Base layout as a JavaScript method
+ *
+ * @param      {Object}  data    Final data from the Eleventy data cascade
+ * @return     {Function}  Template render function
+ */
 module.exports = function(data) {
-  const { content, publication } = data
+  const { content, imageDir, pageData, pages, publication } = data
 
   return this.renderTemplate(`
     <!doctype html>
@@ -13,7 +18,7 @@ module.exports = function(data) {
 
         ${this.iconscc(data)}
 
-        ${pdfInfo(data)}
+        ${this.pdfInfo(data)}
 
         <div class="quire no-js" id="container">
           <div
@@ -22,16 +27,16 @@ module.exports = function(data) {
             aria-expanded="false"
             role="contentinfo"
           >
-            ${this.menu(data)}
+            ${this.menu({ imageDir, pageData, pages, publication})}
           </div>
 
           <div class="quire__primary" id="{{ section }}">
-            ${this.nav(data)}
+            ${this.navigation(data)}
             ${ content }
           </div>
           {% render 'search' %}
         </div>
-        ${this.scripts(data)}
+        ${this.scripts()}
       </body>
     </html>
   `, 

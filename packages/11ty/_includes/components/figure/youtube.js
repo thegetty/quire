@@ -8,43 +8,46 @@ const { html } = require('common-tags')
  * @param      {Object}  figure          The figure
  * @return     {String}  An HTML
  */
-module.exports = function (context, figure) {
-  const { eleventyConfig, globalData: { config } } = context
-  const qfigurecaption = eleventyConfig.getFilter('qfigurecaption')
-  const qfigureimage = eleventyConfig.getFilter('qfigureimage')
-  const qfigureplaceholder = eleventyConfig.getFilter('qfigureplaceholder')
-  const qfigurelabel = eleventyConfig.getFilter('qfigurelabel')
+module.exports = function(eleventyConfig, globalData) {
+  const figurecaption = eleventyConfig.getFilter('figurecaption')
+  const figureimage = eleventyConfig.getFilter('figureimage')
+  const figureplaceholder = eleventyConfig.getFilter('figureplaceholder')
+  const figurelabel = eleventyConfig.getFilter('figurelabel')
 
-  const { aspectRatio, id, label, media_id } = figure
-  const src = `https://youtu.be/${media_id}`
+  const { figureLabelLocation, epub, pdf } = globalData.config.params
 
-  if (!media_id) {
-    console.warn(`Error: Cannot render Youtube component without 'media_id'. Check that figures data for id: ${id} has a valid 'media_id'`)
-    return ''
-  }
+  return function({ figure }) {
+    const { aspectRatio, id, label, media_id } = figure
+    const src = `https://youtu.be/${media_id}`
 
-  /**
-   * Render a placeholder for EPUB and PDF output
-   */
-  if (config.params.epub || config.params.pdf) {
-    return oneLine`
-      ${qfigureplaceholder(figure)}
-      <figcaption class="quire-figure__caption caption">
-        <a href="https://youtu.be/${media_id}" target="_blank">${src}</a>
-      </figcaption>
+    if (!media_id) {
+      console.warn(`Error: Cannot render Youtube component without 'media_id'. Check that figures data for id: ${id} has a valid 'media_id'`)
+      return ''
+    }
+
+    /**
+     * Render a placeholder for EPUB and PDF output
+     */
+    if (epub || pdf) {
+      return oneLine`
+        ${figureplaceholder(figure)}
+        <figcaption class="quire-figure__caption caption">
+          <a href="https://youtu.be/${media_id}" target="_blank">${src}</a>
+        </figcaption>
+      `
+    }
+
+    return html`
+      <div class="q-figure__media-wrapper--${ aspectRatio || 'widescreen' }">
+        <iframe
+          allowfullscreen
+          class="q-figure__media"
+          frameborder="0"
+          src="https://www.youtube.com/embed/${media_id}?rel=0&amp;showinfo=0"
+        ></iframe>
+      </div>
+      ${label && figureLabelLocation === 'on-top' ? figurelabel({ figure }) : ''}
+      ${figurecaption({ figure })}
     `
   }
-
-  return html`
-    <div class="q-figure__media-wrapper--${ aspectRatio || 'widescreen' }">
-      <iframe
-        allowfullscreen
-        class="q-figure__media"
-        frameborder="0"
-        src="https://www.youtube.com/embed/${media_id}?rel=0&amp;showinfo=0"
-      ></iframe>
-    </div>
-    ${label && config.params.figureLabelLocation === 'on-top' ? qfigurelabel(figure) : ''}
-    ${qfigurecaption(figure)}
-  `
 }

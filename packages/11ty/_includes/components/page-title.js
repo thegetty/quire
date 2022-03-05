@@ -3,20 +3,25 @@
  * See also site-title.liquid
  * @param {Object} eleventyConfig
  * @param {Object} globalData
- * @param {Object} page
+ * @param {Object} params
  * @param {Object} options
  * @property {Boolean} withLabel - if true, prepends title with page.label
  * @return {string} `page title: subtitle`
  */
-module.exports = function(eleventyConfig, { config }, page, options={}) {
-  const { label, subtitle, title } = page.data
-  const separator = title && !title.match(/\?|\!/) ? ': ' : ' '
+module.exports = function(eleventyConfig, globalData) {
+  const { config } = globalData
+  return function(params) {
+    const { page, withLabel } = params
+    const { label, subtitle, title } = page
 
-  let pageTitle = subtitle ? [title, subtitle].join(separator) : title
+    const separator = title && !title.match(/\?|\!/) ? ': ' : ' '
 
-  if (options.withLabel) {
-    pageTitle = `${label}${config.params.pageLabelDivider} ${pageTitle}`
+    let pageTitle = subtitle ? [title, subtitle].join(separator) : title
+
+    if (label && withLabel) {
+      pageTitle = `${label}${config.params.pageLabelDivider} ${pageTitle}`
+    }
+
+    return pageTitle;
   }
-
-  return pageTitle;
 }

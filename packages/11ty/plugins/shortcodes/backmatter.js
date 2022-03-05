@@ -1,10 +1,10 @@
 /**
- * { function_description }
+ * Style wrapped `content` as "backmatter"
  *
  * @param      {String}  content  content between shortcode tags
  *
  * @return     {boolean}  A styled HTML <div> element with the content
  */
-module.exports = (context, content) => {
-  return `<div class="backmatter">${content}</div>`
+module.exports = function (eleventyConfig, globalData) {
+  return (content) => `<div class="backmatter">${content}</div>`
 }

@@ -12,7 +12,7 @@ module.exports = {
     return publication.contributor.map((contributor) => {
       const { pic } = contributor
       contributor.imagePath = pic
-        ? path.join('..', '_assets', config.params.imageDir, pic)
+        ? path.join(config.params.imageDir, pic)
         : null
       contributor.pages = pages && pages.filter(
         ({ data }) =>
@@ -24,7 +24,6 @@ module.exports = {
       return contributor
     })
   },
-  data: (data) => data,
   eleventyNavigation: {
     key: (data) => {
       const segments = data.page.url.split('/')
@@ -41,8 +40,6 @@ module.exports = {
     title: (data) => data.title,
     toc: (data) => !!data.toc,
   },
-  // imageDir: ({ config }) => path.join(config.baseURL, config.params.imageDir),
-  imageDir: '/_assets/img/',
   /**
    * Compute a 'pageData' property that includes the page and collection page data
    * @todo figure out how to have this override the page property
