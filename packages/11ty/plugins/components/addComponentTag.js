@@ -12,7 +12,6 @@ const liquidArgs = require('liquid-args')
  * @param  {Object}  eleventyConfig  The Eleventy configuration instance
  * @param  {Object}  component       A JavaScript shortcode component
  * @param  {String}  tagName         A template tag name for the component
- * @param  {any} scopeArgs           Additional args available via the function closure
  */
 module.exports = function(eleventyConfig, component, tagName) {
   /**
