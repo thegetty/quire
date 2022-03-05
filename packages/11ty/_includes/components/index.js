@@ -1,6 +1,7 @@
 /**
  * Export all component includes
  */
+const figureComponents = require('./figure')
 const licenseIcons = require('./license-icons')
 
 module.exports = {
@@ -24,6 +25,7 @@ module.exports = {
   copyright: require('./copyright/index.js'),
   copyrightLicensing: require('./copyright/licensing.js'),
   dublinCore: require('./head-tags/dublin-core.js'),
+  ...figureComponents,
   head: require('./head.js'),
   icon: require('./icon.js'),
   icons: require('./icons.js'),

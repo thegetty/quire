@@ -3,8 +3,7 @@ const backmatter = require('./backmatter.js')
 const cite = require('./cite.js')
 const contributor = require('./contributor')
 const div = require('./div.js')
-const figure = require('./figure/index.js')
-const figureComponents = require('./figure/components')
+const figure = require('./figure.js')
 const figureGroup = require('./figureGroup.js')
 const ref = require('./figureRef.js')
 const title = require('./title.js')
@@ -27,15 +26,6 @@ module.exports = function(eleventyConfig, options) {
   addComponentTag(eleventyConfig, contributor, 'contributor')
   addComponentTag(eleventyConfig, figure, 'figure')
   addComponentTag(eleventyConfig, figureGroup, 'figuregroup')
-
-  /**
-   * figure shortcode subcomponents
-   */
-  eleventyConfig.namespace('figure', () => {
-    Object.keys(figureComponents).forEach((name) => {
-      addComponentTag(eleventyConfig, figureComponents[name], name)
-    })
-  })
 
   eleventyConfig.addShortcode('ref', function(...args) {
     return ref(eleventyConfig, globalData)(...args)

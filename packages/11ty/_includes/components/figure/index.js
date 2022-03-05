@@ -10,14 +10,14 @@ const video = require('./video')
 const youtube = require('./youtube')
 
 module.exports = {
-  caption,
-  image,
-  label,
-  modal,
-  modallink,
-  placeholder,
-  soundcloud,
-  table,
-  video,
-  youtube,
+  figurecaption: caption,
+  figureimage: image,
+  figurelabel: label,
+  figuremodal: modal,
+  figuremodallink: modallink,
+  figureplaceholder: placeholder,
+  figuresoundcloud: soundcloud,
+  figuretable: table,
+  figurevideo: video,
+  figureyoutube: youtube
 }
