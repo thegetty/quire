@@ -27,7 +27,7 @@ params:
   figureModal: true
   figureModalIcons: true
   figureZoom: true
-  imageDir: '_assets/images'
+  imageDir: '/_assets/images'
   licenseIcons: true
   menuType: full
   nextPageButtonText: Next

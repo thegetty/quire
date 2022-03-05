@@ -4,7 +4,7 @@ layout: base.11ty.js
 ---
 
 {% assign coverImage = image || publication.promo_image %}
-{% assign imagePath = imageDir | concat: coverImage | join: '/' %}
+{% assign imagePath = config.params.imageDir | concat: coverImage | join: '/' %}
 
 <div id="main" class="quire-cover" role="main">
 

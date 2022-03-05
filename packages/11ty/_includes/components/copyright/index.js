@@ -14,7 +14,7 @@ module.exports = function(eleventyConfig, globalData) {
     const { config, publication } = globalData
 
     const publisherImages = publication.publisher.filter((item) => item.logo).map(({ logo }) => {
-      return `<img src="${ path.join('/_assets', config.params.imageDir, logo) }" class="quire-copyright__icon__logo" alt="logo" />`
+      return `<img src="${ path.join(config.params.imageDir, logo) }" class="quire-copyright__icon__logo" alt="logo" />`
     }).join('')
 
     const copyright = publication.copyright ? `<p>${markdownify(publication.copyright)}</p>` : ''

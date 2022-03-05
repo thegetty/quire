@@ -1,4 +1,4 @@
-{% assign imgPath = '/_assets' | concat: imageDir | concat: figure.src | join: "/" | url %}
+{% assign imgPath = imageDir | concat: figure.src | join: "/" | url %}
 
 <figure data-media-type="{{ figure.media_type }}">
 
