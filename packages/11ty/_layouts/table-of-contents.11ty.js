@@ -6,7 +6,7 @@
  * Pages can be removed from the TOC indivudally by setting toc to `false` in the page yaml.
  */
 
-module.exports = class Contents {
+module.exports = class TableOfContents {
   data() {
     return {
       layout: 'base'
@@ -19,6 +19,7 @@ module.exports = class Contents {
       collections,
       config,
       content,
+      imageDir,
       page: tocPage,
       pages,
       pagination,
@@ -39,7 +40,14 @@ module.exports = class Contents {
       ? className
       : 'list'
 
+
     let renderedSection
+
+    const defaultContentsItemParams = {
+      className,
+      config,
+      imageDir
+    }
 
     const listItems = pages
       .filter((page) => 
@@ -63,20 +71,24 @@ module.exports = class Contents {
                   )
                   .map((item) => {
                     if (page.fileSlug !== item.fileSlug)
-                      return `<li class="page-item">${this.contentsItem(data, item)}</li>`
+                      return `
+                        <li class="page-item">
+                          ${this.tableOfContentsItem({ ...defaultContentsItemParams, page: item })}
+                        </li>
+                      `
                   })
               : []
 
           return `
             <li class="section-item">
-              ${this.contentsItem(data, page)}
+              ${this.tableOfContentsItem({ ...defaultContentsItemParams, page })}
               <ul>${subPages.join('')}</ul>
             </li>
           `
         } else if (section || !page.data.section) {
           return `
             <li class="page-item">
-              ${this.contentsItem(data, page)}
+              ${this.tableOfContentsItem({ ...defaultContentsItemParams, page })}
             </li>
           `
         }
@@ -98,7 +110,7 @@ module.exports = class Contents {
                 {% render 'page/bibliography' %}
               </div>
             </div>
-            ${this.pageButtons(pagination)}
+            ${this.pageButtons({ pagination })}
           </div>
         </section>
       </div>`,

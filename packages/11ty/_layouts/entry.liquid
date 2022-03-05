@@ -74,7 +74,7 @@ Entry content, including entry image and tombstone data
         </header>
       {% endif %}
 
-      {% qtombstone pageObjects %}
+      {% tombstone pageObjects %}
 
       {% if abstract %}
         {% render "page/abstract", abstract: abstract %}
@@ -91,7 +91,7 @@ Entry content, including entry image and tombstone data
 
       <section class="section quire-page__content">
         <div class="container">
-          {% pageButtons pagination %}
+          {% pageButtons pagination=pagination %}
         </div>
       </section>
     </div>

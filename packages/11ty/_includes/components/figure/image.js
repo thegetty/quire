@@ -4,47 +4,52 @@ const path = require('path')
 /**
  * Renders an <img> element
  *
- * @param      {Object}   data    Image alt text and src properties
+ * @param      {Object} eleventyConfig  eleventy configuration
+ * @param      {Object} globalData
+ * 
  * @return     {String}  An HTML <img> element
  */
-module.exports = function (context, figure) {
-  const { eleventyConfig, globalData: { config } } = context
-  const { alt='', caption, id, src='' } = figure
-  const imageSrc = path.join('/_assets/img', src)
-
+module.exports = function(eleventyConfig, globalData) {
+  const figurecaption = eleventyConfig.getFilter('figurecaption')
+  const figurelabel = eleventyConfig.getFilter('figurelabel')
+  const figuremodallink = eleventyConfig.getFilter('figuremodallink')
   const markdownify = eleventyConfig.getFilter('markdownify')
-  const qfigurecaption = eleventyConfig.getFilter('qfigurecaption')
-  const qfigurelabel = eleventyConfig.getFilter('qfigurelabel')
-  const qfiguremodallink = eleventyConfig.getFilter('qfiguremodallink')
 
-  const labelElement = qfigurelabel(figure)
-  const imageElement = `<img alt="${alt}" class="q-figure__image" src="${imageSrc}"/>`
+  const { imageDir, figureLabelLocation } = globalData.config.params
 
-  const imagePreviewElement =
-    (config.params.figureLabelLocation === 'on-top')
-      ? qfiguremodallink(figure, imageElement + qfigurelabel(figure))
-      : imageElement
+  return function({ figure }) {
+    const { alt='', caption, id, src='' } = figure
 
-  const imageCaptionElement = (config.params.figureLabelLocation === 'below') 
-    ? qfigurecaption(figure, labelElement) 
-    : qfigurecaption(figure)
+    const imageSrc = path.join(imageDir, src)
+    const labelElement = figurelabel({ figure })
+    const imageElement = `<img alt="${alt}" class="q-figure__image" src="${imageSrc}"/>`
 
-  return html`
-    <figure
-      id="deepzoom-${id}"
-      title="${caption}"
-      class="quire-figure leaflet-outer-wrapper mfp-hide notGet"
-    >
-      <div
-        id="js-deepzoom-${id}"
-        class="quire-deepzoom inset leaflet-inner-wrapper "
-        aria-label="Zoomable image"
-        aria-live="polite"
-        role="application"
-        src="${imageSrc}"
-      />
-    </figure>
-    ${imagePreviewElement}
-    ${imageCaptionElement}
-  `
+    const imagePreviewElement =
+      (figureLabelLocation === 'on-top')
+        ? figuremodallink({ figure, content: imageElement + figurelabel({ figure }) })
+        : imageElement
+
+    const imageCaptionElement = (figureLabelLocation === 'below')
+      ? figurecaption({ figure, content: labelElement })
+      : figurecaption({ figure })
+
+    return html`
+      <figure
+        id="deepzoom-${id}"
+        title="${caption}"
+        class="quire-figure leaflet-outer-wrapper mfp-hide notGet"
+      >
+        <div
+          id="js-deepzoom-${id}"
+          class="quire-deepzoom inset leaflet-inner-wrapper "
+          aria-label="Zoomable image"
+          aria-live="polite"
+          role="application"
+          src="${imageSrc}"
+        />
+      </figure>
+      ${imagePreviewElement}
+      ${imageCaptionElement}
+    `
+  }
 }

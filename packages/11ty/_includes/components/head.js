@@ -1,67 +1,81 @@
-const analytics = require('./analytics.js')
-const dublinCore = require('../page/dublin-core.js')
-const opengraph = require('../page/opengraph.js')
-const twitterCard = require('../page/twitter-card.js')
-const jsonld = require('../page/jsonld.js')
+/**
+ * Head Tag
+ * 
+ * @param      {Object}  eleventyConfig
+ * @param      {Object}  globalData
+ */
+module.exports = function(eleventyConfig, globalData) {
+  const analytics = eleventyConfig.getFilter('analytics')
+  const dublinCore = eleventyConfig.getFilter('dublinCore')
+  const jsonld = eleventyConfig.getFilter('jsonld')
+  const opengraph = eleventyConfig.getFilter('opengraph')
+  const twitterCard = eleventyConfig.getFilter('twitterCard')
 
-module.exports = function(eleventyConfig, globalData, data) {
   const { config, publication } = globalData
 
-  const title = data.title
-    ? `${data.title} | ${publication.title}`
-    : publication.title
+  const { imageDir } = config.params
 
-  const description = publication.description.full || publication.description.one_line
+  /**
+   * @param  {Object} params The Whole Dang Data Object, from base.11ty.js
+   */
+  return function (page) {
+    const { abstract, canonicalURL, cover, layout, title } = page
+    const pageTitle = title
+      ? `${title} | ${publication.title}`
+      : publication.title
 
-  const publisherLinks = publication.publisher
-    .filter(({ url }) => url)
-    .map(({ url }) => `<link rel="publisher" href="${ url }">`)
-    .join('\n')
+    const description = publication.description.full || publication.description.one_line
 
-  const contributorLinks = publication.contributor
-    .filter(({ url }) => url)
-    .map(({ url }) => `<link rel="author" href="${ url }">`)
-    .join('\n')
+    const publisherLinks = publication.publisher
+      .filter(({ url }) => url)
+      .map(({ url }) => `<link rel="publisher" href="${ url }">`)
+      .join('\n')
 
-  const keywords = publication.subject
-    .filter(({ type }) => type === "keyword")
-    .map(({ name }) => name)
-    .join(', ')
+    const contributorLinks = publication.contributor
+      .filter(({ url }) => url)
+      .map(({ url }) => `<link rel="author" href="${ url }">`)
+      .join('\n')
 
-  return `
-    <head>
-      <meta charset="utf-8" />
-      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-      <meta name="robots" content="noindex, nofollow"/>
+    const keywords = publication.subject
+      .filter(({ type }) => type === "keyword")
+      .map(({ name }) => name)
+      .join(', ')
 
-      <title>${title}</title>
+    return `
+      <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta name="robots" content="noindex, nofollow"/>
 
-      <meta name="description" content="${description}">
-      <meta name="keywords" content="${keywords}">
+        <title>${pageTitle}</title>
 
-      <link rel="canonical" href="${data.canonicalURL}">
-      <link rel="version-history" href="${publication.repositoryUrl}">
+        <meta name="description" content="${description}">
+        <meta name="keywords" content="${keywords}">
 
-      ${publisherLinks}
+        <link rel="canonical" href="${canonicalURL}">
+        <link rel="version-history" href="${publication.repositoryUrl}">
 
-      ${contributorLinks}
+        ${publisherLinks}
 
-      ${dublinCore(data)}
+        ${contributorLinks}
 
-      ${opengraph(data)}
+        ${dublinCore()}
 
-      ${twitterCard(data)}
+        ${opengraph({ page })}
 
-      <script type="application/ld+json">${jsonld(data)}</script>
+        ${twitterCard({ abstract, cover, layout })}
 
-      <link rel="icon" href="/_assets/img/icons/favicon.ico" />
-      <link rel="stylesheet" href="/_assets/styles/custom.css" />
-      <link rel="stylesheet" href="/_assets/styles/application.css" />
+        <script type="application/ld+json">${jsonld({ canonicalURL, page })}</script>
 
-      <!-- {% render 'polyfills/template.html' %} -->
+        <link rel="icon" href="/_assets/images/icons/favicon.ico" />
+        <link rel="stylesheet" href="/_assets/styles/custom.css" />
+        <link rel="stylesheet" href="/_assets/styles/application.css" />
 
-      ${analytics(data)}
-    </head>
-  `
+        <!-- {% render 'polyfills/template.html' %} -->
+
+        ${analytics()}
+      </head>
+    `
+  }
 }
