@@ -22,27 +22,32 @@ module.exports = function (eleventyConfig, globalData) {
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const tableOfContentsImage = eleventyConfig.getFilter('tableOfContentsImage')
   const urlFilter = eleventyConfig.getFilter('url')
+  const { imageDir } = globalData.config.params
 
   return function (params) {
     /**
      * @todo move "pageLabelDivider" transfomration into a shortcode and remove "config" from params
      */
-    const { className, config, page, imageDir } = params
+    const { className, config, page } = params
 
     const {
       abstract,
-      contributors: pageContributors,
+      data,
       figure: pageFigure,
+      layout,
+      summary,
+      url
+    } = page
+
+    const {
+      contributors: pageContributors,
       image,
       label,
-      layout,
       object: pageObject,
       short_title,
-      summary,
       title,
-      url,
-      weight,
-    } = page
+      weight
+    } = data
 
     const brief = className.includes('brief')
     const grid = className.includes('grid')
