@@ -5,16 +5,16 @@ const path = require('path')
  * Quire features are implemented as Eleventy plugins
  */
 const { EleventyRenderPlugin } = require('@11ty/eleventy')
-const componentsPlugin = require('./plugins/components')
-const epubPlugin = require('./plugins/epub')
-const filtersPlugin = require('./plugins/filters')
-const frontmatterPlugin = require('./plugins/frontmatter')
-const iiifPlugin = require('./plugins/iiif')
-const lintingPlugin = require('./plugins/linting')
-const markdownPlugin = require('./plugins/markdown')
+const componentsPlugin = require('./_plugins/components')
+const epubPlugin = require('./_plugins/epub')
+const filtersPlugin = require('./_plugins/filters')
+const frontmatterPlugin = require('./_plugins/frontmatter')
+const iiifPlugin = require('./_plugins/iiif')
+const lintingPlugin = require('./_plugins/linting')
+const markdownPlugin = require('./_plugins/markdown')
 const navigationPlugin = require('@11ty/eleventy-navigation')
-const searchPlugin = require('./plugins/search')
-const shortcodesPlugin = require('./plugins/shortcodes')
+const searchPlugin = require('./_plugins/search')
+const shortcodesPlugin = require('./_plugins/shortcodes')
 const syntaxHighlightPlugin = require('@11ty/eleventy-plugin-syntaxhighlight')
 
 /**
@@ -92,7 +92,7 @@ module.exports = function(eleventyConfig) {
   /**
    * Add shortcodes to render an Eleventy template inside of another template,
    * allowing JavaScript, Liquid, and Nunjucks templates to be freely mixed.
-   * @see {@link https://www.11ty.dev/docs/plugins/render/}
+   * @see {@link https://www.11ty.dev/docs/_plugins/render/}
    */
   eleventyConfig.addPlugin(EleventyRenderPlugin)
 
