@@ -1,4 +1,4 @@
-const addComponentTag = require('../../plugins/components/addComponentTag')
+const addComponentTag = require('../../_plugins/components/addComponentTag')
 const backmatter = require('./backmatter.js')
 const cite = require('./cite.js')
 const contributor = require('./contributor')
