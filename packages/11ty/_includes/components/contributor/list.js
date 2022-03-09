@@ -38,11 +38,11 @@ module.exports = function (eleventyConfig, globalData) {
         contributorElement = `<ul>${listItems.join('')}</ul>`
         break;
       case 'list-plus':
-        const title = contributorTitle(contributor)
-        listItems = contributorNames
-          .map((name) => `<li class="quire-contributor">${[name, title].join(', ')}</li>`)
-
-        contributorELement = `<ul>${listItems.join('')}/ul>`
+        listItems = contributorList
+          .map((contributor) => {
+            return `<li class="quire-contributor">${[fullname(contributor), contributorTitle(contributor)].join(', ')}</li>`
+          })
+        contributorElement = `<ul>${listItems.join('')}</ul>`
         break;
       default:
         contributorElement = ''
