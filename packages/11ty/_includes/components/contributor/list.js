@@ -14,6 +14,8 @@ module.exports = function (eleventyConfig, globalData) {
   return function (params) {
     const { contributors, type = 'all', format = 'string' } = params
 
+    if (!Array.isArray(contributors)) return ''
+
     let contributorList = contributors.map((item) => item.id ? getContributor(item.id) : item)
     contributorList = (type === 'all')
       ? contributorList
@@ -21,7 +23,7 @@ module.exports = function (eleventyConfig, globalData) {
 
     if (!contributorList.length) return ''
 
-    const contributorNames = contributorList.map(fullname)
+    const contributorNames = contributorList.map(fullname).filter((name) => name)
     let contributorElement
     let listItems
 
