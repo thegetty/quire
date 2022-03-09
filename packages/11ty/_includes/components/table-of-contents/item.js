@@ -40,7 +40,7 @@ module.exports = function (eleventyConfig, globalData) {
     } = page
 
     const {
-      contributors: pageContributors,
+      contributor: pageContributors,
       image,
       label,
       object: pageObject,
@@ -54,8 +54,9 @@ module.exports = function (eleventyConfig, globalData) {
 
     // const itemClassName = weight < pageOne.data.weight ? "frontmatter-page" : ""
     const itemClassName = ''
-    const pageContributorsElement = pageContributors
-      ? `<span class="contributor"> — ${contributorList({ contributors: pageContributors })}</span>`
+    const pageContributorList = contributorList({ contributors: pageContributors })
+    const pageContributorsElement = pageContributorList
+      ? `<span class="contributor"> — ${pageContributorList}</span>`
       : ''
 
     let pageTitleElement = ''
