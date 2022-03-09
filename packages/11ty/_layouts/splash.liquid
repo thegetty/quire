@@ -11,7 +11,7 @@ description: splash page layout
     <div class="hero-body">
       <h1 class="quire-page__header__title" id="{{ title | slugify }}">
         {% if label %}<span class="label">{{ label }}<span class="visually-hidden">{{ site.params.pageLabelDivider }}</span></span>{% endif %}
-        {%- render "page/title", title: title, subtitle: subtitle | markdownify -%}
+        {%- pageTitle title=title, subtitle=subtitle -%}
       </h1>
       {% if contributor %}
         <div class="quire-page__header__contributor">

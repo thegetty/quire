@@ -33,7 +33,7 @@ module.exports = function(eleventyConfig, globalData) {
 
     let pageTitleElement
     if (title) {
-      pageTitleElement = `"${pageTitle({ page })}."`
+      pageTitleElement = `"${pageTitle(page)}."`
     } else if (label) {
       pageTitleElement = `"${label}."`
     }

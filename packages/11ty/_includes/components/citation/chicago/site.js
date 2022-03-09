@@ -12,7 +12,7 @@ module.exports = function(eleventyConfig, globalData) {
 
     return [
       `${citationChicagoPublicationContributors({ contributors: publication.contributor })}.`,
-      `<em>${pageTitle({ page })}</em>`,
+      `<em>${pageTitle(page)}</em>`,
       `${citationChicagoPublication({ publication })}`
     ].join(' ')
   }

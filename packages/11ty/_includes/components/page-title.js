@@ -11,9 +11,8 @@
 module.exports = function(eleventyConfig, globalData) {
   const { config } = globalData
   return function(params) {
-    const { page, withLabel } = params
-    const { label, subtitle, title } = page
 
+    const { label, subtitle, title, withLabel } = params
     const separator = title && !title.match(/\?|\!/) ? ': ' : ' '
 
     let pageTitle = subtitle ? [title, subtitle].join(separator) : title

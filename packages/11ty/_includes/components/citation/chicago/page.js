@@ -31,7 +31,7 @@ module.exports = function(eleventyConfig, globalData) {
     )
 
     let pageTitleElement = title
-      ? pageTitle({ page })
+      ? pageTitle(page)
       : label || 'Untitled.'
 
     let publicationCitation =
