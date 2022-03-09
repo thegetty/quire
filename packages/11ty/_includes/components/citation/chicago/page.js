@@ -17,7 +17,7 @@ module.exports = function(eleventyConfig, globalData) {
 
   return function (params) {
     const { page } = params
-    const { contributor, label, title } = page
+    const { contributor, label, subtitle, title } = page
     const { pub_date: pubDate } = publication
     const pageContributors = citationContributors(
       {
@@ -31,7 +31,7 @@ module.exports = function(eleventyConfig, globalData) {
     )
 
     let pageTitleElement = title
-      ? pageTitle(page)
+      ? pageTitle({ subtitle, title })
       : label || 'Untitled.'
 
     let publicationCitation =

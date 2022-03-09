@@ -15,7 +15,7 @@ module.exports = function(eleventyConfig, globalData) {
 
   return function (params) {
     const { page } = params
-    const { contributor, label, title } = page
+    const { contributor, label, subtitle, title } = page
     const { pub_date: pubDate } = publication
 
     const citationParts = []
@@ -33,7 +33,7 @@ module.exports = function(eleventyConfig, globalData) {
 
     let pageTitleElement
     if (title) {
-      pageTitleElement = `"${pageTitle(page)}."`
+      pageTitleElement = `"${pageTitle({ subtitle, title })}."`
     } else if (label) {
       pageTitleElement = `"${label}."`
     }

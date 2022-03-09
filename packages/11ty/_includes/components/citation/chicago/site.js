@@ -9,10 +9,10 @@ module.exports = function(eleventyConfig, globalData) {
 
   return function (params) {
     const { page } = params
-
+    const { subtitle, title } = page
     return [
       `${citationChicagoPublicationContributors({ contributors: publication.contributor })}.`,
-      `<em>${pageTitle(page)}</em>`,
+      `<em>${pageTitle({ subtitle, title })}</em>`,
       `${citationChicagoPublication({ publication })}`
     ].join(' ')
   }
