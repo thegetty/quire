@@ -10,6 +10,7 @@ module.exports = function(eleventyConfig, globalData) {
 
   return function(params) {
     const { page } = params
-    return `<a href="${page.canonicalURL}">${pageTitle({ page })}</a>`
+    const { canonicalURL, label, title } = page
+    return `<a href="${canonicalURL}">${pageTitle({ label, title })}</a>`
   }
 }

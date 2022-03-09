@@ -1,24 +1,26 @@
 /**
  * Concatenates the page title and subtitle, using a colon, or if the title ends with a ! or ?, no colon is included.
- * See also site-title.liquid
+ * See also site-title.js
+ * 
  * @param {Object} eleventyConfig
  * @param {Object} globalData
  * @param {Object} params
- * @param {Object} options
- * @property {Boolean} withLabel - if true, prepends title with page.label
+ * @property {Object} label
+ * @property {Object} subtitle
+ * @property {Object} title
+ *
  * @return {string} `page title: subtitle`
  */
 module.exports = function(eleventyConfig, globalData) {
   const { config } = globalData
   return function(params) {
-    const { page, withLabel } = params
-    const { label, subtitle, title } = page
 
+    const { label, subtitle, title } = params
     const separator = title && !title.match(/\?|\!/) ? ': ' : ' '
 
     let pageTitle = subtitle ? [title, subtitle].join(separator) : title
 
-    if (label && withLabel) {
+    if (label) {
       pageTitle = `${label}${config.params.pageLabelDivider} ${pageTitle}`
     }
 

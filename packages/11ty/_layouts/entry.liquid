@@ -22,8 +22,7 @@ Entry content, including entry image and tombstone data
       <div class="container">
           {% comment %} Title {% endcomment %}
           <h1 class="quire-page__header__title" id="{{ title | slugify }}">
-            {% if label %}<span>{{ label }}{{ config.params.pageLabelDivider }}</span>{% endif %}
-            {% render "page/title", title: title, subtitle: subtitle | markdownify %}
+            {% pageTitle label=label, title=title, subtitle=subtitle %}
           </h1>
       </div>
     </header>
@@ -66,8 +65,7 @@ Entry content, including entry image and tombstone data
         <header class="quire-entry__header">
           <div class="container">
             <h1 class="quire-page__header__title" id="{{ title | url }}">
-              {% if label %}<span>{{ label }}{{ config.params.pageLabelDivider }}</span>{% endif %}
-              {% render "page/title", title: title, subtitle: subtitle | markdownify %}
+              {% pageTitle label=label, title=title, subtitle=subtitle %}
             </h1>
             {% render "page/contributor" %}
           </div>

@@ -1,8 +1,3 @@
-{% assign config = data.config %}
-{% assign image = data.image %}
-{% assign subtitle = data.subtitle %}
-{% assign title = data.title %}
-
 <section class="{% if title == 'title page' or title == 'half title page' %}is-screen-only {% endif %}quire-page__header hero">
   <div class="hero-body">
     <h1 class="quire-page__header__title" id="{{ title | slugify }}">
@@ -11,7 +6,7 @@
           {{- config.params.pageLabelDivider -}}
         </span></span>
       {%- endif %}
-      {% render 'page/title', title: title, subtitle: subtitle | markdownify -%}
+      {% pageTitle title=title, subtitle=subtitle -%}
     </h1>
     {% render 'page/contributor' %}
   </div>

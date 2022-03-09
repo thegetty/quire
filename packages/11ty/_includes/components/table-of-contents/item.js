@@ -65,7 +65,8 @@ module.exports = function (eleventyConfig, globalData) {
     } else if (brief) {
       pageTitleElement += title
     } else {
-      pageTitleElement += oneLine`${pageTitle({ page: page.data, withLabel: true })}${pageContributorsElement}`
+      const { label, subtitle, title } = page.data
+      pageTitleElement += oneLine`${pageTitle({ label, subtitle, title })}${pageContributorsElement}`
     }
     const arrowIcon = `<span class="arrow remove-from-epub">&nbsp${icon({ type: 'arrow-forward', description: '' })}</span>`
 
