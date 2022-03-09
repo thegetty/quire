@@ -8,7 +8,11 @@
       {%- endif %}
       {% pageTitle title=title, subtitle=subtitle -%}
     </h1>
-    {% render 'page/contributor' %}
+    {% contributorHeader
+      contributor=contributor,
+      contributor_as_it_appears=contributor_as_it_appears,
+      contributor_byline=contributor_byline
+    %}
   </div>
 </section>
 

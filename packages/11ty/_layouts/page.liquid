@@ -4,7 +4,15 @@ description: Single page default template
 ---
 
 <article class="{% render 'page/class', class: class, weight: weight %} quire-page" id="main" role="main">
-  {% render 'page/header', config: config, label: label, subtitle: subtitle, title: title %}
+  {% render 'page/header'
+    config: config,
+    contributor: contributor,
+    contributor_as_it_appears: contributor_as_it_appears,
+    contributor_byline: contributor_byline,
+    label: label,
+    subtitle: subtitle,
+    title: title
+  %}
   {% if content %}
   <section class="section quire-page__content" id="content">
     <div class="container">
