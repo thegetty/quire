@@ -57,8 +57,7 @@ module.exports = class TableOfContents {
         && page.data.toc !== false)
       .map((page) => {
         let listItem = ''
-
-        if (page.data.layout === 'contents' && page.data.section !== renderedSection) {
+        if (page.data.layout === 'table-of-contents' && page.data.section !== renderedSection) {
           renderedSection = page.data.section 
 
           const subPages =
@@ -67,7 +66,7 @@ module.exports = class TableOfContents {
                   .filter(
                     (item) =>
                       item.data.section === page.data.section &&
-                      item.data.layout !== 'contents'
+                      item.data.layout !== 'table-of-contents'
                   )
                   .map((item) => {
                     if (page.fileSlug !== item.fileSlug)
