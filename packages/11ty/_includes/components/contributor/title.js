@@ -10,8 +10,8 @@
 module.exports = function(eleventyConfig, globalData) {
   return function (params) {
     const { affiliation, title } = params
-    affiliation = affiliation ? `<span class="quire-contributor__affiliation">${ affiliation }</span>` : ''
-    title = title ? `<span class="quire-contributor__title">${ title }</span>` : ''
-    return [title, affiliation].join(', ')
+    const affiliationElement = affiliation ? `<span class="quire-contributor__affiliation">${ affiliation }</span>` : ''
+    const titleElement = title ? `<span class="quire-contributor__title">${ title }</span>` : ''
+    return [titleElement, affiliationElement].join(', ')
   }
 }

@@ -21,6 +21,7 @@ module.exports = {
   citationPubDate: require('./citation/pub-date.js'),
   citationPubSeries: require('./citation/pub-series.js'),
   contributorList: require('./contributor/list.js'),
+  contributorHeader: require('./contributor/header.js'),
   contributorTitle: require('./contributor/title.js'),
   copyright: require('./copyright/index.js'),
   copyrightLicensing: require('./copyright/licensing.js'),
