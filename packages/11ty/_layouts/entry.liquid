@@ -77,7 +77,7 @@ Entry content, including entry image and tombstone data
       {% tombstone pageObjects %}
 
       {% if abstract %}
-        {% render "page/abstract", abstract: abstract %}
+        {% abstract abstract=abstract %}
       {% endif %}
 
       <section class="section quire-page__content" id="content">

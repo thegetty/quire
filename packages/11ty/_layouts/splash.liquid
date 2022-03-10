@@ -24,7 +24,7 @@ description: splash page layout
   {% if content %}
     <section id="content" class="section quire-page__content">
       {% if abstract %}
-        {% render "page/abstract", abstract: abstract %}
+        {% abstract abstract=abstract %}
       {% endif %}
       <div class="container">
         <div class="content{% if image %}{% else %} no-image-above{% endif %}">
