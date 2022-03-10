@@ -21,7 +21,7 @@ module.exports = function(eleventyConfig, globalData) {
 
     stringParts.push('by ')
 
-    stringParts.push(citationContributors({ contributors: publicationAuthors }, { max: 2, separator: ' and '}))
+    stringParts.push(citationContributors({ contributors: publicationAuthors, max: 2, separator: ' and '}))
 
     stringParts.push('.')
 

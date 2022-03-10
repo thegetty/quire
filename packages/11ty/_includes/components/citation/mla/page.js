@@ -1,3 +1,4 @@
+const { html } = require('common-tags')
 /**
  * @param  {Object} eleventyConfig
  * @param  {Object} params
@@ -16,47 +17,52 @@ module.exports = function(eleventyConfig, globalData) {
   return function (params) {
     const { page } = params
     const { contributor, label, subtitle, title } = page.data
-    const { pub_date: pubDate } = publication
-
-    const citationParts = []
+    const { identifier, pub_date: pubDate } = publication
 
     const pageContributors = citationContributors(
       {
-        contributors: contributor
-      },
-      {
+        contributors: contributor,
         max: 2,
         reverse: true,
         separator: ', '
       }
     )
+    const pageContributorsElement = pageContributors && `${pageContributors}.`
 
     let pageTitleElement
     if (title) {
-      pageTitleElement = `"${pageTitle({ subtitle, title })}."`
+      pageTitleElement = `“${pageTitle({ subtitle, title })}.”`
     } else if (label) {
-      pageTitleElement = `"${label}."`
+      pageTitleElement = `“${label}.”`
+    } else {
+      pageTitleElement = 'Untitled.'
     }
-
-    citationParts.push(pageTitleElement || 'Untitled.')
 
     let publicationCitation =
       [` <em>${siteTitle()}</em>`, citationMLAPublicationContributors({ contributors: publication.contributor })]
         .filter(item => item)
         .join(', ')
 
-    publicationCitation += ` ${citationMLAPublishers({ publication })}`
+    const publishers = citationMLAPublishers({ publication })
+    publicationCitation = [publicationCitation, publishers].join(' ')
 
-    if (citationPubDate(pubDate)) publicationCitation+=(`, ${citationPubDate(pubDate)}.`)
+    const dateCitation = citationPubDate({ date: pubDate })
 
-    if (publication.identifier.url) {
-      publicationCitation+=(`<span class="url-string">${publication.identifier.url || permalink}</span>.`)
-    }
+    if (dateCitation) publicationCitation = [publicationCitation, `${dateCitation}.`].join(', ')
 
-    publicationCitation+=(` Accessed <span class="cite-current-date">DD Mon. YYYY</span>.`)
+    const url = page.url || identifier.url
+    const urlElement = url && `<span class="url-string">${url}</span>.`
 
-    citationParts.push(publicationCitation)
+    const accessedDate = `Accessed <span class="cite-current-date">DD Mon. YYYY</span>.`
 
-    return citationParts.join('')
+    return html` ${[
+      pageContributorsElement,
+      pageTitleElement,
+      publicationCitation,
+      urlElement,
+      accessedDate,
+    ]
+      .filter((item) => item)
+      .join(' ')}`
   }
 }
