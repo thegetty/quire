@@ -19,7 +19,7 @@ module.exports = function(eleventyConfig, globalData) {
       .filter(({ data }) => data.menu !== false)
       .map((page) => {
         let listItem = ''
-        if (page.data.layout !== 'table-of-contents' && !page.data.section) {
+        if (!page.data.section) {
           return `<li class="page-item">${menuItem({ page: page.data })}</li>`
         } else if (
           page.data.layout === 'table-of-contents' &&
