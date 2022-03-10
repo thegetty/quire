@@ -17,7 +17,7 @@ module.exports = function(eleventyConfig, globalData) {
 
   return function (params) {
     const { page } = params
-    const { contributor, label, subtitle, title } = page
+    const { contributor, label, subtitle, title } = page.data
     const { pub_date: pubDate } = publication
     const pageContributors = citationContributors(
       {
