@@ -9,8 +9,7 @@
  * @return {String} quire page classes
  */
 module.exports = function(eleventyConfig, globalData) {
-  return function(params) {
-    const { pages, pagination } = params
+  return function({ pages, pagination }) {
     const { class: currentPageClass, weight: currentPageWeight } = pagination.currentPage.data
     const pageOne = pages.find(({ data }) => data.class === 'page-one')
     const { weight: pageOneWeight } = pageOne.data
