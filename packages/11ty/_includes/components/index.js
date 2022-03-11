@@ -45,6 +45,7 @@ module.exports = {
   navigation: require('./navigation.js'),
   opengraph: require('./head-tags/opengraph.js'),
   pageButtons: require('./page-buttons.js'),
+  pageClass: require('./page-class.js'),
   pageTitle: require('./page-title.js'),
   pdfInfo: require('./pdf/info.js'),
   scripts: require('./scripts.js'),
