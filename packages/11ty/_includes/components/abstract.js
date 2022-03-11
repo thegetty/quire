@@ -1,7 +1,7 @@
 const { html } = require('common-tags')
 
 /**
- * Google Analytics
+ * Publication abstract
  * @param      {Object}  eleventyConfig
  * @param      {Object}  globalData
  */

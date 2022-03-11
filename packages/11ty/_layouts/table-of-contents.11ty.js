@@ -95,14 +95,14 @@ module.exports = class TableOfContents {
 
     return this.renderTemplate(
       `<div class="{% pageClass pages=pages, pagination=pagination %} quire-contents" id="main" role="main">
-        {% render 'page/header'
-          config: config,
-          contributor: contributor,
-          contributor_as_it_appears: contributor_as_it_appears,
-          contributor_byline: contributor_byline,
-          label: label,
-          subtitle: subtitle,
-          title: title
+        {% pageHeader
+          contributor=contributor,
+          contributor_as_it_appears=contributor_as_it_appears,
+          contributor_byline=contributor_byline,
+          image=image,
+          label=label,
+          subtitle=subtitle,
+          title=title
         %}
         <section class="section quire-page__content" id="content">
           ${contentElement}
@@ -114,7 +114,7 @@ module.exports = class TableOfContents {
                 </ul>
               </div>
               <div class="content">
-                {% render 'page/bibliography' %}
+                {% bibliography citations=citations %}
               </div>
             </div>
             ${this.pageButtons({ pagination })}

@@ -4,21 +4,21 @@ description: Single page default template
 ---
 
 <article class="{% pageClass pages=pages, pagination=pagination %} quire-page" id="main" role="main">
-  {% render 'page/header'
-    config: config,
-    contributor: contributor,
-    contributor_as_it_appears: contributor_as_it_appears,
-    contributor_byline: contributor_byline,
-    label: label,
-    subtitle: subtitle,
-    title: title
+  {% pageHeader
+    contributor=contributor,
+    contributor_as_it_appears=contributor_as_it_appears,
+    contributor_byline=contributor_byline,
+    image=image,
+    label=label,
+    subtitle=subtitle,
+    title=title
   %}
   {% if content %}
   <section class="section quire-page__content" id="content">
     <div class="container">
       <div class="content">
         {{ content }}
-        {% render 'page/bibliography' %}
+        {% bibliography citations=citations %}
       </div>
     </div>
   </section>

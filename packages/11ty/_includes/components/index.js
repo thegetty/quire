@@ -7,6 +7,7 @@ const licenseIcons = require('./license-icons')
 module.exports = {
   abstract: require('./abstract.js'),
   analytics: require('./analytics.js'),
+  bibliography: require('./bibliography.js'),
   citation: require('./citation/index.js'),
   citationChicagoPage: require('./citation/chicago/page.js'),
   citationChicagoPublication: require ('./citation/chicago/publication.js'),
@@ -46,6 +47,7 @@ module.exports = {
   opengraph: require('./head-tags/opengraph.js'),
   pageButtons: require('./page-buttons.js'),
   pageClass: require('./page-class.js'),
+  pageHeader: require('./page-header.js'),
   pageTitle: require('./page-title.js'),
   pdfInfo: require('./pdf/info.js'),
   scripts: require('./scripts.js'),
