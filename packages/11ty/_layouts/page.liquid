@@ -3,7 +3,7 @@ layout: base.11ty.js
 description: Single page default template
 ---
 
-<article class="{% render 'page/class', class: class, weight: weight %} quire-page" id="main" role="main">
+<article class="{% pageClass pages=pages, pagination=pagination %} quire-page" id="main" role="main">
   {% render 'page/header'
     config: config,
     contributor: contributor,

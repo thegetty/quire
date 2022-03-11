@@ -14,7 +14,7 @@ description: Entry layout. This template is intended for use in catalogue-style 
 Entry content, including entry image and tombstone data
 {% endcomment %}
 
-<article class="{% render "page/class" %} quire-entry" id="main" role="main">
+<article class="{% pageClass pages=pages, pagination=pagination %} quire-entry" id="main" role="main">
   <div {% if entryPageSideBySideLayout == true or pageClasses contains "side-by-side" %} {% if pdf != true and epub != true %} class="side-by-side" {% endif %} {% endif %} data="{{ zoom }}">  
     
     {% if epub == true %}
