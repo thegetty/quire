@@ -17,19 +17,21 @@ module.exports = function(eleventyConfig, globalData) {
 
   return function (params) {
     const {
+      contributor: contributors,
       contributor_as_it_appears: contributorAsItAppears,
-      contributor_byline: pageContributorByline,
-      contributor: contributors
+      contributor_byline: pageContributorByline
     } = params
 
     if (!pageContributorByline && !globalContributorByline) return ''
 
     const format = pageContributorByline || globalContributorByline
 
+    const contributorElement = contributorAsItAppears || contributorList({ contributors, format })
+
     return html`
-      <p class="quire-contributor">
-        ${contributorAsItAppears || contributorList({ contributors, format })}
-      </p>
+      <div class="quire-page__header__contributor">
+        ${contributorElement}
+      </div>
     `
   }
 }
