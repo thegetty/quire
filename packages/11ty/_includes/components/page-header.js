@@ -8,7 +8,9 @@ const path = require('path')
  * @param      {Object}  globalData
  */
 module.exports = function(eleventyConfig, globalData) {
+  const contributorHeader = eleventyConfig.getFilter('contributorHeader')
   const markdownify = eleventyConfig.getFilter('markdownify')
+  const pageTitle = eleventyConfig.getFilter('pageTitle')
   const slugify = eleventyConfig.getFilter('slugify')
 
   const { imgDir, pageLabelDivider } = globalData.config.params
@@ -49,13 +51,9 @@ module.exports = function(eleventyConfig, globalData) {
         <div class="hero-body">
           <h1 class="quire-page__header__title" id="${slugify(title)}">
             ${pageLabel}
-            {% pageTitle title=title, subtitle=subtitle -%}
+            ${pageTitle({ title, subtitle })}
           </h1>
-          {% contributorHeader
-            contributor=contributor,
-            contributor_as_it_appears=contributor_as_it_appears,
-            contributor_byline=contributor_byline
-          %}
+          ${contributorHeader({ contributor, contributor_as_it_appears, contributor_byline })}
         </div>
       </section>
       ${image}
