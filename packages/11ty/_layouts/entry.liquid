@@ -63,9 +63,11 @@ Entry content, including entry image and tombstone data
     <div class="quire-entry__content">
       {% if epub != true %}
         <header class="quire-entry__header">
-          <h1 class="quire-page__header__title" id="{{ title | url }}">
-            {% pageTitle label=label, title=title, subtitle=subtitle %}
-          </h1>
+          <div class="container">
+            <h1 class="quire-page__header__title" id="{{ title | url }}">
+              {% pageTitle label=label, title=title, subtitle=subtitle %}
+            </h1>
+          </div>
           {% contributorHeader
             contributor=contributor,
             contributor_as_it_appears=contributor_as_it_appears,
