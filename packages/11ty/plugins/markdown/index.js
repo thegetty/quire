@@ -1,6 +1,7 @@
 const MarkdownIt = require('markdown-it')
 const anchors = require('markdown-it-anchor')
 const attributes = require('markdown-it-attrs')
+const bracketedSpans = require('markdown-it-bracketed-spans')
 const defaults = require('./defaults')
 const deflist = require('markdown-it-deflist')
 const footnotes = require('markdown-it-footnote')
@@ -35,6 +36,7 @@ module.exports = function(eleventyConfig, options) {
   const markdownLibrary = MarkdownIt(Object.assign(defaults, options))
     .use(anchors, anchorOptions)
     .use(attributes, attributesOptions)
+    .use(bracketedSpans)
     .use(deflist)
     .use(footnotes)
 

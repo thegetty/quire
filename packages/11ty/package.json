@@ -64,6 +64,7 @@
     "leaflet-image": "^0.4.0",
     "lunr": "^2.3.9",
     "magnific-popup": "^1.1.0",
+    "markdown-it-bracketed-spans": "^1.0.1",
     "material-icons": "^1.10.1",
     "quicklink": "^1.0.1",
     "smooth-scroll": "^16.1.3",
