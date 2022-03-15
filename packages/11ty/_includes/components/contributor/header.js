@@ -26,12 +26,13 @@ module.exports = function(eleventyConfig, globalData) {
 
     const format = pageContributorByline || globalContributorByline
 
-    const contributorElement = contributorAsItAppears || contributorList({ contributors, format })
+    const contributorLine = contributorAsItAppears || contributorList({ contributors, format })
+    const contributorElement = contributorLine
+      ? `<div class="quire-page__header__contributor">
+           ${contributorLine}
+         </div>`
+      : ''
 
-    return html`
-      <div class="quire-page__header__contributor">
-        ${contributorElement}
-      </div>
-    `
+    return contributorElement
   }
 }
