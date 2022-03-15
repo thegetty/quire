@@ -57,6 +57,8 @@ Evans had company on this RA assignment, which must have been one of the hardest
 
 Evans and Stryker parted ways, mostly because of the bureaucratic requirements that Stryker adhered to. Working under difficult conditions was certainly not some-thing the photographer shied away from, particularly when he was after the archetypal portrait of "Everyman" that he treasured. In pursuit of this goal, for his next major series Evans would contrive to photograph only by remote shutter release while riding the New York subway in winter.
 
+{% backmatter %}
+
 ## Notes
 
 [^1]: Memorandum draft by Walker Evans, reproduced in *Walker Evans at Work*, (New York: Harper and Row, 1982), 112.
@@ -76,3 +78,5 @@ Evans and Stryker parted ways, mostly because of the bureaucratic requirements t
 [^8]: See Maddox, 429-31, for a more complete look at these three negatives.
 
 [^9]: Edwin Locke to Roy Stryker, six-page letter on hotel stationery, Feb. 4, 1937, *Stryker Papers*. Seven days after this letter, the two photographers are still in Memphis; Locke notifies Stryker that Evans is ill with a serious case of the flu but refuses to be taken to the hospital. Locke to Stryker, two-page letter on notecards, Feb. 11,1937, *Stryker Papers*.
+
+{% endbackmatter %}
