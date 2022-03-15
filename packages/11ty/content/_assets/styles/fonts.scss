@@ -2,7 +2,7 @@
 // Fonts.scss
 // -----------------------------------------------------------------------------
 // Custom font declarations (if any) can be imported here
-$assets-dir: "../_assets/" !default;
+$assets-dir: "/_assets/" !default;
 
 @function font($file) {
   @return url($assets-dir + 'fonts/' + $file);
