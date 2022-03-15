@@ -2,7 +2,7 @@
  * @param  {Object} context
  * @param  {Array}  contributors
  * @param  {String} type - "all" (default), "primary", or "secondary"
- * @param  {String} format - "string" (default), "list", or "list-plus"
+ * @param  {String} format - "string" (default), "name", or "name-title"
  * 
  * @return {String}                 Markup for contributors
  */
@@ -14,6 +14,8 @@ module.exports = function (eleventyConfig, globalData) {
   return function (params) {
     const { contributors, type = 'all', format = 'string' } = params
 
+    if (!Array.isArray(contributors)) return ''
+
     let contributorList = contributors.map((item) => item.id ? getContributor(item.id) : item)
     contributorList = (type === 'all')
       ? contributorList
@@ -21,7 +23,7 @@ module.exports = function (eleventyConfig, globalData) {
 
     if (!contributorList.length) return ''
 
-    const contributorNames = contributorList.map(fullname)
+    const contributorNames = contributorList.map(fullname).filter((name) => name)
     let contributorElement
     let listItems
 
@@ -31,16 +33,16 @@ module.exports = function (eleventyConfig, globalData) {
         const namesString = contributorNames.length > 1 ? contributorNames.join(', ') + ' and ' + last : last
         contributorElement = `<span class="quire-contributor">${namesString}</span>`
         break;
-      case 'list':
+      case 'name':
         listItems = contributorNames.map((name) => `<li>${name}</li>`)
         contributorElement = `<ul>${listItems.join('')}</ul>`
         break;
-      case 'list-plus':
-        const title = contributorTitle(contributor)
-        listItems = contributorNames
-          .map((name) => `<li class="quire-contributor">${[name, title].join(', ')}</li>`)
-
-        contributorELement = `<ul>${listItems.join('')}/ul>`
+      case 'name-title':
+        listItems = contributorList
+          .map((contributor) => {
+            return `<li class="quire-contributor">${[fullname(contributor), contributorTitle(contributor)].join(', ')}</li>`
+          })
+        contributorElement = `<ul>${listItems.join('')}</ul>`
         break;
       default:
         contributorElement = ''

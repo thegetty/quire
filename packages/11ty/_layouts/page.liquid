@@ -3,14 +3,22 @@ layout: base.11ty.js
 description: Single page default template
 ---
 
-<article class="{% render 'page/class', class: class, weight: weight %} quire-page" id="main" role="main">
-  {% render 'page/header', data: data %}
+<article class="{% pageClass pages=pages, pagination=pagination %} quire-page" id="main" role="main">
+  {% pageHeader
+    contributor=contributor,
+    contributor_as_it_appears=contributor_as_it_appears,
+    contributor_byline=contributor_byline,
+    image=image,
+    label=label,
+    subtitle=subtitle,
+    title=title
+  %}
   {% if content %}
   <section class="section quire-page__content" id="content">
     <div class="container">
       <div class="content">
         {{ content }}
-        {% render 'page/bibliography' %}
+        {% bibliography citations=citations %}
       </div>
     </div>
   </section>

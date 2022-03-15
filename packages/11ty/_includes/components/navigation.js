@@ -14,7 +14,7 @@ const { html } = require('common-tags');
  */
 module.exports = function(eleventyConfig, globalData) {
   const eleventyNavigation = eleventyConfig.getFilter('eleventyNavigation')
-  const markdownify = eleventyConfig.getFilter('markdownify')
+  const pageTitle = eleventyConfig.getFilter('pageTitle')
   const { config } = globalData
 
   return function (params) {
@@ -26,6 +26,10 @@ module.exports = function(eleventyConfig, globalData) {
 
     // @TODO figure out js module-friendly filters -- this one should work though
     const truncate = (text, limit) => text.slice(0, limit)
+
+    const navBarLabel = ({ label, short_title, title }) => {
+      return pageTitle({ label, title: short_title || truncate(title, 34)})
+    }
 
     const navBarStartButton = () => {
       if (!isHomePage) return ''
@@ -51,8 +55,8 @@ module.exports = function(eleventyConfig, globalData) {
 
     const navBarPreviousButton = () => {
       if (!previousPage) return ''
-      const { data, label, url } = previousPage
-      const { short_title, title } = data
+      const { data, url } = previousPage
+      const { label, short_title, title } = data
       return html`
         <li class="quire-navbar-page-controls__item quire-previous-page">
           <a href="${url}" rel="previous">
@@ -65,7 +69,7 @@ module.exports = function(eleventyConfig, globalData) {
                 </foreignObject>
               </switch>
             </svg>
-            <span class="nav-label">${ label ? label + pageLabelDivider : ''}${short_title ? markdownify(short_title) : truncate(markdownify(title), 34)}</span>
+            ${navBarLabel({ label, short_title, title })}
           </a>
         </li>
       `
@@ -94,13 +98,13 @@ module.exports = function(eleventyConfig, globalData) {
 
     const navBarNextButton = () => {
       if (isHomePage || !nextPage) return ''
-      const { data, label, url } = nextPage
-      const { short_title, title } = data
+      const { data, url } = nextPage
+      const { label, short_title, title } = data
       return html`
         <li class="quire-navbar-page-controls__item quire-next-page">
           <a href="${url}" rel='next'>
             <span class="visually-hidden">Next Page: </span>
-            <span class="nav-label">${ label ? label + pageLabelDivider : ''}${short_title ? markdownify(short_title) : truncate(markdownify(title), 34)}</span>
+            ${navBarLabel({ label, short_title, title })}
             <svg class="remove-from-epub">
               <switch>
                 <use xlink:href="#right-arrow-icon"></use>

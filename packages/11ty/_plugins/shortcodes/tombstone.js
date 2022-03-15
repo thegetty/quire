@@ -27,7 +27,7 @@ module.exports = function(eleventyConfig, globalData) {
     const objectLink = (object) => object.link
       ? oneLine`
         <a class="button" href="${object.link}" target="_blank">
-          ${config.params.entryPageObjectLinkText} ${icon('link', '')}
+          ${config.params.entryPageObjectLinkText} ${icon({ type: 'link', description: '' })}
         </a>`
       : ''
 

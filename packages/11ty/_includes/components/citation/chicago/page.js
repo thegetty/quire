@@ -1,5 +1,4 @@
 const { html } = require('common-tags')
-
 /**
  * @param  {Object} eleventyConfig
  * @param  {Object} params
@@ -17,21 +16,20 @@ module.exports = function(eleventyConfig, globalData) {
 
   return function (params) {
     const { page } = params
-    const { contributor, label, title } = page
+    const { contributor, label, subtitle, title } = page.data
     const { pub_date: pubDate } = publication
     const pageContributors = citationContributors(
       {
-        contributors: contributor
-      },
-      {
+        contributors: contributor,
         max: 3,
         reverse: true,
         separator: ', '
       }
     )
+    const pageContributorsElement = pageContributors && `${pageContributors}.`
 
     let pageTitleElement = title
-      ? pageTitle({ page })
+      ? `${pageTitle({ subtitle, title })}.`
       : label || 'Untitled.'
 
     let publicationCitation =
@@ -41,15 +39,19 @@ module.exports = function(eleventyConfig, globalData) {
 
     publicationCitation = [publicationCitation, citationChicagoPublishers({ publication })].join(' ')
 
-    if (citationPubDate(pubDate)) publicationCitation = [publicationCitation, `${citationPubDate(pubDate)}.`].join(', ')
+    const dateCitation = citationPubDate({ date: pubDate })
+    if (dateCitation) publicationCitation = [publicationCitation, `${dateCitation}.`].join(', ')
 
-    if (publication.identifier.url) {
-      publicationCitation = [
-        publicationCitation,
-        `<span class="url-string">${publication.identifier.url || permalink}</span>.`
-      ].join(' ')
-    }
+    const url = page.url || identifier.url
+    const urlElement = url && `<span class="url-string">${url}</span>.`
 
-    return html`${pageContributors} "${pageTitleElement}" ${publicationCitation}`
+    return html`${[
+      pageContributorsElement,
+      `“${pageTitleElement}”`,
+      publicationCitation,
+      urlElement
+    ]
+      .filter(item => item)
+      .join(' ')}`
   }
 }

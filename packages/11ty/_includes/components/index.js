@@ -5,7 +5,9 @@ const figureComponents = require('./figure')
 const licenseIcons = require('./license-icons')
 
 module.exports = {
+  abstract: require('./abstract.js'),
   analytics: require('./analytics.js'),
+  bibliography: require('./bibliography.js'),
   citation: require('./citation/index.js'),
   citationChicagoPage: require('./citation/chicago/page.js'),
   citationChicagoPublication: require ('./citation/chicago/publication.js'),
@@ -21,6 +23,7 @@ module.exports = {
   citationPubDate: require('./citation/pub-date.js'),
   citationPubSeries: require('./citation/pub-series.js'),
   contributorList: require('./contributor/list.js'),
+  contributorHeader: require('./contributor/header.js'),
   contributorTitle: require('./contributor/title.js'),
   copyright: require('./copyright/index.js'),
   copyrightLicensing: require('./copyright/licensing.js'),
@@ -43,6 +46,8 @@ module.exports = {
   navigation: require('./navigation.js'),
   opengraph: require('./head-tags/opengraph.js'),
   pageButtons: require('./page-buttons.js'),
+  pageClass: require('./page-class.js'),
+  pageHeader: require('./page-header.js'),
   pageTitle: require('./page-title.js'),
   pdfInfo: require('./pdf/info.js'),
   scripts: require('./scripts.js'),

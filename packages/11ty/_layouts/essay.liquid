@@ -2,17 +2,25 @@
 layout: base.11ty.js
 description: Essay layout. This layout describes a single-page template that has been augmented with the ability to display a frontmatter-defined abstract (in markdown format) as well as bibliography references.
 ---
-<article class="{% render 'page/class' %} quire-essay" id="main" role="main">
-  {% include 'page/header' %}
+<article class="{% pageClass pages=pages, pagination=pagination %} quire-essay" id="main" role="main">
+  {% pageHeader
+    contributor=contributor,
+    contributor_as_it_appears=contributor_as_it_appears,
+    contributor_byline=contributor_byline,
+    image=image,
+    label=label,
+    subtitle=subtitle,
+    title=title
+  %}
 
   <section id="content" class="section quire-page__content">
     {% if abstract %}
-      {% render "page/abstract" %}
+      {% abstract abstract=abstract %}
     {% endif %}
     <div class="container">
       <div class="content">
         {{ content }}
-        {% render "page/bibliography" config: config, page: page %}
+        {% bibliography citations=citations %}
       </div>
       {% pageButtons pagination=pagination %}
     </div>

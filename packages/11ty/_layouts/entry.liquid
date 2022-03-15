@@ -14,7 +14,7 @@ description: Entry layout. This template is intended for use in catalogue-style 
 Entry content, including entry image and tombstone data
 {% endcomment %}
 
-<article class="{% render "page/class" %} quire-entry" id="main" role="main">
+<article class="{% pageClass pages=pages, pagination=pagination %} quire-entry" id="main" role="main">
   <div {% if entryPageSideBySideLayout == true or pageClasses contains "side-by-side" %} {% if pdf != true and epub != true %} class="side-by-side" {% endif %} {% endif %} data="{{ zoom }}">  
     
     {% if epub == true %}
@@ -22,8 +22,7 @@ Entry content, including entry image and tombstone data
       <div class="container">
           {% comment %} Title {% endcomment %}
           <h1 class="quire-page__header__title" id="{{ title | slugify }}">
-            {% if label %}<span>{{ label }}{{ config.params.pageLabelDivider }}</span>{% endif %}
-            {% render "page/title", title: title, subtitle: subtitle | markdownify %}
+            {% pageTitle label=label, title=title, subtitle=subtitle %}
           </h1>
       </div>
     </header>
@@ -66,25 +65,28 @@ Entry content, including entry image and tombstone data
         <header class="quire-entry__header">
           <div class="container">
             <h1 class="quire-page__header__title" id="{{ title | url }}">
-              {% if label %}<span>{{ label }}{{ config.params.pageLabelDivider }}</span>{% endif %}
-              {% render "page/title", title: title, subtitle: subtitle | markdownify %}
+              {% pageTitle label=label, title=title, subtitle=subtitle %}
             </h1>
-            {% render "page/contributor" %}
           </div>
+          {% contributorHeader
+            contributor=contributor,
+            contributor_as_it_appears=contributor_as_it_appears,
+            contributor_byline=contributor_byline
+          %}
         </header>
       {% endif %}
 
       {% tombstone pageObjects %}
 
       {% if abstract %}
-        {% render "page/abstract", abstract: abstract %}
+        {% abstract abstract=abstract %}
       {% endif %}
 
       <section class="section quire-page__content" id="content">
         <div class="container">
           <div class="content">
             {{ content }}
-            {% include "page/bibliography" %}
+            {% bibliography citations=citations %}
           </div>
         </div>
       </section>

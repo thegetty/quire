@@ -18,19 +18,20 @@ module.exports = function(eleventyConfig, globalData) {
   return function (params) {
     const { description, type } = params
     const iconPath = path.join(imageDir, 'icons', `${type}.png`)
+    const descriptionElement = description
+      ? `<span class="visually-hidden remove-from-epub">${description}</span>`
+      : ''
 
     return html`
-      <span class="remove-from-epub">
-        <svg>
-          <switch>
-            <use xlink:href="#${type}-icon"></use>
-            <foreignObject width="24" height="24">
-              <img src="${iconPath}" alt="${description}" />
-            </foreignObject>
-          </switch>
-        </svg>
-        <span class="visually-hidden">${description}</span>
-      </span>
+      <svg class="remove-from-epub">
+        <switch>
+          <use xlink:href="#${type}-icon"></use>
+          <foreignObject width="24" height="24">
+            <img src="${iconPath}" alt="${description}" />
+          </foreignObject>
+        </switch>
+      </svg>
+      ${descriptionElement}
     `
   }
 }

@@ -57,8 +57,7 @@ module.exports = class TableOfContents {
         && page.data.toc !== false)
       .map((page) => {
         let listItem = ''
-
-        if (page.data.layout === 'contents' && page.data.section !== renderedSection) {
+        if (page.data.layout === 'table-of-contents' && page.data.section !== renderedSection) {
           renderedSection = page.data.section 
 
           const subPages =
@@ -67,7 +66,7 @@ module.exports = class TableOfContents {
                   .filter(
                     (item) =>
                       item.data.section === page.data.section &&
-                      item.data.layout !== 'contents'
+                      item.data.layout !== 'table-of-contents'
                   )
                   .map((item) => {
                     if (page.fileSlug !== item.fileSlug)
@@ -95,8 +94,16 @@ module.exports = class TableOfContents {
       })
 
     return this.renderTemplate(
-      `<div class="{% render 'page/class' %} quire-contents" id="main" role="main">
-        {% render "page/header", data: data %}
+      `<div class="{% pageClass pages=pages, pagination=pagination %} quire-contents" id="main" role="main">
+        {% pageHeader
+          contributor=contributor,
+          contributor_as_it_appears=contributor_as_it_appears,
+          contributor_byline=contributor_byline,
+          image=image,
+          label=label,
+          subtitle=subtitle,
+          title=title
+        %}
         <section class="section quire-page__content" id="content">
           ${contentElement}
           <div class="container ${containerClass}">
@@ -107,7 +114,7 @@ module.exports = class TableOfContents {
                 </ul>
               </div>
               <div class="content">
-                {% render 'page/bibliography' %}
+                {% bibliography citations=citations %}
               </div>
             </div>
             ${this.pageButtons({ pagination })}

@@ -24,7 +24,7 @@ module.exports = function(eleventyConfig, globalData) {
       const modifier = figureLabelLocation || ''
 
       let content = figureLabelLocation === 'on-top'
-      ? `<span class="q-figure__label-icon">${icon('fullscreen', 'Expand')}</span>`
+      ? `<span class="q-figure__label-icon">${icon({ type: 'fullscreen', description: 'Expand' })}</span>`
       : ''
       content += `<span class="q-figure__label-text">${markdownify(figure.label || '')}</span>`
 

@@ -10,8 +10,9 @@ module.exports = function (eleventyConfig, globalData) {
     const { caption, id } = figure
 
     const iconElement = figureLabelLocation === 'below'
-      ? icon('fullscreen', 'Expand')
+      ? icon({ type: 'fullscreen', description: 'Expand' })
       : ''
+
     return figureModal
       ? html`<a
           href="#deepzoom-${id}"

@@ -6,16 +6,16 @@ description: splash page layout
   {% assign imagePath = config.params.imageDir | append: '/' | append: image %}
 {% endif %}
 
-<article class="{% render "page/class" %} quire-splash" id="main" role="main">
+<article class="{% pageClass pages=pages, pagination=pagination %} quire-splash" id="main" role="main">
   <section class="{% if title == "title page" or title == "half title page" %} is-screen-only {% endif %} quire-page__header hero {% if content %}{% else %}quire-page__header--full-height{% endif %} {% if image %}hero-image{% endif %}" {% if image %}style="background-image: url('{{ imagePath }}');"{% endif %}>
     <div class="hero-body">
       <h1 class="quire-page__header__title" id="{{ title | slugify }}">
-        {% if label %}<span class="label">{{ label }}<span class="visually-hidden">{{ site.params.pageLabelDivider }}</span></span>{% endif %}
-        {%- render "page/title", title: title, subtitle: subtitle | markdownify -%}
+        {% if label %}<span class="label">{{ label }}<span class="visually-hidden">{{ config.params.pageLabelDivider }}</span></span>{% endif %}
+        {%- pageTitle title=title, subtitle=subtitle -%}
       </h1>
       {% if contributor %}
         <div class="quire-page__header__contributor">
-          {% render "contributor/list", contributor: contributor, contributorType: "all", listType: "list-plus" %}
+          {% contributorList contributor=contributor, format="name-title" %}
         </div>
       {% endif %}
     </div>
@@ -24,12 +24,12 @@ description: splash page layout
   {% if content %}
     <section id="content" class="section quire-page__content">
       {% if abstract %}
-        {% render "page/abstract", abstract: abstract %}
+        {% abstract abstract=abstract %}
       {% endif %}
       <div class="container">
         <div class="content{% if image %}{% else %} no-image-above{% endif %}">
           {{ content }}
-          {% render "page/bibliography" %}
+          {% bibliography citations=citations %}
         </div>
         {% pageButtons pagination=pagination %}
       </div>

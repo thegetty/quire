@@ -40,7 +40,7 @@ module.exports = function (eleventyConfig, globalData) {
     } = page
 
     const {
-      contributors: pageContributors,
+      contributor: pageContributors,
       image,
       label,
       object: pageObject,
@@ -54,8 +54,9 @@ module.exports = function (eleventyConfig, globalData) {
 
     // const itemClassName = weight < pageOne.data.weight ? "frontmatter-page" : ""
     const itemClassName = ''
-    const pageContributorsElement = pageContributors
-      ? `<span class="contributor"> — ${contributorList({ contributors: pageContributors })}</span>`
+    const pageContributorList = contributorList({ contributors: pageContributors })
+    const pageContributorsElement = pageContributorList
+      ? `<span class="contributor"> — ${pageContributorList}</span>`
       : ''
 
     let pageTitleElement = ''
@@ -64,7 +65,8 @@ module.exports = function (eleventyConfig, globalData) {
     } else if (brief) {
       pageTitleElement += title
     } else {
-      pageTitleElement += oneLine`${pageTitle({ page: page.data, withLabel: true })}${pageContributorsElement}`
+      const { label, subtitle, title } = page.data
+      pageTitleElement += oneLine`${pageTitle({ label, subtitle, title })}${pageContributorsElement}`
     }
     const arrowIcon = `<span class="arrow remove-from-epub">&nbsp${icon({ type: 'arrow-forward', description: '' })}</span>`
 
