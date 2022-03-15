@@ -61,8 +61,6 @@ Evans and Stryker parted ways, mostly because of the bureaucratic requirements t
 
 ## Notes
 
-{% endbackmatter %}
-
 [^1]: Memorandum draft by Walker Evans, reproduced in *Walker Evans at Work*, (New York: Harper and Row, 1982), 112.
 
 [^2]: Walker Evans to Ernestine Evans, unfinished two-page letter in black ink on hotel stationery, dated Feb. 1934, first published in *Walker Evans at Work*, 98. This letter is part of the Evans Collection at the Getty (JPGM84.XG.963.42).
@@ -80,3 +78,5 @@ Evans and Stryker parted ways, mostly because of the bureaucratic requirements t
 [^8]: See Maddox, 429-31, for a more complete look at these three negatives.
 
 [^9]: Edwin Locke to Roy Stryker, six-page letter on hotel stationery, Feb. 4, 1937, *Stryker Papers*. Seven days after this letter, the two photographers are still in Memphis; Locke notifies Stryker that Evans is ill with a serious case of the flu but refuses to be taken to the hospital. Locke to Stryker, two-page letter on notecards, Feb. 11,1937, *Stryker Papers*.
+
+{% endbackmatter %}
