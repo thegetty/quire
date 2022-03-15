@@ -169,6 +169,10 @@ html {
           padding: 1.5rem 1.25rem;
         }
 
+        & .backmatter + hr {
+          display: none;
+        }
+
         @media print {
           padding: 0;
           margin: 0 auto;
