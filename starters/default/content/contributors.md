@@ -1,7 +1,10 @@
 ---
+layout: page
 title: Contributors
 weight: 201
-type: page
 ---
-
-{{< q-contributor range="primary" format="bio" >}}
+{% for contributor in contributors %}
+  {% if contributor.type == 'primary' %}
+    {%- contributor contributor=contributor, entryType='publication' -%}
+  {% endif %}
+{% endfor %}

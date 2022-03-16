@@ -1,8 +1,9 @@
 ---
 title: Catalogue
 weight: 100
-type: contents
+layout: table-of-contents
 class: grid
 epub: false
-slug: .
+section: catalogue
+permalink: catalogue/index.html
 ---
