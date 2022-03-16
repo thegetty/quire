@@ -1,14 +1,37 @@
-# Quire starter project ignored files
-.DS_Store
-.bundle
-.cache
-.sass-cache
-.tmp
-build
-node_modules
-public
-site
-themes/default/static/css/application.css
-themes/default/static/js/application.js
-themes/default/test-results/
-themes/default/tests/e2e/
+# Eleventy
+_includes/
+_layouts/
+_plugins/
+_site/
+.eleventy.js
+
+# dotenv environment variables file
+.env
+.env.*
+!.env.example
+
+# Dependency directories
+node_modules/
+
+# Log files
+logs
+*.log
+lerna-debug.log*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Optional npm cache directory
+.npm
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Optional eslint cache
+.eslintcache
+
+# Local Netlify folder
+.netlify
