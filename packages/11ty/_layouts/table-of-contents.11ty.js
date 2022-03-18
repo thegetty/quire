@@ -114,7 +114,7 @@ module.exports = class TableOfContents {
                 </ul>
               </div>
               <div class="content">
-                {% bibliography citations=citations %}
+                {% bibliography pageData=pageData %}
               </div>
             </div>
             ${this.pageButtons({ pagination })}
