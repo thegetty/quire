@@ -38,19 +38,17 @@ const mapArr = [];
  * templates without additional binding.
  */
 window["toggleMenu"] = () => {
-  let menu = document.getElementById("site-menu");
-  document.getElementsByClassName;
-  let menuAriaStatus = menu.getAttribute("aria-expanded");
+  const menu = document.getElementById("site-menu");
+  const catalogEntryImage = document.querySelector(
+    ".side-by-side > .quire-entry__image-wrap > .quire-entry__image"
+  );
+  const menuAriaStatus = menu.getAttribute("aria-expanded");
   menu.classList.toggle("is-expanded", !menu.classList.contains("is-expanded"));
   if (menuAriaStatus === "true") {
-    $(
-      ".side-by-side > .quire-entry__image-wrap > .quire-entry__image"
-    ).removeClass("menu_open");
+    catalogEntryImage && catalogEntryImage.classList.remove("menu_open")
     menu.setAttribute("aria-expanded", "false");
   } else {
-    $(
-      ".side-by-side > .quire-entry__image-wrap > .quire-entry__image"
-    ).addClass("menu_open");
+    catalogEntryImage && catalogEntryImage.classList.add("menu_open")
     menu.setAttribute("aria-expanded", "true");
   }
 };
