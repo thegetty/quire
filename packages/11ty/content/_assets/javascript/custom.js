@@ -17,7 +17,7 @@ window.onload = function () {
         const choicesEl = document.createElement('span');
         choicesEl.innerHTML ='This manifest has choices';
         event.target.parentNode.insertBefore(choicesEl, event.target);
-      });
+      }, { once: true });
     }
   };
 
