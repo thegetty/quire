@@ -1,5 +1,5 @@
 const { html } = require('common-tags')
-// const vault = require('@iiif/vault')
+const { globalVault } = require('@iiif/vault')
 
 /**
  * A shortcode that renders the canvas-panel web component
@@ -10,8 +10,13 @@ module.exports = function(eleventyConfig, globalData) {
     const { figure } = params
     const { canvasId, manifestId, preset } = figure
 
+    const vault = globalVault()
+
     // @todo get choices from vault
-    // const manifest = vault.get(manifestId)
+    console.warn('manifestId', manifestId)
+    vault.loadManifest(manifestId).then((manifest) => {
+      console.warn(manifest)
+    })
 
     return html`
       <canvas-panel id="gradoo" canvas-id="${canvasId}" manifest-id="${manifestId}" preset="${preset}"></canvas-panel>
