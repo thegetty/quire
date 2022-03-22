@@ -98,6 +98,20 @@ window["toggleSearch"] = () => {
 };
 
 /**
+ * Paul Frazee's easy templating function
+ * https://twitter.com/pfrazee/status/1223249561063477250?s=20
+ */
+function createHtml(tag, attributes, ...children) {
+  const element = document.createElement(tag);
+  for (let attribute in attributes) {
+    if (attribute === 'className') element.className = attributes[attribute];
+    else element.setAttribute(attribute, attributes[attribute]);
+  }
+  for (let child of children) element.append(child);
+  return element;
+}
+
+/**
  * sliderSetup
  * @description Set up the simple image slider used on catalogue entry pages for
  * objects with multiple figure images. See also slideImage function below.
