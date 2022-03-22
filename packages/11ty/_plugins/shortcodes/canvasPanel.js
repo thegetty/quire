@@ -16,6 +16,7 @@ module.exports = function(eleventyConfig, globalData) {
     console.warn('manifestId', manifestId)
     vault.loadManifest(manifestId).then((manifest) => {
       console.warn(manifest)
+      // @todo build choices UI and add to returned HTML
     })
 
     return html`
