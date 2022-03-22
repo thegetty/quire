@@ -123,33 +123,43 @@ async function sliderSetup() {
     document.getElementById("quire-entry__image")
   );
 
-  let slider = $(".quire-entry__image__group-container");
-  slider.each(function() {
-    let sliderImages = $(this).find("figure");
-    sliderImages.each((i, v) => {
-      if (sliderImages.length > 1) {
-        $(v)
-          .find(".quire-image-counter-download-container")
-          .append(
-            `<div class="quire-counter-container"><span class="counter">${i +
-              1} of ${sliderImages.length}</span></div>`
-          );
+  let jqueryslider = $(".quire-entry__image__group-container");
+  const slider = document.querySelector(".quire-entry__image__group-container");
+  if (slider) {
+    const sliderImages = slider.querySelectorAll("figure");
+    const sliderImageCount = sliderImages.length
+    sliderImages.forEach((sliderImage, index) => {
+      if (sliderImageCount > 1) {
+        const counterDownloadContainer = sliderImage.querySelector(".quire-image-counter-download-container");
+        counterDownloadContainer && counterDownloadContainer.append(
+          createHtml(
+            "div",
+            { className: "quire-counter-container" },
+            createHtml(
+              "span",
+              { className: "counter" },
+              `${index + 1} of ${sliderImageCount}`
+            )
+          )
+        );
+        if (index > 0) {
+          sliderImage.classList.add("visually-hidden")
+        }
       }
     });
-    let firstImage = $(sliderImages.first());
-    let lastImage = $(sliderImages.last());
-    sliderImages.addClass("visually-hidden");
-    firstImage.addClass("current-image first-image");
-    firstImage.removeClass("visually-hidden");
-    firstImage.css("display", "flex");
-    lastImage.addClass("last-image");
-  });
+    const firstImage = sliderImages[0];
+    firstImage.classList.add("current-image", "first-image");
+    firstImage.style.display = "flex";
+    const lastImage = sliderImages[sliderImageCount - 1];
+    lastImage.classList.add("last-image");
+  }
   const images = [...document.querySelectorAll(".quire-deepzoom-entry")];
-  const imageSrcs = images.filter(v => {
-      return v.getAttribute("src") !== null ? v : "";
+  const imageSrcs = images
+    .filter((image) => {
+      return image.getAttribute("src");
     })
-    .map(v => {
-      return v.getAttribute("src");
+    .map((image) => {
+      return image.getAttribute("src");
     });
   await preloadImages(imageSrcs);
   mapSetup(".quire-map-entry");
