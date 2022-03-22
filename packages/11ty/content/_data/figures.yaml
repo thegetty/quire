@@ -1,4 +1,8 @@
 figure_list:
+  - id: "gradoo"
+    canvasId: https://preview.iiif.io/cookbook/3333-choice/recipe/0033-choice/canvas/p1
+    manifestId: https://preview.iiif.io/cookbook/3333-choice/recipe/0033-choice/manifest.json
+    preset: zoom
   - id: "dog1"
     src: figures/lange.jpg
     caption: "*Dorothea Lange, Resettlement Administration photographer, in California*, 1936."

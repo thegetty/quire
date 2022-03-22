@@ -17,6 +17,7 @@ const { oneLine } = require('common-tags')
  * @return     {boolean}  An HTML <figure> element
  */
 module.exports = function (eleventyConfig, globalData) {
+  const canvasPanel = eleventyConfig.getFilter('canvasPanel')
   const getFigure = eleventyConfig.getFilter('getFigure')
   const figureimage = eleventyConfig.getFilter('figureimage')
   const figurelabel = eleventyConfig.getFilter('figurelabel')
@@ -39,6 +40,8 @@ module.exports = function (eleventyConfig, globalData) {
 
     const component = (figure) => {
       switch (true) {
+        case (!!figure.canvasId && !!figure.manifestId) || !!figure.iiifContent:
+          return canvasPanel({ figure });
         case figure.media_type === 'youtube':
           return figureyoutube({ figure })
           break

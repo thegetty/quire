@@ -56,6 +56,8 @@ module.exports = function(eleventyConfig, globalData) {
         <link rel="canonical" href="${canonicalURL}">
         <link rel="version-history" href="${publication.repositoryUrl}">
 
+        <script src="https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@latest"></script>
+
         ${publisherLinks}
 
         ${contributorLinks}

@@ -1,5 +1,6 @@
 const addComponentTag = require('../../_plugins/components/addComponentTag')
 const backmatter = require('./backmatter.js')
+const canvasPanel = require('./canvasPanel.js')
 const cite = require('./cite.js')
 const contributor = require('./contributor')
 const div = require('./div.js')
@@ -20,6 +21,7 @@ module.exports = function(eleventyConfig, options) {
     return div(eleventyConfig, globalData)(content, ...args)
   })
 
+  addComponentTag(eleventyConfig, canvasPanel, 'canvasPanel')
   addComponentTag(eleventyConfig, cite, 'cite')
   addComponentTag(eleventyConfig, contributor, 'contributor')
   addComponentTag(eleventyConfig, figure, 'figure')
