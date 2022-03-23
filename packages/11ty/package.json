@@ -52,7 +52,7 @@
     "vite": "^2.8.6"
   },
   "dependencies": {
-    "@iiif/vault": "^0.9.16",
+    "@iiif/vault": "^0.9.17",
     "bulma": "^0.9.3",
     "fs": "0.0.1-security",
     "hammerjs": "^2.0.8",
