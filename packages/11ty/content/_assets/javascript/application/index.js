@@ -443,7 +443,9 @@ function mlaDate(date) {
 function setDate() {
   const dateSpan = document.querySelector(".cite-current-date");
   const formattedDate = mlaDate(new Date());
-  dateSpan && dateSpan.innerHTML = formattedDate;
+  if (dateSpan) {
+    dateSpan.innerHTML = formattedDate;
+  }
 }
 
 /**
