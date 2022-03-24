@@ -312,15 +312,17 @@ function globalSetup() {
  */
 function loadSearchData() {
   // Grab search data
-  let dataURL = $("#js-search").data("search-index");
+  const dataURL = document.getElementById('js-search').dataset.searchIndex;
   if (!dataURL) {
-    console.warn('Search data url is undefined')
-    return
+    console.warn('Search data url is undefined');
+    return;
   }
-  $.get(dataURL, {
-    cache: true
-  }).done(data => {
-    data = typeof data === "string" ? JSON.parse(data) : data;
+  fetch(dataURL).then(async (response) => {
+    const { ok, statusText, url } = response
+    if (!ok) {
+      console.warn(`Search data ${statusText.toLowerCase()} at ${url}`)
+    }
+    const data = await response.json();
     window["QUIRE_SEARCH"] = new Search(data);
   });
 }
