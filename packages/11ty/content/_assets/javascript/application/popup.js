@@ -131,12 +131,13 @@ export default function(gallerySelector, mapArr) {
   };
   updateViewSlidesLink();
 
+  const hasGalleryElement = document.querySelector(gallerySelector)
   /**
    *
    * @description e magnificPopup object
    *
    */
-  $(gallerySelector).magnificPopup({
+  hasGalleryElement && $(gallerySelector).magnificPopup({
     delegate: "a.popup",
     type: "image",
     closeBtnInside: false,
