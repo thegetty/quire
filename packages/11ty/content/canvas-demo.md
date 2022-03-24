@@ -4,4 +4,6 @@ weight: 2
 layout: essay
 ---
 
-{% figure id="gradoo" %}
+{% figure id="example-canvas-with-choices" %}
+
+{% figure id="example-canvas" %}

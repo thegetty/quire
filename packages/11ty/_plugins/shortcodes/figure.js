@@ -27,7 +27,7 @@ module.exports = function (eleventyConfig, globalData) {
   const figureyoutube = eleventyConfig.getFilter('figureyoutube')
   const slugify = eleventyConfig.getFilter('slugify')
 
-  return function ({ id, ['class']: classes=[] }) {
+  return async function ({ id, ['class']: classes=[] }) {
     classes = typeof classes === 'string' ? [classes] : classes
     /**
      * @todo refactor q-figure--group styles using BEM and remove this conditional
@@ -38,10 +38,10 @@ module.exports = function (eleventyConfig, globalData) {
 
     const figure = getFigure(id)
 
-    const component = (figure) => {
+    const component = async (figure) => {
       switch (true) {
         case (!!figure.canvasId && !!figure.manifestId) || !!figure.iiifContent:
-          return canvasPanel({ figure });
+          return await canvasPanel({ figure });
         case figure.media_type === 'youtube':
           return figureyoutube({ figure })
           break
@@ -62,7 +62,7 @@ module.exports = function (eleventyConfig, globalData) {
     return oneLine`
       <figure id="${slugify(id)}" class="${classes.join(' ')}">
         <div class="q-figure__wrapper">
-          ${component(figure)}
+          ${await component(figure)}
         </div>
       </figure>
     `
