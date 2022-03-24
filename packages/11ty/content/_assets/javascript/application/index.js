@@ -622,8 +622,8 @@ function pageTeardown() {
 // Run immediately
 globalSetup();
 
-// Run when document is ready
-$(window).ready(() => {
+// Run when DOM content has loaded
+window.addEventListener('DOMContentLoaded', () => {
   pageSetup();
   scrollToHashOnLoad();
-});
+})
