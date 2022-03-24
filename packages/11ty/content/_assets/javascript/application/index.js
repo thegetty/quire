@@ -443,7 +443,7 @@ function mlaDate(date) {
 function setDate() {
   const dateSpan = document.querySelector(".cite-current-date");
   const formattedDate = mlaDate(new Date());
-  dateSpan.innerHTML(formattedDate);
+  dateSpan && dateSpan.innerHTML = formattedDate;
 }
 
 /**
@@ -457,6 +457,8 @@ function setDate() {
  */
 function slideImage(direction, event, mapArr) {
   event.stopPropagation();
+  const deepZoomImageContainer = document.querySelector(".leaflet-image-layer");
+  console.warn('DIRECTION, EVENT, MAPARR \n\n\n', direction, event, mapArr);
   let deepzoomCont = $(".leaflet-image-layer");
   deepzoomCont.hide();
   let slider = $(".quire-entry__image__group-container");
