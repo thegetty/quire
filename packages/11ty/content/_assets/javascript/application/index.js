@@ -123,7 +123,6 @@ async function sliderSetup() {
     document.getElementById("quire-entry__image")
   );
 
-  let jqueryslider = $(".quire-entry__image__group-container");
   const slider = document.querySelector(".quire-entry__image__group-container");
   if (slider) {
     const sliderImages = slider.querySelectorAll("figure");
