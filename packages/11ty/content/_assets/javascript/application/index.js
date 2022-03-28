@@ -125,11 +125,11 @@ async function sliderSetup() {
 
   const slider = document.querySelector(".quire-entry__image__group-container");
   if (slider) {
-    const sliderImages = slider.querySelectorAll("figure");
-    const sliderImageCount = sliderImages.length
-    sliderImages.forEach((sliderImage, index) => {
-      if (sliderImageCount > 1) {
-        const counterDownloadContainer = sliderImage.querySelector(".quire-image-counter-download-container");
+    const slides = slider.querySelectorAll("figure");
+    const slidesCount = slides.length;
+    slides.forEach((slide, index) => {
+      if (slidesCount > 1) {
+        const counterDownloadContainer = slide.querySelector(".quire-image-counter-download-container");
         counterDownloadContainer && counterDownloadContainer.append(
           createHtml(
             "div",
@@ -137,19 +137,19 @@ async function sliderSetup() {
             createHtml(
               "span",
               { className: "counter" },
-              `${index + 1} of ${sliderImageCount}`
+              `${index + 1} of ${slidesCount}`
             )
           )
         );
         if (index > 0) {
-          sliderImage.classList.add("visually-hidden")
+          slide.classList.add("visually-hidden");
+          // slide.style.display = "none";
         }
       }
     });
-    const firstImage = sliderImages[0];
+    const firstImage = slides[0];
     firstImage.classList.add("current-image", "first-image");
-    firstImage.style.display = "flex";
-    const lastImage = sliderImages[sliderImageCount - 1];
+    const lastImage = slides[slidesCount - 1];
     lastImage.classList.add("last-image");
   }
   const images = [...document.querySelectorAll(".quire-deepzoom-entry")];
@@ -459,50 +459,57 @@ function setDate() {
  */
 function slideImage(direction, event, mapArr) {
   event.stopPropagation();
-  const deepZoomImageContainer = document.querySelector(".leaflet-image-layer");
-  console.warn('DIRECTION, EVENT, MAPARR \n\n\n', direction, event, mapArr);
-  let deepzoomCont = $(".leaflet-image-layer");
-  deepzoomCont.hide();
-  let slider = $(".quire-entry__image__group-container");
-  let firstImage = slider.children(".first-image");
-  let lastImage = slider.children(".last-image");
-  let currentImage = slider.children(".current-image");
-  let nextImage = currentImage.next("figure");
-  let prevImage = currentImage.prev("figure");
-  stopVideo(document.querySelector(".current-image"));
-  currentImage.hide();
-  currentImage.removeClass("current-image");
-  if (direction == "next") {
-    if (currentImage.hasClass("last-image")) {
-      firstImage.addClass("current-image");
-      firstImage.css("display", "flex");
-      firstImage.removeClass("visually-hidden");
-    } else {
-      nextImage.addClass("current-image");
-      nextImage.css("display", "flex");
-      nextImage.removeClass("visually-hidden");
-    }
-  } else if (direction == "prev") {
-    if (currentImage.hasClass("first-image")) {
-      lastImage.addClass("current-image");
-      lastImage.css("display", "flex");
-      lastImage.removeClass("visually-hidden");
-    } else {
-      prevImage.addClass("current-image");
-      prevImage.css("display", "flex");
-      prevImage.removeClass("visually-hidden");
-    }
-  }
 
-  mapArr.forEach(v => {
-    validateSize(v)
-      .then(() => {
-        deepzoomCont.fadeIn({
-          duration: "fast"
-        });
-      })
-      .catch(err => console.log(err));
-  });
+  const hideElement = (element) => {
+    element.style.display = "none";
+  };
+
+  const showElement = (element, displayValue) => {
+    element.style.display = displayValue;
+  };
+
+  const slider = document.querySelector(".quire-entry__image__group-container");
+  const leafletImages = Array.from(document.querySelector(".leaflet-image-layer"));
+  const slides = Array.from(slider.querySelectorAll("figure"));
+  const currentSlide = slider.querySelector(".current-image");
+  const currentSlideIndex = slides.findIndex((item) => item.classList.contains("current-image"));
+  const nextSlide = slides.slice((currentSlideIndex + 1) % slides.length)[0];
+  const prevSlide = slides.slice((currentSlideIndex - 1) % slides.length)[0];
+
+  const showSlide = (slide) => {
+    leafletImages.forEach((image) => {
+      hideElement(image);
+    });
+    stopVideo(currentSlide);
+    hideElement(currentSlide);
+    currentSlide.classList.remove("current-image");
+    slides.forEach((item) => {
+      item.classList.add("visually-hidden");
+    });
+    slide.classList.add("current-image");
+    showElement(slide, "flex")
+    slide.classList.remove("visually-hidden")
+    mapArr.forEach((map) => {
+      validateSize(map)
+        .then(() => {
+          leafletImages.forEach((image) => {
+            showElement(image, "block")
+          });
+        })
+        .catch((error) => console.error(error));
+    });
+  };
+
+  switch(direction) {
+    case "next":
+      showSlide(nextSlide);
+      break;
+    case "prev":
+      showSlide(prevSlide);
+      break;
+    default:
+      break;
+  }
 }
 
 /**
@@ -514,9 +521,7 @@ function slideImage(direction, event, mapArr) {
 function validateSize(map) {
   return new Promise((resolve, reject) => {
     if (!map) reject(new Error("No map!"));
-    setTimeout(() => {
-      resolve(map.invalidateSize());
-    }, 250);
+    resolve(map.invalidateSize());
   });
 }
 
