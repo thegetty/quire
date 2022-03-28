@@ -14,21 +14,20 @@ module.exports = function(eleventyConfig, globalData) {
   const { epub } = globalData.config
   const { figureLabelLocation } = globalData.config.params
 
-  return function({ figure }) {
-
+  return function({ caption, id, label }) {
     let labelElement
 
     if (epub) {
-      labelElement = `<span class="q-figure__label">${markdownify(figure.label)}</span>`
+      labelElement = `<span class="q-figure__label">${markdownify(label)}</span>`
     } else {
       const modifier = figureLabelLocation || ''
 
       let content = figureLabelLocation === 'on-top'
       ? `<span class="q-figure__label-icon">${icon({ type: 'fullscreen', description: 'Expand' })}</span>`
       : ''
-      content += `<span class="q-figure__label-text">${markdownify(figure.label || '')}</span>`
+      content += `<span class="q-figure__label-text">${markdownify(label || '')}</span>`
 
-      content = modifier === 'below' ? modalLink({ figure, content }) : content
+      content = modifier === 'below' ? modalLink({ caption, content, id }) : content
 
       labelElement = `<span class="q-figure__label q-figure__label--${modifier}">
         ${content}

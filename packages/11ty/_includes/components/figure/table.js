@@ -12,15 +12,14 @@ module.exports = function(eleventyConfig, globalData) {
 
   const { figureLabelLocation, imageDir } = globalData.config.params
 
-  return function({ figure }) {
-    // const figureId = 'deepzoomtable' | append: date
-    const modalLink = `#${figure.id}`
-    const tableSrc = path.join('static', imageDir, figure.src)
+  return function({ caption, credit, id, src }) {
+    const modalLink = `#${id}`
+    const tableSrc = path.join('static', imageDir, src)
     const title = markdownify(caption)
 
-    const figcaption = figurecaption({ figure })
+    const figcaption = figurecaption({ caption, credit })
     const figureLabel = figureLabelLocation === 'on-top'
-      ? figurelabel({ figure })
+      ? figurelabel({ caption, id, label })
       : ''
 
     const figureModal = (tableSrc) => html`
