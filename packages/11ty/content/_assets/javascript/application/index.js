@@ -477,6 +477,10 @@ function slideImage(direction, event, mapArr) {
   const prevSlide = slides.slice((currentSlideIndex - 1) % slides.length)[0];
 
   const showSlide = (slide) => {
+    // TODO refactor slideshow navigation logic to not require a complex combination of setting/unsetting class names and inline styles
+    // the `visually-hidden` class is added to keep slides in the DOM but not visible
+    // toggling `display: none`/`display: flex` on <figure>s (slide containers) replaced previous slideshow display logic depending on <jQueryElement>.hide()
+    // toggling `display: none`/`display: block` and `class="current-image"` on leaflet image layer `<img>` tags triggers CSS `fadeIn` animation, replacing animation delays previously set with a `setTimeout`
     leafletImages.forEach((image) => {
       hideElement(image);
     });
