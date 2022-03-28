@@ -24,43 +24,45 @@ module.exports = function (eleventyConfig, globalData) {
   const figuresoundcloud = eleventyConfig.getFilter('figuresoundcloud')
   const figurtable = eleventyConfig.getFilter('figurtable')
   const figureyoutube = eleventyConfig.getFilter('figureyoutube')
-  const slugify = eleventyConfig.getFilter('slugify')
 
-  return function ({ id, ['class']: classes=[] }) {
+  const { epub, pdf } = globalData.config.params
+
+  return async function (params) {
+    let { id, class: classes=[] } = params
     classes = typeof classes === 'string' ? [classes] : classes
-    /**
-     * @todo refactor q-figure--group styles using BEM and remove this conditional
-     */
-    if (!classes.includes('q-figure--group__item')) {
-      classes.push('q-figure')
-    }
 
-    const figure = getFigure(id)
+    /**
+     * Merge figures.yaml data and additional params
+     */
+    let figure = id ? getFigure(id) : {}
+    figure = { ...figure, ...params }
+
+    const { media_type: mediaType } =  figure
 
     const component = (figure) => {
       switch (true) {
-        case figure.media_type === 'youtube':
-          return figureyoutube({ figure })
+        case (epub || pdf) && ['soundcloud', 'youtube'].includes(mediaType):
+          return figureplaceholder(figure)
+        case mediaType === 'youtube':
+          return figureyoutube(figure)
           break
-        case figure.media_type === 'vimeo':
+        case mediaType === 'vimeo':
           break
-        case figure.media_type === 'soundcloud':
-          return figuresoundcloud({ figure })
-        case figure.media_type === 'website':
+        case mediaType === 'soundcloud':
+          return figuresoundcloud(figure)
+        case mediaType === 'website':
           break
-        case figure.media_type === 'table':
-          return figuretable({ figure })
+        case mediaType === 'table':
+          return figuretable(figure)
           break
         default:
-          return figureimage({ figure })
+          return figureimage(figure)
       }
     }
 
     return oneLine`
-      <figure id="${slugify(id)}" class="${classes.join(' ')}">
-        <div class="q-figure__wrapper">
-          ${component(figure)}
-        </div>
+      <figure class="${['q-figure', ...classes].join(' ')}">
+        ${component(figure)}
       </figure>
     `
   }

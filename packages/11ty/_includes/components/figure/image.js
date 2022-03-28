@@ -14,40 +14,35 @@ module.exports = function(eleventyConfig, globalData) {
   const figurelabel = eleventyConfig.getFilter('figurelabel')
   const figuremodallink = eleventyConfig.getFilter('figuremodallink')
   const markdownify = eleventyConfig.getFilter('markdownify')
+  const slugify = eleventyConfig.getFilter('slugify')
 
   const { imageDir, figureLabelLocation } = globalData.config.params
 
-  return function({ figure }) {
-    const { alt='', caption, id, src='' } = figure
+  return function({ alt='', caption, credit, id, label, src='' }) {
 
     const imageSrc = path.join(imageDir, src)
-    const labelElement = figurelabel({ figure })
-    const imageElement = `<img alt="${alt}" class="q-figure__image" src="${imageSrc}"/>`
+    const labelElement = figurelabel({ caption, id, label })
+
+    const figureElement = `
+      <img
+        alt="${alt}"
+        id="${slugify(id)}"
+        title="${caption}"
+        class="q-figure__image"
+        src="${imageSrc}"
+      />
+    `
 
     const imagePreviewElement =
       (figureLabelLocation === 'on-top')
-        ? figuremodallink({ figure, content: imageElement + figurelabel({ figure }) })
-        : imageElement
+        ? figuremodallink({ caption, content: figureElement + labelElement, id })
+        : figureElement
 
     const imageCaptionElement = (figureLabelLocation === 'below')
-      ? figurecaption({ figure, content: labelElement })
-      : figurecaption({ figure })
+      ? figurecaption({ caption, content: labelElement, credit })
+      : figurecaption({ caption, credit })
 
     return html`
-      <figure
-        id="deepzoom-${id}"
-        title="${caption}"
-        class="quire-figure leaflet-outer-wrapper mfp-hide notGet"
-      >
-        <div
-          id="js-deepzoom-${id}"
-          class="quire-deepzoom inset leaflet-inner-wrapper "
-          aria-label="Zoomable image"
-          aria-live="polite"
-          role="application"
-          src="${imageSrc}"
-        />
-      </figure>
       ${imagePreviewElement}
       ${imageCaptionElement}
     `
