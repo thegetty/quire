@@ -14,7 +14,6 @@ module.exports = function(eleventyConfig, globalData) {
   const figurelabel = eleventyConfig.getFilter('figurelabel')
   const figuremodallink = eleventyConfig.getFilter('figuremodallink')
   const markdownify = eleventyConfig.getFilter('markdownify')
-  const slugify = eleventyConfig.getFilter('slugify')
 
   const { imageDir, figureLabelLocation } = globalData.config.params
 
@@ -26,7 +25,6 @@ module.exports = function(eleventyConfig, globalData) {
     const figureElement = `
       <img
         alt="${alt}"
-        id="${slugify(id)}"
         title="${caption}"
         class="q-figure__image"
         src="${imageSrc}"
