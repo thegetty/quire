@@ -6,8 +6,7 @@ module.exports = function (eleventyConfig, globalData) {
 
   const { figureLabelLocation, figureModal } = globalData.config.params
 
-  return function({ content, figure }) {
-    const { caption, id } = figure
+  return function({ caption, content, id }) {
 
     const iconElement = figureLabelLocation === 'below'
       ? icon({ type: 'fullscreen', description: 'Expand' })
@@ -15,9 +14,8 @@ module.exports = function (eleventyConfig, globalData) {
 
     return figureModal
       ? html`<a
-          href="#deepzoom-${id}"
-          class="inline popup"
-          data-type="inline"
+          href="#${id}"
+          class="q-figure__modal-link"
           title="${markdownify(caption || '')}">
           <span class="q-figure__label-icon">${iconElement}</span>
           ${content}
