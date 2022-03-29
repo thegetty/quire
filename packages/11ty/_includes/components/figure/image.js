@@ -22,27 +22,29 @@ module.exports = function(eleventyConfig, globalData) {
     const imageSrc = path.join(imageDir, src)
     const labelElement = figurelabel({ caption, id, label })
 
-    const figureElement = `
+    let imageElement = `
       <img
         alt="${alt}"
-        title="${caption}"
         class="q-figure__image"
         src="${imageSrc}"
       />
     `
 
-    const imagePreviewElement =
+    /**
+     * Wrap image in modal link
+     */
+    imageElement =
       (figureLabelLocation === 'on-top')
-        ? figuremodallink({ caption, content: figureElement + labelElement, id })
-        : figureElement
+        ? figuremodallink({ caption, content: imageElement + labelElement, id })
+        : imageElement
 
-    const imageCaptionElement = (figureLabelLocation === 'below')
+    const captionElement = (figureLabelLocation === 'below')
       ? figurecaption({ caption, content: labelElement, credit })
       : figurecaption({ caption, credit })
 
     return html`
-      ${imagePreviewElement}
-      ${imageCaptionElement}
+      ${imageElement}
+      ${captionElement}
     `
   }
 }
