@@ -23,11 +23,7 @@ module.exports = function(eleventyConfig, globalData) {
     const labelElement = figurelabel({ caption, id, label })
 
     let imageElement = `
-      <img
-        alt="${alt}"
-        class="q-figure__image"
-        src="${imageSrc}"
-      />
+      <img alt="${alt}" class="q-figure__image" src="${imageSrc}" />
     `
 
     /**
