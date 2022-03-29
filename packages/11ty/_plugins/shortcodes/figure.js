@@ -17,13 +17,14 @@ const { oneLine } = require('common-tags')
  * @return     {boolean}  An HTML <figure> element
  */
 module.exports = function (eleventyConfig, globalData) {
-  const getFigure = eleventyConfig.getFilter('getFigure')
   const figureimage = eleventyConfig.getFilter('figureimage')
   const figurelabel = eleventyConfig.getFilter('figurelabel')
   const figuremodallink = eleventyConfig.getFilter('figuremodallink')
   const figuresoundcloud = eleventyConfig.getFilter('figuresoundcloud')
   const figurtable = eleventyConfig.getFilter('figurtable')
   const figureyoutube = eleventyConfig.getFilter('figureyoutube')
+  const getFigure = eleventyConfig.getFilter('getFigure')
+  const slugify = eleventyConfig.getFilter('slugify')
 
   const { epub, pdf } = globalData.config.params
 
@@ -61,7 +62,7 @@ module.exports = function (eleventyConfig, globalData) {
     }
 
     return oneLine`
-      <figure class="${['q-figure', ...classes].join(' ')}">
+      <figure id="${slugify(id)}" class="${['q-figure', ...classes].join(' ')}">
         ${component(figure)}
       </figure>
     `
