@@ -121,11 +121,13 @@ class DeepZoom {
     setTimeout(() => {
       this.validateSize(map);
     }, 100);
-    if ($(window)) {
-      $(window).on("resize", event => {
-        if (map) {
-          this.validateSize(map);
-        }
+    if (window) {
+      window.addEventListener('resize', (event) => {
+        window.requestAnimationFrame(() => {
+          if (map) {
+            this.validateSize(map);
+          }
+        });
       });
     }
   }
