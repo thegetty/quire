@@ -27,18 +27,18 @@ const getChoices = (annotations=[]) => {
 module.exports = function(eleventyConfig, globalData) {
 
   return async function(params) {
-    const { figure } = params
-    const { canvasId, manifestId, preset } = figure
-    let choicesUI
-    /**
-     * @todo Determine if choices can be defined on canvas.annotations and an AnnotationPage in canvas.items, or if they are mutually exclusive
-     */
+    let { canvasId, id, manifestId, preset } = params
+
+    if (!manifestId || !canvasId) {
+      console.warn(`Error in CanvasPanel shortode: Missing params canvasId or manifestId. Fig.id: `, id)
+      return;
+    }
+
+    let choices
+
     await vault.loadManifest(manifestId)
-    let choices = []
     const canvas = vault.get(canvasId)
-
     choices = getChoices(canvas.annotations)
-
     if (!choices.length && canvas.items.length) {
       canvas.items.map(({ id, type }) => {
         if (type === 'AnnotationPage') {
@@ -47,17 +47,18 @@ module.exports = function(eleventyConfig, globalData) {
         }
       })
     }
+
     // console.warn('choices', choices)
-    const hasChoices = !!choices.length;
+    const hasChoices = !!choices.length
 
     choicesUI = choices.map((item, index) => {
       const classes = ['canvas-choice']
       if (index === 0) classes.push('canvas-choice--active')
-      return `<button class="${classes.join(' ')}" type="button" value="${item.id}">${item.label.en[0]}</button>`
+      return `<button class="${classes.join(' ')}" type="button" value="${item.id}">${item.label.en ? item.label.en[0] : item.label}</button>`
     })
 
     return html`
-      <canvas-panel id="${figure.id}" canvas-id="${canvasId}" manifest-id="${manifestId}" preset="${preset}">
+      <canvas-panel id="${id}" canvas-id="${canvasId}" manifest-id="${manifestId}" preset="${preset}">
         ${hasChoices ? choicesUI.join('') : ''}
       </canvas-panel>
     `
