@@ -25,6 +25,7 @@ module.exports = function (eleventyConfig, globalData) {
   const figuresoundcloud = eleventyConfig.getFilter('figuresoundcloud')
   const figurtable = eleventyConfig.getFilter('figurtable')
   const figureyoutube = eleventyConfig.getFilter('figureyoutube')
+  const slugify = eleventyConfig.getFilter('slugify')
 
   const { epub, pdf } = globalData.config.params
 
@@ -64,7 +65,7 @@ module.exports = function (eleventyConfig, globalData) {
     }
 
     return oneLine`
-      <figure class="${['q-figure', ...classes].join(' ')}">
+      <figure id="${slugify(id)}" class="${['q-figure', ...classes].join(' ')}">
         ${await component(figure)}
       </figure>
     `

@@ -14,7 +14,6 @@ module.exports = function(eleventyConfig, globalData) {
   const figurelabel = eleventyConfig.getFilter('figurelabel')
   const figuremodallink = eleventyConfig.getFilter('figuremodallink')
   const markdownify = eleventyConfig.getFilter('markdownify')
-  const slugify = eleventyConfig.getFilter('slugify')
 
   const { imageDir, figureLabelLocation } = globalData.config.params
 
@@ -23,28 +22,25 @@ module.exports = function(eleventyConfig, globalData) {
     const imageSrc = path.join(imageDir, src)
     const labelElement = figurelabel({ caption, id, label })
 
-    const figureElement = `
-      <img
-        alt="${alt}"
-        id="${slugify(id)}"
-        title="${caption}"
-        class="q-figure__image"
-        src="${imageSrc}"
-      />
+    let imageElement = `
+      <img alt="${alt}" class="q-figure__image" src="${imageSrc}" />
     `
 
-    const imagePreviewElement =
+    /**
+     * Wrap image in modal link
+     */
+    imageElement =
       (figureLabelLocation === 'on-top')
-        ? figuremodallink({ caption, content: figureElement + labelElement, id })
-        : figureElement
+        ? figuremodallink({ caption, content: imageElement + labelElement, id })
+        : imageElement
 
-    const imageCaptionElement = (figureLabelLocation === 'below')
+    const captionElement = (figureLabelLocation === 'below')
       ? figurecaption({ caption, content: labelElement, credit })
       : figurecaption({ caption, credit })
 
     return html`
-      ${imagePreviewElement}
-      ${imageCaptionElement}
+      ${imageElement}
+      ${captionElement}
     `
   }
 }
