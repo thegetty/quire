@@ -65,9 +65,7 @@ module.exports = function (eleventyConfig, globalData) {
 
     return oneLine`
       <figure class="${['q-figure', ...classes].join(' ')}">
-        <div class="q-figure__wrapper">
-          ${await component(figure)}
-        </div>
+        ${await component(figure)}
       </figure>
     `
   }
