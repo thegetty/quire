@@ -16,7 +16,6 @@ import quicklink from "quicklink";
 
 // JS Libraries (add them to package.json with `npm install [library]`)
 import "babel-polyfill";
-import $ from "jquery";
 import "velocity-animate";
 import "./soundcloud-api";
 
