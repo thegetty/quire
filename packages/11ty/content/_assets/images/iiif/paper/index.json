@@ -1,0 +1,71 @@
+{
+  "@context": [
+    "http://www.w3.org/ns/anno.jsonld",
+    "http://iiif.io/api/presentation/3/context.json"
+  ],
+  "id": "http://localhost:3000/images/iiif/index.json",
+  "type": "Manifest",
+  "items": [
+    {
+      "id": "http://localhost:3000/images/iiif/index.json/canvas/0",
+      "type": "Canvas",
+      "items": [
+        {
+          "id": "http://localhost:3000/images/iiif/index.json/canvas/0/annotationpage/0",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http://localhost:3000/images/iiif/index.json/canvas/0/annotation/0",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "http://localhost:3000/images/iiif/index.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "label": {
+                  "@none": [
+                    "paper"
+                  ]
+                },
+                "width": 2674,
+                "height": 2674,
+                "service": [
+                  {
+                    "@id": "http://localhost:3000/images/iiif/+tiles",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ]
+              },
+              "target": "http://localhost:3000/images/iiif/index.json/canvas/0"
+            }
+          ]
+        }
+      ],
+      "label": {
+        "@none": [
+          "paper"
+        ]
+      },
+      "width": 2674,
+      "height": 2674,
+      "thumbnail": [
+        {
+          "id": "http://localhost:3000/images/iiif/paper/thumb.jpg",
+          "type": "Image"
+        }
+      ]
+    }
+  ],
+  "label": {
+    "@none": [
+      "paper"
+    ]
+  },
+  "thumbnail": [
+    {
+      "id": "http://localhost:3000/images/iiif/paper/thumb.jpg",
+      "type": "Image"
+    }
+  ]
+}
