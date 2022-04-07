@@ -4,6 +4,11 @@ weight: 2
 layout: essay
 ---
 
+## Basic
+{% figure id="example-canvas" %}
+
+## With Choices
 {% figure id="example-canvas-with-choices" %}
 
-{% figure id="example-canvas" %}
+## BIIIF Image Service
+{% figure id="example-biiif-image-service" %}
