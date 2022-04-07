@@ -21,9 +21,13 @@ module.exports = function(eleventyConfig, globalData) {
 
     const imageSrc = path.join(imageDir, src)
     const labelElement = figurelabel({ caption, id, label })
+    const srcParts = src.split(path.sep)
+    const tagName = srcParts[srcParts.length - 1] === '+tiles'
+      ? 'image-service'
+      : 'img'
 
     let imageElement = `
-      <img alt="${alt}" class="q-figure__image" src="${imageSrc}" />
+      <${tagName} alt="${alt}" class="q-figure__image" src="${imageSrc}" />
     `
 
     /**
