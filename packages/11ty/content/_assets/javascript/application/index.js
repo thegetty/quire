@@ -20,7 +20,7 @@ import "velocity-animate";
 import "./soundcloud-api";
 
 // Modules (feel free to define your own and import here)
-import { preloadImages, stopVideo, toggleFullscreen } from "./helper";
+import { createHtml, preloadImages, stopVideo, toggleFullscreen } from "./helper";
 import DeepZoom from "./deepzoom";
 import Map from "./map";
 import Navigation from "./navigation";
@@ -95,20 +95,6 @@ window["toggleSearch"] = () => {
     searchControls.setAttribute("aria-expanded", "true");
   }
 };
-
-/**
- * Paul Frazee's easy templating function
- * https://twitter.com/pfrazee/status/1223249561063477250?s=20
- */
-function createHtml(tag, attributes, ...children) {
-  const element = document.createElement(tag);
-  for (let attribute in attributes) {
-    if (attribute === 'className') element.className = attributes[attribute];
-    else element.setAttribute(attribute, attributes[attribute]);
-  }
-  for (let child of children) element.append(child);
-  return element;
-}
 
 /**
  * sliderSetup
