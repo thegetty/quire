@@ -54,6 +54,7 @@
     "@iiif/vault": "^0.9.17",
     "biiif": "^1.0.6",
     "bulma": "^0.9.3",
+    "dotenv": "^16.0.0",
     "fs": "0.0.1-security",
     "hammerjs": "^2.0.8",
     "intersection-observer": "^0.12.0",
