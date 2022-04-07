@@ -22,6 +22,7 @@ import "./soundcloud-api";
 // Modules (feel free to define your own and import here)
 import { createHtml, preloadImages, stopVideo, toggleFullscreen } from "./helper";
 import DeepZoom from "./deepzoom";
+import Lightbox from "./lightbox";
 import Map from "./map";
 import Navigation from "./navigation";
 import Popup from "./popup";
@@ -336,7 +337,10 @@ function popupSetup(figureModal) {
     document.querySelector(".mfp-wrap")
   );
   if (figureModal) {
-    Popup(".q-figure__wrapper", mapArr);
+    // Popup(".q-figure__wrapper", mapArr);
+    if (Lightbox.figures.length) {
+      new Lightbox();
+    }
   } else {
     mapSetup(".quire-map");
     deepZoomSetup(".quire-deepzoom", mapArr);
