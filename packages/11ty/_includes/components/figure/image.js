@@ -10,6 +10,7 @@ const path = require('path')
  * @return     {String}  An HTML <img> element
  */
 module.exports = function(eleventyConfig, globalData) {
+  const canvasPanel = eleventyConfig.getFilter('canvasPanel')
   const figurecaption = eleventyConfig.getFilter('figurecaption')
   const figurelabel = eleventyConfig.getFilter('figurelabel')
   const figuremodallink = eleventyConfig.getFilter('figuremodallink')
@@ -17,18 +18,26 @@ module.exports = function(eleventyConfig, globalData) {
 
   const { imageDir, figureLabelLocation } = globalData.config.params
 
-  return function({ alt='', caption, credit, id, label, src='' }) {
-
+  return async function({ alt='', canvasId, caption, credit, id, iiifContent, label, manifestId, preset, src='' }) {
     const imageSrc = path.join(imageDir, src)
     const labelElement = figurelabel({ caption, id, label })
     const srcParts = src.split(path.sep)
-    const tagName = srcParts[srcParts.length - 1] === '+tiles'
-      ? 'image-service'
-      : 'img'
+    const hasTiles = srcParts[srcParts.length - 1] === '+tiles'
+    const hasManifestAndCanvasIds = (!!canvasId && !!manifestId) || !!iiifContent
 
-    let imageElement = `
-      <${tagName} alt="${alt}" class="q-figure__image" src="${imageSrc}" />
-    `
+    let imageElement;
+
+    switch (true) {
+      case hasManifestAndCanvasIds:
+        imageElement = await canvasPanel({ canvasId, id, manifestId, preset })
+        break;
+      case hasTiles:
+        imageElement = `<image-service alt="${alt}" class="q-figure__image" src="${imageSrc}"></image-service>`
+        break;
+      default:
+        imageElement = `<img alt="${alt}" class="q-figure__image" src="${imageSrc}" />`
+        break
+    }
 
     /**
      * Wrap image in modal link
