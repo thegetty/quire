@@ -1,6 +1,11 @@
 # Eleventy build artefacts
 _site/
 
+# BIIIF-generated image files
+content/_assets/images/iiif/*/+tiles/
+content/_assets/images/iiif/*/thumb.jpg
+content/_assets/images/iiif/*/index.json
+
 # dotenv environment variables file
 .env
 .env.*
