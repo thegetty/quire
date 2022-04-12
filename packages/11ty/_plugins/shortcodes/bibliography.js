@@ -5,7 +5,7 @@ const { html } = require('common-tags')
  * @param      {Object}  eleventyConfig
  * @param      {Object}  globalData
  */
-module.exports = function(eleventyConfig, globalData) {
+module.exports = function (eleventyConfig, globalData, { page }) {
   const biblioHeading = globalData.config.params.biblioHeading
   const displayBiblioShort = globalData.config.params.displayBiblioShort
   const markdownify = eleventyConfig.getFilter('markdownify')
@@ -14,8 +14,8 @@ module.exports = function(eleventyConfig, globalData) {
   /**
    * @property  {Array}  citations  computed data citations array
    */
-  return function ({ pageData }) {
-    if (!pageData.citations || !pageData.citations.length) return;
+  return function () {
+    if (!page.citations || !page.citations.length) return;
 
     const heading = biblioHeading
       ? `<h2 id="${slugify(biblioHeading)}">${biblioHeading}</h2>`
@@ -23,7 +23,7 @@ module.exports = function(eleventyConfig, globalData) {
 
     const definitionList = html`
       <dl>
-        ${pageData.citations.map((citation) => `
+        ${page.citations.map((citation) => `
           <dt><span id="${slugify(citation.id)}">${markdownify(citation.short)}</span></dt>
           <dd>${markdownify(citation.full)}</dd>
           `
@@ -33,7 +33,7 @@ module.exports = function(eleventyConfig, globalData) {
 
     const unorderedList = `
       <ul>
-        ${pageData.citations.map((citation) => `<li id="${slugify(citation.id)}">${markdownify(citation.full)}</li>`
+        ${page.citations.map((citation) => `<li id="${slugify(citation.id)}">${markdownify(citation.full)}</li>`
         )}
       </ul>
     `

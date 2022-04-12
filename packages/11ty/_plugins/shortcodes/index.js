@@ -1,5 +1,6 @@
 const addComponentTag = require('../../_plugins/components/addComponentTag')
 const backmatter = require('./backmatter.js')
+const bibliography = require('./bibliography.js')
 const cite = require('./cite.js')
 const contributor = require('./contributor')
 const div = require('./div.js')
@@ -14,6 +15,10 @@ const globalData = require('../globalData')
 module.exports = function(eleventyConfig, options) {
   eleventyConfig.addPairedShortcode('backmatter', function(content, ...args) {
     return backmatter(eleventyConfig, globalData)(content, ...args)
+  })
+
+  eleventyConfig.addShortcode('bibliography', function() {
+    return bibliography(eleventyConfig, globalData, { page: this.page })()
   })
 
   eleventyConfig.addPairedShortcode('class', function(content, ...args) {

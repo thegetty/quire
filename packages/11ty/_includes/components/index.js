@@ -7,7 +7,6 @@ const licenseIcons = require('./license-icons')
 module.exports = {
   abstract: require('./abstract.js'),
   analytics: require('./analytics.js'),
-  bibliography: require('./bibliography.js'),
   citation: require('./citation/index.js'),
   citationChicagoPage: require('./citation/chicago/page.js'),
   citationChicagoPublication: require ('./citation/chicago/publication.js'),
