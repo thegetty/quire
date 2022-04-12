@@ -29,11 +29,8 @@ module.exports = function (eleventyConfig, globalData) {
   const { epub, pdf } = globalData.config.params
 
   return async function (params) {
-    let { id, class: classes=[], group } = params
+    let { id, class: classes=[] } = params
     classes = typeof classes === 'string' ? [classes] : classes
-    classes = group
-      ? classes
-      : ['q-figure', ...classes]
 
     /**
      * Merge figures.yaml data and additional params
@@ -65,7 +62,7 @@ module.exports = function (eleventyConfig, globalData) {
     }
 
     return oneLine`
-      <figure id="${slugify(id)}" class="${classes.join(' ')}">
+      <figure id="${slugify(id)}" class="${['q-figure', ...classes].join(' ')}">
         ${await component(figure)}
       </figure>
     `

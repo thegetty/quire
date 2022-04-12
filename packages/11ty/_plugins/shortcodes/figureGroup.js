@@ -39,7 +39,7 @@ module.exports = function (eleventyConfig, globalData) {
       const startIndex = i * columns
       let row = '';
       for (let id of ids.slice(startIndex, columns + startIndex)) {
-        row += await figure({ id, class: classes, group: true });
+        row += await figure({ id, class: classes });
       }
       figureTags.push(`<div class="q-figure--group__row columns">${row}</div>`)
     }
