@@ -25,7 +25,10 @@ module.exports = function(eleventyConfig, options) {
     return div(eleventyConfig, globalData)(content, ...args)
   })
 
-  addComponentTag(eleventyConfig, cite, 'cite')
+  eleventyConfig.addShortcode('cite', function(...args) {
+    return cite(eleventyConfig, globalData, { page: this.page })(...args)
+  })
+
   addComponentTag(eleventyConfig, contributor, 'contributor')
   addComponentTag(eleventyConfig, figure, 'figure')
   addComponentTag(eleventyConfig, figureGroup, 'figuregroup')
