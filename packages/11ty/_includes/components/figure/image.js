@@ -22,7 +22,7 @@ module.exports = function(eleventyConfig, globalData) {
     const imageSrc = path.join(imageDir, src)
     const labelElement = figurelabel({ caption, id, label })
     const srcParts = src.split(path.sep)
-    const hasTiles = srcParts[srcParts.length - 1] === '+tiles'
+    const hasTiles = srcParts[srcParts.length - 1] === 'tiles'
     const hasManifestAndCanvasIds = (!!canvasId && !!manifestId) || !!iiifContent
 
     let imageElement;

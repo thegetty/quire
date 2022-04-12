@@ -52,7 +52,6 @@
   },
   "dependencies": {
     "@iiif/vault": "^0.9.17",
-    "biiif": "^1.0.6",
     "bulma": "^0.9.3",
     "dotenv": "^16.0.0",
     "fs": "0.0.1-security",
@@ -69,6 +68,7 @@
     "markdown-it-bracketed-spans": "^1.0.1",
     "material-icons": "^1.10.7",
     "quicklink": "^1.0.1",
+    "sharp": "^0.30.3",
     "smooth-scroll": "^16.1.3",
     "template-polyfill": "^2.0.0",
     "velocity-animate": "^1.5.2"

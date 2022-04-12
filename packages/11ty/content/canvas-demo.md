@@ -10,5 +10,5 @@ layout: essay
 ## With Choices
 {% figure id="example-canvas-with-choices" %}
 
-## BIIIF Image Service
-{% figure id="example-biiif-image-service" %}
+## Image Service
+{% figure id="example-image-service" %}
