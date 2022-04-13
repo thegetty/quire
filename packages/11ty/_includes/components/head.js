@@ -57,6 +57,8 @@ module.exports = function(eleventyConfig, globalData) {
         <link rel="version-history" href="${publication.repositoryUrl}">
 
         <script src="https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@latest"></script>
+        <script type="module" src="/_assets/javascript/lit/lightbox.js"></script>
+        <script type="module" src="/_assets/javascript/lit/modal.js"></script>
 
         ${publisherLinks}
 
