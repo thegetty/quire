@@ -2,7 +2,7 @@ const fs = require('fs-extra')
 const path = require('path')
 const sharp = require('sharp')
 
-module.exports = function({ input, output }, options = {}) {
+module.exports = function(input, output, options = {}) {
   const { debug, lazy } = options
 
   const { dir } = path.parse(input)
@@ -12,9 +12,6 @@ module.exports = function({ input, output }, options = {}) {
   const tileDirectory = path.join(output, 'tiles')
 
   if (fs.pathExistsSync(tileDirectory) && lazy) {
-    if (debug) {
-      console.warn(`[iiif:lib:tileImage:${id}] Lazy mode! Tile directory already exists, skipping.`)
-    }
     return
   }
 

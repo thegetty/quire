@@ -1,29 +1,78 @@
 const fs = require('fs-extra')
 const path = require('path')
+const createManifest = require('./createManifest')
 const tileImage = require('./tileImage')
+const { figures } = require('../../globalData')
+const sharp = require('sharp')
 require('dotenv').config()
 
 /**
- * Iterates over IIIF image directory and creates tiles and manifests for each image
- *
- * Expects the IIIF directory to follow biiif conventions of folder organization
- * See: https://github.com/IIIF-Commons/biiif#examples
- *
- * @param  {Object} eleventyConfig
+ * Creates an image with metadata in the output directory with the name `default.${ext}`
+ * @todo what should the size be? currently arbitrarily setting it to 800
+ * 
+ * @param  {String} input   input file path
+ * @param  {String} output  output directory
  * @param  {Object} options
- * @property  {Boolean} lazy If true, only processes new images. Default: true
  */
-const supportedExts = [
-  '.jp2',
-  '.jpg',
-  '.jpeg',
-  '.png',
-  '.svg',
-  '.tif',
-  '.tiff',
-]
+const createDefaultImage = (input, output, options = {}) => {
+  const { debug, lazy } = options
+  const { ext } = path.parse(input)
 
+  const fileOutput = path.join(output, `default${ext}`)
+
+  if (!lazy || !fs.pathExistsSync(fileOutput)) {
+    sharp(input)
+      .resize({ width: 800 })
+      .withMetadata()
+      .toFile(fileOutput)
+
+    if (debug) {
+      console.warn(`[iiif:lib:processImage:${id}] Created default image`)
+    }
+  }
+}
+
+/**
+ * Creates a thumbnail image in the output directory with the name `thumb.${ext}`
+ * 
+ * @param  {String} input   input file path
+ * @param  {String} output  output directory
+ * @param  {Object} options
+ */
+const createThumbnail = (input, output, options = {}) => {
+  const { debug, lazy } = options
+  const { ext } = path.parse(input)
+  const id = getId(input)
+
+  const fileOutput = path.join(output, `thumb${ext}`)
+
+  if (!lazy || !fs.pathExistsSync(fileOutput)) {
+    sharp(input)
+      .resize({ width: 50 })
+      .withMetadata()
+      .toFile(fileOutput)
+
+    if (debug) {
+      console.warn(`[iiif:lib:processImage:${id}] Created thumbnail`)
+    }
+  }
+}
+
+/**
+ * Returns a list of the paths to supported image files in a directory
+ * @param  {String} directory
+ * @return {Array<String>} List of image file paths           
+ */
 const getFilePaths = (directory) => {
+  const supportedExts = [
+    '.jp2',
+    '.jpg',
+    '.jpeg',
+    '.png',
+    '.svg',
+    '.tif',
+    '.tiff',
+  ]
   const filenames = fs.readdirSync(directory)
   return filenames.flatMap((filename) => {
     const filePath = path.join(directory, filename)
@@ -37,46 +86,66 @@ const getFilePaths = (directory) => {
   }).filter(item => item)
 }
 
-module.exports = async (options = {}) => {
+/**
+ * Get figure id from seed file path
+ * @return {String} [description]
+ */
+const getId = (filePath) => {
+  const { dir } = path.parse(filePath)
+  const dirParts = dir.split(path.sep)
+  return dirParts[dirParts.length - 1]
+}
+
+/**
+ * Iterates over IIIF seed directory and creates tiles, a default image and thumbnail, and manifest for each image
+ * @todo Creates manifests for figures with `choices`
+ *
+ * @param  {Object} eleventyConfig
+ * @param  {Object} options
+ * @property  {Boolean} lazy If true, only processes new images. Default: true
+ */
+module.exports = async (config, options = {}) => {
+  const { root, input, output } = config
+
   const defaultOptions = {
     debug: true,
     lazy: true,
   }
   const { debug, lazy } = { ...defaultOptions, options }
 
-  const root = 'content'
-  const seedDirectory = path.join(root, '_assets', 'images', 'figures', 'iiif')
-  const outputDirectory = path.join('_assets', 'images', '_iiif')
+  const filenames = getFilePaths(input)
 
-  const filenames = getFilePaths(seedDirectory)
-
-  filenames.forEach((filename) => {
-    const { dir } = path.parse(filename)
-    const dirParts = dir.split(path.sep)
-    const id = dirParts[dirParts.length - 1]
+  filenames.forEach(async(filename) => {
+    const id = getId(filename)
 
     if (debug) {
       console.warn(`[iiif:lib:processImage:${id}] Starting`)
     }
 
-    const outputFilePath = path.join(root, outputDirectory, id)
-    tileImage({
-      input: filename,
-      output: outputFilePath
-    }, { debug, lazy })
+    const outputFilePath = path.join(root, output, id)
 
-    // if user-generated manifest exists, copy to _iiif directory
-    const passthroughManifest = path.join(seedDirectory, id, 'manifest.json')
-    if (fs.pathExistsSync(passthroughManifest)) {
+    createThumbnail(filename, outputFilePath, options)
+    createDefaultImage(filename, outputFilePath, options)
+    tileImage(filename, outputFilePath, options)
+
+    // Build manifests for figures with choices
+    // const figuresWithChoices = figures.figure_list.filter(
+    //   ({ choices }) => choices && choices.length
+    // )
+    // const promises = figuresWithChoices.map((figure) => {
+    //   return createManifest(figure)
+    // })
+    // await Promise.all(promises)
+
+    // Copy user-generated manifests to _iiif directory
+    const manifestInput = path.join(input, id, 'manifest.json')
+    const manifestOutput = path.join(outputFilePath, 'manifest.json')
+
+    if (fs.pathExistsSync(manifestInput) && (!lazy || !fs.pathExistsSync(manifestOutput))) {
       if (debug) {
         console.warn(`[iiif:lib:processImage:${id}] Using user-generated manifest`)
       }
-      fs.copyFileSync(passthroughManifest, path.join(outputFilePath, 'manifest.json'))
-    } else {
-      if (debug) {
-        console.warn(`[iiif:lib:processImage:${id}] Creating manifest`)
-      }
-      // createManifest()
+      fs.copyFileSync(manifestInput, manifestOutput)
     }
   })
 }
