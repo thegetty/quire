@@ -1,5 +1,6 @@
 const fs = require('fs')
 const path = require('path')
+require('dotenv').config()
 
 /**
  * Quire features are implemented as Eleventy plugins
@@ -34,6 +35,8 @@ const yaml = require('js-yaml')
  */
 module.exports = function(eleventyConfig) {
   const projectDir = 'content'
+
+  eleventyConfig.addGlobalData('env', process.env);
 
   /**
    * Ignore README.md when processing templates
