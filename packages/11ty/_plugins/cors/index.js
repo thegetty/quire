@@ -1,7 +1,7 @@
 /**
  * CORS Config
- * @todo Update when upgrading to 11ty v2.0
- * See: https://www.11ty.dev/docs/watch-serve/#eleventy-dev-server
+ * @todo Browsersync is deprecated in Eleventy 2.0
+ * @see https://www.11ty.dev/docs/watch-serve/#browsersync
  */
 module.exports = function(eleventyConfig, options) {
   const { globalData } = eleventyConfig
