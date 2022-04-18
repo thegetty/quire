@@ -7,6 +7,7 @@ require('dotenv').config()
  */
 const { EleventyRenderPlugin } = require('@11ty/eleventy')
 const componentsPlugin = require('./_plugins/components')
+const corsPlugin = require('./_plugins/cors')
 const epubPlugin = require('./_plugins/epub')
 const filtersPlugin = require('./_plugins/filters')
 const frontmatterPlugin = require('./_plugins/frontmatter')
@@ -85,6 +86,7 @@ module.exports = function(eleventyConfig) {
   /**
    * Load additional plugins used for Quire projects
    */
+  eleventyConfig.addPlugin(corsPlugin)
   eleventyConfig.addPlugin(lintingPlugin)
   eleventyConfig.addPlugin(epubPlugin)
   eleventyConfig.addPlugin(iiifPlugin)
