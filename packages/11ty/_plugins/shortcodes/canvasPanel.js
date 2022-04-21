@@ -26,8 +26,19 @@ const getChoices = (annotations=[]) => {
     }
   }).filter(item => item)
 }
+
 module.exports = function(eleventyConfig, globalData) {
 
+  /**
+   * Canvas Panel Shortcode
+   * @param  {Object} params `figure` data from `figures.yaml`
+   * @property  {String} canvasId The id of the canvas to render
+   * @property  {String} choiceId The id of the choice to use as default (optional, and only applicable to canvases with choices)
+   * @property  {String} id The id property of the figure in figures.yaml
+   * @property  {String} manifestId The id of the manifest to render
+   * @property  {String} preset <canvas-panel> preset {@link https://iiif-canvas-panel.netlify.app/docs/examples/responsive-image#presets}
+   * @return {String}        <canvas-panel> markup
+   */
   return async function(params) {
     let { canvasId, choiceId, id, manifestId, preset } = params
 
