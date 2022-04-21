@@ -65,7 +65,7 @@ module.exports = {
         ({ choices }) => choices && choices.length
       )
       promises.push(figuresWithChoices.map((figure) => {
-        return createManifest(figure)
+        return createManifest(figure, options)
       }))
 
       // Copy user-generated manifests to _iiif directory

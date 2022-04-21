@@ -25,7 +25,7 @@ const getFilePaths = (directory, config={}) => {
         }
         break
       case !!names:
-        if (names.includes(name)) {
+        if (names.includes(`${name}${ext}`)) {
           return filePath
         }
         break

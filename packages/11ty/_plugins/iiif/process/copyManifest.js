@@ -9,7 +9,8 @@ const getId = require('./getId')
 module.exports = (config) => {
   const { 
     output: defaultOutput,
-    manifestFilename
+    manifestFilename,
+    root
   } = config
 
 /**
@@ -26,7 +27,7 @@ module.exports = (config) => {
     const outputDir = output || defaultOutput
     const id = getId(input)
 
-    const outputFilePath = path.join(outputDir, id, manifestFilename)
+    const outputFilePath = path.join(root, outputDir, id, manifestFilename)
     if (!lazy || !fs.pathExistsSync(outputFilePath)) {
       if (fs.pathExistsSync(outputFilePath)) {
         fs.rmSync(outputFilePath)
