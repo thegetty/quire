@@ -3,10 +3,17 @@ figure_list:
     manifestId: https://geealbers.github.io/iiif-bronze-guidelines/manifests/manifest-fig-006.json
     canvasId: http://cad6b682-68a3-4ea2-aabd-a1c217f7871a
     choiceId: https://iiif-files.s3.us-west-2.amazonaws.com/bronze-guidelines/fig-006/full/full/0/default.jpg
-  - id: "example-biiif-image-service"
-    label: BIIIF Image Service
-    src: iiif/cats/+tiles
-  - id: "example-canvas-with-choices"
+  - id: "example-image-service"
+    label: Image Service
+    src: _iiif/more-cats/tiles
+  - id: "example-with-choices-from-figures-yaml"
+    label: "With Choices from figures.yaml"
+    choices:
+      - id: more-cats
+        label: "More Cats"
+      - id: more-cats
+        label: "Other Cats"
+  - id: "example-manifest-with-choices"
     canvasId: https://preview.iiif.io/cookbook/3333-choice/recipe/0033-choice/canvas/p1
     manifestId: https://preview.iiif.io/cookbook/3333-choice/recipe/0033-choice/manifest.json
     label: "With Choices"
