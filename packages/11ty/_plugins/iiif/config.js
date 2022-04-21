@@ -1,9 +1,17 @@
 const path = require('path')
 
 module.exports = (eleventyConfig) => {
-  const root = eleventyConfig.dir.input
   return {
-    imageVariations: [
+    /**
+     * Transformations to apply to each image
+     * Each item is output as a separate file
+     *
+     * @type {Array<Object>}
+     * @property {String} name The file output name
+     * @property {Object} resize Resize options for `sharp.resize()`
+     * @see {@link https://sharp.pixelplumbing.com/api-resize}
+     */
+    imageTransformations: [
       {
         name: 'thumb',
         resize: {
@@ -14,11 +22,34 @@ module.exports = (eleventyConfig) => {
         name: 'default'
       }
     ],
+    /**
+     * Input directory
+     * @type {String}
+     */
     input: path.join(root, '_assets', 'images', 'figures', 'iiif'),
+    /**
+     * Generated manifest locale
+     * @type {String}
+     */
     locale: 'en',
+    /**
+     * Generated manifest file name
+     * @type {String}
+     */
     manifestFilename: 'manifest.json',
+    /**
+     * Output directory
+     * @type {String}
+     */
     output: path.join('_assets', 'images', '_iiif'),
-    root,
+    /**
+     * The eleventy project directory
+     */
+    root: eleventyConfig.dir.input,
+    /**
+     * Image extensions that can be processed
+     * @type {Array}
+     */
     supportedImageExtensions: [
       '.jp2',
       '.jpg',

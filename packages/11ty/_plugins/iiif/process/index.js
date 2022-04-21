@@ -23,7 +23,7 @@ module.exports = {
      */
     const config = iiifConfig(eleventyConfig)
     const {
-      imageVariations,
+      imageTransformations,
       input,
       manifestFilename,
       output,
@@ -62,7 +62,7 @@ module.exports = {
         }
 
         promises.push(
-          imageVariations.map((variation) => {
+          imageTransformations.map((variation) => {
             return createImage(imagePath, { ...options, ...variation });
           })
         )
