@@ -1,5 +1,6 @@
 const addComponentTag = require('../../_plugins/components/addComponentTag')
 const backmatter = require('./backmatter.js')
+const bibliography = require('./bibliography.js')
 const canvasPanel = require('./canvasPanel.js')
 const cite = require('./cite.js')
 const contributor = require('./contributor')
@@ -17,12 +18,20 @@ module.exports = function(eleventyConfig, options) {
     return backmatter(eleventyConfig, globalData)(content, ...args)
   })
 
-  eleventyConfig.addPairedShortcode('class', function(content, ...args) {
-    return div(eleventyConfig, globalData)(content, ...args)
+  eleventyConfig.addShortcode('bibliography', function() {
+    return bibliography(eleventyConfig, globalData, { page: this.page })()
   })
 
   addComponentTag(eleventyConfig, canvasPanel, 'canvasPanel')
-  addComponentTag(eleventyConfig, cite, 'cite')
+
+  eleventyConfig.addPairedShortcode('class', function(content, ...args) {
+    return div(eleventyConfig, globalData)(content, ...args)
+  })
+  
+  eleventyConfig.addShortcode('cite', function(...args) {
+    return cite(eleventyConfig, globalData, { page: this.page })(...args)
+  })
+
   addComponentTag(eleventyConfig, contributor, 'contributor')
   addComponentTag(eleventyConfig, figure, 'figure')
   addComponentTag(eleventyConfig, figureGroup, 'figuregroup')
