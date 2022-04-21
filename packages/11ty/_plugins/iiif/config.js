@@ -29,6 +29,11 @@ module.exports = (eleventyConfig) => {
      */
     input: path.join(root, '_assets', 'images', 'figures', 'iiif'),
     /**
+     * The name of the directory for image tiles and info.json
+     * @type {String}
+     */
+    imageServiceDirectory: 'tiles',
+    /**
      * Generated manifest locale
      * @type {String}
      */

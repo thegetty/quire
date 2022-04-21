@@ -8,6 +8,7 @@ const sharp = require('sharp')
  */
 module.exports = (config) => {
   const {
+    imageServiceDirectory,
     output: defaultOutput,
     root
   } = config
@@ -26,7 +27,7 @@ module.exports = (config) => {
     const id = dirParts[dirParts.length - 1]
 
     const outputDir = output || path.join(root, defaultOutput)
-    const tileDirectory = path.join(outputDir, id, 'tiles')
+    const tileDirectory = path.join(outputDir, id, imageServiceDirectory)
 
     if (fs.pathExistsSync(tileDirectory) && lazy) {
       console.warn(`[iiif:tileImage:${id}] Tiles already exist, skipping`)

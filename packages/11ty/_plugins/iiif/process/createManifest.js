@@ -16,11 +16,12 @@ require('dotenv').config()
  */
 module.exports = (config) => {
   const {
-    locale,
+    imageServiceDirectory,
     input,
+    locale,
+    manifestFilename,
     output: defaultOutput,
-    root,
-    manifestFilename
+    root
   } = config
 
   /**
@@ -84,7 +85,7 @@ module.exports = (config) => {
               label: { en: [label] },
               service: [
                 {
-                  id: [process.env.URL, outputDir, id, 'tiles'].join('/'),
+                  id: [process.env.URL, outputDir, id, imageServiceDirectory].join('/'),
                   type: "ImageService3",
                   profile: "level0"
                 }
