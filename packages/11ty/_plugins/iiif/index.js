@@ -2,10 +2,10 @@ const iiifProcess = require('./process')
 const iiifPluginConfig = require('./config')
 
 module.exports = function (eleventyConfig, options = {}) {
-  eleventyConfig.on('beforeBuild', () => {
+  eleventyConfig.on('eleventy.before', async() => {
     const config = iiifPluginConfig(eleventyConfig)
     const processImages = iiifProcess.init(config)
-    processImages(options.processImages)
+    await processImages(options.processImages)
   })
-  // eleventyConfig.on('afterBuild', () => {})
+  // eleventyConfig.on('eleventy.after', () => {})
 }
