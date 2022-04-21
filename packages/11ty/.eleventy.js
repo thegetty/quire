@@ -116,15 +116,15 @@ module.exports = function(eleventyConfig) {
       },
       /**
        * Set to false to prevent Vite from clearing the terminal screen
-       * and render logging messages alongside Eleventy output.
+       * and have Vite logging messages rendered alongside Eleventy output.
        */
       clearScreen: false,
       /**
        * @see https://vitejs.dev/config/#server-host
        */
       server: {
-        mode: 'development',
-        middlewareMode: 'ssr'
+        middlewareMode: 'ssr',
+        mode: 'development'
       }
     }
   })
