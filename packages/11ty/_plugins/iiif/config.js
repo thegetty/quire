@@ -1,6 +1,7 @@
 const path = require('path')
 
 module.exports = (eleventyConfig) => {
+  const root = eleventyConfig.dir.input
   return {
     /**
      * Transformations to apply to each image
@@ -45,7 +46,7 @@ module.exports = (eleventyConfig) => {
     /**
      * The eleventy project directory
      */
-    root: eleventyConfig.dir.input,
+    root,
     /**
      * Image extensions that can be processed
      * @type {Array}
