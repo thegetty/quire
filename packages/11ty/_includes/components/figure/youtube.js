@@ -14,27 +14,14 @@ module.exports = function(eleventyConfig, globalData) {
   const figureplaceholder = eleventyConfig.getFilter('figureplaceholder')
   const figurelabel = eleventyConfig.getFilter('figurelabel')
 
-  const { figureLabelLocation, epub, pdf } = globalData.config.params
+  const { figureLabelLocation } = globalData.config.params
 
-  return function({ figure }) {
-    const { aspectRatio, id, label, media_id } = figure
+  return function({ aspectRatio, caption, credit, id, label, media_id }) {
     const src = `https://youtu.be/${media_id}`
 
     if (!media_id) {
       console.warn(`Error: Cannot render Youtube component without 'media_id'. Check that figures data for id: ${id} has a valid 'media_id'`)
       return ''
-    }
-
-    /**
-     * Render a placeholder for EPUB and PDF output
-     */
-    if (epub || pdf) {
-      return oneLine`
-        ${figureplaceholder(figure)}
-        <figcaption class="quire-figure__caption caption">
-          <a href="https://youtu.be/${media_id}" target="_blank">${src}</a>
-        </figcaption>
-      `
     }
 
     return html`
@@ -46,8 +33,8 @@ module.exports = function(eleventyConfig, globalData) {
           src="https://www.youtube.com/embed/${media_id}?rel=0&amp;showinfo=0"
         ></iframe>
       </div>
-      ${label && figureLabelLocation === 'on-top' ? figurelabel({ figure }) : ''}
-      ${figurecaption({ figure })}
+      ${label && figureLabelLocation === 'on-top' ? figurelabel({ caption, id, label }) : ''}
+      ${figurecaption({ caption, credit })}
     `
   }
 }

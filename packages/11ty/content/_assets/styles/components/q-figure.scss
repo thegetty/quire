@@ -576,6 +576,11 @@ div.multimedia {
   }
 }
 
+.q-figure__modal-link {
+  display: block;
+  position: relative;
+}
+
 /** VIDEO/AUDIO FALLBACK ELEMENTS **/
 
 /* Override global link styles on icon in caption */

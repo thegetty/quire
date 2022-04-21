@@ -14,28 +14,14 @@ module.exports = function(eleventyConfig, globalData) {
   const figurelabel = eleventyConfig.getFilter('figurelabel')
   const figureplaceholder = eleventyConfig.getFilter('figureplaceholder')
 
-  const { figureLabelLocation, epub, pdf } = globalData.config.params
+  const { figureLabelLocation } = globalData.config.params
 
-  return function({ figure }) {
-    const { id, label, media_id } = figure
-
+  return function({ caption, credit, id, label, media_id }) {
     const src = `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${media_id}`
 
     if (!media_id) {
       console.warn(`Error: Cannot render SoundCloud component without 'media_id'. Check that figures data for id: ${id} has a valid 'media_id'`)
       return ''
-    }
-
-    /**
-     * Render a placeholder for EPUB and PDF output
-     */
-    if (epub || pdf) {
-      return html`
-        ${figureplaceholder({ figure })}
-        <figcaption class="quire-figure__caption caption">
-          <a href="${src}" target="_blank">${src}</a>
-        </figcaption>
-      `
     }
 
     return html`
@@ -48,7 +34,7 @@ module.exports = function(eleventyConfig, globalData) {
         width="100%"
       ></iframe>
       ${label && figureLabelLocation === 'on-top' ? figurelabel({ figure }) : '' }
-      ${figurecaption({ figure })}
+      ${figurecaption({ caption, credit })}
     `
   }
 }
