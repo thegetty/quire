@@ -6,14 +6,16 @@ module.exports = (eleventyConfig) => {
     imageVariations: [
       {
         name: 'thumb',
-        width: 50
+        resize: {
+          width: 50
+        }
       },
       {
-        name: 'default',
-        width: 800
+        name: 'default'
       }
     ],
     input: path.join(root, '_assets', 'images', 'figures', 'iiif'),
+    locale: 'en',
     manifestFilename: 'manifest.json',
     output: path.join('_assets', 'images', '_iiif'),
     root,

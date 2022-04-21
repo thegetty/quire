@@ -16,8 +16,9 @@ require('dotenv').config()
  */
 module.exports = (config) => {
   const {
+    locale,
     input,
-    output: defaultOutput, 
+    output: defaultOutput,
     root,
     manifestFilename
   } = config
@@ -32,11 +33,11 @@ module.exports = (config) => {
    * @property  {String} output (optional) overwrite default output
    */
   return async (figure, options={}) => {
-    const { id, choices } = figure
     const { debug, lazy, output } = options
+    const { id, label, choices } = figure
 
     const outputDir = output || defaultOutput
-    const iiifId = path.join(process.env.URL, outputDir, id)
+    const iiifId = [process.env.URL, outputDir, id].join("/")
     const manifestOutput = path.join(root, outputDir, id, manifestFilename)
 
     /**
@@ -47,31 +48,50 @@ module.exports = (config) => {
       return
     }
 
+    if (lazy && fs.pathExistsSync(manifestOutput)) {
+      console.warn(
+        `[iiif:lib:createManifest:${id}] Manifest already created, skipping.`
+      )
+      return
+    }
+
     console.warn(`[iiif:lib:createManifest:${id}] Creating manifest`)
     manifestId = `${iiifId}/${manifestFilename}`
     canvasId = `${iiifId}/canvas`
 
     const defaultChoice =
       choices.find(({ default: defaultChoice }) => defaultChoice) || choices[0]
-    const imagePath = path.join(root, outputDir, defaultChoice.id, 'default.jpg')
+    const imagePath = path.join(
+      root,
+      outputDir,
+      defaultChoice.id,
+      "default.jpg"
+    )
     const { height, width } = await sharp(imagePath).metadata()
     const manifest = builder.createManifest(manifestId, (manifest) => {
-      // manifest.addLabel('Image 1', 'en')
+      manifest.addLabel(label, locale)
       manifest.createCanvas(canvasId, (canvas) => {
         canvas.height = height
         canvas.width = width
         if (Array.isArray(choices)) {
           const bodyItems = choices.map(({ id, label }) => {
-            const choiceId = path.join(process.env.URL, outputDir, id)
+            const choiceId = [process.env.URL, outputDir, id].join('/')
             return {
               id: choiceId,
+              format: 'image/jpeg', // todo get MIME type from file extension
               height,
               type: 'Image',
               label: { en: [label] },
+              service: [
+                {
+                  id: [process.env.URL, outputDir, id, 'tiles'].join('/'),
+                  type: "ImageService3",
+                  profile: "level0"
+                }
+              ],
               width
             }
           })
-          console.warn(bodyItems)
           canvas.createAnnotation(`${iiifId}/canvas/annotation`, {
             id: `${iiifId}/canvas/annotation`,
             type: 'Annotation',
@@ -79,13 +99,14 @@ module.exports = (config) => {
             body: {
               type: 'Choice',
               items: bodyItems
-            },
+            }
           })
         }
       })
     })
-    const jsonManifest = builder.toPresentation3({id: manifest.id, type: 'Manifest'})
-    // console.warn(jsonManifest)
+
+    const jsonManifest = builder.toPresentation3(manifest)
+
     fs.ensureDirSync(path.join(root, outputDir, id))
     fs.writeJsonSync(manifestOutput, jsonManifest)
   }
