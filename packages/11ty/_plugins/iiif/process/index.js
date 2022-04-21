@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const getId = require('./getId')
 const getFilePaths = require('./getFilePaths')
+const iiifConfig = require('../config')
 const initCopyManifest = require('./copyManifest')
 const initCreateImage = require('./createImage')
 const initCreateManifest = require('./createManifest')
@@ -9,16 +10,18 @@ const initTileImage = require('./tileImage')
 const { figures } = require('../../globalData')
 
 /**
- * Iterates over IIIF seed directory and creates tiles, a default image and thumbnail, and manifest for each image
- * @todo Creates manifests for figures with `choices`
+ * Creates tiles, default image, thumbnail, and manifest for each image in IIIF config `input` directory
+ * Creates manifests for figures in figures.yaml with `choices`
+ * Outputs manifests, images, and tiles to IIIF config.output
  *
  * @param  {Object} eleventyConfig
- * @param  {Object} options
- * @property  {Boolean} lazy If true, only processes new images. Default: true
  */
-
 module.exports = {
-  init: (config) => {
+  init: (eleventyConfig) => {
+    /**
+     * IIIF config
+     */
+    const config = iiifConfig(eleventyConfig)
     const {
       imageVariations,
       input,
@@ -36,9 +39,15 @@ module.exports = {
     const seedImages = getFilePaths(input, { exts: supportedImageExtensions });
     const manifestsToCopy = getFilePaths(input, { names: [manifestFilename] })
 
+    /**
+     * IIIF Processor
+     * @param  {Object} options
+     * @property  {Boolean} debug Default `false`
+     * @property  {Boolean} lazy If true, only processes new images. Default `true`
+     */
     return async(options = {}) => {
       options = {
-        debug: true,
+        debug: false,
         lazy: true,
         ...options
       }
@@ -68,7 +77,7 @@ module.exports = {
         return createManifest(figure, options)
       }))
 
-      // Copy user-generated manifests to _iiif directory
+      // Copy user-generated manifests to output directory
       manifestsToCopy.forEach((filePath) => {
         copyManifest(filePath)
       })
