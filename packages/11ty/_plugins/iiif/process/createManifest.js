@@ -3,7 +3,7 @@
  */
 const { IIIFBuilder } = require('iiif-builder')
 const { globalVault } = require('@iiif/vault')
-const fs = require('fs-extra')
+const fs = require('fs')
 const path = require('path')
 const sharp = require('sharp')
 const vault = globalVault()
