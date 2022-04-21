@@ -22,7 +22,6 @@ const syntaxHighlightPlugin = require('@11ty/eleventy-plugin-syntaxhighlight')
  * Parsing libraries for additional data file formats
  */
 const json5 = require('json5')
-const sass = require('sass')
 const toml = require('toml')
 const yaml = require('js-yaml')
 
