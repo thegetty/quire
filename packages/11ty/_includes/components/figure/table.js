@@ -8,7 +8,6 @@ const path = require('path')
  */
 module.exports = function(eleventyConfig, globalData) {
   const figurecaption = eleventyConfig.getFilter('figurecaption')
-  const figurelabel = eleventyConfig.getFilter('figurelabel')
   const markdownify = eleventyConfig.getFilter('markdownify')
   const renderFile = eleventyConfig.getFilter('renderFile')
 
@@ -16,18 +15,17 @@ module.exports = function(eleventyConfig, globalData) {
   const { figureLabelLocation } = globalData.config.params
 
   return async function({ caption, credit, id, src }) {
-    const modalLink = `#${id}`
-    const tableFile = path.join(assetsDir, src)
+    const table = await renderFile(path.join(assetsDir, src))
     const title = markdownify(caption)
 
     return html`
       <a
         class="inline popup"
         data-type="inline"
-        href="${modalLink}"
+        href="#${id}"
         title="${title}"
       >
-        ${await renderFile(tableFile)}
+        ${table}
       </a>
       ${figurecaption({ caption, credit })}
     `
