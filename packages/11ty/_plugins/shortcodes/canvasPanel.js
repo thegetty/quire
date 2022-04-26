@@ -46,11 +46,14 @@ module.exports = function(eleventyConfig, globalData) {
       case !!manifestId && !!canvasId:
         break;
       case !!id:
+        /**
+         * @todo replace with directory defined in IIIF config
+         */
         canvasId = new URL(['_assets', 'images', '_iiif', id, 'canvas'].join('/'), process.env.URL)
         manifestId = new URL(['_assets', 'images', '_iiif', id, 'manifest.json'].join('/'), process.env.URL)
         break;
       default:
-        console.warn(`Error in CanvasPanel shortode: Missing params canvasId or manifestId. Fig.id: `, id)
+        console.warn(`Error in CanvasPanel shortcode: Missing params canvasId or manifestId. Fig.id: `, id)
         return;
     }
     
