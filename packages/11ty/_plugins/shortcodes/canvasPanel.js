@@ -3,8 +3,8 @@
  * @see {@link https://iiif-canvas-panel.netlify.app/docs/intro/ Canvas Panel Documentation}
  * @todo import iiif config and use to set canvasId and manifestIds for figures.yaml-generated manifests
  */
-const { html } = require('common-tags')
 const { globalVault } = require('@iiif/vault')
+const { html } = require('common-tags')
 
 const vault = globalVault()
 
