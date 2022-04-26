@@ -19,16 +19,18 @@ module.exports = function(eleventyConfig, component, tagName) {
    * @see https://www.11ty.dev/docs/languages/javascript/#javascript-template-functions
    * @see https://www.11ty.dev/docs/languages/javascript/#relationship-to-filters-and-shortcodes
    */
-  component.constructor.name === "AsyncFunction"
-    ? eleventyConfig.addJavaScriptFunction(tagName, async function (...args) {
-        return await component(eleventyConfig, globalData, { page: this.page })(...args)
-      })
-    : eleventyConfig.addJavaScriptFunction(tagName, function (...args) {
-        return component(eleventyConfig, globalData, { page: this.page })(...args)
-      })
+  if (component.constructor.name === "AsyncFunction") {
+    eleventyConfig.addJavaScriptFunction(tagName, async function(...args) {
+      return await component(eleventyConfig, globalData, { page: this.page })(...args)
+    })
+  } else {
+    eleventyConfig.addJavaScriptFunction(tagName, function(...args) {
+      return component(eleventyConfig, globalData, { page: this.page })(...args)
+    })
+  }
 
   // Component function for a Liquid tag with keyword arguments
-  const renderComponent = function(...args) {
+  const renderComponent = async function(...args) {
     const kwargs = args.find((arg) => arg.__keywords)
     return component(eleventyConfig, globalData, { page: this.page })(kwargs)
   }
@@ -45,7 +47,7 @@ module.exports = function(eleventyConfig, component, tagName) {
       render: async function(scope) {
         const evalValue = (arg) => liquidEngine.evalValue(arg, scope)
         const args = await Promise.all(liquidArgs(this.args, evalValue))
-        return renderComponent(...args)
+        return await renderComponent(...args)
       }
     }
   })
