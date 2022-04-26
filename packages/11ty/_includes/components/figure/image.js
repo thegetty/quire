@@ -23,12 +23,12 @@ module.exports = function(eleventyConfig, globalData) {
     const labelElement = figurelabel({ caption, id, label })
     const srcParts = src.split(path.sep)
     const hasTiles = srcParts[srcParts.length - 1] === 'tiles'
-    const hasManifestAndCanvasIds = (!!canvasId && !!manifestId) || !!iiifContent || !!choices
+    const hasCanvasPanelProps = (!!canvasId && !!manifestId) || !!iiifContent || !!choices
 
     let imageElement;
 
     switch (true) {
-      case hasManifestAndCanvasIds:
+      case hasCanvasPanelProps:
         imageElement = await canvasPanel({ canvasId, id, manifestId, preset })
         break;
       case hasTiles:
