@@ -1,4 +1,5 @@
 const { html } = require('common-tags')
+const path = require('path')
 
 /**
  * A shortcode for embedding a table into the document.
@@ -7,51 +8,26 @@ const { html } = require('common-tags')
  */
 module.exports = function(eleventyConfig, globalData) {
   const figurecaption = eleventyConfig.getFilter('figurecaption')
-  const figurelabel = eleventyConfig.getFilter('figurelabel')
   const markdownify = eleventyConfig.getFilter('markdownify')
+  const renderFile = eleventyConfig.getFilter('renderFile')
 
-  const { figureLabelLocation, imageDir } = globalData.config.params
+  const assetsDir = path.join(eleventyConfig.dir.input, '_assets/images')
+  const { figureLabelLocation } = globalData.config.params
 
-  return function({ caption, credit, id, src }) {
-    const modalLink = `#${id}`
-    const tableSrc = path.join('static', imageDir, src)
+  return async function({ caption, credit, id, src }) {
+    const table = await renderFile(path.join(assetsDir, src))
     const title = markdownify(caption)
 
-    const figcaption = figurecaption({ caption, credit })
-    const figureLabel = figureLabelLocation === 'on-top'
-      ? figurelabel({ caption, id, label })
-      : ''
-
-    const figureModal = (tableSrc) => html`
-      <figure
-        id="${figureId}"
-        class="q-figure leaflet-outer-wrapper mfp-hide notGet"
-        title="${title}"
-      >
-        <div
-          aria-label="Zoomable table"
-          aria-live="polite"
-          class="quire-deepzoom inset leaflet-inner-wrapper"
-          id="js-${figureId}"
-          role="application"
-        >
-          <figure class="leaflet-table">${tableSrc}</figure>
-        </div>
-      </figure>
+    return html`
       <a
         class="inline popup"
         data-type="inline"
-        href="${modalLink}"
+        href="#${id}"
         title="${title}"
       >
-        ${tableSrc}
+        ${table}
       </a>
-    `
-
-    return html`
-      <figure class="q-figure__table">
-        ${tableSrc}
-      </figure>
+      ${figurecaption({ caption, credit })}
     `
   }
 }
