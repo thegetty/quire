@@ -9,7 +9,7 @@ class Modal extends LitElement {
     active: { type: Boolean },
     current: { type: String },
     figures: {
-      converter: ((value) => JSON.parse(decodeURIComponent(value)))
+      converter: ((value) => value ? JSON.parse(decodeURIComponent(value)) : null)
     },
     imageDir: { attribute: 'image-dir', type: String }
   }
@@ -30,14 +30,18 @@ class Modal extends LitElement {
       transition: transform 0.1s ease-in-out, opacity 0.2s linear;
     }
 
-    .q-modal__button {
-
-    }
-
-    .active {
+    .active.q-modal {
       transition: transform 0.2s ease-in-out, opacity 0.1s linear;
       transform: translateY(0);
       opacity: 1;
+    }
+
+    .q-modal__close-button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin-top: 10px;
+      margin-right: 10px;
     }
   `;
 
@@ -49,7 +53,6 @@ class Modal extends LitElement {
   close() {
     this.active = false;
     this.enableScrolling();
-    // this.requestUpdate();
   }
 
   disableScrolling() {
@@ -81,7 +84,6 @@ class Modal extends LitElement {
     this.current = this.getCurrentFigureId(event);
     this.active = true;
     this.disableScrolling();
-    // this.requestUpdate();
   }
 
   setupModalTriggers() {
@@ -95,11 +97,11 @@ class Modal extends LitElement {
 
   render() {
     const figures = stringifyData(this.figures);
-    const closeButton = html`<button @click="${this.close}" id='q-modal__close'>X</button>`;
+    const closeButton = html`<button @click="${this.close}" id="close-modal" class="q-modal__close-button">X</button>`;
     return html`
       <div class="q-modal ${this.active ? 'active' : ''}">
-        ${closeButton}
         <q-lightbox current="${this.current}" debug figures="${figures}" image-dir=${this.imageDir}></q-lightbox>
+        ${closeButton}
       </div>
     `;
   }
