@@ -1,7 +1,6 @@
 /**
  * CanvasPanel shortcode that renders the digirati <canvas-panel> web component
  * @see {@link https://iiif-canvas-panel.netlify.app/docs/intro/ Canvas Panel Documentation}
- * @todo import iiif config and use to set canvasId and manifestIds for figures.yaml-generated manifests
  */
 const { globalVault } = require('@iiif/vault')
 const { html } = require('common-tags')
@@ -28,6 +27,7 @@ const getChoices = (annotations=[]) => {
 }
 
 module.exports = function(eleventyConfig, globalData) {
+  const { iiifConfig } = eleventyConfig.globalData
 
   /**
    * Canvas Panel Shortcode
@@ -49,8 +49,8 @@ module.exports = function(eleventyConfig, globalData) {
         /**
          * @todo replace with directory defined in IIIF config
          */
-        canvasId = new URL(['_assets', 'images', '_iiif', id, 'canvas'].join('/'), process.env.URL)
-        manifestId = new URL(['_assets', 'images', '_iiif', id, 'manifest.json'].join('/'), process.env.URL)
+        canvasId = new URL([iiifConfig.output, id, 'canvas'].join('/'), process.env.URL)
+        manifestId = new URL([iiifConfig.output, id, iiifConfig.manifestFilename].join('/'), process.env.URL)
         break;
       default:
         console.warn(`Error in CanvasPanel shortcode: Missing params canvasId or manifestId. Fig.id: `, id)
