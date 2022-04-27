@@ -69,6 +69,7 @@ class Lightbox extends LitElement {
   }
 
   render() {
+    // TODO calculate width and height attributes for `image-service` and `canvas-panel` images
     const imageSlides = () => {
       const imagesWithCaptions = this.figures.map(({ canvasId, caption, id, manifestId, preset, src }, index) => {
         const isCanvasPanel = !!canvasId && !!manfestId;
@@ -91,7 +92,7 @@ class Lightbox extends LitElement {
             imageElement = `<canvas-panel id="${elementId}" data-figure="${id}" canvas-id="${canvasId}" manifest-id="${manifestId}" preset="${preset}" />`;
             break;
           case isImageService:
-            imageElement = `<image-service id="${elementId}" data-figure="${id}" src="${imageSrc}" width="100%" height="100%" />`;
+            imageElement = `<image-service id="${elementId}" data-figure="${id}" src="${imageSrc}" />`;
             break;
           case isImg:
             imageElement = `<img id="${elementId}" data-figure="${id}" src="${imageSrc}" />`;
