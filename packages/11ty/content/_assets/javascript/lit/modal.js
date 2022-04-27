@@ -30,9 +30,9 @@ class Modal extends LitElement {
     }
 
     .active.q-modal {
-      transition: transform 0s, opacity 0.2s 0.2s linear;
       transform: translateY(0);
       opacity: 1;
+      transition: transform 0s, opacity 0.2s 0.2s linear;
     }
 
     .q-modal__close-button {
@@ -56,11 +56,6 @@ class Modal extends LitElement {
 
   disableScrolling() {
     document.querySelector('html').style.overflow = 'hidden';
-    // not sure if all of this is necessary, pulled it from helpers
-    this.renderRoot.onwheel = preventDefault; // modern standard
-    this.renderRoot.element.onmousewheel = element.onmousewheel = preventDefault; // older browsers, IE
-    this.renderRoot.ontouchmove = preventDefault; // mobile
-    this.renderRoot.onkeydown = preventDefaultForScrollKeys;
   }
 
   enableScrolling() {
