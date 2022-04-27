@@ -2,7 +2,6 @@ const fs = require('fs')
 const path = require('path')
 const getId = require('./getId')
 const getFilePaths = require('./getFilePaths')
-const iiifConfig = require('../config')
 const initCopyManifest = require('./copyManifest')
 const initCreateImage = require('./createImage')
 const initCreateManifest = require('./createManifest')
@@ -17,11 +16,11 @@ const { figures } = require('../../globalData')
  * @param  {Object} eleventyConfig
  */
 module.exports = {
-  init: (eleventyConfig) => {
+  init: ({ globalData }) => {
     /**
      * IIIF config
      */
-    const config = iiifConfig(eleventyConfig)
+    const { iiifConfig } = globalData
     const {
       imageTransformations,
       input,
@@ -29,12 +28,12 @@ module.exports = {
       output,
       root,
       supportedImageExtensions
-    } = config
+    } = iiifConfig
 
-    const copyManifest = initCopyManifest(config)
-    const createImage = initCreateImage(config)
-    const createManifest = initCreateManifest(config)
-    const tileImage = initTileImage(config)
+    const copyManifest = initCopyManifest(iiifConfig)
+    const createImage = initCreateImage(iiifConfig)
+    const createManifest = initCreateManifest(iiifConfig)
+    const tileImage = initTileImage(iiifConfig)
 
     const seedImages = getFilePaths(input, { exts: supportedImageExtensions });
     const manifestsToCopy = getFilePaths(input, { names: [manifestFilename] })
