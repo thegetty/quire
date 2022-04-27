@@ -3,6 +3,10 @@ figure_list:
     manifestId: https://geealbers.github.io/iiif-bronze-guidelines/manifests/manifest-fig-006.json
     canvasId: http://cad6b682-68a3-4ea2-aabd-a1c217f7871a
     choiceId: https://iiif-files.s3.us-west-2.amazonaws.com/bronze-guidelines/fig-006/full/full/0/default.jpg
+  - id: "example-image-service"
+    label: Image Service 1
+    src: https://iiif.wellcomecollection.org/image/b18035723_0001.JP2
+    caption: "This is a caption"
   - id: "example-image-service-2"
     label: Image Service 2
     src: _iiif/more-cats/tiles
@@ -19,9 +23,6 @@ figure_list:
     label: "Basic"
     manifestId: https://gist.githubusercontent.com/stephenwf/19e61dac5c329c77db8cf22fe0366dad/raw/04971529e364063ac88de722db786c97e2df0e6b/manifest.json
     preset: zoom
-  - id: "example-image-service"
-    src: https://iiif.wellcomecollection.org/image/b18035723_0001.JP2
-    caption: "This is a caption"
   - id: "dog1"
     src: figures/lange.jpg
     caption: "*Dorothea Lange, Resettlement Administration photographer, in California*, 1936."

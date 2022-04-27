@@ -29,7 +29,7 @@ description: splash page layout
       <div class="container">
         <div class="content{% if image %}{% else %} no-image-above{% endif %}">
           {{ content }}
-          {% bibliography citations=citations %}
+          {% bibliography %}
         </div>
         {% pageButtons pagination=pagination %}
       </div>

@@ -5,6 +5,7 @@ const path = require('path')
  * Quire features are implemented as Eleventy plugins
  */
 const { EleventyRenderPlugin } = require('@11ty/eleventy')
+const EleventyVitePlugin = require("@11ty/eleventy-plugin-vite")
 const componentsPlugin = require('./_plugins/components')
 const epubPlugin = require('./_plugins/epub')
 const filtersPlugin = require('./_plugins/filters')
@@ -21,7 +22,6 @@ const syntaxHighlightPlugin = require('@11ty/eleventy-plugin-syntaxhighlight')
  * Parsing libraries for additional data file formats
  */
 const json5 = require('json5')
-const sass = require('sass')
 const toml = require('toml')
 const yaml = require('js-yaml')
 
@@ -95,6 +95,38 @@ module.exports = function(eleventyConfig) {
    * @see {@link https://www.11ty.dev/docs/_plugins/render/}
    */
   eleventyConfig.addPlugin(EleventyRenderPlugin)
+
+  /**
+   * Use Vite to bundle JavaScript
+   * @see https://github.com/11ty/eleventy-plugin-vite
+   *
+   * Runs Vite as Middleware in the Eleventy Dev Server
+   * Runs Vite build to postprocess the Eleventy build output
+   */
+  eleventyConfig.addPlugin(EleventyVitePlugin, {
+    tempFolderName: '.11ty-vite',
+    viteOptions: {
+      /**
+       * @see https://vitejs.dev/config/#build-options
+       */
+      build: {
+        manifest: true,
+        mode: 'production',
+      },
+      /**
+       * Set to false to prevent Vite from clearing the terminal screen
+       * and have Vite logging messages rendered alongside Eleventy output.
+       */
+      clearScreen: false,
+      /**
+       * @see https://vitejs.dev/config/#server-host
+       */
+      server: {
+        middlewareMode: 'ssr',
+        mode: 'development'
+      }
+    }
+  })
 
   /**
    * Copy static assets to the output directory
