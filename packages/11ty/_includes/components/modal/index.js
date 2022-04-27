@@ -9,14 +9,13 @@ const stringifyData = (jsObject) => {
  * @param      {Object}  eleventyConfig
  * @param      {Object}  globalData
  */
-module.exports = function (eleventyConfig, globalData, { page }) {
+module.exports = function (eleventyConfig, globalData) {
   const markdownify = eleventyConfig.getFilter('markdownify')
   const { imageDir } = globalData.config.params
 
   return function () {
-    if (!page.figures) return '';
     const figuresWithMarkdownifiedCaptions =
-      page.figures.map((figure) => ({
+      globalData.figures.figure_list.map((figure) => ({
         ...figure,
         caption: figure.caption ? markdownify(figure.caption) : null
       }));
