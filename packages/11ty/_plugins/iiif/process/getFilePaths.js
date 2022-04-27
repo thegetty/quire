@@ -1,4 +1,4 @@
-const fs = require('fs')
+const fs = require('fs-extra')
 const path = require('path')
 /**
  * Returns a filtered list of the paths to supported image files in a directory

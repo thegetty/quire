@@ -1,4 +1,4 @@
-const fs = require('fs')
+const fs = require('fs-extra')
 const path = require('path')
 const getId = require('./getId')
 const getFilePaths = require('./getFilePaths')
