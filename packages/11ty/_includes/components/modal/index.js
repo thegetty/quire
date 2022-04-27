@@ -9,13 +9,20 @@ const stringifyData = (jsObject) => {
  * @param      {Object}  eleventyConfig
  * @param      {Object}  globalData
  */
-module.exports = function (eleventyConfig, globalData) {
+module.exports = function (eleventyConfig, globalData, { page }) {
+  const markdownify = eleventyConfig.getFilter('markdownify')
   const { imageDir } = globalData.config.params
 
   return function () {
-    const figures = stringifyData(globalData.figures.figure_list);
+    if (!page.figures) return '';
+    const figuresWithMarkdownifiedCaptions =
+      page.figures.map((figure) => ({
+        ...figure,
+        caption: figure.caption ? markdownify(figure.caption) : null
+      }));
+    const serializedFigures = stringifyData(figuresWithMarkdownifiedCaptions);
     return html`
-      <q-modal figures="${figures}" image-dir="${imageDir}"></q-modal>
+      <q-modal figures="${serializedFigures}" image-dir="${imageDir}"></q-modal>
     `;
   }
 }
