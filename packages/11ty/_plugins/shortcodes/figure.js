@@ -17,13 +17,13 @@ const { oneLine } = require('common-tags')
  * @return     {boolean}  An HTML <figure> element
  */
 module.exports = function (eleventyConfig, globalData) {
-  const getFigure = eleventyConfig.getFilter('getFigure')
   const figureimage = eleventyConfig.getFilter('figureimage')
   const figurelabel = eleventyConfig.getFilter('figurelabel')
   const figuremodallink = eleventyConfig.getFilter('figuremodallink')
   const figuresoundcloud = eleventyConfig.getFilter('figuresoundcloud')
-  const figurtable = eleventyConfig.getFilter('figurtable')
+  const figuretable = eleventyConfig.getFilter('figuretable')
   const figureyoutube = eleventyConfig.getFilter('figureyoutube')
+  const getFigure = eleventyConfig.getFilter('getFigure')
   const slugify = eleventyConfig.getFilter('slugify')
 
   const { epub, pdf } = globalData.config.params
@@ -46,16 +46,12 @@ module.exports = function (eleventyConfig, globalData) {
           return figureplaceholder(figure)
         case mediaType === 'youtube':
           return figureyoutube(figure)
-          break
         case mediaType === 'vimeo':
-          break
+          return 'UNIMPLEMENTED'
         case mediaType === 'soundcloud':
           return figuresoundcloud(figure)
-        case mediaType === 'website':
-          break
         case mediaType === 'table':
-          return figuretable(figure)
-          break
+          return await figuretable(figure)
         default:
           return await figureimage(figure)
       }
