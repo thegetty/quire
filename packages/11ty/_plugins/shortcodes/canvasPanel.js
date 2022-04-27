@@ -96,9 +96,8 @@ module.exports = function(eleventyConfig, globalData) {
         choice-id="${choiceId}"
         manifest-id="${manifestId}"
         preset="${preset}"
-      >
-        ${hasChoices ? choicesUI.join('') : ''}
-      </canvas-panel>
+      />
+      ${hasChoices ? choicesUI.join('') : ''}
     `
   }
 }
