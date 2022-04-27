@@ -17,50 +17,49 @@ const { oneLine } = require('common-tags')
  * @return     {boolean}  An HTML <figure> element
  */
 module.exports = function (eleventyConfig, globalData) {
-  const getFigure = eleventyConfig.getFilter('getFigure')
   const figureimage = eleventyConfig.getFilter('figureimage')
   const figurelabel = eleventyConfig.getFilter('figurelabel')
   const figuremodallink = eleventyConfig.getFilter('figuremodallink')
   const figuresoundcloud = eleventyConfig.getFilter('figuresoundcloud')
-  const figurtable = eleventyConfig.getFilter('figurtable')
+  const figuretable = eleventyConfig.getFilter('figuretable')
   const figureyoutube = eleventyConfig.getFilter('figureyoutube')
+  const getFigure = eleventyConfig.getFilter('getFigure')
   const slugify = eleventyConfig.getFilter('slugify')
 
-  return function ({ id, ['class']: classes=[] }) {
+  const { epub, pdf } = globalData.config.params
+
+  return async function (params) {
+    let { id, class: classes=[] } = params
     classes = typeof classes === 'string' ? [classes] : classes
+
     /**
-     * @todo refactor q-figure--group styles using BEM and remove this conditional
+     * Merge figures.yaml data and additional params
      */
-    if (!classes.includes('q-figure--group__item')) {
-      classes.push('q-figure')
-    }
+    let figure = id ? getFigure(id) : {}
+    figure = { ...figure, ...params }
 
-    const figure = getFigure(id)
+    const { media_type: mediaType } =  figure
 
-    const component = (figure) => {
+    const component = async (figure) => {
       switch (true) {
-        case figure.media_type === 'youtube':
-          return figureyoutube({ figure })
-          break
-        case figure.media_type === 'vimeo':
-          break
-        case figure.media_type === 'soundcloud':
-          return figuresoundcloud({ figure })
-        case figure.media_type === 'website':
-          break
-        case figure.media_type === 'table':
-          return figuretable({ figure })
-          break
+        case (epub || pdf) && ['soundcloud', 'youtube'].includes(mediaType):
+          return figureplaceholder(figure)
+        case mediaType === 'youtube':
+          return figureyoutube(figure)
+        case mediaType === 'vimeo':
+          return 'UNIMPLEMENTED'
+        case mediaType === 'soundcloud':
+          return figuresoundcloud(figure)
+        case mediaType === 'table':
+          return await figuretable(figure)
         default:
-          return figureimage({ figure })
+          return figureimage(figure)
       }
     }
 
     return oneLine`
-      <figure id="${slugify(id)}" class="${classes.join(' ')}">
-        <div class="q-figure__wrapper">
-          ${component(figure)}
-        </div>
+      <figure id="${slugify(id)}" class="${['q-figure', ...classes].join(' ')}">
+        ${await component(figure)}
       </figure>
     `
   }

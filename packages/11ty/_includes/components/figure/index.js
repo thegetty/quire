@@ -1,8 +1,7 @@
 const caption = require('./caption')
 const image = require('./image')
 const label = require('./label')
-const modal = require('./modal')
-const modallink = require('./modalLink')
+const modallink = require('./modal-link')
 const placeholder = require('./placeholder')
 const soundcloud = require('./soundcloud')
 const table = require('./table')
@@ -13,7 +12,6 @@ module.exports = {
   figurecaption: caption,
   figureimage: image,
   figurelabel: label,
-  figuremodal: modal,
   figuremodallink: modallink,
   figureplaceholder: placeholder,
   figuresoundcloud: soundcloud,
