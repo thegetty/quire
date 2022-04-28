@@ -1,13 +1,13 @@
 figure_list:
   - id: "example-image-service"
-    label: Image Service
+    label: "Figure 1"
     src: https://iiif.wellcomecollection.org/image/b18035723_0001.JP2
     caption: "This is a caption"
   - id: "example-image-service-2"
-    label: Image Service 2
+    label: "Figure 2"
     src: _iiif/more-cats/tiles
   - id: "example-image-service-3"
-    label: Image Service 3
+    label: "Figure 3"
     src: https://iiif.wellcomecollection.org/image/b18035723_0010.JP2
   - id: "dog1"
     src: figures/lange.jpg
