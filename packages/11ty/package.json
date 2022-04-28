@@ -42,6 +42,7 @@
     "markdown-it-deflist": "^2.1.0",
     "markdown-it-footnote": "^3.0.3",
     "path": "^0.12.7",
+    "sass": "^1.51.0",
     "toml": "^3.0.0"
   },
   "dependencies": {
