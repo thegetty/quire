@@ -2,7 +2,7 @@
 
 ### Composing with `canvas-panel` and other non-lit web components using `unsafeHTML`
 
-To use `canvas-panel`, `image-service`, or other non-`lit-element` web components inside a `lit-element`, render them using `unsafeHTML()`:
+To use `canvas-panel`, `image-service`, or other non-`lit-element` web components inside a `lit-element`, render them using `unsafeHTML`:
 
 ``` javascript
 import { LitElement, html } from 'lit';
