@@ -21,17 +21,16 @@ class Modal extends LitElement {
       top: 0;
       left: 0;
       width: 100vw;
-      height: 200vh;
-      background: rgb(0,0,0);
-      background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
+      height: 100vh;
+      background: black;
       overflow: hidden;
-      transform: translateY(-200%);
+      transform: translateY(-100%);
       opacity: 0;
-      transition: transform 0.1s ease-in-out, opacity 0.2s linear;
+      transition: transform 0s 0.2s, opacity 0.2s linear;
     }
 
     .active.q-modal {
-      transition: transform 0.2s ease-in-out, opacity 0.1s linear;
+      transition: transform 0s, opacity 0.2s 0.2s linear;
       transform: translateY(0);
       opacity: 1;
     }
@@ -57,11 +56,11 @@ class Modal extends LitElement {
 
   disableScrolling() {
     document.querySelector('html').style.overflow = 'hidden';
-    // not sure if this stuff works, just pulled it from helpers
-    // this.renderRoot.onwheel = preventDefault; // modern standard
-    // this.renderRoot.element.onmousewheel = element.onmousewheel = preventDefault; // older browsers, IE
-    // this.renderRoot.ontouchmove = preventDefault; // mobile
-    // this.renderRoot.onkeydown = preventDefaultForScrollKeys;
+    // not sure if all of this is necessary, pulled it from helpers
+    this.renderRoot.onwheel = preventDefault; // modern standard
+    this.renderRoot.element.onmousewheel = element.onmousewheel = preventDefault; // older browsers, IE
+    this.renderRoot.ontouchmove = preventDefault; // mobile
+    this.renderRoot.onkeydown = preventDefaultForScrollKeys;
   }
 
   enableScrolling() {
