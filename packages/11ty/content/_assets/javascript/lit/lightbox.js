@@ -154,7 +154,6 @@ class Lightbox extends LitElement {
   }
 
   render() {
-    // TODO calculate width and height attributes for `image-service` and `canvas-panel` images
     const imageSlides = () => {
       const imagesWithCaptions = this.pageFigures.map(({ canvasId, caption, id, manifestId, preset, src }, index) => {
         const isCanvasPanel = !!canvasId && !!manifestId;
@@ -227,7 +226,6 @@ class Lightbox extends LitElement {
         : '';
     };
 
-    // TODO implement counter
     const counter = () => {
       const counter = this.currentFigureIndex + 1;
       const figureCount = this.pageFigures.length;
