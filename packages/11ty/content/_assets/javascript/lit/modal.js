@@ -6,6 +6,8 @@ const stringifyData = (jsObject) => {
 
 class Modal extends LitElement {
   static properties = {
+    _height: { state: true },
+    _width: { state: true },
     active: { type: Boolean },
     current: { type: String },
     figures: {
@@ -47,6 +49,7 @@ class Modal extends LitElement {
   constructor() {
     super();
     this.setupModalTriggers();
+    this.setupResizeHandler();
   }
 
   close() {
@@ -78,6 +81,13 @@ class Modal extends LitElement {
     this.current = this.getCurrentFigureId(event);
     this.active = true;
     this.disableScrolling();
+    this.setDimensions();
+  }
+
+  setDimensions() {
+    const { height, width } = this.renderRoot.firstElementChild.getBoundingClientRect();
+    this._height = height;
+    this._width = width;
   }
 
   setupModalTriggers() {
@@ -89,12 +99,20 @@ class Modal extends LitElement {
     });
   }
 
+  setupResizeHandler() {
+    window.addEventListener('resize', () => {
+      window.requestAnimationFrame(() => {
+        this.setDimensions();
+      });
+    });
+  }
+
   render() {
     const figures = stringifyData(this.figures);
-    const closeButton = html`<button @click="${this.close}" id="close-modal" class="q-modal__close-button">X</button>`;
+    const closeButton = html`<button @click="${this.close}" id="close-modal" class="q-modal__close-button"></button>`;
     return html`
       <div class="q-modal ${this.active ? 'active' : ''}">
-        <q-lightbox current="${this.current}" debug figures="${figures}" image-dir=${this.imageDir}></q-lightbox>
+        <q-lightbox current="${this.current}" figures="${figures}" image-dir=${this.imageDir} is-modal="true" width="${this._width}" height="${this._height}"></q-lightbox>
         ${closeButton}
       </div>
     `;
