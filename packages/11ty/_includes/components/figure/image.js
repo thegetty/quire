@@ -19,10 +19,15 @@ module.exports = function(eleventyConfig, globalData) {
   const { imageDir, figureLabelLocation } = globalData.config.params
 
   return async function({ alt='', canvasId, caption, choices, credit, id, iiifContent, label, manifestId, preset, src='' }) {
-    const imageSrc = path.join(imageDir, src)
+    // const imageSrc = path.join(imageDir, src)
+    const imageSrc = src.includes('http') || src.includes('https')
+      ? src
+      : path.join(imageDir, src)
     const labelElement = figurelabel({ caption, id, label })
     const srcParts = src.split(path.sep)
-    const hasTiles = srcParts[srcParts.length - 1] === 'tiles'
+    // const hasTiles = srcParts[srcParts.length - 1] === 'tiles'
+    const hasTiles = src && !src.match(/\.+(jpe?g|png|gif)/)
+    const hasTiles = true
     const hasCanvasPanelProps = (!!canvasId && !!manifestId) || !!iiifContent || !!choices
 
     let imageElement;
