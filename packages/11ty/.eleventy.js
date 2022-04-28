@@ -122,6 +122,9 @@ module.exports = function(eleventyConfig) {
        * @see https://vitejs.dev/config/#server-host
        */
       server: {
+        hmr: {
+          overlay: false
+        },
         middlewareMode: 'ssr',
         mode: 'development'
       }
