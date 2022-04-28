@@ -36,7 +36,7 @@ module.exports = function(eleventyConfig, globalData) {
         imageElement = await canvasPanel({ canvasId, id, manifestId, preset })
         break;
       case hasTiles:
-        imageElement = `<image-service alt="${alt}" class="q-figure__image" src="${imageSrc}" />`
+        imageElement = `<image-service alt="${alt}" class="q-figure__image" src="${imageSrc}"></image-service>`
         break;
       default:
         imageElement = `<img alt="${alt}" class="q-figure__image" src="${imageSrc}" />`
