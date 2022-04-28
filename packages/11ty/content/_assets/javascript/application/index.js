@@ -190,6 +190,7 @@ function scrollToHash() {
   // Select all links with hashes
   $('a[href*="#"]')
     // Remove links that don't actually link to anything
+    .not('.q-figure__modal-link')
     .not('[href="#"]')
     .not('[href="#0"]')
     .not('.popup')
