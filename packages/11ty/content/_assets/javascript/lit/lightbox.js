@@ -7,7 +7,10 @@ class Lightbox extends LitElement {
     figures: {
       converter: ((value) => value ? JSON.parse(decodeURIComponent(value)) : null)
     },
-    imageDir: { attribute: 'image-dir', type: String }
+    height: { type: Number },
+    imageDir: { attribute: 'image-dir', type: String },
+    isModal: { attribute: 'is-modal', type: Boolean },
+    width: { type: Number }
   }
 
   static styles = css`
