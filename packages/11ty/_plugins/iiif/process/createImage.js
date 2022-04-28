@@ -1,7 +1,6 @@
 const fs = require('fs-extra')
 const path = require('path')
 const sharp = require('sharp')
-const getId = require('./getId')
 
 /**
  * @param  {Object} config Quire IIIF Process config
@@ -29,7 +28,7 @@ module.exports = (config) => {
     name = options.name || path.parse(input).name
     ext = path.parse(name).ext || path.parse(input).ext
 
-    const id = getId(input)
+    const id = path.parse(input).name
     const filename = `${name}${ext}`
 
     fs.ensureDirSync(path.join(outputDir, id))

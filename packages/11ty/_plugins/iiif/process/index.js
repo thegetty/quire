@@ -1,6 +1,5 @@
 const fs = require('fs-extra')
 const path = require('path')
-const getId = require('./getId')
 const getFilePaths = require('./getFilePaths')
 const initCreateImage = require('./createImage')
 const initCreateManifest = require('./createManifest')
@@ -50,7 +49,7 @@ module.exports = {
 
       const promises = []
       seedImages.map(async(imagePath) => {
-        const id = getId(imagePath)
+        const id = path.parse(imagePath).name
 
         if (debug) {
           console.warn(`[iiif:processImages:${id}] Starting`)

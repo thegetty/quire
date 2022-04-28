@@ -22,9 +22,7 @@ module.exports = (config) => {
   return async function(input, options = {}) {
     const { debug, lazy, output } = options
 
-    const { dir } = path.parse(input)
-    const dirParts = dir.split(path.sep)
-    const id = dirParts[dirParts.length - 1]
+    const id = path.parse(input).name
 
     const outputDir = output || path.join(root, defaultOutput)
     const tileDirectory = path.join(outputDir, id, imageServiceDirectory)
