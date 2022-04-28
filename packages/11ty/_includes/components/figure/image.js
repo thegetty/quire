@@ -27,7 +27,6 @@ module.exports = function(eleventyConfig, globalData) {
     const srcParts = src.split(path.sep)
     // const hasTiles = srcParts[srcParts.length - 1] === 'tiles'
     const hasTiles = src && !src.match(/\.+(jpe?g|png|gif)/)
-    const hasTiles = true
     const hasCanvasPanelProps = (!!canvasId && !!manifestId) || !!iiifContent || !!choices
 
     let imageElement;
