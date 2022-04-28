@@ -2,7 +2,7 @@
 _site/
 
 # Generated IIIF image files
-content/_assets/images/_iiif/
+content/_assets/_iiif/
 
 # dotenv environment variables file
 .env
