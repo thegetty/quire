@@ -2,15 +2,13 @@ const fs = require('fs')
 const path = require('path')
 const yaml = require('js-yaml')
 
-const loadData = (fileName) => {
-  const filePath = path.join('content', '_data', fileName)
-  return yaml.load(fs.readFileSync(filePath))
+module.exports = function(eleventyConfig, options) {
+  const dataDirectory = path.join('content', '_data')
+  const filenames = fs.readdirSync(dataDirectory)
+  filenames.forEach((item) => {
+    const { base, ext, name } = path.parse(item)
+    if (!['.yaml', '.yml'].includes(ext)) return;
+    const data = yaml.load(fs.readFileSync(path.join(dataDirectory, item)))
+    eleventyConfig.addGlobalData(name, data)
+  })
 }
-
-const config = loadData('config.yaml')
-const figures = loadData('figures.yaml')
-const objects = loadData('objects.yaml')
-const publication = loadData('publication.yaml')
-const references = loadData('references.yaml')
-
-module.exports = { config, figures, objects, publication, references }

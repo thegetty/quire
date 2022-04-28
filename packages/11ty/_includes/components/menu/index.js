@@ -8,10 +8,9 @@ const { html } = require('common-tags')
  * by default. Users with JS disabled will alwasy see the menu in its expanded state.
  *
  * @param      {Object}  eleventyConfig
- * @param      {Object}  globalData
  * @param      {Object}  params
  */
-module.exports = function(eleventyConfig, globalData) {
+module.exports = function(eleventyConfig) {
   const citation = eleventyConfig.getFilter('citation')
   const copyright = eleventyConfig.getFilter('copyright')
   const linkList = eleventyConfig.getFilter('linkList')
@@ -19,7 +18,7 @@ module.exports = function(eleventyConfig, globalData) {
   const menuList = eleventyConfig.getFilter('menuList')
   const menuResources = eleventyConfig.getFilter('menuResources')
 
-  const { config, publication } = globalData
+  const { config, publication } = eleventyConfig.globalData
   const { resource_link: resourceLinks } = publication
 
   return function(params) {

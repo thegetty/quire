@@ -4,8 +4,8 @@ const path = require('path')
 /**
  * A shortcode for tombstone display of object data on an entry page
  */
-module.exports = function(eleventyConfig, globalData) {
-  const { config, objects } = globalData
+module.exports = function(eleventyConfig) {
+  const { config, objects } = eleventyConfig.globalData
 
   return function (pageObjects) {
     const capitalize = eleventyConfig.getFilter('capitalize')

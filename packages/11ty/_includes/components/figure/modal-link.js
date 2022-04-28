@@ -1,10 +1,10 @@
 const { html } = require('common-tags')
 
-module.exports = function (eleventyConfig, globalData) {
+module.exports = function (eleventyConfig) {
   const icon = eleventyConfig.getFilter('icon')
   const markdownify = eleventyConfig.getFilter('markdownify')
 
-  const { figureLabelLocation, figureModal } = globalData.config.params
+  const { figureLabelLocation, figureModal } = eleventyConfig.globalData.config.params
 
   return function({ caption, content, id }) {
 

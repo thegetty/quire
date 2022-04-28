@@ -5,15 +5,14 @@ const path = require('path')
  * Publication page header
  *
  * @param      {Object}  eleventyConfig
- * @param      {Object}  globalData
  */
-module.exports = function(eleventyConfig, globalData) {
+module.exports = function(eleventyConfig) {
   const contributorHeader = eleventyConfig.getFilter('contributorHeader')
   const markdownify = eleventyConfig.getFilter('markdownify')
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const slugify = eleventyConfig.getFilter('slugify')
 
-  const { imgDir, pageLabelDivider } = globalData.config.params
+  const { imgDir, pageLabelDivider } = eleventyConfig.globalData.config.params
 
   return function (params) {
     const {

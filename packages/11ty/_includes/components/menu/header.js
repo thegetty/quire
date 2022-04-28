@@ -4,17 +4,16 @@ const { html } = require('common-tags')
  * Publication title block in menu
  *
  * @param      {Object}  eleventyConfig
- * @param      {Object}  globalData
  * @param      {Object}  params
  * @property   {String}  currentURL
  * @property   {Array|String}   contributors - publication contributors array or string override
  */
-module.exports = function(eleventyConfig, globalData) {
+module.exports = function(eleventyConfig) {
   const contributorList = eleventyConfig.getFilter('contributorList')
   const markdownify = eleventyConfig.getFilter('markdownify')
   const siteTitle = eleventyConfig.getFilter('siteTitle')
 
-  const { publication } = globalData
+  const { publication } = eleventyConfig.globalData
   const contributors = publication.contributor_as_it_appears || publication.contributor
 
   return function(params) {

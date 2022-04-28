@@ -4,11 +4,10 @@ const { html } = require('common-tags')
  * Renders the "Other Formats" and "Resources" sections of the menu
  *
  * @param      {Object}  eleventyConfig
- * @param      {Object}  globalData
  * @param      {Object}  params
  */
-module.exports = function(eleventyConfig, globalData) {
-  const { publication } = globalData
+module.exports = function(eleventyConfig) {
+  const { publication } = eleventyConfig.globalData
   const { resource_link: resourceLinks } = publication
 
   return function() {

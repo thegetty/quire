@@ -12,10 +12,10 @@ const { html } = require('common-tags');
  * eligible pages are ranged through and based on weight, the next or previous
  * one in the range is linked to.
  */
-module.exports = function(eleventyConfig, globalData) {
+module.exports = function(eleventyConfig) {
   const eleventyNavigation = eleventyConfig.getFilter('eleventyNavigation')
   const pageTitle = eleventyConfig.getFilter('pageTitle')
-  const { config } = globalData
+  const { config } = eleventyConfig.globalData
 
   return function (params) {
     const { collections, pages, pagination, title } = params

@@ -6,7 +6,7 @@
  * 
  * @return {String}                 Markup for contributors
  */
-module.exports = function (eleventyConfig, globalData) {
+module.exports = function (eleventyConfig) {
   const contributorTitle = eleventyConfig.getFilter('contributorTitle')
   const fullname = eleventyConfig.getFilter('fullname')
   const getContributor = eleventyConfig.getFilter('getContributor')

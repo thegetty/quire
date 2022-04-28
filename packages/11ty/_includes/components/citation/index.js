@@ -18,12 +18,12 @@
  * @return {String}                citation markup
  */
 
-module.exports = function(eleventyConfig, globalData) {
+module.exports = function(eleventyConfig) {
   const citationChicagoPage = eleventyConfig.getFilter('citationChicagoPage')
   const citationChicagoSite = eleventyConfig.getFilter('citationChicagoSite')
   const citationMLAPage = eleventyConfig.getFilter('citationMLAPage')
   const citationMLASite = eleventyConfig.getFilter('citationMLASite')
-  const { config, publication } = globalData
+  const { config, publication } = eleventyConfig.globalData
 
   return function (params) {
     const { page, range, type } = params

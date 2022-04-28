@@ -2,13 +2,12 @@
  * Renders the menu list
  *
  * @param      {Object}  eleventyConfig
- * @param      {Object}  globalData
  * @param      {Object}  params
  */
-module.exports = function(eleventyConfig, globalData) {
+module.exports = function(eleventyConfig) {
   const menuItem = eleventyConfig.getFilter('menuItem')
 
-  const { config } = globalData
+  const { config } = eleventyConfig.globalData
 
   return function(params) {
     const { pages } = params

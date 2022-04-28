@@ -4,11 +4,10 @@ const { html } = require('common-tags')
  * Render multiple <figure> elements in a group
  *
  * @param      {Object}  eleventyConfig  eleventy configuration
- * @param      {Object}  globalData      Eleventy global data
  * @param      {Array<id>}  ids          An array or list of figure identifiers
  * @return     {String}  An HTML string of the elements to render
  */
-module.exports = function (eleventyConfig, globalData) {
+module.exports = function (eleventyConfig) {
   const figure = eleventyConfig.getFilter('figure')
 
   return async function (params) {

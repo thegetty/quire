@@ -2,11 +2,11 @@
  * @param  {Object} eleventyConfig
  * @param  {Object} params
  */
-module.exports = function(eleventyConfig, globalData) {
+module.exports = function(eleventyConfig) {
   const citationPubDate = eleventyConfig.getFilter('citationPubDate')
   const citationPubSeries = eleventyConfig.getFilter('citationPubSeries')
   const citationPublishers = eleventyConfig.getFilter('citationChicagoPublishers')
-  const { publication } = globalData
+  const { publication } = eleventyConfig.globalData
 
   return function (params) {
     const { identifier, pub_date: pubDate, publisher } = publication

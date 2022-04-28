@@ -2,13 +2,12 @@
  * Renders quire page classes
  *
  * @param {Object} eleventyConfig
- * @param {Object} globalData
  *
  * @param {Object} params
  *
  * @return {String} quire page classes
  */
-module.exports = function(eleventyConfig, globalData) {
+module.exports = function(eleventyConfig) {
   return function({ pages, pagination }) {
     const { class: currentPageClass, weight: currentPageWeight } = pagination.currentPage.data
     const pageOne = pages.find(({ data }) => data.class === 'page-one')
