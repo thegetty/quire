@@ -14,6 +14,11 @@ class Lightbox extends LitElement {
   }
 
   static styles = css`
+    .q-lightbox {
+      color: white;
+      --atlas-z-index: 0;
+    }
+
     .q-lightbox,
     .q-lightbox__slide,
     .q-lightbox__image {
@@ -38,19 +43,81 @@ class Lightbox extends LitElement {
 
     .q-figure__navigation-button {
       position: absolute;
-      top: 50%
+      top: 50%;
+      width: 40px;
+      height: 35%;
+      padding: 0;
+      border: 0;
+      transform: translateY(-50%);
+      cursor: pointer;
+      background-color: rgba(0, 0, 0, 0);
+    }
+
+    .q-figure__navigation-button::before {
+      content: '';
+      display: block;
+      position: absolute;
     }
 
     .q-figure__navigation-button--next {
       right: 0;
-      margin-right: 10px;
-      transform: translateY(-50%);
     }
 
     .q-figure__navigation-button--previous {
       left: 0;
-      margin-left: 10px;
+    }
+
+    .q-figure__navigation-button--next::before,
+    .q-figure__navigation-button--previous::before {
+      content: '';
+      display: block
+      position: absolute;
+      top: 50%;
+      width: 30px;
+      height: 30px;
       transform: translateY(-50%);
+    }
+
+    .q-figure__navigation-button--next::before {
+      margin-right: 10px;
+      /* TODO replace base64 encoded background image arrow icons stolen from magnific-popup library with in-repo assets */
+      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AAAB6klEQVR4Ae3bsWpUQRTG8YkkanwCa7GzVotsI/gEgk9h4Vu4ySLYmMYgbJrc3lrwZbJwC0FMt4j7F6Y4oIZrsXtgxvx/1c0ufEX4cnbmLCmSJEmSJEmSJEmSJP3XCBPvbJU+8doWmDFwyZpLBmYlNJebz0KwzykwsuSYJSNwykEJreV2BaBMaLIQZ2xYcFgqDlmw4ayE/FwL0dDk4Qh4W37DAjgqIT+3HRbigjH+iikVdxgZStgyN0Su2sXIeTwTT+esdpcbIlfNAuZ/TxresG4zV8kYWSZNiKUTokMMSWeIwTNEn4fK2TW3gRNgVkJLuVksROA9G+bEvoATNlBCa7nZXEwdxEZxzpKRKFh+bsv8LmPFmhX1OwfIz81jIRJQ5eeqG9B+riRJkiRJkiRJkiRJkiRJkiRJUkvA/8RQoEpKlJWINFkJ62AlrEP/mNBibnv2yz/A3t7Uq3LcpoxP8COjC1T5vxoAD5VdoEqdDrd5QuW1swtUSaueh3zkiuBiqgtA2OlkeMcP/uDqugsJdbjHF65VdPMKwS0+WQc/MgKvrIOHysB9vgPwk8+85hmPbnQdvHZyDMAFD7L3EOpgMcVdvnHFS0/vlatrXvCVx0U9gt3fxvnA0/hB4nmRJEmSJEmSJEmSJGmHfgFLaDPoMu5xWwAAAABJRU5ErkJggg==) no-Repeat top right rgba(0,0,0,0.5);
+      background-position-x: -95px;
+      background-position-y: -44px;
+    }
+
+    .q-figure__navigation-button--previous::before {
+      margin-left: 10px;
+      /* TODO replace base64 encoded background image arrow icons stolen from magnific-popup library with in-repo assets */
+      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AAAB6klEQVR4Ae3bsWpUQRTG8YkkanwCa7GzVotsI/gEgk9h4Vu4ySLYmMYgbJrc3lrwZbJwC0FMt4j7F6Y4oIZrsXtgxvx/1c0ufEX4cnbmLCmSJEmSJEmSJEmSJP3XCBPvbJU+8doWmDFwyZpLBmYlNJebz0KwzykwsuSYJSNwykEJreV2BaBMaLIQZ2xYcFgqDlmw4ayE/FwL0dDk4Qh4W37DAjgqIT+3HRbigjH+iikVdxgZStgyN0Su2sXIeTwTT+esdpcbIlfNAuZ/TxresG4zV8kYWSZNiKUTokMMSWeIwTNEn4fK2TW3gRNgVkJLuVksROA9G+bEvoATNlBCa7nZXEwdxEZxzpKRKFh+bsv8LmPFmhX1OwfIz81jIRJQ5eeqG9B+riRJkiRJkiRJkiRJkiRJkiRJUkvA/8RQoEpKlJWINFkJ62AlrEP/mNBibnv2yz/A3t7Uq3LcpoxP8COjC1T5vxoAD5VdoEqdDrd5QuW1swtUSaueh3zkiuBiqgtA2OlkeMcP/uDqugsJdbjHF65VdPMKwS0+WQc/MgKvrIOHysB9vgPwk8+85hmPbnQdvHZyDMAFD7L3EOpgMcVdvnHFS0/vlatrXvCVx0U9gt3fxvnA0/hB4nmRJEmSJEmSJEmSJGmHfgFLaDPoMu5xWwAAAABJRU5ErkJggg==) no-Repeat top left rgba(0,0,0,0.5);
+      background-position-x: -139px;
+      background-position-y: -44px;
+    }
+
+    .q-lightbox__download-and-counter {
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin-top: 10px;
+      margin-right: 10px;
+      padding: 0 8px;
+      background: rgba(0,0,0,0.5);
+      line-height: 30px;
+    }
+
+    .q-lightbox__download-and-counter--modal.q-lightbox__download-and-counter {
+      margin-right: 40px;
+    }
+
+    .q-lightbox__caption {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      margin: 0 10px 25px;
+      padding: 0 8px;
+      background: rgba(0,0,0,0.5);
+      line-height: 30px;
     }
   `;
 
@@ -101,16 +168,18 @@ class Lightbox extends LitElement {
           ? src
           : `${this.imageDir}/${src}`;
 
+        const modal = document.querySelector('q-modal');
+
         let imageElement;
         switch(true) {
           default:
             imageElement = `<div class="q-lightbox__missing-img">Figure '${id}' does not have a valid 'src'</div>`;
             break;
           case isCanvasPanel:
-            imageElement = `<canvas-panel id="${elementId}" data-figure="${id}" canvas-id="${canvasId}" manifest-id="${manifestId}" preset="${preset}" />`;
+            imageElement = `<canvas-panel id="${elementId}" data-figure="${id}" canvas-id="${canvasId}" manifest-id="${manifestId}" preset="${preset}" width="${this.width}" height="${this.height}" />`;
             break;
           case isImageService:
-            imageElement = `<image-service id="${elementId}" data-figure="${id}" src="${imageSrc}" />`;
+            imageElement = `<image-service id="${elementId}" data-figure="${id}" src="${imageSrc}" width="${this.width}" height="${this.height}" />`;
             break;
           case isImg:
             imageElement = `<img id="${elementId}" data-figure="${id}" src="${imageSrc}" />`;
@@ -151,20 +220,27 @@ class Lightbox extends LitElement {
       `;
     }
 
-
-    // TODO implement download control
-    const downloadButton = html``;
+    // TODO implement download button for figure entries
+    const downloadButton = () => {
+      return this.isModal
+        ? html``
+        : '';
+    };
 
     // TODO implement counter
-    const counter = html``;
+    const counter = () => {
+      const counter = this.currentFigureIndex + 1;
+      const figureCount = this.pageFigures.length;
+      return html`<span class="q-lightbox__counter">${counter} of ${figureCount}</span>`;
+    };
 
     // TODO implement keyboard navigation for lightbox
     const navigationButtons = () => {
       const previousAriaLabel = 'Previous (left arrow key)';
       const nextAriaLabel = 'Next (right arrow key)';
       return html`
-        <button @click="${this.previous}" class="q-figure__navigation-button q-figure__navigation-button--previous" title="${previousAriaLabel}" aria-label="${previousAriaLabel}">PREVIOUS</button>
-        <button @click="${this.next}" class="q-figure__navigation-button q-figure__navigation-button--next" title="${nextAriaLabel}" aria-label="${nextAriaLabel}">NEXT</button>
+        <button @click="${this.previous}" class="q-figure__navigation-button q-figure__navigation-button--previous" title="${previousAriaLabel}" aria-label="${previousAriaLabel}"></button>
+        <button @click="${this.next}" class="q-figure__navigation-button q-figure__navigation-button--next" title="${nextAriaLabel}" aria-label="${nextAriaLabel}"></button>
       `;
     };
 
@@ -175,9 +251,9 @@ class Lightbox extends LitElement {
            ${zoomButtons()}
            ${fullscreenButton()}
          </div>
-         <div class="q-lightbox__download-and-counter">
-           ${downloadButton}
-           ${counter}
+         <div class="q-lightbox__download-and-counter ${this.isModal && 'q-lightbox__download-and-counter--modal'}">
+           ${downloadButton()}
+           ${counter()}
          </div>
          ${navigationButtons()}
        </div>
