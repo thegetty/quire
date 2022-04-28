@@ -25,7 +25,7 @@ module.exports = function(eleventyConfig, globalData) {
     const isHomePage = currentPage.url === home
 
     // @TODO figure out js module-friendly filters -- this one should work though
-    const truncate = (text, limit) => text.slice(0, limit)
+    const truncate = (text, limit) => text?.slice(0, limit)
 
     const navBarLabel = ({ label, short_title, title }) => {
       return pageTitle({ label, title: short_title || truncate(title, 34)})
