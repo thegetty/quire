@@ -1,6 +1,7 @@
 const addComponentTag = require('../../_plugins/components/addComponentTag')
 const backmatter = require('./backmatter.js')
 const bibliography = require('./bibliography.js')
+const canvasPanel = require('./canvasPanel.js')
 const cite = require('./cite.js')
 const contributor = require('./contributor')
 const div = require('./div.js')
@@ -21,10 +22,12 @@ module.exports = function(eleventyConfig, options) {
     return bibliography(eleventyConfig, globalData, { page: this.page })()
   })
 
+  addComponentTag(eleventyConfig, canvasPanel, 'canvasPanel')
+
   eleventyConfig.addPairedShortcode('class', function(content, ...args) {
     return div(eleventyConfig, globalData)(content, ...args)
   })
-
+  
   eleventyConfig.addShortcode('cite', function(...args) {
     return cite(eleventyConfig, globalData, { page: this.page })(...args)
   })

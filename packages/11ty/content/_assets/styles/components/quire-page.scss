@@ -701,7 +701,7 @@ html {
   // Overrides to Bulma's .content styles where needed.
   padding-bottom: 0;
   .content {
-    a {
+    a:not(.q-figure__modal-link) {
       @media print {
         color: $print-text-color;
         border-bottom-width: 0;

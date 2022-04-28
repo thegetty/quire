@@ -53,7 +53,7 @@ module.exports = function (eleventyConfig, globalData) {
         case mediaType === 'table':
           return await figuretable(figure)
         default:
-          return figureimage(figure)
+          return await figureimage(figure)
       }
     }
 

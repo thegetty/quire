@@ -19,55 +19,59 @@
 // .q-figure
 // -----------------------------------------------------------------------------
 .q-figure {
-  border-top: 1px solid $accent-color;
-  border-bottom: 1px solid $accent-color;
-  padding: 1em 0;
-  margin-top: 0.5em;
-  margin-left: 0;
-  margin-right: 0;
+  --atlas-z-index: 0;
+
+  &:not(.q-figure--group__item) {
+    border-top: 1px solid $accent-color;
+    border-bottom: 1px solid $accent-color;
+    padding: 1em 0;
+    margin-top: 0.5em;
+    margin-left: 0;
+    margin-right: 0;
+  }
 
   @if $theme == classic {
     border: none;
     padding: 0;
   }
 
-  .q-figure__wrapper {
+  > a {
     border: none;
-    display: block;
-    position: relative;
-
-    > a {
-      border: none;
-
-      &:hover {
-
-        img {
-          -webkit-transition: -webkit-box-shadow 0.35s;
-          transition: box-shadow 0.35s;
-          -webkit-box-shadow: 0px 0px 6px 0px $black-semi-transparent;
-          -moz-box-shadow: 0px 0px 6px 0px $black-semi-transparent;
-          box-shadow: 0px 0px 6px 0px $black-semi-transparent;
-        }
-
-        .q-figure__label--below {
-          transition: background-color 0.35s;
-          color: link-hover-color($content-background-color);
-          svg {
-            fill: link-hover-color($content-background-color);
-          }
-        }
-
-        .q-figure__label--on-top {
-          transition: background-color 0.35s;
-          background-color: $accent-color;
-        }
-      }
-    }
 
     img {
-      object-fit: cover;
-      width: 100%;
+      -webkit-transition: -webkit-box-shadow 0.35s;
+      transition: box-shadow 0.35s;
     }
+
+    .q-figure__label--below,
+    .q-figure__label--on-top {
+      transition: background-color 0.35s;
+    }
+
+    &:hover {
+
+      img {
+        -webkit-box-shadow: 0px 0px 6px 0px $black-semi-transparent;
+        -moz-box-shadow: 0px 0px 6px 0px $black-semi-transparent;
+        box-shadow: 0px 0px 6px 0px $black-semi-transparent;
+      }
+
+      .q-figure__label--below {
+        color: link-hover-color($content-background-color);
+        svg {
+          fill: link-hover-color($content-background-color);
+        }
+      }
+
+      .q-figure__label--on-top {
+        background-color: $accent-color;
+      }
+    }
+  }
+
+  img {
+    object-fit: cover;
+    width: 100%;
   }
 
   &__table {

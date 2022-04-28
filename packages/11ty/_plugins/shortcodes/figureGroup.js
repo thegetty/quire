@@ -11,7 +11,7 @@ const { html } = require('common-tags')
 module.exports = function (eleventyConfig, globalData) {
   const figure = eleventyConfig.getFilter('figure')
 
-  return function (params) {
+  return async function (params) {
     let { columns, ids=[] } = params
     columns = parseInt(params.columns)
 
@@ -37,8 +37,10 @@ module.exports = function (eleventyConfig, globalData) {
     let figureTags = []
     for (let i=0; i < rows; ++i) {
       const startIndex = i * columns
-      const row = ids.slice(startIndex, columns + startIndex)
-                     .reduce((output, id) => output + figure({ id, class: classes }), '')
+      let row = '';
+      for (let id of ids.slice(startIndex, columns + startIndex)) {
+        row += await figure({ id, class: classes });
+      }
       figureTags.push(`<div class="q-figure--group__row columns">${row}</div>`)
     }
 
