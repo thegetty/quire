@@ -2,7 +2,6 @@ const fs = require('fs-extra')
 const path = require('path')
 const getId = require('./getId')
 const getFilePaths = require('./getFilePaths')
-const initCopyManifest = require('./copyManifest')
 const initCreateImage = require('./createImage')
 const initCreateManifest = require('./createManifest')
 const initTileImage = require('./tileImage')
@@ -30,14 +29,11 @@ module.exports = {
       supportedImageExtensions
     } = iiifConfig
 
-    const copyManifest = initCopyManifest(iiifConfig)
     const createImage = initCreateImage(iiifConfig)
     const createManifest = initCreateManifest(iiifConfig)
     const tileImage = initTileImage(iiifConfig)
 
     const seedImages = getFilePaths(input, { exts: supportedImageExtensions });
-    const manifestsToCopy = getFilePaths(input, { names: [manifestFilename] })
-
     /**
      * IIIF Processor
      * @param  {Object} options
@@ -75,11 +71,6 @@ module.exports = {
       promises.push(figuresWithChoices.map((figure) => {
         return createManifest(figure, options)
       }))
-
-      // Copy user-generated manifests to output directory
-      manifestsToCopy.forEach((filePath) => {
-        copyManifest(filePath)
-      })
 
       await Promise.all(promises)
 
