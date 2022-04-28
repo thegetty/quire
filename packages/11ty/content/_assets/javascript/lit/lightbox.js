@@ -51,35 +51,50 @@ class Lightbox extends LitElement {
     }
   `;
 
+  get pageFigures() {
+    if (!this.figures) return;
+    const figureIds = Array
+      .from(document.querySelectorAll('.q-figure'))
+      .reduce((ids, figure) => {
+        if (figure.hasAttribute('id')) {
+          ids.push(figure.getAttribute('id'));
+        }
+        return ids;
+      }, []);
+    return this.figures.filter(({ id }) => {
+      return figureIds.includes(id)
+    });
+  }
+
   get currentFigureIndex() {
-    if (!this.current || !this.figures) return;
-    return this.figures.findIndex(({ id }) => id === this.current);
+    if (!this.current || !this.pageFigures) return;
+    return this.pageFigures.findIndex(({ id }) => id === this.current);
   }
 
   next() {
     const nextIndex = this.currentFigureIndex + 1;
-    const nextId = this.figures[nextIndex % this.figures.length].id
+    const nextId = this.pageFigures[nextIndex % this.pageFigures.length].id
     this.current = nextId;
   }
 
   previous() {
     const previousIndex = this.currentFigureIndex - 1;
-    const previousId = this.figures.slice(previousIndex)[0].id;
+    const previousId = this.pageFigures.slice(previousIndex)[0].id;
     this.current = previousId;
   }
 
   render() {
     // TODO calculate width and height attributes for `image-service` and `canvas-panel` images
     const imageSlides = () => {
-      const imagesWithCaptions = this.figures.map(({ canvasId, caption, id, manifestId, preset, src }, index) => {
-        const isCanvasPanel = !!canvasId && !!manfestId;
+      const imagesWithCaptions = this.pageFigures.map(({ canvasId, caption, id, manifestId, preset, src }, index) => {
+        const isCanvasPanel = !!canvasId && !!manifestId;
         const isImageService = src && !src.match(/.+\.(jpe?g|gif|png)$/);
         const isImg = src && src.match(/.+\.(jpe?g|gif|png)$/);
         const captionElement = caption
           ? `<div class="q-lightbox__caption">${caption}</div>`
           : '';
         const elementId = `lightbox-image-${index}`;
-        const imageSrc = src.startsWith('http')
+        const imageSrc = src && src.startsWith('http')
           ? src
           : `${this.imageDir}/${src}`;
 
