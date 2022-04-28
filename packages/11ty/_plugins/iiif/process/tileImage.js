@@ -8,6 +8,7 @@ const sharp = require('sharp')
  */
 module.exports = (config) => {
   const {
+    baseURL,
     imageServiceDirectory,
     output: defaultOutput,
     root
@@ -35,7 +36,7 @@ module.exports = (config) => {
     fs.ensureDirSync(tileDirectory)
 
     const iiifId = path.join(
-      process.env.URL,
+      baseURL,
       outputDir.split(path.sep).slice(1).join(path.sep),
       id
     )

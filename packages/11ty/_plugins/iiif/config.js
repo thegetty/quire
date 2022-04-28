@@ -3,6 +3,7 @@ const path = require('path')
 module.exports = (eleventyConfig) => {
   const root = eleventyConfig.dir.input
   return {
+    baseURL: eleventyConfig.globalData.config.baseURL,
     /**
      * Transformations to apply to each image
      * Each item is output as a separate file
