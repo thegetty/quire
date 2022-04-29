@@ -38,6 +38,7 @@ module.exports = {
   lightbox: require('./lightbox/index.js'),
   link: require('./link.js'),
   linkList: require('./link-list.js'),
+  litElements: require('./head-tags/lit-elements.js'),
   menu: require('./menu/index.js'),
   menuHeader: require('./menu/header.js'),
   menuItem: require('./menu/item.js'),

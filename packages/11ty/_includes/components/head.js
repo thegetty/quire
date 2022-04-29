@@ -8,6 +8,7 @@ module.exports = function(eleventyConfig, globalData) {
   const analytics = eleventyConfig.getFilter('analytics')
   const dublinCore = eleventyConfig.getFilter('dublinCore')
   const jsonld = eleventyConfig.getFilter('jsonld')
+  const litElements = eleventyConfig.getFilter('litElements')
   const opengraph = eleventyConfig.getFilter('opengraph')
   const twitterCard = eleventyConfig.getFilter('twitterCard')
 
@@ -57,8 +58,8 @@ module.exports = function(eleventyConfig, globalData) {
         <link rel="version-history" href="${publication.repositoryUrl}">
 
         <script src="https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@latest"></script>
-        <script type="module" src="/_assets/javascript/lit/lightbox.js"></script>
-        <script type="module" src="/_assets/javascript/lit/modal.js"></script>
+
+        ${litElements()}
 
         ${publisherLinks}
 
