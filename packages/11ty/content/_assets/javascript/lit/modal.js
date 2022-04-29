@@ -56,6 +56,7 @@ class Modal extends LitElement {
 
   constructor() {
     super();
+    this.setupKeyboardControls();
     this.setupModalTriggers();
     this.setupResizeHandler();
   }
@@ -96,6 +97,16 @@ class Modal extends LitElement {
     const { height, width } = this.renderRoot.firstElementChild.getBoundingClientRect();
     this._height = height;
     this._width = width;
+  }
+
+  setupKeyboardControls() {
+    document.addEventListener('keyup', ({ code }) => {
+      if (this.active) {
+        if(code === 'Escape') {
+          this.close();
+        }
+      }
+    });
   }
 
   setupModalTriggers() {
