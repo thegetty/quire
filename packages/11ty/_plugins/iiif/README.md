@@ -1,57 +1,41 @@
-## Image Tiling
-All images in the `figures` directory will be tiled and rendered using the `image-service` tag.
-If the tiler is re-run, images will not be re-processed unless `lazy=false` is specified.
+# IIIF Processing
+Quire's IIIF processing provides methods to prepare images to IIIF 3.0 specification for use with [`canvas-panel`](https://iiif-canvas-panel.netlify.app/docs/components/cp) and [`image-service`](https://iiif-canvas-panel.netlify.app/docs/components/single-image-service) web components.
 
-## Usage
-### Setup
+## Setup
 - Set `baseURL` in `config.yaml`. This will be used to generate IIIF `@id` properties.
 
-### Image service (zoomable images)
-_figures.yaml_
-```yaml
-- id: "gradoo"
-  caption: "La dee da"
-  credit: "Ta da"
-  src: figures/gradoo.jpg
-  zoom: true
-```
+## Config
+Configuration options can be found in `_plugins/iiif/config.js`.
 
-### External Image Service
-_figures.yaml_
-```yaml
-- id: "gradoo"
-  caption: "La dee da"
-  credit: "Ta da"
-  src: https://www.example.com/gradoo/info.json
-```
+## Options
+`debug` {Boolean}
+If true, logs IIIF processing steps for each image to console. Default: `false`.
 
-### User-generated Manifests
-Manifests added to the `_assets` directory will be passed through to the build. You can render a canvas in a figure by specifying the `canvasId` and `manifestId` in `figures.yaml`
+`lazy` {Boolean}
+If true, skips processing images that have previously been processed. If false, re-processess all images. Default: `true`.
 
-For example, for a manifest in `_assets/iiif/gradoo/manifest.json` with a canvas with an `id` of `iiif/gradoo/canvas-1`:
+## Image Tiling
+Quire uses [`sharp`](https://sharp.pixelplumbing.com/api-output#tile) to generate a IIIF image service for all images in the `figures` directory. When these images are used with the `figure` shortcode, they will be rendered using an [`<image-service/>`](https://iiif-canvas-panel.netlify.app/docs/components/single-image-service) web component. The output for each image includes the original image, thumbnail image, and tiles.
 
-_figures.yaml_
-```yaml
-- id: "gradoo"
-  canvasId: "iiif/gradoo/canvas-1"
-  manifestId: "iiif/gradoo/manifest.json"
-```
+## Manifests with Choices
+Quire's IIIF processing uses the [`iiif-builder`](https://github.com/stephenwf/iiif-builder) to create manifests with choices from figures in `figures.yaml` that have the `choices` property.
 
-### External Manifests
-_figures.yaml_
-```yaml
-- id: "gradoo"
-  canvasId: "https://example.org/gradoo/canvas-1"
-  manifestId: "https://example.org/gradoo/manifest.json"
-```
+Images referenced in `choices` should have the same dimensions, and be included in the `figures` directory.
 
-### IIIF Choices
-The figure shortcode includes a UI for IIIF manifests with choices, which can be used to toggle between multiple views of the same image.
+### Properties
+`id` {String}
+The image id to use in a `figure` shortcode.
 
+`default` {Boolean} Default: false
+If true, renders this image initially.
 
-#### Defined in figures.yaml
-Choices must be images of the same size. You can specify which image to display initially by setting `default: true` on the image choice.
+`label` {String}
+The input label for this choice.
 
+`src` {String}
+The relative path from `_assets/images` to the image file.
+
+### Usage
 _figures.yaml_
 ```yaml
 - id: "animal"
@@ -64,15 +48,4 @@ _figures.yaml_
     - id: "dog"
       label: "A Dog"
       src: figures/dog.jpg
-```
-
-#### Defined in a manifest
-Specify the initial image to display using the `choiceId` property.
-
-_figures.yaml_
-```yaml
-- id: "gradoo"
-  canvasId: "https://example.org/gradoo/canvas-1"
-  choiceId: "https://example.org/gradoo/canvas-1/figure-1"
-  manifestId: "https://example.org/gradoo/manifest.json"
 ```
