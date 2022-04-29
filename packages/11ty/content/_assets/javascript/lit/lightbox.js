@@ -135,6 +135,10 @@ class Lightbox extends LitElement {
     this.setupKeyboardControls();
   }
 
+  get fullscreen() {
+    return document.fullscreen;
+  }
+
   get pageFigures() {
     if (!this.figures) return;
     const figureIds = Array
@@ -182,6 +186,15 @@ class Lightbox extends LitElement {
         }
       }
     });
+  }
+
+  toggleFullscreen() {
+    const lightbox = this.renderRoot.firstElementChild;
+    if (this.fullscreen) {
+      document.exitFullscreen();
+    } else {
+      lightbox.requestFullscreen();
+    }
   }
 
   render() {
@@ -251,7 +264,7 @@ class Lightbox extends LitElement {
     const fullscreenButton = () => {
       const ariaLabel = 'View Fullscreen';
       return html`
-        <button class="q-figure__fullscreen-button" title="${ariaLabel}" aria-label="${ariaLabel}"></button>
+        <button @click="${this.toggleFullscreen}" class="q-lightbox__fullscreen-button ${this.fullscreen ? 'q-lightbox__fullscreen-button--active' : ''}" title="${ariaLabel}" aria-label="${ariaLabel}"></button>
       `;
     }
 
