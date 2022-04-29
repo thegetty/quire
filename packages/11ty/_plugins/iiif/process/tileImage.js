@@ -28,7 +28,7 @@ module.exports = (config) => {
     const outputDir = output || path.join(root, defaultOutput)
     const tileDirectory = path.join(outputDir, id, imageServiceDirectory)
 
-    if (fs.pathExistsSync(tileDirectory) && lazy) {
+    if (fs.pathExistsSync(tileDirectory) && lazy && debug) {
       console.warn(`[iiif:tileImage:${id}] Tiles already exist, skipping`)
       return
     }
