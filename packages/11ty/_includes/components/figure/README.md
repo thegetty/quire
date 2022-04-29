@@ -6,8 +6,8 @@ _figures.yaml_
 ```yaml
 - id: "bells"
   caption: "Pitched percussion idiophone"
+  preset: zoom
   src: figures/chime-bells.jpg
-  zoom: true
 ```
 
 ### External Image Service
