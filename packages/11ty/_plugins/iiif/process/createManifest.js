@@ -35,29 +35,17 @@ module.exports = (config) => {
    * @property  {String} output (optional) overwrite default output
    */
   return async (figure, options={}) => {
-    const { debug, lazy, output } = options
+    const { debug, output } = options
     const { id, label, choices } = figure
 
     const outputDir = output || defaultOutput
     const iiifId = [process.env.URL, outputDir, id].join("/")
     const manifestOutput = path.join(root, outputDir, id, manifestFilename)
 
-    /**
-     * Do not overwrite user-generated manifests
-     */
-    if (fs.pathExistsSync(path.join(input, id, manifestFilename))) {
-      console.warn(`[iiif:lib:createManifest:${id}] User-generated manifest already exists, skipping`)
-      return
+    if (debug) {
+      console.warn(`[iiif:lib:createManifest:${id}] Creating manifest`)
     }
 
-    if (lazy && fs.pathExistsSync(manifestOutput)) {
-      console.warn(
-        `[iiif:lib:createManifest:${id}] Manifest already created, skipping.`
-      )
-      return
-    }
-
-    console.warn(`[iiif:lib:createManifest:${id}] Creating manifest`)
     manifestId = `${iiifId}/${manifestFilename}`
     canvasId = `${iiifId}/canvas`
 
