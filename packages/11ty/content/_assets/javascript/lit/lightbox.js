@@ -9,7 +9,7 @@ class Lightbox extends LitElement {
     },
     height: { type: Number },
     imageDir: { attribute: 'image-dir', type: String },
-    isModal: { attribute: 'is-modal', type: Boolean },
+    isInsideOpenModal: { attribute: 'is-inside-open-modal', type: Boolean },
     width: { type: Number }
   }
 
@@ -130,6 +130,11 @@ class Lightbox extends LitElement {
     }
   `;
 
+  constructor() {
+    super();
+    this.setupKeyboardControls();
+  }
+
   get pageFigures() {
     if (!this.figures) return;
     const figureIds = Array
@@ -160,6 +165,23 @@ class Lightbox extends LitElement {
     const previousIndex = this.currentFigureIndex - 1;
     const previousId = this.pageFigures.slice(previousIndex)[0].id;
     this.current = previousId;
+  }
+
+  setupKeyboardControls() {
+    document.addEventListener('keyup', ({ code }) => {
+      if (this.isInsideOpenModal) {
+        switch(code) {
+            default:
+              break;
+            case 'ArrowRight':
+              this.next();
+              break;
+            case 'ArrowLeft':
+              this.previous();
+              break;
+        }
+      }
+    });
   }
 
   render() {
@@ -235,7 +257,7 @@ class Lightbox extends LitElement {
 
     // TODO implement download button for figure entries
     const downloadButton = () => {
-      return this.isModal
+      return this.isInsideOpenModal
         ? html``
         : '';
     };
@@ -246,7 +268,6 @@ class Lightbox extends LitElement {
       return html`<span class="q-lightbox__counter">${counter} of ${figureCount}</span>`;
     };
 
-    // TODO implement keyboard navigation for lightbox
     const navigationButtons = () => {
       const previousAriaLabel = 'Previous (left arrow key)';
       const nextAriaLabel = 'Next (right arrow key)';
@@ -263,7 +284,7 @@ class Lightbox extends LitElement {
            ${zoomButtons()}
            ${fullscreenButton()}
          </div>
-         <div class="q-lightbox__download-and-counter ${this.isModal && 'q-lightbox__download-and-counter--modal'}">
+         <div class="q-lightbox__download-and-counter ${this.isInsideOpenModal && 'q-lightbox__download-and-counter--modal'}">
            ${downloadButton()}
            ${counter()}
          </div>
