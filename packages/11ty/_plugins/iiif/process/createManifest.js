@@ -39,15 +39,15 @@ module.exports = (config) => {
     const { id, label, choices } = figure
 
     const outputDir = output || defaultOutput
-    const iiifId = [process.env.URL, outputDir, id].join("/")
+    const iiifId = [process.env.URL, outputDir, id].join('/')
     const manifestOutput = path.join(root, outputDir, id, manifestFilename)
 
     if (debug) {
       console.warn(`[iiif:lib:createManifest:${id}] Creating manifest`)
     }
 
-    manifestId = `${iiifId}/${manifestFilename}`
-    canvasId = `${iiifId}/canvas`
+    manifestId = [iiifId, manifestFilename].join('/')
+    canvasId = [iiifId, 'canvas'].join('/')
 
     const defaultChoice =
       choices.find(({ default: defaultChoice }) => defaultChoice) || choices[0]
@@ -74,16 +74,17 @@ module.exports = (config) => {
               label: { en: [label] },
               service: [
                 {
-                  id: [process.env.URL, outputDir, name, imageServiceDirectory].join('/'),
-                  type: "ImageService3",
-                  profile: "level0"
+                  id: [process.env.URL, outputDir, name, imageServiceDirectory, 'info.json'].join('/'),
+                  type: 'ImageService3',
+                  profile: 'level0'
                 }
               ],
               width
             }
           })
-          canvas.createAnnotation(`${iiifId}/canvas/annotation`, {
-            id: `${iiifId}/canvas/annotation`,
+          const annotationId = [canvasId, 'annotation'].join('/')
+          canvas.createAnnotation(annotationId, {
+            id: annotationId,
             type: 'Annotation',
             motivation: 'painting',
             body: {
