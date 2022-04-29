@@ -4,6 +4,7 @@
 const { IIIFBuilder } = require('iiif-builder')
 const { globalVault } = require('@iiif/vault')
 const fs = require('fs-extra')
+const mime = require('mime-types')
 const path = require('path')
 const sharp = require('sharp')
 const vault = globalVault()
@@ -75,17 +76,19 @@ module.exports = (config) => {
         canvas.height = height
         canvas.width = width
         if (Array.isArray(choices)) {
-          const bodyItems = choices.map(({ id, label }) => {
-            const choiceId = [process.env.URL, outputDir, id].join('/')
+          const bodyItems = choices.map(({ label, src }) => {
+            const name = path.parse(src).name
+            const choiceId = [process.env.URL, outputDir, name].join('/')
+            const format = mime.lookup(src)
             return {
               id: choiceId,
-              format: 'image/jpeg', // todo get MIME type from file extension
+              format,
               height,
               type: 'Image',
               label: { en: [label] },
               service: [
                 {
-                  id: [process.env.URL, outputDir, id, imageServiceDirectory].join('/'),
+                  id: [process.env.URL, outputDir, name, imageServiceDirectory].join('/'),
                   type: "ImageService3",
                   profile: "level0"
                 }
