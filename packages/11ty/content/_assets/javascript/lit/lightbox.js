@@ -283,7 +283,6 @@ class Lightbox extends LitElement {
       `;
     }
 
-    // TODO implement fullscreen button
     const fullscreenButton = () => {
       const ariaLabel = 'View Fullscreen';
       return html`
