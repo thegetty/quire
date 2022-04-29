@@ -45,13 +45,11 @@ _figures.yaml_
 - id: "cat1"
   label: "Cat"
   choices:
-    - id: "cat-photo"
+    - src: figures/cat-photo.jpg
       default: true
       label: "Photograph"
-      src: figures/cat-photo.jpg
-    - id: "cat-drawing"
+    - src: figures/drawing-of-cat.jpg
       label: "Drawing"
-      src: figures/drawing-of-cat.jpg
 ```
 
 #### Defined in an external manifest
