@@ -15,8 +15,9 @@ class Lightbox extends LitElement {
 
   static styles = css`
     .q-lightbox {
-      color: white;
       --atlas-z-index: 0;
+      font-family: "IBM Plex Sans Condensed",sans-serif;
+      color: white;
     }
 
     .q-lightbox,
@@ -102,6 +103,8 @@ class Lightbox extends LitElement {
       margin-right: 10px;
       padding: 0 8px;
       background: rgba(0,0,0,0.5);
+      font-size: 1rem;
+      font-weight: bold;
       line-height: 30px;
     }
 
@@ -117,7 +120,13 @@ class Lightbox extends LitElement {
       margin: 0 10px 25px;
       padding: 0 8px;
       background: rgba(0,0,0,0.5);
+      font-size: 0.875rem;
       line-height: 30px;
+    }
+
+    .q-lightbox__caption-label {
+      margin-right: 0.5rem;
+      font-weight: bold;
     }
   `;
 
@@ -155,12 +164,17 @@ class Lightbox extends LitElement {
 
   render() {
     const imageSlides = () => {
-      const imagesWithCaptions = this.pageFigures.map(({ canvasId, caption, id, manifestId, preset, src }, index) => {
+      const imagesWithCaptions = this.pageFigures.map(({ canvasId, caption, id, label, manifestId, preset, src }, index) => {
         const isCanvasPanel = !!canvasId && !!manifestId;
         const isImageService = src && !src.match(/.+\.(jpe?g|gif|png)$/);
         const isImg = src && src.match(/.+\.(jpe?g|gif|png)$/);
         const captionElement = caption
-          ? `<div class="q-lightbox__caption">${caption}</div>`
+          ? `
+            <div class="q-lightbox__caption">
+              <span class="q-lightbox__caption-label">${label}</span>
+              <span class="q-lightbox__caption-content">${caption}</span>
+            </div>
+          `
           : '';
         const elementId = `lightbox-image-${index}`;
         const imageSrc = src && src.startsWith('http')
