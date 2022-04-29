@@ -52,10 +52,8 @@ module.exports = (config) => {
     const defaultChoice =
       choices.find(({ default: defaultChoice }) => defaultChoice) || choices[0]
     const imagePath = path.join(
-      root,
-      outputDir,
-      defaultChoice.id,
-      "default.jpg"
+      input,
+      path.parse(defaultChoice.src).base
     )
     const { height, width } = await sharp(imagePath).metadata()
     const manifest = builder.createManifest(manifestId, (manifest) => {
