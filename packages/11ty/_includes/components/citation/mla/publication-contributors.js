@@ -5,7 +5,7 @@
  * @param  {Object} params
  * @property  {Object} contributors - publication contributors
  */
-module.exports = function(eleventyConfig, globalData) {
+module.exports = function(eleventyConfig) {
   const citationContributors = eleventyConfig.getFilter('citationContributors')
 
   return function (params) {

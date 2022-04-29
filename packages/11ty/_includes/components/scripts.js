@@ -1,11 +1,10 @@
 /**
  * @param  {Object} eleventyConfig
- * @param  {Object} globalData
  * 
  * @return {String} script tags
  */
-module.exports = function(eleventyConfig, globalData) {
-  const { config } = globalData
+module.exports = function(eleventyConfig) {
+  const { config } = eleventyConfig.globalData
   return function() {
     return `
       <script type="text/javascript"> var figureModal = ${config.params.figureModal}</script>

@@ -1,4 +1,3 @@
-const globalData = require('../globalData')
 const liquidArgs = require('liquid-args')
 // const { Liquid, Hash } = require('liquidjs')
 
@@ -21,18 +20,18 @@ module.exports = function(eleventyConfig, component, tagName) {
    */
   if (component.constructor.name === "AsyncFunction") {
     eleventyConfig.addJavaScriptFunction(tagName, async function(...args) {
-      return await component(eleventyConfig, globalData, { page: this.page })(...args)
+      return await component(eleventyConfig, { page: this.page })(...args)
     })
   } else {
     eleventyConfig.addJavaScriptFunction(tagName, function(...args) {
-      return component(eleventyConfig, globalData, { page: this.page })(...args)
+      return component(eleventyConfig, { page: this.page })(...args)
     })
   }
 
   // Component function for a Liquid tag with keyword arguments
   const renderComponent = async function(...args) {
     const kwargs = args.find((arg) => arg.__keywords)
-    return component(eleventyConfig, globalData, { page: this.page })(kwargs)
+    return component(eleventyConfig, { page: this.page })(kwargs)
   }
 
   /**
@@ -57,7 +56,7 @@ module.exports = function(eleventyConfig, component, tagName) {
    * @see https://www.11ty.dev/docs/languages/nunjucks/#single-shortcode
    */
   eleventyConfig.addNunjucksShortcode(tagName, function(...args) {
-    return component(eleventyConfig, globalData, { page: this.page })(...args)
+    return component(eleventyConfig, { page: this.page })(...args)
   })
 
   /**
@@ -65,6 +64,6 @@ module.exports = function(eleventyConfig, component, tagName) {
    * @see https://www.11ty.dev/docs/languages/handlebars/#single-shortcode
    */
   eleventyConfig.addHandlebarsShortcode(tagName, function(...args) {
-    return component(eleventyConfig, globalData, { page: this.page })(...args)
+    return component(eleventyConfig, { page: this.page })(...args)
   })
 }

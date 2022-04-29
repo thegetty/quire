@@ -3,11 +3,10 @@ const { html } = require('common-tags')
 /**
  * Publication bibliography
  * @param      {Object}  eleventyConfig
- * @param      {Object}  globalData
  */
-module.exports = function (eleventyConfig, globalData, { page }) {
-  const biblioHeading = globalData.config.params.biblioHeading
-  const displayBiblioShort = globalData.config.params.displayBiblioShort
+module.exports = function (eleventyConfig, { page }) {
+  const biblioHeading = eleventyConfig.globalData.config.params.biblioHeading
+  const displayBiblioShort = eleventyConfig.globalData.config.params.displayBiblioShort
   const markdownify = eleventyConfig.getFilter('markdownify')
   const slugify = eleventyConfig.getFilter('slugify')
 

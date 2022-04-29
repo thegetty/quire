@@ -4,16 +4,15 @@ const { html } = require('common-tags')
  * Renders previous page and next page buttons
  *
  * @param {Object} eleventyConfig
- * @param {Object} globalData
  * 
  * @param {Object} params
  * @param {Object} options
  *
  * @return {String} "previous" and "next" buttons
  */
-module.exports = function(eleventyConfig, globalData) {
+module.exports = function(eleventyConfig) {
   const icon = eleventyConfig.getFilter('icon')
-  const { config } = globalData
+  const { config } = eleventyConfig.globalData
 
   return function(params, options={}) {
     const { pagination } = params

@@ -1,7 +1,6 @@
 const { html } = require('common-tags')
 /**
  * @param  {Object} eleventyConfig
- * @param  {Object} globalData
  * @param  {Object} params
  * @property  {Array<Object>} contributor Page contributors
  * @property  {String} contributorAsItAppears Text override for contributor field
@@ -9,11 +8,11 @@ const { html } = require('common-tags')
  * 
  * @return {String} Contributor markup for inclusion in page headers
  */
-module.exports = function(eleventyConfig, globalData) {
+module.exports = function(eleventyConfig) {
   const contributorList = eleventyConfig.getFilter('contributorList')
   const markdownify = eleventyConfig.getFilter('markdownify')
 
-  const { contributorByline: globalContributorByline } = globalData.config.params
+  const { contributorByline: globalContributorByline } = eleventyConfig.globalData.config.params
 
   return function (params) {
     const {

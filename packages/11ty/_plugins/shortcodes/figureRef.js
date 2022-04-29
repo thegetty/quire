@@ -8,7 +8,7 @@ const { oneLineCommaLists } = require('common-tags')
  * renders the following markdown
  *  (fig. [4](#fig-4), [5](#fig-5), [6](#fig-6), [7](#fig-7))
  */
-module.exports = function(eleventyConfig, globalData) {
+module.exports = function(eleventyConfig) {
   const fig = 'fig.'
 
   return function (ids) {

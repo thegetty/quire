@@ -3,14 +3,13 @@ const path = require('path')
  * Renders a TOC item image
  *
  * @param     {Object} eleventyConfig
- * @param     {Object} globalData
  * @param     {Object} params
  * @property  {String} imageDir - image directory from eleventyComputed
  * @property  {String} src - image src
  *
  * @return {String} TOC image markup
  */
-module.exports = function(eleventyConfig, globalData) {
+module.exports = function(eleventyConfig) {
   return function(params) {
     const { imageDir, src } = params
     if (!imageDir || !src) return ''

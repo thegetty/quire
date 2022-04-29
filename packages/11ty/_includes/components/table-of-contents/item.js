@@ -13,7 +13,7 @@ const { oneLine } = require('common-tags')
  *
  * @return {String} TOC item markup
  */
-module.exports = function (eleventyConfig, globalData) {
+module.exports = function (eleventyConfig) {
   const contributorList = eleventyConfig.getFilter('contributorList')
   const getFigure = eleventyConfig.getFilter('getFigure')
   const getObject = eleventyConfig.getFilter('getObject')
@@ -22,7 +22,7 @@ module.exports = function (eleventyConfig, globalData) {
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const tableOfContentsImage = eleventyConfig.getFilter('tableOfContentsImage')
   const urlFilter = eleventyConfig.getFilter('url')
-  const { imageDir } = globalData.config.params
+  const { imageDir } = eleventyConfig.globalData.config.params
 
   return function (params) {
     /**

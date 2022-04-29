@@ -3,7 +3,6 @@
  * See also site-title.js
  * 
  * @param {Object} eleventyConfig
- * @param {Object} globalData
  * @param {Object} params
  * @property {Object} label
  * @property {Object} subtitle
@@ -11,10 +10,10 @@
  *
  * @return {string} `page title: subtitle`
  */
-module.exports = function(eleventyConfig, globalData) {
+module.exports = function(eleventyConfig) {
   const markdownify = eleventyConfig.getFilter('markdownify')
 
-  const { pageLabelDivider } = globalData.config.params
+  const { pageLabelDivider } = eleventyConfig.globalData.config.params
 
   return function(params) {
 

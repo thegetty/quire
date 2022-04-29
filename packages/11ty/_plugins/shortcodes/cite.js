@@ -26,15 +26,15 @@ const { oneLine } = require('common-tags')
  *  @example {% cite "Faure 1909" "" "1909" %}
  *  renders the citation "1909"
  */
-module.exports = function(eleventyConfig, globalData, { page }) {
+module.exports = function(eleventyConfig, { page }) {
   const markdownify = eleventyConfig.getFilter('markdownify')
 
   const {
     citationPageLocationDivider: divider,
     citationPopupStyle: popupStyle
-  } = globalData.config.params
+  } = eleventyConfig.globalData.config.params
 
-  let references = globalData.references
+  let references = eleventyConfig.globalData.references
 
   return function(id, pageNumber, text) {
     if (!id) {

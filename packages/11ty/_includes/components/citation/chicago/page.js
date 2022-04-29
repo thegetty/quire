@@ -5,12 +5,12 @@ const { html } = require('common-tags')
  * @property  {Object} publication
  * @property  {Object} page
  */
-module.exports = function(eleventyConfig, globalData) {
+module.exports = function(eleventyConfig) {
   const citationContributors = eleventyConfig.getFilter('citationContributors')
   const citationChicagoPublicationContributors = eleventyConfig.getFilter('citationChicagoPublicationContributors')
   const citationChicagoPublishers = eleventyConfig.getFilter('citationChicagoPublishers')
   const citationPubDate = eleventyConfig.getFilter('citationPubDate')
-  const { config, publication } = globalData
+  const { config, publication } = eleventyConfig.globalData
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const siteTitle = eleventyConfig.getFilter('siteTitle')
 
