@@ -1,5 +1,5 @@
-module.exports = function(eleventyConfig, globalData) {
-  const { publication } = globalData
+module.exports = function(eleventyConfig) {
+  const { publication } = eleventyConfig.globalData
 
   return function (params) {
     const { series, number_in_series } = publication

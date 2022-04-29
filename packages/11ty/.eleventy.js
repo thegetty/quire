@@ -10,6 +10,7 @@ const componentsPlugin = require('./_plugins/components')
 const epubPlugin = require('./_plugins/epub')
 const filtersPlugin = require('./_plugins/filters')
 const frontmatterPlugin = require('./_plugins/frontmatter')
+const globalDataPlugin = require('./_plugins/globalData')
 const iiifPlugin = require('./_plugins/iiif')
 const lintingPlugin = require('./_plugins/linting')
 const markdownPlugin = require('./_plugins/markdown')
@@ -67,6 +68,12 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addDataExtension('geojson', (contents) => JSON.parse(contents))
 
   /**
+   * Load global data files into eleventyConfig.globalData
+   * Must go before other plugins
+   */
+  eleventyConfig.addPlugin(globalDataPlugin)
+
+  /**
    * Load plugin for custom configuration of the markdown library
    */
   eleventyConfig.addPlugin(markdownPlugin)
@@ -122,6 +129,9 @@ module.exports = function(eleventyConfig) {
        * @see https://vitejs.dev/config/#server-host
        */
       server: {
+        hmr: {
+          overlay: false
+        },
         middlewareMode: 'ssr',
         mode: 'development'
       }

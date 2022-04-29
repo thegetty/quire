@@ -10,7 +10,6 @@ const path = require('path')
  * Render formats other than 'bio'
  *
  * @param  {Object} eleventyConfig
- * @param  {Object} globalData
  * @param  {Object} params
  * @property  {Object} contributor
  * @property  {String} format              'bio' or... ?
@@ -18,7 +17,7 @@ const path = require('path')
  * 
  * @return {String} contributor markup
  */
-module.exports = function (eleventyConfig, globalData) {
+module.exports = function (eleventyConfig) {
   const fullname = eleventyConfig.getFilter('fullname')
   const getContributor = eleventyConfig.getFilter('getContributor')
   const icon = eleventyConfig.getFilter('icon')

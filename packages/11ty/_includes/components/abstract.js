@@ -3,9 +3,8 @@ const { html } = require('common-tags')
 /**
  * Publication abstract
  * @param      {Object}  eleventyConfig
- * @param      {Object}  globalData
  */
-module.exports = function(eleventyConfig, globalData) {
+module.exports = function(eleventyConfig) {
   const markdownify = eleventyConfig.getFilter('markdownify')
   return function (params) {
     const { abstract } = params

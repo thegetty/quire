@@ -3,16 +3,15 @@ const { oneLine } = require('common-tags')
 /**
  * A figure label element
  * @param  {Object} eleventyConfig  eleventy configuration
- * @param  {Object} globalData
  * @return
  */
-module.exports = function(eleventyConfig, globalData) {
+module.exports = function(eleventyConfig) {
   const icon = eleventyConfig.getFilter('icon')
   const markdownify = eleventyConfig.getFilter('markdownify')
   const modalLink = eleventyConfig.getFilter('figuremodallink')
 
-  const { epub } = globalData.config
-  const { figureLabelLocation } = globalData.config.params
+  const { epub } = eleventyConfig.globalData.config
+  const { figureLabelLocation } = eleventyConfig.globalData.config.params
 
   return function({ caption, id, label }) {
     let labelElement

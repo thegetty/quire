@@ -3,14 +3,13 @@ const { oneLine } = require('common-tags')
 /**
  * Figure caption and credit
  * @param      {Object} eleventyConfig  eleventy configuration
- * @param      {Object} globalData
  * 
  * @param      {Object} params
  * @property   {String} figure
  * @property   {String} content
  * @return     {String}  An HTML <figcaption> element
  */
-module.exports = function(eleventyConfig, globalData) {
+module.exports = function(eleventyConfig) {
   const markdownify = eleventyConfig.getFilter('markdownify')
 
   return function({ caption, credit, content='' }) {

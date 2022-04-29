@@ -6,12 +6,12 @@ const path = require('path')
  * 
  * @return {String}
  */
-module.exports = function(eleventyConfig, globalData) {
+module.exports = function(eleventyConfig) {
   const copyrightLicensing = eleventyConfig.getFilter('copyrightLicensing')
   const markdownify = eleventyConfig.getFilter('markdownify')
 
   return function (params) {
-    const { config, publication } = globalData
+    const { config, publication } = eleventyConfig.globalData
 
     const publisherImages = publication.publisher.filter((item) => item.logo).map(({ logo }) => {
       return `<img src="${ path.join(config.params.imageDir, logo) }" class="quire-copyright__icon__logo" alt="logo" />`

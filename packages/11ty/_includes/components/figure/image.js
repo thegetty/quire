@@ -5,18 +5,17 @@ const path = require('path')
  * Renders an <img> element
  *
  * @param      {Object} eleventyConfig  eleventy configuration
- * @param      {Object} globalData
  * 
  * @return     {String}  An HTML <img> element
  */
-module.exports = function(eleventyConfig, globalData) {
+module.exports = function(eleventyConfig) {
   const canvasPanel = eleventyConfig.getFilter('canvasPanel')
   const figurecaption = eleventyConfig.getFilter('figurecaption')
   const figurelabel = eleventyConfig.getFilter('figurelabel')
   const figuremodallink = eleventyConfig.getFilter('figuremodallink')
   const markdownify = eleventyConfig.getFilter('markdownify')
 
-  const { imageDir, figureLabelLocation } = globalData.config.params
+  const { imageDir, figureLabelLocation } = eleventyConfig.globalData.config.params
 
   return async function({ alt='', canvasId, caption, choices, credit, id, iiifContent, label, manifestId, preset, src='' }) {
     const imageSrc = path.join(imageDir, src)

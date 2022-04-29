@@ -13,7 +13,7 @@
  * 
  * @return {String}
  */
-module.exports = function(eleventyConfig, globalData) {
+module.exports = function(eleventyConfig) {
   const fullname = eleventyConfig.getFilter('fullname')
   const getContributor = eleventyConfig.getFilter('getContributor')
 

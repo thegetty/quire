@@ -1,4 +1,4 @@
-module.exports = function(eleventyConfig, globalData) {
+module.exports = function(eleventyConfig) {
   return function(params) {
     return `
       <switch>

@@ -4,17 +4,16 @@ const { html } = require('common-tags')
  * Renders an iframe element with a Youtube video player
  *
  * @param      {Object}  eleventyConfig  eleventy configuration
- * @param      {Object}  globalData      global data
  * @param      {Object}  figure          The figure
  * @return     {String}  An HTML
  */
-module.exports = function(eleventyConfig, globalData) {
+module.exports = function(eleventyConfig) {
   const figurecaption = eleventyConfig.getFilter('figurecaption')
   const figureimage = eleventyConfig.getFilter('figureimage')
   const figureplaceholder = eleventyConfig.getFilter('figureplaceholder')
   const figurelabel = eleventyConfig.getFilter('figurelabel')
 
-  const { figureLabelLocation } = globalData.config.params
+  const { figureLabelLocation } = eleventyConfig.globalData.config.params
 
   return function({ aspectRatio, caption, credit, id, label, media_id }) {
     const src = `https://youtu.be/${media_id}`

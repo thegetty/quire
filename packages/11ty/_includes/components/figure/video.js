@@ -5,7 +5,7 @@ const { html } = require('common-tags')
  * @param {String} src  Source url for the video
  * @return {String}  An HTML <video> element
  */
-module.exports = function(eleventyConfig, globalData) {
+module.exports = function(eleventyConfig) {
   const unsupported = 'Sorry, your browser does not support embedded videos.'
 
   return function({ figure }) {
