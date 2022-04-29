@@ -48,7 +48,7 @@ module.exports = (eleventyConfig) => {
      * Output directory
      * @type {String}
      */
-    output: path.join('_assets', '_iiif'),
+    output: path.join('_iiif'),
     /**
      * The eleventy project directory
      */

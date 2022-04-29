@@ -143,8 +143,7 @@ module.exports = function(eleventyConfig) {
    * @see {@link https://www.11ty.dev/docs/copy/ Passthrough copy in 11ty}
    */
   eleventyConfig.addPassthroughCopy('content/_assets')
-  eleventyConfig.addPassthroughCopy('content/css/**')
-  eleventyConfig.addPassthroughCopy('content/js/**')
+  eleventyConfig.addPassthroughCopy('content/_iiif')
 
   /**
    * Watch the following additional files for changes and live browsersync

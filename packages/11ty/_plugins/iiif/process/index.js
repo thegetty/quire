@@ -18,7 +18,7 @@ module.exports = {
     /**
      * IIIF config
      */
-    const { iiifConfig } = globalData
+    const { iiifConfig, figures } = globalData
     const {
       imageTransformations,
       input,
