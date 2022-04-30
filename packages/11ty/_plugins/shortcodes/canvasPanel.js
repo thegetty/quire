@@ -4,6 +4,7 @@
  */
 const { globalVault } = require('@iiif/vault')
 const { html } = require('common-tags')
+const path = require('path')
 
 const vault = globalVault()
 
@@ -27,7 +28,14 @@ const getChoices = (annotations=[]) => {
 }
 
 module.exports = function(eleventyConfig) {
-  const { iiifConfig } = eleventyConfig.globalData
+  const { env, iiifConfig } = eleventyConfig.globalData
+
+  const getDefaultChoiceFromFigure = (choices) => {
+    if (!choices) return
+    const choice = choices.find(({default: defaultChoice}) => defaultChoice)
+    const { name, ext } = path.parse(choice.src)
+    return new URL([iiifConfig.output, name].join('/'), env.URL).href
+  }
 
   /**
    * Canvas Panel Shortcode
@@ -40,17 +48,15 @@ module.exports = function(eleventyConfig) {
    * @return {String}        <canvas-panel> markup
    */
   return async function(params) {
-    let { canvasId, choiceId, id, manifestId, preset } = params
+    let { canvasId, id, manifestId, preset } = params
+    const choiceId = params.choiceId ? params.choiceId : getDefaultChoiceFromFigure(params.choices)
 
     switch(true) {
       case !!manifestId && !!canvasId:
         break;
       case !!id:
-        /**
-         * @todo replace with directory defined in IIIF config
-         */
-        canvasId = new URL([iiifConfig.output, id, 'canvas'].join('/'), process.env.URL).href
-        manifestId = new URL([iiifConfig.output, id, iiifConfig.manifestFilename].join('/'), process.env.URL).href
+        canvasId = new URL([iiifConfig.output, id, 'canvas'].join('/'), env.URL).href
+        manifestId = new URL([iiifConfig.output, id, iiifConfig.manifestFilename].join('/'), env.URL).href
         break;
       default:
         console.warn(`Error in CanvasPanel shortcode: Missing params canvasId or manifestId. Fig.id: `, id)

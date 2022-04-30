@@ -26,7 +26,7 @@ module.exports = function(eleventyConfig) {
 
     switch (true) {
       case hasCanvasPanelProps:
-        imageElement = await canvasPanel({ canvasId, id, manifestId, preset })
+        imageElement = await canvasPanel({ canvasId, choices, id, manifestId, preset })
         break;
       case preset === 'zoom':
         const { imageServiceDirectory, output } = iiifConfig
