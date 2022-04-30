@@ -14,10 +14,10 @@ module.exports = function (eleventyConfig, globalData, { page }) {
   const markdownify = eleventyConfig.getFilter('markdownify')
   const { imageDir } = globalData.config.params
 
-  return function () {
-    if (!page.figures) return;
+  return function (figures=page.figures) {
+    if (!figures) return;
     const figuresWithMarkdownifiedCaptions =
-      page.figures.map((figure) => ({
+      figures.map((figure) => ({
         ...figure,
         caption: figure.caption ? markdownify(figure.caption) : null
       }));
