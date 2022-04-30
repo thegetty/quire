@@ -167,6 +167,10 @@ class Lightbox extends LitElement {
     return document.fullscreen;
   }
 
+  get hasMultipleFigures() {
+    return this.figures.length > 1;
+  }
+
   next() {
     const nextIndex = this.currentFigureIndex + 1;
     const nextId = this.figures[nextIndex % this.figures.length].id
@@ -181,7 +185,7 @@ class Lightbox extends LitElement {
 
   setupKeyboardControls() {
     document.addEventListener('keyup', ({ code }) => {
-      if (this.isInsideOpenModal) {
+      if (this.isInsideOpenModal && this.hasMultipleFigures) {
         switch(code) {
             default:
               break;
@@ -285,16 +289,20 @@ class Lightbox extends LitElement {
     const counter = () => {
       const counter = this.currentFigureIndex + 1;
       const figureCount = this.figures.length;
-      return html`<span class="q-lightbox__counter">${counter} of ${figureCount}</span>`;
+      return this.hasMultipleFigures
+        ? html`<span class="q-lightbox__counter">${counter} of ${figureCount}</span>`
+        : '';
     };
 
     const navigationButtons = () => {
       const previousAriaLabel = 'Previous (left arrow key)';
       const nextAriaLabel = 'Next (right arrow key)';
-      return html`
-        <button @click="${this.previous}" class="q-lightbox__navigation-button q-lightbox__navigation-button--previous" title="${previousAriaLabel}" aria-label="${previousAriaLabel}"></button>
-        <button @click="${this.next}" class="q-lightbox__navigation-button q-lightbox__navigation-button--next" title="${nextAriaLabel}" aria-label="${nextAriaLabel}"></button>
-      `;
+      return this.hasMultipleFigures
+        ? html`
+          <button @click="${this.previous}" class="q-lightbox__navigation-button q-lightbox__navigation-button--previous" title="${previousAriaLabel}" aria-label="${previousAriaLabel}"></button>
+          <button @click="${this.next}" class="q-lightbox__navigation-button q-lightbox__navigation-button--next" title="${nextAriaLabel}" aria-label="${nextAriaLabel}"></button>
+        `
+        : '';
     };
 
     return html`
