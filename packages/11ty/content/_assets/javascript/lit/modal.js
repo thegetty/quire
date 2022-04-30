@@ -9,7 +9,7 @@ class Modal extends LitElement {
     _height: { state: true },
     _width: { state: true },
     active: { type: Boolean },
-    current: { type: String },
+    currentId: { attribute: 'current-id', type: String },
     figures: {
       converter: ((value) => value ? JSON.parse(decodeURIComponent(value)) : null)
     },
@@ -87,7 +87,7 @@ class Modal extends LitElement {
   }
 
   open(event) {
-    this.current = this.getCurrentFigureId(event);
+    this.currentId = this.getCurrentFigureId(event);
     this.active = true;
     this.disableScrolling();
     this.setDimensions();
@@ -131,7 +131,7 @@ class Modal extends LitElement {
     const closeButton = html`<button @click="${this.close}" id="close-modal" class="q-modal__close-button"></button>`;
     return html`
       <div class="q-modal ${this.active ? 'active' : ''}">
-        <q-lightbox current="${this.current}" figures="${figures}" image-dir=${this.imageDir} is-inside-open-modal="${this.active}" width="${this._width}" height="${this._height}"></q-lightbox>
+        <q-lightbox current-id="${this.currentId}" figures="${figures}" image-dir=${this.imageDir} is-inside-open-modal="${this.active}" width="${this._width}" height="${this._height}"></q-lightbox>
         ${closeButton}
       </div>
     `;

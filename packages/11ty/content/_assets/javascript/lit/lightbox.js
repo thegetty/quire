@@ -3,7 +3,7 @@ import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 
 class Lightbox extends LitElement {
   static properties = {
-    current: { type: String },
+    currentId: { attribute: 'current-id', type: String },
     figures: {
       converter: ((value) => value ? JSON.parse(decodeURIComponent(value)) : null)
     },
@@ -160,8 +160,8 @@ class Lightbox extends LitElement {
 
   get currentFigureIndex() {
     if (!this.figures) return;
-    if (!this.current) return 0;
-    return this.figures.findIndex(({ id }) => id === this.current);
+    if (!this.currentId) return 0;
+    return this.figures.findIndex(({ id }) => id === this.currentId);
   }
 
   get fullscreen() {
@@ -175,13 +175,13 @@ class Lightbox extends LitElement {
   next() {
     const nextIndex = this.currentFigureIndex + 1;
     const nextId = this.figures[nextIndex % this.figures.length].id
-    this.current = nextId;
+    this.currentId = nextId;
   }
 
   previous() {
     const previousIndex = this.currentFigureIndex - 1;
     const previousId = this.figures.slice(previousIndex)[0].id;
-    this.current = previousId;
+    this.currentId = previousId;
   }
 
   setupKeyboardControls() {
@@ -248,7 +248,7 @@ class Lightbox extends LitElement {
         }
 
         return `
-          <div class="q-lightbox__slide ${this.current === id ? 'current' : ''}">
+          <div class="q-lightbox__slide ${this.currentFigureIndex === index ? 'current' : ''}">
             <div class="q-lightbox__image">
               ${imageElement}
             </div>
