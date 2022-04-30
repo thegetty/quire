@@ -212,15 +212,21 @@ class Lightbox extends LitElement {
 
   render() {
     const imageSlides = () => {
-      const imagesWithCaptions = this.figures.map(({ canvasId, caption, id, label, manifestId, preset, src }, index) => {
+      const imagesWithCaptions = this.figures.map(({ canvasId, caption, credit, id, label, manifestId, preset, src }, index) => {
         const isCanvasPanel = !!canvasId && !!manifestId;
         const isImageService = src && !src.match(/.+\.(jpe?g|gif|png)$/);
         const isImg = src && src.match(/.+\.(jpe?g|gif|png)$/);
-        const captionElement = caption
+        const labelSpan = label
+          ? `<span class="q-lightbox__caption-label">${label}</span>`
+          : '';
+        const captionAndCreditSpan = caption || credit
+          ? `<span class="q-lightbox__caption-content">${caption ? caption : ''} ${credit ? credit : ''}</span>`
+          : '';
+        const captionElement = labelSpan.length || captionAndCreditSpan.length
           ? `
             <div class="q-lightbox__caption">
-              <span class="q-lightbox__caption-label">${label}</span>
-              <span class="q-lightbox__caption-content">${caption}</span>
+              ${labelSpan}
+              ${captionAndCreditSpan}
             </div>
           `
           : '';
