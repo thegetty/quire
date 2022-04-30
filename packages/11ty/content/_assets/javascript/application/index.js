@@ -25,7 +25,6 @@ import { preloadImages, stopVideo, toggleFullscreen } from "./helper";
 import DeepZoom from "./deepzoom";
 import Map from "./map";
 import Navigation from "./navigation";
-import Popup from "./popup";
 import Search from "../../../../_plugins/search/search.js";
 
 // array of leaflet instances
@@ -310,9 +309,7 @@ function popupSetup(figureModal) {
     document.getElementById("toggleFullscreen"),
     document.querySelector(".mfp-wrap")
   );
-  if (figureModal) {
-    Popup(".q-figure__wrapper", mapArr);
-  } else {
+  if (!figureModal) {
     mapSetup(".quire-map");
     deepZoomSetup(".quire-deepzoom", mapArr);
   }
@@ -320,7 +317,7 @@ function popupSetup(figureModal) {
 
 /**
  * @description
- * Render Map if Popup @false
+ * Render Map if figureModal @false
  */
 function mapSetup(ele) {
   return [...document.querySelectorAll(ele)].forEach(v => {
@@ -331,7 +328,7 @@ function mapSetup(ele) {
 
 /**
  * @description
- * Render deepzoom or iiif if Popup @false
+ * Render deepzoom or iiif if figureModal @false
  */
 function deepZoomSetup(ele, mapArr) {
   return [...document.querySelectorAll(ele)].forEach(v => {
