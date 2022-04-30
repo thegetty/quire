@@ -267,10 +267,14 @@ class Lightbox extends LitElement {
     const zoomButtons = () => {
       const zoomInAriaLabel = 'Zoom In';
       const zoomOutAriaLabel = 'Zoom Out';
-      return html`
-        <button class="q-lightbox__zoom-button q-lightbox__zoom-button--in" title="${zoomInAriaLabel}" aria-label="${zoomInAriaLabel}">+</button>
-        <button class="q-lightbox__zoom-button q-lightbox__zoom-button--out" title="${zoomOutAriaLabel}" aria-label="${zoomOutAriaLabel}">-</button>
-      `;
+      // TODO determine how to programattically zoom with `image-service`/`canvas-panel`
+      const displayZoomButtons = false
+      return displayZoomButtons
+        ? html`
+          <button class="q-lightbox__zoom-button q-lightbox__zoom-button--in" title="${zoomInAriaLabel}" aria-label="${zoomInAriaLabel}">+</button>
+          <button class="q-lightbox__zoom-button q-lightbox__zoom-button--out" title="${zoomOutAriaLabel}" aria-label="${zoomOutAriaLabel}">-</button>
+        `
+        : '';
     }
 
     const fullscreenButton = () => {
