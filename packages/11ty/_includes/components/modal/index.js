@@ -9,9 +9,9 @@ const stringifyData = (jsObject) => {
  * @param      {Object}  eleventyConfig
  * @param      {Object}  globalData
  */
-module.exports = function (eleventyConfig, globalData, { page }) {
+module.exports = function (eleventyConfig, { page }) {
   const markdownify = eleventyConfig.getFilter('markdownify')
-  const { imageDir } = globalData.config.params
+  const { imageDir } = eleventyConfig.globalData.config.params
 
   return function (figures=page.figures) {
     if (!figures) return;

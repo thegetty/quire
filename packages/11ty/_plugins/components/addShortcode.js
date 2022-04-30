@@ -1,5 +1,3 @@
-const globalData = require('../globalData')
-
 /**
  * Adds a custom tag for a shortcode component.
  *
@@ -13,6 +11,6 @@ const globalData = require('../globalData')
  */
 module.exports = function(eleventyConfig, component, tagName) {
   eleventyConfig.addShortcode(tagName, function(...args) {
-    return component(eleventyConfig, globalData, { page: this.page })(...args)
+    return component(eleventyConfig, { page: this.page })(...args)
   })
 }
