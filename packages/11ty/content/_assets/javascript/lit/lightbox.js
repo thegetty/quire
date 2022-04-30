@@ -159,38 +159,23 @@ class Lightbox extends LitElement {
   }
 
   get currentFigureIndex() {
-    if (!this.current || !this.pageFigures) return;
-    return this.pageFigures.findIndex(({ id }) => id === this.current);
+    if (!this.current || !this.figures) return;
+    return this.figures.findIndex(({ id }) => id === this.current);
   }
 
   get fullscreen() {
     return document.fullscreen;
   }
 
-  get pageFigures() {
-    if (!this.figures) return;
-    const figureIds = Array
-      .from(document.querySelectorAll('.q-figure'))
-      .reduce((ids, figure) => {
-        if (figure.hasAttribute('id')) {
-          ids.push(figure.getAttribute('id'));
-        }
-        return ids;
-      }, []);
-    return this.figures.filter(({ id }) => {
-      return figureIds.includes(id)
-    });
-  }
-
   next() {
     const nextIndex = this.currentFigureIndex + 1;
-    const nextId = this.pageFigures[nextIndex % this.pageFigures.length].id
+    const nextId = this.figures[nextIndex % this.figures.length].id
     this.current = nextId;
   }
 
   previous() {
     const previousIndex = this.currentFigureIndex - 1;
-    const previousId = this.pageFigures.slice(previousIndex)[0].id;
+    const previousId = this.figures.slice(previousIndex)[0].id;
     this.current = previousId;
   }
 
@@ -222,7 +207,7 @@ class Lightbox extends LitElement {
 
   render() {
     const imageSlides = () => {
-      const imagesWithCaptions = this.pageFigures.map(({ canvasId, caption, id, label, manifestId, preset, src }, index) => {
+      const imagesWithCaptions = this.figures.map(({ canvasId, caption, id, label, manifestId, preset, src }, index) => {
         const isCanvasPanel = !!canvasId && !!manifestId;
         const isImageService = src && !src.match(/.+\.(jpe?g|gif|png)$/);
         const isImg = src && src.match(/.+\.(jpe?g|gif|png)$/);
@@ -299,7 +284,7 @@ class Lightbox extends LitElement {
 
     const counter = () => {
       const counter = this.currentFigureIndex + 1;
-      const figureCount = this.pageFigures.length;
+      const figureCount = this.figures.length;
       return html`<span class="q-lightbox__counter">${counter} of ${figureCount}</span>`;
     };
 
