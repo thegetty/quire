@@ -46,11 +46,6 @@ Entry content, including entry image and tombstone data
         {% elsif pageObjects %}
           {% for object in pageObjects %}
             <div class="quire-entry__image__group-container">
-              {% assign figureLength = object.figure | size %}
-              {% if figureLength > 1 and pdf != true -%}
-                <button class="remove-from-epub quire-image-control quire-image-control--prev-image" id="prev-image" title="Previous image"></button>
-                <button class="remove-from-epub quire-image-control quire-image-control--next-image" id="next-image" title="Next image"></button>
-              {% endif -%}
               {% for objectFigure in object.figures %}
                 {% render "entry-figure", epub: epub, pdf: pdf, zoom: zoom, imageDir: imageDir, figure: objectFigure %}
               {% endfor %}
