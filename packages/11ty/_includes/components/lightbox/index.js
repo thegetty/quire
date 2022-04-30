@@ -15,8 +15,9 @@ module.exports = function (eleventyConfig, globalData, { page }) {
   const { imageDir } = globalData.config.params
 
   return function () {
+    if (!page.figures) return;
     const figuresWithMarkdownifiedCaptions =
-      globalData.figures.figure_list.map((figure) => ({
+      page.figures.map((figure) => ({
         ...figure,
         caption: figure.caption ? markdownify(figure.caption) : null
       }));
