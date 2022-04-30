@@ -159,7 +159,8 @@ class Lightbox extends LitElement {
   }
 
   get currentFigureIndex() {
-    if (!this.current || !this.figures) return;
+    if (!this.figures) return;
+    if (!this.current) return 0;
     return this.figures.findIndex(({ id }) => id === this.current);
   }
 
