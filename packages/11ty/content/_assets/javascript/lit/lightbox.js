@@ -137,10 +137,9 @@ class Lightbox extends LitElement {
 
     .q-lightbox__caption {
       position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      margin: 0 10px 25px;
+      left: 10px;
+      right: 10px;
+      bottom: 25px;
       padding: 0 8px;
       background: rgba(0,0,0,0.5);
       font-size: 0.875rem;
