@@ -651,7 +651,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
 }
 
 /* TODO display `entry-figure` assets only on PDF/epub output so this doesn't have to be conditionally hidden to be replace with a `lightbox` */
-.side-by-side .quire-entry__image {
+.quire-entry__image {
   @media screen {
     display: none;
   }
@@ -663,7 +663,9 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
   width: 100%;
   height: calc(100vh - 6rem - 3rem - 2px);
   background: black;
+}
 
+.side-by-side .quire-entry__lightbox {
   @media screen and (min-width: 1184px) {
     position: fixed;
     /* top offsets 50px tall nav bar */
