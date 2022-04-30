@@ -1,4 +1,5 @@
 const { html } = require('common-tags')
+const figure = require('./figure')
 
 /**
  * Render multiple <figure> elements in a group
@@ -8,12 +9,10 @@ const { html } = require('common-tags')
  * @param      {Array<id>}  ids          An array or list of figure identifiers
  * @return     {String}  An HTML string of the elements to render
  */
-module.exports = function (eleventyConfig, globalData) {
-  const figure = eleventyConfig.getFilter('figure')
+module.exports = function (eleventyConfig, globalData, { page }) {
 
-  return async function (params) {
-    let { columns, ids=[] } = params
-    columns = parseInt(params.columns)
+  return async function (columns, ids=[]) {
+    columns = parseInt(columns)
 
     /**
      * Parse the ids arg for figure identifiers
@@ -22,7 +21,7 @@ module.exports = function (eleventyConfig, globalData) {
      * or an array of identifier strings
      * @example ['fig-1', 'fig-2', 'fig-3']
      */
-    ids = Array.isArray(params.ids) ? params.ids : params.ids.split(',').map((id) => id.trim())
+    ids = Array.isArray(ids) ? ids : ids.split(',').map((id) => id.trim())
 
     if (!ids.length) {
       console.warn(`Error: NoId: the q-figures shortcode must include one or more 'id' values that correspond to an 'id' in the 'figures.yaml' file. @example {% qfiguregroup columns=2, ids='3.1, 3.2, 3.3' %}`)
@@ -39,7 +38,7 @@ module.exports = function (eleventyConfig, globalData) {
       const startIndex = i * columns
       let row = '';
       for (let id of ids.slice(startIndex, columns + startIndex)) {
-        row += await figure({ id, class: classes });
+        row += await figure(eleventyConfig, globalData, { page })(id, classes);
       }
       figureTags.push(`<div class="q-figure--group__row columns">${row}</div>`)
     }
