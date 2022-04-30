@@ -649,3 +649,28 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     }
   }
 }
+
+/* TODO display `entry-figure` assets only on PDF/epub output so this doesn't have to be conditionally hidden to be replace with a `lightbox` */
+.side-by-side .quire-entry__image {
+  @media screen {
+    display: none;
+  }
+}
+
+/* TODO clean up side-by-side layout styles so these brittle calcs in this lightbox wrapper are not necessary */
+.quire-entry__lightbox {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 6rem - 3rem - 2px);
+  background: black;
+
+  @media screen and (min-width: 1184px) {
+    position: fixed;
+    /* top offsets 50px tall nav bar */
+    top: 50px;
+    /* calculated width accounts for extra 8px of margin in .quire-entry__image-wrap */
+    width: calc(56% - 8px);
+    /* calculated height accounts for 50px tall nav bar */
+    height: calc(100vh - 50px);
+  }
+}
