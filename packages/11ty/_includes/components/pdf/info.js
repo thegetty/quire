@@ -2,8 +2,8 @@
  *   Adds info to use in PrinceXML running page footers
  *   @todo if there are sections, set section title to title if slug == '.'
  */
-module.exports = function(eleventyConfig, globalData) {
-  const { config } = globalData
+module.exports = function(eleventyConfig) {
+  const { config } = eleventyConfig.globalData
 
   return function (params) {
     if (!config.params.pdf) return ''

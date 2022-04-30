@@ -27,7 +27,7 @@ const getChoices = (annotations=[]) => {
   }).filter(item => item)
 }
 
-module.exports = function(eleventyConfig, globalData) {
+module.exports = function(eleventyConfig) {
 
   /**
    * Canvas Panel Shortcode

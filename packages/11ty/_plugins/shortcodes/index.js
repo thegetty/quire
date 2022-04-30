@@ -11,25 +11,23 @@ const ref = require('./figureRef.js')
 const title = require('./title.js')
 const tombstone = require('./tombstone.js')
 
-const globalData = require('../globalData')
-
 module.exports = function(eleventyConfig, options) {
   eleventyConfig.addPairedShortcode('backmatter', function(content, ...args) {
-    return backmatter(eleventyConfig, globalData)(content, ...args)
+    return backmatter(eleventyConfig)(content, ...args)
   })
 
   eleventyConfig.addShortcode('bibliography', function() {
-    return bibliography(eleventyConfig, globalData, { page: this.page })()
+    return bibliography(eleventyConfig, { page: this.page })()
   })
 
   addComponentTag(eleventyConfig, canvasPanel, 'canvasPanel')
 
   eleventyConfig.addPairedShortcode('class', function(content, ...args) {
-    return div(eleventyConfig, globalData)(content, ...args)
+    return div(eleventyConfig)(content, ...args)
   })
   
   eleventyConfig.addShortcode('cite', function(...args) {
-    return cite(eleventyConfig, globalData, { page: this.page })(...args)
+    return cite(eleventyConfig, { page: this.page })(...args)
   })
 
   addComponentTag(eleventyConfig, contributor, 'contributor')
@@ -43,7 +41,7 @@ module.exports = function(eleventyConfig, options) {
   })
 
   eleventyConfig.addShortcode('ref', function(...args) {
-    return ref(eleventyConfig, globalData)(...args)
+    return ref(eleventyConfig)(...args)
   })
 
   eleventyConfig.addShortcode('title', function(...args) {
@@ -51,6 +49,6 @@ module.exports = function(eleventyConfig, options) {
   })
 
   eleventyConfig.addShortcode('tombstone', function(...args) {
-    return tombstone(eleventyConfig, globalData)(...args)
+    return tombstone(eleventyConfig)(...args)
   })
 }

@@ -2,9 +2,8 @@
  * Head Tag
  * 
  * @param      {Object}  eleventyConfig
- * @param      {Object}  globalData
  */
-module.exports = function(eleventyConfig, globalData) {
+module.exports = function(eleventyConfig) {
   const analytics = eleventyConfig.getFilter('analytics')
   const dublinCore = eleventyConfig.getFilter('dublinCore')
   const jsonld = eleventyConfig.getFilter('jsonld')
@@ -12,7 +11,7 @@ module.exports = function(eleventyConfig, globalData) {
   const opengraph = eleventyConfig.getFilter('opengraph')
   const twitterCard = eleventyConfig.getFilter('twitterCard')
 
-  const { config, publication } = globalData
+  const { config, publication } = eleventyConfig.globalData
 
   const { imageDir } = config.params
 

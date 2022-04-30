@@ -4,17 +4,16 @@ const { html } = require('common-tags')
  * Renders an iframe element with the SoundCloud audio player
  *
  * @param      {Object}  eleventyConfig  eleventy configuration
- * @param      {Object}  globalData      global data
  * @param      {Object}  figure          The figure
  * @return     {String}  HTML to display a SoundCloud player
  */
-module.exports = function(eleventyConfig, globalData) {
+module.exports = function(eleventyConfig) {
   const figurecaption = eleventyConfig.getFilter('figurecaption')
   const figureimage = eleventyConfig.getFilter('figureimage')
   const figurelabel = eleventyConfig.getFilter('figurelabel')
   const figureplaceholder = eleventyConfig.getFilter('figureplaceholder')
 
-  const { figureLabelLocation } = globalData.config.params
+  const { figureLabelLocation } = eleventyConfig.globalData.config.params
 
   return function({ caption, credit, id, label, media_id }) {
     const src = `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${media_id}`

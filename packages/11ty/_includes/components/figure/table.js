@@ -6,13 +6,13 @@ const path = require('path')
  * @param {String}
  * @return {String}  An HTML <table> element
  */
-module.exports = function(eleventyConfig, globalData) {
+module.exports = function(eleventyConfig) {
   const figurecaption = eleventyConfig.getFilter('figurecaption')
   const markdownify = eleventyConfig.getFilter('markdownify')
   const renderFile = eleventyConfig.getFilter('renderFile')
 
   const assetsDir = path.join(eleventyConfig.dir.input, '_assets/images')
-  const { figureLabelLocation } = globalData.config.params
+  const { figureLabelLocation } = eleventyConfig.globalData.config.params
 
   return async function({ caption, credit, id, src }) {
     const table = await renderFile(path.join(assetsDir, src))

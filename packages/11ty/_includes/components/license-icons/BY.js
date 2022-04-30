@@ -1,7 +1,7 @@
 const path = require('path')
 
-module.exports = function(eleventyConfig, globalData) {
-  const imageDir = globalData.config.params.imageDir
+module.exports = function(eleventyConfig) {
+  const imageDir = eleventyConfig.globalData.config.params.imageDir
   return function(params) {
     return `
       <switch>

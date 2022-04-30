@@ -1,10 +1,10 @@
 /**
  * @param  {Object} context
  */
-module.exports = function(eleventyConfig, globalData) {
+module.exports = function(eleventyConfig) {
   const citationChicagoPublication = eleventyConfig.getFilter('citationChicagoPublication')
   const citationChicagoPublicationContributors = eleventyConfig.getFilter('citationChicagoPublicationContributors')
-  const { config, publication } = globalData
+  const { config, publication } = eleventyConfig.globalData
   const pageTitle = eleventyConfig.getFilter('pageTitle')
 
   return function (params) {
