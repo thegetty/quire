@@ -53,6 +53,21 @@ Entry content, including entry image and tombstone data
           {% endfor %}
         {% endif %}
       </div>
+      {% comment %}
+        TODO refactor `entry-figure` to only display on PDF/epub output so `lightbox` can handle display of all entry figures in the browser.
+        Currently this is (hackily) displaying a `lightbox` on top of rendered `entry-figure`s
+      {% endcomment %}
+      <div class="quire-entry__lightbox remove-from-epub">
+        {% if image %}
+          {%- assign imgPath = imageDir %}
+          {%- assign imgPath = imgPath | concat: image | join: "/" %}
+          {% comment %} TODO add `lightbox` when a single `image` is included in front matter {% endcomment %}
+        {% elsif pageObjects %}
+          {% for object in pageObjects %}
+            {% lightbox object.figures %}
+          {% endfor %}
+        {% endif %}
+      </div>
     </div>
 
     <div class="quire-entry__content">
