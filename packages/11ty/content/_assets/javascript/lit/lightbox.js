@@ -42,6 +42,13 @@ class Lightbox extends LitElement {
       transition: transform 0s, opacity 0.4s linear;
     }
 
+    .q-lightbox__image img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
     .q-lightbox__fullscreen-button {
       position: absolute;
       top: 0;
@@ -214,7 +221,7 @@ class Lightbox extends LitElement {
       const imagesWithCaptions = this.figures.map(({ canvasId, caption, credit, id, label, manifestId, preset, src }, index) => {
         const isCanvasPanel = !!canvasId && !!manifestId;
         const isImageService = src && !src.match(/.+\.(jpe?g|gif|png)$/);
-        const isImg = src && src.match(/.+\.(jpe?g|gif|png)$/);
+        const isImg = src && !!src.match(/.+\.(jpe?g|gif|png)$/);
         const labelSpan = label
           ? `<span class="q-lightbox__caption-label">${label}</span>`
           : '';
