@@ -114,7 +114,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
       align-items: center;
       justify-content: center;
       position: relative;
-      
+
       @media screen and (max-width: $desktop) {
         height: 60vh;
       }
@@ -123,6 +123,14 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
         margin: 0 auto;
         padding: 0;
         height: auto;
+      }
+
+      &.current-image img {
+        // fadeIn animation applied when navigating through non-popup leaflet image slideshows
+        animation-name: fadeIn;
+        animation-delay: 0.25s;
+        animation-duration: 0.2s;
+        animation-fill-mode: backwards;
       }
 
       iframe {
