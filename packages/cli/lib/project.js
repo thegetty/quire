@@ -396,7 +396,8 @@ class Project extends EventEmitter {
       await this.buildTheme(`webpack.config.prod.js`, baseURL);
       this.hugo = await this.spawnHugo(
         "server",
-        "--config=" + configs.join(",")
+        "--config=" + configs.join(","),
+        "--disableFastRender"
       );
       let isReady = await this.hugo.ready;
       if (isReady) {
@@ -501,7 +502,8 @@ class Project extends EventEmitter {
       this.hugo = await this.spawnHugo(
         "server",
         "--renderToDisk",
-        "--config=" + configs.join(",")
+        "--config=" + configs.join(","),
+        "--disableFastRender"
       );
 
       await this.buildTheme(`webpack.config.epub.js`, baseURL);
@@ -631,7 +633,8 @@ class Project extends EventEmitter {
       this.hugo = await this.spawnHugo(
         "server",
         "--renderToDisk",
-        "--config=" + configs.join(",")
+        "--config=" + configs.join(","),
+        "--disableFastRender"
       );
 
       await this.buildTheme(`webpack.config.epub.js`, baseURL);
