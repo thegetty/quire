@@ -31,6 +31,7 @@
     "common-tags": "^2.0.0-alpha.1",
     "del-cli": "^4.0.1",
     "eslint": "^8.14.0",
+    "fs": "0.0.2",
     "js-yaml": "^4.1.0",
     "json5": "^2.2.1",
     "liquid-args": "^1.0.0",
@@ -46,10 +47,9 @@
     "toml": "^3.0.0"
   },
   "dependencies": {
-    "@iiif/vault": "^0.9.17",
+    "@iiif/vault": "^0.9.18",
     "bulma": "^0.9.3",
-    "fs": "0.0.2",
-    "lit": "^2.2.2",
+    "lit": "^2.2.3",
     "lunr": "^2.3.9",
     "material-icons": "^1.10.7",
     "quicklink": "^1.0.1",
