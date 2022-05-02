@@ -390,21 +390,9 @@ function toggleCite() {
  */
 function pageSetup() {
   setDate();
-  quickLinksSetup();
   activeMenuPage();
   toggleCite();
 }
-
-/**
- * pageTeardown
- * @description This function is called before each smoothState reload.
- * Remove any event listeners here.
- */
-/*
-function pageTeardown() {
-  navigationTeardown();
-}
-*/
 
 // Start
 // -----------------------------------------------------------------------------
