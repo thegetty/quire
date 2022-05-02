@@ -36,7 +36,7 @@
 
   {{- if eq $citationRange "page" -}}
 
-    {{ if .page.Params.contributor }}{{ template "page-contributors-chicago" .page }}. {{ end }}{{ if .page.Title }}“{{ partial "page-title.html" .page }}.” {{ else if .page.Params.label }}“{{ .page.Params.label }}.” {{ else }}Untitled. {{ end }}In <em>{{ partial "site-title.html" .page }}</em>{{ if gt $siteAuthorCount 0 }}, {{ if gt $siteEditorCount 0 }}edited {{ end }}by {{ template "publication-contributors-chicago" .page }}{{ end }}. {{ template "publishers-chicago" (dict "site" .site)}}{{ with .site.Data.publication.pub_date }}, {{ dateFormat "2006" . }}{{ end }}. <span class="url-string">{{ if .site.Data.publication.identifier.url }}{{ .site.Data.publication.identifier.url }}{{ .page.RelPermalink }}{{ else }}{{ .page.Permalink }}{{ end }}</span>.
+    {{ if .page.Params.contributor }}{{ template "page-contributors-chicago" .page }}. {{ end }}{{ if .page.Title }}“{{ partial "page-title.html" .page | markdownify }}.” {{ else if .page.Params.label }}“{{ .page.Params.label }}.” {{ else }}Untitled. {{ end }}In <em>{{ partial "site-title.html" .page }}</em>{{ if gt $siteAuthorCount 0 }}, {{ if gt $siteEditorCount 0 }}edited {{ end }}by {{ template "publication-contributors-chicago" .page }}{{ end }}. {{ template "publishers-chicago" (dict "site" .site)}}{{ with .site.Data.publication.pub_date }}, {{ dateFormat "2006" . }}{{ end }}. <span class="url-string">{{ if .site.Data.publication.identifier.url }}{{ .site.Data.publication.identifier.url }}{{ .page.RelPermalink }}{{ else }}{{ .page.Permalink }}{{ end }}</span>.
 
   {{- else if eq $citationRange "site" -}}
 
@@ -49,7 +49,7 @@
 
   {{- if eq $citationRange "page" -}}
 
-    {{ if .page.Params.contributor }}{{ template "page-contributors-mla" .page }}. {{ end }}{{ if .page.Title }}“{{ partial "page-title.html" .page }}.” {{ else if .page.Params.label }}“{{ .page.Params.label }}.” {{ else }}Untitled. {{ end }}<em>{{ partial "site-title.html" .page }}</em>{{ if gt $siteAuthorCount 0 }}, {{ if gt $siteEditorCount 0 }}edited {{ end }}by {{ template "publication-contributors-mla" .page }}{{ end }}. {{ template "publishers-mla" (dict "site" .site)}}{{ with .site.Data.publication.pub_date }}, {{ dateFormat "2006" . }}{{ end }}. <span class="url-string">{{ if .site.Data.publication.identifier.url }}{{ .site.Data.publication.identifier.url }}{{ .page.RelPermalink }}{{ else }}{{ .page.Permalink }}{{ end }}</span>. Accessed <span class="cite-current-date">DD Mon. YYYY</span>.
+    {{ if .page.Params.contributor }}{{ template "page-contributors-mla" .page }}. {{ end }}{{ if .page.Title }}“{{ partial "page-title.html" .page | markdownify }}.” {{ else if .page.Params.label }}“{{ .page.Params.label }}.” {{ else }}Untitled. {{ end }}<em>{{ partial "site-title.html" .page }}</em>{{ if gt $siteAuthorCount 0 }}, {{ if gt $siteEditorCount 0 }}edited {{ end }}by {{ template "publication-contributors-mla" .page }}{{ end }}. {{ template "publishers-mla" (dict "site" .site)}}{{ with .site.Data.publication.pub_date }}, {{ dateFormat "2006" . }}{{ end }}. <span class="url-string">{{ if .site.Data.publication.identifier.url }}{{ .site.Data.publication.identifier.url }}{{ .page.RelPermalink }}{{ else }}{{ .page.Permalink }}{{ end }}</span>. Accessed <span class="cite-current-date">DD Mon. YYYY</span>.
 
   {{- else if eq $citationRange "site" -}}
 
