@@ -8,23 +8,16 @@
  */
 
 // Stylesheets
-import "intersection-observer";
 import "leaflet-fullscreen/dist/leaflet.fullscreen.css";
 import "../../styles/application.scss";
 import "leaflet/dist/leaflet.css";
-import quicklink from "quicklink";
 
 // JS Libraries (add them to package.json with `npm install [library]`)
-import "babel-polyfill";
-import "velocity-animate";
-import "./soundcloud-api";
+import quicklink from "quicklink";
 
 // Modules (feel free to define your own and import here)
-import { preloadImages, stopVideo, toggleFullscreen } from "./helper";
-import DeepZoom from "./deepzoom";
-import Map from "./map";
-import Navigation from "./navigation";
 import Search from "../../../../_plugins/search/search.js";
+import "./soundcloud-api";
 
 // array of leaflet instances
 const mapArr = [];
@@ -107,60 +100,6 @@ function createHtml(tag, attributes, ...children) {
   }
   for (let child of children) element.append(child);
   return element;
-}
-
-/**
- * sliderSetup
- * @description Set up the simple image slider used on catalogue entry pages for
- * objects with multiple figure images. See also slideImage function below.
- */
-async function sliderSetup() {
-  toggleFullscreen(
-    mapArr,
-    document.getElementById("toggleFullscreen"),
-    document.getElementById("quire-entry__image")
-  );
-
-  const slider = document.querySelector(".quire-entry__image__group-container");
-  if (slider) {
-    const slides = slider.querySelectorAll("figure");
-    const slidesCount = slides.length;
-    slides.forEach((slide, index) => {
-      if (slidesCount > 1) {
-        const counterDownloadContainer = slide.querySelector(".quire-image-counter-download-container");
-        counterDownloadContainer && counterDownloadContainer.append(
-          createHtml(
-            "div",
-            { className: "quire-counter-container" },
-            createHtml(
-              "span",
-              { className: "counter" },
-              `${index + 1} of ${slidesCount}`
-            )
-          )
-        );
-        if (index > 0) {
-          slide.classList.add("visually-hidden");
-          // slide.style.display = "none";
-        }
-      }
-    });
-    const firstImage = slides[0];
-    firstImage.classList.add("current-image", "first-image");
-    const lastImage = slides[slidesCount - 1];
-    lastImage.classList.add("last-image");
-  }
-  const images = [...document.querySelectorAll(".quire-deepzoom-entry")];
-  const imageSrcs = images
-    .filter((image) => {
-      return image.getAttribute("src");
-    })
-    .map((image) => {
-      return image.getAttribute("src");
-    });
-  await preloadImages(imageSrcs);
-  mapSetup(".quire-map-entry");
-  deepZoomSetup(".quire-deepzoom-entry", mapArr);
 }
 
 /**
@@ -326,57 +265,6 @@ function loadSearchData() {
 }
 
 /**
- * navigation
- * @description Turn on ability to use arrow keys
- * to get next adn previous pages
- */
-let navigation;
-
-function navigationSetup() {
-  if (!navigation) {
-    navigation = new Navigation();
-  }
-}
-
-/**
- * @description
- * Set up modal for media
- */
-function popupSetup(figureModal) {
-  toggleFullscreen(
-    mapArr,
-    document.getElementById("toggleFullscreen"),
-    document.querySelector(".mfp-wrap")
-  );
-  if (!figureModal) {
-    mapSetup(".quire-map");
-    deepZoomSetup(".quire-deepzoom", mapArr);
-  }
-}
-
-/**
- * @description
- * Render Map if figureModal @false
- */
-function mapSetup(ele) {
-  return [...document.querySelectorAll(ele)].forEach(v => {
-    let id = v.getAttribute("id");
-    new Map(id);
-  });
-}
-
-/**
- * @description
- * Render deepzoom or iiif if figureModal @false
- */
-function deepZoomSetup(ele, mapArr) {
-  return [...document.querySelectorAll(ele)].forEach(v => {
-    let id = v.getAttribute("id");
-    new DeepZoom(id, mapArr);
-  });
-}
-
-/**
  * @description
  * Adding GoogleChromeLabs quicklinks https://github.com/GoogleChromeLabs/quicklink
  * For faster subsequent page-loads by prefetching in-viewport links during idle time
@@ -442,87 +330,6 @@ function setDate() {
   if (dateSpan) {
     dateSpan.innerHTML = formattedDate;
   }
-}
-
-/**
- * slideImage
- * @description Slide to previous or next catalogue object image in a loop.
- * Supports any number of figures per object, and any number of objects
- * per page. Also pass in the maps array to invalidate size after transition.
- * @param {string} direction must be an integer
- * @param {object} event must be an object
- * @param {array} mapArr must be an array
- */
-function slideImage(direction, event, mapArr) {
-  event.stopPropagation();
-
-  const hideElement = (element) => {
-    element.style.display = "none";
-  };
-
-  const showElement = (element, displayValue) => {
-    element.style.display = displayValue;
-  };
-
-  const slider = document.querySelector(".quire-entry__image__group-container");
-  const leafletImages = Array.from(document.querySelector(".leaflet-image-layer"));
-  const slides = Array.from(slider.querySelectorAll("figure"));
-  const currentSlide = slider.querySelector(".current-image");
-  const currentSlideIndex = slides.findIndex((item) => item.classList.contains("current-image"));
-  const nextSlide = slides.slice((currentSlideIndex + 1) % slides.length)[0];
-  const prevSlide = slides.slice((currentSlideIndex - 1) % slides.length)[0];
-
-  const showSlide = (slide) => {
-    // TODO refactor slideshow navigation logic to not require a complex combination of setting/unsetting class names and inline styles
-    // the `visually-hidden` class is added to keep slides in the DOM but not visible
-    // toggling `display: none`/`display: flex` on <figure>s (slide containers) replaced previous slideshow display logic depending on <jQueryElement>.hide()
-    // toggling `display: none`/`display: block` and `class="current-image"` on leaflet image layer `<img>` tags triggers CSS `fadeIn` animation, replacing animation delays previously set with a `setTimeout`
-    leafletImages.forEach((image) => {
-      hideElement(image);
-    });
-    stopVideo(currentSlide);
-    hideElement(currentSlide);
-    currentSlide.classList.remove("current-image");
-    slides.forEach((item) => {
-      item.classList.add("visually-hidden");
-    });
-    slide.classList.add("current-image");
-    showElement(slide, "flex")
-    slide.classList.remove("visually-hidden")
-    mapArr.forEach((map) => {
-      validateSize(map)
-        .then(() => {
-          leafletImages.forEach((image) => {
-            showElement(image, "block")
-          });
-        })
-        .catch((error) => console.error(error));
-    });
-  };
-
-  switch(direction) {
-    case "next":
-      showSlide(nextSlide);
-      break;
-    case "prev":
-      showSlide(prevSlide);
-      break;
-    default:
-      break;
-  }
-}
-
-/**
- * validateSize
- * @description
- * invalidateSize map as a promise
- * @param {object} map must be an object
- */
-function validateSize(map) {
-  return new Promise((resolve, reject) => {
-    if (!map) reject(new Error("No map!"));
-    resolve(map.invalidateSize());
-  });
 }
 
 /**
@@ -618,19 +425,7 @@ function pageSetup() {
   setDate();
   quickLinksSetup();
   activeMenuPage();
-  sliderSetup();
-  navigationSetup();
-  popupSetup(figureModal);
   toggleCite();
-  // smoothScroll();
-
-  // Wire up event listeners here, so we can pass in the maps array
-  const prev = document.getElementById("prev-image");
-  const next = document.getElementById("next-image");
-  if (prev)
-    prev.addEventListener("click", e => slideImage("prev", e, mapArr), false);
-  if (next)
-    next.addEventListener("click", e => slideImage("next", e, mapArr), false);
 }
 
 /**
