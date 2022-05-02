@@ -27,6 +27,9 @@ const json5 = require('json5')
 const toml = require('toml')
 const yaml = require('js-yaml')
 
+const inputDir = 'content'
+const outputDir = '_site'
+
 /**
  * Eleventy configuration
  * @see {@link https://www.11ty.dev/docs/config/ Configuring 11ty}
@@ -35,9 +38,6 @@ const yaml = require('js-yaml')
  * @return     {Object}  A modified eleventy configuation
  */
 module.exports = function(eleventyConfig) {
-  const inputDir = 'content'
-  const outputDir = '_site'
-
   /**
    * Ignore README files when processing templates
    * @see {@link https://www.11ty.dev/docs/ignores/ Ignoring Template Files }
