@@ -56,8 +56,8 @@ module.exports = {
         }
 
         promises.push(
-          imageTransformations.map((variation) => {
-            return createImage(imagePath, { ...options, ...variation });
+          imageTransformations.map((transformation) => {
+            return createImage(imagePath, transformation, options);
           })
         )
         promises.push(tileImage(imagePath, options))

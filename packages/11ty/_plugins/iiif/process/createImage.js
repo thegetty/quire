@@ -13,20 +13,19 @@ module.exports = (eleventyConfig) => {
   } = eleventyConfig.globalData.iiifConfig
 
   /**
-   * Creates an image in the output directory with the name `thumb.${ext}`
+   * Creates an image in the output directory with the name `${name}${ext}`
    *
-   * @param {Object} config
-   * @property  {String} input   input file path
-   * @param  {Object} options
-   * @property  {String} name    Overwrite the name of the file
+   * @param  {String} input Input file path
+   * @param  {Object} transformation A transformation item from `iiif/config.js#imageTransformations`
+   * @property  {String} name The name of the file
+   * @property  {Object} resize Resize options for `sharp`
    */
-  return async (input, options = {}) => {
-    const { debug, lazy, resize } = options
+  return async (input, transformation = {}, options) => {
+    const { debug, lazy } = options
+    const { name, resize } = transformation
     const outputDir = path.join(root, output)
 
-    name = options.name || path.parse(input).name
-    ext = path.parse(name).ext || path.parse(input).ext
-
+    const ext = path.parse(input).ext
     const id = path.parse(input).name
     const filename = `${name}${ext}`
 
@@ -35,7 +34,7 @@ module.exports = (eleventyConfig) => {
 
     if (!lazy || !fs.pathExistsSync(fileOutput)) {
       await sharp(input)
-        .resize(options.resize)
+        .resize(resize)
         .withMetadata()
         .toFile(fileOutput)
 
