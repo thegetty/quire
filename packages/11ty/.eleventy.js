@@ -42,7 +42,7 @@ module.exports = function(eleventyConfig) {
    * Ignore README files when processing templates
    * @see {@link https://www.11ty.dev/docs/ignores/ Ignoring Template Files }
    */
-  eleventyConfig.ignores.add('README.md')
+  eleventyConfig.ignores.add('**/README.md')
 
   /**
    * Configure the Liquid template engine
