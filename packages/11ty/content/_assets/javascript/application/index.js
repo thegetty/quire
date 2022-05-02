@@ -8,12 +8,7 @@
  */
 
 // Stylesheets
-import "leaflet-fullscreen/dist/leaflet.fullscreen.css";
 import "../../styles/application.scss";
-import "leaflet/dist/leaflet.css";
-
-// JS Libraries (add them to package.json with `npm install [library]`)
-import quicklink from "quicklink";
 
 // Modules (feel free to define your own and import here)
 import Search from "../../../../_plugins/search/search.js";
@@ -261,34 +256,6 @@ function loadSearchData() {
     }
     const data = await response.json();
     window["QUIRE_SEARCH"] = new Search(data);
-  });
-}
-
-/**
- * @description
- * Adding GoogleChromeLabs quicklinks https://github.com/GoogleChromeLabs/quicklink
- * For faster subsequent page-loads by prefetching in-viewport links during idle time
- */
-function quickLinksSetup() {
-  let links = [...document.getElementsByTagName("a")];
-  links = links.filter(a => {
-    return a.hostname === window.location.hostname;
-  });
-  quicklink({
-    urls: links,
-    timeout: 4000,
-    ignores: [
-      /tel:/g,
-      /mailto:/g,
-      /#(.+)/,
-      uri => uri.includes("tel:"),
-      uri => uri.includes("mailto:"),
-      uri => uri.includes("#"),
-      uri => uri.includes(".zip"),
-      uri => uri.includes(".epub"),
-      uri => uri.includes(".pdf"),
-      uri => uri.includes(".mobi")
-    ]
   });
 }
 
