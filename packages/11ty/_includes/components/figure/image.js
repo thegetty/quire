@@ -18,10 +18,14 @@ module.exports = function(eleventyConfig) {
   const { imageDir, figureLabelLocation } = eleventyConfig.globalData.config.params
 
   return async function({ alt='', canvasId, caption, choices, credit, id, iiifContent, label, manifestId, preset, src='' }) {
-    const imageSrc = path.join(imageDir, src)
+    // const imageSrc = path.join(imageDir, src)
+    const imageSrc = src.includes('http') || src.includes('https')
+      ? src
+      : path.join(imageDir, src)
     const labelElement = figurelabel({ caption, id, label })
     const srcParts = src.split(path.sep)
-    const hasTiles = srcParts[srcParts.length - 1] === 'tiles'
+    // const hasTiles = srcParts[srcParts.length - 1] === 'tiles'
+    const hasTiles = src && !src.match(/\.+(jpe?g|png|gif)/)
     const hasCanvasPanelProps = (!!canvasId && !!manifestId) || !!iiifContent || !!choices
 
     let imageElement;
@@ -31,7 +35,7 @@ module.exports = function(eleventyConfig) {
         imageElement = await canvasPanel({ canvasId, id, manifestId, preset })
         break;
       case hasTiles:
-        imageElement = `<image-service alt="${alt}" class="q-figure__image" src="${imageSrc}" />`
+        imageElement = `<image-service alt="${alt}" class="q-figure__image" src="${imageSrc}"></image-service>`
         break;
       default:
         imageElement = `<img alt="${alt}" class="q-figure__image" src="${imageSrc}" />`
