@@ -8,12 +8,14 @@
 
 {{- else -}}
 
+  {{ $mediaIdEmbed := replace .mediaId "/" "?h=" }}
+
   <div
     class="quire-figure__media-wrapper{{ if .aspectRatio }}--{{ .aspectRatio }}{{ else }}--widescreen{{ end }}"
   >
     <iframe
       class="quire-figure__media"
-      src="https://player.vimeo.com/video/{{ .mediaId }}"
+      src="https://player.vimeo.com/video/{{ $mediaIdEmbed }}"
       frameborder="0"
       allow="autoplay; fullscreen"
       allowfullscreen
