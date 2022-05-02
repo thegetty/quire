@@ -36,7 +36,7 @@ module.exports = (eleventyConfig) => {
    */
   return async (figure, options={}) => {
     const { debug, output } = options
-    const { id, label, choices } = figure
+    const { id, label, choices, preset } = figure
 
     const outputDir = output || defaultOutput
     const iiifId = [process.env.URL, outputDir, id].join('/')
@@ -65,23 +65,27 @@ module.exports = (eleventyConfig) => {
         if (Array.isArray(choices)) {
           const bodyItems = choices.map(({ label, src }) => {
             const name = path.parse(src).name
-            const choiceId = [process.env.URL, outputDir, name].join('/')
+            const choiceId = new URL([imageDir, src].join('/'), process.env.URL).href
             const format = mime.lookup(src)
-            return {
+            const choice = {
               id: choiceId,
               format,
               height,
               type: 'Image',
               label: { en: [label] },
-              service: [
+              width
+            }
+            if (preset === 'zoom') {
+              const serviceId = new URL([outputDir, name, imageServiceDirectory].join('/'), process.env.URL)
+              choice.service = [
                 {
-                  id: [process.env.URL, outputDir, name, imageServiceDirectory].join('/'),
+                  id: serviceId,
                   type: 'ImageService3',
                   profile: 'level0'
                 }
-              ],
-              width
+              ]
             }
+            return choice
           })
           const annotationId = [canvasId, 'annotation'].join('/')
           canvas.createAnnotation(annotationId, {

@@ -28,13 +28,14 @@ const getChoices = (annotations=[]) => {
 }
 
 module.exports = function(eleventyConfig) {
-  const { env, iiifConfig, iiifManifests } = eleventyConfig.globalData
+  const { config, env, iiifConfig, iiifManifests } = eleventyConfig.globalData
+  const { imageDir } = config.params
 
   const getDefaultChoiceFromFigure = (choices) => {
     if (!choices) return
     const choice = choices.find(({ default: defaultChoice }) => !!defaultChoice) || choices[0]
     const { name, ext } = path.parse(choice.src)
-    return new URL([iiifConfig.output, name].join('/'), env.URL).href
+    return new URL([imageDir, choice.src].join('/'), env.URL).href
   }
 
   /**
@@ -56,7 +57,7 @@ module.exports = function(eleventyConfig) {
       case !!manifestId && !!canvasId:
         manifest = await vault.loadManifest(manifestId)
         break;
-      case !!id:
+      case !!id && !!iiifManifests:
         const json = iiifManifests[id]
         if (!json) {
           console.warn('[shortcodes:canvasPanel] IIIF manifest not found for figure id: ', id)

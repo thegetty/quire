@@ -29,8 +29,8 @@ module.exports = {
     const tileImage = initTileImage(eleventyConfig)
 
     const figuresToTile = figures.figure_list
-      .filter(({ preset, iiifContent, manifestId }) => preset === 'zoom' && !iiifContent && !manifestId)
       .flatMap((figure) => figure.choices || figure)
+      .filter(({ preset, iiifContent, manifestId }) => preset === 'zoom' && !iiifContent && !manifestId)
 
     /**
      * IIIF Processor
