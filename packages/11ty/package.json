@@ -52,7 +52,6 @@
     "lit": "^2.2.3",
     "lunr": "^2.3.9",
     "material-icons": "^1.10.7",
-    "quicklink": "^1.0.1",
     "template-polyfill": "^2.0.0"
   }
 }
