@@ -13,12 +13,25 @@ module.exports = function(eleventyConfig) {
   const figurecaption = eleventyConfig.getFilter('figurecaption')
   const figurelabel = eleventyConfig.getFilter('figurelabel')
   const figuremodallink = eleventyConfig.getFilter('figuremodallink')
+  const imageservice = eleventyConfig.getFilter('imageservice')
   const markdownify = eleventyConfig.getFilter('markdownify')
 
-  const { config, iiifConfig } = eleventyConfig.globalData
-  const { imageDir, figureLabelLocation } = config.params
+  const { imageDir, figureLabelLocation } = eleventyConfig.globalData.config.params
 
-  return async function({ alt='', canvasId, caption, choices, credit, id, iiifContent, label, manifestId, preset, src='' }) {
+  return async function(figure) {
+    const { 
+      alt='', 
+      canvasId,
+      caption,
+      choices,
+      credit,
+      id,
+      iiifContent,
+      label,
+      manifestId,
+      preset,
+      src='' 
+    } = figure
     const labelElement = figurelabel({ caption, id, label })
     const hasCanvasPanelProps = (!!canvasId && !!manifestId) || !!iiifContent || !!choices
 
@@ -26,13 +39,10 @@ module.exports = function(eleventyConfig) {
 
     switch (true) {
       case hasCanvasPanelProps:
-        imageElement = await canvasPanel({ canvasId, choices, id, manifestId, preset })
+        imageElement = await canvasPanel(figure)
         break;
       case preset === 'zoom':
-        const { imageServiceDirectory, output } = iiifConfig
-        const imageService = path.join('/', output, path.parse(src).name, imageServiceDirectory)
-        imageElement = `
-          <image-service  alt="${alt}" class="q-figure__image" src="${imageService}" preset="${preset}/>`
+        imageElement = imageservice(figure)
         break;
       default:
         imageElement = `<img alt="${alt}" class="q-figure__image" src="${path.join(imageDir, src)}" />`
