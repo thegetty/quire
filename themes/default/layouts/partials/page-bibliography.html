@@ -28,7 +28,7 @@
       {{- end -}}
   {{- end -}}
 
-  {{- $alphaOrder := $alphaOrder | truncate 100 | urlize -}}
+  {{- $alphaOrder := $alphaOrder | truncate 400 | urlize -}}
   {{- $.Page.Scratch.SetInMap "entry" "0" $short -}}
   {{- $.Page.Scratch.SetInMap "entry" "1" $full -}}
   {{- $entry := ($.Page.Scratch.GetSortedMapValues "entry") -}}
