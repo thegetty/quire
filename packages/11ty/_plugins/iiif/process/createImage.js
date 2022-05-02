@@ -6,11 +6,11 @@ const sharp = require('sharp')
  * @param  {Object} config Quire IIIF Process config
  * @return {Function}      createImage()
  */
-module.exports = (config) => {
+module.exports = (eleventyConfig) => {
   const {
     output: defaultOutput, 
     root
-  } = config
+  } = eleventyConfig.globalData.iiifConfig
 
   /**
    * Creates an image in the output directory with the name `thumb.${ext}`

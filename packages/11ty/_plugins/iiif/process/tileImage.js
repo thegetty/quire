@@ -3,29 +3,29 @@ const path = require('path')
 const sharp = require('sharp')
 
 /**
- * @param  {Object} config Quire IIIF Process config
+ * @param  {Object} eleventyConfig
  * @return {Function}      tileImage()
  */
-module.exports = (config) => {
+module.exports = (eleventyConfig) => {
   const {
     baseURL,
     imageServiceDirectory,
-    output: defaultOutput,
-    root
-  } = config
+    output,
+    root,
+    tileSize
+  } = eleventyConfig.globalData.iiifConfig
 
   /**
    * Tile an image for IIIF image service
    * @param  {String} input   input file path
    * @param  {Object} options
-   * @property {String} output   Overwrite default output path
    */
   return async function(input, options = {}) {
-    const { debug, lazy, output } = options
+    const { debug, lazy } = options
 
     const id = path.parse(input).name
 
-    const outputDir = output || path.join(root, defaultOutput)
+    const outputDir = path.join(root, output)
     const tileDirectory = path.join(outputDir, id, imageServiceDirectory)
 
     if (fs.pathExistsSync(tileDirectory) && lazy && debug) {

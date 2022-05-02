@@ -12,10 +12,10 @@ const builder = new IIIFBuilder(vault)
 require('dotenv').config()
 
 /**
- * @param  {Object} config Quire IIIF Process config
- * @return {Function}      copyManifest
+ * @param  {Object} eleventyConfig
+ * @return {Function}      createManifest
  */
-module.exports = (config) => {
+module.exports = (eleventyConfig) => {
   const {
     imageServiceDirectory,
     input,
@@ -23,12 +23,12 @@ module.exports = (config) => {
     manifestFilename,
     output: defaultOutput,
     root
-  } = config
+  } = eleventyConfig.globalData.iiifConfig
 
   /**
    * Accepts a figure from figures.yaml
    * Generates a manifest
-   * Writes manifest to the _iiif directory
+   * Adds manifest to globalData `iiifManifests` property
    *
    * @param  {Object} figure Figure data from figures.yaml
    * @param  {Object} options
@@ -74,7 +74,7 @@ module.exports = (config) => {
               label: { en: [label] },
               service: [
                 {
-                  id: [process.env.URL, outputDir, name, imageServiceDirectory, 'info.json'].join('/'),
+                  id: [process.env.URL, outputDir, name, imageServiceDirectory].join('/'),
                   type: 'ImageService3',
                   profile: 'level0'
                 }
@@ -100,5 +100,10 @@ module.exports = (config) => {
 
     fs.ensureDirSync(path.join(root, outputDir, id))
     fs.writeJsonSync(manifestOutput, jsonManifest)
+
+    eleventyConfig.addGlobalData('iiifManifests', {
+      ...eleventyConfig.globalData.iiifManifests,
+      [id]: jsonManifest
+    })
   }
 }

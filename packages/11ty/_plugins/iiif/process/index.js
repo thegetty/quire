@@ -14,11 +14,11 @@ const { figures } = require('../../globalData')
  * @param  {Object} eleventyConfig
  */
 module.exports = {
-  init: ({ globalData }) => {
+  init: (eleventyConfig) => {
     /**
      * IIIF config
      */
-    const { iiifConfig, figures } = globalData
+    const { iiifConfig, figures } = eleventyConfig.globalData
     const {
       imageTransformations,
       input,
@@ -28,9 +28,9 @@ module.exports = {
       supportedImageExtensions
     } = iiifConfig
 
-    const createImage = initCreateImage(iiifConfig)
-    const createManifest = initCreateManifest(iiifConfig)
-    const tileImage = initTileImage(iiifConfig)
+    const createImage = initCreateImage(eleventyConfig)
+    const createManifest = initCreateManifest(eleventyConfig)
+    const tileImage = initTileImage(eleventyConfig)
 
     const seedImages = getFilePaths(input, { exts: supportedImageExtensions });
     /**

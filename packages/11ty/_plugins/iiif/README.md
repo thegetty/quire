@@ -18,7 +18,7 @@ If true, skips processing images that have previously been processed. If false, 
 Quire uses [`sharp`](https://sharp.pixelplumbing.com/api-output#tile) to generate a IIIF image service for all images in the `figures` directory. When these images are used with the `figure` shortcode, they will be rendered using an [`<image-service/>`](https://iiif-canvas-panel.netlify.app/docs/components/single-image-service) web component. The output for each image includes the original image, thumbnail image, and tiles.
 
 ## Manifests with Choices
-Quire's IIIF processing uses the [`iiif-builder`](https://github.com/stephenwf/iiif-builder) to create manifests with choices from figures in `figures.yaml` that have the `choices` property.
+Quire's IIIF processing uses the [`iiif-builder`](https://github.com/stephenwf/iiif-builder) to create manifests with choices from figures in `figures.yaml` that have the `choices` property and write them to the IIIF output directory (default: `_iiif/`) and [eleventy global data](https://www.11ty.dev/docs/data-global-custom/#global-data-from-the-configuration-api).
 
 Images referenced in `choices` should have the same dimensions, and be included in the `figures` directory.
 

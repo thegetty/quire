@@ -28,7 +28,7 @@ const getChoices = (annotations=[]) => {
 }
 
 module.exports = function(eleventyConfig) {
-  const { env, iiifConfig } = eleventyConfig.globalData
+  const { env, iiifConfig, iiifManifests } = eleventyConfig.globalData
 
   const getDefaultChoiceFromFigure = (choices) => {
     if (!choices) return
@@ -50,20 +50,26 @@ module.exports = function(eleventyConfig) {
   return async function(params) {
     let { canvasId, id, manifestId, preset } = params
     const choiceId = params.choiceId ? params.choiceId : getDefaultChoiceFromFigure(params.choices)
+    let manifest
 
     switch(true) {
       case !!manifestId && !!canvasId:
+        manifest = await vault.loadManifest(manifestId)
         break;
       case !!id:
-        canvasId = new URL([iiifConfig.output, id, 'canvas'].join('/'), env.URL).href
-        manifestId = new URL([iiifConfig.output, id, iiifConfig.manifestFilename].join('/'), env.URL).href
+        const json = iiifManifests[id]
+        if (!json) {
+          console.warn('[shortcodes:canvasPanel] IIIF manifest not found for figure id: ', id)
+        }
+        manifestId = json.id
+        manifest = await vault.load(manifestId, json)
+        canvasId = manifest.items[0].id
         break;
       default:
         console.warn(`Error in CanvasPanel shortcode: Missing params canvasId or manifestId. Fig.id: `, id)
         return;
     }
     
-    const manifest = await vault.loadManifest(manifestId)
     if (!manifest) {
       console.error('[shortcodes:canvasPanel] Error fetching manifestId: ', manifestId)
     }
@@ -99,7 +105,6 @@ module.exports = function(eleventyConfig) {
       <canvas-panel
         id="${id}"
         canvas-id="${canvasId}"
-        choice-id="${choiceId}"
         manifest-id="${manifestId}"
         preset="${preset}"
       />
