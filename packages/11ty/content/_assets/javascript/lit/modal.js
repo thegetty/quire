@@ -63,6 +63,7 @@ class Modal extends LitElement {
 
   close() {
     this.active = false;
+    this.currentId = null;
     this.enableScrolling();
   }
 
