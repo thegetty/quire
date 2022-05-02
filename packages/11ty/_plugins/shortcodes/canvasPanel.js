@@ -32,7 +32,7 @@ module.exports = function(eleventyConfig) {
 
   const getDefaultChoiceFromFigure = (choices) => {
     if (!choices) return
-    const choice = choices.find(({default: defaultChoice}) => defaultChoice)
+    const choice = choices.find(({ default: defaultChoice }) => !!defaultChoice) || choices[0]
     const { name, ext } = path.parse(choice.src)
     return new URL([iiifConfig.output, name].join('/'), env.URL).href
   }
@@ -93,7 +93,7 @@ module.exports = function(eleventyConfig) {
 
     choicesUI = choices.map((item, index) => {
       const classes = ['canvas-choice']
-      if (index === 0) classes.push('canvas-choice--active')
+      if (item.id === choiceId) classes.push('canvas-choice--active')
       return `
         <button class="${classes.join(' ')}" type="button" value="${item.id}">
           ${item.label.en ? item.label.en[0] : item.label}
@@ -105,6 +105,7 @@ module.exports = function(eleventyConfig) {
       <canvas-panel
         id="${id}"
         canvas-id="${canvasId}"
+        choice-id="${choiceId}"
         manifest-id="${manifestId}"
         preset="${preset}"
       />
