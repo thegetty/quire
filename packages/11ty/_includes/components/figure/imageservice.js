@@ -25,7 +25,7 @@ module.exports = function(eleventyConfig) {
         src="${imageService}"
         preset="${preset}"
         region="${region}"
-        width="${width}"
-      />`
+        width="${width}">
+      </image-service>`
   }
 }
