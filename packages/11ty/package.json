@@ -27,7 +27,6 @@
     "@11ty/eleventy-navigation": "^0.3.2",
     "@11ty/eleventy-plugin-syntaxhighlight": "^4.0.0",
     "@11ty/eleventy-plugin-vite": "^1.0.0-canary.1",
-    "babel-polyfill": "^6.26.0",
     "common-tags": "^2.0.0-alpha.1",
     "del-cli": "^4.0.1",
     "eslint": "^8.14.0",
@@ -50,7 +49,6 @@
     "bulma": "^0.9.3",
     "fs": "0.0.2",
     "hammerjs": "^2.0.8",
-    "intersection-observer": "^0.12.0",
     "leaflet": "^1.7.1",
     "leaflet-fullscreen": "^1.0.2",
     "leaflet-iiif": "^3.0.0",
@@ -60,7 +58,6 @@
     "material-icons": "^1.10.7",
     "quicklink": "^1.0.1",
     "smooth-scroll": "^16.1.3",
-    "template-polyfill": "^2.0.0",
-    "velocity-animate": "^1.5.2"
+    "template-polyfill": "^2.0.0"
   }
 }
