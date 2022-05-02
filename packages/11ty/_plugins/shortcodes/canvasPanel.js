@@ -48,7 +48,7 @@ module.exports = function(eleventyConfig) {
    * @return {String}        <canvas-panel> markup
    */
   return async function(params) {
-    let { canvasId, id, manifestId, preset } = params
+    let { canvasId, id, iiifContent, manifestId, preset, region, width } = params
     const choiceId = params.choiceId ? params.choiceId : getDefaultChoiceFromFigure(params.choices)
     let manifest
 
@@ -70,12 +70,12 @@ module.exports = function(eleventyConfig) {
         return;
     }
     
-    if (!manifest) {
+    if (!manifest && !iiifContent) {
       console.error('[shortcodes:canvasPanel] Error fetching manifestId: ', manifestId)
     }
 
     const canvas = vault.get(canvasId)
-    if (!canvas) {
+    if (!canvas && !iiifContent) {
       console.error('[shortcodes:canvasPanel] Error fetching canvasId: ', canvasId)
     }
 
@@ -104,10 +104,13 @@ module.exports = function(eleventyConfig) {
     return html`
       <canvas-panel
         id="${id}"
+        iiif-content="${iiifContent}"
         canvas-id="${canvasId}"
         choice-id="${choiceId}"
         manifest-id="${manifestId}"
         preset="${preset}"
+        region="${region}"
+        width="${width}"
       />
       ${hasChoices ? choicesUI.join('') : ''}
     `
