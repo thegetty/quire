@@ -22,11 +22,6 @@ module.exports = (eleventyConfig) => {
       }
     ],
     /**
-     * Input directory
-     * @type {String}
-     */
-    input: path.join(root, '_assets', 'images', 'figures'),
-    /**
      * The name of the directory for image tiles and info.json
      * @type {String}
      */

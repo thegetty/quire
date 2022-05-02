@@ -18,12 +18,12 @@ require('dotenv').config()
 module.exports = (eleventyConfig) => {
   const {
     imageServiceDirectory,
-    input,
     locale,
     manifestFilename,
     output: defaultOutput,
     root
   } = eleventyConfig.globalData.iiifConfig
+  const { imageDir } = eleventyConfig.globalData.config.params
 
   /**
    * Accepts a figure from figures.yaml
@@ -52,8 +52,9 @@ module.exports = (eleventyConfig) => {
     const defaultChoice =
       choices.find(({ default: defaultChoice }) => defaultChoice) || choices[0]
     const imagePath = path.join(
-      input,
-      path.parse(defaultChoice.src).base
+      root,
+      imageDir,
+      defaultChoice.src
     )
     const { height, width } = await sharp(imagePath).metadata()
     const manifest = builder.createManifest(manifestId, (manifest) => {
