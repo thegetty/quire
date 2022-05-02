@@ -15,13 +15,10 @@ module.exports = (eleventyConfig) => {
      */
     imageTransformations: [
       {
-        name: 'thumb',
+        name: 'thumbnail',
         resize: {
           width: 50
         }
-      },
-      {
-        name: 'default'
       }
     ],
     /**

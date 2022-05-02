@@ -12,6 +12,7 @@ module.exports = (eleventyConfig) => {
     imageServiceDirectory,
     output,
     root,
+    supportedImageExtensions,
     tileSize
   } = eleventyConfig.globalData.iiifConfig
 
@@ -23,13 +24,18 @@ module.exports = (eleventyConfig) => {
   return async function(input, options = {}) {
     const { debug, lazy } = options
 
-    const id = path.parse(input).name
+    const { ext, name } = path.parse(input)
+
+    if (!supportedImageExtensions.includes(ext) && debug) {
+      console.warn(`[iiif:tileImage:${name}] Image file is not a supported image type, skipping. File: `, name)
+      return;
+    }
 
     const outputDir = path.join(root, output)
-    const tileDirectory = path.join(outputDir, id, imageServiceDirectory)
+    const tileDirectory = path.join(outputDir, name, imageServiceDirectory)
 
     if (fs.pathExistsSync(tileDirectory) && lazy && debug) {
-      console.warn(`[iiif:tileImage:${id}] Tiles already exist, skipping`)
+      console.warn(`[iiif:tileImage:${name}] Tiles already exist, skipping`)
       return
     }
 
@@ -38,11 +44,11 @@ module.exports = (eleventyConfig) => {
     const iiifId = path.join(
       baseURL,
       outputDir.split(path.sep).slice(1).join(path.sep),
-      id
+      name
     )
 
     if (debug) {
-      console.warn(`[iiif:tileImage:${id}] Starting`)
+      console.warn(`[iiif:tileImage:${name}] Starting`)
     }
     await sharp(input)
       .tile({
@@ -52,7 +58,7 @@ module.exports = (eleventyConfig) => {
       })
       .toFile(tileDirectory)
     if (debug) {
-      console.warn(`[iiif:tileImage:${id}] Done`)
+      console.warn(`[iiif:tileImage:${name}] Done`)
     }
   }
 }

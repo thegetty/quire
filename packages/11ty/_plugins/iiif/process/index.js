@@ -1,13 +1,12 @@
 const fs = require('fs-extra')
 const path = require('path')
-const getFilePaths = require('./getFilePaths')
 const initCreateImage = require('./createImage')
 const initCreateManifest = require('./createManifest')
 const initTileImage = require('./tileImage')
-const { figures } = require('../../globalData')
 
 /**
- * Creates tiles, default image, thumbnail, and manifest for each image in IIIF config `input` directory
+ * Creates tiles for zoomable images 
+ * Processes image transformations from `config.imageTransformations`
  * Creates manifests for figures in figures.yaml with `choices`
  * Outputs manifests, images, and tiles to IIIF config.output
  *
@@ -18,21 +17,21 @@ module.exports = {
     /**
      * IIIF config
      */
-    const { iiifConfig, figures } = eleventyConfig.globalData
+    const { config, iiifConfig, figures } = eleventyConfig.globalData
     const {
       imageTransformations,
-      input,
-      manifestFilename,
-      output,
-      root,
-      supportedImageExtensions
+      root
     } = iiifConfig
+    const { imageDir } = config.params
 
     const createImage = initCreateImage(eleventyConfig)
     const createManifest = initCreateManifest(eleventyConfig)
     const tileImage = initTileImage(eleventyConfig)
 
-    const seedImages = getFilePaths(input, { exts: supportedImageExtensions });
+    const figuresToTile = figures.figure_list
+      .filter((figure) => figure.preset === 'zoom')
+      .flatMap((figure) => figure.choices || figure)
+
     /**
      * IIIF Processor
      * @param  {Object} options
@@ -41,14 +40,15 @@ module.exports = {
      */
     return async(options = {}) => {
       options = {
-        debug: false,
+        debug: true,
         lazy: true,
         ...options
       }
       const { debug, lazy } = options
 
       const promises = []
-      seedImages.map(async(imagePath) => {
+      figuresToTile.forEach((figure) => {
+        const imagePath = path.join(root, imageDir, figure.src)
         const id = path.parse(imagePath).name
 
         if (debug) {
