@@ -40,7 +40,7 @@ module.exports = {
      */
     return async(options = {}) => {
       options = {
-        debug: true,
+        debug: false,
         lazy: true,
         ...options
       }
