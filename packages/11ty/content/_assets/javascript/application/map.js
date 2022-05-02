@@ -24,7 +24,7 @@ class Map {
       this.el = id
       this.tiles = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
       this.attribution = 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
-      this.data = $(`#${this.el}`).data('geojson')
+      this.data = document.querySelector(`#${this.el}`).dataset.geojson
       this.center = this.getCoordinates()
       this.defaultZoom = 6
       this.map = this.createMap()
@@ -62,32 +62,31 @@ class Map {
   }
 
   getCoordinates() {
-    let lat = $('#' + this.el).data('lat')
-    let long = $('#' + this.el).data('long')
+    let lat = document.querySelector(`#${this.el}`).dataset.lat
+    let long = document.querySelector(`#${this.el}`).dataset.long
     return [lat, long]
   }
 
-  getData() {
-    $.getJSON(this.data, json => {
-      L.geoJson(json, {
-        // Change the style here as desired
-        pointToLayer: (feature, latlng) => {
-          return L.circleMarker(latlng, {
-            radius: 8,
-            fillColor: '#333',
-            color: '#000',
-            weight: 1,
-            opacity: 1,
-            fillOpacity: 0.75
-          })
-        },
-        // Change styles here as desired
-        onEachFeature: (feature, layer) => {
-          let options = { minWidth: 100, maxHeight: 250 }
-          layer.bindPopup(feature.properties.description, options)
-        }
-      }).addTo(this.map)
-    })
+  async getData() {
+    const json = await fetch(this.data).then((data) => data.json());
+    L.geoJson(json, {
+      // Change the style here as desired
+      pointToLayer: (feature, latlng) => {
+        return L.circleMarker(latlng, {
+          radius: 8,
+          fillColor: '#333',
+          color: '#000',
+          weight: 1,
+          opacity: 1,
+          fillOpacity: 0.75
+        })
+      },
+      // Change styles here as desired
+      onEachFeature: (feature, layer) => {
+        let options = { minWidth: 100, maxHeight: 250 }
+        layer.bindPopup(feature.properties.description, options)
+      }
+    }).addTo(this.map)
   }
 }
 

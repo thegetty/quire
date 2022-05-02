@@ -121,11 +121,13 @@ class DeepZoom {
     setTimeout(() => {
       this.validateSize(map);
     }, 100);
-    if ($(window)) {
-      $(window).on("resize", event => {
-        if (map) {
-          this.validateSize(map);
-        }
+    if (window) {
+      window.addEventListener('resize', (event) => {
+        window.requestAnimationFrame(() => {
+          if (map) {
+            this.validateSize(map);
+          }
+        });
       });
     }
   }
@@ -170,14 +172,19 @@ class DeepZoom {
     if (bounds) {
       this.map.setMaxBounds(bounds);
       this.map.fitBounds(bounds);
-      let imageOverlay = L.imageOverlay(this.imageURL, bounds, {
+      const imageOverlay = L.imageOverlay(this.imageURL, bounds, {
         opacity: 0.0
       });
       this.map.addLayer(imageOverlay);
-      imageOverlay.on("load", event => {
-        setTimeout(() => {
-          imageOverlay.setOpacity(1.0);
-        }, 250);
+      const loadEvent = new Promise((resolve) => {
+        imageOverlay.on("load", resolve);
+      });
+      const zoomEvent = new Promise((resolve) => {
+        this.map.on("zoomend", resolve);
+      });
+      // only make images opaque when finished loading, and after initial zoom transition
+      Promise.all([loadEvent, zoomEvent]).then(() => {
+        imageOverlay.setOpacity(1.0);
       });
     }
   }
