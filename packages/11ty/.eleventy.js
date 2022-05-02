@@ -5,7 +5,8 @@ const path = require('path')
  * Quire features are implemented as Eleventy plugins
  */
 const { EleventyRenderPlugin } = require('@11ty/eleventy')
-const EleventyVitePlugin = require("@11ty/eleventy-plugin-vite")
+const EleventyVitePlugin = require('@11ty/eleventy-plugin-vite')
+const directoryOutputPlugin = require('@11ty/eleventy-plugin-directory-output')
 const componentsPlugin = require('./_plugins/components')
 const epubPlugin = require('./_plugins/epub')
 const filtersPlugin = require('./_plugins/filters')
@@ -66,6 +67,13 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addDataExtension('toml', (contents) => toml.load(contents))
   eleventyConfig.addDataExtension('yaml', (contents) => yaml.load(contents))
   eleventyConfig.addDataExtension('geojson', (contents) => JSON.parse(contents))
+
+  /**
+   * Configure build output
+   * @see https://www.11ty.dev/docs/plugins/directory-output/#directory-output
+   */
+  eleventyConfig.setQuietMode(true)
+  eleventyConfig.addPlugin(directoryOutputPlugin)
 
   /**
    * Load global data files into eleventyConfig.globalData
