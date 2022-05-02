@@ -112,7 +112,7 @@ In order to properly close the /ul/li elements and nest sub-sections, the logic 
   {{/* Check to make sure the page is within the section that the contents list is being rendederd in (the "contents scope"). If it is, and it’s not also the contents page itself, render the list item for it.
   ------------------------------------------------------------------------- */}}
   {{- $pageWithinThisScope := findRE $contentsScopePattern $section -}}
-  {{- if and $pageWithinThisScope (ne $contentsPageID .File.UniqueID) -}}
+  {{- if and $pageWithinThisScope (or (eq $contentsLocation ".Params.menu") (and (eq $contentsLocation ".Params.toc") (ne $contentsPageID .File.UniqueID))) -}}
 
   {{- if and (ne $lastSection $section) (eq $sameAsOpenSection false) -}}
 
