@@ -444,7 +444,7 @@ $print-trim: $print-bleed * 2;
   // that are printed in the text of the book, in order to facilitate better
   // line breaking per Chicago Manual of Style
   // https://www.chicagomanualofstyle.org/book/ed17/part3/ch14/psec018.html
-  a[target=_blank] {
+  a[href^="http"] {
     prince-text-replace: "/" "\200B/"
                           "~" "\200B~"
                           "." "\200B."
