@@ -8,7 +8,7 @@ const sharp = require('sharp')
  */
 module.exports = (eleventyConfig) => {
   const {
-    output: defaultOutput, 
+    output, 
     root
   } = eleventyConfig.globalData.iiifConfig
 
@@ -19,11 +19,10 @@ module.exports = (eleventyConfig) => {
    * @property  {String} input   input file path
    * @param  {Object} options
    * @property  {String} name    Overwrite the name of the file
-   * @property  {String} output  Overwrite default output directory
    */
   return async (input, options = {}) => {
-    const { debug, lazy, output, resize } = options
-    const outputDir = output || path.join(root, defaultOutput)
+    const { debug, lazy, resize } = options
+    const outputDir = path.join(root, output)
 
     name = options.name || path.parse(input).name
     ext = path.parse(name).ext || path.parse(input).ext
