@@ -35,10 +35,11 @@ const yaml = require('js-yaml')
  * @return     {Object}  A modified eleventy configuation
  */
 module.exports = function(eleventyConfig) {
-  const projectDir = 'content'
+  const inputDir = 'content'
+  const outputDir = '_site'
 
   /**
-   * Ignore README.md when processing templates
+   * Ignore README files when processing templates
    * @see {@link https://www.11ty.dev/docs/ignores/ Ignoring Template Files }
    */
   eleventyConfig.ignores.add('README.md')
@@ -166,8 +167,8 @@ module.exports = function(eleventyConfig) {
      * @see {@link https://www.11ty.dev/docs/config/#configuration-options}
      */
     dir: {
-      input: projectDir,
-      output: '_site',
+      input: inputDir,
+      output: outputDir,
       // ⚠️ the following values are _relative_ to the `input` directory
       data: `./_data`,
       includes: '../_includes',
