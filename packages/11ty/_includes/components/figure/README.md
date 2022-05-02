@@ -18,18 +18,6 @@ _figures.yaml_
   src: https://www.example.com/chime-bells/info.json
 ```
 
-### User-generated Manifests
-Manifests added to the `_assets` directory will be passed through to the build. You can render a canvas in a figure by specifying the `canvasId` and `manifestId` in `figures.yaml`
-
-For example, for a manifest in `_assets/iiif/chime-bells/manifest.json` with a canvas with an `id` of `iiif/chime-bells/canvas-1`:
-
-_figures.yaml_
-```yaml
-- id: "bells"
-  canvasId: "iiif/chime-bells/canvas-1"
-  manifestId: "iiif/chime-bells/manifest.json"
-```
-
 ### External Manifests
 _figures.yaml_
 ```yaml
