@@ -261,7 +261,7 @@ function setupCustomScrollToHash() {
   const invalidHashLinkSelectors = [
     '[href="#"]',
     '[href="#0"]',
-    '.popup'
+    '.q-figure__modal-link'
   ];
   const validHashLinkSelector =
     'a[href*="#"]' +
