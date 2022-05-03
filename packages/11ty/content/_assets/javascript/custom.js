@@ -12,7 +12,9 @@ window.onload = function () {
       choiceButton.addEventListener('click', (event) => {
         if (event.target.classList.contains('canvas-choice--active')) return
         for (const item of choiceButtons) {
-          item.classList.toggle('canvas-choice--active')
+          if (item.classList.contains('canvas-choice--active') || item === event.target) {
+            item.classList.toggle('canvas-choice--active')
+          }
         }
         canvasPanel.makeChoice(event.target.value)
       })
