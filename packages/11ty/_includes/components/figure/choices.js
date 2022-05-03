@@ -14,10 +14,12 @@ const getChoices = (annotations=[]) => {
         const { items, type } = body
         if (type === 'Choice') {
           return items.map(({ id }) => vault.get(id))
+        } else {
+          return []
         }
       }
     }
-  }).filter(item => item)
+  })
 }
 
 module.exports = function(eleventyConfig) {
