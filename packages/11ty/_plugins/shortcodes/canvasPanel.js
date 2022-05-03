@@ -21,7 +21,7 @@ module.exports = function(eleventyConfig) {
    * @return {String}        <canvas-panel> markup
    */
   return async function(params) {
-    let { id, iiifContent, manifestId, preset, region, width } = params
+    let { height, id, iiifContent, manifestId, preset, region, virtualSizes, width } = params
 
     const { canvas, choiceId, manifest } = await figureIIIF(params)
     
@@ -32,13 +32,15 @@ module.exports = function(eleventyConfig) {
 
     return html`
       <canvas-panel
-        id="${id}"
-        iiif-content="${iiifContent}"
         canvas-id="${canvas.id}"
         choice-id="${choiceId}"
+        height="${height}"
+        id="${id}"
+        iiif-content="${iiifContent}"
         manifest-id="${manifest.id}"
         preset="${preset}"
         region="${region}"
+        virtual-sizes="${virtualSizes}"
         width="${width}"
       />
     `

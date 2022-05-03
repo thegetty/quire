@@ -12,7 +12,7 @@ const path = require('path')
 module.exports = function(eleventyConfig) {
   const { imageServiceDirectory, output } = eleventyConfig.globalData.iiifConfig
 
-  return function({ alt, id, preset, region, src, width}) {
+  return function({ alt, height, id, preset, region, src, virtualSizes, width}) {
     const imageService = ((src).startsWith('http'))
       ? src
       : path.join('/', output, path.parse(src).name, imageServiceDirectory)
@@ -20,11 +20,13 @@ module.exports = function(eleventyConfig) {
     return html`
       <image-service 
         alt="${alt}"
-        id="${id}"
         class="q-figure__image"
-        src="${imageService}"
+        height="${height}"
+        id="${id}"
         preset="${preset}"
         region="${region}"
+        src="${imageService}"
+        virtual-sizes="${virtualSizes}"
         width="${width}">
       </image-service>`
   }
