@@ -1,4 +1,15 @@
 figure_list:
+  - id: "example-with-choices"
+    label: "This is a label"
+    choices:
+      - src: figures/evans-graveyard.jpg
+        label: "Choice #1"
+      - src: figures/evans-burroughs.jpg
+        label: "Choice #2"
+  - id: "image-service"
+    label: "Figure 1"
+    src: figures/mother.jpg
+    preset: zoom
   - id: "dog1"
     src: figures/lange.jpg
     caption: "*Dorothea Lange, Resettlement Administration photographer, in California*, 1936."
