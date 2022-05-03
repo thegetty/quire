@@ -11,6 +11,7 @@ const path = require('path')
 module.exports = function(eleventyConfig) {
   const canvasPanel = eleventyConfig.getFilter('canvasPanel')
   const figurecaption = eleventyConfig.getFilter('figurecaption')
+  const figurechoices = eleventyConfig.getFilter('figurechoices')
   const figurelabel = eleventyConfig.getFilter('figurelabel')
   const figuremodallink = eleventyConfig.getFilter('figuremodallink')
   const imageservice = eleventyConfig.getFilter('imageservice')
@@ -37,11 +38,12 @@ module.exports = function(eleventyConfig) {
     const labelElement = figurelabel({ caption, id, label })
     const hasCanvasPanelProps = (!!canvasId && !!manifestId) || !!iiifContent || !!choices
 
-    let imageElement;
+    let choicesElement='', imageElement;
 
     switch (true) {
       case hasCanvasPanelProps:
         imageElement = await canvasPanel(figure)
+        choicesElement = await(figurechoices(figure))
         break;
       case isImageService(figure):
         imageElement = imageservice(figure)
@@ -66,6 +68,7 @@ module.exports = function(eleventyConfig) {
 
     return html`
       ${imageElement}
+      ${choicesElement}
       ${captionElement}
     `
   }

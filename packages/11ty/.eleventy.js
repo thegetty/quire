@@ -79,10 +79,11 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(directoryOutputPlugin)
 
   /**
-   * Load global data files into eleventyConfig.globalData
+   * Load plugins that add to eleventyConfig.globalData
    * Must go before other plugins
    */
   eleventyConfig.addPlugin(globalDataPlugin)
+  eleventyConfig.addPlugin(iiifPlugin)
 
   /**
    * Load plugin for custom configuration of the markdown library
@@ -102,7 +103,6 @@ module.exports = function(eleventyConfig) {
    */
   eleventyConfig.addPlugin(lintingPlugin)
   eleventyConfig.addPlugin(epubPlugin)
-  eleventyConfig.addPlugin(iiifPlugin)
   eleventyConfig.addPlugin(navigationPlugin)
   eleventyConfig.addPlugin(searchPlugin)
   eleventyConfig.addPlugin(syntaxHighlightPlugin)

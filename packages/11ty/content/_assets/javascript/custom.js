@@ -7,7 +7,7 @@ window.onload = function () {
   const canvasPanels = document.getElementsByTagName('canvas-panel');
   // console.log('canvas panels', canvasPanels)
   for (const canvasPanel of canvasPanels) {
-    const choiceButtons = canvasPanel.getElementsByClassName('canvas-choice')
+    const choiceButtons = canvasPanel.closest('.q-figure').getElementsByClassName('canvas-choice')
     for (const choiceButton of choiceButtons) {
       choiceButton.addEventListener('click', (event) => {
         if (event.target.classList.contains('canvas-choice--active')) return
