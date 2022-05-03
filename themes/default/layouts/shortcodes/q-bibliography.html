@@ -16,30 +16,30 @@
 {{- range $.Site.Data.references.entries -}}
 
   {{- $bibFull := .full -}}
-  
+
   {{- $bibShort := "" -}}
   {{ if .short }}
     {{- $bibShort = .short -}}
   {{ else }}
     {{- $bibShort = .id -}}
   {{ end }}
-  
+
   {{- $bibSort := "" -}}
   {{ if .sort }}
     {{- $bibSort = .sort -}}
   {{ else }}
     {{- $bibSort = .full -}}
-  {{ end }}  
-  {{- $bibSort = $bibSort | truncate 100 | urlize -}} 
-     
+  {{ end }}
+  {{- $bibSort = $bibSort | truncate 400 | urlize -}} 
+
   {{- $.Page.Scratch.SetInMap "ref" "0" $bibShort -}}
   {{- $.Page.Scratch.SetInMap "ref" "1" $bibFull -}}
   {{- $ref := ($.Page.Scratch.GetSortedMapValues "ref") -}}
-  {{- $.Page.Scratch.SetInMap "biblio" $bibSort $ref -}}  
+  {{- $.Page.Scratch.SetInMap "biblio" $bibSort $ref -}}
   {{- $.Page.Scratch.Delete "ref" -}}
-  
+
 {{- end -}}
-  
+
 {{- if ($.Page.Scratch.GetSortedMapValues "biblio") }}
 <div class="quire-page__content__references">
     {{- if eq .Site.Params.displayBiblioShort true }}

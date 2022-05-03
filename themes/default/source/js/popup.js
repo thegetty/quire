@@ -11,14 +11,14 @@ require("magnific-popup");
 export default function(gallerySelector, mapArr) {
   /** set var */
   const fullscreenButton = `
-  <div 
+  <div
   class="leaflet-control-fullscreen leaflet-bar leaflet-control remove-from-epub"
   >
     <a
-    id="toggleFullscreen" 
-    class="leaflet-control-fullscreen-button leaflet-bar-part" 
-    href="#" 
-    title="View Fullscreen" 
+    id="toggleFullscreen"
+    class="leaflet-control-fullscreen-button leaflet-bar-part"
+    href="#"
+    title="View Fullscreen"
     style="outline: none;">
     </a>
   </div>
@@ -229,11 +229,15 @@ export default function(gallerySelector, mapArr) {
           if (id.indexOf("deepzoom") !== -1) {
             setTimeout(() => {
               let url = $(`#${id}`).attr("src");
-              let image = new Image();
-              image.src = url;
-              image.onload = function() {
-                deepzoom = new DeepZoom(id, mapArr);
-              };
+              if (url) {
+                let image = new Image();
+                image.src = url;
+                image.onload = function() {
+                  deepzoom = new DeepZoom(id, mapArr);
+                };
+              } else {
+                deepzoom = null;
+              }
             }, waitForDOMUpdate);
           }
           if (id.indexOf("iiif") !== -1) {
