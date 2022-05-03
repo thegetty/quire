@@ -1,7 +1,7 @@
 ---
 title: IIIF Demo
 weight: 203
-layout: page
+layout: essay
 ---
 
 ## Image Service
@@ -13,12 +13,12 @@ Example:
 
 _figures.yaml_
 ```yaml
-  - id: "image-service"
-    src: figures/evans-legionnaire.jpg
+  - id: "example-image-service-2"
+    src: figures/mother.jpg
     preset: zoom
 ```
 
-{% figure id="image-service" %}
+{% figure "example-image-service-2" %}
 
 ## Choices from figures.yaml
 Specifying `choices` on a figure will prompt the IIIF processing to create a manifest.
@@ -37,4 +37,4 @@ _figures.yaml_
       label: "Choice #2"
 ```
 
-{% figure id="example-with-choices" %}
+{% figure "example-with-choices" %}

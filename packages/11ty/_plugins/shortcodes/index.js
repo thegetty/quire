@@ -31,8 +31,14 @@ module.exports = function(eleventyConfig, options) {
   })
 
   addComponentTag(eleventyConfig, contributor, 'contributor')
-  addComponentTag(eleventyConfig, figure, 'figure')
-  addComponentTag(eleventyConfig, figureGroup, 'figuregroup')
+
+  eleventyConfig.addShortcode('figure', function(...args) {
+    return figure(eleventyConfig, { page: this.page })(...args)
+  })
+
+  eleventyConfig.addShortcode('figuregroup', function(...args) {
+    return figureGroup(eleventyConfig, { page: this.page })(...args)
+  })
 
   eleventyConfig.addShortcode('ref', function(...args) {
     return ref(eleventyConfig)(...args)

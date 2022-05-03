@@ -6,7 +6,8 @@ require('dotenv').config()
  * Quire features are implemented as Eleventy plugins
  */
 const { EleventyRenderPlugin } = require('@11ty/eleventy')
-const EleventyVitePlugin = require("@11ty/eleventy-plugin-vite")
+const EleventyVitePlugin = require('@11ty/eleventy-plugin-vite')
+const directoryOutputPlugin = require('@11ty/eleventy-plugin-directory-output')
 const componentsPlugin = require('./_plugins/components')
 const epubPlugin = require('./_plugins/epub')
 const filtersPlugin = require('./_plugins/filters')
@@ -27,6 +28,9 @@ const json5 = require('json5')
 const toml = require('toml')
 const yaml = require('js-yaml')
 
+const inputDir = 'content'
+const outputDir = '_site'
+
 /**
  * Eleventy configuration
  * @see {@link https://www.11ty.dev/docs/config/ Configuring 11ty}
@@ -35,13 +39,11 @@ const yaml = require('js-yaml')
  * @return     {Object}  A modified eleventy configuation
  */
 module.exports = function(eleventyConfig) {
-  const projectDir = 'content'
-
   /**
-   * Ignore README.md when processing templates
+   * Ignore README files when processing templates
    * @see {@link https://www.11ty.dev/docs/ignores/ Ignoring Template Files }
    */
-  eleventyConfig.ignores.add('README.md')
+  eleventyConfig.ignores.add('**/README.md')
 
   /**
    * Configure the Liquid template engine
@@ -69,6 +71,13 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addDataExtension('geojson', (contents) => JSON.parse(contents))
 
   eleventyConfig.addGlobalData('env', process.env);
+  /**
+   * Configure build output
+   * @see https://www.11ty.dev/docs/plugins/directory-output/#directory-output
+   */
+  eleventyConfig.setQuietMode(true)
+  eleventyConfig.addPlugin(directoryOutputPlugin)
+
   /**
    * Load global data files into eleventyConfig.globalData
    * Must go before other plugins
@@ -159,8 +168,8 @@ module.exports = function(eleventyConfig) {
      * @see {@link https://www.11ty.dev/docs/config/#configuration-options}
      */
     dir: {
-      input: projectDir,
-      output: '_site',
+      input: inputDir,
+      output: outputDir,
       // ⚠️ the following values are _relative_ to the `input` directory
       data: `./_data`,
       includes: '../_includes',

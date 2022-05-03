@@ -29,6 +29,7 @@ module.exports = function(eleventyConfig) {
       iiifContent,
       label,
       manifestId,
+      media_type,
       preset,
       src='' 
     } = figure
@@ -41,11 +42,12 @@ module.exports = function(eleventyConfig) {
       case hasCanvasPanelProps:
         imageElement = await canvasPanel(figure)
         break;
-      case preset === 'zoom':
+      case preset === 'zoom' || media_type === 'imageservice':
         imageElement = imageservice(figure)
         break;
       default:
-        imageElement = `<img alt="${alt}" class="q-figure__image" src="${path.join(imageDir, src)}" />`
+        const imageSrc = src.startsWith('http') ? src : path.join(imageDir, src)
+        imageElement = `<img alt="${alt}" class="q-figure__image" src="${imageSrc}" />`
         break
     }
 

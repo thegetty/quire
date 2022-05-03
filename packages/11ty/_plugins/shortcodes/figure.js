@@ -16,7 +16,7 @@ const { oneLine } = require('common-tags')
  *
  * @return     {boolean}  An HTML <figure> element
  */
-module.exports = function (eleventyConfig) {
+module.exports = function (eleventyConfig, { page }) {
   const figureimage = eleventyConfig.getFilter('figureimage')
   const figurelabel = eleventyConfig.getFilter('figurelabel')
   const figuremodallink = eleventyConfig.getFilter('figuremodallink')
@@ -28,15 +28,16 @@ module.exports = function (eleventyConfig) {
 
   const { epub, pdf } = eleventyConfig.globalData.config.params
 
-  return async function (params) {
-    let { id, class: classes=[] } = params
+  return async function (id, classes=[]) {
     classes = typeof classes === 'string' ? [classes] : classes
 
     /**
      * Merge figures.yaml data and additional params
      */
     let figure = id ? getFigure(id) : {}
-    figure = { ...figure, ...params }
+    figure = { ...figure, ...arguments }
+    if (!page.figures) page.figures = [];
+    page.figures.push(figure);
 
     const { media_type: mediaType } =  figure
 

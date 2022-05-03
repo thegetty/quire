@@ -30,7 +30,7 @@ module.exports = {
 
     const figuresToTile = figures.figure_list
       .flatMap((figure) => figure.choices || figure)
-      .filter(({ preset, iiifContent, manifestId }) => preset === 'zoom' && !iiifContent && !manifestId)
+      .filter(({ iiifContent, manifestId, preset, src }) => preset === 'zoom' && !iiifContent && !manifestId && !src.startsWith('http'))
 
     /**
      * IIIF Processor

@@ -8,25 +8,11 @@
  */
 
 // Stylesheets
-import "intersection-observer";
-import "leaflet-fullscreen/dist/leaflet.fullscreen.css";
 import "../../styles/application.scss";
-import "leaflet/dist/leaflet.css";
-import quicklink from "quicklink";
-
-// JS Libraries (add them to package.json with `npm install [library]`)
-import "babel-polyfill";
-import $ from "jquery";
-import "velocity-animate";
-import "./soundcloud-api";
 
 // Modules (feel free to define your own and import here)
-import { preloadImages, stopVideo, toggleFullscreen } from "./helper";
-import DeepZoom from "./deepzoom";
-import Map from "./map";
-import Navigation from "./navigation";
-import Popup from "./popup";
 import Search from "../../../../_plugins/search/search.js";
+import "./soundcloud-api";
 
 // array of leaflet instances
 const mapArr = [];
@@ -38,19 +24,17 @@ const mapArr = [];
  * templates without additional binding.
  */
 window["toggleMenu"] = () => {
-  let menu = document.getElementById("site-menu");
-  document.getElementsByClassName;
-  let menuAriaStatus = menu.getAttribute("aria-expanded");
+  const menu = document.getElementById("site-menu");
+  const catalogEntryImage = document.querySelector(
+    ".side-by-side > .quire-entry__image-wrap > .quire-entry__image"
+  );
+  const menuAriaStatus = menu.getAttribute("aria-expanded");
   menu.classList.toggle("is-expanded", !menu.classList.contains("is-expanded"));
   if (menuAriaStatus === "true") {
-    $(
-      ".side-by-side > .quire-entry__image-wrap > .quire-entry__image"
-    ).removeClass("menu_open");
+    catalogEntryImage && catalogEntryImage.classList.remove("menu_open")
     menu.setAttribute("aria-expanded", "false");
   } else {
-    $(
-      ".side-by-side > .quire-entry__image-wrap > .quire-entry__image"
-    ).addClass("menu_open");
+    catalogEntryImage && catalogEntryImage.classList.add("menu_open")
     menu.setAttribute("aria-expanded", "true");
   }
 };
@@ -100,48 +84,17 @@ window["toggleSearch"] = () => {
 };
 
 /**
- * sliderSetup
- * @description Set up the simple image slider used on catalogue entry pages for
- * objects with multiple figure images. See also slideImage function below.
+ * Paul Frazee's easy templating function
+ * https://twitter.com/pfrazee/status/1223249561063477250?s=20
  */
-async function sliderSetup() {
-  toggleFullscreen(
-    mapArr,
-    document.getElementById("toggleFullscreen"),
-    document.getElementById("quire-entry__image")
-  );
-
-  let slider = $(".quire-entry__image__group-container");
-  slider.each(function() {
-    let sliderImages = $(this).find("figure");
-    sliderImages.each((i, v) => {
-      if (sliderImages.length > 1) {
-        $(v)
-          .find(".quire-image-counter-download-container")
-          .append(
-            `<div class="quire-counter-container"><span class="counter">${i +
-              1} of ${sliderImages.length}</span></div>`
-          );
-      }
-    });
-    let firstImage = $(sliderImages.first());
-    let lastImage = $(sliderImages.last());
-    sliderImages.addClass("visually-hidden");
-    firstImage.addClass("current-image first-image");
-    firstImage.removeClass("visually-hidden");
-    firstImage.css("display", "flex");
-    lastImage.addClass("last-image");
-  });
-  const images = [...document.querySelectorAll(".quire-deepzoom-entry")];
-  const imageSrcs = images.filter(v => {
-      return v.getAttribute("src") !== null ? v : "";
-    })
-    .map(v => {
-      return v.getAttribute("src");
-    });
-  await preloadImages(imageSrcs);
-  mapSetup(".quire-map-entry");
-  deepZoomSetup(".quire-deepzoom-entry", mapArr);
+function createHtml(tag, attributes, ...children) {
+  const element = document.createElement(tag);
+  for (let attribute in attributes) {
+    if (attribute === 'className') element.className = attributes[attribute];
+    else element.setAttribute(attribute, attributes[attribute]);
+  }
+  for (let child of children) element.append(child);
+  return element;
 }
 
 /**
@@ -181,69 +134,87 @@ window["search"] = () => {
 };
 
 /**
+ * scrollWindow
+ * @description scroll viewport to a certain vertical offset, minus the height of the quire navbar
+ * TODO add animation duration and style of easing function previously provided by jQuery `.animate()`
+ */
+function scrollWindow(verticalOffset, animationDuration = null, animationStyle = null) {
+  const navBar = document.querySelector(".quire-navbar");
+  const extraSpace = 7
+  const scrollDistance = navBar
+    ? verticalOffset - navBar.clientHeight - extraSpace
+    : verticalOffset - extraSpace
+  // redundancy here to ensure all possible document properties with `scrollTop` are being set for cross-browser compatibility
+  [
+    document.documentElement,
+    document.body.parentNode,
+    document.body
+  ].forEach((documentPropertyWithScrollTop) => {
+    documentPropertyWithScrollTop.scrollTop = scrollDistance;
+  });
+}
+
+/**
  * scrollToHash
  * @description Scroll the #main area after each smoothState reload.
  * If a hash id is present, scroll to the location of that element,
  * taking into account the height of the navbar.
  */
-function scrollToHash() {
-  // Select all links with hashes
-  $('a[href*="#"]')
-    // Remove links that don't actually link to anything
-    .not('[href="#"]')
-    .not('[href="#0"]')
-    .not('.popup')
-    .click(function(event) {
-      // only override default link behavior if it points to the same page
-      if (this.pathname.includes(window.location.pathname)) {
-        // prevent default scrolling behavior
-        event.preventDefault();
-        // ensure the hash is manually set after preventing default
-        window.location.hash = this.hash;
-      }
-      // save current hash, prefixing all ':' and '.' with '\\' to make them query-selectable
-      var hash = this.hash.replace(":", "\\:");
-      hash = hash.replace(".", "\\.");
-      // Figure out element to scroll to
-      var target = $(hash);
-      target = target.length ? target : $("[name=" + this.hash.slice(1) + "]");
-      // Does a scroll target exist?
-      if (target.length) {
-        $("html, body").animate(
-          {
-            scrollTop: target.offset().top - $(".quire-navbar").height() - 7
-          },
-          1,
-          function() {
-            // Callback after animation
-            // Must change focus!
-            var $target = $(target);
-            $target.focus();
-            if ($target.is(":focus")) {
-              // Checking if the target was focused
-              return false;
-            } else {
-              $target.attr("tabindex", "-1"); // Adding tabindex for elements not focusable
-              $target.focus(); // Set focus again
-            }
-          }
-        );
-      }
+function scrollToHash(hash) {
+  // prefix all ':' and '.' in hash with '\\' to make them query-selectable
+  hash = hash.replace(":", "\\:");
+  hash = hash.replace(".", "\\.");
+  // Figure out element to scroll to
+  let target = document.querySelector(hash);
+  target = target ? target : document.querySelector(`[name="${link.hash.slice(1)}"]`);
+  // Does a scroll target exist?
+  if (target) {
+    const verticalOffset = target.getBoundingClientRect().top + window.scrollY;
+    scrollWindow(verticalOffset);
+    // handle focus after scrolling
+    setTimeout(() => {
+      target.focus();
     });
+  }
+}
+
+function onHashLinkClick(event) {
+  // only override default link behavior if it points to the same page
+  const hash = event.target.hash;
+  if (event.target.pathname.includes(window.location.pathname)) {
+    // prevent default scrolling behavior
+    event.preventDefault();
+    // ensure the hash is manually set after preventing default
+    window.location.hash = hash;
+
+  }
+  scrollToHash(hash);
+}
+
+function setupCustomScrollToHash() {
+  const invalidHashLinkSelectors = [
+    '[href="#"]',
+    '[href="#0"]',
+    '.q-figure__modal-link'
+  ];
+  const validHashLinkSelector =
+    'a[href*="#"]' +
+    invalidHashLinkSelectors
+      .map((selector) => `:not(${selector})`)
+      .join('');
+  // Select all links with hashes, ignoring links that don't point anywhere
+  const validHashLinks = document.querySelectorAll(validHashLinkSelector);
+  validHashLinks.forEach((link) => {
+    link.addEventListener('click', onHashLinkClick);
+  });
 }
 
 function scrollToHashOnLoad() {
   if (window.location.hash) {
-    var hash = window.location.hash;
-    hash = hash.replace(":", "\\:");
-    hash = hash.replace(".", "\\.");
-    $("html, body").animate(
-      {
-        scrollTop: $(hash).offset().top - $(".quire-navbar").height() - 7
-      },
-      75,
-      "swing"
-    );
+    setTimeout(() => {
+      // TODO see scrollToHash definition. Add animation duration and easing function style previously provided as args to jQuery `.animate()`
+      scrollToHash(window.location.hash, 75, 'swing');
+    });
   }
 }
 
@@ -263,7 +234,7 @@ function globalSetup() {
   if (classNames.length) classNames.push("on-device");
 
   loadSearchData();
-  scrollToHash();
+  setupCustomScrollToHash();
 }
 
 /**
@@ -273,97 +244,18 @@ function globalSetup() {
  */
 function loadSearchData() {
   // Grab search data
-  let dataURL = $("#js-search").data("search-index");
+  const dataURL = document.getElementById('js-search').dataset.searchIndex;
   if (!dataURL) {
-    console.warn('Search data url is undefined')
-    return
+    console.warn('Search data url is undefined');
+    return;
   }
-  $.get(dataURL, {
-    cache: true
-  }).done(data => {
-    data = typeof data === "string" ? JSON.parse(data) : data;
+  fetch(dataURL).then(async (response) => {
+    const { ok, statusText, url } = response
+    if (!ok) {
+      console.warn(`Search data ${statusText.toLowerCase()} at ${url}`)
+    }
+    const data = await response.json();
     window["QUIRE_SEARCH"] = new Search(data);
-  });
-}
-
-/**
- * navigation
- * @description Turn on ability to use arrow keys
- * to get next adn previous pages
- */
-let navigation;
-
-function navigationSetup() {
-  if (!navigation) {
-    navigation = new Navigation();
-  }
-}
-
-/**
- * @description
- * Set up modal for media
- */
-function popupSetup(figureModal) {
-  toggleFullscreen(
-    mapArr,
-    document.getElementById("toggleFullscreen"),
-    document.querySelector(".mfp-wrap")
-  );
-  if (figureModal) {
-    Popup(".q-figure__wrapper", mapArr);
-  } else {
-    mapSetup(".quire-map");
-    deepZoomSetup(".quire-deepzoom", mapArr);
-  }
-}
-
-/**
- * @description
- * Render Map if Popup @false
- */
-function mapSetup(ele) {
-  return [...document.querySelectorAll(ele)].forEach(v => {
-    let id = v.getAttribute("id");
-    new Map(id);
-  });
-}
-
-/**
- * @description
- * Render deepzoom or iiif if Popup @false
- */
-function deepZoomSetup(ele, mapArr) {
-  return [...document.querySelectorAll(ele)].forEach(v => {
-    let id = v.getAttribute("id");
-    new DeepZoom(id, mapArr);
-  });
-}
-
-/**
- * @description
- * Adding GoogleChromeLabs quicklinks https://github.com/GoogleChromeLabs/quicklink
- * For faster subsequent page-loads by prefetching in-viewport links during idle time
- */
-function quickLinksSetup() {
-  let links = [...document.getElementsByTagName("a")];
-  links = links.filter(a => {
-    return a.hostname === window.location.hostname;
-  });
-  quicklink({
-    urls: links,
-    timeout: 4000,
-    ignores: [
-      /tel:/g,
-      /mailto:/g,
-      /#(.+)/,
-      uri => uri.includes("tel:"),
-      uri => uri.includes("mailto:"),
-      uri => uri.includes("#"),
-      uri => uri.includes(".zip"),
-      uri => uri.includes(".epub"),
-      uri => uri.includes(".pdf"),
-      uri => uri.includes(".mobi")
-    ]
   });
 }
 
@@ -400,80 +292,11 @@ function mlaDate(date) {
  *
  */
 function setDate() {
-  const $date = $(".cite-current-date");
+  const dateSpan = document.querySelector(".cite-current-date");
   const formattedDate = mlaDate(new Date());
-  $date.empty();
-  $date.text(formattedDate);
-}
-
-/**
- * slideImage
- * @description Slide to previous or next catalogue object image in a loop.
- * Supports any number of figures per object, and any number of objects
- * per page. Also pass in the maps array to invalidate size after transition.
- * @param {string} direction must be an integer
- * @param {object} event must be an object
- * @param {array} mapArr must be an array
- */
-function slideImage(direction, event, mapArr) {
-  event.stopPropagation();
-  let deepzoomCont = $(".leaflet-image-layer");
-  deepzoomCont.hide();
-  let slider = $(".quire-entry__image__group-container");
-  let firstImage = slider.children(".first-image");
-  let lastImage = slider.children(".last-image");
-  let currentImage = slider.children(".current-image");
-  let nextImage = currentImage.next("figure");
-  let prevImage = currentImage.prev("figure");
-  stopVideo(document.querySelector(".current-image"));
-  currentImage.hide();
-  currentImage.removeClass("current-image");
-  if (direction == "next") {
-    if (currentImage.hasClass("last-image")) {
-      firstImage.addClass("current-image");
-      firstImage.css("display", "flex");
-      firstImage.removeClass("visually-hidden");
-    } else {
-      nextImage.addClass("current-image");
-      nextImage.css("display", "flex");
-      nextImage.removeClass("visually-hidden");
-    }
-  } else if (direction == "prev") {
-    if (currentImage.hasClass("first-image")) {
-      lastImage.addClass("current-image");
-      lastImage.css("display", "flex");
-      lastImage.removeClass("visually-hidden");
-    } else {
-      prevImage.addClass("current-image");
-      prevImage.css("display", "flex");
-      prevImage.removeClass("visually-hidden");
-    }
+  if (dateSpan) {
+    dateSpan.innerHTML = formattedDate;
   }
-
-  mapArr.forEach(v => {
-    validateSize(v)
-      .then(() => {
-        deepzoomCont.fadeIn({
-          duration: "fast"
-        });
-      })
-      .catch(err => console.log(err));
-  });
-}
-
-/**
- * validateSize
- * @description
- * invalidateSize map as a promise
- * @param {object} map must be an object
- */
-function validateSize(map) {
-  return new Promise((resolve, reject) => {
-    if (!map) reject(new Error("No map!"));
-    setTimeout(() => {
-      resolve(map.invalidateSize());
-    }, 250);
-  });
 }
 
 /**
@@ -563,37 +386,13 @@ function toggleCite() {
 /**
  * pageSetup
  * @description This function is called after each smoothState reload.
- * Initialize any jquery plugins or set up page UI elements here.
+ * Set up page UI elements here.
  */
 function pageSetup() {
   setDate();
-  quickLinksSetup();
   activeMenuPage();
-  sliderSetup();
-  navigationSetup();
-  popupSetup(figureModal);
   toggleCite();
-  // smoothScroll();
-
-  // Wire up event listeners here, so we can pass in the maps array
-  const prev = document.getElementById("prev-image");
-  const next = document.getElementById("next-image");
-  if (prev)
-    prev.addEventListener("click", e => slideImage("prev", e, mapArr), false);
-  if (next)
-    next.addEventListener("click", e => slideImage("next", e, mapArr), false);
 }
-
-/**
- * pageTeardown
- * @description This function is called before each smoothState reload.
- * Remove any event listeners here.
- */
-/*
-function pageTeardown() {
-  navigationTeardown();
-}
-*/
 
 // Start
 // -----------------------------------------------------------------------------
@@ -601,8 +400,8 @@ function pageTeardown() {
 // Run immediately
 globalSetup();
 
-// Run when document is ready
-$(window).ready(() => {
+// Run when DOM content has loaded
+window.addEventListener('DOMContentLoaded', () => {
   pageSetup();
   scrollToHashOnLoad();
-});
+})

@@ -6,10 +6,19 @@ figure_list:
         label: "Choice #1"
       - src: figures/evans-burroughs.jpg
         label: "Choice #2"
-  - id: "image-service"
+  - id: "example-image-service"
     label: "Figure 1"
+    media_type: "imageservice"
+    src: https://iiif.wellcomecollection.org/image/b18035723_0001.JP2
+    caption: "This is a caption"
+  - id: "example-image-service-2"
+    label: "Figure 2"
     src: figures/mother.jpg
     preset: zoom
+  - id: "example-image-service-3"
+    label: "Figure 3"
+    media_type: "imageservice"
+    src: https://iiif.wellcomecollection.org/image/b18035723_0010.JP2
   - id: "dog1"
     src: figures/lange.jpg
     caption: "*Dorothea Lange, Resettlement Administration photographer, in California*, 1936."
