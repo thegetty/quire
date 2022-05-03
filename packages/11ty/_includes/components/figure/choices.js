@@ -12,11 +12,7 @@ const getChoices = (annotations=[]) => {
       const bodies = vault.get(annotation.body)
       for (const body of bodies) {
         const { items, type } = body
-        if (type === 'Choice') {
-          return items.map(({ id }) => vault.get(id))
-        } else {
-          return []
-        }
+        return (type === 'Choice') ? items.map(({ id }) => vault.get(id)) : []
       }
     }
   })
