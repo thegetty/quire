@@ -64,15 +64,16 @@ module.exports = {
         promises.push(tileImage(imagePath, options))
       })
 
+      await Promise.all(promises)
+
       // Build manifests for figures with choices
       const figuresWithChoices = figures.figure_list.filter(
         ({ choices }) => choices && choices.length
       )
-      promises.push(figuresWithChoices.map((figure) => {
-        return createManifest(figure, options)
-      }))
 
-      await Promise.all(promises)
+      for (const figure of figuresWithChoices) {
+        await createManifest(figure, options)
+      }
 
       if (debug) {
         console.warn(`[iiif:processImages] Done`)
