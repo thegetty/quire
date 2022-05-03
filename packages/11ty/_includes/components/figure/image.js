@@ -14,6 +14,7 @@ module.exports = function(eleventyConfig) {
   const figurelabel = eleventyConfig.getFilter('figurelabel')
   const figuremodallink = eleventyConfig.getFilter('figuremodallink')
   const imageservice = eleventyConfig.getFilter('imageservice')
+  const isImageService = eleventyConfig.getFilter('isImageService')
   const markdownify = eleventyConfig.getFilter('markdownify')
 
   const { imageDir, figureLabelLocation } = eleventyConfig.globalData.config.params
@@ -42,7 +43,7 @@ module.exports = function(eleventyConfig) {
       case hasCanvasPanelProps:
         imageElement = await canvasPanel(figure)
         break;
-      case preset === 'zoom' || media_type === 'imageservice':
+      case isImageService(figure):
         imageElement = imageservice(figure)
         break;
       default:

@@ -14,6 +14,7 @@ const initTileImage = require('./tileImage')
  */
 module.exports = {
   init: (eleventyConfig) => {
+    const isImageService = eleventyConfig.getFilter('isImageService')
     /**
      * IIIF config
      */
@@ -30,7 +31,7 @@ module.exports = {
 
     const figuresToTile = figures.figure_list
       .flatMap((figure) => figure.choices || figure)
-      .filter(({ iiifContent, manifestId, preset, src }) => preset === 'zoom' && !iiifContent && !manifestId && !src.startsWith('http'))
+      .filter((figure) => isImageService(figure) && !figure.src.startsWith('http'))
 
     /**
      * IIIF Processor
