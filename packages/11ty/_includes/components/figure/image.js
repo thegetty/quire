@@ -11,33 +11,45 @@ const path = require('path')
 module.exports = function(eleventyConfig) {
   const canvasPanel = eleventyConfig.getFilter('canvasPanel')
   const figurecaption = eleventyConfig.getFilter('figurecaption')
+  const figurechoices = eleventyConfig.getFilter('figurechoices')
   const figurelabel = eleventyConfig.getFilter('figurelabel')
   const figuremodallink = eleventyConfig.getFilter('figuremodallink')
+  const imageservice = eleventyConfig.getFilter('imageservice')
+  const isImageService = eleventyConfig.getFilter('isImageService')
   const markdownify = eleventyConfig.getFilter('markdownify')
 
   const { imageDir, figureLabelLocation } = eleventyConfig.globalData.config.params
 
-  return async function({ alt='', canvasId, caption, choices, credit, id, iiifContent, label, manifestId, preset, src='' }) {
-    // const imageSrc = path.join(imageDir, src)
-    const imageSrc = src.includes('http') || src.includes('https')
-      ? src
-      : path.join(imageDir, src)
+  return async function(figure) {
+    const { 
+      alt='', 
+      canvasId,
+      caption,
+      choices,
+      credit,
+      id,
+      iiifContent,
+      label,
+      manifestId,
+      media_type,
+      preset,
+      src='' 
+    } = figure
     const labelElement = figurelabel({ caption, id, label })
-    const srcParts = src.split(path.sep)
-    // const hasTiles = srcParts[srcParts.length - 1] === 'tiles'
-    const hasTiles = src && !src.match(/\.+(jpe?g|png|gif)/)
     const hasCanvasPanelProps = (!!canvasId && !!manifestId) || !!iiifContent || !!choices
 
-    let imageElement;
+    let choicesElement='', imageElement;
 
     switch (true) {
       case hasCanvasPanelProps:
-        imageElement = await canvasPanel({ canvasId, id, manifestId, preset })
+        imageElement = await canvasPanel(figure)
+        choicesElement = await(figurechoices(figure))
         break;
-      case hasTiles:
-        imageElement = `<image-service alt="${alt}" class="q-figure__image" src="${imageSrc}"></image-service>`
+      case isImageService(figure):
+        imageElement = imageservice(figure)
         break;
       default:
+        const imageSrc = src.startsWith('http') ? src : path.join(imageDir, src)
         imageElement = `<img alt="${alt}" class="q-figure__image" src="${imageSrc}" />`
         break
     }
@@ -56,6 +68,7 @@ module.exports = function(eleventyConfig) {
 
     return html`
       ${imageElement}
+      ${choicesElement}
       ${captionElement}
     `
   }

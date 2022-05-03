@@ -1,14 +1,34 @@
 figure_list:
+  - id: "example-with-choices"
+    label: "This is a label"
+    choices:
+      - src: figures/evans-graveyard.jpg
+        label: "Choice #1"
+      - src: figures/evans-burroughs.jpg
+        label: "Choice #2"
   - id: "example-image-service"
     label: "Figure 1"
+    media_type: "imageservice"
     src: https://iiif.wellcomecollection.org/image/b18035723_0001.JP2
     caption: "This is a caption"
   - id: "example-image-service-2"
     label: "Figure 2"
-    src: _iiif/more-cats/tiles
+    src: figures/mother.jpg
+    preset: zoom
   - id: "example-image-service-3"
     label: "Figure 3"
+    media_type: "imageservice"
     src: https://iiif.wellcomecollection.org/image/b18035723_0010.JP2
+  - id: "example-external-manifest"
+    label: "Figure 4"
+    canvasId: https://preview.iiif.io/cookbook/3333-choice/recipe/0036-composition-from-multiple-images/canvas/p1
+    manifestId: https://gist.githubusercontent.com/stephenwf/19e61dac5c329c77db8cf22fe0366dad/raw/04971529e364063ac88de722db786c97e2df0e6b/manifest.json
+    caption: "This is a caption"
+  - id: "example-cropped-canvas"
+    region: "3569,761,1851,2059"
+    preset: static
+    canvasId: https://preview.iiif.io/cookbook/3333-choice/recipe/0036-composition-from-multiple-images/canvas/p1
+    manifestId: https://gist.githubusercontent.com/stephenwf/19e61dac5c329c77db8cf22fe0366dad/raw/04971529e364063ac88de722db786c97e2df0e6b/manifest.json
   - id: "dog1"
     src: figures/lange.jpg
     caption: "*Dorothea Lange, Resettlement Administration photographer, in California*, 1936."

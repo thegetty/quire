@@ -1,5 +1,6 @@
-const fs = require('fs')
+const fs = require('fs-extra')
 const path = require('path')
+require('dotenv').config()
 
 /**
  * Quire features are implemented as Eleventy plugins
@@ -69,6 +70,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addDataExtension('yaml', (contents) => yaml.load(contents))
   eleventyConfig.addDataExtension('geojson', (contents) => JSON.parse(contents))
 
+  eleventyConfig.addGlobalData('env', process.env);
   /**
    * Configure build output
    * @see https://www.11ty.dev/docs/plugins/directory-output/#directory-output
@@ -77,10 +79,11 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(directoryOutputPlugin)
 
   /**
-   * Load global data files into eleventyConfig.globalData
+   * Load plugins that add to eleventyConfig.globalData
    * Must go before other plugins
    */
   eleventyConfig.addPlugin(globalDataPlugin)
+  eleventyConfig.addPlugin(iiifPlugin)
 
   /**
    * Load plugin for custom configuration of the markdown library
@@ -100,7 +103,6 @@ module.exports = function(eleventyConfig) {
    */
   eleventyConfig.addPlugin(lintingPlugin)
   eleventyConfig.addPlugin(epubPlugin)
-  eleventyConfig.addPlugin(iiifPlugin)
   eleventyConfig.addPlugin(navigationPlugin)
   eleventyConfig.addPlugin(searchPlugin)
   eleventyConfig.addPlugin(syntaxHighlightPlugin)
@@ -152,8 +154,7 @@ module.exports = function(eleventyConfig) {
    * @see {@link https://www.11ty.dev/docs/copy/ Passthrough copy in 11ty}
    */
   eleventyConfig.addPassthroughCopy('content/_assets')
-  eleventyConfig.addPassthroughCopy('content/css/**')
-  eleventyConfig.addPassthroughCopy('content/js/**')
+  eleventyConfig.addPassthroughCopy('content/_iiif')
 
   /**
    * Watch the following additional files for changes and live browsersync

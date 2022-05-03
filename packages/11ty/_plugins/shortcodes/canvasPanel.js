@@ -1,33 +1,14 @@
 /**
  * CanvasPanel shortcode that renders the digirati <canvas-panel> web component
  * @see {@link https://iiif-canvas-panel.netlify.app/docs/intro/ Canvas Panel Documentation}
- * @todo import iiif config and use to set canvasId and manifestIds for figures.yaml-generated manifests
  */
-const { globalVault } = require('@iiif/vault')
 const { html } = require('common-tags')
 
-const vault = globalVault()
-
-/**
- * Very simplified method to get choices - expects a valid manifest where choices all have identifiers
- * @todo replace with vault helper
- */
-const getChoices = (annotations=[]) => {
-  return annotations.flatMap(({ id, type }) => {
-    const annotation = vault.get(id)
-    if (annotation.motivation.includes('painting')) {
-      const bodies = vault.get(annotation.body)
-      for (const body of bodies) {
-        const { items, type } = body
-        if (type === 'Choice') {
-          return items.map(({ id }) => vault.get(id))
-        }
-      }
-    }
-  }).filter(item => item)
-}
-
 module.exports = function(eleventyConfig) {
+  const figureIIIF = eleventyConfig.getFilter('figureIIIF')
+
+  const { config, env, iiifConfig, iiifManifests } = eleventyConfig.globalData
+  const { imageDir } = config.params
 
   /**
    * Canvas Panel Shortcode
@@ -40,64 +21,28 @@ module.exports = function(eleventyConfig) {
    * @return {String}        <canvas-panel> markup
    */
   return async function(params) {
-    let { canvasId, choiceId, id, manifestId, preset } = params
+    let { height, id, iiifContent, manifestId, preset, region, virtualSizes, width } = params
 
-    switch(true) {
-      case !!manifestId && !!canvasId:
-        break;
-      case !!id:
-        /**
-         * @todo replace with directory defined in IIIF config
-         */
-        canvasId = new URL(['_assets', 'images', '_iiif', id, 'canvas'].join('/'), process.env.URL)
-        manifestId = new URL(['_assets', 'images', '_iiif', id, 'manifest.json'].join('/'), process.env.URL)
-        break;
-      default:
-        console.warn(`Error in CanvasPanel shortcode: Missing params canvasId or manifestId. Fig.id: `, id)
-        return;
-    }
+    const { canvas, choiceId, manifest } = await figureIIIF(params)
     
-    const manifest = await vault.loadManifest(manifestId)
-    if (!manifest) {
-      console.error('[shortcodes:canvasPanel] Error fetching manifestId: ', manifestId)
+    if (!manifest && !iiifContent) {
+      console.error('[shortcodes:canvasPanel] Error fetching manifest for figure id: ', id)
+      return ''
     }
-
-    const canvas = vault.get(canvasId)
-    if (!canvas) {
-      console.error('[shortcodes:canvasPanel] Error fetching canvasId: ', canvasId)
-    }
-
-    let choices = getChoices(canvas.annotations)
-    if (!choices.length && canvas.items.length) {
-      canvas.items.map(({ id, type }) => {
-        if (type === 'AnnotationPage') {
-          const annotationPage = vault.get(id)
-          choices = getChoices(annotationPage.items)
-        }
-      })
-    }
-
-    const hasChoices = !!choices.length
-
-    choicesUI = choices.map((item, index) => {
-      const classes = ['canvas-choice']
-      if (index === 0) classes.push('canvas-choice--active')
-      return `
-        <button class="${classes.join(' ')}" type="button" value="${item.id}">
-          ${item.label.en ? item.label.en[0] : item.label}
-        </button>
-      `
-    })
 
     return html`
       <canvas-panel
-        id="${id}"
-        canvas-id="${canvasId}"
+        canvas-id="${canvas.id}"
         choice-id="${choiceId}"
-        manifest-id="${manifestId}"
+        height="${height}"
+        id="${id}"
+        iiif-content="${iiifContent}"
+        manifest-id="${manifest.id}"
         preset="${preset}"
+        region="${region}"
+        virtual-sizes="${virtualSizes}"
+        width="${width}"
       />
-      ${hasChoices ? choicesUI.join('') : ''}
     `
   }
 }
