@@ -12,7 +12,7 @@ const path = require('path')
 module.exports = function(eleventyConfig) {
   const { imageServiceDirectory, output } = eleventyConfig.globalData.iiifConfig
 
-  return function({ alt, height, id, preset, region, src, virtualSizes, width}) {
+  return function({ alt='', height='', preset='', region='', src, virtualSizes='', width='' }) {
     const imageService = ((src).startsWith('http'))
       ? src
       : path.join('/', output, path.parse(src).name, imageServiceDirectory)
