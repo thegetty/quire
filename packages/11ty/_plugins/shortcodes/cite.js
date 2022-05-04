@@ -75,7 +75,7 @@ module.exports = function(eleventyConfig, { page }) {
 
     return stripIndents`
       <cite class="quire-citation expandable">
-        ${button.replace(/\n/g, '')}
+        ${button}
         <span hidden class="quire-citation__content">
           ${markdownify(citation.full)}
         </span>
