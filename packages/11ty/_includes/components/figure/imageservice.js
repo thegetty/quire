@@ -22,7 +22,6 @@ module.exports = function(eleventyConfig) {
         alt="${alt}"
         class="q-figure__image"
         height="${height}"
-        id="${id}"
         preset="${preset}"
         region="${region}"
         src="${imageService}"

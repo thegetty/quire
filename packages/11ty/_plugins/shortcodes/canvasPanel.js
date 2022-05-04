@@ -35,7 +35,6 @@ module.exports = function(eleventyConfig) {
         canvas-id="${canvas.id}"
         choice-id="${choiceId}"
         height="${height}"
-        id="${id}"
         iiif-content="${iiifContent}"
         manifest-id="${manifest.id}"
         preset="${preset}"
