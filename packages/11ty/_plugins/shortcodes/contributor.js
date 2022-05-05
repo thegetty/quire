@@ -22,6 +22,7 @@ module.exports = function (eleventyConfig) {
   const getContributor = eleventyConfig.getFilter('getContributor')
   const icon = eleventyConfig.getFilter('icon')
   const link = eleventyConfig.getFilter('link')
+  const markdownify = eleventyConfig.getFilter('markdownify')
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const slugify = eleventyConfig.getFilter('slugify')
 
@@ -55,7 +56,7 @@ module.exports = function (eleventyConfig) {
     const contributorBio = bio
       ? oneLine`
           <div class="quire-contributor__bio">
-            ${bio}
+            ${markdownify(bio)}
           </div>
       `
       : ''
