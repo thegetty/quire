@@ -15,15 +15,14 @@ module.exports = class TableOfContents {
 
   render(data) {
     const {
-      class: className,
       collections,
-      config,
       content,
       imageDir,
       page: tocPage,
       pages,
       pagination,
-      section
+      section,
+      type
     } = data
 
     const contentElement = content
@@ -35,63 +34,13 @@ module.exports = class TableOfContents {
         </div>
         `
       : ''
-    const containerClass = className === 'grid' ? 'is-fullhd' : ''
-    const contentsListClass = ['abstract', 'brief', 'grid'].includes(className)
-      ? className
+    const containerClass = type === 'grid' ? 'is-fullhd' : ''
+    const contentsListClass = ['abstract', 'brief', 'grid'].includes(type)
+      ? type
       : 'list'
 
 
     let renderedSection
-
-    const defaultContentsItemParams = {
-      className,
-      config,
-      imageDir
-    }
-
-    const listItems = pages
-      .filter((page) => 
-        page.url !== tocPage.url
-        && (!section || section && page.data.section === section)
-        && page.data.type !== 'data' 
-        && page.data.toc !== false)
-      .map((page) => {
-        let listItem = ''
-        if (page.data.layout === 'table-of-contents' && page.data.section !== renderedSection) {
-          renderedSection = page.data.section 
-
-          const subPages =
-            config.params.tocType === 'full'
-              ? pages
-                  .filter(
-                    (item) =>
-                      item.data.section === page.data.section &&
-                      item.data.layout !== 'table-of-contents'
-                  )
-                  .map((item) => {
-                    if (page.fileSlug !== item.fileSlug)
-                      return `
-                        <li class="page-item">
-                          ${this.tableOfContentsItem({ ...defaultContentsItemParams, page: item })}
-                        </li>
-                      `
-                  })
-              : []
-
-          return `
-            <li class="section-item">
-              ${this.tableOfContentsItem({ ...defaultContentsItemParams, page })}
-              <ul>${subPages.join('')}</ul>
-            </li>
-          `
-        } else if (section || !page.data.section) {
-          return `
-            <li class="page-item">
-              ${this.tableOfContentsItem({ ...defaultContentsItemParams, page })}
-            </li>
-          `
-        }
-      })
 
     return this.renderTemplate(
       `<div class="{% pageClass pages=pages, pagination=pagination %} quire-contents" id="main" role="main">
@@ -108,11 +57,7 @@ module.exports = class TableOfContents {
           ${contentElement}
           <div class="container ${containerClass}">
             <div class="quire-contents-list ${contentsListClass}">
-              <div class="menu-list">
-                <ul>
-                  ${listItems.join('')}
-                </ul>
-              </div>
+              ${this.tableOfContentsList({ collection: collections.tableOfContents, type })}
               <div class="content">
                 {% bibliography %}
               </div>
