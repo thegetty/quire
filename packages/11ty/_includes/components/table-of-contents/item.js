@@ -50,8 +50,8 @@ module.exports = function (eleventyConfig) {
      */
     if (!children && online === false) return ''
 
-    const brief = type.includes('brief')
-    const grid = type.includes('grid')
+    const brief = type === 'brief'
+    const grid = type === 'grid'
 
     // const itemClassName = weight < pageOne.data.weight ? "frontmatter-page" : ""
     const itemClassName = ''
