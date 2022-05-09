@@ -44,6 +44,12 @@ module.exports = function (eleventyConfig) {
       title,
       weight
     } = page.data
+
+    /**
+     * Return empty string if item is section index without a landing page or children
+     */
+    if (!children && online === false) return ''
+
     const brief = type.includes('brief')
     const grid = type.includes('grid')
 

@@ -4,10 +4,10 @@
  * @param  {Object} options
  */
 module.exports = function (eleventyConfig, options = {}) {
+  /**
+   * Collection of pages to display in the menu
+   */
   eleventyConfig.addCollection('menu', function (collectionApi) {
-    /**
-     * Collection of pages to display in the menu
-     */
     return collectionApi.getAll().filter(function ({ data }) {
       return data.menu !== false && data.type !== 'data';
     });

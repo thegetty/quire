@@ -17,8 +17,7 @@ module.exports = class TableOfContents {
     const {
       collections,
       content,
-      imageDir,
-      page: tocPage,
+      page,
       pages,
       pagination,
       section,
@@ -39,8 +38,17 @@ module.exports = class TableOfContents {
       ? type
       : 'list'
 
-
-    let renderedSection
+    /**
+     * The pages to include in the table of contents
+     * Either the project or a project section
+     */
+    const currentNavigationItem = this.eleventyNavigation(collections.tableOfContents).find(
+      ({ url }) => url === page.url
+    )
+    const isSection = !!currentNavigationItem.children && currentNavigationItem.children.length > 0
+    const navigation = isSection 
+      ? this.eleventyNavigation(collections.tableOfContents).find(({ url }) => url === page.url).children
+      : this.eleventyNavigation(collections.tableOfContents)
 
     return this.renderTemplate(
       `<div class="{% pageClass pages=pages, pagination=pagination %} quire-contents" id="main" role="main">
@@ -57,7 +65,7 @@ module.exports = class TableOfContents {
           ${contentElement}
           <div class="container ${containerClass}">
             <div class="quire-contents-list ${contentsListClass}">
-              ${this.tableOfContentsList({ collection: collections.tableOfContents, type })}
+              ${this.tableOfContentsList({ navigation, type })}
               <div class="content">
                 {% bibliography %}
               </div>

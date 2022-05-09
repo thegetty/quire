@@ -25,6 +25,27 @@ module.exports = {
     })
   },
   eleventyNavigation: {
+    /**
+     * Explicitly define page data properties used in the TOC
+     * since eleventyNavigation does not include the entire page object
+     */
+    data: (data) => {
+      return {
+        abstract: data.abstract,
+        contributor: data.contributor,
+        figure: data.figure,
+        image: data.image,
+        label: data.label,
+        layout: data.layout,
+        object: data.object,
+        online: data.online,
+        short_title: data.short_title,
+        subtitle: data.subtitle,
+        summary: data.summary,
+        title: data.title,
+        weight: data.weight
+      }
+    },
     key: (data) => {
       const segments = data.page.url.split('/')
       const key = segments.slice(1, segments.length - 1).join('/')
