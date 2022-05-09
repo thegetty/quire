@@ -21,7 +21,7 @@ module.exports = function(eleventyConfig) {
     const renderList = (pages) => {
       return html`
         <ul>
-          ${pages.map(page => {
+          ${pages.map((page) => {
             if (page.children && page.children.length) {
               const children = renderList(page.children)
               return `${tableOfContentsItem({ page, children, type })}`

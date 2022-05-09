@@ -45,9 +45,8 @@ module.exports = class TableOfContents {
     const currentNavigationItem = this.eleventyNavigation(collections.tableOfContents).find(
       ({ url }) => url === page.url
     )
-    const isSection = !!currentNavigationItem.children && currentNavigationItem.children.length > 0
-    const navigation = isSection 
-      ? this.eleventyNavigation(collections.tableOfContents).find(({ url }) => url === page.url).children
+    const navigation = currentNavigationItem.children && currentNavigationItem.children.length
+      ? currentNavigationItem.children
       : this.eleventyNavigation(collections.tableOfContents)
 
     return this.renderTemplate(
