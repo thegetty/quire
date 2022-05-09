@@ -164,6 +164,7 @@ module.exports = function(eleventyConfig) {
    */
   eleventyConfig.addWatchTarget('./**/*.css')
   eleventyConfig.addWatchTarget('./**/*.js')
+  eleventyConfig.addWatchTarget('./**/*.scss')
 
   return {
     /**
