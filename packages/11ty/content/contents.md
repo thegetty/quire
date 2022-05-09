@@ -2,6 +2,6 @@
 layout: table-of-contents
 search: false
 title: Contents
-type: list
+presentation: list
 weight: 2
 ---

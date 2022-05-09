@@ -2,6 +2,6 @@
 epub: false
 title: Catalogue
 layout: table-of-contents
-type: grid
+presentation: grid
 weight: 100
 ---

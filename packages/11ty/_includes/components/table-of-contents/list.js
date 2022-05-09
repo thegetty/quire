@@ -7,7 +7,7 @@ const { html } = require('common-tags')
  * @param     {Object} params
  * @property  {Object} navigation An eleventyNavigation collection, such as `eleventyNavigation(collection.tableOfContents)`
  * @property  {Object} page The current page object
- * @property  {String} type The TOC display type. Possible values: ['abstract', 'brief', 'grid']
+ * @property  {String} presentation How the TOC should display. Possible values: ['abstract', 'brief', 'grid']
  *
  * @return {String} TOC list
  */
@@ -16,7 +16,7 @@ module.exports = function(eleventyConfig) {
   const tableOfContentsItem = eleventyConfig.getFilter('tableOfContentsItem')
 
   return function(params) {
-    const { navigation, type } = params
+    const { navigation, presentation } = params
 
     const renderList = (pages) => {
       return html`
@@ -24,9 +24,9 @@ module.exports = function(eleventyConfig) {
           ${pages.map((page) => {
             if (page.children && page.children.length) {
               const children = renderList(page.children)
-              return `${tableOfContentsItem({ page, children, type })}`
+              return `${tableOfContentsItem({ children, page, presentation })}`
             }
-            return `${tableOfContentsItem({ page, type })}`
+            return `${tableOfContentsItem({ page, presentation })}`
           })}
         </ul>`
     }

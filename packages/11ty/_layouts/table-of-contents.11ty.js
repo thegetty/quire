@@ -20,8 +20,8 @@ module.exports = class TableOfContents {
       page,
       pages,
       pagination,
-      section,
-      type
+      presentation='list',
+      section
     } = data
 
     const contentElement = content
@@ -33,10 +33,7 @@ module.exports = class TableOfContents {
         </div>
         `
       : ''
-    const containerClass = type === 'grid' ? 'is-fullhd' : ''
-    const contentsListClass = ['abstract', 'brief', 'grid'].includes(type)
-      ? type
-      : 'list'
+    const containerClass = presentation === 'grid' ? 'is-fullhd' : ''
 
     /**
      * The pages to include in the table of contents
@@ -63,8 +60,8 @@ module.exports = class TableOfContents {
         <section class="section quire-page__content" id="content">
           ${contentElement}
           <div class="container ${containerClass}">
-            <div class="quire-contents-list ${contentsListClass}">
-              ${this.tableOfContentsList({ navigation, type })}
+            <div class="quire-contents-list ${presentation}">
+              ${this.tableOfContentsList({ navigation, presentation })}
               <div class="content">
                 {% bibliography %}
               </div>

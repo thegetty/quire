@@ -7,7 +7,7 @@ const { oneLine } = require('common-tags')
  * @param     {Object} context
  * @param     {String} params
  * @property  {String} page - The TOC item's page data
- * @property  {String} type - The TOC type, "grid", "brief", or "abstract"
+ * @property  {String} presentation How the TOC should display. Possible values: ['abstract', 'brief', 'grid']
  *
  * @return {String} TOC item markup
  */
@@ -26,7 +26,7 @@ module.exports = function (eleventyConfig) {
     const {
       children='',
       page,
-      type
+      presentation
     } = params
 
     const {
@@ -50,8 +50,8 @@ module.exports = function (eleventyConfig) {
      */
     if (!children && online === false) return ''
 
-    const brief = type === 'brief'
-    const grid = type === 'grid'
+    const brief = presentation === 'brief'
+    const grid = presentation === 'grid'
 
     // const itemClassName = weight < pageOne.data.weight ? "frontmatter-page" : ""
     const itemClassName = ''
@@ -72,7 +72,7 @@ module.exports = function (eleventyConfig) {
 
     // Returns abstract with any links stripped out
     const abstractText =
-      type === 'abstract' && (abstract || summary)
+      presentation === 'abstract' && (abstract || summary)
         ? `<div class="abstract-text">
             {{ markdownify(abstract) | replaceRE "</?a(|\\s*[^>]+)>" "" | strip_html }}
         </div>`
