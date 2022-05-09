@@ -15,7 +15,6 @@ module.exports = function(eleventyConfig) {
     let renderedSection
 
     const listItems = pages
-      .filter(({ data }) => data.menu !== false)
       .map((page) => {
         let listItem = ''
         if (!page.data.section) {
