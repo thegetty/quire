@@ -13,6 +13,7 @@ const { html } = require('common-tags')
 module.exports = function(eleventyConfig) {
   const citation = eleventyConfig.getFilter('citation')
   const copyright = eleventyConfig.getFilter('copyright')
+  const eleventyNavigation = eleventyConfig.getFilter('eleventyNavigation')
   const linkList = eleventyConfig.getFilter('linkList')
   const menuHeader = eleventyConfig.getFilter('menuHeader')
   const menuList = eleventyConfig.getFilter('menuList')
@@ -22,7 +23,7 @@ module.exports = function(eleventyConfig) {
   const { resource_link: resourceLinks } = publication
 
   return function(params) {
-    const { collections, imageDir, pageData } = params
+    const { collections, pageData } = params
 
     const footerLinks = resourceLinks.filter(({ type }) => type === 'footer-link')
 
@@ -35,7 +36,7 @@ module.exports = function(eleventyConfig) {
         ${menuHeader({ currentURL: pageData.url })}
         <nav id="nav" class="quire-menu__list menu-list" role="navigation" aria-label="full">
           <h3 class="visually-hidden">Table of Contents</h3>
-          <ul>${menuList({ config, pages: collections.menu })}</ul>
+          <ul>${menuList({ navigation: eleventyNavigation(collections.menu) })}</ul>
         </nav>
 
         ${menuResources()}
