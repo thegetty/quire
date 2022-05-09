@@ -12,7 +12,7 @@ module.exports = function (eleventyConfig) {
   const getContributor = eleventyConfig.getFilter('getContributor')
 
   return function (params) {
-    const { contributors, type = 'all', format = 'string' } = params
+    const { contributor: contributors, type = 'all', format = 'string' } = params
 
     if (!Array.isArray(contributors)) return ''
 
