@@ -10,27 +10,28 @@ module.exports = (eleventyConfig) => {
   const hasCanvasPanelProps = eleventyConfig.getFilter('hasCanvasPanelProps')
   const { figures } = eleventyConfig.globalData
 
+  /**
+   * Very simplified method to get choices - expects a valid manifest where choices all have identifiers
+   * @todo replace with vault helper
+   */
+  const getChoices = (annotations = []) => {
+    return annotations.flatMap(({ id, type }) => {
+      const annotation = vault.get(id)
+      if (annotation.motivation.includes('painting')) {
+        const bodies = vault.get(annotation.body)
+        for (const body of bodies) {
+          const { items, type } = body
+          return type === 'Choice'
+            ? items.map(({ id }) => vault.get(id))
+            : []
+        }
+      }
+    })
+  }
+
   figures.figure_list
     .forEach(async (figure, index) => {
       if (!hasCanvasPanelProps(figure)) return
-
-      /**
-       * Add choices to globalData
-       */
-      const getChoices = (annotations = []) => {
-        return annotations.flatMap(({ id, type }) => {
-          const annotation = vault.get(id)
-          if (annotation.motivation.includes('painting')) {
-            const bodies = vault.get(annotation.body)
-            for (const body of bodies) {
-              const { items, type } = body
-              return type === 'Choice'
-                ? items.map(({ id }) => vault.get(id))
-                : []
-            }
-          }
-        })
-      }
 
       const { canvas, choiceId, manifest } = await figureIIIF(figure)
 
@@ -43,6 +44,7 @@ module.exports = (eleventyConfig) => {
           }
         })
       }
+
       eleventyConfig.globalData.figures.figure_list[index] = {
         ...eleventyConfig.globalData.figures.figure_list[index],
         canvas,
@@ -50,7 +52,5 @@ module.exports = (eleventyConfig) => {
         choiceId,
         manifest
       }
-      // console.warn('adding global data to ', figure.id, eleventyConfig.globalData.figures.figure_list[index])
-      // console.warn(eleventyConfig.globalData.figures.figure_list[index])
     })
 }
