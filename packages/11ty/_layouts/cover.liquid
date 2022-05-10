@@ -16,13 +16,13 @@ layout: base.11ty.js
     <div class="quire-cover__hero-body hero-body">
       <div class="container is-fluid">
         <h1 class="title">
-          {{ publication.title }}
+          {{ publication.title | markdownify }}
           {% if publication.subtitle %}
             <span class="visually-hidden">: </span>
-            <span class="subtitle">{{ publication.subtitle }}</span>
+            <span class="subtitle">{{ publication.subtitle | markdownify }}</span>
           {% endif %}
         </h1>
-        <p class="reading-line">{{ publication.reading_line }}</p>
+        <p class="reading-line">{{ publication.reading_line | markdownify }}</p>
         <div class="contributor">
           {{ publication.contributor_as_it_appears }}
           <span class="visually-hidden">Contributors:&nbsp;</span>

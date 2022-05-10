@@ -17,8 +17,8 @@ module.exports = function(eleventyConfig) {
       ? `<span class="subtitle">${markdownify(publication.subtitle)}</span>`
       : ''
 
-    return oneLine`
-      <span>${markdownify(publication.title)}</span>${seperator}${subtitle}
-    `
+    const title = `<span class="title">${markdownify(publication.title)}</span>`
+
+    return oneLine`${title}${seperator}&#32;${subtitle}`
   }
 }
