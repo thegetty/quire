@@ -1,5 +1,4 @@
 const { html } = require('common-tags')
-const path = require('path')
 
 /**
  * Image Service Web Component
@@ -10,13 +9,7 @@ const path = require('path')
  * @return     {String}  An <image-service> element
  */
 module.exports = function(eleventyConfig) {
-  const { imageServiceDirectory, output } = eleventyConfig.globalData.iiifConfig
-
   return function({ alt='', height='', preset='', region='', src, virtualSizes='', width='' }) {
-    const imageService = ((src).startsWith('http'))
-      ? src
-      : path.join('/', output, path.parse(src).name, imageServiceDirectory)
-
     return html`
       <image-service 
         alt="${alt}"
@@ -24,7 +17,7 @@ module.exports = function(eleventyConfig) {
         height="${height}"
         preset="${preset}"
         region="${region}"
-        src="${imageService}"
+        src="${src}"
         virtual-sizes="${virtualSizes}"
         width="${width}">
       </image-service>`

@@ -1,5 +1,6 @@
 const fs = require('fs-extra')
 const path = require('path')
+const addGlobalData = require('./addGlobalData')
 const initCreateImage = require('./createImage')
 const initCreateManifest = require('./createManifest')
 const initTileImage = require('./tileImage')
@@ -74,6 +75,12 @@ module.exports = {
       for (const figure of figuresWithChoices) {
         await createManifest(figure, options)
       }
+
+      /**
+       * Must follow creation of manifests
+       * Adds necessary IIIF data for rendering to globalData.figures
+       */
+      await addGlobalData(eleventyConfig)
 
       if (debug) {
         console.warn(`[iiif:processImages] Done`)

@@ -252,7 +252,7 @@ class Lightbox extends LitElement {
             imageElement = `<canvas-panel id="${elementId}" data-figure="${id}" canvas-id="${canvasId}" manifest-id="${manifestId}" preset="${preset}" width="${this.width}" height="${this.height}" />`;
             break;
           case isImageService:
-            imageElement = `<image-service id="${elementId}" data-figure="${id}" src="${imageSrc}" width="${this.width}" height="${this.height}" />`;
+            imageElement = `<image-service id="${elementId}" data-figure="${id}" src="${src}" width="${this.width}" height="${this.height}" />`;
             break;
           case isImg:
             imageElement = `<img id="${elementId}" data-figure="${id}" src="${imageSrc}" />`;
