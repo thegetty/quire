@@ -27,9 +27,9 @@ module.exports = function(eleventyConfig) {
     const label = ids.length > 1 ? 'figs.' : 'fig.'
 
     // transform the array of figure ids into and array of markdown links
-    const links = ids.split(',').map((index, id) => {
+    const links = ids.split(',').map((id, index) => {
       id = id.trim()
-      let text = id.replace('/^fig-/i', '')
+      let text = id.replace(/^fig-/i, '')
       if (index === 0) text = `${label} ${text}`
       return `[${text}](#${id})`
     })
