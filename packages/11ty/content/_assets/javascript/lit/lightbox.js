@@ -219,7 +219,6 @@ class Lightbox extends LitElement {
   render() {
     const imageSlides = () => {
       const imagesWithCaptions = this.figures.map(({ caption, credit, id, iiif, label, preset, src }, index) => {
-        console.warn(iiif)
         const isCanvasPanel = iiif && !!iiif.canvas && !!iiif.manifest;
         const isImageService = iiif && !!iiif.info;
         const isImg = src && !!src.match(/.+\.(jpe?g|gif|png)$/);
