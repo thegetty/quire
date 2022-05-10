@@ -1,7 +1,7 @@
 const caption = require('./caption')
 const choices = require('./choices')
 const image = require('./image')
-const imageservice = require('./imageservice')
+const imageService = require('./image-service')
 const label = require('./label')
 const modallink = require('./modal-link')
 const placeholder = require('./placeholder')
@@ -21,5 +21,5 @@ module.exports = {
   figuretable: table,
   figurevideo: video,
   figureyoutube: youtube,
-  imageservice
+  imageService
 }

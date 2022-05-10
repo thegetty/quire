@@ -14,7 +14,7 @@ module.exports = function(eleventyConfig) {
   const figurechoices = eleventyConfig.getFilter('figurechoices')
   const figurelabel = eleventyConfig.getFilter('figurelabel')
   const figuremodallink = eleventyConfig.getFilter('figuremodallink')
-  const imageservice = eleventyConfig.getFilter('imageservice')
+  const imageService = eleventyConfig.getFilter('imageService')
   const isImageService = eleventyConfig.getFilter('isImageService')
   const hasCanvasPanelProps = eleventyConfig.getFilter('hasCanvasPanelProps')
   const markdownify = eleventyConfig.getFilter('markdownify')
@@ -46,7 +46,7 @@ module.exports = function(eleventyConfig) {
         choicesElement = figurechoices(figure)
         break;
       case isImageService(figure):
-        imageElement = imageservice(figure)
+        imageElement = imageService(figure)
         break;
       default:
         const imageSrc = src.startsWith('http') ? src : path.join(imageDir, src)
