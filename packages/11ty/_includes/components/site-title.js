@@ -10,11 +10,10 @@ module.exports = function(eleventyConfig) {
   const { publication } = eleventyConfig.globalData
   const { reading_line: readingLine, subtitle, title } = publication
   return function() {
-    const lastLetter = title.slice(-1)
-    const endPunctuation = '!?'.includes(lastLetter) ? '' : ':'
+    const separator = '!?'.includes(title.slice(-1)) ? '' : ':'
     let siteTitle = `${title}`
-    if (subtitle) siteTitle += `${endPunctuation} ${subtitle}`
-    if (readingLine) siteTitle += ` ${readingLine}`
+    if (subtitle) siteTitle += `${separator}&#32;${subtitle}`
+    if (readingLine) siteTitle += `&#32;(${readingLine})`
     return siteTitle
   }
 }
