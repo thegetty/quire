@@ -1,3 +1,4 @@
+const canvasPanel = require('./canvas-panel')
 const caption = require('./caption')
 const choices = require('./choices')
 const image = require('./image')
@@ -11,6 +12,7 @@ const video = require('./video')
 const youtube = require('./youtube')
 
 module.exports = {
+  canvasPanel,
   figurecaption: caption,
   figurechoices: choices,
   figureimage: image,
