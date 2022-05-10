@@ -129,11 +129,21 @@ class Modal extends LitElement {
 
   render() {
     const figures = stringifyData(this.figures);
-    const closeButton = html`<button @click="${this.close}" id="close-modal" class="q-modal__close-button"></button>`;
     return html`
       <div class="q-modal ${this.active ? 'active' : ''}">
-        <q-lightbox current-id="${this.currentId}" figures="${figures}" image-dir=${this.imageDir} is-inside-open-modal="${this.active}" width="${this._width}" height="${this._height}"></q-lightbox>
-        ${closeButton}
+        <q-lightbox
+          current-id="${this.currentId}"
+          figures="${figures}"
+          image-dir=${this.imageDir}
+          is-inside-open-modal="${this.active}"
+          width="${this._width}"
+          height="${this._height}"
+        ></q-lightbox>
+        <button
+          class="q-modal__close-button"
+          id="close-modal"
+          @click="${this.close}"
+        ></button>
       </div>
     `;
   }
