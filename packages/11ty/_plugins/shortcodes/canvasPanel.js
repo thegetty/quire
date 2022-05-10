@@ -5,8 +5,6 @@
 const { html } = require('common-tags')
 
 module.exports = function(eleventyConfig) {
-  const figureIIIF = eleventyConfig.getFilter('figureIIIF')
-
   /**
    * Canvas Panel Shortcode
    * @param  {Object} params `figure` data from `figures.yaml`
@@ -17,13 +15,11 @@ module.exports = function(eleventyConfig) {
    * @property  {String} preset <canvas-panel> preset {@link https://iiif-canvas-panel.netlify.app/docs/examples/responsive-image#presets}
    * @return {String}        <canvas-panel> markup
    */
-  return async function(params) {
-    let { height='', id, iiifContent, manifestId, preset='', region='', virtualSizes='', width='' } = params
+  return function(params) {
+    const { canvas, choiceId, height='', id, iiifContent, manifest, preset='', region='', virtualSizes='', width='' } = params
 
-    const { canvas, choiceId, manifest } = await figureIIIF(params)
-    
     if (!manifest && !iiifContent) {
-      console.error('[shortcodes:canvasPanel] Error fetching manifest for figure id: ', id)
+      console.error(`[shortcodes:canvasPanel] Invalid params for figure "${id}": `, params)
       return ''
     }
 

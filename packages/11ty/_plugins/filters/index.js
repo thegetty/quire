@@ -1,18 +1,17 @@
 const capitalize = require('./capitalize')
-const isImageService = require('./isImageService')
 const figureIIIF = require('./figureIIIF')
 const fullname = require('./fullname')
 const getContributor = require('./getContributor')
 const getFigure = require('./getFigure')
 const getObject = require('./getObject')
+const hasCanvasPanelProps = require('./hasCanvasPanelProps')
+const isImageService = require('./isImageService')
 const json = require('./json')
 
 module.exports = function(eleventyConfig, options) {
   // @see https://www.11ty.dev/docs/filters/#universal-filters
 
   eleventyConfig.addFilter('capitalize', (string) => capitalize(string))
-
-  eleventyConfig.addFilter('isImageService', (figure, options) => isImageService(figure, options))
 
   eleventyConfig.addFilter('figureIIIF', (figure, options) => figureIIIF(eleventyConfig, figure, options))
 
@@ -23,6 +22,10 @@ module.exports = function(eleventyConfig, options) {
   eleventyConfig.addFilter('getFigure', (id) => getFigure(eleventyConfig, id))
 
   eleventyConfig.addFilter('getObject', (id) => getObject(eleventyConfig, id))
+
+  eleventyConfig.addFilter('hasCanvasPanelProps', (figure, options) => hasCanvasPanelProps(figure, options))
+
+  eleventyConfig.addFilter('isImageService', (figure, options) => isImageService(figure, options))
 
   eleventyConfig.addFilter('keywords', () => keywords(eleventyConfig))
 
