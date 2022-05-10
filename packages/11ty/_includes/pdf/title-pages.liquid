@@ -4,17 +4,17 @@
 <div class="fullPageBreak"/>
 <div class="half-title-page">
   {% if publication.title %}
-    <span class="title-htp">{{ publication.title }}</span>
+    <span class="title-htp">{{ publication.title | markdownify }}</span>
   {% endif %}
 </div>
 <div class="fullPageBreak"/>
 <div class="title-page">
   {% if publication.title %}
-    <span class="title-tp">{{ publication.title }}</span>
+    <span class="title-tp">{{ publication.title | markdownify }}</span>
     <br />
   {% endif %}
   {% if publication.subtitle %}
-    <span class="sub-title">{{ publication.subtitle }}</span>
+    <span class="sub-title">{{ publication.subtitle | markdownify }}</span>
     <br />
   {% endif %}
   <span class="contributor">
