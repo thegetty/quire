@@ -1,7 +1,8 @@
+const canvasPanel = require('./canvas-panel')
 const caption = require('./caption')
 const choices = require('./choices')
 const image = require('./image')
-const imageservice = require('./imageservice')
+const imageService = require('./image-service')
 const label = require('./label')
 const modallink = require('./modal-link')
 const placeholder = require('./placeholder')
@@ -11,6 +12,7 @@ const video = require('./video')
 const youtube = require('./youtube')
 
 module.exports = {
+  canvasPanel,
   figurecaption: caption,
   figurechoices: choices,
   figureimage: image,
@@ -21,5 +23,5 @@ module.exports = {
   figuretable: table,
   figurevideo: video,
   figureyoutube: youtube,
-  imageservice
+  imageService
 }
