@@ -36,7 +36,7 @@ module.exports = function(eleventyConfig) {
         pageContributors = pageContributors.join(separator)
       }
       if (contributors.length > max) {
-        pageContributors+=', et al'
+        pageContributors += ', et al'
       }
       if (i === max) break
     }

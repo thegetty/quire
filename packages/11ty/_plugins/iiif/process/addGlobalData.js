@@ -13,27 +13,10 @@ module.exports = async (eleventyConfig) => {
   const { figures, iiifConfig } = eleventyConfig.globalData;
   const { imageServiceDirectory, output } = iiifConfig;
 
-  /**
-   * Very simplified method to get choices - expects a valid manifest where choices all have identifiers
-   * @todo replace with vault helper
-   */
-  const getChoices = (annotations = []) => {
-    return annotations.flatMap(({ id, type }) => {
-      const annotation = vault.get(id);
-      if (annotation.motivation.includes('painting')) {
-        const bodies = vault.get(annotation.body);
-        for (const body of bodies) {
-          const { items, type } = body;
-          return type === 'Choice' ? items.map(({ id }) => vault.get(id)) : [];
-        }
-      }
-    });
-  };
-
   for (const [index, figure] of figures.figure_list.entries()) {
     switch (true) {
       case isImageService(figure):
-        const src = figure.src.startsWith('http')
+        const info = figure.src.startsWith('http')
           ? figure.src
           : path.join(
               '/',
@@ -43,25 +26,19 @@ module.exports = async (eleventyConfig) => {
               'info.json'
             );
         Object.assign(eleventyConfig.globalData.figures.figure_list[index], {
-          src
+          iiif: { info }
         });
         break;
       case hasCanvasPanelProps(figure):
-        const { canvas, choiceId, manifest } = await figureIIIF(figure);
-        let choices = getChoices(canvas.annotations);
-        if (!choices.length && canvas.items.length) {
-          canvas.items.map(({ id, type }) => {
-            if (type === 'AnnotationPage') {
-              const annotationPage = vault.get(id);
-              choices = getChoices(annotationPage.items);
-            }
-          });
-        }
+        const { canvas, choiceId, choices, iiifContent, manifest } = await figureIIIF(figure);
         Object.assign(eleventyConfig.globalData.figures.figure_list[index], {
-          canvas,
-          choices,
-          choiceId,
-          manifest
+          iiif: {
+            choices,
+            canvas,
+            choiceId,
+            iiifContent,
+            manifest
+          }
         });
         break;
       default:

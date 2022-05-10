@@ -16,7 +16,8 @@ module.exports = function(eleventyConfig) {
    * @return {String}        <canvas-panel> markup
    */
   return function(params) {
-    const { canvas, choiceId, height='', id, iiifContent, manifest, preset='', region='', virtualSizes='', width='' } = params
+    const { height='', id, iiif, preset='', region='', virtualSizes='', width='' } = params
+    const { canvas, choiceId='', iiifContent='', manifest} = iiif
 
     if (!manifest && !iiifContent) {
       console.error(`[shortcodes:canvasPanel] Invalid params for figure "${id}": `, params)

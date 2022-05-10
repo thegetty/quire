@@ -56,5 +56,6 @@ module.exports = {
   siteTitle: require('./site-title.js'),
   tableOfContentsImage: require('./table-of-contents/image.js'),
   tableOfContentsItem: require('./table-of-contents/item.js'),
+  tableOfContentsList: require('./table-of-contents/list.js'),
   twitterCard: require('./head-tags/twitter-card.js'),
 }
