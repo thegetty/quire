@@ -323,18 +323,18 @@ class Lightbox extends LitElement {
     };
 
     return html`
-       <div class="q-lightbox">
-         ${imageSlides()}
-         <div class="q-lightbox__zoom-and-fullscreen">
-           ${zoomButtons()}
-           ${fullscreenButton()}
-         </div>
-         <div class="q-lightbox__download-and-counter ${this.isInsideOpenModal && 'q-lightbox__download-and-counter--modal'}">
-           ${downloadButton()}
-           ${counter()}
-         </div>
-         ${navigationButtons()}
-       </div>
+      <div class="q-lightbox">
+        ${imageSlides()}
+        <div class="q-lightbox__zoom-and-fullscreen">
+          ${zoomButtons()}
+          ${fullscreenButton()}
+        </div>
+        <div class="q-lightbox__download-and-counter ${this.isInsideOpenModal && 'q-lightbox__download-and-counter--modal'}">
+          ${downloadButton()}
+          ${counter()}
+        </div>
+        ${navigationButtons()}
+      </div>
     `;
   }
 }
