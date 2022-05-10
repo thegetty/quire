@@ -8,6 +8,7 @@ require('dotenv').config()
 const { EleventyRenderPlugin } = require('@11ty/eleventy')
 const EleventyVitePlugin = require('@11ty/eleventy-plugin-vite')
 const directoryOutputPlugin = require('@11ty/eleventy-plugin-directory-output')
+const collectionsPlugin = require('./_plugins/collections')
 const componentsPlugin = require('./_plugins/components')
 const epubPlugin = require('./_plugins/epub')
 const filtersPlugin = require('./_plugins/filters')
@@ -103,6 +104,7 @@ module.exports = function(eleventyConfig) {
    */
   eleventyConfig.addPlugin(lintingPlugin)
   eleventyConfig.addPlugin(epubPlugin)
+  eleventyConfig.addPlugin(collectionsPlugin)
   eleventyConfig.addPlugin(navigationPlugin)
   eleventyConfig.addPlugin(searchPlugin)
   eleventyConfig.addPlugin(syntaxHighlightPlugin)
@@ -162,6 +164,7 @@ module.exports = function(eleventyConfig) {
    */
   eleventyConfig.addWatchTarget('./**/*.css')
   eleventyConfig.addWatchTarget('./**/*.js')
+  eleventyConfig.addWatchTarget('./**/*.scss')
 
   return {
     /**

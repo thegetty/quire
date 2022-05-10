@@ -6,10 +6,8 @@ const { oneLine } = require('common-tags')
  *
  * @param     {Object} context
  * @param     {String} params
- * @property  {String} className - The TOC page class, "grid", "brief", or "abstract"
- * @property  {String} config - The global config
- * @property  {String} imageDir - The computed imageDir property
  * @property  {String} page - The TOC item's page data
+ * @property  {String} presentation How the TOC should display. Possible values: ['abstract', 'brief', 'grid']
  *
  * @return {String} TOC item markup
  */
@@ -25,32 +23,35 @@ module.exports = function (eleventyConfig) {
   const { imageDir } = eleventyConfig.globalData.config.params
 
   return function (params) {
-    /**
-     * @todo move "pageLabelDivider" transfomration into a shortcode and remove "config" from params
-     */
-    const { className, config, page } = params
+    const {
+      children='',
+      page,
+      presentation
+    } = params
 
     const {
       abstract,
-      data,
-      figure: pageFigure,
-      layout,
-      summary,
-      url
-    } = page
-
-    const {
       contributor: pageContributors,
+      figure: pageFigure,
       image,
       label,
+      layout,
       object: pageObject,
+      online,
       short_title,
+      subtitle,
+      summary,
       title,
       weight
-    } = data
+    } = page.data
 
-    const brief = className.includes('brief')
-    const grid = className.includes('grid')
+    /**
+     * Return empty string if item is section index without a landing page or children
+     */
+    if (!children && online === false) return ''
+
+    const brief = presentation === 'brief'
+    const grid = presentation === 'grid'
 
     // const itemClassName = weight < pageOne.data.weight ? "frontmatter-page" : ""
     const itemClassName = ''
@@ -65,20 +66,24 @@ module.exports = function (eleventyConfig) {
     } else if (brief) {
       pageTitleElement += title
     } else {
-      const { label, subtitle, title } = page.data
       pageTitleElement += oneLine`${pageTitle({ label, subtitle, title })}${pageContributorsElement}`
     }
     const arrowIcon = `<span class="arrow remove-from-epub">&nbsp${icon({ type: 'arrow-forward', description: '' })}</span>`
 
     // Returns abstract with any links stripped out
     const abstractText =
-      className === 'abstract' && (abstract || summary)
+      presentation === 'abstract' && (abstract || summary)
         ? `<div class="abstract-text">
             {{ markdownify(abstract) | replaceRE "</?a(|\\s*[^>]+)>" "" | strip_html }}
         </div>`
         : ''
 
-    let mainElement
+    let mainElement = `
+      <div class="title">
+        ${markdownify(pageTitleElement)}
+        ${online !== false ? arrowIcon : ''}
+      </div>
+    `
 
     if (grid) {
       const imageAttribute = pageFigure || pageObject ? "image" : "no-image"
@@ -106,28 +111,23 @@ module.exports = function (eleventyConfig) {
           imageElement = ''
       }
       mainElement = `
-        <a href="${urlFilter(url)}" class="${itemClassName}">
           <div class="card ${imageAttribute} ${slugPageAttribute}">
             ${imageElement}
             <div class="card-content">
-              <div class="title">
-                ${markdownify(pageTitleElement)}
-                ${arrowIcon}
-              </div>
+              ${mainElement}
             </div>
           </div>
-        </a>`
-    } else {
-      mainElement = `
-        <div class="title">
-          <a href="${urlFilter(url)}" class="${itemClassName}">
-            ${markdownify(pageTitleElement)}
-            ${arrowIcon}
-          </a>
-        </div>
-        ${abstractText}
-      `
+        `
     }
-    return mainElement
+    if (online !== false) {
+      mainElement = `<a href="${urlFilter(page.url)}" class="${itemClassName}">${mainElement}</a>`
+    }
+    return `
+      <li>
+        ${mainElement}
+        ${abstractText}
+        ${children}
+      </li>
+    `
   }
 }
