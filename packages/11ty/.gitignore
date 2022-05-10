@@ -1,5 +1,6 @@
 # Eleventy build artefacts
 _site/
+content/_iiif/
 
 # EleventFetch cache directory
 .cache

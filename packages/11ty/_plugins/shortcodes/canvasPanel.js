@@ -7,9 +7,6 @@ const { html } = require('common-tags')
 module.exports = function(eleventyConfig) {
   const figureIIIF = eleventyConfig.getFilter('figureIIIF')
 
-  const { config, env, iiifConfig, iiifManifests } = eleventyConfig.globalData
-  const { imageDir } = config.params
-
   /**
    * Canvas Panel Shortcode
    * @param  {Object} params `figure` data from `figures.yaml`
