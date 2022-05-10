@@ -14,6 +14,9 @@ If true, logs IIIF processing steps for each image to console. Default: `false`.
 `lazy` {Boolean}
 If true, skips processing images that have previously been processed. If false, re-processess all images. Default: `true`.
 
+## Global Data
+Figures rendered using the `canvas-panel` web component will have the `canvas`, `manifest`, `choices` (if relevant) and `choiceId` (if relevant) properties added to their figure objects in `globalData.figures`.
+
 ## Image Tiling
 Quire uses [`sharp`](https://sharp.pixelplumbing.com/api-output#tile) to generate a IIIF image service for all images in the `figures` directory with the `zoom` preset. When these images are used with the `figure` shortcode, they will be rendered using an [`<image-service/>`](https://iiif-canvas-panel.netlify.app/docs/components/single-image-service) web component. The output for each image includes the original image, thumbnail image, and tiles.
 

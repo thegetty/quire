@@ -80,7 +80,7 @@ module.exports = {
        * Must follow creation of manifests
        * Adds necessary IIIF data for rendering to globalData.figures
        */
-      addGlobalData(eleventyConfig)
+      await addGlobalData(eleventyConfig)
 
       if (debug) {
         console.warn(`[iiif:processImages] Done`)
