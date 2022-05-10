@@ -7,13 +7,31 @@ const vault = globalVault()
  * @param  {Object} figure
  * @return {Object}
  * @property {Object} canvas Response from vault.get(canvasId). Defaults to first canvas in manifest.
- * @property {Object} choiceId The default choice (if canvas has choices)
+ * @property {String} choiceId The default choice (if canvas has choices)
+ * @property {Array} choices Array of responses from vault.get(choiceId)
  * @property {Object} manifest Response from vault.load(manifestId)
  */
-
 module.exports = async function (eleventyConfig, figure, options={}) {
   const { config, env, iiifManifests } = eleventyConfig.globalData
-  let { choices, id, manifestId } = figure
+  const { id, iiifContent, manifestId } = figure
+  let canvasId, choiceId, choices, manifest
+
+  /**
+   * Very simplified method to get choices - expects a valid manifest where choices all have identifiers
+   * @todo replace with vault helper
+   */
+  const getChoices = (annotations = []) => {
+    return annotations.flatMap(({ id, type }) => {
+      const annotation = vault.get(id);
+      if (annotation.motivation.includes('painting')) {
+        const bodies = vault.get(annotation.body);
+        for (const body of bodies) {
+          const { items, type } = body;
+          return type === 'Choice' ? items.map(({ id }) => vault.get(id)) : [];
+        }
+      }
+    });
+  };
 
   const getDefaultChoiceFromFigure = (choices) => {
     if (!choices) return
@@ -22,38 +40,52 @@ module.exports = async function (eleventyConfig, figure, options={}) {
     return new URL([config.params.imageDir, choice.src].join('/'), env.URL).href
   }
 
-  let canvasId, choiceId, manifest
   switch(true) {
+    /**
+     * External manifest
+     */
     case !!manifestId:
       canvasId = figure.canvasId
       manifest = await vault.loadManifest(manifestId)
+      canvas = vault.get(manifest.items[0].id)
       break;
+    /**
+     * Quire-generated manifest
+     */
     case !!id && !!iiifManifests:
       const json = iiifManifests[id]
       if (!json) {
         console.warn('[filters:figureIIIF] Failed to look up IIIF manifest in global data. Fig.id: ', id)
         return
       }
-      manifestId = json.id
-      manifest = await vault.load(manifestId, json)
-      choiceId = getDefaultChoiceFromFigure(choices)
+      manifest = await vault.load(json.id, json)
+      canvas = vault.get(manifest.items[0].id)
+      choiceId = getDefaultChoiceFromFigure(figure.choices)
+      choices = getChoices(canvas.annotations);
+      if (!choices.length && canvas.items.length) {
+        canvas.items.map(({ id, type }) => {
+          if (type === 'AnnotationPage') {
+            const annotationPage = vault.get(id);
+            choices = getChoices(annotationPage.items);
+          }
+        });
+      }
       break;
     default:
       console.warn(`[filters:figureIIIF] Figure missing params canvasId or manifestId, or choices. Fig.id: `, id)
       break;
   }
 
-  canvasId = figure.canvasId || manifest.items[0].id
-
-  const canvas = vault.get(canvasId)
-
   if (!canvas) {
     console.warn(`[filters:figureIIIF] Error getting canvas for figure manifest. Fig.id: `, id)
     return
   }
+
   return {
     canvas,
     choiceId,
+    choices,
+    iiifContent,
     manifest
   }
 }

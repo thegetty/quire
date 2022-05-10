@@ -35,8 +35,8 @@ module.exports = (eleventyConfig) => {
    * @property  {String} output (optional) overwrite default output
    */
   return async (figure, options={}) => {
-    const { debug, output } = options
-    const { id, label, choices, preset } = figure
+    const { debug, lazy, output } = options
+    const { id, label, choiceId, choices, preset } = figure
 
     const outputDir = output || defaultOutput
     const iiifId = [process.env.URL, outputDir, id].join('/')
@@ -51,11 +51,11 @@ module.exports = (eleventyConfig) => {
 
     const defaultChoice =
       choices.find(({ default: defaultChoice }) => defaultChoice) || choices[0]
-    const imagePath = path.join(
-      root,
-      imageDir,
-      defaultChoice.src
-    )
+
+    const imagePath = choiceId
+      ? choiceId
+      : path.join(root, imageDir, defaultChoice.src)
+
     const { height, width } = await sharp(imagePath).metadata()
     const manifest = builder.createManifest(manifestId, (manifest) => {
       manifest.addLabel(label, locale)

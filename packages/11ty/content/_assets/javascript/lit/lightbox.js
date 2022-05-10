@@ -218,9 +218,9 @@ class Lightbox extends LitElement {
 
   render() {
     const imageSlides = () => {
-      const imagesWithCaptions = this.figures.map(({ canvasId, caption, credit, id, label, manifestId, preset, src }, index) => {
-        const isCanvasPanel = !!canvasId && !!manifestId;
-        const isImageService = src && !src.match(/.+\.(jpe?g|gif|png)$/);
+      const imagesWithCaptions = this.figures.map(({ caption, credit, id, iiif, label, preset, src }, index) => {
+        const isCanvasPanel = iiif && !!iiif.canvas.id && !!iiif.manifest.id;
+        const isImageService = iiif && !!iiif.info;
         const isImg = src && !!src.match(/.+\.(jpe?g|gif|png)$/);
         const labelSpan = label
           ? `<span class="q-lightbox__caption-label">${label}</span>`
@@ -249,10 +249,10 @@ class Lightbox extends LitElement {
             imageElement = `<div class="q-lightbox__missing-img">Figure '${id}' does not have a valid 'src'</div>`;
             break;
           case isCanvasPanel:
-            imageElement = `<canvas-panel id="${elementId}" data-figure="${id}" canvas-id="${canvasId}" manifest-id="${manifestId}" preset="${preset}" width="${this.width}" height="${this.height}" />`;
+            imageElement = `<canvas-panel id="${elementId}" data-figure="${id}" canvas-id="${iiif.canvas.id}" manifest-id="${iiif.manifest.id}" preset="${preset}" width="${this.width}" height="${this.height}" />`;
             break;
           case isImageService:
-            imageElement = `<image-service id="${elementId}" data-figure="${id}" src="${src}" width="${this.width}" height="${this.height}" />`;
+            imageElement = `<image-service id="${elementId}" data-figure="${id}" src="${iiif.info}" width="${this.width}" height="${this.height}" />`;
             break;
           case isImg:
             imageElement = `<img id="${elementId}" data-figure="${id}" src="${imageSrc}" />`;
