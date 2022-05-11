@@ -7,7 +7,7 @@ const { html } = require('common-tags')
  * @param     {Object} params
  * @property  {Object} navigation An eleventyNavigation collection, such as `eleventyNavigation(collection.tableOfContents)`
  * @property  {Object} page The current page object
- * @property  {String} presentation How the TOC should display. Possible values: ['abstract', 'brief', 'grid']
+ * @property  {String} presentation How the TOC should display. Possible values: ['with-abstract', 'brief', 'grid']
  *
  * @return {String} TOC list
  */

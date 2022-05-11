@@ -9,7 +9,7 @@ const { oneLine } = require('common-tags')
  * @param     {String} params
  * @property  {Array} children - The TOC page item's child pages
  * @property  {String} page - The TOC item's page data
- * @property  {String} presentation How the TOC should display. Possible values: ['abstract', 'brief']
+ * @property  {String} presentation How the TOC should display. Possible values: ['brief', 'with-abstract']
  *
  * @return {String} TOC list item markup
  */
@@ -18,6 +18,7 @@ module.exports = function (eleventyConfig) {
   const icon = eleventyConfig.getFilter('icon')
   const markdownify = eleventyConfig.getFilter('markdownify')
   const pageTitle = eleventyConfig.getFilter('pageTitle')
+  const removeHTML = eleventyConfig.getFilter('removeHTML')
   const urlFilter = eleventyConfig.getFilter('url')
 
   return function (params) {
@@ -58,10 +59,8 @@ module.exports = function (eleventyConfig) {
 
     // Returns abstract with any links stripped out
     const abstractText =
-      presentation === 'abstract' && (abstract || summary)
-        ? `<div class="abstract-text">
-            {{ markdownify(abstract) | replaceRE "</?a(|\\s*[^>]+)>" "" | strip_html }}
-        </div>`
+      presentation === 'with-abstract' && (abstract || summary)
+        ? `<div class="abstract-text">${ removeHTML(markdownify(abstract)) }</div>`
         : ''
 
     let mainElement = `${markdownify(pageTitleElement)}${isOnline && !children ? arrowIcon : ''}`

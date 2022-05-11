@@ -83,7 +83,7 @@ module.exports = function (eleventyConfig) {
         break;
     }
 
-    if (!children || (isOnline && classes.includes('level-0') && !!children)) {
+    if (!children) {
       mainElement = `
         <div class="card ${imageAttribute} ${slugPageAttribute}">
           ${imageElement}
