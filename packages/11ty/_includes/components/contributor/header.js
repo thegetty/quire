@@ -24,8 +24,7 @@ module.exports = function(eleventyConfig) {
     if (!pageContributorByline && !globalContributorByline) return ''
 
     const format = pageContributorByline || globalContributorByline
-
-    const contributorLine = contributorAsItAppears || contributors({ contributors: pageContributors, format })
+    const contributorLine = markdownify(contributorAsItAppears) || contributors({ contributors, format })
     const contributorElement = contributorLine
       ? `<div class="quire-page__header__contributor">
            ${contributorLine}

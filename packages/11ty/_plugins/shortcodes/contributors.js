@@ -14,6 +14,7 @@ module.exports = function (eleventyConfig) {
   const contributorBio = eleventyConfig.getFilter('contributorBio');
   const fullname = eleventyConfig.getFilter('fullname');
   const getContributor = eleventyConfig.getFilter('getContributor');
+  const markdownify = eleventyConfig.getFilter('markdownify')
 
   return function (params) {
     const { align='left', contributors, type = 'all', format = 'string' } = params;
