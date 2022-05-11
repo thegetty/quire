@@ -9,14 +9,14 @@ const { html } = require('common-tags')
  * @return {String} Contributor markup for inclusion in page headers
  */
 module.exports = function(eleventyConfig) {
-  const contributorList = eleventyConfig.getFilter('contributorList')
+  const contributors = eleventyConfig.getFilter('contributors')
   const markdownify = eleventyConfig.getFilter('markdownify')
 
   const { contributorByline: globalContributorByline } = eleventyConfig.globalData.config.params
 
   return function (params) {
     const {
-      contributor: contributors,
+      contributor: pageContributors,
       contributor_as_it_appears: contributorAsItAppears,
       contributor_byline: pageContributorByline
     } = params
@@ -25,7 +25,7 @@ module.exports = function(eleventyConfig) {
 
     const format = pageContributorByline || globalContributorByline
 
-    const contributorLine = contributorAsItAppears || contributorList({ contributors, format })
+    const contributorLine = contributorAsItAppears || contributors({ contributors: pageContributors, format })
     const contributorElement = contributorLine
       ? `<div class="quire-page__header__contributor">
            ${contributorLine}

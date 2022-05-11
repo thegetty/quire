@@ -2,7 +2,7 @@ const addComponentTag = require('../../_plugins/components/addComponentTag')
 const backmatter = require('./backmatter.js')
 const bibliography = require('./bibliography.js')
 const cite = require('./cite.js')
-const contributor = require('./contributor')
+const contributors = require('./contributors')
 const div = require('./div.js')
 const figure = require('./figure.js')
 const figureGroup = require('./figureGroup.js')
@@ -27,7 +27,7 @@ module.exports = function(eleventyConfig, options) {
     return cite(eleventyConfig, { page: this.page })(...args)
   })
 
-  addComponentTag(eleventyConfig, contributor, 'contributor')
+  addComponentTag(eleventyConfig, contributors, 'contributors')
 
   eleventyConfig.addShortcode('figure', function(...args) {
     return figure(eleventyConfig, { page: this.page })(...args)

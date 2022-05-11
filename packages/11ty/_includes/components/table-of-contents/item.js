@@ -12,7 +12,7 @@ const { oneLine } = require('common-tags')
  * @return {String} TOC item markup
  */
 module.exports = function (eleventyConfig) {
-  const contributorList = eleventyConfig.getFilter('contributorList')
+  const contributors = eleventyConfig.getFilter('contributors')
   const getFigure = eleventyConfig.getFilter('getFigure')
   const getObject = eleventyConfig.getFilter('getObject')
   const icon = eleventyConfig.getFilter('icon')
@@ -55,7 +55,7 @@ module.exports = function (eleventyConfig) {
 
     // const itemClassName = weight < pageOne.data.weight ? "frontmatter-page" : ""
     const itemClassName = ''
-    const pageContributorList = contributorList({ contributors: pageContributors })
+    const pageContributorList = contributors({ contributors: pageContributors })
     const pageContributorsElement = pageContributorList
       ? `<span class="contributor"> — ${pageContributorList}</span>`
       : ''

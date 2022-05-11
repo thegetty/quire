@@ -9,12 +9,12 @@ const { html } = require('common-tags')
  * @property   {Array|String}   contributors - publication contributors array or string override
  */
 module.exports = function(eleventyConfig) {
-  const contributorList = eleventyConfig.getFilter('contributorList')
+  const contributors = eleventyConfig.getFilter('contributors')
   const markdownify = eleventyConfig.getFilter('markdownify')
   const siteTitle = eleventyConfig.getFilter('siteTitle')
 
   const { publication } = eleventyConfig.globalData
-  const contributors = publication.contributor_as_it_appears || publication.contributor
+  const publicationContributors = publication.contributor_as_it_appears || publication.contributor
 
   return function(params) {
     const { currentURL } = params
@@ -24,12 +24,12 @@ module.exports = function(eleventyConfig) {
     const homePageLinkCloseTag = isHomePage ? `</a>` : ''
 
     const contributorElement = () => {
-      if (typeof contributors === 'string') {
-        return `${markdownify(contributors)}`
-      } else if (Array.isArray(contributors)) {
+      if (typeof publicationContributors === 'string') {
+        return `${markdownify(publicationContributors)}`
+      } else if (Array.isArray(publicationContributors)) {
         return `
           <span class="visually-hidden">Contributors: </span>
-          ${contributorList({ contributors, type: 'primary' })}
+          ${contributors({ contributors: publicationContributors, type: 'primary' })}
         `
       } else {
         return ''

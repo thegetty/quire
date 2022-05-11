@@ -9,20 +9,26 @@ module.exports = {
    * Contributors with a `pages` property containing data about the pages they contributed to
    */
   contributors: ({ config, publication, pages }) => {
-    return publication.contributor.map((contributor) => {
-      const { pic } = contributor
-      contributor.imagePath = pic
-        ? path.join(config.params.imageDir, pic)
-        : null
-      contributor.pages = pages && pages.filter(
-        ({ data }) =>
-          data.contributor &&
-          data.contributor.find(
-            (pageContributor) => pageContributor.id === contributor.id
-          )
-      )
-      return contributor
-    })
+    return publication.contributor
+      /**
+       * Filtering because there are duplicate contributors here 
+       * in eleventyComputed.datapublication.contributor but not elsewhere. WHY?
+       */
+      .filter((itemA, index, items) => items.findIndex((itemB) => itemB.id===itemA.id)===index)
+      .map((item) => {
+        const { pic } = item
+        item.imagePath = pic
+          ? path.join(config.params.imageDir, pic)
+          : null
+        item.pages = pages && pages.filter(
+          ({ data }) =>
+            data.contributor &&
+            data.contributor.find(
+              (pageContributor) => pageContributor.id === item.id
+            )
+        )
+        return item
+      })
   },
   eleventyNavigation: {
     /**
