@@ -9,7 +9,7 @@ const { oneLine } = require('common-tags')
  * @param     {String} params
  * @property  {Array} children - The TOC page item's child pages
  * @property  {String} page - The TOC item's page data
- * @property  {String} presentation How the TOC should display. Possible values: ['brief', 'with-abstract']
+ * @property  {String} presentation How the TOC should display. Possible values: ['abstract', 'brief']
  *
  * @return {String} TOC list item markup
  */
@@ -59,7 +59,7 @@ module.exports = function (eleventyConfig) {
 
     // Returns abstract with any links stripped out
     const abstractText =
-      presentation === 'with-abstract' && (abstract || summary)
+      presentation === 'abstract' && (abstract || summary)
         ? `<div class="abstract-text">${ removeHTML(markdownify(abstract)) }</div>`
         : ''
 
