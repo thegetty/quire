@@ -22,7 +22,7 @@ module.exports = function(eleventyConfig) {
       return html`
         <ul>
           ${pages.map((page) => {
-            if (page.children && page.children.length) {
+            if (presentation !== 'brief' && page.children && page.children.length) {
               const children = renderList(page.children)
               return `${tableOfContentsItem({ children, page, presentation })}`
             }
