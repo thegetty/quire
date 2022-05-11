@@ -39,9 +39,15 @@ module.exports = class TableOfContents {
      * The pages to include in the table of contents
      * Either the project or a project section
      */
-    const currentNavigationItem = this.eleventyNavigation(collections.tableOfContents).find(
-      ({ url }) => url === page.url
-    )
+    const findNavigationItem = (url, items=[]) => {
+      let item = items.find((page) => url === page.url)
+      if (!item) {
+        items = items.flatMap((item) => item.children)
+        return findNavigationItem(url, items)
+      }
+      return item
+    }
+    const currentNavigationItem = findNavigationItem(page.url, this.eleventyNavigation(collections.tableOfContents))
     const navigation = currentNavigationItem.children && currentNavigationItem.children.length
       ? currentNavigationItem.children
       : this.eleventyNavigation(collections.tableOfContents)
