@@ -3,11 +3,10 @@ const { oneLine } = require('common-tags');
  * Contributor shortcode
  * Renders a list of contributors
  * 
- * @param  {Object} context
  * @param  {Array}  contributors
- * @param  {String} align ['left' (default), 'center', 'right']
- * @param  {String} type ['all' (default), 'primary', 'secondary']
- * @param  {String} format ['string' (default), 'name', 'name-title']
+ * @param  {String} align How to align the text (name-title-block and bio only) Values: 'left' (default), 'center', 'right'
+ * @param  {String} type The contributor type to render. Values: 'all' (default), 'primary', 'secondary'
+ * @param  {String} format How to display the contributors. Values: 'string' (default), 'bio', 'name', 'name-title', 'name-title-block'
  *
  * @return {String} Markup for contributors
  */
