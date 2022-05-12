@@ -1,6 +1,3 @@
-const path = require ('path')
-const { oneLine } = require('common-tags')
-
 /**
  * Renders a TOC item
  *
