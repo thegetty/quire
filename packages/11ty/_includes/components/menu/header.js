@@ -13,28 +13,19 @@ module.exports = function(eleventyConfig) {
   const markdownify = eleventyConfig.getFilter('markdownify')
   const siteTitle = eleventyConfig.getFilter('siteTitle')
 
-  const { publication } = eleventyConfig.globalData
-  const publicationContributors = publication.contributor_as_it_appears || publication.contributor
-
   return function(params) {
-    const { currentURL } = params
+    const { currentURL, publicationContributors } = params
     const isHomePage = currentURL === '/'
 
     const homePageLinkOpenTag = isHomePage ? `<a class="quire-menu__header__title-link" href="/">` : ''
     const homePageLinkCloseTag = isHomePage ? `</a>` : ''
 
-    const contributorElement = () => {
-      if (typeof publicationContributors === 'string') {
-        return `${markdownify(publicationContributors)}`
-      } else if (Array.isArray(publicationContributors)) {
-        return `
-          <span class="visually-hidden">Contributors: </span>
-          ${contributors({ contributors: publicationContributors, type: 'primary' })}
-        `
-      } else {
-        return ''
-      }
-    }
+    const contributorElement = publicationContributors 
+      ? `
+        <span class="visually-hidden">Contributors: </span>
+        ${contributors({ contributors: publicationContributors, type: 'primary' })}
+      `
+      : ''
 
     return html`
       <header class="quire-menu__header">
@@ -46,7 +37,7 @@ module.exports = function(eleventyConfig) {
         ${homePageLinkCloseTag}
 
         <div class="quire-menu__header__contributors">
-          ${contributorElement()}
+          ${contributorElement}
         </div>
       </header>
     `

@@ -4,11 +4,10 @@ description: Essay layout. This layout describes a single-page template that has
 ---
 <article class="{% pageClass pages=pages, pagination=pagination %} quire-essay" id="main" role="main">
   {% pageHeader
-    contributor=contributor,
-    contributor_as_it_appears=contributor_as_it_appears,
     contributor_byline=contributor_byline,
     image=image,
     label=label,
+    pageContributors=pageContributors,
     subtitle=subtitle,
     title=title
   %}

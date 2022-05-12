@@ -3,7 +3,7 @@ const { oneLine } = require('common-tags');
  * Contributor shortcode
  * Renders a list of contributors
  * 
- * @param  {Array}  contributors
+ * @param  {Array|String}  contributors Array of contributor objects OR string override
  * @param  {String} align How to align the text (name-title-block and bio only) Values: 'left' (default), 'center', 'right'
  * @param  {String} type The contributor type to render. Values: 'all' (default), 'primary', 'secondary'
  * @param  {String} format How to display the contributors. Values: 'string' (default), 'bio', 'name', 'name-title', 'name-title-block'
@@ -19,7 +19,9 @@ module.exports = function (eleventyConfig) {
   return function (params) {
     const { align='left', contributors, type = 'all', format = 'string' } = params;
 
-    if (!Array.isArray(contributors)) return '';
+    if (!contributors) return ''
+
+    if (typeof contributors === 'string') return markdownify(contributors)
 
     const contributorList = contributors
       .flatMap((item) => !item.id

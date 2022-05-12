@@ -5,31 +5,6 @@ const path = require('path')
  */
 module.exports = {
   canonicalURL: ({ config, page }) => path.join(config.baseURL, page.url),
-  /**
-   * Contributors with a `pages` property containing data about the pages they contributed to
-   */
-  contributors: ({ config, publication, pages }) => {
-    return publication.contributor
-      /**
-       * Filtering because there are duplicate contributors here 
-       * in eleventyComputed.datapublication.contributor but not elsewhere. WHY?
-       */
-      .filter((itemA, index, items) => items.findIndex((itemB) => itemB.id===itemA.id)===index)
-      .map((item) => {
-        const { pic } = item
-        item.imagePath = pic
-          ? path.join(config.params.imageDir, pic)
-          : null
-        item.pages = pages && pages.filter(
-          ({ data }) =>
-            data.contributor &&
-            data.contributor.find(
-              (pageContributor) => pageContributor.id === item.id
-            )
-        )
-        return item
-      })
-  },
   eleventyNavigation: {
     /**
      * Explicitly define page data properties used in the TOC
@@ -64,6 +39,12 @@ module.exports = {
       return data.parent || parent
     },
     title: (data) => data.title
+  },
+  pageContributors: ({ page }) => {
+    const { contributor, contributor_as_it_appears } = page
+    return contributor_as_it_appears 
+      ? contributor_as_it_appears
+      : contributor
   },
   /**
    * Compute a 'pageData' property that includes the page and collection page data
@@ -125,5 +106,33 @@ module.exports = {
       nextPage: pages[currentPageIndex + 1],
       previousPage: pages[currentPageIndex - 1]
     }
+  },
+  /**
+   * Contributors with a `pages` property containing data about the pages they contributed to
+   */
+  publicationContributors: ({ config, publication, pages }) => {
+    const { contributor, contributor_as_it_appears } = publication
+    return contributor_as_it_appears 
+      ? contributor_as_it_appears 
+      : contributor
+      /**
+       * Filtering because there are duplicate contributors here
+       * in eleventyComputed but not elsewhere. WHY?
+       */
+      .filter((itemA, index, items) => items.findIndex((itemB) => itemB.id===itemA.id)===index)
+      .map((item) => {
+        const { pic } = item
+        item.imagePath = pic
+          ? path.join(config.params.imageDir, pic)
+          : null
+        item.pages = pages && pages.filter(
+          ({ data }) =>
+            data.contributor &&
+            data.contributor.find(
+              (pageContributor) => pageContributor.id === item.id
+            )
+        )
+        return item
+      })
   }
 }

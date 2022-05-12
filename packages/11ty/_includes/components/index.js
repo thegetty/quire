@@ -22,7 +22,6 @@ module.exports = {
   citationPubDate: require('./citation/pub-date.js'),
   citationPubSeries: require('./citation/pub-series.js'),
   contributorBio: require('./contributor/bio.js'),
-  contributorHeader: require('./contributor/header.js'),
   copyright: require('./copyright/index.js'),
   copyrightLicensing: require('./copyright/licensing.js'),
   dublinCore: require('./head-tags/dublin-core.js'),

@@ -23,7 +23,7 @@ module.exports = function(eleventyConfig) {
   const { resource_link: resourceLinks } = publication
 
   return function(params) {
-    const { collections, pageData } = params
+    const { collections, pageData, publicationContributors } = params
 
     const footerLinks = resourceLinks.filter(({ type }) => type === 'footer-link')
 
@@ -33,7 +33,7 @@ module.exports = function(eleventyConfig) {
         role="banner"
         id="site-menu__inner"
       >
-        ${menuHeader({ currentURL: pageData.url })}
+        ${menuHeader({ currentURL: pageData.url, publicationContributors })}
         <nav id="nav" class="quire-menu__list menu-list" role="navigation" aria-label="full">
           <h3 class="visually-hidden">Table of Contents</h3>
           <ul>${menuList({ navigation: eleventyNavigation(collections.menu) })}</ul>
