@@ -1,4 +1,4 @@
-const { oneLine } = require('common-tags');
+const { html } = require('common-tags');
 /**
  * Contributor shortcode
  * Renders a list of contributors
@@ -92,6 +92,6 @@ module.exports = function (eleventyConfig) {
         break;
     }
 
-    return oneLine`${contributorsElement}`;
+    return html`${contributorsElement}`;
   };
 };
