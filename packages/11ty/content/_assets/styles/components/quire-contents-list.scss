@@ -37,7 +37,8 @@
   padding-right: 2.25em;
   padding-left: 2.25em;
 
-  .page-item {
+  .page-item,
+  .section-item {
     margin-bottom: 1.375rem;
     line-height: 1.6;
   }
@@ -118,7 +119,6 @@
       margin: 1em 0 0 .75em;
       border-left-width: 0;
       .page-item {
-        margin-bottom: 2em;
         &:last-child {
           margin-bottom: 1.5em;
         }
@@ -151,17 +151,24 @@
       }
     }
 
+    .page-item.no-landing,
     .section-item.no-landing {
-      .list-header {
-        font-size: 1.375em;
-        padding: .5em 0;
-        font-family: $quire-headings-font;
-        color: background-color-text($secondary-background-color);
-        @media print {
-          font-size: $print-base-font-size;
-          color: $print-text-color;
-        }
+      font-size: 1.375em;
+      font-family: $quire-headings-font;
+      color: background-color-text($secondary-background-color);
+      @media print {
+        font-size: $print-base-font-size;
+        color: $print-text-color;
       }
+    }
+
+    .section-item .section-item.no-landing,
+    .section-item .section-item.no-landing .page-item a {
+      font-size: 1em;
+    }
+
+    .section-item.no-landing .page-item a {
+      font-size: .75em;
     }
 
     a {
