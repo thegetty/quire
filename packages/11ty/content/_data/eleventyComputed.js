@@ -40,11 +40,14 @@ module.exports = {
     },
     title: (data) => data.title
   },
-  pageContributors: ({ page }) => {
-    const { contributor, contributor_as_it_appears } = page
-    return contributor_as_it_appears 
+  pageContributors: ({ contributor, contributor_as_it_appears, page }) => {
+    const contributors = contributor_as_it_appears 
       ? contributor_as_it_appears
       : contributor
+    if (!contributors) return;
+    return (typeof contributors === 'string' || Array.isArray(contributors))
+      ? contributors
+      : [contributors]
   },
   /**
    * Compute a 'pageData' property that includes the page and collection page data
@@ -126,11 +129,14 @@ module.exports = {
           ? path.join(config.params.imageDir, pic)
           : null
         item.pages = pages && pages.filter(
-          ({ data }) =>
-            data.contributor &&
-            data.contributor.find(
-              (pageContributor) => pageContributor.id === item.id
-            )
+          ({ data }) => {
+            if (!data.contributor) return
+            return Array.isArray(data.contributor)
+              ? data.contributor.find(
+                (pageContributor) => pageContributor.id === item.id
+              )
+              : data.contributor.id === item.id
+          }
         )
         return item
       })
