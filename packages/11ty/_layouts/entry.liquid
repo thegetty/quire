@@ -78,7 +78,7 @@ Entry content, including entry image and tombstone data
               {% pageTitle label=label, title=title, subtitle=subtitle %}
             </h1>
             <div class="quire-page__header__contributor">
-              ${contributors({ contributors: pageContributors, contributor_byline })}
+              {% contributors contributors=pageContributors, format=contributor_byline %}
             </div>
           </div>
         </header>

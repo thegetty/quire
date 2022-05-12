@@ -4,4 +4,4 @@ title: Contributors
 weight: 201
 ---
 
-{% contributors contributors=contributors format='bio' %}
+{% contributors contributors=publicationContributors format='bio' %}

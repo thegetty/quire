@@ -6,7 +6,7 @@ const { oneLine } = require('common-tags');
  * @param  {Array|String}  contributors Array of contributor objects OR string override
  * @param  {String} align How to align the text (name-title-block and bio only) Values: 'left' (default), 'center', 'right'
  * @param  {String} type The contributor type to render. Values: 'all' (default), 'primary', 'secondary'
- * @param  {String} format How to display the contributors. Values: 'string' (default), 'bio', 'name', 'name-title', 'name-title-block'
+ * @param  {String} format How to display the contributors. Values: 'string', 'bio', 'name', 'name-title', 'name-title-block'. Default set in config.params.contributorByline
  *
  * @return {String} Markup for contributors
  */
@@ -16,8 +16,10 @@ module.exports = function (eleventyConfig) {
   const getContributor = eleventyConfig.getFilter('getContributor');
   const markdownify = eleventyConfig.getFilter('markdownify')
 
+  const { contributorByline: defaultFormat } = eleventyConfig.globalData.config.params
+
   return function (params) {
-    const { align='left', contributors, type = 'all', format = 'string' } = params;
+    const { align='left', contributors, type = 'all', format = defaultFormat } = params;
 
     if (!contributors) return ''
 

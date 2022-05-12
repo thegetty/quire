@@ -16,10 +16,10 @@ module.exports = function(eleventyConfig) {
 
   return function (params) {
     const {
-      contributor,
       contributor_byline,
       image,
       label,
+      pageContributors,
       subtitle,
       title
     } = params
@@ -44,6 +44,14 @@ module.exports = function(eleventyConfig) {
         `
       : ''
 
+    const contributorsElement = pageContributors
+      ? html`
+          <div class="quire-page__header__contributor">
+            ${contributors({ contributors: pageContributors, format: contributor_byline })}
+          </div>
+        `
+      : ''
+
     return html`
       <section class="${classes}">
         <div class="hero-body">
@@ -51,9 +59,7 @@ module.exports = function(eleventyConfig) {
             ${pageLabel}
             ${pageTitle({ title, subtitle })}
           </h1>
-          <div class="quire-page__header__contributor">
-            ${contributors({ contributors: contributor, contributor_byline })}
-          </div>
+          ${contributorsElement}
         </div>
       </section>
       ${image}
