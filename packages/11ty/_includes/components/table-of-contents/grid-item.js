@@ -1,5 +1,5 @@
 const path = require ('path')
-const { oneLine } = require('common-tags')
+const { html, oneLine } = require('common-tags')
 
 /**
  * Renders a TOC item
@@ -62,7 +62,7 @@ module.exports = function (eleventyConfig) {
     let imageElement
     switch (true) {
       case !!image:
-        imageElement = `<div class="card-image">
+        imageElement = html`<div class="card-image">
             <figure class="image">
               <img src="${path.join(imageDir, image)}" alt="" />
             </figure>
@@ -84,7 +84,7 @@ module.exports = function (eleventyConfig) {
     }
 
     if (!children) {
-      mainElement = `
+      mainElement = html`
         <div class="card ${imageAttribute} ${slugPageAttribute}">
           ${imageElement}
           <div class="card-content">
@@ -95,13 +95,13 @@ module.exports = function (eleventyConfig) {
     }
 
     if (isOnline) {
-      mainElement = `
+      mainElement = html`
         <a href="${urlFilter(page.url)}">
           ${mainElement}
         </a>
       `
     } else {
-      mainElement = `
+      mainElement = html`
         <div class="list-header">
           ${mainElement}
         </div>
@@ -109,7 +109,7 @@ module.exports = function (eleventyConfig) {
       classes.push('no-landing')
     }
 
-    return `
+    return html`
       <li class="${classes.join(' ')}">
         ${mainElement}
         ${children}

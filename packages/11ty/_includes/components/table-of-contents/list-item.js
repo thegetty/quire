@@ -1,6 +1,4 @@
-
-const path = require ('path')
-const { oneLine } = require('common-tags')
+const { html, oneLine } = require('common-tags')
 
 /**
  * Renders a TOC list item
@@ -71,7 +69,7 @@ module.exports = function (eleventyConfig) {
       classes.push('no-landing')
     }
 
-    return `
+    return html`
       <li class="${classes.join(' ')}">
         ${mainElement}
         ${abstractText}
