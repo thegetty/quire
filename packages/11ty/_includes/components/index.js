@@ -52,8 +52,10 @@ module.exports = {
   pdfInfo: require('./pdf/info.js'),
   scripts: require('./scripts.js'),
   siteTitle: require('./site-title.js'),
+  tableOfContentsGridItem: require('./table-of-contents/grid-item.js'),
   tableOfContentsImage: require('./table-of-contents/image.js'),
   tableOfContentsItem: require('./table-of-contents/item.js'),
   tableOfContentsList: require('./table-of-contents/list.js'),
+  tableOfContentsListItem: require('./table-of-contents/list-item.js'),
   twitterCard: require('./head-tags/twitter-card.js'),
 }
