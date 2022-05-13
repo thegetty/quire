@@ -1,4 +1,4 @@
-const oneLineCollapseWhitespace = require('../transforms/oneLineCollapseWhitespace')
+const renderOneLine = require('../transforms/renderOneLine')
 
 /**
  *  @todo Remove reliance on `this.page` in context. 
@@ -61,19 +61,19 @@ module.exports = function(eleventyConfig, { page }) {
     if (pageNumber) buttonText += divider + pageNumber
 
     const button = popupStyle === 'icon'
-      ? oneLineCollapseWhitespace`
+      ? renderOneLine`
           ${buttonText}
           <button class="quire-citation__button material-icons md-18 material-control-point" aria-expanded="false">
             control_point
           </button>
       `
-      : oneLineCollapseWhitespace`
+      : renderOneLine`
           <span class="quire-citation__button" role="button" tabindex="0" aria-expanded="false">
             ${buttonText}
           </span>
       `
 
-    return oneLineCollapseWhitespace`
+    return renderOneLine`
       <cite class="quire-citation expandable">
         ${button}
         <span hidden class="quire-citation__content">
