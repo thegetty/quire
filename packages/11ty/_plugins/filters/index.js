@@ -7,6 +7,7 @@ const getObject = require('./getObject')
 const hasCanvasPanelProps = require('./hasCanvasPanelProps')
 const isImageService = require('./isImageService')
 const json = require('./json')
+const removeHTML = require('./removeHTML')
 
 module.exports = function(eleventyConfig, options) {
   // @see https://www.11ty.dev/docs/filters/#universal-filters
@@ -30,4 +31,6 @@ module.exports = function(eleventyConfig, options) {
   eleventyConfig.addFilter('keywords', () => keywords(eleventyConfig))
 
   eleventyConfig.addFilter('json', (string) => json(string))
+
+  eleventyConfig.addFilter('removeHTML', (string) => removeHTML(string))
 }
