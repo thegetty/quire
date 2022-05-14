@@ -1,4 +1,4 @@
-const renderOneLine = require('../transforms/renderOneLine')
+const renderOneLine = require('../common-tags/renderOneLine')
 
 /**
  *  @todo Remove reliance on `this.page` in context. 
