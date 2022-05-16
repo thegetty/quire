@@ -1,4 +1,4 @@
-const { oneLine } = require('common-tags')
+const { renderOneLine } = require('_plugins/common-tags/')
 
 /**
  * Figure caption and credit
@@ -13,7 +13,7 @@ module.exports = function(eleventyConfig) {
   const markdownify = eleventyConfig.getFilter('markdownify')
 
   return function({ caption, credit, content='' }) {
-    return oneLine`
+    return renderOneLine`
       <figcaption class="q-figure__caption">
         ${markdownify(content)}
         <span class="q-figure__caption-content">${markdownify(caption || '')}</span>

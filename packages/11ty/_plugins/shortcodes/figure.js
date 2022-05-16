@@ -1,4 +1,4 @@
-const { oneLine } = require('common-tags')
+const { renderOneLine } = require('_plugins/common-tags/')
 
 /**
  * Render an HTML <figure> element
@@ -58,7 +58,7 @@ module.exports = function (eleventyConfig, { page }) {
       }
     }
 
-    return oneLine`
+    return renderOneLine`
       <figure id="${slugify(id)}" class="${['q-figure', ...classes].join(' ')}">
         ${await component(figure)}
       </figure>

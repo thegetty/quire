@@ -1,4 +1,4 @@
-const { oneLine } = require('common-tags');
+const { renderOneLine } = require('_plugins/common-tags/');
 
 /**
  * Renders a link
@@ -16,7 +16,7 @@ module.exports = function(eleventyConfig) {
 
   return function (params) {
     const { classes = [], link_relation, media_type, name, url } = params
-    return oneLine`
+    return renderOneLine`
       <a href="${url}" class="${classes.join(' ')}" target="_blank" rel="${link_relation}" type="${media_type}">
         ${name}
       </a>

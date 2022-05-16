@@ -139,6 +139,14 @@ module.exports = function(eleventyConfig) {
        */
       clearScreen: false,
       /**
+       * Resolvers for module import aliases
+       */
+      resolve: {
+        alias: {
+          '_plugins': path.resolve(__dirname, './_plugins'),
+        },
+      },
+      /**
        * @see https://vitejs.dev/config/#server-host
        */
       server: {

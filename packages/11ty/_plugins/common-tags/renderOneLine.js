@@ -7,4 +7,4 @@ module.exports = createTag({
   onEndResult(string) {
     return string.replace(/\n/g, '')
   }
-});
+})

@@ -1,4 +1,4 @@
-const { oneLine } = require('common-tags')
+const { renderOneLine } = require('_plugins/common-tags/')
 const path = require('path')
 
 /**
@@ -46,7 +46,7 @@ module.exports = function (eleventyConfig) {
       : ''
 
     const contributorImage = imagePath
-      ? oneLine`
+      ? renderOneLine`
           <div class="media-left">
             <img class="image quire-contributor__pic" src="${imagePath}" alt="Picture of ${name}">
           </div>
@@ -54,14 +54,14 @@ module.exports = function (eleventyConfig) {
       : ''
 
     const contributorBio = bio
-      ? oneLine`
+      ? renderOneLine`
           <div class="quire-contributor__bio">
             ${markdownify(bio)}
           </div>
       `
       : ''
 
-    return oneLine`
+    return renderOneLine`
       <ul class="quire-contributors-list bio">
         <li class="quire-contributor" id="${slugify(name)}">
           <div class="title is-5">

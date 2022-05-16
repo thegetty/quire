@@ -1,4 +1,4 @@
-const { oneLine } = require('common-tags')
+const { renderOneLine } = require('_plugins/common-tags/')
 
 /**
  * A figure label element
@@ -33,6 +33,6 @@ module.exports = function(eleventyConfig) {
       </span>`
     }
 
-    return oneLine`${labelElement}`
+    return renderOneLine`${labelElement}`
   }
 }

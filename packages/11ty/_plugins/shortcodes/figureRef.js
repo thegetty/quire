@@ -34,6 +34,6 @@ module.exports = function(eleventyConfig) {
       return `[${text}](#${id})`
     })
 
-    return oneLineCommaListsAnd`${links}`
+    return renderOneLineCommaListsAnd`${links}`
   }
 }
