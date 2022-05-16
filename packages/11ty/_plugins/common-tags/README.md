@@ -14,7 +14,7 @@ Using `oneLine` on a multi-line string literal like the following,
 </span>
 ```
 
-Gets rendered like this:
+replaces new-line characters with a space, resulting in unwanted white-space in the text.
 
 ```html
 <span> Some inline text </span>
