@@ -20,7 +20,7 @@ replaces new-line characters with a space, resulting in unwanted white-space in 
 <span> Some inline text </span>
 ```
 
-Instead, `renderOneLine` renders it like this:
+The `renderOneLine` tag strips indentation and removes new-line characters from the template, collapsing unwanted white-space to rendering the following string:
 
 ```html
 <span>Some inline text</span>
