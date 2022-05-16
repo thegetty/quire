@@ -6,7 +6,7 @@ Similar to `oneLine`, this function flattens html tags into a single line, strip
 
 ### Example
 
-When using `oneLine`, a structure like this
+Using `oneLine` on a multi-line string literal like the following,
 
 ```html
 <span>
