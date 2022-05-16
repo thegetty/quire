@@ -1,4 +1,4 @@
-const { stripIndents } = require('common-tags')
+const renderOneLine = require('../common-tags/renderOneLine')
 
 /**
  *  @todo Remove reliance on `this.page` in context. 
@@ -61,25 +61,25 @@ module.exports = function(eleventyConfig, { page }) {
     if (pageNumber) buttonText += divider + pageNumber
 
     const button = popupStyle === 'icon'
-      ? stripIndents`
+      ? renderOneLine`
           ${buttonText}
           <button class="quire-citation__button material-icons md-18 material-control-point" aria-expanded="false">
             control_point
           </button>
       `
-      : stripIndents`
+      : renderOneLine`
           <span class="quire-citation__button" role="button" tabindex="0" aria-expanded="false">
             ${buttonText}
           </span>
       `
 
-    return stripIndents`
+    return renderOneLine`
       <cite class="quire-citation expandable">
         ${button}
         <span hidden class="quire-citation__content">
           ${markdownify(citation.full)}
         </span>
       </cite>
-    `.replace(/\n/g, '')
+    `
   }
 }
