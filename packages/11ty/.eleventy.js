@@ -174,7 +174,7 @@ module.exports = function(eleventyConfig) {
       input: inputDir,
       output: outputDir,
       // ⚠️ the following values are _relative_ to the `input` directory
-      data: `./_data`,
+      data: `./_computed-data`,
       includes: '../_includes',
       layouts: '../_layouts',
     },
