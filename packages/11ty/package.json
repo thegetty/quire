@@ -23,7 +23,7 @@
   "license": "J Paul Getty Trust",
   "devDependencies": {
     "@11ty/eleventy": "^2.0.0-canary.11",
-    "@11ty/eleventy-img": "^2.0.0",
+    "@11ty/eleventy-img": "^2.0.1",
     "@11ty/eleventy-navigation": "^0.3.3",
     "@11ty/eleventy-plugin-directory-output": "^1.0.1",
     "@11ty/eleventy-plugin-syntaxhighlight": "^4.0.0",
@@ -54,7 +54,7 @@
   },
   "dependencies": {
     "bulma": "^0.9.3",
-    "lit": "^2.2.3",
+    "lit": "^2.2.4",
     "lunr": "^2.3.9",
     "material-icons": "^1.10.11",
     "template-polyfill": "^2.0.0"

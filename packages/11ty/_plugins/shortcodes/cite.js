@@ -49,7 +49,7 @@ module.exports = function(eleventyConfig, { page }) {
     const citation = references[id]
 
     if (!citation) {
-      console.warn('The id supplied does not match a reference in the project `references.yml` data file.')
+      console.warn(`The id '${id}' does not match a reference in the project data file references.yaml`)
       return ''
     }
 
