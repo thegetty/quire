@@ -1,23 +1,14 @@
 ---
 layout: page
 ---
-{% comment %}
-
-This template generates a bibliography from the entries in the project data
-`references.yml` file.
-
-By default, the bibliography will be sorted by each entry’s `full` value.
-However, this can be overridden by including a `sort` value on any individual entries that you want sorted otherwise.
-
-In the project `config.yml` file, the `displayBiblioShort` property can be set to "true" to display both the short and full bibliography values in the output.
-
-{% endcomment %}
 
 {% unless sort %}
   {% assign sort = "full" %}
 {% endunless %}
 
 {% assign entries = references.entries | sort: sort %}
+
+{{ content }}
 
 <div class="quire-page__content__references">
   {% if config.params.displayBiblioShort == true %}
