@@ -21,7 +21,7 @@ module.exports = function(eleventyConfig) {
     const { contributors, max, reverse, separator } = params
     if (!Array.isArray(contributors)) return ''
 
-    const contributorObjects = contributors.map((item) => item.id ? getContributor(item.id) : item)
+    const contributorObjects = contributors.map((item) => getContributor(item))
 
     let pageContributors = []
 

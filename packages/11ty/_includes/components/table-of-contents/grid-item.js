@@ -12,7 +12,7 @@ const { html, oneLine } = require('common-tags')
  * @return {String} TOC item markup
  */
 module.exports = function (eleventyConfig) {
-  const contributorList = eleventyConfig.getFilter('contributorList')
+  const contributors = eleventyConfig.getFilter('contributors')
   const getFigure = eleventyConfig.getFilter('getFigure')
   const getObject = eleventyConfig.getFilter('getObject')
   const icon = eleventyConfig.getFilter('icon')
@@ -46,9 +46,8 @@ module.exports = function (eleventyConfig) {
 
     const isOnline = online !== false
 
-    const pageContributorList = contributorList({ contributors: pageContributors })
-    const pageContributorsElement = pageContributorList
-      ? `<span class="contributor"> — ${pageContributorList}</span>`
+    const pageContributorsElement = pageContributors
+      ? `<span class="contributor"> — ${contributors({ contributors: pageContributors, format: 'string' })}</span>`
       : ''
     const pageTitleElement = oneLine`${pageTitle({ label, subtitle, title })}${pageContributorsElement}`
     const arrowIcon = `<span class="arrow remove-from-epub">&nbsp${icon({ type: 'arrow-forward', description: '' })}</span>`

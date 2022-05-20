@@ -55,11 +55,10 @@ module.exports = class TableOfContents {
     return this.renderTemplate(
       `<div class="{% pageClass pages=pages, pagination=pagination %} quire-contents" id="main" role="main">
         {% pageHeader
-          contributor=contributor,
-          contributor_as_it_appears=contributor_as_it_appears,
           contributor_byline=contributor_byline,
           image=image,
           label=label,
+          pageContributors=pageContributors,
           subtitle=subtitle,
           title=title
         %}

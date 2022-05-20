@@ -77,11 +77,9 @@ Entry content, including entry image and tombstone data
             <h1 class="quire-page__header__title" id="{{ title | url }}">
               {% pageTitle label=label, title=title, subtitle=subtitle %}
             </h1>
-            {% contributorHeader
-              contributor=contributor,
-              contributor_as_it_appears=contributor_as_it_appears,
-              contributor_byline=contributor_byline
-            %}
+            <div class="quire-page__header__contributor">
+              {% contributors contributors=pageContributors, format=contributor_byline %}
+            </div>
           </div>
         </header>
       {% endif %}

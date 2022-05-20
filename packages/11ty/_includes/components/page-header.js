@@ -7,7 +7,7 @@ const path = require('path')
  * @param      {Object}  eleventyConfig
  */
 module.exports = function(eleventyConfig) {
-  const contributorHeader = eleventyConfig.getFilter('contributorHeader')
+  const contributors = eleventyConfig.getFilter('contributors')
   const markdownify = eleventyConfig.getFilter('markdownify')
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const slugify = eleventyConfig.getFilter('slugify')
@@ -16,11 +16,10 @@ module.exports = function(eleventyConfig) {
 
   return function (params) {
     const {
-      contributor,
-      contributor_as_it_appears,
       contributor_byline,
       image,
       label,
+      pageContributors,
       subtitle,
       title
     } = params
@@ -45,6 +44,14 @@ module.exports = function(eleventyConfig) {
         `
       : ''
 
+    const contributorsElement = pageContributors
+      ? html`
+          <div class="quire-page__header__contributor">
+            ${contributors({ contributors: pageContributors, format: contributor_byline })}
+          </div>
+        `
+      : ''
+
     return html`
       <section class="${classes}">
         <div class="hero-body">
@@ -52,7 +59,7 @@ module.exports = function(eleventyConfig) {
             ${pageLabel}
             ${pageTitle({ title, subtitle })}
           </h1>
-          ${contributorHeader({ contributor, contributor_as_it_appears, contributor_byline })}
+          ${contributorsElement}
         </div>
       </section>
       ${image}

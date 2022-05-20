@@ -26,7 +26,7 @@ layout: base.11ty.js
         <div class="contributor">
           {{ publication.contributor_as_it_appears }}
           <span class="visually-hidden">Contributors:&nbsp;</span>
-          <em>{% contributorList contributors=publication.contributor, type='primary' %}</em>
+          <em>{% contributors contributors=publicationContributors, type='primary' %}</em>
         </div>
       </div>
     </div>

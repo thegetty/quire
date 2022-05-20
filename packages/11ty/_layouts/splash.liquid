@@ -13,9 +13,9 @@ description: splash page layout
         {% if label %}<span class="label">{{ label }}<span class="visually-hidden">{{ config.params.pageLabelDivider }}</span></span>{% endif %}
         {%- pageTitle title=title, subtitle=subtitle -%}
       </h1>
-      {% if contributor %}
+      {% if pageContributors %}
         <div class="quire-page__header__contributor">
-          {% contributorList contributor=contributor, format="name-title" %}
+          {% contributors contributors=pageContributors, format=contributor_byline %}
         </div>
       {% endif %}
     </div>
