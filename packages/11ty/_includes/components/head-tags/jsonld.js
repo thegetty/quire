@@ -39,7 +39,7 @@ module.exports = function(eleventyConfig) {
       })
 
     const isbn = publication.identifier.isbn
-    const publicationDescription = publication.description.full
+    const publicationDescription = publication.description.full || ''
 
     const Book = {
       type: 'Book',
