@@ -66,7 +66,7 @@ module.exports = class TableOfContents {
           ${contentElement}
           <div class="container ${containerClass}">
             <div class="quire-contents-list ${presentation}">
-              ${this.tableOfContentsList({ navigation, presentation })}
+              ${this.tableOfContentsList({ navigation, presentation, currentPageUrl: pagination.currentPage.url })}
               <div class="content">
                 {% bibliography %}
               </div>
