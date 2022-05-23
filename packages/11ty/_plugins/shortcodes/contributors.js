@@ -61,17 +61,14 @@ module.exports = function (eleventyConfig) {
       case 'name-title-block':
         const join = (format === 'name-title') ? ', ' : ''
         const listItems = contributorList.map((contributor) => {
-          const title = contributor.title 
-            ? `<span class="quire-contributor__title">${ contributor.title }</span>`
-            : ''
-          const affiliation = contributor.affiliation 
-            ? `<span class="quire-contributor__affiliation">${ contributor.affiliation }</span>`
-            : ''
-          return `<li class='quire-contributor'>${[
-            fullname(contributor),
-            title,
-            affiliation
-          ].join(join)}</li>`;
+          const contributorParts = [fullname(contributor)]
+          contributor.title 
+            ? contributorParts.push(`<span class="quire-contributor__title">${ contributor.title }</span>`)
+            : null
+          contributor.affiliation 
+            ? contributorParts.push(`<span class="quire-contributor__affiliation">${ contributor.affiliation }</span>`)
+            : null
+          return `<li class='quire-contributor'>${contributorParts.join(join)}</li>`;
         });
         contributorsElement = `
           <ul class='quire-contributors-list ${format} align-${align}'>
