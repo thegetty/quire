@@ -16,10 +16,12 @@ module.exports = function(eleventyConfig) {
   const tableOfContentsItem = eleventyConfig.getFilter('tableOfContentsItem')
 
   return function(params) {
-    const { navigation, presentation } = params
+    const { currentPageUrl, navigation, presentation } = params
 
     const filterTableOfContentsPages = (pages) => {
-      return pages.filter(({ data }) => data && data.layout !== 'table-of-contents')
+      return pages.filter((page) => {
+        return page && page.url !== currentPageUrl
+      })
     }
 
     const renderList = (pages) => {
