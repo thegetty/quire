@@ -18,17 +18,17 @@ module.exports = function(eleventyConfig) {
   return function(params) {
     const { currentPageUrl, navigation, presentation } = params
 
-    const filterTableOfContentsPages = (pages) => {
+    const filterCurrentPage = (pages) => {
       return pages.filter((page) => {
         return page && page.url !== currentPageUrl
       })
     }
 
     const renderList = (pages) => {
-      const contentPages = filterTableOfContentsPages(pages);
+      const otherPages = filterCurrentPage(pages);
       return html`
         <ul>
-          ${contentPages.map((page) => {
+          ${otherPages.map((page) => {
             if (presentation !== 'brief' && page.children && page.children.length) {
               const children = renderList(page.children)
               return `${tableOfContentsItem({ children, page, presentation })}`
