@@ -16,18 +16,16 @@ module.exports = function(eleventyConfig) {
 
   return function (params) {
     const { page } = params
-    const { contributor, label, subtitle, title } = page.data
+    const { contributor: contributors, label, subtitle, title } = page.data
     const { identifier, pub_date: pubDate } = publication
 
-    const pageContributors = citationContributors(
+    const pageContributorsElement = contributors && citationContributors(
       {
-        contributors: contributor,
+        contributors,
         max: 2,
-        reverse: true,
-        separator: ', '
+        reverseFirst: true
       }
     )
-    const pageContributorsElement = pageContributors && `${pageContributors}.`
 
     let pageTitleElement
     if (title) {

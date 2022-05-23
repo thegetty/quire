@@ -4,6 +4,11 @@
  * @param  {Object} eleventyConfig
  * @param  {Object} params
  * @property  {Object} contributors - publication contributors
+ *
+ * @example
+ * "First Last."
+ * "First Last and First Last."
+ * "First Last and First Last, et al."
  */
 module.exports = function(eleventyConfig) {
   const citationContributors = eleventyConfig.getFilter('citationContributors')
@@ -21,9 +26,10 @@ module.exports = function(eleventyConfig) {
 
     stringParts.push('by ')
 
-    stringParts.push(citationContributors({ contributors: publicationAuthors, max: 2, separator: ' and '}))
-
-    stringParts.push('.')
+    stringParts.push(citationContributors({ 
+      contributors: publicationAuthors, 
+      max: 2
+    }))
 
     return stringParts.join('')
   }
