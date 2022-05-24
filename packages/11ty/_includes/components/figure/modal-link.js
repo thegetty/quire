@@ -16,7 +16,7 @@ module.exports = function (eleventyConfig) {
       ? html`<a
           href="#${id}"
           class="q-figure__modal-link"
-          title="${markdownify(caption || '')}">
+        >
           <span class="q-figure__label-icon">${iconElement}</span>
           ${content}
         </a>`

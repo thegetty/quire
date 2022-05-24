@@ -25,4 +25,3 @@ The `renderOneLine` tag strips indentation and removes new-line characters from 
 ```html
 <span>Some inline text</span>
 ```
-
