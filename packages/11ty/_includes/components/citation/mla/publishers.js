@@ -2,10 +2,10 @@
  * @param  {Object} context
  */
 module.exports = function(eleventyConfig) {
-  const { publication } = eleventyConfig.globalData
+  const { publisher: publishers } = eleventyConfig.globalData.publication
 
   return function (params) {
-    const publishers = publication.publisher
+    if (!publishers || !publishers.length) return
 
     return publishers
       .map(({ name }) => name)

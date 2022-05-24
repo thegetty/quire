@@ -1,8 +1,10 @@
+const { oneLine } = require('common-tags');
+
 /**
  * Template for the "Cite this Page" feature. Called as a
  * shortcode, such as:
  *
- * {% "citation", type: "chicago", range: "page" %}
+ * {% "citation", type: "chicago", context: "page" %}
  *
  * Follows standard of using "et al" for more than ten
  * authors in Chicago citations, and more than two authors
@@ -10,43 +12,40 @@
  *
  * @param  {Object} eleventyConfig
  * @param  {Object} params
+  * @property  {String} context - "page" or "publication"
  * @property  {Object} page
- * @property  {Object} publication
  * @property  {String} type - "chicago" or "mla"
- * @property  {String} range - "page" or "site"
  * 
  * @return {String}                citation markup
  */
-
 module.exports = function(eleventyConfig) {
-  const citationChicagoPage = eleventyConfig.getFilter('citationChicagoPage')
-  const citationChicagoSite = eleventyConfig.getFilter('citationChicagoSite')
-  const citationMLAPage = eleventyConfig.getFilter('citationMLAPage')
-  const citationMLASite = eleventyConfig.getFilter('citationMLASite')
-  const { config, publication } = eleventyConfig.globalData
+  const chicagoPage = eleventyConfig.getFilter('chicagoPage')
+  const chicagoPublication = eleventyConfig.getFilter('chicagoPublication')
+  const MLAPage = eleventyConfig.getFilter('MLAPage')
+  const MLAPublication = eleventyConfig.getFilter('MLAPublication')
 
   return function (params) {
-    const { page, range, type } = params
+    const { context, page, type } = params
     if (!type) {
       console.warn(`"type" is required for the citation shortcode. Options are: "chicago" or "mla"`)
       return ''
     }
-    if (!range) {
-      console.warn(`"range" is required for the citation shortcode. Options are: "page" or "site"`)
+    if (!context) {
+      console.warn(`"context" is required for the citation shortcode. Options are: "page" or "publication"`)
       return ''
     }
 
     const shortcodes = {
       chicago: {
-        page: citationChicagoPage({ config, page, publication }),
-        site: citationChicagoSite({ config, page, publication })
+        page: chicagoPage({ page }),
+        publication: chicagoPublication()
       },
       mla: {
-        page: citationMLAPage({ config, page, publication }),
-        site: citationMLASite({ config, page, publication })
+        page: MLAPage({ page }),
+        publication: MLAPublication()
       }
     }
 
-    return shortcodes[type][range]
+    return oneLine`${shortcodes[type][context]}`
   }
 }

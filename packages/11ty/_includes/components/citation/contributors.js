@@ -38,7 +38,7 @@ module.exports = function (eleventyConfig) {
     pageContributors = pageContributors.replace(/\.$/, '')
 
     return contributors.length > max
-      ? (pageContributors += ', et al.')
-      :  pageContributors += '.';
+      ? (pageContributors += ', et al')
+      :  pageContributors;
   };
 };

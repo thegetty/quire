@@ -1,4 +1,4 @@
-const { html } = require('common-tags');
+const { oneLine } = require("common-tags");
 /**
  * @param  {Object} eleventyConfig
  * @param  {Object} params
@@ -6,57 +6,54 @@ const { html } = require('common-tags');
  * @property  {Object} page
  */
 module.exports = function (eleventyConfig) {
-  const citationContributors = eleventyConfig.getFilter('citationContributors');
-  const publicationContributors = eleventyConfig.getFilter('citationChicagoPublicationContributors');
-  const publishers = eleventyConfig.getFilter('citationChicagoPublishers');
-  const citationPubDate = eleventyConfig.getFilter('citationPubDate');
-  const { config, publication } = eleventyConfig.globalData;
-  const pageTitle = eleventyConfig.getFilter('pageTitle');
-  const siteTitle = eleventyConfig.getFilter('siteTitle');
+  const citeContributors = eleventyConfig.getFilter("citeContributors");
+  const pageTitle = eleventyConfig.getFilter("pageTitle");
+  const publicationContributors = eleventyConfig.getFilter(
+    "chicagoPublicationContributors"
+  );
+  const publishers = eleventyConfig.getFilter("chicagoPublishers");
+  const pubYear = eleventyConfig.getFilter("pubYear");
+  const siteTitle = eleventyConfig.getFilter("siteTitle");
+  const { publication } = eleventyConfig.globalData;
+  const { pub_date: pubDate } = publication;
 
   return function (params) {
     const { page } = params;
-    const { contributor: contributors, label, subtitle, title } = page.data;
-    const { pub_date: pubDate } = publication;
+    const { contributor: pageContributors, label, subtitle, title } = page.data;
 
-    const pageContributorsElement = contributors && citationContributors({
-      contributors,
-      max: 3,
-      reverseFirst: true
-    });
+    let citation;
 
-    let pageTitleElement = title
+    if (pageContributors)
+      citation = citeContributors({
+        contributors: pageContributors,
+        max: 3,
+        reverseFirst: true
+      });
+
+    let pageTitleString = title
       ? `${pageTitle({ subtitle, title })}.`
-      : label || 'Untitled.';
+      : label || "Untitled.";
+    pageTitleString = `“${pageTitleString}”`
 
-    let publicationCitation = [
-      `In <em>${siteTitle()}</em>`,
-      publicationContributors({ contributors: publication.contributor }),
-    ]
-      .filter((item) => item)
-      .join(', ');
+    citation = (citation) 
+      ? [citation, pageTitleString].join('. ') 
+      : pageTitleString
 
-    publicationCitation = [
-      publicationCitation,
-      publishers({ publication }),
-    ].join(' ');
+    citation = [citation, `In <em>${siteTitle()}</em>`].join(' ')
 
-    const dateCitation = citationPubDate({ date: pubDate });
-    if (dateCitation)
-      publicationCitation = [publicationCitation, `${dateCitation}.`].join(
-        ', '
-      );
+    if (publication.contributor)
+      citation = [citation, publicationContributors({ context: "page" })].join(', ')
+
+    if (publishers())
+      citation = [citation, publishers()].join('. ')
+
+    if (pubDate)
+      citation = [citation, pubYear({ date: pubDate })].join(", ");
 
     const url = page.url || identifier.url;
-    const urlElement = url && `<span class='url-string'>${url}</span>.`;
+    if (url)
+      citation = [citation, `<span class='url-string'>${url}</span>.`].join('. ');
 
-    return html`${[
-      pageContributorsElement,
-      `“${pageTitleElement}”`,
-      publicationCitation,
-      urlElement,
-    ]
-      .filter((item) => item)
-      .join(' ')}`;
+    return oneLine`${citation}`
   };
 };

@@ -1,66 +1,63 @@
-const { html } = require('common-tags')
+const { oneLine } = require('common-tags');
 /**
  * @param  {Object} eleventyConfig
  * @param  {Object} params
  * @property  {Object} page
  * @property  {Object} publication
  */
-module.exports = function(eleventyConfig) {
-  const citationContributors = eleventyConfig.getFilter('citationContributors')
-  const citationMLAPublicationContributors = eleventyConfig.getFilter('citationMLAPublicationContributors')
-  const citationMLAPublishers = eleventyConfig.getFilter('citationMLAPublishers')
-  const citationPubDate = eleventyConfig.getFilter('citationPubDate')
-  const { config, publication } = eleventyConfig.globalData
-  const pageTitle = eleventyConfig.getFilter('pageTitle')
-  const siteTitle = eleventyConfig.getFilter('siteTitle')
+module.exports = function (eleventyConfig) {
+  const citeContributors = eleventyConfig.getFilter('citeContributors');
+  const pageTitle = eleventyConfig.getFilter('pageTitle');
+  const publicationContributors = eleventyConfig.getFilter(
+    'MLAPublicationContributors'
+  );
+  const publishers = eleventyConfig.getFilter('MLAPublishers');
+  const pubYear = eleventyConfig.getFilter('pubYear');
+  const siteTitle = eleventyConfig.getFilter('siteTitle');
+  const { publication } = eleventyConfig.globalData;
+  const { identifier, pub_date: pubDate } = publication;
 
   return function (params) {
-    const { page } = params
-    const { contributor: contributors, label, subtitle, title } = page.data
-    const { identifier, pub_date: pubDate } = publication
+    const { page } = params;
+    const { contributor: pageContributors, label, subtitle, title } = page.data;
 
-    const pageContributorsElement = contributors && citationContributors(
-      {
-        contributors,
+    let citation;
+
+    if (pageContributors)
+      citation = citeContributors({
+        contributors: pageContributors,
         max: 2,
-        reverseFirst: true
-      }
-    )
+        reverseFirst: true,
+      });
 
-    let pageTitleElement
+    let pageTitleString;
     if (title) {
-      pageTitleElement = `“${pageTitle({ subtitle, title })}.”`
+      pageTitleString = `“${pageTitle({ subtitle, title })}.”`;
     } else if (label) {
-      pageTitleElement = `“${label}.”`
+      pageTitleString = `“${label}.”`;
     } else {
-      pageTitleElement = 'Untitled.'
+      pageTitleString = 'Untitled.';
     }
 
-    let publicationCitation =
-      [` <em>${siteTitle()}</em>`, citationMLAPublicationContributors({ contributors: publication.contributor })]
-        .filter(item => item)
-        .join(', ')
+    citation = citation ? [citation, pageTitleString].join('. ') : pageTitleString;
 
-    const publishers = citationMLAPublishers({ publication })
-    publicationCitation = [publicationCitation, publishers].join(' ')
+    citation = [citation, `<em>${siteTitle()}</em>`].join(' ');
 
-    const dateCitation = citationPubDate({ date: pubDate })
+    if (publication.contributor)
+      citation = [citation, publicationContributors({ context: 'page' })].join(
+        ', '
+      );
 
-    if (dateCitation) publicationCitation = [publicationCitation, `${dateCitation}.`].join(', ')
+    citation = [citation, publishers()].join('. ');
 
-    const url = page.url || identifier.url
-    const urlElement = url && `<span class="url-string">${url}</span>.`
+    if (pubDate) citation = [citation, pubYear({ date: pubDate })].join(', ');
 
-    const accessedDate = `Accessed <span class="cite-current-date">DD Mon. YYYY</span>.`
+    const url = page.url || identifier.url;
+    if (url)
+      citation = [citation, `<span class='url-string'>${url}</span>`].join('. ');
 
-    return html` ${[
-      pageContributorsElement,
-      pageTitleElement,
-      publicationCitation,
-      urlElement,
-      accessedDate,
-    ]
-      .filter((item) => item)
-      .join(' ')}`
-  }
-}
+    citation = [citation, `Accessed <span class='cite-current-date'>DD Mon. YYYY</span>.`].join('. ');
+
+    return oneLine`${citation}`;
+  };
+};

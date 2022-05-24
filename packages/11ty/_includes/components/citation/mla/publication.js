@@ -1,36 +1,47 @@
 /**
  * @param  {Object} context
  */
-module.exports = function(eleventyConfig) {
-  const citationPubDate = eleventyConfig.getFilter('citationPubDate')
-  const citationPublishers = eleventyConfig.getFilter('citationMLAPublishers')
-  const citationPubSeries = eleventyConfig.getFilter('citationPubSeries')
-  const { publication } = eleventyConfig.globalData
+module.exports = function (eleventyConfig) {
+  const publicationContributors = eleventyConfig.getFilter(
+    "MLAPublicationContributors"
+  );
+  const publishers = eleventyConfig.getFilter("MLAPublishers");
+  const pubSeries = eleventyConfig.getFilter("pubSeries");
+  const pubYear = eleventyConfig.getFilter("pubYear");
+  const siteTitle = eleventyConfig.getFilter("siteTitle");
+  const {
+    contributor: contributors,
+    identifier,
+    pub_date: pubDate,
+    publisher,
+  } = eleventyConfig.globalData.publication;
 
   return function (params) {
-    const { type } = params
-    const { identifier, pub_date: pubDate, publisher } = publication
+    let citation;
 
-    const publisherShortcode = publisherShortcodes[type]
+    if (contributors) citation = publicationContributors({ context: "publication" })
 
-    let publicationCitationParts = []
+    const titleElement = `<em>${siteTitle()}.</em>`
+    citation = (citation)
+      ? [citation, titleElement].join('. ')
+      : titleElement;
 
-    if (citationPubSeries({ publication })) publicationCitationParts.push(citationPubSeries({ publication }))
+    if (pubSeries()) citation = [citation, pubSeries()].join('');
 
-    if (publisher.length) {
-      publicationCitationParts.push(citationPublishers({ publication }))
+    if (publisher.length) citation = [citation, publishers()].join(' ');
+
+    if (pubDate) {
+      citation = [citation, pubYear({ date: pubDate })].join(', ');
     }
 
-    if (citationPubDate(pubDate)) {
-      publicationCitationParts.push(', ', new Date(citationPubDate(pubDate)).getFullYear())
-    }
-
-    publicationCitationParts.push('. ')
+    citation += ". ";
 
     if (identifier.url) {
-      publicationCitationParts.push(`<span class="url-string">${ identifier.url }</span>.`)
+      citation += `<span class="url-string">${identifier.url}</span>.`;
     }
 
-    return publicationCitationParts.join('')
-}
-}
+    citation = [citation, `Accessed <span class="cite-current-date">DD Mon. YYYY</span>.`].join(' ');
+
+    return citation;
+  };
+};
