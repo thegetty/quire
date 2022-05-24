@@ -8,14 +8,13 @@ description: Entry layout. This template is intended for use in catalogue-style 
 {% assign imageDir = config.params.imageDir %}
 {% assign pdf = config.params.pdf %}
 {% assign zoom = config.params.figureZoom %}
-{% assign pageClasses = class %}
 
 {% comment %}
 Entry content, including entry image and tombstone data
 {% endcomment %}
 
-<article class="{% pageClass pages=pages, pagination=pagination %} quire-entry" id="main" role="main">
-  <div {% if entryPageSideBySideLayout == true or pageClasses contains "side-by-side" %} {% if pdf != true and epub != true %} class="side-by-side" {% endif %} {% endif %} data="{{ zoom }}">  
+<article class="quire-entry" id="main" role="main">
+  <div {% if entryPageSideBySideLayout == true and pdf != true and epub != true %} class="side-by-side" {% endif %} data="{{ zoom }}">
     
     {% if epub == true %}
     <header class="quire-entry__header">

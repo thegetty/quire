@@ -53,7 +53,7 @@ module.exports = class TableOfContents {
       : this.eleventyNavigation(collections.tableOfContents)
 
     return this.renderTemplate(
-      `<div class="{% pageClass pages=pages, pagination=pagination %} quire-contents" id="main" role="main">
+      `<div class="quire-contents" id="main" role="main">
         {% pageHeader
           contributor_byline=contributor_byline,
           image=image,
