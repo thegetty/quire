@@ -1,44 +1,44 @@
 /**
- * Renders a list of contributors with options
- * Used across MLA and Chicago formats
+ * Renders MLA or Chicago-style lists of cited contributors
  *
  * @param     {Object}  eleventyConfig
- * @param     {Object}  params
- * @property  {Array}   contributors
- * @param     {Object}  options
- * @property  {Boolean} reverse If true, returns family name before surname
- * @property  {Number}  max The maximum number of contributors who will be listed by name.
- * If there are more than the max, ", et al" will be appended.
- * @property  {String}  separator The separator that will be used to join names
- *
- * @return {String}
  */
 module.exports = function (eleventyConfig) {
   const fullname = eleventyConfig.getFilter('fullname');
   const getContributor = eleventyConfig.getFilter('getContributor');
 
+  /**
+   * @param     {Object}  params
+   * @property  {Array}   contributors
+   * @property  {Number}  max The maximum number of contributors who will be listed by name.
+   *                          If there are more contributors than the max, ", et al" will be appended.
+   * @property  {Boolean} reverse If true, returns family name before given name
+   * @property  {Boolean} reverseFirst If true, reverses the  name in the list
+   * @return {String}
+   */
   return function (params) {
-    const { contributors, max, reverse, separator } = params;
+    const { contributors, max, reverse, reverseFirst } = params;
     if (!Array.isArray(contributors)) return '';
 
     const contributorObjects = contributors.map((item) => getContributor(item));
 
-    let pageContributors = [];
+    const defaultSeparator = ', '
+    const finalSeparator = (contributors.length === 2 || max === 2) ? ' and ' : ', and '
 
-    for (const [i, contributor] of contributorObjects.entries()) {
-      const lastContributor = i + 1 === contributors.length || i + 1 === max;
+    let pageContributors = contributorObjects.slice(0, max).reduce((previous, current, index) => {
+      const lastContributor = index + 1 === contributors.length || index + 1 === max;
+      const reverseName = index === 0 && reverseFirst || reverse
+      const separator = lastContributor ? finalSeparator : defaultSeparator
 
-      pageContributors.push(
-        fullname(contributor, { reverse }).replace(/\.$/, '')
-      );
-      if (lastContributor) {
-        pageContributors = pageContributors.join(separator);
-        break;
-      }
-    }
+      const item = fullname(current, { reverse: reverseName })
+
+      return !previous.length ? item : [previous, separator, item].join('');
+    }, [])
+
+    pageContributors = pageContributors.replace(/\.$/, '')
 
     return contributors.length > max
-      ? (pageContributors += ', et al')
-      : pageContributors;
+      ? (pageContributors += ', et al.')
+      :  pageContributors += '.';
   };
 };
