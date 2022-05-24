@@ -25,21 +25,3 @@ The `renderOneLine` tag strips indentation and removes new-line characters from 
 ```html
 <span>Some inline text</span>
 ```
-
-## `stripHtmlTags`
-
-Removes all html tags in a string. Useful for sanitizing text before passing it to another component or HTML attribute
-
-### Example
-
-It transforms something like this:
-
-```html
-<em>Dorothea Lange (<a href="http://vocab.getty.edu/page/ulan/500007674">ULAN</a>), Resettlement Administration photographer, in California</em>, 1936.
-```
-
-into this:
-
-```
-Dorothea Lange (ULAN), Resettlement Administration photographer, in California, 1936.
-```
