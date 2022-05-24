@@ -1,4 +1,5 @@
 const { html } = require('common-tags')
+const stripHtmlTags = require('../../../_plugins/common-tags/stripHtmlTags')
 
 module.exports = function (eleventyConfig) {
   const icon = eleventyConfig.getFilter('icon')
@@ -12,11 +13,13 @@ module.exports = function (eleventyConfig) {
       ? icon({ type: 'fullscreen', description: 'Expand' })
       : ''
 
+    const captionWithoutFormatting = stripHtmlTags(markdownify(caption || ''))
+
     return figureModal
       ? html`<a
           href="#${id}"
           class="q-figure__modal-link"
-          title="${markdownify(caption || '')}">
+          title="${captionWithoutFormatting}">
           <span class="q-figure__label-icon">${iconElement}</span>
           ${content}
         </a>`
