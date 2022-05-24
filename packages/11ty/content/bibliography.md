@@ -1,5 +1,5 @@
 ---
 title: Bibliography
 layout: bibliography
-weight: 200
+weight: 500
 ---

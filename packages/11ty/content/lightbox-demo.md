@@ -1,6 +1,6 @@
 ---
 title: Lightbox Demo
-weight: 3
+weight: 520
 layout: essay
 ---
 
