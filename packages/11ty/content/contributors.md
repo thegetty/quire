@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Contributors
-weight: 201
+weight: 501
 ---
 
 {% contributors contributors=publicationContributors format='bio' %}

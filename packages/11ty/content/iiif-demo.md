@@ -1,6 +1,6 @@
 ---
 title: IIIF Demo
-weight: 203
+weight: 510
 layout: essay
 ---
 
