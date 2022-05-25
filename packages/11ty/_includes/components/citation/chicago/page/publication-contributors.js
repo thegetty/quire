@@ -22,10 +22,8 @@ module.exports = function (eleventyConfig) {
 
     let citation = [];
 
-    
     if (editorCount) citation.push('edited ');
     citation.push('by ');
-    
 
     citation.push(
       citeContributors({

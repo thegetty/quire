@@ -21,12 +21,13 @@ module.exports = function (eleventyConfig) {
 
     let citation;
 
-    if (pageContributors)
+    if (pageContributors) {
       citation = citeContributors({
         contributors: pageContributors,
         max: 2,
         reverseFirst: true,
       });
+    }
 
     let pageTitleString;
     if (title) {
