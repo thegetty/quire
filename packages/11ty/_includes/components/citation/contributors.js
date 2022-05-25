@@ -19,7 +19,7 @@ module.exports = function (eleventyConfig) {
    */
   return function (params) {
     const { contributors, max, reverse, reverseFirst, truncatedMax } = params;
-    if (!Array.isArray(contributors)) return '';
+    if (!Array.isArray(contributors) || !contributors.length) return '';
 
     const contributorObjects = contributors.map((item) => getContributor(item));
 
