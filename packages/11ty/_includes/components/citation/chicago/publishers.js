@@ -8,7 +8,7 @@ module.exports = function(eleventyConfig) {
     if (!publishers || !publishers.length) return
 
     return publishers
-      .map(({ location, name }) => [location, name].join(": "))
+      .map(({ location, name }) => [location, name].join(': '))
       .join('; ')
   }
 }

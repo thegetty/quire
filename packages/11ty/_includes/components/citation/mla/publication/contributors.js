@@ -4,19 +4,19 @@
  * @param  {Object} eleventyConfig
  *
  * @example
- * "First Last."
- * "First Last and First Last."
- * "First Last and First Last, et al."
+ * 'First Last.'
+ * 'First Last and First Last.'
+ * 'First Last and First Last, et al.'
  */
 module.exports = function (eleventyConfig) {
-  const citeContributors = eleventyConfig.getFilter("citeContributors");
+  const citeContributors = eleventyConfig.getFilter('citeContributors');
   const { contributor: contributors } = eleventyConfig.globalData.publication;
 
   return function (params) {
     const primaryContributors = contributors.filter(
-      ({ type }) => type === "primary"
+      ({ type }) => type === 'primary'
     );
-    const editors = contributors.filter(({ role }) => role === "editor");
+    const editors = contributors.filter(({ role }) => role === 'editor');
     const editorCount = editors.length;
 
     let citation = [];
@@ -29,9 +29,9 @@ module.exports = function (eleventyConfig) {
       })
     );
 
-    const editorString = editorCount > 1 ? "editors" : "editor";
+    const editorString = editorCount > 1 ? 'editors' : 'editor';
     if (editorCount) citation.push(`, ${editorString}`);
 
-    return citation.join("");
+    return citation.join('');
   };
 };

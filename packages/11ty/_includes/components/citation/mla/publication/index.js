@@ -2,11 +2,11 @@
  * @param  {Object} context
  */
 module.exports = function (eleventyConfig) {
-  const publicationContributors = eleventyConfig.getFilter("MLAPublicationContributors");
-  const publishers = eleventyConfig.getFilter("MLAPublishers");
-  const pubSeries = eleventyConfig.getFilter("pubSeries");
-  const pubYear = eleventyConfig.getFilter("pubYear");
-  const siteTitle = eleventyConfig.getFilter("siteTitle");
+  const publicationContributors = eleventyConfig.getFilter('MLAPublicationContributors');
+  const publishers = eleventyConfig.getFilter('MLAPublishers');
+  const pubSeries = eleventyConfig.getFilter('pubSeries');
+  const pubYear = eleventyConfig.getFilter('pubYear');
+  const siteTitle = eleventyConfig.getFilter('siteTitle');
   const {
     contributor: contributors,
     identifier,
@@ -32,7 +32,7 @@ module.exports = function (eleventyConfig) {
       citation = [citation, pubYear({ date: pubDate })].join(', ');
     }
 
-    citation += ". ";
+    citation += '. ';
 
     if (identifier.url) {
       citation += `<span class="url-string">${identifier.url}</span>.`;

@@ -1,4 +1,4 @@
-const { oneLine } = require("common-tags");
+const { oneLine } = require('common-tags');
 /**
  * @param  {Object} eleventyConfig
  * @param  {Object} params
@@ -6,12 +6,12 @@ const { oneLine } = require("common-tags");
  * @property  {Object} page
  */
 module.exports = function (eleventyConfig) {
-  const citeContributors = eleventyConfig.getFilter("citeContributors");
-  const pageTitle = eleventyConfig.getFilter("pageTitle");
-  const publicationContributors = eleventyConfig.getFilter("chicagoPagePublicationContributors");
-  const publishers = eleventyConfig.getFilter("chicagoPublishers");
-  const pubYear = eleventyConfig.getFilter("pubYear");
-  const siteTitle = eleventyConfig.getFilter("siteTitle");
+  const citeContributors = eleventyConfig.getFilter('citeContributors');
+  const pageTitle = eleventyConfig.getFilter('pageTitle');
+  const publicationContributors = eleventyConfig.getFilter('chicagoPagePublicationContributors');
+  const publishers = eleventyConfig.getFilter('chicagoPublishers');
+  const pubYear = eleventyConfig.getFilter('pubYear');
+  const siteTitle = eleventyConfig.getFilter('siteTitle');
   const { publication } = eleventyConfig.globalData;
   const { pub_date: pubDate } = publication;
 
@@ -30,7 +30,7 @@ module.exports = function (eleventyConfig) {
 
     let pageTitleString = title
       ? `${pageTitle({ subtitle, title })}.`
-      : label || "Untitled.";
+      : label || 'Untitled.';
     pageTitleString = `“${pageTitleString}”`
 
     citation = (citation) 
@@ -46,7 +46,7 @@ module.exports = function (eleventyConfig) {
       citation = [citation, publishers()].join('. ')
 
     if (pubDate)
-      citation = [citation, pubYear({ date: pubDate })].join(", ");
+      citation = [citation, pubYear({ date: pubDate })].join(', ');
 
     const url = page.url || identifier.url;
     if (url)
