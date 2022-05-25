@@ -22,6 +22,15 @@ module.exports = function (eleventyConfig) {
   return function (params) {
     const { align='left', context: contributors, type = 'all', format = defaultFormat } = params;
 
+    const formats = ['bio', 'initials', 'name', 'name-title', 'name-title-block', 'string']
+
+    if (!formats.includes(format)) {
+      console.error(
+        `Unrecognized contributors shortcode format "${format}". Supported format values are: ${formats.join(', ')}`
+      )
+      return ''
+    }
+
     if (!contributors) return ''
 
     if (typeof contributors === 'string') return markdownify(contributors)
