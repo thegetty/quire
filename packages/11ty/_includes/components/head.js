@@ -7,7 +7,7 @@ module.exports = function(eleventyConfig) {
   const analytics = eleventyConfig.getFilter('analytics')
   const dublinCore = eleventyConfig.getFilter('dublinCore')
   const jsonld = eleventyConfig.getFilter('jsonld')
-  const litElements = eleventyConfig.getFilter('litElements')
+  const webComponents = eleventyConfig.getFilter('webComponents')
   const opengraph = eleventyConfig.getFilter('opengraph')
   const twitterCard = eleventyConfig.getFilter('twitterCard')
 

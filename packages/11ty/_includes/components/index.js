@@ -36,7 +36,6 @@ module.exports = {
   lightbox: require('./lightbox/index.js'),
   link: require('./link.js'),
   linkList: require('./link-list.js'),
-  webComponents: require('./head-tags/web-components.js'),
   menu: require('./menu/index.js'),
   menuHeader: require('./menu/header.js'),
   menuItem: require('./menu/item.js'),
@@ -57,4 +56,5 @@ module.exports = {
   tableOfContentsList: require('./table-of-contents/list.js'),
   tableOfContentsListItem: require('./table-of-contents/list-item.js'),
   twitterCard: require('./head-tags/twitter-card.js'),
+  webComponents: require('./head-tags/web-components.js')
 }
