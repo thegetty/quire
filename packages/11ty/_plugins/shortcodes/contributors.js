@@ -22,7 +22,7 @@ module.exports = function (eleventyConfig) {
 
   return function (params) {
     const {
-      align='left',
+      align = 'left',
       context: contributors,
       format = defaultFormat,
       role,
