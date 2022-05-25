@@ -21,7 +21,13 @@ module.exports = function (eleventyConfig) {
   const { contributorByline: defaultFormat } = eleventyConfig.globalData.config.params
 
   return function (params) {
-    const { align='left', context: contributors, type = 'all', format = defaultFormat } = params;
+    const {
+      align='left',
+      context: contributors,
+      format = defaultFormat,
+      role,
+      type = 'all'
+    } = params;
 
     const formats = ['bio', 'initials', 'name', 'name-title', 'name-title-block', 'string']
 
@@ -38,11 +44,11 @@ module.exports = function (eleventyConfig) {
 
     const contributorList = contributors
       .flatMap((item) => !item.id
-        ? [] 
+        ? []
         : getContributor(item))
-      .filter((item) => type !== 'all'
-        ? item.type === type
-        : item
+      .filter((item) => (type || role) && type !== 'all'
+          ? (type && item.type === type) || (role && item.role === role)
+          : item
       )
 
     const contributorNames = contributorList
