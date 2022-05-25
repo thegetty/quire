@@ -16,6 +16,7 @@ module.exports = function (eleventyConfig) {
   const getContributor = eleventyConfig.getFilter('getContributor');
   const initials = eleventyConfig.getFilter('initials');
   const markdownify = eleventyConfig.getFilter('markdownify')
+  const slugify = eleventyConfig.getFilter('slugify')
 
   const { contributorByline: defaultFormat } = eleventyConfig.globalData.config.params
 
@@ -88,7 +89,9 @@ module.exports = function (eleventyConfig) {
                 `<span class="quire-contributor__affiliation">${ contributor.affiliation }</span>`
               )
             : null
-          return `<li class="quire-contributor">${contributorParts.join(separator)}</li>`;
+          return `
+            <li class="quire-contributor" id="${slugify(contributor.id)}">${contributorParts.join(separator)}</li>
+          `
         });
         contributorsElement = `
           <ul class="quire-contributors-list ${format} align-${align}">
