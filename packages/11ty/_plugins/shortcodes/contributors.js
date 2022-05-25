@@ -59,7 +59,7 @@ module.exports = function (eleventyConfig) {
         `
         break;
       case 'initials': {
-        const contributorInitials = contributorList.map((item) => initials(item))
+        const contributorInitials = contributorList.map(initials)
         const last = contributorInitials.pop()
         const nameString =
           contributorInitials.length >= 1
