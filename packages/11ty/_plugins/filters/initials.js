@@ -21,5 +21,5 @@ module.exports = (person, options) => {
   } else if (fullName) {
     nameParts.push(...fullName.split(' '))
   }
-  return nameParts.map(name => `${name.charAt(0).toUpperCase()}.`).join('')
+  return nameParts.map((name) => `${name.charAt(0).toUpperCase()}.`).join('')
 }
