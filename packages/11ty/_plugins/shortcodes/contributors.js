@@ -14,6 +14,7 @@ module.exports = function (eleventyConfig) {
   const contributorBio = eleventyConfig.getFilter('contributorBio');
   const fullname = eleventyConfig.getFilter('fullname');
   const getContributor = eleventyConfig.getFilter('getContributor');
+  const initials = eleventyConfig.getFilter('initials');
   const markdownify = eleventyConfig.getFilter('markdownify')
 
   const { contributorByline: defaultFormat } = eleventyConfig.globalData.config.params
@@ -57,6 +58,16 @@ module.exports = function (eleventyConfig) {
           </ul>
         `
         break;
+      case 'initials': {
+        const contributorInitials = contributorList.map((item) => initials(item))
+        const last = contributorInitials.pop()
+        const nameString =
+          contributorInitials.length >= 1
+            ? contributorInitials.join(', ') + ' and ' + last
+            : last;
+          contributorsElement = `<span class="quire-contributor">${nameString}</span>`
+        break;
+      }
       case 'name-title':
       case 'name-title-block':
         const separator = (format === 'name-title') ? ', ' : ''
@@ -79,7 +90,7 @@ module.exports = function (eleventyConfig) {
       case 'string':
         const last = contributorNames.pop();
         const namesString =
-          contributorNames.length > 1
+          contributorNames.length >= 1
             ? contributorNames.join(', ') + ' and ' + last
             : last;
         contributorsElement = `<span class='quire-contributor'>${namesString}</span>`;
