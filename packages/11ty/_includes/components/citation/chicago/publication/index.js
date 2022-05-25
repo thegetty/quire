@@ -3,9 +3,7 @@
  * @param  {Object} params
  */
 module.exports = function (eleventyConfig) {
-  const publicationContributors = eleventyConfig.getFilter(
-    'chicagoPublicationContributors'
-  );
+  const publicationContributors = eleventyConfig.getFilter('chicagoPublicationContributors');
   const publishers = eleventyConfig.getFilter('chicagoPublishers');
   const pubSeries = eleventyConfig.getFilter('pubSeries');
   const pubYear = eleventyConfig.getFilter('pubYear');
@@ -20,7 +18,11 @@ module.exports = function (eleventyConfig) {
   return function (params) {
     let citation;
 
-    if (contributors) citation = publicationContributors({ context: 'publication' });
+    if (contributors) 
+      citation = publicationContributors({
+        displayMax: 7,
+        max: 10
+      });
 
     const titleElement = `<em>${siteTitle()}</em>`
     citation = citation

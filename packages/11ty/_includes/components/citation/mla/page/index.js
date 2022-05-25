@@ -8,9 +8,7 @@ const { oneLine } = require('common-tags');
 module.exports = function (eleventyConfig) {
   const citeContributors = eleventyConfig.getFilter('citeContributors');
   const pageTitle = eleventyConfig.getFilter('pageTitle');
-  const publicationContributors = eleventyConfig.getFilter(
-    'MLAPublicationContributors'
-  );
+  const publicationContributors = eleventyConfig.getFilter('MLAPagePublicationContributors');
   const publishers = eleventyConfig.getFilter('MLAPublishers');
   const pubYear = eleventyConfig.getFilter('pubYear');
   const siteTitle = eleventyConfig.getFilter('siteTitle');
@@ -44,7 +42,7 @@ module.exports = function (eleventyConfig) {
     citation = [citation, `<em>${siteTitle()}</em>`].join(' ');
 
     if (publication.contributor)
-      citation = [citation, publicationContributors({ context: 'page' })].join(
+      citation = [citation, publicationContributors()].join(
         ', '
       );
 

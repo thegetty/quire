@@ -2,9 +2,7 @@
  * @param  {Object} context
  */
 module.exports = function (eleventyConfig) {
-  const publicationContributors = eleventyConfig.getFilter(
-    "MLAPublicationContributors"
-  );
+  const publicationContributors = eleventyConfig.getFilter("MLAPublicationContributors");
   const publishers = eleventyConfig.getFilter("MLAPublishers");
   const pubSeries = eleventyConfig.getFilter("pubSeries");
   const pubYear = eleventyConfig.getFilter("pubYear");
@@ -19,7 +17,7 @@ module.exports = function (eleventyConfig) {
   return function (params) {
     let citation;
 
-    if (contributors) citation = publicationContributors({ context: "publication" })
+    if (contributors) citation = publicationContributors()
 
     const titleElement = `<em>${siteTitle()}.</em>`
     citation = (citation)
