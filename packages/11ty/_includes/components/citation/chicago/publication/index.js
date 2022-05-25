@@ -19,10 +19,7 @@ module.exports = function (eleventyConfig) {
     let citation;
 
     if (contributors) {
-      citation = publicationContributors({
-        displayMax: 7,
-        max: 10
-      });
+      citation = publicationContributors();
     }
 
     const titleElement = `<em>${siteTitle()}</em>`
