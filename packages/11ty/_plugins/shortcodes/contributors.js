@@ -3,7 +3,7 @@ const { html } = require('common-tags');
  * Contributor shortcode
  * Renders a list of contributors
  * 
- * @param  {Array|String}  contributors Array of contributor objects OR string override
+ * @param  {Array|String} context Array of contributor objects OR string override
  * @param  {String} align How to align the text (name-title-block and bio only) Values: 'left' (default), 'center', 'right'
  * @param  {String} type The contributor type to render. Values: 'all' (default), 'primary', 'secondary'
  * @param  {String} format How to display the contributors. Values: 'string', 'bio', 'name', 'name-title', 'name-title-block'. Default set in config.params.contributorByline
@@ -20,7 +20,7 @@ module.exports = function (eleventyConfig) {
   const { contributorByline: defaultFormat } = eleventyConfig.globalData.config.params
 
   return function (params) {
-    const { align='left', contributors, type = 'all', format = defaultFormat } = params;
+    const { align='left', context: contributors, type = 'all', format = defaultFormat } = params;
 
     if (!contributors) return ''
 

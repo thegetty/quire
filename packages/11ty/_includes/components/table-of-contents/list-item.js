@@ -43,7 +43,7 @@ module.exports = function (eleventyConfig) {
     const isOnline = online !== false
 
     const pageContributorsElement = pageContributors
-      ? `<span class="contributor"> — ${contributors({ contributors: pageContributors, format: 'string' })}</span>`
+      ? `<span class="contributor"> — ${contributors({ context: pageContributors, format: 'string' })}</span>`
       : ''
 
     let pageTitleElement

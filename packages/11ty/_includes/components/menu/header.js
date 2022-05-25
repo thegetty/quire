@@ -23,7 +23,7 @@ module.exports = function(eleventyConfig) {
     const contributorElement = publicationContributors 
       ? `
         <span class="visually-hidden">Contributors: </span>
-        ${contributors({ contributors: publicationContributors, type: 'primary' })}
+        ${contributors({ context: publicationContributors, type: 'primary' })}
       `
       : ''
 
