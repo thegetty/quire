@@ -7,9 +7,9 @@ module.exports = function(eleventyConfig) {
   const analytics = eleventyConfig.getFilter('analytics')
   const dublinCore = eleventyConfig.getFilter('dublinCore')
   const jsonld = eleventyConfig.getFilter('jsonld')
-  const litElements = eleventyConfig.getFilter('litElements')
   const opengraph = eleventyConfig.getFilter('opengraph')
   const twitterCard = eleventyConfig.getFilter('twitterCard')
+  const webComponents = eleventyConfig.getFilter('webComponents')
 
   const { config, publication } = eleventyConfig.globalData
 
@@ -58,7 +58,7 @@ module.exports = function(eleventyConfig) {
 
         <script src="https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@latest"></script>
 
-        ${litElements()}
+        ${webComponents()}
 
         ${publisherLinks}
 
