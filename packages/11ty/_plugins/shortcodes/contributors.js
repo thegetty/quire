@@ -60,13 +60,6 @@ module.exports = function (eleventyConfig) {
           </ul>
         `
         break;
-      case 'name':
-        contributorsElement = `
-          <ul>
-            ${contributorNames.map((name) => `<li>${name}</li>`).join('')}
-          </ul>
-        `
-        break;
       case 'initials': {
         const contributorInitials = contributorList.map(initials)
         const last = contributorInitials.pop()
@@ -77,21 +70,28 @@ module.exports = function (eleventyConfig) {
           contributorsElement = `<span class="quire-contributor">${nameString}</span>`
         break;
       }
+      case 'name':
       case 'name-title':
       case 'name-title-block':
         const separator = (format === 'name-title') ? ', ' : ''
         const listItems = contributorList.map((contributor) => {
-          const contributorParts = [fullname(contributor)]
-          contributor.title 
-            ? contributorParts.push(`<span class="quire-contributor__title">${ contributor.title }</span>`)
+          const contributorParts = [
+            `<span class="quire-contributor__name">${fullname(contributor)}</span>`
+          ]
+          contributor.title && format !== 'name'
+            ? contributorParts.push(
+                `<span class="quire-contributor__title">${ contributor.title }</span>`
+              )
             : null
-          contributor.affiliation 
-            ? contributorParts.push(`<span class="quire-contributor__affiliation">${ contributor.affiliation }</span>`)
+          contributor.affiliation && format !== 'name'
+            ? contributorParts.push(
+                `<span class="quire-contributor__affiliation">${ contributor.affiliation }</span>`
+              )
             : null
-          return `<li class='quire-contributor'>${contributorParts.join(separator)}</li>`;
+          return `<li class="quire-contributor">${contributorParts.join(separator)}</li>`;
         });
         contributorsElement = `
-          <ul class='quire-contributors-list ${format} align-${align}'>
+          <ul class="quire-contributors-list ${format} align-${align}">
             ${listItems.join('')}
           </ul>
         `
