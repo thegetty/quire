@@ -40,7 +40,7 @@ module.exports = {
     },
     title: (data) => data.title
   },
-  pageContributors: ({ contributor, contributor_as_it_appears, page }) => {
+  pageContributors: ({ contributor, contributor_as_it_appears }) => {
     const contributors = contributor_as_it_appears 
       ? contributor_as_it_appears
       : contributor
