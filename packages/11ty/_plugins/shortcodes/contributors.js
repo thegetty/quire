@@ -22,11 +22,11 @@ module.exports = function (eleventyConfig) {
 
   return function (params) {
     const {
-      align = 'left',
+      align='left',
       context: contributors,
-      format = defaultFormat,
+      format=defaultFormat,
       role,
-      type = 'all'
+      type='all'
     } = params;
 
     const formats = ['bio', 'initials', 'name', 'name-title', 'name-title-block', 'string']
