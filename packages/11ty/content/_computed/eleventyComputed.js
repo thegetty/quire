@@ -38,6 +38,7 @@ module.exports = {
       const parent = segments.slice(1, segments.length - 2).join('/')
       return data.parent || parent
     },
+    url: (data) => data.page.url,
     title: (data) => data.title
   },
   pageContributors: ({ contributor, contributor_as_it_appears }) => {
