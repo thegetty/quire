@@ -36,8 +36,7 @@ module.exports = function (eleventyConfig) {
       short_title,
       subtitle,
       summary,
-      title,
-      weight
+      title
     } = page.data
 
     const isOnline = online !== false

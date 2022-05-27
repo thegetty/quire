@@ -11,9 +11,7 @@ module.exports = function(eleventyConfig) {
   const twitterCard = eleventyConfig.getFilter('twitterCard')
   const webComponents = eleventyConfig.getFilter('webComponents')
 
-  const { config, publication } = eleventyConfig.globalData
-
-  const { imageDir } = config.params
+  const { publication } = eleventyConfig.globalData
 
   /**
    * @param  {Object} params The Whole Dang Data Object, from base.11ty.js

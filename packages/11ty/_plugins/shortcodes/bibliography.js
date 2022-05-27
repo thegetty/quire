@@ -5,10 +5,9 @@ const { html } = require('common-tags')
  * @param      {Object}  eleventyConfig
  */
 module.exports = function (eleventyConfig, { page }) {
-  const biblioHeading = eleventyConfig.globalData.config.params.biblioHeading
-  const displayBiblioShort = eleventyConfig.globalData.config.params.displayBiblioShort
   const markdownify = eleventyConfig.getFilter('markdownify')
   const slugify = eleventyConfig.getFilter('slugify')
+  const { biblioHeading, displayBiblioShort } = eleventyConfig.globalData.config.params
 
   /**
    * @property  {Array}  citations  computed data citations array

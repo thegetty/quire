@@ -1,5 +1,5 @@
 ---
 title: Page A
-weight: 401
+order: 401
 layout: page
 ---

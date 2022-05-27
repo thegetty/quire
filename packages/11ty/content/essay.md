@@ -2,7 +2,7 @@
 label: I
 title: American Photographs
 subtitle: Evans in Middletown
-weight: 30
+order: 30
 layout: essay
 contributor:
   - id: jkeller

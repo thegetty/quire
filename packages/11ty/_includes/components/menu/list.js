@@ -19,7 +19,7 @@ module.exports = function(eleventyConfig) {
           return `<li class="page-item">${menuItem(item)}</li>`
         } else {
           listItem += `<li class="section-item">${menuItem(item)}`
-          if (config.params.tocType === 'full') {
+          if (config.params.menuType !== 'brief') {
             listItem += `<ul>${renderList(item.children)}</ul>`
           }
           listItem += '</li>'
