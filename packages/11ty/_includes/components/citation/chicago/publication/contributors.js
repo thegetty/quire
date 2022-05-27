@@ -32,7 +32,7 @@ module.exports = function (eleventyConfig) {
     );
 
     const editorString = editorCount > 1 ? 'eds' : 'ed';
-    citation.push(`, ${editorString}`);
+    if (editorCount) citation.push(`, ${editorString}`);
 
     return citation.join('');
   };
