@@ -63,7 +63,6 @@
     "simple-cite": "^0.2.1",
     "style-chicago": "^0.0.2",
     "style-mla": "^0.0.2",
-    "style-vancouver": "^0.0.2",
     "template-polyfill": "^2.0.0"
   }
 }
