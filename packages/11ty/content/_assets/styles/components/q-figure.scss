@@ -583,6 +583,16 @@ div.multimedia {
 .q-figure__modal-link {
   display: block;
   position: relative;
+
+  .q-figure__label--below & {
+    display: inline;
+    color: $accent-color;
+    transition: color 0.35s;
+
+    &:hover {
+      color: link-hover-color($content-background-color);
+    }
+  }
 }
 
 /** VIDEO/AUDIO FALLBACK ELEMENTS **/
