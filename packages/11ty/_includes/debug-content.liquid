@@ -1,4 +1,4 @@
-{% assign pageList = site.pages | where: page.weight >= 0 %}
+{% assign pageList = site.pages | where: page.order >= 0 %}
 <ul>
   <li><strong>[ kind: type ] Title URL</strong></li>
   {% for page in pageList %}
