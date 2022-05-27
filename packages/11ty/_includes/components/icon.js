@@ -13,7 +13,7 @@ const path = require('path')
  * {% icon type="link", description="Open in new window" %}
  */
 module.exports = function(eleventyConfig) {
-  const imageDir = eleventyConfig.globalData.config.params.imageDir
+  const { imageDir } = eleventyConfig.globalData.config.params
 
   return function (params) {
     const { description, type } = params

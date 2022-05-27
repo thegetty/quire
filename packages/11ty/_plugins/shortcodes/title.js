@@ -6,19 +6,19 @@ const { oneLine } = require('common-tags')
  */
 module.exports = function(eleventyConfig) {
   const markdownify = eleventyConfig.getFilter('markdownify')
-  const { publication } = eleventyConfig.globalData
+  const { subtitle, title } = eleventyConfig.globalData.publication
 
   return function(params) {
-    const seperator = publication.title.slice(-1).match(/[a-zA-Z]/)
+    const separator = title.slice(-1).match(/[a-zA-Z]/)
       ? `<span class="visually-hidden">:</span>`
       : ''
 
-    const subtitle = publication.subtitle
-      ? `<span class="subtitle">${markdownify(publication.subtitle)}</span>`
+    const subtitleElement = subtitle
+      ? `<span class="subtitle">${markdownify(subtitle)}</span>`
       : ''
 
-    const title = `<span class="title">${markdownify(publication.title)}</span>`
+    const titleElement = `<span class="title">${markdownify(title)}</span>`
 
-    return oneLine`${title}${seperator}&#32;${subtitle}`
+    return oneLine`${titleElement}${separator}&#32;${subtitleElement}`
   }
 }

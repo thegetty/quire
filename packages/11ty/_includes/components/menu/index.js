@@ -3,7 +3,7 @@ const { html } = require('common-tags')
 /**
  * Menu
  * 
- * This controlls the global table of contents for the publication, which is
+ * This controls the global table of contents for the publication, which is
  * available on all pages. For users with Javascript enabled, this menu is hidden
  * by default. Users with JS disabled will alwasy see the menu in its expanded state.
  *
@@ -19,8 +19,7 @@ module.exports = function(eleventyConfig) {
   const menuList = eleventyConfig.getFilter('menuList')
   const menuResources = eleventyConfig.getFilter('menuResources')
 
-  const { config, publication } = eleventyConfig.globalData
-  const { resource_link: resourceLinks } = publication
+  const { resource_link: resourceLinks } = eleventyConfig.globalData.publication
 
   return function(params) {
     const { collections, pageData } = params
@@ -63,7 +62,7 @@ module.exports = function(eleventyConfig) {
         </div>
 
         <footer class="quire-menu__footer" role="contentinfo">
-          ${copyright({ config })}
+          ${copyright()}
           ${linkList({ links: footerLinks, classes: ["menu-list"]}) }
         </footer>
       </div>
