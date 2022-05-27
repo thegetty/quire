@@ -1,6 +1,6 @@
 ---
 title: Cover
-weight: 1
+order: 1
 layout: cover
 menu: false
 permalink: index.html

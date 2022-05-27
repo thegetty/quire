@@ -20,11 +20,11 @@ module.exports = {
         layout: data.layout,
         object: data.object,
         online: data.online,
+        order: data.order,
         short_title: data.short_title,
         subtitle: data.subtitle,
         summary: data.summary,
-        title: data.title,
-        weight: data.weight
+        title: data.title
       }
     },
     key: (data) => {
@@ -32,7 +32,7 @@ module.exports = {
       const key = segments.slice(1, segments.length - 1).join('/')
       return data.key || key
     },
-    order: (data) => data.order || data.weight,
+    order: (data) => data.order,
     parent: (data) => {
       const segments = data.page.url.split('/')
       const parent = segments.slice(1, segments.length - 2).join('/')
@@ -98,7 +98,7 @@ module.exports = {
           type !== 'data'
         )
       })
-      .sort((a, b) => parseInt(a.data.weight) - parseInt(b.data.weight))
+      .sort((a, b) => parseInt(a.data.order) - parseInt(b.data.order))
   },
   pagination: ({ page, pages }) => {
     if (!page || !pages) return {}
@@ -115,8 +115,8 @@ module.exports = {
    */
   publicationContributors: ({ config, publication, pages }) => {
     const { contributor, contributor_as_it_appears } = publication
-    return contributor_as_it_appears 
-      ? contributor_as_it_appears 
+    return contributor_as_it_appears
+      ? contributor_as_it_appears
       : contributor
       /**
        * Filtering because there are duplicate contributors here

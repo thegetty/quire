@@ -1,7 +1,7 @@
 ---
 title: About
-weight: 503
 layout: page
+order: 503
 ---
 
 This is a starter theme for [Quire](https://gettypubs.github.io/quire/), a multiformat digital publishing framework. Quire can be used to generate a web book, EPUB and MOBI e-books, and a PDF optimized for print; all from a single set of text files. 
