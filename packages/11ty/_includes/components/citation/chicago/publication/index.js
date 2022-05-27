@@ -34,7 +34,7 @@ module.exports = function (eleventyConfig) {
     }
 
     if (pubDate) {
-      citation = [citation, pubYear({ date: pubDate })].join(', ');
+      citation = [citation, pubYear()].join(', ');
     }
 
     citation += '.';

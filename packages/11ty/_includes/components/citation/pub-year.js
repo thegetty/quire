@@ -1,6 +1,6 @@
 module.exports = function(eleventyConfig) {
+  const pubDate = eleventyConfig.globalData.publication.pub_date
   return function (params) {
-    const { date } = params
-    return new Date(date).getFullYear()
+    return new Date(pubDate).getFullYear()
   }
 }

@@ -49,7 +49,7 @@ module.exports = function (eleventyConfig) {
 
     citation = [citation, publishers()].join('. ');
 
-    if (pubDate) citation = [citation, pubYear({ date: pubDate })].join(', ');
+    if (pubDate) citation = [citation, pubYear()].join(', ');
 
     const url = page.url || identifier.url;
     if (url)
