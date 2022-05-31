@@ -50,7 +50,7 @@
     "mime-types": "^2.1.35",
     "path": "^0.12.7",
     "sass": "^1.51.0",
-    "sharp": "^0.30.4",
+    "sharp": "^0.30.6",
     "toml": "^3.0.0"
   },
   "dependencies": {
