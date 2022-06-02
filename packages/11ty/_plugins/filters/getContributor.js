@@ -18,9 +18,9 @@ module.exports = function (eleventyConfig, item) {
     (contributor) => contributor.id === item.id
   )
 
-  if (!contributor && item.id) {
+  if (!contributor) {
     console.warn(
-      `Error: the id '${item.id}' was not found under contributor in 'publication.yaml'`
+      `Error: Contributor not found in 'publication.yaml.' Contributor: `, item
     )
     return ''
   }
