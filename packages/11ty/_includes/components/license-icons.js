@@ -16,7 +16,7 @@ module.exports = function(eleventyConfig) {
             <img src="${src}" alt="${alt}" />
           </foreignObject>
         `
-      : null
+      : ''
 
     if (license && config.params.licenseIcons) {
       const licenseAbbreviations = license.abbreviation.split(' ')
