@@ -1,4 +1,6 @@
 const path = require('path')
+const { html } = require('common-tags')
+
 /**
  * Copyright info
  * @param  {Object} eleventyConfig
@@ -7,64 +9,49 @@ const path = require('path')
  * @return {String}
  */
 module.exports = function(eleventyConfig) {
-  const copyrightLicensing = eleventyConfig.getFilter('copyrightLicensing')
-  const markdownify = eleventyConfig.getFilter('markdownify')
   const { config, publication } = eleventyConfig.globalData
 
-  return function (params) {
-    const publisherImages = publication.publisher.filter((item) => item.logo).map(({ logo }) => {
-      return `<img src="${ path.join(config.params.imageDir, logo) }" class="quire-copyright__icon__logo" alt="logo" />`
-    }).join('')
+  const copyrightLicensing = eleventyConfig.getFilter('copyrightLicensing')
+  const licenseIcons = eleventyConfig.getFilter('licenseIcons')
+  const markdownify = eleventyConfig.getFilter('markdownify')
 
-    const copyright = publication.copyright ? `<p>${markdownify(publication.copyright)}</p>` : ''
+  return function (params) {
+    const imageDir = config.params.imageDir
+
+    const copyright = publication.copyright
+      ? `<p>${markdownify(publication.copyright)}</p>`
+      : ''
+
+    const publisherImages = publication.publisher.flatMap((publisher) => {
+      const alt = publisher.name
+      const src = path.join(imageDir, publisher.logo)
+      return publisher.logo
+        ? [`<img src="${src}" class="copyright__publisher-logo" alt="${alt}" />`]
+        : []
+      })
 
     const { license } = publication
 
-    let licenseIcons = ''
-    if (license && config.params.licenseIcons) {
-      const licenseAbbreviations = license.abbreviation.split(' ')
-      licenseIcons += `<a rel="license" class="quire-copyright__icon__link" href="${ license.url }" target="_blank">`
-      licenseIcons += `<svg class="quire-copyright__icon">`
-      for (abbr of licenseAbbreviations) {
-        let licenseIcon = eleventyConfig.getFilter(abbr)
-        licenseIcons+=licenseIcon()
-      }
-      licenseIcons += `</svg></a>`
-    }
+    const printText = license.pdf_ebook_text
+      ? markdownify(license.pdf_ebook_text)
+      : copyrightLicensing()
 
-    let licenseText = ''
+    const screenText = license.online_text
+      ? markdownify(license.online_text)
+      : copyrightLicensing()
 
-    if (license.online_text) {
-      licenseText+= `
+    return html`
+      <div class="quire-copyright">
+        ${publisherImages}
+        ${copyright}
+        ${config.params.licenseIcons && licenseIcons(license)}
         <div class="is-screen-only">
-          ${ markdownify(license.online_text) }
+          ${screenText}
         </div>
-      `
-    } else {
-      licenseText+=copyrightLicensing()
-    }
-
-    if (license.pdf_ebook_text) {
-      licenseText += `
         <div class="is-print-only">
-          ${ markdownify(license.pdf_ebook_text) }
+          ${printText}
         </div>
-      `
-    } else {
-      licenseText += `
-        <div class="is-print-only">
-          ${copyrightLicensing()}
-        </div>
-      `
-    }
-
-    return `
-    <div class="quire-copyright">
-      ${publisherImages}
-      ${copyright}
-      ${licenseIcons}
-      ${licenseText}
-    </div>
-  `
+      </div>
+    `
   }
 }
