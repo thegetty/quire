@@ -43,9 +43,7 @@ module.exports = function (eleventyConfig) {
     if (typeof contributors === 'string') return markdownify(contributors)
 
     const contributorList = contributors
-      .flatMap((item) => !item.id
-        ? []
-        : getContributor(item))
+      .flatMap(getContributor)
       .filter((item) => (type || role) && type !== 'all'
           ? (type && item.type === type) || (role && item.role === role)
           : item
