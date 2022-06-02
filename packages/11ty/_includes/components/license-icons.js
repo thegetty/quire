@@ -5,35 +5,34 @@ module.exports = function(eleventyConfig) {
   const imageDir = eleventyConfig.globalData.config.params.imageDir
 
   return function(license) {
-    if (license === '0') license = 'zero'
+    const abbreviations = license.abbreviation.split(' ')
 
-    const alt = `CC-${license.toUpperCase()}`
-    const src = path.join(imgDir, 'icons', `${license}.png`)
+    const icons = abbreviations.map((abbr) => {
+      if (abbr === '0') abbr = 'zero'
 
-    const foreignObject = license !== 'CC'
-      ? html`
-          <foreignObject width="135" height="30">
-            <img src="${src}" alt="${alt}" />
-          </foreignObject>
-        `
-      : ''
+      const alt = `CC-${abbr.toUpperCase()}`
+      const src = path.join(imgDir, 'icons', `${abbr}.png`)
 
-    if (license && config.params.licenseIcons) {
-      const licenseAbbreviations = license.abbreviation.split(' ')
+      const foreignObject = abbr !== 'CC'
+        ? html`
+            <foreignObject width="135" height="30">
+              <img src="${src}" alt="${alt}" />
+            </foreignObject>
+          `
+        : ''
 
-      for (abbr of licenseAbbreviations) {
-        let licenseIcon = eleventyConfig.getFilter(abbr)
-        licenseIcons+=licenseIcon()
-      }
-    }
+      return `
+        <switch>
+          <use xlink:href="#${abbr}"></use>
+          ${foreignObject}
+        </switch>
+      `
+    })
 
     return html`
       <a class="quire-copyright__icon__link" href="${license.url}" rel="license" target="_blank">
         <svg class="quire-copyright__icon">
-          <switch>
-            <use xlink:href="#${license}"></use>
-            ${foreignObject}
-          </switch>
+          ${icons.join(' ')}
         </svg>
       </a>
     `
