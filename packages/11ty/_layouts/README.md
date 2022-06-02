@@ -14,7 +14,7 @@ todo
 ---
 title: Works Cited
 layout: bibliography
-weight: 200
+order: 200
 ---
 ```
 

@@ -7,11 +7,9 @@ const { html } = require('common-tags')
  * @param      {Object}  params
  */
 module.exports = function(eleventyConfig) {
-  const { publication } = eleventyConfig.globalData
-  const { resource_link: resourceLinks } = publication
+  const { resource_link: resourceLinks } = eleventyConfig.globalData.publication
 
   return function() {
-
     if (!Array.isArray(resourceLinks)) return ''
 
     const linkList = eleventyConfig.getFilter('linkList')
