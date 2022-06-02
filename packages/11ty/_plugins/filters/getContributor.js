@@ -4,14 +4,24 @@
  * @param  {Object} contributor
  * @return {Object}                contributor
  */
-module.exports = function(eleventyConfig, item) {
-  // Return object if contains more than `id` property
-  if (Object.keys(item).length > 1) return item
+module.exports = function (eleventyConfig, item) {
+  if (!item) return ''
+
+  // If contributor object is defined on the page, return it
+  if (item.full_name || (item.first_name && item.last_name)) {
+    return item
+  }
+
   // Look up contributor by id in `publication` global data
   const { publication } = eleventyConfig.globalData
-  const contributor = publication.contributor.find((contributor) => contributor.id === item.id)
+  const contributor = publication.contributor.find(
+    (contributor) => contributor.id === item.id
+  )
+
   if (!contributor) {
-    console.warn(`Error: the id '${id}' was not found under contributor in 'publication.yaml'`)
+    console.warn(
+      `Error: Contributor not found in 'publication.yaml.' Contributor: `, item
+    )
     return ''
   }
   return contributor
