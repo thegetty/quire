@@ -1,8 +1,6 @@
 ---
 title: Quire Citations
 layout: page
-contributor:
-  - jkeller
 ---
 
 ### Chicago Manual of Style
