@@ -1,44 +1,37 @@
 /**
- * Adapts Quire publication data to the CSL-JSON "book" type
+ * Adapts Quire publication data to the CSL-JSON 'book' type
  * https://docs.citationstyles.org/en/stable/specification.html
  * 
  * @return {Object}                CSL-JSON book
  */
 module.exports = function (eleventyConfig) {
-  const pubYear = eleventyConfig.getFilter("pubYear");
-  const siteTitle = eleventyConfig.getFilter("siteTitle");
+  const citationName = eleventyConfig.getFilter('citationName')
+  const pubYear = eleventyConfig.getFilter('pubYear')
+  const siteTitle = eleventyConfig.getFilter('siteTitle')
 
   const {
     contributor: publicationContributors,
     publisher: publishers,
-  } = eleventyConfig.globalData.publication;
+  } = eleventyConfig.globalData.publication
 
   return function (params) {
-    let { context } = params;
+    let { context } = params
 
     return {
       id: context,
       author: publicationContributors
-        .filter(({ type }) => type === "primary")
-        .map(({ first_name, full_name, last_name }) => {
-          const family = last_name || full_name.split(" ").pop();
-          const given = first_name || full_name.split(" ")[0];
-          return { family, given };
-        }),
+        .filter(({ type }) => type === 'primary')
+        .map(citationName),
       editor: publicationContributors
-        .filter(({ role }) => role === "editor")
-        .map(({ first_name, full_name, last_name }) => {
-          const family = last_name || full_name.split(" ").pop();
-          const given = first_name || full_name.split(" ")[0];
-          return { family, given };
-        }),
+        .filter(({ role }) => role === 'editor')
+        .map(citationName),
       issued: {
-        "date-parts": [[pubYear()]],
+        'date-parts': [[pubYear()]],
       },
       publisher: publishers[0].name,
-      "publisher-place": publishers[0].location,
+      'publisher-place': publishers[0].location,
       title: `<em>${siteTitle()}</em>`,
-      type: "book",
-    };
-  };
-};
+      type: 'book',
+    }
+  }
+}

@@ -8,6 +8,7 @@ module.exports = {
   abstract: require('./abstract.js'),
   analytics: require('./analytics.js'),
   citation: require('./citation/index.js'),
+  citationName: require('./citation/name.js'),
   citationStylesLib: require('./citation/citation-styles-lib/index.js'),
   citationStylesLibPage: require('./citation/citation-styles-lib/page.js'),
   citationStylesLibPublication: require('./citation/citation-styles-lib/publication.js'),
