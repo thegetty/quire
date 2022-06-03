@@ -2,21 +2,29 @@ const path = require('path')
 const { html } = require('common-tags')
 
 module.exports = function(eleventyConfig) {
-  const imageDir = eleventyConfig.globalData.config.params.imageDir
+  const { imageDir } = eleventyConfig.globalData.config.params
 
   return function(license) {
     const abbreviations = license.abbreviation.split(' ')
 
     const icons = abbreviations.map((abbr) => {
-      if (abbr === '0') abbr = 'zero'
+      switch (abbr) {
+        case '0':
+          abbr = `cc-zero`
+          break
+        case 'CC':
+          abbr = 'cc'
+          break
+        default:
+          abbr = `cc-${abbr.toLowerCase()}`
+      }
 
-      const alt = `CC-${abbr.toUpperCase()}`
-      const src = path.join(imgDir, 'icons', `${abbr}.png`)
+      const src = path.join(imageDir, 'icons', `${abbr}.png`)
 
-      const foreignObject = abbr !== 'CC'
+      const foreignObject = abbr !== 'cc'
         ? html`
             <foreignObject width="135" height="30">
-              <img src="${src}" alt="${alt}" />
+              <img src="${src}" alt="${abbr.toUpperCase()}" />
             </foreignObject>
           `
         : ''
