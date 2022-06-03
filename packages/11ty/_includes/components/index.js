@@ -2,7 +2,6 @@
  * Export all component includes
  */
 const figureComponents = require('./figure')
-const licenseIcons = require('./license-icons')
 
 module.exports = {
   abstract: require('./abstract.js'),
@@ -30,7 +29,7 @@ module.exports = {
   iconscc: require('./icons-cc.js'),
   index: require('./index.js'),
   jsonld: require('./head-tags/jsonld.js'),
-  ...licenseIcons,
+  licenseIcons: require('./license-icons.js'),
   lightbox: require('./lightbox/index.js'),
   link: require('./link.js'),
   linkList: require('./link-list.js'),
