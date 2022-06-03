@@ -1,49 +1,25 @@
-const Processor = require("simple-cite");
-const chicago = require("style-chicago");
-const locale = require("locale-en-us");
-const mla = require("style-mla");
-
 /**
- * Adapts Quire publication data to the CSL-JSON "book" type
- * https://docs.citationstyles.org/en/stable/specification.html
+ * Generates a citation for the context (page or publication)
  * 
- * @return {Object}                CSL-JSON book
+ * @return {String}                citation
  */
 module.exports = function (eleventyConfig) {
-  const citationStylesLibPage = eleventyConfig.getFilter("citationStylesLibPage");
-  const citationStylesLibPublication = eleventyConfig.getFilter("citationStylesLibPublication");
+  const citationStylesLibPage = eleventyConfig.getFilter("citationStylesLibPage")
+  const citationStylesLibPublication = eleventyConfig.getFilter("citationStylesLibPublication")
+  const createCitation = eleventyConfig.getFilter("createCitation")
 
   return function (params) {
-    const { context, type } = params
-    let style;
-
-    switch (type) {
-      case "chicago":
-        style = chicago;
-        break;
-      case "mla":
-        style = mla;
-        break;
-      default:
-        break;
-    }
-
-    let items;
+    const { context } = params
 
     switch (context) {
       case "page":
-        items = [citationStylesLibPage(params)]
-        break;
+        return createCitation(citationStylesLibPage, params)
+        break
       case "publication":
-        items = [citationStylesLibPublication(params)]
-        break;
+        return createCitation(citationStylesLibPublication, params)
+        break
       default:
-        break;
+        break
     }
-
-    const processor = new Processor({ items, style, locale });
-    const citation = processor.cite({ citationItems: [{ id: context }] });
-
-    return processor.bibliography().value;
-  };
-};
+  }
+}

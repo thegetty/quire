@@ -8,6 +8,7 @@ require('dotenv').config()
 const { EleventyRenderPlugin } = require('@11ty/eleventy')
 const EleventyVitePlugin = require('@11ty/eleventy-plugin-vite')
 const directoryOutputPlugin = require('@11ty/eleventy-plugin-directory-output')
+const citationsPlugin = require('./_plugins/citations')
 const collectionsPlugin = require('./_plugins/collections')
 const componentsPlugin = require('./_plugins/components')
 const epubPlugin = require('./_plugins/epub')
@@ -102,6 +103,7 @@ module.exports = function(eleventyConfig) {
   /**
    * Load additional plugins used for Quire projects
    */
+  eleventyConfig.addPlugin(citationsPlugin)
   eleventyConfig.addPlugin(lintingPlugin)
   eleventyConfig.addPlugin(epubPlugin)
   eleventyConfig.addPlugin(collectionsPlugin)

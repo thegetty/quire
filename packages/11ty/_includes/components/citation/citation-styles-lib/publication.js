@@ -1,8 +1,9 @@
-const Processor = require("simple-cite");
-const chicago = require("style-chicago");
-const locale = require("locale-en-us");
-const mla = require("style-mla");
-
+/**
+ * Adapts Quire publication data to the CSL-JSON "book" type
+ * https://docs.citationstyles.org/en/stable/specification.html
+ * 
+ * @return {Object}                CSL-JSON book
+ */
 module.exports = function (eleventyConfig) {
   const pubYear = eleventyConfig.getFilter("pubYear");
   const siteTitle = eleventyConfig.getFilter("siteTitle");
@@ -36,7 +37,7 @@ module.exports = function (eleventyConfig) {
       },
       publisher: publishers[0].name,
       "publisher-place": publishers[0].location,
-      title: siteTitle(),
+      title: `<em>${siteTitle()}</em>`,
       type: "book",
     };
   };
