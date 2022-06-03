@@ -1,5 +1,5 @@
-const createCitation = require('./createCitation')
+const formatCitation = require('./formatCitation')
 
 module.exports = function (eleventyConfig) {
-  eleventyConfig.addJavaScriptFunction('createCitation', createCitation)
+  eleventyConfig.addJavaScriptFunction('formatCitation', formatCitation)
 }

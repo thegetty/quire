@@ -2,9 +2,8 @@ const Processor = require('simple-cite')
 const locale = require('locale-en-us')
 const styles = require('./styles')
 
-module.exports = function(component, params) {
+module.exports = function(item, params) {
   const { type } = params
-  const item = component(params)
   const processor = new Processor({
     items: [item],
     locale,

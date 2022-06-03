@@ -6,20 +6,23 @@
 module.exports = function (eleventyConfig) {
   const citationStylesLibPage = eleventyConfig.getFilter("citationStylesLibPage")
   const citationStylesLibPublication = eleventyConfig.getFilter("citationStylesLibPublication")
-  const createCitation = eleventyConfig.getFilter("createCitation")
+  const formatCitation = eleventyConfig.getFilter("formatCitation")
 
   return function (params) {
     const { context } = params
 
+    let item
     switch (context) {
       case "page":
-        return createCitation(citationStylesLibPage, params)
+        item = citationStylesLibPage(params)
         break
       case "publication":
-        return createCitation(citationStylesLibPublication, params)
+        item = citationStylesLibPublication(params)
         break
       default:
         break
     }
+
+    return formatCitation(item, params)
   }
 }
