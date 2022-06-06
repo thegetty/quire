@@ -22,20 +22,15 @@ module.exports = function (eleventyConfig) {
       getContributor(item)
     )
 
-    const title =
-      type === 'chicago'
-        ? `In <em>${siteTitle()}</em>`
-        : `<em>${siteTitle()}</em>`
-
     return {
       id: context,
-      'container-author': publicationContributors
-        .filter(({ type }) => type === 'primary')
-        .map(citationName),
-      'container-title': title,
       author: pageContributors
         .filter(({ type }) => type === 'primary')
         .map(citationName),
+      'container-author': publicationContributors
+        .filter(({ type }) => type === 'primary')
+        .map(citationName),
+      'container-title': `<em>${siteTitle()}</em>`,
       editor: pageContributors
         .filter(({ role }) => role === 'editor')
         .map(citationName),
@@ -45,7 +40,7 @@ module.exports = function (eleventyConfig) {
       publisher: publishers[0].name,
       'publisher-place': publishers[0].location,
       title: pageTitle(page.data),
-      type: 'webpage',
+      type: 'chapter',
       URL: page.url
     }
   }
