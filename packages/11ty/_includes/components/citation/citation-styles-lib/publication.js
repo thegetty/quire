@@ -14,6 +14,8 @@ module.exports = function (eleventyConfig) {
     publisher: publishers,
   } = eleventyConfig.globalData.publication
 
+  const { baseURL } = eleventyConfig.globalData.config
+
   return function (params) {
     let { context } = params
 
@@ -32,6 +34,7 @@ module.exports = function (eleventyConfig) {
       'publisher-place': publishers[0].location,
       title: `<em>${siteTitle()}</em>`,
       type: 'book',
+      URL: baseURL
     }
   }
 }
