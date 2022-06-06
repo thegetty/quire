@@ -11,6 +11,8 @@ module.exports = function (eleventyConfig) {
   const pubYear = eleventyConfig.getFilter('pubYear')
   const siteTitle = eleventyConfig.getFilter('siteTitle')
 
+  const { baseURL } = eleventyConfig.globalData.config
+
   const {
     contributor: publicationContributors,
     publisher: publishers,
@@ -41,7 +43,7 @@ module.exports = function (eleventyConfig) {
       'publisher-place': publishers[0].location,
       title: pageTitle(page.data),
       type: 'chapter',
-      URL: page.url
+      URL: new URL(page.url, baseURL)
     }
   }
 }
