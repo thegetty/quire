@@ -1,29 +1,37 @@
-baseURL: ''
-languageCode: en-us
-footnoteBacklinkSymbol: '↩'
-GoogleAnalytics:
-  id: ''
+analytics:
+  googleId: ''
 
-biblioFormat: short # short | long
-bylineFormat: name-title # name | name-title | false
+baseURL: ''
+
+footnotes:
+  backlinkSymbol: '↩'
+
+bibliography:
+  format: short # short | long
+
+byline:
+  format: name-title # name | name-title | false
 
 citations:
-  pageLocationDivider: ', '
+  format: Chicago # Chicago | MLA
   popupStyle: text # text | icon
-
-enableSearch: true
 
 figures:
   enableModal: true
   enableZoom: true
-  labelLocation: on-top # below | on-top
+  labelPosition: on-top # below | on-top
 
-localizedLabels:
-  en:
-    biblioHeading: Bibliography
-    nextPageButton: Next
-    objectLinkText: View in Collection
-    pageLabelDivider: '. '
-    prevPageButton: Back
+localization:
+  defaultLocale: en-us
+  labels:
+    en:
+      biblioHeading: Bibliography
+      nextPageButton: Next
+      objectLinkText: View in Collection
+      pageLabelDivider: '. '
+      prevPageButton: Back
 
 menu: list # brief | list
+
+search:
+  enabled: true
