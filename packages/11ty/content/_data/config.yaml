@@ -1,10 +1,14 @@
+analytics:
+  google_id: ''
+
 baseURL: ''
+
 languageCode: en-us
+
 footnoteBacklinkSymbol: '↩'
-GoogleAnalytics:
-  id: ''
 
 biblioFormat: short # short | long
+
 bylineFormat: name-title # name | name-title | false
 
 citations:
@@ -16,9 +20,9 @@ enableSearch: true
 figures:
   enableModal: true
   enableZoom: true
-  labelLocation: on-top # below | on-top
+  labelPosition: on-top # below | on-top
 
-localizedLabels:
+i18n:
   en:
     biblioHeading: Bibliography
     nextPageButton: Next
