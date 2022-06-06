@@ -19,7 +19,7 @@ module.exports = function(eleventyConfig) {
   const hasCanvasPanelProps = eleventyConfig.getFilter('hasCanvasPanelProps')
   const markdownify = eleventyConfig.getFilter('markdownify')
 
-  const { imageDir, figureLabelLocation } = eleventyConfig.globalData.config.params
+  const { imageDir, figure: { labelPosition }} = eleventyConfig.globalData.config.params
 
   return async function(figure) {
     const { 
@@ -58,11 +58,11 @@ module.exports = function(eleventyConfig) {
      * Wrap image in modal link
      */
     imageElement =
-      (figureLabelLocation === 'on-top')
+      (labelPosition === 'on-top')
         ? figuremodallink({ caption, content: imageElement + labelElement, id })
         : imageElement
 
-    const captionElement = (figureLabelLocation === 'below')
+    const captionElement = (labelPosition === 'below')
       ? figurecaption({ caption, content: labelElement, credit })
       : figurecaption({ caption, credit })
 

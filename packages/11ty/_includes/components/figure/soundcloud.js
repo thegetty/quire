@@ -13,7 +13,7 @@ module.exports = function(eleventyConfig) {
   const figurelabel = eleventyConfig.getFilter('figurelabel')
   const figureplaceholder = eleventyConfig.getFilter('figureplaceholder')
 
-  const { figureLabelLocation } = eleventyConfig.globalData.config.params
+  const { figure: { labelPosition }} = eleventyConfig.globalData.config.params
 
   return function({ caption, credit, id, label, media_id }) {
     const src = `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${media_id}`
@@ -32,7 +32,7 @@ module.exports = function(eleventyConfig) {
         src="${src}&auto_play=false&color=%23ff5500&hide_related=true&show_comments=false&show_reposts=false&show_teaser=false&show_user=false"
         width="100%"
       ></iframe>
-      ${label && figureLabelLocation === 'on-top' ? figurelabel({ figure }) : '' }
+      ${label && labelPosition === 'on-top' ? figurelabel({ figure }) : '' }
       ${figurecaption({ caption, credit })}
     `
   }

@@ -11,7 +11,7 @@ module.exports = function(eleventyConfig) {
   const modalLink = eleventyConfig.getFilter('figuremodallink')
 
   const { epub } = eleventyConfig.globalData.config
-  const { figureLabelLocation } = eleventyConfig.globalData.config.params
+  const { figure: { labelPosition } } = eleventyConfig.globalData.config.params
 
   return function({ caption, id, label }) {
     let labelElement
@@ -19,9 +19,9 @@ module.exports = function(eleventyConfig) {
     if (epub) {
       labelElement = `<span class="q-figure__label">${markdownify(label)}</span>`
     } else {
-      const modifier = figureLabelLocation || ''
+      const modifier = labelPosition || ''
 
-      let content = figureLabelLocation === 'on-top'
+      let content = labelPosition === 'on-top'
       ? `<span class="q-figure__label-icon">${icon({ type: 'fullscreen', description: 'Expand' })}</span>`
       : ''
       content += `<span class="q-figure__label-text">${markdownify(label || '')}</span>`

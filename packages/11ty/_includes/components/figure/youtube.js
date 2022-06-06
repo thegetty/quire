@@ -13,7 +13,7 @@ module.exports = function(eleventyConfig) {
   const figureplaceholder = eleventyConfig.getFilter('figureplaceholder')
   const figurelabel = eleventyConfig.getFilter('figurelabel')
 
-  const { figureLabelLocation } = eleventyConfig.globalData.config.params
+  const { figure: { labelPosition }} = eleventyConfig.globalData.config.params
 
   return function({ aspectRatio, caption, credit, id, label, media_id }) {
     const src = `https://youtu.be/${media_id}`
@@ -32,7 +32,7 @@ module.exports = function(eleventyConfig) {
           src="https://www.youtube.com/embed/${media_id}?rel=0&amp;showinfo=0"
         ></iframe>
       </div>
-      ${label && figureLabelLocation === 'on-top' ? figurelabel({ caption, id, label }) : ''}
+      ${label && labelPosition === 'on-top' ? figurelabel({ caption, id, label }) : ''}
       ${figurecaption({ caption, credit })}
     `
   }

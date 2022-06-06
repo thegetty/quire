@@ -175,7 +175,7 @@
   &__credit {
   }
 
-  // The figure label with figureLabelLocation: below
+  // The figure label with figure.labelPosition: below
   &__label {
     @if $theme == classic {
       color: background-color-text-classic($content-background-color);
@@ -205,7 +205,7 @@
         height: 1.5rem;
       }
     }
-    // The figure label with figureLabelLocation: on-top (default)
+    // The figure label with figure.labelPosition: on-top (default)
     &--on-top {
       display: flex;
       align-items: center;

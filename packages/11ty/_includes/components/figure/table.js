@@ -12,7 +12,7 @@ module.exports = function(eleventyConfig) {
   const renderFile = eleventyConfig.getFilter('renderFile')
 
   const assetsDir = path.join(eleventyConfig.dir.input, '_assets/images')
-  const { figureLabelLocation } = eleventyConfig.globalData.config.params
+  const { figure: { labelPosition }} = eleventyConfig.globalData.config.params
 
   return async function({ caption, credit, id, src }) {
     const table = await renderFile(path.join(assetsDir, src))
