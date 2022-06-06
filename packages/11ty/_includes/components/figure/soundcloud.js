@@ -13,7 +13,7 @@ module.exports = function(eleventyConfig) {
   const figurelabel = eleventyConfig.getFilter('figurelabel')
   const figureplaceholder = eleventyConfig.getFilter('figureplaceholder')
 
-  const { figure: { labelPosition }} = eleventyConfig.globalData.config.params
+  const { figures: { labelPosition }} = eleventyConfig.globalData.config.params
 
   return function({ caption, credit, id, label, media_id }) {
     const src = `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${media_id}`

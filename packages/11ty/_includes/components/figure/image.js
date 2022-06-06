@@ -19,7 +19,8 @@ module.exports = function(eleventyConfig) {
   const hasCanvasPanelProps = eleventyConfig.getFilter('hasCanvasPanelProps')
   const markdownify = eleventyConfig.getFilter('markdownify')
 
-  const { imageDir, figure: { labelPosition }} = eleventyConfig.globalData.config.params
+  const { imageDir, figures: { labelPosition }} = eleventyConfig.globalData.config.params
+  const { imageDir, figures: { labelPosition }} = eleventyConfig.globalData.config.params
 
   return async function(figure) {
     const { 

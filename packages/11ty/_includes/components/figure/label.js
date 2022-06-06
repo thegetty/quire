@@ -11,7 +11,7 @@ module.exports = function(eleventyConfig) {
   const modalLink = eleventyConfig.getFilter('figuremodallink')
 
   const { epub } = eleventyConfig.globalData.config
-  const { figure: { labelPosition } } = eleventyConfig.globalData.config.params
+  const { figures: { labelPosition } } = eleventyConfig.globalData.config.params
 
   return function({ caption, id, label }) {
     let labelElement

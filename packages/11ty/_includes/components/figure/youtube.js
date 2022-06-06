@@ -13,7 +13,7 @@ module.exports = function(eleventyConfig) {
   const figureplaceholder = eleventyConfig.getFilter('figureplaceholder')
   const figurelabel = eleventyConfig.getFilter('figurelabel')
 
-  const { figure: { labelPosition }} = eleventyConfig.globalData.config.params
+  const { figures: { labelPosition }} = eleventyConfig.globalData.config.params
 
   return function({ aspectRatio, caption, credit, id, label, media_id }) {
     const src = `https://youtu.be/${media_id}`

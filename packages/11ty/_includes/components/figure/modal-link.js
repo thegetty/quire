@@ -4,7 +4,7 @@ module.exports = function (eleventyConfig) {
   const icon = eleventyConfig.getFilter('icon')
   const markdownify = eleventyConfig.getFilter('markdownify')
 
-  const { labelPosition, enableModal } = eleventyConfig.globalData.config.params.figure
+  const { labelPosition, enableModal } = eleventyConfig.globalData.config.params.figures
 
   return function({ caption, content, id }) {
 
