@@ -132,6 +132,7 @@ module.exports = function(eleventyConfig) {
       build: {
         manifest: true,
         mode: 'production',
+        rollupOptions: {}
       },
       /**
        * Set to false to prevent Vite from clearing the terminal screen
