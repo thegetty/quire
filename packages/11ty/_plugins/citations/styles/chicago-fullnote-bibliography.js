@@ -1,227 +1,216 @@
 module.exports = {
-  name: "style",
+  name: 'style',
   attrs: {
-    xmlns: "http://purl.org/net/xbiblio/csl",
-    class: "note",
-    version: "1.0",
-    "demote-non-dropping-particle": "display-and-sort",
-    "page-range-format": "chicago",
+    xmlns: 'http://purl.org/net/xbiblio/csl',
+    class: 'note',
+    version: '1.0',
+    'demote-non-dropping-particle': 'display-and-sort',
+    'page-range-format': 'chicago',
   },
   children: [
     {
-      name: "info",
+      name: 'info',
       attrs: {},
       children: [
         {
-          name: "title",
+          name: 'title',
           attrs: {},
-          children: ["Chicago Manual of Style 17th edition (full note)"],
+          children: ['Chicago Manual of Style 17th edition (full note)'],
         },
         {
-          name: "id",
+          name: 'id',
           attrs: {},
           children: [
-            "http://www.zotero.org/styles/chicago-fullnote-bibliography",
+            'http://www.zotero.org/styles/chicago-fullnote-bibliography',
           ],
         },
         {
-          name: "link",
+          name: 'link',
+          attrs: {
+            href: 'http://www.zotero.org/styles/chicago-fullnote-bibliography',
+            rel: 'self',
+          },
+          children: [],
+        },
+        {
+          name: 'link',
           attrs: {
             href:
-              "http://www.zotero.org/styles/chicago-fullnote-bibliography",
-            rel: "self",
+              'http://www.chicagomanualofstyle.org/tools_citationguide.html',
+            rel: 'documentation',
           },
           children: [],
         },
         {
-          name: "link",
-          attrs: {
-            href:
-              "http://www.chicagomanualofstyle.org/tools_citationguide.html",
-            rel: "documentation",
-          },
+          name: 'author',
+          attrs: {},
+          children: [
+            { name: 'name', attrs: {}, children: ['Julian Onions'] },
+            { name: 'email', attrs: {}, children: ['julian.onions@gmail.com'] },
+          ],
+        },
+        {
+          name: 'contributor',
+          attrs: {},
+          children: [
+            { name: 'name', attrs: {}, children: ['Simon Kornblith'] },
+            { name: 'email', attrs: {}, children: ['simon@simonster.com'] },
+          ],
+        },
+        {
+          name: 'contributor',
+          attrs: {},
+          children: [
+            { name: 'name', attrs: {}, children: ['Elena Razlogova'] },
+            {
+              name: 'email',
+              attrs: {},
+              children: ['elena.razlogova@gmail.com'],
+            },
+          ],
+        },
+        {
+          name: 'contributor',
+          attrs: {},
+          children: [
+            { name: 'name', attrs: {}, children: ['Frank Bennett'] },
+            { name: 'email', attrs: {}, children: ['biercenator@gmail.com'] },
+          ],
+        },
+        {
+          name: 'contributor',
+          attrs: {},
+          children: [
+            { name: 'name', attrs: {}, children: ['Andrew Dunning'] },
+            {
+              name: 'email',
+              attrs: {},
+              children: ['andrew.dunning@utoronto.ca'],
+            },
+          ],
+        },
+        {
+          name: 'contributor',
+          attrs: {},
+          children: [
+            { name: 'name', attrs: {}, children: ['Sebastian Karcher'] },
+          ],
+        },
+        {
+          name: 'contributor',
+          attrs: {},
+          children: [
+            { name: 'name', attrs: {}, children: ['Brenton M. Wiernik'] },
+          ],
+        },
+        {
+          name: 'category',
+          attrs: { 'citation-format': 'note' },
           children: [],
         },
+        { name: 'category', attrs: { field: 'generic-base' }, children: [] },
         {
-          name: "author",
+          name: 'summary',
           attrs: {},
+          children: ['Chicago format with full notes and bibliography'],
+        },
+        { name: 'updated', attrs: {}, children: ['2017-10-12T12:00:00+00:00'] },
+        {
+          name: 'rights',
+          attrs: { license: 'http://creativecommons.org/licenses/by-sa/3.0/' },
           children: [
-            { name: "name", attrs: {}, children: ["Julian Onions"] },
-            {
-              name: "email",
-              attrs: {},
-              children: ["julian.onions@gmail.com"],
-            },
-          ],
-        },
-        {
-          name: "contributor",
-          attrs: {},
-          children: [
-            { name: "name", attrs: {}, children: ["Simon Kornblith"] },
-            { name: "email", attrs: {}, children: ["simon@simonster.com"] },
-          ],
-        },
-        {
-          name: "contributor",
-          attrs: {},
-          children: [
-            { name: "name", attrs: {}, children: ["Elena Razlogova"] },
-            {
-              name: "email",
-              attrs: {},
-              children: ["elena.razlogova@gmail.com"],
-            },
-          ],
-        },
-        {
-          name: "contributor",
-          attrs: {},
-          children: [
-            { name: "name", attrs: {}, children: ["Frank Bennett"] },
-            { name: "email", attrs: {}, children: ["biercenator@gmail.com"] },
-          ],
-        },
-        {
-          name: "contributor",
-          attrs: {},
-          children: [
-            { name: "name", attrs: {}, children: ["Andrew Dunning"] },
-            {
-              name: "email",
-              attrs: {},
-              children: ["andrew.dunning@utoronto.ca"],
-            },
-          ],
-        },
-        {
-          name: "contributor",
-          attrs: {},
-          children: [
-            { name: "name", attrs: {}, children: ["Sebastian Karcher"] },
-          ],
-        },
-        {
-          name: "contributor",
-          attrs: {},
-          children: [
-            { name: "name", attrs: {}, children: ["Brenton M. Wiernik"] },
-          ],
-        },
-        {
-          name: "category",
-          attrs: { "citation-format": "note" },
-          children: [],
-        },
-        { name: "category", attrs: { field: "generic-base" }, children: [] },
-        {
-          name: "summary",
-          attrs: {},
-          children: ["Chicago format with full notes and bibliography"],
-        },
-        {
-          name: "updated",
-          attrs: {},
-          children: ["2017-10-12T12:00:00+00:00"],
-        },
-        {
-          name: "rights",
-          attrs: {
-            license: "http://creativecommons.org/licenses/by-sa/3.0/",
-          },
-          children: [
-            "This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License",
+            'This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License',
           ],
         },
       ],
     },
     {
-      name: "locale",
-      attrs: { "xml:lang": "en" },
+      name: 'locale',
+      attrs: { 'xml:lang': 'en' },
       children: [
         {
-          name: "terms",
+          name: 'terms',
           attrs: {},
           children: [
             {
-              name: "term",
-              attrs: { name: "editor", form: "verb-short" },
-              children: ["ed."],
+              name: 'term',
+              attrs: { name: 'editor', form: 'verb-short' },
+              children: ['ed.'],
             },
             {
-              name: "term",
-              attrs: { name: "translator", form: "verb-short" },
-              children: ["trans."],
+              name: 'term',
+              attrs: { name: 'translator', form: 'verb-short' },
+              children: ['trans.'],
             },
             {
-              name: "term",
-              attrs: { name: "translator", form: "short" },
-              children: ["trans."],
+              name: 'term',
+              attrs: { name: 'translator', form: 'short' },
+              children: ['trans.'],
             },
             {
-              name: "term",
-              attrs: { name: "editortranslator", form: "verb-short" },
-              children: ["ed. and trans."],
+              name: 'term',
+              attrs: { name: 'editortranslator', form: 'verb-short' },
+              children: ['ed. and trans.'],
             },
             {
-              name: "term",
-              attrs: { name: "editortranslator", form: "verb" },
-              children: ["Edited and translated by"],
+              name: 'term',
+              attrs: { name: 'editortranslator', form: 'verb' },
+              children: ['Edited and translated by'],
             },
             {
-              name: "term",
-              attrs: { name: "translator", form: "short" },
-              children: ["trans."],
+              name: 'term',
+              attrs: { name: 'translator', form: 'short' },
+              children: ['trans.'],
             },
           ],
         },
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "editor-translator" },
+      name: 'macro',
+      attrs: { name: 'editor-translator' },
       children: [
         {
-          name: "group",
-          attrs: { delimiter: ", " },
+          name: 'group',
+          attrs: { delimiter: ', ' },
           children: [
             {
-              name: "group",
-              attrs: { delimiter: " " },
+              name: 'group',
+              attrs: { delimiter: ' ' },
               children: [
                 {
-                  name: "choose",
+                  name: 'choose',
                   attrs: {},
                   children: [
                     {
-                      name: "if",
+                      name: 'if',
                       attrs: {
-                        variable: "container-author reviewed-author",
-                        match: "any",
+                        variable: 'container-author reviewed-author',
+                        match: 'any',
                       },
                       children: [
                         {
-                          name: "group",
+                          name: 'group',
                           attrs: {},
                           children: [
                             {
-                              name: "names",
+                              name: 'names',
                               attrs: {
-                                variable: "container-author reviewed-author",
+                                variable: 'container-author reviewed-author',
                               },
                               children: [
                                 {
-                                  name: "label",
+                                  name: 'label',
                                   attrs: {
-                                    form: "verb-short",
-                                    "text-case": "lowercase",
-                                    suffix: " ",
+                                    form: 'verb-short',
+                                    'text-case': 'lowercase',
+                                    suffix: ' ',
                                   },
                                   children: [],
                                 },
                                 {
-                                  name: "name",
-                                  attrs: { and: "text", delimiter: ", " },
+                                  name: 'name',
+                                  attrs: { and: 'text', delimiter: ', ' },
                                   children: [],
                                 },
                               ],
@@ -235,21 +224,21 @@ module.exports = {
               ],
             },
             {
-              name: "names",
-              attrs: { variable: "editor translator", delimiter: ", " },
+              name: 'names',
+              attrs: { variable: 'editor translator', delimiter: ', ' },
               children: [
                 {
-                  name: "label",
+                  name: 'label',
                   attrs: {
-                    form: "verb-short",
-                    "text-case": "lowercase",
-                    suffix: " ",
+                    form: 'verb-short',
+                    'text-case': 'lowercase',
+                    suffix: ' ',
                   },
                   children: [],
                 },
                 {
-                  name: "name",
-                  attrs: { and: "text", delimiter: ", " },
+                  name: 'name',
+                  attrs: { and: 'text', delimiter: ', ' },
                   children: [],
                 },
               ],
@@ -259,24 +248,24 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "secondary-contributors-note" },
+      name: 'macro',
+      attrs: { name: 'secondary-contributors-note' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
+              name: 'if',
               attrs: {
                 type:
-                  "chapter entry-dictionary entry-encyclopedia paper-conference",
-                match: "none",
+                  'chapter entry-dictionary entry-encyclopedia paper-conference',
+                match: 'none',
               },
               children: [
                 {
-                  name: "text",
-                  attrs: { macro: "editor-translator" },
+                  name: 'text',
+                  attrs: { macro: 'editor-translator' },
                   children: [],
                 },
               ],
@@ -286,24 +275,24 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "container-contributors-note" },
+      name: 'macro',
+      attrs: { name: 'container-contributors-note' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
+              name: 'if',
               attrs: {
                 type:
-                  "chapter entry-dictionary entry-encyclopedia paper-conference",
-                match: "any",
+                  'chapter entry-dictionary entry-encyclopedia paper-conference',
+                match: 'any',
               },
               children: [
                 {
-                  name: "text",
-                  attrs: { macro: "editor-translator" },
+                  name: 'text',
+                  attrs: { macro: 'editor-translator' },
                   children: [],
                 },
               ],
@@ -313,37 +302,37 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "secondary-contributors" },
+      name: 'macro',
+      attrs: { name: 'secondary-contributors' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
+              name: 'if',
               attrs: {
                 type:
-                  "chapter entry-dictionary entry-encyclopedia paper-conference",
-                match: "none",
+                  'chapter entry-dictionary entry-encyclopedia paper-conference',
+                match: 'none',
               },
               children: [
                 {
-                  name: "names",
-                  attrs: { variable: "editor translator", delimiter: ". " },
+                  name: 'names',
+                  attrs: { variable: 'editor translator', delimiter: '. ' },
                   children: [
                     {
-                      name: "label",
+                      name: 'label',
                       attrs: {
-                        form: "verb",
-                        "text-case": "capitalize-first",
-                        suffix: " ",
+                        form: 'verb',
+                        'text-case': 'capitalize-first',
+                        suffix: ' ',
                       },
                       children: [],
                     },
                     {
-                      name: "name",
-                      attrs: { and: "text", delimiter: ", " },
+                      name: 'name',
+                      attrs: { and: 'text', delimiter: ', ' },
                       children: [],
                     },
                   ],
@@ -355,62 +344,62 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "container-contributors" },
+      name: 'macro',
+      attrs: { name: 'container-contributors' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
+              name: 'if',
               attrs: {
                 type:
-                  "chapter entry-dictionary entry-encyclopedia paper-conference",
-                match: "any",
+                  'chapter entry-dictionary entry-encyclopedia paper-conference',
+                match: 'any',
               },
               children: [
                 {
-                  name: "group",
-                  attrs: { delimiter: ", " },
+                  name: 'group',
+                  attrs: { delimiter: ', ' },
                   children: [
                     {
-                      name: "choose",
+                      name: 'choose',
                       attrs: {},
                       children: [
                         {
-                          name: "if",
-                          attrs: { variable: "author" },
+                          name: 'if',
+                          attrs: { variable: 'author' },
                           children: [
                             {
-                              name: "choose",
+                              name: 'choose',
                               attrs: {},
                               children: [
                                 {
-                                  name: "if",
+                                  name: 'if',
                                   attrs: {
-                                    variable: "container-author",
-                                    match: "any",
+                                    variable: 'container-author',
+                                    match: 'any',
                                   },
                                   children: [
                                     {
-                                      name: "names",
-                                      attrs: { variable: "container-author" },
+                                      name: 'names',
+                                      attrs: { variable: 'container-author' },
                                       children: [
                                         {
-                                          name: "label",
+                                          name: 'label',
                                           attrs: {
-                                            form: "verb-short",
-                                            "text-case": "lowercase",
-                                            suffix: " ",
+                                            form: 'verb-short',
+                                            'text-case': 'lowercase',
+                                            suffix: ' ',
                                           },
                                           children: [],
                                         },
                                         {
-                                          name: "name",
+                                          name: 'name',
                                           attrs: {
-                                            and: "text",
-                                            delimiter: ", ",
+                                            and: 'text',
+                                            delimiter: ', ',
                                           },
                                           children: [],
                                         },
@@ -420,47 +409,46 @@ module.exports = {
                                 },
                               ],
                             },
-                            { name: "#comment", attrs: {}, children: [] },
                             {
-                              name: "choose",
+                              name: 'choose',
                               attrs: {},
                               children: [
                                 {
-                                  name: "if",
+                                  name: 'if',
                                   attrs: {
-                                    variable: "container-author author",
-                                    match: "all",
+                                    variable: 'container-author author',
+                                    match: 'all',
                                   },
                                   children: [
                                     {
-                                      name: "group",
-                                      attrs: { delimiter: ". " },
+                                      name: 'group',
+                                      attrs: { delimiter: '. ' },
                                       children: [
                                         {
-                                          name: "text",
-                                          attrs: { variable: "page" },
+                                          name: 'text',
+                                          attrs: { variable: 'page' },
                                           children: [],
                                         },
                                         {
-                                          name: "names",
+                                          name: 'names',
                                           attrs: {
-                                            variable: "editor translator",
-                                            delimiter: ", ",
+                                            variable: 'editor translator',
+                                            delimiter: ', ',
                                           },
                                           children: [
                                             {
-                                              name: "label",
+                                              name: 'label',
                                               attrs: {
-                                                form: "verb",
-                                                suffix: " ",
+                                                form: 'verb',
+                                                suffix: ' ',
                                               },
                                               children: [],
                                             },
                                             {
-                                              name: "name",
+                                              name: 'name',
                                               attrs: {
-                                                and: "text",
-                                                delimiter: ", ",
+                                                and: 'text',
+                                                delimiter: ', ',
                                               },
                                               children: [],
                                             },
@@ -471,30 +459,30 @@ module.exports = {
                                   ],
                                 },
                                 {
-                                  name: "else",
+                                  name: 'else',
                                   attrs: {},
                                   children: [
                                     {
-                                      name: "names",
+                                      name: 'names',
                                       attrs: {
-                                        variable: "editor translator",
-                                        delimiter: ", ",
+                                        variable: 'editor translator',
+                                        delimiter: ', ',
                                       },
                                       children: [
                                         {
-                                          name: "label",
+                                          name: 'label',
                                           attrs: {
-                                            form: "verb",
-                                            "text-case": "lowercase",
-                                            suffix: " ",
+                                            form: 'verb',
+                                            'text-case': 'lowercase',
+                                            suffix: ' ',
                                           },
                                           children: [],
                                         },
                                         {
-                                          name: "name",
+                                          name: 'name',
                                           attrs: {
-                                            and: "text",
-                                            delimiter: ", ",
+                                            and: 'text',
+                                            delimiter: ', ',
                                           },
                                           children: [],
                                         },
@@ -517,21 +505,21 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "recipient-note" },
+      name: 'macro',
+      attrs: { name: 'recipient-note' },
       children: [
         {
-          name: "names",
-          attrs: { variable: "recipient", delimiter: ", " },
+          name: 'names',
+          attrs: { variable: 'recipient', delimiter: ', ' },
           children: [
             {
-              name: "label",
-              attrs: { form: "verb", "text-case": "lowercase", suffix: " " },
+              name: 'label',
+              attrs: { form: 'verb', 'text-case': 'lowercase', suffix: ' ' },
               children: [],
             },
             {
-              name: "name",
-              attrs: { and: "text", delimiter: ", " },
+              name: 'name',
+              attrs: { and: 'text', delimiter: ', ' },
               children: [],
             },
           ],
@@ -539,80 +527,76 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "contributors-note" },
+      name: 'macro',
+      attrs: { name: 'contributors-note' },
       children: [
         {
-          name: "group",
-          attrs: { delimiter: " " },
+          name: 'group',
+          attrs: { delimiter: ' ' },
           children: [
             {
-              name: "names",
-              attrs: { variable: "author" },
+              name: 'names',
+              attrs: { variable: 'author' },
               children: [
                 {
-                  name: "name",
+                  name: 'name',
                   attrs: {
-                    and: "text",
-                    "sort-separator": ", ",
-                    delimiter: ", ",
+                    and: 'text',
+                    'sort-separator': ', ',
+                    delimiter: ', ',
                   },
                   children: [],
                 },
                 {
-                  name: "label",
-                  attrs: { form: "short", prefix: ", " },
+                  name: 'label',
+                  attrs: { form: 'short', prefix: ', ' },
                   children: [],
                 },
                 {
-                  name: "substitute",
+                  name: 'substitute',
                   attrs: {},
                   children: [
                     {
-                      name: "names",
-                      attrs: { variable: "editor" },
+                      name: 'names',
+                      attrs: { variable: 'editor' },
                       children: [],
                     },
                     {
-                      name: "names",
-                      attrs: { variable: "translator" },
+                      name: 'names',
+                      attrs: { variable: 'translator' },
                       children: [],
                     },
                   ],
                 },
               ],
             },
-            {
-              name: "text",
-              attrs: { macro: "recipient-note" },
-              children: [],
-            },
+            { name: 'text', attrs: { macro: 'recipient-note' }, children: [] },
           ],
         },
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "editor" },
+      name: 'macro',
+      attrs: { name: 'editor' },
       children: [
         {
-          name: "names",
-          attrs: { variable: "editor" },
+          name: 'names',
+          attrs: { variable: 'editor' },
           children: [
             {
-              name: "name",
+              name: 'name',
               attrs: {
-                "name-as-sort-order": "first",
-                and: "text",
-                "sort-separator": ", ",
-                delimiter: ", ",
-                "delimiter-precedes-last": "always",
+                'name-as-sort-order': 'first',
+                and: 'text',
+                'sort-separator': ', ',
+                delimiter: ', ',
+                'delimiter-precedes-last': 'always',
               },
               children: [],
             },
             {
-              name: "label",
-              attrs: { form: "short", prefix: ", " },
+              name: 'label',
+              attrs: { form: 'short', prefix: ', ' },
               children: [],
             },
           ],
@@ -620,27 +604,27 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "translator" },
+      name: 'macro',
+      attrs: { name: 'translator' },
       children: [
         {
-          name: "names",
-          attrs: { variable: "translator" },
+          name: 'names',
+          attrs: { variable: 'translator' },
           children: [
             {
-              name: "name",
+              name: 'name',
               attrs: {
-                "name-as-sort-order": "first",
-                and: "text",
-                "sort-separator": ", ",
-                delimiter: ", ",
-                "delimiter-precedes-last": "always",
+                'name-as-sort-order': 'first',
+                and: 'text',
+                'sort-separator': ', ',
+                delimiter: ', ',
+                'delimiter-precedes-last': 'always',
               },
               children: [],
             },
             {
-              name: "label",
-              attrs: { form: "verb-short", prefix: ", " },
+              name: 'label',
+              attrs: { form: 'verb-short', prefix: ', ' },
               children: [],
             },
           ],
@@ -648,48 +632,48 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "recipient" },
+      name: 'macro',
+      attrs: { name: 'recipient' },
       children: [
         {
-          name: "group",
-          attrs: { delimiter: " " },
+          name: 'group',
+          attrs: { delimiter: ' ' },
           children: [
             {
-              name: "choose",
+              name: 'choose',
               attrs: {},
               children: [
                 {
-                  name: "if",
-                  attrs: { type: "personal_communication" },
+                  name: 'if',
+                  attrs: { type: 'personal_communication' },
                   children: [
                     {
-                      name: "choose",
+                      name: 'choose',
                       attrs: {},
                       children: [
                         {
-                          name: "if",
-                          attrs: { variable: "genre" },
+                          name: 'if',
+                          attrs: { variable: 'genre' },
                           children: [
                             {
-                              name: "text",
+                              name: 'text',
                               attrs: {
-                                variable: "genre",
-                                "text-case": "capitalize-first",
+                                variable: 'genre',
+                                'text-case': 'capitalize-first',
                               },
                               children: [],
                             },
                           ],
                         },
                         {
-                          name: "else",
+                          name: 'else',
                           attrs: {},
                           children: [
                             {
-                              name: "text",
+                              name: 'text',
                               attrs: {
-                                term: "letter",
-                                "text-case": "capitalize-first",
+                                term: 'letter',
+                                'text-case': 'capitalize-first',
                               },
                               children: [],
                             },
@@ -701,67 +685,59 @@ module.exports = {
                 },
               ],
             },
-            {
-              name: "text",
-              attrs: { macro: "recipient-note" },
-              children: [],
-            },
+            { name: 'text', attrs: { macro: 'recipient-note' }, children: [] },
           ],
         },
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "contributors" },
+      name: 'macro',
+      attrs: { name: 'contributors' },
       children: [
         {
-          name: "group",
-          attrs: { delimiter: ". " },
+          name: 'group',
+          attrs: { delimiter: '. ' },
           children: [
             {
-              name: "names",
-              attrs: { variable: "author" },
+              name: 'names',
+              attrs: { variable: 'author' },
               children: [
                 {
-                  name: "name",
+                  name: 'name',
                   attrs: {
-                    "name-as-sort-order": "first",
-                    and: "text",
-                    "sort-separator": ", ",
-                    delimiter: ", ",
-                    "delimiter-precedes-last": "always",
+                    'name-as-sort-order': 'first',
+                    and: 'text',
+                    'sort-separator': ', ',
+                    delimiter: ', ',
+                    'delimiter-precedes-last': 'always',
                   },
                   children: [],
                 },
                 {
-                  name: "substitute",
+                  name: 'substitute',
                   attrs: {},
                   children: [
+                    { name: 'text', attrs: { macro: 'editor' }, children: [] },
                     {
-                      name: "text",
-                      attrs: { macro: "editor" },
+                      name: 'text',
+                      attrs: { macro: 'translator' },
                       children: [],
                     },
                     {
-                      name: "text",
-                      attrs: { macro: "translator" },
-                      children: [],
-                    },
-                    {
-                      name: "choose",
+                      name: 'choose',
                       attrs: {},
                       children: [
                         {
-                          name: "if",
+                          name: 'if',
                           attrs: {
                             type:
-                              "article-magazine article-newspaper webpage post-weblog",
-                            match: "any",
+                              'article-magazine article-newspaper webpage post-weblog',
+                            match: 'any',
                           },
                           children: [
                             {
-                              name: "text",
-                              attrs: { variable: "container-title" },
+                              name: 'text',
+                              attrs: { variable: 'container-title' },
                               children: [],
                             },
                           ],
@@ -772,27 +748,27 @@ module.exports = {
                 },
               ],
             },
-            { name: "text", attrs: { macro: "recipient" }, children: [] },
+            { name: 'text', attrs: { macro: 'recipient' }, children: [] },
           ],
         },
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "recipient-short" },
+      name: 'macro',
+      attrs: { name: 'recipient-short' },
       children: [
         {
-          name: "names",
-          attrs: { variable: "recipient" },
+          name: 'names',
+          attrs: { variable: 'recipient' },
           children: [
             {
-              name: "label",
-              attrs: { form: "verb", "text-case": "lowercase", suffix: " " },
+              name: 'label',
+              attrs: { form: 'verb', 'text-case': 'lowercase', suffix: ' ' },
               children: [],
             },
             {
-              name: "name",
-              attrs: { form: "short", and: "text", delimiter: ", " },
+              name: 'name',
+              attrs: { form: 'short', and: 'text', delimiter: ', ' },
               children: [],
             },
           ],
@@ -800,34 +776,168 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "contributors-short" },
+      name: 'macro',
+      attrs: { name: 'contributors-short' },
       children: [
         {
-          name: "group",
-          attrs: { delimiter: " " },
+          name: 'group',
+          attrs: { delimiter: ' ' },
           children: [
             {
-              name: "names",
-              attrs: { variable: "author" },
+              name: 'names',
+              attrs: { variable: 'author' },
               children: [
                 {
-                  name: "name",
-                  attrs: { form: "short", and: "text", delimiter: ", " },
+                  name: 'name',
+                  attrs: { form: 'short', and: 'text', delimiter: ', ' },
                   children: [],
                 },
                 {
-                  name: "substitute",
+                  name: 'substitute',
                   attrs: {},
                   children: [
                     {
-                      name: "names",
-                      attrs: { variable: "editor" },
+                      name: 'names',
+                      attrs: { variable: 'editor' },
                       children: [],
                     },
                     {
-                      name: "names",
-                      attrs: { variable: "translator" },
+                      name: 'names',
+                      attrs: { variable: 'translator' },
+                      children: [],
+                    },
+                  ],
+                },
+              ],
+            },
+            { name: 'text', attrs: { macro: 'recipient-short' }, children: [] },
+          ],
+        },
+      ],
+    },
+    {
+      name: 'macro',
+      attrs: { name: 'contributors-sort' },
+      children: [
+        {
+          name: 'names',
+          attrs: { variable: 'author' },
+          children: [
+            {
+              name: 'name',
+              attrs: {
+                'name-as-sort-order': 'all',
+                and: 'text',
+                'sort-separator': ', ',
+                delimiter: ', ',
+                'delimiter-precedes-last': 'always',
+              },
+              children: [],
+            },
+            {
+              name: 'substitute',
+              attrs: {},
+              children: [
+                { name: 'names', attrs: { variable: 'editor' }, children: [] },
+                {
+                  name: 'names',
+                  attrs: { variable: 'translator' },
+                  children: [],
+                },
+                { name: 'text', attrs: { macro: 'title' }, children: [] },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      name: 'macro',
+      attrs: { name: 'interviewer-note' },
+      children: [
+        {
+          name: 'names',
+          attrs: { variable: 'interviewer', delimiter: ', ' },
+          children: [
+            {
+              name: 'label',
+              attrs: { form: 'verb', 'text-case': 'lowercase', suffix: ' ' },
+              children: [],
+            },
+            {
+              name: 'name',
+              attrs: { and: 'text', delimiter: ', ' },
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      name: 'macro',
+      attrs: { name: 'interviewer' },
+      children: [
+        {
+          name: 'names',
+          attrs: { variable: 'interviewer', delimiter: ', ' },
+          children: [
+            {
+              name: 'label',
+              attrs: {
+                form: 'verb',
+                'text-case': 'capitalize-first',
+                suffix: ' ',
+              },
+              children: [],
+            },
+            {
+              name: 'name',
+              attrs: { and: 'text', delimiter: ', ' },
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      name: 'macro',
+      attrs: { name: 'title-note' },
+      children: [
+        {
+          name: 'choose',
+          attrs: {},
+          children: [
+            {
+              name: 'if',
+              attrs: { variable: 'title', match: 'none' },
+              children: [
+                { name: 'text', attrs: { variable: 'genre' }, children: [] },
+              ],
+            },
+            {
+              name: 'else-if',
+              attrs: {
+                type: 'book graphic map motion_picture song',
+                match: 'any',
+              },
+              children: [
+                {
+                  name: 'text',
+                  attrs: {
+                    variable: 'title',
+                    'text-case': 'title',
+                    'font-style': 'italic',
+                  },
+                  children: [],
+                },
+                {
+                  name: 'group',
+                  attrs: { delimiter: ' ', prefix: ', ' },
+                  children: [
+                    { name: 'text', attrs: { term: 'version' }, children: [] },
+                    {
+                      name: 'text',
+                      attrs: { variable: 'version' },
                       children: [],
                     },
                   ],
@@ -835,48 +945,40 @@ module.exports = {
               ],
             },
             {
-              name: "text",
-              attrs: { macro: "recipient-short" },
-              children: [],
-            },
-          ],
-        },
-      ],
-    },
-    {
-      name: "macro",
-      attrs: { name: "contributors-sort" },
-      children: [
-        {
-          name: "names",
-          attrs: { variable: "author" },
-          children: [
-            {
-              name: "name",
-              attrs: {
-                "name-as-sort-order": "all",
-                and: "text",
-                "sort-separator": ", ",
-                delimiter: ", ",
-                "delimiter-precedes-last": "always",
-              },
-              children: [],
+              name: 'else-if',
+              attrs: { type: 'legal_case interview patent', match: 'any' },
+              children: [
+                { name: 'text', attrs: { variable: 'title' }, children: [] },
+              ],
             },
             {
-              name: "substitute",
+              name: 'else-if',
+              attrs: { variable: 'reviewed-author' },
+              children: [
+                {
+                  name: 'text',
+                  attrs: {
+                    variable: 'title',
+                    'font-style': 'italic',
+                    prefix: 'review of ',
+                  },
+                  children: [],
+                },
+              ],
+            },
+            {
+              name: 'else',
               attrs: {},
               children: [
                 {
-                  name: "names",
-                  attrs: { variable: "editor" },
+                  name: 'text',
+                  attrs: {
+                    variable: 'title',
+                    'text-case': 'title',
+                    quotes: 'true',
+                  },
                   children: [],
                 },
-                {
-                  name: "names",
-                  attrs: { variable: "translator" },
-                  children: [],
-                },
-                { name: "text", attrs: { macro: "title" }, children: [] },
               ],
             },
           ],
@@ -884,171 +986,30 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "interviewer-note" },
+      name: 'macro',
+      attrs: { name: 'title' },
       children: [
         {
-          name: "names",
-          attrs: { variable: "interviewer", delimiter: ", " },
-          children: [
-            {
-              name: "label",
-              attrs: { form: "verb", "text-case": "lowercase", suffix: " " },
-              children: [],
-            },
-            {
-              name: "name",
-              attrs: { and: "text", delimiter: ", " },
-              children: [],
-            },
-          ],
-        },
-      ],
-    },
-    {
-      name: "macro",
-      attrs: { name: "interviewer" },
-      children: [
-        {
-          name: "names",
-          attrs: { variable: "interviewer", delimiter: ", " },
-          children: [
-            {
-              name: "label",
-              attrs: {
-                form: "verb",
-                "text-case": "capitalize-first",
-                suffix: " ",
-              },
-              children: [],
-            },
-            {
-              name: "name",
-              attrs: { and: "text", delimiter: ", " },
-              children: [],
-            },
-          ],
-        },
-      ],
-    },
-    {
-      name: "macro",
-      attrs: { name: "title-note" },
-      children: [
-        {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
-              attrs: { variable: "title", match: "none" },
-              children: [
-                { name: "text", attrs: { variable: "genre" }, children: [] },
-              ],
-            },
-            {
-              name: "else-if",
-              attrs: {
-                type: "book graphic map motion_picture song",
-                match: "any",
-              },
+              name: 'if',
+              attrs: { variable: 'title', match: 'none' },
               children: [
                 {
-                  name: "text",
-                  attrs: {
-                    variable: "title",
-                    "text-case": "title",
-                    "font-style": "italic",
-                  },
-                  children: [],
-                },
-                {
-                  name: "group",
-                  attrs: { delimiter: " ", prefix: ", " },
-                  children: [
-                    {
-                      name: "text",
-                      attrs: { term: "version" },
-                      children: [],
-                    },
-                    {
-                      name: "text",
-                      attrs: { variable: "version" },
-                      children: [],
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              name: "else-if",
-              attrs: { type: "legal_case interview patent", match: "any" },
-              children: [
-                { name: "text", attrs: { variable: "title" }, children: [] },
-              ],
-            },
-            {
-              name: "else-if",
-              attrs: { variable: "reviewed-author" },
-              children: [
-                {
-                  name: "text",
-                  attrs: {
-                    variable: "title",
-                    "font-style": "italic",
-                    prefix: "review of ",
-                  },
-                  children: [],
-                },
-              ],
-            },
-            {
-              name: "else",
-              attrs: {},
-              children: [
-                {
-                  name: "text",
-                  attrs: {
-                    variable: "title",
-                    "text-case": "title",
-                    quotes: "true",
-                  },
-                  children: [],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    },
-    {
-      name: "macro",
-      attrs: { name: "title" },
-      children: [
-        {
-          name: "choose",
-          attrs: {},
-          children: [
-            {
-              name: "if",
-              attrs: { variable: "title", match: "none" },
-              children: [
-                {
-                  name: "choose",
+                  name: 'choose',
                   attrs: {},
                   children: [
                     {
-                      name: "if",
-                      attrs: {
-                        type: "personal_communication",
-                        match: "none",
-                      },
+                      name: 'if',
+                      attrs: { type: 'personal_communication', match: 'none' },
                       children: [
                         {
-                          name: "text",
+                          name: 'text',
                           attrs: {
-                            variable: "genre",
-                            "text-case": "capitalize-first",
+                            variable: 'genre',
+                            'text-case': 'capitalize-first',
                           },
                           children: [],
                         },
@@ -1059,33 +1020,26 @@ module.exports = {
               ],
             },
             {
-              name: "else-if",
-              attrs: {
-                type: "book graphic motion_picture song",
-                match: "any",
-              },
+              name: 'else-if',
+              attrs: { type: 'book graphic motion_picture song', match: 'any' },
               children: [
                 {
-                  name: "text",
+                  name: 'text',
                   attrs: {
-                    variable: "title",
-                    "text-case": "title",
-                    "font-style": "italic",
+                    variable: 'title',
+                    'text-case': 'title',
+                    'font-style': 'italic',
                   },
                   children: [],
                 },
                 {
-                  name: "group",
-                  attrs: { prefix: " (", suffix: ")", delimiter: " " },
+                  name: 'group',
+                  attrs: { prefix: ' (', suffix: ')', delimiter: ' ' },
                   children: [
+                    { name: 'text', attrs: { term: 'version' }, children: [] },
                     {
-                      name: "text",
-                      attrs: { term: "version" },
-                      children: [],
-                    },
-                    {
-                      name: "text",
-                      attrs: { variable: "version" },
+                      name: 'text',
+                      attrs: { variable: 'version' },
                       children: [],
                     },
                   ],
@@ -1093,38 +1047,38 @@ module.exports = {
               ],
             },
             {
-              name: "else-if",
-              attrs: { variable: "reviewed-author" },
+              name: 'else-if',
+              attrs: { variable: 'reviewed-author' },
               children: [
                 {
-                  name: "group",
-                  attrs: { delimiter: ", " },
+                  name: 'group',
+                  attrs: { delimiter: ', ' },
                   children: [
                     {
-                      name: "text",
+                      name: 'text',
                       attrs: {
-                        variable: "title",
-                        "font-style": "italic",
-                        prefix: "Review of ",
+                        variable: 'title',
+                        'font-style': 'italic',
+                        prefix: 'Review of ',
                       },
                       children: [],
                     },
                     {
-                      name: "names",
-                      attrs: { variable: "reviewed-author" },
+                      name: 'names',
+                      attrs: { variable: 'reviewed-author' },
                       children: [
                         {
-                          name: "label",
+                          name: 'label',
                           attrs: {
-                            form: "verb-short",
-                            "text-case": "lowercase",
-                            suffix: " ",
+                            form: 'verb-short',
+                            'text-case': 'lowercase',
+                            suffix: ' ',
                           },
                           children: [],
                         },
                         {
-                          name: "name",
-                          attrs: { and: "text", delimiter: ", " },
+                          name: 'name',
+                          attrs: { and: 'text', delimiter: ', ' },
                           children: [],
                         },
                       ],
@@ -1134,25 +1088,25 @@ module.exports = {
               ],
             },
             {
-              name: "else-if",
+              name: 'else-if',
               attrs: {
-                type: "bill legislation legal_case interview patent",
-                match: "any",
+                type: 'bill legislation legal_case interview patent',
+                match: 'any',
               },
               children: [
-                { name: "text", attrs: { variable: "title" }, children: [] },
+                { name: 'text', attrs: { variable: 'title' }, children: [] },
               ],
             },
             {
-              name: "else",
+              name: 'else',
               attrs: {},
               children: [
                 {
-                  name: "text",
+                  name: 'text',
                   attrs: {
-                    variable: "title",
-                    "text-case": "title",
-                    quotes: "true",
+                    variable: 'title',
+                    'text-case': 'title',
+                    quotes: 'true',
                   },
                   children: [],
                 },
@@ -1163,39 +1117,39 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "title-short" },
+      name: 'macro',
+      attrs: { name: 'title-short' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
-              attrs: { variable: "title", match: "none" },
+              name: 'if',
+              attrs: { variable: 'title', match: 'none' },
               children: [
                 {
-                  name: "choose",
+                  name: 'choose',
                   attrs: {},
                   children: [
                     {
-                      name: "if",
-                      attrs: { type: "interview" },
+                      name: 'if',
+                      attrs: { type: 'interview' },
                       children: [
                         {
-                          name: "text",
-                          attrs: { term: "interview" },
+                          name: 'text',
+                          attrs: { term: 'interview' },
                           children: [],
                         },
                       ],
                     },
                     {
-                      name: "else-if",
-                      attrs: { type: "manuscript speech", match: "any" },
+                      name: 'else-if',
+                      attrs: { type: 'manuscript speech', match: 'any' },
                       children: [
                         {
-                          name: "text",
-                          attrs: { variable: "genre", form: "short" },
+                          name: 'text',
+                          attrs: { variable: 'genre', form: 'short' },
                           children: [],
                         },
                       ],
@@ -1205,72 +1159,69 @@ module.exports = {
               ],
             },
             {
-              name: "else-if",
-              attrs: {
-                type: "book graphic motion_picture song",
-                match: "any",
-              },
+              name: 'else-if',
+              attrs: { type: 'book graphic motion_picture song', match: 'any' },
               children: [
                 {
-                  name: "text",
+                  name: 'text',
                   attrs: {
-                    variable: "title",
-                    "text-case": "title",
-                    form: "short",
-                    "font-style": "italic",
+                    variable: 'title',
+                    'text-case': 'title',
+                    form: 'short',
+                    'font-style': 'italic',
                   },
                   children: [],
                 },
               ],
             },
             {
-              name: "else-if",
+              name: 'else-if',
               attrs: {
-                type: "legal_case",
-                variable: "title-short",
-                match: "all",
+                type: 'legal_case',
+                variable: 'title-short',
+                match: 'all',
               },
               children: [
                 {
-                  name: "text",
+                  name: 'text',
                   attrs: {
-                    variable: "title",
-                    "font-style": "italic",
-                    form: "short",
+                    variable: 'title',
+                    'font-style': 'italic',
+                    form: 'short',
                   },
                   children: [],
                 },
               ],
             },
             {
-              name: "else-if",
-              attrs: { type: "patent interview", match: "any" },
+              name: 'else-if',
+              attrs: { type: 'patent interview', match: 'any' },
               children: [
                 {
-                  name: "text",
-                  attrs: { variable: "title", form: "short" },
+                  name: 'text',
+                  attrs: { variable: 'title', form: 'short' },
                   children: [],
                 },
               ],
             },
             {
-              name: "else-if",
-              attrs: { type: "legal_case bill legislation", match: "any" },
+              name: 'else-if',
+              attrs: { type: 'legal_case bill legislation', match: 'any' },
               children: [
-                { name: "text", attrs: { variable: "title" }, children: [] },
+                { name: 'text', attrs: { variable: 'title' }, children: [] },
               ],
             },
             {
-              name: "else",
+              name: 'else',
               attrs: {},
               children: [
                 {
-                  name: "text",
+                  name: 'text',
                   attrs: {
-                    variable: "title",
-                    "text-case": "title",
-                    form: "short",
-                    quotes: "true",
+                    variable: 'title',
+                    'text-case': 'title',
+                    form: 'short',
+                    quotes: 'true',
                   },
                   children: [],
                 },
@@ -1281,22 +1232,22 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "date-disambiguate" },
+      name: 'macro',
+      attrs: { name: 'date-disambiguate' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
+              name: 'if',
               attrs: {
-                disambiguate: "true",
-                type: "personal_communication",
-                match: "any",
+                disambiguate: 'true',
+                type: 'personal_communication',
+                match: 'any',
               },
               children: [
-                { name: "text", attrs: { macro: "issued" }, children: [] },
+                { name: 'text', attrs: { macro: 'issued' }, children: [] },
               ],
             },
           ],
@@ -1304,49 +1255,49 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "description-note" },
+      name: 'macro',
+      attrs: { name: 'description-note' },
       children: [
         {
-          name: "group",
-          attrs: { delimiter: ", " },
+          name: 'group',
+          attrs: { delimiter: ', ' },
           children: [
             {
-              name: "text",
-              attrs: { macro: "interviewer-note" },
+              name: 'text',
+              attrs: { macro: 'interviewer-note' },
               children: [],
             },
-            { name: "text", attrs: { variable: "medium" }, children: [] },
+            { name: 'text', attrs: { variable: 'medium' }, children: [] },
             {
-              name: "choose",
+              name: 'choose',
               attrs: {},
               children: [
                 {
-                  name: "if",
-                  attrs: { variable: "title", match: "none" },
+                  name: 'if',
+                  attrs: { variable: 'title', match: 'none' },
                   children: [],
                 },
                 {
-                  name: "else-if",
-                  attrs: { type: "manuscript thesis speech", match: "any" },
+                  name: 'else-if',
+                  attrs: { type: 'manuscript thesis speech', match: 'any' },
                   children: [],
                 },
                 {
-                  name: "else-if",
-                  attrs: { type: "patent" },
+                  name: 'else-if',
+                  attrs: { type: 'patent' },
                   children: [
                     {
-                      name: "group",
-                      attrs: { delimiter: " " },
+                      name: 'group',
+                      attrs: { delimiter: ' ' },
                       children: [
                         {
-                          name: "text",
-                          attrs: { variable: "authority" },
+                          name: 'text',
+                          attrs: { variable: 'authority' },
                           children: [],
                         },
                         {
-                          name: "text",
-                          attrs: { variable: "number" },
+                          name: 'text',
+                          attrs: { variable: 'number' },
                           children: [],
                         },
                       ],
@@ -1354,12 +1305,12 @@ module.exports = {
                   ],
                 },
                 {
-                  name: "else",
+                  name: 'else',
                   attrs: {},
                   children: [
                     {
-                      name: "text",
-                      attrs: { variable: "genre" },
+                      name: 'text',
+                      attrs: { variable: 'genre' },
                       children: [],
                     },
                   ],
@@ -1367,27 +1318,27 @@ module.exports = {
               ],
             },
             {
-              name: "choose",
+              name: 'choose',
               attrs: {},
               children: [
                 {
-                  name: "if",
-                  attrs: { type: "map" },
+                  name: 'if',
+                  attrs: { type: 'map' },
                   children: [
                     {
-                      name: "text",
-                      attrs: { variable: "scale" },
+                      name: 'text',
+                      attrs: { variable: 'scale' },
                       children: [],
                     },
                   ],
                 },
                 {
-                  name: "else-if",
-                  attrs: { type: "graphic" },
+                  name: 'else-if',
+                  attrs: { type: 'graphic' },
                   children: [
                     {
-                      name: "text",
-                      attrs: { variable: "dimensions" },
+                      name: 'text',
+                      attrs: { variable: 'dimensions' },
                       children: [],
                     },
                   ],
@@ -1399,62 +1350,58 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "description" },
+      name: 'macro',
+      attrs: { name: 'description' },
       children: [
         {
-          name: "group",
-          attrs: { delimiter: ", " },
+          name: 'group',
+          attrs: { delimiter: ', ' },
           children: [
             {
-              name: "group",
-              attrs: { delimiter: ". " },
+              name: 'group',
+              attrs: { delimiter: '. ' },
               children: [
+                { name: 'text', attrs: { macro: 'interviewer' }, children: [] },
                 {
-                  name: "text",
-                  attrs: { macro: "interviewer" },
-                  children: [],
-                },
-                {
-                  name: "text",
+                  name: 'text',
                   attrs: {
-                    variable: "medium",
-                    "text-case": "capitalize-first",
+                    variable: 'medium',
+                    'text-case': 'capitalize-first',
                   },
                   children: [],
                 },
               ],
             },
             {
-              name: "choose",
+              name: 'choose',
               attrs: {},
               children: [
                 {
-                  name: "if",
-                  attrs: { variable: "title", match: "none" },
+                  name: 'if',
+                  attrs: { variable: 'title', match: 'none' },
                   children: [],
                 },
                 {
-                  name: "else-if",
-                  attrs: { type: "thesis speech", match: "any" },
+                  name: 'else-if',
+                  attrs: { type: 'thesis speech', match: 'any' },
                   children: [],
                 },
                 {
-                  name: "else-if",
-                  attrs: { type: "patent" },
+                  name: 'else-if',
+                  attrs: { type: 'patent' },
                   children: [
                     {
-                      name: "group",
-                      attrs: { delimiter: " " },
+                      name: 'group',
+                      attrs: { delimiter: ' ' },
                       children: [
                         {
-                          name: "text",
-                          attrs: { variable: "authority" },
+                          name: 'text',
+                          attrs: { variable: 'authority' },
                           children: [],
                         },
                         {
-                          name: "text",
-                          attrs: { variable: "number" },
+                          name: 'text',
+                          attrs: { variable: 'number' },
                           children: [],
                         },
                       ],
@@ -1462,14 +1409,14 @@ module.exports = {
                   ],
                 },
                 {
-                  name: "else",
+                  name: 'else',
                   attrs: {},
                   children: [
                     {
-                      name: "text",
+                      name: 'text',
                       attrs: {
-                        variable: "genre",
-                        "text-case": "capitalize-first",
+                        variable: 'genre',
+                        'text-case': 'capitalize-first',
                       },
                       children: [],
                     },
@@ -1478,27 +1425,27 @@ module.exports = {
               ],
             },
             {
-              name: "choose",
+              name: 'choose',
               attrs: {},
               children: [
                 {
-                  name: "if",
-                  attrs: { type: "map" },
+                  name: 'if',
+                  attrs: { type: 'map' },
                   children: [
                     {
-                      name: "text",
-                      attrs: { variable: "scale" },
+                      name: 'text',
+                      attrs: { variable: 'scale' },
                       children: [],
                     },
                   ],
                 },
                 {
-                  name: "else-if",
-                  attrs: { type: "graphic" },
+                  name: 'else-if',
+                  attrs: { type: 'graphic' },
                   children: [
                     {
-                      name: "text",
-                      attrs: { variable: "dimensions" },
+                      name: 'text',
+                      attrs: { variable: 'dimensions' },
                       children: [],
                     },
                   ],
@@ -1510,74 +1457,71 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "container-title-note" },
+      name: 'macro',
+      attrs: { name: 'container-title-note' },
       children: [
         {
-          name: "group",
-          attrs: { delimiter: " " },
+          name: 'group',
+          attrs: { delimiter: ' ' },
           children: [
             {
-              name: "choose",
+              name: 'choose',
               attrs: {},
               children: [
                 {
-                  name: "if",
+                  name: 'if',
                   attrs: {
                     type:
-                      "chapter entry-dictionary entry-encyclopedia paper-conference",
-                    match: "any",
+                      'chapter entry-dictionary entry-encyclopedia paper-conference',
+                    match: 'any',
                   },
                   children: [
-                    { name: "text", attrs: { term: "in" }, children: [] },
+                    { name: 'text', attrs: { term: 'in' }, children: [] },
                   ],
                 },
               ],
             },
             {
-              name: "choose",
+              name: 'choose',
               attrs: {},
               children: [
                 {
-                  name: "if",
-                  attrs: { type: "webpage" },
+                  name: 'if',
+                  attrs: { type: 'webpage' },
                   children: [
                     {
-                      name: "text",
-                      attrs: { variable: "container-title" },
+                      name: 'text',
+                      attrs: { variable: 'container-title' },
                       children: [],
                     },
                   ],
                 },
                 {
-                  name: "else-if",
-                  attrs: { type: "post-weblog" },
+                  name: 'else-if',
+                  attrs: { type: 'post-weblog' },
                   children: [
                     {
-                      name: "text",
+                      name: 'text',
                       attrs: {
-                        variable: "container-title",
-                        "text-case": "title",
-                        "font-style": "italic",
-                        suffix: " (blog)",
+                        variable: 'container-title',
+                        'text-case': 'title',
+                        'font-style': 'italic',
+                        suffix: ' (blog)',
                       },
                       children: [],
                     },
                   ],
                 },
                 {
-                  name: "else-if",
-                  attrs: {
-                    type: "bill legislation legal_case",
-                    match: "none",
-                  },
+                  name: 'else-if',
+                  attrs: { type: 'bill legislation legal_case', match: 'none' },
                   children: [
                     {
-                      name: "text",
+                      name: 'text',
                       attrs: {
-                        variable: "container-title",
-                        "text-case": "title",
-                        "font-style": "italic",
+                        variable: 'container-title',
+                        'text-case': 'title',
+                        'font-style': 'italic',
                       },
                       children: [],
                     },
@@ -1590,28 +1534,28 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "container-title" },
+      name: 'macro',
+      attrs: { name: 'container-title' },
       children: [
         {
-          name: "group",
-          attrs: { delimiter: " " },
+          name: 'group',
+          attrs: { delimiter: ' ' },
           children: [
             {
-              name: "choose",
+              name: 'choose',
               attrs: {},
               children: [
                 {
-                  name: "if",
+                  name: 'if',
                   attrs: {
                     type:
-                      "chapter entry-dictionary entry-encyclopedia paper-conference",
-                    match: "any",
+                      'chapter entry-dictionary entry-encyclopedia paper-conference',
+                    match: 'any',
                   },
                   children: [
                     {
-                      name: "text",
-                      attrs: { term: "in", "text-case": "capitalize-first" },
+                      name: 'text',
+                      attrs: { term: 'in', 'text-case': 'capitalize-first' },
                       children: [],
                     },
                   ],
@@ -1619,49 +1563,46 @@ module.exports = {
               ],
             },
             {
-              name: "choose",
+              name: 'choose',
               attrs: {},
               children: [
                 {
-                  name: "if",
-                  attrs: { type: "webpage" },
+                  name: 'if',
+                  attrs: { type: 'webpage' },
                   children: [
                     {
-                      name: "text",
-                      attrs: { variable: "container-title" },
+                      name: 'text',
+                      attrs: { variable: 'container-title' },
                       children: [],
                     },
                   ],
                 },
                 {
-                  name: "else-if",
-                  attrs: { type: "post-weblog" },
+                  name: 'else-if',
+                  attrs: { type: 'post-weblog' },
                   children: [
                     {
-                      name: "text",
+                      name: 'text',
                       attrs: {
-                        variable: "container-title",
-                        "text-case": "title",
-                        "font-style": "italic",
-                        suffix: " (blog)",
+                        variable: 'container-title',
+                        'text-case': 'title',
+                        'font-style': 'italic',
+                        suffix: ' (blog)',
                       },
                       children: [],
                     },
                   ],
                 },
                 {
-                  name: "else-if",
-                  attrs: {
-                    type: "bill legislation legal_case",
-                    match: "none",
-                  },
+                  name: 'else-if',
+                  attrs: { type: 'bill legislation legal_case', match: 'none' },
                   children: [
                     {
-                      name: "text",
+                      name: 'text',
                       attrs: {
-                        variable: "container-title",
-                        "text-case": "title",
-                        "font-style": "italic",
+                        variable: 'container-title',
+                        'text-case': 'title',
+                        'font-style': 'italic',
                       },
                       children: [],
                     },
@@ -1674,43 +1615,43 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "collection-title" },
+      name: 'macro',
+      attrs: { name: 'collection-title' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
-              attrs: { match: "none", type: "article-journal" },
+              name: 'if',
+              attrs: { match: 'none', type: 'article-journal' },
               children: [
                 {
-                  name: "choose",
+                  name: 'choose',
                   attrs: {},
                   children: [
                     {
-                      name: "if",
+                      name: 'if',
                       attrs: {
-                        match: "none",
-                        "is-numeric": "collection-number",
+                        match: 'none',
+                        'is-numeric': 'collection-number',
                       },
                       children: [
                         {
-                          name: "group",
-                          attrs: { delimiter: ", " },
+                          name: 'group',
+                          attrs: { delimiter: ', ' },
                           children: [
                             {
-                              name: "text",
+                              name: 'text',
                               attrs: {
-                                variable: "collection-title",
-                                "text-case": "title",
+                                variable: 'collection-title',
+                                'text-case': 'title',
                               },
                               children: [],
                             },
                             {
-                              name: "text",
-                              attrs: { variable: "collection-number" },
+                              name: 'text',
+                              attrs: { variable: 'collection-number' },
                               children: [],
                             },
                           ],
@@ -1718,24 +1659,24 @@ module.exports = {
                       ],
                     },
                     {
-                      name: "else",
+                      name: 'else',
                       attrs: {},
                       children: [
                         {
-                          name: "group",
-                          attrs: { delimiter: " " },
+                          name: 'group',
+                          attrs: { delimiter: ' ' },
                           children: [
                             {
-                              name: "text",
+                              name: 'text',
                               attrs: {
-                                variable: "collection-title",
-                                "text-case": "title",
+                                variable: 'collection-title',
+                                'text-case': 'title',
                               },
                               children: [],
                             },
                             {
-                              name: "text",
-                              attrs: { variable: "collection-number" },
+                              name: 'text',
+                              attrs: { variable: 'collection-number' },
                               children: [],
                             },
                           ],
@@ -1751,29 +1692,29 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "collection-title-journal" },
+      name: 'macro',
+      attrs: { name: 'collection-title-journal' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
-              attrs: { type: "article-journal" },
+              name: 'if',
+              attrs: { type: 'article-journal' },
               children: [
                 {
-                  name: "group",
-                  attrs: { delimiter: " " },
+                  name: 'group',
+                  attrs: { delimiter: ' ' },
                   children: [
                     {
-                      name: "text",
-                      attrs: { variable: "collection-title" },
+                      name: 'text',
+                      attrs: { variable: 'collection-title' },
                       children: [],
                     },
                     {
-                      name: "text",
-                      attrs: { variable: "collection-number" },
+                      name: 'text',
+                      attrs: { variable: 'collection-number' },
                       children: [],
                     },
                   ],
@@ -1785,41 +1726,41 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "edition-note" },
+      name: 'macro',
+      attrs: { name: 'edition-note' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
+              name: 'if',
               attrs: {
                 type:
-                  "book chapter graphic motion_picture paper-conference report song",
-                match: "any",
+                  'book chapter graphic motion_picture paper-conference report song',
+                match: 'any',
               },
               children: [
                 {
-                  name: "choose",
+                  name: 'choose',
                   attrs: {},
                   children: [
                     {
-                      name: "if",
-                      attrs: { "is-numeric": "edition" },
+                      name: 'if',
+                      attrs: { 'is-numeric': 'edition' },
                       children: [
                         {
-                          name: "group",
-                          attrs: { delimiter: " " },
+                          name: 'group',
+                          attrs: { delimiter: ' ' },
                           children: [
                             {
-                              name: "number",
-                              attrs: { variable: "edition", form: "ordinal" },
+                              name: 'number',
+                              attrs: { variable: 'edition', form: 'ordinal' },
                               children: [],
                             },
                             {
-                              name: "text",
-                              attrs: { term: "edition", form: "short" },
+                              name: 'text',
+                              attrs: { term: 'edition', form: 'short' },
                               children: [],
                             },
                           ],
@@ -1827,12 +1768,12 @@ module.exports = {
                       ],
                     },
                     {
-                      name: "else",
+                      name: 'else',
                       attrs: {},
                       children: [
                         {
-                          name: "text",
-                          attrs: { variable: "edition" },
+                          name: 'text',
+                          attrs: { variable: 'edition' },
                           children: [],
                         },
                       ],
@@ -1846,41 +1787,41 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "edition" },
+      name: 'macro',
+      attrs: { name: 'edition' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
+              name: 'if',
               attrs: {
                 type:
-                  "book chapter graphic motion_picture paper-conference report song",
-                match: "any",
+                  'book chapter graphic motion_picture paper-conference report song',
+                match: 'any',
               },
               children: [
                 {
-                  name: "choose",
+                  name: 'choose',
                   attrs: {},
                   children: [
                     {
-                      name: "if",
-                      attrs: { "is-numeric": "edition" },
+                      name: 'if',
+                      attrs: { 'is-numeric': 'edition' },
                       children: [
                         {
-                          name: "group",
-                          attrs: { delimiter: " " },
+                          name: 'group',
+                          attrs: { delimiter: ' ' },
                           children: [
                             {
-                              name: "number",
-                              attrs: { variable: "edition", form: "ordinal" },
+                              name: 'number',
+                              attrs: { variable: 'edition', form: 'ordinal' },
                               children: [],
                             },
                             {
-                              name: "text",
-                              attrs: { term: "edition", form: "short" },
+                              name: 'text',
+                              attrs: { term: 'edition', form: 'short' },
                               children: [],
                             },
                           ],
@@ -1888,15 +1829,15 @@ module.exports = {
                       ],
                     },
                     {
-                      name: "else",
+                      name: 'else',
                       attrs: {},
                       children: [
                         {
-                          name: "text",
+                          name: 'text',
                           attrs: {
-                            variable: "edition",
-                            "text-case": "capitalize-first",
-                            suffix: ".",
+                            variable: 'edition',
+                            'text-case': 'capitalize-first',
+                            suffix: '.',
                           },
                           children: [],
                         },
@@ -1911,32 +1852,32 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "locators-note-join-with-space" },
+      name: 'macro',
+      attrs: { name: 'locators-note-join-with-space' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
+              name: 'if',
               attrs: {
-                type: "article-journal",
-                variable: "volume",
-                match: "all",
+                type: 'article-journal',
+                variable: 'volume',
+                match: 'all',
               },
               children: [
                 {
-                  name: "choose",
+                  name: 'choose',
                   attrs: {},
                   children: [
                     {
-                      name: "if",
-                      attrs: { match: "none", variable: "collection-title" },
+                      name: 'if',
+                      attrs: { match: 'none', variable: 'collection-title' },
                       children: [
                         {
-                          name: "text",
-                          attrs: { macro: "locators-note" },
+                          name: 'text',
+                          attrs: { macro: 'locators-note' },
                           children: [],
                         },
                       ],
@@ -1950,50 +1891,50 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "locators-note-join-with-comma" },
+      name: 'macro',
+      attrs: { name: 'locators-note-join-with-comma' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
-              attrs: { type: "article-journal", match: "none" },
+              name: 'if',
+              attrs: { type: 'article-journal', match: 'none' },
               children: [
                 {
-                  name: "text",
-                  attrs: { macro: "locators-note" },
+                  name: 'text',
+                  attrs: { macro: 'locators-note' },
                   children: [],
                 },
               ],
             },
             {
-              name: "else-if",
-              attrs: { type: "article-journal" },
+              name: 'else-if',
+              attrs: { type: 'article-journal' },
               children: [
                 {
-                  name: "choose",
+                  name: 'choose',
                   attrs: {},
                   children: [
                     {
-                      name: "if",
-                      attrs: { variable: "volume", match: "none" },
+                      name: 'if',
+                      attrs: { variable: 'volume', match: 'none' },
                       children: [
                         {
-                          name: "text",
-                          attrs: { macro: "locators-note" },
+                          name: 'text',
+                          attrs: { macro: 'locators-note' },
                           children: [],
                         },
                       ],
                     },
                     {
-                      name: "else-if",
-                      attrs: { match: "any", variable: "collection-title" },
+                      name: 'else-if',
+                      attrs: { match: 'any', variable: 'collection-title' },
                       children: [
                         {
-                          name: "text",
-                          attrs: { macro: "locators-note" },
+                          name: 'text',
+                          attrs: { macro: 'locators-note' },
                           children: [],
                         },
                       ],
@@ -2007,43 +1948,43 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "locators-note" },
+      name: 'macro',
+      attrs: { name: 'locators-note' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
-              attrs: { type: "article-journal" },
+              name: 'if',
+              attrs: { type: 'article-journal' },
               children: [
                 {
-                  name: "group",
-                  attrs: { delimiter: ", " },
+                  name: 'group',
+                  attrs: { delimiter: ', ' },
                   children: [
                     {
-                      name: "text",
-                      attrs: { macro: "collection-title-journal" },
+                      name: 'text',
+                      attrs: { macro: 'collection-title-journal' },
                       children: [],
                     },
                     {
-                      name: "text",
-                      attrs: { variable: "volume" },
+                      name: 'text',
+                      attrs: { variable: 'volume' },
                       children: [],
                     },
                     {
-                      name: "group",
-                      attrs: { delimiter: " " },
+                      name: 'group',
+                      attrs: { delimiter: ' ' },
                       children: [
                         {
-                          name: "text",
-                          attrs: { term: "issue", form: "short" },
+                          name: 'text',
+                          attrs: { term: 'issue', form: 'short' },
                           children: [],
                         },
                         {
-                          name: "text",
-                          attrs: { variable: "issue" },
+                          name: 'text',
+                          attrs: { variable: 'issue' },
                           children: [],
                         },
                       ],
@@ -2053,75 +1994,71 @@ module.exports = {
               ],
             },
             {
-              name: "else-if",
-              attrs: { type: "bill legislation legal_case", match: "any" },
+              name: 'else-if',
+              attrs: { type: 'bill legislation legal_case', match: 'any' },
               children: [
-                {
-                  name: "text",
-                  attrs: { macro: "legal-cites" },
-                  children: [],
-                },
+                { name: 'text', attrs: { macro: 'legal-cites' }, children: [] },
               ],
             },
             {
-              name: "else-if",
+              name: 'else-if',
               attrs: {
                 type:
-                  "book chapter graphic motion_picture paper-conference report song",
-                match: "any",
+                  'book chapter graphic motion_picture paper-conference report song',
+                match: 'any',
               },
               children: [
                 {
-                  name: "group",
-                  attrs: { delimiter: ", " },
+                  name: 'group',
+                  attrs: { delimiter: ', ' },
                   children: [
                     {
-                      name: "text",
-                      attrs: { macro: "edition-note" },
+                      name: 'text',
+                      attrs: { macro: 'edition-note' },
                       children: [],
                     },
                     {
-                      name: "group",
-                      attrs: { delimiter: " " },
+                      name: 'group',
+                      attrs: { delimiter: ' ' },
                       children: [
                         {
-                          name: "text",
-                          attrs: { term: "volume", form: "short" },
+                          name: 'text',
+                          attrs: { term: 'volume', form: 'short' },
                           children: [],
                         },
                         {
-                          name: "number",
-                          attrs: { variable: "volume", form: "numeric" },
+                          name: 'number',
+                          attrs: { variable: 'volume', form: 'numeric' },
                           children: [],
                         },
                       ],
                     },
                     {
-                      name: "choose",
+                      name: 'choose',
                       attrs: {},
                       children: [
                         {
-                          name: "if",
-                          attrs: { variable: "locator", match: "none" },
+                          name: 'if',
+                          attrs: { variable: 'locator', match: 'none' },
                           children: [
                             {
-                              name: "group",
-                              attrs: { delimiter: " " },
+                              name: 'group',
+                              attrs: { delimiter: ' ' },
                               children: [
                                 {
-                                  name: "number",
+                                  name: 'number',
                                   attrs: {
-                                    variable: "number-of-volumes",
-                                    form: "numeric",
+                                    variable: 'number-of-volumes',
+                                    form: 'numeric',
                                   },
                                   children: [],
                                 },
                                 {
-                                  name: "text",
+                                  name: 'text',
                                   attrs: {
-                                    term: "volume",
-                                    form: "short",
-                                    plural: "true",
+                                    term: 'volume',
+                                    form: 'short',
+                                    plural: 'true',
                                   },
                                   children: [],
                                 },
@@ -2140,70 +2077,69 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "legal-cites" },
+      name: 'macro',
+      attrs: { name: 'legal-cites' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
-              attrs: { type: "legal_case", match: "any" },
+              name: 'if',
+              attrs: { type: 'legal_case', match: 'any' },
               children: [
                 {
-                  name: "group",
-                  attrs: { delimiter: " " },
+                  name: 'group',
+                  attrs: { delimiter: ' ' },
                   children: [
                     {
-                      name: "choose",
+                      name: 'choose',
                       attrs: {},
                       children: [
                         {
-                          name: "if",
-                          attrs: { variable: "container-title" },
+                          name: 'if',
+                          attrs: { variable: 'container-title' },
                           children: [
                             {
-                              name: "text",
-                              attrs: { variable: "volume" },
+                              name: 'text',
+                              attrs: { variable: 'volume' },
                               children: [],
                             },
                             {
-                              name: "text",
-                              attrs: { variable: "container-title" },
+                              name: 'text',
+                              attrs: { variable: 'container-title' },
                               children: [],
                             },
                             {
-                              name: "group",
-                              attrs: { delimiter: " " },
+                              name: 'group',
+                              attrs: { delimiter: ' ' },
                               children: [
-                                { name: "#comment", attrs: {}, children: [] },
                                 {
-                                  name: "text",
-                                  attrs: { term: "section", form: "symbol" },
+                                  name: 'text',
+                                  attrs: { term: 'section', form: 'symbol' },
                                   children: [],
                                 },
                                 {
-                                  name: "text",
-                                  attrs: { variable: "section" },
+                                  name: 'text',
+                                  attrs: { variable: 'section' },
                                   children: [],
                                 },
                               ],
                             },
                             {
-                              name: "text",
-                              attrs: { variable: "page" },
+                              name: 'text',
+                              attrs: { variable: 'page' },
                               children: [],
                             },
                           ],
                         },
                         {
-                          name: "else",
+                          name: 'else',
                           attrs: {},
                           children: [
                             {
-                              name: "text",
-                              attrs: { variable: "number", prefix: "No. " },
+                              name: 'text',
+                              attrs: { variable: 'number', prefix: 'No. ' },
                               children: [],
                             },
                           ],
@@ -2215,64 +2151,62 @@ module.exports = {
               ],
             },
             {
-              name: "else-if",
-              attrs: { type: "bill legislation", match: "any" },
+              name: 'else-if',
+              attrs: { type: 'bill legislation', match: 'any' },
               children: [
                 {
-                  name: "group",
-                  attrs: { delimiter: ", " },
+                  name: 'group',
+                  attrs: { delimiter: ', ' },
                   children: [
                     {
-                      name: "choose",
+                      name: 'choose',
                       attrs: {},
                       children: [
                         {
-                          name: "if",
-                          attrs: { variable: "number" },
+                          name: 'if',
+                          attrs: { variable: 'number' },
                           children: [
-                            { name: "#comment", attrs: {}, children: [] },
                             {
-                              name: "text",
+                              name: 'text',
                               attrs: {
-                                variable: "number",
-                                prefix: "Pub. L. No. ",
+                                variable: 'number',
+                                prefix: 'Pub. L. No. ',
                               },
                               children: [],
                             },
                             {
-                              name: "group",
-                              attrs: { delimiter: " " },
+                              name: 'group',
+                              attrs: { delimiter: ' ' },
                               children: [
-                                { name: "#comment", attrs: {}, children: [] },
                                 {
-                                  name: "text",
-                                  attrs: { term: "section", form: "symbol" },
+                                  name: 'text',
+                                  attrs: { term: 'section', form: 'symbol' },
                                   children: [],
                                 },
                                 {
-                                  name: "text",
-                                  attrs: { variable: "section" },
+                                  name: 'text',
+                                  attrs: { variable: 'section' },
                                   children: [],
                                 },
                               ],
                             },
                             {
-                              name: "group",
-                              attrs: { delimiter: " " },
+                              name: 'group',
+                              attrs: { delimiter: ' ' },
                               children: [
                                 {
-                                  name: "text",
-                                  attrs: { variable: "volume" },
+                                  name: 'text',
+                                  attrs: { variable: 'volume' },
                                   children: [],
                                 },
                                 {
-                                  name: "text",
-                                  attrs: { variable: "container-title" },
+                                  name: 'text',
+                                  attrs: { variable: 'container-title' },
                                   children: [],
                                 },
                                 {
-                                  name: "text",
-                                  attrs: { variable: "page-first" },
+                                  name: 'text',
+                                  attrs: { variable: 'page-first' },
                                   children: [],
                                 },
                               ],
@@ -2280,32 +2214,31 @@ module.exports = {
                           ],
                         },
                         {
-                          name: "else",
+                          name: 'else',
                           attrs: {},
                           children: [
                             {
-                              name: "group",
-                              attrs: { delimiter: " " },
+                              name: 'group',
+                              attrs: { delimiter: ' ' },
                               children: [
                                 {
-                                  name: "text",
-                                  attrs: { variable: "volume" },
+                                  name: 'text',
+                                  attrs: { variable: 'volume' },
                                   children: [],
                                 },
                                 {
-                                  name: "text",
-                                  attrs: { variable: "container-title" },
-                                  children: [],
-                                },
-                                { name: "#comment", attrs: {}, children: [] },
-                                {
-                                  name: "text",
-                                  attrs: { term: "section", form: "symbol" },
+                                  name: 'text',
+                                  attrs: { variable: 'container-title' },
                                   children: [],
                                 },
                                 {
-                                  name: "text",
-                                  attrs: { variable: "section" },
+                                  name: 'text',
+                                  attrs: { term: 'section', form: 'symbol' },
+                                  children: [],
+                                },
+                                {
+                                  name: 'text',
+                                  attrs: { variable: 'section' },
                                   children: [],
                                 },
                               ],
@@ -2323,32 +2256,32 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "locators-join-with-space" },
+      name: 'macro',
+      attrs: { name: 'locators-join-with-space' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
+              name: 'if',
               attrs: {
-                type: "article-journal",
-                variable: "volume",
-                match: "all",
+                type: 'article-journal',
+                variable: 'volume',
+                match: 'all',
               },
               children: [
                 {
-                  name: "choose",
+                  name: 'choose',
                   attrs: {},
                   children: [
                     {
-                      name: "if",
-                      attrs: { match: "none", variable: "collection-title" },
+                      name: 'if',
+                      attrs: { match: 'none', variable: 'collection-title' },
                       children: [
                         {
-                          name: "text",
-                          attrs: { macro: "locators" },
+                          name: 'text',
+                          attrs: { macro: 'locators' },
                           children: [],
                         },
                       ],
@@ -2362,49 +2295,49 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "locators-join-with-comma" },
+      name: 'macro',
+      attrs: { name: 'locators-join-with-comma' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
+              name: 'if',
               attrs: {
-                type: "bill chapter legislation legal_case paper-conference",
-                match: "any",
+                type: 'bill chapter legislation legal_case paper-conference',
+                match: 'any',
               },
               children: [
-                { name: "text", attrs: { macro: "locators" }, children: [] },
+                { name: 'text', attrs: { macro: 'locators' }, children: [] },
               ],
             },
             {
-              name: "else-if",
-              attrs: { type: "article-journal" },
+              name: 'else-if',
+              attrs: { type: 'article-journal' },
               children: [
                 {
-                  name: "choose",
+                  name: 'choose',
                   attrs: {},
                   children: [
                     {
-                      name: "if",
-                      attrs: { variable: "volume", match: "none" },
+                      name: 'if',
+                      attrs: { variable: 'volume', match: 'none' },
                       children: [
                         {
-                          name: "text",
-                          attrs: { macro: "locators" },
+                          name: 'text',
+                          attrs: { macro: 'locators' },
                           children: [],
                         },
                       ],
                     },
                     {
-                      name: "else-if",
-                      attrs: { match: "any", variable: "collection-title" },
+                      name: 'else-if',
+                      attrs: { match: 'any', variable: 'collection-title' },
                       children: [
                         {
-                          name: "text",
-                          attrs: { macro: "locators" },
+                          name: 'text',
+                          attrs: { macro: 'locators' },
                           children: [],
                         },
                       ],
@@ -2418,22 +2351,22 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "locators-join-with-period" },
+      name: 'macro',
+      attrs: { name: 'locators-join-with-period' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
+              name: 'if',
               attrs: {
                 type:
-                  "bill legislation legal_case article-journal chapter paper-conference",
-                match: "none",
+                  'bill legislation legal_case article-journal chapter paper-conference',
+                match: 'none',
               },
               children: [
-                { name: "text", attrs: { macro: "locators" }, children: [] },
+                { name: 'text', attrs: { macro: 'locators' }, children: [] },
               ],
             },
           ],
@@ -2441,43 +2374,43 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "locators" },
+      name: 'macro',
+      attrs: { name: 'locators' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
-              attrs: { type: "article-journal" },
+              name: 'if',
+              attrs: { type: 'article-journal' },
               children: [
                 {
-                  name: "group",
-                  attrs: { delimiter: ", " },
+                  name: 'group',
+                  attrs: { delimiter: ', ' },
                   children: [
                     {
-                      name: "text",
-                      attrs: { macro: "collection-title-journal" },
+                      name: 'text',
+                      attrs: { macro: 'collection-title-journal' },
                       children: [],
                     },
                     {
-                      name: "text",
-                      attrs: { variable: "volume" },
+                      name: 'text',
+                      attrs: { variable: 'volume' },
                       children: [],
                     },
                     {
-                      name: "group",
-                      attrs: { delimiter: " " },
+                      name: 'group',
+                      attrs: { delimiter: ' ' },
                       children: [
                         {
-                          name: "text",
-                          attrs: { term: "issue", form: "short" },
+                          name: 'text',
+                          attrs: { term: 'issue', form: 'short' },
                           children: [],
                         },
                         {
-                          name: "text",
-                          attrs: { variable: "issue" },
+                          name: 'text',
+                          attrs: { variable: 'issue' },
                           children: [],
                         },
                       ],
@@ -2487,70 +2420,62 @@ module.exports = {
               ],
             },
             {
-              name: "else-if",
-              attrs: { type: "bill legislation legal_case", match: "any" },
+              name: 'else-if',
+              attrs: { type: 'bill legislation legal_case', match: 'any' },
               children: [
-                {
-                  name: "text",
-                  attrs: { macro: "legal-cites" },
-                  children: [],
-                },
+                { name: 'text', attrs: { macro: 'legal-cites' }, children: [] },
               ],
             },
             {
-              name: "else-if",
+              name: 'else-if',
               attrs: {
-                type: "book graphic motion_picture report song",
-                match: "any",
+                type: 'book graphic motion_picture report song',
+                match: 'any',
               },
               children: [
                 {
-                  name: "group",
-                  attrs: { delimiter: ". " },
+                  name: 'group',
+                  attrs: { delimiter: '. ' },
                   children: [
+                    { name: 'text', attrs: { macro: 'edition' }, children: [] },
                     {
-                      name: "text",
-                      attrs: { macro: "edition" },
-                      children: [],
-                    },
-                    {
-                      name: "group",
-                      attrs: { delimiter: " " },
+                      name: 'group',
+                      attrs: { delimiter: ' ' },
                       children: [
                         {
-                          name: "text",
+                          name: 'text',
                           attrs: {
-                            term: "volume",
-                            form: "short",
-                            "text-case": "capitalize-first",
+                            term: 'volume',
+                            form: 'short',
+                            'text-case': 'capitalize-first',
                           },
                           children: [],
                         },
                         {
-                          name: "number",
-                          attrs: { variable: "volume", form: "numeric" },
+                          name: 'number',
+                          attrs: { variable: 'volume', form: 'numeric' },
                           children: [],
                         },
                       ],
                     },
                     {
-                      name: "group",
-                      attrs: { delimiter: " " },
+                      name: 'group',
+                      attrs: { delimiter: ' ' },
                       children: [
                         {
-                          name: "number",
+                          name: 'number',
                           attrs: {
-                            variable: "number-of-volumes",
-                            form: "numeric",
+                            variable: 'number-of-volumes',
+                            form: 'numeric',
                           },
                           children: [],
                         },
                         {
-                          name: "text",
+                          name: 'text',
                           attrs: {
-                            term: "volume",
-                            form: "short",
-                            plural: "true",
+                            term: 'volume',
+                            form: 'short',
+                            plural: 'true',
                           },
                           children: [],
                         },
@@ -2561,48 +2486,44 @@ module.exports = {
               ],
             },
             {
-              name: "else-if",
+              name: 'else-if',
               attrs: {
                 type:
-                  "chapter entry-dictionary entry-encyclopedia paper-conference",
-                match: "any",
+                  'chapter entry-dictionary entry-encyclopedia paper-conference',
+                match: 'any',
               },
               children: [
                 {
-                  name: "group",
-                  attrs: { delimiter: ". " },
+                  name: 'group',
+                  attrs: { delimiter: '. ' },
                   children: [
+                    { name: 'text', attrs: { macro: 'edition' }, children: [] },
                     {
-                      name: "text",
-                      attrs: { macro: "edition" },
-                      children: [],
-                    },
-                    {
-                      name: "choose",
+                      name: 'choose',
                       attrs: {},
                       children: [
                         {
-                          name: "if",
-                          attrs: { variable: "page", match: "none" },
+                          name: 'if',
+                          attrs: { variable: 'page', match: 'none' },
                           children: [
                             {
-                              name: "group",
-                              attrs: { delimiter: " " },
+                              name: 'group',
+                              attrs: { delimiter: ' ' },
                               children: [
                                 {
-                                  name: "text",
+                                  name: 'text',
                                   attrs: {
-                                    term: "volume",
-                                    form: "short",
-                                    "text-case": "capitalize-first",
+                                    term: 'volume',
+                                    form: 'short',
+                                    'text-case': 'capitalize-first',
                                   },
                                   children: [],
                                 },
                                 {
-                                  name: "number",
+                                  name: 'number',
                                   attrs: {
-                                    variable: "volume",
-                                    form: "numeric",
+                                    variable: 'volume',
+                                    form: 'numeric',
                                   },
                                   children: [],
                                 },
@@ -2621,49 +2542,49 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "locators-newspaper" },
+      name: 'macro',
+      attrs: { name: 'locators-newspaper' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
-              attrs: { type: "article-newspaper" },
+              name: 'if',
+              attrs: { type: 'article-newspaper' },
               children: [
                 {
-                  name: "group",
-                  attrs: { delimiter: ", " },
+                  name: 'group',
+                  attrs: { delimiter: ', ' },
                   children: [
                     {
-                      name: "group",
-                      attrs: { delimiter: " " },
+                      name: 'group',
+                      attrs: { delimiter: ' ' },
                       children: [
                         {
-                          name: "number",
-                          attrs: { variable: "edition" },
+                          name: 'number',
+                          attrs: { variable: 'edition' },
                           children: [],
                         },
                         {
-                          name: "text",
-                          attrs: { term: "edition" },
+                          name: 'text',
+                          attrs: { term: 'edition' },
                           children: [],
                         },
                       ],
                     },
                     {
-                      name: "group",
-                      attrs: { delimiter: " " },
+                      name: 'group',
+                      attrs: { delimiter: ' ' },
                       children: [
                         {
-                          name: "text",
-                          attrs: { term: "section", form: "short" },
+                          name: 'text',
+                          attrs: { term: 'section', form: 'short' },
                           children: [],
                         },
                         {
-                          name: "text",
-                          attrs: { variable: "section" },
+                          name: 'text',
+                          attrs: { variable: 'section' },
                           children: [],
                         },
                       ],
@@ -2677,52 +2598,50 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "event-note" },
-      children: [
-        { name: "text", attrs: { variable: "event" }, children: [] },
-      ],
+      name: 'macro',
+      attrs: { name: 'event-note' },
+      children: [{ name: 'text', attrs: { variable: 'event' }, children: [] }],
     },
     {
-      name: "macro",
-      attrs: { name: "event" },
+      name: 'macro',
+      attrs: { name: 'event' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
-              attrs: { variable: "title" },
+              name: 'if',
+              attrs: { variable: 'title' },
               children: [
                 {
-                  name: "group",
-                  attrs: { delimiter: " " },
+                  name: 'group',
+                  attrs: { delimiter: ' ' },
                   children: [
                     {
-                      name: "choose",
+                      name: 'choose',
                       attrs: {},
                       children: [
                         {
-                          name: "if",
-                          attrs: { variable: "genre" },
+                          name: 'if',
+                          attrs: { variable: 'genre' },
                           children: [
                             {
-                              name: "text",
-                              attrs: { term: "presented at" },
+                              name: 'text',
+                              attrs: { term: 'presented at' },
                               children: [],
                             },
                           ],
                         },
                         {
-                          name: "else",
+                          name: 'else',
                           attrs: {},
                           children: [
                             {
-                              name: "text",
+                              name: 'text',
                               attrs: {
-                                term: "presented at",
-                                "text-case": "capitalize-first",
+                                term: 'presented at',
+                                'text-case': 'capitalize-first',
                               },
                               children: [],
                             },
@@ -2731,8 +2650,8 @@ module.exports = {
                       ],
                     },
                     {
-                      name: "text",
-                      attrs: { variable: "event" },
+                      name: 'text',
+                      attrs: { variable: 'event' },
                       children: [],
                     },
                   ],
@@ -2740,24 +2659,24 @@ module.exports = {
               ],
             },
             {
-              name: "else",
+              name: 'else',
               attrs: {},
               children: [
                 {
-                  name: "group",
-                  attrs: { delimiter: " " },
+                  name: 'group',
+                  attrs: { delimiter: ' ' },
                   children: [
                     {
-                      name: "text",
+                      name: 'text',
                       attrs: {
-                        term: "presented at",
-                        "text-case": "capitalize-first",
+                        term: 'presented at',
+                        'text-case': 'capitalize-first',
                       },
                       children: [],
                     },
                     {
-                      name: "text",
-                      attrs: { variable: "event" },
+                      name: 'text',
+                      attrs: { variable: 'event' },
                       children: [],
                     },
                   ],
@@ -2769,60 +2688,60 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "originally-published" },
+      name: 'macro',
+      attrs: { name: 'originally-published' },
       children: [
         {
-          name: "group",
-          attrs: { delimiter: ", " },
+          name: 'group',
+          attrs: { delimiter: ', ' },
           children: [
             {
-              name: "group",
-              attrs: { delimiter: ": " },
+              name: 'group',
+              attrs: { delimiter: ': ' },
               children: [
                 {
-                  name: "text",
-                  attrs: { variable: "original-publisher-place" },
+                  name: 'text',
+                  attrs: { variable: 'original-publisher-place' },
                   children: [],
                 },
                 {
-                  name: "text",
-                  attrs: { variable: "original-publisher" },
+                  name: 'text',
+                  attrs: { variable: 'original-publisher' },
                   children: [],
                 },
               ],
             },
             {
-              name: "choose",
+              name: 'choose',
               attrs: {},
               children: [
                 {
-                  name: "if",
-                  attrs: { "is-uncertain-date": "original-date" },
+                  name: 'if',
+                  attrs: { 'is-uncertain-date': 'original-date' },
                   children: [
                     {
-                      name: "date",
+                      name: 'date',
                       attrs: {
-                        variable: "original-date",
-                        form: "numeric",
-                        "date-parts": "year",
-                        prefix: "[",
-                        suffix: "?]",
+                        variable: 'original-date',
+                        form: 'numeric',
+                        'date-parts': 'year',
+                        prefix: '[',
+                        suffix: '?]',
                       },
                       children: [],
                     },
                   ],
                 },
                 {
-                  name: "else",
+                  name: 'else',
                   attrs: {},
                   children: [
                     {
-                      name: "date",
+                      name: 'date',
                       attrs: {
-                        variable: "original-date",
-                        form: "numeric",
-                        "date-parts": "year",
+                        variable: 'original-date',
+                        form: 'numeric',
+                        'date-parts': 'year',
                       },
                       children: [],
                     },
@@ -2835,34 +2754,31 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "reprint-note" },
+      name: 'macro',
+      attrs: { name: 'reprint-note' },
       children: [
-        { name: "#comment", attrs: {}, children: [] },
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
-              attrs: { variable: "original-date issued", match: "all" },
+              name: 'if',
+              attrs: { variable: 'original-date issued', match: 'all' },
               children: [
                 {
-                  name: "choose",
+                  name: 'choose',
                   attrs: {},
                   children: [
-                    { name: "#comment", attrs: {}, children: [] },
                     {
-                      name: "if",
+                      name: 'if',
                       attrs: {
-                        variable:
-                          "original-publisher original-publisher-place",
-                        match: "none",
+                        variable: 'original-publisher original-publisher-place',
+                        match: 'none',
                       },
                       children: [
                         {
-                          name: "text",
-                          attrs: { value: "repr." },
+                          name: 'text',
+                          attrs: { value: 'repr.' },
                           children: [],
                         },
                       ],
@@ -2876,24 +2792,20 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "reprint" },
+      name: 'macro',
+      attrs: { name: 'reprint' },
       children: [
-        { name: "#comment", attrs: {}, children: [] },
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
-              attrs: { variable: "original-date issued", match: "all" },
+              name: 'if',
+              attrs: { variable: 'original-date issued', match: 'all' },
               children: [
                 {
-                  name: "text",
-                  attrs: {
-                    value: "reprint",
-                    "text-case": "capitalize-first",
-                  },
+                  name: 'text',
+                  attrs: { value: 'reprint', 'text-case': 'capitalize-first' },
                   children: [],
                 },
               ],
@@ -2903,51 +2815,51 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "publisher" },
+      name: 'macro',
+      attrs: { name: 'publisher' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
-              attrs: { type: "thesis" },
+              name: 'if',
+              attrs: { type: 'thesis' },
               children: [
                 {
-                  name: "text",
-                  attrs: { variable: "publisher" },
+                  name: 'text',
+                  attrs: { variable: 'publisher' },
                   children: [],
                 },
               ],
             },
             {
-              name: "else-if",
-              attrs: { type: "speech" },
+              name: 'else-if',
+              attrs: { type: 'speech' },
               children: [
                 {
-                  name: "text",
-                  attrs: { variable: "event-place" },
+                  name: 'text',
+                  attrs: { variable: 'event-place' },
                   children: [],
                 },
               ],
             },
             {
-              name: "else",
+              name: 'else',
               attrs: {},
               children: [
                 {
-                  name: "group",
-                  attrs: { delimiter: ": " },
+                  name: 'group',
+                  attrs: { delimiter: ': ' },
                   children: [
                     {
-                      name: "text",
-                      attrs: { variable: "publisher-place" },
+                      name: 'text',
+                      attrs: { variable: 'publisher-place' },
                       children: [],
                     },
                     {
-                      name: "text",
-                      attrs: { variable: "publisher" },
+                      name: 'text',
+                      attrs: { variable: 'publisher' },
                       children: [],
                     },
                   ],
@@ -2959,70 +2871,65 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "issued" },
+      name: 'macro',
+      attrs: { name: 'issued' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
-              attrs: { variable: "issued" },
+              name: 'if',
+              attrs: { variable: 'issued' },
               children: [
                 {
-                  name: "choose",
+                  name: 'choose',
                   attrs: {},
                   children: [
                     {
-                      name: "if",
-                      attrs: { type: "legal_case" },
+                      name: 'if',
+                      attrs: { type: 'legal_case' },
                       children: [
                         {
-                          name: "group",
-                          attrs: { delimiter: " " },
+                          name: 'group',
+                          attrs: { delimiter: ' ' },
                           children: [
                             {
-                              name: "text",
-                              attrs: { variable: "authority" },
+                              name: 'text',
+                              attrs: { variable: 'authority' },
                               children: [],
                             },
                             {
-                              name: "choose",
+                              name: 'choose',
                               attrs: {},
                               children: [
                                 {
-                                  name: "if",
+                                  name: 'if',
                                   attrs: {
-                                    variable: "container-title",
-                                    match: "any",
+                                    variable: 'container-title',
+                                    match: 'any',
                                   },
                                   children: [
                                     {
-                                      name: "#comment",
-                                      attrs: {},
-                                      children: [],
-                                    },
-                                    {
-                                      name: "date",
+                                      name: 'date',
                                       attrs: {
-                                        variable: "issued",
-                                        form: "numeric",
-                                        "date-parts": "year",
+                                        variable: 'issued',
+                                        form: 'numeric',
+                                        'date-parts': 'year',
                                       },
                                       children: [],
                                     },
                                   ],
                                 },
                                 {
-                                  name: "else",
+                                  name: 'else',
                                   attrs: {},
                                   children: [
                                     {
-                                      name: "date",
+                                      name: 'date',
                                       attrs: {
-                                        variable: "issued",
-                                        form: "text",
+                                        variable: 'issued',
+                                        form: 'text',
                                       },
                                       children: [],
                                     },
@@ -3035,44 +2942,44 @@ module.exports = {
                       ],
                     },
                     {
-                      name: "else-if",
+                      name: 'else-if',
                       attrs: {
                         type:
-                          "book bill chapter  legislation motion_picture paper-conference song thesis",
-                        match: "any",
+                          'book bill chapter  legislation motion_picture paper-conference song thesis',
+                        match: 'any',
                       },
                       children: [
                         {
-                          name: "choose",
+                          name: 'choose',
                           attrs: {},
                           children: [
                             {
-                              name: "if",
-                              attrs: { "is-uncertain-date": "issued" },
+                              name: 'if',
+                              attrs: { 'is-uncertain-date': 'issued' },
                               children: [
                                 {
-                                  name: "date",
+                                  name: 'date',
                                   attrs: {
-                                    variable: "issued",
-                                    form: "numeric",
-                                    "date-parts": "year",
-                                    prefix: "[",
-                                    suffix: "?]",
+                                    variable: 'issued',
+                                    form: 'numeric',
+                                    'date-parts': 'year',
+                                    prefix: '[',
+                                    suffix: '?]',
                                   },
                                   children: [],
                                 },
                               ],
                             },
                             {
-                              name: "else",
+                              name: 'else',
                               attrs: {},
                               children: [
                                 {
-                                  name: "date",
+                                  name: 'date',
                                   attrs: {
-                                    variable: "issued",
-                                    form: "numeric",
-                                    "date-parts": "year",
+                                    variable: 'issued',
+                                    form: 'numeric',
+                                    'date-parts': 'year',
                                   },
                                   children: [],
                                 },
@@ -3083,66 +2990,64 @@ module.exports = {
                       ],
                     },
                     {
-                      name: "else-if",
-                      attrs: { type: "patent" },
+                      name: 'else-if',
+                      attrs: { type: 'patent' },
                       children: [
                         {
-                          name: "group",
-                          attrs: { delimiter: ", " },
+                          name: 'group',
+                          attrs: { delimiter: ', ' },
                           children: [
                             {
-                              name: "group",
-                              attrs: { delimiter: " " },
+                              name: 'group',
+                              attrs: { delimiter: ' ' },
                               children: [
-                                { name: "#comment", attrs: {}, children: [] },
                                 {
-                                  name: "text",
-                                  attrs: { value: "filed" },
+                                  name: 'text',
+                                  attrs: { value: 'filed' },
                                   children: [],
                                 },
                                 {
-                                  name: "date",
+                                  name: 'date',
                                   attrs: {
-                                    variable: "submitted",
-                                    form: "text",
+                                    variable: 'submitted',
+                                    form: 'text',
                                   },
                                   children: [],
                                 },
                               ],
                             },
                             {
-                              name: "group",
-                              attrs: { delimiter: " " },
+                              name: 'group',
+                              attrs: { delimiter: ' ' },
                               children: [
                                 {
-                                  name: "choose",
+                                  name: 'choose',
                                   attrs: {},
                                   children: [
                                     {
-                                      name: "if",
+                                      name: 'if',
                                       attrs: {
-                                        variable: "issued submitted",
-                                        match: "all",
+                                        variable: 'issued submitted',
+                                        match: 'all',
                                       },
                                       children: [
                                         {
-                                          name: "text",
-                                          attrs: { term: "and" },
+                                          name: 'text',
+                                          attrs: { term: 'and' },
                                           children: [],
                                         },
                                       ],
                                     },
                                   ],
                                 },
-                                { name: "#comment", attrs: {}, children: [] },
                                 {
-                                  name: "text",
-                                  attrs: { value: "issued" },
+                                  name: 'text',
+                                  attrs: { value: 'issued' },
                                   children: [],
                                 },
                                 {
-                                  name: "date",
-                                  attrs: { variable: "issued", form: "text" },
+                                  name: 'date',
+                                  attrs: { variable: 'issued', form: 'text' },
                                   children: [],
                                 },
                               ],
@@ -3152,36 +3057,36 @@ module.exports = {
                       ],
                     },
                     {
-                      name: "else",
+                      name: 'else',
                       attrs: {},
                       children: [
                         {
-                          name: "choose",
+                          name: 'choose',
                           attrs: {},
                           children: [
                             {
-                              name: "if",
-                              attrs: { "is-uncertain-date": "issued" },
+                              name: 'if',
+                              attrs: { 'is-uncertain-date': 'issued' },
                               children: [
                                 {
-                                  name: "date",
+                                  name: 'date',
                                   attrs: {
-                                    variable: "issued",
-                                    form: "text",
-                                    prefix: "[",
-                                    suffix: "?]",
+                                    variable: 'issued',
+                                    form: 'text',
+                                    prefix: '[',
+                                    suffix: '?]',
                                   },
                                   children: [],
                                 },
                               ],
                             },
                             {
-                              name: "else",
+                              name: 'else',
                               attrs: {},
                               children: [
                                 {
-                                  name: "date",
-                                  attrs: { variable: "issued", form: "text" },
+                                  name: 'date',
+                                  attrs: { variable: 'issued', form: 'text' },
                                   children: [],
                                 },
                               ],
@@ -3195,24 +3100,24 @@ module.exports = {
               ],
             },
             {
-              name: "else-if",
-              attrs: { variable: "status" },
+              name: 'else-if',
+              attrs: { variable: 'status' },
               children: [
-                { name: "text", attrs: { variable: "status" }, children: [] },
+                { name: 'text', attrs: { variable: 'status' }, children: [] },
               ],
             },
             {
-              name: "else-if",
-              attrs: { variable: "accessed URL", match: "all" },
+              name: 'else-if',
+              attrs: { variable: 'accessed URL', match: 'all' },
               children: [],
             },
             {
-              name: "else",
+              name: 'else',
               attrs: {},
               children: [
                 {
-                  name: "text",
-                  attrs: { term: "no date", form: "short" },
+                  name: 'text',
+                  attrs: { term: 'no date', form: 'short' },
                   children: [],
                 },
               ],
@@ -3222,41 +3127,37 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "point-locators-subsequent" },
+      name: 'macro',
+      attrs: { name: 'point-locators-subsequent' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
-              attrs: {
-                type: "legal_case",
-                variable: "locator",
-                match: "all",
-              },
+              name: 'if',
+              attrs: { type: 'legal_case', variable: 'locator', match: 'all' },
               children: [
                 {
-                  name: "choose",
+                  name: 'choose',
                   attrs: {},
                   children: [
                     {
-                      name: "if",
-                      attrs: { locator: "page" },
+                      name: 'if',
+                      attrs: { locator: 'page' },
                       children: [
                         {
-                          name: "group",
-                          attrs: { delimiter: ":" },
+                          name: 'group',
+                          attrs: { delimiter: ':' },
                           children: [
                             {
-                              name: "text",
-                              attrs: { variable: "volume" },
+                              name: 'text',
+                              attrs: { variable: 'volume' },
                               children: [],
                             },
                             {
-                              name: "text",
-                              attrs: { variable: "locator" },
+                              name: 'text',
+                              attrs: { variable: 'locator' },
                               children: [],
                             },
                           ],
@@ -3264,21 +3165,21 @@ module.exports = {
                       ],
                     },
                     {
-                      name: "else",
+                      name: 'else',
                       attrs: {},
                       children: [
                         {
-                          name: "group",
-                          attrs: { delimiter: " " },
+                          name: 'group',
+                          attrs: { delimiter: ' ' },
                           children: [
                             {
-                              name: "label",
-                              attrs: { variable: "locator", form: "short" },
+                              name: 'label',
+                              attrs: { variable: 'locator', form: 'short' },
                               children: [],
                             },
                             {
-                              name: "text",
-                              attrs: { variable: "locator" },
+                              name: 'text',
+                              attrs: { variable: 'locator' },
                               children: [],
                             },
                           ],
@@ -3290,72 +3191,72 @@ module.exports = {
               ],
             },
             {
-              name: "else-if",
-              attrs: { variable: "locator" },
+              name: 'else-if',
+              attrs: { variable: 'locator' },
               children: [
                 {
-                  name: "choose",
+                  name: 'choose',
                   attrs: {},
                   children: [
                     {
-                      name: "if",
-                      attrs: { locator: "page", match: "none" },
+                      name: 'if',
+                      attrs: { locator: 'page', match: 'none' },
                       children: [
                         {
-                          name: "group",
-                          attrs: { delimiter: " " },
+                          name: 'group',
+                          attrs: { delimiter: ' ' },
                           children: [
                             {
-                              name: "choose",
+                              name: 'choose',
                               attrs: {},
                               children: [
                                 {
-                                  name: "if",
+                                  name: 'if',
                                   attrs: {
                                     type:
-                                      "book graphic motion_picture report song",
-                                    match: "any",
+                                      'book graphic motion_picture report song',
+                                    match: 'any',
                                   },
                                   children: [
                                     {
-                                      name: "choose",
+                                      name: 'choose',
                                       attrs: {},
                                       children: [
                                         {
-                                          name: "if",
-                                          attrs: { variable: "volume" },
+                                          name: 'if',
+                                          attrs: { variable: 'volume' },
                                           children: [
                                             {
-                                              name: "group",
-                                              attrs: { delimiter: ", " },
+                                              name: 'group',
+                                              attrs: { delimiter: ', ' },
                                               children: [
                                                 {
-                                                  name: "group",
-                                                  attrs: { delimiter: " " },
+                                                  name: 'group',
+                                                  attrs: { delimiter: ' ' },
                                                   children: [
                                                     {
-                                                      name: "text",
+                                                      name: 'text',
                                                       attrs: {
-                                                        term: "volume",
-                                                        form: "short",
+                                                        term: 'volume',
+                                                        form: 'short',
                                                       },
                                                       children: [],
                                                     },
                                                     {
-                                                      name: "number",
+                                                      name: 'number',
                                                       attrs: {
-                                                        variable: "volume",
-                                                        form: "numeric",
+                                                        variable: 'volume',
+                                                        form: 'numeric',
                                                       },
                                                       children: [],
                                                     },
                                                   ],
                                                 },
                                                 {
-                                                  name: "label",
+                                                  name: 'label',
                                                   attrs: {
-                                                    variable: "locator",
-                                                    form: "short",
+                                                    variable: 'locator',
+                                                    form: 'short',
                                                   },
                                                   children: [],
                                                 },
@@ -3364,14 +3265,14 @@ module.exports = {
                                           ],
                                         },
                                         {
-                                          name: "else",
+                                          name: 'else',
                                           attrs: {},
                                           children: [
                                             {
-                                              name: "label",
+                                              name: 'label',
                                               attrs: {
-                                                variable: "locator",
-                                                form: "short",
+                                                variable: 'locator',
+                                                form: 'short',
                                               },
                                               children: [],
                                             },
@@ -3382,14 +3283,14 @@ module.exports = {
                                   ],
                                 },
                                 {
-                                  name: "else",
+                                  name: 'else',
                                   attrs: {},
                                   children: [
                                     {
-                                      name: "label",
+                                      name: 'label',
                                       attrs: {
-                                        variable: "locator",
-                                        form: "short",
+                                        variable: 'locator',
+                                        form: 'short',
                                       },
                                       children: [],
                                     },
@@ -3398,8 +3299,8 @@ module.exports = {
                               ],
                             },
                             {
-                              name: "text",
-                              attrs: { variable: "locator" },
+                              name: 'text',
+                              attrs: { variable: 'locator' },
                               children: [],
                             },
                           ],
@@ -3407,24 +3308,24 @@ module.exports = {
                       ],
                     },
                     {
-                      name: "else-if",
+                      name: 'else-if',
                       attrs: {
-                        type: "book graphic motion_picture report song",
-                        match: "any",
+                        type: 'book graphic motion_picture report song',
+                        match: 'any',
                       },
                       children: [
                         {
-                          name: "group",
-                          attrs: { delimiter: ":" },
+                          name: 'group',
+                          attrs: { delimiter: ':' },
                           children: [
                             {
-                              name: "number",
-                              attrs: { variable: "volume", form: "numeric" },
+                              name: 'number',
+                              attrs: { variable: 'volume', form: 'numeric' },
                               children: [],
                             },
                             {
-                              name: "text",
-                              attrs: { variable: "locator" },
+                              name: 'text',
+                              attrs: { variable: 'locator' },
                               children: [],
                             },
                           ],
@@ -3432,12 +3333,12 @@ module.exports = {
                       ],
                     },
                     {
-                      name: "else",
+                      name: 'else',
                       attrs: {},
                       children: [
                         {
-                          name: "text",
-                          attrs: { variable: "locator" },
+                          name: 'text',
+                          attrs: { variable: 'locator' },
                           children: [],
                         },
                       ],
@@ -3451,39 +3352,36 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "point-locators-join-with-colon" },
+      name: 'macro',
+      attrs: { name: 'point-locators-join-with-colon' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
-              attrs: { type: "article-journal" },
+              name: 'if',
+              attrs: { type: 'article-journal' },
               children: [
                 {
-                  name: "choose",
+                  name: 'choose',
                   attrs: {},
                   children: [
                     {
-                      name: "if",
-                      attrs: { variable: "locator page", match: "any" },
+                      name: 'if',
+                      attrs: { variable: 'locator page', match: 'any' },
                       children: [
                         {
-                          name: "choose",
+                          name: 'choose',
                           attrs: {},
                           children: [
                             {
-                              name: "if",
-                              attrs: {
-                                variable: "volume issue",
-                                match: "any",
-                              },
+                              name: 'if',
+                              attrs: { variable: 'volume issue', match: 'any' },
                               children: [
                                 {
-                                  name: "text",
-                                  attrs: { macro: "point-locators" },
+                                  name: 'text',
+                                  attrs: { macro: 'point-locators' },
                                   children: [],
                                 },
                               ],
@@ -3501,31 +3399,31 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "point-locators-join-with-comma" },
+      name: 'macro',
+      attrs: { name: 'point-locators-join-with-comma' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
-              attrs: { type: "article-journal", match: "none" },
+              name: 'if',
+              attrs: { type: 'article-journal', match: 'none' },
               children: [
                 {
-                  name: "text",
-                  attrs: { macro: "point-locators" },
+                  name: 'text',
+                  attrs: { macro: 'point-locators' },
                   children: [],
                 },
               ],
             },
             {
-              name: "else-if",
-              attrs: { variable: "volume issue", match: "none" },
+              name: 'else-if',
+              attrs: { variable: 'volume issue', match: 'none' },
               children: [
                 {
-                  name: "text",
-                  attrs: { macro: "point-locators" },
+                  name: 'text',
+                  attrs: { macro: 'point-locators' },
                   children: [],
                 },
               ],
@@ -3535,31 +3433,31 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "point-locators" },
+      name: 'macro',
+      attrs: { name: 'point-locators' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
-              attrs: { variable: "locator", match: "none" },
+              name: 'if',
+              attrs: { variable: 'locator', match: 'none' },
               children: [
                 {
-                  name: "choose",
+                  name: 'choose',
                   attrs: {},
                   children: [
                     {
-                      name: "if",
+                      name: 'if',
                       attrs: {
-                        type: "article-journal chapter paper-conference",
-                        match: "any",
+                        type: 'article-journal chapter paper-conference',
+                        match: 'any',
                       },
                       children: [
                         {
-                          name: "text",
-                          attrs: { variable: "page" },
+                          name: 'text',
+                          attrs: { variable: 'page' },
                           children: [],
                         },
                       ],
@@ -3569,27 +3467,27 @@ module.exports = {
               ],
             },
             {
-              name: "else-if",
-              attrs: { type: "article-journal" },
+              name: 'else-if',
+              attrs: { type: 'article-journal' },
               children: [
                 {
-                  name: "group",
-                  attrs: { delimiter: " " },
+                  name: 'group',
+                  attrs: { delimiter: ' ' },
                   children: [
                     {
-                      name: "choose",
+                      name: 'choose',
                       attrs: {},
                       children: [
                         {
-                          name: "if",
-                          attrs: { locator: "page", match: "none" },
+                          name: 'if',
+                          attrs: { locator: 'page', match: 'none' },
                           children: [
                             {
-                              name: "label",
+                              name: 'label',
                               attrs: {
-                                variable: "locator",
-                                form: "short",
-                                suffix: " ",
+                                variable: 'locator',
+                                form: 'short',
+                                suffix: ' ',
                               },
                               children: [],
                             },
@@ -3598,34 +3496,34 @@ module.exports = {
                       ],
                     },
                     {
-                      name: "text",
-                      attrs: { variable: "locator" },
+                      name: 'text',
+                      attrs: { variable: 'locator' },
                       children: [],
                     },
                   ],
                 },
               ],
             },
-            { name: "else-if", attrs: { type: "legal_case" }, children: [] },
+            { name: 'else-if', attrs: { type: 'legal_case' }, children: [] },
             {
-              name: "else",
+              name: 'else',
               attrs: {},
               children: [
                 {
-                  name: "group",
-                  attrs: { delimiter: " " },
+                  name: 'group',
+                  attrs: { delimiter: ' ' },
                   children: [
                     {
-                      name: "choose",
+                      name: 'choose',
                       attrs: {},
                       children: [
                         {
-                          name: "if",
-                          attrs: { locator: "page", match: "none" },
+                          name: 'if',
+                          attrs: { locator: 'page', match: 'none' },
                           children: [
                             {
-                              name: "label",
-                              attrs: { variable: "locator", form: "short" },
+                              name: 'label',
+                              attrs: { variable: 'locator', form: 'short' },
                               children: [],
                             },
                           ],
@@ -3633,8 +3531,8 @@ module.exports = {
                       ],
                     },
                     {
-                      name: "text",
-                      attrs: { variable: "locator" },
+                      name: 'text',
+                      attrs: { variable: 'locator' },
                       children: [],
                     },
                   ],
@@ -3646,53 +3544,53 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "locators-chapter" },
+      name: 'macro',
+      attrs: { name: 'locators-chapter' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
+              name: 'if',
               attrs: {
                 type:
-                  "chapter entry-dictionary entry-encyclopedia paper-conference",
-                match: "any",
+                  'chapter entry-dictionary entry-encyclopedia paper-conference',
+                match: 'any',
               },
               children: [
                 {
-                  name: "choose",
+                  name: 'choose',
                   attrs: {},
                   children: [
                     {
-                      name: "if",
+                      name: 'if',
                       attrs: {
-                        variable: "author container-author",
-                        match: "all",
+                        variable: 'author container-author',
+                        match: 'all',
                       },
                       children: [],
                     },
                     {
-                      name: "else",
+                      name: 'else',
                       attrs: {},
                       children: [
                         {
-                          name: "choose",
+                          name: 'choose',
                           attrs: {},
                           children: [
                             {
-                              name: "if",
-                              attrs: { variable: "page" },
+                              name: 'if',
+                              attrs: { variable: 'page' },
                               children: [
                                 {
-                                  name: "text",
-                                  attrs: { variable: "volume", suffix: ":" },
+                                  name: 'text',
+                                  attrs: { variable: 'volume', suffix: ':' },
                                   children: [],
                                 },
                                 {
-                                  name: "text",
-                                  attrs: { variable: "page" },
+                                  name: 'text',
+                                  attrs: { variable: 'page' },
                                   children: [],
                                 },
                               ],
@@ -3710,28 +3608,28 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "locators-journal-join-with-colon" },
+      name: 'macro',
+      attrs: { name: 'locators-journal-join-with-colon' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
-              attrs: { type: "article-journal" },
+              name: 'if',
+              attrs: { type: 'article-journal' },
               children: [
                 {
-                  name: "choose",
+                  name: 'choose',
                   attrs: {},
                   children: [
                     {
-                      name: "if",
-                      attrs: { variable: "volume issue", match: "any" },
+                      name: 'if',
+                      attrs: { variable: 'volume issue', match: 'any' },
                       children: [
                         {
-                          name: "text",
-                          attrs: { variable: "page" },
+                          name: 'text',
+                          attrs: { variable: 'page' },
                           children: [],
                         },
                       ],
@@ -3745,28 +3643,28 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "locators-journal-join-with-comma" },
+      name: 'macro',
+      attrs: { name: 'locators-journal-join-with-comma' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
-              attrs: { type: "article-journal" },
+              name: 'if',
+              attrs: { type: 'article-journal' },
               children: [
                 {
-                  name: "choose",
+                  name: 'choose',
                   attrs: {},
                   children: [
                     {
-                      name: "if",
-                      attrs: { variable: "volume issue", match: "none" },
+                      name: 'if',
+                      attrs: { variable: 'volume issue', match: 'none' },
                       children: [
                         {
-                          name: "text",
-                          attrs: { variable: "page" },
+                          name: 'text',
+                          attrs: { variable: 'page' },
                           children: [],
                         },
                       ],
@@ -3780,32 +3678,32 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "archive-note" },
+      name: 'macro',
+      attrs: { name: 'archive-note' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
-              attrs: { type: "thesis" },
+              name: 'if',
+              attrs: { type: 'thesis' },
               children: [
                 {
-                  name: "group",
-                  attrs: { delimiter: " " },
+                  name: 'group',
+                  attrs: { delimiter: ' ' },
                   children: [
                     {
-                      name: "text",
-                      attrs: { variable: "archive" },
+                      name: 'text',
+                      attrs: { variable: 'archive' },
                       children: [],
                     },
                     {
-                      name: "text",
+                      name: 'text',
                       attrs: {
-                        variable: "archive_location",
-                        prefix: "(",
-                        suffix: ")",
+                        variable: 'archive_location',
+                        prefix: '(',
+                        suffix: ')',
                       },
                       children: [],
                     },
@@ -3814,26 +3712,26 @@ module.exports = {
               ],
             },
             {
-              name: "else",
+              name: 'else',
               attrs: {},
               children: [
                 {
-                  name: "group",
-                  attrs: { delimiter: ", " },
+                  name: 'group',
+                  attrs: { delimiter: ', ' },
                   children: [
                     {
-                      name: "text",
-                      attrs: { variable: "archive_location" },
+                      name: 'text',
+                      attrs: { variable: 'archive_location' },
                       children: [],
                     },
                     {
-                      name: "text",
-                      attrs: { variable: "archive" },
+                      name: 'text',
+                      attrs: { variable: 'archive' },
                       children: [],
                     },
                     {
-                      name: "text",
-                      attrs: { variable: "archive-place" },
+                      name: 'text',
+                      attrs: { variable: 'archive-place' },
                       children: [],
                     },
                   ],
@@ -3845,32 +3743,32 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "archive" },
+      name: 'macro',
+      attrs: { name: 'archive' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
-              attrs: { type: "thesis" },
+              name: 'if',
+              attrs: { type: 'thesis' },
               children: [
                 {
-                  name: "group",
-                  attrs: { delimiter: " " },
+                  name: 'group',
+                  attrs: { delimiter: ' ' },
                   children: [
                     {
-                      name: "text",
-                      attrs: { variable: "archive" },
+                      name: 'text',
+                      attrs: { variable: 'archive' },
                       children: [],
                     },
                     {
-                      name: "text",
+                      name: 'text',
                       attrs: {
-                        variable: "archive_location",
-                        prefix: "(",
-                        suffix: ")",
+                        variable: 'archive_location',
+                        prefix: '(',
+                        suffix: ')',
                       },
                       children: [],
                     },
@@ -3879,29 +3777,29 @@ module.exports = {
               ],
             },
             {
-              name: "else",
+              name: 'else',
               attrs: {},
               children: [
                 {
-                  name: "group",
-                  attrs: { delimiter: ". " },
+                  name: 'group',
+                  attrs: { delimiter: '. ' },
                   children: [
                     {
-                      name: "text",
+                      name: 'text',
                       attrs: {
-                        variable: "archive_location",
-                        "text-case": "capitalize-first",
+                        variable: 'archive_location',
+                        'text-case': 'capitalize-first',
                       },
                       children: [],
                     },
                     {
-                      name: "text",
-                      attrs: { variable: "archive" },
+                      name: 'text',
+                      attrs: { variable: 'archive' },
                       children: [],
                     },
                     {
-                      name: "text",
-                      attrs: { variable: "archive-place" },
+                      name: 'text',
+                      attrs: { variable: 'archive-place' },
                       children: [],
                     },
                   ],
@@ -3913,59 +3811,52 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "issue-note-join-with-space" },
+      name: 'macro',
+      attrs: { name: 'issue-note-join-with-space' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
+              name: 'if',
               attrs: {
                 type:
-                  "article-journal bill legislation legal_case manuscript thesis",
-                variable: "publisher-place event-place publisher",
-                match: "any",
+                  'article-journal bill legislation legal_case manuscript thesis',
+                variable: 'publisher-place event-place publisher',
+                match: 'any',
               },
               children: [
-                { name: "#comment", attrs: {}, children: [] },
                 {
-                  name: "choose",
+                  name: 'choose',
                   attrs: {},
                   children: [
                     {
-                      name: "if",
-                      attrs: { type: "article-newspaper", match: "none" },
+                      name: 'if',
+                      attrs: { type: 'article-newspaper', match: 'none' },
                       children: [
                         {
-                          name: "choose",
+                          name: 'choose',
                           attrs: {},
                           children: [
                             {
-                              name: "if",
-                              attrs: {
-                                type: "article-journal",
-                                match: "none",
-                              },
+                              name: 'if',
+                              attrs: { type: 'article-journal', match: 'none' },
                               children: [
                                 {
-                                  name: "text",
-                                  attrs: { macro: "issue-note" },
+                                  name: 'text',
+                                  attrs: { macro: 'issue-note' },
                                   children: [],
                                 },
                               ],
                             },
                             {
-                              name: "else-if",
-                              attrs: {
-                                variable: "issue volume",
-                                match: "any",
-                              },
+                              name: 'else-if',
+                              attrs: { variable: 'issue volume', match: 'any' },
                               children: [
                                 {
-                                  name: "text",
-                                  attrs: { macro: "issue-note" },
+                                  name: 'text',
+                                  attrs: { macro: 'issue-note' },
                                   children: [],
                                 },
                               ],
@@ -3983,55 +3874,47 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "issue-note-join-with-comma" },
+      name: 'macro',
+      attrs: { name: 'issue-note-join-with-comma' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
+              name: 'if',
               attrs: {
                 type:
-                  "article-journal bill legislation legal_case manuscript speech thesis",
-                variable: "publisher-place publisher",
-                match: "none",
+                  'article-journal bill legislation legal_case manuscript speech thesis',
+                variable: 'publisher-place publisher',
+                match: 'none',
               },
               children: [
-                {
-                  name: "text",
-                  attrs: { macro: "issue-note" },
-                  children: [],
-                },
+                { name: 'text', attrs: { macro: 'issue-note' }, children: [] },
               ],
             },
             {
-              name: "else-if",
-              attrs: { type: "article-newspaper" },
+              name: 'else-if',
+              attrs: { type: 'article-newspaper' },
               children: [
-                {
-                  name: "text",
-                  attrs: { macro: "issue-note" },
-                  children: [],
-                },
+                { name: 'text', attrs: { macro: 'issue-note' }, children: [] },
               ],
             },
             {
-              name: "else-if",
-              attrs: { type: "article-journal" },
+              name: 'else-if',
+              attrs: { type: 'article-journal' },
               children: [
                 {
-                  name: "choose",
+                  name: 'choose',
                   attrs: {},
                   children: [
                     {
-                      name: "if",
-                      attrs: { variable: "volume issue", match: "none" },
+                      name: 'if',
+                      attrs: { variable: 'volume issue', match: 'none' },
                       children: [
                         {
-                          name: "text",
-                          attrs: { macro: "issue-note" },
+                          name: 'text',
+                          attrs: { macro: 'issue-note' },
                           children: [],
                         },
                       ],
@@ -4045,32 +3928,31 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "issue-map-graphic" },
+      name: 'macro',
+      attrs: { name: 'issue-map-graphic' },
       children: [
-        { name: "#comment", attrs: {}, children: [] },
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
-              attrs: { type: "graphic map", match: "any" },
+              name: 'if',
+              attrs: { type: 'graphic map', match: 'any' },
               children: [
                 {
-                  name: "choose",
+                  name: 'choose',
                   attrs: {},
                   children: [
                     {
-                      name: "if",
+                      name: 'if',
                       attrs: {
-                        variable: "publisher publisher-place",
-                        match: "none",
+                        variable: 'publisher publisher-place',
+                        match: 'none',
                       },
                       children: [
                         {
-                          name: "text",
-                          attrs: { macro: "issued" },
+                          name: 'text',
+                          attrs: { macro: 'issued' },
                           children: [],
                         },
                       ],
@@ -4084,54 +3966,50 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "issue-note" },
+      name: 'macro',
+      attrs: { name: 'issue-note' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
-              attrs: { type: "bill legislation legal_case", match: "any" },
+              name: 'if',
+              attrs: { type: 'bill legislation legal_case', match: 'any' },
               children: [
                 {
-                  name: "text",
-                  attrs: { macro: "issued", prefix: "(", suffix: ")" },
+                  name: 'text',
+                  attrs: { macro: 'issued', prefix: '(', suffix: ')' },
                   children: [],
                 },
               ],
             },
             {
-              name: "else-if",
-              attrs: { type: "article-journal" },
+              name: 'else-if',
+              attrs: { type: 'article-journal' },
               children: [
                 {
-                  name: "choose",
+                  name: 'choose',
                   attrs: {},
                   children: [
                     {
-                      name: "if",
-                      attrs: { variable: "volume issue", match: "any" },
+                      name: 'if',
+                      attrs: { variable: 'volume issue', match: 'any' },
                       children: [
                         {
-                          name: "text",
-                          attrs: {
-                            macro: "issued",
-                            prefix: "(",
-                            suffix: ")",
-                          },
+                          name: 'text',
+                          attrs: { macro: 'issued', prefix: '(', suffix: ')' },
                           children: [],
                         },
                       ],
                     },
                     {
-                      name: "else",
+                      name: 'else',
                       attrs: {},
                       children: [
                         {
-                          name: "text",
-                          attrs: { macro: "issued" },
+                          name: 'text',
+                          attrs: { macro: 'issued' },
                           children: [],
                         },
                       ],
@@ -4141,31 +4019,31 @@ module.exports = {
               ],
             },
             {
-              name: "else-if",
-              attrs: { type: "article-newspaper" },
+              name: 'else-if',
+              attrs: { type: 'article-newspaper' },
               children: [
-                { name: "text", attrs: { macro: "issued" }, children: [] },
+                { name: 'text', attrs: { macro: 'issued' }, children: [] },
               ],
             },
             {
-              name: "else-if",
-              attrs: { type: "manuscript thesis speech", match: "any" },
+              name: 'else-if',
+              attrs: { type: 'manuscript thesis speech', match: 'any' },
               children: [
                 {
-                  name: "group",
-                  attrs: { delimiter: ", ", prefix: "(", suffix: ")" },
+                  name: 'group',
+                  attrs: { delimiter: ', ', prefix: '(', suffix: ')' },
                   children: [
                     {
-                      name: "choose",
+                      name: 'choose',
                       attrs: {},
                       children: [
                         {
-                          name: "if",
-                          attrs: { variable: "title", match: "any" },
+                          name: 'if',
+                          attrs: { variable: 'title', match: 'any' },
                           children: [
                             {
-                              name: "text",
-                              attrs: { variable: "genre" },
+                              name: 'text',
+                              attrs: { variable: 'genre' },
                               children: [],
                             },
                           ],
@@ -4173,86 +4051,78 @@ module.exports = {
                       ],
                     },
                     {
-                      name: "text",
-                      attrs: { variable: "event" },
+                      name: 'text',
+                      attrs: { variable: 'event' },
                       children: [],
                     },
                     {
-                      name: "text",
-                      attrs: { variable: "event-place" },
+                      name: 'text',
+                      attrs: { variable: 'event-place' },
                       children: [],
                     },
                     {
-                      name: "text",
-                      attrs: { variable: "publisher" },
+                      name: 'text',
+                      attrs: { variable: 'publisher' },
                       children: [],
                     },
-                    {
-                      name: "text",
-                      attrs: { macro: "issued" },
-                      children: [],
-                    },
+                    { name: 'text', attrs: { macro: 'issued' }, children: [] },
                   ],
                 },
               ],
             },
             {
-              name: "else-if",
+              name: 'else-if',
               attrs: {
-                variable: "publisher-place event-place publisher",
-                match: "any",
+                variable: 'publisher-place event-place publisher',
+                match: 'any',
               },
               children: [
                 {
-                  name: "group",
-                  attrs: { prefix: "(", suffix: ")", delimiter: ", " },
+                  name: 'group',
+                  attrs: { prefix: '(', suffix: ')', delimiter: ', ' },
                   children: [
                     {
-                      name: "text",
-                      attrs: { macro: "event-note" },
+                      name: 'text',
+                      attrs: { macro: 'event-note' },
                       children: [],
                     },
                     {
-                      name: "group",
-                      attrs: { delimiter: "; " },
+                      name: 'group',
+                      attrs: { delimiter: '; ' },
                       children: [
                         {
-                          name: "text",
-                          attrs: { macro: "originally-published" },
+                          name: 'text',
+                          attrs: { macro: 'originally-published' },
                           children: [],
                         },
                         {
-                          name: "group",
-                          attrs: { delimiter: ", " },
+                          name: 'group',
+                          attrs: { delimiter: ', ' },
                           children: [
                             {
-                              name: "text",
-                              attrs: { macro: "reprint-note" },
+                              name: 'text',
+                              attrs: { macro: 'reprint-note' },
                               children: [],
                             },
                             {
-                              name: "text",
-                              attrs: { macro: "publisher" },
+                              name: 'text',
+                              attrs: { macro: 'publisher' },
                               children: [],
                             },
                           ],
                         },
                       ],
                     },
-                    {
-                      name: "text",
-                      attrs: { macro: "issued" },
-                      children: [],
-                    },
+                    { name: 'text', attrs: { macro: 'issued' }, children: [] },
                   ],
                 },
               ],
             },
             {
-              name: "else",
+              name: 'else',
               attrs: {},
               children: [
-                { name: "text", attrs: { macro: "issued" }, children: [] },
+                { name: 'text', attrs: { macro: 'issued' }, children: [] },
               ],
             },
           ],
@@ -4260,28 +4130,28 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "issue-join-with-space" },
+      name: 'macro',
+      attrs: { name: 'issue-join-with-space' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
-              attrs: { type: "article-journal", match: "any" },
+              name: 'if',
+              attrs: { type: 'article-journal', match: 'any' },
               children: [
                 {
-                  name: "choose",
+                  name: 'choose',
                   attrs: {},
                   children: [
                     {
-                      name: "if",
-                      attrs: { variable: "issue volume", match: "any" },
+                      name: 'if',
+                      attrs: { variable: 'issue volume', match: 'any' },
                       children: [
                         {
-                          name: "text",
-                          attrs: { macro: "issue" },
+                          name: 'text',
+                          attrs: { macro: 'issue' },
                           children: [],
                         },
                       ],
@@ -4291,10 +4161,10 @@ module.exports = {
               ],
             },
             {
-              name: "else-if",
-              attrs: { type: "bill legislation legal_case", match: "any" },
+              name: 'else-if',
+              attrs: { type: 'bill legislation legal_case', match: 'any' },
               children: [
-                { name: "text", attrs: { macro: "issue" }, children: [] },
+                { name: 'text', attrs: { macro: 'issue' }, children: [] },
               ],
             },
           ],
@@ -4302,35 +4172,35 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "issue-join-with-period" },
+      name: 'macro',
+      attrs: { name: 'issue-join-with-period' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
+              name: 'if',
               attrs: {
-                type: "article-journal bill legislation legal_case",
-                match: "none",
+                type: 'article-journal bill legislation legal_case',
+                match: 'none',
               },
               children: [
                 {
-                  name: "choose",
+                  name: 'choose',
                   attrs: {},
                   children: [
                     {
-                      name: "if",
+                      name: 'if',
                       attrs: {
-                        type: "speech",
-                        variable: "publisher publisher-place",
-                        match: "any",
+                        type: 'speech',
+                        variable: 'publisher publisher-place',
+                        match: 'any',
                       },
                       children: [
                         {
-                          name: "text",
-                          attrs: { macro: "issue" },
+                          name: 'text',
+                          attrs: { macro: 'issue' },
                           children: [],
                         },
                       ],
@@ -4344,40 +4214,40 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "issue-join-with-comma" },
+      name: 'macro',
+      attrs: { name: 'issue-join-with-comma' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
-              attrs: { type: "bill legislation legal_case", match: "none" },
+              name: 'if',
+              attrs: { type: 'bill legislation legal_case', match: 'none' },
               children: [
                 {
-                  name: "choose",
+                  name: 'choose',
                   attrs: {},
                   children: [
                     {
-                      name: "if",
-                      attrs: { type: "article-journal", match: "none" },
+                      name: 'if',
+                      attrs: { type: 'article-journal', match: 'none' },
                       children: [
                         {
-                          name: "choose",
+                          name: 'choose',
                           attrs: {},
                           children: [
                             {
-                              name: "if",
+                              name: 'if',
                               attrs: {
-                                type: "speech",
-                                variable: "publisher publisher-place",
-                                match: "none",
+                                type: 'speech',
+                                variable: 'publisher publisher-place',
+                                match: 'none',
                               },
                               children: [
                                 {
-                                  name: "text",
-                                  attrs: { macro: "issue" },
+                                  name: 'text',
+                                  attrs: { macro: 'issue' },
                                   children: [],
                                 },
                               ],
@@ -4387,12 +4257,12 @@ module.exports = {
                       ],
                     },
                     {
-                      name: "else-if",
-                      attrs: { variable: "volume issue", match: "none" },
+                      name: 'else-if',
+                      attrs: { variable: 'volume issue', match: 'none' },
                       children: [
                         {
-                          name: "text",
-                          attrs: { macro: "issue" },
+                          name: 'text',
+                          attrs: { macro: 'issue' },
                           children: [],
                         },
                       ],
@@ -4406,54 +4276,50 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "issue" },
+      name: 'macro',
+      attrs: { name: 'issue' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
-              attrs: { type: "bill legislation legal_case", match: "any" },
+              name: 'if',
+              attrs: { type: 'bill legislation legal_case', match: 'any' },
               children: [
                 {
-                  name: "text",
-                  attrs: { macro: "issued", prefix: "(", suffix: ")" },
+                  name: 'text',
+                  attrs: { macro: 'issued', prefix: '(', suffix: ')' },
                   children: [],
                 },
               ],
             },
             {
-              name: "else-if",
-              attrs: { type: "article-journal" },
+              name: 'else-if',
+              attrs: { type: 'article-journal' },
               children: [
                 {
-                  name: "choose",
+                  name: 'choose',
                   attrs: {},
                   children: [
                     {
-                      name: "if",
-                      attrs: { variable: "issue volume", match: "any" },
+                      name: 'if',
+                      attrs: { variable: 'issue volume', match: 'any' },
                       children: [
                         {
-                          name: "text",
-                          attrs: {
-                            macro: "issued",
-                            prefix: "(",
-                            suffix: ")",
-                          },
+                          name: 'text',
+                          attrs: { macro: 'issued', prefix: '(', suffix: ')' },
                           children: [],
                         },
                       ],
                     },
                     {
-                      name: "else",
+                      name: 'else',
                       attrs: {},
                       children: [
                         {
-                          name: "text",
-                          attrs: { macro: "issued" },
+                          name: 'text',
+                          attrs: { macro: 'issued' },
                           children: [],
                         },
                       ],
@@ -4463,35 +4329,35 @@ module.exports = {
               ],
             },
             {
-              name: "else-if",
-              attrs: { type: "speech" },
+              name: 'else-if',
+              attrs: { type: 'speech' },
               children: [
                 {
-                  name: "group",
-                  attrs: { delimiter: ", " },
+                  name: 'group',
+                  attrs: { delimiter: ', ' },
                   children: [
                     {
-                      name: "group",
-                      attrs: { delimiter: " " },
+                      name: 'group',
+                      attrs: { delimiter: ' ' },
                       children: [
                         {
-                          name: "choose",
+                          name: 'choose',
                           attrs: {},
                           children: [
                             {
-                              name: "if",
-                              attrs: { variable: "title", match: "none" },
+                              name: 'if',
+                              attrs: { variable: 'title', match: 'none' },
                               children: [],
                             },
                             {
-                              name: "else",
+                              name: 'else',
                               attrs: {},
                               children: [
                                 {
-                                  name: "text",
+                                  name: 'text',
                                   attrs: {
-                                    variable: "genre",
-                                    "text-case": "capitalize-first",
+                                    variable: 'genre',
+                                    'text-case': 'capitalize-first',
                                   },
                                   children: [],
                                 },
@@ -4500,55 +4366,50 @@ module.exports = {
                           ],
                         },
                         {
-                          name: "text",
-                          attrs: { macro: "event" },
+                          name: 'text',
+                          attrs: { macro: 'event' },
                           children: [],
                         },
                       ],
                     },
                     {
-                      name: "text",
-                      attrs: { variable: "event-place" },
+                      name: 'text',
+                      attrs: { variable: 'event-place' },
                       children: [],
                     },
-                    {
-                      name: "text",
-                      attrs: { macro: "issued" },
-                      children: [],
-                    },
+                    { name: 'text', attrs: { macro: 'issued' }, children: [] },
                   ],
                 },
               ],
             },
-            { name: "#comment", attrs: {}, children: [] },
             {
-              name: "else-if",
-              attrs: { type: "article-newspaper" },
+              name: 'else-if',
+              attrs: { type: 'article-newspaper' },
               children: [
-                { name: "text", attrs: { macro: "issued" }, children: [] },
+                { name: 'text', attrs: { macro: 'issued' }, children: [] },
               ],
             },
             {
-              name: "else-if",
-              attrs: { variable: "publisher-place publisher", match: "any" },
+              name: 'else-if',
+              attrs: { variable: 'publisher-place publisher', match: 'any' },
               children: [
                 {
-                  name: "group",
-                  attrs: { delimiter: ", " },
+                  name: 'group',
+                  attrs: { delimiter: ', ' },
                   children: [
                     {
-                      name: "choose",
+                      name: 'choose',
                       attrs: {},
                       children: [
                         {
-                          name: "if",
-                          attrs: { type: "thesis" },
+                          name: 'if',
+                          attrs: { type: 'thesis' },
                           children: [
                             {
-                              name: "text",
+                              name: 'text',
                               attrs: {
-                                variable: "genre",
-                                "text-case": "capitalize-first",
+                                variable: 'genre',
+                                'text-case': 'capitalize-first',
                               },
                               children: [],
                             },
@@ -4557,47 +4418,42 @@ module.exports = {
                       ],
                     },
                     {
-                      name: "group",
-                      attrs: { delimiter: ". " },
+                      name: 'group',
+                      attrs: { delimiter: '. ' },
                       children: [
                         {
-                          name: "text",
-                          attrs: { macro: "originally-published" },
+                          name: 'text',
+                          attrs: { macro: 'originally-published' },
                           children: [],
                         },
                         {
-                          name: "group",
-                          attrs: { delimiter: ", " },
+                          name: 'group',
+                          attrs: { delimiter: ', ' },
                           children: [
                             {
-                              name: "text",
-                              attrs: { macro: "reprint" },
+                              name: 'text',
+                              attrs: { macro: 'reprint' },
                               children: [],
                             },
                             {
-                              name: "text",
-                              attrs: { macro: "publisher" },
+                              name: 'text',
+                              attrs: { macro: 'publisher' },
                               children: [],
                             },
                           ],
                         },
                       ],
                     },
-                    {
-                      name: "text",
-                      attrs: { macro: "issued" },
-                      children: [],
-                    },
+                    { name: 'text', attrs: { macro: 'issued' }, children: [] },
                   ],
                 },
               ],
             },
-            { name: "#comment", attrs: {}, children: [] },
             {
-              name: "else-if",
-              attrs: { type: "graphic map", match: "none" },
+              name: 'else-if',
+              attrs: { type: 'graphic map', match: 'none' },
               children: [
-                { name: "text", attrs: { macro: "issued" }, children: [] },
+                { name: 'text', attrs: { macro: 'issued' }, children: [] },
               ],
             },
           ],
@@ -4605,39 +4461,39 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "access-note" },
+      name: 'macro',
+      attrs: { name: 'access-note' },
       children: [
         {
-          name: "group",
-          attrs: { delimiter: ", " },
+          name: 'group',
+          attrs: { delimiter: ', ' },
           children: [
             {
-              name: "choose",
+              name: 'choose',
               attrs: {},
               children: [
                 {
-                  name: "if",
-                  attrs: { type: "graphic report", match: "any" },
+                  name: 'if',
+                  attrs: { type: 'graphic report', match: 'any' },
                   children: [
                     {
-                      name: "text",
-                      attrs: { macro: "archive-note" },
+                      name: 'text',
+                      attrs: { macro: 'archive-note' },
                       children: [],
                     },
                   ],
                 },
                 {
-                  name: "else-if",
+                  name: 'else-if',
                   attrs: {
                     type:
-                      "article-journal bill book chapter legal_case legislation motion_picture paper-conference",
-                    match: "none",
+                      'article-journal bill book chapter legal_case legislation motion_picture paper-conference',
+                    match: 'none',
                   },
                   children: [
                     {
-                      name: "text",
-                      attrs: { macro: "archive-note" },
+                      name: 'text',
+                      attrs: { macro: 'archive-note' },
                       children: [],
                     },
                   ],
@@ -4645,25 +4501,25 @@ module.exports = {
               ],
             },
             {
-              name: "choose",
+              name: 'choose',
               attrs: {},
               children: [
                 {
-                  name: "if",
-                  attrs: { variable: "issued", match: "none" },
+                  name: 'if',
+                  attrs: { variable: 'issued', match: 'none' },
                   children: [
                     {
-                      name: "group",
-                      attrs: { delimiter: " " },
+                      name: 'group',
+                      attrs: { delimiter: ' ' },
                       children: [
                         {
-                          name: "text",
-                          attrs: { term: "accessed" },
+                          name: 'text',
+                          attrs: { term: 'accessed' },
                           children: [],
                         },
                         {
-                          name: "date",
-                          attrs: { variable: "accessed", form: "text" },
+                          name: 'date',
+                          attrs: { variable: 'accessed', form: 'text' },
                           children: [],
                         },
                       ],
@@ -4673,38 +4529,38 @@ module.exports = {
               ],
             },
             {
-              name: "choose",
+              name: 'choose',
               attrs: {},
               children: [
                 {
-                  name: "if",
-                  attrs: { type: "legal_case", match: "none" },
+                  name: 'if',
+                  attrs: { type: 'legal_case', match: 'none' },
                   children: [
                     {
-                      name: "choose",
+                      name: 'choose',
                       attrs: {},
                       children: [
                         {
-                          name: "if",
-                          attrs: { variable: "DOI" },
+                          name: 'if',
+                          attrs: { variable: 'DOI' },
                           children: [
                             {
-                              name: "text",
+                              name: 'text',
                               attrs: {
-                                variable: "DOI",
-                                prefix: "https://doi.org/",
+                                variable: 'DOI',
+                                prefix: 'https://doi.org/',
                               },
                               children: [],
                             },
                           ],
                         },
                         {
-                          name: "else",
+                          name: 'else',
                           attrs: {},
                           children: [
                             {
-                              name: "text",
-                              attrs: { variable: "URL" },
+                              name: 'text',
+                              attrs: { variable: 'URL' },
                               children: [],
                             },
                           ],
@@ -4720,68 +4576,60 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "access" },
+      name: 'macro',
+      attrs: { name: 'access' },
       children: [
         {
-          name: "group",
-          attrs: { delimiter: ". " },
+          name: 'group',
+          attrs: { delimiter: '. ' },
           children: [
             {
-              name: "choose",
+              name: 'choose',
               attrs: {},
               children: [
                 {
-                  name: "if",
-                  attrs: { type: "graphic report", match: "any" },
+                  name: 'if',
+                  attrs: { type: 'graphic report', match: 'any' },
                   children: [
-                    {
-                      name: "text",
-                      attrs: { macro: "archive" },
-                      children: [],
-                    },
+                    { name: 'text', attrs: { macro: 'archive' }, children: [] },
                   ],
                 },
                 {
-                  name: "else-if",
+                  name: 'else-if',
                   attrs: {
                     type:
-                      "article-journal bill book chapter legal_case legislation motion_picture paper-conference",
-                    match: "none",
+                      'article-journal bill book chapter legal_case legislation motion_picture paper-conference',
+                    match: 'none',
                   },
                   children: [
-                    {
-                      name: "text",
-                      attrs: { macro: "archive" },
-                      children: [],
-                    },
+                    { name: 'text', attrs: { macro: 'archive' }, children: [] },
                   ],
                 },
               ],
             },
             {
-              name: "choose",
+              name: 'choose',
               attrs: {},
               children: [
                 {
-                  name: "if",
-                  attrs: { variable: "issued", match: "none" },
+                  name: 'if',
+                  attrs: { variable: 'issued', match: 'none' },
                   children: [
                     {
-                      name: "group",
-                      attrs: { delimiter: " " },
+                      name: 'group',
+                      attrs: { delimiter: ' ' },
                       children: [
                         {
-                          name: "text",
+                          name: 'text',
                           attrs: {
-                            term: "accessed",
-                            "text-case": "capitalize-first",
+                            term: 'accessed',
+                            'text-case': 'capitalize-first',
                           },
                           children: [],
                         },
                         {
-                          name: "date",
-                          attrs: { variable: "accessed", form: "text" },
+                          name: 'date',
+                          attrs: { variable: 'accessed', form: 'text' },
                           children: [],
                         },
                       ],
@@ -4791,38 +4639,38 @@ module.exports = {
               ],
             },
             {
-              name: "choose",
+              name: 'choose',
               attrs: {},
               children: [
                 {
-                  name: "if",
-                  attrs: { type: "legal_case", match: "none" },
+                  name: 'if',
+                  attrs: { type: 'legal_case', match: 'none' },
                   children: [
                     {
-                      name: "choose",
+                      name: 'choose',
                       attrs: {},
                       children: [
                         {
-                          name: "if",
-                          attrs: { variable: "DOI" },
+                          name: 'if',
+                          attrs: { variable: 'DOI' },
                           children: [
                             {
-                              name: "text",
+                              name: 'text',
                               attrs: {
-                                variable: "DOI",
-                                prefix: "https://doi.org/",
+                                variable: 'DOI',
+                                prefix: 'https://doi.org/',
                               },
                               children: [],
                             },
                           ],
                         },
                         {
-                          name: "else",
+                          name: 'else',
                           attrs: {},
                           children: [
                             {
-                              name: "text",
-                              attrs: { variable: "URL" },
+                              name: 'text',
+                              attrs: { variable: 'URL' },
                               children: [],
                             },
                           ],
@@ -4838,29 +4686,29 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "case-locator-subsequent" },
+      name: 'macro',
+      attrs: { name: 'case-locator-subsequent' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
-              attrs: { type: "legal_case" },
+              name: 'if',
+              attrs: { type: 'legal_case' },
               children: [
                 {
-                  name: "group",
-                  attrs: { delimiter: " " },
+                  name: 'group',
+                  attrs: { delimiter: ' ' },
                   children: [
                     {
-                      name: "text",
-                      attrs: { variable: "volume" },
+                      name: 'text',
+                      attrs: { variable: 'volume' },
                       children: [],
                     },
                     {
-                      name: "text",
-                      attrs: { variable: "container-title" },
+                      name: 'text',
+                      attrs: { variable: 'container-title' },
                       children: [],
                     },
                   ],
@@ -4872,53 +4720,53 @@ module.exports = {
       ],
     },
     {
-      name: "macro",
-      attrs: { name: "case-pinpoint-subsequent" },
+      name: 'macro',
+      attrs: { name: 'case-pinpoint-subsequent' },
       children: [
         {
-          name: "choose",
+          name: 'choose',
           attrs: {},
           children: [
             {
-              name: "if",
-              attrs: { type: "legal_case" },
+              name: 'if',
+              attrs: { type: 'legal_case' },
               children: [
                 {
-                  name: "group",
-                  attrs: { delimiter: " " },
+                  name: 'group',
+                  attrs: { delimiter: ' ' },
                   children: [
                     {
-                      name: "choose",
+                      name: 'choose',
                       attrs: {},
                       children: [
                         {
-                          name: "if",
-                          attrs: { locator: "page" },
+                          name: 'if',
+                          attrs: { locator: 'page' },
                           children: [
                             {
-                              name: "text",
-                              attrs: { term: "at" },
+                              name: 'text',
+                              attrs: { term: 'at' },
                               children: [],
                             },
                             {
-                              name: "text",
-                              attrs: { variable: "locator" },
+                              name: 'text',
+                              attrs: { variable: 'locator' },
                               children: [],
                             },
                           ],
                         },
                         {
-                          name: "else",
+                          name: 'else',
                           attrs: {},
                           children: [
                             {
-                              name: "label",
-                              attrs: { variable: "locator" },
+                              name: 'label',
+                              attrs: { variable: 'locator' },
                               children: [],
                             },
                             {
-                              name: "text",
-                              attrs: { variable: "locator" },
+                              name: 'text',
+                              attrs: { variable: 'locator' },
                               children: [],
                             },
                           ],
@@ -4934,56 +4782,56 @@ module.exports = {
       ],
     },
     {
-      name: "citation",
+      name: 'citation',
       attrs: {
-        "et-al-min": "4",
-        "et-al-use-first": "1",
-        "disambiguate-add-names": "true",
+        'et-al-min': '4',
+        'et-al-use-first': '1',
+        'disambiguate-add-names': 'true',
       },
       children: [
         {
-          name: "layout",
-          attrs: { suffix: ".", delimiter: "; " },
+          name: 'layout',
+          attrs: { suffix: '.', delimiter: '; ' },
           children: [
             {
-              name: "choose",
+              name: 'choose',
               attrs: {},
               children: [
                 {
-                  name: "if",
-                  attrs: { position: "ibid ibid-with-locator", match: "any" },
+                  name: 'if',
+                  attrs: { position: 'ibid ibid-with-locator', match: 'any' },
                   children: [
                     {
-                      name: "group",
-                      attrs: { delimiter: ", " },
+                      name: 'group',
+                      attrs: { delimiter: ', ' },
                       children: [
                         {
-                          name: "text",
-                          attrs: { macro: "contributors-short" },
+                          name: 'text',
+                          attrs: { macro: 'contributors-short' },
                           children: [],
                         },
                         {
-                          name: "group",
-                          attrs: { delimiter: " " },
+                          name: 'group',
+                          attrs: { delimiter: ' ' },
                           children: [
                             {
-                              name: "group",
-                              attrs: { delimiter: ", " },
+                              name: 'group',
+                              attrs: { delimiter: ', ' },
                               children: [
                                 {
-                                  name: "choose",
+                                  name: 'choose',
                                   attrs: {},
                                   children: [
                                     {
-                                      name: "if",
+                                      name: 'if',
                                       attrs: {
-                                        variable: "author editor translator",
-                                        match: "none",
+                                        variable: 'author editor translator',
+                                        match: 'none',
                                       },
                                       children: [
                                         {
-                                          name: "text",
-                                          attrs: { macro: "title-short" },
+                                          name: 'text',
+                                          attrs: { macro: 'title-short' },
                                           children: [],
                                         },
                                       ],
@@ -4991,32 +4839,30 @@ module.exports = {
                                   ],
                                 },
                                 {
-                                  name: "text",
-                                  attrs: { macro: "case-locator-subsequent" },
+                                  name: 'text',
+                                  attrs: { macro: 'case-locator-subsequent' },
                                   children: [],
                                 },
                               ],
                             },
                             {
-                              name: "text",
-                              attrs: { macro: "case-pinpoint-subsequent" },
+                              name: 'text',
+                              attrs: { macro: 'case-pinpoint-subsequent' },
                               children: [],
                             },
                           ],
                         },
                         {
-                          name: "choose",
+                          name: 'choose',
                           attrs: {},
                           children: [
                             {
-                              name: "if",
-                              attrs: { match: "none", type: "legal_case" },
+                              name: 'if',
+                              attrs: { match: 'none', type: 'legal_case' },
                               children: [
                                 {
-                                  name: "text",
-                                  attrs: {
-                                    macro: "point-locators-subsequent",
-                                  },
+                                  name: 'text',
+                                  attrs: { macro: 'point-locators-subsequent' },
                                   children: [],
                                 },
                               ],
@@ -5028,64 +4874,61 @@ module.exports = {
                   ],
                 },
                 {
-                  name: "else-if",
-                  attrs: { position: "subsequent" },
+                  name: 'else-if',
+                  attrs: { position: 'subsequent' },
                   children: [
                     {
-                      name: "group",
-                      attrs: { delimiter: ", " },
+                      name: 'group',
+                      attrs: { delimiter: ', ' },
                       children: [
                         {
-                          name: "text",
-                          attrs: { macro: "contributors-short" },
+                          name: 'text',
+                          attrs: { macro: 'contributors-short' },
                           children: [],
                         },
                         {
-                          name: "group",
-                          attrs: { delimiter: " " },
+                          name: 'group',
+                          attrs: { delimiter: ' ' },
                           children: [
                             {
-                              name: "group",
-                              attrs: { delimiter: ", " },
+                              name: 'group',
+                              attrs: { delimiter: ', ' },
                               children: [
                                 {
-                                  name: "text",
-                                  attrs: { macro: "title-short" },
-                                  children: [],
-                                },
-                                { name: "#comment", attrs: {}, children: [] },
-                                {
-                                  name: "text",
-                                  attrs: { macro: "date-disambiguate" },
+                                  name: 'text',
+                                  attrs: { macro: 'title-short' },
                                   children: [],
                                 },
                                 {
-                                  name: "text",
-                                  attrs: { macro: "case-locator-subsequent" },
+                                  name: 'text',
+                                  attrs: { macro: 'date-disambiguate' },
+                                  children: [],
+                                },
+                                {
+                                  name: 'text',
+                                  attrs: { macro: 'case-locator-subsequent' },
                                   children: [],
                                 },
                               ],
                             },
                             {
-                              name: "text",
-                              attrs: { macro: "case-pinpoint-subsequent" },
+                              name: 'text',
+                              attrs: { macro: 'case-pinpoint-subsequent' },
                               children: [],
                             },
                           ],
                         },
                         {
-                          name: "choose",
+                          name: 'choose',
                           attrs: {},
                           children: [
                             {
-                              name: "if",
-                              attrs: { match: "none", type: "legal_case" },
+                              name: 'if',
+                              attrs: { match: 'none', type: 'legal_case' },
                               children: [
                                 {
-                                  name: "text",
-                                  attrs: {
-                                    macro: "point-locators-subsequent",
-                                  },
+                                  name: 'text',
+                                  attrs: { macro: 'point-locators-subsequent' },
                                   children: [],
                                 },
                               ],
@@ -5097,169 +4940,166 @@ module.exports = {
                   ],
                 },
                 {
-                  name: "else",
+                  name: 'else',
                   attrs: {},
                   children: [
                     {
-                      name: "group",
-                      attrs: { delimiter: ", " },
+                      name: 'group',
+                      attrs: { delimiter: ', ' },
                       children: [
                         {
-                          name: "group",
-                          attrs: { delimiter: ": " },
+                          name: 'group',
+                          attrs: { delimiter: ': ' },
                           children: [
                             {
-                              name: "group",
-                              attrs: { delimiter: ", " },
+                              name: 'group',
+                              attrs: { delimiter: ', ' },
                               children: [
                                 {
-                                  name: "group",
-                                  attrs: { delimiter: " " },
+                                  name: 'group',
+                                  attrs: { delimiter: ' ' },
                                   children: [
                                     {
-                                      name: "group",
-                                      attrs: { delimiter: ", " },
+                                      name: 'group',
+                                      attrs: { delimiter: ', ' },
                                       children: [
                                         {
-                                          name: "group",
-                                          attrs: { delimiter: " " },
+                                          name: 'group',
+                                          attrs: { delimiter: ' ' },
                                           children: [
                                             {
-                                              name: "group",
-                                              attrs: { delimiter: ", " },
+                                              name: 'group',
+                                              attrs: { delimiter: ', ' },
                                               children: [
                                                 {
-                                                  name: "group",
-                                                  attrs: { delimiter: ", " },
+                                                  name: 'group',
+                                                  attrs: { delimiter: ', ' },
                                                   children: [
                                                     {
-                                                      name: "text",
+                                                      name: 'text',
                                                       attrs: {
                                                         macro:
-                                                          "contributors-note",
+                                                          'contributors-note',
                                                       },
                                                       children: [],
                                                     },
                                                     {
-                                                      name: "text",
+                                                      name: 'text',
                                                       attrs: {
-                                                        macro: "title-note",
+                                                        macro: 'title-note',
                                                       },
                                                       children: [],
                                                     },
                                                     {
-                                                      name: "text",
+                                                      name: 'text',
                                                       attrs: {
                                                         macro:
-                                                          "issue-map-graphic",
+                                                          'issue-map-graphic',
                                                       },
                                                       children: [],
                                                     },
                                                   ],
                                                 },
                                                 {
-                                                  name: "text",
+                                                  name: 'text',
                                                   attrs: {
-                                                    macro: "description-note",
+                                                    macro: 'description-note',
                                                   },
                                                   children: [],
                                                 },
                                                 {
-                                                  name: "text",
+                                                  name: 'text',
                                                   attrs: {
                                                     macro:
-                                                      "secondary-contributors-note",
+                                                      'secondary-contributors-note',
                                                   },
                                                   children: [],
                                                 },
                                                 {
-                                                  name: "text",
+                                                  name: 'text',
                                                   attrs: {
                                                     macro:
-                                                      "container-title-note",
+                                                      'container-title-note',
                                                   },
                                                   children: [],
                                                 },
                                                 {
-                                                  name: "text",
+                                                  name: 'text',
                                                   attrs: {
                                                     macro:
-                                                      "container-contributors-note",
+                                                      'container-contributors-note',
                                                   },
                                                   children: [],
                                                 },
                                               ],
                                             },
                                             {
-                                              name: "text",
+                                              name: 'text',
                                               attrs: {
                                                 macro:
-                                                  "locators-note-join-with-space",
+                                                  'locators-note-join-with-space',
                                               },
                                               children: [],
                                             },
                                           ],
                                         },
                                         {
-                                          name: "text",
+                                          name: 'text',
                                           attrs: {
                                             macro:
-                                              "locators-note-join-with-comma",
+                                              'locators-note-join-with-comma',
                                           },
                                           children: [],
                                         },
                                         {
-                                          name: "text",
-                                          attrs: {
-                                            macro: "collection-title",
-                                          },
+                                          name: 'text',
+                                          attrs: { macro: 'collection-title' },
                                           children: [],
                                         },
                                         {
-                                          name: "text",
+                                          name: 'text',
                                           attrs: {
-                                            macro:
-                                              "issue-note-join-with-comma",
+                                            macro: 'issue-note-join-with-comma',
                                           },
                                           children: [],
                                         },
                                       ],
                                     },
                                     {
-                                      name: "text",
+                                      name: 'text',
                                       attrs: {
-                                        macro: "issue-note-join-with-space",
+                                        macro: 'issue-note-join-with-space',
                                       },
                                       children: [],
                                     },
                                   ],
                                 },
                                 {
-                                  name: "text",
-                                  attrs: { macro: "locators-newspaper" },
+                                  name: 'text',
+                                  attrs: { macro: 'locators-newspaper' },
                                   children: [],
                                 },
                                 {
-                                  name: "text",
+                                  name: 'text',
                                   attrs: {
-                                    macro: "point-locators-join-with-comma",
+                                    macro: 'point-locators-join-with-comma',
                                   },
                                   children: [],
                                 },
                               ],
                             },
                             {
-                              name: "text",
+                              name: 'text',
                               attrs: {
-                                macro: "point-locators-join-with-colon",
+                                macro: 'point-locators-join-with-colon',
                               },
                               children: [],
                             },
                           ],
                         },
                         {
-                          name: "text",
-                          attrs: { macro: "access-note" },
+                          name: 'text',
+                          attrs: { macro: 'access-note' },
                           children: [],
                         },
                       ],
@@ -5273,206 +5113,200 @@ module.exports = {
       ],
     },
     {
-      name: "bibliography",
+      name: 'bibliography',
       attrs: {
-        "hanging-indent": "true",
-        "et-al-min": "11",
-        "et-al-use-first": "7",
-        "subsequent-author-substitute": "———",
-        "entry-spacing": "0",
+        'hanging-indent': 'true',
+        'et-al-min': '11',
+        'et-al-use-first': '7',
+        'subsequent-author-substitute': '———',
+        'entry-spacing': '0',
       },
       children: [
         {
-          name: "sort",
+          name: 'sort',
           attrs: {},
           children: [
             {
-              name: "key",
-              attrs: { macro: "contributors-sort" },
+              name: 'key',
+              attrs: { macro: 'contributors-sort' },
               children: [],
             },
-            { name: "key", attrs: { variable: "title" }, children: [] },
-            { name: "key", attrs: { variable: "genre" }, children: [] },
-            { name: "key", attrs: { variable: "issued" }, children: [] },
+            { name: 'key', attrs: { variable: 'title' }, children: [] },
+            { name: 'key', attrs: { variable: 'genre' }, children: [] },
+            { name: 'key', attrs: { variable: 'issued' }, children: [] },
           ],
         },
         {
-          name: "layout",
-          attrs: { suffix: "." },
+          name: 'layout',
+          attrs: { suffix: '.' },
           children: [
             {
-              name: "group",
-              attrs: { delimiter: ". " },
+              name: 'group',
+              attrs: { delimiter: '. ' },
               children: [
                 {
-                  name: "group",
-                  attrs: { delimiter: ": " },
+                  name: 'group',
+                  attrs: { delimiter: ': ' },
                   children: [
                     {
-                      name: "group",
-                      attrs: { delimiter: ", " },
+                      name: 'group',
+                      attrs: { delimiter: ', ' },
                       children: [
                         {
-                          name: "group",
-                          attrs: { delimiter: " " },
+                          name: 'group',
+                          attrs: { delimiter: ' ' },
                           children: [
                             {
-                              name: "group",
-                              attrs: { delimiter: ". " },
+                              name: 'group',
+                              attrs: { delimiter: '. ' },
                               children: [
                                 {
-                                  name: "group",
-                                  attrs: { delimiter: " " },
+                                  name: 'group',
+                                  attrs: { delimiter: ' ' },
                                   children: [
                                     {
-                                      name: "group",
-                                      attrs: { delimiter: ", " },
+                                      name: 'group',
+                                      attrs: { delimiter: ', ' },
                                       children: [
                                         {
-                                          name: "group",
-                                          attrs: { delimiter: ". " },
+                                          name: 'group',
+                                          attrs: { delimiter: '. ' },
                                           children: [
                                             {
-                                              name: "group",
-                                              attrs: { delimiter: ". " },
+                                              name: 'group',
+                                              attrs: { delimiter: '. ' },
                                               children: [
                                                 {
-                                                  name: "text",
+                                                  name: 'text',
                                                   attrs: {
-                                                    macro: "contributors",
+                                                    macro: 'contributors',
                                                   },
                                                   children: [],
                                                 },
                                                 {
-                                                  name: "text",
-                                                  attrs: { macro: "title" },
+                                                  name: 'text',
+                                                  attrs: { macro: 'title' },
                                                   children: [],
                                                 },
                                                 {
-                                                  name: "text",
+                                                  name: 'text',
                                                   attrs: {
-                                                    macro:
-                                                      "issue-map-graphic",
+                                                    macro: 'issue-map-graphic',
                                                   },
                                                   children: [],
                                                 },
                                               ],
                                             },
                                             {
-                                              name: "text",
-                                              attrs: { macro: "description" },
+                                              name: 'text',
+                                              attrs: { macro: 'description' },
                                               children: [],
                                             },
                                             {
-                                              name: "text",
+                                              name: 'text',
                                               attrs: {
-                                                macro:
-                                                  "secondary-contributors",
+                                                macro: 'secondary-contributors',
                                               },
                                               children: [],
                                             },
                                             {
-                                              name: "group",
-                                              attrs: { delimiter: ", " },
+                                              name: 'group',
+                                              attrs: { delimiter: ', ' },
                                               children: [
                                                 {
-                                                  name: "text",
+                                                  name: 'text',
                                                   attrs: {
-                                                    macro: "container-title",
+                                                    macro: 'container-title',
                                                   },
                                                   children: [],
                                                 },
                                                 {
-                                                  name: "text",
+                                                  name: 'text',
                                                   attrs: {
                                                     macro:
-                                                      "container-contributors",
+                                                      'container-contributors',
                                                   },
                                                   children: [],
                                                 },
                                               ],
                                             },
                                             {
-                                              name: "text",
+                                              name: 'text',
                                               attrs: {
                                                 macro:
-                                                  "locators-join-with-period",
+                                                  'locators-join-with-period',
                                               },
                                               children: [],
                                             },
                                           ],
                                         },
                                         {
-                                          name: "text",
+                                          name: 'text',
                                           attrs: {
-                                            macro: "locators-join-with-comma",
+                                            macro: 'locators-join-with-comma',
                                           },
                                           children: [],
                                         },
                                         {
-                                          name: "text",
-                                          attrs: {
-                                            macro: "locators-chapter",
-                                          },
+                                          name: 'text',
+                                          attrs: { macro: 'locators-chapter' },
                                           children: [],
                                         },
                                       ],
                                     },
                                     {
-                                      name: "text",
+                                      name: 'text',
                                       attrs: {
-                                        macro: "locators-join-with-space",
+                                        macro: 'locators-join-with-space',
                                       },
                                       children: [],
                                     },
                                   ],
                                 },
                                 {
-                                  name: "text",
-                                  attrs: { macro: "collection-title" },
+                                  name: 'text',
+                                  attrs: { macro: 'collection-title' },
                                   children: [],
                                 },
                                 {
-                                  name: "text",
-                                  attrs: { macro: "issue-join-with-period" },
+                                  name: 'text',
+                                  attrs: { macro: 'issue-join-with-period' },
                                   children: [],
                                 },
                               ],
                             },
                             {
-                              name: "text",
-                              attrs: { macro: "issue-join-with-space" },
+                              name: 'text',
+                              attrs: { macro: 'issue-join-with-space' },
                               children: [],
                             },
                           ],
                         },
                         {
-                          name: "text",
-                          attrs: { macro: "issue-join-with-comma" },
+                          name: 'text',
+                          attrs: { macro: 'issue-join-with-comma' },
                           children: [],
                         },
                         {
-                          name: "text",
-                          attrs: {
-                            macro: "locators-journal-join-with-comma",
-                          },
+                          name: 'text',
+                          attrs: { macro: 'locators-journal-join-with-comma' },
                           children: [],
                         },
                         {
-                          name: "text",
-                          attrs: { macro: "locators-newspaper" },
+                          name: 'text',
+                          attrs: { macro: 'locators-newspaper' },
                           children: [],
                         },
                       ],
                     },
                     {
-                      name: "text",
-                      attrs: { macro: "locators-journal-join-with-colon" },
+                      name: 'text',
+                      attrs: { macro: 'locators-journal-join-with-colon' },
                       children: [],
                     },
                   ],
                 },
-                { name: "text", attrs: { macro: "access" }, children: [] },
+                { name: 'text', attrs: { macro: 'access' }, children: [] },
               ],
             },
           ],
