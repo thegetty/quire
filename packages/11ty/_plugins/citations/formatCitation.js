@@ -2,7 +2,7 @@ const Processor = require('simple-cite')
 
 const defaultStyles = {
   chicago: require('./styles/chicago-fullnote-bibliography'),
-  mla: require('style-mla')
+  mla: require('./styles/mla')
 }
 
 module.exports = function(options={}) {
