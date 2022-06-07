@@ -20,7 +20,9 @@ module.exports = function(eleventyConfig) {
   return function (params) {
     const { pages, pagination, title } = params
     const { currentPage, currentPageIndex, nextPage, previousPage } = pagination
+
     if (!currentPage) return
+    
     const home = '/'
     const isHomePage = currentPage.url === home
 
