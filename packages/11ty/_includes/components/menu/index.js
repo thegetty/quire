@@ -24,6 +24,8 @@ module.exports = function(eleventyConfig) {
   return function(params) {
     const { collections, pageData } = params
 
+    if (!pageData) return
+
     const footerLinks = resourceLinks.filter(({ type }) => type === 'footer-link')
 
     return html`

@@ -1,10 +1,10 @@
 const path = require('path')
-
+const shouldBuildPage = require('../../helpers/should-build-page')
 /**
  * Global computed data
  */
 module.exports = {
-  canonicalURL: ({ config, page }) => path.join(config.baseURL, page.url),
+  canonicalURL: ({ config, page }) => page.url && path.join(config.baseURL, page.url),
   eleventyNavigation: {
     /**
      * Explicitly define page data properties used in the TOC
@@ -28,12 +28,14 @@ module.exports = {
       }
     },
     key: (data) => {
+      if (!data.page.url) return
       const segments = data.page.url.split('/')
       const key = segments.slice(1, segments.length - 1).join('/')
       return data.key || key
     },
     order: (data) => data.order,
     parent: (data) => {
+      if (!data.page.url) return
       const segments = data.page.url.split('/')
       const parent = segments.slice(1, segments.length - 2).join('/')
       return data.parent || parent
@@ -56,7 +58,7 @@ module.exports = {
    */
   pageData: ({ collections, page }) => {
     if (!collections) return
-    return collections.all.find(({ url }) => url === page.url)
+    return collections.current.find(({ url }) => url === page.url)
   },
   /**
    * Figures data for figures referenced by id in page frontmatter 
@@ -88,16 +90,10 @@ module.exports = {
       })
   },
   pages: ({ collections, config }) => {
-    if (!collections.all) return [];
-    return collections.all
+    if (!collections.current) return [];
+    return collections.current
       .filter(({ data }) => {
-        const { online, epub, menu, pdf, type } = data
-        return (
-          online !== false &&
-          !(config.params.pdf && pdf === false) &&
-          !(config.params.epub && epub === false) &&
-          type !== 'data'
-        )
+        return data.type !== 'data'
       })
       .sort((a, b) => parseInt(a.data.order) - parseInt(b.data.order))
   },
@@ -110,6 +106,11 @@ module.exports = {
       nextPage: pages[currentPageIndex + 1],
       previousPage: pages[currentPageIndex - 1]
     }
+  },
+  permalink: ({ outputs, permalink }) => {
+    return shouldBuildPage(outputs)
+      ? permalink
+      : false
   },
   /**
    * Contributors with a `pages` property containing data about the pages they contributed to
