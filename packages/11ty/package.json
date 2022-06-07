@@ -9,11 +9,11 @@
     "build:pdf": "npx pagedjs-cli@1.0.0-alpha.2 ${ELEVENTY_OUTPUT_DIR:-_site}/index.html",
     "clean": "del ${ELEVENTY_OUTPUT_DIR:-_site}",
     "debug": "DEBUG=Eleventy* eleventy --dryrun",
-    "dev": "ELEVENTY_ENV=development OUTPUT=html eleventy --serve",
+    "dev": "ELEVENTY_ENV=development QUIRE_OUTPUT=html eleventy --serve",
     "prebuild": "npm run clean",
     "predev": "npm run clean",
     "preserve": "npm run clean",
-    "serve": "ELEVENTY_ENV=production OUTPUT=html eleventy --serve",
+    "serve": "ELEVENTY_ENV=production QUIRE_OUTPUT=html eleventy --serve",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
