@@ -12,8 +12,13 @@ module.exports = function(eleventyConfig) {
 
   return function(params) {
     const { data, url } = params
-    const { label, online, title } = data
+    const { label, layout, title } = data
     const item = pageTitle({ label, title })
-    return online !== false ? `<a href="${url}">${item}</a>` : item
+    /**
+     * Check if item is a reference to a built page or just a heading
+     * @type {Boolean}
+     */
+    const isPage = !!layout
+    return isPage ? `<a href="${url}">${item}</a>` : item
   }
 }

@@ -36,21 +36,24 @@ module.exports = function (eleventyConfig) {
       label,
       layout,
       object: pageObject,
-      online,
       short_title,
       subtitle,
       summary,
       title
     } = page.data
 
-    const isOnline = online !== false
+    /**
+     * Check if item is a reference to a built page or just a heading
+     * @type {Boolean}
+     */
+    const isPage = !!layout
 
     const pageContributorsElement = pageContributors
       ? `<span class="contributor"> — ${contributors({ context: pageContributors, format: 'string' })}</span>`
       : ''
     const pageTitleElement = oneLine`${pageTitle({ label, subtitle, title })}${pageContributorsElement}`
     const arrowIcon = `<span class="arrow remove-from-epub">&nbsp${icon({ type: 'arrow-forward', description: '' })}</span>`
-    let mainElement = `${markdownify(pageTitleElement)}${isOnline && !children ? arrowIcon : ''}`
+    let mainElement = `${markdownify(pageTitleElement)}${isPage && !children ? arrowIcon : ''}`
     /**
      * Create cards for page items
      */
@@ -92,7 +95,7 @@ module.exports = function (eleventyConfig) {
       `
     }
 
-    if (isOnline) {
+    if (isPage) {
       mainElement = html`
         <a href="${urlFilter(page.url)}">
           ${mainElement}

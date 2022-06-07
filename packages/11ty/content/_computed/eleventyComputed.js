@@ -19,7 +19,6 @@ module.exports = {
         label: data.label,
         layout: data.layout,
         object: data.object,
-        online: data.online,
         order: data.order,
         short_title: data.short_title,
         subtitle: data.subtitle,
@@ -112,8 +111,9 @@ module.exports = {
    * Currently this is the most concise way to exclude pages in eleventy
    */
   permalink: (data) => {
-    return buildFilter(data)
-      ? data.permalink
+    const { menu, permalink, toc } = data
+    return (buildFilter(data) || menu || toc)
+      ? permalink
       : false
   },
   /**
