@@ -1,4 +1,9 @@
-const shouldBuildPage = require('../../helpers/should-build-page')
+const {
+  buildFilter,
+  menuFilter,
+  tableOfContentsFilter,
+} = require('../../helpers/page-filters')
+
 /**
  * Add custom collections
  * @param  {Object} eleventyConfig
@@ -9,26 +14,18 @@ module.exports = function (eleventyConfig, options = {}) {
    * Collection of pages for the current output (epub, html, or pdf)
    */
   eleventyConfig.addCollection('current', function (collectionApi) {
-    return collectionApi
-      .getAll()
-      .filter((page) => shouldBuildPage(page.data.outputs))
+    return collectionApi.getAll().filter(({ data }) => buildFilter(data))
   })
   /**
    * Collection of pages to display in the menu
    */
   eleventyConfig.addCollection('menu', function (collectionApi) {
-    return collectionApi.getAll('current').filter((page) => {
-      const { menu, outputs, type } = page.data
-      return shouldBuildPage(outputs) && menu !== false && type !== 'data'
-    })
+    return collectionApi.getAll().filter(({ data }) => menuFilter(data))
   })
   /**
    * Collection of pages to display in Table of Contents
    */
   eleventyConfig.addCollection('tableOfContents', function (collectionApi) {
-    return collectionApi.getAll('current').filter((page) => {
-      const { outputs, toc, type } = page.data
-      return shouldBuildPage(outputs) && toc !== false && type !== 'data'
-    })
+    return collectionApi.getAll().filter(({ data }) => tableOfContentsFilter(data))
   })
 }

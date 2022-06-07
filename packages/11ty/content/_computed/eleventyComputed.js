@@ -1,5 +1,5 @@
 const path = require('path')
-const shouldBuildPage = require('../../helpers/should-build-page')
+const { buildFilter } = require('../../helpers/page-filters')
 /**
  * Global computed data
  */
@@ -111,9 +111,9 @@ module.exports = {
    * Set permalink to `false` to exclude pages from the build
    * Currently this is the most concise way to exclude pages in eleventy
    */
-  permalink: ({ outputs, permalink }) => {
-    return shouldBuildPage(outputs)
-      ? permalink
+  permalink: (data) => {
+    return buildFilter(data)
+      ? data.permalink
       : false
   },
   /**
