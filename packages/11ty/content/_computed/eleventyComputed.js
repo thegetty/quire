@@ -107,6 +107,10 @@ module.exports = {
       previousPage: pages[currentPageIndex - 1]
     }
   },
+  /**
+   * Set permalink to `false` to exclude pages from the build
+   * Currently this is the most concise way to exclude pages in eleventy
+   */
   permalink: ({ outputs, permalink }) => {
     return shouldBuildPage(outputs)
       ? permalink
