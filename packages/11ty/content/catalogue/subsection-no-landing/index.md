@@ -1,6 +1,6 @@
 ---
 title: Subsection Without Landing Page
-online: false
+outputs: none
 order: 300
 ---
 

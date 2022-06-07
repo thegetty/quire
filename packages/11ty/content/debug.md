@@ -1,7 +1,8 @@
 ---
 title: Quire DEBUG
+layout: page
 menu: false
-online: false
+outputs: none
 toc: false
 ---
 
