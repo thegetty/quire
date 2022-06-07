@@ -5,7 +5,9 @@
  * @return {Boolean}
  */
 module.exports = function (outputs) {
-  return outputs !== 'none' 
-    && outputs !== false 
-    && (!outputs || Array.isArray(outputs) && outputs.includes(process.env.OUTPUT))
+  return outputs !== "none" &&
+    outputs !== false &&
+    (!outputs ||
+      Array.isArray(outputs) && outputs.includes(process.env.OUTPUT) ||
+      outputs === process.env.OUTPUT)
 }
