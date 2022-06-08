@@ -37,6 +37,10 @@
   padding-right: 2.25em;
   padding-left: 2.25em;
 
+  li {
+    list-style-type: none;
+  }
+
   .page-item,
   .section-item {
     margin-bottom: 1.375rem;
@@ -54,7 +58,7 @@
     margin-left: 0;
   }
 
-  ul.arrow .section-indent {
+  ol.arrow .section-indent {
     padding-left: 20px;
     font-size: .75em;
     width: 100%;
@@ -113,7 +117,7 @@
       }
     }
 
-    .section-item ul {
+    .section-item ol {
       margin-top: 1em;
       margin-bottom: 0;
       margin: 1em 0 0 .75em;
@@ -231,7 +235,7 @@
     @media print {
       font-family: $quire-primary-font;
     }
-    li > ul {
+    li > ol {
       margin-top: .5em;
       margin-bottom: .5em;
       margin-right: 0;
@@ -281,7 +285,7 @@
         p + p { text-indent: 2em; }
       }
     }
-    .section-item ul {
+    .section-item ol {
       .title {
         margin-bottom: 1em;
       }
@@ -312,7 +316,7 @@
       margin: 0;
     }
 
-    ul li.section-item.no-landing .list-header {
+    ol li.section-item.no-landing .list-header {
       margin: 0 0 1.375rem 0;
     }
 
@@ -321,7 +325,7 @@
     }
 
     .section-item a,
-    .menu-list .section-item ul a {
+    .menu-list .section-item ol a {
       display: Block;
       width: 100%;
       padding: 1.25rem;
@@ -332,7 +336,7 @@
       text-align: center;
     }
 
-    .menu-list .section-item ul li.page-item a {
+    .menu-list .section-item ol li.page-item a {
       padding: 0;
       text-align: left;
     }
@@ -401,14 +405,14 @@
           }
         }
       }
-      .section-item ul a .arrow {
+      .section-item ol a .arrow {
         display: inline-block;
         margin-top: 0;
         @media print {
           display: none;
         }
       }
-      ul.arrow {
+      ol.arrow {
         a {
           @if $theme == classic {
             .arrow {
@@ -452,7 +456,7 @@
 
     .quire-menu__formats {
       display: block;
-      ul {
+      ol {
         display: block;
       }
       a {
@@ -465,7 +469,7 @@
       font-size: .875em;
     }
 
-    ul li {
+    ol li {
       float: left;
       width: 100%;
       font-size: $quire-base-font-size;
@@ -605,7 +609,7 @@
       }
     }
 
-    ul li.section-item {
+    ol li.section-item {
       border-top: 1px solid;
       border-bottom: 1px solid;
       @if (lightness($secondary-background-color) > 50) {
@@ -665,7 +669,7 @@
           min-height: 300px;
         }
       }
-      ul {
+      ol {
         padding-left: 0;
         margin: 0;
         border-left-width: 0px;
@@ -682,7 +686,7 @@
 
     @media screen and (min-width: $desktop) {
       @supports (display: grid) {
-        ul {
+        ol {
           display: grid;
           grid-gap: 1rem;
 
@@ -701,7 +705,7 @@
 
     @media screen and (min-width: $widescreen) {
       @supports (display: grid) {
-        ul {
+        ol {
           display: grid;
           grid-gap: 1rem;
 
@@ -720,7 +724,7 @@
 
     @media screen and (min-width: $fullhd) {
       @supports (display: grid) {
-        ul {
+        ol {
           display: grid;
           grid-gap: 1rem;
 

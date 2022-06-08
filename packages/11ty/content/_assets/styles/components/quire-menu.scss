@@ -165,7 +165,7 @@
     }
   }
 
-  .section-item ul {
+  .section-item ol {
     font-size: .875em;
     line-height: 1.5;
   }
@@ -176,11 +176,25 @@
 
   .menu-list {
     line-height: 1.5em;
-    li > ul {
+
+    ol {
+      margin: 0.75em;
+      padding-left: 0.75em;
+    }
+
+    & > ol {
+      margin-left: -0.75em;
+    }
+
+    li {
+      list-style-type: none;
+    }
+
+    li > ol {
       margin-top: .25em;
       margin-bottom: .25em;
     }
-    li ul {
+    li ol {
       border-left-width: 0;
     }
     .section-list {
