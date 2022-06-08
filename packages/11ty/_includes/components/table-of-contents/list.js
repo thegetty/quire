@@ -27,7 +27,7 @@ module.exports = function(eleventyConfig) {
     const renderList = (pages) => {
       const otherPages = filterCurrentPage(pages);
       return html`
-        <ol>
+        <ol class="toc-list">
           ${otherPages.map((page) => {
             if (presentation !== 'brief' && page.children && page.children.length) {
               const children = renderList(page.children)
