@@ -8,7 +8,7 @@ module.exports = function(eleventyConfig) {
   const { config, objects } = eleventyConfig.globalData
 
   return function (pageObjects) {
-    const capitalize = eleventyConfig.getFilter('capitalize')
+    const titleCase = eleventyConfig.getFilter('titleCase')
     const icon = eleventyConfig.getFilter('icon')
     const markdownify = eleventyConfig.getFilter('markdownify')
     const properties = objects.object_display_order
@@ -18,7 +18,7 @@ module.exports = function(eleventyConfig) {
 
       return html`
         <tr>
-          <td>${capitalize(property)}</td>
+          <td>${titleCase(property)}</td>
           <td>${markdownify(object[property].toString())}</td>
         </tr>
       `
