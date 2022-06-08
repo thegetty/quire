@@ -1,5 +1,5 @@
 ---
 title: Section without Landing Page
-online: false
+outputs: none
 order: 400
 ---
