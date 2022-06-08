@@ -1,5 +1,5 @@
 const path = require('path')
-const { buildFilter } = require('../../helpers/page-filters')
+const { currentOutputFilter } = require('../../helpers/page-filters')
 /**
  * Global computed data
  */
@@ -112,7 +112,7 @@ module.exports = {
    */
   permalink: (data) => {
     const { menu, permalink, toc } = data
-    return (buildFilter(data) || menu || toc)
+    return (currentOutputFilter(data) || menu || toc)
       ? permalink
       : false
   },

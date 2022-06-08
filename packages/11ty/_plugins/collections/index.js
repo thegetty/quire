@@ -1,5 +1,5 @@
 const {
-  buildFilter,
+  currentOutputFilter,
   menuFilter,
   tableOfContentsFilter,
 } = require('../../helpers/page-filters')
@@ -14,7 +14,7 @@ module.exports = function (eleventyConfig, options = {}) {
    * Collection of pages for the current output (epub, html, or pdf)
    */
   eleventyConfig.addCollection('current', function (collectionApi) {
-    return collectionApi.getAll().filter(({ data }) => buildFilter(data))
+    return collectionApi.getAll().filter(({ data }) => currentOutputFilter(data))
   })
   /**
    * Collection of pages to display in the menu

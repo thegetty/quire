@@ -4,7 +4,7 @@
  * @param  {Object} data Eleventy `page.data` object
  * @return {Boolean}
  */
-const buildFilter = function ({ outputs }) {
+const currentOutputFilter = function ({ outputs }) {
   return outputs !== 'none' &&
     outputs !== false &&
     (!outputs ||
@@ -19,7 +19,7 @@ const buildFilter = function ({ outputs }) {
  */
 const menuFilter = function(data) {
   const { menu, type } = data
-  return (buildFilter(data) || menu === true) && menu !== false && type !== 'data'
+  return (currentOutputFilter(data) || menu === true) && menu !== false && type !== 'data'
 }
 
 /**
@@ -29,7 +29,7 @@ const menuFilter = function(data) {
  */
 const tableOfContentsFilter = function(data) {
   const { toc, type } = data
-  return (buildFilter(data) || toc === true) && toc !== false && type !== 'data'
+  return (currentOutputFilter(data) || toc === true) && toc !== false && type !== 'data'
 }
 
-module.exports = { buildFilter, menuFilter, tableOfContentsFilter }
+module.exports = { currentOutputFilter, menuFilter, tableOfContentsFilter }
