@@ -57,7 +57,9 @@ module.exports = function(eleventyConfig, options) {
    * Add a universal template filter to render markdown strings as HTML
    * @see https://github.com/markdown-it/markdown-it#simple
    */
-  eleventyConfig.addFilter('markdownify', (content = '') => {
+  eleventyConfig.addFilter('markdownify', (content) => {
+    if (!content) return ''
+
     return !content.match(/\n/)
       ? markdownLibrary.renderInline(content)
       : markdownLibrary.render(content)
