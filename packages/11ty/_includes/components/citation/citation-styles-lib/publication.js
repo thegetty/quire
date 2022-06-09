@@ -6,7 +6,6 @@
  */
 module.exports = function (eleventyConfig) {
   const citationName = eleventyConfig.getFilter('citationName')
-  const pubYear = eleventyConfig.getFilter('pubYear')
   const siteTitle = eleventyConfig.getFilter('siteTitle')
 
   const {
@@ -27,8 +26,8 @@ module.exports = function (eleventyConfig) {
       editor: publicationContributors
         .filter(({ role }) => role === 'editor')
         .map(citationName),
-      issued: {
-        'date-parts': [[pubYear()]],
+      issued: pubDate && {
+        'date-parts': [[new Date(pubDate).getFullYear()]],
       },
       publisher: publishers[0].name,
       'publisher-place': publishers[0].location,
