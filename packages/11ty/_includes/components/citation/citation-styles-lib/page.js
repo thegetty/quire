@@ -20,15 +20,14 @@ module.exports = function (eleventyConfig) {
 
   return function (params) {
     let { context, page, type } = params
-    const pageContributors = page.data.contributor.map((item) =>
-      getContributor(item)
-    )
+    
+    const pageContributors = page.data.contributor
+      ? page.data.contributor.map((item) => getContributor(item))
+      : []
 
     return {
       id: context,
-      author: pageContributors
-        .filter(({ type }) => type === 'primary')
-        .map(citationName),
+      author: pageContributors.map(citationName),
       'container-author': publicationContributors
         .filter(({ type }) => type === 'primary')
         .map(citationName),
