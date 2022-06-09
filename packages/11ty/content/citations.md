@@ -2,7 +2,8 @@
 title: Quire Citations
 layout: page
 contributor:
-  - id: jkeller
+  - first_name: Hannah
+    last_name: Balenda
 ---
 
 ### Chicago Manual of Style
