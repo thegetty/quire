@@ -7,7 +7,7 @@ const path = require('path')
 module.exports = function(eleventyConfig) {
   const { config, objects } = eleventyConfig.globalData
 
-  return function (pageObjects) {
+  return function (pageObjects = []) {
     const titleCase = eleventyConfig.getFilter('titleCase')
     const icon = eleventyConfig.getFilter('icon')
     const markdownify = eleventyConfig.getFilter('markdownify')
