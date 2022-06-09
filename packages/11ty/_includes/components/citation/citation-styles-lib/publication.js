@@ -10,6 +10,7 @@ module.exports = function (eleventyConfig) {
 
   const {
     contributor: publicationContributors,
+    pub_date: pubDate,
     publisher: publishers,
   } = eleventyConfig.globalData.publication
 
