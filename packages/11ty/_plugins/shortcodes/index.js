@@ -46,6 +46,6 @@ module.exports = function(eleventyConfig, options) {
   })
 
   eleventyConfig.addShortcode('tombstone', function(...args) {
-    return tombstone(eleventyConfig)(...args)
+    return tombstone(eleventyConfig, { page: this.page })(...args)
   })
 }
