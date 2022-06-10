@@ -4,7 +4,7 @@ const path = require('path')
 /**
  * A shortcode for tombstone display of object data on an entry page
  */
-module.exports = function(eleventyConfig) {
+module.exports = function(eleventyConfig, { page }) {
   const { config, objects } = eleventyConfig.globalData
 
   return function (pageObjects = []) {
@@ -43,7 +43,7 @@ module.exports = function(eleventyConfig) {
         </div>
       </section>
     `
-    if (!pageObjects.length) console.warn('Warning: one or more entry pages does not have any object ids');
+    if (!pageObjects.length) console.warn(`Warning: ${page.inputPath} does not have any object ids`);
     return pageObjects.map((object) => table(object)).join('')
   }
 }
