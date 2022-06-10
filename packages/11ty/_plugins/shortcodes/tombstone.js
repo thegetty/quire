@@ -4,10 +4,10 @@ const path = require('path')
 /**
  * A shortcode for tombstone display of object data on an entry page
  */
-module.exports = function(eleventyConfig) {
+module.exports = function(eleventyConfig, { page }) {
   const { config, objects } = eleventyConfig.globalData
 
-  return function (pageObjects) {
+  return function (pageObjects = []) {
     const titleCase = eleventyConfig.getFilter('titleCase')
     const icon = eleventyConfig.getFilter('icon')
     const markdownify = eleventyConfig.getFilter('markdownify')
@@ -43,7 +43,7 @@ module.exports = function(eleventyConfig) {
         </div>
       </section>
     `
-
+    if (!pageObjects.length) console.warn(`Warning: ${page.inputPath} does not have any object ids`);
     return pageObjects.map((object) => table(object)).join('')
   }
 }
