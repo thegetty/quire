@@ -43,7 +43,7 @@ module.exports = function(eleventyConfig) {
         </div>
       </section>
     `
-
+    if (!pageObjects.length) console.warn('Warning: one or more entry pages does not have any object ids');
     return pageObjects.map((object) => table(object)).join('')
   }
 }
