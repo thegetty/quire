@@ -72,21 +72,31 @@ module.exports = {
   pageObjects: ({ figures, object, objects }) => {
     if (!object || !object.length) return
     return object
-      .map((item) => {
+      .reduce((validObjects, item) => {
+        if (!item.id) {
+          console.warn('Error: eleventyComputed: pageObjects: object item does not have an id')
+        }
+
         const objectData = objects.object_list.find(({ id }) => id === item.id)
         if (!objectData) {
           console.warn(`Error: eleventyComputed: pageObjects: no object found with id ${item.id}`)
-          return
         }
-        objectData.figures = objectData.figure.map((figure) => {
-          if (figure.id) {
-            return figures.figure_list.find((item) => item.id === figure.id)
-          } else {
-            return figure
-          }
-        })
-        return objectData
-      })
+
+        if (!objectData.figure) {
+          console.warn(`Error: eleventyComputed: pageObjects: object id ${objectData.id} has no figure data`)
+        } else {
+          objectData.figures = objectData.figure.map((figure) => {
+            if (figure.id) {
+              return figures.figure_list.find((item) => item.id === figure.id)
+            } else {
+              return figure
+            }
+          })
+          validObjects.push(objectData)
+        }
+
+        return validObjects
+      }, [])
   },
   pages: ({ collections, config }) => {
     if (!collections.current) return [];
