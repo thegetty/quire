@@ -17,10 +17,15 @@ module.exports = function (eleventyConfig, { page }) {
   return function (figures=page.figures) {
     if (!figures) return;
     const figuresWithMarkdownifiedCaptions =
-      figures.map((figure) => ({
-        ...figure,
-        caption: figure.caption ? markdownify(figure.caption) : null
-      }));
+      figures.reduce((validFigures, figure) => {
+        if (figure) {
+          validFigures.push({
+            ...figure,
+            caption: figure.caption ? markdownify(figure.caption) : null
+          })
+        }
+        return validFigures
+      }, []);
     const serializedFigures = stringifyData(figuresWithMarkdownifiedCaptions);
     return html`
       <q-lightbox figures="${serializedFigures}" image-dir=${imageDir}></q-lightbox>
