@@ -43,7 +43,6 @@ module.exports = function(eleventyConfig, { page }) {
         </div>
       </section>
     `
-    if (!pageObjects.length) console.warn(`Warning: ${page.inputPath} does not have any object ids`);
     return pageObjects.map((object) => table(object)).join('')
   }
 }

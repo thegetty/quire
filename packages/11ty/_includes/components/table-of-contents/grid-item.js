@@ -76,7 +76,7 @@ module.exports = function (eleventyConfig) {
       case !!pageObject:
         const firstObjectId = pageObject[0].id
         const object = getObject(firstObjectId)
-        const firstObjectFigure = object ? getFigure(object.figure[0].id) : null
+        const firstObjectFigure = object && object.figure ? getFigure(object.figure[0].id) : null
         imageElement = firstObjectFigure ? tableOfContentsImage({ imageDir, src: firstObjectFigure.src }) : ''
         break
       default:
