@@ -73,13 +73,10 @@ module.exports = {
     if (!object || !object.length) return
     return object
       .reduce((validObjects, item) => {
-        if (!item.id) {
-          console.warn('Error: eleventyComputed: pageObjects: object item does not have an id')
-        }
-
         const objectData = objects.object_list.find(({ id }) => id === item.id)
         if (!objectData) {
           console.warn(`Error: eleventyComputed: pageObjects: no object found with id ${item.id}`)
+          return validObjects
         }
 
         if (!objectData.figure) {
