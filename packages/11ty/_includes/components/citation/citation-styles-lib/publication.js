@@ -5,7 +5,8 @@
  * @return {Object}                CSL-JSON book
  */
 module.exports = function (eleventyConfig) {
-  const citationName = eleventyConfig.getFilter('citationName')
+  const citeName = eleventyConfig.getFilter('citeName')
+  const citePublicationSeries = eleventyConfig.getFilter('citePublicationSeries')
   const siteTitle = eleventyConfig.getFilter('siteTitle')
 
   const {
@@ -23,10 +24,11 @@ module.exports = function (eleventyConfig) {
       id: context,
       author: publicationContributors
         .filter(({ type }) => type === 'primary')
-        .map(citationName),
+        .map(citeName),
+      'container-title': citePublicationSeries(),
       editor: publicationContributors
         .filter(({ role }) => role === 'editor')
-        .map(citationName),
+        .map(citeName),
       issued: pubDate && {
         'date-parts': [[new Date(pubDate).getFullYear()]],
       },

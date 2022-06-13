@@ -3,9 +3,9 @@
  * @param  {Object} params
  */
 module.exports = function (eleventyConfig) {
+  const citePublicationSeries = eleventyConfig.getFilter('citePublicationSeries');
   const publicationContributors = eleventyConfig.getFilter('chicagoPublicationContributors');
   const publishers = eleventyConfig.getFilter('chicagoPublishers');
-  const pubSeries = eleventyConfig.getFilter('pubSeries');
   const pubYear = eleventyConfig.getFilter('pubYear');
   const siteTitle = eleventyConfig.getFilter('siteTitle');
   const {
@@ -27,7 +27,7 @@ module.exports = function (eleventyConfig) {
       ? [citation, titleElement].join('. ')
       : titleElement;
 
-    if (pubSeries()) citation = [citation, pubSeries()].join('. ');
+    if (citePublicationSeries()) citation = [citation, citePublicationSeries()].join('. ');
 
     if (publisher.length) {
       citation = [citation, publishers()].join('. ');
