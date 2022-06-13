@@ -1,4 +1,4 @@
-## Tranfrom for PDF
+## Transform to combine output for PDF
 
 The PDF module implements an [Eleventy `transform` function](https://www.11ty.dev/docs/config/#transforms) that prepares the static output for input to the [`Paged.js`](https://pagedjs.org) library. The HTML output from static rendering is output to a combined HTML file that is the input to the [`Paged.js`](https://pagedjs.org) commands.
 
@@ -46,12 +46,12 @@ prevents the transfrom function from simply appending the HTML fragments to the 
 
 A map of all `<section>` elements written to output file is maintained to allow quick lookup of parent and sibling sections.
 
-For each `<section>` content fragment to be written to the output file its location is determined by comparing the value of its `data-ouput-path` with the computed page order and the current map of `section` elements written.
+For each `<section>` content fragment to be written to the output file its location is determined by comparing the value of its `data-ouput-path` with the computed page order and the current map of `<section>` elements written.
 
 #### Computing content order
 
-After selecting the `section` element by its `data-ouput-path` attribute the location of that content in looked up in the computed page order and the nearest siblings and ancestors is then found in the array of `section` elements already written to the combined output file.
+After selecting the `<section>` element by its `data-ouput-path` attribute the location of that content in looked up in the computed page order and the nearest siblings and ancestors is then found in the array of `<section>` elements already written to the combined output file.
 
 #### Inserting the content
 
-The `<section>` content fragment is written to the combined output file by calling `insertBefore` or `insertAfter` on the nearest ancestor.
+The `<section>` content fragment is written to the combined output file by calling `insertBefore` or `insertAfter` on the nearest ancestor `<section>` element.
