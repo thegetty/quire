@@ -13,6 +13,7 @@ module.exports = function (eleventyConfig) {
     contributor: publicationContributors,
     pub_date: pubDate,
     publisher: publishers,
+    pub_type: pubType
   } = eleventyConfig.globalData.publication
 
   const { baseURL } = eleventyConfig.globalData.config
@@ -35,7 +36,7 @@ module.exports = function (eleventyConfig) {
       publisher: publishers[0].name,
       'publisher-place': publishers[0].location,
       title: `<em>${siteTitle()}</em>`,
-      type: 'book',
+      type: pubType === 'journal-periodical' ? 'article-journal' : 'book',
       URL: baseURL
     }
   }
