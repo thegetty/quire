@@ -1,5 +1,5 @@
 # Quire Citations Plugin
-The Quire citations plugin uses [`simple-cite`]() and citation-styles [CSL-JSON](https://github.com/citation-style-language/schema#csl-json-schema) to generate citations with configurable locale and style. It registers an eleventy javascript function `formatCitation`, which is used to create page and publication citations from the citations component.
+The Quire citations plugin uses [`simple-cite`](https://github.com/lewisacidic/simple-cite#readme) and citation-styles [CSL-JSON](https://github.com/citation-style-language/schema#csl-json-schema) to generate citations with configurable locale and style. It registers an eleventy javascript function `formatCitation`, which is used to create page and publication citations from the [`citation` component](https://github.com/thegetty/quire/packages/11ty/_includes/components/citation/).
 
 ## Styles
 The default styles included with Quire are MLA and Chicago fullnote bibliography.
