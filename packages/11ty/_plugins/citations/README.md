@@ -23,7 +23,7 @@ eleventyConfig.addPlugin(citationsPlugin, {
 })
 ```
 
-To use, set the citation shortcode `type` to the style name.
+To use, set the `citation` shortcode `type` to the style name.
 ```
 citation({ context: 'publication', type: 'apa' })
 ```
