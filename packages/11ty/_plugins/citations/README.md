@@ -8,12 +8,12 @@ The default styles included with Quire are MLA and Chicago fullnote bibliography
 See the [`citation-styles` packages](https://github.com/lewisacidic/citation-styles/tree/master/packages) for a list of published styles.
 
 To add a new style, first install the package. 
-```
+```sh
 npm install style-apa
 ```
 
 Then set the style in `citationsPlugin.options`:
-```
+```javascript
 // .eleventy.js
 
 eleventyConfig.addPlugin(citationsPlugin, { 
@@ -24,7 +24,7 @@ eleventyConfig.addPlugin(citationsPlugin, {
 ```
 
 To use, set the `citation` shortcode `type` to the style name.
-```
+```javascript
 citation({ context: 'publication', type: 'apa' })
 ```
 
@@ -35,10 +35,12 @@ The default locale is `locale-en-us`.
 See [citation-style-language](https://github.com/citation-style-language/locales) for a list of locales.
 
 To add a new locale, install it:
-```npm install locale-fr-fr```
+```sh
+npm install locale-fr-fr
+```
 
 Then set the locale in `citationsPlugin.options`:
-```
+```javascript
 // .eleventy.js
 
 eleventyConfig.addPlugin(citationsPlugin, { locale: 'locale-fr-fr' })
