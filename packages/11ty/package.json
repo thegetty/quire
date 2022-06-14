@@ -55,9 +55,12 @@
   },
   "dependencies": {
     "bulma": "^0.9.3",
+    "core-js": "2.5.0",
     "lit": "^2.2.5",
+    "locale-en-us": "^0.0.2",
     "lunr": "^2.3.9",
     "material-icons": "^1.10.11",
+    "simple-cite": "^0.2.1",
     "template-polyfill": "^2.0.0"
   }
 }

@@ -292,11 +292,11 @@ function mlaDate(date) {
  *
  */
 function setDate() {
-  const dateSpan = document.querySelector(".cite-current-date");
+  const dateSpans = document.querySelectorAll(".cite-current-date");
   const formattedDate = mlaDate(new Date());
-  if (dateSpan) {
+  dateSpans.forEach(((dateSpan) => {
     dateSpan.innerHTML = formattedDate;
-  }
+  }))
 }
 
 /**
