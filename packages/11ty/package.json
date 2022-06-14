@@ -38,6 +38,7 @@
     "fs-extra": "^10.1.0",
     "iiif-builder": "^1.0.5",
     "js-yaml": "^4.1.0",
+    "jsdom": "^19.0.0",
     "json5": "^2.2.1",
     "liquid-args": "^1.0.0",
     "liquidjs": "^9.37.0",
