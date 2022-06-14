@@ -32,7 +32,7 @@ module.exports = function (eleventyConfig, { page }) {
     const unorderedList = `
       <ul>
         ${page.citations.map((citation) => `<li id="${slugify(citation.id)}">${markdownify(citation.full)}</li>`
-        )}
+        ).join('')}
       </ul>
     `
 
