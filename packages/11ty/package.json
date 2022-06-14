@@ -28,7 +28,7 @@
     "@11ty/eleventy-navigation": "^0.3.3",
     "@11ty/eleventy-plugin-directory-output": "^1.0.1",
     "@11ty/eleventy-plugin-syntaxhighlight": "^4.0.0",
-    "@11ty/eleventy-plugin-vite": "^1.0.0-canary.1",
+    "@11ty/eleventy-plugin-vite": "^1.0.0-canary.2",
     "@iiif/parser": "^1.0.8",
     "@iiif/vault": "^0.9.18",
     "common-tags": "^2.0.0-alpha.1",
