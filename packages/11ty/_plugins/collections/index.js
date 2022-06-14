@@ -1,31 +1,28 @@
-const {
-  currentOutputFilter,
-  menuFilter,
-  tableOfContentsFilter,
-} = require('../../helpers/page-filters')
+const filters = require('./filters')
+const sortCollection = require('./sort')
+const applyTransforms = require('../transforms')
 
 /**
- * Add custom collections
+ * Add custom collections and apply transforms
+ * 
+ * Nota bene: Adding the collections in the same file as the transforms allows
+ * us to access to the collection data which otherwise is not available in a plugin
+ *
  * @param  {Object} eleventyConfig
  * @param  {Object} options
  */
 module.exports = function (eleventyConfig, options = {}) {
   /**
-   * Collection of pages for the current output (epub, html, or pdf)
+   * Collections
    */
-  eleventyConfig.addCollection('current', function (collectionApi) {
-    return collectionApi.getAll().filter(({ data }) => currentOutputFilter(data))
-  })
-  /**
-   * Collection of pages to display in the menu
-   */
-  eleventyConfig.addCollection('menu', function (collectionApi) {
-    return collectionApi.getAll().filter(({ data }) => menuFilter(data))
-  })
-  /**
-   * Collection of pages to display in Table of Contents
-   */
-  eleventyConfig.addCollection('tableOfContents', function (collectionApi) {
-    return collectionApi.getAll().filter(({ data }) => tableOfContentsFilter(data))
+  const collections = {}
+  Object.keys(filters).forEach((name) => {
+    eleventyConfig.addCollection(name, function (collectionApi) {
+      collections[name] = collectionApi
+        .getAll()
+        .filter(filters[name])
+        .sort(sortCollection)
+      return collections[name]
+    })
   })
 }
