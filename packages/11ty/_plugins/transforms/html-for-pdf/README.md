@@ -1,4 +1,4 @@
-## Transform to combine output for PDF
+## Transform to combine HTML output for PDF
 
 The PDF module implements an [Eleventy `transform` function](https://www.11ty.dev/docs/config/#transforms) that prepares the static output for input to the [`Paged.js`](https://pagedjs.org) library. The HTML output from static rendering is output to a combined HTML file that is the input to the [`Paged.js`](https://pagedjs.org) commands.
 
