@@ -21,6 +21,7 @@ const markdownPlugin = require('./_plugins/markdown')
 const navigationPlugin = require('@11ty/eleventy-navigation')
 const searchPlugin = require('./_plugins/search')
 const shortcodesPlugin = require('./_plugins/shortcodes')
+const referencesPlugin = require('./_plugins/references')
 const syntaxHighlightPlugin = require('@11ty/eleventy-plugin-syntaxhighlight')
 
 /**
@@ -109,6 +110,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(collectionsPlugin)
   eleventyConfig.addPlugin(navigationPlugin)
   eleventyConfig.addPlugin(searchPlugin)
+  eleventyConfig.addPlugin(referencesPlugin)
   eleventyConfig.addPlugin(syntaxHighlightPlugin)
 
   /**
