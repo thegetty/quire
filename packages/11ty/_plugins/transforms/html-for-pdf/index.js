@@ -12,9 +12,8 @@ const getPageSection = function(content) {
   return doc.querySelector('section[data-output-path]')
 }
 
-module.exports = function(collections, content)  {
+module.exports = function(collections, content) {
   const htmlPaths = collections.html.map(({ outputPath }) => outputPath)
-  const transformedContent = htmlPaths.includes(this.outputPath) ? content : undefined
 
   const section = getPageSection(content)
 
@@ -33,5 +32,5 @@ module.exports = function(collections, content)  {
     }
   }
 
-  return transformedContent
+  return htmlPaths.includes(this.outputPath) ? content : undefined
 }
