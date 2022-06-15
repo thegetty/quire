@@ -8,7 +8,7 @@ const path = require('path')
  * @param  {Object} collection collections.pdf with `sectionContent` property
  */
 const outputPath = path.join('temp', 'pdf.html')
-const layoutPath = path.join('_plugins', 'transforms', 'pdf', 'layout.html')
+const layoutPath = path.join('_plugins', 'transforms', 'html-for-pdf', 'layout.html')
 
 module.exports = function(collection) {
   const layout = fs.readFileSync(layoutPath)
