@@ -1,5 +1,5 @@
 const format = require('./format')
-const pdf = require('./pdf')
+const htmlForPdf = require('./html-for-pdf')
 
 /**
  * An Eleventy plugin to configure output transforms
@@ -10,7 +10,7 @@ const pdf = require('./pdf')
 
 module.exports = function(eleventyConfig, collections, options = {}) {
   // eleventyConfig.addTransform('format', format)
-  eleventyConfig.addTransform('pdf', function(content) {
-    return pdf(collections, content)
+  eleventyConfig.addTransform('htmlForPdf', function(content) {
+    return htmlForPdf(collections, content)
   })
 }

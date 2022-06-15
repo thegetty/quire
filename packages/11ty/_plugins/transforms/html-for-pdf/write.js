@@ -8,7 +8,7 @@ const path = require('path')
  * @param  {Object} collection collections.pdf with `sectionContent` property
  */
 const outputPath = path.join('temp', 'pdf.html')
-const layoutPath = path.join('_plugins', 'transforms', 'pdf', 'layout.html')
+const layoutPath = path.join('_plugins', 'transforms', 'html-for-pdf', 'layout.html')
 
 module.exports = function(collection) {
   const layout = fs.readFileSync(layoutPath)
@@ -20,6 +20,6 @@ module.exports = function(collection) {
     fs.ensureDirSync(path.parse(outputPath).dir)
     fs.writeFileSync(outputPath, doc.documentElement.outerHTML)
   } catch(error) {
-    console.error(`Error writing PDF output. Error message: `, error)
+    console.error(`Eleventy transform error writing combined HTML output for PDF. Error message: `, error)
   }
 }
