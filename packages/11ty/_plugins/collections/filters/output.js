@@ -1,13 +1,13 @@
 /**
  * Helper filter for outputs
- * @param {String} outputType 'epub', 'html', or 'pdf'
+ * Returns `true` if page should be output to provided output type
+ * Defaults to `true` if no outputs are defined on the page
+ * @param {String} type 'epub', 'html', or 'pdf'
  * @param {Object} page Eleventy page
  */
-module.exports =  function (outputType, page) {
+module.exports =  function (type, page) {
   const { outputs } = page.data
-  return outputs !== 'none' &&
-    outputs !== false &&
-    (!outputs ||
-      Array.isArray(outputs) && outputs.includes(outputType) ||
-      outputs === outputType)
+  const useDefault = !outputs
+  const pageOutputMatchesType = Array.isArray(outputs) && outputs.includes(type) || outputs === type
+  return useDefault || pageOutputMatchesType
 }
