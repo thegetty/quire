@@ -20,6 +20,6 @@ module.exports = function(collection) {
     fs.ensureDirSync(path.parse(outputPath).dir)
     fs.writeFileSync(outputPath, doc.documentElement.outerHTML)
   } catch(error) {
-    console.error(`Error writing PDF output. Error message: `, error)
+    console.error(`Eleventy transform error writing combined HTML output for PDF. Error message: `, error)
   }
 }
