@@ -1,6 +1,6 @@
-module.exports = function ({ pages }) {
+module.exports = function ({ collections }) {
   return JSON.stringify(
-    pages.map((page) => {
+    collections.html.map((page) => {
       return {
         abstract: page.data.abstract,
         contributor: page.data.contributor,

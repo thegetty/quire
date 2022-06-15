@@ -1,6 +1,8 @@
+require('dotenv').config()
+
 const fs = require('fs-extra')
 const path = require('path')
-require('dotenv').config()
+const scss = require('rollup-plugin-scss')
 
 /**
  * Quire features are implemented as Eleventy plugins
@@ -102,12 +104,16 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(shortcodesPlugin)
 
   /**
+   * Add collections
+   */
+  const collections = collectionsPlugin(eleventyConfig)
+
+  /**
    * Load additional plugins used for Quire projects
    */
   eleventyConfig.addPlugin(citationsPlugin)
   eleventyConfig.addPlugin(lintingPlugin)
   eleventyConfig.addPlugin(epubPlugin)
-  eleventyConfig.addPlugin(collectionsPlugin)
   eleventyConfig.addPlugin(navigationPlugin)
   eleventyConfig.addPlugin(searchPlugin)
   eleventyConfig.addPlugin(syntaxHighlightPlugin)
@@ -122,7 +128,7 @@ module.exports = function(eleventyConfig) {
   /**
    * Add plugins to tranform output
    */
-  eleventyConfig.addPlugin(transformsPlugin)
+  eleventyConfig.addPlugin(transformsPlugin, collections)
 
   /**
    * Use Vite to bundle JavaScript
@@ -140,7 +146,11 @@ module.exports = function(eleventyConfig) {
       build: {
         manifest: true,
         mode: 'production',
-        rollupOptions: {},
+        rollupOptions: {
+          plugins: [
+            scss() // @see https://github.com/thgh/rollup-plugin-scss
+          ]
+        },
         sourcemap: true
       },
       /**

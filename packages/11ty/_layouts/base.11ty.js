@@ -8,6 +8,7 @@ const { html } = require('common-tags')
  */
 module.exports = function(data) {
   const { collections, content, pageData, publication } = data
+  const { outputPath } = pageData || {}
 
   return this.renderTemplate(`
     <!doctype html>
@@ -32,7 +33,9 @@ module.exports = function(data) {
 
           <div class="quire__primary" id="{{ section }}">
             ${this.navigation(data)}
-            ${ content }
+            <section data-output-path="${outputPath}">
+              ${content}
+            </section>
           </div>
           {% render 'search' %}
         </div>

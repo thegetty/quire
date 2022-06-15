@@ -6,14 +6,14 @@
   "main": ".eleventy.js",
   "scripts": {
     "build": "ELEVENTY_ENV=production eleventy",
-    "build:pdf": "npx pagedjs-cli@1.0.0-alpha.2 ${ELEVENTY_OUTPUT_DIR:-_site}/index.html",
-    "clean": "del ${ELEVENTY_OUTPUT_DIR:-_site}",
+    "build:pdf": "npx pagedjs-cli@1.0.0-alpha.2 ./temp/pdf.html",
+    "clean": "del ${ELEVENTY_OUTPUT_DIR:-_site} temp",
     "debug": "DEBUG=Eleventy* eleventy --dryrun",
-    "dev": "ELEVENTY_ENV=development QUIRE_OUTPUT=html eleventy --serve",
+    "dev": "ELEVENTY_ENV=development eleventy --serve",
     "prebuild": "npm run clean",
     "predev": "npm run clean",
     "preserve": "npm run clean",
-    "serve": "ELEVENTY_ENV=production QUIRE_OUTPUT=html eleventy --serve",
+    "serve": "ELEVENTY_ENV=production eleventy --serve",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -38,6 +38,7 @@
     "fs-extra": "^10.1.0",
     "iiif-builder": "^1.0.5",
     "js-yaml": "^4.1.0",
+    "jsdom": "^19.0.0",
     "json5": "^2.2.1",
     "liquid-args": "^1.0.0",
     "liquidjs": "^9.37.0",
@@ -50,6 +51,7 @@
     "mime-types": "^2.1.35",
     "path": "^0.12.7",
     "prettier": "2.7.0",
+    "rollup-plugin-scss": "^3.0.0",
     "sass": "^1.51.0",
     "sharp": "^0.30.6",
     "toml": "^3.0.0"

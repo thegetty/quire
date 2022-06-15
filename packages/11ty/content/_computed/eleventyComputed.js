@@ -1,5 +1,4 @@
 const path = require('path')
-const { currentOutputFilter } = require('../../helpers/page-filters')
 /**
  * Global computed data
  */
@@ -57,7 +56,7 @@ module.exports = {
    */
   pageData: ({ collections, page }) => {
     if (!collections) return
-    return collections.current.find(({ url }) => url === page.url)
+    return collections.all.find(({ url }) => url === page.url)
   },
   /**
    * Figures data for figures referenced by id in page frontmatter 
@@ -95,33 +94,16 @@ module.exports = {
         return validObjects
       }, [])
   },
-  pages: ({ collections, config }) => {
-    if (!collections.current) return [];
-    return collections.current
-      .filter(({ data }) => {
-        return data.type !== 'data'
-      })
-      .sort((a, b) => parseInt(a.data.order) - parseInt(b.data.order))
-  },
-  pagination: ({ page, pages }) => {
-    if (!page || !pages) return {}
-    const currentPageIndex = pages.findIndex(({ url }) => url === page.url)
+  pagination: ({ collections, page }) => {
+    if (!page) return {}
+    const currentPageIndex = collections.navigation
+      .findIndex(({ url }) => url === page.url)
     return {
-      currentPage: pages[currentPageIndex],
+      currentPage: collections.navigation[currentPageIndex],
       currentPageIndex,
-      nextPage: pages[currentPageIndex + 1],
-      previousPage: pages[currentPageIndex - 1]
+      nextPage: collections.navigation[currentPageIndex + 1],
+      previousPage: collections.navigation[currentPageIndex - 1]
     }
-  },
-  /**
-   * Set permalink to `false` to exclude pages from the build
-   * Currently this is the most concise way to exclude pages in eleventy
-   */
-  permalink: (data) => {
-    const { menu, permalink, toc } = data
-    return (currentOutputFilter(data) || menu || toc)
-      ? permalink
-      : false
   },
   /**
    * Contributors with a `pages` property containing data about the pages they contributed to
