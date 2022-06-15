@@ -28,7 +28,7 @@
     "@11ty/eleventy-navigation": "^0.3.3",
     "@11ty/eleventy-plugin-directory-output": "^1.0.1",
     "@11ty/eleventy-plugin-syntaxhighlight": "^4.0.0",
-    "@11ty/eleventy-plugin-vite": "^1.0.0-canary.1",
+    "@11ty/eleventy-plugin-vite": "^1.0.0-canary.2",
     "@iiif/parser": "^1.0.8",
     "@iiif/vault": "^0.9.18",
     "common-tags": "^2.0.0-alpha.1",
@@ -50,15 +50,19 @@
     "markdown-it-footnote": "^3.0.3",
     "mime-types": "^2.1.35",
     "path": "^0.12.7",
+    "prettier": "2.7.0",
     "sass": "^1.51.0",
     "sharp": "^0.30.6",
     "toml": "^3.0.0"
   },
   "dependencies": {
     "bulma": "^0.9.3",
+    "core-js": "2.5.0",
     "lit": "^2.2.5",
+    "locale-en-us": "^0.0.2",
     "lunr": "^2.3.9",
     "material-icons": "^1.10.11",
+    "simple-cite": "^0.2.1",
     "template-polyfill": "^2.0.0"
   }
 }

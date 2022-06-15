@@ -1,3 +1,4 @@
+const format = require('./format')
 const pdf = require('./pdf')
 
 /**
@@ -8,6 +9,7 @@ const pdf = require('./pdf')
  */
 
 module.exports = function(eleventyConfig, collections, options = {}) {
+  eleventyConfig.addTransform('format', format)
   eleventyConfig.addTransform('pdf', function(content) {
     return pdf(collections, content)
   })

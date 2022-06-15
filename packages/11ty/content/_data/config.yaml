@@ -1,4 +1,4 @@
-baseURL: ""
+baseURL: "http://localhost:8080"
 
 title: Quire Starter
 languageCode: en-us
