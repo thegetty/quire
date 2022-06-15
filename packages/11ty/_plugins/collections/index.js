@@ -1,12 +1,13 @@
+const applyTransforms = require('../transforms')
 const filters = require('./filters')
 const sortCollection = require('./sort')
-const applyTransforms = require('../transforms')
 
 /**
- * Add custom collections and apply transforms
+ * Add Collections and Apply Transforms
  * 
- * Nota bene: Adding the collections in the same file as the transforms allows
- * us to access to the collection data which otherwise is not available in a plugin
+ * Nota bene: The Eleventy API does not make collections data accessible
+ * from the plugin context. Adding `collections` and `transforms` sequentially
+ * in the same file allows access to `collections` data from `transforms`
  *
  * @param  {Object} eleventyConfig
  * @param  {Object} options
@@ -25,4 +26,9 @@ module.exports = function (eleventyConfig, options = {}) {
       return collections[name]
     })
   })
+  
+  /**
+   * Transforms
+   */
+  applyTransforms(eleventyConfig, collections)
 }
