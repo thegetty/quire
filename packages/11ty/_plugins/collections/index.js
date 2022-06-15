@@ -17,7 +17,7 @@ module.exports = function (eleventyConfig, options = {}) {
    * Collections
    */
   const collections = {}
-  Object.keys(filters).forEach((name) => {
+  for (const name in filters) {
     eleventyConfig.addCollection(name, function (collectionApi) {
       collections[name] = collectionApi
         .getAll()
@@ -25,6 +25,6 @@ module.exports = function (eleventyConfig, options = {}) {
         .sort(sortCollection)
       return collections[name]
     })
-  })
+  }
   return collections
 }
