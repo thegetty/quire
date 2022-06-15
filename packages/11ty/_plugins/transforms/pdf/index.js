@@ -12,28 +12,26 @@ const getPageSection = function(content) {
   return doc.querySelector('section[data-output-path]')
 }
 
-module.exports = function(eleventyConfig, collections)  {
-  eleventyConfig.addTransform('pdf', function (content) {
-    const htmlPaths = collections.html.map(({ outputPath }) => outputPath)
-    const transformedContent = htmlPaths.includes(this.outputPath) ? content : undefined
+module.exports = function(collections, content)  {
+  const htmlPaths = collections.html.map(({ outputPath }) => outputPath)
+  const transformedContent = htmlPaths.includes(this.outputPath) ? content : undefined
 
-    const section = getPageSection(content)
+  const section = getPageSection(content)
 
-    if (section) {
-      const sectionOutputPath = section.getAttribute('data-output-path')
-      const pdfIndex = collections.pdf.findIndex(({ outputPath }) => {
-        return sectionOutputPath === outputPath
-      })
+  if (section) {
+    const sectionOutputPath = section.getAttribute('data-output-path')
+    const pdfIndex = collections.pdf.findIndex(({ outputPath }) => {
+      return sectionOutputPath === outputPath
+    })
 
-      if (pdfIndex !== -1) {
-        collections.pdf[pdfIndex].sectionContent = section
-      }
-
-      if (collections.pdf.every(({ sectionContent }) => !!sectionContent)) {
-        writePDF(collections.pdf)
-      }
+    if (pdfIndex !== -1) {
+      collections.pdf[pdfIndex].sectionContent = section
     }
 
-    return transformedContent
-  })
+    if (collections.pdf.every(({ sectionContent }) => !!sectionContent)) {
+      writePDF(collections.pdf)
+    }
+  }
+
+  return transformedContent
 }

@@ -1,5 +1,14 @@
-const applyPDFTransform = require('./pdf')
+const pdf = require('./pdf')
 
-module.exports = function (eleventyConfig, collections) {
-  applyPDFTransform(eleventyConfig, collections)
+/**
+ * An Eleventy plugin to configure output transforms
+ *
+ * @param      {Object}  eleventyConfig  eleventy configuration
+ * @param      {Object}  options
+ */
+
+module.exports = function(eleventyConfig, collections, options = {}) {
+  eleventyConfig.addTransform('pdf', function(content) {
+    return pdf(collections, content)
+  })
 }

@@ -21,6 +21,7 @@ const navigationPlugin = require('@11ty/eleventy-navigation')
 const searchPlugin = require('./_plugins/search')
 const shortcodesPlugin = require('./_plugins/shortcodes')
 const syntaxHighlightPlugin = require('@11ty/eleventy-plugin-syntaxhighlight')
+const transformsPlugin = require('./_plugins/transforms')
 
 /**
  * Parsing libraries for additional data file formats
@@ -100,11 +101,15 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(shortcodesPlugin)
 
   /**
+   * Add collections
+   */
+  const collections = collectionsPlugin(eleventyConfig)
+
+  /**
    * Load additional plugins used for Quire projects
    */
   eleventyConfig.addPlugin(lintingPlugin)
   eleventyConfig.addPlugin(epubPlugin)
-  eleventyConfig.addPlugin(collectionsPlugin)
   eleventyConfig.addPlugin(navigationPlugin)
   eleventyConfig.addPlugin(searchPlugin)
   eleventyConfig.addPlugin(syntaxHighlightPlugin)
@@ -115,6 +120,11 @@ module.exports = function(eleventyConfig) {
    * @see {@link https://www.11ty.dev/docs/_plugins/render/}
    */
   eleventyConfig.addPlugin(EleventyRenderPlugin)
+
+  /**
+   * Add plugins to tranform output
+   */
+  eleventyConfig.addPlugin(transformsPlugin, collections)
 
   /**
    * Use Vite to bundle JavaScript
