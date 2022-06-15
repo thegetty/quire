@@ -16,6 +16,10 @@ module.exports = function(collection) {
   collection.forEach(({ sectionContent }) => {
     doc.body.appendChild(sectionContent)
   })
-  fs.ensureDirSync(path.parse(outputPath).dir)
-  fs.writeFileSync(outputPath, doc.documentElement.outerHTML)
+  try {
+    fs.ensureDirSync(path.parse(outputPath).dir)
+    fs.writeFileSync(outputPath, doc.documentElement.outerHTML)
+  } catch(error) {
+    console.error(`Error writing PDF output. Error message: `, error)
+  }
 }
