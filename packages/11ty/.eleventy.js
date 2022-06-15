@@ -1,6 +1,8 @@
+require('dotenv').config()
+
 const fs = require('fs-extra')
 const path = require('path')
-require('dotenv').config()
+const scss = require('rollup-plugin-scss')
 
 /**
  * Quire features are implemented as Eleventy plugins
@@ -144,7 +146,11 @@ module.exports = function(eleventyConfig) {
       build: {
         manifest: true,
         mode: 'production',
-        rollupOptions: {},
+        rollupOptions: {
+          plugins: [
+            scss() // @see https://github.com/thgh/rollup-plugin-scss
+          ]
+        },
         sourcemap: true
       },
       /**

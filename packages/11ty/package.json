@@ -51,6 +51,7 @@
     "mime-types": "^2.1.35",
     "path": "^0.12.7",
     "prettier": "2.7.0",
+    "rollup-plugin-scss": "^3.0.0",
     "sass": "^1.51.0",
     "sharp": "^0.30.6",
     "toml": "^3.0.0"
