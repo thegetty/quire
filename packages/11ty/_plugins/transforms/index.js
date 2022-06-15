@@ -8,5 +8,5 @@ const format = require('./format')
  */
 
 module.exports = function(eleventyConfig, options) {
-  eleventyConfig.addTransform('format', format)
+  // eleventyConfig.addTransform('format', format)
 }
