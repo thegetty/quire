@@ -14,27 +14,26 @@ const getPageSection = function(content) {
 
 module.exports = function(eleventyConfig, collections)  {
   eleventyConfig.addTransform('pdf', function (content) {
+    const htmlPaths = collections.html.map(({ outputPath }) => outputPath)
+    const transformedContent = htmlPaths.includes(this.outputPath) ? content : undefined
+
     const section = getPageSection(content)
 
-    if (!section) return
+    if (section) {
+      const sectionOutputPath = section.getAttribute('data-output-path')
+      const pdfIndex = collections.pdf.findIndex(({ outputPath }) => {
+        return sectionOutputPath === outputPath
+      })
 
-    const sectionOutputPath = section.getAttribute('data-output-path')
-    const pdfIndex = collections.pdf.findIndex(({ outputPath }) => {
-      return sectionOutputPath === outputPath
-    })
+      if (pdfIndex !== -1) {
+        collections.pdf[pdfIndex].sectionContent = section
+      }
 
-    if (pdfIndex !== -1) {
-      collections.pdf[pdfIndex].sectionContent = section
+      if (collections.pdf.every(({ sectionContent }) => !!sectionContent)) {
+        writePDF(collections.pdf)
+      }
     }
 
-    if (!collections.pdf.every(({ sectionContent }) => !!sectionContent)) return
-
-    writePDF(collections.pdf)
-
-    /**
-     * Skip building pages that aren't part of the html build
-     */
-    const htmlPaths = collections.html.map(({ outputPath }) => outputPath)
-    return htmlPaths.includes(this.outputPath) ? content : undefined
+    return transformedContent
   })
 }
