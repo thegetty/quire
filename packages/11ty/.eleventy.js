@@ -22,6 +22,7 @@ const navigationPlugin = require('@11ty/eleventy-navigation')
 const searchPlugin = require('./_plugins/search')
 const shortcodesPlugin = require('./_plugins/shortcodes')
 const syntaxHighlightPlugin = require('@11ty/eleventy-plugin-syntaxhighlight')
+const transformsPlugin = require('./_plugins/transforms')
 
 /**
  * Parsing libraries for additional data file formats
@@ -119,6 +120,11 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(EleventyRenderPlugin)
 
   /**
+   * Add plugins to tranform output
+   */
+  eleventyConfig.addPlugin(transformsPlugin)
+
+  /**
    * Use Vite to bundle JavaScript
    * @see https://github.com/11ty/eleventy-plugin-vite
    *
@@ -134,6 +140,8 @@ module.exports = function(eleventyConfig) {
       build: {
         manifest: true,
         mode: 'production',
+        rollupOptions: {},
+        sourcemap: true
       },
       /**
        * Set to false to prevent Vite from clearing the terminal screen
