@@ -1,4 +1,3 @@
-const applyTransforms = require('../transforms')
 const filters = require('./filters')
 const sortCollection = require('./sort')
 
@@ -11,6 +10,7 @@ const sortCollection = require('./sort')
  *
  * @param  {Object} eleventyConfig
  * @param  {Object} options
+ * @return {Object} collections
  */
 module.exports = function (eleventyConfig, options = {}) {
   /**
@@ -26,9 +26,5 @@ module.exports = function (eleventyConfig, options = {}) {
       return collections[name]
     })
   })
-  
-  /**
-   * Transforms
-   */
-  applyTransforms(eleventyConfig, collections)
+  return collections
 }
