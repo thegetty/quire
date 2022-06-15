@@ -4,7 +4,7 @@
  */
 module.exports = (a, b) => {
   if (a.data.order === b.data.order) {
-    console.warn(`Warning! "${a.inputPath}" and "${b.inputPath}" have identical values for "order" and may not sort as expected.`)
+    console.warn(`Warning! "${a.inputPath}" and "${b.inputPath}" have identical values for the front-matter property "order" and may not sort as expected.`)
   }
   return a.data.order - b.data.order
 }
