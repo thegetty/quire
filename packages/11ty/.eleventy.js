@@ -13,7 +13,6 @@ const directoryOutputPlugin = require('@11ty/eleventy-plugin-directory-output')
 const citationsPlugin = require('./_plugins/citations')
 const collectionsPlugin = require('./_plugins/collections')
 const componentsPlugin = require('./_plugins/components')
-const epubPlugin = require('./_plugins/epub')
 const filtersPlugin = require('./_plugins/filters')
 const frontmatterPlugin = require('./_plugins/frontmatter')
 const globalDataPlugin = require('./_plugins/globalData')
@@ -112,7 +111,6 @@ module.exports = function(eleventyConfig) {
    * Load additional plugins used for Quire projects
    */
   eleventyConfig.addPlugin(citationsPlugin)
-  eleventyConfig.addPlugin(epubPlugin)
   eleventyConfig.addPlugin(navigationPlugin)
   eleventyConfig.addPlugin(searchPlugin)
   eleventyConfig.addPlugin(syntaxHighlightPlugin)
