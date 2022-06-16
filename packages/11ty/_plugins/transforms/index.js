@@ -9,12 +9,15 @@ const htmlForPdf = require('./html-for-pdf')
  */
 
 module.exports = function(eleventyConfig, collections, options = {}) {
-  // eleventyConfig.addTransform('format', format)
-  eleventyConfig.addTransform('htmlForPdf', function(content) {
-    /**
-     * Nota bene:
-     * call transform with `this` context to ensure we have `this.outputPath`
-     */
+  /**
+   * Format output using Prettier
+   */
+  eleventyConfig.addTransform('format', format)
+  /**
+   * Nota bene:
+   * call transform with `this` context to ensure we have `this.outputPath`
+   */
+  eleventyConfig.addTransform('htmlForPdf', function (content) {
     return htmlForPdf.call(this, collections, content)
   })
 }

@@ -6,13 +6,13 @@ const prettier = require('prettier')
  * @see https://prettier.io/docs/en/api.html
  *
  * @param      {String}  content
- * @return     {String}  the transformed content
+ * @return     {String}  transformed content
  */
 module.exports = function (content) {
-  const fileExtension = path.extname(this.outputPath).slice(1)
+  const extname = path.extname(this.outputPath).slice(1)
   let result;
   try {
-    result = prettier.format(content, { parser: fileExtension })
+    result = prettier.format(content, { parser: extname })
   } catch (error) {
     console.error('Eleventy transform error formatting output.\n', error)
   }
