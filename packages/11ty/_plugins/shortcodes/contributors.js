@@ -17,6 +17,7 @@ module.exports = function (eleventyConfig) {
   const initials = eleventyConfig.getFilter('initials')
   const markdownify = eleventyConfig.getFilter('markdownify')
   const slugify = eleventyConfig.getFilter('slugify')
+  const sortContributors = eleventyConfig.getFilter('sortContributors')
 
   const { contributorByline: defaultFormat } = eleventyConfig.globalData.config.params
 
@@ -42,12 +43,13 @@ module.exports = function (eleventyConfig) {
 
     if (typeof contributors === 'string') return markdownify(contributors)
 
-    const contributorList = contributors
+    let contributorList = contributors
       .flatMap(getContributor)
       .filter((item) => (type || role) && type !== 'all'
           ? (type && item.type === type) || (role && item.role === role)
           : item
       )
+    contributorList = sortContributors(contributorList)
 
     const contributorNames = contributorList
       .map(fullname)
