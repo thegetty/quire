@@ -28,7 +28,7 @@ module.exports = function (eleventyConfig, { page }) {
       }, []);
     const serializedFigures = stringifyData(figuresWithMarkdownifiedCaptions);
     return html`
-      <q-lightbox figures="${serializedFigures}" image-dir=${imageDir}></q-lightbox>
+      <q-lightbox figures="${serializedFigures}" image-dir="${imageDir}"></q-lightbox>
     `;
   }
 }
