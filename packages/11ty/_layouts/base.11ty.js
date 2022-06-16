@@ -8,38 +8,38 @@ const { html } = require('common-tags')
  */
 module.exports = function(data) {
   const { collections, content, pageData, publication } = data
+  const { outputPath } = pageData || {}
 
-  return this.renderTemplate(`
-    <!doctype html>
-    <html lang="${ publication.language }">
-      ${this.head(data)}
-      <body>
-        ${this.icons(data)}
-
-        ${this.iconscc(data)}
-
-        ${this.pdfInfo(data)}
-
-        <div class="quire no-js" id="container">
-          <div
-            class="quire__secondary remove-from-epub"
-            id="site-menu"
-            aria-expanded="false"
-            role="contentinfo"
-          >
-            ${this.menu({ collections, pageData })}
+  return this.renderTemplate(
+    html`
+      <!doctype html>
+      <html lang="${publication.language}">
+        ${this.head(data)}
+        <body>
+          ${this.icons(data)}
+          ${this.iconscc(data)}
+          ${this.pdfInfo(data)}
+          <div class="quire no-js" id="container">
+            <div
+              aria-expanded="false"
+              class="quire__secondary remove-from-epub"
+              id="site-menu"
+              role="contentinfo"
+            >
+              ${this.menu({ collections, pageData })}
+            </div>
+            <div class="quire__primary" id="{{ section }}">
+              ${this.navigation(data)}
+              <section data-output-path="${outputPath}">
+                ${content}
+              </section>
+            </div>
+            {% render 'search' %}
           </div>
-
-          <div class="quire__primary" id="{{ section }}">
-            ${this.navigation(data)}
-            ${ content }
-          </div>
-          {% render 'search' %}
-        </div>
-        ${this.scripts()}
-      </body>
-    </html>
-  `, 
-  'liquid'
+          ${this.scripts()}
+        </body>
+      </html>
+    `,
+    'liquid'
   )
 }

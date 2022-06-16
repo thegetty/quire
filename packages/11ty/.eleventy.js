@@ -1,6 +1,8 @@
+require('dotenv').config()
+
 const fs = require('fs-extra')
 const path = require('path')
-require('dotenv').config()
+const scss = require('rollup-plugin-scss')
 
 /**
  * Quire features are implemented as Eleventy plugins
@@ -11,18 +13,18 @@ const directoryOutputPlugin = require('@11ty/eleventy-plugin-directory-output')
 const citationsPlugin = require('./_plugins/citations')
 const collectionsPlugin = require('./_plugins/collections')
 const componentsPlugin = require('./_plugins/components')
-const epubPlugin = require('./_plugins/epub')
 const filtersPlugin = require('./_plugins/filters')
 const frontmatterPlugin = require('./_plugins/frontmatter')
 const globalDataPlugin = require('./_plugins/globalData')
 const iiifPlugin = require('./_plugins/iiif')
-const lintingPlugin = require('./_plugins/linting')
+const lintersPlugin = require('./_plugins/linters')
 const markdownPlugin = require('./_plugins/markdown')
 const navigationPlugin = require('@11ty/eleventy-navigation')
 const searchPlugin = require('./_plugins/search')
 const shortcodesPlugin = require('./_plugins/shortcodes')
 const referencesPlugin = require('./_plugins/references')
 const syntaxHighlightPlugin = require('@11ty/eleventy-plugin-syntaxhighlight')
+const transformsPlugin = require('./_plugins/transforms')
 
 /**
  * Parsing libraries for additional data file formats
@@ -102,12 +104,14 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(shortcodesPlugin)
 
   /**
+   * Add collections
+   */
+  const collections = collectionsPlugin(eleventyConfig)
+
+  /**
    * Load additional plugins used for Quire projects
    */
   eleventyConfig.addPlugin(citationsPlugin)
-  eleventyConfig.addPlugin(lintingPlugin)
-  eleventyConfig.addPlugin(epubPlugin)
-  eleventyConfig.addPlugin(collectionsPlugin)
   eleventyConfig.addPlugin(navigationPlugin)
   eleventyConfig.addPlugin(searchPlugin)
   eleventyConfig.addPlugin(referencesPlugin)
@@ -119,6 +123,17 @@ module.exports = function(eleventyConfig) {
    * @see {@link https://www.11ty.dev/docs/_plugins/render/}
    */
   eleventyConfig.addPlugin(EleventyRenderPlugin)
+
+  /**
+   * Register a plugin to run linters on input templates
+   * Nota bene: linters are run *before* applying layouts
+   */
+  eleventyConfig.addPlugin(lintersPlugin)
+
+  /**
+   * Register plugin to run tranforms on build output
+   */
+  eleventyConfig.addPlugin(transformsPlugin, collections)
 
   /**
    * Use Vite to bundle JavaScript
@@ -136,6 +151,16 @@ module.exports = function(eleventyConfig) {
       build: {
         manifest: true,
         mode: 'production',
+        rollupOptions: {
+          output: {
+            // @see https://rollupjs.org/guide/en/#outputassetfilenames
+            assetFileNames: 'assets/[name].[ext]'
+          },
+          plugins: [
+            scss() // @see https://github.com/thgh/rollup-plugin-scss
+          ]
+        },
+        sourcemap: true
       },
       /**
        * Set to false to prevent Vite from clearing the terminal screen
