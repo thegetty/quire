@@ -18,7 +18,7 @@ const filtersPlugin = require('./_plugins/filters')
 const frontmatterPlugin = require('./_plugins/frontmatter')
 const globalDataPlugin = require('./_plugins/globalData')
 const iiifPlugin = require('./_plugins/iiif')
-const lintingPlugin = require('./_plugins/linting')
+const lintersPlugin = require('./_plugins/linters')
 const markdownPlugin = require('./_plugins/markdown')
 const navigationPlugin = require('@11ty/eleventy-navigation')
 const searchPlugin = require('./_plugins/search')
@@ -112,7 +112,6 @@ module.exports = function(eleventyConfig) {
    * Load additional plugins used for Quire projects
    */
   eleventyConfig.addPlugin(citationsPlugin)
-  eleventyConfig.addPlugin(lintingPlugin)
   eleventyConfig.addPlugin(epubPlugin)
   eleventyConfig.addPlugin(navigationPlugin)
   eleventyConfig.addPlugin(searchPlugin)
@@ -126,9 +125,14 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(EleventyRenderPlugin)
 
   /**
-   * Add plugins to tranform output
+   * Register plugin to run tranforms on output
    */
   eleventyConfig.addPlugin(transformsPlugin, collections)
+
+  /**
+   * Register a plugin to run linters on final output
+   */
+  eleventyConfig.addPlugin(lintersPlugin)
 
   /**
    * Use Vite to bundle JavaScript
