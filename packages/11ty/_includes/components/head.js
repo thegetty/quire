@@ -71,8 +71,8 @@ module.exports = function(eleventyConfig) {
         <script type="application/ld+json">${jsonld({ canonicalURL, page })}</script>
 
         <link rel="icon" href="/_assets/images/icons/favicon.ico" />
+        <link rel="stylesheet" href="/_assets/styles/application.scss" />
         <link rel="stylesheet" href="/_assets/styles/custom.css" />
-        <link rel="stylesheet" href="/_assets/styles/application.css" />
 
         <!-- {% render 'polyfills/template.html' %} -->
 
