@@ -42,13 +42,9 @@ module.exports = {
     title: (data) => data.title
   },
   pageContributors: ({ contributor, contributor_as_it_appears }) => {
-    const contributors = contributor_as_it_appears 
-      ? contributor_as_it_appears
-      : contributor
-    if (!contributors) return;
-    return (typeof contributors === 'string' || Array.isArray(contributors))
-      ? contributors
-      : [contributors]
+    if (!contributor) return
+    if (contributor_as_it_appears) return contributor_as_it_appears
+    return (Array.isArray(contributor)) ? contributor : [contributor];
   },
   /**
    * Compute a 'pageData' property that includes the page and collection page data
@@ -110,22 +106,17 @@ module.exports = {
   /**
    * Contributors with a `pages` property containing data about the pages they contributed to
    */
-  publicationContributors: ({ config, publication, pages }) => {
+  publicationContributors: ({ collections, config, publication }) => {
     const { contributor, contributor_as_it_appears } = publication
-    return contributor_as_it_appears
-      ? contributor_as_it_appears
-      : contributor
-      /**
-       * Filtering because there are duplicate contributors here
-       * in eleventyComputed but not elsewhere. WHY?
-       */
-      .filter((itemA, index, items) => items.findIndex((itemB) => itemB.id===itemA.id)===index)
+    if (!collections.all) return
+    if (contributor_as_it_appears) return contributor_as_it_appears
+    return contributor
       .map((item) => {
         const { pic } = item
         item.imagePath = pic
           ? path.join(config.params.imageDir, pic)
           : null
-        item.pages = pages && pages.filter(
+        item.pages = collections.all.filter(
           ({ data }) => {
             if (!data.contributor) return
             return Array.isArray(data.contributor)
