@@ -113,11 +113,6 @@ module.exports = {
     return contributor_as_it_appears
       ? contributor_as_it_appears
       : contributor
-      /**
-       * Filtering because there are duplicate contributors here
-       * in eleventyComputed but not elsewhere. WHY?
-       */
-      .filter((itemA, index, items) => items.findIndex((itemB) => itemB.id===itemA.id)===index)
       .map((item) => {
         const { pic } = item
         item.imagePath = pic
