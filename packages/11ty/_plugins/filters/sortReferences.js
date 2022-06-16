@@ -1,3 +1,12 @@
+/**
+ * Nota bene:
+ * Separate sort functions for different content types is not ideal,
+ * however Quire requires that data could be defined globally, per-page, or per-shortcode.
+ * As a result the logic to define the sort key and sort must be performed at the shortcode-level.
+ *
+ * @param  {Array} items References
+ * @return {Array} sorted references
+ */
 module.exports = function (items) {
   if (!items || !Array.isArray(items)) return null
 
@@ -7,9 +16,9 @@ module.exports = function (items) {
 
     switch (true) {
       case (sortA < sortB):
-        return -1;
+        return -1
       case (sortA > sortB):
-        return 1;
+        return 1
       default:
         return 0
     }
