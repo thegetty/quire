@@ -95,12 +95,14 @@ module.exports = {
       }, [])
   },
   pagination: ({ collections, page }) => {
-    if (!page) return {}
+    if (!page || !collections.navigation.length) return {}
     const currentPageIndex = collections.navigation
       .findIndex(({ url }) => url === page.url)
+    if (currentPageIndex === -1) return {}
     return {
       currentPage: collections.navigation[currentPageIndex],
       currentPageIndex,
+      percentProgress: 100 * (currentPageIndex + 1) / collections.navigation.length,
       nextPage: collections.navigation[currentPageIndex + 1],
       previousPage: collections.navigation[currentPageIndex - 1]
     }

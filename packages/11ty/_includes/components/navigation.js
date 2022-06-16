@@ -19,7 +19,13 @@ module.exports = function(eleventyConfig) {
 
   return function (params) {
     const { collections, pagination, title } = params
-    const { currentPage, currentPageIndex, nextPage, previousPage } = pagination
+    const {
+      currentPage,
+      currentPageIndex,
+      nextPage,
+      percentProgress,
+      previousPage
+    } = pagination
 
     if (!currentPage) return
     
@@ -173,7 +179,7 @@ module.exports = function(eleventyConfig) {
           </div>
         </nav>
         <div class="quire-progress-bar">
-          <div style="width: calc(100% * (${currentPageIndex + 1} / ${collections.navigation.length}));">
+          <div style="width: ${percentProgress}%;">
             <span>${currentPageIndex + 1}/${collections.navigation.length}</span>
           </div>
         </div>
