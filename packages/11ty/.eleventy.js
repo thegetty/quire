@@ -123,14 +123,15 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(EleventyRenderPlugin)
 
   /**
-   * Register plugin to run tranforms on output
-   */
-  eleventyConfig.addPlugin(transformsPlugin, collections)
-
-  /**
-   * Register a plugin to run linters on final output
+   * Register a plugin to run linters on input templates
+   * Nota bene: linters are run *before* applying layouts
    */
   eleventyConfig.addPlugin(lintersPlugin)
+
+  /**
+   * Register plugin to run tranforms on build output
+   */
+  eleventyConfig.addPlugin(transformsPlugin, collections)
 
   /**
    * Use Vite to bundle JavaScript
