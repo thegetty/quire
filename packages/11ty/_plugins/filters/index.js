@@ -8,6 +8,7 @@ const hasCanvasPanelProps = require('./hasCanvasPanelProps')
 const initials = require('./initials')
 const isImageService = require('./isImageService')
 const sortContributors = require('./sortContributors')
+const sortReferences = require('./sortReferences')
 
 // string filters
 const capitalize = require('./capitalize')
@@ -42,6 +43,8 @@ module.exports = function(eleventyConfig, options) {
   eleventyConfig.addFilter('keywords', () => keywords(eleventyConfig))
 
   eleventyConfig.addFilter('sortContributors', (contributors) => sortContributors(eleventyConfig, contributors))
+
+  eleventyConfig.addFilter('sortReferences', (items) => sortReferences(items))
 
   /**
    * String manipulation filters
