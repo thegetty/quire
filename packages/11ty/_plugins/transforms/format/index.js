@@ -9,10 +9,9 @@ const prettier = require('prettier')
  * @return     {String}  transformed content
  */
 module.exports = function (content) {
-  const extname = path.extname(this.outputPath).slice(1)
   let result;
   try {
-    result = prettier.format(content, { parser: extname })
+    result = prettier.format(content, { filepath: this.outputPath })
   } catch (error) {
     console.error('Eleventy transform error formatting output.\n', error)
   }
