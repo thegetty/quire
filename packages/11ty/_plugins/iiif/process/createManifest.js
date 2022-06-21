@@ -18,9 +18,10 @@ require('dotenv').config()
 module.exports = (eleventyConfig) => {
   const {
     imageServiceDirectory,
+    inputDir,
     locale,
     manifestFilename,
-    outputDir: defaultOutput
+    outputDir
   } = eleventyConfig.globalData.iiifConfig
   const { imageDir } = eleventyConfig.globalData.config.params
 
@@ -33,13 +34,11 @@ module.exports = (eleventyConfig) => {
    * @param  {Object} options
    * @property  {Boolean} debug Default false
    * @property  {Boolean} lazy Default true
-   * @property  {String} outputDir (optional) overwrite default output
    */
   return async (figure, options={}) => {
     const { debug, lazy } = options
     const { id, label, choiceId, choices, preset } = figure
 
-    const outputDir = options.outputDir || defaultOutput
     const iiifId = [process.env.URL, outputDir, id].join('/')
     const manifestOutput = path.join(outputDir, id, manifestFilename)
 
@@ -55,7 +54,7 @@ module.exports = (eleventyConfig) => {
 
     const imagePath = choiceId
       ? choiceId
-      : path.join(eleventyConfig.dir.input, imageDir, defaultChoice.src)
+      : path.join(inputDir, defaultChoice.src)
 
     const { height, width } = await sharp(imagePath).metadata()
     const manifest = builder.createManifest(manifestId, (manifest) => {
