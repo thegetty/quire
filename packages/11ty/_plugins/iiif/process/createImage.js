@@ -24,7 +24,7 @@ module.exports = (eleventyConfig) => {
     const ext = path.parse(filename).ext
     const id = path.parse(filename).name
     const inputPath = path.join(inputDir, filename)
-    const outputPath = path.join(outputDir, id, filename)
+    const outputPath = path.join(outputDir, id, `${name}${ext}`)
 
     fs.ensureDirSync(path.join(outputDir, id))
 
