@@ -7,10 +7,7 @@ const sharp = require('sharp')
  * @return {Function}      createImage()
  */
 module.exports = (eleventyConfig) => {
-  const {
-    output, 
-    root
-  } = eleventyConfig.globalData.iiifConfig
+  const { outputDir } = eleventyConfig.globalData.iiifConfig
 
   /**
    * Creates an image in the output directory with the name `${name}${ext}`
@@ -23,7 +20,6 @@ module.exports = (eleventyConfig) => {
   return async (input, transformation = {}, options) => {
     const { debug, lazy } = options
     const { name, resize } = transformation
-    const outputDir = path.join(root, output)
 
     const ext = path.parse(input).ext
     const id = path.parse(input).name

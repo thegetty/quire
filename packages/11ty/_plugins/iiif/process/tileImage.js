@@ -10,8 +10,7 @@ module.exports = (eleventyConfig) => {
   const {
     baseURL,
     imageServiceDirectory,
-    output,
-    root,
+    outputDir,
     supportedImageExtensions,
     tileSize
   } = eleventyConfig.globalData.iiifConfig
@@ -31,7 +30,6 @@ module.exports = (eleventyConfig) => {
       return;
     }
 
-    const outputDir = path.join(root, output)
     const tileDirectory = path.join(outputDir, name, imageServiceDirectory)
 
     if (fs.pathExistsSync(tileDirectory) && lazy && debug) {

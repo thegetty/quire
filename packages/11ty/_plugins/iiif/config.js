@@ -1,7 +1,6 @@
 const path = require('path')
 
 module.exports = (eleventyConfig) => {
-  const root = eleventyConfig.dir.input
   return {
     baseURL: eleventyConfig.globalData.config.baseURL || eleventyConfig.globalData.env.URL,
     /**
@@ -40,11 +39,7 @@ module.exports = (eleventyConfig) => {
      * Output directory
      * @type {String}
      */
-    output: path.join('_iiif'),
-    /**
-     * The eleventy project directory
-     */
-    root,
+    outputDir: path.join('_iiif'),
     /**
      * Image extensions that can be processed
      * @type {Array}
