@@ -7,7 +7,7 @@ const sharp = require('sharp')
  * @return {Function}      createImage()
  */
 module.exports = (eleventyConfig) => {
-  const { outputDir } = eleventyConfig.globalData.iiifConfig
+  const { inputDir, outputDir } = eleventyConfig.globalData.iiifConfig
 
   /**
    * Creates an image in the output directory with the name `${name}${ext}`
@@ -17,22 +17,22 @@ module.exports = (eleventyConfig) => {
    * @property  {String} name The name of the file
    * @property  {Object} resize Resize options for `sharp`
    */
-  return async (input, transformation = {}, options) => {
+  return async (filename, transformation = {}, options) => {
     const { debug, lazy } = options
     const { name, resize } = transformation
 
-    const ext = path.parse(input).ext
-    const id = path.parse(input).name
-    const filename = `${name}${ext}`
+    const ext = path.parse(filename).ext
+    const id = path.parse(filename).name
+    const inputPath = path.join(inputDir, filename)
+    const outputPath = path.join(outputDir, id, filename)
 
     fs.ensureDirSync(path.join(outputDir, id))
-    const fileOutput = path.join(outputDir, id, filename)
 
-    if (!lazy || !fs.pathExistsSync(fileOutput)) {
-      await sharp(input)
+    if (!lazy || !fs.pathExistsSync(outputPath)) {
+      await sharp(inputPath)
         .resize(resize)
         .withMetadata()
-        .toFile(fileOutput)
+        .toFile(outputPath)
 
       if (debug) {
         console.warn(`[iiif:createImage:${id}] Created ${filename}`)

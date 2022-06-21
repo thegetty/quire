@@ -29,6 +29,7 @@ module.exports = (eleventyConfig) => {
      * Generated manifest locale
      * @type {String}
      */
+    inputDir: path.join('content', '_assets', 'images', 'figures'),
     locale: 'en',
     /**
      * Generated manifest file name

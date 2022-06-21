@@ -47,7 +47,7 @@ module.exports = {
 
       const promises = []
       figuresToTile.forEach((figure) => {
-        const imagePath = path.join(eleventyConfig.dir.input, imageDir, figure.src)
+        const imagePath = figure.src
         const id = path.parse(imagePath).name
 
         if (debug) {

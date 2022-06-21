@@ -10,6 +10,7 @@ module.exports = (eleventyConfig) => {
   const {
     baseURL,
     imageServiceDirectory,
+    inputDir,
     outputDir,
     supportedImageExtensions,
     tileSize
@@ -17,27 +18,31 @@ module.exports = (eleventyConfig) => {
 
   /**
    * Tile an image for IIIF image service
-   * @param  {String} input   input file path
+   * @param  {String} filename   filename File name and extension
    * @param  {Object} options
    */
-  return async function(input, options = {}) {
+  return async function(filename, options = {}) {
     const { debug, lazy } = options
 
-    const { ext, name } = path.parse(input)
+    const { ext, name } = path.parse(filename)
+    const inputPath = path.join(inputDir, filename)
+    const outputPath = path.join(outputDir, name, imageServiceDirectory)
 
-    if (!supportedImageExtensions.includes(ext) && debug) {
-      console.warn(`[iiif:tileImage:${name}] Image file is not a supported image type, skipping. File: `, name)
-      return;
-    }
-
-    const tileDirectory = path.join(outputDir, name, imageServiceDirectory)
-
-    if (fs.pathExistsSync(tileDirectory) && lazy && debug) {
-      console.warn(`[iiif:tileImage:${name}] Tiles already exist, skipping`)
+    if (!supportedImageExtensions.includes(ext)) {
+      if (debug) {
+        console.warn(`[iiif:tileImage:${name}] Image file is not a supported image type, skipping. File: `, name)
+      }
       return
     }
 
-    fs.ensureDirSync(tileDirectory)
+    if (fs.pathExistsSync(outputPath) && lazy) {
+      if (debug) {
+        console.warn(`[iiif:tileImage:${name}] Tiles already exist, skipping`)
+      }
+      return
+    }
+
+    fs.ensureDirSync(outputPath)
 
     const iiifId = path.join(
       baseURL,
@@ -48,13 +53,13 @@ module.exports = (eleventyConfig) => {
     if (debug) {
       console.warn(`[iiif:tileImage:${name}] Starting`)
     }
-    await sharp(input)
+    await sharp(inputPath)
       .tile({
         id: iiifId,
         layout: 'iiif',
         size: 512
       })
-      .toFile(tileDirectory)
+      .toFile(outputPath)
     if (debug) {
       console.warn(`[iiif:tileImage:${name}] Done`)
     }
