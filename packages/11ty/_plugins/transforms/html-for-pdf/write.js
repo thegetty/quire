@@ -4,7 +4,7 @@ const path = require('path')
 
 /**
  * Write each page section in the PDF collection to a single HTML file
- * @param  {Object} collection collections.pdf with `sectionContent` property
+ * @param  {Object} collection collections.pdf with `sectionElement` property
  */
 const layoutPath = path.join('_plugins', 'transforms', 'html-for-pdf', 'layout.html')
 const outputPath = path.join('_site', 'pdf.html')
@@ -15,8 +15,8 @@ module.exports = function(collection) {
   const { JSDOM } = jsdom
   const { document } = new JSDOM(layout).window
 
-  collection.forEach(({ sectionContent }) => {
-    document.body.appendChild(sectionContent)
+  collection.forEach(({ sectionElement }) => {
+    document.body.appendChild(sectionElement)
   })
 
   try {
