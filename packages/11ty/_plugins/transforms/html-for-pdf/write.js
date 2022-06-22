@@ -15,14 +15,18 @@ module.exports = function(collection) {
   const { JSDOM } = jsdom
   const { document } = new JSDOM(layout).window
 
-  collection.forEach(({ sectionElement }) => {
-    document.body.appendChild(sectionElement)
+  collection.forEach(({ outputPath, sectionElement }) => {
+    try {
+      document.body.appendChild(sectionElement)
+    } catch (error) {
+      console.warn(`Eleventy transform html-for-pdf: <section> element not found for ${output}`, error)
+    }
   })
 
   try {
     fs.ensureDirSync(path.parse(outputPath).dir)
     fs.writeFileSync(outputPath, document.documentElement.outerHTML)
   } catch(error) {
-    console.error(`Eleventy transform error writing combined HTML output for PDF. Error message: `, error)
+    console.error(`Eleventy transform html-for-pdf error writing combined HTML output for PDF. Error message: `, error)
   }
 }
