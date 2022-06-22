@@ -3,7 +3,7 @@ const fs = require('fs')
 const path = require('path')
 
 const formatOutput = require('./format')
-const transformForPDF = require('./html-for-pdf')
+const transformForPDF = require('./pdf')
 
 /**
  * An Eleventy plugin to configure output transforms
