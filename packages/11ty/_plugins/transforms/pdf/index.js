@@ -1,5 +1,5 @@
 const chalk = require('chalk')
-const fs = require('fs')
+const fs = require('fs-extra')
 const path = require('path')
 const transform = require('./transform')
 
@@ -29,7 +29,7 @@ module.exports = function(eleventyConfig, { collections }) {
       const source = path.join('_temp', 'pdf.html')
       const destination = path.join(outputDir, 'pdf.html')
       fs.copyFileSync(source, destination)
-      console.warn(chalk.magenta(`Copied ${source} to ${destination}`))
+      console.warn(chalk.magenta(`Eleventy transforms/pdf: Copied ${source} to ${destination}`))
     } catch (error) {
       const message = `Unable to copy ${source} to ${destination}`
       console.warn(chalk.yellow(message, error))

@@ -60,7 +60,6 @@
   "dependencies": {
     "bulma": "^0.9.3",
     "core-js": "2.5.0",
-    "fs": "^0.0.1-security",
     "lit": "^2.2.5",
     "locale-en-us": "^0.0.2",
     "lunr": "^2.3.9",

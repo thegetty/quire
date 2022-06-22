@@ -1,5 +1,5 @@
 const chalk = require('chalk')
-const fs = require('fs')
+const fs = require('fs-extra')
 const path = require('path')
 
 const formatOutput = require('./format')
