@@ -1,3 +1,4 @@
+const chalk = require('chalk')
 const fs = require('fs-extra')
 const jsdom = require('jsdom')
 const path = require('path')
@@ -7,7 +8,7 @@ const path = require('path')
  * @param  {Object} collection collections.pdf with `sectionElement` property
  */
 const layoutPath = path.join('_plugins', 'transforms', 'html-for-pdf', 'layout.html')
-const outputPath = path.join('_site', 'pdf.html')
+const outputPath = path.join('_temp', 'pdf.html')
 
 module.exports = function(collection) {
   const layout = fs.readFileSync(layoutPath)
@@ -19,14 +20,16 @@ module.exports = function(collection) {
     try {
       document.body.appendChild(sectionElement)
     } catch (error) {
-      console.warn(`Eleventy transform html-for-pdf: <section> element not found for ${output}`, error)
+      const message = `Eleventy transform html-for-pdf could not find a <section> element for ${output}. Error message: `
+      console.warn(chalk.yellow(message), error)
     }
   })
 
   try {
     fs.ensureDirSync(path.parse(outputPath).dir)
     fs.writeFileSync(outputPath, document.documentElement.outerHTML)
-  } catch(error) {
-    console.error(`Eleventy transform html-for-pdf error writing combined HTML output for PDF. Error message: `, error)
+  } catch (error) {
+    const message = 'Eleventy transform html-for-pdf error writing combined HTML output for PDF. Error message: '
+    console.error(chalk.red(message), error)
   }
 }

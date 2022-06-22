@@ -1,58 +1,38 @@
-const jsdom = require('jsdom')
-const { JSDOM } = jsdom
-const writePDF = require('./write')
+const chalk = require('chalk')
+const fs = require('fs')
+const path = require('path')
+const transform = require('./transform')
 
 /**
- * Get the page `section` element
- * @param  {String} content Page HTML
- * @return {Object}
- */
-const getSectionElement = (content) => {
-  const { document } = new JSDOM(content).window
-  return document.querySelector('section[data-output-path]')
-}
-
-/**
- * Transform relative links to anchor links
+ * Eleventy plugin to output HTML specific for PDF generation
  *
- * @param      {HTMLElement}  element
+ * @param      {Object}  eleventyConfig  Eleventy configuration
+ * @param      {Object}  collections  Eleventy collections
  */
-const transformRelativeLinks = (element) => {
-  const nodes = element.querySelectorAll('a')
-  nodes.forEach((a) => {
-    const url = a.getAttribute('href')
-    a.setAttribute('href', `#${url}`)
+module.exports = function(eleventyConfig, { collections }) {
+  const outputDir = eleventyConfig.dir.output
+
+  /**
+   * Nota bene:
+   * call transform with `this` context to ensure we have `this.outputPath`
+   */
+  eleventyConfig.addTransform('pdf', function (content) {
+    return transform.call(this, collections, content)
   })
-  return element
-}
 
-module.exports = function(collections, content) {
-  const htmlPages = collections.html.map(({ outputPath }) => outputPath)
-  const pdfPages = collections.pdf.map(({ outputPath }) => outputPath)
-
-  if (pdfPages.includes(this.outputPath)) {
-    const pageIndex = pdfPages.findIndex((path) => path === this.outputPath)
-    const sectionElement = getSectionElement(content)
-
-    if (sectionElement) {
-      const identifier = sectionElement.getAttribute('data-output-path')
-
-      if (pageIndex !== -1) {
-        sectionElement.removeAttribute('data-output-path')
-        sectionElement.setAttribute('id', collections.pdf[pageIndex].url)
-        transformRelativeLinks(sectionElement)
-        collections.pdf[pageIndex].sectionElement = sectionElement
-      }
-
-      /**
-       * Once this transform has been called for each PDF page
-       * every item in the collection will have `sectionConent`
-       */
-      if (collections.pdf.every(({ sectionElement }) => !!sectionElement)) {
-        writePDF(collections.pdf)
-      }
+  /**
+   * Register an event hook to copy HTML for PDF to ouput directory
+   * @see https://www.11ty.dev/docs/events/#eleventy.after
+   */
+  eleventyConfig.on('eleventy.after', () => {
+    try {
+      const source = path.join('_temp', 'pdf.html')
+      const destination = path.join(outputDir, 'pdf.html')
+      fs.copyFileSync(source, destination)
+      console.warn(chalk.magenta(`Copied ${source} to ${destination}`))
+    } catch (error) {
+      const message = `Unable to copy ${source} to ${destination}`
+      console.warn(chalk.yellow(message, error))
     }
-  }
-
-  return htmlPages.includes(this.outputPath) ? content : undefined
+  })
 }
