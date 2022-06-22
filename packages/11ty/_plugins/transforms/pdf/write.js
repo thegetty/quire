@@ -7,7 +7,7 @@ const path = require('path')
  * Write each page section in the PDF collection to a single HTML file
  * @param  {Object} collection collections.pdf with `sectionElement` property
  */
-const layoutPath = path.join('_plugins', 'transforms', 'html-for-pdf', 'layout.html')
+const layoutPath = path.join('_plugins', 'transforms', 'pdf', 'layout.html')
 const outputPath = path.join('_temp', 'pdf.html')
 
 module.exports = function(collection) {
@@ -20,7 +20,7 @@ module.exports = function(collection) {
     try {
       document.body.appendChild(sectionElement)
     } catch (error) {
-      const message = `Eleventy transform html-for-pdf could not find a <section> element for ${output}. Error message: `
+      const message = `Eleventy transform for PDF could not find a <section> element for ${output}. Error message: `
       console.warn(chalk.yellow(message), error)
     }
   })
@@ -29,7 +29,7 @@ module.exports = function(collection) {
     fs.ensureDirSync(path.parse(outputPath).dir)
     fs.writeFileSync(outputPath, document.documentElement.outerHTML)
   } catch (error) {
-    const message = 'Eleventy transform html-for-pdf error writing combined HTML output for PDF. Error message: '
+    const message = 'Eleventy transform for PDF error writing combined HTML output for PDF. Error message: '
     console.error(chalk.red(message), error)
   }
 }
