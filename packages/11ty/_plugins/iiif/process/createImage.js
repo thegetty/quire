@@ -19,28 +19,26 @@ module.exports = (eleventyConfig) => {
    */
   return async (filename, transformation = {}, options) => {
     const { debug, lazy } = options
-    const { name, resize } = transformation
 
-    const ext = path.parse(filename).ext
-    const id = path.parse(filename).name
+    const { ext, name } = path.parse(filename)
     const inputPath = path.join(inputDir, filename)
-    const outputPath = path.join(outputDir, id, `${name}${ext}`)
+    const outputPath = path.join(outputDir, name, `${transformation.name}${ext}`)
 
-    fs.ensureDirSync(path.join(outputDir, id))
+    fs.ensureDirSync(path.join(outputDir, name))
 
     if (!lazy || !fs.pathExistsSync(outputPath)) {
       await sharp(inputPath)
-        .resize(resize)
+        .resize(transformation.resize)
         .withMetadata()
         .toFile(outputPath)
 
       if (debug) {
-        console.warn(`[iiif:createImage:${id}] Created ${filename}`)
+        console.warn(`[iiif:createImage:${name}] Created ${filename}`)
       }
     } else {
       if (debug) {
         console.warn(
-          `[iiif:createImage:${id}] ${filename} already exists, skipping`
+          `[iiif:createImage:${name}] ${filename} already exists, skipping`
         )
       }
     }
