@@ -18,10 +18,10 @@ require('dotenv').config()
 module.exports = (eleventyConfig) => {
   const {
     imageServiceDirectory,
+    inputDir,
     locale,
     manifestFilename,
-    output: defaultOutput,
-    root
+    outputDir
   } = eleventyConfig.globalData.iiifConfig
   const { imageDir } = eleventyConfig.globalData.config.params
 
@@ -32,15 +32,15 @@ module.exports = (eleventyConfig) => {
    *
    * @param  {Object} figure Figure data from figures.yaml
    * @param  {Object} options
-   * @property  {String} output (optional) overwrite default output
+   * @property  {Boolean} debug Default false
+   * @property  {Boolean} lazy Default true
    */
   return async (figure, options={}) => {
-    const { debug, lazy, output } = options
+    const { debug, lazy } = options
     const { id, label, choiceId, choices, preset } = figure
 
-    const outputDir = output || defaultOutput
     const iiifId = [process.env.URL, outputDir, id].join('/')
-    const manifestOutput = path.join(root, outputDir, id, manifestFilename)
+    const manifestOutput = path.join(outputDir, id, manifestFilename)
 
     if (debug) {
       console.warn(`[iiif:lib:createManifest:${id}] Creating manifest`)
@@ -54,7 +54,7 @@ module.exports = (eleventyConfig) => {
 
     const imagePath = choiceId
       ? choiceId
-      : path.join(root, imageDir, defaultChoice.src)
+      : path.join(inputDir, defaultChoice.src)
 
     const { height, width } = await sharp(imagePath).metadata()
     const manifest = builder.createManifest(manifestId, (manifest) => {
@@ -103,7 +103,7 @@ module.exports = (eleventyConfig) => {
 
     const jsonManifest = builder.toPresentation3(manifest)
 
-    fs.ensureDirSync(path.join(root, outputDir, id))
+    fs.ensureDirSync(path.join(outputDir, id))
     fs.writeJsonSync(manifestOutput, jsonManifest)
 
     eleventyConfig.addGlobalData('iiifManifests', {

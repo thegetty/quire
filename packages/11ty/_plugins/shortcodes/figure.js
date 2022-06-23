@@ -34,7 +34,11 @@ module.exports = function (eleventyConfig, { page }) {
     /**
      * Merge figures.yaml data and additional params
      */
-    let figure = id ? getFigure(id) : {}
+    let figure = getFigure(id)
+    if (!figure) {
+      console.warn(`Warning: The figure id "${id}" was found in the template "${page.inputPath}", but is not defined in "figures.yaml"`)
+      return ''
+    }
     figure = { ...figure, ...arguments }
     if (!page.figures) page.figures = [];
     page.figures.push(figure);

@@ -45,9 +45,11 @@ Entry content, including entry image and tombstone data
         {% elsif pageObjects %}
           {% for object in pageObjects %}
             <div class="quire-entry__image__group-container">
-              {% for objectFigure in object.figures %}
-                {% render "entry-figure", epub: epub, pdf: pdf, zoom: zoom, imageDir: imageDir, figure: objectFigure %}
-              {% endfor %}
+              {% comment %}
+                {% for objectFigure in object.figures %}
+                  {% render "entry-figure", epub: epub, pdf: pdf, zoom: zoom, imageDir: imageDir, figure: objectFigure %}
+                {% endfor %}
+              {% endcomment %}
             </div>
           {% endfor %}
         {% endif %}
