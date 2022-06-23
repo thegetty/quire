@@ -18,7 +18,6 @@ module.exports = function(data) {
         <body>
           ${this.icons(data)}
           ${this.iconscc(data)}
-          ${this.pdfInfo(data)}
           <div class="quire no-js" id="container">
             <div
               aria-expanded="false"

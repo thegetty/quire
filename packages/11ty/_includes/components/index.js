@@ -37,7 +37,6 @@ module.exports = {
   pageButtons: require('./page-buttons.js'),
   pageHeader: require('./page-header.js'),
   pageTitle: require('./page-title.js'),
-  pdfInfo: require('./pdf/info.js'),
   scripts: require('./scripts.js'),
   siteTitle: require('./site-title.js'),
   tableOfContentsGridItem: require('./table-of-contents/grid-item.js'),
