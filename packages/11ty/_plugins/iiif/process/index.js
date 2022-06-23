@@ -20,10 +20,7 @@ module.exports = {
      * IIIF config
      */
     const { config, iiifConfig, figures } = eleventyConfig.globalData
-    const {
-      imageTransformations,
-      root
-    } = iiifConfig
+    const { imageTransformations } = iiifConfig
     const { imageDir } = config.params
 
     const createImage = initCreateImage(eleventyConfig)
@@ -50,7 +47,7 @@ module.exports = {
 
       const promises = []
       figuresToTile.forEach((figure) => {
-        const imagePath = path.join(root, imageDir, figure.src)
+        const imagePath = figure.src
         const id = path.parse(imagePath).name
 
         if (debug) {
