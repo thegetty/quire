@@ -19,20 +19,4 @@ module.exports = function(eleventyConfig, { collections }) {
   eleventyConfig.addTransform('pdf', function (content) {
     return transform.call(this, collections, content)
   })
-
-  /**
-   * Register an event hook to copy HTML for PDF to ouput directory
-   * @see https://www.11ty.dev/docs/events/#eleventy.after
-   */
-  eleventyConfig.on('eleventy.after', () => {
-    try {
-      const source = path.join('_temp', 'pdf.html')
-      const destination = path.join(outputDir, 'pdf.html')
-      fs.copyFileSync(source, destination)
-      console.warn(chalk.magenta(`Eleventy transforms/pdf: Copied ${source} to ${destination}`))
-    } catch (error) {
-      const message = `Unable to copy ${source} to ${destination}`
-      console.warn(chalk.yellow(message, error))
-    }
-  })
 }
