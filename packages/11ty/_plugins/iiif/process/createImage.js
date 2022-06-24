@@ -7,7 +7,7 @@ const sharp = require('sharp')
  * @return {Function}      createImage()
  */
 module.exports = (eleventyConfig) => {
-  const { inputDir, outputDir } = eleventyConfig.globalData.iiifConfig
+  const { inputDir, outputDir, outputRoot } = eleventyConfig.globalData.iiifConfig
 
   /**
    * Creates an image in the output directory with the name `${name}${ext}`
@@ -22,9 +22,9 @@ module.exports = (eleventyConfig) => {
 
     const { ext, name } = path.parse(filename)
     const inputPath = path.join(inputDir, filename)
-    const outputPath = path.join(outputDir, name, `${transformation.name}${ext}`)
+    const outputPath = path.join(outputRoot, outputDir, name, `${transformation.name}${ext}`)
 
-    fs.ensureDirSync(path.join(outputDir, name))
+    fs.ensureDirSync(path.parse(outputPath).dir)
 
     if (!lazy || !fs.pathExistsSync(outputPath)) {
       await sharp(inputPath)
