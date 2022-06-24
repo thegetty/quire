@@ -3,10 +3,10 @@ const path = require('path')
 const addGlobalData = require('./addGlobalData')
 const initCreateImage = require('./createImage')
 const initCreateManifest = require('./createManifest')
-const initLogging = require('../../../_lib/chalk')
+const chalkFactory = require('../../../_lib/chalk')
 const initTileImage = require('./tileImage')
 
-const { info, error } = initLogging('IIIF Image Processing')
+const { info, error } = chalkFactory('IIIF Image Processing')
 
 /**
  * Creates tiles for zoomable images 
