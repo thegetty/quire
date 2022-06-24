@@ -21,7 +21,8 @@ module.exports = (eleventyConfig) => {
     inputDir,
     locale,
     manifestFilename,
-    outputDir
+    outputDir,
+    outputRoot
   } = eleventyConfig.globalData.iiifConfig
   const { imageDir } = eleventyConfig.globalData.config.params
 
@@ -40,7 +41,7 @@ module.exports = (eleventyConfig) => {
     const { id, label, choiceId, choices, preset } = figure
 
     const iiifId = [process.env.URL, outputDir, id].join('/')
-    const manifestOutput = path.join(outputDir, id, manifestFilename)
+    const manifestOutput = path.join(outputRoot, outputDir, id, manifestFilename)
 
     if (debug) {
       console.warn(`[iiif:lib:createManifest:${id}] Creating manifest`)
@@ -103,7 +104,7 @@ module.exports = (eleventyConfig) => {
 
     const jsonManifest = builder.toPresentation3(manifest)
 
-    fs.ensureDirSync(path.join(outputDir, id))
+    fs.ensureDirSync(path.parse(manifestOutput).dir)
     fs.writeJsonSync(manifestOutput, jsonManifest)
 
     eleventyConfig.addGlobalData('iiifManifests', {

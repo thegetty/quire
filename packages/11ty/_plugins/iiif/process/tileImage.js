@@ -12,6 +12,7 @@ module.exports = (eleventyConfig) => {
     imageServiceDirectory,
     inputDir,
     outputDir,
+    outputRoot,
     supportedImageExtensions,
     tileSize
   } = eleventyConfig.globalData.iiifConfig
@@ -26,7 +27,7 @@ module.exports = (eleventyConfig) => {
 
     const { ext, name } = path.parse(filename)
     const inputPath = path.join(inputDir, filename)
-    const outputPath = path.join(outputDir, name, imageServiceDirectory)
+    const outputPath = path.join(outputRoot, outputDir, name, imageServiceDirectory)
 
     if (!supportedImageExtensions.includes(ext)) {
       if (debug) {
