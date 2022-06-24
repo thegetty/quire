@@ -1,6 +1,6 @@
 const chalk = require('chalk')
 
-module.exports = function(context) {
+module.exports = function(context='') {
   /**
    * chalk themes
    * @see https://github.com/chalk/chalk/tree/v4.1.2#usage
