@@ -1,12 +1,12 @@
-const chalk = require('../../../_lib/chalk')
 const fs = require('fs-extra')
 const path = require('path')
 const addGlobalData = require('./addGlobalData')
 const initCreateImage = require('./createImage')
 const initCreateManifest = require('./createManifest')
+const initLogging = require('../../../_lib/chalk')
 const initTileImage = require('./tileImage')
 
-const { info, error } = chalk('IIIF Image Processing')
+const { info, error } = initLogging('IIIF Image Processing')
 
 /**
  * Creates tiles for zoomable images 
@@ -110,7 +110,7 @@ module.exports = {
               return fs.readdirSync(path.join(outputDir, dir)).includes('manifest.json')
             })
           : []
-        
+
         info(`Generating ${figuresWithChoices.length} ${pluralize('manifest', figuresWithChoices.length)}.`)
         for (const figure of figuresWithChoices) {
           await createManifest(figure, options)
