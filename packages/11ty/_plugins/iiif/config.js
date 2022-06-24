@@ -40,7 +40,8 @@ module.exports = (eleventyConfig) => {
      * Output directory
      * @type {String}
      */
-    outputDir: path.join('_iiif'),
+    outputDir: '_iiif',
+    outputRoot: 'public',
     /**
      * Image extensions that can be processed
      * @type {Array}
