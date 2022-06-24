@@ -1,9 +1,12 @@
+const chalk = require('../../../_lib/chalk')
 const fs = require('fs-extra')
 const path = require('path')
 const addGlobalData = require('./addGlobalData')
 const initCreateImage = require('./createImage')
 const initCreateManifest = require('./createManifest')
 const initTileImage = require('./tileImage')
+
+const { info, error } = chalk('IIIF Image Processing')
 
 /**
  * Creates tiles for zoomable images 
@@ -15,21 +18,42 @@ const initTileImage = require('./tileImage')
  */
 module.exports = {
   init: (eleventyConfig) => {
+    info('Processing project image resources for IIIF.')
     const isImageService = eleventyConfig.getFilter('isImageService')
+    const pluralize = eleventyConfig.getFilter('pluralize')
     /**
      * IIIF config
      */
     const { config, iiifConfig, figures } = eleventyConfig.globalData
-    const { imageTransformations } = iiifConfig
+    const { imageServiceDirectory, imageTransformations, outputDir } = iiifConfig
     const { imageDir } = config.params
 
     const createImage = initCreateImage(eleventyConfig)
     const createManifest = initCreateManifest(eleventyConfig)
     const tileImage = initTileImage(eleventyConfig)
 
+    const processedFiles = fs.existsSync(outputDir) && fs.readdirSync(outputDir)
+    const tiledImages = processedFiles
+      ? processedFiles.filter((dir) => {
+          return fs.readdirSync(path.join(outputDir, dir)).includes(imageServiceDirectory)
+        })
+      : []
+
     const figuresToTile = figures.figure_list
       .flatMap((figure) => figure.choices || figure)
       .filter((figure) => isImageService(figure) && !figure.src.startsWith('http'))
+      .filter(({ src }) => !tiledImages.includes(path.parse(src).name))
+
+    if (figuresToTile.length) {
+      info(`Generating IIIF image tiles may take a while depending on the size of each image file.`)
+      info(`Tiling ${figuresToTile.length} ${pluralize('image', figuresToTile.length)}...`)
+    } else {
+      const skipped = tiledImages.length - figuresToTile.length
+      const skipMessage = skipped > 0 
+        ? ` Skipped ${skipped} previously tiled ${pluralize('image', skipped)}.`
+        : ''
+      info(`No ${skipMessage ? 'new ' : ''}images to tile found in figures.yaml.${skipMessage}`)
+    }
 
     /**
      * IIIF Processor
@@ -51,7 +75,7 @@ module.exports = {
         const id = path.parse(imagePath).name
 
         if (debug) {
-          console.warn(`[iiif:processImages:${id}] Starting`)
+          info(`Tiling ${id}`)
         }
 
         promises.push(
@@ -62,15 +86,39 @@ module.exports = {
         promises.push(tileImage(imagePath, options))
       })
 
-      await Promise.all(promises)
+      const tilingResponses = await Promise.all(promises)
+      const errors = tilingResponses.filter(({ error }) => error)
+
+      if (figuresToTile.length) {
+        const errorMessage = errors.length ? ` with ${errors.length} ${pluralize('error', errors.length)}` : ''
+        info(`Completed tiling ${figuresToTile.length} ${pluralize('image', figuresToTile.length)}${errorMessage}`)
+      }
+
+      if (errors.length) {
+        error(`Unable to tile the following images:`)
+        console.table(errors, ['filename', 'error'])
+      }
 
       // Build manifests for figures with choices
       const figuresWithChoices = figures.figure_list.filter(
         ({ choices }) => choices && choices.length
       )
 
-      for (const figure of figuresWithChoices) {
-        await createManifest(figure, options)
+      if (figuresWithChoices.length) {
+        const manifests = processedFiles
+          ? processedFiles.filter((dir) => {
+              return fs.readdirSync(path.join(outputDir, dir)).includes('manifest.json')
+            })
+          : []
+        
+        info(`Generating ${figuresWithChoices.length} ${pluralize('manifest', figuresWithChoices.length)}.`)
+        for (const figure of figuresWithChoices) {
+          await createManifest(figure, options)
+        }
+        /**
+         * @todo add error logging
+         */
+        info('Completed generating manifests.')
       }
 
       /**
@@ -79,9 +127,7 @@ module.exports = {
        */
       await addGlobalData(eleventyConfig)
 
-      if (debug) {
-        console.warn(`[iiif:processImages] Done`)
-      }
+      info('Completed processing images.')
     }
   }
 }
