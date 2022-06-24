@@ -55,3 +55,64 @@ After selecting the `<section>` element by its `data-ouput-path` attribute the l
 #### Inserting the content
 
 The `<section>` content fragment is written to the combined output file by calling `insertBefore` or `insertAfter` on the nearest ancestor `<section>` element.
+
+
+## Exclude/include content from the publication PDF
+
+### Pages [for editors]
+
+Use the front-matter `outputs` key to define outputs, for example:
+
+```yaml
+outputs:
+  - html
+```
+
+### Components [for developers]
+
+*Not yet implemented*
+
+Possible solutions:
+
+- Add css classes for print only output. This is less ideal as the markup will be sent to Paged.js for parsing.
+
+```html
+<canvas-panel class="no-print" />
+```
+
+- Render both markup for *both* web and print, then remove any markup not for current output during Eleventy transform or from an after build hook.
+
+```html
+<canvas-panel data-outputs="html" />
+<img data-outputs="pdf, ebub" />
+```
+
+- Render the static alternative and save the output as a string. When parsing the site output for tranform lookup and replace the component markup in `pdf.html` with the static version.
+
+- Register an alternate component render function that will be called from the PDF transform; we may not have access to the component data at this point.
+
+Can an Eleventy plugin add a `registerTransform` function to Eleventy?
+
+`web-components/canvas-panel.js`
+```javascript
+eleventyConfig.registerTransform(id, transform)
+```
+
+```javascript
+{
+  'id1': (args) => { return '' }
+  'id2': '<img src="" alt="" />'
+}
+```
+
+## Open Questions
+
+- What markup is required to correctly render sections, section headings (title, subtitle, et cetera)?
+
+- What is the PDF standard for TOC markup?
+
+- Can we pass the TOC JSON to the Paged.js API?
+
+- How can we access the PDF page numbering?
+  For example, were we to render the TOC Grid how might we get the PDF page number for each section so that it can be rendered below the section image?
+

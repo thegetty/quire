@@ -1,0 +1,39 @@
+const chalk = require('chalk')
+const fs = require('fs-extra')
+const jsdom = require('jsdom')
+const path = require('path')
+
+/**
+ * Write each page section in the PDF collection to a single HTML file
+ * @param  {Object} collection collections.pdf with `sectionElement` property
+ */
+module.exports = async function(collection) {
+  const layoutPath = path.join('_plugins', 'transforms', 'pdf', 'layout.html')
+  /**
+   * Nota bene:
+   * Output must be written to a directory using Passthrough File Copy
+   * @see https://www.11ty.dev/docs/copy/#passthrough-file-copy
+   */
+  const outputPath = path.join('public', 'pdf.html')
+
+  const { JSDOM } = jsdom
+  const dom = await JSDOM.fromFile(layoutPath)
+  const { document } = dom.window
+
+  collection.forEach(({ outputPath, sectionElement }) => {
+    try {
+      document.body.appendChild(sectionElement)
+    } catch (error) {
+      const message = `Eleventy transform for PDF error appending content for for ${outputPath} to combined output. Error: `
+      console.warn(chalk.yellow(message), error)
+    }
+  })
+
+  try {
+    fs.ensureDirSync(path.parse(outputPath).dir)
+    fs.writeFileSync(outputPath, dom.serialize())
+  } catch (error) {
+    const message = 'Eleventy transform for PDF error writing combined HTML output for PDF. Error message: '
+    console.error(chalk.red(message), error)
+  }
+}

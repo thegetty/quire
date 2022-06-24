@@ -150,9 +150,9 @@ module.exports = function(eleventyConfig) {
         manifest: true,
         mode: 'production',
         rollupOptions: {
-          plugins: [
-            scss() // @see https://github.com/thgh/rollup-plugin-scss
-          ]
+          // plugins: [
+          //   scss() // @see https://github.com/thgh/rollup-plugin-scss
+          // ]
         },
         sourcemap: true
       },
@@ -179,7 +179,7 @@ module.exports = function(eleventyConfig) {
    * @see {@link https://www.11ty.dev/docs/copy/ Passthrough copy in 11ty}
    */
   eleventyConfig.addPassthroughCopy('content/_assets')
-  eleventyConfig.addPassthroughCopy('_iiif')
+  eleventyConfig.addPassthroughCopy('public')
 
   /**
    * Watch the following additional files for changes and live browsersync
