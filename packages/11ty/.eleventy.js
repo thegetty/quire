@@ -183,7 +183,7 @@ module.exports = function(eleventyConfig) {
 
   // @see https://www.11ty.dev/docs/copy/#passthrough-during-serve
   // @todo resolve error when set to the default behavior 'passthrough'
-  // eleventyConfig.setServerPassthroughCopyBehavior('copy')
+  eleventyConfig.setServerPassthroughCopyBehavior('copy')
 
   /**
    * Watch the following additional files for changes and live browsersync
