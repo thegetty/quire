@@ -8,15 +8,26 @@ module.exports = function (eleventyConfig, { page }) {
   const markdownify = eleventyConfig.getFilter('markdownify')
   const slugify = eleventyConfig.getFilter('slugify')
   const sortReferences = eleventyConfig.getFilter('sortReferences')
+  const { entries: allReferences } = eleventyConfig.globalData.references
   const { biblioHeading, displayBiblioShort } = eleventyConfig.globalData.config.params
 
   /**
    * @property  {Array}  citations  computed data citations array
    */
-  return function () {
-    if (!page.citations || !page.citations.length) return;
+  return function (pageReferenceIds) {
+    if (
+      !page.citations ||
+      !page.citations.length ||
+      !pageReferenceIds ||
+      !pageReferenceIds.length
+    ) return;
 
-    const references = sortReferences(page.citations)
+    const frontMatterCitations = []
+    allReferences.forEach((reference) => {
+      if (pageReferenceIds.includes(reference.id)) frontMatterCitations.push(reference);
+    });
+
+    const references = sortReferences([...page.citations, ...frontMatterCitations])
 
     const heading = biblioHeading
       ? `<h2 id="${slugify(biblioHeading)}">${biblioHeading}</h2>`
