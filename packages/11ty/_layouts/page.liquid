@@ -3,7 +3,7 @@ layout: base.11ty.js
 description: Single page default template
 ---
 
-<article class="quire-page" id="main" role="main">
+<article class="quire-page">
   {% pageHeader
     contributor_byline=contributor_byline,
     image=image,
@@ -13,7 +13,7 @@ description: Single page default template
     title=title
   %}
   {% if content %}
-  <section class="section quire-page__content" id="content">
+  <section class="section quire-page__content">
     <div class="container">
       <div class="content">
         {{ content }}
@@ -22,9 +22,9 @@ description: Single page default template
     </div>
   </section>
   {% endif %}
-  <section class="section quire-page__content">
+  <div class="section quire-page__content">
     <div class="container">
       {% pageButtons pagination=pagination %}
     </div>
-  </section>
+  </div>
 </article>

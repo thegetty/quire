@@ -18,21 +18,14 @@ module.exports = function(data) {
         <body>
           ${this.icons(data)}
           ${this.iconscc(data)}
-          <div class="quire no-js" id="container">
-            <div
-              aria-expanded="false"
-              class="quire__secondary remove-from-epub"
-              id="site-menu"
-              role="contentinfo"
-            >
-              ${this.menu({ collections, pageData })}
-            </div>
-            <div class="quire__primary" id="{{ section }}">
+          <div class="quire no-js">
+            ${this.menu({ collections, pageData })}
+            <main class="quire__primary">
               ${this.navigation(data)}
               <section data-output-path="${outputPath}">
                 ${content}
               </section>
-            </div>
+            </main>
             {% render 'search' %}
           </div>
           ${this.scripts()}

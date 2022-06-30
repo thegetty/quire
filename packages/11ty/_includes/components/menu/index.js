@@ -30,43 +30,50 @@ module.exports = function(eleventyConfig) {
 
     return html`
       <div
-        class="quire-menu menu"
-        role="banner"
-        id="site-menu__inner"
+        aria-expanded="false"
+        class="quire__secondary remove-from-epub"
+        id="site-menu"
+        role="contentinfo"
       >
-        ${menuHeader({ currentURL: pageData.url })}
-        <nav id="nav" class="quire-menu__list menu-list" role="navigation" aria-label="full">
-          <h3 class="visually-hidden">Table of Contents</h3>
-          ${menuList({ navigation: eleventyNavigation(collections.menu) })}
-        </nav>
+        <div
+          class="quire-menu menu"
+          role="banner"
+          id="site-menu__inner"
+        >
+          ${menuHeader({ currentURL: pageData.url })}
+          <nav id="nav" class="quire-menu__list menu-list" role="navigation" aria-label="full">
+            <h3 class="visually-hidden">Table of Contents</h3>
+            ${menuList({ navigation: eleventyNavigation(collections.menu) })}
+          </nav>
 
-        ${menuResources()}
+          ${menuResources()}
 
-        <div class="quire-menu__formats">
-          <h6>Cite this Page</h6>
-          <div class="cite-this">
-            <span class="cite-this__heading">
-              Chicago
-            </span>
-            <span class="cite-this__text">
-            ${citation({ context: 'page', page: pageData, type: 'chicago' })}
-            </span>
+          <div class="quire-menu__formats">
+            <h6>Cite this Page</h6>
+            <div class="cite-this">
+              <span class="cite-this__heading">
+                Chicago
+              </span>
+              <span class="cite-this__text">
+              ${citation({ context: 'page', page: pageData, type: 'chicago' })}
+              </span>
+            </div>
+
+            <div class="cite-this">
+              <span class="cite-this__heading">
+                MLA
+              </span>
+              <span class="cite-this__text">
+                ${citation({ context: 'page', page: pageData, type: 'mla' })}
+              </span>
+            </div>
           </div>
 
-          <div class="cite-this">
-            <span class="cite-this__heading">
-              MLA
-            </span>
-            <span class="cite-this__text">
-              ${citation({ context: 'page', page: pageData, type: 'mla' })}
-            </span>
-          </div>
+          <footer class="quire-menu__footer" role="contentinfo">
+            ${copyright()}
+            ${linkList({ links: footerLinks, classes: ["menu-list"]}) }
+          </footer>
         </div>
-
-        <footer class="quire-menu__footer" role="contentinfo">
-          ${copyright()}
-          ${linkList({ links: footerLinks, classes: ["menu-list"]}) }
-        </footer>
       </div>
     `
   }
