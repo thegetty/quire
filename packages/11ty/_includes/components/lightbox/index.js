@@ -6,6 +6,7 @@ const stringifyData = (jsObject) => {
 
 /**
  * Lightbox Tag
+ * @todo add conditional rendering for epub and pdf when lightbox is included in `entry`
  *
  * @param      {Object}  eleventyConfig
  * @param      {Object}  globalData
