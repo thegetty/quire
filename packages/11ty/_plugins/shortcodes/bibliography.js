@@ -16,7 +16,12 @@ module.exports = function (eleventyConfig, { page }) {
   return function () {
     if (!page.citations || !page.citations.length) return;
 
-    const references = sortReferences(page.citations)
+    const references = sortReferences(page.citations.map((citation) => {
+      return {
+        ...citation,
+        short: citation.short || citation.id
+      }
+    }))
 
     const heading = biblioHeading
       ? `<h2 id="${slugify(biblioHeading)}">${biblioHeading}</h2>`
@@ -25,7 +30,7 @@ module.exports = function (eleventyConfig, { page }) {
     const definitionList = html`
       <dl>
         ${references.map((citation) => `
-          <dt><span id="${slugify(citation.id)}">${markdownify(citation.id)}</span></dt>
+          <dt><span id="${slugify(citation.short)}">${markdownify(citation.short)}</span></dt>
           <dd>${markdownify(citation.full)}</dd>
           `
         )}
@@ -34,7 +39,7 @@ module.exports = function (eleventyConfig, { page }) {
 
     const unorderedList = `
       <ul>
-        ${references.map((citation) => `<li id="${slugify(citation.id)}">${markdownify(citation.full)}</li>`
+        ${references.map((citation) => `<li id="${slugify(citation.short)}">${markdownify(citation.full)}</li>`
         ).join('')}
       </ul>
     `
