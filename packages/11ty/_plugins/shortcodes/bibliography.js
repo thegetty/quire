@@ -25,9 +25,16 @@ module.exports = function (eleventyConfig, { page }) {
     const frontMatterCitations = []
     allReferences.forEach((reference) => {
       if (pageReferenceIds.includes(reference.id)) frontMatterCitations.push(reference);
-    });
+    })
 
-    const references = sortReferences([...page.citations, ...frontMatterCitations])
+    const citations = [...page.citations, ...frontMatterCitations].map((citation) => {
+      return {
+        ...citation,
+        short: citation.short || citation.id
+      }
+    })
+
+    const references = sortReferences(citations)
 
     const heading = biblioHeading
       ? `<h2 id="${slugify(biblioHeading)}">${biblioHeading}</h2>`
@@ -36,7 +43,7 @@ module.exports = function (eleventyConfig, { page }) {
     const definitionList = html`
       <dl>
         ${references.map((citation) => `
-          <dt><span id="${slugify(citation.id)}">${markdownify(citation.id)}</span></dt>
+          <dt><span id="${slugify(citation.id)}">${markdownify(citation.short)}</span></dt>
           <dd>${markdownify(citation.full)}</dd>
           `
         )}

@@ -176,10 +176,14 @@ module.exports = function(eleventyConfig) {
 
   /**
    * Copy static assets to the output directory
-   * @see {@link https://www.11ty.dev/docs/copy/ Passthrough copy in 11ty}
+   * @see https://www.11ty.dev/docs/copy/
    */
   eleventyConfig.addPassthroughCopy('content/_assets')
   eleventyConfig.addPassthroughCopy('public')
+
+  // @see https://www.11ty.dev/docs/copy/#passthrough-during-serve
+  // @todo resolve error when set to the default behavior 'passthrough'
+  eleventyConfig.setServerPassthroughCopyBehavior('copy')
 
   /**
    * Watch the following additional files for changes and live browsersync
