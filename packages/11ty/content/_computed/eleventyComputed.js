@@ -64,7 +64,7 @@ module.exports = {
   /**
    * Objects data referenced by id in page frontmatter including figures data
    */
-  pageObjects: ({ figures, object, objects }) => {
+  pageObjects: function ({ figures, object, objects }) {
     if (!object || !object.length) return
     return object
       .reduce((validObjects, item) => {
@@ -79,7 +79,7 @@ module.exports = {
         } else {
           objectData.figures = objectData.figure.map((figure) => {
             if (figure.id) {
-              return figures.figure_list.find((item) => item.id === figure.id)
+              return this.getFigure(figure.id)
             } else {
               return figure
             }
