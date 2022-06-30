@@ -8,7 +8,7 @@ layout: base.11ty.js
 
 <div id="main" class="quire-cover" role="main">
 
-  <section class="quire-cover__hero hero is-fullheight">
+  <div class="quire-cover__hero hero is-fullheight">
     <div
       class="quire-cover__overlay"
       style="background-image: url('{{ imagePath }}');"
@@ -29,36 +29,36 @@ layout: base.11ty.js
         </div>
       </div>
     </div>
-  </section>
+  </div>
 
   {% if content != blank %}
-    <section class="quire-cover__more next-page">
+    <div class="quire-cover__more next-page">
       <div class="quire-cover__more-body hero-more">
         <a href="#content">
           {% icon type='down-arrow', description='Scroll down to read more' %}
         </a>
       </div>
-    </section>
+    </div>
 
-    <section id="content" class="section quire-page__content">
+    <div class="section quire-page__content">
       <div class="container is-fluid">
         <div class="content">
           {{ content }}
           {% bibliography %}
         </div>
       </div>
-    </section>
+    </div>
 
     {% pageButtons pagination=pagination %}
 
   {% else %}
-    <section class="quire-cover__more">
+    <div class="quire-cover__more">
       <div class="quire-cover__more-body hero-more next-page">
         <a href="{{ pagination.nextPage.url }}">
           {% icon type='down-arrow', description='Scroll down to read more' %}
         </a>
       </div>
-    </section>
+    </div>
   {% endif %}
 
 </div>

@@ -77,13 +77,29 @@ Possible solutions:
 - Add css classes for print only output. This is less ideal as the markup will be sent to Paged.js for parsing.
 
 ```html
-<canvas-panel class="no-print" />
+<canvas-panel />
 ```
+
+`print.css` (assuming Paged.js loads only the print css)
+```css
+@media(print) {
+  canvas-panel {
+    display: none;
+  }
+}
+```
+*this is likely to cause errors for ePub*
+
+- Remove `<video>`, `<web-components>`, et all using either the Eleventy transform or Paged.js `afterParse` hook.
+
+  Ideally Paged.js can force using the fallback for videos (@todo, implement fallback for Quire video component), is possible with Youtube embeds?
 
 - Render both markup for *both* web and print, then remove any markup not for current output during Eleventy transform or from an after build hook.
 
 ```html
+<!-- markup for screen -->
 <canvas-panel data-outputs="html" />
+<!-- markup for print -->
 <img data-outputs="pdf, ebub" />
 ```
 
@@ -105,14 +121,108 @@ eleventyConfig.registerTransform(id, transform)
 }
 ```
 
+```javascript
+{
+  'id1': {
+    selector: 'data-gradoo'
+    render: (args) => return '<em>GRADOO</em>'
+  },
+  'id2': {
+    selector: 'data-gradoo'
+    render: '<em>GRADOO</em>'
+  }
+}
+```
+
+
+```javascript
+transforms: {
+  'output-path-a': {
+    epub: [
+      {
+        args: [],
+        selector: 'data-gradoo'
+        render: '<em>GRADOO</em>'
+      }
+    ],
+    html: [
+      {
+        args: ['GRADOO'],
+        selector: 'data-gradoo'
+        render: (args) => return '<em>GRADOO</em>'
+      },
+    ],
+    pdf: [
+      {
+        args: [],
+        selector: 'data-gradoo'
+        render: '<em>GRADOO</em>'
+      }
+    ]
+  }
+}
+```
+
+
+## TODO
+
+- Remove redundant element `id` attributes during transform
+
+- Correct output path of `_assets` and remove chunk hash from asset filename
+
+- Remove gremlins around `<svg>` output
+
+- Trasnform `scss` to `css` or omit `application.scss` and ensure a separate non-interactive style sheet?
+
+- Investigate refactoring `layouts` to render template content in a `<main>` element, which will then be the content appended to `pdf.html` (this will help make the HTML more semenatic)
+
+- Find missing book pages from previous version of Quire and identify implementation tasks: blank page, cover, front-matter
+
+- Render page title and section title when tranforming page content for pdf.html
+
+- See [Paged.js _Introduction to Paged Media_](https://pagedjs.org/documentation/5-web-design-for-print/) for how to get page number references, `print.scss` line 63.
+
 ## Open Questions
 
-- What markup is required to correctly render sections, section headings (title, subtitle, et cetera)?
+- _What markup is required to correctly render sections, section headings (title, subtitle, et cetera)?_
 
-- What is the PDF standard for TOC markup?
+`input`
+```html
+<main class="quire-essay">
+  ...
+</main>
+```
 
-- Can we pass the TOC JSON to the Paged.js API?
+`output` written to `pdf.html`
+```html
+<section class="quire-essay">
+  ...
+</section>
+```
 
-- How can we access the PDF page numbering?
-  For example, were we to render the TOC Grid how might we get the PDF page number for each section so that it can be rendered below the section image?
+- _What is the PDF standard for TOC markup?_
+
+  We will do what we want though use the [something like this basic pattern](https://www.w3.org/TR/epub-33/#example-basic-patterns-of-a-navigation-element) which uses `<nav><ol>...</ol></nav>`
+
+- _Can we pass the TOC JSON to the Paged.js API to use as the PDF outline?_
+
+  PrinceXML can be passed a CSS selector though currently used the `h1` tags to generate the PDF outline.
+
+  Paged.js can take an element list (default `h1`–`h4`) to generate the outline.
+
+  We do not need to do this, perhaps a future feature.
+
+- _How can we access the PDF page numbering?_
+  _For example, were we to render the TOC Grid how might we get the PDF page number for each section so that it can be rendered below the section image?_
+
+  See [Paged.js _Introduction to Paged Media_]( https://pagedjs.org/documentation/5-web-design-for-print/)
+
+
+## Paged Media
+
+
+## CSS Animations
+
+All CSS animations must be wrapped in a `@media(screen)` tag
+
 

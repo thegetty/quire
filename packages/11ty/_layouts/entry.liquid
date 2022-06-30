@@ -9,11 +9,7 @@ description: Entry layout. This template is intended for use in catalogue-style 
 {% assign pdf = config.params.pdf %}
 {% assign zoom = config.params.figureZoom %}
 
-{% comment %}
-Entry content, including entry image and tombstone data
-{% endcomment %}
-
-<article class="quire-entry" id="main" role="main">
+<article class="quire-entry">
   <div {% if entryPageSideBySideLayout == true or presentation == 'side-by-side' and pdf != true and epub != true %} class="side-by-side" {% endif %} data="{{ zoom }}">
 
     {% if epub == true %}
@@ -91,7 +87,7 @@ Entry content, including entry image and tombstone data
         {% abstract abstract=abstract %}
       {% endif %}
 
-      <section class="section quire-page__content" id="content">
+      <section class="section quire-page__content">
         <div class="container">
           <div class="content">
             {{ content }}
@@ -100,11 +96,11 @@ Entry content, including entry image and tombstone data
         </div>
       </section>
 
-      <section class="section quire-page__content">
+      <div class="section quire-page__content">
         <div class="container">
           {% pageButtons pagination=pagination %}
         </div>
-      </section>
+      </div>
     </div>
   </div>
 </article>
