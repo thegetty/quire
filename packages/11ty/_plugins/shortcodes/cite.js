@@ -1,4 +1,7 @@
+const chalkFactory = require('../../_lib/chalk')
 const renderOneLine = require('../common-tags/renderOneLine')
+
+const { warn } = chalkFactory('shortcodes::cite')
 
 /**
  *  @todo Remove reliance on `this.page` in context. 
@@ -38,7 +41,7 @@ module.exports = function(eleventyConfig, { page }) {
 
   return function(id, pageNumber, text) {
     if (!id) {
-      console.warn('1, 2 or 3 values must be supplied with this shortcode. The first is required and should match a reference in the project `references.yml` data file; the second is optional, and should be a page number or range of page numbers; the third is optional, and should be the text to appear in the link if not the full short form of the reference, example \"{% qcite \"Faure 1909\" \"304\" \"1909\" %}\"')
+      warn('1, 2 or 3 values must be supplied with this shortcode. The first is required and should match a reference in the project `references.yml` data file; the second is optional, and should be a page number or range of page numbers; the third is optional, and should be the text to appear in the link if not the full short form of the reference, example \"{% qcite \"Faure 1909\" \"304\" \"1909\" %}\"')
       return ''
     }
 
@@ -49,7 +52,7 @@ module.exports = function(eleventyConfig, { page }) {
     const citation = references[id]
 
     if (!citation) {
-      console.warn(`The id '${id}' does not match a reference in the project data file references.yaml`)
+      warn(`The id '${id}' does not match a reference in the project data file references.yaml`)
       return ''
     }
 
