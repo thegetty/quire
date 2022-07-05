@@ -1,7 +1,7 @@
 const chalkFactory = require('../../_lib/chalk')
 const path = require('path')
 
-const { warn } = chalkFactory('_computed/eleventyComputed')
+const { warn } = chalkFactory('eleventyComputed')
 
 /**
  * Global computed data

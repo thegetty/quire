@@ -1,7 +1,7 @@
 const chalkFactory = require('../../_lib/chalk')
 const Processor = require('simple-cite')
 
-const { error } = chalkFactory('_plugins::citations')
+const { error } = chalkFactory('plugins:citations')
 
 const defaultStyles = {
   chicago: require('./styles/chicago-fullnote-bibliography'),

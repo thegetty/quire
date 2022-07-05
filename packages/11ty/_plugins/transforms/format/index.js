@@ -2,7 +2,7 @@ const chalkFactory = require('../../../_lib/chalk')
 const path = require('path')
 const prettier = require('prettier')
 
-const { error } = chalkFactory('transforms::format')
+const { error } = chalkFactory('transforms:format')
 
 /**
  * An Eleventy transform function to format ouput HTML using Prettier

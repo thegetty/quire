@@ -1,6 +1,6 @@
 const chalkFactory = require('../../../_lib/chalk')
 
-const { warn } = chalkFactory('_plugins::collections')
+const { warn } = chalkFactory('plugins:collections')
 
 /**
  * Sort method applied to pages in collections

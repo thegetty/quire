@@ -1,7 +1,7 @@
 const chalkFactory = require('../../_lib/chalk')
 const { html } = require('common-tags')
 
-const { error } = chalkFactory('shortcodes::contributors')
+const { error } = chalkFactory('shortcodes:contributors')
 
 /**
  * Contributor shortcode

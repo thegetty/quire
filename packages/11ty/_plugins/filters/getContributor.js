@@ -1,6 +1,6 @@
 const chalkFactory = require('../../_lib/chalk')
 
-const { info, error } = chalkFactory('filters::getContributor')
+const { info, error } = chalkFactory('filters:getContributor')
 
 /**
  * Looks up a contributor in publication.yaml[contributor] by id

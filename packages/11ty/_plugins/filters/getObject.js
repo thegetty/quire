@@ -1,6 +1,6 @@
 const chalkFactory = require('../../_lib/chalk')
 
-const { warn } = chalkFactory('filters::getObject')
+const { warn } = chalkFactory('filters:getObject')
 
 /**
  * Looks up a object in objects.yaml by id

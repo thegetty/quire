@@ -6,7 +6,7 @@ const initCreateManifest = require('./createManifest')
 const chalkFactory = require('../../../_lib/chalk')
 const initTileImage = require('./tileImage')
 
-const { info, error } = chalkFactory('IIIF Image Processing')
+const { info, error } = chalkFactory('plugins:iiif')
 
 /**
  * Creates tiles for zoomable images 

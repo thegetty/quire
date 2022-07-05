@@ -2,7 +2,7 @@ const { html } = require('common-tags')
 const chalkFactory = require('../../_lib/chalk')
 const figure = require('./figure')
 
-const { warn } = chalkFactory('shortcodes::figureGroup')
+const { warn } = chalkFactory('shortcodes:figureGroup')
 
 /**
  * Render multiple <figure> elements in a group

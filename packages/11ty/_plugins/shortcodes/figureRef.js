@@ -1,7 +1,7 @@
 const { oneLineCommaListsAnd } = require('common-tags')
 const chalkFactory = require('../../_lib/chalk')
 
-const { warn } = chalkFactory('shortcodes::figureRef')
+const { warn } = chalkFactory('shortcodes:figureRef')
 
 /**
  * Generate markdown for an inline list of links to figures on the page.

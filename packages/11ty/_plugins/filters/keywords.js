@@ -1,6 +1,6 @@
 const chalkFactory = require('../../_lib/chalk')
 
-const { warn } = chalkFactory('filters::keywords')
+const { warn } = chalkFactory('filters:keywords')
 
 /**
  * Gets the array of subject keywords defined in the publication data file

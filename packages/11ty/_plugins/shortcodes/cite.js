@@ -1,7 +1,7 @@
 const chalkFactory = require('../../_lib/chalk')
 const renderOneLine = require('../common-tags/renderOneLine')
 
-const { warn } = chalkFactory('shortcodes::cite')
+const { warn } = chalkFactory('shortcodes:cite')
 
 /**
  *  @todo Remove reliance on `this.page` in context. 

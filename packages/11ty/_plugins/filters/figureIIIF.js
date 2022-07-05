@@ -3,7 +3,7 @@ const chalkFactory = require('../../_lib/chalk')
 const path = require('path')
 const vault = globalVault()
 
-const { info, warn } = chalkFactory('filters::figureIIIF')
+const { info, warn } = chalkFactory('filters:figureIIIF')
 
 /**
  * Returns a figure's IIIF properties

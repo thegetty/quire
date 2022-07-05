@@ -3,7 +3,7 @@ const fs = require('fs-extra')
 const jsdom = require('jsdom')
 const path = require('path')
 
-const { error, warn } = chalkFactory('transforms::pdf')
+const { error, warn } = chalkFactory('transforms:pdf')
 
 /**
  * Write each page section in the PDF collection to a single HTML file

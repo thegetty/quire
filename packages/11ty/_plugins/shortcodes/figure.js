@@ -1,7 +1,7 @@
 const chalkFactory = require('../../_lib/chalk')
 const { oneLine } = require('common-tags')
 
-const { warn } = chalkFactory('shortcodes::figure')
+const { warn } = chalkFactory('shortcodes:figure')
 
 /**
  * Render an HTML <figure> element

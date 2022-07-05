@@ -1,6 +1,6 @@
 const chalkFactory = require('../../_lib/chalk')
 
-const { info } = chalkFactory('linters')
+const { info } = chalkFactory('plugins:linters')
 /**
  * Register linters that will be run on input templates
  * @see {@link https://www.11ty.dev/docs/config/#linters}
