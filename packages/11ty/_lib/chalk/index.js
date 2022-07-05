@@ -4,7 +4,7 @@ const chalk = require('chalk')
  * A factory function for custom logging methods using the chalk library
  *
  * @param  {String} prefix  A prefix for messages output to the terminal
- * @return {Function}  An object with custom log methods `info`, `error`, `warn`
+ * @return {Function}  An object with custom log methods `error`, `info`, `warn`
  */
 module.exports = function (prefix='') {
   /**
@@ -20,11 +20,11 @@ module.exports = function (prefix='') {
   const logFn = (type) => {
     const log = console[type]
     const style = styles[type]
-    return (message) => log(style(chalk.bold(prefix), message))
+    return (message) => log(style(chalk.bold(`[${prefix}]`), message))
   }
 
   /**
-   * @return {Object} Customized logging methods `info`, `error`, `warn`
+   * @return {Object} Customized logging methods `error`, `info`, `warn`
    */
   return Object.keys(styles).reduce((logFns, type) => {
     logFns[type] = logFn(type)
