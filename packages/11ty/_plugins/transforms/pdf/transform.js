@@ -1,6 +1,6 @@
 const jsdom = require('jsdom')
 const { JSDOM } = jsdom
-const writePDF = require('./write')
+const writeOutput = require('./write')
 
 /**
  * Get the page `section` element
@@ -26,6 +26,13 @@ const transformRelativeLinks = (element) => {
   return element
 }
 
+/**
+ * A function to tranform Eleventy output content
+ *
+ * @param      {Object}  collections  Eleventy collections object
+ * @param      {String}  content      Output content
+ * @return     {Array}   The transformed content string
+ */
 module.exports = function(collections, content) {
   const htmlPages = collections.html.map(({ outputPath }) => outputPath)
   const pdfPages = collections.pdf.map(({ outputPath }) => outputPath)
@@ -35,12 +42,23 @@ module.exports = function(collections, content) {
     const sectionElement = getSectionElement(content)
 
     if (sectionElement) {
-      const identifier = sectionElement.getAttribute('data-output-path')
-
       if (pageIndex !== -1) {
-        sectionElement.removeAttribute('data-output-path')
+        delete sectionElement.dataset.outputPath
+
+        const pageLabelDivider = '. ' // eleventyConfig.globalData.config.params
+        const { label, title } = collections.pdf[pageIndex].data
+
+        // set data attributes for PDF generation
+        sectionElement.dataset.pageTitle = label
+          ? `${label}${pageLabelDivider}${title}`
+          : title
+
+        // set an id for anchor links to each section
         sectionElement.setAttribute('id', collections.pdf[pageIndex].url)
+
+        // transform relative links to anchor links
         transformRelativeLinks(sectionElement)
+
         collections.pdf[pageIndex].sectionElement = sectionElement
       }
 
@@ -49,7 +67,7 @@ module.exports = function(collections, content) {
        * every item in the collection will have `sectionConent`
        */
       if (collections.pdf.every(({ sectionElement }) => !!sectionElement)) {
-        writePDF(collections.pdf)
+        writeOutput(collections.pdf)
       }
     }
   }

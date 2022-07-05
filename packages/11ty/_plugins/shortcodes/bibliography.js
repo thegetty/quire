@@ -1,7 +1,8 @@
 const { html } = require('common-tags')
 
 /**
- * Publication bibliography
+ * Renders a bibliography of references from page citations.
+ *
  * @param      {Object}  eleventyConfig
  */
 module.exports = function (eleventyConfig, { page }) {
@@ -10,13 +11,10 @@ module.exports = function (eleventyConfig, { page }) {
   const sortReferences = eleventyConfig.getFilter('sortReferences')
   const { biblioHeading, displayBiblioShort } = eleventyConfig.globalData.config.params
 
-  /**
-   * @property  {Array}  citations  computed data citations array
-   */
   return function () {
-    if (!page.citations || !page.citations.length) return;
+    const citations = page.citations && sortReferences(Object.entries(page.citations))
 
-    const references = sortReferences(page.citations)
+    if (!citations) return;
 
     const heading = biblioHeading
       ? `<h2 id="${slugify(biblioHeading)}">${biblioHeading}</h2>`
@@ -24,18 +22,18 @@ module.exports = function (eleventyConfig, { page }) {
 
     const definitionList = html`
       <dl>
-        ${references.map((citation) => `
-          <dt><span id="${slugify(citation.id)}">${markdownify(citation.id)}</span></dt>
-          <dd>${markdownify(citation.full)}</dd>
-          `
-        )}
+        ${citations.map(([id, { short, full }]) => `
+          <dt id="${slugify(id)}">${markdownify(short)}</dt>
+          <dd>${markdownify(full)}</dd>
+        `)}
       </dl>
     `
 
-    const unorderedList = `
+    const unorderedList = html`
       <ul>
-        ${references.map((citation) => `<li id="${slugify(citation.id)}">${markdownify(citation.full)}</li>`
-        ).join('')}
+        ${citations.map(([id, { short, full }]) => `
+          <li id="${slugify(id)}">${markdownify(full)}</li>
+        `)}
       </ul>
     `
 
