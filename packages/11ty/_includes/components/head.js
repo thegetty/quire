@@ -73,7 +73,7 @@ module.exports = function(eleventyConfig) {
         <link rel="icon" href="/_assets/images/icons/favicon.ico" />
         <!--
           styles are already imported in _assets/javascript/application/index.js
-          as inline minified <style type="text/css">...</style> blocks,
+          and rendered as inline minified <style type="text/css">...</style> blocks,
           not using these file links
         -->
         <!-- <link rel="stylesheet" href="/_assets/styles/application.scss" /> -->
