@@ -26,7 +26,7 @@ module.exports = function (eleventyConfig, { page }) {
 
     const bibliographyItems = sortReferences(Object.entries(page.citations))
 
-    if (!citations) return;
+    if (!bibliographyItems) return;
 
     const heading = biblioHeading
       ? `<h2 id="${slugify(biblioHeading)}">${biblioHeading}</h2>`

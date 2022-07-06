@@ -37,7 +37,7 @@ module.exports = function(eleventyConfig, { page }) {
     citationPopupStyle: popupStyle
   } = eleventyConfig.globalData.config.params
 
-  let references = eleventyConfig.globalData.references
+  const { entries } = eleventyConfig.globalData.references
 
   return function(id, pageNumber, text) {
     if (!id) {
@@ -46,7 +46,7 @@ module.exports = function(eleventyConfig, { page }) {
     }
 
     references = Object.fromEntries(
-      references.entries.map(({ id, full, short }) => [id, { full, short }])
+      entries.map(({ id, full, short }) => [id, { full, short: short || id }])
     )
 
     const citation = references[id]
