@@ -1,7 +1,9 @@
-const chalk = require('chalk')
+const chalkFactory = require('../../../_lib/chalk')
 const fs = require('fs-extra')
 const jsdom = require('jsdom')
 const path = require('path')
+
+const { error, warn } = chalkFactory('transforms:pdf')
 
 /**
  * Write each page section in the PDF collection to a single HTML file
@@ -24,8 +26,7 @@ module.exports = async function(collection) {
     try {
       document.body.appendChild(sectionElement)
     } catch (error) {
-      const message = `Eleventy transform for PDF error appending content for for ${outputPath} to combined output. Error: `
-      console.warn(chalk.yellow(message), error)
+      warn(`Eleventy transform for PDF error appending content for for ${outputPath} to combined output.`, error)
     }
   })
 
@@ -33,7 +34,6 @@ module.exports = async function(collection) {
     fs.ensureDirSync(path.parse(outputPath).dir)
     fs.writeFileSync(outputPath, dom.serialize())
   } catch (error) {
-    const message = 'Eleventy transform for PDF error writing combined HTML output for PDF. Error message: '
-    console.error(chalk.red(message), error)
+    error('Eleventy transform for PDF error writing combined HTML output for PDF. Error message: ', error)
   }
 }

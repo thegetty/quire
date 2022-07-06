@@ -1,4 +1,5 @@
 const { html } = require('common-tags')
+const chalkFactory = require('../../../_lib/chalk')
 
 /**
  * Renders an iframe element with a Youtube video player

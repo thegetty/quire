@@ -1,5 +1,8 @@
+const chalkFactory = require('../../../_lib/chalk')
 const path = require('path')
 const prettier = require('prettier')
+
+const { error } = chalkFactory('transforms:format')
 
 /**
  * An Eleventy transform function to format ouput HTML using Prettier
@@ -13,7 +16,7 @@ module.exports = function (content) {
   try {
     result = prettier.format(content, { filepath: this.outputPath })
   } catch (error) {
-    console.error('Eleventy transform error formatting output.\n', error)
+    error('Eleventy transform error formatting output.\n', error)
   }
   return result || content
 }
