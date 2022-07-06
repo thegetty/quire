@@ -15,8 +15,8 @@ module.exports = function(eleventyConfig, options) {
     return backmatter(eleventyConfig)(content, ...args)
   })
 
-  eleventyConfig.addShortcode('bibliography', function() {
-    return bibliography(eleventyConfig, { page: this.page })()
+  eleventyConfig.addShortcode('bibliography', function(...args) {
+    return bibliography(eleventyConfig, { page: this.page })(...args)
   })
 
   eleventyConfig.addPairedShortcode('class', function(content, ...args) {

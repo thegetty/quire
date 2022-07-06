@@ -9,10 +9,22 @@ module.exports = function (eleventyConfig, { page }) {
   const markdownify = eleventyConfig.getFilter('markdownify')
   const slugify = eleventyConfig.getFilter('slugify')
   const sortReferences = eleventyConfig.getFilter('sortReferences')
-  const { biblioHeading, displayBiblioShort } = eleventyConfig.globalData.config.params
 
-  return function () {
-    const citations = page.citations && sortReferences(Object.entries(page.citations))
+  const { biblioHeading, displayBiblioShort } = eleventyConfig.globalData.config.params
+  const { entries } = eleventyConfig.globalData.references
+
+  /**
+   * @property  {Array}  citations  computed data citations array
+   */
+  return function (frontMatterReferences) {
+    if (!page.citations && !frontMatterReferences) return
+
+    frontMatterReferences.forEach((id) => {
+      const entry = entries.find((entry) => entry.id === id)
+      page.citations[id] ??= { full: entry.full, short: entry.id }
+    })
+
+    const bibliographyItems = sortReferences(Object.entries(page.citations))
 
     if (!citations) return;
 
@@ -22,7 +34,7 @@ module.exports = function (eleventyConfig, { page }) {
 
     const definitionList = html`
       <dl>
-        ${citations.map(([id, { short, full }]) => `
+        ${bibliographyItems.map(([id, { short, full }]) => `
           <dt id="${slugify(id)}">${markdownify(short)}</dt>
           <dd>${markdownify(full)}</dd>
         `)}
@@ -31,7 +43,7 @@ module.exports = function (eleventyConfig, { page }) {
 
     const unorderedList = html`
       <ul>
-        ${citations.map(([id, { short, full }]) => `
+        ${bibliographyItems.map(([id, { short, full }]) => `
           <li id="${slugify(id)}">${markdownify(full)}</li>
         `)}
       </ul>
