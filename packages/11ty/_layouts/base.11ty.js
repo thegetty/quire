@@ -35,6 +35,7 @@ module.exports = function(data) {
             </div>
             {% render 'search' %}
           </div>
+          ${this.modal()}
           ${this.scripts()}
         </body>
       </html>
