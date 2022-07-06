@@ -9,6 +9,7 @@
 
 // Stylesheets
 import "../../styles/application.scss";
+import "../../styles/custom.css";
 
 // Modules (feel free to define your own and import here)
 import Search from "../../../../_plugins/search/search.js";
