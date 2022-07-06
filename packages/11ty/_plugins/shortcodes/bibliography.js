@@ -1,40 +1,32 @@
 const { html } = require('common-tags')
 
 /**
- * Publication bibliography
+ * Renders a bibliography of references from page citations.
+ *
  * @param      {Object}  eleventyConfig
  */
 module.exports = function (eleventyConfig, { page }) {
   const markdownify = eleventyConfig.getFilter('markdownify')
   const slugify = eleventyConfig.getFilter('slugify')
   const sortReferences = eleventyConfig.getFilter('sortReferences')
-  const { entries: allReferences } = eleventyConfig.globalData.references
+
   const { biblioHeading, displayBiblioShort } = eleventyConfig.globalData.config.params
+  const { entries } = eleventyConfig.globalData.references
 
   /**
    * @property  {Array}  citations  computed data citations array
    */
-  return function (pageReferenceIds) {
-    if (
-      !page.citations ||
-      !page.citations.length ||
-      !pageReferenceIds ||
-      !pageReferenceIds.length
-    ) return;
+  return function (frontMatterReferences) {
+    if (!page.citations && !frontMatterReferences) return
 
-    const frontMatterCitations = []
-    allReferences.forEach((reference) => {
-      if (pageReferenceIds.includes(reference.id)) frontMatterCitations.push(reference);
+    frontMatterReferences.forEach((id) => {
+      const entry = entries.find((entry) => entry.id === id)
+      page.citations[id] ??= { full: entry.full, short: entry.id }
     })
 
-    const citations = [...page.citations, ...frontMatterCitations].map((citation) => {
-      return {
-        ...citation,
-        short: citation.short || citation.id
-      }
-    })
+    const bibliographyItems = sortReferences(Object.entries(page.citations))
 
-    const references = sortReferences(citations)
+    if (!citations) return;
 
     const heading = biblioHeading
       ? `<h2 id="${slugify(biblioHeading)}">${biblioHeading}</h2>`
@@ -42,18 +34,18 @@ module.exports = function (eleventyConfig, { page }) {
 
     const definitionList = html`
       <dl>
-        ${references.map((citation) => `
-          <dt><span id="${slugify(citation.id)}">${markdownify(citation.short)}</span></dt>
-          <dd>${markdownify(citation.full)}</dd>
-          `
-        )}
+        ${bibliographyItems.map(([id, { short, full }]) => `
+          <dt id="${slugify(id)}">${markdownify(short)}</dt>
+          <dd>${markdownify(full)}</dd>
+        `)}
       </dl>
     `
 
-    const unorderedList = `
+    const unorderedList = html`
       <ul>
-        ${references.map((citation) => `<li id="${slugify(citation.id)}">${markdownify(citation.full)}</li>`
-        ).join('')}
+        ${bibliographyItems.map(([id, { short, full }]) => `
+          <li id="${slugify(id)}">${markdownify(full)}</li>
+        `)}
       </ul>
     `
 

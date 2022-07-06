@@ -43,7 +43,7 @@ module.exports = function(eleventyConfig, { page }) {
     }
 
     references = Object.fromEntries(
-      references.entries.map(({ id, full, short }) => [id, { full, short, id }])
+      references.entries.map(({ id, full, short }) => [id, { full, short }])
     )
 
     const citation = references[id]
@@ -53,8 +53,9 @@ module.exports = function(eleventyConfig, { page }) {
       return ''
     }
 
-    if (!page.citations) page.citations = []
-    page.citations.push(citation)
+    if (!page.citations) page.citations = {}
+
+    page.citations[id] = citation
 
     let buttonText = (text) ? text : citation.short || id
 
@@ -66,12 +67,12 @@ module.exports = function(eleventyConfig, { page }) {
           <button class="quire-citation__button material-icons md-18 material-control-point" aria-expanded="false">
             control_point
           </button>
-      `
+        `
       : renderOneLine`
           <span class="quire-citation__button" role="button" tabindex="0" aria-expanded="false">
             ${buttonText}
           </span>
-      `
+        `
 
     return renderOneLine`
       <cite class="quire-citation expandable">
