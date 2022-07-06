@@ -14,9 +14,16 @@ module.exports = function (eleventyConfig, { page }) {
   const { entries } = eleventyConfig.globalData.references
 
   /**
-   * @property  {Array}  citations  computed data citations array
+   * bibliography shortcode
+   * @example {% bibliography pageReferences %}
+   *
+   * Nota bene: the front matter property for additional page level references
+   * is `pageReferences` to avoid conflicts with the global data `references.yaml`
+   *
+   * @param  {Array}  frontMatterReferences  An array of ids to `references.entries`
+   * from `references.yaml` data.
    */
-  return function (frontMatterReferences) {
+  return function (frontMatterReferences = []) {
     if (!page.citations && !frontMatterReferences) return
 
     frontMatterReferences.forEach((id) => {
