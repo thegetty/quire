@@ -1,5 +1,6 @@
 const chalkFactory = require('../../_lib/chalk')
 const renderOneLine = require('../common-tags/renderOneLine')
+const { stripIndent } = require('common-tags')
 
 const { warn } = chalkFactory('shortcodes:cite')
 
@@ -41,21 +42,31 @@ module.exports = function(eleventyConfig, { page }) {
 
   return function(id, pageNumber, text) {
     if (!id) {
-      warn('1, 2 or 3 values must be supplied with this shortcode. The first is required and should match a reference in the project `references.yml` data file; the second is optional, and should be a page number or range of page numbers; the third is optional, and should be the text to appear in the link if not the full short form of the reference, example \"{% qcite \"Faure 1909\" \"304\" \"1909\" %}\"')
+      warn(stripIndent`
+        missing shortcode parameters
+
+          {% cite id pages text %}
+
+          The 'id' parameter is required and should match an entry in the project 'references.yaml' data file.
+          The 'pages' parameter is an optional page number or range of page numbers.
+          The 'text' parameter is optional text for the link in place of the full or short form of the reference.
+
+          @example {% cite \"Faure 1909\" \"304\" \"1909\" %}
+      `)
       return ''
     }
 
-    references = Object.fromEntries(
-      entries.map(({ id, full, short }) => [id, { full, short: short || id }])
-    )
 
-    const citation = references[id]
-
-    if (!citation) {
-      warn(`The id '${id}' does not match a reference in the project data file references.yaml`)
-      return ''
+    const findCitationReference = (id) => {
+      const entry = entries.find((entry) => entry.id === id)
+      return entry
+        ? { ...entry, short: entry.short || id }
+        : warn(`the cite id '${id}' does not match an entry in the project references data`)
     }
 
+    const citation = findCitationReference(id)
+
+    // ensure that the page citations object exists
     if (!page.citations) page.citations = {}
 
     page.citations[id] = citation
