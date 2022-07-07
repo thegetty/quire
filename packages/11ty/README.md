@@ -44,7 +44,7 @@ To get the same results with no external dependency, we can use subpath imports,
 }
 ```
 
-The downsides of this are:
+For a discussion of this approach see ilearnio/module-alias#113, several caveats of using subpath `imports` are:
 - non-standard `#` prefix
 - module filenames have to be included explicitly
 
