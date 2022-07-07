@@ -1,4 +1,4 @@
-## `module-alias`
+## Node module aliases
 
 Quire uses `module-alias` to handle `import`/`require` aliases. 
 
@@ -46,17 +46,7 @@ To get the same results with no external dependency, we can use subpath imports,
 
 ``` json
 {
-  "name": ...,
-  "private": ...,
-  "version": ...,
-  "description": ...,
-  "main": ...,
-  "scripts": ...,
-  "keywords": ...,
-  "author": ...,
-  "license": ...,
-  "devDependencies": ...,
-  "dependencies": ...,
+  // omitted for example
   "imports": {
     "#lib/*": "./_lib/*",
     "#plugins/*": "./_plugins/*"
