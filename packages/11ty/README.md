@@ -12,17 +12,7 @@ It is configured under the `_moduleAliases` key in `package.json`:
 
 ``` json
 {
-  "name": ...,
-  "private": ...,
-  "version": ...,
-  "description": ...,
-  "main": ...,
-  "scripts": ...,
-  "keywords": ...,
-  "author": ...,
-  "license": ...,
-  "devDependencies": ...,
-  "dependencies": ...,
+  // omitted for example
   "_moduleAliases": {
     "~includes": "./_includes",
     "~layouts": "./layouts",
