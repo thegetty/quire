@@ -44,7 +44,7 @@ To get the same results with no external dependency, we can use subpath imports,
 }
 ```
 
-The downside of this are:
+The downsides of this are:
 - non-standard `#` prefix
 - module filenames have to be included explicitly
 
