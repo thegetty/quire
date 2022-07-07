@@ -23,7 +23,7 @@ module.exports = function (eleventyConfig, items) {
    */
   const options = {
     caseFirst: 'upper',
-    ignorePunctuation: false,
+    ignorePunctuation: true,
     localeMatcher: 'best fit',
     numeric: true,
     sensitivity: 'variant',
