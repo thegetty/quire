@@ -2,7 +2,7 @@
 
 Quire uses the `module-alias` package for `import` and `require` aliases. 
 
-`module-alias` is registered in `.eleventy.js`:
+The `module-alias` package is registered in `.eleventy.js` and modules aliases are configured under the `_moduleAliases` key in `package.json`.
 
 ``` javascript
 require('module-alias/register')
