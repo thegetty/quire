@@ -1,4 +1,5 @@
 require('dotenv').config()
+require('module-alias/register')
 
 const fs = require('fs-extra')
 const path = require('path')

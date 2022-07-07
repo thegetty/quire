@@ -50,6 +50,7 @@
     "markdown-it-deflist": "^2.1.0",
     "markdown-it-footnote": "^3.0.3",
     "mime-types": "^2.1.35",
+    "module-alias": "^2.2.2",
     "path": "^0.12.7",
     "prettier": "2.7.0",
     "rollup-plugin-scss": "^3.0.0",
@@ -66,5 +67,11 @@
     "material-icons": "^1.10.11",
     "simple-cite": "^0.2.1",
     "template-polyfill": "^2.0.0"
+  },
+  "_moduleAliases": {
+    "~includes": "./_includes",
+    "~layouts": "./layouts",
+    "~lib": "./_lib",
+    "~plugins": "./_plugins"
   }
 }
