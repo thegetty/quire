@@ -1,5 +1,5 @@
 const path = require('path')
-const { html } = require('../../../_lib/common-tags')
+const { html } = require('~lib/common-tags')
 /**
  * Renders a TOC List
  *

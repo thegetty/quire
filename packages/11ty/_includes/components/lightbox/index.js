@@ -1,4 +1,4 @@
-const { html } = require('../../../_lib/common-tags')
+const { html } = require('~lib/common-tags')
 
 const stringifyData = (jsObject) => {
   return encodeURIComponent(JSON.stringify(jsObject));

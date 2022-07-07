@@ -1,4 +1,4 @@
-const { html } = require('../../../_lib/common-tags')
+const { html } = require('~lib/common-tags')
 /**
  * Renders the menu list
  *

@@ -1,4 +1,4 @@
-const { html } = require('../../_lib/common-tags')
+const { html } = require('~lib/common-tags')
 
 /**
  * This file contains inline SVG elements which can be referenced elsewhere in

@@ -3,7 +3,7 @@ const path = require('path')
 const addGlobalData = require('./addGlobalData')
 const initCreateImage = require('./createImage')
 const initCreateManifest = require('./createManifest')
-const chalkFactory = require('../../../_lib/chalk')
+const chalkFactory = require('~lib/chalk')
 const initTileImage = require('./tileImage')
 
 const { info, error } = chalkFactory('plugins:iiif')

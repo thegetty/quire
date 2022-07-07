@@ -1,5 +1,5 @@
 const { globalVault } = require('@iiif/vault')
-const chalkFactory = require('../../_lib/chalk')
+const chalkFactory = require('~lib/chalk')
 const path = require('path')
 const vault = globalVault()
 
