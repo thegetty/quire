@@ -27,12 +27,9 @@ Modules are imported like this:
 const { renderOneLine, stripIndent } = require('~lib/common-tags')
 ```
 
-### Alternative implementation: import mapping
+### Node import mapping
 
-See https://github.com/ilearnio/module-alias/issues/113
-
-To get the same results with no external dependency, we can use subpath imports, configured in the `imports` key of `package.json`
-
+An alternate implementation with no external dependency uses [Node.js subpath imports](https://nodejs.org/api/packages.html#subpath-imports), which are configured under the `imports` key of `package.json`
 ``` json
 {
   // omitted for example
