@@ -45,7 +45,7 @@ module.exports = function(eleventyConfig, options) {
 
   eleventyConfig.addFilter('sortContributors', (contributors) => sortContributors(eleventyConfig, contributors))
 
-  eleventyConfig.addFilter('sortReferences', (items) => sortReferences(items))
+  eleventyConfig.addFilter('sortReferences', (items) => sortReferences(eleventyConfig, items))
 
   /**
    * String manipulation filters

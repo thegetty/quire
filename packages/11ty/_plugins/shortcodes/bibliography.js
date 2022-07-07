@@ -38,7 +38,9 @@ module.exports = function (eleventyConfig, { page }) {
      */
     referenceIds.forEach((id) => {
       const entry = entries.find((entry) => entry.id === id)
-      page.citations[id] ??= { ...entry, short: entry.short || entry.id }
+      if (entry) {
+        page.citations[id] ??= { ...entry, short: entry.short || entry.id }
+      }
     })
 
     const bibliographyItems = sortReferences(Object.values(page.citations))
