@@ -8,8 +8,7 @@ The `module-alias` package is registered in `.eleventy.js` and modules aliases a
 require('module-alias/register')
 ```
 
-It is configured under the `_moduleAliases` key in `package.json`:
-
+`package.json`
 ``` json
 {
   // omitted for example
