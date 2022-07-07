@@ -1,4 +1,4 @@
-const { oneLine } = require('common-tags')
+const { oneLine } = require('../../../_lib/common-tags')
 
 /**
  * A figure label element

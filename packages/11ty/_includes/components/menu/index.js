@@ -1,4 +1,4 @@
-const { html } = require('common-tags')
+const { html } = require('../../../_lib/common-tags')
 
 /**
  * Menu

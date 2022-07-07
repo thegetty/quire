@@ -1,4 +1,4 @@
-const { html } = require('common-tags')
+const { html } = require('../../../_lib/common-tags')
 
 module.exports = function (eleventyConfig) {
   const icon = eleventyConfig.getFilter('icon')

@@ -1,4 +1,4 @@
-const { html, oneLine } = require('common-tags')
+const { html, oneLine } = require('../../_lib/common-tags')
 const path = require('path')
 
 /**

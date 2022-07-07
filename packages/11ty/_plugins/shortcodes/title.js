@@ -1,4 +1,4 @@
-const { oneLine } = require('common-tags')
+const { oneLine } = require('../../_lib/common-tags')
 
 /**
  * A shortcode for the Quire project or publication title,
