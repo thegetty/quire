@@ -81,7 +81,7 @@ module.exports = function(eleventyConfig, { page }) {
       })
 
       return entry
-        ? { ...entry, short: entry.short || id }
+        ? { ...entry, short: entry.short || entry.id }
         : warn(stripIndent`
             references entry not found ${page.inputPath}
               cite id '${id}' does not match an entry in the project references data
@@ -97,7 +97,7 @@ module.exports = function(eleventyConfig, { page }) {
 
     page.citations[id] = citation
 
-    let buttonText = (text) ? text : citation.short || id
+    let buttonText = (text) ? text : citation.short
 
     if (pageNumber) buttonText += divider + pageNumber
 
