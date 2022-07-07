@@ -1,6 +1,6 @@
 ## Node module aliases
 
-Quire uses `module-alias` to handle `import`/`require` aliases. 
+Quire uses the `module-alias` package for `import` and `require` aliases. 
 
 `module-alias` is registered in `.eleventy.js`:
 
