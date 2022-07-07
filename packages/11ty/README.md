@@ -1,4 +1,4 @@
-## `module-alias`
+## Node module aliases
 
 Quire uses `module-alias` to handle `import`/`require` aliases. 
 
