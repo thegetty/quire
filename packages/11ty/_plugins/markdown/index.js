@@ -42,6 +42,12 @@ module.exports = function(eleventyConfig, options) {
     .use(footnotePlugin)
 
   /**
+   * Configure automatic link detection
+   * @see https://github.com/markdown-it/linkify-it#api
+   */
+  markdownLibrary.linkify.set({ fuzzyLink: false })
+
+  /**
    * Configure renderer to exclude brakcets from footnotes
    */
   markdownLibrary.renderer.rules.footnote_caption = (tokens, idx) => {
