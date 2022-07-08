@@ -54,6 +54,8 @@ module.exports = function(eleventyConfig, options) {
    * Insert word break opportunites, HTML <wbr> elements, into link text URL strings
    * @see https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-wbr-element
    *
+   * Based on the work of Reuben L. Lillie
+   *
    * The Chicago Manual of Style recommends URLs be broken onto multiple lines
    * based on punctuation in the following places:
    * - After a colon (:) or a double slash (//)
@@ -63,6 +65,7 @@ module.exports = function(eleventyConfig, options) {
    * - Before or after an equals sign (=) or an ampersand (&)
    *
    * @see https://www.chicagomanualofstyle.org/book/ed17/part3/ch14/psec018.html
+   *
    */
   markdownLibrary.linkify.normalize = function (match) {
     const insertWordBreaks = (string) => {
