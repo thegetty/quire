@@ -151,6 +151,11 @@ module.exports = function(eleventyConfig) {
         manifest: true,
         mode: 'production',
         rollupOptions: {
+          output: {
+            assetFileNames: `[name].[ext]`,
+            chunkFileNames: `[name].js`,
+            entryFileNames: `[name].js`
+          }
           // plugins: [
           //   scss() // @see https://github.com/thgh/rollup-plugin-scss
           // ]
