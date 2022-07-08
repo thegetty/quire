@@ -51,7 +51,7 @@ module.exports = function(eleventyConfig, options) {
    * Override the default linkify normalizer
    * @see https://github.com/markdown-it/linkify-it
    *
-   * Insert word break opportunites into an URL string using HTML <wbr> elements
+   * Insert word break opportunites, HTML <wbr> elements, into link text URL strings
    * @see https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-wbr-element
    *
    * The Chicago Manual of Style recommends URLs be broken onto multiple lines
@@ -77,11 +77,11 @@ module.exports = function(eleventyConfig, options) {
     }
 
     if (!match.schema) {
-      match.url = insertWordBreaks(`https://${match.url}`)
+      match.text = insertWordBreaks(`https://${match.url}`)
     }
 
     if (['https:', 'http:', 'ftp:', '//'].includes(match.schema)) {
-      match.url = insertWordBreaks(match.url)
+      match.text = insertWordBreaks(match.url)
     }
   }
 
