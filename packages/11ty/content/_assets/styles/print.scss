@@ -7,6 +7,15 @@
 // component level. This stylesheet is for overrides and other special-case
 // rules which don't properly fit anywhere else and only show up in print.
 
+/**
+ * IE 8–11 and Prince do not recognize the <wbr> element,
+ * to achieve the same effect in IE 9+ and Prince
+ * this pseudo-element adds a Unicode zero width space before any <wbr> element
+ */
+wbr:before {
+  content: "\200B";
+  white-space: normal;
+}
 
 // Variables (others in the variables.scss file)
 // -----------------------------------------------------------------------------
