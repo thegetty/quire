@@ -154,6 +154,7 @@ module.exports = function(eleventyConfig) {
           output: {
             assetFileNames: `[name].[ext]`,
             chunkFileNames: `[name].js`,
+            dir: '_assets',
             entryFileNames: `[name].js`
           }
           // plugins: [
