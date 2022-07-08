@@ -33,14 +33,10 @@ module.exports = (eleventyConfig) => {
       if (debug) {
         console.warn(`[iiif:tileImage:${name}] Image file is not a supported image type, skipping. File: `, name)
       }
-      return
-    }
-
-    if (fs.pathExistsSync(outputPath) && lazy) {
-      if (debug) {
-        console.warn(`[iiif:tileImage:${name}] Tiles already exist, skipping`)
+      return {
+        error: `Image file type is not supported. Supported extensions are: ${supportedImageExtensions.join(', ')}`,
+        filename
       }
-      return
     }
 
     fs.ensureDirSync(outputPath)
@@ -51,18 +47,19 @@ module.exports = (eleventyConfig) => {
       name
     )
 
-    if (debug) {
-      console.warn(`[iiif:tileImage:${name}] Starting`)
-    }
-    await sharp(inputPath)
-      .tile({
-        id: iiifId,
-        layout: 'iiif',
-        size: 512
-      })
-      .toFile(outputPath)
-    if (debug) {
-      console.warn(`[iiif:tileImage:${name}] Done`)
+    try {
+      if (debug) {
+        console.log(`tileImage`, inputPath)
+      }
+      return await sharp(inputPath)
+        .tile({
+          id: iiifId,
+          layout: 'iiif',
+          size: 512
+        })
+        .toFile(outputPath)
+    } catch(error) {
+      return { error, filename }
     }
   }
 }

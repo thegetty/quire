@@ -1,4 +1,8 @@
-const { html } = require('common-tags')
+const chalkFactory = require('~lib/chalk')
+const { html } = require('~lib/common-tags')
+
+const { error } = chalkFactory('shortcodes:contributors')
+
 /**
  * Contributor shortcode
  * Renders a list of contributors
@@ -33,7 +37,7 @@ module.exports = function (eleventyConfig) {
     const formats = ['bio', 'initials', 'name', 'name-title', 'name-title-block', 'string']
 
     if (!formats.includes(format)) {
-      console.error(
+      error(
         `Unrecognized contributors shortcode format "${format}". Supported format values are: ${formats.join(', ')}`
       )
       return ''

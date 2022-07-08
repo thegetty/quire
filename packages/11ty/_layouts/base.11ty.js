@@ -1,4 +1,4 @@
-const { html } = require('common-tags')
+const { html } = require('~lib/common-tags')
 
 /**
  * Base layout as a JavaScript method
@@ -28,6 +28,7 @@ module.exports = function(data) {
             </main>
             {% render 'search' %}
           </div>
+          ${this.modal()}
           ${this.scripts()}
         </body>
       </html>

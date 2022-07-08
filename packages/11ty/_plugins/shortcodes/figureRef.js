@@ -1,4 +1,7 @@
-const { oneLineCommaListsAnd } = require('common-tags')
+const { oneLineCommaListsAnd } = require('~lib/common-tags')
+const chalkFactory = require('~lib/chalk')
+
+const { warn } = chalkFactory('shortcodes:figureRef')
 
 /**
  * Generate markdown for an inline list of links to figures on the page.
@@ -21,7 +24,7 @@ const { oneLineCommaListsAnd } = require('common-tags')
 module.exports = function(eleventyConfig) {
   return function (ids) {
     if (!ids.length) {
-      console.warn(`Error: NoId: Figure 'ref' shortcode must include one or more values corresponding to the 'id' of a figure on the page. @example {% ref 'fig-1', 'fig-7', 'fig-11' %}`)
+      warn(`NoId: Figure 'ref' shortcode must include one or more values corresponding to the 'id' of a figure on the page. @example {% ref 'fig-1', 'fig-7', 'fig-11' %}`)
     }
 
     const label = ids.length > 1 ? 'figs.' : 'fig.'

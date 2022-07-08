@@ -1,4 +1,4 @@
-const { html } = require('common-tags')
+const { html } = require('~lib/common-tags')
 
 const stringifyData = (jsObject) => {
   return encodeURIComponent(JSON.stringify(jsObject));
@@ -6,6 +6,7 @@ const stringifyData = (jsObject) => {
 
 /**
  * Lightbox Tag
+ * @todo add conditional rendering for epub and pdf when lightbox is included in `entry`
  *
  * @param      {Object}  eleventyConfig
  * @param      {Object}  globalData

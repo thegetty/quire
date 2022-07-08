@@ -12,11 +12,11 @@ module.exports = function(eleventyConfig) {
 
     if (license.scope == "some-exceptions") {
       licenseText += `
-        Except where otherwise noted, this work is licensed under a ${licenseName}.
+        Unless otherwise indicated, this work is licensed under a ${licenseName}.
       `
     } else if (license.scope === "text-only") {
       licenseText += `
-        The text of this work is licensed under a ${licenseName}. Unless otherwise noted, all illustrations are excluded from the ${licenseAbbreviation}  license.
+        The text of this work is licensed under a ${licenseName}. Unless otherwise indicated, all illustrations are excluded from the ${licenseAbbreviation} license.
       `
     } else {
       licenseText += `
@@ -24,12 +24,10 @@ module.exports = function(eleventyConfig) {
       `
     }
 
-    const licenseLink = license.url ? `, visit ${license.url} or` : ''
-
     return `
       ${licenseText}
       <span class="is-print-only">
-        To view a copy of this license ${licenseLink}send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042.
+        To view a copy of this license visit ${license.url}.
       </span>
     `
   }

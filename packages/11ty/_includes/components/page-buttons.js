@@ -1,4 +1,4 @@
-const { html } = require('common-tags')
+const { html } = require('~lib/common-tags')
 
 /**
  * Renders previous page and next page buttons

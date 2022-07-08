@@ -1,5 +1,8 @@
-const { html } = require('common-tags')
+const { html } = require('~lib/common-tags')
+const chalkFactory = require('~lib/chalk')
 const figure = require('./figure')
+
+const { warn } = chalkFactory('shortcodes:figureGroup')
 
 /**
  * Render multiple <figure> elements in a group
@@ -23,11 +26,11 @@ module.exports = function (eleventyConfig, { page }) {
     ids = Array.isArray(ids) ? ids : ids.split(',').map((id) => id.trim())
 
     if (!ids.length) {
-      console.warn(`Error: NoId: the q-figures shortcode must include one or more 'id' values that correspond to an 'id' in the 'figures.yaml' file. @example {% qfiguregroup columns=2, ids='3.1, 3.2, 3.3' %}`)
+      warn(`NoId: the q-figures shortcode must include one or more 'id' values that correspond to an 'id' in the 'figures.yaml' file. @example {% qfiguregroup columns=2, ids='3.1, 3.2, 3.3' %}`)
     }
 
     // if (ErrorNoMediaType) {
-    //   console.warn(`Error: NoMediaType: One of the figures passed to the q-figures shortcode is missing the 'media_type' attribute. Figures in 'figures.yaml' must be have a 'media_type' attribute with a value of either  "vimeo" or "youtube"`)
+    //   warn(`NoMediaType: One of the figures passed to the q-figures shortcode is missing the 'media_type' attribute. Figures in 'figures.yaml' must be have a 'media_type' attribute with a value of either  "vimeo" or "youtube"`)
     // }
 
     const classes = ['column', 'q-figure--group__item', `quire-grid--${columns}`]

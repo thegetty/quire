@@ -25,39 +25,8 @@ description: Entry layout. This template is intended for use in catalogue-style 
 
     {% comment %} Full-width entry image header {% endcomment %}
     <div class="quire-entry__image-wrap">
-      <div id="quire-entry__image" class="quire-entry__image">
-        <div class="leaflet-control-fullscreen leaflet-bar leaflet-control remove-from-epub">
-          <a
-            id="toggleFullscreen" 
-            class="leaflet-control-fullscreen-button leaflet-bar-part" 
-            href="#" 
-            title="View Fullscreen" 
-            style="outline: none;"></a>
-        </div>
+      <div class="quire-entry__lightbox">
         {% if image %}
-          {%- assign imgPath = imageDir %}
-          {%- assign imgPath = imgPath | concat: image | join: "/" %}
-          <img src="{{ imgPath }}" alt="" />
-        {% elsif pageObjects %}
-          {% for object in pageObjects %}
-            <div class="quire-entry__image__group-container">
-              {% comment %}
-                {% for objectFigure in object.figures %}
-                  {% render "entry-figure", epub: epub, pdf: pdf, zoom: zoom, imageDir: imageDir, figure: objectFigure %}
-                {% endfor %}
-              {% endcomment %}
-            </div>
-          {% endfor %}
-        {% endif %}
-      </div>
-      {% comment %}
-        TODO refactor `entry-figure` to only display on PDF/epub output so `lightbox` can handle display of all entry figures in the browser.
-        Currently this is (hackily) displaying a `lightbox` on top of rendered `entry-figure`s
-      {% endcomment %}
-      <div class="quire-entry__lightbox remove-from-epub">
-        {% if image %}
-          {%- assign imgPath = imageDir %}
-          {%- assign imgPath = imgPath | concat: image | join: "/" %}
           {% comment %} TODO add `lightbox` when a single `image` is included in front matter {% endcomment %}
         {% elsif pageObjects %}
           {% for object in pageObjects %}
@@ -91,7 +60,7 @@ description: Entry layout. This template is intended for use in catalogue-style 
         <div class="container">
           <div class="content">
             {{ content }}
-            {% bibliography %}
+            {% bibliography pageReferences %}
           </div>
         </div>
       </section>

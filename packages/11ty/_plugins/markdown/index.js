@@ -1,10 +1,11 @@
 const MarkdownIt = require('markdown-it')
-const anchors = require('markdown-it-anchor')
-const attributes = require('markdown-it-attrs')
-const bracketedSpans = require('markdown-it-bracketed-spans')
+const anchorsPlugin = require('markdown-it-anchor')
+const attributesPlugin = require('markdown-it-attrs')
+const bracketedSpansPlugin = require('markdown-it-bracketed-spans')
 const defaults = require('./defaults')
-const deflist = require('markdown-it-deflist')
-const footnotes = require('markdown-it-footnote')
+const deflistPlugin = require('markdown-it-deflist')
+const footnotePlugin = require('markdown-it-footnote')
+const removeMarkdown = require('remove-markdown')
 
 /**
  * An Eleventy plugin to configure the markdown library
@@ -34,11 +35,11 @@ module.exports = function(eleventyConfig, options) {
   }
 
   const markdownLibrary = MarkdownIt(Object.assign(defaults, options))
-    .use(anchors, anchorOptions)
-    .use(attributes, attributesOptions)
-    .use(bracketedSpans)
-    .use(deflist)
-    .use(footnotes)
+    .use(anchorsPlugin, anchorOptions)
+    .use(attributesPlugin, attributesOptions)
+    .use(bracketedSpansPlugin)
+    .use(deflistPlugin)
+    .use(footnotePlugin)
 
   /**
    * Configure renderer to exclude brakcets from footnotes
@@ -63,5 +64,13 @@ module.exports = function(eleventyConfig, options) {
     return !content.match(/\n/)
       ? markdownLibrary.renderInline(content)
       : markdownLibrary.render(content)
+  })
+
+  /**
+   * Add a universal template filter to remove markdown from a string
+   * @see
+   */
+  eleventyConfig.addFilter('removeMarkdown', (content) => {
+    return content ? removeMarkdown(content) : ''
   })
 }

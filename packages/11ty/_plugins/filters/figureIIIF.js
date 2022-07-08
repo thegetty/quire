@@ -1,6 +1,9 @@
-const path = require('path')
 const { globalVault } = require('@iiif/vault')
+const chalkFactory = require('~lib/chalk')
+const path = require('path')
 const vault = globalVault()
+
+const { info, warn } = chalkFactory('filters:figureIIIF')
 
 /**
  * Returns a figure's IIIF properties
@@ -55,7 +58,7 @@ module.exports = async function (eleventyConfig, figure, options={}) {
     case !!id && !!iiifManifests:
       const json = iiifManifests[id]
       if (!json) {
-        console.warn('[filters:figureIIIF] Failed to look up IIIF manifest in global data. Fig.id: ', id)
+        warn('Failed to look up IIIF manifest in global data. Fig.id: ', id)
         return
       }
       manifest = await vault.load(json.id, json)
@@ -72,7 +75,7 @@ module.exports = async function (eleventyConfig, figure, options={}) {
       }
       break;
     default:
-      console.warn(`[filters:figureIIIF] Figure missing params canvasId or manifestId, or choices. Fig.id: `, id)
+      warn(`Figure missing params canvasId or manifestId, or choices. Fig.id: `, id)
       break;
   }
 

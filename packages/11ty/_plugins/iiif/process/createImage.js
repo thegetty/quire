@@ -27,19 +27,16 @@ module.exports = (eleventyConfig) => {
     fs.ensureDirSync(path.parse(outputPath).dir)
 
     if (!lazy || !fs.pathExistsSync(outputPath)) {
-      await sharp(inputPath)
-        .resize(transformation.resize)
-        .withMetadata()
-        .toFile(outputPath)
-
       if (debug) {
         console.warn(`[iiif:createImage:${name}] Created ${filename}`)
       }
-    } else {
-      if (debug) {
-        console.warn(
-          `[iiif:createImage:${name}] ${filename} already exists, skipping`
-        )
+      try {
+        return await sharp(inputPath)
+          .resize(resize)
+          .withMetadata()
+          .toFile(outputPath)
+      } catch(error) {
+        return { error, filename }
       }
     }
   }

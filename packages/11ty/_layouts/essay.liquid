@@ -19,10 +19,9 @@ description: Essay layout. This layout describes a single-page template that has
     <div class="container">
       <div class="content">
         {{ content }}
-        {% bibliography %}
+        {% bibliography pageReferences %}
       </div>
       {% pageButtons pagination=pagination %}
     </div>
   </section>
 </article>
-{% modal %}

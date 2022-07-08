@@ -35,7 +35,7 @@
     "common-tags": "^2.0.0-alpha.1",
     "del-cli": "^4.0.1",
     "dotenv": "^16.0.1",
-    "eslint": "^8.15.0",
+    "eslint": "^8.19.0",
     "fs-extra": "^10.1.0",
     "iiif-builder": "^1.0.5",
     "js-yaml": "^4.1.0",
@@ -50,8 +50,10 @@
     "markdown-it-deflist": "^2.1.0",
     "markdown-it-footnote": "^3.0.3",
     "mime-types": "^2.1.35",
+    "module-alias": "^2.2.2",
     "path": "^0.12.7",
-    "prettier": "2.7.0",
+    "prettier": "2.7.1",
+    "remove-markdown": "^0.5.0",
     "rollup-plugin-scss": "^3.0.0",
     "sass": "^1.53.0",
     "sharp": "^0.30.7",
@@ -66,5 +68,11 @@
     "material-icons": "^1.10.11",
     "simple-cite": "^0.2.1",
     "template-polyfill": "^2.0.0"
+  },
+  "_moduleAliases": {
+    "~includes": "./_includes",
+    "~layouts": "./layouts",
+    "~lib": "./_lib",
+    "~plugins": "./_plugins"
   }
 }

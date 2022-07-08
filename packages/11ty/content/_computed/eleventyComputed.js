@@ -1,4 +1,8 @@
+const chalkFactory = require('~lib/chalk')
 const path = require('path')
+
+const { warn } = chalkFactory('eleventyComputed')
+
 /**
  * Global computed data
  */
@@ -64,22 +68,22 @@ module.exports = {
   /**
    * Objects data referenced by id in page frontmatter including figures data
    */
-  pageObjects: ({ figures, object, objects }) => {
+  pageObjects: function ({ figures, object, objects }) {
     if (!object || !object.length) return
     return object
       .reduce((validObjects, item) => {
         const objectData = objects.object_list.find(({ id }) => id === item.id)
         if (!objectData) {
-          console.warn(`Error: eleventyComputed: pageObjects: no object found with id ${item.id}`)
+          warn(`pageObjects: no object found with id ${item.id}`)
           return validObjects
         }
 
         if (!objectData.figure) {
-          console.warn(`Error: eleventyComputed: pageObjects: object id ${objectData.id} has no figure data`)
+          warn(`pageObjects: object id ${objectData.id} has no figure data`)
         } else {
           objectData.figures = objectData.figure.map((figure) => {
             if (figure.id) {
-              return figures.figure_list.find((item) => item.id === figure.id)
+              return this.getFigure(figure.id)
             } else {
               return figure
             }
