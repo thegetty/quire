@@ -1,5 +1,5 @@
-const { html } = require('common-tags')
-const chalkFactory = require('../../../_lib/chalk')
+const { html } = require('~lib/common-tags')
+const chalkFactory = require('~lib/chalk')
 
 /**
  * Renders an iframe element with the SoundCloud audio player

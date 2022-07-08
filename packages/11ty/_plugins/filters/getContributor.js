@@ -1,4 +1,4 @@
-const chalkFactory = require('../../_lib/chalk')
+const chalkFactory = require('~lib/chalk')
 
 const { info, error } = chalkFactory('filters:getContributor')
 

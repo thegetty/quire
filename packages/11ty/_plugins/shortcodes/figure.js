@@ -1,5 +1,5 @@
-const chalkFactory = require('../../_lib/chalk')
-const { oneLine } = require('common-tags')
+const chalkFactory = require('~lib/chalk')
+const { oneLine } = require('~lib/common-tags')
 
 const { warn } = chalkFactory('shortcodes:figure')
 

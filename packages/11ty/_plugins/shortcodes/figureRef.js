@@ -1,5 +1,5 @@
-const { oneLineCommaListsAnd } = require('common-tags')
-const chalkFactory = require('../../_lib/chalk')
+const { oneLineCommaListsAnd } = require('~lib/common-tags')
+const chalkFactory = require('~lib/chalk')
 
 const { warn } = chalkFactory('shortcodes:figureRef')
 

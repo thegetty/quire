@@ -1,4 +1,4 @@
-This directory includes templating tags to extend functions included by `common-tags`. **Nota bene**: these are not strictly 11ty plugins, but they are used by javascript component shortcodes.
+This directory includes templating tags to extend functions included by `common-tags`.
 
 ## `renderOneLine`
 

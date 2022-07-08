@@ -1,6 +1,5 @@
-const chalkFactory = require('../../_lib/chalk')
-const renderOneLine = require('../common-tags/renderOneLine')
-const { stripIndent } = require('common-tags')
+const chalkFactory = require('~lib/chalk')
+const { renderOneLine, stripIndent } = require('~lib/common-tags')
 
 const { warn } = chalkFactory('shortcodes:cite')
 
