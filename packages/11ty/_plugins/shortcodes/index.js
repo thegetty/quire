@@ -3,7 +3,6 @@ const backmatter = require('./backmatter.js')
 const bibliography = require('./bibliography.js')
 const cite = require('./cite.js')
 const contributors = require('./contributors')
-const div = require('./div.js')
 const figure = require('./figure.js')
 const figureGroup = require('./figureGroup.js')
 const ref = require('./figureRef.js')
@@ -17,10 +16,6 @@ module.exports = function(eleventyConfig, options) {
 
   eleventyConfig.addShortcode('bibliography', function(...args) {
     return bibliography(eleventyConfig, { page: this.page })(...args)
-  })
-
-  eleventyConfig.addPairedShortcode('class', function(content, ...args) {
-    return div(eleventyConfig)(content, ...args)
   })
   
   eleventyConfig.addShortcode('cite', function(...args) {
