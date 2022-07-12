@@ -1,7 +1,6 @@
 const chalk = require('chalk')
 const fs = require('fs-extra')
 const path = require('path')
-const registerTransform = require('./register-transform')
 const transform = require('./transform')
 
 /**
@@ -19,9 +18,5 @@ module.exports = function(eleventyConfig, { collections }) {
    */
   eleventyConfig.addTransform('pdf', function (content) {
     return transform.call(this, eleventyConfig, collections, content)
-  })
-
-  eleventyConfig.addFilter('registerTransform', function (output, path, id, content) {
-    return registerTransform(eleventyConfig, output, path, id, content)
   })
 }

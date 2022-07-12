@@ -34,6 +34,7 @@ const transformRelativeLinks = (element) => {
  * @return     {Array}   The transformed content string
  */
 module.exports = function(eleventyConfig, collections, content) {
+  const transformOutput = eleventyConfig.getFilter('transformOutput')
   const htmlPages = collections.html.map(({ outputPath }) => outputPath)
   const pdfPages = collections.pdf.map(({ outputPath }) => outputPath)
 
@@ -59,7 +60,11 @@ module.exports = function(eleventyConfig, collections, content) {
         // transform relative links to anchor links
         transformRelativeLinks(sectionElement)
 
-        collections.pdf[pageIndex].sectionElement = sectionElement
+        collections.pdf[pageIndex].sectionElement = transformOutput({
+          element: sectionElement,
+          output: 'pdf',
+          path: this.outputPath
+        })
       }
 
       /**
