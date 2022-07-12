@@ -15,8 +15,8 @@ module.exports = function (content) {
   let result;
   try {
     result = prettier.format(content, { filepath: this.outputPath })
-  } catch (error) {
-    error('Eleventy transform error formatting output.\n', error)
+  } catch (errorMessage) {
+    error('Eleventy transform error formatting output.\n', errorMessage)
   }
   return result || content
 }
