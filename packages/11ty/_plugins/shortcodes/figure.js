@@ -29,10 +29,9 @@ module.exports = function (eleventyConfig, { page }) {
   const getFigure = eleventyConfig.getFilter('getFigure')
   const slugify = eleventyConfig.getFilter('slugify')
 
-  const { epub, pdf } = eleventyConfig.globalData.config.params
-
   return async function (id, classes=[]) {
     classes = typeof classes === 'string' ? [classes] : classes
+    const uniqueId = id // todo: uid-ify
 
     /**
      * Merge figures.yaml data and additional params
@@ -50,8 +49,6 @@ module.exports = function (eleventyConfig, { page }) {
 
     const component = async (figure) => {
       switch (true) {
-        case (epub || pdf) && ['soundcloud', 'youtube'].includes(mediaType):
-          return figureplaceholder(figure)
         case mediaType === 'youtube':
           return figureyoutube(figure)
         case mediaType === 'vimeo':
@@ -66,7 +63,7 @@ module.exports = function (eleventyConfig, { page }) {
     }
 
     return oneLine`
-      <figure id="${slugify(id)}" class="${['q-figure', ...classes].join(' ')}">
+      <figure data-transform-output="${uniqueId}" id="${slugify(id)}" class="${['q-figure', ...classes].join(' ')}">
         ${await component(figure)}
       </figure>
     `
