@@ -6,7 +6,7 @@
   "main": ".eleventy.js",
   "scripts": {
     "build": "ELEVENTY_ENV=production eleventy",
-    "build:pdf": "npx pagedjs-cli@1.0.0-alpha.2 ${ELEVENTY_OUTPUT_DIR:-_site}/pdf.html",
+    "build:pdf": "npx pagedjs-cli@latest ${ELEVENTY_OUTPUT_DIR:-_site}/pdf.html",
     "clean": "del ${ELEVENTY_OUTPUT_DIR:-_site} public/pdf.html",
     "debug": "DEBUG=Eleventy* eleventy --dryrun",
     "dev": "ELEVENTY_ENV=development eleventy --serve",
