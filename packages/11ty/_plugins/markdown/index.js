@@ -59,7 +59,7 @@ module.exports = function(eleventyConfig, options) {
    * Render external links so that they open in a new tab
    */
   markdownLibrary.renderer.rules.link_open = (tokens, idx, options, env, self) => {
-    const href = tokens[idx].getAttr('href')
+    const href = tokens[idx].attrGet('href')
     if (href.startsWith('http')) {
       tokens[idx].attrSet('target', '_blank')
     }
