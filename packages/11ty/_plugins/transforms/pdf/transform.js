@@ -33,7 +33,7 @@ const transformRelativeLinks = (element) => {
  * @param      {String}  content      Output content
  * @return     {Array}   The transformed content string
  */
-module.exports = function(collections, content) {
+module.exports = function(eleventyConfig, collections, content) {
   const htmlPages = collections.html.map(({ outputPath }) => outputPath)
   const pdfPages = collections.pdf.map(({ outputPath }) => outputPath)
 
@@ -45,7 +45,7 @@ module.exports = function(collections, content) {
       if (pageIndex !== -1) {
         delete sectionElement.dataset.outputPath
 
-        const pageLabelDivider = '. ' // eleventyConfig.globalData.config.params
+        const pageLabelDivider = eleventyConfig.globalData.config.params
         const { label, title } = collections.pdf[pageIndex].data
 
         // set data attributes for PDF generation

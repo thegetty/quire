@@ -18,7 +18,7 @@ module.exports = function(eleventyConfig, { collections }) {
    * call transform with `this` context to ensure we have `this.outputPath`
    */
   eleventyConfig.addTransform('pdf', function (content) {
-    return transform.call(this, collections, content)
+    return transform.call(this, eleventyConfig, collections, content)
   })
 
   eleventyConfig.addFilter('registerTransform', function (output, path, id, content) {
