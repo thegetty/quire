@@ -5,8 +5,8 @@ const { JSDOM } = jsdom
  * Conditionally render elements for different outputs (epub, html, pdf)
  *
  * @param      {HTMLElement}  element
- * @param      {String}  path
  * @param      {String}  output 'pdf', 'epub', 'html'
+ * @param      {String}  path
  */
 module.exports = (eleventyConfig, { element, output, path }) => {
   const nodes = element.querySelectorAll('[data-transform-output]')

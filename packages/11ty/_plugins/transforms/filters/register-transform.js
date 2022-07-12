@@ -3,7 +3,7 @@
  * 
  * @param  {Object} eleventyConfig
  * @param  {String} output         epub, html, pdf
- * @param  {String} path     Page output path where the transform should occur
+ * @param  {String} path           Page output path where the transform should occur
  * @param  {String} id             ID attribute of the element to replace
  * @param  {String} content        Replacement content
  */
