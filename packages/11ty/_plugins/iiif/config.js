@@ -54,6 +54,7 @@ module.exports = (eleventyConfig) => {
       '.svg',
       '.tif',
       '.tiff'
-    ]
+    ],
+    tileSize: 256
   }
 }

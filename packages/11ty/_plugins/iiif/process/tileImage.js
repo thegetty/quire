@@ -55,7 +55,7 @@ module.exports = (eleventyConfig) => {
         .tile({
           id: iiifId,
           layout: 'iiif',
-          size: 512
+          size: tileSize
         })
         .toFile(outputPath)
     } catch(error) {

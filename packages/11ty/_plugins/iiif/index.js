@@ -8,5 +8,4 @@ module.exports = function (eleventyConfig, options = {}) {
     const processImages = iiifProcess.init(eleventyConfig)
     await processImages(options.processImages)
   })
-  // eleventyConfig.on('eleventy.after', () => {})
 }
