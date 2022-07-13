@@ -44,15 +44,15 @@ module.exports = {
       .filter((figure) => isImageService(figure) && !figure.src.startsWith('http'))
       .filter(({ src }) => !tiledImages.includes(path.parse(src).name))
 
+    if (tiledImages) {
+      info(`Skipping ${tiledImages.length} previously tiled ${pluralize('image', tiledImages)}.`)
+    }
+
     if (figuresToTile.length) {
-      info(`Generating IIIF image tiles may take a while depending on the size of each image file.`)
       info(`Tiling ${figuresToTile.length} ${pluralize('image', figuresToTile.length)}...`)
+      info(`Generating IIIF image tiles may take a while depending on the size of each image file.`)
     } else {
-      const skipped = tiledImages.length - figuresToTile.length
-      const skipMessage = skipped > 0 
-        ? ` Skipped ${skipped} previously tiled ${pluralize('image', skipped)}.`
-        : ''
-      info(`No ${skipMessage ? 'new ' : ''}images to tile found in figures.yaml.${skipMessage}`)
+      info(`No new images to tile found in figures.yaml.`)
     }
 
     /**
@@ -110,7 +110,6 @@ module.exports = {
               return fs.readdirSync(path.join(outputPath, dir)).includes('manifest.json')
             })
           : []
-
         info(`Generating ${figuresWithChoices.length} ${pluralize('manifest', figuresWithChoices.length)}.`)
         for (const figure of figuresWithChoices) {
           await createManifest(figure, options)
