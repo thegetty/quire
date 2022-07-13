@@ -25,17 +25,17 @@ module.exports = {
      * IIIF config
      */
     const { config, iiifConfig, figures } = eleventyConfig.globalData
-    const { imageServiceDirectory, imageTransformations, outputDir } = iiifConfig
+    const { imageServiceDirectory, imageTransformations, outputDir, outputRoot } = iiifConfig
     const { imageDir } = config.params
 
     const createImage = initCreateImage(eleventyConfig)
     const createManifest = initCreateManifest(eleventyConfig)
     const tileImage = initTileImage(eleventyConfig)
-
-    const processedFiles = fs.existsSync(outputDir) && fs.readdirSync(outputDir)
+    const outputPath = path.join(outputRoot, outputDir)
+    const processedFiles = fs.existsSync(outputPath) && fs.readdirSync(outputPath)
     const tiledImages = processedFiles
       ? processedFiles.filter((dir) => {
-          return fs.readdirSync(path.join(outputDir, dir)).includes(imageServiceDirectory)
+          return fs.readdirSync(path.join(outputPath, dir)).includes(imageServiceDirectory)
         })
       : []
 
@@ -107,7 +107,7 @@ module.exports = {
       if (figuresWithChoices.length) {
         const manifests = processedFiles
           ? processedFiles.filter((dir) => {
-              return fs.readdirSync(path.join(outputDir, dir)).includes('manifest.json')
+              return fs.readdirSync(path.join(outputPath, dir)).includes('manifest.json')
             })
           : []
 
