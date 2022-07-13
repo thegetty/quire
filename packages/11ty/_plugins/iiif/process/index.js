@@ -44,7 +44,7 @@ module.exports = {
       .filter((figure) => isImageService(figure) && !figure.src.startsWith('http'))
       .filter(({ src }) => !tiledImages.includes(path.parse(src).name))
 
-    if (tiledImages) {
+    if (tiledImages.length) {
       info(`Skipping ${tiledImages.length} previously tiled ${pluralize('image', tiledImages)}.`)
     }
 
