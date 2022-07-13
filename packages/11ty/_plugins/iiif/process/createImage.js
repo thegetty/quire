@@ -35,7 +35,7 @@ module.exports = (eleventyConfig) => {
       }
       try {
         return await sharp(inputPath)
-          .resize(resize)
+          .resize(transformation.resize)
           .withMetadata()
           .toFile(outputPath)
       } catch(errorMessage) {
