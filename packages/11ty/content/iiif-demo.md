@@ -9,7 +9,7 @@ The following examples demonstrate basic usage of when the `figure` shortcode re
 ## Image Service
 Images in `figures.yaml` with `media_type="iiif"` will be tiled and rendered using the `<image-service />` web component.
 
-The tiler output can be found in `public/_iiif/<image-name>/`
+The tiler output can be found in `public/iiif/<image-name>/`
 
 Example:
 
@@ -40,7 +40,7 @@ _figures.yaml_
 ## Canvas Panel with Choices from figures.yaml
 Specifying `choices` on a figure will prompt the IIIF processing to create a manifest.
 
-The manifest can be found in `content/_assets/_iiif/<figure-id>/` and is also stored in `eleventy` global data.
+The manifest can be found in `public/iiif/<figure-id>/` and is also stored in `eleventy` global data.
 
 _figures.yaml_
 ```
