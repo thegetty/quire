@@ -13,6 +13,20 @@ Project versions conform to [Semantic Versioning](https://semver.org/)
 * `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
+## [0.20.4]
+### Fixed
+- Corrects broken build published to npm
+
+## [0.20.3]
+### Fixed
+- Vimeo `media_id` handling
+- Similar bibliography entries overwriting each other
+
+### Changed
+- Include current page in sidebar menu
+- Process markdown in page titles for `cite-this`
+- Run hugo with `--disableFastRender`
+
 ## [0.20.2]
 - Adds `disableFastRender` option to `quire preview` command
 - Adds `contents-list/file-dir` partial to normalize directories in `contents-list`
