@@ -24,16 +24,10 @@ module.exports = function(eleventyConfig) {
   return async function(figure) {
     const { 
       alt='', 
-      canvasId,
       caption,
-      choices,
       credit,
       id,
-      iiifContent,
       label,
-      manifestId,
-      media_type,
-      preset,
       src='' 
     } = figure
     const labelElement = figurelabel({ caption, id, label })
