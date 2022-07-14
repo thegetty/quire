@@ -45,7 +45,7 @@ module.exports = {
       .filter(({ src }) => !tiledImages.includes(path.parse(src).name))
 
     if (tiledImages.length) {
-      info(`Skipping ${tiledImages.length} previously tiled ${pluralize('image', tiledImages)}.`)
+      info(`Skipping ${tiledImages.length} previously tiled ${pluralize('image', tiledImages.length)}.`)
     }
 
     if (figuresToTile.length) {
