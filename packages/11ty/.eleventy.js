@@ -144,33 +144,16 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(EleventyVitePlugin, {
     tempFolderName: '.11ty-vite',
     viteOptions: {
-      /**
-       * @see https://vitejs.dev/config/#build-options
-       */
+      clearScreen: false,
+      publicDir: '_site',
+      server: {
+        mode: 'development',
+        middlewareMode: 'ssr'
+      },
       build: {
         manifest: true,
         mode: 'production',
-        rollupOptions: {
-          // plugins: [
-          //   scss() // @see https://github.com/thgh/rollup-plugin-scss
-          // ]
-        },
-        sourcemap: true
-      },
-      /**
-       * Set to false to prevent Vite from clearing the terminal screen
-       * and have Vite logging messages rendered alongside Eleventy output.
-       */
-      clearScreen: false,
-      /**
-       * @see https://vitejs.dev/config/#server-host
-       */
-      server: {
-        hmr: {
-          overlay: false
-        },
-        middlewareMode: 'ssr',
-        mode: 'development'
+        sourcemap: 'true'
       }
     }
   })
