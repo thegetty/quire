@@ -8,17 +8,15 @@ figure_list:
         label: "Choice #2"
   - id: "example-image-service"
     label: "Figure 1"
-    media_type: "imageservice"
-    src: https://iiif.wellcomecollection.org/image/b18035723_0001.JP2
+    src: https://iiif.wellcomecollection.org/image/b18035723_0001.JP2/info.json
     caption: "This is a caption"
   - id: "example-image-service-2"
     label: "Figure 2"
     src: figures/mother.jpg
-    preset: zoom
+    media_type: iiif
   - id: "example-image-service-3"
     label: "Figure 3"
-    media_type: "imageservice"
-    src: https://iiif.wellcomecollection.org/image/b18035723_0010.JP2
+    src: https://iiif.wellcomecollection.org/image/b18035723_0010.JP2/info.json
   - id: "example-external-manifest"
     label: "Figure 4"
     canvasId: https://preview.iiif.io/cookbook/3333-choice/recipe/0036-composition-from-multiple-images/canvas/p1
