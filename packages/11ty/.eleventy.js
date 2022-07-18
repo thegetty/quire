@@ -171,7 +171,7 @@ module.exports = function(eleventyConfig) {
             }
           }
         },
-        sourcemap: 'true'
+        sourcemap: true'
       },
       /**
        * Set to false to prevent Vite from clearing the terminal screen
