@@ -85,6 +85,13 @@ figure_list:
     media_type: youtube
     caption: "A selection of Walker Evans photos from the across the United States of America, 1930s."
     credit: The J. Paul Getty Museum, Los Angeles
+  - id: "living-matter"
+    src: figures/fig-21-5-pavic.jpg
+    media_type: vimeo
+    media_id: 592948810/c62783c8d6
+    label: "Video 2"
+    caption: "Consolidation with Paraloid B-72, 2010."
+    credit: "Video: Museum of Contemporary Art, Zagreb"
   - id: "photo-podcast"
     media_id: 336879231
     media_type: soundcloud
