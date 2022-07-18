@@ -5,8 +5,8 @@ const chalkFactory = require('~lib/chalk')
  * Renders an iframe element with a Vimeo video player
  *
  * @param      {Object}  eleventyConfig  eleventy configuration
- * @param      {Object}  figure          The figure
- * @return     {String}  An HTML
+ * @param      {Object}  figure          Figure data
+ * @return     {String}  An <iframe> element
  */
 module.exports = function(eleventyConfig) {
   const figurecaption = eleventyConfig.getFilter('figurecaption')
