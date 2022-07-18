@@ -118,22 +118,51 @@ $print-trim: $print-bleed * 2;
     }
   }
   
-  @page splash, splash-image {
+  @page splash {
     background-color: $print-splash-color;
   }
-  
-  @page entry-image {
-    background-color: $print-entry-image-color;
-  }
-  
-  @page splash-image, cover {
+
+  @page splash-image {
+    background-color: $print-splash-color;
     margin-top: 0;
-    margin-bottom: -$print-bleed;
+    margin-bottom: 0;
     margin-left: 0;
     margin-right: 0;
+    @bottom-right {
+      content: none;
+    }
+
+    @bottom-left {
+      content: none;
+    }
   }
 
-  @page no-footer, entry-image, splash-image, cover {
+  @page entry-image {
+    background-color: $print-entry-image-color;
+    @bottom-right {
+      content: none;
+    }
+
+    @bottom-left {
+      content: none;
+    }
+  }
+
+  @page cover {
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+    @bottom-right {
+      content: none;
+    }
+
+    @bottom-left {
+      content: none;
+    }
+  }
+
+  @page no-footer {
     @bottom-right {
       content: none;
     }

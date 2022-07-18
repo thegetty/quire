@@ -82,7 +82,9 @@
     text-align: right;
     padding-right: .5em;
     position: relative;
-    animation: .5s ease-out 0s 1 slideFromLeft;
+    @media screen {
+      animation: .5s ease-out 0s 1 slideFromLeft;      
+    }
   }
 }
 
@@ -98,13 +100,24 @@
   &__left {
     align-self: flex-start;
     flex: 0 1 $navbar-height;
+    @media print {
+      flex: none;
+    }
   }
 
-  &__center { flex: 1 1 auto; }
+  &__center {
+    flex: 1 1 auto;
+    @media print {
+      flex: none;
+    }
+  }
 
   &__right {
     flex: 0 1 $navbar-height;
     text-align: right;
+    @media print {
+      flex: none;
+    }
   }
 
   &__left, &__right, .quire-navbar-page-controls__item {

@@ -95,7 +95,6 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     position: relative;
 
     @media print {
-      display: block;
       background-color: transparent;
     }
 
@@ -127,10 +126,12 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
 
       &.current-image img {
         // fadeIn animation applied when navigating through non-popup leaflet image slideshows
-        animation-name: fadeIn;
-        animation-delay: 0.25s;
-        animation-duration: 0.2s;
-        animation-fill-mode: backwards;
+        @media screen {
+          animation-name: fadeIn;
+          animation-delay: 0.25s;
+          animation-duration: 0.2s;
+          animation-fill-mode: backwards; 
+        }
       }
 
       iframe {
@@ -529,7 +530,9 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     // }
 
     position: relative;
-    animation: 0.5s ease 0s 1 slideFromRight;
+    @media screen {
+      animation: 0.5s ease 0s 1 slideFromRight;
+    }
 
     @media screen and (max-width: $tablet) {
       margin-top: -1em;
@@ -671,6 +674,9 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
   width: 100%;
   height: calc(100vh - 6rem - 3rem - 2px);
   background: black;
+  @media print {
+    display: none;
+  }
 }
 
 .side-by-side .quire-entry__lightbox {
@@ -684,3 +690,4 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     height: calc(100vh - 50px);
   }
 }
+

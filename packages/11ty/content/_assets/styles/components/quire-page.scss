@@ -138,7 +138,9 @@ html {
     padding-top: 0;
     padding-bottom: 0;
     position: relative;
-    animation: 0.5s ease 0s 1 slideFromRight;
+    @media screen {
+      animation: 0.5s ease 0s 1 slideFromRight;
+    }
     color: background-color-text-classic($content-background-color);
     @media print {
       color: $print-text-color;
@@ -512,15 +514,17 @@ html {
   background-repeat: no-repeat;
   background-position: cover;
   text-align: center;
-  -webkit-animation: fadeIn 2s;
-  /* Safari, Chrome and Opera > 12.1 */
-  -moz-animation: fadeIn 2s;
-  /* Firefox < 16 */
-  -ms-animation: fadeIn 2s;
-  /* Internet Explorer */
-  -o-animation: fadeIn 2s;
-  /* Opera < 12.1 */
-  animation: fadeIn 2s;
+  @media screen {
+    -webkit-animation: fadeIn 2s;
+    /* Safari, Chrome and Opera > 12.1 */
+    -moz-animation: fadeIn 2s;
+    /* Firefox < 16 */
+    -ms-animation: fadeIn 2s;
+    /* Internet Explorer */
+    -o-animation: fadeIn 2s;
+    /* Opera < 12.1 */
+    animation: fadeIn 2s;    
+  }
 
   @media print {
     background-color: transparent;
@@ -602,6 +606,8 @@ html {
         height: $splash-page-height;
         max-height: $splash-page-height;
         margin: -$print-bleed;
+
+        position: absolute;
       }
       .hero-body {
         .label,

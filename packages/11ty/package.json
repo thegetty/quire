@@ -6,7 +6,8 @@
   "main": ".eleventy.js",
   "scripts": {
     "build": "ELEVENTY_ENV=production eleventy",
-    "build:pdf": "npx pagedjs-cli@latest ${ELEVENTY_OUTPUT_DIR:-_site}/pdf.html",
+    "build:pdf": "pagedjs-cli public/pdf.html --style ${ELEVENTY_OUTPUT_DIR:-_site}/assets/custom.css --outline-tags 'h1' -o paged.pdf",
+    "build:prince": "prince public/pdf.html --style ${ELEVENTY_OUTPUT_DIR:-_site}/assets/custom.css --output prince.pdf",
     "clean": "del ${ELEVENTY_OUTPUT_DIR:-_site} public/pdf.html",
     "debug": "DEBUG=Eleventy* eleventy --dryrun",
     "dev": "ELEVENTY_ENV=development eleventy --serve",
@@ -69,7 +70,8 @@
     "lunr": "^2.3.9",
     "material-icons": "^1.10.11",
     "simple-cite": "^0.2.1",
-    "template-polyfill": "^2.0.0"
+    "template-polyfill": "^2.0.0",
+    "pagedjs-cli": "0.2.2-beta.2"
   },
   "_moduleAliases": {
     "~includes": "./_includes",
