@@ -13,7 +13,20 @@ const sortCollection = require('./sort')
  * @return {Object} collections
  */
 module.exports = function (eleventyConfig, options = {}) {
-  const collections = {}
+  let collections = {}
+
+  /**
+   * Add eleventy-generated collections to collections object
+   */
+  eleventyConfig.addCollection('temp', function (collectionApi) {
+    const eleventyCollections = collectionApi.getAll()[0].data.collections
+    Object.assign(collections, eleventyCollections)
+    return []
+  })
+
+  /**
+   * Add custom collections
+   */
   for (const name in filters) {
     eleventyConfig.addCollection(name, function (collectionApi) {
       collections[name] = collectionApi
