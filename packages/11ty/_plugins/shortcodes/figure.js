@@ -25,6 +25,7 @@ module.exports = function (eleventyConfig, { page }) {
   const figuremodallink = eleventyConfig.getFilter('figuremodallink')
   const figuresoundcloud = eleventyConfig.getFilter('figuresoundcloud')
   const figuretable = eleventyConfig.getFilter('figuretable')
+  const figurevimeo = eleventyConfig.getFilter('figurevimeo')
   const figureyoutube = eleventyConfig.getFilter('figureyoutube')
   const getFigure = eleventyConfig.getFilter('getFigure')
   const slugify = eleventyConfig.getFilter('slugify')
@@ -55,7 +56,7 @@ module.exports = function (eleventyConfig, { page }) {
         case mediaType === 'youtube':
           return figureyoutube(figure)
         case mediaType === 'vimeo':
-          return 'UNIMPLEMENTED'
+          return figurevimeo(figure)
         case mediaType === 'soundcloud':
           return figuresoundcloud(figure)
         case mediaType === 'table':
