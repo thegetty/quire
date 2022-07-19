@@ -19,7 +19,7 @@ module.exports = function(eleventyConfig) {
    * @return {String}        <canvas-panel> markup
    */
   return function(params) {
-    const { height='', id, iiif, preset='', region='', virtualSizes='', width='' } = params
+    const { height='', id, iiif, preset='responsive', region='', virtualSizes='', width='' } = params
     const { canvas, choiceId='', iiifContent='', manifest} = iiif
 
     if (!manifest && !iiifContent) {
