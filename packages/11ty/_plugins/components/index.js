@@ -1,5 +1,5 @@
 const addComponentTag = require('./addComponentTag')
-const addShortcode = require('./addShortcode')
+const addShortcodeFn = require('./addShortcode')
 
 // Shortcode components
 const components = require('../../_includes/components')
@@ -11,6 +11,8 @@ const components = require('../../_includes/components')
  * @param      {Object}  options         options
  */
 module.exports = function(eleventyConfig, collections, options) {
+  const addShortcode = addShortcodeFn(eleventyConfig, collections)
+
   for (const component in components) {
     switch(component) {
       default:
@@ -18,7 +20,7 @@ module.exports = function(eleventyConfig, collections, options) {
         break;
       case 'lightbox':
       case 'modal':
-        addShortcode(eleventyConfig, collections, `${component}`, components[component])
+        addShortcode(`${component}`, components[component])
         break;
     }
   }

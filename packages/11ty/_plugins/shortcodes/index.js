@@ -1,5 +1,5 @@
 const addComponentTag = require('../../_plugins/components/addComponentTag')
-const addShortCode = require('../../_plugins/components/addShortCode')
+const addShortcodeFn = require('../../_plugins/components/addShortcode')
 const backmatter = require('./backmatter.js')
 const bibliography = require('./bibliography.js')
 const cite = require('./cite.js')
@@ -11,15 +11,17 @@ const title = require('./title.js')
 const tombstone = require('./tombstone.js')
 
 module.exports = function(eleventyConfig, collections, options) {
+  const addShortcode = addShortcodeFn(eleventyConfig, collections)
+
   eleventyConfig.addPairedShortcode('backmatter', function(content, ...args) {
     return backmatter(eleventyConfig)(content, ...args)
   })
-  addShortCode(eleventyConfig, collections, 'bibliography', bibliography)
-  addShortCode(eleventyConfig, collections, 'cite', cite)
+  addShortcode('bibliography', bibliography)
+  addShortcode('cite', cite)
   addComponentTag(eleventyConfig, 'contributors', contributors)
-  addShortCode(eleventyConfig, collections, 'figure', figure)
-  addShortCode(eleventyConfig, collections, 'figuregroup', figureGroup)
-  addShortCode(eleventyConfig, collections, 'ref', ref)
-  addShortCode(eleventyConfig, collections, 'title', title)
-  addShortCode(eleventyConfig, collections, 'tombstone', tombstone)
+  addShortcode('figure', figure)
+  addShortcode('figuregroup', figureGroup)
+  addShortcode('ref', ref)
+  addShortcode('title', title)
+  addShortcode('tombstone', tombstone)
 }
