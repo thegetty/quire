@@ -12,6 +12,6 @@
 module.exports = function(eleventyConfig, collections, tagName, component) {
   eleventyConfig.addShortcode(tagName, function(...args) {
     const page = collections.all.find(({ inputPath }) => this.page.inputPath)
-    return component(eleventyConfig, { page })(...args)
+    return component(eleventyConfig, { collections, page })(...args)
   })
 }
