@@ -14,11 +14,11 @@ module.exports = function(eleventyConfig, options) {
   for (const component in components) {
     switch(component) {
       default:
-        addComponentTag(eleventyConfig, components[component], `${component}`)
+        addComponentTag(eleventyConfig, `${component}`, components[component])
         break;
       case 'lightbox':
       case 'modal':
-        addShortcode(eleventyConfig, components[component], `${component}`)
+        addShortcode(eleventyConfig, `${component}`, components[component])
         break;
     }
   }
