@@ -96,17 +96,17 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(markdownPlugin)
 
   /**
-   * Load plugins for the Quire template shortcodes and filters
-   */
-  eleventyConfig.addPlugin(componentsPlugin)
-  eleventyConfig.addPlugin(filtersPlugin)
-  eleventyConfig.addPlugin(frontmatterPlugin)
-  eleventyConfig.addPlugin(shortcodesPlugin)
-
-  /**
    * Add collections
    */
   const collections = collectionsPlugin(eleventyConfig)
+
+  /**
+   * Load plugins for the Quire template shortcodes and filters
+   */
+  eleventyConfig.addPlugin(componentsPlugin, collections)
+  eleventyConfig.addPlugin(filtersPlugin)
+  eleventyConfig.addPlugin(frontmatterPlugin)
+  eleventyConfig.addPlugin(shortcodesPlugin, collections)
 
   /**
    * Load additional plugins used for Quire projects
