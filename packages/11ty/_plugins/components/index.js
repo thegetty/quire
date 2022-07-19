@@ -10,7 +10,7 @@ const components = require('../../_includes/components')
  * @param      {Object}  eleventyConfig  eleventy configuration
  * @param      {Object}  options         options
  */
-module.exports = function(eleventyConfig, options) {
+module.exports = function(eleventyConfig, collections, options) {
   for (const component in components) {
     switch(component) {
       default:
@@ -18,7 +18,7 @@ module.exports = function(eleventyConfig, options) {
         break;
       case 'lightbox':
       case 'modal':
-        addShortcode(eleventyConfig, `${component}`, components[component])
+        addShortcode(eleventyConfig, collections, `${component}`, components[component])
         break;
     }
   }
