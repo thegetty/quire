@@ -59,7 +59,7 @@ module.exports = function(eleventyConfig, collections, content) {
         // transform relative links to anchor links
         transformRelativeLinks(sectionElement)
 
-        // remov non-pdf content
+        // remove non-pdf content
         filterOutputs(sectionElement, 'pdf')
         collections.pdf[pageIndex].sectionElement = sectionElement.firstChild.outerHTML
       }

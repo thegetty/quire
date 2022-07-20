@@ -25,15 +25,15 @@ module.exports = async function(collection) {
   collection.forEach(({ outputPath, sectionElement }) => {
     try {
       document.body.appendChild(sectionElement)
-    } catch (error) {
-      warn(`Eleventy transform for PDF error appending content for for ${outputPath} to combined output.`, error)
+    } catch (errorMessage) {
+      error(`Eleventy transform for PDF error appending content for ${outputPath} to combined output. ${errorMessage}`)
     }
   })
 
   try {
     fs.ensureDirSync(path.parse(outputPath).dir)
     fs.writeFileSync(outputPath, dom.serialize())
-  } catch (error) {
-    error('Eleventy transform for PDF error writing combined HTML output for PDF. Error message: ', error)
+  } catch (errorMessage) {
+    error(`Eleventy transform for PDF error writing combined HTML output for PDF. ${errorMessage}`)
   }
 }
