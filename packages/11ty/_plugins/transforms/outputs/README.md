@@ -9,11 +9,11 @@ Elements in the markup can be included or excluded using the data properties `da
 #### Examples
 An image that will be included in `html` and `pdf` output, but excluded from `epub`:
 ```html
-<img src="image.jpg" data-include-in-output="html,pdf" />
+<img src="image.jpg" data-outputs-include="html,pdf" />
 ```
 
 
 An image that will be included in `pdf` and `epub`, but excluded from `html`:
 ```html
-<img src="image.jpg" data-exclude-from-output="html" />
+<img src="image.jpg" data-outputs-exclude="html" />
 ```

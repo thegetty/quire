@@ -5,13 +5,13 @@
  * @param  {String} output  pdf, epub, html
  */
 module.exports = function (element, output) {
-  for (item of element.querySelectorAll('[data-include-in-output]')) {
+  for (item of element.querySelectorAll('[data-outputs-include]')) {
     const value = item.dataset.includeInOutput
     if (!value.split(',').includes(output)) {
       item.remove()
     }
   }
-  for (item of element.querySelectorAll('[data-exclude-from-output]')) {
+  for (item of element.querySelectorAll('[data-outputs-exclude]')) {
     const value = item.dataset.excludeFromOutput
     if (value.split(',').includes(output)) {
       item.remove()
