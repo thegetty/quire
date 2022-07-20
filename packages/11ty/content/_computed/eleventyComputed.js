@@ -8,13 +8,6 @@ const { warn } = chalkFactory('eleventyComputed')
  */
 module.exports = {
   canonicalURL: ({ config, page }) => page.url && path.join(config.baseURL, page.url),
-  /**
-   * Frontmatter `class` property, normalized to an array
-   */
-  classes: ({ class: classes }) => {
-    if (!classes) return []
-    return Array.isArray(classes) ? classes : [classes]
-  },
   eleventyNavigation: {
     /**
      * Explicitly define page data properties used in the TOC
@@ -51,6 +44,20 @@ module.exports = {
     },
     url: (data) => data.page.url,
     title: (data) => data.title
+  },
+  /**
+   * Classes applied to <main> page element
+   */
+  pageClasses: ({ collections, class: classes, layout, page }) => {
+    const pageClasses = []
+    // Add computed frontmatter and page-one classes
+    const pageIndex = collections.allSorted.findIndex(({ outputPath }) => outputPath === page.outputPath)
+    const pageOneIndex = collections.allSorted.findIndex(({ data }) => data.class && data.class.includes('page-one'))
+    if (pageIndex < pageOneIndex) {
+      pageClasses.push('frontmatter')
+    }
+    // add custom classes from page frontmatter
+    return classes ? pageClasses.concat(classes) : pageClasses
   },
   pageContributors: ({ contributor, contributor_as_it_appears }) => {
     if (!contributor) return
