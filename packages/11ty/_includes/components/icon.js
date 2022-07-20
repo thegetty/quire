@@ -19,11 +19,11 @@ module.exports = function(eleventyConfig) {
     const { description, type } = params
     const iconPath = path.join(imageDir, 'icons', `${type}.png`)
     const descriptionElement = description
-      ? `<span class="visually-hidden" data-outputs-exclude="epub">${description}</span>`
+      ? `<span class="visually-hidden" data-outputs-exclude="epub,pdf">${description}</span>`
       : ''
 
     return html`
-      <svg data-outputs-exclude="epub">
+      <svg data-outputs-exclude="epub,pdf">
         <switch>
           <use xlink:href="#${type}-icon"></use>
           <foreignObject width="24" height="24">

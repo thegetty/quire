@@ -24,7 +24,7 @@ module.exports = function(data) {
               class="quire__secondary"
               id="site-menu"
               role="contentinfo"
-              data-outputs-exclude="epub"
+              data-outputs-exclude="epub,pdf"
             >
               ${this.menu({ collections, pageData })}
             </div>
