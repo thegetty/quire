@@ -7,13 +7,13 @@
 module.exports = function (element, output) {
   for (item of element.querySelectorAll('[data-outputs-include]')) {
     const value = item.dataset.outputsInclude
-    if (!value.split(',').includes(output)) {
+    if (!value.split(',').map((item) => item.trim()).includes(output)) {
       item.remove()
     }
   }
   for (item of element.querySelectorAll('[data-outputs-exclude]')) {
     const value = item.dataset.outputsExclude
-    if (value.split(',').includes(output)) {
+    if (value.split(',').map((item) => item.trim()).includes(output)) {
       item.remove()
     }
   }
