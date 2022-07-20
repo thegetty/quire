@@ -61,7 +61,7 @@ module.exports = function(eleventyConfig, collections, content) {
 
         // remove non-pdf content
         filterOutputs(sectionElement, 'pdf')
-        collections.pdf[pageIndex].sectionElement = sectionElement.firstChild.outerHTML
+        collections.pdf[pageIndex].sectionElement = sectionElement
       }
 
       /**
