@@ -1,5 +1,4 @@
 const addComponentTag = require('../../_plugins/components/addComponentTag')
-const addShortcodeFn = require('../../_plugins/components/addShortcode')
 const backmatter = require('./backmatter.js')
 const bibliography = require('./bibliography.js')
 const cite = require('./cite.js')
@@ -7,11 +6,12 @@ const contributors = require('./contributors')
 const figure = require('./figure.js')
 const figureGroup = require('./figureGroup.js')
 const ref = require('./figureRef.js')
+const shortcodeFactory = require('../../_plugins/components/addShortcode')
 const title = require('./title.js')
 const tombstone = require('./tombstone.js')
 
 module.exports = function(eleventyConfig, collections, options) {
-  const addShortcode = addShortcodeFn(eleventyConfig, collections)
+  const addShortcode = shortcodeFactory(eleventyConfig, collections)
 
   eleventyConfig.addPairedShortcode('backmatter', function(content, ...args) {
     return backmatter(eleventyConfig)(content, ...args)
