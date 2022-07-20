@@ -1,5 +1,6 @@
 const jsdom = require('jsdom')
 const { JSDOM } = jsdom
+const filterOutputs = require('../filter.js')
 const writeOutput = require('./write')
 
 /**
@@ -27,14 +28,13 @@ const transformRelativeLinks = (element) => {
 }
 
 /**
- * A function to tranform Eleventy output content
+ * A function to transform and write Eleventy content for pdf
  *
  * @param      {Object}  collections  Eleventy collections object
  * @param      {String}  content      Output content
  * @return     {Array}   The transformed content string
  */
-module.exports = function(collections, content) {
-  const htmlPages = collections.html.map(({ outputPath }) => outputPath)
+module.exports = function(eleventyConfig, collections, content) {
   const pdfPages = collections.pdf.map(({ outputPath }) => outputPath)
 
   if (pdfPages.includes(this.outputPath)) {
@@ -45,7 +45,7 @@ module.exports = function(collections, content) {
       if (pageIndex !== -1) {
         delete sectionElement.dataset.outputPath
 
-        const pageLabelDivider = '. ' // eleventyConfig.globalData.config.params
+        const pageLabelDivider = eleventyConfig.globalData.config.params
         const { label, title } = collections.pdf[pageIndex].data
 
         // set data attributes for PDF generation
@@ -59,6 +59,8 @@ module.exports = function(collections, content) {
         // transform relative links to anchor links
         transformRelativeLinks(sectionElement)
 
+        // remove non-pdf content
+        filterOutputs(sectionElement, 'pdf')
         collections.pdf[pageIndex].sectionElement = sectionElement
       }
 
@@ -72,5 +74,6 @@ module.exports = function(collections, content) {
     }
   }
 
-  return htmlPages.includes(this.outputPath) ? content : undefined
+  // Return unmodified `content`
+  return content
 }

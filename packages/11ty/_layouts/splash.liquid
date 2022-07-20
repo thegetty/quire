@@ -35,7 +35,7 @@ description: splash page layout
       </div>
     </section>
   {% else %}
-    <div class="quire-contents-buttons--fixed remove-from-epub">
+    <div class="quire-contents-buttons--fixed" data-outputs-exclude="epub,pdf">
     {% pageButtons pagination=pagination %}
     </div>
   {% endif %}

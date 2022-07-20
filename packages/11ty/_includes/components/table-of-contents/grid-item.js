@@ -52,7 +52,7 @@ module.exports = function (eleventyConfig) {
       ? `<span class="contributor"> — ${contributors({ context: pageContributors, format: 'string' })}</span>`
       : ''
     const pageTitleElement = oneLine`${pageTitle({ label, subtitle, title })}${pageContributorsElement}`
-    const arrowIcon = `<span class="arrow remove-from-epub">&nbsp${icon({ type: 'arrow-forward', description: '' })}</span>`
+    const arrowIcon = `<span class="arrow" data-outputs-exclude="epub,pdf">&nbsp${icon({ type: 'arrow-forward', description: '' })}</span>`
     let mainElement = `${markdownify(pageTitleElement)}${isPage && !children ? arrowIcon : ''}`
     /**
      * Create cards for page items

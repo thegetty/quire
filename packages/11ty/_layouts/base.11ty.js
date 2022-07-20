@@ -21,9 +21,10 @@ module.exports = function(data) {
           <div class="quire no-js" id="container">
             <div
               aria-expanded="false"
-              class="quire__secondary remove-from-epub"
+              class="quire__secondary"
               id="site-menu"
               role="contentinfo"
+              data-outputs-exclude="epub,pdf"
             >
               ${this.menu({ collections, pageData })}
             </div>

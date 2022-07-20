@@ -41,7 +41,7 @@ module.exports = function(eleventyConfig) {
     }
 
     return html`
-      <div class="quire-contents-buttons remove-from-epub ${ config.params.pdf ? 'visually-hidden' : '' }">
+      <div class="quire-contents-buttons ${ config.params.pdf ? 'visually-hidden' : '' }" data-outputs-exclude="epub,pdf">
         <ul>
           ${prevPageButton()}
           ${nextPageButton()}
