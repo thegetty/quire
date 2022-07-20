@@ -12,9 +12,9 @@ module.exports = function (prefix='') {
    * @see https://github.com/chalk/chalk/tree/v4.1.2#usage
    */
   const styles = {
-    error: chalk.bold.red,
+    error: chalk.inverse.redBright,
     info: chalk.magenta,
-    warn: chalk.bold.keyword('yellow')
+    warn: chalk.inverse.yellow
   }
 
   const logFn = (type) => {
