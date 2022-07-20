@@ -8,6 +8,13 @@ const { warn } = chalkFactory('eleventyComputed')
  */
 module.exports = {
   canonicalURL: ({ config, page }) => page.url && path.join(config.baseURL, page.url),
+  /**
+   * Frontmatter `class` property, normalized to an array
+   */
+  classes: ({ class: classes }) => {
+    if (!classes) return []
+    return Array.isArray(classes) ? classes : [classes]
+  },
   eleventyNavigation: {
     /**
      * Explicitly define page data properties used in the TOC
