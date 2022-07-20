@@ -4,16 +4,6 @@ const filterOutputs = require('../filter.js')
 const writeOutput = require('./write')
 
 /**
- * Get the page `section` element
- * @param  {String} content Page HTML
- * @return {Object}
- */
-const getSectionElement = (content) => {
-  const { document } = new JSDOM(content).window
-  return document.querySelector('section[data-output-path]')
-}
-
-/**
  * Transform relative links to anchor links
  *
  * @param      {HTMLElement}  element
@@ -39,11 +29,16 @@ module.exports = function(eleventyConfig, collections, content) {
 
   if (pdfPages.includes(this.outputPath)) {
     const pageIndex = pdfPages.findIndex((path) => path === this.outputPath)
-    const sectionElement = getSectionElement(content)
+    const { document } = new JSDOM(content).window
+    const mainElement = document.querySelector('main[data-output-path]')
 
-    if (sectionElement) {
+    if (mainElement) {
       if (pageIndex !== -1) {
-        delete sectionElement.dataset.outputPath
+        const sectionElement = document.createElement('section')
+        sectionElement.innerHTML = mainElement.innerHTML
+        for (className of mainElement.classList) {
+          sectionElement.classList.add(className)
+        }
 
         const pageLabelDivider = eleventyConfig.globalData.config.params
         const { label, title } = collections.pdf[pageIndex].data
