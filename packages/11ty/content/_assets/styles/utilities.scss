@@ -5,6 +5,20 @@
 // Mixins
 // -----------------------------------------------------------------------------
 // Adjust foreground colors based on an element's background
+@mixin animation($animationProperties) {
+  @media screen {
+    /* Safari, Chrome and Opera > 12.1 */
+    -webkit-animation: $animationProperties;
+    /* Firefox < 16 */
+    -moz-animation: $animationProperties;
+    /* Internet Explorer */
+    -ms-animation: $animationProperties;
+    /* Opera < 12.1 */
+    -o-animation: $animationProperties;
+    animation: $animationProperties;
+  }
+}
+
 @mixin foreground-color($bgcolor, $frcolor) {
   * {
     color: $frcolor;
