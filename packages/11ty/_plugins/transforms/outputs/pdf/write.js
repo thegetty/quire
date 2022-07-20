@@ -10,7 +10,7 @@ const { error, warn } = chalkFactory('transforms:pdf')
  * @param  {Object} collection collections.pdf with `sectionElement` property
  */
 module.exports = async function(collection) {
-  const layoutPath = path.join('_plugins', 'transforms', 'pdf', 'layout.html')
+  const layoutPath = path.join('_plugins', 'transforms', 'outputs', 'pdf', 'layout.html')
   /**
    * Nota bene:
    * Output must be written to a directory using Passthrough File Copy
