@@ -7,10 +7,14 @@ const { html } = require('~lib/common-tags')
  * @return     {Function}  Template render function
  */
 module.exports = function(data) {
-  const { class: classes, collections, content, pageData, publication } = data
+  const { classes, collections, content, pageData, publication } = data
   const { outputPath } = pageData || {}
 
-  let pageClasses = Array.isArray(classes) ? classes : [classes]
+  const pageIndex = collections.allSorted
+    .findIndex(({ outputPath: x }) => x === outputPath)
+  const pageOneIndex = collections.allSorted
+    .findIndex(({ data }) => data.classes.includes('page-one'))
+  const pageClasses = pageIndex < pageOneIndex ? classes.concat('frontmatter') : classes
 
   return this.renderTemplate(
     html`
