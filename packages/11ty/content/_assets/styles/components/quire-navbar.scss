@@ -82,7 +82,7 @@
     text-align: right;
     padding-right: .5em;
     position: relative;
-    animation: .5s ease-out 0s 1 slideFromLeft;
+    @include animation(.5s ease-out 0s 1 slideFromLeft);
   }
 }
 
