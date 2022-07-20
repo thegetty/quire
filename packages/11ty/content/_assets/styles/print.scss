@@ -488,8 +488,7 @@ $print-trim: $print-bleed * 2;
     .visually-hidden,
     .footnote-return,
     .footnote-backref,
-    .is-screen-only,
-    .remove-from-epub {
+    .is-screen-only {
       display: none;
     }
     

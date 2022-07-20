@@ -6,13 +6,13 @@
  */
 module.exports = function (element, output) {
   for (item of element.querySelectorAll('[data-outputs-include]')) {
-    const value = item.dataset.includeInOutput
+    const value = item.dataset.outputsInclude
     if (!value.split(',').includes(output)) {
       item.remove()
     }
   }
   for (item of element.querySelectorAll('[data-outputs-exclude]')) {
-    const value = item.dataset.excludeFromOutput
+    const value = item.dataset.outputsExclude
     if (value.split(',').includes(output)) {
       item.remove()
     }
