@@ -1,4 +1,5 @@
 ---
+class: quire-entry
 layout: base.11ty.js
 description: Entry layout. This template is intended for use in catalogue-style pages where a single image or object needs to be featured prominently.
 ---
@@ -13,67 +14,65 @@ description: Entry layout. This template is intended for use in catalogue-style 
 Entry content, including entry image and tombstone data
 {% endcomment %}
 
-<article class="quire-entry" id="main" role="main">
-  <div {% if entryPageSideBySideLayout == true or presentation == 'side-by-side' and pdf != true and epub != true %} class="side-by-side" {% endif %} data="{{ zoom }}">
+<div {% if entryPageSideBySideLayout == true or presentation == 'side-by-side' and pdf != true and epub != true %} class="side-by-side" {% endif %} data="{{ zoom }}">
 
-    {% if epub == true %}
-    <header class="quire-entry__header">
-      <div class="container">
-          {% comment %} Title {% endcomment %}
-          <h1 class="quire-page__header__title" id="{{ title | slugify }}">
-            {% pageTitle label=label, title=title, subtitle=subtitle %}
-          </h1>
-      </div>
-    </header>
-    {% endif %}
-
-    {% comment %} Full-width entry image header {% endcomment %}
-    <div class="quire-entry__image-wrap">
-      <div class="quire-entry__lightbox">
-        {% if image %}
-          {% comment %} TODO add `lightbox` when a single `image` is included in front matter {% endcomment %}
-        {% elsif pageObjects %}
-          {% for object in pageObjects %}
-            {% lightbox object.figures %}
-          {% endfor %}
-        {% endif %}
-      </div>
+  {% if epub == true %}
+  <header class="quire-entry__header">
+    <div class="container">
+        {% comment %} Title {% endcomment %}
+        <h1 class="quire-page__header__title" id="{{ title | slugify }}">
+          {% pageTitle label=label, title=title, subtitle=subtitle %}
+        </h1>
     </div>
+  </header>
+  {% endif %}
 
-    <div class="quire-entry__content">
-      {% if epub != true %}
-        <header class="quire-entry__header">
-          <div class="container">
-            <h1 class="quire-page__header__title" id="{{ title | url }}">
-              {% pageTitle label=label, title=title, subtitle=subtitle %}
-            </h1>
-            <div class="quire-page__header__contributor">
-              {% contributors context=pageContributors, format=contributor_byline %}
-            </div>
-          </div>
-        </header>
+  {% comment %} Full-width entry image header {% endcomment %}
+  <div class="quire-entry__image-wrap">
+    <div class="quire-entry__lightbox">
+      {% if image %}
+        {% comment %} TODO add `lightbox` when a single `image` is included in front matter {% endcomment %}
+      {% elsif pageObjects %}
+        {% for object in pageObjects %}
+          {% lightbox object.figures %}
+        {% endfor %}
       {% endif %}
-
-      {% tombstone pageObjects %}
-
-      {% if abstract %}
-        {% abstract abstract=abstract %}
-      {% endif %}
-
-      <section class="section quire-page__content" id="content">
-        <div class="container">
-          <div class="content">
-            {{ content }}
-            {% bibliography pageReferences %}
-          </div>
-        </div>
-      </section>
-
-      <section class="section quire-page__content">
-        <div class="container">
-          {% pageButtons pagination=pagination %}
-        </div>
-      </section>
     </div>
   </div>
-</article>
+
+  <div class="quire-entry__content">
+    {% if epub != true %}
+      <header class="quire-entry__header">
+        <div class="container">
+          <h1 class="quire-page__header__title" id="{{ title | url }}">
+            {% pageTitle label=label, title=title, subtitle=subtitle %}
+          </h1>
+          <div class="quire-page__header__contributor">
+            {% contributors context=pageContributors, format=contributor_byline %}
+          </div>
+        </div>
+      </header>
+    {% endif %}
+
+    {% tombstone pageObjects %}
+
+    {% if abstract %}
+      {% abstract abstract=abstract %}
+    {% endif %}
+
+    <section class="section quire-page__content" id="content">
+      <div class="container">
+        <div class="content">
+          {{ content }}
+          {% bibliography pageReferences %}
+        </div>
+      </div>
+    </section>
+
+    <section class="section quire-page__content">
+      <div class="container">
+        {% pageButtons pagination=pagination %}
+      </div>
+    </section>
+  </div>
+</div>

@@ -7,8 +7,10 @@ const { html } = require('~lib/common-tags')
  * @return     {Function}  Template render function
  */
 module.exports = function(data) {
-  const { collections, content, pageData, publication } = data
+  const { class: classes, collections, content, pageData, publication } = data
   const { outputPath } = pageData || {}
+
+  let pageClasses = Array.isArray(classes) ? classes : [classes]
 
   return this.renderTemplate(
     html`
@@ -21,18 +23,17 @@ module.exports = function(data) {
           <div class="quire no-js" id="container">
             <div
               aria-expanded="false"
-              class="quire__secondary"
+              class="quire__secondary remove-from-epub"
               id="site-menu"
               role="contentinfo"
-              data-outputs-exclude="epub,pdf"
             >
               ${this.menu({ collections, pageData })}
             </div>
             <div class="quire__primary" id="{{ section }}">
               ${this.navigation(data)}
-              <section data-output-path="${outputPath}">
+              <main id="main" class="quire-page ${pageClasses}" data-output-path="${outputPath}">
                 ${content}
-              </section>
+              </main>
             </div>
             {% render 'search' %}
           </div>
