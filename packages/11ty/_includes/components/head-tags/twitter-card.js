@@ -17,10 +17,10 @@ module.exports = function(eleventyConfig) {
     const imagePath = () => {
       if (!config.baseURL) return
       if (layout !== 'essay' ) {
-        return path.join(imageDir, promo_image)
+        return promo_image && path.join(imageDir, promo_image)
       } else {
         const image = cover || promo_image
-        return path.join(imageDir, image)
+        return image && path.join(imageDir, image)
       }
     }
 

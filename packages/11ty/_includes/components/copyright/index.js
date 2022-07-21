@@ -24,8 +24,8 @@ module.exports = function(eleventyConfig) {
 
     const publisherImages = publication.publisher.flatMap((publisher) => {
       const alt = publisher.name
-      const src = path.join(imageDir, publisher.logo)
-      return publisher.logo
+      const src = publisher.logo && path.join(imageDir, publisher.logo)
+      return alt && src
         ? [`<img src="${src}" class="copyright__publisher-logo" alt="${alt}" />`]
         : []
       })
