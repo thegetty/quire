@@ -29,7 +29,7 @@
     "@11ty/eleventy-navigation": "^0.3.3",
     "@11ty/eleventy-plugin-directory-output": "^1.0.1",
     "@11ty/eleventy-plugin-syntaxhighlight": "^4.1.0",
-    "@11ty/eleventy-plugin-vite": "^1.0.0-canary.2",
+    "@11ty/eleventy-plugin-vite": "^2.0.0-canary.1",
     "@iiif/parser": "^1.0.10",
     "@iiif/vault": "^0.9.19",
     "chalk": "^4.1.2",
