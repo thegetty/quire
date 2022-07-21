@@ -54,7 +54,7 @@ module.exports = function(eleventyConfig) {
     imageElement =
       (figureLabelLocation === 'on-top')
         ? figuremodallink({ caption, content: imageElement + labelElement, id })
-        : imageElement
+        : figuremodallink({ content: imageElement, id })
 
     const captionElement = (figureLabelLocation === 'below')
       ? figurecaption({ caption, content: labelElement, credit })
