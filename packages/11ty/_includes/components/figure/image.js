@@ -52,13 +52,14 @@ module.exports = function(eleventyConfig) {
      * Wrap image in modal link
      */
     imageElement =
-      (figureLabelLocation === 'on-top')
-        ? figuremodallink({ caption, content: imageElement + labelElement, id })
-        : figuremodallink({ content: imageElement, id })
+      (figureLabelLocation === 'below')
+        ? figuremodallink({ content: imageElement, id })
+        : figuremodallink({ caption, content: imageElement + labelElement, id })
 
-    const captionElement = (figureLabelLocation === 'below')
-      ? figurecaption({ caption, content: labelElement, credit })
-      : figurecaption({ caption, credit })
+    const captionElement =
+      (figureLabelLocation === 'below')
+        ? figurecaption({ caption, content: labelElement, credit })
+        : figurecaption({ caption, credit })
 
     return html`
       ${imageElement}
