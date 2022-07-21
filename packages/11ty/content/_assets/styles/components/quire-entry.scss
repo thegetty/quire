@@ -529,14 +529,14 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     // }
 
     position: relative;
-    animation: 0.5s ease 0s 1 slideFromRight;
+    @include animation(0.5s ease 0s 1 slideFromRight);
 
     @media screen and (max-width: $tablet) {
       margin-top: -1em;
     }
 
     .quire-page__content {
-      animation: none;
+      @include animation(none);
       .content {
         @media print {
           padding: 0;

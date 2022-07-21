@@ -69,7 +69,7 @@
     -webkit-box-shadow: 0px 0px 6px 0px $black-semi-transparent;
     -moz-box-shadow: 0px 0px 6px 0px $black-semi-transparent;
     box-shadow: 0px 0px 6px 0px $black-semi-transparent;
-    animation: .25s ease-out 0s 1 fadeIn;
+    @include animation(.25s ease-out 0s 1 fadeIn);
     @media screen and (max-width: $desktop) {
       width: 200px;
       right: 0;

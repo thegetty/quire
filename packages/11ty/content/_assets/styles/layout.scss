@@ -24,10 +24,12 @@
 
 // .quire
 // -----------------------------------------------------------------------------
+
 [hidden] {
   display: none;
-  animation: 0.25s ease-out 0s 1 fadeOut !important;
+  @include animation(0.25s ease-out 0s 1 fadeOut !important);
 }
+
 .quire {
   width: 100%;
 
