@@ -3,6 +3,7 @@ const jsdom = require('jsdom')
 const { JSDOM } = jsdom
 const html = require('./html/transform.js')
 const pdf = require('./pdf/transform.js')
+const renderOutputs = require('./render.js')
 /**
  * Eleventy plugin to transform content for output as epub, html, pdf
  *
@@ -10,6 +11,9 @@ const pdf = require('./pdf/transform.js')
  * @param      {Object}  collections  Eleventy collections
  */
 module.exports = function(eleventyConfig, { collections }) {
+  eleventyConfig.addJavaScriptFunction('renderOutputs', function(...args)  {
+    return renderOutputs(eleventyConfig, ...args)
+  })
   /**
    * Nota bene:
    * - Call transform with `this` context to ensure we have `this.outputPath`
