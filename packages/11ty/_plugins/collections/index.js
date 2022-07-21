@@ -16,6 +16,13 @@ module.exports = function (eleventyConfig, options = {}) {
   let collections = {}
 
   /**
+   * Add sorted "all" collection
+   */
+  eleventyConfig.addCollection('allSorted', function (collectionApi) {
+    return collectionApi.getAll().sort(sortCollection)
+  })
+
+  /**
    * Add eleventy-generated collections to collections object
    */
   eleventyConfig.addCollection('temp', function (collectionApi) {

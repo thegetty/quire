@@ -491,7 +491,7 @@ html {
     }
   }
 
-  &--frontmatter {
+  &.frontmatter {
     @media print {
       background-color: transparent;
     }

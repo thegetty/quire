@@ -1,4 +1,5 @@
 ---
+class: page-one
 label: I
 title: American Photographs
 subtitle: Evans in Middletown
