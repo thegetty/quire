@@ -54,7 +54,7 @@ module.exports = function (eleventyConfig) {
     } else {
       pageTitleElement = oneLine`${pageTitle({ label, subtitle, title })}${pageContributorsElement}`
     }
-    const arrowIcon = `<span class="arrow remove-from-epub">&nbsp${icon({ type: 'arrow-forward', description: '' })}</span>`
+    const arrowIcon = `<span class="arrow" data-outputs-exclude="epub,pdf">&nbsp${icon({ type: 'arrow-forward', description: '' })}</span>`
 
     // Returns abstract with any links stripped out
     const abstractText =

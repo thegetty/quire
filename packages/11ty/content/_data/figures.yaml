@@ -1,6 +1,8 @@
 figure_list:
   - id: "example-with-choices"
-    label: "This is a label"
+    label: "Choices 1"
+    caption: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Posuere sollicitudin aliquam ultrices sagittis orci a scelerisque. Vitae tortor condimentum lacinia quis vel eros donec ac odio. Pulvinar pellentesque habitant morbi tristique senectus et netus et. Sodales ut etiam sit amet nisl purus in mollis."
+    credit: "Credit line for these images"
     choices:
       - src: figures/evans-graveyard.jpg
         label: "Choice #1"
@@ -14,6 +16,8 @@ figure_list:
     label: "Figure 2"
     src: figures/mother.jpg
     media_type: iiif
+    caption: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Risus feugiat in ante metus dictum at. Quam viverra orci sagittis eu volutpat."
+    credit: "Image courtesy of the J. Paul Getty Museum"
   - id: "example-image-service-3"
     label: "Figure 3"
     src: https://iiif.wellcomecollection.org/image/b18035723_0010.JP2/info.json
@@ -83,12 +87,22 @@ figure_list:
     src: figures/evans-video-still.jpg
     media_id: BpGN0UUtqqU
     media_type: youtube
+    label: "Video 1"
     caption: "A selection of Walker Evans photos from the across the United States of America, 1930s."
     credit: The J. Paul Getty Museum, Los Angeles
+  - id: "living-matter"
+    src: figures/fig-21-5-pavic.jpg
+    media_type: vimeo
+    media_id: 592948810/c62783c8d6
+    label: "Video 2"
+    caption: "Consolidation with Paraloid B-72, 2010."
+    credit: "Video: Museum of Contemporary Art, Zagreb"
   - id: "photo-podcast"
     media_id: 336879231
     media_type: soundcloud
+    label: "Audio 1"
     caption: "Echoing the work of Lange and Evans, contemporary photographer Chris Killip documents social landscapes and is known for a series of powerful images of struggling industrial communities in North East England."
+    credit: "© J. Paul Getty Trust"
   - id: "mother"
     src: figures/mother.jpg
     caption: "Dorothea Lange, *Human Erosion in California / Migrant Mother*, 1936."

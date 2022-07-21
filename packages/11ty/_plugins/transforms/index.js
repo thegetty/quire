@@ -3,7 +3,7 @@ const fs = require('fs-extra')
 const path = require('path')
 
 const formatOutput = require('./format')
-const transformForPDF = require('./pdf')
+const outputs = require('./outputs')
 
 /**
  * An Eleventy plugin to configure output transforms
@@ -18,7 +18,7 @@ module.exports = function(eleventyConfig, collections) {
   eleventyConfig.addTransform('format', formatOutput)
 
   /**
-   * Plugin to combine output into a single HTML file for PDF generation
+   * Register plugin to generate output for epub, html, and pdf using `transforms`
    */
-  eleventyConfig.addPlugin(transformForPDF, { eleventyConfig, collections })
+  eleventyConfig.addPlugin(outputs, { eleventyConfig, collections })
 }

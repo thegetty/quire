@@ -9,6 +9,7 @@
 module.exports = class TableOfContents {
   data() {
     return {
+      class: 'quire-contents',
       layout: 'base'
     }
   }
@@ -53,28 +54,26 @@ module.exports = class TableOfContents {
       : this.eleventyNavigation(collections.tableOfContents)
 
     return this.renderTemplate(
-      `<div class="quire-contents" id="main" role="main">
-        {% pageHeader
-          contributor_byline=contributor_byline,
-          image=image,
-          label=label,
-          pageContributors=pageContributors,
-          subtitle=subtitle,
-          title=title
-        %}
-        <section class="section quire-page__content" id="content">
-          ${contentElement}
-          <div class="container ${containerClass}">
-            <div class="quire-contents-list ${presentation}">
-              ${this.tableOfContentsList({ navigation, presentation, currentPageUrl: pagination.currentPage.url })}
-              <div class="content">
-                {% bibliography pageReferences %}
-              </div>
+      `{% pageHeader
+        contributor_byline=contributor_byline,
+        image=image,
+        label=label,
+        pageContributors=pageContributors,
+        subtitle=subtitle,
+        title=title
+      %}
+      <section class="section quire-page__content" id="content">
+        ${contentElement}
+        <div class="container ${containerClass}">
+          <div class="quire-contents-list ${presentation}">
+            ${this.tableOfContentsList({ navigation, presentation, currentPageUrl: pagination.currentPage.url })}
+            <div class="content">
+              {% bibliography pageReferences %}
             </div>
-            ${this.pageButtons({ pagination })}
           </div>
-        </section>
-      </div>`,
+          ${this.pageButtons({ pagination })}
+        </div>
+      </section>`,
       'liquid',
       data
     )

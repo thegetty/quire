@@ -96,17 +96,17 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(markdownPlugin)
 
   /**
-   * Load plugins for the Quire template shortcodes and filters
-   */
-  eleventyConfig.addPlugin(componentsPlugin)
-  eleventyConfig.addPlugin(filtersPlugin)
-  eleventyConfig.addPlugin(frontmatterPlugin)
-  eleventyConfig.addPlugin(shortcodesPlugin)
-
-  /**
    * Add collections
    */
   const collections = collectionsPlugin(eleventyConfig)
+
+  /**
+   * Load plugins for the Quire template shortcodes and filters
+   */
+  eleventyConfig.addPlugin(componentsPlugin, collections)
+  eleventyConfig.addPlugin(filtersPlugin)
+  eleventyConfig.addPlugin(frontmatterPlugin)
+  eleventyConfig.addPlugin(shortcodesPlugin, collections)
 
   /**
    * Load additional plugins used for Quire projects
@@ -147,13 +147,29 @@ module.exports = function(eleventyConfig) {
       /**
        * @see https://vitejs.dev/config/#build-options
        */
+      root: '_site',
       build: {
+        assetsDir: '_assets',
         manifest: true,
         mode: 'production',
+        outDir: '_site',
         rollupOptions: {
-          // plugins: [
-          //   scss() // @see https://github.com/thgh/rollup-plugin-scss
-          // ]
+          output: {
+            assetFileNames: ({ name }) => {
+              const fullFilePathSegments = name.split('/').slice(0, -1)
+              let filePath = '_assets/';
+              ['_assets', 'node_modules'].forEach((assetDir) => {
+                if (name.includes(assetDir)) {
+                  filePath +=
+                    fullFilePathSegments
+                      .slice(fullFilePathSegments.indexOf(assetDir) + 1)
+                      .join('/') +
+                    '/'
+                }
+              })
+              return `${filePath}[name][extname]`
+            }
+          }
         },
         sourcemap: true
       },
@@ -175,16 +191,16 @@ module.exports = function(eleventyConfig) {
     }
   })
 
+  // @see https://www.11ty.dev/docs/copy/#passthrough-during-serve
+  // @todo resolve error when set to the default behavior 'passthrough'
+  eleventyConfig.setServerPassthroughCopyBehavior('copy')
+
   /**
    * Copy static assets to the output directory
    * @see https://www.11ty.dev/docs/copy/
    */
   eleventyConfig.addPassthroughCopy('content/_assets')
   eleventyConfig.addPassthroughCopy('public')
-
-  // @see https://www.11ty.dev/docs/copy/#passthrough-during-serve
-  // @todo resolve error when set to the default behavior 'passthrough'
-  eleventyConfig.setServerPassthroughCopyBehavior('copy')
 
   /**
    * Watch the following additional files for changes and live browsersync

@@ -12,7 +12,7 @@ const liquidArgs = require('liquid-args')
  * @param  {Object}  component       A JavaScript shortcode component
  * @param  {String}  tagName         A template tag name for the component
  */
-module.exports = function(eleventyConfig, component, tagName) {
+module.exports = function(eleventyConfig, tagName, component) {
   /**
    * JavaScript template function
    * @see https://www.11ty.dev/docs/languages/javascript/#javascript-template-functions
