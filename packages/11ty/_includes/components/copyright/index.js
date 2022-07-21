@@ -22,11 +22,10 @@ module.exports = function(eleventyConfig) {
       ? `<p>${markdownify(publication.copyright)}</p>`
       : ''
 
-    const publisherImages = publication.publisher.flatMap((publisher) => {
-      const alt = publisher.name
-      const src = publisher.logo && path.join(imageDir, publisher.logo)
-      return alt && src
-        ? [`<img src="${src}" class="copyright__publisher-logo" alt="${alt}" />`]
+    const publisherImages = publication.publisher.flatMap(({ logo, name }) => {
+      const imagePath = logo && path.join(imageDir, logo)
+      return imagePath
+        ? [`<img src="${imagePath}" class="copyright__publisher-logo" alt="${name}" />`]
         : []
       })
 
