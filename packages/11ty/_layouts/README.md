@@ -52,7 +52,7 @@ Splash page layout. Extends `base`.
 
 ### Page attributes
 #### Classes
-Classes added to the `class` frontmatter property of a layout or template are applied to the `<main>` element of that page.
+Classes added to the front matter `class` property of a layout or template are applied to the `<main>` element of that page.
 
 #### IDs
 The slugified page url is used for the `id` attribute of the `<main>` element of each page.
