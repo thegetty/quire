@@ -4,20 +4,6 @@ const filterOutputs = require('../filter.js')
 const writeOutput = require('./write')
 
 /**
- * Transform relative links to anchor links
- *
- * @param      {HTMLElement}  element
- */
-const transformRelativeLinks = (element) => {
-  const nodes = element.querySelectorAll('a')
-  nodes.forEach((a) => {
-    const url = a.getAttribute('href')
-    a.setAttribute('href', `#${url}`)
-  })
-  return element
-}
-
-/**
  * A function to transform and write Eleventy content for pdf
  *
  * @param      {Object}  collections  Eleventy collections object
@@ -25,6 +11,21 @@ const transformRelativeLinks = (element) => {
  * @return     {Array}   The transformed content string
  */
 module.exports = function(eleventyConfig, collections, content) {
+  const slugify = eleventyConfig.getFilter('slugify')
+  /**
+   * Transform relative links to anchor links
+   *
+   * @param      {HTMLElement}  element
+   */
+  const transformRelativeLinks = (element) => {
+    const nodes = element.querySelectorAll('a')
+    nodes.forEach((a) => {
+      const url = a.getAttribute('href')
+      a.setAttribute('href', slugify(url).replace(/^([^#])/, '#$1'))
+    })
+    return element
+  }
+
   const pdfPages = collections.pdf.map(({ outputPath }) => outputPath)
 
   if (pdfPages.includes(this.outputPath)) {
@@ -49,7 +50,7 @@ module.exports = function(eleventyConfig, collections, content) {
           : title
 
         // set an id for anchor links to each section
-        sectionElement.setAttribute('id', collections.pdf[pageIndex].url)
+        sectionElement.setAttribute('id', mainElement.getAttribute('id'))
 
         // transform relative links to anchor links
         transformRelativeLinks(sectionElement)

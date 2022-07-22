@@ -46,7 +46,7 @@
   }
 
   // Styles used whether JS is enabled or not
-  #main {
+  main {
     background-color: $secondary-background-color;
     @media print {
       background-color: transparent;
@@ -90,7 +90,7 @@
       width: 100%;
       z-index: 9999;
 
-      #main {
+      main {
         /* margin-top: $navbar-height; */
         color: background-color-text($secondary-background-color);
         flex: 1 1 auto;
