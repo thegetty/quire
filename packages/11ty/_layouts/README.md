@@ -57,25 +57,32 @@ Classes added to the front matter `class` property of a layout or template are a
 #### IDs
 The slugified page url is used for the `id` attribute of the `<main>` element of each page.
 
-Example:
+#### Example
 
+A default class is set in the layout:
+
+**`_layouts/entry.liquid`**
 ```yaml
-// entry.liquid
 ---
 class: quire-entry
 ---
 ```
 
+Additional style classes can also be added in a template. These will be appended to the class value set in the layout.
+
+**`content/catalogue/1.md`**
 ```yaml
-// catalogue/1.md
 ---
 layout: entry
 class: fancy-custom-class
 ---
 ```
 
-```html
-// catalogue/1/index.html
+The `<main>` element of the built `/catalogue/1` page would then be:
 
-<main id="catalogue-1" class="quire-page quire-entry fancy-custom-class"></main>
+**`_site/catalogue/1/index.html`**
+```html
+<main id="catalogue-1" class="quire-page quire-entry fancy-custom-class">
+  // page content omitted for example
+</main>
 ```
