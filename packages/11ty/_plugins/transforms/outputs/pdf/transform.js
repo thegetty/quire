@@ -25,6 +25,8 @@ const transformRelativeLinks = (element) => {
  * @return     {Array}   The transformed content string
  */
 module.exports = function(eleventyConfig, collections, content) {
+  const slugify = eleventyConfig.getFilter('slugify')
+
   const pdfPages = collections.pdf.map(({ outputPath }) => outputPath)
 
   if (pdfPages.includes(this.outputPath)) {
@@ -49,7 +51,12 @@ module.exports = function(eleventyConfig, collections, content) {
           : title
 
         // set an id for anchor links to each section
-        sectionElement.setAttribute('id', collections.pdf[pageIndex].url)
+        sectionElement.setAttribute('id', mainElement.getAttribute('id'))
+        // slugify Table of Contents hrefs
+        const tableOfContentsLinks = sectionElement.querySelectorAll('.toc-list a')
+        tableOfContentsLinks.forEach((item) => {
+          item.setAttribute('href', slugify(item.getAttribute('href')))
+        })
 
         // transform relative links to anchor links
         transformRelativeLinks(sectionElement)
