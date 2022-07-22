@@ -5,6 +5,7 @@
  * @return {Object}                figure
  */
 module.exports = function(eleventyConfig, id) {
+  id = id.trim()
   const { figure_list } = eleventyConfig.globalData.figures
   return figure_list.find((item) => item.id === id)
 }

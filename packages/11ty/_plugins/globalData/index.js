@@ -1,6 +1,7 @@
 const fs = require('fs-extra')
 const path = require('path')
 const yaml = require('js-yaml')
+const { addUids } = require('~lib/uid')
 
 module.exports = function(eleventyConfig, options) {
   const dataDirectory = path.join('content', '_data')
@@ -22,6 +23,7 @@ module.exports = function(eleventyConfig, options) {
       default:
         return;
     }
+    data = addUids(data)
     eleventyConfig.addGlobalData(name, data)
   })
 }

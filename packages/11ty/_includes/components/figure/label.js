@@ -13,7 +13,7 @@ module.exports = function(eleventyConfig) {
   const { epub } = eleventyConfig.globalData.config
   const { figureLabelLocation } = eleventyConfig.globalData.config.params
 
-  return function({ caption, id, label }) {
+  return function({ caption, uid, label }) {
     let labelElement
 
     if (epub) {
@@ -26,7 +26,7 @@ module.exports = function(eleventyConfig) {
 
       content =
         (modifier === 'below')
-          ? modalLink({ caption, content, id })
+          ? modalLink({ caption, content, uid })
           : content
 
       labelElement = `<span class="q-figure__label q-figure__label--${modifier}">

@@ -26,11 +26,11 @@ module.exports = function(eleventyConfig) {
       alt='', 
       caption,
       credit,
-      id,
       label,
-      src='' 
+      src='',
+      uid
     } = figure
-    const labelElement = figurelabel({ caption, id, label })
+    const labelElement = figurelabel({ caption, uid, label })
 
     let choicesElement='', imageElement;
 
@@ -53,8 +53,8 @@ module.exports = function(eleventyConfig) {
      */
     imageElement =
       (figureLabelLocation === 'below')
-        ? figuremodallink({ content: imageElement, id })
-        : figuremodallink({ caption, content: imageElement + labelElement, id })
+        ? figuremodallink({ content: imageElement, uid })
+        : figuremodallink({ caption, content: imageElement + labelElement, uid })
 
     const captionElement =
       (figureLabelLocation === 'below')

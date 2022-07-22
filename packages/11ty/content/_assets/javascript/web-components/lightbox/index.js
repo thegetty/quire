@@ -167,7 +167,7 @@ class Lightbox extends LitElement {
   get currentFigureIndex() {
     if (!this.figures) return;
     if (!this.currentId) return 0;
-    return this.figures.findIndex(({ id }) => id === this.currentId);
+    return this.figures.findIndex(({ uid }) => uid === this.currentId);
   }
 
   get fullscreen() {
@@ -180,13 +180,13 @@ class Lightbox extends LitElement {
 
   next() {
     const nextIndex = this.currentFigureIndex + 1;
-    const nextId = this.figures[nextIndex % this.figures.length].id
+    const nextId = this.figures[nextIndex % this.figures.length].uid
     this.currentId = nextId;
   }
 
   previous() {
     const previousIndex = this.currentFigureIndex - 1;
-    const previousId = this.figures.slice(previousIndex)[0].id;
+    const previousId = this.figures.slice(previousIndex)[0].uid;
     this.currentId = previousId;
   }
 
@@ -218,7 +218,7 @@ class Lightbox extends LitElement {
 
   render() {
     const imageSlides = () => {
-      const imagesWithCaptions = this.figures.map(({ caption, credit, id, iiif, label, preset, src }, index) => {
+      const imagesWithCaptions = this.figures.map(({ caption, credit, id, iiif, label, preset, src, uid }, index) => {
         const isCanvasPanel = iiif && !!iiif.canvas && !!iiif.manifest;
         const isImageService = iiif && !!iiif.info;
         const isImg = src && !!src.match(/.+\.(jpe?g|gif|png)$/);
@@ -249,13 +249,13 @@ class Lightbox extends LitElement {
             imageElement = `<div class="q-lightbox__missing-img">Figure '${id}' does not have a valid 'src'</div>`;
             break;
           case isCanvasPanel:
-            imageElement = `<canvas-panel id="${elementId}" data-figure="${id}" canvas-id="${iiif.canvas.id}" manifest-id="${iiif.manifest.id}" preset="${preset}" width="${this.width}" height="${this.height}" />`;
+            imageElement = `<canvas-panel id="${elementId}" data-figure="${uid}" canvas-id="${iiif.canvas.id}" manifest-id="${iiif.manifest.id}" preset="${preset}" width="${this.width}" height="${this.height}" />`;
             break;
           case isImageService:
-            imageElement = `<image-service id="${elementId}" data-figure="${id}" src="${iiif.info}" width="${this.width}" height="${this.height}" />`;
+            imageElement = `<image-service id="${elementId}" data-figure="${uid}" src="${iiif.info}" width="${this.width}" height="${this.height}" />`;
             break;
           case isImg:
-            imageElement = `<img id="${elementId}" data-figure="${id}" src="${imageSrc}" />`;
+            imageElement = `<img id="${elementId}" data-figure="${uid}" src="${imageSrc}" />`;
             break;
         }
 

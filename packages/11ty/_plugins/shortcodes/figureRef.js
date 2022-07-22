@@ -22,6 +22,8 @@ const { warn } = chalkFactory('shortcodes:figureRef')
  *   [figs. 4](#fig-4), [5](#fig-5), [6](#fig-6), and [7](#fig-7)
  */
 module.exports = function(eleventyConfig) {
+  const getFigure = eleventyConfig.getFilter('getFigure')
+
   return function (ids) {
     if (!ids.length) {
       warn(`NoId: Figure 'ref' shortcode must include one or more values corresponding to the 'id' of a figure on the page. @example {% ref 'fig-1', 'fig-7', 'fig-11' %}`)
@@ -32,9 +34,10 @@ module.exports = function(eleventyConfig) {
     // transform the array of figure ids into and array of markdown links
     const links = ids.split(',').map((id, index) => {
       id = id.trim()
+      const figure = getFigure(id)
       let text = id.replace(/^fig-/i, '')
       if (index === 0) text = `${label} ${text}`
-      return `[${text}](#${id})`
+      return `[${text}](#${figure.uid})`
     })
 
     return oneLineCommaListsAnd`${links}`
