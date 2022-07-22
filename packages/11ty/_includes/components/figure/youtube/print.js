@@ -18,7 +18,7 @@ module.exports = function(eleventyConfig) {
 
     return html`
       <div class="q-figure__media-wrapper--${ aspectRatio || 'widescreen' }">
-        <img src="${src}" alt="" />
+        <img src="${src}" />
       </div>
       ${label && figureLabelLocation === 'on-top' ? figurelabel({ caption, id, label }) : ''}
       ${figurecaption({ caption, credit })}
