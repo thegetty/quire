@@ -2,6 +2,7 @@ const chalkFactory = require('~lib/chalk')
 const fs = require('fs-extra')
 const jsdom = require('jsdom')
 const path = require('path')
+const sass = require('sass')
 
 const { error, warn } = chalkFactory('transforms:pdf')
 
@@ -35,5 +36,21 @@ module.exports = async function(collection) {
     fs.writeFileSync(outputPath, dom.serialize())
   } catch (errorMessage) {
     error(`Eleventy transform for PDF error writing combined HTML output for PDF. ${errorMessage}`)
+  }
+
+  const sassOptions = {
+    loadPaths: [
+      path.resolve('node_modules')
+    ]
+  }
+
+  try {
+    const application = sass.compile(path.resolve('content', '_assets', 'styles', 'application.scss'), sassOptions)
+    const print = sass.compile(path.resolve('content', '_assets', 'styles', 'print.scss'), sassOptions)
+    const custom = sass.compile(path.resolve('content', '_assets', 'styles', 'custom.css'), sassOptions)
+    fs.ensureDirSync(path.parse(outputPath).dir)
+    fs.writeFileSync(path.join('public', 'pdf.css'), application.css + print.css + custom.css)
+  } catch (error) {
+    error('Eleventy transform for PDF error compiling SASS. Error message: ', error)
   }
 }
