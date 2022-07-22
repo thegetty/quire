@@ -28,9 +28,9 @@ module.exports = function(data) {
             >
               ${this.menu({ collections, pageData })}
             </div>
-            <div class="quire__primary" id="{{ section }}">
+            <div class="quire__primary">
               ${this.navigation(data)}
-              <main id="main" class="quire-page ${pageClasses}" data-output-path="${outputPath}">
+              <main class="quire-page ${pageClasses}" data-output-path="${outputPath}">
                 ${content}
               </main>
             </div>
