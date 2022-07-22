@@ -18,7 +18,7 @@ An image that will be included in `pdf` and `epub`, but excluded from `html`:
 ```
 
 ### Conditional Rendering
-For components that should render different markup for different output formats, a shortcode directory can include modules for each output type: `html.js`, `epub.js`, `pdf.js`. If the output for `epub` and `pdf` are the same, you can create a `print.js` module, which will be used to generate the markup for both `epub` and `pdf`. The shortcode should then also include an `index.js` that calls the `renderOutputs` function (see example below).
+For components that should render different markup for different output formats, a shortcode directory can include modules for each output format: `html.js`, `epub.js`, `pdf.js`. If the output for `epub` and `pdf` are the same, you can create a `print.js` module, which will be used to generate the markup for both `epub` and `pdf`. The shortcode should then also include an `index.js` that calls the `renderOutputs` function (see example below).
 
 Example directory structures for a `video` shortcode with conditional rendering:
 
