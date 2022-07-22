@@ -35,5 +35,6 @@ module.exports = async function (eleventyConfig, dir, params) {
     }
     return fragment.firstChild.outerHTML
   })
+  
   return html`${content}`
 }
