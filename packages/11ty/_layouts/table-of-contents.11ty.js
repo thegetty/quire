@@ -62,7 +62,7 @@ module.exports = class TableOfContents {
         subtitle=subtitle,
         title=title
       %}
-      <section class="section quire-page__content" id="content">
+      <section class="section quire-page__content">
         ${contentElement}
         <div class="container ${containerClass}">
           <div class="quire-contents-list ${presentation}">
