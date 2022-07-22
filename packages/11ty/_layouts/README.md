@@ -49,3 +49,33 @@ Raw JSON representation of publication data, used by search.
 
 #### splash
 Splash page layout. Extends `base`.
+
+### Page attributes
+#### Classes
+Classes added to the `class` frontmatter property of a layout or template are applied to the `<main>` element of that page.
+
+#### IDs
+The slugified page url is added as an id to the `<main>` element of each page.
+
+Example:
+
+```yaml
+// entry.liquid
+---
+class: quire-entry
+---
+```
+
+```yaml
+// catalogue/1.md
+---
+layout: entry
+class: fancy-custom-class
+---
+```
+
+```html
+// catalogue/1/index.html
+
+<main id="catalogue-1" class="quire-page quire-entry fancy-custom-class"></main>
+```
