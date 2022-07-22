@@ -267,10 +267,6 @@ $print-trim: $print-bleed * 2;
   .quire-cover {
     page: cover;
   }
-
-  #content>div.container>div>figure:nth-child(11)>div:nth-child(1) .q-figure--group-pdf {
-    color: #fff;
-  }
   
 // Set columns and widths for main page content
 // -----------------------------------------------------------------------------
