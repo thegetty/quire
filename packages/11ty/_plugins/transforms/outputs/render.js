@@ -23,6 +23,7 @@ module.exports = async function (eleventyConfig, dir, params) {
       return init(eleventyConfig)
     })
   )
+
   const content = renderFns.map((renderFn, index) => {
     const fragment = JSDOM.fragment(renderFn(params))
     for (child of fragment.children) {
