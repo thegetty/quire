@@ -1,4 +1,4 @@
-const { html } = require('common-tags')
+const { html } = require('~lib/common-tags')
 const path = require('path')
 
 /**
@@ -25,16 +25,10 @@ module.exports = function(eleventyConfig) {
   return async function(figure) {
     const { 
       alt='', 
-      canvasId,
       caption,
-      choices,
       credit,
       id,
-      iiifContent,
       label,
-      manifestId,
-      media_type,
-      preset,
       src='' 
     } = figure
     const labelElement = figurelabel({ caption, id, label })
@@ -59,13 +53,14 @@ module.exports = function(eleventyConfig) {
      * Wrap image in modal link
      */
     imageElement =
-      (labelPosition === 'on-top')
-        ? figuremodallink({ caption, content: imageElement + labelElement, id })
-        : imageElement
+      (figureLabelLocation === 'below')
+        ? figuremodallink({ content: imageElement, id })
+        : figuremodallink({ caption, content: imageElement + labelElement, id })
 
-    const captionElement = (labelPosition === 'below')
-      ? figurecaption({ caption, content: labelElement, credit })
-      : figurecaption({ caption, credit })
+    const captionElement =
+      (figureLabelLocation === 'below')
+        ? figurecaption({ caption, content: labelElement, credit })
+        : figurecaption({ caption, credit })
 
     return html`
       ${imageElement}

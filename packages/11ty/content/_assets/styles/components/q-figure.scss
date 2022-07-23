@@ -18,6 +18,10 @@
 
 // .q-figure
 // -----------------------------------------------------------------------------
+.content .q-figure {
+  text-align: unset; // overwrite bulma
+}
+
 .q-figure {
   --atlas-z-index: 0;
 

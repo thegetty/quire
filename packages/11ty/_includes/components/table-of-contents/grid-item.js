@@ -1,5 +1,5 @@
 const path = require ('path')
-const { html, oneLine } = require('common-tags')
+const { html, oneLine } = require('~lib/common-tags')
 
 /**
  * Renders a TOC item
@@ -36,21 +36,24 @@ module.exports = function (eleventyConfig) {
       label,
       layout,
       object: pageObject,
-      online,
       short_title,
       subtitle,
       summary,
       title
     } = page.data
 
-    const isOnline = online !== false
+    /**
+     * Check if item is a reference to a built page or just a heading
+     * @type {Boolean}
+     */
+    const isPage = !!layout
 
     const pageContributorsElement = pageContributors
       ? `<span class="contributor"> — ${contributors({ context: pageContributors, format: 'string' })}</span>`
       : ''
     const pageTitleElement = oneLine`${pageTitle({ label, subtitle, title })}${pageContributorsElement}`
-    const arrowIcon = `<span class="arrow remove-from-epub">&nbsp${icon({ type: 'arrow-forward', description: '' })}</span>`
-    let mainElement = `${markdownify(pageTitleElement)}${isOnline && !children ? arrowIcon : ''}`
+    const arrowIcon = `<span class="arrow" data-outputs-exclude="epub,pdf">&nbsp${icon({ type: 'arrow-forward', description: '' })}</span>`
+    let mainElement = `${markdownify(pageTitleElement)}${isPage && !children ? arrowIcon : ''}`
     /**
      * Create cards for page items
      */
@@ -73,7 +76,7 @@ module.exports = function (eleventyConfig) {
       case !!pageObject:
         const firstObjectId = pageObject[0].id
         const object = getObject(firstObjectId)
-        const firstObjectFigure = object ? getFigure(object.figure[0].id) : null
+        const firstObjectFigure = object && object.figure ? getFigure(object.figure[0].id) : null
         imageElement = firstObjectFigure ? tableOfContentsImage({ imageDir, src: firstObjectFigure.src }) : ''
         break
       default:
@@ -92,7 +95,7 @@ module.exports = function (eleventyConfig) {
       `
     }
 
-    if (isOnline) {
+    if (isPage) {
       mainElement = html`
         <a href="${urlFilter(page.url)}">
           ${mainElement}

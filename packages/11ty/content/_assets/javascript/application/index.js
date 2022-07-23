@@ -9,6 +9,7 @@
 
 // Stylesheets
 import "../../styles/application.scss";
+import "../../styles/custom.css";
 
 // Modules (feel free to define your own and import here)
 import Search from "../../../../_plugins/search/search.js";
@@ -292,11 +293,11 @@ function mlaDate(date) {
  *
  */
 function setDate() {
-  const dateSpan = document.querySelector(".cite-current-date");
+  const dateSpans = document.querySelectorAll(".cite-current-date");
   const formattedDate = mlaDate(new Date());
-  if (dateSpan) {
+  dateSpans.forEach(((dateSpan) => {
     dateSpan.innerHTML = formattedDate;
-  }
+  }))
 }
 
 /**

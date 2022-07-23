@@ -1,4 +1,6 @@
 @use "sass:math";
+@import "colors";
+@import "variables";
 
 // =============================================================================
 // Print.scss
@@ -216,18 +218,18 @@ $print-trim: $print-bleed * 2;
 
 // Assigning page types
 // -----------------------------------------------------------------------------
-  .quire-page--page-one {
+  .page-one {
     page: page-one;
     counter-reset: page 1;
     page-break-before: right;
   }
 
-  .quire-page--frontmatter {
+  .frontmatter {
     page: frontmatter;
   }
   
-  #half-title .quire-page--frontmatter,
-  #title .quire-page--frontmatter {
+  #half-title .frontmatter,
+  #title .frontmatter {
     page: no-footer;
   }
   
@@ -246,7 +248,7 @@ $print-trim: $print-bleed * 2;
     }
   }
   
-  .quire-splash.quire-page--frontmatter {
+  .quire-splash.frontmatter {
     page: frontmatter-splash;
   }
 
@@ -351,7 +353,7 @@ $print-trim: $print-bleed * 2;
     $menu-grid-item-width: math.div($print-width - $print-outer-margin - $print-inner-margin - (2 * $menu-grid-gap), 2);
   }
   
-  .quire-contents-list.grid .menu-list ul {
+  .quire-contents-list.grid .menu-list ol {
     .page-item {
       width: $menu-grid-item-width;
       height: 2.5in;
@@ -488,8 +490,7 @@ $print-trim: $print-bleed * 2;
     .visually-hidden,
     .footnote-return,
     .footnote-backref,
-    .is-screen-only,
-    .remove-from-epub {
+    .is-screen-only {
       display: none;
     }
     

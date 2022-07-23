@@ -1,9 +1,22 @@
 const path = require('path')
 
 module.exports = (eleventyConfig) => {
-  const root = eleventyConfig.dir.input
   return {
     baseURL: eleventyConfig.globalData.config.baseURL || eleventyConfig.globalData.env.URL,
+    /**
+     * Input and output of processable image formats
+     * @type {Array<Object>}
+     */
+    formats: [
+     {
+      input: ['.png', '.svg'],
+      output: '.png'
+     },
+     {
+      input: ['.jp2', '.jpg', '.jpeg', '.tif', '.tiff'],
+      output: '.jpg'
+     }
+    ],
     /**
      * Transformations to apply to each image
      * Each item is output as a separate file
@@ -30,6 +43,7 @@ module.exports = (eleventyConfig) => {
      * Generated manifest locale
      * @type {String}
      */
+    inputDir: path.join('content', '_assets', 'images'),
     locale: 'en',
     /**
      * Generated manifest file name
@@ -40,23 +54,8 @@ module.exports = (eleventyConfig) => {
      * Output directory
      * @type {String}
      */
-    output: path.join('_iiif'),
-    /**
-     * The eleventy project directory
-     */
-    root,
-    /**
-     * Image extensions that can be processed
-     * @type {Array}
-     */
-    supportedImageExtensions: [
-      '.jp2',
-      '.jpg',
-      '.jpeg',
-      '.png',
-      '.svg',
-      '.tif',
-      '.tiff'
-    ]
+    outputDir: 'iiif',
+    outputRoot: 'public',
+    tileSize: 256
   }
 }

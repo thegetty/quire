@@ -1,3 +1,7 @@
+const chalkFactory = require('~lib/chalk')
+
+const { warn } = chalkFactory('filters:keywords')
+
 /**
  * Gets the array of subject keywords defined in the publication data file
  *
@@ -5,7 +9,7 @@
  */
 module.exports = function(eleventyConfig, { publication }) {
   if (!publication.subject) {
-    console.warn(`Error: the 'subject' key is not defined in the 'publication' data file`)
+    warn(`the 'subject' key is not defined in the 'publication' data file`)
     return ''
   }
 

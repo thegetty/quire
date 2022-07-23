@@ -1,6 +1,6 @@
 module.exports = function(eleventyConfig) {
   return function(figure) {
-    const { choiceId, choices } = figure
+    const { choiceId, choices } = figure.iiif
     if (!choices || !choices.length) return
     return choices.map((item, index) => {
       const classes = ['canvas-choice']

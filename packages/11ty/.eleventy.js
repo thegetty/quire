@@ -1,6 +1,9 @@
+require('dotenv').config()
+require('module-alias/register')
+
 const fs = require('fs-extra')
 const path = require('path')
-require('dotenv').config()
+const scss = require('rollup-plugin-scss')
 
 /**
  * Quire features are implemented as Eleventy plugins
@@ -8,19 +11,20 @@ require('dotenv').config()
 const { EleventyRenderPlugin } = require('@11ty/eleventy')
 const EleventyVitePlugin = require('@11ty/eleventy-plugin-vite')
 const directoryOutputPlugin = require('@11ty/eleventy-plugin-directory-output')
+const citationsPlugin = require('./_plugins/citations')
 const collectionsPlugin = require('./_plugins/collections')
 const componentsPlugin = require('./_plugins/components')
-const epubPlugin = require('./_plugins/epub')
 const filtersPlugin = require('./_plugins/filters')
 const frontmatterPlugin = require('./_plugins/frontmatter')
 const globalDataPlugin = require('./_plugins/globalData')
 const iiifPlugin = require('./_plugins/iiif')
-const lintingPlugin = require('./_plugins/linting')
+const lintersPlugin = require('./_plugins/linters')
 const markdownPlugin = require('./_plugins/markdown')
 const navigationPlugin = require('@11ty/eleventy-navigation')
 const searchPlugin = require('./_plugins/search')
 const shortcodesPlugin = require('./_plugins/shortcodes')
 const syntaxHighlightPlugin = require('@11ty/eleventy-plugin-syntaxhighlight')
+const transformsPlugin = require('./_plugins/transforms')
 
 /**
  * Parsing libraries for additional data file formats
@@ -92,19 +96,22 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(markdownPlugin)
 
   /**
+   * Add collections
+   */
+  const collections = collectionsPlugin(eleventyConfig)
+
+  /**
    * Load plugins for the Quire template shortcodes and filters
    */
-  eleventyConfig.addPlugin(componentsPlugin)
+  eleventyConfig.addPlugin(componentsPlugin, collections)
   eleventyConfig.addPlugin(filtersPlugin)
   eleventyConfig.addPlugin(frontmatterPlugin)
-  eleventyConfig.addPlugin(shortcodesPlugin)
+  eleventyConfig.addPlugin(shortcodesPlugin, collections)
 
   /**
    * Load additional plugins used for Quire projects
    */
-  eleventyConfig.addPlugin(lintingPlugin)
-  eleventyConfig.addPlugin(epubPlugin)
-  eleventyConfig.addPlugin(collectionsPlugin)
+  eleventyConfig.addPlugin(citationsPlugin)
   eleventyConfig.addPlugin(navigationPlugin)
   eleventyConfig.addPlugin(searchPlugin)
   eleventyConfig.addPlugin(syntaxHighlightPlugin)
@@ -115,6 +122,17 @@ module.exports = function(eleventyConfig) {
    * @see {@link https://www.11ty.dev/docs/_plugins/render/}
    */
   eleventyConfig.addPlugin(EleventyRenderPlugin)
+
+  /**
+   * Register a plugin to run linters on input templates
+   * Nota bene: linters are run *before* applying layouts
+   */
+  eleventyConfig.addPlugin(lintersPlugin)
+
+  /**
+   * Register plugin to run tranforms on build output
+   */
+  eleventyConfig.addPlugin(transformsPlugin, collections)
 
   /**
    * Use Vite to bundle JavaScript
@@ -129,10 +147,31 @@ module.exports = function(eleventyConfig) {
       /**
        * @see https://vitejs.dev/config/#build-options
        */
+      root: outputDir,
       build: {
+        assetsDir: '_assets',
         manifest: true,
         mode: 'production',
-        rollupOptions: {}
+        outDir: outputDir,
+        rollupOptions: {
+          output: {
+            assetFileNames: ({ name }) => {
+              const fullFilePathSegments = name.split('/').slice(0, -1)
+              let filePath = '_assets/';
+              ['_assets', 'node_modules'].forEach((assetDir) => {
+                if (name.includes(assetDir)) {
+                  filePath +=
+                    fullFilePathSegments
+                      .slice(fullFilePathSegments.indexOf(assetDir) + 1)
+                      .join('/') +
+                    '/'
+                }
+              })
+              return `${filePath}[name][extname]`
+            }
+          }
+        },
+        sourcemap: true
       },
       /**
        * Set to false to prevent Vite from clearing the terminal screen
@@ -152,12 +191,16 @@ module.exports = function(eleventyConfig) {
     }
   })
 
+  // @see https://www.11ty.dev/docs/copy/#passthrough-during-serve
+  // @todo resolve error when set to the default behavior 'passthrough'
+  eleventyConfig.setServerPassthroughCopyBehavior('copy')
+
   /**
    * Copy static assets to the output directory
-   * @see {@link https://www.11ty.dev/docs/copy/ Passthrough copy in 11ty}
+   * @see https://www.11ty.dev/docs/copy/
    */
   eleventyConfig.addPassthroughCopy('content/_assets')
-  eleventyConfig.addPassthroughCopy('content/_iiif')
+  eleventyConfig.addPassthroughCopy('public')
 
   /**
    * Watch the following additional files for changes and live browsersync

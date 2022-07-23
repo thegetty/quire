@@ -1,5 +1,5 @@
 const path = require('path')
-const { html } = require('common-tags')
+const { html } = require('~lib/common-tags')
 /**
  * Renders a TOC List
  *
@@ -27,7 +27,7 @@ module.exports = function(eleventyConfig) {
     const renderList = (pages) => {
       const otherPages = filterCurrentPage(pages);
       return html`
-        <ul>
+        <ol class="toc-list">
           ${otherPages.map((page) => {
             if (presentation !== 'brief' && page.children && page.children.length) {
               const children = renderList(page.children)
@@ -35,7 +35,7 @@ module.exports = function(eleventyConfig) {
             }
             return `${tableOfContentsItem({ page, presentation })}`
           })}
-        </ul>`
+        </ol>`
     }
 
     return html`

@@ -1,14 +1,14 @@
-const { html, oneLine } = require('common-tags')
+const { html, oneLine } = require('~lib/common-tags')
 const path = require('path')
 
 /**
  * A shortcode for tombstone display of object data on an entry page
  */
-module.exports = function(eleventyConfig) {
+module.exports = function(eleventyConfig, { page }) {
   const { config, objects } = eleventyConfig.globalData
 
-  return function (pageObjects) {
-    const capitalize = eleventyConfig.getFilter('capitalize')
+  return function (pageObjects = []) {
+    const titleCase = eleventyConfig.getFilter('titleCase')
     const icon = eleventyConfig.getFilter('icon')
     const markdownify = eleventyConfig.getFilter('markdownify')
     const properties = objects.object_display_order
@@ -18,7 +18,7 @@ module.exports = function(eleventyConfig) {
 
       return html`
         <tr>
-          <td>${capitalize(property)}</td>
+          <td>${titleCase(property)}</td>
           <td>${markdownify(object[property].toString())}</td>
         </tr>
       `
@@ -43,7 +43,6 @@ module.exports = function(eleventyConfig) {
         </div>
       </section>
     `
-
     return pageObjects.map((object) => table(object)).join('')
   }
 }

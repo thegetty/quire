@@ -10,7 +10,7 @@ module.exports = function(eleventyConfig) {
     if (!config.params.licenseIcons) return ''
 
     return `
-      <svg style="display:none" class="remove-from-epub">
+      <svg style="display:none" data-outputs-exclude="epub,pdf">
         <symbol id="cc" viewBox="0 0 270 60" preserveAspectRatio="xMinYMax meet">
           <path  d="M29.9,0c8.4,0,15.5,2.9,21.4,8.8c2.8,2.8,5,6,6.4,9.7C59.3,22.1,60,25.9,60,30c0,4.1-0.7,8-2.2,11.5
           c-1.4,3.6-3.6,6.8-6.4,9.5c-2.9,2.9-6.2,5.1-10,6.6c-3.7,1.5-7.6,2.3-11.5,2.3s-7.8-0.8-11.4-2.3c-3.6-1.5-6.9-3.7-9.8-6.6

@@ -114,7 +114,7 @@ module.exports = function(eleventyConfig) {
         author: [...publicationContributors],
         datePublished: publication.pub_date,
         dateModified: publication.revision_history.date,
-        image: path.join(imageDir, publication.promo_image),
+        image: publication.promo_image && path.join(imageDir, publication.promo_image),
         license: publication.license.url,
         keywords: publication.subject
           .filter(({ type }) => type === 'keyword')

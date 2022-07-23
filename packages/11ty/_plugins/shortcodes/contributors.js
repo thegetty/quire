@@ -1,4 +1,8 @@
-const { html } = require('common-tags');
+const chalkFactory = require('~lib/chalk')
+const { html } = require('~lib/common-tags')
+
+const { error } = chalkFactory('shortcodes:contributors')
+
 /**
  * Contributor shortcode
  * Renders a list of contributors
@@ -11,12 +15,13 @@ const { html } = require('common-tags');
  * @return {String} Markup for contributors
  */
 module.exports = function (eleventyConfig) {
-  const contributorBio = eleventyConfig.getFilter('contributorBio');
-  const fullname = eleventyConfig.getFilter('fullname');
-  const getContributor = eleventyConfig.getFilter('getContributor');
-  const initials = eleventyConfig.getFilter('initials');
+  const contributorBio = eleventyConfig.getFilter('contributorBio')
+  const fullname = eleventyConfig.getFilter('fullname')
+  const getContributor = eleventyConfig.getFilter('getContributor')
+  const initials = eleventyConfig.getFilter('initials')
   const markdownify = eleventyConfig.getFilter('markdownify')
   const slugify = eleventyConfig.getFilter('slugify')
+  const sortContributors = eleventyConfig.getFilter('sortContributors')
 
   const { contributorByline: defaultFormat } = eleventyConfig.globalData.config.params
 
@@ -27,12 +32,12 @@ module.exports = function (eleventyConfig) {
       format=defaultFormat,
       role,
       type='all'
-    } = params;
+    } = params
 
     const formats = ['bio', 'initials', 'name', 'name-title', 'name-title-block', 'string']
 
     if (!formats.includes(format)) {
-      console.error(
+      error(
         `Unrecognized contributors shortcode format "${format}". Supported format values are: ${formats.join(', ')}`
       )
       return ''
@@ -42,20 +47,20 @@ module.exports = function (eleventyConfig) {
 
     if (typeof contributors === 'string') return markdownify(contributors)
 
-    const contributorList = contributors
+    let contributorList = contributors
       .flatMap(getContributor)
       .filter((item) => (type || role) && type !== 'all'
           ? (type && item.type === type) || (role && item.role === role)
           : item
       )
+    contributorList = sortContributors(contributorList)
 
     const contributorNames = contributorList
       .map(fullname)
       .filter((name) => name);
+    if (!contributorList.length) return ''
 
-    if (!contributorList.length) return '';
-
-    let contributorsElement;
+    let contributorsElement
 
     switch (format) {
       case 'bio':
@@ -64,16 +69,16 @@ module.exports = function (eleventyConfig) {
             ${contributorList.map((contributor) => contributorBio(contributor)).join('')}
           </ul>
         `
-        break;
+        break
       case 'initials': {
         const contributorInitials = contributorList.map(initials)
         const last = contributorInitials.pop()
         const nameString =
           contributorInitials.length >= 1
             ? contributorInitials.join(', ') + ' and ' + last
-            : last;
+            : last
           contributorsElement = `<span class="quire-contributor">${nameString}</span>`
-        break;
+        break
       }
       case 'name':
       case 'name-title':
@@ -96,26 +101,26 @@ module.exports = function (eleventyConfig) {
           return `
             <li class="quire-contributor" id="${slugify(contributor.id)}">${contributorParts.join(separator)}</li>
           `
-        });
+        })
         contributorsElement = `
           <ul class="quire-contributors-list ${format} align-${align}">
             ${listItems.join('')}
           </ul>
         `
-        break;
+        break
       case 'string':
-        const last = contributorNames.pop();
+        const last = contributorNames.pop()
         const namesString =
           contributorNames.length >= 1
             ? contributorNames.join(', ') + ' and ' + last
-            : last;
-        contributorsElement = `<span class='quire-contributor'>${namesString}</span>`;
-        break;
+            : last
+        contributorsElement = `<span class='quire-contributor'>${namesString}</span>`
+        break
       default:
         contributorsElement = ''
-        break;
+        break
     }
 
-    return html`${contributorsElement}`;
-  };
-};
+    return html`${contributorsElement}`
+  }
+}

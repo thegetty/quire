@@ -1,5 +1,5 @@
 const path = require('path')
-const { html } = require('common-tags')
+const { html } = require('~lib/common-tags')
 
 module.exports = function(eleventyConfig) {
   const figurelabel = eleventyConfig.getFilter('figurelabel')

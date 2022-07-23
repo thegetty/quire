@@ -1,4 +1,4 @@
-const { oneLine } = require('common-tags')
+const { oneLine } = require('~lib/common-tags')
 
 /**
  * A figure label element
@@ -21,12 +21,13 @@ module.exports = function(eleventyConfig) {
     } else {
       const modifier = labelPosition || ''
 
-      let content = labelPosition === 'on-top'
-      ? `<span class="q-figure__label-icon">${icon({ type: 'fullscreen', description: 'Expand' })}</span>`
-      : ''
+      let content = `<span class="q-figure__label-icon">${icon({ type: 'fullscreen', description: 'Expand' })}</span>`
       content += `<span class="q-figure__label-text">${markdownify(label || '')}</span>`
 
-      content = modifier === 'below' ? modalLink({ caption, content, id }) : content
+      content =
+        (modifier === 'below')
+          ? modalLink({ caption, content, id })
+          : content
 
       labelElement = `<span class="q-figure__label q-figure__label--${modifier}">
         ${content}

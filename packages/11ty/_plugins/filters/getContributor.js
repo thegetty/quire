@@ -1,3 +1,7 @@
+const chalkFactory = require('~lib/chalk')
+
+const { info, error } = chalkFactory('filters:getContributor')
+
 /**
  * Looks up a contributor in publication.yaml[contributor] by id
  * @param  {Object} eleventyConfig
@@ -19,9 +23,7 @@ module.exports = function (eleventyConfig, item) {
   )
 
   if (!contributor) {
-    console.warn(
-      `Error: Contributor not found in 'publication.yaml.' Contributor: `, item
-    )
+    error(`Contributor not found in 'publication.yaml.' Contributor: `, item)
     return ''
   }
   return contributor

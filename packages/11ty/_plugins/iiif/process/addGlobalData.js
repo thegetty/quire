@@ -11,7 +11,7 @@ module.exports = async (eleventyConfig) => {
   const isImageService = eleventyConfig.getFilter('isImageService');
   const hasCanvasPanelProps = eleventyConfig.getFilter('hasCanvasPanelProps');
   const { figures, iiifConfig } = eleventyConfig.globalData;
-  const { imageServiceDirectory, output } = iiifConfig;
+  const { imageServiceDirectory, outputDir } = iiifConfig;
 
   for (const [index, figure] of figures.figure_list.entries()) {
     switch (true) {
@@ -20,7 +20,7 @@ module.exports = async (eleventyConfig) => {
           ? figure.src
           : path.join(
               '/',
-              output,
+              outputDir,
               path.parse(figure.src).name,
               imageServiceDirectory,
               'info.json'

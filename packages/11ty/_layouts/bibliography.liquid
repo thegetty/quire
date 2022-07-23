@@ -2,11 +2,7 @@
 layout: page
 ---
 
-{% unless sort %}
-  {% assign sort = "full" %}
-{% endunless %}
-
-{% assign entries = references.entries | sort: sort %}
+{% assign entries = references.entries | sortReferences %}
 
 {{ content }}
 

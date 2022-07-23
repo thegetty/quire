@@ -9,37 +9,39 @@ const sharp = require('sharp')
 module.exports = (eleventyConfig) => {
   const {
     baseURL,
+    formats,
     imageServiceDirectory,
-    output,
-    root,
-    supportedImageExtensions,
+    inputDir,
+    outputDir,
+    outputRoot,
     tileSize
   } = eleventyConfig.globalData.iiifConfig
 
   /**
    * Tile an image for IIIF image service
-   * @param  {String} input   input file path
+   * @param  {String} filename   filename File name and extension
    * @param  {Object} options
    */
-  return async function(input, options = {}) {
+  return async function(filename, options = {}) {
     const { debug, lazy } = options
 
-    const { ext, name } = path.parse(input)
+    const { ext, name } = path.parse(filename)
+    const inputPath = path.join(inputDir, filename)
+    const outputPath = path.join(outputRoot, outputDir, name, imageServiceDirectory)
+    const format = formats.find(({ input }) => input.includes(ext))
+    const supportedImageExtensions = formats.flatMap(( { input }) => input)
 
-    if (!supportedImageExtensions.includes(ext) && debug) {
-      console.warn(`[iiif:tileImage:${name}] Image file is not a supported image type, skipping. File: `, name)
-      return;
+    if (!supportedImageExtensions.includes(ext)) {
+      if (debug) {
+        console.warn(`[iiif:tileImage:${name}] Image file is not a supported image type, skipping. File: `, name)
+      }
+      return {
+        error: `Image file type is not supported. Supported extensions are: ${supportedImageExtensions.join(', ')}`,
+        filename
+      }
     }
 
-    const outputDir = path.join(root, output)
-    const tileDirectory = path.join(outputDir, name, imageServiceDirectory)
-
-    if (fs.pathExistsSync(tileDirectory) && lazy && debug) {
-      console.warn(`[iiif:tileImage:${name}] Tiles already exist, skipping`)
-      return
-    }
-
-    fs.ensureDirSync(tileDirectory)
+    fs.ensureDirSync(outputPath)
 
     const iiifId = path.join(
       baseURL,
@@ -47,18 +49,20 @@ module.exports = (eleventyConfig) => {
       name
     )
 
-    if (debug) {
-      console.warn(`[iiif:tileImage:${name}] Starting`)
-    }
-    await sharp(input)
-      .tile({
-        id: iiifId,
-        layout: 'iiif',
-        size: 512
-      })
-      .toFile(tileDirectory)
-    if (debug) {
-      console.warn(`[iiif:tileImage:${name}] Done`)
+    try {
+      if (debug) {
+        console.log(`tileImage`, inputPath)
+      }
+      return await sharp(inputPath)
+        .toFormat(format.output.replace('.', ''))
+        .tile({
+          id: iiifId,
+          layout: 'iiif',
+          size: tileSize
+        })
+        .toFile(outputPath)
+    } catch(error) {
+      return { error, filename }
     }
   }
 }

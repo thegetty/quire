@@ -1,10 +1,13 @@
+const { html } = require('~lib/common-tags')
+const chalkFactory = require('~lib/chalk')
+
 /**
- * CanvasPanel shortcode that renders the digirati <canvas-panel> web component
+ * CanvasPanel shortcode that renders the Digirati <canvas-panel> web component
  * @see {@link https://iiif-canvas-panel.netlify.app/docs/intro/ Canvas Panel Documentation}
  */
-const { html } = require('common-tags')
-
 module.exports = function(eleventyConfig) {
+  const { info, error } = chalkFactory('shortcodes:canvasPanel')
+
   /**
    * Canvas Panel Shortcode
    * @param  {Object} params `figure` data from `figures.yaml`
@@ -16,11 +19,11 @@ module.exports = function(eleventyConfig) {
    * @return {String}        <canvas-panel> markup
    */
   return function(params) {
-    const { height='', id, iiif, preset='', region='', virtualSizes='', width='' } = params
+    const { height='', id, iiif, preset='responsive', region='', virtualSizes='', width='' } = params
     const { canvas, choiceId='', iiifContent='', manifest} = iiif
 
     if (!manifest && !iiifContent) {
-      console.error(`[shortcodes:canvasPanel] Invalid params for figure "${id}": `, params)
+      error(`Invalid params for figure "${id}": `, params)
       return ''
     }
 

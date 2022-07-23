@@ -1,10 +1,13 @@
+const chalkFactory = require('~lib/chalk')
 const path = require('path')
+
+const { warn } = chalkFactory('eleventyComputed')
 
 /**
  * Global computed data
  */
 module.exports = {
-  canonicalURL: ({ config, page }) => path.join(config.baseURL, page.url),
+  canonicalURL: ({ config, page }) => page.url && path.join(config.baseURL, page.url),
   eleventyNavigation: {
     /**
      * Explicitly define page data properties used in the TOC
@@ -19,7 +22,6 @@ module.exports = {
         label: data.label,
         layout: data.layout,
         object: data.object,
-        online: data.online,
         order: data.order,
         short_title: data.short_title,
         subtitle: data.subtitle,
@@ -28,12 +30,14 @@ module.exports = {
       }
     },
     key: (data) => {
+      if (!data.page.url) return
       const segments = data.page.url.split('/')
       const key = segments.slice(1, segments.length - 1).join('/')
       return data.key || key
     },
     order: (data) => data.order,
     parent: (data) => {
+      if (!data.page.url) return
       const segments = data.page.url.split('/')
       const parent = segments.slice(1, segments.length - 2).join('/')
       return data.parent || parent
@@ -41,14 +45,24 @@ module.exports = {
     url: (data) => data.page.url,
     title: (data) => data.title
   },
+  /**
+   * Classes applied to <main> page element
+   */
+  pageClasses: ({ collections, class: classes, layout, page }) => {
+    const pageClasses = []
+    // Add computed frontmatter and page-one classes
+    const pageIndex = collections.allSorted.findIndex(({ outputPath }) => outputPath === page.outputPath)
+    const pageOneIndex = collections.allSorted.findIndex(({ data }) => data.class && data.class.includes('page-one'))
+    if (pageIndex < pageOneIndex) {
+      pageClasses.push('frontmatter')
+    }
+    // add custom classes from page frontmatter
+    return classes ? pageClasses.concat(classes) : pageClasses
+  },
   pageContributors: ({ contributor, contributor_as_it_appears }) => {
-    const contributors = contributor_as_it_appears 
-      ? contributor_as_it_appears
-      : contributor
-    if (!contributors) return;
-    return (typeof contributors === 'string' || Array.isArray(contributors))
-      ? contributors
-      : [contributors]
+    if (!contributor) return
+    if (contributor_as_it_appears) return contributor_as_it_appears
+    return (Array.isArray(contributor)) ? contributor : [contributor];
   },
   /**
    * Compute a 'pageData' property that includes the page and collection page data
@@ -68,68 +82,59 @@ module.exports = {
   /**
    * Objects data referenced by id in page frontmatter including figures data
    */
-  pageObjects: ({ figures, object, objects }) => {
+  pageObjects: function ({ figures, object, objects }) {
     if (!object || !object.length) return
     return object
-      .map((item) => {
+      .reduce((validObjects, item) => {
         const objectData = objects.object_list.find(({ id }) => id === item.id)
         if (!objectData) {
-          console.warn(`Error: eleventyComputed: pageObjects: no object found with id ${item.id}`)
-          return
+          warn(`pageObjects: no object found with id ${item.id}`)
+          return validObjects
         }
-        objectData.figures = objectData.figure.map((figure) => {
-          if (figure.id) {
-            return figures.figure_list.find((item) => item.id === figure.id)
-          } else {
-            return figure
-          }
-        })
-        return objectData
-      })
+
+        if (!objectData.figure) {
+          warn(`pageObjects: object id ${objectData.id} has no figure data`)
+        } else {
+          objectData.figures = objectData.figure.map((figure) => {
+            if (figure.id) {
+              return this.getFigure(figure.id)
+            } else {
+              return figure
+            }
+          })
+          validObjects.push(objectData)
+        }
+
+        return validObjects
+      }, [])
   },
-  pages: ({ collections, config }) => {
-    if (!collections.all) return [];
-    return collections.all
-      .filter(({ data }) => {
-        const { online, epub, menu, pdf, type } = data
-        return (
-          online !== false &&
-          !(config.params.pdf && pdf === false) &&
-          !(config.params.epub && epub === false) &&
-          type !== 'data'
-        )
-      })
-      .sort((a, b) => parseInt(a.data.order) - parseInt(b.data.order))
-  },
-  pagination: ({ page, pages }) => {
-    if (!page || !pages) return {}
-    const currentPageIndex = pages.findIndex(({ url }) => url === page.url)
+  pagination: ({ collections, page }) => {
+    if (!page || !collections.navigation.length) return {}
+    const currentPageIndex = collections.navigation
+      .findIndex(({ url }) => url === page.url)
+    if (currentPageIndex === -1) return {}
     return {
-      currentPage: pages[currentPageIndex],
+      currentPage: collections.navigation[currentPageIndex],
       currentPageIndex,
-      nextPage: pages[currentPageIndex + 1],
-      previousPage: pages[currentPageIndex - 1]
+      percentProgress: 100 * (currentPageIndex + 1) / collections.navigation.length,
+      nextPage: collections.navigation[currentPageIndex + 1],
+      previousPage: collections.navigation[currentPageIndex - 1]
     }
   },
   /**
    * Contributors with a `pages` property containing data about the pages they contributed to
    */
-  publicationContributors: ({ config, publication, pages }) => {
+  publicationContributors: ({ collections, config, publication }) => {
     const { contributor, contributor_as_it_appears } = publication
-    return contributor_as_it_appears
-      ? contributor_as_it_appears
-      : contributor
-      /**
-       * Filtering because there are duplicate contributors here
-       * in eleventyComputed but not elsewhere. WHY?
-       */
-      .filter((itemA, index, items) => items.findIndex((itemB) => itemB.id===itemA.id)===index)
+    if (!collections.all) return
+    if (contributor_as_it_appears) return contributor_as_it_appears
+    return contributor
       .map((item) => {
         const { pic } = item
         item.imagePath = pic
           ? path.join(config.params.imageDir, pic)
           : null
-        item.pages = pages && pages.filter(
+        item.pages = collections.all.filter(
           ({ data }) => {
             if (!data.contributor) return
             return Array.isArray(data.contributor)

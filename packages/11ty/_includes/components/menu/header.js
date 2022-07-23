@@ -1,4 +1,4 @@
-const { html } = require('common-tags')
+const { html } = require('~lib/common-tags')
 
 /**
  * Publication title block in menu
@@ -18,8 +18,8 @@ module.exports = function(eleventyConfig) {
     const { currentURL } = params
     const isHomePage = currentURL === '/'
 
-    const homePageLinkOpenTag = isHomePage ? `<a class="quire-menu__header__title-link" href="/">` : ''
-    const homePageLinkCloseTag = isHomePage ? `</a>` : ''
+    const homePageLinkOpenTag = isHomePage ? '' : `<a class="quire-menu__header__title-link" href="/">`
+    const homePageLinkCloseTag = isHomePage ? '' : `</a>`
 
     const contributorElement = publication.contributor 
       ? `

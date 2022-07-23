@@ -1,4 +1,4 @@
-const { html, oneLine } = require('common-tags')
+const { html, oneLine } = require('~lib/common-tags')
 
 /**
  * Renders a TOC list item
@@ -32,14 +32,17 @@ module.exports = function (eleventyConfig) {
       contributor: pageContributors,
       label,
       layout,
-      online,
       short_title,
       subtitle,
       summary,
       title
     } = page.data
 
-    const isOnline = online !== false
+    /**
+     * Check if item is a reference to a built page or just a heading
+     * @type {Boolean}
+     */
+    const isPage = !!layout
 
     const pageContributorsElement = pageContributors
       ? `<span class="contributor"> — ${contributors({ context: pageContributors, format: 'string' })}</span>`
@@ -51,7 +54,7 @@ module.exports = function (eleventyConfig) {
     } else {
       pageTitleElement = oneLine`${pageTitle({ label, subtitle, title })}${pageContributorsElement}`
     }
-    const arrowIcon = `<span class="arrow remove-from-epub">&nbsp${icon({ type: 'arrow-forward', description: '' })}</span>`
+    const arrowIcon = `<span class="arrow" data-outputs-exclude="epub,pdf">&nbsp${icon({ type: 'arrow-forward', description: '' })}</span>`
 
     // Returns abstract with any links stripped out
     const abstractText =
@@ -59,9 +62,9 @@ module.exports = function (eleventyConfig) {
         ? `<div class="abstract-text">${ removeHTML(markdownify(abstract)) }</div>`
         : ''
 
-    let mainElement = `${markdownify(pageTitleElement)}${isOnline && !children ? arrowIcon : ''}`
+    let mainElement = `${markdownify(pageTitleElement)}${isPage && !children ? arrowIcon : ''}`
 
-    if (isOnline) {
+    if (isPage) {
       mainElement = `<a href="${urlFilter(page.url)}">${mainElement}</a>`
     } else {
       classes.push('no-landing')

@@ -1,4 +1,7 @@
-const { oneLine } = require('common-tags')
+const chalkFactory = require('~lib/chalk')
+const { oneLine } = require('~lib/common-tags')
+
+const { warn } = chalkFactory('shortcodes:figure')
 
 /**
  * Render an HTML <figure> element
@@ -22,6 +25,7 @@ module.exports = function (eleventyConfig, { page }) {
   const figuremodallink = eleventyConfig.getFilter('figuremodallink')
   const figuresoundcloud = eleventyConfig.getFilter('figuresoundcloud')
   const figuretable = eleventyConfig.getFilter('figuretable')
+  const figurevimeo = eleventyConfig.getFilter('figurevimeo')
   const figureyoutube = eleventyConfig.getFilter('figureyoutube')
   const getFigure = eleventyConfig.getFilter('getFigure')
   const slugify = eleventyConfig.getFilter('slugify')
@@ -34,7 +38,11 @@ module.exports = function (eleventyConfig, { page }) {
     /**
      * Merge figures.yaml data and additional params
      */
-    let figure = id ? getFigure(id) : {}
+    let figure = getFigure(id)
+    if (!figure) {
+      warn(`The figure id "${id}" was found in the template "${page.inputPath}", but is not defined in "figures.yaml"`)
+      return ''
+    }
     figure = { ...figure, ...arguments }
     if (!page.figures) page.figures = [];
     page.figures.push(figure);
@@ -48,7 +56,7 @@ module.exports = function (eleventyConfig, { page }) {
         case mediaType === 'youtube':
           return figureyoutube(figure)
         case mediaType === 'vimeo':
-          return 'UNIMPLEMENTED'
+          return figurevimeo(figure)
         case mediaType === 'soundcloud':
           return figuresoundcloud(figure)
         case mediaType === 'table':
