@@ -67,7 +67,7 @@ module.exports = function (eleventyConfig, { page }) {
     }
 
     return oneLine`
-      <figure id="${figure.uid}" class="${['q-figure', ...classes].join(' ')}" data-figure-id="${id}">
+      <figure id="${figure.uid}" class="${['q-figure', ...classes].join(' ')}">
         ${await component(figure)}
       </figure>
     `
