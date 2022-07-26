@@ -28,8 +28,8 @@ module.exports = async function (eleventyConfig, dir, params) {
     const fragment = JSDOM.fragment(renderFn(params))
     return [...fragment.children].map((child) => {
       const fileName = path.parse(filePaths[index]).name
-      const output = fileName === 'print' ? 'epub,pdf' : fileName
-      child.setAttribute('data-outputs-include', output)
+      const outputs = fileName === 'print' ? 'epub,pdf' : fileName
+      child.setAttribute('data-outputs-include', outputs)
       return child.outerHTML
     })
   })
