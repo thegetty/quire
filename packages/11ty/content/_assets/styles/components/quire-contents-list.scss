@@ -189,6 +189,7 @@
       transition: all .25s ease;
 
       .arrow {
+        margin-left: 4px;
         position: absolute;
         fill: background-color-text($secondary-background-color);
         transition: all .25s ease;
