@@ -8,3 +8,19 @@ Data files included in the `_data` directory will be added to the project's glob
 Data properties that are computed from other global data values are set in `eleventyComputed`. These values are directly available only in layouts and templates; **computed data properties must be explicitly passed to shortcodes and components.**
 
 Computed data, data files, and frontmatter will be combined into a single object and merged according to the [Eleventy data cascade](https://www.11ty.dev/docs/data-cascade/).
+
+### IDs
+
+In all data that contains an `id` property, the `id` must be unique and may only be rendered once in the publication. For example, if you have an image that is displayed multiple times throughout a publication, that entry will need to be copied and have a different id each time it's rendered.
+
+For example, if the same image is referenced in chapter 1 and chapter 2, you could structure your figures as:
+
+**figures.yaml**
+
+```yaml
+figure_list:
+  - id: `fig.1.1`
+    src: images/image.jpg
+  - id: `fig.2.5`
+    src: images/image.jpg
+```
