@@ -6,9 +6,8 @@ const chalkFactory = require('~lib/chalk')
 const { error } = chalkFactory('_plugins:globalData')
 
 /**
- * 
- * @param  {[type]} data [description]
- * @return {[type]}      [description]
+ * Throws error if data contains duplicate ids
+ * @param  {Object|Array} data
  */
 const checkForDuplicateIDs = function(data) {
   if (!data) return
