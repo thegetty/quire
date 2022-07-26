@@ -16,10 +16,9 @@ module.exports = function(eleventyConfig) {
 
   const { figureLabelLocation } = eleventyConfig.globalData.config.params
 
-  return function({ aspectRatio, caption, credit, id, label, media_id }) {
-    const src = `https://youtu.be/${media_id}`
+  return function({ aspect_ratio: aspectRatio, caption, credit, id, label, media_id: mediaId }) {
 
-    if (!media_id) {
+    if (!mediaId) {
       console.warn(`Error: Cannot render Youtube component without 'media_id'. Check that figures data for id: ${id} has a valid 'media_id'`)
       return ''
     }
@@ -27,10 +26,11 @@ module.exports = function(eleventyConfig) {
     return html`
       <div class="q-figure__media-wrapper--${ aspectRatio || 'widescreen' }">
         <iframe
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen
           class="q-figure__media"
           frameborder="0"
-          src="https://www.youtube.com/embed/${media_id}?rel=0&amp;showinfo=0"
+          src="https://www.youtube-nocookie.com/embed/${mediaId}"
         ></iframe>
       </div>
       ${label && figureLabelLocation === 'on-top' ? figurelabel({ caption, id, label }) : ''}

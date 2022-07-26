@@ -10,7 +10,7 @@ const { info, error } = chalkFactory('plugins:iiif:createImage')
  * @return {Function}      createImage()
  */
 module.exports = (eleventyConfig) => {
-  const { inputDir, outputDir, outputRoot } = eleventyConfig.globalData.iiifConfig
+  const { formats, inputDir, outputDir, outputRoot } = eleventyConfig.globalData.iiifConfig
 
   /**
    * Creates an image in the output directory with the name `${name}${ext}`
@@ -24,8 +24,9 @@ module.exports = (eleventyConfig) => {
     const { debug, lazy } = options
 
     const { ext, name } = path.parse(filename)
+    const format = formats.find(({ input }) => input.includes(ext))
     const inputPath = path.join(inputDir, filename)
-    const outputPath = path.join(outputRoot, outputDir, name, `${transformation.name}${ext}`)
+    const outputPath = path.join(outputRoot, outputDir, name, `${transformation.name}${format.output}`)
 
     fs.ensureDirSync(path.parse(outputPath).dir)
 

@@ -9,11 +9,11 @@ const sharp = require('sharp')
 module.exports = (eleventyConfig) => {
   const {
     baseURL,
+    formats,
     imageServiceDirectory,
     inputDir,
     outputDir,
     outputRoot,
-    supportedImageExtensions,
     tileSize
   } = eleventyConfig.globalData.iiifConfig
 
@@ -28,6 +28,8 @@ module.exports = (eleventyConfig) => {
     const { ext, name } = path.parse(filename)
     const inputPath = path.join(inputDir, filename)
     const outputPath = path.join(outputRoot, outputDir, name, imageServiceDirectory)
+    const format = formats.find(({ input }) => input.includes(ext))
+    const supportedImageExtensions = formats.flatMap(( { input }) => input)
 
     if (!supportedImageExtensions.includes(ext)) {
       if (debug) {
@@ -52,6 +54,7 @@ module.exports = (eleventyConfig) => {
         console.log(`tileImage`, inputPath)
       }
       return await sharp(inputPath)
+        .toFormat(format.output.replace('.', ''))
         .tile({
           id: iiifId,
           layout: 'iiif',

@@ -33,7 +33,7 @@ module.exports = function(eleventyConfig) {
         src="${src}&auto_play=false&color=%23ff5500&hide_related=true&show_comments=false&show_reposts=false&show_teaser=false&show_user=false"
         width="100%"
       ></iframe>
-      ${label && figureLabelLocation === 'on-top' ? figurelabel({ figure }) : '' }
+      ${label && figureLabelLocation === 'on-top' ? figurelabel({ caption, id, label }) : '' }
       ${figurecaption({ caption, credit })}
     `
   }

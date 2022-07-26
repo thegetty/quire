@@ -32,12 +32,14 @@ module.exports = {
     const createManifest = initCreateManifest(eleventyConfig)
     const tileImage = initTileImage(eleventyConfig)
     const outputPath = path.join(outputRoot, outputDir)
-    const processedFiles = fs.existsSync(outputPath) && fs.readdirSync(outputPath)
-    const tiledImages = processedFiles
-      ? processedFiles.filter((dir) => {
-          return fs.readdirSync(path.join(outputPath, dir)).includes(imageServiceDirectory)
-        })
+    const processedFiles = fs.existsSync(outputPath)
+      ? fs.readdirSync(outputPath).filter((dir) => {
+        return fs.lstatSync(path.join(outputPath, dir)).isDirectory()
+      })
       : []
+    const tiledImages = processedFiles.filter((dir) => {
+      return fs.readdirSync(path.join(outputPath, dir)).includes(imageServiceDirectory)
+    })
 
     const figuresToTile = figures.figure_list
       .flatMap((figure) => figure.choices || figure)
@@ -105,11 +107,9 @@ module.exports = {
       )
 
       if (figuresWithChoices.length) {
-        const manifests = processedFiles
-          ? processedFiles.filter((dir) => {
-              return fs.readdirSync(path.join(outputPath, dir)).includes('manifest.json')
-            })
-          : []
+        const manifests = processedFiles.filter((dir) => {
+          return fs.readdirSync(path.join(outputPath, dir)).includes('manifest.json')
+        })
         info(`Generating ${figuresWithChoices.length} ${pluralize('manifest', figuresWithChoices.length)}.`)
         for (const figure of figuresWithChoices) {
           await createManifest(figure, options)

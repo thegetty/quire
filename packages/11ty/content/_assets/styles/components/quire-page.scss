@@ -139,7 +139,7 @@ html {
     padding-bottom: 0;
     position: relative;
     @media screen {
-      animation: 0.5s ease 0s 1 slideFromRight;
+      @include animation(0.5s ease 0s 1 slideFromRight);
     }
     color: background-color-text-classic($content-background-color);
     @media print {
@@ -493,7 +493,7 @@ html {
     }
   }
 
-  &--frontmatter {
+  &.frontmatter {
     @media print {
       background-color: transparent;
     }
@@ -514,17 +514,7 @@ html {
   background-repeat: no-repeat;
   background-position: cover;
   text-align: center;
-  @media screen {
-    -webkit-animation: fadeIn 2s;
-    /* Safari, Chrome and Opera > 12.1 */
-    -moz-animation: fadeIn 2s;
-    /* Firefox < 16 */
-    -ms-animation: fadeIn 2s;
-    /* Internet Explorer */
-    -o-animation: fadeIn 2s;
-    /* Opera < 12.1 */
-    animation: fadeIn 2s;    
-  }
+  @include animation(fadeIn 2s);
 
   @media print {
     background-color: transparent;

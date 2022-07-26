@@ -67,7 +67,14 @@ module.exports = function(eleventyConfig, options) {
   }
 
   /**
-   * Configure renderer to exclude brakcets from footnotes
+   * Override default renderer to remove <hr class="footnotes-sep"/> element
+   */
+  markdownLibrary.renderer.rules.footnote_block_open = () => {
+    return '<section class="footnotes">\n<ol class="footnotes-list">\n'
+  }
+
+  /**
+   * Override default renderer to remove brakcets from footnotes
    */
   markdownLibrary.renderer.rules.footnote_caption = (tokens, idx) => {
     let n = Number(tokens[idx].meta.id + 1).toString()
