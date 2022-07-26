@@ -6,8 +6,8 @@
   "main": ".eleventy.js",
   "scripts": {
     "build": "ELEVENTY_ENV=production eleventy",
-    "build:pdf": "pagedjs-cli public/pdf.html --style ${ELEVENTY_OUTPUT_DIR:-_site}/_assets/custom.css --outline-tags 'h1' -o paged.pdf",
-    "build:prince": "prince public/pdf.html --style ${ELEVENTY_OUTPUT_DIR:-_site}/_assets/custom.css --output prince.pdf",
+    "build:pdf": "pagedjs-cli public/pdf.html --outline-tags 'h1' -o paged.pdf",
+    "build:prince": "prince public/pdf.html --output prince.pdf",
     "clean": "del ${ELEVENTY_OUTPUT_DIR:-_site} public/pdf.html",
     "debug": "DEBUG=Eleventy* eleventy --dryrun",
     "dev": "ELEVENTY_ENV=development eleventy --serve",

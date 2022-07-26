@@ -26,6 +26,36 @@ module.exports = function(eleventyConfig, collections, content) {
     return element
   }
 
+  /**
+   * Transform urls to point to original files
+   *
+   * @param      {HTMLElement}  element
+   */
+  const transformUrls = (element) => {
+    const nodes = element.querySelectorAll('[src]')
+    nodes.forEach((el) => {
+      const url = el.getAttribute('src')
+      el.setAttribute('src', `../_site${url}`)
+    })
+
+    return element
+  }
+
+  /**
+   * Transform style urls to point to original files
+   *
+   * @param      {HTMLElement}  element
+   */
+  const transformStyleUrls = (element) => {
+    const nodes = element.querySelectorAll('[style]')
+    nodes.forEach((el) => {
+      const style = el.getAttribute('style')
+      el.setAttribute('style', style.replaceAll("url('/_assets/", "url('../_site/_assets/"))
+    })
+
+    return element
+  }
+
   const pdfPages = collections.pdf.map(({ outputPath }) => outputPath)
 
   if (pdfPages.includes(this.outputPath)) {
@@ -58,6 +88,12 @@ module.exports = function(eleventyConfig, collections, content) {
         // remove non-pdf content
         filterOutputs(sectionElement, 'pdf')
         collections.pdf[pageIndex].sectionElement = sectionElement
+
+        // transform src urls
+        transformUrls(sectionElement)
+
+        // transform style urls
+        transformStyleUrls(sectionElement)
       }
 
       /**
