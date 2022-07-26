@@ -21,18 +21,9 @@ module.exports = function(eleventyConfig) {
 
       const src = path.join(imageDir, 'icons', `${abbr}.png`)
 
-      const foreignObject = abbr !== 'cc'
-        ? html`
-            <foreignObject width="135" height="30">
-              <img src="${src}" alt="${abbr.toUpperCase()}" />
-            </foreignObject>
-          `
-        : ''
-
       return `
         <switch>
           <use xlink:href="#${abbr}"></use>
-          ${foreignObject}
         </switch>
       `
     })
