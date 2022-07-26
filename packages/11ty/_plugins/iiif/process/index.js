@@ -1,10 +1,11 @@
 const fs = require('fs-extra')
 const path = require('path')
 const addGlobalData = require('./addGlobalData')
+const chalkFactory = require('~lib/chalk')
 const initCreateImage = require('./createImage')
 const initCreateManifest = require('./createManifest')
-const chalkFactory = require('~lib/chalk')
 const initTileImage = require('./tileImage')
+const pluralize = require('~lib/pluralize')
 
 const { info, error } = chalkFactory('plugins:iiif')
 
@@ -20,7 +21,6 @@ module.exports = {
   init: (eleventyConfig) => {
     info('Processing project image resources for IIIF.')
     const isImageService = eleventyConfig.getFilter('isImageService')
-    const pluralize = eleventyConfig.getFilter('pluralize')
     /**
      * IIIF config
      */
@@ -47,11 +47,11 @@ module.exports = {
       .filter(({ src }) => !tiledImages.includes(path.parse(src).name))
 
     if (tiledImages.length) {
-      info(`Skipping ${tiledImages.length} previously tiled ${pluralize('image', tiledImages.length)}.`)
+      info(`Skipping ${tiledImages.length} previously tiled ${pluralize(tiledImages.length, 'image')}.`)
     }
 
     if (figuresToTile.length) {
-      info(`Tiling ${figuresToTile.length} ${pluralize('image', figuresToTile.length)}...`)
+      info(`Tiling ${figuresToTile.length} ${pluralize(figuresToTile.length), 'image'}...`)
       info(`Generating IIIF image tiles may take a while depending on the size of each image file.`)
     } else {
       info(`No new images to tile found in figures.yaml.`)
@@ -92,8 +92,8 @@ module.exports = {
       const errors = tilingResponses.filter(({ error }) => error)
 
       if (figuresToTile.length) {
-        const errorMessage = errors.length ? ` with ${errors.length} ${pluralize('error', errors.length)}` : ''
-        info(`Completed tiling ${figuresToTile.length} ${pluralize('image', figuresToTile.length)}${errorMessage}`)
+        const errorMessage = errors.length ? ` with ${errors.length} ${pluralize(errors.length, 'error')}` : ''
+        info(`Completed tiling ${figuresToTile.length} ${pluralize(figuresToTile.length, 'image')}${errorMessage}`)
       }
 
       if (errors.length) {
@@ -110,7 +110,7 @@ module.exports = {
         const manifests = processedFiles.filter((dir) => {
           return fs.readdirSync(path.join(outputPath, dir)).includes('manifest.json')
         })
-        info(`Generating ${figuresWithChoices.length} ${pluralize('manifest', figuresWithChoices.length)}.`)
+        info(`Generating ${figuresWithChoices.length} ${pluralize(figuresWithChoices.length, 'manifest')}.`)
         for (const figure of figuresWithChoices) {
           await createManifest(figure, options)
         }
