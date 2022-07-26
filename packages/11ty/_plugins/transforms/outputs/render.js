@@ -24,17 +24,14 @@ module.exports = async function (eleventyConfig, dir, params) {
     })
   )
 
-  const content = renderFns.map((renderFn, index) => {
+  const content = renderFns.flatMap((renderFn, index) => {
     const fragment = JSDOM.fragment(renderFn(params))
-    for (child of fragment.children) {
+    return [...fragment.children].map((child) => {
       const fileName = path.parse(filePaths[index]).name
-      const output = fileName === 'print'
-        ? 'epub,pdf'
-        : fileName
+      const output = fileName === 'print' ? 'epub,pdf' : fileName
       child.setAttribute('data-outputs-include', output)
-    }
-    return fragment.firstChild.outerHTML
+      return child.outerHTML
+    })
   })
-  
   return html`${content}`
 }
