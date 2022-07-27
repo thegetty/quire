@@ -26,9 +26,6 @@ module.exports = function(eleventyConfig) {
       <svg data-outputs-exclude="epub,pdf">
         <switch>
           <use xlink:href="#${type}-icon"></use>
-          <foreignObject width="24" height="24">
-            <img src="${iconPath}" alt="${description}" />
-          </foreignObject>
         </switch>
       </svg>
       ${descriptionElement}
