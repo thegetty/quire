@@ -76,6 +76,10 @@
       width: 100%;
       display: none;
     }
+
+    @media print {
+      min-height: unset;
+    }
   }
 
   // Styles with JS enabled (sliding menu, etc.)
