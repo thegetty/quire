@@ -5,34 +5,23 @@ module.exports = function(eleventyConfig) {
   const { imageDir } = eleventyConfig.globalData.config.params
 
   return function(license) {
-    const abbreviations = license.abbreviation.split(' ')
+    const abbreviations = license
+      .abbreviation
+      .toLowerCase()
+      .split(' ')
+      .flatMap((item) => item.split('-'))
 
     const icons = abbreviations.map((abbr) => {
-      switch (abbr) {
-        case '0':
-          abbr = `cc-zero`
-          break
-        case 'CC':
-          abbr = 'cc'
-          break
-        default:
-          abbr = `cc-${abbr.toLowerCase()}`
-      }
-
-      const src = path.join(imageDir, 'icons', `${abbr}.png`)
-
       return `
-        <switch>
+        <svg class="quire-copyright__icon">
           <use xlink:href="#${abbr}"></use>
-        </switch>
+        </svg>
       `
     })
 
     return html`
       <a class="quire-copyright__icon__link" href="${license.url}" rel="license" target="_blank">
-        <svg class="quire-copyright__icon">
-          ${icons.join(' ')}
-        </svg>
+        ${icons.join(' ')}
       </a>
     `
   }

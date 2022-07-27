@@ -12,10 +12,11 @@
   font-family: $quire-navigation-font;
 
   &__icon {
+    width: 2.5em;
     height: 2.5em;
-    max-width: 100%;
-    & img {
-      max-height: 100%;
+
+    &:not(:first-child) {
+      margin-left: 0.4em;
     }
   }
   .copyright__publisher-logo {
