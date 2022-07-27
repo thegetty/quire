@@ -1,14 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-const ccIcons = fs
-  .readdirSync(path.join(__dirname, 'icons'))
-  .map((filename) => {
-    const id = path.basename(filename, '.svg')
-    return fs.readFileSync(
-      path.join(__dirname, 'icons', filename),
-      { encoding: 'utf8' }
-    ).replace('<svg', `<symbol id="${id}"`).replace('</svg', '</symbol')
-  })
+
 /**
  * Creative Commons SVG Icon
   The individual svg elements are assembled according to the specific license used:
@@ -19,6 +11,19 @@ module.exports = function(eleventyConfig) {
 
   return function() {
     if (!config.params.licenseIcons) return ''
+
+    const ccIcons = fs
+      .readdirSync(path.join(__dirname, 'icons'))
+      .map((filename) => {
+        const id = path.basename(filename, '.svg')
+        return fs
+          .readFileSync(
+            path.join(__dirname, 'icons', filename),
+            { encoding: 'utf8' }
+          )
+          .replace('<svg', `<symbol id="${id}"`)
+          .replace('</svg', '</symbol')
+      })
 
     return `
       <svg style="display:none" data-outputs-exclude="epub,pdf">
