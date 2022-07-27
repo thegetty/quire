@@ -19,7 +19,7 @@ module.exports = {
   head: require('./head.js'),
   icon: require('./icon.js'),
   icons: require('./icons.js'),
-  iconscc: require('./icons-cc.js'),
+  iconscc: require('./icons-cc/index.js'),
   index: require('./index.js'),
   jsonld: require('./head-tags/jsonld.js'),
   licenseIcons: require('./license-icons.js'),
