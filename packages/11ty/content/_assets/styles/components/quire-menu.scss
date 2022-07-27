@@ -212,8 +212,13 @@
     }
   }
 
-  a.quire-copyright__icon__link:hover {
-    background-color: transparent;
+  a.quire-copyright__icon__link {
+    display: flex;
+    margin-bottom: 0.25em;
+
+    &:hover {
+      background-color: transparent;
+    }
   }
 
   /* "Cite this Page" Section */

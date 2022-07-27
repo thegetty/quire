@@ -17,7 +17,7 @@ module.exports = function(eleventyConfig, collections, content) {
   /**
    * Remove elements excluded from this output type
    */
-  if (ext === 'html') {
+  if (ext === '.html') {
     const dom = new JSDOM(content)
     filterOutputs(dom.window.document, 'html')
     content = dom.serialize()
