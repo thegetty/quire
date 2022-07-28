@@ -120,22 +120,51 @@ $print-trim: $print-bleed * 2;
     }
   }
   
-  @page splash, splash-image {
+  @page splash {
     background-color: $print-splash-color;
   }
   
-  @page entry-image {
-    background-color: $print-entry-image-color;
-  }
-  
-  @page splash-image, cover {
+  @page splash-image {
     margin-top: 0;
     margin-bottom: -$print-bleed;
     margin-left: 0;
     margin-right: 0;
+    background-color: $print-splash-color;
+    @bottom-right {
+      content: none;
+    }
+  
+    @bottom-left {
+      content: none;
+    }
+  }
+  
+  @page entry-image {
+    background-color: $print-entry-image-color;
+    @bottom-right {
+      content: none;
+    }
+  
+    @bottom-left {
+      content: none;
+    }
+  }
+  
+  @page cover {
+    margin-top: 0;
+    margin-bottom: -$print-bleed;
+    margin-left: 0;
+    margin-right: 0;
+    @bottom-right {
+      content: none;
+    }
+  
+    @bottom-left {
+      content: none;
+    }
   }
 
-  @page no-footer, entry-image, splash-image, cover {
+  @page no-footer {
     @bottom-right {
       content: none;
     }

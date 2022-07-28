@@ -671,6 +671,9 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
   width: 100%;
   height: calc(100vh - 6rem - 3rem - 2px);
   background: black;
+  @media print {
+    display: none;
+  }
 }
 
 .side-by-side .quire-entry__lightbox {
