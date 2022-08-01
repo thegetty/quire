@@ -25,22 +25,32 @@ module.exports = (eleventyConfig) => {
 
     const { region, src } = figure
     const { ext, name } = path.parse(src)
+    const { resize } = transformation
     const format = formats.find(({ input }) => input.includes(ext))
     const inputPath = path.join(inputDir, src)
     const outputPath = path.join(outputRoot, outputDir, name, `${transformation.name}${format.output}`)
 
     fs.ensureDirSync(path.parse(outputPath).dir)
 
+    const service = sharp(inputPath)
+    service.crop = function (region) {
+      if (!region) return this
+      const [ top, left, width, height ] = region.split(',').map((item) => parseFloat(item.trim()))
+      service.extract({ top, left, width, height })
+      return this
+    }
+
     if (!lazy || !fs.pathExistsSync(outputPath)) {
       if (debug) {
         info(`Created ${src}`)
       }
       try {
-        return await sharp(inputPath)
-          .resize(transformation.resize)
+        return await service
+          .crop(region)
+          .resize(resize)
           .withMetadata()
           .toFile(outputPath)
-      } catch(errorMessage) {
+      } catch (errorMessage) {
         error(`${src} ${errorMessage}`)
       }
     }
