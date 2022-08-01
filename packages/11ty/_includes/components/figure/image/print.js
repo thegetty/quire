@@ -10,9 +10,9 @@ const path = require('path')
  */
 module.exports = function(eleventyConfig) {
   const figurecaption = eleventyConfig.getFilter('figurecaption')
+  const figurelabel = eleventyConfig.getFilter('figurelabel')
   const hasCanvasPanelProps = eleventyConfig.getFilter('hasCanvasPanelProps')
   const isImageService = eleventyConfig.getFilter('isImageService')
-  const figurelabel = eleventyConfig.getFilter('figurelabel')
 
   const { imageDir } = eleventyConfig.globalData.config.params
 
