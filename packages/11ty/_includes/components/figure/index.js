@@ -9,8 +9,6 @@ const placeholder = require('./placeholder')
 const soundcloud = require('./soundcloud')
 const table = require('./table')
 const video = require('./video')
-const vimeo = require('./vimeo')
-const youtube = require('./youtube')
 
 module.exports = {
   canvasPanel,
@@ -23,7 +21,5 @@ module.exports = {
   figuresoundcloud: soundcloud,
   figuretable: table,
   figurevideo: video,
-  figurevimeo: vimeo,
-  figureyoutube: youtube,
   imageService
 }
