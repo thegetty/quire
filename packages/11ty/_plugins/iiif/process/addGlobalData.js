@@ -16,16 +16,13 @@ module.exports = async (eleventyConfig) => {
   for (const [index, figure] of figures.figure_list.entries()) {
     switch (true) {
       case isImageService(figure):
+        const { name, ext } = path.parse(figure.src)
+        const baseURL = path.join('/', outputDir, name)
         const info = figure.src.startsWith('http')
           ? figure.src
-          : path.join(
-              '/',
-              outputDir,
-              path.parse(figure.src).name,
-              imageServiceDirectory,
-              'info.json'
-            );
+          : path.join(baseURL, imageServiceDirectory, 'info.json');
         Object.assign(eleventyConfig.globalData.figures.figure_list[index], {
+          printImage: figure.printImage || path.join(baseURL, `print-image${ext}`),
           iiif: { info }
         });
         break;

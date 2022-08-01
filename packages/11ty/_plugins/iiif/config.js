@@ -32,6 +32,15 @@ module.exports = (eleventyConfig) => {
         resize: {
           width: 50
         }
+      },
+      /**
+       * Transformation applied to imageservice images for use in PDF and EPUB
+       */
+      {
+        name: 'print-image',
+        resize: {
+          width: 800
+        }
       }
     ],
     /**
