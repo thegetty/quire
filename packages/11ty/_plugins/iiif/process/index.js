@@ -73,19 +73,16 @@ module.exports = {
 
       const promises = []
       figuresToTile.forEach((figure) => {
-        const imagePath = figure.src
-        const id = path.parse(imagePath).name
-
         if (debug) {
-          info(`Tiling ${id}`)
+          info(`Tiling ${figure.id}`)
         }
 
         promises.push(
           imageTransformations.map((transformation) => {
-            return createImage(imagePath, transformation, options);
+            return createImage(figure, transformation, options);
           })
         )
-        promises.push(tileImage(imagePath, options))
+        promises.push(tileImage(figure, options))
       })
 
       const tilingResponses = await Promise.all(promises)

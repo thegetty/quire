@@ -19,14 +19,15 @@ module.exports = (eleventyConfig) => {
 
   /**
    * Tile an image for IIIF image service
-   * @param  {String} filename   filename File name and extension
+   * @param  {String} figure   Figure entry data from `figures.yaml`
    * @param  {Object} options
    */
-  return async function(filename, options = {}) {
+  return async function(figure, options = {}) {
     const { debug, lazy } = options
 
-    const { ext, name } = path.parse(filename)
-    const inputPath = path.join(inputDir, filename)
+    const { src } = figure
+    const { ext, name } = path.parse(src)
+    const inputPath = path.join(inputDir, src)
     const outputPath = path.join(outputRoot, outputDir, name, imageServiceDirectory)
     const format = formats.find(({ input }) => input.includes(ext))
     const supportedImageExtensions = formats.flatMap(( { input }) => input)
@@ -37,7 +38,7 @@ module.exports = (eleventyConfig) => {
       }
       return {
         error: `Image file type is not supported. Supported extensions are: ${supportedImageExtensions.join(', ')}`,
-        filename
+        src
       }
     }
 
@@ -62,7 +63,7 @@ module.exports = (eleventyConfig) => {
         })
         .toFile(outputPath)
     } catch(error) {
-      return { error, filename }
+      return { error, src }
     }
   }
 }

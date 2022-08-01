@@ -15,24 +15,25 @@ module.exports = (eleventyConfig) => {
   /**
    * Creates an image in the output directory with the name `${name}${ext}`
    *
-   * @param  {String} input Input file path
+   * @param  {Object} figure Figure entry data from `figures.yaml`
    * @param  {Object} transformation A transformation item from `iiif/config.js#imageTransformations`
    * @property  {String} name The name of the file
    * @property  {Object} resize Resize options for `sharp`
    */
-  return async (filename, transformation = {}, options) => {
+  return async (figure, transformation = {}, options) => {
     const { debug, lazy } = options
 
-    const { ext, name } = path.parse(filename)
+    const { region, src } = figure
+    const { ext, name } = path.parse(src)
     const format = formats.find(({ input }) => input.includes(ext))
-    const inputPath = path.join(inputDir, filename)
+    const inputPath = path.join(inputDir, src)
     const outputPath = path.join(outputRoot, outputDir, name, `${transformation.name}${format.output}`)
 
     fs.ensureDirSync(path.parse(outputPath).dir)
 
     if (!lazy || !fs.pathExistsSync(outputPath)) {
       if (debug) {
-        info(`Created ${filename}`)
+        info(`Created ${src}`)
       }
       try {
         return await sharp(inputPath)
@@ -40,7 +41,7 @@ module.exports = (eleventyConfig) => {
           .withMetadata()
           .toFile(outputPath)
       } catch(errorMessage) {
-        error(`${filename} ${errorMessage}`)
+        error(`${src} ${errorMessage}`)
       }
     }
   }
