@@ -25,7 +25,7 @@ module.exports = function(eleventyConfig) {
 
     switch (true) {
       case hasCanvasPanelProps(figure) || isImageService(figure):
-        imageSrc = figure.fallback
+        imageSrc = figure.printImage
         break
       default:
         imageSrc = src.startsWith('http') ? src : path.join(imageDir, src)

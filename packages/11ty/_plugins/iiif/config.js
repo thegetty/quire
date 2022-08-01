@@ -37,7 +37,7 @@ module.exports = (eleventyConfig) => {
        * Transformation applied to imageservice images for use in PDF and EPUB
        */
       {
-        name: 'fallback',
+        name: 'print-image',
         resize: {
           width: 800
         }

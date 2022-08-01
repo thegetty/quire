@@ -22,7 +22,7 @@ module.exports = async (eleventyConfig) => {
           ? figure.src
           : path.join(baseURL, imageServiceDirectory, 'info.json');
         Object.assign(eleventyConfig.globalData.figures.figure_list[index], {
-          fallback: figure.fallback || path.join(baseURL, `fallback${ext}`),
+          printImage: figure.printImage || path.join(baseURL, `print-image${ext}`),
           iiif: { info }
         });
         break;
