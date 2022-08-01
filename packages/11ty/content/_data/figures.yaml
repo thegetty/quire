@@ -84,14 +84,14 @@ figure_list:
     caption: "Dorothea Lange. *Abandoned Dust Bowl Home*, about 1935–1940."
     credit: The J. Paul Getty Museum, Los Angeles
   - id: "evans-video"
-    src: figures/evans-video-still.jpg
+    poster: figures/evans-video-still.jpg
     media_id: BpGN0UUtqqU
     media_type: youtube
     label: "Video 1"
     caption: "A selection of Walker Evans photos from the across the United States of America, 1930s."
     credit: The J. Paul Getty Museum, Los Angeles
   - id: "living-matter"
-    src: figures/fig-21-5-pavic.jpg
+    poster: figures/fig-21-5-pavic.jpg
     media_type: vimeo
     media_id: 592948810/c62783c8d6
     label: "Video 2"
