@@ -73,6 +73,13 @@
     }
   }
 
+  &--soundcloud,
+  &--video,
+  &--vimeo,
+  &--youtube {
+    // do I need these?
+  }
+
   img {
     object-fit: cover;
     width: 100%;
@@ -232,6 +239,8 @@
   }
 
   &__media-wrapper {
+    position: relative;
+
     &--standard {
       padding-bottom: 75%;
       position: relative;
@@ -253,7 +262,7 @@
     }
   }
 
-  &__media {
+  &__media--embed {
     position: absolute;
     top: 0;
     left: 0;
@@ -330,7 +339,7 @@
     }
   }
 
-  &__video {
+  video {
     width: 100%;
   }
 

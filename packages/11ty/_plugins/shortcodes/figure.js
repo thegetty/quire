@@ -25,8 +25,7 @@ module.exports = function (eleventyConfig, { page }) {
   const figuremodallink = eleventyConfig.getFilter('figuremodallink')
   const figuresoundcloud = eleventyConfig.getFilter('figuresoundcloud')
   const figuretable = eleventyConfig.getFilter('figuretable')
-  const figurevimeo = eleventyConfig.getFilter('figurevimeo')
-  const figureyoutube = eleventyConfig.getFilter('figureyoutube')
+  const figurevideo = eleventyConfig.getFilter('figurevideo')
   const getFigure = eleventyConfig.getFilter('getFigure')
   const slugify = eleventyConfig.getFilter('slugify')
 
@@ -53,21 +52,21 @@ module.exports = function (eleventyConfig, { page }) {
       switch (true) {
         case (epub || pdf) && ['soundcloud', 'youtube'].includes(mediaType):
           return figureplaceholder(figure)
-        case mediaType === 'youtube':
-          return figureyoutube(figure)
-        case mediaType === 'vimeo':
-          return figurevimeo(figure)
         case mediaType === 'soundcloud':
           return figuresoundcloud(figure)
         case mediaType === 'table':
           return await figuretable(figure)
+        case mediaType === 'video':
+        case mediaType === 'vimeo':
+        case mediaType === 'youtube':
+          return figurevideo(figure)
         default:
           return await figureimage(figure)
       }
     }
 
     return oneLine`
-      <figure id="${slugify(id)}" class="${['q-figure', ...classes].join(' ')}">
+      <figure id="${slugify(id)}" class="${['q-figure', 'q-figure--' + mediaType, ...classes].join(' ')}">
         ${await component(figure)}
       </figure>
     `
