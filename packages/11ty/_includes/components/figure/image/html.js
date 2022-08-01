@@ -21,7 +21,7 @@ module.exports = function(eleventyConfig) {
 
   const { imageDir, figureLabelLocation } = eleventyConfig.globalData.config.params
 
-  return async function(figure) {
+  return function(figure) {
     const { 
       alt='', 
       caption,

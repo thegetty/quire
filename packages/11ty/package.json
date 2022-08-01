@@ -25,7 +25,7 @@
   "author": "Getty Digital",
   "license": "J Paul Getty Trust",
   "devDependencies": {
-    "@11ty/eleventy": "^2.0.0-canary.13",
+    "@11ty/eleventy": "^2.0.0-canary.14",
     "@11ty/eleventy-img": "^2.0.1",
     "@11ty/eleventy-navigation": "^0.3.3",
     "@11ty/eleventy-plugin-directory-output": "^1.0.1",
@@ -46,6 +46,7 @@
     "json5": "^2.2.1",
     "liquid-args": "^1.0.0",
     "liquidjs": "^9.39.2",
+    "locale-en-us": "^0.0.2",
     "markdown-it": "^13.0.1",
     "markdown-it-anchor": "^8.6.4",
     "markdown-it-attrs": "^4.1.4",
@@ -54,24 +55,23 @@
     "markdown-it-footnote": "^3.0.3",
     "mime-types": "^2.1.35",
     "module-alias": "^2.2.2",
+    "pagedjs-cli": "1.0.0-alpha.2",
     "path": "^0.12.7",
     "prettier": "2.7.1",
     "remove-markdown": "^0.5.0",
     "rollup-plugin-scss": "^3.0.0",
     "sass": "^1.53.0",
     "sharp": "^0.30.7",
+    "simple-cite": "^0.2.1",
     "toml": "^3.0.0"
   },
   "dependencies": {
     "bulma": "^0.9.3",
     "core-js": "2.5.0",
     "lit": "^2.2.7",
-    "locale-en-us": "^0.0.2",
     "lunr": "^2.3.9",
     "material-icons": "^1.10.11",
-    "simple-cite": "^0.2.1",
-    "template-polyfill": "^2.0.0",
-    "pagedjs-cli": "0.2.2-beta.2"
+    "template-polyfill": "^2.0.0"
   },
   "_moduleAliases": {
     "~includes": "./_includes",
