@@ -63,8 +63,10 @@ module.exports = function(eleventyConfig) {
 
   const { figureLabelLocation, imageDir } = eleventyConfig.globalData.config.params
 
-  return function({ aspect_ratio: aspectRatio, caption, credit, id, label, media_id: mediaId, src, media_type: mediaType }) {
-    src = src.startsWith('http') ? src : path.join(imageDir, src)
+  return function({ aspect_ratio: aspectRatio, caption, credit, id, label, media_id: mediaId, media_type: mediaType, src }) {
+    if (src) {
+      src = src.startsWith('http') ? src : path.join(imageDir, src)
+    }
 
     const isEmbed = mediaType === 'vimeo' || mediaType === 'youtube'
 
