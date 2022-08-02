@@ -25,15 +25,17 @@ module.exports = function(eleventyConfig) {
     }
 
     return html`
-      <iframe
-        allow="autoplay"
-        frameborder="no"
-        height="166"
-        scrolling="no"
-        src="${src}&auto_play=false&color=%23ff5500&hide_related=true&show_comments=false&show_reposts=false&show_teaser=false&show_user=false"
-        width="100%"
-      ></iframe>
-      ${label && figureLabelLocation === 'on-top' ? figurelabel({ caption, id, label }) : '' }
+      <div class="q-figure__media-wrapper">
+        <iframe
+          allow="autoplay"
+          frameborder="no"
+          height="166"
+          scrolling="no"
+          src="${src}&auto_play=false&color=%23ff5500&hide_related=true&show_comments=false&show_reposts=false&show_teaser=false&show_user=false"
+          width="100%"
+        ></iframe>
+        ${label && figureLabelLocation === 'on-top' ? figurelabel({ caption, id, label }) : '' }
+      </div>
       ${figurecaption({ caption, credit })}
     `
   }
