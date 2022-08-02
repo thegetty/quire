@@ -1,4 +1,5 @@
-import { LitElement, css, html } from 'lit';
+import { LitElement, html } from 'lit';
+import { styles } from './styles.js'
 
 const stringifyData = (jsObject) => {
   return encodeURIComponent(JSON.stringify(jsObject));
@@ -16,43 +17,7 @@ class Modal extends LitElement {
     imageDir: { attribute: 'image-dir', type: String }
   }
 
-  static styles = css`
-    .q-modal {
-      position: fixed;
-      z-index: 1;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: black;
-      overflow: hidden;
-      transform: translateY(-100%);
-      opacity: 0;
-      transition: transform 0s 0.2s, opacity 0.2s linear;
-    }
-
-    .active.q-modal {
-      transform: translateY(0);
-      opacity: 1;
-      transition: transform 0s, opacity 0.2s 0.2s linear;
-    }
-
-    .q-modal__close-button {
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 30px;
-      height: 30px;
-      margin-top: 10px;
-      margin-right: 10px;
-      padding: 0;
-      border: 0;
-      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AAAB6klEQVR4Ae3bsWpUQRTG8YkkanwCa7GzVotsI/gEgk9h4Vu4ySLYmMYgbJrc3lrwZbJwC0FMt4j7F6Y4oIZrsXtgxvx/1c0ufEX4cnbmLCmSJEmSJEmSJEmSJP3XCBPvbJU+8doWmDFwyZpLBmYlNJebz0KwzykwsuSYJSNwykEJreV2BaBMaLIQZ2xYcFgqDlmw4ayE/FwL0dDk4Qh4W37DAjgqIT+3HRbigjH+iikVdxgZStgyN0Su2sXIeTwTT+esdpcbIlfNAuZ/TxresG4zV8kYWSZNiKUTokMMSWeIwTNEn4fK2TW3gRNgVkJLuVksROA9G+bEvoATNlBCa7nZXEwdxEZxzpKRKFh+bsv8LmPFmhX1OwfIz81jIRJQ5eeqG9B+riRJkiRJkiRJkiRJkiRJkiRJUkvA/8RQoEpKlJWINFkJ62AlrEP/mNBibnv2yz/A3t7Uq3LcpoxP8COjC1T5vxoAD5VdoEqdDrd5QuW1swtUSaueh3zkiuBiqgtA2OlkeMcP/uDqugsJdbjHF65VdPMKwS0+WQc/MgKvrIOHysB9vgPwk8+85hmPbnQdvHZyDMAFD7L3EOpgMcVdvnHFS0/vlatrXvCVx0U9gt3fxvnA0/hB4nmRJEmSJEmSJEmSJGmHfgFLaDPoMu5xWwAAAABJRU5ErkJggg==) no-Repeat top left rgba(0,0,0,0.5);
-      background-position-x: -6px;
-      background-position-y: -51px;
-      cursor: pointer;
-    }
-  `;
+  static styles = styles;
 
   constructor() {
     super();
