@@ -37,6 +37,10 @@ module.exports = (eleventyConfig) => {
         info(`Created ${src}`)
       }
       try {
+        /**
+         * Declare a `sharp` service with a `crop` method that can be
+         * called without a region, which the sharp API method `extract` does not allow
+         */
         const service = sharp(inputPath)
         service.crop = function (region) {
           if (!region) return this
