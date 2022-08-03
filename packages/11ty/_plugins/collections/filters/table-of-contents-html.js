@@ -1,7 +1,7 @@
 const outputFilter = require('./output')
 
 /**
- * Returns `true` if page should be included in the Table of Contents
+ * Returns `true` if page should be included in the HTML build of the Table of Contents
  * @param  {Object} page Eleventy `page` object
  * @return {Boolean}
  */

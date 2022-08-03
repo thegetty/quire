@@ -3,7 +3,9 @@ const html = require('./html')
 const menu = require('./menu')
 const navigation = require('./navigation')
 const pdf = require('./pdf')
-const tableOfContents = require('./tableOfContents')
+const tableOfContentsEpub = require('./table-of-contents-epub')
+const tableOfContentsHtml = require('./table-of-contents-html')
+const tableOfContentsPdf = require('./table-of-contents-pdf')
 
 module.exports = {
   epub,
@@ -11,5 +13,7 @@ module.exports = {
   menu,
   navigation,
   pdf,
-  tableOfContents
+  tableOfContentsEpub,
+  tableOfContentsHtml,
+  tableOfContentsPdf
 }
