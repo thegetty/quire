@@ -2,7 +2,7 @@
 title: Quire DEBUG
 layout: page
 menu: false
-order: 1000
+order: 2000
 outputs: none
 toc: false
 ---
