@@ -36,23 +36,6 @@ module.exports = class TableOfContents {
       : ''
     const containerClass = presentation === 'grid' ? 'is-fullhd' : ''
 
-    /**
-     * The pages to include in the table of contents
-     * Either the project or a project section
-     */
-    const findNavigationItem = (url, items=[]) => {
-      let item = items.find((page) => url === page.url)
-      if (!item) {
-        items = items.flatMap((item) => item.children)
-        return findNavigationItem(url, items)
-      }
-      return item
-    }
-    const currentNavigationItem = findNavigationItem(page.url, this.eleventyNavigation(collections.tableOfContents))
-    const navigation = currentNavigationItem.children && currentNavigationItem.children.length
-      ? currentNavigationItem.children
-      : this.eleventyNavigation(collections.tableOfContents)
-
     return this.renderTemplate(
       `{% pageHeader
         contributor_byline=contributor_byline,
@@ -66,7 +49,7 @@ module.exports = class TableOfContents {
         ${contentElement}
         <div class="container ${containerClass}">
           <div class="quire-contents-list ${presentation}">
-            ${this.tableOfContentsList({ navigation, presentation, currentPageUrl: pagination.currentPage.url })}
+            ${this.tableOfContents({ collections, currentPageUrl: page.url, presentation })}
             <div class="content">
               {% bibliography pageReferences %}
             </div>
