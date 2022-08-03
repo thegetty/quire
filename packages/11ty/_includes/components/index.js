@@ -39,11 +39,11 @@ module.exports = {
   pageTitle: require('./page-title.js'),
   scripts: require('./scripts.js'),
   siteTitle: require('./site-title.js'),
-  tableOfContentsGridItem: require('./table-of-contents/grid-item.js'),
-  tableOfContentsImage: require('./table-of-contents/image.js'),
-  tableOfContentsItem: require('./table-of-contents/item.js'),
   tableOfContentsList: require('./table-of-contents/list.js'),
-  tableOfContentsListItem: require('./table-of-contents/list-item.js'),
+  tableOfContentsGridItem: require('./table-of-contents/item/grid.js'),
+  tableOfContentsImage: require('./table-of-contents/item/image.js'),
+  tableOfContentsItem: require('./table-of-contents/item/index.js'),
+  tableOfContentsListItem: require('./table-of-contents/item/list.js'),
   twitterCard: require('./head-tags/twitter-card.js'),
   webComponents: require('./head-tags/web-components.js')
 }
