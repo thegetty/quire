@@ -5,7 +5,7 @@ const { html } = require('~lib/common-tags')
  *
  * @param     {Object} eleventyConfig
  * @param     {Object} params
- * @property  {Object} navigation An eleventyNavigation collection, such as `eleventyNavigation(collection.tableOfContents)`
+ * @property  {Object} collection An eleventy collection, such as `collection.tableOfContentsEpub`
  * @property  {Object} page The current page object
  * @property  {String} presentation How the TOC should display. Possible values: ['abstract', 'brief', 'grid']
  *
@@ -16,7 +16,27 @@ module.exports = function(eleventyConfig) {
   const tableOfContentsItem = eleventyConfig.getFilter('tableOfContentsItem')
 
   return function(params) {
-    const { currentPageUrl, navigation, presentation } = params
+    const { collection, currentPageUrl, presentation } = params
+
+    /**
+     * Determine if we are rendering a section or publication Table of Contents
+     */
+    const findNavigationItem = (url, items) => {
+      if (!items || !items.length) return
+      let item = items.find((page) => url === page.url)
+      if (!item) {
+        items = items.flatMap((item) => item.children)
+        return findNavigationItem(url, items)
+      }
+      return item
+    }
+    const currentNavigationItem = findNavigationItem(currentPageUrl, eleventyNavigation(collection))
+
+    if (!currentNavigationItem) return
+
+    const navigation = currentNavigationItem.children && currentNavigationItem.children.length
+      ? currentNavigationItem.children
+      : eleventyNavigation(collection)
 
     const filterCurrentPage = (pages) => {
       return pages.filter((page) => {
