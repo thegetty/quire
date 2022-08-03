@@ -5,9 +5,11 @@ const { JSDOM } = jsdom
 const path = require('path')
 
 /**
- * Render all shortcode outputs
+ * Iterate over output files `epub.js`, html.js`, `pdf.js`, and `print.js`;
+ * initialize with `eleventyConfig` and render each with the `data-outputs-include`
+ * attribute
  */
-module.exports = async function (eleventyConfig, dir, params) {
+module.exports = function (eleventyConfig, dir, params) {
   const fileNames = ['epub', 'html', 'pdf', 'print']
 
   const filePaths = fileNames.flatMap((output) => {
@@ -17,15 +19,11 @@ module.exports = async function (eleventyConfig, dir, params) {
       : filePath
   })
 
-  const renderFns = await Promise.all(
-    filePaths.map((filePath) => {
-      const init = require(filePath)
-      return init(eleventyConfig)
-    })
-  )
-
-  const content = renderFns.flatMap((renderFn, index) => {
-    const fragment = JSDOM.fragment(renderFn(params))
+  const content = filePaths.flatMap((filePath, index) => {
+    const init = require(filePath)
+    const renderFn = init(eleventyConfig)
+    const component = renderFn(params)
+    const fragment = JSDOM.fragment(component)
     return [...fragment.children].map((child) => {
       const fileName = path.parse(filePaths[index]).name
       const outputs = fileName === 'print' ? 'epub,pdf' : fileName
