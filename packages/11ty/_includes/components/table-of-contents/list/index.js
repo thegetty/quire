@@ -21,7 +21,8 @@ module.exports = function(eleventyConfig) {
     /**
      * Determine if we are rendering a section or publication Table of Contents
      */
-    const findNavigationItem = (url, items=[]) => {
+    const findNavigationItem = (url, items) => {
+      if (!items || !items.length) return
       let item = items.find((page) => url === page.url)
       if (!item) {
         items = items.flatMap((item) => item.children)
@@ -30,6 +31,9 @@ module.exports = function(eleventyConfig) {
       return item
     }
     const currentNavigationItem = findNavigationItem(currentPageUrl, eleventyNavigation(collection))
+
+    if (!currentNavigationItem) return
+
     const navigation = currentNavigationItem.children && currentNavigationItem.children.length
       ? currentNavigationItem.children
       : eleventyNavigation(collection)
