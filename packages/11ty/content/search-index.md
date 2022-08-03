@@ -1,8 +1,9 @@
 ---
-type: data
 layout: search-index
-permalink: search-index.json
+order: 1000
 outputs:
   - html
+permalink: search-index.json
 search: false
+type: data
 ---
