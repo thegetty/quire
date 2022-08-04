@@ -14,7 +14,7 @@ module.exports = function(eleventyConfig) {
   const hasCanvasPanelProps = eleventyConfig.getFilter('hasCanvasPanelProps')
   const isImageService = eleventyConfig.getFilter('isImageService')
 
-  const { imageDir } = eleventyConfig.globalData.config.params
+  const imageDir = eleventyConfig.globalData.config.params.imageDir.slice(1)
 
   return function(figure) {
     const { alt, caption, credit, id, iiif, label, src } = figure
