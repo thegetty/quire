@@ -14,7 +14,12 @@ module.exports = function(eleventyConfig) {
   const hasCanvasPanelProps = eleventyConfig.getFilter('hasCanvasPanelProps')
   const isImageService = eleventyConfig.getFilter('isImageService')
 
-  const imageDir = eleventyConfig.globalData.config.params.imageDir.slice(1)
+  const { imageDir } = eleventyConfig.globalData.config.params
+
+  // strip the leading slash from imageDir
+  const relativeImageDir = imageDir
+    ? imageDir.match(/[^\/].*/)[0]
+    : ''
 
   return function(figure) {
     const { alt, caption, credit, id, iiif, label, src } = figure
@@ -28,7 +33,7 @@ module.exports = function(eleventyConfig) {
         imageSrc = figure.printImage
         break
       default:
-        imageSrc = src.startsWith('http') ? src : path.join(imageDir, src)
+        imageSrc = src.startsWith('http') ? src : path.join(relativeImageDir, src)
         imageElement = `<img alt="${alt}" class="q-figure__image" src="${imageSrc}" />`
         break
     }

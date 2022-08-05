@@ -13,14 +13,17 @@ module.exports = function(eleventyConfig) {
   const figurecaption = eleventyConfig.getFilter('figurecaption')
   const figurelabel = eleventyConfig.getFilter('figurelabel')
 
-  const { figureLabelLocation } = eleventyConfig.globalData.config.params
+  const { figureLabelLocation, imageDir } = eleventyConfig.globalData.config.params
 
-  const imageDir = eleventyConfig.globalData.config.params.imageDir.slice(1)
+  // strip the leading slash from imageDir
+  const relativeImageDir = imageDir
+    ? imageDir.match(/[^\/].*/)[0]
+    : ''
 
   return function({ aspect_ratio: aspectRatio, caption, credit, id, label, mediaType, poster}) {
     const isEmbed = mediaType === 'vimeo' || mediaType === 'youtube'
 
-    const posterSrc = path.join(imageDir, poster)
+    const posterSrc = path.join(relativeImageDir, poster)
 
     return html`
       <div class="q-figure__media-wrapper--${ aspectRatio || 'widescreen' }">
