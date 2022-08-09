@@ -15,7 +15,7 @@ module.exports = function (content) {
     .readdirSync(webComponentPath, { withFileTypes: true })
     .reduce((modules, filePath) => {
       if (filePath.isDirectory()) modules.push({
-        src: path.join('web-components', filePath.name, 'index.js'),
+        src: path.join('_assets', 'javascript', filePath.name, 'index.js'),
         tagName: `q-${filePath.name}`
       });
 

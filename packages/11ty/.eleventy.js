@@ -201,7 +201,7 @@ module.exports = function(eleventyConfig) {
    */
   eleventyConfig.addPassthroughCopy('content/_assets')
   eleventyConfig.addPassthroughCopy('public')
-  eleventyConfig.addPassthroughCopy('web-components')
+  eleventyConfig.addPassthroughCopy({ 'web-components': '_assets/javascript' })
 
   /**
    * Watch the following additional files for changes and live browsersync
