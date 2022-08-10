@@ -13,12 +13,12 @@ module.exports = function (content) {
 
   const webComponentModulePaths = fs
     .readdirSync(webComponentPath, { withFileTypes: true })
-    .reduce((modules, filePath) => {
-      if (filePath.isDirectory()) modules.push(
+    .reduce((modulePaths, filePath) => {
+      if (filePath.isDirectory()) modulePaths.push(
         path.join('_assets', 'javascript', filePath.name, 'index.js'),
       );
 
-      return modules
+      return modulePaths
     }, [])
 
   const { JSDOM } = jsdom
