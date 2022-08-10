@@ -11,8 +11,6 @@ const path = require('path')
 module.exports = function(eleventyConfig) {
   const figurecaption = eleventyConfig.getFilter('figurecaption')
   const figurelabel = eleventyConfig.getFilter('figurelabel')
-  const hasCanvasPanelProps = eleventyConfig.getFilter('hasCanvasPanelProps')
-  const isImageService = eleventyConfig.getFilter('isImageService')
 
   const { imageDir } = eleventyConfig.globalData.config.params
 
@@ -24,7 +22,7 @@ module.exports = function(eleventyConfig) {
     let imageSrc
 
     switch (true) {
-      case hasCanvasPanelProps(figure) || isImageService(figure):
+      case figure.isCanvas || figure.isImageService:
         imageSrc = figure.printImage
         break
       default:
