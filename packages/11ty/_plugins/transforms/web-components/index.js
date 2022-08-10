@@ -11,13 +11,12 @@ const path = require('path')
 module.exports = function (content) {
   const webComponentPath = path.resolve('web-components')
 
-  const webComponentModules = fs
+  const webComponentModulePaths = fs
     .readdirSync(webComponentPath, { withFileTypes: true })
     .reduce((modules, filePath) => {
-      if (filePath.isDirectory()) modules.push({
-        src: path.join('_assets', 'javascript', filePath.name, 'index.js'),
-        tagName: `q-${filePath.name}`
-      });
+      if (filePath.isDirectory()) modules.push(
+        path.join('_assets', 'javascript', filePath.name, 'index.js'),
+      );
 
       return modules
     }, [])
@@ -28,10 +27,10 @@ module.exports = function (content) {
   const { head } = document
 
   // Register web components in the current file's <head>
-  webComponentModules.forEach(({ src, tagName }) => {
+  webComponentModulePaths.forEach((modulePath) => {
     const scriptTag = document.createElement('script')
     scriptTag.setAttribute('type', 'module')
-    scriptTag.setAttribute('src', `/${src}`)
+    scriptTag.setAttribute('src', `/${modulePath}`)
     head.appendChild(scriptTag)
   })
 
