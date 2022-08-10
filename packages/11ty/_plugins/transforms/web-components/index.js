@@ -9,7 +9,7 @@ const path = require('path')
  * @return     {String}  transformed content
  */
 module.exports = function (content) {
-  const webComponentPath = path.resolve('web-components')
+  const webComponentPath = path.resolve('_includes', 'web-components')
 
   const webComponentModulePaths = fs
     .readdirSync(webComponentPath, { withFileTypes: true })
