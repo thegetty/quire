@@ -1,3 +1,4 @@
+const { hasCanvasPanelProps, isImageService } = require('./elements/utils')
 const { html } = require('~lib/common-tags')
 const path = require('path')
 
@@ -11,8 +12,6 @@ const path = require('path')
 module.exports = function(eleventyConfig) {
   const figurecaption = eleventyConfig.getFilter('figurecaption')
   const figurelabel = eleventyConfig.getFilter('figurelabel')
-  const hasCanvasPanelProps = eleventyConfig.getFilter('hasCanvasPanelProps')
-  const isImageService = eleventyConfig.getFilter('isImageService')
 
   const { imageDir } = eleventyConfig.globalData.config.params
 

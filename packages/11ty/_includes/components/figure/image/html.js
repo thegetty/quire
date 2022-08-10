@@ -1,5 +1,6 @@
 const { html } = require('~lib/common-tags')
 const path = require('path')
+const imageElement = require('./elements')
 
 /**
  * Renders an <img> element
@@ -9,52 +10,32 @@ const path = require('path')
  * @return     {String}  An HTML <img> element
  */
 module.exports = function(eleventyConfig) {
-  const canvasPanel = eleventyConfig.getFilter('canvasPanel')
   const figurecaption = eleventyConfig.getFilter('figurecaption')
-  const figurechoices = eleventyConfig.getFilter('figurechoices')
   const figurelabel = eleventyConfig.getFilter('figurelabel')
   const figuremodallink = eleventyConfig.getFilter('figuremodallink')
-  const imageService = eleventyConfig.getFilter('imageService')
-  const isImageService = eleventyConfig.getFilter('isImageService')
-  const hasCanvasPanelProps = eleventyConfig.getFilter('hasCanvasPanelProps')
   const markdownify = eleventyConfig.getFilter('markdownify')
 
   const { imageDir, figureLabelLocation } = eleventyConfig.globalData.config.params
 
   return function(figure) {
     const { 
-      alt='', 
       caption,
       credit,
       id,
       label,
-      src='' 
     } = figure
     const labelElement = figurelabel({ caption, id, label })
 
-    let choicesElement='', imageElement;
-
-    switch (true) {
-      case hasCanvasPanelProps(figure):
-        imageElement = canvasPanel(figure)
-        choicesElement = figurechoices(figure)
-        break;
-      case isImageService(figure):
-        imageElement = imageService(figure)
-        break;
-      default:
-        const imageSrc = src.startsWith('http') ? src : path.join(imageDir, src)
-        imageElement = `<img alt="${alt}" class="q-figure__image" src="${imageSrc}" />`
-        break
-    }
+    let choicesElement = ''
+    let imageMarkup = imageElement(figure, imageDir)
 
     /**
      * Wrap image in modal link
      */
-    imageElement =
+    imageMarkup =
       (figureLabelLocation === 'below')
-        ? figuremodallink({ content: imageElement, id })
-        : figuremodallink({ caption, content: imageElement + labelElement, id })
+        ? figuremodallink({ content: imageMarkup, id })
+        : figuremodallink({ caption, content: imageMarkup + labelElement, id })
 
     const captionElement =
       (figureLabelLocation === 'below')
@@ -62,7 +43,7 @@ module.exports = function(eleventyConfig) {
         : figurecaption({ caption, credit })
 
     return html`
-      ${imageElement}
+      ${imageMarkup}
       ${choicesElement}
       ${captionElement}
     `

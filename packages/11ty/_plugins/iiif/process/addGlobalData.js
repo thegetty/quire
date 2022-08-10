@@ -1,4 +1,5 @@
 const { globalVault } = require('@iiif/vault');
+const { hasCanvasPanelProps, isImageService } = require('~includes/components/figure/image/elements/utils')
 const path = require('path');
 const vault = globalVault();
 
@@ -8,8 +9,6 @@ const vault = globalVault();
  */
 module.exports = async (eleventyConfig) => {
   const figureIIIF = eleventyConfig.getFilter('figureIIIF');
-  const isImageService = eleventyConfig.getFilter('isImageService');
-  const hasCanvasPanelProps = eleventyConfig.getFilter('hasCanvasPanelProps');
   const { figures, iiifConfig } = eleventyConfig.globalData;
   const { imageServiceDirectory, outputDir } = iiifConfig;
 

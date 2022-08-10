@@ -4,9 +4,7 @@ const fullname = require('./fullname')
 const getContributor = require('./getContributor')
 const getFigure = require('./getFigure')
 const getObject = require('./getObject')
-const hasCanvasPanelProps = require('./hasCanvasPanelProps')
 const initials = require('./initials')
-const isImageService = require('./isImageService')
 const sortContributors = require('./sortContributors')
 const sortReferences = require('./sortReferences')
 
@@ -35,10 +33,6 @@ module.exports = function(eleventyConfig, options) {
   eleventyConfig.addFilter('getFigure', (id) => getFigure(eleventyConfig, id))
 
   eleventyConfig.addFilter('getObject', (id) => getObject(eleventyConfig, id))
-
-  eleventyConfig.addFilter('hasCanvasPanelProps', (figure, options) => hasCanvasPanelProps(figure, options))
-
-  eleventyConfig.addFilter('isImageService', (figure, options) => isImageService(figure, options))
 
   eleventyConfig.addFilter('keywords', () => keywords(eleventyConfig))
 

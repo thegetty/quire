@@ -1,8 +1,5 @@
-const canvasPanel = require('./canvas-panel')
 const caption = require('./caption')
-const choices = require('./choices')
 const image = require('./image')
-const imageService = require('./image-service')
 const label = require('./label')
 const modallink = require('./modal-link')
 const placeholder = require('./placeholder')
@@ -11,9 +8,7 @@ const table = require('./table')
 const video = require('./video')
 
 module.exports = {
-  canvasPanel,
   figurecaption: caption,
-  figurechoices: choices,
   figureimage: image,
   figurelabel: label,
   figuremodallink: modallink,
@@ -21,5 +16,4 @@ module.exports = {
   figuresoundcloud: soundcloud,
   figuretable: table,
   figurevideo: video,
-  imageService
 }
