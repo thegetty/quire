@@ -1,4 +1,6 @@
 const { html } = require('common-tags')
+const chalkFactory = require('~lib/chalk')
+const { error } = chalkFactory('Figure Annotations UI')
 /**
  * UI for selecting IIIF annotations and choices
  * 
@@ -6,10 +8,15 @@ const { html } = require('common-tags')
  * @return {String} HTML radio or checkbox input elements
  */
 
+const supportedInputTypes = ['checkbox', 'radio']
+
 const inputElement = (figure, item) => {
   const label = item.label.en ? item.label.en[0] : item.label
   const checked = item.selected || item.id === figure.iiif.choiceId
   const type = figure.input || 'radio'
+  if (!supportedInputTypes.includes(type)) {
+    error(`The provided input "${type}" for figure "${figure.id}" is not supported. Input must be ${supportedInputTypes.join(' or ')}.`)
+  }
   return html`
     <input
       id="${item.id}"
