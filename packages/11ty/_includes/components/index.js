@@ -3,6 +3,7 @@
  */
 
 module.exports = {
+  annotationsUI: require('./figure/annotations-ui'),
   abstract: require('./abstract.js'),
   analytics: require('./analytics.js'),
   canvasPanel: require('./figure/canvas-panel'),
@@ -16,7 +17,6 @@ module.exports = {
   copyrightLicensing: require('./copyright/licensing.js'),
   dublinCore: require('./head-tags/dublin-core.js'),
   figurecaption: require('./figure/caption'),
-  figurechoices: require('./figure/choices'),
   figureimage: require('./figure/image'),
   figurelabel: require('./figure/label'),
   figuremodallink: require('./figure/modal-link'),
