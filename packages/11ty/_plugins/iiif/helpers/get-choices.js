@@ -2,10 +2,12 @@ const { globalVault } = require('@iiif/vault')
 const vault = globalVault()
 
 /**
- * Very simplified method to get choices - expects a valid manifest where choices all have identifiers
+ * Very simplified method to get choices
+ * Expects a valid manifest where choices all have identifiers
  * @todo replace with vault helper
  */
-module.exports = (annotations = []) => {
+
+const getChoices = (annotations=[]) => {
   return annotations.flatMap(({ id, type }) => {
     const annotation = vault.get(id)
     if (annotation.motivation.includes('painting')) {
@@ -16,4 +18,17 @@ module.exports = (annotations = []) => {
       }
     }
   })
+}
+
+module.exports = (canvas) => {
+  let choices = getChoices(canvas.annotations)
+  if (!choices.length && canvas.items.length) {
+    canvas.items.map(({ id, type }) => {
+      if (type === 'AnnotationPage') {
+        const annotationPage = vault.get(id)
+        choices = getChoices(annotationPage.items)
+      }
+    })
+  }
+  return choices
 }

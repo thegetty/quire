@@ -54,15 +54,7 @@ module.exports = async function (eleventyConfig, figure, options={}) {
     return
   }
 
-  choices = getChoices(canvas.annotations)
-  if (!choices.length && canvas.items.length) {
-    canvas.items.map(({ id, type }) => {
-      if (type === 'AnnotationPage') {
-        const annotationPage = vault.get(id)
-        choices = getChoices(annotationPage.items)
-      }
-    })
-  }
+  choices = getChoices(canvas)
 
   choiceId = figure.choiceId || choices.length && choices[0].id
 
