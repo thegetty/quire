@@ -56,8 +56,6 @@ module.exports = function(eleventyConfig) {
 
         <script src="https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@latest"></script>
 
-        ${webComponents()}
-
         ${publisherLinks}
 
         ${contributorLinks}
