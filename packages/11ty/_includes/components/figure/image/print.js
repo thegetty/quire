@@ -15,24 +15,23 @@ module.exports = function(eleventyConfig) {
   const { imageDir } = eleventyConfig.globalData.config.params
 
   return function(figure) {
-    const { alt, caption, credit, id, iiif, label, src='' } = figure
+    const { alt, caption, credit, id, label, src='' } = figure
 
     const labelElement = figurelabel({ caption, id, label })
 
     let imageSrc
 
     switch (true) {
-      case !!figure.canvas || !!figure.info:
+      case figure.isCanvas || figure.isImageService:
         imageSrc = figure.printImage
         break
       default:
         imageSrc = src.startsWith('http') ? src : path.join(imageDir, src)
-        imageElement = `<img alt="${alt}" class="q-figure__image" src="${imageSrc}" />`
         break
     }
 
     return html`
-      <img src="${imageSrc}"/>
+      <img alt="${alt}" class="q-figure__image" src="${imageSrc}"/>
       ${figurecaption({ caption, content: labelElement, credit })}
     `
   }

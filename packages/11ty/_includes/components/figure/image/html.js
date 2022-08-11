@@ -25,7 +25,6 @@ module.exports = function(eleventyConfig) {
       caption,
       credit,
       id,
-      iiif,
       label,
       src='' 
     } = figure
@@ -34,11 +33,11 @@ module.exports = function(eleventyConfig) {
     let choicesElement='', imageElement;
 
     switch (true) {
-      case !!iiif.canvas:
+      case figure.isCanvas:
         imageElement = canvasPanel(figure)
         choicesElement = figurechoices(figure)
         break;
-      case !!iiif.info:
+      case figure.isImageService:
         imageElement = imageService(figure)
         break;
       default:

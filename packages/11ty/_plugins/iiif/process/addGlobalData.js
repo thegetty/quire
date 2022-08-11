@@ -21,10 +21,13 @@ module.exports = async (eleventyConfig) => {
 
   for (const [index, figure] of figures.figure_list.entries()) {
     const iiif = await getIIIFProperties(eleventyConfig, figure) || {}
+    const info = getImageService(eleventyConfig, figure)
     Object.assign(eleventyConfig.globalData.figures.figure_list[index], {
+      isCanvas: !!iiif.canvas,
+      isImageService: !!info,
       iiif: {
         ...iiif,
-        info: getImageService(eleventyConfig, figure)
+        info
       },
       printImage: getPrintImage(eleventyConfig, figure)
     })
