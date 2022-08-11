@@ -11,20 +11,18 @@ const path = require('path')
 module.exports = function(eleventyConfig) {
   const figurecaption = eleventyConfig.getFilter('figurecaption')
   const figurelabel = eleventyConfig.getFilter('figurelabel')
-  const hasCanvasPanelProps = eleventyConfig.getFilter('hasCanvasPanelProps')
-  const isImageService = eleventyConfig.getFilter('isImageService')
 
   const { imageDir } = eleventyConfig.globalData.config.params
 
   return function(figure) {
-    const { alt, caption, credit, id, iiif, label, src } = figure
+    const { alt, caption, credit, id, iiif, label, src='' } = figure
 
     const labelElement = figurelabel({ caption, id, label })
 
     let imageSrc
 
     switch (true) {
-      case hasCanvasPanelProps(figure) || isImageService(figure):
+      case !!figure.canvas || !!figure.info:
         imageSrc = figure.printImage
         break
       default:
