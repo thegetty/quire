@@ -1,7 +1,9 @@
 ---
 layout: base.11ty.js
 order: 2
-outputs: pdf
+outputs: 
+  - epub
+  - pdf
 toc: false
 ---
 <div class="half-title-page">

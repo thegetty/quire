@@ -3,6 +3,7 @@ class: backmatter
 layout: base.11ty.js
 order: 4
 outputs:
+  - epub
   - pdf
 title: Copyright
 ---
