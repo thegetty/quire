@@ -6,10 +6,11 @@ window.onload = function () {
    * {@link https://iiif-canvas-panel.netlify.app/docs/examples/handling-choice}
    */
   for (const canvasPanel of canvasPanels) {
-    const annotationOptions = canvasPanel.closest('.q-figure').getElementsByClassName('annotation-option')
-    for (const annotationOption of annotationOptions) {
-      annotationOption.addEventListener('click', (event) => {
-        canvasPanel.makeChoice(event.target.value)
+    const figure = canvasPanel.closest('.q-figure')
+    const annotationInputs = figure.getElementsByClassName('annotations-ui__input')
+    for (const annotationInput of annotationInputs) {
+      annotationInput.addEventListener('click', (event) => {
+        canvasPanel.makeChoice(event.target.getAttribute('id'))
       })
     }
   }
