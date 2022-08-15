@@ -7,3 +7,8 @@ outputs:
 title: Copyright
 ---
 
+{% copyright %}
+
+{% if publication.identifier.isbn %}
+ISBN: {{ publication.identifier.isbn }}
+{% endif %}
