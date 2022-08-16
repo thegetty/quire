@@ -8,14 +8,15 @@ module.exports = function (eleventyConfig) {
 
   const supportedInputTypes = ['checkbox', 'radio']
 
-  return function ({ figure, item }) {
+  return function ({ figure, item, type }) {
     const label = item.label[locale] ? item.label[locale][0] : item.label
 
     if (!label) {
       error(`Annotation label is required. Figure id: ${figure.id}`)
     }
 
-    const inputType = figure.input || 'radio'
+    const inputProperty = `${type}_input`
+    const inputType = figure[inputProperty] || 'radio'
 
     if (!supportedInputTypes.includes(inputType)) {
       error(`The provided input "${inputType}" for figure "${figure.id}" is not supported. Input must be ${supportedInputTypes.join(' or ')}.`)
