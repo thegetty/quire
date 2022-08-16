@@ -24,7 +24,7 @@ module.exports = async (eleventyConfig) => {
     const info = getImageService(eleventyConfig, figure)
     Object.assign(eleventyConfig.globalData.figures.figure_list[index], {
       isCanvas: !!iiif.canvas,
-      isImageService: !!info,
+      isImageService: info || false,
       iiif: {
         ...iiif,
         info
