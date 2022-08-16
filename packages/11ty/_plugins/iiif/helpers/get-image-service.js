@@ -12,6 +12,7 @@ module.exports = (eleventyConfig, figure) => {
 
   const { imageServiceDirectory, outputDir } = eleventyConfig.globalData.iiifConfig
   const { src } = figure
+  if (!src) return
   const { name } = path.parse(src)
   return src.startsWith('http')
     ? src
