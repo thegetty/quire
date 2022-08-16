@@ -1,5 +1,4 @@
 // Quire data filters
-const figureIIIF = require('./figureIIIF')
 const fullname = require('./fullname')
 const getContributor = require('./getContributor')
 const getFigure = require('./getFigure')
@@ -22,7 +21,6 @@ module.exports = function(eleventyConfig, options) {
   /**
    * Quire data filters
    */
-  eleventyConfig.addFilter('figureIIIF', (figure, options) => figureIIIF(eleventyConfig, figure, options))
   eleventyConfig.addFilter('fullname', (person, options) => fullname(person, options))
   eleventyConfig.addFilter('getContributor', (id) => getContributor(eleventyConfig, id))
   eleventyConfig.addFilter('getFigure', (id) => getFigure(eleventyConfig, id))

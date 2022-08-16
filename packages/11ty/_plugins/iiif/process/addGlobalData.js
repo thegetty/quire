@@ -1,48 +1,35 @@
 const { globalVault } = require('@iiif/vault')
-const path = require('path')
 const vault = globalVault()
-const { isCanvas, isImageService } = require('../helpers')
+const { getImageService, getIIIFProperties, getPrintImage } = require('../helpers')
 
 /**
- * Fetches IIIF data needed to render canvas panel tags from vault and adds it to figures.yaml
+ * Adds IIIF data from vault and computed properties to `eleventyConfig.globalData.figures`
+ * 
+ * Properties:
+ * @property {Array} annotations IIIF annotations
+ * @property {Object} canvas Response from vault.get(canvasId)
+ * @property {Array} choices IIIF annotations with type "choice"
+ * @property {String} choiceId The default choice selected on load
+ * @property {String} info Path to image service `info.json`
+ * @property {Object} manifest Response from vault.get(manifestId)
+ * 
  * @param  {Object} eleventyConfig
  */
 module.exports = async (eleventyConfig) => {
-  const figureIIIF = eleventyConfig.getFilter('figureIIIF')
   const { figures, iiifConfig } = eleventyConfig.globalData
   const { imageServiceDirectory, outputDir } = iiifConfig
 
   for (const [index, figure] of figures.figure_list.entries()) {
-    switch (true) {
-      case isImageService(figure):
-        const { name, ext } = path.parse(figure.src)
-        const baseURL = path.join('/', outputDir, name)
-        const info = figure.src.startsWith('http')
-          ? figure.src
-          : path.join(baseURL, imageServiceDirectory, 'info.json')
-        Object.assign(eleventyConfig.globalData.figures.figure_list[index], {
-          printImage: figure.printImage || path.join(baseURL, `print-image${ext}`),
-          iiif: {
-            info
-          },
-          isImageService: true
-        })
-        break
-      case isCanvas(figure):
-        const { canvas, choiceId, choices, iiifContent, manifest } = await figureIIIF(figure)
-        Object.assign(eleventyConfig.globalData.figures.figure_list[index], {
-          iiif: {
-            choices,
-            canvas,
-            choiceId,
-            iiifContent,
-            manifest
-          },
-          isCanvas: true
-        })
-        break
-      default:
-        break
-    }
+    const iiif = await getIIIFProperties(eleventyConfig, figure) || {}
+    const info = getImageService(eleventyConfig, figure)
+    Object.assign(eleventyConfig.globalData.figures.figure_list[index], {
+      isCanvas: !!iiif.canvas,
+      isImageService: !!info,
+      iiif: {
+        ...iiif,
+        info
+      },
+      printImage: getPrintImage(eleventyConfig, figure)
+    })
   }
 }
