@@ -9,9 +9,9 @@ const path = require('path')
  * @return     {String}  An HTML <img> element
  */
 module.exports = function(eleventyConfig) {
+  const annotationsUI = eleventyConfig.getFilter('annotationsUI')
   const canvasPanel = eleventyConfig.getFilter('canvasPanel')
   const figurecaption = eleventyConfig.getFilter('figurecaption')
-  const figurechoices = eleventyConfig.getFilter('figurechoices')
   const figurelabel = eleventyConfig.getFilter('figurelabel')
   const figuremodallink = eleventyConfig.getFilter('figuremodallink')
   const imageService = eleventyConfig.getFilter('imageService')
@@ -30,12 +30,12 @@ module.exports = function(eleventyConfig) {
     } = figure
     const labelElement = figurelabel({ caption, id, label })
 
-    let choicesElement='', imageElement;
+    let annotationsElement='', imageElement;
 
     switch (true) {
       case figure.isCanvas:
         imageElement = canvasPanel(figure)
-        choicesElement = figurechoices(figure)
+        annotationsElement = annotationsUI(figure)
         break;
       case figure.isImageService:
         imageElement = imageService(figure)
@@ -61,7 +61,7 @@ module.exports = function(eleventyConfig) {
 
     return html`
       ${imageElement}
-      ${choicesElement}
+      ${annotationsElement}
       ${captionElement}
     `
   }
