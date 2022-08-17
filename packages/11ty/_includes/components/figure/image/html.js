@@ -10,49 +10,33 @@ const path = require('path')
  */
 module.exports = function(eleventyConfig) {
   const annotationsUI = eleventyConfig.getFilter('annotationsUI')
-  const canvasPanel = eleventyConfig.getFilter('canvasPanel')
   const figurecaption = eleventyConfig.getFilter('figurecaption')
+  const figureimageelement = eleventyConfig.getFilter('figureimageelement')
   const figurelabel = eleventyConfig.getFilter('figurelabel')
   const figuremodallink = eleventyConfig.getFilter('figuremodallink')
-  const imageService = eleventyConfig.getFilter('imageService')
   const markdownify = eleventyConfig.getFilter('markdownify')
 
   const { imageDir, figureLabelLocation } = eleventyConfig.globalData.config.params
 
   return function(figure) {
     const { 
-      alt='', 
       caption,
       credit,
       id,
-      label,
-      src='' 
+      isCanvas,
+      label
     } = figure
+
     const labelElement = figurelabel({ caption, id, label })
-
-    let annotationsElement='', imageElement;
-
-    switch (true) {
-      case figure.isCanvas:
-        imageElement = canvasPanel(figure)
-        annotationsElement = annotationsUI(figure)
-        break;
-      case figure.isImageService:
-        imageElement = imageService(figure)
-        break;
-      default:
-        const imageSrc = src.startsWith('http') ? src : path.join(imageDir, src)
-        imageElement = `<img alt="${alt}" class="q-figure__image" src="${imageSrc}" />`
-        break
-    }
+    const annotationsElement = annotationsUI(figure)
 
     /**
      * Wrap image in modal link
      */
-    imageElement =
+    const imageElement =
       (figureLabelLocation === 'below')
-        ? figuremodallink({ content: imageElement, id })
-        : figuremodallink({ caption, content: imageElement + labelElement, id })
+        ? figuremodallink({ content: figureimageelement(figure), id })
+        : figuremodallink({ caption, content: figureimageelement(figure) + labelElement, id })
 
     const captionElement =
       (figureLabelLocation === 'below')

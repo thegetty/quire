@@ -18,8 +18,15 @@ module.exports = function(eleventyConfig) {
    * @property  {String} preset <canvas-panel> preset {@link https://iiif-canvas-panel.netlify.app/docs/examples/responsive-image#presets}
    * @return {String}        <canvas-panel> markup
    */
-  return function(params) {
-    const { height='', id, iiif, preset='responsive', region='', virtualSizes='', width='' } = params
+  return function({
+    height='',
+    id,
+    iiif,
+    preset='responsive',
+    region='',
+    virtualSizes='',
+    width=''
+  }) {
     const { canvas, choiceId='', iiifContent='', manifest } = iiif
 
     if (!manifest && !iiifContent) {
