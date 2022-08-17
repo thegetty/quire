@@ -1,3 +1,3 @@
-module.exports = ({ id, canvasId, manifestId, iiifContent, choices }) => {
-  return (!!canvasId && !!manifestId) || !!iiifContent || !!choices
+module.exports = ({ annotations, id, canvasId, manifestId, iiifContent }) => {
+  return (!!canvasId && !!manifestId) || !!iiifContent || !!annotations
 }
