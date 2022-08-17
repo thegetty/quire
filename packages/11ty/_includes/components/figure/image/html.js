@@ -30,13 +30,12 @@ module.exports = function(eleventyConfig) {
     } = figure
     const labelElement = figurelabel({ caption, id, label })
 
-    let annotationsElement='', choicesElement='', imageElement
+    let annotationsElement='', imageElement
 
     switch (true) {
       case figure.isCanvas:
         imageElement = canvasPanel(figure)
-        annotationsElement = annotationsUI(figure, 'annotations')
-        choicesElement = annotationsUI(figure, 'choices')
+        annotationsElement = annotationsUI(figure)
         break;
       case figure.isImageService:
         imageElement = imageService(figure)
@@ -62,7 +61,6 @@ module.exports = function(eleventyConfig) {
 
     return html`
       ${imageElement}
-      ${choicesElement}
       ${annotationsElement}
       ${captionElement}
     `
