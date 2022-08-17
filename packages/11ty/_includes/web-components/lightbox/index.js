@@ -21,10 +21,28 @@ class Lightbox extends LitElement {
     this.setupKeyboardControls();
   }
 
-  get currentFigureIndex() {
-    if (!this.figures) return;
+  get slides() {
+    return this.querySelectorAll('[data-lightbox-slide]')
+  }
+
+  get slideIds() {
+    return Array
+      .from(this.slides)
+      .map((slide) => slide.dataset.lightboxId)
+  }
+
+  get currentSlide() {
+    if (!this.slides.length) return;
+    if (!this.currentId) return this.slides[0];
+
+    return this.slides[this.currentSlideIndex]
+  }
+
+  get currentSlideIndex() {
+    if (!this.slides.length) return;
     if (!this.currentId) return 0;
-    return this.figures.findIndex(({ id }) => id === this.currentId);
+
+    return this.slideIds.findIndex((id) => id === this.currentId);
   }
 
   get fullscreen() {
@@ -32,19 +50,31 @@ class Lightbox extends LitElement {
   }
 
   get hasMultipleFigures() {
-    return this.figures.length > 1;
+    return this.slides.length > 1;
   }
 
   next() {
-    const nextIndex = this.currentFigureIndex + 1;
-    const nextId = this.figures[nextIndex % this.figures.length].id
+    if (!this.slides.length) return;
+
+    const nextIndex = this.currentSlideIndex + 1;
+    const nextId = this.slideIds[nextIndex % this.slides.length]
     this.currentId = nextId;
   }
 
   previous() {
-    const previousIndex = this.currentFigureIndex - 1;
-    const previousId = this.figures.slice(previousIndex)[0].id;
+    if (!this.slides.length) return;
+
+    const previousIndex = this.currentSlideIndex - 1;
+    const previousId = this.slideIds.slice(previousIndex)[0];
     this.currentId = previousId;
+  }
+
+  setCurrentSlideElement() {
+    this.slides.forEach((slide) => {
+      if (slide.dataset.lightboxId !== this.currentId)
+        delete slide.dataset.lightboxCurrent;
+    })
+    this.currentSlide.dataset.lightboxCurrent = true
   }
 
   setupKeyboardControls() {
@@ -74,63 +104,9 @@ class Lightbox extends LitElement {
   }
 
   render() {
-    const imageSlides = () => {
-      const imagesWithCaptions = this.figures.map(({ caption, credit, id, iiif, label, preset, src }, index) => {
-        const isCanvasPanel = iiif && !!iiif.canvas && !!iiif.manifest;
-        const isImageService = iiif && !!iiif.info;
-        const isImg = src && !!src.match(/.+\.(jpe?g|gif|png)$/);
-        const labelSpan = label
-          ? `<span class="q-lightbox__caption-label">${label}</span>`
-          : '';
-        const captionAndCreditSpan = caption || credit
-          ? `<span class="q-lightbox__caption-content">${caption ? caption : ''} ${credit ? credit : ''}</span>`
-          : '';
-        const captionElement = labelSpan.length || captionAndCreditSpan.length
-          ? `
-            <div class="q-lightbox__caption">
-              ${labelSpan}
-              ${captionAndCreditSpan}
-            </div>
-          `
-          : '';
-        const elementId = `lightbox-image-${index}`;
-        const imageSrc = src && src.startsWith('http')
-          ? src
-          : `${this.imageDir}/${src}`;
-
-        const modal = document.querySelector('q-modal');
-
-        let imageElement;
-        switch(true) {
-          default:
-            imageElement = `<div class="q-lightbox__missing-img">Figure '${id}' does not have a valid 'src'</div>`;
-            break;
-          case isCanvasPanel:
-            imageElement = `<canvas-panel id="${elementId}" data-figure="${id}" canvas-id="${iiif.canvas.id}" manifest-id="${iiif.manifest.id}" preset="${preset}" width="${this.width}" height="${this.height}" />`;
-            break;
-          case isImageService:
-            imageElement = `<image-service id="${elementId}" data-figure="${id}" src="${iiif.info}" width="${this.width}" height="${this.height}" />`;
-            break;
-          case isImg:
-            imageElement = `<img id="${elementId}" data-figure="${id}" src="${imageSrc}" />`;
-            break;
-        }
-
-        return `
-          <div class="q-lightbox__slide ${this.currentFigureIndex === index ? 'current' : ''}">
-            <div class="q-lightbox__image">
-              ${imageElement}
-            </div>
-            ${captionElement}
-          </div>
-        `;
-      });
-      return unsafeHTML(`
-        <div class="q-lightbox__images">
-          ${imagesWithCaptions.join('')}
-        </div>
-      `);
-    }
+    if (!this.slides.length) return ''
+    this.currentId = this.slideIds[this.currentSlideIndex]
+    this.setCurrentSlideElement()
 
     // TODO implement zoom buttons
     const zoomButtons = () => {
@@ -161,10 +137,10 @@ class Lightbox extends LitElement {
     };
 
     const counter = () => {
-      const counter = this.currentFigureIndex + 1;
-      const figureCount = this.figures.length;
+      const counter = this.currentSlideIndex + 1;
+      const slideCount = this.slides.length;
       return this.hasMultipleFigures
-        ? html`<span class="q-lightbox__counter">${counter} of ${figureCount}</span>`
+        ? html`<span class="q-lightbox__counter">${counter} of ${slideCount}</span>`
         : '';
     };
 
@@ -181,7 +157,7 @@ class Lightbox extends LitElement {
 
     return html`
       <div class="q-lightbox">
-        ${imageSlides()}
+        <slot name="slides"></slot>
         <div class="q-lightbox__zoom-and-fullscreen">
           ${zoomButtons()}
           ${fullscreenButton()}

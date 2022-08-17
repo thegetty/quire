@@ -1,41 +1,6 @@
 import { css } from 'lit';
 
 export const styles = css`
-.q-lightbox {
-  --atlas-z-index: 0;
-  font-family: "IBM Plex Sans Condensed",sans-serif;
-  color: white;
-}
-
-.q-lightbox,
-.q-lightbox__slide,
-.q-lightbox__image {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-}
-
-.q-lightbox__slide {
-  transform: translateY(-100%);
-  opacity: 0;
-  transition: transform 0s 0.4s, opacity 0.4s linear;
-}
-
-.current.q-lightbox__slide {
-  transform: translateY(0);
-  opacity: 1;
-  transition: transform 0s, opacity 0.4s linear;
-}
-
-.q-lightbox__image img {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
 .q-lightbox__fullscreen-button {
   position: absolute;
   top: 0;
@@ -127,21 +92,5 @@ export const styles = css`
 
 .q-lightbox__download-and-counter--modal.q-lightbox__download-and-counter {
   margin-right: 40px;
-}
-
-.q-lightbox__caption {
-  position: absolute;
-  left: 10px;
-  right: 10px;
-  bottom: 25px;
-  padding: 0 8px;
-  background: rgba(0,0,0,0.5);
-  font-size: 0.875rem;
-  line-height: 30px;
-}
-
-.q-lightbox__caption-label {
-  margin-right: 0.5rem;
-  font-weight: bold;
 }
 `;

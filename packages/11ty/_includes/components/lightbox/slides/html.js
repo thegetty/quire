@@ -2,6 +2,7 @@ const { html } = require('~lib/common-tags')
 
 module.exports = function(eleventyConfig) {
   const figureimageelement = eleventyConfig.getFilter('figureimageelement')
+  const markdownify = eleventyConfig.getFilter('markdownify')
 
   return function(figures) {
     if (!figures) return ''
@@ -19,14 +20,14 @@ module.exports = function(eleventyConfig) {
         } = figure;
 
         const labelSpan = label
-          ? html`<span class="q-lightbox__caption-label">${label}</span>`
+          ? html`<span class="q-lightbox-slides__caption-label">${label}</span>`
           : '';
         const captionAndCreditSpan = caption || credit
-          ? html`<span class="q-lightbox__caption-content">${caption ? caption : ''} ${credit ? credit : ''}</span>`
+          ? html`<span class="q-lightbox-slides__caption-content">${caption ? markdownify(caption) : ''} ${credit ? credit : ''}</span>`
           : '';
         const captionElement = labelSpan.length || captionAndCreditSpan.length
           ? html`
-            <div class="q-lightbox__caption">
+            <div class="q-lightbox-slides__caption">
               ${labelSpan}
               ${captionAndCreditSpan}
             </div>
@@ -36,11 +37,11 @@ module.exports = function(eleventyConfig) {
 
         return html`
           <div
-            class="q-lightbox__slide"
+            class="q-lightbox-slides__slide"
             data-lightbox-slide
             data-lightbox-id="${id}"
           >
-            <div class="q-lightbox__image">
+            <div class="q-lightbox-slides__image">
               ${figureimageelement(figure)}
             </div>
             ${captionElement}
@@ -50,7 +51,7 @@ module.exports = function(eleventyConfig) {
       .join('')
 
     return html`
-      <div slot="slides" class="q-lightbox__slides">
+      <div slot="slides" class="q-lightbox-slides__slides">
         ${slides}
       </div>
     `
