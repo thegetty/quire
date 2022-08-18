@@ -51,7 +51,7 @@ module.exports = function(eleventyConfig) {
       .join('')
 
     return html`
-      <div slot="slides" class="q-lightbox-slides__slides">
+      <div slot="slides" class="q-lightbox-slides">
         ${slides}
       </div>
     `

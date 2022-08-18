@@ -9,8 +9,8 @@ module.exports = function(eleventyConfig) {
       const displayZoomButtons = false
       return displayZoomButtons
         ? html`
-          <button class="q-lightbox-ui__zoom-button q-lightbox__zoom-button--in" title="${zoomInAriaLabel}" aria-label="${zoomInAriaLabel}">+</button>
-          <button class="q-lightbox-ui__zoom-button q-lightbox__zoom-button--out" title="${zoomOutAriaLabel}" aria-label="${zoomOutAriaLabel}">-</button>
+          <button class="q-lightbox-ui__zoom-button q-lightbox-ui__zoom-button--in" title="${zoomInAriaLabel}" aria-label="${zoomInAriaLabel}">+</button>
+          <button class="q-lightbox-ui__zoom-button q-lightbox-ui__zoom-button--out" title="${zoomOutAriaLabel}" aria-label="${zoomOutAriaLabel}">-</button>
         `
         : '';
     }
@@ -33,7 +33,7 @@ module.exports = function(eleventyConfig) {
     };
 
     const counter = () => {
-      return figures.length
+      return figures.length > 1
         ? html`<span class="q-lightbox-ui__counter"><span data-lightbox-counter-current></span> of <span data-lightbox-counter-total></span></span>`
         : '';
     };
@@ -44,7 +44,7 @@ module.exports = function(eleventyConfig) {
     const navigationButtons = () => {
       const previousAriaLabel = 'Previous (left arrow key)';
       const nextAriaLabel = 'Next (right arrow key)';
-      return figures.length
+      return figures.length > 1
         ? html`
           <button data-lightbox-previous class="q-lightbox-ui__navigation-button q-lightbox-ui__navigation-button--previous" title="${previousAriaLabel}" aria-label="${previousAriaLabel}"></button>
           <button data-lightbox-next class="q-lightbox-ui__navigation-button q-lightbox-ui__navigation-button--next" title="${nextAriaLabel}" aria-label="${nextAriaLabel}"></button>
