@@ -4,7 +4,7 @@ const addGlobalData = require('./addGlobalData')
 const chalkFactory = require('~lib/chalk')
 const initCreateImage = require('./createImage')
 const initTileImage = require('./tileImage')
-const initWriteManifest = require('./write-manifest')
+const initWriteManifest = require('./manifest/write')
 const pluralize = require('~lib/pluralize')
 const { isImageService } = require('../helpers')
 
