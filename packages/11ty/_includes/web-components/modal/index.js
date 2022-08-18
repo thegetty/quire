@@ -24,7 +24,7 @@ class Modal extends LitElement {
   close() {
     this.active = false;
     this.currentId = null;
-    this.lightbox && this.lightbox.setAttribute('current-id', null)
+    this.updateLightboxCurrentId();
     this.enableScrolling();
   }
 
@@ -50,8 +50,8 @@ class Modal extends LitElement {
 
   open(event) {
     this.currentId = this.getCurrentFigureId(event);
-    this.lightbox && this.lightbox.setAttribute('current-id', this.currentId)
     this.active = true;
+    this.updateLightboxCurrentId();
     this.disableScrolling();
   }
 
@@ -89,8 +89,13 @@ class Modal extends LitElement {
     });
   }
 
+  updateLightboxCurrentId() {
+    this.lightbox && this.lightbox.setAttribute('current-id', this.currentId)
+  }
+
   render() {
     this.dataset.modalActive = this.active
+    this.setupCloseButton()
 
     return html`
       <div class="q-modal">
