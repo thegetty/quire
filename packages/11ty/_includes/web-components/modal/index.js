@@ -18,7 +18,6 @@ class Modal extends LitElement {
     super();
     this.setupKeyboardControls();
     this.setupModalTriggers();
-    this.setupResizeHandler();
   }
 
   close() {
@@ -78,13 +77,6 @@ class Modal extends LitElement {
       item.addEventListener('click', (event) => {
         event.preventDefault();
         this.open(event);
-      });
-    });
-  }
-
-  setupResizeHandler() {
-    window.addEventListener('resize', () => {
-      window.requestAnimationFrame(() => {
       });
     });
   }
