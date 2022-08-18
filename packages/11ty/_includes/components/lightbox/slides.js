@@ -1,7 +1,7 @@
 const { html } = require('~lib/common-tags')
 
 module.exports = function(eleventyConfig) {
-  const figureimageelement = eleventyConfig.getFilter('figureimageelement')
+  const figureImageElement = eleventyConfig.getFilter('figureImageElement')
   const markdownify = eleventyConfig.getFilter('markdownify')
 
   return function(figures) {
@@ -45,7 +45,7 @@ module.exports = function(eleventyConfig) {
             data-lightbox-id="${id}"
           >
             <div class="q-lightbox-slides__image">
-              ${figureimageelement(figure)}
+              ${figureImageElement(figure)}
             </div>
             ${captionElement}
           </div>

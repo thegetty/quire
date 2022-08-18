@@ -11,7 +11,7 @@ const path = require('path')
 module.exports = function(eleventyConfig) {
   const annotationsUI = eleventyConfig.getFilter('annotationsUI')
   const figurecaption = eleventyConfig.getFilter('figurecaption')
-  const figureimageelement = eleventyConfig.getFilter('figureimageelement')
+  const figureImageElement = eleventyConfig.getFilter('figureImageElement')
   const figurelabel = eleventyConfig.getFilter('figurelabel')
   const figuremodallink = eleventyConfig.getFilter('figuremodallink')
   const markdownify = eleventyConfig.getFilter('markdownify')
@@ -35,8 +35,8 @@ module.exports = function(eleventyConfig) {
      */
     const imageElement =
       (figureLabelLocation === 'below')
-        ? figuremodallink({ content: figureimageelement(figure), id })
-        : figuremodallink({ caption, content: figureimageelement(figure) + labelElement, id })
+        ? figuremodallink({ content: figureImageElement(figure), id })
+        : figuremodallink({ caption, content: figureImageElement(figure) + labelElement, id })
 
     const captionElement =
       (figureLabelLocation === 'below')

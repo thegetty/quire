@@ -18,7 +18,7 @@ module.exports = {
   dublinCore: require('./head-tags/dublin-core.js'),
   figurecaption: require('./figure/caption'),
   figureimage: require('./figure/image'),
-  figureimageelement: require('./figure/image/element'),
+  figureImageElement: require('./figure/image/element'),
   figurelabel: require('./figure/label'),
   figuremodallink: require('./figure/modal-link'),
   figureplaceholder: require('./figure/placeholder'),
