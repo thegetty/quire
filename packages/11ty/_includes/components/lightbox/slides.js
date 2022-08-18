@@ -20,7 +20,7 @@ module.exports = function(eleventyConfig) {
           src
         } = figure
 
-        if (mediaType) return slides
+        if (mediaType === 'video' || mediaType === 'audio') return slides;
 
         const labelSpan = label
           ? html`<span class="q-lightbox-slides__caption-label">${label}</span>`
