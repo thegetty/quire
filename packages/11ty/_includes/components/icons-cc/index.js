@@ -1,5 +1,6 @@
 const fs = require('fs')
 const path = require('path')
+const { html } = require('~lib/common-tags')
 
 /**
  * Creative Commons SVG Icon
@@ -25,7 +26,7 @@ module.exports = function(eleventyConfig) {
           .replace('</svg', '</symbol')
       })
 
-    return `
+    return html`
       <svg style="display:none" data-outputs-exclude="epub,pdf">
         ${ccIcons.join(' ')}
       </svg>
