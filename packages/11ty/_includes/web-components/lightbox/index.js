@@ -5,13 +5,12 @@ import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
  * Lightbox lit-element web component
  *
  * This component renders image slides with navigation UI.
- * It provides two slots for passing markup to render:
+ * It provides a default slot for passing markup to render:
  *
- * slot="slides" is for individual slide markup. To display an element as a
- * slide, provide it with a `data-lightbox-slide` attribute set to any value,
- * and a `data-lightbox-id` attribute set to a unique id
+ * To display an element as a slide, provide it with a
+ * `data-lightbox-slide` attribute set to any value, and a
+ * `data-lightbox-id` attribute set to a unique id
  *
- * slot="ui" is for lightbox navigation controls.
  * This lightbox provides access to controls with the following data attributes:
  * - `data-lightbox-fullscreen` triggers fullscreen on click and indicates status
  * - `data-lightbox-next` triggers rendering of next slide on click
@@ -24,15 +23,12 @@ import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 class Lightbox extends LitElement {
   static properties = {
     currentId: { attribute: 'current-id', type: String },
-    height: { type: Number },
-    isInsideOpenModal: { attribute: 'is-inside-open-modal', type: Boolean },
-    width: { type: Number }
   }
 
   constructor() {
     super();
-    this.setupFullscreen();
-    this.setupNavigation();
+    this.setupFullscreenButton();
+    this.setupNavigationButtons();
     this.setupKeyboardControls();
   }
 
@@ -100,7 +96,7 @@ class Lightbox extends LitElement {
     this.currentId = previousId;
   }
 
-  setupFullscreen() {
+  setupFullscreenButton() {
     if (!this.fullscreenButton) return
 
     this.fullscreenButton.addEventListener('click', () => {
@@ -108,7 +104,7 @@ class Lightbox extends LitElement {
     })
   }
 
-  setupNavigation() {
+  setupNavigationButtons() {
     if (!this.nextButton || !this.previousButton) return
 
     this.nextButton.addEventListener('click', () => {
@@ -121,7 +117,7 @@ class Lightbox extends LitElement {
 
   setupKeyboardControls() {
     document.addEventListener('keyup', ({ code }) => {
-      if (this.isInsideOpenModal && this.slides.length > 1) {
+      if (this.slides.length > 1) {
         switch(code) {
             default:
               break;
@@ -177,8 +173,7 @@ class Lightbox extends LitElement {
 
     return html`
       <div class="q-lightbox">
-        <slot name="slides"></slot>
-        <slot name="ui"></slot>
+        <slot></slot>
       </div>
     `;
   }

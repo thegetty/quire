@@ -38,9 +38,6 @@ module.exports = function(eleventyConfig) {
         : '';
     };
 
-    // TODO handle below with a data attribute
-    //${this.isInsideOpenModal && 'q-lightbox-ui__download-and-counter--modal'}
-
     const navigationButtons = () => {
       const previousAriaLabel = 'Previous (left arrow key)';
       const nextAriaLabel = 'Next (right arrow key)';
@@ -53,7 +50,7 @@ module.exports = function(eleventyConfig) {
     };
 
     return html`
-      <div slot="ui" class="q-lightbox-ui">
+      <div class="q-lightbox-ui">
         <div class="q-lightbox-ui__zoom-and-fullscreen">
           ${zoomButtons()}
           ${fullscreenButton()}

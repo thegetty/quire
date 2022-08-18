@@ -1,23 +1,18 @@
 import { LitElement, html } from 'lit';
-import { styles } from './styles.js'
-
-const stringifyData = (jsObject) => {
-  return encodeURIComponent(JSON.stringify(jsObject));
-}
 
 class Modal extends LitElement {
   static properties = {
-    _height: { state: true },
-    _width: { state: true },
     active: { type: Boolean },
     currentId: { attribute: 'current-id', type: String },
-    figures: {
-      converter: ((value) => value ? JSON.parse(decodeURIComponent(value)) : null)
-    },
-    imageDir: { attribute: 'image-dir', type: String }
   }
 
-  static styles = styles;
+  get closeButton() {
+    return this.querySelector('[data-modal-close]')
+  }
+
+  get lightbox() {
+    return this.querySelector('q-lightbox')
+  }
 
   constructor() {
     super();
@@ -29,6 +24,7 @@ class Modal extends LitElement {
   close() {
     this.active = false;
     this.currentId = null;
+    this.lightbox && this.lightbox.setAttribute('current-id', null)
     this.enableScrolling();
   }
 
@@ -54,15 +50,17 @@ class Modal extends LitElement {
 
   open(event) {
     this.currentId = this.getCurrentFigureId(event);
+    this.lightbox && this.lightbox.setAttribute('current-id', this.currentId)
     this.active = true;
     this.disableScrolling();
-    this.setDimensions();
   }
 
-  setDimensions() {
-    const { height, width } = this.renderRoot.firstElementChild.getBoundingClientRect();
-    this._height = height;
-    this._width = width;
+  setupCloseButton() {
+    if (!this.closeButton) return
+
+    this.closeButton.addEventListener('click', () => {
+      this.close()
+    })
   }
 
   setupKeyboardControls() {
@@ -87,28 +85,16 @@ class Modal extends LitElement {
   setupResizeHandler() {
     window.addEventListener('resize', () => {
       window.requestAnimationFrame(() => {
-        this.setDimensions();
       });
     });
   }
 
   render() {
-    const figures = stringifyData(this.figures);
+    this.dataset.modalActive = this.active
+
     return html`
-      <div class="q-modal ${this.active ? 'active' : ''}">
-        <q-lightbox
-          current-id="${this.currentId}"
-          figures="${figures}"
-          image-dir=${this.imageDir}
-          is-inside-open-modal="${this.active}"
-          width="${this._width}"
-          height="${this._height}"
-        ></q-lightbox>
-        <button
-          class="q-modal__close-button"
-          id="close-modal"
-          @click="${this.close}"
-        ></button>
+      <div class="q-modal">
+        <slot></slot>
       </div>
     `;
   }
