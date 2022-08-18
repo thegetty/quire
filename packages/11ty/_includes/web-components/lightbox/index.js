@@ -1,24 +1,39 @@
 import { LitElement, html } from 'lit';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
-import { styles } from './styles.js'
 
 class Lightbox extends LitElement {
   static properties = {
     currentId: { attribute: 'current-id', type: String },
-    figures: {
-      converter: ((value) => value ? JSON.parse(decodeURIComponent(value)) : null)
-    },
     height: { type: Number },
-    imageDir: { attribute: 'image-dir', type: String },
     isInsideOpenModal: { attribute: 'is-inside-open-modal', type: Boolean },
     width: { type: Number }
   }
 
-  static styles = styles
-
   constructor() {
     super();
+    this.setupFullscreen();
+    this.setupNavigation();
     this.setupKeyboardControls();
+  }
+
+  get counterCurrent() {
+    return this.querySelector('[data-lightbox-counter-current]')
+  }
+
+  get counterTotal() {
+    return this.querySelector('[data-lightbox-counter-total]')
+  }
+
+  get fullscreenButton() {
+    return this.querySelector('[data-lightbox-fullscreen]')
+  }
+
+  get nextButton() {
+    return this.querySelector('[data-lightbox-next]')
+  }
+
+  get previousButton() {
+    return this.querySelector('[data-lightbox-previous]')
   }
 
   get slides() {
@@ -69,12 +84,23 @@ class Lightbox extends LitElement {
     this.currentId = previousId;
   }
 
-  setCurrentSlideElement() {
-    this.slides.forEach((slide) => {
-      if (slide.dataset.lightboxId !== this.currentId)
-        delete slide.dataset.lightboxCurrent;
+  setupFullscreen() {
+    if (!this.fullscreenButton) return
+
+    this.fullscreenButton.addEventListener('click', () => {
+      this.toggleFullscreen()
     })
-    this.currentSlide.dataset.lightboxCurrent = true
+  }
+
+  setupNavigation() {
+    if (!this.nextButton || !this.previousButton) return
+
+    this.nextButton.addEventListener('click', () => {
+      this.next()
+    })
+    this.previousButton.addEventListener('click', () => {
+      this.previous()
+    })
   }
 
   setupKeyboardControls() {
@@ -97,77 +123,36 @@ class Lightbox extends LitElement {
   toggleFullscreen() {
     const lightbox = this.renderRoot.firstElementChild;
     if (this.fullscreen) {
+      this.fullscreenButton.dataset.lightboxFullscreen = false
       document.exitFullscreen();
     } else {
+      this.fullscreenButton.dataset.lightboxFullscreen = true
       lightbox.requestFullscreen();
     }
+  }
+
+  updateCounterElements() {
+    this.counterCurrent.innerText = this.currentSlideIndex + 1
+    this.counterTotal.innerText = this.slides.length
+  }
+
+  updateCurrentSlideElement() {
+    this.slides.forEach((slide) => {
+      if (slide.dataset.lightboxId !== this.currentId)
+        delete slide.dataset.lightboxCurrent;
+    })
+    this.currentSlide.dataset.lightboxCurrent = true
   }
 
   render() {
     if (!this.slides.length) return ''
     this.currentId = this.slideIds[this.currentSlideIndex]
-    this.setCurrentSlideElement()
-
-    // TODO implement zoom buttons
-    const zoomButtons = () => {
-      const zoomInAriaLabel = 'Zoom In';
-      const zoomOutAriaLabel = 'Zoom Out';
-      // TODO determine how to programattically zoom with `image-service`/`canvas-panel`
-      const displayZoomButtons = false
-      return displayZoomButtons
-        ? html`
-          <button class="q-lightbox__zoom-button q-lightbox__zoom-button--in" title="${zoomInAriaLabel}" aria-label="${zoomInAriaLabel}">+</button>
-          <button class="q-lightbox__zoom-button q-lightbox__zoom-button--out" title="${zoomOutAriaLabel}" aria-label="${zoomOutAriaLabel}">-</button>
-        `
-        : '';
-    }
-
-    const fullscreenButton = () => {
-      const ariaLabel = 'View Fullscreen';
-      return html`
-        <button @click="${this.toggleFullscreen}" class="q-lightbox__fullscreen-button ${this.fullscreen ? 'q-lightbox__fullscreen-button--active' : ''}" title="${ariaLabel}" aria-label="${ariaLabel}"></button>
-      `;
-    }
-
-    // TODO implement download button for figure entries
-    const downloadButton = () => {
-      return this.isInsideOpenModal
-        ? html``
-        : '';
-    };
-
-    const counter = () => {
-      const counter = this.currentSlideIndex + 1;
-      const slideCount = this.slides.length;
-      return this.hasMultipleFigures
-        ? html`<span class="q-lightbox__counter">${counter} of ${slideCount}</span>`
-        : '';
-    };
-
-    const navigationButtons = () => {
-      const previousAriaLabel = 'Previous (left arrow key)';
-      const nextAriaLabel = 'Next (right arrow key)';
-      return this.hasMultipleFigures
-        ? html`
-          <button @click="${this.previous}" class="q-lightbox__navigation-button q-lightbox__navigation-button--previous" title="${previousAriaLabel}" aria-label="${previousAriaLabel}"></button>
-          <button @click="${this.next}" class="q-lightbox__navigation-button q-lightbox__navigation-button--next" title="${nextAriaLabel}" aria-label="${nextAriaLabel}"></button>
-        `
-        : '';
-    };
+    this.updateCurrentSlideElement()
+    this.updateCounterElements()
 
     return html`
-      <div class="q-lightbox">
-        <slot name="slides"></slot>
-        <div class="q-lightbox__zoom-and-fullscreen">
-          ${zoomButtons()}
-          ${fullscreenButton()}
-        </div>
-        <div class="q-lightbox__download-and-counter ${this.isInsideOpenModal && 'q-lightbox__download-and-counter--modal'}">
-          ${downloadButton()}
-          ${counter()}
-        </div>
-        ${navigationButtons()}
-      </div>
+      <slot name="slides"></slot>
+      <slot name="ui"></slot>
     `;
   }
 }

@@ -9,6 +9,7 @@ const { html } = require('~lib/common-tags')
  */
 module.exports = function (eleventyConfig, { page }) {
   const lightboxSlides = eleventyConfig.getFilter('lightboxSlides')
+  const lightboxUi = eleventyConfig.getFilter('lightboxUi')
 
   return function (figures=page.figures) {
     if (!figures) return;
@@ -16,6 +17,7 @@ module.exports = function (eleventyConfig, { page }) {
     return html`
       <q-lightbox>
         ${lightboxSlides(figures)}
+        ${lightboxUi(figures)}
       </q-lightbox>
     `;
   }
