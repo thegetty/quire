@@ -24,8 +24,7 @@ module.exports = function(eleventyConfig) {
     const optionElements = options.map((item) =>
       figureoption({
         figure,
-        item,
-        type
+        item
       })
     )
 

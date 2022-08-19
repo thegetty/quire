@@ -35,6 +35,9 @@ module.exports = function(eleventyConfig) {
     switch (true) {
       case figure.isCanvas:
         imageElement = canvasPanel(figure)
+        /**
+         * @todo create UIs for all multiple sets of annotations
+         */
         annotationsElement = annotationsUI(figure, 'annotations')
         choicesElement = annotationsUI(figure, 'choices')
         break;
