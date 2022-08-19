@@ -27,8 +27,8 @@ module.exports = function(eleventyConfig) {
       label
     } = figure
 
-    const labelElement = figurelabel({ caption, id, label })
     const annotationsElement = annotationsUI(figure)
+    const labelElement = figurelabel({ caption, id, label })
 
     /**
      * Wrap image in modal link

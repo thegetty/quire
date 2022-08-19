@@ -13,10 +13,7 @@ const path = require('path')
 module.exports = function(eleventyConfig) {
   const { imageDir } = eleventyConfig.globalData.config.params
 
-  return function ({
-    alt='',
-    src=''
-  }) {
+  return function ({ alt='', src='' }) {
     const imageSrc = src.startsWith('http') ? src : path.join(imageDir, src)
 
     return html`
