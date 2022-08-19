@@ -43,7 +43,7 @@ module.exports = function(eleventyConfig) {
       const nextAriaLabel = 'Next (right arrow key)';
       return figures.length > 1
         ? html`
-          <nav class="lightbox-navigation">
+          <nav class="q-lightbox-ui__navigation">
             <button data-lightbox-previous class="q-lightbox-ui__navigation-button q-lightbox-ui__navigation-button--previous" title="${previousAriaLabel}" aria-label="${previousAriaLabel}"></button>
             <button data-lightbox-next class="q-lightbox-ui__navigation-button q-lightbox-ui__navigation-button--next" title="${nextAriaLabel}" aria-label="${nextAriaLabel}"></button>
           </nav>
