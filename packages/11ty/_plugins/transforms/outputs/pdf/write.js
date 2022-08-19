@@ -31,6 +31,13 @@ module.exports = async function(collection) {
     }
   })
 
+  const trimLeadingSlash = (string) => string.startsWith('/') ? string.substr(1) : string
+
+  document.querySelectorAll('[src]').forEach((asset) => {
+    const src = asset.getAttribute('src')
+    asset.setAttribute('src', trimLeadingSlash(src))
+  })
+
   try {
     fs.ensureDirSync(path.parse(outputPath).dir)
     fs.writeFileSync(outputPath, dom.serialize())

@@ -15,15 +15,12 @@ module.exports = function(eleventyConfig) {
 
   const { figureLabelLocation, imageDir } = eleventyConfig.globalData.config.params
 
-  // strip the leading slash from imageDir
-  const relativeImageDir = imageDir
-    ? imageDir.match(/[^\/].*/)[0]
-    : ''
-
   return function({ aspect_ratio: aspectRatio, caption, credit, id, label, mediaType, poster}) {
     const isEmbed = mediaType === 'vimeo' || mediaType === 'youtube'
 
-    const posterSrc = path.join(relativeImageDir, poster)
+    const posterSrc = poster.startsWith('http')
+      ? poster
+      : path.join(imageDir, poster)
 
     return html`
       <div class="q-figure__media-wrapper--${ aspectRatio || 'widescreen' }">
