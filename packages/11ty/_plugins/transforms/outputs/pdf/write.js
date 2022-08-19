@@ -34,8 +34,6 @@ module.exports = async function(collection) {
   const assets = document.querySelectorAll('[src]')
   assets.forEach((asset) => {
     const stripLeadingSlash = (urlString) => {
-      if (urlString.startsWith('http')) return urlString;
-
       return urlString
         ? urlString.match(/[^\/].*/)[0]
         : ''
