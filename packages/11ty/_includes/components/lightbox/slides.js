@@ -1,5 +1,13 @@
 const { html } = require('~lib/common-tags')
 
+/**
+ * Renders image slides with captions for display in a <q-lightbox> element
+ *
+ * @param      {Object} eleventyConfig  eleventy configuration
+ *
+ * @param      {Array} figures
+ * @return     {String}  An HTML <img> element
+ */
 module.exports = function(eleventyConfig) {
   const figureImageElement = eleventyConfig.getFilter('figureImageElement')
   const markdownify = eleventyConfig.getFilter('markdownify')
