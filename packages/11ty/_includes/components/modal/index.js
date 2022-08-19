@@ -1,8 +1,5 @@
 const { html } = require('~lib/common-tags')
 
-const stringifyData = (jsObject) => {
-  return encodeURIComponent(JSON.stringify(jsObject));
-}
 /**
  * Modal Tag
  *
@@ -10,19 +7,28 @@ const stringifyData = (jsObject) => {
  * @param      {Object}  globalData
  */
 module.exports = function (eleventyConfig, { page }) {
-  const markdownify = eleventyConfig.getFilter('markdownify')
-  const { imageDir } = eleventyConfig.globalData.config.params
+  const lightboxSlides = eleventyConfig.getFilter('lightboxSlides')
+  const lightboxUI = eleventyConfig.getFilter('lightboxUI')
 
   return function (figures=page.figures) {
     if (!figures) return;
-    const figuresWithMarkdownifiedCaptions =
-      figures.map((figure) => ({
-        ...figure,
-        caption: figure.caption ? markdownify(figure.caption) : null
-      }));
-    const serializedFigures = stringifyData(figuresWithMarkdownifiedCaptions);
+    figures = figures.map((figure) => ({
+      preset: 'zoom',
+      ...figure
+    }))
+
     return html`
-      <q-modal figures="${serializedFigures}" image-dir="${imageDir}"></q-modal>
+      <q-modal>
+        <q-lightbox>
+          ${lightboxSlides(figures)}
+          ${lightboxUI(figures)}
+        </q-lightbox>
+        <button
+          data-modal-close
+          class="q-modal__close-button"
+          id="close-modal"
+        ></button>
+      </q-modal>
     `;
   }
 }

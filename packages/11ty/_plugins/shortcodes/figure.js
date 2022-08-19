@@ -20,12 +20,12 @@ const { warn } = chalkFactory('shortcodes:figure')
  * @return     {boolean}  An HTML <figure> element
  */
 module.exports = function (eleventyConfig, { page }) {
-  const figureimage = eleventyConfig.getFilter('figureimage')
-  const figurelabel = eleventyConfig.getFilter('figurelabel')
-  const figuremodallink = eleventyConfig.getFilter('figuremodallink')
-  const figuresoundcloud = eleventyConfig.getFilter('figuresoundcloud')
-  const figuretable = eleventyConfig.getFilter('figuretable')
-  const figurevideo = eleventyConfig.getFilter('figurevideo')
+  const figureImage = eleventyConfig.getFilter('figureImage')
+  const figureLabel = eleventyConfig.getFilter('figureLabel')
+  const figureModalLink = eleventyConfig.getFilter('figureModalLink')
+  const figureSoundcloud = eleventyConfig.getFilter('figureSoundcloud')
+  const figureTable = eleventyConfig.getFilter('figureTable')
+  const figureVideo = eleventyConfig.getFilter('figureVideo')
   const getFigure = eleventyConfig.getFilter('getFigure')
   const slugify = eleventyConfig.getFilter('slugify')
 
@@ -51,17 +51,17 @@ module.exports = function (eleventyConfig, { page }) {
     const component = async (figure) => {
       switch (true) {
         case (epub || pdf) && ['soundcloud', 'youtube'].includes(mediaType):
-          return figureplaceholder(figure)
+          return figurePlaceholder(figure)
         case mediaType === 'soundcloud':
-          return figuresoundcloud(figure)
+          return figureSoundcloud(figure)
         case mediaType === 'table':
-          return await figuretable(figure)
+          return await figureTable(figure)
         case mediaType === 'video':
         case mediaType === 'vimeo':
         case mediaType === 'youtube':
-          return figurevideo(figure)
+          return figureVideo(figure)
         default:
-          return await figureimage(figure)
+          return await figureImage(figure)
       }
     }
 

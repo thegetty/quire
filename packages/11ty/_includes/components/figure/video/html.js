@@ -58,8 +58,8 @@ const videoElement = {
  * @return {String}  An HTML <video> element
  */
 module.exports = function(eleventyConfig) {
-  const figurecaption = eleventyConfig.getFilter('figurecaption')
-  const figurelabel = eleventyConfig.getFilter('figurelabel')
+  const figureCaption = eleventyConfig.getFilter('figureCaption')
+  const figureLabel = eleventyConfig.getFilter('figureLabel')
 
   const { figureLabelLocation, imageDir } = eleventyConfig.globalData.config.params
 
@@ -73,9 +73,9 @@ module.exports = function(eleventyConfig) {
     return html`
       <div class="q-figure__media-wrapper ${isEmbed && 'q-figure__media-wrapper--' + (aspectRatio || 'widescreen')}">
         ${videoElement[mediaType]({ mediaId, src })}
-        ${label && figureLabelLocation === 'on-top' ? figurelabel({ caption, id, label }) : ''}
+        ${label && figureLabelLocation === 'on-top' ? figureLabel({ caption, id, label }) : ''}
       </div>
-      ${figurecaption({ caption, credit })}
+      ${figureCaption({ caption, credit })}
     `
   }
 }
