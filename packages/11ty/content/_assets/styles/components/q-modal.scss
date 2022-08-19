@@ -12,8 +12,8 @@ q-modal {
   transition: transform 0s 0.2s, opacity 0.2s linear;
 
   &[data-modal-active="true"] {
-    transform: translateY(0);
     opacity: 1;
+    transform: translateY(0);
     transition: transform 0s, opacity 0.2s 0.2s linear;
   }
 }
