@@ -7,7 +7,7 @@ const path = require('path')
  * @return {String}  An HTML <table> element
  */
 module.exports = function(eleventyConfig) {
-  const figureCaption = eleventyConfig.getFilter('figurecaption')
+  const figureCaption = eleventyConfig.getFilter('figureCaption')
   const markdownify = eleventyConfig.getFilter('markdownify')
   const renderFile = eleventyConfig.getFilter('renderFile')
 

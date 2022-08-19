@@ -8,7 +8,7 @@ const { oneLine } = require('~lib/common-tags')
 module.exports = function(eleventyConfig) {
   const icon = eleventyConfig.getFilter('icon')
   const markdownify = eleventyConfig.getFilter('markdownify')
-  const modalLink = eleventyConfig.getFilter('figuremodallink')
+  const modalLink = eleventyConfig.getFilter('figureModalLink')
 
   const { epub } = eleventyConfig.globalData.config
   const { figureLabelLocation } = eleventyConfig.globalData.config.params

@@ -10,8 +10,8 @@ const path = require('path')
  * @return     {String}  An HTML
  */
 module.exports = function(eleventyConfig) {
-  const figureCaption = eleventyConfig.getFilter('figurecaption')
-  const figurelabel = eleventyConfig.getFilter('figurelabel')
+  const figureCaption = eleventyConfig.getFilter('figureCaption')
+  const figureLabel = eleventyConfig.getFilter('figureLabel')
 
   const { figureLabelLocation, imageDir } = eleventyConfig.globalData.config.params
 
@@ -29,7 +29,7 @@ module.exports = function(eleventyConfig) {
       <div class="q-figure__media-wrapper--${ aspectRatio || 'widescreen' }">
         <img src="${posterSrc}" />
       </div>
-      ${label && figureLabelLocation === 'on-top' ? figurelabel({ caption, id, label }) : ''}
+      ${label && figureLabelLocation === 'on-top' ? figureLabel({ caption, id, label }) : ''}
       ${figureCaption({ caption, credit })}
     `
   }
