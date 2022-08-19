@@ -58,7 +58,7 @@ const videoElement = {
  * @return {String}  An HTML <video> element
  */
 module.exports = function(eleventyConfig) {
-  const figurecaption = eleventyConfig.getFilter('figurecaption')
+  const figureCaption = eleventyConfig.getFilter('figurecaption')
   const figurelabel = eleventyConfig.getFilter('figurelabel')
 
   const { figureLabelLocation, imageDir } = eleventyConfig.globalData.config.params
@@ -75,7 +75,7 @@ module.exports = function(eleventyConfig) {
         ${videoElement[mediaType]({ mediaId, src })}
         ${label && figureLabelLocation === 'on-top' ? figurelabel({ caption, id, label }) : ''}
       </div>
-      ${figurecaption({ caption, credit })}
+      ${figureCaption({ caption, credit })}
     `
   }
 }

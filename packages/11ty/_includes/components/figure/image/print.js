@@ -9,7 +9,7 @@ const path = require('path')
  * @return     {String}  An <img> element
  */
 module.exports = function(eleventyConfig) {
-  const figurecaption = eleventyConfig.getFilter('figurecaption')
+  const figureCaption = eleventyConfig.getFilter('figurecaption')
   const figurelabel = eleventyConfig.getFilter('figurelabel')
 
   const { imageDir } = eleventyConfig.globalData.config.params
@@ -37,7 +37,7 @@ module.exports = function(eleventyConfig) {
 
     return html`
       <img alt="${alt}" class="q-figure__image" src="${imageSrc}"/>
-      ${figurecaption({ caption, content: labelElement, credit })}
+      ${figureCaption({ caption, content: labelElement, credit })}
     `
   }
 }

@@ -10,7 +10,7 @@ const path = require('path')
  * @return     {String}  An HTML
  */
 module.exports = function(eleventyConfig) {
-  const figurecaption = eleventyConfig.getFilter('figurecaption')
+  const figureCaption = eleventyConfig.getFilter('figurecaption')
   const figurelabel = eleventyConfig.getFilter('figurelabel')
 
   const { figureLabelLocation, imageDir } = eleventyConfig.globalData.config.params
@@ -30,7 +30,7 @@ module.exports = function(eleventyConfig) {
         <img src="${posterSrc}" />
       </div>
       ${label && figureLabelLocation === 'on-top' ? figurelabel({ caption, id, label }) : ''}
-      ${figurecaption({ caption, credit })}
+      ${figureCaption({ caption, credit })}
     `
   }
 }
