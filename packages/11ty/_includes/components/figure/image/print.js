@@ -11,8 +11,6 @@ const path = require('path')
 module.exports = function(eleventyConfig) {
   const figurecaption = eleventyConfig.getFilter('figurecaption')
   const figurelabel = eleventyConfig.getFilter('figurelabel')
-  const hasCanvasPanelProps = eleventyConfig.getFilter('hasCanvasPanelProps')
-  const isImageService = eleventyConfig.getFilter('isImageService')
 
   const { imageDir } = eleventyConfig.globalData.config.params
 
@@ -22,24 +20,23 @@ module.exports = function(eleventyConfig) {
     : ''
 
   return function(figure) {
-    const { alt, caption, credit, id, iiif, label, src } = figure
+    const { alt, caption, credit, id, label, src='' } = figure
 
     const labelElement = figurelabel({ caption, id, label })
 
     let imageSrc
 
     switch (true) {
-      case hasCanvasPanelProps(figure) || isImageService(figure):
+      case figure.isCanvas || figure.isImageService:
         imageSrc = figure.printImage
         break
       default:
         imageSrc = src.startsWith('http') ? src : path.join(relativeImageDir, src)
-        imageElement = `<img alt="${alt}" class="q-figure__image" src="${imageSrc}" />`
         break
     }
 
     return html`
-      <img src="${imageSrc}"/>
+      <img alt="${alt}" class="q-figure__image" src="${imageSrc}"/>
       ${figurecaption({ caption, content: labelElement, credit })}
     `
   }

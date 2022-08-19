@@ -13,6 +13,7 @@ import "../../styles/custom.css";
 
 // Modules (feel free to define your own and import here)
 import Search from "../../../../_plugins/search/search.js";
+import "./canvas-panel";
 import "./soundcloud-api";
 
 // array of leaflet instances

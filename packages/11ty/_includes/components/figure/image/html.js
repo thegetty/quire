@@ -9,14 +9,12 @@ const path = require('path')
  * @return     {String}  An HTML <img> element
  */
 module.exports = function(eleventyConfig) {
+  const annotationsUI = eleventyConfig.getFilter('annotationsUI')
   const canvasPanel = eleventyConfig.getFilter('canvasPanel')
   const figurecaption = eleventyConfig.getFilter('figurecaption')
-  const figurechoices = eleventyConfig.getFilter('figurechoices')
   const figurelabel = eleventyConfig.getFilter('figurelabel')
   const figuremodallink = eleventyConfig.getFilter('figuremodallink')
   const imageService = eleventyConfig.getFilter('imageService')
-  const isImageService = eleventyConfig.getFilter('isImageService')
-  const hasCanvasPanelProps = eleventyConfig.getFilter('hasCanvasPanelProps')
   const markdownify = eleventyConfig.getFilter('markdownify')
 
   const { imageDir, figureLabelLocation } = eleventyConfig.globalData.config.params
@@ -32,14 +30,14 @@ module.exports = function(eleventyConfig) {
     } = figure
     const labelElement = figurelabel({ caption, id, label })
 
-    let choicesElement='', imageElement;
+    let annotationsElement='', imageElement;
 
     switch (true) {
-      case hasCanvasPanelProps(figure):
+      case figure.isCanvas:
         imageElement = canvasPanel(figure)
-        choicesElement = figurechoices(figure)
+        annotationsElement = annotationsUI(figure)
         break;
-      case isImageService(figure):
+      case figure.isImageService:
         imageElement = imageService(figure)
         break;
       default:
@@ -63,7 +61,7 @@ module.exports = function(eleventyConfig) {
 
     return html`
       ${imageElement}
-      ${choicesElement}
+      ${annotationsElement}
       ${captionElement}
     `
   }

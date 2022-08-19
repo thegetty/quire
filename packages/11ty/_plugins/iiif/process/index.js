@@ -6,6 +6,7 @@ const initCreateImage = require('./createImage')
 const initCreateManifest = require('./createManifest')
 const initTileImage = require('./tileImage')
 const pluralize = require('~lib/pluralize')
+const { isImageService } = require('../helpers')
 
 const { info, error } = chalkFactory('plugins:iiif')
 
@@ -20,7 +21,6 @@ const { info, error } = chalkFactory('plugins:iiif')
 module.exports = {
   init: (eleventyConfig) => {
     info('Processing project image resources for IIIF.')
-    const isImageService = eleventyConfig.getFilter('isImageService')
     /**
      * IIIF config
      */

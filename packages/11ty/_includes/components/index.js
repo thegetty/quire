@@ -1,11 +1,12 @@
 /**
  * Export all component includes
  */
-const figureComponents = require('./figure')
 
 module.exports = {
+  annotationsUI: require('./figure/annotations-ui'),
   abstract: require('./abstract.js'),
   analytics: require('./analytics.js'),
+  canvasPanel: require('./figure/canvas-panel'),
   citation: require('./citation/index.js'),
   citeName: require('./citation/name.js'),
   citePage: require('./citation/page.js'),
@@ -15,11 +16,19 @@ module.exports = {
   copyright: require('./copyright/index.js'),
   copyrightLicensing: require('./copyright/licensing.js'),
   dublinCore: require('./head-tags/dublin-core.js'),
-  ...figureComponents,
+  figurecaption: require('./figure/caption'),
+  figureimage: require('./figure/image'),
+  figurelabel: require('./figure/label'),
+  figuremodallink: require('./figure/modal-link'),
+  figureplaceholder: require('./figure/placeholder'),
+  figuresoundcloud: require('./figure/soundcloud'),
+  figuretable: require('./figure/table'),
+  figurevideo: require('./figure/video'),
   head: require('./head.js'),
   icon: require('./icon.js'),
   icons: require('./icons.js'),
   iconscc: require('./icons-cc/index.js'),
+  imageService: require('./figure/image-service'),
   index: require('./index.js'),
   jsonld: require('./head-tags/jsonld.js'),
   licenseIcons: require('./license-icons.js'),
@@ -45,6 +54,5 @@ module.exports = {
   tableOfContentsItem: require('./table-of-contents/item/index.js'),
   tableOfContentsList: require('./table-of-contents/list/index.js'),
   tableOfContentsListItem: require('./table-of-contents/item/list.js'),
-  twitterCard: require('./head-tags/twitter-card.js'),
-  webComponents: require('./head-tags/web-components.js')
+  twitterCard: require('./head-tags/twitter-card.js')
 }

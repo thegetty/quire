@@ -20,7 +20,7 @@ module.exports = function(eleventyConfig) {
    */
   return function(params) {
     const { height='', id, iiif, preset='responsive', region='', virtualSizes='', width='' } = params
-    const { canvas, choiceId='', iiifContent='', manifest} = iiif
+    const { canvas, choiceId='', iiifContent='', manifest } = iiif
 
     if (!manifest && !iiifContent) {
       error(`Invalid params for figure "${id}": `, params)

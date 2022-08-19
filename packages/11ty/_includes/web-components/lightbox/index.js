@@ -75,9 +75,7 @@ class Lightbox extends LitElement {
 
   render() {
     const imageSlides = () => {
-      const imagesWithCaptions = this.figures.map(({ caption, credit, id, iiif, label, preset, src }, index) => {
-        const isCanvasPanel = iiif && !!iiif.canvas && !!iiif.manifest;
-        const isImageService = iiif && !!iiif.info;
+      const imagesWithCaptions = this.figures.map(({ caption, credit, id, iiif, isCanvas, isImageService, label, preset, src }, index) => {
         const isImg = src && !!src.match(/.+\.(jpe?g|gif|png)$/);
         const labelSpan = label
           ? `<span class="q-lightbox__caption-label">${label}</span>`
@@ -105,7 +103,7 @@ class Lightbox extends LitElement {
           default:
             imageElement = `<div class="q-lightbox__missing-img">Figure '${id}' does not have a valid 'src'</div>`;
             break;
-          case isCanvasPanel:
+          case isCanvas:
             imageElement = `<canvas-panel id="${elementId}" data-figure="${id}" canvas-id="${iiif.canvas.id}" manifest-id="${iiif.manifest.id}" preset="${preset}" width="${this.width}" height="${this.height}" />`;
             break;
           case isImageService:
