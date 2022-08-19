@@ -48,7 +48,6 @@ module.exports = function(eleventyConfig) {
         <div
           class="q-lightbox-slides__slide"
           data-lightbox-slide
-          data-lightbox-id="${id}"
         >
           <div class="q-lightbox-slides__image">
             ${figureImageElement(figure)}

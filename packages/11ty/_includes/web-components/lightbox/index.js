@@ -8,8 +8,7 @@ import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
  * It provides a default slot for passing markup to render:
  *
  * To display an element as a slide, provide it with a
- * `data-lightbox-slide` attribute set to any value, and a
- * `data-lightbox-id` attribute set to a unique id
+ * `data-lightbox-slide` attribute set to any value
  *
  * This lightbox provides access to controls with the following data attributes:
  * - `data-lightbox-fullscreen` triggers fullscreen on click and indicates status
