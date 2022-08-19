@@ -31,6 +31,19 @@ module.exports = async function(collection) {
     }
   })
 
+  const assets = document.querySelectorAll('[src]')
+  assets.forEach((asset) => {
+    const stripLeadingSlash = (urlString) => {
+      if (urlString.startsWith('http')) return urlString;
+
+      return urlString
+        ? urlString.match(/[^\/].*/)[0]
+        : ''
+    }
+    const src = asset.getAttribute('src')
+    asset.setAttribute('src', stripLeadingSlash(src))
+  })
+
   try {
     fs.ensureDirSync(path.parse(outputPath).dir)
     fs.writeFileSync(outputPath, dom.serialize())
