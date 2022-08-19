@@ -13,7 +13,7 @@ module.exports = function (eleventyConfig) {
       case isImageService:
         return imageService(params)
       default:
-        return imageTag(params, imageDir)
+        return imageTag(params)
     }
   }
 }
