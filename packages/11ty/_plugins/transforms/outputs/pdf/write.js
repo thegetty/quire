@@ -31,15 +31,11 @@ module.exports = async function(collection) {
     }
   })
 
-  const assets = document.querySelectorAll('[src]')
-  assets.forEach((asset) => {
-    const stripLeadingSlash = (urlString) => {
-      return urlString
-        ? urlString.match(/[^\/].*/)[0]
-        : ''
-    }
+  const trimLeadingSlash = (string) => string.startsWith('/') ? string.substr(1) : string
+
+  document.querySelectorAll('[src]').forEach((asset) => {
     const src = asset.getAttribute('src')
-    asset.setAttribute('src', stripLeadingSlash(src))
+    asset.setAttribute('src', trimLeadingSlash(src))
   })
 
   try {
