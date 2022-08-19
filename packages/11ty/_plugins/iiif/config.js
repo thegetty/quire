@@ -1,8 +1,9 @@
 const path = require('path')
 
 module.exports = (eleventyConfig) => {
+  const { config, env } = eleventyConfig.globalData
   return {
-    baseURL: eleventyConfig.globalData.config.baseURL || eleventyConfig.globalData.env.URL,
+    baseURL: config.baseURL || env.URL,
     /**
      * Input and output of processable image formats
      * @type {Array<Object>}
@@ -17,6 +18,7 @@ module.exports = (eleventyConfig) => {
       output: '.jpg'
      }
     ],
+    imageDir: config.params.imageDir,
     /**
      * Transformations to apply to each image
      * Each item is output as a separate file

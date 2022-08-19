@@ -2,39 +2,51 @@ const { globalVault } = require('@iiif/vault')
 const vault = globalVault()
 const { IIIFBuilder } = require('iiif-builder')
 const builder = new IIIFBuilder(vault)
+const Annotation = require('./annotation')
+const Base = require('./base')
 const Canvas = require('./canvas')
+const Choices = require('./choices')
 
-module.exports = class Manifest {
-  constructor({ eleventyConfig, figure }) {
-    const { locale, manifestFilename, outputDir } =
-      eleventyConfig.globalData.iiifConfig
-    const iiifId = [process.env.URL, outputDir, id].join("/")
+module.exports = class Manifest extends Base {
+  constructor(data) {
+    super(data)
 
-    this.annotations = figure.annotations
-      .flatMap(({ items }) => items)
-      .map((annotation) => new Annotation({ annotation, eleventyConfig, figure }))
-    this.canvas = new Canvas({ eleventyConfig, figure })
-    this.config = eleventyConfig.globalData.iiifConfig
-    this.figure = figure
-    this.locale = locale
-    this.manifestId = [iiifId, manifestFilename].join('/')
+    this.canvas = new Canvas(data)
+    this.manifestId = [this.baseId, this.iiifConfig.manifestFilename].join('/')
   }
 
-  create() {
-    const manifest = builder.createManifest(manifestId, (manifest) => {
-      manifest.addLabel(this.figure.label, this.locale)
+  get annotations() {
+    return this.figure.annotations
+      .flatMap(({ items }) => items)
+      .filter((item) => item.target && item.src)
+      .map((item) => new Annotation(this.data, this.canvas, item))
+  }
+
+  get choices() {
+    const choices = this.figure.annotations
+      .flatMap(({ items }) => items)
+      .filter((item) => !item.target && item.src)
+    return new Choices(this.data, this.canvas, choices)
+  }
+
+  async json() {
+    const { height, width } = await this.canvas.getDimensions()
+    this.canvas.height = height
+    this.canvas.width = width
+    const manifest = builder.createManifest(this.manifestId, (manifest) => {
+      manifest.addLabel(this.figure.label, this.iiifConfig.locale)
       manifest.createCanvas(this.canvas.id, (canvas) => {
-        canvas.height = this.canvas.height
-        canvas.width = this.canvas.width
+        canvas.height = height
+        canvas.width = width
         if (this.annotations) {
-          this.annotations.forEach((annotation) => {
-            const annotationId = [this.canvas.id, 'annotation', annotation.id].join('/')
-            canvas.createAnnotation(annotationId, annotation.create())
+          this.annotations.forEach((item) => {
+            const annotation = item.create()
+            canvas.createAnnotation(annotation.id, annotation)
           })
         }
         if (this.choices) {
-          const choiceId = [this.canvas.id, 'choices'].join('/')
-          canvas.createAnnotation(choiceId, this.choices.createAnnotation())
+          const choices = this.choices.create()
+          canvas.createAnnotation(this.choices.id, choices)
         }
       })
     })

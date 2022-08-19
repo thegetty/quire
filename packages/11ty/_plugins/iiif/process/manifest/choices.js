@@ -1,29 +1,31 @@
 const mime = require('mime-types')
 const path = require('path')
 const titleCase = require('~plugins/filters/titleCase')
+const AnnotationBase = require('./annotation-base')
 
-module.exports = class Choices {
-  constructor({ canvas, eleventyConfig, figure, items }) {
-    this.id = [canvas.id, 'choices'].join('/')
-    this.config = eleventyConfig.globalData.config
-    this.items = items.map((item) => new Annotation({ eleventyConfig, figure, item }))
-    this.type = 'Annotation'
+module.exports = class Choices extends AnnotationBase {
+  constructor(data, canvas, items) {
+    super(data, canvas, items)
+
+    this.id = [this.baseId, 'choices'].join('/')
     this.motivation = 'painting'
-    this.iiifConfig = eleventyConfig.globalData.iiifConfig
   }
 
-  get body (data) {
-    const items = this.items.map(({ label, src }) => {
-      const name = path.parse(src).name
-      const choiceId = new URL([this.imageDir, src].join('/'), process.env.URL).href
+  get body() {
+    if (!this.items) return
+    const items = this.items.map((item) => {
+      const { src } = item
+      const label = this.getLabel(item)
+      const { name }= path.parse(src)
+      const choiceId = new URL([this.iiifConfig.imageDir, src].join('/'), process.env.URL).href
       const format = mime.lookup(src)
       const choice = {
         id: choiceId,
         format,
-        height,
+        height: this.canvas.height,
         type: 'Image',
         label: { en: [label] },
-        width
+        width: this.canvas.width
       }
       if (this.figure.preset === 'zoom') {
         const serviceId = new URL([this.iiifConfig.outputDir, name, this.iiifConfig.imageServiceDirectory].join('/'), process.env.URL)
@@ -40,16 +42,6 @@ module.exports = class Choices {
     return {
       type: 'Choice',
       items
-    }
-  }
-
-
-  createAnnotation() {
-    return {
-      body: this.body,
-      id: this.id,
-      motivation: this.motivation,
-      type: this.type
     }
   }
 }

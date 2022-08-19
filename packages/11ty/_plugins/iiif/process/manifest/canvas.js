@@ -1,13 +1,12 @@
-const AnnotationSet = require('./annotation-set')
+const path = require('path')
+const sharp = require('sharp')
+const Base = require('./base')
 
-module.exports = class Canvas {
-  constructor({ eleventyConfig, figure }) {
-    const { outputDir } = eleventyConfig.globalData.iiifConfig
-    const iiifId = [process.env.URL, outputDir, id].join("/")
+module.exports = class Canvas extends Base{
+  constructor(data) {
+    super(data)
 
-    this.config = eleventyConfig.globalData.iiifConfig
-    this.figure = figure
-    this.id = [iiifId, 'canvas'].join('/')
+    this.id = [this.baseId, 'canvas'].join('/')
   }
 
   /**
@@ -21,7 +20,7 @@ module.exports = class Canvas {
   }
 
   async getDimensions() {
-    const fullImagePath = path.join(this.config.inputDir, this.imagePath)
+    const fullImagePath = path.join(this.iiifConfig.inputDir, this.imagePath)
     return await sharp(fullImagePath).metadata()
   }
 }
