@@ -4,16 +4,16 @@ module.exports = function (eleventyConfig) {
   const imageTag = eleventyConfig.getFilter('imageTag')
   const { imageDir } = eleventyConfig.globalData.config.params
 
-  return function (params) {
-    const { isCanvas, isImageService } = params
+  return function (figure) {
+    const { isCanvas, isImageService } = figure
 
     switch (true) {
       case isCanvas:
-        return canvasPanel(params)
+        return canvasPanel(figure)
       case isImageService:
-        return imageService(params)
+        return imageService(figure)
       default:
-        return imageTag(params)
+        return imageTag(figure)
     }
   }
 }
