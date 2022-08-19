@@ -27,7 +27,7 @@
   "devDependencies": {
     "@11ty/eleventy": "^2.0.0-canary.14",
     "@11ty/eleventy-img": "^2.0.1",
-    "@11ty/eleventy-navigation": "^0.3.3",
+    "@11ty/eleventy-navigation": "^0.3.4",
     "@11ty/eleventy-plugin-directory-output": "^1.0.1",
     "@11ty/eleventy-plugin-syntaxhighlight": "^4.1.0",
     "@11ty/eleventy-plugin-vite": "^1.0.0-canary.1",
@@ -45,7 +45,7 @@
     "jsdom": "^20.0.0",
     "json5": "^2.2.1",
     "liquid-args": "^1.0.0",
-    "liquidjs": "^9.39.2",
+    "liquidjs": "^9.40.0",
     "locale-en-us": "^0.0.2",
     "markdown-it": "^13.0.1",
     "markdown-it-anchor": "^8.6.4",
