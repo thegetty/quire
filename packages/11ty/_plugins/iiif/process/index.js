@@ -4,7 +4,7 @@ const addGlobalData = require('./addGlobalData')
 const chalkFactory = require('~lib/chalk')
 const initCreateImage = require('./createImage')
 const initTileImage = require('./tileImage')
-const initWriteManifest = require('./manifest/write')
+const ManifestWriter = require('./manifest/writer')
 const pluralize = require('~lib/pluralize')
 const { isImageService } = require('../helpers')
 
@@ -29,7 +29,7 @@ module.exports = {
     const { imageDir } = config.params
 
     const createImage = initCreateImage(eleventyConfig)
-    const writeManifest = initWriteManifest(eleventyConfig)
+    const writer = new ManifestWriter(eleventyConfig)
     const tileImage = initTileImage(eleventyConfig)
     const outputPath = path.join(outputRoot, outputDir)
     const processedFiles = fs.existsSync(outputPath)
@@ -109,7 +109,9 @@ module.exports = {
         })
         info(`Generating ${figuresWithAnnotations.length} ${pluralize(figuresWithAnnotations.length, 'manifest')}.`)
         for (const figure of figuresWithAnnotations) {
-          await writeManifest(figure, options)
+          const manifest = await writer.createManifest(figure)
+          manifest.addToGlobalData(eleventyConfig)
+          manifest.write()
         }
         /**
          * @todo add error logging

@@ -3,12 +3,11 @@ const path = require('path')
 const titleCase = require('~plugins/filters/titleCase')
 
 module.exports = class AnnotationBase extends Base {
-  constructor(data, canvas, body) {
-    super(data, canvas, body)
+  constructor(iiifConfig, canvas) {
+    super(iiifConfig)
 
     this.canvas = canvas
-    this.item = !Array.isArray(body) ? body : null
-    this.items = Array.isArray(body) ? body : null
+    this.figure = canvas.figure
     this.type = 'Annotation'
   }
 

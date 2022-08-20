@@ -4,10 +4,11 @@ const titleCase = require('~plugins/filters/titleCase')
 const AnnotationBase = require('./annotation-base')
 
 module.exports = class Choices extends AnnotationBase {
-  constructor(data, canvas, items) {
-    super(data, canvas, items)
+  constructor(iiifConfig, canvas, items) {
+    super(iiifConfig, canvas)
 
-    this.id = [this.baseId, 'choices'].join('/')
+    this.id = [this.getBaseId(this.figure.id), 'choices'].join('/')
+    this.items = items
     this.motivation = 'painting'
   }
 

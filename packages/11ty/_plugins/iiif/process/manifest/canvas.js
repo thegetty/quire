@@ -2,11 +2,12 @@ const path = require('path')
 const sharp = require('sharp')
 const Base = require('./base')
 
-module.exports = class Canvas extends Base{
-  constructor(data) {
-    super(data)
+module.exports = class Canvas extends Base {
+  constructor(iifConfig, figure) {
+    super(iifConfig)
 
-    this.id = [this.baseId, 'canvas'].join('/')
+    this.figure = figure
+    this.id = [this.getBaseId(this.figure.id), 'canvas'].join('/')
   }
 
   /**
@@ -21,6 +22,9 @@ module.exports = class Canvas extends Base{
 
   async getDimensions() {
     const fullImagePath = path.join(this.iiifConfig.inputDir, this.imagePath)
-    return await sharp(fullImagePath).metadata()
+    const { height, width } = await sharp(fullImagePath).metadata()
+    this.height = height
+    this.width = width
+    return { height, width }
   }
 }

@@ -1,39 +1,41 @@
-const { globalVault } = require('@iiif/vault')
-const vault = globalVault()
-const { IIIFBuilder } = require('iiif-builder')
-const builder = new IIIFBuilder(vault)
 const Annotation = require('./annotation')
 const Base = require('./base')
 const Canvas = require('./canvas')
 const Choices = require('./choices')
+const fs = require('fs-extra')
+const path = require('path')
+const { globalVault } = require('@iiif/vault')
+const { IIIFBuilder } = require('iiif-builder')
+
+const vault = globalVault()
+const builder = new IIIFBuilder(vault)
 
 module.exports = class Manifest extends Base {
-  constructor(data) {
-    super(data)
+  constructor(iiifConfig, figure) {
+    super(iiifConfig)
 
-    this.canvas = new Canvas(data)
-    this.manifestId = [this.baseId, this.iiifConfig.manifestFilename].join('/')
+    this.canvas = new Canvas(iiifConfig, figure)
+    this.figure = figure
   }
 
   get annotations() {
     return this.figure.annotations
       .flatMap(({ items }) => items)
       .filter((item) => item.target && item.src)
-      .map((item) => new Annotation(this.data, this.canvas, item))
+      .map((item) => new Annotation(this.iiifConfig, this.canvas, item))
   }
 
   get choices() {
     const choices = this.figure.annotations
       .flatMap(({ items }) => items)
       .filter((item) => !item.target && item.src)
-    return new Choices(this.data, this.canvas, choices)
+    return new Choices(this.iiifConfig, this.canvas, choices)
   }
 
-  async json() {
+  async create() {
+    const manifestId = [this.getBaseId(this.figure.id), this.iiifConfig.manifestFilename].join('/')
     const { height, width } = await this.canvas.getDimensions()
-    this.canvas.height = height
-    this.canvas.width = width
-    const manifest = builder.createManifest(this.manifestId, (manifest) => {
+    const manifest = builder.createManifest(manifestId, (manifest) => {
       manifest.addLabel(this.figure.label, this.iiifConfig.locale)
       manifest.createCanvas(this.canvas.id, (canvas) => {
         canvas.height = height
@@ -50,7 +52,29 @@ module.exports = class Manifest extends Base {
         }
       })
     })
+    this.manifest = manifest
+  }
 
-    return builder.toPresentation3(manifest)
+  getBaseId() {
+    return [process.env.URL, this.iiifConfig.outputDir, this.figure.id].join('/')
+  }
+
+  async toJSON() {
+    await this.create()
+    return builder.toPresentation3(this.manifest)
+  }
+
+  write(json) {
+    if (!json) {
+      console.error('can\'t write no json')
+    }
+    const outputPath = path.join(
+      this.iiifConfig.outputRoot,
+      this.iiifConfig.outputDir,
+      this.figure.id,
+      this.iiifConfig.manifestFilename
+    );
+    fs.ensureDirSync(path.parse(outputPath).dir)
+    fs.writeJsonSync(outputPath, json)
   }
 }
