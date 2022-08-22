@@ -27,12 +27,14 @@ module.exports = class Manifest {
       .flatMap(({ items }) => items)
       .filter((item) => item.target && item.src)
       .map((item) => {
-        let motivation
+        let id, motivation
         switch(true) {
           case !!item.src:
+            id = path.parse(src).name
             motivation = 'painting'
             break
           case !!item.text:
+            id = item.label.split(' ').join('-').toLowerCase()
             motivation = 'text'
             break
           default:
@@ -43,7 +45,7 @@ module.exports = class Manifest {
          * @todo create text and image annotation bodies
          */
         this.createAnnotation({
-          id,
+          id: item.id || id,
           label: this.getAnnotationLabel(item),
           motivation
         })
@@ -58,7 +60,7 @@ module.exports = class Manifest {
     const items = choices.map((item) => {
       const { src } = item
       const label = this.getAnnotationLabel(item)
-      const { name }= path.parse(src)
+      const { name } = path.parse(src)
       const choiceId = new URL([this.iiifConfig.inputDir, src].join('/'), process.env.URL).href
       const format = mime.lookup(src)
       const choice = {
