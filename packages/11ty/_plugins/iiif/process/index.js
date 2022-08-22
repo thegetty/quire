@@ -1,14 +1,14 @@
-const fs = require('fs-extra')
-const path = require('path')
 const addGlobalData = require('./addGlobalData')
 const chalkFactory = require('~lib/chalk')
+const fs = require('fs-extra')
 const initCreateImage = require('./createImage')
 const initTileImage = require('./tileImage')
-const ManifestWriter = require('./manifest/writer')
+const ManifestWriter = require('../manifest/writer')
+const path = require('path')
 const pluralize = require('~lib/pluralize')
 const { isImageService } = require('../helpers')
 
-const { info, error } = chalkFactory('plugins:iiif')
+const { error, info } = chalkFactory('plugins:iiif')
 
 /**
  * Creates tiles for zoomable images 
