@@ -5,9 +5,21 @@ The Quire figure model is a simple interface for creating IIIF manifests that ar
 ## Process
 Quire's IIIF processing scans `figures.yaml` for figures with annotations, and generates a manifest for each one. Each manifest is written to the directory `/public/iiif/<figure.id>` and added to eleventy's global data object `eleventyConfig.globalData.iiifManifests[figure.id]`.
 
+## Annotations Model
+| Property    | Description                  |
+| ----------- | ---------------------------- |
+| input       | `checkbox`|`radio` (default) |
+| items       | Array\{Annotation Items\}       |
+
+## Annotation Item Model
+| Property | Description                                                  |
+| -------- | ------------------------------------------------------------ |
+| src      | The path to the image file relative to `iiifConfig.inputDir` |
+| label    | The label for the input. If not provided, the title-cased filename will be used.|
+
 ## Features
 ### Choices
-`Choices` are a type of annotation that represents alternate views of the same image, for example an x-ray and a photograph of a painting. All `choices` should have the same dimensions. Choices will be listed in the order they appear in the `YAML` and the first item will be selected by default when the page loads.
+`Choices` are a type of annotation that represent alternate views of the same image, for example an x-ray and a photograph of a painting. All `choices` should have the same dimensions and do not have a `target` property. Choices will be listed in the order they appear in the `YAML` and the first item will be selected by default when the page loads.
 
 #### Usage
 _example-template.md_
@@ -20,8 +32,9 @@ _figures.yaml_
 - id: "example-with-choices"
   label: "This is a label"
   annotations:
-    - src: figures/x-ray.jpg
+    items:
+      - src: figures/x-ray.jpg
       label: "Choice #1"
-    - src: figures/photo.jpg
-      label: "Choice #2"
+      - src: figures/photo.jpg
+        label: "Choice #2"
 ```
