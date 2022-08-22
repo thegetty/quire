@@ -14,8 +14,8 @@ Quire's IIIF processing scans `figures.yaml` for figures with annotations, and g
 ## Annotation Item Model
 | Property | Description                                                  |
 | -------- | ------------------------------------------------------------ |
-| src      | The path to the image file relative to `iiifConfig.inputDir` |
-| label    | The label for the input. If not provided, the title-cased filename will be used.|
+| src      | The image file path relative to `iiifConfig.inputDir` |
+| label    | The input label; if not provided, the filename converted to title case will be used. |
 
 ## Features
 ### Choices
