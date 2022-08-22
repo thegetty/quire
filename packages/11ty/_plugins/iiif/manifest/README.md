@@ -1,0 +1,27 @@
+# IIIF Manifests
+
+The Quire figure model is a simple interface for creating IIIF manifests that are rendered by Quire's `figure` shortcode using the [`<canvas-panel>`](https://iiif-canvas-panel.netlify.app/docs/intro/) web component.
+
+## Process
+Quire's IIIF processing scans `figures.yaml` for figures with annotations, and generates a manifest for each one. Each manifest is written to the directory `/public/iiif/<figure.id>` and added to eleventy's global data object `eleventyConfig.globalData.iiifManifests[figure.id]`.
+
+## Features
+### Choices
+`Choices` are a type of annotation that represents alternate views of the same image, for example an x-ray and a photograph of a painting. All `choices` should have the same dimensions. Choices will be listed in the order they appear in the `YAML` and the first item will be selected by default when the page loads.
+
+#### Usage
+_example-template.md_
+```liquid
+{% figure "example-with-choices" %}
+```
+
+_figures.yaml_
+```yaml
+- id: "example-with-choices"
+  label: "This is a label"
+  annotations:
+    - src: figures/x-ray.jpg
+      label: "Choice #1"
+    - src: figures/photo.jpg
+      label: "Choice #2"
+```
