@@ -50,11 +50,11 @@ module.exports = (eleventyConfig) => {
      * @type {String}
      */
     imageServiceDirectory: 'tiles',
+    inputDir: path.join('content', '_assets', 'images'),
     /**
      * Generated manifest locale
      * @type {String}
      */
-    inputDir: path.join('content', '_assets', 'images'),
     locale: 'en',
     /**
      * Generated manifest file name
