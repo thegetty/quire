@@ -18,7 +18,6 @@ module.exports = (eleventyConfig) => {
       output: '.jpg'
      }
     ],
-    imageDir: config.params.imageDir,
     /**
      * Transformations to apply to each image
      * Each item is output as a separate file
@@ -50,11 +49,18 @@ module.exports = (eleventyConfig) => {
      * @type {String}
      */
     imageServiceDirectory: 'tiles',
-    inputDir: path.join('content', '_assets', 'images'),
+    /**
+     * Image file directory relative to `inputRoot`
+     */
+    inputDir: path.join('_assets', 'images'),
+    /**
+     * Image file root directory
+     */
+    inputRoot: eleventyConfig.dir.input,
     /**
      * Generated manifest locale
      * @type {String}
-     */
+     */ 
     locale: 'en',
     /**
      * Generated manifest file name

@@ -59,7 +59,7 @@ module.exports = class Manifest {
       const { src } = item
       const label = this.getAnnotationLabel(item)
       const { name }= path.parse(src)
-      const choiceId = new URL([this.iiifConfig.imageDir, src].join('/'), process.env.URL).href
+      const choiceId = new URL([this.iiifConfig.inputDir, src].join('/'), process.env.URL).href
       const format = mime.lookup(src)
       const choice = {
         id: choiceId,
@@ -137,7 +137,8 @@ module.exports = class Manifest {
   }
 
   async getCanvasMetadata() {
-    const fullImagePath = path.join(this.iiifConfig.inputDir, this.canvasImagePath)
+    const { inputDir, inputRoot } = this.iiifConfig
+    const fullImagePath = path.join(inputRoot, inputDir, this.canvasImagePath)
     const { height, width } = await sharp(fullImagePath).metadata()
     this.canvas.height = height
     this.canvas.width = width

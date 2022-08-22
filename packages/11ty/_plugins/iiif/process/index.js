@@ -26,7 +26,6 @@ module.exports = {
      */
     const { config, iiifConfig, figures } = eleventyConfig.globalData
     const { imageServiceDirectory, imageTransformations, outputDir, outputRoot } = iiifConfig
-    const { imageDir } = config.params
 
     const createImage = initCreateImage(eleventyConfig)
     const writer = new ManifestWriter(eleventyConfig)
