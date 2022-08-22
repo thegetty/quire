@@ -34,7 +34,7 @@ _figures.yaml_
   annotations:
     items:
       - src: figures/x-ray.jpg
-      label: "Choice #1"
+        label: "Choice #1"
       - src: figures/photo.jpg
         label: "Choice #2"
 ```
