@@ -19,7 +19,7 @@ Quire's IIIF processing scans `figures.yaml` for figures with annotations, and g
 
 ## Features
 ### Choices
-`Choices` are a type of annotation that represent alternate views of the same image, for example an x-ray and a photograph of a painting. All `choices` should have the same dimensions and do not have a `target` property. Choices will be listed in the order they appear in the `YAML` and the first item will be selected by default when the page loads.
+`Choices` are a type of annotation that represent alternate views of the same image, for example an x-ray and a photograph of a painting. All `choices` should have the same image dimensions and must not have a `target` property. Choices will be listed in the order they appear in the `YAML`, the first item will be selected by default when the page loads.
 
 #### Usage
 _example-template.md_
