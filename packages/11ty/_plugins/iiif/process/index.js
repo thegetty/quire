@@ -42,7 +42,7 @@ module.exports = {
     })
 
     const figuresToTile = figures.figure_list
-      .flatMap((figure) => figure.choices || figure)
+      .flatMap((figure) => figure.annotations || figure)
       .filter((figure) => isImageService(figure) && !figure.src.startsWith('http'))
       .filter(({ src }) => !tiledImages.includes(path.parse(src).name))
 

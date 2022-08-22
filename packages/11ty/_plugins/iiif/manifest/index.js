@@ -85,10 +85,10 @@ module.exports = class Manifest {
     return this.createAnnotation({
       body: {
         items,
-        type: "Choice",
+        type: 'Choice',
       },
-      id: "choices",
-      motivation: "painting",
+      id: 'choices',
+      motivation: 'painting',
     })
   }
 
