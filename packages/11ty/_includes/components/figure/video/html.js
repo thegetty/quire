@@ -1,16 +1,23 @@
 const { html } = require('~lib/common-tags')
+const chalkFactory = require('~lib/chalk')
 const path = require('path')
 
+const { warn, error } = chalkFactory('Figure Video')
+
 const videoElement = {
-  video({ src }) {
+  video({ id, poster='', src }) {
     if (!src) {
-      console.warn(`Error: Cannot render Video without 'src'. Check that figures data for id: ${id} has a valid 'src'`)
+      error(`Cannot render Video without 'src'. Check that figures data for id: ${id} has a valid 'src'`)
       return ''
+    }
+
+    if (!poster) {
+      warn(`figure "${id}" does not have a 'poster' property. It will not render a poster image`)
     }
 
     const unsupported = 'Sorry, your browser does not support embedded videos.'
     return html`
-      <video controls class="q-figure__media">
+      <video controls poster="${poster}" class="q-figure__media">
         <source src="${src}" type="video/mp4"/>
         ${unsupported}
       </video>

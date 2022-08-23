@@ -2,6 +2,8 @@ const { html } = require('~lib/common-tags')
 const chalkFactory = require('~lib/chalk')
 const path = require('path')
 
+const { warn } = chalkFactory('Figure Video')
+
 /**
  * Renders an image instead of a video player
  *
@@ -16,7 +18,9 @@ module.exports = function(eleventyConfig) {
   const { figureLabelLocation, imageDir } = eleventyConfig.globalData.config.params
 
   return function({ aspect_ratio: aspectRatio, caption, credit, id, label, mediaType, poster=''}) {
-    const isEmbed = mediaType === 'vimeo' || mediaType === 'youtube'
+    if (!poster) {
+      warn(`figure "${id}" does not have a 'poster' property. It will not render a poster image`)
+    }
 
     const posterSrc = poster.startsWith('http')
       ? poster
