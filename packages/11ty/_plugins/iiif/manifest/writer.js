@@ -10,13 +10,15 @@ module.exports = class ManifestWriter {
   addToGlobalData(eleventyConfig) {
     eleventyConfig.addGlobalData('iiifManifests', {
       ...eleventyConfig.globalData.iiifManifests,
-      [this.manifest.figure.id]: this.manifestJSON
+      [this.figure.id]: this.manifestJSON
     })
   }
 
   async createManifest(figure) {
-    this.manifest = new Manifest(this.iiifConfig, figure)
-    this.manifestJSON = await this.manifest.toJSON()
+    this.figure = figure
+    const manifestFactory = new Manifest(this.iiifConfig, figure)
+    const manifest = await manifestFactory.create()
+    this.manifestJSON = Manifest.toJSON(manifest)
     return this
   }
 
@@ -24,7 +26,7 @@ module.exports = class ManifestWriter {
     const outputPath = path.join(
       this.iiifConfig.outputRoot,
       this.iiifConfig.outputDir,
-      this.manifest.figure.id,
+      this.figure.id,
       this.iiifConfig.manifestFilename
     );
     fs.ensureDirSync(path.parse(outputPath).dir)

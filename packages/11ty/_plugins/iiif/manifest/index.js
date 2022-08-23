@@ -98,6 +98,10 @@ module.exports = class Manifest {
     })
   }
 
+  static toJSON(manifest) {
+    return builder.toPresentation3(manifest)
+  }
+
   async create() {
     const { height, width } = await this.getCanvasMetadata()
     const manifest = builder.createManifest(this.manifestId, (manifest) => {
@@ -116,6 +120,7 @@ module.exports = class Manifest {
       })
     })
     this.manifest = manifest
+    return manifest
   }
 
   createAnnotation({ body, id, motivation }) {
@@ -153,10 +158,5 @@ module.exports = class Manifest {
     this.canvas.height = height
     this.canvas.width = width
     return { height, width }
-  }
-
-  async toJSON() {
-    await this.create()
-    return builder.toPresentation3(this.manifest)
   }
 }
