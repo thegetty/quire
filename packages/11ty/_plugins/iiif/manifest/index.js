@@ -53,6 +53,20 @@ module.exports = class Manifest {
       })
   }
 
+  /**
+   * Use dimensions of figure.src or first choice as canvas dimensions
+   */
+  get canvasImagePath() {
+    const firstChoice = this.figure.annotations
+      .flatMap(({ items }) => items)
+      .find(({ target }) => !target)
+    const imagePath = this.figure.src || firstChoice.src
+    if (!imagePath) {
+      error(`Invalid figure ID "${this.figure.id}". Figures with annotations must have "choice" annotations or a "src" property.`)
+    }
+    return imagePath
+  }
+
   get choices() {
     const choices = this.figure.annotations
       .flatMap(({ items }) => items)
@@ -99,7 +113,7 @@ module.exports = class Manifest {
   }
 
   async toJSON() {
-    const { height, width } = await this.getCanvasMetadata()
+    const { height, width } = await this.setCanvasMetadata()
     const manifest = builder.createManifest(this.manifestId, (manifest) => {
       manifest.addLabel(this.figure.label, this.iiifConfig.locale)
       manifest.createCanvas(this.canvas.id, (canvas) => {
@@ -132,21 +146,7 @@ module.exports = class Manifest {
     return label || titleCase(filename)
   }
 
-  /**
-   * Use dimensions of figure.src or first choice as canvas dimensions
-   */
-  get canvasImagePath() {
-    const firstChoice = this.figure.annotations
-      .flatMap(({ items }) => items)
-      .find(({ target }) => !target)
-    const imagePath = this.figure.src || firstChoice.src
-    if (!imagePath) {
-      error(`Invalid figure ID "${this.figure.id}". Figures with annotations must have "choice" annotations or a "src" property.`)
-    }
-    return imagePath
-  }
-
-  async getCanvasMetadata() {
+  async setCanvasMetadata() {
     const { inputDir, inputRoot } = this.iiifConfig
     const fullImagePath = path.join(inputRoot, inputDir, this.canvasImagePath)
     const { height, width } = await sharp(fullImagePath).metadata()
