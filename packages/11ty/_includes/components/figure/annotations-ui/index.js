@@ -9,29 +9,23 @@ const { html } = require('common-tags')
  */
 
 module.exports = function(eleventyConfig) {
-  const figureoption = eleventyConfig.getFilter('figureoption')
+  const figureOption = eleventyConfig.getFilter('figureOption')
 
   /**
    * @param  {Object} figure
-   * @param {String} annotations|choices
-   * @property  {String} input radio|checkbox
    */
-  return function(figure, type) {
-    const options = figure.iiif[type]
-
-    if (!options || !options.length) return ''
-
-    const optionElements = options.map((item) =>
-      figureoption({
-        figure,
-        item
+  return function(figure) {
+    const { annotations } = figure
+    if (!annotations || !annotations.length) return ''
+    return annotations.map(({ input, items, type }) => {
+      const options = items.map((item, index) => {
+        return figureOption({ figure, index, item })
       })
-    )
-
-    return html`
-      <div class="annotations-ui annotations-ui--${type}">
-        ${optionElements}
-      </div>
-    `
+      return html`
+        <div class="annotations-ui">
+          ${options}
+        </div>
+      `
+    })
   }
 }

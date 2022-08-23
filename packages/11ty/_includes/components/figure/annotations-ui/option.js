@@ -8,7 +8,12 @@ module.exports = function (eleventyConfig) {
 
   const supportedInputTypes = ['checkbox', 'radio']
 
-  return function ({ figure, item }) {
+  /**
+   * Render an annotation checkbox or radio input
+   * @param  {Object} figure
+   * @param  {Object} item   Annotation item
+   */
+  return function ({ figure, index, item }) {
     const label = item.label[locale] ? item.label[locale][0] : item.label
 
     if (!label) {
@@ -22,20 +27,21 @@ module.exports = function (eleventyConfig) {
     }
 
     const id = `${slugify(figure.id)}--${slugify(label)}`
-    const checked = item.selected || item.id === figure.iiif.choiceId
+    const checked = item.selected || index === 0
 
     return html`
       <div class="annotations-ui__input-wrapper" id="${id}">
         <input
           ${checked ? 'checked' : ''}
           class="annotations-ui__input"
+          data-annotation-type="${item.type}"
+          id="${item.iiifId}"
           name="${figure.id}"
           type="${inputType}"
-          id="${item.id}"
         />
         <label
           class="annotations-ui__label"
-          for="${item.id}"
+          for="${item.iiifId}"
         >
           ${label}
         </label>
