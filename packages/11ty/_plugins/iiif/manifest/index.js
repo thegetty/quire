@@ -1,3 +1,4 @@
+const chalkFactory = require('~lib/chalk')
 const fs = require('fs-extra')
 const mime = require('mime-types')
 const path = require('path')
@@ -5,6 +6,7 @@ const sharp = require('sharp')
 const titleCase = require('~plugins/filters/titleCase')
 const { globalVault } = require('@iiif/vault')
 const { IIIFBuilder } = require('iiif-builder')
+const { error } = chalkFactory('plugins:iiif:manifest')
 
 const vault = globalVault()
 const builder = new IIIFBuilder(vault)
@@ -38,7 +40,6 @@ module.exports = class Manifest {
             motivation = 'text'
             break
           default:
-            console.error(`Unhandled annotation type. Must be 'painting', or 'text'`)
             break;
         }
         /**
@@ -59,6 +60,9 @@ module.exports = class Manifest {
 
     const items = choices.map((item) => {
       const { src } = item
+      if (!src) {
+        error(`Invalid annotation on figure ID "${this.figure.id}". Annotations must have a "src" or "text" property`)
+      }
       const label = this.getAnnotationLabel(item)
       const { name } = path.parse(src)
       const choiceId = new URL([this.iiifConfig.inputDir, src].join('/'), process.env.URL).href
@@ -135,7 +139,11 @@ module.exports = class Manifest {
     const firstChoice = this.figure.annotations
       .flatMap(({ items }) => items)
       .find(({ target }) => !target)
-    return this.figure.src || firstChoice.src
+    const imagePath = this.figure.src || firstChoice.src
+    if (!imagePath) {
+      error(`Invalid figure ID "${this.figure.id}". Figures with annotations must have "choice" annotations or a "src" property.`)
+    }
+    return imagePath
   }
 
   async getCanvasMetadata() {
