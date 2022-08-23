@@ -6,7 +6,7 @@ const { getImageService, getIIIFProperties, getPrintImage } = require('../helper
  * Adds IIIF data from vault and computed properties to `eleventyConfig.globalData.figures`
  * 
  * Properties:
- * @property {Array} annotations IIIF annotations
+ * @property {Array} annotations Adds `iiifId` to figure.annotations
  * @property {Object} canvas Response from vault.get(canvasId)
  * @property {Array} choices IIIF annotations with type "choice"
  * @property {String} choiceId The default choice selected on load
@@ -20,14 +20,16 @@ module.exports = async (eleventyConfig) => {
   const { imageServiceDirectory, outputDir } = iiifConfig
 
   for (const [index, figure] of figures.figure_list.entries()) {
-    const iiif = await getIIIFProperties(eleventyConfig, figure) || {}
+    const { annotations, canvas, manifest } = await getIIIFProperties(eleventyConfig, figure) || {}
     const info = getImageService(eleventyConfig, figure)
     Object.assign(eleventyConfig.globalData.figures.figure_list[index], {
-      isCanvas: !!iiif.canvas,
+      annotations,
+      isCanvas: !!canvas,
       isImageService: !!info,
       iiif: {
-        ...iiif,
-        info
+        canvas,
+        info,
+        manifest
       },
       printImage: getPrintImage(eleventyConfig, figure)
     })

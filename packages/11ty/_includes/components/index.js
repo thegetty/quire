@@ -21,6 +21,7 @@ module.exports = {
   figureImageElement: require('./figure/image/element'),
   figureLabel: require('./figure/label'),
   figureModalLink: require('./figure/modal-link'),
+  figureOption: require('./figure/annotations-ui/option'),
   figurePlaceholder: require('./figure/placeholder'),
   figureSoundcloud: require('./figure/soundcloud'),
   figureTable: require('./figure/table'),
