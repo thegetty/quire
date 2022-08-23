@@ -9,7 +9,7 @@ Quire's IIIF processing parses the `figures.yaml` data and for each figure write
 | Property    | Description                  |
 | ----------- | ---------------------------- |
 | input       | `checkbox`|`radio` (default) |
-| items       | Array\{Annotation Items\}       |
+| items       | Array\{Annotation Items\}    |
 
 ## Annotation Item Model
 | Property | Description                                                  |
