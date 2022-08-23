@@ -1,19 +1,20 @@
-const fs = require('fs-extra')
-const path = require('path')
 const addGlobalData = require('./addGlobalData')
 const chalkFactory = require('~lib/chalk')
+const fs = require('fs-extra')
 const initCreateImage = require('./createImage')
-const initCreateManifest = require('./createManifest')
 const initTileImage = require('./tileImage')
+const Manifest = require('../manifest/index')
+const ManifestWriter = require('../manifest/writer')
+const path = require('path')
 const pluralize = require('~lib/pluralize')
 const { isImageService } = require('../helpers')
 
-const { info, error } = chalkFactory('plugins:iiif')
+const { error, info } = chalkFactory('plugins:iiif')
 
 /**
  * Creates tiles for zoomable images 
  * Processes image transformations from `config.imageTransformations`
- * Creates manifests for figures in figures.yaml with `choices`
+ * Creates manifests for figures in figures.yaml with `annotations`
  * Outputs manifests, images, and tiles to IIIF config.output
  *
  * @param  {Object} eleventyConfig
@@ -26,10 +27,9 @@ module.exports = {
      */
     const { config, iiifConfig, figures } = eleventyConfig.globalData
     const { imageServiceDirectory, imageTransformations, outputDir, outputRoot } = iiifConfig
-    const { imageDir } = config.params
 
     const createImage = initCreateImage(eleventyConfig)
-    const createManifest = initCreateManifest(eleventyConfig)
+    const writer = new ManifestWriter(eleventyConfig)
     const tileImage = initTileImage(eleventyConfig)
     const outputPath = path.join(outputRoot, outputDir)
     const processedFiles = fs.existsSync(outputPath)
@@ -42,7 +42,7 @@ module.exports = {
     })
 
     const figuresToTile = figures.figure_list
-      .flatMap((figure) => figure.choices || figure)
+      .flatMap((figure) => figure.annotations || figure)
       .filter((figure) => isImageService(figure) && !figure.src.startsWith('http'))
       .filter(({ src }) => !tiledImages.includes(path.parse(src).name))
 
@@ -98,18 +98,19 @@ module.exports = {
         console.table(errors, ['filename', 'error'])
       }
 
-      // Build manifests for figures with choices
-      const figuresWithChoices = figures.figure_list.filter(
-        ({ choices }) => choices && choices.length
+      // Build manifests for figures with annotations
+      const figuresWithAnnotations = figures.figure_list.filter(
+        ({ annotations }) => annotations && annotations.length
       )
 
-      if (figuresWithChoices.length) {
+      if (figuresWithAnnotations.length) {
         const manifests = processedFiles.filter((dir) => {
           return fs.readdirSync(path.join(outputPath, dir)).includes('manifest.json')
         })
-        info(`Generating ${figuresWithChoices.length} ${pluralize(figuresWithChoices.length, 'manifest')}.`)
-        for (const figure of figuresWithChoices) {
-          await createManifest(figure, options)
+        info(`Generating ${figuresWithAnnotations.length} ${pluralize(figuresWithAnnotations.length, 'manifest')}.`)
+        for (const figure of figuresWithAnnotations) {
+          const manifest = new Manifest({ figure, writer })
+          await manifest.write()
         }
         /**
          * @todo add error logging

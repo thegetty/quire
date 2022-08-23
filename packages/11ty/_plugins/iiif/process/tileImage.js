@@ -12,6 +12,7 @@ module.exports = (eleventyConfig) => {
     formats,
     imageServiceDirectory,
     inputDir,
+    inputRoot,
     outputDir,
     outputRoot,
     tileSize
@@ -27,7 +28,7 @@ module.exports = (eleventyConfig) => {
 
     const { src } = figure
     const { ext, name } = path.parse(src)
-    const inputPath = path.join(inputDir, src)
+    const inputPath = path.join(inputRoot, inputDir, src)
     const outputPath = path.join(outputRoot, outputDir, name, imageServiceDirectory)
     const format = formats.find(({ input }) => input.includes(ext))
     const supportedImageExtensions = formats.flatMap(( { input }) => input)

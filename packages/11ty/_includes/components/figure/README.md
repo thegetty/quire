@@ -32,7 +32,7 @@ _figures.yaml_
 ```yaml
 - id: "cat1"
   label: "Cat"
-  choices:
+  annotations:
     - src: figures/cat-photo.jpg
       default: true
       label: "Photograph"

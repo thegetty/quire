@@ -46,7 +46,7 @@ _figures.yaml_
 ```
 - id: "example-with-choices"
   label: "This is a label"
-  choices:
+  annotations:
     - src: figures/evans-graveyard.jpg
       label: "Choice #1"
       default: true

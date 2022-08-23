@@ -5,7 +5,7 @@ figure_list:
     credit: "Credit line for these images"
     annotations:
       - input: radio
-      - items:
+        items:
         - src: figures/evans-graveyard.jpg
           label: "Choice #1"
         - src: figures/evans-burroughs.jpg

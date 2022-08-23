@@ -1,8 +1,9 @@
 const path = require('path')
 
 module.exports = (eleventyConfig) => {
+  const { config, env } = eleventyConfig.globalData
   return {
-    baseURL: eleventyConfig.globalData.config.baseURL || eleventyConfig.globalData.env.URL,
+    baseURL: config.baseURL || env.URL,
     /**
      * Input and output of processable image formats
      * @type {Array<Object>}
@@ -49,10 +50,17 @@ module.exports = (eleventyConfig) => {
      */
     imageServiceDirectory: 'tiles',
     /**
+     * Image file directory relative to `inputRoot`
+     */
+    inputDir: path.join('_assets', 'images'),
+    /**
+     * Image file root directory
+     */
+    inputRoot: eleventyConfig.dir.input,
+    /**
      * Generated manifest locale
      * @type {String}
-     */
-    inputDir: path.join('content', '_assets', 'images'),
+     */ 
     locale: 'en',
     /**
      * Generated manifest file name
