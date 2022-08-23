@@ -17,6 +17,7 @@ const componentsPlugin = require('./_plugins/components')
 const filtersPlugin = require('./_plugins/filters')
 const frontmatterPlugin = require('./_plugins/frontmatter')
 const globalDataPlugin = require('./_plugins/globalData')
+const i18nPlugin = require('./_plugins/i18n')
 const iiifPlugin = require('./_plugins/iiif')
 const lintersPlugin = require('./_plugins/linters')
 const markdownPlugin = require('./_plugins/markdown')
@@ -89,6 +90,7 @@ module.exports = function(eleventyConfig) {
    * Must go before other plugins
    */
   eleventyConfig.addPlugin(globalDataPlugin)
+  eleventyConfig.addPlugin(i18nPlugin)
   eleventyConfig.addPlugin(iiifPlugin)
 
   /**
