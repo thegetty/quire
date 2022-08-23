@@ -19,7 +19,7 @@ module.exports = function(eleventyConfig) {
 
   return function({ aspect_ratio: aspectRatio, caption, credit, id, label, mediaType, poster=''}) {
     if (!poster) {
-      warn(`figure "${id}" does not have a 'poster' property. It will not render a poster image`)
+      warn(`Figure '${id}' does not have a 'poster' property. Print media will not render a fallback image for id: ${id}`)
     }
 
     const posterSrc = poster.startsWith('http')
