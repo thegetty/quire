@@ -3,6 +3,7 @@ const chalkFactory = require('~lib/chalk')
 const fs = require('fs-extra')
 const initCreateImage = require('./createImage')
 const initTileImage = require('./tileImage')
+const Manifest = require('../manifest/index')
 const ManifestWriter = require('../manifest/writer')
 const path = require('path')
 const pluralize = require('~lib/pluralize')
@@ -108,9 +109,8 @@ module.exports = {
         })
         info(`Generating ${figuresWithAnnotations.length} ${pluralize(figuresWithAnnotations.length, 'manifest')}.`)
         for (const figure of figuresWithAnnotations) {
-          const manifest = await writer.createManifest(figure)
-          manifest.addToGlobalData(eleventyConfig)
-          manifest.write()
+          const manifest = new Manifest({ figure, writer })
+          await manifest.write()
         }
         /**
          * @todo add error logging

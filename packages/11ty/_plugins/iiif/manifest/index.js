@@ -12,16 +12,17 @@ const vault = globalVault()
 const builder = new IIIFBuilder(vault)
 
 module.exports = class Manifest {
-  constructor(iiifConfig, figure) {
-    const { outputDir, manifestFilename } = iiifConfig
+  constructor({ figure, writer }) {
+    const { outputDir, manifestFilename } = writer.iiifConfig
     const baseId = [process.env.URL, outputDir, figure.id].join('/')
 
     this.canvas = {
       id: [baseId, 'canvas'].join('/')
     }
     this.figure = figure
-    this.iiifConfig = iiifConfig
+    this.iiifConfig = writer.iiifConfig
     this.manifestId = [baseId, manifestFilename].join('/')
+    this.writer = writer
   }
 
   get annotations() {
@@ -153,5 +154,10 @@ module.exports = class Manifest {
       })
     })
     return builder.toPresentation3(manifest)
+  }
+
+  async write() {
+    const manifest = await this.toJSON()
+    this.writer.write({ figure: this.figure, manifest })
   }
 }
