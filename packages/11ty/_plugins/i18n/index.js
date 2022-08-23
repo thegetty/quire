@@ -14,7 +14,7 @@ module.exports = function(eleventyConfig, options) {
     /**
      * Default locale code; any valid BCP 47-compatible language tag is supported
      */
-    defaultLanguage: '',
+    defaultLanguage: 'en',
     /**
      * Configure when errors are thrown for missing localized content files
      * @values [ allow-fallback | strict | never ]
