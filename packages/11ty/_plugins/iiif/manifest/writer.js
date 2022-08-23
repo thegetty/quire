@@ -16,9 +16,8 @@ module.exports = class ManifestWriter {
 
   async createManifest(figure) {
     this.figure = figure
-    const manifestFactory = new Manifest(this.iiifConfig, figure)
-    const manifest = await manifestFactory.create()
-    this.manifestJSON = Manifest.toJSON(manifest)
+    const manifest = new Manifest(this.iiifConfig, figure)
+    this.manifestJSON = await manifest.toJSON()
     return this
   }
 

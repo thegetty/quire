@@ -98,11 +98,7 @@ module.exports = class Manifest {
     })
   }
 
-  static toJSON(manifest) {
-    return builder.toPresentation3(manifest)
-  }
-
-  async create() {
+  async toJSON() {
     const { height, width } = await this.getCanvasMetadata()
     const manifest = builder.createManifest(this.manifestId, (manifest) => {
       manifest.addLabel(this.figure.label, this.iiifConfig.locale)
@@ -119,8 +115,7 @@ module.exports = class Manifest {
         }
       })
     })
-    this.manifest = manifest
-    return manifest
+    return builder.toPresentation3(manifest)
   }
 
   createAnnotation({ body, id, motivation }) {
