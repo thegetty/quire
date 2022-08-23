@@ -35,6 +35,7 @@ const yaml = require('js-yaml')
 
 const inputDir = 'content'
 const outputDir = '_site'
+const publicDir = 'public'
 
 /**
  * Eleventy configuration
@@ -163,8 +164,7 @@ module.exports = function(eleventyConfig) {
                   filePath +=
                     fullFilePathSegments
                       .slice(fullFilePathSegments.indexOf(assetDir) + 1)
-                      .join('/') +
-                    '/'
+                      .join('/') + '/'
                 }
               })
               return `${filePath}[name][extname]`
@@ -199,8 +199,8 @@ module.exports = function(eleventyConfig) {
    * Copy static assets to the output directory
    * @see https://www.11ty.dev/docs/copy/
    */
-  eleventyConfig.addPassthroughCopy('content/_assets')
-  eleventyConfig.addPassthroughCopy('public')
+  eleventyConfig.addPassthroughCopy(`${inputDir}/_assets`)
+  eleventyConfig.addPassthroughCopy(`${publicDir}`)
   eleventyConfig.addPassthroughCopy({ '_includes/web-components': '_assets/javascript' })
 
   /**
