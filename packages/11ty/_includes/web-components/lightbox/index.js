@@ -9,6 +9,7 @@ import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
  *
  * To display an element as a slide, provide it with a
  * `data-lightbox-slide` attribute set to any value
+ * `data-lightbox-slide-id` attribute set to a unique id string
  *
  * This lightbox provides access to controls with the following data attributes:
  * - `data-lightbox-fullscreen` triggers fullscreen on click and indicates status
@@ -58,7 +59,7 @@ class Lightbox extends LitElement {
   get slideIds() {
     return Array
       .from(this.slides)
-      .map((slide) => slide.dataset.lightboxId)
+      .map((slide) => slide.dataset.lightboxSlideId)
   }
 
   get currentSlide() {
@@ -154,7 +155,7 @@ class Lightbox extends LitElement {
     if (!this.currentSlide) return;
 
     this.slides.forEach((slide) => {
-      if (slide.dataset.lightboxId !== this.currentId)
+      if (slide.dataset.lightboxSlideId !== this.currentId)
         delete slide.dataset.lightboxCurrent;
     })
     this.currentSlide.dataset.lightboxCurrent = true

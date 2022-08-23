@@ -15,7 +15,7 @@ module.exports = function(eleventyConfig) {
   return function(figures) {
     if (!figures) return ''
 
-    const slideElement = (fgure) => {
+    const slideElement = (figure) => {
       const {
         caption,
         credit,
@@ -27,7 +27,8 @@ module.exports = function(eleventyConfig) {
         src
       } = figure
 
-      if (mediaType === 'video' || mediaType === 'audio') return slides;
+      const unsupportedMediaTypes = ['soundcloud', 'video', 'vimeo', 'youtube']
+      if (unsupportedMediaTypes.includes(mediaType)) return '';
 
       const labelSpan = label
         ? html`<span class="q-lightbox-slides__caption-label">${label}</span>`
@@ -48,6 +49,7 @@ module.exports = function(eleventyConfig) {
         <div
           class="q-lightbox-slides__slide"
           data-lightbox-slide
+          data-lightbox-slide-id="${id}"
         >
           <div class="q-lightbox-slides__image">
             ${figureImageElement(figure)}
