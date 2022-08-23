@@ -112,24 +112,13 @@ module.exports = class Manifest {
     })
   }
 
-  async toJSON() {
-    const { height, width } = await this.setCanvasMetadata()
-    const manifest = builder.createManifest(this.manifestId, (manifest) => {
-      manifest.addLabel(this.figure.label, this.iiifConfig.locale)
-      manifest.createCanvas(this.canvas.id, (canvas) => {
-        canvas.height = height
-        canvas.width = width
-        if (this.annotations) {
-          this.annotations.forEach((item) => {
-            canvas.createAnnotation(item.id, item)
-          })
-        }
-        if (this.choices) {
-          canvas.createAnnotation(this.choices.id, this.choices)
-        }
-      })
-    })
-    return builder.toPresentation3(manifest)
+  async calcCanvasDimensions() {
+    const { inputDir, inputRoot } = this.iiifConfig
+    const fullImagePath = path.join(inputRoot, inputDir, this.canvasImagePath)
+    const { height, width } = await sharp(fullImagePath).metadata()
+    this.canvas.height = height
+    this.canvas.width = width
+    return { height, width }
   }
 
   createAnnotation({ body, id, motivation }) {
@@ -146,12 +135,23 @@ module.exports = class Manifest {
     return label || titleCase(filename)
   }
 
-  async setCanvasMetadata() {
-    const { inputDir, inputRoot } = this.iiifConfig
-    const fullImagePath = path.join(inputRoot, inputDir, this.canvasImagePath)
-    const { height, width } = await sharp(fullImagePath).metadata()
-    this.canvas.height = height
-    this.canvas.width = width
-    return { height, width }
+  async toJSON() {
+    const { height, width } = await this.calcCanvasDimensions()
+    const manifest = builder.createManifest(this.manifestId, (manifest) => {
+      manifest.addLabel(this.figure.label, this.iiifConfig.locale)
+      manifest.createCanvas(this.canvas.id, (canvas) => {
+        canvas.height = height
+        canvas.width = width
+        if (this.annotations) {
+          this.annotations.forEach((item) => {
+            canvas.createAnnotation(item.id, item)
+          })
+        }
+        if (this.choices) {
+          canvas.createAnnotation(this.choices.id, this.choices)
+        }
+      })
+    })
+    return builder.toPresentation3(manifest)
   }
 }
