@@ -99,6 +99,19 @@ figure_list:
     label: "Video 2"
     caption: "Consolidation with Paraloid B-72, 2010."
     credit: "Video: Museum of Contemporary Art, Zagreb"
+  - id: "angstrom"
+    src: figures/angstrom.mp4
+    poster: figures/angstrom.jpg
+    media_type: video
+    label: "Video 3"
+    caption: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Risus feugiat in ante metus dictum at."
+    credit: "https://archive.org/details/XFR_2013-08-17_2B_05"
+  - id: "table-21-1"
+    src: "tables/table-21-1-pavic.html"
+    media_type: table
+    label: "Table 1"
+    caption: "Area of the characteristic absorption band."
+    credit: "Ivana Bačić, Jasna Jablan"
   - id: "photo-podcast"
     media_id: 336879231
     media_type: soundcloud
