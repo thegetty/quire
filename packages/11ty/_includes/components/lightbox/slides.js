@@ -15,7 +15,7 @@ module.exports = function(eleventyConfig) {
   return function(figures) {
     if (!figures) return ''
 
-    const slideElement = (fgure) => {
+    const slideElement = (figure) => {
       const {
         caption,
         credit,
