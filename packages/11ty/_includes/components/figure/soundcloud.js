@@ -9,10 +9,10 @@ const chalkFactory = require('~lib/chalk')
  * @return     {String}  HTML to display a SoundCloud player
  */
 module.exports = function(eleventyConfig) {
-  const figurecaption = eleventyConfig.getFilter('figurecaption')
-  const figureimage = eleventyConfig.getFilter('figureimage')
-  const figurelabel = eleventyConfig.getFilter('figurelabel')
-  const figureplaceholder = eleventyConfig.getFilter('figureplaceholder')
+  const figureCaption = eleventyConfig.getFilter('figureCaption')
+  const figureImage = eleventyConfig.getFilter('figureImage')
+  const figureLabel = eleventyConfig.getFilter('figureLabel')
+  const figurePlaceholder = eleventyConfig.getFilter('figurePlaceholder')
 
   const { figureLabelLocation } = eleventyConfig.globalData.config.params
 
@@ -34,9 +34,9 @@ module.exports = function(eleventyConfig) {
           src="${src}&auto_play=false&color=%23ff5500&hide_related=true&show_comments=false&show_reposts=false&show_teaser=false&show_user=false"
           width="100%"
         ></iframe>
-        ${label && figureLabelLocation === 'on-top' ? figurelabel({ caption, id, label }) : '' }
+        ${label && figureLabelLocation === 'on-top' ? figureLabel({ caption, id, label }) : '' }
       </div>
-      ${figurecaption({ caption, credit })}
+      ${figureCaption({ caption, credit })}
     `
   }
 }

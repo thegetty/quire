@@ -10,62 +10,41 @@ const path = require('path')
  */
 module.exports = function(eleventyConfig) {
   const annotationsUI = eleventyConfig.getFilter('annotationsUI')
-  const canvasPanel = eleventyConfig.getFilter('canvasPanel')
-  const figurecaption = eleventyConfig.getFilter('figurecaption')
-  const figurelabel = eleventyConfig.getFilter('figurelabel')
-  const figuremodallink = eleventyConfig.getFilter('figuremodallink')
-  const imageService = eleventyConfig.getFilter('imageService')
+  const figureCaption = eleventyConfig.getFilter('figureCaption')
+  const figureImageElement = eleventyConfig.getFilter('figureImageElement')
+  const figureLabel = eleventyConfig.getFilter('figureLabel')
+  const figureModalLink = eleventyConfig.getFilter('figureModalLink')
   const markdownify = eleventyConfig.getFilter('markdownify')
 
   const { imageDir, figureLabelLocation } = eleventyConfig.globalData.config.params
 
   return function(figure) {
     const { 
-      alt='', 
       caption,
       credit,
       id,
-      label,
-      src='' 
+      isCanvas,
+      label
     } = figure
-    const labelElement = figurelabel({ caption, id, label })
 
-    let annotationsElement='', choicesElement='', imageElement
-
-    switch (true) {
-      case figure.isCanvas:
-        imageElement = canvasPanel(figure)
-        /**
-         * @todo create UIs for all multiple sets of annotations
-         */
-        annotationsElement = annotationsUI(figure, 'annotations')
-        choicesElement = annotationsUI(figure, 'choices')
-        break;
-      case figure.isImageService:
-        imageElement = imageService(figure)
-        break;
-      default:
-        const imageSrc = src.startsWith('http') ? src : path.join(imageDir, src)
-        imageElement = `<img alt="${alt}" class="q-figure__image" src="${imageSrc}" />`
-        break
-    }
+    const annotationsElement = annotationsUI(figure)
+    const labelElement = figureLabel({ caption, id, label })
 
     /**
      * Wrap image in modal link
      */
-    imageElement =
+    const imageElement =
       (figureLabelLocation === 'below')
-        ? figuremodallink({ content: imageElement, id })
-        : figuremodallink({ caption, content: imageElement + labelElement, id })
+        ? figureModalLink({ content: figureImageElement(figure), id })
+        : figureModalLink({ caption, content: figureImageElement(figure) + labelElement, id })
 
     const captionElement =
       (figureLabelLocation === 'below')
-        ? figurecaption({ caption, content: labelElement, credit })
-        : figurecaption({ caption, credit })
+        ? figureCaption({ caption, content: labelElement, credit })
+        : figureCaption({ caption, credit })
 
     return html`
       ${imageElement}
-      ${choicesElement}
       ${annotationsElement}
       ${captionElement}
     `

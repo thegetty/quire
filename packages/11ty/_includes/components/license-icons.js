@@ -12,7 +12,7 @@ module.exports = function(eleventyConfig) {
       .flatMap((item) => item.split('-'))
 
     const icons = abbreviations.map((abbr) => {
-      return `
+      return html`
         <svg class="quire-copyright__icon">
           <use xlink:href="#${abbr}"></use>
         </svg>

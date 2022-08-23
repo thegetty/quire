@@ -9,7 +9,15 @@ const { html } = require('~lib/common-tags')
  * @return     {String}  An <image-service> element
  */
 module.exports = function(eleventyConfig) {
-  return function({ alt='', height='', preset='responsive', region='', iiif, virtualSizes='', width='' }) {
+  return function({
+    alt='',
+    height='',
+    preset='responsive',
+    region='',
+    iiif,
+    virtualSizes='',
+    width=''
+  }) {
     return html`
       <image-service 
         alt="${alt}"
