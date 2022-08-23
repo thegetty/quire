@@ -12,7 +12,7 @@ const videoElement = {
     }
 
     if (!poster) {
-      warn(`figure "${id}" does not have a 'poster' property. It will not render a poster image`)
+      warn(`Figure '${id}' does not have a 'poster' property. A poster image for id: ${id} will not be rendered`)
     }
 
     const unsupported = 'Sorry, your browser does not support embedded videos.'
@@ -23,9 +23,9 @@ const videoElement = {
       </video>
     `
   },
-  vimeo({ mediaId }) {
+  vimeo({ id, mediaId }) {
     if (!mediaId) {
-      console.warn(`Error: Cannot render Vimeo embed without 'media_id'. Check that figures data for id: ${id} has a valid 'media_id'`)
+      error(`Cannot render Vimeo embed without 'media_id'. Check that figures data for id: ${id} has a valid 'media_id'`)
       return ''
     }
 
@@ -41,9 +41,9 @@ const videoElement = {
       ></iframe>
     `
   },
-  youtube({ mediaId }) {
+  youtube({ id, mediaId }) {
     if (!mediaId) {
-      console.warn(`Error: Cannot render Youtube component without 'media_id'. Check that figures data for id: ${id} has a valid 'media_id'`)
+      error(`Cannot render Youtube component without 'media_id'. Check that figures data for id: ${id} has a valid 'media_id'`)
       return ''
     }
 
@@ -79,7 +79,7 @@ module.exports = function(eleventyConfig) {
 
     return html`
       <div class="q-figure__media-wrapper ${isEmbed && 'q-figure__media-wrapper--' + (aspectRatio || 'widescreen')}">
-        ${videoElement[mediaType]({ mediaId, src })}
+        ${videoElement[mediaType]({ id, mediaId, src })}
         ${label && figureLabelLocation === 'on-top' ? figureLabel({ caption, id, label }) : ''}
       </div>
       ${figureCaption({ caption, credit })}
