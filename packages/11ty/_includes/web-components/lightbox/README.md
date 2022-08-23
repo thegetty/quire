@@ -2,7 +2,7 @@
 
 This component renders image slides with navigation UI. It provides a default slot for passing markup to render.
 
-To display an element as a slide, provide it with a `data-lightbox-slide` attribute set to any value
+To display an element as a slide, provide it with a `data-lightbox-slide` attribute set to a unique string (in our case, the figure id)
 
 This lightbox provides access to controls with the following data attributes:
 - `data-lightbox-fullscreen` triggers fullscreen on click and indicates status
