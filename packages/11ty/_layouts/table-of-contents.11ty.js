@@ -18,11 +18,11 @@ module.exports = class TableOfContents {
     const {
       collections,
       content,
+      key,
       page,
       pages,
       pagination,
-      presentation='list',
-      section
+      presentation='list'
     } = data
 
     const contentElement = content
@@ -49,7 +49,7 @@ module.exports = class TableOfContents {
         ${contentElement}
         <div class="container ${containerClass}">
           <div class="quire-contents-list ${presentation}">
-            ${this.tableOfContents({ collections, currentPageUrl: page.url, presentation })}
+            ${this.tableOfContents({ collections, currentPageUrl: page.url, key, presentation })}
             <div class="content">
               {% bibliography pageReferences %}
             </div>

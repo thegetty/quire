@@ -16,26 +16,11 @@ module.exports = function(eleventyConfig) {
   const tableOfContentsItem = eleventyConfig.getFilter('tableOfContentsItem')
 
   return function(params) {
-    const { collection, currentPageUrl, presentation } = params
+    const { collection, currentPageUrl, key, presentation } = params
 
-    /**
-     * Determine if we are rendering a section or publication Table of Contents
-     */
-    const findNavigationItem = (url, items) => {
-      if (!items || !items.length) return
-      let item = items.find((page) => url === page.url)
-      if (!item) {
-        items = items.flatMap((item) => item.children)
-        return findNavigationItem(url, items)
-      }
-      return item
-    }
-    const currentNavigationItem = findNavigationItem(currentPageUrl, eleventyNavigation(collection))
-
-    if (!currentNavigationItem) return
-
-    const navigation = currentNavigationItem.children && currentNavigationItem.children.length
-      ? currentNavigationItem.children
+    const sectionNavigation = eleventyNavigation(collection, key)
+    const navigation = sectionNavigation.length
+      ? sectionNavigation
       : eleventyNavigation(collection)
 
     const filterCurrentPage = (pages) => {
