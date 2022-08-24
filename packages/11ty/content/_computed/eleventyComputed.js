@@ -29,12 +29,7 @@ module.exports = {
         title: data.title
       }
     },
-    key: (data) => {
-      if (!data.page.url) return
-      const segments = data.page.url.split('/')
-      const key = segments.slice(1, segments.length - 1).join('/')
-      return data.key || key
-    },
+    key: (data) => data.key,
     order: (data) => data.order,
     parent: (data) => {
       if (!data.page.url) return
@@ -44,6 +39,12 @@ module.exports = {
     },
     url: (data) => data.page.url,
     title: (data) => data.title
+  },
+  key: (data) => {
+    if (!data.page.url) return
+    const segments = data.page.url.split('/')
+    const key = segments.slice(1, segments.length - 1).join('/')
+    return data.key || key
   },
   /**
    * Classes applied to <main> page element
