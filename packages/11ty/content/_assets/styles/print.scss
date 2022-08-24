@@ -422,7 +422,7 @@ $print-trim: $print-bleed * 2;
 
   // @todo determine why below with `&` was failing in webpack
   // .quire-entry__image & figure {
-  .quire-entry__image figure {
+  .quire-entry__image-wrap figure {
     display: flex;
     flex-direction: column;
     height: $print-entry-image-height;
