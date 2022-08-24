@@ -19,6 +19,7 @@ module.exports = function(eleventyConfig) {
     const title = markdownify(caption)
 
     const labelElement = figureLabel({ caption, id, label })
+    const captionElement = figureCaption({ caption, content: labelElement, credit })
 
     return html`
       <a
@@ -28,7 +29,7 @@ module.exports = function(eleventyConfig) {
       >
         ${table}
       </a>
-      ${figureCaption({ caption, content: labelElement, credit })}
+      ${captionElement}
     `
   }
 }
