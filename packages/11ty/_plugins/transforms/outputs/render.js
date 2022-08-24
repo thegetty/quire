@@ -9,7 +9,7 @@ const path = require('path')
  * initialize with `eleventyConfig` and render each with the `data-outputs-include`
  * attribute
  */
-module.exports = function (eleventyConfig, dir, params) {
+module.exports = function (eleventyConfig, dir, params, page) {
   const fileNames = ['epub', 'html', 'pdf', 'print']
 
   const filePaths = fileNames.flatMap((output) => {
@@ -21,7 +21,7 @@ module.exports = function (eleventyConfig, dir, params) {
 
   const content = filePaths.flatMap((filePath, index) => {
     const init = require(filePath)
-    const renderFn = init(eleventyConfig)
+    const renderFn = init(eleventyConfig, { page })
     const component = renderFn(params)
     const fragment = JSDOM.fragment(component)
     return [...fragment.children].map((child) => {
