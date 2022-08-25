@@ -4,7 +4,7 @@ const path = require('path')
 
 const { warn, error } = chalkFactory('Figure Video')
 
-const videoElement = {
+const videoElements = {
   video({ id, poster='', src }) {
     if (!src) {
       error(`Cannot render Video without 'src'. Check that figures data for id: ${id} has a valid 'src'`)
@@ -68,7 +68,7 @@ module.exports = function(eleventyConfig) {
   const figureCaption = eleventyConfig.getFilter('figureCaption')
   const figureLabel = eleventyConfig.getFilter('figureLabel')
 
-  const { figureLabelLocation, imageDir } = eleventyConfig.globalData.config.params
+  const { imageDir } = eleventyConfig.globalData.config.params
 
   return function({ aspect_ratio: aspectRatio, caption, credit, id, label, media_id: mediaId, media_type: mediaType, src }) {
     if (src) {
@@ -76,13 +76,15 @@ module.exports = function(eleventyConfig) {
     }
 
     const isEmbed = mediaType === 'vimeo' || mediaType === 'youtube'
+    const videoElement = videoElements[mediaType]({ id, mediaId, src })
+    const labelElement = figureLabel({ caption, id, label })
+    const captionElement = figureCaption({ caption, content: labelElement, credit })
 
     return html`
       <div class="q-figure__media-wrapper ${isEmbed && 'q-figure__media-wrapper--' + (aspectRatio || 'widescreen')}">
-        ${videoElement[mediaType]({ id, mediaId, src })}
-        ${label && figureLabelLocation === 'on-top' ? figureLabel({ caption, id, label }) : ''}
+        ${videoElement}
       </div>
-      ${figureCaption({ caption, credit })}
+      ${captionElement}
     `
   }
 }

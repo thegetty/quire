@@ -16,7 +16,7 @@ module.exports = function(eleventyConfig) {
   const figureModalLink = eleventyConfig.getFilter('figureModalLink')
   const markdownify = eleventyConfig.getFilter('markdownify')
 
-  const { imageDir, figureLabelLocation } = eleventyConfig.globalData.config.params
+  const { imageDir } = eleventyConfig.globalData.config.params
 
   return function(figure) {
     const { 
@@ -33,15 +33,9 @@ module.exports = function(eleventyConfig) {
     /**
      * Wrap image in modal link
      */
-    const imageElement =
-      (figureLabelLocation === 'below')
-        ? figureModalLink({ content: figureImageElement(figure), id })
-        : figureModalLink({ caption, content: figureImageElement(figure) + labelElement, id })
+    const imageElement = figureModalLink({ content: figureImageElement(figure), id })
 
-    const captionElement =
-      (figureLabelLocation === 'below')
-        ? figureCaption({ caption, content: labelElement, credit })
-        : figureCaption({ caption, credit })
+    const captionElement = figureCaption({ caption, content: labelElement, credit })
 
     return html`
       ${imageElement}

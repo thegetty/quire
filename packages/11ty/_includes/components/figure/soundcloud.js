@@ -14,8 +14,6 @@ module.exports = function(eleventyConfig) {
   const figureLabel = eleventyConfig.getFilter('figureLabel')
   const figurePlaceholder = eleventyConfig.getFilter('figurePlaceholder')
 
-  const { figureLabelLocation } = eleventyConfig.globalData.config.params
-
   return function({ caption, credit, id, label, media_id }) {
     const src = `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${media_id}`
 
@@ -23,6 +21,9 @@ module.exports = function(eleventyConfig) {
       console.warn(`Error: Cannot render SoundCloud component without 'media_id'. Check that figures data for id: ${id} has a valid 'media_id'`)
       return ''
     }
+
+    const labelElement = figureLabel({ caption, id, label })
+    const captionElement = figureCaption({ caption, content: labelElement, credit })
 
     return html`
       <div class="q-figure__media-wrapper">
@@ -34,9 +35,8 @@ module.exports = function(eleventyConfig) {
           src="${src}&auto_play=false&color=%23ff5500&hide_related=true&show_comments=false&show_reposts=false&show_teaser=false&show_user=false"
           width="100%"
         ></iframe>
-        ${label && figureLabelLocation === 'on-top' ? figureLabel({ caption, id, label }) : '' }
       </div>
-      ${figureCaption({ caption, credit })}
+      ${captionElement}
     `
   }
 }

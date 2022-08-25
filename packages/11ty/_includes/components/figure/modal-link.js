@@ -6,8 +6,8 @@ module.exports = function (eleventyConfig) {
   return function({ content, id }) {
     return figureModal
       ? html`<a
-          href="#${id}"
           class="q-figure__modal-link"
+          href="#${id}"
         >
           ${content}
         </a>`
