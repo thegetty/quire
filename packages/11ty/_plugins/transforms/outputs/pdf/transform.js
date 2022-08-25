@@ -15,6 +15,22 @@ const { JSDOM } = jsdom
 module.exports = function(eleventyConfig, collections, content) {
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const slugify = eleventyConfig.getFilter('slugify')
+
+  /**
+   * Truncated page or section title for footer
+   * @param  {Object} page
+   * @return {String}       page title
+   */
+  const footerTitle = (page) => {
+    const {
+      label,
+      short_title: shortTitle,
+      title
+    } = page
+    const truncatedTitle = shortTitle || truncate(title, 35)
+    return pageTitle({ label, title: truncatedTitle })
+  }
+
   /**
    * Transform relative links to anchor links
    *
@@ -38,13 +54,8 @@ module.exports = function(eleventyConfig, collections, content) {
 
     if (mainElement) {
       if (pageIndex !== -1) {
-        const currentPage = collections.pdf[pageIndex].data
-        const {
-          label,
-          parentPage,
-          short_title: shortTitle,
-          title,
-        } = currentPage
+        const currentPage = collections.pdf[pageIndex]
+        const { parentPage } = currentPage.data
         const sectionElement = document.createElement('section')
         sectionElement.innerHTML = mainElement.innerHTML
         for (className of mainElement.classList) {
@@ -52,11 +63,9 @@ module.exports = function(eleventyConfig, collections, content) {
         }
 
         // set data attributes for PDF footer
-        const truncatedTitle = shortTitle || truncate(title, 35)
-        const pdfPageTitle = pageTitle({ label, title: truncatedTitle })
-        sectionElement.dataset.pageTitle = pdfPageTitle
+        sectionElement.dataset.pageTitle = footerTitle(currentPage.data)
         if (parentPage) {
-          sectionElement.dataset.sectionTitle = parentPage.data.title
+          sectionElement.dataset.sectionTitle = footerTitle(parentPage.data)
         }
 
         // set an id for anchor links to each section
