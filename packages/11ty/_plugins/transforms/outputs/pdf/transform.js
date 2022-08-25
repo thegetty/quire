@@ -1,7 +1,9 @@
 const jsdom = require('jsdom')
-const { JSDOM } = jsdom
 const filterOutputs = require('../filter.js')
+const truncate = require('~lib/truncate')
 const writeOutput = require('./write')
+
+const { JSDOM } = jsdom
 
 /**
  * A function to transform and write Eleventy content for pdf
@@ -11,6 +13,7 @@ const writeOutput = require('./write')
  * @return     {Array}   The transformed content string
  */
 module.exports = function(eleventyConfig, collections, content) {
+  const pageTitle = eleventyConfig.getFilter('pageTitle')
   const slugify = eleventyConfig.getFilter('slugify')
   /**
    * Transform relative links to anchor links
@@ -41,13 +44,15 @@ module.exports = function(eleventyConfig, collections, content) {
           sectionElement.classList.add(className)
         }
 
-        const pageLabelDivider = eleventyConfig.globalData.config.params
-        const { label, title } = collections.pdf[pageIndex].data
+        const { label, parentPage, short_title: shortTitle, title } = collections.pdf[pageIndex].data
 
-        // set data attributes for PDF generation
-        sectionElement.dataset.pageTitle = label
-          ? `${label}${pageLabelDivider}${title}`
-          : title
+        // set data attributes for PDF footer
+        const truncatedTitle = shortTitle || truncate(title, 35)
+        const pdfPageTitle = pageTitle({ label, title: truncatedTitle })
+        sectionElement.dataset.pageTitle = pdfPageTitle
+        if (parentPage) {
+          sectionElement.dataset.sectionTitle = parentPage.data.title
+        }
 
         // set an id for anchor links to each section
         sectionElement.setAttribute('id', mainElement.getAttribute('id'))

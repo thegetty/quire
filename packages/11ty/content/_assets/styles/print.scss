@@ -198,16 +198,10 @@ $print-trim: $print-bleed * 2;
 
 // Generated content for footers and page #s in TOC
 // -----------------------------------------------------------------------------
-  .pdf-page-title {
-    string-set: pagetitle content();
-  }
-
-  .pdf-page-section {
-    string-set: sectiontitle content();
-  }
-  
-  .pdf-page-label {
-    string-set: pagelabel content();
+  .quire-page {
+    string-set: 
+      pagetitle attr(data-page-title),
+      sectiontitle attr(data-section-title);
   }
 
   .quire-contents-list {
