@@ -63,9 +63,9 @@ module.exports = function(eleventyConfig, collections, content) {
         }
 
         // set data attributes for PDF footer
-        sectionElement.dataset.pageTitle = footerTitle(currentPage.data)
+        sectionElement.dataset.footerPageTitle = footerTitle(currentPage.data)
         if (parentPage) {
-          sectionElement.dataset.sectionTitle = footerTitle(parentPage.data)
+          sectionElement.dataset.footerSectionTitle = footerTitle(parentPage.data)
         }
 
         // set an id for anchor links to each section

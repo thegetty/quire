@@ -200,8 +200,8 @@ $print-trim: $print-bleed * 2;
 // -----------------------------------------------------------------------------
   .quire-page {
     string-set: 
-      pagetitle attr(data-page-title),
-      sectiontitle attr(data-section-title);
+      pagetitle attr(data-footer-page-title),
+      sectiontitle attr(data-footer-section-title);
   }
 
   .quire-contents-list {
