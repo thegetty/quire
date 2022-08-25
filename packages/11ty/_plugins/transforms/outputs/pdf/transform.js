@@ -38,13 +38,18 @@ module.exports = function(eleventyConfig, collections, content) {
 
     if (mainElement) {
       if (pageIndex !== -1) {
+        const currentPage = collections.pdf[pageIndex].data
+        const {
+          label,
+          parentPage,
+          short_title: shortTitle,
+          title,
+        } = currentPage
         const sectionElement = document.createElement('section')
         sectionElement.innerHTML = mainElement.innerHTML
         for (className of mainElement.classList) {
           sectionElement.classList.add(className)
         }
-
-        const { label, parentPage, short_title: shortTitle, title } = collections.pdf[pageIndex].data
 
         // set data attributes for PDF footer
         const truncatedTitle = shortTitle || truncate(title, 35)
