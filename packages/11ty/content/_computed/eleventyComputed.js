@@ -128,8 +128,8 @@ module.exports = {
   parent: ({ page, parent }) => {
     if (!page.url) return
     const segments = page.url.split('/')
-    const parentFromPath = segments.slice(1, segments.length - 2).join('/')
-    return parent || parentFromPath
+    const parentSegment = segments.slice(1, segments.length - 2).join('/')
+    return parent || parentSegment
   },
   parentPage:({ collections, parent }) => {
     return collections.all.find((item) => parent && item.data.key === parent)
