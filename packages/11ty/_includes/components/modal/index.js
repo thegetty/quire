@@ -10,7 +10,7 @@ module.exports = function (eleventyConfig, { page }) {
   const lightboxSlides = eleventyConfig.getFilter('lightboxSlides')
   const lightboxUI = eleventyConfig.getFilter('lightboxUI')
 
-  return function (figures=page.figures) {
+  return async function (figures=page.figures) {
     if (!figures) return;
     figures = figures.map((figure) => ({
       preset: 'zoom',
@@ -20,7 +20,7 @@ module.exports = function (eleventyConfig, { page }) {
     return html`
       <q-modal>
         <q-lightbox>
-          ${lightboxSlides(figures)}
+          ${await lightboxSlides(figures)}
           ${lightboxUI(figures)}
         </q-lightbox>
         <button

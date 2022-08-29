@@ -1,4 +1,5 @@
 const { html } = require('~lib/common-tags')
+const path = require('path')
 
 /**
  * Renders image slides with captions for display in a <q-lightbox> element
@@ -11,11 +12,14 @@ const { html } = require('~lib/common-tags')
 module.exports = function(eleventyConfig) {
   const figureImageElement = eleventyConfig.getFilter('figureImageElement')
   const markdownify = eleventyConfig.getFilter('markdownify')
+  const renderFile = eleventyConfig.getFilter('renderFile')
 
-  return function(figures) {
+  const assetsDir = path.join(eleventyConfig.dir.input, '_assets/images')
+
+  return async function(figures) {
     if (!figures) return ''
 
-    const slideElement = (figure) => {
+    const slideElement = async (figure) => {
       const {
         caption,
         credit,
@@ -29,6 +33,12 @@ module.exports = function(eleventyConfig) {
 
       const unsupportedMediaTypes = ['soundcloud', 'video', 'vimeo', 'youtube']
       if (unsupportedMediaTypes.includes(mediaType)) return '';
+
+      const figureElement = async () => {
+        return mediaType === 'table'
+          ? await renderFile(path.join(assetsDir, src))
+          : figureImageElement(figure)
+      }
 
       const labelSpan = label
         ? html`<span class="q-lightbox-slides__caption-label">${label}</span>`
@@ -52,21 +62,24 @@ module.exports = function(eleventyConfig) {
           data-lightbox-slide-id="${id}"
         >
           <div class="q-lightbox-slides__image">
-            ${figureImageElement(figure)}
+            ${await figureElement()}
           </div>
           ${captionElement}
         </div>
       `
     }
 
-    let slides = ''
-    for (figure of figures) {
-      slides += slideElement(figure)
+    const slideElements = async () => {
+      let slides = ''
+      for (figure of figures) {
+        slides += await slideElement(figure)
+      }
+      return slides
     }
 
     return html`
       <div class="q-lightbox-slides">
-        ${slides}
+        ${await slideElements()}
       </div>
     `
   }
