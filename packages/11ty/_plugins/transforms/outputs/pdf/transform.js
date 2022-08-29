@@ -1,7 +1,9 @@
 const jsdom = require('jsdom')
-const { JSDOM } = jsdom
 const filterOutputs = require('../filter.js')
+const truncate = require('~lib/truncate')
 const writeOutput = require('./write')
+
+const { JSDOM } = jsdom
 
 /**
  * A function to transform and write Eleventy content for pdf
@@ -11,7 +13,24 @@ const writeOutput = require('./write')
  * @return     {Array}   The transformed content string
  */
 module.exports = function(eleventyConfig, collections, content) {
+  const pageTitle = eleventyConfig.getFilter('pageTitle')
   const slugify = eleventyConfig.getFilter('slugify')
+
+  /**
+   * Truncated page or section title for footer
+   * @param  {Object} page
+   * @return {String}       page title
+   */
+  const footerTitle = (page) => {
+    const {
+      label,
+      short_title: shortTitle,
+      title
+    } = page
+    const truncatedTitle = shortTitle || truncate(title, 35)
+    return pageTitle({ label, title: truncatedTitle })
+  }
+
   /**
    * Transform relative links to anchor links
    *
@@ -35,19 +54,19 @@ module.exports = function(eleventyConfig, collections, content) {
 
     if (mainElement) {
       if (pageIndex !== -1) {
+        const currentPage = collections.pdf[pageIndex]
+        const { parentPage } = currentPage.data
         const sectionElement = document.createElement('section')
         sectionElement.innerHTML = mainElement.innerHTML
         for (className of mainElement.classList) {
           sectionElement.classList.add(className)
         }
 
-        const pageLabelDivider = eleventyConfig.globalData.config.params
-        const { label, title } = collections.pdf[pageIndex].data
-
-        // set data attributes for PDF generation
-        sectionElement.dataset.pageTitle = label
-          ? `${label}${pageLabelDivider}${title}`
-          : title
+        // set data attributes for PDF footer
+        sectionElement.dataset.footerPageTitle = footerTitle(currentPage.data)
+        if (parentPage) {
+          sectionElement.dataset.footerSectionTitle = footerTitle(parentPage.data)
+        }
 
         // set an id for anchor links to each section
         sectionElement.setAttribute('id', mainElement.getAttribute('id'))
