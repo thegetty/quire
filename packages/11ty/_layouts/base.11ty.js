@@ -6,7 +6,7 @@ const { html } = require('~lib/common-tags')
  * @param      {Object}  data    Final data from the Eleventy data cascade
  * @return     {Function}  Template render function
  */
-module.exports = function(data) {
+module.exports = async function(data) {
   const { pageClasses, collections, content, pageData, publication } = data
   const { outputPath, url } = pageData || {}
 
@@ -36,7 +36,7 @@ module.exports = function(data) {
             </div>
             {% render 'search' %}
           </div>
-          ${this.modal()}
+          ${await this.modal()}
           ${this.scripts()}
         </body>
       </html>
