@@ -25,6 +25,7 @@ module.exports = {
   figurePlaceholder: require('./figure/placeholder'),
   figureSoundcloud: require('./figure/soundcloud'),
   figureTable: require('./figure/table'),
+  figureTableElement: require('./figure/table/element'),
   figureVideo: require('./figure/video'),
   head: require('./head.js'),
   icon: require('./icon.js'),
