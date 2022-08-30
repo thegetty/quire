@@ -1,7 +1,4 @@
 const { html } = require('~lib/common-tags')
-const chalkFactory = require('~lib/chalk')
-const path = require('path')
-
 /**
  * A shortcode for embedding a media player that supports video playback into the document.
  * @param {String} src  Source url for the video
@@ -11,8 +8,6 @@ module.exports = function(eleventyConfig) {
   const figureCaption = eleventyConfig.getFilter('figureCaption')
   const figureLabel = eleventyConfig.getFilter('figureLabel')
   const figureVideoElement = eleventyConfig.getFilter('figureVideoElement')
-
-  const { imageDir } = eleventyConfig.globalData.config.params
 
   return function({
     aspect_ratio: aspectRatio,
@@ -25,10 +20,6 @@ module.exports = function(eleventyConfig) {
     poster,
     src
   }) {
-    if (src) {
-      src = src.startsWith('http') ? src : path.join(imageDir, src)
-    }
-
     const isEmbed = mediaType === 'vimeo' || mediaType === 'youtube'
     const videoElement = figureVideoElement({ id, media_id, media_type: mediaType, src, poster })
     const labelElement = figureLabel({ caption, id, label })

@@ -1,5 +1,6 @@
 const { html } = require('~lib/common-tags')
 const chalkFactory = require('~lib/chalk')
+const path = require('path')
 
 const { warn, error } = chalkFactory('Figure Video')
 
@@ -59,7 +60,13 @@ const videoElements = {
 }
 
 module.exports = function (eleventyConfig) {
+  const { imageDir } = eleventyConfig.globalData.config.params
+
   return function ({ id, media_id: mediaId, media_type: mediaType, poster, src }) {
+    if (src) {
+      src = src.startsWith('http') ? src : path.join(imageDir, src)
+    }
+
     return videoElements[mediaType]({ id, mediaId, poster, src })
   }
 }
