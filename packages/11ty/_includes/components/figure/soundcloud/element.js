@@ -1,3 +1,4 @@
+const { html } = require('~lib/common-tags')
 const chalkFactory = require('~lib/chalk')
 
 const { error } = chalkFactory('Figure Video')
@@ -11,7 +12,7 @@ module.exports = function (eleventyConfig) {
 
     const src = `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${mediaId}`
 
-    return `
+    return html`
       <iframe
         allow="autoplay"
         frameborder="no"
