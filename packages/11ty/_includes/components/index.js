@@ -24,6 +24,7 @@ module.exports = {
   figureOption: require('./figure/annotations-ui/option'),
   figurePlaceholder: require('./figure/placeholder'),
   figureSoundcloud: require('./figure/soundcloud'),
+  figureSoundcloudElement: require('./figure/soundcloud/element'),
   figureTable: require('./figure/table'),
   figureTableElement: require('./figure/table/element'),
   figureVideo: require('./figure/video'),
