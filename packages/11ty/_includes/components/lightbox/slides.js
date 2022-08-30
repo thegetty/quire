@@ -23,6 +23,7 @@ module.exports = function(eleventyConfig) {
 
     const slideElement = async (figure) => {
       const {
+        aspect_ratio: aspectRatio='widescreen',
         caption,
         credit,
         id,
@@ -33,17 +34,17 @@ module.exports = function(eleventyConfig) {
         src
       } = figure
 
+      const isVideo = mediaType === 'video' || mediaType === 'vimeo' || mediaType === 'youtube'
+
       const figureElement = async () => {
-        switch (mediaType) {
-          case 'soundcloud':
+        switch (true) {
+          case mediaType === 'soundcloud':
             return figureSoundcloudElement(figure)
-          case 'table':
+          case mediaType === 'table':
             return await figureTableElement(figure)
-          case 'video':
-          case 'vimeo':
-          case 'youtube':
+          case isVideo:
             return figureVideoElement(figure)
-          case 'image':
+          case mediaType === 'image':
           default:
             return figureImageElement(figure)
         }
@@ -70,7 +71,7 @@ module.exports = function(eleventyConfig) {
           data-lightbox-slide
           data-lightbox-slide-id="${id}"
         >
-          <div class="q-lightbox-slides__image">
+          <div class="q-lightbox-slides__element ${mediaType && 'q-lightbox-slides__element--' + mediaType} ${isVideo && 'q-lightbox-slides__element--video q-lightbox-slides__element--' + aspectRatio  }">
             ${await figureElement()}
           </div>
           ${captionElement}

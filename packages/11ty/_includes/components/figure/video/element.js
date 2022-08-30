@@ -17,7 +17,11 @@ const videoElements = {
 
     const unsupported = 'Sorry, your browser does not support embedded videos.'
     return html`
-      <video controls poster="${poster}" class="q-figure__media">
+      <video
+        controls
+        poster="${poster}"
+        class="q-figure-video-element"
+      >
         <source src="${src}" type="video/mp4"/>
         ${unsupported}
       </video>
@@ -35,7 +39,7 @@ const videoElements = {
       <iframe
         allow="fullscreen; picture-in-picture"
         allowfullscreen
-        class="q-figure__media q-figure__media--embed"
+        class="q-figure-video-element q-figure-video-element--embed"
         frameborder="0"
         src="https://player.vimeo.com/video/${embedId}"
       ></iframe>
@@ -51,7 +55,7 @@ const videoElements = {
       <iframe
         allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen
-        class="q-figure__media q-figure__media--embed"
+        class="q-figure-video-element q-figure-video-element--embed"
         frameborder="0"
         src="https://www.youtube-nocookie.com/embed/${mediaId}"
       ></iframe>
@@ -62,7 +66,13 @@ const videoElements = {
 module.exports = function (eleventyConfig) {
   const { imageDir } = eleventyConfig.globalData.config.params
 
-  return function ({ id, media_id: mediaId, media_type: mediaType, poster, src }) {
+  return function ({
+    id,
+    media_id: mediaId,
+    media_type: mediaType,
+    poster,
+    src
+  }) {
     if (poster) {
       poster = path.join(imageDir, poster)
     }
