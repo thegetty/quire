@@ -11,8 +11,10 @@ const path = require('path')
  */
 module.exports = function(eleventyConfig) {
   const figureImageElement = eleventyConfig.getFilter('figureImageElement')
+  const figureSoundcloudElement = eleventyConfig.getFilter('figureSoundcloudElement')
+  const figureTableElement = eleventyConfig.getFilter('figureTableElement')
+  const figureVideoElement = eleventyConfig.getFilter('figureVideoElement')
   const markdownify = eleventyConfig.getFilter('markdownify')
-  const renderFile = eleventyConfig.getFilter('renderFile')
 
   const assetsDir = path.join(eleventyConfig.dir.input, '_assets/images')
 
@@ -31,13 +33,20 @@ module.exports = function(eleventyConfig) {
         src
       } = figure
 
-      const unsupportedMediaTypes = ['soundcloud', 'video', 'vimeo', 'youtube']
-      if (unsupportedMediaTypes.includes(mediaType)) return '';
-
       const figureElement = async () => {
-        return mediaType === 'table'
-          ? await renderFile(path.join(assetsDir, src))
-          : figureImageElement(figure)
+        switch (mediaType) {
+          case 'soundcloud':
+            return figureSoundcloudElement(figure)
+          case 'table':
+            return await figureTableElement(figure)
+          case 'video':
+          case 'vimeo':
+          case 'youtube':
+            return figureVideoElement(figure)
+          case 'image':
+          default:
+            return figureImageElement(figure)
+        }
       }
 
       const labelSpan = label
