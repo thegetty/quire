@@ -35,13 +35,13 @@ module.exports = function (eleventyConfig) {
           ${checked ? 'checked' : ''}
           class="annotations-ui__input"
           data-annotation-type="${item.type}"
-          id="${item.iiifId}"
+          id="${item.url}"
           name="${figure.id}"
           type="${inputType}"
         />
         <label
           class="annotations-ui__label"
-          for="${item.iiifId}"
+          for="${item.url}"
         >
           ${label}
         </label>
