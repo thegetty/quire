@@ -18,8 +18,8 @@ module.exports = function(eleventyConfig) {
 
   return function({ caption, credit, id, label, media_id, media_type }) {
     const audioElement = figureAudioElement({ id, media_id, media_type })
-    const captionElement = figureCaption({ caption, content: labelElement, credit })
     const labelElement = figureLabel({ caption, id, label })
+    const captionElement = figureCaption({ caption, content: labelElement, credit })
 
     return html`
       <div class="q-figure__media-wrapper">
