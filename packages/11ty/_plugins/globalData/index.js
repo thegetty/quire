@@ -1,8 +1,9 @@
+const chalkFactory = require('~lib/chalk')
 const fs = require('fs-extra')
 const path = require('path')
 const pluralize = require('~lib/pluralize')
 const yaml = require('js-yaml')
-const chalkFactory = require('~lib/chalk')
+
 const { error } = chalkFactory('_plugins:globalData')
 
 /**
@@ -35,8 +36,11 @@ const checkForDuplicateIDs = function(data) {
 }
 
 module.exports = function(eleventyConfig, options) {
+  eleventyConfig.addGlobalData('env', process.env)
+
   const dataDirectory = path.join('content', '_data')
   const filenames = fs.readdirSync(dataDirectory)
+
   filenames.forEach((filename) => {
     const { base, ext, name } = path.parse(filename)
     const filePath = path.join(dataDirectory, filename)
