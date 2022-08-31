@@ -6,7 +6,7 @@ const path = require('path')
  *
  * @param      {Object}  eleventyConfig  eleventy configuration
  * @param      {Object}  figure          Figure data
- * @return     {String}  An <img> element
+ * @return     {String}  An <img> element and a caption
  */
 module.exports = function(eleventyConfig) {
   const figureCaption = eleventyConfig.getFilter('figureCaption')
