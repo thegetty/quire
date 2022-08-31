@@ -1,5 +1,5 @@
 const chalkFactory = require('~lib/chalk')
-const Figure = require('./figure')
+const FigureFactory = require('./figure-factory')
 const iiifConfig = require('./iiif/config')
 const { error, info } = chalkFactory('Figure Processing')
 
@@ -10,8 +10,8 @@ module.exports = function (eleventyConfig, options = {}) {
     let { figure_list: figureList } = eleventyConfig.globalData.figures
     figureList = await Promise.all(
       figureList.map((data) => {
-        const figure = new Figure(eleventyConfig, data)
-        return figure.create()
+        const factory = new FigureFactory(eleventyConfig, data)
+        return factory.create()
       })
     )
     const figureErrors = figureList.filter(({ errors }) => !!errors.length)

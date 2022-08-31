@@ -7,7 +7,7 @@ const ManifestWriter = require('./iiif/manifest/writer')
 const { info } = chalkFactory('Figure Processing')
 const { getPrintImage, isCanvas, isImageService } = require('./helpers')
 
-module.exports = class Figure {
+module.exports = class FigureFactory {
   constructor(eleventyConfig, data) {
     this.annotations = data.annotations && data.annotations.map((set) => {
       set.items = set.items.map((item) => new Annotation(eleventyConfig, data, item))
