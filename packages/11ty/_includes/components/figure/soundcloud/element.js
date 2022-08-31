@@ -21,7 +21,18 @@ module.exports = function (eleventyConfig) {
       return ''
     }
 
-    const src = `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${mediaId}`
+    const playerSrc = new URL('https://w.soundcloud.com/player/')
+    const params = new URLSearchParams({
+      url: encodeURIComponent(`https://api.soundcloud.com/tracks/${mediaId}`),
+      auto_play: 'false',
+      color: encodeURIComponent('#ff5500'),
+      hide_related: 'true',
+      show_comments: 'false',
+      show_reposts: 'false',
+      show_teaser: 'false',
+      show_user: 'false'
+    })
+    playerSrc.search = `?${params.toString()}`
 
     return html`
       <iframe
@@ -29,7 +40,7 @@ module.exports = function (eleventyConfig) {
         frameborder="no"
         height="166"
         scrolling="no"
-        src="${src}&auto_play=false&color=%23ff5500&hide_related=true&show_comments=false&show_reposts=false&show_teaser=false&show_user=false"
+        src="${playerSrc.href}"
         width="100%"
       ></iframe>
     `
