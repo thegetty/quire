@@ -14,7 +14,7 @@ const directoryOutputPlugin = require('@11ty/eleventy-plugin-directory-output')
 const citationsPlugin = require('~plugins/citations')
 const collectionsPlugin = require('~plugins/collections')
 const componentsPlugin = require('~plugins/components')
-const dataFormatsPlugin = require('~plugins/dataFormats')
+const dataExtensionsPlugin = require('~plugins/dataExtensions')
 const filtersPlugin = require('~plugins/filters')
 const frontmatterPlugin = require('~plugins/frontmatter')
 const globalDataPlugin = require('~plugins/globalData')
@@ -76,8 +76,8 @@ module.exports = function(eleventyConfig) {
    * Plugins are loaded in order of the `addPlugin` statements,
    * plugins that mutate globalData must be added before other plugins
    */
+  eleventyConfig.addPlugin(dataExtensionsPlugin)
   eleventyConfig.addPlugin(directoryOutputPlugin)
-  eleventyConfig.addPlugin(dataFormatsPlugin)
   eleventyConfig.addPlugin(globalDataPlugin)
   eleventyConfig.addPlugin(i18nPlugin)
   eleventyConfig.addPlugin(iiifPlugin)
