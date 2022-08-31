@@ -10,7 +10,7 @@ const audioElements = {
       return ''
     }
 
-    const playerSrc = new URL('https://w.soundcloud.com/player/')
+    const src = new URL('https://w.soundcloud.com/player/')
     const params = new URLSearchParams({
       auto_play: 'false',
       color: encodeURIComponent('#ff5500'),
@@ -21,7 +21,7 @@ const audioElements = {
       show_user: 'false',
       url: encodeURIComponent(`https://api.soundcloud.com/tracks/${mediaId}`)
     })
-    playerSrc.search = `?${params.toString()}`
+    src.search = `?${params.toString()}`
 
     return html`
       <iframe
@@ -29,7 +29,7 @@ const audioElements = {
         frameborder="no"
         height="166"
         scrolling="no"
-        src="${playerSrc.href}"
+        src="${src.href}"
         width="100%"
       ></iframe>
     `
