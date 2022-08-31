@@ -17,9 +17,9 @@ module.exports = function(eleventyConfig) {
   const figureAudioElement = eleventyConfig.getFilter('figureAudioElement')
 
   return function({ caption, credit, id, label, media_id, media_type }) {
-    const labelElement = figureLabel({ caption, id, label })
-    const captionElement = figureCaption({ caption, content: labelElement, credit })
     const audioElement = figureAudioElement({ id, media_id, media_type })
+    const captionElement = figureCaption({ caption, content: labelElement, credit })
+    const labelElement = figureLabel({ caption, id, label })
 
     return html`
       <div class="q-figure__media-wrapper">
