@@ -9,11 +9,11 @@ const path = require('path')
 module.exports = function(eleventyConfig) {
   const figureCaption = eleventyConfig.getFilter('figureCaption')
   const figureLabel = eleventyConfig.getFilter('figureLabel')
-  const figureTableElement = eleventyConfig.getFilter('figureTableElement')
+  const tableElement = eleventyConfig.getFilter('figureTableElement')
   const markdownify = eleventyConfig.getFilter('markdownify')
 
   return async function({ caption, credit, id, label, src }) {
-    const table = await figureTableElement({ src })
+    const table = await tableElement({ src })
     const title = markdownify(caption)
 
     const labelElement = figureLabel({ caption, id, label })
