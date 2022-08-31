@@ -1,6 +1,8 @@
 # IIIF Processing
 Quire's IIIF processing provides methods to prepare images to IIIF 3.0 specification for use with [`canvas-panel`](https://iiif-canvas-panel.netlify.app/docs/components/cp) and [`image-service`](https://iiif-canvas-panel.netlify.app/docs/components/single-image-service) web components.
 
+Processing iterates over the figure entries in `figures.yaml` and creates a `Figure` instance which manages the figure data, and calls the `create` method which runs processes to generate files (tiles, IIIF manifests, and image transformations) and update the global `figure` data with additional properties.
+
 ## Setup
 - Set `baseURL` in `config.yaml`. This will be used to generate IIIF `@id` properties.
 

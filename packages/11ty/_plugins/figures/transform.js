@@ -9,24 +9,26 @@ const { info, error } = chalkFactory('plugins:iiif:createImage')
  * @param  {Object} config Quire IIIF Process config
  * @return {Function}      createImage()
  */
-module.exports = (eleventyConfig) => {
+module.exports = (iiifConfig, figure, options={}) => {
   const {
     formats,
+    imageTransformations,
     inputDir,
     inputRoot,
     outputDir,
     outputRoot 
-  } = eleventyConfig.globalData.iiifConfig
+  } = iiifConfig
 
-  /**
-   * Creates an image in the output directory with the name `${name}${ext}`
-   *
-   * @param  {Object} figure Figure entry data from `figures.yaml`
-   * @param  {Object} transformation A transformation item from `iiif/config.js#imageTransformations`
-   * @property  {String} name The name of the file
-   * @property  {Object} resize Resize options for `sharp`
-   */
-  return async (figure, transformation = {}, options) => {
+  const transform = async (transformation) => {
+    /**
+     * Creates an image in the output directory with the name `${name}${ext}`
+     *
+     * @param  {Object} figure Figure entry data from `figures.yaml`
+     * @param  {Object} transformation A transformation item from `iiif/config.js#imageTransformations`
+     * @property  {String} name The name of the file
+     * @property  {Object} resize Resize options for `sharp`
+     */
+
     const { debug, lazy } = options
 
     const { region, src } = figure
@@ -64,4 +66,8 @@ module.exports = (eleventyConfig) => {
       }
     }
   }
+
+  return Promise.all(imageTransformations.map((transformation) => {
+    return transform(transformation)
+  }))
 }

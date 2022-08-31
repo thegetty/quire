@@ -77,7 +77,7 @@ module.exports = {
    */
   pageFigures: ({ figure, figures }) => {
     if (!figure || !figure.length) return
-    return figure.map((figure) => figures.figure_list.find((item) => item.id === figure.id))
+    return figure.map((figure) => figures.find((item) => item.id === figure.id))
   },
   /**
    * Objects data referenced by id in page frontmatter including figures data

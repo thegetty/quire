@@ -8,13 +8,6 @@ module.exports = class ManifestWriter {
     this.iiifConfig = eleventyConfig.globalData.iiifConfig
   }
 
-  addToGlobalData({ figure, manifest }) {
-    this.eleventyConfig.addGlobalData('iiifManifests', {
-      ...this.eleventyConfig.globalData.iiifManifests,
-      [figure.id]: manifest
-    })
-  }
-
   /**
    * Write manifest to file system and global data
    * 
@@ -26,7 +19,5 @@ module.exports = class ManifestWriter {
     const outputPath = path.join(outputRoot, outputDir, figure.id, manifestFilename)
     fs.ensureDirSync(path.parse(outputPath).dir)
     fs.writeJsonSync(outputPath, manifest)
-
-    this.addToGlobalData({ figure, manifest })
   }
 }

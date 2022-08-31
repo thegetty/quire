@@ -159,5 +159,6 @@ module.exports = class Manifest {
   async write() {
     const manifest = await this.toJSON()
     this.writer.write({ figure: this.figure, manifest })
+    return manifest
   }
 }
