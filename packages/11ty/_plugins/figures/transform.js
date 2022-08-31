@@ -19,15 +19,15 @@ module.exports = (iiifConfig, figure, options={}) => {
     outputRoot 
   } = iiifConfig
 
+  /**
+   * Creates a `sharp/transform` that writes the image file to the output directory.
+   * Nota bene: this `transform` is distinct form `11ty/transform`
+   *
+   * @param  {Object} transformation A transformation item from `iiif/config.js#imageTransformations`
+   * @property  {String} name The name of the file
+   * @property  {Object} resize Resize options for `sharp`
+   */
   const transform = async (transformation) => {
-    /**
-     * Creates an image in the output directory with the name `${name}${ext}`
-     *
-     * @param  {Object} figure Figure entry data from `figures.yaml`
-     * @param  {Object} transformation A transformation item from `iiif/config.js#imageTransformations`
-     * @property  {String} name The name of the file
-     * @property  {Object} resize Resize options for `sharp`
-     */
 
     const { debug, lazy } = options
 
