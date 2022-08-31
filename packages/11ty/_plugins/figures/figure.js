@@ -1,5 +1,5 @@
 const chalkFactory = require('~lib/chalk')
-const ImageTiler = require('./iiif/image-tiler')
+const Tiler = require('./iiif/tiler')
 const transform = require('./transform')
 const Manifest = require('./iiif/manifest')
 const ManifestWriter = require('./iiif/manifest/writer')
@@ -28,7 +28,7 @@ module.exports = class Figure {
     this.printImage = getPrintImage(eleventyConfig, data)
     this.region = data.region
     this.src = data.src
-    this.tiler = new ImageTiler(eleventyConfig, data)
+    this.tiler = new Tiler(eleventyConfig, data)
   }
 
   get iiifConfig() {

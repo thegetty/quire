@@ -5,7 +5,7 @@ const sharp = require('sharp')
 const { info } = chalkFactory('Figure Processing:IIIF:Tile Image')
 
 
-module.exports = class ImageTiler {
+module.exports = class Tiler {
   /**
    * @param  {Object} eleventyConfig 
    * @param  {Object} figure         Figure instance
