@@ -1,8 +1,8 @@
 const Figure = require('./figure')
-const iiifConfig = require('./config')
+const iiifConfig = require('./iiif/config')
 
 module.exports = function (eleventyConfig, options = {}) {
-  eleventyConfig.addGlobalData('iiifConfig', iiifConfig(eleventyConfig))
+  iiifConfig(eleventyConfig)
 
   eleventyConfig.on('eleventy.before', async () => {
     let { figure_list: figureList } = eleventyConfig.globalData.figures

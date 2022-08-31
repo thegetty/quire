@@ -2,7 +2,7 @@ const path = require('path')
 
 module.exports = (eleventyConfig) => {
   const { config, env } = eleventyConfig.globalData
-  return {
+  const iiifConfig = {
     baseURL: config.baseURL || env.URL,
     /**
      * Input and output of processable image formats
@@ -75,4 +75,5 @@ module.exports = (eleventyConfig) => {
     outputRoot: 'public',
     tileSize: 256
   }
+  eleventyConfig.addGlobalData('iiifConfig', iiifConfig)
 }
