@@ -1,7 +1,7 @@
 const chalkFactory = require('~lib/chalk')
 const Figure = require('./figure')
 const iiifConfig = require('./iiif/config')
-const { error } = chalkFactory('Figure Processing')
+const { error, info } = chalkFactory('Figure Processing')
 
 module.exports = function (eleventyConfig, options = {}) {
   iiifConfig(eleventyConfig)
@@ -27,5 +27,7 @@ module.exports = function (eleventyConfig, options = {}) {
     }
 
     Object.assign(eleventyConfig.globalData.figures.figure_list, figureList.map((figure) => figure.adapter()))
+
+    info(`Done`)
   })
 }

@@ -4,7 +4,6 @@ const Manifest = require('./index')
 
 module.exports = class ManifestWriter {
   constructor(eleventyConfig) {
-    this.eleventyConfig = eleventyConfig
     this.iiifConfig = eleventyConfig.globalData.iiifConfig
   }
 

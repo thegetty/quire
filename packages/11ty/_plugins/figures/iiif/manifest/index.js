@@ -6,7 +6,7 @@ const sharp = require('sharp')
 const titleCase = require('~plugins/filters/titleCase')
 const { globalVault } = require('@iiif/vault')
 const { IIIFBuilder } = require('iiif-builder')
-const { error } = chalkFactory('plugins:iiif:manifest')
+const { error, info } = chalkFactory('Figure Processing:IIIF:Manifest')
 
 const vault = globalVault()
 const builder = new IIIFBuilder(vault)
@@ -153,7 +153,13 @@ module.exports = class Manifest {
         }
       })
     })
-    return builder.toPresentation3(manifest)
+    try {
+      const json = builder.toPresentation3(manifest)
+      info(`Generated manifest for figure "${this.figure.id}"`)
+      return json
+    } catch(errorMessage) {
+      error(`Could not generate manifest for figure "${this.figure.id}": ${errorMessage}`)
+    }
   }
 
   async write() {
