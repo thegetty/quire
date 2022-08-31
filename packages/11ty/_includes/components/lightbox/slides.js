@@ -11,7 +11,7 @@ const path = require('path')
  */
 module.exports = function(eleventyConfig) {
   const figureImageElement = eleventyConfig.getFilter('figureImageElement')
-  const figureSoundcloudElement = eleventyConfig.getFilter('figureSoundcloudElement')
+  const figureAudioElement = eleventyConfig.getFilter('figureAudioElement')
   const figureTableElement = eleventyConfig.getFilter('figureTableElement')
   const figureVideoElement = eleventyConfig.getFilter('figureVideoElement')
   const markdownify = eleventyConfig.getFilter('markdownify')
@@ -39,7 +39,7 @@ module.exports = function(eleventyConfig) {
       const figureElement = async () => {
         switch (true) {
           case mediaType === 'soundcloud':
-            return figureSoundcloudElement(figure)
+            return figureAudioElement(figure)
           case mediaType === 'table':
             return await figureTableElement(figure)
           case isVideo:

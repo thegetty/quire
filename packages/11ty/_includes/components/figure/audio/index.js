@@ -14,16 +14,16 @@ module.exports = function(eleventyConfig) {
   const figureImage = eleventyConfig.getFilter('figureImage')
   const figureLabel = eleventyConfig.getFilter('figureLabel')
   const figurePlaceholder = eleventyConfig.getFilter('figurePlaceholder')
-  const figureSoundcloudElement = eleventyConfig.getFilter('figureSoundcloudElement')
+  const figureAudioElement = eleventyConfig.getFilter('figureAudioElement')
 
-  return function({ caption, credit, id, label, media_id }) {
+  return function({ caption, credit, id, label, media_id, media_type }) {
     const labelElement = figureLabel({ caption, id, label })
     const captionElement = figureCaption({ caption, content: labelElement, credit })
-    const soundcloudElement = figureSoundcloudElement({ id, media_id })
+    const audioElement = figureAudioElement({ id, media_id, media_type })
 
     return html`
       <div class="q-figure__media-wrapper">
-        ${soundcloudElement}
+        ${audioElement}
       </div>
       ${captionElement}
     `
