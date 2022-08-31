@@ -1,3 +1,11 @@
+/**
+ * Renders an image
+ *
+ * @param      {Object}  eleventyConfig  eleventy configuration
+ * @param      {Object}  figure          The figure object
+ *
+ * @return     {String}  An HTML <img> element, `<canvas-panel>` or `<image-service>` web components
+ */
 module.exports = function (eleventyConfig) {
   const canvasPanel = eleventyConfig.getFilter('canvasPanel')
   const imageService = eleventyConfig.getFilter('imageService')

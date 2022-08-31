@@ -2,11 +2,12 @@ const { html } = require('~lib/common-tags')
 const path = require('path')
 
 /**
- * Renders an <img> element
+ * Renders an image with a caption and annotations UI
  *
  * @param      {Object} eleventyConfig  eleventy configuration
+ * @param      {Object} figure          The figure object
  * 
- * @return     {String}  An HTML <img> element
+ * @return     {String}  HTML containing  a `figureImageElement`, a caption and annotations UI
  */
 module.exports = function(eleventyConfig) {
   const annotationsUI = eleventyConfig.getFilter('annotationsUI')
