@@ -2,9 +2,12 @@ const { html } = require('~lib/common-tags')
 const path = require('path')
 
 /**
- * A shortcode for embedding a table into the document.
- * @param {String}
- * @return {String}  An HTML <table> element
+ * Renders a table into the document with a captionn
+ *
+ * @param      {Object}  eleventyConfig  eleventy configuration
+ * @param      {Object}  figure          The figure object
+ *
+ * @return     {String}  Content of referenced table file and a caption
  */
 module.exports = function(eleventyConfig) {
   const figureCaption = eleventyConfig.getFilter('figureCaption')

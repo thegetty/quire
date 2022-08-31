@@ -6,7 +6,8 @@ const chalkFactory = require('~lib/chalk')
  *
  * @param      {Object}  eleventyConfig  eleventy configuration
  * @param      {Object}  figure          The figure
- * @return     {String}  HTML to display a SoundCloud player
+ *
+ * @return     {String}  An embedded SoundCloud player and a caption
  */
 module.exports = function(eleventyConfig) {
   const figureCaption = eleventyConfig.getFilter('figureCaption')

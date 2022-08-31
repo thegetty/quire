@@ -5,7 +5,7 @@ const path = require('path')
  * Renders an image with a caption and annotations UI
  *
  * @param      {Object} eleventyConfig  eleventy configuration
- * @param      {Object} figure  A figure object
+ * @param      {Object} figure          The figure object
  * 
  * @return     {String}  HTML containing  a `figureImageElement`, a caption and annotations UI
  */

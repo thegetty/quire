@@ -1,8 +1,11 @@
 const { html } = require('~lib/common-tags')
 /**
- * A shortcode for embedding a media player that supports video playback into the document.
- * @param {String} src  Source url for the video
- * @return {String}  An HTML <video> element
+ * Renders a native or embedded video player with a caption
+ *
+ * @param      {Object}  eleventyConfig  eleventy configuration
+ * @param      {Object}  figure          The figure object
+ *
+ * @return     {String}  HTML containing a video player and a caption
  */
 module.exports = function(eleventyConfig) {
   const figureCaption = eleventyConfig.getFilter('figureCaption')

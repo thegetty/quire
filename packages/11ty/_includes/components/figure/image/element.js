@@ -1,7 +1,8 @@
 /**
- * A shortcode for displaying an image
+ * Renders an image
  *
- * @param      {Object} figure  The figure object
+ * @param      {Object}  eleventyConfig  eleventy configuration
+ * @param      {Object}  figure          The figure object
  *
  * @return     {String}  An HTML <img> element, `<canvas-panel>` or `<image-service>` web components
  */

@@ -3,6 +3,17 @@ const chalkFactory = require('~lib/chalk')
 
 const { error } = chalkFactory('Figure Video')
 
+/**
+ * Renders an embedded soundcloud audio player
+ *
+ * @param      {Object}  eleventyConfig  eleventy configuration
+ *
+ * @param      {Object}  figure          The figure object
+ * @param      {String}  id              The id of the figure
+ * @param      {String}  media_id        An id for a soundcloud embed
+ *
+ * @return     {String}  An embedded soundcloud player
+ */
 module.exports = function (eleventyConfig) {
   return function ({ id, media_id: mediaId }) {
     if (!mediaId) {
