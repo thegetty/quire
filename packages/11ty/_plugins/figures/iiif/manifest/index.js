@@ -28,27 +28,14 @@ module.exports = class Manifest {
   get annotations() {
     return this.figure.annotations
       .flatMap(({ items }) => items)
-      .filter((item) => item.target && item.src)
-      .map((item) => {
-        let id, motivation
-        switch(true) {
-          case !!item.src:
-            id = path.parse(src).name
-            motivation = 'painting'
-            break
-          case !!item.text:
-            id = item.label.split(' ').join('-').toLowerCase()
-            motivation = 'text'
-            break
-          default:
-            break;
-        }
+      .filter(({ type }) => type === 'annotation')
+      .map(({ label, motivation, url }) => {
         /**
-         * @todo create text and image annotation bodies
+         * @todo create text annotation bodies
          */
         this.createAnnotation({
-          id: item.id || id,
-          label: this.getAnnotationLabel(item),
+          id: url,
+          label,
           motivation
         })
       })
@@ -71,19 +58,17 @@ module.exports = class Manifest {
   get choices() {
     const choices = this.figure.annotations
       .flatMap(({ items }) => items)
-      .filter((item) => !item.target && item.src)
+      .filter(({ type }) => type === 'choice')
 
     const items = choices.map((item) => {
-      const { src } = item
+      const { url, label, src } = item
       if (!src) {
         error(`Invalid annotation on figure ID "${this.figure.id}". Annotations must have a "src" or "text" property`)
       }
-      const label = this.getAnnotationLabel(item)
       const { name } = path.parse(src)
-      const choiceId = new URL([this.iiifConfig.inputDir, src].join('/'), process.env.URL).href
       const format = mime.lookup(src)
       const choice = {
-        id: choiceId,
+        id: url,
         format,
         height: this.canvas.height,
         type: 'Image',
@@ -91,10 +76,9 @@ module.exports = class Manifest {
         width: this.canvas.width
       }
       if (this.figure.preset === 'zoom') {
-        const serviceId = new URL([this.iiifConfig.outputDir, name, this.iiifConfig.imageServiceDirectory].join('/'), process.env.URL)
         choice.service = [
           {
-            id: serviceId,
+            id: url,
             type: 'ImageService3',
             profile: 'level0'
           }
@@ -129,11 +113,6 @@ module.exports = class Manifest {
       motivation: motivation,
       type: 'Annotation'
     }
-  }
-
-  getAnnotationLabel({ label, src }) {
-    const filename = src ? path.parse(src).name : null
-    return label || titleCase(filename)
   }
 
   async toJSON() {

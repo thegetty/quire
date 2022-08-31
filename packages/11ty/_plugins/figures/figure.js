@@ -1,3 +1,4 @@
+const Annotation = require('./annotation')
 const chalkFactory = require('~lib/chalk')
 const Tiler = require('./iiif/tiler')
 const transform = require('./transform')
@@ -8,11 +9,15 @@ const { getPrintImage, isCanvas, isImageService } = require('./helpers')
 
 module.exports = class Figure {
   constructor(eleventyConfig, data) {
-    this.annotations = data.annotations
+    this.annotations = data.annotations && data.annotations.map((set) => {
+      set.items = set.items.map((item) => new Annotation(eleventyConfig, data, item))
+      return set
+    })
     this.aspectRatio = data.aspect_ratio
     this.canvasId = data.canvasId
     this.caption = data.caption
     this.credit = data.credit
+    this.data = data
     this.eleventyConfig = eleventyConfig
     this.errors = []
     this.id = data.id
