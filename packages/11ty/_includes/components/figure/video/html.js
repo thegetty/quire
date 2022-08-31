@@ -70,7 +70,7 @@ module.exports = function(eleventyConfig) {
 
   const { imageDir } = eleventyConfig.globalData.config.params
 
-  return function({ aspect_ratio: aspectRatio, caption, credit, id, label, media_id: mediaId, media_type: mediaType, src }) {
+  return function({ aspectRatio, caption, credit, id, label, mediaId, mediaType, src }) {
     if (src) {
       src = src.startsWith('http') ? src : path.join(imageDir, src)
     }

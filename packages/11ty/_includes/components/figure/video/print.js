@@ -17,7 +17,7 @@ module.exports = function(eleventyConfig) {
 
   const { imageDir } = eleventyConfig.globalData.config.params
 
-  return function({ aspect_ratio: aspectRatio, caption, credit, id, label, mediaType, poster=''}) {
+  return function({ aspectRatio, caption, credit, id, label, mediaType, poster=''}) {
     if (!poster) {
       warn(`Figure '${id}' does not have a 'poster' property. Print media will not render a fallback image for id: ${id}`)
     }

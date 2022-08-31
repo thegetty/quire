@@ -14,11 +14,11 @@ module.exports = function(eleventyConfig) {
   const figureLabel = eleventyConfig.getFilter('figureLabel')
   const figurePlaceholder = eleventyConfig.getFilter('figurePlaceholder')
 
-  return function({ caption, credit, id, label, media_id }) {
-    const src = `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${media_id}`
+  return function({ caption, credit, id, label, mediaId }) {
+    const src = `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${mediaId}`
 
-    if (!media_id) {
-      console.warn(`Error: Cannot render SoundCloud component without 'media_id'. Check that figures data for id: ${id} has a valid 'media_id'`)
+    if (!mediaId) {
+      console.warn(`Error: Cannot render SoundCloud component without 'mediaId'. Check that figures data for id: ${id} has a valid 'media_id'`)
       return ''
     }
 
