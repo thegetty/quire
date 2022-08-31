@@ -6,63 +6,33 @@ const yaml = require('js-yaml')
 
 const { error } = chalkFactory('_plugins:globalData')
 
-/**
- * Throws error if data contains duplicate ids
- * @param  {Object|Array} data
- */
-const checkForDuplicateIDs = function(data) {
-  if (!data) return
-  switch (true) {
-    case Array.isArray(data):
-      if (data.every((item) => item.hasOwnProperty('id'))) {
-        const duplicates = data.filter((a, index) => {
-          return data.findIndex((b) => b.id === a.id) !== index
-        })
-        if (duplicates.length) {
-          throw new Error(
-            `Found entries with duplicate IDs. ${pluralize(duplicates.length, 'ID')}: ${duplicates.map((item) => item.id).join(', ')}`
-          )
-        }
-      }
-      break;
-    case typeof data === 'object':
-      Object.keys(data).forEach((key) => {
-        checkForDuplicateIDs(data[key])
-      })
-      break;
-    default:
-      break;
-  }
-}
-
 module.exports = function(eleventyConfig, options) {
   eleventyConfig.addGlobalData('env', process.env)
 
-  const dataDirectory = path.join('content', '_data')
-  const filenames = fs.readdirSync(dataDirectory)
+  const dataDir = path.join(eleventyConfig.dir.inputDir, '_data')
+  const filenames = fs.readdirSync(dataDir)
 
   filenames.forEach((filename) => {
     const { base, ext, name } = path.parse(filename)
-    const filePath = path.join(dataDirectory, filename)
+    const filepath = path.join(dataDir, filename)
 
-    let data;
-    switch(ext) {
-      case '.geojson':
-      case '.json':
-        data = fs.readJsonSync(filePath)
-        break;
-      case '.yaml':
-      case '.yml':
-        data = yaml.load(fs.readFileSync(filePath))
-        break;
-      default:
-        return;
-    }
+    /**
+     * @typedef {Map<String, Object>} dataExtensions
+     * Maps an extension string to an extension properties object
+     * @property {String} extension
+     * @property {Function} parser
+     * @property {Object} options
+     */
+    const extension = eleventyConfig.dataExtensions[ext]
+
     try {
-      checkForDuplicateIDs(data)
+      const data = extension.parser(filepath)
       eleventyConfig.addGlobalData(name, data)
-    } catch(errorMessage) {
-      error(`${filename} contains multiple entries with the same ID. IDs must be unique. ${errorMessage}`)
+    } catch(message) {
+      error(`
+        Unable to load data from ${filename}\n
+        ${message}
+      `)
     }
   })
 }
