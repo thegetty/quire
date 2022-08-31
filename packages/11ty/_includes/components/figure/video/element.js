@@ -18,9 +18,9 @@ const videoElements = {
     const unsupported = 'Sorry, your browser does not support embedded videos.'
     return html`
       <video
+        class="q-figure-video-element"
         controls
         poster="${poster}"
-        class="q-figure-video-element"
       >
         <source src="${src}" type="video/mp4"/>
         ${unsupported}
