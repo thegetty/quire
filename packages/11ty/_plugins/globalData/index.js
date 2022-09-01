@@ -1,10 +1,11 @@
+const camelize = require('camelize')
 const chalkFactory = require('~lib/chalk')
 const fs = require('fs-extra')
 const path = require('path')
 
 const { error, info, warn } = chalkFactory('_plugins:globalData')
 
-module.exports = async function(eleventyConfig, options) {
+module.exports = async function(eleventyConfig) {
   // eleventyConfig.addGlobalData('env', process.env)
 
   const data = (file) => {
@@ -19,8 +20,11 @@ module.exports = async function(eleventyConfig, options) {
      * @property {Object} options
      */
     const extension = eleventyConfig.dataExtensions.get(fileExt)
-
-    return extension.parser(fs.readFileSync(filePath))
+    try {
+      return extension && extension.parser(fs.readFileSync(filePath))
+    } catch (message) {
+      error(filePath, message)
+    }
   }
 
   const directory = path.join('content', '_data')
@@ -28,6 +32,9 @@ module.exports = async function(eleventyConfig, options) {
 
   for (const file of files) {
     const { name: key } = path.parse(file)
-    eleventyConfig.addGlobalData(key, data(file))
+    const value = camelize(data(file))
+    if (value) {
+      eleventyConfig.addGlobalData(key, value)
+    }
   }
 }
