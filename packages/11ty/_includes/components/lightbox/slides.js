@@ -29,7 +29,7 @@ module.exports = function(eleventyConfig) {
         id,
         iiif,
         label,
-        mediaType,
+        media_type: mediaType,
         preset,
         src
       } = figure
