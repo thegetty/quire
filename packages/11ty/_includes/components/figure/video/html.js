@@ -13,18 +13,18 @@ module.exports = function(eleventyConfig) {
   const figureVideoElement = eleventyConfig.getFilter('figureVideoElement')
 
   return function({
-    aspectRatio,
+    aspect_ratio: aspectRatio,
     caption,
     credit,
     id,
     label,
-    media_id,
-    mediaType,
+    media_id: mediaId,
+    media_type: mediaType,
     poster,
     src
   }) {
     const isEmbed = mediaType === 'vimeo' || mediaType === 'youtube'
-    const videoElement = figureVideoElement({ id, media_id, media_type: mediaType, src, poster })
+    const videoElement = figureVideoElement({ id, mediaId, media_type: mediaType, src, poster })
     const labelElement = figureLabel({ caption, id, label })
     const captionElement = figureCaption({ caption, content: labelElement, credit })
 

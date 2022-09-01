@@ -6,7 +6,7 @@ module.exports = function(eleventyConfig) {
 
   const { imageDir } = eleventyConfig.globalData.config.params
 
-  return function({ alt, caption, id, label, mediaType, src }) {
+  return function({ alt, caption, id, label, media_type: mediaType, src }) {
     let imageElement
 
     if (src) {
