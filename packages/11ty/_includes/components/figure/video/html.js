@@ -18,13 +18,13 @@ module.exports = function(eleventyConfig) {
     credit,
     id,
     label,
-    media_id: mediaId,
+    media_id,
     media_type: mediaType,
     poster,
     src
   }) {
     const isEmbed = mediaType === 'vimeo' || mediaType === 'youtube'
-    const videoElement = figureVideoElement({ id, mediaId, media_type: mediaType, src, poster })
+    const videoElement = figureVideoElement({ id, media_id, media_type: mediaType, src, poster })
     const labelElement = figureLabel({ caption, id, label })
     const captionElement = figureCaption({ caption, content: labelElement, credit })
 
