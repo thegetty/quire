@@ -54,5 +54,8 @@ module.exports = function(eleventyConfig, options) {
   /**
    * @see https://geojson.org
    */
-  eleventyConfig.addDataExtension('geojson', (contents) => JSON.parse(contents))
+  eleventyConfig.addDataExtension('geojson', {
+    parser: (contents) => JSON.parse(contents),
+    read: true
+  })
 }

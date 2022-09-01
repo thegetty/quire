@@ -3,7 +3,7 @@ const chalkFactory = require('~lib/chalk')
 const fs = require('fs-extra')
 const path = require('path')
 
-const log = chalkFactory('_plugins:globalData')
+const logger = chalkFactory('_plugins:globalData')
 
 module.exports = function(eleventyConfig) {
   // eleventyConfig.addGlobalData('env', process.env)
@@ -22,11 +22,11 @@ module.exports = function(eleventyConfig) {
     const extension = eleventyConfig.dataExtensions.get(fileExt)
 
     try {
-      const { read, parser } = extension
-      const input = read ? fs.readFileSync(filePath) : filePath
+      const { options, parser } = extension
+      const input = options.read ? fs.readFileSync(filePath) : filePath
       return parser && parser(input)
     } catch (error) {
-      log.error(filePath, error)
+      logger.error(filePath, error)
     }
   }
 
@@ -35,7 +35,7 @@ module.exports = function(eleventyConfig) {
 
   for (const file of files) {
     const { name: key } = path.parse(file)
-    const value = camelize(data(file))
+    const value = data(file) // camelize(data(file))
     if (key && value) {
       eleventyConfig.addGlobalData(key, value)
     }
