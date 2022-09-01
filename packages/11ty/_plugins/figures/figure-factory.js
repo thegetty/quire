@@ -39,10 +39,6 @@ module.exports = class FigureFactory {
   }
 
   /**
-   * Returns the data representation of a figure to be consumed by components
-   */
-
-  /**
    * Creates a Quire figure
    * Including image file transformations, tiles, and IIIF manifests
    * 
