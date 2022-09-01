@@ -12,28 +12,22 @@ const copy = require('rollup-plugin-copy')
 const { EleventyRenderPlugin } = require('@11ty/eleventy')
 const EleventyVitePlugin = require('@11ty/eleventy-plugin-vite')
 const directoryOutputPlugin = require('@11ty/eleventy-plugin-directory-output')
-const citationsPlugin = require('./_plugins/citations')
-const collectionsPlugin = require('./_plugins/collections')
-const componentsPlugin = require('./_plugins/components')
-const filtersPlugin = require('./_plugins/filters')
-const frontmatterPlugin = require('./_plugins/frontmatter')
-const globalDataPlugin = require('./_plugins/globalData')
-const i18nPlugin = require('./_plugins/i18n')
-const iiifPlugin = require('./_plugins/iiif')
-const lintersPlugin = require('./_plugins/linters')
-const markdownPlugin = require('./_plugins/markdown')
+const citationsPlugin = require('~plugins/citations')
+const collectionsPlugin = require('~plugins/collections')
+const componentsPlugin = require('~plugins/components')
+const dataExtensionsPlugin = require('~plugins/dataExtensions')
+const filtersPlugin = require('~plugins/filters')
+const frontmatterPlugin = require('~plugins/frontmatter')
+const globalDataPlugin = require('~plugins/globalData')
+const i18nPlugin = require('~plugins/i18n')
+const iiifPlugin = require('~plugins/iiif')
+const lintersPlugin = require('~plugins/linters')
+const markdownPlugin = require('~plugins/markdown')
 const navigationPlugin = require('@11ty/eleventy-navigation')
-const searchPlugin = require('./_plugins/search')
-const shortcodesPlugin = require('./_plugins/shortcodes')
+const searchPlugin = require('~plugins/search')
+const shortcodesPlugin = require('~plugins/shortcodes')
 const syntaxHighlightPlugin = require('@11ty/eleventy-plugin-syntaxhighlight')
-const transformsPlugin = require('./_plugins/transforms')
-
-/**
- * Parsing libraries for additional data file formats
- */
-const json5 = require('json5')
-const toml = require('toml')
-const yaml = require('js-yaml')
+const transformsPlugin = require('~plugins/transforms')
 
 const inputDir = 'content'
 const outputDir = '_site'
@@ -67,19 +61,6 @@ module.exports = function(eleventyConfig) {
   })
 
   /**
-   * Custom data formats
-   * Nota bene: the order in which extensions are added sets their precedence
-   * in the data cascade, the last added will take precedence over the first.
-   * @see https://www.11ty.dev/docs/data-cascade/
-   * @see https://www.11ty.dev/docs/data-custom/#ordering-in-the-data-cascade
-   */
-  eleventyConfig.addDataExtension('json5', (contents) => json5.parse(contents))
-  eleventyConfig.addDataExtension('toml', (contents) => toml.load(contents))
-  eleventyConfig.addDataExtension('yaml', (contents) => yaml.load(contents))
-  eleventyConfig.addDataExtension('geojson', (contents) => JSON.parse(contents))
-
-  eleventyConfig.addGlobalData('env', process.env);
-  /**
    * Configure build output
    * @see https://www.11ty.dev/docs/plugins/directory-output/#directory-output
    */
@@ -87,9 +68,10 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(directoryOutputPlugin)
 
   /**
-   * Load plugins that add to eleventyConfig.globalData
-   * Must go before other plugins
+   * Plugins are loaded in order of the `addPlugin` statements,
+   * plugins that mutate globalData must be added before other plugins
    */
+  eleventyConfig.addPlugin(dataExtensionsPlugin)
   eleventyConfig.addPlugin(globalDataPlugin)
   eleventyConfig.addPlugin(i18nPlugin)
   eleventyConfig.addPlugin(iiifPlugin)
