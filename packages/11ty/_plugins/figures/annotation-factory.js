@@ -11,6 +11,10 @@ module.exports = class AnnotationFactory {
     this.iiifConfig = iiifConfig
   }
 
+  /**
+   * Filepath is the input path OR the path to a `tiles` directory 
+   * if the image is an image service (figure.preset === 'zoom')
+   */
   get filepath() {
     return this.figure.preset === "zoom"
       ? [
