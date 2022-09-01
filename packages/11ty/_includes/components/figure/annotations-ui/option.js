@@ -32,8 +32,8 @@ module.exports = function (eleventyConfig) {
         <input
           ${checked ? 'checked' : ''}
           class="annotations-ui__input"
-          id="${url}"
           data-annotation-type="${type}"
+          id="${url}"
           name="${figure.id}"
           type="${input}"
         />
