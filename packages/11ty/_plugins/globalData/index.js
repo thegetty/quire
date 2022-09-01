@@ -22,9 +22,11 @@ module.exports = function(eleventyConfig) {
     const extension = eleventyConfig.dataExtensions.get(fileExt)
 
     try {
-      const { options, parser } = extension
-      const input = options.read ? fs.readFileSync(filePath) : filePath
-      return parser && parser(input)
+      if (extension && extension.parser) {
+        const { options, parser } = extension
+        const input = options.read ? fs.readFileSync(filePath) : filePath
+        return parser(input)
+      }
     } catch (error) {
       logger.error(filePath, error)
     }
