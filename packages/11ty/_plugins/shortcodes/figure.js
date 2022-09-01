@@ -23,7 +23,7 @@ module.exports = function (eleventyConfig, { page }) {
   const figureImage = eleventyConfig.getFilter('figureImage')
   const figureLabel = eleventyConfig.getFilter('figureLabel')
   const figureModalLink = eleventyConfig.getFilter('figureModalLink')
-  const figureSoundcloud = eleventyConfig.getFilter('figureSoundcloud')
+  const figureAudio = eleventyConfig.getFilter('figureAudio')
   const figureTable = eleventyConfig.getFilter('figureTable')
   const figureVideo = eleventyConfig.getFilter('figureVideo')
   const getFigure = eleventyConfig.getFilter('getFigure')
@@ -53,7 +53,7 @@ module.exports = function (eleventyConfig, { page }) {
         case (epub || pdf) && ['soundcloud', 'youtube'].includes(mediaType):
           return figurePlaceholder(figure)
         case mediaType === 'soundcloud':
-          return figureSoundcloud(figure)
+          return figureAudio(figure)
         case mediaType === 'table':
           return await figureTable(figure)
         case mediaType === 'video':

@@ -11,8 +11,10 @@ const path = require('path')
  */
 module.exports = function(eleventyConfig) {
   const figureImageElement = eleventyConfig.getFilter('figureImageElement')
+  const figureAudioElement = eleventyConfig.getFilter('figureAudioElement')
+  const figureTableElement = eleventyConfig.getFilter('figureTableElement')
+  const figureVideoElement = eleventyConfig.getFilter('figureVideoElement')
   const markdownify = eleventyConfig.getFilter('markdownify')
-  const renderFile = eleventyConfig.getFilter('renderFile')
 
   const assetsDir = path.join(eleventyConfig.dir.input, '_assets/images')
 
@@ -21,6 +23,7 @@ module.exports = function(eleventyConfig) {
 
     const slideElement = async (figure) => {
       const {
+        aspect_ratio: aspectRatio='widescreen',
         caption,
         credit,
         id,
@@ -31,13 +34,20 @@ module.exports = function(eleventyConfig) {
         src
       } = figure
 
-      const unsupportedMediaTypes = ['soundcloud', 'video', 'vimeo', 'youtube']
-      if (unsupportedMediaTypes.includes(mediaType)) return '';
+      const isVideo = mediaType === 'video' || mediaType === 'vimeo' || mediaType === 'youtube'
 
       const figureElement = async () => {
-        return mediaType === 'table'
-          ? await renderFile(path.join(assetsDir, src))
-          : figureImageElement(figure)
+        switch (true) {
+          case mediaType === 'soundcloud':
+            return figureAudioElement(figure)
+          case mediaType === 'table':
+            return await figureTableElement(figure)
+          case isVideo:
+            return figureVideoElement(figure)
+          case mediaType === 'image':
+          default:
+            return figureImageElement(figure)
+        }
       }
 
       const labelSpan = label
@@ -61,7 +71,7 @@ module.exports = function(eleventyConfig) {
           data-lightbox-slide
           data-lightbox-slide-id="${id}"
         >
-          <div class="q-lightbox-slides__image">
+          <div class="q-lightbox-slides__element ${mediaType && 'q-lightbox-slides__element--' + mediaType} ${isVideo && 'q-lightbox-slides__element--video q-lightbox-slides__element--' + aspectRatio  }">
             ${await figureElement()}
           </div>
           ${captionElement}

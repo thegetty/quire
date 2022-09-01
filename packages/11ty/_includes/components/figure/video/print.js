@@ -5,11 +5,12 @@ const path = require('path')
 const { warn } = chalkFactory('Figure Video')
 
 /**
- * Renders an image instead of a video player
+ * Renders an image fallback for a video player in print output
  *
  * @param      {Object}  eleventyConfig  eleventy configuration
- * @param      {Object}  figure          The figure
- * @return     {String}  An HTML
+ * @param      {Object}  figure          The figure object
+ *
+ * @return     {String}  HTML containing a fallback image and a caption
  */
 module.exports = function(eleventyConfig) {
   const figureCaption = eleventyConfig.getFilter('figureCaption')
