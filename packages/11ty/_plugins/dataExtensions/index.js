@@ -46,13 +46,9 @@ module.exports = function(eleventyConfig, options) {
   /**
    * @see https://github.com/nodeca/js-yaml#load-string---options-
    */
-  eleventyConfig.addDataExtension('yaml,yml', (content) => {
-    const data = yaml.load(content, {
-      json: true,
-      schema: 'DEFAULT_SCHEMA'
-    })
-    console.warn('YAML', data)
-    return data
+  eleventyConfig.addDataExtension('yaml,yml', {
+    parser: async (content) => await yaml.load(content, { json: true }),
+    read: true
   })
 
   /**
