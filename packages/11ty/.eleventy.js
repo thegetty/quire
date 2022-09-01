@@ -64,13 +64,13 @@ module.exports = function(eleventyConfig) {
    * @see https://www.11ty.dev/docs/plugins/directory-output/#directory-output
    */
   eleventyConfig.setQuietMode(true)
+  eleventyConfig.addPlugin(directoryOutputPlugin)
 
   /**
    * Plugins are loaded in order of the `addPlugin` statements,
    * plugins that mutate globalData must be added before other plugins
    */
   eleventyConfig.addPlugin(dataExtensionsPlugin)
-  eleventyConfig.addPlugin(directoryOutputPlugin)
   eleventyConfig.addPlugin(globalDataPlugin)
   eleventyConfig.addPlugin(i18nPlugin)
   eleventyConfig.addPlugin(iiifPlugin)
