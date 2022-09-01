@@ -28,13 +28,6 @@ const shortcodesPlugin = require('~plugins/shortcodes')
 const syntaxHighlightPlugin = require('@11ty/eleventy-plugin-syntaxhighlight')
 const transformsPlugin = require('~plugins/transforms')
 
-/**
- * Parsing libraries for additional data file formats
- */
-const json5 = require('json5')
-const toml = require('toml')
-const yaml = require('js-yaml')
-
 const inputDir = 'content'
 const outputDir = '_site'
 const publicDir = 'public'

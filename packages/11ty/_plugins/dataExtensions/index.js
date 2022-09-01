@@ -1,5 +1,8 @@
-const camelize = require('camelize')
+// const camelize = require('camelize')
 const exifr = require('exifr')
+const json5 = require('json5')
+const toml = require('toml')
+const yaml = require('js-yaml')
 
 /**
  * Custom data formats
@@ -26,7 +29,6 @@ module.exports = function(eleventyConfig, options) {
       // onWarning: (exception) => console.warn(exception),
       // schema: 'DEFAULT_SCHEMA'
     })
-    console.error(data)
     return data // yaml.load(contents, options)
   })
 
