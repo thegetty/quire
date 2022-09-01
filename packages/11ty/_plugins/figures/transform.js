@@ -12,18 +12,18 @@ const { info, error } = chalkFactory('plugins:iiif:createImage')
 module.exports = (iiifConfig, figure, options={}) => {
   const {
     formats,
-    imageTransformations,
     inputDir,
     inputRoot,
     outputDir,
-    outputRoot 
+    outputRoot,
+    transformations
   } = iiifConfig
 
   /**
    * Creates a `sharp/transform` that writes the image file to the output directory.
    * Nota bene: this `transform` is distinct form `11ty/transform`
    *
-   * @param  {Object} transformation A transformation item from `iiif/config.js#imageTransformations`
+   * @param  {Object} transformation A transformation item from `iiif/config.js#transformations`
    * @property  {String} name The name of the file
    * @property  {Object} resize Resize options for `sharp`
    */
@@ -67,7 +67,5 @@ module.exports = (iiifConfig, figure, options={}) => {
     }
   }
 
-  return Promise.all(imageTransformations.map((transformation) => {
-    return transform(transformation)
-  }))
+  return Promise.all(transformations.map(transform))
 }
