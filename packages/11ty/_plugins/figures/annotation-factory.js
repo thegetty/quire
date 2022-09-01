@@ -11,51 +11,47 @@ module.exports = class AnnotationFactory {
     this.iiifConfig = iiifConfig
   }
 
-  /**
-   * Filepath is the input path OR the path to a `tiles` directory 
-   * if the image is an image service (figure.preset === 'zoom')
-   */
-  get filepath() {
-    return this.figure.preset === "zoom"
-      ? [
-          this.iiifConfig.outputDir,
-          this.data.id,
-          this.iiifConfig.imageServiceDirectory,
-        ].join('/')
-      : [this.iiifConfig.inputDir, this.data.src].join('/');
-  }
-
-  get id() {
-    const { id, label, src } = this.data
-    switch(true) {
-      case !!id:
-        return id
-      case !!label:
-        return label.split(' ').join('-').toLowerCase()
-        break;
-      case !!src:
-        return path.parse(src).name
-        break;
-      default:
-        error(`Error setting ID for annotation on figure "${this.figure.id}". Annotations must have a 'label' or 'src' property.`)
-        break;
-    }
-  }
-
-  get url() {
-    return new URL(this.filepath, process.env.URL).href
-  }
-
   create(figure, data) {
-    this.data = data
-    this.figure = figure
+    const id = () => {
+      switch(true) {
+        case !!data.id:
+          return data.id
+        case !!data.label:
+          return data.label.split(' ').join('-').toLowerCase()
+          break;
+        case !!data.src:
+          return path.parse(data.src).name
+          break;
+        default:
+          error(`Error setting ID for annotation on figure "${figure.id}". Annotations must have a 'label' or 'src' property.`)
+          break;
+      }
+    }
+
+    /**
+     * Filepath is the input path OR the path to a `tiles` directory 
+     * if the image is an image service (figure.preset === 'zoom')
+     */
+    const filepath = () => {
+      return figure.preset === "zoom"
+        ? [
+            this.iiifConfig.outputDir,
+            data.id,
+            this.iiifConfig.imageServiceDirectory,
+          ].join('/')
+        : [this.iiifConfig.inputDir, data.src].join('/');
+    }
+
+    const url = () => {
+      return new URL(filepath(), process.env.URL).href
+    }
 
     return {
-      id: this.id,
+      id: id(),
       label: data.label || titleCase(path.parse(data.src).name),
       motivation: data.src ? 'painting' : 'text',
       type: figure.src || data.target || data.text ? 'annotation' : 'choice',
-      url: this.url,
+      url: url(),
       ...data
     }
   }

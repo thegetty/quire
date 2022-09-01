@@ -17,27 +17,6 @@ module.exports = class FigureFactory {
     this.writer = new ManifestWriter(iiifConfig)
   }
 
-  get annotations() {
-    if (!Array.isArray(this.data.annotations)) return
-    return this.data.annotations.map((set) => {
-      set.items = set.items.map(
-        (item) => this.annotationFactory.create(this.data, item)
-      )
-      return set
-    })
-  }
-
-  /**
-   * Create image annotation for "base" image on canvas
-   */
-  get baseImage() {
-    if (!this.data.src) return
-    return this.annotationFactory.create(this.data, {
-      label: this.data.label,
-      src: this.data.src
-    })
-  }
-
   /**
    * Creates a Quire figure
    * Including image file transformations, tiles, and IIIF manifests
@@ -45,10 +24,31 @@ module.exports = class FigureFactory {
    * @return {Object} Figure instance
    */
   create(data) {
-    this.data = data
+    const annotations = () => {
+      if (!Array.isArray(data.annotations)) return
+      return data.annotations.map((set) => {
+        set.items = set.items.map(
+          (item) => this.annotationFactory.create(data, item)
+        )
+        return set
+      })
+    }
+
+    /**
+     * Create image annotation for "base" image on canvas
+     */
+    const baseImage = () => {
+      if (!data.src) return
+      return this.annotationFactory.create(data, {
+        label: data.label,
+        src: data.src
+      })
+    }
+
+
     return  {
-      annotations: this.annotations,
-      baseImage: this.baseImage,
+      annotations: annotations(),
+      baseImage: baseImage(),
       canvasId: data.canvasId,
       isCanvas: isCanvas(data),
       isExternalResource: (data.src && data.src.startsWith('http')) || data.manifestId,
