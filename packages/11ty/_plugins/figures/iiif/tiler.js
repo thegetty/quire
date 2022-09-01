@@ -27,6 +27,7 @@ module.exports = class Tiler {
     const { ext, name } = path.parse(figure.src)
 
     this.ext = ext
+    this.outputFile = path.join(outputRoot, outputDir, name, imageServiceDirectory, 'info.json')
     this.format = formats.find(({ input }) => input.includes(ext))
     this.inputPath = path.join(inputRoot, inputDir, figure.src)
     this.outputPath = path.join(outputRoot, outputDir, name, imageServiceDirectory)
@@ -47,6 +48,11 @@ module.exports = class Tiler {
       }
     }
 
+    if (fs.existsSync(this.outputFile)) {
+      info(`Skipping previously tiled image "${this.inputPath}"`)
+      return { id: this.url }
+    }
+
     fs.ensureDirSync(this.outputPath)
 
     try {
@@ -60,10 +66,7 @@ module.exports = class Tiler {
         })
         .toFile(this.outputPath)
       info(`Done tiling image "${this.inputPath}"`)
-      return {
-        id: this.url,
-        response
-      }
+      return { id: this.url }
     } catch(error) {
       return { errors: [error] }
     }
