@@ -9,12 +9,12 @@ const { error } = chalkFactory('_plugins:globalData')
 module.exports = function(eleventyConfig, options) {
   eleventyConfig.addGlobalData('env', process.env)
 
-  const dataDir = path.join(eleventyConfig.dir.inputDir, '_data')
-  const filenames = fs.readdirSync(dataDir)
+  const directory = path.join('content', '_data')
+  const filenames = fs.readdirSync(directory)
 
   filenames.forEach((filename) => {
     const { base, ext, name } = path.parse(filename)
-    const filepath = path.join(dataDir, filename)
+    const filepath = path.join(directory, filename)
 
     /**
      * @typedef {Map<String, Object>} dataExtensions
