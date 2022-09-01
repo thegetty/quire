@@ -26,19 +26,31 @@ module.exports = class Manifest {
   }
 
   get annotations() {
-    return this.figure.annotations
+    const annotations = this.figure.annotations
       .flatMap(({ items }) => items)
       .filter(({ type }) => type === 'annotation')
-      .map(({ label, motivation, url }) => {
-        /**
-         * @todo create text annotation bodies
-         */
-        this.createAnnotation({
-          id: url,
-          label,
-          motivation
+      .map((item) => {
+        console.log(item)
+        return this.createAnnotation({
+          body: this.createAnnotationBody(item),
+          id: item.id,
+          motivation: item.motivation
         })
       })
+      /**
+       * Add the "base" image as a canvas annotation
+       * @param  {[type]} this.figure.baseImage [description]
+       * @return {[type]}                       [description]
+       */
+      if (this.figure.baseImage) {
+        const { id, motivation } = this.figure.baseImage
+        annotations.push(this.createAnnotation({
+          body: this.createAnnotationBody(this.figure.baseImage),
+          id,
+          motivation
+        }))
+      }
+      return annotations
   }
 
   /**
@@ -60,21 +72,14 @@ module.exports = class Manifest {
       .flatMap(({ items }) => items)
       .filter(({ type }) => type === 'choice')
 
+    if (!choices.length) return
+
     const items = choices.map((item) => {
-      const { url, label, src } = item
+      const { label, src, url } = item
       if (!src) {
         error(`Invalid annotation on figure ID "${this.figure.id}". Annotations must have a "src" or "text" property`)
       }
-      const { name } = path.parse(src)
-      const format = mime.lookup(src)
-      const choice = {
-        id: url,
-        format,
-        height: this.canvas.height,
-        type: 'Image',
-        label: { en: [label] },
-        width: this.canvas.width
-      }
+      const choice = this.createAnnotationBody({ label, src, url })
       if (this.figure.preset === 'zoom') {
         choice.service = [
           {
@@ -108,10 +113,25 @@ module.exports = class Manifest {
 
   createAnnotation({ body, id, motivation }) {
     return {
-      body: body,
+      body,
       id: [this.canvas.id, id].join('/'),
-      motivation: motivation,
+      motivation,
+      target: this.canvas.id + "#300,300,500,500",
       type: 'Annotation'
+    }
+  }
+
+  /**
+   * @todo handle text annotations
+   */
+  createAnnotationBody({ label, src, url }) {
+    return {
+      format: mime.lookup(src),
+      height: this.canvas.height,
+      id: url,
+      label: { en: [label] },
+      type: 'Image',
+      width: this.canvas.width
     }
   }
 
@@ -124,6 +144,7 @@ module.exports = class Manifest {
         canvas.width = width
         if (this.annotations) {
           this.annotations.forEach((item) => {
+            // console.log(item)
             canvas.createAnnotation(item.id, item)
           })
         }

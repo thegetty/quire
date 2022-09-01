@@ -6,8 +6,8 @@ const path = require('path')
  * @param  {Object} figure
  * @return {String}            Path to figure's print image
  */
-module.exports = (eleventyConfig, figure) => {
-  const { outputDir } = eleventyConfig.globalData.iiifConfig
+module.exports = (iiifConfig, figure) => {
+  const { outputDir } = iiifConfig
   const { printImage, src } = figure
 
   let defaultImage

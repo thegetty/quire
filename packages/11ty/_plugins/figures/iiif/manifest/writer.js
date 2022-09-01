@@ -3,8 +3,8 @@ const path = require('path')
 const Manifest = require('./index')
 
 module.exports = class ManifestWriter {
-  constructor(eleventyConfig) {
-    this.iiifConfig = eleventyConfig.globalData.iiifConfig
+  constructor(iiifConfig) {
+    this.iiifConfig = iiifConfig
   }
 
   /**

@@ -7,11 +7,27 @@ const { info } = chalkFactory('Figure Processing:IIIF:Tile Image')
 
 module.exports = class Tiler {
   /**
-   * @param  {Object} eleventyConfig 
-   * @param  {Object} figure         Figure instance
+   * @param  {Object} iiifConfig 
    */
-  constructor(eleventyConfig, figure) {
+  constructor(iiifConfig) {
+    this.iiifConfig = iiifConfig
+    this.supportedImageExtensions = iiifConfig.formats.flatMap(({ input }) => input)
+  }
+
+  /**
+   * Tile an image for IIIF image service using sharp
+   * @param  {String} figure   Figure entry data from `figures.yaml`
+   * @param  {Object}
+   */
+  async tile(figure) {
     if (!figure.src) return
+    const { ext, name } = path.parse(figure.src)
+
+    if (!this.supportedImageExtensions.includes(ext)) {
+      return {
+        errors: [`Image file type is not supported. Supported extensions are: ${this.supportedImageExtensions.join(', ')}`,]
+      }
+    }
 
     const {
       baseURL,
@@ -22,51 +38,33 @@ module.exports = class Tiler {
       outputDir,
       outputRoot,
       tileSize
-    } = eleventyConfig.globalData.iiifConfig
+    } = this.iiifConfig
 
-    const { ext, name } = path.parse(figure.src)
+    const outputFile = path.join(outputRoot, outputDir, name, imageServiceDirectory, 'info.json')
+    const format = formats.find(({ input }) => input.includes(ext))
+    const inputPath = path.join(inputRoot, inputDir, figure.src)
+    const outputPath = path.join(outputRoot, outputDir, name, imageServiceDirectory)
+    const url = new URL(path.join(outputDir, name, imageServiceDirectory, 'info.json'), baseURL).href
 
-    this.ext = ext
-    this.outputFile = path.join(outputRoot, outputDir, name, imageServiceDirectory, 'info.json')
-    this.format = formats.find(({ input }) => input.includes(ext))
-    this.inputPath = path.join(inputRoot, inputDir, figure.src)
-    this.outputPath = path.join(outputRoot, outputDir, name, imageServiceDirectory)
-    this.supportedImageExtensions = formats.flatMap(({ input }) => input)
-    this.tileSize = tileSize
-    this.url = new URL(path.join(outputDir, name, imageServiceDirectory, 'info.json'), baseURL).href
-  }
-
-  /**
-   * Tile an image for IIIF image service using sharp
-   * @param  {String} figure   Figure entry data from `figures.yaml`
-   * @param  {Object} options
-   */
-  async tile() {
-    if (!this.supportedImageExtensions.includes(this.ext)) {
-      return {
-        errors: [`Image file type is not supported. Supported extensions are: ${this.supportedImageExtensions.join(', ')}`,]
-      }
+    if (fs.existsSync(outputFile)) {
+      info(`Skipping previously tiled image "${inputPath}"`)
+      return { info: url }
     }
 
-    if (fs.existsSync(this.outputFile)) {
-      info(`Skipping previously tiled image "${this.inputPath}"`)
-      return { id: this.url }
-    }
-
-    fs.ensureDirSync(this.outputPath)
+    fs.ensureDirSync(outputPath)
 
     try {
-      info(`Tiling image: "${this.inputPath}"`)
-      const response = await sharp(this.inputPath)
-        .toFormat(this.format.output.replace('.', ''))
+      info(`Tiling image: "${inputPath}"`)
+      const response = await sharp(inputPath)
+        .toFormat(format.output.replace('.', ''))
         .tile({
-          id: this.url,
+          id: url,
           layout: 'iiif',
-          size: this.tileSize
+          size: tileSize
         })
-        .toFile(this.outputPath)
-      info(`Done tiling image "${this.inputPath}"`)
-      return { id: this.url }
+        .toFile(outputPath)
+      info(`Done tiling image "${inputPath}"`)
+      return { info: url }
     } catch(error) {
       return { errors: [error] }
     }

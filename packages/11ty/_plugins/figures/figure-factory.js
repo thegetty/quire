@@ -1,78 +1,46 @@
-const Annotation = require('./annotation')
+const AnnotationFactory = require('./annotation-factory')
 const chalkFactory = require('~lib/chalk')
 const Tiler = require('./iiif/tiler')
 const transform = require('./transform')
 const Manifest = require('./iiif/manifest')
 const ManifestWriter = require('./iiif/manifest/writer')
-const { info } = chalkFactory('Figure Processing')
+const logger = chalkFactory('Figure Processing')
 const { getPrintImage, isCanvas, isImageService } = require('./helpers')
 
 module.exports = class FigureFactory {
-  constructor(eleventyConfig, data) {
-    this.annotations = data.annotations && data.annotations.map((set) => {
-      set.items = set.items.map((item) => new Annotation(eleventyConfig, data, item))
+  constructor(eleventyConfig) {
+    const { iiifConfig } = eleventyConfig.globalData
+    this.annotationFactory = new AnnotationFactory(iiifConfig)
+    this.errors = []
+    this.iiifConfig = iiifConfig
+    this.tiler = new Tiler(iiifConfig)
+    this.writer = new ManifestWriter(iiifConfig)
+  }
+
+  get annotations() {
+    if (!Array.isArray(this.data.annotations)) return
+    return this.data.annotations.map((set) => {
+      set.items = set.items.map(
+        (item) => this.annotationFactory.create(this.data, item)
+      )
       return set
     })
-    this.aspectRatio = data.aspect_ratio
-    this.canvasId = data.canvasId
-    this.caption = data.caption
-    this.credit = data.credit
-    this.data = data
-    this.eleventyConfig = eleventyConfig
-    this.errors = []
-    this.id = data.id
-    this.info = data.info
-    this.isCanvas = isCanvas(data)
-    this.isImageService = isImageService(data)
-    this.label = data.label
-    this.manifestId = data.manifestId
-    this.mediaId = data.media_id
-    this.mediaType = data.media_type
-    this.poster = data.poster
-    this.preset = data.preset
-    this.printImage = getPrintImage(eleventyConfig, data)
-    this.region = data.region
-    this.src = data.src
-    this.tiler = new Tiler(eleventyConfig, data)
   }
 
-  get iiifConfig() {
-    return this.eleventyConfig.globalData.iiifConfig
-  }
-
-  get isExternalResource() {
-    return (this.src && this.src.startsWith('http')) || this.manifestId
-  }
-
-  get writer() {
-    return new ManifestWriter(this.eleventyConfig)
+  /**
+   * Create image annotation for "base" image on canvas
+   */
+  get baseImage() {
+    if (!this.data.src) return
+    return this.annotationFactory.create(this.data, {
+      label: this.data.label,
+      src: this.data.src
+    })
   }
 
   /**
    * Returns the data representation of a figure to be consumed by components
    */
-  adapter() {
-    return {
-      annotations: this.annotations,
-      aspectRatio: this.aspectRatio,
-      canvasId: this.canvasId,
-      caption: this.caption,
-      credit: this.credit,
-      id: this.id,
-      info: this.info,
-      isCanvas: this.isCanvas,
-      isImageService: this.isImageService,
-      label: this.label,
-      manifestId: this.manifestId,
-      mediaId: this.mediaId,
-      mediaType: this.mediaType,
-      poster: this.poster,
-      preset: this.preset,
-      printImage: this.printImage,
-      region: this.region,
-      src: this.src
-    }
-  }
 
   /**
    * Creates a Quire figure
@@ -80,36 +48,52 @@ module.exports = class FigureFactory {
    * 
    * @return {Object} Figure instance
    */
-  async create() {
-    if (this.isImageService && !this.isExternalResource) {
-      info(`Creating image service for figure "${this.id}"`)
-      await transform(this.iiifConfig, this)
-      const { errors, id } = await this.tiler.tile()
+  create(data) {
+    this.data = data
+    return  {
+      annotations: this.annotations,
+      baseImage: this.baseImage,
+      canvasId: data.canvasId,
+      isCanvas: isCanvas(data),
+      isExternalResource: (data.src && data.src.startsWith('http')) || data.manifestId,
+      isImageService: isImageService(data),
+      manifestId: data.manifestId,
+      printImage: getPrintImage(this.iiifConfig, data),
+      ...data
+    }
+  }
+
+  async process(figure) {
+    if (figure.isImageService && !figure.isExternalResource) {
+      logger.info(`Creating image service for figure "${figure.id}"`)
+      await transform(this.iiifConfig, figure)
+      const { errors, info } = await this.tiler.tile(figure)
+      figure.info = info
       errors ? this.errors = this.errors.concat(errors) : null
-      this.info = id
     }
 
-    if (this.isCanvas && !this.isExternalResource) {
-      await this.generateManifest()
+    if (figure.isCanvas && !figure.isExternalResource) {
+      const { canvasId, manifestId } = await this.generateManifest(figure)
+      figure.canvasId = canvasId
+      figure.manifestId = manifestId
     }
 
-    return Promise.resolve(this)
+    return Promise.resolve({
+      data: figure,
+      errors: this.errors
+    })
   }
 
   /**
    * Creates and writes manifest.json
    * Sets canvasId and manifestId properties on the figure instance
    */
-  async generateManifest() {
-    const manifest = new Manifest({ figure: this.adapter(), writer: this.writer })
+  async generateManifest(figure) {
+    const manifest = new Manifest({ figure, writer: this.writer })
     const manifestJSON = await manifest.write()
-    this.updateFigure({ 
+    return { 
       canvasId: manifestJSON.items[0].id,
       manifestId: manifestJSON.id
-    })
-  }
-
-  updateFigure(data) {
-    Object.assign(this, data)
+    }
   }
 }

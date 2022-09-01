@@ -7,13 +7,12 @@ module.exports = function (eleventyConfig, options = {}) {
   iiifConfig(eleventyConfig)
 
   eleventyConfig.on('eleventy.before', async () => {
+    const factory = new FigureFactory(eleventyConfig)
     let { figure_list: figureList } = eleventyConfig.globalData.figures
-    figureList = await Promise.all(
-      figureList.map((data) => {
-        const factory = new FigureFactory(eleventyConfig, data)
-        return factory.create()
-      })
-    )
+    figureList = await Promise.all(figureList.map((data) => {
+      const figure = factory.create(data)
+      return factory.process(figure)
+    }))
     const figureErrors = figureList.filter(({ errors }) => !!errors.length)
 
     if (figureErrors.length) {
@@ -25,8 +24,8 @@ module.exports = function (eleventyConfig, options = {}) {
         ['id', 'errors']
       );
     }
-
-    Object.assign(eleventyConfig.globalData.figures.figure_list, figureList.map((figure) => figure.adapter()))
+    const figureData = figureList.map(({ data }) => data)
+    Object.assign(eleventyConfig.globalData.figures.figure_list, figureData)
 
     info(`Done`)
   })
