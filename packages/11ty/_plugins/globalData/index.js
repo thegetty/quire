@@ -1,20 +1,19 @@
 const chalkFactory = require('~lib/chalk')
 const fs = require('fs-extra')
 const path = require('path')
-const pluralize = require('~lib/pluralize')
-const yaml = require('js-yaml')
 
-const { error } = chalkFactory('_plugins:globalData')
+const { error, info, warn } = chalkFactory('_plugins:globalData')
 
 module.exports = function(eleventyConfig, options) {
   eleventyConfig.addGlobalData('env', process.env)
 
   const directory = path.join('content', '_data')
-  const filenames = fs.readdirSync(directory)
+  const files = fs.readdirSync(directory)
 
-  filenames.forEach((filename) => {
-    const { base, ext, name } = path.parse(filename)
-    const filepath = path.join(directory, filename)
+  files.forEach(async (file) => {
+    const { base, ext, name } = path.parse(file)
+    const fileExt = ext.slice(1)
+    const filePath = path.join(directory, file)
 
     /**
      * @typedef {Map<String, Object>} dataExtensions
@@ -23,14 +22,14 @@ module.exports = function(eleventyConfig, options) {
      * @property {Function} parser
      * @property {Object} options
      */
-    const extension = eleventyConfig.dataExtensions[ext]
+    const extension = eleventyConfig.dataExtensions.get(fileExt)
 
     try {
-      const data = extension.parser(filepath)
+      const data = await extension.parser(fs.readFileSync(filePath))
       eleventyConfig.addGlobalData(name, data)
     } catch(message) {
       error(`
-        Unable to load data from ${filename}\n
+        Unable to load data from ${fileName}\n
         ${message}
       `)
     }
