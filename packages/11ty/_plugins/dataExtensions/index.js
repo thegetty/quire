@@ -47,7 +47,7 @@ module.exports = function(eleventyConfig, options) {
    * @see https://github.com/nodeca/js-yaml#load-string---options-
    */
   eleventyConfig.addDataExtension('yaml,yml', {
-    parser: async (content) => await yaml.load(content, { json: true }),
+    parser: (content) => yaml.load(content, { json: true }),
     read: true
   })
 
