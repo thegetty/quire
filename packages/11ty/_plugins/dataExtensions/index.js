@@ -45,9 +45,10 @@ module.exports = function(eleventyConfig, options) {
 
   /**
    * @see https://github.com/nodeca/js-yaml#load-string---options-
+   * With `json: true` duplicate keys in a mapping will override values rather than throwing an error.
    */
   eleventyConfig.addDataExtension('yaml,yml', {
-    parser: (content) => yaml.load(content, { json: true }),
+    parser: (content) => yaml.load(content, { json: false }),
     read: true
   })
 
