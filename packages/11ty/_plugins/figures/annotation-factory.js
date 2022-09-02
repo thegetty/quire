@@ -43,7 +43,7 @@ module.exports = class AnnotationFactory {
           return data.label.split(' ').join('-').toLowerCase()
           break;
         default:
-          error(`Error setting ID for annotation on figure "${figure.id}". Annotations must have a 'label' or 'src' property.`)
+          error(`Unable to set an id for annotation on figure "${this.figure.id}". Annotations must have an 'id', 'label', or 'src' property.`)
           break;
       }
     }
