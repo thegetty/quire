@@ -12,15 +12,19 @@ module.exports = class AnnotationFactory {
   }
 
   create(figure, data) {
+    /**
+     * If an id is not provided, compute id from the `label` or `src` properties
+     * @return {String}
+     */
     const id = () => {
       switch(true) {
         case !!data.id:
           return data.id
-        case !!data.label:
-          return data.label.split(' ').join('-').toLowerCase()
-          break;
         case !!data.src:
           return path.parse(data.src).name
+          break;
+        case !!data.label:
+          return data.label.split(' ').join('-').toLowerCase()
           break;
         default:
           error(`Error setting ID for annotation on figure "${figure.id}". Annotations must have a 'label' or 'src' property.`)
@@ -31,6 +35,7 @@ module.exports = class AnnotationFactory {
     /**
      * Filepath is the input path OR the path to a `tiles` directory 
      * if the image is an image service (figure.preset === 'zoom')
+     * @return {String}
      */
     const filepath = () => {
       return figure.preset === "zoom"
@@ -42,6 +47,10 @@ module.exports = class AnnotationFactory {
         : [this.iiifConfig.inputDir, data.src].join('/');
     }
 
+    /**
+     * The URL where the annotation resource is served
+     * @return {String}
+     */
     const url = () => {
       return new URL(filepath(), process.env.URL).href
     }

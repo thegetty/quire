@@ -38,8 +38,6 @@ module.exports = class Manifest {
       })
       /**
        * Add the "base" image as a canvas annotation
-       * @param  {[type]} this.figure.baseImage [description]
-       * @return {[type]}                       [description]
        */
       if (this.figure.baseImage) {
         const { id, motivation } = this.figure.baseImage
