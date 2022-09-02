@@ -3,16 +3,8 @@ const path = require('path')
 const Manifest = require('./index')
 
 module.exports = class ManifestWriter {
-  constructor(eleventyConfig) {
-    this.eleventyConfig = eleventyConfig
-    this.iiifConfig = eleventyConfig.globalData.iiifConfig
-  }
-
-  addToGlobalData({ figure, manifest }) {
-    this.eleventyConfig.addGlobalData('iiifManifests', {
-      ...this.eleventyConfig.globalData.iiifManifests,
-      [figure.id]: manifest
-    })
+  constructor(iiifConfig) {
+    this.iiifConfig = iiifConfig
   }
 
   /**
@@ -26,7 +18,5 @@ module.exports = class ManifestWriter {
     const outputPath = path.join(outputRoot, outputDir, figure.id, manifestFilename)
     fs.ensureDirSync(path.parse(outputPath).dir)
     fs.writeJsonSync(outputPath, manifest)
-
-    this.addToGlobalData({ figure, manifest })
   }
 }

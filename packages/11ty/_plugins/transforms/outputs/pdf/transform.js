@@ -19,16 +19,29 @@ module.exports = function(eleventyConfig, collections, content) {
   /**
    * Truncated page or section title for footer
    * @param  {Object} page
-   * @return {String}       page title
+   * @return {String} Formatted page or section title
    */
-  const footerTitle = (page) => {
-    const {
-      label,
-      short_title: shortTitle,
-      title
-    } = page
+  const formatTitle = ({ label, short_title: shortTitle, title }) => {
     const truncatedTitle = shortTitle || truncate(title, 35)
     return pageTitle({ label, title: truncatedTitle })
+  }
+
+  /**
+   * Sets data attribute used for PDF footer
+   * @see `_assets/styles/print.css`
+   *
+   * @param  {Object}       page     The page being transformed
+   * @param  {HTMLElement}  element  HTML element on which to set data attributes
+   */
+  const setDataAttributes = (page, element) => {
+    const { dataset } = element
+    const { parentPage } = page.data
+
+    dataset.footerPageTitle = formatTitle(page.data)
+
+    if (parentPage) {
+      dataset.footerSectionTitle = formatTitle(parentPage.data)
+    }
   }
 
   /**
@@ -48,25 +61,22 @@ module.exports = function(eleventyConfig, collections, content) {
   const pdfPages = collections.pdf.map(({ outputPath }) => outputPath)
 
   if (pdfPages.includes(this.outputPath)) {
-    const pageIndex = pdfPages.findIndex((path) => path === this.outputPath)
     const { document } = new JSDOM(content).window
     const mainElement = document.querySelector('main[data-output-path]')
+    const pageIndex = pdfPages.findIndex((path) => path === this.outputPath)
 
     if (mainElement) {
       if (pageIndex !== -1) {
         const currentPage = collections.pdf[pageIndex]
-        const { parentPage } = currentPage.data
         const sectionElement = document.createElement('section')
+
         sectionElement.innerHTML = mainElement.innerHTML
+
         for (className of mainElement.classList) {
           sectionElement.classList.add(className)
         }
 
-        // set data attributes for PDF footer
-        sectionElement.dataset.footerPageTitle = footerTitle(currentPage.data)
-        if (parentPage) {
-          sectionElement.dataset.footerSectionTitle = footerTitle(parentPage.data)
-        }
+        setDataAttributes(currentPage, sectionElement)
 
         // set an id for anchor links to each section
         sectionElement.setAttribute('id', mainElement.getAttribute('id'))

@@ -7,6 +7,7 @@ window.onload = function () {
    */
   for (const canvasPanel of canvasPanels) {
     const figure = canvasPanel.closest('.q-figure, q-lightbox')
+    if (!figure) return
     const annotationInputs = figure.querySelectorAll('.annotations-ui .annotations-ui__input')
     for (const annotationInput of annotationInputs) {
       annotationInput.addEventListener('click', (event) => {

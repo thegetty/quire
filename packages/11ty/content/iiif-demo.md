@@ -36,11 +36,10 @@ _figures.yaml_
 
 {% figure "example-external-manifest" %}
 
+## Figure with Annotations
+Specifying `annotations` on a figure will prompt the IIIF processing to create a manifest. The manifest can be found in `public/iiif/<figure-id>/manifest.json`.
 
-## Canvas Panel with Choices from figures.yaml
-Specifying `choices` on a figure will prompt the IIIF processing to create a manifest.
-
-The manifest can be found in `public/iiif/<figure-id>/` and is also stored in `eleventy` global data.
+### "Choice"-type Annotations
 
 _figures.yaml_
 ```
