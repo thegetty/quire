@@ -4,8 +4,9 @@ const Tiler = require('./iiif/tiler')
 const transform = require('./transform')
 const Manifest = require('./iiif/manifest')
 const ManifestWriter = require('./iiif/manifest/writer')
-const logger = chalkFactory('Figure Processing')
 const { getPrintImage, isCanvas, isImageService } = require('./helpers')
+
+const logger = chalkFactory('Figure Processing')
 
 module.exports = class FigureFactory {
   constructor(eleventyConfig) {
