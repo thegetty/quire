@@ -30,7 +30,6 @@ module.exports = class Manifest {
       .flatMap(({ items }) => items)
       .filter(({ type }) => type === 'annotation')
       .map((item) => {
-        console.log(item)
         return this.createAnnotation({
           body: this.createAnnotationBody(item),
           id: item.id,
@@ -111,12 +110,12 @@ module.exports = class Manifest {
     return { height, width }
   }
 
-  createAnnotation({ body, id, motivation }) {
+  createAnnotation({ body, id, motivation, target }) {
     return {
       body,
       id: [this.canvas.id, id].join('/'),
       motivation,
-      target: this.canvas.id + "#300,300,500,500",
+      target: target ? `${this.canvas.id}#xywh=${target}` : this.canvas.id,
       type: 'Annotation'
     }
   }
@@ -144,7 +143,6 @@ module.exports = class Manifest {
         canvas.width = width
         if (this.annotations) {
           this.annotations.forEach((item) => {
-            // console.log(item)
             canvas.createAnnotation(item.id, item)
           })
         }
