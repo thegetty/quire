@@ -2,7 +2,7 @@ const path = require('path')
 
 module.exports = (eleventyConfig) => {
   const { config, env } = eleventyConfig.globalData
-  return {
+  const iiifConfig = {
     baseURL: config.baseURL || env.URL,
     /**
      * Input and output of processable image formats
@@ -17,32 +17,6 @@ module.exports = (eleventyConfig) => {
       input: ['.jp2', '.jpg', '.jpeg', '.tif', '.tiff'],
       output: '.jpg'
      }
-    ],
-    /**
-     * Transformations to apply to each image
-     * Each item is output as a separate file
-     *
-     * @type {Array<Object>}
-     * @property {String} name The file output name
-     * @property {Object} resize Resize options for `sharp.resize()`
-     * @see {@link https://sharp.pixelplumbing.com/api-resize}
-     */
-    imageTransformations: [
-      {
-        name: 'thumbnail',
-        resize: {
-          width: 50
-        }
-      },
-      /**
-       * Transformation applied to imageservice images for use in PDF and EPUB
-       */
-      {
-        name: 'print-image',
-        resize: {
-          width: 800
-        }
-      }
     ],
     /**
      * The name of the directory for image tiles and info.json
@@ -73,6 +47,33 @@ module.exports = (eleventyConfig) => {
      */
     outputDir: 'iiif',
     outputRoot: 'public',
-    tileSize: 256
+    tileSize: 256,
+    /**
+     * Transformations to apply to each image
+     * Each item is output as a separate file
+     *
+     * @type {Array<Object>}
+     * @property {String} name The file output name
+     * @property {Object} resize Resize options for `sharp.resize()`
+     * @see {@link https://sharp.pixelplumbing.com/api-resize}
+     */
+    transformations: [
+      {
+        name: 'thumbnail',
+        resize: {
+          width: 50
+        }
+      },
+      /**
+       * Transformation applied to imageservice images for use in PDF and EPUB
+       */
+      {
+        name: 'print-image',
+        resize: {
+          width: 800
+        }
+      }
+    ]
   }
+  eleventyConfig.addGlobalData('iiifConfig', iiifConfig)
 }

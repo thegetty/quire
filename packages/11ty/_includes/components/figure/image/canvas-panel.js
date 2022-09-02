@@ -19,28 +19,30 @@ module.exports = function(eleventyConfig) {
    * @return {String}        <canvas-panel> markup
    */
   return function({
+    canvasId,
+    choiceId,
     height='',
     id,
-    iiif,
+    iiifContent,
+    manifestId,
     preset='responsive',
     region='',
     virtualSizes='',
     width=''
   }) {
-    const { canvas, choiceId='', iiifContent='', manifest } = iiif
 
-    if (!manifest && !iiifContent) {
+    if (!manifestId && !iiifContent) {
       error(`Invalid params for figure "${id}": `, params)
       return ''
     }
 
     return html`
       <canvas-panel
-        canvas-id="${canvas.id}"
+        canvas-id="${canvasId}"
         choice-id="${choiceId}"
         height="${height}"
         iiif-content="${iiifContent}"
-        manifest-id="${manifest.id}"
+        manifest-id="${manifestId}"
         preset="${preset}"
         region="${region}"
         virtual-sizes="${virtualSizes}"

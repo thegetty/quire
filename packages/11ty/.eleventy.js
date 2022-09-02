@@ -16,11 +16,11 @@ const citationsPlugin = require('~plugins/citations')
 const collectionsPlugin = require('~plugins/collections')
 const componentsPlugin = require('~plugins/components')
 const dataExtensionsPlugin = require('~plugins/dataExtensions')
+const figuresPlugin = require('~plugins/figures')
 const filtersPlugin = require('~plugins/filters')
 const frontmatterPlugin = require('~plugins/frontmatter')
 const globalDataPlugin = require('~plugins/globalData')
 const i18nPlugin = require('~plugins/i18n')
-const iiifPlugin = require('~plugins/iiif')
 const lintersPlugin = require('~plugins/linters')
 const markdownPlugin = require('~plugins/markdown')
 const navigationPlugin = require('@11ty/eleventy-navigation')
@@ -74,7 +74,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(dataExtensionsPlugin)
   eleventyConfig.addPlugin(globalDataPlugin)
   eleventyConfig.addPlugin(i18nPlugin)
-  eleventyConfig.addPlugin(iiifPlugin)
+  eleventyConfig.addPlugin(figuresPlugin)
 
   /**
    * Load plugin for custom configuration of the markdown library

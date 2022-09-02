@@ -12,9 +12,9 @@ module.exports = function(eleventyConfig) {
   return function({
     alt='',
     height='',
+    info,
     preset='responsive',
     region='',
-    iiif,
     virtualSizes='',
     width=''
   }) {
@@ -25,7 +25,7 @@ module.exports = function(eleventyConfig) {
         height="${height}"
         preset="${preset}"
         region="${region}"
-        src="${iiif.info}"
+        src="${info}"
         virtual-sizes="${virtualSizes}"
         width="${width}">
       </image-service>`

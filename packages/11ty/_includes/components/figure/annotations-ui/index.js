@@ -19,7 +19,7 @@ module.exports = function(eleventyConfig) {
     if (!annotations || !annotations.length) return ''
     return annotations.map(({ input, items, type }) => {
       const options = 
-        items.map((item, index) => figureOption({ figure, index, item }))
+        items.map((annotation, index) => figureOption({ annotation, figure, index, input }))
       return html`
         <div class="annotations-ui">
           ${options}
