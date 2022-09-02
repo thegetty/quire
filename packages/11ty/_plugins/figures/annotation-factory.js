@@ -1,16 +1,32 @@
 const chalkFactory = require('~lib/chalk')
+const mime = require('mime-types')
 const path = require('path')
 const titleCase = require('~plugins/filters/titleCase')
 const { error } = chalkFactory('Figure Processing:IIIF:Annotations')
 
 /**
- * Quire Annotation
+ * Quire Figure Annotations conform to the W3C Web Annotation Format
+ * @see {@link https://www.w3.org/TR/annotation-model/#annotations}
  */
 module.exports = class AnnotationFactory {
   constructor(iiifConfig) {
     this.iiifConfig = iiifConfig
   }
 
+  /**
+   * 
+   * @param  {Figure} figure
+   * @param  {Object} data Annotation item data defined on a figure in `figures.yaml`
+   * 
+   * @typedef {Object} Annotation
+   * @property {String} id
+   * @property {String} format The annotation resource's media type
+   * @property {String} label The label rendered in the UI to select an annotation
+   * @property {String} motivation
+   * @property {String} url The url for the annotation resource
+   * 
+   * @return {Annotation}
+   */
   create(figure, data) {
     /**
      * If an id is not provided, compute id from the `label` or `src` properties
@@ -48,6 +64,14 @@ module.exports = class AnnotationFactory {
     }
 
     /**
+     * Media-type of the annotation resource
+     * @return {String}
+     */
+    const format = () => {
+      return data.text && !data.src ? 'text/plain' : mime.lookup(data.src)
+    }
+
+    /**
      * The URL where the annotation resource is served
      * @return {String}
      */
@@ -57,6 +81,7 @@ module.exports = class AnnotationFactory {
 
     return {
       id: id(),
+      format: format(),
       label: data.label || titleCase(path.parse(data.src).name),
       motivation: data.src ? 'painting' : 'text',
       type: figure.src || data.target || data.text ? 'annotation' : 'choice',

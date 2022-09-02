@@ -1,6 +1,5 @@
 const chalkFactory = require('~lib/chalk')
 const fs = require('fs-extra')
-const mime = require('mime-types')
 const path = require('path')
 const sharp = require('sharp')
 const titleCase = require('~plugins/filters/titleCase')
@@ -32,19 +31,16 @@ module.exports = class Manifest {
       .map((item) => {
         return this.createAnnotation({
           body: this.createAnnotationBody(item),
-          id: item.id,
-          motivation: item.motivation
+          ...item
         })
       })
       /**
        * Add the "base" image as a canvas annotation
        */
-      if (this.figure.baseImage) {
-        const { id, motivation } = this.figure.baseImage
+      if (this.figure.baseImage) { 
         annotations.push(this.createAnnotation({
           body: this.createAnnotationBody(this.figure.baseImage),
-          id,
-          motivation
+          ...this.figure.baseImage
         }))
       }
       return annotations
@@ -72,15 +68,14 @@ module.exports = class Manifest {
     if (!choices.length) return
 
     const items = choices.map((item) => {
-      const { label, src, url } = item
-      if (!src) {
+      if (!item.src) {
         error(`Invalid annotation on figure ID "${this.figure.id}". Annotations must have a "src" or "text" property`)
       }
-      const choice = this.createAnnotationBody({ label, src, url })
+      const choice = this.createAnnotationBody(item)
       if (this.figure.preset === 'zoom') {
         choice.service = [
           {
-            id: url,
+            id: item.url,
             type: 'ImageService3',
             profile: 'level0'
           }
@@ -120,10 +115,11 @@ module.exports = class Manifest {
 
   /**
    * @todo handle text annotations
+   * @todo handle annotations with target region
    */
-  createAnnotationBody({ label, src, url }) {
+  createAnnotationBody({ format, label, src, url }) {
     return {
-      format: mime.lookup(src),
+      format,
       height: this.canvas.height,
       id: url,
       label: { en: [label] },

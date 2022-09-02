@@ -21,10 +21,27 @@ module.exports = class FigureFactory {
   /**
    * Creates a Quire figure
    * Including image file transformations, tiles, and IIIF manifests
+   *
+   * @param {Object} figure Figure entry data from `figures.yaml`
    * 
-   * @return {Object} Figure instance
+   * @typedef {Object} Figure
+   * @property {Array<AnnotationSet>} annotations
+   * @property {String} canvasId ID of IIIF canvas
+   * @property {Boolean} isCanvas True if figure contains a canvas resource
+   * @property {Boolean} isExternalResource True if figure references an externally hosted resource
+   * @property {Boolean} isImageService True if figure contains an image service resource
+   * @manifestId {String} manifestId ID of IIIF manifest
+   * @printImage {String} printImage Optional path to an alternate image to use in print
+   * 
+   * @return {Figure}
    */
   create(data) {
+    /**
+     * @typedef {Object} AnnotationSet
+     * @property {String} input Input element type "radio|checkbox"
+     * @property {Array<Annotation>} items
+     * @return {Array<AnnotationSet>}
+     */
     const annotations = () => {
       if (!Array.isArray(data.annotations)) return
       return data.annotations.map((set) => {
@@ -45,7 +62,6 @@ module.exports = class FigureFactory {
         src: data.src
       })
     }
-
 
     return  {
       annotations: annotations(),
