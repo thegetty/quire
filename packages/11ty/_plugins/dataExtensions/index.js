@@ -20,8 +20,8 @@ const yaml = require('js-yaml')
  * @typedef {Object} Options - data extension options
  * @see https://www.11ty.dev/docs/data-custom/#usage-with-options
  * @property {Function} parser - the callback function used to parse the data
- * @property {Boolean} read[true] - Using `read: false` changes the parser argument to a file path instead of file contents.
- * @property {String} encoding['utf8'] - Node readFile encoding, use `null` to
+ * @property {Boolean} [read=true] - Using `read: false` changes the parser argument to a file path instead of file contents.
+ * @property {String} [encoding='utf8'] - Node readFile encoding, use `null` to
  * create a `Buffer`
  */
 module.exports = function(eleventyConfig, options) {
