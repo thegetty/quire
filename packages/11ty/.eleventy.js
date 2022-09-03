@@ -9,7 +9,10 @@ const copy = require('rollup-plugin-copy')
 /**
  * Quire features are implemented as Eleventy plugins
  */
-const { EleventyRenderPlugin } = require('@11ty/eleventy')
+const {
+  EleventyHtmlBasePlugin,
+  EleventyRenderPlugin
+} = require('@11ty/eleventy')
 const EleventyVitePlugin = require('@11ty/eleventy-plugin-vite')
 const directoryOutputPlugin = require('@11ty/eleventy-plugin-directory-output')
 const citationsPlugin = require('~plugins/citations')
@@ -66,6 +69,13 @@ module.exports = function(eleventyConfig) {
    */
   eleventyConfig.setQuietMode(true)
   eleventyConfig.addPlugin(directoryOutputPlugin)
+
+  /**
+   * @see https://www.11ty.dev/docs/plugins/html-base/
+   */
+  eleventyConfig.addPlugin(EleventyHtmlBasePlugin, {
+    baseHref: eleventyConfig.pathPrefix
+  })
 
   /**
    * Plugins are loaded in order of the `addPlugin` statements,
