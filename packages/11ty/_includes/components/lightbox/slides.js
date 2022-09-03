@@ -10,6 +10,7 @@ const path = require('path')
  * @return     {String}  An HTML <img> element
  */
 module.exports = function(eleventyConfig) {
+  const annotationsUI = eleventyConfig.getFilter('annotationsUI')
   const figureImageElement = eleventyConfig.getFilter('figureImageElement')
   const figureAudioElement = eleventyConfig.getFilter('figureAudioElement')
   const figureTableElement = eleventyConfig.getFilter('figureTableElement')
@@ -36,7 +37,7 @@ module.exports = function(eleventyConfig) {
 
       const isVideo = mediaType === 'video' || mediaType === 'vimeo' || mediaType === 'youtube'
 
-      const figureElement = async () => {
+      const figureElement = async (figure) => {
         switch (true) {
           case mediaType === 'soundcloud':
             return figureAudioElement(figure)
@@ -72,9 +73,12 @@ module.exports = function(eleventyConfig) {
           data-lightbox-slide-id="${id}"
         >
           <div class="q-lightbox-slides__element ${mediaType && 'q-lightbox-slides__element--' + mediaType} ${isVideo && 'q-lightbox-slides__element--video q-lightbox-slides__element--' + aspectRatio  }">
-            ${await figureElement()}
+            ${await figureElement(figure)}
           </div>
-          ${captionElement}
+          <div class="q-figure-slides__slide-ui">
+            ${captionElement}
+            ${annotationsUI(figure)}
+          </div>
         </div>
       `
     }
