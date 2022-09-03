@@ -40,20 +40,41 @@ _figures.yaml_
 Specifying `annotations` on a figure will prompt the IIIF processing to create a manifest. The manifest can be found in `public/iiif/<figure-id>/manifest.json`.
 
 ### "Choice"-type Annotations
+Choices are alternate views of the same image.
 
 _figures.yaml_
 ```
 - id: "example-with-choices"
   label: "This is a label"
   annotations:
-    - src: figures/evans-graveyard.jpg
-      label: "Choice #1"
-      default: true
-    - src: figures/evans-burroughs.jpg
-      label: "Choice #2"
+    - input: radio
+    - items:
+      - src: figures/evans-graveyard.jpg
+        label: "Choice #1"
+        default: true
+      - src: figures/evans-burroughs.jpg
+        label: "Choice #2"
 ```
 
 {% figure "example-with-choices" %}
+
+### Image annotations
+Quire currently supports image annotations on top of a "base" image specified in the `figure.src`.
+
+_figures.yaml_
+```
+- id: "fig-032"
+  src: "figures/base.jpg"
+  annotations:
+    - input: checkbox
+      items:
+        - src: "figures/armature.png"
+          label: "Armature"
+        - src: "figures/wax-joints.png"
+          label: "Wax-to-Wax Joints"
+```
+
+{% figure "fig-032" %}
 
 
 ## Other properties
