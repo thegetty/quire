@@ -35,6 +35,7 @@ module.exports = function(eleventyConfig) {
         src
       } = figure
 
+      const isAudio = mediaType === 'soundcloud'
       const isVideo = mediaType === 'video' || mediaType === 'vimeo' || mediaType === 'youtube'
 
       const figureElement = async (figure) => {
@@ -66,13 +67,21 @@ module.exports = function(eleventyConfig) {
         `
         : ''
 
+      const elementBaseClass = 'q-lightbox-slides__element'
+      const elementClasses = [
+        elementBaseClass,
+        mediaType ? `${elementBaseClass}--${mediaType}` : '',
+        isAudio ? `${elementBaseClass}--audio` : '',
+        isVideo ? `${elementBaseClass}--video ${elementBaseClass}--${aspectRatio}` : ''
+      ].join(' ')
+
       return html`
         <div
           class="q-lightbox-slides__slide"
           data-lightbox-slide
           data-lightbox-slide-id="${id}"
         >
-          <div class="q-lightbox-slides__element ${mediaType && 'q-lightbox-slides__element--' + mediaType} ${isVideo && 'q-lightbox-slides__element--video q-lightbox-slides__element--' + aspectRatio  }">
+          <div class="${elementClasses}">
             ${await figureElement(figure)}
           </div>
           <div class="q-figure-slides__slide-ui">
