@@ -59,7 +59,7 @@ _figures.yaml_
 {% figure "example-with-choices" %}
 
 ### Image annotations
-Quire currently supports image annotations on top of a "base" image specified in the `figure.src`.
+Image annotations can also be added on top of a "base" image specified in the `figure.src`.
 
 _figures.yaml_
 ```
