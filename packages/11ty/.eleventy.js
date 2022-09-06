@@ -73,9 +73,9 @@ module.exports = function(eleventyConfig) {
   /**
    * @see https://www.11ty.dev/docs/plugins/html-base/
    */
-  eleventyConfig.addPlugin(EleventyHtmlBasePlugin, {
-    baseHref: eleventyConfig.pathPrefix
-  })
+  // eleventyConfig.addPlugin(EleventyHtmlBasePlugin, {
+  //   baseHref: eleventyConfig.pathPrefix
+  // })
 
   /**
    * Plugins are loaded in order of the `addPlugin` statements,
