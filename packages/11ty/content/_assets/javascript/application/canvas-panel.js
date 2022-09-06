@@ -20,6 +20,7 @@ window.onload = function () {
               deselect: !checked,
               deselectOthers: inputType === 'radio'
             })
+            if (inputType !== 'checkbox') return
             const checkedInputs = figure.querySelectorAll('.annotations-ui__input[checked]')
             if (!checked && checkedInputs.length === 1) {
               checkedInputs[0].setAttribute('disabled', true)
