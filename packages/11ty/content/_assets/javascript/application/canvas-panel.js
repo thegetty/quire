@@ -8,31 +8,41 @@ window.onload = function () {
   for (const canvasPanel of canvasPanels) {
     const figure = canvasPanel.closest('.q-figure')
     if (!figure) return
-    const annotationInputs = figure.querySelectorAll('.annotations-ui .annotations-ui__input')
-    for (const annotationInput of annotationInputs) {
-      const id = annotationInput.getAttribute('id')
-      const type = annotationInput.getAttribute('data-annotation-type')
-      switch (type) {
+    const inputs = figure.querySelectorAll('.annotations-ui .annotations-ui__input')
+    for (const input of inputs) {
+      const annotationType = input.getAttribute('data-annotation-type')
+      const id = input.getAttribute('id')
+      const inputType = input.getAttribute('type')
+      switch (annotationType) {
         case 'choice':
-          annotationInput.addEventListener('click', (event) => {
-            canvasPanel.makeChoice(id)
+          const toggleChoice = ({ checked }) => {
+            canvasPanel.makeChoice(id, {
+              deselect: !checked,
+              deselectOthers: inputType === 'radio'
+            })
+            const checkedInputs = figure.querySelectorAll('.annotations-ui__input[checked]')
+            if (!checked && checkedInputs.length === 1) {
+              checkedInputs[0].setAttribute('disabled', true)
+            }
+            if (checked) {
+              const disabledInput = figure.querySelector('[disabled]')
+              disabledInput ? disabledInput.removeAttribute('disabled') : null
+            }
+          }
+          toggleChoice(input)
+          input.addEventListener('click', ({ target }) => {
+            toggleChoice(target)
           })
           break
         case 'annotation':
-          const toggleAnnotation = (input) => {
-            if (input.checked) {
-              canvasPanel.applyStyles(id, { opacity: 1 })
-            } else {
-              canvasPanel.applyStyles(id, { opacity: 0 })
-            }
+          const toggleAnnotation = ({ checked }) => {
+            canvasPanel.applyStyles(id, { opacity: Number(!!checked) })
           }
-          toggleAnnotation(annotationInput)
-          annotationInput.addEventListener('click', ({ target }) => {
-            toggleAnnotation(target)
-          })
+          toggleAnnotation(input)
+          input.addEventListener('click', ({ target }) => toggleAnnotation(target));
           break
         default:
-          console.warn(`Invalid annotation type ${type}`)
+          console.warn(`Invalid annotation type ${annotationType}`)
           break
       }
     }
