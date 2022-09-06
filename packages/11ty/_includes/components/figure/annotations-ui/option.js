@@ -24,7 +24,9 @@ module.exports = function (eleventyConfig) {
       error(`The provided input "${input}" for figure "${figure.id}" is not supported. Input must be ${supportedInputTypes.join(' or ')}.`)
     }
 
-    const checked = selected || index === 0
+    const checked = selected ||
+      (input === "radio" && index === 0) ||
+      (input === "checkbox" && type === "choice" && index === 0)
     const elementId = `${slugify(figure.id)}--${slugify(label)}`
 
     return html`

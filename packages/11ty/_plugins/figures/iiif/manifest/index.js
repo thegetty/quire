@@ -38,7 +38,7 @@ module.exports = class Manifest {
        * Add the "base" image as a canvas annotation
        */
       if (this.figure.baseImage) { 
-        annotations.push(this.createAnnotation({
+        annotations.unshift(this.createAnnotation({
           body: this.createAnnotationBody(this.figure.baseImage),
           ...this.figure.baseImage
         }))
