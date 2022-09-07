@@ -2,7 +2,7 @@ const chalkFactory = require('~lib/chalk')
 const fs = require('fs-extra')
 const path = require('path')
 const sharp = require('sharp')
-const { info } = chalkFactory('Figure Processing:IIIF:Tile Image')
+const logger = chalkFactory('Figure Processing:IIIF:Tile Image')
 
 
 module.exports = class Tiler {
@@ -44,27 +44,28 @@ module.exports = class Tiler {
     const format = formats.find(({ input }) => input.includes(ext))
     const inputPath = path.join(inputRoot, inputDir, figure.src)
     const outputPath = path.join(outputRoot, outputDir, name, imageServiceDirectory)
-    const url = new URL(path.join(outputDir, name, imageServiceDirectory, 'info.json'), baseURL).href
+    const id = new URL(path.join(outputDir, name), baseURL).href
+    const info = [id, imageServiceDirectory, 'info.json'].join('/')
 
     if (fs.existsSync(outputFile)) {
-      info(`Skipping previously tiled image "${inputPath}"`)
-      return { info: url }
+      logger.info(`Skipping previously tiled image "${inputPath}"`)
+      return { info }
     }
 
     fs.ensureDirSync(outputPath)
 
     try {
-      info(`Tiling image: "${inputPath}"`)
+      logger.info(`Tiling image: "${inputPath}"`)
       const response = await sharp(inputPath)
         .toFormat(format.output.replace('.', ''))
         .tile({
-          id: url,
+          id,
           layout: 'iiif',
           size: tileSize
         })
         .toFile(outputPath)
-      info(`Done tiling image "${inputPath}"`)
-      return { info: url }
+      logger.info(`Done tiling image "${inputPath}"`)
+      return { info }
     } catch(error) {
       return { errors: [error] }
     }

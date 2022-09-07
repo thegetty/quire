@@ -1,4 +1,5 @@
 # Eleventy build artifacts
+_assets/
 _site/
 _temp/
 

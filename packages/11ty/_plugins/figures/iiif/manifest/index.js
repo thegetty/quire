@@ -12,8 +12,8 @@ const builder = new IIIFBuilder(vault)
 
 module.exports = class Manifest {
   constructor({ figure, writer }) {
-    const { outputDir, manifestFilename } = writer.iiifConfig
-    const baseId = [process.env.URL, outputDir, figure.id].join('/')
+    const { baseURL, outputDir, manifestFilename } = writer.iiifConfig
+    const baseId = [baseURL, outputDir, figure.id].join('/')
 
     this.canvas = {
       id: [baseId, 'canvas'].join('/')

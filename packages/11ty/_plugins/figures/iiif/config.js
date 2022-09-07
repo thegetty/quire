@@ -1,9 +1,8 @@
 const path = require('path')
 
 module.exports = (eleventyConfig) => {
-  const { config, env } = eleventyConfig.globalData
   const iiifConfig = {
-    baseURL: config.baseURL || env.URL,
+    baseURL: process.env.CACHE_ASSETS ? process.env.IMAGE_HOST : process.env.URL,
     /**
      * Input and output of processable image formats
      * @type {Array<Object>}
@@ -46,7 +45,7 @@ module.exports = (eleventyConfig) => {
      * @type {String}
      */
     outputDir: 'iiif',
-    outputRoot: 'public',
+    outputRoot: '_assets',
     tileSize: 256,
     /**
      * Transformations to apply to each image

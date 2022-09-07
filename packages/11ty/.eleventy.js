@@ -1,8 +1,6 @@
 require('dotenv').config()
 require('module-alias/register')
 
-const fs = require('fs-extra')
-const path = require('path')
 const scss = require('rollup-plugin-scss')
 const copy = require('rollup-plugin-copy')
 
@@ -13,6 +11,7 @@ const {
   EleventyHtmlBasePlugin,
   EleventyRenderPlugin
 } = require('@11ty/eleventy')
+const cacheAssets = require('~plugins/cacheAssets')
 const EleventyVitePlugin = require('@11ty/eleventy-plugin-vite')
 const directoryOutputPlugin = require('@11ty/eleventy-plugin-directory-output')
 const citationsPlugin = require('~plugins/citations')
@@ -85,6 +84,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(globalDataPlugin)
   eleventyConfig.addPlugin(i18nPlugin)
   eleventyConfig.addPlugin(figuresPlugin)
+  eleventyConfig.addPlugin(cacheAssets)
 
   /**
    * Load plugin for custom configuration of the markdown library
@@ -189,7 +189,7 @@ module.exports = function(eleventyConfig) {
         hmr: {
           overlay: false
         },
-        middlewareMode: 'ssr',
+        middlewareMode: true,
         mode: 'development'
       }
     }
@@ -204,7 +204,7 @@ module.exports = function(eleventyConfig) {
    * @see https://www.11ty.dev/docs/copy/
    */
   eleventyConfig.addPassthroughCopy(`${inputDir}/_assets`)
-  eleventyConfig.addPassthroughCopy(`${publicDir}`)
+  eleventyConfig.addPassthroughCopy(publicDir)
   eleventyConfig.addPassthroughCopy({ '_includes/web-components': '_assets/javascript' })
 
   /**
