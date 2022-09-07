@@ -46,7 +46,7 @@ module.exports = function (eleventyConfig, { page }) {
     if (!page.figures) page.figures = [];
     page.figures.push(figure);
 
-    const { mediaType } =  figure
+    const { media_type: mediaType } =  figure
 
     const component = async (figure) => {
       switch (true) {
