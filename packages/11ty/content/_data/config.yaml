@@ -30,6 +30,7 @@ params:
   licenseIcons: true
   menuType: full
   nextPageButtonText: Next
+  pageContributorDivider: ' — '
   pageLabelDivider: '. '
   prevPageButtonText: Back
   searchEnabled: true
