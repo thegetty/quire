@@ -13,7 +13,6 @@
     "debug": "DEBUG=Eleventy* eleventy --dryrun",
     "dev": "ELEVENTY_ENV=development eleventy --serve",
     "prebuild": "npm run clean",
-    "prepare": "test -f .env || cpy .env.example . --rename=.env",
     "predev": "npm run clean",
     "preserve": "npm run clean",
     "serve": "ELEVENTY_ENV=production eleventy --serve",
