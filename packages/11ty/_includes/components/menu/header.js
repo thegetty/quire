@@ -12,7 +12,7 @@ module.exports = function(eleventyConfig) {
   const contributors = eleventyConfig.getFilter('contributors')
   const markdownify = eleventyConfig.getFilter('markdownify')
   const siteTitle = eleventyConfig.getFilter('siteTitle')
-  const { publication } = eleventyConfig.globalData
+  const { contributor: publicationContributors, contributor_as_it_appears } = eleventyConfig.globalData.publication
 
   return function(params) {
     const { currentURL } = params
@@ -21,11 +21,10 @@ module.exports = function(eleventyConfig) {
     const homePageLinkOpenTag = isHomePage ? '' : `<a class="quire-menu__header__title-link" href="/">`
     const homePageLinkCloseTag = isHomePage ? '' : `</a>`
 
-    const contributorElement = publication.contributor 
-      ? `
-        <span class="visually-hidden">Contributors: </span>
-        ${contributors({ context: publication.contributor, format: 'string', type: 'primary' })}
-      `
+    const contributorContent = contributor_as_it_appears || contributors({ context: publicationContributors, format: 'string', type: 'primary' })
+
+    const contributorElement = contributorContent
+      ? `<span class="visually-hidden">Contributors: </span>${contributorContent}`
       : ''
 
     return html`
