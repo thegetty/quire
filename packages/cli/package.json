@@ -15,7 +15,8 @@
   "files": [
     "bin"
   ],
-  "main": "index.js",
+  "main": "main.mjs",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/thegetty/quire.git",
@@ -28,6 +29,7 @@
     "quire": "./bin/index.js"
   },
   "dependencies": {
+    "chalk": "^5.0.1",
     "commander": "^9.4.0",
     "cross-env": "^7.0.3",
     "fs-extra": "^10.1.0",
