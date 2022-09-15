@@ -18,6 +18,7 @@ module.exports = function (eleventyConfig) {
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const removeHTML = eleventyConfig.getFilter('removeHTML')
   const urlFilter = eleventyConfig.getFilter('url')
+  const { pageContributorDivider } = eleventyConfig.globalData.config.params
 
   return function (params) {
     const {
@@ -44,8 +45,10 @@ module.exports = function (eleventyConfig) {
      */
     const isPage = !!layout
 
+    const divider = pageContributorDivider || ' — '
+
     const pageContributorsElement = pageContributors
-      ? `<span class="contributor"> — ${contributors({ context: pageContributors, format: 'string' })}</span>`
+      ? `<span class="contributor-divider">${divider}</span><span class="contributor">${contributors({ context: pageContributors, format: 'string' })}</span>`
       : ''
 
     let pageTitleElement
