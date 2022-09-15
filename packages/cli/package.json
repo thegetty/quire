@@ -15,8 +15,8 @@
   "files": [
     "bin"
   ],
-  "main": "main.mjs",
   "type": "module",
+  "exports": "./main.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/thegetty/quire.git",
@@ -33,10 +33,14 @@
     "commander": "^9.4.0",
     "cross-env": "^7.0.3",
     "fs-extra": "^10.1.0",
-    "inquirer": "^9.1.1"
+    "inquirer": "^9.1.1",
+    "path": "^0.12.7"
   },
   "devDependencies": {
     "del-cli": "^5.0.0",
     "rollup": "^2.79.0"
+  },
+  "engines": {
+    "node": ">=14.16"
   }
 }
