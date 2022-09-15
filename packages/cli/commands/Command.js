@@ -1,8 +1,13 @@
 /**
- * Command Class
+ * Command
+ * @abstract
  */
 export default Command {
   constructor(name, description, args=[], options=[]) {
+    if (this.constructor.prototype === Command) {
+      throw new Error('Command is an *abstract* class');
+    }
+
     this.command = name
     this.help = description
     this.arguments = args
