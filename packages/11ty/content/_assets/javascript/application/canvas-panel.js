@@ -59,7 +59,7 @@ const goToCanvasState = function (figureId, annotationIds=[], region) {
   /**
    * Update Canvas state
    */
-  if (region) canvasPanel.setAttribute('region', region)x
+  if (region) canvasPanel.setAttribute('region', region)
   annotationIds.forEach((id) => {
     const input = document.getElementById(id)
     if (!input) {
