@@ -10,7 +10,7 @@ const { JSDOM } = jsdom
  *
  * @param      {Object}  collections  Eleventy collections object
  * @param      {String}  content      Output content
- * @return     {Array}   The transformed content string
+ * @return     {Array}   The umodified content string
  */
 module.exports = function(eleventyConfig, collections, content) {
   const pageTitle = eleventyConfig.getFilter('pageTitle')
