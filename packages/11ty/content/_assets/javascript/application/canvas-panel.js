@@ -3,6 +3,7 @@ import scrollToHash from "./scroll-to-hash"
 /**
  * Handle annotation/choice selection with canvasPanel API
  * {@link https://iiif-canvas-panel.netlify.app/docs/examples/handling-choice}
+ * @param {HTMLElement} element
  */
 const handleSelect = (element) => {
   const figure = element.closest('.q-figure')
