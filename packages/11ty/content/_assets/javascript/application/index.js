@@ -12,6 +12,7 @@ import "../../styles/application.scss";
 import "../../styles/custom.css";
 
 // Modules (feel free to define your own and import here)
+import scrollToHash from "./scroll-to-hash"
 import Search from "../../../../_plugins/search/search.js";
 import "./canvas-panel";
 import "./soundcloud-api";
@@ -134,51 +135,6 @@ window["search"] = () => {
     });
   }
 };
-
-/**
- * scrollWindow
- * @description scroll viewport to a certain vertical offset, minus the height of the quire navbar
- * TODO add animation duration and style of easing function previously provided by jQuery `.animate()`
- */
-function scrollWindow(verticalOffset, animationDuration = null, animationStyle = null) {
-  const navBar = document.querySelector(".quire-navbar");
-  const extraSpace = 7
-  const scrollDistance = navBar
-    ? verticalOffset - navBar.clientHeight - extraSpace
-    : verticalOffset - extraSpace
-  // redundancy here to ensure all possible document properties with `scrollTop` are being set for cross-browser compatibility
-  [
-    document.documentElement,
-    document.body.parentNode,
-    document.body
-  ].forEach((documentPropertyWithScrollTop) => {
-    documentPropertyWithScrollTop.scrollTop = scrollDistance;
-  });
-}
-
-/**
- * scrollToHash
- * @description Scroll the #main area after each smoothState reload.
- * If a hash id is present, scroll to the location of that element,
- * taking into account the height of the navbar.
- */
-function scrollToHash(hash) {
-  // prefix all ':' and '.' in hash with '\\' to make them query-selectable
-  hash = hash.replace(":", "\\:");
-  hash = hash.replace(".", "\\.");
-  // Figure out element to scroll to
-  let target = document.querySelector(hash);
-  target = target ? target : document.querySelector(`[name="${link.hash.slice(1)}"]`);
-  // Does a scroll target exist?
-  if (target) {
-    const verticalOffset = target.getBoundingClientRect().top + window.scrollY;
-    scrollWindow(verticalOffset);
-    // handle focus after scrolling
-    setTimeout(() => {
-      target.focus();
-    });
-  }
-}
 
 function onHashLinkClick(event) {
   // only override default link behavior if it points to the same page
