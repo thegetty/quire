@@ -4,6 +4,18 @@ layout: page
 order: 505
 ---
 
+## IIIF Choices from *Bronze Guidelines*
+
+{% figure "fig-006" %}
+
+{% figure "fig-034" %}
+
+## Two Different Bases
+
+{% figure "base-1" %}
+
+{% figure "base-2" %}
+
 ## Figure
 
 {% figure "fig-1" %}

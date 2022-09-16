@@ -155,3 +155,51 @@ figure_list:
     src: figures/family.jpg
     caption: "Walker Evans, *Burrough’s Family, Hale County, Alabama*, 1935."
     credit: The J. Paul Getty Museum, Los Angeles
+
+  - id: "base-1"
+    src: "figures/base.jpg"
+    media_type: iiif
+    label: "Base 1"
+    caption: "Should be an x-ray of a horse and rider."
+
+  - id: "base-2"
+    src: "figures/test/base.jpg"
+    media_type: iiif
+    label: "Base 2"
+    caption: "Should be a bronze statue of a woman in a long tunic."
+
+  - id: "fig-006"
+    src: "figures/iiif/006/base.jpg"
+    media_type: iiif
+    label: "Figure 6"
+    caption: "Experimental sand-cast torso (H. 16 cm). Yellow overlay indicates the hollow lantern made of rolled sheet metal that runs vertically through the body and has been used to mount the torso to a base. See also the area where the bronze did not fill the mold, an extreme example of a cold shut. White arrows indicate the typically rounded edge of the bronze wall where it stopped flowing. Green arrows denote the seam line along the proper right side of the torso where bronze flowed into a gap along the joint of the cope and drag. Red arrows indicate flashing at either side of the lower horizontal armature rod. Made with consultant Tonny Beentjes, Decorative Arts and Sculpture Conservation, J. Paul Getty Museum."
+    annotations:
+      - input: checkbox
+        items:
+          - src: "figures/iiif/006/bronze.png"
+            label: "Bronze"
+          - src: "figures/iiif/006/core.png"
+            label: "Core"
+          - src: "figures/iiif/006/flashing.png"
+            label: "Flashing"
+          - src: "figures/iiif/006/cold-shut.png"
+            label: "Cold-shut"
+          - src: "figures/iiif/006/seam-line.png"
+            label: "Seam line"
+            selected: true
+          - src: "figures/iiif/006/lantern.png"
+            label: "Lantern"
+            selected: true
+
+  - id: "fig-034"
+    label: "Figure 34"
+    caption: "Overlay of interpretive technical diagram and both X-radiograph and daylight photography showing the wire wrapping the core. Note how complex the image is due to the numerous overlaps, for instance of the drapery. Barthélemy Prieur (French, ca. 1536–1611), Abundance, cast in 1571 by Nicolas Péron, H. 128 cm (Musée du Louvre, inv. MR1681). See [Case Study 5](#CaseStudy5)."
+    annotations:
+      - input: radio
+        items:
+          - src: "figures/iiif/034/base.jpg"
+            label: "Daylight"
+          - src: "figures/iiif/034/x-ray.jpg"
+            label: "X-Ray"
+          - src: "figures/iiif/034/armature.jpg"
+            label: "Armature"
