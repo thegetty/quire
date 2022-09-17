@@ -51,14 +51,14 @@ const handleSelect = (element) => {
  * @param  {Array} annotationIds  The IIIF ids of the annotations to select
  * @param  {String} region      The canvas region
  */
-const setCanvasState = function (figureId, annotationIds=[], region) {
+const goToCanvasState = function (figureId, annotationIds=[], region) {
   const figure = document.querySelector(`#${figureId}`)
   const canvasPanel = figure.querySelector('canvas-panel')
 
   /**
    * Update Canvas state
    */
-  if (region) canvasPanel.setAttribute('region', region)
+  if (region) canvasPanel.setAttribute('region', region)x
   annotationIds.forEach((id) => {
     const input = document.getElementById(id)
     if (!input) {
@@ -66,7 +66,7 @@ const setCanvasState = function (figureId, annotationIds=[], region) {
       return
     }
     input.checked = true
-    console.log('setCanvasState', id)
+    console.log('goToCanvasState', id)
     handleSelect(input)
   })
 
@@ -86,7 +86,7 @@ const setCanvasState = function (figureId, annotationIds=[], region) {
   window.history.pushState({}, '', `${urlParts.join('?')}${url.hash}`)
 }
 
-const setCanvasStateOnLoad = function(params) {
+const goToCanvasStateOnLoad = function(params) {
   /**
    * Set initial canvas state and attach click handlers to Annotations UI inputs
    */
@@ -102,7 +102,7 @@ const setCanvasStateOnLoad = function(params) {
   const annotationIds = params['annotation-id']
   const figureId = window.location.hash.replace(/^#/, '')
   const region = params['region']
-  setCanvasState(figureId, annotationIds, region)
+  goToCanvasState(figureId, annotationIds, region)
 }
 
-export { setCanvasStateOnLoad }
+export { goToCanvasStateOnLoad }
