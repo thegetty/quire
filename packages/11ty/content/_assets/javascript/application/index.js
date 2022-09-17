@@ -15,6 +15,7 @@ import "../../styles/custom.css";
 import scrollToHash from "./scroll-to-hash"
 import Search from "../../../../_plugins/search/search.js";
 import "./canvas-panel";
+import { setCanvasStateOnLoad } from "./canvas-panel";
 import "./soundcloud-api";
 
 // array of leaflet instances
@@ -352,6 +353,17 @@ function pageSetup() {
   toggleCite();
 }
 
+function parseQueryParams() {
+  const url = new URL(window.location)
+  const uniqueKeys = [...new Set(url.searchParams.keys())]
+  return Object.fromEntries(
+    uniqueKeys.map((key) => [
+      key,
+      url.searchParams.getAll(key).map(decodeURIComponent)
+    ])
+  )
+}
+
 // Start
 // -----------------------------------------------------------------------------
 //
@@ -360,6 +372,8 @@ globalSetup();
 
 // Run when DOM content has loaded
 window.addEventListener('DOMContentLoaded', () => {
-  pageSetup();
-  scrollToHashOnLoad();
+  pageSetup()
+  const params = parseQueryParams()
+  setCanvasStateOnLoad(params)
+  scrollToHashOnLoad()
 })
