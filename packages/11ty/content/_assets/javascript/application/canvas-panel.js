@@ -66,7 +66,6 @@ const goToCanvasState = function (figureId, annotationIds=[], region) {
       return
     }
     input.checked = true
-    console.log('goToCanvasState', id)
     handleSelect(input)
   })
 
