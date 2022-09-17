@@ -52,8 +52,9 @@ const handleSelect = (element) => {
  * @param  {Array} annotationIds  The IIIF ids of the annotations to select
  * @param  {String} region      The canvas region
  */
-const goToCanvasState = function (figureId, annotationIds=[], region) {
+const goToCanvasState = function ({ figureId, annotationIds=[], region }) {
   const figure = document.querySelector(`#${figureId}`)
+  if (!figure) return
   const canvasPanel = figure.querySelector('canvas-panel')
 
   /**
@@ -86,23 +87,15 @@ const goToCanvasState = function (figureId, annotationIds=[], region) {
   window.history.pushState({}, '', `${urlParts.join('?')}${url.hash}`)
 }
 
-const goToCanvasStateOnLoad = function(params) {
-  /**
-   * Set initial canvas state and attach click handlers to Annotations UI inputs
-   */
+/**
+ * Add event handlers to Annotations UI inputs
+ */
+const setUpUIEventHandlers = function() {
   const inputs = document.querySelectorAll('.annotations-ui__input')
   for (const input of inputs) {
     handleSelect(input)
     input.addEventListener('click', ({ target }) => handleSelect(target))
   }
-
-  /**
-   * Set canvas state from query parameters
-   */
-  const annotationIds = params['annotation-id']
-  const figureId = window.location.hash.replace(/^#/, '')
-  const region = params['region']
-  goToCanvasState(figureId, annotationIds, region)
 }
 
-export { goToCanvasStateOnLoad }
+export { goToCanvasState, setUpUIEventHandlers }
