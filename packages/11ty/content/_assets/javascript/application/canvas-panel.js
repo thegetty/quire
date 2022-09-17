@@ -1,4 +1,4 @@
-import scrollToHash from "./scroll-to-hash"
+import scrollToHash from './scroll-to-hash'
 
 /**
  * Handle annotation/choice selection with canvasPanel API

@@ -27,6 +27,7 @@ function scrollWindow(verticalOffset, animationDuration = null, animationStyle =
 }
 
 export default (hash) => {
+  if (!hash) return
   // prefix all ':' and '.' in hash with '\\' to make them query-selectable
   hash = hash.replace(':', '\\:')
   hash = hash.replace('.', '\\.')

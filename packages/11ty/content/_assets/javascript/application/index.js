@@ -168,15 +168,6 @@ function setupCustomScrollToHash() {
   });
 }
 
-function scrollToHashOnLoad() {
-  if (window.location.hash) {
-    setTimeout(() => {
-      // TODO see scrollToHash definition. Add animation duration and easing function style previously provided as args to jQuery `.animate()`
-      scrollToHash(window.location.hash, 75, 'swing');
-    });
-  }
-}
-
 /**
  * globalSetup
  * @description Initial setup on first page load.
@@ -375,5 +366,5 @@ window.addEventListener('DOMContentLoaded', () => {
   pageSetup()
   const params = parseQueryParams()
   goToCanvasStateOnLoad(params)
-  scrollToHashOnLoad()
+  scrollToHash(window.location.hash, 75, 'swing');
 })
