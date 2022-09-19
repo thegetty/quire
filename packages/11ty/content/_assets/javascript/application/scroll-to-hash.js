@@ -17,12 +17,13 @@ function scrollWindow(verticalOffset, animationDuration = null, animationStyle =
     ? verticalOffset - navBar.clientHeight - extraSpace
     : verticalOffset - extraSpace
   // redundancy here to ensure all possible document properties with `scrollTop` are being set for cross-browser compatibility
-  [
+  const documentProperties = [
     document.documentElement,
     document.body.parentNode,
     document.body
-  ].forEach((documentPropertyWithScrollTop) => {
-    documentPropertyWithScrollTop.scrollTop = scrollDistance
+  ]
+  documentProperties.forEach((element) => {
+    element.scrollTop = scrollDistance
   })
 }
 
@@ -38,8 +39,6 @@ export default (hash) => {
     const verticalOffset = target.getBoundingClientRect().top + window.scrollY
     scrollWindow(verticalOffset)
     // handle focus after scrolling
-    setTimeout(() => {
-      target.focus()
-    })
+    setTimeout(() => target.focus())
   }
 }

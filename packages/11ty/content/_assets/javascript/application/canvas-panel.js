@@ -57,7 +57,14 @@ const goToCanvasState = function ({ annotationIds=[], figureId, region }) {
   const figure = document.querySelector(`#${figureId}`)
   if (!figure) return
   const canvasPanel = figure.querySelector('canvas-panel')
-
+  /**
+   * Reset inputs
+   */
+  const inputs = document.querySelectorAll('.annotations-ui__input')
+  for (const input of inputs) {
+    input.checked = false
+    handleSelect(input)
+  }
   /**
    * Update Canvas state
    */
@@ -89,9 +96,19 @@ const goToCanvasState = function ({ annotationIds=[], figureId, region }) {
 }
 
 /**
- * Add event handlers to Annotations UI inputs
+ * Add event handlers to Annotations UI links and inputs
  */
 const setUpUIEventHandlers = function() {
+  const annoRefAnchorTags = document.querySelectorAll('.annoref')
+  for (const anchorTag of annoRefAnchorTags) {
+    let annotationIds = anchorTag.getAttribute('data-annotation-ids')
+    annotationIds = annotationIds.split(',')
+    const figureId = anchorTag.getAttribute('data-figure-id')
+    const region = anchorTag.getAttribute('data-region')
+    anchorTag.addEventListener('click', ({ target }) =>
+      goToCanvasState({ annotationIds, figureId, region }),
+    )
+  }
   const inputs = document.querySelectorAll('.annotations-ui__input')
   for (const input of inputs) {
     handleSelect(input)

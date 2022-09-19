@@ -4,9 +4,15 @@ order: 510
 layout: essay
 ---
 
+## Linking to Annotation States
+
+Use the `annoref` shortcode to create a link to a specific annotation state. For example, select an annotation such as {% annoref fig="fig-032" anno="wax-joints" text="Wax-to-wax Joints in Fig 32" %} or multiple annotations such as {% annoref fig="fig-032" anno="wax-joints,armature" text="Armature and Wax-to-wax Joints in Fig 32" %}. Annotations should be referenced by a comma-separated list of ids or filepaths.
+
+## IIIF Web Components
+
 The following examples demonstrate basic usage of when the `figure` shortcode renders `<canvas-panel>` and `<image-service>` web components.
 
-## Image Service
+### Image Service
 Images in `figures.yaml` with `media_type="iiif"` will be tiled and rendered using the `<image-service />` web component.
 
 The tiler output can be found in `public/iiif/<image-name>/`
@@ -36,10 +42,10 @@ _figures.yaml_
 
 {% figure "example-external-manifest" %}
 
-## Figure with Annotations
+### Figure with Annotations
 Specifying `annotations` on a figure will prompt the IIIF processing to create a manifest. The manifest can be found in `public/iiif/<figure-id>/manifest.json`.
 
-### "Choice"-type Annotations
+#### "Choice"-type Annotations
 Choices are alternate views of the same image.
 
 _figures.yaml_
@@ -58,7 +64,7 @@ _figures.yaml_
 
 {% figure "example-with-choices" %}
 
-### Image annotations
+#### Image annotations
 Image annotations can also be added on top of a "base" image specified in the `figure.src`.
 
 _figures.yaml_
@@ -77,7 +83,7 @@ _figures.yaml_
 {% figure "fig-032" %}
 
 
-## Other properties
+### Other properties
 The canvas panel and image service tags also support the `height`, `preset`, `width`, and `region` properties. See [Canvas Panel Documentation](https://iiif-canvas-panel.netlify.app/docs/examples/responsive-image) for additional details.
 
 _figures.yaml_
