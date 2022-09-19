@@ -52,7 +52,8 @@ const handleSelect = (element) => {
  * @param  {Array} annotationIds  The IIIF ids of the annotations to select
  * @param  {String} region      The canvas region
  */
-const goToCanvasState = function ({ figureId, annotationIds=[], region }) {
+const goToCanvasState = function ({ annotationIds=[], figureId, region }) {
+  if (!figureId) return
   const figure = document.querySelector(`#${figureId}`)
   if (!figure) return
   const canvasPanel = figure.querySelector('canvas-panel')

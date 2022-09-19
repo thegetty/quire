@@ -373,6 +373,6 @@ window.addEventListener('DOMContentLoaded', () => {
   goToCanvasState({
     figureId: window.location.hash.replace(/^#/, ''),
     annotationIds: params['annotation-id'],
-    region: params['region'][0]
+    region: params['region'] ? params['region'][0] : null
   })
 })
