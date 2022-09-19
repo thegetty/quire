@@ -10,6 +10,7 @@ const logger = chalkFactory(`Shortcodes:Annoref`)
  */
 module.exports = function (eleventyConfig) {
   const getAnnotation = eleventyConfig.getFilter('getAnnotation')
+  const markdownify = eleventyConfig.getFilter('markdownify')
   return ({ anno='', fig, region='', text='' }) => {
     const annoIds = anno.split(',').map((id) => id.trim())
     const annotationUrls = annoIds.flatMap((id) => {
@@ -22,7 +23,7 @@ module.exports = function (eleventyConfig) {
         data-annotation-ids="${annotationUrls.join(',')}"
         data-figure-id="${fig}"
         data-region="${region}"
-      >${text}</a>
+      >${markdownify(text)}</a>
     `
   }
 }
