@@ -17,14 +17,17 @@ module.exports = function(eleventyConfig) {
   return function(figure) {
     const { annotations } = figure
     if (!annotations || !annotations.length) return ''
-    return annotations.map(({ input, items, type }) => {
+    const fieldsets = annotations.map(({ input, items, title='', type }, index) => {
+      const name = `${figure.id}-${index}`
       const options = 
-        items.map((annotation, index) => figureOption({ annotation, figure, index, input }))
+        items.map((annotation, index) => figureOption({ annotation, index, input, name }))
       return html`
-        <div class="annotations-ui">
+        <fieldset class="annotations-ui">
+          <legend>${title}</legend>
           ${options}
-        </div>
+        </fieldset>
       `
     })
+    return html`<form>${fieldsets}</form>`
   }
 }
