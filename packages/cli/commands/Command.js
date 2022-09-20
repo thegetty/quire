@@ -2,22 +2,19 @@
  * Command
  * @abstract
  */
-export default Command {
-  constructor(name, description, args=[], options=[]) {
+export default class Command {
+  constructor(name, description, args, options) {
     if (this.constructor.prototype === Command) {
-      throw new Error('Command is an *abstract* class');
+      throw new Error('Command is an *abstract* class')
     }
 
     this.command = name
-    this.help = description
-    this.arguments = args
-    this.options = options
+    this.description = description
+    this.arguments = []
+    this.options = []
     this.version = null
+    this.hidden = false
     this.result = null
-  }
-
-  getResult () {
-    return this.result
   }
 
   definition () {
@@ -25,11 +22,11 @@ export default Command {
       command: this.command,
       help: this.help,
       arguments: this.args,
-      options: this.options
+      options: this.options,
     }
   }
 
-  action (options) {
-    throw Error(`The ${command} command has not been implemented`)
+  action (name, options, command) {
+    throw Error(`The ${this.command} command has not been implemented.`)
   }
 }
