@@ -27,13 +27,14 @@ module.exports = function (eleventyConfig) {
     }
 
     const checked = selected || (input === "radio" && index === 0)
-    const elementId = `${name}--${slugify(label)}`
+    const elementId = `${name}--${id}`
+    const inputId = `input-${elementId}`
 
     return html`
       <div class="annotations-ui__input-wrapper" id="${elementId}">
         <input
           class="annotations-ui__input"
-          id="${url}"
+          id="${inputId}"
           name="${name}"
           type="${input}"
           value="${url}"
@@ -42,7 +43,7 @@ module.exports = function (eleventyConfig) {
         />
         <label
           class="annotations-ui__label"
-          for="${url}"
+          for="${inputId}"
         >
           ${label}
         </label>
