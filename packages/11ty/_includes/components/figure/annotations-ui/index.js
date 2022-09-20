@@ -14,15 +14,15 @@ module.exports = function(eleventyConfig) {
   /**
    * @param  {Object} figure
    */
-  return function(figure) {
+  return function(figure, context='inline') {
     const { annotations } = figure
     if (!annotations || !annotations.length) return ''
     const fieldsets = annotations.map(({ input, items, title='', type }, index) => {
-      const name = `${figure.id}-${index}`
+      const name = `${figure.id}-${index}-${context}`
       const options = 
         items.map((annotation, index) => figureOption({ annotation, index, input, name }))
       return html`
-        <fieldset class="annotations-ui">
+        <fieldset class="annotations-ui annotations-ui--${context}">
           <legend>${title}</legend>
           ${options}
         </fieldset>

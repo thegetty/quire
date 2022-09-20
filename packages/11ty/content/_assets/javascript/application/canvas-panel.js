@@ -6,11 +6,11 @@ import scrollToHash from './scroll-to-hash'
  * @param {HTMLElement} element
  */
 const handleSelect = (element) => {
-  const figure = element.closest('.q-figure')
+  const figure = element.closest('.q-figure') || element.closest('.q-lightbox-slides__slide')
   if (!figure) return
   const canvasPanel = figure.querySelector('canvas-panel')
   const annotationType = element.getAttribute('data-annotation-type')
-  const id = element.getAttribute('id')
+  const id = element.getAttribute('value')
   const inputType = element.getAttribute('type')
 
   const toggleChoice = ({ checked }) => {
