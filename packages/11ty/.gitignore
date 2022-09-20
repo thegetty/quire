@@ -5,11 +5,6 @@ _temp/
 # EleventFetch cache directory
 .cache
 
-# environment variables file
-.env
-.env.*
-!.env.example
-
 # ESLint cache directory
 .eslintcache
 

@@ -11,15 +11,15 @@ const vault = globalVault()
 const builder = new IIIFBuilder(vault)
 
 module.exports = class Manifest {
-  constructor({ figure, writer }) {
-    const { manifestFilename } = writer.iiifConfig
-    const baseId = [process.env.URL, figure.outputDir].join('/')
+  constructor({ figure, iiifConfig, writer }) {
+    const { baseURL, manifestFilename } = iiifConfig
+    const baseId = [baseURL, figure.outputDir].join('/')
 
     this.canvas = {
       id: [baseId, 'canvas'].join('/')
     }
     this.figure = figure
-    this.iiifConfig = writer.iiifConfig
+    this.iiifConfig = iiifConfig
     this.manifestId = [baseId, manifestFilename].join('/')
     this.writer = writer
   }

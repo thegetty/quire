@@ -1,9 +1,10 @@
 const path = require('path')
 
 module.exports = (eleventyConfig) => {
-  const { config, env } = eleventyConfig.globalData
+  const { baseURL } = eleventyConfig.globalData.config
+  const { port } = eleventyConfig.serverOptions
   const iiifConfig = {
-    baseURL: config.baseURL || env.URL,
+    baseURL: process.env.ELEVENTY_ENV === 'development' ? `http://localhost:${port}`: baseURL,
     /**
      * Input and output of processable image formats
      * @type {Array<Object>}
