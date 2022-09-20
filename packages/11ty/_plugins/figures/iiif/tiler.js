@@ -21,7 +21,7 @@ module.exports = class Tiler {
    */
   async tile(figure) {
     if (!figure.src) return
-    const { ext, name } = path.parse(figure.src)
+    const { dir, ext, name } = path.parse(figure.src)
 
     if (!this.supportedImageExtensions.includes(ext)) {
       return {
@@ -40,11 +40,11 @@ module.exports = class Tiler {
       tileSize
     } = this.iiifConfig
 
-    const outputFile = path.join(outputRoot, outputDir, name, imageServiceDirectory, 'info.json')
     const format = formats.find(({ input }) => input.includes(ext))
     const inputPath = path.join(inputRoot, inputDir, figure.src)
-    const outputPath = path.join(outputRoot, outputDir, name, imageServiceDirectory)
-    const url = new URL(path.join(outputDir, name, imageServiceDirectory, 'info.json'), baseURL).href
+    const outputPath = path.join(outputDir, path.join(dir, name), imageServiceDirectory)
+    const outputFile = path.join(outputRoot, outputPath, 'info.json')
+    const url = new URL(outputPath, baseURL).href
 
     if (fs.existsSync(outputFile)) {
       info(`Skipping previously tiled image "${inputPath}"`)

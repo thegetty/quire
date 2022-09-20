@@ -32,11 +32,11 @@ module.exports = (iiifConfig, figure, options={}) => {
     const { debug, lazy } = options
 
     const { region, src } = figure
-    const { ext, name } = path.parse(src)
+    const { dir, ext, name } = path.parse(src)
     const { resize } = transformation
     const format = formats.find(({ input }) => input.includes(ext))
     const inputPath = path.join(inputRoot, inputDir, src)
-    const outputPath = path.join(outputRoot, outputDir, name, `${transformation.name}${format.output}`)
+    const outputPath = path.join(outputRoot, outputDir, path.join(dir, name), `${transformation.name}${format.output}`)
 
     fs.ensureDirSync(path.parse(outputPath).dir)
 

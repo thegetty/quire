@@ -1,9 +1,10 @@
 const AnnotationFactory = require('./annotation-factory')
 const chalkFactory = require('~lib/chalk')
-const Tiler = require('./iiif/tiler')
-const transform = require('./transform')
 const Manifest = require('./iiif/manifest')
 const ManifestWriter = require('./iiif/manifest/writer')
+const path = require('path')
+const Tiler = require('./iiif/tiler')
+const transform = require('./transform')
 const { getPrintImage, isCanvas, isImageService } = require('./helpers')
 
 const logger = chalkFactory('Figure Processing')
