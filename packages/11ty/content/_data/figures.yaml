@@ -1,14 +1,14 @@
 figure_list:
   - id: "fig-032"
-    src: "figures/base.jpg"
+    src: "figures/032/base.jpg"
     label: "Figure 32"
     caption: "X-radiograph showing a complex armature made of different sizes of rods and wire (11 mm, 7 mm, and 4 mm in diameter). See also the wax-to-wax joints. A 15 mm Cu filter was needed to keep the same exposure parameters for all the different areas of the sculpture, despite the significant variations in thickness (400kV, 8mA, 15 min. exposure, 3 m source-to-object distance, AA400PB film). Antoine-Louis Barye (French, 1795–1875), Theseus and the Centaur Bienor, cast by Eugène Gonon (1814–1892) in 1877, H. 1.3 m (Musée du Louvre, inv. RF 3882). For daylight photography of the statue see **fig. 395**. See {C2RMF Internal Report 2016b}."
     annotations:
       - input: checkbox
         items:
-          - src: "figures/armature.png"
+          - src: "figures/032/armature.png"
             label: "Armature"
-          - src: "figures/wax-joints.png"
+          - src: "figures/032/wax-joints.png"
             label: "Wax-to-Wax Joints"
   - id: "example-with-choices"
     label: "Choices 1"
