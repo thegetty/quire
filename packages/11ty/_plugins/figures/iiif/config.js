@@ -4,7 +4,7 @@ module.exports = (eleventyConfig) => {
   const { baseURL } = eleventyConfig.globalData.config
   const { port } = eleventyConfig.serverOptions
   const iiifConfig = {
-    baseURL: process.env.ELEVENTY_ENV === 'development' ? `http://localhost:${port}`: baseURL,
+    baseURL: process.env.ELEVENTY_ENV === 'production' ? baseURL : `http://localhost:${port}`,
     /**
      * Input and output of processable image formats
      * @type {Array<Object>}
