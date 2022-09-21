@@ -73,7 +73,7 @@ module.exports = class FigureFactory {
       isImageService: isImageService(data),
       manifestId: data.manifestId,
       printImage: getPrintImage(this.iiifConfig, data),
-      outputDir: path.join(this.iiifConfig.outputDir, data.id),
+      outputDir: path.join(this.iiifConfig.dirs.output, data.id),
       ...data
     }
   }

@@ -95,8 +95,8 @@ module.exports = class Manifest {
   }
 
   async calcCanvasDimensions() {
-    const { inputDir, inputRoot } = this.iiifConfig
-    const fullImagePath = path.join(inputRoot, inputDir, this.canvasImagePath)
+    const { dirs } = this.iiifConfig
+    const fullImagePath = path.join(dirs.inputRoot, dirs.input, this.canvasImagePath)
     const { height, width } = await sharp(fullImagePath).metadata()
     this.canvas.height = height
     this.canvas.width = width
