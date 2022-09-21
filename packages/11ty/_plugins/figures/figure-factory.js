@@ -1,9 +1,10 @@
 const AnnotationFactory = require('./annotation-factory')
 const chalkFactory = require('~lib/chalk')
-const Tiler = require('./iiif/tiler')
-const transform = require('./transform')
 const Manifest = require('./iiif/manifest')
 const ManifestWriter = require('./iiif/manifest/writer')
+const path = require('path')
+const transform = require('./transform')
+const Tiler = require('./iiif/tiler')
 const { getPrintImage, isCanvas, isImageService } = require('./helpers')
 
 const logger = chalkFactory('Figure Processing')
@@ -72,6 +73,7 @@ module.exports = class FigureFactory {
       isImageService: isImageService(data),
       manifestId: data.manifestId,
       printImage: getPrintImage(this.iiifConfig, data),
+      outputDir: path.join(this.iiifConfig.dirs.output, data.id),
       ...data
     }
   }
@@ -102,7 +104,7 @@ module.exports = class FigureFactory {
    * Sets canvasId and manifestId properties on the figure instance
    */
   async generateManifest(figure) {
-    const manifest = new Manifest({ figure, writer: this.writer })
+    const manifest = new Manifest({ figure, iiifConfig: this.iiifConfig, writer: this.writer })
     const manifestJSON = await manifest.write()
     return { 
       canvasId: manifestJSON.items[0].id,

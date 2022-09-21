@@ -11,15 +11,15 @@ const vault = globalVault()
 const builder = new IIIFBuilder(vault)
 
 module.exports = class Manifest {
-  constructor({ figure, writer }) {
-    const { outputDir, manifestFilename } = writer.iiifConfig
-    const baseId = [process.env.URL, outputDir, figure.id].join('/')
+  constructor({ figure, iiifConfig, writer }) {
+    const { baseURL, manifestFilename } = iiifConfig
+    const baseId = [baseURL, figure.outputDir].join('/')
 
     this.canvas = {
       id: [baseId, 'canvas'].join('/')
     }
     this.figure = figure
-    this.iiifConfig = writer.iiifConfig
+    this.iiifConfig = iiifConfig
     this.manifestId = [baseId, manifestFilename].join('/')
     this.writer = writer
   }
@@ -95,8 +95,8 @@ module.exports = class Manifest {
   }
 
   async calcCanvasDimensions() {
-    const { inputDir, inputRoot } = this.iiifConfig
-    const fullImagePath = path.join(inputRoot, inputDir, this.canvasImagePath)
+    const { dirs } = this.iiifConfig
+    const fullImagePath = path.join(dirs.inputRoot, dirs.input, this.canvasImagePath)
     const { height, width } = await sharp(fullImagePath).metadata()
     this.canvas.height = height
     this.canvas.width = width

@@ -28,6 +28,7 @@ module.exports = class AnnotationFactory {
    * @return {Annotation}
    */
   create(figure, data) {
+    const { baseURL, dirs } = this.iiifConfig
     /**
      * If an id is not provided, compute id from the `label` or `src` properties
      * @return {String}
@@ -56,11 +57,11 @@ module.exports = class AnnotationFactory {
     const filepath = () => {
       return figure.preset === "zoom"
         ? [
-            this.iiifConfig.outputDir,
+            dirs.output,
             data.id,
-            this.iiifConfig.imageServiceDirectory,
+            dirs.imageService,
           ].join('/')
-        : [this.iiifConfig.inputDir, data.src].join('/');
+        : [dirs.input, data.src].join('/');
     }
 
     /**
@@ -76,7 +77,7 @@ module.exports = class AnnotationFactory {
      * @return {String}
      */
     const url = () => {
-      return new URL(filepath(), process.env.URL).href
+      return new URL(filepath(), baseURL).href
     }
 
     return {
