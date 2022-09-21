@@ -88,7 +88,7 @@ const goToCanvasState = function ({ annotationIds=[], figureId, region }) {
    */
   if (region) canvasPanel.setAttribute('region', region)
   annotationIds.forEach((id) => {
-    const input = document.getElementById(id)
+    const input = document.querySelector(`input[value="${id}"]`)
     if (!input) {
       console.warn(`Invalid annotation id: ${id}`)
       return
