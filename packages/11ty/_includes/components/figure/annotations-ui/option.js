@@ -10,8 +10,10 @@ module.exports = function (eleventyConfig) {
 
   /**
    * Render an annotation checkbox or radio input
-   * @param  {Object} figure
-   * @param  {Object} annotation
+   * @param  {Object} annotation Figure annotation object
+   * @param  {Number} index The index of the annotation in the figure annotation set
+   * @param  {String} input The input type, 'radio' or 'checkbox'
+   * @param  {String} name The input name attribute. Prefixed with `lightbox-` when rendered inside a lightbox
    */
   return function ({ annotation, index, input, name }) {
     const { id, label, selected, type, url } = annotation
@@ -27,8 +29,8 @@ module.exports = function (eleventyConfig) {
     }
 
     const checked = selected || (input === "radio" && index === 0)
-    const elementId = `${name}--${id}`
-    const inputId = `input-${elementId}`
+    const elementId = `${name}-${id}`
+    const inputId = `${elementId}-input`
 
     return html`
       <div class="annotations-ui__input-wrapper" id="${elementId}">

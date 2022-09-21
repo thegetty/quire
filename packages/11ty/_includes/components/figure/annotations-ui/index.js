@@ -19,7 +19,7 @@ module.exports = function(eleventyConfig) {
     if (!annotations || !annotations.length) return ''
     const fieldsets = annotations.map(({ input, items, title='', type }, index) => {
       const nameParts = [figure.id, index]
-      if (lightbox) nameParts.push('lightbox')
+      if (lightbox) nameParts.unshift('lightbox')
       const name = nameParts.join('-')
       const options = 
         items.map((annotation, index) => figureOption({ annotation, index, input, name }))
