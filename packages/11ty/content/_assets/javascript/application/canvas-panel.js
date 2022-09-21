@@ -6,31 +6,49 @@ import scrollToHash from './scroll-to-hash'
  * @param {HTMLElement} element
  */
 const handleSelect = (element) => {
-  const figure = element.closest('.q-figure') || element.closest('.q-lightbox-slides__slide')
-  if (!figure) return
-  const canvasPanel = figure.querySelector('canvas-panel')
+  const container = element.closest('.q-figure') || element.closest('.q-lightbox-slides__slide')
+  const inLightbox = document.querySelector('q-lightbox').contains(container)
+  if (!container) return
+  const annotationId = element.getAttribute('value')
   const annotationType = element.getAttribute('data-annotation-type')
-  const id = element.getAttribute('value')
+  const canvasId = container.querySelector('canvas-panel').getAttribute('canvas-id')
+  const canvasPanels = document.querySelectorAll(`[canvas-id="${canvasId}"]`)
+  const elementId = element.getAttribute('id')
   const inputType = element.getAttribute('type')
 
+  /**
+   * Two-way data binding for annotaion UI inputs
+   */
+  if (inLightbox) {
+    const inlineInput = document.querySelector(`#${elementId.split('lightbox-')[1]}`)
+    inlineInput.checked = element.checked
+  } else {
+    const lightboxInput = document.querySelector(`#${['lightbox', elementId].join('-')}`)
+    if (lightboxInput) lightboxInput.checked = element.checked
+  }
+
   const toggleChoice = ({ checked }) => {
-    canvasPanel.makeChoice(id, {
-      deselect: !checked,
-      deselectOthers: inputType === 'radio'
+    canvasPanels.forEach((canvasPanel) => {
+      canvasPanel.makeChoice(annotationId, {
+        deselect: !checked,
+        deselectOthers: inputType === 'radio'
+      })
     })
     if (inputType !== 'checkbox') return
-    const checkedInputs = figure.querySelectorAll('.annotations-ui__input[checked]')
+    const checkedInputs = container.querySelectorAll('.annotations-ui__input[checked]')
     if (!checked && checkedInputs.length === 1) {
       checkedInputs[0].setAttribute('disabled', true)
     }
     if (checked) {
-      const disabledInput = figure.querySelector('[disabled]')
+      const disabledInput = container.querySelector('[disabled]')
       disabledInput ? disabledInput.removeAttribute('disabled') : null
     }
   }
 
   const toggleAnnotation = ({ checked }) => {
-    canvasPanel.applyStyles(id, { opacity: Number(!!checked) })
+    canvasPanels.forEach((canvasPanel) => {
+      canvasPanel.applyStyles(annotationId, { opacity: Number(!!checked) })
+    })
   }
 
   switch (annotationType) {
@@ -70,7 +88,7 @@ const goToCanvasState = function ({ annotationIds=[], figureId, region }) {
    */
   if (region) canvasPanel.setAttribute('region', region)
   annotationIds.forEach((id) => {
-    const input = document.getElementById(id)
+    const input = document.querySelector(`input[value="${id}"]`)
     if (!input) {
       console.warn(`Invalid annotation id: ${id}`)
       return
