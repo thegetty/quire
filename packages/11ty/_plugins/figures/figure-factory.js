@@ -73,7 +73,7 @@ module.exports = class FigureFactory {
       isImageService: isImageService(data),
       manifestId: data.manifestId,
       printImage: getPrintImage(this.iiifConfig, data),
-      outputDir: path.join(this.iiifConfig.outputDir, data.id),
+      outputDir: path.join(this.iiifConfig.dirs.output, data.id),
       ...data
     }
   }
@@ -104,7 +104,7 @@ module.exports = class FigureFactory {
    * Sets canvasId and manifestId properties on the figure instance
    */
   async generateManifest(figure) {
-    const manifest = new Manifest({ figure, writer: this.writer })
+    const manifest = new Manifest({ figure, iiifConfig: this.iiifConfig, writer: this.writer })
     const manifestJSON = await manifest.write()
     return { 
       canvasId: manifestJSON.items[0].id,

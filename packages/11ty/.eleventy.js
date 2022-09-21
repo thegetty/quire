@@ -1,4 +1,3 @@
-require('dotenv').config()
 require('module-alias/register')
 
 const fs = require('fs-extra')
@@ -193,6 +192,14 @@ module.exports = function(eleventyConfig) {
         mode: 'development'
       }
     }
+  })
+
+  /**
+   * Set eleventy dev server options
+   * @see https://www.11ty.dev/docs/dev-server/
+   */
+  eleventyConfig.setServerOptions({
+    port: 8080
   })
 
   // @see https://www.11ty.dev/docs/copy/#passthrough-during-serve
