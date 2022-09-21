@@ -7,7 +7,7 @@ const path = require('path')
  * @return {String}            Path to figure's print image
  */
 module.exports = (iiifConfig, figure) => {
-  const { outputDir } = iiifConfig
+  const { dirs } = iiifConfig
   const { printImage, src } = figure
 
   let defaultImage
@@ -18,7 +18,7 @@ module.exports = (iiifConfig, figure) => {
    */
   if (figure.src) {
     const { ext, name } = path.parse(src)
-    defaultImage = path.join(outputDir, name, `print-image${ext}`)
+    defaultImage = path.join(dirs.output, name, `print-image${ext}`)
   }
 
   return printImage || defaultImage
