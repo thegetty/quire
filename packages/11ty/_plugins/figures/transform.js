@@ -29,6 +29,7 @@ module.exports = (iiifConfig, figure, options={}) => {
     const { debug, lazy } = options
 
     const { outputDir, region, src } = figure
+    if (!src) return
     const { ext, name } = path.parse(src)
     const { resize } = transformation
     const format = formats.find(({ input }) => input.includes(ext))
