@@ -31,6 +31,13 @@ module.exports = class AnnotationFactory {
    */
   create(figure, data) {
     const { baseURL, dirs } = this.iiifConfig
+
+    /**
+     * Note: Currently only JPG image services are supported by canvas-panel/image-service tags
+     */
+    const { ext } = data.src ? path.parse(data.src) : {}
+    const isImageService = !!figure.zoom && ext === '.jpg'
+
     /**
      * If an id is not provided, compute id from the `label` or `src` properties
      * @return {String}
@@ -57,10 +64,10 @@ module.exports = class AnnotationFactory {
      * @return {String}
      */
     const filepath = () => {
-      return figure.preset === "zoom"
+      return isImageService
         ? [
             dirs.output,
-            data.id,
+            id(),
             dirs.imageService,
           ].join('/')
         : [dirs.input, data.src].join('/');
@@ -84,6 +91,7 @@ module.exports = class AnnotationFactory {
 
     return {
       id: id(),
+      isImageService,
       format: format(),
       label: data.label || titleCase(path.parse(data.src).name),
       motivation: data.src ? 'painting' : 'text',
@@ -94,8 +102,8 @@ module.exports = class AnnotationFactory {
   }
 
   async process(annotation, outputDir) {
-    const { src } = annotation
-    if (src) {
+    const { isImageService, src } = annotation
+    if (isImageService) {
       const { errors, info } = await this.tiler.tile(src, outputDir)
       annotation.info = info
       if (errors) logger.error(errors)
