@@ -16,9 +16,11 @@ module.exports = class AnnotationFactory {
   }
 
   /**
-   * 
    * @param  {Figure} figure
    * @param  {Object} data Annotation item data defined on a figure in `figures.yaml`
+   * @property {String} id Annotation id
+   * @property {String} label Annotation label
+   * @property {String} src Path to annotation image src
    * 
    * @typedef {Object} Annotation
    * @property {String} id
