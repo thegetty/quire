@@ -21,7 +21,7 @@ const handleSelect = (element) => {
    */
   if (inLightbox) {
     const inlineInput = document.querySelector(`#${elementId.split('lightbox-')[1]}`)
-    inlineInput.checked = element.checked
+    if (inlineInput) inlineInput.checked = element.checked
   } else {
     const lightboxInput = document.querySelector(`#${['lightbox', elementId].join('-')}`)
     if (lightboxInput) lightboxInput.checked = element.checked
