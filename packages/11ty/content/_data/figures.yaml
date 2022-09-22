@@ -28,7 +28,7 @@ figure_list:
   - id: "example-image-service-2"
     label: "Figure 2"
     src: figures/mother.jpg
-    media_type: iiif
+    zoom: true
     caption: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Risus feugiat in ante metus dictum at. Quam viverra orci sagittis eu volutpat."
     credit: "Image courtesy of the J. Paul Getty Museum"
   - id: "example-image-service-3"
