@@ -14,12 +14,13 @@ figure_list:
     label: "Choices 1"
     caption: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Posuere sollicitudin aliquam ultrices sagittis orci a scelerisque. Vitae tortor condimentum lacinia quis vel eros donec ac odio. Pulvinar pellentesque habitant morbi tristique senectus et netus et. Sodales ut etiam sit amet nisl purus in mollis."
     credit: "Credit line for these images"
+    zoom: true
     annotations:
       - input: radio
         items:
-        - src: figures/evans-graveyard.jpg
+        - src: figures/duo.jpg
           label: "Choice #1"
-        - src: figures/evans-burroughs.jpg
+        - src: figures/pickers.jpg
           label: "Choice #2"
   - id: "example-image-service"
     label: "Figure 1"
