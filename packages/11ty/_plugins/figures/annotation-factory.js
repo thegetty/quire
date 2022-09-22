@@ -2,7 +2,8 @@ const chalkFactory = require('~lib/chalk')
 const mime = require('mime-types')
 const path = require('path')
 const titleCase = require('~plugins/filters/titleCase')
-const { error } = chalkFactory('Figure Processing:IIIF:Annotations')
+const Tiler = require('./iiif/tiler')
+const logger = chalkFactory('Figure Processing:IIIF:Annotations')
 
 /**
  * Quire Figure Annotations conform to the W3C Web Annotation Format
@@ -11,6 +12,7 @@ const { error } = chalkFactory('Figure Processing:IIIF:Annotations')
 module.exports = class AnnotationFactory {
   constructor(iiifConfig) {
     this.iiifConfig = iiifConfig
+    this.tiler = new Tiler(iiifConfig)
   }
 
   /**
@@ -44,7 +46,7 @@ module.exports = class AnnotationFactory {
           return data.label.split(' ').join('-').toLowerCase()
           break;
         default:
-          error(`Unable to set an id for annotation on figure "${this.figure.id}". Annotations must have an 'id', 'label', or 'src' property.`)
+          logger.error(`Unable to set an id for annotation on figure "${this.figure.id}". Annotations must have an 'id', 'label', or 'src' property.`)
           break;
       }
     }
@@ -89,5 +91,15 @@ module.exports = class AnnotationFactory {
       url: url(),
       ...data
     }
+  }
+
+  async process(annotation, outputDir) {
+    const { src } = annotation
+    if (src) {
+      const { errors, info } = await this.tiler.tile(src, outputDir)
+      annotation.info = info
+      if (errors) logger.error(errors)
+    }
+    return annotation
   }
 }
