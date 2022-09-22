@@ -15,7 +15,7 @@ The following examples demonstrate basic usage of when the `figure` shortcode re
 ### Image Service
 Images in `figures.yaml` with `zoom="true"` will be tiled and rendered using the `<image-service />` web component.
 
-The tiler output can be found in `public/iiif/<figure-id>/<image-file-name>`
+The image tiles are written to `public/iiif/<figure-id>/<image-file-name>`
 
 Example:
 
