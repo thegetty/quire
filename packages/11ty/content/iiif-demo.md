@@ -28,8 +28,6 @@ _figures.yaml_
 
 {% figure "example-image-service-2" %}
 
-{% figure "example-png-image-service" %}
-
 ## Canvas Panel
 
 Example with external manifest:
