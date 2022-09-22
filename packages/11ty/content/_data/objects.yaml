@@ -47,3 +47,12 @@ object_list:
     link: https://www.getty.edu/art/collection/objects/34753/
     figure:
       - id: "family"
+
+  - id: 5
+    title: Demo Entry
+    figure:
+      - id: "example-image-service-2"
+      - id: "example-with-choices"
+      - id: "fig-032"
+      - id: "fig-006"
+      - id: "fig-034"

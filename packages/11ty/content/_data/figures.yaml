@@ -176,18 +176,24 @@ figure_list:
     annotations:
       - input: checkbox
         items:
-          - src: "figures/iiif/006/bronze.png"
+          - id: "bronze"
+            src: "figures/iiif/006/bronze.png"
             label: "Bronze"
-          - src: "figures/iiif/006/core.png"
+          - id: "core"
+            src: "figures/iiif/006/core.png"
             label: "Core"
-          - src: "figures/iiif/006/flashing.png"
+          - id: "flashing"
+            src: "figures/iiif/006/flashing.png"
             label: "Flashing"
-          - src: "figures/iiif/006/cold-shut.png"
+          - id: "cold-shut"
+            src: "figures/iiif/006/cold-shut.png"
             label: "Cold-shut"
-          - src: "figures/iiif/006/seam-line.png"
+          - id: "seam-line"
+            src: "figures/iiif/006/seam-line.png"
             label: "Seam line"
             selected: true
-          - src: "figures/iiif/006/lantern.png"
+          - id: "lantern"
+            src: "figures/iiif/006/lantern.png"
             label: "Lantern"
             selected: true
 
@@ -197,9 +203,12 @@ figure_list:
     annotations:
       - input: radio
         items:
-          - src: "figures/iiif/034/base.jpg"
+          - id: "daylight"
+            src: "figures/iiif/034/base.jpg"
             label: "Daylight"
-          - src: "figures/iiif/034/x-ray.jpg"
+          - id: "x-ray"
+            src: "figures/iiif/034/x-ray.jpg"
             label: "X-Ray"
-          - src: "figures/iiif/034/armature.jpg"
+          - id: "armature"
+            src: "figures/iiif/034/armature.jpg"
             label: "Armature"
