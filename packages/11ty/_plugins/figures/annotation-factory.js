@@ -2,7 +2,8 @@ const chalkFactory = require('~lib/chalk')
 const mime = require('mime-types')
 const path = require('path')
 const titleCase = require('~plugins/filters/titleCase')
-const { error } = chalkFactory('Figure Processing:IIIF:Annotations')
+const Tiler = require('./iiif/tiler')
+const logger = chalkFactory('Figure Processing:IIIF:Annotations')
 
 /**
  * Quire Figure Annotations conform to the W3C Web Annotation Format
@@ -11,12 +12,15 @@ const { error } = chalkFactory('Figure Processing:IIIF:Annotations')
 module.exports = class AnnotationFactory {
   constructor(iiifConfig) {
     this.iiifConfig = iiifConfig
+    this.tiler = new Tiler(iiifConfig)
   }
 
   /**
-   * 
    * @param  {Figure} figure
    * @param  {Object} data Annotation item data defined on a figure in `figures.yaml`
+   * @property {String} id Annotation id
+   * @property {String} label Annotation label
+   * @property {String} src Path to annotation image src
    * 
    * @typedef {Object} Annotation
    * @property {String} id
@@ -29,6 +33,13 @@ module.exports = class AnnotationFactory {
    */
   create(figure, data) {
     const { baseURL, dirs } = this.iiifConfig
+
+    /**
+     * Note: Currently only JPG image services are supported by canvas-panel/image-service tags
+     */
+    const { ext } = data.src ? path.parse(data.src) : {}
+    const isImageService = !!figure.zoom && ext === '.jpg'
+
     /**
      * If an id is not provided, compute id from the `label` or `src` properties
      * @return {String}
@@ -44,7 +55,7 @@ module.exports = class AnnotationFactory {
           return data.label.split(' ').join('-').toLowerCase()
           break;
         default:
-          error(`Unable to set an id for annotation on figure "${this.figure.id}". Annotations must have an 'id', 'label', or 'src' property.`)
+          logger.error(`Unable to set an id for annotation on figure "${this.figure.id}". Annotations must have an 'id', 'label', or 'src' property.`)
           break;
       }
     }
@@ -55,10 +66,10 @@ module.exports = class AnnotationFactory {
      * @return {String}
      */
     const filepath = () => {
-      return figure.preset === "zoom"
+      return isImageService
         ? [
             dirs.output,
-            data.id,
+            id(),
             dirs.imageService,
           ].join('/')
         : [dirs.input, data.src].join('/');
@@ -82,6 +93,7 @@ module.exports = class AnnotationFactory {
 
     return {
       id: id(),
+      isImageService,
       format: format(),
       label: data.label || titleCase(path.parse(data.src).name),
       motivation: data.src ? 'painting' : 'text',
@@ -89,5 +101,15 @@ module.exports = class AnnotationFactory {
       url: url(),
       ...data
     }
+  }
+
+  async process(annotation, outputDir) {
+    const { isImageService, src } = annotation
+    if (isImageService) {
+      const { errors, info } = await this.tiler.tile(src, outputDir)
+      annotation.info = info
+      if (errors) logger.error(errors)
+    }
+    return annotation
   }
 }

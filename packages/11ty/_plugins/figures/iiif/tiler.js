@@ -2,7 +2,7 @@ const chalkFactory = require('~lib/chalk')
 const fs = require('fs-extra')
 const path = require('path')
 const sharp = require('sharp')
-const { info } = chalkFactory('Figure Processing:IIIF:Tile Image')
+const logger = chalkFactory('Figure Processing:IIIF:Tile Image')
 
 
 module.exports = class Tiler {
@@ -16,12 +16,12 @@ module.exports = class Tiler {
 
   /**
    * Tile an image for IIIF image service using sharp
-   * @param  {String} figure   Figure entry data from `figures.yaml`
+   * @param  {String} imagePath   Path to the image file to tile
    * @param  {Object}
    */
-  async tile(figure) {
-    if (!figure.src) return
-    const { ext, name } = path.parse(figure.src)
+  async tile(imagePath, outputPath) {
+    if (!imagePath) return
+    const { ext, name } = path.parse(imagePath)
 
     if (!this.supportedImageExtensions.includes(ext)) {
       return {
@@ -37,28 +37,27 @@ module.exports = class Tiler {
     } = this.iiifConfig
 
     const format = formats.find(({ input }) => input.includes(ext))
-    const inputPath = path.join(dirs.inputRoot, dirs.input, figure.src)
-    const tileDirectory = path.join(figure.outputDir, name, dirs.imageService)
-    const url = new URL(path.join(tileDirectory, 'info.json'), baseURL).href
+    const inputPath = path.join(dirs.inputRoot, dirs.input, imagePath)
+    const tileDirectory = path.join(outputPath, name, dirs.imageService)
+    const info = new URL(path.join(tileDirectory, 'info.json'), baseURL).href
 
     if (fs.existsSync(path.join(dirs.outputRoot, tileDirectory, 'info.json'))) {
-      info(`Skipping previously tiled image "${inputPath}"`)
-      return { info: url }
+      logger.info(`Skipping previously tiled image "${inputPath}"`)
+      return { info }
     }
-    fs.ensureDirSync(tileDirectory)
+    fs.ensureDirSync(path.join(dirs.outputRoot, tileDirectory))
 
     try {
-      info(`Tiling image: "${inputPath}"`)
+      logger.info(`Tiling image: "${inputPath}"`)
       const response = await sharp(inputPath)
         .toFormat(format.output.replace('.', ''))
         .tile({
-          id: url,
+          id: new URL(path.join(outputPath, name), baseURL).href,
           layout: 'iiif',
           size: tileSize
         })
         .toFile(path.join(dirs.outputRoot, tileDirectory))
-      info(`Done tiling image "${inputPath}"`)
-      return { info: url }
+      return { info }
     } catch(error) {
       return { errors: [error] }
     }

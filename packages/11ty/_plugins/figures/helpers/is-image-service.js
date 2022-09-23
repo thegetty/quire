@@ -5,7 +5,7 @@ const path = require('path')
  * @return {Boolean}
  */
 module.exports = function(figure) {
-  const { iiifContent, manifestId, media_type: mediaType, src='' } = figure
+  const { src='', zoom } = figure
   const { base } = path.parse(src)
-  return base === 'info.json' || (mediaType === 'iiif' && !iiifContent && !manifestId)
+  return base === 'info.json' || zoom
 }

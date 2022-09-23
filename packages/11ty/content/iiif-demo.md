@@ -13,9 +13,9 @@ Use the `annoref` shortcode to create a link to a specific annotation state. For
 The following examples demonstrate basic usage of when the `figure` shortcode renders `<canvas-panel>` and `<image-service>` web components.
 
 ### Image Service
-Images in `figures.yaml` with `media_type="iiif"` will be tiled and rendered using the `<image-service />` web component.
+Images in `figures.yaml` with `zoom="true"` will be tiled and rendered using the `<image-service />` web component.
 
-The tiler output can be found in `public/iiif/<image-name>/`
+The image tiles are written to `public/iiif/<figure-id>/<image-file-name>`
 
 Example:
 
@@ -23,7 +23,7 @@ _figures.yaml_
 ```yaml
   - id: "example-image-service-2"
     src: figures/mother.jpg
-    media_type: iiif
+    zoom: true
 ```
 
 {% figure "example-image-service-2" %}
