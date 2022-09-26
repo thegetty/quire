@@ -3,7 +3,6 @@ require('module-alias/register')
 const fs = require('fs-extra')
 const path = require('path')
 const scss = require('rollup-plugin-scss')
-const copy = require('rollup-plugin-copy')
 
 /**
  * Quire features are implemented as Eleventy plugins
@@ -139,12 +138,16 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(EleventyVitePlugin, {
     tempFolderName: '.11ty-vite',
     viteOptions: {
+      publicDir: process.env.ELEVENTY_ENV === 'production'
+        ? publicDir
+        : false,
       /**
        * @see https://vitejs.dev/config/#build-options
        */
       root: '_site',
       build: {
         assetsDir: '_assets',
+        emptyOutDir: process.env.ELEVENTY_ENV !== 'production',
         manifest: true,
         mode: 'production',
         outDir: '_site',
@@ -163,15 +166,7 @@ module.exports = function(eleventyConfig) {
               })
               return `${filePath}[name][extname]`
             }
-          },
-          plugins: [
-            copy({
-              targets: [
-                { src: 'public/pdf.html', dest: '_site' },
-                { src: 'public/pdf.css', dest: '_site' },
-              ]
-            })
-          ]
+          }
 
         },
         sourcemap: true
@@ -188,7 +183,7 @@ module.exports = function(eleventyConfig) {
         hmr: {
           overlay: false
         },
-        middlewareMode: 'ssr',
+        middlewareMode: true,
         mode: 'development'
       }
     }
@@ -210,8 +205,8 @@ module.exports = function(eleventyConfig) {
    * Copy static assets to the output directory
    * @see https://www.11ty.dev/docs/copy/
    */
+  if (process.env.ELEVENTY_ENV === 'production') eleventyConfig.addPassthroughCopy(publicDir)
   eleventyConfig.addPassthroughCopy(`${inputDir}/_assets`)
-  eleventyConfig.addPassthroughCopy(`${publicDir}`)
   eleventyConfig.addPassthroughCopy({ '_includes/web-components': '_assets/javascript' })
 
   /**
