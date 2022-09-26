@@ -3,7 +3,6 @@ require('module-alias/register')
 const fs = require('fs-extra')
 const path = require('path')
 const scss = require('rollup-plugin-scss')
-const copy = require('rollup-plugin-copy')
 
 /**
  * Quire features are implemented as Eleventy plugins
@@ -140,7 +139,7 @@ module.exports = function(eleventyConfig) {
     tempFolderName: '.11ty-vite',
     viteOptions: {
       publicDir: process.env.ELEVENTY_ENV === 'production'
-        ? 'public'
+        ? publicDir
         : false,
       /**
        * @see https://vitejs.dev/config/#build-options
@@ -167,15 +166,7 @@ module.exports = function(eleventyConfig) {
               })
               return `${filePath}[name][extname]`
             }
-          },
-          plugins: [
-            copy({
-              targets: [
-                { src: 'public/pdf.html', dest: '_site' },
-                { src: 'public/pdf.css', dest: '_site' },
-              ]
-            })
-          ]
+          }
 
         },
         sourcemap: true
@@ -215,7 +206,6 @@ module.exports = function(eleventyConfig) {
    * @see https://www.11ty.dev/docs/copy/
    */
   eleventyConfig.addPassthroughCopy(`${inputDir}/_assets`)
-  eleventyConfig.addPassthroughCopy(`${publicDir}`)
   eleventyConfig.addPassthroughCopy({ '_includes/web-components': '_assets/javascript' })
 
   /**
