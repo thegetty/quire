@@ -139,12 +139,16 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(EleventyVitePlugin, {
     tempFolderName: '.11ty-vite',
     viteOptions: {
+      publicDir: process.env.ELEVENTY_ENV === 'production'
+        ? 'public'
+        : false,
       /**
        * @see https://vitejs.dev/config/#build-options
        */
       root: '_site',
       build: {
         assetsDir: '_assets',
+        emptyOutDir: process.env.ELEVENTY_ENV !== 'production',
         manifest: true,
         mode: 'production',
         outDir: '_site',

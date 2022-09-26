@@ -3,6 +3,9 @@ const path = require('path')
 module.exports = (eleventyConfig) => {
   const { baseURL } = eleventyConfig.globalData.config
   const { port } = eleventyConfig.serverOptions
+  const { viteOptions } = eleventyConfig.plugins.find(
+    ({ options }) => !!options && !!options.viteOptions
+  ).options
   const iiifConfig = {
     baseURL: process.env.ELEVENTY_ENV === 'production' ? baseURL : `http://localhost:${port}`,
     dirs: {
@@ -24,7 +27,7 @@ module.exports = (eleventyConfig) => {
        * @type {String}
        */
       output: 'iiif',
-      outputRoot: 'public'
+      outputRoot: viteOptions.publicDir || eleventyConfig.dir.output
     },
     /**
      * Input and output of processable image formats
