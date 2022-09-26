@@ -183,7 +183,7 @@ module.exports = function(eleventyConfig) {
         hmr: {
           overlay: false
         },
-        middlewareMode: 'ssr',
+        middlewareMode: true,
         mode: 'development'
       }
     }
