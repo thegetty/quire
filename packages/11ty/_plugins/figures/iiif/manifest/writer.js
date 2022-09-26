@@ -15,8 +15,8 @@ module.exports = class ManifestWriter {
    */
   write({ figure, manifest }) {
     const { outputRoot } = this.iiifConfig.dirs
-    const { pathname } = new URL(manifest.id)
-    const outputPath = path.join(outputRoot, pathname)
+    const pathName = manifest.id.split(this.iiifConfig.baseURL)[1]
+    const outputPath = path.join(outputRoot, pathName)
     fs.ensureDirSync(path.parse(outputPath).dir)
     fs.writeJsonSync(outputPath, manifest)
   }

@@ -205,6 +205,7 @@ module.exports = function(eleventyConfig) {
    * Copy static assets to the output directory
    * @see https://www.11ty.dev/docs/copy/
    */
+  if (process.env.ELEVENTY_ENV === 'production') eleventyConfig.addPassthroughCopy(publicDir)
   eleventyConfig.addPassthroughCopy(`${inputDir}/_assets`)
   eleventyConfig.addPassthroughCopy({ '_includes/web-components': '_assets/javascript' })
 
