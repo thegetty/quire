@@ -11,15 +11,15 @@ const vault = globalVault()
 const builder = new IIIFBuilder(vault)
 
 module.exports = class Manifest {
-  constructor({ figure, writer }) {
-    const { outputDir, manifestFilename } = writer.iiifConfig
-    const baseId = [process.env.URL, outputDir, figure.id].join('/')
+  constructor({ figure, iiifConfig, writer }) {
+    const { baseURL, manifestFilename } = iiifConfig
+    const baseId = [baseURL, figure.outputDir].join('/')
 
     this.canvas = {
       id: [baseId, 'canvas'].join('/')
     }
     this.figure = figure
-    this.iiifConfig = writer.iiifConfig
+    this.iiifConfig = iiifConfig
     this.manifestId = [baseId, manifestFilename].join('/')
     this.writer = writer
   }
@@ -71,17 +71,7 @@ module.exports = class Manifest {
       if (!item.src) {
         error(`Invalid annotation on figure ID "${this.figure.id}". Annotations must have a "src" or "text" property`)
       }
-      const choice = this.createAnnotationBody(item)
-      if (this.figure.preset === 'zoom') {
-        choice.service = [
-          {
-            id: item.url,
-            type: 'ImageService3',
-            profile: 'level0'
-          }
-        ]
-      }
-      return choice
+      return this.createAnnotationBody(item)
     })
 
     return this.createAnnotation({
@@ -95,8 +85,8 @@ module.exports = class Manifest {
   }
 
   async calcCanvasDimensions() {
-    const { inputDir, inputRoot } = this.iiifConfig
-    const fullImagePath = path.join(inputRoot, inputDir, this.canvasImagePath)
+    const { dirs } = this.iiifConfig
+    const fullImagePath = path.join(dirs.inputRoot, dirs.input, this.canvasImagePath)
     const { height, width } = await sharp(fullImagePath).metadata()
     this.canvas.height = height
     this.canvas.width = width
@@ -117,13 +107,25 @@ module.exports = class Manifest {
    * @todo handle text annotations
    * @todo handle annotations with target region
    */
-  createAnnotationBody({ format, label, src, url }) {
+  createAnnotationBody({ format, info, label, src, url }) {
+    const { ext } = path.parse(src)
     return {
       format,
       height: this.canvas.height,
       id: url,
       label: { en: [label] },
       type: 'Image',
+      service: info && [
+        {
+          '@context': 'http://iiif.io/api/image/3/context.json',
+          id: info,
+          extraFormats: ['png'],
+          preferredFormats: ['png'],
+          type: 'ImageService3',
+          profile: 'level0',
+          protocol: "http://iiif.io/api/image"
+        }
+      ],
       width: this.canvas.width
     }
   }

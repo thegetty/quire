@@ -1,9 +1,10 @@
 const AnnotationFactory = require('./annotation-factory')
 const chalkFactory = require('~lib/chalk')
-const Tiler = require('./iiif/tiler')
-const transform = require('./transform')
 const Manifest = require('./iiif/manifest')
 const ManifestWriter = require('./iiif/manifest/writer')
+const path = require('path')
+const transform = require('./transform')
+const Tiler = require('./iiif/tiler')
 const { getPrintImage, isCanvas, isImageService } = require('./helpers')
 
 const logger = chalkFactory('Figure Processing')
@@ -71,6 +72,7 @@ module.exports = class FigureFactory {
       isExternalResource: (data.src && data.src.startsWith('http')) || data.manifestId,
       isImageService: isImageService(data),
       manifestId: data.manifestId,
+      outputDir: path.join(this.iiifConfig.dirs.output, data.id),
       printImage: getPrintImage(this.iiifConfig, data),
       ...data
     }
@@ -79,10 +81,24 @@ module.exports = class FigureFactory {
   async process(figure) {
     if (figure.isImageService && !figure.isExternalResource) {
       logger.info(`Creating image service for figure "${figure.id}"`)
-      await transform(this.iiifConfig, figure)
-      const { errors, info } = await this.tiler.tile(figure)
-      figure.info = info
-      errors ? this.errors = this.errors.concat(errors) : null
+      if (figure.src) {
+        await transform(this.iiifConfig, figure)
+        const { errors, info } = await this.tiler.tile(figure.src, figure.outputDir)
+        figure.info = info
+        errors ? this.errors = this.errors.concat(errors) : null
+      }
+      if (figure.annotations) {
+        figure.annotations = await Promise.all(
+          figure.annotations.map(async (set) => {
+            return {
+              ...set,
+              items: await Promise.all(
+                set.items.map((item) => this.annotationFactory.process(item, figure.outputDir))
+              )
+            }
+          })
+        )
+      }
     }
 
     if (figure.isCanvas && !figure.isExternalResource) {
@@ -102,7 +118,7 @@ module.exports = class FigureFactory {
    * Sets canvasId and manifestId properties on the figure instance
    */
   async generateManifest(figure) {
-    const manifest = new Manifest({ figure, writer: this.writer })
+    const manifest = new Manifest({ figure, iiifConfig: this.iiifConfig, writer: this.writer })
     const manifestJSON = await manifest.write()
     return { 
       canvasId: manifestJSON.items[0].id,

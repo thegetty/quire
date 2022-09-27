@@ -28,7 +28,7 @@ module.exports = function(eleventyConfig) {
       label
     } = figure
 
-    const annotationsElement = annotationsUI(figure)
+    const annotationsElement = annotationsUI({ figure })
     const labelElement = figureLabel({ caption, id, label })
 
     /**

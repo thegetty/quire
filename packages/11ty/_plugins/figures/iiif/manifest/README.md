@@ -3,7 +3,7 @@
 The Quire figure model is a simple interface for creating IIIF manifests that are rendered by Quire's `figure` shortcode using the [`<canvas-panel>`](https://iiif-canvas-panel.netlify.app/docs/intro/) web component.
 
 ## Process
-Quire's IIIF processing parses the `figures.yaml` data and for each figure writes a manifest file to the directory `/public/iiif/<figure.id>.json`. A list of manifests is also added to the eleventy global data object `eleventyConfig.globalData.iiifManifests[figure.id]`.
+Quire's IIIF processing parses the `figures.yaml` data and for each figure writes a manifest file to the directory `/<iiifConfig.dirs.outputRoot>/iiif/<figure.id>.json`. A list of manifests is also added to the eleventy global data object `eleventyConfig.globalData.iiifManifests[figure.id]`.
 
 ## Annotations Model
 | Property    | Description                  |
