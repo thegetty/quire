@@ -3,6 +3,7 @@ const fs = require('fs-extra')
 const path = require('path')
 const sharp = require('sharp')
 const titleCase = require('~plugins/filters/titleCase')
+const Writer = require('./writer')
 const { globalVault } = require('@iiif/vault')
 const { IIIFBuilder } = require('iiif-builder')
 const { error, info } = chalkFactory('Figure Processing:IIIF:Manifest')
@@ -11,7 +12,7 @@ const vault = globalVault()
 const builder = new IIIFBuilder(vault)
 
 module.exports = class Manifest {
-  constructor({ figure, iiifConfig, writer }) {
+  constructor({ figure, iiifConfig }) {
     const { baseURL, manifestFilename } = iiifConfig
     const baseId = [baseURL, figure.outputDir].join('/')
 
@@ -21,7 +22,7 @@ module.exports = class Manifest {
     this.figure = figure
     this.iiifConfig = iiifConfig
     this.manifestId = [baseId, manifestFilename].join('/')
-    this.writer = writer
+    this.writer = new Writer(iiifConfig)
   }
 
   get annotations() {
