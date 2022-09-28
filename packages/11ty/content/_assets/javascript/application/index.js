@@ -362,7 +362,7 @@ function parseQueryParams() {
 globalSetup();
 
 // Run when DOM content has loaded
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('load', () => {
   pageSetup()
   scrollToHash(window.location.hash, 75, 'swing')
   const params = parseQueryParams()
