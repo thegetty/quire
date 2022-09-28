@@ -203,6 +203,7 @@ function loadSearchData() {
     const { ok, statusText, url } = response
     if (!ok) {
       console.warn(`Search data ${statusText.toLowerCase()} at ${url}`)
+      return
     }
     const data = await response.json();
     window["QUIRE_SEARCH"] = new Search(data);
