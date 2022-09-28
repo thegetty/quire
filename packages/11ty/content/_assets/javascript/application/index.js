@@ -203,6 +203,7 @@ function loadSearchData() {
     const { ok, statusText, url } = response
     if (!ok) {
       console.warn(`Search data ${statusText.toLowerCase()} at ${url}`)
+      return
     }
     const data = await response.json();
     window["QUIRE_SEARCH"] = new Search(data);
@@ -362,7 +363,7 @@ function parseQueryParams() {
 globalSetup();
 
 // Run when DOM content has loaded
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('load', () => {
   pageSetup()
   scrollToHash(window.location.hash, 75, 'swing')
   const params = parseQueryParams()
