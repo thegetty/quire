@@ -4,7 +4,6 @@ const logger = chalkFactory('Figure Annotations UI')
 
 module.exports = function (eleventyConfig) {
   const slugify = eleventyConfig.getFilter('slugify')
-  const { locale } = eleventyConfig.globalData.iiifConfig
 
   const supportedInputTypes = ['checkbox', 'radio']
 

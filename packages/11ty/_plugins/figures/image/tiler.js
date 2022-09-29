@@ -38,11 +38,10 @@ module.exports = class Tiler {
 
     const format = formats.find(({ input }) => input.includes(ext))
     const tileDirectory = path.join(outputDir, name, dirs.imageService)
-    const info = new URL(path.join(tileDirectory, 'info.json'), baseURL).href
 
     if (fs.existsSync(path.join(dirs.outputRoot, tileDirectory, 'info.json'))) {
       logger.info(`Skipping previously tiled image "${inputPath}"`)
-      return { info }
+      return { success: true }
     }
     fs.ensureDirSync(path.join(dirs.outputRoot, tileDirectory))
 
@@ -56,7 +55,7 @@ module.exports = class Tiler {
           size: tileSize
         })
         .toFile(path.join(dirs.outputRoot, tileDirectory))
-      return { info }
+      return { success: true }
     } catch(error) {
       return { errors: [error] }
     }

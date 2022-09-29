@@ -12,16 +12,12 @@ const vault = globalVault()
 const builder = new IIIFBuilder(vault)
 
 module.exports = class Manifest {
-  constructor({ figure, iiifConfig }) {
-    const { baseURL, manifestFilename } = iiifConfig
-    const baseId = [baseURL, figure.outputDir].join('/')
-
-    this.canvas = {
-      id: [baseId, 'canvas'].join('/')
-    }
+  constructor(figure) {
+    const { iiifConfig } = figure
+    const { baseURL, dirs, locale, manifestFilename } = iiifConfig
     this.figure = figure
-    this.iiifConfig = iiifConfig
-    this.manifestId = [baseId, manifestFilename].join('/')
+    this.inputDir = path.join(dirs.inputRoot, dirs.input)
+    this.locale = locale
     this.writer = new Writer(iiifConfig)
   }
 
@@ -29,20 +25,12 @@ module.exports = class Manifest {
     const annotations = this.figure.annotations
       .flatMap(({ items }) => items)
       .filter(({ type }) => type === 'annotation')
-      .map((item) => {
-        return this.createAnnotation({
-          body: this.createAnnotationBody(item),
-          ...item
-        })
-      })
+      .map((item) => this.createAnnotation(item))
       /**
        * Add the "base" image as a canvas annotation
        */
-      if (this.figure.baseImage) { 
-        annotations.unshift(this.createAnnotation({
-          body: this.createAnnotationBody(this.figure.baseImage),
-          ...this.figure.baseImage
-        }))
+      if (this.figure.baseImageAnnotation) { 
+        annotations.unshift(this.createAnnotation(this.figure.baseImageAnnotation))
       }
       return annotations
   }
@@ -86,20 +74,20 @@ module.exports = class Manifest {
   }
 
   async calcCanvasDimensions() {
-    const { dirs } = this.iiifConfig
-    const fullImagePath = path.join(dirs.inputRoot, dirs.input, this.canvasImagePath)
+    const fullImagePath = path.join(this.inputDir, this.canvasImagePath)
     const { height, width } = await sharp(fullImagePath).metadata()
-    this.canvas.height = height
-    this.canvas.width = width
+    this.canvasHeight = height
+    this.canvasWidth = width
     return { height, width }
   }
 
-  createAnnotation({ body, id, motivation, target }) {
+  createAnnotation(data) {
+    const { body, id, motivation, target } = data
     return {
-      body,
-      id: [this.canvas.id, id].join('/'),
+      body: body || this.createAnnotationBody(data),
+      id: [this.figure.canvasId, id].join('/'),
       motivation,
-      target: target ? `${this.canvas.id}#xywh=${target}` : this.canvas.id,
+      target: target ? `${this.figure.canvasId}#xywh=${target}` : this.figure.canvasId,
       type: 'Annotation'
     }
   }
@@ -112,7 +100,7 @@ module.exports = class Manifest {
     const { ext } = path.parse(src)
     return {
       format,
-      height: this.canvas.height,
+      height: this.canvasHeight,
       id: url,
       label: { en: [label] },
       type: 'Image',
@@ -124,18 +112,18 @@ module.exports = class Manifest {
           preferredFormats: ['png'],
           type: 'ImageService3',
           profile: 'level0',
-          protocol: "http://iiif.io/api/image"
+          protocol: 'http://iiif.io/api/image'
         }
       ],
-      width: this.canvas.width
+      width: this.canvasWidth
     }
   }
 
   async toJSON() {
     const { height, width } = await this.calcCanvasDimensions()
-    const manifest = builder.createManifest(this.manifestId, (manifest) => {
-      manifest.addLabel(this.figure.label, this.iiifConfig.locale)
-      manifest.createCanvas(this.canvas.id, (canvas) => {
+    const manifest = builder.createManifest(this.figure.manifestId, (manifest) => {
+      manifest.addLabel(this.figure.label, this.locale)
+      manifest.createCanvas(this.figure.canvasId, (canvas) => {
         canvas.height = height
         canvas.width = width
         if (this.annotations) {
@@ -149,17 +137,15 @@ module.exports = class Manifest {
       })
     })
     try {
-      const json = builder.toPresentation3(manifest)
+      this.json = builder.toPresentation3(manifest)
       info(`Generated manifest for figure "${this.figure.id}"`)
-      return json
+      return { success: true }
     } catch(errorMessage) {
-      error(`Could not generate manifest for figure "${this.figure.id}": ${errorMessage}`)
+      return { errors: [`Failed to generate manifest: ${errorMessage}`]}
     }
   }
 
   async write() {
-    const manifest = await this.toJSON()
-    this.writer.write({ figure: this.figure, manifest })
-    return manifest
+    return await this.writer.write(this.json)
   }
 }
