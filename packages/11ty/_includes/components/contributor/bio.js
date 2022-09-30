@@ -8,7 +8,7 @@ const path = require('path')
  * @param  {Object} eleventyConfig
  * @param  {Object} params
  * @property  {Object} contributor
- * 
+ *
  * @return {String} contributor markup
  */
 module.exports = function (eleventyConfig) {
@@ -47,11 +47,11 @@ module.exports = function (eleventyConfig) {
 
     const contributorPages = pages.map(({ data, url }) => {
       const { label, subtitle, title } = data
-      return `${link({
+      return `<li>${link({
         classes: ['quire-contributor__page-link'],
         name: pageTitle({ label, subtitle, title }),
         url,
-      })}`
+      })}</li>`
     })
 
     return html`
@@ -64,7 +64,9 @@ module.exports = function (eleventyConfig) {
           <div class="quire-contributor__details media-content">
             ${contributorImage}
             ${contributorBio}
+            <ul>
             ${contributorPages}
+            </ul>
           </div>
         </div>
       </li>
