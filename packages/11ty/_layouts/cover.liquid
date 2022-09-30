@@ -4,7 +4,7 @@ description: Quire publication cover page
 layout: base.11ty.js
 ---
 
-{% assign coverImage = image || publication.promo_image %}
+{% assign coverImage = image %}
 {% assign imagePath = config.params.imageDir | concat: coverImage | join: '/' %}
 
 {% if page_bibliography %}
