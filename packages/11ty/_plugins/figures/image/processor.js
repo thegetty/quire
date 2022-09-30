@@ -4,9 +4,9 @@ const Tiler = require('./tiler')
 const Transformer = require('./transformer')
 
 /**
- * The Quire Image Processor handles file system changes for images
+ * The Quire Image Processor handles file system changes for IIIF images
  * - Create image transformations
- * - Tile images
+ * - Tiles images OR copies image into output directory so it's not removed by Vite
  * 
  * @return {Object}
  * @property {Array} errors Process error messages
@@ -21,10 +21,11 @@ module.exports = class ImageProcessor {
   }
 
   /**
-   * [processImage description]
    * @param  {String} imagePath
-   * @param  {Object} options     [description]
-   * @return {[type]}             [description]
+   * @param  {String} outputPath
+   * @param  {Object} options
+   * @property  {Boolean} tile To tile or not to tile
+   * @property  {Object} transformations Image transformations to perform
    */
   async processImage(imagePath, outputPath, options = {}) {
     if (!imagePath || imagePath.startsWith('http')) return {}
