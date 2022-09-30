@@ -7,6 +7,12 @@ layout: base.11ty.js
 {% assign coverImage = image || publication.promo_image %}
 {% assign imagePath = config.params.imageDir | concat: coverImage | join: '/' %}
 
+{% if page_bibliography %}
+  {% assign biblio = page_bibliography %}
+{% else %}
+  {% assign biblio = config.params.pageBibliography %}
+{% endif %}
+
 <section class="quire-cover__hero hero is-fullheight">
   <div
     class="quire-cover__overlay"
@@ -47,7 +53,9 @@ layout: base.11ty.js
     <div class="container is-fluid">
       <div class="content">
         {{ content }}
-        {% bibliography pageReferences %}
+        {% if biblio != false %}
+          {% bibliography pageReferences %}
+        {% endif %}
       </div>
     </div>
   </section>

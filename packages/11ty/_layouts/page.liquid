@@ -4,6 +4,12 @@ layout: base.11ty.js
 description: Single page default template
 ---
 
+{% if page_bibliography %}
+  {% assign biblio = page_bibliography %}
+{% else %}
+  {% assign biblio = config.params.pageBibliography %}
+{% endif %}
+
 {% pageHeader
   contributor_byline=contributor_byline,
   image=image,
@@ -17,7 +23,9 @@ description: Single page default template
   <div class="container">
     <div class="content">
       {{ content }}
-      {% bibliography pageReferences %}
+      {% if biblio != false %}
+        {% bibliography pageReferences %}
+      {% endif %}
     </div>
   </div>
 </section>

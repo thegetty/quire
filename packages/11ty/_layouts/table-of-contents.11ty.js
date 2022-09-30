@@ -1,8 +1,8 @@
 /**
- * Contents page template for TOC and Section TOCs. 
- * Page content from the markdown will appear in the content outlet below. 
- * The Table of Contents list will appear below that. 
- * It is scoped to show the contents of the full site. 
+ * Contents page template for TOC and Section TOCs.
+ * Page content from the markdown will appear in the content outlet below.
+ * The Table of Contents list will appear below that.
+ * It is scoped to show the contents of the full site.
  * Pages can be removed from the TOC indivudally by setting toc to `false` in the page yaml.
  */
 
@@ -21,6 +21,7 @@ module.exports = class TableOfContents {
       key,
       page,
       pages,
+      page_bibliography,
       pagination,
       presentation='list'
     } = data
@@ -35,6 +36,8 @@ module.exports = class TableOfContents {
         `
       : ''
     const containerClass = presentation === 'grid' ? 'is-fullhd' : ''
+
+    const biblio = page_bibliography || config.params.pageBibliography
 
     return this.renderTemplate(
       `{% pageHeader
@@ -51,7 +54,9 @@ module.exports = class TableOfContents {
           <div class="quire-contents-list ${presentation}">
             ${this.tableOfContents({ collections, currentPageUrl: page.url, key, presentation })}
             <div class="content">
+            {% if ${biblio} != false %}
               {% bibliography pageReferences %}
+            {% endif %}
             </div>
           </div>
           ${this.pageButtons({ pagination })}
