@@ -11,6 +11,9 @@ const { error, info } = chalkFactory('Figure Processing:IIIF:Manifest')
 const vault = globalVault()
 const builder = new IIIFBuilder(vault)
 
+/**
+ * Create a IIIF manifest from a Figure instance
+ */
 module.exports = class Manifest {
   constructor(figure) {
     const { iiifConfig } = figure
@@ -119,6 +122,10 @@ module.exports = class Manifest {
     }
   }
 
+  /**
+   * Uses `builder` to create the JSON representation of the manifest
+   * @return {JSON}
+   */
   async toJSON() {
     const { height, width } = await this.calcCanvasDimensions()
     const manifest = builder.createManifest(this.figure.manifestId, (manifest) => {
