@@ -48,8 +48,10 @@ module.exports = {
   /**
    * Classes applied to <main> page element
    */
-  pageClasses: ({ collections, class: classes, layout, page }) => {
+  pageClasses: ({ collections, class: classes, layout, page, tags }) => {
     const pageClasses = []
+    // Add classes based on tags
+    tags ? pageClasses.push(tags) : ''
     // Add computed frontmatter and page-one classes
     const pageIndex = collections.allSorted.findIndex(({ outputPath }) => outputPath === page.outputPath)
     const pageOneIndex = collections.allSorted.findIndex(({ data }) => data.class && data.class.includes('page-one'))
@@ -73,7 +75,7 @@ module.exports = {
     return collections.all.find(({ url }) => url === page.url)
   },
   /**
-   * Figures data for figures referenced by id in page frontmatter 
+   * Figures data for figures referenced by id in page frontmatter
    */
   pageFigures: ({ figure, figures }) => {
     if (!figure || !figure.length) return
