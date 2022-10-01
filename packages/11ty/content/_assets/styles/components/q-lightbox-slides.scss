@@ -23,20 +23,7 @@
       transform: translateY(0);
       opacity: 1;
       transition: transform 0s, opacity 0.4s linear;
-      z-index: 1;
-
-      .table-wrapper {
-        z-index: 4;
-      }
     }
-  }
-
-  .q-lightbox-ui * {
-    z-index: 2;
-  }
-
-  .q-modal__close-button {
-    z-index: 3;
   }
 
   .q-lightbox-slides__element {

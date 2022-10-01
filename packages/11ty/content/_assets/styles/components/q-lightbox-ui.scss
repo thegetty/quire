@@ -5,6 +5,12 @@
 // Styles for `lightboxUi` shortcode used in `lightbox` shortcode
 
 @media screen {
+  .q-lightbox-ui > *,
+  .q-modal__close-button,
+  .q-lightbox-slides__caption {
+    z-index: 1;
+  }
+  
   .q-lightbox-ui__fullscreen-button {
     position: absolute;
     top: 0;
