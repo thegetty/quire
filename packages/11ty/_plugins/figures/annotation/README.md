@@ -1,13 +1,16 @@
 # Annotations
 
-## Annotation Set Model in `figures.yaml`
+
+Annotations and Annotation Sets are modeled in the `figures.yaml` data file
+
+## `AnnotationSet`
 | Property    | Description                   |
 | ----------- | ----------------------------  |
 | input       | `checkbox`|`radio` (default)  |
 | items       | Array\{Annotation Items\}     |
-| title       | The fieldset title for the UI |
+| title       | `fieldset` title for the UI   |
 
-## Annotation Item Model in `figures.yaml`
+## `Annotation` Item
 | Property | Description                                                  |
 | -------- | ------------------------------------------------------------ |
 | id       | Unique id (optional)
