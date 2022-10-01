@@ -16,12 +16,12 @@ module.exports = class Tiler {
 
   /**
    * Tile an image for IIIF image service using sharp
-   * @param  {String} imagePath   Path to the image file to tile
+   * @param  {String} inputPath   Path to the image file to tile
    * @param  {Object}
    */
-  async tile(imagePath, outputPath) {
-    if (!imagePath) return
-    const { ext, name } = path.parse(imagePath)
+  async tile(inputPath, outputDir) {
+    if (!inputPath) return
+    const { ext, name } = path.parse(inputPath)
 
     if (!this.supportedImageExtensions.includes(ext)) {
       return {
@@ -37,13 +37,11 @@ module.exports = class Tiler {
     } = this.iiifConfig
 
     const format = formats.find(({ input }) => input.includes(ext))
-    const inputPath = path.join(dirs.inputRoot, dirs.input, imagePath)
-    const tileDirectory = path.join(outputPath, name, dirs.imageService)
-    const info = new URL(path.join(tileDirectory, 'info.json'), baseURL).href
+    const tileDirectory = path.join(outputDir, name, dirs.imageService)
 
     if (fs.existsSync(path.join(dirs.outputRoot, tileDirectory, 'info.json'))) {
       logger.info(`Skipping previously tiled image "${inputPath}"`)
-      return { info }
+      return { success: true }
     }
     fs.ensureDirSync(path.join(dirs.outputRoot, tileDirectory))
 
@@ -52,12 +50,12 @@ module.exports = class Tiler {
       const response = await sharp(inputPath)
         .toFormat(format.output.replace('.', ''))
         .tile({
-          id: new URL(path.join(outputPath, name), baseURL).href,
+          id: new URL(path.join(outputDir, name), baseURL).href,
           layout: 'iiif',
           size: tileSize
         })
         .toFile(path.join(dirs.outputRoot, tileDirectory))
-      return { info }
+      return { success: true }
     } catch(error) {
       return { errors: [error] }
     }
