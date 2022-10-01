@@ -20,7 +20,6 @@ const { isCanvas, isImageService } = require('../helpers')
  */
 module.exports = class Figure {
   constructor(iiifConfig, data) {
-    console.log(data.id, isCanvas(data))
     const { baseURL, dirs, manifestFilename } = iiifConfig
     const outputDir = path.join(dirs.output, data.id)
     const iiifBaseId = [baseURL, outputDir].join('/')   
