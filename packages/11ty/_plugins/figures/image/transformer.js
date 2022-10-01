@@ -2,6 +2,7 @@ const chalkFactory = require('~lib/chalk')
 const fs = require('fs-extra')
 const path = require('path')
 const sharp = require('sharp')
+
 const logger = chalkFactory('plugins:iiif:createImage')
 
 /**
