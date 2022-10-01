@@ -20,11 +20,12 @@ const { isCanvas, isImageService } = require('../helpers')
  */
 module.exports = class Figure {
   constructor(iiifConfig, data) {
+    console.log(data.id, isCanvas(data))
     const { baseURL, dirs, manifestFilename } = iiifConfig
     const outputDir = path.join(dirs.output, data.id)
     const iiifBaseId = [baseURL, outputDir].join('/')   
-    const canvasId = data.canvasId || [iiifBaseId, 'canvas'].join('/')
-    const manifestId = data.manifestId || [iiifBaseId, manifestFilename].join('/')
+    const canvasId = isCanvas(data) ? data.canvasId || [iiifBaseId, 'canvas'].join('/') : null
+    const manifestId = isCanvas(data) ? data.manifestId || [iiifBaseId, manifestFilename].join('/') : null
 
     this.annotationFactory = new AnnotationFactory(this)
     this.canvasId = canvasId
