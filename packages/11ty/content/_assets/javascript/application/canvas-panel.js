@@ -72,16 +72,19 @@ const handleSelect = (element) => {
  */
 const goToCanvasState = function ({ annotationIds=[], figureId, region }) {
   if (!figureId) return
-  const figure = document.querySelector(`#${figureId}`)
+  const figure = document.querySelector(`#${figureId}, [data-lightbox-slide-id="${figureId}"]`)
   if (!figure) return
   const canvasPanel = figure.querySelector('canvas-panel')
+
   /**
-   * Reset inputs
+   * Reset checkboxes
    */
   const inputs = document.querySelectorAll('.annotations-ui__input')
   for (const input of inputs) {
-    input.checked = false
-    handleSelect(input)
+    if (input.getAttribute('type') === 'checkbox') {
+      input.checked = false
+      handleSelect(input)
+    }
   }
   /**
    * Update Canvas state
