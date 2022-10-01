@@ -5,8 +5,8 @@ const path = require('path')
 const logger = chalkFactory('Figure Processing')
 
 /**
- * The FigureFactory uses data from the IIIF Config and `figures.yaml`
- * to generate files and computed properties for consumption by Quire shortcodes
+ * The FigureFactory creates instance of `Figure` on which process is called
+ * to generate files and set computed properties used the Quire shortcodes.
  */
 module.exports = class FigureFactory {
   constructor(iiifConfig) {
