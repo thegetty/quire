@@ -50,7 +50,11 @@ module.exports = {
    */
   pageClasses: ({ collections, class: classes, layout, page, tags }) => {
     const pageClasses = []
-    // Add classes based on tags
+    /**
+     * Add Eleventy collection tags as style classes;
+     * enables custom page styles to be defined for a collection tag.
+     * @see https://www.11ty.dev/docs/collections/
+     */
     tags ? pageClasses.push(tags) : ''
     // Add computed frontmatter and page-one classes
     const pageIndex = collections.allSorted.findIndex(({ outputPath }) => outputPath === page.outputPath)
