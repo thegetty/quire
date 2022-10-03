@@ -65,7 +65,8 @@ const handleSelect = (element) => {
 }
 
 /**
- * Scroll to a figure, select annotations and/or region, and update the URL
+ * Scroll to a figure, or go to figure slide in lightbox
+ * Select annotations and/or region, and update the URL
  * @param  {String} figureId    The id of the figure in figures.yaml
  * @param  {Array} annotationIds  The IIIF ids of the annotations to select
  * @param  {String} region      The canvas region
@@ -75,6 +76,11 @@ const goToCanvasState = function ({ annotationIds=[], figureId, region }) {
   const figure = document.querySelector(`#${figureId}, [data-lightbox-slide-id="${figureId}"]`)
   if (!figure) return
   const canvasPanel = figure.querySelector('canvas-panel')
+  const lightbox = figure.closest('q-lightbox')
+
+  if (lightbox) {
+    lightbox.currentId = figureId
+  }
 
   /**
    * Reset checkboxes
