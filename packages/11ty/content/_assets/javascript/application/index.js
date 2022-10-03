@@ -14,6 +14,7 @@ import "../../styles/custom.css";
 // Modules (feel free to define your own and import here)
 import scrollToHash from "./scroll-to-hash"
 import Search from "../../../../_plugins/search/search.js";
+import searchIndex from "../../../search-index.json"
 import "./canvas-panel";
 import { goToCanvasState, setUpUIEventHandlers } from "./canvas-panel";
 import "./soundcloud-api";
@@ -106,13 +107,17 @@ function createHtml(tag, attributes, ...children) {
  * @description makes a search query using Lunr
  */
 window["search"] = () => {
-  let searchInput = document.getElementById("js-search-input");
-  let searchQuery = searchInput["value"];
-  let searchInstance = window["QUIRE_SEARCH"];
-  let resultsContainer = document.getElementById("js-search-results-list");
-  let resultsTemplate = document.getElementById("js-search-results-template");
+  if (!searchIndex) {
+    console.error(`Failed to load search index`)
+    return
+  }
+  const searchInstance = new Search(searchIndex)
+  const searchInput = document.getElementById("js-search-input");
+  const searchQuery = searchInput["value"];
+  const resultsContainer = document.getElementById("js-search-results-list");
+  const resultsTemplate = document.getElementById("js-search-results-template");
   if (searchQuery.length >= 3) {
-    let searchResults = searchInstance.search(searchQuery);
+    const searchResults = searchInstance.search(searchQuery);
     displayResults(searchResults);
   }
 
@@ -183,31 +188,7 @@ function globalSetup() {
 
   if (classNames.length) classNames.push("on-device");
 
-  loadSearchData();
   setupCustomScrollToHash();
-}
-
-/**
- * loadSearchData
- * @description Load full-text index data from the specified URL
- * and pass it to the search module.
- */
-function loadSearchData() {
-  // Grab search data
-  const dataURL = document.getElementById('js-search').dataset.searchIndex;
-  if (!dataURL) {
-    console.warn('Search data url is undefined');
-    return;
-  }
-  fetch(dataURL).then(async (response) => {
-    const { ok, statusText, url } = response
-    if (!ok) {
-      console.warn(`Search data ${statusText.toLowerCase()} at ${url}`)
-      return
-    }
-    const data = await response.json();
-    window["QUIRE_SEARCH"] = new Search(data);
-  });
 }
 
 /**
