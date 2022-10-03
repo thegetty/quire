@@ -1,5 +1,6 @@
 require('module-alias/register')
 
+const copy = require('rollup-plugin-copy')
 const fs = require('fs-extra')
 const path = require('path')
 const scss = require('rollup-plugin-scss')
@@ -166,8 +167,15 @@ module.exports = function(eleventyConfig) {
               })
               return `${filePath}[name][extname]`
             }
-          }
-
+          },
+          plugins: [
+            copy({
+              targets: [
+                { src: 'public/pdf.html', dest: '_site' },
+                { src: 'public/pdf.css', dest: '_site' },
+              ]
+            })
+          ]
         },
         sourcemap: true
       },
