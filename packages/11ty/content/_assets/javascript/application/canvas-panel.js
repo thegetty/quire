@@ -85,7 +85,7 @@ const goToCanvasState = function ({ annotationIds=[], figureId, region }) {
   /**
    * Reset checkboxes
    */
-  const inputs = document.querySelectorAll('.annotations-ui__input')
+  const inputs = figure.querySelectorAll('.annotations-ui__input')
   for (const input of inputs) {
     if (input.getAttribute('type') === 'checkbox') {
       input.checked = false
