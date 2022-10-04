@@ -23,6 +23,7 @@ module.exports = {
         layout: data.layout,
         object: data.object,
         order: data.order,
+        classes: data.pageClasses,
         short_title: data.short_title,
         subtitle: data.subtitle,
         summary: data.summary,
