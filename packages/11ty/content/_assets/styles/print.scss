@@ -217,7 +217,7 @@ $print-trim: $print-bleed * 2;
         // otherwise recognize the box sizing for some reason
         border: 1pt solid transparent;
       }
-      a.frontmatter-page::after {
+      &.frontmatter-page a::after {
         content: target-counter(attr(href), page, lower-roman);
         font-style: italic;
         margin-left: 6pt; 
