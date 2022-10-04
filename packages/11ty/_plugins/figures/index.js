@@ -1,31 +1,35 @@
 const chalkFactory = require('~lib/chalk')
-const FigureFactory = require('./figure-factory')
+const FigureFactory = require('./figure/factory')
 const iiifConfig = require('./iiif/config')
 const { error, info } = chalkFactory('Figure Processing')
 
+/**
+ * Figures Plugin
+ * Uses the FigureFactory to create Figure instances
+ * for all figures in `figures.yaml` and updates global data
+ */
 module.exports = function (eleventyConfig, options = {}) {
-  iiifConfig(eleventyConfig)
+  const config = iiifConfig(eleventyConfig)
+  const figureFactory = new FigureFactory(config)
 
   eleventyConfig.on('eleventy.before', async () => {
-    const factory = new FigureFactory(eleventyConfig)
     let { figure_list: figureList } = eleventyConfig.globalData.figures
     figureList = await Promise.all(figureList.map((data) => {
-      const figure = factory.create(data)
-      return factory.process(figure)
+      return figureFactory.create(data)
     }))
-    const figureErrors = figureList.filter(({ errors }) => !!errors.length)
+    const errors = figureList.filter(({ errors }) => !!errors.length)
 
-    if (figureErrors.length) {
+    if (errors.length) {
       error(`There were errors processing the following images:`)
       console.table(
-        figureErrors.map((figure) => {
-          return { ...figure, errors: figure.errors.join(' ')}
+        errors.map(({ errors, figure }) => {
+          return { id: figure.id, errors: errors.join(' ')}
         }),
         ['id', 'errors']
-      );
+      )
     }
-    const figureData = figureList.map(({ data }) => data)
-    Object.assign(eleventyConfig.globalData.figures.figure_list, figureData)
+    const figures = figureList.map(({ figure }) => figure.adapter())
+    Object.assign(eleventyConfig.globalData.figures.figure_list, figures)
 
     info(`Done`)
   })

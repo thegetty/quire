@@ -1,5 +1,6 @@
 // Quire data filters
 const fullname = require('./fullname')
+const getAnnotation = require('./getAnnotation')
 const getContributor = require('./getContributor')
 const getFigure = require('./getFigure')
 const getObject = require('./getObject')
@@ -22,6 +23,7 @@ module.exports = function(eleventyConfig, options) {
    * Quire data filters
    */
   eleventyConfig.addFilter('fullname', (person, options) => fullname(person, options))
+  eleventyConfig.addFilter('getAnnotation', (...args) => getAnnotation(eleventyConfig, ...args))
   eleventyConfig.addFilter('getContributor', (id) => getContributor(eleventyConfig, id))
   eleventyConfig.addFilter('getFigure', (id) => getFigure(eleventyConfig, id))
   eleventyConfig.addFilter('getObject', (id) => getObject(eleventyConfig, id))

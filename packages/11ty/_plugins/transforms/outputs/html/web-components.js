@@ -8,7 +8,7 @@ const path = require('path')
  * @param      {String}  content
  * @return     {String}  transformed content
  */
-module.exports = function (content) {
+module.exports = function (dom) {
   const webComponentPath = path.resolve('_includes', 'web-components')
 
   const webComponentModulePaths = fs
@@ -21,8 +21,6 @@ module.exports = function (content) {
       return modulePaths
     }, [])
 
-  const { JSDOM } = jsdom
-  const dom = new JSDOM(content)
   const { document } = dom.window
   const { head } = document
 

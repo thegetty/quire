@@ -199,16 +199,18 @@ $print-trim: $print-bleed * 2;
 // Generated content for footers and page #s in TOC
 // -----------------------------------------------------------------------------
   .quire-page {
-    string-set: 
-      pagetitle attr(data-footer-page-title),
-      sectiontitle attr(data-footer-section-title);
+    string-set: pagetitle attr(data-footer-page-title);
+  }
+
+  .quire-page {
+    string-set: sectiontitle attr(data-footer-section-title);
   }
 
   .quire-contents-list {
     .page-item {
       max-width: 90%;
       a::after {
-        content: leader(dotted) ' 'target-counter(attr(href, url), page);
+        content: target-counter(attr(href), page);
         margin-left: 6pt; 
         margin-right: -10%;
         // This border is a hack for PrinceXML which doesn't
@@ -216,7 +218,7 @@ $print-trim: $print-bleed * 2;
         border: 1pt solid transparent;
       }
       a.frontmatter-page::after {
-        content: leader(dotted) ' 'target-counter(attr(href, url), page, lower-roman);
+        content: target-counter(attr(href), page, lower-roman);
         font-style: italic;
         margin-left: 6pt; 
         margin-right: -10%;
@@ -277,7 +279,7 @@ $print-trim: $print-bleed * 2;
 
   .quire-entry__image {
     .quire-entry__image__group-container {
-      figure {      
+      figure {
         page: entry-image;
         }
       }
@@ -340,17 +342,27 @@ $print-trim: $print-bleed * 2;
   
   // make other elements same width as single-column pages
   .quire-page__abstract {
-    column-span: all;
     column-count: 1;
     margin: 0 auto 1.25em;
     max-width: $print-base-text-column-width;
   }
+
+  @media screen {
+    .quire-page__abstract {
+      column-span: all;
+    }
+  }
   
   .quire-entry__tombstone {
-    column-span: all;
     column-count: 1;
     margin: 0 auto .25in;
     max-width: $print-base-text-column-width;
+  }
+
+  @media screen {
+    .quire-page__abstract {
+      column-span: all;
+    }
   }
   
   .quire-page__header.hero-image .hero-body {
@@ -576,14 +588,20 @@ $print-trim: $print-bleed * 2;
       font-size: 1.5em;
       text-transform: uppercase;
       letter-spacing: 1pt;
-      position: fixed;
+      position: absolute;
       bottom: 1.5in;
       right: $title-page-margin;
       @if $print-width <= 7 {
         right: $print-outer-margin;
       }
     }
-    
+
+    @media screen {
+      .publisher-page__abstract {
+        position: fixed;
+      }
+    }
+
     br {
       display: none;
     }
