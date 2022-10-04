@@ -6,7 +6,8 @@ module.exports = (eleventyConfig) => {
   const { viteOptions } = eleventyConfig.plugins.find(
     ({ options }) => !!options && !!options.viteOptions
   ).options
-  const iiifConfig = {
+
+  return {
     baseURL: process.env.ELEVENTY_ENV === 'production' ? baseURL : `http://localhost:${port}`,
     dirs: {
       /**
@@ -75,7 +76,7 @@ module.exports = (eleventyConfig) => {
         }
       },
       /**
-       * Transformation applied to imageservice images for use in PDF and EPUB
+       * Transformation applied to IIIF resources for use in PDF and EPUB
        */
       {
         name: 'print-image',
@@ -85,5 +86,4 @@ module.exports = (eleventyConfig) => {
       }
     ]
   }
-  eleventyConfig.addGlobalData('iiifConfig', iiifConfig)
 }

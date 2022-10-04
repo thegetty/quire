@@ -19,8 +19,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# macOS
-.DS_Store
+# System files
+**/*/.DS_Store
 
 # npm cache directory
 .npm

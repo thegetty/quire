@@ -20,13 +20,21 @@ module.exports = function (eleventyConfig) {
       presentation
     } = params
 
+    const { data, parent } = page
+
     const classes = []
-    const level = page.parent ? page.parent.split('/').length : 0
+    const level = parent ? parent.split('/').length : 0
     classes.push(`level-${level}`)
     if (children) {
       classes.push('section-item')
     } else {
       classes.push('page-item')
+    }
+    /**
+     * Pass frontmatter class to item
+     */
+    if (data.classes && data.classes.includes('frontmatter')) {
+      classes.push('frontmatter-page')
     }
 
     return presentation === 'grid' 
