@@ -26,6 +26,9 @@ const goToCanvasState = function ({ annotationIds=[], figureId, region='' }) {
   const figure = document.querySelector(`#${figureId}, [data-lightbox-slide-id="${figureId}"]`)
   if (!figure) return
   const canvasPanel = figure.querySelector('canvas-panel')
+  if (region && canvasPanel.getAttribute('preset') !== 'zoom') {
+    console.warn(`Using the "annoref" shortcode to link to a region on a figure without zoom enabled is not supported. Please set the "preset" property to "zoom" on figure id "${figureId}"`)
+  }
   const lightbox = figure.closest('q-lightbox')
   const annotations = annotationIds.map((id) => {
     const input = figure.querySelector(`[value="${id}"]`)
