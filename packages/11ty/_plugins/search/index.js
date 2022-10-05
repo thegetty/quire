@@ -7,7 +7,7 @@ const write = require('./write')
  */
 module.exports = function(eleventyConfig, collections, options) {
   /**
-   * Copy search module and index to the output directory
+   * Copy search module and write index to the output directory
    * @see {@link https://www.11ty.dev/docs/copy/ Passthrough copy in 11ty}
    * @todo set output destination to 'js/search'
    */
