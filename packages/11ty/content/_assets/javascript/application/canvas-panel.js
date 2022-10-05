@@ -62,7 +62,7 @@ const goToCanvasState = function ({ annotationIds=[], figureId, region='' }) {
 }
 
 /**
- * Handle UI  Update the canvas state on input change
+ * Handle UI changes on input select and call `update`
  */
 const handleSelect = (element) => {
   const elementId = element.getAttribute('id')
@@ -71,7 +71,7 @@ const handleSelect = (element) => {
   const annotation = annotationData(element)
   const { checked, input } = annotation
   /**
-   * Two-way data binding for annotaion UI inputs
+   * Two-way data binding for annotaion UI inputs in lightbox and inline
    */
   if (inLightbox) {
     const inlineInput = document.querySelector(`#${elementId.split('lightbox-')[1]}`)
