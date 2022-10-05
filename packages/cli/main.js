@@ -1,28 +1,43 @@
+#! /usr/bin/env node
 import { Command } from 'commander'
-import { commands} from './commands/index.js'
-import inquirer from 'inquirer'
+import * as commands from './commands/index.js'
 
 /**
- * Quire CLI
+ * Quire CLI implements the command pattern.
  *
- * This module acts as the _receiver_ in a [command pattern](https://en.wikipedia.org/wiki/Command_pattern) implementation,
- * directing input to the appropriate command module(s) and managing messages
- * displayed to the user.
+ * The `main` module acts as the _receiver_, parsing input from the client,
+ * calling the appropriate command module(s), managing messages between modules,
+ * and sending formatted messages to the client for display.
  */
 const program = new Command()
 
-for (const command of commands) {
-  const { args, definition, help, options } = command.definition()
+program
+  .name('quire-cli')
+  .description('Quire command-line interface')
+  .version('1.0.0');
 
-  const subcommand = program
-    .command(definition)
-    .description(help)
+/**
+ * Register each command as a subcommand of this program
+ */
+for (const command in commands) {
+  console.log('command', command)
 
-  args.forEach(([ arg, value ]) => subcommand.argument(arg, value))
+  const { args, description, name, options } = command.definition()
 
-  options.forEach(([a, b, c, d]) => subcommand.option(a, b.join(','), c, d))
+  // const subCommand = program
+  //   .command(name)
+  //   .description(description)
 
-  subcommand.action(() => command.action.apply(command, args))
+  // console.log('subCommand', subCommand)
+
+  // args.forEach(([ arg, value, callback ]) => subCommand.argument(arg, value, callback))
+
+  // options.forEach(([a, b, c, d]) => subCommand.option(a, b.join(','), c, d))
+
+  // subCommand.action(() => command.action.apply(command, args))
 }
 
+/**
+ * Run the program
+ */
 program.parse()

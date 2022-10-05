@@ -15,6 +15,11 @@
   "files": [
     "bin"
   ],
+  "bin": {
+    "@thegetty/quire": "./main.js",
+    "quire": "./main.js",
+    "quire-cli": "./main.js"
+  },
   "type": "module",
   "exports": "./main.js",
   "repository": {
@@ -23,20 +28,32 @@
     "directory": "packages/cli"
   },
   "scripts": {
+    "build": "rollup --config build/rollup.config.js",
+    "clean": "del-cli ./dist",
+    "prebuild": "npm run clean",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "bin": {
-    "quire": "./bin/index.js"
+  "imports": {
+    "#src/*.js": "./*.js",
+    "#lib/*.js": "./lib/*.js"
   },
   "dependencies": {
+    "@11ty/eleventy": "^2.0.0-canary.15",
+    "boxen": "^7.0.0",
     "chalk": "^5.0.1",
     "commander": "^9.4.0",
+    "conf": "^10.2.0",
     "cross-env": "^7.0.3",
     "fs-extra": "^10.1.0",
     "inquirer": "^9.1.1",
-    "path": "^0.12.7"
+    "listr2": "^5.0.5",
+    "ora": "^6.1.2",
+    "simple-git": "^3.14.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.19.1",
+    "@babel/eslint-parser": "^7.19.1",
+    "@babel/plugin-syntax-top-level-await": "^7.14.5",
     "del-cli": "^5.0.0",
     "rollup": "^2.79.0"
   },

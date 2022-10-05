@@ -1,32 +1,47 @@
 /**
  * Command
  * @abstract
+ *
+ * @typedef CommandArgument
+ *
+ * @typedef CommandOption
+ *
  */
 export default class Command {
-  constructor(name, description, args, options) {
+
+  /**
+   * @typedef CommandDefinition
+   * @property {String} name
+   * @property {String} descriptions
+   * @property {Array<CommandArgument>} args
+   * @property {Array<CommandOption>} options
+   */
+  static definition = null
+
+  /**
+   * Constructs a new instance
+   *
+   * @param {CommandDefinition}  definition  The definition
+   */
+  constructor(definition) {
     if (this.constructor.prototype === Command) {
       throw new Error('Command is an *abstract* class')
     }
 
-    this.command = name
-    this.description = description
-    this.arguments = []
-    this.options = []
-    this.version = null
-    this.hidden = false
-    this.result = null
+    this.command = definition.name
+    this.description = definition.description
+    this.args = definition.args
+    this.options = definition.options
+    // this.version = version
+    // this.hidden = hidden
+    // this.result = null
   }
 
-  definition () {
-    return {
-      command: this.command,
-      help: this.help,
-      arguments: this.args,
-      options: this.options,
-    }
+  definition() {
+    return this.prototype.definition
   }
 
-  action (name, options, command) {
-    throw Error(`The ${this.command} command has not been implemented.`)
+  action() {
+    throw Error(`Command '${this.command}' has not been implemented.`)
   }
 }

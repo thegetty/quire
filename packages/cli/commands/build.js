@@ -1,35 +1,28 @@
-import Command from './Command.js'
+import Command from '../Command.js'
 
 /**
  * Quire CLI `build` Command
- *
  */
 export default class Build extends Command {
-  constructor(name, description, args=[], options=[]) {
-    super()
 
-    this.command = name
-    this.help = description
-    this.arguments = args
-    this.options = options
-    this.version = '1.0.0'
-    this.result = null
+  static name = 'build'
+
+  static description = 'Generate publication outputs'
+
+  static args = []
+
+  static options = [
+    ['-o', '--outputs <string>', 'HTML, EPUB, PDF'],
+  ]
+
+  constructor() {
+    super(Build.name, Build.description, Build.args, Build.options)
   }
 
-  getResult () {
-    return this.result
-  }
-
-  definition () {
-    return {
-      command: this.command,
-      help: this.help,
-      arguments: this.args,
-      options: this.options
+  action(command, options) {
+    if (options.debug) {
+      console.error('Called %s with options %o', this.command, options)
     }
-  }
-
-  action (options) {
-    throw Error(`The ${command} command has not been implemented`)
+    throw Error(`The ${this.command} command has not been implemented`)
   }
 }
