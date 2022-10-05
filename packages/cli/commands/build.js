@@ -1,28 +1,40 @@
-import Command from '../Command.js'
+import Command from '#src/Command.js'
+import eleventy from '#lib/11ty/eleventy.js'
 
 /**
  * Quire CLI `build` Command
+ *
+ * @class      BuildCommand
+ * @extends    {Command}
  */
-export default class Build extends Command {
+export default class BuildCommand extends Command {
 
-  static name = 'build'
-
-  static description = 'Generate publication outputs'
-
-  static args = []
-
-  static options = [
-    ['-o', '--outputs <string>', 'HTML, EPUB, PDF'],
-  ]
-
-  constructor() {
-    super(Build.name, Build.description, Build.args, Build.options)
+  static definition = {
+    name: 'build',
+    // usage: '',
+    description: 'Generate publication outputs',
+    // summary: '',
+    version: '1.0.0',
+    args: [
+      // [
+      //   '[formats]', 'output formats',
+      //   {
+      //     choices: ['html', 'pdf', 'epub'],
+      //     default: ['html', 'html only']
+      //   }
+      // ],
+    ],
+    options: [
+      ['-d, --dry-run', 'run build without writing files'],
+    ],
   }
 
-  action(command, options) {
-    if (options.debug) {
-      console.error('Called %s with options %o', this.command, options)
-    }
-    throw Error(`The ${this.command} command has not been implemented`)
+  constructor() {
+    super(BuildCommand.definition)
+  }
+
+  action(options, command) {
+    console.error('Called %s with options %o', command.name(), options)
+    eleventy.build()
   }
 }

@@ -14,27 +14,30 @@ const program = new Command()
 program
   .name('quire-cli')
   .description('Quire command-line interface')
-  .version('1.0.0');
+  .version('1.0.0')
+  .configureHelp({ sortSubcommands: true })
 
 /**
  * Register each command as a subcommand of this program
  */
-for (const command in commands) {
-  console.log('command', command)
+for (const commandName in commands) {
+  const { command, description, args, options } = commands[commandName]
 
-  const { args, description, name, options } = command.definition()
+  const subCommand = program
+    .command(command)
+    .description(description)
+    .addHelpCommand()
+    .showHelpAfterError()
 
-  // const subCommand = program
-  //   .command(name)
-  //   .description(description)
+  // args.forEach(([ arg, value, callback ]) => {
+  //   subCommand.argument(arg, value, callback)
+  // })
 
-  // console.log('subCommand', subCommand)
+  // options.forEach(([a, b, c, d]) => {
+  //   subCommand.option(a, b.join(','), c, d)
+  // })
 
-  // args.forEach(([ arg, value, callback ]) => subCommand.argument(arg, value, callback))
-
-  // options.forEach(([a, b, c, d]) => subCommand.option(a, b.join(','), c, d))
-
-  // subCommand.action(() => command.action.apply(command, args))
+  subCommand.action(() => command.action.apply(command, args))
 }
 
 /**
