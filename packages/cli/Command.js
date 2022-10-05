@@ -28,7 +28,7 @@ export default class Command {
       throw new Error('Command is an *abstract* class')
     }
 
-    this.command = definition.name
+    this.name = definition.name
     this.description = definition.description
     this.args = definition.args
     this.options = definition.options
@@ -42,6 +42,6 @@ export default class Command {
   }
 
   action() {
-    throw Error(`Command '${this.command}' has not been implemented.`)
+    throw Error(`Command '${this.name}' has not been implemented.`)
   }
 }
