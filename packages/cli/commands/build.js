@@ -33,8 +33,8 @@ export default class BuildCommand extends Command {
     super(BuildCommand.definition)
   }
 
-  action(options, command) {
-    console.error('Called %s with options %o', command.name(), options)
+  action(options) {
+    console.error('Called %s with options %o', this.name, options)
     eleventy.build()
   }
 }

@@ -21,10 +21,10 @@ program
  * Register each command as a subcommand of this program
  */
 for (const commandName in commands) {
-  const { command, description, args, options } = commands[commandName]
-
+  const command = commands[commandName]
+  const { action, description, args, options } = command
   const subCommand = program
-    .command(command)
+    .command(commandName)
     .description(description)
     .addHelpCommand()
     .showHelpAfterError()
@@ -37,7 +37,7 @@ for (const commandName in commands) {
   //   subCommand.option(a, b.join(','), c, d)
   // })
 
-  subCommand.action(() => command.action.apply(command, args))
+  subCommand.action(() => action.apply(command, args))
 }
 
 /**
