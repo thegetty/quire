@@ -6,7 +6,7 @@ layout: essay
 
 ## Linking to Annotation States
 
-Use the `annoref` shortcode to create a link to a specific annotation state. For example, select an annotation such as {% annoref fig="fig-032" anno="wax-joints" text="Wax-to-wax Joints in Fig 32" %} or multiple annotations such as {% annoref fig="fig-032" anno="wax-joints,armature" text="Armature and Wax-to-wax Joints in Fig 32" %}. Annotations should be referenced by a comma-separated list of ids or filepaths.
+Use the `annoref` shortcode to create a link to a specific annotation state. For example, select an annotation such as {% annoref fig="fig-032" anno="wax-joints" text="Wax-to-wax Joints in Fig 32" %} or multiple annotations such as {% annoref fig="fig-032" anno="wax-joints,armature" text="Armature and Wax-to-wax Joints in Fig 32" %}. Annotations should be referenced by a comma-separated list of ids or filepaths. {% annoref fig="fig-032" anno="wax-joints" region="200,200,200,200" text="Linking to a region" %} is only supported on figures with `preset="zoom"`.
 
 ## IIIF Web Components
 

@@ -1,66 +1,16 @@
 import scrollToHash from './scroll-to-hash'
 
 /**
- * Handle annotation/choice selection with canvasPanel API
- * {@link https://iiif-canvas-panel.netlify.app/docs/examples/handling-choice}
- * @param {HTMLElement} element
+ * Get annotation data from annotaitons UI input element
+ * @param  {HTML Element} input
+ * @return {Object}
  */
-const handleSelect = (element) => {
-  const container = element.closest('.q-figure') || element.closest('.q-lightbox-slides__slide')
-  const inLightbox = document.querySelector('q-lightbox').contains(container)
-  if (!container) return
-  const annotationId = element.getAttribute('value')
-  const annotationType = element.getAttribute('data-annotation-type')
-  const canvasId = container.querySelector('canvas-panel').getAttribute('canvas-id')
-  const canvasPanels = document.querySelectorAll(`[canvas-id="${canvasId}"]`)
-  const elementId = element.getAttribute('id')
-  const inputType = element.getAttribute('type')
-
-  /**
-   * Two-way data binding for annotaion UI inputs
-   */
-  if (inLightbox) {
-    const inlineInput = document.querySelector(`#${elementId.split('lightbox-')[1]}`)
-    if (inlineInput) inlineInput.checked = element.checked
-  } else {
-    const lightboxInput = document.querySelector(`#${['lightbox', elementId].join('-')}`)
-    if (lightboxInput) lightboxInput.checked = element.checked
-  }
-
-  const toggleChoice = ({ checked }) => {
-    canvasPanels.forEach((canvasPanel) => {
-      canvasPanel.makeChoice(annotationId, {
-        deselect: !checked,
-        deselectOthers: inputType === 'radio'
-      })
-    })
-    if (inputType !== 'checkbox') return
-    const checkedInputs = container.querySelectorAll('.annotations-ui__input[checked]')
-    if (!checked && checkedInputs.length === 1) {
-      checkedInputs[0].setAttribute('disabled', true)
-    }
-    if (checked) {
-      const disabledInput = container.querySelector('[disabled]')
-      disabledInput ? disabledInput.removeAttribute('disabled') : null
-    }
-  }
-
-  const toggleAnnotation = ({ checked }) => {
-    canvasPanels.forEach((canvasPanel) => {
-      canvasPanel.applyStyles(annotationId, { opacity: Number(!!checked) })
-    })
-  }
-
-  switch (annotationType) {
-    case 'choice':
-      toggleChoice(element)
-      break
-    case 'annotation':
-      toggleAnnotation(element)
-      break
-    default:
-      console.warn(`Invalid annotation type ${annotationType}`)
-      break
+const annotationData = (input) => {
+  return {
+    checked: input.checked,
+    id: input.getAttribute('value'),
+    input: input.getAttribute('type'),
+    type: input.getAttribute('data-annotation-type')
   }
 }
 
@@ -71,40 +21,29 @@ const handleSelect = (element) => {
  * @param  {Array} annotationIds  The IIIF ids of the annotations to select
  * @param  {String} region      The canvas region
  */
-const goToCanvasState = function ({ annotationIds=[], figureId, region }) {
+const goToCanvasState = function ({ annotationIds=[], figureId, region='' }) {
   if (!figureId) return
   const figure = document.querySelector(`#${figureId}, [data-lightbox-slide-id="${figureId}"]`)
   if (!figure) return
   const canvasPanel = figure.querySelector('canvas-panel')
+  if (region && canvasPanel.getAttribute('preset') !== 'zoom') {
+    console.warn(`Using the "annoref" shortcode to link to a region on a figure without zoom enabled is not supported. Please set the "preset" property to "zoom" on figure id "${figureId}"`)
+  }
   const lightbox = figure.closest('q-lightbox')
+  const annotations = annotationIds.map((id) => {
+    const input = figure.querySelector(`[value="${id}"]`)
+    input.checked = true
+    return annotationData(input)
+  })
 
   if (lightbox) {
     lightbox.currentId = figureId
   }
 
   /**
-   * Reset checkboxes
-   */
-  const inputs = figure.querySelectorAll('.annotations-ui__input')
-  for (const input of inputs) {
-    if (input.getAttribute('type') === 'checkbox') {
-      input.checked = false
-      handleSelect(input)
-    }
-  }
-  /**
    * Update Canvas state
    */
-  if (region) canvasPanel.setAttribute('region', region)
-  annotationIds.forEach((id) => {
-    const input = document.querySelector(`input[value="${id}"]`)
-    if (!input) {
-      console.warn(`Invalid annotation id: ${id}`)
-      return
-    }
-    input.checked = true
-    handleSelect(input)
-  })
+  update(canvasPanel, { annotations, region })
 
   /**
    * Build URL
@@ -123,24 +62,118 @@ const goToCanvasState = function ({ annotationIds=[], figureId, region }) {
 }
 
 /**
+ * Handle UI changes on input select and call `update`
+ */
+const handleSelect = (element) => {
+  const elementId = element.getAttribute('id')
+  const canvasPanel = element.closest('.q-figure, .q-lightbox-slides__slide').querySelector('canvas-panel')
+  const inLightbox = document.querySelector('q-lightbox').contains(element)
+  const annotation = annotationData(element)
+  const { checked, input } = annotation
+  /**
+   * Two-way data binding for annotaion UI inputs in lightbox and inline
+   */
+  if (inLightbox) {
+    const inlineInput = document.querySelector(`#${elementId.split('lightbox-')[1]}`)
+    if (inlineInput) inlineInput.checked = element.checked
+  } else {
+    const lightboxInput = document.querySelector(`#${['lightbox', elementId].join('-')}`)
+    if (lightboxInput) lightboxInput.checked = element.checked
+  }
+  /**
+   * Prevent deselecting all layers if choices and checkboxes are used together
+   */
+  if (input === 'checkbox') {
+    const form = element.closest('form')
+    const checkedInputs = form.querySelectorAll('.annotations-ui__input[checked]')
+    if (!checked && checkedInputs.length === 1) {
+      checkedInputs[0].setAttribute('disabled', true)
+    }
+    if (checked) {
+      const disabledInput = form.querySelector('[disabled]')
+      disabledInput ? disabledInput.removeAttribute('disabled') : null
+    }
+  }
+  /**
+   * Update canvas panel state
+   */
+  update(canvasPanel, { annotations: [annotation] })
+}
+
+/**
+ * Handle annotation/choice selection with canvasPanel API
+ * {@link https://iiif-canvas-panel.netlify.app/docs/examples/handling-choice}
+ * @param {HTMLElement} element
+ */
+const selectAnnotation = (canvasPanel, annotation) => {
+  const { checked, id, input, type } = annotation
+  /**
+   * Update annotation selection
+   */
+  switch (type) {
+    case 'annotation':
+      canvasPanel.applyStyles(id, { opacity: Number(!!checked) })
+      break
+    case 'choice':
+      /**
+       * Note: It's necessary to update the attribute *and* call `makeChoice`
+       * when updating choice and region at the same time
+       */
+      canvasPanel.setAttribute('choice-id', id)
+      canvasPanel.makeChoice(id, {
+        deselect: !checked,
+        deselectOthers: input === 'radio'
+      })
+      break
+    default:
+      break
+  }
+}
+
+/**
  * Add event handlers to Annotations UI links and inputs
  */
-const setUpUIEventHandlers = function() {
-  const annoRefAnchorTags = document.querySelectorAll('.annoref')
-  for (const anchorTag of annoRefAnchorTags) {
-    let annotationIds = anchorTag.getAttribute('data-annotation-ids')
+const setUpUIEventHandlers = () => {
+  /**
+   * Add click handlers to annoRef shortcodes
+   */
+  const annoRefs = document.querySelectorAll('.annoref')
+  for (const annoRef of annoRefs) {
+    let annotationIds = annoRef.getAttribute('data-annotation-ids')
     annotationIds = annotationIds.split(',')
-    const figureId = anchorTag.getAttribute('data-figure-id')
-    const region = anchorTag.getAttribute('data-region')
-    anchorTag.addEventListener('click', ({ target }) =>
+    const figureId = annoRef.getAttribute('data-figure-id')
+    const region = annoRef.getAttribute('data-region')
+    annoRef.addEventListener('click', ({ target }) =>
       goToCanvasState({ annotationIds, figureId, region }),
     )
   }
-  const inputs = document.querySelectorAll('.annotations-ui__input')
+
+  /**
+   * Add click handlers to UI inputs
+   */
+  const inputs = document.querySelectorAll('.annotations-ui__input')  
   for (const input of inputs) {
     handleSelect(input)
     input.addEventListener('click', ({ target }) => handleSelect(target))
   }
+}
+
+/**
+ * Update canvas panel properties
+ * 
+ * @param  {HTML Element} canvasPanel
+ * @param  {Object} data
+ * @property {String} region
+ * @property {Array<Object>} annotations
+ */
+const update = (canvasPanel, data) => {
+  const canvasId = canvasPanel.getAttribute('canvas-id')
+  const canvasPanels = document.querySelectorAll(`[canvas-id="${canvasId}"]`)
+  const { annotations, region='' } = data
+  canvasPanels.forEach((canvasPanel) => {
+    canvasPanel.setAttribute('region', region)
+    annotations.forEach((annotation) => selectAnnotation(canvasPanel, annotation))
+  })
 }
 
 export { goToCanvasState, setUpUIEventHandlers }
