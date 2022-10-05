@@ -108,7 +108,7 @@ module.exports = function(eleventyConfig) {
    */
   eleventyConfig.addPlugin(citationsPlugin)
   eleventyConfig.addPlugin(navigationPlugin)
-  eleventyConfig.addPlugin(searchPlugin)
+  eleventyConfig.addPlugin(searchPlugin, collections)
   eleventyConfig.addPlugin(syntaxHighlightPlugin)
 
   /**
