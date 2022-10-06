@@ -4,12 +4,6 @@ layout: base.11ty.js
 description: Essay layout. This layout describes a single-page template that has been augmented with the ability to display a frontmatter-defined abstract (in markdown format) as well as bibliography references.
 ---
 
-{% if page_bibliography %}
-  {% assign biblio = page_bibliography %}
-{% else %}
-  {% assign biblio = config.params.pageBibliography %}
-{% endif %}
-
 {% pageHeader
   contributor_byline=contributor_byline,
   image=image,
@@ -26,9 +20,7 @@ description: Essay layout. This layout describes a single-page template that has
   <div class="container">
     <div class="content">
       {{ content }}
-      {% if biblio != false %}
-        {% bibliography pageReferences %}
-      {% endif %}
+      {% bibliography pageReferences %}
     </div>
     {% pageButtons pagination=pagination %}
   </div>

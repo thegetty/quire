@@ -6,12 +6,6 @@ description: Entry layout. This template is intended for use in catalogue-style 
 
 {% assign entryPageSideBySideLayout = config.params.entryPageSideBySideLayout %}
 
-{% if page_bibliography %}
-  {% assign biblio = page_bibliography %}
-{% else %}
-  {% assign biblio = config.params.pageBibliography %}
-{% endif %}
-
 {% comment %}
 Entry content, including entry image and tombstone data
 {% endcomment %}
@@ -22,7 +16,7 @@ Entry content, including entry image and tombstone data
   <div class="quire-entry__image-wrap" data-outputs-include="html">
     <div class="quire-entry__lightbox">
       {% if image %}
-      {% comment %}
+      {% comment %} 
         To do: add support for images without ids defined in front matter
         {% assign figures = image | split: ',' %}
         {% lightbox figures %}
@@ -37,7 +31,7 @@ Entry content, including entry image and tombstone data
 
   <div class="quire-entry__image-wrap" data-outputs-include="epub,pdf">
     {% if image %}
-      {% comment %}
+      {% comment %} 
         @TODO: add support for images without ids defined in front matter
         {% figure image %}
       {% endcomment %}
@@ -72,9 +66,7 @@ Entry content, including entry image and tombstone data
       <div class="container">
         <div class="content">
           {{ content }}
-          {% if biblio != false %}
-            {% bibliography pageReferences %}
-          {% endif %}
+          {% bibliography pageReferences %}
         </div>
       </div>
     </section>
