@@ -12,10 +12,9 @@ module.exports = function (eleventyConfig, { page }) {
   const slugify = eleventyConfig.getFilter('slugify')
   const sortReferences = eleventyConfig.getFilter('sortReferences')
 
-  const { biblioHeading, displayBiblioShort, pageBibliography } = eleventyConfig.globalData.config.params
   const { entries } = eleventyConfig.globalData.references
-  const { page_bibliography } = page.data
 
+  const { displayOnPage, displayShort, heading } = page.data.config.bibliography
   /**
    * bibliography shortcode
    * @example {% bibliography pageReferences %}
@@ -29,13 +28,9 @@ module.exports = function (eleventyConfig, { page }) {
   return function (referenceIds = []) {
     if (!page.citations && !referenceIds) return
 
-    const biblio = page_bibliography == null
-      ? pageBibliography
-      : page_bibliography
-
-    if (biblio == false) {
+    if (!displayOnPage) {
       page.citations
-        ? info(`A bibiliography of citations on ${page.inputPath} is not being displayed there, because 'page_bibliography' on that page or 'pageBibliography' in config.yaml, is set to false.`)
+        ? info(`A bibiliography of citations on ${page.inputPath} is not being displayed there, because 'config.bibliography.displayOnPage' on that page or in config.yaml, is set to false.`)
         : ''
       return ''
     }
@@ -59,8 +54,8 @@ module.exports = function (eleventyConfig, { page }) {
 
     const bibliographyItems = sortReferences(Object.values(page.citations))
 
-    const heading = () => biblioHeading
-      ? `<h2 id="${slugify(biblioHeading)}">${biblioHeading}</h2>`
+    const bibliographyHeading = () => heading
+      ? `<h2 id="${slugify(heading)}">${heading}</h2>`
       : ''
 
     const definitionList = () => html`
@@ -86,8 +81,8 @@ module.exports = function (eleventyConfig, { page }) {
     return bibliographyItems.length
       ? html`
           <div class="quire-page__content__references backmatter">
-            ${heading()}
-            ${displayBiblioShort ? definitionList() : unorderedList()}
+            ${bibliographyHeading()}
+            ${displayShort ? definitionList() : unorderedList()}
           </div>
         `
       : ''
