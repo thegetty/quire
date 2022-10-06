@@ -1,4 +1,6 @@
 const { html } = require('~lib/common-tags')
+const chalkFactory = require('~lib/chalk')
+const { info } = chalkFactory('configuration:bibliography')
 
 /**
  * Renders a bibliography of references from page citations.
@@ -10,8 +12,9 @@ module.exports = function (eleventyConfig, { page }) {
   const slugify = eleventyConfig.getFilter('slugify')
   const sortReferences = eleventyConfig.getFilter('sortReferences')
 
-  const { biblioHeading, displayBiblioShort } = eleventyConfig.globalData.config.params
+  const { biblioHeading, displayBiblioShort, pageBibliography } = eleventyConfig.globalData.config.params
   const { entries } = eleventyConfig.globalData.references
+  const { page_bibliography } = page.data
 
   /**
    * bibliography shortcode
@@ -25,6 +28,17 @@ module.exports = function (eleventyConfig, { page }) {
    */
   return function (referenceIds = []) {
     if (!page.citations && !referenceIds) return
+
+    const biblio = page_bibliography == null
+      ? pageBibliography
+      : page_bibliography
+
+    if (biblio == false) {
+      page.citations
+        ? info(`A bibiliography of citations on ${page.inputPath} is not being displayed there, because 'page_bibliography' on that page or 'pageBibliography' in config.yaml, is set to false.`)
+        : ''
+      return ''
+    }
 
     /**
      * The page citations array is created when the `cite` shortcode is used;
