@@ -45,14 +45,19 @@ module.exports = function (eleventyConfig) {
       `
       : ''
 
-    const contributorPages = pages.map(({ data, url }) => {
-      const { label, subtitle, title } = data
-      return `<li>${link({
-        classes: ['quire-contributor__page-link'],
-        name: pageTitle({ label, subtitle, title }),
-        url,
-      })}</li>`
-    })
+    const contributorPagesList = () => {
+      const items = pages.map(({ data, url }) => {
+        const { label, subtitle, title } = data
+        const classes = ['quire-contributor__page-link']
+        const name = pageTitle({ label, subtitle, title })
+        return `<li>${link({ classes, name, url })}</li>`
+      })
+      return html`
+        <ul>
+          ${items}
+        </ul>
+      `
+    }
 
     return html`
       <li class="quire-contributor" id="${slugify(name)}">
@@ -64,9 +69,7 @@ module.exports = function (eleventyConfig) {
           <div class="quire-contributor__details media-content">
             ${contributorImage}
             ${contributorBio}
-            <ul>
-            ${contributorPages}
-            </ul>
+            ${contributorPagesList()}
           </div>
         </div>
       </li>
