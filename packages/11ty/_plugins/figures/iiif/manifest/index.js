@@ -148,6 +148,7 @@ module.exports = class Manifest {
       /**
        * Note: Builder can't currently create annotations with target regions,
        * so set the target on each annotation directly
+       * @see {@link https://github.com/stephenwf/iiif-builder}
        */
       const manifestAnnotations = this.json.items[0]?.items[0]?.items || []
       manifestAnnotations.forEach((item) => {
