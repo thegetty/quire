@@ -145,6 +145,16 @@ module.exports = class Manifest {
     })
     try {
       this.json = builder.toPresentation3(manifest)
+      /**
+       * Note: Builder can't currently create annotations with target regions,
+       * so set the target on each annotation directly
+       * @see {@link https://github.com/stephenwf/iiif-builder/issues/6}
+       */
+      const manifestAnnotations = this.json.items[0]?.items[0]?.items || []
+      manifestAnnotations.forEach((item) => {
+        const annotation = this.annotations.find((a) => a.id === item.id)
+        if (annotation) item.target = annotation.target
+      })
       info(`Generated manifest for figure "${this.figure.id}"`)
       return { success: true }
     } catch(errorMessage) {
