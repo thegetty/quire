@@ -181,10 +181,10 @@
     } @else {
       color: $accent-color;
     }
-    height: 1.2em;
+    display: inline-block;
+    height: 0;
     font-weight: 700;
     margin-right: .5rem;
-    margin-top: -.2em;
     .q-figure__label-icon {
       display: inline-block;
       line-height: 1;
