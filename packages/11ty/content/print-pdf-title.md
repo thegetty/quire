@@ -2,7 +2,6 @@
 layout: base.11ty.js
 order: 3
 outputs: 
-  - epub
   - pdf
 toc: false
 ---
