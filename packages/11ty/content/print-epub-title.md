@@ -1,25 +1,19 @@
 ---
 layout: base.11ty.js
-order: 3
 outputs: epub
 toc: false
 ---
 <section epub:type="titlepage">
-    $for(title)$ $if(title.type)$
-    <h1 class="$title.type$">$title.text$</h1>
-    $else$
-    <h1 class="title">$title$</h1>
-    $endif$ $endfor$ $if(subtitle)$
-    <p class="subtitle">$subtitle$</p>
-    $endif$ $for(author)$
-    <p class="author">$author$</p>
-    $endfor$ $for(creator)$
-    <p class="$creator.role$">$creator.text$</p>
-    $endfor$ $if(publisher)$
-    <p class="publisher">$publisher$</p>
-    $endif$ $if(date)$
-    <p class="date">$date$</p>
-    $endif$ $if(rights)$
-    <div class="rights">$rights$</div>
-    $endif$
+{% if publication.title %}<h1 class="title">{{ publication.title }}{% if publication.subtitle %}: {{ publication.subtitle }} {% if publication.reading_line %} {{ publication.reading_line | markdownify }}{% endif %}{% endif %}</h1>{% endif %}
+{% for contributor in contributors | where: contributor.type = "primary" %}
+<p class="author">{{ contributor.name }}</p>
+{% endfor %}
+{% for creator in creators %}
+<p class="{{creator.role}}">{{ creator.name }}</p>
+{% endfor %}
+{% for publisher in publication.publisher %}
+<p class="publisher">{{ publisher.name }}</p>
+{% endfor %}
+{% if publication.pub_date %}<p class="date">{{ publication.pub_date }}</p>{% endif %}
+{% if publication.copyright %}<div class="rights">{{ publication.copyright }}</div>{% endif %}
 </section>
