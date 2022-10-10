@@ -30,9 +30,10 @@ const goToCanvasState = function ({ annotationIds=[], figureId, region='' }) {
     console.warn(`Using the "annoref" shortcode to link to a region on a figure without zoom enabled is not supported. Please set the "preset" property to "zoom" on figure id "${figureId}"`)
   }
   const lightbox = figure.closest('q-lightbox')
-  const annotations = annotationIds.map((id) => {
-    const input = figure.querySelector(`[value="${id}"]`)
-    input.checked = true
+  const inputs = figure.querySelectorAll('.annotations-ui__input')
+  const annotations = [...inputs].map((input) => {
+    const id = input.getAttribute('value')
+    input.checked = annotationIds.includes(id)
     return annotationData(input)
   })
 
@@ -140,9 +141,12 @@ const setUpUIEventHandlers = () => {
   const annoRefs = document.querySelectorAll('.annoref')
   for (const annoRef of annoRefs) {
     let annotationIds = annoRef.getAttribute('data-annotation-ids')
-    annotationIds = annotationIds.split(',')
+    annotationIds = annotationIds.length ? annotationIds.split(',') : undefined
     const figureId = annoRef.getAttribute('data-figure-id')
-    const region = annoRef.getAttribute('data-region')
+    /**
+     * Annoref shortcode resets the region if none is provided
+     */
+    const region = annoRef.getAttribute('data-region') || 'reset'
     annoRef.addEventListener('click', ({ target }) =>
       goToCanvasState({ annotationIds, figureId, region }),
     )
@@ -163,15 +167,21 @@ const setUpUIEventHandlers = () => {
  * 
  * @param  {HTML Element} canvasPanel
  * @param  {Object} data
- * @property {String} region
+ * @property {String} region comma-separated, @example "x,y,width,height"
  * @property {Array<Object>} annotations
  */
 const update = (canvasPanel, data) => {
   const canvasId = canvasPanel.getAttribute('canvas-id')
   const canvasPanels = document.querySelectorAll(`[canvas-id="${canvasId}"]`)
-  const { annotations, region='' } = data
+  const { annotations, region } = data
   canvasPanels.forEach((canvasPanel) => {
-    canvasPanel.setAttribute('region', region)
+    if (region === 'reset') {
+      canvasPanel.clearTarget()
+    } else if (region) {
+      const [x, y, width, height] = region.split(',').map((i) => parseInt(i.trim()))
+      const options = { immediate: false }
+      canvasPanel.goToTarget(region, options)
+    }
     annotations.forEach((annotation) => selectAnnotation(canvasPanel, annotation))
   })
 }
