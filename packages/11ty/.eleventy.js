@@ -171,8 +171,7 @@ module.exports = function(eleventyConfig) {
           plugins: [
             copy({
               targets: [
-                { src: 'public/pdf.html', dest: '_site' },
-                { src: 'public/pdf.css', dest: '_site' },
+                { src: 'public/*', dest: '_site' }
               ]
             })
           ]
