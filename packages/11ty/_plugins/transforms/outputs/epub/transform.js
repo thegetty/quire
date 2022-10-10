@@ -1,5 +1,6 @@
 const path = require('path')
 const jsdom = require('jsdom')
+const layout = require('./layout')
 const write = require('./write')
 const { JSDOM } = jsdom
 const filterOutputs = require('../filter.js')
@@ -8,6 +9,9 @@ const filterOutputs = require('../filter.js')
  * Content transforms for EPUB output
  */
 module.exports = function(eleventyConfig, collections, content) {
+  const slugify = eleventyConfig.getFilter('slugify')
+  const { language } = eleventyConfig.globalData.publication
+
   /**
    * Remove pages excluded from this output type
    */
@@ -17,17 +21,22 @@ module.exports = function(eleventyConfig, collections, content) {
   let epubContent =  index !== -1 ? content : undefined
 
   if (epubContent && ext === '.html') {
-    const dom = new JSDOM(epubContent)
+    const { document } = new JSDOM(epubContent).window
+    const mainElement = document.querySelector('main[data-output-path]')
+    const title = document.querySelector('title').innerHTML
+    const body = document.createElement('body')
+    body.innerHTML = mainElement.innerHTML
+    body.setAttribute('id', mainElement.getAttribute('id'))
     /**
      * Remove elements excluded from this output type
      */
-    filterOutputs(dom.window.document, 'epub')
+    filterOutputs(document, 'epub')
 
-    const { name } = path.parse(this.inputPath)
+    const name = slugify(this.url) || path.parse(this.inputPath).name
     const targetLength = collections.epub.length.toString().length
     const sequence = index.toString().padStart(targetLength, 0)
     const filename = `${sequence}_${name}.html`
-    epubContent = dom.serialize()
+    epubContent = layout({ body: body.outerHTML, language, title })
     write(filename, epubContent)
   }
 
