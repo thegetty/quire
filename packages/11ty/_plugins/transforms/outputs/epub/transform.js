@@ -30,7 +30,7 @@ module.exports = function(eleventyConfig, collections, content) {
     /**
      * Remove elements excluded from this output type
      */
-    filterOutputs(document, 'epub')
+    filterOutputs(body, 'epub')
 
     const name = slugify(this.url) || path.parse(this.inputPath).name
     const targetLength = collections.epub.length.toString().length
