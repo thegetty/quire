@@ -23,29 +23,38 @@ const annotationData = (input) => {
  */
 const goToCanvasState = function ({ annotationIds=[], figureId, region='' }) {
   if (!figureId) return
-  const figureSelectors = `#${figureId}, [data-lightbox-slide-id="${figureId}"]`
-  const figure = document.querySelector(figureSelectors)
-  if (!figure) return
-  const canvasPanel = figure.querySelector('canvas-panel')
-  if (region && canvasPanel.getAttribute('preset') !== 'zoom') {
-    console.warn(`Using the "annoref" shortcode to link to a region on a figure without zoom enabled is not supported. Please set the "preset" property to "zoom" on figure id "${figureId}"`)
-  }
-  const lightbox = figure.closest('q-lightbox')
-  const inputs = document.querySelectorAll(`${figureSelectors} .annotations-ui__input`)
+  const figureSelector = `#${figureId}`
+  const slideSelector = `[data-lightbox-slide-id="${figureId}"]`
+  const figure = document.querySelector(figureSelector)
+  const figureSlide = document.querySelector(slideSelector)
+  if (!figure || !figureSlide) return
+  [figure, figureSlide].forEach((element) => {
+    if (!element) return
+    const canvasPanel = element.querySelector('canvas-panel')
+    if (region && canvasPanel.getAttribute('preset') !== 'zoom') {
+      console.warn(`Using the "annoref" shortcode to link to a region on a figure without zoom enabled is not supported. Please set the "preset" property to "zoom" on figure id "${figureId}"`)
+    }
+  })
+  const inputs = document.querySelectorAll(`#${figureId} .annotations-ui__input, [data-lightbox-slide-id="${figureId}"] .annotations-ui__input`)
   const annotations = [...inputs].map((input) => {
     const id = input.getAttribute('data-annotation-id')
     input.checked = annotationIds.includes(id)
     return annotationData(input)
   })
 
-  if (lightbox) {
+  if (figureSlide) {
+    const lightbox = figureSlide.closest('q-lightbox')
     lightbox.currentId = figureId
   }
 
   /**
    * Update Canvas state
    */
-  update(canvasPanel, { annotations, region })
+  const canvasId = document
+    .querySelector(`${figureSelector}, ${slideSelector}`)
+    .querySelector('canvas-panel')
+    .getAttribute('canvas-id');
+  update(canvasId, { annotations, region })
 
   /**
    * Build URL
@@ -68,7 +77,7 @@ const goToCanvasState = function ({ annotationIds=[], figureId, region='' }) {
  */
 const handleSelect = (element) => {
   const elementId = element.getAttribute('id')
-  const canvasPanel = element.closest('.q-figure, .q-lightbox-slides__slide').querySelector('canvas-panel')
+  const canvasId = element.closest('.q-figure, .q-lightbox-slides__slide').querySelector('canvas-panel').getAttribute('canvas-id')
   const inLightbox = document.querySelector('q-lightbox').contains(element)
   const annotation = annotationData(element)
   const { checked, input } = annotation
@@ -99,7 +108,7 @@ const handleSelect = (element) => {
   /**
    * Update canvas panel state
    */
-  update(canvasPanel, { annotations: [annotation] })
+  update(canvasId, { annotations: [annotation] })
 }
 
 /**
@@ -166,14 +175,16 @@ const setUpUIEventHandlers = () => {
 /**
  * Update canvas panel properties
  * 
- * @param  {HTML Element} canvasPanel
+ * @param  {String} canvas id
  * @param  {Object} data
  * @property {String} region comma-separated, @example "x,y,width,height"
  * @property {Array<Object>} annotations
  */
-const update = (canvasPanel, data) => {
-  const canvasId = canvasPanel.getAttribute('canvas-id')
+const update = (canvasId, data) => {
   const canvasPanels = document.querySelectorAll(`[canvas-id="${canvasId}"]`)
+  if (!canvasPanels.length) {
+    console.error(`Failed to call update on canvas with id ${canvasId}. Canvas does not exist.`)
+  }
   const { annotations, region } = data
   canvasPanels.forEach((canvasPanel) => {
     canvasPanel.setAttribute('region', region || canvasPanel.getAttribute('region'))
