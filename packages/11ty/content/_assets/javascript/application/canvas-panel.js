@@ -33,7 +33,7 @@ const goToCanvasState = function ({ annotationIds=[], figureId, region='' }) {
   const lightbox = figure.closest('q-lightbox')
   const inputs = document.querySelectorAll(`${figureSelectors} .annotations-ui__input`)
   const annotations = [...inputs].map((input) => {
-    const id = input.getAttribute('value')
+    const id = input.getAttribute('data-annotation-id')
     input.checked = annotationIds.includes(id)
     return annotationData(input)
   })

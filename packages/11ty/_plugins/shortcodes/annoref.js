@@ -20,7 +20,8 @@ module.exports = function (eleventyConfig) {
     return oneLine`
       <a 
         class="annoref"
-        data-annotation-ids="${annotationUrls.join(',')}"
+        data-annotation-ids="${annoIds.join(',')}"
+        data-annotation-urls="${annotationUrls.join(',')}"
         data-figure-id="${fig}"
         data-region="${region}"
       >${markdownify(text)}</a>
