@@ -2,26 +2,25 @@ const chalkFactory = require('~lib/chalk')
 const { oneLine } = require('~lib/common-tags')
 const logger = chalkFactory(`Shortcodes:Annoref`)
 /**
- * Style wrapped `content` as "backmatter"
+ * Annoref Shortcode
+ * Link to the annotation or region state of a canvas
  *
- * @param      {String}  content  content between shortcode tags
- *
- * @return     {boolean}  A styled HTML <div> element with the content
+ * @param      {Object} params
+ * @property   {String} anno Comma-separated list of annotation ids
+ * @property   {String} fig Figure ID
+ * @property   {String} region Comma-separated, with format "x,y,width,height"
+ * @property   {String} text Link text
+ * 
+ * @return     {String}  Anchor tag with link text annotation and region data attributes
  */
 module.exports = function (eleventyConfig) {
-  const getAnnotation = eleventyConfig.getFilter('getAnnotation')
   const markdownify = eleventyConfig.getFilter('markdownify')
   return ({ anno='', fig, region='', text='' }) => {
     const annoIds = anno.split(',').map((id) => id.trim())
-    const annotationUrls = annoIds.flatMap((id) => {
-      const annotation = getAnnotation(fig, id)
-      return annotation ? annotation.url : []
-    })
     return oneLine`
       <a 
         class="annoref"
         data-annotation-ids="${annoIds.join(',')}"
-        data-annotation-urls="${annotationUrls.join(',')}"
         data-figure-id="${fig}"
         data-region="${region}"
       >${markdownify(text)}</a>
