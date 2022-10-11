@@ -35,8 +35,8 @@ module.exports = function(eleventyConfig, collections, content) {
     const name = slugify(this.url) || path.parse(this.inputPath).name
     const targetLength = collections.epub.length.toString().length
     const sequence = index.toString().padStart(targetLength, 0)
-    const filename = `${sequence}_${name}.html`
     epubContent = layout({ body: body.outerHTML, language, title })
+    const filename = `${sequence}_${name}.xhtml`
     write(filename, epubContent)
   }
 
