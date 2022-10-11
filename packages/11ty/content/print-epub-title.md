@@ -9,9 +9,6 @@ toc: false
 {% for contributor in contributors | where: contributor.type = "primary" %}
 <p class="author">{{ contributor.name }}</p>
 {% endfor %}
-{% for creator in creators %}
-<p class="{{creator.role}}">{{ creator.name }}</p>
-{% endfor %}
 {% for publisher in publication.publisher %}
 <p class="publisher">{{ publisher.name }}</p>
 {% endfor %}
