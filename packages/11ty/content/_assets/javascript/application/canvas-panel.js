@@ -21,7 +21,7 @@ const annotationData = (input) => {
  * @param  {Array} annotationIds  The IIIF ids of the annotations to select
  * @param  {String} region      The canvas region
  */
-const goToCanvasState = function ({ annotationIds=[], figureId, region='' }) {
+const goToCanvasState = function ({ annotationIds=[], figureId, region }) {
   if (!figureId) return
   const figureSelector = `#${figureId}`
   const slideSelector = `[data-lightbox-slide-id="${figureId}"]`
@@ -54,7 +54,7 @@ const goToCanvasState = function ({ annotationIds=[], figureId, region='' }) {
     .querySelector(`${figureSelector}, ${slideSelector}`)
     .querySelector('canvas-panel')
     .getAttribute('canvas-id');
-  update(canvasId, { annotations, region })
+  update(canvasId, { annotations, region: region || 'reset' })
 
   /**
    * Build URL
@@ -156,9 +156,9 @@ const setUpUIEventHandlers = () => {
     /**
      * Annoref shortcode resets the region if none is provided
      */
-    const region = annoRef.getAttribute('data-region') || 'reset'
+    const region = annoRef.getAttribute('data-region')
     annoRef.addEventListener('click', ({ target }) =>
-      goToCanvasState({ annotationIds, figureId, region }),
+      goToCanvasState({ annotationIds, figureId, region })
     )
   }
 
