@@ -175,6 +175,7 @@ const update = (canvasPanel, data) => {
   const canvasPanels = document.querySelectorAll(`[canvas-id="${canvasId}"]`)
   const { annotations, region } = data
   canvasPanels.forEach((canvasPanel) => {
+    canvasPanel.setAttribute('region', region || canvasPanel.getAttribute('region'))
     if (region === 'reset') {
       canvasPanel.clearTarget()
     } else if (region) {
