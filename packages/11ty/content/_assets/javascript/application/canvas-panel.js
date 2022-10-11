@@ -187,13 +187,12 @@ const update = (canvasId, data) => {
   }
   const { annotations, region } = data
   canvasPanels.forEach((canvasPanel) => {
-    canvasPanel.setAttribute('region', region || canvasPanel.getAttribute('region'))
     if (region === 'reset') {
       canvasPanel.clearTarget()
     } else if (region) {
       const [x, y, width, height] = region.split(',').map((i) => parseInt(i.trim()))
       const options = { immediate: false }
-      canvasPanel.goToTarget(region, options)
+      canvasPanel.goToTarget({ x, y, width, height }, options)
     }
     annotations.forEach((annotation) => selectAnnotation(canvasPanel, annotation))
   })
