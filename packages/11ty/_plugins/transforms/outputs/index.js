@@ -1,9 +1,9 @@
 const path = require('path')
 const jsdom = require('jsdom')
 const { JSDOM } = jsdom
+const epub = require('./epub/transform.js')
 const html = require('./html/transform.js')
 const pdf = require('./pdf/transform.js')
-const epub = require('./epub/transform.js')
 const renderOutputs = require('./render.js')
 /**
  * Eleventy plugin to transform content for output as epub, html, pdf
