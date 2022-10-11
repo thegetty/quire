@@ -15,6 +15,16 @@ const annotationData = (input) => {
 }
 
 /**
+ * Get canvas id from child canvas-panel element
+ * @param  {HTML Element} element
+ * @return {String} canvasId
+ */
+const getCanvasId = (element) => {
+  const canvasPanel = element.querySelector('canvas-panel')
+  return canvasPanel && canvasPanel.getAttribute('canvas-id');
+}
+
+/**
  * Scroll to a figure, or go to figure slide in lightbox
  * Select annotations and/or region, and update the URL
  * @param  {String} figureId    The id of the figure in figures.yaml
@@ -50,10 +60,7 @@ const goToCanvasState = function ({ annotationIds=[], figureId, region }) {
   /**
    * Update Canvas state
    */
-  const canvasId = document
-    .querySelector(`${figureSelector}, ${slideSelector}`)
-    .querySelector('canvas-panel')
-    .getAttribute('canvas-id');
+  const canvasId = getCanvasId(figure || figureSlide)
   update(canvasId, { annotations, region: region || 'reset' })
 
   /**
@@ -77,7 +84,7 @@ const goToCanvasState = function ({ annotationIds=[], figureId, region }) {
  */
 const handleSelect = (element) => {
   const elementId = element.getAttribute('id')
-  const canvasId = element.closest('.q-figure, .q-lightbox-slides__slide').querySelector('canvas-panel').getAttribute('canvas-id')
+  const canvasId = getCanvasId(element.closest('.q-figure, .q-lightbox-slides__slide'))
   const inLightbox = document.querySelector('q-lightbox').contains(element)
   const annotation = annotationData(element)
   const { checked, input } = annotation
