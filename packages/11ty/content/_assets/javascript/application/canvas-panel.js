@@ -27,7 +27,7 @@ const goToCanvasState = function ({ annotationIds=[], figureId, region }) {
   const slideSelector = `[data-lightbox-slide-id="${figureId}"]`
   const figure = document.querySelector(figureSelector)
   const figureSlide = document.querySelector(slideSelector)
-  if (!figure || !figureSlide) return
+  if (!figure && !figureSlide) return
   [figure, figureSlide].forEach((element) => {
     if (!element) return
     const canvasPanel = element.querySelector('canvas-panel')
