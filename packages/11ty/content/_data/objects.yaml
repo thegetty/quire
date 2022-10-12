@@ -47,3 +47,15 @@ object_list:
     link: https://www.getty.edu/art/collection/objects/34753/
     figure:
       - id: "family"
+  - id: "faun"
+    title: Dancing Faun
+    artist: Giovanni Battista Foggini (Italian, 1652 - 1725); Cast attributed to Jacopo Filippini (Italian, about 1668 - 1728)
+    year: about 1700
+    medium: Bronze
+    dimensions: 54 cm (21 1/4 in.)
+    location: J. Paul Getty Museum
+    link: https://www.getty.edu/art/collection/object/108FPT
+    figure:
+      - id: "main"
+      - id: "fig-035"
+      - id: "fig-042"

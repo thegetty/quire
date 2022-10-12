@@ -10,8 +10,10 @@ figure_list:
         items:
           - src: "figures/032/armature.png"
             label: "Armature"
+            #selected: true
           - src: "figures/032/wax-joints.png"
             label: "Wax-to-Wax Joints"
+            #selected: true
   - id: "example-with-choices"
     label: "Choices 1"
     caption: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Posuere sollicitudin aliquam ultrices sagittis orci a scelerisque. Vitae tortor condimentum lacinia quis vel eros donec ac odio. Pulvinar pellentesque habitant morbi tristique senectus et netus et. Sodales ut etiam sit amet nisl purus in mollis."
@@ -158,3 +160,44 @@ figure_list:
     src: figures/family.jpg
     caption: "Walker Evans, *Burrough’s Family, Hale County, Alabama*, 1935."
     credit: The J. Paul Getty Museum, Los Angeles
+
+  - id: "main"
+    src: "figures/dancing-faun.jpg"
+    zoom: true
+    preset: zoom
+    caption: "*Dancing Faun*, Giovanni Battista Foggini, about 1700. Bronze, 54 cm (21 1/4 in.)."
+    credit: "J. Paul Getty Museum, 2000.8"
+
+  - id: "fig-035"
+    src: "figures/035/base.jpg"
+    zoom: true
+    preset: zoom
+    label: "Figure 35"
+    caption: "Detail of an annotated digital X-radiograph showing transverse core pins in both thighs (yellow overlays), one running side to side, the other front to back. Rectangular patches (blue overlays) fill the holes left in the bronze wall when the front-to-back core pins were cut off at the surface and pushed into the hollow bronze cavity. Giovanni Battista Foggini (Italian, 1652–1725), Dancing Faun, ca. 1700, H. 54 cm (J. Paul Getty Museum, inv. 2000.8)."
+    annotations:
+      - input: checkbox
+        items:
+          - id: "patches"
+            src: "figures/035/patches.png"
+            # label: "Patches"
+            selected: true
+          - id: "core-pins"
+            src: "figures/035/core-pins.png"
+            # label: "Core Pins"
+            selected: true
+
+  - id: "fig-042"
+    src: "figures/042/base.jpg"
+    zoom: true
+    preset: zoom
+    label: "Figure 42"
+    caption: "Annotated detail of an X-radiograph showing core support rods (yellow overlay) supporting a wax-to-wax joint in the arm (blue overlay). Giovanni Battista Foggini (Italian, 1652–1725), Dancing Faun, ca. 1700, H. 54 cm (J. Paul Getty Museum, inv. 2000.8). See {Fogelman and Fusco 2002}, 238, 357."
+    annotations:
+      - input: checkbox
+        items:
+          - src: "figures/042/core-supports.png"
+            label: "Core Supports"
+            #selected: true
+          - src: "figures/042/wax-joint.png"
+            label: "Wax-to-Wax Joint"
+            #selected: true
