@@ -12,6 +12,7 @@
     "clean": "del-cli _site public",
     "debug": "cross-env DEBUG=Eleventy* eleventy --dryrun",
     "dev": "cross-env ELEVENTY_ENV=development eleventy --serve",
+    "lint": "eslint --ext .js --ignore-path .gitignore .",
     "prebuild": "npm run clean",
     "predev": "del-cli public",
     "preserve": "npm run clean",
