@@ -44,17 +44,12 @@
       justify-content: center;
     }
 
-    &--table .table-wrapper {
-      background-color: white;
-      color: black;
-      display: flex;
-      flex-direction: column;
-      max-height: 80vh;
-      max-width: 80vw;
-      overflow: scroll;
-      padding: 16px;
+    &--table {
 
-      table,
+      table {
+        background-color: white;
+        color: black;
+      }
       caption {
         margin-bottom: 1rem;
       }
@@ -122,6 +117,16 @@
 
     img {
       object-fit: contain;
+    }
+
+    .overflow-container {
+      background-color: white;
+      color: black;
+      display: flex;
+      flex-direction: column;
+      max-height: 80vh;
+      max-width: 80vw;
+      padding: 1rem;
     }
   }
 

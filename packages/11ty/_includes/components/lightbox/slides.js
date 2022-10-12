@@ -43,7 +43,7 @@ module.exports = function(eleventyConfig) {
           case mediaType === 'soundcloud':
             return figureAudioElement(figure)
           case mediaType === 'table':
-            return `<div class="table-wrapper">${await figureTableElement(figure)}</div>`
+            return `<div class="overflow-container">${await figureTableElement(figure)}</div>`
           case isVideo:
             return figureVideoElement(figure)
           case mediaType === 'image':
