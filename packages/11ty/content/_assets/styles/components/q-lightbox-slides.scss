@@ -46,6 +46,16 @@
 
     &--table {
 
+      .overflow-container {
+        background-color: white;
+        color: black;
+        display: flex;
+        flex-direction: column;
+        max-height: 80vh;
+        max-width: 80vw;
+        padding: 1rem;
+      }
+
       table {
         background-color: white;
         color: black;
@@ -117,16 +127,6 @@
 
     img {
       object-fit: contain;
-    }
-
-    .overflow-container {
-      background-color: white;
-      color: black;
-      display: flex;
-      flex-direction: column;
-      max-height: 80vh;
-      max-width: 80vw;
-      padding: 1rem;
     }
   }
 
