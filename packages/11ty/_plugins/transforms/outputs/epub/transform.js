@@ -1,9 +1,10 @@
+const filterOutputs = require('../filter.js')
 const path = require('path')
 const jsdom = require('jsdom')
 const layout = require('./layout')
 const write = require('./write')
+
 const { JSDOM } = jsdom
-const filterOutputs = require('../filter.js')
 
 /**
  * Content transforms for EPUB output
