@@ -10,7 +10,7 @@ const { html } = require('~lib/common-tags')
 module.exports = async function(data) {
   const { pageClasses, collections, content, pageData, publication } = data
   const { inputPath, outputPath, url } = pageData || {}
-  const mainId = this.slugify(url) || path.parse(inputPath).name
+  const pageId = this.slugify(url) || path.parse(inputPath).name
 
   return this.renderTemplate(
     html`
@@ -32,7 +32,7 @@ module.exports = async function(data) {
             </div>
             <div class="quire__primary">
               ${this.navigation(data)}
-              <main id="${mainId}" class="quire-page ${pageClasses}" data-output-path="${outputPath}">
+              <main id="${pageId}" class="quire-page ${pageClasses}" data-output-path="${outputPath}">
                 ${content}
               </main>
             </div>
