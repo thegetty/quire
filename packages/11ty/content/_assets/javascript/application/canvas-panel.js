@@ -15,36 +15,53 @@ const annotationData = (input) => {
 }
 
 /**
+ * Get canvas id from child canvas-panel element
+ * @param  {HTML Element} element
+ * @return {String} canvasId
+ */
+const getCanvasId = (element) => {
+  const canvasPanel = element.querySelector('canvas-panel')
+  return canvasPanel && canvasPanel.getAttribute('canvas-id');
+}
+
+/**
  * Scroll to a figure, or go to figure slide in lightbox
  * Select annotations and/or region, and update the URL
  * @param  {String} figureId    The id of the figure in figures.yaml
  * @param  {Array} annotationIds  The IIIF ids of the annotations to select
  * @param  {String} region      The canvas region
  */
-const goToCanvasState = function ({ annotationIds=[], figureId, region='' }) {
+const goToCanvasState = function ({ annotationIds=[], figureId, region }) {
   if (!figureId) return
-  const figure = document.querySelector(`#${figureId}, [data-lightbox-slide-id="${figureId}"]`)
-  if (!figure) return
-  const canvasPanel = figure.querySelector('canvas-panel')
-  if (region && canvasPanel.getAttribute('preset') !== 'zoom') {
-    console.warn(`Using the "annoref" shortcode to link to a region on a figure without zoom enabled is not supported. Please set the "preset" property to "zoom" on figure id "${figureId}"`)
-  }
-  const lightbox = figure.closest('q-lightbox')
-  const inputs = figure.querySelectorAll('.annotations-ui__input')
+  const figureSelector = `#${figureId}`
+  const slideSelector = `[data-lightbox-slide-id="${figureId}"]`
+  const figure = document.querySelector(figureSelector)
+  const figureSlide = document.querySelector(slideSelector)
+  if (!figure && !figureSlide) return
+  [figure, figureSlide].forEach((element) => {
+    if (!element) return
+    const canvasPanel = element.querySelector('canvas-panel')
+    if (region && canvasPanel.getAttribute('preset') !== 'zoom') {
+      console.warn(`Using the "annoref" shortcode to link to a region on a figure without zoom enabled is not supported. Please set the "preset" property to "zoom" on figure id "${figureId}"`)
+    }
+  })
+  const inputs = document.querySelectorAll(`#${figureId} .annotations-ui__input, [data-lightbox-slide-id="${figureId}"] .annotations-ui__input`)
   const annotations = [...inputs].map((input) => {
-    const id = input.getAttribute('value')
+    const id = input.getAttribute('data-annotation-id')
     input.checked = annotationIds.includes(id)
     return annotationData(input)
   })
 
-  if (lightbox) {
+  if (figureSlide) {
+    const lightbox = figureSlide.closest('q-lightbox')
     lightbox.currentId = figureId
   }
 
   /**
    * Update Canvas state
    */
-  update(canvasPanel, { annotations, region })
+  const canvasId = getCanvasId(figure || figureSlide)
+  update(canvasId, { annotations, region: region || 'reset' })
 
   /**
    * Build URL
@@ -67,7 +84,7 @@ const goToCanvasState = function ({ annotationIds=[], figureId, region='' }) {
  */
 const handleSelect = (element) => {
   const elementId = element.getAttribute('id')
-  const canvasPanel = element.closest('.q-figure, .q-lightbox-slides__slide').querySelector('canvas-panel')
+  const canvasId = getCanvasId(element.closest('.q-figure, .q-lightbox-slides__slide'))
   const inLightbox = document.querySelector('q-lightbox').contains(element)
   const annotation = annotationData(element)
   const { checked, input } = annotation
@@ -98,7 +115,7 @@ const handleSelect = (element) => {
   /**
    * Update canvas panel state
    */
-  update(canvasPanel, { annotations: [annotation] })
+  update(canvasId, { annotations: [annotation] })
 }
 
 /**
@@ -146,9 +163,9 @@ const setUpUIEventHandlers = () => {
     /**
      * Annoref shortcode resets the region if none is provided
      */
-    const region = annoRef.getAttribute('data-region') || 'reset'
+    const region = annoRef.getAttribute('data-region')
     annoRef.addEventListener('click', ({ target }) =>
-      goToCanvasState({ annotationIds, figureId, region }),
+      goToCanvasState({ annotationIds, figureId, region })
     )
   }
 
@@ -165,14 +182,16 @@ const setUpUIEventHandlers = () => {
 /**
  * Update canvas panel properties
  * 
- * @param  {HTML Element} canvasPanel
+ * @param  {String} canvas id
  * @param  {Object} data
  * @property {String} region comma-separated, @example "x,y,width,height"
  * @property {Array<Object>} annotations
  */
-const update = (canvasPanel, data) => {
-  const canvasId = canvasPanel.getAttribute('canvas-id')
+const update = (canvasId, data) => {
   const canvasPanels = document.querySelectorAll(`[canvas-id="${canvasId}"]`)
+  if (!canvasPanels.length) {
+    console.error(`Failed to call update on canvas with id ${canvasId}. Canvas does not exist.`)
+  }
   const { annotations, region } = data
   canvasPanels.forEach((canvasPanel) => {
     if (region === 'reset') {
@@ -180,7 +199,7 @@ const update = (canvasPanel, data) => {
     } else if (region) {
       const [x, y, width, height] = region.split(',').map((i) => parseInt(i.trim()))
       const options = { immediate: false }
-      canvasPanel.goToTarget(region, options)
+      canvasPanel.goToTarget({ x, y, width, height }, options)
     }
     annotations.forEach((annotation) => selectAnnotation(canvasPanel, annotation))
   })
