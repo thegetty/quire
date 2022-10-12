@@ -1,4 +1,4 @@
-const chalkfactory = require('~lib/chalk')
+const chalkFactory = require('~lib/chalk')
 const fs = require('fs-extra')
 const path = require('path')
 
