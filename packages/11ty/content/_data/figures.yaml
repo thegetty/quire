@@ -126,6 +126,12 @@ figure_list:
     label: "Table 1"
     caption: "Area of the characteristic absorption band."
     credit: "Ivana Bačić, Jasna Jablan"
+  - id: "table-1"
+    src: "tables/table-1.html"
+    media_type: table
+  - id: "table-3"
+    src: "tables/table-3.html"
+    media_type: table
   - id: "photo-podcast"
     media_id: 336879231
     media_type: soundcloud

@@ -39,6 +39,7 @@ module.exports = function (eleventyConfig) {
           name="${name}"
           type="${input}"
           value="${url}"
+          data-annotation-id="${id}"
           data-annotation-type="${type}"
           ${checked ? 'checked' : ''}
         />

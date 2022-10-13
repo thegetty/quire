@@ -44,6 +44,46 @@
       justify-content: center;
     }
 
+    &--table {
+
+      .overflow-container {
+        background-color: white;
+        color: black;
+        display: flex;
+        flex-direction: column;
+        max-height: 80vh;
+        max-width: 80vw;
+        padding: 1rem;
+      }
+
+      table {
+        background-color: white;
+        color: black;
+      }
+      caption {
+        margin-bottom: 1rem;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        width: fit-content;
+      }
+      th,
+      td {
+        padding: 4px;
+      }
+      a {
+        border-bottom: 1px dotted currentColor;
+        color: currentColor;
+
+        &:hover {
+          border-bottom-style: solid;
+        }
+      }
+    }
+
     &--audio,
     &--video {
       position: relative;
