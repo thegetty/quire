@@ -59,3 +59,4 @@ object_list:
       - id: "main"
       - id: "fig-035"
       - id: "fig-042"
+      - id: "layered"

@@ -17,6 +17,10 @@ object:
 
 {% annoref fig='fig-042' anno='' region='267,252,1263,950' text='Shoulder of figure 42' %}
 
+{% annoref fig='layered' anno='2' region='' text='The edges version of the layered image' %}
+
+{% annoref fig='layered' anno='1' region='875,324,747,559' text='The inverted version of the layered image, zoomed in on the hand' %}
+
 Because of his association with Bacchus, the Roman god of wine, the faun usually appears in art with a goatlike face, pointed ears, a tail, and horns. Identified by the Romans as Pan, the god of woods and field, flocks and herds, he was able to charm nymphs with his music. This subject, common in antiquity, regained popularity in the Renaissance and Baroque periods.
 
 Giovanni Battista Foggini, who worked at a time when Florence witnessed an intense interest in the production of bronze reductions of ancient works, based this sculpture on a Hellenistic marble statue in the collection of the Galleria degli Uffizi. Along with only two others of the many known copies of the ancient work, this one includes the tree trunk from the ancient marble, which draws a parallel to the antique but is not needed for support. He may have created the sculpture as a diplomatic gift from the Medici court.

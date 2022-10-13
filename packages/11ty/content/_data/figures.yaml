@@ -168,6 +168,24 @@ figure_list:
     caption: "*Dancing Faun*, Giovanni Battista Foggini, about 1700. Bronze, 54 cm (21 1/4 in.)."
     credit: "J. Paul Getty Museum, 2000.8"
 
+  - id: "layered"
+    zoom: true
+    preset: zoom
+    caption: "Layered view of *Dancing Faun*, Giovanni Battista Foggini, about 1700. Bronze, 54 cm (21 1/4 in.)."
+    credit: "J. Paul Getty Museum, 2000.8"
+    annotations:
+      - input: radio
+        items:
+          - id: "1"
+            label: "Inverted"
+            src: "figures/dancing-faun-inverted.jpg"
+          - id: "2"
+            label: "Edges"
+            src: "figures/dancing-faun-edges.jpg"
+          - id: "3"
+            label: "Colorized"
+            src: "figures/dancing-faun-colorized.jpg"
+
   - id: "fig-035"
     src: "figures/035/base.jpg"
     zoom: true

@@ -10,7 +10,7 @@ order: 540
 
 {% figure 'fig-042' %}
 
-{% figure "fig-032" %}
+{% figure 'layered' %}
 
 ## ANNOREF’s
 
@@ -23,6 +23,10 @@ order: 540
 {% annoref fig='main' anno='' region='616,3390,915,915' text='Zoomed in on the foot in the main image' %}
 
 {% annoref fig='fig-042' anno='' region='267,252,1263,950' text='Zoomed in on the shoulder of figure 42' %}
+
+{% annoref fig='layered' anno='2' region='' text='The edges version of the layered image' %}
+
+{% annoref fig='layered' anno='1' region='875,324,747,559' text='The inverted version of the layered image, zoomed in on the hand' %}
 
 Because of his association with Bacchus, the Roman god of wine, the faun usually appears in art with a goatlike face, pointed ears, a tail, and horns. Identified by the Romans as Pan, the god of woods and field, flocks and herds, he was able to charm nymphs with his music. This subject, common in antiquity, regained popularity in the Renaissance and Baroque periods.
 
