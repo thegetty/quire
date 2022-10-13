@@ -151,6 +151,11 @@ sub {
   }
 }
 
+.overflow-container {
+  overflow: scroll;
+  box-sizing: border-box;
+}
+
 .quire-error {
   text-align: left;
   p {
