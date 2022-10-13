@@ -15,6 +15,6 @@ module.exports = (filename, content) => {
     fs.ensureDirSync(path.parse(outputPath).dir)
     fs.writeFileSync(outputPath, content)
   } catch (error) {
-    logger.error(`Eleventy transform for EPUB error writing combined HTML output for EPUB. ${error}`)
+    logger.error(`Error writing EPUB file ${filename}. ${error}`)
   }
 }
