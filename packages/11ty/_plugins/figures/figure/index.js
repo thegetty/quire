@@ -81,7 +81,7 @@ module.exports = class Figure {
   get printImage() {
     if (this.src && !this.data.printImage) {
       const { ext, name } = path.parse(this.src)
-      return path.join(this.outputDir, `print-image${ext}`)
+      return path.join('/', this.outputDir, `print-image${ext}`)
     }
     return this.data.printImage
   }
