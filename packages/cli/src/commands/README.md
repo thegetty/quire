@@ -1,31 +1,137 @@
 ## Quire CLI Commands
 
-`build`, 'Build Quire publication outputs.'
+### `build`
 
-`build epub`, 'Build Quire publication EPUB format.'
+Build Quire publication outputs.
 
-`build pdf`, 'Build Quire publication PDF format.'
+```sh
+quire build
+```
 
-`build site`, 'Build Quire publication HTML format.'
+#### `epub`
 
-`configure`, 'Edit a Quire project configuration.'
+Build Quire publication EPUB format.
 
-`debug`, 'Display Quire debugging information in the console.'
+```sh
+quire build epub
+```
 
-`dev`, 'Clone `quire/packages/11ty` into the local project.'
+#### `pdf`
 
-`edit`, 'Open or create a new content file in the default editor.'
+Build Quire publication PDF format.
 
-`install`, 'Clone an existing project from a git repository.'
+```sh
+quire build pdf
+```
 
-`new`, 'Start a new Quire publication from a template project or clone an existing project from a git repository (equivalent to `install`).'
+#### `site`
 
-`preview`, 'Build and server the Quire site in development mode.'
+Build Quire publication HTML format.
 
-`preview epub`, 'Preview the Quire publication epub in a web browser.'
+```sh
+quire build site
+```
 
-`preview epub --open`, 'Preview the epub in Kindle Previewer or Apple iBooks'
+### `clean`
 
-`preview pdf`, 'Preview the Quire publication PDF in a web browser.'
+Clean build outputs.
 
-`server`, 'Start a web server on the default port to serve the Quire site.'
+```sh
+quire clean
+```
+
+### `configure`
+
+Edit a Quire project configuration.
+
+```sh
+quire configure
+```
+
+### `debug`
+
+Display Quire debugging information in the console.
+
+```sh
+quire debug
+```
+
+### `dev`
+
+Clone `quire/packages/11ty` into the local project.
+
+```sh
+quire dev
+```
+
+### `edit`
+
+Open or create a new content file in the default editor.
+
+```sh
+quire edit
+```
+
+### `install`
+
+Clone an existing project from a git repository.
+
+```sh
+quire install
+```
+
+### `new`
+
+Start a new Quire publication from a template project or clone of an existing project from a git repository (equivalent to `install`).
+
+To start a new Quire project, execute:
+
+```sh
+quire new
+```
+
+### `preview`
+
+Build and server the Quire site in development mode.
+
+```sh
+quire preview
+```
+
+#### `epub`
+
+Preview the Quire publication epub in a web browser.
+
+```sh
+quire preview epub
+```
+
+To preview the epub in Kindle Previewer or Apple iBooks
+
+```sh
+quire preview epub --open
+```
+
+#### `pdf`
+
+Preview the Quire publication PDF in a web browser.
+
+```sh
+quire preview pdf
+```
+
+#### `site`
+
+Build and server the Quire site in development mode.
+
+```sh
+quire preview site
+```
+
+#### `server`
+
+Start a web server on the default port to serve the Quire site.
+
+```sh
+quire server
+```
