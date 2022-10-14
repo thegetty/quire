@@ -12,6 +12,7 @@ const { JSDOM } = jsdom
  */
 module.exports = function(eleventyConfig, collections, content) {
   const { output: iiifOutputDir } = getIIIFConfig(eleventyConfig).dirs
+  const pageTitle = eleventyConfig.getFilter('pageTitle')
   const slugify = eleventyConfig.getFilter('slugify')
   const { imageDir } = eleventyConfig.globalData.config.params
   const { language } = eleventyConfig.globalData.publication
@@ -42,9 +43,10 @@ module.exports = function(eleventyConfig, collections, content) {
   let epubContent =  index !== -1 ? content : undefined
 
   if (epubContent && ext === '.html') {
+    const page = collections.epub[index]
     const { document } = new JSDOM(epubContent).window
     const mainElement = document.querySelector('main[data-output-path]')
-    const title = document.querySelector('title').innerHTML
+    const title = pageTitle(page.data)
     const body = document.createElement('body')
     body.innerHTML = mainElement.innerHTML
     body.setAttribute('id', mainElement.getAttribute('id'))
