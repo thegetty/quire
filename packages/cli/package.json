@@ -31,6 +31,7 @@
     "build": "rollup --config build/rollup.config.js",
     "clean": "del-cli ./dist",
     "prebuild": "npm run clean",
+    "postinstall": "node scripts/postinstall.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "imports": {
