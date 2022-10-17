@@ -22,22 +22,24 @@ program
  */
 for (const commandName in commands) {
   const command = commands[commandName]
+
   const { action, description, args, options } = command
+
   const subCommand = program
     .command(commandName)
     .description(description)
     .addHelpCommand()
     .showHelpAfterError()
 
-  // args.forEach(([ arg, value, callback ]) => {
-  //   subCommand.argument(arg, value, callback)
-  // })
+  args.forEach(([ arg, value, callback ]) => {
+    subCommand.argument(arg, value, callback)
+  })
 
-  // options.forEach(([a, b, c, d]) => {
-  //   subCommand.option(a, b.join(','), c, d)
-  // })
+  options.forEach(([ short, long, description, defaultValue ]) => {
+    subCommand.option([short, long].join(', '), description, defaultValue)
+  })
 
-  subCommand.action(() => action.apply(command, args))
+  subCommand.action((args) => action.apply(command, args))
 }
 
 /**

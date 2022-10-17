@@ -8,7 +8,6 @@ import eleventy from '#lib/11ty/eleventy.js'
  * @extends    {Command}
  */
 export default class BuildCommand extends Command {
-
   static definition = {
     name: 'build',
     // usage: '',
@@ -25,7 +24,8 @@ export default class BuildCommand extends Command {
       // ],
     ],
     options: [
-      ['-d, --dry-run', 'run build without writing files'],
+      // ['-d', '--debug', 'debug the cli build command'],
+      ['-d', '--dry-run', 'run build without writing files'],
     ],
   }
 
@@ -33,8 +33,8 @@ export default class BuildCommand extends Command {
     super(BuildCommand.definition)
   }
 
-  action(options) {
-    console.error('Called %s with options %o', this.name, options)
-    eleventy.build()
+  action(options = {}) {
+    console.error('Command \'%s\' called with options %o', this.name, options)
+    eleventy.build(options)
   }
 }
