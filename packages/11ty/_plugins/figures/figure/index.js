@@ -141,10 +141,10 @@ module.exports = class Figure {
    * Process `figure.src`
    */
   async processFigureImage() {
-    if (this.src && this.isImageService) {
+    if (this.src && (this.isCanvas || this.isImageService)) {
       const { transformations } = this.iiifConfig
       const { errors } = await this.imageProcessor.processImage(this.src, this.outputDir, {
-        tile: true,
+        tile: this.isImageService,
         transformations
       })
       if (errors) this.errors = this.errors.concat(errors)
