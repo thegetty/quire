@@ -15,7 +15,11 @@ program
   .name('quire-cli')
   .description('Quire command-line interface')
   .version('1.0.0')
-  .configureHelp({ sortSubcommands: true })
+  .configureHelp({
+    helpWidth: 80,
+    sortOptions: true,
+    sortSubcommands: false,
+  })
 
 /**
  * Register each command as a subcommand of this program
@@ -23,10 +27,10 @@ program
 for (const commandName in commands) {
   const command = commands[commandName]
 
-  const { action, description, args, options } = command
+  const { name, action, description, args, options } = command
 
   const subCommand = program
-    .command(commandName)
+    .command(name)
     .description(description)
     .addHelpCommand()
     .showHelpAfterError()
