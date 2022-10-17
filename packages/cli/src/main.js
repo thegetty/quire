@@ -33,13 +33,17 @@ commands.forEach((command) => {
     .addHelpCommand()
     .showHelpAfterError()
 
-  args.forEach(([ arg, value, callback ]) => {
-    subCommand.argument(arg, value, callback)
-  })
+  if (Array.isArray(args)) {
+    args.forEach(([ arg, value, callback ]) => {
+      subCommand.argument(arg, value, callback)
+    })
+  }
 
-  options.forEach(([ short, long, description, defaultValue ]) => {
-    subCommand.option([short, long].join(', '), description, defaultValue)
-  })
+  if (Array.isArray(options)) {
+    options.forEach(([ short, long, description, defaultValue ]) => {
+      subCommand.option([short, long].join(', '), description, defaultValue)
+    })
+  }
 
   subCommand.action((args) => action.apply(command, args))
 })
