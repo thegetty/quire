@@ -121,7 +121,7 @@ module.exports = function(eleventyConfig) {
 
   /**
    * Add plugin for WebC support
-   * @see https://www.11ty.dev/docs/languages/webc/
+   * @see https://www.11ty.dev/docs/languages/webc/#installation
    *
    * @typedef {PluginWebcOptions}
    * @property {String} components - Glob pattern for no-import global components
