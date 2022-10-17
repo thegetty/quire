@@ -87,7 +87,7 @@ const handleSelect = (element) => {
   const canvasId = getCanvasId(element.closest('.q-figure, .q-lightbox-slides__slide'))
   const inLightbox = document.querySelector('q-lightbox').contains(element)
   const annotation = annotationData(element)
-  const { checked, input } = annotation
+  const { checked, input, type } = annotation
   /**
    * Two-way data binding for annotaion UI inputs in lightbox and inline
    */
@@ -101,7 +101,7 @@ const handleSelect = (element) => {
   /**
    * Prevent deselecting all layers if choices and checkboxes are used together
    */
-  if (input === 'checkbox') {
+  if (input === 'checkbox' && type === 'choice') {
     const form = element.closest('form')
     const checkedInputs = form.querySelectorAll('.annotations-ui__input[checked]')
     if (!checked && checkedInputs.length === 1) {
