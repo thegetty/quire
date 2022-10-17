@@ -24,7 +24,7 @@ export default class BuildCommand extends Command {
       // ],
     ],
     options: [
-      // ['-d', '--debug', 'debug the cli build command'],
+      ['-D', '--debug', 'debug the `quire build` command'],
       ['-d', '--dry-run', 'run build without writing files'],
     ],
   }

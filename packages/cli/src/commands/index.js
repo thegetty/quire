@@ -1,21 +1,22 @@
-import { fileURLToPath } from 'node:url'
-import fs from 'fs-extra'
-import path from 'node:path'
+// import { fileURLToPath } from 'node:url'
+// import fs from 'fs-extra'
+// import path from 'node:path'
 
 // const __filename = fileURLToPath(import.meta.url)
 // const __dirname = path.dirname(__filename)
 
-// const normalizedPath = path.join(__dirname, './');
-
 // const commands = fs
-//   .readdirSync(normalizedPath)
-//   .filter((file) => file.match(/[a-zA-Z]+Command.js/))
+//   .readdirSync(__dirname)
+//   .filter((file) => file.match(/^(?!index).*\.js$/))
 //   .map(async (file) => {
-//     const Command = await import('./' + file).then((command) => command)
-//     console.log('command is', Command)
-//     return new Command()
+//     const moduleName = path.resolve(__dirname, file)
+//     const command =
+//       await import(moduleName).then((moduleExports) => moduleExports.default)
+//     return new command()
 //   })
 
-import Build from './build.js'
+import BuildCommand from './build.js'
+import CreateCommand from './create.js'
 
-export const build = new Build()
+export const build = new BuildCommand()
+export const create = new CreateCommand()
