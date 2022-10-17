@@ -43,7 +43,7 @@ module.exports = function(eleventyConfig) {
           case mediaType === 'soundcloud':
             return figureAudioElement(figure)
           case mediaType === 'table':
-            return await figureTableElement(figure)
+            return `<div class="overflow-container">${await figureTableElement(figure)}</div>`
           case isVideo:
             return figureVideoElement(figure)
           case mediaType === 'image':
@@ -86,7 +86,7 @@ module.exports = function(eleventyConfig) {
           </div>
           <div class="q-figure-slides__slide-ui">
             ${captionElement}
-            ${annotationsUI(figure)}
+            ${annotationsUI({ figure, lightbox: true })}
           </div>
         </div>
       `
