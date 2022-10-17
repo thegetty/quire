@@ -195,12 +195,12 @@ const setUpUIEventHandlers = () => {
  * @property {Array<Object>} annotations
  */
 const update = (id, data) => {
-  const serviceComponents = document.querySelectorAll(`canvas-panel[canvas-id="${id}"], image-service[src="${id}"]`)
-  if (!serviceComponents.length) {
+  const webComponents = document.querySelectorAll(`canvas-panel[canvas-id="${id}"], image-service[src="${id}"]`)
+  if (!webComponents.length) {
     console.error(`Failed to call update on canvas panel or image-service component with id ${id}. Element does not exist.`)
   }
   const { annotations, region } = data
-  serviceComponents.forEach((element) => {
+  webComponents.forEach((element) => {
     if (region === 'reset') {
       element.clearTarget()
     } else if (region) {
