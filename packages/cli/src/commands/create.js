@@ -10,17 +10,15 @@ import eleventy from '#lib/11ty/eleventy.js'
 export default class CreateCommand extends Command {
   static definition = {
     name: 'new',
-    // usage: '',
-    description: 'Start a new Quire publication from a template or clone of an existing project from a git repository.',
-    // summary: '',
+    description: 'Start a new Quire project from a template or clone of an existing project from a git repository.',
+    summary: 'create a new project',
     version: '1.0.0',
     args: [
-      [
-        '[template]', 'Quire project template',
-      ],
+      [ '[path]', 'the path to the project directory' ],
+      [ '[template]', 'template path or repository url' ]
     ],
     options: [
-      ['-D', '--debug', 'debug the `quire new` command'],
+      [ '-D', '--debug', 'debug the `quire new` command' ],
     ],
   }
 
@@ -30,6 +28,5 @@ export default class CreateCommand extends Command {
 
   action(options = {}) {
     console.error('Command \'%s\' called with options %o', this.name, options)
-    eleventy.build(options)
   }
 }

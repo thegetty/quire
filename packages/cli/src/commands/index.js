@@ -14,7 +14,7 @@ const commands = await Promise.all(
     .filter((file) => file.match(/^(?!index).*\.js$/))
     .map((file) => import(path.resolve(__dirname, file)))
 ).then((modules) => {
-  return modules.map(({ default: command }) => new command())
+  return modules.map(({ default: CommandClass }) => new CommandClass())
 })
 
 export default commands

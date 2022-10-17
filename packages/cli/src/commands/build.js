@@ -10,9 +10,8 @@ import eleventy from '#lib/11ty/eleventy.js'
 export default class BuildCommand extends Command {
   static definition = {
     name: 'build',
-    // usage: '',
     description: 'Generate publication outputs',
-    // summary: '',
+    summary: 'run build',
     version: '1.0.0',
     args: [
       // [
@@ -24,8 +23,8 @@ export default class BuildCommand extends Command {
       // ],
     ],
     options: [
-      ['-D', '--debug', 'debug the `quire build` command'],
-      ['-d', '--dry-run', 'run build without writing files'],
+      [ '-D', '--debug', 'debug the `quire build` command' ],
+      [ '-d', '--dry-run', 'run build without writing files' ],
     ],
   }
 
