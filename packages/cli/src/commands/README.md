@@ -8,6 +8,14 @@ Build Quire publication outputs.
 quire build
 ```
 
+#### `clean`
+
+Clean build outputs.
+
+```sh
+quire clean
+```
+
 #### `epub`
 
 Build Quire publication EPUB format.
@@ -30,14 +38,6 @@ Build Quire publication HTML format.
 
 ```sh
 quire build site
-```
-
-### `clean`
-
-Clean build outputs.
-
-```sh
-quire clean
 ```
 
 ### `configure`
