@@ -26,7 +26,7 @@ const titleCase = require('~plugins/filters/titleCase')
 module.exports = class Annotation {
   constructor(figure, data) {
     const { iiifConfig, outputDir } = figure
-    const { label, src, target, text } = data
+    const { label, selected, src, target, text } = data
     const { base, ext, name } = src ? path.parse(src) : {}
 
     /**
@@ -72,6 +72,7 @@ module.exports = class Annotation {
     this.isImageService = isImageService
     this.label = label || titleCase(path.parse(src).name)
     this.motivation = src ? 'painting' : 'text'
+    this.selected = selected
     this.src = src
     this.target = target
     this.text = text
