@@ -54,13 +54,11 @@ module.exports = class AnnotationFactory {
      * @return {String}
      */
     const filepath = () => {
-      return figure.preset === "zoom"
-        ? [
-            this.iiifConfig.outputDir,
-            data.id,
-            this.iiifConfig.imageServiceDirectory,
-          ].join('/')
-        : [this.iiifConfig.inputDir, data.src].join('/');
+      const { imageServiceDirectory, inputDir, outputDir } = this.iiifConfig
+      const pathSegments = figure.preset === 'zoom'
+        ? [outputDir, data.id, imageServiceDirectory]
+        : [inputDir, data.src]
+      return pathSegments.join('/')
     }
 
     /**
