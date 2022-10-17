@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 import { Command } from 'commander'
-import * as commands from './commands/index.js'
+import commands from './commands/index.js'
 
 /**
  * Quire CLI implements the command pattern.
@@ -24,9 +24,7 @@ program
 /**
  * Register each command as a subcommand of this program
  */
-for (const commandName in commands) {
-  const command = commands[commandName]
-
+commands.forEach((command) => {
   const { name, action, description, args, options } = command
 
   const subCommand = program
@@ -44,7 +42,7 @@ for (const commandName in commands) {
   })
 
   subCommand.action((args) => action.apply(command, args))
-}
+})
 
 /**
  * Run the program
