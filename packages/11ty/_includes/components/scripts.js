@@ -1,3 +1,5 @@
+const { html } = require('~lib/common-tags')
+
 /**
  * Generate HTML <script> tags for document head
  *
@@ -12,10 +14,6 @@ module.exports = function(eleventyConfig) {
 
   return () => html`
     <script type="module" src="/is-land.js"></script>
-    <script type="text/javascript">
-      const figureModal = ${config.params.figureModal}
-    </script>
     <script type="module" src="/_assets/javascript/application/index.js"></script>
-    <script type="module" src="/_assets/javascript/custom.js"></script>
   `
 }
