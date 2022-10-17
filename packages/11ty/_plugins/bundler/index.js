@@ -3,18 +3,16 @@ const copy = require('rollup-plugin-copy')
 const scss = require('rollup-plugin-scss')
 
 /**
- * Use Vite to bundle JavaScript
+ * Configure Vite to bundle JavaScript and process the build output
  * @see https://github.com/11ty/eleventy-plugin-vite
  *
- * Runs Vite as Middleware in the Eleventy Dev Server
- * Runs Vite build to postprocess the Eleventy build output
+ * Runs Vite as Middleware in the Eleventy Dev Server.
+ * Runs Vite build to postprocess the Eleventy build output.
  *
  * @param  {EleventyConfig}  eleventyConfig
- * @param  {Object}  options
+ * @param  {Object}  options - must include `dirs` configuration
  */
-module.exports = function (eleventyConfig, options = {}) {
-  const { dirs } = options
-
+module.exports = function (eleventyConfig, { dirs }) {
   eleventyConfig.addPlugin(EleventyVitePlugin, {
     tempFolderName: '.11ty-vite',
     viteOptions: {
@@ -22,7 +20,7 @@ module.exports = function (eleventyConfig, options = {}) {
       /**
        * @see https://vitejs.dev/config/#build-options
        */
-      root: '_site',
+      root: dirs.output,
       build: {
         assetsDir: dirs.assets,
         emptyOutDir: process.env.ELEVENTY_ENV !== 'production',
