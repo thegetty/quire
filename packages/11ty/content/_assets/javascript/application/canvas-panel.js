@@ -15,13 +15,20 @@ const annotationData = (input) => {
 }
 
 /**
- * Get canvas id from child canvas-panel element
+ * Get canvas id or info.json from child web component
  * @param  {HTML Element} element
  * @return {String} canvasId
  */
-const getCanvasId = (element) => {
+const getServiceId = (element) => {
   const canvasPanel = element.querySelector('canvas-panel')
-  return canvasPanel && canvasPanel.getAttribute('canvas-id');
+  const imageService = element.querySelector('image-service')
+  if (canvasPanel) {
+    return canvasPanel.getAttribute('canvas-id')
+  } else if (imageService) {
+    return imageService.getAttribute('src');
+  } else {
+    console.error(`Element does not contain a canvas panel or image service component:`, element)
+  }
 }
 
 /**
@@ -31,7 +38,7 @@ const getCanvasId = (element) => {
  * @param  {Array} annotationIds  The IIIF ids of the annotations to select
  * @param  {String} region      The canvas region
  */
-const goToCanvasState = function ({ annotationIds=[], figureId, region }) {
+const goToFigureState = function ({ annotationIds=[], figureId, region }) {
   if (!figureId) return
   const figureSelector = `#${figureId}`
   const slideSelector = `[data-lightbox-slide-id="${figureId}"]`
@@ -40,8 +47,8 @@ const goToCanvasState = function ({ annotationIds=[], figureId, region }) {
   if (!figure && !figureSlide) return
   [figure, figureSlide].forEach((element) => {
     if (!element) return
-    const canvasPanel = element.querySelector('canvas-panel')
-    if (region && canvasPanel.getAttribute('preset') !== 'zoom') {
+    const webComponent = element.querySelector('canvas-panel, image-service')
+    if (region && webComponent.getAttribute('preset') !== 'zoom') {
       console.warn(`Using the "annoref" shortcode to link to a region on a figure without zoom enabled is not supported. Please set the "preset" property to "zoom" on figure id "${figureId}"`)
     }
   })
@@ -58,10 +65,10 @@ const goToCanvasState = function ({ annotationIds=[], figureId, region }) {
   }
 
   /**
-   * Update Canvas state
+   * Update figure state
    */
-  const canvasId = getCanvasId(figure || figureSlide)
-  update(canvasId, { annotations, region: region || 'reset' })
+  const serviceId = getServiceId(figure || figureSlide)
+  update(serviceId, { annotations, region: region || 'reset' })
 
   /**
    * Build URL
@@ -84,7 +91,7 @@ const goToCanvasState = function ({ annotationIds=[], figureId, region }) {
  */
 const handleSelect = (element) => {
   const elementId = element.getAttribute('id')
-  const canvasId = getCanvasId(element.closest('.q-figure, .q-lightbox-slides__slide'))
+  const serviceId = getServiceId(element.closest('.q-figure, .q-lightbox-slides__slide'))
   const inLightbox = document.querySelector('q-lightbox').contains(element)
   const annotation = annotationData(element)
   const { checked, input } = annotation
@@ -113,9 +120,9 @@ const handleSelect = (element) => {
     }
   }
   /**
-   * Update canvas panel state
+   * Update figure state
    */
-  update(canvasId, { annotations: [annotation] })
+  update(serviceId, { annotations: [annotation] })
 }
 
 /**
@@ -165,7 +172,7 @@ const setUpUIEventHandlers = () => {
      */
     const region = annoRef.getAttribute('data-region')
     annoRef.addEventListener('click', ({ target }) =>
-      goToCanvasState({ annotationIds, figureId, region })
+      goToFigureState({ annotationIds, figureId, region })
     )
   }
 
@@ -180,29 +187,31 @@ const setUpUIEventHandlers = () => {
 }
 
 /**
- * Update canvas panel properties
+ * Update canvas panel or image-service properties
  * 
- * @param  {String} canvas id
+ * @param  {String} id Canvas ID or path to image-service info.json
  * @param  {Object} data
  * @property {String} region comma-separated, @example "x,y,width,height"
  * @property {Array<Object>} annotations
  */
-const update = (canvasId, data) => {
-  const canvasPanels = document.querySelectorAll(`[canvas-id="${canvasId}"]`)
-  if (!canvasPanels.length) {
-    console.error(`Failed to call update on canvas with id ${canvasId}. Canvas does not exist.`)
+const update = (id, data) => {
+  const serviceComponents = document.querySelectorAll(`canvas-panel[canvas-id="${id}"], image-service[src="${id}"]`)
+  if (!serviceComponents.length) {
+    console.error(`Failed to call update on canvas panel or image-service component with id ${id}. Element does not exist.`)
   }
   const { annotations, region } = data
-  canvasPanels.forEach((canvasPanel) => {
+  serviceComponents.forEach((element) => {
     if (region === 'reset') {
-      canvasPanel.clearTarget()
+      element.clearTarget()
     } else if (region) {
       const [x, y, width, height] = region.split(',').map((i) => parseInt(i.trim()))
       const options = { immediate: false }
-      canvasPanel.goToTarget({ x, y, width, height }, options)
+      element.goToTarget({ x, y, width, height }, options)
     }
-    annotations.forEach((annotation) => selectAnnotation(canvasPanel, annotation))
+    if (element.tagName === 'CANVAS-PANEL') {
+      annotations.forEach((annotation) => selectAnnotation(element, annotation))
+    }
   })
 }
 
-export { goToCanvasState, setUpUIEventHandlers }
+export { goToFigureState, setUpUIEventHandlers }

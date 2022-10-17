@@ -15,7 +15,7 @@ import "../../styles/custom.css";
 import scrollToHash from "./scroll-to-hash"
 import Search from "../../../../_plugins/search/search.js";
 import "./canvas-panel";
-import { goToCanvasState, setUpUIEventHandlers } from "./canvas-panel";
+import { goToFigureState, setUpUIEventHandlers } from "./canvas-panel";
 import "./soundcloud-api";
 
 // array of leaflet instances
@@ -371,7 +371,7 @@ window.addEventListener('load', () => {
    * Canvas Panel Setup
    */
   setUpUIEventHandlers()
-  goToCanvasState({
+  goToFigureState({
     figureId: window.location.hash.replace(/^#/, ''),
     annotationIds: params['annotation-id'],
     region: params['region'] ? params['region'][0] : null
