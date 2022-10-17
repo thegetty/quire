@@ -1,9 +1,7 @@
 require('module-alias/register')
 
-const copy = require('rollup-plugin-copy')
 const fs = require('fs-extra')
 const path = require('path')
-const scss = require('rollup-plugin-scss')
 
 /**
  * Quire features are implemented as Eleventy plugins
@@ -12,7 +10,7 @@ const {
   EleventyHtmlBasePlugin,
   EleventyRenderPlugin
 } = require('@11ty/eleventy')
-const EleventyVitePlugin = require('@11ty/eleventy-plugin-vite')
+const bundlerPlugin = require('~plugins/bundler')
 const citationsPlugin = require('~plugins/citations')
 const collectionsPlugin = require('~plugins/collections')
 const componentsPlugin = require('~plugins/components')
@@ -32,9 +30,12 @@ const shortcodesPlugin = require('~plugins/shortcodes')
 const syntaxHighlightPlugin = require('@11ty/eleventy-plugin-syntaxhighlight')
 const transformsPlugin = require('~plugins/transforms')
 
-const inputDir = 'content'
-const outputDir = '_site'
-const publicDir = 'public'
+const dirs = {
+  assets: '_assets',
+  input: 'content',
+  output: '_site',
+  public: 'public',
+}
 
 /**
  * Eleventy configuration
@@ -79,7 +80,7 @@ module.exports = function(eleventyConfig) {
 
   /**
    * Plugins are loaded in order of the `addPlugin` statements,
-   * plugins that mutate globalData must be added before other plugins
+   * plugins that mutate `globalData` must be added before other plugins
    */
   eleventyConfig.addPlugin(dataExtensionsPlugin)
   eleventyConfig.addPlugin(globalDataPlugin)
@@ -87,7 +88,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(figuresPlugin)
 
   /**
-   * Load plugin for custom configuration of the markdown library
+   * Register plugin for custom configuration of the markdown library
    */
   eleventyConfig.addPlugin(markdownPlugin)
 
@@ -97,7 +98,7 @@ module.exports = function(eleventyConfig) {
   const collections = collectionsPlugin(eleventyConfig)
 
   /**
-   * Load plugins for the Quire template shortcodes and filters
+   * Register plugins for the Quire template shortcodes and filters
    */
   eleventyConfig.addPlugin(componentsPlugin, collections)
   eleventyConfig.addPlugin(filtersPlugin)
@@ -105,7 +106,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(shortcodesPlugin, collections)
 
   /**
-   * Load additional plugins used for Quire projects
+   * Register additional plugins used for Quire projects
    */
   eleventyConfig.addPlugin(citationsPlugin)
   eleventyConfig.addPlugin(navigationPlugin)
@@ -146,72 +147,9 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(transformsPlugin, collections)
 
   /**
-   * Use Vite to bundle JavaScript
-   * @see https://github.com/11ty/eleventy-plugin-vite
-   *
-   * Runs Vite as Middleware in the Eleventy Dev Server
-   * Runs Vite build to postprocess the Eleventy build output
+   * Register a plugin to bundle JavaScript
    */
-  eleventyConfig.addPlugin(EleventyVitePlugin, {
-    tempFolderName: '.11ty-vite',
-    viteOptions: {
-      publicDir: process.env.ELEVENTY_ENV === 'production'
-        ? publicDir
-        : false,
-      /**
-       * @see https://vitejs.dev/config/#build-options
-       */
-      root: '_site',
-      build: {
-        assetsDir: '_assets',
-        emptyOutDir: process.env.ELEVENTY_ENV !== 'production',
-        manifest: true,
-        mode: 'production',
-        outDir: '_site',
-        rollupOptions: {
-          output: {
-            assetFileNames: ({ name }) => {
-              const fullFilePathSegments = name.split('/').slice(0, -1)
-              let filePath = '_assets/';
-              ['_assets', 'node_modules'].forEach((assetDir) => {
-                if (name.includes(assetDir)) {
-                  filePath +=
-                    fullFilePathSegments
-                      .slice(fullFilePathSegments.indexOf(assetDir) + 1)
-                      .join('/') + '/'
-                }
-              })
-              return `${filePath}[name][extname]`
-            }
-          },
-          plugins: [
-            copy({
-              targets: [
-                { src: 'public/pdf.html', dest: '_site' },
-                { src: 'public/pdf.css', dest: '_site' },
-              ]
-            })
-          ]
-        },
-        sourcemap: true
-      },
-      /**
-       * Set to false to prevent Vite from clearing the terminal screen
-       * and have Vite logging messages rendered alongside Eleventy output.
-       */
-      clearScreen: false,
-      /**
-       * @see https://vitejs.dev/config/#server-host
-       */
-      server: {
-        hmr: {
-          overlay: false
-        },
-        middlewareMode: true,
-        mode: 'development'
-      }
-    }
-  })
+  eleventyConfig.addPlugin(bundlerPlugin, { dirs })
 
   /**
    * Set eleventy dev server options
@@ -229,9 +167,11 @@ module.exports = function(eleventyConfig) {
    * Copy static assets to the output directory
    * @see https://www.11ty.dev/docs/copy/
    */
-  if (process.env.ELEVENTY_ENV === 'production') eleventyConfig.addPassthroughCopy(publicDir)
-  eleventyConfig.addPassthroughCopy(`${inputDir}/_assets`)
-  eleventyConfig.addPassthroughCopy({ '_includes/web-components': '_assets/javascript' })
+  if (process.env.ELEVENTY_ENV === 'production') eleventyConfig.addPassthroughCopy(dirs.public)
+  eleventyConfig.addPassthroughCopy(`${dirs.input}/${dirs.assets}`)
+  eleventyConfig.addPassthroughCopy({
+    '_includes/web-components': `${dirs.assets}/javascript`
+  })
 
   /**
    * Watch the following additional files for changes and live browsersync
@@ -246,8 +186,8 @@ module.exports = function(eleventyConfig) {
      * @see {@link https://www.11ty.dev/docs/config/#configuration-options}
      */
     dir: {
-      input: inputDir,
-      output: outputDir,
+      input: dirs.input,
+      output: dirs.output,
       // ⚠️ the following values are _relative_ to the `input` directory
       data: `./_computed`,
       includes: '../_includes',
