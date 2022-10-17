@@ -31,6 +31,8 @@
     "@11ty/eleventy-plugin-directory-output": "^1.0.1",
     "@11ty/eleventy-plugin-syntaxhighlight": "^4.1.0",
     "@11ty/eleventy-plugin-vite": "^2.0.0-canary.2",
+    "@11ty/eleventy-plugin-webc": "^0.5.0",
+    "@11ty/is-land": "^2.0.3",
     "@iiif/parser": "^1.0.13",
     "@iiif/vault": "^0.9.19",
     "camelize": "^1.0.0",
@@ -47,7 +49,7 @@
     "jsdom": "^20.0.0",
     "json5": "^2.2.1",
     "liquid-args": "^1.0.0",
-    "liquidjs": "^9.41.0",
+    "liquidjs": "^9.42.0",
     "locale-en-us": "^0.0.2",
     "markdown-it": "^13.0.1",
     "markdown-it-anchor": "^8.6.4",
@@ -71,7 +73,7 @@
   "dependencies": {
     "bulma": "^0.9.3",
     "core-js": "2.5.0",
-    "lit": "^2.3.1",
+    "lit": "^2.4.0",
     "lunr": "^2.3.9",
     "material-icons": "^1.10.11",
     "template-polyfill": "^2.0.0"

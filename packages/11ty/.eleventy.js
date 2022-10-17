@@ -13,11 +13,11 @@ const {
   EleventyRenderPlugin
 } = require('@11ty/eleventy')
 const EleventyVitePlugin = require('@11ty/eleventy-plugin-vite')
-const directoryOutputPlugin = require('@11ty/eleventy-plugin-directory-output')
 const citationsPlugin = require('~plugins/citations')
 const collectionsPlugin = require('~plugins/collections')
 const componentsPlugin = require('~plugins/components')
 const dataExtensionsPlugin = require('~plugins/dataExtensions')
+const directoryOutputPlugin = require('@11ty/eleventy-plugin-directory-output')
 const figuresPlugin = require('~plugins/figures')
 const filtersPlugin = require('~plugins/filters')
 const frontmatterPlugin = require('~plugins/frontmatter')
@@ -26,6 +26,7 @@ const i18nPlugin = require('~plugins/i18n')
 const lintersPlugin = require('~plugins/linters')
 const markdownPlugin = require('~plugins/markdown')
 const navigationPlugin = require('@11ty/eleventy-navigation')
+const pluginWebc = require('@11ty/eleventy-plugin-webc')
 const searchPlugin = require('~plugins/search')
 const shortcodesPlugin = require('~plugins/shortcodes')
 const syntaxHighlightPlugin = require('@11ty/eleventy-plugin-syntaxhighlight')
@@ -117,6 +118,21 @@ module.exports = function(eleventyConfig) {
    * @see {@link https://www.11ty.dev/docs/_plugins/render/}
    */
   eleventyConfig.addPlugin(EleventyRenderPlugin)
+
+  /**
+   * Add plugin for WebC support
+   * @see https://www.11ty.dev/docs/languages/webc/#installation
+   *
+   * @typedef {PluginWebcOptions}
+   * @property {String} components - Glob pattern for no-import global components
+   * @property {Object} transformData - Additional global data for WebC transform
+   * @property {Boolean} useTransform - Use WebC transform to process all HTML output
+   */
+  eleventyConfig.addPlugin(pluginWebc, {
+    components: '_includes/components/**/*.webc',
+    transformData: {},
+    useTransform: false,
+  })
 
   /**
    * Register a plugin to run linters on input templates
