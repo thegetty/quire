@@ -246,6 +246,7 @@ module.exports = function(eleventyConfig) {
      * @see {@link https://www.11ty.dev/docs/config/#configuration-options}
      */
     dir: {
+      // ⚠️ `input`/`output` are _relative_ to the `.eleventy.js` module
       input: inputDir,
       output: outputDir,
       // ⚠️ the following values are _relative_ to the `input` directory
