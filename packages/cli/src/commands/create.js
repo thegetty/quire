@@ -27,6 +27,12 @@ export default class CreateCommand extends Command {
   }
 
   action(options = {}) {
-    console.error('Command \'%s\' called with options %o', this.name, options)
+    if (options.debug) {
+      console.info('Command \'%s\' called with options %o', this.name, options)
+    }
+    // list sub-repositories in '@thegetty/quire/packages/starters'
+    // const starters = git.fetchStarters()
+    // const template = starters['default']
+    // `git clone template args.path`
   }
 }

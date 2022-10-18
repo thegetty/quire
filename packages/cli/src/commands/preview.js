@@ -32,7 +32,9 @@ export default class PreviewCommand extends Command {
   }
 
   action(options = {}) {
-    console.error('Command \'%s\' called with options %o', this.name, options)
+    if (options.debug) {
+      console.info('Command \'%s\' called with options %o', this.name, options)
+    }
     eleventy.serve(options)
   }
 }
