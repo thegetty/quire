@@ -1,13 +1,13 @@
 const Annotation = require('../annotation')
 const AnnotationFactory = require('../annotation/factory')
-const ImageProcessor = require('../image/processor')
 const Manifest = require('../iiif/manifest')
 const path = require('path')
 const { isCanvas, isImageService } = require('../helpers')
 
 /**
  * @param {Object} iiifConfig
- * @param {Object} data Figure entry data from `figures.yaml`
+ * @param {Function} imageProcessor  Function to generate IIIF assets
+ * @param {Object} data  Figure data from and entry in `figures.yaml`
  * 
  * @typedef {Object} Figure
  * @property {Array<AnnotationSet>} annotations
@@ -19,18 +19,34 @@ const { isCanvas, isImageService } = require('../helpers')
  * @property {String} printImage Optional path to an alternate image to use in print
  */
 module.exports = class Figure {
-  constructor(iiifConfig, data) {
-    const { baseURL, dirs, manifestFilename } = iiifConfig
+  constructor(iiifConfig, imageProcessor, data) {
+    const { baseURL, dirs, manifestFile } = iiifConfig
     const outputDir = path.join(dirs.output, data.id)
+    /**
+     * Base URL for the CanvasPanel and IIIF manifest file URIs
+     * @type  {URL}
+     */
     const iiifBaseId = [baseURL, outputDir].join('/')   
-    const canvasId = isCanvas(data) ? data.canvasId || [iiifBaseId, 'canvas'].join('/') : null
-    const manifestId = isCanvas(data) ? data.manifestId || [iiifBaseId, manifestFilename].join('/') : null
+    /**
+     * URI of the IIIF CanvasPanel element; a fully qualified URL.
+     * @type  {URL|null}
+     */
+    const canvasId = isCanvas(data)
+      ? data.canvasId || [iiifBaseId, 'canvas'].join('/')
+      : null
+    /**
+     * URI of the IIIF manifest file; a fully qualified URL.
+     * @type  {URL|null}
+     */
+    const manifestId = isCanvas(data)
+      ? data.manifestId || [iiifBaseId, manifestFile].join('/')
+      : null
 
     this.annotationFactory = new AnnotationFactory(this)
     this.canvasId = canvasId
     this.data = data
     this.id = data.id
-    this.imageProcessor = new ImageProcessor(iiifConfig)
+    this.processImage = imageProcessor
     this.iiifConfig = iiifConfig
     this.isCanvas = isCanvas(data)
     this.isImageService = isImageService(data)
@@ -61,7 +77,7 @@ module.exports = class Figure {
    * @return {Boolean}
    */
   get isExternalResource() {
-    return (this.src && this.src.startsWith('http')) || this.data.manifestId
+    return (this.src && this.src.startsWith('http')) || this.manifestId
   }
 
   /**
@@ -129,7 +145,7 @@ module.exports = class Figure {
     if (!this.annotations) return
     const annotationItems = this.annotations.flatMap(({ items }) => items)
     const imageResponses = await Promise.all(annotationItems.map((item) => {
-      return this.imageProcessor.processImage(item.src, this.outputDir, {
+      return this.processImage(item.src, this.outputDir, {
         tile: item.isImageService
       })
     }))
@@ -143,7 +159,7 @@ module.exports = class Figure {
   async processFigureImage() {
     if (this.src && this.isImageService) {
       const { transformations } = this.iiifConfig
-      const { errors } = await this.imageProcessor.processImage(this.src, this.outputDir, {
+      const { errors } = await this.processImage(this.src, this.outputDir, {
         tile: true,
         transformations
       })
@@ -154,7 +170,7 @@ module.exports = class Figure {
   /**
    * Create IIIF `manifest.json` file
    */
-  async processManifest() {  
+  async processManifest() {
     if (this.isCanvas && !this.isExternalResource) {
       const manifest = new Manifest(this)
       const jsonResponse = await manifest.toJSON()
