@@ -1,3 +1,4 @@
+import poll from './poll'
 import scrollToHash from './scroll-to-hash'
 
 /**
@@ -131,7 +132,7 @@ const handleSelect = (element) => {
  * @param {HTMLElement} element
  */
 const selectAnnotation = (canvasPanel, annotation) => {
-  const { checked, id, input, type } = annotation
+  const { checked, id, type } = annotation
   /**
    * Update annotation selection
    */
@@ -141,18 +142,32 @@ const selectAnnotation = (canvasPanel, annotation) => {
       break
     case 'choice':
       /**
-       * Note: It's necessary to update the attribute *and* call `makeChoice`
-       * when updating choice and region at the same time
+       * `canvasPanel.makeChoice` is defined asynchronously on the web component,
+       * and while the event model emits a 'choice' event when a choice is selected, it is noisy, 
+       * and since there is no 'done' event to indicate when this method is available,
+       * we will use polling
        */
-      canvasPanel.setAttribute('choice-id', id)
-      canvasPanel.makeChoice(id, {
-        deselect: !checked,
-        deselectOthers: input === 'radio'
+      poll({
+        callback: () => selectChoice(canvasPanel, annotation),
+        validate: () => !!canvasPanel.makeChoice
       })
       break
     default:
       break
   }
+}
+
+const selectChoice = (canvasPanel, annotation) => {
+  const { checked, id, input } = annotation
+  /**
+   * Note: It's necessary to update the attribute *and* call `makeChoice`
+   * when updating choice and region at the same time
+   */
+  canvasPanel.setAttribute('choice-id', id)
+  canvasPanel.makeChoice(id, {
+    deselect: !checked,
+    deselectOthers: input === 'radio'
+  })
 }
 
 /**
