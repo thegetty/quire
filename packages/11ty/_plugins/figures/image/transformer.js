@@ -3,7 +3,7 @@ const fs = require('fs-extra')
 const path = require('path')
 const sharp = require('sharp')
 
-const logger = chalkFactory('plugins:iiif:createImage')
+const logger = chalkFactory('Figure:ImageTransformer')
 
 /**
  * @param  {Object} iiifConfig Quire IIIF Process config
