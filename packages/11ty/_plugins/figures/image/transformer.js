@@ -43,8 +43,8 @@ module.exports = class Transformer {
 
     try {
       /**
-       * Declare a `sharp` service with a `crop` method that can be
-       * called without a region, which the sharp API method `extract` does not allow
+       * Declare a `sharp` service with a `crop` method that is callable
+       * without a `region`, which the sharp API `extract` method does not allow
        */
       const service = sharp(inputPath)
       service.crop = function (region) {
