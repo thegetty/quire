@@ -122,7 +122,7 @@ quire preview pdf
 
 #### `site`
 
-Build and server the Quire site in development mode.
+Build and serve the Quire site in development mode.
 
 ```sh
 quire preview site
