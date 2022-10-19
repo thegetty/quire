@@ -18,11 +18,12 @@ module.exports = class ImageProcessor {
   constructor(iiifConfig) {
     const { imagesDir, inputRoot, outputRoot } = iiifConfig.dirs
     const tiler = new Tiler(iiifConfig)
+    const transformer = new Transformer(iiifConfig)
 
     this.inputRoot = path.join(inputRoot, imagesDir)
     this.outputRoot = outputRoot
     this.tiler = tiler.tile
-    this.transform = new Transformer(iiifConfig).transform
+    this.transform =transformer.transform
 
     logger.debug(`\n inputRoot: ${this.inputRoot}\n outputRoot: ${this.outputRoot}`)
   }
@@ -42,23 +43,23 @@ module.exports = class ImageProcessor {
       return {}
     }
 
-    logger.debug(`\n inputRoot: ${this.inputRoot}\n imagePath: ${imagePath}\n outputPath: ${outputPath}`)
+    logger.debug(`processImage \n inputRoot: ${this.inputRoot}\n imagePath: ${imagePath}\n outputPath: ${outputPath}`)
 
     const errors = []
     const inputPath = path.join(this.inputRoot, imagePath)
 
-    logger.debug(`inputPath: ${inputPath}`)
+    logger.debug(`processImage inputPath: ${inputPath}`)
 
     if (options.transformations) {
       /**
        * Transform Image
        */
-      const transformationResponses = await Promise.all(
+      const transformerResults = await Promise.all(
         options.transformations.map((transformation) => {
           return this.transform(inputPath, outputPath, transformation, options)
         })
       )
-      const transformationErrors = transformationResponses.flatMap(
+      const transformationErrors = transformerResults.flatMap(
         ({ errors }) => errors || []
       )
       if (transformationErrors.length) {

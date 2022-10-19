@@ -9,7 +9,7 @@ const logger = chalkFactory('Figure')
 
 /**
  * @param {Object} iiifConfig
- * @param {Function} imageProcessor  Function to generate IIIF assets
+ * @param {Function} processImage  Function to generate IIIF assets
  * @param {Object} data  Figure data from and entry in `figures.yaml`
  * 
  * @typedef {Object} Figure

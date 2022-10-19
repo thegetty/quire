@@ -28,8 +28,9 @@ module.exports = class FigureFactory {
    * @property {Array} errors  `processFiles` errors
    */
   async create(data) {
-    const imageProcessor = this.imageProcessor.processImage
-    const figure = new Figure(this.iiifConfig, imageProcessor, data)
+    const processImage =
+      this.imageProcessor.processImage.bind(this.imageProcessor)
+    const figure = new Figure(this.iiifConfig, processImage, data)
     const { errors } = await figure.processFiles()
     return { figure, errors }
   }
