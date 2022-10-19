@@ -27,6 +27,7 @@ module.exports = function (prefix='', loglevel=2) {
 
   /**
    * chalk themes
+   * @see https://www.w3.org/wiki/CSS/Properties/color/keywords
    * @see https://github.com/chalk/chalk/tree/v4.1.2#usage
    */
   const styles = {
