@@ -1,71 +1,98 @@
+const chalkFactory = require('~lib/chalk')
 const path = require('path')
+
+const logger = chalkFactory('Figures:IIIF:Config')
+
 
 module.exports = (eleventyConfig) => {
   const { baseURL } = eleventyConfig.globalData.config
   const { port } = eleventyConfig.serverOptions
-  const { viteOptions } = eleventyConfig.plugins.find(
-    ({ options }) => !!options && !!options.viteOptions
-  ).options
+
+  const projectRoot = path.resolve(eleventyConfig.dir.input)
+
+  logger.debug(`\n projectRoot: ${projectRoot}`)
+
+  const resolveInputPath = () => {
+    // return path.resolve(projectRoot, eleventyConfig.dir.input)
+    return eleventyConfig.dir.input
+  }
+
+  const resolveOutputPath = () => {
+    const { viteOptions } = eleventyConfig.plugins.find(
+      ({ options }) => !!options && !!options.viteOptions
+    ).options
+
+    if (viteOptions && viteOptions.publicDir) {
+      return path.resolve(projectRoot, viteOptions.publicDir)
+    } else {
+      return path.resolve(projectRoot, eleventyConfig.dir.output)
+    }
+  }
 
   return {
-    baseURL: process.env.ELEVENTY_ENV === 'production' ? baseURL : `http://localhost:${port}`,
+    baseURI: process.env.ELEVENTY_ENV === 'production'
+      ? baseURL
+      : `http://localhost:${port}`,
     dirs: {
-      /**
-       * The name of the directory for image tiles and info.json
-       * @type {String}
-       */
-      imageService: 'tiles',
       /**
        * Image file directory relative to `inputRoot`
        */
-      input: path.join('_assets', 'images'),
+      imagesDir: path.join('_assets', 'images'),
       /**
-       * Image file root directory
+       * Root directory for input images
        */
-      inputRoot: eleventyConfig.dir.input,
+      inputRoot: resolveInputPath(),
       /**
        * Output directory
        * @type {String}
        */
-      output: 'iiif',
-      outputRoot: viteOptions.publicDir || eleventyConfig.dir.output
+      outputPath: 'iiif',
+      outputRoot: resolveOutputPath()
     },
     /**
-     * Input and output of processable image formats
+     * Input/output of processable image formats
      * @type {Array<Object>}
      */
     formats: [
-     {
-      input: ['.png', '.svg'],
-      /**
-       * Change to '.png' when canvas-panel preferredFormats issue is resolved
-       * @link https://github.com/digirati-co-uk/iiif-canvas-panel/issues/193
-       */
-      output: '.jpg'
-     },
-     {
-      input: ['.jp2', '.jpg', '.jpeg', '.tif', '.tiff'],
-      output: '.jpg'
-     }
+      {
+        input: ['.png', '.svg'],
+        /**
+        * Change to '.png' when canvas-panel preferredFormats issue is resolved
+        * @link https://github.com/digirati-co-uk/iiif-canvas-panel/issues/193
+        */
+        output: '.jpg'
+      },
+      {
+        input: ['.jp2', '.jpg', '.jpeg', '.tif', '.tiff'],
+        output: '.jpg'
+      }
     ],
     /**
-     * Generated manifest locale
-     * @type {String}
-     */ 
-    locale: 'en',
-    /**
-     * Generated manifest file name
+     * Locale of the generated manifest
      * @type {String}
      */
-    manifestFilename: 'manifest.json',
+    locale: 'en',
+    /**
+     * File name for the generated manifest
+     * @type {String}
+     */
+    manifestFileName: 'manifest.json',
+    /**
+     * Directory name appended to the output path for tiles and `info.json`
+     * @type {String}
+     */
+    tilesDirName: 'tiles',
+    /**
+     * Size in pixels of the smallest image tile after slicing
+     * @type {Number}
+     */
     tileSize: 256,
     /**
-     * Transformations to apply to each image
-     * Each item is output as a separate file
+     * All transformations are applied to each image and output a separate file.
      *
      * @type {Array<Object>}
-     * @property {String} name The file output name
-     * @property {Object} resize Resize options for `sharp.resize()`
+     * @property {String} name  Output file name
+     * @property {Object} resize  Options passed to the `sharp.resize()` method
      * @see {@link https://sharp.pixelplumbing.com/api-resize}
      */
     transformations: [

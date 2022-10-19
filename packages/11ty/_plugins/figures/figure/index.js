@@ -1,8 +1,11 @@
+const chalkFactory = require('~lib/chalk')
 const Annotation = require('../annotation')
 const AnnotationFactory = require('../annotation/factory')
 const Manifest = require('../iiif/manifest')
 const path = require('path')
 const { isCanvas, isImageService } = require('../helpers')
+
+const logger = chalkFactory('Figure')
 
 /**
  * @param {Object} iiifConfig
@@ -20,26 +23,21 @@ const { isCanvas, isImageService } = require('../helpers')
  */
 module.exports = class Figure {
   constructor(iiifConfig, imageProcessor, data) {
-    const { baseURL, dirs, manifestFile } = iiifConfig
-    const outputDir = path.join(dirs.output, data.id)
-    /**
-     * Base URL for the CanvasPanel and IIIF manifest file URIs
-     * @type  {URL}
-     */
-    const iiifBaseId = [baseURL, outputDir].join('/')   
+    const { baseURI, dirs, manifestFileName } = iiifConfig
+    const outputDir = path.join(dirs.outputPath, data.id)
     /**
      * URI of the IIIF CanvasPanel element; a fully qualified URL.
      * @type  {URL|null}
      */
     const canvasId = isCanvas(data)
-      ? data.canvasId || [iiifBaseId, 'canvas'].join('/')
+      ? data.canvasId || [baseURI, outputDir, 'canvas'].join('/')
       : null
     /**
      * URI of the IIIF manifest file; a fully qualified URL.
      * @type  {URL|null}
      */
     const manifestId = isCanvas(data)
-      ? data.manifestId || [iiifBaseId, manifestFile].join('/')
+      ? data.manifestId || [baseURI, outputDir, manifestFileName].join('/')
       : null
 
     this.annotationFactory = new AnnotationFactory(this)
@@ -73,7 +71,7 @@ module.exports = class Figure {
   }
 
   /**
-   * If the `src` is an external resource
+   * Test if the `src` is an external resource
    * @return {Boolean}
    */
   get isExternalResource() {
@@ -87,8 +85,9 @@ module.exports = class Figure {
   get info() {
     if (!this.isImageService || !this.src) return
     const { name } = path.parse(this.src)
-    const tileDirectory = path.join(this.outputDir, name, this.iiifConfig.dirs.imageService)
-    return new URL(path.join(tileDirectory, 'info.json'), this.iiifConfig.baseURL).href
+    const tilesPath = path.join(this.outputDir, name, this.iiifConfig.tilesDirName)
+    const infoPath = path.join(tilesPath, 'info.json')
+    return new URL(infoPath, this.iiifConfig.baseURI).toString()
   }
 
   /**
@@ -144,12 +143,15 @@ module.exports = class Figure {
   async processAnnotationImages() {
     if (!this.annotations) return
     const annotationItems = this.annotations.flatMap(({ items }) => items)
-    const imageResponses = await Promise.all(annotationItems.map((item) => {
-      return this.processImage(item.src, this.outputDir, {
+    const results = await Promise.all(annotationItems.map((item) => {
+
+      logger.debug(`\n src: ${item.src}\n outputDir: ${this.outputDir}`)
+
+      return item.src && this.processImage(item.src, this.outputDir, {
         tile: item.isImageService
       })
     }))
-    const errors = imageResponses.flatMap(({ errors }) => errors || [])
+    const errors = results.flatMap(({ errors }) => errors || [])
     if (errors.length) this.errors = this.errors.concat(errors)
   }
 

@@ -14,21 +14,22 @@ const logger = chalkFactory('Figure Processing')
 module.exports = class FigureFactory {
   constructor(iiifConfig) {
     this.iiifConfig = iiifConfig
-    this.imageProcessor = new ImageProcessor(iiifConfig).processImage
+    this.imageProcessor = new ImageProcessor(iiifConfig)
   }
 
   /**
-   * Creates a `figure`` instance and calls its `processFiles` method
-   * to create the IIIF info or manifest file and generate image tiles.
+   * Creates a `Figure` instance and calls its `processFiles` method
+   * to create the IIIF info, manifest, and generate image tiles.
    *
-   * @param {Object} data Figure entry data from `figures.yaml`
+   * @param {Object} data  A figure entry from `figures.yaml`
    * 
    * @return {Object}
-   * @property {Figure} Figure instance
-   * @property {Array} errors `processFiles` errors
+   * @property {Figure} figure  A new Figure instance
+   * @property {Array} errors  `processFiles` errors
    */
   async create(data) {
-    const figure = new Figure(this.iiifConfig, this.imageProcessor, data)
+    const imageProcessor = this.imageProcessor.processImage
+    const figure = new Figure(this.iiifConfig, imageProcessor, data)
     const { errors } = await figure.processFiles()
     return { figure, errors }
   }

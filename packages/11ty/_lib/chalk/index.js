@@ -12,6 +12,7 @@ module.exports = function (prefix='') {
    * @see https://github.com/chalk/chalk/tree/v4.1.2#usage
    */
   const styles = {
+    debug: chalk.yellow,
     error: chalk.inverse.redBright,
     info: chalk.magenta,
     warn: chalk.inverse.yellow

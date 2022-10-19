@@ -6,13 +6,13 @@ Processing iterates over the data in `figures.yaml`, passing each figure entry t
 
 ### Setup
 
-The `baseURL` property set in [`config.yaml`](content/_data/config.yaml) will be used to generate IIIF `@id` properties.
+The `baseURI` property set in [`config.yaml`](/content/_data/config.yaml) will be used to generate IIIF `@id` properties.
 
-When running the Eleventy development server the `baseURL` is set to `localhost`.
+When running the Eleventy development server the `baseURI` is set to `localhost`.
 
 ### Config
 
-IIIF configuration options can be found in [`_plugins/figures/iiif/config.js`](_plugins/figures/iiif/config.js).
+IIIF configuration options can be found in [`_plugins/figures/iiif/config.js`](iiif/config.js).
 
 ### Global Data
 
@@ -43,11 +43,11 @@ Output from the IIIF image processing follows the directory structure below.
   <iiifConfig.dirs.output>/
     <figure-id>/
       <image-name>/
-        <iiifConfig.dirs.tilesDirName>/
+        <iiifConfig.tilesDirName>/
           <tile-directories...>
           info.json
       <image-name>/
-        <iiifConfig.dirs.tilesDirName>/
+        <iiifConfig.tilesDirName>/
           <tile-directories...>
           info.json
       <iiifConfig.manifestFileName>

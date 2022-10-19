@@ -2,16 +2,25 @@ const chalkFactory = require('~lib/chalk')
 const fs = require('fs-extra')
 const path = require('path')
 const sharp = require('sharp')
-const logger = chalkFactory('Figure Processing:IIIF:Tile Image')
 
+const logger = chalkFactory('Figure:ImageTiler')
 
+/**
+ * Tiler
+ *
+ * @class  Tiler
+ */
 module.exports = class Tiler {
   /**
    * @param  {Object} iiifConfig 
    */
   constructor(iiifConfig) {
-    this.iiifConfig = iiifConfig
-    this.supportedImageExtensions = iiifConfig.formats.flatMap(({ input }) => input)
+    this.baseURI = iiifConfig.baseURI
+    this.formats = iiifConfig.formats
+    this.outputRoot = iiifConfig.dirs.outputRoot
+    this.supportedExtensions = iiifConfig.formats.flatMap(({ input }) => input)
+    this.tilesDirName = iiifConfig.tilesDirName
+    this.tileSize = iiifConfig.tileSize
   }
 
   /**
@@ -21,42 +30,38 @@ module.exports = class Tiler {
    */
   async tile(inputPath, outputDir) {
     if (!inputPath) return
+
     const { ext, name } = path.parse(inputPath)
 
-    if (!this.supportedImageExtensions.includes(ext)) {
+    if (!this.supportedExtensions.includes(ext)) {
       return {
-        errors: [`Image file type is not supported. Supported extensions are: ${this.supportedImageExtensions.join(', ')}`,]
+        errors: [`Image file of type '${ext}' is not supported. Supported file types are: ${this.supportedExtensions.join(', ')}`]
       }
     }
 
-    const {
-      baseURL,
-      dirs,
-      formats,
-      tileSize
-    } = this.iiifConfig
+    const outputPath = path.join(this.outputRoot, outputDir, name, this.tilesDirName)
 
-    const format = formats.find(({ input }) => input.includes(ext))
-    const tileDirectory = path.join(outputDir, name, dirs.imageService)
-
-    if (fs.existsSync(path.join(dirs.outputRoot, tileDirectory, 'info.json'))) {
+    if (fs.existsSync(path.join(this.outputRoot, outputPath, 'info.json'))) {
       logger.info(`Skipping previously tiled image "${inputPath}"`)
       return { success: true }
     }
-    fs.ensureDirSync(path.join(dirs.outputRoot, tileDirectory))
+
+    fs.ensureDirSync(outputPath)
 
     try {
-      logger.info(`Tiling image: "${inputPath}"`)
+      inputPath = path.resolve(path.join('../11ty', inputPath))
+      logger.info(`Tiling image: '${inputPath}'`)
+      const format = this.formats.find(({ input }) => input.includes(ext))
       const response = await sharp(inputPath)
         .toFormat(format.output.replace('.', ''))
         .tile({
-          id: new URL(path.join(outputDir, name), baseURL).href,
+          id: new URL(path.join(outputDir, name), this.baseURI).toString(),
           layout: 'iiif',
           size: tileSize
         })
-        .toFile(path.join(dirs.outputRoot, tileDirectory))
+        .toFile(path.join(outputPath))
       return { success: true }
-    } catch(error) {
+    } catch (error) {
       return { errors: [error] }
     }
   }

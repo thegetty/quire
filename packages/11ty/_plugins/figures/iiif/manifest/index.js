@@ -17,7 +17,7 @@ const builder = new IIIFBuilder(vault)
 module.exports = class Manifest {
   constructor(figure) {
     const { iiifConfig } = figure
-    const { baseURL, dirs, locale, manifestFilename } = iiifConfig
+    const { baseURI, dirs, locale, manifestFileName } = iiifConfig
     this.figure = figure
     this.inputDir = path.join(dirs.inputRoot, dirs.input)
     this.locale = locale
