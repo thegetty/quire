@@ -1,7 +1,7 @@
 const chalkFactory = require('~lib/chalk')
 const path = require('path')
 
-const logger = chalkFactory('Figures:IIIF:Config')
+const logger = chalkFactory('Figures:IIIF:Config', 'DEBUG')
 
 
 module.exports = (eleventyConfig) => {

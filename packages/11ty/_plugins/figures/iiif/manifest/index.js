@@ -6,7 +6,8 @@ const titleCase = require('~plugins/filters/titleCase')
 const Writer = require('./writer')
 const { globalVault } = require('@iiif/vault')
 const { IIIFBuilder } = require('iiif-builder')
-const { error, info } = chalkFactory('Figure Processing:IIIF:Manifest')
+
+const logger = chalkFactory('Figures:IIIF:Manifest', 'DEBUG')
 
 const vault = globalVault()
 const builder = new IIIFBuilder(vault)
@@ -47,7 +48,7 @@ module.exports = class Manifest {
       .find(({ target }) => !target)
     const imagePath = this.figure.src || firstChoice.src
     if (!imagePath) {
-      error(`Invalid figure ID "${this.figure.id}". Figures with annotations must have "choice" annotations or a "src" property.`)
+      logger.error(`Invalid figure ID "${this.figure.id}". Figures with annotations must have "choice" annotations or a "src" property.`)
     }
     return imagePath
   }
@@ -61,7 +62,7 @@ module.exports = class Manifest {
 
     const items = choices.map((item) => {
       if (!item.src) {
-        error(`Invalid annotation on figure ID "${this.figure.id}". Annotations must have a "src" or "text" property`)
+        logger.error(`Invalid annotation on figure ID "${this.figure.id}". Annotations must have a "src" or "text" property`)
       }
       return this.createAnnotationBody(item)
     })
@@ -145,7 +146,7 @@ module.exports = class Manifest {
     })
     try {
       this.json = builder.toPresentation3(manifest)
-      info(`Generated manifest for figure "${this.figure.id}"`)
+      logger.info(`Generated manifest for figure "${this.figure.id}"`)
       return { success: true }
     } catch(errorMessage) {
       return { errors: [`Failed to generate manifest: ${errorMessage}`]}

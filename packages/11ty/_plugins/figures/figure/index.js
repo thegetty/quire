@@ -5,7 +5,7 @@ const Manifest = require('../iiif/manifest')
 const path = require('path')
 const { isCanvas, isImageService } = require('../helpers')
 
-const logger = chalkFactory('Figure')
+const logger = chalkFactory('Figures:Figure', 'DEBUG')
 
 /**
  * @param {Object} iiifConfig

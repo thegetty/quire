@@ -3,7 +3,7 @@ const fs = require('fs-extra')
 const path = require('path')
 const sharp = require('sharp')
 
-const logger = chalkFactory('Figure:ImageTiler')
+const logger = chalkFactory('Figures:ImageTiler', 'DEBUG')
 
 /**
  * Tiler

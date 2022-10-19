@@ -3,7 +3,7 @@ const mime = require('mime-types')
 const path = require('path')
 const titleCase = require('~plugins/filters/titleCase')
 
-const logger = chalkFactory('Figure Processing:IIIF:Annotations')
+const logger = chalkFactory('Figures:Annotation')
 
 /**
  * Quire Figure Annotations conform to the W3C Web Annotation Format

@@ -2,7 +2,7 @@ const chalkFactory = require('~lib/chalk')
 const FigureFactory = require('./figure/factory')
 const iiifConfig = require('./iiif/config')
 
-const { error, info } = chalkFactory('Figure Processing')
+const logger = chalkFactory('Figures', 'DEBUG')
 
 /**
  * Figures Plugin
@@ -22,7 +22,7 @@ module.exports = function (eleventyConfig, options = {}) {
     const errors = figureList.filter(({ errors }) => !!errors.length)
 
     if (errors.length) {
-      error('There were errors processing the following images:')
+      logger.error('There were errors processing the following images:')
       console.table(
         errors.map(({ errors, figure }) => {
           return { id: figure.id, errors: errors.join(' ') }
@@ -36,6 +36,6 @@ module.exports = function (eleventyConfig, options = {}) {
      */
     Object.assign(figureList, figureList.map(({ figure }) => figure.adapter()))
 
-    info(`Done`)
+    logger.info('Processing complete')
   })
 }

@@ -1,9 +1,6 @@
-const chalkFactory = require('~lib/chalk')
 const Figure = require('./index')
 const ImageProcessor = require('../image/processor')
 const path = require('path')
-
-const logger = chalkFactory('Figure Processing')
 
 /**
  * Factory class to create instances of `Figure` on which process is called

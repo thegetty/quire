@@ -4,7 +4,7 @@ const path = require('path')
 const Tiler = require('./tiler')
 const Transformer = require('./transformer')
 
-const logger = chalkFactory('Figure:ImageProcessor')
+const logger = chalkFactory('Figures:ImageProcessor', 'DEBUG')
 
 /**
  * The Quire Image Processor handles file system changes for IIIF images
@@ -37,29 +37,25 @@ module.exports = class ImageProcessor {
    */
   async processImage(imagePath, outputPath, options = {}) {
     if (!imagePath || imagePath.startsWith('http')) {
-      if (options.debug) {
-        logger.debug(`processing skipped for '${imagePath}'`)
-      }
+      logger.debug(`processing skipped for '${imagePath}'`)
       return {}
     }
-
-    logger.debug(`processImage \n inputRoot: ${this.inputRoot}\n imagePath: ${imagePath}\n outputPath: ${outputPath}`)
 
     const errors = []
     const inputPath = path.join(this.inputRoot, imagePath)
 
-    logger.debug(`processImage inputPath: ${inputPath}`)
+    logger.debug(`processImage\n inputPath: ${inputPath}\n outputPath: ${outputPath}`)
 
     if (options.transformations) {
       /**
        * Transform Image
        */
-      const transformerResults = await Promise.all(
+      const results = await Promise.all(
         options.transformations.map((transformation) => {
           return this.transform(inputPath, outputPath, transformation, options)
         })
       )
-      const transformationErrors = transformerResults.flatMap(
+      const transformationErrors = results.flatMap(
         ({ errors }) => errors || []
       )
       if (transformationErrors.length) {
