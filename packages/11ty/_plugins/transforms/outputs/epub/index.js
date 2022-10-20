@@ -13,7 +13,8 @@ module.exports = (eleventyConfig, collections) => {
    * Write publication JSON
    */
   eleventyConfig.on('eleventy.after', () => {
+    const { outputDir } = eleventyConfig.globalData.config.epub
     const publicationJSON = JSON.stringify(publicationData(eleventyConfig))
-    write('publication.json', publicationJSON)
+    write(path.join(outputDir, 'manifest.json'), publicationJSON)
   })
 }

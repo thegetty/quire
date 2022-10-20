@@ -41,4 +41,4 @@ bibliography:
 
 epub:
   defaultCoverImage: 'https://user-images.githubusercontent.com/7796401/39769476-29929fe4-52a1-11e8-85ac-ff41505b3d4c.png'
-
+  outputDir: '_epub'

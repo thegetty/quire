@@ -63,6 +63,7 @@ module.exports = function(eleventyConfig, collections, content) {
     epubContent = layout({ body: body.outerHTML, language, title })
     const filename = `${sequence}_${name}.xhtml`
     write(filename, epubContent)
+    write(outputPath, epubContent)
   }
 
   /**
