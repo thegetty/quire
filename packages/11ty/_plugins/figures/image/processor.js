@@ -25,7 +25,10 @@ module.exports = class ImageProcessor {
     this.tiler = tiler.tile
     this.transform = transformer.transform.bind(transformer)
 
-    logger.debug(`\n inputRoot: ${this.inputRoot}\n outputRoot: ${this.outputRoot}`)
+    logger.debug(`
+      inputRoot: ${this.inputRoot}
+      outputRoot: ${this.outputRoot}
+    `)
   }
 
   /**
@@ -44,7 +47,7 @@ module.exports = class ImageProcessor {
     const errors = []
     const inputPath = path.join(this.inputRoot, imagePath)
 
-    logger.debug(`processImage\n inputPath: ${inputPath}\n outputPath: ${outputPath}`)
+    logger.debug(`processing inputPath: ${inputPath}`)
 
     if (options.transformations) {
       /**

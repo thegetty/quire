@@ -145,7 +145,7 @@ module.exports = class Figure {
     const annotationItems = this.annotations.flatMap(({ items }) => items)
     const results = await Promise.all(annotationItems.map((item) => {
 
-      logger.debug(`\n src: ${item.src}\n outputDir: ${this.outputDir}`)
+      logger.debug(`src: ${item.src}, outputDir: ${this.outputDir}`)
 
       return item.src && this.processImage(item.src, this.outputDir, {
         tile: item.isImageService
