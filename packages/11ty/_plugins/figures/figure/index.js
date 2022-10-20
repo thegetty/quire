@@ -79,9 +79,9 @@ module.exports = class Figure {
    * The path to print representation of the figure for use in EPUB & PDF
    */
   get printImage() {
-    if (this.src && !this.data.printImage) {
+    if (!this.isExternalResource && this.src && !this.data.printImage) {
       const { ext, name } = path.parse(this.src)
-      return path.join('/', this.outputDir, `print-image${ext}`)
+      return path.join('/', this.outputDir, name, `print-image${ext}`)
     }
     return this.data.printImage
   }
