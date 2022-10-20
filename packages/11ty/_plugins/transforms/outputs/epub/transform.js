@@ -16,22 +16,27 @@ module.exports = function(eleventyConfig, collections, content) {
   const slugify = eleventyConfig.getFilter('slugify')
   const { imageDir } = eleventyConfig.globalData.config.params
   const { language } = eleventyConfig.globalData.publication
+  const { outputDir } = eleventyConfig.globalData.config.epub
+
+  const { assets, readingOrder } = eleventyConfig.globalData.epub
 
   /**
-   * Transform image asset paths to be relative to epub directory
+   * Gather asset filepaths
    *
    * @param      {HTMLElement}  element
    */
-  const transformImagePaths = (element) => {
-    const nodes = element.querySelectorAll('img')
-    nodes.forEach((img) => {
-      const url = img.getAttribute('src')
-      if (!url) return
-      const replace = `^\/(${iiifOutputDir}|${imageDir})`
-      const regex = new RegExp(replace, 'g')
-      img.setAttribute('src', url.replace(regex, '../$1'))
+  const getAssets = (element) => {
+    const images = element.querySelectorAll('img')
+    images.forEach((img) => {
+      const src = img.getAttribute('src')
+      if (!src) return
+      const match = (`(^${imageDir}|^\/${iiifOutputDir})`)
+      const regex = new RegExp(match, 'g')
+      if (src.match(regex)) {
+        const relativePath = src.replace(/^\//, '')
+        assets.push(relativePath)
+      }
     })
-    return element
   }
 
   /**
@@ -55,14 +60,15 @@ module.exports = function(eleventyConfig, collections, content) {
      * Remove elements excluded from this output type
      */
     filterOutputs(body, 'epub')
-    transformImagePaths(body)
+    getAssets(body)
 
     const name = slugify(this.url) || path.parse(this.inputPath).name
     const targetLength = collections.epub.length.toString().length
     const sequence = index.toString().padStart(targetLength, 0)
     epubContent = layout({ body: body.outerHTML, language, title })
     const filename = `${sequence}_${name}.xhtml`
-    write(filename, epubContent)
+    const outputPath = path.join(outputDir, filename)
+    readingOrder.push(filename)
     write(outputPath, epubContent)
   }
 

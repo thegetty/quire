@@ -8,6 +8,7 @@ const path = require('path')
  */
 module.exports = (eleventyConfig) => {
   const removeHTML = eleventyConfig.getFilter('removeHTML')
+  const { assets, readingOrder } = eleventyConfig.globalData.epub
 
   const {
     contributor,
@@ -48,19 +49,9 @@ module.exports = (eleventyConfig) => {
   }
 
   const cover = () => {
-    return (promoImage) ? getURLforImage(promoImage): epub.defaultCover
-  }
-
-  /**
-   * getURLforImage
-   * 
-   * @param {String} image path
-   * 
-   * @description When given the relative path for a image, returns the
-   * appropriate URL to view the content when the preview server is running.
-   */
-  const getURLforImage = (image) => {
-    return path.join('..', params.imageDir, image)
+    return (promoImage)
+      ? path.join(params.imageDir, promoImage).replace(/^\//, '')
+      : epub.defaultCover
   }
 
   /**
@@ -95,17 +86,25 @@ module.exports = (eleventyConfig) => {
   }
 
   return {
+    '@context': [
+      'https://schema.org',
+      'https://www.w3.org/ns/pub-context'
+    ],
+    // css: stylesheets(),
+    conformsTo: 'https://www.w3.org/TR/pub-manifest/',
     contributors: contributors('secondary'),
     cover: cover(),
     creators: contributors('primary'),
-    // css: stylesheets(),
     date: pubDate,
     description: removeHTML(description.full).replace(/\r?\n|\r/g, " "),
-    isbn,
+    id: isbn,
     languages: language,
     publisher: publisherNameAndLocations(),
+    readingOrder: readingOrder.sort(),
+    resources: assets,
     rights: copyright,
     title: pubTitle(),
+    type: 'Book',
     url
   }
 }
