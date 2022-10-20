@@ -41,22 +41,18 @@
   "dependencies": {
     "@11ty/eleventy": "^2.0.0-canary.16",
     "boxen": "^7.0.0",
-    "chalk": "^5.0.1",
-    "commander": "^9.4.0",
+    "chalk": "^5.1.2",
+    "commander": "^9.4.1",
     "conf": "^10.2.0",
     "cross-env": "^7.0.3",
     "fs-extra": "^10.1.0",
-    "inquirer": "^9.1.1",
-    "listr2": "^5.0.5",
+    "inquirer": "^9.1.4",
+    "loglevel": "^1.8.0",
     "ora": "^6.1.2",
     "simple-git": "^3.14.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.19.1",
-    "@babel/eslint-parser": "^7.19.1",
-    "@babel/plugin-syntax-top-level-await": "^7.14.5",
-    "del-cli": "^5.0.0",
-    "rollup": "^2.79.0"
+    "del-cli": "^5.0.0"
   },
   "engines": {
     "node": ">=14.16"
