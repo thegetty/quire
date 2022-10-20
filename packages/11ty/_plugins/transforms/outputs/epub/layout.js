@@ -1,9 +1,5 @@
 const { html } = require('~lib/common-tags')
 module.exports = ({ body, language, title }) => {
-  /**
-   * @todo include styles, i.e.:
-   * <link rel="stylesheet" type="text/css" href="epub.css" />
-   */
   const stylesheets = ''
   return html`
     <?xml version="1.0" encoding="UTF-8"?>
@@ -11,6 +7,7 @@ module.exports = ({ body, language, title }) => {
     <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="${language}">
       <head>
         <meta charset="utf-8" />
+        <link rel="stylesheet" type="text/css" href="/_assets/epub.css" />
         <title>${title}</title>
         ${stylesheets}
       </head>
