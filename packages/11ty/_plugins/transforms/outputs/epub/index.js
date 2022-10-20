@@ -3,9 +3,12 @@ const manifestFactory = require('./manifest.js')
 const path = require('path')
 const sass = require('sass')
 const transform = require('./transform.js')
-const write = require('./write.js')
+const writer = require('./writer.js')
 
 module.exports = (eleventyConfig, collections) => {
+  const { outputDir } = eleventyConfig.globalData.config.epub
+  const write = writer(outputDir)
+
   const assetsDir = '_assets'
 
   /**
@@ -22,9 +25,8 @@ module.exports = (eleventyConfig, collections) => {
    * Write publication JSON and copy assets
    */
   eleventyConfig.on('eleventy.after', () => {
-    const { outputDir } = eleventyConfig.globalData.config.epub
     const manifest = manifestFactory(eleventyConfig)
-    write(path.join(outputDir, 'manifest.json'), JSON.stringify(manifest))
+    write('manifest.json', JSON.stringify(manifest))
 
     /**
      * Copy fonts
@@ -34,7 +36,7 @@ module.exports = (eleventyConfig, collections) => {
     fs.copySync(fontsSrcDir, fontsDestDir)
 
     /**
-     * Copy Styles
+     * Copy styles
      */
       const sassOptions = {
         loadPaths: [
@@ -42,7 +44,7 @@ module.exports = (eleventyConfig, collections) => {
         ]
       }
      const styles = sass.compile(path.resolve('content', assetsDir, 'styles', 'epub.scss'), sassOptions)
-     write(path.join(outputDir, assetsDir, 'epub.css'), styles.css)
+     write(path.join(assetsDir, 'epub.css'), styles.css)
 
     /**
      * Copy assets

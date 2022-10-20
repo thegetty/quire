@@ -3,7 +3,7 @@ const getIIIFConfig = require('../../../figures/iiif/config')
 const jsdom = require('jsdom')
 const layout = require('./layout')
 const path = require('path')
-const write = require('./write')
+const writer = require('./writer')
 
 const { JSDOM } = jsdom
 
@@ -16,9 +16,10 @@ module.exports = function(eleventyConfig, collections, content) {
   const slugify = eleventyConfig.getFilter('slugify')
   const { imageDir } = eleventyConfig.globalData.config.params
   const { language } = eleventyConfig.globalData.publication
+  const { assets, readingOrder } = eleventyConfig.globalData.epub
   const { outputDir } = eleventyConfig.globalData.config.epub
 
-  const { assets, readingOrder } = eleventyConfig.globalData.epub
+  const write = writer(outputDir)
 
   /**
    * Gather asset filepaths
@@ -67,9 +68,8 @@ module.exports = function(eleventyConfig, collections, content) {
     const sequence = index.toString().padStart(targetLength, 0)
     epubContent = layout({ body: body.outerHTML, language, title })
     const filename = `${sequence}_${name}.xhtml`
-    const outputPath = path.join(outputDir, filename)
     readingOrder.push(filename)
-    write(outputPath, epubContent)
+    write(filename, epubContent)
   }
 
   /**
