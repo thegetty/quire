@@ -4,6 +4,8 @@ import eleventy from '#lib/11ty/eleventy.js'
 /**
  * Quire CLI `preview` Command
  *
+ * Runs the Eleventy development server in `watch` mode.
+ *
  * @class      PreviewCommand
  * @extends    {Command}
  */
@@ -23,7 +25,9 @@ export default class PreviewCommand extends Command {
       // ],
     ],
     options: [
-      [ '--port', 'serve files on localhost port', 8080 ],
+      [ '-D', '--debug', 'run build with debug output to console' ],
+      [ '-p', '--port', 'configure development server port', 8080 ],
+      [ '-q', '--quiet', 'run build in silent mode' ]
     ],
   }
 

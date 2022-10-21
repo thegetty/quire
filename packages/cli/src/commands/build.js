@@ -4,6 +4,8 @@ import eleventy from '#lib/11ty/eleventy.js'
 /**
  * Quire CLI `build` Command
  *
+ * Runs the Eleventy `build` to generate static output.
+ *
  * @class      BuildCommand
  * @extends    {Command}
  */
@@ -23,8 +25,10 @@ export default class BuildCommand extends Command {
       // ],
     ],
     options: [
-      [ '-D', '--debug', 'debug the `quire build` command' ],
+      [ '-D', '--debug', 'run build with debug output to console' ],
       [ '-d', '--dry-run', 'run build without writing files' ],
+      [ '-q', '--quiet', 'run build with no console messages' ],
+      [ '-v', '--verbose', 'run build with verbose console messages' ]
     ],
   }
 
