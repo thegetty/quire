@@ -1,30 +1,36 @@
-import { execa } from 'execa'
+import { execaCommand } from 'execa'
+import { fileURLToPath } from 'node:url'
+import path from 'node:path'
+import paths from './paths.js'
 
+/**
+ * A wrapper module for the Eleventy CLI
+ * @see https://www.11ty.dev/docs/usage/#command-line-usage
+ */
 export default {
-  /**
-   * A wrapper module for the Eleventy CLI
-   * @see https://www.11ty.dev/docs/usage/#command-line-usage
-   *
-   * Q: Should we run the 11ty pcakage build scripts?
-   *
-   *   import { scripts: { build }} from '11ty/package.json'
-   *   execaCommand(build)
-   */
-  build: () => {
-    const configFile = '.eleventy.js'
+  build: async (options = {}) => {
+    const projectRoot = path.resolve('../../packages/11ty')
+    process.cwd(projectRoot)
 
-    const paths = {
-      input: '.',
-      output: '_site'
-    }
+    console.info('[CLI:11ty] running eleventy build')
+    console.info(`[CLI:11ty] projectRoot ${projectRoot}`)
 
-    const options = [
-      `--config=${configFile}`,
+    const { config, input, output } = paths
+
+    console.debug('[CLI:11ty] %o', paths)
+
+    const eleventyOptions = [
+      `--config=${config}`,
       `--input=${input}`,
       `--output=${output}`,
-      `--incremental`
+      `--incremental`,
     ]
 
-    execa('npx @11ty/eleventy', options).stdout.pipe(process.stdout)
+    if (options['dry-run']) cmdOpts.push('--dryrun')
+    if (options.quiet) cmdOpts.push('--quite')
+
+    const command = `npx @11ty/eleventy ${eleventyOptions.join(' ')}`
+
+    execaCommand(command).stdout.pipe(process.stdout)
   }
 }

@@ -1,23 +1,15 @@
-import { fileURLToPath } from 'node:url'
-import path from 'node:path'
 import Eleventy from '@11ty/eleventy'
+import path from 'node:path'
+import paths from './paths.js'
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-
+/**
+ * A factory function to configure an instance of Eleventy
+ * @see https://www.11ty.dev/docs/config/#configuration-options
+ *
+ * @param  {Object}  options  Eleventy configuration options
+ * @return  {Eleventy}  A configured instance of Eleventy
+ */
 const factory = (options) => {
-  /**
-   * Get paths for configuring Eleventy
-   * Nota bene: `basePath` is relative to `main.js`, the CLI entry point.
-   */
-  const basePath = '../../packages/11ty'
-
-  const paths = {
-    config: path.resolve(basePath, '.eleventy.js'),
-    input: path.resolve(basePath, 'content'),
-    output: path.resolve(basePath, '_site')
-  }
-
   const { config, input, output } = paths
 
   return new Eleventy(input, output, {
@@ -30,23 +22,24 @@ const factory = (options) => {
 }
 
 /**
- * A wrapper module for Eleventy
+ * A wrapper module for the Eleventy static site generator
  * @see https://www.11ty.dev/docs/programmatic/
- * @todo read paths from the project configuration
+ * @todo read paths from the Quire project configuration
  */
 export default {
   build: async (options = {}) => {
+    const projectRoot = path.resolve('../../packages/11ty')
+    process.cwd(projectRoot)
+
+    console.info('[CLI:11ty] running eleventy build')
+    console.info(`[CLI:11ty] projectRoot ${projectRoot}`)
+
     const eleventy = factory(options)
-
-    console.log('[CLI] running eleventy build')
-
     await eleventy.executeBuild()
   },
   serve: async (options = {}) => {
+    console.info('[CLI:11ty] running development server')
     const eleventy = factory(options)
-
-    console.log('[CLI] running development server')
-
     await eleventy.serve()
   }
 }
