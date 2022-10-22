@@ -17,7 +17,7 @@ program
   .version('1.0.0')
   .configureHelp({
     helpWidth: 80,
-    sortOptions: true,
+    sortOptions: false,
     sortSubcommands: false,
   })
 
@@ -40,8 +40,16 @@ commands.forEach((command) => {
   }
 
   if (Array.isArray(options)) {
-    options.forEach(([ short, long, description, defaultValue ]) => {
-      subCommand.option([short, long].join(', '), description, defaultValue)
+    options.forEach((option) => {
+      // ensure we can join first two attributes as option name flags
+      if (!option[1].startsWith('-')) option.unshift('')
+      // assign an attribute name to the array of option attributes
+      const [ short, long, description, defaultValue ] = option
+      // only join short and long flag names when both are defined
+      const name = /^\-\w/.test(short)
+        ? [short, long].join(', ')
+        : [short, long].join('    ')
+      subCommand.option(name, description, defaultValue)
     })
   }
 
