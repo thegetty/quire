@@ -62,7 +62,7 @@ module.exports = class ImageProcessor {
         ({ errors }) => errors || []
       )
       if (transformationErrors.length) {
-        errors.push(`Failed to transform source image ${imagePath}\n${transformationErrors.join(' ')}`)
+        errors.push(`Failed to transform source image ${imagePath} ${transformationErrors.join(' ')}`)
       }
     }
 
@@ -73,7 +73,7 @@ module.exports = class ImageProcessor {
       try {
         await this.tiler(inputPath, outputPath)
       } catch(error) {
-        errors.push(`Failed to generate tiles from source ${imagePath}\n${error}`)
+        errors.push(`Failed to generate tiles from source ${imagePath} ${error}`)
       }
     } else {
       /**
@@ -84,7 +84,7 @@ module.exports = class ImageProcessor {
       try {
         fs.copySync(inputPath, path.join(this.outputRoot, outputPath, base))
       } catch(error) {
-        errors.push(`Failed to copy source image ${imagePath}\n${error}`)
+        errors.push(`Failed to copy source image ${imagePath} ${error}`)
       }
     }
 
