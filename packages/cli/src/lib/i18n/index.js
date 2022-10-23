@@ -1,4 +1,5 @@
 import { LocaleService } from './LocaleService.js'
+import I18nextCLILanguageDetector from 'i18next-cli-language-detector'
 import i18next from 'i18next'
 
 /**
@@ -35,6 +36,8 @@ const configuration = {
   },
 }
 
-await i18next.init(configuration)
+await i18next
+  .use(I18nextCLILanguageDetector)
+  .init(configuration)
 
 export default new LocaleService(i18next)
