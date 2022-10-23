@@ -1,4 +1,5 @@
 import Command from '#src/Command.js'
+import cli from '#lib/11ty/cli.js'
 import eleventy from '#lib/11ty/eleventy.js'
 
 /**
@@ -25,9 +26,14 @@ export default class PreviewCommand extends Command {
       // ],
     ],
     options: [
-      [ '-D', '--debug', 'run build with debug output to console' ],
-      [ '-p', '--port', 'configure development server port', 8080 ],
-      [ '-q', '--quiet', 'run build in silent mode' ]
+      [ '-p', '--port <port>', 'configure development server port', 8080 ],
+      [ '-q', '--quiet', 'run build in silent mode' ],
+      [ '-v', '--verbose', 'run build with verbose console messages' ],
+      [ '--debug', 'run build with debug output to console' ],
+      [
+        '--lib <lib>', 'run build using the specified lib module', 'cli',
+        // { choices: ['cli', 'eleventy'], default: 'cli' }
+      ],
     ],
   }
 

@@ -1,4 +1,5 @@
 import Command from '#src/Command.js'
+import cli from '#lib/11ty/cli.js'
 import eleventy from '#lib/11ty/eleventy.js'
 
 /**
@@ -25,10 +26,14 @@ export default class BuildCommand extends Command {
       // ],
     ],
     options: [
-      [ '-D', '--debug', 'run build with debug output to console' ],
       [ '-d', '--dry-run', 'run build without writing files' ],
       [ '-q', '--quiet', 'run build with no console messages' ],
-      [ '-v', '--verbose', 'run build with verbose console messages' ]
+      [ '-v', '--verbose', 'run build with verbose console messages' ],
+      [ '--debug', 'run build with debug output to console' ],
+      [
+        '--lib <lib>', 'run build using the specified lib module', 'cli',
+        // { choices: ['cli', 'eleventy'], default: 'cli' }
+      ],
     ],
   }
 
@@ -36,10 +41,17 @@ export default class BuildCommand extends Command {
     super(BuildCommand.definition)
   }
 
-  action(options = {}) {
+  action(options, command) {
     if (options.debug) {
-      console.info('Command \'%s\' called with options %o', this.name, options)
+      console.debug('[CLI] Command \'%s\' called with options %o', this, options)
     }
-    eleventy.build(options)
+
+    if (options.lib === 'cli') {
+      console.debug('[CLI] running build using lib/11ty/cli')
+      cli.build(options)
+    } else {
+      console.debug('[CLI] running build using lib/11ty/eleventy')
+      eleventy.build(options)
+    }
   }
 }
