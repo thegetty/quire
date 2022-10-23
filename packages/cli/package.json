@@ -30,6 +30,8 @@
   "scripts": {
     "build": "rollup --config build/rollup.config.js",
     "clean": "del-cli ./dist",
+    "lint": "eslint src --ext .js",
+    "lint:fix": "npm run lint -- --fix",
     "prebuild": "npm run clean",
     "postinstall": "node scripts/postinstall.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -54,7 +56,8 @@
     "simple-git": "^3.14.1"
   },
   "devDependencies": {
-    "del-cli": "^5.0.0"
+    "del-cli": "^5.0.0",
+    "eslint": "^8.26.0"
   },
   "engines": {
     "node": ">=14.16"
