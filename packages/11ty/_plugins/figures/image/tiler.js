@@ -19,7 +19,7 @@ module.exports = class Tiler {
     this.formats = iiifConfig.formats
     this.outputRoot = iiifConfig.dirs.outputRoot
     this.supportedExtensions = iiifConfig.formats.flatMap(({ input }) => input)
-    this.tilesDirName = iiifConfig.tilesDirName
+    this.tilesDir = iiifConfig.tilesDirName
     this.tileSize = iiifConfig.tileSize
   }
 
@@ -39,18 +39,17 @@ module.exports = class Tiler {
       }
     }
 
-    const outputPath = path.join(this.outputRoot, outputDir, name, this.tilesDirName)
+    const outputPath = path.join(this.outputRoot, outputDir, name, this.tilesDir)
 
-    if (fs.existsSync(path.join(this.outputRoot, outputPath, 'info.json'))) {
-      logger.info(`Skipping previously tiled image "${inputPath}"`)
+    if (fs.existsSync(path.join(outputPath, 'info.json'))) {
+      logger.debug(`skipping previously tiled image '${inputPath}'`)
       return { success: true }
     }
 
     fs.ensureDirSync(outputPath)
 
     try {
-      inputPath = path.resolve(path.join('../11ty', inputPath))
-      logger.info(`Tiling image: '${inputPath}'`)
+      logger.debug(`tiling '${inputPath}'`)
       const format = this.formats.find(({ input }) => input.includes(ext))
       const response = await sharp(inputPath)
         .toFormat(format.output.replace('.', ''))
