@@ -88,10 +88,10 @@ module.exports = class Figure {
    */
   get info() {
     if (!this.isImageService || !this.src) return
+    const { baseURI, tilesDirName } = this.iiifConfig
     const { name } = path.parse(this.src)
-    const tilesPath = path.join(this.outputDir, name, this.iiifConfig.tilesDirName)
-    const infoPath = path.join(tilesPath, 'info.json')
-    return new URL(infoPath, this.iiifConfig.baseURI).toString()
+    const infoPath = path.join(this.outputDir, name, tilesDirName, 'info.json')
+    return new URL(infoPath, baseURI).toString()
   }
 
   /**
@@ -128,7 +128,9 @@ module.exports = class Figure {
 
   /**
    * Call file process methods and return errors
-   * 
+   * @todo refactor process and create methods to return a response
+   * to encapsulate collection of errors into this method.
+   *
    * @return {Object}
    * @property {Array} errors
    */
@@ -149,9 +151,7 @@ module.exports = class Figure {
     if (!this.annotations) return
     const annotationItems = this.annotations.flatMap(({ items }) => items)
     const results = await Promise.all(annotationItems.map((item) => {
-
-      logger.debug(`src: ${item.src}, outputDir: ${this.outputDir}`)
-
+      logger.debug(`processing annotation image ${item.src}`)
       return item.src && this.processImage(item.src, this.outputDir, {
         tile: item.isImageService
       })
@@ -174,16 +174,22 @@ module.exports = class Figure {
     }
   }
 
-/**
-   * Create the IIIF `manifest.json` for <canvas-panel> components
+  /**
+   * Create the IIIF `manifest.json` for <canvas-panel> components,
+   * collect errors from calling toJSON and the file system writer.
+   *
+   * @todo the `figure` should not need to know to call `toJSON`,
+   * building the JSON is a concern of either the `manifest` or perhaps;
+   * refactor `createManifest` to only create the manifest instance
+   * and call its `write` method.
    */
   async createManifest() {
     if (this.isCanvas && !this.isExternalResource) {
       const manifest = new Manifest(this)
-      const jsonResponse = await manifest.toJSON()
-      if (jsonResponse.errors) this.errors = this.errors.concat(jsonResponse.errors)
-      const writeResponse = await manifest.write()
-      if (writeResponse.errors) this.errors = this.errors.concat(writeResponse.errors)
+      await manifest.toJSON()
+        .then(({ errors }) => this.errors = this.errors.concat(errors))
+      await manifest.write()
+        .then(({ errors }) => this.errors = this.errors.concat(errors))
     }
   }
 }
