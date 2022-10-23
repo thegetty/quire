@@ -25,7 +25,7 @@ program
  * Register each command as a subcommand of this program
  */
 commands.forEach((command) => {
-  const { name, action, description, args, options } = command
+  const { action, aliases, args, description, name, options } = command
 
   const subCommand = program
     .command(name)
@@ -33,27 +33,50 @@ commands.forEach((command) => {
     .addHelpCommand()
     .showHelpAfterError()
 
+  if (Array.isArray(aliases)) {
+    aliases.forEach((alias) => subCommand.alias(alias))
+  }
+
   if (Array.isArray(args)) {
     args.forEach(([ arg, value, callback ]) => {
       subCommand.argument(arg, value, callback)
     })
   }
 
+  /**
+   * @see https://github.com/tj/commander.js/#options
+   */
   if (Array.isArray(options)) {
     options.forEach((option) => {
-      // ensure we can join first two attributes as option name flags
-      if (!option[1].startsWith('-')) option.unshift('')
-      // assign an attribute name to the array of option attributes
-      const [ short, long, description, defaultValue ] = option
-      // only join short and long flag names when both are defined
-      const name = /^\-\w/.test(short)
-        ? [short, long].join(', ')
-        : [short, long].join('    ')
-      subCommand.option(name, description, defaultValue)
+      if (Array.isArray(option)) {
+        // ensure we can join the first two attributes as the option name
+        // when only the short or the long flag is defined in the array
+        if (option[0].startsWith('--')) option.unshift('\u0020'.repeat(4))
+        if (option[0].startsWith('-') && !option[1].startsWith('--')) {
+          option.splice(1, 0, '')
+        }
+        // assign an attribute name to the array of option attributes
+        const [ short, long, description, defaultValue ] = option
+        // join short and long flags as the option name attribute
+        const name = /^\-\w/.test(short) && /^\-\-\w/.test(long)
+          ? [short, long].join(', ')
+          : [short, long].join('')
+        subCommand.option(name, description, defaultValue)
+      } else {
+        /**
+         * @todo allow option attributes to be defined using an object
+         * @see https://github.com/tj/commander.js/#more-configuration
+         */
+         // const option = new Option(name, description, defaultValue)
+         // if (attributes.blarg) option.blagh(attributes.blarg)
+         // subCommand.addOption(option)
+         console.error('@TODO please use an array to define option attributes')
+      }
     })
   }
 
-  subCommand.action((args) => action.apply(command, args))
+  // subCommand.action((args) => action.apply(command, args))
+  subCommand.action(action)
 })
 
 /**

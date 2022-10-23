@@ -12,9 +12,12 @@ export default class Command {
   /**
    * @typedef CommandDefinition
    * @property {String} name
+   * @property {Array<String>} aliases
    * @property {String} descriptions
    * @property {Array<CommandArgument>} args
    * @property {Array<CommandOption>} options
+   * @property {String} version
+   * @property {Boolean} hidden
    */
   static definition = null
 
@@ -29,12 +32,12 @@ export default class Command {
     }
 
     this.name = definition.name
+    this.aliases = definition.aliases
     this.description = definition.description
     this.args = definition.args
     this.options = definition.options
-    // this.version = version
-    // this.hidden = hidden
-    // this.result = null
+    this.version = definition.version
+    this.hidden = definition.hidden
   }
 
   definition() {
