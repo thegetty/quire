@@ -58,7 +58,7 @@ commands.forEach((command) => {
         // assign an attribute name to the array of option attributes
         const [ short, long, description, defaultValue ] = option
         // join short and long flags as the option name attribute
-        const name = /^\-\w/.test(short) && /^\-\-\w/.test(long)
+        const name = /^-\w/.test(short) && /^--\w/.test(long)
           ? [short, long].join(', ')
           : [short, long].join('')
         subCommand.option(name, description, defaultValue)
@@ -67,10 +67,10 @@ commands.forEach((command) => {
          * @todo allow option attributes to be defined using an object
          * @see https://github.com/tj/commander.js/#more-configuration
          */
-         // const option = new Option(name, description, defaultValue)
-         // if (attributes.blarg) option.blagh(attributes.blarg)
-         // subCommand.addOption(option)
-         console.error('@TODO please use an array to define option attributes')
+        // const option = new Option(name, description, defaultValue)
+        // if (attributes.blarg) option.blagh(attributes.blarg)
+        // subCommand.addOption(option)
+        console.error('@TODO please use an array to define option attributes')
       }
     })
   }

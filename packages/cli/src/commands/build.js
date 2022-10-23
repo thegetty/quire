@@ -29,11 +29,11 @@ export default class BuildCommand extends Command {
       [ '-d', '--dry-run', 'run build without writing files' ],
       [ '-q', '--quiet', 'run build with no console messages' ],
       [ '-v', '--verbose', 'run build with verbose console messages' ],
-      [ '--debug', 'run build with debug output to console' ],
       [
-        '--lib <lib>', 'run build using the specified lib module', 'cli',
+        '--11ty <module>', 'use the specified 11ty module', 'cli',
         // { choices: ['cli', 'eleventy'], default: 'cli' }
       ],
+      [ '--debug', 'run build with debug output to console' ],
     ],
   }
 

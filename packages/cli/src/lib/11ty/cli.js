@@ -23,11 +23,11 @@ export default {
       `--config=${config}`,
       `--input=${input}`,
       `--output=${output}`,
-      `--incremental`,
+      '--incremental',
     ]
 
-    if (options['dry-run']) cmdOpts.push('--dryrun')
-    if (options.quiet) cmdOpts.push('--quite')
+    if (options.dryRun) eleventyOptions.push('--dryrun')
+    if (options.quiet) eleventyOptions.push('--quite')
 
     const command = `npx @11ty/eleventy ${eleventyOptions.join(' ')}`
 
