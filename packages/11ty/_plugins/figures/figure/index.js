@@ -54,14 +54,18 @@ module.exports = class Figure {
     this.src = data.src
   }
 
+  /**
+   * Figure image annotations
+   * @type  {Array<Annotations>}
+   */
   get annotations() {
     return this.annotationFactory.create()
   }
 
   /**
-   * Represents the "base" figure image defined in `figure.src` as an annotation
-   * for use in IIIF manifests
-   * @return {Annotation|null}
+   * Represents the _base_ image for a figure defined in `figure.src`
+   * as an annotation for use in IIIF manifests.
+   * @type  {Annotations|null}
    */
   get baseImageAnnotation() {
     const { src, label } = this.data
@@ -72,15 +76,15 @@ module.exports = class Figure {
 
   /**
    * Test if the `src` is an external resource
-   * @return {Boolean}
+   * @type {Boolean}
    */
   get isExternalResource() {
     return (this.src && this.src.startsWith('http')) || this.manifestId
   }
 
   /**
-   * The full path to the `info.json` if figure.src is an image service
-   * @return {String}
+   * Full path to the `info.json` for <image-service> components
+   * @type {String}
    */
   get info() {
     if (!this.isImageService || !this.src) return
@@ -91,7 +95,8 @@ module.exports = class Figure {
   }
 
   /**
-   * The path to print representation of the figure for use in EPUB & PDF
+   * Path to a print representation of the figure for EPUB & PDF outputs
+   * @type {String}
    */
   get printImage() {
     if (this.src && !this.data.printImage) {
@@ -132,7 +137,7 @@ module.exports = class Figure {
 
     await this.processAnnotationImages()
     await this.processFigureImage()
-    await this.processManifest()
+    await this.createManifest()
 
     return { errors: this.errors }
   }
@@ -169,10 +174,10 @@ module.exports = class Figure {
     }
   }
 
-  /**
-   * Create IIIF `manifest.json` file
+/**
+   * Create the IIIF `manifest.json` for <canvas-panel> components
    */
-  async processManifest() {
+  async createManifest() {
     if (this.isCanvas && !this.isExternalResource) {
       const manifest = new Manifest(this)
       const jsonResponse = await manifest.toJSON()
