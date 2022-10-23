@@ -27,13 +27,13 @@ export default class PreviewCommand extends Command {
     ],
     options: [
       [ '-p', '--port <port>', 'configure development server port', 8080 ],
-      [ '-q', '--quiet', 'run build in silent mode' ],
-      [ '-v', '--verbose', 'run build with verbose console messages' ],
-      [ '--debug', 'run build with debug output to console' ],
+      [ '-q', '--quiet', 'run preview in silent mode' ],
+      [ '-v', '--verbose', 'run preview with verbose console messages' ],
       [
-        '--lib <lib>', 'run build using the specified lib module', 'cli',
-        // { choices: ['cli', 'eleventy'], default: 'cli' }
+        '--11ty <module>', 'use the specified 11ty module', 'cli',
+        // { choices: ['api', 'cli'], default: 'cli' }
       ],
+      [ '--debug', 'run preview with debug output to console' ],
     ],
   }
 
@@ -45,6 +45,13 @@ export default class PreviewCommand extends Command {
     if (options.debug) {
       console.info('Command \'%s\' called with options %o', this.name, options)
     }
-    eleventy.serve(options)
+
+    if (options['11ty'] === 'cli') {
+      console.debug('[CLI] running eleventy using lib/11ty cli')
+      cli.serve(options)
+    } else {
+      console.debug('[CLI] running eleventy using lib/11ty api')
+      eleventy.serve(options)
+    }
   }
 }

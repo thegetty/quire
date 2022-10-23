@@ -31,7 +31,7 @@ export default class BuildCommand extends Command {
       [ '-v', '--verbose', 'run build with verbose console messages' ],
       [
         '--11ty <module>', 'use the specified 11ty module', 'cli',
-        // { choices: ['cli', 'eleventy'], default: 'cli' }
+        // { choices: ['api', 'cli'], default: 'cli' }
       ],
       [ '--debug', 'run build with debug output to console' ],
     ],
@@ -46,11 +46,11 @@ export default class BuildCommand extends Command {
       console.debug('[CLI] Command \'%s\' called with options %o', this, options)
     }
 
-    if (options.lib === 'cli') {
-      console.debug('[CLI] running build using lib/11ty/cli')
+    if (options['11ty'] === 'cli') {
+      console.debug('[CLI] running eleventy using lib/11ty cli')
       cli.build(options)
     } else {
-      console.debug('[CLI] running build using lib/11ty/eleventy')
+      console.debug('[CLI] running eleventy using lib/11ty api')
       eleventy.build(options)
     }
   }
