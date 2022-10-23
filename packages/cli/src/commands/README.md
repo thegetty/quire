@@ -8,14 +8,6 @@ Build Quire publication outputs.
 quire build
 ```
 
-#### `clean`
-
-Clean build outputs.
-
-```sh
-quire clean
-```
-
 #### `epub`
 
 Build Quire publication EPUB format.
@@ -38,6 +30,16 @@ Build Quire publication HTML format.
 
 ```sh
 quire build site
+```
+
+### `clean`
+
+Remove build outputs.
+
+Nota that this command is distinct from the [quire/11ty package](https://github.com/thegetty/quire/packages/11ty/package.json) script `clean`, to allow different behavoirs for Quire editors and developers.
+
+```sh
+quire clean --dry-run
 ```
 
 ### `configure`
@@ -77,17 +79,29 @@ quire edit
 Clone an existing project from a git repository.
 
 ```sh
-quire install
+quire install <repository>
 ```
 
 ### `new`
 
-Start a new Quire publication from a template project or clone of an existing project from a git repository (equivalent to `install`).
+Start a new Quire publication from a template project or clone an existing project from a git repository (equivalent to `install`).
 
-To start a new Quire project, execute:
+Running the `new` without any arguments will start an interactive prompt.
 
 ```sh
 quire new
+```
+
+To start a new Quire project using the default starter run the following command:
+
+```sh
+quire new <path>
+```
+
+To create a new project from a starter template
+
+```sh
+quire new <path> <starter>
 ```
 
 ### `preview`
@@ -95,29 +109,39 @@ quire new
 Build and server the Quire site in development mode.
 
 ```sh
-quire preview
+quire preview --port 8080
 ```
 
 #### `epub`
 
-Preview the Quire publication epub in a web browser.
-
-```sh
-quire preview epub
-```
-
-To preview the epub in Kindle Previewer or Apple iBooks
+Preview the Quire publication epub in the default application.
 
 ```sh
 quire preview epub --open
 ```
 
-#### `pdf`
-
-Preview the Quire publication PDF in a web browser.
+To preview the epub in Apple iBooks or Kindle Previewer
 
 ```sh
-quire preview pdf
+quire preview epub --open iBooks
+```
+
+```sh
+quire preview epub --open Kindle
+```
+
+#### `pdf`
+
+Preview the Quire publication PDF in the default application.
+
+```sh
+quire preview pdf --open
+```
+
+Preview the Quire publication PDF in an application.
+
+```sh
+quire preview pdf --open <Application>
 ```
 
 #### `site`
@@ -130,8 +154,8 @@ quire preview site
 
 #### `server`
 
-Start a web server on the default port to serve the Quire site.
+Start a local web server to serve a previously built Quire site.
 
 ```sh
-quire server
+quire server --port 8080
 ```
