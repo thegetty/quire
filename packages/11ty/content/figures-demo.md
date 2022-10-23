@@ -18,7 +18,7 @@ order: 505
 
 ## Tables
 
-{% figure "table-21-1" %}
+{% figure "table-2-1" %}
 
 {% figure "table-1" "is-table-scale-7" %}
 

@@ -24,6 +24,7 @@ params:
   figureModal: true
   figureModalIcons: true
   figureZoom: true
+  assetDir: '/_assets/'
   imageDir: '/_assets/images'
   licenseIcons: true
   menuType: full

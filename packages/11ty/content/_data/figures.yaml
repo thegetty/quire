@@ -120,8 +120,8 @@ figure_list:
     label: "Video 3"
     caption: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Risus feugiat in ante metus dictum at."
     credit: "https://archive.org/details/XFR_2013-08-17_2B_05"
-  - id: "table-21-1"
-    src: "tables/table-21-1-pavic.html"
+  - id: "table-2-1"
+    src: "tables/table-2-1-pavic.html"
     media_type: table
     label: "Table 1"
     caption: "Area of the characteristic absorption band."
