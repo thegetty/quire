@@ -6,7 +6,7 @@ const { error } = chalkFactory('shortcodes:contributors')
 /**
  * Contributor shortcode
  * Renders a list of contributors
- * 
+ *
  * @param  {Array|String} context Array of contributor objects OR string override
  * @param  {String} align How to align the text (name-title-block and bio only) Values: 'left' (default), 'center', 'right'
  * @param  {String} type The contributor type to render. Values: 'all' (default), 'primary', 'secondary'
@@ -75,7 +75,7 @@ module.exports = function (eleventyConfig) {
         const last = contributorInitials.pop()
         const nameString =
           contributorInitials.length >= 1
-            ? contributorInitials.join(', ') + ' and ' + last
+            ? contributorInitials.join(', ') + ', and ' + last
             : last
           contributorsElement = `<span class="quire-contributor">${nameString}</span>`
         break
@@ -112,7 +112,7 @@ module.exports = function (eleventyConfig) {
         const last = contributorNames.pop()
         const namesString =
           contributorNames.length >= 1
-            ? contributorNames.join(', ') + ' and ' + last
+            ? contributorNames.join(', ') + ', and ' + last
             : last
         contributorsElement = `<span class='quire-contributor'>${namesString}</span>`
         break
