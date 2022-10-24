@@ -22,17 +22,20 @@ module.exports = function(eleventyConfig) {
   return async function(figures) {
     if (!figures) return ''
 
+    figures = figures.map((figure) => ({
+      interactive: 'true',
+      preset: 'zoom',
+      ...figure
+    }))
+
     const slideElement = async (figure) => {
       const {
         aspect_ratio: aspectRatio='widescreen',
         caption,
         credit,
         id,
-        iiif,
         label,
-        media_type: mediaType,
-        preset,
-        src
+        media_type: mediaType
       } = figure
 
       const isAudio = mediaType === 'soundcloud'
