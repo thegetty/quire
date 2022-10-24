@@ -211,7 +211,30 @@ const update = (id, data) => {
   }
   const { annotations, region } = data
   webComponents.forEach((element) => {
-    element.setAttribute('region', region || null)
+
+    /**
+     * Create target object from region string passed to `update` method,
+     * or reset viewport using original region defined in `region` attribute
+     */
+    const getTargetFromRegion = () => {
+      const string = region || element.getAttribute('region')
+      const [ x, y, width, height ] = string.split(',').map((x) => parseInt(x.trim()))
+      return { x, y, width, height }
+    }
+    const goToRegion = () => {
+      const target = getTargetFromRegion()
+      element.transition(tm => {
+        tm.goToRegion(target, {
+          transition: {
+            easing: element.easingFunctions().easeOutExpo,
+            duration: 2000
+          }
+        })
+      })
+    }
+
+    goToRegion()
+
     if (element.tagName === 'CANVAS-PANEL') {
       annotations.forEach((annotation) => selectAnnotation(element, annotation))
     }
