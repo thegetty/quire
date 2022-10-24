@@ -8,13 +8,14 @@ module.exports = (eleventyConfig) => {
   const { baseURL } = eleventyConfig.globalData.config
   const { port } = eleventyConfig.serverOptions
 
-  const projectRoot = path.resolve(eleventyConfig.dir.input)
+  const projectRoot = path.resolve(__dirname, '../../../')
 
-  logger.debug(`\n projectRoot: ${projectRoot}`)
+  logger.debug(`projectRoot: ${projectRoot}`)
 
   const resolveInputPath = () => {
-    // return path.resolve(projectRoot, eleventyConfig.dir.input)
-    return eleventyConfig.dir.input
+    const resolvedPath = path.resolve(projectRoot, eleventyConfig.dir.input)
+    logger.debug(`inputPath: ${resolvedPath}`)
+    return resolvedPath
   }
 
   const resolveOutputPath = () => {
@@ -22,11 +23,12 @@ module.exports = (eleventyConfig) => {
       ({ options }) => !!options && !!options.viteOptions
     ).options
 
-    if (viteOptions && viteOptions.publicDir) {
-      return path.resolve(projectRoot, viteOptions.publicDir)
-    } else {
-      return path.resolve(projectRoot, eleventyConfig.dir.output)
-    }
+    const resolvedPath = viteOptions && viteOptions.publicDir
+      ? path.resolve(projectRoot, viteOptions.publicDir)
+      : path.resolve(projectRoot, eleventyConfig.dir.output)
+
+    logger.debug(`ouputPath: ${resolvedPath}`)
+    return resolvedPath
   }
 
   return {
@@ -57,9 +59,9 @@ module.exports = (eleventyConfig) => {
       {
         input: ['.png', '.svg'],
         /**
-        * Change to '.png' when canvas-panel preferredFormats issue is resolved
-        * @link https://github.com/digirati-co-uk/iiif-canvas-panel/issues/193
-        */
+         * Change to '.png' when canvas-panel preferredFormats issue is resolved
+         * @link https://github.com/digirati-co-uk/iiif-canvas-panel/issues/193
+         */
         output: '.jpg'
       },
       {
