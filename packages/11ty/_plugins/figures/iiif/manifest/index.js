@@ -1,7 +1,6 @@
 const chalkFactory = require('~lib/chalk')
 const fs = require('fs-extra')
 const path = require('path')
-const sharp = require('sharp')
 const titleCase = require('~plugins/filters/titleCase')
 const Writer = require('./writer')
 const { globalVault } = require('@iiif/vault')
@@ -19,7 +18,6 @@ module.exports = class Manifest {
     const { iiifConfig } = figure
     const { baseURL, dirs, locale, manifestFilename } = iiifConfig
     this.figure = figure
-    this.inputDir = path.join(dirs.inputRoot, dirs.input)
     this.locale = locale
     this.writer = new Writer(iiifConfig)
   }
@@ -36,20 +34,6 @@ module.exports = class Manifest {
         annotations.unshift(this.createAnnotation(this.figure.baseImageAnnotation))
       }
       return annotations
-  }
-
-  /**
-   * Use dimensions of figure.src or first choice as canvas dimensions
-   */
-  get canvasImagePath() {
-    const firstChoice = this.figure.annotations
-      .flatMap(({ items }) => items)
-      .find(({ target }) => !target)
-    const imagePath = this.figure.src || firstChoice.src
-    if (!imagePath) {
-      error(`Invalid figure ID "${this.figure.id}". Figures with annotations must have "choice" annotations or a "src" property.`)
-    }
-    return imagePath
   }
 
   get choices() {
@@ -76,14 +60,6 @@ module.exports = class Manifest {
     })
   }
 
-  async calcCanvasDimensions() {
-    const fullImagePath = path.join(this.inputDir, this.canvasImagePath)
-    const { height, width } = await sharp(fullImagePath).metadata()
-    this.canvasHeight = height
-    this.canvasWidth = width
-    return { height, width }
-  }
-
   createAnnotation(data) {
     const { body, id, motivation, target } = data
     return {
@@ -103,7 +79,7 @@ module.exports = class Manifest {
     const { ext } = path.parse(src)
     return {
       format,
-      height: this.canvasHeight,
+      height: this.figure.canvasHeight,
       id: url,
       label: { en: [label] },
       type: 'Image',
@@ -118,7 +94,7 @@ module.exports = class Manifest {
           protocol: 'http://iiif.io/api/image'
         }
       ],
-      width: this.canvasWidth
+      width: this.figure.canvasWidth
     }
   }
 
@@ -127,12 +103,11 @@ module.exports = class Manifest {
    * @return {JSON}
    */
   async toJSON() {
-    const { height, width } = await this.calcCanvasDimensions()
     const manifest = builder.createManifest(this.figure.manifestId, (manifest) => {
       manifest.addLabel(this.figure.label, this.locale)
       manifest.createCanvas(this.figure.canvasId, (canvas) => {
-        canvas.height = height
-        canvas.width = width
+        canvas.height = this.figure.canvasHeight
+        canvas.width = this.figure.canvasWidth
         if (this.annotations) {
           this.annotations.forEach((item) => {
             canvas.createAnnotation(item.id, item)

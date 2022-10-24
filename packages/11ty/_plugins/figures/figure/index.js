@@ -3,6 +3,7 @@ const AnnotationFactory = require('../annotation/factory')
 const ImageProcessor = require('../image/processor')
 const Manifest = require('../iiif/manifest')
 const path = require('path')
+const sharp = require('sharp')
 const { isCanvas, isImageService } = require('../helpers')
 
 /**
@@ -57,6 +58,22 @@ module.exports = class Figure {
   }
 
   /**
+   * Use dimensions of src or first choice as canvas dimensions
+   */
+  get canvasImagePath() {
+    if (!this.annotations) return
+    const firstChoice = this.annotations
+      .flatMap(({ items }) => items)
+      .find(({ target }) => !target)
+    const imagePath = this.src || firstChoice.src
+    if (!imagePath) {
+      error(`Invalid figure ID "${this.id}". Figures with annotations must have "choice" annotations or a "src" property.`)
+    }
+    const { dirs } = this.iiifConfig
+    return path.join(dirs.inputRoot, dirs.input, imagePath)
+  }
+
+  /**
    * If the `src` is an external resource
    * @return {Boolean}
    */
@@ -87,6 +104,15 @@ module.exports = class Figure {
   }
 
   /**
+   * The figure region to display on load
+   * @return {String} format "x,y,width,height" Defaults to full dimensions
+   */
+  get region() {
+    if (this.isExternal) return
+    return this.data.region || `0,0,${this.canvasWidth},${this.canvasHeight}`
+  }
+
+  /**
    * Return only the data properties consumed by quire shortcodes
    * @return {Object} figure
    */
@@ -102,8 +128,19 @@ module.exports = class Figure {
       label: this.label,
       manifestId: this.manifestId,
       printImage: this.printImage,
+      region: this.region,
       src: this.src
     }
+  }
+
+  /**
+   * Get the width and height of the canvas
+   */
+  async calcCanvasDimensions() {
+    if (!this.canvasImagePath) return
+    const { height, width } = await sharp(this.canvasImagePath).metadata()
+    this.canvasHeight = height
+    this.canvasWidth = width
   }
 
   /**
@@ -115,6 +152,7 @@ module.exports = class Figure {
   async processFiles() {
     this.errors = []
 
+    await this.calcCanvasDimensions()
     await this.processAnnotationImages()
     await this.processFigureImage()
     await this.processManifest()
