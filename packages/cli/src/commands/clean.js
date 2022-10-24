@@ -72,10 +72,10 @@ export default class CleanCommand extends Command {
       onProgress: (options.progress || options.verbose) && progressLogger,
     })
 
-    const heading = options.dryRun
-      ? 'the following files would be deleted'
-      : 'the following files have been deleted'
+    const message = deletedPaths && deletedPaths.length
+      ? `the following files ${options.dryRun ? 'will be' : 'have been'} deleted:`
+      : 'no files to delete'
 
-    console.debug(heading, deletedPaths)
+    console.debug(`[CLI] ${message} ${deletedPaths}`)
   }
 }
