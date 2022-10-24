@@ -29,11 +29,15 @@ module.exports = (eleventyConfig, collections) => {
     write('manifest.json', JSON.stringify(manifest))
 
     /**
-     * Copy fonts
+     * Copy font and icon directories
      */
-    const fontsSrcDir = path.join(eleventyConfig.dir.input, assetsDir, 'fonts')
-    const fontsDestDir = path.join(outputDir, assetsDir, 'fonts')
-    fs.copySync(fontsSrcDir, fontsDestDir)
+    const assetDirsToCopy = ['fonts', 'material-icons']
+
+    assetDirsToCopy.forEach((name) => {
+      const source = path.join(eleventyConfig.dir.input, assetsDir, name)
+      const dest = path.join(outputDir, assetsDir, name)
+      fs.copySync(source, dest)
+    })
 
     /**
      * Copy styles
