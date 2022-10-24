@@ -1,4 +1,4 @@
-const { oneLine } = require('common-tags');
+const { oneLine } = require('~lib/common-tags');
 
 /**
  * Renders a link
@@ -11,7 +11,7 @@ const { oneLine } = require('common-tags');
  * @param  {Array<String>} classes
  * @return {String}                anchor tag
  */
-module.exports = function(eleventyConfig, globalData) {
+module.exports = function(eleventyConfig) {
   const link = eleventyConfig.getFilter('link')
 
   return function (params) {

@@ -8,8 +8,8 @@ const path = require('path')
  * 
  * @return     {String}  An HTML script element with JSON-LD
  */
-module.exports = function(eleventyConfig, globalData) {
-  const { config, publication } = globalData
+module.exports = function(eleventyConfig) {
+  const { config, publication } = eleventyConfig.globalData
   const { imageDir } = config.params
 
   return function ({ canonicalURL, page }) {
@@ -39,7 +39,7 @@ module.exports = function(eleventyConfig, globalData) {
       })
 
     const isbn = publication.identifier.isbn
-    const publicationDescription = publication.description.full
+    const publicationDescription = publication.description.full || ''
 
     const Book = {
       type: 'Book',
@@ -114,7 +114,7 @@ module.exports = function(eleventyConfig, globalData) {
         author: [...publicationContributors],
         datePublished: publication.pub_date,
         dateModified: publication.revision_history.date,
-        image: path.join(imageDir, publication.promo_image),
+        image: publication.promo_image && path.join(imageDir, publication.promo_image),
         license: publication.license.url,
         keywords: publication.subject
           .filter(({ type }) => type === 'keyword')

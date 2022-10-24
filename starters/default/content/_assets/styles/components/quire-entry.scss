@@ -114,7 +114,7 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
       align-items: center;
       justify-content: center;
       position: relative;
-      
+
       @media screen and (max-width: $desktop) {
         height: 60vh;
       }
@@ -123,6 +123,14 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
         margin: 0 auto;
         padding: 0;
         height: auto;
+      }
+
+      &.current-image img {
+        // fadeIn animation applied when navigating through non-popup leaflet image slideshows
+        animation-name: fadeIn;
+        animation-delay: 0.25s;
+        animation-duration: 0.2s;
+        animation-fill-mode: backwards;
       }
 
       iframe {
@@ -521,14 +529,14 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
     // }
 
     position: relative;
-    animation: 0.5s ease 0s 1 slideFromRight;
+    @include animation(0.5s ease 0s 1 slideFromRight);
 
     @media screen and (max-width: $tablet) {
       margin-top: -1em;
     }
 
     .quire-page__content {
-      animation: none;
+      @include animation(none);
       .content {
         @media print {
           padding: 0;
@@ -647,5 +655,35 @@ $image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAABYCAQAAACjBqE3AA
         }
       }
     }
+  }
+}
+
+/* TODO display `entry-figure` assets only on PDF/epub output so this doesn't have to be conditionally hidden to be replace with a `lightbox` */
+.quire-entry__image {
+  @media screen {
+    display: none;
+  }
+}
+
+/* TODO clean up side-by-side layout styles so these brittle calcs in this lightbox wrapper are not necessary */
+.quire-entry__lightbox {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 6rem - 3rem - 2px);
+  background: black;
+  @media print {
+    display: none;
+  }
+}
+
+.side-by-side .quire-entry__lightbox {
+  @media screen and (min-width: 1184px) {
+    position: fixed;
+    /* top offsets 50px tall nav bar */
+    top: 50px;
+    /* calculated width accounts for extra 8px of margin in .quire-entry__image-wrap */
+    width: calc(56% - 8px);
+    /* calculated height accounts for 50px tall nav bar */
+    height: calc(100vh - 50px);
   }
 }

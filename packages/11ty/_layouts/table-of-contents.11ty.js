@@ -9,21 +9,20 @@
 module.exports = class TableOfContents {
   data() {
     return {
+      class: 'quire-contents',
       layout: 'base'
     }
   }
 
   render(data) {
     const {
-      class: className,
       collections,
-      config,
       content,
-      imageDir,
-      page: tocPage,
+      key,
+      page,
       pages,
       pagination,
-      section
+      presentation='list'
     } = data
 
     const contentElement = content
@@ -35,92 +34,29 @@ module.exports = class TableOfContents {
         </div>
         `
       : ''
-    const containerClass = className === 'grid' ? 'is-fullhd' : ''
-    const contentsListClass = ['abstract', 'brief', 'grid'].includes(className)
-      ? className
-      : 'list'
-
-
-    let renderedSection
-
-    const defaultContentsItemParams = {
-      className,
-      config,
-      imageDir
-    }
-
-    const listItems = pages
-      .filter((page) => 
-        page.url !== tocPage.url
-        && (!section || section && page.data.section === section)
-        && page.data.type !== 'data' 
-        && page.data.toc !== false)
-      .map((page) => {
-        let listItem = ''
-        if (page.data.layout === 'table-of-contents' && page.data.section !== renderedSection) {
-          renderedSection = page.data.section 
-
-          const subPages =
-            config.params.tocType === 'full'
-              ? pages
-                  .filter(
-                    (item) =>
-                      item.data.section === page.data.section &&
-                      item.data.layout !== 'table-of-contents'
-                  )
-                  .map((item) => {
-                    if (page.fileSlug !== item.fileSlug)
-                      return `
-                        <li class="page-item">
-                          ${this.tableOfContentsItem({ ...defaultContentsItemParams, page: item })}
-                        </li>
-                      `
-                  })
-              : []
-
-          return `
-            <li class="section-item">
-              ${this.tableOfContentsItem({ ...defaultContentsItemParams, page })}
-              <ul>${subPages.join('')}</ul>
-            </li>
-          `
-        } else if (section || !page.data.section) {
-          return `
-            <li class="page-item">
-              ${this.tableOfContentsItem({ ...defaultContentsItemParams, page })}
-            </li>
-          `
-        }
-      })
+    const containerClass = presentation === 'grid' ? 'is-fullhd' : ''
 
     return this.renderTemplate(
-      `<div class="{% pageClass pages=pages, pagination=pagination %} quire-contents" id="main" role="main">
-        {% pageHeader
-          contributor=contributor,
-          contributor_as_it_appears=contributor_as_it_appears,
-          contributor_byline=contributor_byline,
-          image=image,
-          label=label,
-          subtitle=subtitle,
-          title=title
-        %}
-        <section class="section quire-page__content" id="content">
-          ${contentElement}
-          <div class="container ${containerClass}">
-            <div class="quire-contents-list ${contentsListClass}">
-              <div class="menu-list">
-                <ul>
-                  ${listItems.join('')}
-                </ul>
-              </div>
-              <div class="content">
-                {% bibliography citations=citations %}
-              </div>
+      `{% pageHeader
+        contributor_byline=contributor_byline,
+        image=image,
+        label=label,
+        pageContributors=pageContributors,
+        subtitle=subtitle,
+        title=title
+      %}
+      <section class="section quire-page__content">
+        ${contentElement}
+        <div class="container ${containerClass}">
+          <div class="quire-contents-list ${presentation}">
+            ${this.tableOfContents({ collections, currentPageUrl: page.url, key, presentation })}
+            <div class="content">
+              {% bibliography pageReferences %}
             </div>
-            ${this.pageButtons({ pagination })}
           </div>
-        </section>
-      </div>`,
+          ${this.pageButtons({ pagination })}
+        </div>
+      </section>`,
       'liquid',
       data
     )

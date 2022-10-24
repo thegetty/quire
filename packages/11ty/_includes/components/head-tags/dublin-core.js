@@ -8,8 +8,8 @@ const path = require('path')
  * 
  * @return     {String}  HTML meta and link elements
  */
-module.exports = function(eleventyConfig, globalData) {
-  const { config, publication } = globalData
+module.exports = function(eleventyConfig) {
+  const { config, publication } = eleventyConfig.globalData
 
   return function (params) {
     const links = [

@@ -1,4 +1,4 @@
-const { html } = require('common-tags')
+const { html } = require('~lib/common-tags')
 
 /**
  * Base layout as a JavaScript method
@@ -6,40 +6,41 @@ const { html } = require('common-tags')
  * @param      {Object}  data    Final data from the Eleventy data cascade
  * @return     {Function}  Template render function
  */
-module.exports = function(data) {
-  const { content, imageDir, pageData, pages, publication } = data
+module.exports = async function(data) {
+  const { pageClasses, collections, content, pageData, publication } = data
+  const { outputPath, url } = pageData || {}
 
-  return this.renderTemplate(`
-    <!doctype html>
-    <html lang="${ publication.language }">
-      ${this.head(data)}
-      <body>
-        ${this.icons(data)}
-
-        ${this.iconscc(data)}
-
-        ${this.pdfInfo(data)}
-
-        <div class="quire no-js" id="container">
-          <div
-            class="quire__secondary remove-from-epub"
-            id="site-menu"
-            aria-expanded="false"
-            role="contentinfo"
-          >
-            ${this.menu({ imageDir, pageData, pages, publication})}
+  return this.renderTemplate(
+    html`
+      <!doctype html>
+      <html lang="${publication.language}">
+        ${this.head(data)}
+        <body>
+          ${this.icons(data)}
+          ${this.iconscc(data)}
+          <div class="quire no-js" id="container">
+            <div
+              aria-expanded="false"
+              class="quire__secondary"
+              id="site-menu"
+              role="contentinfo"
+              data-outputs-exclude="epub,pdf"
+            >
+              ${this.menu({ collections, pageData })}
+            </div>
+            <div class="quire__primary">
+              ${this.navigation(data)}
+              <main id="${this.slugify(url)}" class="quire-page ${pageClasses}" data-output-path="${outputPath}">
+                ${content}
+              </main>
+            </div>
+            {% render 'search' %}
           </div>
-
-          <div class="quire__primary" id="{{ section }}">
-            ${this.navigation(data)}
-            ${ content }
-          </div>
-          {% render 'search' %}
-        </div>
-        ${this.scripts()}
-      </body>
-    </html>
-  `, 
-  'liquid'
+          ${await this.modal()}
+          ${this.scripts()}
+        </body>
+      </html>
+    `,
+    'liquid'
   )
 }

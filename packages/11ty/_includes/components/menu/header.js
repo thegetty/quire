@@ -1,41 +1,31 @@
-const { html } = require('common-tags')
+const { html } = require('~lib/common-tags')
 
 /**
  * Publication title block in menu
  *
  * @param      {Object}  eleventyConfig
- * @param      {Object}  globalData
  * @param      {Object}  params
  * @property   {String}  currentURL
  * @property   {Array|String}   contributors - publication contributors array or string override
  */
-module.exports = function(eleventyConfig, globalData) {
-  const contributorList = eleventyConfig.getFilter('contributorList')
+module.exports = function(eleventyConfig) {
+  const contributors = eleventyConfig.getFilter('contributors')
   const markdownify = eleventyConfig.getFilter('markdownify')
   const siteTitle = eleventyConfig.getFilter('siteTitle')
-
-  const { publication } = globalData
-  const contributors = publication.contributor_as_it_appears || publication.contributor
+  const { contributor: publicationContributors, contributor_as_it_appears } = eleventyConfig.globalData.publication
 
   return function(params) {
     const { currentURL } = params
     const isHomePage = currentURL === '/'
 
-    const homePageLinkOpenTag = isHomePage ? `<a class="quire-menu__header__title-link" href="/">` : ''
-    const homePageLinkCloseTag = isHomePage ? `</a>` : ''
+    const homePageLinkOpenTag = isHomePage ? '' : `<a class="quire-menu__header__title-link" href="/">`
+    const homePageLinkCloseTag = isHomePage ? '' : `</a>`
 
-    const contributorElement = () => {
-      if (typeof contributors === 'string') {
-        return `${markdownify(contributors)}`
-      } else if (Array.isArray(contributors)) {
-        return `
-          <span class="visually-hidden">Contributors: </span>
-          ${contributorList({ contributors, type: 'primary' })}
-        `
-      } else {
-        return ''
-      }
-    }
+    const contributorContent = contributor_as_it_appears || contributors({ context: publicationContributors, format: 'string', type: 'primary' })
+
+    const contributorElement = contributorContent
+      ? `<span class="visually-hidden">Contributors: </span>${contributorContent}`
+      : ''
 
     return html`
       <header class="quire-menu__header">
@@ -47,7 +37,7 @@ module.exports = function(eleventyConfig, globalData) {
         ${homePageLinkCloseTag}
 
         <div class="quire-menu__header__contributors">
-          ${contributorElement()}
+          ${contributorElement}
         </div>
       </header>
     `

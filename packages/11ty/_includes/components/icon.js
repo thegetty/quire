@@ -1,4 +1,4 @@
-const { html } = require('common-tags')
+const { html } = require('~lib/common-tags')
 const path = require('path')
 
 /**
@@ -12,23 +12,20 @@ const path = require('path')
  * @example.liquid
  * {% icon type="link", description="Open in new window" %}
  */
-module.exports = function(eleventyConfig, globalData) {
-  const imageDir = globalData.config.params.imageDir
+module.exports = function(eleventyConfig) {
+  const { imageDir } = eleventyConfig.globalData.config.params
 
   return function (params) {
     const { description, type } = params
     const iconPath = path.join(imageDir, 'icons', `${type}.png`)
     const descriptionElement = description
-      ? `<span class="visually-hidden remove-from-epub">${description}</span>`
+      ? `<span class="visually-hidden" data-outputs-exclude="epub,pdf">${description}</span>`
       : ''
 
     return html`
-      <svg class="remove-from-epub">
+      <svg data-outputs-exclude="epub,pdf">
         <switch>
           <use xlink:href="#${type}-icon"></use>
-          <foreignObject width="24" height="24">
-            <img src="${iconPath}" alt="${description}" />
-          </foreignObject>
         </switch>
       </svg>
       ${descriptionElement}

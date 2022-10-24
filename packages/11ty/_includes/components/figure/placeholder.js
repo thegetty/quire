@@ -1,39 +1,39 @@
 const path = require('path')
-const { html } = require('common-tags')
+const { html } = require('~lib/common-tags')
 
-module.exports = function(eleventyConfig, globalData) {
-  const figurelabel = eleventyConfig.getFilter('figurelabel')
+module.exports = function(eleventyConfig) {
+  const figureLabel = eleventyConfig.getFilter('figureLabel')
 
-  const { figureLabelLocation, imageDir } = globalData.config.params
+  const { imageDir } = eleventyConfig.globalData.config.params
 
-  return function({ figure }) {
-    const { id, label, media_type: mediaType, src } = figure
-
-    let element;
+  return function({ alt, caption, id, label, media_type: mediaType, src }) {
+    let imageElement
 
     if (src) {
       const imagePath = path.join(imageDir, src)
-      element = `<img
+      imageElement = `
+        <img
           id="${id}"
           class="q-figure__image"
           src="${imagePath}"
           alt="${alt}"
-        />`
+        />
+      `
     } else {
       const imagePath = path.join(imageDir, 'icons', `${mediaType}.png`)
-      element = `<div class="q-figure__media-fallback">
-          <div class="placeholder">
-            <span class="fallback-image">
-              <img src="${imagePath}" />
-            </span>
-          </div>
-        </div>`
+      imageElement = `
+        <img src="${imagePath}" class="q-figure__media-fallback" />
+      `
     }
 
-    const labelElement = label && figureLabelLocation === 'on-top'
-      ? figurelabel({ figure })
-      : ''
+    const labelElement = figureLabel({ caption, id, label })
 
-    return html`${element}${labelElement}`
+    const captionElement = `
+      <figcaption class="quire-figure__caption">
+        <a href="${src}" target="_blank">${src}</a>
+      </figcaption>
+    `
+
+    return html`${imageElement}${labelElement}${captionElement}`
   }
 }

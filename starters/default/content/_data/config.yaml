@@ -1,4 +1,4 @@
-baseURL: ""
+baseURL: 'http://localhost:8080'
 
 title: Quire Starter
 languageCode: en-us
@@ -16,22 +16,26 @@ disableKinds:
   - term
 
 params:
-  biblioHeading: Bibliography
   citationPageLocationDivider: ', '
   citationPopupStyle: text # text | icon
   contributorByline: name-title # name | name-title | false
-  displayBiblioShort: true
   entryPageObjectLinkText: View in Collection
   entryPageSideBySideLayout: false
-  figureLabelLocation: on-top # below | on-top
   figureModal: true
   figureModalIcons: true
   figureZoom: true
+  assetDir: '/_assets/'
   imageDir: '/_assets/images'
   licenseIcons: true
   menuType: full
   nextPageButtonText: Next
+  pageContributorDivider: ' — '
   pageLabelDivider: '. '
   prevPageButtonText: Back
   searchEnabled: true
   tocType: full
+
+bibliography:
+  displayOnPage: true
+  displayShort: true
+  heading: Bibliography

@@ -1,39 +1,26 @@
-const { oneLine } = require('common-tags')
+const { oneLine } = require('~lib/common-tags')
 
 /**
  * A figure label element
  * @param  {Object} eleventyConfig  eleventy configuration
- * @param  {Object} globalData
  * @return
  */
-module.exports = function(eleventyConfig, globalData) {
+module.exports = function(eleventyConfig) {
   const icon = eleventyConfig.getFilter('icon')
   const markdownify = eleventyConfig.getFilter('markdownify')
-  const modalLink = eleventyConfig.getFilter('figuremodallink')
+  const modalLink = eleventyConfig.getFilter('figureModalLink')
 
-  const { epub } = globalData.config
-  const { figureLabelLocation } = globalData.config.params
+  return function({ caption, id, label }) {
+    if (!label) return ''
 
-  return function({ figure }) {
+    let content = `<span class="q-figure__label-icon">${icon({ type: 'fullscreen', description: 'Expand' })}</span>`
+    content += `<span class="q-figure__label-text">${markdownify(label || '')}</span>`
 
-    let labelElement
+    content = modalLink({ caption, content, id })
 
-    if (epub) {
-      labelElement = `<span class="q-figure__label">${markdownify(figure.label)}</span>`
-    } else {
-      const modifier = figureLabelLocation || ''
-
-      let content = figureLabelLocation === 'on-top'
-      ? `<span class="q-figure__label-icon">${icon({ type: 'fullscreen', description: 'Expand' })}</span>`
-      : ''
-      content += `<span class="q-figure__label-text">${markdownify(figure.label || '')}</span>`
-
-      content = modifier === 'below' ? modalLink({ figure, content }) : content
-
-      labelElement = `<span class="q-figure__label q-figure__label--${modifier}">
-        ${content}
-      </span>`
-    }
+    const labelElement = `<span class="q-figure__label q-figure__label--below">
+      ${content}
+    </span>`
 
     return oneLine`${labelElement}`
   }

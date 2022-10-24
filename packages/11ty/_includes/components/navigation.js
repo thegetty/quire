@@ -1,4 +1,5 @@
-const { html } = require('common-tags');
+const truncate = require('~lib/truncate')
+const { html } = require('~lib/common-tags');
 
 /**
  * This controls the various navigation elements (nav, skip-link, menu and
@@ -12,20 +13,25 @@ const { html } = require('common-tags');
  * eligible pages are ranged through and based on weight, the next or previous
  * one in the range is linked to.
  */
-module.exports = function(eleventyConfig, globalData) {
+module.exports = function(eleventyConfig) {
   const eleventyNavigation = eleventyConfig.getFilter('eleventyNavigation')
   const pageTitle = eleventyConfig.getFilter('pageTitle')
-  const { config } = globalData
+  const { imageDir } = eleventyConfig.globalData.config.params
 
   return function (params) {
-    const { collections, pages, pagination, title } = params
-    const { imageDir, pageLabelDivider } = config.params
-    const { currentPage, currentPageIndex, nextPage, previousPage } = pagination
+    const { collections, pagination, title } = params
+    const {
+      currentPage,
+      currentPageIndex,
+      nextPage,
+      percentProgress,
+      previousPage
+    } = pagination
+
+    if (!currentPage) return
+    
     const home = '/'
     const isHomePage = currentPage.url === home
-
-    // @TODO figure out js module-friendly filters -- this one should work though
-    const truncate = (text, limit) => text.slice(0, limit)
 
     const navBarLabel = ({ label, short_title, title }) => {
       return pageTitle({ label, title: short_title || truncate(title, 34)})
@@ -33,18 +39,15 @@ module.exports = function(eleventyConfig, globalData) {
 
     const navBarStartButton = () => {
       if (!isHomePage) return ''
-      const secondPageLink = pages[1].url
+      const secondPageLink = collections.navigation[1].url
       return `
         <li class="quire-navbar-page-controls__item quire-home-page">
           <a href="${secondPageLink}" rel="next">
             <span class="visually-hidden">Next Page: </span>
             <span class="quire-navbar-button play-button">
-              <svg class="remove-from-epub">
+              <svg data-outputs-exclude="epub,pdf">
                 <switch>
                   <use xlink:href="#start-icon"></use>
-                  <foreignObject width="32" height="32">
-                    <img src="${imageDir}/icons/play.png" alt="Next Page" />
-                  </foreignObject>
                 </switch>
               </svg>
             </span>
@@ -61,12 +64,9 @@ module.exports = function(eleventyConfig, globalData) {
         <li class="quire-navbar-page-controls__item quire-previous-page">
           <a href="${url}" rel="previous">
             <span class="visually-hidden">Previous Page: </span>
-            <svg class="left-icon remove-from-epub">
+            <svg class="left-icon" data-outputs-exclude="epub,pdf">
               <switch>
                 <use xlink:href="#left-arrow-icon"></use>
-                <foreignObject width="24" height="24">
-                  <img src="${imageDir}/icons/left-arrow.png" alt="Previous Page" />
-                </foreignObject>
               </switch>
             </svg>
             ${navBarLabel({ label, short_title, title })}
@@ -82,12 +82,9 @@ module.exports = function(eleventyConfig, globalData) {
           <a href="${home}" rel="home">
             <span class="visually-hidden">Home Page: </span>
             <span class="quire-navbar-button home-button">
-              <svg class="remove-from-epub">
+              <svg data-outputs-exclude="epub,pdf">
                 <switch>
                   <use xlink:href="#home-icon"></use>
-                  <foreignObject width="32" height="32">
-                    <img src="${imageDir}/icons/home.png" alt="Home Page" />
-                  </foreignObject>
                 </switch>
               </svg>
             </span>
@@ -105,12 +102,9 @@ module.exports = function(eleventyConfig, globalData) {
           <a href="${url}" rel='next'>
             <span class="visually-hidden">Next Page: </span>
             ${navBarLabel({ label, short_title, title })}
-            <svg class="remove-from-epub">
+            <svg data-outputs-exclude="epub,pdf">
               <switch>
                 <use xlink:href="#right-arrow-icon"></use>
-                <foreignObject width="24" height="24">
-                  <img src="${imageDir}/icons/right-arrow.png" alt="Next Page" />
-                </foreignObject>
               </switch>
             </svg>
           </a>
@@ -130,12 +124,9 @@ module.exports = function(eleventyConfig, globalData) {
               aria-controls="quire-search"
               onclick="toggleSearch()"
             >
-              <svg class="remove-from-epub">
+              <svg data-outputs-exclude="epub,pdf">
                 <switch>
                   <use xlink:href="#search-icon"></use>
-                  <foreignObject width="32" height="32">
-                    <img src="${imageDir}/icons/search.png" alt="Search" />
-                  </foreignObject>
                 </switch>
               </svg>
               <span class="visually-hidden">Search</span>
@@ -158,12 +149,9 @@ module.exports = function(eleventyConfig, globalData) {
               aria-controls="quire-menu"
               tabindex="2"
             >
-              <svg class="remove-from-epub">
+              <svg data-outputs-exclude="epub,pdf">
                 <switch>
                   <use xlink:href="#nav-icon"></use>
-                  <foreignObject width="32" height="32">
-                    <img src="${imageDir}/icons/nav.png" alt="Table of Contents" />
-                  </foreignObject>
                 </switch>
               </svg>
               <span class="visually-hidden">Table of Contents</span>
@@ -171,8 +159,8 @@ module.exports = function(eleventyConfig, globalData) {
           </div>
         </nav>
         <div class="quire-progress-bar">
-          <div style="width: calc(100% * (${currentPageIndex + 1} / ${pages.length}));">
-            <span>${currentPageIndex + 1}/${pages.length}</span>
+          <div style="width: ${percentProgress}%;">
+            <span>${currentPageIndex + 1}/${collections.navigation.length}</span>
           </div>
         </div>
       </div>

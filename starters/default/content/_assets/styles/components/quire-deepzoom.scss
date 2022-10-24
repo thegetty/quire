@@ -11,6 +11,10 @@ $fullscreen-button-img: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAA
 }
 
 .quire-deepzoom {
+  img {
+    // opacity transition applied when navigation through popup leaflet image slideshows
+    transition: opacity 0.2s linear;
+  }
   .leaflet-table {
     max-height: 84%;
     margin: 2.5em 3.25em 0em 2.5em;

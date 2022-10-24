@@ -1,4 +1,7 @@
-const { oneLine } = require('common-tags')
+const chalkFactory = require('~lib/chalk')
+const { oneLine } = require('~lib/common-tags')
+
+const { warn } = chalkFactory('shortcodes:figure')
 
 /**
  * Render an HTML <figure> element
@@ -16,51 +19,55 @@ const { oneLine } = require('common-tags')
  *
  * @return     {boolean}  An HTML <figure> element
  */
-module.exports = function (eleventyConfig, globalData) {
+module.exports = function (eleventyConfig, { page }) {
+  const figureImage = eleventyConfig.getFilter('figureImage')
+  const figureLabel = eleventyConfig.getFilter('figureLabel')
+  const figureModalLink = eleventyConfig.getFilter('figureModalLink')
+  const figureAudio = eleventyConfig.getFilter('figureAudio')
+  const figureTable = eleventyConfig.getFilter('figureTable')
+  const figureVideo = eleventyConfig.getFilter('figureVideo')
   const getFigure = eleventyConfig.getFilter('getFigure')
-  const figureimage = eleventyConfig.getFilter('figureimage')
-  const figurelabel = eleventyConfig.getFilter('figurelabel')
-  const figuremodallink = eleventyConfig.getFilter('figuremodallink')
-  const figuresoundcloud = eleventyConfig.getFilter('figuresoundcloud')
-  const figurtable = eleventyConfig.getFilter('figurtable')
-  const figureyoutube = eleventyConfig.getFilter('figureyoutube')
   const slugify = eleventyConfig.getFilter('slugify')
 
-  return function ({ id, ['class']: classes=[] }) {
+  const { epub, pdf } = eleventyConfig.globalData.config.params
+
+  return async function (id, classes=[]) {
     classes = typeof classes === 'string' ? [classes] : classes
+
     /**
-     * @todo refactor q-figure--group styles using BEM and remove this conditional
+     * Merge figures.yaml data and additional params
      */
-    if (!classes.includes('q-figure--group__item')) {
-      classes.push('q-figure')
+    let figure = getFigure(id)
+    if (!figure) {
+      warn(`The figure id "${id}" was found in the template "${page.inputPath}", but is not defined in "figures.yaml"`)
+      return ''
     }
+    figure = { ...figure, ...arguments }
+    if (!page.figures) page.figures = [];
+    page.figures.push(figure);
 
-    const figure = getFigure(id)
+    const { media_type: mediaType } =  figure
 
-    const component = (figure) => {
+    const component = async (figure) => {
       switch (true) {
-        case figure.media_type === 'youtube':
-          return figureyoutube({ figure })
-          break
-        case figure.media_type === 'vimeo':
-          break
-        case figure.media_type === 'soundcloud':
-          return figuresoundcloud({ figure })
-        case figure.media_type === 'website':
-          break
-        case figure.media_type === 'table':
-          return figuretable({ figure })
-          break
+        case (epub || pdf) && ['soundcloud', 'youtube'].includes(mediaType):
+          return figurePlaceholder(figure)
+        case mediaType === 'soundcloud':
+          return figureAudio(figure)
+        case mediaType === 'table':
+          return await figureTable(figure)
+        case mediaType === 'video':
+        case mediaType === 'vimeo':
+        case mediaType === 'youtube':
+          return figureVideo(figure)
         default:
-          return figureimage({ figure })
+          return await figureImage(figure)
       }
     }
 
     return oneLine`
-      <figure id="${slugify(id)}" class="${classes.join(' ')}">
-        <div class="q-figure__wrapper">
-          ${component(figure)}
-        </div>
+      <figure id="${slugify(id)}" class="${['q-figure', 'q-figure--' + mediaType, ...classes].join(' ')}">
+        ${await component(figure)}
       </figure>
     `
   }

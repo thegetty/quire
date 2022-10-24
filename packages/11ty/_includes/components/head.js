@@ -2,18 +2,16 @@
  * Head Tag
  * 
  * @param      {Object}  eleventyConfig
- * @param      {Object}  globalData
  */
-module.exports = function(eleventyConfig, globalData) {
+module.exports = function(eleventyConfig) {
   const analytics = eleventyConfig.getFilter('analytics')
   const dublinCore = eleventyConfig.getFilter('dublinCore')
   const jsonld = eleventyConfig.getFilter('jsonld')
   const opengraph = eleventyConfig.getFilter('opengraph')
   const twitterCard = eleventyConfig.getFilter('twitterCard')
+  const webComponents = eleventyConfig.getFilter('webComponents')
 
-  const { config, publication } = globalData
-
-  const { imageDir } = config.params
+  const { publication } = eleventyConfig.globalData
 
   /**
    * @param  {Object} params The Whole Dang Data Object, from base.11ty.js
@@ -56,6 +54,9 @@ module.exports = function(eleventyConfig, globalData) {
         <link rel="canonical" href="${canonicalURL}">
         <link rel="version-history" href="${publication.repositoryUrl}">
 
+        <script src="https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@1.0.54" type="module"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@iiif/vault-helpers@latest/dist/index.umd.js"></script>
+
         ${publisherLinks}
 
         ${contributorLinks}
@@ -69,8 +70,13 @@ module.exports = function(eleventyConfig, globalData) {
         <script type="application/ld+json">${jsonld({ canonicalURL, page })}</script>
 
         <link rel="icon" href="/_assets/images/icons/favicon.ico" />
-        <link rel="stylesheet" href="/_assets/styles/custom.css" />
-        <link rel="stylesheet" href="/_assets/styles/application.css" />
+        <!--
+          styles are already imported in _assets/javascript/application/index.js
+          and rendered as inline minified <style type="text/css">...</style> blocks,
+          not using these file links
+        -->
+        <!-- <link rel="stylesheet" href="/_assets/styles/application.scss" /> -->
+        <!-- <link rel="stylesheet" href="/_assets/styles/custom.css" /> -->
 
         <!-- {% render 'polyfills/template.html' %} -->
 

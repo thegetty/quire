@@ -79,7 +79,6 @@ hugo.linux
 *.epub
 *.mobi
 *.pdf
-build
 public
 site
 

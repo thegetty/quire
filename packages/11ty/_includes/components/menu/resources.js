@@ -1,18 +1,15 @@
-const { html } = require('common-tags')
+const { html } = require('~lib/common-tags')
 
 /**
  * Renders the "Other Formats" and "Resources" sections of the menu
  *
  * @param      {Object}  eleventyConfig
- * @param      {Object}  globalData
  * @param      {Object}  params
  */
-module.exports = function(eleventyConfig, globalData) {
-  const { publication } = globalData
-  const { resource_link: resourceLinks } = publication
+module.exports = function(eleventyConfig) {
+  const { resource_link: resourceLinks } = eleventyConfig.globalData.publication
 
   return function() {
-
     if (!Array.isArray(resourceLinks)) return ''
 
     const linkList = eleventyConfig.getFilter('linkList')

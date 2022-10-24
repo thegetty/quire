@@ -8,8 +8,8 @@ const path = require('path')
  * 
  * @return     {String}  HTML meta and link elements
  */
-module.exports = function(eleventyConfig, globalData) {
-  const { config, publication } = globalData
+module.exports = function(eleventyConfig) {
+  const { config, publication } = eleventyConfig.globalData
   const { description, promo_image } = publication
   const { imageDir } = config.params
 
@@ -17,10 +17,10 @@ module.exports = function(eleventyConfig, globalData) {
     const imagePath = () => {
       if (!config.baseURL) return
       if (layout !== 'essay' ) {
-        return path.join(imageDir, promo_image)
+        return promo_image && path.join(imageDir, promo_image)
       } else {
         const image = cover || promo_image
-        return path.join(imageDir, image)
+        return image && path.join(imageDir, image)
       }
     }
 

@@ -1,10 +1,11 @@
 const MarkdownIt = require('markdown-it')
-const anchors = require('markdown-it-anchor')
-const attributes = require('markdown-it-attrs')
-const bracketedSpans = require('markdown-it-bracketed-spans')
+const anchorsPlugin = require('markdown-it-anchor')
+const attributesPlugin = require('markdown-it-attrs')
+const bracketedSpansPlugin = require('markdown-it-bracketed-spans')
 const defaults = require('./defaults')
-const deflist = require('markdown-it-deflist')
-const footnotes = require('markdown-it-footnote')
+const deflistPlugin = require('markdown-it-deflist')
+const footnotePlugin = require('markdown-it-footnote')
+const removeMarkdown = require('remove-markdown')
 
 /**
  * An Eleventy plugin to configure the markdown library
@@ -28,20 +29,52 @@ module.exports = function(eleventyConfig, options) {
    * @see https://github.com/arve0/markdown-it-attrs#usage
    */
   const attributesOptions = {
-    allowedAttributes: ['class', 'id'],
+    allowedAttributes: ['class', 'id', 'target'],
     leftDelimiter: '{',
     rightDelimiter: '}'
   }
 
   const markdownLibrary = MarkdownIt(Object.assign(defaults, options))
-    .use(anchors, anchorOptions)
-    .use(attributes, attributesOptions)
-    .use(bracketedSpans)
-    .use(deflist)
-    .use(footnotes)
+    .use(anchorsPlugin, anchorOptions)
+    .use(attributesPlugin, attributesOptions)
+    .use(bracketedSpansPlugin)
+    .use(deflistPlugin)
+    .use(footnotePlugin)
 
   /**
-   * Configure renderer to exclude brakcets from footnotes
+   * Set recognition options for links without a schema
+   * @see https://github.com/markdown-it/linkify-it#api
+   */
+  markdownLibrary.linkify.set({ fuzzyLink: false })
+
+  /**
+   * Remember old renderer, if overridden, or proxy to default renderer
+   */
+  const defaultRender = markdownLibrary.renderer.rules.link_open ||
+    function (tokens, idx, options, env, self) {
+      return self.renderToken(tokens, idx, options)
+    }
+
+  /**
+   * Render external links so that they open in a new tab
+   */
+  markdownLibrary.renderer.rules.link_open = (tokens, idx, options, env, self) => {
+    const href = tokens[idx].attrGet('href')
+    if (href.startsWith('http')) {
+      tokens[idx].attrSet('target', '_blank')
+    }
+    return defaultRender(tokens, idx, options, env, self)
+  }
+
+  /**
+   * Override default renderer to remove <hr class="footnotes-sep"/> element
+   */
+  markdownLibrary.renderer.rules.footnote_block_open = () => {
+    return '<section class="footnotes">\n<ol class="footnotes-list">\n'
+  }
+
+  /**
+   * Override default renderer to remove brakcets from footnotes
    */
   markdownLibrary.renderer.rules.footnote_caption = (tokens, idx) => {
     let n = Number(tokens[idx].meta.id + 1).toString()
@@ -54,9 +87,22 @@ module.exports = function(eleventyConfig, options) {
   eleventyConfig.setLibrary('md', markdownLibrary)
 
   /**
-   * Add a universal template filter to render markdown inline
+   * Add a universal template filter to render markdown strings as HTML
+   * @see https://github.com/markdown-it/markdown-it#simple
    */
   eleventyConfig.addFilter('markdownify', (content) => {
-    return content ? markdownLibrary.renderInline(content) : ''
+    if (!content) return ''
+
+    return !content.match(/\n/)
+      ? markdownLibrary.renderInline(content)
+      : markdownLibrary.render(content)
+  })
+
+  /**
+   * Add a universal template filter to remove markdown from a string
+   * @see
+   */
+  eleventyConfig.addFilter('removeMarkdown', (content) => {
+    return content ? removeMarkdown(content) : ''
   })
 }

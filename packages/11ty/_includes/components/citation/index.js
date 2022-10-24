@@ -1,52 +1,28 @@
 /**
- * Template for the "Cite this Page" feature. Called as a
- * shortcode, such as:
- *
- * {% "citation", type: "chicago", range: "page" %}
- *
- * Follows standard of using "et al" for more than ten
- * authors in Chicago citations, and more than two authors
- * in MLA citations.
- *
- * @param  {Object} eleventyConfig
- * @param  {Object} params
- * @property  {Object} page
- * @property  {Object} publication
- * @property  {String} type - "chicago" or "mla"
- * @property  {String} range - "page" or "site"
+ * Generates a citation for the context (page or publication)
  * 
- * @return {String}                citation markup
+ * @return {String}                citation
  */
-
-module.exports = function(eleventyConfig, globalData) {
-  const citationChicagoPage = eleventyConfig.getFilter('citationChicagoPage')
-  const citationChicagoSite = eleventyConfig.getFilter('citationChicagoSite')
-  const citationMLAPage = eleventyConfig.getFilter('citationMLAPage')
-  const citationMLASite = eleventyConfig.getFilter('citationMLASite')
-  const { config, publication } = globalData
+module.exports = function (eleventyConfig) {
+  const citePage = eleventyConfig.getFilter("citePage")
+  const citePublication = eleventyConfig.getFilter("citePublication")
+  const formatCitation = eleventyConfig.getFilter("formatCitation")
 
   return function (params) {
-    const { page, range, type } = params
-    if (!type) {
-      console.warn(`"type" is required for the citation shortcode. Options are: "chicago" or "mla"`)
-      return ''
-    }
-    if (!range) {
-      console.warn(`"range" is required for the citation shortcode. Options are: "page" or "site"`)
-      return ''
+    const { context } = params
+
+    let item
+    switch (context) {
+      case "page":
+        item = citePage(params)
+        break
+      case "publication":
+        item = citePublication(params)
+        break
+      default:
+        break
     }
 
-    const shortcodes = {
-      chicago: {
-        page: citationChicagoPage({ config, page, publication }),
-        site: citationChicagoSite({ config, page, publication })
-      },
-      mla: {
-        page: citationMLAPage({ config, page, publication }),
-        site: citationMLASite({ config, page, publication })
-      }
-    }
-
-    return shortcodes[type][range]
+    return formatCitation(item, params)
   }
 }
