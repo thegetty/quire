@@ -45,14 +45,9 @@ const goToFigureState = function ({ annotationIds=[], figureId, region }) {
   const slideSelector = `[data-lightbox-slide-id="${figureId}"]`
   const figure = document.querySelector(figureSelector)
   const figureSlide = document.querySelector(slideSelector)
+
   if (!figure && !figureSlide) return
-  [figure, figureSlide].forEach((element) => {
-    if (!element) return
-    const webComponent = element.querySelector('canvas-panel, image-service')
-    if (region && webComponent.getAttribute('preset') !== 'zoom') {
-      console.warn(`Using the "annoref" shortcode to link to a region on a figure without zoom enabled is not supported. Please set the "preset" property to "zoom" on figure id "${figureId}"`)
-    }
-  })
+
   const inputs = document.querySelectorAll(`#${figureId} .annotations-ui__input, [data-lightbox-slide-id="${figureId}"] .annotations-ui__input`)
   const annotations = [...inputs].map((input) => {
     const id = input.getAttribute('data-annotation-id')
@@ -69,7 +64,7 @@ const goToFigureState = function ({ annotationIds=[], figureId, region }) {
    * Update figure state
    */
   const serviceId = getServiceId(figure || figureSlide)
-  update(serviceId, { annotations, region: region || 'reset' })
+  update(serviceId, { annotations, region })
 
   /**
    * Build URL
@@ -216,13 +211,7 @@ const update = (id, data) => {
   }
   const { annotations, region } = data
   webComponents.forEach((element) => {
-    if (region === 'reset') {
-      element.clearTarget()
-    } else if (region) {
-      const [x, y, width, height] = region.split(',').map((i) => parseInt(i.trim()))
-      const options = { immediate: false }
-      element.goToTarget({ x, y, width, height }, options)
-    }
+    element.setAttribute('region', region || null)
     if (element.tagName === 'CANVAS-PANEL') {
       annotations.forEach((annotation) => selectAnnotation(element, annotation))
     }
