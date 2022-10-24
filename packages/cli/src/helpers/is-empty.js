@@ -8,13 +8,14 @@ import fs from 'node:fs'
  * @param  {String}  dirpath
  * @return  {Boolean}
  */
-export function isEmpty (dirpath) {
+export async function isEmpty (dirpath) {
   try {
     const directory = await fs.opendir(dirpath)
     const entry = directory.read()
     await directory.close()
     return entry === null
   } catch (error) {
+    console.debug(error)
     return false
   }
 }
