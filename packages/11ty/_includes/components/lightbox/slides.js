@@ -23,7 +23,6 @@ module.exports = function(eleventyConfig) {
     if (!figures) return ''
 
     figures = figures.map((figure) => ({
-      interactive: 'true',
       preset: 'zoom',
       ...figure
     }))
