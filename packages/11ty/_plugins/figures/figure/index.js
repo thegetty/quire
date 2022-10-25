@@ -39,6 +39,7 @@ module.exports = class Figure {
     this.manifestId = manifestId
     this.outputDir = outputDir
     this.src = data.src
+    this.zoom = data.zoom
   }
 
   get annotations() {
@@ -61,16 +62,22 @@ module.exports = class Figure {
    * Use dimensions of src or first choice as canvas dimensions
    */
   get canvasImagePath() {
-    if (!this.annotations) return
-    const firstChoice = this.annotations
-      .flatMap(({ items }) => items)
-      .find(({ target }) => !target)
-    const imagePath = this.src || firstChoice.src
-    if (!imagePath) {
-      error(`Invalid figure ID "${this.id}". Figures with annotations must have "choice" annotations or a "src" property.`)
+    if (!this.isCanvas) return
+    const firstChoiceSrc = () => {
+      if (!this.annotations) return
+      const firstChoice = this.annotations
+        .flatMap(({ items }) => items)
+        .find(({ target }) => !target)
+      if (!firstChoice) return
+      return firstChoice.src
     }
-    const { dirs } = this.iiifConfig
-    return path.join(dirs.inputRoot, dirs.input, imagePath)
+    const imagePath = this.src || firstChoiceSrc()
+    if (!imagePath) {
+      this.errors.push(`Invalid figure ID "${this.id}". Figures with annotations must have "choice" annotations or a "src" property.`)
+      return
+    }
+    const { input, inputRoot } = this.iiifConfig.dirs
+    return path.join(inputRoot, input, imagePath)
   }
 
   /**
@@ -79,17 +86,6 @@ module.exports = class Figure {
    */
   get isExternalResource() {
     return (this.src && this.src.startsWith('http')) || this.data.manifestId
-  }
-
-  /**
-   * The full path to the `info.json` if figure.src is an image service
-   * @return {String}
-   */
-  get info() {
-    if (!this.isImageService || !this.src) return
-    const { name } = path.parse(this.src)
-    const tileDirectory = path.join(this.outputDir, name, this.iiifConfig.dirs.imageService)
-    return new URL(path.join(tileDirectory, 'info.json'), this.iiifConfig.baseURL).href
   }
 
   /**
@@ -122,7 +118,6 @@ module.exports = class Figure {
       annotations: this.annotations,
       canvasId: this.canvasId,
       id: this.id,
-      info: this.info,
       isCanvas: this.isCanvas,
       isImageService: this.isImageService,
       label: this.label,
@@ -152,6 +147,8 @@ module.exports = class Figure {
   async processFiles() {
     this.errors = []
 
+    if (this.isExternalResource) return {}
+
     await this.calcCanvasDimensions()
     await this.processAnnotationImages()
     await this.processFigureImage()
@@ -179,26 +176,24 @@ module.exports = class Figure {
    * Process `figure.src`
    */
   async processFigureImage() {
-    if (this.src && (this.isCanvas || this.isImageService)) {
-      const { transformations } = this.iiifConfig
-      const { errors } = await this.imageProcessor.processImage(this.src, this.outputDir, {
-        tile: this.isImageService,
-        transformations
-      })
-      if (errors) this.errors = this.errors.concat(errors)
-    }
+    if (!this.isCanvas || !this.src) return
+    const { transformations } = this.iiifConfig
+    const { errors } = await this.imageProcessor.processImage(this.src, this.outputDir, {
+      tile: true,
+      transformations
+    })
+    if (errors) this.errors = this.errors.concat(errors)
   }
 
   /**
    * Create IIIF `manifest.json` file
    */
   async processManifest() {  
-    if (this.isCanvas && !this.isExternalResource) {
-      const manifest = new Manifest(this)
-      const jsonResponse = await manifest.toJSON()
-      if (jsonResponse.errors) this.errors = this.errors.concat(jsonResponse.errors)
-      const writeResponse = await manifest.write()
-      if (writeResponse.errors) this.errors = this.errors.concat(writeResponse.errors)
-    }
+    if (!this.isCanvas) return
+    const manifest = new Manifest(this)
+    const jsonResponse = await manifest.toJSON()
+    if (jsonResponse.errors) this.errors = this.errors.concat(jsonResponse.errors)
+    const writeResponse = await manifest.write()
+    if (writeResponse.errors) this.errors = this.errors.concat(writeResponse.errors)
   }
 }

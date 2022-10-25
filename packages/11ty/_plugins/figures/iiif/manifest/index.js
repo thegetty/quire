@@ -23,20 +23,24 @@ module.exports = class Manifest {
   }
 
   get annotations() {
-    const annotations = this.figure.annotations
-      .flatMap(({ items }) => items)
-      .filter(({ type }) => type === 'annotation')
-      .map((item) => this.createAnnotation(item))
-      /**
-       * Add the "base" image as a canvas annotation
-       */
-      if (this.figure.baseImageAnnotation) { 
-        annotations.unshift(this.createAnnotation(this.figure.baseImageAnnotation))
-      }
-      return annotations
+    const annotations = []
+    /**
+     * Add the "base" image as a canvas annotation
+     */
+    if (this.figure.baseImageAnnotation) {
+      annotations.push(this.createAnnotation(this.figure.baseImageAnnotation))
+    }
+    if (this.figure.annotations) {
+      annotations.push(...this.figure.annotations
+        .flatMap(({ items }) => items)
+        .filter(({ type }) => type === 'annotation')
+        .map((item) => this.createAnnotation(item)))
+    }
+    return annotations
   }
 
   get choices() {
+    if (!this.figure.annotations) return
     const choices = this.figure.annotations
       .flatMap(({ items }) => items)
       .filter(({ type }) => type === 'choice')
@@ -85,11 +89,8 @@ module.exports = class Manifest {
       type: 'Image',
       service: info && [
         {
-          '@context': 'http://iiif.io/api/image/3/context.json',
-          id: info,
-          extraFormats: ['png'],
-          preferredFormats: ['png'],
-          type: 'ImageService3',
+          '@context': 'http://iiif.io/api/image/2/context.json',
+          '@id': info,
           profile: 'level0',
           protocol: 'http://iiif.io/api/image'
         }
@@ -122,12 +123,16 @@ module.exports = class Manifest {
       this.json = builder.toPresentation3(manifest)
       info(`Generated manifest for figure "${this.figure.id}"`)
       return { success: true }
-    } catch(errorMessage) {
-      return { errors: [`Failed to generate manifest: ${errorMessage}`]}
+    } catch(error) {
+      return { errors: [`Failed to generate manifest: ${error}`]}
     }
   }
 
   async write() {
-    return await this.writer.write(this.json)
+    try {
+      return await this.writer.write(this.json)
+    } catch(error) {
+      return { errors: [error] }
+    }
   }
 }

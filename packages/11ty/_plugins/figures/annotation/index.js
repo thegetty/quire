@@ -48,11 +48,14 @@ module.exports = class Annotation {
     }
 
     /**
+     * Create image service for annotation image if it is a JPG and
+     * the figure has zoom enabled
+     * 
      * Note: Currently only JPG image services are supported by 
      * canvas-panel/image-service tags
      */
-    const isImageService = !!figure.isImageService && ext === '.jpg'
-
+    const isImageService = !!figure.zoom && ext === '.jpg'
+    console.log(figure)
     const info = () => {
       if (!isImageService) return
       const tileDirectory = path.join(outputDir, name, iiifConfig.dirs.imageService)
