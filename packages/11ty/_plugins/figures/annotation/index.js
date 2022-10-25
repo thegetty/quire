@@ -55,7 +55,6 @@ module.exports = class Annotation {
      * canvas-panel/image-service tags
      */
     const isImageService = !!figure.zoom && ext === '.jpg'
-    console.log(figure)
     const info = () => {
       if (!isImageService) return
       const tileDirectory = path.join(outputDir, name, iiifConfig.dirs.imageService)
