@@ -26,7 +26,7 @@ module.exports = function(eleventyConfig) {
     iiifContent,
     interactive='false',
     manifestId,
-    preset='zoom',
+    preset='responsive',
     region='',
     virtualSizes='',
     width=''
