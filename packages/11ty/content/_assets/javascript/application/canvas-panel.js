@@ -33,6 +33,20 @@ const getServiceId = (element) => {
 }
 
 /**
+ * Parse comma separated region string into target object
+ * @param  {String} region @example '100,200,100,100'
+ * @return {Object} target
+ * @property x {Number} starting x-coordinate
+ * @property y {Number} starting y-coordinate
+ * @property width {Number}
+ * @property height {Number}
+ */
+const getTarget = (region) => {
+  const [x, y, width, height] = region.split(',').map((x) => parseInt(x.trim()))
+  return { x, y, width, height }
+}
+
+/**
  * Scroll to a figure, or go to figure slide in lightbox
  * Select annotations and/or region, and update the URL
  * @param  {String} figureId    The id of the figure in figures.yaml
@@ -64,7 +78,7 @@ const goToFigureState = function ({ annotationIds=[], figureId, region }) {
    * Update figure state
    */
   const serviceId = getServiceId(figure || figureSlide)
-  update(serviceId, { annotations, region })
+  update(serviceId, { annotations, region: region || 'reset' })
 
   /**
    * Build URL
@@ -212,17 +226,11 @@ const update = (id, data) => {
   const { annotations, region } = data
   webComponents.forEach((element) => {
 
-    /**
-     * Create target object from region string passed to `update` method,
-     * or reset viewport using original region defined in `region` attribute
-     */
-    const getTargetFromRegion = () => {
-      const string = region || element.getAttribute('region')
-      const [ x, y, width, height ] = string.split(',').map((x) => parseInt(x.trim()))
-      return { x, y, width, height }
-    }
-    const goToRegion = () => {
-      const target = getTargetFromRegion()
+    if (region) {
+      const target =
+        region === 'reset'
+          ? getTarget(element.getAttribute('region'))
+          : getTarget(region)
       element.transition(tm => {
         tm.goToRegion(target, {
           transition: {
@@ -233,9 +241,7 @@ const update = (id, data) => {
       })
     }
 
-    goToRegion()
-
-    if (element.tagName === 'CANVAS-PANEL') {
+    if (Array.isArray(annotations)) {
       annotations.forEach((annotation) => selectAnnotation(element, annotation))
     }
   })
