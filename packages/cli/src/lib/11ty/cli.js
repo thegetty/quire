@@ -1,4 +1,4 @@
-import { execaCommand } from 'execa'
+import execa from 'execa'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import paths from './paths.js'
@@ -31,6 +31,6 @@ export default {
 
     const command = `npx @11ty/eleventy ${eleventyOptions.join(' ')}`
 
-    execaCommand(command).stdout.pipe(process.stdout)
+    execa(command).stdout.pipe(process.stdout)
   }
 }
