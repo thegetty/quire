@@ -11,19 +11,19 @@ module.exports = function(eleventyConfig) {
   const { config } = eleventyConfig.globalData
 
   return function(params) {
-    const { navigation } = params
+    const { currentURL, navigation } = params
 
     const renderList = (items) => {
       return html`
         <ol>
-          ${items.map((item) => {
+          ${items.map((page) => {
             let listItem = ''
-            if (!item.children || item.children.length === 0) {
-              return `<li class="page-item">${menuItem(item)}</li>`
+            if (!page.children || page.children.length === 0) {
+              return `<li class="page-item">${menuItem({ currentURL, page })}</li>`
             } else {
-              listItem += `<li class="section-item">${menuItem(item)}`
+              listItem += `<li class="section-item">${menuItem({ currentURL, page })}`
               if (config.params.menuType !== 'brief') {
-                listItem += renderList(item.children)
+                listItem += renderList(page.children)
               }
               listItem += '</li>'
               return listItem

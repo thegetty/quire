@@ -44,28 +44,6 @@ window["toggleMenu"] = () => {
 };
 
 /**
- * activeMenuPage
- * @description This function is called on pageSetup to go through the navigation
- * (#nav in partials/menu.html) and find all the anchor tags.  Then find the user's
- * current URL directory. Then it goes through the array of anchor tags and if the
- * current URL directory matches the nav anchor, it's the active link.
- */
-function activeMenuPage() {
-  let nav = document.getElementById("nav");
-  let anchor = nav.getElementsByTagName("a");
-  let current =
-    window.location.protocol +
-    "//" +
-    window.location.host +
-    window.location.pathname;
-  for (var i = 0; i < anchor.length; i++) {
-    if (anchor[i].href == current) {
-      anchor[i].className = "active";
-    }
-  }
-}
-
-/**
  * toggleSearch
  * @description Show/hide the search UI by changing CSS classes and Aria status.
  * This function is bound to the global window object so it can be called from
@@ -341,7 +319,6 @@ function toggleCite() {
  */
 function pageSetup() {
   setDate();
-  activeMenuPage();
   toggleCite();
 }
 
