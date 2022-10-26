@@ -40,7 +40,7 @@ export default class CreateCommand extends Command {
     fs.ensureDirSync(projectRoot)
 
     // if the target directory exists it must be empty
-    if (isEmpty(path)) {
+    if (!isEmpty(path)) {
       console.error(`[CLI] ${path} is not empty`)
       return
     }
