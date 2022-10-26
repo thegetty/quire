@@ -47,8 +47,8 @@ module.exports = class Figure {
   }
 
   /**
-   * Represents the "base" figure image defined in `figure.src` as an annotation
-   * for use in IIIF manifests
+   * When the figure is a canvas, represent the image
+   * in `figure.src` as an annotation for use in IIIF manifests
    * @return {Annotation|null}
    */
   get baseImageAnnotation() {
@@ -59,7 +59,8 @@ module.exports = class Figure {
   }
 
   /**
-   * Use dimensions of src or first choice as canvas dimensions
+   * Path to the image file that represents the canvas
+   * Used to define canvas properties `width` and `height`
    */
   get canvasImagePath() {
     if (!this.isCanvas) return
