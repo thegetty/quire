@@ -17,7 +17,7 @@ module.exports = function (eleventyConfig, options = {}) {
     figureList = await Promise.all(figureList.map((data) => {
       return figureFactory.create(data)
     }))
-    const errors = figureList.filter(({ errors }) => !!errors.length)
+    const errors = figureList.filter(({ errors }) => errors && !!errors.length)
 
     if (errors.length) {
       error(`There were errors processing the following images:`)

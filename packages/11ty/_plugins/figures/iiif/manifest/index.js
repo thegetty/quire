@@ -1,7 +1,6 @@
 const chalkFactory = require('~lib/chalk')
 const fs = require('fs-extra')
 const path = require('path')
-const sharp = require('sharp')
 const titleCase = require('~plugins/filters/titleCase')
 const Writer = require('./writer')
 const { globalVault } = require('@iiif/vault')
@@ -19,40 +18,29 @@ module.exports = class Manifest {
     const { iiifConfig } = figure
     const { baseURL, dirs, locale, manifestFilename } = iiifConfig
     this.figure = figure
-    this.inputDir = path.join(dirs.inputRoot, dirs.input)
     this.locale = locale
     this.writer = new Writer(iiifConfig)
   }
 
   get annotations() {
-    const annotations = this.figure.annotations
-      .flatMap(({ items }) => items)
-      .filter(({ type }) => type === 'annotation')
-      .map((item) => this.createAnnotation(item))
-      /**
-       * Add the "base" image as a canvas annotation
-       */
-      if (this.figure.baseImageAnnotation) { 
-        annotations.unshift(this.createAnnotation(this.figure.baseImageAnnotation))
-      }
-      return annotations
-  }
-
-  /**
-   * Use dimensions of figure.src or first choice as canvas dimensions
-   */
-  get canvasImagePath() {
-    const firstChoice = this.figure.annotations
-      .flatMap(({ items }) => items)
-      .find(({ target }) => !target)
-    const imagePath = this.figure.src || firstChoice.src
-    if (!imagePath) {
-      error(`Invalid figure ID "${this.figure.id}". Figures with annotations must have "choice" annotations or a "src" property.`)
+    const annotations = []
+    /**
+     * Add the "base" image as a canvas annotation
+     */
+    if (this.figure.baseImageAnnotation) {
+      annotations.push(this.createAnnotation(this.figure.baseImageAnnotation))
     }
-    return imagePath
+    if (this.figure.annotations) {
+      annotations.push(...this.figure.annotations
+        .flatMap(({ items }) => items)
+        .filter(({ type }) => type === 'annotation')
+        .map((item) => this.createAnnotation(item)))
+    }
+    return annotations
   }
 
   get choices() {
+    if (!this.figure.annotations) return
     const choices = this.figure.annotations
       .flatMap(({ items }) => items)
       .filter(({ type }) => type === 'choice')
@@ -76,14 +64,6 @@ module.exports = class Manifest {
     })
   }
 
-  async calcCanvasDimensions() {
-    const fullImagePath = path.join(this.inputDir, this.canvasImagePath)
-    const { height, width } = await sharp(fullImagePath).metadata()
-    this.canvasHeight = height
-    this.canvasWidth = width
-    return { height, width }
-  }
-
   createAnnotation(data) {
     const { body, id, motivation, target } = data
     return {
@@ -103,22 +83,19 @@ module.exports = class Manifest {
     const { ext } = path.parse(src)
     return {
       format,
-      height: this.canvasHeight,
+      height: this.figure.canvasHeight,
       id: url,
       label: { en: [label] },
       type: 'Image',
       service: info && [
         {
-          '@context': 'http://iiif.io/api/image/3/context.json',
-          id: info,
-          extraFormats: ['png'],
-          preferredFormats: ['png'],
-          type: 'ImageService3',
+          '@context': 'http://iiif.io/api/image/2/context.json',
+          '@id': info,
           profile: 'level0',
           protocol: 'http://iiif.io/api/image'
         }
       ],
-      width: this.canvasWidth
+      width: this.figure.canvasWidth
     }
   }
 
@@ -127,12 +104,11 @@ module.exports = class Manifest {
    * @return {JSON}
    */
   async toJSON() {
-    const { height, width } = await this.calcCanvasDimensions()
     const manifest = builder.createManifest(this.figure.manifestId, (manifest) => {
       manifest.addLabel(this.figure.label, this.locale)
       manifest.createCanvas(this.figure.canvasId, (canvas) => {
-        canvas.height = height
-        canvas.width = width
+        canvas.height = this.figure.canvasHeight
+        canvas.width = this.figure.canvasWidth
         if (this.annotations) {
           this.annotations.forEach((item) => {
             canvas.createAnnotation(item.id, item)
@@ -147,12 +123,16 @@ module.exports = class Manifest {
       this.json = builder.toPresentation3(manifest)
       info(`Generated manifest for figure "${this.figure.id}"`)
       return { success: true }
-    } catch(errorMessage) {
-      return { errors: [`Failed to generate manifest: ${errorMessage}`]}
+    } catch(error) {
+      return { errors: [`Failed to generate manifest: ${error}`]}
     }
   }
 
   async write() {
-    return await this.writer.write(this.json)
+    try {
+      return await this.writer.write(this.json)
+    } catch(error) {
+      return { errors: [error] }
+    }
   }
 }

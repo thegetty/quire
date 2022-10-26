@@ -12,10 +12,6 @@ module.exports = function (eleventyConfig, { page }) {
 
   return async function (figures=page.figures) {
     if (!figures) return;
-    figures = figures.map((figure) => ({
-      preset: 'zoom',
-      ...figure
-    }))
 
     return html`
       <q-modal>

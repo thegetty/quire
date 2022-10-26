@@ -33,6 +33,20 @@ const getServiceId = (element) => {
 }
 
 /**
+ * Parse comma separated region string into target object
+ * @param  {String} region @example '100,200,100,100'
+ * @return {Object} target
+ * @property x {Number} starting x-coordinate
+ * @property y {Number} starting y-coordinate
+ * @property width {Number}
+ * @property height {Number}
+ */
+const getTarget = (region) => {
+  const [x, y, width, height] = region.split(',').map((x) => parseInt(x.trim()))
+  return { x, y, width, height }
+}
+
+/**
  * Scroll to a figure, or go to figure slide in lightbox
  * Select annotations and/or region, and update the URL
  * @param  {String} figureId    The id of the figure in figures.yaml
@@ -45,14 +59,9 @@ const goToFigureState = function ({ annotationIds=[], figureId, region }) {
   const slideSelector = `[data-lightbox-slide-id="${figureId}"]`
   const figure = document.querySelector(figureSelector)
   const figureSlide = document.querySelector(slideSelector)
+
   if (!figure && !figureSlide) return
-  [figure, figureSlide].forEach((element) => {
-    if (!element) return
-    const webComponent = element.querySelector('canvas-panel, image-service')
-    if (region && webComponent.getAttribute('preset') !== 'zoom') {
-      console.warn(`Using the "annoref" shortcode to link to a region on a figure without zoom enabled is not supported. Please set the "preset" property to "zoom" on figure id "${figureId}"`)
-    }
-  })
+
   const inputs = document.querySelectorAll(`#${figureId} .annotations-ui__input, [data-lightbox-slide-id="${figureId}"] .annotations-ui__input`)
   const annotations = [...inputs].map((input) => {
     const id = input.getAttribute('data-annotation-id')
@@ -216,14 +225,23 @@ const update = (id, data) => {
   }
   const { annotations, region } = data
   webComponents.forEach((element) => {
-    if (region === 'reset') {
-      element.clearTarget()
-    } else if (region) {
-      const [x, y, width, height] = region.split(',').map((i) => parseInt(i.trim()))
-      const options = { immediate: false }
-      element.goToTarget({ x, y, width, height }, options)
+
+    if (region) {
+      const target =
+        region === 'reset'
+          ? getTarget(element.getAttribute('region'))
+          : getTarget(region)
+      element.transition(tm => {
+        tm.goToRegion(target, {
+          transition: {
+            easing: element.easingFunctions().easeOutExpo,
+            duration: 2000
+          }
+        })
+      })
     }
-    if (element.tagName === 'CANVAS-PANEL') {
+
+    if (Array.isArray(annotations)) {
       annotations.forEach((annotation) => selectAnnotation(element, annotation))
     }
   })

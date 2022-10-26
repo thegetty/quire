@@ -13,4 +13,4 @@ Files are written to `<iiifConfig.dirs.outputRoot>/<iiifConfig.dirs.output>/<fig
 Processes image files in `figure.src` and `annotation.src`. Image processing includes creating tiles if the resource is an image service and performing image transformations.
 
 #### Manifest generation
-Generates a IIIF manifest for figures with annotations.
+Generates a IIIF manifest for figures with annotations and figures with a single image and `zoom=true`.
