@@ -1,10 +1,30 @@
 ---
 layout: page
 title: Contributors
-weight: 201
+order: 501
 ---
-{% for contributor in contributors %}
-  {% if contributor.type == 'primary' %}
-    {%- contributor contributor=contributor, entryType='publication' -%}
-  {% endif %}
-{% endfor %}
+
+## Bio
+
+{% contributors context=publicationContributors format='bio' %}
+
+## Initials
+
+{% contributors context=publicationContributors format='initials' %}
+
+## Name
+
+{% contributors context=publicationContributors format='name' %}
+
+## Name Title
+
+{% contributors context=publicationContributors format='name-title' %}
+
+## Name Title Block
+
+{% contributors context=publicationContributors format='name-title-block' %}
+
+## String
+
+{% contributors context=publicationContributors format='string' %}
+
