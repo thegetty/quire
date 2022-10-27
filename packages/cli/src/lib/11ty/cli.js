@@ -1,4 +1,4 @@
-import { execaCommand } from 'execa'
+import execa from 'execa'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import paths from './paths.js'
@@ -10,7 +10,6 @@ import paths from './paths.js'
 export default {
   build: async (options = {}) => {
     const projectRoot = path.resolve('../../packages/11ty')
-    process.cwd(projectRoot)
 
     console.info('[CLI:11ty] running eleventy build')
     console.info(`[CLI:11ty] projectRoot ${projectRoot}`)
@@ -20,6 +19,7 @@ export default {
     console.debug('[CLI:11ty] %o', paths)
 
     const eleventyOptions = [
+      `@11ty/eleventy`,
       `--config=${config}`,
       `--input=${input}`,
       `--output=${output}`,
@@ -27,10 +27,8 @@ export default {
     ]
 
     if (options.dryRun) eleventyOptions.push('--dryrun')
-    if (options.quiet) eleventyOptions.push('--quite')
+    if (options.quiet) eleventyOptions.push('--quiet')
 
-    const command = `npx @11ty/eleventy ${eleventyOptions.join(' ')}`
-
-    execaCommand(command).stdout.pipe(process.stdout)
+    await execa('npx', eleventyOptions, { cwd: projectRoot }).stdout.pipe(process.stdout)
   }
 }

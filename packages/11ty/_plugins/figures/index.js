@@ -19,7 +19,7 @@ module.exports = function (eleventyConfig, options = {}) {
       return figureFactory.create(data)
     }))
 
-    const errors = figureList.filter(({ errors }) => !!errors.length)
+    const errors = figureList.filter(({ errors }) => errors && !!errors.length)
 
     if (errors.length) {
       logger.error('There were errors processing the following images:')

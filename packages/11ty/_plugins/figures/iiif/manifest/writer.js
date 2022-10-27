@@ -13,7 +13,7 @@ module.exports = class ManifestWriter {
    * @param  {Object} manifest  IIIF manifest
    */
   write(manifest) {
-    if (!manifest) return
+    if (!manifest) return { errors: ['Error writing manifest. Manifest is undefined.'] }
     const uri = new URL(manifest.id)
     const outputPath = path.join(this.outputRoot, uri.pathName())
     try {

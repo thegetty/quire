@@ -1,3 +1,4 @@
+import poll from './poll'
 import scrollToHash from './scroll-to-hash'
 
 /**
@@ -15,13 +16,34 @@ const annotationData = (input) => {
 }
 
 /**
- * Get canvas id from child canvas-panel element
+ * Get canvas id or info.json from child web component
  * @param  {HTML Element} element
  * @return {String} canvasId
  */
-const getCanvasId = (element) => {
+const getServiceId = (element) => {
   const canvasPanel = element.querySelector('canvas-panel')
-  return canvasPanel && canvasPanel.getAttribute('canvas-id');
+  const imageService = element.querySelector('image-service')
+  if (canvasPanel) {
+    return canvasPanel.getAttribute('canvas-id')
+  } else if (imageService) {
+    return imageService.getAttribute('src');
+  } else {
+    console.error(`Element does not contain a canvas panel or image service component:`, element)
+  }
+}
+
+/**
+ * Parse comma separated region string into target object
+ * @param  {String} region @example '100,200,100,100'
+ * @return {Object} target
+ * @property x {Number} starting x-coordinate
+ * @property y {Number} starting y-coordinate
+ * @property width {Number}
+ * @property height {Number}
+ */
+const getTarget = (region) => {
+  const [x, y, width, height] = region.split(',').map((x) => parseInt(x.trim()))
+  return { x, y, width, height }
 }
 
 /**
@@ -31,20 +53,15 @@ const getCanvasId = (element) => {
  * @param  {Array} annotationIds  The IIIF ids of the annotations to select
  * @param  {String} region      The canvas region
  */
-const goToCanvasState = function ({ annotationIds=[], figureId, region }) {
+const goToFigureState = function ({ annotationIds=[], figureId, region }) {
   if (!figureId) return
   const figureSelector = `#${figureId}`
   const slideSelector = `[data-lightbox-slide-id="${figureId}"]`
   const figure = document.querySelector(figureSelector)
   const figureSlide = document.querySelector(slideSelector)
+
   if (!figure && !figureSlide) return
-  [figure, figureSlide].forEach((element) => {
-    if (!element) return
-    const canvasPanel = element.querySelector('canvas-panel')
-    if (region && canvasPanel.getAttribute('preset') !== 'zoom') {
-      console.warn(`Using the "annoref" shortcode to link to a region on a figure without zoom enabled is not supported. Please set the "preset" property to "zoom" on figure id "${figureId}"`)
-    }
-  })
+
   const inputs = document.querySelectorAll(`#${figureId} .annotations-ui__input, [data-lightbox-slide-id="${figureId}"] .annotations-ui__input`)
   const annotations = [...inputs].map((input) => {
     const id = input.getAttribute('data-annotation-id')
@@ -58,10 +75,10 @@ const goToCanvasState = function ({ annotationIds=[], figureId, region }) {
   }
 
   /**
-   * Update Canvas state
+   * Update figure state
    */
-  const canvasId = getCanvasId(figure || figureSlide)
-  update(canvasId, { annotations, region: region || 'reset' })
+  const serviceId = getServiceId(figure || figureSlide)
+  update(serviceId, { annotations, region: region || 'reset' })
 
   /**
    * Build URL
@@ -84,10 +101,10 @@ const goToCanvasState = function ({ annotationIds=[], figureId, region }) {
  */
 const handleSelect = (element) => {
   const elementId = element.getAttribute('id')
-  const canvasId = getCanvasId(element.closest('.q-figure, .q-lightbox-slides__slide'))
+  const serviceId = getServiceId(element.closest('.q-figure, .q-lightbox-slides__slide'))
   const inLightbox = document.querySelector('q-lightbox').contains(element)
   const annotation = annotationData(element)
-  const { checked, input } = annotation
+  const { checked, input, type } = annotation
   /**
    * Two-way data binding for annotaion UI inputs in lightbox and inline
    */
@@ -101,7 +118,7 @@ const handleSelect = (element) => {
   /**
    * Prevent deselecting all layers if choices and checkboxes are used together
    */
-  if (input === 'checkbox') {
+  if (input === 'checkbox' && type === 'choice') {
     const form = element.closest('form')
     const checkedInputs = form.querySelectorAll('.annotations-ui__input[checked]')
     if (!checked && checkedInputs.length === 1) {
@@ -113,9 +130,9 @@ const handleSelect = (element) => {
     }
   }
   /**
-   * Update canvas panel state
+   * Update figure state
    */
-  update(canvasId, { annotations: [annotation] })
+  update(serviceId, { annotations: [annotation] })
 }
 
 /**
@@ -124,7 +141,7 @@ const handleSelect = (element) => {
  * @param {HTMLElement} element
  */
 const selectAnnotation = (canvasPanel, annotation) => {
-  const { checked, id, input, type } = annotation
+  const { checked, id, type } = annotation
   /**
    * Update annotation selection
    */
@@ -134,18 +151,32 @@ const selectAnnotation = (canvasPanel, annotation) => {
       break
     case 'choice':
       /**
-       * Note: It's necessary to update the attribute *and* call `makeChoice`
-       * when updating choice and region at the same time
+       * `canvasPanel.makeChoice` is defined asynchronously on the web component,
+       * and while the event model emits a 'choice' event when a choice is selected, it is noisy, 
+       * and since there is no 'done' event to indicate when this method is available,
+       * we will use polling
        */
-      canvasPanel.setAttribute('choice-id', id)
-      canvasPanel.makeChoice(id, {
-        deselect: !checked,
-        deselectOthers: input === 'radio'
+      poll({
+        callback: () => selectChoice(canvasPanel, annotation),
+        validate: () => !!canvasPanel.makeChoice
       })
       break
     default:
       break
   }
+}
+
+const selectChoice = (canvasPanel, annotation) => {
+  const { checked, id, input } = annotation
+  /**
+   * Note: It's necessary to update the attribute *and* call `makeChoice`
+   * when updating choice and region at the same time
+   */
+  canvasPanel.setAttribute('choice-id', id)
+  canvasPanel.makeChoice(id, {
+    deselect: !checked,
+    deselectOthers: input === 'radio'
+  })
 }
 
 /**
@@ -165,7 +196,7 @@ const setUpUIEventHandlers = () => {
      */
     const region = annoRef.getAttribute('data-region')
     annoRef.addEventListener('click', ({ target }) =>
-      goToCanvasState({ annotationIds, figureId, region })
+      goToFigureState({ annotationIds, figureId, region })
     )
   }
 
@@ -180,29 +211,40 @@ const setUpUIEventHandlers = () => {
 }
 
 /**
- * Update canvas panel properties
+ * Update canvas panel or image-service properties
  * 
- * @param  {String} canvas id
+ * @param  {String} id Canvas ID or path to image-service info.json
  * @param  {Object} data
  * @property {String} region comma-separated, @example "x,y,width,height"
  * @property {Array<Object>} annotations
  */
-const update = (canvasId, data) => {
-  const canvasPanels = document.querySelectorAll(`[canvas-id="${canvasId}"]`)
-  if (!canvasPanels.length) {
-    console.error(`Failed to call update on canvas with id ${canvasId}. Canvas does not exist.`)
+const update = (id, data) => {
+  const webComponents = document.querySelectorAll(`canvas-panel[canvas-id="${id}"], image-service[src="${id}"]`)
+  if (!webComponents.length) {
+    console.error(`Failed to call update on canvas panel or image-service component with id ${id}. Element does not exist.`)
   }
   const { annotations, region } = data
-  canvasPanels.forEach((canvasPanel) => {
-    if (region === 'reset') {
-      canvasPanel.clearTarget()
-    } else if (region) {
-      const [x, y, width, height] = region.split(',').map((i) => parseInt(i.trim()))
-      const options = { immediate: false }
-      canvasPanel.goToTarget({ x, y, width, height }, options)
+  webComponents.forEach((element) => {
+
+    if (region) {
+      const target =
+        region === 'reset'
+          ? getTarget(element.getAttribute('region'))
+          : getTarget(region)
+      element.transition(tm => {
+        tm.goToRegion(target, {
+          transition: {
+            easing: element.easingFunctions().easeOutExpo,
+            duration: 2000
+          }
+        })
+      })
     }
-    annotations.forEach((annotation) => selectAnnotation(canvasPanel, annotation))
+
+    if (Array.isArray(annotations)) {
+      annotations.forEach((annotation) => selectAnnotation(element, annotation))
+    }
   })
 }
 
-export { goToCanvasState, setUpUIEventHandlers }
+export { goToFigureState, setUpUIEventHandlers }
