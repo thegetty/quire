@@ -41,7 +41,8 @@ export default class CreateCommand extends Command {
 
     // if the target directory exists it must be empty
     if (!isEmpty(path)) {
-      console.error(`[CLI] ${path} is not empty`)
+      const location = path === '.' ? 'the current directory' : path
+      console.error(`[CLI] cannot create a starter project in ${location} because it is not empty`)
       return
     }
 
