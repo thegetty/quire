@@ -80,12 +80,12 @@ module.exports = class Manifest {
    * @todo handle text annotations
    * @todo handle annotations with target region
    */
-  createAnnotationBody({ format, info, label, src, url }) {
+  createAnnotationBody({ format, info, label, src, uri }) {
     const { ext } = path.parse(src)
     return {
       format,
       height: this.figure.canvasHeight,
-      id: url,
+      id: uri,
       label: { en: [label] },
       type: 'Image',
       service: info && [
