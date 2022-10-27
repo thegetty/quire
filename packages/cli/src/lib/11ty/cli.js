@@ -29,6 +29,6 @@ export default {
     if (options.dryRun) eleventyOptions.push('--dryrun')
     if (options.quiet) eleventyOptions.push('--quiet')
 
-    await execa('npx', eleventyOptions, { cwd: projectRoot }).stdout.pipe(process.stdout)
+    await execa('npx', eleventyOptions, { cwd: projectRoot, stdout: 'pipe' })
   }
 }
