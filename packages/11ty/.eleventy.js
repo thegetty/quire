@@ -2,6 +2,7 @@ require('module-alias/register')
 
 const copy = require('rollup-plugin-copy')
 const fs = require('fs-extra')
+const packageJSON = require('./package.json');
 const path = require('path')
 const scss = require('rollup-plugin-scss')
 
@@ -44,6 +45,11 @@ const publicDir = 'public'
  * @return     {Object}  A modified eleventy configuation
  */
 module.exports = function(eleventyConfig) {
+  eleventyConfig.addGlobalData('application', {
+    name: 'Quire',
+    version: packageJSON.version
+  })
+
   /**
    * Ignore README files when processing templates
    * @see {@link https://www.11ty.dev/docs/ignores/ Ignoring Template Files }

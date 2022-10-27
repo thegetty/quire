@@ -7,7 +7,6 @@ const path = require('path')
  * @return {Boolean}
  */
 module.exports = function(figure) {
-  const { src='', zoom } = figure
-  const { base } = path.parse(src)
-  return base === 'info.json' || zoom
+  const { src='' } = figure
+  return path.parse(src) === 'info.json'
 }
