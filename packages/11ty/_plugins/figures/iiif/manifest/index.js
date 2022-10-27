@@ -121,17 +121,17 @@ module.exports = class Manifest {
       })
     })
     try {
-      this.json = builder.toPresentation3(manifest)
-      logger.info(`Generated manifest for figure "${this.figure.id}"`)
-      return { success: true }
+      return builder.toPresentation3(manifest)
     } catch(error) {
-      return { errors: [`Failed to generate manifest: ${error}`]}
+      throw new Error(`Failed to generate manifest: ${error}`)
     }
   }
 
   async write() {
     try {
-      return await this.writer.write(this.json)
+      const json = await this.toJSON()
+      logger.info(`Generated manifest for figure "${this.figure.id}"`)
+      return await this.writer.write(json)
     } catch(error) {
       return { errors: [error] }
     }
