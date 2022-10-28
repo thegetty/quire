@@ -56,7 +56,7 @@ module.exports = class Tiler {
         .tile({
           id: new URL(path.join(outputDir, name), this.baseURI).toString(),
           layout: 'iiif',
-          size: tileSize
+          size: this.tileSize
         })
         .toFile(path.join(outputPath))
       return { success: true }
