@@ -19,11 +19,38 @@ export async function initStarter (starter, rootPath) {
   })
 
   const eleventyPath = path.resolve(cwd(), '../11ty')
-  const eleventyFiles = fs.readdirSync(eleventyPath)
-  // copies all files in `quire/packages/11ty`
+  const eleventyFiles = fs
+    .readdirSync(eleventyPath)
+    .filter((filePath) => {
+      const ignoreFiles = ['content', 'node_modules', '_site']
+      return !ignoreFiles.includes(filePath)
+    })
+
+  /**
+   * Reads .gitignore and .eleventyignore to generate a list of file names to ignore
+   * @TODO handle `*` splat entries e.g. `**\/*\/.DS_Store'`
+   */
+  const getIgnoredFiles = () => {
+    return ['.gitignore', '.eleventyignore']
+      .flatMap((ignoreFile) => {
+        return fs
+          .readFileSync(path.join(eleventyPath, ignoreFile), 'UTF-8')
+          .split(/\r?\n/)
+          .filter((line) => !line.startsWith('#') && line.length > 0)
+      })
+  }
+
+  const eleventyFilesToIgnore = [
+    'content',
+    ...getIgnoredFiles()
+  ]
+
+  // copies all files in `quire/packages/11ty`, except for ignored files
   eleventyFiles.forEach((filePath) => {
     const fileToCopy = path.resolve(eleventyPath, filePath)
-    fs.copySync(fileToCopy, path.join(fullRootPath, path.basename(filePath)))
+    if (!eleventyFilesToIgnore.includes(filePath)) {
+      fs.copySync(fileToCopy, path.join(fullRootPath, path.basename(filePath)))
+    }
   })
-  // @TODO don't copy node modules. skip them, then use `execa` to install
+  // @TODO use `execa` to install node_modules
 }
