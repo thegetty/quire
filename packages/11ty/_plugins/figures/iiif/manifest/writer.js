@@ -15,7 +15,7 @@ module.exports = class ManifestWriter {
   write(manifest) {
     if (!manifest) return { errors: ['Error writing manifest. Manifest is undefined.'] }
     const uri = new URL(manifest.id)
-    const outputPath = path.join(this.outputRoot, uri.pathName())
+    const outputPath = path.join(this.outputRoot, uri.pathname)
     try {
       fs.ensureDirSync(path.parse(outputPath).dir)
       fs.writeJsonSync(outputPath, manifest)

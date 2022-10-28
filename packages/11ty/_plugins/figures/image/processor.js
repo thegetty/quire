@@ -22,7 +22,7 @@ module.exports = class ImageProcessor {
 
     this.inputRoot = path.join(inputRoot, imagesDir)
     this.outputRoot = outputRoot
-    this.tiler = tiler.tile
+    this.tiler = tiler.tile.bind(tiler)
     this.transform = transformer.transform.bind(transformer)
 
     logger.debug(`

@@ -211,18 +211,11 @@ module.exports = class Figure {
   /**
    * Create the IIIF `manifest.json` for <canvas-panel> components,
    * collect errors from calling toJSON and the file system writer.
-   *
-   * @todo the `figure` should not need to know to call `toJSON`,
-   * building the JSON is a concern of either the `manifest` or perhaps;
-   * refactor `createManifest` to only create the manifest instance
-   * and call its `write` method.
    */
   async createManifest() {
     if (!this.isCanvas) return
     const manifest = new Manifest(this)
-    await manifest.toJSON()
-      .then(({ errors }) => this.errors = this.errors.concat(errors))
-    await manifest.write()
-      .then(({ errors }) => this.errors = this.errors.concat(errors))
+    const { errors } = await manifest.write()
+    if (errors) this.errors = this.errors.concat(errors)
   }
 }
