@@ -43,7 +43,7 @@ export default class BuildCommand extends Command {
 
   action(options, command) {
     if (options.debug) {
-      console.debug('[CLI] Command \'%s\' called with options %o', this, options)
+      console.debug('[CLI] Command \'%s\' called with options %o', this.name(), options)
     }
 
     if (options['11ty'] === 'cli') {
