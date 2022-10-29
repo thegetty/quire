@@ -1,6 +1,8 @@
 import Command from '#src/Command.js'
+import { clean } from '#helpers/clean.js'
 import cli from '#lib/11ty/cli.js'
 import eleventy from '#lib/11ty/eleventy.js'
+import paths, { eleventyRoot as projectRoot } from '#lib/11ty/paths.js'
 
 /**
  * Quire CLI `build` Command
@@ -53,5 +55,13 @@ export default class BuildCommand extends Command {
       console.debug('[CLI] running eleventy using lib/11ty api')
       eleventy.build(options)
     }
+  }
+
+  preAction(command) {
+    const options = command.opts()
+    if (options.debug) {
+      console.debug('[CLI] Calling \'build\' command preAction with options', options)
+    }
+    clean(projectRoot, paths, options)
   }
 }

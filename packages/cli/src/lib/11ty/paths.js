@@ -16,10 +16,11 @@ const __dirname = path.dirname(__filename)
  * to the correct version of the quire/11ty package, for example:
  *   eleventyRoot = `#lib/quire/versions/${config.version}/11ty`
  */
-const eleventyRoot = '../../packages/11ty'
+export const eleventyRoot = '../../packages/11ty'
 
 export default {
   config: path.resolve(eleventyRoot, '.eleventy.js'),
   input: './content',
-  output: './_site'
+  output: './_site',
+  public: './public',
 }
