@@ -1,6 +1,5 @@
 import Command from '#src/Command.js'
-import cli from '#lib/11ty/cli.js'
-import eleventy from '#lib/11ty/eleventy.js'
+import { api, cli, paths, projectRoot  } from '#lib/11ty/index.js'
 
 /**
  * Quire CLI `preview` Command
@@ -43,7 +42,7 @@ export default class PreviewCommand extends Command {
 
   action(options = {}) {
     if (options.debug) {
-      console.info('Command \'%s\' called with options %o', this.name, options)
+      console.info('Command \'%s\' called with options %o', this.name(), options)
     }
 
     if (options['11ty'] === 'cli') {
@@ -51,7 +50,7 @@ export default class PreviewCommand extends Command {
       cli.serve(options)
     } else {
       console.debug('[CLI] running eleventy using lib/11ty api')
-      eleventy.serve(options)
+      api.serve(options)
     }
   }
 }
