@@ -1,6 +1,6 @@
 import Command from '#src/Command.js'
 import { clean } from '#helpers/clean.js'
-import paths, { eleventyRoot as projectRoot } from '#lib/11ty/paths.js'
+import { paths, projectRoot  } from '#lib/11ty/index.js'
 
 /**
  * Quire CLI `clean` Command
