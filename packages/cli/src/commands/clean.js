@@ -45,7 +45,7 @@ export default class CleanCommand extends Command {
       console.debug('[CLI] Command \'%s\' called with options %o', this.name(), options)
     }
 
-    const deletedPaths = clean(projectRoot, paths, options)
+    const deletedPaths = await clean(projectRoot, paths, options)
 
     const message = deletedPaths && deletedPaths.length
       ? `the following files ${options.dryRun ? 'will be' : 'have been'} deleted:`
