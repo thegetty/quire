@@ -31,4 +31,6 @@ export async function clean (projectRoot, paths, options = {}) {
     force: true,
     onProgress: (options.progress || options.verbose) && progressLogger,
   })
+
+  return deletedPaths
 }
