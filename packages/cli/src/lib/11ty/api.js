@@ -22,7 +22,7 @@ const factory = (options) => {
 }
 
 /**
- * A wrapper module for the Eleventy static site generator
+ * A wrapper module for using the Eleventy programmatic API
  * @see https://www.11ty.dev/docs/programmatic/
  * @todo read paths from the Quire project configuration
  */
