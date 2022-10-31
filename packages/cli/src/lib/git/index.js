@@ -1,4 +1,4 @@
-import { simpleGit, SimpleGit, SimpleGitOptions } from 'simple-git'
+import { simpleGit } from 'simple-git'
 
 /**
  * @see https://github.com/steveukx/git-js#configuration
