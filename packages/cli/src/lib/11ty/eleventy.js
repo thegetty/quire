@@ -17,7 +17,7 @@ const factory = (options) => {
       // custom configuration
     },
     configPath: options.config || config,
-    quiteMode: options.quite || false,
+    quietMode: options.quiet || false,
   })
 }
 
