@@ -26,42 +26,36 @@ module.exports = class Tiler {
   /**
    * Tile an image for IIIF image service using sharp
    * @param  {String} inputPath   Path to the image file to tile
-   * @param  {Object}
+   * @param  {String} outputDir   Destination directory for the tiles
+   * @return {Promise}
    */
-  async tile(inputPath, outputDir) {
+  tile(inputPath, outputDir) {
     if (!inputPath) return
 
     const { ext, name } = path.parse(inputPath)
 
     if (!this.supportedExtensions.includes(ext)) {
-      return {
-        errors: [`Image file of type '${ext}' is not supported. Supported file types are: ${this.supportedExtensions.join(', ')}`]
-      }
+      throw new Error(`Image file of type '${ext}' is not supported. Supported file types are: ${this.supportedExtensions.join(', ')}`)
     }
 
     const outputPath = path.join(this.outputRoot, outputDir, name, this.tilesDir)
 
     if (fs.existsSync(path.join(outputPath, 'info.json'))) {
       logger.debug(`skipping previously tiled image '${inputPath}'`)
-      return { success: true }
+      return
     }
 
     fs.ensureDirSync(outputPath)
 
-    try {
-      logger.debug(`tiling '${inputPath}'`)
-      const format = this.formats.find(({ input }) => input.includes(ext))
-      const response = await sharp(inputPath)
-        .toFormat(format.output.replace('.', ''))
-        .tile({
-          id: new URL(path.join(outputDir, name), this.baseURI).toString(),
-          layout: 'iiif',
-          size: tileSize
-        })
-        .toFile(path.join(outputPath))
-      return { success: true }
-    } catch (error) {
-      return { errors: [error] }
-    }
+    logger.debug(`tiling '${inputPath}'`)
+    const format = this.formats.find(({ input }) => input.includes(ext))
+    return sharp(inputPath)
+      .toFormat(format.output.replace('.', ''))
+      .tile({
+        id: new URL(path.join(outputDir, name), this.baseURI).toString(),
+        layout: 'iiif',
+        size: this.tileSize
+      })
+      .toFile(path.join(outputPath))
   }
 }

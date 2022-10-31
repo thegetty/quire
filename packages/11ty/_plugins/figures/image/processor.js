@@ -22,7 +22,7 @@ module.exports = class ImageProcessor {
 
     this.inputRoot = path.join(inputRoot, imagesDir)
     this.outputRoot = outputRoot
-    this.tiler = tiler.tile
+    this.tiler = tiler.tile.bind(tiler)
     this.transform = transformer.transform.bind(transformer)
 
     logger.debug(`
@@ -53,17 +53,13 @@ module.exports = class ImageProcessor {
       /**
        * Transform Image
        */
-      const results = await Promise.all(
+      await Promise.all(
         options.transformations.map((transformation) => {
           return this.transform(inputPath, outputPath, transformation, options)
         })
-      )
-      const transformationErrors = results.flatMap(
-        ({ errors }) => errors || []
-      )
-      if (transformationErrors.length) {
-        errors.push(`Failed to transform source image ${imagePath} ${transformationErrors.join(' ')}`)
-      }
+      ).catch((error) => {
+        errors.push(`Failed to transform source image ${imagePath} ${error}`)
+      })
     }
 
     if (options.tile) {

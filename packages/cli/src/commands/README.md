@@ -36,7 +36,7 @@ quire build site
 
 Remove build outputs.
 
-Nota that this command is distinct from the [quire/11ty package](https://github.com/thegetty/quire/packages/11ty/package.json) script `clean`, to allow different behavoirs for Quire editors and developers.
+Note that this command is distinct from the [quire/11ty package](https://github.com/thegetty/quire/packages/11ty/package.json) script `clean`, to allow different behavoirs for Quire editors and developers.
 
 ```sh
 quire clean --dry-run
