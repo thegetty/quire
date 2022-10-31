@@ -1,9 +1,9 @@
 import Command from '#src/Command.js'
 import { cwd } from 'node:process'
-import { git } from '#src/lib/git/index.js'
 import { initStarter } from '#src/lib/quire/init-starter.js'
 import { isEmpty } from '#helpers/is-empty.js'
 import fs from 'fs-extra'
+import git from '#src/lib/git/index.js'
 
 /**
  * Quire CLI `new` Command
