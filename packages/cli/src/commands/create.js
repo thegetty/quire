@@ -51,6 +51,7 @@ export default class CreateCommand extends Command {
     if (!isEmpty(path)) {
       const location = path === '.' ? 'the current directory' : path
       console.error(`[CLI] cannot create a starter project in ${location} because it is not empty`)
+      // @TODO cleanup directories from failed new command
       return
     }
 
