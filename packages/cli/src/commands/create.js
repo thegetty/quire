@@ -7,10 +7,11 @@ import fs from 'fs-extra'
 /**
  * Quire CLI `new` Command
  *
- * @examples
- *   Running `quire new` in a non-empty directory will throw an error.
- *   Running `quire new <project-name>` will create a directory with the project name in the current directory, if it does not already exist.
- *   Running `quire new <project-path>` will create a directory at the project path if it does not already exist.
+ * Running `quire new` will start a new project _in the current directory_, if the current directory is not an empty directory an error is thrown.
+ *
+ * Running `quire new <project-name>` will create a directory with the project name in _in the current directory_, if it does not already exist.
+ *
+ * Running `quire new <project-path>` will create a directory at the project path if it does not already exist.
  *
  * @class      CreateCommand
  * @extends    {Command}
