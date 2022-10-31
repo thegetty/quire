@@ -1,4 +1,5 @@
 import Command from '#src/Command.js'
+import { initStarter } from '#src/lib/quire/init-starter.js'
 import { cwd } from 'node:process'
 import { isEmpty } from '#src/helpers/is-empty.js'
 import fs from 'fs-extra'
@@ -55,8 +56,9 @@ export default class CreateCommand extends Command {
       // const starter = starters['default']
       // `git clone starter path`
     } else {
-      // await initStarter(starter, projectRoot)
       // `git clone starter path`
+      // currently we are just copying files directly
+      initStarter(starter, projectRoot)
     }
   }
 }
