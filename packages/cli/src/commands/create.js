@@ -1,6 +1,6 @@
 import Command from '#src/Command.js'
-import { initStarter } from '#src/lib/quire/init-starter.js'
 import { cwd } from 'node:process'
+import { initStarter } from '#src/lib/quire/init-starter.js'
 import { isEmpty } from '#src/helpers/is-empty.js'
 import fs from 'fs-extra'
 
