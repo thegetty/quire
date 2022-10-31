@@ -1,4 +1,5 @@
 # Eleventy build artifacts
+_epub/
 _site/
 _temp/
 

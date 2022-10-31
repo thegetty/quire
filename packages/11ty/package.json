@@ -9,7 +9,7 @@
     "build": "cross-env ELEVENTY_ENV=production eleventy",
     "build:pdf": "pagedjs-cli _site/pdf.html --outline-tags 'h1' -o paged.pdf",
     "build:prince": "prince _site/pdf.html --output prince.pdf",
-    "clean": "del-cli _site public",
+    "clean": "del-cli _epub _site public",
     "debug": "cross-env DEBUG=Eleventy* eleventy --dryrun",
     "dev": "cross-env ELEVENTY_ENV=development eleventy --serve",
     "prebuild": "npm run clean",
