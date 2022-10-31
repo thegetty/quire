@@ -23,7 +23,7 @@ const factory = () => {
     `--config=${config}`,
     `--input=${input}`,
     `--output=${output}`,
-    '--incremental',
+    `--incremental`,
   ]
 }
 
