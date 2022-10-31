@@ -54,11 +54,15 @@ const getTarget = (region) => {
  * @param  {String} region      The canvas region
  */
 const goToFigureState = function ({ annotationIds=[], figureId, region }) {
-  if (!figureId) return
+  if (!figureId) {
+    console.error(`goToFigureState called without an undefined figureId`)
+    return
+  }
   const figureSelector = `#${figureId}`
   const slideSelector = `[data-lightbox-slide-id="${figureId}"]`
   const figure = document.querySelector(figureSelector)
   const figureSlide = document.querySelector(slideSelector)
+  const serviceId = getServiceId(figure || figureSlide)
 
   if (!figure && !figureSlide) return
 
@@ -75,9 +79,26 @@ const goToFigureState = function ({ annotationIds=[], figureId, region }) {
   }
 
   /**
+   * Update reset link state
+   */
+  const resetLink = figure.querySelector('.q-figure__reset-link')
+  if (resetLink && region) {
+    const disabledLinkClass = 'q-figure__reset-link--disabled'
+    const clickHandler = () => {
+      resetLink.classList.add(disabledLinkClass)
+      update(serviceId, { region: 'reset' })
+    }
+    if (region === 'reset') {
+      resetLink.removeEventListener('click', clickHandler)
+    } else {
+      resetLink.classList.remove(disabledLinkClass)
+      resetLink.addEventListener('click', clickHandler)
+    }
+  }
+
+  /**
    * Update figure state
    */
-  const serviceId = getServiceId(figure || figureSlide)
   update(serviceId, { annotations, region: region || 'reset' })
 
   /**
