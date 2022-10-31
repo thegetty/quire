@@ -8,11 +8,9 @@ import git from '#src/lib/git/index.js'
 /**
  * Quire CLI `new` Command
  *
- * Running `quire new` will start a new project _in the current directory_, if the current directory is not an empty directory an error is thrown.
- *
- * Running `quire new <project-name>` will create a directory with the project name in _in the current directory_, if it does not already exist.
- *
- * Running `quire new <project-path>` will create a directory at the project path if it does not already exist.
+ * Running `quire new` will start a new project at the specified local path;
+ * when the local path does not exist it is created,
+ * when `path` exists but is not an empty directory an error is thrown.
  *
  * @class      CreateCommand
  * @extends    {Command}
