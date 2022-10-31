@@ -2,6 +2,7 @@ import { execa } from 'execa'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import paths from './paths.js'
+
 const projectRoot = path.resolve('../../packages/11ty')
 
 /**
