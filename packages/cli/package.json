@@ -38,6 +38,7 @@
   },
   "imports": {
     "#src/*.js": "./src/*.js",
+    "#helpers/*.js": "./src/helpers/*.js",
     "#lib/*.js": "./src/lib/*.js"
   },
   "dependencies": {

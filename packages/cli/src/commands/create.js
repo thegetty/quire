@@ -1,6 +1,6 @@
 import Command from '#src/Command.js'
 import { cwd } from 'node:process'
-import { isEmpty } from '#src/helpers/is-empty.js'
+import { isEmpty } from '#helpers/is-empty.js'
 import fs from 'fs-extra'
 
 /**

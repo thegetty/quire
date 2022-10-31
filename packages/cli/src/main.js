@@ -55,7 +55,7 @@ commands.forEach((command) => {
         if (option[0].startsWith('-') && !option[1].startsWith('--')) {
           option.splice(1, 0, '')
         }
-        // assign an attribute name to the array of option attributes
+        // assign attribute names to the array of option attributes
         const [ short, long, description, defaultValue ] = option
         // join short and long flags as the option name attribute
         const name = /^-\w/.test(short) && /^--\w/.test(long)
@@ -72,6 +72,24 @@ commands.forEach((command) => {
         // subCommand.addOption(option)
         console.error('@TODO please use an array to define option attributes')
       }
+    })
+  }
+
+  if (command.postAction) {
+    subCommand.hook('postAction', (thisCommand, actionCommand) => {
+      command.postAction.call(command, thisCommand, actionCommand)
+    })
+  }
+
+  if (command.preAction) {
+    subCommand.hook('preAction', (thisCommand, actionCommand) => {
+      command.preAction.call(command, thisCommand, actionCommand)
+    })
+  }
+
+  if (command.preSubcommand) {
+    subCommand.hook('preSubcommand', (thisCommand, theSubcommand) => {
+      command.preSubcommand.call(command, thisCommand, theSubcommand)
     })
   }
 

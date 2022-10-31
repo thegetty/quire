@@ -27,7 +27,7 @@ const factory = () => {
 }
 
 /**
- * A wrapper module for the Eleventy CLI
+ * A wrapper module for using the Eleventy CLI programmatically
  * @see https://www.11ty.dev/docs/usage/#command-line-usage
  */
 export default {
