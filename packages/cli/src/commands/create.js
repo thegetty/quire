@@ -24,7 +24,7 @@ export default class CreateCommand extends Command {
     summary: 'create a new project',
     version: '1.0.0',
     args: [
-      [ '[path]', 'directory path at which to start the project', '.' ],
+      [ '[path]', 'local path to the new project', '.' ],
       [ '[starter]', 'repository url or local path for a starter project' ],
     ],
     options: [
