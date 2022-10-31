@@ -42,12 +42,12 @@ const audioElements = {
  *
  * @param      {Object}  figure          The figure object
  * @param      {String}  id              The id of the figure
- * @param      {String}  media_id        An id for a soundcloud embed
+ * @param      {String}  mediaId        An id for a soundcloud embed
  *
  * @return     {String}  An embedded soundcloud player
  */
 module.exports = function (eleventyConfig) {
-  return function ({ id, media_id: mediaId, media_type: mediaType }) {
+  return function ({ id, mediaId, mediaType }) {
     return audioElements[mediaType]({ id, mediaId })
   }
 }

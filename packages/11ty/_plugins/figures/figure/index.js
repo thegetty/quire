@@ -27,19 +27,34 @@ module.exports = class Figure {
     const canvasId = isCanvas(data) ? data.canvasId || [iiifBaseId, 'canvas'].join('/') : null
     const manifestId = isCanvas(data) ? data.manifestId || [iiifBaseId, manifestFilename].join('/') : null
 
+    const defaults = {
+      mediaType: 'image'
+    }
+
+    const { 
+      id,
+      label,
+      media_id: mediaId,
+      media_type: mediaType,
+      src,
+      zoom
+    } = data
+
     this.annotationFactory = new AnnotationFactory(this)
     this.canvasId = canvasId
     this.data = data
-    this.id = data.id
+    this.id = id
     this.imageProcessor = new ImageProcessor(iiifConfig)
     this.iiifConfig = iiifConfig
     this.isCanvas = isCanvas(data)
     this.isImageService = isImageService(data)
-    this.label = data.label
+    this.label = label
     this.manifestId = manifestId
+    this.mediaType = mediaType || defaults.mediaType
+    this.mediaId = mediaId
     this.outputDir = outputDir
-    this.src = data.src
-    this.zoom = data.zoom
+    this.src = src
+    this.zoom = zoom
   }
 
   get annotations() {
@@ -123,6 +138,8 @@ module.exports = class Figure {
       isImageService: this.isImageService,
       label: this.label,
       manifestId: this.manifestId,
+      mediaId: this.mediaId,
+      mediaType: this.mediaType,
       printImage: this.printImage,
       region: this.region,
       src: this.src
