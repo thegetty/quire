@@ -163,6 +163,18 @@
     }
   }
 
+  &.q-figure--image {
+    .q-figure__caption {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .q-figure__label {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
   &__credit {
   }
 
@@ -174,7 +186,6 @@
       color: $accent-color;
     }
     display: inline-block;
-    height: 0;
     font-weight: 700;
     margin-right: .5rem;
     .q-figure__label-icon {
@@ -564,6 +575,20 @@ div.multimedia {
 
     &:hover {
       color: link-hover-color($content-background-color);
+    }
+  }
+}
+
+.q-figure__reset-link {
+  color: $accent-color;
+  &:hover {
+    color: link-hover-color($content-background-color);
+  }
+  &--disabled {
+    border-bottom: none;
+    cursor: unset;
+    &:hover {
+      color: $accent-color;
     }
   }
 }

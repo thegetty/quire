@@ -34,7 +34,7 @@ module.exports = function(eleventyConfig) {
         credit,
         id,
         label,
-        media_type: mediaType
+        mediaType
       } = figure
 
       const isAudio = mediaType === 'soundcloud'
