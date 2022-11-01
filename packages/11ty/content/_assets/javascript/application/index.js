@@ -15,7 +15,7 @@ import "../../styles/custom.css";
 import scrollToHash from "./scroll-to-hash"
 import Search from "../../../../_plugins/search/search.js";
 import "./canvas-panel";
-import { goToCanvasState, setUpUIEventHandlers } from "./canvas-panel";
+import { goToFigureState, setUpUIEventHandlers } from "./canvas-panel";
 import "./soundcloud-api";
 
 // array of leaflet instances
@@ -42,28 +42,6 @@ window["toggleMenu"] = () => {
     menu.setAttribute("aria-expanded", "true");
   }
 };
-
-/**
- * activeMenuPage
- * @description This function is called on pageSetup to go through the navigation
- * (#nav in partials/menu.html) and find all the anchor tags.  Then find the user's
- * current URL directory. Then it goes through the array of anchor tags and if the
- * current URL directory matches the nav anchor, it's the active link.
- */
-function activeMenuPage() {
-  let nav = document.getElementById("nav");
-  let anchor = nav.getElementsByTagName("a");
-  let current =
-    window.location.protocol +
-    "//" +
-    window.location.host +
-    window.location.pathname;
-  for (var i = 0; i < anchor.length; i++) {
-    if (anchor[i].href == current) {
-      anchor[i].className = "active";
-    }
-  }
-}
 
 /**
  * toggleSearch
@@ -341,7 +319,6 @@ function toggleCite() {
  */
 function pageSetup() {
   setDate();
-  activeMenuPage();
   toggleCite();
 }
 
@@ -371,7 +348,7 @@ window.addEventListener('load', () => {
    * Canvas Panel Setup
    */
   setUpUIEventHandlers()
-  goToCanvasState({
+  goToFigureState({
     figureId: window.location.hash.replace(/^#/, ''),
     annotationIds: params['annotation-id'],
     region: params['region'] ? params['region'][0] : null

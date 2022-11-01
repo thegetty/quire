@@ -26,7 +26,7 @@ const titleCase = require('~plugins/filters/titleCase')
 module.exports = class Annotation {
   constructor(figure, data) {
     const { iiifConfig, outputDir } = figure
-    const { label, src, target, text } = data
+    const { label, selected, src, target, text } = data
     const { base, ext, name } = src ? path.parse(src) : {}
 
     /**
@@ -48,11 +48,13 @@ module.exports = class Annotation {
     }
 
     /**
+     * Create image service for annotation image if it is a JPG and
+     * the figure has zoom enabled
+     * 
      * Note: Currently only JPG image services are supported by 
      * canvas-panel/image-service tags
      */
-    const isImageService = !!figure.isImageService && ext === '.jpg'
-
+    const isImageService = !!figure.zoom && ext === '.jpg'
     const info = () => {
       if (!isImageService) return
       const tileDirectory = path.join(outputDir, name, iiifConfig.dirs.imageService)
@@ -72,6 +74,7 @@ module.exports = class Annotation {
     this.isImageService = isImageService
     this.label = label || titleCase(path.parse(src).name)
     this.motivation = src ? 'painting' : 'text'
+    this.selected = selected
     this.src = src
     this.target = target
     this.text = text

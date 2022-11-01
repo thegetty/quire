@@ -12,7 +12,7 @@ module.exports = class ManifestWriter {
    * @param  {Object} manifest JSON manifest
    */
   write(manifest) {
-    if (!manifest) return
+    if (!manifest) return { errors: ['Error writing manifest. Manifest is undefined.'] }
     const { outputRoot } = this.iiifConfig.dirs
     const pathName = manifest.id.split(this.iiifConfig.baseURL)[1]
     const outputPath = path.join(outputRoot, pathName)

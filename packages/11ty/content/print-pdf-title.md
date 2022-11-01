@@ -1,9 +1,7 @@
 ---
 layout: base.11ty.js
 order: 3
-outputs: 
-  - epub
-  - pdf
+outputs: pdf
 toc: false
 ---
 <div class="title-page">

@@ -11,14 +11,18 @@ module.exports = function(eleventyConfig) {
   const pageTitle = eleventyConfig.getFilter('pageTitle')
 
   return function(params) {
-    const { data, url } = params
+    const { currentURL, page } = params
+    const { data, url } = page
     const { label, layout, title } = data
-    const item = pageTitle({ label, title })
+
+    const titleText = pageTitle({ label, title })
     /**
      * Check if item is a reference to a built page or just a heading
      * @type {Boolean}
      */
     const isPage = !!layout
-    return isPage ? `<a href="${url}">${item}</a>` : item
+    return isPage
+      ? `<a href="${url}" class="${currentURL === url ? 'active' : ''}">${titleText}</a>`
+      : titleText
   }
 }

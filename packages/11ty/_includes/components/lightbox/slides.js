@@ -22,17 +22,19 @@ module.exports = function(eleventyConfig) {
   return async function(figures) {
     if (!figures) return ''
 
+    figures = figures.map((figure) => ({
+      preset: 'zoom',
+      ...figure
+    }))
+
     const slideElement = async (figure) => {
       const {
         aspect_ratio: aspectRatio='widescreen',
         caption,
         credit,
         id,
-        iiif,
         label,
-        media_type: mediaType,
-        preset,
-        src
+        mediaType
       } = figure
 
       const isAudio = mediaType === 'soundcloud'
@@ -43,7 +45,7 @@ module.exports = function(eleventyConfig) {
           case mediaType === 'soundcloud':
             return figureAudioElement(figure)
           case mediaType === 'table':
-            return await figureTableElement(figure)
+            return `<div class="overflow-container">${await figureTableElement(figure)}</div>`
           case isVideo:
             return figureVideoElement(figure)
           case mediaType === 'image':
