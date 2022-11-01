@@ -20,7 +20,7 @@ module.exports = function(eleventyConfig) {
       },
       {
         property: 'og:url',
-        content: new URL(page.url, url)
+        content: new URL(page.url, url).toString()
       },
       {
         property: 'og:image',
