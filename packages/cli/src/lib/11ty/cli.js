@@ -40,7 +40,7 @@ export default {
     if (options.dryRun) eleventyOptions.push('--dryrun')
     if (options.quiet) eleventyOptions.push('--quiet')
 
-    await execa('npx', eleventyOptions, { cwd: projectRoot, stdout: 'pipe' })
+    await execa('npx', eleventyOptions, { cwd: projectRoot }).stdout.pipe(process.stdout)
   },
 
   serve: async (options = {}) => {
@@ -54,6 +54,6 @@ export default {
     if (options.quiet) eleventyOptions.push('--quiet')
     if (options.verbose) eleventyOptions.push('--verbose')
 
-    await execa('npx', eleventyOptions, { cwd: projectRoot, stdout: 'pipe' })
+    await execa('npx', eleventyOptions, { cwd: projectRoot }).stdout.pipe(process.stdout)
   }
 }
