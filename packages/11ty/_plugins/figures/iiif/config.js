@@ -1,14 +1,14 @@
 const path = require('path')
 
 module.exports = (eleventyConfig) => {
-  const { baseURL } = eleventyConfig.globalData.config
+  const { url } = eleventyConfig.globalData.publication
   const { port } = eleventyConfig.serverOptions
   const { viteOptions } = eleventyConfig.plugins.find(
     ({ options }) => !!options && !!options.viteOptions
   ).options
 
   return {
-    baseURL: process.env.ELEVENTY_ENV === 'production' ? baseURL : `http://localhost:${port}`,
+    baseURL: process.env.ELEVENTY_ENV === 'production' ? url : `http://localhost:${port}`,
     dirs: {
       /**
        * The name of the directory for image tiles and info.json

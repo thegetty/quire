@@ -21,10 +21,10 @@ module.exports = (eleventyConfig) => {
     publishers,
     readingLine,
     subtitle,
-    title,
-    url
+    title
   } = eleventyConfig.globalData.publication
-  const { baseURL, epub, params } = eleventyConfig.globalData.config
+  const { epub, params } = eleventyConfig.globalData.config
+  const { url } = eleventyConfig.globalData.publication
 
   /**
    * Contributor name, filtered by type
