@@ -16,7 +16,9 @@ Next, the Git `subtree` command is used to add the Quire starter project reposit
 git subtree add --prefix=starters/default quire-starter-default main --squash
 ```
 
-#### Pulling changes to the starter project
+### Updating a starter project dependency
+
+#### _Pulling changes from the starter project repository_
 
 When changes to a starter project are commited to its `main` branch `thegetty/quire` is updated using `git subtree pull`:
 
@@ -25,9 +27,9 @@ git fetch quire-starter-default main
 git subtree pull --prefix=starters/default quire-starter-default main --squash
 ```
 
-#### Pushing changes to the starter project
+#### _Pushing changes to the starter project repository_
 
-Using the the `git subtree push` command with the `remote` allows us to push changes made to `@thegetty/quire` starter to the upstream starter project repository:
+Using the the `git subtree push` command changes made to `@thegetty/quire` starter are pushed to the `remote` repository for the starter project:
 
 ```sh
 git subtree push --prefix=starters/default quire-starter-default main
