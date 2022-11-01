@@ -138,26 +138,42 @@ module.exports = {
   /**
    * Contributors with a `pages` property containing data about the pages they contributed to
    */
-  publicationContributors: ({ collections, config, publication }) => {
-    const { contributor } = publication
+  publicationContributors: ({ collections, config, page, publication }) => {
     if (!collections.all) return
-    return contributor
-      .map((item) => {
-        const { pic } = item
-        item.imagePath = pic
-          ? path.join(config.params.imageDir, pic)
-          : null
-        item.pages = collections.all.filter(
-          ({ data }) => {
-            if (!data.contributor) return
-            return Array.isArray(data.contributor)
-              ? data.contributor.find(
-                (pageContributor) => pageContributor.id === item.id
-              )
-              : data.contributor.id === item.id
-          }
-        )
-        return item
-      })
+    let publicationContributors = Array.isArray(publication.contributor)
+      ? publication.contributor
+      : []
+    publicationContributors = publicationContributors.filter((item) => item)
+    if (!publicationContributors.length) return
+
+    /**
+     * Add `pages` properties to contributor with limited `page` model
+     */
+    const addPages = (contributor) => {
+      const { id } = contributor
+      contributor.pages = collections.all.flatMap(
+        (page) => {
+          const { data, url } = page
+          const { contributor, label, subtitle, title } = data
+          if (!contributor) return []
+          const includePage = Array.isArray(contributor)
+            ? contributor.find((item) => item.id === id)
+            : contributor.id === id
+          return includePage ? {
+            label,
+            subtitle,
+            title,
+            url
+          } : []
+        }
+      )
+      return contributor
+    }
+    const pageContributors = collections.all.flatMap(({ data }) => data.pageContributors || [])
+
+    const uniqueContributors = publicationContributors.concat(pageContributors)
+      .filter((value, index, array) => array.findIndex((item) => item.id === value.id) === index)
+      .map(addPages)
+    return uniqueContributors
   }
 }
