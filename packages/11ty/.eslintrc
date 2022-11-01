@@ -1,18 +1,37 @@
 {
   "env": {
     "browser": true,
-    "es6": true,
-    "node": true
+    "es2021": true,
+    "node": true,
   },
   "extends": "eslint:recommended",
+  "overrides": [],
   "parserOptions": {
-    "sourceType": "module",
-    "ecmaVersion": 2017
+    "ecmaVersion": "latest",
+    "sourceType": "module"
   },
   "rules": {
-    "quotes": [2, "single", { "avoidEscape": true }],
-    // indent: ['error', 2],
-    // 'linebreak-style': ['error', 'unix'],
-    // semi: ['error', 'always']
+    "indent": [ "error", 2 ],
+    "linebreak-style": [ "error", "unix" ],
+    "quotes": [ "error", "single", { "allowTemplateLiterals": true } ],
+    "no-console": "off",
+    "no-unused-vars": [
+      "warn",
+      {
+        "args": "none",
+        "ignoreRestSiblings": true
+      }
+    ],
+    "semi": [ "error", "never" ],
+    "sort-imports": [
+      "warn",
+      {
+        "allowSeparatedGroups": false,
+        "ignoreCase": false,
+        "ignoreDeclarationSort": false,
+        "ignoreMemberSort": false,
+        "memberSyntaxSortOrder": ["none", "all", "multiple", "single"],
+      }
+    ],
   }
 }
