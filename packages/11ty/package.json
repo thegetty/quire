@@ -13,6 +13,7 @@
     "debug": "cross-env DEBUG=Eleventy* eleventy --dryrun",
     "dev": "cross-env ELEVENTY_ENV=development eleventy --serve",
     "lint": "eslint --ext .js --ignore-path .gitignore .",
+    "lint:fix": "npm run lint -- --fix",
     "prebuild": "npm run clean",
     "predev": "del-cli public",
     "preserve": "npm run clean",
