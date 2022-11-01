@@ -42,7 +42,7 @@ module.exports = function (eleventyConfig) {
       'publisher-place': publishers[0].location,
       title: pageTitle(page.data),
       type: 'chapter',
-      url: new URL(page.url, url)
+      URL: new URL(page.url, url)
     }
   }
 }

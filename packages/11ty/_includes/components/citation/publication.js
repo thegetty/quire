@@ -37,7 +37,7 @@ module.exports = function (eleventyConfig) {
       'publisher-place': publishers[0].location,
       title: `<em>${siteTitle()}</em>`,
       type: pubType === 'journal-periodical' ? 'article-journal' : 'book',
-      url
+      URL: url
     }
   }
 }
