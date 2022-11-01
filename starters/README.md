@@ -1,16 +1,19 @@
 ## Quire Starter Project Templates
 
-Quire project starter templates are managed as `subtree` dependencies of the `@thegetty/quire` monorepo.
+Quire project starter templates are managed as `subtree` dependencies of the `@thegetty/quire` monorepo. The `subtree` is a reference to another repository (URL and branch/tag).
 
 ### Adding a starter project dependency
 
-First, the starter project repository is added as a Git `remote`:
+First, the starter project repository is added as a Git `remote` using
+`git remote add --fetch <name> <remote-repository-url>`. For example:
 
 ```sh
 git remote add --fetch quire-starter-default https://github.com/thegetty/quire-starter-default.git
 ```
 
-Next, the Git `subtree` command is used to add the Quire starter project repository as a dependency; the `@thegetty/quire-starter-default` repository is duplicated into the `@thegetty/quire/starters/default` directory:
+Next, the Quire starter project repository is added to the `@thegetty/quire` monorepo as a dependency. The `git subtree` command is run from the top level of the working tree to clone the remote repository into local repository directory: `git subtree add --prefix=<local-path-prefix> <remote-repository-url> <remote-repository-branch>`.
+
+Continuing the example above, the `@thegetty/quire-starter-default` repository is cloned into `@thegetty/quire/starters/default` by running the command:
 
 ```sh
 git subtree add --prefix=starters/default quire-starter-default main --squash
@@ -36,3 +39,24 @@ git subtree push --prefix=starters/default quire-starter-default main
 ```
 
 For additional documentation see the [GitHub Docs: About Git subtree merges](https://docs.github.com/en/get-started/using-git/about-git-subtree-merges)
+
+
+### Listing starter project subtrees
+
+Subtrees in the `@thegetty/quire` repository can be listed using `git log`:
+
+```sh
+git log | grep git-subtree-dir | tr -d ' ' | cut -d ':' -f2 | sort | uniq
+```
+
+or
+
+```sh
+git log | grep git-subtree-dir | awk '{ print $2 }' | sort | uniq
+```
+
+The above shell command can be expanded to exclude subtree directories that do not exist in the repository:
+
+```sh
+git log | grep git-subtree-dir | awk '{ print $2 }' | sort | uniq | xargs -I {} bash -c 'if [ -d $(git rev-parse --show-toplevel)/{} ] ; then echo {}; fi'
+```
