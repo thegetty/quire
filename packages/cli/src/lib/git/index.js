@@ -1,6 +1,7 @@
 import { simpleGit } from 'simple-git'
 
 /**
+ * SimpleGit configuration
  * @see https://github.com/steveukx/git-js#configuration
  */
 const options = {
@@ -10,6 +11,12 @@ const options = {
   trimmed: false,
 }
 
+/**
+ * Configured SimpleGit instance
+ * @see https://github.com/steveukx/git-js#api
+ *
+ * @type  {SimpleGit}
+ */
 const git = simpleGit(options)
 
 export default git
