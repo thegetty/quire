@@ -96,7 +96,7 @@ module.exports = function(eleventyConfig) {
 
     const slideElements = async () => {
       let slides = ''
-      for (figure of figures) {
+      for (const figure of figures) {
         slides += await slideElement(figure)
       }
       return slides
