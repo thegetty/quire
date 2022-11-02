@@ -31,7 +31,7 @@ module.exports = function(eleventyConfig) {
     const renderList = (items) => {
       return html`
         <ol>
-          ${items.map((page) => listItem(page)).join('')}
+          ${items.map(listItem).join('')}
         </ol>
       `
     }
