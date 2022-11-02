@@ -33,6 +33,8 @@ figures:
 localization:
   defaultLocale: en-us
 
+menuType: full # full | brief
+
 navigation:
   nextButtonText: Next
   prevButtonText: Back
