@@ -178,7 +178,6 @@
   &__credit {
   }
 
-  // The figure label with figure.labelPosition: below
   &__label {
     @if $theme == classic {
       color: background-color-text-classic($content-background-color);
@@ -207,29 +206,6 @@
         height: 1.5rem;
       }
     }
-<<<<<<< HEAD
-    // The figure label with figure.labelPosition: on-top (default)
-    &--on-top {
-      display: flex;
-      align-items: center;
-      color: $white;
-      position: absolute;
-      font-size: 0.75em;
-      top: 0;
-      left: 0;
-      height: 2.6em;
-      padding: 0 .6em;
-      margin: 0;
-      background: $black-semi-transparent;
-      .q-figure__label-icon {
-        margin-top: .3em;
-        svg {
-          fill: $white;
-        }
-      }
-    }
-=======
->>>>>>> feature/11ty
   }
 
   &__media-wrapper {
