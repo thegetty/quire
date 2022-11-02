@@ -3,6 +3,8 @@ import { cwd } from 'node:process'
 import { initStarter } from '#src/lib/quire/init-starter.js'
 import { isEmpty } from '#helpers/is-empty.js'
 import fs from 'fs-extra'
+import { execa } from 'execa'
+import installNpmVersion from 'install-npm-version'
 import git from '#src/lib/git/index.js'
 
 /**
@@ -34,7 +36,7 @@ export default class CreateCommand extends Command {
     super(CreateCommand.definition)
   }
 
-  action(path, starter, options = {}) {
+  async action(path, starter, options = {}) {
     if (options.debug) {
       console.info('Command \'%s\' called with options %o', this.name, options)
     }
@@ -52,6 +54,21 @@ export default class CreateCommand extends Command {
       // @TODO cleanup directories from failed new command
       return
     }
+
+    // ensure that quire versions directory path exists
+    const quireVersionsPath = 'quire/versions'
+    fs.ensureDirSync(quireVersionsPath)
+
+    // install quire-11ty npm package into /quire/versions/1.0.0
+    const packageName = 'quire-11ty'
+    const packageVersion = '1.0.0'
+    await installNpmVersion.Install(
+      `${packageName}@${packageVersion}`,
+      {
+        Destination: `../${quireVersionsPath}/${packageVersion}`,
+        Debug: true
+      }
+    )
 
     console.log('[CLI]', projectRoot, starter)
 
