@@ -11,7 +11,7 @@ module.exports = function(eleventyConfig) {
   const { config } = eleventyConfig.globalData
 
   return function() {
-    if (!config.params.licenseIcons) return ''
+    if (!config.licenseIcons) return ''
 
     const ccIcons = fs
       .readdirSync(path.join(__dirname, 'icons'))

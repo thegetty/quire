@@ -41,7 +41,7 @@ module.exports = function (eleventyConfig) {
     const contributorImage = image
       ? html`
           <div class="media-left">
-            <img class="image quire-contributor__pic" src="${path.join(config.params.imageDir, image)}" alt="Picture of ${name}">
+            <img class="image quire-contributor__pic" src="${path.join(config.figures.imageDir, image)}" alt="Picture of ${name}">
           </div>
       `
       : ''

@@ -13,7 +13,7 @@
 module.exports = function(eleventyConfig) {
   const markdownify = eleventyConfig.getFilter('markdownify')
 
-  const { pageLabelDivider } = eleventyConfig.globalData.config.params
+  const { labelDivider } = eleventyConfig.globalData.config.pageTitle
 
   return function(params) {
 
@@ -23,7 +23,7 @@ module.exports = function(eleventyConfig) {
     let pageTitle = subtitle ? [title, subtitle].join(separator) : title
 
     if (label) {
-      pageTitle = `${[label, pageTitle].join(pageLabelDivider)}`
+      pageTitle = `${[label, pageTitle].join(labelDivider)}`
     }
 
     return markdownify(pageTitle)

@@ -20,7 +20,7 @@ module.exports = function (eleventyConfig) {
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const tableOfContentsImage = eleventyConfig.getFilter('tableOfContentsImage')
   const urlFilter = eleventyConfig.getFilter('url')
-  const { pageContributorDivider } = eleventyConfig.globalData.config.params
+  const { contributorDivider } = eleventyConfig.globalData.config.tableOfContents
   const { imageDir } = eleventyConfig.globalData.config.figures
 
   return function (params) {
@@ -49,10 +49,8 @@ module.exports = function (eleventyConfig) {
      */
     const isPage = !!layout
 
-    const divider = pageContributorDivider || ' — '
-
     const pageContributorsElement = pageContributors
-      ? `<span class="contributor-divider">${divider}</span><span class="contributor">${contributors({ context: pageContributors, format: 'string' })}</span>`
+      ? `<span class="contributor-divider">${contributorDivider}</span><span class="contributor">${contributors({ context: pageContributors, format: 'string' })}</span>`
       : ''
     const pageTitleElement = oneLine`${pageTitle({ label, subtitle, title })}${pageContributorsElement}`
     const arrowIcon = `<span class="arrow" data-outputs-exclude="epub,pdf">${icon({ type: 'arrow-forward', description: '' })}</span>`

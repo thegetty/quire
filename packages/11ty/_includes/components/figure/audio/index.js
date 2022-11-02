@@ -13,7 +13,6 @@ module.exports = function(eleventyConfig) {
   const figureCaption = eleventyConfig.getFilter('figureCaption')
   const figureImage = eleventyConfig.getFilter('figureImage')
   const figureLabel = eleventyConfig.getFilter('figureLabel')
-  const figurePlaceholder = eleventyConfig.getFilter('figurePlaceholder')
   const figureAudioElement = eleventyConfig.getFilter('figureAudioElement')
 
   return function({ caption, credit, id, label, mediaId, mediaType }) {

@@ -24,13 +24,10 @@ module.exports = function (eleventyConfig, { page }) {
   const figureImage = eleventyConfig.getFilter('figureImage')
   const figureLabel = eleventyConfig.getFilter('figureLabel')
   const figureModalLink = eleventyConfig.getFilter('figureModalLink')
-  const figurePlaceholder = eleventyConfig.getFilter('figurePlaceholder')
   const figureTable = eleventyConfig.getFilter('figureTable')
   const figureVideo = eleventyConfig.getFilter('figureVideo')
   const getFigure = eleventyConfig.getFilter('getFigure')
   const slugify = eleventyConfig.getFilter('slugify')
-
-  const { epub, pdf } = eleventyConfig.globalData.config.params
 
   return async function (id, classes=[]) {
     classes = typeof classes === 'string' ? [classes] : classes
@@ -51,8 +48,6 @@ module.exports = function (eleventyConfig, { page }) {
 
     const component = async (figure) => {
       switch (true) {
-        case (epub || pdf) && ['soundcloud', 'youtube'].includes(mediaType):
-          return figurePlaceholder(figure)
         case mediaType === 'soundcloud':
           return figureAudio(figure)
         case mediaType === 'table':

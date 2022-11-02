@@ -1,23 +1,20 @@
-params:
-  bylineFormat: name-title # name | name-title | false
-  citationPageLocationDivider: ', '
-  citationPopupStyle: text # text | icon
-  entryPageObjectLinkText: View in Collection
-  entryPageSideBySideLayout: false
-  licenseIcons: true
-  menuType: full
-  pageContributorDivider: ' — '
-  pageLabelDivider: '. '
-  searchEnabled: true
-  tocType: full
-
 analytics:
   googleId: ''
+
+bylineFormat: name-title # name | name-title | false
 
 bibliography:
   displayOnPage: true
   displayShort: true
   heading: Bibliography
+
+citations:
+  divider: ', '
+  popupStyle: text # text | icon
+
+entryPage:
+  sideBySide: false
+  objectLinkText: View in Collection
 
 epub:
   defaultCoverImage: 'https://user-images.githubusercontent.com/7796401/39769476-29929fe4-52a1-11e8-85ac-ff41505b3d4c.png'
@@ -30,6 +27,8 @@ figures:
   enableModal: true
   imageDir: '/_assets/images'
 
+licenseIcons: true
+
 localization:
   defaultLocale: en-us
 
@@ -38,3 +37,11 @@ menuType: full # full | brief
 navigation:
   nextButtonText: Next
   prevButtonText: Back
+
+pageTitle:
+  labelDivider: '. '
+
+searchEnabled: true
+
+tableOfContents:
+  contributorDivider: ' — '

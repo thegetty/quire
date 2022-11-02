@@ -30,7 +30,7 @@ module.exports = function (eleventyConfig, items) {
   }
 
   return items.sort((itemA, itemB) => {
-    const sortById = eleventyConfig.globalData.config.params.displayBiblioShort
+    const sortById = eleventyConfig.globalData.config.bibliography.displayShort
     let a = sortById ? itemA.id : itemA.sort_as || itemA.full
     let b = sortById ? itemB.id : itemB.sort_as || itemB.full
     a = removeMarkdown(a)

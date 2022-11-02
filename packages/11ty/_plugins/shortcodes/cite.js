@@ -33,8 +33,7 @@ module.exports = function(eleventyConfig, { page }) {
   const markdownify = eleventyConfig.getFilter('markdownify')
 
   const {
-    citationPageLocationDivider: divider,
-    citationPopupStyle: popupStyle,
+    citations: { divider, popupStyle },
     localization: { defaultLocale }
   } = eleventyConfig.globalData.config
 
