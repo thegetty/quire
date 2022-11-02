@@ -32,6 +32,11 @@ export default class CreateCommand extends Command {
     ],
   }
 
+  static getQuireVersion() {
+    const packageFile = fs.readFileSync('package.json')
+    return JSON.parse(packageFile).version || '1.0.0'
+  }
+
   constructor() {
     super(CreateCommand.definition)
   }
@@ -61,7 +66,7 @@ export default class CreateCommand extends Command {
 
     // install quire-11ty npm package into /quire/versions/1.0.0
     const packageName = 'quire-11ty'
-    const packageVersion = '1.0.0'
+    const packageVersion = CreateCommand.getQuireVersion()
     await installNpmVersion.Install(
       `${packageName}@${packageVersion}`,
       {
