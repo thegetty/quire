@@ -16,7 +16,7 @@ module.exports = function(eleventyConfig) {
 
   return function (params) {
     const {
-      contributor_byline,
+      byline_format,
       image,
       label,
       pageContributors,
@@ -47,7 +47,7 @@ module.exports = function(eleventyConfig) {
     const contributorsElement = pageContributors
       ? html`
           <div class="quire-page__header__contributor">
-            ${contributors({ context: pageContributors, format: contributor_byline })}
+            ${contributors({ context: pageContributors, format: byline_format })}
           </div>
         `
       : ''

@@ -15,7 +15,7 @@ description: splash page layout
     </h1>
     {% if pageContributors %}
       <div class="quire-page__header__contributor">
-        {% contributors context=pageContributors, format=contributor_byline %}
+        {% contributors context=pageContributors, format=byline_format %}
       </div>
     {% endif %}
   </div>
