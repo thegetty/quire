@@ -1,4 +1,5 @@
 import Command from '#src/Command.js'
+import { join, resolve } from 'node:path'
 import { cwd } from 'node:process'
 import { initStarter } from '#src/lib/quire/init-starter.js'
 import { isEmpty } from '#helpers/is-empty.js'
@@ -56,12 +57,13 @@ export default class CreateCommand extends Command {
     }
 
     // ensure that quire versions directory path exists
-    const quireVersionsPath = 'quire/versions'
+    const quireVersionsPath = join('quire', 'versions')
     fs.ensureDirSync(quireVersionsPath)
 
     // install quire-11ty npm package into /quire/versions/1.0.0
     const packageName = 'quire-11ty'
     const packageVersion = CreateCommand.definition.version
+
     await installNpmVersion.Install(
       `${packageName}@${packageVersion}`,
       {
@@ -69,6 +71,18 @@ export default class CreateCommand extends Command {
         Debug: true
       }
     )
+
+    // write projectRoot and quire version to config module
+    const projectConfig = JSON.stringify(
+      {
+        projectRoot: resolve(projectRoot),
+        version: packageVersion
+      },
+      null,
+      2
+    )
+    const configFilePath = join('src', 'lib', 'config', 'project.json')
+    fs.writeFileSync(configFilePath, projectConfig)
 
     console.log('[CLI]', projectRoot, starter)
 
