@@ -20,40 +20,13 @@ export async function initStarter (starter, rootPath, packageVersion) {
 
   // Copy 11ty files
   const fullRootPath = path.resolve(rootPath)
-  // const eleventyPath = path.resolve(cwd(), '../11ty')
   const eleventyPath = path.resolve(cwd(), path.join('quire', 'versions', packageVersion))
-  const eleventyFiles = fs
-    .readdirSync(eleventyPath)
-  // .filter((filePath) => {
-  //   const ignoreFiles = ['content', 'node_modules', '_site']
-  //   return !ignoreFiles.includes(filePath)
-  // })
+  const eleventyFiles = fs.readdirSync(eleventyPath)
 
-  /**
-   * Reads .gitignore and .eleventyignore to generate a list of file names to ignore
-   * @TODO handle `*` splat entries e.g. `**\/*\/.DS_Store'`
-   */
-  // const getIgnoredFiles = () => {
-  //   return ['.gitignore', '.eleventyignore']
-  //     .flatMap((ignoreFile) => {
-  //       return fs
-  //         .readFileSync(path.join(eleventyPath, ignoreFile), 'UTF-8')
-  //         .split(/\r?\n/)
-  //         .filter((line) => !line.startsWith('#') && line.length > 0)
-  //     })
-  // }
-  //
-  // const eleventyFilesToIgnore = [
-  //   'content',
-  //   ...getIgnoredFiles()
-  // ]
-
-  // copies all files in `quire/packages/11ty`, except for ignored files
+  // copies all files in `quire/packages/11ty`
   eleventyFiles.forEach((filePath) => {
     const fileToCopy = path.resolve(eleventyPath, filePath)
-    // if (!eleventyFilesToIgnore.includes(filePath)) {
-      fs.copySync(fileToCopy, path.join(fullRootPath, path.basename(filePath)))
-    // }
+    fs.copySync(fileToCopy, path.join(fullRootPath, path.basename(filePath)))
   })
 
   // Reinitialize project as a new git repository
