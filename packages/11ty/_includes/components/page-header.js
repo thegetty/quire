@@ -12,7 +12,8 @@ module.exports = function(eleventyConfig) {
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const slugify = eleventyConfig.getFilter('slugify')
 
-  const { imageDir, pageLabelDivider } = eleventyConfig.globalData.config.params
+  const { pageLabelDivider } = eleventyConfig.globalData.config.params
+  const { imageDir } = eleventyConfig.globalData.config.figures
 
   return function (params) {
     const {

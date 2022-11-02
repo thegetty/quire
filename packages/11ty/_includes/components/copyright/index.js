@@ -16,7 +16,7 @@ module.exports = function(eleventyConfig) {
   const markdownify = eleventyConfig.getFilter('markdownify')
 
   return function (params) {
-    const imageDir = config.params.imageDir
+    const { imageDir } = config.figures
 
     const copyright = publication.copyright
       ? `<p>${markdownify(publication.copyright)}</p>`

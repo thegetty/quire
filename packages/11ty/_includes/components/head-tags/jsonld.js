@@ -10,7 +10,7 @@ const path = require('path')
  */
 module.exports = function(eleventyConfig) {
   const { config, publication } = eleventyConfig.globalData
-  const { imageDir } = config.params
+  const { imageDir } = config.figures
 
   return function ({ canonicalURL, page }) {
     const { abstract, contributor, cover, title } = page

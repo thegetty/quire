@@ -11,7 +11,7 @@ const path = require('path')
  * @return     {String}  An <img> element
  */
 module.exports = function(eleventyConfig) {
-  const { imageDir } = eleventyConfig.globalData.config.params
+  const { imageDir } = eleventyConfig.globalData.config.figures
 
   return function ({ alt='', src='' }) {
     const imageSrc = src.startsWith('http') ? src : path.join(imageDir, src)

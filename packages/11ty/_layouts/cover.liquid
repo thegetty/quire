@@ -5,7 +5,7 @@ layout: base.11ty.js
 ---
 
 {% assign coverImage = image %}
-{% assign imagePath = config.params.imageDir | concat: coverImage | join: '/' %}
+{% assign imagePath = config.figures.imageDir | concat: coverImage | join: '/' %}
 
 <section class="quire-cover__hero hero is-fullheight">
   <div

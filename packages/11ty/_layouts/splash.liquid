@@ -4,7 +4,7 @@ layout: base
 description: splash page layout
 ---
 {%- if image -%}
-  {% assign imagePath = config.params.imageDir | append: '/' | append: image %}
+  {% assign imagePath = config.figures.imageDir | append: '/' | append: image %}
 {% endif %}
 
 <section class="{% if title == "title page" or title == "half title page" %} is-screen-only {% endif %} quire-page__header hero {% if content %}{% else %}quire-page__header--full-height{% endif %} {% if image %}hero-image{% endif %}" {% if image %}style="background-image: url('{{ imagePath }}');"{% endif %}>
