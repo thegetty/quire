@@ -27,6 +27,9 @@ params:
   searchEnabled: true
   tocType: full
 
+analytics:
+  googleId: ''
+
 bibliography:
   displayOnPage: true
   displayShort: true

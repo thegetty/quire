@@ -6,9 +6,9 @@ const { html } = require('~lib/common-tags')
  * @param      {Object}  data
  */
 module.exports = function(eleventyConfig) {
-  const { config } = eleventyConfig.globalData
+  const { googleId } = eleventyConfig.globalData.config.analytics
   return function(params) {
-    if (!config.analytics || !config.GoogleAnalytics) return ''
+    if (!googleId) return ''
     return html`
       <script>
         (function(i, s, o, g, r, a, m) {
@@ -22,7 +22,7 @@ module.exports = function(eleventyConfig) {
           a.src = g;
           m.parentNode.insertBefore(a, m)
         })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-        ga('create', '${config.GoogleAnalytics}', 'auto');
+        ga('create', '${googleId}', 'auto');
         ga('require', 'linkid', 'linkid.js');
         ga('send', 'pageview');
         document.addEventListener('DOMContentLoaded', function() {
