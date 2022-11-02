@@ -11,7 +11,7 @@ import git from '#src/lib/git/index.js'
  * @return   {Promise}
  */
 export async function initStarter (starter, rootPath) {
-  const remote = 'https://github.com/anderspollack/quire-starter-default'
+  const remote = 'https://github.com/thegetty/quire-starter-default'
 
   await git.cwd(rootPath)
   await git
