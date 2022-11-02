@@ -1,0 +1,165 @@
+figure_list:
+  - id: "fig-032"
+    src: "figures/032/base.jpg"
+    label: "Figure 32"
+    zoom: true
+    caption: "X-radiograph showing a complex armature made of different sizes of rods and wire (11 mm, 7 mm, and 4 mm in diameter). See also the wax-to-wax joints. A 15 mm Cu filter was needed to keep the same exposure parameters for all the different areas of the sculpture, despite the significant variations in thickness (400kV, 8mA, 15 min. exposure, 3 m source-to-object distance, AA400PB film). Antoine-Louis Barye (French, 1795–1875), Theseus and the Centaur Bienor, cast by Eugène Gonon (1814–1892) in 1877, H. 1.3 m (Musée du Louvre, inv. RF 3882). For daylight photography of the statue see **fig. 395**. See {C2RMF Internal Report 2016b}."
+    annotations:
+      - input: checkbox
+        items:
+          - src: "figures/032/armature.png"
+            label: "Armature"
+          - src: "figures/032/wax-joints.png"
+            label: "Wax-to-Wax Joints"
+  - id: "example-with-choices"
+    label: "Choices 1"
+    caption: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Posuere sollicitudin aliquam ultrices sagittis orci a scelerisque. Vitae tortor condimentum lacinia quis vel eros donec ac odio. Pulvinar pellentesque habitant morbi tristique senectus et netus et. Sodales ut etiam sit amet nisl purus in mollis."
+    credit: "Credit line for these images"
+    zoom: true
+    annotations:
+      - input: radio
+        items:
+        - src: figures/duo.jpg
+          label: "Choice #1"
+        - src: figures/pickers.jpg
+          label: "Choice #2"
+  - id: "example-image-service"
+    label: "Figure 1"
+    src: https://iiif.wellcomecollection.org/image/b18035723_0001.JP2/info.json
+    caption: "This is a caption"
+  - id: "example-image-service-2"
+    label: "Figure 2"
+    src: figures/mother.jpg
+    zoom: true
+    caption: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Risus feugiat in ante metus dictum at. Quam viverra orci sagittis eu volutpat."
+    credit: "Image courtesy of the J. Paul Getty Museum"
+  - id: "example-image-service-3"
+    label: "Figure 3"
+    src: https://iiif.wellcomecollection.org/image/b18035723_0010.JP2/info.json
+  - id: "example-external-manifest"
+    label: "Figure 4"
+    canvasId: https://preview.iiif.io/cookbook/3333-choice/recipe/0036-composition-from-multiple-images/canvas/p1
+    manifestId: https://gist.githubusercontent.com/stephenwf/19e61dac5c329c77db8cf22fe0366dad/raw/04971529e364063ac88de722db786c97e2df0e6b/manifest.json
+    caption: "This is a caption"
+  - id: "example-cropped-canvas"
+    region: "3569,761,1851,2059"
+    preset: static
+    canvasId: https://preview.iiif.io/cookbook/3333-choice/recipe/0036-composition-from-multiple-images/canvas/p1
+    manifestId: https://gist.githubusercontent.com/stephenwf/19e61dac5c329c77db8cf22fe0366dad/raw/04971529e364063ac88de722db786c97e2df0e6b/manifest.json
+  - id: "dog1"
+    src: figures/lange.jpg
+    caption: "*Dorothea Lange, Resettlement Administration photographer, in California*, 1936."
+    credit: "Library of Congress Prints and Photographs Division"
+  - id: "dog2"
+    src: figures/evans.jpg
+    caption: "*Walker Evans, profile, hand up to face*, 1937."
+    credit: "Library of Congress Prints and Photographs Division"
+  - id: "fig-1"
+    label: "Figure 1"
+    src: figures/evans-legionnaire.jpg
+    caption: "Walker Evans. *[American Legionnaire]*, 1935."
+    credit: "The J. Paul Getty Museum, Los Angeles"
+  - id: "fig-2"
+    label: "Figure 2"
+    src: figures/evans-sons.jpg
+    caption: "Walker Evans. *Sons of the American Legion, Bethlehem, Pennsylvania*, 1935."
+    credit: "The J. Paul Getty Museum, Los Angeles"
+  - id: "fig-3"
+    label: "Figure 3"
+    src: figures/evans-graveyard.jpg
+    caption: "Walker Evans. *Graveyard, Houses and Steel Mill, Bethlehem, Pennsylvania*, 1935; printed later."
+    credit: "The J. Paul Getty Museum, Los Angeles"
+  - id: "fig-4"
+    label: "Figure 4"
+    src: figures/evans-hymns.jpg
+    caption: "Walker Evans. *Alabama Tenant Farmer Family Singing Hymns / The Tengle Family, Hale County, Alabama*, 1936."
+    credit: "The J. Paul Getty Museum, Los Angeles"
+  - id: "fig-5"
+    label: "Figure 5"
+    src: figures/evans-burroughs.jpg
+    caption: "Walker Evans. *Floyd and Lucille Burroughs, Hale County, Alabama*, 1936."
+    credit: "The J. Paul Getty Museum, Los Angeles"
+  - id: "fig-6"
+    label: "Figure 6"
+    src: figures/evans-washroom.jpg
+    caption: "Walker Evans. *Washroom in the Dog Run of the Burroughs Home, Hale County, Alabama*, 1936."
+    credit: "The J. Paul Getty Museum, Los Angeles"
+  - id: "fig-7"
+    label: "Figure 7"
+    src: figures/evans-child.jpg
+    caption: "Walker Evans. *Farmer's Child, Alabama / Othel Lee (Squeakie) Burroughs, Hale County, Alabama*, 1936."
+    credit: "The J. Paul Getty Museum, Los Angeles"
+  - id: "fig-8"
+    label: "Figure 8"
+    src: figures/evans-refugee.jpg
+    caption: "Walker Evans. *Arkansas Flood Refugee*, 1937."
+    credit: "The J. Paul Getty Museum, Los Angeles"
+  - id: "lange-house"
+    src: figures/lange-house.jpg
+    caption: "Dorothea Lange. *Abandoned Dust Bowl Home*, about 1935–1940."
+    credit: The J. Paul Getty Museum, Los Angeles
+  - id: "evans-video"
+    poster: figures/evans-video-still.jpg
+    media_id: BpGN0UUtqqU
+    media_type: youtube
+    label: "Video 1"
+    caption: "A selection of Walker Evans photos from the across the United States of America, 1930s."
+    credit: The J. Paul Getty Museum, Los Angeles
+  - id: "living-matter"
+    poster: figures/fig-21-5-pavic.jpg
+    media_type: vimeo
+    media_id: 592948810/c62783c8d6
+    label: "Video 2"
+    caption: "Consolidation with Paraloid B-72, 2010."
+    credit: "Video: Museum of Contemporary Art, Zagreb"
+  - id: "angstrom"
+    src: figures/angstrom.mp4
+    poster: figures/angstrom.jpg
+    media_type: video
+    label: "Video 3"
+    caption: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Risus feugiat in ante metus dictum at."
+    credit: "https://archive.org/details/XFR_2013-08-17_2B_05"
+  - id: "table-2-1"
+    src: "tables/table-2-1-pavic.html"
+    media_type: table
+    label: "Table 1"
+    caption: "Area of the characteristic absorption band."
+    credit: "Ivana Bačić, Jasna Jablan"
+  - id: "table-1"
+    src: "tables/table-1.html"
+    media_type: table
+  - id: "table-3"
+    src: "tables/table-3.html"
+    media_type: table
+  - id: "photo-podcast"
+    media_id: 336879231
+    media_type: soundcloud
+    label: "Audio 1"
+    caption: "Echoing the work of Lange and Evans, contemporary photographer Chris Killip documents social landscapes and is known for a series of powerful images of struggling industrial communities in North East England."
+    credit: "© J. Paul Getty Trust"
+  - id: "mother"
+    src: figures/mother.jpg
+    caption: "Dorothea Lange, *Human Erosion in California / Migrant Mother*, 1936."
+    credit: The J. Paul Getty Museum, Los Angeles
+    download: true
+  - id: "mother-b"
+    src: figures/mother-b.jpg
+    caption: "Dorothea Lange, alternate version of *Migrant Mother*, 1936."
+    credit: Library of Congress Prints and Photographs Division
+  - id: "mother-c"
+    src: figures/mother-c.jpg
+    caption: "Dorothea Lange, alternate version of *Migrant Mother*, 1936."
+    credit: Library of Congress Prints and Photographs Division
+  - id: "pickers"
+    src: figures/pickers.jpg
+    caption: "Dorothea Lange, *Pea Pickers, Nipomo, California*, 1936."
+    credit: The J. Paul Getty Museum, Los Angeles
+  - id: "duo"
+    src: figures/duo.jpg
+    caption: "Walker Evans, *Bud Fields with His Wife Ivy, and His Daughter Ellen, Hale County, Alabama*, 1936."
+    credit: The J. Paul Getty Museum, Los Angeles
+    download: true
+  - id: "family"
+    src: figures/family.jpg
+    caption: "Walker Evans, *Burrough’s Family, Hale County, Alabama*, 1935."
+    credit: The J. Paul Getty Museum, Los Angeles
