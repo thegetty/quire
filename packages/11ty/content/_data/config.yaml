@@ -1,15 +1,3 @@
-theme: default
-publishDir: site
-
-GoogleAnalytics: ''
-
-pluralizeListTitles: true
-disableKinds:
-  - home
-  - section
-  - taxonomy
-  - term
-
 params:
   bylineFormat: name-title # name | name-title | false
   citationPageLocationDivider: ', '
