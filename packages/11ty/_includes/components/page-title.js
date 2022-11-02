@@ -18,7 +18,7 @@ module.exports = function(eleventyConfig) {
   return function(params) {
 
     const { label, subtitle, title } = params
-    const separator = title && !title.match(/\?|\!/) ? ': ' : ' '
+    const separator = title && !title.match(/\?|!/) ? ': ' : ' '
 
     let pageTitle = subtitle ? [title, subtitle].join(separator) : title
 
