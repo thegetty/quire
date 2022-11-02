@@ -12,12 +12,17 @@ import git from '#src/lib/git/index.js'
  */
 export async function initStarter (starter, rootPath) {
   const remote = 'https://github.com/anderspollack/quire-starter-default'
+
   await git.cwd(rootPath)
   await git
     .clone(remote, '.')
     .catch((error) => console.error('[CLI:error] ', error));
   await fs.remove(path.join(rootPath, '.git'))
-  // const files = ...
-  // await fs.remove(files)
-  // await git.init()
+
+  const starterFiles = fs.readdirSync(rootPath)
+
+  await git.init()
+  await git.add(starterFiles)
+  await git.commit('Initial Commit')
+  await git.log()
 }
