@@ -17,6 +17,7 @@
     "linebreak-style": [ "error", "unix" ],
     "quotes": [ "error", "single", { "allowTemplateLiterals": true } ],
     "no-console": "off",
+    "no-prototype-builtins": "off",
     "no-unused-vars": "off",
     "semi": [ "error", "never" ],
     "sort-imports": [
