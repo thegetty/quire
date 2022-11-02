@@ -21,7 +21,7 @@ module.exports = function(eleventyConfig) {
       } else {
         element += `<li class="section-item">${menuItem({ currentURL, page })}`
         if (config.params.menuType !== 'brief') {
-          listItem += renderList(page.children)
+          element += renderList(page.children)
         }
         element += '</li>'
         return element
