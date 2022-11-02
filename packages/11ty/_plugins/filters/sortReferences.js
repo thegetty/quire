@@ -9,14 +9,13 @@
  */
 module.exports = function (eleventyConfig, items) {
   if (!items || !Array.isArray(items)) return null
-
+  const { defaultLocale } = eleventyConfig.globalData.config.localization
   const removeMarkdown = eleventyConfig.getFilter('removeMarkdown')
 
   /**
    * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Collator/Collator#locales
-   * @todo set locale using publication `config.languageCode`
    */
-  const locales = 'en'
+  const locales = defaultLocale
 
   /**
    * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Collator/Collator#options
