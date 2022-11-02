@@ -6,10 +6,8 @@ params:
   entryPageSideBySideLayout: false
   licenseIcons: true
   menuType: full
-  nextPageButtonText: Next
   pageContributorDivider: ' — '
   pageLabelDivider: '. '
-  prevPageButtonText: Back
   searchEnabled: true
   tocType: full
 
@@ -34,3 +32,7 @@ figures:
 
 localization:
   defaultLocale: en-us
+
+navigation:
+  nextButtonText: Next
+  prevButtonText: Back
