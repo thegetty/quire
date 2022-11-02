@@ -82,7 +82,7 @@ module.exports = function (eleventyConfig) {
       }
       case 'name':
       case 'name-title':
-      case 'name-title-block':
+      case 'name-title-block': {
         const separator = (format === 'name-title') ? ', ' : ''
         const listItems = contributorList.map((contributor) => {
           const contributorParts = [
@@ -108,7 +108,8 @@ module.exports = function (eleventyConfig) {
           </ul>
         `
         break
-      case 'string':
+      }
+      case 'string': {
         const last = contributorNames.pop()
         const namesString =
           contributorNames.length >= 1
@@ -116,6 +117,7 @@ module.exports = function (eleventyConfig) {
             : last
         contributorsElement = `<span class='quire-contributor'>${namesString}</span>`
         break
+      }
       default:
         contributorsElement = ''
         break
