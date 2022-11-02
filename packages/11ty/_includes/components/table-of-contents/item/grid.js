@@ -74,7 +74,7 @@ module.exports = function (eleventyConfig) {
         `
         break
       case !!pageFigure: {
-        const firstFigure = firstPageFigure ? getFigure(pageFigure[0]) : null
+        const firstFigure = pageFigure[0] ? getFigure(pageFigure[0]) : null
         imageElement = firstFigure
           ? tableOfContentsImage({ imageDir, src: firstFigure.src })
           : ''
