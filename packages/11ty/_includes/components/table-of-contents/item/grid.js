@@ -59,8 +59,8 @@ module.exports = function (eleventyConfig) {
     /**
      * Create cards for page items
      */
-    const imageAttribute = image || pageFigure || pageObject ? "image" : "no-image"
-    const slugPageAttribute = children ? "slug-page" : ""
+    const imageAttribute = image || pageFigure || pageObject ? 'image' : 'no-image'
+    const slugPageAttribute = children ? 'slug-page' : ''
 
     let imageElement
     switch (true) {
@@ -83,7 +83,7 @@ module.exports = function (eleventyConfig) {
         break
       default:
         imageElement = ''
-        break;
+        break
     }
 
     if (!children) {

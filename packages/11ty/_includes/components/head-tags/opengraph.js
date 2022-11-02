@@ -70,5 +70,5 @@ module.exports = function(eleventyConfig) {
       `<meta property="${property}" content="${content}">`
     ))
     return `${metaTags.join('\n')}`
-}
+  }
 }

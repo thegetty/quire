@@ -1,4 +1,5 @@
 const { html } = require('~lib/common-tags')
+
 /**
  * Renders the menu list
  *
@@ -27,12 +28,12 @@ module.exports = function(eleventyConfig) {
               }
               listItem += '</li>'
               return listItem
-            }
-          }).join('')}
+            }}).join('')
+          }
         </ol>
       `
     }
-      
+
     return renderList(navigation)
   }
 }

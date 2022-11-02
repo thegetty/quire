@@ -43,8 +43,8 @@ module.exports = function (eleventyConfig, { page }) {
       return ''
     }
     figure = { ...figure, ...arguments }
-    if (!page.figures) page.figures = [];
-    page.figures.push(figure);
+    if (!page.figures) page.figures = []
+    page.figures.push(figure)
 
     const { mediaType } =  figure
 

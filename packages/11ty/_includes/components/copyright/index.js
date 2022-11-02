@@ -27,7 +27,7 @@ module.exports = function(eleventyConfig) {
       return imagePath
         ? [`<img src="${imagePath}" class="copyright__publisher-logo" alt="${name}" />`]
         : []
-      })
+    })
 
     const { license } = publication
 

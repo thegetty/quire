@@ -42,20 +42,23 @@ module.exports = (eleventyConfig, collections) => {
     /**
      * Copy styles
      */
-      const sassOptions = {
-        loadPaths: [
-          path.resolve('node_modules')
-        ]
-      }
-     const styles = sass.compile(path.resolve('content', assetsDir, 'styles', 'epub.scss'), sassOptions)
-     write(path.join(assetsDir, 'epub.css'), styles.css)
+    const sassOptions = {
+      loadPaths: [
+        path.resolve('node_modules')
+      ]
+    }
+    const styles = sass.compile(path.resolve('content', assetsDir, 'styles', 'epub.scss'), sassOptions)
+    write(path.join(assetsDir, 'epub.css'), styles.css)
 
     /**
      * Copy assets
      */
     const { assets } = eleventyConfig.globalData.epub
     for (const asset of assets) {
-      fs.copySync(path.join(eleventyConfig.dir.output, asset), path.join(outputDir, asset))
+      fs.copySync(
+        path.join(eleventyConfig.dir.output, asset),
+        path.join(outputDir, asset)
+      )
     }
   })
 }

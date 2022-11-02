@@ -27,7 +27,7 @@ module.exports = function (eleventyConfig) {
       return ''
     }
 
-    const checked = selected || (input === "radio" && index === 0)
+    const checked = selected || (input === 'radio' && index === 0)
     const elementId = `${name}-${id}`
     const inputId = `${elementId}-input`
 

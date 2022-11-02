@@ -26,7 +26,7 @@ const getServiceId = (element) => {
   if (canvasPanel) {
     return canvasPanel.getAttribute('canvas-id')
   } else if (imageService) {
-    return imageService.getAttribute('src');
+    return imageService.getAttribute('src')
   } else {
     console.error(`Element does not contain a canvas panel or image service component:`, element)
   }

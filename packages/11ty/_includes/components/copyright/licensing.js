@@ -12,11 +12,11 @@ module.exports = function(eleventyConfig) {
       ? `<a rel="license" href="${license.url}" target="_blank">${license.name}</a>`
       : license.name
 
-    if (license.scope == "some-exceptions") {
+    if (license.scope == 'some-exceptions') {
       licenseText += `
         Unless otherwise indicated, this work is licensed under a ${licenseName}.
       `
-    } else if (license.scope === "text-only") {
+    } else if (license.scope === 'text-only') {
       licenseText += `
         The text of this work is licensed under a ${licenseName}. Unless otherwise indicated, all illustrations are excluded from the ${licenseAbbreviation} license.
       `

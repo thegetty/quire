@@ -43,7 +43,7 @@ module.exports = class Annotation {
           return label.split(' ').join('-').toLowerCase()
         default:
           logger.error(`Unable to set an id for annotation. Annotations must have an 'id', 'label', or 'src' property.`)
-          return;
+          return
       }
     }
 

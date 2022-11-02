@@ -30,7 +30,7 @@ module.exports = function(eleventyConfig) {
     }
 
     const renderList = (pages) => {
-      const otherPages = filterCurrentPage(pages);
+      const otherPages = filterCurrentPage(pages)
       return html`
         <ol class="toc-list">
           ${otherPages.map((page) => {

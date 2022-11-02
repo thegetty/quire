@@ -50,14 +50,14 @@ module.exports = function (eleventyConfig) {
     let contributorList = contributors
       .flatMap(getContributor)
       .filter((item) => (type || role) && type !== 'all'
-          ? (type && item.type === type) || (role && item.role === role)
-          : item
+        ? (type && item.type === type) || (role && item.role === role)
+        : item
       )
     contributorList = sortContributors(contributorList)
 
     const contributorNames = contributorList
       .map(fullname)
-      .filter((name) => name);
+      .filter((name) => name)
     if (!contributorList.length) return ''
 
     let contributorsElement
@@ -77,7 +77,7 @@ module.exports = function (eleventyConfig) {
           contributorInitials.length >= 1
             ? contributorInitials.join(', ') + ', and ' + last
             : last
-          contributorsElement = `<span class="quire-contributor">${nameString}</span>`
+        contributorsElement = `<span class="quire-contributor">${nameString}</span>`
         break
       }
       case 'name':
@@ -90,13 +90,13 @@ module.exports = function (eleventyConfig) {
           ]
           contributor.title && format !== 'name'
             ? contributorParts.push(
-                `<span class="quire-contributor__title">${ contributor.title }</span>`
-              )
+              `<span class="quire-contributor__title">${ contributor.title }</span>`
+            )
             : null
           contributor.affiliation && format !== 'name'
             ? contributorParts.push(
-                `<span class="quire-contributor__affiliation">${ contributor.affiliation }</span>`
-              )
+              `<span class="quire-contributor__affiliation">${ contributor.affiliation }</span>`
+            )
             : null
           return `
             <li class="quire-contributor" id="${slugify(contributor.id)}">${contributorParts.join(separator)}</li>

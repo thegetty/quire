@@ -35,7 +35,7 @@ module.exports = function (eleventyConfig) {
     const name = fullname(params)
 
     const contributorLink = url
-      ? link({ classes: ["quire-contributor__url"], name: icon({ type: 'link', description:'' }), url })
+      ? link({ classes: ['quire-contributor__url'], name: icon({ type: 'link', description:'' }), url })
       : ''
 
     const contributorImage = image

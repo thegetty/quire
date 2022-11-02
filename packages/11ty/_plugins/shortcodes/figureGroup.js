@@ -38,9 +38,9 @@ module.exports = function (eleventyConfig, { page }) {
     let figureTags = []
     for (let i=0; i < rows; ++i) {
       const startIndex = i * columns
-      let row = '';
+      let row = ''
       for (let id of ids.slice(startIndex, columns + startIndex)) {
-        row += await figure(eleventyConfig, { page })(id, classes);
+        row += await figure(eleventyConfig, { page })(id, classes)
       }
       figureTags.push(`<div class="q-figure--group__row columns">${row}</div>`)
     }
@@ -50,5 +50,5 @@ module.exports = function (eleventyConfig, { page }) {
         ${figureTags.join('\n')}
       </figure>
     `
-}
+  }
 }
