@@ -20,10 +20,11 @@ const { warn } = chalkFactory('shortcodes:figure')
  * @return     {boolean}  An HTML <figure> element
  */
 module.exports = function (eleventyConfig, { page }) {
+  const figureAudio = eleventyConfig.getFilter('figureAudio')
   const figureImage = eleventyConfig.getFilter('figureImage')
   const figureLabel = eleventyConfig.getFilter('figureLabel')
   const figureModalLink = eleventyConfig.getFilter('figureModalLink')
-  const figureAudio = eleventyConfig.getFilter('figureAudio')
+  const figurePlaceholder = eleventyConfig.getFilter('figurePlaceholder')
   const figureTable = eleventyConfig.getFilter('figureTable')
   const figureVideo = eleventyConfig.getFilter('figureVideo')
   const getFigure = eleventyConfig.getFilter('getFigure')
@@ -43,8 +44,8 @@ module.exports = function (eleventyConfig, { page }) {
       return ''
     }
     figure = { ...figure, ...arguments }
-    if (!page.figures) page.figures = [];
-    page.figures.push(figure);
+    if (!page.figures) page.figures = []
+    page.figures.push(figure)
 
     const { mediaType } =  figure
 

@@ -22,8 +22,8 @@ export default class Search {
       this.ref('url')
       pages.forEach((page) => {
         this.add(page)
-      });
-    });
+      })
+    })
   }
 
   /**

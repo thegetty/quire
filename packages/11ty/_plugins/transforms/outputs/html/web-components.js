@@ -16,7 +16,7 @@ module.exports = function (dom) {
     .reduce((modulePaths, filePath) => {
       if (filePath.isDirectory()) modulePaths.push(
         path.join('_assets', 'javascript', filePath.name, 'index.js'),
-      );
+      )
 
       return modulePaths
     }, [])

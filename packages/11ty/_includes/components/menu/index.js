@@ -65,7 +65,7 @@ module.exports = function(eleventyConfig) {
 
         <footer class="quire-menu__footer" role="contentinfo">
           ${copyright()}
-          ${linkList({ links: footerLinks, classes: ["menu-list"]}) }
+          ${linkList({ links: footerLinks, classes: ['menu-list']}) }
         </footer>
       </div>
     `

@@ -83,5 +83,5 @@ module.exports = function(eleventyConfig) {
     ${linkTags.join('\n')}
     ${metaTags.join('\n')}
     `
-}
+  }
 }

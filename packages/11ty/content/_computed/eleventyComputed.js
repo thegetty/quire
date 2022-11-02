@@ -63,7 +63,7 @@ module.exports = {
   pageContributors: ({ contributor, contributor_as_it_appears }) => {
     if (!contributor) return
     if (contributor_as_it_appears) return contributor_as_it_appears
-    return (Array.isArray(contributor)) ? contributor : [contributor];
+    return (Array.isArray(contributor)) ? contributor : [contributor]
   },
   /**
    * Compute a 'pageData' property that includes the page and collection page data

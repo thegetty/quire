@@ -35,18 +35,18 @@ module.exports = (eleventyConfig) => {
      * @type {Array<Object>}
      */
     formats: [
-     {
-      input: ['.png', '.svg'],
-      /**
+      {
+        input: ['.png', '.svg'],
+        /**
        * Change to '.png' when canvas-panel preferredFormats issue is resolved
        * @link https://github.com/digirati-co-uk/iiif-canvas-panel/issues/193
        */
-      output: '.jpg'
-     },
-     {
-      input: ['.jp2', '.jpg', '.jpeg', '.tif', '.tiff'],
-      output: '.jpg'
-     }
+        output: '.jpg'
+      },
+      {
+        input: ['.jp2', '.jpg', '.jpeg', '.tif', '.tiff'],
+        output: '.jpg'
+      }
     ],
     /**
      * Generated manifest locale

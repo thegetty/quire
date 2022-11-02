@@ -46,8 +46,8 @@ module.exports = class ImageProcessor {
       )
       if (transformationErrors.length) {
         errors.push(
-          `Failed to transform image "${imagePath}". ${transformationErrors.join(" ")}`,
-        );
+          `Failed to transform image "${imagePath}". ${transformationErrors.join(' ')}`,
+        )
       }
     }
 

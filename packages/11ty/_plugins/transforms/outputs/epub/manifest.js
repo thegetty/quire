@@ -59,9 +59,9 @@ module.exports = (eleventyConfig) => {
    * @return {String}
    */
   const publisherNameAndLocations = () => {
-    if (!publishers) return;
+    if (!publishers) return
     return publishers.map(({ location, name }) => {
-      return location ? `${name}, ${location}` : `${name}`;
+      return location ? `${name}, ${location}` : `${name}`
     })
   }
 
@@ -96,7 +96,7 @@ module.exports = (eleventyConfig) => {
     cover: cover(),
     creators: contributors('primary'),
     date: pubDate,
-    description: removeHTML(description.full).replace(/\r?\n|\r/g, " "),
+    description: removeHTML(description.full).replace(/\r?\n|\r/g, ' '),
     id: isbn,
     languages: language,
     publisher: publisherNameAndLocations(),
