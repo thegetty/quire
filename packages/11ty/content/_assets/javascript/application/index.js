@@ -13,7 +13,7 @@ import '../../styles/custom.css'
 
 // Modules (feel free to define your own and import here)
 import './canvas-panel'
-import './soundcloud-api'
+import './soundcloud-api.min.js'
 import { goToFigureState, setUpUIEventHandlers } from './canvas-panel'
 import Search from '../../../../_plugins/search/search.js'
 import scrollToHash from './scroll-to-hash'

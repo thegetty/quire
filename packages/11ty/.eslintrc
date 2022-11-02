@@ -5,6 +5,7 @@
     "node": true,
   },
   "extends": "eslint:recommended",
+  "ignorePatterns": [ "**/*.min.js" ],
   "overrides": [],
   "parserOptions": {
     "ecmaVersion": "latest",
