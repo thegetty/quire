@@ -1,6 +1,7 @@
 const path = require('path')
 const jsdom = require('jsdom')
 const { JSDOM } = jsdom
+const epub = require('./epub')
 const html = require('./html/transform.js')
 const pdf = require('./pdf/transform.js')
 const renderOutputs = require('./render.js')
@@ -19,6 +20,8 @@ module.exports = function(eleventyConfig, { collections }) {
    * - Call transform with `this` context to ensure we have `this.outputPath`
    * - Order is important. The `html` transform must run last.
    */
+  eleventyConfig.addPlugin(epub, collections)
+
   eleventyConfig.addTransform('pdf', function (content) {
     return pdf.call(this, eleventyConfig, collections, content)
   })

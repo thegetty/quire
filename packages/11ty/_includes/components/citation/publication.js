@@ -16,7 +16,7 @@ module.exports = function (eleventyConfig) {
     pub_type: pubType
   } = eleventyConfig.globalData.publication
 
-  const { baseURL } = eleventyConfig.globalData.config
+  const { url } = eleventyConfig.globalData.publication
 
   return function (params) {
     let { context } = params
@@ -37,7 +37,7 @@ module.exports = function (eleventyConfig) {
       'publisher-place': publishers[0].location,
       title: `<em>${siteTitle()}</em>`,
       type: pubType === 'journal-periodical' ? 'article-journal' : 'book',
-      URL: baseURL
+      URL: url
     }
   }
 }

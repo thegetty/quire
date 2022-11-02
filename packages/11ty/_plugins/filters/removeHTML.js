@@ -4,5 +4,5 @@
  * @return     {String}  String with no HTML
  */
 module.exports = function(string) {
-  return string.replace(/(<([^>]+)>)/gi, "");
+  return string.replace(/(<([^>]+)>)/gi, '')
 }

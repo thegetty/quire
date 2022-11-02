@@ -1,37 +1,41 @@
-analytics:
-  googleId: ''
+languageCode: en-us
+theme: default
+publishDir: site
 
-baseURL: ''
+footnoteReturnLinkContents: '↩'
+GoogleAnalytics: ''
 
-footnotes:
-  backlinkSymbol: '↩'
+pluralizeListTitles: true
+disableKinds:
+  - home
+  - section
+  - taxonomy
+  - term
+
+params:
+  bylineFormat: name-title # name | name-title | false
+  citationPageLocationDivider: ', '
+  citationPopupStyle: text # text | icon
+  entryPageObjectLinkText: View in Collection
+  entryPageSideBySideLayout: false
+  figureModal: true
+  figureModalIcons: true
+  figureZoom: true
+  imageDir: '/_assets/images'
+  licenseIcons: true
+  menuType: full
+  nextPageButtonText: Next
+  pageContributorDivider: ' — '
+  pageLabelDivider: '. '
+  prevPageButtonText: Back
+  searchEnabled: true
+  tocType: full
 
 bibliography:
-  format: short # short | long
+  displayOnPage: true
+  displayShort: true
+  heading: Bibliography
 
-byline:
-  format: name-title # name | name-title | false
-
-citations:
-  format: Chicago # Chicago | MLA
-  popupStyle: text # text | icon
-
-figures:
-  enableModal: true
-  enableZoom: true
-  labelPosition: on-top # below | on-top
-
-localization:
-  defaultLocale: en-us
-  labels:
-    en:
-      biblioHeading: Bibliography
-      nextPageButton: Next
-      objectLinkText: View in Collection
-      pageLabelDivider: '. '
-      prevPageButton: Back
-
-menu: list # brief | list
-
-search:
-  enabled: true
+epub:
+  defaultCoverImage: 'https://user-images.githubusercontent.com/7796401/39769476-29929fe4-52a1-11e8-85ac-ff41505b3d4c.png'
+  outputDir: '_epub'

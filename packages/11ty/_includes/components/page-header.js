@@ -12,11 +12,11 @@ module.exports = function(eleventyConfig) {
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const slugify = eleventyConfig.getFilter('slugify')
 
-  const { imgDir, pageLabelDivider } = eleventyConfig.globalData.config.params
+  const { imageDir, pageLabelDivider } = eleventyConfig.globalData.config.params
 
   return function (params) {
     const {
-      contributor_byline,
+      byline_format,
       image,
       label,
       pageContributors,
@@ -38,7 +38,7 @@ module.exports = function(eleventyConfig) {
       ? html`
           <section
             class="${classes} hero__image"
-           style="background-image: url('${path.join(imgDir, image)}');"
+           style="background-image: url('${path.join(imageDir, image)}');"
           >
           </section>
         `
@@ -47,7 +47,7 @@ module.exports = function(eleventyConfig) {
     const contributorsElement = pageContributors
       ? html`
           <div class="quire-page__header__contributor">
-            ${contributors({ context: pageContributors, format: contributor_byline })}
+            ${contributors({ context: pageContributors, format: byline_format })}
           </div>
         `
       : ''
@@ -62,7 +62,7 @@ module.exports = function(eleventyConfig) {
           ${contributorsElement}
         </div>
       </section>
-      ${image}
+      ${imageElement}
     `
   }
 }

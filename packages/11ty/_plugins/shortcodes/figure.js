@@ -20,13 +20,13 @@ const { warn } = chalkFactory('shortcodes:figure')
  * @return     {boolean}  An HTML <figure> element
  */
 module.exports = function (eleventyConfig, { page }) {
-  const figureimage = eleventyConfig.getFilter('figureimage')
-  const figurelabel = eleventyConfig.getFilter('figurelabel')
-  const figuremodallink = eleventyConfig.getFilter('figuremodallink')
-  const figuresoundcloud = eleventyConfig.getFilter('figuresoundcloud')
-  const figuretable = eleventyConfig.getFilter('figuretable')
-  const figurevimeo = eleventyConfig.getFilter('figurevimeo')
-  const figureyoutube = eleventyConfig.getFilter('figureyoutube')
+  const figureAudio = eleventyConfig.getFilter('figureAudio')
+  const figureImage = eleventyConfig.getFilter('figureImage')
+  const figureLabel = eleventyConfig.getFilter('figureLabel')
+  const figureModalLink = eleventyConfig.getFilter('figureModalLink')
+  const figurePlaceholder = eleventyConfig.getFilter('figurePlaceholder')
+  const figureTable = eleventyConfig.getFilter('figureTable')
+  const figureVideo = eleventyConfig.getFilter('figureVideo')
   const getFigure = eleventyConfig.getFilter('getFigure')
   const slugify = eleventyConfig.getFilter('slugify')
 
@@ -44,30 +44,30 @@ module.exports = function (eleventyConfig, { page }) {
       return ''
     }
     figure = { ...figure, ...arguments }
-    if (!page.figures) page.figures = [];
-    page.figures.push(figure);
+    if (!page.figures) page.figures = []
+    page.figures.push(figure)
 
-    const { media_type: mediaType } =  figure
+    const { mediaType } =  figure
 
     const component = async (figure) => {
       switch (true) {
         case (epub || pdf) && ['soundcloud', 'youtube'].includes(mediaType):
-          return figureplaceholder(figure)
-        case mediaType === 'youtube':
-          return figureyoutube(figure)
-        case mediaType === 'vimeo':
-          return figurevimeo(figure)
+          return figurePlaceholder(figure)
         case mediaType === 'soundcloud':
-          return figuresoundcloud(figure)
+          return figureAudio(figure)
         case mediaType === 'table':
-          return await figuretable(figure)
+          return await figureTable(figure)
+        case mediaType === 'video':
+        case mediaType === 'vimeo':
+        case mediaType === 'youtube':
+          return figureVideo(figure)
         default:
-          return await figureimage(figure)
+          return await figureImage(figure)
       }
     }
 
     return oneLine`
-      <figure id="${slugify(id)}" class="${['q-figure', ...classes].join(' ')}">
+      <figure id="${slugify(id)}" class="${['q-figure', 'q-figure--' + mediaType, ...classes].join(' ')}">
         ${await component(figure)}
       </figure>
     `

@@ -29,7 +29,7 @@ module.exports = function(eleventyConfig, options) {
    * @see https://github.com/arve0/markdown-it-attrs#usage
    */
   const attributesOptions = {
-    allowedAttributes: ['class', 'id'],
+    allowedAttributes: ['class', 'id', 'target'],
     leftDelimiter: '{',
     rightDelimiter: '}'
   }

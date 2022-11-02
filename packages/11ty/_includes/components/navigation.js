@@ -1,4 +1,5 @@
-const { html } = require('~lib/common-tags');
+const truncate = require('~lib/truncate')
+const { html } = require('~lib/common-tags')
 
 /**
  * This controls the various navigation elements (nav, skip-link, menu and
@@ -32,9 +33,6 @@ module.exports = function(eleventyConfig) {
     const home = '/'
     const isHomePage = currentPage.url === home
 
-    // @TODO figure out js module-friendly filters -- this one should work though
-    const truncate = (text, limit) => text?.slice(0, limit)
-
     const navBarLabel = ({ label, short_title, title }) => {
       return pageTitle({ label, title: short_title || truncate(title, 34)})
     }
@@ -50,9 +48,6 @@ module.exports = function(eleventyConfig) {
               <svg data-outputs-exclude="epub,pdf">
                 <switch>
                   <use xlink:href="#start-icon"></use>
-                  <foreignObject width="32" height="32">
-                    <img src="${imageDir}/icons/play.png" alt="Next Page" />
-                  </foreignObject>
                 </switch>
               </svg>
             </span>
@@ -72,9 +67,6 @@ module.exports = function(eleventyConfig) {
             <svg class="left-icon" data-outputs-exclude="epub,pdf">
               <switch>
                 <use xlink:href="#left-arrow-icon"></use>
-                <foreignObject width="24" height="24">
-                  <img src="${imageDir}/icons/left-arrow.png" alt="Previous Page" />
-                </foreignObject>
               </switch>
             </svg>
             ${navBarLabel({ label, short_title, title })}
@@ -93,9 +85,6 @@ module.exports = function(eleventyConfig) {
               <svg data-outputs-exclude="epub,pdf">
                 <switch>
                   <use xlink:href="#home-icon"></use>
-                  <foreignObject width="32" height="32">
-                    <img src="${imageDir}/icons/home.png" alt="Home Page" />
-                  </foreignObject>
                 </switch>
               </svg>
             </span>
@@ -116,9 +105,6 @@ module.exports = function(eleventyConfig) {
             <svg data-outputs-exclude="epub,pdf">
               <switch>
                 <use xlink:href="#right-arrow-icon"></use>
-                <foreignObject width="24" height="24">
-                  <img src="${imageDir}/icons/right-arrow.png" alt="Next Page" />
-                </foreignObject>
               </switch>
             </svg>
           </a>
@@ -141,9 +127,6 @@ module.exports = function(eleventyConfig) {
               <svg data-outputs-exclude="epub,pdf">
                 <switch>
                   <use xlink:href="#search-icon"></use>
-                  <foreignObject width="32" height="32">
-                    <img src="${imageDir}/icons/search.png" alt="Search" />
-                  </foreignObject>
                 </switch>
               </svg>
               <span class="visually-hidden">Search</span>
@@ -169,9 +152,6 @@ module.exports = function(eleventyConfig) {
               <svg data-outputs-exclude="epub,pdf">
                 <switch>
                   <use xlink:href="#nav-icon"></use>
-                  <foreignObject width="32" height="32">
-                    <img src="${imageDir}/icons/nav.png" alt="Table of Contents" />
-                  </foreignObject>
                 </switch>
               </svg>
               <span class="visually-hidden">Table of Contents</span>

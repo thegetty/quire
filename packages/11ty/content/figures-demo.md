@@ -16,6 +16,14 @@ order: 505
 
 {% figure "example-with-choices" %}
 
+## Tables
+
+{% figure "table-21-1" %}
+
+{% figure "table-1" "is-table-scale-7" %}
+
+{% figure "table-3" "is-table-scale-2" %}
+
 ## YouTube
 
 {% figure "evans-video" %}
@@ -23,6 +31,10 @@ order: 505
 ## Vimeo
 
 {% figure "living-matter" %}
+
+## HTML 5 Video
+
+{% figure "angstrom" %}
 
 ## Soundcloud
 

@@ -13,7 +13,7 @@ const outputs = require('./outputs')
  */
 module.exports = function(eleventyConfig, collections) {
   /**
-   * Registers a tranform to format output using Prettier
+   * Registers a transform to format output using Prettier
    */
   eleventyConfig.addTransform('format', formatOutput)
 

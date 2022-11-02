@@ -1,14 +1,10 @@
 # Eleventy build artifacts
+_epub/
 _site/
 _temp/
 
 # EleventFetch cache directory
 .cache
-
-# environment variables file
-.env
-.env.*
-!.env.example
 
 # ESLint cache directory
 .eslintcache
@@ -23,6 +19,9 @@ lerna-debug.log*
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# System files
+**/*/.DS_Store
 
 # npm cache directory
 .npm

@@ -11,12 +11,12 @@ const { error } = chalkFactory('transforms:format')
  * @param      {String}  content
  * @return     {String}  transformed content
  */
-module.exports = function (content) {
-  let result;
+module.exports = async function (content) {
+  let result
   try {
-    result = prettier.format(content, { filepath: this.outputPath })
+    result = await prettier.format(content, { filepath: this.outputPath })
   } catch (errorMessage) {
-    error(`Eleventy transform error formatting output for ${this.outputPath}.\n`, errorMessage)
+    error(`Eleventy transform error formatting output for ${this.outputPath}.\n${errorMessage}`)
   }
   return result || content
 }

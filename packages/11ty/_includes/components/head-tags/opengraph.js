@@ -10,17 +10,17 @@ module.exports = function(eleventyConfig) {
   const { config, publication } = eleventyConfig.globalData
 
   return function ({ page }) {
-    const { description, identifier, promo_image, pub_date, pub_type } = publication
+    const { description, identifier, promo_image, pub_date, pub_type, url } = publication
     const pageType = page && page.type
 
     const meta = [
       {
         property: 'og:title',
-        content: pageType != 'essay' ? config.title : page.title
+        content: pageType != 'essay' ? publication.title : page.title
       },
       {
         property: 'og:url',
-        content: pageType != 'essay' ? config.baseURL : permalink
+        content: new URL(page.url, url).toString()
       },
       {
         property: 'og:image',
@@ -44,7 +44,7 @@ module.exports = function(eleventyConfig) {
       meta.push({ property: 'og:book:release_date', content: pub_date })
     } else {
       meta.push({ property: 'og:type', content: 'article' })
-      meta.push({ property: 'og:site_name', content: config.title })
+      meta.push({ property: 'og:site_name', content: publication.title })
       meta.push({ property: 'og:article:published_time', content: pub_date })
     }
 
@@ -70,5 +70,5 @@ module.exports = function(eleventyConfig) {
       `<meta property="${property}" content="${content}">`
     ))
     return `${metaTags.join('\n')}`
-}
+  }
 }

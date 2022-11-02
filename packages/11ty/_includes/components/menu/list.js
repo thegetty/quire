@@ -1,4 +1,5 @@
 const { html } = require('~lib/common-tags')
+
 /**
  * Renders the menu list
  *
@@ -11,28 +12,30 @@ module.exports = function(eleventyConfig) {
   const { config } = eleventyConfig.globalData
 
   return function(params) {
-    const { navigation } = params
+    const { currentURL, navigation } = params
+
+    const listItem = (page) => {
+      let element = ''
+      if (!page.children || page.children.length === 0) {
+        return `<li class="page-item">${menuItem({ currentURL, page })}</li>`
+      } else {
+        element += `<li class="section-item">${menuItem({ currentURL, page })}`
+        if (config.params.menuType !== 'brief') {
+          element += renderList(page.children)
+        }
+        element += '</li>'
+        return element
+      }
+    }
 
     const renderList = (items) => {
       return html`
         <ol>
-          ${items.map((item) => {
-            let listItem = ''
-            if (!item.children || item.children.length === 0) {
-              return `<li class="page-item">${menuItem(item)}</li>`
-            } else {
-              listItem += `<li class="section-item">${menuItem(item)}`
-              if (config.params.menuType !== 'brief') {
-                listItem += renderList(item.children)
-              }
-              listItem += '</li>'
-              return listItem
-            }
-          }).join('')}
+          ${items.map(listItem).join('')}
         </ol>
       `
     }
-      
+
     return renderList(navigation)
   }
 }

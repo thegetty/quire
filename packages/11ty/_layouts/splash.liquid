@@ -15,14 +15,14 @@ description: splash page layout
     </h1>
     {% if pageContributors %}
       <div class="quire-page__header__contributor">
-        {% contributors context=pageContributors, format=contributor_byline %}
+        {% contributors context=pageContributors, format=byline_format %}
       </div>
     {% endif %}
   </div>
 </section>
 
 {% if content %}
-  <section id="content" class="section quire-page__content">
+  <section class="section quire-page__content">
     {% if abstract %}
       {% abstract abstract=abstract %}
     {% endif %}

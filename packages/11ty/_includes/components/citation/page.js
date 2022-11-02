@@ -11,12 +11,11 @@ module.exports = function (eleventyConfig) {
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const siteTitle = eleventyConfig.getFilter('siteTitle')
 
-  const { baseURL } = eleventyConfig.globalData.config
-
   const {
     contributor: publicationContributors,
     pub_date: pubDate,
     publisher: publishers,
+    url
   } = eleventyConfig.globalData.publication
 
   return function (params) {
@@ -43,7 +42,7 @@ module.exports = function (eleventyConfig) {
       'publisher-place': publishers[0].location,
       title: pageTitle(page.data),
       type: 'chapter',
-      URL: new URL(page.url, baseURL)
+      URL: new URL(page.url, url).toString()
     }
   }
 }

@@ -5,33 +5,22 @@ description: Entry layout. This template is intended for use in catalogue-style 
 ---
 
 {% assign entryPageSideBySideLayout = config.params.entryPageSideBySideLayout %}
-{% assign epub = config.params.epub %}
-{% assign imageDir = config.params.imageDir %}
-{% assign pdf = config.params.pdf %}
-{% assign zoom = config.params.figuresZoom %}
 
 {% comment %}
 Entry content, including entry image and tombstone data
 {% endcomment %}
 
-<div {% if entryPageSideBySideLayout == true or presentation == 'side-by-side' and pdf != true and epub != true %} class="side-by-side" {% endif %} data="{{ zoom }}">
-
-  {% if epub == true %}
-  <header class="quire-entry__header">
-    <div class="container">
-        {% comment %} Title {% endcomment %}
-        <h1 class="quire-page__header__title" id="{{ title | slugify }}">
-          {% pageTitle label=label, title=title, subtitle=subtitle %}
-        </h1>
-    </div>
-  </header>
-  {% endif %}
+<div {% if entryPageSideBySideLayout == true or presentation == 'side-by-side' %} class="side-by-side" {% endif %}>
 
   {% comment %} Full-width entry image header {% endcomment %}
-  <div class="quire-entry__image-wrap">
+  <div class="quire-entry__image-wrap" data-outputs-include="html">
     <div class="quire-entry__lightbox">
       {% if image %}
-        {% comment %} TODO add `lightbox` when a single `image` is included in front matter {% endcomment %}
+      {% comment %} 
+        To do: add support for images without ids defined in front matter
+        {% assign figures = image | split: ',' %}
+        {% lightbox figures %}
+      {% endcomment %}
       {% elsif pageObjects %}
         {% for object in pageObjects %}
           {% lightbox object.figures %}
@@ -40,19 +29,32 @@ Entry content, including entry image and tombstone data
     </div>
   </div>
 
-  <div class="quire-entry__content">
-    {% if epub != true %}
-      <header class="quire-entry__header">
-        <div class="container">
-          <h1 class="quire-page__header__title" id="{{ title | url }}">
-            {% pageTitle label=label, title=title, subtitle=subtitle %}
-          </h1>
-          <div class="quire-page__header__contributor">
-            {% contributors context=pageContributors, format=contributor_byline %}
-          </div>
-        </div>
-      </header>
+  <div class="quire-entry__image-wrap" data-outputs-include="epub,pdf">
+    {% if image %}
+      {% comment %} 
+        @TODO: add support for images without ids defined in front matter
+        {% figure image %}
+      {% endcomment %}
+    {% elsif pageObjects %}
+      {% for object in pageObjects %}
+        {% for figure in object.figures %}
+          {% figure figure.id %}
+        {% endfor %}
+      {% endfor %}
     {% endif %}
+  </div>
+
+  <div class="quire-entry__content">
+    <header class="quire-entry__header">
+      <div class="container">
+        <h1 class="quire-page__header__title" id="{{ title | url }}">
+          {% pageTitle label=label, title=title, subtitle=subtitle %}
+        </h1>
+        <div class="quire-page__header__contributor">
+          {% contributors context=pageContributors, format=byline_format %}
+        </div>
+      </div>
+    </header>
 
     {% tombstone pageObjects %}
 
@@ -60,7 +62,7 @@ Entry content, including entry image and tombstone data
       {% abstract abstract=abstract %}
     {% endif %}
 
-    <section class="section quire-page__content" id="content">
+    <section class="section quire-page__content">
       <div class="container">
         <div class="content">
           {{ content }}

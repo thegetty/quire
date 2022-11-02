@@ -2,11 +2,11 @@ const path = require('path')
 const { html } = require('~lib/common-tags')
 
 module.exports = function(eleventyConfig) {
-  const figurelabel = eleventyConfig.getFilter('figurelabel')
+  const figureLabel = eleventyConfig.getFilter('figureLabel')
 
-  const { figures: { labelPosition }, imageDir } = eleventyConfig.globalData.config.params
+  const { imageDir } = eleventyConfig.globalData.config.params
 
-  return function({ alt, caption, id, label, media_type: mediaType, src }) {
+  return function({ alt, caption, id, label, mediaType, src }) {
     let imageElement
 
     if (src) {
@@ -26,9 +26,7 @@ module.exports = function(eleventyConfig) {
       `
     }
 
-    const labelElement = label && labelPosition === 'on-top'
-      ? figurelabel({ caption, id, label })
-      : ''
+    const labelElement = figureLabel({ caption, id, label })
 
     const captionElement = `
       <figcaption class="quire-figure__caption">

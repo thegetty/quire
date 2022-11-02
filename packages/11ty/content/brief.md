@@ -3,5 +3,5 @@ layout: table-of-contents
 search: false
 title: Contents Brief
 presentation: brief
-order: 3
+order: 7
 ---

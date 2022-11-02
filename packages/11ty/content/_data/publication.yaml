@@ -8,6 +8,10 @@
 # publication.
 
 # ------------------------------------------------------------------------------
+# The publication's base URL, i.e. 'https://www.my-publication.org'
+url: 'http://localhost:8080'
+
+# ------------------------------------------------------------------------------
 # Title & Description
 title: New Deal Photography
 subtitle: The Works of Dorothea Lange and Walker Evans
@@ -30,7 +34,6 @@ pub_type: book # book | journal-periodical | other
 
 identifier:
   isbn:
-  url:
 
 publisher:
   - name: J. Paul Getty Trust
@@ -42,7 +45,7 @@ publisher:
 # Contributors
 # ------------------------------------------------------------------------------
 
-contributor_as_it_appears:
+contributor_as_it_appears: Edited by Judith Keller, featuring photographs by Dorothea Lange and Walker Evans
 
 contributor:
   - id: jkeller
@@ -54,15 +57,24 @@ contributor:
     bio: "Judith Keller joined the J. Paul Getty Museum in 1986 and since 2008 was an Associate Curator of Photographs. In 2010, she was named the Senior Curator of Photographs. Keller received her B.A. in Art History and a Masters in Museum Practice and Art History from the University of Michigan at Ann Arbor. She also completed course work for a Phd. in Art History at the University of Michigan. Prior to her tenure at the Getty, Keller worked at The University of Michigan Museum of Art (1979 – 1981) and at the Archer M. Huntington Art Gallery (now the Blanton Museum of Art) at The University of Texas, Austin, as Curator of Prints and Drawings."
     url: https://news.getty.edu/judith-keller-named-senior-curator-photographs-at-j-paul-getty-museum.htm
     pic: contributors/judith-keller.jpg
-  - id:
-    type:
-    first_name:
-    last_name:
-    title:
-    affiliation:
-    bio:
-    url:
-    pic:
+  - id: dlange
+    type: secondary
+    first_name: Dorothea
+    last_name: Lange
+    title: Photographer
+    affiliation: Farm Security Administration
+    bio: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    url: https://en.wikipedia.org/wiki/Dorothea_Lange
+    pic: figures/lange.jpg
+  - id: wevans
+    type: secondary
+    first_name: Walker
+    last_name: Evans
+    title: Photograher
+    affiliation: Farm Security Administration
+    bio: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    url: https://en.wikipedia.org/wiki/Walker_Evans
+    pic: figures/evans.jpg
 
 # ------------------------------------------------------------------------------
 # Copright & License

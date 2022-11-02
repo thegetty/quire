@@ -7,7 +7,7 @@ const { warn } = chalkFactory('eleventyComputed')
  * Global computed data
  */
 module.exports = {
-  canonicalURL: ({ config, page }) => page.url && path.join(config.baseURL, page.url),
+  canonicalURL: ({ publication, page }) => page.url && path.join(publication.url, page.url),
   eleventyNavigation: {
     /**
      * Explicitly define page data properties used in the TOC
@@ -23,27 +23,28 @@ module.exports = {
         layout: data.layout,
         object: data.object,
         order: data.order,
+        classes: data.pageClasses,
         short_title: data.short_title,
         subtitle: data.subtitle,
         summary: data.summary,
         title: data.title
       }
     },
-    key: (data) => {
-      if (!data.page.url) return
-      const segments = data.page.url.split('/')
-      const key = segments.slice(1, segments.length - 1).join('/')
-      return data.key || key
-    },
+    key: (data) => data.key,
     order: (data) => data.order,
-    parent: (data) => {
-      if (!data.page.url) return
-      const segments = data.page.url.split('/')
-      const parent = segments.slice(1, segments.length - 2).join('/')
-      return data.parent || parent
-    },
-    url: (data) => data.page.url,
-    title: (data) => data.title
+    parent: (data) => data.parent,
+    title: (data) => data.title,
+    url: (data) => data.page.url
+  },
+  /**
+   * Current page key
+   * @return {String}
+   */
+  key: (data) => {
+    if (!data.page.url) return
+    const segments = data.page.url.split('/')
+    const key = segments.slice(1, segments.length - 1).join('/')
+    return data.key || key
   },
   /**
    * Classes applied to <main> page element
@@ -62,7 +63,7 @@ module.exports = {
   pageContributors: ({ contributor, contributor_as_it_appears }) => {
     if (!contributor) return
     if (contributor_as_it_appears) return contributor_as_it_appears
-    return (Array.isArray(contributor)) ? contributor : [contributor];
+    return (Array.isArray(contributor)) ? contributor : [contributor]
   },
   /**
    * Compute a 'pageData' property that includes the page and collection page data
@@ -77,7 +78,7 @@ module.exports = {
    */
   pageFigures: ({ figure, figures }) => {
     if (!figure || !figure.length) return
-    return figure.map((figure) => figures.figure_list.find((item) => item.id === figure.id))
+    return figure.map((figure) => figures.find((item) => item.id === figure.id))
   },
   /**
    * Objects data referenced by id in page frontmatter including figures data
@@ -122,29 +123,57 @@ module.exports = {
     }
   },
   /**
+   * Parent page key
+   * @return {String}
+   */
+  parent: ({ page, parent }) => {
+    if (!page.url) return
+    const segments = page.url.split('/')
+    const parentSegment = segments.slice(1, segments.length - 2).join('/')
+    return parent || parentSegment
+  },
+  parentPage:({ collections, parent }) => {
+    return collections.all.find((item) => parent && item.data.key === parent)
+  },
+  /**
    * Contributors with a `pages` property containing data about the pages they contributed to
    */
-  publicationContributors: ({ collections, config, publication }) => {
-    const { contributor, contributor_as_it_appears } = publication
+  publicationContributors: ({ collections, config, page, publication }) => {
     if (!collections.all) return
-    if (contributor_as_it_appears) return contributor_as_it_appears
-    return contributor
-      .map((item) => {
-        const { pic } = item
-        item.imagePath = pic
-          ? path.join(config.params.imageDir, pic)
-          : null
-        item.pages = collections.all.filter(
-          ({ data }) => {
-            if (!data.contributor) return
-            return Array.isArray(data.contributor)
-              ? data.contributor.find(
-                (pageContributor) => pageContributor.id === item.id
-              )
-              : data.contributor.id === item.id
-          }
-        )
-        return item
-      })
+    let publicationContributors = Array.isArray(publication.contributor)
+      ? publication.contributor
+      : []
+    publicationContributors = publicationContributors.filter((item) => item)
+    if (!publicationContributors.length) return
+
+    /**
+     * Add `pages` properties to contributor with limited `page` model
+     */
+    const addPages = (contributor) => {
+      const { id } = contributor
+      contributor.pages = collections.all.flatMap(
+        (page) => {
+          const { data, url } = page
+          const { contributor, label, subtitle, title } = data
+          if (!contributor) return []
+          const includePage = Array.isArray(contributor)
+            ? contributor.find((item) => item.id === id)
+            : contributor.id === id
+          return includePage ? {
+            label,
+            subtitle,
+            title,
+            url
+          } : []
+        }
+      )
+      return contributor
+    }
+    const pageContributors = collections.all.flatMap(({ data }) => data.pageContributors || [])
+
+    const uniqueContributors = publicationContributors.concat(pageContributors)
+      .filter((value, index, array) => array.findIndex((item) => item.id === value.id) === index)
+      .map(addPages)
+    return uniqueContributors
   }
 }

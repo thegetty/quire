@@ -1,3 +1,4 @@
+const path = require('path')
 const { html } = require('~lib/common-tags')
 
 /**
@@ -6,9 +7,10 @@ const { html } = require('~lib/common-tags')
  * @param      {Object}  data    Final data from the Eleventy data cascade
  * @return     {Function}  Template render function
  */
-module.exports = function(data) {
+module.exports = async function(data) {
   const { pageClasses, collections, content, pageData, publication } = data
-  const { outputPath } = pageData || {}
+  const { inputPath, outputPath, url } = pageData || {}
+  const pageId = this.slugify(url) || path.parse(inputPath).name
 
   return this.renderTemplate(
     html`
@@ -28,15 +30,15 @@ module.exports = function(data) {
             >
               ${this.menu({ collections, pageData })}
             </div>
-            <div class="quire__primary" id="{{ section }}">
+            <div class="quire__primary">
               ${this.navigation(data)}
-              <main id="main" class="quire-page ${pageClasses}" data-output-path="${outputPath}">
+              <main id="${pageId}" class="quire-page ${pageClasses}" data-output-path="${outputPath}">
                 ${content}
               </main>
             </div>
             {% render 'search' %}
           </div>
-          ${this.modal()}
+          ${await this.modal()}
           ${this.scripts()}
         </body>
       </html>

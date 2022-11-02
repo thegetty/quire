@@ -4,7 +4,7 @@ description: Quire publication cover page
 layout: base.11ty.js
 ---
 
-{% assign coverImage = image || publication.promo_image %}
+{% assign coverImage = image %}
 {% assign imagePath = config.params.imageDir | concat: coverImage | join: '/' %}
 
 <section class="quire-cover__hero hero is-fullheight">
@@ -24,7 +24,11 @@ layout: base.11ty.js
       <p class="reading-line">{{ publication.reading_line | markdownify }}</p>
       <div class="contributor">
         <span class="visually-hidden">Contributors:&nbsp;</span>
-        <em>{% contributors context=publicationContributors, format='string', type='primary' %}</em>
+        {% if publication.contributor_as_it_appears %}
+          <em>{{ publication.contributor_as_it_appears }}</em>
+        {% else %}
+          <em>{% contributors context=publicationContributors, format='string', type='primary' %}</em>
+        {% endif %}
       </div>
     </div>
   </div>
@@ -33,13 +37,13 @@ layout: base.11ty.js
 {% if content != blank %}
   <section class="quire-cover__more next-page">
     <div class="quire-cover__more-body hero-more">
-      <a href="#content">
+      <a href="#cover-content">
         {% icon type='down-arrow', description='Scroll down to read more' %}
       </a>
     </div>
   </section>
 
-  <section id="content" class="section quire-page__content">
+  <section id="cover-content" class="section quire-page__content">
     <div class="container is-fluid">
       <div class="content">
         {{ content }}
