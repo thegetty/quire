@@ -86,7 +86,7 @@ export default class CreateCommand extends Command {
     } else {
       // `git clone starter path`
       // currently we are just copying files directly
-      initStarter(starter, projectRoot)
+      initStarter(starter, projectRoot, packageVersion)
     }
   }
 }
