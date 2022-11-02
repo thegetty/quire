@@ -14,22 +14,24 @@ module.exports = function(eleventyConfig) {
   return function(params) {
     const { currentURL, navigation } = params
 
+    const listItem = (page) => {
+      let element = ''
+      if (!page.children || page.children.length === 0) {
+        return `<li class="page-item">${menuItem({ currentURL, page })}</li>`
+      } else {
+        element += `<li class="section-item">${menuItem({ currentURL, page })}`
+        if (config.params.menuType !== 'brief') {
+          listItem += renderList(page.children)
+        }
+        element += '</li>'
+        return element
+      }
+    }
+
     const renderList = (items) => {
       return html`
         <ol>
-          ${items.map((page) => {
-            let listItem = ''
-            if (!page.children || page.children.length === 0) {
-              return `<li class="page-item">${menuItem({ currentURL, page })}</li>`
-            } else {
-              listItem += `<li class="section-item">${menuItem({ currentURL, page })}`
-              if (config.params.menuType !== 'brief') {
-                listItem += renderList(page.children)
-              }
-              listItem += '</li>'
-              return listItem
-            }}).join('')
-          }
+          ${items.map((page) => listItem(page)).join('')}
         </ol>
       `
     }
