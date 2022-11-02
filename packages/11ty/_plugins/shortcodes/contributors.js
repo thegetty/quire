@@ -23,13 +23,13 @@ module.exports = function (eleventyConfig) {
   const slugify = eleventyConfig.getFilter('slugify')
   const sortContributors = eleventyConfig.getFilter('sortContributors')
 
-  const { bylineFormat: defaultFormat } = eleventyConfig.globalData.config.params
+  const { bylineFormat } = eleventyConfig.globalData.config.params
 
   return function (params) {
     const {
       align='left',
       context: contributors,
-      format=defaultFormat,
+      format=bylineFormat,
       role,
       type='all'
     } = params
