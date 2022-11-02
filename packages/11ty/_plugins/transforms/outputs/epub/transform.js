@@ -31,8 +31,8 @@ module.exports = function(eleventyConfig, collections, content) {
     images.forEach((img) => {
       const src = img.getAttribute('src')
       if (!src) return
-      const match = (`(^${imageDir}|^\/${iiifOutputDir})`)
-      const regex = new RegExp(match, 'g')
+      const pattern = `^(${imageDir}|/${iiifOutputDir})`
+      const regex = new RegExp(pattern, 'g')
       if (src.match(regex)) {
         const relativePath = src.replace(/^\//, '')
         assets.push(relativePath)
