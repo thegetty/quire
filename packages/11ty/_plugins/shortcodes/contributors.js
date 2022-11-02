@@ -10,7 +10,7 @@ const { error } = chalkFactory('shortcodes:contributors')
  * @param  {Array|String} context Array of contributor objects OR string override
  * @param  {String} align How to align the text (name-title-block and bio only) Values: 'left' (default), 'center', 'right'
  * @param  {String} type The contributor type to render. Values: 'all' (default), 'primary', 'secondary'
- * @param  {String} format How to display the contributors. Values: 'string', 'bio', 'name', 'name-title', 'name-title-block'. Default set in config.params.contributorByline
+ * @param  {String} format How to display the contributors. Values: 'string', 'bio', 'name', 'name-title', 'name-title-block'. Default set in config.params.bylineFormat
  *
  * @return {String} Markup for contributors
  */
@@ -23,7 +23,7 @@ module.exports = function (eleventyConfig) {
   const slugify = eleventyConfig.getFilter('slugify')
   const sortContributors = eleventyConfig.getFilter('sortContributors')
 
-  const { contributorByline: defaultFormat } = eleventyConfig.globalData.config.params
+  const { bylineFormat: defaultFormat } = eleventyConfig.globalData.config.params
 
   return function (params) {
     const {

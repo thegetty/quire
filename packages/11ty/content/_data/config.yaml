@@ -13,9 +13,9 @@ disableKinds:
   - term
 
 params:
+  bylineFormat: name-title # name | name-title | false
   citationPageLocationDivider: ', '
   citationPopupStyle: text # text | icon
-  contributorByline: name-title # name | name-title | false
   entryPageObjectLinkText: View in Collection
   entryPageSideBySideLayout: false
   figureModal: true
