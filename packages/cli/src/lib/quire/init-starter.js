@@ -1,7 +1,5 @@
-import { execa } from 'execa'
 import fs from 'fs-extra'
 import path from 'node:path'
-import { cwd } from 'node:process'
 import git from '#src/lib/git/index.js'
 /**
  * Clone or copy a Quire starter project
