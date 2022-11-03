@@ -99,16 +99,13 @@ export default class CreateCommand extends Command {
     )
 
     // write projectRoot and quire version to project
-    const projectConfig = JSON.stringify(
-      {
-        projectRoot: resolve(projectRoot),
-        version: quireVersion
-      },
-      null,
-      2
-    )
+    const projectConfig = {
+      projectRoot: resolve(projectRoot),
+      version: quireVersion
+    }
     const configFilePath = join(projectRoot, 'project.json')
-    fs.writeFileSync(configFilePath, projectConfig)
+    const configJSON = JSON.stringify(projectConfig, null, 2)
+    fs.writeFileSync(configFilePath, configJSON)
 
     console.log('[CLI]', projectRoot, starter)
 
