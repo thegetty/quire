@@ -5,8 +5,11 @@ import fs from 'fs-extra'
 import { initStarter } from '#src/lib/quire/init-starter.js'
 import installNpmVersion from 'install-npm-version'
 import { isEmpty } from '#helpers/is-empty.js'
-import packageJson from '../../package.json' assert { type: 'json' }
-const { version: quireVersion } = packageJson
+import packageJson from '../../../11ty/package.json' assert { type: 'json' }
+const {
+  name: quirePackageName,
+  version: quireVersion
+} = packageJson
 
 /**
  * Quire CLI `new` Command
@@ -56,15 +59,13 @@ export default class CreateCommand extends Command {
       return
     }
 
-    // install quire-11ty npm package into /quire/versions/1.0.0
-    const packageName = 'quire-11ty'
-
     // ensure that quire versions directory path exists
     const quireVersionsPath = join('quire', 'versions')
     fs.ensureDirSync(quireVersionsPath)
 
+    // install quire-11ty npm package into /quire/versions/1.0.0
     await installNpmVersion.Install(
-      `${packageName}@${quireVersion}`,
+      `${quirePackageName}@${quireVersion}`,
       {
         Destination: `../${quireVersionsPath}/${quireVersion}`,
         Debug: true
