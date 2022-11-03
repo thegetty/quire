@@ -6,6 +6,7 @@ import hostedGitInfo from 'hosted-git-info'
 import { initStarter } from '#src/lib/quire/init-starter.js'
 import installNpmVersion from 'install-npm-version'
 import { isEmpty } from '#helpers/is-empty.js'
+// @todo pull this information from the published packaged
 import packageJson from '../../../11ty/package.json' assert { type: 'json' }
 
 const {
