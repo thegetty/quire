@@ -1,12 +1,12 @@
-import Command from '#src/Command.js'
 import { join, resolve } from 'node:path'
+import Command from '#src/Command.js'
 import { cwd } from 'node:process'
-import { initStarter } from '#src/lib/quire/init-starter.js'
-import { isEmpty } from '#helpers/is-empty.js'
 import fs from 'fs-extra'
-import { execa } from 'execa'
+import { initStarter } from '#src/lib/quire/init-starter.js'
 import installNpmVersion from 'install-npm-version'
-import git from '#src/lib/git/index.js'
+import { isEmpty } from '#helpers/is-empty.js'
+import packageJson from '../../package.json' assert { type: 'json' }
+const { version: quireVersion } = packageJson
 
 /**
  * Quire CLI `new` Command
