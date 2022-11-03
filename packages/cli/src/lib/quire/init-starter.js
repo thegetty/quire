@@ -9,18 +9,18 @@ import path from 'node:path'
  * @param    {String}   rootPath  Absolute system path to the project root
  * @return   {Promise}
  */
-export async function initStarter (starter, rootPath, packageVersion) {
+export async function initStarter (starter, rootPath, quireVersion) {
   const remote = 'https://github.com/thegetty/quire-starter-default'
 
   // Clone starter project repository
   await git.cwd(rootPath)
   await git
     .clone(remote, '.')
-    .catch((error) => console.error('[CLI:error] ', error));
+    .catch((error) => console.error('[CLI:error] ', error))
 
   // Copy 11ty files
   const fullRootPath = path.resolve(rootPath)
-  const eleventyPath = path.resolve(cwd(), path.join('quire', 'versions', packageVersion))
+  const eleventyPath = path.resolve(cwd(), path.join('quire', 'versions', quireVersion))
   const eleventyFiles = fs.readdirSync(eleventyPath)
 
   // copies all files in `quire/packages/11ty`

@@ -58,16 +58,15 @@ export default class CreateCommand extends Command {
 
     // install quire-11ty npm package into /quire/versions/1.0.0
     const packageName = 'quire-11ty'
-    const packageVersion = CreateCommand.definition.version
 
     // ensure that quire versions directory path exists
     const quireVersionsPath = join('quire', 'versions')
     fs.ensureDirSync(quireVersionsPath)
 
     await installNpmVersion.Install(
-      `${packageName}@${packageVersion}`,
+      `${packageName}@${quireVersion}`,
       {
-        Destination: `../${quireVersionsPath}/${packageVersion}`,
+        Destination: `../${quireVersionsPath}/${quireVersion}`,
         Debug: true
       }
     )
@@ -76,7 +75,7 @@ export default class CreateCommand extends Command {
     const projectConfig = JSON.stringify(
       {
         projectRoot: resolve(projectRoot),
-        version: packageVersion
+        version: quireVersion
       },
       null,
       2
@@ -95,7 +94,7 @@ export default class CreateCommand extends Command {
     } else {
       // `git clone starter path`
       // currently we are just copying files directly
-      initStarter(starter, projectRoot, packageVersion)
+      initStarter(starter, projectRoot, quireVersion)
     }
   }
 }
