@@ -2,6 +2,7 @@ import { join, resolve } from 'node:path'
 import Command from '#src/Command.js'
 import { cwd } from 'node:process'
 import fs from 'fs-extra'
+import hostedGitInfo from 'hosted-git-info'
 import { initStarter } from '#src/lib/quire/init-starter.js'
 import installNpmVersion from 'install-npm-version'
 import { isEmpty } from '#helpers/is-empty.js'
@@ -34,6 +35,28 @@ export default class CreateCommand extends Command {
     options: [
       [ '--debug', 'debug the `quire new` command' ],
     ],
+  }
+
+  /**
+   * Retrieves version from quire repository `packages/11ty/package.json`
+   *
+   * Note: This does not currently work, as quire-11ty work is not on the main
+   * branch yet, and `hosted-git-info` does not provide a mechanism for
+   * retrieving file URLs on specific code branches. But it will!
+   *
+   * @TODO Once 11ty work is merged into main, this static method should replace
+   * the `quireVersion` import
+   *
+   * @return {String} the current version of thegetty/quire/packages/11ty
+   */
+  static async getLatestQuireVersion() {
+    const latestQuirePackageJsonUrl = hostedGitInfo
+      .fromUrl('git@github.com:thegetty/quire.git')
+      .file('packages/11ty/package.json')
+    const latestQuirePackageJsonRequest = await fetch(latestQuirePackageJsonUrl)
+    const latestQuirePackageJson = await latestQuirePackageJsonRequest.json()
+    const { version: latestQuireVersion } = latestQuirePackageJson
+    return latestQuireVersion
   }
 
   constructor() {
