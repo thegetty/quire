@@ -60,6 +60,10 @@ export default class CreateCommand extends Command {
     const packageName = 'quire-11ty'
     const packageVersion = CreateCommand.definition.version
 
+    // ensure that quire versions directory path exists
+    const quireVersionsPath = join('quire', 'versions')
+    fs.ensureDirSync(quireVersionsPath)
+
     await installNpmVersion.Install(
       `${packageName}@${packageVersion}`,
       {
@@ -67,10 +71,6 @@ export default class CreateCommand extends Command {
         Debug: true
       }
     )
-
-    // ensure that quire versions directory path exists
-    const quireVersionsPath = join('quire', 'versions')
-    fs.ensureDirSync(quireVersionsPath)
 
     // write projectRoot and quire version to project
     const projectConfig = JSON.stringify(
