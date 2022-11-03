@@ -1,4 +1,3 @@
-import { join, resolve } from 'node:path'
 import Command from '#src/Command.js'
 import { cwd } from 'node:process'
 import fs from 'fs-extra'
@@ -6,12 +5,13 @@ import hostedGitInfo from 'hosted-git-info'
 import { initStarter } from '#src/lib/quire/init-starter.js'
 import installNpmVersion from 'install-npm-version'
 import { isEmpty } from '#helpers/is-empty.js'
+import { join } from 'node:path'
 // @todo pull this information from the published packaged
 import packageJson from '../../../11ty/package.json' assert { type: 'json' }
 
 const {
   name: quirePackageName,
-  version: quireVersion
+  version: quire11tyVersion
 } = packageJson
 
 /**
@@ -47,7 +47,7 @@ export default class CreateCommand extends Command {
    * retrieving file URLs on specific code branches. But it will!
    *
    * @TODO Once 11ty work is merged into main, this static method should replace
-   * the `quireVersion` import, and should be refactored to use npm instead of
+   * the `quire11tyVersion` import, and should be refactored to use npm instead of
    *  hosted-git-info
    *
    * @return {String} the current version of thegetty/quire/packages/11ty
@@ -86,26 +86,17 @@ export default class CreateCommand extends Command {
     }
 
     // ensure that quire versions directory path exists
-    const quireVersionsPath = join('quire', 'versions')
-    fs.ensureDirSync(quireVersionsPath)
+    const quire11tyVersionsPath = join('quire', 'versions')
+    fs.ensureDirSync(quire11tyVersionsPath)
 
     // install quire-11ty npm package into /quire/versions/1.0.0
     await installNpmVersion.Install(
-      `${quirePackageName}@${quireVersion}`,
+      `${quirePackageName}@${quire11tyVersion}`,
       {
-        Destination: `../${quireVersionsPath}/${quireVersion}`,
+        Destination: `../${quire11tyVersionsPath}/${quire11tyVersion}`,
         Debug: true
       }
     )
-
-    // write projectRoot and quire version to project
-    const projectConfig = {
-      projectRoot: resolve(projectRoot),
-      version: quireVersion
-    }
-    const configFilePath = join(projectRoot, 'project.json')
-    const configJSON = JSON.stringify(projectConfig, null, 2)
-    fs.writeFileSync(configFilePath, configJSON)
 
     console.log('[CLI]', projectRoot, starter)
 
@@ -116,7 +107,7 @@ export default class CreateCommand extends Command {
       // const starter = starters['default']
       // `git clone starter path`
     } else {
-      initStarter(starter, projectRoot, quireVersion)
+      initStarter(starter, projectRoot, quire11tyVersion)
     }
   }
 }

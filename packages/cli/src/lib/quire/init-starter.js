@@ -1,38 +1,49 @@
+import { basename, join, resolve } from 'node:path'
 import { cwd } from 'node:process'
 import fs from 'fs-extra'
 import git from '#src/lib/git/index.js'
-import path from 'node:path'
 /**
  * Clone or copy a Quire starter project
  *
  * @param    {String}   starter   A repository URL or path to local starter
- * @param    {String}   rootPath  Absolute system path to the project root
+ * @param    {String}   projectRoot  Absolute system path to the project root
  * @return   {Promise}
  */
-export async function initStarter (starter, rootPath, quireVersion) {
+export async function initStarter (starter, projectRoot, quire11tyVersion) {
   const remote = 'https://github.com/thegetty/quire-starter-default'
 
   // Clone starter project repository
   await git
-    .cwd(rootPath)
+    .cwd(projectRoot)
     .clone(remote, '.')
     .catch((error) => console.error('[CLI:error] ', error))
 
+  // write project config to project
+  const projectConfig = {
+    projectRoot: resolve(projectRoot),
+    version: quire11tyVersion
+  }
+  const configFilePath = join(projectRoot, 'project.json')
+  const configJSON = JSON.stringify(projectConfig, null, 2)
+  fs.writeFileSync(configFilePath, configJSON)
+
   // Copy 11ty files
-  const fullRootPath = path.resolve(rootPath)
-  const eleventyPath = path.resolve(cwd(), path.join('quire', 'versions', quireVersion))
+  const fullRootPath = resolve(projectRoot)
+  const eleventyPath = resolve(cwd(), join('quire', 'versions', quire11tyVersion))
   const eleventyFiles = fs.readdirSync(eleventyPath)
 
   // copies all files in `quire/packages/11ty`
   eleventyFiles.forEach((filePath) => {
-    const fileToCopy = path.resolve(eleventyPath, filePath)
-    fs.copySync(fileToCopy, path.join(fullRootPath, path.basename(filePath)))
+    const fileToCopy = resolve(eleventyPath, filePath)
+    if (fileToCopy !== 'node_modules') {
+      fs.copySync(fileToCopy, join(fullRootPath, basename(filePath)))
+    }
   })
 
   // Reinitialize project as a new git repository
-  await fs.remove(path.join(rootPath, '.git'))
+  await fs.remove(join(projectRoot, '.git'))
 
-  const starterFiles = fs.readdirSync(rootPath)
+  const starterFiles = fs.readdirSync(projectRoot)
 
   // @TODO add localized string for commit message
   await git.init().add(starterFiles).commit('Initial Commit')
