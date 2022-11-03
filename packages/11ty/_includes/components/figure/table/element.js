@@ -9,7 +9,7 @@ const path = require('path')
  * @return     {String}  Text content of referenced file
  */
 module.exports = function (eleventyConfig) {
-  const { imageDir } = eleventyConfig.globalData.config.params
+  const { imageDir } = eleventyConfig.globalData.config.figures
   const assetsDir = path.join(eleventyConfig.dir.input, imageDir)
   const renderFile = eleventyConfig.getFilter('renderFile')
 

@@ -9,7 +9,7 @@ const { html } = require('~lib/common-tags')
 module.exports = function(eleventyConfig) {
   const menuItem = eleventyConfig.getFilter('menuItem')
 
-  const { config } = eleventyConfig.globalData
+  const { menuType } = eleventyConfig.globalData.config
 
   return function(params) {
     const { currentURL, navigation } = params
@@ -20,7 +20,7 @@ module.exports = function(eleventyConfig) {
         return `<li class="page-item">${menuItem({ currentURL, page })}</li>`
       } else {
         element += `<li class="section-item">${menuItem({ currentURL, page })}`
-        if (config.params.menuType !== 'brief') {
+        if (menuType !== 'brief') {
           element += renderList(page.children)
         }
         element += '</li>'

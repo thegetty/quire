@@ -15,7 +15,6 @@ module.exports = function(eleventyConfig) {
 
     let content = `<span class="q-figure__label-icon">${icon({ type: 'fullscreen', description: 'Expand' })}</span>`
     content += `<span class="q-figure__label-text">${markdownify(label || '')}</span>`
-
     content = modalLink({ content, id })
 
     const labelElement = `<span class="q-figure__label q-figure__label--below">

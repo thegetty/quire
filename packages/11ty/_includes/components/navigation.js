@@ -16,7 +16,7 @@ const { html } = require('~lib/common-tags')
 module.exports = function(eleventyConfig) {
   const eleventyNavigation = eleventyConfig.getFilter('eleventyNavigation')
   const pageTitle = eleventyConfig.getFilter('pageTitle')
-  const { imageDir } = eleventyConfig.globalData.config.params
+  const { imageDir } = eleventyConfig.globalData.config.figures
 
   return function (params) {
     const { collections, pagination, title } = params

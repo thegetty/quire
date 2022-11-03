@@ -20,7 +20,8 @@ module.exports = function (eleventyConfig) {
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const tableOfContentsImage = eleventyConfig.getFilter('tableOfContentsImage')
   const urlFilter = eleventyConfig.getFilter('url')
-  const { imageDir, pageContributorDivider } = eleventyConfig.globalData.config.params
+  const { contributorDivider } = eleventyConfig.globalData.config.tableOfContents
+  const { imageDir } = eleventyConfig.globalData.config.figures
 
   return function (params) {
     const {
@@ -48,10 +49,8 @@ module.exports = function (eleventyConfig) {
      */
     const isPage = !!layout
 
-    const divider = pageContributorDivider || ' — '
-
     const pageContributorsElement = pageContributors
-      ? `<span class="contributor-divider">${divider}</span><span class="contributor">${contributors({ context: pageContributors, format: 'string' })}</span>`
+      ? `<span class="contributor-divider">${contributorDivider}</span><span class="contributor">${contributors({ context: pageContributors, format: 'string' })}</span>`
       : ''
     const pageTitleElement = oneLine`${pageTitle({ label, subtitle, title })}${pageContributorsElement}`
     const arrowIcon = `<span class="arrow" data-outputs-exclude="epub,pdf">${icon({ type: 'arrow-forward', description: '' })}</span>`
@@ -76,7 +75,7 @@ module.exports = function (eleventyConfig) {
       case !!pageFigure: {
         const firstFigure = pageFigure[0] ? getFigure(pageFigure[0]) : null
         imageElement = firstFigure
-          ? tableOfContentsImage({ imageDir, src: firstFigure.src })
+          ? tableOfContentsImage({ src: firstFigure.src })
           : ''
         break
       }
@@ -87,7 +86,7 @@ module.exports = function (eleventyConfig) {
           ? getFigure(object.figure[0].id)
           : null
         imageElement = firstObjectFigure
-          ? tableOfContentsImage({ imageDir, src: firstObjectFigure.src })
+          ? tableOfContentsImage({ src: firstObjectFigure.src })
           : ''
         break
       }

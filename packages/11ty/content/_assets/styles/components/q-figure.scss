@@ -178,7 +178,6 @@
   &__credit {
   }
 
-  // The figure label with figureLabelLocation: below
   &__label {
     @if $theme == classic {
       color: background-color-text-classic($content-background-color);

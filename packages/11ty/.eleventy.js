@@ -167,13 +167,13 @@ module.exports = function(eleventyConfig) {
       /**
        * @see https://vitejs.dev/config/#build-options
        */
-      root: '_site',
+      root: outputDir,
       build: {
         assetsDir: '_assets',
         emptyOutDir: process.env.ELEVENTY_ENV !== 'production',
         manifest: true,
         mode: 'production',
-        outDir: '_site',
+        outDir: outputDir,
         rollupOptions: {
           output: {
             assetFileNames: ({ name }) => {

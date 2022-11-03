@@ -23,7 +23,7 @@ module.exports = (eleventyConfig) => {
     subtitle,
     title
   } = eleventyConfig.globalData.publication
-  const { epub, params } = eleventyConfig.globalData.config
+  const { epub, figures: { imageDir } } = eleventyConfig.globalData.config
   const { url } = eleventyConfig.globalData.publication
 
   /**
@@ -50,7 +50,7 @@ module.exports = (eleventyConfig) => {
 
   const cover = () => {
     return (promoImage)
-      ? path.join(params.imageDir, promoImage).replace(/^\//, '')
+      ? path.join(imageDir, promoImage).replace(/^\//, '')
       : epub.defaultCover
   }
 
