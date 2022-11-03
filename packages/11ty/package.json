@@ -35,7 +35,7 @@
     "@11ty/eleventy-plugin-vite": "^2.0.0-canary.2",
     "@11ty/eleventy-plugin-webc": "^0.6.0",
     "@11ty/is-land": "^2.0.3",
-    "@iiif/parser": "^1.0.13",
+    "@iiif/parser": "^1.1.0",
     "@iiif/vault": "^0.9.19",
     "camelize": "^1.0.0",
     "chalk": "^4.1.2",
@@ -68,7 +68,7 @@
     "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-scss": "^3.0.0",
     "sass": "^1.54.5",
-    "sharp": "^0.30.7",
+    "sharp": "^0.31.1",
     "simple-cite": "^0.2.1",
     "toml": "^3.0.0"
   },
