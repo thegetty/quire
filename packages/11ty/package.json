@@ -1,7 +1,7 @@
 {
   "name": "@thegetty/quire-11ty",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.0-pre-release.0",
   "description": "",
   "main": ".eleventy.js",
   "scripts": {
