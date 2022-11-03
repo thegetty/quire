@@ -1,0 +1,549 @@
+// =============================================================================
+// Epub.scss
+@import "colors";
+@import "variables";
+
+html body {
+    margin: 0;
+    .leaflet-pane,
+    .leaflet-map-pane,
+    .leaflet-container,
+    .lvml {
+        display: none !important;
+    }
+}
+
+html {
+  /* Don't use it for styling, used as selector which can take a punch if anything goes wrong above */
+}
+
+article, address, aside, blockquote, canvas, dd, details, div, dl, dt, figure, figcaption, footer, header, hr, li, main, nav, ol, p, pre, section, summary, ul {
+  margin: 0;
+  padding: 0;
+  /* RS may apply vertical padding to el such as p */
+  font-size: 1em;
+  /* Font size in pixel disable the user setting in legacy RMSDK */
+  line-height: inherit;
+  /* Kindle ignores it, Kobo needs it. If you don’t use inherit, the user setting may be disabled on some Kobo devices */
+  text-indent: 0;
+  font-style: normal;
+  font-weight: normal;
+}
+
+/* This is absolutely necessary for backwards compatibility */
+
+article, aside, figure, figcaption, footer, header, main, nav, section {
+  display: block;
+}
+
+[hidden] {
+  display: none;
+}
+
+/* [Opinionated] Default to prevent RS from justifying all of these! */
+
+h1, h2, h3, h4, h5, h6, dt, pre {
+  text-align: left;
+}
+
+/* Following EPUB 3 spec by the letter (applies to RS but let’s make sure it is respected because we never know) */
+
+nav {
+  &[epub|type~="toc"] ol {
+    list-style: none !important;
+  }
+  &[epub|type~="landmarks"], &[epub|type~="page-list"] {
+    display: none;
+  }
+}
+
+/* [Opinionated] Default to prevent bloat in case linear="no" is rendered as linear="yes" */
+
+abbr, b, bdi, bdo, cite, code, data, del, dfn, em, i, ins, kbd, mark, q, rp, rt, rtc, ruby, s, samp, small, span, strong, sub, sup, time, var {
+  font-size: inherit;
+  vertical-align: baseline;
+  font-style: inherit;
+  /* Taking nesting of inline elements into account (e.g. sup nested in em) */
+  font-weight: inherit;
+  /* Taking nestiog of inline elements into account (e.g. em nested in strong) */
+  color: inherit;
+  text-decoration: none;
+}
+
+q {
+  quotes: none;
+}
+
+/* Trying to prevent blank page if element with margin-bottom at the end of xhtml */
+
+body {
+  > {
+    :last-child, section > :last-child {
+      margin-bottom: 0;
+    }
+  }
+  font-size: 100%;
+  line-height: 1.5;
+  margin: 0;
+  /* RS will override margins anyways */
+  padding: 0;
+  widows: 2;
+  /* iBooks and Kobo support widows and orphans */
+  orphans: 2;
+}
+
+/* PAGE LAYOUT */
+
+@page {
+  margin: 30px 30px 20px 30px;
+  /* Recommended by Barnes & Noble in this old spec: https://simg1.imagesbn.com/pimages/pubit/support/pubit_epub_formatting_guide.pdf */
+  padding: 0;
+}
+
+
+/* TYPOGRAPHY */
+
+h1, h2, h3, h4, h5, h6, blockquote p cite, dt, pre, address, table, caption, th, td, .align-left, .align-center, .align-right, .caption, .no-hyphens {
+  adobe-hyphenate: none;
+  /* proprietary for Legacy RMSDK */
+  -ms-hyphens: none;
+  -moz-hyphens: none;
+  -webkit-hyphens: none;
+  -epub-hyphens: none;
+  hyphens: none;
+}
+
+h1, h2, h3, h4, h5, h6, dt, hr {
+  page-break-inside: avoid;
+  break-inside: avoid;
+  page-break-after: avoid;
+  break-after: avoid;
+}
+
+p {
+  @if $quire-page-paragraph-style == indent {
+    text-indent: 1em;
+  } @else {
+    text-indent: 0;
+    margin-bottom: 1em;
+  }
+}
+
+.footnote {
+  font-size: 0.9375em;
+  line-height: 0;
+  text-indent: 0;
+}
+
+blockquote {
+  margin: 1.5em 5%;
+  p {
+    text-indent: 0;
+    font-style: italic;
+    i, em, cite {
+      font-style: normal;
+    }
+  }
+}
+
+address {
+  /* Styles */
+}
+
+/* MICRO TYPOGRAPHY */
+
+a {
+  text-decoration: underline;
+  /* Note: KF8 will force this value unless you use "el.class a" */
+  font-weight: bold;
+  color: $accent-color;
+  -webkit-text-fill-color: $accent-color;
+  /* iBooks override (iOS 9 + El Capitan in night mode) */
+  /* inherit = text color */
+}
+
+abbr {
+  /* Note: Kindle doesn't support that */
+}
+
+i, cite, dfn, em {
+  font-style: italic;
+}
+
+/* Get back to normal when italic nested in italic */
+
+i {
+  i, cite, dfn, em {
+    font-style: normal;
+  }
+}
+
+cite {
+  i, cite, dfn, em {
+    font-style: normal;
+  }
+}
+
+dfn {
+  i, cite, dfn, em {
+    font-style: normal;
+  }
+}
+
+em {
+  i, cite, dfn, em {
+    font-style: normal;
+  }
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+del, s {
+  text-decoration: line-through;
+}
+
+mark {
+  background-color: yellow;
+  color: inherit;
+}
+
+ins {
+  /* Styles */
+}
+
+small {
+  font-size: 0.8125em;
+}
+
+/* Styling is improved to prevent sub from affecting line-height */
+
+sub {
+  font-size: 75%;
+  line-height: 1.2;
+  vertical-align: sub;
+  /* Fallback */
+  vertical-align: -20%;
+}
+
+/* Styling is improved to prevent sup from affecting line-height */
+
+sup {
+  font-size: 75%;
+  line-height: 1.2;
+  vertical-align: super;
+  /* Fallback */
+  vertical-align: 33%;
+}
+
+/* FIGURES + IMAGES  */
+
+figure {
+  page-break-inside: avoid;
+  break-inside: avoid;
+  margin: 1.5em 0;
+  img {
+    background-color: $gray;
+  }
+}
+
+figcaption {
+  font-size: 0.9375em;
+  line-height: 1.6;
+  text-indent: 0;
+}
+
+img {
+  width: auto;
+  max-width: 100%;
+  /* Note: KF8 doesn't support max-width hence "width: auto;" as fallback */
+  height: auto;
+  object-fit: contain;
+}
+
+@supports (height: 99vh) {
+  img.portrait {
+    height: 99vh;
+  }
+}
+
+/* LISTS */
+
+ul, ol {
+  margin: 1.5em 0;
+  padding-left: 5%;
+}
+
+ul {
+  list-style-type: disc;
+  list-style-position: outside;
+  ul {
+    list-style-type: square;
+  }
+}
+
+ol {
+  list-style-type: decimal;
+  list-style-position: outside;
+  ol {
+    list-style-type: lower-roman;
+  }
+}
+
+/* DEFINITION LISTS */
+
+dl {
+  margin: 1em 0 1em 0;
+}
+
+dt {
+  margin: 1em 0 0 0;
+  font-weight: bold;
+}
+
+dd {
+  /* Styles */
+}
+
+dt > dfn {
+  font-style: normal;
+  font-weight: bold;
+}
+
+/* HORIZONTAL RULES — CONTEXT BREAKS */
+
+hr {
+  width: 25%;
+  margin-left: 37.5%;
+  margin-top: 1.4375em;
+  margin-bottom: 1.4375em;
+  height: 0;
+  border: none;
+  border-top: 0.125em solid $accent-color;
+  /* currentColor = color of text (getting around night mode) */
+  opacity: 0.5;
+  /* Opacity -> grayscale. If opacity is declared for too many elements in a XHTML file, performance of legacy RMSDK takes a hit */
+}
+
+/* TABLES */
+
+table {
+  display: table;
+  table-layout: auto;
+  border-collapse: collapse;
+  border-spacing: 0;
+  max-width: 100%;
+  margin: 1.5em auto;
+  /* Note: legacy RMSDK sets auto to 0, which is permitted in a footnote of the EPUB2 specs */
+  font-feature-settings: "tnum" 1;
+  font-variant-numeric: tabular-nums;
+}
+
+caption {
+  caption-side: top;
+  /* Note: only value legacy RMSDK supports */
+  text-align: center;
+  font-weight: bold;
+}
+
+tbody, thead, tfoot, tr {
+  /* Styles */
+}
+
+th {
+  empty-cells: show;
+  border-bottom: 0.125em solid $accent-color;
+  /* Current color = color of text (inverted in night mode) */
+  padding: 0.6875em 2% 0.6875em 0;
+  text-align: left;
+  font-weight: bold;
+}
+
+td {
+  empty-cells: show;
+  border-bottom: 0.0625em solid $accent-color;
+  /* Current color = color of text (inverted in night mode) */
+  padding: 0.75em 2% 0.6875em 0;
+  text-align: left;
+}
+
+/* CODE */
+
+pre {
+  margin: 1.5em 0 1.5em 5%;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  -ms-tab-size: 3;
+  -moz-tab-size: 3;
+  -webkit-tab-size: 3;
+  tab-size: 3;
+}
+
+code, kbd, samp, var {
+  font-family: monospace;
+  /* Embed a font cos Kobo doesn't provide a monospace */
+}
+
+/* MEDIAS */
+
+audio, video {
+  /* Styles */
+}
+
+canvas, iframe, svg, video {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+}
+
+
+// Paged Media CSS Setup for PrinceXML
+// -----------------------------------------------------------------------------
+// cover image 
+.epub-cover-image {
+  display: none;
+}
+
+// chapter opening
+section.level1 {
+  margin-top: 15%;
+  + h1 {
+    text-align: center;
+  }
+}
+
+// chapter label
+.label {
+  margin: 0 auto .75em;
+  text-align: center;
+  padding: 0 .25em;
+  width: fit-content;
+  display: table;
+  @if $theme == classic {
+    background-color: gray;
+    color: white;
+  } @else {
+    border-top: 2px solid $accent-color;
+    border-bottom: 2px solid $accent-color;
+  }
+}
+
+// chapter headings
+@if $theme == classic {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: Times, serif;
+    font-weight: 700;
+  }
+} @else {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: 700;
+  }
+}
+
+h1 {
+  font-size: 1.5em;
+}
+h2 {
+  font-size: 1.25em;
+}
+h3 {
+  font-size: 1.125em;
+}
+h4 {
+  font-size: 1em;
+}
+h5 {
+  font-size: .875em;
+  text-transform: capitalize;
+  letter-spacing: 1px;
+}
+h6 {
+  font-size: .875em;
+  text-transform: capitalize;
+  font-weight: 400;
+}
+
+section + h1 {
+  text-align: center;
+}
+
+// list of contributor names for chapter but not TOC
+section:not(#contents) {
+  h1 + ul {
+    list-style-type: none;
+    margin-left: 0;
+    padding-left: 0;
+  }
+}
+
+// hide citation content used in online hover over
+.quire-citation__content {
+  display: none;
+}
+
+// regular text and list links
+a {
+  font-weight: 400;
+  text-decoration: none;
+  border-bottom: 1px dotted $accent-color;
+  &.footnote-return,
+  .footnote-ref &,
+  &.footnote-backref,
+  &.footnote-ref {
+    font-weight: 700;
+    border-bottom-width: 0;
+  }
+}
+
+// figures
+figure {
+  page-break-inside: avoid; 
+  margin: 1em 0;
+  @if $theme == classic {
+    
+  } @else {
+    border-top: 1px solid $accent-color;
+    border-bottom: 1px solid $accent-color;
+    padding-top: .5em;
+    padding-bottom: .5em;
+  }
+  img {
+    display: block;
+    margin: 0 auto;
+    page-break-inside: avoid;
+    object-fit: contain;
+  } 
+  figcaption {
+    display: block;
+    margin-top: .5em;
+    font-size: 0.9rem;
+  }
+}
+
+/* figure labels */
+.q-figure__label {
+  font-weight: bold;
+  margin-right: .5em;
+}
+
+// tables 
+table {
+  width: 100%;
+}
+
+// remove hr from footnotes
+h2 + hr {
+  display: none;
+}
+
+// contributor bios
+.quire-contributor__name {
+  font-weight: 700;
+}
+.quire-contributor__pic {
+  width: 30%;
+  float: left;
+  margin-right: 1em;
+}
