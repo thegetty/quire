@@ -92,8 +92,6 @@ export default class CreateCommand extends Command {
       // const starter = starters['default']
       // `git clone starter path`
     } else {
-      // `git clone starter path`
-      // currently we are just copying files directly
       initStarter(starter, projectRoot, quireVersion)
     }
   }
