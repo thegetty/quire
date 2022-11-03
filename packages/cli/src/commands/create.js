@@ -56,10 +56,6 @@ export default class CreateCommand extends Command {
       return
     }
 
-    // ensure that quire versions directory path exists
-    const quireVersionsPath = join('quire', 'versions')
-    fs.ensureDirSync(quireVersionsPath)
-
     // install quire-11ty npm package into /quire/versions/1.0.0
     const packageName = 'quire-11ty'
     const packageVersion = CreateCommand.definition.version
@@ -72,7 +68,11 @@ export default class CreateCommand extends Command {
       }
     )
 
-    // write projectRoot and quire version to config module
+    // ensure that quire versions directory path exists
+    const quireVersionsPath = join('quire', 'versions')
+    fs.ensureDirSync(quireVersionsPath)
+
+    // write projectRoot and quire version to project
     const projectConfig = JSON.stringify(
       {
         projectRoot: resolve(projectRoot),
@@ -81,7 +81,7 @@ export default class CreateCommand extends Command {
       null,
       2
     )
-    const configFilePath = join('src', 'lib', 'config', 'project.json')
+    const configFilePath = join(projectRoot, 'project.json')
     fs.writeFileSync(configFilePath, projectConfig)
 
     console.log('[CLI]', projectRoot, starter)
