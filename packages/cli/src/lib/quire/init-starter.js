@@ -35,7 +35,9 @@ export async function initStarter (starter, projectRoot, quire11tyVersion) {
   // copies all files in `quire/packages/11ty`
   eleventyFiles.forEach((filePath) => {
     const fileToCopy = resolve(eleventyPath, filePath)
-    if (fileToCopy !== 'node_modules') {
+    // @TODO remove `.env` and `_site` from published `quire-11ty` NPM package
+    const ignoreFiles = ['.env', 'node_modules', '_site']
+    if (!ignoreFiles.includes(filePath)) {
       fs.copySync(fileToCopy, join(fullRootPath, basename(filePath)))
     }
   })
