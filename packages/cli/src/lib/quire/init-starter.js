@@ -13,8 +13,8 @@ export async function initStarter (starter, rootPath, quireVersion) {
   const remote = 'https://github.com/thegetty/quire-starter-default'
 
   // Clone starter project repository
-  await git.cwd(rootPath)
   await git
+    .cwd(rootPath)
     .clone(remote, '.')
     .catch((error) => console.error('[CLI:error] ', error))
 
@@ -34,7 +34,6 @@ export async function initStarter (starter, rootPath, quireVersion) {
 
   const starterFiles = fs.readdirSync(rootPath)
 
-  await git.init()
-  await git.add(starterFiles)
-  await git.commit('Initial Commit')
+  // @TODO add localized string for commit message
+  await git.init().add(starterFiles).commit('Initial Commit')
 }
