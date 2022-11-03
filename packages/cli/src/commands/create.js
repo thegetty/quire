@@ -7,6 +7,7 @@ import { initStarter } from '#src/lib/quire/init-starter.js'
 import installNpmVersion from 'install-npm-version'
 import { isEmpty } from '#helpers/is-empty.js'
 import packageJson from '../../../11ty/package.json' assert { type: 'json' }
+
 const {
   name: quirePackageName,
   version: quireVersion
