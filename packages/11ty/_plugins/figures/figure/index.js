@@ -57,7 +57,6 @@ module.exports = class Figure {
     this.annotationFactory = new AnnotationFactory(this)
     this.canvasId = canvasId
     this.data = data
-    this.processImage = imageProcessor
     this.id = id
     this.iiifConfig = iiifConfig
     this.isCanvas = isCanvas(data)
@@ -67,6 +66,7 @@ module.exports = class Figure {
     this.mediaType = mediaType || defaults.mediaType
     this.mediaId = mediaId
     this.outputDir = outputDir
+    this.processImage = imageProcessor
     this.src = src
     this.zoom = zoom
   }
