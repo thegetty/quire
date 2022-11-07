@@ -26,12 +26,9 @@ export async function initStarter (starter, projectRoot, quireVersion) {
    *
    * writes the quire-11ty semantic version to a `.quire` file
    */
-  const projectConfig = {
-    projectRoot: path.resolve(projectRoot),
-    version: quireVersion
-  }
+  const projectConfig = `${quireVersion}\n`
   const configFilePath = path.join(projectRoot, '.quire')
-  fs.writeFileSync(configFilePath, `${quireVersion}\n`)
+  fs.writeFileSync(configFilePath, projectConfig)
 
   // Copy 11ty files
   const fullProjectRootPath = path.resolve(projectRoot)
