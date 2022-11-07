@@ -12,16 +12,16 @@
     "cli",
     "quire"
   ],
+  "bin": {
+    "quire": "./src/main.js"
+  },
+  "exports": "./src/main.js",
+  "type": "module",
   "files": [
     "src/",
     "CHANGELOG.md",
     "READMEME.md"
   ],
-  "bin": {
-    "quire": "./src/main.js"
-  },
-  "type": "module",
-  "exports": "./src/main.js",
   "publishConfig": {
     "access": "public"
   },
