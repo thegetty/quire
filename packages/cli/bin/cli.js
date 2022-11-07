@@ -4,7 +4,7 @@ import packageConfig from '#root/package.json' assert { type: 'json' }
 import updateNotifier from 'update-notifier'
 
 const INTERVAL = Object.freeze({
-  MINUTE: 1000 * 60,
+  MINUTES: 1000 * 60 * 1,
   HOURLY: 1000 * 60 * 60,
   DAILY: 1000 * 60 * 60 * 24,
   WEEKLY: 1000 * 60 * 60 * 24 * 7
