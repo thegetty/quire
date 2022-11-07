@@ -6,6 +6,7 @@ import path from 'node:path'
 import semver from 'semver'
 
 const INSTALL_PATH = path.join('./', 'versions')
+const VERSION_FILE = '.quire'
 
 /**
  * Return full path to the required `quire-11ty` version
