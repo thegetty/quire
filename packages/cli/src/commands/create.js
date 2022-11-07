@@ -36,7 +36,7 @@ export default class CreateCommand extends Command {
     summary: 'create a new project',
     version: '1.0.0',
     args: [
-      [ '[path]', 'local path to the new project', '.' ],
+      [ '[projectPath]', 'local path to the new project', '.' ],
       [ '[starter]', 'repository url or local path for a starter project' ],
     ],
     options: [
@@ -49,17 +49,17 @@ export default class CreateCommand extends Command {
   }
 
   /**
-   * @param      {String}  path
+   * @param      {String}  projectPath
    * @param      {String}  starter
    * @param      {Object} options
    * @return     {Promise}
    */
-  async action(path, starter, options = {}) {
+  async action(projectPath, starter, options = {}) {
     if (options.debug) {
       console.info('Command \'%s\' called with options %o', this.name, options)
     }
 
-    const projectRoot = path || cwd()
+    const projectRoot = projectPath || cwd()
 
     /**
      * @todo refactor as a concern of `lib/quire/init-starter`
@@ -70,8 +70,8 @@ export default class CreateCommand extends Command {
     fs.ensureDirSync(projectRoot)
 
     // if the target directory exists it must be empty
-    if (!isEmpty(path)) {
-      const location = path === '.' ? 'the current directory' : path
+    if (!isEmpty(projectPath)) {
+      const location = projectPath === '.' ? 'the current directory' : projectPath
       console.error(`[CLI] cannot create a starter project in ${location} because it is not empty`)
       // @TODO cleanup directories from failed new command
       return
@@ -86,7 +86,9 @@ export default class CreateCommand extends Command {
 
     /**
      * Install quire-11ty npm package into /quire/versions/1.0.0
-     * @todo refactor as a concern of the `lib/quire` module
+     * @TODO refactor as a concern of the `lib/quire` module
+     * @TODO delete `LICENSE`, `CHANGELOG` from new project
+     * @TODO handle merging of `package.json` files in starter and `quire-11ty`
      */
     await installNpmVersion.Install(
       `${quirePackageName}@${quireVersion}`,
@@ -95,20 +97,6 @@ export default class CreateCommand extends Command {
         Debug: true
       }
     )
-
-    /**
-     * Quire project dot configuration file
-     *
-     * @todo refactor as a concern of the `lib/quire` module
-     * writes the quire-11ty semantic version to a `.quire` file
-     */
-    const config = {
-      projectRoot: path.resolve(projectRoot),
-      version: quireVersion
-    }
-
-    const configFilePath = path.join(projectRoot, '.quire')
-    fs.writeFileSync(configFilePath, JSON.stringify(config, null, 2))
 
     console.log('[CLI]', projectRoot, starter)
 

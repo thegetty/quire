@@ -7,41 +7,41 @@ import git from '#src/lib/git/index.js'
  *
  * @param    {String}   starter   A repository URL or path to local starter
  * @param    {String}   projectRoot  Absolute system path to the project root
+ * @param    {String}   quireVersion  A string indicating the current version
+ * of quire being used with a new project
  * @return   {Promise}
  */
-export async function initStarter (starter, projectRoot, quire11tyVersion) {
+export async function initStarter (starter, projectRoot, quireVersion) {
   const remote = 'https://github.com/thegetty/quire-starter-default'
 
   // Clone starter project repository
+  // @TODO pipe `git clone` status to stdout for better UX
   await git
     .cwd(projectRoot)
     .clone(remote, '.')
     .catch((error) => console.error('[CLI:error] ', error))
 
-  // write project config to project
+  /**
+   * Quire project dot configuration file
+   *
+   * writes the quire-11ty semantic version to a `.quire` file
+   */
   const projectConfig = {
     projectRoot: resolve(projectRoot),
-    version: quire11tyVersion
+    version: quireVersion
   }
-  const configFilePath = join(projectRoot, 'project.json')
-  const configJSON = JSON.stringify(projectConfig, null, 2)
-  fs.writeFileSync(configFilePath, configJSON)
+  const configFilePath = join(projectRoot, '.quire')
+  fs.writeFileSync(configFilePath, `${quireVersion}\n`)
 
   // Copy 11ty files
   const fullProjectRootPath = resolve(projectRoot)
-  const eleventyPath = resolve(cwd(), join('quire', 'versions', quire11tyVersion))
-  // @TODO remove `.env` and `_site` from published `quire-11ty` NPM package
-  const eleventyIgnoreFiles = ['.env', '_site']
-  const eleventyFiles = fs
-    .readdirSync(eleventyPath)
-    .filter((filePath) => !eleventyIgnoreFiles.includes(filePath))
+  const eleventyPath = resolve(cwd(), join('quire', 'versions', quireVersion))
+  const eleventyFiles = fs.readdirSync(eleventyPath)
 
   // copies all files in `quire/packages/11ty`
   eleventyFiles.forEach((filePath) => {
     const fileToCopy = resolve(eleventyPath, filePath)
-    if (!eleventyIgnoreFiles.includes(filePath)) {
-      fs.copySync(fileToCopy, join(fullProjectRootPath, basename(filePath)))
-    }
+    fs.copySync(fileToCopy, join(fullProjectRootPath, basename(filePath)))
   })
 
   // Reinitialize project as a new git repository
@@ -50,7 +50,7 @@ export async function initStarter (starter, projectRoot, quire11tyVersion) {
   // don't git-add copied `node_modules`
   const starterFiles = fs
     .readdirSync(projectRoot)
-    .filter((filePath) => ![...eleventyIgnoreFiles, 'node_modules'].includes(filePath))
+    .filter((filePath) => filePath !== 'node_modules')
 
   // @TODO add localized string for commit message
   await git.init().add(starterFiles).commit('Initial Commit')
