@@ -72,7 +72,7 @@ module.exports = function(eleventyConfig, collections, content) {
 
         sectionElement.innerHTML = mainElement.innerHTML
 
-        for (className of mainElement.classList) {
+        for (const className of mainElement.classList) {
           sectionElement.classList.add(className)
         }
 

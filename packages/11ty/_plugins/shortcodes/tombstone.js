@@ -6,6 +6,7 @@ const path = require('path')
  */
 module.exports = function(eleventyConfig, { page }) {
   const { config, objects } = eleventyConfig.globalData
+  const { objectLinkText } = config.entryPage
 
   return function (pageObjects = []) {
     const titleCase = eleventyConfig.getFilter('titleCase')
@@ -27,7 +28,7 @@ module.exports = function(eleventyConfig, { page }) {
     const objectLink = (object) => object.link
       ? oneLine`
         <a class="button" href="${object.link}" target="_blank">
-          ${config.params.entryPageObjectLinkText} ${icon({ type: 'link', description: '' })}
+          ${objectLinkText} ${icon({ type: 'link', description: '' })}
         </a>`
       : ''
 

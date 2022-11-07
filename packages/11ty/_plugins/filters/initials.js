@@ -15,7 +15,7 @@ module.exports = (person, options) => {
     full_name: fullName,
     last_name: lastName
   } = person
-  const nameParts = [];
+  const nameParts = []
   if (firstName && lastName) {
     nameParts.push(firstName, lastName)
   } else if (fullName) {

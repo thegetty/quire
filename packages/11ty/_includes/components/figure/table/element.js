@@ -8,7 +8,7 @@ const path = require('path')
  */
 module.exports = function (eleventyConfig) {
   const renderFile = eleventyConfig.getFilter('renderFile')
-  const { assetDir } = eleventyConfig.globalData.config.params
+  const { assetDir } = eleventyConfig.globalData.config.figures
 
   /**
    * Render template file content referenced by a `figure.src` property
@@ -21,7 +21,7 @@ module.exports = function (eleventyConfig) {
    * @return  {String}  Text content of the referenced template file
    */
   return async function ({ src }) {
-    const filepPath = path.join(eleventyConfig.dir.input, assetDir, src)
-    return await renderFile(filepPath)
+    const filePath = path.join(eleventyConfig.dir.input, assetDir, src)
+    return await renderFile(filePath)
   }
 }

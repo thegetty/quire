@@ -1,7 +1,7 @@
 ---
 class: backmatter
 layout: base.11ty.js
-order: 4
+order: 5
 outputs:
   - epub
   - pdf

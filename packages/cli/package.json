@@ -1,7 +1,7 @@
 {
   "name": "@thegetty/quire-cli",
   "description": "Quire command-line interface",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0-pre-release.0",
   "author": "Getty Digital",
   "license": "J Paul Getty Trust",
   "bugs": {
@@ -12,27 +12,27 @@
     "cli",
     "quire"
   ],
-  "files": [
-    "bin"
-  ],
   "bin": {
-    "@thegetty/quire": "./main.js",
-    "quire": "./main.js",
-    "quire-cli": "./main.js"
+    "quire": "./src/main.js"
   },
+  "exports": "./src/main.js",
   "type": "module",
-  "exports": "./main.js",
+  "files": [
+    "src/",
+    "CHANGELOG.md",
+    "READMEME.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/thegetty/quire.git",
     "directory": "packages/cli"
   },
   "scripts": {
-    "build": "rollup --config build/rollup.config.js",
-    "clean": "del-cli ./dist",
     "lint": "eslint src --ext .js",
     "lint:fix": "npm run lint -- --fix",
-    "prebuild": "npm run clean",
     "postinstall": "node scripts/postinstall.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

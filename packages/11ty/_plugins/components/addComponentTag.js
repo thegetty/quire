@@ -18,7 +18,7 @@ module.exports = function(eleventyConfig, tagName, component) {
    * @see https://www.11ty.dev/docs/languages/javascript/#javascript-template-functions
    * @see https://www.11ty.dev/docs/languages/javascript/#relationship-to-filters-and-shortcodes
    */
-  if (component.constructor.name === "AsyncFunction") {
+  if (component.constructor.name === 'AsyncFunction') {
     eleventyConfig.addJavaScriptFunction(tagName, async function(...args) {
       return await component(eleventyConfig)(...args)
     })

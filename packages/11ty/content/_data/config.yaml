@@ -1,41 +1,48 @@
-baseURL: 'http://localhost:8080'
+analytics:
+  googleId: ''
 
-title: Quire Starter
-languageCode: en-us
-theme: default
-publishDir: site
-
-footnoteReturnLinkContents: '↩'
-GoogleAnalytics: ''
-
-pluralizeListTitles: true
-disableKinds:
-  - home
-  - section
-  - taxonomy
-  - term
-
-params:
-  citationPageLocationDivider: ', '
-  citationPopupStyle: text # text | icon
-  contributorByline: name-title # name | name-title | false
-  entryPageObjectLinkText: View in Collection
-  entryPageSideBySideLayout: false
-  figureModal: true
-  figureModalIcons: true
-  figureZoom: true
-  assetDir: '/_assets/'
-  imageDir: '/_assets/images'
-  licenseIcons: true
-  menuType: full
-  nextPageButtonText: Next
-  pageContributorDivider: ' — '
-  pageLabelDivider: '. '
-  prevPageButtonText: Back
-  searchEnabled: true
-  tocType: full
+bylineFormat: name-title # name | name-title | false
 
 bibliography:
   displayOnPage: true
   displayShort: true
   heading: Bibliography
+
+citations:
+  divider: ', '
+  popupStyle: text # text | icon
+
+entryPage:
+  sideBySide: false
+  objectLinkText: View in Collection
+
+epub:
+  defaultCoverImage: 'https://user-images.githubusercontent.com/7796401/39769476-29929fe4-52a1-11e8-85ac-ff41505b3d4c.png'
+  outputDir: '_epub'
+
+footnotes:
+  backlinkSymbol: '↩'
+
+figures:
+  assetDir: '/_assets/'
+  enableModal: true
+  imageDir: '/_assets/images'
+
+licenseIcons: true
+
+localization:
+  defaultLocale: en-us
+
+menuType: full # full | brief
+
+navigation:
+  nextButtonText: Next
+  prevButtonText: Back
+
+pageTitle:
+  labelDivider: '. '
+
+searchEnabled: true
+
+tableOfContents:
+  contributorDivider: ' — '

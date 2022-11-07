@@ -10,7 +10,7 @@ const path = require('path')
  */
 module.exports = function(eleventyConfig) {
   const { config, publication } = eleventyConfig.globalData
-  const { imageDir } = config.params
+  const { imageDir } = config.figures
 
   return function ({ canonicalURL, page }) {
     const { abstract, contributor, cover, title } = page
@@ -43,14 +43,14 @@ module.exports = function(eleventyConfig) {
 
     const Book = {
       type: 'Book',
-      name: config.title,
+      name: publication.title,
       description: publicationDescription.replace(/\n/g,' '),
       isbn: isbn && isbn.replace(/-/g, '')
     }
 
     const Periodical = {
       type: 'PublicationIssue',
-      name:  config.title,
+      name:  publication.title,
       description: publicationDescription.replace(/\n/g,' '),
       issueNumber: publication.series_issue_number,
       isPartOf: {
@@ -63,7 +63,7 @@ module.exports = function(eleventyConfig) {
     // publication.pub_type === null
     const WebSite = {
       type: 'WebSite',
-      name: config.title,
+      name: publication.title,
     }
 
     const partOf = (type) => {
@@ -121,7 +121,7 @@ module.exports = function(eleventyConfig) {
           .map((name) => name)
           .toString(),
         publisher: [publisher],
-        url: config.baseURL
+        url: publication.url
       },
       url: canonicalURL
     }

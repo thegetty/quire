@@ -35,7 +35,7 @@ module.exports = function(eleventyConfig) {
       .join('\n')
 
     const keywords = publication.subject
-      .filter(({ type }) => type === "keyword")
+      .filter(({ type }) => type === 'keyword')
       .map(({ name }) => name)
       .join(', ')
 
