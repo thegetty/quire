@@ -159,3 +159,55 @@ Start a local web server to serve a previously built Quire site.
 ```sh
 quire server --port 8080
 ```
+
+### `version`
+
+Sets the Quire version to use when running commands on the project.
+
+```sh
+quire version 1.0.0
+```
+
+To set the quire version globally use the `--global` command flag.
+
+```sh
+quire version 1.0.0 --global
+```
+
+#### `info`
+
+Display the local and global `quire-11ty` version; this is the *default* subcommand (running `quire version` invokes the `info` subcommand).
+
+```sh
+quire version info
+```
+
+#### `install`
+
+```sh
+quire version install <version>
+```
+
+To reinstall a `quire-11ty` version run
+
+```sh
+quire version install <version> --force
+```
+
+#### `list`
+
+List installed versions of `quire-11ty`
+
+```sh
+quire version list
+```
+
+#### `remove` (alias `uninstall`)
+
+```sh
+quire version remove <version>
+```
+
+```sh
+quire version uninstall <version>
+```
