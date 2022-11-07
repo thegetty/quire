@@ -16,7 +16,7 @@ module.exports = function(eleventyConfig) {
   const figureCaption = eleventyConfig.getFilter('figureCaption')
   const figureLabel = eleventyConfig.getFilter('figureLabel')
 
-  const { imageDir } = eleventyConfig.globalData.config.params
+  const { imageDir } = eleventyConfig.globalData.config.figures
 
   return function({ aspect_ratio: aspectRatio, caption, credit, id, label, mediaType, poster=''}) {
     if (!poster) {

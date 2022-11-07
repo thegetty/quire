@@ -4,13 +4,13 @@ layout: base.11ty.js
 description: Entry layout. This template is intended for use in catalogue-style pages where a single image or object needs to be featured prominently.
 ---
 
-{% assign entryPageSideBySideLayout = config.params.entryPageSideBySideLayout %}
+{% assign sideBySide = config.entryPage.sideBySide %}
 
 {% comment %}
 Entry content, including entry image and tombstone data
 {% endcomment %}
 
-<div {% if entryPageSideBySideLayout == true or presentation == 'side-by-side' %} class="side-by-side" {% endif %}>
+<div {% if sideBySide == true or presentation == 'side-by-side' %} class="side-by-side" {% endif %}>
 
   {% comment %} Full-width entry image header {% endcomment %}
   <div class="quire-entry__image-wrap" data-outputs-include="html">
@@ -51,7 +51,7 @@ Entry content, including entry image and tombstone data
           {% pageTitle label=label, title=title, subtitle=subtitle %}
         </h1>
         <div class="quire-page__header__contributor">
-          {% contributors context=pageContributors, format=contributor_byline %}
+          {% contributors context=pageContributors, format=byline_format %}
         </div>
       </div>
     </header>

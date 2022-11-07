@@ -41,19 +41,34 @@ module.exports = class Figure {
       ? data.manifestId || [baseURI, outputDir, manifestFileName].join('/')
       : null
 
+    const defaults = {
+      mediaType: 'image'
+    }
+
+    const { 
+      id,
+      label,
+      media_id: mediaId,
+      media_type: mediaType,
+      src,
+      zoom
+    } = data
+
     this.annotationFactory = new AnnotationFactory(this)
     this.canvasId = canvasId
     this.data = data
-    this.id = data.id
     this.processImage = imageProcessor
+    this.id = id
     this.iiifConfig = iiifConfig
     this.isCanvas = isCanvas(data)
     this.isImageService = isImageService(data)
-    this.label = data.label
+    this.label = label
     this.manifestId = manifestId
+    this.mediaType = mediaType || defaults.mediaType
+    this.mediaId = mediaId
     this.outputDir = outputDir
-    this.src = data.src
-    this.zoom = data.zoom
+    this.src = src
+    this.zoom = zoom
   }
 
   /**
@@ -112,9 +127,9 @@ module.exports = class Figure {
    * @type {String}
    */
   get printImage() {
-    if (this.src && !this.data.printImage) {
+    if (!this.isExternalResource && this.src && !this.data.printImage) {
       const { ext, name } = path.parse(this.src)
-      return path.join(this.outputDir, `print-image${ext}`)
+      return path.join('/', this.outputDir, name, `print-image${ext}`)
     }
     return this.data.printImage
   }
@@ -124,7 +139,7 @@ module.exports = class Figure {
    * @return {String} format "x,y,width,height" Defaults to full dimensions
    */
   get region() {
-    if (this.isExternal) return
+    if (this.isExternal || this.mediaType !== 'image') return
     return this.data.region || `0,0,${this.canvasWidth},${this.canvasHeight}`
   }
 
@@ -142,6 +157,8 @@ module.exports = class Figure {
       isImageService: this.isImageService,
       label: this.label,
       manifestId: this.manifestId,
+      mediaId: this.mediaId,
+      mediaType: this.mediaType,
       printImage: this.printImage,
       region: this.region,
       src: this.src

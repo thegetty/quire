@@ -4,9 +4,9 @@ const { html } = require('~lib/common-tags')
 module.exports = function(eleventyConfig) {
   const figureLabel = eleventyConfig.getFilter('figureLabel')
 
-  const { imageDir } = eleventyConfig.globalData.config.params
+  const { imageDir } = eleventyConfig.globalData.config.figures
 
-  return function({ alt, caption, id, label, media_type: mediaType, src }) {
+  return function({ alt, caption, id, label, mediaType, src }) {
     let imageElement
 
     if (src) {

@@ -8,6 +8,10 @@
 # publication.
 
 # ------------------------------------------------------------------------------
+# The publication's base URL, i.e. 'https://www.my-publication.org'
+url: 'http://localhost:8080'
+
+# ------------------------------------------------------------------------------
 # Title & Description
 title: New Deal Photography
 subtitle: The Works of Dorothea Lange and Walker Evans
@@ -30,7 +34,6 @@ pub_type: book # book | journal-periodical | other
 
 identifier:
   isbn:
-  url:
 
 publisher:
   - name: J. Paul Getty Trust

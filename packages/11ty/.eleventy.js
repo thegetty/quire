@@ -167,13 +167,13 @@ module.exports = function(eleventyConfig) {
       /**
        * @see https://vitejs.dev/config/#build-options
        */
-      root: '_site',
+      root: outputDir,
       build: {
         assetsDir: '_assets',
         emptyOutDir: process.env.ELEVENTY_ENV !== 'production',
         manifest: true,
         mode: 'production',
-        outDir: '_site',
+        outDir: outputDir,
         rollupOptions: {
           output: {
             assetFileNames: ({ name }) => {
@@ -193,8 +193,7 @@ module.exports = function(eleventyConfig) {
           plugins: [
             copy({
               targets: [
-                { src: 'public/pdf.html', dest: '_site' },
-                { src: 'public/pdf.css', dest: '_site' },
+                { src: 'public/*', dest: '_site' }
               ]
             })
           ]

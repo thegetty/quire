@@ -19,7 +19,7 @@ module.exports = function(options={}) {
 
     if (!style) {
       error(`Citation style "${type}" is not supported. You may need to add it to _plugins/citations/styles.`)
-      return;
+      return
     }
 
     const processor = new Processor({

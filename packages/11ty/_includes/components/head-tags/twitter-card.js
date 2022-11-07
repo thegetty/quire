@@ -11,11 +11,11 @@ const path = require('path')
 module.exports = function(eleventyConfig) {
   const { config, publication } = eleventyConfig.globalData
   const { description, promo_image } = publication
-  const { imageDir } = config.params
+  const { imageDir } = config.figures
 
   return function({ abstract, cover, layout }) {
     const imagePath = () => {
-      if (!config.baseURL) return
+      if (!publication.url) return
       if (layout !== 'essay' ) {
         return promo_image && path.join(imageDir, promo_image)
       } else {
@@ -31,11 +31,11 @@ module.exports = function(eleventyConfig) {
       },
       {
         name: 'twitter:site',
-        content: layout !== 'essay' ? config.baseURL : null
+        content: layout !== 'essay' ? publication.url : null
       },
       {
         name: 'twitter:title',
-        content: layout !== 'essay' ? config.title : null
+        content: publication.title
       },
       {
         name: 'twitter:description',

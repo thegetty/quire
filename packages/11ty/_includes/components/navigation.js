@@ -1,5 +1,5 @@
 const truncate = require('~lib/truncate')
-const { html } = require('~lib/common-tags');
+const { html } = require('~lib/common-tags')
 
 /**
  * This controls the various navigation elements (nav, skip-link, menu and
@@ -16,7 +16,7 @@ const { html } = require('~lib/common-tags');
 module.exports = function(eleventyConfig) {
   const eleventyNavigation = eleventyConfig.getFilter('eleventyNavigation')
   const pageTitle = eleventyConfig.getFilter('pageTitle')
-  const { imageDir } = eleventyConfig.globalData.config.params
+  const { imageDir } = eleventyConfig.globalData.config.figures
 
   return function (params) {
     const { collections, pagination, title } = params

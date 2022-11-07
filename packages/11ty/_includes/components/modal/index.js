@@ -11,7 +11,7 @@ module.exports = function (eleventyConfig, { page }) {
   const lightboxUI = eleventyConfig.getFilter('lightboxUI')
 
   return async function (figures=page.figures) {
-    if (!figures) return;
+    if (!figures) return
 
     return html`
       <q-modal>
@@ -25,6 +25,6 @@ module.exports = function (eleventyConfig, { page }) {
           id="close-modal"
         ></button>
       </q-modal>
-    `;
+    `
   }
 }

@@ -5,7 +5,7 @@ const logger = chalkFactory('Figures:IIIF:Config', 'DEBUG')
 
 
 module.exports = (eleventyConfig) => {
-  const { baseURL } = eleventyConfig.globalData.config
+  const { url } = eleventyConfig.globalData.publication
   const { port } = eleventyConfig.serverOptions
 
   const projectRoot = path.resolve(__dirname, '../../../')
@@ -33,7 +33,7 @@ module.exports = (eleventyConfig) => {
 
   return {
     baseURI: process.env.ELEVENTY_ENV === 'production'
-      ? baseURL
+      ? url
       : `http://localhost:${port}`,
     dirs: {
       /**

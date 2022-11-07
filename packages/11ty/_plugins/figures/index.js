@@ -13,12 +13,11 @@ module.exports = function (eleventyConfig, options = {}) {
   const figureFactory = new FigureFactory(iiifConfig(eleventyConfig))
 
   eleventyConfig.on('eleventy.before', async () => {
-    let { figure_list: figureList } = eleventyConfig.globalData.figures
+    const { figure_list: figureList } = eleventyConfig.globalData.figures
 
-    figureList = await Promise.all(figureList.map((data) => {
+    const figures = await Promise.all(figureList.map((data) => {
       return figureFactory.create(data)
     }))
-
     const errors = figureList.filter(({ errors }) => errors && !!errors.length)
 
     if (errors.length) {
@@ -34,8 +33,7 @@ module.exports = function (eleventyConfig, options = {}) {
     /**
      * Update global figures data to only have properties for Quire shortcodes
      */
-    Object.assign(figureList, figureList.map(({ figure }) => figure.adapter()))
-
+    Object.assign(figureList, figures.map(({ figure }) => figure.adapter()))
     logger.info('Processing complete')
   })
 }

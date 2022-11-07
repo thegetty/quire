@@ -1,8 +1,9 @@
+const filterOutputs = require('../filter.js')
 const path = require('path')
 const jsdom = require('jsdom')
-const { JSDOM } = jsdom
-const filterOutputs = require('../filter.js')
 const registerWebComponents = require('./web-components')
+
+const { JSDOM } = jsdom
 
 /**
  * Content transforms for html output

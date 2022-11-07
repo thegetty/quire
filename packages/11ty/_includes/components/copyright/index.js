@@ -16,7 +16,7 @@ module.exports = function(eleventyConfig) {
   const markdownify = eleventyConfig.getFilter('markdownify')
 
   return function (params) {
-    const imageDir = config.params.imageDir
+    const { imageDir } = config.figures
 
     const copyright = publication.copyright
       ? `<p>${markdownify(publication.copyright)}</p>`
@@ -27,7 +27,7 @@ module.exports = function(eleventyConfig) {
       return imagePath
         ? [`<img src="${imagePath}" class="copyright__publisher-logo" alt="${name}" />`]
         : []
-      })
+    })
 
     const { license } = publication
 
@@ -43,7 +43,7 @@ module.exports = function(eleventyConfig) {
       <div class="quire-copyright">
         ${publisherImages}
         ${copyright}
-        ${config.params.licenseIcons && licenseIcons(license)}
+        ${config.licenseIcons && licenseIcons(license)}
         <div class="is-screen-only">
           ${screenText}
         </div>

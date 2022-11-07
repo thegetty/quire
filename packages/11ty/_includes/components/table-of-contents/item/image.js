@@ -4,14 +4,14 @@ const path = require('path')
  *
  * @param     {Object} eleventyConfig
  * @param     {Object} params
- * @property  {String} imageDir - image directory from eleventyComputed
  * @property  {String} src - image src
  *
  * @return {String} TOC image markup
  */
 module.exports = function(eleventyConfig) {
+  const { imageDir } = eleventyConfig.globalData.config.figures
   return function(params) {
-    const { imageDir, src } = params
+    const { src } = params
     if (!imageDir || !src) return ''
     const imgPath = path.join(imageDir, src)
     return `
