@@ -4,9 +4,9 @@ import * as quire from '#lib/quire/index.js'
 /**
  * Quire CLI `version` Command
  *
- * Running `quire version` start a new project at the specified local path;
- * when the local path does not exist it is created,
- * when `path` exists but is not an empty directory an error is thrown.
+ * Running `quire version` sets the `quire-11ty` version for a project.
+ * The version is written to a `.quire` file in the project directory
+ * or to the `quire-cli` package `.quire` when the `global` flag is used.
  *
  * @class      VersionCommand
  * @extends    {Command}
