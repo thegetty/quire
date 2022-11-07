@@ -9,18 +9,21 @@
   },
   "homepage": "https://github.com/thegetty/quire/tree/main/packages/cli#readme",
   "keywords": [
+    "11ty",
     "cli",
     "quire"
   ],
   "bin": {
-    "quire": "./src/main.js"
+    "quire": "./bin/cli.js"
   },
-  "exports": "./src/main.js",
+  "exports": "./bin/cli.js",
   "type": "module",
   "files": [
+    "bin/",
     "src/",
     "CHANGELOG.md",
-    "READMEME.md"
+    "LICENSE",
+    "README.md"
   ],
   "publishConfig": {
     "access": "public"
@@ -37,6 +40,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "imports": {
+    "#root/*": "./*",
     "#src/*.js": "./src/*.js",
     "#helpers/*.js": "./src/helpers/*.js",
     "#lib/*.js": "./src/lib/*.js"
@@ -59,7 +63,8 @@
     "loglevel": "^1.8.0",
     "ora": "^6.1.2",
     "semver": "^7.3.8",
-    "simple-git": "^3.14.1"
+    "simple-git": "^3.14.1",
+    "update-notifier": "^6.0.2"
   },
   "devDependencies": {
     "del-cli": "^5.0.0",
