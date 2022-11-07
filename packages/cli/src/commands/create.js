@@ -52,7 +52,7 @@ export default class CreateCommand extends Command {
    * retrieving file URLs on specific code branches. But it will!
    *
    * @TODO Once 11ty work is merged into main, this static method should replace
-   * the `quire11tyVersion` import, and should be refactored to use npm instead of
+   * the `quireVersion` import, and should be refactored to use npm instead of
    *  hosted-git-info
    *
    * @return {String} the current version of thegetty/quire/packages/11ty
