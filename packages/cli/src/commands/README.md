@@ -176,6 +176,8 @@ quire version 1.0.0 --global
 
 #### `info`
 
+Display the local and global `quire-11ty` version; this is the *default* subcommand (running `quire version` invokes the `info` subcommand).
+
 ```sh
 quire version info
 ```
