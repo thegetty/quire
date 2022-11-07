@@ -17,7 +17,7 @@ import { isEmpty } from '#helpers/is-empty.js'
 const {
   name: quirePackageName,
   version: quireVersion
-} = JSON.parse(fs.readFileSync('../../../11ty/package.json', 'utf8'))
+} = JSON.parse(fs.readFileSync('../11ty/package.json', 'utf8'))
 
 /**
  * Quire CLI `new` Command
