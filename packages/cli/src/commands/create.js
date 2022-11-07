@@ -1,18 +1,23 @@
 import Command from '#src/Command.js'
-import { cwd } from 'node:process'
 import fs from 'fs-extra'
 import hostedGitInfo from 'hosted-git-info'
-import { initStarter } from '#src/lib/quire/init-starter.js'
 import installNpmVersion from 'install-npm-version'
+import path from 'node:path'
+import { cwd } from 'node:process'
+import { initStarter } from '#src/lib/quire/init-starter.js'
 import { isEmpty } from '#helpers/is-empty.js'
-import { join } from 'node:path'
-// @todo pull this information from the published packaged
-import packageJson from '../../../11ty/package.json' assert { type: 'json' }
 
+/**
+ * Nota bene: importing JSON is experimental in Node ES6 modules,
+ * instead read the file synchronosly and parse contents as JSON.
+ *
+ * @refactor this as a concern of the lib/quire module,
+ * pull version information from the published packaged
+ */
 const {
   name: quirePackageName,
-  version: quire11tyVersion
-} = packageJson
+  version: quireVersion
+} = JSON.parse(fs.readFileSync('../../../11ty/package.json', 'utf8'))
 
 /**
  * Quire CLI `new` Command
@@ -39,39 +44,26 @@ export default class CreateCommand extends Command {
     ],
   }
 
-  /**
-   * Retrieves version from quire repository `packages/11ty/package.json`
-   *
-   * Note: This does not currently work, as quire-11ty work is not on the main
-   * branch yet, and `hosted-git-info` does not provide a mechanism for
-   * retrieving file URLs on specific code branches. But it will!
-   *
-   * @TODO Once 11ty work is merged into main, this static method should replace
-   * the `quire11tyVersion` import, and should be refactored to use npm instead of
-   *  hosted-git-info
-   *
-   * @return {String} the current version of thegetty/quire/packages/11ty
-   */
-  static async getLatestQuireVersion() {
-    const latestQuirePackageJsonUrl = hostedGitInfo
-      .fromUrl('git@github.com:thegetty/quire.git')
-      .file('packages/11ty/package.json')
-    const latestQuirePackageJsonRequest = await fetch(latestQuirePackageJsonUrl)
-    const latestQuirePackageJson = await latestQuirePackageJsonRequest.json()
-    const { version: latestQuireVersion } = latestQuirePackageJson
-    return latestQuireVersion
-  }
-
   constructor() {
     super(CreateCommand.definition)
   }
 
+  /**
+   * @param      {String}  path
+   * @param      {String}  starter
+   * @param      {Object} options
+   * @return     {Promise}
+   */
   async action(path, starter, options = {}) {
     if (options.debug) {
       console.info('Command \'%s\' called with options %o', this.name, options)
     }
 
     const projectRoot = path || cwd()
+
+    /**
+     * @todo refactor as a concern of `lib/quire/init-starter`
+     */
     starter = starter || `quire/starters/default`
 
     // ensure that the target path exists
@@ -85,18 +77,38 @@ export default class CreateCommand extends Command {
       return
     }
 
-    // ensure that quire versions directory path exists
-    const quire11tyVersionsPath = join('quire', 'versions')
-    fs.ensureDirSync(quire11tyVersionsPath)
+    /**
+     * Ensure that quire versions directory path exists
+     * @todo refactor as a concern of the `lib/quire` module
+     */
+    const quireVersionsPath = path.join('quire', 'versions')
+    fs.ensureDirSync(quireVersionsPath)
 
-    // install quire-11ty npm package into /quire/versions/1.0.0
+    /**
+     * Install quire-11ty npm package into /quire/versions/1.0.0
+     * @todo refactor as a concern of the `lib/quire` module
+     */
     await installNpmVersion.Install(
-      `${quirePackageName}@${quire11tyVersion}`,
+      `${quirePackageName}@${quireVersion}`,
       {
-        Destination: `../${quire11tyVersionsPath}/${quire11tyVersion}`,
+        Destination: `../${quireVersionsPath}/${quireVersion}`,
         Debug: true
       }
     )
+
+    /**
+     * Quire project dot configuration file
+     *
+     * @todo refactor as a concern of the `lib/quire` module
+     * writes the quire-11ty semantic version to a `.quire` file
+     */
+    const config = {
+      projectRoot: path.resolve(projectRoot),
+      version: quireVersion
+    }
+
+    const configFilePath = path.join(projectRoot, '.quire')
+    fs.writeFileSync(configFilePath, JSON.stringify(config, null, 2))
 
     console.log('[CLI]', projectRoot, starter)
 
@@ -107,7 +119,7 @@ export default class CreateCommand extends Command {
       // const starter = starters['default']
       // `git clone starter path`
     } else {
-      initStarter(starter, projectRoot, quire11tyVersion)
+      initStarter(starter, projectRoot, quireVersion)
     }
   }
 }
