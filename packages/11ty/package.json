@@ -38,6 +38,13 @@
     "serve": "cross-env ELEVENTY_ENV=production eleventy --serve",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "imports": {
+    "#root/*": "./*",
+    "#includes/*": "./_includes/*",
+    "#layouts/*": "./_layouts/*",
+    "#lib/*": "./_lib/*",
+    "#plugins/*": "./_plugins/*"
+  },
   "devDependencies": {
     "@11ty/eleventy": "^2.0.0-canary.16",
     "@11ty/eleventy-img": "^2.0.1",
