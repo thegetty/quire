@@ -7,7 +7,7 @@ const service = await i18next
   // .on('initialized', () => {
   //   console.debug('[CLI:i18next] initialized')
   // })
-  .use(I18nextCLILanguageDetector)
+  // .use(I18nextCLILanguageDetector)
   .init(configuration)
 
 export default new LocaleService(service)
