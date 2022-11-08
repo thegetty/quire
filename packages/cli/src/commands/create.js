@@ -1,10 +1,5 @@
 import Command from '#src/Command.js'
-import { cwd } from 'node:process'
-import fs from 'fs-extra'
-import hostedGitInfo from 'hosted-git-info'
 import { initStarter } from '#src/lib/quire/init-starter.js'
-import { isEmpty } from '#helpers/is-empty.js'
-import path from 'node:path'
 
 /**
  * Quire CLI `new` Command
@@ -31,31 +26,6 @@ export default class CreateCommand extends Command {
     ],
   }
 
-  /**
-   * Retrieves version from quire repository `packages/11ty/package.json`
-   *
-   * Note: This does not currently work, as quire-11ty work is not on the main
-   * branch yet, and `hosted-git-info` does not provide a mechanism for
-   * retrieving file URLs on specific code branches. But it will!
-   *
-   * @TODO Once 11ty work is merged into main, this static method should replace
-   * the `quireVersion` import in `cli/src/lib/quire`, and should be refactored
-   * to use npm instead of hosted-git-info
-   *
-   * @TODO update .node-version to `>=18` for native fetch
-   *
-   * @return {String} the current version of thegetty/quire/packages/11ty
-   */
-  static async getLatestQuireVersion() {
-    const latestQuirePackageJsonUrl = hostedGitInfo
-      .fromUrl('git@github.com:thegetty/quire.git')
-      .file('packages/11ty/package.json')
-    const latestQuirePackageJsonRequest = await fetch(latestQuirePackageJsonUrl)
-    const latestQuirePackageJson = await latestQuirePackageJsonRequest.json()
-    const { version: latestQuireVersion } = latestQuirePackageJson
-    return latestQuireVersion
-  }
-
   constructor() {
     super(CreateCommand.definition)
   }
@@ -63,7 +33,7 @@ export default class CreateCommand extends Command {
   /**
    * @param      {String}  projectPath
    * @param      {String}  starter
-   * @param      {Object} options
+   * @param      {Object}  options
    * @return     {Promise}
    */
   async action(projectPath, starter, options = {}) {
@@ -71,27 +41,17 @@ export default class CreateCommand extends Command {
       console.info('Command \'%s\' called with options %o', this.name, options)
     }
 
-    const projectRoot = projectPath || cwd()
+    if (!projectPath && !starter) {
+      // @TODO implement this case of interactively selecting starter templates
+      // from available subtrees in `lib/quire` module
 
-    // ensure that the target path exists
-    fs.ensureDirSync(projectRoot)
-
-    // if the target directory exists it must be empty
-    if (!isEmpty(projectPath)) {
-      const location = projectPath === '.' ? 'the current directory' : projectPath
-      console.error(`[CLI] cannot create a starter project in ${location} because it is not empty`)
-      // @TODO cleanup directories from failed new command
-      return
-    }
-
-    if (!projectRoot && !starter) {
       // await interactivePrompt()
       // list sub-repositories in '@thegetty/quire/packages/starters'
       // const starters = git.fetchStarters()
       // const starter = starters['default']
       // `git clone starter path`
     } else {
-      initStarter(starter, projectRoot)
+      initStarter(starter, projectPath)
     }
   }
 }

@@ -5,7 +5,7 @@ import installNpmVersion from 'install-npm-version'
 import path from 'node:path'
 import semver from 'semver'
 
-const INSTALL_PATH = path.join('./', 'versions')
+const INSTALL_PATH = path.join('./', 'src', 'lib', 'quire', 'versions')
 const VERSION_FILE = '.quire'
 
 /**
@@ -36,19 +36,19 @@ function getVersion() {
  * @param  {String}  version  Quire-11ty semantic version
  * @return  {Promise}
  */
-async function install(version='latest') {
+async function install(version='latest', packageName) {
   fs.ensureDirSync(INSTALL_PATH)
-
   await installNpmVersion.Install(
-    `${quirePackageName}@${quireVersion}`,
+    `${packageName}@${version}`,
     {
       Destination: `${INSTALL_PATH}/${version}`,
       Debug: true
     }
   )
 
-  fs.symlink(`${INSTALL_PATH}/latest`, latest, 'dir', (error) => {
-    console.error(error)
+  // @FIXME this throws an error if symlink already exists, which is fine
+  fs.symlink(`${INSTALL_PATH}/latest`, version, 'dir', (error) => {
+    console.error('[CLI:quire.install]', error)
   })
 }
 
@@ -60,8 +60,10 @@ async function install(version='latest') {
  * retrieving file URLs on specific code branches. But it will!
  *
  * @TODO Once 11ty work is merged into main, this static method should replace
- * the `quireVersion` import, and should be refactored to use npm instead of
- *  hosted-git-info
+ * the `quireVersion` import, and should be refactored to use NPM instead of
+ * hosted-git-info
+ *
+ * @TODO update .node-version to `>=18` for native fetch
  *
  * @return {String} the current version of thegetty/quire/packages/11ty
  */
@@ -141,6 +143,7 @@ export const quire = {
   getPath,
   getVersion,
   install,
+  INSTALL_PATH,
   latest,
   list,
   remove,
