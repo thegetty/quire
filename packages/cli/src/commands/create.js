@@ -42,6 +42,8 @@ export default class CreateCommand extends Command {
    * the `quireVersion` import in `cli/src/lib/quire`, and should be refactored
    * to use npm instead of hosted-git-info
    *
+   * @TODO update .node-version to `>=18` for native fetch
+   *
    * @return {String} the current version of thegetty/quire/packages/11ty
    */
   static async getLatestQuireVersion() {
