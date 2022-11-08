@@ -6,6 +6,7 @@ import path from 'node:path'
 import semver from 'semver'
 
 const INSTALL_PATH = path.join('./', 'src', 'lib', 'quire', 'versions')
+const PACKAGE_NAME = '@thegetty/quire-11ty'
 const VERSION_FILE = '.quire'
 
 /**
@@ -36,10 +37,10 @@ function getVersion() {
  * @param  {String}  version  Quire-11ty semantic version
  * @return  {Promise}
  */
-async function install(version='latest', packageName) {
+async function install(version='latest') {
   fs.ensureDirSync(INSTALL_PATH)
   await installNpmVersion.Install(
-    `${packageName}@${version}`,
+    `${PACKAGE_NAME}@${version}`,
     {
       Destination: `${INSTALL_PATH}/${version}`,
       Debug: true
