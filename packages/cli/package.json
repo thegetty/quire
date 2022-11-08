@@ -1,9 +1,9 @@
 {
   "name": "@thegetty/quire-cli",
   "description": "Quire command-line interface",
-  "version": "1.0.0-pre-release.0",
+  "version": "1.0.0-pre-release.2",
   "author": "Getty Digital",
-  "license": "J Paul Getty Trust",
+  "license": "SEE LICENSE IN https://github.com/thegetty/quire/blob/main/LICENSE",
   "bugs": {
     "url": "https://github.com/thegetty/quire/issues"
   },
