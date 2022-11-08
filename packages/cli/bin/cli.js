@@ -1,7 +1,9 @@
-#!/usr/bin/env node --experimental-json-modules
+#!/usr/bin/env node --no-warnings
 import cli from '#src/main.js'
 import packageConfig from '#root/package.json' assert { type: 'json' }
 import updateNotifier from 'update-notifier'
+
+process.removeAllListeners('warning')
 
 const INTERVAL = Object.freeze({
   MINUTES: 1000 * 60 * 1,
@@ -13,6 +15,8 @@ const INTERVAL = Object.freeze({
 /**
  * Check for quire-cli updates
  * @see https://github.com/yeoman/update-notifier#usage
+ *
+ * @todo user configuration of choosen update interval
  */
 const notifier = updateNotifier({
   distTag: 'latest',
