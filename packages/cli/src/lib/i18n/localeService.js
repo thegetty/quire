@@ -47,12 +47,22 @@ export class LocaleService {
   }
 
   /**
-   * Translate a string
+   * Get the translation for a given a string key
    *
    * @param  {String}  string   string to translate
    * @param  {Object}  options  translation options
    */
   translate(string, options) {
     return this.i18nProvider.t(string)
+  }
+
+  /**
+   * Get a pluralized translation given a string key and count
+   *
+   * @param  {String}  string   string to translate
+   * @param  {Number}  count  number of things
+   */
+  translateN(string, count) {
+    return this.i18nProvider.t(string, { count })
   }
 }

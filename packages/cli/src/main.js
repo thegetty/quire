@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { Command } from 'commander'
-import commands from './commands/index.js'
+import commands from '#src/commands/index.js'
+import localeService from '#lib/i18n/index.js'
 
 /**
  * Quire CLI implements the command pattern.
@@ -95,6 +96,17 @@ commands.forEach((command) => {
 
   // subCommand.action((args) => action.apply(command, args))
   subCommand.action(action)
+
+  /**
+   * Inject the configured LocaleService into Command class
+   *
+   * @todo consider refactoring to call `i18next.createInstance`
+   * from each command constructor with the command `name`
+   * passed as the i18next namespace to use for translations.
+   */
+  Object.defineProperty(subCommand, 'localeService', {
+    get: function () { return localeService }
+  })
 })
 
 /**

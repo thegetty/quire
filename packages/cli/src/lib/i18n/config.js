@@ -4,10 +4,10 @@
  *
  * @todo
  * set debug using cli `--debug` option
- * set resources by loading data files
+ * load resources from locale data files
  */
-const configuration = {
-  debug: true,
+export default {
+  debug: false,
   /**
    * Languages
    */
@@ -33,12 +33,12 @@ const configuration = {
   },
   /**
    * Missing Keys
-   * @ https://www.i18next.com/overview/configuration-options#missing-keys
+   * @see https://www.i18next.com/overview/configuration-options#missing-keys
    */
   saveMissing: false,
   /**
    * Translation defaults
-   * @ https://www.i18next.com/overview/configuration-options#translation-defaults
+   * @see https://www.i18next.com/overview/configuration-options#translation-defaults
    */
 
   /**
@@ -49,5 +49,9 @@ const configuration = {
   /**
    * Other
    * @see https://www.i18next.com/overview/configuration-options#others
+   *
+   * Load resources synchronously (`initImmediate: true`) to ensure that
+   * strings loaded from a filesystem backend are available when needed.
    */
+  initImmediate: true
 }
