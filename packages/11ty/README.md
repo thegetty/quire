@@ -14,8 +14,8 @@ Automatic processing of images as [IIIF](https://iiif.io) assets.
 
 #### PDF Output
 
-Generates HTML for EPUB output using [`Paged.js`](https://pagedjs.org)
+Generates HTML output for generation of PDF books using [`Paged.js`](https://pagedjs.org)
 
 #### EPUB Output
 
-Generates HTML for EPUB output using [`EPUB.js`](http://futurepress.org)
+Generates HTML output for generation of EPUB book using [`EPUB.js`](http://futurepress.org)
