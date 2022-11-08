@@ -1,4 +1,4 @@
-#! /usr/bin/env node
+#!/usr/bin/env node
 import { Command } from 'commander'
 import commands from './commands/index.js'
 
@@ -98,6 +98,6 @@ commands.forEach((command) => {
 })
 
 /**
- * Run the program
+ * Export the command program
  */
-program.parse()
+export default program
