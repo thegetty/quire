@@ -55,7 +55,6 @@
     "del": "^7.0.0",
     "execa": "^6.1.0",
     "fs-extra": "^10.1.0",
-    "hosted-git-info": "^6.1.1",
     "i18next": "^22.0.2",
     "i18next-cli-language-detector": "^1.1.6",
     "inquirer": "^9.1.4",
