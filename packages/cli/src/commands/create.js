@@ -1,5 +1,5 @@
 import Command from '#src/Command.js'
-import { initStarter } from '#src/lib/quire/init-starter.js'
+import { quire } from '#src/lib/quire/index.js'
 
 /**
  * Quire CLI `new` Command
@@ -51,7 +51,9 @@ export default class CreateCommand extends Command {
       // const starter = starters['default']
       // `git clone starter path`
     } else {
-      initStarter(starter, projectPath)
+      const version = await quire.latest()
+      await quire.install(version)
+      await quire.initStarter(starter, projectPath)
     }
   }
 }

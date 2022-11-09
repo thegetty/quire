@@ -1,11 +1,13 @@
 import { cwd } from 'node:process'
+import { execa } from 'execa'
 import fs from 'fs-extra'
-import hostedGitInfo from 'hosted-git-info'
+import git from '#src/lib/git/index.js'
 import installNpmVersion from 'install-npm-version'
+import { isEmpty } from '#helpers/is-empty.js'
 import path from 'node:path'
 import semver from 'semver'
 
-const INSTALL_PATH = path.join('./', 'src', 'lib', 'quire', 'versions')
+const INSTALL_PATH = path.join('src', 'lib', 'quire', 'versions')
 const PACKAGE_NAME = '@thegetty/quire-11ty'
 const VERSION_FILE = '.quire'
 
@@ -30,6 +32,74 @@ function getVersion() {
 }
 
 /**
+ * Clone or copy a Quire starter project
+ *
+ * @param    {String}   starter   A repository URL or path to local starter
+ * @param    {String}   projectPath  Absolute system path to the project root
+ * @param    {String}   quireVersion  A string indicating the current version
+ * of quire being used with a new project
+ * @return   {Promise}
+ */
+async function initStarter (starter, projectPath) {
+  projectPath = projectPath || cwd()
+
+  // ensure that the target path exists
+  fs.ensureDirSync(projectPath)
+
+  // if the target directory exists it must be empty
+  if (!isEmpty(projectPath)) {
+    const location = projectPath === '.' ? 'the current directory' : projectPath
+    console.error(`[CLI] cannot create a starter project in ${location} because it is not empty`)
+    // @TODO cleanup directories from failed new command
+    return
+  }
+
+  starter = starter || 'https://github.com/thegetty/quire-starter-default'
+
+  console.log('[CLI:init-starter]', `project root: ${projectPath}`, `starter project: ${starter}`)
+
+  // Clone starter project repository
+  // @TODO pipe `git clone` status to stdout for better UX
+  await git
+    .cwd(projectPath)
+    .clone(starter, '.')
+    .catch((error) => console.error('[CLI:error] ', error))
+
+  /**
+   * Quire project dot configuration file
+   *
+   * writes the quire-11ty semantic version to a `.quire` file
+   */
+  const quireVersion = await latest()
+  const projectConfig = `${quireVersion}\n`
+  const configFilePath = path.join(projectPath, '.quire')
+  fs.writeFileSync(configFilePath, projectConfig)
+
+  // @TODO Remove 11ty file copying code (lines 79-88) once CLI pathing issues have been sorted out
+  // Copy 11ty files
+  const fullProjectPath = path.resolve(projectPath)
+  const eleventyPath = path.resolve(path.join(INSTALL_PATH, quireVersion))
+  const eleventyFiles = fs.readdirSync(eleventyPath)
+
+  // copies all files in `quire/packages/11ty`
+  eleventyFiles.forEach((filePath) => {
+    const fileToCopy = path.resolve(eleventyPath, filePath)
+    fs.copySync(fileToCopy, path.join(fullProjectPath, path.basename(filePath)))
+  })
+
+  // Reinitialize project as a new git repository
+  await fs.remove(path.join(projectPath, '.git'))
+
+  // don't git-add copied `node_modules`
+  const starterFiles = fs
+    .readdirSync(projectPath)
+    .filter((filePath) => filePath !== 'node_modules')
+
+  // @TODO add localized string for commit message
+  await git.init().add(starterFiles).commit('Initial Commit')
+}
+
+/**
  * Install a specific version of `quire-11ty`
  *
  * If a `version` argument is not given `latest` is assumed.
@@ -42,40 +112,20 @@ async function install(version='latest') {
   await installNpmVersion.Install(
     `${PACKAGE_NAME}@${version}`,
     {
-      Destination: `${INSTALL_PATH}/${version}`,
+      Destination: path.join('../', INSTALL_PATH, version),
       Debug: true
     }
   )
-
-  // @FIXME this throws an error if symlink already exists, which is fine
-  fs.symlink(`${INSTALL_PATH}/latest`, version, 'dir', (error) => {
-    console.error('[CLI:quire.install]', error)
-  })
 }
 
 /**
  * Retrieves version from quire repository `packages/11ty/package.json`
  *
- * Note: This does not currently work, as quire-11ty work is not on the main
- * branch yet, and `hosted-git-info` does not provide a mechanism for
- * retrieving file URLs on specific code branches. But it will!
- *
- * @TODO Once 11ty work is merged into main, this static method should replace
- * the `quireVersion` import, and should be refactored to use NPM instead of
- * hosted-git-info
- *
- * @TODO update .node-version to `>=18` for native fetch
- *
  * @return {String} the current version of thegetty/quire/packages/11ty
  */
 async function latest() {
-  const latestQuirePackageJsonUrl = hostedGitInfo
-    .fromUrl('git@github.com:thegetty/quire.git')
-    .file('packages/11ty/package.json')
-  const latestQuirePackageJsonRequest = await fetch(latestQuirePackageJsonUrl)
-  const latestQuirePackageJson = await latestQuirePackageJsonRequest.json()
-  const { version } = latestQuirePackageJson
-  return version
+  const { stdout: quireVersion } = await execa('npm', ['view', PACKAGE_NAME, 'version'])
+  return quireVersion
 }
 
 /**
@@ -143,8 +193,8 @@ function versions() {
 export const quire = {
   getPath,
   getVersion,
+  initStarter,
   install,
-  INSTALL_PATH,
   latest,
   list,
   remove,
