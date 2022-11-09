@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url'
 import { isEmpty } from '#helpers/is-empty.js'
 import fs from 'fs-extra'
 import git from '#src/lib/git/index.js'
-import installNpmVersion from 'install-npm-version'
+import inv from 'install-npm-version'
 import path from 'node:path'
 import semver from 'semver'
 
@@ -117,18 +117,20 @@ async function initStarter (starter, projectPath) {
  * @return  {Promise}
  */
 async function install(version='latest') {
-  fs.ensureDirSync(INSTALL_PATH)
   console.debug(`[CLI:quire] installing quire-11ty@${version}`)
-  // Nota bene: `installNpmVersion` wants to install things relative to
-  // `node_modules`, so we have included a relative path to parent directory
-  // to NOT install `quire-11ty` in `node_modules`
-  await installNpmVersion.Install(
-    `${PACKAGE_NAME}@${version}`,
-    {
-      Destination: path.join('../', INSTALL_PATH, version),
-      Debug: true
-    }
-  )
+  fs.ensureDirSync(INSTALL_PATH)
+  /**
+   * Destination is relative to `node_modules` of the working-directory
+   * so we have included a relative path to parent directory to install
+   * versions to a different local path.
+   * @see https://github.com/scott-lin/install-npm-version
+   */
+  const options = {
+    Destination: path.join('../', INSTALL_PATH, version),
+    Debug: false,
+    Verbosity: 'Silent',
+  }
+  await inv.Install(`${PACKAGE_NAME}@${version}`, options)
   symlinkLatest()
 }
 
