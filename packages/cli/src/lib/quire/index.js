@@ -191,6 +191,8 @@ function setVersion(version) {
  *
  * @todo refactor to determine latest _installed_ version using the semver
  * package methods to sort and compare the locally installed versions.
+ *
+ * @todo why does this not work using `fs-extra` `createSymlinkSync()`
  */
 function symlinkLatest() {
   const version = fs.readdirSync(INSTALL_PATH).sort()[0]
@@ -215,6 +217,7 @@ function symlinkLatest() {
           mkdirError.message = `Error trying to symlink ${target} to ${source}`
           throw mkdirError
         }
+        // do we need to symlink in this case?
         // return fs.symlinkSync(target, source, type)
         break
       default:
