@@ -119,7 +119,7 @@ async function install(version='latest') {
 }
 
 /**
- * Retrieves version from quire repository `packages/11ty/package.json`
+ * Retrieve the `latest` published version of the `quire-11ty` package
  *
  * @return {String} the current version of thegetty/quire/packages/11ty
  */
