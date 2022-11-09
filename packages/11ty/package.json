@@ -22,6 +22,15 @@
     "directory": "packages/11ty"
   },
   "main": ".eleventy.js",
+  "homepage": "https://github.com/thegetty/quire/tree/main/packages/11ty#readme",
+  "bugs": {
+    "url": "https://github.com/thegetty/quire/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thegetty/quire.git",
+    "directory": "packages/11ty"
+  },
   "scripts": {
     "benchmark": "cross-env DEBUG=Eleventy:Benchmark* eleventy",
     "build": "cross-env ELEVENTY_ENV=production eleventy",
