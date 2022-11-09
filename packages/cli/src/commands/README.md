@@ -202,6 +202,14 @@ List installed versions of `quire-11ty`
 quire version list
 ```
 
+#### `prune`
+
+Remove outdated versions of `quire-11ty`
+
+```sh
+quire version prune
+```
+
 #### `remove` (alias `uninstall`)
 
 ```sh
