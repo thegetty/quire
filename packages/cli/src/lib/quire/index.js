@@ -71,7 +71,7 @@ async function initStarter (starter, projectPath) {
    * writes the quire-11ty semantic version to a `.quire` file
    */
   const quireVersion = await latest()
-  const versionFilePath = path.join(projectPath, '.quire')
+  const versionFilePath = path.join(projectPath, VERSION_FILE)
   fs.writeFileSync(versionFilePath, quireVersion)
 
   // @TODO Remove 11ty file copying code (lines 79-88) once CLI pathing issues have been sorted out
