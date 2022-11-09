@@ -31,12 +31,14 @@ function getPath(version='latest') {
 /**
  * Read the required `quire-11ty` version for the project `.quire` file
  *
+ * @param    {String}   projectPath  Absolute system path to the project root
+ *
  * @return  {String}  version  Quire-11ty semantic version
  */
 function getVersion(projectPath) {
-  projectPath = projectPath || '.'
+  projectPath = projectPath || path.resolve('.')
   const version = fs.readFileSync(path.join(projectPath, '.quire'), { encoding:'utf8' })
-  const projectName = path.basename((path.resolve(projectPath)))
+  const projectName = path.basename(projectPath)
   console.debug(`${projectName} set to use quire-11ty@${version}`)
   return version
 }
