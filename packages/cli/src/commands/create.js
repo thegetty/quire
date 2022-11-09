@@ -1,18 +1,5 @@
-import { join, resolve } from 'node:path'
 import Command from '#src/Command.js'
-import { cwd } from 'node:process'
-import fs from 'fs-extra'
-import hostedGitInfo from 'hosted-git-info'
-import { initStarter } from '#src/lib/quire/init-starter.js'
-import installNpmVersion from 'install-npm-version'
-import { isEmpty } from '#helpers/is-empty.js'
-// @todo pull this information from the published packaged
-import packageJson from '../../../11ty/package.json' assert { type: 'json' }
-
-const {
-  name: quirePackageName,
-  version: quireVersion
-} = packageJson
+import { quire } from '#src/lib/quire/index.js'
 
 /**
  * Quire CLI `new` Command
@@ -31,7 +18,7 @@ export default class CreateCommand extends Command {
     summary: 'create a new project',
     version: '1.0.0',
     args: [
-      [ '[path]', 'local path to the new project', '.' ],
+      [ '[projectPath]', 'local path to the new project', '.' ],
       [ '[starter]', 'repository url or local path for a starter project' ],
     ],
     options: [
@@ -39,84 +26,34 @@ export default class CreateCommand extends Command {
     ],
   }
 
-  /**
-   * Retrieves version from quire repository `packages/11ty/package.json`
-   *
-   * Note: This does not currently work, as quire-11ty work is not on the main
-   * branch yet, and `hosted-git-info` does not provide a mechanism for
-   * retrieving file URLs on specific code branches. But it will!
-   *
-   * @TODO Once 11ty work is merged into main, this static method should replace
-   * the `quireVersion` import, and should be refactored to use npm instead of
-   *  hosted-git-info
-   *
-   * @return {String} the current version of thegetty/quire/packages/11ty
-   */
-  static async getLatestQuireVersion() {
-    const latestQuirePackageJsonUrl = hostedGitInfo
-      .fromUrl('git@github.com:thegetty/quire.git')
-      .file('packages/11ty/package.json')
-    const latestQuirePackageJsonRequest = await fetch(latestQuirePackageJsonUrl)
-    const latestQuirePackageJson = await latestQuirePackageJsonRequest.json()
-    const { version: latestQuireVersion } = latestQuirePackageJson
-    return latestQuireVersion
-  }
-
   constructor() {
     super(CreateCommand.definition)
   }
 
-  async action(path, starter, options = {}) {
+  /**
+   * @param      {String}  projectPath
+   * @param      {String}  starter
+   * @param      {Object}  options
+   * @return     {Promise}
+   */
+  async action(projectPath, starter, options = {}) {
     if (options.debug) {
       console.info('Command \'%s\' called with options %o', this.name, options)
     }
 
-    const projectRoot = path || cwd()
-    starter = starter || `quire/starters/default`
+    if (!projectPath && !starter) {
+      // @TODO implement this case of interactively selecting starter templates
+      // from available subtrees in `lib/quire` module
 
-    // ensure that the target path exists
-    fs.ensureDirSync(projectRoot)
-
-    // if the target directory exists it must be empty
-    if (!isEmpty(path)) {
-      const location = path === '.' ? 'the current directory' : path
-      console.error(`[CLI] cannot create a starter project in ${location} because it is not empty`)
-      // @TODO cleanup directories from failed new command
-      return
-    }
-
-    // ensure that quire versions directory path exists
-    const quireVersionsPath = join('quire', 'versions')
-    fs.ensureDirSync(quireVersionsPath)
-
-    // install quire-11ty npm package into /quire/versions/1.0.0
-    await installNpmVersion.Install(
-      `${quirePackageName}@${quireVersion}`,
-      {
-        Destination: `../${quireVersionsPath}/${quireVersion}`,
-        Debug: true
-      }
-    )
-
-    // write projectRoot and quire version to project
-    const projectConfig = {
-      projectRoot: resolve(projectRoot),
-      version: quireVersion
-    }
-    const configFilePath = join(projectRoot, 'project.json')
-    const configJSON = JSON.stringify(projectConfig, null, 2)
-    fs.writeFileSync(configFilePath, configJSON)
-
-    console.log('[CLI]', projectRoot, starter)
-
-    if (!projectRoot && !starter) {
       // await interactivePrompt()
       // list sub-repositories in '@thegetty/quire/packages/starters'
       // const starters = git.fetchStarters()
       // const starter = starters['default']
       // `git clone starter path`
     } else {
-      initStarter(starter, projectRoot, quireVersion)
+      const version = await quire.latest()
+      await quire.install(version)
+      await quire.initStarter(starter, projectPath)
     }
   }
 }

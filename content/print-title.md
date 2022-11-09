@@ -1,13 +1,9 @@
 ---
 layout: base.11ty.js
 order: 3
-<<<<<<< HEAD:content/print-title.md
 outputs:
   - epub
   - pdf
-=======
-outputs: pdf
->>>>>>> feature/11ty:packages/11ty/content/print-pdf-title.md
 toc: false
 ---
 <div class="title-page">
