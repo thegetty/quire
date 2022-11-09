@@ -1,7 +1,7 @@
 {
   "name": "@thegetty/quire-cli",
   "description": "Quire command-line interface",
-  "version": "0.19.2",
+  "version": "1.0.0-pre-release.0",
   "author": "Getty Digital",
   "license": "J Paul Getty Trust",
   "bugs": {
@@ -12,72 +12,63 @@
     "cli",
     "quire"
   ],
+  "bin": {
+    "quire": "./bin/cli.js"
+  },
+  "exports": "./bin/cli.js",
+  "type": "module",
   "files": [
-    "bin"
+    "bin/",
+    "src/",
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md"
   ],
-  "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/thegetty/quire.git",
     "directory": "packages/cli"
   },
   "scripts": {
-    "build": "./node_modules/.bin/rollup -c --compact",
-    "watch": "./node_modules/.bin/rollup -c -w --compact",
-    "test": "jest --verbose --colors --detectOpenHandles --runInBand",
-    "test:unit": "jest --verbose --colors --detectOpenHandles --runInBand unit/"
+    "lint": "eslint src --ext .js",
+    "lint:fix": "npm run lint -- --fix",
+    "postinstall": "node scripts/postinstall.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "bin": {
-    "quire": "./bin/index.js"
+  "imports": {
+    "#root/*": "./*",
+    "#src/*.js": "./src/*.js",
+    "#helpers/*.js": "./src/helpers/*.js",
+    "#lib/*.js": "./src/lib/*.js"
   },
   "dependencies": {
-    "@babel/runtime": "^7.7.7",
-    "axios": "^0.19.0",
-    "chalk": "^3.0.0",
-    "cheerio": "^1.0.0-rc.3",
-    "command-exists": "^1.2.8",
-    "commander": "^4.0.1",
-    "core-js": "^3.6.0",
-    "execa": "^4.0.0",
-    "file-url": "^3.0.0",
-    "fs-extra": "^8.1.0",
-    "glob": "~7.1.6",
-    "growl": "^1.10.5",
-    "js-yaml": "^3.13.1",
-    "lodash": "^4.17.15",
-    "ora": "^4.0.3",
-    "regenerator-runtime": "^0.13.3",
-    "rimraf": "^3.0.0",
-    "sanitize-html": "^1.20.1",
-    "striptags": "^3.1.1",
-    "upath": "^1.2.0",
-    "webpack": "^4.41.4",
-    "yaml-front-matter": "^3.4.0"
+    "@11ty/eleventy": "^2.0.0-canary.16",
+    "boxen": "^7.0.0",
+    "chalk": "^5.1.2",
+    "commander": "^9.4.1",
+    "conf": "^10.2.0",
+    "cross-env": "^7.0.3",
+    "del": "^7.0.0",
+    "execa": "^6.1.0",
+    "fs-extra": "^10.1.0",
+    "hosted-git-info": "^6.1.1",
+    "i18next": "^22.0.4",
+    "inquirer": "^9.1.4",
+    "install-npm-version": "^1.0.8",
+    "loglevel": "^1.8.0",
+    "ora": "^6.1.2",
+    "semver": "^7.3.8",
+    "simple-git": "^3.14.1",
+    "update-notifier": "^6.0.2"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^0.12.1",
-    "@babel/core": "*",
-    "@babel/plugin-transform-modules-commonjs": "*",
-    "@babel/plugin-transform-regenerator": "*",
-    "@babel/plugin-transform-runtime": "*",
-    "@babel/polyfill": "*",
-    "@babel/preset-env": "*",
-    "@rollup/plugin-alias": "^3.1.2",
-    "babel-jest": "*",
-    "jest": "*",
-    "jest-junit": "^10.0.0",
-    "rollup": "^1.27.13",
-    "rollup-plugin-babel": "^4.3.3",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-copy": "^3.3.0",
-    "rollup-plugin-json": "^4.0.0",
-    "rollup-plugin-multi-entry": "^2.1.0",
-    "rollup-plugin-node-builtins": "^2.1.2",
-    "rollup-plugin-node-polyfills": "^0.2.1",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-preserve-shebang": "^0.1.6",
-    "rollup-plugin-replace": "^2.2.0",
-    "rollup-plugin-uglify": "^6.0.4",
-    "tmp": "0.1.0"
+    "del-cli": "^5.0.0",
+    "eslint": "^8.27.0"
+  },
+  "engines": {
+    "node": ">=14.16"
   }
 }

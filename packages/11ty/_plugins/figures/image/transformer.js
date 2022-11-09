@@ -3,7 +3,7 @@ const fs = require('fs-extra')
 const path = require('path')
 const sharp = require('sharp')
 
-const logger = chalkFactory('plugins:iiif:createImage')
+const logger = chalkFactory('Figures:ImageTransformer', 'DEBUG')
 
 /**
  * @param  {Object} iiifConfig Quire IIIF Process config
@@ -23,6 +23,7 @@ module.exports = class Transformer {
    * @property  {Object} transformation A transformation item from `iiif/config.js#transformations`
    * @param  {Object} options
    * @property  {Object} resize Resize options for `sharp`
+   * @return {Promise}
    */
   async transform(inputPath, outputDir, transformation, options = {}) {
     if (!inputPath) return {}
@@ -36,30 +37,25 @@ module.exports = class Transformer {
     fs.ensureDirSync(path.parse(outputPath).dir)
 
     if (fs.pathExistsSync(outputPath)) {
-      return {
-        messages: ['Image has already been transformed. Skipping.']
-      }
+      logger.debug(`skipping previously transformed image '${inputPath}'`)
+      return
     }
 
-    try {
-      /**
-       * Declare a `sharp` service with a `crop` method that can be
-       * called without a region, which the sharp API method `extract` does not allow
-       */
-      const service = sharp(inputPath)
-      service.crop = function (region) {
-        if (!region) return this
-        const [ top, left, width, height ] = region.split(',').map((item) => parseFloat(item.trim()))
-        service.extract({ top, left, width, height })
-        return this
-      }
-      return await service
-        .crop(region)
-        .resize(resize)
-        .withMetadata()
-        .toFile(outputPath)
-    } catch (error) {
-      return { errors: [error] }
+    /**
+     * Declare a `sharp` service with a `crop` method that is callable
+     * without a `region`, which the sharp API `extract` method does not allow
+     */
+    const service = sharp(inputPath)
+    service.crop = function (region) {
+      if (!region) return this
+      const [ top, left, width, height ] = region.split(',').map((item) => parseFloat(item.trim()))
+      service.extract({ top, left, width, height })
+      return this
     }
+    return service
+      .crop(region)
+      .resize(resize)
+      .withMetadata()
+      .toFile(outputPath)
   }
 }

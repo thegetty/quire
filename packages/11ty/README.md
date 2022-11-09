@@ -1,53 +1,21 @@
-## Node module aliases
+## Quire Eleventy
 
-Quire uses the `module-alias` package for `import` and `require` aliases. 
+The [Quire Eleventy package](https://github.com/thegetty/quire/tree/main/packages/11ty) contains configuration and modules for the [Eleventy static site generator](https://11ty.dev). This package is published to npm as [`@thegetty/quire-11ty`](https://www.npmjs.com/package/@thegetty/quire-11ty) and installed by the [`@thegetty/quire-cli`](https://www.npmjs.com/package/@thegetty/quire-cli) to build [Quire](https://quire.getty.edu) projects.
 
-The `module-alias` package is registered in `.eleventy.js` and modules aliases are configured under the `_moduleAliases` key in `package.json`.
-`.eleventy.js`
-``` javascript
-require('module-alias/register')
-```
+### Quire Eleventy Features
 
-`package.json`
-``` json
-{
-  // omitted for example
-  "_moduleAliases": {
-    "~includes": "./_includes",
-    "~layouts": "./layouts",
-    "~lib": "./_lib",
-    "~plugins": "./_plugins"
-  }
-}
-```
+#### Components and Shortcodes
 
-Modules are imported like this:
+Component-driven page templates using [shortcode components](https://github.com/thegetty/quire/tree/main/packages/11ty/_includes/components) and [universal template shortcodes](https://www.11ty.dev/docs/shortcodes/#universal-shortcodes) that support [JavaScript](https://www.11ty.dev/docs/languages/javascript/), [Liquid](https://www.11ty.dev/docs/languages/liquid/), [Nunjucks](https://www.11ty.dev/docs/languages/nunjucks/), and [WebC](https://www.11ty.dev/docs/languages/webc/) templates.
 
-``` javascript
-const { renderOneLine, stripIndent } = require('~lib/common-tags')
-```
+#### Image Processing
 
-### Node import mapping
+Automatic processing of images as [IIIF](https://iiif.io) assets.
 
-An alternate implementation with no external dependency uses [Node.js subpath imports](https://nodejs.org/api/packages.html#subpath-imports), which are configured under the `imports` key of `package.json`
-``` json
-{
-  // omitted for example
-  "imports": {
-    "#lib/*": "./_lib/*",
-    "#plugins/*": "./_plugins/*"
-  }
-}
-```
+#### PDF Output
 
-For a discussion of this approach see ilearnio/module-alias#113, several caveats of using subpath `imports` are:
-- non-standard `#` prefix
-- module filenames have to be included explicitly
+Generates HTML output for generation of PDF books using [`Paged.js`](https://pagedjs.org)
 
-``` javascript
-const { renderOneLine, stripIndent } = require('#lib/common-tags/index.js')
-```
+#### EPUB Output
 
-## IIIF Assets
-
-Quire's IIIF processing generates additional files such as image tiles and JSON manifests before building the project. During development, these files are written directly to the eleventy `output` directory (default `_site`) and are only re-written if they are removed. During production, these files will be re-generated and written to the `public` directory, which is copied by 11ty through to the final build in `_site`. As a result, running sequential production _or_ development builds is optimized, though if you are switching _between_ development and production builds you will notice a slower build time as the IIIF processing is re-running.
+Generates HTML output for generation of EPUB book using [`EPUB.js`](http://futurepress.org)

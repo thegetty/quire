@@ -1,46 +1,23 @@
-# Quire CLI Change Log
+# Changelog
 
-All notable changes to the `quire-cli` will be documented in this file. 
+All notable changes to the `quire-cli` will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), 
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
+The log format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+Changelog entries are classified using the following labels:
+
+- `Added`: for new features
+
+- `Bumped`: updated dependencies, only minor or higher will be listed
+
+- `Changed`: for changes in existing functionality
+
+- `Deprecated`: for once-stable features removed in upcoming releases
+
+- `Fixed`: for any bug fixes
+
+- `Removed`: for deprecated features removed in this release
+
 
 ## [Unreleased]
 
-## [0.18.0] - 2020-02-03
-### Added
-+ Rollup configuration for minification
-+ Jest Test (tests run through each function that is included in the CLI)
-+ CircleCI configuration to run Jest Tests automatically on each pull request
-+ async/await instead of .then().catch()
-+ function to determine what GIT protocol to use to prevent permissions warnings
-+ eslint configuration
-
-### Changed
-+ Documentation to reflect changes to install and use of CLI
-+ Version Number
-+ Replace kindlegen package with kindlegen from user-installed Kindle Previewer
-
-### Removed
-- All author information from files
-
-### Security
-* Updated NodeJS/NPM dependencies
-
-### Fixed
-- fix id formatting for non h1 ids
-
-## [0.17.0] - 2019-08-01
-### Added
-+ Prettier formatting 
-
-### Changed
-+ Ora to use string instead of arrays
-+ Version Number
-
-### Fixed
-- font issue
-
-[Unreleased]: https://github.com/gettypubs/quire-cli/compare/v0.18.0...HEAD
-[0.18.0]: https://github.com/gettypubs/quire-cli/compare/v0.17.0...v0.18.0
-[0.17.0]: https://github.com/gettypubs/quire-cli/releases/tag/v0.17.0

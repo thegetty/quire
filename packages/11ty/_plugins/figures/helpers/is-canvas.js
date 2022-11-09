@@ -5,10 +5,10 @@ const path = require('path')
  * A figure is a canvas if it has a src and has zoom=true, has annotations,
  * or links to an external IIIF manifest
  * 
- * @param  {Object} data Figure data
- * @return {Boolean}     True if figure contains a canvas
+ * @param  {Object} figure Figure data
+ * @return {Boolean}       True if figure contains a canvas
  */
-module.exports = (data) => {
+module.exports = (figure) => {
   const { 
     annotations,
     canvasId,
@@ -16,7 +16,7 @@ module.exports = (data) => {
     manifestId,
     src,
     zoom
-  } = data
+  } = figure
   return (!!canvasId && !!manifestId)
     || !!iiifContent
     || !!annotations

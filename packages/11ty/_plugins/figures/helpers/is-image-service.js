@@ -1,6 +1,8 @@
 const path = require('path')
+
 /**
- * Check if a figure is an image service
+ * Test if a figure uses an image-service
+ *
  * @param  {Object} figure
  * @return {Boolean}
  */
