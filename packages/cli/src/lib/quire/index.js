@@ -15,6 +15,9 @@ const INSTALL_PATH = path.join('src', 'lib', 'quire', 'versions')
 const PACKAGE_NAME = '@thegetty/quire-11ty'
 const VERSION_FILE = '.quire'
 
+const IS_WINDOWS =
+  process.platform === 'win32' || /^(cygwin|msys)$/.test(process.env.OSTYPE)
+
 /**
  * Return full path to the required `quire-11ty` version
  *
@@ -60,7 +63,10 @@ async function initStarter (starter, projectPath) {
 
   starter = starter || 'https://github.com/thegetty/quire-starter-default'
 
-  console.log('[CLI:quire]', `project root: ${projectPath}`, `starter project: ${starter}`)
+  console.debug('[CLI:quire] init-starter',
+    `\n  project root: "${projectPath}"`,
+    `\n  starter: "${starter}"`
+  )
 
   // Clone starter project repository
   // @TODO pipe `git clone` status to stdout for better UX
@@ -112,6 +118,7 @@ async function initStarter (starter, projectPath) {
  */
 async function install(version='latest') {
   fs.ensureDirSync(INSTALL_PATH)
+  console.debug(`[CLI:quire] installing quire-11ty@${version}`)
   // Nota bene: `installNpmVersion` wants to install things relative to
   // `node_modules`, so we have included a relative path to parent directory
   // to NOT install `quire-11ty` in `node_modules`
@@ -178,25 +185,44 @@ function setVersion(version) {
 }
 
 /**
- * Update symbolic link to latest installed version of `quire-11ty`
+ * Update symbolic link to the latest _installed_ version of `quire-11ty`
+ *
  * @todo refactor functon to determine the latest _installed_ version
  * using `semver` package methods to sort and compatre installed versions.
  */
 function symlinkLatest() {
   const version = fs.readdirSync(INSTALL_PATH).sort()[0]
-  const versionPath = path.relative(__dirname, path.join(INSTALL_PATH, version))
-  const symlinkToLatest = path.join(INSTALL_PATH, 'latest')
+  const target = path.relative(__dirname, path.join(INSTALL_PATH, version))
+  const source = path.join(INSTALL_PATH, 'latest')
+  const type = IS_WINDOWS ? 'junction' : 'dir'
+
+  console.debug('[CLI:quire] symlinking latest')
+
   try {
-    const symlinkExists = fs.lstatSync(symlinkToLatest).isSymbolicLink()
-    if (symlinkExists) {
-      console.debug('[CLI:quire] unlinking latest')
-      fs.unlinkSync(symlinkToLatest)
-    }
-    console.debug('[CLI:quire] symlinking latest')
-    fs.symlinkSync(versionPath, symlinkToLatest)
+    return fs.symlinkSync(target, source, type)
   } catch (error) {
-    console.error('[CLI:quire] unable to symlink latest installed version', error)
+    switch (error.code) {
+      case 'EEXIST':
+      case 'EISDIR':
+        // if the target file already exists proceed...
+        break
+      case 'ENOENT':
+        try {
+          fs.mkdirSync(path.dirname(source))
+        } catch (mkdirError) {
+          mkdirError.message = `Error trying to symlink ${target} to ${source}`
+          throw mkdirError
+        }
+        // return fs.symlinkSync(target, source, type)
+        break
+      default:
+        console.error('[CLI:quire] unable to symlink latest installed version')
+        throw error
+    }
   }
+
+  fs.unlinkSync(source)
+  return fs.symlinkSync(target, source, type)
 }
 
 /**
