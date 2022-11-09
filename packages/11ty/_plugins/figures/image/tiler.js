@@ -2,62 +2,60 @@ const chalkFactory = require('~lib/chalk')
 const fs = require('fs-extra')
 const path = require('path')
 const sharp = require('sharp')
-const logger = chalkFactory('Figure Processing:IIIF:Tile Image')
 
+const logger = chalkFactory('Figures:ImageTiler', 'DEBUG')
 
+/**
+ * Tiler
+ *
+ * @class  Tiler
+ */
 module.exports = class Tiler {
   /**
    * @param  {Object} iiifConfig 
    */
   constructor(iiifConfig) {
-    this.iiifConfig = iiifConfig
-    this.supportedImageExtensions = iiifConfig.formats.flatMap(({ input }) => input)
+    this.baseURI = iiifConfig.baseURI
+    this.formats = iiifConfig.formats
+    this.outputRoot = iiifConfig.dirs.outputRoot
+    this.supportedExtensions = iiifConfig.formats.flatMap(({ input }) => input)
+    this.tilesDir = iiifConfig.tilesDirName
+    this.tileSize = iiifConfig.tileSize
   }
 
   /**
    * Tile an image for IIIF image service using sharp
    * @param  {String} inputPath   Path to the image file to tile
-   * @param  {Object}
+   * @param  {String} outputDir   Destination directory for the tiles
+   * @return {Promise}
    */
-  async tile(inputPath, outputDir) {
+  tile(inputPath, outputDir) {
     if (!inputPath) return
+
     const { ext, name } = path.parse(inputPath)
 
-    if (!this.supportedImageExtensions.includes(ext)) {
-      return {
-        errors: [`Image file type is not supported. Supported extensions are: ${this.supportedImageExtensions.join(', ')}`,]
-      }
+    if (!this.supportedExtensions.includes(ext)) {
+      throw new Error(`Image file of type '${ext}' is not supported. Supported file types are: ${this.supportedExtensions.join(', ')}`)
     }
 
-    const {
-      baseURL,
-      dirs,
-      formats,
-      tileSize
-    } = this.iiifConfig
+    const outputPath = path.join(this.outputRoot, outputDir, name, this.tilesDir)
 
-    const format = formats.find(({ input }) => input.includes(ext))
-    const tileDirectory = path.join(outputDir, name, dirs.imageService)
-
-    if (fs.existsSync(path.join(dirs.outputRoot, tileDirectory, 'info.json'))) {
-      logger.info(`Skipping previously tiled image "${inputPath}"`)
-      return { success: true }
+    if (fs.existsSync(path.join(outputPath, 'info.json'))) {
+      logger.debug(`skipping previously tiled image '${inputPath}'`)
+      return
     }
-    fs.ensureDirSync(path.join(dirs.outputRoot, tileDirectory))
 
-    try {
-      logger.info(`Tiling image: "${inputPath}"`)
-      const response = await sharp(inputPath)
-        .toFormat(format.output.replace('.', ''))
-        .tile({
-          id: new URL(path.join(outputDir, name), baseURL).href,
-          layout: 'iiif',
-          size: tileSize
-        })
-        .toFile(path.join(dirs.outputRoot, tileDirectory))
-      return { success: true }
-    } catch(error) {
-      return { errors: [error] }
-    }
+    fs.ensureDirSync(outputPath)
+
+    logger.debug(`tiling '${inputPath}'`)
+    const format = this.formats.find(({ input }) => input.includes(ext))
+    return sharp(inputPath)
+      .toFormat(format.output.replace('.', ''))
+      .tile({
+        id: new URL(path.join(outputDir, name), this.baseURI).toString(),
+        layout: 'iiif',
+        size: this.tileSize
+      })
+      .toFile(path.join(outputPath))
   }
 }

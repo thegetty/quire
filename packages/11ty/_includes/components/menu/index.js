@@ -37,7 +37,7 @@ module.exports = function(eleventyConfig) {
         ${menuHeader({ currentURL: pageData.url })}
         <nav id="nav" class="quire-menu__list menu-list" role="navigation" aria-label="full">
           <h3 class="visually-hidden">Table of Contents</h3>
-          ${menuList({ navigation: eleventyNavigation(collections.menu) })}
+          ${menuList({ currentURL: pageData.url, navigation: eleventyNavigation(collections.menu) })}
         </nav>
 
         ${menuResources()}
@@ -65,7 +65,7 @@ module.exports = function(eleventyConfig) {
 
         <footer class="quire-menu__footer" role="contentinfo">
           ${copyright()}
-          ${linkList({ links: footerLinks, classes: ["menu-list"]}) }
+          ${linkList({ links: footerLinks, classes: ['menu-list']}) }
         </footer>
       </div>
     `

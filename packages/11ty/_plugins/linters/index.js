@@ -7,7 +7,7 @@ const { info } = chalkFactory('plugins:linters')
  *
  * Nota bene: linters are run on the input *before* applying layouts
  */
- module.exports = function(eleventyConfig, options) {
+module.exports = function(eleventyConfig, options) {
   // eleventyConfig.addLinter('test', function(content) {
   //   info(`writing ${this.inputPath} to ${this.outputPath}`)
   // })

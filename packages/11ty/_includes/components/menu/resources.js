@@ -18,24 +18,24 @@ module.exports = function(eleventyConfig) {
     const relatedResources = resourceLinks.filter(({ type }) => type === 'related-resource')
 
     const resourceElement = relatedResources.length
-    ? html`
-      <div class="quire-menu__formats">
-        <h6>Resources</h6>
-        <div role="complementary" aria-label="related resources">
-          ${linkList({ links: relatedResources, classes: ['menu-list'] })}
-        </div>
-      </div>`
-    : ''
+      ? html`
+        <div class="quire-menu__formats">
+          <h6>Resources</h6>
+          <div role="complementary" aria-label="related resources">
+            ${linkList({ links: relatedResources, classes: ['menu-list'] })}
+          </div>
+        </div>`
+      : ''
 
     const otherFormatElement = otherFormats.length
-    ? html`
-      <div class="quire-menu__formats">
-        <h6>Other Formats</h6>
-        <div role="complementary" aria-label="downloads">
-          ${linkList({ links: otherFormats, classes: ['menu-list'] })}
-        </div>
-      </div>`
-    : ''
+      ? html`
+        <div class="quire-menu__formats">
+          <h6>Other Formats</h6>
+          <div role="complementary" aria-label="downloads">
+            ${linkList({ links: otherFormats, classes: ['menu-list'] })}
+          </div>
+        </div>`
+      : ''
 
     return html`
       ${resourceElement}

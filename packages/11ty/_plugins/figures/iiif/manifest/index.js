@@ -1,12 +1,12 @@
 const chalkFactory = require('~lib/chalk')
 const fs = require('fs-extra')
 const path = require('path')
-const sharp = require('sharp')
 const titleCase = require('~plugins/filters/titleCase')
 const Writer = require('./writer')
 const { globalVault } = require('@iiif/vault')
 const { IIIFBuilder } = require('iiif-builder')
-const { error, info } = chalkFactory('Figure Processing:IIIF:Manifest')
+
+const logger = chalkFactory('Figures:IIIF:Manifest', 'DEBUG')
 
 const vault = globalVault()
 const builder = new IIIFBuilder(vault)
@@ -17,42 +17,31 @@ const builder = new IIIFBuilder(vault)
 module.exports = class Manifest {
   constructor(figure) {
     const { iiifConfig } = figure
-    const { baseURL, dirs, locale, manifestFilename } = iiifConfig
+    const { locale } = iiifConfig
     this.figure = figure
-    this.inputDir = path.join(dirs.inputRoot, dirs.input)
     this.locale = locale
     this.writer = new Writer(iiifConfig)
   }
 
   get annotations() {
-    const annotations = this.figure.annotations
-      .flatMap(({ items }) => items)
-      .filter(({ type }) => type === 'annotation')
-      .map((item) => this.createAnnotation(item))
-      /**
-       * Add the "base" image as a canvas annotation
-       */
-      if (this.figure.baseImageAnnotation) { 
-        annotations.unshift(this.createAnnotation(this.figure.baseImageAnnotation))
-      }
-      return annotations
-  }
-
-  /**
-   * Use dimensions of figure.src or first choice as canvas dimensions
-   */
-  get canvasImagePath() {
-    const firstChoice = this.figure.annotations
-      .flatMap(({ items }) => items)
-      .find(({ target }) => !target)
-    const imagePath = this.figure.src || firstChoice.src
-    if (!imagePath) {
-      error(`Invalid figure ID "${this.figure.id}". Figures with annotations must have "choice" annotations or a "src" property.`)
+    const annotations = []
+    /**
+     * Add the "base" image as a canvas annotation
+     */
+    if (this.figure.baseImageAnnotation) {
+      annotations.push(this.createAnnotation(this.figure.baseImageAnnotation))
     }
-    return imagePath
+    if (this.figure.annotations) {
+      annotations.push(...this.figure.annotations
+        .flatMap(({ items }) => items)
+        .filter(({ type }) => type === 'annotation')
+        .map((item) => this.createAnnotation(item)))
+    }
+    return annotations
   }
 
   get choices() {
+    if (!this.figure.annotations) return
     const choices = this.figure.annotations
       .flatMap(({ items }) => items)
       .filter(({ type }) => type === 'choice')
@@ -61,7 +50,7 @@ module.exports = class Manifest {
 
     const items = choices.map((item) => {
       if (!item.src) {
-        error(`Invalid annotation on figure ID "${this.figure.id}". Annotations must have a "src" or "text" property`)
+        logger.error(`Invalid annotation on figure ID "${this.figure.id}". Annotations must have a "src" or "text" property`)
       }
       return this.createAnnotationBody(item)
     })
@@ -74,14 +63,6 @@ module.exports = class Manifest {
       id: 'choices',
       motivation: 'painting',
     })
-  }
-
-  async calcCanvasDimensions() {
-    const fullImagePath = path.join(this.inputDir, this.canvasImagePath)
-    const { height, width } = await sharp(fullImagePath).metadata()
-    this.canvasHeight = height
-    this.canvasWidth = width
-    return { height, width }
   }
 
   createAnnotation(data) {
@@ -99,26 +80,23 @@ module.exports = class Manifest {
    * @todo handle text annotations
    * @todo handle annotations with target region
    */
-  createAnnotationBody({ format, info, label, src, url }) {
+  createAnnotationBody({ format, info, label, src, uri }) {
     const { ext } = path.parse(src)
     return {
       format,
-      height: this.canvasHeight,
-      id: url,
+      height: this.figure.canvasHeight,
+      id: uri,
       label: { en: [label] },
       type: 'Image',
       service: info && [
         {
-          '@context': 'http://iiif.io/api/image/3/context.json',
-          id: info,
-          extraFormats: ['png'],
-          preferredFormats: ['png'],
-          type: 'ImageService3',
+          '@context': 'http://iiif.io/api/image/2/context.json',
+          '@id': info,
           profile: 'level0',
           protocol: 'http://iiif.io/api/image'
         }
       ],
-      width: this.canvasWidth
+      width: this.figure.canvasWidth
     }
   }
 
@@ -127,12 +105,11 @@ module.exports = class Manifest {
    * @return {JSON}
    */
   async toJSON() {
-    const { height, width } = await this.calcCanvasDimensions()
     const manifest = builder.createManifest(this.figure.manifestId, (manifest) => {
       manifest.addLabel(this.figure.label, this.locale)
       manifest.createCanvas(this.figure.canvasId, (canvas) => {
-        canvas.height = height
-        canvas.width = width
+        canvas.height = this.figure.canvasHeight
+        canvas.width = this.figure.canvasWidth
         if (this.annotations) {
           this.annotations.forEach((item) => {
             canvas.createAnnotation(item.id, item)
@@ -144,15 +121,19 @@ module.exports = class Manifest {
       })
     })
     try {
-      this.json = builder.toPresentation3(manifest)
-      info(`Generated manifest for figure "${this.figure.id}"`)
-      return { success: true }
-    } catch(errorMessage) {
-      return { errors: [`Failed to generate manifest: ${errorMessage}`]}
+      return builder.toPresentation3(manifest)
+    } catch(error) {
+      throw new Error(`Failed to generate manifest: ${error}`)
     }
   }
 
   async write() {
-    return await this.writer.write(this.json)
+    try {
+      const json = await this.toJSON()
+      logger.info(`Generated manifest for figure "${this.figure.id}"`)
+      return await this.writer.write(json)
+    } catch(error) {
+      return { errors: [error] }
+    }
   }
 }

@@ -1,0 +1,185 @@
+$gap: 16px !default;
+$quire-deepzoom-height: 500px !default;
+$color_1: $white;
+$color_2: $white;
+$color_3: $black;
+$background_color_1: $off-black;
+$fullscreen-button-img: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAA0AgMAAADpgsAbAAABS2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDAgNzkuMTYwNDUxLCAyMDE3LzA1LzA2LTAxOjA4OjIxICAgICAgICAiPgogPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIi8+CiA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgo8P3hwYWNrZXQgZW5kPSJyIj8+LUNEtwAAAARnQU1BAACxjwv8YQUAAAABc1JHQgCuzhzpAAAACVBMVEUAAAD///////9zeKVjAAAAAnRSTlMAgJsrThgAAAAySURBVBjTY2AgFmitYFrVgERrMDAw4aMJAUL60e2jNiDaP2wrIf7hWgXRiIOGqaOufwA6TR6/lErWHQAAAABJRU5ErkJggg==);
+
+.no-popup-quire-deepzoom {
+  height: $quire-deepzoom-height;
+}
+
+.quire-deepzoom {
+  img {
+    // opacity transition applied when navigation through popup leaflet image slideshows
+    transition: opacity 0.2s linear;
+  }
+  .leaflet-table {
+    max-height: 84%;
+    margin: 2.5em 3.25em 0em 2.5em;
+    overflow: auto;
+    background: $white;
+    color: $off-black;
+    font-family: $quire-primary-font;
+    table {
+      table-layout: auto;
+      tr,
+      td,
+      th {
+        color: inherit;
+        padding: 1rem;
+        vertical-align: top;
+        border-bottom: 1px solid $gray;
+        text-align: left;
+      }
+      thead {
+        th {
+          width: auto;
+        }
+      }
+      tbody {
+        tr,
+        th {
+          &:hover {
+            background-color: $quire-hover-color;
+            color: background-color-text($quire-hover-color) !important;
+          }
+        }
+      }
+    }
+  }
+  .leaflet-control-zoom {
+    .leaflet-bar {
+      a {
+        color: $off-black;
+      }
+
+      .leaflet-control-layers-toggle {
+        background-image: url(https://i.stack.imgur.com/3keSg.png) !important;
+        background-color: $background_color_1;
+        background-size: 20px 20px;
+      }
+    }
+  }
+}
+
+.leaflet-touch {
+  .leaflet-control-layers-toggle {
+    background-image: url(https://i.stack.imgur.com/3keSg.png) !important;
+    background-color: $background_color_1;
+  }
+}
+
+.leaflet-control-layers-expanded {
+  color: $color_1;
+  background-color: $background_color_1;
+}
+
+div.leaflet-container {
+  background: $color_3;
+  z-index: 0;
+}
+
+div.leaflet-control-container {
+  background: $color_3;
+
+  > div.leaflet-top.leaflet-left {
+    z-index: 1026;
+
+    > div.leaflet-bar {
+      box-shadow: none;
+      border: none;
+      border-radius: 0;
+    }
+
+    > div.leaflet-control-zoom.leaflet-bar.leaflet-control {
+      > a {
+        background: $off-black-semi-transparent;
+        color: $color_2;
+        border-bottom: none;
+        border-radius: 0;
+      }
+    }
+
+    > div.leaflet-control-fullscreen.leaflet-bar.leaflet-control {
+      > a {
+        color: $color_2;
+        border-bottom: none;
+        background-repeat: no-repeat;
+        background-color: $off-black-semi-transparent;
+        margin-top: 0;
+        border-radius: 0;
+        background-size: 26px 52px;
+        background-position: top;
+        background-image: $fullscreen-button-img;
+      }
+    }
+  }
+}
+
+div.leaflet-fullscreen-on
+  > div.leaflet-control-container
+  > div.leaflet-top.leaflet-left
+  > div.leaflet-control-fullscreen.leaflet-bar.leaflet-control
+  > a {
+  background-position: 2px -24px;
+}
+
+div.leaflet-control-container
+  > div.leaflet-top.leaflet-left
+  > div.leaflet-control-fullscreen.leaflet-bar.leaflet-control {
+  margin-top: 0;
+}
+
+div.leaflet-control {
+  > a {
+    background-color: transparent;
+  }
+}
+
+.leaflet-outer-wrapper {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.leaflet-inner-wrapper {
+  width: 100vw;
+  height: 100vh;
+}
+
+.quire-entry__image,
+.mfp-content {
+  .leaflet-control-fullscreen {
+    position: absolute;
+    top: 70px;
+    left: 10px;
+    background: $off-black-semi-transparent;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 2px;
+    a {
+      background-position: top;
+      box-shadow: none;
+      background-image: $fullscreen-button-img;
+      &.fullscreen {
+        background-position-y: bottom;
+      }
+      &:hover {
+        background-color: transparent;
+      }
+    }
+    @media print {
+      display: none;
+    }
+  }
+}
+
+.leaflet-bar {
+  a {
+    &:hover {
+      background-color: transparent;
+    }
+  }
+}

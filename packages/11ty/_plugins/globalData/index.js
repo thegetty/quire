@@ -1,6 +1,7 @@
 const chalkFactory = require('~lib/chalk')
 const fs = require('fs-extra')
 const path = require('path')
+const parser = require('./parser')
 
 const logger = chalkFactory('_plugins:globalData')
 
@@ -34,37 +35,20 @@ const checkForDuplicateIds = function (data, filename) {
   }
 }
 
+/**
+ * Programmatically load global data from files
+ * Nota bene: data is not loaded from the `eleventyConfig.dir.data` directory
+ *
+ * @param  {EleventyConfig}  eleventyConfig
+ */
 module.exports = function(eleventyConfig) {
-  const data = (file) => {
-    const { base, ext, name } = path.parse(file)
-    const fileExt = ext.slice(1)
-    const filePath = path.join(directory, file)
-    /**
-     * @typedef {Map<String, Object>} dataExtensions
-     * Maps an extension string to an extension properties object
-     * @property {String} extension
-     * @property {Function} parser
-     * @property {Object} options
-     */
-    const extension = eleventyConfig.dataExtensions.get(fileExt)
-
-    try {
-      if (extension && extension.parser) {
-        const { options, parser } = extension
-        const input = options.read ? fs.readFileSync(filePath) : filePath
-        return parser(input)
-      }
-    } catch (error) {
-      logger.error(error)
-    }
-  }
-
-  const directory = path.join('content', '_data')
-  const files = fs.readdirSync(directory)
+  const dataDir = path.resolve('../11ty/content/_data')
+  const files = fs.readdirSync(dataDir)
+  const parseFile = parser(eleventyConfig)
 
   for (const file of files) {
     const { name: key } = path.parse(file)
-    const value = data(file)
+    const value = parseFile(path.join(dataDir, file))
 
     if (key && value) {
       checkForDuplicateIds(value, file)

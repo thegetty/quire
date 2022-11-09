@@ -6,11 +6,11 @@ const { error } = chalkFactory('shortcodes:contributors')
 /**
  * Contributor shortcode
  * Renders a list of contributors
- * 
+ *
  * @param  {Array|String} context Array of contributor objects OR string override
  * @param  {String} align How to align the text (name-title-block and bio only) Values: 'left' (default), 'center', 'right'
  * @param  {String} type The contributor type to render. Values: 'all' (default), 'primary', 'secondary'
- * @param  {String} format How to display the contributors. Values: 'string', 'bio', 'name', 'name-title', 'name-title-block'. Default set in config.params.contributorByline
+ * @param  {String} format How to display the contributors. Values: 'string', 'bio', 'name', 'name-title', 'name-title-block'. Default set in config.bylineFormat
  *
  * @return {String} Markup for contributors
  */
@@ -23,13 +23,13 @@ module.exports = function (eleventyConfig) {
   const slugify = eleventyConfig.getFilter('slugify')
   const sortContributors = eleventyConfig.getFilter('sortContributors')
 
-  const { contributorByline: defaultFormat } = eleventyConfig.globalData.config.params
+  const { bylineFormat } = eleventyConfig.globalData.config
 
   return function (params) {
     const {
       align='left',
       context: contributors,
-      format=defaultFormat,
+      format=bylineFormat,
       role,
       type='all'
     } = params
@@ -50,14 +50,14 @@ module.exports = function (eleventyConfig) {
     let contributorList = contributors
       .flatMap(getContributor)
       .filter((item) => (type || role) && type !== 'all'
-          ? (type && item.type === type) || (role && item.role === role)
-          : item
+        ? (type && item.type === type) || (role && item.role === role)
+        : item
       )
     contributorList = sortContributors(contributorList)
 
     const contributorNames = contributorList
       .map(fullname)
-      .filter((name) => name);
+      .filter((name) => name)
     if (!contributorList.length) return ''
 
     let contributorsElement
@@ -75,14 +75,14 @@ module.exports = function (eleventyConfig) {
         const last = contributorInitials.pop()
         const nameString =
           contributorInitials.length >= 1
-            ? contributorInitials.join(', ') + ' and ' + last
+            ? contributorInitials.join(', ') + ', and ' + last
             : last
-          contributorsElement = `<span class="quire-contributor">${nameString}</span>`
+        contributorsElement = `<span class="quire-contributor">${nameString}</span>`
         break
       }
       case 'name':
       case 'name-title':
-      case 'name-title-block':
+      case 'name-title-block': {
         const separator = (format === 'name-title') ? ', ' : ''
         const listItems = contributorList.map((contributor) => {
           const contributorParts = [
@@ -90,13 +90,13 @@ module.exports = function (eleventyConfig) {
           ]
           contributor.title && format !== 'name'
             ? contributorParts.push(
-                `<span class="quire-contributor__title">${ contributor.title }</span>`
-              )
+              `<span class="quire-contributor__title">${ contributor.title }</span>`
+            )
             : null
           contributor.affiliation && format !== 'name'
             ? contributorParts.push(
-                `<span class="quire-contributor__affiliation">${ contributor.affiliation }</span>`
-              )
+              `<span class="quire-contributor__affiliation">${ contributor.affiliation }</span>`
+            )
             : null
           return `
             <li class="quire-contributor" id="${slugify(contributor.id)}">${contributorParts.join(separator)}</li>
@@ -108,14 +108,16 @@ module.exports = function (eleventyConfig) {
           </ul>
         `
         break
-      case 'string':
+      }
+      case 'string': {
         const last = contributorNames.pop()
         const namesString =
           contributorNames.length >= 1
-            ? contributorNames.join(', ') + ' and ' + last
+            ? contributorNames.join(', ') + ', and ' + last
             : last
         contributorsElement = `<span class='quire-contributor'>${namesString}</span>`
         break
+      }
       default:
         contributorsElement = ''
         break

@@ -70,20 +70,20 @@ const videoElements = {
  *
  * @param      {Object}  figure          The figure object
  * @param      {String}  id              The id of the figure
- * @param      {String}  media_id        An id for a youtube or vimeo embed
- * @param      {String}  media_type      The type of tag video ('video', 'vimeo' or 'youtube')
+ * @param      {String}  mediaId        An id for a youtube or vimeo embed
+ * @param      {String}  mediaType      The type of tag video ('video', 'vimeo' or 'youtube')
  * @param      {String}  poster          Poster image url for a static video file
  * @param      {String}  src             Source url for a static video file
  *
  * @return     {String}  An HTML <video> element
  */
 module.exports = function (eleventyConfig) {
-  const { imageDir } = eleventyConfig.globalData.config.params
+  const { imageDir } = eleventyConfig.globalData.config.figures
 
   return function ({
     id,
-    media_id: mediaId,
-    media_type: mediaType,
+    mediaId,
+    mediaType,
     poster,
     src
   }) {

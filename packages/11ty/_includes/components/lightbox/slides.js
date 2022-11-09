@@ -22,17 +22,19 @@ module.exports = function(eleventyConfig) {
   return async function(figures) {
     if (!figures) return ''
 
+    figures = figures.map((figure) => ({
+      preset: 'zoom',
+      ...figure
+    }))
+
     const slideElement = async (figure) => {
       const {
         aspect_ratio: aspectRatio='widescreen',
         caption,
         credit,
         id,
-        iiif,
         label,
-        media_type: mediaType,
-        preset,
-        src
+        mediaType
       } = figure
 
       const isAudio = mediaType === 'soundcloud'
@@ -94,7 +96,7 @@ module.exports = function(eleventyConfig) {
 
     const slideElements = async () => {
       let slides = ''
-      for (figure of figures) {
+      for (const figure of figures) {
         slides += await slideElement(figure)
       }
       return slides

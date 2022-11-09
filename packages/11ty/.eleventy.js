@@ -1,6 +1,7 @@
 require('module-alias/register')
 
 const fs = require('fs-extra')
+const packageJSON = require('./package.json');
 const path = require('path')
 
 /**
@@ -45,6 +46,11 @@ const dirs = {
  * @return     {Object}  A modified eleventy configuation
  */
 module.exports = function(eleventyConfig) {
+  eleventyConfig.addGlobalData('application', {
+    name: 'Quire',
+    version: packageJSON.version
+  })
+
   /**
    * Ignore README files when processing templates
    * @see {@link https://www.11ty.dev/docs/ignores/ Ignoring Template Files }
@@ -174,8 +180,8 @@ module.exports = function(eleventyConfig) {
   })
 
   /**
-   * Watch the following additional files for changes and live browsersync
-   * @see @{@link https://www.11ty.dev/docs/config/#add-your-own-watch-targets Add your own watch targets in 11ty}
+   * Watch the following additional files for changes and rerun server
+   * @see https://www.11ty.dev/docs/config/#add-your-own-watch-targets
    */
   eleventyConfig.addWatchTarget('./**/*.css')
   eleventyConfig.addWatchTarget('./**/*.js')
@@ -186,9 +192,10 @@ module.exports = function(eleventyConfig) {
      * @see {@link https://www.11ty.dev/docs/config/#configuration-options}
      */
     dir: {
-      input: dirs.input,
-      output: dirs.output,
-      // ⚠️ the following values are _relative_ to the `input` directory
+      // ⚠️ input and output dirs are _relative_ to the `.eleventy.js` module
+      input: inputDir,
+      output: outputDir,
+      // ⚠️ the following directories are _relative_ to the `input` directory
       data: `./_computed`,
       includes: '../_includes',
       layouts: '../_layouts',
@@ -201,7 +208,7 @@ module.exports = function(eleventyConfig) {
     htmlTemplateEngine: 'liquid',
     /**
      * Suffix for template and directory specific data files
-     * @example '.11tydata' will search for *.11tydata.js and *.11tydata.json data files.
+     * @example '.quire' will search for *.quire.js and *.quire.json data files.
      * @see [Template and Directory Specific Data Files](https://www.11ty.dev/docs/data-template-dir/)
      */
     jsDataFileSuffix: '.quire',

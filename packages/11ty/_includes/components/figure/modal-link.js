@@ -1,16 +1,9 @@
 const { html } = require('~lib/common-tags')
 
 module.exports = function (eleventyConfig) {
-  const { figureModal } = eleventyConfig.globalData.config.params
+  const { enableModal } = eleventyConfig.globalData.config.figures
 
-  return function({ content, id }) {
-    return figureModal
-      ? html`<a
-          class="q-figure__modal-link"
-          href="#${id}"
-        >
-          ${content}
-        </a>`
-      : content
-  }
+  return ({ content, id }) => enableModal
+    ? html`<a class="q-figure__modal-link" href="#${id}">${content}</a>`
+    : content
 }

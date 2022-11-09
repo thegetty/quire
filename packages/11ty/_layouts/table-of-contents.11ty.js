@@ -38,7 +38,7 @@ module.exports = class TableOfContents {
 
     return this.renderTemplate(
       `{% pageHeader
-        contributor_byline=contributor_byline,
+        byline_format=byline_format,
         image=image,
         label=label,
         pageContributors=pageContributors,

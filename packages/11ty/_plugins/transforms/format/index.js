@@ -12,7 +12,7 @@ const { error } = chalkFactory('transforms:format')
  * @return     {String}  transformed content
  */
 module.exports = async function (content) {
-  let result;
+  let result
   try {
     result = await prettier.format(content, { filepath: this.outputPath })
   } catch (errorMessage) {

@@ -11,7 +11,7 @@ module.exports = function(eleventyConfig) {
   const twitterCard = eleventyConfig.getFilter('twitterCard')
   const webComponents = eleventyConfig.getFilter('webComponents')
 
-  const { publication } = eleventyConfig.globalData
+  const { application, publication } = eleventyConfig.globalData
 
   /**
    * @param  {Object} params The Whole Dang Data Object, from base.11ty.js
@@ -35,7 +35,7 @@ module.exports = function(eleventyConfig) {
       .join('\n')
 
     const keywords = publication.subject
-      .filter(({ type }) => type === "keyword")
+      .filter(({ type }) => type === 'keyword')
       .map(({ name }) => name)
       .join(', ')
 
@@ -45,6 +45,8 @@ module.exports = function(eleventyConfig) {
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <meta name="robots" content="noindex, nofollow"/>
+
+        <meta name="generator" content="${application.name} ${application.version}" />
 
         <title>${pageTitle}</title>
 

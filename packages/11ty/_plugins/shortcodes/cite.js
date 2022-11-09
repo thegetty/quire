@@ -33,9 +33,9 @@ module.exports = function(eleventyConfig, { page }) {
   const markdownify = eleventyConfig.getFilter('markdownify')
 
   const {
-    citationPageLocationDivider: divider,
-    citationPopupStyle: popupStyle
-  } = eleventyConfig.globalData.config.params
+    citations: { divider, popupStyle },
+    localization: { defaultLocale }
+  } = eleventyConfig.globalData.config
 
   const { entries } = eleventyConfig.globalData.references
 
@@ -61,9 +61,8 @@ module.exports = function(eleventyConfig, { page }) {
     const findCitationReference = (id) => {
       /**
        * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Collator/Collator#locales
-       * @todo set locale using publication `config.languageCode`
        */
-      const locales = 'en'
+      const locales = defaultLocale
 
       /**
        * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Collator/Collator#options

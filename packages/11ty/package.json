@@ -1,39 +1,69 @@
 {
-  "name": "11ty-quire-plugin",
-  "private": true,
-  "version": "1.0.0",
-  "description": "",
+  "name": "@thegetty/quire-11ty",
+  "version": "1.0.0-pre-release.2",
+  "description": "Quire 11ty static site generator",
+  "keywords": [
+    "11ty",
+    "eleventy",
+    "quire"
+  ],
+  "author": "Getty Digital",
+  "license": "SEE LICENSE IN https://github.com/thegetty/quire/blob/main/LICENSE",
+  "homepage": "https://github.com/thegetty/quire/tree/main/packages/11ty#readme",
+  "bugs": {
+    "url": "https://github.com/thegetty/quire/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thegetty/quire.git",
+    "directory": "packages/11ty"
+  },
   "main": ".eleventy.js",
+  "homepage": "https://github.com/thegetty/quire/tree/main/packages/11ty#readme",
+  "bugs": {
+    "url": "https://github.com/thegetty/quire/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thegetty/quire.git",
+    "directory": "packages/11ty"
+  },
   "scripts": {
     "benchmark": "cross-env DEBUG=Eleventy:Benchmark* eleventy",
     "build": "cross-env ELEVENTY_ENV=production eleventy",
     "build:pdf": "pagedjs-cli _site/pdf.html --outline-tags 'h1' -o paged.pdf",
     "build:prince": "prince _site/pdf.html --output prince.pdf",
-    "clean": "del-cli _site public",
+    "clean": "del-cli _epub _site public",
     "debug": "cross-env DEBUG=Eleventy* eleventy --dryrun",
     "dev": "cross-env ELEVENTY_ENV=development eleventy --serve",
+    "lint": "eslint --ext .js --ignore-path .gitignore .",
+    "lint:fix": "npm run lint -- --fix",
     "prebuild": "npm run clean",
     "predev": "del-cli public",
     "preserve": "npm run clean",
     "serve": "cross-env ELEVENTY_ENV=production eleventy --serve",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [
-    "eleventy",
-    "quire"
-  ],
-  "author": "Getty Digital",
-  "license": "J Paul Getty Trust",
+  "imports": {
+    "#root/*": "./*",
+    "#includes/*": "./_includes/*",
+    "#layouts/*": "./_layouts/*",
+    "#lib/*": "./_lib/*",
+    "#plugins/*": "./_plugins/*"
+  },
   "devDependencies": {
-    "@11ty/eleventy": "^2.0.0-canary.15",
+    "@11ty/eleventy": "^2.0.0-canary.16",
     "@11ty/eleventy-img": "^2.0.1",
     "@11ty/eleventy-navigation": "^0.3.5",
     "@11ty/eleventy-plugin-directory-output": "^1.0.1",
-    "@11ty/eleventy-plugin-syntaxhighlight": "^4.1.0",
+    "@11ty/eleventy-plugin-syntaxhighlight": "^4.2.0",
     "@11ty/eleventy-plugin-vite": "^2.0.0-canary.2",
-    "@11ty/eleventy-plugin-webc": "^0.5.0",
+    "@11ty/eleventy-plugin-webc": "^0.6.0",
     "@11ty/is-land": "^2.0.3",
-    "@iiif/parser": "^1.0.13",
+    "@iiif/parser": "^1.1.0",
     "@iiif/vault": "^0.9.19",
     "camelize": "^1.0.0",
     "chalk": "^4.1.2",
@@ -51,6 +81,7 @@
     "liquid-args": "^1.0.0",
     "liquidjs": "^9.42.0",
     "locale-en-us": "^0.0.2",
+    "loglevel": "^1.8.0",
     "markdown-it": "^13.0.1",
     "markdown-it-anchor": "^8.6.4",
     "markdown-it-attrs": "^4.1.4",
@@ -66,7 +97,7 @@
     "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-scss": "^3.0.0",
     "sass": "^1.54.5",
-    "sharp": "^0.30.7",
+    "sharp": "^0.31.1",
     "simple-cite": "^0.2.1",
     "toml": "^3.0.0"
   },

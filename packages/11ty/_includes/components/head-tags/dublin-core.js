@@ -9,7 +9,7 @@ const path = require('path')
  * @return     {String}  HTML meta and link elements
  */
 module.exports = function(eleventyConfig) {
-  const { config, publication } = eleventyConfig.globalData
+  const { publication } = eleventyConfig.globalData
 
   return function (params) {
     const links = [
@@ -19,7 +19,7 @@ module.exports = function(eleventyConfig) {
     const meta = [
       {
         name: 'dcterms.title',
-        content: config.title },
+        content: publication.title },
       {
         name: 'dcterms.date',
         content: publication.pub_date
@@ -83,5 +83,5 @@ module.exports = function(eleventyConfig) {
     ${linkTags.join('\n')}
     ${metaTags.join('\n')}
     `
-}
+  }
 }

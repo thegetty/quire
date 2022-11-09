@@ -1,9 +1,14 @@
 # Eleventy build artifacts
+_epub/
 _site/
 _temp/
 
 # EleventFetch cache directory
 .cache
+
+# environment variables
+.env
+.env.*
 
 # ESLint cache directory
 .eslintcache

@@ -1,5 +1,5 @@
-import { LitElement, html } from 'lit';
-import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
+import { LitElement, html } from 'lit'
+import { unsafeHTML } from 'lit-html/directives/unsafe-html.js'
 
 /**
  * Lightbox lit-element web component
@@ -26,10 +26,10 @@ class Lightbox extends LitElement {
   }
 
   constructor() {
-    super();
-    this.setupFullscreenButton();
-    this.setupNavigationButtons();
-    this.setupKeyboardControls();
+    super()
+    this.setupFullscreenButton()
+    this.setupNavigationButtons()
+    this.setupKeyboardControls()
   }
 
   get counterCurrent() {
@@ -63,37 +63,37 @@ class Lightbox extends LitElement {
   }
 
   get currentSlide() {
-    if (!this.slides.length) return;
-    if (!this.currentId) return this.slides[0];
+    if (!this.slides.length) return
+    if (!this.currentId) return this.slides[0]
 
     return this.slides[this.currentSlideIndex]
   }
 
   get currentSlideIndex() {
-    if (!this.slides.length) return;
-    if (!this.currentId) return 0;
+    if (!this.slides.length) return
+    if (!this.currentId) return 0
 
-    return this.slideIds.findIndex((id) => id === this.currentId);
+    return this.slideIds.findIndex((id) => id === this.currentId)
   }
 
   get fullscreen() {
-    return document.fullscreen;
+    return document.fullscreen
   }
 
   next() {
-    if (!this.slides.length) return;
+    if (!this.slides.length) return
 
-    const nextIndex = this.currentSlideIndex + 1;
+    const nextIndex = this.currentSlideIndex + 1
     const nextId = this.slideIds[nextIndex % this.slides.length]
-    this.currentId = nextId;
+    this.currentId = nextId
   }
 
   previous() {
-    if (!this.slides.length) return;
+    if (!this.slides.length) return
 
-    const previousIndex = this.currentSlideIndex - 1;
-    const previousId = this.slideIds.slice(previousIndex)[0];
-    this.currentId = previousId;
+    const previousIndex = this.currentSlideIndex - 1
+    const previousId = this.slideIds.slice(previousIndex)[0]
+    this.currentId = previousId
   }
 
   setupFullscreenButton() {
@@ -119,50 +119,50 @@ class Lightbox extends LitElement {
     document.addEventListener('keyup', ({ code }) => {
       if (this.slides.length > 1) {
         switch(code) {
-            default:
-              break;
-            case 'ArrowRight':
-              this.next();
-              break;
-            case 'ArrowLeft':
-              this.previous();
-              break;
+          default:
+            break
+          case 'ArrowRight':
+            this.next()
+            break
+          case 'ArrowLeft':
+            this.previous()
+            break
         }
       }
-    });
+    })
   }
 
   toggleFullscreen() {
-    const lightbox = this.renderRoot.firstElementChild;
+    const lightbox = this.renderRoot.firstElementChild
 
     if (this.fullscreen) {
-      document.exitFullscreen();
+      document.exitFullscreen()
     } else {
-      lightbox.requestFullscreen();
+      lightbox.requestFullscreen()
     }
 
     this.updateFullscreenButton()
   }
 
   updateCounterElements() {
-    if (!this.counterCurrent || !this.counterTotal) return;
+    if (!this.counterCurrent || !this.counterTotal) return
 
     this.counterCurrent.innerText = this.currentSlideIndex + 1
     this.counterTotal.innerText = this.slides.length
   }
 
   updateCurrentSlideElement() {
-    if (!this.currentSlide) return;
+    if (!this.currentSlide) return
 
     this.slides.forEach((slide) => {
       if (slide.dataset.lightboxSlideId !== this.currentId)
-        delete slide.dataset.lightboxCurrent;
+        delete slide.dataset.lightboxCurrent
     })
     this.currentSlide.dataset.lightboxCurrent = true
   }
 
   updateFullscreenButton() {
-    if (this.fullscreenButton) this.fullscreenButton.dataset.lightboxFullscreen = !this.fullscreen;
+    if (this.fullscreenButton) this.fullscreenButton.dataset.lightboxFullscreen = !this.fullscreen
   }
 
   render() {
@@ -175,8 +175,8 @@ class Lightbox extends LitElement {
       <div class="q-lightbox">
         <slot></slot>
       </div>
-    `;
+    `
   }
 }
 
-customElements.define('q-lightbox', Lightbox);
+customElements.define('q-lightbox', Lightbox)

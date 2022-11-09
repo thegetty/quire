@@ -1,13 +1,17 @@
+const chalkFactory = require('~lib/chalk')
 const Annotation = require('../annotation')
 const AnnotationFactory = require('../annotation/factory')
-const ImageProcessor = require('../image/processor')
 const Manifest = require('../iiif/manifest')
 const path = require('path')
+const sharp = require('sharp')
 const { isCanvas, isImageService } = require('../helpers')
+
+const logger = chalkFactory('Figures:Figure', 'DEBUG')
 
 /**
  * @param {Object} iiifConfig
- * @param {Object} data Figure entry data from `figures.yaml`
+ * @param {Function} processImage  Function to generate IIIF assets
+ * @param {Object} data  Figure data from and entry in `figures.yaml`
  * 
  * @typedef {Object} Figure
  * @property {Array<AnnotationSet>} annotations
@@ -19,34 +23,65 @@ const { isCanvas, isImageService } = require('../helpers')
  * @property {String} printImage Optional path to an alternate image to use in print
  */
 module.exports = class Figure {
-  constructor(iiifConfig, data) {
-    const { baseURL, dirs, manifestFilename } = iiifConfig
-    const outputDir = path.join(dirs.output, data.id)
-    const iiifBaseId = [baseURL, outputDir].join('/')   
-    const canvasId = isCanvas(data) ? data.canvasId || [iiifBaseId, 'canvas'].join('/') : null
-    const manifestId = isCanvas(data) ? data.manifestId || [iiifBaseId, manifestFilename].join('/') : null
+  constructor(iiifConfig, imageProcessor, data) {
+    const { baseURI, dirs, manifestFileName } = iiifConfig
+    const outputDir = path.join(dirs.outputPath, data.id)
+    /**
+     * URI of the IIIF CanvasPanel element; a fully qualified URL.
+     * @type  {URL|null}
+     */
+    const canvasId = isCanvas(data)
+      ? data.canvasId || [baseURI, outputDir, 'canvas'].join('/')
+      : null
+    /**
+     * URI of the IIIF manifest file; a fully qualified URL.
+     * @type  {URL|null}
+     */
+    const manifestId = isCanvas(data)
+      ? data.manifestId || [baseURI, outputDir, manifestFileName].join('/')
+      : null
+
+    const defaults = {
+      mediaType: 'image'
+    }
+
+    const { 
+      id,
+      label,
+      media_id: mediaId,
+      media_type: mediaType,
+      src,
+      zoom
+    } = data
 
     this.annotationFactory = new AnnotationFactory(this)
     this.canvasId = canvasId
     this.data = data
-    this.id = data.id
-    this.imageProcessor = new ImageProcessor(iiifConfig)
+    this.id = id
     this.iiifConfig = iiifConfig
     this.isCanvas = isCanvas(data)
     this.isImageService = isImageService(data)
-    this.label = data.label
+    this.label = label
     this.manifestId = manifestId
+    this.mediaType = mediaType || defaults.mediaType
+    this.mediaId = mediaId
     this.outputDir = outputDir
-    this.src = data.src
+    this.processImage = imageProcessor
+    this.src = src
+    this.zoom = zoom
   }
 
+  /**
+   * Figure image annotations
+   * @type  {Array<Annotations>}
+   */
   get annotations() {
     return this.annotationFactory.create()
   }
 
   /**
-   * Represents the "base" figure image defined in `figure.src` as an annotation
-   * for use in IIIF manifests
+   * When the figure is a canvas, represent the image
+   * in `figure.src` as an annotation for use in IIIF manifests
    * @return {Annotation|null}
    */
   get baseImageAnnotation() {
@@ -57,7 +92,30 @@ module.exports = class Figure {
   }
 
   /**
-   * If the `src` is an external resource
+   * Path to the image file that represents the canvas
+   * Used to define canvas properties `width` and `height`
+   */
+  get canvasImagePath() {
+    if (!this.isCanvas) return
+    const firstChoiceSrc = () => {
+      if (!this.annotations) return
+      const firstChoice = this.annotations
+        .flatMap(({ items }) => items)
+        .find(({ target }) => !target)
+      if (!firstChoice) return
+      return firstChoice.src
+    }
+    const imagePath = this.src || firstChoiceSrc()
+    if (!imagePath) {
+      this.errors.push(`Invalid figure ID "${this.id}". Figures with annotations must have "choice" annotations or a "src" property.`)
+      return
+    }
+    const { imagesDir, inputRoot } = this.iiifConfig.dirs
+    return path.join(inputRoot, imagesDir, imagePath)
+  }
+
+  /**
+   * Test if the `src` is an external resource
    * @return {Boolean}
    */
   get isExternalResource() {
@@ -65,25 +123,24 @@ module.exports = class Figure {
   }
 
   /**
-   * The full path to the `info.json` if figure.src is an image service
-   * @return {String}
+   * Path to a print representation of the figure for EPUB & PDF outputs
+   * @type {String}
    */
-  get info() {
-    if (!this.isImageService || !this.src) return
-    const { name } = path.parse(this.src)
-    const tileDirectory = path.join(this.outputDir, name, this.iiifConfig.dirs.imageService)
-    return new URL(path.join(tileDirectory, 'info.json'), this.iiifConfig.baseURL).href
+  get printImage() {
+    if (!this.isExternalResource && this.src && !this.data.printImage) {
+      const { ext, name } = path.parse(this.src)
+      return path.join('/', this.outputDir, name, `print-image${ext}`)
+    }
+    return this.data.printImage
   }
 
   /**
-   * The path to print representation of the figure for use in EPUB & PDF
+   * The figure region to display on load
+   * @return {String} format "x,y,width,height" Defaults to full dimensions
    */
-  get printImage() {
-    if (this.src && !this.data.printImage) {
-      const { ext, name } = path.parse(this.src)
-      return path.join(this.outputDir, `print-image${ext}`)
-    }
-    return this.data.printImage
+  get region() {
+    if (this.isExternal || this.mediaType !== 'image') return
+    return this.data.region || `0,0,${this.canvasWidth},${this.canvasHeight}`
   }
 
   /**
@@ -96,28 +153,45 @@ module.exports = class Figure {
       annotations: this.annotations,
       canvasId: this.canvasId,
       id: this.id,
-      info: this.info,
       isCanvas: this.isCanvas,
       isImageService: this.isImageService,
       label: this.label,
       manifestId: this.manifestId,
+      mediaId: this.mediaId,
+      mediaType: this.mediaType,
       printImage: this.printImage,
+      region: this.region,
       src: this.src
     }
   }
 
   /**
+   * Get the width and height of the canvas
+   */
+  async calcCanvasDimensions() {
+    if (!this.canvasImagePath) return
+    const { height, width } = await sharp(this.canvasImagePath).metadata()
+    this.canvasHeight = height
+    this.canvasWidth = width
+  }
+
+  /**
    * Call file process methods and return errors
-   * 
+   * @todo refactor process and create methods to return a response
+   * to encapsulate collection of errors into this method.
+   *
    * @return {Object}
    * @property {Array} errors
    */
   async processFiles() {
     this.errors = []
 
+    if (this.isExternalResource) return {}
+
+    await this.calcCanvasDimensions()
     await this.processAnnotationImages()
     await this.processFigureImage()
-    await this.processManifest()
+    await this.createManifest()
 
     return { errors: this.errors }
   }
@@ -128,12 +202,13 @@ module.exports = class Figure {
   async processAnnotationImages() {
     if (!this.annotations) return
     const annotationItems = this.annotations.flatMap(({ items }) => items)
-    const imageResponses = await Promise.all(annotationItems.map((item) => {
-      return this.imageProcessor.processImage(item.src, this.outputDir, {
+    const results = await Promise.all(annotationItems.map((item) => {
+      logger.debug(`processing annotation image ${item.src}`)
+      return item.src && this.processImage(item.src, this.outputDir, {
         tile: item.isImageService
       })
     }))
-    const errors = imageResponses.flatMap(({ errors }) => errors || [])
+    const errors = results.flatMap(({ errors }) => errors || [])
     if (errors.length) this.errors = this.errors.concat(errors)
   }
 
@@ -141,26 +216,23 @@ module.exports = class Figure {
    * Process `figure.src`
    */
   async processFigureImage() {
-    if (this.src && this.isImageService) {
-      const { transformations } = this.iiifConfig
-      const { errors } = await this.imageProcessor.processImage(this.src, this.outputDir, {
-        tile: true,
-        transformations
-      })
-      if (errors) this.errors = this.errors.concat(errors)
-    }
+    if (!this.isCanvas || !this.src) return
+    const { transformations } = this.iiifConfig
+    const { errors } = await this.processImage(this.src, this.outputDir, {
+      tile: true,
+      transformations
+    })
+    if (errors) this.errors = this.errors.concat(errors)
   }
 
   /**
-   * Create IIIF `manifest.json` file
+   * Create the IIIF `manifest.json` for <canvas-panel> components,
+   * collect errors from calling toJSON and the file system writer.
    */
-  async processManifest() {  
-    if (this.isCanvas && !this.isExternalResource) {
-      const manifest = new Manifest(this)
-      const jsonResponse = await manifest.toJSON()
-      if (jsonResponse.errors) this.errors = this.errors.concat(jsonResponse.errors)
-      const writeResponse = await manifest.write()
-      if (writeResponse.errors) this.errors = this.errors.concat(writeResponse.errors)
-    }
+  async createManifest() {
+    if (!this.isCanvas) return
+    const manifest = new Manifest(this)
+    const { errors } = await manifest.write()
+    if (errors) this.errors = this.errors.concat(errors)
   }
 }
