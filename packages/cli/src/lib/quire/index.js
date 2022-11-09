@@ -1,11 +1,15 @@
 import { cwd } from 'node:process'
 import { execa } from 'execa'
+import { fileURLToPath } from 'node:url'
+import { isEmpty } from '#helpers/is-empty.js'
 import fs from 'fs-extra'
 import git from '#src/lib/git/index.js'
 import installNpmVersion from 'install-npm-version'
-import { isEmpty } from '#helpers/is-empty.js'
 import path from 'node:path'
 import semver from 'semver'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 const INSTALL_PATH = path.join('src', 'lib', 'quire', 'versions')
 const PACKAGE_NAME = '@thegetty/quire-11ty'
@@ -56,7 +60,7 @@ async function initStarter (starter, projectPath) {
 
   starter = starter || 'https://github.com/thegetty/quire-starter-default'
 
-  console.log('[CLI:init-starter]', `project root: ${projectPath}`, `starter project: ${starter}`)
+  console.log('[CLI:quire]', `project root: ${projectPath}`, `starter project: ${starter}`)
 
   // Clone starter project repository
   // @TODO pipe `git clone` status to stdout for better UX
@@ -108,9 +112,9 @@ async function initStarter (starter, projectPath) {
  */
 async function install(version='latest') {
   fs.ensureDirSync(INSTALL_PATH)
-  // Note: `installNpmVersion` wants to install things relative to
-  // `node_modules`, so we have included a relative path up one directory level
-  // to NOT install `@thegetty/quire-11ty` in `node_modules`
+  // Nota bene: `installNpmVersion` wants to install things relative to
+  // `node_modules`, so we have included a relative path to parent directory
+  // to NOT install `quire-11ty` in `node_modules`
   await installNpmVersion.Install(
     `${PACKAGE_NAME}@${version}`,
     {
@@ -118,15 +122,17 @@ async function install(version='latest') {
       Debug: true
     }
   )
+  symlinkLatest()
 }
 
 /**
- * Retrieve the `latest` published version of the `quire-11ty` package
+ * Retrieve latest published version of the `quire-11ty` package
  *
- * @return {String} the current version of thegetty/quire/packages/11ty
+ * @return {String} `quire-11ty@latest` semantic version string
  */
 async function latest() {
-  const { stdout: quireVersion } = await execa('npm', ['view', PACKAGE_NAME, 'version'])
+  const { stdout: quireVersion } =
+    await execa('npm', ['view', PACKAGE_NAME, 'version'])
   return quireVersion
 }
 
@@ -134,13 +140,13 @@ async function latest() {
  * List installed versions of the `quire-11ty` package
  */
 function list() {
-  return fs.readDirSync(INSTALL_PATH)
+  return fs.readdirSync(INSTALL_PATH)
 }
 
 /**
- * Removes the specified version.
+ * Removes the installed version of `quire-11ty`
  *
- * @param  {String}  version  Quire-11ty semantic version
+ * @param  {String}  `quire-11ty` semantic version
  * @return  {Promise}
  */
 async function remove(version) {
@@ -154,7 +160,7 @@ async function remove(version) {
     }
     console.info(`deleted ${dir}`)
   })
-  // update symlink to `latest` version
+  symlinkLatest()
 }
 
 /**
@@ -172,10 +178,32 @@ function setVersion(version) {
 }
 
 /**
+ * Update symbolic link to latest installed version of `quire-11ty`
+ * @todo refactor functon to determine the latest _installed_ version
+ * using `semver` package methods to sort and compatre installed versions.
+ */
+function symlinkLatest() {
+  const version = fs.readdirSync(INSTALL_PATH).sort()[0]
+  const versionPath = path.relative(__dirname, path.join(INSTALL_PATH, version))
+  const symlinkToLatest = path.join(INSTALL_PATH, 'latest')
+  try {
+    const symlinkExists = fs.lstatSync(symlinkToLatest).isSymbolicLink()
+    if (symlinkExists) {
+      console.debug('[CLI:quire] unlinking latest...')
+      fs.unlinkSync(symlinkToLatest)
+    }
+    console.debug('[CLI:quire] symlinking latest...')
+    fs.symlinkSync(versionPath, symlinkToLatest)
+  } catch (error) {
+    console.error('[CLI:quire] unable symlink latest installed version', error)
+  }
+}
+
+/**
  * Tests if a `quire-11ty` version is already installed
  * and installs the version if it is not already installed.
  *
- * @param  {String}  version  Quire-11ty semantic version
+ * @param  {String}  version  `quire-11ty` semantic version
  */
 function testVersion(version) {
   version ||= getVersion()
