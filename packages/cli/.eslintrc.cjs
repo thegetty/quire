@@ -9,6 +9,9 @@ module.exports = {
     node: true,
   },
   extends: 'eslint:recommended',
+  ignorePatterns: [
+    '**/quire/versions/'
+  ],
   overrides: [],
   parserOptions: {
     ecmaVersion: 'latest',
