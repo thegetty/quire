@@ -189,13 +189,13 @@ function symlinkLatest() {
   try {
     const symlinkExists = fs.lstatSync(symlinkToLatest).isSymbolicLink()
     if (symlinkExists) {
-      console.debug('[CLI:quire] unlinking latest...')
+      console.debug('[CLI:quire] unlinking latest')
       fs.unlinkSync(symlinkToLatest)
     }
-    console.debug('[CLI:quire] symlinking latest...')
+    console.debug('[CLI:quire] symlinking latest')
     fs.symlinkSync(versionPath, symlinkToLatest)
   } catch (error) {
-    console.error('[CLI:quire] unable symlink latest installed version', error)
+    console.error('[CLI:quire] unable to symlink latest installed version', error)
   }
 }
 
