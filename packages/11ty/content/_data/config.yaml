@@ -24,6 +24,7 @@ footnotes:
   backlinkSymbol: '↩'
 
 figures:
+  assetDir: '/_assets/'
   enableModal: true
   imageDir: '/_assets/images'
 

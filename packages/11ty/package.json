@@ -1,23 +1,27 @@
 {
   "name": "@thegetty/quire-11ty",
-  "version": "1.0.0-pre-release.0",
+  "version": "1.0.0-pre-release.2",
   "description": "Quire 11ty static site generator",
   "keywords": [
     "11ty",
     "eleventy",
     "quire"
   ],
+  "author": "Getty Digital",
   "license": "SEE LICENSE IN https://github.com/thegetty/quire/blob/main/LICENSE",
-  "main": ".eleventy.js",
   "homepage": "https://github.com/thegetty/quire/tree/main/packages/11ty#readme",
   "bugs": {
     "url": "https://github.com/thegetty/quire/issues"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/thegetty/quire.git",
     "directory": "packages/11ty"
   },
+  "main": ".eleventy.js",
   "scripts": {
     "benchmark": "cross-env DEBUG=Eleventy:Benchmark* eleventy",
     "build": "cross-env ELEVENTY_ENV=production eleventy",
@@ -34,8 +38,13 @@
     "serve": "cross-env ELEVENTY_ENV=production eleventy --serve",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Getty Digital",
-  "license": "J Paul Getty Trust",
+  "imports": {
+    "#root/*": "./*",
+    "#includes/*": "./_includes/*",
+    "#layouts/*": "./_layouts/*",
+    "#lib/*": "./_lib/*",
+    "#plugins/*": "./_plugins/*"
+  },
   "devDependencies": {
     "@11ty/eleventy": "^2.0.0-canary.16",
     "@11ty/eleventy-img": "^2.0.1",
@@ -63,6 +72,7 @@
     "liquid-args": "^1.0.0",
     "liquidjs": "^9.42.0",
     "locale-en-us": "^0.0.2",
+    "loglevel": "^1.8.0",
     "markdown-it": "^13.0.1",
     "markdown-it-anchor": "^8.6.4",
     "markdown-it-attrs": "^4.1.4",

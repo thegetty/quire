@@ -5,7 +5,8 @@ const titleCase = require('~plugins/filters/titleCase')
 const Writer = require('./writer')
 const { globalVault } = require('@iiif/vault')
 const { IIIFBuilder } = require('iiif-builder')
-const { error, info } = chalkFactory('Figure Processing:IIIF:Manifest')
+
+const logger = chalkFactory('Figures:IIIF:Manifest', 'DEBUG')
 
 const vault = globalVault()
 const builder = new IIIFBuilder(vault)
@@ -16,7 +17,7 @@ const builder = new IIIFBuilder(vault)
 module.exports = class Manifest {
   constructor(figure) {
     const { iiifConfig } = figure
-    const { baseURL, dirs, locale, manifestFilename } = iiifConfig
+    const { locale } = iiifConfig
     this.figure = figure
     this.locale = locale
     this.writer = new Writer(iiifConfig)
@@ -49,7 +50,7 @@ module.exports = class Manifest {
 
     const items = choices.map((item) => {
       if (!item.src) {
-        error(`Invalid annotation on figure ID "${this.figure.id}". Annotations must have a "src" or "text" property`)
+        logger.error(`Invalid annotation on figure ID "${this.figure.id}". Annotations must have a "src" or "text" property`)
       }
       return this.createAnnotationBody(item)
     })
@@ -79,12 +80,12 @@ module.exports = class Manifest {
    * @todo handle text annotations
    * @todo handle annotations with target region
    */
-  createAnnotationBody({ format, info, label, src, url }) {
+  createAnnotationBody({ format, info, label, src, uri }) {
     const { ext } = path.parse(src)
     return {
       format,
       height: this.figure.canvasHeight,
-      id: url,
+      id: uri,
       label: { en: [label] },
       type: 'Image',
       service: info && [
@@ -120,17 +121,17 @@ module.exports = class Manifest {
       })
     })
     try {
-      this.json = builder.toPresentation3(manifest)
-      info(`Generated manifest for figure "${this.figure.id}"`)
-      return { success: true }
+      return builder.toPresentation3(manifest)
     } catch(error) {
-      return { errors: [`Failed to generate manifest: ${error}`]}
+      throw new Error(`Failed to generate manifest: ${error}`)
     }
   }
 
   async write() {
     try {
-      return await this.writer.write(this.json)
+      const json = await this.toJSON()
+      logger.info(`Generated manifest for figure "${this.figure.id}"`)
+      return await this.writer.write(json)
     } catch(error) {
       return { errors: [error] }
     }
