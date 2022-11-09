@@ -108,6 +108,9 @@ async function initStarter (starter, projectPath) {
  */
 async function install(version='latest') {
   fs.ensureDirSync(INSTALL_PATH)
+  // Note: `installNpmVersion` wants to install things relative to
+  // `node_modules`, so we have included a relative path up one directory level
+  // to NOT install `@thegetty/quire-11ty` in `node_modules`
   await installNpmVersion.Install(
     `${PACKAGE_NAME}@${version}`,
     {
