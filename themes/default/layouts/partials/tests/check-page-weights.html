@@ -1,0 +1,49 @@
+{{ $pages := .Site.Pages }}
+{{ $pages = where $pages ".Type" "!=" "data" }}
+
+{{ $pageWeights := "" }}
+{{ $duplicatePageWeight := slice }}
+{{ $otherPageWeight := slice }}
+{{ $noPageWeight := slice }}
+
+{{ range $pages }}
+
+  {{ if .Weight }}
+
+    {{ if in (string $pageWeights) (string .Weight) }}
+
+      {{ $duplicatePageWeight = $duplicatePageWeight | append .Weight }}
+
+    {{ else }}
+
+      {{ $pageWeights = delimit (slice $pageWeights .Weight) ", " }}
+
+    {{ end }}
+
+  {{ else }}
+
+    {{ $noPageWeight = $noPageWeight | append .Path }}
+
+  {{ end }}
+
+{{ end }}
+
+{{ if gt $noPageWeight 0 }}
+
+  {{ $noPageWeightList := delimit $noPageWeight ", " }}
+
+  {{ errorf "One or more Markdown files with no page weight! \n\nQUIRE FIX --> Assign a unique weight that is greater than zero (0) to these Markdown files: %s. Having a valid weight on each page ensures your project pages are ordered correctly.\n" $noPageWeightList }}
+
+{{ end }}
+
+{{ if gt $duplicatePageWeight 0 }}
+
+  {{ $allDupes := slice }}
+  {{ range where $pages "Weight" "in" $duplicatePageWeight }}
+    {{ $allDupes = $allDupes | append .Path }}
+  {{ end }}
+  {{ $allDupesList := delimit $allDupes ", " }}
+
+  {{ errorf "Some Markdown files have duplicate page weights! \n\nQUIRE FIX --> Assign a unique weight to these Markdown files: %s. Having a unique weight ensures your project pages are ordered correctly.\n"   $allDupesList }}
+
+{{ end }}

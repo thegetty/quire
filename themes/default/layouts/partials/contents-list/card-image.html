@@ -1,0 +1,13 @@
+
+{{- $imageDir := "" -}}
+{{- if .Site.Params.imageDir -}}
+  {{- $imageDir = .Site.Params.imageDir -}}
+  {{- else }}
+  {{- $imageDir = "img" -}}
+{{- end }}
+{{- $imgPath := printf "%s/%s" $imageDir .src -}}
+<div class="card-image">
+  <figure class="image">
+    <img src="{{ $imgPath | relURL }}" alt="" />
+  </figure>
+</div>

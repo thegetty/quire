@@ -1,0 +1,7 @@
+{{/* Uses the Hugo `path.Dir` function to return the given path's directory and normalize it, making it consistent for both Windows and macOS/Linux/Unix users
+--------------------------------------------------------------------------- */}}
+{{- $fileDir := path.Dir . -}}
+{{- if ne $fileDir "/" -}}
+  {{- $fileDir = printf "%s%s" $fileDir "/" -}}
+{{- end -}}
+{{- return $fileDir -}}

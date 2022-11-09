@@ -24,6 +24,10 @@
   font-family: $quire-primary-font;
   line-height: 1.25;
 
+  .arrow {
+    display: none;
+  }
+
   &__header {
     margin: .25em 0 1em;
 
@@ -57,8 +61,8 @@
     h1, h2, h3, h4, h5, h6 { color: $quire-menu-text-color; }
 
   }
-  
-  // Temporary until the headings/semantics of the menu can be reworked. Style matches backmatter h2 
+
+  // Temporary until the headings/semantics of the menu can be reworked. Style matches backmatter h2
   h6 {
     font-family: $quire-headings-font;
     @if $theme == classic {

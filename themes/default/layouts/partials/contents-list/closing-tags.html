@@ -1,0 +1,59 @@
+{{/*  If the .File.Dir of the current page matches the START of the .File.Dir of the next page, we’re still in the same section, so do nothing. Otherwise proceed to next section to add the appropriate number of closing /ul/li tags to close section(s)
+--------------------------------------------------------------------------- */}}
+{{- $currentPage := (index .AllPages .PageIndex).File.Dir -}}
+{{- $currentPageDirectory := partial "contents-list/file-dir.html" $currentPage -}}
+
+{{- $nextPage := (index .AllPages (add .PageIndex 1)).File.Dir -}}
+{{- $nextPageDirectory := "" -}}
+{{- if $nextPage }}
+{{- $nextPageDirectory = partial "contents-list/file-dir.html" $nextPage -}}
+{{- end -}}
+
+{{- $findPattern := printf "%s%s" "^" $currentPageDirectory -}}
+
+{{- if (findRE $findPattern $nextPageDirectory) -}}
+
+{{- else -}}
+
+{{- if ne $currentPageDirectory "/" -}}
+
+  {{/* Find the last page within the same .File.Dir as the current page, if the current page IS the last page, we need to add at least one set of closing /ul/li tags. to determine how many sets of tags are needed, check the sub-section level difference between the current page and the next page. For example, a page with a file directory of `section/sub-section/sub-sub-section/` is at sub-section level of 3. If the next page is at `section/`, with sub-section level of 1, there are 2 levels of difference between them and so we need 2 sets of closing tags. (We use a findRE pattern to count the number of instances of one or more characters followed by a slash in the .File.Dir to determine the sub-section level.)
+  ------------------------------------------------------------------------- */}}
+  {{- $currentPageID := .Page.File.UniqueID -}}
+  {{- $pagesInSection := where .AllPages "File.Dir" "eq" $currentPage -}}
+  {{- $openSections := .openSections -}}
+
+  {{- range last 1 $pagesInSection -}}
+
+    {{- if eq .Page.File.UniqueID $currentPageID -}}
+
+      {{- $nextPageSubSectionLevel := len (findRE "(.+?)/" $nextPageDirectory) -}}
+      {{- $currentPageSubSectionLevel := len (findRE "(.+?)/" $currentPageDirectory) -}}
+      {{- $indentDifference := sub $currentPageSubSectionLevel $nextPageSubSectionLevel -}}
+
+      {{- if le $indentDifference 1 -}}
+        </ul></li>
+      {{- else -}}
+        {{- range after 0 (seq $indentDifference) }}
+        </ul></li>
+        {{- end -}}
+      {{- end -}}
+
+      {{/* If the section of the last page rendered is not the same as the section of the next page that’s going to be rendered, we have to add in an additional set of /ul/li tags to close the section.
+      --------------------------------------------------------------------- */}}
+      {{- if and ($nextPageSubSectionLevel) (ne $currentPageSubSectionLevel $nextPageSubSectionLevel) -}}
+        {{ $sectionLevelKey := printf "%s%s" "s" (string $nextPageSubSectionLevel) }}
+        {{- range $key, $value := $openSections -}}
+          {{- if and (eq $key $sectionLevelKey) (ne . $nextPageDirectory) -}}
+          </ul></li>
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+
+    {{- end -}}
+
+  {{- end -}}
+
+{{- end -}}
+
+{{- end -}}

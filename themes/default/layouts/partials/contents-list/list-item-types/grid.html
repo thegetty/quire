@@ -1,0 +1,30 @@
+<a href="{{ .Page.Permalink | relURL }}">
+<div class="card {{ if or .Page.Params.image .Page.Params.object }}image{{ else }}no-image{{ end }}{{ if and (ne .Page.Section "") (eq .Page.Slug ".") }} slug-page{{ end }}">
+  {{ if .Page.Params.image }}
+    {{ partial "contents-list/card-image" (dict "site" .Site "src" .Page.Params.image) }}
+  {{ else if .Page.Params.object -}}
+    {{ range .Page.Params.object -}}
+      {{ if .id -}}
+        {{ range where $.Site.Data.objects.object_list "id" "eq" .id -}}
+        {{ range first 1 .figure -}}
+          {{ if .id -}}
+            {{ range where $.Site.Data.figures.figure_list "id" "eq" .id -}}
+              {{ partial "contents-list/card-image" (dict "site" .Site "src" .src) }}
+            {{- end -}}
+          {{ else if .src -}}
+            {{ partial "contents-list/card-image" (dict "site" .Site "src" .src) }}
+          {{- end -}}
+        {{- end -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  <div class="card-content">
+    {{- with .Page.Params.label }}{{ . }}{{ $.Site.Params.pageLabelDivider }}{{ end }}
+
+    {{ partial "page-title.html" . | markdownify }}
+
+    {{ if .Page.Params.contributor }}<span class="contributor"> — {{ partial "contributor-list.html" (dict "range" .Page.Params.contributor "contributorType" "all" "listType" "string" "Site" .Site) }}</span>{{ end -}}
+
+    <span class="arrow remove-from-epub">&nbsp;{{- partial "icon.html" (dict "type" "arrow-forward" "description" "") -}}</span></div>
+</div></a>

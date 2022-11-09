@@ -28,7 +28,7 @@ If you’re considering using Quire for the first time, please be sure to visit 
 
 We encourage you to sign up for a [free GitHub account](https://github.com/join) to access the [Quire Community Forum](https://github.com/thegetty/quire/discussions). You can utilize the forum to ask and answer questions, share ideas, provide feedback, and assist your fellow Quire users. [Subscribe to our newsletter](https://newsletters.getty.edu/h/t/DDE7B9372AAF01E4) for the latest news and events, new feature updates, and highlights from our community. 
 
-## Installing Quire
+## Installation and Usage for Quire
 
 This is the mono-repository for [Quire](https://quire.getty.edu/). It contains:
 
