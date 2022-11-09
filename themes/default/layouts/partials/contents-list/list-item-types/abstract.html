@@ -1,0 +1,17 @@
+<a href="{{ .Page.Permalink | relURL }}">
+
+{{- with .Page.Params.label }}{{ . }}{{ $.Site.Params.pageLabelDivider }}{{ end -}}
+
+{{- partial "page-title.html" . | markdownify -}}
+
+{{- if .Page.Params.contributor }}<span class="contributor"> — {{ partial "contributor-list.html" (dict "range" .Page.Params.contributor "contributorType" "all" "listType" "string" "Site" .Site) }}</span>{{ end -}}
+
+<span class="arrow remove-from-epub">&nbsp;{{- partial "icon.html" (dict "type" "arrow-forward" "description" "") -}}</span></a>
+
+{{- if .Page.Params.abstract -}}
+<div class="abstract-text">
+  {{/* Returns abstract with any links stripped out
+  ------------------------------------------------------------------------- */}}
+  {{- .Page.Params.abstract | markdownify | replaceRE "</?a(|\\s*[^>]+)>" "" | htmlUnescape | safeHTML -}}
+</div>
+{{- end -}}

@@ -1,0 +1,5 @@
+{{- $heading := findRE "(.[^/]*)/$" .Section -}}
+{{- $heading = delimit $heading "" -}}
+{{- $heading = replaceRE "/" "" $heading -}}
+<li class="section-item no-landing level-{{ .Level }}"><div class="list-header">{{ $heading | humanize | title }}</div>
+<ul>
