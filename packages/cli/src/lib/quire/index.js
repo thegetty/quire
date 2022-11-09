@@ -36,7 +36,7 @@ function getPath(version='latest') {
  * @return  {String}  version  Quire-11ty semantic version
  */
 function getVersion(projectPath) {
-  projectPath = projectPath || path.resolve('.')
+  projectPath = projectPath || path.resolve(cwd())
   const version = fs.readFileSync(path.join(projectPath, '.quire'), { encoding:'utf8' })
   const projectName = path.basename(projectPath)
   console.debug(`${projectName} set to use quire-11ty@${version}`)
