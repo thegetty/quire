@@ -189,8 +189,8 @@ function setVersion(version) {
 /**
  * Update symbolic link to the latest _installed_ version of `quire-11ty`
  *
- * @todo refactor functon to determine the latest _installed_ version
- * using `semver` package methods to sort and compatre installed versions.
+ * @todo refactor to determine latest _installed_ version using the semver
+ * package methods to sort and compare the locally installed versions.
  */
 function symlinkLatest() {
   const version = fs.readdirSync(INSTALL_PATH).sort()[0]
