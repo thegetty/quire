@@ -1,9 +1,7 @@
 import { execa } from 'execa'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
-import paths from './paths.js'
-
-const projectRoot = path.resolve('../../packages/11ty')
+import paths, { projectRoot } from './paths.js'
 
 /**
  * A factory function to configure an Eleventy CLI command
@@ -12,11 +10,11 @@ const projectRoot = path.resolve('../../packages/11ty')
  * @return  {Array} Eleventy CLI options
  */
 const factory = () => {
-  const { config, input, output } = paths
+  const { config, input, output } = paths()
 
   console.info(`[CLI:11ty] projectRoot ${projectRoot}`)
 
-  console.debug('[CLI:11ty] %o', paths)
+  console.debug('[CLI:11ty] %o', paths())
 
   return [
     `@11ty/eleventy`,

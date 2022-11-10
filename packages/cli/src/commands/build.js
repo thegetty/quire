@@ -60,6 +60,6 @@ export default class BuildCommand extends Command {
     if (options.debug) {
       console.debug('[CLI] Calling \'build\' command pre-action with options', options)
     }
-    clean(projectRoot, paths, options)
+    clean(projectRoot, paths(), options)
   }
 }

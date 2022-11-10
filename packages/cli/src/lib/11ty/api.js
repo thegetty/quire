@@ -10,7 +10,7 @@ import paths from './paths.js'
  * @return  {Eleventy}  A configured instance of Eleventy
  */
 const factory = (options) => {
-  const { config, input, output } = paths
+  const { config, input, output } = paths()
 
   return new Eleventy(input, output, {
     config: (eleventyConfig) => {
