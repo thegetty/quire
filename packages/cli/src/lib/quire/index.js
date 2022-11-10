@@ -39,7 +39,6 @@ function getVersion(projectPath) {
   projectPath = projectPath || path.resolve(cwd())
   const version = fs.readFileSync(path.join(projectPath, VERSION_FILE), { encoding:'utf8' })
   const projectName = path.basename(projectPath)
-  console.debug(`${projectName} set to use quire-11ty@${version}`)
   return version
 }
 
