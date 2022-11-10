@@ -38,7 +38,8 @@ export default {
     if (options.dryRun) eleventyOptions.push('--dryrun')
     if (options.quiet) eleventyOptions.push('--quiet')
 
-    await execa('npx', eleventyOptions, { cwd: projectRoot }).stdout.pipe(process.stdout)
+    // @TODO set execa pipe output (stdout, stderror) using `--quiet`, `--verbose` options
+    await execa('npx', eleventyOptions, { all: true, cwd: projectRoot }).all.pipe(process.stdout)
   },
 
   serve: async (options = {}) => {
@@ -52,6 +53,7 @@ export default {
     if (options.quiet) eleventyOptions.push('--quiet')
     if (options.verbose) eleventyOptions.push('--verbose')
 
-    await execa('npx', eleventyOptions, { cwd: projectRoot }).stdout.pipe(process.stdout)
+    // @TODO set execa pipe output (stdout, stderror) using `--quiet`, `--verbose` options
+    await execa('npx', eleventyOptions, { all: true, cwd: projectRoot }).all.pipe(process.stdout)
   }
 }
