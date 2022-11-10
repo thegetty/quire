@@ -121,19 +121,19 @@ async function initStarter (starter, projectPath) {
  * @param  {String}  version  Quire-11ty semantic version
  * @return  {Promise}
  */
-async function install(version='latest') {
+async function install(version='latest', options={}) {
   console.debug(`[CLI:quire] installing quire-11ty@${version}`)
   fs.ensureDirSync(INSTALL_PATH)
   /**
-   * Destination is relative to `node_modules` of the working-directory
-   * so we have included a relative path to parent directory to install
-   * versions to a different local path.
+   * `Destination` is relative to `node_modules` of the working-directory
+   * so we have included a relative path to parent directory in order to
+   * install versions to a different local path.
    * @see https://github.com/scott-lin/install-npm-version
    */
   const options = {
     Destination: path.join('../', INSTALL_PATH, version),
-    Debug: false,
-    Verbosity: 'Silent',
+    Overwrite: options.force || options.overwrite || false,
+    Verbosity: options.debug ? 'Debug' : 'Silent',
   }
   await inv.Install(`${PACKAGE_NAME}@${version}`, options)
   symlinkLatest()
@@ -194,18 +194,18 @@ function setVersion(version) {
 /**
  * Update symbolic link to the latest _installed_ version of `quire-11ty`
  *
- * @todo refactor to determine latest _installed_ version using the semver
- * package methods to sort and compare the locally installed versions.
- *
  * @todo why does this not work using `fs-extra` `createSymlinkSync()`
  */
 function symlinkLatest() {
-  const version = fs.readdirSync(INSTALL_PATH).sort()[0]
-  const target = path.relative(__dirname, path.join(INSTALL_PATH, version))
+  const latestInstalledVersion = fs
+    .readdirSync(INSTALL_PATH)
+    .sort(semver.rcompare)[0]
+  const target =
+    path.relative(__dirname, path.join(INSTALL_PATH, latestInstalledVersion))
   const source = path.join(INSTALL_PATH, 'latest')
   const type = IS_WINDOWS ? 'junction' : 'dir'
 
-  console.debug('[CLI:quire] symlinking latest')
+  console.debug('[CLI:quire] symlinking latest installed version')
 
   try {
     return fs.symlinkSync(target, source, type)
@@ -249,11 +249,12 @@ function testVersion(version) {
 }
 
 /**
- * List known versions of the `quire-11ty` package
- * @todo use npm for this
+ * Get an array of published `quire-11ty` package versions
+ *
+ * @return  {Array<String>}  published versions
  */
 function versions() {
-  console.info(`Known versions of @thegetty/quire-11ty...`)
+  return await execa('npm', ['show', PACKAGE_NAME, 'versions'])
 }
 
 export const quire = {
