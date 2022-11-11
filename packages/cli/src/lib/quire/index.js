@@ -1,5 +1,5 @@
-import { cwd } from 'node:process'
-import { execa } from 'execa'
+import { chdir, cwd } from 'node:process'
+import { execa, execaCommand } from 'execa'
 import { fileURLToPath } from 'node:url'
 import { isEmpty } from '#helpers/is-empty.js'
 import fs from 'fs-extra'
@@ -91,15 +91,15 @@ async function initStarter (starter, projectPath) {
 
   // @TODO Remove 11ty file copying code (lines 79-88) once CLI pathing issues have been sorted out
   // Copy 11ty files
-  const fullProjectPath = path.resolve(projectPath)
-  const eleventyPath = path.resolve(path.join(INSTALL_PATH, quireVersion))
-  const eleventyFiles = fs.readdirSync(eleventyPath)
+  // const fullProjectPath = path.resolve(projectPath)
+  // const eleventyPath = path.resolve(path.join(INSTALL_PATH, quireVersion))
+  // const eleventyFiles = fs.readdirSync(eleventyPath)
 
   // copies all files in `quire/packages/11ty`
-  eleventyFiles.forEach((filePath) => {
-    const fileToCopy = path.resolve(eleventyPath, filePath)
-    fs.copySync(fileToCopy, path.join(fullProjectPath, path.basename(filePath)))
-  })
+  // eleventyFiles.forEach((filePath) => {
+  //   const fileToCopy = path.resolve(eleventyPath, filePath)
+  //   fs.copySync(fileToCopy, path.join(fullProjectPath, path.basename(filePath)))
+  // })
 
   // Reinitialize project as a new git repository
   await fs.remove(path.join(projectPath, '.git'))
@@ -123,7 +123,8 @@ async function initStarter (starter, projectPath) {
  */
 async function install(version='latest') {
   console.debug(`[CLI:quire] installing quire-11ty@${version}`)
-  fs.ensureDirSync(INSTALL_PATH)
+  const absoluteInstallPath = path.join(__dirname, 'versions')
+  fs.ensureDirSync(absoluteInstallPath)
   /**
    * Destination is relative to `node_modules` of the working-directory
    * so we have included a relative path to parent directory to install
@@ -131,12 +132,34 @@ async function install(version='latest') {
    * @see https://github.com/scott-lin/install-npm-version
    */
   const options = {
-    Destination: path.join('../', INSTALL_PATH, version),
+    Destination: path.join('../', version),
     Debug: false,
     Verbosity: 'Silent',
+    WorkingDirectory: absoluteInstallPath
   }
   await inv.Install(`${PACKAGE_NAME}@${version}`, options)
+
+  // delete empty `node_modules` directory that `install-npm-version` creates
+  const invNodeModulesDir = path.join(absoluteInstallPath, 'node_modules')
+  if (fs.existsSync(invNodeModulesDir)) fs.rmdir(invNodeModulesDir)
+
   symlinkLatest()
+
+  console.debug('[CLI:quire] installing dev dependencies')
+  /**
+   * Install dev dependencies manually, as they are necessary to run 11ty.
+   * They should be kept as dev dependencies so that they don't get bundled into
+   * the final compiled `_site` package when running `quire build`
+   */
+  const currentWorkingDirectory = cwd()
+  const versionDir = path.join(absoluteInstallPath, version)
+  chdir(versionDir)
+  await execaCommand(
+    'npm cache clean --force'
+  ).stdout.pipe(process.stdout)
+  await execaCommand(
+    'npm install --save-dev'
+  ).stdout.pipe(process.stdout)
 }
 
 /**
@@ -200,9 +223,11 @@ function setVersion(version) {
  * @todo why does this not work using `fs-extra` `createSymlinkSync()`
  */
 function symlinkLatest() {
-  const version = fs.readdirSync(INSTALL_PATH).sort()[0]
-  const target = path.relative(__dirname, path.join(INSTALL_PATH, version))
-  const source = path.join(INSTALL_PATH, 'latest')
+  const version = fs.readdirSync(path.join(__dirname, 'versions')).sort()[0]
+  // const target = path.relative(__dirname, path.join(INSTALL_PATH, version))
+  const target = path.join(__dirname, 'versions', version)
+  // const source = path.join(INSTALL_PATH, 'latest')
+  const source = path.join(__dirname, 'versions', 'latest')
   const type = IS_WINDOWS ? 'junction' : 'dir'
 
   console.debug('[CLI:quire] symlinking latest')
