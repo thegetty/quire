@@ -142,9 +142,9 @@ async function install(version='latest', options={}) {
 
   console.debug('[CLI:quire] installing dev dependencies')
   /**
-   * Install dev dependencies manually, as they are necessary to run 11ty.
-   * They should be kept as dev dependencies so that they don't get bundled into
-   * the final compiled `_site` package when running `quire build`
+   * Manually install necessary dev dependencies to run 11ty;
+   * these must be `devDependencies` so that they are not bundled into
+   * the final `_site` package when running `quire build`
    */
   const currentWorkingDirectory = cwd()
   const versionDir = path.join(absoluteInstallPath, version)
