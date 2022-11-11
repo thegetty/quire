@@ -11,6 +11,7 @@ import semver from 'semver'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
+// Version install path is relative to process working directory
 const INSTALL_PATH = path.join('src', 'lib', 'quire', 'versions')
 const PACKAGE_NAME = '@thegetty/quire-11ty'
 const VERSION_FILE = '.quire'
@@ -19,13 +20,18 @@ const IS_WINDOWS =
   process.platform === 'win32' || /^(cygwin|msys)$/.test(process.env.OSTYPE)
 
 /**
- * Return full path to the required `quire-11ty` version
+ * Return an absolute path to an installed `quire-11ty` version
  *
- * @return  {String}  version  Quire-11ty semantic version
+ * @return  {String}  path to installed `quire-11ty` version
  */
 function getPath(version='latest') {
-  // console.debug(`${projectName} set to use quire-11ty@${version}`)
-  // return versionPath
+  const absolutePath = path.relative('/', `${INSTALL_PATH}/${version}`)
+  if (!fs.existsSync(absolutePath)) {
+    console.error(`[CLI:quire] \`quire-11ty@${version}\` is not installed`)
+    return null
+  }
+  console.debug(`[CLI:quire] \%`, absolutePath)
+  return absolutePath
 }
 
 /**
