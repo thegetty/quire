@@ -95,18 +95,6 @@ async function initStarter (starter, projectPath) {
   const versionFilePath = path.join(projectPath, VERSION_FILE)
   fs.writeFileSync(versionFilePath, quireVersion)
 
-  // @TODO Remove 11ty file copying code (lines 79-88) once CLI pathing issues have been sorted out
-  // Copy 11ty files
-  // const fullProjectPath = path.resolve(projectPath)
-  // const eleventyPath = path.resolve(path.join(INSTALL_PATH, quireVersion))
-  // const eleventyFiles = fs.readdirSync(eleventyPath)
-
-  // copies all files in `quire/packages/11ty`
-  // eleventyFiles.forEach((filePath) => {
-  //   const fileToCopy = path.resolve(eleventyPath, filePath)
-  //   fs.copySync(fileToCopy, path.join(fullProjectPath, path.basename(filePath)))
-  // })
-
   // Reinitialize project as a new git repository
   await fs.remove(path.join(projectPath, '.git'))
 
