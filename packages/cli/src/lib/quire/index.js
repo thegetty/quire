@@ -11,6 +11,7 @@ import semver from 'semver'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
+// Version install path is relative to process working directory
 const INSTALL_PATH = path.join('src', 'lib', 'quire', 'versions')
 const PACKAGE_NAME = '@thegetty/quire-11ty'
 const VERSION_FILE = '.quire'
@@ -19,13 +20,18 @@ const IS_WINDOWS =
   process.platform === 'win32' || /^(cygwin|msys)$/.test(process.env.OSTYPE)
 
 /**
- * Return full path to the required `quire-11ty` version
+ * Return an absolute path to an installed `quire-11ty` version
  *
- * @return  {String}  version  Quire-11ty semantic version
+ * @return  {String}  path to installed `quire-11ty` version
  */
 function getPath(version='latest') {
-  // console.debug(`${projectName} set to use quire-11ty@${version}`)
-  // return versionPath
+  const absolutePath = path.relative('/', `${INSTALL_PATH}/${version}`)
+  if (!fs.existsSync(absolutePath)) {
+    console.error(`[CLI:quire] \`quire-11ty@${version}\` is not installed`)
+    return null
+  }
+  console.debug(`[CLI:quire] \%`, absolutePath)
+  return absolutePath
 }
 
 /**
@@ -121,23 +127,24 @@ async function initStarter (starter, projectPath) {
  * @param  {String}  version  Quire-11ty semantic version
  * @return  {Promise}
  */
-async function install(version='latest') {
+async function install(version='latest', options={}) {
   console.debug(`[CLI:quire] installing quire-11ty@${version}`)
   const absoluteInstallPath = path.join(__dirname, 'versions')
   fs.ensureDirSync(absoluteInstallPath)
   /**
-   * Destination is relative to `node_modules` of the working-directory
-   * so we have included a relative path to parent directory to install
-   * versions to a different local path.
+   * `Destination` is relative to `node_modules` of the working-directory
+   * so we have included a relative path to parent directory in order to
+   * install versions to a different local path.
    * @see https://github.com/scott-lin/install-npm-version
    */
-  const options = {
+  const installOptions = {
     Destination: path.join('../', version),
     Debug: false,
-    Verbosity: 'Silent',
+    Overwrite: options.force || options.overwrite || false,
+    Verbosity: options.debug ? 'Debug' : 'Silent',
     WorkingDirectory: absoluteInstallPath
   }
-  await inv.Install(`${PACKAGE_NAME}@${version}`, options)
+  await inv.Install(`${PACKAGE_NAME}@${version}`, installOptions)
 
   // delete empty `node_modules` directory that `install-npm-version` creates
   const invNodeModulesDir = path.join(absoluteInstallPath, 'node_modules')
@@ -217,20 +224,17 @@ function setVersion(version) {
 /**
  * Update symbolic link to the latest _installed_ version of `quire-11ty`
  *
- * @todo refactor to determine latest _installed_ version using the semver
- * package methods to sort and compare the locally installed versions.
- *
  * @todo why does this not work using `fs-extra` `createSymlinkSync()`
  */
 function symlinkLatest() {
-  const version = fs.readdirSync(path.join(__dirname, 'versions')).sort()[0]
-  // const target = path.relative(__dirname, path.join(INSTALL_PATH, version))
-  const target = path.join(__dirname, 'versions', version)
-  // const source = path.join(INSTALL_PATH, 'latest')
+  const latestInstalledVersion = fs
+    .readdirSync(path.join(__dirname, 'versions'))
+    .sort(semver.rcompare)[0]
+  const target = path.join(__dirname, 'versions', latestInstalledVersion)
   const source = path.join(__dirname, 'versions', 'latest')
   const type = IS_WINDOWS ? 'junction' : 'dir'
 
-  console.debug('[CLI:quire] symlinking latest')
+  console.debug('[CLI:quire] symlinking latest installed version')
 
   try {
     return fs.symlinkSync(target, source, type)
@@ -274,11 +278,12 @@ function testVersion(version) {
 }
 
 /**
- * List known versions of the `quire-11ty` package
- * @todo use npm for this
+ * Get an array of published `quire-11ty` package versions
+ *
+ * @return  {Array<String>}  published versions
  */
-function versions() {
-  console.info(`Known versions of @thegetty/quire-11ty...`)
+async function versions() {
+  return await execa('npm', ['show', PACKAGE_NAME, 'versions'])
 }
 
 export const quire = {
