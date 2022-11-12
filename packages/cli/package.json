@@ -64,7 +64,8 @@
     "pagedjs-cli": "^0.2.2-beta.3",
     "semver": "^7.3.8",
     "simple-git": "^3.14.1",
-    "update-notifier": "^6.0.2"
+    "update-notifier": "^6.0.2",
+    "which": "^3.0.0"
   },
   "devDependencies": {
     "del-cli": "^5.0.0",
