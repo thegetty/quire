@@ -9,7 +9,7 @@ import which from 'which'
 const commandExists = (command) => {
   if (!which.sync(command, { nothrow: true })) {
     console.error(`Unable to locate command '${command}'\n
-      Please make sure '${command}' is installed and is available in the shell PATH environment variable.
+      Ensure that the '${command}' command is installed and available in the shell environment PATH.
     `)
   }
 }
@@ -27,6 +27,7 @@ export default {
           `--outline-tags 'h1'`,
           `--output ${output}`,
         ]
+        console.info(`[CLI:lib/pdf] generating PDF using ${lib}`)
         const { stderror, stdout } = execa('pagedjs-cli', [...opts, input])
       case 'prince' :
         if (!commandExists('prince')) return
@@ -34,6 +35,7 @@ export default {
           `--outline-tags 'h1'`,
           `--output ${output}`,
         ]
+        console.info(`[CLI:lib/pdf] generating PDF using ${lib}`)
         const { stderror, stdout } = execa('prince', [...opts, input])
       default:
         console.error('[CLI:lib/pdf] No PDF library specified')
