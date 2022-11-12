@@ -1,5 +1,6 @@
 import Command from '#src/Command.js'
 import { build } from '#lib/pdf/index.js'
+import open from 'open'
 
 /**
  * Quire CLI `build pdf` Command
@@ -18,6 +19,10 @@ export default class PDFCommand extends Command {
     args: [
     ],
     options: [
+      [
+        '--lib <module>', 'use the specified pdf module', 'pagedjs',
+        // { choices: ['pagedjs', 'prince'], default: 'pagedjs' }
+      ],
       [ '--open', 'open PDF in default application' ],
       [ '--debug', 'run build with debug output to console' ],
     ],
@@ -31,7 +36,8 @@ export default class PDFCommand extends Command {
     if (options.debug) {
       console.debug('[CLI] Command \'%s\' called with options %o', this.name(), options)
     }
-    pdf.build()
+    const pdf = await pdf.build()
+    if (options.open) await open(pdf)
   }
 
   /**
