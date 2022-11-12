@@ -1,5 +1,5 @@
 import Command from '#src/Command.js'
-import { api, cli, paths, projectRoot  } from '#lib/11ty/index.js'
+import { build } from '#lib/pdf/index.js'
 
 /**
  * Quire CLI `build pdf` Command
@@ -18,10 +18,7 @@ export default class PDFCommand extends Command {
     args: [
     ],
     options: [
-      [ '-d', '--dry-run', 'run build without writing files' ],
-      [ '-o', '--open', 'open PDF in default application' ],
-      [ '-q', '--quiet', 'run build with no console messages' ],
-      [ '-v', '--verbose', 'run build with verbose console messages' ],
+      [ '--open', 'open PDF in default application' ],
       [ '--debug', 'run build with debug output to console' ],
     ],
   }
@@ -34,7 +31,18 @@ export default class PDFCommand extends Command {
     if (options.debug) {
       console.debug('[CLI] Command \'%s\' called with options %o', this.name(), options)
     }
-    // pagedjs-cli _site/pdf.html --outline-tags 'h1' -o paged.pdf
-    // prince _site/pdf.html --output prince.pdf
+    pdf.build()
+  }
+
+  /**
+   * test if build site has already be run and output can be reused
+   * @todo
+   */
+  preAction(command) {
+    const options = command.opts()
+    if (options.debug) {
+      console.debug('[CLI] Calling \'build\' command pre-action with options', options)
+    }
+    // console.log(command.parent)
   }
 }
