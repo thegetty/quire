@@ -26,9 +26,10 @@ program
  */
 commands.forEach((command) => {
   const { action, aliases, args, description, name, options } = command
+  const { hidden=false, isDefault=false } = command
 
   const subCommand = program
-    .command(name)
+    .command(name, { hidden, isDefault })
     .description(description)
     .addHelpCommand()
     .showHelpAfterError()
