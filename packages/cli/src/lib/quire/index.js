@@ -74,9 +74,9 @@ function getVersionFromStarterPeerDependencies(projectPath) {
  *
  * @param    {String}   starter   A repository URL or path to local starter
  * @param    {String}   projectPath  Absolute system path to the project root
- * @param    {String}   quireVersion  A string indicating the current version
- * of quire being used with a new project
- * @return   {Promise}
+ *
+ * @return   {String}   quireVersion  A string indicating the current version
+ *                                    of quire being used with a new project
  */
 async function initStarter (starter, projectPath) {
   projectPath = projectPath || cwd()
@@ -111,12 +111,16 @@ async function initStarter (starter, projectPath) {
    *
    * writes the quire-11ty semantic version to a `.quire` file
    */
-  const quireVersion = await latest()
-  const versionFilePath = path.join(projectPath, VERSION_FILE)
-  fs.writeFileSync(versionFilePath, quireVersion)
+  const quireVersion =
+    getVersionFromStarterPeerDependencies(projectPath) ||
+    await latest()
+  setVersion(projectPath, quireVersion)
 
   // Reinitialize project as a new git repository
   await fs.remove(path.join(projectPath, '.git'))
+
+  // @TODO allow the user to interactively re-initialize their own `package.json`; hammer out this feature
+  await fs.remove(path.join(projectPath, 'package.json'))
 
   // don't git-add copied `node_modules`
   const starterFiles = fs
@@ -125,6 +129,8 @@ async function initStarter (starter, projectPath) {
 
   // @TODO add localized string for commit message
   await git.init().add(starterFiles).commit('Initial Commit')
+
+  return quireVersion
 }
 
 /**
@@ -135,7 +141,7 @@ async function initStarter (starter, projectPath) {
  * @param  {String}  version  Quire-11ty semantic version
  * @return  {Promise}
  */
-async function install(version='latest', options={}) {
+async function install(version, options={}) {
   console.debug(`[CLI:quire] installing quire-11ty@${version}`)
   const absoluteInstallPath = path.join(__dirname, 'versions')
   fs.ensureDirSync(absoluteInstallPath)
@@ -179,8 +185,16 @@ async function install(version='latest', options={}) {
 
 /**
  * Retrieve latest published version of the `quire-11ty` package
+ * Nota bene: `npm view [package name]@[semver version range] version` returns
+ * a list of versions that satisfy the range specifier. However, execa stdout
+ * will have only the last line of output
  *
  * @return {String} `quire-11ty@latest` semantic version string
+ *
+ * @TODO refactor `latest()` function to programmatically return a specific
+ * version of `@thegetty/quire-11ty` from a semantic version string
+ * (i.e `^1.0.0-pre-release.0` => `1.0.0-pre-release.2`) so it may be used like:
+ * await latest('^1.0.0-pre-release.0') => '1.0.0-pre-release.2'
  */
 async function latest() {
   const { stdout: quireVersion } =
