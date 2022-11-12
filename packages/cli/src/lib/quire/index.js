@@ -220,13 +220,14 @@ async function remove(version) {
  *
  * @param  {String}  version  Quire-11ty semantic version
  */
-function setVersion(version) {
+function setVersion(projectPath, version) {
   if (!version) {
-    console.error('No version specified')
-    // return version from config
-    // version =
+    console.error('[CLI] no version specified')
   }
+  const projectName = path.basename(projectPath)
   console.info(`${projectName} set to use quire-11ty@${version}`)
+  const versionFilePath = path.join(projectPath, VERSION_FILE)
+  fs.writeFileSync(versionFilePath, version)
 }
 
 /**
