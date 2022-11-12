@@ -50,6 +50,26 @@ function getVersion(projectPath) {
 }
 
 /**
+ * Read the required `quire-11ty` version from starter `package.json` `peerDependencies`
+ *
+ * @param    {String}   projectPath  Absolute system path to the project root
+ *
+ * @return  {String}  version  Quire-11ty semantic version with caret or other
+ * comparators trimmed off the beginning
+ *
+ * @TODO refactor `latest()` function to programmatically return a specific
+ * version of `@thegetty/quire-11ty` from a semantic version string
+ * (i.e `^1.0.0-pre-release.0` => `1.0.0-pre-release.2`) so this string-trimming
+ * logic can be removed
+ */
+function getVersionFromStarterPeerDependencies(projectPath) {
+  const packageConfig = fs.readFileSync(path.join(projectPath, 'package.json'), { encoding:'utf8' })
+  const { peerDependencies } = JSON.parse(packageConfig)
+  const version = peerDependencies[PACKAGE_NAME]
+  return version.substr(version.search(/\d/))
+}
+
+/**
  * Clone or copy a Quire starter project
  *
  * @param    {String}   starter   A repository URL or path to local starter
