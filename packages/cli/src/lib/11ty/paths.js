@@ -16,15 +16,17 @@ const __dirname = path.dirname(__filename)
  * to the correct version of the quire/11ty package, for example:
  *   eleventyRoot = `#lib/quire/versions/${config.version}/11ty`
  */
-// export const eleventyRoot = '../../packages/11ty'
-// export const projectRoot = '../../packages/11ty'
-// export const eleventyRoot = '../cli/src/lib/quire/versions/1.0.0-pre-release.2'
-export const eleventyRoot = '../cli/src/lib/quire/versions/TESTING'
-export const projectRoot = '/Users/apollack/Desktop/blard'
+const version = 'latest'
+// Absolute path to the current version of quire-11ty
+export const eleventyRoot = path.resolve(
+  __dirname,
+  path.join('..', 'quire', 'versions', version)
+)
+export const projectRoot = process.cwd()
 
 export default {
-  config: path.resolve(eleventyRoot, '.eleventy.js'),
-  input: `${projectRoot}/content`,
+  config: path.join(eleventyRoot, '.eleventy.js'),
+  input: path.relative(path.join(projectRoot, 'content'), eleventyRoot),
   output: './_site',
   public: './public',
 }
