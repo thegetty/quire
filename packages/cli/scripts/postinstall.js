@@ -1,3 +1,4 @@
+#!/usr/bin/env node --no-warnings
 import chalk from 'chalk'
 
 // @todo use an i18n string for the documentation url
@@ -22,5 +23,5 @@ try {
     // cli('--help')
   }
 } catch (error) {
-  // snafu
+  console.error('postinstall', error)
 }
