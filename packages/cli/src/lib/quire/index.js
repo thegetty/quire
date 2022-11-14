@@ -249,7 +249,7 @@ function setVersion(projectPath, version) {
 function symlinkLatest() {
   const latestInstalledVersion = fs
     .readdirSync(path.join(__dirname, 'versions'))
-    .filter((dirent) => semver.valid(semver.coerce(dirent))
+    .filter((dirent) => semver.valid(semver.coerce(dirent)))
     .sort(semver.rcompare)[0]
   const target = path.join(__dirname, 'versions', latestInstalledVersion)
   const source = path.join(__dirname, 'versions', 'latest')
