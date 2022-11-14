@@ -3,7 +3,8 @@ import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import paths from './paths.js'
 
-const projectRoot = path.resolve('../../packages/11ty')
+// const projectRoot = path.resolve('../../packages/11ty')
+const projectRoot = '/Users/apollack/Desktop/blard'
 
 /**
  * A factory function to configure an Eleventy CLI command
@@ -40,7 +41,7 @@ export default {
     if (options.dryRun) eleventyOptions.push('--dryrun')
     if (options.quiet) eleventyOptions.push('--quiet')
 
-    await execa('npx', eleventyOptions, { cwd: projectRoot }).stdout.pipe(process.stdout)
+    await execa('npx', eleventyOptions, { all: true, cwd: projectRoot, execPath: process.execPath }).all.pipe(process.stdout)
   },
 
   serve: async (options = {}) => {
@@ -54,6 +55,6 @@ export default {
     if (options.quiet) eleventyOptions.push('--quiet')
     if (options.verbose) eleventyOptions.push('--verbose')
 
-    await execa('npx', eleventyOptions, { cwd: projectRoot }).stdout.pipe(process.stdout)
+    await execa('npx', eleventyOptions, { all: true, cwd: projectRoot, execPath: process.execPath }).all.pipe(process.stdout)
   }
 }
