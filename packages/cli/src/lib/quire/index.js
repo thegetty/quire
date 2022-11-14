@@ -181,9 +181,10 @@ async function install(version, options={}) {
 
 /**
  * Retrieve latest published version of the `quire-11ty` package
- * Nota bene: `npm view [package name]@[semver version range] version` returns
- * a list of versions that satisfy the range specifier. However, execa stdout
- * will have only the last line of output
+ * Nota bene: `npm view [<@scope>/]<name>[@<version>] version` 
+ * @see https://docs.npmjs.com/cli/v7/commands/npm-view
+ * returns a list of versions that satisfy the `<version>` range specifier, 
+ * piping this to execa `stdout` we get only the last line of output.
  *
  * @return {String} `quire-11ty@latest` semantic version string
  *
