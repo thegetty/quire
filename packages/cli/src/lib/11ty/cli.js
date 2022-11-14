@@ -1,10 +1,7 @@
 import { execa } from 'execa'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
-import paths from './paths.js'
-
-// const projectRoot = path.resolve('../../packages/11ty')
-const projectRoot = '/Users/apollack/Desktop/blard'
+import paths, { projectRoot } from './paths.js'
 
 /**
  * A factory function to configure an Eleventy CLI command
