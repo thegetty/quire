@@ -112,7 +112,7 @@ async function initStarter (starter, projectPath) {
    * writes the quire-11ty semantic version to a `.quire` file
    */
   const quireVersion =
-    getVersionFromStarterPeerDependencies(projectPath) ||
+    getVersionFromStarter(projectPath) ||
     await latest()
   setVersion(projectPath, quireVersion)
 
