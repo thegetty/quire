@@ -62,7 +62,7 @@ function getVersion(projectPath) {
  * (i.e `^1.0.0-pre-release.0` => `1.0.0-pre-release.2`) so this string-trimming
  * logic can be removed
  */
-function getVersionFromStarterPeerDependencies(projectPath) {
+function getVersionFromStarter(projectPath) {
   const packageConfig = fs.readFileSync(path.join(projectPath, 'package.json'), { encoding:'utf8' })
   const { peerDependencies } = JSON.parse(packageConfig)
   const version = peerDependencies[PACKAGE_NAME]
