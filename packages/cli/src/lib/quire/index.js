@@ -175,12 +175,8 @@ async function install(version, options={}) {
   const currentWorkingDirectory = cwd()
   const versionDir = path.join(absoluteInstallPath, version)
   chdir(versionDir)
-  await execaCommand(
-    'npm cache clean --force'
-  ).stdout.pipe(process.stdout)
-  await execaCommand(
-    'npm install --save-dev'
-  ).stdout.pipe(process.stdout)
+  await execaCommand('npm cache clean --force')
+  await execaCommand('npm install --save-dev')
 }
 
 /**
