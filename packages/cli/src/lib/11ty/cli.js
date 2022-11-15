@@ -33,7 +33,7 @@ export default {
   build: async (options = {}) => {
     console.info('[CLI:11ty] running eleventy build')
 
-    const eleventyOptions = factory()
+    const eleventyCommand = factory()
 
     /**
      * Set execa environment variables
@@ -42,10 +42,10 @@ export default {
     const execaEnv = {}
 
     if (options.debug) execaEnv.DEBUG = 'Eleventy*'
-    if (options.dryRun) eleventyOptions.push('--dryrun')
-    if (options.quiet) eleventyOptions.push('--quiet')
+    if (options.dryRun) eleventyCommand.push('--dryrun')
+    if (options.quiet) eleventyCommand.push('--quiet')
 
-    await execa('npx', eleventyOptions, {
+    await execa('npx', eleventyCommand, {
       all: true,
       cwd: projectRoot,
       env: execaEnv,
