@@ -45,11 +45,12 @@ const checkForDuplicateIds = function (data, filename) {
 module.exports = function(eleventyConfig) {
   const dataDir = path.resolve(eleventyConfig.dir.input, '_data')
   const files = fs.readdirSync(dataDir)
-  const parseFile = parser(eleventyConfig)
+    .filter((file) => path.extname(file) !== '.md')
+  const parse = parser(eleventyConfig)
 
   for (const file of files) {
     const { name: key } = path.parse(file)
-    const value = parseFile(path.join(dataDir, file))
+    const value = parse(path.join(dataDir, file))
 
     if (key && value) {
       checkForDuplicateIds(value, file)
