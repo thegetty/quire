@@ -58,7 +58,7 @@ module.exports = async function(collection) {
     const custom = sass.compile(path.resolve('content', '_assets', 'styles', 'custom.css'), sassOptions)
     fs.ensureDirSync(path.parse(outputPath).dir)
     fs.writeFileSync(path.join(outputDir, 'pdf.css'), application.css + print.css + custom.css)
-  } catch (error) {
-    error('Eleventy transform for PDF error compiling SASS. Error message: ', error)
+  } catch (errorMessage) {
+    error(`Eleventy transform for PDF error compiling SASS. Error message: ${errorMessage}`)
   }
 }
