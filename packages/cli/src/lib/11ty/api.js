@@ -22,7 +22,24 @@ const factory = async (options) => {
 
   return new Eleventy(input, output, {
     config: (eleventyConfig) => {
-      // custom configuration
+      /**
+       * Override addPassthroughCopy to use absolute system paths.
+       * Nota bene: Eleventy addPassthroughCopy assumes paths are relative to
+       * the `config` file path however the quire-cli separates 11ty from the
+       * project directory (`input`) and needs to use absolute system paths.
+       */
+      const addPassthroughCopy = eleventyConfig.addPassthroughCopy.bind(eleventyConfig)
+      eleventyConfig.addPassthroughCopy = (file) => {
+        if (typeof file === 'string') {
+          const filePath = path.join(projectRoot, file)
+          console.debug('[11ty:API] passthrough copy %s', filePath)
+          return addPassthroughCopy(filePath)
+        } else {
+          console.debug('[11ty:API] passthrough copy %o', file)
+          return addPassthroughCopy(file)
+        }
+      }
+      return eleventyConfig
     },
     configPath: options.config || config,
     quietMode: options.quiet || false,
