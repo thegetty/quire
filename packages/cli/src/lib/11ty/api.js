@@ -8,7 +8,7 @@ import paths, { eleventyRoot, projectRoot } from './paths.js'
  * @param  {Object}  options  Eleventy configuration options
  * @return  {Eleventy}  A configured instance of Eleventy
  */
-const factory = async (options) => {
+const factory = async (options = {}) => {
   const { config, input, output } = paths
 
   console.info(`[CLI:11ty] projectRoot ${projectRoot}`)
@@ -20,23 +20,40 @@ const factory = async (options) => {
    */
   const { default: Eleventy } = await import(path.join(eleventyRoot, 'node_modules', '@11ty', 'eleventy', 'src', 'Eleventy.js'))
 
+  /**
+   * Set Eleventy passthrough copy options
+   * @see https://www.11ty.dev/docs/copy/#advanced-options
+   * @see https://github.com/timkendrick/recursive-copy
+   */
+  const copyOptions = {
+    debug: options.debug || false,
+    expand: true,
+  }
+
   return new Eleventy(input, output, {
     config: (eleventyConfig) => {
       /**
-       * Override addPassthroughCopy to use absolute system paths.
-       * Nota bene: Eleventy addPassthroughCopy assumes paths are relative to
-       * the `config` file path however the quire-cli separates 11ty from the
+       * Override addPassthroughCopy to use _absolute_ system paths.
+       * @see https://www.11ty.dev/docs/copy/#passthrough-file-copy
+       * Nota bene: Eleventy addPassthroughCopy assumes paths are _relative_
+       * to the `config` file however the quire-cli separates 11ty from the
        * project directory (`input`) and needs to use absolute system paths.
        */
       const addPassthroughCopy = eleventyConfig.addPassthroughCopy.bind(eleventyConfig)
-      eleventyConfig.addPassthroughCopy = (file) => {
-        if (typeof file === 'string') {
-          const filePath = path.join(projectRoot, file)
-          console.debug('[11ty:API] passthrough copy %s', filePath)
-          return addPassthroughCopy(filePath)
+      eleventyConfig.addPassthroughCopy = (entry) => {
+        if (typeof entry === 'string') {
+          const filePath = path.resolve(entry) //path.join(projectRoot, file)
+          // console.debug('[11ty:API] passthrough copy %s', filePath)
+          return addPassthroughCopy(filePath, copyOptions)
         } else {
-          console.debug('[11ty:API] passthrough copy %o', file)
-          return addPassthroughCopy(file)
+          // console.debug('[11ty:API] passthrough copy %o', entry)
+          entry = Object.fromEntries(
+            Object.entries(entry).map(([ src, dest ]) => {
+              return [ path.join(eleventyRoot, src), path.resolve(dest) ]
+            })
+          )
+          // console.debug('[11ty:API] passthrough copy %o', entry)
+          return addPassthroughCopy(entry, copyOptions)
         }
       }
       return eleventyConfig
