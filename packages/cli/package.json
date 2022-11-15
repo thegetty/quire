@@ -1,7 +1,7 @@
 {
   "name": "@thegetty/quire-cli",
   "description": "Quire command-line interface",
-  "version": "1.0.0-pre-release.0",
+  "version": "1.0.0-pre-release.2",
   "author": "Getty Digital",
   "license": "J Paul Getty Trust",
   "bugs": {
@@ -60,7 +60,7 @@
     "loglevel": "^1.8.0",
     "ora": "^6.1.2",
     "semver": "^7.3.8",
-    "simple-git": "^3.14.1",
+    "simple-git": "^3.15.0",
     "update-notifier": "^6.0.2"
   },
   "devDependencies": {
