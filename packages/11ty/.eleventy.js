@@ -63,7 +63,10 @@ module.exports = function(eleventyConfig) {
       console.debug('[11ty:config] passthrough copy %o', entry)
       entry = Object.fromEntries(
         Object.entries(entry).map(([ src, dest ]) => {
-          return [ path.join(__dirname, src), path.resolve(dest) ]
+          return [
+            path.join(__dirname, src),
+            path.resolve(path.join(outputDir, dest))
+          ]
         })
       )
       console.debug('[11ty:config] passthrough copy %o', entry)
