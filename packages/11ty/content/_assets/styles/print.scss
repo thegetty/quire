@@ -34,6 +34,7 @@ $print-trim: $print-bleed * 2;
 
 
 @media print {
+
 // Paged Media CSS Setup for PrinceXML
 // -----------------------------------------------------------------------------
   @page {
@@ -122,7 +123,7 @@ $print-trim: $print-bleed * 2;
   @page splash {
     background-color: $print-splash-color;
   }
-  
+
   @page splash-image {
     margin-top: 0;
     margin-bottom: -$print-bleed;
@@ -132,23 +133,23 @@ $print-trim: $print-bleed * 2;
     @bottom-right {
       content: none;
     }
-  
+
     @bottom-left {
       content: none;
     }
   }
-  
+
   @page entry-image {
     background-color: $print-entry-image-color;
     @bottom-right {
       content: none;
     }
-  
+
     @bottom-left {
       content: none;
     }
   }
-  
+
   @page cover {
     margin-top: 0;
     margin-bottom: -$print-bleed;
@@ -157,7 +158,7 @@ $print-trim: $print-bleed * 2;
     @bottom-right {
       content: none;
     }
-  
+
     @bottom-left {
       content: none;
     }
@@ -206,26 +207,11 @@ $print-trim: $print-bleed * 2;
   }
 
   .quire-contents-list {
-    .section-item > a {
-      max-width: 90%;
-    }
-    .section-item > a::after {
-      content: leader(dotted) ' 'target-counter(attr(href, url), page);
-      margin-left: 6pt;
-      margin-right: -10%;
-      // This border is a hack for PrinceXML which doesn't
-      // otherwise recognize the box sizing for some reason
-      border: 1pt solid transparent;
-    }
-    .section-item.frontmatter-page > a::after {
-      content: leader(dotted) ' 'target-counter(attr(href, url), page, lower-roman);
-      font-style: italic;
-    }
     .page-item {
       max-width: 90%;
       a::after {
         content: target-counter(attr(href), page);
-        margin-left: 6pt; 
+        margin-left: 6pt;
         margin-right: -10%;
         // This border is a hack for PrinceXML which doesn't
         // otherwise recognize the box sizing for some reason
@@ -306,6 +292,7 @@ $print-trim: $print-bleed * 2;
   .quire-cover {
     page: cover;
   }
+
 // Set columns and widths for main page content
 // -----------------------------------------------------------------------------
   .quire-page__content {
@@ -342,7 +329,7 @@ $print-trim: $print-bleed * 2;
 
         // with narrower columns, image should be full width
         .q-figure.is-pulled-left,
-        .q-figure.is-pulled-right {      
+        .q-figure.is-pulled-right {
           float: none;
           width: 100%;
           margin-left: 0;
@@ -365,7 +352,7 @@ $print-trim: $print-bleed * 2;
       column-span: all;
     }
   }
-  
+
   .quire-entry__tombstone {
     column-count: 1;
     margin: 0 auto .25in;
@@ -377,7 +364,7 @@ $print-trim: $print-bleed * 2;
       column-span: all;
     }
   }
-  
+
   .quire-page__header.hero-image .hero-body {
     margin: 2.5in .5in 0;
     @if $print-width <= 7 {
@@ -390,9 +377,9 @@ $print-trim: $print-bleed * 2;
 // -----------------------------------------------------------------------------
   $menu-grid-gap: .1875in;
   $menu-grid-item-margin: math.div($menu-grid-gap, 2);
-  
+
   $menu-grid-item-width: math.div($print-width - $print-outer-margin - $print-inner-margin - 3 * $menu-grid-gap, 3);
-  
+
   @if $print-width <= 7 {
     $menu-grid-item-width: math.div($print-width - $print-outer-margin - $print-inner-margin - (2 * $menu-grid-gap), 2);
   }
@@ -479,7 +466,7 @@ $print-trim: $print-bleed * 2;
   // that are printed in the text of the book, in order to facilitate better
   // line breaking per Chicago Manual of Style
   // https://www.chicagomanualofstyle.org/book/ed17/part3/ch14/psec018.html
-  a[href^="http"] {
+  a[target=_blank] {
     prince-text-replace: "/" "\200B/"
                           "~" "\200B~"
                           "." "\200B."
