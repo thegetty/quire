@@ -1,6 +1,5 @@
-import Eleventy from '@11ty/eleventy'
 import path from 'node:path'
-import paths from './paths.js'
+import paths, { eleventyRoot, projectRoot } from './paths.js'
 
 /**
  * A factory function to configure an instance of Eleventy
@@ -9,8 +8,17 @@ import paths from './paths.js'
  * @param  {Object}  options  Eleventy configuration options
  * @return  {Eleventy}  A configured instance of Eleventy
  */
-const factory = (options) => {
+const factory = async (options) => {
   const { config, input, output } = paths
+
+  console.info(`[CLI:11ty] projectRoot ${projectRoot}`)
+
+  console.debug('[CLI:11ty] %o', paths)
+
+  /**
+   * Dynamically import the correct version of Eleventy from `lib/quire/versions`
+   */
+  const { default: Eleventy } = await import(path.join(eleventyRoot, 'node_modules', '@11ty', 'eleventy', 'src', 'Eleventy.js'))
 
   return new Eleventy(input, output, {
     config: (eleventyConfig) => {
@@ -28,18 +36,17 @@ const factory = (options) => {
  */
 export default {
   build: async (options = {}) => {
-    const projectRoot = path.resolve('../../packages/11ty')
     process.cwd(projectRoot)
 
     console.info('[CLI:11ty] running eleventy build')
     console.info(`[CLI:11ty] projectRoot ${projectRoot}`)
 
-    const eleventy = factory(options)
+    const eleventy = await factory(options)
     await eleventy.executeBuild()
   },
   serve: async (options = {}) => {
     console.info('[CLI:11ty] running development server')
-    const eleventy = factory(options)
+    const eleventy = await factory(options)
     await eleventy.serve()
   }
 }
