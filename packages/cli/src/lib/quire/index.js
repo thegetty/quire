@@ -99,36 +99,41 @@ async function initStarter (starter, projectPath) {
     `\n  starter: "${starter}"`
   )
 
-  // Clone starter project repository
-  // @TODO pipe `git clone` status to stdout for better UX
+  /**
+   * Clone starter project repository
+   * @todo pipe `git clone` status to stdout for better UX
+   */
   await git
     .cwd(projectPath)
     .clone(starter, '.')
     .catch((error) => console.error('[CLI:error] ', error))
 
   /**
-   * Quire project dot configuration file
-   *
-   * writes the quire-11ty semantic version to a `.quire` file
+   * Determine `quire-11ty` version required by the starter project
+   * and write a `.quire` file with the semantic version string.
    */
-  const quireVersion =
-    getVersionFromStarter(projectPath) ||
-    await latest()
+  const quireVersion = getVersionFromStarter(projectPath) || await latest()
   setVersion(projectPath, quireVersion)
 
-  // Reinitialize project as a new git repository
+  // Re-initialize project directory as a new git repository
   await fs.remove(path.join(projectPath, '.git'))
 
-  // @TODO allow the user to interactively re-initialize their own `package.json`; hammer out this feature
+  /**
+   * Remove the starter repository package config file
+   * and create a new package config for the project
+   * (this is necessary for Eleventy to resolve project paths)
+   * @todo allow interactive init using a custom questionnaire
+   * @see https://docs.npmjs.com/creating-a-package-json-file#customizing-the-packagejson-questionnaire
+   */
   await fs.remove(path.join(projectPath, 'package.json'))
+  await execaCommand('npm init --yes', { cwd: projectPath })
 
-  // don't git-add copied `node_modules`
-  const starterFiles = fs
-    .readdirSync(projectPath)
-    .filter((filePath) => filePath !== 'node_modules')
-
-  // @TODO add localized string for commit message
-  await git.init().add(starterFiles).commit('Initial Commit')
+  /**
+   * Create an initial commit of files in new repository
+   * @todo use a localized string for the commit message
+   */
+  const projectFiles = fs.readdirSync(projectPath)
+  await git.init().add(projectFiles).commit('Initial Commit')
 
   return quireVersion
 }
@@ -181,9 +186,9 @@ async function install(version, options={}) {
 
 /**
  * Retrieve latest published version of the `quire-11ty` package
- * Nota bene: `npm view [<@scope>/]<name>[@<version>] version` 
+ * Nota bene: `npm view [<@scope>/]<name>[@<version>] version`
  * @see https://docs.npmjs.com/cli/v7/commands/npm-view
- * returns a list of versions that satisfy the `<version>` range specifier, 
+ * returns a list of versions that satisfy the `<version>` range specifier,
  * piping this to execa `stdout` we get only the last line of output.
  *
  * @return {String} `quire-11ty@latest` semantic version string
@@ -249,7 +254,7 @@ function setVersion(projectPath, version) {
 function symlinkLatest() {
   const latestInstalledVersion = fs
     .readdirSync(path.join(__dirname, 'versions'))
-    .filter((dirent) => semver.valid(semver.coerce(dirent))
+    .filter((dirent) => semver.valid(semver.coerce(dirent)))
     .sort(semver.rcompare)[0]
   const target = path.join(__dirname, 'versions', latestInstalledVersion)
   const source = path.join(__dirname, 'versions', 'latest')
