@@ -41,11 +41,16 @@ export default {
     console.info('[CLI:11ty] running eleventy build')
     console.info(`[CLI:11ty] projectRoot ${projectRoot}`)
 
+    if (options.debug) process.env.DEBUG = 'Eleventy*'
+
     const eleventy = await factory(options)
     await eleventy.executeBuild()
   },
   serve: async (options = {}) => {
     console.info('[CLI:11ty] running development server')
+
+    if (options.debug) process.env.DEBUG = 'Eleventy*'
+
     const eleventy = await factory(options)
     await eleventy.serve()
   }
