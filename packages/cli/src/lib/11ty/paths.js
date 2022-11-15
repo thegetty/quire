@@ -29,6 +29,6 @@ export const projectRoot = process.cwd()
 export default {
   config: path.join(eleventyRoot, '.eleventy.js'),
   input: path.relative(eleventyRoot, path.join(projectRoot, 'content')),
-  output: './_site',
+  output: path.relative(eleventyRoot, path.join(projectRoot, '_site')),
   public: './public',
 }
