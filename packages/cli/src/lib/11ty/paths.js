@@ -18,7 +18,7 @@ const __dirname = path.dirname(__filename)
  *   this needs to use the correct `quire-11ty` version for the project
  *   and correctly resolve the path to the target of the 'latest' symlink
  */
-const cliRoot = path.resolve(__dirname, '../..')
+const cliRoot = path.resolve(__dirname, path.join('..', '..'))
 const version = 'latest'
 
 // Absolute path to the current version of quire-11ty
