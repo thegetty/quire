@@ -33,7 +33,7 @@ module.exports = function(eleventyConfig) {
           : filePath
         return parser(input)
       } else {
-        logger.warn(`Unable to parse ${filePath}\nNo data extension is configured for '.${fileExt} data files'`)
+        logger.warn(`Unable to parse ${filePath}\nNo data extension is configured for '.${fileExt}' data files`)
       }
     } catch (error) {
       logger.error(`Error parsing ${filePath} ${error}`)
