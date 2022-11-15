@@ -1,9 +1,7 @@
 import { execa } from 'execa'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
-import paths from './paths.js'
-
-const projectRoot = path.resolve('../../packages/11ty')
+import paths, { projectRoot } from './paths.js'
 
 /**
  * A factory function to configure an Eleventy CLI command
@@ -37,10 +35,22 @@ export default {
 
     const eleventyOptions = factory()
 
+    /**
+     * Set execa environment variables
+     * @see https://github.com/sindresorhus/execa#env
+     */
+    const execaEnv = {}
+
+    if (options.debug) execaEnv.DEBUG = 'Eleventy*'
     if (options.dryRun) eleventyOptions.push('--dryrun')
     if (options.quiet) eleventyOptions.push('--quiet')
 
-    await execa('npx', eleventyOptions, { cwd: projectRoot }).stdout.pipe(process.stdout)
+    await execa('npx', eleventyOptions, {
+      all: true,
+      cwd: projectRoot,
+      env: execaEnv,
+      execPath: process.execPath
+    }).all.pipe(process.stdout)
   },
 
   serve: async (options = {}) => {
@@ -50,10 +60,22 @@ export default {
 
     eleventyOptions.push('--serve')
 
+    /**
+     * Set execa environment variables
+     * @see https://github.com/sindresorhus/execa#env
+     */
+    const execaEnv = {}
+
+    if (options.debug) execaEnv.DEBUG = 'Eleventy*'
     if (options.port) eleventyOptions.push(`--port=${options.port}`)
     if (options.quiet) eleventyOptions.push('--quiet')
     if (options.verbose) eleventyOptions.push('--verbose')
 
-    await execa('npx', eleventyOptions, { cwd: projectRoot }).stdout.pipe(process.stdout)
+    await execa('npx', eleventyOptions, {
+      all: true,
+      cwd: projectRoot,
+      env: execaEnv,
+      execPath: process.execPath
+    }).all.pipe(process.stdout)
   }
 }
