@@ -6,7 +6,7 @@ const logger = chalkFactory('Figures:IIIF:Config', 'DEBUG')
 
 module.exports = (eleventyConfig) => {
   const { url } = eleventyConfig.globalData.publication
-  const { port } = eleventyConfig.serverOptions
+  const { port=8080 } = eleventyConfig.serverOptions
 
   const projectRoot = path.resolve(eleventyConfig.dir.input, '..')
 
