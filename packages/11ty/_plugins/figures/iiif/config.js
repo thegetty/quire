@@ -8,12 +8,12 @@ module.exports = (eleventyConfig) => {
   const { url } = eleventyConfig.globalData.publication
   const { port } = eleventyConfig.serverOptions
 
-  const projectRoot = path.resolve(__dirname, '../../../')
+  const projectRoot = path.resolve(eleventyConfig.dir.input, '..')
 
   logger.debug(`projectRoot: ${projectRoot}`)
 
   const resolveInputPath = () => {
-    const resolvedPath = path.resolve(projectRoot, eleventyConfig.dir.input)
+    const resolvedPath = path.resolve(eleventyConfig.dir.input)
     logger.debug(`inputPath: ${resolvedPath}`)
     return resolvedPath
   }
