@@ -57,16 +57,16 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy = (entry) => {
     if (typeof entry === 'string') {
       const filePath = path.resolve(entry)
-      console.debug('[11ty:API] passthrough copy %s', filePath)
+      console.debug('[11ty:config] passthrough copy %s', filePath)
       return addPassthroughCopy(filePath, { expand: true })
     } else {
-      console.debug('[11ty:API] passthrough copy %o', entry)
+      console.debug('[11ty:config] passthrough copy %o', entry)
       entry = Object.fromEntries(
         Object.entries(entry).map(([ src, dest ]) => {
           return [ path.join(__dirname, src), path.resolve(dest) ]
         })
       )
-      console.debug('[11ty:API] passthrough copy %o', entry)
+      console.debug('[11ty:config] passthrough copy %o', entry)
       return addPassthroughCopy(entry, { expand: true })
     }
   }
