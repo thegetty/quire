@@ -9,20 +9,25 @@ import paths, { projectRoot } from './paths.js'
  * @param  {Object}  options  Eleventy configuration options
  * @return  {Array} Eleventy CLI options
  */
-const factory = () => {
+const factory = (options = {}) => {
   const { config, input, output } = paths
 
   console.info(`[CLI:11ty] projectRoot ${projectRoot}`)
 
   console.debug('[CLI:11ty] %o', paths)
 
-  return [
+  const command = [
     `@11ty/eleventy`,
     `--config=${config}`,
     `--input=${input}`,
     `--output=${output}`,
     `--incremental`,
   ]
+
+  if (options.quiet) command.push('--quiet')
+  if (options.verbose) command.push('--verbose')
+
+  return command
 }
 
 /**
@@ -42,8 +47,8 @@ export default {
     const execaEnv = {}
 
     if (options.debug) execaEnv.DEBUG = 'Eleventy*'
+
     if (options.dryRun) eleventyCommand.push('--dryrun')
-    if (options.quiet) eleventyCommand.push('--quiet')
 
     await execa('npx', eleventyCommand, {
       all: true,
@@ -56,9 +61,9 @@ export default {
   serve: async (options = {}) => {
     console.info(`[CLI:11ty] running eleventy serve`)
 
-    const eleventyOptions = factory()
+    const eleventyCommand = factory(options)
 
-    eleventyOptions.push('--serve')
+    eleventyCommand.push('--serve')
 
     /**
      * Set execa environment variables
@@ -67,11 +72,10 @@ export default {
     const execaEnv = {}
 
     if (options.debug) execaEnv.DEBUG = 'Eleventy*'
-    if (options.port) eleventyOptions.push(`--port=${options.port}`)
-    if (options.quiet) eleventyOptions.push('--quiet')
-    if (options.verbose) eleventyOptions.push('--verbose')
 
-    await execa('npx', eleventyOptions, {
+    if (options.port) eleventyCommand.push(`--port=${options.port}`)
+
+    await execa('npx', eleventyCommand, {
       all: true,
       cwd: projectRoot,
       env: execaEnv,
