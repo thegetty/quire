@@ -1,7 +1,7 @@
 const chalkFactory = require('~lib/chalk')
 const { renderOneLine, stripIndent } = require('~lib/common-tags')
 
-const { warn } = chalkFactory('shortcodes:cite')
+const logger = chalkFactory('shortcodes:cite')
 
 /**
  *  @todo Remove reliance on `this.page` in context. 
@@ -41,7 +41,7 @@ module.exports = function(eleventyConfig, { page }) {
 
   return function(id, pageNumber, text) {
     if (!id) {
-      warn(stripIndent`
+      logger.warn(stripIndent`
         missing shortcode parameters ${page.inputPath}
 
           Usage:
@@ -80,7 +80,7 @@ module.exports = function(eleventyConfig, { page }) {
 
       return entry
         ? { ...entry, short: entry.short || entry.id }
-        : warn(stripIndent`
+        : logger.warn(stripIndent`
             references entry not found ${page.inputPath}
               cite id '${id}' does not match an entry in the project references data
           `)
