@@ -1,6 +1,6 @@
 const chalkFactory = require('~lib/chalk')
 
-const { warn } = chalkFactory('plugins:collections')
+const logger = chalkFactory('plugins:collections')
 
 /**
  * Sort method applied to pages in collections
@@ -8,7 +8,7 @@ const { warn } = chalkFactory('plugins:collections')
  */
 module.exports = (a, b) => {
   if (a.data.order === b.data.order) {
-    warn(`"${a.inputPath}" and "${b.inputPath}" have identical values for the front-matter property "order" and may not sort as expected.`)
+    logger.warn(`"${a.inputPath}" and "${b.inputPath}" have identical values for the front-matter property "order" and may not sort as expected.`)
   }
   return a.data.order - b.data.order
 }

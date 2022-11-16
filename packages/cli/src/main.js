@@ -1,6 +1,6 @@
-#!/usr/bin/env node
 import { Command } from 'commander'
 import commands from './commands/index.js'
+import packageConfig from '../package.json' assert { type: 'json' }
 
 /**
  * Quire CLI implements the command pattern.
@@ -14,7 +14,7 @@ const program = new Command()
 program
   .name('quire-cli')
   .description('Quire command-line interface')
-  .version('1.0.0')
+  .version(packageConfig.version)
   .configureHelp({
     helpWidth: 80,
     sortOptions: false,
