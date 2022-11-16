@@ -1,4 +1,3 @@
-#!/usr/bin/env node --no-warnings
 import { Command } from 'commander'
 import commands from './commands/index.js'
 import packageConfig from '../package.json' assert { type: 'json' }
