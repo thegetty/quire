@@ -39,7 +39,7 @@ export default class CreateCommand extends Command {
    */
   async action(projectPath, starter, options = {}) {
     if (options.debug) {
-      console.info('Command \'%s\' called with options %o', this.name, options)
+      console.info('Command \'%s\' called with options %o', CreateCommand.name, options)
     }
 
     if (!projectPath && !starter) {
