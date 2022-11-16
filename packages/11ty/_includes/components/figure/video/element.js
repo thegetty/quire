@@ -2,17 +2,17 @@ const { html } = require('~lib/common-tags')
 const chalkFactory = require('~lib/chalk')
 const path = require('path')
 
-const { warn, error } = chalkFactory('Figure Video')
+const logger = chalkFactory('Figure Video')
 
 const videoElements = {
   video({ id, poster='', src }) {
     if (!src) {
-      error(`Cannot render Video without 'src'. Check that figures data for id: ${id} has a valid 'src'`)
+      logger.error(`Cannot render Video without 'src'. Check that figures data for id: ${id} has a valid 'src'`)
       return ''
     }
 
     if (!poster) {
-      warn(`Figure '${id}' does not have a 'poster' property. A poster image for id: ${id} will not be rendered`)
+      logger.warn(`Figure '${id}' does not have a 'poster' property. A poster image for id: ${id} will not be rendered`)
     }
 
     const unsupported = 'Sorry, your browser does not support embedded videos.'
@@ -29,7 +29,7 @@ const videoElements = {
   },
   vimeo({ id, mediaId }) {
     if (!mediaId) {
-      error(`Cannot render Vimeo embed without 'media_id'. Check that figures data for id: ${id} has a valid 'media_id'`)
+      logger.error(`Cannot render Vimeo embed without 'media_id'. Check that figures data for id: ${id} has a valid 'media_id'`)
       return ''
     }
 
@@ -47,7 +47,7 @@ const videoElements = {
   },
   youtube({ id, mediaId }) {
     if (!mediaId) {
-      error(`Cannot render Youtube component without 'media_id'. Check that figures data for id: ${id} has a valid 'media_id'`)
+      logger.error(`Cannot render Youtube component without 'media_id'. Check that figures data for id: ${id} has a valid 'media_id'`)
       return ''
     }
 

@@ -37,18 +37,20 @@ const checkForDuplicateIds = function (data, filename) {
 
 /**
  * Programmatically load global data from files
+ *
  * Nota bene: data is not loaded from the `eleventyConfig.dir.data` directory
  *
  * @param  {EleventyConfig}  eleventyConfig
  */
 module.exports = function(eleventyConfig) {
-  const dataDir = path.resolve('../11ty/content/_data')
+  const dataDir = path.resolve(eleventyConfig.dir.input, '_data')
   const files = fs.readdirSync(dataDir)
-  const parseFile = parser(eleventyConfig)
+    .filter((file) => path.extname(file) !== '.md')
+  const parse = parser(eleventyConfig)
 
   for (const file of files) {
     const { name: key } = path.parse(file)
-    const value = parseFile(path.join(dataDir, file))
+    const value = parse(path.join(dataDir, file))
 
     if (key && value) {
       checkForDuplicateIds(value, file)

@@ -1,7 +1,7 @@
 {
   "name": "@thegetty/quire-cli",
   "description": "Quire command-line interface",
-  "version": "1.0.0-pre-release.0",
+  "version": "1.0.0-pre-release.4",
   "author": "Getty Digital",
   "license": "J Paul Getty Trust",
   "bugs": {
@@ -19,6 +19,7 @@
   "type": "module",
   "files": [
     "bin/",
+    "scripts",
     "src/",
     "CHANGELOG.md",
     "LICENSE",
@@ -35,7 +36,6 @@
   "scripts": {
     "lint": "eslint src --ext .js",
     "lint:fix": "npm run lint -- --fix",
-    "postinstall": "node scripts/postinstall.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "imports": {
@@ -45,7 +45,6 @@
     "#lib/*.js": "./src/lib/*.js"
   },
   "dependencies": {
-    "@11ty/eleventy": "^2.0.0-canary.16",
     "boxen": "^7.0.0",
     "chalk": "^5.1.2",
     "commander": "^9.4.1",
@@ -61,7 +60,7 @@
     "loglevel": "^1.8.0",
     "ora": "^6.1.2",
     "semver": "^7.3.8",
-    "simple-git": "^3.14.1",
+    "simple-git": "^3.15.0",
     "update-notifier": "^6.0.2"
   },
   "devDependencies": {

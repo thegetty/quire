@@ -18,7 +18,13 @@ module.exports = {
     sourceType: 'module'
   },
   rules: {
-    'indent': [ 'error', 2 ],
+    'indent': [
+      'error', 2,
+      {
+        'SwitchCase': 1 ,
+        'VariableDeclarator': 'first'
+      },
+    ],
     'linebreak-style': [ 'error', 'unix' ],
     'quotes': [ 'error', 'single', { 'allowTemplateLiterals': true } ],
     'no-console': 'off',

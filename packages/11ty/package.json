@@ -1,6 +1,6 @@
 {
   "name": "@thegetty/quire-11ty",
-  "version": "1.0.0-pre-release.2",
+  "version": "1.0.0-pre-release.4",
   "description": "Quire 11ty static site generator",
   "keywords": [
     "11ty",
@@ -22,15 +22,6 @@
     "directory": "packages/11ty"
   },
   "main": ".eleventy.js",
-  "homepage": "https://github.com/thegetty/quire/tree/main/packages/11ty#readme",
-  "bugs": {
-    "url": "https://github.com/thegetty/quire/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/thegetty/quire.git",
-    "directory": "packages/11ty"
-  },
   "scripts": {
     "benchmark": "cross-env DEBUG=Eleventy:Benchmark* eleventy",
     "build": "cross-env ELEVENTY_ENV=production eleventy",

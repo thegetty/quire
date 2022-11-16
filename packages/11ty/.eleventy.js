@@ -45,6 +45,35 @@ const publicDir = 'public'
  * @return     {Object}  A modified eleventy configuation
  */
 module.exports = function(eleventyConfig) {
+  /**
+   * Override addPassthroughCopy to use _absolute_ system paths.
+   * @see https://www.11ty.dev/docs/copy/#passthrough-file-copy
+   * Nota bene: Eleventy addPassthroughCopy assumes paths are _relative_
+   * to the `config` file however the quire-cli separates 11ty from the
+   * project directory (`input`) and needs to use absolute system paths.
+   */
+  const addPassthroughCopy = eleventyConfig.addPassthroughCopy.bind(eleventyConfig)
+
+  eleventyConfig.addPassthroughCopy = (entry) => {
+    if (typeof entry === 'string') {
+      const filePath = path.resolve(entry)
+      console.debug('[11ty:config] passthrough copy %s', filePath)
+      return addPassthroughCopy(filePath, { expand: true })
+    } else {
+      console.debug('[11ty:config] passthrough copy %o', entry)
+      entry = Object.fromEntries(
+        Object.entries(entry).map(([ src, dest ]) => {
+          return [
+            path.join(__dirname, src),
+            path.resolve(path.join(outputDir, dest))
+          ]
+        })
+      )
+      console.debug('[11ty:config] passthrough copy %o', entry)
+      return addPassthroughCopy(entry, { expand: true })
+    }
+  }
+
   eleventyConfig.addGlobalData('application', {
     name: 'Quire',
     version: packageJSON.version

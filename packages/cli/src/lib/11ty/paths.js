@@ -13,19 +13,23 @@ const __dirname = path.dirname(__filename)
  * `eleventyRoot` is _relative_ to the CLI entry point, `bin/cli.js`
  * Both `input` and `output` are _relative_ to the `config` module.
  *
- * @todo read paths from the Quire project configuration and resolve path
- * to the correct version of the quire/11ty package, for example:
- *   eleventyRoot = `#lib/quire/versions/${config.version}/11ty`
+ * @todo
+ * - refactor the paths module as a concern of the `lib/quire` module
+ * - refactor resolving an absolute path to the correct eleventy version root;
+ *   this needs to use the correct `quire-11ty` version for the project
+ *   and correctly resolve the path to the target of the 'latest' symlink
  */
-const version = quire.getVersion()
-export const eleventyRoot = path.join(__dirname, '..', '..', '..', 'src', 'lib', 'quire', 'versions', version)
+const cliRoot = path.resolve(__dirname, path.join('..', '..'))
+const version = 'latest'
+
+// Absolute path to the current version of quire-11ty
+export const eleventyRoot =
+  path.resolve(__dirname, path.join(cliRoot, 'lib', 'quire', 'versions', version))
 export const projectRoot = process.cwd()
 
-export default () => {
-  return {
-    config: path.resolve(eleventyRoot, '.eleventy.js'),
-    input: path.relative(eleventyRoot, path.join(projectRoot, 'content')),
-    output: './_site',
-    public: './public',
-  }
+export default {
+  config: path.join(eleventyRoot, '.eleventy.js'),
+  input: path.relative(eleventyRoot, path.join(projectRoot, 'content')),
+  output: path.relative(eleventyRoot, path.join(projectRoot, '_site')),
+  public: './public',
 }
