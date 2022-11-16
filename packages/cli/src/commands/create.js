@@ -53,7 +53,10 @@ export default class CreateCommand extends Command {
       // `git clone starter path`
     } else {
       const version = await quire.initStarter(starter, projectPath)
-      await quire.install(version)
+      if (options.eject) {
+        await quire.installInProject(projectPath, version, options)
+      }
+      await quire.install(version, options)
     }
   }
 }
