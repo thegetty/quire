@@ -1,7 +1,6 @@
 import { execa } from 'execa'
-import { fileURLToPath } from 'node:url'
 import path from 'node:path'
-import paths, { projectRoot } from './paths.js'
+import paths, { eleventyRoot, projectRoot } from './paths.js'
 
 /**
  * A factory function to configure an Eleventy CLI command
@@ -16,8 +15,14 @@ const factory = (options = {}) => {
 
   console.debug('[CLI:11ty] %o', paths)
 
+  /**
+   * Use the version of Eleventy installed to `lib/quire/versions`
+   */
+  const eleventy =
+    path.join(eleventyRoot, 'node_modules', '@11ty', 'eleventy', 'cmd.js')
+
   const command = [
-    `@11ty/eleventy`,
+    eleventy,
     `--config=${config}`,
     `--input=${input}`,
     `--output=${output}`,
@@ -50,7 +55,7 @@ export default {
 
     if (options.dryRun) eleventyCommand.push('--dryrun')
 
-    await execa('npx', eleventyCommand, {
+    await execa('node', eleventyCommand, {
       all: true,
       cwd: projectRoot,
       env: execaEnv,
@@ -75,7 +80,7 @@ export default {
 
     if (options.port) eleventyCommand.push(`--port=${options.port}`)
 
-    await execa('npx', eleventyCommand, {
+    await execa('node', eleventyCommand, {
       all: true,
       cwd: projectRoot,
       env: execaEnv,
