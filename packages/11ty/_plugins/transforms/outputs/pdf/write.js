@@ -4,7 +4,7 @@ const jsdom = require('jsdom')
 const path = require('path')
 const sass = require('sass')
 
-const { error, warn } = chalkFactory('transforms:pdf')
+const logger = chalkFactory('transforms:pdf')
 
 /**
  * Write each page section in the PDF collection to a single HTML file
@@ -27,8 +27,8 @@ module.exports = async function(collection) {
   collection.forEach(({ outputPath, sectionElement }) => {
     try {
       document.body.appendChild(sectionElement)
-    } catch (errorMessage) {
-      error(`Eleventy transform for PDF error appending content for ${outputPath} to combined output. ${errorMessage}`)
+    } catch (error) {
+      logger.error(`Eleventy transform for PDF error appending content for ${outputPath} to combined output. ${error}`)
     }
   })
 
@@ -42,8 +42,8 @@ module.exports = async function(collection) {
   try {
     fs.ensureDirSync(path.parse(outputPath).dir)
     fs.writeFileSync(outputPath, dom.serialize())
-  } catch (errorMessage) {
-    error(`Eleventy transform for PDF error writing combined HTML output for PDF. ${errorMessage}`)
+  } catch (error) {
+    logger.error(`Eleventy transform for PDF error writing combined HTML output for PDF. ${error}`)
   }
 
   const sassOptions = {
@@ -59,6 +59,6 @@ module.exports = async function(collection) {
     fs.ensureDirSync(path.parse(outputPath).dir)
     fs.writeFileSync(path.join(outputDir, 'pdf.css'), application.css + print.css + custom.css)
   } catch (error) {
-    error('Eleventy transform for PDF error compiling SASS. Error message: ', error)
+    logger.error(`Eleventy transform for PDF error compiling SASS. Error message: ${error}`)
   }
 }

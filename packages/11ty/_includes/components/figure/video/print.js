@@ -2,7 +2,7 @@ const { html } = require('~lib/common-tags')
 const chalkFactory = require('~lib/chalk')
 const path = require('path')
 
-const { warn } = chalkFactory('Figure Video')
+const logger = chalkFactory('Figure Video')
 
 /**
  * Renders an image fallback for a video player in print output
@@ -20,7 +20,7 @@ module.exports = function(eleventyConfig) {
 
   return function({ aspect_ratio: aspectRatio, caption, credit, id, label, mediaType, poster=''}) {
     if (!poster) {
-      warn(`Figure '${id}' does not have a 'poster' property. Print media will not render a fallback image for id: ${id}`)
+      logger.warn(`Figure '${id}' does not have a 'poster' property. Print media will not render a fallback image for id: ${id}`)
     }
 
     const posterSrc = poster.startsWith('http')

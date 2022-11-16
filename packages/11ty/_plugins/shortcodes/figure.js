@@ -1,7 +1,7 @@
 const chalkFactory = require('~lib/chalk')
 const { oneLine } = require('~lib/common-tags')
 
-const { warn } = chalkFactory('shortcodes:figure')
+const logger = chalkFactory('shortcodes:figure')
 
 /**
  * Render an HTML <figure> element
@@ -37,7 +37,7 @@ module.exports = function (eleventyConfig, { page }) {
      */
     let figure = getFigure(id)
     if (!figure) {
-      warn(`The figure id "${id}" was found in the template "${page.inputPath}", but is not defined in "figures.yaml"`)
+      logger.warn(`The figure id "${id}" was found in the template "${page.inputPath}", but is not defined in "figures.yaml"`)
       return ''
     }
     figure = { ...figure, ...arguments }
