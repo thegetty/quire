@@ -6,7 +6,7 @@ const chalkFactory = require('~lib/chalk')
  * @see {@link https://iiif-canvas-panel.netlify.app/docs/intro/ Canvas Panel Documentation}
  */
 module.exports = function(eleventyConfig) {
-  const { info, error } = chalkFactory('shortcodes:canvasPanel')
+  const logger = chalkFactory('shortcodes:canvasPanel')
 
   /**
    * Canvas Panel Shortcode
@@ -35,7 +35,7 @@ module.exports = function(eleventyConfig) {
     } = data
 
     if (!manifestId && !iiifContent) {
-      error(`Invalid params for figure "${id}": `, data)
+      logger.error(`Invalid params for figure "${id}": `, data)
       return ''
     }
 

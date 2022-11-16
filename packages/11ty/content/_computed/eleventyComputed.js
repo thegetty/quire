@@ -1,7 +1,7 @@
 const chalkFactory = require('~lib/chalk')
 const path = require('path')
 
-const { warn } = chalkFactory('eleventyComputed')
+const logger = chalkFactory('eleventyComputed')
 
 /**
  * Global computed data
@@ -89,12 +89,12 @@ module.exports = {
       .reduce((validObjects, item) => {
         const objectData = objects.object_list.find(({ id }) => id === item.id)
         if (!objectData) {
-          warn(`pageObjects: no object found with id ${item.id}`)
+          logger.warn(`pageObjects: no object found with id ${item.id}`)
           return validObjects
         }
 
         if (!objectData.figure) {
-          warn(`pageObjects: object id ${objectData.id} has no figure data`)
+          logger.warn(`pageObjects: object id ${objectData.id} has no figure data`)
         } else {
           objectData.figures = objectData.figure.map((figure) => {
             if (figure.id) {
