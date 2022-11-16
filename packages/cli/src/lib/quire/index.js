@@ -141,9 +141,8 @@ async function initStarter (starter, projectPath) {
 /**
  * Install a specific version of `quire-11ty`
  *
- * If a `version` argument is not given `latest` is assumed.
- *
  * @param  {String}  version  Quire-11ty semantic version
+ * @param  {Object}  options  options passed from `quire new` command
  * @return  {Promise}
  */
 async function install(version, options={}) {
