@@ -18,6 +18,7 @@ module.exports = (eleventyConfig) => {
     return resolvedPath
   }
 
+  // @todo abstract this concern to decouple this plugin from vite
   const resolveOutputPath = () => {
     const { viteOptions } = eleventyConfig.plugins.find(
       ({ options }) => !!options && !!options.viteOptions
