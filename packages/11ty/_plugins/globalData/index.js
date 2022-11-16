@@ -3,7 +3,7 @@ const fs = require('fs-extra')
 const path = require('path')
 const parser = require('./parser')
 
-const logger = chalkFactory('_plugins:globalData')
+const logger = chalkFactory('[plugins:globalData]')
 
 /**
  * Throws an error if data contains duplicate ids
@@ -36,25 +36,27 @@ const checkForDuplicateIds = function (data, filename) {
 }
 
 /**
- * Programmatically load global data from files
- *
- * Nota bene: data is not loaded from the `eleventyConfig.dir.data` directory
- *
- * @param  {EleventyConfig}  eleventyConfig
+ * Eleventy plugin to programmatically load global data from files
+ * so that it is available to shortcode components.
+ * Nota bene: data is loaded from a sub directory of the `input` directory,
+ * distinct from the `eleventyConfig.dir.data` directory.
  */
-module.exports = function(eleventyConfig) {
-  const dataDir = path.resolve(eleventyConfig.dir.input, '_data')
-  const files = fs.readdirSync(dataDir)
-    .filter((file) => path.extname(file) !== '.md')
-  const parse = parser(eleventyConfig)
+module.exports = {
+  configFunction: function(eleventyConfig, options = {}) {
+    const dir = path.resolve(eleventyConfig.dir.input, '_data')
+    // console.debug(`[plugins:globalData] ${dir}`)
+    const files = fs.readdirSync(dir)
+      .filter((file) => path.extname(file) !== '.md')
+    const parse = parser(eleventyConfig)
 
-  for (const file of files) {
-    const { name: key } = path.parse(file)
-    const value = parse(path.join(dataDir, file))
-
-    if (key && value) {
-      checkForDuplicateIds(value, file)
-      eleventyConfig.addGlobalData(key, value)
+    for (const file of files) {
+      const { name: key } = path.parse(file)
+      const value = parse(path.join(dir, file))
+      if (key && value) {
+        checkForDuplicateIds(value, file)
+        eleventyConfig.addGlobalData(key, value)
+      }
     }
-  }
+  },
+  initArguments: {}
 }
