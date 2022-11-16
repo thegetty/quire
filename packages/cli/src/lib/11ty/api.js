@@ -30,6 +30,17 @@ const factory = async (options = {}) => {
     expand: true,
   }
 
+  /**
+   * Get an instance of the runtime of eleventy.
+   * @see https://github.com/11ty/eleventy/blob/src/Eleventy.js
+   *
+   * @param {String} input  Path from which to read content templates
+   * @param {String} output  Path where rendered files will be written
+   * @param {Object} options  Options are merged with the Eleventy UserConfig
+   * @param {Object} config  An eleventy configurtion object
+   *
+   * @returns {module:11ty/eleventy/Eleventy~Eleventy}
+   */
   return new Eleventy(input, output, {
     config: (eleventyConfig) => {
       /**
