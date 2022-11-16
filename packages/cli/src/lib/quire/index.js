@@ -156,7 +156,7 @@ async function install(version, options={}) {
    * @see https://github.com/scott-lin/install-npm-version
    */
   const installOptions = {
-    Destination: path.join('../', version),
+    Destination: path.join('..', version),
     Debug: false,
     Overwrite: options.force || options.overwrite || false,
     Verbosity: options.debug ? 'Debug' : 'Silent',
