@@ -41,7 +41,7 @@ const factory = async (options = {}) => {
    *
    * @returns {module:11ty/eleventy/Eleventy~Eleventy}
    */
-  return new Eleventy(input, output, {
+  const eleventy = new Eleventy(input, output, {
     config: (eleventyConfig) => {
       /**
        * Override addPassthroughCopy to use _absolute_ system paths.
@@ -71,7 +71,10 @@ const factory = async (options = {}) => {
     },
     configPath: options.config || config,
     quietMode: options.quiet || false,
+    // source: 'script',
   })
+
+  return eleventy
 }
 
 /**
@@ -89,6 +92,9 @@ export default {
     if (options.debug) process.env.DEBUG = 'Eleventy*'
 
     const eleventy = await factory(options)
+
+    eleventy.setDryRun(options.dryrun)
+
     await eleventy.executeBuild()
   },
   serve: async (options = {}) => {
@@ -97,6 +103,7 @@ export default {
     if (options.debug) process.env.DEBUG = 'Eleventy*'
 
     const eleventy = await factory(options)
-    await eleventy.serve()
+
+    await eleventy.serve(options.port)
   }
 }
