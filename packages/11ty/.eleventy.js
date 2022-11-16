@@ -251,13 +251,13 @@ module.exports = function(eleventyConfig) {
    * Set eleventy dev server options
    * @see https://www.11ty.dev/docs/dev-server/
    */
-  // eleventyConfig.setServerOptions({
-  //   port: 8080
-  // })
+  eleventyConfig.setServerOptions({
+    port: 8080
+  })
 
   // @see https://www.11ty.dev/docs/copy/#passthrough-during-serve
   // @todo resolve error when set to the default behavior 'passthrough'
-  // eleventyConfig.setServerPassthroughCopyBehavior('copy')
+  eleventyConfig.setServerPassthroughCopyBehavior('copy')
 
   /**
    * Copy static assets to the output directory
