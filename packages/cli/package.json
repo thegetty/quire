@@ -61,7 +61,7 @@
     "loglevel": "^1.8.0",
     "open": "^8.4.0",
     "ora": "^6.1.2",
-    "pagedjs-cli": "^0.2.2-beta.3",
+    "pagedjs-cli": "^0.3.0",
     "semver": "^7.3.8",
     "simple-git": "^3.15.0",
     "update-notifier": "^6.0.2",
