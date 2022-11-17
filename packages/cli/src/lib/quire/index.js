@@ -197,6 +197,8 @@ async function installInProject(projectPath, version, options={}) {
   /**
    * delete `package.json` from starter project, as it will be replaced with
    * `package.json` from `@thegetty/quire-11ty`
+   * @TODO If a user runs quire eject at a later date we may want to merge their
+   * package.json with the `quire-11ty` dev dependencies, scripts, etc
    */
   await git
     .cwd(projectPath)
