@@ -19,6 +19,7 @@
   "type": "module",
   "files": [
     "bin/",
+    "scripts/",
     "src/",
     "CHANGELOG.md",
     "LICENSE",
@@ -35,7 +36,6 @@
   "scripts": {
     "lint": "eslint src --ext .js",
     "lint:fix": "npm run lint -- --fix",
-    "postinstall": "node scripts/postinstall.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "imports": {
