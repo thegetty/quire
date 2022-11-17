@@ -62,17 +62,19 @@ function getVersion(projectPath) {
  * (i.e `^1.0.0-pre-release.0` => `1.0.0-pre-release.2`) so this string-trimming
  * logic can be removed
  */
-function getVersionFromStarter(projectPath) {
+async function getVersionFromStarter(projectPath) {
   const packageConfig = fs.readFileSync(path.join(projectPath, 'package.json'), { encoding:'utf8' })
   const { peerDependencies } = JSON.parse(packageConfig)
   const version = peerDependencies[PACKAGE_NAME]
-  return version.substr(version.search(/\d/))
+  return version === 'latest'
+    ? await latest()
+    : version.substr(version.search(/\d/))
 }
 
 /**
  * Clone or copy a Quire starter project
  *
- * @param    {String}   starter   A repository URL or path to local starter
+ * @param    {String}   starter   A repository URL or an absolute path to local starter
  * @param    {String}   projectPath  Absolute system path to the project root
  *
  * @return   {String}   quireVersion  A string indicating the current version
@@ -112,7 +114,7 @@ async function initStarter (starter, projectPath) {
    * Determine `quire-11ty` version required by the starter project
    * and write a `.quire` file with the semantic version string.
    */
-  const quireVersion = getVersionFromStarter(projectPath) || await latest()
+  const quireVersion = await getVersionFromStarter(projectPath)
   setVersion(projectPath, quireVersion)
 
   // Re-initialize project directory as a new git repository
