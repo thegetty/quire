@@ -233,7 +233,13 @@ async function installInProject(projectPath, version, options={}) {
    * the final `_site` package when running `quire build`
    */
   await execaCommand('npm cache clean --force', { cwd: projectPath })
-  await execaCommand('npm install --save-dev', { cwd: projectPath })
+  try {
+    await execaCommand('npm install --save-dev', { cwd: projectPath })
+  } catch(error) {
+    console.warn(`[CLI:error]`, error)
+    fs.removeSync(projectPath)
+    return
+  }
 
   const eleventyFilesToCommit = fs
     .readdirSync(path.join(projectPath, temp11tyDirectory))
