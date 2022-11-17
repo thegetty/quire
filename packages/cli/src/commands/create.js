@@ -53,6 +53,9 @@ export default class CreateCommand extends Command {
       // `git clone starter path`
     } else {
       const version = await quire.initStarter(starter, projectPath)
+      // @TODO we will want to abstract the test for emptiness to prevent further install steps on error
+      if (!version) return
+
       if (options.eject) {
         await quire.installInProject(projectPath, version, options)
       }
