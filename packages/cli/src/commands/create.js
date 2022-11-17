@@ -58,8 +58,9 @@ export default class CreateCommand extends Command {
 
       if (options.eject) {
         await quire.installInProject(projectPath, version, options)
+      } else {
+        await quire.install(version, options)
       }
-      await quire.install(version, options)
     }
   }
 }
