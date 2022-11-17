@@ -297,10 +297,10 @@ module.exports = function(eleventyConfig) {
     htmlTemplateEngine: 'liquid',
     /**
      * Suffix for template and directory specific data files
-     * @example '.quire' will search for *.quire.js and *.quire.json data files.
-     * @see [Template and Directory Specific Data Files](https://www.11ty.dev/docs/data-template-dir/)
+     * @example '.data' will search for `*.data.js` and `*.data.json` data files.
+     * @see {@link https://www.11ty.dev/docs/data-template-dir/ Template and Directory Specific Data Files}
      */
-    jsDataFileSuffix: '.quire',
+    jsDataFileSuffix: '.data',
     /**
      * The default global template engine to pre-process markdown files.
      * Use false to avoid pre-processing and only transform markdown.
