@@ -141,9 +141,8 @@ async function initStarter (starter, projectPath) {
 /**
  * Install a specific version of `quire-11ty`
  *
- * If a `version` argument is not given `latest` is assumed.
- *
  * @param  {String}  version  Quire-11ty semantic version
+ * @param  {Object}  options  options passed from `quire new` command
  * @return  {Promise}
  */
 async function install(version, options={}) {
@@ -157,7 +156,7 @@ async function install(version, options={}) {
    * @see https://github.com/scott-lin/install-npm-version
    */
   const installOptions = {
-    Destination: path.join('../', version),
+    Destination: path.join('..', version),
     Debug: false,
     Overwrite: options.force || options.overwrite || false,
     Verbosity: options.debug ? 'Debug' : 'Silent',
@@ -182,6 +181,82 @@ async function install(version, options={}) {
   chdir(versionDir)
   await execaCommand('npm cache clean --force')
   await execaCommand('npm install --save-dev')
+}
+
+/**
+ * Install a specific version of `quire-11ty` directly into a quire project
+ *
+ * @param  {String}  projectPath  Absolute system path to the project root
+ * @param  {String}  version  Quire-11ty semantic version
+ * @param  {Object}  options  options passed from `quire new` command
+ * @return  {Promise}
+ */
+async function installInProject(projectPath, version, options={}) {
+  console.debug(`[CLI:quire] installing quire-11ty@${version} into ${projectPath}`)
+
+  /**
+   * delete `package.json` from starter project, as it will be replaced with
+   * `package.json` from `@thegetty/quire-11ty`
+   * @TODO If a user runs quire eject at a later date we may want to merge their
+   * package.json with the `quire-11ty` dev dependencies, scripts, etc
+   */
+  await git
+    .cwd(projectPath)
+    .rm(['package.json'])
+    .catch((error) => console.error('[CLI:error] ', error))
+
+  const temp11tyDirectory = '.temp'
+  /**
+   * `Destination` is relative to `node_modules` of the working-directory
+   * so we have included a relative path to parent directory in order to
+   * install versions to a different local path.
+   * @see https://github.com/scott-lin/install-npm-version
+   */
+  const installOptions = {
+    Destination: path.join('..', temp11tyDirectory),
+    Debug: false,
+    Overwrite: options.force || options.overwrite || false,
+    Verbosity: options.debug ? 'Debug' : 'Silent',
+    WorkingDirectory: projectPath
+  }
+  await inv.Install(`${PACKAGE_NAME}@${version}`, installOptions)
+
+  // delete empty `node_modules` directory that `install-npm-version` creates
+  const invNodeModulesDir = path.join(projectPath, 'node_modules')
+  if (fs.existsSync(invNodeModulesDir)) fs.rmdir(invNodeModulesDir)
+
+  // Copy all files installed in `.temp` to projectPath
+  fs.copySync(path.join(projectPath, '.temp'), projectPath)
+
+  console.debug('[CLI:quire] installing dev dependencies into quire project')
+  /**
+   * Manually install necessary dev dependencies to run 11ty;
+   * these must be `devDependencies` so that they are not bundled into
+   * the final `_site` package when running `quire build`
+   */
+  await execaCommand('npm cache clean --force', { cwd: projectPath })
+  try {
+    await execaCommand('npm install --save-dev', { cwd: projectPath })
+  } catch(error) {
+    console.warn(`[CLI:error]`, error)
+    fs.removeSync(projectPath)
+    return
+  }
+
+  const eleventyFilesToCommit = fs
+    .readdirSync(path.join(projectPath, temp11tyDirectory))
+    .filter((filePath) => filePath !== 'node_modules')
+
+  eleventyFilesToCommit.push('package-lock.json')
+
+  /**
+   * Create an additional commit of new `@thegetty/quire-11ty` files in repository
+   * @todo use a localized string for the commit message
+   */
+  await git.add(eleventyFilesToCommit).commit('Adds `@thegetty/quire-11ty` files')
+
+  // remove temporary 11ty install directory
+  fs.removeSync(path.join(projectPath, temp11tyDirectory))
 }
 
 /**
@@ -317,6 +392,7 @@ export const quire = {
   getVersion,
   initStarter,
   install,
+  installInProject,
   latest,
   list,
   remove,

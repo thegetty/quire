@@ -10,11 +10,12 @@ module.exports = (eleventyConfig) => {
 
   const projectRoot = path.resolve(eleventyConfig.dir.input, '..')
 
-  logger.debug(`projectRoot: ${projectRoot}`)
+  // @todo resolve why iiifConfig() is called for each image
+  // logger.debug(`projectRoot: ${projectRoot}`)
 
   const resolveInputPath = () => {
     const resolvedPath = path.resolve(eleventyConfig.dir.input)
-    logger.debug(`inputPath: ${resolvedPath}`)
+    // logger.debug(`inputPath: ${resolvedPath}`)
     return resolvedPath
   }
 
@@ -28,7 +29,7 @@ module.exports = (eleventyConfig) => {
       ? path.resolve(projectRoot, viteOptions.publicDir)
       : path.resolve(projectRoot, eleventyConfig.dir.output)
 
-    logger.debug(`ouputPath: ${resolvedPath}`)
+    // logger.debug(`ouputPath: ${resolvedPath}`)
     return resolvedPath
   }
 

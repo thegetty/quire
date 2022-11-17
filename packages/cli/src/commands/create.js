@@ -23,6 +23,7 @@ export default class CreateCommand extends Command {
     ],
     options: [
       [ '--debug', 'debug the `quire new` command' ],
+      [ '--eject', 'install quire-11ty into the project directory', 'true' ],
     ],
   }
 
@@ -38,7 +39,7 @@ export default class CreateCommand extends Command {
    */
   async action(projectPath, starter, options = {}) {
     if (options.debug) {
-      console.info('Command \'%s\' called with options %o', this.name, options)
+      console.info('Command \'%s\' called with options %o', CreateCommand.name, options)
     }
 
     if (!projectPath && !starter) {
@@ -52,7 +53,14 @@ export default class CreateCommand extends Command {
       // `git clone starter path`
     } else {
       const version = await quire.initStarter(starter, projectPath)
-      await quire.install(version)
+      // @TODO we will want to abstract the test for emptiness to prevent further install steps on error
+      if (!version) return
+
+      if (options.eject) {
+        await quire.installInProject(projectPath, version, options)
+      } else {
+        await quire.install(version, options)
+      }
     }
   }
 }
