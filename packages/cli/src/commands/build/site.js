@@ -3,18 +3,18 @@ import { api, cli, paths, projectRoot  } from '#lib/11ty/index.js'
 import { clean } from '#helpers/clean.js'
 
 /**
- * Quire CLI `build` Command
+ * Quire CLI `build site` Command
  *
  * Runs the Eleventy `build` to generate static output.
  *
- * @class      BuildCommand
+ * @class      SiteCommand
  * @extends    {Command}
  */
-export default class BuildCommand extends Command {
+export default class SiteCommand extends Command {
   static definition = {
     name: 'site',
     description: 'Generate publication outputs',
-    summary: 'run build',
+    summary: 'run build site',
     version: '1.0.0',
     isDefault: true,
     args: [
@@ -39,7 +39,7 @@ export default class BuildCommand extends Command {
   }
 
   constructor() {
-    super(BuildCommand.definition)
+    super(SiteCommand.definition)
   }
 
   action(options, command) {

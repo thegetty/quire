@@ -1,5 +1,31 @@
 ## Quire CLI Commands
 
+```javascript
+const commands = [
+  {
+    command: BuildCommand, // #src/commands/build/
+    commands: [
+      EpubCommmand, // #src/commands/build/epub.js
+      PdfCommmand,  // #src/commands/build/pdf.js
+      SiteCommmand, // #src/commands/build/site.js
+    ],
+  },
+  CleanCommmand,   // #src/commands/build/clean.js
+  CreateCommmand,  // #src/commands/build/create.js
+  PreviewCommmand, // #src/commands/build/preview.js
+  {
+    command: VersionCommand, // #src/commands/versions/index.js
+    commands: [
+      InfoCommand,      // #src/commands/build/info.js
+      InstallCommand,   // #src/commands/build/install.js
+      ListCommand,      // #src/commands/build/list.js
+      PruneCommand,     // #src/commands/build/prune.js
+      UninstallCommand, // #src/commands/build/unistall.js
+    ],
+  },
+]
+```
+
 ### `build`
 
 Build Quire publication outputs.
