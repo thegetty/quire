@@ -23,7 +23,7 @@ export default class CreateCommand extends Command {
     ],
     options: [
       [ '--debug', 'debug the `quire new` command' ],
-      [ '--eject', 'create new quire project with 11ty files committed directly' ],
+      [ '--eject', 'install quire-11ty into the project directory' ],
     ],
   }
 
