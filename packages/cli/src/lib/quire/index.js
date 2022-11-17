@@ -75,6 +75,7 @@ async function getVersionFromStarter(projectPath) {
  * Clone or copy a Quire starter project
  *
  * @param    {String}   starter   A repository URL or an absolute path to local starter
+ * @TODO resolve both absolute and relative paths to local starter repositories 
  * @param    {String}   projectPath  Absolute system path to the project root
  *
  * @return   {String}   quireVersion  A string indicating the current version
