@@ -1,4 +1,5 @@
 import { fileURLToPath } from 'node:url'
+import fs from 'fs-extra'
 import path from 'node:path'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -19,12 +20,24 @@ const __dirname = path.dirname(__filename)
  *   and correctly resolve the path to the target of the 'latest' symlink
  */
 const cliRoot = path.resolve(__dirname, path.join('..', '..'))
+const eleventyConfig = '.eleventy.js'
 const version = 'latest'
 
-// Absolute path to the current version of quire-11ty
-export const eleventyRoot =
-  path.resolve(__dirname, path.join(cliRoot, 'lib', 'quire', 'versions', version))
+// Test project directory for an eleventy configuration file
+const hasEleventyConfig = (dir) => {
+  try {
+    return fs.readdirSync(dir).includes(eleventyConfig)
+  } catch (error) {
+    throw new Error(`[CLI:11ty] Unable to read project directory for eleventy config ${error}`)
+  }
+}
+
 export const projectRoot = process.cwd()
+
+// Absolute path to the current version of quire-11ty
+export const eleventyRoot = hasEleventyConfig(projectRoot)
+  ? projectRoot
+  : path.resolve(__dirname, path.join(cliRoot, 'lib', 'quire', 'versions', version))
 
 export default {
   config: path.join(eleventyRoot, '.eleventy.js'),

@@ -52,27 +52,28 @@ module.exports = function(eleventyConfig) {
    * to the `config` file however the quire-cli separates 11ty from the
    * project directory (`input`) and needs to use absolute system paths.
    */
-  const addPassthroughCopy = eleventyConfig.addPassthroughCopy.bind(eleventyConfig)
-
-  eleventyConfig.addPassthroughCopy = (entry) => {
-    if (typeof entry === 'string') {
-      const filePath = path.resolve(entry)
-      console.debug('[11ty:config] passthrough copy %s', filePath)
-      return addPassthroughCopy(filePath, { expand: true })
-    } else {
-      console.debug('[11ty:config] passthrough copy %o', entry)
-      entry = Object.fromEntries(
-        Object.entries(entry).map(([ src, dest ]) => {
-          return [
-            path.join(__dirname, src),
-            path.resolve(path.join(outputDir, dest))
-          ]
-        })
-      )
-      console.debug('[11ty:config] passthrough copy %o', entry)
-      return addPassthroughCopy(entry, { expand: true })
-    }
-  }
+  // @TODO Fix path resolution issue, disabling for now
+  // const addPassthroughCopy = eleventyConfig.addPassthroughCopy.bind(eleventyConfig)
+  //
+  // eleventyConfig.addPassthroughCopy = (entry) => {
+  //   if (typeof entry === 'string') {
+  //     const filePath = path.resolve(entry)
+  //     console.debug('[11ty:config] passthrough copy %s', filePath)
+  //     return addPassthroughCopy(filePath, { expand: true })
+  //   } else {
+  //     console.debug('[11ty:config] passthrough copy %o', entry)
+  //     entry = Object.fromEntries(
+  //       Object.entries(entry).map(([ src, dest ]) => {
+  //         return [
+  //           path.join(__dirname, src),
+  //           path.resolve(path.join(outputDir, dest))
+  //         ]
+  //       })
+  //     )
+  //     console.debug('[11ty:config] passthrough copy %o', entry)
+  //     return addPassthroughCopy(entry, { expand: true })
+  //   }
+  // }
 
   eleventyConfig.addGlobalData('application', {
     name: 'Quire',
@@ -296,10 +297,10 @@ module.exports = function(eleventyConfig) {
     htmlTemplateEngine: 'liquid',
     /**
      * Suffix for template and directory specific data files
-     * @example '.quire' will search for *.quire.js and *.quire.json data files.
-     * @see [Template and Directory Specific Data Files](https://www.11ty.dev/docs/data-template-dir/)
+     * @example '.data' will search for `*.data.js` and `*.data.json` data files.
+     * @see {@link https://www.11ty.dev/docs/data-template-dir/ Template and Directory Specific Data Files}
      */
-    jsDataFileSuffix: '.quire',
+    jsDataFileSuffix: '.data',
     /**
      * The default global template engine to pre-process markdown files.
      * Use false to avoid pre-processing and only transform markdown.
