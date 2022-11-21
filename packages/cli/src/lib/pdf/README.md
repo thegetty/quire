@@ -9,4 +9,4 @@ See the [`Paged.js` documentation](https://gitlab.coko.foundation/pagedjs/).
 
 ### Prince XML Façade
 
-See the [Prince XML CLI documentation]().
+See the [Prince Command-line Reference](https://www.princexml.com/doc/command-line/).
