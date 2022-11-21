@@ -1,6 +1,6 @@
 {
   "name": "@thegetty/quire-11ty",
-  "version": "1.0.0-pre-release.8",
+  "version": "1.0.0-pre-release.9",
   "description": "Quire 11ty static site generator",
   "keywords": [
     "11ty",
@@ -25,8 +25,6 @@
   "scripts": {
     "benchmark": "cross-env DEBUG=Eleventy:Benchmark* eleventy",
     "build": "cross-env ELEVENTY_ENV=production eleventy",
-    "build:pdf": "pagedjs-cli _site/pdf.html --outline-tags 'h1' -o paged.pdf",
-    "build:prince": "prince _site/pdf.html --output prince.pdf",
     "clean": "del-cli _epub _site public",
     "debug": "cross-env DEBUG=Eleventy* eleventy --dryrun",
     "dev": "cross-env ELEVENTY_ENV=development eleventy --serve",
@@ -81,7 +79,6 @@
     "markdown-it-footnote": "^3.0.3",
     "mime-types": "^2.1.35",
     "module-alias": "^2.2.2",
-    "pagedjs-cli": "0.2.2-beta.3",
     "path": "^0.12.7",
     "prettier": "^3.0.0-alpha.0",
     "remove-markdown": "^0.5.0",
