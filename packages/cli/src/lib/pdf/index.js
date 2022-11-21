@@ -1,5 +1,5 @@
 /**
- * A façade module for PDF generation libraries
+ * A façade delegation module for PDF generation libraries
  */
 export default {
   build: async (input, output, lib='pagedjs', options={}) => {

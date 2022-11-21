@@ -4,7 +4,7 @@ import paths, { projectRoot } from '#lib/11ty/paths.js'
 import which from '#helpers/which.js'
 
 /**
- * A façade module for interacting with Prince XML CLI.
+ * A façade module for interacting with Prince CLI.
  */
 export default async (input, options) => {
   const output = path.join(projectRoot, `prince.pdf`)

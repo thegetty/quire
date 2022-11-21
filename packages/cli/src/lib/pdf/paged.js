@@ -2,6 +2,7 @@ import Printer from 'pagedjs-cli'
 
 /**
  * A façade module for interacting with Paged.js
+ * @see https://gitlab.coko.foundation/pagedjs/
  */
 export default async (input, options) => {
   /**

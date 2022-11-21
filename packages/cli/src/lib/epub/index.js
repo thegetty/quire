@@ -1,5 +1,5 @@
 /**
- * A façade module for EPUB libraries
+ * A façade delegation module for EPUB libraries
  */
 export default {
   build: async (input, output, lib='epubjs', options={}) => {
