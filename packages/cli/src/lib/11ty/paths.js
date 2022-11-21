@@ -34,6 +34,8 @@ const hasEleventyConfig = (dir) => {
 
 export const projectRoot = process.cwd()
 
+const inputDir = path.join(projectRoot, 'content')
+
 // Absolute path to the current version of quire-11ty
 export const eleventyRoot = hasEleventyConfig(projectRoot)
   ? projectRoot
@@ -41,7 +43,10 @@ export const eleventyRoot = hasEleventyConfig(projectRoot)
 
 export default {
   config: path.join(eleventyRoot, '.eleventy.js'),
-  input: path.relative(eleventyRoot, path.join(projectRoot, 'content')),
+  input: path.relative(eleventyRoot, inputDir),
   output: path.relative(eleventyRoot, path.join(projectRoot, '_site')),
+  data: path.relative(inputDir, path.join(eleventyRoot, '_computed')),
+  includes: path.relative(inputDir, path.join(eleventyRoot, '_includes')),
+  layouts: path.relative(inputDir, path.join(eleventyRoot, '_layouts')),
   public: './public',
 }

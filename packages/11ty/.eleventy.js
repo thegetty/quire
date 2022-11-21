@@ -282,12 +282,12 @@ module.exports = function(eleventyConfig) {
      */
     dir: {
       // ⚠️ input and output dirs are _relative_ to the `.eleventy.js` module
-      input: inputDir,
-      output: outputDir,
+      input: process.env.ELEVENTY_INTPUT || inputDir,
+      output: process.env.ELEVENTY_OUTPUT || outputDir,
       // ⚠️ the following directories are _relative_ to the `input` directory
-      data: `./_computed`,
-      includes: '../_includes',
-      layouts: '../_layouts',
+      data: process.env.ELEVENTY_DATA || '_computed',
+      includes: process.env.ELEVENTY_INCLUDES || path.join('..', '_includes'),
+      layouts: process.env.ELEVENTY_LAYOUTS || path.join('..', '_layouts'),
     },
     /**
      * The default global template engine to pre-process HTML files.
