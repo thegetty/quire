@@ -11,7 +11,7 @@ export default {
         break
       }
       default:
-        console.error('[CLI:lib/epub] No EPUB library specified')
+        console.error('[CLI:lib/epub] Unrecognized EPUB library ${lib}')
         return
     }
 

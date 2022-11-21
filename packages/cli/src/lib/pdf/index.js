@@ -17,7 +17,7 @@ export default {
         break
       }
       default:
-        console.error('[CLI:lib/pdf] No PDF library specified')
+        console.error('[CLI:lib/pdf] Unrecognized PDF library ${lib}')
         return
     }
 
