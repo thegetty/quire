@@ -30,7 +30,7 @@ export default class BuildCommand extends Command {
       [ '-q', '--quiet', 'run build with no console messages' ],
       [ '-v', '--verbose', 'run build with verbose console messages' ],
       [
-        '--11ty <module>', 'use the specified 11ty module', 'cli',
+        '--11ty <module>', 'use the specified 11ty module', 'api',
         // { choices: ['api', 'cli'], default: 'cli' }
       ],
       [ '--debug', 'run build with debug output to console' ],

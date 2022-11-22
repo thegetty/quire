@@ -29,7 +29,7 @@ export default class PreviewCommand extends Command {
       [ '-q', '--quiet', 'run preview in silent mode' ],
       [ '-v', '--verbose', 'run preview with verbose console messages' ],
       [
-        '--11ty <module>', 'use the specified 11ty module', 'cli',
+        '--11ty <module>', 'use the specified 11ty module', 'api',
         // { choices: ['api', 'cli'], default: 'cli' }
       ],
       [ '--debug', 'run preview with debug output to console' ],
