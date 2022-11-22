@@ -102,7 +102,7 @@
   },
   "_moduleAliases": {
     "~includes": "./_includes",
-    "~layouts": "./layouts",
+    "~layouts": "./_layouts",
     "~lib": "./_lib",
     "~plugins": "./_plugins"
   }
