@@ -30,7 +30,7 @@ function getPath(version='latest') {
     console.error(`[CLI:quire] \`quire-11ty@${version}\` is not installed`)
     return null
   }
-  console.debug(`[CLI:quire] \%`, absolutePath)
+  console.debug(`[CLI:quire] %s`, absolutePath)
   return absolutePath
 }
 
