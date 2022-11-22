@@ -1,4 +1,5 @@
-import { fileURLToPath } from 'node:url'
+import { IS_WINDOWS } from '#helpers/os-utils.js'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 import fs from 'fs-extra'
 import path from 'node:path'
 
@@ -14,7 +15,10 @@ const thisfile = path.basename(__filename)
 const commands = await Promise.all(
   fs.readdirSync(__dirname)
     .filter((file) => file !== thisfile && file.match(/^.*\.js$/))
-    .map((file) => import(path.resolve(__dirname, file)))
+    .map((file) => IS_WINDOWS
+      ? import(pathToFileURL(path.resolve(__dirname, file)))
+      : import(path.resolve(__dirname, file))
+    )
 ).then((modules) => {
   return modules.map(({ default: CommandClass }) => new CommandClass())
 })

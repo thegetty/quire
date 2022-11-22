@@ -1,3 +1,4 @@
+import { IS_WINDOWS } from '#helpers/os-utils.js'
 import { chdir, cwd } from 'node:process'
 import { execa, execaCommand } from 'execa'
 import { fileURLToPath } from 'node:url'
@@ -16,9 +17,6 @@ const INSTALL_PATH = path.join('src', 'lib', 'quire', 'versions')
 const PACKAGE_NAME = '@thegetty/quire-11ty'
 const VERSION_FILE = '.quire'
 
-const IS_WINDOWS =
-  process.platform === 'win32' || /^(cygwin|msys)$/.test(process.env.OSTYPE)
-
 /**
  * Return an absolute path to an installed `quire-11ty` version
  *
@@ -30,7 +28,7 @@ function getPath(version='latest') {
     console.error(`[CLI:quire] \`quire-11ty@${version}\` is not installed`)
     return null
   }
-  console.debug(`[CLI:quire] \%`, absolutePath)
+  console.debug(`[CLI:quire] %s`, absolutePath)
   return absolutePath
 }
 
