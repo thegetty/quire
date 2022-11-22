@@ -282,7 +282,7 @@ module.exports = function(eleventyConfig) {
      */
     dir: {
       // ⚠️ input and output dirs are _relative_ to the `.eleventy.js` module
-      input: process.env.ELEVENTY_INTPUT || inputDir,
+      input: process.env.ELEVENTY_INPUT || inputDir,
       output: process.env.ELEVENTY_OUTPUT || outputDir,
       // ⚠️ the following directories are _relative_ to the `input` directory
       data: process.env.ELEVENTY_DATA || '_computed',
