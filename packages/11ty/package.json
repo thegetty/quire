@@ -44,14 +44,14 @@
     "#plugins/*": "./_plugins/*"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^2.0.0-canary.16",
+    "@11ty/eleventy": "^2.0.0-canary.18",
     "@11ty/eleventy-img": "^2.0.1",
     "@11ty/eleventy-navigation": "^0.3.5",
     "@11ty/eleventy-plugin-directory-output": "^1.0.1",
     "@11ty/eleventy-plugin-syntaxhighlight": "^4.2.0",
     "@11ty/eleventy-plugin-vite": "^2.0.0-canary.2",
-    "@11ty/eleventy-plugin-webc": "^0.6.0",
-    "@11ty/is-land": "^2.0.3",
+    "@11ty/eleventy-plugin-webc": "^0.7.0",
+    "@11ty/is-land": "^3.0.0",
     "@iiif/parser": "^1.1.0",
     "@iiif/vault": "^0.9.19",
     "camelize": "^1.0.0",
@@ -60,7 +60,7 @@
     "cpy-cli": "^4.1.0",
     "cross-env": "^7.0.3",
     "del-cli": "^4.0.1",
-    "eslint": "^8.19.0",
+    "eslint": "^8.28.0",
     "exifr": "^7.1.3",
     "fs-extra": "^10.1.0",
     "iiif-builder": "^1.0.6",
@@ -85,7 +85,7 @@
     "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-scss": "^3.0.0",
     "sass": "^1.54.5",
-    "sharp": "^0.31.1",
+    "sharp": "^0.31.2",
     "simple-cite": "^0.2.1",
     "toml": "^3.0.0"
   },
@@ -99,7 +99,7 @@
   },
   "_moduleAliases": {
     "~includes": "./_includes",
-    "~layouts": "./layouts",
+    "~layouts": "./_layouts",
     "~lib": "./_lib",
     "~plugins": "./_plugins"
   }

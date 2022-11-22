@@ -1,3 +1,4 @@
+import { IS_WINDOWS } from '#helpers/os-utils.js'
 import { chdir, cwd } from 'node:process'
 import { execa, execaCommand } from 'execa'
 import { fileURLToPath } from 'node:url'
@@ -16,9 +17,6 @@ const INSTALL_PATH = path.join('src', 'lib', 'quire', 'versions')
 const PACKAGE_NAME = '@thegetty/quire-11ty'
 const VERSION_FILE = '.quire'
 
-const IS_WINDOWS =
-  process.platform === 'win32' || /^(cygwin|msys)$/.test(process.env.OSTYPE)
-
 /**
  * Return an absolute path to an installed `quire-11ty` version
  *
@@ -30,7 +28,7 @@ function getPath(version='latest') {
     console.error(`[CLI:quire] \`quire-11ty@${version}\` is not installed`)
     return null
   }
-  console.debug(`[CLI:quire] \%`, absolutePath)
+  console.debug(`[CLI:quire] %s`, absolutePath)
   return absolutePath
 }
 
@@ -62,17 +60,20 @@ function getVersion(projectPath) {
  * (i.e `^1.0.0-pre-release.0` => `1.0.0-pre-release.2`) so this string-trimming
  * logic can be removed
  */
-function getVersionFromStarter(projectPath) {
+async function getVersionFromStarter(projectPath) {
   const packageConfig = fs.readFileSync(path.join(projectPath, 'package.json'), { encoding:'utf8' })
   const { peerDependencies } = JSON.parse(packageConfig)
   const version = peerDependencies[PACKAGE_NAME]
-  return version.substr(version.search(/\d/))
+  return version === 'latest'
+    ? await latest()
+    : version.substr(version.search(/\d/))
 }
 
 /**
  * Clone or copy a Quire starter project
  *
- * @param    {String}   starter   A repository URL or path to local starter
+ * @param    {String}   starter   A repository URL or an absolute path to local starter
+ * @TODO resolve both absolute and relative paths to local starter repositories 
  * @param    {String}   projectPath  Absolute system path to the project root
  *
  * @return   {String}   quireVersion  A string indicating the current version
@@ -112,7 +113,7 @@ async function initStarter (starter, projectPath) {
    * Determine `quire-11ty` version required by the starter project
    * and write a `.quire` file with the semantic version string.
    */
-  const quireVersion = getVersionFromStarter(projectPath) || await latest()
+  const quireVersion = await getVersionFromStarter(projectPath)
   setVersion(projectPath, quireVersion)
 
   // Re-initialize project directory as a new git repository
