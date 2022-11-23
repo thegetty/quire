@@ -9,8 +9,8 @@ import path from 'node:path'
  */
 export async function clean (projectRoot, paths, options = {}) {
   const pathsToClean = [
+    path.join(projectRoot, paths.epub),
     path.join(projectRoot, paths.output),
-    path.join(projectRoot, paths.public),
   ]
 
   /**

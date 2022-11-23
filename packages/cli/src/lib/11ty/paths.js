@@ -41,7 +41,7 @@ export const eleventyRoot = hasEleventyConfig(projectRoot)
 
 export default {
   config: path.join(eleventyRoot, '.eleventy.js'),
+  epub: path.relative(eleventyRoot, path.join(projectRoot, '_epub')),
   input: path.relative(eleventyRoot, path.join(projectRoot, 'content')),
   output: path.relative(eleventyRoot, path.join(projectRoot, '_site')),
-  public: './public',
 }
