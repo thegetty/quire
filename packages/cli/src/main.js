@@ -1,4 +1,4 @@
-import { Command } from 'commander'
+import { Argument, Command } from 'commander'
 import commands from './commands/index.js'
 import packageConfig from '../package.json' assert { type: 'json' }
 
@@ -38,8 +38,11 @@ commands.forEach((command) => {
   }
 
   if (Array.isArray(args)) {
-    args.forEach(([ arg, value, callback ]) => {
-      subCommand.argument(arg, value, callback)
+    args.forEach(([ name, description, options = {} ]) => {
+      const argument = new Argument(name, description)
+      if (options.choices) argument.choices(options.choices)
+      if (options.default) argument.default(options.default)
+      subCommand.addArgument(argument)
     })
   }
 
