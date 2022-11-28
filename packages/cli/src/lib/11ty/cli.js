@@ -43,7 +43,7 @@ export default {
   build: async (options = {}) => {
     console.info('[CLI:11ty] running eleventy build')
 
-    const eleventyCommand = factory()
+    const eleventyCommand = factory(options)
 
     /**
      * Set execa environment variables
