@@ -3,6 +3,9 @@ _epub/
 _site/
 _temp/
 
+# Eleventy content directory
+content/
+
 # EleventFetch cache directory
 .cache
 
