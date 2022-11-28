@@ -10,8 +10,8 @@ export default async (input, options) => {
    * @see https://gitlab.coko.foundation/pagedjs/pagedjs-cli/-/blob/main/src/cli.js
    */
   const printerOptions = {
-    debug: options.debug || false,
     allowLocal: true,
+    debug: options.debug || false,
   }
 
   const printer = new Printer(printerOptions)
