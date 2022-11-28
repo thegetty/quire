@@ -43,7 +43,9 @@ export default {
   build: async (options = {}) => {
     console.info('[CLI:11ty] running eleventy build')
 
-    const eleventyCommand = factory()
+    const eleventyCommand = factory(options)
+
+    if (options.dryRun) eleventyCommand.push('--dryrun')
 
     /**
      * Set execa environment variables
@@ -53,14 +55,15 @@ export default {
 
     if (options.debug) execaEnv.DEBUG = 'Eleventy*'
 
-    if (options.dryRun) eleventyCommand.push('--dryrun')
-
-    await execa('node', eleventyCommand, {
+    const result = await execa('node', eleventyCommand, {
       all: true,
       cwd: projectRoot,
       env: execaEnv,
       execPath: process.execPath
     }).all.pipe(process.stdout)
+
+    console.info('[CLI:11ty] build result %o', result)
+    return result
   },
 
   serve: async (options = {}) => {
@@ -70,6 +73,8 @@ export default {
 
     eleventyCommand.push('--serve')
 
+    if (options.port) eleventyCommand.push(`--port=${options.port}`)
+
     /**
      * Set execa environment variables
      * @see https://github.com/sindresorhus/execa#env
@@ -78,13 +83,14 @@ export default {
 
     if (options.debug) execaEnv.DEBUG = 'Eleventy*'
 
-    if (options.port) eleventyCommand.push(`--port=${options.port}`)
-
-    await execa('node', eleventyCommand, {
+    const result = await execa('node', eleventyCommand, {
       all: true,
       cwd: projectRoot,
       env: execaEnv,
       execPath: process.execPath
     }).all.pipe(process.stdout)
+
+    console.info('[CLI:11ty] build result %o', result)
+    return result
   }
 }
