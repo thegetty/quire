@@ -19,5 +19,9 @@ export default async (input, options) => {
    */
   const pdfOptions = {}
 
-  return await printer.pdf(input, pdfOptions)
+  try {
+    return await printer.pdf(input, pdfOptions)
+  } catch (ERR_FILE_NOT_FOUND) {
+    console.error(`[CLI:lib/pdf] input file ${input} could not be found`)
+  }
 }
