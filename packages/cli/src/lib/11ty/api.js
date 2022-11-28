@@ -32,7 +32,7 @@ const factory = async (options = {}) => {
    */
   const copyOptions = {
     debug: options.debug || false,
-    expand: true,
+    expand: false,
   }
 
   /**
@@ -72,11 +72,19 @@ const factory = async (options = {}) => {
           return addPassthroughCopy(entry, copyOptions)
         }
       }
+
+      /**
+       * Event callback when a build completes
+       * @see https://www.11ty.dev/docs/events/#eleventy.after
+       */
+      eleventyConfig.on('eleventy.after', async () => {
+        console.debug('[11ty:API] build complete')
+      })
+
       return eleventyConfig
     },
     configPath: options.config || config,
     quietMode: options.quiet || false,
-    // source: 'script',
   })
 
   return eleventy
@@ -100,15 +108,21 @@ export default {
 
     eleventy.setDryRun(options.dryrun)
 
-    await eleventy.executeBuild()
+    const result = await eleventy.write()
+
+    console.debug('[CLI:11ty] build %o', result )
   },
   serve: async (options = {}) => {
+    process.cwd(projectRoot)
+
     console.info('[CLI:11ty] running development server')
 
     if (options.debug) process.env.DEBUG = 'Eleventy*'
 
     const eleventy = await factory(options)
 
-    await eleventy.serve(options.port)
+    const result = await eleventy.serve(options.port)
+
+    console.debug('[CLI:11ty] serve %o', result )
   }
 }
