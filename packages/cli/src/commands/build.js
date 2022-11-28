@@ -1,6 +1,9 @@
 import Command from '#src/Command.js'
 import { api, cli, paths, projectRoot  } from '#lib/11ty/index.js'
 import { clean } from '#helpers/clean.js'
+import libEpub from '#lib/epub/index.js'
+import libPdf from '#lib/pdf/index.js'
+import path from 'node:path'
 
 /**
  * Quire CLI `build` Command
@@ -16,14 +19,17 @@ export default class BuildCommand extends Command {
     description: 'Generate publication outputs',
     summary: 'run build',
     version: '1.0.0',
+    /**
+     * Nota bene: variadic arguments must be listed last
+     * @see https://github.com/tj/commander.js#command-arguments
+     */
     args: [
-      // [
-      //   '[formats]', 'output formats',
-      //   {
-      //     choices: ['html', 'pdf', 'epub'],
-      //     default: ['html', 'html only']
-      //   }
-      // ],
+      [
+        '[formats...]', 'output formats',
+        {
+          choices: ['pdf', 'epub'],
+        }
+      ],
     ],
     options: [
       [ '-d', '--dry-run', 'run build without writing files' ],
@@ -41,17 +47,29 @@ export default class BuildCommand extends Command {
     super(BuildCommand.definition)
   }
 
-  action(options, command) {
+  async action(args, options, command) {
     if (options.debug) {
-      console.debug('[CLI] Command \'%s\' called with options %o', this.name(), options)
+      console.debug('[CLI] Command \'%s\' called with arguments [%o] and options %o', this.name(), args.join(', '), options)
     }
 
     if (options['11ty'] === 'cli') {
       console.debug('[CLI] running eleventy using lib/11ty cli')
-      cli.build(options)
+      await cli.build(options)
     } else {
       console.debug('[CLI] running eleventy using lib/11ty api')
-      api.build(options)
+      await api.build(options)
+    }
+
+    if (args.includes('epub')) {
+      const epubLib = await libEpub('epubjs')
+      await epubLib(path.join(projectRoot, paths.epub))
+    }
+
+    if (args.includes('pdf')) {
+      const pdfLib = await libPdf('pagedjs')
+      const input = path.join(projectRoot, paths.output, 'pdf.html')
+      const output = path.join(projectRoot, paths.output, 'pagedjs.pdf')
+      await pdfLib(input, output)
     }
   }
 
