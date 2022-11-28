@@ -9,7 +9,10 @@ export default async (input, options) => {
    * Configure the Paged.js Printer options
    * @see https://gitlab.coko.foundation/pagedjs/pagedjs-cli/-/blob/main/src/cli.js
    */
-  const printerOptions = { debug: options.debug || false }
+  const printerOptions = {
+    allowLocal: true,
+    debug: options.debug || false,
+  }
 
   const printer = new Printer(printerOptions)
 
@@ -17,7 +20,9 @@ export default async (input, options) => {
    * Configure the Paged.js PDF options
    * @see
    */
-  const pdfOptions = {}
+  const pdfOptions = {
+    outlineTags: options.outlineTags || 'h1',
+  }
 
   try {
     return await printer.pdf(input, pdfOptions)
