@@ -102,6 +102,7 @@ export default {
     console.info('[CLI:11ty] running eleventy build')
     console.info(`[CLI:11ty] projectRoot ${projectRoot}`)
 
+    process.env.ELEVENTY_ENV = 'production'
     if (options.debug) process.env.DEBUG = 'Eleventy*'
 
     const eleventy = await factory(options)
@@ -117,6 +118,7 @@ export default {
 
     console.info('[CLI:11ty] running development server')
 
+    process.env.ELEVENTY_ENV = 'development'
     if (options.debug) process.env.DEBUG = 'Eleventy*'
 
     const eleventy = await factory(options)
