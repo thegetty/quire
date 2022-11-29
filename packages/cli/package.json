@@ -1,7 +1,7 @@
 {
   "name": "@thegetty/quire-cli",
   "description": "Quire command-line interface",
-  "version": "1.0.0-pre-release.7",
+  "version": "1.0.0-pre-release.10",
   "author": "Getty Digital",
   "license": "J Paul Getty Trust",
   "bugs": {
@@ -52,7 +52,7 @@
     "cross-env": "^7.0.3",
     "del": "^7.0.0",
     "execa": "^6.1.0",
-    "fs-extra": "^10.1.0",
+    "fs-extra": "^11.0.0",
     "hosted-git-info": "^6.1.1",
     "i18next": "^22.0.4",
     "inquirer": "^9.1.4",

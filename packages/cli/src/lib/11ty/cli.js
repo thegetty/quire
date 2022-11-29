@@ -60,14 +60,16 @@ export default {
   build: async (options = {}) => {
     console.info('[CLI:11ty] running eleventy build')
 
-    const { eleventyCommand, execaEnv } = factory(options)
+    const { command, env } = factory(options)
 
-    if (options.dryRun) eleventyCommand.push('--dryrun')
+    if (options.dryRun) command.push('--dryrun')
 
-    await execa('node', eleventyCommand, {
+    env.ELEVENTY_ENV = 'production'
+
+    await execa('node', command, {
       all: true,
       cwd: projectRoot,
-      env: execaEnv,
+      env,
       execPath: process.execPath
     }).all.pipe(process.stdout)
   },
@@ -75,16 +77,18 @@ export default {
   serve: async (options = {}) => {
     console.info(`[CLI:11ty] running eleventy serve`)
 
-    const { eleventyCommand, execaEnv } = factory(options)
+    const { command, env } = factory(options)
 
-    eleventyCommand.push('--serve')
+    command.push('--serve')
 
-    if (options.port) eleventyCommand.push(`--port=${options.port}`)
+    env.ELEVENTY_ENV = 'development'
 
-    await execa('node', eleventyCommand, {
+    if (options.port) command.push(`--port=${options.port}`)
+
+    await execa('node', command, {
       all: true,
       cwd: projectRoot,
-      env: execaEnv,
+      env,
       execPath: process.execPath
     }).all.pipe(process.stdout)
   }

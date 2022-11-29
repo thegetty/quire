@@ -1,3 +1,5 @@
+import { IS_WINDOWS } from '#helpers/os-utils.js'
+import { pathToFileURL } from 'node:url'
 import path from 'node:path'
 import paths, { eleventyRoot, projectRoot } from './paths.js'
 
@@ -18,7 +20,10 @@ const factory = async (options = {}) => {
   /**
    * Dynamically import the correct version of Eleventy from `lib/quire/versions`
    */
-  const { default: Eleventy } = await import(path.join(eleventyRoot, 'node_modules', '@11ty', 'eleventy', 'src', 'Eleventy.js'))
+  const modulePath = path.join(eleventyRoot, 'node_modules', '@11ty', 'eleventy', 'src', 'Eleventy.js')
+  const { default: Eleventy } = IS_WINDOWS
+    ? await import(pathToFileURL(modulePath))
+    : await import(modulePath)
 
   /**
    * Set Eleventy passthrough copy options
@@ -98,6 +103,7 @@ export default {
 
     console.info('[CLI:11ty] running eleventy build')
 
+    process.env.ELEVENTY_ENV = 'production'
     if (options.debug) process.env.DEBUG = 'Eleventy*'
 
     const eleventy = await factory(options)
@@ -109,6 +115,7 @@ export default {
   serve: async (options = {}) => {
     console.info('[CLI:11ty] running development server')
 
+    process.env.ELEVENTY_ENV = 'development'
     if (options.debug) process.env.DEBUG = 'Eleventy*'
 
     const eleventy = await factory(options)
