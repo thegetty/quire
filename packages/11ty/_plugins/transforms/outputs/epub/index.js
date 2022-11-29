@@ -54,6 +54,7 @@ module.exports = (eleventyConfig, collections) => {
      * Copy assets
      */
     const { assets } = eleventyConfig.globalData.epub
+    assets.push(manifest.cover)
     for (const asset of assets) {
       fs.copySync(
         path.join(eleventyConfig.dir.output, asset),
