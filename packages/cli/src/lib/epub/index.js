@@ -16,6 +16,10 @@ export default async (lib = 'epubjs', options = {}) => {
       libPath = path.join(__dirname, 'epub.js')
       break
     }
+    case 'pandoc': {
+      libPath = path.join(__dirname, 'pandoc.js')
+      break
+    }
     default:
       console.error('[CLI:lib/epub] Unrecognized EPUB library ${lib}')
       return
