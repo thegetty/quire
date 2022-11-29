@@ -51,7 +51,7 @@ module.exports = (eleventyConfig) => {
   const cover = () => {
     return (promoImage)
       ? path.join(imageDir, promoImage).replace(/^\//, '')
-      : epub.defaultCover
+      : path.join(imageDir, epub.defaultCoverImage).replace(/^\//, '')
   }
 
   /**
