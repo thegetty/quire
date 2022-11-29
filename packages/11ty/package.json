@@ -94,7 +94,6 @@
     "core-js": "2.5.0",
     "lit": "^2.4.0",
     "lunr": "^2.3.9",
-    "material-icons": "^1.10.11",
     "template-polyfill": "^2.0.0"
   },
   "_moduleAliases": {
