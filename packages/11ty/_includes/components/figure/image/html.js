@@ -13,7 +13,7 @@ module.exports = function(eleventyConfig) {
   const annotationsUI = eleventyConfig.getFilter('annotationsUI')
   const figureCaption = eleventyConfig.getFilter('figureCaption')
   const figureImageElement = eleventyConfig.getFilter('figureImageElement')
-  const figureImageLabel = eleventyConfig.getFilter('figureImageLabel')
+  const figureLabel = eleventyConfig.getFilter('figureLabel')
   const figureModalLink = eleventyConfig.getFilter('figureModalLink')
   const markdownify = eleventyConfig.getFilter('markdownify')
 
@@ -28,7 +28,7 @@ module.exports = function(eleventyConfig) {
     } = figure
 
     const annotationsElement = annotationsUI({ figure })
-    const labelElement = figureImageLabel({ id, label })
+    const labelElement = figureLabel({ id, label })
 
     /**
      * Wrap image in modal link
