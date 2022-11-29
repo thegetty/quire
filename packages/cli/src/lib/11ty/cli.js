@@ -57,15 +57,12 @@ export default {
 
     if (options.debug) execaEnv.DEBUG = 'Eleventy*'
 
-    const result = await execa('node', eleventyCommand, {
+    await execa('node', eleventyCommand, {
       all: true,
       cwd: projectRoot,
       env: execaEnv,
       execPath: process.execPath
     }).all.pipe(process.stdout)
-
-    console.info('[CLI:11ty] build result %o', result)
-    return result
   },
 
   serve: async (options = {}) => {
@@ -87,14 +84,11 @@ export default {
 
     if (options.debug) execaEnv.DEBUG = 'Eleventy*'
 
-    const result = await execa('node', eleventyCommand, {
+    await execa('node', eleventyCommand, {
       all: true,
       cwd: projectRoot,
       env: execaEnv,
       execPath: process.execPath
     }).all.pipe(process.stdout)
-
-    console.info('[CLI:11ty] build result %o', result)
-    return result
   }
 }

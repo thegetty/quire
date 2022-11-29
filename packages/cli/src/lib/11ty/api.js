@@ -109,9 +109,7 @@ export default {
 
     eleventy.setDryRun(options.dryrun)
 
-    const result = await eleventy.write()
-
-    console.debug('[CLI:11ty] build %o', result )
+    await eleventy.write()
   },
   serve: async (options = {}) => {
     process.cwd(projectRoot)
@@ -123,8 +121,6 @@ export default {
 
     const eleventy = await factory(options)
 
-    const result = await eleventy.serve(options.port)
-
-    console.debug('[CLI:11ty] serve %o', result )
+    await eleventy.serve(options.port)
   }
 }
