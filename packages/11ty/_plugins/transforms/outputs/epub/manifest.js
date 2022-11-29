@@ -49,9 +49,12 @@ module.exports = (eleventyConfig) => {
   }
 
   const cover = () => {
-    return (promoImage)
-      ? path.join(imageDir, promoImage).replace(/^\//, '')
-      : path.join(imageDir, epub.defaultCoverImage).replace(/^\//, '')
+    const image = promoImage || epub.defaultCoverImage
+    if (!image) {
+      console.error(`Epub requires a cover image defined in publication.promo_image or config.epub.defaultCoverImage.`)
+      return
+    }
+    return path.join(imageDir, image).replace(/^\//, '')
   }
 
   /**
