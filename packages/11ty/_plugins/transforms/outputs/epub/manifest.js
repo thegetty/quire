@@ -1,4 +1,7 @@
+const chalkFactory = require('~lib/chalk')
 const path = require('path')
+
+const logger = chalkFactory('_plugins:epub:manifest')
 
 /**
  * Returns publication.yaml data as JSON for the EPUB generation library
@@ -51,7 +54,7 @@ module.exports = (eleventyConfig) => {
   const cover = () => {
     const image = promoImage || epub.defaultCoverImage
     if (!image) {
-      console.error(`Epub requires a cover image defined in publication.promo_image or config.epub.defaultCoverImage.`)
+      logger.error(`Epub requires a cover image defined in publication.promo_image or config.epub.defaultCoverImage.`)
       return
     }
     return path.join(imageDir, image).replace(/^\//, '')
