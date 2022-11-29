@@ -7,6 +7,8 @@ import which from '#helpers/which.js'
  * A façade module for interacting with Prince CLI.
  */
 export default async (input, options) => {
+  which('prince')
+
   const output = path.join(projectRoot, `prince.pdf`)
   const defaults = [
     `--outline-tags 'h1'`,
