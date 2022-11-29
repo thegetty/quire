@@ -31,7 +31,7 @@ module.exports = (eleventyConfig, collections) => {
     /**
      * Copy font and icon directories
      */
-    const assetDirsToCopy = ['fonts', 'material-icons']
+    const assetDirsToCopy = ['fonts']
 
     assetDirsToCopy.forEach((name) => {
       const source = path.join(eleventyConfig.dir.input, assetsDir, name)
