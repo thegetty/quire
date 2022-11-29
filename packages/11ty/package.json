@@ -68,7 +68,7 @@
     "jsdom": "^20.0.0",
     "json5": "^2.2.1",
     "liquid-args": "^1.0.0",
-    "liquidjs": "^9.42.0",
+    "liquidjs": "^10.0.0",
     "locale-en-us": "^0.0.2",
     "loglevel": "^1.8.0",
     "markdown-it": "^13.0.1",
