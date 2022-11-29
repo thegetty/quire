@@ -43,13 +43,15 @@ export default {
   build: async (options = {}) => {
     console.info('[CLI:11ty] running eleventy build')
 
-    const eleventyCommand = factory()
+    const eleventyCommand = factory(options)
 
     /**
      * Set execa environment variables
      * @see https://github.com/sindresorhus/execa#env
      */
-    const execaEnv = {}
+    const execaEnv = {
+      ELEVENTY_ENV: 'production'
+    }
 
     if (options.debug) execaEnv.DEBUG = 'Eleventy*'
 
@@ -74,7 +76,9 @@ export default {
      * Set execa environment variables
      * @see https://github.com/sindresorhus/execa#env
      */
-    const execaEnv = {}
+    const execaEnv = {
+      ELEVENTY_ENV: 'development'
+    }
 
     if (options.debug) execaEnv.DEBUG = 'Eleventy*'
 
