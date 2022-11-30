@@ -31,6 +31,6 @@ export default async (lib = 'pagedjs', options = {}) => {
 
   return async (input, output, options = {}) => {
     console.info(`[CLI:lib/pdf] generating PDF using ${lib}`)
-    return await pdfLib(input, options)
+    return await pdfLib(input, output, options)
   }
 }

@@ -47,8 +47,10 @@ export default class PDFCommand extends Command {
       return
     }
 
+    const output = path.join(projectRoot, `${options.lib}.pdf`)
+
     const pdfLib = await libPdf(options.lib)
-    await pdfLib(input)
+    await pdfLib(input, output)
   }
 
   /**
