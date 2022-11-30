@@ -4,6 +4,7 @@ import fs from 'fs-extra'
 import libPdf from '#lib/pdf/index.js'
 import open from 'open'
 import path from 'node:path'
+// import testcwd from '#helpers/test-cwd.js'
 
 /**
  * Quire CLI `pdf` Command
@@ -55,13 +56,9 @@ export default class PDFCommand extends Command {
   }
 
   /**
-   * test if build has already be run and output can be reused
-   * @todo
+   * @todo test if build has already be run and output can be reused
    */
   preAction(command) {
-    const options = command.opts()
-    if (options.debug) {
-      console.debug('[CLI] Calling \'build\' command pre-action with options', options)
-    }
+    // testcwd(command)
   }
 }
