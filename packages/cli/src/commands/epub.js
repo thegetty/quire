@@ -41,8 +41,8 @@ export default class EpubCommand extends Command {
 
     const input = path.join(projectRoot, paths.epub)
 
-    if (fs.existsSync(!input)) {
-      console.error(`Unable to find Epub input.\nPlease first run the 'quire build' command.`)
+    if (!fs.existsSync(input)) {
+      console.error(`Unable to find Epub input at ${input}\nPlease first run the 'quire build' command.`)
       return
     }
 
