@@ -20,9 +20,12 @@ export default async (input, output, options = {}) => {
   /**
    * Configure the Paged.js PDF options
    * @see
+   *
+   * @todo verify options before setting them
+   * @todo catch errors thrown by the printer
    */
   const pdfOptions = {
-    outlineTags: options.outlineTags || 'h1',
+    outlineTags: options.outlineTags || ['h1'],
   }
 
   try {
