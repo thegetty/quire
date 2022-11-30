@@ -25,8 +25,8 @@ export default class EpubCommand extends Command {
         '--lib <module>', 'use the specified epub library', 'epubjs',
         { choices: ['epubjs', 'pandoc'], default: 'epubjs' }
       ],
-      // [ '--open', 'open EPUB in default application' ],
-      // [ '--debug', 'run epub with debug output' ],
+      [ '--open', 'open EPUB in default application' ],
+      [ '--debug', 'run epub with debug output' ],
     ],
   }
 
@@ -48,8 +48,10 @@ export default class EpubCommand extends Command {
 
     const output = path.join(projectRoot, `${options.lib}.epub`)
 
-    const epubLib = await libEpub('epubjs')
-    await epubLib(input, output)
+    const epubLib = await libEpub('epubjs', { ...options.debug })
+    const epub = await epubLib(input, output, { ...options.debug })
+
+    if (options.open) open(epub)
   }
 
   /**
