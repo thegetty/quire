@@ -34,14 +34,30 @@ const hasEleventyConfig = (dir) => {
 
 export const projectRoot = process.cwd()
 
-// Absolute path to the current version of quire-11ty
+const inputDir = path.join(projectRoot, 'content')
+
+/**
+ * Absolute path to the latest installed version of `quire-11ty`
+ * @todo use version read from the project `.quire-version` file
+ */
+const libQuirePath = path.resolve(__dirname, path.join(cliRoot, 'lib', 'quire', 'versions', version))
+
+/**
+ * Absolute path to the current version of `quire-11ty`
+ * Nota bene: to get a relative path to the `eleventyRoot`,
+ * for example when the version is specified is 'latest',
+ * it must be set to the real path to the symlink target.
+ */
 export const eleventyRoot = hasEleventyConfig(projectRoot)
   ? projectRoot
-  : path.resolve(__dirname, path.join(cliRoot, 'lib', 'quire', 'versions', version))
+  : fs.realpathSync(libQuirePath)
 
 export default {
   config: path.join(eleventyRoot, '.eleventy.js'),
-  input: path.relative(eleventyRoot, path.join(projectRoot, 'content')),
+  input: path.relative(eleventyRoot, inputDir),
   output: path.relative(eleventyRoot, path.join(projectRoot, '_site')),
+  data: path.relative(inputDir, path.join(eleventyRoot, '_computed')),
+  includes: path.relative(inputDir, path.join(eleventyRoot, '_includes')),
+  layouts: path.relative(inputDir, path.join(eleventyRoot, '_layouts')),
   public: './public',
 }
