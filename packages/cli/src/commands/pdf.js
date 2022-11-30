@@ -52,7 +52,13 @@ export default class PDFCommand extends Command {
 
     const pdfLib = await libPdf(options.lib, { ...options.debug })
     const pdf = await pdfLib(input, output, { ...options.debug })
-    if (options.open) open(pdf)
+
+    try {
+      if (options.open) open(pdf)
+    } catch (error) {
+      console.error(error)
+      process.exit(1)
+    }
   }
 
   /**
