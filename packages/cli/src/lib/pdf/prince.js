@@ -4,7 +4,7 @@ import which from '#helpers/which.js'
 /**
  * A façade module for interacting with Prince CLI.
  */
-export default async (input, output, options) => {
+export default async (input, output, options = {}) => {
   which('prince')
 
   const defaults = [

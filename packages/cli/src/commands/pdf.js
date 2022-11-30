@@ -26,8 +26,8 @@ export default class PDFCommand extends Command {
         '--lib <module>', 'use the specified pdf module', 'pagedjs',
         { choices: ['pagedjs', 'prince'], default: 'pagedjs' }
       ],
-      // [ '--open', 'open PDF in default application' ],
-      // [ '--debug', 'run build with debug output to console' ],
+      [ '--open', 'open PDF in default application' ],
+      [ '--debug', 'run build with debug output to console' ],
     ],
   }
 
@@ -49,8 +49,9 @@ export default class PDFCommand extends Command {
 
     const output = path.join(projectRoot, `${options.lib}.pdf`)
 
-    const pdfLib = await libPdf(options.lib)
-    await pdfLib(input, output)
+    const pdfLib = await libPdf(options.lib, { ...options.debug })
+    const pdf = await pdfLib(input, output, { ...options.debug })
+    if (options.open) open(pdf)
   }
 
   /**

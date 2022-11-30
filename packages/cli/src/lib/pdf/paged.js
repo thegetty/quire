@@ -5,7 +5,7 @@ import fs from 'fs-extra'
  * A façade module for interacting with Paged.js
  * @see https://gitlab.coko.foundation/pagedjs/
  */
-export default async (input, output, options) => {
+export default async (input, output, options = {}) => {
   /**
    * Configure the Paged.js Printer options
    * @see https://gitlab.coko.foundation/pagedjs/pagedjs-cli/-/blob/main/src/cli.js
