@@ -41,8 +41,8 @@ module.exports = function (prefix='', loglevel=2) {
   const logFn = (type) => {
     const log = logger[type]
     const style = styles[type]
-    const prefixSpacer = prefix.length > 30 ? " " : " ".repeat(30 - prefix.length)
-    return (message) => log(style(chalk.bold(`[quire] ${type.toUpperCase()}\t`), `${prefix}${prefixSpacer}`, message))
+    prefix = prefix.padEnd(30, '\u0020')
+    return (message) => log(style(chalk.bold(`[quire] ${type.toUpperCase()}\t`), `${prefix}`, message))
   }
 
   /**
