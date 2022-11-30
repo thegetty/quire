@@ -7,7 +7,7 @@ import which from '#helpers/which.js'
  * A façade module for interacting with Pandoc CLI.
  * @see https://pandoc.org/MANUAL.html#general-options
  */
-export default async (input, options) => {
+export default async (input, output, options) => {
   which('pandoc')
 
   const inputDir = path.join(projectRoot, paths.epub)
@@ -15,7 +15,7 @@ export default async (input, options) => {
   const defaults = [
     `--from=html-native_divs+native_spans`,
     `--to=epub ${path.join(inputDir, 'epub.xhtml')}`,
-    `--output=${path.join(projectRoot, `pandoc.epub`)}`,
+    `--output=${output}`,
     // `--epub-metadata=${path.join(inputDir, 'dc.xml')}`,
     // `--epub-cover-image=${coverImage}`,
     // `--template=${path.join(inputDir, 'template.xhtml')}`,
