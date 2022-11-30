@@ -1,4 +1,4 @@
-import epub from 'epubjs'
+// import epub from 'epubjs'
 
 /**
  * A façade module for the EPUB.js library
