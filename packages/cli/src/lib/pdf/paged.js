@@ -25,8 +25,10 @@ export default async (input, options) => {
   }
 
   try {
-    return await printer.pdf(input, pdfOptions)
+    console.info(`[CLI:lib/pdf/pagedjs] printing ${input}`)
+    const file = await printer.pdf(input, pdfOptions)
+    // @todo write file
   } catch (ERR_FILE_NOT_FOUND) {
-    console.error(`[CLI:lib/pdf] input file ${input} could not be found`)
+    console.error(`[CLI:lib/pdf/pagedjs] file not found ${input}`)
   }
 }
