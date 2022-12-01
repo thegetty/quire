@@ -5,5 +5,5 @@
  * @see https://github.com/futurepress/epub.js
  */
 export default async (input, output, options) => {
-  console.info('[CLI:lib/epubjs] integration wiht epub.js is not yet implemented.')
+  console.info('[CLI:lib/epubjs] integration with epub.js is not yet implemented.')
 }
