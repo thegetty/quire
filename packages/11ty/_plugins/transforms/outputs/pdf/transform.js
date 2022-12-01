@@ -1,7 +1,7 @@
 const jsdom = require('jsdom')
 const filterOutputs = require('../filter.js')
 const truncate = require('~lib/truncate')
-const writeOutput = require('./write')
+const writer = require('./write')
 
 const { JSDOM } = jsdom
 
@@ -15,6 +15,8 @@ const { JSDOM } = jsdom
 module.exports = function(eleventyConfig, collections, content) {
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const slugify = eleventyConfig.getFilter('slugify')
+
+  const writeOutput = writer(eleventyConfig)
 
   /**
    * Truncated page or section title for footer

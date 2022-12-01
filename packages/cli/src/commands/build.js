@@ -19,10 +19,9 @@ export default class BuildCommand extends Command {
     version: '1.0.0',
     args: [
       // [
-      //   '[formats]', 'output formats',
+      //   '[formats...]', 'output formats',
       //   {
-      //     choices: ['html', 'pdf', 'epub'],
-      //     default: ['html', 'html only']
+      //     choices: ['pdf', 'epub'],
       //   }
       // ],
     ],

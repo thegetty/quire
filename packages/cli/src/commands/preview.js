@@ -18,10 +18,9 @@ export default class PreviewCommand extends Command {
     version: '1.0.0',
     args: [
       // [
-      //   '[formats]', 'output formats',
+      //   '[formats...]', 'output formats',
       //   {
-      //     choices: ['html', 'pdf', 'epub'],
-      //     default: ['html', 'html only']
+      //     choices: ['pdf', 'epub'],
       //   }
       // ],
     ],
@@ -41,9 +40,9 @@ export default class PreviewCommand extends Command {
     super(PreviewCommand.definition)
   }
 
-  action(options = {}) {
+  async action(args, options, command) {
     if (options.debug) {
-      console.info('Command \'%s\' called with options %o', this.name(), options)
+      console.debug('[CLI] Command \'%s\' called with arguments [%o] and options %o', this.name(), args.join(', '), options)
     }
 
     if (options['11ty'] === 'cli') {

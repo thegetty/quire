@@ -20,15 +20,7 @@ export default class CleanCommand extends Command {
     description: 'Remove build outputs',
     summary: 'remove build outputs',
     version: '1.0.0',
-    args: [
-      // [
-      //   '[formats]', 'output formats',
-      //   {
-      //     choices: ['html', 'pdf', 'epub'],
-      //     default: ['html', 'html only']
-      //   }
-      // ],
-    ],
+    args: [],
     options: [
       [ '-d', '--dry-run', 'show paths to be cleaned without deleting files' ],
       [ '-p', '--progress', 'display progress of removing files' ],
@@ -52,7 +44,7 @@ export default class CleanCommand extends Command {
       ? `the following files ${options.dryRun ? 'will be' : 'have been'} deleted:`
       : 'no files to delete'
 
-    console.debug(`[CLI] ${message} ${deletedPaths}`)
+    console.debug(`[CLI] ${message}\n${deletedPaths.join('\n')}`)
   }
 
   preAction(command) {

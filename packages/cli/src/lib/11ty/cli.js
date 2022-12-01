@@ -82,9 +82,9 @@ export default {
 
     command.push('--serve')
 
-    env.ELEVENTY_ENV = 'development'
-
     if (options.port) command.push(`--port=${options.port}`)
+
+    env.ELEVENTY_ENV = 'development'
 
     await execa('node', command, {
       all: true,

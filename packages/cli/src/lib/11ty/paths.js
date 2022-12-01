@@ -25,8 +25,6 @@ const version = 'latest'
 
 export const projectRoot = process.cwd()
 
-const inputDir = path.join(projectRoot, 'content')
-
 /**
  * Absolute path to the latest installed version of `quire-11ty`
  * @todo use version read from the project `.quire-version` file
@@ -82,8 +80,11 @@ const getEleventyRoot = () => {
 
 export const eleventyRoot = getEleventyRoot()
 
+const inputDir = path.join(projectRoot, 'content')
+
 export default {
   config: path.join(eleventyRoot, '.eleventy.js'),
+  epub: path.relative(eleventyRoot, path.join(projectRoot, '_epub')),
   input: path.relative(eleventyRoot, inputDir),
   output: path.relative(eleventyRoot, path.join(projectRoot, '_site')),
   data: path.relative(inputDir, path.join(eleventyRoot, '_computed')),
