@@ -83,10 +83,19 @@ export const eleventyRoot = getEleventyRoot()
 const inputDir = path.join(projectRoot, 'content')
 
 export default {
+  /**
+   * An abolsute path to eleventy config module
+   */
   config: path.join(eleventyRoot, '.eleventy.js'),
-  epub: path.relative(eleventyRoot, path.join(projectRoot, '_epub')),
+  /**
+   * Paths _relative to_ the eleventy config module
+   */
   input: path.relative(eleventyRoot, inputDir),
   output: path.relative(eleventyRoot, path.join(projectRoot, '_site')),
+  epub: path.relative(eleventyRoot, path.join(projectRoot, '_epub')),
+  /**
+   * Paths _relative to_ the `input` directory
+   */
   data: '_computed',
   includes: path.relative(inputDir, path.join(eleventyRoot, '_includes')),
   layouts: path.relative(inputDir, path.join(eleventyRoot, '_layouts')),
