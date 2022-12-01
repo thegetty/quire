@@ -51,7 +51,7 @@ export default class EpubCommand extends Command {
     const epubLib = await libEpub(options.lib, { ...options.debug })
     const epub = await epubLib(input, output, { ...options.debug })
 
-    if (options.open) open(epub)
+    if (epub && options.open) open(epub)
   }
 
   /**
