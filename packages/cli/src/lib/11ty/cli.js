@@ -32,7 +32,25 @@ const factory = (options = {}) => {
   if (options.quiet) command.push('--quiet')
   if (options.verbose) command.push('--verbose')
 
-  return command
+  /**
+   * Set execa environment variables
+   * @see https://github.com/sindresorhus/execa#env
+   *
+   * Set environment variables for paths relative to eleventy `input` dir,
+   * to allow `quire-11ty` to be decouple from the project input directory.
+   * Nota bene: environment variables read into the eleventy configuration
+   * file _must_ be set before the eleventy configuration file is parsed.
+   * @see https://github.com/11ty/eleventy/issues/2655
+   */
+  const env = {
+    ELEVENTY_DATA: paths.data,
+    ELEVENTY_INCLUDES: paths.includes,
+    ELEVENTY_LAYOUTS: paths.layouts,
+  }
+
+  if (options.debug) env.DEBUG = 'Eleventy*'
+
+  return { command, env }
 }
 
 /**
@@ -43,24 +61,16 @@ export default {
   build: async (options = {}) => {
     console.info('[CLI:11ty] running eleventy build')
 
-    const eleventyCommand = factory(options)
+    const { command, env } = factory(options)
 
-    if (options.dryRun) eleventyCommand.push('--dryrun')
+    if (options.dryRun) command.push('--dryrun')
 
-    /**
-     * Set execa environment variables
-     * @see https://github.com/sindresorhus/execa#env
-     */
-    const execaEnv = {
-      ELEVENTY_ENV: 'production'
-    }
+    env.ELEVENTY_ENV = 'production'
 
-    if (options.debug) execaEnv.DEBUG = 'Eleventy*'
-
-    await execa('node', eleventyCommand, {
+    await execa('node', command, {
       all: true,
       cwd: projectRoot,
-      env: execaEnv,
+      env,
       execPath: process.execPath
     }).all.pipe(process.stdout)
   },
@@ -68,26 +78,18 @@ export default {
   serve: async (options = {}) => {
     console.info(`[CLI:11ty] running eleventy serve`)
 
-    const eleventyCommand = factory(options)
+    const { command, env } = factory(options)
 
-    eleventyCommand.push('--serve')
+    command.push('--serve')
 
-    if (options.port) eleventyCommand.push(`--port=${options.port}`)
+    if (options.port) command.push(`--port=${options.port}`)
 
-    /**
-     * Set execa environment variables
-     * @see https://github.com/sindresorhus/execa#env
-     */
-    const execaEnv = {
-      ELEVENTY_ENV: 'development'
-    }
+    env.ELEVENTY_ENV = 'development'
 
-    if (options.debug) execaEnv.DEBUG = 'Eleventy*'
-
-    await execa('node', eleventyCommand, {
+    await execa('node', command, {
       all: true,
       cwd: projectRoot,
-      env: execaEnv,
+      env,
       execPath: process.execPath
     }).all.pipe(process.stdout)
   }

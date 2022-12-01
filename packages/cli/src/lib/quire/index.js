@@ -262,17 +262,21 @@ async function installInProject(projectPath, version, options={}) {
 
 /**
  * Retrieve latest published version of the `quire-11ty` package
+
+ * @todo refactor to programmatically return a specific version
+ * of `@thegetty/quire-11ty` from a semantic version string
+ * (i.e `^1.0.0-pre-release.0` => `1.0.0-pre-release.2`)
+ * so that the latest function may be used like:
+ *  await latest('^1.0.0-pre-release.0') => '1.0.0-pre-release.2'
+ *
  * Nota bene: `npm view [<@scope>/]<name>[@<version>] version`
  * @see https://docs.npmjs.com/cli/v7/commands/npm-view
  * returns a list of versions that satisfy the `<version>` range specifier,
  * piping this to execa `stdout` we get only the last line of output.
+ * @todo use [`parse-columns`](https://github.com/sindresorhus/parse-columns)
+ * to parse the column formated list of versions returned by `npm view`
  *
  * @return {String} `quire-11ty@latest` semantic version string
- *
- * @TODO refactor `latest()` function to programmatically return a specific
- * version of `@thegetty/quire-11ty` from a semantic version string
- * (i.e `^1.0.0-pre-release.0` => `1.0.0-pre-release.2`) so it may be used like:
- * await latest('^1.0.0-pre-release.0') => '1.0.0-pre-release.2'
  */
 async function latest() {
   const { stdout: quireVersion } =

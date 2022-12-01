@@ -1,5 +1,7 @@
 import Command from '#src/Command.js'
+import { paths, projectRoot  } from '#lib/11ty/index.js'
 import * as quire from '#lib/quire/index.js'
+import testcwd from '#helpers/test-cwd.js'
 
 /**
  * Quire CLI `version` Command
@@ -21,7 +23,7 @@ export default class VersionCommand extends Command {
       [ '<version>', 'the local quire version to use' ],
     ],
     options: [
-      [ '-g', '--global', 'set the quire version globally' ],
+      // [ '-g', '--global', 'set the quire version globally' ],
     ],
   }
 
@@ -29,9 +31,13 @@ export default class VersionCommand extends Command {
     super(VersionCommand.definition)
   }
 
-  async action(path, starter, options = {}) {
+  action(args, options = {}) {
     if (options.debug) {
       console.info('Command \'%s\' called with options %o', this.name, options)
     }
+  }
+
+  preAction(command) {
+    testcwd(command)
   }
 }

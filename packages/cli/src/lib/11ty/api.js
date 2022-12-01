@@ -36,6 +36,17 @@ const factory = async (options = {}) => {
   }
 
   /**
+   * Set environment variables for paths relative to eleventy `input` dir,
+   * to allow `quire-11ty` to be decouple from the project input directory.
+   * Nota bene: environment variables read into the eleventy configuration
+   * file _must_ be set before the eleventy configuration file is parsed.
+   * @see https://github.com/11ty/eleventy/issues/2655
+   */
+  process.env.ELEVENTY_DATA = paths.data
+  process.env.ELEVENTY_INCLUDES = paths.includes
+  process.env.ELEVENTY_LAYOUTS = paths.layouts
+
+  /**
    * Get an instance of the runtime of eleventy.
    * @see https://github.com/11ty/eleventy/blob/src/Eleventy.js
    *
@@ -100,7 +111,6 @@ export default {
     process.cwd(projectRoot)
 
     console.info('[CLI:11ty] running eleventy build')
-    console.info(`[CLI:11ty] projectRoot ${projectRoot}`)
 
     process.env.ELEVENTY_ENV = 'production'
     if (options.debug) process.env.DEBUG = 'Eleventy*'
