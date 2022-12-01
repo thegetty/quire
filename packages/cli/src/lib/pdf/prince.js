@@ -7,11 +7,10 @@ import which from '#helpers/which.js'
 export default async (input, output, options = {}) => {
   which('prince')
 
-  const defaults = [
-    `--outline-tags 'h1'`,
-    `--output ${output}`,
+  const cmdOptions = [
+    `--output=${output}`,
   ]
-  const cmdOptions = Object.assign(defaults, options)
-  const { stderror, stdout } = execa('prince', [...cmdOptions, input])
+
+  const { stderror, stdout } = await execa('prince', [...cmdOptions, input])
   return { stderror, stdout }
 }
