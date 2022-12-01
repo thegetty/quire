@@ -1,6 +1,7 @@
 import Command from '#src/Command.js'
 import { clean } from '#helpers/clean.js'
 import { paths, projectRoot  } from '#lib/11ty/index.js'
+import testcwd from '#helpers/test-cwd.js'
 
 /**
  * Quire CLI `clean` Command
@@ -52,5 +53,9 @@ export default class CleanCommand extends Command {
       : 'no files to delete'
 
     console.debug(`[CLI] ${message} ${deletedPaths}`)
+  }
+
+  preAction(command) {
+    testcwd(command)
   }
 }

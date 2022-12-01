@@ -20,8 +20,8 @@ const QUIRE_DOT_FILES = Object.freeze([
  * @param    {String}   dirpath   path to a local directory
  * @return   {Promise}
  */
-export function isQuire (dirpath) {
+export default function (dirpath) {
   return fs.readdirSync(dirpath)
-    .includes((file) => QUIRE_DOT_FILES.includes(file))
+    .find((entry) => QUIRE_DOT_FILES.includes(entry))
 }
 

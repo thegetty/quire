@@ -1,5 +1,6 @@
 import Command from '#src/Command.js'
 import { api, cli, paths, projectRoot  } from '#lib/11ty/index.js'
+import testcwd from '#helpers/test-cwd.js'
 
 /**
  * Quire CLI `preview` Command
@@ -52,5 +53,9 @@ export default class PreviewCommand extends Command {
       console.debug('[CLI] running eleventy using lib/11ty api')
       api.serve(options)
     }
+  }
+
+  preAction(command) {
+    testcwd(command)
   }
 }
