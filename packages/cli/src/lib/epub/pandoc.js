@@ -29,14 +29,14 @@ export default async (input, output, options) => {
 
   const cmdOptions = [
     `--from=html-native_divs+native_spans`,
-    `--to=epub ${inputs.join('\u0020')}`,
+    `--to=epub`,
     `--output=${output}`,
     // `--epub-metadata=${path.join(input, 'dc.xml')}`,
     // `--epub-cover-image=${coverImage}`,
     // `--template=${path.join(input, 'template.xhtml')}`,
     `--css=${path.join(input, '_assets', 'epub.css')}`,
-    `--standalone`
+    `--standalone`,
   ]
 
-  await execa('pandoc', cmdOptions)
+  await execa('pandoc', [...cmdOptions, ...inputs])
 }
