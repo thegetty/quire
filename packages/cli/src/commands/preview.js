@@ -40,7 +40,7 @@ export default class PreviewCommand extends Command {
     super(PreviewCommand.definition)
   }
 
-  async action(args, options, command) {
+  async action(options, command) {
     if (options.debug) {
       console.debug('[CLI] Command \'%s\' called with arguments [%o] and options %o', this.name(), args.join(', '), options)
     }
