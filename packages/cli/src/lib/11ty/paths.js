@@ -23,15 +23,6 @@ const cliRoot = path.resolve(__dirname, path.join('..', '..'))
 const eleventyConfig = '.eleventy.js'
 const version = 'latest'
 
-// Test project directory for an eleventy configuration file
-const hasEleventyConfig = (dir) => {
-  try {
-    return fs.readdirSync(dir).includes(eleventyConfig)
-  } catch (error) {
-    throw new Error(`[CLI:11ty] Unable to read project directory for eleventy config ${error}`)
-  }
-}
-
 export const projectRoot = process.cwd()
 
 const inputDir = path.join(projectRoot, 'content')
@@ -47,10 +38,49 @@ const libQuirePath = path.resolve(__dirname, path.join(cliRoot, 'lib', 'quire', 
  * Nota bene: to get a relative path to the `eleventyRoot`,
  * for example when the version is specified is 'latest',
  * it must be set to the real path to the symlink target.
+ *
+ * @todo refactor how and *when* the eleventyRoot is determined:
+ *  - we only need eleventyRoot for cli commands that run 11ty
+ *  - paths module is a concern of the `quire` module
+ *  - global quire-cli installation
+ *  - local quire-cli installation
+ *
+ *  For an excellent developer experience, the quire-11ty code should be
+ *  installed into an `11ty` or `quire-11ty` directory in the `projectRoot`
+ *  this will allow us to more easily manage symlinks for local development
+ *  using unpublished `quire-11ty` code.
+ *  @example
+ *  ```sh
+ *  blargh/
+ *    .git/
+ *    .gitignore
+ *    .node-version
+ *    .quire-version
+ *    11ty@ --> /Users/mph/Code/Getty/quire/packages/11ty
+ *    content/
+ *    CHANGELOG.md
+ *    LICENSE
+ *    README.md
+ *    package.json
+ *    package-lock.json
+ *  ```
+ *  Installing to a directory will allow more cleanly `eject` and `uneject`
+ *  using a symlink or single directory `rm -rf`.
+ *  Should the `11ty` directory be a dot directory to hide the complexity from
+ *  users or should it be visible to be more explicit when project is ejected?
  */
-export const eleventyRoot = hasEleventyConfig(projectRoot)
-  ? projectRoot
-  : fs.realpathSync(libQuirePath)
+const getEleventyRoot = () => {
+  // try {
+  //   return fs.readdirSync(projectRoot).includes(eleventyConfig)
+  //     ? projectRoot
+  //     : fs.realpathSync(libQuirePath)
+  // } catch (error) {
+  //   throw new Error(`[CLI:11ty] Unable to read project directory for eleventy config ${error}`)
+  // }
+  return projectRoot
+}
+
+export const eleventyRoot = getEleventyRoot()
 
 export default {
   config: path.join(eleventyRoot, '.eleventy.js'),
