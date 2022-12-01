@@ -87,7 +87,7 @@ export default {
   epub: path.relative(eleventyRoot, path.join(projectRoot, '_epub')),
   input: path.relative(eleventyRoot, inputDir),
   output: path.relative(eleventyRoot, path.join(projectRoot, '_site')),
-  data: path.relative(inputDir, path.join(eleventyRoot, '_computed')),
+  data: '_computed',
   includes: path.relative(inputDir, path.join(eleventyRoot, '_includes')),
   layouts: path.relative(inputDir, path.join(eleventyRoot, '_layouts')),
   public: './public',
