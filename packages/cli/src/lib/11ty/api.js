@@ -1,4 +1,4 @@
-import { IS_WINDOWS } from '#helpers/os-utils.js'
+import { dynamicImport } from '#helpers/os-utils.js'
 import { pathToFileURL } from 'node:url'
 import path from 'node:path'
 import paths, { eleventyRoot, projectRoot } from './paths.js'
@@ -18,12 +18,10 @@ const factory = async (options = {}) => {
   console.debug('[CLI:11ty] %o', paths)
 
   /**
-   * Dynamically import the correct version of Eleventy from `lib/quire/versions`
+   * Dynamically import the correct version of Eleventy
    */
   const modulePath = path.join(eleventyRoot, 'node_modules', '@11ty', 'eleventy', 'src', 'Eleventy.js')
-  const { default: Eleventy } = IS_WINDOWS
-    ? await import(pathToFileURL(modulePath))
-    : await import(modulePath)
+  const { default: Eleventy } = await dynamicImport(modulePath)
 
   /**
    * Set Eleventy passthrough copy options
@@ -31,8 +29,7 @@ const factory = async (options = {}) => {
    * @see https://github.com/timkendrick/recursive-copy
    */
   const copyOptions = {
-    debug: options.debug || false,
-    expand: false,
+    debug: options.debug || false
   }
 
   /**
