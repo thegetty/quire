@@ -2,7 +2,8 @@ import { execa } from 'execa'
 import which from '#helpers/which.js'
 
 /**
- * A façade module for interacting with Prince CLI.
+ * A façade module for interacting with the Prince CLI.
+ * @see https://www.princexml.com/doc/command-line/
  */
 export default async (input, output, options = {}) => {
   which('prince')
