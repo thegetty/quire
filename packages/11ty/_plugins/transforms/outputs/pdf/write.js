@@ -21,7 +21,7 @@ module.exports = (eleventyConfig) => {
 
   const inputDir = input
   const outputDir = process.env.ELEVENTY_ENV === 'production' ? 'public' : output
-  const outputPath = path.join(this.outputDir, 'pdf.html')
+  const outputPath = path.join(outputDir, 'pdf.html')
 
   fs.ensureDirSync(path.parse(outputPath).dir)
 
@@ -49,7 +49,7 @@ module.exports = (eleventyConfig) => {
     })
 
     try {
-      fs.writeFileSync(this.outputPath, dom.serialize())
+      fs.writeFileSync(outputPath, dom.serialize())
     } catch (error) {
       logger.error(`Eleventy transform for PDF error writing combined HTML output for PDF. ${error}`)
     }
