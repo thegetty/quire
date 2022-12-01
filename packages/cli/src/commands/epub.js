@@ -48,7 +48,7 @@ export default class EpubCommand extends Command {
 
     const output = path.join(projectRoot, `${options.lib}.epub`)
 
-    const epubLib = await libEpub('epubjs', { ...options.debug })
+    const epubLib = await libEpub(options.lib, { ...options.debug })
     const epub = await epubLib(input, output, { ...options.debug })
 
     if (options.open) open(epub)
