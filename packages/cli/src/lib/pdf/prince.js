@@ -1,20 +1,17 @@
 import { execa } from 'execa'
-import path from 'node:path'
-import paths, { projectRoot } from '#lib/11ty/paths.js'
 import which from '#helpers/which.js'
 
 /**
- * A façade module for interacting with Prince CLI.
+ * A façade module for interacting with the Prince CLI.
+ * @see https://www.princexml.com/doc/command-line/
  */
-export default async (input, options) => {
+export default async (input, output, options = {}) => {
   which('prince')
 
-  const output = path.join(projectRoot, `prince.pdf`)
-  const defaults = [
-    `--outline-tags 'h1'`,
-    `--output ${output}`,
+  const cmdOptions = [
+    `--output=${output}`,
   ]
-  const cmdOptions = Object.assign(defaults, options)
-  const { stderror, stdout } = execa('prince', [...cmdOptions, input])
+
+  const { stderror, stdout } = await execa('prince', [...cmdOptions, input])
   return { stderror, stdout }
 }

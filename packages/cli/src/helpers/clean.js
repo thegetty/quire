@@ -12,6 +12,7 @@ export async function clean (projectRoot, paths, options = {}) {
     path.join(projectRoot, paths.epub),
     path.join(projectRoot, paths.output),
     path.join(projectRoot, '*.epub'),
+    path.join(projectRoot, '*.pdf'),
   ]
 
   /**
