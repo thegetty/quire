@@ -1,29 +1,42 @@
 import { execa } from 'execa'
+import fs from 'fs-extra'
 import path from 'node:path'
 import paths, { projectRoot } from '#lib/11ty/paths.js'
 import which from '#helpers/which.js'
 
 /**
+ * Filter directory entries for XHTML files
+ *
+ * @param    {fs.Dirent}  dirent  directory entry
+ * @return   {fs.Dirent}  XHTML entries
+ */
+const xhtmlFiles = (dirent) => {
+  const stats = fs.lstatSync(dirent)
+  const { ext } = path.parse(dirent)
+  return stats.isFile() && ext === '.xhtml'
+}
+
+/**
  * A façade module for interacting with Pandoc CLI.
  * @see https://pandoc.org/MANUAL.html#general-options
  */
-export default async (input, options) => {
+export default async (input, output, options) => {
   which('pandoc')
 
-  const inputDir = path.join(projectRoot, paths.epub)
+  const inputs = fs.readdirSync(input)
+    .map((entry) => path.join(input, entry))
+    .filter(xhtmlFiles)
 
-  const defaults = [
+  const cmdOptions = [
     `--from=html-native_divs+native_spans`,
-    `--to=epub ${path.join(inputDir, 'epub.xhtml')}`,
-    `--output=${path.join(projectRoot, `pandoc.epub`)}`,
-    // `--epub-metadata=${path.join(inputDir, 'dc.xml')}`,
+    `--to=epub`,
+    `--output=${output}`,
+    // `--epub-metadata=${path.join(input, 'dc.xml')}`,
     // `--epub-cover-image=${coverImage}`,
-    // `--template=${path.join(inputDir, 'template.xhtml')}`,
-    `--css=${path.join(inputDir, '_assets', 'epub.css')}`,
-    `--standalone`
+    // `--template=${path.join(input, 'template.xhtml')}`,
+    `--css=${path.join(input, '_assets', 'epub.css')}`,
+    `--standalone`,
   ]
 
-  const cmdOptions = Object.assign(defaults, options)
-  const { stderror, stdout } = execa('pandoc', cmdOptions)
-  return { stderror, stdout }
+  await execa('pandoc', [...cmdOptions, ...inputs])
 }
