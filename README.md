@@ -52,7 +52,7 @@ We encourage you to sign up for a [free GitHub account](https://github.com/join)
 
 ### Dependencies
 
-Quire is centered around the static-site generator [Eleventy](https://www.11ty.dev/). The Quire command-line interface is written in Javascript and requires [Node.js LTS](https://nodejs.org/en/) to run.
+Quire is centered around the static-site generator [Eleventy](https://www.11ty.dev/). The Quire command-line interface is written in JavaScript and requires [Node.js LTS](https://nodejs.org/en/) to run.
 
 Either [PrinceXML](https://www.princexml.com/download/) or [Paged.js](https://pagedjs.org/) can be used for PDF generation.
 
