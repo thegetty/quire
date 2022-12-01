@@ -29,6 +29,6 @@ export default async (lib = 'epubjs', options = {}) => {
 
   return async (input, output, options = {}) => {
     console.info(`[CLI:lib/epub] generating EPUB using ${lib}`)
-    return await epubLib(input, options)
+    return await epubLib(input, output, options)
   }
 }
