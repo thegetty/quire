@@ -42,7 +42,7 @@ export default class PreviewCommand extends Command {
 
   async action(options, command) {
     if (options.debug) {
-      console.debug('[CLI] Command \'%s\' called with arguments [%o] and options %o', this.name(), args.join(', '), options)
+      console.debug('[CLI] Command \'%s\' called with arguments [%o] and options %o', this.name(), options)
     }
 
     if (options['11ty'] === 'cli') {
