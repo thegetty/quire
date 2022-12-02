@@ -271,10 +271,20 @@ module.exports = function(eleventyConfig) {
   /**
    * Watch the following additional files for changes and rerun server
    * @see https://www.11ty.dev/docs/config/#add-your-own-watch-targets
+   * @see https://www.11ty.dev/docs/watch-serve/#ignore-watching-files
    */
   eleventyConfig.addWatchTarget('./**/*.css')
   eleventyConfig.addWatchTarget('./**/*.js')
   eleventyConfig.addWatchTarget('./**/*.scss')
+
+  /**
+   * Ignore changes to programmatic build artifacts
+   * @see https://www.11ty.dev/docs/watch-serve/#ignore-watching-files
+   * @todo refactor to move these statements to the tranform plugins
+   */
+  eleventyConfig.watchIgnores.add('_epub')
+  eleventyConfig.watchIgnores.add('_pdf')
+  eleventyConfig.watchIgnores.add('_temp')
 
   return {
     /**
