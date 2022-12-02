@@ -20,7 +20,7 @@ const INTERVAL = Object.freeze({
  * @todo user configuration of choosen update interval
  */
 const notifier = updateNotifier({
-  distTag: 'pre-release',
+  distTag: 'rc',
   pkg: packageConfig,
   updateCheckInterval: INTERVAL.DAILY,
 })
