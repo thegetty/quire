@@ -1,0 +1,7 @@
+{% assign pageList = site.pages | where: page.order >= 0 %}
+<ul>
+  <li><strong>[ kind: type ] Title URL</strong></li>
+  {% for page in pageList %}
+    <li>[{{ page.kind }}: {{ layout }}] {{ page.title }} {{ page.url }}</li>
+  {% endfor %}
+</ul>

@@ -1,0 +1,27 @@
+---
+class: quire-essay
+layout: base.11ty.js
+description: Essay layout. This layout describes a single-page template that has been augmented with the ability to display a frontmatter-defined abstract (in markdown format) as well as bibliography references.
+---
+
+{% pageHeader
+  byline_format=byline_format,
+  image=image,
+  label=label,
+  pageContributors=pageContributors,
+  subtitle=subtitle,
+  title=title
+%}
+
+<section class="section quire-page__content">
+  {% if abstract %}
+    {% abstract abstract=abstract %}
+  {% endif %}
+  <div class="container">
+    <div class="content">
+      {{ content }}
+      {% bibliography pageReferences %}
+    </div>
+    {% pageButtons pagination=pagination %}
+  </div>
+</section>

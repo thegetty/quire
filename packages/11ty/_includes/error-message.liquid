@@ -1,0 +1,19 @@
+{% comment %}
+  Creates custom error messages for shortcodes.
+  @see `q-cite` for a sample implementation.
+
+  @param {String} shortcode
+  @param {String} message
+  @param {String} example
+
+{% endcomment %}
+
+<div class="quire-error message is-danger">
+  <div class="message-header">
+    <strong>SHORTCODE ERROR: {{ shortcode }}</strong>
+  </div>
+  <div class="message-body">
+    <p>{{ message | markdownify }}</p>
+    <pre>{{ example }}</pre>
+  </div>
+</div>

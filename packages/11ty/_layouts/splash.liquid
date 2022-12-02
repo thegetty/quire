@@ -1,0 +1,42 @@
+---
+class: quire-splash
+layout: base
+description: splash page layout
+---
+{%- if image -%}
+  {% assign imagePath = config.figures.imageDir | append: '/' | append: image %}
+{% endif %}
+{% assign labelDivider = config.pageTitle.labelDivider %}
+
+<section class="{% if title == "title page" or title == "half title page" %} is-screen-only {% endif %} quire-page__header hero {% if content %}{% else %}quire-page__header--full-height{% endif %} {% if image %}hero-image{% endif %}" {% if image %}style="background-image: url('{{ imagePath }}');"{% endif %}>
+  <div class="hero-body">
+    <h1 class="quire-page__header__title" id="{{ title | slugify }}">
+      {% if label %}<span class="label">{{ label }}<span class="visually-hidden">{{ labelDivider }}</span></span>{% endif %}
+      {%- pageTitle title=title, subtitle=subtitle -%}
+    </h1>
+    {% if pageContributors %}
+      <div class="quire-page__header__contributor">
+        {% contributors context=pageContributors, format=byline_format %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% if content %}
+  <section class="section quire-page__content">
+    {% if abstract %}
+      {% abstract abstract=abstract %}
+    {% endif %}
+    <div class="container">
+      <div class="content{% if image %}{% else %} no-image-above{% endif %}">
+        {{ content }}
+        {% bibliography pageReferences %}
+      </div>
+      {% pageButtons pagination=pagination %}
+    </div>
+  </section>
+{% else %}
+  <div class="quire-contents-buttons--fixed" data-outputs-exclude="epub,pdf">
+  {% pageButtons pagination=pagination %}
+  </div>
+{% endif %}

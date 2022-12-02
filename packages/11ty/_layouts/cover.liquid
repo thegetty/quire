@@ -1,0 +1,65 @@
+---
+class: quire-cover
+description: Quire publication cover page
+layout: base.11ty.js
+---
+
+{% assign coverImage = image %}
+{% assign imagePath = config.figures.imageDir | concat: coverImage | join: '/' %}
+
+<section class="quire-cover__hero hero is-fullheight">
+  <div
+    class="quire-cover__overlay"
+    style="background-image: url('{{ imagePath }}');"
+  />
+  <div class="quire-cover__hero-body hero-body">
+    <div class="container is-fluid">
+      <h1 class="title">
+        {{ publication.title | markdownify }}
+        {% if publication.subtitle %}
+          <span class="visually-hidden">: </span>
+          <span class="subtitle">{{ publication.subtitle | markdownify }}</span>
+        {% endif %}
+      </h1>
+      <p class="reading-line">{{ publication.reading_line | markdownify }}</p>
+      <div class="contributor">
+        <span class="visually-hidden">Contributors:&nbsp;</span>
+        {% if publication.contributor_as_it_appears %}
+          <em>{{ publication.contributor_as_it_appears }}</em>
+        {% else %}
+          <em>{% contributors context=publicationContributors, format='string', type='primary' %}</em>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% if content != blank %}
+  <section class="quire-cover__more next-page">
+    <div class="quire-cover__more-body hero-more">
+      <a href="#cover-content">
+        {% icon type='down-arrow', description='Scroll down to read more' %}
+      </a>
+    </div>
+  </section>
+
+  <section id="cover-content" class="section quire-page__content">
+    <div class="container is-fluid">
+      <div class="content">
+        {{ content }}
+        {% bibliography pageReferences %}
+      </div>
+    </div>
+  </section>
+
+  {% pageButtons pagination=pagination %}
+
+{% else %}
+  <section class="quire-cover__more">
+    <div class="quire-cover__more-body hero-more next-page">
+      <a href="{{ pagination.nextPage.url }}">
+        {% icon type='down-arrow', description='Scroll down to read more' %}
+      </a>
+    </div>
+  </section>
+{% endif %}

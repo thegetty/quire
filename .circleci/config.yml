@@ -140,6 +140,7 @@ jobs:
 
 workflows:
   build_install_test:
+    when: false # disable workflow until refactored for Quire v1
     jobs:
       - build_install_test:
           <<: *matrix_params

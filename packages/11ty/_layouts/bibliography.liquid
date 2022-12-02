@@ -1,0 +1,24 @@
+---
+layout: page
+---
+
+{% assign entries = references.entries | sortReferences %}
+
+{{ content }}
+
+<div class="quire-page__content__references">
+  {% if config.bibliography.displayShort == true %}
+    {% for entry in entries %}
+      <dl>
+        <dt><span id="{{ forloop.index }}">{{ entry.id | markdownify }}</span></dt>
+        <dd>{{ entry.full | markdownify }}</dd>
+      </dl>
+    {% endfor %}
+  {% else %}
+    <ul>
+      {% for entry in entries%}
+        <li id="{{ forloop.index }}">{{ entry.full | markdownify }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</div>
