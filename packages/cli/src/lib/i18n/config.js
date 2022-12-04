@@ -2,9 +2,8 @@
  * i18next configuration
  * @see https://www.i18next.com/overview/configuration-options
  *
- * @todo
- * set debug using cli `--debug` option
- * load resources from locale data files
+ * @todo set debug using cli `--debug` option
+ * @todo load resources from locale data files
  */
 export default {
   debug: false,

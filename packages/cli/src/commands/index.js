@@ -1,3 +1,4 @@
+import { dynamicImport } from '#helpers/os-utils.js'
 import { fileURLToPath } from 'node:url'
 import fs from 'fs-extra'
 import path from 'node:path'
@@ -14,7 +15,7 @@ const thisfile = path.basename(__filename)
 const commands = await Promise.all(
   fs.readdirSync(__dirname)
     .filter((file) => file !== thisfile && file.match(/^.*\.js$/))
-    .map((file) => import(path.resolve(__dirname, file)))
+    .map(async (file) => await dynamicImport(path.resolve(__dirname, file)))
 ).then((modules) => {
   return modules.map(({ default: CommandClass }) => new CommandClass())
 })

@@ -1,14 +1,14 @@
 ## Eleventy `_includes`
 
-> Eleventy `_includes`, like `_layouts` are language-agnostic, are not processed as full template files, and are meant to wrap and/or be wrapped by other templates. Unlike `_layouts`, `_includes` are meant to be consumed _inline_ by other templates such as `_layouts` or other `_includes`.
+> Eleventy `_includes`, like `_layouts`, are language-agnostic, are not processed as full template files, and are meant to wrap and/or be wrapped by other templates. Unlike `_layouts`, `_includes` are meant to be consumed _inline_ by other templates such as `_layouts` or other `_includes`.
 
-Use Liquid or Nunjucks template language includes for HTML _partials_ that do not need parameters other than those available in the global data inheritance context.
+Use [Liquid](https://www.11ty.dev/docs/languages/liquid/) or [Nunjucks](https://www.11ty.dev/docs/languages/nunjucks/) template language includes for HTML _partials_ that do not need parameters other than those available in the global data inheritance context.
 
 ### `_includes/components`
 
 The `_include/components` implement _cross templating language_ includes, also refered to as "shortcode components" because they are registered as Eleventy shortcodes (see the [`components` plugin module](`blob/main/plugins/components/README.md`)) that can be used in multiple template languages.
 
-Use a shortcode components when the rendering the include requires using JavaScript or NPM packages, complex conditional logic or manipulation of data, including async data.
+Use a shortcode component when rendering the include requires using JavaScript or NPM packages, complex conditional logic or data manipulation, including async data.
 
 ### Data
 
@@ -23,7 +23,7 @@ For example to allow [`_includes/components/head`](blob/main/_includes/component
 
 #### `data`
 
-The `data` property contains the final data from the Eleventy data cascade, including Quire specific global data files located in the `content/_data/` directory.
+The `data` property contains the final data from the [Eleventy data cascade](https://www.11ty.dev/docs/data-cascade/), including Quire specific global data files located in the `content/_data/` directory.
 
 ### Example Usage
 

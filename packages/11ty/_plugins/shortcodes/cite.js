@@ -1,12 +1,12 @@
 const chalkFactory = require('~lib/chalk')
 const { renderOneLine, stripIndent } = require('~lib/common-tags')
 
-const { warn } = chalkFactory('shortcodes:cite')
+const logger = chalkFactory('shortcodes:cite')
 
 /**
- *  @todo Remove reliance on `this.page` in context. 
+ *  @todo Remove reliance on `this.page` in context.
  *  This was a workaround, and we should reassess how this component provides citations data to the in-page bibliograph.
- * 
+ *
  *  This shortcode adds a linked Author Date citation reference to the text,
  *  and a hover pop-up with the full citation text.
  *
@@ -30,6 +30,7 @@ const { warn } = chalkFactory('shortcodes:cite')
  *  renders the citation "1909"
  */
 module.exports = function(eleventyConfig, { page }) {
+  const icon = eleventyConfig.getFilter('icon')
   const markdownify = eleventyConfig.getFilter('markdownify')
 
   const {
@@ -41,7 +42,7 @@ module.exports = function(eleventyConfig, { page }) {
 
   return function(id, pageNumber, text) {
     if (!id) {
-      warn(stripIndent`
+      logger.warn(stripIndent`
         missing shortcode parameters ${page.inputPath}
 
           Usage:
@@ -80,7 +81,7 @@ module.exports = function(eleventyConfig, { page }) {
 
       return entry
         ? { ...entry, short: entry.short || entry.id }
-        : warn(stripIndent`
+        : logger.warn(stripIndent`
             references entry not found ${page.inputPath}
               cite id '${id}' does not match an entry in the project references data
           `)
@@ -102,8 +103,8 @@ module.exports = function(eleventyConfig, { page }) {
     const button = popupStyle === 'icon'
       ? renderOneLine`
           ${buttonText}
-          <button class="quire-citation__button material-icons md-18 material-control-point" aria-expanded="false">
-            control_point
+          <button class="quire-citation__button quire-citation__button--icon" aria-expanded="false">
+            ${icon({ type: 'add-circle', description: 'View reference' })}
           </button>
         `
       : renderOneLine`

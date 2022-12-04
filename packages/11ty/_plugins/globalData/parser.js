@@ -1,5 +1,8 @@
+const chalkFactory = require('~lib/chalk')
 const fs = require('fs-extra')
 const path = require('path')
+
+const logger = chalkFactory('globalData:parser')
 
 /**
  * A proxy method for parsing Eleventy data extensions
@@ -21,17 +24,19 @@ module.exports = function(eleventyConfig) {
   return (filePath) => {
     const { base, ext, name } = path.parse(filePath)
     const fileExt = ext.slice(1)
-
     const extension = dataExtensions.get(fileExt)
-
     try {
       if (extension && extension.parser) {
         const { options, parser } = extension
-        const input = options.read ? fs.readFileSync(filePath) : filePath
+        const input = options && options.read
+          ? fs.readFileSync(filePath)
+          : filePath
         return parser(input)
+      } else {
+        logger.warn(`Unable to parse ${filePath}\nNo data extension is configured for '.${fileExt}' data files`)
       }
     } catch (error) {
-      logger.error(error)
+      logger.error(`Error parsing ${filePath} ${error}`)
     }
   }
 }

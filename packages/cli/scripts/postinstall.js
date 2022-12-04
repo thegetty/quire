@@ -1,5 +1,5 @@
+#!/usr/bin/env node --no-warnings
 import chalk from 'chalk'
-import localeService from '#lib/i18n/index.js'
 
 // @todo use an i18n string for the documentation url
 const docsUrl = 'https://quire.getty.edu/docs/quire-cli/'
@@ -23,5 +23,5 @@ try {
     // cli('--help')
   }
 } catch (error) {
-  // snafu
+  console.error('postinstall', error)
 }

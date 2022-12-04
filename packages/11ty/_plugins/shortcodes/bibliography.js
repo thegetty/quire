@@ -1,6 +1,7 @@
 const { html } = require('~lib/common-tags')
 const chalkFactory = require('~lib/chalk')
-const { info } = chalkFactory('configuration:bibliography')
+
+const logger = chalkFactory('configuration:bibliography')
 
 /**
  * Renders a bibliography of references from page citations.
@@ -30,7 +31,7 @@ module.exports = function (eleventyConfig, { page }) {
 
     if (!displayOnPage) {
       page.citations
-        ? info(`A bibiliography of citations on ${page.inputPath} is not being displayed there, because 'config.bibliography.displayOnPage' on that page or in config.yaml, is set to false.`)
+        ? logger.info(`A bibiliography of citations on ${page.inputPath} is not being displayed there, because 'config.bibliography.displayOnPage' on that page or in config.yaml, is set to false.`)
         : ''
       return ''
     }

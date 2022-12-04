@@ -31,7 +31,7 @@ module.exports = (eleventyConfig, collections) => {
     /**
      * Copy font and icon directories
      */
-    const assetDirsToCopy = ['fonts', 'material-icons']
+    const assetDirsToCopy = ['fonts']
 
     assetDirsToCopy.forEach((name) => {
       const source = path.join(eleventyConfig.dir.input, assetsDir, name)
@@ -54,6 +54,7 @@ module.exports = (eleventyConfig, collections) => {
      * Copy assets
      */
     const { assets } = eleventyConfig.globalData.epub
+    assets.push(manifest.cover)
     for (const asset of assets) {
       fs.copySync(
         path.join(eleventyConfig.dir.output, asset),

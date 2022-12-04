@@ -1,12 +1,12 @@
 const { html } = require('~lib/common-tags')
 const chalkFactory = require('~lib/chalk')
 
-const { error } = chalkFactory('Figure Video')
+const logger = chalkFactory('Figure Video')
 
 const audioElements = {
   soundcloud({ id, mediaId }) {
     if (!mediaId) {
-      error(`Cannot render SoundCloud component without 'media_id'. Check that figures data for id: ${id} has a valid 'media_id'`)
+      logger.error(`Cannot render SoundCloud component without 'media_id'. Check that figures data for id: ${id} has a valid 'media_id'`)
       return ''
     }
 

@@ -1,7 +1,6 @@
-#!/usr/bin/env node
-import { Command } from 'commander'
-import commands from '#src/commands/index.js'
-import localeService from '#lib/i18n/index.js'
+import { Argument, Command, Option } from 'commander'
+import commands from './commands/index.js'
+import packageConfig from '../package.json' assert { type: 'json' }
 
 /**
  * Quire CLI implements the command pattern.
@@ -15,7 +14,7 @@ const program = new Command()
 program
   .name('quire-cli')
   .description('Quire command-line interface')
-  .version('1.0.0')
+  .version(packageConfig.version)
   .configureHelp({
     helpWidth: 80,
     sortOptions: false,
@@ -38,9 +37,15 @@ commands.forEach((command) => {
     aliases.forEach((alias) => subCommand.alias(alias))
   }
 
+  /**
+   * @see https://github.com/tj/commander.js#more-configuration-1
+   */
   if (Array.isArray(args)) {
-    args.forEach(([ arg, value, callback ]) => {
-      subCommand.argument(arg, value, callback)
+    args.forEach(([ name, description, configuration = {} ]) => {
+      const argument = new Argument(name, description)
+      if (configuration.choices) argument.choices(configuration.choices)
+      if (configuration.default) argument.default(configuration.default)
+      subCommand.addArgument(argument)
     })
   }
 
@@ -48,16 +53,16 @@ commands.forEach((command) => {
    * @see https://github.com/tj/commander.js/#options
    */
   if (Array.isArray(options)) {
-    options.forEach((option) => {
-      if (Array.isArray(option)) {
+    options.forEach((entry) => {
+      if (Array.isArray(entry)) {
         // ensure we can join the first two attributes as the option name
         // when only the short or the long flag is defined in the array
-        if (option[0].startsWith('--')) option.unshift('\u0020'.repeat(4))
-        if (option[0].startsWith('-') && !option[1].startsWith('--')) {
-          option.splice(1, 0, '')
+        if (entry[0].startsWith('--')) entry.unshift('\u0020'.repeat(4))
+        if (entry[0].startsWith('-') && !entry[1].startsWith('--')) {
+          entry.splice(1, 0, '')
         }
         // assign attribute names to the array of option attributes
-        const [ short, long, description, defaultValue ] = option
+        const [ short, long, description, defaultValue ] = entry
         // join short and long flags as the option name attribute
         const name = /^-\w/.test(short) && /^--\w/.test(long)
           ? [short, long].join(', ')
@@ -65,11 +70,13 @@ commands.forEach((command) => {
         subCommand.option(name, description, defaultValue)
       } else {
         /**
-         * @todo allow option attributes to be defined using an object
+         * @todo allow options to be defined by a configuration object
          * @see https://github.com/tj/commander.js/#more-configuration
          */
-        // const option = new Option(name, description, defaultValue)
-        // if (attributes.blarg) option.blagh(attributes.blarg)
+        // const option = new Option(name, description)
+        // for (const property of configuration) {
+        //   option[property](configuration[property])
+        // }
         // subCommand.addOption(option)
         console.error('@TODO please use an array to define option attributes')
       }

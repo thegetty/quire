@@ -1,7 +1,7 @@
 const chalkFactory = require('~lib/chalk')
 const Processor = require('simple-cite')
 
-const { error } = chalkFactory('plugins:citations')
+const logger = chalkFactory('plugins:citations')
 
 const defaultStyles = {
   chicago: require('./styles/chicago-fullnote-bibliography'),
@@ -18,7 +18,7 @@ module.exports = function(options={}) {
     const style = styles[type]
 
     if (!style) {
-      error(`Citation style "${type}" is not supported. You may need to add it to _plugins/citations/styles.`)
+      logger.error(`Citation style "${type}" is not supported. You may need to add it to _plugins/citations/styles.`)
       return
     }
 

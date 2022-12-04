@@ -1,15 +1,14 @@
 {
   "name": "@thegetty/quire-cli",
   "description": "Quire command-line interface",
-  "version": "1.0.0-pre-release.0",
+  "version": "1.0.0-rc.0",
   "author": "Getty Digital",
-  "license": "J Paul Getty Trust",
+  "license": "SEE LICENSE IN https://github.com/thegetty/quire/blob/main/LICENSE",
   "bugs": {
     "url": "https://github.com/thegetty/quire/issues"
   },
   "homepage": "https://github.com/thegetty/quire/tree/main/packages/cli#readme",
   "keywords": [
-    "11ty",
     "cli",
     "quire"
   ],
@@ -20,6 +19,7 @@
   "type": "module",
   "files": [
     "bin/",
+    "scripts",
     "src/",
     "CHANGELOG.md",
     "LICENSE",
@@ -36,7 +36,6 @@
   "scripts": {
     "lint": "eslint src --ext .js",
     "lint:fix": "npm run lint -- --fix",
-    "postinstall": "node scripts/postinstall.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "imports": {
@@ -46,28 +45,30 @@
     "#lib/*.js": "./src/lib/*.js"
   },
   "dependencies": {
-    "@11ty/eleventy": "^2.0.0-canary.16",
     "boxen": "^7.0.0",
     "chalk": "^5.1.2",
     "commander": "^9.4.1",
     "conf": "^10.2.0",
     "cross-env": "^7.0.3",
     "del": "^7.0.0",
+    "epubjs": "^0.4.2",
     "execa": "^6.1.0",
-    "fs-extra": "^10.1.0",
+    "fs-extra": "^11.0.0",
     "hosted-git-info": "^6.1.1",
     "i18next": "^22.0.4",
     "inquirer": "^9.1.4",
     "install-npm-version": "^1.0.8",
     "loglevel": "^1.8.0",
+    "open": "^8.4.0",
     "ora": "^6.1.2",
+    "pagedjs-cli": "^0.3.1",
     "semver": "^7.3.8",
-    "simple-git": "^3.14.1",
+    "simple-git": "^3.15.0",
     "update-notifier": "^6.0.2"
   },
   "devDependencies": {
     "del-cli": "^5.0.0",
-    "eslint": "^8.27.0"
+    "eslint": "^8.28.0"
   },
   "engines": {
     "node": ">=14.16"

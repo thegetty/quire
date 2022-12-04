@@ -1,7 +1,11 @@
 # Eleventy build artifacts
 _epub/
+_pdf/
 _site/
 _temp/
+
+# Eleventy content directory
+content/
 
 # EleventFetch cache directory
 .cache

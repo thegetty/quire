@@ -1,5 +1,6 @@
 import Command from '#src/Command.js'
 import { api, cli, paths, projectRoot  } from '#lib/11ty/index.js'
+import testcwd from '#helpers/test-cwd.js'
 
 /**
  * Quire CLI `preview` Command
@@ -17,10 +18,9 @@ export default class PreviewCommand extends Command {
     version: '1.0.0',
     args: [
       // [
-      //   '[formats]', 'output formats',
+      //   '[formats...]', 'output formats',
       //   {
-      //     choices: ['html', 'pdf', 'epub'],
-      //     default: ['html', 'html only']
+      //     choices: ['pdf', 'epub'],
       //   }
       // ],
     ],
@@ -40,9 +40,9 @@ export default class PreviewCommand extends Command {
     super(PreviewCommand.definition)
   }
 
-  action(options = {}) {
+  async action(options, command) {
     if (options.debug) {
-      console.info('Command \'%s\' called with options %o', this.name(), options)
+      console.debug('[CLI] Command \'%s\' called with arguments [%o] and options %o', this.name(), options)
     }
 
     if (options['11ty'] === 'cli') {
@@ -52,5 +52,9 @@ export default class PreviewCommand extends Command {
       console.debug('[CLI] running eleventy using lib/11ty api')
       api.serve(options)
     }
+  }
+
+  preAction(command) {
+    testcwd(command)
   }
 }

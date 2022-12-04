@@ -1,6 +1,7 @@
 import Command from '#src/Command.js'
 import { api, cli, paths, projectRoot  } from '#lib/11ty/index.js'
 import { clean } from '#helpers/clean.js'
+import testcwd from '#helpers/test-cwd.js'
 
 /**
  * Quire CLI `build` Command
@@ -18,10 +19,9 @@ export default class BuildCommand extends Command {
     version: '1.0.0',
     args: [
       // [
-      //   '[formats]', 'output formats',
+      //   '[formats...]', 'output formats',
       //   {
-      //     choices: ['html', 'pdf', 'epub'],
-      //     default: ['html', 'html only']
+      //     choices: ['pdf', 'epub'],
       //   }
       // ],
     ],
@@ -56,6 +56,8 @@ export default class BuildCommand extends Command {
   }
 
   preAction(command) {
+    testcwd(command)
+
     const options = command.opts()
     if (options.debug) {
       console.debug('[CLI] Calling \'build\' command pre-action with options', options)
