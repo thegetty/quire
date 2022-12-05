@@ -1,11 +1,11 @@
 {
-  "name": "root",
+  "name": "@thegetty/quire",
   "version": "1.0.0",
   "private": true,
   "description": "a multi-format book publishing framework",
   "author": "Getty Digital",
   "license": "SEE LICENSE IN https://github.com/thegetty/quire/blob/main/LICENSE",
-  "homepage": "https://github.com/thegetty/quire/tree/main/#readme",
+  "homepage": "https://quire.getty.edu/",
   "bugs": {
     "url": "https://github.com/thegetty/quire/issues"
   },
@@ -13,7 +13,9 @@
     "type": "git",
     "url": "https://github.com/thegetty/quire.git"
   },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  }
+  "workspaces": [
+    "packages/11ty",
+    "packages/cli",
+    "starters/default"
+  ]
 }
