@@ -17,6 +17,20 @@ export default async (input, output, options = {}) => {
 
   const printer = new Printer(printerOptions)
 
+  printer.on('page', (page) => {
+    if (page.position === 0) {
+      console.info(`[CLI:lib/pdf/pagedjs] loaded`)
+    }
+  })
+
+  printer.on('rendered', (msg) => {
+    console.info(`[CLI:lib/pdf/pagedjs] ${msg}`)
+  })
+
+  printer.on('postprocessing', () => {
+    console.info(`[CLI:lib/pdf/pagedjs] post-processing`)
+  })
+
   /**
    * Configure the Paged.js PDF options
    * @see
