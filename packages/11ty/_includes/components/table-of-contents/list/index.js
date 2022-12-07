@@ -47,9 +47,9 @@ module.exports = function(eleventyConfig) {
     }
 
     return html`
-      <div class="menu-list">
+      <nav class="menu-list">
         ${renderList(navigation)}
-      </div>
+      </nav>
     `
   }
 }
