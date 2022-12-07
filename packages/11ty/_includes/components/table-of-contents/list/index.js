@@ -40,14 +40,14 @@ module.exports = function(eleventyConfig) {
     const renderList = (pages) => {
       const otherPages = filterCurrentPage(pages)
       return html`
-        <ol class="toc-list">
+        <ol class="table-of-contents-list">
           ${otherPages.map(listItem)}
         </ol>
       `
     }
 
     return html`
-      <nav class="menu-list">
+      <nav class="table-of-contents menu-list">
         ${renderList(navigation)}
       </nav>
     `
