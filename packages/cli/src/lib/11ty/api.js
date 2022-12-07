@@ -13,9 +13,9 @@ import paths, { eleventyRoot, projectRoot } from './paths.js'
 const factory = async (options = {}) => {
   const { config, input, output } = paths
 
-  console.info(`[CLI:11ty] projectRoot ${projectRoot}`)
-
-  console.debug('[CLI:11ty] %o', paths)
+  if (options.debug) {
+    console.debug('[CLI:11ty] projectRoot %s\n%o', projectRoot, paths)
+  }
 
   /**
    * Dynamically import the correct version of Eleventy
