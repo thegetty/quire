@@ -13,6 +13,7 @@ export default async (input, output, options = {}) => {
   const printerOptions = {
     allowLocal: true,
     debug: options.debug || false,
+    enableWarnings: options.debug || false,
   }
 
   const printer = new Printer(printerOptions)
@@ -44,11 +45,15 @@ export default async (input, output, options = {}) => {
 
   try {
     console.info(`[CLI:lib/pdf/pagedjs] printing ${input}`)
+
     const file = await printer.pdf(input, pdfOptions)
       .catch((error) => console.error(error))
 
+    printer.close()
+
     if (file && output) {
-      fs.writeFile(output, file, (error) => { if (error) throw error })
+      await fs.promises.writeFile(output, file)
+        .catch((error) => console.error(error))
     }
   } catch (ERR_FILE_NOT_FOUND) {
     console.error(`[CLI:lib/pdf/pagedjs] file not found ${input}`)
