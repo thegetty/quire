@@ -13,6 +13,7 @@ export default async (input, output, options = {}) => {
   const printerOptions = {
     allowLocal: true,
     debug: options.debug || false,
+    enableWarnings: options.debug || false,
   }
 
   const printer = new Printer(printerOptions)
