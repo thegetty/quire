@@ -63,6 +63,18 @@ module.exports = function(eleventyConfig, collections, content) {
     filterOutputs(body, 'epub')
     getAssets(body)
 
+    /**
+     * Add epub-specific attributes to TOC element
+     */
+    const tableOfContents = body.querySelector('.table-of-contents')
+    if (tableOfContents) {
+      tableOfContents.setAttribute('role', 'doc-toc')
+      tableOfContents.setAttribute('epub:type', 'toc')
+    }
+
+    /**
+     * Sequence and write files
+     */
     const name = slugify(this.url) || path.parse(this.inputPath).name
     const targetLength = collections.epub.length.toString().length
     const sequence = index.toString().padStart(targetLength, 0)
