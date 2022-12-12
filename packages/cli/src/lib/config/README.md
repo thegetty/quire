@@ -2,12 +2,10 @@
 
 This `quire-cli/lib/config` module manages reading and writing (persisting) options for the Quire CLI using the [`conf`](https://github.com/sindresorhus/conf#defaults) package.
 
-~~The configuration file can be globally and per-project. The Quire CLI will search upward for the first configuration file _within the project directory_ when a CLI command is run.~~
-
 
 ### Configuration
 
-`logLevel ['info']` The default logging level for the Quire CLI output.
+`logLevel` The default logging level for the Quire CLI output; default `'info'`.
 
 `projectTemplate` A default project starter template to use when creating new projects; default `'quire-starter-default'`.
 
@@ -96,8 +94,8 @@ To reset *all* keys to their default values, use the `reset` argument:
 ❯ quire config reset
 ```
 
-To reset an individual key to its default value, use the `unset` argument:
+To reset an individual key to its default value:
 
 ```sh
-❯ quire config unset [key]
+❯ quire config reset [key]
 ```

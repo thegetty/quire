@@ -1,6 +1,7 @@
 /**
  * Quire configuration defaults
- * Nota bene: these values will overwrite teh `default` key in the schema
+ *
+ * Nota bene: `defaults` values will overwrite schema `default` values
  * @see https://github.com/sindresorhus/conf#defaults
  */
 export default {
