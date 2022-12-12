@@ -7,35 +7,27 @@
  */
 export default {
   logLevel: {
-    type: 'string',
-    default: 'info',
+    type: 'string'
   },
   projectTemplate: {
-    type: 'string',
-    default: 'quire-starter-default',
+    type: 'string'
   },
   quire11tyPath: {
-    type: 'string',
-    default: './',
+    type: 'string'
   },
   quireVersion: {
-    type: 'string',
-    default: 'latest',
+    type: 'string'
   },
   telemetry: {
-    type: 'boolean',
-    default: false,
+    type: 'boolean'
   },
   updateChannels: {
-    type: 'array',
-    dafault: ['latest', 'pre-release']
+    type: 'array'
   },
   updateInterval: {
-    type: 'string',
-    default: 'DAILY',
+    type: 'string'
   },
   versionFile: {
-    type: 'string',
-    default: '.quire',
+    type: 'string'
   }
 }

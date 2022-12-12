@@ -1,6 +1,6 @@
 ## CLI Configuration Manager
 
-This `quire-cli/lib/config` module manages reading and writing (persisting) options for the Quire CLI using the [`conf`](https://github.com/sindresorhus/conf#defaults) package.
+This `quire-cli/lib/config` module manages reading and writing (persisting) options for the Quire CLI using the [`conf`](https://github.com/sindresorhus/conf) package.
 
 
 ### Configuration
