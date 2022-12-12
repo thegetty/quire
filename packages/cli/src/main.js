@@ -1,5 +1,6 @@
 import { Argument, Command, Option } from 'commander'
-import commands from './commands/index.js'
+import commands from '#src/commands/index.js'
+import config from '#lib/config/index.js'
 import packageConfig from '../package.json' assert { type: 'json' }
 
 /**
@@ -103,6 +104,11 @@ commands.forEach((command) => {
 
   // subCommand.action((args) => action.apply(command, args))
   subCommand.action(action)
+
+  /**
+   * Inject CLI configuration into commands
+   */
+  subCommand.config = config
 })
 
 /**
