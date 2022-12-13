@@ -16,7 +16,7 @@ export default {
   /**
    * The relative path to `quire-11ty` installed in the project directory.
    */
-  quirePath: '.',
+  quire11tyPath: '.',
   /**
    * Version of `quire-11ty` to install when creating new Quire projects.
    */
