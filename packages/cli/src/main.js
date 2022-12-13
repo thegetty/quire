@@ -14,7 +14,7 @@ const program = new Command()
 program
   .name('quire-cli')
   .description('Quire command-line interface')
-  .version(packageConfig.version)
+  .version(packageConfig.version,  '-v, --version', 'output quire version number')
   .configureHelp({
     helpWidth: 80,
     sortOptions: false,
