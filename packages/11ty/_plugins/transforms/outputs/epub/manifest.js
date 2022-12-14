@@ -120,7 +120,7 @@ module.exports = (eleventyConfig) => {
     contributors: contributors('secondary'),
     cover: coverUrl,
     creators: contributors('primary'),
-    date: pubDate,
+    dateModifed: pubDate,
     description: removeHTML(description.full).replace(/\r?\n|\r/g, ' '),
     id: isbn,
     languages: language,
