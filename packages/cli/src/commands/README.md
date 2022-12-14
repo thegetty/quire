@@ -42,41 +42,17 @@ Note that this command is distinct from the [quire/11ty package](https://github.
 quire clean --dry-run
 ```
 
-### `configure`
+### `configure` **not yet implemented**
 
-Edit a Quire project configuration.
+Edit the Quire CLI configuration.
 
 ```sh
 quire configure
 ```
 
-### `debug`
+### `install` **not yet implemented**
 
-Display Quire debugging information in the console.
-
-```sh
-quire debug
-```
-
-### `dev`
-
-Clone `quire/packages/11ty` into the local project.
-
-```sh
-quire dev
-```
-
-### `edit`
-
-Open or create a new content file in the default editor.
-
-```sh
-quire edit
-```
-
-### `install`
-
-Clone an existing project from a git repository.
+Clone an existing Quire project from a git repository.
 
 ```sh
 quire install <repository>
@@ -112,7 +88,7 @@ Build and server the Quire site in development mode.
 quire preview --port 8080
 ```
 
-#### `epub`
+#### `epub` **not yet implemented**
 
 Preview the Quire publication epub in the default application.
 
@@ -120,17 +96,7 @@ Preview the Quire publication epub in the default application.
 quire preview epub --open
 ```
 
-To preview the epub in Apple iBooks or Kindle Previewer
-
-```sh
-quire preview epub --open iBooks
-```
-
-```sh
-quire preview epub --open Kindle
-```
-
-#### `pdf`
+#### `pdf` **not yet implemented**
 
 Preview the Quire publication PDF in the default application.
 
@@ -138,13 +104,7 @@ Preview the Quire publication PDF in the default application.
 quire preview pdf --open
 ```
 
-Preview the Quire publication PDF in an application.
-
-```sh
-quire preview pdf --open <Application>
-```
-
-#### `site`
+#### `site` **default subcommand**
 
 Build and serve the Quire site in development mode.
 
@@ -152,7 +112,7 @@ Build and serve the Quire site in development mode.
 quire preview site
 ```
 
-#### `server`
+### `server` **not yet implemented**
 
 Start a local web server to serve a previously built Quire site.
 
@@ -160,7 +120,7 @@ Start a local web server to serve a previously built Quire site.
 quire server --port 8080
 ```
 
-### `version`
+### `version` **partial implementation**
 
 Sets the Quire version to use when running commands on the project.
 
