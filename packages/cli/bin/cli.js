@@ -1,4 +1,4 @@
-#!/usr/bin/env node --no-warnings
+#!/usr/bin/env -S node --no-warnings
 
 import cli from '#src/main.js'
 import packageConfig from '#root/package.json' assert { type: 'json' }
