@@ -22,10 +22,6 @@ export default {
    */
   quireVersion: 'latest',
   /**
-   * Send anonymous data about Quire usage **Not Implemented**
-   */
-  telemetry: false,
-  /**
    * A list of distribution tags to use when checking for version updates.
    * To show notifications for pre-releases version updates include `'pre-release'` in the array of channels.
    */

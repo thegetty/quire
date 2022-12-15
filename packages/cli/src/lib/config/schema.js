@@ -18,9 +18,6 @@ export default {
   quireVersion: {
     type: 'string'
   },
-  telemetry: {
-    type: 'boolean'
-  },
   updateChannels: {
     type: 'array'
   },
