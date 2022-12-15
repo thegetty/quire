@@ -77,7 +77,7 @@ module.exports = (eleventyConfig) => {
    * @returns {Array} Paths to stylesheets
    */
   const stylesheets = () => {
-    return [path.join('css', 'epub.css')]
+    return [path.join('_assets', 'epub.css')]
   }
 
   /**
@@ -91,26 +91,44 @@ module.exports = (eleventyConfig) => {
     }
   }
 
+  /**
+   * Collect resources for the publication
+   */
+  let resources = []
+  for (const url of stylesheets()) {
+    resources.push({
+      url: url,
+      encodingFormat: 'text/css'
+    })
+  }
+
+  const coverUrl = cover()
+  for (const asset of assets) {
+    let item = { url: asset }
+    if (asset === coverUrl) {
+      item.rel = 'cover-image'
+    }
+    resources.push(item)
+  }
+
   return {
     '@context': [
       'https://schema.org',
       'https://www.w3.org/ns/pub-context'
     ],
-    // css: stylesheets(),
     conformsTo: 'https://www.w3.org/TR/pub-manifest/',
     contributors: contributors('secondary'),
-    cover: cover(),
+    cover: coverUrl,
     creators: contributors('primary'),
-    date: pubDate,
+    dateModifed: pubDate,
     description: removeHTML(description.full).replace(/\r?\n|\r/g, ' '),
     id: isbn,
     languages: language,
     publisher: publisherNameAndLocations(),
     readingOrder: readingOrder.sort(),
-    resources: assets,
+    resources: resources,
     rights: copyright,
     title: pubTitle(),
-    type: 'Book',
-    url
+    type: 'Book'
   }
 }

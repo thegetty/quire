@@ -50,7 +50,7 @@ module.exports = function(eleventyConfig, collections, content) {
 
   if (epubContent && ext === '.html') {
     const page = collections.epub[index]
-    const { document } = new JSDOM(epubContent).window
+    const { document, window } = new JSDOM(epubContent).window
     const mainElement = document.querySelector('main[data-output-path]')
     const title = pageTitle(page.data)
     const body = document.createElement('body')
@@ -78,9 +78,29 @@ module.exports = function(eleventyConfig, collections, content) {
     const name = slugify(this.url) || path.parse(this.inputPath).name
     const targetLength = collections.epub.length.toString().length
     const sequence = index.toString().padStart(targetLength, 0)
-    epubContent = layout({ body: body.outerHTML, language, title })
+
+    const serializer = new window.XMLSerializer()
+    const xml = serializer.serializeToString(body)
+
+    epubContent = layout({ body: xml, language, title })
+
     const filename = `${sequence}_${name}.xhtml`
-    readingOrder.push(filename)
+    const item = {
+      url: filename,
+      encodingFormat: 'application/xhtml+xml'
+    }
+
+    switch (page.data.layout) {
+      case 'table-of-contents':
+        item.rel = 'contents'
+        break
+      case 'cover':
+        item.rel = 'cover'
+        break
+    }
+
+    readingOrder.push(item)
+
     write(filename, epubContent)
   }
 
