@@ -37,7 +37,7 @@ Contact us at [quire@getty.edu](mailto:quire@getty.edu)
 
 There are two main code repositories for Quire hosted on GitHub.
 
-- [**quire**](https://github.com/thegetty/quire): The command-line interface for Quire and packages
+- [**quire**](https://github.com/thegetty/quire): Quire’s primary repository, with the command-line interface and 11ty template packages
 - [**quire-starter-default**] The default starter content for a Quire project 
 - [**quire-docs**](https://github.com/thegetty/quire-docs): The Quire website and documentation.
 
