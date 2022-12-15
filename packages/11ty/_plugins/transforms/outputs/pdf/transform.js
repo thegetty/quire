@@ -93,7 +93,7 @@ module.exports = function(eleventyConfig, collections, content) {
 
       /**
        * Once this transform has been called for each PDF page
-       * every item in the collection will have `sectionConent`
+       * every item in the collection will have `sectionContent`
        */
       if (collections.pdf.every(({ sectionElement }) => !!sectionElement)) {
         writeOutput(collections.pdf)

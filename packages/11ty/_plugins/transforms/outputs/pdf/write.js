@@ -43,6 +43,9 @@ module.exports = (eleventyConfig) => {
 
     const trimLeadingSlash = (string) => string.startsWith('/') ? string.substr(1) : string
 
+    /**
+     * Rewrite image src attributes to be relative
+     */
     document.querySelectorAll('[src]').forEach((asset) => {
       const src = asset.getAttribute('src')
       asset.setAttribute('src', trimLeadingSlash(src))
@@ -57,7 +60,7 @@ module.exports = (eleventyConfig) => {
     const sassOptions = {
       loadPaths: [
         path.resolve('node_modules')
-      ]
+      ],
     }
 
     try {
