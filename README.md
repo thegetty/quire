@@ -2,7 +2,7 @@
 
 ## About Quire 
 
-Developed by Getty, Quire is a digital publishing tool that can create dynamic publications in a variety of formats, including web, print, and e-book. Quire is an ideal tool for anyone seeking to publish beautiful, scholarly digital books optimized for visual imagery and designed to ensure their content is widely accessible and stable. 
+Developed by Getty, Quire is a digital publishing tool that can create dynamic publications in a variety of formats, including web, print, and e-book. Quire is an ideal tool for publishing beautiful, scholarly digital books optimized for visual imagery and designed to ensure publication content is widely accessible and stable.
 
 Quire is open source and free to use. View Quire's [3-clause BSD open source license](https://github.com/thegetty/quire/blob/main/LICENSE).  
 
@@ -31,9 +31,17 @@ If you’re considering using Quire for the first time, please be sure to visit 
 
 We encourage you to sign up for a [free GitHub account](https://github.com/join) to access the [Quire Community Forum](https://github.com/thegetty/quire/discussions). You can utilize the forum to ask and answer questions, share ideas, provide feedback, and assist your fellow Quire users. [Subscribe to our newsletter](https://newsletters.getty.edu/h/t/DDE7B9372AAF01E4) for the latest news and events, new feature updates, and highlights from our community. 
 
+### Quire Repositories
+
+There are three Quire repositories hosted on GitHub:
+
+- [**quire**](https://github.com/thegetty/quire): Quire’s primary repository, with the command-line interface and 11ty template packages
+- [**quire-starter-default**](https://github.com/thegetty/quire-starter-default): The default starter content for a Quire project
+- [**quire-docs**](https://github.com/thegetty/quire-docs): Quire website and documentation.
+
 ## Installation and Usage for Quire
 
-## macOS
+### macOS
 
 1. Download and install the LTS version of Node.js: https://nodejs.org/en/download/.
 2. Install Quire with `npm install --global @thegetty/quire-cli`
@@ -41,7 +49,7 @@ We encourage you to sign up for a [free GitHub account](https://github.com/join)
 4. Confirm installation with `quire --version`. You should see a version number that begins with a 1. If you receive the message "command not found" this means installation was unsuccessful.
 5. Vist the [*Get Started*](https://quire.getty.edu/docs-v1/get-started) section of the documentation to begin a new Quire project.
 
-## Windows
+### Windows
 
 1. Download and install Git for Windows: https://gitforwindows.org/. 
 2. Download and install the LTS version of Node.js: https://nodejs.org/en/download/. 
@@ -50,7 +58,7 @@ We encourage you to sign up for a [free GitHub account](https://github.com/join)
 5. Confirm installation with `quire --version`. You should see a version number that begins with a 1. If you receive the message "command not found" this means installation was unsuccessful.
 6. Vist the [*Get Started*](https://quire.getty.edu/docs-v1/get-started) section of the documentation to begin a new Quire project.
 
-### Dependencies
+## Dependencies
 
 Quire is centered around the static-site generator [Eleventy](https://www.11ty.dev/). The Quire command-line interface is written in JavaScript and requires [Node.js LTS](https://nodejs.org/en/) to run.
 
@@ -59,18 +67,19 @@ Either [PrinceXML](https://www.princexml.com/download/) or [Paged.js](https://pa
 
 ## Quire Commands 
 
-| Option          | Result                                  | 
-| --------------- | --------------------------------------- | 
-| -V, --version   | Output the version number               |
-| -h, --help      | Output usage information                |
+| Option            | Result                                  | 
+| ----------------- | --------------------------------------- | 
+| `-V, --version`   | Output the version number               |
+| `-h, --help`      | Output usage information                |
 
-| Command             | Result                                                            |
-| ------------------- | ----------------------------------------------------------------- |
-| new \<projectName\> | Create a new Quire project in the current directory.              |
-| preview             | Run the preview server in the current directory                   |
-| install             | Install this project's theme dependencies                         |
-| build               | Run the build command to generate pdf, epub, and html site        |
-| debug               | Development use only - log info about current  project            |
+| Command               | Result                                                            |
+| --------------------- | ----------------------------------------------------------------- |
+| `new \<projectName\>` | Create a new Quire project in the current directory.              |
+| `preview`             | Run the preview server in the current directory                   |
+| `build`               | Run the build command to generate pdf, epub, and html site files  |
+| `pdf`                 | Output Quire project in PDF format (must run `quire build` first) |
+| `epub`                | Output Quire project in EPUB format (must run `quire build` first)|
+| `clean`               | Remove old `build` outputs                                        | 
 
 For more information about these commands please see the [*Quire Commands*](https://quire.getty.edu/docs-v1/quire-commands/) section of our documentation.
 
