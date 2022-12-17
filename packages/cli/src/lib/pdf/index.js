@@ -22,7 +22,7 @@ export default async (name = 'pagedjs', options = {}) => {
     case 'prince':
     case 'princexml': {
       lib.name = 'Prince'
-      lib.options = { debug: options.debug }
+      lib.options = { debug: options.debug, verbose: options.verbose }
       lib.path = path.join(__dirname, 'prince.js')
       break
     }
