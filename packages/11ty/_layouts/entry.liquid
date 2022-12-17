@@ -47,7 +47,7 @@ Entry content, including entry image and tombstone data
   <div class="quire-entry__content">
     <header class="quire-entry__header">
       <div class="container">
-        <h1 class="quire-page__header__title" id="{{ title | slugify }}">
+        <h1 class="quire-page__header__title" id="page-header-{{ page.fileStemPath }}">
           {% pageTitle label=label, title=title, subtitle=subtitle %}
         </h1>
         <div class="quire-page__header__contributor">

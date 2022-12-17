@@ -14,7 +14,7 @@ layout: base.11ty.js
   />
   <div class="quire-cover__hero-body hero-body">
     <div class="container is-fluid">
-      <h1 class="title">
+      <h1 class="title" id="page-header-{{ page.fileStemPath }}">
         {{ publication.title | markdownify }}
         {% if publication.subtitle %}
           <span class="visually-hidden">: </span>
