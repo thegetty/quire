@@ -59,12 +59,12 @@ body:
   id: logs
   attributes:
     label: Relevant Terminal/Shell output
-    description: Please copy and paste all relevant messaging from your Terminal/Shell. If you encountered a preview issue run `quire preview --verbose` and inclue the output below.
+    description: Please copy and paste all relevant messaging from your Terminal/Shell.
     render: shell
 - type: textarea
   id: supporting_info
   attributes:
     label: Supporting Information
-    description: If you have additional files that would be useful in describing the issue (Terminal output, screenshots, Quire output files, related issue) attach them by dragging and dropping in the comments below.
+    description: If you have additional files that would be useful in describing the issue (Screenshots, Quire output files, related issue) attach them by dragging and dropping in the comments below.
   validations:
     required: false
