@@ -7,10 +7,11 @@ import { pathToFileURL } from 'node:url'
  * @see https://github.com/futurepress/epubjs-cli
  */
 export default async (input, output, options) => {
-
   try {
     console.info(`[CLI:lib/epub/epubjs] Generating ePub from ${input}`)
-    const url = pathToFileURL(`${input}/manifest.json`).href
+
+    const url = pathToFileURL(`${input}/manifest.json`).toString()
+
     const epub = await new ManifestToEpub(url)
       .catch((error) => console.error(error))
 
@@ -23,5 +24,4 @@ export default async (input, output, options) => {
   } catch (ERR_FILE_NOT_FOUND) {
     console.error(`[CLI:lib/epub/epubjs] file not found ${input}`)
   }
-
 }
