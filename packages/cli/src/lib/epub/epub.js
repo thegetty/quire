@@ -6,7 +6,7 @@ import { pathToFileURL } from 'node:url'
  * A façade module for the EPUB.js library
  * @see https://github.com/futurepress/epubjs-cli
  */
-export default async (input, output, options) => {
+export default async (input, output, options = {}) => {
   try {
     console.info(`[CLI:lib/epub/epubjs] Generating ePub from ${input}`)
 

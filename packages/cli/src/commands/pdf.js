@@ -51,7 +51,7 @@ export default class PDFCommand extends Command {
     const output = path.join(projectRoot, `${options.lib}.pdf`)
 
     const pdfLib = await libPdf(options.lib, { debug: options.debug })
-    await pdfLib(input, output, { debug: options.debug })
+    await pdfLib(input, output)
 
     try {
       if (fs.existsSync(output) && options.open) open(output)

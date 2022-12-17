@@ -49,7 +49,7 @@ export default class EpubCommand extends Command {
     const output = path.join(projectRoot, `${options.lib}.epub`)
 
     const epubLib = await libEpub(options.lib, { debug: options.debug })
-    await epubLib(input, output, { debug: options.debug })
+    await epubLib(input, output)
 
     if (fs.existsSync(output) && options.open) open(output)
   }
