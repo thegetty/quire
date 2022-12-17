@@ -1,12 +1,12 @@
 # Quire Contributor Guidelines
 
-**We encourage contributions from our community members. No matter what level of experience you have, we welcome all contributions, big and small.**
+*Thank you for your interest in contributing to Quire! No matter what level of experience you have, we welcome all contributions, big and small.* 
 
-Developed by Getty, Quire is a digital publishing tool that can create dynamic publications in a variety of formats, including web, print, and e-book. Quire is an ideal tool for anyone seeking to publish beautiful, scholarly digital books optimized for visual imagery and designed to ensure their content is widely accessible and stable.
+Developed by Getty, Quire is a digital publishing tool that can create dynamic publications in a variety of formats, including web, print, and e-book. Quire is an ideal tool for publishing beautiful, scholarly digital books optimized for visual imagery and designed to ensure publication content is widely accessible and stable.
 
 Quire is open source and free to use. View Quire's [3-clause BSD open source license](https://github.com/thegetty/quire/blob/main/LICENSE). Please note: Quire v1 is currently in a pre-release phase. Testing and improvements are ongoing.
 
-There are [many ways to contribute](#identify-a-contribution-to-make) including fixing bugs, improving the documentation, and creating a new feature or theme. Please read the following guidelines carefully. Our goal is to make the process as effective and transparent as possible, and to ensure that your every contribution can become part of Quire. Thank you for taking the time.
+There are [many ways to contribute](#identify-a-contribution-to-make) including fixing bugs, improving the documentation, and creating a new feature or theme. Please read the following guidelines carefully. Our goal is to make the process as effective and transparent as possible, and to ensure that your contributions can become part of Quire. Thank you for taking the time.
 
 🗣**CALLING ALL FIRST-TIMERS!** — We can’t stress enough that Quire is open to contributors at all levels. That could mean making a modest fix, like correcting a typo or fixing a broken link, or more intensive contributions like adding Quire CSS styles and JavaScript, or even copyediting one of our documentation pages. Here are a few resources especially for you:
 
@@ -38,7 +38,7 @@ Contact us at [quire@getty.edu](mailto:quire@getty.edu)
 There are two main code repositories for Quire hosted on GitHub.
 
 - [**quire**](https://github.com/thegetty/quire): Quire’s primary repository, with the command-line interface and 11ty template packages
-- [**quire-starter-default**](https://github.com/thegetty/quire-starter-default) The default starter content for a Quire project 
+- [**quire-starter-default**](https://github.com/thegetty/quire-starter-default): The default starter content for a Quire project 
 - [**quire-docs**](https://github.com/thegetty/quire-docs): The Quire website and documentation.
 
 ## Identify a Contribution to Make
