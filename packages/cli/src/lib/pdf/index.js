@@ -8,31 +8,33 @@ const __dirname = path.dirname(__filename)
 /**
  * A façade delegation module for PDF generation libraries
  */
-export default async (lib = 'pagedjs', options = {}) => {
-  let libName, libPath
+export default async (name = 'pagedjs', options = {}) => {
+  const lib = { name, options, path }
 
-  switch (lib.toLowerCase()) {
+  switch (name.toLowerCase()) {
     case 'paged':
     case 'pagedjs': {
-      libName = 'Paged.js'
-      libPath = path.join(__dirname, 'paged.js')
+      lib.name = 'Paged.js'
+      lib.options = { debug: options.debug }
+      lib.path = path.join(__dirname, 'paged.js')
       break
     }
     case 'prince':
     case 'princexml': {
-      libName = 'Prince'
-      libPath = path.join(__dirname, 'prince.js')
+      lib.name = 'Prince'
+      lib.options = { debug: options.debug, verbose: options.verbose }
+      lib.path = path.join(__dirname, 'prince.js')
       break
     }
     default:
-      console.error(`[CLI:lib/pdf] Unrecognized PDF library '${lib}'`)
+      console.error(`[CLI:lib/pdf] Unrecognized PDF library '${name}'`)
       return
   }
 
-  const { default: pdfLib } = await dynamicImport(libPath)
+  const { default: pdfLib } = await dynamicImport(lib.path)
 
-  return async (input, output, options = {}) => {
-    console.info(`[CLI:lib/pdf] generating PDF using ${libName}`)
-    return await pdfLib(input, output, options)
+  return async (input, output) => {
+    console.info(`[CLI:lib/pdf] generating PDF using ${lib.name}`)
+    return await pdfLib(input, output, lib.options)
   }
 }

@@ -16,6 +16,11 @@ export default async (input, output, options = {}) => {
     enableWarnings: options.debug || false,
   }
 
+  if (options.debug) {
+    const optionsOutput = JSON.stringify(printerOptions, null, 2)
+    console.debug(`[CLI:lib/pdf/pagedjs] Printer options\n${optionsOutput}`)
+  }
+
   const printer = new Printer(printerOptions)
 
   printer.on('page', (page) => {
@@ -41,6 +46,11 @@ export default async (input, output, options = {}) => {
    */
   const pdfOptions = {
     outlineTags: options.outlineTags || ['h1'],
+  }
+
+  if (options.debug) {
+    const optionsOutput = JSON.stringify(pdfOptions, null, 2)
+    console.debug(`[CLI:lib/pdf/pagedjs] PDF options\n${optionsOutput}`)
   }
 
   try {
