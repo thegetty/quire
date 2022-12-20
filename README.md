@@ -74,9 +74,9 @@ Either [PrinceXML](https://www.princexml.com/download/) or [Paged.js](https://pa
 
 | Command               | Result                                                            |
 | --------------------- | ----------------------------------------------------------------- |
-| `new \<projectName\>` | Create a new Quire project in the current directory.              |
+| `new \<projectName\>` | Create a new Quire project in the current directory               |
 | `preview`             | Run the preview server in the current directory                   |
-| `build`               | Run the build command to generate pdf, epub, and html site files  |
+| `build`               | Run the build command to generate the html site files             |
 | `pdf`                 | Output Quire project in PDF format (must run `quire build` first) |
 | `epub`                | Output Quire project in EPUB format (must run `quire build` first)|
 | `clean`               | Remove old `build` outputs                                        | 
