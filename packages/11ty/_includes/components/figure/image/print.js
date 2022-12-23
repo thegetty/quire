@@ -1,5 +1,7 @@
 const { html } = require('~lib/common-tags')
 const path = require('path')
+const chalkFactory = require('~lib/chalk')
+const logger = chalkFactory('Figure Annotations UI')
 
 /**
  * Renders an image with a caption in print output
@@ -16,7 +18,9 @@ module.exports = function(eleventyConfig) {
   const { imageDir } = eleventyConfig.globalData.config.figures
 
   return function(figure) {
-    const { alt, caption, credit, id, label, src='' } = figure
+    const { alt, caption, credit, id, label, src } = figure
+
+    if (!src) return ''
 
     const labelElement = figureLabel({ caption, id, label })
 
