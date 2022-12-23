@@ -1,7 +1,5 @@
 const { html } = require('~lib/common-tags')
 const path = require('path')
-const chalkFactory = require('~lib/chalk')
-const logger = chalkFactory('Figure Annotations UI')
 
 /**
  * Renders an image with a caption in print output
