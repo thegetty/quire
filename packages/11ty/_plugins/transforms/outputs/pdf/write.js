@@ -63,7 +63,7 @@ module.exports = (eleventyConfig) => {
     const sassOptions = {
       loadPaths: [
         path.resolve('node_modules')
-      ],
+      ]
     }
 
     try {
