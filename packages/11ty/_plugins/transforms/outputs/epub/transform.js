@@ -1,3 +1,4 @@
+const dedupeElementIds = require('../dedupeElementIds')
 const filterOutputs = require('../filter.js')
 const getIIIFConfig = require('../../../figures/iiif/config')
 const jsdom = require('jsdom')
@@ -62,6 +63,7 @@ module.exports = function(eleventyConfig, collections, content) {
      */
     filterOutputs(body, 'epub')
     getAssets(body)
+    dedupeElementIds(body)
 
     /**
      * Add epub-specific attributes to TOC element

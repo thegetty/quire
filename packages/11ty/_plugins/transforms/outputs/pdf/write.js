@@ -1,4 +1,5 @@
 const chalkFactory = require('~lib/chalk')
+const dedupeElementIds = require('../dedupeElementIds')
 const fs = require('fs-extra')
 const jsdom = require('jsdom')
 const path = require('path')
@@ -51,6 +52,8 @@ module.exports = (eleventyConfig) => {
       asset.setAttribute('src', trimLeadingSlash(src))
     })
 
+    dedupeElementIds(document)
+
     try {
       fs.writeFileSync(outputPath, dom.serialize())
     } catch (error) {
@@ -72,28 +75,5 @@ module.exports = (eleventyConfig) => {
     } catch (error) {
       logger.error(`Eleventy transform for PDF error compiling SASS. Error message: ${error}`)
     }
-
-    // Prevent duplicate ids by appending an incrementing digit (e.g. '_1', '_2', etc.)  to each duplicate id
-    // @TODO this should definitely be tested!
-    const elementIds = Array
-      .from(document.querySelectorAll('[id]'))
-      .map(({ id }) => id)
-
-    let duplicateIds = elementIds.reduce((duplicates, id, index, array) => {
-      if (array.indexOf(id) !== index && !duplicates.includes(id)) {
-        duplicates.push(id)
-      }
-
-      return duplicates
-    }, [])
-
-    duplicateIds.forEach((id) => {
-      const elementsWithSameId = Array.from(document.querySelectorAll(`[id=${id}]`))
-      for (const [index, element] of elementsWithSameId.entries()) {
-        if (index) {
-          element.id += `_${index}`
-        }
-      }
-    })
   }
 }
