@@ -223,7 +223,11 @@ module.exports = function(eleventyConfig) {
           plugins: [
             copy({
               targets: [
-                { src: 'public/*', dest: '_site' }
+                { src: 'public/*', dest: outputDir },
+                {
+                  src: path.join(inputDir, '_assets', 'images', '*'),
+                  dest: path.join(outputDir, '_assets', 'images')
+                }
               ]
             })
           ]
