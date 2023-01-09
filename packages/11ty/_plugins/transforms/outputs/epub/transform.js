@@ -1,4 +1,3 @@
-const dedupeElementIds = require('../dedupeElementIds')
 const filterOutputs = require('../filter.js')
 const getIIIFConfig = require('../../../figures/iiif/config')
 const jsdom = require('jsdom')
@@ -15,6 +14,7 @@ module.exports = function(eleventyConfig, collections, content) {
   const { output: iiifOutputDir } = getIIIFConfig(eleventyConfig).dirs
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const slugify = eleventyConfig.getFilter('slugify')
+  const slugifyIds = eleventyConfig.getFilter('slugifyIds')
   const { imageDir } = eleventyConfig.globalData.config.figures
   const { language } = eleventyConfig.globalData.publication
   const { assets, readingOrder } = eleventyConfig.globalData.epub
@@ -63,7 +63,6 @@ module.exports = function(eleventyConfig, collections, content) {
      */
     filterOutputs(body, 'epub')
     getAssets(body)
-    dedupeElementIds(body)
 
     /**
      * Add epub-specific attributes to TOC element
@@ -82,7 +81,7 @@ module.exports = function(eleventyConfig, collections, content) {
     const sequence = index.toString().padStart(targetLength, 0)
 
     const serializer = new window.XMLSerializer()
-    const xml = serializer.serializeToString(body)
+    const xml = slugifyIds(serializer.serializeToString(body))
 
     epubContent = layout({ body: xml, language, title })
 

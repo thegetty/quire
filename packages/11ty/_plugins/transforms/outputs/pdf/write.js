@@ -1,5 +1,4 @@
 const chalkFactory = require('~lib/chalk')
-const dedupeElementIds = require('../dedupeElementIds')
 const fs = require('fs-extra')
 const jsdom = require('jsdom')
 const path = require('path')
@@ -12,6 +11,7 @@ const sass = require('sass')
  * @see https://www.11ty.dev/docs/copy/#passthrough-file-copy
  */
 module.exports = (eleventyConfig) => {
+  const slugifyIds = eleventyConfig.getFilter('slugifyIds')
   const { input, output } = eleventyConfig.dir
   const { JSDOM } = jsdom
 
@@ -52,10 +52,10 @@ module.exports = (eleventyConfig) => {
       asset.setAttribute('src', trimLeadingSlash(src))
     })
 
-    dedupeElementIds(document)
+    const content = slugifyIds(dom.serialize())
 
     try {
-      fs.writeFileSync(outputPath, dom.serialize())
+      fs.writeFileSync(outputPath, content)
     } catch (error) {
       logger.error(`Eleventy transform for PDF error writing combined HTML output for PDF. ${error}`)
     }
