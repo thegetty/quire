@@ -48,6 +48,11 @@ module.exports = (eleventyConfig) => {
       asset.setAttribute('src', trimLeadingSlash(src))
     })
 
+    document.querySelectorAll('[data-cover-image]').forEach((element) => {
+      const { coverImage } = element.dataset
+      if (coverImage) element.style.backgroundImage = `url('${trimLeadingSlash(coverImage)}')`
+    })
+
     try {
       fs.writeFileSync(outputPath, dom.serialize())
     } catch (error) {
