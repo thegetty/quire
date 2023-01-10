@@ -50,7 +50,7 @@ module.exports = (eleventyConfig) => {
 
     document.querySelectorAll('[data-background-image]').forEach((element) => {
       const { backgroundImage } = element.dataset
-      if (coverImage) element.style.backgroundImage = `url('${trimLeadingSlash(coverImage)}')`
+      if (backgroundImage) element.style.backgroundImage = `url('${trimLeadingSlash(coverImage)}')`
     })
 
     try {
