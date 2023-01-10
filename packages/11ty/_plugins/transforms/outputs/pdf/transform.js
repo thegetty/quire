@@ -81,7 +81,7 @@ module.exports = function(eleventyConfig, collections, content) {
         setDataAttributes(currentPage, sectionElement)
 
         // set an id for anchor links to each section
-        sectionElement.setAttribute('id', mainElement.getAttribute('id'))
+        sectionElement.setAttribute('id', mainElement.dataset.pageId)
 
         // transform relative links to anchor links
         transformRelativeLinks(sectionElement)
