@@ -48,8 +48,8 @@ module.exports = (eleventyConfig) => {
       asset.setAttribute('src', trimLeadingSlash(src))
     })
 
-    document.querySelectorAll('[data-cover-image]').forEach((element) => {
-      const { coverImage } = element.dataset
+    document.querySelectorAll('[data-background-image]').forEach((element) => {
+      const { backgroundImage } = element.dataset
       if (coverImage) element.style.backgroundImage = `url('${trimLeadingSlash(coverImage)}')`
     })
 
