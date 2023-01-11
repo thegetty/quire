@@ -48,9 +48,9 @@ module.exports = (eleventyConfig) => {
       asset.setAttribute('src', trimLeadingSlash(src))
     })
 
-    document.querySelectorAll('[data-background-image]').forEach((element) => {
-      const { backgroundImage } = element.dataset
-      if (backgroundImage) element.style.backgroundImage = `url('${trimLeadingSlash(backgroundImage)}')`
+    document.querySelectorAll('[style*="background-image"]').forEach((element) => {
+      const backgroundImageUrl = element.style.backgroundImage.match(/[\(](.*)[\)]/)[1] || ''
+      element.style.backgroundImage = `url('${trimLeadingSlash(backgroundImageUrl)}')`
     })
 
     try {
