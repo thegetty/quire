@@ -22,8 +22,11 @@ const removeMarkdown = require('remove-markdown')
 module.exports = function(eleventyConfig, options) {
   /**
    * @see https://github.com/valeriangalliat/markdown-it-anchor#usage
+   * To prevent duplicate element IDs from slugified headings, we are only generating anchor links for level 1 headings
    */
-  const anchorOptions = {}
+  const anchorOptions = {
+    level: [1]
+  }
 
   /**
    * @see https://github.com/arve0/markdown-it-attrs#usage
