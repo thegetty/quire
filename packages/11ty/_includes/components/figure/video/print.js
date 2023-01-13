@@ -18,7 +18,16 @@ module.exports = function(eleventyConfig) {
 
   const { imageDir } = eleventyConfig.globalData.config.figures
 
-  return function({ aspect_ratio: aspectRatio, caption, credit, id, label, mediaType, poster=''}) {
+  return function({
+    aspect_ratio: aspectRatio,
+    caption,
+    credit,
+    id,
+    label,
+    mediaId,
+    mediaType,
+    poster=''
+  }) {
     if (!poster) {
       logger.warn(`Figure '${id}' does not have a 'poster' property. Print media will not render a fallback image for id: ${id}`)
     }
@@ -27,11 +36,13 @@ module.exports = function(eleventyConfig) {
       ? poster
       : path.join(imageDir, poster)
     const labelElement = figureLabel({ caption, id, label })
-    const captionElement = figureCaption({ caption, content: labelElement,  credit })
+    const captionElement = figureCaption({ caption, content: labelElement,  credit, mediaId, mediaType })
+
+    const trimLeadingSlash = (string) => string.startsWith('/') ? string.substr(1) : string
 
     return html`
       <div class="q-figure__media-wrapper--${ aspectRatio || 'widescreen' }">
-        <img src="${posterSrc}" />
+        <img src="${trimLeadingSlash(posterSrc)}" />
       </div>
       ${captionElement}
     `
