@@ -9,6 +9,7 @@ const { JSDOM } = jsdom
  * Content transforms for html output
  */
 module.exports = function(eleventyConfig, collections, content) {
+  const slugifyIds = eleventyConfig.getFilter('slugifyIds')
   /**
    * Remove pages excluded from this output type
    */
@@ -26,7 +27,7 @@ module.exports = function(eleventyConfig, collections, content) {
      * Add web component script tags to <head>
      */
     registerWebComponents(dom)
-    content = dom.serialize()
+    content = slugifyIds(dom.serialize())
   }
 
   return content

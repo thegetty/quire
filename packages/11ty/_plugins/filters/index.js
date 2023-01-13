@@ -13,6 +13,7 @@ const sortReferences = require('./sortReferences')
 const capitalize = require('./capitalize')
 const json = require('./json')
 const removeHTML = require('./removeHTML')
+const slugifyIds = require('./slugifyIds')
 const titleCase = require('./titleCase')
 
 /**
@@ -38,5 +39,6 @@ module.exports = function(eleventyConfig, options) {
   eleventyConfig.addFilter('capitalize', (string) => capitalize(string))
   eleventyConfig.addFilter('json', (string) => json(string))
   eleventyConfig.addFilter('removeHTML', (string) => removeHTML(string))
+  eleventyConfig.addFilter('slugifyIds', (string) => slugifyIds(string, eleventyConfig))
   eleventyConfig.addFilter('titleCase', (string) => titleCase(string))
 }
