@@ -49,7 +49,7 @@ module.exports = function (eleventyConfig) {
         return ''
       }
 
-      const { mediaEmbedUrl } = figureMediaEmbedUrl({ mediaId, mediaType })
+      const { embedUrl } = figureMediaEmbedUrl({ mediaId, mediaType })
 
       return html`
         <iframe
@@ -57,7 +57,7 @@ module.exports = function (eleventyConfig) {
           allowfullscreen
           class="q-figure-video-element q-figure-video-element--embed"
           frameborder="0"
-          src="${mediaEmbedUrl}"
+          src="${embedUrl}"
         ></iframe>
       `
     },
@@ -67,7 +67,7 @@ module.exports = function (eleventyConfig) {
         return ''
       }
 
-      const { mediaEmbedUrl } = figureMediaEmbedUrl({ mediaId, mediaType })
+      const { embedUrl } = figureMediaEmbedUrl({ mediaId, mediaType })
 
       return html`
         <iframe
@@ -75,7 +75,7 @@ module.exports = function (eleventyConfig) {
           allowfullscreen
           class="q-figure-video-element q-figure-video-element--embed"
           frameborder="0"
-          src="${mediaEmbedUrl}"
+          src="${embedUrl}"
         ></iframe>
       `
     }

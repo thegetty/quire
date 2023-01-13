@@ -27,8 +27,8 @@ module.exports = function (eleventyConfig) {
 
 
       return {
-        mediaEmbedUrl: embedUrl.href,
-        mediaSourceUrl: sourceUrl.href
+        embedUrl: embedUrl.href,
+        sourceUrl: sourceUrl.href
       }
     },
     vimeo(mediaId) {
@@ -36,16 +36,16 @@ module.exports = function (eleventyConfig) {
       // Sample Vimeo id: 672853278/b3f8d29d53
       const embedId = mediaId.replace('/', '?h=')
       return {
-        mediaEmbedUrl: `${baseUrl}${embedId}`,
-        mediaSourceUrl: `${baseUrl}${embedId}`
+        embedUrl: `${baseUrl}${embedId}`,
+        sourceUrl: `${baseUrl}${embedId}`
       }
     },
     youtube(mediaId) {
       const embedBaseUrl = 'https://www.youtube-nocookie.com/embed/'
-      const mediaSourceBaseUrl = 'https://www.youtube.com/watch?v='
+      const sourceBaseUrl = 'https://www.youtube.com/watch?v='
       return {
-        mediaEmbedUrl: `${embedBaseUrl}${mediaId}`,
-        mediaSourceUrl: `${mediaSourceBaseUrl}${mediaId}`
+        embedUrl: `${embedBaseUrl}${mediaId}`,
+        sourceUrl: `${sourceBaseUrl}${mediaId}`
       }
     }
   }

@@ -23,7 +23,7 @@ module.exports = function (eleventyConfig) {
         return ''
       }
 
-      const { mediaEmbedUrl } = figureMediaEmbedUrl({ mediaId, mediaType })
+      const { embedUrl } = figureMediaEmbedUrl({ mediaId, mediaType })
 
       return html`
         <iframe
@@ -31,7 +31,7 @@ module.exports = function (eleventyConfig) {
           frameborder="no"
           height="166"
           scrolling="no"
-          src="${mediaEmbedUrl}"
+          src="${embedUrl}"
           width="100%"
         ></iframe>
       `

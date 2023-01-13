@@ -13,13 +13,13 @@ module.exports = function(eleventyConfig) {
   const markdownify = eleventyConfig.getFilter('markdownify')
   const figureMediaEmbedUrl = eleventyConfig.getFilter('figureMediaEmbedUrl')
   return function({ caption, credit, content='', mediaId, mediaType}) {
-    const { mediaSourceUrl } = figureMediaEmbedUrl({ mediaId, mediaType })
-    const embedLink = mediaSourceUrl
-      ? `<span class="q-figure__caption-embed-link"><a href="${mediaSourceUrl}"><em>${mediaSourceUrl}</em></a></span>`
+    const { sourceUrl } = figureMediaEmbedUrl({ mediaId, mediaType })
+    const mediaSourceLink = sourceUrl
+      ? `<span class="q-figure__caption-embed-link"><a href="${sourceUrl}"><em>${sourceUrl}</em></a></span>`
       : ''
     return oneLine`
       <figcaption class="q-figure__caption">
-        ${embedLink}
+        ${mediaSourceLink}
         ${markdownify(content)}
         <span class="q-figure__caption-content">${markdownify(caption || '')}</span>
         <span class="q-figure__credit">${markdownify(credit || '')}</span>
