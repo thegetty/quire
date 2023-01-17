@@ -47,7 +47,7 @@
   "dependencies": {
     "boxen": "^7.0.0",
     "chalk": "^5.1.2",
-    "commander": "^9.4.1",
+    "commander": "^10.0.0",
     "conf": "^10.2.0",
     "cross-env": "^7.0.3",
     "del": "^7.0.0",
