@@ -1,5 +1,5 @@
-const { html } = require('~lib/common-tags')
-const chalkFactory = require('~lib/chalk')
+const { html } = require('#lib/common-tags')
+const chalkFactory = require('#lib/chalk')
 
 const logger = chalkFactory('Figure Video')
 /**

@@ -1,4 +1,4 @@
-const chalkFactory = require('~lib/chalk')
+const chalkFactory = require('#lib/chalk')
 const path = require('path')
 
 const logger = chalkFactory('Figures:IIIF:Config', 'DEBUG')

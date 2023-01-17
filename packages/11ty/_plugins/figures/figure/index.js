@@ -1,4 +1,4 @@
-const chalkFactory = require('~lib/chalk')
+const chalkFactory = require('#lib/chalk')
 const Annotation = require('../annotation')
 const AnnotationFactory = require('../annotation/factory')
 const Manifest = require('../iiif/manifest')

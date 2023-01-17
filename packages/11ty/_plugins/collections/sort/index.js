@@ -1,4 +1,4 @@
-const chalkFactory = require('~lib/chalk')
+const chalkFactory = require('#lib/chalk')
 
 const logger = chalkFactory('plugins:collections')
 
