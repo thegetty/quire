@@ -45,30 +45,30 @@
     "#lib/*.js": "./src/lib/*.js"
   },
   "dependencies": {
-    "boxen": "^7.0.0",
-    "chalk": "^5.1.2",
+    "boxen": "^7.0.1",
+    "chalk": "^5.2.0",
     "commander": "^10.0.0",
     "conf": "^10.2.0",
     "cross-env": "^7.0.3",
     "del": "^7.0.0",
     "epubjs-cli": "^0.1.1",
     "execa": "^6.1.0",
-    "fs-extra": "^11.0.0",
+    "fs-extra": "^11.1.0",
     "hosted-git-info": "^6.1.1",
-    "i18next": "^22.0.4",
+    "i18next": "^22.4.9",
     "inquirer": "^9.1.4",
     "install-npm-version": "^1.0.8",
-    "loglevel": "^1.8.0",
+    "loglevel": "^1.8.1",
     "open": "^8.4.0",
     "ora": "^6.1.2",
-    "pagedjs-cli": "^0.3.2",
+    "pagedjs-cli": "^0.3.3",
     "semver": "^7.3.8",
-    "simple-git": "^3.15.0",
+    "simple-git": "^3.16.0",
     "update-notifier": "^6.0.2"
   },
   "devDependencies": {
     "del-cli": "^5.0.0",
-    "eslint": "^8.28.0"
+    "eslint": "^8.32.0"
   },
   "engines": {
     "node": ">=14.16"
