@@ -230,6 +230,10 @@ module.exports = function(eleventyConfig) {
                 {
                   src: path.join(inputDir, '_assets', 'images', '*'),
                   dest: path.join(outputDir, '_assets', 'images')
+                },
+                {
+                  src: path.join(inputDir, '_assets', 'fonts', '*'),
+                  dest: path.join(outputDir, '_assets', 'fonts')
                 }
               ]
             })
