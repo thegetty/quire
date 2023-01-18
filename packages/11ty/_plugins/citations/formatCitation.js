@@ -1,4 +1,4 @@
-const chalkFactory = require('~lib/chalk')
+const chalkFactory = require('#lib/chalk')
 const Processor = require('simple-cite')
 
 const logger = chalkFactory('plugins:citations')

@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-const { html } = require('~lib/common-tags')
+const { html } = require('#lib/common-tags')
 
 /**
  * Creative Commons SVG Icon
