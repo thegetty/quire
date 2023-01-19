@@ -1,5 +1,3 @@
-require('module-alias/register')
-
 const copy = require('rollup-plugin-copy')
 const fs = require('fs-extra')
 const packageJSON = require('./package.json');
