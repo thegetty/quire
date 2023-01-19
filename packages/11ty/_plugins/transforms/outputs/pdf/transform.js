@@ -1,6 +1,6 @@
 const jsdom = require('jsdom')
 const filterOutputs = require('../filter.js')
-const truncate = require('~lib/truncate')
+const truncate = require('#lib/truncate')
 const writer = require('./write')
 
 const { JSDOM } = jsdom
@@ -81,7 +81,7 @@ module.exports = function(eleventyConfig, collections, content) {
         setDataAttributes(currentPage, sectionElement)
 
         // set an id for anchor links to each section
-        sectionElement.setAttribute('id', mainElement.getAttribute('id'))
+        sectionElement.setAttribute('id', mainElement.dataset.pageId)
 
         // transform relative links to anchor links
         transformRelativeLinks(sectionElement)
@@ -93,7 +93,7 @@ module.exports = function(eleventyConfig, collections, content) {
 
       /**
        * Once this transform has been called for each PDF page
-       * every item in the collection will have `sectionConent`
+       * every item in the collection will have `sectionContent`
        */
       if (collections.pdf.every(({ sectionElement }) => !!sectionElement)) {
         writeOutput(collections.pdf)

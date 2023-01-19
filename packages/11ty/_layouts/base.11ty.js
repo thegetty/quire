@@ -1,5 +1,5 @@
 const path = require('path')
-const { html } = require('~lib/common-tags')
+const { html } = require('#lib/common-tags')
 
 /**
  * Base layout as a JavaScript method
@@ -32,7 +32,7 @@ module.exports = async function(data) {
             </div>
             <div class="quire__primary">
               ${this.navigation(data)}
-              <main id="${pageId}" class="quire-page ${pageClasses}" data-output-path="${outputPath}">
+              <main class="quire-page ${pageClasses}" data-output-path="${outputPath}" data-page-id="${pageId}" >
                 ${content}
               </main>
             </div>

@@ -1,5 +1,5 @@
-const { html } = require('~lib/common-tags')
-const chalkFactory = require('~lib/chalk')
+const { html } = require('#lib/common-tags')
+const chalkFactory = require('#lib/chalk')
 
 const logger = chalkFactory('configuration:bibliography')
 
@@ -55,9 +55,7 @@ module.exports = function (eleventyConfig, { page }) {
 
     const bibliographyItems = sortReferences(Object.values(page.citations))
 
-    const bibliographyHeading = () => heading
-      ? `<h2 id="${slugify(heading)}">${heading}</h2>`
-      : ''
+    const bibliographyHeading = () => heading ? `<h2>${heading}</h2>` : ''
 
     const definitionList = () => html`
       <dl>

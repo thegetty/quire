@@ -8,29 +8,31 @@ const __dirname = path.dirname(__filename)
 /**
  * A façade delegation module for EPUB libraries
  */
-export default async (lib = 'epubjs', options = {}) => {
-  let libName, libPath
+export default async (name = 'epubjs', options = {}) => {
+  const lib = { name, options, path }
 
   switch (lib.toLowerCase()) {
     case 'epubjs': {
-      libName = 'Epub.js'
-      libPath = path.join(__dirname, 'epub.js')
+      lib.name = 'Epub.js'
+      lib.options = {}
+      lib.path = path.join(__dirname, 'epub.js')
       break
     }
     case 'pandoc': {
-      libName = 'Pandoc'
-      libPath = path.join(__dirname, 'pandoc.js')
+      lib.name = 'Pandoc'
+      lib.options = {}
+      lib.path = path.join(__dirname, 'pandoc.js')
       break
     }
     default:
-      console.error(`[CLI:lib/pdf] Unrecognized EPUB library '${lib}'`)
+      console.error(`[CLI:lib/pdf] Unrecognized EPUB library '${name}'`)
       return
   }
 
-  const { default: epubLib } = await dynamicImport(libPath)
+  const { default: epubLib } = await dynamicImport(lib.path)
 
-  return async (input, output, options = {}) => {
-    console.info(`[CLI:lib/epub] generating EPUB using ${libName}`)
-    return await epubLib(input, output, options)
+  return async (input, output) => {
+    console.info(`[CLI:lib/epub] generating EPUB using ${lib.name}`)
+    return await epubLib(input, output, lib.options)
   }
 }

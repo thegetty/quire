@@ -20,7 +20,7 @@ const xhtmlFiles = (dirent) => {
  * A façade module for interacting with Pandoc CLI.
  * @see https://pandoc.org/MANUAL.html#general-options
  */
-export default async (input, output, options) => {
+export default async (input, output, options = {}) => {
   which('pandoc')
 
   const inputs = fs.readdirSync(input)

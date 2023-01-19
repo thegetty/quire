@@ -1,4 +1,4 @@
-const chalkFactory = require('~lib/chalk')
+const chalkFactory = require('#lib/chalk')
 const fs = require('fs-extra')
 const jsdom = require('jsdom')
 const path = require('path')
@@ -11,6 +11,7 @@ const sass = require('sass')
  * @see https://www.11ty.dev/docs/copy/#passthrough-file-copy
  */
 module.exports = (eleventyConfig) => {
+  const slugifyIds = eleventyConfig.getFilter('slugifyIds')
   const { input, output } = eleventyConfig.dir
   const { JSDOM } = jsdom
 
@@ -43,13 +44,23 @@ module.exports = (eleventyConfig) => {
 
     const trimLeadingSlash = (string) => string.startsWith('/') ? string.substr(1) : string
 
+    /**
+     * Rewrite image src attributes to be relative
+     */
     document.querySelectorAll('[src]').forEach((asset) => {
       const src = asset.getAttribute('src')
       asset.setAttribute('src', trimLeadingSlash(src))
     })
 
+    document.querySelectorAll('[style*="background-image"]').forEach((element) => {
+      const backgroundImageUrl = element.style.backgroundImage.match(/[\(](.*)[\)]/)[1] || ''
+      element.style.backgroundImage = `url('${trimLeadingSlash(backgroundImageUrl)}')`
+    })
+
+    const content = slugifyIds(dom.serialize())
+
     try {
-      fs.writeFileSync(outputPath, dom.serialize())
+      fs.writeFileSync(outputPath, content)
     } catch (error) {
       logger.error(`Eleventy transform for PDF error writing combined HTML output for PDF. ${error}`)
     }

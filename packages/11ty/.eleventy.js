@@ -1,5 +1,3 @@
-require('module-alias/register')
-
 const copy = require('rollup-plugin-copy')
 const fs = require('fs-extra')
 const packageJSON = require('./package.json');
@@ -14,24 +12,24 @@ const {
   EleventyRenderPlugin
 } = require('@11ty/eleventy')
 const EleventyVitePlugin = require('@11ty/eleventy-plugin-vite')
-const citationsPlugin = require('~plugins/citations')
-const collectionsPlugin = require('~plugins/collections')
-const componentsPlugin = require('~plugins/components')
-const dataExtensionsPlugin = require('~plugins/dataExtensions')
+const citationsPlugin = require('#plugins/citations')
+const collectionsPlugin = require('#plugins/collections')
+const componentsPlugin = require('#plugins/components')
+const dataExtensionsPlugin = require('#plugins/dataExtensions')
 const directoryOutputPlugin = require('@11ty/eleventy-plugin-directory-output')
-const figuresPlugin = require('~plugins/figures')
-const filtersPlugin = require('~plugins/filters')
-const frontmatterPlugin = require('~plugins/frontmatter')
-const globalDataPlugin = require('~plugins/globalData')
-const i18nPlugin = require('~plugins/i18n')
-const lintersPlugin = require('~plugins/linters')
-const markdownPlugin = require('~plugins/markdown')
+const figuresPlugin = require('#plugins/figures')
+const filtersPlugin = require('#plugins/filters')
+const frontmatterPlugin = require('#plugins/frontmatter')
+const globalDataPlugin = require('#plugins/globalData')
+const i18nPlugin = require('#plugins/i18n')
+const lintersPlugin = require('#plugins/linters')
+const markdownPlugin = require('#plugins/markdown')
 const navigationPlugin = require('@11ty/eleventy-navigation')
 const pluginWebc = require('@11ty/eleventy-plugin-webc')
-const searchPlugin = require('~plugins/search')
-const shortcodesPlugin = require('~plugins/shortcodes')
+const searchPlugin = require('#plugins/search')
+const shortcodesPlugin = require('#plugins/shortcodes')
 const syntaxHighlightPlugin = require('@11ty/eleventy-plugin-syntaxhighlight')
-const transformsPlugin = require('~plugins/transforms')
+const transformsPlugin = require('#plugins/transforms')
 
 const inputDir = 'content'
 const outputDir = '_site'
@@ -223,7 +221,18 @@ module.exports = function(eleventyConfig) {
           plugins: [
             copy({
               targets: [
-                { src: 'public/*', dest: '_site' }
+                { 
+                  src: 'public/*', 
+                  dest: outputDir,
+                },
+                {
+                  src: path.join(inputDir, '_assets', 'images', '*'),
+                  dest: path.join(outputDir, '_assets', 'images')
+                },
+                {
+                  src: path.join(inputDir, '_assets', 'fonts', '*'),
+                  dest: path.join(outputDir, '_assets', 'fonts')
+                }
               ]
             })
           ]

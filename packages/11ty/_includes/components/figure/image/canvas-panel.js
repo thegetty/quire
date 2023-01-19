@@ -1,5 +1,5 @@
-const { html } = require('~lib/common-tags')
-const chalkFactory = require('~lib/chalk')
+const { html } = require('#lib/common-tags')
+const chalkFactory = require('#lib/chalk')
 
 /**
  * CanvasPanel shortcode that renders the Digirati <canvas-panel> web component

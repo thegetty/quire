@@ -1,5 +1,5 @@
-const chalkFactory = require('~lib/chalk')
-const { oneLine } = require('~lib/common-tags')
+const chalkFactory = require('#lib/chalk')
+const { oneLine } = require('#lib/common-tags')
 const logger = chalkFactory(`Shortcodes:Annoref`)
 /**
  * Annoref Shortcode
