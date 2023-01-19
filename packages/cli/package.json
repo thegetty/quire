@@ -67,7 +67,6 @@
     "update-notifier": "^6.0.2"
   },
   "devDependencies": {
-    "del-cli": "^5.0.0",
     "eslint": "^8.32.0"
   },
   "engines": {
