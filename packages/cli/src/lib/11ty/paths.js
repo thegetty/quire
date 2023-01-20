@@ -75,7 +75,7 @@ const getEleventyRoot = () => {
   // } catch (error) {
   //   throw new Error(`[CLI:11ty] Unable to read project directory for eleventy config ${error}`)
   // }
-  return projectRoot
+  return path.join(projectRoot, '11ty')
 }
 
 export const eleventyRoot = getEleventyRoot()
