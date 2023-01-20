@@ -1,4 +1,4 @@
-const { html } = require('#lib/common-tags')
+const { html } = require('~lib/common-tags')
 
 /**
  * Generate HTML <script> tags for document head

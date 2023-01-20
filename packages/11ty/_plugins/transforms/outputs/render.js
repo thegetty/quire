@@ -1,4 +1,4 @@
-const { html } = require('#lib/common-tags')
+const { html } = require('~lib/common-tags')
 const fs = require('fs-extra')
 const jsdom = require('jsdom')
 const { JSDOM } = jsdom

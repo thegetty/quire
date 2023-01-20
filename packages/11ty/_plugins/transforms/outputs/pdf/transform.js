@@ -1,6 +1,6 @@
 const jsdom = require('jsdom')
 const filterOutputs = require('../filter.js')
-const truncate = require('#lib/truncate')
+const truncate = require('~lib/truncate')
 const writer = require('./write')
 
 const { JSDOM } = jsdom

@@ -1,4 +1,4 @@
-const { html } = require('#lib/common-tags')
+const { html } = require('~lib/common-tags')
 
 module.exports = function(eleventyConfig) {
   return function(figures) {
