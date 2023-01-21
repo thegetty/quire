@@ -16,7 +16,7 @@ module.exports = (content, eleventyConfig) => {
   Array
     .from(document.querySelectorAll('[id]'))
     .forEach((element) => {
-      element.id = slugifyFn(element.id)
+      element.id = slugify(element.id)
     })
 
   return dom.serialize()
