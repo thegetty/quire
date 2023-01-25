@@ -10,7 +10,8 @@ const logger = chalkFactory('Figures', 'DEBUG')
  * for all figures in `figures.yaml` and updates global data
  */
 module.exports = function (eleventyConfig, options = {}) {
-  const figureFactory = new FigureFactory(iiifConfig(eleventyConfig))
+  const config = iiifConfig(eleventyConfig)
+  const figureFactory = new FigureFactory(config)
 
   eleventyConfig.on('eleventy.before', async () => {
     const { figure_list: figureList } = eleventyConfig.globalData.figures
@@ -30,6 +31,7 @@ module.exports = function (eleventyConfig, options = {}) {
       )
     }
 
+    eleventyConfig.globalData.iiifConfig = config
     /**
      * Update global figures data to only have properties for Quire shortcodes
      */

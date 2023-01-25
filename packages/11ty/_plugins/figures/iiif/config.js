@@ -10,7 +10,6 @@ module.exports = (eleventyConfig) => {
 
   const projectRoot = path.resolve(eleventyConfig.dir.input, '..')
 
-  // @todo resolve why iiifConfig() is called for each image
   // logger.debug(`projectRoot: ${projectRoot}`)
 
   const resolveInputPath = () => {

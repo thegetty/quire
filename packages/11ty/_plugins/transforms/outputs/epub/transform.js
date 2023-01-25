@@ -1,5 +1,4 @@
 const filterOutputs = require('../filter.js')
-const getIIIFConfig = require('../../../figures/iiif/config')
 const jsdom = require('jsdom')
 const layout = require('./layout')
 const path = require('path')
@@ -11,11 +10,11 @@ const { JSDOM } = jsdom
  * Content transforms for EPUB output
  */
 module.exports = function(eleventyConfig, collections, content) {
-  const { output: iiifOutputDir } = getIIIFConfig(eleventyConfig).dirs
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const slugify = eleventyConfig.getFilter('slugify')
   const slugifyIds = eleventyConfig.getFilter('slugifyIds')
   const { imageDir } = eleventyConfig.globalData.config.figures
+  const { outputPath: iiifOutputDir } = eleventyConfig.globalData.iiifConfig.dirs
   const { language } = eleventyConfig.globalData.publication
   const { assets, readingOrder } = eleventyConfig.globalData.epub
   const { outputDir } = eleventyConfig.globalData.config.epub
