@@ -28,13 +28,22 @@ module.exports = function (eleventyConfig) {
         `onscroll attribute applied to annoref. This feature is under development. Params:`,
         { anno, fig, region, text, onscroll }
       )
+      return oneLine`
+        <span
+          class="annoref"
+          data-annotation-ids="${annoIds.join(',')}"
+          data-figure-id="${fig}"
+          data-on-scroll="true"
+          data-region="${region}"
+        >${markdownify(text)}</span>
+      `
     }
+
     return oneLine`
       <a 
         class="annoref"
         data-annotation-ids="${annoIds.join(',')}"
         data-figure-id="${fig}"
-        data-on-scroll="${onscroll}"
         data-region="${region}"
       >${markdownify(text)}</a>
     `
