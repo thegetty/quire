@@ -34,8 +34,8 @@ module.exports = function (eleventyConfig) {
         class="annoref"
         data-annotation-ids="${annoIds.join(',')}"
         data-figure-id="${fig}"
+        data-on-scroll="${onscroll}"
         data-region="${region}"
-        on-scroll="${onscroll}"
       >${markdownify(text)}</a>
     `
   }
