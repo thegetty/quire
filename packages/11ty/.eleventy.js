@@ -38,13 +38,6 @@ const inputDir = 'content'
 const outputDir = '_site'
 const publicDir = 'public'
 
-// Data cascade isn't available at config time(?), so load publication data manually
-// NB: try / catch uncaught here and in URL()
-
-const publicationConfigPath = path.join(inputDir,'_data','publication.yaml')
-const publicationConfig = yaml.load(fs.readFileSync(publicationConfigPath)) 
-const publicationPath = publicationConfig.url ? new URL(publicationConfig.url).pathname : '/';
-
 /**
  * Eleventy configuration
  * @see {@link https://www.11ty.dev/docs/config/ Configuring 11ty}
@@ -82,6 +75,12 @@ module.exports = function(eleventyConfig) {
   //     return addPassthroughCopy(entry, { expand: true })
   //   }
   // }
+
+  // Data cascade isn't available at config time(?), so load publication data manually
+  // NB: try / catch uncaught here and in URL()
+  const publicationConfigPath = path.join(inputDir,'_data','publication.yaml')
+  const publicationConfig = yaml.load(fs.readFileSync(publicationConfigPath)) 
+  const publicationPath = publicationConfig.url ? new URL(publicationConfig.url).pathname : '/';
 
   eleventyConfig.addGlobalData('application', {
     name: 'Quire',
