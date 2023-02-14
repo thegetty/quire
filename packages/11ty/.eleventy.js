@@ -5,6 +5,7 @@ const fs = require('fs-extra')
 const packageJSON = require('./package.json');
 const path = require('path')
 const scss = require('rollup-plugin-scss')
+const yaml = require('js-yaml');
 
 /**
  * Quire features are implemented as Eleventy plugins
@@ -36,6 +37,13 @@ const transformsPlugin = require('~plugins/transforms')
 const inputDir = 'content'
 const outputDir = '_site'
 const publicDir = 'public'
+
+// Data cascade isn't available at config time(?), so load publication data manually
+// NB: try / catch uncaught here and in URL()
+
+const publicationConfigPath = path.join(inputDir,'_data','publication.yaml')
+const publicationConfig = yaml.load(fs.readFileSync(publicationConfigPath)) 
+const publicationPath = publicationConfig.url ? new URL(publicationConfig.url).pathname : '/';
 
 /**
  * Eleventy configuration
@@ -109,9 +117,7 @@ module.exports = function(eleventyConfig) {
   /**
    * @see https://www.11ty.dev/docs/plugins/html-base/
    */
-  // eleventyConfig.addPlugin(EleventyHtmlBasePlugin, {
-  //   baseHref: eleventyConfig.pathPrefix
-  // })
+  eleventyConfig.addPlugin(EleventyHtmlBasePlugin)
 
   /**
    * Plugins are loaded in order of the `addPlugin` statements,
@@ -198,6 +204,10 @@ module.exports = function(eleventyConfig) {
        * @see https://vitejs.dev/config/#build-options
        */
       root: outputDir,
+      base: process.env.ELEVENTY_ENV === 'production' ? publicationPath : '/', // `base` and `prefixPath` seem to conflict in the dev server, so only set it on prod
+      resolve: {
+        alias: [{find: publicationPath, replacement: "/"}]
+      },
       build: {
         assetsDir: '_assets',
         emptyOutDir: process.env.ELEVENTY_ENV !== 'production',
@@ -331,7 +341,7 @@ module.exports = function(eleventyConfig) {
     /**
      * @see {@link https://www.11ty.dev/docs/config/#deploy-to-a-subdirectory-with-a-path-prefix}
      */
-    pathPrefix: '/',
+    pathPrefix: publicationPath,
     /**
      * All of the following template formats support universal shortcodes.
      *
