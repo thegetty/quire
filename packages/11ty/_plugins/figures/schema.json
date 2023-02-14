@@ -13,7 +13,7 @@
         "figure_list": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/FigureList"
+            "$ref": "#/definitions/Figure"
           }
         }
       },
