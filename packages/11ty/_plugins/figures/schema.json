@@ -14,7 +14,8 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/Figure"
-          }
+          },
+          "uniqueItems": true
         }
       },
       "required": [
@@ -31,7 +32,8 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/Annotations"
-          }
+          },
+          "uniqueItems": true
         },
         "caption": {
           "description": "",
@@ -43,7 +45,8 @@
         },
         "download": {
           "description": "",
-          "type": "boolean"
+          "type": "boolean",
+          "default": false
         },
         "id": {
           "description": "",
@@ -68,7 +71,8 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/Sequence"
-          }
+          },
+          "uniqueItems": true
         },
         "src": {
           "description": "",
@@ -76,7 +80,8 @@
         },
         "zoom": {
           "description": "",
-          "type": "boolean"
+          "type": "boolean",
+          "default": false
         },
       },
       "required": [
@@ -118,7 +123,8 @@
           "type": "string"
         },
         "selected": {
-          "type": "boolean"
+          "type": "boolean",
+          "default": false
         },
         "target": {
           "type": "string"
