@@ -1,0 +1,175 @@
+{
+  "$id": "https://quire.getty.com/figures.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$ref": "#/definitions/Figures",
+  "title": "Figures",
+  "description": "Quire figures data schema",
+  "type": "object",
+  "definitions": {
+    "Figures": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "figure_list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FigureList"
+          }
+        }
+      },
+      "required": [
+        "figure_list"
+      ],
+      "title": "Figures"
+    },
+    "FigureList": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "annotations": {
+          "description": "",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Annotations"
+          }
+        },
+        "caption": {
+          "description": "",
+          "type": "string"
+        },
+        "credit": {
+          "description": "",
+          "type": "string"
+        },
+        "download": {
+          "description": "",
+          "type": "boolean"
+        },
+        "id": {
+          "description": "",
+          "type": "string"
+        },
+        "label": {
+          "description": "",
+          "type": "string"
+        },
+        "media_id": {
+          "$ref": "#/definitions/MediaID"
+        },
+        "media_type": {
+          "$ref": "#/definitions/MediaType"
+        },
+        "poster": {
+          "description": "",
+          "type": "string"
+        },
+        "sequences": {
+          "description": "",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Sequence"
+          }
+        },
+        "src": {
+          "description": "",
+          "type": "string"
+        },
+        "zoom": {
+          "description": "",
+          "type": "boolean"
+        },
+      },
+      "required": [
+        "id"
+      ],
+      "title": "FigureList"
+    },
+    "Annotations": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "input": {
+          "type": "string",
+          "enum": [ "checkbox", "radio" ]
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AnnotationItem"
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "input",
+        "items"
+      ],
+      "title": "Annotation"
+    },
+    "AnnotationItem": {
+      "description": "",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "src": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "selected": {
+          "type": "boolean"
+        },
+        "target": {
+          "type": "string"
+        }
+      },
+      "required": [ "src" ],
+      "title": "Item"
+    },
+    "MediaID": {
+      "description": "",
+      "oneOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "string"
+        }
+      ],
+      "title": "MediaID"
+    },
+    "MediaType": {
+      "description": "",
+      "type": "string",
+      "enum": [ "soundcloud", "table", "video", "vimeo", "youtube" ]
+    },
+    "Sequence": {
+      "description": "",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "behavior": {
+          "description": "",
+          "type": "array",
+          "enum": [ "continuous", "sequence" ]
+        },
+        "id": {
+          "description": "",
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "regex": {
+          "description": "",
+          "type": "string"
+        },
+        "start": {
+          "description": "",
+          "type": "string"
+        }
+      }
+    }
+  }
+}
