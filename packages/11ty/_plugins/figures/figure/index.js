@@ -101,7 +101,7 @@ module.exports = class Figure {
       if (!this.annotations) return
       const firstChoice = this.annotations
         .flatMap(({ items }) => items)
-        .find(({ target }) => !target)
+        .find(({ region }) => !region)
       if (!firstChoice) return
       return firstChoice.src
     }
