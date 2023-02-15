@@ -3,6 +3,7 @@ const Annotation = require('../annotation')
 const AnnotationFactory = require('../annotation/factory')
 const Manifest = require('../iiif/manifest')
 const path = require('path')
+const SequenceItem = require('../sequence')
 const sharp = require('sharp')
 const {
   getSequenceFiles,
@@ -74,9 +75,10 @@ module.exports = class Figure {
     this.outputDir = outputDir
     this.processImage = imageProcessor
     if (this.isSequence) {
-      this.sequenceDir = data.sequence[0].id
+      this.sequenceDir = data.sequences[0].id
       this.sequenceFiles = getSequenceFiles(data, iiifConfig)
-      this.sequenceRegex = data.sequence[0].regex
+      this.sequenceRegex = data.sequences[0].regex
+      this.sequences = data.sequences
     }
     this.src = src
     this.zoom = zoom
@@ -88,6 +90,19 @@ module.exports = class Figure {
    */
   get annotations() {
     return this.annotationFactory.create()
+  }
+
+  // TODO ABSTRACT THIS INTO FIGURE FACTORY
+  get sequence() {
+    const { label } = this.data
+    // create a new Annotation for each sequence file.
+    // instead of `src`, we need the sequence `id` + each sequence filename
+    return this.isSequence
+      ? this.sequenceFiles.map((sequenceItemFilename) => {
+        const src = path.join(this.sequenceDir, sequenceItemFilename)
+        return new SequenceItem(this, { label, src })
+      })
+      : null
   }
 
   /**
