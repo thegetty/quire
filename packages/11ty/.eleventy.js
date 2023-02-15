@@ -77,7 +77,7 @@ module.exports = function(eleventyConfig) {
   // }
 
   // Data cascade isn't available at config time(?), so load publication data manually
-  // NB: try / catch uncaught here and in URL()
+  // NB: try / catch are uncaught here and in URL(), but presumably those should fail (or fail elsewhere in config validation)
   const publicationConfigPath = path.join(inputDir,'_data','publication.yaml')
   const publicationConfig = yaml.load(fs.readFileSync(publicationConfigPath)) 
   const publicationPath = publicationConfig.url ? new URL(publicationConfig.url).pathname : '/';
@@ -193,6 +193,9 @@ module.exports = function(eleventyConfig) {
    * Runs Vite as Middleware in the Eleventy Dev Server
    * Runs Vite build to postprocess the Eleventy build output
    */
+  
+  const pathResolutionAliases = publicationPath === '/' ? [] : [{find: publicationPath, replacement: '/'}]
+
   eleventyConfig.addPlugin(EleventyVitePlugin, {
     tempFolderName: '.11ty-vite',
     viteOptions: {
@@ -203,9 +206,9 @@ module.exports = function(eleventyConfig) {
        * @see https://vitejs.dev/config/#build-options
        */
       root: outputDir,
-      base: process.env.ELEVENTY_ENV === 'production' ? publicationPath : '/', // `base` and `prefixPath` seem to conflict in the dev server, so only set it on prod
+      base:  publicationPath, 
       resolve: {
-        alias: [{find: publicationPath, replacement: "/"}]
+        alias: pathResolutionAliases
       },
       build: {
         assetsDir: '_assets',
