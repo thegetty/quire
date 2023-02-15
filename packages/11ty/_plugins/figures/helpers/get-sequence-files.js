@@ -13,9 +13,15 @@ const isSequence = require('./is-sequence.js')
 module.exports = (figure, iiifConfig) => {
   if (!isSequence(figure)) return
 
-  const { sequence } = figure
+  const { sequences } = figure
   const { dirs } = iiifConfig
   const { imagesDir, inputRoot } = dirs
-  const sequenceDir = path.join(inputRoot, imagesDir, sequence[0].id)
-  return fs.readdirSync(sequenceDir)
+  const sequenceDir = path.join(inputRoot, imagesDir, sequences[0].id)
+  const defaultSequenceRegex = /^\d{3}\.(jpg|png)$/
+  const sequenceRegex = sequences[0].regex
+    ? new RegExp(sequences[0].regex.slice(1, -1))
+    : defaultSequenceRegex
+  return fs
+    .readdirSync(sequenceDir)
+    .filter((sequenceItemFilename) => sequenceItemFilename.match(sequenceRegex))
 }
