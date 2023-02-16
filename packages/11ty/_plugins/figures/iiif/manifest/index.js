@@ -65,6 +65,18 @@ module.exports = class Manifest {
     })
   }
 
+  // TODO create annotations for annotation targets matching sequence item
+  get sequence() {
+    if (!this.figure.sequence) return
+    return this.figure.sequence.map((item) => {
+      return this.createAnnotation({
+        body: this.createAnnotationBody(item),
+        id: 'sequence-item',
+        motivation: 'painting'
+      })
+    })
+  }
+
   createAnnotation(data) {
     const { body, id, motivation, target } = data
     return {
@@ -107,18 +119,33 @@ module.exports = class Manifest {
   async toJSON() {
     const manifest = builder.createManifest(this.figure.manifestId, (manifest) => {
       manifest.addLabel(this.figure.label, this.locale)
-      manifest.createCanvas(this.figure.canvasId, (canvas) => {
-        canvas.height = this.figure.canvasHeight
-        canvas.width = this.figure.canvasWidth
-        if (this.annotations) {
-          this.annotations.forEach((item) => {
-            canvas.createAnnotation(item.id, item)
+      // TODO Refactor?, this branching logic seems awkward...
+      if (this.figure.isSequence) {
+        this.figure.sequenceFiles.forEach((item) => {
+          const sequenceItemBasename = path.basename(item, path.extname(item))
+          const canvasId = path.join(this.figure.canvasId, sequenceItemBasename)
+          manifest.createCanvas(canvasId, (canvas) => {
+            canvas.height = this.figure.canvasHeight
+            canvas.width = this.figure.canvasWidth
+            this.sequence.forEach((item) => {
+              canvas.createAnnotation(item.id, item)
+            })
           })
-        }
-        if (this.choices) {
-          canvas.createAnnotation(this.choices.id, this.choices)
-        }
-      })
+        })
+      } else {
+        manifest.createCanvas(this.figure.canvasId, (canvas) => {
+          canvas.height = this.figure.canvasHeight
+          canvas.width = this.figure.canvasWidth
+          if (this.annotations) {
+            this.annotations.forEach((item) => {
+              canvas.createAnnotation(item.id, item)
+            })
+          }
+          if (this.choices) {
+            canvas.createAnnotation(this.choices.id, this.choices)
+          }
+        })
+      }
     })
     try {
       return builder.toPresentation3(manifest)
