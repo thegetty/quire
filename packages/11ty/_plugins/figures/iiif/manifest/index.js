@@ -121,15 +121,13 @@ module.exports = class Manifest {
       manifest.addLabel(this.figure.label, this.locale)
       // TODO Refactor?, this branching logic seems awkward...
       if (this.figure.isSequence) {
-        this.figure.sequenceFiles.forEach((item) => {
-          const sequenceItemBasename = path.basename(item, path.extname(item))
+        this.sequence.forEach((item) => {
+          const { base: sequenceItemBasename } = path.parse(item.id)
           const canvasId = path.join(this.figure.canvasId, sequenceItemBasename)
           manifest.createCanvas(canvasId, (canvas) => {
             canvas.height = this.figure.canvasHeight
             canvas.width = this.figure.canvasWidth
-            this.sequence.forEach((item) => {
-              canvas.createAnnotation(item.id, item)
-            })
+            canvas.createAnnotation(item.id, item)
           })
         })
       } else {

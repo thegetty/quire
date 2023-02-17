@@ -273,6 +273,7 @@ module.exports = class Figure {
    * collect errors from calling toJSON and the file system writer.
    */
   async createManifest() {
+    // TODO Figure out why this isn't building properly when `if (!this.isCanvas || !this.isSequence) return`
     if (!this.isCanvas) return
     const manifest = new Manifest(this)
     const { errors } = await manifest.write()
