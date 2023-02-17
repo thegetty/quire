@@ -68,13 +68,15 @@ module.exports = class Manifest {
   // TODO create annotations for annotation targets matching sequence item
   get sequence() {
     if (!this.figure.sequence) return
-    return this.figure.sequence.map((item) => {
-      return this.createAnnotation({
-        body: this.createAnnotationBody(item),
-        id: 'sequence-item',
-        motivation: 'painting'
+    return this.figure.sequence
+      .flatMap(({ items }) => items)
+      .map((item) => {
+        return this.createAnnotation({
+          body: this.createAnnotationBody(item),
+          id: 'sequence-item',
+          motivation: 'painting'
+        })
       })
-    })
   }
 
   createAnnotation(data) {
