@@ -5,6 +5,7 @@ const fs = require('fs-extra')
 const packageJSON = require('./package.json');
 const path = require('path')
 const scss = require('rollup-plugin-scss')
+const yaml = require('js-yaml');
 
 const chalkFactory = require('~lib/chalk')
 
@@ -107,6 +108,12 @@ module.exports = function(eleventyConfig) {
   //   }
   // }
 
+  // Data cascade isn't available at config time(?), so load publication data manually
+  // NB: try / catch are uncaught here and in URL(), but presumably those should fail (or fail elsewhere in config validation)
+  const publicationConfigPath = path.join(inputDir,'_data','publication.yaml')
+  const publicationConfig = yaml.load(fs.readFileSync(publicationConfigPath)) 
+  const publicationPath = publicationConfig.url ? new URL(publicationConfig.url).pathname : '/';
+
   eleventyConfig.addGlobalData('application', {
     name: 'Quire',
     version: packageJSON.version
@@ -141,9 +148,7 @@ module.exports = function(eleventyConfig) {
   /**
    * @see https://www.11ty.dev/docs/plugins/html-base/
    */
-  // eleventyConfig.addPlugin(EleventyHtmlBasePlugin, {
-  //   baseHref: eleventyConfig.pathPrefix
-  // })
+  eleventyConfig.addPlugin(EleventyHtmlBasePlugin)
 
   /**
    * Plugins are loaded in order of the `addPlugin` statements,
@@ -220,6 +225,9 @@ module.exports = function(eleventyConfig) {
    * Runs Vite as Middleware in the Eleventy Dev Server
    * Runs Vite build to postprocess the Eleventy build output
    */
+  
+  const pathResolutionAliases = publicationPath === '/' ? [] : [{find: publicationPath, replacement: '/'}]
+
   eleventyConfig.addPlugin(EleventyVitePlugin, {
     tempFolderName: '.11ty-vite',
     viteOptions: {
@@ -230,6 +238,10 @@ module.exports = function(eleventyConfig) {
        * @see https://vitejs.dev/config/#build-options
        */
       root: outputDir,
+      base:  publicationPath, 
+      resolve: {
+        alias: pathResolutionAliases
+      },
       build: {
         assetsDir: '_assets',
         emptyOutDir: process.env.ELEVENTY_ENV !== 'production',
@@ -363,7 +375,7 @@ module.exports = function(eleventyConfig) {
     /**
      * @see {@link https://www.11ty.dev/docs/config/#deploy-to-a-subdirectory-with-a-path-prefix}
      */
-    pathPrefix: '/',
+    pathPrefix: publicationPath,
     /**
      * All of the following template formats support universal shortcodes.
      *
