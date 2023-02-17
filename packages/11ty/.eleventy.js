@@ -33,8 +33,8 @@ const shortcodesPlugin = require('~plugins/shortcodes')
 const syntaxHighlightPlugin = require('@11ty/eleventy-plugin-syntaxhighlight')
 const transformsPlugin = require('~plugins/transforms')
 
-const inputDir = 'content'
-const outputDir = '_site'
+const inputDir = process.env.ELEVENTY_INPUT || 'content'
+const outputDir = process.env.ELEVENTY_OUTPUT || '_site'
 const publicDir = 'public'
 
 /**
@@ -303,8 +303,8 @@ module.exports = function(eleventyConfig) {
      */
     dir: {
       // ⚠️ input and output dirs are _relative_ to the `.eleventy.js` module
-      input: process.env.ELEVENTY_INPUT || inputDir,
-      output: process.env.ELEVENTY_OUTPUT || outputDir,
+      input: inputDir,
+      output: outputDir,
       // ⚠️ the following directories are _relative_ to the `input` directory
       data: process.env.ELEVENTY_DATA || '_computed',
       includes: process.env.ELEVENTY_INCLUDES || path.join('..', '_includes'),
