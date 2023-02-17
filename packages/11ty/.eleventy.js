@@ -5,7 +5,6 @@ const fs = require('fs-extra')
 const packageJSON = require('./package.json');
 const path = require('path')
 const scss = require('rollup-plugin-scss')
-const yaml = require('js-yaml');
 
 const chalkFactory = require('~lib/chalk')
 
@@ -16,7 +15,6 @@ const {
   EleventyHtmlBasePlugin,
   EleventyRenderPlugin
 } = require('@11ty/eleventy')
-const EleventyVitePlugin = require('@11ty/eleventy-plugin-vite')
 const citationsPlugin = require('~plugins/citations')
 const collectionsPlugin = require('~plugins/collections')
 const componentsPlugin = require('~plugins/components')
@@ -35,40 +33,13 @@ const searchPlugin = require('~plugins/search')
 const shortcodesPlugin = require('~plugins/shortcodes')
 const syntaxHighlightPlugin = require('@11ty/eleventy-plugin-syntaxhighlight')
 const transformsPlugin = require('~plugins/transforms')
+const vitePlugin = require('~plugins/vite')
 
 const { error } = chalkFactory('eleventy config')
 
 const inputDir = process.env.ELEVENTY_INPUT || 'content'
 const outputDir = process.env.ELEVENTY_OUTPUT || '_site'
 const publicDir = 'public'
-
-/**
- * Nota bene: Data cascade isn't available at config time,
- * load publication data manually so that prefix can be used in config
- * @todo refactor global data plugin to return global data for use in config
- */
-const getPublicationPath = () => {
-  const publicationConfigPath = path.join(
-    inputDir,
-    '_data',
-    'publication.yaml'
-  )
-  const publication = yaml.load(fs.readFileSync(publicationConfigPath))
-  const { url } = publication
-  try {
-    let publicationPath = new URL(url).pathname
-    // Add trailing '/'
-    return !publicationPath.endsWith('/')
-      ? (publicationPath += '/')
-      : publicationPath
-  } catch (errorMessage) {
-    error(
-      `Publication.yaml url property must be a valid url. Current url value: "${url}"`
-    )
-    throw new Error(errorMessage)
-  }
-}
-const publicationPath = getPublicationPath()
 
 /**
  * Eleventy configuration
@@ -108,12 +79,6 @@ module.exports = function(eleventyConfig) {
   //   }
   // }
 
-  // Data cascade isn't available at config time(?), so load publication data manually
-  // NB: try / catch are uncaught here and in URL(), but presumably those should fail (or fail elsewhere in config validation)
-  const publicationConfigPath = path.join(inputDir,'_data','publication.yaml')
-  const publicationConfig = yaml.load(fs.readFileSync(publicationConfigPath)) 
-  const publicationPath = publicationConfig.url ? new URL(publicationConfig.url).pathname : '/';
-
   eleventyConfig.addGlobalData('application', {
     name: 'Quire',
     version: packageJSON.version
@@ -151,11 +116,16 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(EleventyHtmlBasePlugin)
 
   /**
-   * Plugins are loaded in order of the `addPlugin` statements,
-   * plugins that mutate globalData must be added before other plugins
+   * Plugins are loaded in this order: 
+   *   1) immediately invoked
+   *   2) addPlugin statements
+   * Plugins that mutate globalData must be added before other plugins
    */
-  eleventyConfig.addPlugin(dataExtensionsPlugin)
-  eleventyConfig.addPlugin(globalDataPlugin)
+  dataExtensionsPlugin(eleventyConfig)
+  const globalData = globalDataPlugin(eleventyConfig, { inputDir })
+  const collections = collectionsPlugin(eleventyConfig)
+  vitePlugin(eleventyConfig, { inputDir, outputDir, globalData })
+
   eleventyConfig.addPlugin(i18nPlugin)
   eleventyConfig.addPlugin(figuresPlugin)
 
@@ -163,11 +133,6 @@ module.exports = function(eleventyConfig) {
    * Load plugin for custom configuration of the markdown library
    */
   eleventyConfig.addPlugin(markdownPlugin)
-
-  /**
-   * Add collections
-   */
-  const collections = collectionsPlugin(eleventyConfig)
 
   /**
    * Load plugins for the Quire template shortcodes and filters
@@ -219,91 +184,6 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(transformsPlugin, collections)
 
   /**
-   * Use Vite to bundle JavaScript
-   * @see https://github.com/11ty/eleventy-plugin-vite
-   *
-   * Runs Vite as Middleware in the Eleventy Dev Server
-   * Runs Vite build to postprocess the Eleventy build output
-   */
-  
-  const pathResolutionAliases = publicationPath === '/' ? [] : [{find: publicationPath, replacement: '/'}]
-
-  eleventyConfig.addPlugin(EleventyVitePlugin, {
-    tempFolderName: '.11ty-vite',
-    viteOptions: {
-      publicDir: process.env.ELEVENTY_ENV === 'production'
-        ? publicDir
-        : false,
-      /**
-       * @see https://vitejs.dev/config/#build-options
-       */
-      root: outputDir,
-      base:  publicationPath, 
-      resolve: {
-        alias: pathResolutionAliases
-      },
-      build: {
-        assetsDir: '_assets',
-        emptyOutDir: process.env.ELEVENTY_ENV !== 'production',
-        manifest: true,
-        mode: 'production',
-        outDir: outputDir,
-        rollupOptions: {
-          output: {
-            assetFileNames: ({ name }) => {
-              const fullFilePathSegments = name.split('/').slice(0, -1)
-              let filePath = '_assets/';
-              ['_assets', 'node_modules'].forEach((assetDir) => {
-                if (name.includes(assetDir)) {
-                  filePath +=
-                    fullFilePathSegments
-                      .slice(fullFilePathSegments.indexOf(assetDir) + 1)
-                      .join('/') + '/'
-                }
-              })
-              return `${filePath}[name][extname]`
-            }
-          },
-          plugins: [
-            copy({
-              targets: [
-                { 
-                  src: 'public/*', 
-                  dest: outputDir,
-                },
-                {
-                  src: path.join(inputDir, '_assets', 'images', '*'),
-                  dest: path.join(outputDir, '_assets', 'images')
-                },
-                {
-                  src: path.join(inputDir, '_assets', 'fonts', '*'),
-                  dest: path.join(outputDir, '_assets', 'fonts')
-                }
-              ]
-            })
-          ]
-        },
-        sourcemap: true
-      },
-      /**
-       * Set to false to prevent Vite from clearing the terminal screen
-       * and have Vite logging messages rendered alongside Eleventy output.
-       */
-      clearScreen: false,
-      /**
-       * @see https://vitejs.dev/config/#server-host
-       */
-      server: {
-        hmr: {
-          overlay: false
-        },
-        middlewareMode: true,
-        mode: 'development'
-      }
-    }
-  })
-
-  /**
    * Set eleventy dev server options
    * @see https://www.11ty.dev/docs/dev-server/
    */
@@ -341,6 +221,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.watchIgnores.add('_pdf')
   eleventyConfig.watchIgnores.add('_temp')
 
+  const { pathname: pathPrefix } = globalData.publication
   return {
     /**
      * @see {@link https://www.11ty.dev/docs/config/#configuration-options}
@@ -375,7 +256,7 @@ module.exports = function(eleventyConfig) {
     /**
      * @see {@link https://www.11ty.dev/docs/config/#deploy-to-a-subdirectory-with-a-path-prefix}
      */
-    pathPrefix: publicationPath,
+    pathPrefix,
     /**
      * All of the following template formats support universal shortcodes.
      *
