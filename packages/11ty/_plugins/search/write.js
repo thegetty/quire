@@ -15,16 +15,17 @@ module.exports = function(collections) {
     return content.split(' ').length
   }
 
-  const contentIndex = collections.html.map(({ data, templateContent, url }) => {
+  const contentIndex = collections.html.map(({ data, templateContent }) => {
+    const { abstract, canonicalURL, contributor, subtitle, title, layout } = data
     return {
-      abstract: data.abstract,
+      abstract,
       content: templateContent,
-      contributor: data.contributor,
+      contributor,
       length: wordcount(templateContent),
-      subtitle: data.subtitle,
-      title: data.title,
-      type: data.layout,
-      url
+      subtitle,
+      title,
+      type: layout,
+      url: canonicalURL
     }
   })
 
