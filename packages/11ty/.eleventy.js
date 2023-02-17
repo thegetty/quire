@@ -7,6 +7,8 @@ const path = require('path')
 const scss = require('rollup-plugin-scss')
 const yaml = require('js-yaml');
 
+const chalkFactory = require('~lib/chalk')
+
 /**
  * Quire features are implemented as Eleventy plugins
  */
@@ -34,9 +36,39 @@ const shortcodesPlugin = require('~plugins/shortcodes')
 const syntaxHighlightPlugin = require('@11ty/eleventy-plugin-syntaxhighlight')
 const transformsPlugin = require('~plugins/transforms')
 
+const { error } = chalkFactory('eleventy config')
+
 const inputDir = process.env.ELEVENTY_INPUT || 'content'
 const outputDir = process.env.ELEVENTY_OUTPUT || '_site'
 const publicDir = 'public'
+
+/**
+ * Nota bene: Data cascade isn't available at config time,
+ * load publication data manually so that prefix can be used in config
+ * @todo refactor global data plugin to return global data for use in config
+ */
+const getPublicationPath = () => {
+  const publicationConfigPath = path.join(
+    inputDir,
+    '_data',
+    'publication.yaml'
+  )
+  const publication = yaml.load(fs.readFileSync(publicationConfigPath))
+  const { url } = publication
+  try {
+    let publicationPath = new URL(url).pathname
+    // Add trailing '/'
+    return !publicationPath.endsWith('/')
+      ? (publicationPath += '/')
+      : publicationPath
+  } catch (errorMessage) {
+    error(
+      `Publication.yaml url property must be a valid url. Current url value: "${url}"`
+    )
+    throw new Error(errorMessage)
+  }
+}
+const publicationPath = getPublicationPath()
 
 /**
  * Eleventy configuration
@@ -75,12 +107,6 @@ module.exports = function(eleventyConfig) {
   //     return addPassthroughCopy(entry, { expand: true })
   //   }
   // }
-
-  // Data cascade isn't available at config time(?), so load publication data manually
-  // NB: try / catch are uncaught here and in URL(), but presumably those should fail (or fail elsewhere in config validation)
-  const publicationConfigPath = path.join(inputDir,'_data','publication.yaml')
-  const publicationConfig = yaml.load(fs.readFileSync(publicationConfigPath)) 
-  const publicationPath = publicationConfig.url ? new URL(publicationConfig.url).pathname : '/';
 
   eleventyConfig.addGlobalData('application', {
     name: 'Quire',
