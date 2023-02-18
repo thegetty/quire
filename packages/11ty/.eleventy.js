@@ -120,6 +120,10 @@ module.exports = function(eleventyConfig) {
    *   1) immediately invoked
    *   2) addPlugin statements
    * Plugins that mutate globalData must be added before other plugins
+   *
+   * Note: The config does **not** have access to collections or global,
+   * to get around this we invoke some plugins immediately and return a value
+   * so that data can be provided to the config or another plugin.
    */
   dataExtensionsPlugin(eleventyConfig)
   const globalData = globalDataPlugin(eleventyConfig, { inputDir })
