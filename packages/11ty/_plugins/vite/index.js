@@ -2,30 +2,28 @@ const copy = require('rollup-plugin-copy')
 const path = require('path')
 const EleventyVitePlugin = require('@11ty/eleventy-plugin-vite')
 
-module.exports = function(eleventyConfig, { inputDir, outputDir, globalData }) {
-  /**
-   * Use Vite to bundle JavaScript
-   * @see https://github.com/11ty/eleventy-plugin-vite
-   *
-   * Runs Vite as Middleware in the Eleventy Dev Server
-   * Runs Vite build to postprocess the Eleventy build output
-   */
-  const { pathname } = globalData.publication
-  const pathResolutionAliases = pathname === '/' ? [] : [{ find: pathname, replacement: '/' }]
+/**
+ * Use Vite to bundle JavaScript
+ * @see https://github.com/11ty/eleventy-plugin-vite
+ *
+ * Runs Vite as Middleware in the Eleventy Dev Server
+ * Runs Vite build to postprocess the Eleventy build output
+ */
+module.exports = function (eleventyConfig, pluginConfig) {
+  const { inputDir, outputDir, globalData } = pluginConfig
+  const { pathname } = globalData.publication 
 
   eleventyConfig.addPlugin(EleventyVitePlugin, {
     tempFolderName: '.11ty-vite',
     viteOptions: {
-      publicDir: process.env.ELEVENTY_ENV === 'production'
-        ? publicDir
-        : false,
+      publicDir: process.env.ELEVENTY_ENV === 'production' ? publicDir : false,
       /**
        * @see https://vitejs.dev/config/#build-options
        */
       root: outputDir,
-      base:  pathname, 
+      base: pathname, 
       resolve: {
-        alias: pathResolutionAliases
+        alias: pathname === '/' ? [] : [{ find: pathname, replacement: '/' }]
       },
       build: {
         assetsDir: '_assets',
