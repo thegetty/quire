@@ -58,10 +58,10 @@ module.exports = class Manifest {
     return this.createAnnotation({
       body: {
         items,
-        type: 'Choice',
+        type: 'Choice'
       },
       id: 'choices',
-      motivation: 'painting',
+      motivation: 'painting'
     })
   }
 
@@ -69,10 +69,12 @@ module.exports = class Manifest {
   get sequence() {
     if (!this.figure.sequence) return
     return this.figure.sequence
-      .flatMap(({ items }) => items)
-      .map((item) => {
+      .map(({ items }) => {
         return this.createAnnotation({
-          body: this.createAnnotationBody(item),
+          body: {
+            items: items.map((item) => this.createAnnotationBody(item)),
+            type: 'Choice'
+          },
           id: 'sequence-item',
           motivation: 'painting'
         })
