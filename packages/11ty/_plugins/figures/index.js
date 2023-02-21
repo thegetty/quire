@@ -9,33 +9,29 @@ const logger = chalkFactory('Figures', 'DEBUG')
  * Uses the FigureFactory to create Figure instances
  * for all figures in `figures.yaml` and updates global data
  */
-module.exports = function (eleventyConfig, options = {}) {
-  const config = iiifConfig(eleventyConfig)
-  const figureFactory = new FigureFactory(config)
+module.exports = async function (eleventyConfig, options = {}) {
+  const figureFactory = new FigureFactory(iiifConfig(eleventyConfig))
 
-  eleventyConfig.on('eleventy.before', async () => {
-    const { figure_list: figureList } = eleventyConfig.globalData.figures
+  const { figure_list: figureList } = eleventyConfig.globalData.figures
 
-    const figures = await Promise.all(figureList.map((data) => {
-      return figureFactory.create(data)
-    }))
-    const errors = figureList.filter(({ errors }) => errors && !!errors.length)
+  const figures = await Promise.all(figureList.map((data) => {
+    return figureFactory.create(data)
+  }))
+  const errors = figureList.filter(({ errors }) => errors && !!errors.length)
 
-    if (errors.length) {
-      logger.error('There were errors processing the following images:')
-      console.table(
-        errors.map(({ errors, figure }) => {
-          return { id: figure.id, errors: errors.join(' ') }
-        }),
-        ['id', 'errors']
-      )
-    }
+  if (errors.length) {
+    logger.error('There were errors processing the following images:')
+    console.table(
+      errors.map(({ errors, figure }) => {
+        return { id: figure.id, errors: errors.join(' ') }
+      }),
+      ['id', 'errors']
+    )
+  }
 
-    eleventyConfig.globalData.iiifConfig = config
-    /**
-     * Update global figures data to only have properties for Quire shortcodes
-     */
-    Object.assign(figureList, figures.map(({ figure }) => figure.adapter()))
-    logger.info('Processing complete')
-  })
+  /**
+   * Update global figures data to only have properties for Quire shortcodes
+   */
+  Object.assign(figureList, figures.map(({ figure }) => figure.adapter()))
+  logger.info('Processing complete')
 }
