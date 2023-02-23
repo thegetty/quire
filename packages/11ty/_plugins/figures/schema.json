@@ -63,6 +63,10 @@
           "type": "boolean",
           "default": false
         },
+        "target": {
+          "description": "A relative path to an image in a sequence; only valid for figures that define a sequence",
+          "type": "string"
+        },
         "text": {
           "description": "A IIIF text annotation",
           "type": "string"
