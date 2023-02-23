@@ -39,12 +39,12 @@ module.exports = function(eleventyConfig) {
     return html`
       <sequence-panel
         id="${id}"
+        manifest-id="${manifestId}"
+        margin="${margin}"
         preset="${preset}"
+        start-canvas="${startCanvasId}"
         text-enabled="${textEnabled}"
         text-selection-enabled="${textSelectionEnabled}"
-        manifest-id="${manifestId}"
-        start-canvas="${startCanvasId}"
-        margin="${margin}"
       ></sequence-panel>
     `
   }
