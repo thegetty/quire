@@ -1,8 +1,7 @@
-const path = require('path')
-const SequenceItem = require('./index')
+const Sequence = require('./index')
 
 /**
- * The SequenceFactory creates a sequence for a Figure instance
+ * The SequenceFactory creates sequences for a Figure instance
  */
 module.exports = class SequenceFactory {
   /**
@@ -13,28 +12,12 @@ module.exports = class SequenceFactory {
   }
 
   /**
-   * Iterates over a Figure's sequence files and creates annotation sets
-   * with Annotation instances for each item in set.items
-   * @return {<Array[AnnotationSet]>}
+   * Iterates over a Figure's sequences and creates a sequence for each one
+   * @return {<Array[Sequence]>}
    */
   create() {
-    const { sequenceFiles } = this.figure
-    if (!sequenceFiles) return
-    return sequenceFiles.map((sequenceItemFilename) => this.sequenceItem(sequenceItemFilename))
-  }
-
-  sequenceItem(sequenceItemFilename) {
-    const { annotations, data, sequenceDir } = this.figure
-    const { label } = data
-    const src = path.join(sequenceDir, sequenceItemFilename)
-    const sequenceItemImage = new SequenceItem(this.figure, { label, src })
-    const annotationItems = annotations
-      ? annotations.flatMap(({ items }) => items)
-      : []
-    const sequenceItemAnnotations = annotationItems
-      .filter(({ target }) => target && target === src)
-    return {
-      items: [sequenceItemImage, ...sequenceItemAnnotations]
-    }
+    const { sequences } = this.figure.data
+    if (!sequences) return
+    return sequences.map((sequence) => new Sequence(this.figure, sequence))
   }
 }

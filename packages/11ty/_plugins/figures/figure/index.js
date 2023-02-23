@@ -3,7 +3,6 @@ const Annotation = require('../annotation')
 const AnnotationFactory = require('../annotation/factory')
 const Manifest = require('../iiif/manifest')
 const path = require('path')
-const SequenceItem = require('../sequence')
 const SequenceFactory = require('../sequence/factory')
 const sharp = require('sharp')
 const {
@@ -75,13 +74,7 @@ module.exports = class Figure {
     this.mediaId = mediaId
     this.outputDir = outputDir
     this.processImage = imageProcessor
-    if (this.isSequence) {
-      this.sequenceDir = data.sequences[0].id
-      this.sequenceFactory = new SequenceFactory(this)
-      this.sequenceFiles = getSequenceFiles(data, iiifConfig)
-      this.sequenceRegex = data.sequences[0].regex
-      this.sequences = data.sequences
-    }
+    this.sequenceFactory = new SequenceFactory(this)
     this.src = src
     this.zoom = zoom
   }
@@ -94,8 +87,11 @@ module.exports = class Figure {
     return this.annotationFactory.create()
   }
 
-  // TODO create a new Annotation for each sequence file.
-  get sequence() {
+  /**
+   * Figure image sequence
+   * @type  {Array<Sequence>}
+   */
+  get sequences() {
     return this.sequenceFactory.create()
   }
 
@@ -224,6 +220,7 @@ module.exports = class Figure {
    * Process annotation images
    */
   async processAnnotationImages() {
+    // TODO Consider refactor - any time `this.annotations` is referenced, it creates a new instance of AnnotationFactory
     if (!this.annotations) return
     const annotationItems = this.annotations.flatMap(({ items }) => items)
     const results = await Promise.all(annotationItems.map((item) => {
@@ -250,12 +247,13 @@ module.exports = class Figure {
   }
 
   async processFigureSequence() {
-    if (!this.isSequence || !this.sequenceFiles) return
-    const results = await Promise.all(this.sequenceFiles.map((sequenceItemFilename) => {
-      logger.debug(`processing sequence image ${sequenceItemFilename}`)
-      const inputPath = path.join(this.sequenceDir, sequenceItemFilename)
-      return this.processImage(inputPath, this.outputDir, {
-        tile: true
+    // TODO Consider refactor - any time `this.sequences` is referenced, it creates a new instance of SequenceFactory
+    if (!this.sequences) return
+    const sequenceItems = this.sequences.flatMap(({ items }) => items)
+    const results = await Promise.all(sequenceItems.map((item) => {
+      logger.debug(`processing sequence image ${item.src}`)
+      return item.src && this.processImage(item.src, this.outputDir, {
+        tile: item.isImageService
       })
     }))
     const errors = results.flatMap(({ errors }) => errors || [])
