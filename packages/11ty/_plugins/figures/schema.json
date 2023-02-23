@@ -16,27 +16,30 @@
   },
   "required": [ "figure_list" ],
   "definitions": {
-    "AnnotationSet": {
-      "type": "object",
+    "AnnotationSets": {
+      "type": "array",
       "additionalProperties": false,
-      "properties": {
-        "input": {
-          "type": "string",
-          "enum": [ "checkbox", "radio" ],
-          "default": "radio"
-        },
-        "items": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/AnnotationItem"
+      "items": {
+        "type": "object",
+        "properties": {
+          "input": {
+            "type": "string",
+            "enum": [ "checkbox", "radio" ],
+            "default": "radio"
           },
-          "uniqueItems": true
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/AnnotationItem"
+            },
+            "uniqueItems": true
+          },
+          "title": {
+            "type": "string"
+          }
         },
-        "title": {
-          "type": "string"
-        }
+        "required": [ "items" ]
       },
-      "required": [ "items" ],
       "title": "Annotation Set"
     },
     "AnnotationItem": {
@@ -73,8 +76,7 @@
       "properties": {
         "annotations": {
           "description": "An array of Quire annotation sets",
-          "type": "array",
-          "$ref": "#/definitions/AnnotationSet",
+          "$ref": "#/definitions/AnnotationSets",
           "uniqueItems": false
         },
         "canvasId": {
