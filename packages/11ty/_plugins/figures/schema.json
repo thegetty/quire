@@ -1,28 +1,21 @@
 {
-  "$id": "https://quire.getty.com/figures.schema.json",
+  "$id": "https://data.getty.com/quire/figures/schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$ref": "#/definitions/Figures",
   "title": "Figures",
   "description": "Quire figures data schema",
   "type": "object",
-  "definitions": {
-    "Figures": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "figure_list": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Figure"
-          },
-          "uniqueItems": true
-        }
+  "additionalProperties": false,
+  "properties": {
+    "figure_list": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Figure"
       },
-      "required": [
-        "figure_list"
-      ],
-      "title": "Figures"
-    },
+      "uniqueItems": true
+    }
+  },
+  "required": [ "figure_list" ],
+  "definitions": {
     "Figure": {
       "type": "object",
       "additionalProperties": false,
@@ -35,7 +28,8 @@
         },
         "canvasId": {
           "description": "URI of an remote IIIF canvas",
-          "$ref": "#/definitions/URI"
+          "type": "string",
+          "format": "uri"
         },
         "caption": {
           "description": "A text caption for the figure",
@@ -63,7 +57,8 @@
         },
         "manifestId": {
           "description": "URI of an remote IIIF manifest",
-          "$ref": "#/definitions/URI"
+          "type": "string",
+          "format": "uri"
         },
         "media_type": {
           "$ref": "#/definitions/MediaType"
@@ -95,7 +90,7 @@
           "description": "Enable image tiling for IIIF zoom interaction",
           "type": "boolean",
           "default": false
-        },
+        }
       },
       "required": [
         "id"
@@ -173,7 +168,7 @@
     "iiifRegion": {
       "description": "x,y,w,h",
       "type": "string",
-      "pattern": "\d+,\d+,\d+,\d+"
+      "pattern": "\\d+,\\d+,\\d+,\\d+"
     },
     "Sequence": {
       "description": "A Quire data IIIF sequence structure",
@@ -189,6 +184,14 @@
           "description": "A relative path to the directory of sequence images",
           "type": "string"
         },
+        "items": {
+          "description": "",
+          "type": "array",
+          "items": {
+            "type": "object"
+          },
+          "uniqueItems": false
+        },
         "label": {
           "description": "A text label for the IIIF sequence",
           "type": "string"
@@ -202,11 +205,6 @@
           "type": "string"
         }
       }
-    },
-    "URI": {
-      "description": "A regular expression pattern for valid URIs",
-      "type": "string",
-      "pattern": "/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/"
     }
   }
 }
