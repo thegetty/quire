@@ -81,7 +81,10 @@
       "properties": {
         "annotations": {
           "description": "An array of Quire annotation sets",
-          "$ref": "#/$defs/AnnotationSets",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AnnotationSets"
+          },
           "uniqueItems": false
         },
         "canvasId": {
