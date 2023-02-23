@@ -9,13 +9,13 @@
     "figure_list": {
       "type": "array",
       "items": {
-        "$ref": "#/definitions/Figure"
+        "$ref": "#/$defs/Figure"
       },
       "uniqueItems": true
     }
   },
   "required": [ "figure_list" ],
-  "definitions": {
+  "$defs": {
     "AnnotationSets": {
       "type": "array",
       "additionalProperties": false,
@@ -30,7 +30,7 @@
           "items": {
             "type": "array",
             "items": {
-              "$ref": "#/definitions/AnnotationItem"
+              "$ref": "#/$defs/AnnotationItem"
             },
             "uniqueItems": true
           },
@@ -56,7 +56,7 @@
           "type": "string"
         },
         "region": {
-          "$ref": "#/definitions/Region"
+          "$ref": "#/$defs/Region"
         },
         "selected": {
           "description": "Wether the annotation will be selected by default",
@@ -77,7 +77,7 @@
       "properties": {
         "annotations": {
           "description": "An array of Quire annotation sets",
-          "$ref": "#/definitions/AnnotationSets",
+          "$ref": "#/$defs/AnnotationSets",
           "uniqueItems": false
         },
         "canvasId": {
@@ -107,7 +107,7 @@
           "type": "string"
         },
         "media_id": {
-          "$ref": "#/definitions/MediaID"
+          "$ref": "#/$defs/MediaID"
         },
         "manifestId": {
           "description": "URI of a IIIF manifest",
@@ -115,7 +115,7 @@
           "format": "uri"
         },
         "media_type": {
-          "$ref": "#/definitions/MediaType"
+          "$ref": "#/$defs/MediaType"
         },
         "poster": {
           "description": "A static image for a video",
@@ -127,13 +127,13 @@
           "pattern": "^(/[^/]+)+$"
         },
         "region": {
-          "$ref": "#/definitions/Region"
+          "$ref": "#/$defs/Region"
         },
         "sequences": {
           "description": "An array of IIIF sequence structures",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Sequence"
+            "$ref": "#/$defs/Sequence"
           },
           "uniqueItems": true
         },
