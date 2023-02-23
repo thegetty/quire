@@ -1,5 +1,5 @@
 {
-  "$id": "https://data.getty.com/quire/figures/schema.json",
+  "$id": "https://data.getty.edu/quire/figures/schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Figures",
   "description": "Quire figures data schema",
@@ -148,9 +148,7 @@
           "default": false
         }
       },
-      "required": [
-        "id"
-      ],
+      "required": [ "id" ],
       "title": "FigureList"
     },
     "MediaID": {
