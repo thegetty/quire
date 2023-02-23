@@ -49,7 +49,8 @@
       "properties": {
         "src": {
           "description": "A relative path to the annotation image source",
-          "type": "string"
+          "type": "string",
+          "pattern": "^(/[^/]+)+$"
         },
         "label": {
           "type": "string"
@@ -122,7 +123,8 @@
         },
         "printImage": {
           "description": "A relative path to an image project assets directory for print output",
-          "type": "string"
+          "type": "string",
+          "pattern": "^(/[^/]+)+$"
         },
         "region": {
           "$ref": "#/definitions/Region"
@@ -137,7 +139,8 @@
         },
         "src": {
           "description": "A relative path to an image in the project assets directory",
-          "type": "string"
+          "type": "string",
+          "pattern": "^(/[^/]+)+$"
         },
         "zoom": {
           "description": "Enable image tiling for IIIF zoom interaction",
@@ -184,7 +187,8 @@
         },
         "id": {
           "description": "A relative path to the directory of sequence images",
-          "type": "string"
+          "type": "string",
+          "pattern": "^(/[^/]+)+$"
         },
         "items": {
           "description": "",
