@@ -1,5 +1,5 @@
 {
-  "$id": "https://data.getty.edu/quire/figures/schema.json",
+  "$id": "https://data.getty.edu/quire/v1.0.0/schemas/figures.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Figures",
   "description": "Quire figures data schema",
