@@ -9,6 +9,8 @@ const logger = chalkFactory('Figures:SequenceItem')
  * Quire Figure Sequence Items conform to the W3C Web Annotation Format
  * @see {@link https://www.w3.org/TR/annotation-model/#annotations}
  *
+ * SequenceItem is a single slice of a figure sequence and provides all of the data necessary to create an annotation for that slice
+ *
  * @typedef {Object} SequenceItem
  * @property {String} format           The media type of the annotation resource
  * @property {String} id               The unique id of the annotation (unique to the figure)
@@ -76,8 +78,7 @@ module.exports = class SequenceItem {
     this.label = label || titleCase(path.parse(src).name)
     this.motivation = 'painting'
     this.src = src
-    // TODO check on this, might not be able to assume type='choice'
-    this.type = 'choice'
+    this.type = 'annotation'
     this.uri = uri()
   }
 }

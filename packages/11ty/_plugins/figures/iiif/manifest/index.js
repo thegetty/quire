@@ -72,7 +72,7 @@ module.exports = class Manifest {
       .flatMap(({ items }) => items)
       .map((item) => {
         const canvasId = path.join(this.figure.canvasId, item.id)
-        const baseImage = ({ format, info, label, src, uri }) => {
+        const sequenceItemImage = ({ format, info, label, src, uri }) => {
           const { ext } = path.parse(src)
           return {
             format,
@@ -92,11 +92,8 @@ module.exports = class Manifest {
           }
         }
         return {
-          body: {
-            items: [baseImage(item)],
-            type: 'Choice'
-          },
-          id: path.join(canvasId, 'sequence-item'),
+          body: sequenceItemImage(item),
+          id: path.join(canvasId, 'annotation-page', item.id),
           motivation: 'painting',
           target: canvasId,
           type: 'Annotation'
@@ -145,8 +142,9 @@ module.exports = class Manifest {
    */
   async toJSON() {
     const manifest = builder.createManifest(this.figure.manifestId, (manifest) => {
+      manifest.addBehavior(['continuous', 'sequence'])
       manifest.addLabel(this.figure.label, this.locale)
-      // TODO Refactor?, this branching logic seems awkward...
+      // TODO Refactor/Generalize?, this branching logic seems awkward...
       if (this.figure.isSequence) {
         this.sequenceItems.forEach((item) => {
           const sequenceItemChoices = item.body.items
@@ -154,7 +152,6 @@ module.exports = class Manifest {
           manifest.createCanvas(canvasId, (canvas) => {
             canvas.height = this.figure.canvasHeight
             canvas.width = this.figure.canvasWidth
-            // TODO figure out why each annotation 'Image' is always the last sequence item...
             canvas.createAnnotation(item.id, item)
           })
         })
