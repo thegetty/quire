@@ -66,12 +66,12 @@ module.exports = class Manifest {
   }
 
   createAnnotation(data) {
-    const { body, id, motivation, target } = data
+    const { body, id, motivation, region } = data
     return {
       body: body || this.createAnnotationBody(data),
       id: [this.figure.canvasId, id].join('/'),
       motivation,
-      target: target ? `${this.figure.canvasId}#xywh=${target}` : this.figure.canvasId,
+      target: region ? `${this.figure.canvasId}#xywh=${region}` : this.figure.canvasId,
       type: 'Annotation'
     }
   }

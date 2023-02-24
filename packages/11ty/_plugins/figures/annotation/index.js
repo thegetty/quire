@@ -17,7 +17,7 @@ const logger = chalkFactory('Figures:Annotation')
  * @property {String} label  The label rendered in the UI to select an annotation
  * @property {String} motivation W3C motivation property
  * @property {String} src  The path to the original image
- * @property {String} target  The annotation's target region on the canvas
+ * @property {String} region  The region on the canvas where the annotation is applied
  * @property {String} text  The body of a text annotation
  * @property {String} type  Annotation type, "choice" or "annotation"
  * @property {String} uri  URI for the annotation resource
@@ -27,7 +27,7 @@ const logger = chalkFactory('Figures:Annotation')
 module.exports = class Annotation {
   constructor(figure, data) {
     const { iiifConfig, outputDir } = figure
-    const { label, selected, src, target, text } = data
+    const { label, region, selected, src, text } = data
     const { base, ext, name } = src ? path.parse(src) : {}
 
     /**
@@ -78,9 +78,9 @@ module.exports = class Annotation {
     this.motivation = src ? 'painting' : 'text'
     this.selected = selected
     this.src = src
-    this.target = target
+    this.region = region
     this.text = text
-    this.type = figure.src || target || text ? 'annotation' : 'choice'
+    this.type = figure.src || region || text ? 'annotation' : 'choice'
     this.uri = uri()
   }
 }
