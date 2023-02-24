@@ -1,0 +1,40 @@
+{
+  "$id": "https://data.getty.edu/quire/v1.0.0/schemas/references.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Objects",
+  "description": "Quire references data schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "entries": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Reference"
+      },
+      "uniqueItems": true
+    }
+  },
+  "required": [ "entries" ],
+  "$defs": {
+    "Reference": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "label": {
+          "description": "A unique label for the bibliographic reference",
+          "type": "string"
+        },
+        // "cls": {
+        //   "description": "Citation Style Language, https://citationstyles.org",
+        //   "type": "uri"
+        // },
+        "text": {
+          "description": "Full text of the bibliographic reference",
+          "type": "string"
+        }
+      },
+      "required": [ "id" ],
+      "title": "Object"
+    },
+  }
+}

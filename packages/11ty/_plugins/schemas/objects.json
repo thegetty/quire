@@ -1,0 +1,68 @@
+{
+  "$id": "https://data.getty.edu/quire/v1.0.0/schemas/objects.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Objects",
+  "description": "Quire objects data schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "object_display": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "object_list": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Object"
+      },
+      "uniqueItems": true
+    }
+  },
+  "required": [ "object_list" ],
+  "$defs": {
+    "Object": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "artist": {
+          "type": "string"
+        },
+        "dimensions": {
+          "type": "string"
+        },
+        "figures": {
+          "description": "An array of figures",
+          "type": "array",
+          "items": {
+            "$ref": "https://quire.getty.edu/schemas/v1.0.0/figures#/$defs/Figure"
+          },
+          "uniqueItems": true
+        },
+        "id": {
+          "description": "A unique id for the figure object",
+          "type": "string"
+        },
+        "link": {
+          "description": "",
+          "type": "string",
+          "format": "uri"
+        },
+        "location": {
+          "type": "string"
+        },
+        "title": {
+          "description": "",
+          "type": "string"
+        },
+        "year": {
+          "type": "string",
+          "format": "edtf/level-1+season-intervals"
+        }
+      },
+      "required": [ "id" ],
+      "title": "Object"
+    },
+  }
+}
