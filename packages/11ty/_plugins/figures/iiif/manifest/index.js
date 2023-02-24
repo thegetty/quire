@@ -65,19 +65,42 @@ module.exports = class Manifest {
     })
   }
 
-  // TODO create annotations for annotation targets matching sequence item
-  get sequence() {
-    if (!this.figure.sequence) return
-    return this.figure.sequence
-      .map(({ items }) => {
-        return this.createAnnotation({
+  get sequenceItems() {
+    if (!this.figure.sequences || !this.figure.sequences.length) return
+    return this
+      .figure.sequences
+      .flatMap(({ items }) => items)
+      .map((item) => {
+        const canvasId = path.join(this.figure.canvasId, item.id)
+        const baseImage = ({ format, info, label, src, uri }) => {
+          const { ext } = path.parse(src)
+          return {
+            format,
+            height: this.figure.canvasHeight,
+            id: uri,
+            label: { en: [label] },
+            type: 'Image',
+            service: info && [
+              {
+                '@context': 'http://iiif.io/api/image/2/context.json',
+                '@id': info,
+                profile: 'level0',
+                protocol: 'http://iiif.io/api/image'
+              }
+            ],
+            width: this.figure.canvasWidth
+          }
+        }
+        return {
           body: {
-            items: items.map((item) => this.createAnnotationBody(item)),
+            items: [baseImage(item)],
             type: 'Choice'
           },
-          id: 'sequence-item',
-          motivation: 'painting'
-        })
+          id: path.join(canvasId, 'sequence-item'),
+          motivation: 'painting',
+          target: canvasId,
+          type: 'Annotation'
+        }
       })
   }
 
@@ -125,12 +148,13 @@ module.exports = class Manifest {
       manifest.addLabel(this.figure.label, this.locale)
       // TODO Refactor?, this branching logic seems awkward...
       if (this.figure.isSequence) {
-        this.sequence.forEach((item) => {
-          const { base: sequenceItemBasename } = path.parse(item.id)
-          const canvasId = path.join(this.figure.canvasId, sequenceItemBasename)
+        this.sequenceItems.forEach((item) => {
+          const sequenceItemChoices = item.body.items
+          const canvasId = item.target
           manifest.createCanvas(canvasId, (canvas) => {
             canvas.height = this.figure.canvasHeight
             canvas.width = this.figure.canvasWidth
+            // TODO figure out why each annotation 'Image' is always the last sequence item...
             canvas.createAnnotation(item.id, item)
           })
         })
