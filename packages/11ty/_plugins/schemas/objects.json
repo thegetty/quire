@@ -6,13 +6,15 @@
   "type": "object",
   "additionalProperties": false,
   "properties": {
-    "object_display": {
+    "display_properties": {
+      "description": "An ordered list of the Object properties to display.",
       "type": "array",
       "items": {
         "type": "string"
       }
     },
     "object_list": {
+      "description": "",
       "type": "array",
       "items": {
         "$ref": "#/$defs/Object"
@@ -23,13 +25,16 @@
   "required": [ "object_list" ],
   "$defs": {
     "Object": {
+      "description": "",
       "type": "object",
       "additionalProperties": true,
       "properties": {
         "artist": {
+          "description": "",
           "type": "string"
         },
         "dimensions": {
+          "description": "",
           "type": "string"
         },
         "figures": {
@@ -42,7 +47,14 @@
         },
         "id": {
           "description": "A unique id for the figure object",
-          "type": "string"
+          "oneOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "link": {
           "description": "",
@@ -63,6 +75,6 @@
       },
       "required": [ "id" ],
       "title": "Object"
-    },
+    }
   }
 }
