@@ -1,3 +1,4 @@
+const CanvasBuilder = require('./canvas-builder')
 const chalkFactory = require('~lib/chalk')
 const fs = require('fs-extra')
 const path = require('path')
@@ -144,31 +145,12 @@ module.exports = class Manifest {
     const manifest = builder.createManifest(this.figure.manifestId, (manifest) => {
       manifest.addBehavior(['continuous', 'sequence'])
       manifest.addLabel(this.figure.label, this.locale)
-      // TODO Refactor/Generalize?, this branching logic seems awkward...
-      if (this.figure.isSequence) {
-        this.sequenceItems.forEach((item) => {
-          const sequenceItemChoices = item.body.items
-          const canvasId = item.target
-          manifest.createCanvas(canvasId, (canvas) => {
-            canvas.height = this.figure.canvasHeight
-            canvas.width = this.figure.canvasWidth
-            canvas.createAnnotation(item.id, item)
-          })
-        })
-      } else {
-        manifest.createCanvas(this.figure.canvasId, (canvas) => {
-          canvas.height = this.figure.canvasHeight
-          canvas.width = this.figure.canvasWidth
-          if (this.annotations) {
-            this.annotations.forEach((item) => {
-              canvas.createAnnotation(item.id, item)
-            })
-          }
-          if (this.choices) {
-            canvas.createAnnotation(this.choices.id, this.choices)
-          }
-        })
-      }
+      CanvasBuilder.create(manifest, {
+        annotations: this.annotations,
+        choices: this.choices,
+        figure: this.figure,
+        sequenceItems: this.sequenceItems
+      })
     })
     try {
       return builder.toPresentation3(manifest)
