@@ -15,9 +15,11 @@ module.exports = async function (eleventyConfig, options = {}) {
 
   const { figure_list: figureList } = eleventyConfig.globalData.figures
 
-  const figures = await Promise.all(figureList.map((data) => {
-    return figureFactory.create(data)
-  }))
+  const figures = await Promise.all(
+    figureList.map((data) => {
+      return figureFactory.create(data)
+    })
+  )
   const errors = figureList.filter(({ errors }) => errors && !!errors.length)
 
   if (errors.length) {
@@ -35,6 +37,9 @@ module.exports = async function (eleventyConfig, options = {}) {
   /**
    * Update global figures data to only have properties for Quire shortcodes
    */
-  Object.assign(figureList, figures.map(({ figure }) => figure.adapter()))
+  Object.assign(
+    figureList,
+    figures.map(({ figure }) => figure.adapter()),
+  )
   logger.info('Processing complete')
 }
