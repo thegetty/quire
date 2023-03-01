@@ -25,7 +25,7 @@ const notifier = updateNotifier({
   updateCheckInterval: INTERVAL.DAILY,
 })
 
-notifier.notify()
+notifier.notify({ defer: false })
 
 /**
  * Run the cli program
