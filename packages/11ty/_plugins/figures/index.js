@@ -10,13 +10,16 @@ const logger = chalkFactory('Figures', 'DEBUG')
  * for all figures in `figures.yaml` and updates global data
  */
 module.exports = async function (eleventyConfig, options = {}) {
-  const figureFactory = new FigureFactory(iiifConfig(eleventyConfig))
+  const config = iiifConfig(eleventyConfig)
+  const figureFactory = new FigureFactory(config)
 
   const { figure_list: figureList } = eleventyConfig.globalData.figures
 
-  const figures = await Promise.all(figureList.map((data) => {
-    return figureFactory.create(data)
-  }))
+  const figures = await Promise.all(
+    figureList.map((data) => {
+      return figureFactory.create(data)
+    })
+  )
   const errors = figureList.filter(({ errors }) => errors && !!errors.length)
 
   if (errors.length) {
@@ -30,8 +33,16 @@ module.exports = async function (eleventyConfig, options = {}) {
   }
 
   /**
+   * Add IIIFConfig to global data
+   */
+  eleventyConfig.globalData.iiifConfig = config
+
+  /**
    * Update global figures data to only have properties for Quire shortcodes
    */
-  Object.assign(figureList, figures.map(({ figure }) => figure.adapter()))
+  Object.assign(
+    figureList,
+    figures.map(({ figure }) => figure.adapter()),
+  )
   logger.info('Processing complete')
 }
