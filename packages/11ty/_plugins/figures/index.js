@@ -32,6 +32,9 @@ module.exports = async function (eleventyConfig, options = {}) {
     )
   }
 
+  /**
+   * Add IIIFConfig to global data
+   */
   eleventyConfig.globalData.iiifConfig = config
 
   /**
