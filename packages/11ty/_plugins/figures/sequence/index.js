@@ -18,6 +18,7 @@ module.exports = class Sequence {
     this.figure = figure
     this.files = getSequenceFiles(sequence, iiifConfig)
     this.regex = sequence.regex
+    this.start = sequence.start
   }
 
   get items() {
@@ -40,5 +41,11 @@ module.exports = class Sequence {
         }
       )
     })
+  }
+
+  // TODO: read `this.start` and findIndex on matching item of items
+  get startIndex() {
+    if (!this.start) return 0
+    return 0
   }
 }

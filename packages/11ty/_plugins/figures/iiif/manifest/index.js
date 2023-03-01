@@ -2,6 +2,7 @@ const CanvasBuilder = require('./canvas-builder')
 const chalkFactory = require('~lib/chalk')
 const fs = require('fs-extra')
 const path = require('path')
+const SequenceBuilder = require('./sequence-builder')
 const titleCase = require('~plugins/filters/titleCase')
 const Writer = require('./writer')
 const { globalVault } = require('@iiif/vault')
@@ -153,7 +154,11 @@ module.exports = class Manifest {
       })
     })
     try {
-      return builder.toPresentation3(manifest)
+      const manifestObject = builder.toPresentation3(manifest)
+      return SequenceBuilder.create(manifestObject, {
+        figure: this.figure,
+        sequenceItems: this.sequenceItems
+      })
     } catch(error) {
       throw new Error(`Failed to generate manifest: ${error}`)
     }
