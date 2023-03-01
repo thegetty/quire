@@ -43,9 +43,11 @@ module.exports = class Sequence {
     })
   }
 
-  // TODO: read `this.start` and findIndex on matching item of items
   get startIndex() {
     if (!this.start) return 0
-    return 0
+    return this.items.findIndex(({ src }) => {
+      const { base } = path.parse(src)
+      return this.start === base
+    }) || 0
   }
 }
