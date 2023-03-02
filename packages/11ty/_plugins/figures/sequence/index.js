@@ -1,6 +1,6 @@
 const path = require('path')
 const getSequenceFiles = require('./get-sequence-files')
-const SequenceItem = require('./item')
+const Annotation = require('../annotation')
 
 /**
  * @typedef {Object} Sequence
@@ -22,24 +22,27 @@ module.exports = class Sequence {
   }
 
   get items() {
-    const { annotations, data } = this.figure
-    const { label } = data
+    const { label } = this.figure.data
+    return this.files.map((filename) => {
+      const src = path.join(this.dir, filename)
+      return new Annotation(this.figure, { label, src })
+    })
+  }
+
+  get itemsWithTargetedAnnotations() {
+    const { annotations } = this.figure
     const annotationItems = annotations
       ? annotations.flatMap(({ items }) => items)
       : []
-    return this.files.map((filename) => {
-      const src = path.join(this.dir, filename)
+    return this.items.map((item) => {
+      const { src } = item
       // TODO: replace `target` with `region` once that gets merged in
       const sequenceItemAnnotations = annotationItems
         .filter(({ target }) => target && target === src)
-      return new SequenceItem(
-        this.figure,
-        {
-          annotations: sequenceItemAnnotations,
-          label,
-          src
-        }
-      )
+      return {
+        item,
+        annotations: sequenceItemAnnotations
+      }
     })
   }
 
