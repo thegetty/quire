@@ -1,7 +1,4 @@
 # Eleventy
-_includes/
-_layouts/
-_plugins/
 _site/
 .eleventy.js
 
