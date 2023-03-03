@@ -1,6 +1,6 @@
 /**
  * Head Tag
- * 
+ *
  * @param      {Object}  eleventyConfig
  */
 module.exports = function(eleventyConfig) {
@@ -56,7 +56,7 @@ module.exports = function(eleventyConfig) {
         <link rel="canonical" href="${canonicalURL}">
         <link rel="version-history" href="${publication.repositoryUrl}">
 
-        <script src="https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@1.0.54" type="module"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@latest" type="module"></script>
         <script src="https://cdn.jsdelivr.net/npm/@iiif/vault-helpers@latest/dist/index.umd.js"></script>
 
         ${publisherLinks}

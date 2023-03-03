@@ -6,6 +6,6 @@
  * @return {Boolean}       True if figure contains a canvas
  */
 module.exports = (figure) => {
-  const { sequence } = figure
-  return !!sequence
+  const { sequences } = figure
+  return !!sequences && !!sequences.length
 }
