@@ -56,6 +56,7 @@ module.exports = {
   pageHeader: require('./page-header.js'),
   pageTitle: require('./page-title.js'),
   scripts: require('./scripts.js'),
+  sequencePanel: require('./figure/image/sequence-panel'),
   siteTitle: require('./site-title.js'),
   tableOfContents: require('./table-of-contents/index.js'),
   tableOfContentsGridItem: require('./table-of-contents/item/grid.js'),

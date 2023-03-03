@@ -164,6 +164,12 @@ module.exports = class Figure {
    * @return {Object} figure
    */
   adapter() {
+    /**
+     * TODO determine how to handle multiple sequence starting points.
+     * Assuming one (the first) sequence for now
+     */
+    const startCanvas = this.isSequence ? this.sequences[0].startCanvas : null
+
     return {
       ...this.data,
       annotations: this.annotations,
@@ -171,12 +177,14 @@ module.exports = class Figure {
       id: this.id,
       isCanvas: this.isCanvas,
       isImageService: this.isImageService,
+      isSequence: this.isSequence,
       label: this.label,
       manifestId: this.manifestId,
       mediaId: this.mediaId,
       mediaType: this.mediaType,
       printImage: this.printImage,
       region: this.region,
+      startCanvas,
       src: this.src
     }
   }
