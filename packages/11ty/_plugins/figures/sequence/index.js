@@ -46,11 +46,12 @@ module.exports = class Sequence {
     })
   }
 
-  get startIndex() {
-    if (!this.start) return 0
-    return this.items.findIndex(({ src }) => {
+  get startCanvas() {
+    if (!this.start) return
+    const startCanvasItem = this.items.find(({ src }) => {
       const { base } = path.parse(src)
       return this.start === base
-    }) || 0
+    })
+    return startCanvasItem ? path.join(this.figure.canvasId, startCanvasItem.id) : null
   }
 }
