@@ -1,5 +1,5 @@
 require('module-alias/register')
-const test = require('node:test')
+const { mock, test } = require('node:test')
 const assert = require('assert/strict')
 // const { add, subtract, multiply, divide, power } = require('./index')
 const figuresData = require('./__fixtures__/figures/index.js')
