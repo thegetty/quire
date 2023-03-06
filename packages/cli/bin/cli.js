@@ -1,10 +1,10 @@
 #!/usr/bin/env -S node --no-warnings
 
+process.removeAllListeners('warning')
+
 import cli from '#src/main.js'
 import packageConfig from '#root/package.json' assert { type: 'json' }
 import updateNotifier from 'update-notifier'
-
-process.removeAllListeners('warning')
 
 const INTERVAL = Object.freeze({
   MINUTES: 1000 * 60 * 1,
