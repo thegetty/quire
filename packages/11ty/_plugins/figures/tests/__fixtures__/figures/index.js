@@ -4,27 +4,27 @@
 
 module.exports = {
   annotationsCheckbox: {
-    dimensions: { height: 1455, width: 1200 } ,
+    dimensions: { height: 1455, width: 1200 },
     figure: require('./annotations-checkbox/figure.json'),
     manifest: require('./annotations-checkbox/manifest.json')
   },
   annotationsRadio: {
-    dimensions: { height: 2868, width: 2082 } ,
+    dimensions: { height: 2868, width: 2082 },
     figure: require('./annotations-radio/figure.json'),
     manifest: require('./annotations-radio/manifest.json'),
   },
   sequence: {
-    dimensions: { height: 300, width: 300 } ,
+    dimensions: { height: 300, width: 300 },
     figure: require('./sequence/figure.json'),
     manifest: require('./sequence/manifest.json')
   },
   sequenceWithAnnotations: {
-    dimensions: { height: 2048, width: 1536 } ,
+    dimensions: { height: 2048, width: 1536 },
     figure: require('./sequence-with-annotations/figure.json'),
     manifest: require('./sequence-with-annotations/manifest.json')
   },
   zoomable: {
-    dimensions: { height: 3221, width: 4096 } ,
+    dimensions: { height: 3221, width: 4096 },
     figure: require('./zoomable/figure.json'),
     manifest: require('./zoomable/manifest.json')
   }
