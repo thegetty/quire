@@ -3,24 +3,24 @@
  */
 
 module.exports = {
-  checkboxAnnotations: {
-    figure: require('./checkbox-annotations/figure.json'),
-    manifest: require('./checkbox-annotations/manifest.json')
+  annotationsCheckbox: {
+    figure: require('./annotations-checkbox/figure.json'),
+    manifest: require('./annotations-checkbox/manifest.json')
   },
-  radioLayers: {
-    figure: require('./radio-layers/figure.json'),
-    manifest: require('./radio-layers/manifest.json'),
+  annotationsRadio: {
+    figure: require('./annotations-radio/figure.json'),
+    manifest: require('./annotations-radio/manifest.json'),
   },
-  rotating: {
-    figure: require('./rotating/figure.json'),
-    manifest: require('./rotating/manifest.json')
+  sequence: {
+    figure: require('./sequence/figure.json'),
+    manifest: require('./sequence/manifest.json')
   },
-  rotatingAnnotation: {
-    figure: require('./rotating-annotation/figure.json'),
-    manifest: require('./rotating-annotation/manifest.json')
+  sequenceWithAnnotations: {
+    figure: require('./sequence-with-annotations/figure.json'),
+    manifest: require('./sequence-with-annotations/manifest.json')
   },
-  zoom: {
-    figure: require('./zoom/figure.json'),
-    manifest: require('./zoom/manifest.json')
+  zoomable: {
+    figure: require('./zoomable/figure.json'),
+    manifest: require('./zoomable/manifest.json')
   }
 }
