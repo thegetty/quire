@@ -148,7 +148,7 @@ async function initStarter (starter, projectPath) {
  * @return  {Promise}
  */
 async function install(options = {}) {
-  const version = options.version || 'latest'
+  const version = options.quire || 'latest'
   console.debug(`[CLI:quire] installing quire-11ty@${version}`)
   const absoluteInstallPath = path.join(__dirname, 'versions')
   fs.ensureDirSync(absoluteInstallPath)
@@ -197,7 +197,7 @@ async function install(options = {}) {
  * @return  {Promise}
  */
 async function installInProject(projectPath, options = {}) {
-  const version = options.version || 'latest'
+  const version = options.quire || 'latest'
   console.debug(`[CLI:quire] installing quire-11ty@${version} into ${projectPath}`)
 
   /**

@@ -22,9 +22,9 @@ export default class CreateCommand extends Command {
       [ '[starter]', 'repository url or local path for a starter project' ],
     ],
     options: [
-      [ '--version', 'the quire-11ty version for the project', 'latest' ],
-      [ '--eject', 'install quire-11ty into the project directory', 'true' ],
-      [ '--debug', 'debug the `quire new` command' ],
+      [ '--quire <version>', 'quire-11ty version to install', 'latest' ],
+      // [ '--eject', 'install quire-11ty into the project directory', true ],
+      [ '--debug', 'debug the `quire new` command', false ],
     ],
   }
 
@@ -61,6 +61,8 @@ export default class CreateCommand extends Command {
        */
       const requiredVersion = await quire.initStarter(starter, projectPath)
       if (!requiredVersion) return
+
+      options.eject = true
 
       if (options.eject) {
         await quire.installInProject(projectPath, options)
