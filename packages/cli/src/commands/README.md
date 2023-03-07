@@ -82,22 +82,22 @@ quire new <path> <starter>
 
 #### Specifying the `quire-11ty` version
 
-When the `--version` flag is used the new project will be started using the specified version of `quire-11ty`
+When the `--quire` flag is used the new project will be started using the specified version of `quire-11ty`
 
 ```sh
-quire new <path> --version <version> <starter>
+quire new <path> <starter> --quire <version>
 ```
 
 ##### Version identifiers
 
-The `--version` flag must be either a semantic version identifier or a npm distribution tag. For example:
+The `--quire` flag must be either a semantic version identifier or a npm distribution tag. For example:
 
 ```sh
-quire new ./blargh --version 1.0.0-rc.5
+quire new ./blargh --quire 1.0.0-rc.5
 ```
 
 ```sh
-quire new ./blargh --version latest
+quire new ./blargh --quire latest
 ```
 
 ### `preview`
