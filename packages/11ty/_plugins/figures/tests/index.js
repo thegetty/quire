@@ -1,7 +1,6 @@
 require('module-alias/register')
 const { mock, test } = require('node:test')
 const assert = require('assert/strict')
-// const { add, subtract, multiply, divide, power } = require('./index')
 const Figure = require('../figure')
 const figureFixtures = require('./__fixtures__/figures/index.js')
 const iiifConfig = require('./__fixtures__/iiif-config.json')
@@ -15,8 +14,8 @@ const createManifestFromFigureFixture = async (figureFixtureName) => {
   } = figureFixtures[figureFixtureName]
   const { height, width } = dimensions
   const figure = new Figure(iiifConfig, null, figureFixture)
-  figure.canvasHeight = Number(height)
-  figure.canvasWidth = Number(width)
+  figure.canvasHeight = height
+  figure.canvasWidth = width
   const manifest = new Manifest(figure)
   const manifestJson = await manifest.toJSON()
   return {
