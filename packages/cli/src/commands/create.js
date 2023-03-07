@@ -62,6 +62,10 @@ export default class CreateCommand extends Command {
       const requiredVersion = await quire.initStarter(starter, projectPath)
       if (!requiredVersion) return
 
+      const version = options.quire || requiredVersion
+
+      quire.setVersion(projectPath, version)
+
       options.eject = true
 
       if (options.eject) {

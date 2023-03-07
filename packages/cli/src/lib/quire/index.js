@@ -111,10 +111,8 @@ async function initStarter (starter, projectPath) {
 
   /**
    * Determine `quire-11ty` version required by the starter project
-   * and write a `.quire` file with the semantic version string.
    */
   const quireVersion = await getVersionFromStarter(projectPath)
-  setVersion(projectPath, quireVersion)
 
   // Re-initialize project directory as a new git repository
   await fs.remove(path.join(projectPath, '.git'))
@@ -319,16 +317,16 @@ async function remove(version) {
 /**
  * Sets the quire-11ty version for a project
  *
- * @param  {String}  version  Quire-11ty semantic version
+ * @param  {String}  version  a version identifier or distribution tag
  */
 function setVersion(projectPath, version) {
   if (!version) {
     console.error('[CLI] no version specified')
+    return
   }
+  fs.writeFileSync(path.join(projectPath, VERSION_FILE), version)
   const projectName = path.basename(projectPath)
   console.info(`${projectName} set to use quire-11ty@${version}`)
-  const versionFilePath = path.join(projectPath, VERSION_FILE)
-  fs.writeFileSync(versionFilePath, version)
 }
 
 /**
