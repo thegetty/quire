@@ -128,7 +128,7 @@ module.exports = function(eleventyConfig) {
   dataExtensionsPlugin(eleventyConfig)
   const globalData = globalDataPlugin(eleventyConfig, { inputDir })
   const collections = collectionsPlugin(eleventyConfig)
-  vitePlugin(eleventyConfig, { inputDir, outputDir, globalData })
+  vitePlugin(eleventyConfig, { globalData, inputDir, outputDir, publicDir })
 
   eleventyConfig.addPlugin(i18nPlugin)
   eleventyConfig.addPlugin(figuresPlugin)
