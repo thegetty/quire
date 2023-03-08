@@ -79,7 +79,7 @@ async function getVersionFromStarter(projectPath) {
  * @return   {String}   quireVersion  A string indicating the current version
  *                                    of quire being used with a new project
  */
-async function initStarter (starter, projectPath) {
+async function initStarter (starter, projectPath, options) {
   projectPath = projectPath || cwd()
 
   // ensure that the target path exists
@@ -110,9 +110,13 @@ async function initStarter (starter, projectPath) {
     .catch((error) => console.error('[CLI:error] ', error))
 
   /**
-   * Determine `quire-11ty` version required by the starter project
+   * Determine `quire-11ty` version required by the starter project.
+   *
+   * A version specified in `options.quire` overrides the version in starter
+   * project `package.json`.
    */
-  const quireVersion = await getVersionFromStarter(projectPath)
+  const quireVersion = options.quire || await getVersionFromStarter(projectPath)
+  setVersion(projectPath, quireVersion)
 
   // Re-initialize project directory as a new git repository
   await fs.remove(path.join(projectPath, '.git'))
