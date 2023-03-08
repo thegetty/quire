@@ -14,7 +14,7 @@ module.exports = {
     manifest: require('./annotations-radio/manifest.json'),
   },
   sequence: {
-    dimensions: { height: 300, width: 300 },
+    dimensions: { height: 2160, width: 1827 },
     figure: require('./sequence/figure.json'),
     manifest: require('./sequence/manifest.json')
   },
