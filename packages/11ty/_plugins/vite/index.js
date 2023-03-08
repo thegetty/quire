@@ -10,7 +10,7 @@ const EleventyVitePlugin = require('@11ty/eleventy-plugin-vite')
  * Runs Vite build to postprocess the Eleventy build output
  */
 module.exports = function (eleventyConfig, pluginConfig) {
-  const { inputDir, outputDir, globalData } = pluginConfig
+  const { globalData, inputDir, outputDir, publicDir } = pluginConfig
   const { pathname } = globalData.publication 
 
   eleventyConfig.addPlugin(EleventyVitePlugin, {
