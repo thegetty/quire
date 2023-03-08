@@ -111,10 +111,8 @@ async function initStarter (starter, projectPath) {
 
   /**
    * Determine `quire-11ty` version required by the starter project
-   * and write a `.quire` file with the semantic version string.
    */
   const quireVersion = await getVersionFromStarter(projectPath)
-  setVersion(projectPath, quireVersion)
 
   // Re-initialize project directory as a new git repository
   await fs.remove(path.join(projectPath, '.git'))
@@ -140,13 +138,15 @@ async function initStarter (starter, projectPath) {
 }
 
 /**
- * Install a specific version of `quire-11ty`
+ * Install `quire-11ty`, default to 'latest' version
  *
- * @param  {String}  version  Quire-11ty semantic version
+ * @TODO refactor this to be callable by the installInProject method
+ *
  * @param  {Object}  options  options passed from `quire new` command
  * @return  {Promise}
  */
-async function install(version, options={}) {
+async function install(options = {}) {
+  const version = options.quire || 'latest'
   console.debug(`[CLI:quire] installing quire-11ty@${version}`)
   const absoluteInstallPath = path.join(__dirname, 'versions')
   fs.ensureDirSync(absoluteInstallPath)
@@ -185,19 +185,22 @@ async function install(version, options={}) {
 }
 
 /**
- * Install a specific version of `quire-11ty` directly into a quire project
+ * Install `quire-11ty` directly into a quire project
+ *
+ * @TODO refactor this to use the install method with pre and post-install hooks
+ * or steps to prepare the working directory and cleanup on error and completion
  *
  * @param  {String}  projectPath  Absolute system path to the project root
- * @param  {String}  version  Quire-11ty semantic version
  * @param  {Object}  options  options passed from `quire new` command
  * @return  {Promise}
  */
-async function installInProject(projectPath, version, options={}) {
+async function installInProject(projectPath, options = {}) {
+  const version = options.quire || 'latest'
   console.debug(`[CLI:quire] installing quire-11ty@${version} into ${projectPath}`)
 
   /**
-   * delete `package.json` from starter project, as it will be replaced with
-   * `package.json` from `@thegetty/quire-11ty`
+   * Delete the starter project package configuration so that it can be replaced
+   * with the `@thegetty/quire-11ty` configuration
    * @TODO If a user runs quire eject at a later date we may want to merge their
    * package.json with the `quire-11ty` dev dependencies, scripts, etc
    */
@@ -314,16 +317,16 @@ async function remove(version) {
 /**
  * Sets the quire-11ty version for a project
  *
- * @param  {String}  version  Quire-11ty semantic version
+ * @param  {String}  version  a version identifier or distribution tag
  */
 function setVersion(projectPath, version) {
   if (!version) {
     console.error('[CLI] no version specified')
+    return
   }
+  fs.writeFileSync(path.join(projectPath, VERSION_FILE), version)
   const projectName = path.basename(projectPath)
   console.info(`${projectName} set to use quire-11ty@${version}`)
-  const versionFilePath = path.join(projectPath, VERSION_FILE)
-  fs.writeFileSync(versionFilePath, version)
 }
 
 /**

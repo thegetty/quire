@@ -80,6 +80,26 @@ To create a new project from a starter template
 quire new <path> <starter>
 ```
 
+#### Specifying the `quire-11ty` version
+
+When the `--quire` flag is used the new project will be started using the specified version of `quire-11ty`
+
+```sh
+quire new <path> <starter> --quire <version>
+```
+
+##### Version identifiers
+
+The `--quire` flag must be either a semantic version identifier or a npm distribution tag. For example:
+
+```sh
+quire new ./blargh --quire 1.0.0-rc.5
+```
+
+```sh
+quire new ./blargh --quire latest
+```
+
 ### `preview`
 
 Build and server the Quire site in development mode.
