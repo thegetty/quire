@@ -34,7 +34,6 @@ test('figure with radio annotations creates a valid manifest', async () => {
   assert.deepStrictEqual(manifestFixture, manifestJson)
 })
 
-// TODO fix `calcCanvasDimensions` to work with sequences -- sequence figure fixture data does not have calculated dimensions
 test('sequence figure creates a valid manifest', async () => {
   const { manifestFixture, manifestJson } = await createManifestFromFigureFixture('sequence')
   assert.deepStrictEqual(manifestFixture, manifestJson)
