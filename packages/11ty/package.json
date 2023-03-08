@@ -35,7 +35,7 @@
     "prepublishOnly": "npm run test",
     "preserve": "npm run clean",
     "serve": "cross-env ELEVENTY_ENV=production eleventy --serve",
-    "test": "node --test _plugins/figures/tests/index.js"
+    "test": "node --test"
   },
   "imports": {
     "#root/*": "./*",
