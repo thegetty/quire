@@ -121,7 +121,13 @@ module.exports = class Figure {
       if (!firstChoice) return
       return firstChoice.src
     }
-    const imagePath = this.src || firstChoiceSrc()
+    const firstSequenceItemSrc = () => {
+      if (!this.sequences) return
+      const firstSequenceItemDirname = this.sequences[0].dir
+      const firstSequenceItemFilename = this.sequences[0].files[0]
+      return path.join(firstSequenceItemDirname, firstSequenceItemFilename)
+    }
+    const imagePath = this.src || firstChoiceSrc() || firstSequenceItemSrc()
     if (!imagePath) {
       this.errors.push(`Invalid figure ID "${this.id}". Figures with annotations must have "choice" annotations or a "src" property.`)
       return
