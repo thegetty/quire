@@ -6,15 +6,15 @@ const logger = chalkFactory('Figures:IIIF:Config', 'DEBUG')
 
 module.exports = (eleventyConfig) => {
   const { url } = eleventyConfig.globalData.publication
-  const { publicDir } = eleventyConfig.globalData.directoryConfig
+  const { inputDir, outputDir, publicDir } = eleventyConfig.globalData.directoryConfig
   const { port=8080 } = eleventyConfig.serverOptions
 
-  const projectRoot = path.resolve(eleventyConfig.dir.input, '..')
+  const projectRoot = path.resolve(inputDir, '..')
 
   // logger.debug(`projectRoot: ${projectRoot}`)
 
   const resolveInputPath = () => {
-    const resolvedPath = path.resolve(eleventyConfig.dir.input)
+    const resolvedPath = path.resolve(inputDir)
     // logger.debug(`inputPath: ${resolvedPath}`)
     return resolvedPath
   }
@@ -23,7 +23,7 @@ module.exports = (eleventyConfig) => {
   const resolveOutputPath = () => {
     const resolvedPath = publicDir
       ? path.resolve(projectRoot, publicDir)
-      : path.resolve(projectRoot, eleventyConfig.dir.output)
+      : path.resolve(projectRoot, outputDir)
 
     // logger.debug(`ouputPath: ${resolvedPath}`)
     return resolvedPath
