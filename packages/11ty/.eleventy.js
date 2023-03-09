@@ -39,7 +39,7 @@ const { error } = chalkFactory('eleventy config')
 
 const inputDir = process.env.ELEVENTY_INPUT || 'content'
 const outputDir = process.env.ELEVENTY_OUTPUT || '_site'
-const publicDir = 'public'
+const publicDir = process.env.ELEVENTY_ENV === 'production' ? 'public' : false // yes, false
 
 /**
  * Eleventy configuration
