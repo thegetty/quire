@@ -54,10 +54,12 @@ const validatePublication = (publication) => {
 
 /**
  * Eleventy plugin to programmatically load global data from files
- * so that it is available to shortcode components.
+ * so that it is available to plugins and shortcode components.
+ *
  * Nota bene: data is loaded from a sub directory of the `input` directory,
  * distinct from the `eleventyConfig.dir.data` directory.
  *
+ * @param {Object} eleventyConfig
  * @param {Object} directoryConfig
  * @property {String} inputDir
  * @property {String} outputDir
