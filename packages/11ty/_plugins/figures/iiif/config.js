@@ -19,7 +19,6 @@ module.exports = (eleventyConfig) => {
     return resolvedPath
   }
 
-  // @todo abstract this concern to decouple this plugin from vite
   const resolveOutputPath = () => {
     const resolvedPath = publicDir
       ? path.resolve(projectRoot, publicDir)
