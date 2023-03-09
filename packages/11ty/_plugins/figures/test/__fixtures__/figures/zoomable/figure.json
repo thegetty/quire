@@ -1,0 +1,9 @@
+{
+  "id": "zoom",
+  "src": "figures/irises.jpg",
+  "label": "Figure 1",
+  "caption": "*Irises*, 1889, Vincent van Gogh (Dutch, 1853 - 1890). Oil on canvas, 74.3 × 94.3 cm (29 1/4 × 37 1/8 in.).",
+  "credit": "The J. Paul Getty Museum, Los Angeles, 90.PA.20",
+  "download": true,
+  "zoom": true
+}
