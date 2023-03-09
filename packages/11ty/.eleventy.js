@@ -39,7 +39,7 @@ const { error } = chalkFactory('eleventy config')
 
 const inputDir = process.env.ELEVENTY_INPUT || 'content'
 const outputDir = process.env.ELEVENTY_OUTPUT || '_site'
-const publicDir = 'public'
+const publicDir = process.env.ELEVENTY_ENV === 'production' ? 'public' : false // publicDir should be set explicitly to false in development 
 
 /**
  * Eleventy configuration
@@ -126,9 +126,9 @@ module.exports = function(eleventyConfig) {
    * so that data can be provided to the config or another plugin.
    */
   dataExtensionsPlugin(eleventyConfig)
-  const globalData = globalDataPlugin(eleventyConfig, { inputDir })
+  const globalData = globalDataPlugin(eleventyConfig, { inputDir, outputDir, publicDir })
   const collections = collectionsPlugin(eleventyConfig)
-  vitePlugin(eleventyConfig, { globalData, inputDir, outputDir, publicDir })
+  vitePlugin(eleventyConfig, globalData)
 
   eleventyConfig.addPlugin(i18nPlugin)
   eleventyConfig.addPlugin(figuresPlugin)

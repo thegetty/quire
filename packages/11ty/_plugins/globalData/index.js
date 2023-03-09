@@ -54,12 +54,19 @@ const validatePublication = (publication) => {
 
 /**
  * Eleventy plugin to programmatically load global data from files
- * so that it is available to shortcode components.
+ * so that it is available to plugins and shortcode components.
+ *
  * Nota bene: data is loaded from a sub directory of the `input` directory,
  * distinct from the `eleventyConfig.dir.data` directory.
+ *
+ * @param {Object} eleventyConfig
+ * @param {Object} directoryConfig
+ * @property {String} inputDir
+ * @property {String} outputDir
+ * @property {String} publicDir
  */
-module.exports = function(eleventyConfig, { inputDir }) {
-  const dir = path.resolve(inputDir, '_data')
+module.exports = function(eleventyConfig, directoryConfig) {
+  const dir = path.resolve(directoryConfig.inputDir, '_data')
   // console.debug(`[plugins:globalData] ${dir}`)
   const files = fs.readdirSync(dir)
     .filter((file) => path.extname(file) !== '.md')
@@ -76,5 +83,9 @@ module.exports = function(eleventyConfig, { inputDir }) {
       eleventyConfig.addGlobalData(key, value)
     }
   }
+
+  // Add directory config to globalData so that it is available to other plugins
+  eleventyConfig.globalData.directoryConfig = directoryConfig
+
   return eleventyConfig.globalData
 }
