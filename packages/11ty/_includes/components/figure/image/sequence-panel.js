@@ -16,7 +16,6 @@ module.exports = function(eleventyConfig) {
    * @property  {String} manifestId The id of the manifest to render
    * @property  {String} preset <sequence-panel> preset {@link https://iiif-canvas-panel.netlify.app/docs/examples/responsive-image#presets}
    * @property  {String} startCanvas The id of the canvas to display first in the sequence
-
    *
    * @return {String}        <sequence-panel> markup
    */
@@ -28,8 +27,8 @@ module.exports = function(eleventyConfig) {
       margin='',
       preset='responsive',
       startCanvas,
-      textEnabled='true',
-      textSelectionEnabled='true',
+      textEnabled='false',
+      textSelectionEnabled='false',
     } = data
 
     if (!manifestId) {

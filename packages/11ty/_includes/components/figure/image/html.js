@@ -6,7 +6,7 @@ const path = require('path')
  *
  * @param      {Object} eleventyConfig  eleventy configuration
  * @param      {Object} figure          The figure object
- * 
+ *
  * @return     {String}  HTML containing  a `figureImageElement`, a caption and annotations UI
  */
 module.exports = function(eleventyConfig) {
@@ -20,10 +20,11 @@ module.exports = function(eleventyConfig) {
   const { imageDir } = eleventyConfig.globalData.config.figures
 
   return function(figure) {
-    const { 
+    const {
       caption,
       credit,
       id,
+      isSequence,
       label
     } = figure
 
@@ -33,7 +34,9 @@ module.exports = function(eleventyConfig) {
     /**
      * Wrap image in modal link
      */
-    const imageElement = figureModalLink({ content: figureImageElement(figure), id })
+    const imageElement = isSequence
+      ? figureImageElement(figure)
+      : figureModalLink({ content: figureImageElement(figure), id, isSequence })
 
     const captionElement = figureCaption({ caption, content: labelElement, credit })
 
