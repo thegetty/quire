@@ -1,3 +1,4 @@
+const path = require('path')
 /**
  * Head Tag
  *
@@ -11,7 +12,7 @@ module.exports = function(eleventyConfig) {
   const twitterCard = eleventyConfig.getFilter('twitterCard')
   const webComponents = eleventyConfig.getFilter('webComponents')
 
-  const { application, publication } = eleventyConfig.globalData
+  const { application, figures, publication } = eleventyConfig.globalData
 
   /**
    * @param  {Object} params The Whole Dang Data Object, from base.11ty.js
@@ -23,6 +24,21 @@ module.exports = function(eleventyConfig) {
       : publication.title
 
     const description = publication.description.full || publication.description.one_line
+
+    const figureTilePreloadLinks = figures.figure_list
+      .filter(({ isSequence }) => isSequence)
+      .map(({ sequences }) => {
+        return sequences[0].items.map(({ uri }) => {
+          const { ext } = path.parse(uri)
+          console.warn('EXT', ext)
+          if (ext === '.json') {
+            // TODO lookup the tile defaults - need paths from sharp output
+            return ''
+          } else {
+            return `<link rel="preload" as="image" href="${uri}">`
+          }
+        }).join('\n')
+      }).join('\n')
 
     const publisherLinks = publication.publisher
       .filter(({ url }) => url)
@@ -58,6 +74,8 @@ module.exports = function(eleventyConfig) {
 
         <script src="https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@1.0.56" type="module"></script>
         <script src="https://cdn.jsdelivr.net/npm/@iiif/vault-helpers@latest/dist/index.umd.js"></script>
+
+        ${figureTilePreloadLinks}
 
         ${publisherLinks}
 
