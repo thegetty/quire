@@ -190,6 +190,7 @@ module.exports = class Figure {
       mediaType: this.mediaType,
       printImage: this.printImage,
       region: this.region,
+      sequences: this.sequences,
       startCanvas,
       src: this.src
     }
