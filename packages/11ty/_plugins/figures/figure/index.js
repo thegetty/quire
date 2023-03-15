@@ -76,7 +76,11 @@ module.exports = class Figure {
     this.processImage = imageProcessor
     this.sequenceFactory = new SequenceFactory(this)
     this.src = src
-    this.zoom = zoom
+    /**
+     * We are disabling zoom for all sequence figures
+     * our custom image-sequence component currently only supports static images
+     */
+    this.zoom = isSequence(data) ? false : zoom
   }
 
   /**
