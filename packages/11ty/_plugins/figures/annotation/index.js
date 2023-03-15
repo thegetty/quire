@@ -60,14 +60,14 @@ module.exports = class Annotation {
       if (!isImageService) return
       const tilesPath = path.join(outputDir, name, iiifConfig.tilesDirName)
       const infoPath = path.join(tilesPath, 'info.json')
-      return new URL(infoPath, iiifConfig.baseURI).toString()
+      return new URL(path.join(iiifConfig.baseURI, infoPath)).toString()
     }
 
     const uri = () => {
       const filepath = isImageService
         ? info()
         : path.join(outputDir, base)
-      return new URL(filepath, iiifConfig.baseURI).toString()
+      return new URL(path.join(iiifConfig.baseURI, filepath)).toString()
     }
 
     this.format = text && !src ? 'text/plain' : mime.lookup(src)
