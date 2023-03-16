@@ -30,7 +30,6 @@ module.exports = function(eleventyConfig) {
       .map(({ sequences }) => {
         return sequences[0].items.map(({ uri }) => {
           const { ext } = path.parse(uri)
-          console.warn('EXT', ext)
           if (ext === '.json') {
             // TODO lookup the tile defaults - need paths from sharp output
             return ''
