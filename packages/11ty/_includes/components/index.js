@@ -19,6 +19,7 @@ module.exports = {
   figureCaption: require('./figure/caption'),
   figureImage: require('./figure/image'),
   figureImageElement: require('./figure/image/element'),
+  figureImageSequence: require('./figure/image/sequence'),
   figureLabel: require('./figure/label'),
   figureModalLink: require('./figure/modal-link'),
   figureMediaEmbedUrl: require('./figure/media-embed-url'),

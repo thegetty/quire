@@ -19,7 +19,7 @@ module.exports = function(eleventyConfig) {
 
   const { imageDir } = eleventyConfig.globalData.config.figures
 
-  return function(figure) {
+  return async function(figure) {
     const {
       caption,
       credit,
@@ -34,9 +34,10 @@ module.exports = function(eleventyConfig) {
     /**
      * Wrap image in modal link
      */
-    const imageElement = isSequence
-      ? figureImageElement(figure)
-      : figureModalLink({ content: figureImageElement(figure), id, isSequence })
+    let imageElement = await figureImageElement(figure)
+    if (!isSequence) {
+      imageElement = figureModalLink({ content: imageElement, id })
+    }
 
     const captionElement = figureCaption({ caption, content: labelElement, credit })
 
