@@ -17,7 +17,6 @@ module.exports = function (eleventyConfig) {
   const markdownify = eleventyConfig.getFilter('markdownify')
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const removeHTML = eleventyConfig.getFilter('removeHTML')
-  const urlFilter = eleventyConfig.getFilter('url')
   const { contributorDivider } = eleventyConfig.globalData.config.tableOfContents
 
   return function (params) {
@@ -66,7 +65,7 @@ module.exports = function (eleventyConfig) {
     let mainElement = `${markdownify(pageTitleElement)}${isPage && !children ? arrowIcon : ''}`
 
     if (isPage) {
-      mainElement = `<a href="${urlFilter(page.url)}">${mainElement}</a>`
+      mainElement = `<a href="${page.url}">${mainElement}</a>`
     } else {
       classes.push('no-landing')
     }
