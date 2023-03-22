@@ -1,10 +1,182 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Image Sequence</title>
-  </head>
-  <body>
-    <h1>Image Sequence</h1>
-  </body>
-</html>
+<script>
+if (!window.customElements.get('image-sequence')) {
+  window.customElements.define('image-sequence', class extends HTMLElement {
+    constructor() {
+      super();
+      this.currentSequenceIndex = 0;
+      this.totalCanvases = 0;
+      this.oldX = 0;
+    }
+
+    get images() {
+      return this.root.querySelectorAll('img');
+    }
+
+    connectedCallback() {
+      this.sequenceId = this.getAttribute('sequence-id');
+      this.items = this.getAttribute('items').split(',');
+      this.totalCanvases = this.items.length;
+
+      /* Set up shadow DOM with a root element */
+      this.innerHTML = `<div class="image-sequence"></div>`;
+      this.firstElementChild.attachShadow({ mode: 'open' });
+      this.root = this.firstElementChild.shadowRoot;
+
+      /* Write images to shadow DOM */
+      const images = this.items.reduce((acc, item) => {
+        return acc += `<img src="${item}" />`;
+      }, '');
+      this.root.innerHTML = images;
+
+      /* Set up event listeners */
+      this.debouncedMouseMove = this.debounce(this.handleMouseMove, 7, true);
+      this.addEventListener('mousedown', this.handleMouseDown);
+      this.addEventListener('mouseup', this.handleMouseUp);
+      this.addEventListener('mouseleave', this.handleMouseLeave);
+
+      /* TODO: pass in figure sequence `startCanvas` to set this */
+      this.setSequenceIndex(0);
+
+      /* have to style shadow DOM elements like this 😓 */
+      const shadowStyles = `
+:host {
+  position: relative;
+}
+
+img {
+  display: block;
+  pointer-events: none;
+  user-select: none;
+  width: 100%;
+  opacity: 0;
+}
+
+img:not(:first-child) {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+img.visible {
+  opacity: 1;
+}
+      `;
+      this.root.innerHTML += `<style>${shadowStyles}</style>`;
+    }
+
+    /**
+     * Returns a function, that, as long as it continues to be invoked, will not
+     * be triggered. The function will be called after it stops being called for
+     * N milliseconds. If `immediate` is passed, trigger the function on the
+     * leading edge, instead of the trailing.
+     *
+     * using David Waslsh's debounce
+     * https://davidwalsh.name/javascript-debounce-function
+     * which is take from underscore.js
+     *
+     * @example
+     *   var myEfficientFn = debounce(function() {
+     *     // All the taxing stuff you do
+     *   }, 250);
+     *
+     * @param {function} func - the function to execute
+     * @param {integer} wait - the tine to wait in milliseconds
+     * @param {boolean} immediate - whether to call the function immediately or at the end of the timeout
+     * @returns
+     */
+    debounce(func, wait = 250, immediate = false) {
+      let timeout = null;
+
+      return function () {
+        const context = this;
+        const args = arguments;
+        const later = function () {
+          timeout = null;
+          if (!immediate) {
+            func.apply(context, args);
+          }
+        };
+        const callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) {
+          func.apply(context, args);
+        }
+      };
+    }
+
+    handleSequenceNavigation({ clientX, target }) {
+      const draggingLeft = clientX < this.oldX;
+      const draggingRight = clientX > this.oldX;
+      if (draggingLeft) {
+        this.previousCanvas();
+      } else if (draggingRight) {
+        this.nextCanvas();
+      }
+    }
+
+    handleMouseMove(event) {
+      if (this.oldX !== event.clientX) {
+        this.handleSequenceNavigation(event);
+        this.oldX = event.clientX;
+        console.warn('SEQUENCE INDEX', this.currentSequenceIndex);
+      }
+    }
+
+    handleMouseDown({ clientX }) {
+      this.oldX = clientX;
+      this.addEventListener('mousemove', this.debouncedMouseMove);
+    }
+
+    handleMouseUp() {
+      this.oldX = 0;
+      this.removeEventListener('mousemove', this.debouncedMouseMove);
+    }
+
+    handleMouseLeave() {
+      this.oldX = 0;
+      this.removeEventListener('mousemove', this.debouncedMouseMove);
+    }
+
+    nextCanvas() {
+      if (this.currentSequenceIndex === this.totalCanvases - 1) {
+        this.setSequenceIndex(0);
+      } else {
+        this.setSequenceIndex(this.currentSequenceIndex + 1);
+      }
+    }
+
+    previousCanvas() {
+      if (this.currentSequenceIndex === 0) {
+        this.setSequenceIndex(this.totalCanvases - 1);
+      } else {
+        this.setSequenceIndex(this.currentSequenceIndex - 1);
+      }
+    }
+
+    setSequenceIndex(newIndex) {
+      const oldIndex = this.currentSequenceIndex;
+      this.currentSequenceIndex = newIndex;
+      this.images[newIndex].classList.add('visible');
+      if (newIndex !== oldIndex) {
+        this.images[oldIndex].classList.remove('visible');
+      }
+    }
+  });
+}
+</script>
+<style webc:scoped>
+/* if webc:scoped, this custom element style block does nothing */
+image-sequence {
+  display: block;
+  overflow: auto;
+  min-height: 500px;
+  background: lemonchiffon;
+  font-family: monospace;
+  white-space: pre;
+}
+
+.image-sequence {
+  overflow: hidden;
+}
+</style>
