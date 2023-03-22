@@ -119,7 +119,6 @@ img.visible {
       if (this.oldX !== event.clientX) {
         this.handleSequenceNavigation(event);
         this.oldX = event.clientX;
-        console.warn('SEQUENCE INDEX', this.currentSequenceIndex);
       }
     }
 
