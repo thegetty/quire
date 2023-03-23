@@ -41,14 +41,21 @@ if (!window.customElements.get('image-sequence')) {
       const shadowStyles = `
 :host {
   position: relative;
+  display: flex;
+  justify-content: center;
+  max-width: 100vw;
+  max-height: 100vh;
 }
 
 img {
   display: block;
   pointer-events: none;
   user-select: none;
-  width: 100%;
   opacity: 0;
+  width: 100%;
+  max-width: 100vw;
+  max-height: 100vh;
+  object-fit: contain;
 }
 
 img:not(:first-child) {
