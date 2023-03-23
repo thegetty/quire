@@ -33,6 +33,7 @@ module.exports = function(eleventyConfig) {
         caption,
         credit,
         id,
+        isSequence,
         label,
         mediaType
       } = figure
@@ -68,6 +69,9 @@ module.exports = function(eleventyConfig) {
           </div>
         `
         : ''
+      const annotationsElement = !isSequence
+        ? annotationsUI({ figure, lightbox: true })
+        : ''
 
       const elementBaseClass = 'q-lightbox-slides__element'
       const elementClasses = [
@@ -88,7 +92,7 @@ module.exports = function(eleventyConfig) {
           </div>
           <div class="q-figure-slides__slide-ui">
             ${captionElement}
-            ${annotationsUI({ figure, lightbox: true })}
+            ${annotationsElement}
           </div>
         </div>
       `
