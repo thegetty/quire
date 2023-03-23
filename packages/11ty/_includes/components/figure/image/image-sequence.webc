@@ -1,18 +1,28 @@
 <script>
 if (!window.customElements.get('image-sequence')) {
   window.customElements.define('image-sequence', class extends HTMLElement {
-    constructor() {
-      super();
-      this.currentSequenceIndex = 0;
-      this.totalCanvases = 0;
-      this.oldX = 0;
+    static get observedAttributes() {
+      return ['index'];
     }
 
     get images() {
       return this.root.querySelectorAll('img');
     }
 
+    attributeChangedCallback(name, oldValue, newValue) {
+      switch (name) {
+        case 'index':
+          this.updateSequenceIndex(oldValue, newValue);
+          break;
+        default:
+          break;
+      }
+    }
+
     connectedCallback() {
+      this.totalCanvases = 0;
+      this.oldX = 0;
+      this.index = this.getAttribute('index');
       this.sequenceId = this.getAttribute('sequence-id');
       this.items = this.getAttribute('items').split(',');
       this.totalCanvases = this.items.length;
@@ -145,28 +155,47 @@ img.visible {
     }
 
     nextCanvas() {
-      if (this.currentSequenceIndex === this.totalCanvases - 1) {
+      if (this.index === this.totalCanvases - 1) {
         this.setSequenceIndex(0);
       } else {
-        this.setSequenceIndex(this.currentSequenceIndex + 1);
+        this.setSequenceIndex(this.index + 1);
       }
     }
 
     previousCanvas() {
-      if (this.currentSequenceIndex === 0) {
+      if (this.index === 0) {
         this.setSequenceIndex(this.totalCanvases - 1);
       } else {
-        this.setSequenceIndex(this.currentSequenceIndex - 1);
+        this.setSequenceIndex(this.index - 1);
       }
     }
 
     setSequenceIndex(newIndex) {
-      const oldIndex = this.currentSequenceIndex;
-      this.currentSequenceIndex = newIndex;
-      this.images[newIndex].classList.add('visible');
-      if (newIndex !== oldIndex) {
+      this.setAttribute('index', newIndex);
+      this.synchronizeSequenceInstances();
+    }
+
+    updateSequenceIndex(oldValue, newValue) {
+      const newIndex = parseInt(newValue);
+      const oldIndex = parseInt(oldValue);
+      const hasChanged = newIndex !== oldIndex;
+      if (!isNaN(newIndex) && hasChanged) {
+        this.index = newIndex;
+        this.images[newIndex].classList.add('visible');
+      }
+      if (!isNaN(oldIndex) && hasChanged) {
         this.images[oldIndex].classList.remove('visible');
       }
+    }
+
+    synchronizeSequenceInstances() {
+      clearTimeout(this.updateTimer);
+      this.updateTimer = setTimeout(() => {
+        const sequenceInstances = document.querySelectorAll(`image-sequence[sequence-id="${this.sequenceId}"]`);
+        sequenceInstances.forEach((sequence) => {
+          sequence.setAttribute('index', this.index);
+        });
+      }, 250);
     }
   });
 }
