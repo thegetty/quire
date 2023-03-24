@@ -170,11 +170,11 @@ module.exports = function(eleventyConfig) {
    * @property {Object} transformData - Additional global data for WebC transform
    * @property {Boolean} useTransform - Use WebC transform to process all HTML output
    */
-  // eleventyConfig.addPlugin(pluginWebc, {
-  //   components: '_includes/components/**/*.webc',
-  //   transformData: {},
-  //   useTransform: false,
-  // })
+  eleventyConfig.addPlugin(pluginWebc, {
+    components: '_includes/components/**/*.webc',
+    transformData: {},
+    useTransform: false,
+  })
 
   /**
    * Register a plugin to run linters on input templates
