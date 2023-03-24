@@ -34,8 +34,9 @@ if (!window.customElements.get('image-sequence')) {
       this.totalCanvases = this.items.length;
       this.visibleClassName = 'visible';
 
-      /* Set up shadow DOM with a root element */
-      this.innerHTML = `<div class="image-sequence"></div>`;
+      /* Write a firstElementChild with a non-js fallback image */
+      this.innerHTML = `<div class="image-sequence"><img src="${this.items[this.index]}" /></div>`;
+      /* Set up shadow DOM */
       this.firstElementChild.attachShadow({ mode: 'open' });
       this.root = this.firstElementChild.shadowRoot;
 
