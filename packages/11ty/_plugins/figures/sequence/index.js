@@ -54,4 +54,13 @@ module.exports = class Sequence {
     })
     return startCanvasItem ? path.join(this.figure.canvasId, startCanvasItem.id) : null
   }
+
+  get startCanvasIndex() {
+    if (!this.start) return 0
+    const startCanvasIndex = this.items.findIndex(({ src }) => {
+      const { base } = path.parse(src)
+      return this.start === base
+    })
+    return startCanvasIndex
+  }
 }

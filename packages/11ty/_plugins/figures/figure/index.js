@@ -178,7 +178,7 @@ module.exports = class Figure {
      * TODO determine how to handle multiple sequence starting points.
      * Assuming one (the first) sequence for now
      */
-    const startCanvas = this.isSequence ? this.sequences[0].startCanvas : null
+    const startCanvasIndex = this.isSequence ? this.sequences[0].startCanvasIndex : null
 
     return {
       ...this.data,
@@ -195,7 +195,7 @@ module.exports = class Figure {
       printImage: this.printImage,
       region: this.region,
       sequences: this.sequences,
-      startCanvas,
+      startCanvasIndex,
       src: this.src
     }
   }
