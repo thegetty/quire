@@ -9,10 +9,18 @@ if (!window.customElements.get('image-sequence')) {
       return this.root.querySelectorAll('img');
     }
 
+    get index() {
+      return parseInt(this.getAttribute('index')) || 0;
+    }
+
+    set index(value) {
+      this.setAttribute('index', value);
+    }
+
     attributeChangedCallback(name, oldValue, newValue) {
       switch (name) {
         case 'index':
-          this.updateSequenceIndex(oldValue, newValue);
+          this.updateCurrentSequenceImage(newValue, oldValue);
           break;
         default:
           break;
@@ -20,12 +28,11 @@ if (!window.customElements.get('image-sequence')) {
     }
 
     connectedCallback() {
-      this.totalCanvases = 0;
-      this.oldX = 0;
-      this.index = this.getAttribute('index');
-      this.sequenceId = this.getAttribute('sequence-id');
       this.items = this.getAttribute('items').split(',');
+      this.oldX = 0;
+      this.sequenceId = this.getAttribute('sequence-id');
       this.totalCanvases = this.items.length;
+      this.visibleClassName = 'visible';
 
       /* Set up shadow DOM with a root element */
       this.innerHTML = `<div class="image-sequence"></div>`;
@@ -38,16 +45,20 @@ if (!window.customElements.get('image-sequence')) {
       }, '');
       this.root.innerHTML = images;
 
+      this.updateCurrentSequenceImage(this.index);
+      this.synchronizeSequenceInstances();
+
       /* Set up event listeners */
       this.debouncedMouseMove = this.debounce(this.handleMouseMove, 7, true);
       this.addEventListener('mousedown', this.handleMouseDown);
       this.addEventListener('mouseup', this.handleMouseUp);
       this.addEventListener('mouseleave', this.handleMouseLeave);
 
-      /* TODO: pass in figure sequence `startCanvas` to set this */
-      this.setSequenceIndex(0);
-
-      /* have to style shadow DOM elements like this 😓 */
+      /**
+       * have to style shadow DOM elements like this 😓
+       * you can also link to stylesheets, but need exact output filepath:
+       * <link rel="stylesheet" href="SOME_FILEPATH/image-sequence.css" type="text/css" media="screen" />
+       */
       const shadowStyles = `
 :host {
   position: relative;
@@ -154,6 +165,10 @@ img.visible {
       this.removeEventListener('mousemove', this.debouncedMouseMove);
     }
 
+    hideImage(imageElement) {
+      imageElement.classList.remove(this.visibleClassName);
+    }
+
     nextCanvas() {
       if (this.index === this.totalCanvases - 1) {
         this.setSequenceIndex(0);
@@ -171,21 +186,12 @@ img.visible {
     }
 
     setSequenceIndex(newIndex) {
-      this.setAttribute('index', newIndex);
+      this.index = newIndex;
       this.synchronizeSequenceInstances();
     }
 
-    updateSequenceIndex(oldValue, newValue) {
-      const newIndex = parseInt(newValue);
-      const oldIndex = parseInt(oldValue);
-      const hasChanged = newIndex !== oldIndex;
-      if (!isNaN(newIndex) && hasChanged) {
-        this.index = newIndex;
-        this.images[newIndex].classList.add('visible');
-      }
-      if (!isNaN(oldIndex) && hasChanged) {
-        this.images[oldIndex].classList.remove('visible');
-      }
+    showImage(imageElement) {
+      imageElement.classList.add(this.visibleClassName);
     }
 
     synchronizeSequenceInstances() {
@@ -197,21 +203,19 @@ img.visible {
         });
       }, 250);
     }
+
+    updateCurrentSequenceImage(newValue, oldValue) {
+      if (!this.root) return;
+      const newIndex = parseInt(newValue);
+      if (!isNaN(newIndex)) {
+        this.showImage(this.images[newIndex]);
+      }
+      const oldIndex = parseInt(oldValue);
+      if (oldIndex !== newIndex && !isNaN(oldIndex)) {
+        this.hideImage(this.images[oldIndex]);
+      }
+    }
+
   });
 }
 </script>
-<style webc:scoped>
-/* if webc:scoped, this custom element style block does nothing */
-image-sequence {
-  display: block;
-  overflow: auto;
-  min-height: 500px;
-  background: lemonchiffon;
-  font-family: monospace;
-  white-space: pre;
-}
-
-.image-sequence {
-  overflow: hidden;
-}
-</style>
