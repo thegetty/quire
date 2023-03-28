@@ -31,6 +31,7 @@ if (!window.customElements.get('image-sequence')) {
       this.items = this.getAttribute('items').split(',');
       this.oldX = 0;
       this.sequenceId = this.getAttribute('sequence-id');
+      this.isInteractive = this.getAttribute('interactive') === 'true';
       this.totalCanvases = this.items.length;
       this.visibleClassName = 'visible';
 
@@ -50,10 +51,12 @@ if (!window.customElements.get('image-sequence')) {
       this.synchronizeSequenceInstances();
 
       /* Set up event listeners */
-      this.debouncedMouseMove = this.debounce(this.handleMouseMove, 7, true);
-      this.addEventListener('mousedown', this.handleMouseDown);
-      this.addEventListener('mouseup', this.handleMouseUp);
-      this.addEventListener('mouseleave', this.handleMouseLeave);
+      if (this.isInteractive) {
+        this.debouncedMouseMove = this.debounce(this.handleMouseMove, 7, true);
+        this.addEventListener('mousedown', this.handleMouseDown);
+        this.addEventListener('mouseup', this.handleMouseUp);
+        this.addEventListener('mouseleave', this.handleMouseLeave);
+      }
 
       /**
        * have to style shadow DOM elements like this 😓

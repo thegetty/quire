@@ -13,12 +13,16 @@ module.exports = function (eleventyConfig) {
   const imageTag = eleventyConfig.getFilter('imageTag')
   const { imageDir } = eleventyConfig.globalData.config.figures
 
-  return async function (figure) {
+  return async function (figure, options) {
     const { isCanvas, isImageService, isSequence } = figure
+    const { preset } = options
+    if (preset) {
+      figure.preset = preset
+    }
 
     switch (true) {
       case isSequence:
-        return await imageSequence(figure)
+        return await imageSequence(figure, options)
       case isCanvas:
         return canvasPanel(figure)
       case isImageService:

@@ -36,7 +36,7 @@ module.exports = function(eleventyConfig) {
     /**
      * Wrap image in modal link
      */
-    let imageElement = await figureImageElement(figure)
+    let imageElement = await figureImageElement(figure, { interactive: false })
     if (!isSequence) {
       imageElement = figureModalLink({ content: imageElement, id })
     }

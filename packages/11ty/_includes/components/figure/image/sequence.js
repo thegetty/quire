@@ -3,7 +3,7 @@ const path = require('path')
 module.exports = function(eleventyConfig) {
   const renderWebcComponent = eleventyConfig.getFilter('renderWebcComponent')
   const { assetDir } = eleventyConfig.globalData.config.figures
-  return async function({ id, sequences, startCanvasIndex }) {
+  return async function({ id, sequences, startCanvasIndex }, { interactive=true }) {
     const itemUris = sequences[0].items.map(({ uri }) => uri).join(',')
     const fileName = 'image-sequence.webc'
     const includesDir = path.join(eleventyConfig.dir.input, eleventyConfig.dir.includes)
@@ -13,6 +13,7 @@ module.exports = function(eleventyConfig) {
     return await renderWebcComponent(filePath, {
       'index': startCanvasIndex,
       'items': itemUris,
+      'interactive': interactive,
       'sequence-id': id
     })
   }

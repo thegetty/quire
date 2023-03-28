@@ -22,11 +22,6 @@ module.exports = function(eleventyConfig) {
   return async function(figures) {
     if (!figures) return ''
 
-    figures = figures.map((figure) => ({
-      preset: 'zoom',
-      ...figure
-    }))
-
     const slideElement = async (figure) => {
       const {
         aspect_ratio: aspectRatio='widescreen',
@@ -51,7 +46,7 @@ module.exports = function(eleventyConfig) {
             return figureVideoElement(figure)
           case mediaType === 'image':
           default:
-            return figureImageElement(figure)
+            return figureImageElement(figure, { preset: 'zoom' })
         }
       }
 
