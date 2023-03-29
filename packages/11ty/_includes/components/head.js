@@ -25,20 +25,6 @@ module.exports = function(eleventyConfig) {
 
     const description = publication.description.full || publication.description.one_line
 
-    const figureTilePreloadLinks = figures.figure_list
-      .filter(({ isSequence }) => isSequence)
-      .map(({ sequences }) => {
-        return sequences[0].items.map(({ uri }) => {
-          const { ext } = path.parse(uri)
-          if (ext === '.json') {
-            // TODO lookup the tile defaults - need paths from sharp output
-            return ''
-          } else {
-            return `<link rel="preload" as="image" href="${uri}">`
-          }
-        }).join('\n')
-      }).join('\n')
-
     const publisherLinks = publication.publisher
       .filter(({ url }) => url)
       .map(({ url }) => `<link rel="publisher" href="${ url }">`)
@@ -73,8 +59,6 @@ module.exports = function(eleventyConfig) {
 
         <script src="https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@1.0.56" type="module"></script>
         <script src="https://cdn.jsdelivr.net/npm/@iiif/vault-helpers@latest/dist/index.umd.js"></script>
-
-        ${figureTilePreloadLinks}
 
         ${publisherLinks}
 
