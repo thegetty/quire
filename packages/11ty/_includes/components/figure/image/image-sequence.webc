@@ -5,8 +5,12 @@ if (!window.customElements.get('image-sequence')) {
       return ['index'];
     }
 
+    get allImagesLoaded() {
+      return this.imagesLoaded === this.items.length;
+    }
+
     get images() {
-      return this.root.querySelectorAll('img');
+      return this.root.querySelectorAll('img:not(.placeholder)');
     }
 
     get index() {
@@ -28,28 +32,38 @@ if (!window.customElements.get('image-sequence')) {
     }
 
     connectedCallback() {
+      this.classNames = {
+        fadeIn: 'fade-in',
+        loading: 'loading',
+        placeholder: 'placeholder',
+        visible: 'visible'
+      };
       this.items = this.getAttribute('items').split(',');
       this.oldX = 0;
-      this.sequenceId = this.getAttribute('sequence-id');
+      this.imagesLoaded = 0;
       this.isInteractive = this.getAttribute('interactive') === 'true';
       this.isContinuous = this.getAttribute('continuous') === 'true';
+      this.sequenceId = this.getAttribute('sequence-id');
       this.totalCanvases = this.items.length;
-      this.visibleClassName = 'visible';
 
       /* Write a firstElementChild with a non-js fallback image */
-      this.innerHTML = `<div class="image-sequence"><img src="${this.items[this.index]}" /></div>`;
+      this.innerHTML = `<div class="image-sequence ${this.classNames.loading}"><img src="${this.items[this.index]}" /></div>`;
+
       /* Set up shadow DOM */
       this.firstElementChild.attachShadow({ mode: 'open' });
       this.root = this.firstElementChild.shadowRoot;
 
-      /* Write images to shadow DOM */
-      const images = this.items.reduce((acc, item) => {
-        return acc += `<img src="${item}" />`;
-      }, '');
-      this.root.innerHTML = images;
-
-      this.updateCurrentSequenceImage(this.index);
-      this.synchronizeSequenceInstances();
+      /* Optimization: load the starting image first */
+      const placeholderImage = new Image();
+      placeholderImage.classList.add(this.classNames.loading, this.classNames.placeholder);
+      placeholderImage.src = this.items[this.index];
+      this.root.appendChild(placeholderImage);
+      this.items.forEach((src, index) => {
+        const image = new Image();
+        image.addEventListener('load', this.onImageLoad.bind(this));
+        image.src = src;
+        this.root.appendChild(image);
+      });
 
       /* Set up event listeners */
       if (this.isInteractive) {
@@ -84,6 +98,10 @@ img {
   object-fit: contain;
 }
 
+img:first-child {
+  height: 100%;
+}
+
 img:not(:first-child) {
   position: absolute;
   top: 0;
@@ -92,6 +110,28 @@ img:not(:first-child) {
 
 img.visible {
   opacity: 1;
+}
+
+img.fade-in {
+  animation: fade-in 0.25s 1 linear;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+img.placeholder.loading {
+  opacity: 0.2;
+}
+
+img.placeholder {
+  opacity: 0;
+  transition: opacity: 0.25s linear;
 }
       `;
       this.root.innerHTML += `<style>${shadowStyles}</style>`;
@@ -171,7 +211,14 @@ img.visible {
     }
 
     hideImage(imageElement) {
-      imageElement.classList.remove(this.visibleClassName);
+      imageElement.className = '';
+    }
+
+    hideLoadingIndicators() {
+      const placeholderImage = this.root.querySelector(`.${this.classNames.loading}`);
+      [this.firstElementChild, placeholderImage].forEach((element) => {
+        element.classList.remove(this.classNames.loading);
+      });
     }
 
     nextCanvas() {
@@ -182,6 +229,15 @@ img.visible {
         this.index === this.totalCanvases - 1
       ) {
         this.setSequenceIndex(0);
+      }
+    }
+
+    onImageLoad() {
+      this.imagesLoaded++;
+      if (this.allImagesLoaded) {
+        this.hideLoadingIndicators();
+        this.updateCurrentSequenceImage(this.index);
+        this.synchronizeSequenceInstances();
       }
     }
 
@@ -201,8 +257,9 @@ img.visible {
       this.synchronizeSequenceInstances();
     }
 
-    showImage(imageElement) {
-      imageElement.classList.add(this.visibleClassName);
+    showImage(imageElement, shouldFadeIn) {
+      shouldFadeIn && imageElement.classList.add(this.classNames.fadeIn);
+      imageElement.classList.add(this.classNames.visible);
     }
 
     synchronizeSequenceInstances() {
@@ -219,7 +276,8 @@ img.visible {
       if (!this.root) return;
       const newIndex = parseInt(newValue);
       if (!isNaN(newIndex)) {
-        this.showImage(this.images[newIndex]);
+        /* add `fadeIn` class if we are seeing an image for the first time (if ther is no old value) */
+        this.showImage(this.images[newIndex], !oldValue);
       }
       const oldIndex = parseInt(oldValue);
       if (oldIndex !== newIndex && !isNaN(oldIndex)) {
@@ -230,3 +288,44 @@ img.visible {
   });
 }
 </script>
+<style>
+.image-sequence {
+  position: relative;
+  overflow: hidden;
+}
+
+.loading.image-sequence:before {
+  top: 0;
+  opacity: 0.8;
+  animation: loading 1s infinite alternate;
+}
+
+@keyframes loading {
+  from {
+    color: #ffffff;
+    background: #000000;
+  }
+  to {
+    color: #101010;
+    background: #101010;
+  }
+}
+
+.image-sequence:before {
+  content: 'Loading...';
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+  position: absolute;
+  top: 100%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  color: white;
+  font-weight: bold;
+  background: black;
+  opacity: 0;
+  transition: opacity 0.25s linear;
+}
+</style>
