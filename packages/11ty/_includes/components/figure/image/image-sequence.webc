@@ -1,4 +1,14 @@
 <script>
+/**
+ * General notes/gotchas with this webc component implementation:
+ *
+ *  - WebC is very strict about semicolons; no // comments!
+ *    @todo lint webc files, since our build process won't catch client-side errors.
+ *  - We need to check that `image-sequence` has not been defined as a
+ *    `customElement` because `renderWebcComponent` does not handle custom element registration,
+ *    a workaround for `eleventy-plugin-webc` not working when we try to render webc components with `renderTemplate`.
+ *    @see /_plugins/filters/renderWebcComponent
+ */
 if (!window.customElements.get('image-sequence')) {
   window.customElements.define('image-sequence', class extends HTMLElement {
     static get observedAttributes() {
