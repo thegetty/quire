@@ -32,6 +32,7 @@ if (!window.customElements.get('image-sequence')) {
       this.oldX = 0;
       this.sequenceId = this.getAttribute('sequence-id');
       this.isInteractive = this.getAttribute('interactive') === 'true';
+      this.isContinuous = this.getAttribute('continuous') === 'true';
       this.totalCanvases = this.items.length;
       this.visibleClassName = 'visible';
 
@@ -174,18 +175,24 @@ img.visible {
     }
 
     nextCanvas() {
-      if (this.index === this.totalCanvases - 1) {
-        this.setSequenceIndex(0);
-      } else {
+      if (this.index < this.totalCanvases - 1) {
         this.setSequenceIndex(this.index + 1);
+      } else if (
+        this.isContinuous &&
+        this.index === this.totalCanvases - 1
+      ) {
+        this.setSequenceIndex(0);
       }
     }
 
     previousCanvas() {
-      if (this.index === 0) {
-        this.setSequenceIndex(this.totalCanvases - 1);
-      } else {
+      if (this.index > 0) {
         this.setSequenceIndex(this.index - 1);
+      } else if (
+        this.isContinuous &&
+        this.index === 0
+      ) {
+        this.setSequenceIndex(this.totalCanvases - 1);
       }
     }
 

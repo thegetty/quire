@@ -14,6 +14,7 @@ const Annotation = require('../annotation')
 module.exports = class Sequence {
   constructor(figure, sequence) {
     const { iiifConfig } = figure
+    this.behavior = sequence.behavior
     this.dir = sequence.id
     this.figure = figure
     this.files = getSequenceFiles(sequence, iiifConfig)
