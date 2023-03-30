@@ -27,5 +27,10 @@ module.exports = {
     dimensions: { height: 3221, width: 4096 },
     figure: require('./zoomable/figure.json'),
     manifest: require('./zoomable/manifest.json')
+  },
+  zoomableSequence: {
+    dimensions: { height: 2160, width: 1827 },
+    figure: require('./zoomable-sequence/figure.json'),
+    manifest: require('./zoomable-sequence/manifest.json')
   }
 }

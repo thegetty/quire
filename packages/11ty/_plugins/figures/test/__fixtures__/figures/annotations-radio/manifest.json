@@ -2,12 +2,6 @@
   "@context": "http://iiif.io/api/presentation/3/context.json",
   "id": "http://localhost:8080/iiif/radio-layers/manifest.json",
   "type": "Manifest",
-  "behavior": [
-    [
-      "continuous",
-      "sequence"
-    ]
-  ],
   "label": {
     "en": [
       "Figure 2"

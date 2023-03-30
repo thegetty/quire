@@ -2,12 +2,6 @@
   "@context": "http://iiif.io/api/presentation/3/context.json",
   "id": "http://localhost:8080/iiif/checkbox-annotations/manifest.json",
   "type": "Manifest",
-  "behavior": [
-    [
-      "continuous",
-      "sequence"
-    ]
-  ],
   "label": {
     "en": [
       "Figure 3"
@@ -30,7 +24,7 @@
               "target": "http://localhost:8080/iiif/checkbox-annotations/canvas",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/checkbox-annotations/base/tiles/info.json",
+                "id": "http://localhost:8080/http:/localhost:8080/iiif/checkbox-annotations/base/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 1455,

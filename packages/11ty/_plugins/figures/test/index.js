@@ -78,3 +78,14 @@ test('zoomable figure creates a valid manifest', { skip: true }, async () => {
   const { manifestFixture, manifestJson } = await createManifestFromFigureFixture('zoomable')
   assert.equal(validate(manifestJson), true)
 })
+
+/* Skipping the following two tests, since we are currently overriding zoom on all sequence manifests */
+test('zoomable sequence figure creates a valid manifest', { skip: true }, async () => {
+  const { manifestFixture, manifestJson } = await createManifestFromFigureFixture('zoomableSequence')
+  assert.deepStrictEqual(manifestFixture, manifestJson)
+})
+
+test('zoomable sequence figure creates a valid manifest', { skip: true }, async () => {
+  const { manifestFixture, manifestJson } = await createManifestFromFigureFixture('zoomableSequence')
+  assert.equal(validate(manifestJson), true)
+})

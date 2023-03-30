@@ -30,7 +30,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/001",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/001.jpg",
+                "id": "http://localhost:8080/iiif/rotating/001/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -39,7 +39,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/001/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -62,7 +70,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/003",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/003.jpg",
+                "id": "http://localhost:8080/iiif/rotating/003/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -71,7 +79,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/003/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -94,7 +110,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/005",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/005.jpg",
+                "id": "http://localhost:8080/iiif/rotating/005/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -103,7 +119,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/005/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -126,7 +150,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/007",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/007.jpg",
+                "id": "http://localhost:8080/iiif/rotating/007/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -135,7 +159,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/007/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -158,7 +190,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/009",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/009.jpg",
+                "id": "http://localhost:8080/iiif/rotating/009/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -167,7 +199,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/009/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -190,7 +230,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/011",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/011.jpg",
+                "id": "http://localhost:8080/iiif/rotating/011/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -199,7 +239,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/011/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -222,7 +270,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/013",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/013.jpg",
+                "id": "http://localhost:8080/iiif/rotating/013/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -231,7 +279,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/013/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -254,7 +310,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/015",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/015.jpg",
+                "id": "http://localhost:8080/iiif/rotating/015/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -263,7 +319,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/015/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -286,7 +350,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/017",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/017.jpg",
+                "id": "http://localhost:8080/iiif/rotating/017/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -295,7 +359,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/017/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -318,7 +390,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/019",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/019.jpg",
+                "id": "http://localhost:8080/iiif/rotating/019/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -327,7 +399,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/019/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -350,7 +430,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/021",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/021.jpg",
+                "id": "http://localhost:8080/iiif/rotating/021/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -359,7 +439,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/021/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -382,7 +470,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/023",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/023.jpg",
+                "id": "http://localhost:8080/iiif/rotating/023/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -391,7 +479,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/023/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -414,7 +510,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/025",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/025.jpg",
+                "id": "http://localhost:8080/iiif/rotating/025/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -423,7 +519,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/025/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -446,7 +550,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/027",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/027.jpg",
+                "id": "http://localhost:8080/iiif/rotating/027/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -455,7 +559,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/027/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -478,7 +590,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/029",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/029.jpg",
+                "id": "http://localhost:8080/iiif/rotating/029/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -487,7 +599,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/029/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -510,7 +630,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/031",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/031.jpg",
+                "id": "http://localhost:8080/iiif/rotating/031/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -519,7 +639,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/031/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -542,7 +670,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/033",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/033.jpg",
+                "id": "http://localhost:8080/iiif/rotating/033/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -551,7 +679,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/033/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -574,7 +710,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/035",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/035.jpg",
+                "id": "http://localhost:8080/iiif/rotating/035/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -583,7 +719,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/035/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -606,7 +750,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/037",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/037.jpg",
+                "id": "http://localhost:8080/iiif/rotating/037/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -615,7 +759,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/037/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -638,7 +790,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/039",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/039.jpg",
+                "id": "http://localhost:8080/iiif/rotating/039/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -647,7 +799,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/039/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -670,7 +830,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/041",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/041.jpg",
+                "id": "http://localhost:8080/iiif/rotating/041/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -679,7 +839,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/041/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -702,7 +870,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/043",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/043.jpg",
+                "id": "http://localhost:8080/iiif/rotating/043/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -711,7 +879,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/043/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -734,7 +910,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/045",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/045.jpg",
+                "id": "http://localhost:8080/iiif/rotating/045/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -743,7 +919,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/045/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -766,7 +950,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/047",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/047.jpg",
+                "id": "http://localhost:8080/iiif/rotating/047/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -775,7 +959,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/047/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -798,7 +990,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/049",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/049.jpg",
+                "id": "http://localhost:8080/iiif/rotating/049/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -807,7 +999,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/049/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -830,7 +1030,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/051",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/051.jpg",
+                "id": "http://localhost:8080/iiif/rotating/051/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -839,7 +1039,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/051/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -862,7 +1070,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/053",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/053.jpg",
+                "id": "http://localhost:8080/iiif/rotating/053/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -871,7 +1079,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/053/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -894,7 +1110,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/055",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/055.jpg",
+                "id": "http://localhost:8080/iiif/rotating/055/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -903,7 +1119,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/055/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -926,7 +1150,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/057",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/057.jpg",
+                "id": "http://localhost:8080/iiif/rotating/057/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -935,7 +1159,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/057/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -958,7 +1190,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/059",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/059.jpg",
+                "id": "http://localhost:8080/iiif/rotating/059/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -967,7 +1199,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/059/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -990,7 +1230,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/061",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/061.jpg",
+                "id": "http://localhost:8080/iiif/rotating/061/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -999,7 +1239,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/061/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -1022,7 +1270,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/063",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/063.jpg",
+                "id": "http://localhost:8080/iiif/rotating/063/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -1031,7 +1279,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/063/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -1054,7 +1310,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/065",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/065.jpg",
+                "id": "http://localhost:8080/iiif/rotating/065/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -1063,7 +1319,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/065/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -1086,7 +1350,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/067",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/067.jpg",
+                "id": "http://localhost:8080/iiif/rotating/067/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -1095,7 +1359,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/067/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -1118,7 +1390,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/069",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/069.jpg",
+                "id": "http://localhost:8080/iiif/rotating/069/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -1127,7 +1399,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/069/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -1150,7 +1430,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/071",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/071.jpg",
+                "id": "http://localhost:8080/iiif/rotating/071/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -1159,7 +1439,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/071/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -1182,7 +1470,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/073",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/073.jpg",
+                "id": "http://localhost:8080/iiif/rotating/073/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -1191,7 +1479,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/073/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -1214,7 +1510,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/075",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/075.jpg",
+                "id": "http://localhost:8080/iiif/rotating/075/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -1223,7 +1519,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/075/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -1246,7 +1550,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/077",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/077.jpg",
+                "id": "http://localhost:8080/iiif/rotating/077/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -1255,7 +1559,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/077/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -1278,7 +1590,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/079",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/079.jpg",
+                "id": "http://localhost:8080/iiif/rotating/079/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -1287,7 +1599,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/079/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -1310,7 +1630,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/081",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/081.jpg",
+                "id": "http://localhost:8080/iiif/rotating/081/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -1319,7 +1639,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/081/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -1342,7 +1670,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/083",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/083.jpg",
+                "id": "http://localhost:8080/iiif/rotating/083/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -1351,7 +1679,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/083/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -1374,7 +1710,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/085",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/085.jpg",
+                "id": "http://localhost:8080/iiif/rotating/085/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -1383,7 +1719,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/085/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -1406,7 +1750,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/087",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/087.jpg",
+                "id": "http://localhost:8080/iiif/rotating/087/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -1415,7 +1759,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/087/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -1438,7 +1790,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/089",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/089.jpg",
+                "id": "http://localhost:8080/iiif/rotating/089/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -1447,7 +1799,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/089/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -1470,7 +1830,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/091",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/091.jpg",
+                "id": "http://localhost:8080/iiif/rotating/091/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -1479,7 +1839,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/091/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -1502,7 +1870,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/093",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/093.jpg",
+                "id": "http://localhost:8080/iiif/rotating/093/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -1511,7 +1879,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/093/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -1534,7 +1910,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/095",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/095.jpg",
+                "id": "http://localhost:8080/iiif/rotating/095/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -1543,7 +1919,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/095/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -1566,7 +1950,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/097",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/097.jpg",
+                "id": "http://localhost:8080/iiif/rotating/097/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -1575,7 +1959,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/097/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -1598,7 +1990,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/099",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/099.jpg",
+                "id": "http://localhost:8080/iiif/rotating/099/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -1607,7 +1999,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/099/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -1630,7 +2030,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/101",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/101.jpg",
+                "id": "http://localhost:8080/iiif/rotating/101/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -1639,7 +2039,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/101/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -1662,7 +2070,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/103",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/103.jpg",
+                "id": "http://localhost:8080/iiif/rotating/103/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -1671,7 +2079,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/103/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -1694,7 +2110,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/105",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/105.jpg",
+                "id": "http://localhost:8080/iiif/rotating/105/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -1703,7 +2119,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/105/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -1726,7 +2150,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/107",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/107.jpg",
+                "id": "http://localhost:8080/iiif/rotating/107/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -1735,7 +2159,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/107/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -1758,7 +2190,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/109",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/109.jpg",
+                "id": "http://localhost:8080/iiif/rotating/109/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -1767,7 +2199,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/109/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -1790,7 +2230,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/111",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/111.jpg",
+                "id": "http://localhost:8080/iiif/rotating/111/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -1799,7 +2239,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/111/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -1822,7 +2270,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/113",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/113.jpg",
+                "id": "http://localhost:8080/iiif/rotating/113/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -1831,7 +2279,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/113/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -1854,7 +2310,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/115",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/115.jpg",
+                "id": "http://localhost:8080/iiif/rotating/115/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -1863,7 +2319,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/115/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -1886,7 +2350,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/117",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/117.jpg",
+                "id": "http://localhost:8080/iiif/rotating/117/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -1895,7 +2359,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/117/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -1918,7 +2390,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/119",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/119.jpg",
+                "id": "http://localhost:8080/iiif/rotating/119/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -1927,7 +2399,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/119/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -1950,7 +2430,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/121",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/121.jpg",
+                "id": "http://localhost:8080/iiif/rotating/121/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -1959,7 +2439,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/121/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -1982,7 +2470,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/123",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/123.jpg",
+                "id": "http://localhost:8080/iiif/rotating/123/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -1991,7 +2479,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/123/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -2014,7 +2510,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/125",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/125.jpg",
+                "id": "http://localhost:8080/iiif/rotating/125/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -2023,7 +2519,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/125/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -2046,7 +2550,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/127",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/127.jpg",
+                "id": "http://localhost:8080/iiif/rotating/127/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -2055,7 +2559,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/127/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -2078,7 +2590,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/129",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/129.jpg",
+                "id": "http://localhost:8080/iiif/rotating/129/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -2087,7 +2599,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/129/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -2110,7 +2630,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/131",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/131.jpg",
+                "id": "http://localhost:8080/iiif/rotating/131/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -2119,7 +2639,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/131/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -2142,7 +2670,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/133",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/133.jpg",
+                "id": "http://localhost:8080/iiif/rotating/133/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -2151,7 +2679,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/133/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -2174,7 +2710,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/135",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/135.jpg",
+                "id": "http://localhost:8080/iiif/rotating/135/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -2183,7 +2719,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/135/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -2206,7 +2750,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/137",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/137.jpg",
+                "id": "http://localhost:8080/iiif/rotating/137/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -2215,7 +2759,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/137/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -2238,7 +2790,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/139",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/139.jpg",
+                "id": "http://localhost:8080/iiif/rotating/139/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -2247,7 +2799,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/139/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -2270,7 +2830,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/141",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/141.jpg",
+                "id": "http://localhost:8080/iiif/rotating/141/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -2279,7 +2839,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/141/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -2302,7 +2870,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/143",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/143.jpg",
+                "id": "http://localhost:8080/iiif/rotating/143/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -2311,7 +2879,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/143/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -2334,7 +2910,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/145",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/145.jpg",
+                "id": "http://localhost:8080/iiif/rotating/145/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -2343,7 +2919,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/145/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -2366,7 +2950,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/147",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/147.jpg",
+                "id": "http://localhost:8080/iiif/rotating/147/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -2375,7 +2959,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/147/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -2398,7 +2990,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/149",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/149.jpg",
+                "id": "http://localhost:8080/iiif/rotating/149/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -2407,7 +2999,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/149/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -2430,7 +3030,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/151",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/151.jpg",
+                "id": "http://localhost:8080/iiif/rotating/151/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -2439,7 +3039,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/151/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -2462,7 +3070,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/153",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/153.jpg",
+                "id": "http://localhost:8080/iiif/rotating/153/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -2471,7 +3079,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/153/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -2494,7 +3110,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/155",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/155.jpg",
+                "id": "http://localhost:8080/iiif/rotating/155/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -2503,7 +3119,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/155/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -2526,7 +3150,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/157",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/157.jpg",
+                "id": "http://localhost:8080/iiif/rotating/157/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -2535,7 +3159,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/157/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -2558,7 +3190,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/159",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/159.jpg",
+                "id": "http://localhost:8080/iiif/rotating/159/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -2567,7 +3199,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/159/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -2590,7 +3230,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/161",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/161.jpg",
+                "id": "http://localhost:8080/iiif/rotating/161/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -2599,7 +3239,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/161/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -2622,7 +3270,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/163",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/163.jpg",
+                "id": "http://localhost:8080/iiif/rotating/163/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -2631,7 +3279,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/163/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -2654,7 +3310,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/165",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/165.jpg",
+                "id": "http://localhost:8080/iiif/rotating/165/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -2663,7 +3319,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/165/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -2686,7 +3350,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/167",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/167.jpg",
+                "id": "http://localhost:8080/iiif/rotating/167/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -2695,7 +3359,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/167/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -2718,7 +3390,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/169",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/169.jpg",
+                "id": "http://localhost:8080/iiif/rotating/169/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -2727,7 +3399,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/169/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -2750,7 +3430,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/171",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/171.jpg",
+                "id": "http://localhost:8080/iiif/rotating/171/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -2759,7 +3439,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/171/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -2782,7 +3470,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/173",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/173.jpg",
+                "id": "http://localhost:8080/iiif/rotating/173/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -2791,7 +3479,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/173/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -2814,7 +3510,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/175",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/175.jpg",
+                "id": "http://localhost:8080/iiif/rotating/175/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -2823,7 +3519,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/175/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -2846,7 +3550,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/177",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/177.jpg",
+                "id": "http://localhost:8080/iiif/rotating/177/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -2855,7 +3559,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/177/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]
@@ -2878,7 +3590,7 @@
               "target": "http:/localhost:8080/iiif/rotating/canvas/179",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/rotating/179.jpg",
+                "id": "http://localhost:8080/iiif/rotating/179/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 2160,
@@ -2887,7 +3599,15 @@
                   "en": [
                     "Figure 4"
                   ]
-                }
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/rotating/179/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
               }
             }
           ]

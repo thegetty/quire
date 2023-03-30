@@ -144,7 +144,9 @@ module.exports = class Manifest {
    */
   async toJSON() {
     const manifest = builder.createManifest(this.figure.manifestId, (manifest) => {
-      manifest.addBehavior(['continuous', 'sequence'])
+      if (this.figure.isSequence) {
+        manifest.addBehavior(['continuous', 'sequence'])
+      }
       manifest.addLabel(this.figure.label, this.locale)
       CanvasBuilder.create(manifest, {
         annotations: this.annotations,
