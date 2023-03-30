@@ -31,7 +31,7 @@ module.exports = function(eleventyConfig) {
     const annotationsElement = !isSequence
       ? annotationsUI({ figure })
       : ''
-    const labelElement = figureLabel({ id, label })
+    const labelElement = figureLabel({ id, label, isSequence })
 
     /**
      * Wrap image in modal link
