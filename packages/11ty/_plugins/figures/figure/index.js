@@ -76,7 +76,11 @@ module.exports = class Figure {
     this.processImage = imageProcessor
     this.sequenceFactory = new SequenceFactory(this)
     this.src = src
-    this.zoom = zoom
+    /**
+     * We are disabling zoom for all sequence figures
+     * our custom image-sequence component currently only supports static images
+     */
+    this.zoom = isSequence(data) ? false : zoom
   }
 
   /**
@@ -174,7 +178,7 @@ module.exports = class Figure {
      * TODO determine how to handle multiple sequence starting points.
      * Assuming one (the first) sequence for now
      */
-    const startCanvas = this.isSequence ? this.sequences[0].startCanvas : null
+    const startCanvasIndex = this.isSequence ? this.sequences[0].startCanvasIndex : null
 
     return {
       ...this.data,
@@ -190,7 +194,8 @@ module.exports = class Figure {
       mediaType: this.mediaType,
       printImage: this.printImage,
       region: this.region,
-      startCanvas,
+      sequences: this.sequences,
+      startCanvasIndex,
       src: this.src
     }
   }

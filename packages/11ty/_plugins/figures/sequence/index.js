@@ -14,6 +14,7 @@ const Annotation = require('../annotation')
 module.exports = class Sequence {
   constructor(figure, sequence) {
     const { iiifConfig } = figure
+    this.behavior = sequence.behavior
     this.dir = sequence.id
     this.figure = figure
     this.files = getSequenceFiles(sequence, iiifConfig)
@@ -53,5 +54,14 @@ module.exports = class Sequence {
       return this.start === base
     })
     return startCanvasItem ? path.join(this.figure.canvasId, startCanvasItem.id) : null
+  }
+
+  get startCanvasIndex() {
+    if (!this.start) return 0
+    const startCanvasIndex = this.items.findIndex(({ src }) => {
+      const { base } = path.parse(src)
+      return this.start === base
+    })
+    return startCanvasIndex
   }
 }

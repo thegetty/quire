@@ -1,3 +1,4 @@
+const path = require('path')
 /**
  * Head Tag
  *
@@ -11,7 +12,7 @@ module.exports = function(eleventyConfig) {
   const twitterCard = eleventyConfig.getFilter('twitterCard')
   const webComponents = eleventyConfig.getFilter('webComponents')
 
-  const { application, publication } = eleventyConfig.globalData
+  const { application, figures, publication } = eleventyConfig.globalData
 
   /**
    * @param  {Object} params The Whole Dang Data Object, from base.11ty.js
