@@ -8,15 +8,18 @@ const EleventyVitePlugin = require('@11ty/eleventy-plugin-vite')
  *
  * Runs Vite as Middleware in the Eleventy Dev Server
  * Runs Vite build to postprocess the Eleventy build output
+ *
+ * @param {Object} eleventyConfig
+ * @param {Object} globalData
  */
-module.exports = function (eleventyConfig, pluginConfig) {
-  const { inputDir, outputDir, globalData } = pluginConfig
-  const { pathname } = globalData.publication 
+module.exports = function (eleventyConfig, { directoryConfig, publication }) {
+  const { pathname } = publication
+  const { inputDir, outputDir, publicDir } = directoryConfig
 
   eleventyConfig.addPlugin(EleventyVitePlugin, {
     tempFolderName: '.11ty-vite',
     viteOptions: {
-      publicDir: process.env.ELEVENTY_ENV === 'production' ? publicDir : false,
+      publicDir,
       /**
        * @see https://vitejs.dev/config/#build-options
        */

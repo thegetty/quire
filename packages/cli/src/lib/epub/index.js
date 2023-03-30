@@ -11,7 +11,9 @@ const __dirname = path.dirname(__filename)
 export default async (name = 'epubjs', options = {}) => {
   const lib = { name, options, path }
 
-  switch (lib.toLowerCase()) {
+  const normalizedName = name.replace(/[-_.\s]/g, '').toLowerCase()
+
+  switch (normalizedName) {
     case 'epubjs': {
       lib.name = 'Epub.js'
       lib.options = {}

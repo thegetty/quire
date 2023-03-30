@@ -22,8 +22,9 @@ export default class CreateCommand extends Command {
       [ '[starter]', 'repository url or local path for a starter project' ],
     ],
     options: [
-      [ '--debug', 'debug the `quire new` command' ],
-      [ '--eject', 'install quire-11ty into the project directory', 'true' ],
+      [ '--quire <version>', 'quire-11ty version to install', 'latest' ],
+      // [ '--eject', 'install quire-11ty into the project directory', true ],
+      [ '--debug', 'debug the `quire new` command', false ],
     ],
   }
 
@@ -52,14 +53,20 @@ export default class CreateCommand extends Command {
       // const starter = starters['default']
       // `git clone starter path`
     } else {
-      const version = await quire.initStarter(starter, projectPath)
-      // @TODO we will want to abstract the test for emptiness to prevent further install steps on error
-      if (!version) return
+      /**
+       * @TODO test that `version` is compatible with the `requiredVersion`
+       * if version is incompatible or unknown
+       *   - interactive mode prompt to continue
+       *   - non-interactive mode throw an error and exit the process
+       */
+      await quire.initStarter(starter, projectPath, options)
+
+      options.eject = true
 
       if (options.eject) {
-        await quire.installInProject(projectPath, version, options)
+        await quire.installInProject(projectPath, options)
       } else {
-        await quire.install(version, options)
+        await quire.install(options)
       }
     }
   }

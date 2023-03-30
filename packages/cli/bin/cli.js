@@ -20,12 +20,12 @@ const INTERVAL = Object.freeze({
  * @todo user configuration of choosen update interval
  */
 const notifier = updateNotifier({
-  distTag: 'rc',
+  distTag: 'latest',
   pkg: packageConfig,
   updateCheckInterval: INTERVAL.DAILY,
 })
 
-notifier.notify()
+notifier.notify({ defer: false })
 
 /**
  * Run the cli program
