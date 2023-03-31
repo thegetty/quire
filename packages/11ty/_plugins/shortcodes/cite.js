@@ -38,7 +38,9 @@ module.exports = function(eleventyConfig, { page }) {
     localization: { defaultLocale }
   } = eleventyConfig.globalData.config
 
-  const { entries } = eleventyConfig.globalData.references
+  const entries = eleventyConfig.globalData.references
+    ? eleventyConfig.globalData.references.entries
+    : []
 
   return function(id, pageNumber, text) {
     if (!id) {
