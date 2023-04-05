@@ -11,7 +11,7 @@
 
 </script>
 
-<style webc:scoped>
+<style webc:scoped="accordion-section">
   .accordion-section {
 
   }
