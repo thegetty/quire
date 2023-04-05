@@ -1,0 +1,26 @@
+<section webc:root="override" id="" class="accordion-section">
+  <details @text="open">
+    <summary class="accordion-section__summary" @text="title"></summary>
+    <div class="accordion-section__body">
+      <slot name="content"></slot>
+    </div>
+  </details>
+</section>
+
+<script webc:keep type="module">
+
+</script>
+
+<style webc:scoped>
+  .accordion-section {
+
+  }
+
+  .accordion-section__body {
+
+  }
+
+  .accordion-section__summary {
+
+  }
+</style>
