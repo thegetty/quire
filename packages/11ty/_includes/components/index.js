@@ -55,6 +55,7 @@ module.exports = {
   pageButtons: require('./page-buttons.js'),
   pageHeader: require('./page-header.js'),
   pageTitle: require('./page-title.js'),
+  search: require('./search.js'),
   scripts: require('./scripts.js'),
   siteTitle: require('./site-title.js'),
   tableOfContents: require('./table-of-contents/index.js'),
