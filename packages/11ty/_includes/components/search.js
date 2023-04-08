@@ -9,8 +9,8 @@ const { html } = require('~lib/common-tags')
 module.exports = function(eleventyConfig) {
     const icon = eleventyConfig.getFilter('icon')
     return (params) => {
-        const { canonicalURL } = params
-        const searchIndex = new URL('search-index.json', canonicalURL)
+        const { url } = params.publication
+        const searchIndex = new URL('search-index.json', url)
         return html`
             <template id="js-search-results-template">
                 <li class="quire-search__inner__list-item">
