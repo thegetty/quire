@@ -40,7 +40,7 @@ module.exports = function (eleventyConfig, { page }) {
       const startIndex = i * columns
       let row = ''
       for (let id of ids.slice(startIndex, columns + startIndex)) {
-        row += await figure(eleventyConfig, { page })(id, classes)
+        row += await figure(eleventyConfig, { page }).bind(this)(id, classes)
       }
       figureTags.push(`<div class="q-figure--group__row columns">${row}</div>`)
     }

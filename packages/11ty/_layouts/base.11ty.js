@@ -11,6 +11,7 @@ module.exports = async function(data) {
   const { pageClasses, collections, content, pageData, publication } = data
   const { inputPath, outputPath, url } = pageData || {}
   const pageId = this.slugify(url) || path.parse(inputPath).name
+  const figures = pageData.page.figures
 
   return html`
     <!doctype html>
@@ -37,7 +38,7 @@ module.exports = async function(data) {
           </div>
           ${this.search(data)}
         </div>
-        ${await this.modal()}
+        ${await this.modal(figures)}
         ${this.scripts()}
       </body>
     </html>
