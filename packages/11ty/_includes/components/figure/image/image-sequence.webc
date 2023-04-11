@@ -126,14 +126,12 @@ if (!window.customElements.get('image-sequence')) {
   align-items: center;
   opacity: 0;
   transition: opacity 0.25s linear;
+  flex-direction: column;
 }
 
 .${description}__icon {
   fill: white;
   height: 2em;
-  width: min-content;
-  min-width: 2em;
-  margin-right: 0.5em;
 }
 
 .${description}__text {
