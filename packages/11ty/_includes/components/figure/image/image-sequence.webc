@@ -237,6 +237,9 @@ img.${placeholder} {
       this.items.forEach((src, index) => {
         const image = new Image();
         image.addEventListener('load', this.onImageLoad.bind(this));
+        /*
+          addinge the `visible` class only to remove it on load seems odd, but Chrome on MacOS was seeing awful performance without painting them in some way first?
+        */
         image.classList.add(this.classNames.visible);
         image.src = src;
         this.root.appendChild(image);
