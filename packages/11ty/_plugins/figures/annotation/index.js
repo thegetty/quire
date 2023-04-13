@@ -81,7 +81,7 @@ module.exports = class Annotation {
     this.src = src
     this.region = region
     this.text = text
-    this.type = src || region || text ? 'annotation' : 'choice'
+    this.type = figure.src || region || text ? 'annotation' : 'choice'
     this.uri = uri()
   }
 }
