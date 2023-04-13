@@ -19,93 +19,74 @@
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http://localhost:8080/iiif/radio-layers/canvas/normal",
+              "id": "http://localhost:8080/iiif/radio-layers/canvas/choices",
               "motivation": "painting",
               "target": "http://localhost:8080/iiif/radio-layers/canvas",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/iiif/radio-layers/normal.jpg",
-                "type": "Image",
-                "format": "image/jpeg",
-                "height": 2868,
-                "width": 2082,
-                "label": {
-                  "en": [
-                    "Normal Light"
-                  ]
-                }
-              }
-            },
-            {
-              "id": "http://localhost:8080/iiif/radio-layers/canvas/infrared",
-              "motivation": "painting",
-              "target": "http://localhost:8080/iiif/radio-layers/canvas",
-              "type": "Annotation",
-              "body": {
-                "id": "http://localhost:8080/iiif/radio-layers/infrared.jpg",
-                "type": "Image",
-                "format": "image/jpeg",
-                "height": 2868,
-                "width": 2082,
-                "label": {
-                  "en": [
-                    "Infrared"
-                  ]
-                }
-              }
-            },
-            {
-              "id": "http://localhost:8080/iiif/radio-layers/canvas/x-ray",
-              "motivation": "painting",
-              "target": "http://localhost:8080/iiif/radio-layers/canvas",
-              "type": "Annotation",
-              "body": {
-                "id": "http://localhost:8080/iiif/radio-layers/x-ray.jpg",
-                "type": "Image",
-                "format": "image/jpeg",
-                "height": 2868,
-                "width": 2082,
-                "label": {
-                  "en": [
-                    "X-Radiograph"
-                  ]
-                }
-              }
-            },
-            {
-              "id": "http://localhost:8080/iiif/radio-layers/canvas/raking",
-              "motivation": "painting",
-              "target": "http://localhost:8080/iiif/radio-layers/canvas",
-              "type": "Annotation",
-              "body": {
-                "id": "http://localhost:8080/iiif/radio-layers/raking.jpg",
-                "type": "Image",
-                "format": "image/jpeg",
-                "height": 2868,
-                "width": 2082,
-                "label": {
-                  "en": [
-                    "Raking Light"
-                  ]
-                }
-              }
-            },
-            {
-              "id": "http://localhost:8080/iiif/radio-layers/canvas/uv",
-              "motivation": "painting",
-              "target": "http://localhost:8080/iiif/radio-layers/canvas",
-              "type": "Annotation",
-              "body": {
-                "id": "http://localhost:8080/iiif/radio-layers/uv.jpg",
-                "type": "Image",
-                "format": "image/jpeg",
-                "height": 2868,
-                "width": 2082,
-                "label": {
-                  "en": [
-                    "Ultraviolet"
-                  ]
-                }
+                "type": "Choice",
+                "items": [
+                  {
+                    "id": "http://localhost:8080/iiif/radio-layers/normal.jpg",
+                    "type": "Image",
+                    "format": "image/jpeg",
+                    "height": 2868,
+                    "width": 2082,
+                    "label": {
+                      "en": [
+                        "Normal Light"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "http://localhost:8080/iiif/radio-layers/infrared.jpg",
+                    "type": "Image",
+                    "format": "image/jpeg",
+                    "height": 2868,
+                    "width": 2082,
+                    "label": {
+                      "en": [
+                        "Infrared"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "http://localhost:8080/iiif/radio-layers/x-ray.jpg",
+                    "type": "Image",
+                    "format": "image/jpeg",
+                    "height": 2868,
+                    "width": 2082,
+                    "label": {
+                      "en": [
+                        "X-Radiograph"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "http://localhost:8080/iiif/radio-layers/raking.jpg",
+                    "type": "Image",
+                    "format": "image/jpeg",
+                    "height": 2868,
+                    "width": 2082,
+                    "label": {
+                      "en": [
+                        "Raking Light"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "http://localhost:8080/iiif/radio-layers/uv.jpg",
+                    "type": "Image",
+                    "format": "image/jpeg",
+                    "height": 2868,
+                    "width": 2082,
+                    "label": {
+                      "en": [
+                        "Ultraviolet"
+                      ]
+                    }
+                  }
+                ]
               }
             }
           ]
