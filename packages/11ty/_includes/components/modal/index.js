@@ -6,11 +6,11 @@ const { html } = require('~lib/common-tags')
  * @param      {Object}  eleventyConfig
  * @param      {Object}  globalData
  */
-module.exports = function (eleventyConfig, { page }) {
+module.exports = function (eleventyConfig) {
   const lightboxSlides = eleventyConfig.getFilter('lightboxSlides')
   const lightboxUI = eleventyConfig.getFilter('lightboxUI')
 
-  return async function (figures=page.figures) {
+  return async function (figures) {
     if (!figures) return
 
     return html`

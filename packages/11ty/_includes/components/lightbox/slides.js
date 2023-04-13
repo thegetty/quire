@@ -22,17 +22,13 @@ module.exports = function(eleventyConfig) {
   return async function(figures) {
     if (!figures) return ''
 
-    figures = figures.map((figure) => ({
-      preset: 'zoom',
-      ...figure
-    }))
-
     const slideElement = async (figure) => {
       const {
         aspect_ratio: aspectRatio='widescreen',
         caption,
         credit,
         id,
+        isSequence,
         label,
         mediaType
       } = figure
@@ -50,7 +46,7 @@ module.exports = function(eleventyConfig) {
             return figureVideoElement(figure)
           case mediaType === 'image':
           default:
-            return figureImageElement(figure)
+            return figureImageElement(figure, { preset: 'zoom' })
         }
       }
 
@@ -67,6 +63,9 @@ module.exports = function(eleventyConfig) {
             ${captionAndCreditSpan}
           </div>
         `
+        : ''
+      const annotationsElement = !isSequence
+        ? annotationsUI({ figure, lightbox: true })
         : ''
 
       const elementBaseClass = 'q-lightbox-slides__element'
@@ -88,7 +87,7 @@ module.exports = function(eleventyConfig) {
           </div>
           <div class="q-figure-slides__slide-ui">
             ${captionElement}
-            ${annotationsUI({ figure, lightbox: true })}
+            ${annotationsElement}
           </div>
         </div>
       `

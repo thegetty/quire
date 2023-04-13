@@ -1,0 +1,55 @@
+{
+  "id": "rotating-annotation",
+  "label": "Figure 5",
+  "caption": "Fountain, 1661–1663, Possibly by Jean Leroy (French, master 1625). Silver, 65.1 × 35.9 × 36.2 cm, 11250 g (25 5/8 × 14 1/8 × 14 1/4 in., 361.6954 ozt.).",
+  "credit": "The J. Paul Getty Museum, Los Angeles, 82.DG.17",
+  "sequences": [
+    {
+      "id": "figures/fountain/",
+      "behavior": [
+        "continuous",
+        "sequence"
+      ],
+      "regex": "/^fountain02_\\d{5}\\.png$/",
+      "start": "fountain02_00048.png"
+    }
+  ],
+  "annotations": [
+    {
+      "input": "checkbox",
+      "items": [
+        {
+          "src": "figures/fountain/collar.png"
+        },
+        {
+          "src": "figures/fountain/skirt.png"
+        }
+      ]
+    },
+    {
+      "input": "radio",
+      "items": [
+        {
+          "src": "figures/fountain/xray-front.jpg",
+          "target": "figures/fountain/fountain02_00000.png",
+          "label": "X-Ray View: Front"
+        },
+        {
+          "src": "figures/fountain/xray-left.jpg",
+          "target": "figures/fountain/fountain02_00048.png",
+          "label": "Left"
+        },
+        {
+          "src": "figures/fountain/xray-back.jpg",
+          "target": "figures/fountain/fountain02_00092.png",
+          "label": "Back"
+        },
+        {
+          "src": "figures/fountain/xray-right.jpg",
+          "target": "figures/fountain/fountain02_00136.png",
+          "label": "Right"
+        }
+      ]
+    }
+  ]
+}
