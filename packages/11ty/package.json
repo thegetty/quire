@@ -1,6 +1,6 @@
 {
   "name": "@thegetty/quire-11ty",
-  "version": "1.0.0-DEV7192.4",
+  "version": "1.0.0-rc.8",
   "description": "Quire 11ty static site generator",
   "keywords": [
     "11ty",
@@ -52,13 +52,13 @@
     "template-polyfill": "^2.0.0"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^2.0.0",
+    "@11ty/eleventy": "^2.0.1",
     "@11ty/eleventy-img": "^3.0.0",
     "@11ty/eleventy-navigation": "^0.3.5",
     "@11ty/eleventy-plugin-directory-output": "^1.0.1",
     "@11ty/eleventy-plugin-syntaxhighlight": "^4.2.0",
     "@11ty/eleventy-plugin-vite": "^4.0.0",
-    "@11ty/eleventy-plugin-webc": "^0.9.3",
+    "@11ty/eleventy-plugin-webc": "^0.9.4",
     "@11ty/is-land": "^3.0.1",
     "@iiif/parser": "^1.1.2",
     "@iiif/vault": "^0.9.22",
