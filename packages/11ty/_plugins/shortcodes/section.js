@@ -14,10 +14,10 @@ module.exports = function (eleventyConfig) {
     const { button, controls } = eleventyConfig.globalData.config.accordion
     const controlsClass = `accordion-section__controls--${controls}`
     
-    return (content, heading, open=undefined) => {
+    return (content, heading, open) => {
       const id = `section-${slugify(heading)}`
       return oneLine`
-        <details class="accordion-section" id="${id}" ${open}>
+        <details class="accordion-section" id="${id}" ${open ? 'open' : ''}>
             <summary class="accordion-section__heading ${controlsClass}">
               <a href="#${id}" class="accordion-section__heading-link">
                 <span class="accordion-section__heading-link-content">${button}</span>
