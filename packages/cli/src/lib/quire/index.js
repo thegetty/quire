@@ -112,10 +112,10 @@ async function initStarter (starter, projectPath, options) {
   /**
    * Determine `quire-11ty` version required by the starter project.
    *
-   * A version specified in `options.quire` overrides the version in starter
+   * A version specified in `options.quireVersion` overrides the version in starter
    * project `package.json`.
    */
-  const quireVersion = options.quire || await getVersionFromStarter(projectPath)
+  const quireVersion = options.quireVersion || await getVersionFromStarter(projectPath)
   setVersion(projectPath, quireVersion)
 
   // Re-initialize project directory as a new git repository
@@ -150,7 +150,7 @@ async function initStarter (starter, projectPath, options) {
  * @return  {Promise}
  */
 async function install(options = {}) {
-  const version = options.quire || 'latest'
+  const version = options.quireVersion || 'latest'
   console.debug(`[CLI:quire] installing quire-11ty@${version}`)
   const absoluteInstallPath = path.join(__dirname, 'versions')
   fs.ensureDirSync(absoluteInstallPath)
@@ -199,8 +199,8 @@ async function install(options = {}) {
  * @return  {Promise}
  */
 async function installInProject(projectPath, options = {}) {
-  const version = options.quire || 'latest'
-  const quire11tyPackage = fs.existsSync(options.quire) ? options.quire : `${PACKAGE_NAME}@${version}`
+  const { quirePath, quireVersion } = options
+  const quire11tyPackage = fs.existsSync(quirePath) ? quirePath : `${PACKAGE_NAME}@${quireVersion}`
   console.debug(`[CLI:quire] installing ${quire11tyPackage} into ${projectPath}`)
 
   /**
