@@ -200,7 +200,8 @@ async function install(options = {}) {
  */
 async function installInProject(projectPath, options = {}) {
   const version = options.quire || 'latest'
-  console.debug(`[CLI:quire] installing quire-11ty@${version} into ${projectPath}`)
+  const quire11tyPackage = fs.existsSync(options.quire) ? options.quire : `${PACKAGE_NAME}@${version}`
+  console.debug(`[CLI:quire] installing ${quire11tyPackage} into ${projectPath}`)
 
   /**
    * Delete the starter project package configuration so that it can be replaced
@@ -227,7 +228,7 @@ async function installInProject(projectPath, options = {}) {
     Verbosity: options.debug ? 'Debug' : 'Silent',
     WorkingDirectory: projectPath
   }
-  await inv.Install(`${PACKAGE_NAME}@${version}`, installOptions)
+  await inv.Install(quire11tyPackage, installOptions)
 
   // delete empty `node_modules` directory that `install-npm-version` creates
   const invNodeModulesDir = path.join(projectPath, 'node_modules')

@@ -22,7 +22,7 @@ export default class CreateCommand extends Command {
       [ '[starter]', 'repository url or local path for a starter project' ],
     ],
     options: [
-      [ '--quire <version>', 'quire-11ty version to install', 'latest' ],
+      [ '--quire <version>', 'quire-11ty version to install or local path to quire-11ty package', 'latest' ],
       // [ '--eject', 'install quire-11ty into the project directory', true ],
       [ '--debug', 'debug the `quire new` command', false ],
     ],
