@@ -19,5 +19,7 @@ Changelog entries are classified using the following labels:
 - `Removed`: for deprecated features removed in this release
 
 
-## [Unreleased]
+## [1.0.0-rc.7]
 
+### Added
+- Added `new` command `--quire-path` option to support development with local version of `quire-11ty`
