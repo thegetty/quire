@@ -64,6 +64,7 @@ const goToFigureState = function ({
   annotationIds = [],
   figureId,
   historyBehavior = 'push',
+  index,
   region,
 }) {
   if (!figureId) {
