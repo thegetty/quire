@@ -1,10 +1,11 @@
 ---
-class: quire-page
+class: quire-essay
 layout: base.11ty.js
-description: Single page default template
+description: Essay layout. This layout describes a single-page template that has been augmented with the ability to display a frontmatter-defined abstract (in markdown format) as well as bibliography references.
 ---
 
 {% pageHeader
+  accordion=accordion,
   byline_format=byline_format,
   image=image,
   label=label,
@@ -12,18 +13,16 @@ description: Single page default template
   subtitle=subtitle,
   title=title
 %}
-{% if content %}
+
 <section class="section quire-page__content">
+  {% if abstract %}
+    {% abstract abstract=abstract %}
+  {% endif %}
   <div class="container">
     <div class="content">
       {{ content }}
       {% bibliography pageReferences %}
     </div>
-  </div>
-</section>
-{% endif %}
-<section class="section quire-page__content">
-  <div class="container">
     {% pageButtons pagination=pagination %}
   </div>
 </section>
