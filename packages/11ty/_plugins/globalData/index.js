@@ -36,27 +36,56 @@ const checkForDuplicateIds = function (data, filename) {
 }
 
 /**
+ * @todo replace with ajv schema validation
+ */
+const validatePublication = (publication) => {
+  try {
+    const { url } = publication
+    publication.url = url.endsWith('/') ? url : url + '/'
+    publication.pathname = new URL(publication.url).pathname
+  } catch (errorMessage) {
+    logger.error(
+      `Publication.yaml url property must be a valid url. Current url value: "${url}"`
+    )
+    throw new Error(errorMessage)
+  }
+  return publication
+}
+
+/**
  * Eleventy plugin to programmatically load global data from files
- * so that it is available to shortcode components.
+ * so that it is available to plugins and shortcode components.
+ *
  * Nota bene: data is loaded from a sub directory of the `input` directory,
  * distinct from the `eleventyConfig.dir.data` directory.
+ *
+ * @param {Object} eleventyConfig
+ * @param {Object} directoryConfig
+ * @property {String} inputDir
+ * @property {String} outputDir
+ * @property {String} publicDir
  */
-module.exports = {
-  configFunction: function(eleventyConfig, options = {}) {
-    const dir = path.resolve(eleventyConfig.dir.input, '_data')
-    // console.debug(`[plugins:globalData] ${dir}`)
-    const files = fs.readdirSync(dir)
-      .filter((file) => path.extname(file) !== '.md')
-    const parse = parser(eleventyConfig)
+module.exports = function(eleventyConfig, directoryConfig) {
+  const dir = path.resolve(directoryConfig.inputDir, '_data')
+  // console.debug(`[plugins:globalData] ${dir}`)
+  const files = fs.readdirSync(dir)
+    .filter((file) => path.extname(file) !== '.md')
+  const parse = parser(eleventyConfig)
 
-    for (const file of files) {
-      const { name: key } = path.parse(file)
-      const value = parse(path.join(dir, file))
-      if (key && value) {
-        checkForDuplicateIds(value, file)
-        eleventyConfig.addGlobalData(key, value)
-      }
+  for (const file of files) {
+    const { name: key } = path.parse(file)
+    let value = parse(path.join(dir, file))
+    if (key === 'publication') {
+      value = validatePublication(value)
     }
-  },
-  initArguments: {}
+    if (key && value) {
+      checkForDuplicateIds(value, file)
+      eleventyConfig.addGlobalData(key, value)
+    }
+  }
+
+  // Add directory config to globalData so that it is available to other plugins
+  eleventyConfig.globalData.directoryConfig = directoryConfig
+
+  return eleventyConfig.globalData
 }

@@ -14,11 +14,11 @@ module.exports = class ManifestWriter {
    */
   write(manifest) {
     if (!manifest) return { errors: ['Error writing manifest. Manifest is undefined.'] }
-    const uri = new URL(manifest.id)
-    const outputPath = path.join(this.outputRoot, uri.pathname)
+    const uriPathname = manifest.id.replace(this.baseURI, '')
+    const outputPath = path.join(this.outputRoot, uriPathname)
     try {
       fs.ensureDirSync(path.parse(outputPath).dir)
-      fs.writeJsonSync(outputPath, manifest)
+      fs.writeJsonSync(outputPath, manifest, { spaces: 2 })
       return { messages: [`Generated manifest ${outputPath}`] }
     } catch(error) {
       return { errors: [`Failed to write manifest. ${error}`] }

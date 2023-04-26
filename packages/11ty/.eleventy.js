@@ -6,6 +6,8 @@ const packageJSON = require('./package.json');
 const path = require('path')
 const scss = require('rollup-plugin-scss')
 
+const chalkFactory = require('~lib/chalk')
+
 /**
  * Quire features are implemented as Eleventy plugins
  */
@@ -13,7 +15,6 @@ const {
   EleventyHtmlBasePlugin,
   EleventyRenderPlugin
 } = require('@11ty/eleventy')
-const EleventyVitePlugin = require('@11ty/eleventy-plugin-vite')
 const citationsPlugin = require('~plugins/citations')
 const collectionsPlugin = require('~plugins/collections')
 const componentsPlugin = require('~plugins/components')
@@ -32,10 +33,13 @@ const searchPlugin = require('~plugins/search')
 const shortcodesPlugin = require('~plugins/shortcodes')
 const syntaxHighlightPlugin = require('@11ty/eleventy-plugin-syntaxhighlight')
 const transformsPlugin = require('~plugins/transforms')
+const vitePlugin = require('~plugins/vite')
 
-const inputDir = 'content'
-const outputDir = '_site'
-const publicDir = 'public'
+const { error } = chalkFactory('eleventy config')
+
+const inputDir = process.env.ELEVENTY_INPUT || 'content'
+const outputDir = process.env.ELEVENTY_OUTPUT || '_site'
+const publicDir = process.env.ELEVENTY_ENV === 'production' ? 'public' : false // publicDir should be set explicitly to false in development 
 
 /**
  * Eleventy configuration
@@ -109,16 +113,23 @@ module.exports = function(eleventyConfig) {
   /**
    * @see https://www.11ty.dev/docs/plugins/html-base/
    */
-  // eleventyConfig.addPlugin(EleventyHtmlBasePlugin, {
-  //   baseHref: eleventyConfig.pathPrefix
-  // })
+  eleventyConfig.addPlugin(EleventyHtmlBasePlugin)
 
   /**
-   * Plugins are loaded in order of the `addPlugin` statements,
-   * plugins that mutate globalData must be added before other plugins
+   * Plugins are loaded in this order: 
+   *   1) immediately invoked
+   *   2) addPlugin statements
+   * Plugins that mutate globalData must be added before other plugins
+   *
+   * Note: The config does **not** have access to collections or global,
+   * to get around this we invoke some plugins immediately and return a value
+   * so that data can be provided to the config or another plugin.
    */
-  eleventyConfig.addPlugin(dataExtensionsPlugin)
-  eleventyConfig.addPlugin(globalDataPlugin)
+  dataExtensionsPlugin(eleventyConfig)
+  const globalData = globalDataPlugin(eleventyConfig, { inputDir, outputDir, publicDir })
+  const collections = collectionsPlugin(eleventyConfig)
+  vitePlugin(eleventyConfig, globalData)
+
   eleventyConfig.addPlugin(i18nPlugin)
   eleventyConfig.addPlugin(figuresPlugin)
 
@@ -126,11 +137,6 @@ module.exports = function(eleventyConfig) {
    * Load plugin for custom configuration of the markdown library
    */
   eleventyConfig.addPlugin(markdownPlugin)
-
-  /**
-   * Add collections
-   */
-  const collections = collectionsPlugin(eleventyConfig)
 
   /**
    * Load plugins for the Quire template shortcodes and filters
@@ -182,84 +188,6 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(transformsPlugin, collections)
 
   /**
-   * Use Vite to bundle JavaScript
-   * @see https://github.com/11ty/eleventy-plugin-vite
-   *
-   * Runs Vite as Middleware in the Eleventy Dev Server
-   * Runs Vite build to postprocess the Eleventy build output
-   */
-  eleventyConfig.addPlugin(EleventyVitePlugin, {
-    tempFolderName: '.11ty-vite',
-    viteOptions: {
-      publicDir: process.env.ELEVENTY_ENV === 'production'
-        ? publicDir
-        : false,
-      /**
-       * @see https://vitejs.dev/config/#build-options
-       */
-      root: outputDir,
-      build: {
-        assetsDir: '_assets',
-        emptyOutDir: process.env.ELEVENTY_ENV !== 'production',
-        manifest: true,
-        mode: 'production',
-        outDir: outputDir,
-        rollupOptions: {
-          output: {
-            assetFileNames: ({ name }) => {
-              const fullFilePathSegments = name.split('/').slice(0, -1)
-              let filePath = '_assets/';
-              ['_assets', 'node_modules'].forEach((assetDir) => {
-                if (name.includes(assetDir)) {
-                  filePath +=
-                    fullFilePathSegments
-                      .slice(fullFilePathSegments.indexOf(assetDir) + 1)
-                      .join('/') + '/'
-                }
-              })
-              return `${filePath}[name][extname]`
-            }
-          },
-          plugins: [
-            copy({
-              targets: [
-                { 
-                  src: 'public/*', 
-                  dest: outputDir,
-                },
-                {
-                  src: path.join(inputDir, '_assets', 'images', '*'),
-                  dest: path.join(outputDir, '_assets', 'images')
-                },
-                {
-                  src: path.join(inputDir, '_assets', 'fonts', '*'),
-                  dest: path.join(outputDir, '_assets', 'fonts')
-                }
-              ]
-            })
-          ]
-        },
-        sourcemap: true
-      },
-      /**
-       * Set to false to prevent Vite from clearing the terminal screen
-       * and have Vite logging messages rendered alongside Eleventy output.
-       */
-      clearScreen: false,
-      /**
-       * @see https://vitejs.dev/config/#server-host
-       */
-      server: {
-        hmr: {
-          overlay: false
-        },
-        middlewareMode: true,
-        mode: 'development'
-      }
-    }
-  })
-
-  /**
    * Set eleventy dev server options
    * @see https://www.11ty.dev/docs/dev-server/
    */
@@ -297,14 +225,15 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.watchIgnores.add('_pdf')
   eleventyConfig.watchIgnores.add('_temp')
 
+  const { pathname: pathPrefix } = globalData.publication
   return {
     /**
      * @see {@link https://www.11ty.dev/docs/config/#configuration-options}
      */
     dir: {
       // ⚠️ input and output dirs are _relative_ to the `.eleventy.js` module
-      input: process.env.ELEVENTY_INPUT || inputDir,
-      output: process.env.ELEVENTY_OUTPUT || outputDir,
+      input: inputDir,
+      output: outputDir,
       // ⚠️ the following directories are _relative_ to the `input` directory
       data: process.env.ELEVENTY_DATA || '_computed',
       includes: process.env.ELEVENTY_INCLUDES || path.join('..', '_includes'),
@@ -331,7 +260,7 @@ module.exports = function(eleventyConfig) {
     /**
      * @see {@link https://www.11ty.dev/docs/config/#deploy-to-a-subdirectory-with-a-path-prefix}
      */
-    pathPrefix: '/',
+    pathPrefix,
     /**
      * All of the following template formats support universal shortcodes.
      *

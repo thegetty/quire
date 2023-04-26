@@ -10,13 +10,14 @@ const logger = chalkFactory(`Shortcodes:Annoref`)
  * @property   {String} fig Figure ID
  * @property   {String} region Comma-separated, with format "x,y,width,height"
  * @property   {String} text Link text
- * 
+ *
  * @return     {String}  Anchor tag with link text annotation and region data attributes
  */
 module.exports = function (eleventyConfig) {
   const getFigure = eleventyConfig.getFilter('getFigure')
   const markdownify = eleventyConfig.getFilter('markdownify')
-  return ({ anno='', fig, region='', text='', onscroll }) => {
+
+  return ({ anno='', fig, index, region='', text='', onscroll }) => {
     const figure = getFigure(fig)
     if (!figure) {
       console.error(`[annoref shortcode] "fig" parameter doesn't correspond to a valid figure id in "figures.yaml". Fig: ${fig}`)
@@ -40,11 +41,12 @@ module.exports = function (eleventyConfig) {
     }
 
     return oneLine`
-      <a 
+      <a
         class="annoref"
         data-annotation-ids="${annoIds.join(',')}"
         data-figure-id="${fig}"
         data-region="${region}"
+        data-index="${index}"
       >${markdownify(text)}</a>
     `
   }

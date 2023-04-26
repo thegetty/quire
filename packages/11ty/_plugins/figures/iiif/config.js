@@ -6,27 +6,23 @@ const logger = chalkFactory('Figures:IIIF:Config', 'DEBUG')
 
 module.exports = (eleventyConfig) => {
   const { url } = eleventyConfig.globalData.publication
+  const { inputDir, outputDir, publicDir } = eleventyConfig.globalData.directoryConfig
   const { port=8080 } = eleventyConfig.serverOptions
 
-  const projectRoot = path.resolve(eleventyConfig.dir.input, '..')
+  const projectRoot = path.resolve(inputDir, '..')
 
   // logger.debug(`projectRoot: ${projectRoot}`)
 
   const resolveInputPath = () => {
-    const resolvedPath = path.resolve(eleventyConfig.dir.input)
+    const resolvedPath = path.resolve(inputDir)
     // logger.debug(`inputPath: ${resolvedPath}`)
     return resolvedPath
   }
 
-  // @todo abstract this concern to decouple this plugin from vite
   const resolveOutputPath = () => {
-    const { viteOptions } = eleventyConfig.plugins.find(
-      ({ options }) => !!options && !!options.viteOptions
-    ).options
-
-    const resolvedPath = viteOptions && viteOptions.publicDir
-      ? path.resolve(projectRoot, viteOptions.publicDir)
-      : path.resolve(projectRoot, eleventyConfig.dir.output)
+    const resolvedPath = publicDir
+      ? path.resolve(projectRoot, publicDir)
+      : path.resolve(projectRoot, outputDir)
 
     // logger.debug(`ouputPath: ${resolvedPath}`)
     return resolvedPath

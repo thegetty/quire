@@ -1,6 +1,7 @@
+const path = require('path')
 /**
  * Head Tag
- * 
+ *
  * @param      {Object}  eleventyConfig
  */
 module.exports = function(eleventyConfig) {
@@ -11,7 +12,7 @@ module.exports = function(eleventyConfig) {
   const twitterCard = eleventyConfig.getFilter('twitterCard')
   const webComponents = eleventyConfig.getFilter('webComponents')
 
-  const { application, publication } = eleventyConfig.globalData
+  const { application, figures, publication } = eleventyConfig.globalData
 
   /**
    * @param  {Object} params The Whole Dang Data Object, from base.11ty.js
@@ -56,7 +57,7 @@ module.exports = function(eleventyConfig) {
         <link rel="canonical" href="${canonicalURL}">
         <link rel="version-history" href="${publication.repositoryUrl}">
 
-        <script src="https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@1.0.54" type="module"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@1.0.56" type="module"></script>
         <script src="https://cdn.jsdelivr.net/npm/@iiif/vault-helpers@latest/dist/index.umd.js"></script>
 
         ${publisherLinks}

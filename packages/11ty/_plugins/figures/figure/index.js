@@ -3,8 +3,14 @@ const Annotation = require('../annotation')
 const AnnotationFactory = require('../annotation/factory')
 const Manifest = require('../iiif/manifest')
 const path = require('path')
+const SequenceFactory = require('../sequence/factory')
 const sharp = require('sharp')
-const { isCanvas, isImageService } = require('../helpers')
+const {
+  getSequenceFiles,
+  isCanvas,
+  isImageService,
+  isSequence
+} = require('../helpers')
 
 const logger = chalkFactory('Figures:Figure', 'DEBUG')
 
@@ -12,7 +18,7 @@ const logger = chalkFactory('Figures:Figure', 'DEBUG')
  * @param {Object} iiifConfig
  * @param {Function} processImage  Function to generate IIIF assets
  * @param {Object} data  Figure data from and entry in `figures.yaml`
- * 
+ *
  * @typedef {Object} Figure
  * @property {Array<AnnotationSet>} annotations
  * @property {String} canvasId ID of IIIF canvas
@@ -45,7 +51,7 @@ module.exports = class Figure {
       mediaType: 'image'
     }
 
-    const { 
+    const {
       id,
       label,
       media_id: mediaId,
@@ -61,14 +67,20 @@ module.exports = class Figure {
     this.iiifConfig = iiifConfig
     this.isCanvas = isCanvas(data)
     this.isImageService = isImageService(data)
+    this.isSequence = isSequence(data)
     this.label = label
     this.manifestId = manifestId
     this.mediaType = mediaType || defaults.mediaType
     this.mediaId = mediaId
     this.outputDir = outputDir
     this.processImage = imageProcessor
+    this.sequenceFactory = new SequenceFactory(this)
     this.src = src
-    this.zoom = zoom
+    /**
+     * We are disabling zoom for all sequence figures
+     * our custom image-sequence component currently only supports static images
+     */
+    this.zoom = isSequence(data) ? false : zoom
   }
 
   /**
@@ -77,6 +89,14 @@ module.exports = class Figure {
    */
   get annotations() {
     return this.annotationFactory.create()
+  }
+
+  /**
+   * Figure image sequence
+   * @type  {Array<Sequence>}
+   */
+  get sequences() {
+    return this.sequenceFactory.create()
   }
 
   /**
@@ -101,11 +121,17 @@ module.exports = class Figure {
       if (!this.annotations) return
       const firstChoice = this.annotations
         .flatMap(({ items }) => items)
-        .find(({ target }) => !target)
+        .find(({ region }) => !region)
       if (!firstChoice) return
       return firstChoice.src
     }
-    const imagePath = this.src || firstChoiceSrc()
+    const firstSequenceItemSrc = () => {
+      if (!this.sequences) return
+      const firstSequenceItemDirname = this.sequences[0].dir
+      const firstSequenceItemFilename = this.sequences[0].files[0]
+      return path.join(firstSequenceItemDirname, firstSequenceItemFilename)
+    }
+    const imagePath = this.src || firstChoiceSrc() || firstSequenceItemSrc()
     if (!imagePath) {
       this.errors.push(`Invalid figure ID "${this.id}". Figures with annotations must have "choice" annotations or a "src" property.`)
       return
@@ -148,6 +174,12 @@ module.exports = class Figure {
    * @return {Object} figure
    */
   adapter() {
+    /**
+     * TODO determine how to handle multiple sequence starting points.
+     * Assuming one (the first) sequence for now
+     */
+    const startCanvasIndex = this.isSequence ? this.sequences[0].startCanvasIndex : null
+
     return {
       ...this.data,
       annotations: this.annotations,
@@ -155,12 +187,15 @@ module.exports = class Figure {
       id: this.id,
       isCanvas: this.isCanvas,
       isImageService: this.isImageService,
+      isSequence: this.isSequence,
       label: this.label,
       manifestId: this.manifestId,
       mediaId: this.mediaId,
       mediaType: this.mediaType,
       printImage: this.printImage,
       region: this.region,
+      sequences: this.sequences,
+      startCanvasIndex,
       src: this.src
     }
   }
@@ -190,7 +225,11 @@ module.exports = class Figure {
 
     await this.calcCanvasDimensions()
     await this.processAnnotationImages()
-    await this.processFigureImage()
+    if (this.isSequence) {
+      await this.processFigureSequence()
+    } else {
+      await this.processFigureImage()
+    }
     await this.createManifest()
 
     return { errors: this.errors }
@@ -200,6 +239,7 @@ module.exports = class Figure {
    * Process annotation images
    */
   async processAnnotationImages() {
+    // TODO Consider refactor - any time `this.annotations` is referenced, it creates a new instance of AnnotationFactory
     if (!this.annotations) return
     const annotationItems = this.annotations.flatMap(({ items }) => items)
     const results = await Promise.all(annotationItems.map((item) => {
@@ -225,11 +265,26 @@ module.exports = class Figure {
     if (errors) this.errors = this.errors.concat(errors)
   }
 
+  async processFigureSequence() {
+    // TODO Consider refactor - any time `this.sequences` is referenced, it creates a new instance of SequenceFactory
+    if (!this.sequences) return
+    const sequenceItems = this.sequences.flatMap(({ items }) => items)
+    const results = await Promise.all(sequenceItems.map((item) => {
+      logger.debug(`processing sequence image ${item.src}`)
+      return item.src && this.processImage(item.src, this.outputDir, {
+        tile: item.isImageService
+      })
+    }))
+    const errors = results.flatMap(({ errors }) => errors || [])
+    if (errors.length) this.errors = this.errors.concat(errors)
+  }
+
   /**
    * Create the IIIF `manifest.json` for <canvas-panel> components,
    * collect errors from calling toJSON and the file system writer.
    */
   async createManifest() {
+    // TODO Figure out why this isn't building properly when `if (!this.isCanvas || !this.isSequence) return`
     if (!this.isCanvas) return
     const manifest = new Manifest(this)
     const { errors } = await manifest.write()

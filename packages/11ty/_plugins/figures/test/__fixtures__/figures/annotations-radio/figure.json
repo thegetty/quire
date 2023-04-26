@@ -1,0 +1,33 @@
+{
+  "id": "radio-layers",
+  "label": "Figure 2",
+  "caption": "Mummy Portrait of a Woman, A.D. 100, attributed to the Isidora Master (Romano-Egyptian, active 100 - 125). Encaustic on linden wood; gilt; linen, 48 × 36 × 12.8 cm (18 7/8 × 14 3/16 × 5 1/16 in.).",
+  "credit": "The J. Paul Getty Museum, Villa Collection, Malibu, California, 81.AP.42",
+  "annotations": [
+    {
+      "input": "radio",
+      "items": [
+        {
+          "src": "figures/mummy/normal.jpg",
+          "label": "Normal Light"
+        },
+        {
+          "src": "figures/mummy/infrared.jpg",
+          "label": "Infrared"
+        },
+        {
+          "src": "figures/mummy/x-ray.jpg",
+          "label": "X-Radiograph"
+        },
+        {
+          "src": "figures/mummy/raking.jpg",
+          "label": "Raking Light"
+        },
+        {
+          "src": "figures/mummy/uv.jpg",
+          "label": "Ultraviolet"
+        }
+      ]
+    }
+  ]
+}

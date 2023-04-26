@@ -11,7 +11,9 @@ const __dirname = path.dirname(__filename)
 export default async (name = 'pagedjs', options = {}) => {
   const lib = { name, options, path }
 
-  switch (name.toLowerCase()) {
+  const normalizedName = name.replace(/[-_.\s]/g, '').toLowerCase()
+
+  switch (normalizedName) {
     case 'paged':
     case 'pagedjs': {
       lib.name = 'Paged.js'

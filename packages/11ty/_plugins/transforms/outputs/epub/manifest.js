@@ -111,6 +111,11 @@ module.exports = (eleventyConfig) => {
     resources.push(item)
   }
 
+  const { full, one_line: oneLine } = description
+  const publicationDescription = full
+    ? removeHTML(full).replace(/\r?\n|\r/g, ' ')
+    : oneLine
+
   return {
     '@context': [
       'https://schema.org',
@@ -121,7 +126,7 @@ module.exports = (eleventyConfig) => {
     cover: coverUrl,
     creators: contributors('primary'),
     dateModifed: pubDate,
-    description: removeHTML(description.full).replace(/\r?\n|\r/g, ' '),
+    description: publicationDescription,
     id: isbn,
     languages: language,
     publisher: publisherNameAndLocations(),
