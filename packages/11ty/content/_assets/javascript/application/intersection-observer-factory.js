@@ -8,19 +8,19 @@
  * @param  {Object}        options IntersectionObserver options
  */
 const intersectionObserverFactory = (target, fn, options = {}) => {
-    const observerOptions = {
-      root: null,
-      rootMargin: '-50% 0% -50% 0%',
-      threshold: 0,
-      ...options
-    }
-    const callback = (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) fn()
-      })
-    }
-    const observer = new IntersectionObserver(callback, observerOptions)
-    observer.observe(target)
+  const observerOptions = {
+    root: null,
+    rootMargin: '-50% 0% -50% 0%',
+    threshold: 0,
+    ...options
   }
+  const callback = (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) fn()
+    })
+  }
+  const observer = new IntersectionObserver(callback, observerOptions)
+  observer.observe(target)
+}
   
-  export { intersectionObserverFactory }
+export { intersectionObserverFactory }
