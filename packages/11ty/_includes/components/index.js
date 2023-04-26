@@ -31,6 +31,7 @@ module.exports = {
   figureTableElement: require('./figure/table/element'),
   figureVideo: require('./figure/video'),
   figureVideoElement: require('./figure/video/element'),
+  globalAccordionControls: require('./accordion/global-controls'),
   head: require('./head.js'),
   icon: require('./icon.js'),
   icons: require('./icons.js'),
