@@ -12,10 +12,10 @@ import '../../styles/application.scss'
 import '../../styles/custom.css'
 
 // Modules (feel free to define your own and import here)
-import Accordion from './accordion'
 import './canvas-panel'
 import './soundcloud-api.min.js'
 import { goToFigureState, setUpUIEventHandlers } from './canvas-panel'
+import Accordion from './accordion'
 import Search from '../../../../_plugins/search/search.js'
 import scrollToHash from './scroll-to-hash'
 
