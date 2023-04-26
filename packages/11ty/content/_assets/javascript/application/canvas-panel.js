@@ -21,6 +21,8 @@ const annotationData = (input) => {
  * @return {String} canvasId
  */
 const getServiceId = (element) => {
+  if (!element) return
+
   const canvasPanel = element.querySelector('canvas-panel')
   const imageSequence = element.querySelector('image-sequence')
   const imageService = element.querySelector('image-service')
@@ -32,7 +34,7 @@ const getServiceId = (element) => {
   } else if (imageSequence) {
     return imageSequence.getAttribute('sequence-id')
   } else {
-    console.error(`Element does not contain a canvas panel or image service component:`, element)
+    // console.info(`Hash does not reference a canvas panel or image service component:`, element)
     return
   }
 }
@@ -69,7 +71,8 @@ const goToFigureState = function ({ annotationIds=[], figureId, index, region })
   const figureSlide = document.querySelector(slideSelector)
   const serviceId = getServiceId(figure || figureSlide)
 
-  if (!figure && !figureSlide) return
+  // return if id does not reference a figure
+  if ((!figure && !figureSlide) || !serviceId) return
 
   const inputs = document.querySelectorAll(`#${figureId} .annotations-ui__input, [data-lightbox-slide-id="${figureId}"] .annotations-ui__input`)
   const annotations = [...inputs].map((input) => {
