@@ -21,15 +21,35 @@ const Accordion = class {
     )
   }
 
+  static globalExpand = document.querySelector('.global-accordion-expand-all')
+  static globalCollapse = document.querySelector('.global-accordion-collapse-all')
+  static elements = document.querySelectorAll('.accordion-section')
+
+  static setGlobalControls() {
+    const closedCount = Array.from(Accordion.elements).filter((element => element.getAttribute('open') === null)).length
+    if (closedCount !== 0 && closedCount < Accordion.elements.length) {
+      Accordion.globalCollapse.classList.remove('visually-hidden')
+      Accordion.globalExpand.classList.remove('visually-hidden')
+    }
+    if (closedCount === Accordion.elements.length) {
+      Accordion.globalExpand.classList.remove('visually-hidden')
+      Accordion.globalCollapse.classList.add('visually-hidden')
+    }
+    if (closedCount === 0 && Accordion.elements.length > 0) {
+      Accordion.globalExpand.classList.add('visually-hidden')
+      Accordion.globalCollapse.classList.remove('visually-hidden')
+    }
+  }
+
   /**
    * Set initial UI state on page load and initialize accordions
    */
   static setup() {
-    const accordions = document.querySelectorAll('.accordion-section')
-    accordions.forEach((element) => {
+    Accordion.elements.forEach((element) => {
       const accordion = new Accordion(element)
       accordion.init()
     })
+    Accordion.setGlobalControls();
   }
 
   /**
@@ -39,11 +59,13 @@ const Accordion = class {
    */
   addEventListeners() {
     this.copyLinkButton.addEventListener('click', this.copyLink.bind(this))
-    if (this.globalExpand) {
-      this.globalExpand.addEventListener('click', this.open.bind(this))
+    this.element.addEventListener('toggle', Accordion.setGlobalControls.bind(this))
+
+    if (Accordion.globalExpand) {
+      Accordion.globalExpand.addEventListener('click', this.open.bind(this))
     }
-    if (this.globalCollapse) {
-      this.globalCollapse.addEventListener('click', this.close.bind(this))
+    if (Accordion.globalCollapse) {
+      Accordion.globalCollapse.addEventListener('click', this.close.bind(this))
     }
   }
 
@@ -52,6 +74,7 @@ const Accordion = class {
    */
   close() {
     this.element.removeAttribute('open')
+    Accordion.setGlobalControls();
   }
 
   /**
@@ -81,6 +104,7 @@ const Accordion = class {
    */
   open() {
     this.element.setAttribute('open', true)
+    Accordion.setGlobalControls();
   }
 
   /**
