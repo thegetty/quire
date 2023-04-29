@@ -17,11 +17,16 @@ module.exports = function (eleventyConfig) {
   return (content, heading, open) => {
     const slug = slugify(heading)
     const id = `section-${slug}`
-
     return oneLine`
       <details class="accordion-section" id="${id}" ${open ? 'open' : ''}>
           <summary class="accordion-section__heading accordion-section__controls ${controlsClass}">
-            <button value="#${id}" aria-label="${copyButton.ariaLabel}" class="accordion-section__copy-link-button">
+            <button
+              aria-label="${copyButton.ariaLabel}"
+              class="accordion-section__copy-link-button tooltip"
+              data-text="${copyButton.copied}"
+              data-outputs-exclude="pdf,epub"
+              value="#${id}"
+            >
               ${copyButton.text}
             </button>
             ${markdownify(heading, { inline: false })}
