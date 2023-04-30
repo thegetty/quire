@@ -61,8 +61,8 @@ module.exports = function(eleventyConfig) {
             ${pageTitle({ title, subtitle })}
           </h1>
           ${contributorsElement}
+          ${globalAccordionControls(params)}
         </div>
-        ${globalAccordionControls(params)}
       </section>
       ${imageElement}
     `
