@@ -3,6 +3,7 @@ const jsdom = require('jsdom')
 const layout = require('./layout')
 const path = require('path')
 const writer = require('./writer')
+const { openDetails } = require('../helpers')
 
 const { JSDOM } = jsdom
 
@@ -52,6 +53,10 @@ module.exports = function(eleventyConfig, collections, content) {
     const page = collections.epub[index]
     const { document, window } = new JSDOM(epubContent).window
     const mainElement = document.querySelector('main[data-output-path]')
+
+    /** Apply transforms */
+    openDetails(mainElement)
+
     const title = pageTitle(page.data)
     const body = document.createElement('body')
     body.innerHTML = mainElement.innerHTML
