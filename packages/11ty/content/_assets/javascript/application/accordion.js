@@ -50,7 +50,7 @@ const Accordion = class {
       const accordion = new Accordion(element)
       accordion.init()
     })
-    Accordion.setGlobalControls();
+    Accordion.setGlobalControls()
   }
 
   /**
@@ -75,11 +75,12 @@ const Accordion = class {
    */
   close() {
     this.element.removeAttribute('open')
-    Accordion.setGlobalControls();
+    Accordion.setGlobalControls()
   }
 
   /**
    * Copy link to heading to clipboard
+   * Push url to window.history
    */
   copyLink() {
     const href = this.copyLinkButton.getAttribute('value')
@@ -87,8 +88,9 @@ const Accordion = class {
     try {
       const url = new URL(pathname + href, origin)
       navigator.clipboard.writeText(url)
+      window.history.pushState({}, '', url)
     } catch (error) {
-      console.error(`Error copying heading link to clipboard: `, error)
+      console.error(`Error copying heading link: `, error)
     }
   }
 
@@ -105,7 +107,7 @@ const Accordion = class {
    */
   open() {
     this.element.setAttribute('open', true)
-    Accordion.setGlobalControls();
+    Accordion.setGlobalControls()
   }
 
   /**
