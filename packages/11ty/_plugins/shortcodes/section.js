@@ -14,18 +14,18 @@ module.exports = function (eleventyConfig) {
   const { controls, copyButton } = eleventyConfig.globalData.config.accordion
   const controlsClass = `accordion-section__controls--${controls}`
   
-  return (content, heading, open) => {
+  return (content, heading, id, open) => {
     const slug = slugify(heading)
-    const id = `section-${slug}`
+    const sectionId = id || `section-${slug}`
     return oneLine`
-      <details class="accordion-section" id="${id}" ${open ? 'open' : ''}>
+      <details class="accordion-section" id="${sectionId}" ${open ? 'open' : ''}>
         <summary class="accordion-section__heading accordion-section__controls ${controlsClass}">
           <button
             aria-label="${copyButton.ariaLabel}"
             class="accordion-section__copy-link-button tooltip"
             data-text="${copyButton.copied}"
             data-outputs-exclude="pdf,epub"
-            value="#${id}"
+            value="#${sectionId}"
           >
             ${copyButton.text}
           </button>
