@@ -17,7 +17,8 @@ module.exports = function (eleventyConfig) {
   
   return (content, heading, id, open) => {
     const slug = slugify(heading)
-    const sectionId = id || `section-${slug}`
+    const sectionId = id ? id.toLowerCase() : `section-${slug}`
+
     return oneLine`
       <details class="accordion-section" id="${sectionId}" ${open ? 'open' : ''}>
         <summary class="accordion-section__heading accordion-section__controls ${controlsClass}">
@@ -37,4 +38,3 @@ module.exports = function (eleventyConfig) {
     `
   }
 }
-  
