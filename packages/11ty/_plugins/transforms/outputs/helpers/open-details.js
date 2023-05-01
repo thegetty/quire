@@ -3,8 +3,6 @@
  */
 module.exports = (element) => {
   const nodes = element.querySelectorAll('details')
-  nodes.forEach((details) => {
-    details.setAttribute('open', true)
-  })
+  nodes.forEach((details) => details.setAttribute('open', true))
   return element
 }
