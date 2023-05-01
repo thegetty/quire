@@ -26,6 +26,7 @@ const Accordion = class {
   static elements = document.querySelectorAll('.accordion-section')
 
   static setGlobalControls() {
+    if (Accordion.elements.length === 0) return
     const closedCount = Array.from(Accordion.elements).filter((element => element.getAttribute('open') === null)).length
     if (closedCount !== 0 && closedCount < Accordion.elements.length) {
       Accordion.globalCollapse.classList.remove('visually-hidden')
