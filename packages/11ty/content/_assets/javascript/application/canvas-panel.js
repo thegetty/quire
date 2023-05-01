@@ -1,3 +1,4 @@
+import Accordion from './accordion'
 import poll from './poll'
 import scrollToHash from './scroll-to-hash'
 
@@ -85,6 +86,10 @@ const goToFigureState = function ({ annotationIds=[], figureId, index, region })
     const lightbox = figureSlide.closest('q-lightbox')
     lightbox.currentId = figureId
   }
+
+  Accordion.elements.forEach((element) => {
+    if (element.contains(figure)) element.setAttribute('open', true)
+  })
 
   /**
    * Update figure state
