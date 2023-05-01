@@ -4,7 +4,8 @@ const { oneLine } = require('~lib/common-tags')
  *
  * @param      {String}  content  content to render in the accordion body
  * @param      {String}  heading  content to render in the accordion heading
- * @param      {String}  open  accordion initial state
+ * @param      {String}  id       (optional) details id
+ * @param      {String}  open     (optional) accordion initial state
  *
  * @return     {String}  An HTML <details> element with <summary> and <section>
  */
