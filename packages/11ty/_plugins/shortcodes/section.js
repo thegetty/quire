@@ -24,7 +24,7 @@ module.exports = function (eleventyConfig) {
         <summary class="accordion-section__heading accordion-section__controls ${controlsClass}">
           <button
             aria-label="${copyButton.ariaLabel}"
-            class="accordion-section__copy-link-button tooltip"
+            class="accordion-section__copy-link-button accordion-tooltip"
             data-text="${copyButton.copied}"
             data-outputs-exclude="pdf,epub"
             value="#${sectionId}"
