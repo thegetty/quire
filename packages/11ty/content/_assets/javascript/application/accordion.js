@@ -27,6 +27,7 @@ const Accordion = class {
 
   static setGlobalControls() {
     if (Accordion.elements.length === 0) return
+    if (!Accordion.globalCollapse || !Accordion.globalExpand) return;
     const closedCount = Array.from(Accordion.elements).filter((element => element.getAttribute('open') === null)).length
     if (closedCount !== 0 && closedCount < Accordion.elements.length) {
       Accordion.globalCollapse.classList.remove('visually-hidden')
@@ -83,12 +84,19 @@ const Accordion = class {
    * Push url to window.history
    */
   copyLink() {
+    if (this.copying) return;
+    this.copying = true;
     const href = this.copyLinkButton.getAttribute('value')
     const { origin, pathname } = window.location
+    this.copyLinkButton.classList.add('accordion-tooltip--active');
     try {
       const url = new URL(pathname + href, origin)
       navigator.clipboard.writeText(url)
       window.history.pushState({}, '', url)
+      setTimeout(() => {
+        this.copyLinkButton.classList.remove('accordion-tooltip--active');
+        this.copying = false;
+      }, 2000);
     } catch (error) {
       console.error(`Error copying heading link: `, error)
     }
