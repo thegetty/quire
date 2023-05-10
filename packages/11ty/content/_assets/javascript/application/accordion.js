@@ -15,16 +15,17 @@ const Accordion = class {
    * @return {NodeList} All of this accordion's parent accordions, if accordion is nested
    */
   get parentAccordions() {
-    const accordions = document.querySelectorAll('.accordion-section')
-    return Array.from(accordions).filter(
+    return Array.from(Accordion.elements).filter(
       (el) => el.contains(this.element) && el != this.element
     )
   }
 
+  static className = 'accordion-section'
   static globalExpand = document.querySelector('.global-accordion-expand-all')
   static globalCollapse = document.querySelector('.global-accordion-collapse-all')
-  static elements = document.querySelectorAll('.accordion-section')
-  static isAccordion = (element) => element.classList.contains('accordion-section');
+  static elements = document.querySelectorAll(`.${this.className}`)
+  // Static method to check if an element is or is included in an accordion
+  static partOfAccordion = (element) => element.closest(`.${this.className}`)
 
   static setGlobalControls() {
     if (Accordion.elements.length === 0) return
@@ -120,12 +121,14 @@ const Accordion = class {
   }
 
   /**
-   * Sets the the initial accordion state if url contains a hash to an accordion id
+   * Sets the the initial accordion state if url contains a hash to an accordion id or an element within an accordion
    * Expands parent accordions if selected accordion is nested
    */
   setStateFromUrl() {
     const hashId = window.location.hash.replace(/^#/, '')
-    if (hashId === this.id) {
+    if (!hashId) return;
+    const target = document.querySelector(window.location.hash)
+    if (hashId === this.id || this.element.contains(target)) {
       this.open()
       if (this.parentAccordions && this.parentAccordions.length) {
         this.parentAccordions.forEach((el) => el.setAttribute('open', true))

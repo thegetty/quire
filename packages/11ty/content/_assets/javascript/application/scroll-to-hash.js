@@ -37,8 +37,8 @@ export default (hash) => {
   const target = document.querySelector(hash)
   // Does a scroll target exist?
   if (target) {
-    if (Accordion.isAccordion(target)) {
-      const accordion = new Accordion(target)
+    if (Accordion.partOfAccordion(target)) {
+      const accordion = new Accordion(target.closest(`.${Accordion.className}`))
       accordion.setStateFromUrl()
     }
     const verticalOffset = target.getBoundingClientRect().top + window.scrollY
