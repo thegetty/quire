@@ -24,6 +24,7 @@ const Accordion = class {
   static globalExpand = document.querySelector('.global-accordion-expand-all')
   static globalCollapse = document.querySelector('.global-accordion-collapse-all')
   static elements = document.querySelectorAll('.accordion-section')
+  static isAccordion = (element) => element.classList.contains('accordion-section');
 
   static setGlobalControls() {
     if (Accordion.elements.length === 0) return
