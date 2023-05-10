@@ -13,6 +13,10 @@ module.exports = function (eleventyConfig) {
   const markdownify = eleventyConfig.getFilter('markdownify')
   const slugify = eleventyConfig.getFilter('slugify')
   const { controls, copyButton } = eleventyConfig.globalData.config.accordion
+  if (!controls || !['arrow', 'plus-minus'].includes(controls)) {
+    console.error(`Controls are required for accordions. Options are "arrow" or "plus-minus". Please set this value in your config.yaml`)
+    return ''
+  }
   const controlsClass = `accordion-section__controls--${controls}`
   
   return (content, heading, id, open) => {
@@ -25,11 +29,11 @@ module.exports = function (eleventyConfig) {
           <button
             aria-label="${copyButton.ariaLabel}"
             class="accordion-section__copy-link-button accordion-tooltip"
-            data-text="${copyButton.copied}"
+            data-text="${copyButton.successText}"
             data-outputs-exclude="pdf,epub"
             value="#${sectionId}"
           >
-            ${copyButton.text}
+            ${copyButton.symbol}
           </button>
           ${markdownify(heading, { inline: false })}
         </summary>
