@@ -46,6 +46,7 @@ layout: base.11ty.js
   <section id="cover-content" class="section quire-page__content">
     <div class="container is-fluid">
       <div class="content">
+        {% globalAccordionControls accordion=accordion %}
         {{ content }}
         {% bibliography pageReferences %}
       </div>
