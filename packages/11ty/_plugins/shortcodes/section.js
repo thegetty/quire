@@ -17,15 +17,32 @@ module.exports = function (eleventyConfig) {
     console.error(`Controls are required for accordions. Options are "arrow" or "plus-minus". Please set this value in your config.yaml`)
     return ''
   }
-  const controlsClass = `accordion-section__controls--${controls}`
-  
+
   return (content, heading, id, open) => {
+    if (!content || !heading) {
+      console.error(
+        `Accordion section shortcode requires the "heading" and "content" parameters. Shortcode parameters: `,
+        { content, heading, id, open }
+      )
+      return ''
+    }
+
+    // Define slug
     const slug = slugify(heading)
     const sectionId = id ? id.toLowerCase() : `section-${slug}`
 
+    // Determine class names
+    const pattern = /^(#+)[^\s\w]/g
+    const headingLevel = heading.match(pattern) && heading.match(pattern)[0].split('').length
+    const headingLevelClass = `accordion-section__heading-level-${headingLevel}`
+    const controlsClass = `accordion-section__controls--${controls}`
+    const summaryClasses = [
+        'accordion-section__heading', headingLevelClass, 'accordion-section__controls', controlsClass
+      ].filter((x) => x)
+
     return oneLine`
       <details class="accordion-section" id="${sectionId}" ${open ? 'open' : ''}>
-        <summary class="accordion-section__heading accordion-section__controls ${controlsClass}">
+        <summary class="${summaryClasses.join(' ')}">
           <button
             aria-label="${copyButton.ariaLabel}"
             class="accordion-section__copy-link-button accordion-tooltip"
