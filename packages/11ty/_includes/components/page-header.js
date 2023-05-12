@@ -8,7 +8,6 @@ const path = require('path')
  */
 module.exports = function(eleventyConfig) {
   const contributors = eleventyConfig.getFilter('contributors')
-  const globalAccordionControls = eleventyConfig.getFilter('globalAccordionControls')
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const slugify = eleventyConfig.getFilter('slugify')
 
@@ -61,7 +60,6 @@ module.exports = function(eleventyConfig) {
             ${pageTitle({ title, subtitle })}
           </h1>
           ${contributorsElement}
-          ${globalAccordionControls(params)}
         </div>
       </section>
       ${imageElement}
