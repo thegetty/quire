@@ -1,4 +1,8 @@
 const { oneLine } = require('~lib/common-tags')
+const chalkFactory = require('~lib/chalk')
+
+const logger = chalkFactory('shortcodes: accordion')
+
 /**
  * Accordion component
  *
@@ -9,21 +13,18 @@ const { oneLine } = require('~lib/common-tags')
  *
  * @return     {String}  An HTML <details> element with <summary> and <section>
  */
-module.exports = function (eleventyConfig) {
+module.exports = function (eleventyConfig, { page }) {
   const markdownify = eleventyConfig.getFilter('markdownify')
   const slugify = eleventyConfig.getFilter('slugify')
   const { controls, copyButton } = eleventyConfig.globalData.config.accordion
   if (!controls || !['arrow', 'plus-minus'].includes(controls)) {
-    console.error(`Controls are required for accordions. Options are "arrow" or "plus-minus". Please set this value in your config.yaml`)
+    logger.warn(`Controls are required for accordions. Options are "arrow" or "plus-minus". Please set this value in your config.yaml`)
     return ''
   }
 
   return (content, heading, id, open) => {
     if (!content || !heading) {
-      console.error(
-        `Accordion section shortcode requires the "heading" and "content" parameters. Shortcode parameters: `,
-        { content, heading, id, open }
-      )
+      logger.warn(`An accordion section on "${page.url}" does not include the required heading parameter, no accordion was created`)
       return ''
     }
 
