@@ -94,7 +94,7 @@ const Accordion = class {
     try {
       const url = new URL(pathname + href, origin)
       navigator.clipboard.writeText(url)
-      window.history.pushState({}, '', url)
+      window.history.replaceState({}, '', url)
       setTimeout(() => {
         this.copyLinkButton.classList.remove('accordion-tooltip--active');
         this.copying = false;
