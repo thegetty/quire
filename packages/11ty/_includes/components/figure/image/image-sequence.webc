@@ -415,7 +415,13 @@ img.${placeholder} {
 }
 </script>
 <style>
+image-sequence {
+  display: block;
+  height: 100%;
+}
+
 .image-sequence.interactive {
+  height: 100%;
   cursor: grab;
 }
 </style>
