@@ -5,6 +5,7 @@ const bracketedSpansPlugin = require('markdown-it-bracketed-spans')
 const defaults = require('./defaults')
 const deflistPlugin = require('markdown-it-deflist')
 const footnotePlugin = require('markdown-it-footnote')
+const { footnoteRef, footnoteTail } = require('./footnotes')
 const removeMarkdown = require('remove-markdown')
 
 /**
@@ -42,7 +43,7 @@ module.exports = function(eleventyConfig, options) {
     .use(attributesPlugin, attributesOptions)
     .use(bracketedSpansPlugin)
     .use(deflistPlugin)
-    .use(footnotePlugin)
+    .use(footnotePlugin, true)
 
   /**
    * Set recognition options for links without a schema
@@ -77,7 +78,7 @@ module.exports = function(eleventyConfig, options) {
   }
 
   /**
-   * Override default renderer to remove brakcets from footnotes
+   * Override default renderer to remove brackets from footnotes
    */
   markdownLibrary.renderer.rules.footnote_caption = (tokens, idx) => {
     let n = Number(tokens[idx].meta.id + 1).toString()
@@ -86,6 +87,12 @@ module.exports = function(eleventyConfig, options) {
     }
     return n
   }
+
+  /** 
+   * Use custom footnote_ref and footnote_tail definitions
+   */
+  markdownLibrary.inline.ruler.after('footnote_inline', 'footnote_ref', footnoteRef);
+  markdownLibrary.core.ruler.after('inline', 'footnote_tail', footnoteTail);
 
   eleventyConfig.setLibrary('md', markdownLibrary)
 
