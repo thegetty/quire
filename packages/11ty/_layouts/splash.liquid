@@ -29,7 +29,6 @@ description: splash page layout
     {% endif %}
     <div class="container">
       <div class="content{% if image %}{% else %} no-image-above{% endif %}">
-        {% globalAccordionControls accordion=accordion %}
         {{ content }}
         {% bibliography pageReferences %}
       </div>
