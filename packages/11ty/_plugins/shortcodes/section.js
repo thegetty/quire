@@ -43,16 +43,23 @@ module.exports = function (eleventyConfig, { page }) {
 
     return oneLine`
       <details class="accordion-section" id="${sectionId}" ${open ? 'open' : ''}>
-        <summary class="${summaryClasses.join(' ')}">
+        <summary class="${summaryClasses.join(' ')}" tabindex="1">
           <button
             aria-label="${copyButton.ariaLabel}"
-            class="accordion-section__copy-link-button accordion-tooltip"
-            data-text="${copyButton.successText}"
+            class="accordion-section__copy-link-button"
             data-outputs-exclude="pdf,epub"
             value="#${sectionId}"
+            tabindex="2"
           >
             ${copyButton.symbol}
           </button>
+          <span
+            aria-hidden="true"
+            class="accordion-tooltip"
+            data-outputs-exclude="pdf,epub"
+          >
+            ${copyButton.successText}
+          </span>
           ${markdownify(heading, { inline: false })}
         </summary>
         <section class="accordion-section__body">${markdownify(content, { inline: false })}</section>

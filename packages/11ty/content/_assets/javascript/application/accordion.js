@@ -9,6 +9,7 @@ const Accordion = class {
     this.id = element.getAttribute('id')
     this.globalExpand = document.querySelector('.global-accordion-expand-all')
     this.globalCollapse = document.querySelector('.global-accordion-collapse-all')
+    this.tooltip = element.querySelector('.accordion-tooltip')
   }
 
   /**
@@ -90,13 +91,13 @@ const Accordion = class {
     this.copying = true;
     const href = this.copyLinkButton.getAttribute('value')
     const { origin, pathname } = window.location
-    this.copyLinkButton.classList.add('accordion-tooltip--active');
+    this.tooltip.classList.add('accordion-tooltip--active');
     try {
       const url = new URL(pathname + href, origin)
       navigator.clipboard.writeText(url)
       window.history.replaceState({}, '', url)
       setTimeout(() => {
-        this.copyLinkButton.classList.remove('accordion-tooltip--active');
+        this.tooltip.classList.remove('accordion-tooltip--active');
         this.copying = false;
       }, 2000);
     } catch (error) {
