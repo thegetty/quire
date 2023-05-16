@@ -20,6 +20,7 @@ module.exports = class Sequence {
     this.files = getSequenceFiles(sequence, iiifConfig)
     this.regex = sequence.regex
     this.start = sequence.start
+    this.viewingDirection = sequence.viewingDirection
   }
 
   get items() {
