@@ -29,20 +29,49 @@ const Accordion = class {
   static partOfAccordion = (element) => element.closest(`.${this.className}`)
 
   static setGlobalControls() {
-    if (Accordion.elements.length === 0) return
-    if (!Accordion.globalCollapse || !Accordion.globalExpand) return;
-    const closedCount = Array.from(Accordion.elements).filter((element => element.getAttribute('open') === null)).length
-    if (closedCount !== 0 && closedCount < Accordion.elements.length) {
-      Accordion.globalCollapse.classList.remove('visually-hidden')
-      Accordion.globalExpand.classList.remove('visually-hidden')
+    const hasGlobalControls = !!Accordion.globalCollapse && !!Accordion.globalExpand;
+    if (!hasGlobalControls) return
+
+    const previousState = this.globalControlsState;
+
+    const accordionCount = Accordion.elements.length
+    const closedCount = Array.from(Accordion.elements)
+      .filter((element) => element.getAttribute('open') === null)
+      .length
+
+    const state = () => {
+      let state
+      switch (true) {
+        case closedCount === accordionCount:
+          state = 'allClosed'
+          break;
+        case closedCount === 0:
+          state = 'allOpen'
+          break
+        default:
+          state = 'mixed'
+          break
+      }
+      return state
     }
-    if (closedCount === Accordion.elements.length) {
-      Accordion.globalExpand.classList.remove('visually-hidden')
-      Accordion.globalCollapse.classList.add('visually-hidden')
-    }
-    if (closedCount === 0 && Accordion.elements.length > 0) {
-      Accordion.globalExpand.classList.add('visually-hidden')
-      Accordion.globalCollapse.classList.remove('visually-hidden')
+
+    if (previousState === state()) return
+
+    this.globalControlsState = state()
+
+    switch (this.globalControlsState) {
+      case 'allClosed':
+        Accordion.globalExpand.classList.remove('visually-hidden')
+        Accordion.globalCollapse.classList.add('visually-hidden')
+        break;
+      case 'allOpen':
+        Accordion.globalExpand.classList.add('visually-hidden')
+        Accordion.globalCollapse.classList.remove('visually-hidden')
+        break;
+      default:
+        Accordion.globalCollapse.classList.remove('visually-hidden')
+        Accordion.globalExpand.classList.remove('visually-hidden')
+        break;
     }
   }
 
