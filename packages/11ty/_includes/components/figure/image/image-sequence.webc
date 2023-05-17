@@ -56,8 +56,9 @@ if (!window.customElements.get('image-sequence')) {
       this.items = this.getAttribute('items').split(',');
       this.oldX = null;
       this.imagesLoaded = 0;
-      this.isInteractive = this.getAttribute('interactive') === 'true';
       this.isContinuous = this.getAttribute('continuous') === 'true';
+      this.isInteractive = this.getAttribute('interactive') === 'true';
+      this.isReversed = this.getAttribute('reverse') === 'true';
       this.sequenceId = this.getAttribute('sequence-id');
       this.totalCanvases = this.items.length;
 
@@ -296,25 +297,19 @@ img.${placeholder} {
       };
     }
 
-    handleSequenceNavigation({ clientX, target }) {
-      const draggingLeft = clientX < this.oldX;
-      const draggingRight = clientX > this.oldX;
-      if (draggingLeft) {
-        this.previousCanvas();
-      } else if (draggingRight) {
-        this.nextCanvas();
-      }
-    }
-
     handleMouseMove({ buttons, clientX }) {
       if (buttons) {
         this.hideOverlays();
         if (this.oldX) {
           const deltaX = clientX - this.oldX;
           if (deltaX > 0) {
-            this.nextCanvas(deltaX);
+            this.isReversed
+              ? this.previousCanvas(deltaX)
+              : this.nextCanvas(deltaX);
           } else if (deltaX < 0) {
-            this.previousCanvas(deltaX);
+            this.isReversed
+              ? this.nextCanvas(deltaX)
+              : this.previousCanvas(deltaX);
           }
         }
         this.oldX = clientX;
