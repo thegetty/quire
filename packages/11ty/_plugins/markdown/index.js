@@ -43,7 +43,7 @@ module.exports = function(eleventyConfig, options) {
     .use(attributesPlugin, attributesOptions)
     .use(bracketedSpansPlugin)
     .use(deflistPlugin)
-    .use(footnotePlugin, true)
+    .use(footnotePlugin)
 
   /**
    * Set recognition options for links without a schema
