@@ -38,8 +38,8 @@ module.exports = function (eleventyConfig, { page }) {
     const headingLevelClass = `accordion-section__heading-level-${headingLevel}`
     const controlsClass = `accordion-section__controls--${controls}`
     const summaryClasses = [
-        'accordion-section__heading', headingLevelClass, 'accordion-section__controls', controlsClass
-      ].filter((x) => x)
+      'accordion-section__heading', headingLevelClass, 'accordion-section__controls', controlsClass
+    ].filter((x) => x)
 
     return oneLine`
       <details class="accordion-section" id="${sectionId}" ${open ? 'open' : ''}>

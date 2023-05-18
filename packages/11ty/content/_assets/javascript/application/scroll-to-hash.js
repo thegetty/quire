@@ -1,4 +1,4 @@
-import Accordion from './accordion';
+import Accordion from './accordion'
 /**
  * scrollToHash
  * @description Scroll the #main area after each smoothState reload.

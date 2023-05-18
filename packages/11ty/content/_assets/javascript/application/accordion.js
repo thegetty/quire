@@ -29,10 +29,10 @@ const Accordion = class {
   static partOfAccordion = (element) => element.closest(`.${this.className}`)
 
   static setGlobalControls() {
-    const hasGlobalControls = !!Accordion.globalCollapse && !!Accordion.globalExpand;
+    const hasGlobalControls = !!Accordion.globalCollapse && !!Accordion.globalExpand
     if (!hasGlobalControls) return
 
-    const previousState = this.globalControlsState;
+    const previousState = this.globalControlsState
 
     const accordionCount = Accordion.elements.length
     const closedCount = Array.from(Accordion.elements)
@@ -44,7 +44,7 @@ const Accordion = class {
       switch (true) {
         case closedCount === accordionCount:
           state = 'allClosed'
-          break;
+          break
         case closedCount === 0:
           state = 'allOpen'
           break
@@ -63,15 +63,15 @@ const Accordion = class {
       case 'allClosed':
         Accordion.globalExpand.classList.remove('visually-hidden')
         Accordion.globalCollapse.classList.add('visually-hidden')
-        break;
+        break
       case 'allOpen':
         Accordion.globalExpand.classList.add('visually-hidden')
         Accordion.globalCollapse.classList.remove('visually-hidden')
-        break;
+        break
       default:
         Accordion.globalCollapse.classList.remove('visually-hidden')
         Accordion.globalExpand.classList.remove('visually-hidden')
-        break;
+        break
     }
   }
 
@@ -116,19 +116,19 @@ const Accordion = class {
    * Push url to window.history
    */
   copyLink() {
-    if (this.copying) return;
-    this.copying = true;
+    if (this.copying) return
+    this.copying = true
     const href = this.copyLinkButton.getAttribute('value')
     const { origin, pathname } = window.location
-    this.tooltip.classList.add('accordion-tooltip--active');
+    this.tooltip.classList.add('accordion-tooltip--active')
     try {
       const url = new URL(pathname + href, origin)
       navigator.clipboard.writeText(url)
       window.history.replaceState({}, '', url)
       setTimeout(() => {
-        this.tooltip.classList.remove('accordion-tooltip--active');
-        this.copying = false;
-      }, 2000);
+        this.tooltip.classList.remove('accordion-tooltip--active')
+        this.copying = false
+      }, 2000)
     } catch (error) {
       console.error(`Error copying heading link: `, error)
     }
@@ -156,7 +156,7 @@ const Accordion = class {
    */
   setStateFromUrl() {
     const hashId = window.location.hash.replace(/^#/, '')
-    if (!hashId) return;
+    if (!hashId) return
     const target = document.querySelector(window.location.hash)
     if (hashId === this.id || this.element.contains(target)) {
       this.open()
