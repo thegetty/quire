@@ -11,8 +11,8 @@ body:
       # Thank you for opening a new issue! 
 - type: checkboxes
   attributes:
-    label: Before proceeding, check the [Issue Tracker](https://github.com/thegetty/quire/issues) to make sure there isn’t an existing issue for this bug.
-    description: 
+    label: Before proceeding, make sure there isn’t an existing issue for this bug.
+    description: Check the [Issue Tracker](https://github.com/thegetty/quire/issues) to avoid duplicate issues.
     options:
     - label: I have searched the existing issues and determined this is a new bug.
       required: true    
