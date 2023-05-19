@@ -84,5 +84,5 @@ body:
 - type: markdown
   attributes:
     value: |
-      ### Once your report is submitted, it will automatically receive a “triage needed” label. The bug will then be reviewed by the Getty Quire team to decide if it will be selected for development. Labels will be applied to the issue based on type, status, and the core feature that is affected. We will comment on the issue and change the labels as we make progress have updates available and/or have workarounds. We may also tag you with questions or to request more information.
+      #### Once your report is submitted, it will automatically receive a “triage needed” label. The bug will then be reviewed by the Getty Quire team to decide if it will be selected for development. Labels will be applied to the issue based on type, status, and the core feature that is affected. We will comment on the issue and change the labels as we make progress have updates available and/or have workarounds. We may also tag you with questions or to request more information.
 
