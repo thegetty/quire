@@ -11,8 +11,8 @@ body:
       # Thank you for opening a new issue! 
 - type: checkboxes
   attributes:
-    label: Before proceeding, check to make sure there isn’t an existing issue for this bug.
-    description:
+    label: Before proceeding, check the [Issue Tracker](https://github.com/thegetty/quire/issues) to make sure there isn’t an existing issue for this bug.
+    description: 
     options:
     - label: I have searched the existing issues and determined this is a new bug.
       required: true    
@@ -42,7 +42,7 @@ body:
   id: quire-version 
   attributes:
     label: Quire Version Numbers
-    description: Run `quire --version` to get the cli version number. In your project, open the `package.json` file to find the 11ty version number. 
+    description: Run `quire --version` to get the CLI version number. In your project, open the `package.json` file to find the Project Package (quire-11ty) version number. 
     placeholder: 
   validations:
     required: true
@@ -58,14 +58,14 @@ body:
   id: OS
   attributes:
     label: Operating System
-    description: Let us know what Operating Systen you are working on? Please include the version number.
+    description: What Operating System you are working on? Please include the version number.
   validations:
     required: true
 - type: textarea
   id: browsers
   attributes:
     label: Web Browser 
-    description: Let us know what web browser you are working on (Chrome, Safari, Firefox, Microsoft Edge)? Please include the browser version number.
+    description: What web browser you are working on (Chrome, Safari, Firefox, Microsoft Edge)? Please include the browser version number.
   validations:
     required: true
 - type: textarea
@@ -84,5 +84,5 @@ body:
 - type: markdown
   attributes:
     value: |
-      # Once your report is submitted, it will automatically receive a “triage needed” label. The bug will then be reviewed by the Getty Quire team to decide if it will be selected for development. Labels will be applied to the issue based on type, status, and the core feature that is affected. We will comment on the issue and change the labels as we make progress have updates available and/or have workarounds. We may also tag you with questions or to request more information.
+      ### Once your report is submitted, it will automatically receive a “triage needed” label. The bug will then be reviewed by the Getty Quire team to decide if it will be selected for development. Labels will be applied to the issue based on type, status, and the core feature that is affected. We will comment on the issue and change the labels as we make progress have updates available and/or have workarounds. We may also tag you with questions or to request more information.
 
