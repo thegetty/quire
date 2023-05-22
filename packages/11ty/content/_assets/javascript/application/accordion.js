@@ -79,6 +79,7 @@ const Accordion = class {
    * Set initial UI state on page load and initialize accordions
    */
   static setup() {
+    if (!Accordion.elements.length) return;
     Accordion.elements.forEach((element) => {
       const accordion = new Accordion(element)
       accordion.init()
