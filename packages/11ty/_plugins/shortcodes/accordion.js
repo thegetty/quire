@@ -17,12 +17,12 @@ module.exports = function (eleventyConfig, { page }) {
   const markdownify = eleventyConfig.getFilter('markdownify')
   const slugify = eleventyConfig.getFilter('slugify')
   const { controls, copyButton } = eleventyConfig.globalData.config.accordion
-  if (!controls || !['arrow', 'plus-minus'].includes(controls)) {
-    logger.warn(`Controls are required for accordions. Options are "arrow" or "plus-minus". Please set this value in your config.yaml`)
-    return ''
-  }
 
   return (content, heading, id, open) => {
+    if (!controls || !['arrow', 'plus-minus'].includes(controls)) {
+      logger.warn(`Controls are required for accordions. Options are "arrow" or "plus-minus". Please set this value in your config.yaml`)
+      return ''
+    }
     if (!content || !heading) {
       logger.warn(`An accordion section on "${page.url}" does not include the required heading parameter, no accordion was created`)
       return ''
