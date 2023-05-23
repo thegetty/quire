@@ -19,7 +19,7 @@ Changelog entries are classified using the following labels:
 - `Removed`: for deprecated features removed in this release
 
 
-## Unreleased
+## [1.0.0-rc.10]
 
 ### Added
 - `accordion` and `accordionGlobalControls` shortcodes
