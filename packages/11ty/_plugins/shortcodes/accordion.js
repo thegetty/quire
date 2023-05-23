@@ -41,8 +41,15 @@ module.exports = function (eleventyConfig, { page }) {
       'accordion-section__heading', headingLevelClass, 'accordion-section__controls', controlsClass
     ].filter((x) => x)
 
-    return oneLine`
-      <details class="accordion-section" id="${sectionId}" ${open ? 'open' : ''}>
+    const printComponent = `
+      <section id="${sectionId}" data-outputs-include="epub,pdf">
+        ${markdownify(heading, { inline: false })}
+        ${markdownify(content, { inline: false })}
+      </section>
+    `
+
+    const htmlComponent = `
+      <details class="accordion-section" id="${sectionId}" ${open ? 'open' : ''} data-outputs-include="html">
         <summary class="${summaryClasses.join(' ')}" tabindex="1">
           <button
             aria-label="${copyButton.ariaLabel}"
@@ -64,6 +71,11 @@ module.exports = function (eleventyConfig, { page }) {
         </summary>
         <section class="accordion-section__body">${markdownify(content, { inline: false })}</section>
       </details>
+    ` 
+
+    return oneLine`
+      ${printComponent}
+      ${htmlComponent}
     `
   }
 }

@@ -2,7 +2,6 @@ const jsdom = require('jsdom')
 const filterOutputs = require('../filter.js')
 const truncate = require('~lib/truncate')
 const writer = require('./write')
-const { openDetails } = require('../helpers')
 
 const { JSDOM } = jsdom
 
@@ -86,9 +85,6 @@ module.exports = function(eleventyConfig, collections, content) {
 
         // transform relative links to anchor links
         transformRelativeLinks(sectionElement)
-
-        // open details elements
-        openDetails(sectionElement)
 
         // remove non-pdf content
         filterOutputs(sectionElement, 'pdf')
