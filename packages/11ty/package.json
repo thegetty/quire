@@ -103,5 +103,8 @@
     "~layouts": "./_layouts",
     "~lib": "./_lib",
     "~plugins": "./_plugins"
+  },
+  "engines": {
+    "node": ">=18.16"
   }
 }
