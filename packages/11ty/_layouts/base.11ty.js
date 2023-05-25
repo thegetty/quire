@@ -13,6 +13,9 @@ module.exports = async function(data) {
   const pageId = this.slugify(url) || path.parse(inputPath).name
   const figures = pageData.page.figures
 
+  const { layout } = pageData.data
+  const isEntryLayout = layout === 'entry'
+
   return html`
     <!doctype html>
     <html lang="${publication.language}">
@@ -38,7 +41,7 @@ module.exports = async function(data) {
           </div>
           ${this.search(data)}
         </div>
-        ${await this.modal(figures)}
+        ${!isEntryLayout && await this.modal(figures)}
         ${this.scripts()}
       </body>
     </html>
