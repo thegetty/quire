@@ -67,7 +67,7 @@ body:
     label: Web Browser 
     description: What web browser you are working on (Chrome, Safari, Firefox, Microsoft Edge)? Please include the browser version number.
   validations:
-    required: true
+    required: false
 - type: textarea
   id: logs
   attributes:
