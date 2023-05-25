@@ -3,6 +3,7 @@
  */
 
 module.exports = {
+  accordionGlobalControls: require('./accordion/global-controls'),
   annotationsUI: require('./figure/annotations-ui'),
   abstract: require('./abstract.js'),
   analytics: require('./analytics.js'),

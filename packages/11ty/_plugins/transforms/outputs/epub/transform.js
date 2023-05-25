@@ -52,6 +52,7 @@ module.exports = function(eleventyConfig, collections, content) {
     const page = collections.epub[index]
     const { document, window } = new JSDOM(epubContent).window
     const mainElement = document.querySelector('main[data-output-path]')
+
     const title = pageTitle(page.data)
     const body = document.createElement('body')
     body.innerHTML = mainElement.innerHTML
