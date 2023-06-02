@@ -19,7 +19,7 @@ module.exports = function (eleventyConfig) {
   return ({ anno='', fig, index, region='', text='' }) => {
     const figure = getFigure(fig)
     const { startCanvasIndex } = figure
-    const sequenceIndex = index || startCanvasIndex || 0
+    const sequenceIndex = index || startCanvasIndex
     if (!figure) {
       console.error(`[annoref shortcode] "fig" parameter doesn't correspond to a valid figure id in "figures.yaml". Fig: ${fig}`)
     }

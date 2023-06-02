@@ -103,9 +103,11 @@ const goToFigureState = function ({ annotationIds=[], figureId, index, region })
   url.hash = figureId
   scrollToHash(url.hash)
   const params = new URLSearchParams(
-    annotationIds.map((id) => ['annotation-id', encodeURIComponent(id)]),
+    annotationIds.map((id) => ['annotation-id', encodeURIComponent(id)])
   )
   region ? params.set('region', encodeURIComponent(region)) : null
+  index = parseInt(index)
+  if (!isNaN(index)) params.set('index', index)
   const paramsString = params.toString()
   const urlParts = [url.pathname]
   if (paramsString) urlParts.push(paramsString)
