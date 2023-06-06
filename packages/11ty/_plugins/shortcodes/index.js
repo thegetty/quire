@@ -1,3 +1,4 @@
+const accordion = require('./accordion.js')
 const addComponentTag = require('../../_plugins/components/addComponentTag')
 const annoref = require('./annoref')
 const backmatter = require('./backmatter')
@@ -7,17 +8,16 @@ const contributors = require('./contributors')
 const figure = require('./figure')
 const figureGroup = require('./figureGroup')
 const ref = require('./figureRef')
-const shortcodeFactory = require('../../_plugins/components/addShortcode')
+const shortcodeFactory = require('../components/shortcodeFactory')
 const title = require('./title')
 const tombstone = require('./tombstone')
 
 module.exports = function(eleventyConfig, collections, options) {
-  const addShortcode = shortcodeFactory(eleventyConfig, collections)
+  const { addShortcode, addPairedShortcode } = shortcodeFactory(eleventyConfig, collections)
 
+  addPairedShortcode('accordion', accordion)
   addComponentTag(eleventyConfig, 'annoref', annoref)
-  eleventyConfig.addPairedShortcode('backmatter', function(content, ...args) {
-    return backmatter(eleventyConfig)(content, ...args)
-  })
+  addPairedShortcode('backmatter', backmatter)
   addShortcode('bibliography', bibliography)
   addShortcode('cite', cite)
   addComponentTag(eleventyConfig, 'contributors', contributors)

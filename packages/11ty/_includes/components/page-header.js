@@ -8,7 +8,6 @@ const path = require('path')
  */
 module.exports = function(eleventyConfig) {
   const contributors = eleventyConfig.getFilter('contributors')
-  const markdownify = eleventyConfig.getFilter('markdownify')
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const slugify = eleventyConfig.getFilter('slugify')
 

@@ -1,3 +1,4 @@
+import Accordion from './accordion'
 /**
  * scrollToHash
  * @description Scroll the #main area after each smoothState reload.
@@ -36,6 +37,10 @@ export default (hash) => {
   const target = document.querySelector(hash)
   // Does a scroll target exist?
   if (target) {
+    if (Accordion.partOfAccordion(target)) {
+      const accordion = new Accordion(target.closest(`.${Accordion.className}`))
+      accordion.setStateFromUrl()
+    }
     const verticalOffset = target.getBoundingClientRect().top + window.scrollY
     scrollWindow(verticalOffset)
     // handle focus after scrolling

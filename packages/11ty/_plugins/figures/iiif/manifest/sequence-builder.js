@@ -25,7 +25,7 @@ module.exports = class SequenceBuilder {
   }
 
   createSequence(sequence, index) {
-    const { figure, label } = sequence
+    const { figure, label, viewingDirection='left-to-right' } = sequence
     const { iiifConfig, outputDir } = figure
     const { baseURI } = iiifConfig
     const items = this.items.slice(sequence.startIndex)
@@ -33,7 +33,8 @@ module.exports = class SequenceBuilder {
     const structure = {
       id,
       items,
-      type: 'Range'
+      type: 'Range',
+      viewingDirection
     }
     if (label) {
       structure.label = { en: [ label ] }

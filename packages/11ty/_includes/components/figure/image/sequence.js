@@ -10,13 +10,15 @@ module.exports = function(eleventyConfig) {
     const includesDir = path.join(eleventyConfig.dir.input, eleventyConfig.dir.includes)
     const componentPathname = __dirname.split(includesDir)[1]
     const filePath = path.join(includesDir, componentPathname, fileName)
+    const reverse = sequences[0].viewingDirection === 'right-to-left'
     // const filePath = path.join('_includes', 'components', 'figure', 'image', 'image-sequence.webc')
     return await renderWebcComponent(filePath, {
       'continuous': continuous,
       'index': startCanvasIndex,
       'items': itemUris,
       'interactive': interactive,
-      'sequence-id': id
+      'sequence-id': id,
+      'reverse': reverse
     })
   }
 }
