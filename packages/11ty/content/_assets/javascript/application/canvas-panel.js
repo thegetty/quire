@@ -275,7 +275,7 @@ const update = (id, data) => {
   webComponents.forEach((element) => {
 
     const isImageSequence = element.tagName.toLowerCase() === 'image-sequence'
-    if (index && isImageSequence) {
+    if (Number.isInteger(parseInt(index)) && isImageSequence) {
       element.setAttribute('index', index)
     }
 
