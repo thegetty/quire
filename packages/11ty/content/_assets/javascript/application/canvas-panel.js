@@ -214,28 +214,28 @@ const selectChoice = (canvasPanel, annotation) => {
  */
 const setUpUIEventHandlers = () => {
   /**
-   * Add click handlers to annoRef shortcodes
+   * Add click handlers to ref shortcodes
    */
-  const annoRefs = document.querySelectorAll('.annoref')
-  for (const annoRef of annoRefs) {
-    let annotationIds = annoRef.getAttribute('data-annotation-ids')
+  const refs = document.querySelectorAll('.ref')
+  for (const ref of refs) {
+    let annotationIds = ref.getAttribute('data-annotation-ids')
     annotationIds = annotationIds.length ? annotationIds.split(',') : undefined
-    const figureId = annoRef.getAttribute('data-figure-id')
+    const figureId = ref.getAttribute('data-figure-id')
     const sequence = {
-      index: parseInt(annoRef.getAttribute('data-sequence-index')),
-      length: parseInt(annoRef.getAttribute('data-sequence-length')),
-      transitionSpeed: parseInt(annoRef.getAttribute('data-sequence-transition-speed')),
-      viewingDirection: annoRef.getAttribute('data-sequence-viewing-direction')
+      index: parseInt(ref.getAttribute('data-sequence-index')),
+      length: parseInt(ref.getAttribute('data-sequence-length')),
+      transitionSpeed: parseInt(ref.getAttribute('data-sequence-transition-speed')),
+      viewingDirection: ref.getAttribute('data-sequence-viewing-direction')
     }
     /**
-     * Annoref shortcode resets the region if none is provided
+     * ref shortcode resets the region if none is provided
      */
-    const region = annoRef.getAttribute('data-region')
-    annoRef.addEventListener('click', ({ target }) => {
+    const region = ref.getAttribute('data-region')
+    ref.addEventListener('click', ({ target }) => {
       goToFigureState({ annotationIds, figureId, region, sequence })
     })
 
-    const onscroll = annoRef.getAttribute('data-on-scroll')
+    const onscroll = ref.getAttribute('data-on-scroll')
     if (onscroll === 'true') {
       const callback = () =>
         goToFigureState({
@@ -245,9 +245,9 @@ const setUpUIEventHandlers = () => {
           region,
           sequence
         })
-      intersectionObserverFactory(annoRef, callback)
+      intersectionObserverFactory(ref, callback)
     } else {
-      annoRef.addEventListener('click', ({ target }) =>
+      ref.addEventListener('click', ({ target }) =>
         goToFigureState({ annotationIds, figureId, region, sequence })
       )
     }
@@ -313,7 +313,7 @@ const update = (id, data) => {
  * @param {HTMLElement} element Image sequence element
  * @param {Object} data Property values to update on the image sequence element
  */
-const updateSequenceIndex = (element, { sequence={}}) => {
+const updateSequenceIndex = (element, { sequence={} }) => {
   const { index: endIndex, length, transitionSpeed, viewingDirection } = sequence
   const startIndex = parseInt(element.getAttribute('index'))
   if (Number.isInteger(endIndex) && startIndex !== endIndex) {

@@ -1,10 +1,10 @@
 const chalkFactory = require('~lib/chalk')
 const { oneLine } = require('~lib/common-tags')
-const logger = chalkFactory(`Shortcodes:Annoref`)
+const logger = chalkFactory(`Shortcodes:ref`)
 const path = require('path')
 
 /**
- * Annoref Shortcode
+ * ref Shortcode
  * Link to the annotation or region state of a canvas
  *
  * @param      {Object} params
@@ -21,13 +21,13 @@ module.exports = function (eleventyConfig) {
   const getFigure = eleventyConfig.getFilter('getFigure')
   const markdownify = eleventyConfig.getFilter('markdownify')
 
-  const { sequenceTransitionSpeed: defaultSequenceTransitionSpeed } = eleventyConfig.globalData.config.annoref || {}
+  const { sequenceTransitionSpeed: defaultSequenceTransitionSpeed } = eleventyConfig.globalData.config.ref || {}
 
   return (params) => {
     const { anno='', fig, region='', start, text='', onscroll } = params
     const figure = getFigure(fig)
     if (!figure) {
-      logger.error(`[annoref shortcode] "fig" parameter doesn't correspond to a valid figure id in "figures.yaml". Fig: ${fig}`)
+      logger.error(`[ref shortcode] "fig" parameter doesn't correspond to a valid figure id in "figures.yaml". Fig: ${fig}`)
     }
 
     /**
@@ -54,7 +54,7 @@ module.exports = function (eleventyConfig) {
     if (onscroll) {
       return oneLine`
         <span
-          class="annoref"
+          class="ref"
           data-annotation-ids="${annoIds.join(',')}"
           data-figure-id="${fig}"
           data-on-scroll="true"
@@ -69,7 +69,7 @@ module.exports = function (eleventyConfig) {
 
     return oneLine`
       <a
-        class="annoref"
+        class="ref"
         data-annotation-ids="${annoIds.join(',')}"
         data-figure-id="${fig}"
         data-region="${region}"
