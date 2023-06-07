@@ -10,7 +10,7 @@ const logger = chalkFactory(`Shortcodes:Annoref`)
  * @property   {String} fig Figure ID
  * @property   {String} index An image sequence index
  * @property   {String} region Comma-separated, with format "x,y,width,height"
- * @property   {String} sequenceTimeout The amount of time in ms between transitions to a new index in the sequence
+ * @property   {String} sequenceTransitionSpeed The amount of time in ms between transitions to a new index in the sequence
  * @property   {String} text Link text
  *
  * @return     {String}  Anchor tag with link text annotation and region data attributes
@@ -19,9 +19,9 @@ module.exports = function (eleventyConfig) {
   const getFigure = eleventyConfig.getFilter('getFigure')
   const markdownify = eleventyConfig.getFilter('markdownify')
 
-  const { sequenceTimeout: defaultSequenceTimeout } = eleventyConfig.globalData.config.annoref || {}
+  const { sequenceTransitionSpeed: defaultSequenceTransitionSpeed } = eleventyConfig.globalData.config.annoref || {}
 
-  return ({ anno='', fig, index, region='', sequenceTimeout=defaultSequenceTimeout, text='', onscroll }) => {
+  return ({ anno='', fig, index, region='', sequenceTransitionSpeed=defaultSequenceTransitionSpeed, text='', onscroll }) => {
     const figure = getFigure(fig)
     if (!figure) {
       logger.error(`[annoref shortcode] "fig" parameter doesn't correspond to a valid figure id in "figures.yaml". Fig: ${fig}`)
@@ -29,7 +29,7 @@ module.exports = function (eleventyConfig) {
 
     const { sequences, startCanvasIndex } = figure
 
-    const { viewingDirection, files } = Array.isArray(sequences) && sequences[0] || {}
+    const { files, viewingDirection } = Array.isArray(sequences) && sequences[0] || {}
     const sequenceLength = Array.isArray(files) && files.length
 
     const annoIds = anno.split(',').map((id) => id.trim())
@@ -49,7 +49,7 @@ module.exports = function (eleventyConfig) {
           data-region="${region}"
           data-sequence-index="${startIndex}"
           data-sequence-length="${sequenceLength}"
-          data-sequence-timeout="${sequenceTimeout}"
+          data-sequence-transition-speed="${sequenceTransitionSpeed}"
           data-sequence-viewing-direction="${viewingDirection}"
         >${markdownify(text)}</span>
       `
@@ -63,7 +63,7 @@ module.exports = function (eleventyConfig) {
         data-region="${region}"
         data-sequence-index="${startIndex}"
         data-sequence-length="${sequenceLength}"
-        data-sequence-timeout="${sequenceTimeout}"
+        data-sequence-transition-speed="${sequenceTransitionSpeed}"
         data-sequence-viewing-direction="${viewingDirection}"
       >${markdownify(text)}</a>
     `

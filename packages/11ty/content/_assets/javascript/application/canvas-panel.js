@@ -224,7 +224,7 @@ const setUpUIEventHandlers = () => {
     const sequence = {
       index: parseInt(annoRef.getAttribute('data-sequence-index')),
       length: parseInt(annoRef.getAttribute('data-sequence-length')),
-      timeout: parseInt(annoRef.getAttribute('data-sequence-timeout')),
+      transitionSpeed: parseInt(annoRef.getAttribute('data-sequence-transition-speed')),
       viewingDirection: annoRef.getAttribute('data-sequence-viewing-direction')
     }
     /**
@@ -314,7 +314,7 @@ const update = (id, data) => {
  * @param {Object} data Property values to update on the image sequence element
  */
 const updateSequenceIndex = (element, { sequence={}}) => {
-  const { index: endIndex, length, timeout, viewingDirection } = sequence
+  const { index: endIndex, length, transitionSpeed, viewingDirection } = sequence
   const startIndex = parseInt(element.getAttribute('index'))
   if (Number.isInteger(endIndex) && startIndex !== endIndex) {
     const steps = [...Array(length).keys()]
@@ -340,7 +340,7 @@ const updateSequenceIndex = (element, { sequence={}}) => {
         element.setAttribute('index', currentIndex)
         i++
         if (i > delta) clearInterval(interval)
-      }, timeout)
+      }, transitionSpeed)
     }
     rotateImage()
   }
