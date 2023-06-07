@@ -8,7 +8,9 @@ const logger = chalkFactory(`Shortcodes:Annoref`)
  * @param      {Object} params
  * @property   {String} anno Comma-separated list of annotation ids
  * @property   {String} fig Figure ID
+ * @property   {String} index An image sequence index
  * @property   {String} region Comma-separated, with format "x,y,width,height"
+ * @property   {String} sequenceTimeout The amount of time in ms between transitions to a new index in the sequence
  * @property   {String} text Link text
  *
  * @return     {String}  Anchor tag with link text annotation and region data attributes
@@ -22,7 +24,7 @@ module.exports = function (eleventyConfig) {
   return ({ anno='', fig, index, region='', sequenceTimeout=defaultSequenceTimeout, text='', onscroll }) => {
     const figure = getFigure(fig)
     if (!figure) {
-      logger.error(`[annoref shortcode] "fig" parameter doesn't correspond to a valid figure id in "figures.yaml". Fig: ${fig}`)
+      console.error(`[annoref shortcode] "fig" parameter doesn't correspond to a valid figure id in "figures.yaml". Fig: ${fig}`)
     }
 
     const { sequences, startCanvasIndex } = figure
