@@ -69,7 +69,7 @@ const goToFigureState = function ({
   figureId,
   historyBehavior = 'push',
   region,
-  sequence
+  sequence = {}
 }) {
   if (!figureId) {
     console.error(`goToFigureState called without an undefined figureId`)
@@ -96,6 +96,9 @@ const goToFigureState = function ({
     lightbox.currentId = figureId
   }
 
+  /**
+   * Open parent accordions if figure is within an accordion
+   */
   Accordion.elements.forEach((element) => {
     if (element.contains(figure)) element.setAttribute('open', true)
   })
@@ -111,13 +114,23 @@ const goToFigureState = function ({
   const url = new URL(window.location.pathname, window.location.origin)
   url.hash = figureId
   scrollToHash(url.hash)
+
+  /** 
+   * Build params
+   */
   const params = new URLSearchParams(
     annotationIds.map((id) => ['annotation-id', encodeURIComponent(id)]),
   )
   region ? params.set('region', encodeURIComponent(region)) : null
+  sequence.index ? params.set('sequence-index', encodeURIComponent(sequence.index)) : null
+
   const paramsString = params.toString()
   const urlParts = [url.pathname]
   if (paramsString) urlParts.push(paramsString)
+
+  /**
+   * Update window.history
+   */
   const historyArgs = [{}, '', `${urlParts.join('?')}${url.hash}`]
   if (historyBehavior === 'replace') {
     window.history.replaceState(...historyArgs)
