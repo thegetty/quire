@@ -17,12 +17,21 @@ module.exports = function (eleventyConfig) {
   const getFigure = eleventyConfig.getFilter('getFigure')
   const markdownify = eleventyConfig.getFilter('markdownify')
 
-  return ({ anno='', fig, index, region='', text='', onscroll }) => {
+  const { sequenceTimeout: defaultSequenceTimeout } = eleventyConfig.globalData.config.annoref || {}
+
+  return ({ anno='', fig, index, region='', sequenceTimeout=defaultSequenceTimeout, text='', onscroll }) => {
     const figure = getFigure(fig)
     if (!figure) {
-      console.error(`[annoref shortcode] "fig" parameter doesn't correspond to a valid figure id in "figures.yaml". Fig: ${fig}`)
+      logger.error(`[annoref shortcode] "fig" parameter doesn't correspond to a valid figure id in "figures.yaml". Fig: ${fig}`)
     }
+
+    const { sequences, startCanvasIndex } = figure
+
+    const { viewingDirection, files } = Array.isArray(sequences) && sequences[0] || {}
+    const sequenceLength = Array.isArray(files) && files.length
+
     const annoIds = anno.split(',').map((id) => id.trim())
+    const startIndex = index || startCanvasIndex
 
     if (onscroll) {
       console.warn(
@@ -34,9 +43,12 @@ module.exports = function (eleventyConfig) {
           class="annoref"
           data-annotation-ids="${annoIds.join(',')}"
           data-figure-id="${fig}"
-          data-index="${index}"
           data-on-scroll="true"
           data-region="${region}"
+          data-sequence-index="${startIndex}"
+          data-sequence-length="${sequenceLength}"
+          data-sequence-timeout="${sequenceTimeout}"
+          data-sequence-viewing-direction="${viewingDirection}"
         >${markdownify(text)}</span>
       `
     }
@@ -47,7 +59,10 @@ module.exports = function (eleventyConfig) {
         data-annotation-ids="${annoIds.join(',')}"
         data-figure-id="${fig}"
         data-region="${region}"
-        data-index="${index}"
+        data-sequence-index="${startIndex}"
+        data-sequence-length="${sequenceLength}"
+        data-sequence-timeout="${sequenceTimeout}"
+        data-sequence-viewing-direction="${viewingDirection}"
       >${markdownify(text)}</a>
     `
   }

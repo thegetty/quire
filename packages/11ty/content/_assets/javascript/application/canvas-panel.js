@@ -68,8 +68,8 @@ const goToFigureState = function ({
   annotationIds = [],
   figureId,
   historyBehavior = 'push',
-  index,
   region,
+  sequence
 }) {
   if (!figureId) {
     console.error(`goToFigureState called without an undefined figureId`)
@@ -103,7 +103,7 @@ const goToFigureState = function ({
   /**
    * Update figure state
    */
-  update(serviceId, { annotations, index, region: region || 'reset' })
+  update(serviceId, { annotations, region: region || 'reset', sequence })
 
   /**
    * Build URL
@@ -221,13 +221,18 @@ const setUpUIEventHandlers = () => {
     let annotationIds = annoRef.getAttribute('data-annotation-ids')
     annotationIds = annotationIds.length ? annotationIds.split(',') : undefined
     const figureId = annoRef.getAttribute('data-figure-id')
-    const index = annoRef.getAttribute('data-index')
+    const sequence = {
+      index: parseInt(annoRef.getAttribute('data-sequence-index')),
+      length: parseInt(annoRef.getAttribute('data-sequence-length')),
+      timeout: parseInt(annoRef.getAttribute('data-sequence-timeout')),
+      viewingDirection: annoRef.getAttribute('data-sequence-viewing-direction')
+    }
     /**
      * Annoref shortcode resets the region if none is provided
      */
     const region = annoRef.getAttribute('data-region')
     annoRef.addEventListener('click', ({ target }) => {
-      goToFigureState({ annotationIds, figureId, index, region })
+      goToFigureState({ annotationIds, figureId, region, sequence })
     })
 
     const onscroll = annoRef.getAttribute('data-on-scroll')
@@ -237,13 +242,13 @@ const setUpUIEventHandlers = () => {
           annotationIds,
           figureId,
           historyBehavior: 'replace',
-          index,
           region,
+          sequence
         })
       intersectionObserverFactory(annoRef, callback)
     } else {
       annoRef.addEventListener('click', ({ target }) =>
-        goToFigureState({ annotationIds, figureId, index, region })
+        goToFigureState({ annotationIds, figureId, region, sequence })
       )
     }
   }
@@ -271,12 +276,14 @@ const update = (id, data) => {
   if (!webComponents.length) {
     console.error(`Failed to call update on canvas panel or image-service component with id ${id}. Element does not exist.`)
   }
-  const { annotations, index, region } = data
+  const { annotations, region } = data
+  
   webComponents.forEach((element) => {
 
     const isImageSequence = element.tagName.toLowerCase() === 'image-sequence'
-    if (Number.isInteger(parseInt(index)) && isImageSequence) {
-      element.setAttribute('index', index)
+
+    if (isImageSequence) {
+      updateSequenceIndex(element, data)
     }
 
     if (region && !isImageSequence) {
@@ -297,6 +304,46 @@ const update = (id, data) => {
       annotations.forEach((annotation) => selectAnnotation(element, annotation))
     }
   })
+}
+
+/**
+ * Rotates the image to a the provided index by iterating over each sequence item step
+ * and updating the index property on the image sequence element
+ * 
+ * @param {HTMLElement} element Image sequence element
+ * @param {Object} data Property values to update on the image sequence element
+ */
+const updateSequenceIndex = (element, { sequence={}}) => {
+  const { index: endIndex, length, timeout, viewingDirection } = sequence
+  const startIndex = parseInt(element.getAttribute('index'))
+  if (Number.isInteger(endIndex) && startIndex !== endIndex) {
+    const steps = [...Array(length).keys()]
+    let changeIndex, delta
+    switch (viewingDirection) {
+      case 'right-to-left':
+        delta = startIndex > endIndex ? startIndex - endIndex : length - endIndex + startIndex
+        changeIndex = (i) => {
+          return startIndex - i >= 0 ? steps[startIndex - i] : steps[length - Math.abs(startIndex - i)]
+        }
+        break
+      default:
+        delta = endIndex > startIndex ? endIndex - startIndex : length - startIndex + endIndex
+        changeIndex = (i) => {
+          return startIndex + i < length ? steps[startIndex + i] : steps[length - startIndex + i]
+        }
+        break
+    }
+    const rotateImage = () => {
+      let i = 1
+      const interval = setInterval(() => {
+        let currentIndex = changeIndex(i)
+        element.setAttribute('index', currentIndex)
+        i++
+        if (i > delta) clearInterval(interval)
+      }, timeout)
+    }
+    rotateImage()
+  }
 }
 
 export { goToFigureState, setUpUIEventHandlers }
