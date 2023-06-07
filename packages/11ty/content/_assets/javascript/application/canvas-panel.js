@@ -61,8 +61,9 @@ const getTarget = (region) => {
  * @param  {Array}   annotationIds The IIIF ids of the annotations to select
  * @param  {String}  figureId The id of the figure in figures.yaml
  * @param  {String}  historyBehavior replace||push Whether the window history should push to or replace the state
- * @param  {Integer} index The index of the image in a sequence
  * @param  {String}  region The canvas region
+ * @param  {Object}  sequence Image sequence properties
+ * @property  {Integer} index  The sequence index
  */
 const goToFigureState = function ({
   annotationIds = [],
@@ -119,7 +120,7 @@ const goToFigureState = function ({
    * Build params
    */
   const params = new URLSearchParams(
-    annotationIds.map((id) => ['annotation-id', encodeURIComponent(id)]),
+    annotationIds.map((id) => ['annotation-id', encodeURIComponent(id)])
   )
   region ? params.set('region', encodeURIComponent(region)) : null
   sequence.index ? params.set('sequence-index', encodeURIComponent(sequence.index)) : null
