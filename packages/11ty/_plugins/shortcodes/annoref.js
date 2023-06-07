@@ -1,6 +1,8 @@
 const chalkFactory = require('~lib/chalk')
 const { oneLine } = require('~lib/common-tags')
 const logger = chalkFactory(`Shortcodes:Annoref`)
+const path = require('path')
+
 /**
  * Annoref Shortcode
  * Link to the annotation or region state of a canvas
@@ -22,26 +24,34 @@ module.exports = function (eleventyConfig) {
   const { sequenceTransitionSpeed: defaultSequenceTransitionSpeed } = eleventyConfig.globalData.config.annoref || {}
 
   return (params) => {
-    const { anno='', fig, index, region='', text='', onscroll } = params
+    const { anno='', fig, region='', start, text='', onscroll } = params
     const figure = getFigure(fig)
     if (!figure) {
       logger.error(`[annoref shortcode] "fig" parameter doesn't correspond to a valid figure id in "figures.yaml". Fig: ${fig}`)
     }
 
-    const { sequences, startCanvasIndex } = figure
+    /**
+     * Annotations
+     */
+    const annoIds = anno.split(',').map((id) => id.trim())
 
-    const { files, transitionSpeed: figureTransitionSpeed, viewingDirection } = Array.isArray(sequences) && sequences[0] || {}
-    const sequenceLength = Array.isArray(files) && files.length
+    /**
+     * Image sequences
+     */
+    const { isSequence, sequences, startCanvasIndex } = figure
+    const { files, transitionSpeed: figureTransitionSpeed, viewingDirection } = isSequence && sequences[0] || {}
+    const sequenceLength = isSequence && files.length
     const sequenceTransitionSpeed = params.sequenceTransitionSpeed || figureTransitionSpeed || defaultSequenceTransitionSpeed
 
-    const annoIds = anno.split(',').map((id) => id.trim())
-    const startIndex = index || startCanvasIndex
+    /**
+     * Get the index of the filename provided in the start parameter
+     */
+    const findStartIndex = (start) => {
+      return files.findIndex((file) => file && path.parse(file).name === start)
+    }
+    const startIndex = start && isSequence ? findStartIndex(start) : startCanvasIndex
 
     if (onscroll) {
-      console.warn(
-        `onscroll attribute applied to annoref. This feature is under development. Params:`,
-        { anno, fig, region, text, onscroll }
-      )
       return oneLine`
         <span
           class="annoref"
