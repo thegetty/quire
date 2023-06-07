@@ -10,9 +10,9 @@ const path = require('path')
  * @param      {Object} params
  * @property   {String} anno Comma-separated list of annotation ids
  * @property   {String} fig Figure ID
- * @property   {String} index An image sequence index
  * @property   {String} region Comma-separated, with format "x,y,width,height"
  * @property   {String} sequenceTransitionSpeed The amount of time in ms between transitions to a new index in the sequence
+ * @property   {String} start The filename of the item in an image sequence to start on
  * @property   {String} text Link text
  *
  * @return     {String}  Anchor tag with link text annotation and region data attributes
