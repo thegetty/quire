@@ -24,7 +24,7 @@ module.exports = function (eleventyConfig) {
   return ({ anno='', fig, index, region='', sequenceTimeout=defaultSequenceTimeout, text='', onscroll }) => {
     const figure = getFigure(fig)
     if (!figure) {
-      console.error(`[annoref shortcode] "fig" parameter doesn't correspond to a valid figure id in "figures.yaml". Fig: ${fig}`)
+      logger.error(`[annoref shortcode] "fig" parameter doesn't correspond to a valid figure id in "figures.yaml". Fig: ${fig}`)
     }
 
     const { sequences, startCanvasIndex } = figure
