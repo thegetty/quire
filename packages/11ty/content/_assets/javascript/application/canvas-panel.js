@@ -329,7 +329,7 @@ const updateSequenceIndex = (element, { sequence={}}) => {
       default:
         delta = endIndex > startIndex ? endIndex - startIndex : length - startIndex + endIndex
         changeIndex = (i) => {
-          return startIndex + i < length ? steps[startIndex + i] : steps[length - startIndex + i]
+          return startIndex + i < length ? steps[startIndex + i] : steps[startIndex + i - length]
         }
         break
     }
