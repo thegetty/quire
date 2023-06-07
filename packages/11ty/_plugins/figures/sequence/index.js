@@ -20,6 +20,7 @@ module.exports = class Sequence {
     this.files = getSequenceFiles(sequence, iiifConfig)
     this.regex = sequence.regex
     this.start = sequence.start
+    this.transitionSpeed = sequence.transition_speed // @todo calculate from number of files
     this.viewingDirection = sequence.viewing_direction
   }
 

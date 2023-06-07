@@ -21,7 +21,8 @@ module.exports = function (eleventyConfig) {
 
   const { sequenceTransitionSpeed: defaultSequenceTransitionSpeed } = eleventyConfig.globalData.config.annoref || {}
 
-  return ({ anno='', fig, index, region='', sequenceTransitionSpeed=defaultSequenceTransitionSpeed, text='', onscroll }) => {
+  return (params) => {
+    const { anno='', fig, index, region='', text='', onscroll } = params
     const figure = getFigure(fig)
     if (!figure) {
       logger.error(`[annoref shortcode] "fig" parameter doesn't correspond to a valid figure id in "figures.yaml". Fig: ${fig}`)
@@ -29,8 +30,9 @@ module.exports = function (eleventyConfig) {
 
     const { sequences, startCanvasIndex } = figure
 
-    const { files, viewingDirection } = Array.isArray(sequences) && sequences[0] || {}
+    const { files, transitionSpeed: figureTransitionSpeed, viewingDirection } = Array.isArray(sequences) && sequences[0] || {}
     const sequenceLength = Array.isArray(files) && files.length
+    const sequenceTransitionSpeed = params.sequenceTransitionSpeed || figureTransitionSpeed || defaultSequenceTransitionSpeed
 
     const annoIds = anno.split(',').map((id) => id.trim())
     const startIndex = index || startCanvasIndex
