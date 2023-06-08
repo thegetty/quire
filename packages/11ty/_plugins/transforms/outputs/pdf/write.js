@@ -74,7 +74,6 @@ module.exports = (eleventyConfig) => {
     try {
       const stylesDir = path.join(inputDir, '_assets', 'styles')
       const application = sass.compile(path.resolve(stylesDir, 'application.scss'), sassOptions)
-      const print = sass.compile(path.resolve(stylesDir, 'print.scss'), sassOptions)
       const custom = sass.compile(path.resolve(stylesDir, 'custom.css'), sassOptions)
       fs.writeFileSync(path.join(outputDir, 'pdf.css'), application.css + print.css + custom.css)
     } catch (error) {
