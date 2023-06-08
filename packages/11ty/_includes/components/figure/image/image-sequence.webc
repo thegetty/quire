@@ -410,7 +410,6 @@ img.${placeholder} {
     setSequenceIndex(newIndex) {
       if (newIndex !== this.index) {
         this.index = newIndex;
-        this.setSequenceIndexQueryParams();
         this.synchronizeSequenceInstances();
       }
     }
