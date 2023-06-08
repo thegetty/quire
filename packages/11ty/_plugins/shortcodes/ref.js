@@ -24,7 +24,7 @@ module.exports = function (eleventyConfig) {
   const { sequenceTransitionSpeed: defaultSequenceTransitionSpeed } = eleventyConfig.globalData.config.ref || {}
 
   return (params) => {
-    const { anno='', fig, region='', start, text='', onscroll } = params
+    const { anno='', fig, region='', start, text='', transition = true, onscroll } = params
     const figure = getFigure(fig)
     if (!figure) {
       logger.error(`[ref shortcode] "fig" parameter doesn't correspond to a valid figure id in "figures.yaml". Fig: ${fig}`)
@@ -61,6 +61,7 @@ module.exports = function (eleventyConfig) {
           data-region="${region}"
           data-sequence-index="${startIndex}"
           data-sequence-length="${sequenceLength}"
+          data-sequence-transition="${transition}"
           data-sequence-transition-speed="${sequenceTransitionSpeed}"
           data-sequence-viewing-direction="${viewingDirection}"
         >${markdownify(text)}</span>

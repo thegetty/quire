@@ -238,6 +238,7 @@ const setUpUIEventHandlers = () => {
     const sequence = {
       index: parseInt(ref.getAttribute('data-sequence-index')),
       length: parseInt(ref.getAttribute('data-sequence-length')),
+      transition: ref.getAttribute('data-sequence-transition') === 'true',
       transitionSpeed: parseInt(ref.getAttribute('data-sequence-transition-speed')),
       viewingDirection: ref.getAttribute('data-sequence-viewing-direction')
     }
@@ -329,7 +330,7 @@ const update = (id, data) => {
  * @param {Object} data Property values to update on the image sequence element
  */
 const updateSequenceIndex = (element, { sequence={} }) => {
-  const { index, length, transitionSpeed, viewingDirection } = sequence
+  const { index, length, transition, transitionSpeed, viewingDirection } = sequence
   const startIndex = parseInt(element.getAttribute('index'))
   const endIndex = parseInt(index)
   if (Number.isInteger(endIndex) && startIndex !== endIndex) {
@@ -337,7 +338,7 @@ const updateSequenceIndex = (element, { sequence={} }) => {
     /**
      * If we're not transitioning, just set the index and move on
      */
-    if (!length) {
+    if (!length || !transition) {
       element.setAttribute('index', endIndex)
       return
     }
