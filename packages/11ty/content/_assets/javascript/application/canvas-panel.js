@@ -123,7 +123,7 @@ const goToFigureState = function ({
     annotationIds.map((id) => ['annotation-id', encodeURIComponent(id)])
   )
   region ? params.set('region', encodeURIComponent(region)) : null
-  sequence.index ? params.set('sequence-index', encodeURIComponent(sequence.index)) : null
+  Number.isInteger(sequence.index) ? params.set('sequence-index', encodeURIComponent(sequence.index)) : null
 
   const paramsString = params.toString()
   const urlParts = [url.pathname]
@@ -323,14 +323,28 @@ const update = (id, data) => {
 /**
  * Rotates the image to a the provided index by iterating over each sequence item step
  * and updating the index property on the image sequence element
+ * @todo move to image-sequence.webc
  * 
  * @param {HTMLElement} element Image sequence element
  * @param {Object} data Property values to update on the image sequence element
  */
 const updateSequenceIndex = (element, { sequence={} }) => {
-  const { index: endIndex, length, transitionSpeed, viewingDirection } = sequence
+  const { index, length, transitionSpeed, viewingDirection } = sequence
   const startIndex = parseInt(element.getAttribute('index'))
+  const endIndex = parseInt(index)
   if (Number.isInteger(endIndex) && startIndex !== endIndex) {
+
+    /**
+     * If we're not transitioning, just set the index and move on
+     */
+    if (!length) {
+      element.setAttribute('index', endIndex)
+      return
+    }
+
+    /**
+     * Transition
+     */
     const steps = [...Array(length).keys()]
     let changeIndex, delta
     switch (viewingDirection) {
