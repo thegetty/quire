@@ -72,10 +72,13 @@ module.exports = (eleventyConfig) => {
     }
 
     try {
+      const fontsDir = path.join(inputDir, '_assets', 'fonts')
+      const fonts = sass.compile(path.resolve(fontsDir, 'index.scss'), sassOptions)
+      fonts.css = fonts.css.replaceAll('/_assets', '_assets')
       const stylesDir = path.join(inputDir, '_assets', 'styles')
       const application = sass.compile(path.resolve(stylesDir, 'application.scss'), sassOptions)
       const custom = sass.compile(path.resolve(stylesDir, 'custom.css'), sassOptions)
-      fs.writeFileSync(path.join(outputDir, 'pdf.css'), application.css + custom.css)
+      fs.writeFileSync(path.join(outputDir, 'pdf.css'), fonts.css + application.css + custom.css)
     } catch (error) {
       logger.error(`Eleventy transform for PDF error compiling SASS. Error message: ${error}`)
     }
