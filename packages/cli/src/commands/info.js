@@ -50,13 +50,13 @@ export default class InfoCommand extends Command {
           return version
         }
       },
-      // {
-      //   name: 'starter',
-      //   get: () => {
-      //     let name, version
-      //     return `${name}, ${version}`
-      //   }
-      // },
+      {
+        name: 'starter',
+        get: () => {
+          const { starter } = JSON.parse(fs.readFileSync('.quire'))
+          return `${starter.path} ${starter.version}`
+        }
+      },
       {
         debug: true,
         name: 'os',
