@@ -1,4 +1,5 @@
 import Command from '#src/Command.js'
+import testcwd from '#helpers/test-cwd.js'
 
 /**
  * Quire CLI `info` Command
@@ -29,5 +30,9 @@ export default class InfoCommand extends Command {
       console.debug('[CLI] Command \'%s\' called with options %o', this.name(), options)
     }
     console.debug('[CLI] Command \'%s\' called', this.name())
+  }
+
+  preAction(command) {
+    testcwd(command)
   }
 }
