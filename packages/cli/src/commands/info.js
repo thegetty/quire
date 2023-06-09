@@ -76,15 +76,9 @@ export default class InfoCommand extends Command {
         }
       }
     ]
-    const listVersions = async () => {
-      for (let i = 0; i < versions.length; i++) {
-        const { debug, get, name } = versions[i]
-        if (!debug || options.debug && debug) {
-          console.info(`${name} ${await get()}`)
-        }
-      }
-    }
-    listVersions()
+    versions
+      .filter(({ debug }) => !debug || options.debug && debug)
+      .forEach(async ({ name, get }) => console.info(`${name} ${await get()}`))
   }
 
   preAction(command) {
