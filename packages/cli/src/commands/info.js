@@ -4,7 +4,7 @@ import testcwd from '#helpers/test-cwd.js'
 /**
  * Quire CLI `info` Command
  *
- * Runs the Eleventy `info` to generate static output.
+ * Runs the Eleventy `info` command to list the quire-cli, quire-11ty, node, and npm versions.
  *
  * @class      InfoCommand
  * @extends    {Command}
