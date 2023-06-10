@@ -268,11 +268,16 @@ module.exports = class Figure {
   async processFigureSequence() {
     // TODO Consider refactor - any time `this.sequences` is referenced, it creates a new instance of SequenceFactory
     if (!this.sequences) return
+    const { transformations } = this.iiifConfig
+    const [ sequenceStartFilename ] = this.sequences.flatMap(({ start }) => start)
+    const { name: startId } = sequenceStartFilename ? path.parse(sequenceStartFilename) : {}
     const sequenceItems = this.sequences.flatMap(({ items }) => items)
     const results = await Promise.all(sequenceItems.map((item) => {
+      const isStartItem = startId === item.id
       logger.debug(`processing sequence image ${item.src}`)
       return item.src && this.processImage(item.src, this.outputDir, {
-        tile: item.isImageService
+        tile: item.isImageService,
+        transformations: isStartItem ? transformations : []
       })
     }))
     const errors = results.flatMap(({ errors }) => errors || [])

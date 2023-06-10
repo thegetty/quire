@@ -109,6 +109,15 @@ module.exports = (eleventyConfig) => {
         resize: {
           width: 800
         }
+      },
+      /**
+       * Transformation applied to IIIF resources for use in inline figures
+       */
+      {
+        name: 'static-inline-figure',
+        resize: {
+          width: 626
+        }
       }
     ]
   }
