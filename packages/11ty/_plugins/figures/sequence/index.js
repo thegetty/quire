@@ -18,6 +18,7 @@ module.exports = class Sequence {
     this.dir = sequence.id
     this.figure = figure
     this.files = getSequenceFiles(sequence, iiifConfig)
+    this.id = sequence.id
     this.regex = sequence.regex
     this.start = sequence.start
     this.viewingDirection = sequence.viewing_direction
