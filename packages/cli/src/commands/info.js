@@ -76,6 +76,10 @@ export default class InfoCommand extends Command {
         }
       }
     ]
+
+    /**
+     * Filter the command output based on `debug` settings
+     */
     versions
       .filter(({ debug }) => !debug || options.debug && debug)
       .forEach(async ({ name, get }) => console.info(`${name} ${await get()}`))
