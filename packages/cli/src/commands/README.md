@@ -18,7 +18,7 @@ quire build epub
 
 #### `info`
 
-List quire-11ty, cli, and starter package versions. `--debug` option includes node, npm, and os versions.
+List `quire-11ty`, `quire-cli`, and starter package versions; use the `--debug` option to include node, npm, and os versions.
 
 ```sh
 quire build info
