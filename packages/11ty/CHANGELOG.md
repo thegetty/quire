@@ -18,6 +18,10 @@ Changelog entries are classified using the following labels:
 
 - `Removed`: for deprecated features removed in this release
 
+## [unreleased]
+
+### Fixed
+- Add `id` to Sequence class, fixes preview rebuild with image sequences.
 
 ## [1.0.0-rc.10]
 
