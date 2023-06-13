@@ -127,7 +127,6 @@ async function initStarter (starter, projectPath, options) {
    */
   const versionInfo = { 
     cli: packageConfig.version,
-    'quire-11ty': quireVersion, 
     starter: { 
       path: starter,
       version: starterVersion

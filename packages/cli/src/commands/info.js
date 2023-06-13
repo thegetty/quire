@@ -39,13 +39,14 @@ export default class InfoCommand extends Command {
       console.debug('[CLI] Command \'%s\' called', this.name())
     }
 
-    let versionFile = {}
+    let versionFile = fs.readFileSync(VERSION_FILE, { encoding: 'utf8' })
     try {
-      versionFile = JSON.parse(fs.readFileSync(VERSION_FILE))
+      versionFile = JSON.parse(versionFile)
     } catch (error) {
       console.warn(
-        `This project was generated with quire-cli version < 1.0.0.rc-8 so we cannot determine which cli or starter version was used to create it.`
+        `This project was generated with quire-cli prior to version 1.0.0.rc-8, the quire version file does not contain specific version information.`
       )
+      fs.writeFileSync(VERSION_FILE, JSON.stringify({}))
     }
 
     const versions = [
@@ -56,7 +57,7 @@ export default class InfoCommand extends Command {
             name: 'quire-cli',
             get: () => {
               const { cli } = versionFile
-              return cli ? `${cli}` : 'unknown'
+              return cli && `${cli}`
             },
           },
           {
@@ -70,7 +71,7 @@ export default class InfoCommand extends Command {
             name: 'starter',
             get: () => {
               const { starter } = versionFile
-              return starter ? `${starter.path} ${starter.version}` : 'unknown'
+              return starter && (starter.path || starter.version) && `${starter.path} ${starter.version}`
             },
           },
         ],
