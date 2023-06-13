@@ -55,10 +55,7 @@ export default class InfoCommand extends Command {
         items: [
           {
             name: 'quire-cli',
-            get: () => {
-              const { cli } = versionFile
-              return cli && `${cli}`
-            },
+            get: () => versionFile.cli,
           },
           {
             name: 'quire-11ty',
@@ -69,10 +66,7 @@ export default class InfoCommand extends Command {
           },
           {
             name: 'starter',
-            get: () => {
-              const { starter } = versionFile
-              return starter && (starter.path || starter.version) && `${starter.path} ${starter.version}`
-            },
+            get: () =>  versionFile.starter,
           },
         ],
       },

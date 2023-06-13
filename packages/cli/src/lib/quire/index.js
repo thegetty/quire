@@ -127,10 +127,7 @@ async function initStarter (starter, projectPath, options) {
    */
   const versionInfo = { 
     cli: packageConfig.version,
-    starter: { 
-      path: starter,
-      version: starterVersion
-    }
+    starter: `${starter}@${starterVersion}`,
   }
   fs.writeFileSync(path.join(projectPath, VERSION_FILE), JSON.stringify(versionInfo))
 
