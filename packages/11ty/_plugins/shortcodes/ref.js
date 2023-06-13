@@ -39,8 +39,7 @@ module.exports = function (eleventyConfig) {
      * Image sequences
      */
     const { isSequence, sequences, startCanvasIndex } = figure
-    const { files, transitionSpeed: figureTransitionSpeed, viewingDirection } = isSequence && sequences[0] || {}
-    const sequenceLength = isSequence && files.length
+    const { files, transitionSpeed: figureTransitionSpeed } = isSequence && sequences[0] || {}
     const sequenceTransitionSpeed = params.sequenceTransitionSpeed || figureTransitionSpeed || defaultSequenceTransitionSpeed
 
     /**
@@ -60,10 +59,8 @@ module.exports = function (eleventyConfig) {
           data-on-scroll="true"
           data-region="${region}"
           data-sequence-index="${startIndex}"
-          data-sequence-length="${sequenceLength}"
           data-sequence-transition="${transition}"
           data-sequence-transition-speed="${sequenceTransitionSpeed}"
-          data-sequence-viewing-direction="${viewingDirection}"
         >${markdownify(text)}</span>
       `
     }
@@ -75,9 +72,8 @@ module.exports = function (eleventyConfig) {
         data-figure-id="${fig}"
         data-region="${region}"
         data-sequence-index="${startIndex}"
-        data-sequence-length="${sequenceLength}"
+        data-sequence-transition="${transition}"
         data-sequence-transition-speed="${sequenceTransitionSpeed}"
-        data-sequence-viewing-direction="${viewingDirection}"
       >${markdownify(text)}</a>
     `
   }

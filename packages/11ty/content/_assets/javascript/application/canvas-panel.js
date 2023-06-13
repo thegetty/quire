@@ -237,10 +237,8 @@ const setUpUIEventHandlers = () => {
     const figureId = ref.getAttribute('data-figure-id')
     const sequence = {
       index: parseInt(ref.getAttribute('data-sequence-index')),
-      length: parseInt(ref.getAttribute('data-sequence-length')),
       transition: ref.getAttribute('data-sequence-transition') === 'true',
       transitionSpeed: parseInt(ref.getAttribute('data-sequence-transition-speed')),
-      viewingDirection: ref.getAttribute('data-sequence-viewing-direction')
     }
     /**
      * ref shortcode resets the region if none is provided
