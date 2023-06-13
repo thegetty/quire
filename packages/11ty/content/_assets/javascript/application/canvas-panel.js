@@ -123,7 +123,7 @@ const goToFigureState = function ({
     annotationIds.map((id) => ['annotation-id', encodeURIComponent(id)])
   )
   region ? params.set('region', encodeURIComponent(region)) : null
-  Number.isInteger(sequence.index) ? params.set('sequence-index', encodeURIComponent(sequence.index)) : null
+  Number.isInteger(parseInt(sequence.index)) ? params.set('sequence-index', encodeURIComponent(sequence.index)) : null
 
   const paramsString = params.toString()
   const urlParts = [url.pathname]
@@ -327,11 +327,13 @@ const update = (id, data) => {
  * @param {Object} data Property values to update on the image sequence element
  */
 const updateSequenceIndex = (element, { sequence={} }) => {
-  const { index } = sequence
+  const { index, transition } = sequence
   const startIndex = parseInt(element.getAttribute('index'))
   const endIndex = parseInt(index)
   if (Number.isInteger(endIndex) && startIndex !== endIndex) {
-    element.setAttribute('rotate-to-index', endIndex)
+    (transition)
+      ? element.setAttribute('rotate-to-index', endIndex)
+      : element.setAttribute('index', endIndex)
   }
 }
 
