@@ -4,6 +4,8 @@ import fs from 'node:fs'
 import os from 'node:os'
 import testcwd from '#helpers/test-cwd.js'
 
+const VERSION_FILE = '.quire'
+
 /**
  * Quire CLI `info` Command
  *
@@ -35,12 +37,21 @@ export default class InfoCommand extends Command {
       console.debug('[CLI] Command \'%s\' called', this.name())
     }
 
+    let versionFile = {}
+    try {
+      versionFile = JSON.parse(fs.readFileSync(VERSION_FILE))
+    } catch (error) {
+      console.warn(
+        `This project was generated with quire-cli version < 1.0.0.rc-8 so we cannot determine which cli or starter version was used to create it.`
+      )
+    }
+
     const versions = [
       {
         name: 'quire-cli',
         get: async () => {
-          const { stdout } = await execaCommand('quire --version')
-          return stdout
+          const { cli } = versionFile
+          return cli ? `${cli}` : 'unknown'
         }
       },
       {
@@ -53,8 +64,8 @@ export default class InfoCommand extends Command {
       {
         name: 'starter',
         get: () => {
-          const { starter } = JSON.parse(fs.readFileSync('.quire'))
-          return `${starter.path} ${starter.version}`
+          const { starter } = versionFile
+          return starter ? `${starter.path} ${starter.version}` : 'unknown'
         }
       },
       {
