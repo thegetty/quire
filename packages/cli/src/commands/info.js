@@ -21,9 +21,7 @@ export default class InfoCommand extends Command {
     summary: 'list info',
     version: '1.0.0',
     args: [],
-    options: [
-      [ '--debug', 'include os versions in output' ],
-    ],
+    options: [['--debug', 'include os versions in output']],
   }
 
   constructor() {
@@ -32,7 +30,11 @@ export default class InfoCommand extends Command {
 
   async action(options, command) {
     if (options.debug) {
-      console.debug('[CLI] Command \'%s\' called with options %o', this.name(), options)
+      console.debug(
+        '[CLI] Command \'%s\' called with options %o',
+        this.name(),
+        options
+      )
     } else {
       console.debug('[CLI] Command \'%s\' called', this.name())
     }
@@ -55,23 +57,23 @@ export default class InfoCommand extends Command {
             get: () => {
               const { cli } = versionFile
               return cli ? `${cli}` : 'unknown'
-            }
+            },
           },
           {
             name: 'quire-11ty',
             get: () => {
               const { version } = JSON.parse(fs.readFileSync('./package.json'))
               return version
-            }
+            },
           },
           {
             name: 'starter',
             get: () => {
               const { starter } = versionFile
               return starter ? `${starter.path} ${starter.version}` : 'unknown'
-            }
+            },
           },
-        ]
+        ],
       },
       {
         title: '[Operating System]',
@@ -80,8 +82,8 @@ export default class InfoCommand extends Command {
           {
             name: os.type(),
             get: () => os.release(),
-          }
-        ]
+          },
+        ],
       },
       {
         title: '[Node]',
@@ -89,16 +91,16 @@ export default class InfoCommand extends Command {
         items: [
           {
             name: 'node',
-            get: () => process.version
+            get: () => process.version,
           },
           {
             name: 'npm',
             get: async () => {
               const { stdout } = await execaCommand('npm --version')
               return stdout
-            }
-          }
-        ]
+            },
+          },
+        ],
       },
       {
         title: '[Local Quire Version]',
@@ -108,28 +110,22 @@ export default class InfoCommand extends Command {
             get: async () => {
               const { stdout } = await execaCommand('quire --version')
               return stdout
-            }
-          }
-        ]
-      }
+            },
+          },
+        ],
+      },
     ]
 
     /**
      * Filter the command output based on `debug` settings
      */
     versions
-      .filter(({ debug }) => !debug || options.debug && debug)
-      .forEach(async (item) => {
+      .filter(({ debug }) => !debug || (options.debug && debug))
+      .forEach(async ({ items, title }) => {
         const versions = await Promise.all(
-          item.items.map(
-            async ({ name, get }) => {
-              const version = await get()
-              return `${name} ${version}`
-            }
-          )
+          items.map(async ({ name, get }) => `${name} ${await get()}`)
         )
-        console.info(item.title)
-        console.info(` ${versions.join('\n ')}`)
+        console.info(`${title}\n ${versions.join('\n ')}`)
       })
   }
 
