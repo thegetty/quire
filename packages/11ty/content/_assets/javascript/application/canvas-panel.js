@@ -324,54 +324,16 @@ const update = (id, data) => {
 /**
  * Rotates the image to a the provided index by iterating over each sequence item step
  * and updating the index property on the image sequence element
- * @todo move to image-sequence.webc
  * 
  * @param {HTMLElement} element Image sequence element
  * @param {Object} data Property values to update on the image sequence element
  */
 const updateSequenceIndex = (element, { sequence={} }) => {
-  const { index, length, transition, transitionSpeed, viewingDirection } = sequence
+  const { index } = sequence
   const startIndex = parseInt(element.getAttribute('index'))
   const endIndex = parseInt(index)
   if (Number.isInteger(endIndex) && startIndex !== endIndex) {
-
-    /**
-     * If we're not transitioning, just set the index and move on
-     */
-    if (!length || !transition) {
-      element.setAttribute('index', endIndex)
-      return
-    }
-
-    /**
-     * Transition
-     */
-    const steps = [...Array(length).keys()]
-    let changeIndex, delta
-    switch (viewingDirection) {
-      case 'right-to-left':
-        delta = startIndex > endIndex ? startIndex - endIndex : length - endIndex + startIndex
-        changeIndex = (i) => {
-          return startIndex - i >= 0 ? steps[startIndex - i] : steps[length - Math.abs(startIndex - i)]
-        }
-        break
-      default:
-        delta = endIndex > startIndex ? endIndex - startIndex : length - startIndex + endIndex
-        changeIndex = (i) => {
-          return startIndex + i < length ? steps[startIndex + i] : steps[startIndex + i - length]
-        }
-        break
-    }
-    const rotateImage = () => {
-      let i = 1
-      const interval = setInterval(() => {
-        let currentIndex = changeIndex(i)
-        element.setAttribute('index', currentIndex)
-        i++
-        if (i > delta) clearInterval(interval)
-      }, transitionSpeed)
-    }
-    rotateImage()
+    element.setAttribute('rotate-to-index', endIndex)
   }
 }
 
