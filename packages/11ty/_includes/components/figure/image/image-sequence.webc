@@ -419,7 +419,6 @@ img.${placeholder} {
     onRotateToIndex(oldValue, newValue) {
       const newIndex = parseInt(newValue);
       if (this.index === newIndex || isNaN(newIndex) || oldValue === newValue) return;
-      if (!this.index) this.index = newIndex;
       const interval = setInterval(() => {
         /**
          * Set rotateToIndex to false when rotation is done
