@@ -6,7 +6,7 @@ import { isEmpty } from '#helpers/is-empty.js'
 import fs from 'fs-extra'
 import git from '#src/lib/git/index.js'
 import inv from 'install-npm-version'
-import packageConfig from '../../../package.json' assert { type: 'json' }
+import packageConfig from '#root/package.json' assert { type: 'json' }
 import path from 'node:path'
 import semver from 'semver'
 
