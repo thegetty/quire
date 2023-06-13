@@ -432,6 +432,7 @@ img.${placeholder} {
          */
         if (this.rotateToIndex !== newIndex) {
           clearInterval(interval);
+          return;
         }
         /**
          * Step through canvases
