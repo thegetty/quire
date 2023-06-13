@@ -1,0 +1,186 @@
+{
+  "$id": "https://data.getty.edu/quire/v1.0.0/schemas/config.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Config",
+  "description": "Quire configuration schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "analytics": {
+      "type": "object",
+      "properties": {
+        "googleId": {
+          "description": "",
+          "type": "string"
+        }
+      }
+    },
+    "bibliography": {
+      "type": "object",
+      "properties": {
+        "displayOnPage": {
+          "description": "",
+          "type": "boolean"
+        },
+        "displayShort": {
+          "description": "",
+          "type": "boolean"
+        },
+        "heading": {
+          "description": "",
+          "type": "string"
+        }
+      }
+    },
+    "bylineFormat": {
+      "description": "",
+      "oneOf": [
+        { "enum": [ "name", "name-title" ] },
+        { "type": "boolean" }
+      ],
+      "default": "name"
+    },
+    "citations": {
+      "type": "object",
+      "properties": {
+        "divider": {
+          "description": "",
+          "type": "string"
+        },
+        "popupStyle": {
+          "description": "",
+          "enum": [ "icon", "text" ],
+          "default": "text"
+        }
+      }
+    },
+    "entryPage": {
+      "type": "object",
+      "properties": {
+        "objectLinkText": {
+          "description": "",
+          "type": "string"
+        },
+        "sideBySide": {
+          "description": "",
+          "type": "boolean"
+        }
+      }
+    },
+    "epub": {
+      "type": "object",
+      "properties": {
+        "defaultCoverImage": {
+          "description": "",
+          "type": "string",
+          "pattern": "^(/[^/]+)+$",
+          "default": "epub-cover.png"
+        },
+        "outputDir": {
+          "description": "",
+          "type": "string",
+          "pattern": "^(/[^/]+)+$",
+          "default": "_epub"
+        }
+      }
+    },
+    "footnotes": {
+      "type": "object",
+      "properties": {
+        "description": "",
+        "backlinkSymbol": {
+          "type": "string",
+          "default": "↩"
+        }
+      }
+    },
+    "figures": {
+      "type": "object",
+      "properties": {
+        "assetDir": {
+          "description": "",
+          "type": "string",
+          "pattern": "^(/[^/]+)+$",
+          "default": "/_assets/"
+        },
+        "enableModal": {
+          "description": "",
+          "type": "boolean"
+        },
+        "imageDir": {
+          "description": "",
+          "type": "string",
+          "pattern": "^(/[^/]+)+$",
+          "default": "/_assets/images"
+        }
+      },
+    },
+    "licenseIcons": {
+      "description": "",
+      "type": "boolean",
+      "default": true
+    },
+    "localization": {
+      "type": "object",
+      "properties": {
+        "defaultLocale": {
+          "type": "string",
+          "default": "en-us"
+        }
+      }
+    },
+    "menuType": {
+      "description": "",
+      "enum": [ "full", "brief" ],
+      "default": "full"
+    },
+    "navigation": {
+      "type": "object",
+      "properties": {
+        "nextButtonText": {
+          "description": "",
+          "type": "string",
+          "default": "Next"
+        },
+        "prevButtonText": {
+          "description": "",
+          "type": "string",
+          "default": "Back"
+        }
+      }
+    },
+    "pageTitle": {
+      "type": "object",
+      "properties": {
+        "description": "",
+        "labelDivider": ". "
+      }
+    },
+    "pdf": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "search": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "description": "",
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "tableOfContents": {
+      "type": "object",
+      "properties": {
+        "contributorDivider": {
+          "description": "",
+          "type": "string",
+          "default": " — "
+        }
+      }
+    }
+  },
+  "required": [ "object_list" ],
+  "$defs": {}
+}

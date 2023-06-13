@@ -1,0 +1,266 @@
+{
+  "$id": "https://data.getty.edu/quire/v1.0.0/schemas/publication.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "publication",
+  "description": "Quire publication data schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "contributor_as_it_appears": {
+      "description": "",
+      "type": "string"
+    },
+    "contributors": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Contributor"
+      },
+      "uniqueItems": true
+    },
+    "copyright": {
+      "description": "",
+      "type": "string"
+    },
+    "description": {
+      "type": "object",
+      "properties": {
+        "full": {
+          "description": "",
+          "type": "string"
+        },
+        "one_line": {
+          "description": "",
+          "type": "string"
+        }
+      }
+    },
+    "identifier": {
+      "type": "object",
+      "properties": {
+        "isbn": {
+          "description": "An ISBN-10 or ISBN-13 publication identifer",
+          "type": "string",
+          "pattern": "^(?:ISBN(?:-13)?:?\\ )?(?=[0-9]{13}$|(?=(?:[0-9]+[-\\ ]){4})[-\\ 0-9]{17}$)97[89][-\\ ]?[0-9]{1,5}[-\\ ]?[0-9]+[-\\ ]?[0-9]+[-\\ ]?[0-9]$"
+        }
+      }
+    },
+    "image": {
+      "description": "A relative path to a promotional image for the publication",
+      "type": "string",
+      "pattern": "^(/[^/]+)+$"
+    },
+    "language": {
+      "description": "",
+      "type": "string",
+      "default": "en"
+    },
+    "license": {
+      "type": "object",
+      "properties": {
+        "abbreviation": {
+          "description": "",
+          "enum": [ "CC 0", "CC BY", "CC BY-SA", "CC BY-ND", "CC BY-NC", "CC BY-NC-SA", "CC BY-NC-ND" ]
+        },
+        "name": {
+          "description": "",
+          "type": "string"
+        },
+        "scope": {
+          "description": "",
+          "enum": [ "full", "some-exceptions", "text-only" ],
+          "default": "full"
+        },
+        "url": {
+          "description": "The publication's base URL",
+          "type": "uri",
+          "default": "https://creativecommons.org/licenses/by/4.0/"
+        }
+      }
+    },
+    "pub_date": {
+      "description": "",
+      "type": "string",
+      "pattern": "^\\d{4}-([0][1-9]|1[0-2])-([0][1-9]|[2][0-9]|3[0-1])$"
+    },
+    "pub_type": {
+      "description": "",
+      "enum": [ "book", "journal-periodical", "other" ],
+      "default": "book"
+    },
+    "publisher": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Publisher"
+      },
+      "uniqueItems": true
+    },
+    "reading_line": {
+      "description": "",
+      "type": "string"
+    },
+    "repository": {
+      "description": "The publication source code/content repository",
+      "type": "uri"
+    },
+    "resources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Resource"
+      },
+      "uniqueItems": true
+    },
+    "revisions": {
+      "description": "",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "patternProperties": {
+          "^\\d{4}-([0][1-9]|1[0-2])-([0][1-9]|[2][0-9]|3[0-1])_": {
+            "description": "\"YYYY-MM-DD\": \"Revision summary...\"",
+            "type": "string"
+          },
+        },
+        // "properties": {
+        //   "date": {
+        //     "type": "string",
+        //     "format": "date"
+        //   },
+        //   "summary": {
+        //     "type": "string",
+        //   }
+        // }
+      }
+    },
+    "short_title": {
+      "description": "",
+      "type": "string"
+    },
+    "subject": {
+      "description": "",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "description": "",
+            "type": "string"
+          },
+          "name": {
+            "description": "",
+            "type": "string"
+          },
+          "type": {
+            "description": "",
+            "enum": [ "bisac", "keywords" ],
+            "default": "keywords"
+          }
+        }
+      }
+    },
+    "subtitle": {
+      "description": "",
+      "type": "string"
+    },
+    "title": {
+      "description": "",
+      "type": "string"
+    },
+    "url": {
+      "description": "The publication's base URL",
+      "type": "uri"
+    }
+  },
+  "required": [ "title", "url" ],
+  "$defs": {
+    "Contributor": {
+      "type": "object",
+      "properties": {
+        "affiliation": {
+          "description": "",
+          "type": "string"
+        },
+        "bio": {
+          "description": "",
+          "type": "string"
+        },
+        "family_name": {
+          "description": "",
+          "type": "string"
+        },
+        "given_name": {
+          "description": "",
+          "type": "string"
+        },
+        "id": {
+          "description": "",
+          "type": "string"
+        },
+        "image": {
+          "description": "",
+          "type": "string",
+          "pattern": "^(/[^/]+)+$",
+        },
+        "title": {
+          "description": "",
+          "type": "string"
+        },
+        "type": {
+          "description": "",
+          "enum": [ "primary" ]
+        },
+        "url": {
+          "description": "",
+          "type": "uri"
+        }
+      }
+    },
+    "Publisher": {
+      "type": "object",
+      "properties": {
+        "location": {
+          "description": "",
+          "type": "string"
+        },
+        "logo": {
+          "description": "",
+          "type": "string",
+          "pattern": "^(/[^/]+)+$",
+        },
+        "name": {
+          "description": "",
+          "type": "string"
+        },
+        "url": {
+          "description": "",
+          "type": "uri"
+        }
+      }
+    },
+    "Resource": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "",
+          "type": "string"
+        },
+        "media_type": {
+          "description": "application/pdf",
+          "type": "string"
+        },
+        "relation": {
+          "description": "",
+          "enum": [ "alternate" ]
+        },
+        "type": {
+          "description": "",
+          "type": "string"
+        },
+        "url": {
+          "description": "",
+          "type": "uri"
+        }
+      }
+    }
+  }
+}
