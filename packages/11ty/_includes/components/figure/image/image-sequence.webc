@@ -32,6 +32,18 @@ if (!window.customElements.get('image-sequence')) {
       this.setAttribute('index', value);
     }
 
+    get rotateToIndex() {
+      const value = parseInt(this.getAttribute('rotate-to-index'));
+      return Number.isInteger(value) && value;
+    }
+
+    set rotateToIndex(value) {
+      const newValue = parseInt(value);
+      (Number.isInteger(newValue))
+        ? this.setAttribute('rotate-to-index', value)
+        : this.removeAttribute('rotate-to-index');
+    }
+
     attributeChangedCallback(name, oldValue, newValue) {
       switch (name) {
         case 'index':
@@ -406,18 +418,25 @@ img.${placeholder} {
      */
     onRotateToIndex(oldValue, newValue) {
       const newIndex = parseInt(newValue);
-      if (this.index === newIndex || isNaN(newIndex)) return;
+      if (this.index === newIndex || isNaN(newIndex) || oldValue === newValue) return;
       if (!this.index) this.index = newIndex;
-      const delta = this.isReversed
-        ? this.index > newIndex ? this.index - newIndex : this.totalCanvases - newIndex + this.index
-        : newIndex > this.index ? newIndex - this.index : this.totalCanvases - this.index + newIndex;
-      let i = 1;
       const interval = setInterval(() => {
-        this.isReversed ? this.previousCanvas() : this.nextCanvas();
-        i++
-        if (i > delta) {
+        /**
+         * Set rotateToIndex to false when rotation is done
+         */
+        if (this.index === newIndex) {
+          this.rotateToIndex = false;
+        }
+        /**
+         * Clear the interval if user has triggered another rotation or if the rotation is complete
+         */
+        if (this.rotateToIndex !== newIndex) {
           clearInterval(interval);
         }
+        /**
+         * Step through canvases
+         */
+        this.isReversed ? this.previousCanvas() : this.nextCanvas();
       }, this.transitionSpeed);
     }
 
