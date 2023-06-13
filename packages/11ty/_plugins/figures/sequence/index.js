@@ -13,7 +13,7 @@ const Annotation = require('../annotation')
  */
 module.exports = class Sequence {
   constructor(figure, sequence) {
-    const { behavior, id, regex, start, transition_speed, viewing_direction } = sequence
+    const { behavior, id, regex, start, transition, viewing_direction } = sequence
     const { iiifConfig } = figure
     this.behavior = behavior
     this.dir = id
@@ -22,7 +22,7 @@ module.exports = class Sequence {
     this.id = id
     this.regex = regex
     this.start = start
-    this.transitionSpeed = transition_speed || sequence.transitionSpeed // @todo calculate from number of files
+    this.transition = transition // @todo calculate from number of files
     this.viewingDirection = viewing_direction || sequence.viewingDirection
   }
 

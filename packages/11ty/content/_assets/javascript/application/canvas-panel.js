@@ -237,8 +237,7 @@ const setUpUIEventHandlers = () => {
     const figureId = ref.getAttribute('data-figure-id')
     const sequence = {
       index: parseInt(ref.getAttribute('data-sequence-index')),
-      transition: ref.getAttribute('data-sequence-transition') === 'true',
-      transitionSpeed: parseInt(ref.getAttribute('data-sequence-transition-speed')),
+      transition: parseInt(ref.getAttribute('data-sequence-transition')),
     }
     /**
      * ref shortcode resets the region if none is provided
@@ -331,9 +330,12 @@ const updateSequenceIndex = (element, { sequence={} }) => {
   const startIndex = parseInt(element.getAttribute('index'))
   const endIndex = parseInt(index)
   if (Number.isInteger(endIndex) && startIndex !== endIndex) {
-    (transition)
-      ? element.setAttribute('rotate-to-index', endIndex)
-      : element.setAttribute('index', endIndex)
+    if (transition) {
+      element.setAttribute('transition', transition)
+      element.setAttribute('rotate-to-index', endIndex)
+      return
+    }
+    element.setAttribute('index', endIndex)
   }
 }
 

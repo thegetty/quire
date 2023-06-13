@@ -44,6 +44,11 @@ if (!window.customElements.get('image-sequence')) {
         : this.removeAttribute('rotate-to-index');
     }
 
+    get transition() {
+      const value = parseInt(this.getAttribute('transition'));
+      return Number.isInteger(value) && value;
+    }
+
     attributeChangedCallback(name, oldValue, newValue) {
       switch (name) {
         case 'index':
@@ -78,7 +83,6 @@ if (!window.customElements.get('image-sequence')) {
       this.isReversed = this.getAttribute('reverse') === 'true';
       this.sequenceId = this.getAttribute('sequence-id');
       this.totalCanvases = this.items.length;
-      this.transitionSpeed = 30;
 
       /* Write a firstElementChild with a non-js fallback image */
       this.innerHTML = `<div class="image-sequence ${loading}"><img src="${this.items[this.index]}" /></div>`;
@@ -437,7 +441,7 @@ img.${placeholder} {
          * Step through canvases
          */
         this.isReversed ? this.previousCanvas() : this.nextCanvas();
-      }, this.transitionSpeed);
+      }, this.transition);
     }
 
     /**
@@ -509,3 +513,4 @@ image-sequence {
   cursor: grab;
 }
 </style>
+  

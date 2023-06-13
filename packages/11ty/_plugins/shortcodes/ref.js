@@ -11,7 +11,7 @@ const path = require('path')
  * @property   {String} anno Comma-separated list of annotation ids
  * @property   {String} fig Figure ID
  * @property   {String} region Comma-separated, with format "x,y,width,height"
- * @property   {String} sequenceTransitionSpeed The amount of time in ms between transitions to a new index in the sequence
+ * @property   {String} transition The amount of time in ms between transitions to a new index in the sequence
  * @property   {String} start The filename of the item in an image sequence to start on
  * @property   {String} text Link text
  *
@@ -21,10 +21,10 @@ module.exports = function (eleventyConfig) {
   const getFigure = eleventyConfig.getFilter('getFigure')
   const markdownify = eleventyConfig.getFilter('markdownify')
 
-  const { sequenceTransitionSpeed: defaultSequenceTransitionSpeed } = eleventyConfig.globalData.config.ref || {}
+  const { sequenceTransition: defaultSequenceTransition } = eleventyConfig.globalData.config.ref || {}
 
   return (params) => {
-    const { anno='', fig, region='', start, text='', transition = true, onscroll } = params
+    const { anno='', fig, region='', start, text='', onscroll } = params
     const figure = getFigure(fig)
     if (!figure) {
       logger.error(`[ref shortcode] "fig" parameter doesn't correspond to a valid figure id in "figures.yaml". Fig: ${fig}`)
@@ -39,8 +39,8 @@ module.exports = function (eleventyConfig) {
      * Image sequences
      */
     const { isSequence, sequences, startCanvasIndex } = figure
-    const { files, transitionSpeed: figureTransitionSpeed } = isSequence && sequences[0] || {}
-    const sequenceTransitionSpeed = params.sequenceTransitionSpeed || figureTransitionSpeed || defaultSequenceTransitionSpeed
+    const { files, transition: figureTransition } = isSequence && sequences[0] || {}
+    const transition = params.transition || figureTransition || defaultSequenceTransition
 
     /**
      * Get the index of the filename provided in the start parameter
@@ -60,7 +60,6 @@ module.exports = function (eleventyConfig) {
           data-region="${region}"
           data-sequence-index="${startIndex}"
           data-sequence-transition="${transition}"
-          data-sequence-transition-speed="${sequenceTransitionSpeed}"
         >${markdownify(text)}</span>
       `
     }
@@ -73,7 +72,6 @@ module.exports = function (eleventyConfig) {
         data-region="${region}"
         data-sequence-index="${startIndex}"
         data-sequence-transition="${transition}"
-        data-sequence-transition-speed="${sequenceTransitionSpeed}"
       >${markdownify(text)}</a>
     `
   }
