@@ -60,13 +60,14 @@ function getVersion(projectPath) {
  * (i.e `^1.0.0-pre-release.0` => `1.0.0-pre-release.2`) so this string-trimming
  * logic can be removed
  */
-async function getVersionFromStarter(projectPath) {
+async function getVersionsFromStarter(projectPath) {
   const packageConfig = fs.readFileSync(path.join(projectPath, 'package.json'), { encoding:'utf8' })
-  const { peerDependencies } = JSON.parse(packageConfig)
-  const version = peerDependencies[PACKAGE_NAME]
-  return version === 'latest'
+  const { peerDependencies, version: starterVersion } = JSON.parse(packageConfig)
+  const quire11ty = peerDependencies[PACKAGE_NAME]
+  const quire11tyVersion = quire11ty === 'latest'
     ? await latest()
-    : version.substr(version.search(/\d/))
+    : quire11ty.substr(quire11ty.search(/\d/))
+  return { quire11tyVersion, starterVersion }
 }
 
 /**
@@ -115,8 +116,16 @@ async function initStarter (starter, projectPath, options) {
    * A version specified in `options.quireVersion` overrides the version in starter
    * project `package.json`.
    */
-  const quireVersion = options.quireVersion || await getVersionFromStarter(projectPath)
+  const { quire11tyVersion, starterVersion } = await getVersionsFromStarter(projectPath)
+  const quireVersion = options.quireVersion || quire11tyVersion
+
   setVersion(projectPath, quireVersion)
+
+  /**
+   * Write starter name and version to VERSION_FILE
+   */
+  const versionInfo = { 'quire-11ty': quireVersion, starter: { path: starter, version: starterVersion } }
+  fs.writeFileSync(path.join(projectPath, VERSION_FILE), JSON.stringify(versionInfo))
 
   // Re-initialize project directory as a new git repository
   await fs.remove(path.join(projectPath, '.git'))
@@ -329,7 +338,7 @@ function setVersion(projectPath, version) {
     console.error('[CLI] no version specified')
     return
   }
-  fs.writeFileSync(path.join(projectPath, VERSION_FILE), version)
+
   const projectName = path.basename(projectPath)
   console.info(`${projectName} set to use quire-11ty@${version}`)
 }
