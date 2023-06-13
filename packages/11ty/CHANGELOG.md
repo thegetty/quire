@@ -20,6 +20,13 @@ Changelog entries are classified using the following labels:
 
 ## [unreleased]
 
+### Added
+- Adds scroll interactions to `ref` shortcode
+- Adds rotation animations to image sequences referenced using the `ref` shortcode
+
+### Changed
+- Rename `annoref` shortcode to `ref`, remove `figureRef`.
+
 ### Fixed
 - Add `id` to Sequence class, fixes preview rebuild with image sequences.
 
