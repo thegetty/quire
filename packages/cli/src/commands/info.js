@@ -2,6 +2,7 @@ import Command from '#src/Command.js'
 import { execaCommand } from 'execa'
 import fs from 'node:fs'
 import os from 'node:os'
+import path from 'path'
 import testcwd from '#helpers/test-cwd.js'
 
 const VERSION_FILE = '.quire'
@@ -21,9 +22,7 @@ export default class InfoCommand extends Command {
     summary: 'list info',
     version: '1.0.0',
     args: [],
-    options: [
-      ['--debug', 'include os versions in output']
-    ],
+    options: [['--debug', 'include os versions in output']],
   }
 
   constructor() {
@@ -46,14 +45,16 @@ export default class InfoCommand extends Command {
       versionFile = JSON.parse(versionFile)
     } catch (error) {
       console.warn(
-        `This project was generated with quire-cli prior to version 1.0.0.rc-8, the quire version file does not contain specific version information.`
+        `This project was generated with the quire-cli prior to version 1.0.0.rc-8. Updating the version file to the new format, though this project's version file will not contain specific starter version information.`
       )
-      fs.writeFileSync(VERSION_FILE, JSON.stringify({}))
+      fs.writeFileSync(VERSION_FILE, JSON.stringify({ cli: '<=1.0.0.rc-7' }))
     }
+
+    const { name: projectDirectory } = path.parse(process.cwd())
 
     const versions = [
       {
-        title: '[Project]',
+        title: `[${projectDirectory}]`,
         items: [
           {
             name: 'quire-cli',
@@ -73,34 +74,7 @@ export default class InfoCommand extends Command {
         ],
       },
       {
-        title: '[Operating System]',
-        debug: true,
-        items: [
-          {
-            name: os.type(),
-            get: () => os.release(),
-          },
-        ],
-      },
-      {
-        title: '[Node]',
-        debug: true,
-        items: [
-          {
-            name: 'node',
-            get: () => process.version,
-          },
-          {
-            name: 'npm',
-            get: async () => {
-              const { stdout } = await execaCommand('npm --version')
-              return stdout
-            },
-          },
-        ],
-      },
-      {
-        title: '[Local Quire Version]',
+        title: '[System]',
         items: [
           {
             name: 'quire-cli',
@@ -109,6 +83,24 @@ export default class InfoCommand extends Command {
               return stdout
             },
           },
+          {
+            debug: true,
+            name: 'node',
+            get: () => process.version,
+          },
+          {
+            debug: true,
+            name: 'npm',
+            get: async () => {
+              const { stdout } = await execaCommand('npm --version')
+              return stdout
+            },
+          },
+          {
+            debug: true,
+            name: 'os',
+            get: () => `${os.type()} ${os.release()}`,
+          },
         ],
       },
     ]
@@ -116,14 +108,14 @@ export default class InfoCommand extends Command {
     /**
      * Filter the command output based on `debug` settings
      */
-    versions
-      .filter(({ debug }) => !debug || (options.debug && debug))
-      .forEach(async ({ items, title }) => {
-        const versions = await Promise.all(
-          items.map(async ({ name, get }) => `${name} ${await get()}`)
-        )
-        console.info(`${title}\n ${versions.join('\n ')}`)
-      })
+    versions.forEach(async ({ items, title }) => {
+      const versions = await Promise.all(
+        items
+          .filter(({ debug }) => !debug || (options.debug && debug))
+          .map(async ({ name, get }) => `${name} ${await get()}`)
+      )
+      console.info(`${title}\n ${versions.join('\n ')}`)
+    })
   }
 
   preAction(command) {
