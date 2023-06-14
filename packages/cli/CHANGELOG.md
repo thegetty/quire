@@ -18,6 +18,13 @@ Changelog entries are classified using the following labels:
 
 - `Removed`: for deprecated features removed in this release
 
+## [1.0.0-rc.9]
+
+### Added
+- Update old `.quire` files  when running `info` command on versions prior to `1.0.0-rc.8`
+- Include `quire-cli` version used to generate project in `info` output
+- Adds headings to `info` output
+
 ## [1.0.0-rc.8]
 
 ### Added
