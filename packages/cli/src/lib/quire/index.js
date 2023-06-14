@@ -6,6 +6,7 @@ import { isEmpty } from '#helpers/is-empty.js'
 import fs from 'fs-extra'
 import git from '#src/lib/git/index.js'
 import inv from 'install-npm-version'
+import packageConfig from '#root/package.json' assert { type: 'json' }
 import path from 'node:path'
 import semver from 'semver'
 
@@ -61,8 +62,8 @@ function getVersion(projectPath) {
  * logic can be removed
  */
 async function getVersionsFromStarter(projectPath) {
-  const packageConfig = fs.readFileSync(path.join(projectPath, 'package.json'), { encoding:'utf8' })
-  const { peerDependencies, version: starterVersion } = JSON.parse(packageConfig)
+  const projectPackageConfig = fs.readFileSync(path.join(projectPath, 'package.json'), { encoding:'utf8' })
+  const { peerDependencies, version: starterVersion } = JSON.parse(projectPackageConfig)
   const quire11ty = peerDependencies[PACKAGE_NAME]
   const quire11tyVersion = quire11ty === 'latest'
     ? await latest()
@@ -122,9 +123,12 @@ async function initStarter (starter, projectPath, options) {
   setVersion(projectPath, quireVersion)
 
   /**
-   * Write starter name and version to VERSION_FILE
+   * Write quire-11ty, cli, starter name and version to VERSION_FILE
    */
-  const versionInfo = { 'quire-11ty': quireVersion, starter: { path: starter, version: starterVersion } }
+  const versionInfo = { 
+    cli: packageConfig.version,
+    starter: `${starter}@${starterVersion}`,
+  }
   fs.writeFileSync(path.join(projectPath, VERSION_FILE), JSON.stringify(versionInfo))
 
   // Re-initialize project directory as a new git repository
