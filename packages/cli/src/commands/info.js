@@ -47,7 +47,8 @@ export default class InfoCommand extends Command {
       console.warn(
         `This project was generated with the quire-cli prior to version 1.0.0.rc-8. Updating the version file to the new format, though this project's version file will not contain specific starter version information.`
       )
-      fs.writeFileSync(VERSION_FILE, JSON.stringify({ cli: '<=1.0.0.rc-7' }))
+      versionFile = { cli: '<=1.0.0.rc-7' }
+      fs.writeFileSync(VERSION_FILE, JSON.stringify(versionFile))
     }
 
     const { name: projectDirectory } = path.parse(process.cwd())
