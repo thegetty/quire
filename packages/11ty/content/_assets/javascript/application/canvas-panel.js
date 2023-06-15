@@ -329,7 +329,7 @@ const updateSequenceIndex = (element, { sequence={} }) => {
   const { index, transition } = sequence
   const startIndex = parseInt(element.getAttribute('index'))
   const endIndex = parseInt(index)
-  if (Number.isInteger(endIndex) && startIndex !== endIndex) {
+  if (Number.isInteger(endIndex) && endIndex >= 0 && startIndex !== endIndex) {
     /**
      * Set transition speed from ref property and rotate to index
      */
