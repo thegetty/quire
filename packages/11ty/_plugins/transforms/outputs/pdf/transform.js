@@ -65,6 +65,7 @@ module.exports = function(eleventyConfig, collections, content) {
   if (pdfPages.includes(this.outputPath)) {
     const { document } = new JSDOM(content).window
     const mainElement = document.querySelector('main[data-output-path]')
+    const svgSymbolElements = document.querySelectorAll('body > svg')
     const pageIndex = pdfPages.findIndex((path) => path === this.outputPath)
 
     if (mainElement) {
@@ -88,6 +89,7 @@ module.exports = function(eleventyConfig, collections, content) {
 
         // remove non-pdf content
         filterOutputs(sectionElement, 'pdf')
+        collections.pdf[pageIndex].svgSymbolElements = Array.from(svgSymbolElements)
         collections.pdf[pageIndex].sectionElement = sectionElement
       }
 
