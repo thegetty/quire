@@ -330,11 +330,17 @@ const updateSequenceIndex = (element, { sequence={} }) => {
   const startIndex = parseInt(element.getAttribute('index'))
   const endIndex = parseInt(index)
   if (Number.isInteger(endIndex) && startIndex !== endIndex) {
+    /**
+     * Set transition speed from ref property and rotate to index
+     */
     if (transition) {
       element.setAttribute('transition', transition)
       element.setAttribute('rotate-to-index', endIndex)
       return
     }
+    /**
+     * Cancel current animation if one is running and jump to index
+     */
     element.setAttribute('rotate-to-index', false)
     element.setAttribute('index', endIndex)
   }
