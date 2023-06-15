@@ -335,6 +335,7 @@ const updateSequenceIndex = (element, { sequence={} }) => {
       element.setAttribute('rotate-to-index', endIndex)
       return
     }
+    element.setAttribute('rotate-to-index', false)
     element.setAttribute('index', endIndex)
   }
 }
