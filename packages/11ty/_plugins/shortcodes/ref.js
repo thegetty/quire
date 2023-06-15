@@ -38,7 +38,7 @@ module.exports = function (eleventyConfig) {
     /**
      * Image sequences
      */
-    const { isSequence, sequences, startCanvasIndex } = figure
+    const { id, isSequence, sequences, startCanvasIndex } = figure
     const { files, transition: figureTransition } = isSequence && sequences[0] || {}
     const transition = params.transition || figureTransition || defaultSequenceTransition
 
@@ -49,6 +49,10 @@ module.exports = function (eleventyConfig) {
       return files.findIndex((file) => file && path.parse(file).name === start)
     }
     const startIndex = start && isSequence ? findStartIndex(start) : startCanvasIndex
+
+    if (isSequence && startIndex === -1) {
+      logger.error(`[ref shortcode] The "start" value must correspond to the filename of an image in the figure sequence. figure "${id}" does not contain an image in the sequence with the name "${start}".`)
+    }
 
     if (onscroll) {
       return oneLine`
