@@ -34,8 +34,11 @@ module.exports = (eleventyConfig) => {
     const dom = await JSDOM.fromFile(layoutPath)
     const { document } = dom.window
 
-    collection.forEach(({ outputPath, sectionElement }) => {
+    collection.forEach(({ outputPath, sectionElement, svgSymbolElements }) => {
       try {
+        svgSymbolElements.forEach((svgSymbolElement) => {
+          document.body.appendChild(svgSymbolElement)
+        })
         document.body.appendChild(sectionElement)
       } catch (error) {
         logger.error(`Eleventy transform for PDF error appending content for ${outputPath} to combined output. ${error}`)
