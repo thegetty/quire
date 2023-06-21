@@ -290,7 +290,10 @@ module.exports = class Figure {
     // TODO Consider refactor - any time `this.sequences` is referenced, it creates a new instance of SequenceFactory
     if (!this.sequences) return
     const { transformations } = this.iiifConfig
-    const [ sequenceStartFilename ] = this.sequences.flatMap(({ start }) => start)
+    const [ sequenceStartFilename ] = this.sequences.flatMap(({ files, start }) => {
+      const { name: firstFileName } = path.parse(files[0])
+      return start || firstFileName
+    })
     const { name: startId } = sequenceStartFilename ? path.parse(sequenceStartFilename) : {}
     const sequenceItems = this.sequences.flatMap(({ items }) => items)
     const results = await Promise.all(sequenceItems.map((item) => {
