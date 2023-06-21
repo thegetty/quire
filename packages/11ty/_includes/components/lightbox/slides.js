@@ -46,7 +46,7 @@ module.exports = function(eleventyConfig) {
             return figureVideoElement(figure)
           case mediaType === 'image':
           default:
-            return figureImageElement(figure, { preset: 'zoom' })
+            return figureImageElement(figure, { preset: 'zoom', interactive: true })
         }
       }
 

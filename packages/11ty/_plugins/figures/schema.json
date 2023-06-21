@@ -149,6 +149,11 @@
           "type": "string",
           "pattern": "^(/[^/]+)+$"
         },
+        "staticInlineFigureImage": {
+          "description": "A relative path to an image project assets directory for static inline display",
+          "type": "string",
+          "pattern": "^(/[^/]+)+$"
+        },
         "zoom": {
           "description": "Enable image tiling for IIIF zoom interaction",
           "type": "boolean",

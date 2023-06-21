@@ -170,6 +170,26 @@ module.exports = class Figure {
   }
 
   /**
+   * Path to a static representation of the figure for inline display
+   * @type {String}
+   */
+  get staticInlineFigureImage() {
+    let filename
+    if (this.src) {
+      filename = this.src
+    } else if (this.sequences) {
+      const sequenceStart = this.sequences[0].start
+      filename = sequenceStart ? sequenceStart : this.sequences[0].files[0]
+    }
+
+    if (!this.isExternalResource && filename) {
+      const { ext, name } = path.parse(filename)
+      return path.join('/', this.outputDir, name, `static-inline-figure-image${ext}`)
+    }
+    return this.data.staticInlineFigure
+  }
+
+  /**
    * Return only the data properties consumed by quire shortcodes
    * @return {Object} figure
    */
@@ -196,7 +216,8 @@ module.exports = class Figure {
       region: this.region,
       sequences: this.sequences,
       startCanvasIndex,
-      src: this.src
+      src: this.src,
+      staticInlineFigureImage: this.staticInlineFigureImage,
     }
   }
 
