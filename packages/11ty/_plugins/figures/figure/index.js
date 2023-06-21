@@ -183,8 +183,8 @@ module.exports = class Figure {
     }
 
     if (!this.isExternalResource && filename) {
-      const { ext, name } = path.parse(filename)
-      return path.join('/', this.outputDir, name, `static-inline-figure-image${ext}`)
+      const { name } = path.parse(filename)
+      return path.join('/', this.outputDir, name, `static-inline-figure-image.jpg`)
     }
     return this.data.staticInlineFigure
   }
