@@ -14,15 +14,19 @@ module.exports = function (eleventyConfig) {
   const { imageDir } = eleventyConfig.globalData.config.figures
 
   return async function (figure, options) {
-    const { isCanvas, isImageService, isSequence } = figure
-    const { preset } = options
+    const { alt, isCanvas, isImageService, isSequence, staticInlineFigureImage } = figure
+    const { interactive, preset } = options
     if (preset) {
       figure.preset = preset
     }
 
     switch (true) {
       case isSequence:
-        return await imageSequence(figure, options)
+        if (!interactive && staticInlineFigureImage) {
+          return imageTag({ alt, src: staticInlineFigureImage, isStatic: !interactive })
+        } else {
+          return await imageSequence(figure, options)
+        }
       case isCanvas:
         return canvasPanel(figure)
       case isImageService:
