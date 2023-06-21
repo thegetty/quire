@@ -16,7 +16,7 @@ jobs:
         with:
           issue-number: ${{ github.event.issue.number }}
           body: |
-            Thank you for your contribution. Your support of Quire is greatly appreciated. We are reviewing your suspected bug and will be in touch soon.
+            Your bug is important to us, but we can't get to it quite yet. Stay tuned. We will confirm when your bug has been selected for development.
   status-cant-reproduce:
     if: github.event.label.name == "status:can't reproduce"
     runs-on: ubuntu-latest
@@ -76,7 +76,7 @@ jobs:
         with:
           issue-number: ${{ github.event.issue.number }}
           body: |
-            Your bug is important to us, but we can't get to it quite yet. Stay tuned. We will confirm when your bug has been selected for development.
+            Thank you for your contribution. Your support of Quire is greatly appreciated. We are reviewing your suspected bug and will be in touch soon.
   status-wont-fix:
     if: github.event.label.name == "status:won't fix"
     runs-on: ubuntu-latest
