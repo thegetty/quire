@@ -119,7 +119,6 @@ async function initStarter (starter, projectPath, options) {
    */
   const { quire11tyVersion, starterVersion } = await getVersionsFromStarter(projectPath)
   const quireVersion = options.quireVersion || quire11tyVersion
-
   setVersion(projectPath, quireVersion)
 
   /**
@@ -150,7 +149,7 @@ async function initStarter (starter, projectPath, options) {
    */
   const projectFiles = fs.readdirSync(projectPath)
   await git.init().add(projectFiles).commit('Initial Commit')
-
+  console.debug('quireVersion', quireVersion)
   return quireVersion
 }
 
@@ -211,8 +210,8 @@ async function install(options = {}) {
  * @param  {Object}  options  options passed from `quire new` command
  * @return  {Promise}
  */
-async function installInProject(projectPath, options = {}) {
-  const { quirePath, quireVersion } = options
+async function installInProject(projectPath, quireVersion, options = {}) {
+  const { quirePath } = options
   const quire11tyPackage = fs.existsSync(quirePath) ? quirePath : `${PACKAGE_NAME}@${quireVersion}`
   console.debug(`[CLI:quire] installing ${quire11tyPackage} into ${projectPath}`)
 

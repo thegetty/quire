@@ -60,12 +60,12 @@ export default class CreateCommand extends Command {
        *   - interactive mode prompt to continue
        *   - non-interactive mode throw an error and exit the process
        */
-      await quire.initStarter(starter, projectPath, options)
+      const quireVersion = await quire.initStarter(starter, projectPath, options)
 
       options.eject = true
 
       if (options.eject) {
-        await quire.installInProject(projectPath, options)
+        await quire.installInProject(projectPath, quireVersion, options)
       } else {
         await quire.install(options)
       }
