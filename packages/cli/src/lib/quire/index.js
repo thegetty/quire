@@ -149,7 +149,6 @@ async function initStarter (starter, projectPath, options) {
    */
   const projectFiles = fs.readdirSync(projectPath)
   await git.init().add(projectFiles).commit('Initial Commit')
-  console.debug('quireVersion', quireVersion)
   return quireVersion
 }
 
