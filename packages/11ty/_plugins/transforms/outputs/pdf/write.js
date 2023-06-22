@@ -27,18 +27,22 @@ module.exports = (eleventyConfig) => {
   fs.ensureDirSync(path.parse(outputPath).dir)
 
   /**
-   * Write each page section in the PDF collection to a single HTML file
+   * Write each page section in the PDF collection to a single HTML file,
+   * as well as one instance of SVG symbol definitions
    * @param  {Object} collection collections.pdf with `sectionElement` property
    */
   return async (collection) => {
     const dom = await JSDOM.fromFile(layoutPath)
     const { document } = dom.window
 
-    collection.forEach(({ outputPath, sectionElement, svgSymbolElements }) => {
+    collection.forEach(({ outputPath, sectionElement, svgSymbolElements }, index) => {
       try {
-        svgSymbolElements.forEach((svgSymbolElement) => {
-          document.body.appendChild(svgSymbolElement)
-        })
+        // only write SVG symbol definitions one time
+        if (index === 0) {
+          svgSymbolElements.forEach((svgSymbolElement) => {
+            document.body.appendChild(svgSymbolElement)
+          })
+        }
         document.body.appendChild(sectionElement)
       } catch (error) {
         logger.error(`Eleventy transform for PDF error appending content for ${outputPath} to combined output. ${error}`)
