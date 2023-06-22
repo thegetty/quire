@@ -51,10 +51,10 @@ module.exports = function(eleventyConfig) {
       }
 
       const labelSpan = label
-        ? html`<span class="q-lightbox-slides__caption-label">${label}</span>`
+        ? html`<span class="q-lightbox-slides__caption-label">${markdownify(label)}</span>`
         : ''
       const captionAndCreditSpan = caption || credit
-        ? html`<span class="q-lightbox-slides__caption-content">${caption ? markdownify(caption) : ''} ${credit ? credit : ''}</span>`
+        ? html`<span class="q-lightbox-slides__caption-content">${caption ? markdownify(caption) : ''} ${credit ? markdownify(credit) : ''}</span>`
         : ''
       const captionElement = labelSpan.length || captionAndCreditSpan.length
         ? html`
