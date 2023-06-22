@@ -1,4 +1,5 @@
 import Command from '#src/Command.js'
+import fs from 'fs-extra'
 import { quire } from '#src/lib/quire/index.js'
 
 /**
@@ -60,7 +61,14 @@ export default class CreateCommand extends Command {
        *   - interactive mode prompt to continue
        *   - non-interactive mode throw an error and exit the process
        */
-      const quireVersion = await quire.initStarter(starter, projectPath, options)
+      let quireVersion
+      try {
+        quireVersion = await quire.initStarter(starter, projectPath, options)
+      } catch (error) {
+        console.error(error.message)
+        fs.removeSync(projectPath)
+        return
+      }
 
       options.eject = true
 
