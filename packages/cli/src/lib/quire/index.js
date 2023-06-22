@@ -3,6 +3,7 @@ import { chdir, cwd } from 'node:process'
 import { execa, execaCommand } from 'execa'
 import { fileURLToPath } from 'node:url'
 import { isEmpty } from '#helpers/is-empty.js'
+import fetch from 'node-fetch'
 import fs from 'fs-extra'
 import git from '#src/lib/git/index.js'
 import inv from 'install-npm-version'
@@ -49,25 +50,18 @@ function getVersion(projectPath) {
 }
 
 /**
- * Read the required `quire-11ty` version from starter `package.json` `peerDependencies`
+ * Read the required `quire-11ty` and starter versions from starter `package.json` `peerDependencies`
  *
  * @param    {String}   projectPath  Absolute system path to the project root
  *
- * @return  {String}  version  Quire-11ty semantic version with caret or other
- * comparators trimmed off the beginning
- *
- * @TODO refactor `latest()` function to programmatically return a specific
- * version of `@thegetty/quire-11ty` from a semantic version string
- * (i.e `^1.0.0-pre-release.0` => `1.0.0-pre-release.2`) so this string-trimming
- * logic can be removed
+ * @return  {Object}
+ * @property {String} quire11tyVersion  Latest compatible Quire-11ty semantic version
+ * @property {String} starterVersion  Starter project version defined in the starter package.json
  */
 async function getVersionsFromStarter(projectPath) {
   const projectPackageConfig = fs.readFileSync(path.join(projectPath, 'package.json'), { encoding:'utf8' })
   const { peerDependencies, version: starterVersion } = JSON.parse(projectPackageConfig)
-  const quire11ty = peerDependencies[PACKAGE_NAME]
-  const quire11tyVersion = quire11ty === 'latest'
-    ? await latest()
-    : quire11ty.substr(quire11ty.search(/\d/))
+  const quire11tyVersion = peerDependencies[PACKAGE_NAME]
   return { quire11tyVersion, starterVersion }
 }
 
@@ -112,13 +106,13 @@ async function initStarter (starter, projectPath, options) {
     .catch((error) => console.error('[CLI:error] ', error))
 
   /**
-   * Determine `quire-11ty` version required by the starter project.
+   * Determine the `quire-11ty` version to use in the new project,
+   * from the `quireVersion` option or as required by the starter project.
    *
-   * A version specified in `options.quireVersion` overrides the version in starter
-   * project `package.json`.
+   * Uses `latest` to get the latest semantic version compatible with version ranges
    */
   const { quire11tyVersion, starterVersion } = await getVersionsFromStarter(projectPath)
-  const quireVersion = options.quireVersion || quire11tyVersion
+  const quireVersion = await latest(options.quireVersion || quire11tyVersion)
   setVersion(projectPath, quireVersion)
 
   /**
@@ -281,25 +275,27 @@ async function installInProject(projectPath, quireVersion, options = {}) {
 
 /**
  * Retrieve latest published version of the `quire-11ty` package
-
- * @todo refactor to programmatically return a specific version
- * of `@thegetty/quire-11ty` from a semantic version string
- * (i.e `^1.0.0-pre-release.0` => `1.0.0-pre-release.2`)
- * so that the latest function may be used like:
- *  await latest('^1.0.0-pre-release.0') => '1.0.0-pre-release.2'
- *
- * Nota bene: `npm view [<@scope>/]<name>[@<version>] version`
- * @see https://docs.npmjs.com/cli/v7/commands/npm-view
- * returns a list of versions that satisfy the `<version>` range specifier,
- * piping this to execa `stdout` we get only the last line of output.
- * @todo use [`parse-columns`](https://github.com/sindresorhus/parse-columns)
- * to parse the column formated list of versions returned by `npm view`
- *
+ * or the latest compatible version with the provided semantic version string
+ * 
+ * @param {String} version A semantic version string, i.e `^1.0.0-pre-release.0`
+ * 
  * @return {String} `quire-11ty@latest` semantic version string
  */
-async function latest() {
-  const { stdout: quireVersion } =
-    await execa('npm', ['view', PACKAGE_NAME, 'version'])
+async function latest(version) {
+  let quireVersion;
+  if (!version || version === 'latest') {
+    const { stdout } = 
+      await execa('npm', ['view', PACKAGE_NAME, 'version'])
+    quireVersion = stdout
+  } else {
+    const response = await fetch(`https://registry.npmjs.org/${PACKAGE_NAME}`)
+    const json = await response.json()
+    const versions = Object.keys(json.versions)
+    quireVersion = semver.maxSatisfying(versions, version)
+  }
+  if (!quireVersion) {
+    throw new Error(`[CLI:quire] Sorry, we couldn't find a version of quire-11ty compatible with the version "${version}". You can set the quire-11ty version in the starter project's package.json or specify a version when running \`quire new\` with the \`--quire-version\` flag. You can run \`npm view @thegetty/quire-11ty versions\` to view all versions.`)
+  }
   return quireVersion
 }
 
@@ -336,11 +332,6 @@ async function remove(version) {
  * @param  {String}  version  a version identifier or distribution tag
  */
 function setVersion(projectPath, version) {
-  if (!version) {
-    console.error('[CLI] no version specified')
-    return
-  }
-
   const projectName = path.basename(projectPath)
   console.info(`${projectName} set to use quire-11ty@${version}`)
 }
