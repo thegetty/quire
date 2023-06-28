@@ -3,7 +3,6 @@ description: Create a bug report to help us improve Quire
 labels: ['status:triage needed']
 assignees:
 - erin-cecele
-- geealbers
 body:
 - type: markdown
   attributes:
@@ -41,31 +40,16 @@ body:
 - type: textarea
   id: quire-version 
   attributes:
-    label: Quire Version Numbers
-    description: Run `quire --version` to get the CLI version number. In your project, open the `package.json` file to find the Project Package (quire-11ty) version number. 
+    label: Version Numbers
+    description: Run `quire info --debug` and list the version numbers for both your **project** (`quire-cli`, `quire-11ty`, `starter`) and your **system** (`quire-cli`, `node`, `npm`, and `os`).   
     placeholder: 
-  validations:
-    required: true
-- type: textarea
-  id: node-version 
-  attributes:
-    label: Node Version Number
-    description: Run `node --version` to get the Node version number. 
-    placeholder: 
-  validations:
-    required: true
-- type: textarea
-  id: OS
-  attributes:
-    label: Operating System
-    description: What Operating System you are working on? Please include the version number.
   validations:
     required: true
 - type: textarea
   id: browsers
   attributes:
     label: Web Browser 
-    description: What web browser you are working on (Chrome, Safari, Firefox, Microsoft Edge)? Please include the browser version number.
+    description: What web browser are you working on (Chrome, Safari, Firefox, Microsoft Edge)? Please include the browser version number.
   validations:
     required: false
 - type: textarea
