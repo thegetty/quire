@@ -41,7 +41,7 @@ body:
   id: quire-version 
   attributes:
     label: Version Numbers
-    description: Run `quire info --debug` and list the version numbers for both your **project** (`quire-cli`, `quire-11ty`, `starter`) and your **system** (`quire-cli`, `node`, `npm`, and `os`).   
+    description: Run `quire info --debug` in your project directory to list the version numbers for both your **project** (`quire-cli`, `quire-11ty`, `starter`) and your **system** (`quire-cli`, `node`, `npm`, and `os`).   
     placeholder: 
   validations:
     required: true
