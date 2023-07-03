@@ -9,7 +9,7 @@
  */
 const intersectionObserverFactory = (target, fn, options = {}) => {
   const observerOptions = {
-    root: null,
+    root: document.querySelector('.quire-entry__content'),
     rootMargin: '-50% 0% -50% 0%',
     threshold: 0,
     ...options
