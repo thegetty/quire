@@ -243,9 +243,6 @@ const setUpUIEventHandlers = () => {
      * ref shortcode resets the region if none is provided
      */
     const region = ref.getAttribute('data-region')
-    ref.addEventListener('click', ({ target }) => {
-      goToFigureState({ annotationIds, figureId, region, sequence })
-    })
 
     const onscroll = ref.getAttribute('data-on-scroll')
     if (onscroll === 'true') {
