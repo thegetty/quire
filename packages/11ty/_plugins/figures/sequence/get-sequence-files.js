@@ -7,10 +7,12 @@ const path = require('path')
  *
  * @param  {Object} figure     Figure data
  * @param  {Object} iiifConfig IIIF Config data
+ * @param  {Array}  files      (Optional) An array of filenames (only used for passing through fixture data in tests)
  * @return {Array<string>}     An array of filenames
  */
-module.exports = (sequence, iiifConfig) => {
+module.exports = (sequence, iiifConfig, files) => {
   if (!sequence) return
+  if (files) return files
   const { dirs } = iiifConfig
   const { imagesDir, inputRoot } = dirs
   const sequenceDir = path.join(inputRoot, imagesDir, sequence.id)
@@ -18,6 +20,7 @@ module.exports = (sequence, iiifConfig) => {
   const sequenceRegex = sequence.regex
     ? new RegExp(sequence.regex.slice(1, -1))
     : defaultSequenceRegex
+  if (!fs.existsSync(sequenceDir)) return
   return fs
     .readdirSync(sequenceDir)
     .filter((sequenceItemFilename) => sequenceItemFilename.match(sequenceRegex))

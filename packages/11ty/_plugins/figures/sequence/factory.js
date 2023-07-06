@@ -13,11 +13,13 @@ module.exports = class SequenceFactory {
 
   /**
    * Iterates over a Figure's sequences and creates a sequence for each one
+   *
+   * @property {<Array[String]>} files  (Optional) An array of sequence image filenames (only used for passing through fixture data in tests)
    * @return {<Array[Sequence]>}
    */
-  create() {
+  create(files) {
     const { sequences } = this.figure.data
     if (!sequences) return
-    return sequences.map((sequence) => new Sequence(this.figure, sequence))
+    return sequences.map((sequence) => new Sequence(this.figure, sequence, files))
   }
 }

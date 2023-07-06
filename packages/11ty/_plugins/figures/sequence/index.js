@@ -12,12 +12,12 @@ const Annotation = require('../annotation')
  * @return {Sequence}
  */
 module.exports = class Sequence {
-  constructor(figure, sequence) {
+  constructor(figure, sequence, files) {
     const { iiifConfig } = figure
     this.behavior = sequence.behavior
     this.dir = sequence.id
     this.figure = figure
-    this.files = getSequenceFiles(sequence, iiifConfig)
+    this.files = getSequenceFiles(sequence, iiifConfig, files)
     this.id = sequence.id
     this.regex = sequence.regex
     this.start = sequence.start
