@@ -10,9 +10,8 @@ const path = require('path')
  * @param  {Array}  files      (Optional) An array of filenames (only used for passing through fixture data in tests)
  * @return {Array<string>}     An array of filenames
  */
-module.exports = (sequence, iiifConfig, files) => {
+module.exports = (sequence, iiifConfig) => {
   if (!sequence) return
-  if (files) return files
   const { dirs } = iiifConfig
   const { imagesDir, inputRoot } = dirs
   const sequenceDir = path.join(inputRoot, imagesDir, sequence.id)

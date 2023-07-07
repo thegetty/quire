@@ -1,3 +1,4 @@
+const getSequenceFiles = require('./get-sequence-files')
 const Sequence = require('./index')
 
 /**
@@ -20,6 +21,11 @@ module.exports = class SequenceFactory {
   create(files) {
     const { sequences } = this.figure.data
     if (!sequences) return
-    return sequences.map((sequence) => new Sequence(this.figure, sequence, files))
+    return sequences.map((sequence) => {
+      if (!files) {
+        files = getSequenceFiles(sequence, iiifConfig)
+      }
+      return new Sequence(this.figure, sequence, files)
+    })
   }
 }
