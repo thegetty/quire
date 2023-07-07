@@ -7,7 +7,6 @@ const path = require('path')
  *
  * @param  {Object} figure     Figure data
  * @param  {Object} iiifConfig IIIF Config data
- * @param  {Array}  files      (Optional) An array of filenames (only used for passing through fixture data in tests)
  * @return {Array<string>}     An array of filenames
  */
 module.exports = (sequence, iiifConfig) => {
