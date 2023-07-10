@@ -11,6 +11,7 @@ module.exports = class SequenceFactory {
    */
   constructor(figure) {
     this.figure = figure
+    this.dirs = figure.iiifConfig.dirs
   }
 
   /**
@@ -24,7 +25,7 @@ module.exports = class SequenceFactory {
     if (!sequences) return
     return sequences.map((sequence) => {
       if (!files) {
-        files = getSequenceFiles(sequence, iiifConfig)
+        files = this.getSequenceFiles(sequence)
       }
       return new Sequence(this.figure, sequence, files)
     })
@@ -40,6 +41,7 @@ module.exports = class SequenceFactory {
   getSequenceFiles(sequence) {
     if (!sequence) return
     
+    const { imagesDir, inputRoot } = this.dirs
     const sequenceDir = path.join(inputRoot, imagesDir, sequence.id)
     
     /**
