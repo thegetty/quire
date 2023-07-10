@@ -1,4 +1,4 @@
-const { html } = require('~lib/common-tags')
+const { oneLine } = require('~lib/common-tags')
 const chalkFactory = require('~lib/chalk')
 const figure = require('./figure')
 
@@ -45,7 +45,7 @@ module.exports = function (eleventyConfig, { page }) {
       figureTags.push(`<div class="q-figure--group__row columns">${row}</div>`)
     }
 
-    return html`
+    return oneLine`
       <figure class="q-figure q-figure--group">
         ${figureTags.join('\n')}
       </figure>

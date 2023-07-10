@@ -31,8 +31,8 @@ module.exports = function (eleventyConfig, items) {
 
   return items.sort((itemA, itemB) => {
     const sortById = eleventyConfig.globalData.config.bibliography.displayShort
-    let a = sortById ? itemA.id : itemA.sort_as || itemA.full
-    let b = sortById ? itemB.id : itemB.sort_as || itemB.full
+    let a = sortById ? itemA.sort_as || itemA.id : itemA.sort_as || itemA.full
+    let b = sortById ? itemB.sort_as || itemB.id : itemB.sort_as || itemB.full
     a = removeMarkdown(a)
     b = removeMarkdown(b)
     return a.localeCompare(b, locales, options)

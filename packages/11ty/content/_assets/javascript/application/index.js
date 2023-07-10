@@ -8,6 +8,7 @@
  */
 
 // Stylesheets
+import '../../fonts/index.scss';
 import '../../styles/application.scss'
 import '../../styles/custom.css'
 
@@ -15,6 +16,7 @@ import '../../styles/custom.css'
 import './canvas-panel'
 import './soundcloud-api.min.js'
 import { goToFigureState, setUpUIEventHandlers } from './canvas-panel'
+import Accordion from './accordion'
 import Search from '../../../../_plugins/search/search.js'
 import scrollToHash from './scroll-to-hash'
 
@@ -117,8 +119,9 @@ window['search'] = () => {
 
 function onHashLinkClick(event) {
   // only override default link behavior if it points to the same page
-  const hash = event.target.hash
-  if (event.target.pathname.includes(window.location.pathname)) {
+  const anchor = event.target.closest('a')
+  const hash = anchor.hash
+  if (anchor.pathname.includes(window.location.pathname)) {
     // prevent default scrolling behavior
     event.preventDefault()
     // ensure the hash is manually set after preventing default
@@ -132,6 +135,7 @@ function setupCustomScrollToHash() {
   const invalidHashLinkSelectors = [
     '[href="#"]',
     '[href="#0"]',
+    '.accordion-section__heading-link',
     '.q-figure__modal-link'
   ]
   const validHashLinkSelector =
@@ -345,12 +349,18 @@ window.addEventListener('load', () => {
   scrollToHash(window.location.hash, 75, 'swing')
   const params = parseQueryParams()
   /**
+   * Accordion Setup
+   */
+  Accordion.setup()
+  /**
    * Canvas Panel Setup
    */
   setUpUIEventHandlers()
-  if (window.location.hash) goToFigureState({
-    figureId: window.location.hash.replace(/^#/, ''),
-    annotationIds: params['annotation-id'],
-    region: params['region'] ? params['region'][0] : null
-  })
+  if (window.location.hash) {
+    goToFigureState({
+      figureId: window.location.hash.replace(/^#/, ''),
+      annotationIds: params['annotation-id'],
+      region: params['region'] ? params['region'][0] : null
+    })
+  }
 })

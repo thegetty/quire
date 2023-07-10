@@ -1,4 +1,5 @@
 import Command from '#src/Command.js'
+import fs from 'fs-extra'
 import { quire } from '#src/lib/quire/index.js'
 
 /**
@@ -23,7 +24,7 @@ export default class CreateCommand extends Command {
     ],
     options: [
       [ '--quire-path <path>', 'local path to quire-11ty package' ],
-      [ '--quire-version <version>', 'quire-11ty version to install', 'latest' ],
+      [ '--quire-version <version>', 'quire-11ty version to install' ],
       // [ '--eject', 'install quire-11ty into the project directory', true ],
       [ '--debug', 'debug the `quire new` command', false ],
     ],
@@ -60,12 +61,19 @@ export default class CreateCommand extends Command {
        *   - interactive mode prompt to continue
        *   - non-interactive mode throw an error and exit the process
        */
-      await quire.initStarter(starter, projectPath, options)
+      let quireVersion
+      try {
+        quireVersion = await quire.initStarter(starter, projectPath, options)
+      } catch (error) {
+        console.error(error.message)
+        fs.removeSync(projectPath)
+        return
+      }
 
       options.eject = true
 
       if (options.eject) {
-        await quire.installInProject(projectPath, options)
+        await quire.installInProject(projectPath, quireVersion, options)
       } else {
         await quire.install(options)
       }

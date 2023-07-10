@@ -1,7 +1,7 @@
 {
   "name": "@thegetty/quire-cli",
   "description": "Quire command-line interface",
-  "version": "1.0.0-rc.7",
+  "version": "1.0.0-rc.10",
   "author": "Getty Digital",
   "license": "SEE LICENSE IN https://github.com/thegetty/quire/blob/main/LICENSE",
   "bugs": {
@@ -51,7 +51,7 @@
     "conf": "^11.0.1",
     "cross-env": "^7.0.3",
     "del": "^7.0.0",
-    "epubjs-cli": "^0.1.2",
+    "epubjs-cli": "^0.1.5",
     "execa": "^6.1.0",
     "fs-extra": "^11.1.0",
     "hosted-git-info": "^6.1.1",

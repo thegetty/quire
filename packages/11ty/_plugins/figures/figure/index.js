@@ -170,6 +170,26 @@ module.exports = class Figure {
   }
 
   /**
+   * Path to a static representation of the figure for inline display
+   * @type {String}
+   */
+  get staticInlineFigureImage() {
+    let filename
+    if (this.src) {
+      filename = this.src
+    } else if (this.sequences) {
+      const sequenceStart = this.sequences[0].start
+      filename = sequenceStart ? sequenceStart : this.sequences[0].files[0]
+    }
+
+    if (!this.isExternalResource && filename) {
+      const { name } = path.parse(filename)
+      return path.join('/', this.outputDir, name, `static-inline-figure-image.jpg`)
+    }
+    return this.data.staticInlineFigure
+  }
+
+  /**
    * Return only the data properties consumed by quire shortcodes
    * @return {Object} figure
    */
@@ -196,7 +216,8 @@ module.exports = class Figure {
       region: this.region,
       sequences: this.sequences,
       startCanvasIndex,
-      src: this.src
+      src: this.src,
+      staticInlineFigureImage: this.staticInlineFigureImage,
     }
   }
 
@@ -268,11 +289,19 @@ module.exports = class Figure {
   async processFigureSequence() {
     // TODO Consider refactor - any time `this.sequences` is referenced, it creates a new instance of SequenceFactory
     if (!this.sequences) return
+    const { transformations } = this.iiifConfig
+    const [ sequenceStartFilename ] = this.sequences.flatMap(({ files, start }) => {
+      const { name: firstFileName } = path.parse(files[0])
+      return start || firstFileName
+    })
+    const { name: startId } = sequenceStartFilename ? path.parse(sequenceStartFilename) : {}
     const sequenceItems = this.sequences.flatMap(({ items }) => items)
     const results = await Promise.all(sequenceItems.map((item) => {
+      const isStartItem = startId === item.id
       logger.debug(`processing sequence image ${item.src}`)
       return item.src && this.processImage(item.src, this.outputDir, {
-        tile: item.isImageService
+        tile: item.isImageService,
+        transformations: isStartItem ? transformations : []
       })
     }))
     const errors = results.flatMap(({ errors }) => errors || [])
