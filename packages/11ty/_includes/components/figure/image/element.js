@@ -28,9 +28,17 @@ module.exports = function (eleventyConfig) {
           return await imageSequence(figure, options)
         }
       case isCanvas:
-        return canvasPanel(figure)
+        if (!interactive && staticInlineFigureImage) {
+          return imageTag({ alt, src: staticInlineFigureImage, isStatic: !interactive })
+        } else {
+          return canvasPanel(figure)
+        }
       case isImageService:
-        return imageService(figure)
+        if (!interactive && staticInlineFigureImage) {
+          return imageTag({ alt, src: staticInlineFigureImage, isStatic: !interactive })
+        } else {
+          return imageService(figure)
+        }
       default:
         return imageTag(figure)
     }
