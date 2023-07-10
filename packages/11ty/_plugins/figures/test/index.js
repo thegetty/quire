@@ -12,13 +12,16 @@ const createManifestFromFigureFixture = async (figureFixtureName) => {
   const {
     dimensions,
     figure: figureFixture,
+    files,
     manifest: manifestFixture
   } = figureFixtures[figureFixtureName]
   const { height, width } = dimensions
   const figure = new Figure(iiifConfig, null, figureFixture)
   figure.canvasHeight = height
   figure.canvasWidth = width
-  const manifest = new Manifest(figure)
+  const manifest = files && figure.isSequence
+    ? new Manifest({ ...figure, sequences: figure.sequenceFactory.create(files) })
+    : new Manifest(figure)
   const manifestJson = await manifest.toJSON()
   return {
     manifestFixture,

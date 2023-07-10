@@ -1,5 +1,4 @@
 const path = require('path')
-const getSequenceFiles = require('./get-sequence-files')
 const Annotation = require('../annotation')
 
 /**
@@ -12,12 +11,12 @@ const Annotation = require('../annotation')
  * @return {Sequence}
  */
 module.exports = class Sequence {
-  constructor(figure, sequence) {
+  constructor(figure, sequence, files) {
     const { iiifConfig } = figure
     this.behavior = sequence.behavior
     this.dir = sequence.id
     this.figure = figure
-    this.files = getSequenceFiles(sequence, iiifConfig)
+    this.files = files
     this.id = sequence.id
     this.regex = sequence.regex
     this.start = sequence.start

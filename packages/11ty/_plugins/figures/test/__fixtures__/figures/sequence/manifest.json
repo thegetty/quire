@@ -3260,7 +3260,8 @@
           "type": "Canvas"
         }
       ],
-      "type": "Range"
+      "type": "Range",
+      "viewingDirection": "left-to-right"
     }
   ]
 }
