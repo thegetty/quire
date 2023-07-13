@@ -18,7 +18,7 @@ Changelog entries are classified using the following labels:
 
 - `Removed`: for deprecated features removed in this release
 
-## [unreleased]
+## [1.0.0-rc.12]
 
 ### Added
 
@@ -35,6 +35,12 @@ Changelog entries are classified using the following labels:
 
 ### Fixed
 - Add `id` to Sequence class, fixes preview rebuild with image sequences.
+
+## [1.0.0-rc.11]
+
+### Fixed
+
+- Fix missing fonts in PDF output
 
 ## [1.0.0-rc.10]
 
