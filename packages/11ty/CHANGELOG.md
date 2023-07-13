@@ -28,12 +28,14 @@ Changelog entries are classified using the following labels:
 ### Changed
 
 - Renames `annoref` shortcode to `ref`
+- Uses vertical split layout on `entry` layout with `side-by-side` presentation
 
 ### Removed
 
 - `figureRef` shortcode (replaced by `ref` shortcode)
 
 ### Fixed
+
 - Add `id` to Sequence class, fixes preview rebuild with image sequences.
 
 ## [1.0.0-rc.11]
