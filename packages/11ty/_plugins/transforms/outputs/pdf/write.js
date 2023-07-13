@@ -27,15 +27,22 @@ module.exports = (eleventyConfig) => {
   fs.ensureDirSync(path.parse(outputPath).dir)
 
   /**
-   * Write each page section in the PDF collection to a single HTML file
+   * Write each page section in the PDF collection to a single HTML file,
+   * as well as one instance of SVG symbol definitions
    * @param  {Object} collection collections.pdf with `sectionElement` property
    */
   return async (collection) => {
     const dom = await JSDOM.fromFile(layoutPath)
     const { document } = dom.window
 
-    collection.forEach(({ outputPath, sectionElement }) => {
+    collection.forEach(({ outputPath, sectionElement, svgSymbolElements }, index) => {
       try {
+        // only write SVG symbol definitions one time
+        if (index === 0) {
+          svgSymbolElements.forEach((svgSymbolElement) => {
+            document.body.appendChild(svgSymbolElement)
+          })
+        }
         document.body.appendChild(sectionElement)
       } catch (error) {
         logger.error(`Eleventy transform for PDF error appending content for ${outputPath} to combined output. ${error}`)
@@ -72,10 +79,13 @@ module.exports = (eleventyConfig) => {
     }
 
     try {
+      const fontsDir = path.join(inputDir, '_assets', 'fonts')
+      const fonts = sass.compile(path.resolve(fontsDir, 'index.scss'), sassOptions)
+      fonts.css = fonts.css.replaceAll('/_assets', '_assets')
       const stylesDir = path.join(inputDir, '_assets', 'styles')
       const application = sass.compile(path.resolve(stylesDir, 'application.scss'), sassOptions)
       const custom = sass.compile(path.resolve(stylesDir, 'custom.css'), sassOptions)
-      fs.writeFileSync(path.join(outputDir, 'pdf.css'), application.css + custom.css)
+      fs.writeFileSync(path.join(outputDir, 'pdf.css'), fonts.css + application.css + custom.css)
     } catch (error) {
       logger.error(`Eleventy transform for PDF error compiling SASS. Error message: ${error}`)
     }

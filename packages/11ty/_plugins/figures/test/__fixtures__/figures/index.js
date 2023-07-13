@@ -16,11 +16,13 @@ module.exports = {
   sequence: {
     dimensions: { height: 2160, width: 1827 },
     figure: require('./sequence/figure.json'),
+    files: require('./sequence/files.json'),
     manifest: require('./sequence/manifest.json')
   },
   sequenceWithAnnotations: {
     dimensions: { height: 2048, width: 1536 },
     figure: require('./sequence-with-annotations/figure.json'),
+    files: require('./sequence-with-annotations/files.json'),
     manifest: require('./sequence-with-annotations/manifest.json')
   },
   zoomable: {
@@ -31,6 +33,7 @@ module.exports = {
   zoomableSequence: {
     dimensions: { height: 2160, width: 1827 },
     figure: require('./zoomable-sequence/figure.json'),
+    files: require('./zoomable-sequence/files.json'),
     manifest: require('./zoomable-sequence/manifest.json')
   }
 }

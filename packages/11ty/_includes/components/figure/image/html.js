@@ -10,7 +10,6 @@ const path = require('path')
  * @return     {String}  HTML containing  a `figureImageElement`, a caption and annotations UI
  */
 module.exports = function(eleventyConfig) {
-  const annotationsUI = eleventyConfig.getFilter('annotationsUI')
   const figureCaption = eleventyConfig.getFilter('figureCaption')
   const figureImageElement = eleventyConfig.getFilter('figureImageElement')
   const figureLabel = eleventyConfig.getFilter('figureLabel')
@@ -28,9 +27,6 @@ module.exports = function(eleventyConfig) {
       label
     } = figure
 
-    const annotationsElement = !isSequence
-      ? annotationsUI({ figure })
-      : ''
     const labelElement = figureLabel({ id, label, isSequence })
 
     /**
@@ -43,7 +39,6 @@ module.exports = function(eleventyConfig) {
 
     return html`
       ${imageElement}
-      ${annotationsElement}
       ${captionElement}
     `
   }
