@@ -18,9 +18,9 @@ module.exports = class Sequence {
     this.figure = figure
     this.transition = transition // @todo calculate from number of files
     this.files = files
-    this.id = sequence.id
-    this.regex = sequence.regex
-    this.start = sequence.start
+    this.id = id
+    this.regex = regex
+    this.start = start
     this.viewingDirection = viewing_direction || sequence.viewingDirection
   }
 
