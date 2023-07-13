@@ -24,11 +24,14 @@ module.exports = function (eleventyConfig) {
   const { sequenceTransition: defaultSequenceTransition } = eleventyConfig.globalData.config.ref || {}
 
   return (params) => {
-    const { anno='', fig, region='', start, text='', onscroll } = params
+    const { anno='', fig, region='', start, onscroll } = params
+
     const figure = getFigure(fig)
     if (!figure) {
       logger.error(`[ref shortcode] "fig" parameter doesn't correspond to a valid figure id in "figures.yaml". Fig: ${fig}`)
     }
+
+    const text = params.text ? params.text : figure.label
 
     /**
      * Annotations
