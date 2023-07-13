@@ -12,7 +12,7 @@
 if (!window.customElements.get('image-sequence')) {
   window.customElements.define('image-sequence', class extends HTMLElement {
     static get observedAttributes() {
-      return ['index'];
+      return ['index', 'rotate-to-index'];
     }
 
     get allImagesLoaded() {
@@ -32,10 +32,30 @@ if (!window.customElements.get('image-sequence')) {
       this.setAttribute('index', value);
     }
 
+    get rotateToIndex() {
+      const value = parseInt(this.getAttribute('rotate-to-index'));
+      return Number.isInteger(value) && value;
+    }
+
+    set rotateToIndex(value) {
+      const newValue = parseInt(value);
+      (Number.isInteger(newValue))
+        ? this.setAttribute('rotate-to-index', value)
+        : this.removeAttribute('rotate-to-index');
+    }
+
+    get transition() {
+      const value = parseInt(this.getAttribute('transition'));
+      return Number.isInteger(value) && value;
+    }
+
     attributeChangedCallback(name, oldValue, newValue) {
       switch (name) {
         case 'index':
           this.onIndexChange(oldValue, newValue);
+          break;
+        case 'rotate-to-index':
+          this.onRotateToIndex(oldValue, newValue);
           break;
         default:
           break;
@@ -309,14 +329,15 @@ img.${placeholder} {
         this.hideOverlays();
         if (this.oldX) {
           const deltaX = clientX - this.oldX;
+          const deltaIndex = Math.floor(Math.log(Math.abs(deltaX))) || 1;
           if (deltaX > 0) {
             this.isReversed
-              ? this.previousCanvas(deltaX)
-              : this.nextCanvas(deltaX);
+              ? this.previousCanvas(deltaIndex)
+              : this.nextCanvas(deltaIndex);
           } else if (deltaX < 0) {
             this.isReversed
-              ? this.nextCanvas(deltaX)
-              : this.previousCanvas(deltaX);
+              ? this.nextCanvas(deltaIndex)
+              : this.previousCanvas(deltaIndex);
           }
         }
         this.oldX = clientX;
@@ -346,11 +367,15 @@ img.${placeholder} {
       this.root.querySelector(`.${this.classNames.overlay}.${this.classNames.overlay}`).classList.remove(this.classNames.visible);
     }
 
-    nextCanvas(deltaX) {
-      const deltaIndex = Math.floor(Math.log(Math.abs(deltaX))) || 1;
-      const newIndex = this.index + deltaIndex >= this.totalCanvases
-        ? this.index + deltaIndex - this.totalCanvases
-        : this.index + deltaIndex;
+    /**
+     * Set the sequence canvas to the index `n` steps after the current index
+     * 
+     * @param {Integer} n Number of steps between start index and end index
+     */
+    nextCanvas(n=1) {
+      const newIndex = this.index + n >= this.totalCanvases
+        ? this.index + n - this.totalCanvases
+        : this.index + n;
       this.setSequenceIndex(newIndex);
     }
 
@@ -392,11 +417,41 @@ img.${placeholder} {
       }
     }
 
-    previousCanvas(deltaX) {
-      const deltaIndex = Math.floor(Math.log(Math.abs(deltaX))) || 1;
-      const newIndex = this.index - deltaIndex < 0
-        ? this.totalCanvases + this.index - deltaIndex
-        : this.index - deltaIndex;
+    /**
+     * Animates a rotation by stepping through canvases from the current index to the provided `newValue`
+     */
+    onRotateToIndex(oldValue, newValue) {
+      const newIndex = parseInt(newValue);
+      if (this.index === newIndex || isNaN(newIndex) || oldValue === newValue) return;
+      const interval = setInterval(() => {
+        /**
+         * Set rotateToIndex to false when rotation is done
+         */
+        if (this.index === newIndex) {
+          this.rotateToIndex = false;
+        }
+        /**
+         * Clear the interval if user has triggered another rotation or if the rotation is complete
+         */
+        if (this.rotateToIndex !== newIndex) {
+          clearInterval(interval);
+          return;
+        }
+        /**
+         * Step through canvases
+         */
+        this.nextCanvas();
+      }, this.transition);
+    }
+
+    /**
+     * Set the sequence canvas to the index `n` indices before the current index
+     * @param {Integer} n Number of steps between start index and end index
+     */
+    previousCanvas(n=1) {
+      const newIndex = this.index - n < 0
+        ? this.totalCanvases + this.index - n
+        : this.index - n;
       this.setSequenceIndex(newIndex);
     }
 
@@ -410,7 +465,6 @@ img.${placeholder} {
     setSequenceIndex(newIndex) {
       if (newIndex !== this.index) {
         this.index = newIndex;
-        this.setSequenceIndexQueryParams();
         this.synchronizeSequenceInstances();
       }
     }
