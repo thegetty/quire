@@ -56,7 +56,7 @@ module.exports = function(eleventyConfig, collections, content) {
     const title = pageTitle(page.data)
     const body = document.createElement('body')
     body.innerHTML = mainElement.innerHTML
-    body.setAttribute('id', mainElement.getAttribute('id'))
+    body.setAttribute('id', mainElement.dataset.pageId)
 
     /**
      * Remove elements excluded from this output type
