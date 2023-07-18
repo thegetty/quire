@@ -18,11 +18,13 @@ const VERSION_FILE = '.quire'
 export default class InfoCommand extends Command {
   static definition = {
     name: 'info',
-    description: 'List Quire cli, quire-11ty, and node versions',
-    summary: 'list info',
+    description: 'Output information about the local Quire installation',
+    summary: 'local quire info',
     version: '1.0.0',
     args: [],
-    options: [['--debug', 'include os versions in output']],
+    options: [
+      [ '--debug', 'include os versions in output' ],
+    ],
   }
 
   constructor() {

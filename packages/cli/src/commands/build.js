@@ -26,14 +26,15 @@ export default class BuildCommand extends Command {
       // ],
     ],
     options: [
-      [ '-d', '--dry-run', 'run build without writing files' ],
-      [ '-q', '--quiet', 'run build with no console messages' ],
-      [ '-v', '--verbose', 'run build with verbose console messages' ],
+      [ '-c', '--check', 'check output using W3C markdup validation service'],
+      [ '-d', '--dry-run', 'build project without writing any files' ],
+      [ '-q', '--quiet', 'run command without any console messages' ],
+      [ '-v', '--verbose', 'run command with verbose console messages' ],
       [
-        '--11ty <module>', 'use the specified 11ty module', 'cli',
+        '--11ty <module>', 'build project using the specified 11ty module', 'cli',
         // { choices: ['api', 'cli'], default: 'cli' }
       ],
-      [ '--debug', 'run build with debug output to console' ],
+      [ '--debug', 'run command with additional debugging output' ],
     ],
   }
 

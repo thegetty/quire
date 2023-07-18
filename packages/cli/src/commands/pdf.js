@@ -23,12 +23,13 @@ export default class PDFCommand extends Command {
     args: [
     ],
     options: [
+      [ '--check', 'check output using a PDF/A validation service'],
+      [ '--debug', 'run command with additional debug output' ],
       [
         '--lib <module>', 'use the specified pdf module', 'pagedjs',
         { choices: ['pagedjs', 'prince'], default: 'pagedjs' }
       ],
-      [ '--open', 'open PDF in default application' ],
-      [ '--debug', 'run build with debug output to console' ],
+      [ '--open', 'open PDF in the default application' ],
     ],
   }
 

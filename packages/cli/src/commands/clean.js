@@ -25,7 +25,7 @@ export default class CleanCommand extends Command {
       [ '-d', '--dry-run', 'show paths to be cleaned without deleting files' ],
       [ '-p', '--progress', 'display progress of removing files' ],
       [ '-v', '--verbose', 'run clean with verbose console messages' ],
-      [ '--debug', 'run clean with debug output to console' ],
+      [ '--debug', 'run command with additional debugging output' ],
     ],
   }
 

@@ -26,13 +26,13 @@ export default class PreviewCommand extends Command {
     ],
     options: [
       [ '-p', '--port <port>', 'configure development server port', 8080 ],
-      [ '-q', '--quiet', 'run preview in silent mode' ],
-      [ '-v', '--verbose', 'run preview with verbose console messages' ],
+      [ '-q', '--quiet', 'run command without console messages' ],
+      [ '-v', '--verbose', 'run command with verbose console messages' ],
       [
         '--11ty <module>', 'use the specified 11ty module', 'cli',
         // { choices: ['api', 'cli'], default: 'cli' }
       ],
-      [ '--debug', 'run preview with debug output to console' ],
+      [ '--debug', 'run command with additional debugging output' ],
     ],
   }
 
