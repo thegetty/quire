@@ -18,6 +18,12 @@ Changelog entries are classified using the following labels:
 
 - `Removed`: for deprecated features removed in this release
 
+## [unreleased]
+
+### Fixed
+
+- Removed empty `<title>` tags from epub output
+
 ## [1.0.0-rc.12]
 
 ### Added
