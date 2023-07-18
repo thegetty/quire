@@ -27,7 +27,8 @@ module.exports = function(eleventyConfig, collections, content) {
      * Add web component script tags to <head>
      */
     registerWebComponents(dom)
-    content = slugifyIds(dom.serialize())
+    slugifyIds(dom.window.document)
+    content = dom.serialize()
   }
 
   return content

@@ -81,7 +81,8 @@ module.exports = function(eleventyConfig, collections, content) {
     const sequence = index.toString().padStart(targetLength, 0)
 
     const serializer = new window.XMLSerializer()
-    const xml = slugifyIds(serializer.serializeToString(body))
+    slugifyIds(document)
+    const xml = serializer.serializeToString(body)
 
     epubContent = layout({ body: xml, language, title })
 
