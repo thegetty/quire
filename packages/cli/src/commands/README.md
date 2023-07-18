@@ -40,6 +40,14 @@ Build Quire publication HTML format.
 quire build site
 ```
 
+### `check`
+
+Check build outputs conform to the requirements and specifications for the output format.
+
+```sh
+quire check [format]
+```
+
 ### `clean`
 
 Remove build outputs.

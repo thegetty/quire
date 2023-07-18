@@ -21,12 +21,13 @@ export default class EpubCommand extends Command {
     version: '1.0.0',
     args: [],
     options: [
+      [ '--check', 'validate output using an EPUB validation service'],
+      [ '--debug', 'run command with additional debug output' ],
       [
         '--lib <module>', 'use the specified epub library', 'epubjs',
         { choices: ['epubjs', 'pandoc'], default: 'epubjs' }
       ],
-      [ '--open', 'open EPUB in default application' ],
-      [ '--debug', 'run epub with debug output' ],
+      [ '--open', 'open EPUB in the default application' ],
     ],
   }
 
