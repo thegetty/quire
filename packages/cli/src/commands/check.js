@@ -10,8 +10,8 @@ import testcwd from '#helpers/test-cwd.js'
 export default class CheckCommand extends Command {
   static definition = {
     name: 'check',
-    description: '',
-    summary: '',
+    description: 'check that outputs conform to requirements and specifications',
+    summary: 'check outputs for validation errors',
     version: '1.0.0',
     args: [
       [
