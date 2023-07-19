@@ -24,6 +24,7 @@ Changelog entries are classified using the following labels:
 
 - Removed empty `<title>` tags from epub output
 - Updated `link` shortcode to only apply anchor tag attributes if they are defined
+- Strip HTML from `<title>` tags in epub and site output
 
 ## [1.0.0-rc.12]
 
