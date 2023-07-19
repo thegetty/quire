@@ -11,6 +11,7 @@ const { JSDOM } = jsdom
  */
 module.exports = function(eleventyConfig, collections, content) {
   const pageTitle = eleventyConfig.getFilter('pageTitle')
+  const removeHTML = eleventyConfig.getFilter('removeHTML')
   const slugify = eleventyConfig.getFilter('slugify')
   const slugifyIds = eleventyConfig.getFilter('slugifyIds')
   const { imageDir } = eleventyConfig.globalData.config.figures
@@ -53,7 +54,7 @@ module.exports = function(eleventyConfig, collections, content) {
     const { document, window } = new JSDOM(epubContent).window
     const mainElement = document.querySelector('main[data-output-path]')
 
-    const title = pageTitle(page.data)
+    const title = removeHTML(pageTitle(page.data))
     const body = document.createElement('body')
     body.innerHTML = mainElement.innerHTML
     body.setAttribute('id', mainElement.getAttribute('id'))
