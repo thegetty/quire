@@ -1,6 +1,9 @@
 const { html } = require('~lib/common-tags')
 module.exports = ({ body, language, title }) => {
   const stylesheets = ''
+
+  const titleElement = title ? `<title>${title}</title>` : ''
+
   return html`
     <?xml version="1.0" encoding="UTF-8"?>
     <!DOCTYPE html>
@@ -8,7 +11,7 @@ module.exports = ({ body, language, title }) => {
       <head>
         <meta charset="utf-8" />
         <link rel="stylesheet" type="text/css" href="/_assets/epub.css" />
-        <title>${title}</title>
+        ${titleElement}
         ${stylesheets}
       </head>
       ${body}
