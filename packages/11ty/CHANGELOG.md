@@ -22,6 +22,7 @@ Changelog entries are classified using the following labels:
 
 ### Fixed
 
+- Sort epub reading order by `url`
 - Removed empty `<title>` tags from epub output
 - Updated `link` shortcode to only apply anchor tag attributes if they are defined
 - Strip HTML from `<title>` tags in epub and site output
