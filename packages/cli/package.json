@@ -45,6 +45,8 @@
     "#lib/*.js": "./src/lib/*.js"
   },
   "dependencies": {
+    "@daisy/ace": "^1.3.2",
+    "axe-core": "^4.7.2",
     "boxen": "^7.0.1",
     "chalk": "^5.2.0",
     "commander": "^10.0.0",
