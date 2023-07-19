@@ -13,8 +13,18 @@ export default class CheckCommand extends Command {
     description: '',
     summary: '',
     version: '1.0.0',
-    args: [],
+    args: [
+      [
+        '[formats...]', 'output formats',
+        {
+          choices: [ 'site', 'pdf', 'epub' ],
+          default: 'site'
+        }
+      ],
+    ],
     options: [
+      [ '--a11y [path]', 'run accessability checks' ],
+      [ '--debug', 'run command with additional debugging output' ],
     ],
   }
 
