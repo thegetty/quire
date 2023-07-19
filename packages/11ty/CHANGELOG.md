@@ -23,6 +23,7 @@ Changelog entries are classified using the following labels:
 ### Fixed
 
 - Removed empty `<title>` tags from epub output
+- Updated `link` shortcode to only apply anchor tag attributes if they are defined
 
 ## [1.0.0-rc.12]
 
