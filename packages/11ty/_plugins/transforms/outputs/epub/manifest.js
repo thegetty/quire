@@ -11,6 +11,8 @@ const logger = chalkFactory('_plugins:epub:manifest')
  */
 module.exports = (eleventyConfig) => {
   const removeHTML = eleventyConfig.getFilter('removeHTML')
+  const sortByKeys = eleventyConfig.getFilter('sortByKeys')
+
   const { assets, readingOrder } = eleventyConfig.globalData.epub
 
   const {
@@ -27,7 +29,6 @@ module.exports = (eleventyConfig) => {
     title
   } = eleventyConfig.globalData.publication
   const { epub, figures: { imageDir } } = eleventyConfig.globalData.config
-  const { url } = eleventyConfig.globalData.publication
 
   /**
    * Contributor name, filtered by type
@@ -130,7 +131,7 @@ module.exports = (eleventyConfig) => {
     id: isbn,
     languages: language,
     publisher: publisherNameAndLocations(),
-    readingOrder: readingOrder.sort(),
+    readingOrder: readingOrder.sort(sortByKeys(['url'])),
     resources: resources,
     rights: copyright,
     title: pubTitle(),

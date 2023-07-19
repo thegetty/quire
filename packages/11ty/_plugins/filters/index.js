@@ -16,6 +16,9 @@ const removeHTML = require('./removeHTML')
 const slugifyIds = require('./slugifyIds')
 const titleCase = require('./titleCase')
 
+// utility filters
+const sortByKeys = require('./sortByKeys')
+
 // Web component rendering
 const renderWebcComponent = require('./renderWebcComponent')
 
@@ -48,4 +51,8 @@ module.exports = function(eleventyConfig, options) {
    * Web component rendering
    */
   eleventyConfig.addFilter('renderWebcComponent', renderWebcComponent)
+  /**
+   * Utilities
+   */
+  eleventyConfig.addFilter('sortByKeys', sortByKeys)
 }
