@@ -64,7 +64,8 @@ module.exports = (eleventyConfig) => {
       element.style.backgroundImage = `url('${trimLeadingSlash(backgroundImageUrl)}')`
     })
 
-    const content = slugifyIds(dom.serialize())
+    slugifyIds(document)
+    const content = dom.serialize()
 
     try {
       fs.writeFileSync(outputPath, content)

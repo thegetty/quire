@@ -57,7 +57,7 @@ module.exports = function(eleventyConfig, collections, content) {
     const title = removeHTML(pageTitle(page.data))
     const body = document.createElement('body')
     body.innerHTML = mainElement.innerHTML
-    body.setAttribute('id', mainElement.getAttribute('id'))
+    body.setAttribute('id', mainElement.dataset.pageId)
 
     /**
      * Remove elements excluded from this output type
@@ -82,7 +82,8 @@ module.exports = function(eleventyConfig, collections, content) {
     const sequence = index.toString().padStart(targetLength, 0)
 
     const serializer = new window.XMLSerializer()
-    const xml = slugifyIds(serializer.serializeToString(body))
+    slugifyIds(document)
+    const xml = serializer.serializeToString(body)
 
     epubContent = layout({ body: xml, language, title })
 
