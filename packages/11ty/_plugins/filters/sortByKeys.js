@@ -26,7 +26,6 @@ module.exports = (sortKeys = [], sortOrder = 'ascending') => {
 
   if (!['ascending', 'descending'].includes(sortOrder)) {
     throw new Error(`
-
       Invalid sort order "${sortOrder}" passed to sortByKeys,\n
       value of sortOrder argument must be either "ascending" or "descending".
     `)
