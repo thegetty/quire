@@ -23,6 +23,7 @@ Changelog entries are classified using the following labels:
 ### Fixed
 
 - Removed empty `<title>` tags from epub output
+- Strip HTML from `<title>` tags in epub and site output
 
 ## [1.0.0-rc.12]
 
