@@ -54,7 +54,8 @@ module.exports = (eleventyConfig, collections) => {
      * Copy assets
      */
     const { assets } = eleventyConfig.globalData.epub
-    assets.push(manifest.cover)
+    const { url: coverUrl } = manifest.resources.find(({ rel }) => rel === 'cover-image')
+    assets.push(coverUrl)
     for (const asset of assets) {
       fs.copySync(
         path.join(eleventyConfig.dir.output, asset),
