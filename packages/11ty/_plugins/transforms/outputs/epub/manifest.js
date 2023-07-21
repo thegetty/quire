@@ -104,11 +104,12 @@ module.exports = (eleventyConfig) => {
   }
 
   const coverUrl = cover()
+  resources.push({
+    url: coverUrl,
+    rel: 'cover-image'
+  })
   for (const asset of assets) {
     let item = { url: asset }
-    if (asset === coverUrl) {
-      item.rel = 'cover-image'
-    }
     resources.push(item)
   }
 
@@ -124,7 +125,6 @@ module.exports = (eleventyConfig) => {
     ],
     conformsTo: 'https://www.w3.org/TR/pub-manifest/',
     contributors: contributors('secondary'),
-    cover: coverUrl,
     creators: contributors('primary'),
     dateModifed: pubDate,
     description: publicationDescription,
