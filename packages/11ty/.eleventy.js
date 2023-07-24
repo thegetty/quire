@@ -230,7 +230,6 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.watchIgnores.add('_pdf')
   eleventyConfig.watchIgnores.add('_temp')
 
-  const { pathname: pathPrefix } = globalData.publication
   return {
     /**
      * @see {@link https://www.11ty.dev/docs/config/#configuration-options}
@@ -247,7 +246,7 @@ module.exports = function(eleventyConfig) {
     /**
      * The default global template engine to pre-process HTML files.
      * Use false to avoid pre-processing and passthrough copy the content (HTML is not transformed, so technically this could be any plaintext).
-     * @see {@link https://www.11ty.dev/docs/config/#default-template-engine-for-html-files}
+     * @see {@link https://www.11ty.dev/docs/config/#default-template-engine-for-html-files Default Template Engine For Html Files}
      */
     htmlTemplateEngine: 'liquid',
     /**
@@ -259,30 +258,12 @@ module.exports = function(eleventyConfig) {
     /**
      * The default global template engine to pre-process markdown files.
      * Use false to avoid pre-processing and only transform markdown.
-     * @see {@link https://www.11ty.dev/docs/config/#default-template-engine-for-markdown-files}
+     * @see {@link https://www.11ty.dev/docs/config/#default-template-engine-for-markdown-files Default Template Engine For Markdown Files}
      */
     markdownTemplateEngine: 'liquid',
     /**
-     * @see {@link https://www.11ty.dev/docs/config/#deploy-to-a-subdirectory-with-a-path-prefix}
+     * @see {@link https://www.11ty.dev/docs/config/#deploy-to-a-subdirectory-with-a-path-prefix Deploy To A Subdirectory With A Path Prefix}
      */
-    pathPrefix,
-    /**
-     * All of the following template formats support universal shortcodes.
-     *
-     * Nota bene:
-     * Markdown files are pre-processed as Liquid templates by default. This
-     * means that shortcodes available in Liquid templates are also available
-     * in Markdown files. Likewise, if you change the template engine for
-     * Markdown files, the shortcodes available for that templating language
-     * will also be available in Markdown files.
-     * @see {@link https://www.11ty.dev/docs/config/#template-formats}
-     */
-    templateFormats: [
-      '11ty.js', // JavaScript
-      'hbs',     // Handlebars
-      'liquid',  // Liquid
-      'md',      // Markdown
-      'njk',     // Nunjucks
-    ]
+    pathPrefix: globalData.publication.pathname
   }
 }
