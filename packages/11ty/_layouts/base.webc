@@ -1,0 +1,33 @@
+<!---
+  Quire `base` layout template
+--->
+<!doctype html>
+<html :lang="publication.language">
+  <head webc:is="html-head"></head>
+  <body>
+    <svg @raw="icons()" webc:nokeep></svg>
+    <div class="quire no-js" id="container">
+      <site-menu @data="this"></site-menu>
+      </div>
+      <div class="quire__primary">
+        <div @raw="navigation(this)" webc:nokeep></div>
+        <main
+          :class="`quire-page ${pageClasses}`"
+          :data-output-path="outputPath"
+          :data-page-id="pageId"
+          @raw="content"
+        >
+        </main>
+      </div>
+      <site-search></site-search>
+    </div>
+    <figure-modal @data="figures"></figure-modal>
+    <script type="module" @raw="getBundle('js')" webc:keep></script>
+    <div @raw="scripts()" webc:root></div>
+  </body>
+</html>
+
+<script webc:setup>
+const { inputPath, outputPath, url } = page
+const pageId = slugify(url) || new URL(inputPath, publication.url).pathname
+</script>

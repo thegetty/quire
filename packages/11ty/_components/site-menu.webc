@@ -1,0 +1,12 @@
+<div
+  aria-expanded="false"
+  class="quire__secondary"
+  data-outputs-exclude="epub,pdf"
+  id="site-menu"
+  role="contentinfo"
+  @raw="this.menu(this.$data)"
+>
+</div>
+
+<script webc:setup>
+</script>

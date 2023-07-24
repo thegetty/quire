@@ -1,0 +1,60 @@
+<!--- HTMLHeadElement
+  WebC <head> caveats @see https://www.11ty.dev/docs/languages/webc/#components
+--->
+<template webc:nokeep>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="robots" content="noindex, nofollow"/>
+  <meta name="generator" :content="generator" />
+  <meta name="description" :content="description">
+  <meta name="keywords" :content="keywords">
+  <!---
+  <meta webc:is="dublin-core">
+  <meta webc:is="opengraph" @page>
+  <meta webc:is="twitter-card" @data="{ abstract, cover, layout }">
+  --->
+  <title :text="title"></title>
+  <link rel="canonical" :href="canonicalURL">
+  <link rel="version-history" :href="publication.repositoryUrl">
+
+  <link rel="icon" href="/_assets/images/icons/favicon.ico">
+
+  <link rel="publisher" webc:for="(url) of publishers" :href="url">
+  <link rel="author" webc:for="(url) of contributors" :href="url">
+
+  <style @raw="getBundle('css')" webc:keep></style>
+
+  <script src="https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@1.0.56" type="module" webc:keep></script>
+  <script src="https://cdn.jsdelivr.net/npm/@iiif/vault-helpers@latest/dist/index.umd.js" webc:keep></script>
+
+  <!--- @todo this stringifies the Javascript
+  <script webc:keep @raw="analytics(config.analytics)"></script>
+  --->
+
+  <script @raw="jsonld({ canonicalURL, page })" type="application/ld+json" webc:keep></script>
+</template>
+
+<!--- Nota bene
+  Data in webc:setup scripts is scoped to the component
+  and does not flow upward in the Eleventy Data Cascade
+--->
+<script webc:setup>
+const { application, canonicalURL, config, figures, publication } = this.$data
+const { abstract, cover, layout, page } = this.$data
+
+const contributors = publication.contributor.flatMap(({ url }) => url ? [url] : [])
+const description = publication.description.full || publication.description.one_line
+const generator = `${application.name} ${application.version}`
+
+const keywords = publication.subject
+  .flatMap(({ name, type }) => type === 'keywords' ? [name] : [])
+  .join(', ')
+
+const publishers = publication.publisher.flatMap(({ url }) => url ? [url] : [])
+
+const title = page.title
+  ? `${page.title} | ${publication.title}`
+  : publication.title
+
+</script>
