@@ -32,7 +32,6 @@ module.exports = {
   figureTableElement: require('./figure/table/element'),
   figureVideo: require('./figure/video'),
   figureVideoElement: require('./figure/video/element'),
-  head: require('./head.js'),
   icon: require('./icon.js'),
   icons: require('./icons.js'),
   iconscc: require('./icons-cc/index.js'),
