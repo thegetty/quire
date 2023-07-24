@@ -166,14 +166,16 @@ module.exports = function(eleventyConfig) {
    * @see https://www.11ty.dev/docs/languages/webc/#installation
    *
    * @typedef {PluginWebcOptions}
-   * @property {String} components - Glob pattern for no-import global components
+   * @property {String|Array<String>} components - Glob patterns for no-import global components
    * @property {Object} transformData - Additional global data for WebC transform
    * @property {Boolean} useTransform - Use WebC transform to process all HTML output
    */
   eleventyConfig.addPlugin(pluginWebc, {
     components: [
       '_components/**/*.webc',
-      '_includes/components/**/*.webc'
+      '_includes/components/**/*.webc',
+      'npm:@11ty/eleventy-img/*.webc',
+      'npm:@11ty/is-land/*.webc',
     ],
     transformData: {},
     useTransform: false,
