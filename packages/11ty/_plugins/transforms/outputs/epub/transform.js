@@ -90,12 +90,12 @@ module.exports = function(eleventyConfig, collections, content) {
       /**
        * Get the URL and collection index of epub file that corresponds to the current `href`
        */
-      const epubFileInfo = collections.epub.flatMap(({ url }, index) => {
-        return url === href ? [{ index, url }] : []
-      })[0]
-      if (!epubFileInfo) return
+      const index = collections.epub
+        .findIndex(({ url }) => url === href)
+        
+      if (!index) return
 
-      const { index, url } = epubFileInfo
+      const { url } = collections.epub[index]
       const name = slugify(url)
       const targetLength = collections.epub.length.toString().length
       const sequence = index.toString().padStart(targetLength, 0)
