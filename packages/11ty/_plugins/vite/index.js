@@ -62,6 +62,10 @@ module.exports = function (eleventyConfig, { directoryConfig, publication }) {
                   dest: path.join(outputDir, '_assets', 'images')
                 },
                 {
+                  src: path.join(inputDir, '_assets', 'downloads', '*'),
+                  dest: path.join(outputDir, '_assets', 'downloads')
+                },
+                {
                   src: path.join(inputDir, '_assets', 'fonts', '*'),
                   dest: path.join(outputDir, '_assets', 'fonts')
                 }
