@@ -8,7 +8,7 @@ The transform function is called for each template, with the output HTML and out
 
 ### Selecting the content
 
-The transfrom uses the [`JSDOM` library](https://github.com/jsdom/jsdom) to create an HTML `document` from the rendered output and `querySelect` a `section` element that contains the content. The `section` containing the content is selected by the `data-ouput-path` attribute applied to the wrapping `section` element rendered by the [`base.11ty.js` layout](../_layouts/base.11ty.js).
+The transfrom uses the [`JSDOM` library](https://github.com/jsdom/jsdom) to create an HTML `document` from the rendered output and `querySelect` a `section` element that contains the content. The `section` containing the content is selected by the `data-ouput-path` attribute applied to the wrapping `section` element rendered by the [`base` layout](../_layouts/base.webc).
 
 Below is simplified example of the `content` argument passed to the transform function:
 
