@@ -87,13 +87,10 @@ module.exports = function(eleventyConfig, collections, content) {
       }
       if (!isRelativeLink(href)) return
 
-      /**
-       * Get the URL and collection index of epub file that corresponds to the current `href`
-       */
       const index = collections.epub
         .findIndex(({ url }) => url === href)
-        
-      if (!index) return
+
+      if (index < 0) return
 
       const { url } = collections.epub[index]
       const name = slugify(url)
