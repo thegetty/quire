@@ -10,7 +10,7 @@ module.exports = class TableOfContents {
   data() {
     return {
       class: 'quire-contents',
-      layout: 'base'
+      layout: 'base.webc'
     }
   }
 
