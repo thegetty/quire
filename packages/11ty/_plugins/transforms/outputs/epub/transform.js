@@ -90,7 +90,7 @@ module.exports = function(eleventyConfig, collections, content) {
       const index = collections.epub
         .findIndex(({ url }) => url === href)
 
-      if (index < 0) return
+      if (index === -1) return
 
       const { url } = collections.epub[index]
       const name = slugify(url)
