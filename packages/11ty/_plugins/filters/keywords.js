@@ -14,6 +14,5 @@ module.exports = function(eleventyConfig, { publication }) {
   }
 
   return publication.subject
-    .filter(({ type }) => type === 'keyword')
-    .map(({ name }) => name)
+    .flatMap(({ name, type }) => type === 'keyword' ? [name] : [])
 }
