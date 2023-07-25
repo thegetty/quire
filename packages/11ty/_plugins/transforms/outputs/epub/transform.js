@@ -75,6 +75,32 @@ module.exports = function(eleventyConfig, collections, content) {
     }
 
     /**
+     * Rewrite relative web links to work properly in epub readers
+     */
+    const pageLinks = body.querySelectorAll('a')
+    pageLinks.forEach((link) => {
+      const href = link.getAttribute('href')
+      if (!href) return
+
+      const isRelativeLink = (href) => {
+        return !href.startsWith('#') && !href.startsWith('http')
+      }
+      if (!isRelativeLink(href)) return
+
+      const epubFileInfo = collections.epub.flatMap(({ url }, index) => {
+        return url === href ? [{ index, url }] : []
+      })[0]
+      if (!epubFileInfo) return
+
+      const { index, url } = epubFileInfo
+      const name = slugify(url)
+      const targetLength = collections.epub.length.toString().length
+      const sequence = index.toString().padStart(targetLength, 0)
+      const filename = `${sequence}_${name}.xhtml`
+      link.setAttribute('href', filename)
+    })
+
+    /**
      * Sequence and write files
      */
     const name = slugify(this.url) || path.parse(this.inputPath).name
