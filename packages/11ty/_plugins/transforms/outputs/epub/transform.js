@@ -87,9 +87,9 @@ module.exports = function(eleventyConfig, collections, content) {
       }
       if (!isRelativeLink(href)) return
 
-    /**
-     * Get the URL and collection index of epub file that corresponds to the current `href`
-     */
+      /**
+       * Get the URL and collection index of epub file that corresponds to the current `href`
+       */
       const epubFileInfo = collections.epub.flatMap(({ url }, index) => {
         return url === href ? [{ index, url }] : []
       })[0]
