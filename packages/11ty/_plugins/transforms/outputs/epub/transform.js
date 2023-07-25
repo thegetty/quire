@@ -74,6 +74,8 @@ module.exports = function(eleventyConfig, collections, content) {
       tableOfContents.setAttribute('epub:type', 'toc')
     }
 
+    const targetLength = collections.epub.length.toString().length
+
     /**
      * Rewrite relative web links to work properly in epub readers
      */
@@ -94,7 +96,6 @@ module.exports = function(eleventyConfig, collections, content) {
 
       const { url } = collections.epub[index]
       const name = slugify(url)
-      const targetLength = collections.epub.length.toString().length
       const sequence = index.toString().padStart(targetLength, 0)
       const filename = `${sequence}_${name}.xhtml`
       link.setAttribute('href', filename)
@@ -104,7 +105,6 @@ module.exports = function(eleventyConfig, collections, content) {
      * Sequence and write files
      */
     const name = slugify(this.url) || path.parse(this.inputPath).name
-    const targetLength = collections.epub.length.toString().length
     const sequence = index.toString().padStart(targetLength, 0)
 
     const serializer = new window.XMLSerializer()
