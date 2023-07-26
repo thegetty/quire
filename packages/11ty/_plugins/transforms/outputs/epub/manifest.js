@@ -126,7 +126,7 @@ module.exports = (eleventyConfig) => {
     conformsTo: 'https://www.w3.org/TR/pub-manifest/',
     contributors: contributors('secondary'),
     creators: contributors('primary'),
-    dateModifed: pubDate,
+    dateModified: pubDate,
     description: publicationDescription,
     id: isbn,
     languages: language,
