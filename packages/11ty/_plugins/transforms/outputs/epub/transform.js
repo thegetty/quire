@@ -101,9 +101,8 @@ module.exports = function(eleventyConfig, collections, content) {
       if (index === -1) return
 
       const { url } = collections.epub[index]
-      const name = slugify(url)
-      const sequence = index.toString().padStart(targetLength, 0)
-      const filename = `${sequence}_${name}.xhtml`
+      const sequenceNumber = index.toString().padStart(targetLength, 0)
+      const filename = `${sequenceNumber}_${slugify(url)}.xhtml`
       linkElement.setAttribute('href', filename)
     })
 
