@@ -74,11 +74,42 @@ module.exports = function(eleventyConfig, collections, content) {
       tableOfContents.setAttribute('epub:type', 'toc')
     }
 
+    const targetLength = collections.epub.length.toString().length
+
+    /**
+     * Rewrite relative web links to work properly in epub readers
+     */
+    const linkElements = body.querySelectorAll('a')
+    linkElements.forEach((linkElement) => {
+      const href = linkElement.getAttribute('href')
+      if (!href) return
+
+      /**
+       * Determine if a URL points to an internal page
+       *
+       * @param      {String}  href
+       * @return     {Boolean}
+       */
+      const isPageLink = (href) => {
+        return !href.startsWith('#') && !href.startsWith('http')
+      }
+      if (!isPageLink(href)) return
+
+      const index = collections.epub
+        .findIndex(({ url }) => url === href)
+
+      if (index === -1) return
+
+      const { url } = collections.epub[index]
+      const sequenceNumber = index.toString().padStart(targetLength, 0)
+      const filename = `${sequenceNumber}_${slugify(url)}.xhtml`
+      linkElement.setAttribute('href', filename)
+    })
+
     /**
      * Sequence and write files
      */
     const name = slugify(this.url) || path.parse(this.inputPath).name
-    const targetLength = collections.epub.length.toString().length
     const sequence = index.toString().padStart(targetLength, 0)
 
     const serializer = new window.XMLSerializer()
