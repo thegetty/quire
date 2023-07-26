@@ -79,15 +79,21 @@ module.exports = function(eleventyConfig, collections, content) {
     /**
      * Rewrite relative web links to work properly in epub readers
      */
-    const pageLinks = body.querySelectorAll('a')
-    pageLinks.forEach((link) => {
-      const href = link.getAttribute('href')
+    const linkElements = body.querySelectorAll('a')
+    linkElements.forEach((linkElement) => {
+      const href = linkElement.getAttribute('href')
       if (!href) return
 
-      const isRelativeLink = (href) => {
+      /**
+       * Determine if a URL points to an internal page
+       *
+       * @param      {String}  href
+       * @return     {Boolean}
+       */
+      const isPageLink = (href) => {
         return !href.startsWith('#') && !href.startsWith('http')
       }
-      if (!isRelativeLink(href)) return
+      if (!isPageLink(href)) return
 
       const index = collections.epub
         .findIndex(({ url }) => url === href)
@@ -98,7 +104,7 @@ module.exports = function(eleventyConfig, collections, content) {
       const name = slugify(url)
       const sequence = index.toString().padStart(targetLength, 0)
       const filename = `${sequence}_${name}.xhtml`
-      link.setAttribute('href', filename)
+      linkElement.setAttribute('href', filename)
     })
 
     /**
