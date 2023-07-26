@@ -118,6 +118,13 @@ module.exports = (eleventyConfig) => {
     ? removeHTML(full).replace(/\r?\n|\r/g, ' ')
     : oneLine
 
+  /**
+   * Strip milliseconds from ISO date string (`.sss`)
+   */
+  const pubDateWithoutMs = pubDate
+    .toISOString()
+    .replace(/\.\d{3}/, '')
+
   return {
     '@context': [
       'https://schema.org',
@@ -126,7 +133,7 @@ module.exports = (eleventyConfig) => {
     conformsTo: 'https://www.w3.org/TR/pub-manifest/',
     contributors: contributors('secondary'),
     creators: contributors('primary'),
-    dateModifed: pubDate,
+    dateModified: pubDateWithoutMs,
     description: publicationDescription,
     id: isbn,
     languages: language,
