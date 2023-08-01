@@ -15,11 +15,10 @@ module.exports = function (eleventyConfig) {
     contributor: publicationContributors,
     pub_date: pubDate,
     publisher: publishers,
-    url
   } = eleventyConfig.globalData.publication
 
   return function (params) {
-    let { context, page, type } = params
+    let { context, page } = params
     
     const pageContributors = page.data.contributor
       ? page.data.contributor.map((item) => getContributor(item))
