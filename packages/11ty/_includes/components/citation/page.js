@@ -30,7 +30,9 @@ module.exports = function (eleventyConfig) {
       'container-author': publicationContributors
         .filter(({ type }) => type === 'primary')
         .map(citeName),
-      'container-title': `<em>${siteTitle()}</em>`,
+      // CSL-JSON support for html tags is spotty, use a span here
+      // since an <em> tag would be treated as a word and title-cased
+      'container-title': `<span style="font-style: italic;">${siteTitle()}</span>`,
       editor: pageContributors
         .filter(({ role }) => role === 'editor')
         .map(citeName),
