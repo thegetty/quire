@@ -36,7 +36,7 @@ function footnoteRef(state, silent) {
   const id = parseInt(label) - 1
 
   if (!silent) {
-    token = state.push('footnote_ref', '', 0)
+    let token = state.push('footnote_ref', '', 0)
     token.meta = { id, label }
   }
 
@@ -72,8 +72,8 @@ function footnoteTail(state) {
   let tokens
   Object.keys(refTokens).forEach((key) => {
     const current = refTokens[key]
-    const id = parseInt(key[1]) - 1
-    const label = parseInt(key[1])
+    const label = key.replace(/:/, '')
+    const id = parseInt(label) - 1
     token = new state.Token('footnote_open', '', 1)
     token.meta = { id, label }
 
