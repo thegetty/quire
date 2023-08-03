@@ -19,7 +19,7 @@ const logger = chalkFactory('shortcodes:figure')
  *
  * @return     {boolean}  An HTML <figure> element
  */
-module.exports = function (eleventyConfig, { page }) {
+module.exports = function (eleventyConfig) {
   const figureAudio = eleventyConfig.getFilter('figureAudio')
   const figureImage = eleventyConfig.getFilter('figureImage')
   const figureLabel = eleventyConfig.getFilter('figureLabel')
@@ -37,12 +37,12 @@ module.exports = function (eleventyConfig, { page }) {
      */
     let figure = getFigure(id)
     if (!figure) {
-      logger.warn(`The figure id "${id}" was found in the template "${page.inputPath}", but is not defined in "figures.yaml"`)
+      logger.warn(`The figure id "${id}" was found in the template "${this.page.inputPath}", but is not defined in "figures.yaml"`)
       return ''
     }
     figure = { ...figure, ...arguments }
-    if (!page.figures) page.figures = []
-    page.figures.push(figure)
+    this.page.figures ||= []
+    this.page.figures.push(figure)
 
     const { mediaType } = figure
 

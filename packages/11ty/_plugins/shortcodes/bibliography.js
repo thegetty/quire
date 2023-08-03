@@ -13,7 +13,9 @@ module.exports = function (eleventyConfig, { page }) {
   const slugify = eleventyConfig.getFilter('slugify')
   const sortReferences = eleventyConfig.getFilter('sortReferences')
 
-  const { entries } = eleventyConfig.globalData.references
+  const entries = eleventyConfig.globalData.references
+    ? eleventyConfig.globalData.references.entries
+    : []
 
   const { displayOnPage, displayShort, heading } = page.data.config.bibliography
   /**

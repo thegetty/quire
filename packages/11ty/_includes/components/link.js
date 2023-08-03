@@ -12,12 +12,12 @@ const { oneLine } = require('~lib/common-tags')
  * @return {String}                anchor tag
  */
 module.exports = function(eleventyConfig) {
-  const link = eleventyConfig.getFilter('link')
-
   return function (params) {
     const { classes = [], link_relation, media_type, name, url } = params
+    const rel = link_relation ? `rel="${link_relation}"` : ''
+    const type = media_type ? `type="${media_type}"` : ''
     return oneLine`
-      <a href="${url}" class="${classes.join(' ')}" target="_blank" rel="${link_relation}" type="${media_type}">
+      <a href="${url}" class="${classes.join(' ')}" target="_blank" ${rel} ${type}>
         ${name}
       </a>
     `

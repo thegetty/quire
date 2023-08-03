@@ -16,6 +16,12 @@ const removeHTML = require('./removeHTML')
 const slugifyIds = require('./slugifyIds')
 const titleCase = require('./titleCase')
 
+// utility filters
+const sortByKeys = require('./sortByKeys')
+
+// Web component rendering
+const renderWebcComponent = require('./renderWebcComponent')
+
 /**
  * Add universal filters for use in templates
  * @see https://www.11ty.dev/docs/filters/#universal-filters
@@ -41,4 +47,12 @@ module.exports = function(eleventyConfig, options) {
   eleventyConfig.addFilter('removeHTML', (string) => removeHTML(string))
   eleventyConfig.addFilter('slugifyIds', (string) => slugifyIds(string, eleventyConfig))
   eleventyConfig.addFilter('titleCase', (string) => titleCase(string))
+  /**
+   * Web component rendering
+   */
+  eleventyConfig.addFilter('renderWebcComponent', renderWebcComponent)
+  /**
+   * Utilities
+   */
+  eleventyConfig.addFilter('sortByKeys', sortByKeys)
 }

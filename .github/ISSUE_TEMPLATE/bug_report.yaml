@@ -1,9 +1,8 @@
 name: 🐛 Bug Report
 description: Create a bug report to help us improve Quire
-labels: [bug]
+labels: ['status:triage needed']
 assignees:
 - erin-cecele
-- geealbers
 body:
 - type: markdown
   attributes:
@@ -11,60 +10,63 @@ body:
       # Thank you for opening a new issue! 
 - type: checkboxes
   attributes:
-    label: Before proceeding, check to make sure there isn’t an existing issue for this bug.
-    description:
+    label: Before proceeding, make sure there isn’t an existing issue for this bug.
+    description: Check the [Issue Tracker](https://github.com/thegetty/quire/issues) to avoid duplicate issues.
     options:
     - label: I have searched the existing issues and determined this is a new bug.
       required: true    
 - type: textarea
-  id: reproduce
+  id: expected
   attributes:
-    label: Steps to reproduce
-    description: Describe what steps you took that led to the issue. Please be as specific as possible.
+    label: Expected Behavior
+    description: Describe what you expected to happen had everything operated accordingly. 
   validations:
     required: true
 - type: textarea
   id: actual
   attributes:
-    label: Actual behavior
-    description: Describe what happened and how it diverged from what was anticipated.
+    label: Actual Behavior
+    description: Describe what happened.
   validations:
     required: true
 - type: textarea
-  id: expected
+  id: reproduce
   attributes:
-    label: Expected behavior
-    description: Describe what you expected to happen had everything operated accordingly. 
+    label: Steps to Reproduce
+    description: Describe what steps you took that led to the issue. Please be as specific as possible.
+    placeholder: Step 1... Step 2... Step 3... 
   validations:
     required: true
 - type: textarea
-  id: version 
+  id: quire-version 
   attributes:
-    label: Version numbers
-    description: Providing version numbers will help us diagnose the issue more quickly. Run `quire --version` to get the Quire version number and `node --version` to get the Node version number. 
-    placeholder: Please include operating system (macOS/Windows), operating system version, Quire version, Node version, and any other version numbers relevant to the issue.
+    label: Version Numbers
+    description: Run `quire info --debug` in your project directory to list the version numbers for both your **project** (`quire-cli`, `quire-11ty`, `starter`) and your **system** (`quire-cli`, `node`, `npm`, and `os`).   
+    placeholder: 
   validations:
     required: true
-- type: dropdown
+- type: textarea
   id: browsers
   attributes:
-    label: What browsers are you seeing the problem on?
-    multiple: true
-    options:
-    - Firefox
-    - Chrome
-    - Safari
-    - Microsoft Edge
+    label: Web Browser 
+    description: What web browser are you working on (Chrome, Safari, Firefox, Microsoft Edge)? Please include the browser version number.
+  validations:
+    required: false
 - type: textarea
   id: logs
   attributes:
-    label: Relevant Terminal/Shell output
+    label: Relevant Terminal/Shell Output
     description: Please copy and paste all relevant messaging from your Terminal/Shell.
     render: shell
 - type: textarea
   id: supporting_info
   attributes:
     label: Supporting Information
-    description: If you have additional files that would be useful in describing the issue (Screenshots, Quire output files, related issue) attach them by dragging and dropping in the comments below.
+    description: Please include any supporting information such as screenshots, output files, related issues, or potential workarounds.
   validations:
     required: false
+- type: markdown
+  attributes:
+    value: |
+      #### Once your report is submitted, it will automatically receive a “triage needed” label. The bug will then be reviewed by the Getty Quire team to decide if it will be selected for development. Labels will be applied to the issue based on type, status, and the core feature that is affected. We will comment on the issue and change the labels as we make progress have updates available and/or have workarounds. We may also tag you with questions or to request more information.
+

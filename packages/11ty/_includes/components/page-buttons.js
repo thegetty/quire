@@ -25,7 +25,7 @@ module.exports = function(eleventyConfig) {
       if (!previousPage) return
       return html`
         <li class="quire-nav-button prev">
-          <a href="${previousPage.url}">${icon({ type: 'left-arrow', description: 'Go back a page'})}&nbsp;<span class="nav-title">${prevButtonText}</span></a>
+          <a href="${previousPage.url}">${icon({ type: 'left-arrow', description: 'Go back a page'})}\u0020<span class="nav-title">${prevButtonText}</span></a>
           <span class="visually-hidden">Previous Page (left keyboard arrow or swipe)</span>
         </li>
       `
@@ -35,7 +35,7 @@ module.exports = function(eleventyConfig) {
       if (!nextPage) return
       return html`
         <li class="quire-nav-button next">
-          <a href="${nextPage.url}"><span class="nav-title">${nextButtonText}</span>&nbsp;${icon({ type: 'right-arrow', description: 'Go back next page' })}</a>
+          <a href="${nextPage.url}"><span class="nav-title">${nextButtonText}</span>\u0020${icon({ type: 'right-arrow', description: 'Go back next page' })}</a>
             <span class="visually-hidden">Next Page (right keyboard arrow or swipe)</span>
         </li>
       `

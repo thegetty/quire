@@ -1,0 +1,92 @@
+name: Add comment
+on:
+  issues:
+    types:
+      -labeled
+
+jobs:
+  status-backlog:
+    if: github.event.label.name == "status:backlog"
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Add "status:backlog" comment
+        uses: peter-evans/create-or-update-comment@5f728c3dae25f329afbe34ee4d08eef25569d79f
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            Your bug is important to us, but we can't get to it quite yet. Stay tuned. We will confirm when your bug has been selected for development.
+  status-cant-reproduce:
+    if: github.event.label.name == "status:can't reproduce"
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Add "status:can't reproduce" comment
+        uses: peter-evans/create-or-update-comment@5f728c3dae25f329afbe34ee4d08eef25569d79f
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            We are unable to reproduce your suspected bug and will therefore need to close it.
+  status-discuss:
+    if: github.event.label.name == "status:discuss"
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Add "status:discuss" comment
+        uses: peter-evans/create-or-update-comment@5f728c3dae25f329afbe34ee4d08eef25569d79f
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            Your suspected bug needs further review and discussion by our team. Stay tuned for updates.
+  status-in-progress:
+    if: github.event.label.name == "status:in progress"
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Add "status:in progress" comment
+        uses: peter-evans/create-or-update-comment@5f728c3dae25f329afbe34ee4d08eef25569d79f
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            We are currently working on a fix for your bug! Thank you again for your important contribution.
+  status-selected-for-development:
+    if: github.event.label.name == "status:selected for development"
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Add "status:selected for development" comment
+        uses: peter-evans/create-or-update-comment@5f728c3dae25f329afbe34ee4d08eef25569d79f
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            We have confirmed that the issue you've reported is a bug. It has been added to our development queue. Stay tuned for updates.
+  status-triage-needed:
+    if: github.event.label.name == "status:triage needed"
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Add "status:triage needed" comment
+        uses: peter-evans/create-or-update-comment@5f728c3dae25f329afbe34ee4d08eef25569d79f
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            Thank you for your contribution. Your support of Quire is greatly appreciated. We are reviewing your suspected bug and will be in touch soon.
+  status-wont-fix:
+    if: github.event.label.name == "status:won't fix"
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Add "status:won't fix" comment
+        uses: peter-evans/create-or-update-comment@5f728c3dae25f329afbe34ee4d08eef25569d79f
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            Thank you for taking the time to bring this to our attention. Your issue is either not a bug or is currently outside the scope of our project and will therefore be closed.
+

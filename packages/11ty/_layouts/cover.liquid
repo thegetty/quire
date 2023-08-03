@@ -11,7 +11,8 @@ layout: base.11ty.js
   <div
     class="quire-cover__overlay"
     style="background-image: url('{{ imagePath }}');"
-  />
+  >
+  </div>
   <div class="quire-cover__hero-body hero-body">
     <div class="container is-fluid">
       <h1 class="title" id="page-header-{{ page.filePathStem }}">
@@ -23,7 +24,7 @@ layout: base.11ty.js
       </h1>
       <p class="reading-line">{{ publication.reading_line | markdownify }}</p>
       <div class="contributor">
-        <span class="visually-hidden">Contributors:&nbsp;</span>
+        <span class="visually-hidden">Contributors: </span>
         {% if publication.contributor_as_it_appears %}
           <em>{{ publication.contributor_as_it_appears }}</em>
         {% else %}

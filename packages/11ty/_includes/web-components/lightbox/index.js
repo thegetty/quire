@@ -77,7 +77,32 @@ class Lightbox extends LitElement {
   }
 
   get fullscreen() {
-    return document.fullscreen
+    return document.fullscreen || this.wrapper.classList.contains('quire-entry__lightbox--fullscreen')
+  }
+
+  get wrapper() {
+    return document.querySelector('.quire-entry__lightbox')
+  }
+
+  enterFullscreen() {
+    const lightbox = this.renderRoot.firstElementChild
+    if (lightbox.requestFullscreen) {
+      lightbox.requestFullscreen()
+    } else {
+      this.wrapper.classList.add('quire-entry__lightbox--fullscreen')
+      document.body.style.position = 'fixed'
+      document.body.style.top = `-${window.scrollY}px`
+    }
+  }
+
+  exitFullscreen() {
+    if (document.exitFullscreen) {
+      document.exitFullscreen()
+    } else {
+      this.wrapper.classList.remove('quire-entry__lightbox--fullscreen')
+      document.body.style.position = ''
+      document.body.style.top = ''
+    }
   }
 
   next() {
@@ -133,15 +158,13 @@ class Lightbox extends LitElement {
   }
 
   toggleFullscreen() {
-    const lightbox = this.renderRoot.firstElementChild
+    this.updateFullscreenButton()
 
     if (this.fullscreen) {
-      document.exitFullscreen()
+      this.exitFullscreen()
     } else {
-      lightbox.requestFullscreen()
+      this.enterFullscreen()
     }
-
-    this.updateFullscreenButton()
   }
 
   updateCounterElements() {

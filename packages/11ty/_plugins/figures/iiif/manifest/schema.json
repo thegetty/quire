@@ -1,0 +1,1658 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "$comment": "IIIF basic types",
+  "types": {
+    "id": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^http.*$",
+      "title": "Id must be present and must be a URI"
+    },
+    "lngString": {
+      "title": "Language string, must have a language and value must be an array.",
+      "type": "object",
+      "patternProperties": {
+        "^[a-zA-Z-][a-zA-Z-]*$": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "^none$": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "dimension": {
+      "type": "integer",
+      "exclusiveMinimum": 0
+    },
+    "keyValueString": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "$ref": "#/types/lngString"
+        },
+        "value": {
+          "$ref": "#/types/lngString"
+        }
+      },
+      "required": [
+        "label",
+        "value"
+      ]
+    },
+    "BCP47": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[a-zA-Z-][a-zA-Z-]*$"
+        },
+        {
+          "type": "string",
+          "pattern": "^none$"
+        }
+      ]
+    },
+    "format": {
+      "type": "string",
+      "pattern": "^[a-z][a-z]*/.*$"
+    },
+    "class": {
+      "title": "Classes MUST have an id and type property and MAY have a label.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/types/id"
+        },
+        "type": {
+          "type": "string"
+        },
+        "label": {
+          "$ref": "#/types/lngString"
+        }
+      },
+      "required": [
+        "id",
+        "type"
+      ]
+    },
+    "duration": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "external": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          {
+            "$ref": "#/types/class"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "format": {
+                "$ref": "#/types/format"
+              },
+              "profile": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": true,
+      "title": "Reference",
+      "description": "Id. type, label but not items are required",
+      "properties": {
+        "id": {
+          "$ref": "#/types/id"
+        },
+        "label": {
+          "$ref": "#/types/lngString"
+        },
+        "type": {
+          "type": "string",
+          "pattern": "^Manifest$|^AnnotationPage$|^Collection$|^AnnotationCollection$|^Canvas$|^Range$"
+        },
+        "thumbnail": {
+          "type": "array",
+          "items": {
+            "$ref": "#/classes/resource"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "type"
+      ],
+      "not": {
+        "required": [
+          "items"
+        ]
+      }
+    }
+  },
+  "$comment": "IIIF Classes",
+  "classes": {
+    "metadata": {
+      "type": "array",
+      "items": {
+        "$ref": "#/types/keyValueString"
+      }
+    },
+    "homepage": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          {
+            "$ref": "#/types/class"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "format": {
+                "$ref": "#/types/format"
+              },
+              "language": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/types/BCP47"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "seeAlso": {
+      "$ref": "#/types/external"
+    },
+    "partOf": {
+      "type": "array",
+      "items": {
+        "$ref": "#/types/class"
+      }
+    },
+    "choice": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "Choice"
+        },
+        "items": {
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "items"
+      ]
+    },
+    "resource": {
+      "oneOf": [
+        {
+          "title": "Annotation bodies MUST have an id and type property.",
+          "type": "object",
+          "properties": {
+            "id": {
+              "$ref": "#/types/id"
+            },
+            "type": {
+              "type": "string"
+            },
+            "height": {
+              "$ref": "#/types/dimension"
+            },
+            "width": {
+              "$ref": "#/types/dimension"
+            },
+            "duration": {
+              "$ref": "#/types/duration"
+            },
+            "language": {
+              "type": "string"
+            },
+            "rendering": {
+              "$ref": "#/types/external"
+            },
+            "service": {
+              "$ref": "#/classes/service"
+            },
+            "format": {
+              "$ref": "#/types/format"
+            },
+            "label": {
+              "$ref": "#/types/lngString"
+            },
+            "thumbnail": {
+              "type": "array",
+              "items": {
+                "$ref": "#/classes/resource"
+              }
+            },
+            "annotations": {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  {
+                    "$ref": "#/classes/annotationPage"
+                  },
+                  {
+                    "$ref": "#/classes/annotationPageRef"
+                  }
+                ]
+              }
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ]
+        },
+        {
+          "title": "Annotation bodies which are TextualBody MUST have an type and value property.",
+          "type": "object",
+          "properties": {
+            "id": {
+              "$ref": "#/types/id"
+            },
+            "type": {
+              "type": "string",
+              "pattern": "^TextualBody$",
+              "default": "TextualBody"
+            },
+            "value": {
+              "type": "string"
+            },
+            "format": {
+              "$ref": "#/types/format"
+            },
+            "language": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "value",
+            "type"
+          ]
+        }
+      ]
+    },
+    "imgSvr": {
+      "allOf": [
+        {
+          "$ref": "#/classes/service"
+        },
+        {
+          "properties": {
+            "profile": {
+              "type": "string"
+            },
+            "@id": {
+              "$ref": "#/types/id"
+            },
+            "@type": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "service": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "allOf": [
+              {
+                "$ref": "#/types/class"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "profile": {
+                    "type": "string"
+                  },
+                  "service": {
+                    "$ref": "#/classes/service"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "@id": {
+                "$ref": "#/types/id"
+              },
+              "@type": {
+                "type": "string"
+              },
+              "profile": {
+                "type": "string"
+              },
+              "service": {
+                "$ref": "#/classes/service"
+              }
+            },
+            "required": [
+              "@id",
+              "@type"
+            ]
+          }
+        ]
+      }
+    },
+    "rights": {
+      "title": "Rights URI isn't from either Creative Commons or RightsStatements.org. Both require http links.",
+      "oneOf": [
+        {
+          "type": "string",
+          "format": "uri",
+          "pattern": "http://creativecommons.org/licenses/.*"
+        },
+        {
+          "type": "string",
+          "format": "uri",
+          "pattern": "http://creativecommons.org/publicdomain/.*"
+        },
+        {
+          "type": "string",
+          "format": "uri",
+          "pattern": "http://rightsstatements.org/vocab/.*"
+        }
+      ]
+    },
+    "navDate": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "navPlace": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/types/id"
+        },
+        "type": {
+          "type": "string",
+          "default": "FeatureCollection"
+        },
+        "features": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      },
+      "required": [
+        "type"
+      ]
+    },
+    "viewingDirection": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^left-to-right$"
+        },
+        {
+          "type": "string",
+          "pattern": "^right-to-left$"
+        },
+        {
+          "type": "string",
+          "pattern": "^top-to-bottom$"
+        },
+        {
+          "type": "string",
+          "pattern": "^bottom-to-top$"
+        }
+      ]
+    },
+    "behavior": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "type": "string",
+            "pattern": "^auto-advance$"
+          },
+          {
+            "type": "string",
+            "pattern": "^no-auto-advance$"
+          },
+          {
+            "type": "string",
+            "pattern": "^repeat$"
+          },
+          {
+            "type": "string",
+            "pattern": "^no-repeat$"
+          },
+          {
+            "type": "string",
+            "pattern": "^unordered$"
+          },
+          {
+            "type": "string",
+            "pattern": "^individuals$"
+          },
+          {
+            "type": "string",
+            "pattern": "^continuous$"
+          },
+          {
+            "type": "string",
+            "pattern": "^paged$"
+          },
+          {
+            "type": "string",
+            "pattern": "^facing-pages$"
+          },
+          {
+            "type": "string",
+            "pattern": "^non-paged$"
+          },
+          {
+            "type": "string",
+            "pattern": "^multi-part$"
+          },
+          {
+            "type": "string",
+            "pattern": "^together$"
+          },
+          {
+            "type": "string",
+            "pattern": "^sequence$"
+          },
+          {
+            "type": "string",
+            "pattern": "^thumbnail-nav$"
+          },
+          {
+            "type": "string",
+            "pattern": "^no-nav$"
+          },
+          {
+            "type": "string",
+            "pattern": "^hidden$"
+          }
+        ]
+      }
+    },
+    "provider": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          {
+            "$ref": "#/types/class"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "pattern": "^Agent$",
+                "default": "Agent"
+              },
+              "homepage": {
+                "$ref": "#/classes/homepage"
+              },
+              "logo": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/classes/resource"
+                }
+              },
+              "seeAlso": {
+                "$ref": "#/classes/seeAlso"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "collection": {
+      "allOf": [
+        {
+          "$ref": "#/types/class"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "pattern": "^Collection",
+              "default": "Collection",
+              "title": "Are you validating a collection?",
+              "description": "If you are validating a manifest, you may get this error if there are errors in the manifest. The validator first validates it as a manifest and if that fails it will try and validate it using the other types."
+            },
+            "metadata": {
+              "$ref": "#/classes/metadata"
+            },
+            "summary": {
+              "$ref": "#/types/lngString"
+            },
+            "requiredStatement": {
+              "$ref": "#/types/keyValueString"
+            },
+            "rendering": {
+              "$ref": "#/types/external"
+            },
+            "rights": {
+              "$ref": "#/classes/rights"
+            },
+            "navDate": {
+              "$ref": "#/classes/navDate"
+            },
+            "navPlace": {
+              "$ref": "#/classes/navPlace"
+            },
+            "provider": {
+              "$ref": "#/classes/provider"
+            },
+            "seeAlso": {
+              "$ref": "#/classes/seeAlso"
+            },
+            "services": {
+              "$ref": "#/classes/service"
+            },
+            "service": {
+              "$ref": "#/classes/service"
+            },
+            "placeholderCanvas": {
+              "$ref": "#/classes/placeholderCanvas"
+            },
+            "accompanyingCanvas": {
+              "$ref": "#/classes/accompanyingCanvas"
+            },
+            "thumbnail": {
+              "type": "array",
+              "items": {
+                "$ref": "#/classes/resource"
+              }
+            },
+            "homepage": {
+              "$ref": "#/classes/homepage"
+            },
+            "behavior": {
+              "$ref": "#/classes/behavior"
+            },
+            "partOf": {
+              "$ref": "#/classes/partOf"
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/classes/manifestRef"
+                  },
+                  {
+                    "$ref": "#/classes/collectionRef"
+                  },
+                  {
+                    "$ref": "#/classes/collection"
+                  }
+                ]
+              }
+            },
+            "annotations": {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  {
+                    "$ref": "#/classes/annotationPage"
+                  },
+                  {
+                    "$ref": "#/classes/annotationPageRef"
+                  }
+                ]
+              }
+            }
+          },
+          "required": [
+            "id",
+            "type",
+            "label"
+          ]
+        }
+      ]
+    },
+    "manifest": {
+      "allOf": [
+        {
+          "$ref": "#/types/class"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "@context": {
+              "oneOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "uri",
+                    "pattern": "^http.*$"
+                  }
+                },
+                {
+                  "type": "string",
+                  "const": "http://iiif.io/api/presentation/3/context.json"
+                }
+              ]
+            },
+            "id": {
+              "$ref": "#/types/id"
+            },
+            "label": {
+              "$ref": "#/types/lngString"
+            },
+            "type": {
+              "type": "string",
+              "pattern": "^Manifest",
+              "default": "Manifest"
+            },
+            "metadata": {
+              "$ref": "#/classes/metadata"
+            },
+            "summary": {
+              "$ref": "#/types/lngString"
+            },
+            "requiredStatement": {
+              "$ref": "#/types/keyValueString"
+            },
+            "rendering": {
+              "$ref": "#/types/external"
+            },
+            "service": {
+              "$ref": "#/classes/service"
+            },
+            "services": {
+              "$ref": "#/classes/service"
+            },
+            "viewingDirection": {
+              "$ref": "#/classes/viewingDirection"
+            },
+            "placeholderCanvas": {
+              "$ref": "#/classes/placeholderCanvas"
+            },
+            "accompanyingCanvas": {
+              "$ref": "#/classes/accompanyingCanvas"
+            },
+            "rights": {
+              "$ref": "#/classes/rights"
+            },
+            "start": {},
+            "navDate": {
+              "$ref": "#/classes/navDate"
+            },
+            "navPlace": {
+              "$ref": "#/classes/navPlace"
+            },
+            "provider": {
+              "$ref": "#/classes/provider"
+            },
+            "seeAlso": {
+              "$ref": "#/classes/seeAlso"
+            },
+            "thumbnail": {
+              "type": "array",
+              "items": {
+                "$ref": "#/classes/resource"
+              }
+            },
+            "homepage": {
+              "$ref": "#/classes/homepage"
+            },
+            "behavior": {
+              "$ref": "#/classes/behavior"
+            },
+            "partOf": {
+              "$ref": "#/classes/partOf"
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "$ref": "#/classes/canvas"
+              }
+            },
+            "structures": {
+              "type": "array",
+              "items": {
+                "$ref": "#/classes/range"
+              }
+            },
+            "annotations": {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  {
+                    "$ref": "#/classes/annotationPage"
+                  },
+                  {
+                    "$ref": "#/classes/annotationPageRef"
+                  }
+                ]
+              }
+            }
+          },
+          "required": [
+            "id",
+            "type",
+            "label"
+          ]
+        }
+      ]
+    },
+    "manifestRef": {
+      "allOf": [
+        {
+          "$ref": "#/types/reference"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "pattern": "^Manifest$",
+              "default": "Manifest"
+            },
+            "label": {
+              "$ref": "#/types/lngString"
+            }
+          },
+          "required": [
+            "label"
+          ]
+        }
+      ]
+    },
+    "collectionRef": {
+      "allOf": [
+        {
+          "$ref": "#/types/reference"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "pattern": "^Collection$"
+            },
+            "label": {
+              "$ref": "#/types/lngString"
+            }
+          },
+          "required": [
+            "label"
+          ]
+        }
+      ]
+    },
+    "rangeRef": {
+      "allOf": [
+        {
+          "$ref": "#/types/reference"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "pattern": "^Range$"
+            }
+          }
+        }
+      ]
+    },
+    "canvasRef": {
+      "allOf": [
+        {
+          "$ref": "#/types/reference"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "pattern": "^Canvas$"
+            }
+          }
+        }
+      ]
+    },
+    "annotationPageRef": {
+      "allOf": [
+        {
+          "$ref": "#/types/reference"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "pattern": "^AnnotationPage$"
+            }
+          }
+        }
+      ]
+    },
+    "canvas": {
+      "allOf": [
+        {
+          "$ref": "#/types/class"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "pattern": "^Canvas$",
+              "default": "Canvas"
+            },
+            "height": {
+              "$ref": "#/types/dimension"
+            },
+            "width": {
+              "$ref": "#/types/dimension"
+            },
+            "duration": {
+              "$ref": "#/types/duration"
+            },
+            "metadata": {
+              "$ref": "#/classes/metadata"
+            },
+            "summary": {
+              "$ref": "#/types/lngString"
+            },
+            "requiredStatement": {
+              "$ref": "#/types/keyValueString"
+            },
+            "rendering": {
+              "$ref": "#/types/external"
+            },
+            "rights": {
+              "$ref": "#/classes/rights"
+            },
+            "navDate": {
+              "$ref": "#/classes/navDate"
+            },
+            "navPlace": {
+              "$ref": "#/classes/navPlace"
+            },
+            "provider": {
+              "$ref": "#/classes/provider"
+            },
+            "seeAlso": {
+              "$ref": "#/classes/seeAlso"
+            },
+            "service": {
+              "$ref": "#/classes/service"
+            },
+            "placeholderCanvas": {
+              "$ref": "#/classes/placeholderCanvas"
+            },
+            "accompanyingCanvas": {
+              "$ref": "#/classes/accompanyingCanvas"
+            },
+            "thumbnail": {
+              "type": "array",
+              "items": {
+                "$ref": "#/classes/resource"
+              }
+            },
+            "homepage": {
+              "$ref": "#/classes/homepage"
+            },
+            "behavior": {
+              "$ref": "#/classes/behavior"
+            },
+            "partOf": {
+              "$ref": "#/classes/partOf"
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "$ref": "#/classes/annotationPage"
+              }
+            },
+            "annotations": {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  {
+                    "$ref": "#/classes/annotationPage"
+                  },
+                  {
+                    "$ref": "#/classes/annotationPageRef"
+                  }
+                ]
+              }
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "anyOf": [
+            {
+              "required": [
+                "width"
+              ]
+            },
+            {
+              "required": [
+                "height"
+              ]
+            },
+            {
+              "required": [
+                "duration"
+              ]
+            }
+          ],
+          "dependencies": {
+            "width": [
+              "height"
+            ],
+            "height": [
+              "width"
+            ]
+          }
+        }
+      ]
+    },
+    "placeholderCanvas": {
+      "allOf": [
+        {
+          "$ref": "#/types/class"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "pattern": "^Canvas$",
+              "default": "Canvas"
+            },
+            "height": {
+              "$ref": "#/types/dimension"
+            },
+            "width": {
+              "$ref": "#/types/dimension"
+            },
+            "duration": {
+              "$ref": "#/types/duration"
+            },
+            "metadata": {
+              "$ref": "#/classes/metadata"
+            },
+            "summary": {
+              "$ref": "#/types/lngString"
+            },
+            "requiredStatement": {
+              "$ref": "#/types/keyValueString"
+            },
+            "rendering": {
+              "$ref": "#/types/external"
+            },
+            "rights": {
+              "$ref": "#/classes/rights"
+            },
+            "navDate": {
+              "$ref": "#/classes/navDate"
+            },
+            "navPlace": {
+              "$ref": "#/classes/navPlace"
+            },
+            "provider": {
+              "$ref": "#/classes/provider"
+            },
+            "seeAlso": {
+              "$ref": "#/classes/seeAlso"
+            },
+            "service": {
+              "$ref": "#/classes/service"
+            },
+            "thumbnail": {
+              "type": "array",
+              "items": {
+                "$ref": "#/classes/resource"
+              }
+            },
+            "homepage": {
+              "$ref": "#/classes/homepage"
+            },
+            "behavior": {
+              "$ref": "#/classes/behavior"
+            },
+            "partOf": {
+              "$ref": "#/classes/partOf"
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "$ref": "#/classes/annotationPage"
+              }
+            },
+            "annotations": {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  {
+                    "$ref": "#/classes/annotationPage"
+                  },
+                  {
+                    "$ref": "#/classes/annotationPageRef"
+                  }
+                ]
+              }
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "anyOf": [
+            {
+              "required": [
+                "width"
+              ]
+            },
+            {
+              "required": [
+                "height"
+              ]
+            },
+            {
+              "required": [
+                "duration"
+              ]
+            }
+          ],
+          "dependencies": {
+            "width": [
+              "height"
+            ],
+            "height": [
+              "width"
+            ]
+          },
+          "not": {
+            "required": [
+              "placeholderCanvas",
+              "accompanyingCanvas"
+            ]
+          }
+        }
+      ]
+    },
+    "accompanyingCanvas": {
+      "allOf": [
+        {
+          "$ref": "#/types/class"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "pattern": "^Canvas$",
+              "default": "Canvas"
+            },
+            "height": {
+              "$ref": "#/types/dimension"
+            },
+            "width": {
+              "$ref": "#/types/dimension"
+            },
+            "duration": {
+              "$ref": "#/types/duration"
+            },
+            "metadata": {
+              "$ref": "#/classes/metadata"
+            },
+            "summary": {
+              "$ref": "#/types/lngString"
+            },
+            "requiredStatement": {
+              "$ref": "#/types/keyValueString"
+            },
+            "rendering": {
+              "$ref": "#/types/external"
+            },
+            "rights": {
+              "$ref": "#/classes/rights"
+            },
+            "navDate": {
+              "$ref": "#/classes/navDate"
+            },
+            "navPlace": {
+              "$ref": "#/classes/navPlace"
+            },
+            "provider": {
+              "$ref": "#/classes/provider"
+            },
+            "seeAlso": {
+              "$ref": "#/classes/seeAlso"
+            },
+            "service": {
+              "$ref": "#/classes/service"
+            },
+            "thumbnail": {
+              "type": "array",
+              "items": {
+                "$ref": "#/classes/resource"
+              }
+            },
+            "homepage": {
+              "$ref": "#/classes/homepage"
+            },
+            "behavior": {
+              "$ref": "#/classes/behavior"
+            },
+            "partOf": {
+              "$ref": "#/classes/partOf"
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "$ref": "#/classes/annotationPage"
+              }
+            },
+            "annotations": {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  {
+                    "$ref": "#/classes/annotationPage"
+                  },
+                  {
+                    "$ref": "#/classes/annotationPageRef"
+                  }
+                ]
+              }
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "anyOf": [
+            {
+              "required": [
+                "width"
+              ]
+            },
+            {
+              "required": [
+                "height"
+              ]
+            },
+            {
+              "required": [
+                "duration"
+              ]
+            }
+          ],
+          "dependencies": {
+            "width": [
+              "height"
+            ],
+            "height": [
+              "width"
+            ]
+          },
+          "not": {
+            "required": [
+              "placeholderCanvas",
+              "accompanyingCanvas"
+            ]
+          }
+        }
+      ]
+    },
+    "annotationCollection": {
+      "allOf": [
+        {
+          "$ref": "#/types/class"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "pattern": "^AnnotationCollection$",
+              "default": "AnnotationCollection"
+            },
+            "rendering": {
+              "$ref": "#/types/external"
+            },
+            "partOf": {
+              "$ref": "#/classes/partOf"
+            },
+            "next": {
+              "$ref": "#/classes/annotationPageRef"
+            },
+            "first": {
+              "$ref": "#/classes/annotationPageRef"
+            },
+            "last": {
+              "$ref": "#/classes/annotationPageRef"
+            },
+            "service": {
+              "$ref": "#/classes/service"
+            },
+            "thumbnail": {
+              "type": "array",
+              "items": {
+                "$ref": "#/classes/resource"
+              }
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "$ref": "#/classes/annotation"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "annotationPage": {
+      "allOf": [
+        {
+          "$ref": "#/types/class"
+        },
+        {
+          "type": "object",
+          "title": "AnnotationPage",
+          "description": "id, type and items required",
+          "properties": {
+            "@context": {
+              "oneOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "uri",
+                    "pattern": "^http.*$"
+                  }
+                },
+                {
+                  "type": "string",
+                  "const": "http://iiif.io/api/presentation/3/context.json"
+                }
+              ]
+            },
+            "id": {
+              "$ref": "#/types/id"
+            },
+            "type": {
+              "type": "string",
+              "pattern": "^AnnotationPage$",
+              "default": "AnnotationPage"
+            },
+            "rendering": {
+              "$ref": "#/types/external"
+            },
+            "label": {
+              "$ref": "#/types/lngString"
+            },
+            "service": {
+              "$ref": "#/classes/service"
+            },
+            "thumbnail": {
+              "type": "array",
+              "items": {
+                "$ref": "#/classes/resource"
+              }
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "$ref": "#/classes/annotation"
+              }
+            }
+          },
+          "required": [
+            "id",
+            "type",
+            "items"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "annotation": {
+      "allOf": [
+        {
+          "$ref": "#/types/class"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "pattern": "^Annotation$",
+              "default": "Annotation"
+            },
+            "service": {
+              "$ref": "#/classes/service"
+            },
+            "rendering": {
+              "$ref": "#/types/external"
+            },
+            "thumbnail": {
+              "type": "array",
+              "items": {
+                "$ref": "#/classes/resource"
+              }
+            },
+            "motivation": {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ]
+            },
+            "body": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "$ref": "#/classes/resource"
+                },
+                {
+                  "type": "object",
+                  "allOf": [
+                    {
+                      "$ref": "#/classes/choice"
+                    },
+                    {
+                      "properties": {
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/classes/resource"
+                          }
+                        }
+                      },
+                      "required": [
+                        "items"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              ]
+            },
+            "target": {
+              "anyOf": [
+                {
+                  "$ref": "#/classes/annoTarget"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/classes/annoTarget"
+                  }
+                }
+              ]
+            }
+          },
+          "required": [
+            "id",
+            "target",
+            "type"
+          ]
+        }
+      ]
+    },
+    "annoTarget": {
+      "oneOf": [
+        {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^http.*$"
+        },
+        {
+          "$ref": "#/classes/specificResource"
+        },
+        {
+          "title": "Annotation target can also contain just scope and source",
+          "type": "object",
+          "properties": {
+            "source": {
+              "$ref": "#/types/id"
+            },
+            "scope": {
+              "$ref": "#/types/id"
+            }
+          },
+          "required": [
+            "source",
+            "scope"
+          ]
+        }
+      ]
+    },
+    "specificResource": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/types/id"
+        },
+        "type": {
+          "type": "string",
+          "pattern": "^SpecificResource$",
+          "default": "SpecificResource"
+        },
+        "format": {
+          "$ref": "#/types/format"
+        },
+        "accessibility": {
+          "type": "string"
+        },
+        "source": {
+          "oneOf": [
+            {
+              "$ref": "#/types/id"
+            },
+            {
+              "$ref": "#/types/class"
+            }
+          ]
+        },
+        "selector": {
+          "oneOf": [
+            {
+              "$ref": "#/classes/annoSelector"
+            },
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/classes/annoSelector"
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "source",
+        "selector"
+      ]
+    },
+    "annoSelector": {
+      "oneOf": [
+        {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^http.*$"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string"
+            },
+            "t": {
+              "$ref": "#/types/duration"
+            }
+          },
+          "required": [
+            "type",
+            "t"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "pattern": "^FragmentSelector$",
+              "default": "FragmentSelector"
+            },
+            "conformsTo": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^http.*$",
+              "default": "http://www.w3.org/TR/media-frags/"
+            },
+            "value": {
+              "type:": "string"
+            }
+          },
+          "required": [
+            "type",
+            "value"
+          ]
+        }
+      ]
+    },
+    "range": {
+      "allOf": [
+        {
+          "$ref": "#/types/class"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "pattern": "^Range$",
+              "default": "Range"
+            },
+            "rendering": {
+              "$ref": "#/types/external"
+            },
+            "supplementary": {
+              "$ref": "#/classes/annotationCollection"
+            },
+            "service": {
+              "$ref": "#/classes/service"
+            },
+            "placeholderCanvas": {
+              "$ref": "#/classes/placeholderCanvas"
+            },
+            "accompanyingCanvas": {
+              "$ref": "#/classes/accompanyingCanvas"
+            },
+            "annotations": {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  {
+                    "$ref": "#/classes/annotationPage"
+                  },
+                  {
+                    "$ref": "#/classes/annotationPageRef"
+                  }
+                ]
+              }
+            },
+            "thumbnail": {
+              "type": "array",
+              "items": {
+                "$ref": "#/classes/resource"
+              }
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  {
+                    "$ref": "#/classes/specificResource"
+                  },
+                  {
+                    "allOf": [
+                      {
+                        "$ref": "#/types/class"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "pattern": "^Canvas$",
+                            "default": "Canvas"
+                          },
+                          "items": {
+                            "type": "array"
+                          }
+                        },
+                        "required": [
+                          "items"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "$ref": "#/classes/range"
+                  },
+                  {
+                    "$ref": "#/classes/canvasRef"
+                  }
+                ]
+              }
+            }
+          },
+          "required": [
+            "items"
+          ]
+        }
+      ]
+    }
+  },
+  "$id": "http://iiif.io/api/presentation/3/schema.json",
+  "oneOf": [
+    {
+      "$ref": "#/classes/manifest"
+    },
+    {
+      "$ref": "#/classes/collection"
+    },
+    {
+      "$ref": "#/classes/annotationPage"
+    }
+  ]
+}
