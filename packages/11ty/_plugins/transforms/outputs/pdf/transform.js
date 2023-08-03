@@ -1,9 +1,9 @@
-const jsdom = require("jsdom");
-const filterOutputs = require("../filter.js");
-const truncate = require("~lib/truncate");
-const writer = require("./write");
+const jsdom = require('jsdom')
+const filterOutputs = require('../filter.js')
+const truncate = require('~lib/truncate')
+const writer = require('./write')
 
-const { JSDOM } = jsdom;
+const { JSDOM } = jsdom
 
 /**
  * A function to transform and write Eleventy content for pdf
@@ -12,10 +12,11 @@ const { JSDOM } = jsdom;
  * @param      {String}  content      Output content
  * @return     {Array}   The transformed content string
  */
-module.exports = function (eleventyConfig, collections, content) {
-  const pageTitle = eleventyConfig.getFilter("pageTitle");
-  const slugify = eleventyConfig.getFilter("slugify");
-  const writeOutput = writer(eleventyConfig);
+module.exports = function(eleventyConfig, collections, content) {
+  const pageTitle = eleventyConfig.getFilter('pageTitle')
+  const slugify = eleventyConfig.getFilter('slugify')
+
+  const writeOutput = writer(eleventyConfig)
 
   /**
    * Truncated page or section title for footer
@@ -23,9 +24,9 @@ module.exports = function (eleventyConfig, collections, content) {
    * @return {String} Formatted page or section title
    */
   const formatTitle = ({ label, short_title: shortTitle, title }) => {
-    const truncatedTitle = shortTitle || truncate(title, 35);
-    return pageTitle({ label, title: truncatedTitle });
-  };
+    const truncatedTitle = shortTitle || truncate(title, 35)
+    return pageTitle({ label, title: truncatedTitle })
+  }
 
   /**
    * Sets data attribute used for PDF footer
@@ -35,15 +36,15 @@ module.exports = function (eleventyConfig, collections, content) {
    * @param  {HTMLElement}  element  HTML element on which to set data attributes
    */
   const setDataAttributes = (page, element) => {
-    const { dataset } = element;
-    const { parentPage } = page.data;
+    const { dataset } = element
+    const { parentPage } = page.data
 
-    dataset.footerPageTitle = formatTitle(page.data);
+    dataset.footerPageTitle = formatTitle(page.data)
 
     if (parentPage) {
-      dataset.footerSectionTitle = formatTitle(parentPage.data);
+      dataset.footerSectionTitle = formatTitle(parentPage.data)
     }
-  };
+  }
 
   /**
    * Transform relative links to anchor links
@@ -51,46 +52,44 @@ module.exports = function (eleventyConfig, collections, content) {
    * @param      {HTMLElement}  element
    */
   const transformRelativeLinks = (element) => {
-    const nodes = element.querySelectorAll("a");
+    const nodes = element.querySelectorAll('a')
     nodes.forEach((a) => {
-      const url = a.getAttribute("href");
-      a.setAttribute("href", slugify(`page_${url}`).replace(/^([^#])/, "#$1"));
-    });
-    return element;
-  };
+      const url = a.getAttribute('href')
+      a.setAttribute('href', slugify(`page_${url}`).replace(/^([^#])/, '#$1'))
+    })
+    return element
+  }
 
-  const pdfPages = collections.pdf.map(({ outputPath }) => outputPath);
+  const pdfPages = collections.pdf.map(({ outputPath }) => outputPath)
 
   if (pdfPages.includes(this.outputPath)) {
-    const { document } = new JSDOM(content).window;
-    const mainElement = document.querySelector("main[data-output-path]");
-    const svgSymbolElements = document.querySelectorAll("body > svg");
-    const pageIndex = pdfPages.findIndex((path) => path === this.outputPath);
+    const { document } = new JSDOM(content).window
+    const mainElement = document.querySelector('main[data-output-path]')
+    const pageIndex = pdfPages.findIndex((path) => path === this.outputPath)
 
     if (mainElement) {
       if (pageIndex !== -1) {
-        const currentPage = collections.pdf[pageIndex];
-        const sectionElement = document.createElement("section");
-        sectionElement.innerHTML = mainElement.innerHTML;
+        const currentPage = collections.pdf[pageIndex]
+        const sectionElement = document.createElement('section')
+
+        sectionElement.innerHTML = mainElement.innerHTML
 
         for (const className of mainElement.classList) {
-          sectionElement.classList.add(className);
+          sectionElement.classList.add(className)
         }
 
-        setDataAttributes(currentPage, sectionElement);
+        setDataAttributes(currentPage, sectionElement)
 
         // set an id for anchor links to each section
-        const computedPageID = `page_${mainElement.dataset.pageId}`;
-        sectionElement.setAttribute("id", computedPageID);
+        const computedPageID = `page_${mainElement.dataset.pageId}`
+        sectionElement.setAttribute('id', computedPageID)
 
         // transform relative links to anchor links
-        transformRelativeLinks(sectionElement);
+        transformRelativeLinks(sectionElement)
 
         // remove non-pdf content
-        filterOutputs(sectionElement, "pdf");
-        collections.pdf[pageIndex].svgSymbolElements =
-          Array.from(svgSymbolElements);
-        collections.pdf[pageIndex].sectionElement = sectionElement;
+        filterOutputs(sectionElement, 'pdf')
+        collections.pdf[pageIndex].sectionElement = sectionElement
       }
 
       /**
@@ -98,11 +97,11 @@ module.exports = function (eleventyConfig, collections, content) {
        * every item in the collection will have `sectionContent`
        */
       if (collections.pdf.every(({ sectionElement }) => !!sectionElement)) {
-        writeOutput(collections.pdf);
+        writeOutput(collections.pdf)
       }
     }
   }
 
   // Return unmodified `content`
-  return content;
-};
+  return content
+}
