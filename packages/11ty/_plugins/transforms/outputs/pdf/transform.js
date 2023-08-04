@@ -55,7 +55,7 @@ module.exports = function(eleventyConfig, collections, content) {
     const nodes = element.querySelectorAll('a')
     nodes.forEach((a) => {
       const url = a.getAttribute('href')
-      a.setAttribute('href', slugify(`page_${url}`).replace(/^([^#])/, '#$1'))
+      a.setAttribute('href', slugify(`page-${url}`).replace(/^([^#])/, '#$1'))
     })
     return element
   }
@@ -82,8 +82,7 @@ module.exports = function(eleventyConfig, collections, content) {
         setDataAttributes(currentPage, sectionElement)
 
         // set an id for anchor links to each section
-        const computedPageID = `page_${mainElement.dataset.pageId}`
-        sectionElement.setAttribute('id', computedPageID)
+        sectionElement.setAttribute('id', mainElement.dataset.pageId)
 
         // transform relative links to anchor links
         transformRelativeLinks(sectionElement)
