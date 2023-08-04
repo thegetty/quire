@@ -54,10 +54,14 @@ module.exports = function(eleventyConfig, collections, content) {
   /**
    * Get sequence number, name, and create filename
    */
-  const targetLength = collections.epub.length.toString().length
-  const sequenceNumber = index.toString().padStart(targetLength, 0)
-  const name = slugify(this.url) || path.parse(this.inputPath).name
-  const filename = `${sequenceNumber}_${name}.xhtml`
+  const filename = (index, page) => {
+    const targetLength = collections.epub.length.toString().length
+    const sequenceNumber = index.toString().padStart(targetLength, 0)
+    const name = slugify(page.url) || path.parse(page.inputPath).name
+    return `${sequenceNumber}_${name}.xhtml`
+  }
+
+  const outputFilename = filename(index, this)
 
   const page = collections.epub[index]
   const { document, window } = new JSDOM(epubContent).window
@@ -107,7 +111,7 @@ module.exports = function(eleventyConfig, collections, content) {
 
     if (index === -1) return
 
-    linkElement.setAttribute('href', filename)
+    linkElement.setAttribute('href', filename(index, collections.epub[index]))
   })
 
   /**
@@ -121,7 +125,7 @@ module.exports = function(eleventyConfig, collections, content) {
   epubContent = layout({ body: xml, language, title })
 
   const item = {
-    url: filename,
+    url: outputFilename,
     encodingFormat: 'application/xhtml+xml'
   }
 
@@ -136,7 +140,7 @@ module.exports = function(eleventyConfig, collections, content) {
 
   readingOrder.push(item)
 
-  write(filename, epubContent)
+  write(outputFilename, epubContent)
 
   /**
    * Return unmodified content
