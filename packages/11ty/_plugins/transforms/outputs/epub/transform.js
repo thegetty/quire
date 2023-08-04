@@ -51,6 +51,13 @@ module.exports = function(eleventyConfig, collections, content) {
 
   if (!epubContent || ext !== '.html') return
 
+  /**
+   * Get sequence number, name, and create filename
+   */
+  const sequenceNumber = index.toString().padStart(targetLength, 0)
+  const name = slugify(this.url) || path.parse(this.inputPath).name
+  const filename = `${sequenceNumber}_${name}.xhtml`
+
   const page = collections.epub[index]
   const { document, window } = new JSDOM(epubContent).window
   const mainElement = document.querySelector('main[data-output-path]')
@@ -101,17 +108,12 @@ module.exports = function(eleventyConfig, collections, content) {
 
     if (index === -1) return
 
-    const { url } = collections.epub[index]
-    const sequenceNumber = index.toString().padStart(targetLength, 0)
-    const filename = `${sequenceNumber}_${slugify(url)}.xhtml`
     linkElement.setAttribute('href', filename)
   })
 
   /**
    * Sequence and write files
    */
-  const name = slugify(this.url) || path.parse(this.inputPath).name
-  const sequence = index.toString().padStart(targetLength, 0)
 
   const serializer = new window.XMLSerializer()
   slugifyIds(document)
@@ -119,7 +121,6 @@ module.exports = function(eleventyConfig, collections, content) {
 
   epubContent = layout({ body: xml, language, title })
 
-  const filename = `${sequence}_${name}.xhtml`
   const item = {
     url: filename,
     encodingFormat: 'application/xhtml+xml'
