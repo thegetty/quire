@@ -32,6 +32,7 @@ Changelog entries are classified using the following labels:
 - Strip HTML from `<title>` tags in epub and site output
 - Replace unsupported `<em>` with `<span>` in `_includes/components/citation/page.js` `container-title` property
 - Fix setting footnote ids with two or more characters in `_plugins/markdown/footnotes.js`
+- Fixed epub video component poster path by allowing path to be handled by the output transforms rather than the component
 
 ## [1.0.0-rc.12]
 
