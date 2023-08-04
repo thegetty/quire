@@ -11,7 +11,7 @@ module.exports = async function(data) {
   const { pageClasses, collections, content, pageData, publication } = data
   const { inputPath, outputPath, url } = pageData || {}
   const id = this.slugify(url) || path.parse(inputPath).name
-  const pageId = `page_${id}`
+  const pageId = `page-${id}`
   const figures = pageData.page.figures
 
   return html`
