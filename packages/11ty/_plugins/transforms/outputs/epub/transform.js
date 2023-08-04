@@ -54,6 +54,7 @@ module.exports = function(eleventyConfig, collections, content) {
   /**
    * Get sequence number, name, and create filename
    */
+  const targetLength = collections.epub.length.toString().length
   const sequenceNumber = index.toString().padStart(targetLength, 0)
   const name = slugify(this.url) || path.parse(this.inputPath).name
   const filename = `${sequenceNumber}_${name}.xhtml`
@@ -81,8 +82,6 @@ module.exports = function(eleventyConfig, collections, content) {
     tableOfContents.setAttribute('role', 'doc-toc')
     tableOfContents.setAttribute('epub:type', 'toc')
   }
-
-  const targetLength = collections.epub.length.toString().length
 
   /**
    * Rewrite relative web links to work properly in epub readers
