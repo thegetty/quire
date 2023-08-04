@@ -20,6 +20,10 @@ Changelog entries are classified using the following labels:
 
 ## [unreleased]
 
+### Added
+
+- Adds print `table` component without a modal link
+
 ### Fixed
 
 - Sort epub reading order by `url`
