@@ -38,11 +38,9 @@ module.exports = function(eleventyConfig) {
     const labelElement = figureLabel({ caption, id, label })
     const captionElement = figureCaption({ caption, content: labelElement,  credit, mediaId, mediaType })
 
-    const trimLeadingSlash = (string) => string.startsWith('/') ? string.substr(1) : string
-
     return html`
       <div class="q-figure__media-wrapper--${ aspectRatio || 'widescreen' }">
-        <img src="${trimLeadingSlash(posterSrc)}" />
+        <img src="${posterSrc}" />
       </div>
       ${captionElement}
     `
