@@ -55,7 +55,7 @@ module.exports = function(eleventyConfig, collections, content) {
     const nodes = element.querySelectorAll('a')
     nodes.forEach((a) => {
       const url = a.getAttribute('href')
-      a.setAttribute('href', slugify(url).replace(/^([^#])/, '#$1'))
+      a.setAttribute('href', slugify(`page-${url}`).replace(/^([^#])/, '#$1'))
     })
     return element
   }

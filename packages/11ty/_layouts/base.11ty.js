@@ -10,7 +10,8 @@ const { html } = require('~lib/common-tags')
 module.exports = async function(data) {
   const { pageClasses, collections, content, pageData, publication } = data
   const { inputPath, outputPath, url } = pageData || {}
-  const pageId = this.slugify(url) || path.parse(inputPath).name
+  const id = this.slugify(url) || path.parse(inputPath).name
+  const pageId = `page-${id}`
   const figures = pageData.page.figures
 
   return html`
