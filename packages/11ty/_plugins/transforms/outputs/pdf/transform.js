@@ -60,6 +60,12 @@ module.exports = function(eleventyConfig, collections, content) {
     return element
   }
 
+  /**
+   * Prefix footnote hrefs and ids to guarantee unique references in PDF output
+   * 
+   * @param {HTMLElement} element 
+   * @param {String} prefix 
+   */
   const prefixFootnotes = (element, prefix) => {
     const footnoteItems = element.querySelectorAll('.footnote-item')
     footnoteItems.forEach((item) => {
