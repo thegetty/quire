@@ -88,11 +88,26 @@ module.exports = function(eleventyConfig, options) {
     return n
   }
 
+  /**
+   * Override default renderer to add class to footnote ref anchor
+   */
+  markdownLibrary.renderer.rules.footnote_ref = (tokens, idx, options, env, slf) => {
+    var id = slf.rules.footnote_anchor_name(tokens, idx, options, env, slf)
+    var caption = slf.rules.footnote_caption(tokens, idx, options, env, slf)
+    var refid = id
+  
+    if (tokens[idx].meta.subId > 0) {
+      refid += ':' + tokens[idx].meta.subId
+    }
+  
+    return '<sup class="footnote-ref"><a href="#fn' + id + '" id="fnref' + refid + '" class="footnote-ref-anchor">' + caption + '</a></sup>';
+  }
+
   /** 
    * Use custom footnote_ref and footnote_tail definitions
    */
-  markdownLibrary.inline.ruler.after('footnote_inline', 'footnote_ref', footnoteRef);
-  markdownLibrary.core.ruler.after('inline', 'footnote_tail', footnoteTail);
+  markdownLibrary.inline.ruler.after('footnote_inline', 'footnote_ref', footnoteRef)
+  markdownLibrary.core.ruler.after('inline', 'footnote_tail', footnoteTail)
 
   eleventyConfig.setLibrary('md', markdownLibrary)
 
