@@ -52,12 +52,33 @@ module.exports = function(eleventyConfig, collections, content) {
    * @param      {HTMLElement}  element
    */
   const transformRelativeLinks = (element) => {
-    const nodes = element.querySelectorAll('a')
+    const nodes = element.querySelectorAll('a:not(.footnote-backref, .footnote-ref-anchor)')
     nodes.forEach((a) => {
       const url = a.getAttribute('href')
       a.setAttribute('href', slugify(`page-${url}`).replace(/^([^#])/, '#$1'))
     })
     return element
+  }
+
+  const prefixFootnotes = (element, prefix) => {
+    const footnoteItems = element.querySelectorAll('.footnote-item')
+    footnoteItems.forEach((item) => {
+      const id = item.getAttribute('id')
+      item.setAttribute('id', `${prefix}-${id}`)
+    })
+    const footnoteBackrefs = element.querySelectorAll('.footnote-backref')
+    footnoteBackrefs.forEach((item) => {
+      const href = item.getAttribute('href')
+      item.setAttribute('href', `#${prefix}-${href.replace(/^#/, '')}`)
+    })
+    const footnoteRefAnchors = element.querySelectorAll('.footnote-ref-anchor')
+    footnoteRefAnchors.forEach((item) => {
+      const href = item.getAttribute('href')
+      const id = item.getAttribute('id')
+      item.setAttribute('href', `#${prefix}-${href.replace(/^#/, '')}`)
+      item.setAttribute('id', `${prefix}-${id}`)
+    })
+    // 
   }
 
   const pdfPages = collections.pdf.map(({ outputPath }) => outputPath)
@@ -73,6 +94,7 @@ module.exports = function(eleventyConfig, collections, content) {
 
   const currentPage = collections.pdf[pageIndex]
   const sectionElement = document.createElement('section')
+  const pageId = mainElement.dataset.pageId
 
   sectionElement.innerHTML = mainElement.innerHTML
 
@@ -83,10 +105,13 @@ module.exports = function(eleventyConfig, collections, content) {
   setDataAttributes(currentPage, sectionElement)
 
   // set an id for anchor links to each section
-  sectionElement.setAttribute('id', mainElement.dataset.pageId)
+  sectionElement.setAttribute('id', pageId)
 
   // transform relative links to anchor links
   transformRelativeLinks(sectionElement)
+
+  // prefix footnote attributes to prevent duplicates
+  prefixFootnotes(sectionElement, pageId)
 
   // remove non-pdf content
   filterOutputs(sectionElement, 'pdf')
