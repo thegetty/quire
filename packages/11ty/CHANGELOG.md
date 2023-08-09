@@ -34,6 +34,7 @@ Changelog entries are classified using the following labels:
 - Fix setting footnote ids with two or more characters in `_plugins/markdown/footnotes.js`
 - Fixed epub video component poster path by allowing path to be handled by the output transforms rather than the component
 - Fixed duplicate footnote ids in PDF output by prefixing hrefs and ids with the page id
+- Ensure image assets defined with `background-image: Url(...)` are copied into EPUB package
 
 ## [1.0.0-rc.12]
 
