@@ -12,6 +12,8 @@ layout: base.11ty.js
     class="quire-cover__overlay"
     style="background-image: url('{{ imagePath }}');"
   >
+    <!-- This ensures background image asset gets copied into epub package -->
+    <img class="visually-hidden" src="{{ imagePath }}" />
   </div>
   <div class="quire-cover__hero-body hero-body">
     <div class="container is-fluid">
