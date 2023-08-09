@@ -23,6 +23,7 @@ Changelog entries are classified using the following labels:
 ### Added
 
 - Adds print `table` component without a modal link
+- Import `screen.scss` into `javascript/application/index.js`
 
 ### Fixed
 
