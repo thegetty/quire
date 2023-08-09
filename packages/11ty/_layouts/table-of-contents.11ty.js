@@ -9,7 +9,7 @@
 module.exports = class TableOfContents {
   data() {
     return {
-      class: 'quire-contents',
+      classes: ['quire-contents'],
       layout: 'base'
     }
   }
