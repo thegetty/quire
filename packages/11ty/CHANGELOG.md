@@ -25,6 +25,10 @@ Changelog entries are classified using the following labels:
 - Adds print `table` component without a modal link
 - Import `screen.scss` into `javascript/application/index.js`
 
+### Changed
+
+- Renames `eleventyComputed` property `pageClasses` and frontmatter property `class` to `classes` for consistency, avoiding using the reserved word `class`, and to handle merging template, layout, and computed classes.
+
 ### Fixed
 
 - Sort epub reading order by `url`
