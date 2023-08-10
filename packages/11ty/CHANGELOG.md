@@ -25,6 +25,10 @@ Changelog entries are classified using the following labels:
 - Adds print `table` component without a modal link
 - Import `screen.scss` into `javascript/application/index.js`
 
+### Changed
+
+- Renames frontmatter property for page-level bibliography entries from `pageReferences` to `citations`
+
 ### Fixed
 
 - Sort epub reading order by `url`
