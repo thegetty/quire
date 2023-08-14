@@ -18,7 +18,7 @@ Changelog entries are classified using the following labels:
 
 - `Removed`: for deprecated features removed in this release
 
-## [unreleased]
+## [1.0.0-rc.13]
 
 ### Added
 
