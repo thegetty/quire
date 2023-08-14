@@ -27,6 +27,7 @@ Changelog entries are classified using the following labels:
 
 ### Changed
 
+- Renames `eleventyComputed` property `pageClasses` and frontmatter property `class` to `classes` for consistency, avoiding using the reserved word `class`, and to handle merging template, layout, and computed classes.
 - Renames frontmatter property for page-level bibliography entries from `pageReferences` to `citations`
 
 ### Fixed
