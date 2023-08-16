@@ -18,6 +18,12 @@ Changelog entries are classified using the following labels:
 
 - `Removed`: for deprecated features removed in this release
 
+## [unreleased]
+
+### Fixed
+
+- Allow input images that are static or tiled to have `.jpeg`, `.tif`, `.tiff`, `.png`, and `.svg` extensions.
+
 ## [1.0.0-rc.13]
 
 ### Added
