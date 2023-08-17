@@ -26,10 +26,10 @@ const logger = chalkFactory('Figures:Annotation')
  */
 module.exports = class Annotation {
   constructor(figure, data) {
-    const { iiifConfig, outputDir, zoom } = figure
+    const { iiifConfig, outputDir, outputFormat, zoom } = figure
     const { baseURI, tilesDirName } = iiifConfig
     const { label, region, selected, src, text } = data
-    const { base, ext, name } = src ? path.parse(src) : {}
+    const { base, name } = src ? path.parse(src) : {}
 
     /**
      * If an id is not provided, compute id from the `label` or `src` properties
@@ -56,7 +56,7 @@ module.exports = class Annotation {
      * Note: Currently only JPG image services are supported by
      * canvas-panel/image-service tags
      */
-    const isImageService = !!zoom && ext === '.jpg'
+    const isImageService = !!zoom && outputFormat === '.jpg'
     const info = () => {
       if (!isImageService) return
       const tilesPath = path.join(outputDir, name, tilesDirName)

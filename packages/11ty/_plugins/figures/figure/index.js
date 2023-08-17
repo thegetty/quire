@@ -6,7 +6,6 @@ const path = require('path')
 const SequenceFactory = require('../sequence/factory')
 const sharp = require('sharp')
 const {
-  getSequenceFiles,
   isCanvas,
   isImageService,
   isSequence
@@ -60,6 +59,9 @@ module.exports = class Figure {
       zoom
     } = data
 
+    const ext = src ? path.parse(src).ext : null
+    const format = iiifConfig.formats.find(({ input }) => input.includes(ext))
+
     this.annotationFactory = new AnnotationFactory(this)
     this.canvasId = canvasId
     this.data = data
@@ -73,6 +75,7 @@ module.exports = class Figure {
     this.mediaType = mediaType || defaults.mediaType
     this.mediaId = mediaId
     this.outputDir = outputDir
+    this.outputFormat = format && format.output
     this.processImage = imageProcessor
     this.sequenceFactory = new SequenceFactory(this)
     this.src = src
@@ -155,7 +158,7 @@ module.exports = class Figure {
   get printImage() {
     if (!this.isExternalResource && this.src && !this.data.printImage) {
       const { ext, name } = path.parse(this.src)
-      return path.join('/', this.outputDir, name, `print-image${ext}`)
+      return path.join('/', this.outputDir, name, `print-image${this.outputFormat}`)
     }
     return this.data.printImage
   }
@@ -183,8 +186,9 @@ module.exports = class Figure {
     }
 
     if (!this.isExternalResource && filename) {
-      const { name } = path.parse(filename)
-      return path.join('/', this.outputDir, name, `static-inline-figure-image.jpg`)
+      const { ext, name } = path.parse(filename)
+      const format = this.iiifConfig.formats.find(({ input }) => input.includes(ext))
+      return path.join('/', this.outputDir, name, `static-inline-figure-image${format.output}`)
     }
     return this.data.staticInlineFigure
   }
