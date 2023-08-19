@@ -49,7 +49,8 @@ module.exports = function(eleventyConfig, collections, content) {
   const index = epubPages.findIndex((path) => path == this.outputPath)
   let epubContent =  index !== -1 ? content : undefined
 
-  if (!epubContent || ext !== '.html') return
+  // Returning content allows subsequent transforms to process it unmodified
+  if (!epubContent || ext !== '.html') return content
 
   /**
    * Get sequence number, name, and create filename
