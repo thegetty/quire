@@ -24,7 +24,7 @@
               "target": "http://localhost:8080/iiif/zoom/canvas",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/http:/localhost:8080/iiif/zoom/irises/tiles/info.json",
+                "id": "http://localhost:8080/iiif/zoom/irises/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 3221,
