@@ -89,14 +89,16 @@ module.exports = function(eleventyConfig, collections, content) {
 
   const pdfPages = collections.pdf.map(({ outputPath }) => outputPath)
 
-  if (!pdfPages.includes(this.outputPath)) return
+  // Returning content allows subsequent transforms to process it unmodified
+  if (!pdfPages.includes(this.outputPath)) return content
 
   const { document } = new JSDOM(content).window
   const mainElement = document.querySelector('main[data-output-path]')
   const svgSymbolElements = document.querySelectorAll('body > svg')
   const pageIndex = pdfPages.findIndex((path) => path === this.outputPath)
 
-  if (!mainElement || pageIndex === -1) return
+  // Returning content allows subsequent transforms to process it unmodified
+  if (!mainElement || pageIndex === -1) return content
 
   const currentPage = collections.pdf[pageIndex]
   const sectionElement = document.createElement('section')
