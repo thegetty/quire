@@ -62,6 +62,7 @@ module.exports = class Figure {
     const ext = src ? path.parse(src).ext : null
     const format = iiifConfig.formats.find(({ input }) => input.includes(ext))
 
+    this.annotationCount = data.annotations ? data.annotations.length : 0
     this.annotationFactory = new AnnotationFactory(this)
     this.canvasId = canvasId
     this.data = data
