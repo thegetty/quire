@@ -353,7 +353,7 @@ module.exports = class Figure {
     this.dimensionsValidForTiling = this.canvasWidth > minLength && this.canvasHeight > minLength
 
     if (!this.dimensionsValidForTiling) {
-      logger.error(`Zoom is enabled on a small image: ${path.parse(src).base}. Images under ${minLength}px will not display unless zoom is set to false.`)
+      logger.error(`Unable to create a zooming image from "${path.parse(src).base}". Images under ${minLength}px will not display unless zoom is set to false.`)
     }
   }
 
