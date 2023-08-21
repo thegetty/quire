@@ -118,8 +118,7 @@ module.exports = class Manifest {
    * @todo handle text annotations
    * @todo handle annotations with target region
    */
-  createAnnotationBody({ format, info, label, src, uri }) {
-    const { ext } = path.parse(src)
+  createAnnotationBody({ format, info, label, uri }) {
     return {
       format,
       height: this.figure.canvasHeight,
