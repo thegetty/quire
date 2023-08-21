@@ -18,6 +18,12 @@ Changelog entries are classified using the following labels:
 
 - `Removed`: for deprecated features removed in this release
 
+## [unreleased]
+
+### Added
+
+- Validation method to check if an image can be tiled, and log error if invalid.
+
 ## [1.0.0-rc.14]
 
 ### Fixed
