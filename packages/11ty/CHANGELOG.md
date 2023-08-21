@@ -20,7 +20,14 @@ Changelog entries are classified using the following labels:
 
 ## [unreleased]
 
+### Removed
+
 - Remove `.jp2` from supported image extensions
+
+### Changed
+
+- Incrase `print-image` transformation width to `2025px`
+
 
 ## [1.0.0-rc.14]
 
