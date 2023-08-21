@@ -24,7 +24,7 @@ Changelog entries are classified using the following labels:
 
 - Allow input images that are static or tiled to have `.jpeg`, `.tif`, `.tiff`, `.png`, and `.svg` extensions.
 - Return unmodified content from pdf/epub transforms, fixing site-only pages markup
-- Validate urls and error logging to id generation methods in figure and annotaiton models
+- Validate urls and error logging to id generation methods in figure and annotation models
 - Enables tiling of base image of annotated canvases
 
 ## [1.0.0-rc.13]
