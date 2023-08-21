@@ -31,20 +31,46 @@ module.exports = class Figure {
   constructor(iiifConfig, imageProcessor, data) {
     const { baseURI, dirs, manifestFileName } = iiifConfig
     const outputDir = path.join(dirs.outputPath, data.id)
+
     /**
      * URI of the IIIF CanvasPanel element; a fully qualified URL.
      * @type  {URL|null}
      */
-    const canvasId = isCanvas(data)
-      ? data.canvasId || [baseURI, outputDir, 'canvas'].join('/')
-      : null
+    const canvasId = () => {
+      switch (true) {
+        case !isCanvas(data):
+          return
+        case data.canvasId:
+          return data.canvasId
+        default:
+          try {
+            return new URL(path.join(outputDir, 'canvas'), baseURI).href
+          } catch (error) {
+            logger.error(`Error creating canvas id. Either the output directory (${outputDir}) or base URI (${baseURI}) are invalid to form a fully qualified URI.`)
+            return
+          }
+      }
+    }
+
     /**
      * URI of the IIIF manifest file; a fully qualified URL.
      * @type  {URL|null}
      */
-    const manifestId = isCanvas(data)
-      ? data.manifestId || [baseURI, outputDir, manifestFileName].join('/')
-      : null
+    const manifestId = () => {
+      switch (true) {
+        case !isCanvas(data):
+          return
+        case data.manifestId:
+          return data.manifestId
+        default:
+          try {
+            return new URL(path.join(outputDir, manifestFileName), baseURI).href
+          } catch (error) {
+            logger.error(`Error creating manifest id. Either the output directory (${outputDir}), filename (${manifestFileName}), or base URI (${baseURI}) are invalid to form a fully qualified URI.`)
+            return
+          }
+      }
+    }
 
     const defaults = {
       mediaType: 'image'
@@ -64,7 +90,7 @@ module.exports = class Figure {
 
     this.annotationCount = data.annotations ? data.annotations.length : 0
     this.annotationFactory = new AnnotationFactory(this)
-    this.canvasId = canvasId
+    this.canvasId = canvasId()
     this.data = data
     this.id = id
     this.iiifConfig = iiifConfig
@@ -72,7 +98,7 @@ module.exports = class Figure {
     this.isImageService = isImageService(data)
     this.isSequence = isSequence(data)
     this.label = label
-    this.manifestId = manifestId
+    this.manifestId = manifestId()
     this.mediaType = mediaType || defaults.mediaType
     this.mediaId = mediaId
     this.outputDir = outputDir
