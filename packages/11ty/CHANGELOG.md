@@ -18,6 +18,12 @@ Changelog entries are classified using the following labels:
 
 - `Removed`: for deprecated features removed in this release
 
+## [unreleased]
+
+### Changed
+
+- Incrase `print-image` transformation width to `2025px`
+
 ## [1.0.0-rc.14]
 
 ### Fixed
