@@ -18,6 +18,10 @@ Changelog entries are classified using the following labels:
 
 - `Removed`: for deprecated features removed in this release
 
+## [unreleased]
+
+- Remove `.jp2` from supported image extensions
+
 ## [1.0.0-rc.14]
 
 ### Fixed
