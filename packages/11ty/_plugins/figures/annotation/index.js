@@ -61,14 +61,26 @@ module.exports = class Annotation {
       if (!isImageService) return
       const tilesPath = path.join(outputDir, name, tilesDirName)
       const infoPath = path.join(tilesPath, 'info.json')
-      return new URL(path.join(baseURI, infoPath)).toString()
+      try {
+        return new URL(path.join(baseURI, infoPath)).href
+      } catch (error) {
+        logger.error(`Error creating info.json. Either the tile path (${tilesPath}) or base URI (${baseURI}) are invalid to form a fully qualified URI.`)
+        return
+      }
     }
 
     const uri = () => {
-      const filepath = isImageService
-        ? info()
-        : path.join(outputDir, base)
-      return new URL(path.join(baseURI, filepath)).toString()
+      switch (true) {
+        case isImageService:
+          return info()
+        default:
+          try{
+            return new URL(path.join(baseURI, outputDir, base)).href
+          } catch (error) {
+            logger.error(`Error creating annotation URI. Either the output directory (${outputDir}), filename (${base}) or base URI (${baseURI}) are invalid to form a fully qualified URI.`)
+            return
+          }
+      }
     }
 
     this.format = text && !src ? 'text/plain' : mime.lookup(src)
