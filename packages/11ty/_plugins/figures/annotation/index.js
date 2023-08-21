@@ -53,12 +53,15 @@ module.exports = class Annotation {
      * Create image service for annotation image if it is a JPG and
      * the figure has zoom enabled
      * 
-     * Note: Currently tiling is only supported for figures with no annotations
+     * Note: Currently tiling is only supported for the figure.src, not annotations
      *
      * Note: Currently only JPG image services are supported by
      * canvas-panel/image-service tags
      */
-    const isImageService = !!zoom && outputFormat === '.jpg' && annotationCount === 0
+    const isImageService =
+      !!zoom
+      && outputFormat === '.jpg'
+      && (annotationCount === 0 || src === figure.src)
     const info = () => {
       if (!isImageService) return
       const tilesPath = path.join(outputDir, name, tilesDirName)
