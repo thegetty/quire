@@ -1,0 +1,24 @@
+<script type="text/javascript">
+window.addEventListener('load', () => {
+  const element = document.querySelector('.object-filters');
+  element.classList.add(...classes);
+  let filtersApplied = false;
+  const button = element.querySelector('.object-filters__button');
+  const selects = element.querySelectorAll('select');
+  selects.forEach((select) => {
+    select.addEventListener('change', (event) => {
+      const { value } = event.target;
+      if (value) {
+        filtersApplied = true;
+        button.classList.add('object-filters__button--active')
+      }
+    });
+  });
+  button.addEventListener('click', () => {
+    button.classList.remove('object-filters__button--active')
+    selects.forEach((select) => {
+      select.querySelector('option[value=""]').selected = true;
+    })
+  })
+});
+</script>
