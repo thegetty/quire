@@ -57,7 +57,9 @@ module.exports = function(eleventyConfig, collections, content) {
    */
   const filename = ({ inputPath, url }) => {
     const name = slugify(url) || path.parse(inputPath).name
-    return `${name}.xhtml`
+
+    // The filename is used as an id attribute, prefix with `page-` to ensure id is valid (does not begin with a number)
+    return `page-${name}.xhtml`
   }
 
   const outputFilename = filename(this)
