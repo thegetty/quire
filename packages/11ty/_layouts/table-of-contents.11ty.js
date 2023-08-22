@@ -45,6 +45,7 @@ module.exports = class TableOfContents {
         subtitle=subtitle,
         title=title
       %}
+      {% include 'object-filters-demo' %}
       <section class="section quire-page__content">
         ${contentElement}
         <div class="container ${containerClass}">
