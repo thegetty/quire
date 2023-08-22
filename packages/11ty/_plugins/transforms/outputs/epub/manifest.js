@@ -124,12 +124,6 @@ module.exports = (eleventyConfig) => {
   const pubDateWithoutMs = pubDate
     .toISOString()
     .replace(/\.\d{3}/, '')
-  
-  /**
-   * Sort reading order and remove sort key (index)
-   */
-  const sortedReadingOrder = readingOrder.sort(sortByKeys(['index']))
-  sortedReadingOrder.forEach((item) => delete item.index)
 
   return {
     '@context': [
@@ -144,7 +138,7 @@ module.exports = (eleventyConfig) => {
     id: isbn,
     languages: language,
     publisher: publisherNameAndLocations(),
-    readingOrder: sortedReadingOrder,
+    readingOrder: readingOrder.sort(sortByKeys(['url'])),
     resources: resources,
     rights: copyright,
     title: pubTitle(),

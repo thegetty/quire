@@ -55,14 +55,14 @@ module.exports = function(eleventyConfig, collections, content) {
   /**
    * Get sequence number, name, and create filename
    */
-  const filename = ({ inputPath, url }) => {
-    const name = slugify(url) || path.parse(inputPath).name
-
-    // The filename is used as an id attribute, prefix with `page-` to ensure id is valid (does not begin with a number)
-    return `page-${name}.xhtml`
+  const filename = (index, page) => {
+    const targetLength = collections.epub.length.toString().length
+    const sequenceNumber = index.toString().padStart(targetLength, 0)
+    const name = slugify(page.url) || path.parse(page.inputPath).name
+    return `page-${sequenceNumber}_${name}.xhtml`
   }
 
-  const outputFilename = filename(this)
+  const outputFilename = filename(index, this)
 
   const page = collections.epub[index]
   const { document, window } = new JSDOM(epubContent).window
@@ -112,7 +112,7 @@ module.exports = function(eleventyConfig, collections, content) {
 
     if (index === -1) return
 
-    linkElement.setAttribute('href', filename(collections.epub[index]))
+    linkElement.setAttribute('href', filename(index, collections.epub[index]))
   })
 
   /**
@@ -126,7 +126,6 @@ module.exports = function(eleventyConfig, collections, content) {
   epubContent = layout({ body: xml, language, title })
 
   const item = {
-    index,
     encodingFormat: 'application/xhtml+xml',
     url: outputFilename
   }
