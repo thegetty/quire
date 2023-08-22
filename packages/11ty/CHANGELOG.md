@@ -20,6 +20,10 @@ Changelog entries are classified using the following labels:
 
 ## [unreleased]
 
+### Added
+
+- Validation method to check if an image can be tiled, and log error if invalid.
+
 ### Removed
 
 - Remove `.jp2` from supported image extensions
