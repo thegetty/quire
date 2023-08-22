@@ -24,13 +24,17 @@ Changelog entries are classified using the following labels:
 
 - Validation method to check if an image can be tiled, and log error if invalid.
 
-### Removed
-
-- Remove `.jp2` from supported image extensions
-
 ### Changed
 
 - Increase `print-image` transformation width to `2025px`
+
+### Fixed
+
+- Sort epub pages for reading order by sort key rather than filename. Fixes epub validation error for filenames that begin with numbers.
+
+### Removed
+
+- Remove `.jp2` from supported image extensions
 
 ## [1.0.0-rc.14]
 
