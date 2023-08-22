@@ -31,6 +31,7 @@ Changelog entries are classified using the following labels:
 ### Fixed
 
 - Sort epub pages for reading order by sort key rather than filename. Fixes epub validation error for filenames that begin with numbers.
+- Prefix epub filename with `page-` to ensure validity if filename begins with a number
 
 ### Removed
 
