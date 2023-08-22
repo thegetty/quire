@@ -4,6 +4,9 @@
   padding: 0 28.5px;
   background: #eef2f3;
   display: grid;
+  font-family: Noto Sans,sans-serif;
+  font-size: 14px;
+  color: rgb(51, 51, 51);
 }
 
 .object-filters__list {
@@ -11,11 +14,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(auto, 1fr));
   grid-row-gap: 0.8em;
-  grid-column-gap: 3rem;
-  font-family: Noto Sans,sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  color: rgb(51, 51, 51);
+  grid-column-gap: 3em;
 }
 
 .object-filters__item {
@@ -26,6 +25,10 @@
   max-width: 30em;
   justify-self: center;
   width: 100%;
+}
+
+.object-filters__item label {
+  font-weight: 700;
 }
 
 .object-filters__item select,
@@ -76,7 +79,7 @@
 
 @media screen and (min-width: 700px) {
   .object-filters {
-    margin-bottom: 3rem;
+    margin-bottom: 3em;
   }
 
   .object-filters__list {
@@ -100,8 +103,7 @@
   left: 50%;
   transform: translateX(-50%);
   background: linear-gradient(0deg, rgba(238,242,243,1) 0%, rgba(238,242,243,1) 33%, rgba(238,242,243,0) 100%);
-  border-bottom: 2px solid #d0dbde;
-  height: 1em;
+  height: 2em;
   width: calc(100% - (2 * 27px));
   bottom: 0;
 }
@@ -117,12 +119,24 @@
   padding: 0.2em 0.5em;
   border-bottom-left-radius: 2px;
   border-bottom-right-radius: 2px;
-  color: white;
+  color: rgb(51, 51, 51);
   font-size: 75%;
 }
 
+.collapsible .collapsible__toggle::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 100%);
+  display: inline-block;
+  background: #d0dbde;
+  height: 2px;
+  width: 100%;
+}
+
 .collapsible .collapsible__checkbox:checked ~ .collapsible__toggle::before {
-  content: 'Collapse Filters';
+  content: 'Hide Filters';
   transform: translate(-50%, 0);
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
@@ -138,7 +152,7 @@
 
 .collapsible .collapsible__checkbox:not(:checked) ~ .collapsible__panel {
   /* height: calc(var(--max-height) / 2); */
-  height: 10em;
+  height: 11.5em;
   overflow: hidden;
 }
 
@@ -149,10 +163,19 @@
 
 @media screen and (min-width: 500px) {
   .collapsible .collapsible__checkbox:not(:checked) ~ .collapsible__panel {
-    height: 6.5em;
+    height: 8em;
+  }
+
+  .collapsible .collapsible__toggle::after {
+    width: 28em;
   }
 }
 
+@media screen and (min-width: 700px) {
+  .collapsible .collapsible__toggle::after {
+    width: 66%;
+  }
+}
 /* STICKY */
 
 .object-filters.sticky {
