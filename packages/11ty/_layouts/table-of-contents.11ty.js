@@ -27,11 +27,10 @@ module.exports = class TableOfContents {
 
     const objectFiltersDemo = () => {
       if (presentation === 'grid') {
-        let demoName = 'object-filters-demo/demo'
-        const demoVariantName = data['object-filters-display']
+        const demoVariantName = data['object-filters-display'] || 'default'
         if (demoVariantName) {
-          demoName += `-${demoVariantName}`
         }
+        const demoName = `object-filters-demo/demo-${demoVariantName}`
         return `{% include '${demoName}' %}`
       } else {
         return ''
