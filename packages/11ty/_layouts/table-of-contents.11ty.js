@@ -28,7 +28,7 @@ module.exports = class TableOfContents {
     const objectFiltersDemo = () => {
       if (presentation === 'grid') {
         let demoName = 'object-filters-demo/demo'
-        const demoVariantName = data['object-filters-demo']
+        const demoVariantName = data['object-filters-display']
         if (demoVariantName) {
           demoName += `-${demoVariantName}`
         }
