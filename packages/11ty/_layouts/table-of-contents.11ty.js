@@ -25,6 +25,19 @@ module.exports = class TableOfContents {
       presentation='list'
     } = data
 
+    const objectFiltersDemo = () => {
+      if (presentation === 'grid') {
+        let demoName = 'object-filters-demo/demo'
+        const demoVariantName = data['object-filters-demo']
+        if (demoVariantName) {
+          demoName += `-${demoVariantName}`
+        }
+        return `{% include '${demoName}' %}`
+      } else {
+        return ''
+      }
+    }
+
     const contentElement = content
       ? `
         <div class="container">
@@ -45,7 +58,7 @@ module.exports = class TableOfContents {
         subtitle=subtitle,
         title=title
       %}
-      {% include 'object-filters-demo' %}
+      ${objectFiltersDemo()}
       <section class="section quire-page__content">
         ${contentElement}
         <div class="container ${containerClass}">
