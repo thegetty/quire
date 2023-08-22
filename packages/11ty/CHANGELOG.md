@@ -31,6 +31,7 @@ Changelog entries are classified using the following labels:
 ### Changed
 
 - Increase `print-image` transformation width to `2025px`
+- Updated audio component print output to exclude audio embed and include optional poster image.
 
 ## [1.0.0-rc.14]
 
