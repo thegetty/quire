@@ -10,7 +10,7 @@ module.exports = ({ body, language, title }) => {
     <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="${language}">
       <head>
         <meta charset="utf-8" />
-        <link rel="stylesheet" type="text/css" href="/_assets/epub.css" />
+        <link rel="stylesheet" type="text/css" href="_assets/epub.css" />
         ${titleElement}
         ${stylesheets}
       </head>
