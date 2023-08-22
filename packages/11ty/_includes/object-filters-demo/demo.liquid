@@ -1,34 +1,34 @@
 {% include 'object-filters-demo/styles' %}
-<section class="quire-page__object-filters">
-  <input class="collapsible-checkbox" type="checkbox" id="collapsible-checkbox" />
-  <label for="collapsible-checkbox" class="collapsible-toggle"></label>
-  <div class="collapsible-panel">
-    <div class="object-filters">
-      <div class="object-filter">
+<section class="object-filters">
+  <input class="collapsible__checkbox" type="checkbox" id="collapsible-checkbox" />
+  <label for="collapsible-checkbox" class="collapsible__toggle"></label>
+  <div class="collapsible__panel">
+    <div class="object-filters__list">
+      <div class="object-filters__item">
         <label for="object-type">Type:</label>
         <select name="Type" id="object-type">
           <option value="">All</option>
         </select>
       </div>
-      <div class="object-filter">
+      <div class="object-filters__item">
         <label for="object-theme">Theme:</label>
         <select name="Theme" id="object-theme">
           <option value="">All</option>
         </select>
       </div>
-      <div class="object-filter">
+      <div class="object-filters__item">
         <label for="object-material">Material:</label>
         <select name="Material" id="object-material">
           <option value="">All</option>
         </select>
       </div>
-      <div class="object-filter">
+      <div class="object-filters__item">
         <label for="object-place">Place:</label>
         <select name="Place" id="object-place">
           <option value="">All</option>
         </select>
       </div>
-      <div class="object-filter">
+      <div class="object-filters__item">
         <label for="object-period">Time Period:</label>
         <select name="Time Period" id="object-period">
           <option value="">All</option>
@@ -42,10 +42,9 @@
 const classes = [
   // 'collapsible',
   // 'sticky',
-  // 'stuck'
 ];
 window.addEventListener('load', () => {
-  const element = document.querySelector('.quire-page__object-filters');
+  const element = document.querySelector('.object-filters');
   element.classList.add(...classes);
 });
 </script>
