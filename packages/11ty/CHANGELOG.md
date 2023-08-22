@@ -31,6 +31,7 @@ Changelog entries are classified using the following labels:
 ### Changed
 
 - Increase `print-image` transformation width to `2025px`
+- Remove preceding slash from relative paths in epub output
 
 ## [1.0.0-rc.14]
 
