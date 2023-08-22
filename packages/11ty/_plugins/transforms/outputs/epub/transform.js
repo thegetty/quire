@@ -103,8 +103,6 @@ module.exports = function(eleventyConfig, collections, content) {
 
   getAssets(body)
 
-  transformPaths(body)
-
   /**
    * Add epub-specific attributes to TOC element
    */
@@ -140,6 +138,8 @@ module.exports = function(eleventyConfig, collections, content) {
 
     linkElement.setAttribute('href', filename(index, collections.epub[index]))
   })
+
+  transformPaths(body)
 
   /**
    * Sequence and write files
