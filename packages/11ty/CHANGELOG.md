@@ -34,6 +34,7 @@ Changelog entries are classified using the following labels:
 
 - Resolved issue with logic rendering external manifests
 - Prefix epub filename with `page-` to ensure validity if filename begins with a number
+- Include `svg` definitions in body of epub pages using `svg`
 
 ### Removed
 
