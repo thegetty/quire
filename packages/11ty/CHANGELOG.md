@@ -24,14 +24,20 @@ Changelog entries are classified using the following labels:
 
 - Validation method to check if an image can be tiled, and log error if invalid.
 
-### Removed
-
-- Remove `.jp2` from supported image extensions
-
 ### Changed
 
 - Increase `print-image` transformation width to `2025px`
 - Remove preceding slash from relative paths in epub output
+- Updated audio component print output to exclude audio embed and include optional poster image.
+
+### Fixed
+
+- Resolved issue with logic rendering external manifests
+- Prefix epub filename with `page-` to ensure validity if filename begins with a number
+
+### Removed
+
+- Remove `.jp2` from supported image extensions
 
 ## [1.0.0-rc.14]
 
