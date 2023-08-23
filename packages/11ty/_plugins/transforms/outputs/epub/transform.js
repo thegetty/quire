@@ -93,6 +93,18 @@ module.exports = function(eleventyConfig, collections, content) {
 
   const title = removeHTML(pageTitle(page.data))
   const body = document.createElement('body')
+
+  /**
+   * Add SVGs to body
+  */
+  const svgSymbolElements = document.querySelectorAll('body > svg')
+  const svgsOnPage = mainElement.querySelectorAll('svg')
+  if (Array.from(svgsOnPage).length) {
+    Array.from(svgSymbolElements).forEach((svgSymbolElement) => {
+      body.appendChild(svgSymbolElement)
+    })
+  }
+
   body.innerHTML = mainElement.innerHTML
   body.setAttribute('id', mainElement.dataset.pageId)
 
