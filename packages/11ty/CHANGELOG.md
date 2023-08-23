@@ -27,6 +27,7 @@ Changelog entries are classified using the following labels:
 ### Changed
 
 - Increase `print-image` transformation width to `2025px`
+- Remove preceding slash from relative paths in epub output
 - Updated audio component print output to exclude audio embed and include optional poster image.
 
 ### Fixed

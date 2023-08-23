@@ -42,6 +42,29 @@ module.exports = function(eleventyConfig, collections, content) {
   }
 
   /**
+   * Removes preceding slashes from asset paths
+   * @param {HTMLElement} element 
+   */
+  const transformPaths = (element) => {
+    const images = element.querySelectorAll('img')
+    const links = element.querySelectorAll('a')
+    const heros = element.querySelectorAll('.quire-page__header.hero, .quire-cover__overlay')
+    heros.forEach((item) => {
+      item.style.backgroundImage = item.style.backgroundImage.replace(/(?<=url\()\//, '')
+    })
+    images.forEach((item) => {
+      const src = item.getAttribute('src')
+      if (!src) return
+      item.setAttribute('src', src.replace(/^\//, ''))
+    })
+    links.forEach((item) => {
+      const href = item.getAttribute('href')
+      if (!href) return
+      item.setAttribute('href', href.replace(/^\//, ''))
+    })
+  }
+
+  /**
    * Remove pages excluded from this output type
    */
   const epubPages = collections.epub.map(({ outputPath }) => outputPath)
@@ -77,6 +100,7 @@ module.exports = function(eleventyConfig, collections, content) {
    * Remove elements excluded from this output type
    */
   filterOutputs(body, 'epub')
+
   getAssets(body)
 
   /**
@@ -114,6 +138,8 @@ module.exports = function(eleventyConfig, collections, content) {
 
     linkElement.setAttribute('href', filename(index, collections.epub[index]))
   })
+
+  transformPaths(body)
 
   /**
    * Sequence and write files
