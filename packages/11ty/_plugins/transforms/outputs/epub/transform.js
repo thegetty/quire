@@ -59,7 +59,7 @@ module.exports = function(eleventyConfig, collections, content) {
     const targetLength = collections.epub.length.toString().length
     const sequenceNumber = index.toString().padStart(targetLength, 0)
     const name = slugify(page.url) || path.parse(page.inputPath).name
-    return `${sequenceNumber}_${name}.xhtml`
+    return `page-${sequenceNumber}_${name}.xhtml`
   }
 
   const outputFilename = filename(index, this)
@@ -126,8 +126,8 @@ module.exports = function(eleventyConfig, collections, content) {
   epubContent = layout({ body: xml, language, title })
 
   const item = {
-    url: outputFilename,
-    encodingFormat: 'application/xhtml+xml'
+    encodingFormat: 'application/xhtml+xml',
+    url: outputFilename
   }
 
   switch (page.data.layout) {

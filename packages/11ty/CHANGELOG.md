@@ -24,10 +24,6 @@ Changelog entries are classified using the following labels:
 
 - Validation method to check if an image can be tiled, and log error if invalid.
 
-### Removed
-
-- Remove `.jp2` from supported image extensions
-
 ### Changed
 
 - Increase `print-image` transformation width to `2025px`
@@ -35,6 +31,11 @@ Changelog entries are classified using the following labels:
 ### Fixed
 
 - Resolved issue with logic rendering external manifests
+- Prefix epub filename with `page-` to ensure validity if filename begins with a number
+
+### Removed
+
+- Remove `.jp2` from supported image extensions
 
 ## [1.0.0-rc.14]
 
