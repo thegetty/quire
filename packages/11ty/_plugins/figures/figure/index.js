@@ -40,7 +40,7 @@ module.exports = class Figure {
       switch (true) {
         case !isCanvas(data):
           return
-        case data.canvasId:
+        case !!data.canvasId:
           return data.canvasId
         default:
           try {
@@ -60,7 +60,7 @@ module.exports = class Figure {
       switch (true) {
         case !isCanvas(data):
           return
-        case data.manifestId:
+        case !!data.manifestId:
           return data.manifestId
         default:
           try {

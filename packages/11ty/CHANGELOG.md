@@ -30,6 +30,7 @@ Changelog entries are classified using the following labels:
 
 ### Fixed
 
+- Resolved issue with logic rendering external manifests
 - Prefix epub filename with `page-` to ensure validity if filename begins with a number
 
 ### Removed
