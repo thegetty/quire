@@ -1,0 +1,35 @@
+---
+class: quire-contents
+layout: base.webc
+---
+<section class="objects-catalogue--grid" webc:keep>
+  <object-filters :collections></object-filters>
+  <figure
+    webc:for="item in collections"
+    class="objects-catalogue__entry-card"
+  >
+    <img :alt="" :src="imgPath" class="entry-card__image">
+  </figure>
+</section>
+
+<!--- Nota bene
+  Data in webc:setup scripts is scoped to the component
+  and does not flow upward in the Eleventy Data Cascade.
+--->
+<script webc:setup>
+// console.log(collections)
+// document.addEventListener('DOMContentLoaded', init, false)
+</script>
+
+<style webc:scoped="objects-catalogue">
+:host {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+:host img {
+
+}
+</style>

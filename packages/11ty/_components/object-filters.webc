@@ -1,0 +1,11 @@
+<div @text="toc"></div>
+
+<script webc:type="js">
+// const toc = `${JSON.stringify(collections.tableOfContentsHtml, null, 2)}`
+</script>
+
+<style webc:scoped="objects-filters">
+:host {
+
+}
+</style>
