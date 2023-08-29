@@ -3,19 +3,20 @@ window.addEventListener('load', () => {
   const element = document.querySelector('.object-filters');
   element.classList.add(...classes);
   let filtersApplied = false;
-  const button = element.querySelector('.object-filters__button');
+  const applyButton = element.querySelector('[data-control-apply]');
+  const resetButton = element.querySelector('[data-control-reset]');
   const selects = element.querySelectorAll('select');
   selects.forEach((select) => {
     select.addEventListener('change', (event) => {
       const { value } = event.target;
       if (value) {
         filtersApplied = true;
-        button.classList.add('object-filters__button--active')
+        applyButton.classList.add('object-filters__button--active');
       }
     });
   });
-  button.addEventListener('click', () => {
-    button.classList.remove('object-filters__button--active')
+  resetButton.addEventListener('click', () => {
+    applyButton.classList.remove('object-filters__button--active');
     selects.forEach((select) => {
       select.querySelector('option[value=""]').selected = true;
     })

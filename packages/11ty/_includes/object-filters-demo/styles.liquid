@@ -22,6 +22,7 @@
   grid-template-columns: auto;
   grid-gap: 0.5em;
   align-items: end;
+  position: relative;
   max-width: 50em;
   justify-self: center;
   width: 100%;
@@ -31,16 +32,42 @@
   font-weight: 700;
 }
 
-.object-filters__item select,
-.object-filters__item select:focus,
-.object-filters__item select:focus-visible {
+.object-filters__select:after {
+  content: "";
+  position: absolute;
+  width: 0.5em;
+  height: 0.9em;
+  bottom: 0;
+  right: 0.4em;
+  pointer-events: none;
+  border-left: 0.3em solid transparent;
+  border-right: 0.3em solid transparent;
+  border-top: 0.4em solid rgb(51, 51, 51);
+}
+
+.object-filters__select select,
+.object-filters__select select:focus,
+.object-filters__select select:focus-visible {
+  -webkit-appearance: none;
   border: none;
   border-bottom: 1px solid #d0dbde;
+  border-radius: 0;
   color: rgb(51, 51, 51);
   background: transparent;
+  height: 1.5em;
+  width: 100%;
+  padding: 0 1.4em 0 0.4em;
   min-width: 10em;
   font-family: Noto Sans,sans-serif;
   font-size: 14px;
+}
+
+.object-filters__controls {
+  display: grid;
+  grid-column-gap: 1em;
+  grid-template-columns: repeat(2, max-content);
+  align-items: center;
+  justify-content: center;
 }
 
 .object-filters__button {
@@ -55,6 +82,7 @@
   margin-top: 2em;
   padding: 0.1em 2em 0.15em;
   cursor: pointer;
+  user-select: none;
 }
 
 .object-filters__button.object-filters__button--active {

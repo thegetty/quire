@@ -6,47 +6,57 @@
     <div class="object-filters__list">
       <div class="object-filters__item">
         <label for="object-type">Type:</label>
-        <select name="Type" id="object-type">
-          <option value="">All</option>
-          <option value="something">Something</option>
-        </select>
+        <div class="object-filters__select">
+          <select name="Type" id="object-type">
+            <option value="">All</option>
+            <option value="something">Something</option>
+          </select>
+        </div>
       </div>
       <div class="object-filters__item">
         <label for="object-theme">Theme:</label>
-        <select name="Theme" id="object-theme">
-          <option value="">All</option>
-          <option value="something">Something</option>
-        </select>
+        <div class="object-filters__select">
+          <select name="Theme" id="object-theme">
+            <option value="">All</option>
+            <option value="something">Something</option>
+          </select>
+        </div>
       </div>
       <div class="object-filters__item">
         <label for="object-material">Material:</label>
-        <select name="Material" id="object-material">
-          <option value="">All</option>
-          <option value="something">Something</option>
-        </select>
+        <div class="object-filters__select">
+          <select name="Material" id="object-material">
+            <option value="">All</option>
+            <option value="something">Something</option>
+          </select>
+        </div>
       </div>
       <div class="object-filters__item">
         <label for="object-place">Place:</label>
-        <select name="Place" id="object-place">
-          <option value="">All</option>
-          <option value="something">Something</option>
-        </select>
+        <div class="object-filters__select">
+          <select name="Place" id="object-place">
+            <option value="">All</option>
+            <option value="something">Something</option>
+          </select>
+        </div>
       </div>
       <div class="object-filters__item">
         <label for="object-period">Time Period:</label>
-        <select name="Time Period" id="object-period">
-          <option value="">All</option>
-          <option value="something">Something</option>
-        </select>
+        <div class="object-filters__select">
+          <select name="Time Period" id="object-period">
+            <option value="">All</option>
+            <option value="something">Something</option>
+          </select>
+        </div>
       </div>
     </div>
-    <button class="object-filters__button">Reset Filters</button>
+    {% include 'object-filters-demo/controls' %}
   </div>
 </section>
 <script type="text/javascript">
 const classes = [
   // 'collapsible',
-  // 'sticky',
+  // 'sticky'
 ];
 </script>
 {% include 'object-filters-demo/script' %}
