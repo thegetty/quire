@@ -58,7 +58,7 @@
     "@11ty/eleventy-plugin-directory-output": "^1.0.1",
     "@11ty/eleventy-plugin-syntaxhighlight": "^4.2.0",
     "@11ty/eleventy-plugin-vite": "^4.0.0",
-    "@11ty/eleventy-plugin-webc": "^0.9.4",
+    "@11ty/eleventy-plugin-webc": "^0.11.0",
     "@11ty/is-land": "^3.0.1",
     "@iiif/parser": "^1.1.2",
     "@iiif/vault": "^0.9.22",
