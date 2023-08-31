@@ -1,0 +1,6 @@
+---
+layout: base.11ty.js
+---
+<div @raw="content"></div>
+<div @raw="item"></div>
+<objects-catalog :@objects="objectIds" filters="artist, medium" />
