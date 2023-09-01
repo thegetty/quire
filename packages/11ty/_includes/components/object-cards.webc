@@ -1,29 +1,22 @@
+<style webc:keep type="text/css">
+.object-cards {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(4, 1fr);
+  list-style: none;
+  margin: 1rem;
+}
+</style>
+
 <script webc:type="js">
   const getObjectCardElements = () => {
     return objects.map((object) => {
-      const { page, figures } = object;
+      const { figures, page, title } = object;
       const { url } = page;
+      const image = 'gradoo.jpg';
       return `
         <li>
-          <a href="${url}">
-            <div class="card image">
-              <div class="card-image">
-                <figure class="image">
-                  <img src="/_assets/images/figures/lange-mother-a.jpg" alt="">
-                </figure>
-              </div>
-
-              <div class="card-content">
-                Cat. 1. Human Erosion in California / Migrant
-                Mother<span class="arrow" data-outputs-exclude="epub,pdf"><svg data-outputs-exclude="epub,pdf">
-                    <switch>
-                      <use xlink:href="#arrow-forward-icon"></use>
-                    </switch>
-                  </svg>
-                </span>
-              </div>
-            </div>
-          </a>
+          <object-card url="${url}" title="${title}" image="${image}"></object-card>
         </li>`
     }).join('')
   };
