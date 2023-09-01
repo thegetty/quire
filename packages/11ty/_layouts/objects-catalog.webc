@@ -2,5 +2,9 @@
 layout: base.11ty.js
 ---
 <div @raw="content"></div>
-<div @raw="item"></div>
-<objects-catalog :@objects="objectIds" filters="artist, medium" />
+<!--
+  note: these properties are available in webc markup ()
+  example in objects-catalog component: <pre @raw="filters"></pre>
+  will render "artist, medium"
+ -->
+<objects-catalog filters="artist, medium" />

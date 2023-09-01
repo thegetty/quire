@@ -1,0 +1,37 @@
+<script webc:type="js">
+const { filters } = this.webc.attributes;
+const filterNames = filters
+  .split(',')
+  .map((filterName) => filterName.trim());
+
+const getFilterElements = () => filterNames
+  .map((filterName) => {
+    const filterOptions = objects.reduce((uniqueOptions, object) => {
+      const existingLabels = uniqueOptions.map(({ label }) => label);
+      const label = object[filterName];
+      const value = object[filterName];
+      if (!existingLabels.includes(label)) {
+        uniqueOptions.push({ label, value });
+      }
+      return uniqueOptions;
+    }, [{ label: 'All', value: '' }]);
+
+    const getFilterOptionElements = () => filterOptions.map((option) => {
+      return `<option value="${option.value}">${option.label}</option>`;
+    }).join('');
+
+    return `
+      <div class="object-filters__item">
+        <label for="object-type">${filterName}:</label>
+        <div class="object-filters__select">
+          <select name="${filterName}" id="filter-${filterName}">
+            ${getFilterOptionElements()}
+          </select>
+        </div>
+      </div>
+    `
+  })
+  .join('');
+
+`<div class="object-filters__list">${getFilterElements()}</div>`
+</script>

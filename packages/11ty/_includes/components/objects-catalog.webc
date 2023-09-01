@@ -15,10 +15,8 @@ const objects = this.collections.navigation.reduce(
   },
   []
 );
-console.warn('OBJECTS', objects);
 </script>
-<!-- <style webc:keep type="text/css"> -->
-<style>
+<style webc:keep type="text/css">
 .object-filters {
   --max-height: 25vh;
   padding: 0 28.5px;
@@ -104,10 +102,6 @@ console.warn('OBJECTS', objects);
   padding: 0.1em 2em 0.15em;
   cursor: pointer;
   user-select: none;
-
-  @media screen and min-width(500px) {
-    margin-top: 2em;
-  }
 }
 
 .object-filters__button.object-filters__button--active {
@@ -145,8 +139,6 @@ console.warn('OBJECTS', objects);
     margin-right: 8em;
   }
 }
-
-/* COLLAPSIBLE */
 
 .collapsible {
   position: relative;
@@ -267,7 +259,7 @@ console.warn('OBJECTS', objects);
   order: 3;
 }
 
-.collapsible .collapsible__panel > :first-child {
+.collapsible .collapsible__panel {
   overflow: hidden;
 }
 
@@ -280,7 +272,6 @@ console.warn('OBJECTS', objects);
     height: 8.4em;
   }
 }
-/* STICKY */
 
 .object-filters.sticky {
   position: sticky;
@@ -292,74 +283,30 @@ console.warn('OBJECTS', objects);
   padding-bottom: 1em;
 }
 
-/* Collapsible and sticky is not great */
 .collapsible.sticky .object-filters__list {
   max-height: var(--max-height);
   overflow-y: scroll;
 }
 </style>
-<section class="object-filters">
-  <input class="collapsible__checkbox" type="checkbox" id="collapsible-checkbox" />
-  <label for="collapsible-checkbox" class="collapsible__toggle"></label>
-  <div class="collapsible__panel">
-    <div class="object-filters__list">
-      <div class="object-filters__item">
-        <label for="object-type">Type:</label>
-        <div class="object-filters__select">
-          <select name="Type" id="object-type">
-            <option value="">All</option>
-            <option value="something">Something</option>
-          </select>
-        </div>
-      </div>
-      <div class="object-filters__item">
-        <label for="object-theme">Theme:</label>
-        <div class="object-filters__select">
-          <select name="Theme" id="object-theme">
-            <option value="">All</option>
-            <option value="something">Something</option>
-          </select>
-        </div>
-      </div>
-      <div class="object-filters__item">
-        <label for="object-material">Material:</label>
-        <div class="object-filters__select">
-          <select name="Material" id="object-material">
-            <option value="">All</option>
-            <option value="something">Something</option>
-          </select>
-        </div>
-      </div>
-      <div class="object-filters__item">
-        <label for="object-place">Place:</label>
-        <div class="object-filters__select">
-          <select name="Place" id="object-place">
-            <option value="">All</option>
-            <option value="something">Something</option>
-          </select>
-        </div>
-      </div>
-      <div class="object-filters__item">
-        <label for="object-period">Time Period:</label>
-        <div class="object-filters__select">
-          <select name="Time Period" id="object-period">
-            <option value="">All</option>
-            <option value="something">Something</option>
-          </select>
-        </div>
+<template webc:nokeep>
+  <section class="object-filters">
+    <input class="collapsible__checkbox" type="checkbox" id="collapsible-checkbox" />
+    <label for="collapsible-checkbox" class="collapsible__toggle"></label>
+    <div class="collapsible__panel">
+      <object-filters :filters="filters" :objects="objects"></object-filters>
+    </div>
+    <div class="collapsible__controls">
+      <div class="object-filters__controls">
+        <button class="object-filters__button object-filters__button--primary" data-control-apply>Apply Filters</button>
+        <button class="object-filters__button" data-control-reset>Reset</button>
       </div>
     </div>
-  </div>
-  <div class="collapsible__controls">
-    <div class="object-filters__controls">
-      <button class="object-filters__button object-filters__button--primary" data-control-apply>Apply Filters</button>
-      <button class="object-filters__button" data-control-reset>Reset</button>
-    </div>
-  </div>
-</section>
+  </section>
+  <object-cards :objects="objects"></object-cards>
+</template>
 <script webc:keep type="text/javascript">
 const classes = [
-  'collapsible',
+  // 'collapsible',
   // 'sticky'
 ];
 window.addEventListener('load', () => {

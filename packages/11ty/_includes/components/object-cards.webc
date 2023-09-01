@@ -1,0 +1,34 @@
+<script webc:type="js">
+  const getObjectCardElements = () => {
+    return objects.map((object) => {
+      const { page, figures } = object;
+      const { url } = page;
+      return `
+        <li>
+          <a href="${url}">
+            <div class="card image">
+              <div class="card-image">
+                <figure class="image">
+                  <img src="/_assets/images/figures/lange-mother-a.jpg" alt="">
+                </figure>
+              </div>
+
+              <div class="card-content">
+                Cat. 1. Human Erosion in California / Migrant
+                Mother<span class="arrow" data-outputs-exclude="epub,pdf"><svg data-outputs-exclude="epub,pdf">
+                    <switch>
+                      <use xlink:href="#arrow-forward-icon"></use>
+                    </switch>
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </a>
+        </li>`
+    }).join('')
+  };
+
+`<ol class="object-cards">${getObjectCardElements()}</ol>
+<h2>OBJECT CARDS DATA</h2>
+<pre>${JSON.stringify(objects, null, 2)}</pre>`
+</script>
