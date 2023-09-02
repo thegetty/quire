@@ -10,9 +10,9 @@
   <meta name="description" :content="description">
   <meta name="keywords" :content="keywords">
   <!---
-  <meta webc:is="dublin-core">
-  <meta webc:is="opengraph" @page>
-  <meta webc:is="twitter-card" @data="{ abstract, cover, layout }">
+  <meta webc:is="dublin-core" @data="publication">
+  <meta webc:is="open-graph" @data="page">
+  <meta webc:is="twitter" @data="{ abstract, cover, layout }">
   --->
   <title :text="title"></title>
   <link rel="canonical" :href="canonicalURL">
@@ -23,7 +23,11 @@
   <link rel="publisher" webc:for="(url) of publishers" :href="url">
   <link rel="author" webc:for="(url) of contributors" :href="url">
 
-  <style @raw="getBundle('css')" webc:keep></style>
+  <!--- Write CSS AND JS bundle files
+    @see https://www.11ty.dev/docs/languages/webc/#css-and-js-(bundler-mode)
+  --->
+  <link rel="stylesheet" :href="getBundleFileUrl('css')">
+  <script :src="getBundleFileUrl('js')"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@1.0.56" type="module" webc:keep></script>
   <script src="https://cdn.jsdelivr.net/npm/@iiif/vault-helpers@latest/dist/index.umd.js" webc:keep></script>
