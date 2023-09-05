@@ -1,0 +1,23 @@
+<style webc:keep type="text/css">
+
+</style>
+
+<a :href="url">
+  <div class="card image">
+    <div class="card-image">
+      <figure class="image">
+        <img :src="image" :alt="alt">
+      </figure>
+    </div>
+
+    <div class="card-content">
+      <span @text="title"></span>
+      <span class="arrow" data-outputs-exclude="epub,pdf"><svg data-outputs-exclude="epub,pdf">
+      <switch>
+        <use xlink:href="#arrow-forward-icon"></use>
+      </switch>
+      </svg>
+      </span>
+    </div>
+  </div>
+</a>
