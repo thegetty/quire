@@ -37,10 +37,94 @@ const objects = this.collections.navigation.reduce(
 </script>
 <script webc:keep type="text/javascript">
 window.customElements.define('objects-catalog', class extends HTMLElement {
+  constructor() {
+    super();
+    this._addedFilters = {};
+    this._appliedFilters = {};
+    this._filteredObjects = this.objects;
+    console.warn('super local data', this.addedFilters, this.appliedFilters);
+  }
+  // static get observedAttributes() {
+  //   return ['added-filters', 'applied-filters'];
+  // }
+
   connectedCallback() {
-    // set up event handlers
-    const filters = this.querySelectorAll('[data-filter]');
-    console.warn('FILTERS', filters);
+    this.init();
+  }
+
+  get addedFilters() {
+    return this._addedFilters;
+  }
+
+  set addedFilters(filters) {
+    this._addedFilters = filters;
+  }
+
+  get appliedFilters() {
+    return this._appliedFilters;
+  }
+
+  set appliedFilters(filters) {
+    this._appliedFilters = filters;
+  }
+
+  get applyButton() {
+    return this.querySelector('[data-control-apply]');
+  }
+
+  get filteredObjects() {
+    return this._filteredObjects;
+  }
+
+  set filteredObjects(objects) {
+    this._filteredObjects = objects;
+  }
+
+  get filterSelectElements() {
+    return this.querySelectorAll('[data-control-filter]');
+  }
+
+  get objects() {
+    const element = this.querySelector('[data-objects]');
+    if (!element) return [];
+    return JSON.parse(element.textContent);
+  }
+
+  get resetButton() {
+    return this.querySelector('[data-control-reset]');
+  }
+
+  onApplyFilters() {
+    this.appliedFilters = this.addedFilters;
+    this.filteredObjects = this.objects.filter((object) => {
+      return this.appliedFilters.every(({ label, value }) => {
+        return object[label] === value;
+      });
+    });
+    console.warn('FILTERED OBJECTS', this.filteredObjects);
+  }
+
+  onFilterChange = ({ target }) => {
+    const { name: label, value } = target;
+    this.addedFilters[label] = value;
+    if (!value) delete this.addedFilters[label];
+    console.warn('ADDED FILTERS, APPLIED FILTERS', this.addedFilters, this.appliedFilters);
+  }
+
+  onResetFilters() {
+    this.addedFilters = [];
+    this.appliedFilters = [];
+    this.filteredObjects = this.objects;
+    console.warn('ADDED FILTERS, APPLIED FILTERS, FILTERED OBJECTS', this.addedFilters, this.appliedFilters, this.filteredObjects);
+  }
+
+  init() {
+    console.warn('OBJECTS', this.objects);
+    this.filterSelectElements.forEach((element) => {
+      element.addEventListener('change', this.onFilterChange);
+    });
+    this.applyButton.addEventListener('click', this.onApplyFilters);
+    this.resetButton.addEventListener('click', this.onResetFilters);
   }
 });
 const classes = [

@@ -24,7 +24,7 @@ const getFilterElements = () => filterNames
       <div class="object-filters__item">
         <label for="object-type">${filterName}:</label>
         <div class="object-filters__select">
-          <select name="${filterName}" id="filter-${filterName}">
+          <select name="${filterName}" id="filter-${filterName}" data-control-filter>
             ${getFilterOptionElements()}
           </select>
         </div>
