@@ -1,7 +1,3 @@
-<style webc:keep type="text/css">
-
-</style>
-
 <a :href="url">
   <div class="card image">
     <div class="card-image">

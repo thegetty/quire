@@ -1,6 +1,7 @@
 ---
 layout: base.11ty.js
 ---
+<style @raw="getBundle('css')" webc:keep></style>
 <div @raw="content"></div>
 <!--
   note: these properties are available in webc markup ()

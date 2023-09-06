@@ -1,3 +1,21 @@
+<template webc:nokeep>
+  <section class="object-filters">
+    <input class="collapsible__checkbox" type="checkbox" id="collapsible-checkbox" />
+    <label for="collapsible-checkbox" class="collapsible__toggle"></label>
+    <div class="collapsible__panel">
+      <object-filters :filters="filters" :objects="objects"></object-filters>
+    </div>
+    <div class="collapsible__controls">
+      <div class="object-filters__controls">
+        <button class="object-filters__button object-filters__button--primary" data-control-apply>Apply Filters</button>
+        <button class="object-filters__button" data-control-reset>Reset</button>
+      </div>
+    </div>
+  </section>
+  <section class="object-cards">
+    <object-cards :objects="objects"></object-cards>
+  </section>
+</template>
 <script webc:setup>
 const allObjects = this.objects.object_list;
 
@@ -16,7 +34,58 @@ const objects = this.collections.navigation.reduce(
   []
 );
 </script>
-<style webc:keep type="text/css">
+<script webc:keep type="text/javascript">
+window.customElements.define('objects-catalog', class extends HTMLElement {
+  connectedCallback() {
+    // set up event handlers
+    const filters = this.querySelectorAll('[data-filter]');
+    console.warn('FILTERS', filters);
+  }
+});
+const classes = [
+  // 'collapsible',
+  // 'sticky'
+];
+window.addEventListener('load', () => {
+  const element = document.querySelector('.object-filters');
+  element.classList.add(...classes);
+  let filtersCount = 0;
+  let filtersApplied = false;
+  const applyButton = element.querySelector('[data-control-apply]');
+  const resetButton = element.querySelector('[data-control-reset]');
+  const selects = element.querySelectorAll('select');
+  const resetApplyButtonState = () => {
+    applyButton.classList.remove('object-filters__button--active');
+    applyButton.innerText = `Apply Filters`;
+  }
+  selects.forEach((select) => {
+    select.addEventListener('change', (event) => {
+      filtersCount++;
+      const { value } = event.target;
+      if (value) {
+        filtersApplied = true;
+        applyButton.classList.add('object-filters__button--active');
+        applyButton.innerText = `Apply ${filtersCount} ${filtersCount === 1 ? 'Filter' : 'Filters'}`;
+      }
+    });
+  });
+  applyButton.addEventListener('click', () => {
+    resetApplyButtonState();
+  });
+  resetButton.addEventListener('click', () => {
+    filtersCount = 0;
+    resetApplyButtonState();
+    selects.forEach((select) => {
+      select.querySelector('option[value=""]').selected = true;
+    })
+  });
+});
+</script>
+<style>
+section.object-cards {
+  margin: 1rem;
+}
+
 .object-filters {
   --max-height: 25vh;
   padding: 0 28.5px;
@@ -288,59 +357,3 @@ const objects = this.collections.navigation.reduce(
   overflow-y: scroll;
 }
 </style>
-<template webc:nokeep>
-  <section class="object-filters">
-    <input class="collapsible__checkbox" type="checkbox" id="collapsible-checkbox" />
-    <label for="collapsible-checkbox" class="collapsible__toggle"></label>
-    <div class="collapsible__panel">
-      <object-filters :filters="filters" :objects="objects"></object-filters>
-    </div>
-    <div class="collapsible__controls">
-      <div class="object-filters__controls">
-        <button class="object-filters__button object-filters__button--primary" data-control-apply>Apply Filters</button>
-        <button class="object-filters__button" data-control-reset>Reset</button>
-      </div>
-    </div>
-  </section>
-  <object-cards :objects="objects"></object-cards>
-</template>
-<script webc:keep type="text/javascript">
-const classes = [
-  // 'collapsible',
-  // 'sticky'
-];
-window.addEventListener('load', () => {
-  const element = document.querySelector('.object-filters');
-  element.classList.add(...classes);
-  let filtersCount = 0;
-  let filtersApplied = false;
-  const applyButton = element.querySelector('[data-control-apply]');
-  const resetButton = element.querySelector('[data-control-reset]');
-  const selects = element.querySelectorAll('select');
-  const resetApplyButtonState = () => {
-    applyButton.classList.remove('object-filters__button--active');
-    applyButton.innerText = `Apply Filters`;
-  }
-  selects.forEach((select) => {
-    select.addEventListener('change', (event) => {
-      filtersCount++;
-      const { value } = event.target;
-      if (value) {
-        filtersApplied = true;
-        applyButton.classList.add('object-filters__button--active');
-        applyButton.innerText = `Apply ${filtersCount} ${filtersCount === 1 ? 'Filter' : 'Filters'}`;
-      }
-    });
-  });
-  applyButton.addEventListener('click', () => {
-    resetApplyButtonState();
-  });
-  resetButton.addEventListener('click', () => {
-    filtersCount = 0;
-    resetApplyButtonState();
-    selects.forEach((select) => {
-      select.querySelector('option[value=""]').selected = true;
-    })
-  });
-});
-</script>

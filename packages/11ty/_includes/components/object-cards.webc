@@ -1,13 +1,3 @@
-<style webc:keep type="text/css">
-.object-cards {
-  display: grid;
-  grid-gap: 1rem;
-  grid-template-columns: repeat(4, 1fr);
-  list-style: none;
-  margin: 1rem;
-}
-</style>
-
 <script webc:type="js">
   const getObjectCardElements = () => {
     return objects.map((object) => {
@@ -21,7 +11,13 @@
     }).join('')
   };
 
-`<ol class="object-cards">${getObjectCardElements()}</ol>
-<h2>OBJECT CARDS DATA</h2>
-<pre>${JSON.stringify(objects, null, 2)}</pre>`
+`<ol class="object-cards">${getObjectCardElements()}</ol>`
 </script>
+<style>
+ol.object-cards {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(4, 1fr);
+  list-style: none;
+}
+</style>
