@@ -1,4 +1,5 @@
 <template webc:nokeep>
+  <objects-data :objects="objects"></objects-data>
   <section class="object-filters">
     <input class="collapsible__checkbox" type="checkbox" id="collapsible-checkbox" />
     <label for="collapsible-checkbox" class="collapsible__toggle"></label>
