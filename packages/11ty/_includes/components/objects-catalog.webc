@@ -39,94 +39,208 @@ const objects = this.collections.navigation.reduce(
 window.customElements.define('objects-catalog', class extends HTMLElement {
   constructor() {
     super();
-    this._addedFilters = {};
+    this._selectedFilters = {};
     this._appliedFilters = {};
     this._filteredObjects = this.objects;
-    console.warn('super local data', this.addedFilters, this.appliedFilters);
+    console.warn('super local data', this.selectedFilters, this.appliedFilters);
   }
-  // static get observedAttributes() {
-  //   return ['added-filters', 'applied-filters'];
-  // }
 
   connectedCallback() {
     this.init();
   }
 
-  get addedFilters() {
-    return this._addedFilters;
+  /**
+   * Filters that are currently selected but not applied
+   */
+  get selectedFilters() {
+    return this._selectedFilters;
+  }
+  set selectedFilters(filters) {
+    this._selectedFilters = filters;
   }
 
-  set addedFilters(filters) {
-    this._addedFilters = filters;
-  }
-
+  /**
+   * Filters that are currently applied
+   */
   get appliedFilters() {
     return this._appliedFilters;
   }
-
   set appliedFilters(filters) {
     this._appliedFilters = filters;
   }
 
+  /**
+   * The "Apply Filters" button HTML element
+   */
   get applyButton() {
     return this.querySelector('[data-control-apply]');
   }
 
+  /**
+   * Objects filtered through currently applied filters
+   */
   get filteredObjects() {
     return this._filteredObjects;
   }
-
   set filteredObjects(objects) {
     this._filteredObjects = objects;
   }
 
+  /**
+   * All filter `<select>` HTML elements
+   */
   get filterSelectElements() {
     return this.querySelectorAll('[data-control-filter]');
   }
 
+  /**
+   * All Object data from an embedded `<script type="application/json">`
+   */
   get objects() {
     const element = this.querySelector('[data-objects]');
     if (!element) return [];
     return JSON.parse(element.textContent);
   }
 
+  /**
+   * All object card HTML elements (hidden or otherwise)
+   */
+  get objectCards() {
+    return this.querySelectorAll('[data-object-id]');
+  }
+
+  /**
+   * The "Reset" button HTML element
+   */
   get resetButton() {
     return this.querySelector('[data-control-reset]');
   }
 
-  onApplyFilters() {
-    this.appliedFilters = this.addedFilters;
-    this.filteredObjects = this.objects.filter((object) => {
-      return this.appliedFilters.every(({ label, value }) => {
-        return object[label] === value;
-      });
-    });
-    console.warn('FILTERED OBJECTS', this.filteredObjects);
+  /**
+   * Hide an HTML element with CSS `display: none` declaration
+   */
+  hideElement(element) {
+    element.style.display = 'none';
   }
 
-  onFilterChange = ({ target }) => {
-    const { name: label, value } = target;
-    this.addedFilters[label] = value;
-    if (!value) delete this.addedFilters[label];
-    console.warn('ADDED FILTERS, APPLIED FILTERS', this.addedFilters, this.appliedFilters);
-  }
-
-  onResetFilters() {
-    this.addedFilters = [];
-    this.appliedFilters = [];
-    this.filteredObjects = this.objects;
-    console.warn('ADDED FILTERS, APPLIED FILTERS, FILTERED OBJECTS', this.addedFilters, this.appliedFilters, this.filteredObjects);
-  }
-
+  /**
+   * Setup element event handlers
+   */
   init() {
-    console.warn('OBJECTS', this.objects);
     this.filterSelectElements.forEach((element) => {
       element.addEventListener('change', this.onFilterChange);
     });
     this.applyButton.addEventListener('click', this.onApplyFilters);
     this.resetButton.addEventListener('click', this.onResetFilters);
   }
+
+  /**
+   * onClick "Apply Filters" button
+   */
+  onApplyFilters = () => {
+    Object.keys(this.selectedFilters).forEach((key) => {
+      this.appliedFilters[key] = this.selectedFilters[key];
+      delete this.selectedFilters[key];
+    });
+    this.filteredObjects = this.objects.filter((object) => {
+      return Object.entries(this.appliedFilters).every(([key, value]) => {
+        if (!value) return true;
+        return object[key] === this.appliedFilters[key];
+      });
+    });
+    this.updateUI();
+  }
+
+  /**
+   * onChange filter `<select>` element
+   */
+  onFilterChange = ({ target }) => {
+    const { name: label, value } = target;
+    this.selectedFilters[label] = value;
+
+    // gets a combined count of all selected and applied filters where `value` is truthy (`value !== ''`)
+    const filtersCount =
+      Object
+        .entries({ ...this.appliedFilters, ...this.selectedFilters })
+        .filter(([key, value]) => {
+          return value;
+        })
+        .length;
+
+    this.applyButton.classList.add('object-filters__button--active');
+    this.applyButton.innerText = `Apply ${filtersCount === 0 ? '' : filtersCount + ' '}Filter${filtersCount === 0 || filtersCount > 1 ? 's' : ''}`;
+  }
+
+  /**
+   * onClick "Reset" button
+   * Reset everything back to default state
+   */
+  onResetFilters = () => {
+    this.selectedFilters = {};
+    this.appliedFilters = {};
+    this.filteredObjects = this.objects;
+    this.resetUI();
+  }
+
+  /**
+   * Show an HTML element previously hidden with CSS `display: none` declaration
+   */
+  showElement(element) {
+    element.style.removeProperty('display');
+  }
+
+  /**
+   * Hide all object that aren't in the current list of `filteredObjects`
+   */
+  renderFilteredObjects = () => {
+    const filteredObjectIds = this.filteredObjects.map(({ id }) => id.toString());
+    this.objectCards.forEach((card) => {
+      if (filteredObjectIds.includes(card.dataset.objectId)) {
+        this.showElement(card);
+      } else {
+        this.hideElement(card);
+      }
+    });
+  }
+
+  /**
+   * Reset "Apply Filters" button to default state
+   */
+  resetApplyButton = () => {
+    this.applyButton.classList.remove('object-filters__button--active');
+    this.applyButton.innerText = 'Apply Filters';
+  }
+
+  /**
+   * For every `<select>` element, select the option with `value=""`
+   */
+  resetSelectElements = () => {
+    this.filterSelectElements.forEach((selectElement) => {
+      selectElement.querySelector('option[value=""]').selected = true;
+    });
+  }
+
+  /**
+   * Reset changes to DOM
+   */
+  resetUI = () => {
+    this.resetSelectElements();
+    this.resetApplyButton();
+    this.objectCards.forEach(this.showElement);
+  }
+
+  /**
+   * onApplyFilters Update DOM
+   */
+  updateUI = () => {
+    this.resetApplyButton();
+    this.renderFilteredObjects();
+  }
 });
+
+/**
+ * @TODO pass 'collapsible/sticky' through as props. This is leftover from Object Filters UI Demo
+ */
 const classes = [
   // 'collapsible',
   // 'sticky'
@@ -134,36 +248,6 @@ const classes = [
 window.addEventListener('load', () => {
   const element = document.querySelector('.object-filters');
   element.classList.add(...classes);
-  let filtersCount = 0;
-  let filtersApplied = false;
-  const applyButton = element.querySelector('[data-control-apply]');
-  const resetButton = element.querySelector('[data-control-reset]');
-  const selects = element.querySelectorAll('select');
-  const resetApplyButtonState = () => {
-    applyButton.classList.remove('object-filters__button--active');
-    applyButton.innerText = `Apply Filters`;
-  }
-  selects.forEach((select) => {
-    select.addEventListener('change', (event) => {
-      filtersCount++;
-      const { value } = event.target;
-      if (value) {
-        filtersApplied = true;
-        applyButton.classList.add('object-filters__button--active');
-        applyButton.innerText = `Apply ${filtersCount} ${filtersCount === 1 ? 'Filter' : 'Filters'}`;
-      }
-    });
-  });
-  applyButton.addEventListener('click', () => {
-    resetApplyButtonState();
-  });
-  resetButton.addEventListener('click', () => {
-    filtersCount = 0;
-    resetApplyButtonState();
-    selects.forEach((select) => {
-      select.querySelector('option[value=""]').selected = true;
-    })
-  });
 });
 </script>
 <style>

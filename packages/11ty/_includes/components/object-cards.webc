@@ -1,11 +1,11 @@
 <script webc:type="js">
   const getObjectCardElements = () => {
     return objects.map((object) => {
-      const { figures, page, title } = object;
+      const { figures, id, page, title } = object;
       const { url } = page;
       const image = 'gradoo.jpg';
       return `
-        <li>
+        <li data-object-id="${id}">
           <object-card url="${url}" title="${title}" image="${image}"></object-card>
         </li>`
     }).join('')
