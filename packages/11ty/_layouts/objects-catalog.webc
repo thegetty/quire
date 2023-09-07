@@ -3,9 +3,9 @@ layout: base.11ty.js
 ---
 <style @raw="getBundle('css')" webc:keep></style>
 <div @raw="content"></div>
-<!--
-  note: these properties are available in webc markup ()
-  example in objects-catalog component: <pre @raw="filters"></pre>
+<!---
+  Note bene: these properties are available in webc markup,
+  for example in objects-catalog component <pre @raw="filters"></pre>
   will render "artist, medium"
- -->
+ --->
 <objects-catalog filters="artist, medium" />
