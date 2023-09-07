@@ -40,7 +40,7 @@ module.exports = class Figure {
       switch (true) {
         case !isCanvas(data):
           return
-        case data.canvasId:
+        case !!data.canvasId:
           return data.canvasId
         default:
           try {
@@ -60,7 +60,7 @@ module.exports = class Figure {
       switch (true) {
         case !isCanvas(data):
           return
-        case data.manifestId:
+        case !!data.manifestId:
           return data.manifestId
         default:
           try {
@@ -276,12 +276,15 @@ module.exports = class Figure {
     if (this.isExternalResource) return {}
 
     await this.calcCanvasDimensions()
+
     await this.processAnnotationImages()
+
     if (this.isSequence) {
       await this.processFigureSequence()
     } else {
       await this.processFigureImage()
     }
+
     await this.createManifest()
 
     return { errors: this.errors }
@@ -296,6 +299,7 @@ module.exports = class Figure {
     const annotationItems = this.annotations.flatMap(({ items }) => items)
     const results = await Promise.all(annotationItems.map((item) => {
       logger.debug(`processing annotation image ${item.src}`)
+      if (item.isImageService) this.validateImageForTiling(item.src)
       return item.src && this.processImage(item.src, this.outputDir, {
         tile: item.isImageService
       })
@@ -310,6 +314,7 @@ module.exports = class Figure {
   async processFigureImage() {
     if (!this.isCanvas || !this.src) return
     const { transformations } = this.iiifConfig
+    this.validateImageForTiling(this.src)
     const { errors } = await this.processImage(this.src, this.outputDir, {
       tile: true,
       transformations
@@ -337,6 +342,19 @@ module.exports = class Figure {
     }))
     const errors = results.flatMap(({ errors }) => errors || [])
     if (errors.length) this.errors = this.errors.concat(errors)
+  }
+
+  /**
+   * Check if image dimensions are valid before proceeding with image processing
+   */
+  validateImageForTiling(src) {
+    const minLength = this.iiifConfig.tileSize * 2
+
+    this.dimensionsValidForTiling = this.canvasWidth > minLength && this.canvasHeight > minLength
+
+    if (!this.dimensionsValidForTiling) {
+      logger.error(`Unable to create a zooming image from "${path.parse(src).base}". Images under ${minLength}px will not display unless zoom is set to false.`)
+    }
   }
 
   /**

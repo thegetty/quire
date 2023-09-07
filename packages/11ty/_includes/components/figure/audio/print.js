@@ -1,5 +1,6 @@
 const { html } = require('~lib/common-tags')
 const chalkFactory = require('~lib/chalk')
+const path = require('path')
 
 /**
  * Renders an iframe element with the SoundCloud audio player
@@ -10,20 +11,27 @@ const chalkFactory = require('~lib/chalk')
  * @return     {String}  An embedded SoundCloud player and a caption
  */
 module.exports = function(eleventyConfig) {
-  const figureCaption = eleventyConfig.getFilter('figureCaption')
-  const figureImage = eleventyConfig.getFilter('figureImage')
-  const figureLabel = eleventyConfig.getFilter('figureLabel')
-  const figureAudioElement = eleventyConfig.getFilter('figureAudioElement')
+  const { imageDir } = eleventyConfig.globalData.config.figures
 
-  return function({ caption, credit, id, label, mediaId, mediaType }) {
-    const audioElement = figureAudioElement({ id, mediaId, mediaType })
+  const figureCaption = eleventyConfig.getFilter('figureCaption')
+  const figureLabel = eleventyConfig.getFilter('figureLabel')
+
+  return function({ caption, credit, id, label, mediaId, mediaType, poster='' }) {
     const labelElement = figureLabel({ caption, id, label })
     const captionElement = figureCaption({ caption, content: labelElement, credit, mediaId, mediaType })
 
+    const posterSrc = poster.startsWith('http')
+      ? poster
+      : path.join(imageDir, poster)
+
+    const imageElement = poster
+      ? `<div class="q-figure__media-wrapper">
+          <img src="${posterSrc}" />
+        </div>`
+      : ''
+
     return html`
-      <div class="q-figure__media-wrapper">
-        ${audioElement}
-      </div>
+      ${imageElement}
       ${captionElement}
     `
   }

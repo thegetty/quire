@@ -107,7 +107,8 @@ module.exports = (eleventyConfig) => {
       {
         name: 'print-image',
         resize: {
-          width: 800
+          width: 2025,
+          withoutEnlargement: true
         }
       },
       /**
