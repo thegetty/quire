@@ -25,18 +25,6 @@ module.exports = class TableOfContents {
       presentation='list'
     } = data
 
-    const objectFiltersDemo = () => {
-      if (presentation === 'grid') {
-        const demoVariantName = data['object-filters-display'] || 'default'
-        if (demoVariantName) {
-        }
-        const demoName = `object-filters-demo/demo-${demoVariantName}`
-        return `{% include '${demoName}' %}`
-      } else {
-        return ''
-      }
-    }
-
     const contentElement = content
       ? `
         <div class="container">
