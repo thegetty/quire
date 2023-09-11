@@ -6,6 +6,6 @@
   justify-content: center;
 }
 .objects-catalog-content > * {
-  max-width: 50em;
+  max-width: 30em;
 }
 </style>

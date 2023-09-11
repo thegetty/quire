@@ -1,11 +1,8 @@
 ---
 layout: base.11ty.js
 ---
+<page-header></page-header>
 <style @raw="getBundle('css')" webc:keep></style>
-<div @raw="content"></div>
-<!---
-  Note bene: these properties are available in webc markup,
-  for example in objects-catalog component <pre @raw="filters"></pre>
-  will render "artist, medium"
- --->
-<objects-catalog filters="artist, medium" />
+<!-- note: naming this `<objects-catalog-content>` prevented `<objects-catalog>` from rendering -->
+<catalog-content :content="content"></catalog-content>
+<objects-catalog filters="artist, medium"></objects-catalog>
