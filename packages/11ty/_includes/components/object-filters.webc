@@ -10,7 +10,7 @@ const getFilterElements = () => filterNames
       const existingLabels = uniqueOptions.map(({ label }) => label);
       const label = object[filterName];
       const value = object[filterName];
-      if (!existingLabels.includes(label)) {
+      if (!existingLabels.includes(label) && value) {
         uniqueOptions.push({ label, value });
       }
       return uniqueOptions;
