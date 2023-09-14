@@ -23,17 +23,24 @@ const allObjects = this.objects.object_list;
 const { filePathStem } = this.page;
 const currentDir = filePathStem.split('/').slice(0, -1).join('/');
 
-const objects = this.collections.navigation.reduce(
-  (objects, { data }) => {
-    const { page, pageObjects } = data;
-    const pageDir = page.filePathStem.split('/').slice(0, -1).join('/');
-    if (pageObjects && currentDir === pageDir) {
-      objects = objects.concat(pageObjects.map((object) => ({ ...object, page })));
+const objects = this
+  .eleventyNavigation(this.collections.tableOfContentsHtml)
+  .find(({ key }) => key === this.slugify(currentDir))
+  .children
+  .reduce((objects, item) => {
+    const { data } = item
+    if (data.object && data.object[0]) {
+      const object = this.getObject(data.object[0].id)
+      // find the first relevant image figure
+      const firstFigureImage = object.figures.find(({ mediaType }) => mediaType === 'image')
+      // set the `image` property to the first relevant figure's thumbail
+      object.image = firstFigureImage ? firstFigureImage.thumbnail : null
+      // add the navigation entry's URL to the object to pass through to the object card
+      object.url = item.url
+      objects.push(object)
     }
-    return objects;
-  },
-  []
-);
+    return objects
+  }, [])
 </script>
 <script webc:keep type="text/javascript">
 window.customElements.define('objects-catalog', class extends HTMLElement {

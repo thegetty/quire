@@ -2,7 +2,7 @@
   <div class="card image">
     <div class="card-image">
       <figure class="image">
-        <img :src="image" :alt="alt">
+        <img :src="image" :alt="title">
       </figure>
     </div>
 

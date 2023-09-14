@@ -1,15 +1,13 @@
 <script webc:type="js">
-  const getObjectCardElements = () => {
-    return objects.map((object) => {
-      const { figures, id, page, title } = object;
-      const { url } = page;
-      const image = 'gradoo.jpg';
-      return `
-        <li data-object-id="${id}">
-          <object-card url="${url}" title="${title}" image="${image}"></object-card>
-        </li>`
-    }).join('')
-  };
+const getObjectCardElements = () => {
+  return objects.map((object) => {
+    const { id, image, title, url } = object;
+    return `
+     <li data-object-id="${id}">
+       <object-card image="${image}" title="${title}" url="${url}"></object-card>
+     </li>`
+  }).join('')
+};
 
 `<ol class="object-cards">${getObjectCardElements()}</ol>`
 </script>
@@ -17,7 +15,7 @@
 ol.object-cards {
   display: grid;
   grid-gap: 1rem;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(360px, 4fr));
   list-style: none;
 }
 </style>

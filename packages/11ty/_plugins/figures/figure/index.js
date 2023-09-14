@@ -249,6 +249,8 @@ module.exports = class Figure {
       startCanvasIndex,
       src: this.src,
       staticInlineFigureImage: this.staticInlineFigureImage,
+      // TODO: implement thumbnail getter
+      thumbnail: this.staticInlineFigureImage
     }
   }
 
