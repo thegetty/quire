@@ -11,6 +11,7 @@ const getObjectCardElements = () => {
 
 `<ol class="object-cards">${getObjectCardElements()}</ol>`
 </script>
+
 <style>
 ol.object-cards {
   display: grid;
