@@ -3,6 +3,5 @@ layout: base.11ty.js
 ---
 <page-header></page-header>
 <style @raw="getBundle('css')" webc:keep></style>
-<!-- note: naming this `<objects-catalog-content>` prevented `<objects-catalog>` from rendering -->
 <catalog-content :content="content"></catalog-content>
 <objects-catalog filters="artist, medium"></objects-catalog>
