@@ -168,6 +168,11 @@ module.exports = function(eleventyConfig, collections, content) {
     url: outputFilename
   }
 
+  const pageHasSvgContent = !!body.querySelector('svg')
+  if (pageHasSvgContent) {
+    item.properties = ['svg']
+  }
+
   switch (page.data.layout) {
     case 'table-of-contents':
       item.rel = 'contents'
