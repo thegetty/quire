@@ -95,7 +95,9 @@ module.exports = {
     if (!object || !object.length) return
     return object
       .reduce((validObjects, item) => {
-        const objectData = objects.object_list.find(({ id }) => id === item.id)
+        const objectData = objects.object_list && objects.object_list.length
+          ? objects.object_list.find(({ id }) => id === item.id)
+          : item
         if (!objectData) {
           warn(`pageObjects: no object found with id ${item.id}`)
           return validObjects

@@ -18,29 +18,47 @@
   </section>
 </template>
 <script webc:setup>
-const allObjects = this.objects.object_list;
-
 const { filePathStem } = this.page;
 const currentDir = filePathStem.split('/').slice(0, -1).join('/');
+const collection = this.collections.tableOfContentsHtml;
 
-const objects = this
-  .eleventyNavigation(this.collections.tableOfContentsHtml)
-  .find(({ key }) => key === this.slugify(currentDir))
-  .children
-  .reduce((objects, item) => {
-    const { data } = item
-    if (data.object && data.object[0]) {
-      const object = this.getObject(data.object[0].id)
-      // find the first relevant image figure
-      const firstFigureImage = object.figures.find(({ mediaType }) => mediaType === 'image')
-      // set the `image` property to the first relevant figure's thumbail
-      object.image = firstFigureImage ? firstFigureImage.thumbnail : null
-      // add the navigation entry's URL to the object to pass through to the object card
-      object.url = item.url
-      objects.push(object)
-    }
-    return objects
-  }, [])
+// We want to find the index page in the current directory
+const currentDirIndexPage = this
+  .eleventyNavigation(collection)
+  .find(({ key }) => key === this.slugify(currentDir));
+
+// 1. we want to get the current directory's index page's children.
+// 2. of the children, all pages that have an `object` key in their `data` are relevant
+// 3. page objects can either have an id referencing an object in objects.yaml, or the full object data in front matter
+// 4. if the current page has children, it is an index page; return to step 1 to retrieve all objects in the new current directory
+
+const objects = [];
+
+const addObject = ({ children, data, url }) => {
+  if (children && children.length) {
+    children.forEach(addObject);
+  }
+  /**
+   * Renaming `object` to the pluralized `pageObjects` to clarify that we want
+   * ALL objects listed in front matter (even if the page only currently renders
+   * the first one), and so we can more clearly refer to individual objects
+   */
+  const { object: pageObjects } = data;
+  if (!pageObjects) return;
+  pageObjects.forEach((object) => {
+    const objectData = object.id ? this.getObject(object.id) : object;
+    const thumbnail = objectData.figures
+      ? objectData.figures.find(({ mediaType }) => mediaType === 'image').thumbnail
+      : objectData.thumbnail;
+    console.warn('THUMBNAIL?', thumbnail);
+    /**
+     * Passing `url` along with object data to provide links to the object page
+     */
+    objects.push({ ...objectData, thumbnail, url });
+  });
+}
+
+currentDirIndexPage.children.forEach(addObject)
 </script>
 <script webc:keep type="text/javascript">
 window.customElements.define('objects-catalog', class extends HTMLElement {
