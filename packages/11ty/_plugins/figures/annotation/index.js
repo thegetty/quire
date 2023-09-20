@@ -26,10 +26,10 @@ const logger = chalkFactory('Figures:Annotation')
  */
 module.exports = class Annotation {
   constructor(figure, data) {
-    const { iiifConfig, outputDir, zoom } = figure
+    const { annotationCount, iiifConfig, outputDir, outputFormat, zoom } = figure
     const { baseURI, tilesDirName } = iiifConfig
     const { label, region, selected, src, text } = data
-    const { base, ext, name } = src ? path.parse(src) : {}
+    const { base, name } = src ? path.parse(src) : {}
 
     /**
      * If an id is not provided, compute id from the `label` or `src` properties
@@ -52,23 +52,40 @@ module.exports = class Annotation {
     /**
      * Create image service for annotation image if it is a JPG and
      * the figure has zoom enabled
+     * 
+     * Note: Currently tiling is only supported for the figure.src, not annotations
      *
      * Note: Currently only JPG image services are supported by
      * canvas-panel/image-service tags
      */
-    const isImageService = !!zoom && ext === '.jpg'
+    const isImageService =
+      !!zoom
+      && outputFormat === '.jpg'
+      && (annotationCount === 0 || src === figure.src)
     const info = () => {
       if (!isImageService) return
       const tilesPath = path.join(outputDir, name, tilesDirName)
       const infoPath = path.join(tilesPath, 'info.json')
-      return new URL(path.join(baseURI, infoPath)).toString()
+      try {
+        return new URL(path.join(baseURI, infoPath)).href
+      } catch (error) {
+        logger.error(`Error creating info.json. Either the tile path (${tilesPath}) or base URI (${baseURI}) are invalid to form a fully qualified URI.`)
+        return
+      }
     }
 
     const uri = () => {
-      const filepath = isImageService
-        ? info()
-        : path.join(outputDir, base)
-      return new URL(path.join(baseURI, filepath)).toString()
+      switch (true) {
+        case isImageService:
+          return info()
+        default:
+          try{
+            return new URL(path.join(baseURI, outputDir, base)).href
+          } catch (error) {
+            logger.error(`Error creating annotation URI. Either the output directory (${outputDir}), filename (${base}) or base URI (${baseURI}) are invalid to form a fully qualified URI.`)
+            return
+          }
+      }
     }
 
     this.format = text && !src ? 'text/plain' : mime.lookup(src)

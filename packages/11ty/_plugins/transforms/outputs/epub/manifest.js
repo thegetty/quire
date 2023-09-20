@@ -104,11 +104,12 @@ module.exports = (eleventyConfig) => {
   }
 
   const coverUrl = cover()
+  resources.push({
+    url: coverUrl,
+    rel: 'cover-image'
+  })
   for (const asset of assets) {
     let item = { url: asset }
-    if (asset === coverUrl) {
-      item.rel = 'cover-image'
-    }
     resources.push(item)
   }
 
@@ -117,6 +118,13 @@ module.exports = (eleventyConfig) => {
     ? removeHTML(full).replace(/\r?\n|\r/g, ' ')
     : oneLine
 
+  /**
+   * Strip milliseconds from ISO date string (`.sss`)
+   */
+  const pubDateWithoutMs = pubDate
+    .toISOString()
+    .replace(/\.\d{3}/, '')
+
   return {
     '@context': [
       'https://schema.org',
@@ -124,9 +132,8 @@ module.exports = (eleventyConfig) => {
     ],
     conformsTo: 'https://www.w3.org/TR/pub-manifest/',
     contributors: contributors('secondary'),
-    cover: coverUrl,
     creators: contributors('primary'),
-    dateModifed: pubDate,
+    dateModified: pubDateWithoutMs,
     description: publicationDescription,
     id: isbn,
     languages: language,

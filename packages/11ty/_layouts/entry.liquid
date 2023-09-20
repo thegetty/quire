@@ -1,5 +1,6 @@
 ---
-class: quire-entry
+classes:
+  - quire-entry
 layout: base.11ty.js
 description: Entry layout. This template is intended for use in catalogue-style pages where a single image or object needs to be featured prominently.
 ---
@@ -66,7 +67,7 @@ Entry content, including entry image and tombstone data
       <div class="container">
         <div class="content">
           {{ content }}
-          {% bibliography pageReferences %}
+          {% bibliography citations %}
         </div>
       </div>
     </section>

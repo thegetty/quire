@@ -52,55 +52,86 @@ module.exports = function(eleventyConfig, collections, content) {
    * @param      {HTMLElement}  element
    */
   const transformRelativeLinks = (element) => {
-    const nodes = element.querySelectorAll('a')
+    const nodes = element.querySelectorAll('a:not(.footnote-backref, .footnote-ref-anchor)')
     nodes.forEach((a) => {
       const url = a.getAttribute('href')
-      a.setAttribute('href', slugify(url).replace(/^([^#])/, '#$1'))
+      a.setAttribute('href', slugify(`page-${url}`).replace(/^([^#])/, '#$1'))
     })
     return element
   }
 
+  /**
+   * Prefix footnote hrefs and ids to guarantee unique references in PDF output
+   * 
+   * @param {HTMLElement} element 
+   * @param {String} prefix 
+   */
+  const prefixFootnotes = (element, prefix) => {
+    const footnoteItems = element.querySelectorAll('.footnote-item')
+    footnoteItems.forEach((item) => {
+      const id = item.getAttribute('id')
+      item.setAttribute('id', `${prefix}-${id}`)
+    })
+    const footnoteBackrefs = element.querySelectorAll('.footnote-backref')
+    footnoteBackrefs.forEach((item) => {
+      const href = item.getAttribute('href')
+      item.setAttribute('href', `#${prefix}-${href.replace(/^#/, '')}`)
+    })
+    const footnoteRefAnchors = element.querySelectorAll('.footnote-ref-anchor')
+    footnoteRefAnchors.forEach((item) => {
+      const href = item.getAttribute('href')
+      const id = item.getAttribute('id')
+      item.setAttribute('href', `#${prefix}-${href.replace(/^#/, '')}`)
+      item.setAttribute('id', `${prefix}-${id}`)
+    })
+    // 
+  }
+
   const pdfPages = collections.pdf.map(({ outputPath }) => outputPath)
 
-  if (pdfPages.includes(this.outputPath)) {
-    const { document } = new JSDOM(content).window
-    const mainElement = document.querySelector('main[data-output-path]')
-    const svgSymbolElements = document.querySelectorAll('body > svg')
-    const pageIndex = pdfPages.findIndex((path) => path === this.outputPath)
+  // Returning content allows subsequent transforms to process it unmodified
+  if (!pdfPages.includes(this.outputPath)) return content
 
-    if (mainElement) {
-      if (pageIndex !== -1) {
-        const currentPage = collections.pdf[pageIndex]
-        const sectionElement = document.createElement('section')
+  const { document } = new JSDOM(content).window
+  const mainElement = document.querySelector('main[data-output-path]')
+  const svgSymbolElements = document.querySelectorAll('body > svg')
+  const pageIndex = pdfPages.findIndex((path) => path === this.outputPath)
 
-        sectionElement.innerHTML = mainElement.innerHTML
+  // Returning content allows subsequent transforms to process it unmodified
+  if (!mainElement || pageIndex === -1) return content
 
-        for (const className of mainElement.classList) {
-          sectionElement.classList.add(className)
-        }
+  const currentPage = collections.pdf[pageIndex]
+  const sectionElement = document.createElement('section')
+  const pageId = mainElement.dataset.pageId
 
-        setDataAttributes(currentPage, sectionElement)
+  sectionElement.innerHTML = mainElement.innerHTML
 
-        // set an id for anchor links to each section
-        sectionElement.setAttribute('id', mainElement.dataset.pageId)
+  for (const className of mainElement.classList) {
+    sectionElement.classList.add(className)
+  }
 
-        // transform relative links to anchor links
-        transformRelativeLinks(sectionElement)
+  setDataAttributes(currentPage, sectionElement)
 
-        // remove non-pdf content
-        filterOutputs(sectionElement, 'pdf')
-        collections.pdf[pageIndex].svgSymbolElements = Array.from(svgSymbolElements)
-        collections.pdf[pageIndex].sectionElement = sectionElement
-      }
+  // set an id for anchor links to each section
+  sectionElement.setAttribute('id', pageId)
 
-      /**
-       * Once this transform has been called for each PDF page
-       * every item in the collection will have `sectionContent`
-       */
-      if (collections.pdf.every(({ sectionElement }) => !!sectionElement)) {
-        writeOutput(collections.pdf)
-      }
-    }
+  // transform relative links to anchor links
+  transformRelativeLinks(sectionElement)
+
+  // prefix footnote attributes to prevent duplicates
+  prefixFootnotes(sectionElement, pageId)
+
+  // remove non-pdf content
+  filterOutputs(sectionElement, 'pdf')
+  collections.pdf[pageIndex].svgSymbolElements = Array.from(svgSymbolElements)
+  collections.pdf[pageIndex].sectionElement = sectionElement
+
+  /**
+   * Once this transform has been called for each PDF page
+   * every item in the collection will have `sectionContent`
+   */
+  if (collections.pdf.every(({ sectionElement }) => !!sectionElement)) {
+    writeOutput(collections.pdf)
   }
 
   // Return unmodified `content`

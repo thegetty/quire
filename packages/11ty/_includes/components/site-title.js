@@ -12,8 +12,8 @@ module.exports = function(eleventyConfig) {
   return function() {
     const separator = '!?'.includes(title.slice(-1)) ? '' : ':'
     let siteTitle = `${title}`
-    if (subtitle) siteTitle += `${separator}&#32;${subtitle}`
-    if (readingLine) siteTitle += `&#32;(${readingLine})`
+    if (subtitle) siteTitle += `${separator}\u0020${subtitle}`
+    if (readingLine) siteTitle += `\u0020(${readingLine})`
     return siteTitle
   }
 }

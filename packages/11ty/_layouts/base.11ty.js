@@ -8,9 +8,10 @@ const { html } = require('~lib/common-tags')
  * @return     {Function}  Template render function
  */
 module.exports = async function(data) {
-  const { pageClasses, collections, content, pageData, publication } = data
+  const { classes, collections, content, pageData, publication } = data
   const { inputPath, outputPath, url } = pageData || {}
-  const pageId = this.slugify(url) || path.parse(inputPath).name
+  const id = this.slugify(url) || path.parse(inputPath).name
+  const pageId = `page-${id}`
   const figures = pageData.page.figures
 
   return html`
@@ -32,7 +33,7 @@ module.exports = async function(data) {
           </div>
           <div class="quire__primary">
             ${this.navigation(data)}
-            <main class="quire-page ${pageClasses}" data-output-path="${outputPath}" data-page-id="${pageId}" >
+            <main class="quire-page ${classes}" data-output-path="${outputPath}" data-page-id="${pageId}" >
               ${content}
             </main>
           </div>

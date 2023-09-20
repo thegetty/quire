@@ -16,7 +16,6 @@
     },
     {
       "input": [
-        ".jp2",
         ".jpg",
         ".jpeg",
         ".tif",
@@ -39,7 +38,8 @@
     {
       "name": "print-image",
       "resize": {
-        "width": 800
+        "width": 2025,
+        "withoutEnlargement": true
       }
     }
   ]

@@ -6,7 +6,6 @@ const path = require('path')
 const SequenceFactory = require('../sequence/factory')
 const sharp = require('sharp')
 const {
-  getSequenceFiles,
   isCanvas,
   isImageService,
   isSequence
@@ -32,20 +31,46 @@ module.exports = class Figure {
   constructor(iiifConfig, imageProcessor, data) {
     const { baseURI, dirs, manifestFileName } = iiifConfig
     const outputDir = path.join(dirs.outputPath, data.id)
+
     /**
      * URI of the IIIF CanvasPanel element; a fully qualified URL.
      * @type  {URL|null}
      */
-    const canvasId = isCanvas(data)
-      ? data.canvasId || [baseURI, outputDir, 'canvas'].join('/')
-      : null
+    const canvasId = () => {
+      switch (true) {
+        case !isCanvas(data):
+          return
+        case !!data.canvasId:
+          return data.canvasId
+        default:
+          try {
+            return new URL(path.join(outputDir, 'canvas'), baseURI).href
+          } catch (error) {
+            logger.error(`Error creating canvas id. Either the output directory (${outputDir}) or base URI (${baseURI}) are invalid to form a fully qualified URI.`)
+            return
+          }
+      }
+    }
+
     /**
      * URI of the IIIF manifest file; a fully qualified URL.
      * @type  {URL|null}
      */
-    const manifestId = isCanvas(data)
-      ? data.manifestId || [baseURI, outputDir, manifestFileName].join('/')
-      : null
+    const manifestId = () => {
+      switch (true) {
+        case !isCanvas(data):
+          return
+        case !!data.manifestId:
+          return data.manifestId
+        default:
+          try {
+            return new URL(path.join(outputDir, manifestFileName), baseURI).href
+          } catch (error) {
+            logger.error(`Error creating manifest id. Either the output directory (${outputDir}), filename (${manifestFileName}), or base URI (${baseURI}) are invalid to form a fully qualified URI.`)
+            return
+          }
+      }
+    }
 
     const defaults = {
       mediaType: 'image'
@@ -60,8 +85,12 @@ module.exports = class Figure {
       zoom
     } = data
 
+    const ext = src ? path.parse(src).ext : null
+    const format = iiifConfig.formats.find(({ input }) => input.includes(ext))
+
+    this.annotationCount = data.annotations ? data.annotations.length : 0
     this.annotationFactory = new AnnotationFactory(this)
-    this.canvasId = canvasId
+    this.canvasId = canvasId()
     this.data = data
     this.id = id
     this.iiifConfig = iiifConfig
@@ -69,10 +98,11 @@ module.exports = class Figure {
     this.isImageService = isImageService(data)
     this.isSequence = isSequence(data)
     this.label = label
-    this.manifestId = manifestId
+    this.manifestId = manifestId()
     this.mediaType = mediaType || defaults.mediaType
     this.mediaId = mediaId
     this.outputDir = outputDir
+    this.outputFormat = format && format.output
     this.processImage = imageProcessor
     this.sequenceFactory = new SequenceFactory(this)
     this.src = src
@@ -155,7 +185,7 @@ module.exports = class Figure {
   get printImage() {
     if (!this.isExternalResource && this.src && !this.data.printImage) {
       const { ext, name } = path.parse(this.src)
-      return path.join('/', this.outputDir, name, `print-image${ext}`)
+      return path.join('/', this.outputDir, name, `print-image${this.outputFormat}`)
     }
     return this.data.printImage
   }
@@ -182,9 +212,10 @@ module.exports = class Figure {
       filename = sequenceStart ? sequenceStart : this.sequences[0].files[0]
     }
 
-    if (!this.isExternalResource && filename) {
-      const { name } = path.parse(filename)
-      return path.join('/', this.outputDir, name, `static-inline-figure-image.jpg`)
+    if (!this.isExternalResource && filename && this.mediaType != 'table') {
+      const { ext, name } = path.parse(filename)
+      const format = this.iiifConfig.formats.find(({ input }) => input.includes(ext))
+      return path.join('/', this.outputDir, name, `static-inline-figure-image${format.output}`)
     }
     return this.data.staticInlineFigure
   }
@@ -245,12 +276,15 @@ module.exports = class Figure {
     if (this.isExternalResource) return {}
 
     await this.calcCanvasDimensions()
+
     await this.processAnnotationImages()
+
     if (this.isSequence) {
       await this.processFigureSequence()
     } else {
       await this.processFigureImage()
     }
+
     await this.createManifest()
 
     return { errors: this.errors }
@@ -265,6 +299,7 @@ module.exports = class Figure {
     const annotationItems = this.annotations.flatMap(({ items }) => items)
     const results = await Promise.all(annotationItems.map((item) => {
       logger.debug(`processing annotation image ${item.src}`)
+      if (item.isImageService) this.validateImageForTiling(item.src)
       return item.src && this.processImage(item.src, this.outputDir, {
         tile: item.isImageService
       })
@@ -279,6 +314,7 @@ module.exports = class Figure {
   async processFigureImage() {
     if (!this.isCanvas || !this.src) return
     const { transformations } = this.iiifConfig
+    this.validateImageForTiling(this.src)
     const { errors } = await this.processImage(this.src, this.outputDir, {
       tile: true,
       transformations
@@ -306,6 +342,19 @@ module.exports = class Figure {
     }))
     const errors = results.flatMap(({ errors }) => errors || [])
     if (errors.length) this.errors = this.errors.concat(errors)
+  }
+
+  /**
+   * Check if image dimensions are valid before proceeding with image processing
+   */
+  validateImageForTiling(src) {
+    const minLength = this.iiifConfig.tileSize * 2
+
+    this.dimensionsValidForTiling = this.canvasWidth > minLength && this.canvasHeight > minLength
+
+    if (!this.dimensionsValidForTiling) {
+      logger.error(`Unable to create a zooming image from "${path.parse(src).base}". Images under ${minLength}px will not display unless zoom is set to false.`)
+    }
   }
 
   /**

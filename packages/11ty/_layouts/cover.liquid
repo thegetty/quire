@@ -1,5 +1,6 @@
 ---
-class: quire-cover
+classes:
+ - quire-cover
 description: Quire publication cover page
 layout: base.11ty.js
 ---
@@ -11,7 +12,10 @@ layout: base.11ty.js
   <div
     class="quire-cover__overlay"
     style="background-image: url('{{ imagePath }}');"
-  />
+  >
+    <!-- This ensures background image asset gets copied into epub package -->
+    <img class="visually-hidden" src="{{ imagePath }}" />
+  </div>
   <div class="quire-cover__hero-body hero-body">
     <div class="container is-fluid">
       <h1 class="title" id="page-header-{{ page.filePathStem }}">
@@ -23,7 +27,7 @@ layout: base.11ty.js
       </h1>
       <p class="reading-line">{{ publication.reading_line | markdownify }}</p>
       <div class="contributor">
-        <span class="visually-hidden">Contributors:&nbsp;</span>
+        <span class="visually-hidden">Contributors: </span>
         {% if publication.contributor_as_it_appears %}
           <em>{{ publication.contributor_as_it_appears }}</em>
         {% else %}
@@ -47,7 +51,7 @@ layout: base.11ty.js
     <div class="container is-fluid">
       <div class="content">
         {{ content }}
-        {% bibliography pageReferences %}
+        {% bibliography citations %}
       </div>
     </div>
   </section>

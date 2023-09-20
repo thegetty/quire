@@ -9,7 +9,7 @@
 module.exports = class TableOfContents {
   data() {
     return {
-      class: 'quire-contents',
+      classes: ['quire-contents'],
       layout: 'base'
     }
   }
@@ -51,7 +51,7 @@ module.exports = class TableOfContents {
           <div class="quire-contents-list ${presentation}">
             ${await this.tableOfContents({ collections, currentPageUrl: page.url, key, presentation })}
             <div class="content">
-              {% bibliography pageReferences %}
+              {% bibliography citations %}
             </div>
           </div>
           ${this.pageButtons({ pagination })}

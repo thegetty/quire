@@ -20,10 +20,11 @@ module.exports = function (eleventyConfig, { page }) {
   const { displayOnPage, displayShort, heading } = page.data.config.bibliography
   /**
    * bibliography shortcode
-   * @example {% bibliography pageReferences %}
+   * @example {% bibliography citations %}
    *
    * Nota bene: the front matter property for additional page level references
-   * is `pageReferences` to avoid conflicts with the global data `references.yaml`
+   * is `citations` to avoid conflicts with the global data `references.yaml`
+   * and for consistency with the {% cite %} shortcode
    *
    * @param  {Array}  referenceIds  An array of `references.yaml` entry ids
    *                                to include in the rendered bibliography
@@ -45,7 +46,7 @@ module.exports = function (eleventyConfig, { page }) {
     page.citations ??= {}
 
     /**
-     * Add `pageReferences` from template front-matter to the array of citations
+     * Add `citations` from template front-matter to the array of citations
      * for inclusion in the rendered page bibliography
      */
     referenceIds.forEach((id) => {

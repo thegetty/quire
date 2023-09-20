@@ -1,5 +1,6 @@
 ---
-class: quire-splash
+classes:
+  - quire-splash
 layout: base
 description: splash page layout
 ---
@@ -9,6 +10,10 @@ description: splash page layout
 {% assign labelDivider = config.pageTitle.labelDivider %}
 
 <section class="{% if title == "title page" or title == "half title page" %} is-screen-only {% endif %} quire-page__header hero {% if content %}{% else %}quire-page__header--full-height{% endif %} {% if image %}hero-image{% endif %}" {% if image %}style="background-image: url('{{ imagePath }}');"{% endif %}>
+  {% if image %}
+    <!-- This ensures background image asset gets copied into epub package -->
+    <img class="visually-hidden" src="{{ imagePath }}" />
+  {% endif %}
   <div class="hero-body">
     <h1 class="quire-page__header__title" id="page-header-{{ page.filePathStem }}">
       {% if label %}<span class="label">{{ label }}<span class="visually-hidden">{{ labelDivider }}</span></span>{% endif %}
@@ -30,7 +35,7 @@ description: splash page layout
     <div class="container">
       <div class="content{% if image %}{% else %} no-image-above{% endif %}">
         {{ content }}
-        {% bibliography pageReferences %}
+        {% bibliography citations %}
       </div>
       {% pageButtons pagination=pagination %}
     </div>

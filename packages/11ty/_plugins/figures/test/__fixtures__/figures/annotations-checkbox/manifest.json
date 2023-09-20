@@ -24,7 +24,7 @@
               "target": "http://localhost:8080/iiif/checkbox-annotations/canvas",
               "type": "Annotation",
               "body": {
-                "id": "http://localhost:8080/http:/localhost:8080/iiif/checkbox-annotations/base/tiles/info.json",
+                "id": "http://localhost:8080/iiif/checkbox-annotations/base/tiles/info.json",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 1455,
