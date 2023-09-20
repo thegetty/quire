@@ -1,19 +1,66 @@
-<a :href="url">
-  <div class="card image">
-    <div class="card-image">
-      <figure class="image">
-        <img :src="image" :alt="title">
-      </figure>
-    </div>
+<a class="object-card" :href="url">
+  <figure class="object-card__image">
+    <img :src="thumbnail" :alt="title">
+  </figure>
 
-    <div class="card-content">
-      <span @text="title"></span>
-      <span class="arrow" data-outputs-exclude="epub,pdf"><svg data-outputs-exclude="epub,pdf">
+  <div class="object-card__content">
+    <span @text="title"></span>
+    <span class="arrow" data-outputs-exclude="epub,pdf"><svg data-outputs-exclude="epub,pdf">
       <switch>
         <use xlink:href="#arrow-forward-icon"></use>
       </switch>
-      </svg>
-      </span>
-    </div>
+    </svg>
+    </span>
   </div>
 </a>
+<style>
+.object-card {
+  min-height: 300px;
+  display: block;
+  border-radius: 2px;
+  box-shadow: none;
+  background-color: #ffffff;
+  color: #CF4747;
+}
+
+.object-card:hover {
+  color: #a02a2a;
+}
+
+.object-card__image {
+  padding: 1.5em 1.5em 0em 1.5em;
+}
+
+.object-card__image img {
+  -webkit-transition: -webkit-box-shadow 0.35s;
+  transition: box-shadow 0.35s;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
+.object-card:hover .object-card__image img {
+  -webkit-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.75);
+}
+
+.object-card__content {
+  font-size: 1.125em;
+  padding: 1.5em;
+  line-height: 1.22em;
+  font-weight: 700;
+}
+
+.object-card__content .arrow {
+  font-size: 1em;
+  vertical-align: text-top;
+  margin-top: 0;
+  fill: #CF4747;
+  font-size: inherit !important;
+  margin-left: 4px;
+  position: absolute;
+  fill: #333333;
+  transition: all 0.25s ease;
+}
+</style>

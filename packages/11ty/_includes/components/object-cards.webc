@@ -1,22 +1,52 @@
 <script webc:type="js">
 const getObjectCardElements = () => {
-  return objects.map((object) => {
-    const { id, image, title, url } = object;
+  return objects.map((object, index) => {
+    /**
+     * Providing a fallback ID in case objects are defined in front matter without them
+     */
+    const { id=`object-${index}`, thumbnail, title, url } = object;
     return `
      <li data-object-id="${id}">
-       <object-card image="${image}" title="${title}" url="${url}"></object-card>
+       <object-card thumbnail="${thumbnail}" title="${title}" url="${url}"></object-card>
      </li>`
   }).join('')
 };
 
 `<ol class="object-cards">${getObjectCardElements()}</ol>`
 </script>
-
 <style>
 ol.object-cards {
   display: grid;
   grid-gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(360px, 4fr));
+  /* grid-template-columns: repeat(auto-fit, minmax(360px, 4fr)); */
   list-style: none;
+  --desktop: 700px;
+  --gap: 16px;
+  --tablet: 500px;
+  --desktop: 700px;
+  --fullhd: calc(1344px + (2 * var(--gap)));
+  --widescreen: calc(1152px + (2 * var(--gap)));
+}
+
+/* $desktop */
+@media screen and (min-width: 700px) {
+  ol.object-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
+/* $widescreen */
+@media screen and (min-width: 1184px) {
+  ol.object-cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* $fullhd */
+@media screen and (min-width: 1376px) {
+  ol.object-cards {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 </style>
