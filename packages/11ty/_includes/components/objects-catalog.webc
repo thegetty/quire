@@ -50,7 +50,6 @@ const addObject = ({ children, data, url }) => {
     const thumbnail = objectData.figures
       ? objectData.figures.find(({ mediaType }) => mediaType === 'image').thumbnail
       : objectData.thumbnail;
-    console.warn('THUMBNAIL?', thumbnail);
     /**
      * Passing `url` along with object data to provide links to the object page
      */
