@@ -7,8 +7,6 @@ const { filters } = this.webc.attributes;
 const ignoredAttributes = ['figure', 'id', 'imagePath', 'link', 'name', 'objectName', 'objectNameHtml', 'thumbnail', 'title', 'url'];
 const filterNames = filters
   ? filters
-    .split(',')
-    .map((filterName) => filterName.trim())
   : objects.reduce((filterNames, object) => {
     Object.entries(object).forEach(([key, value]) => {
       /**
