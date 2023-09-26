@@ -1,8 +1,39 @@
 <script webc:type="js">
 const { filters } = this.webc.attributes;
+/**
+ * If all filters are being rendered, ignore these object attributes
+ * TODO: make this list configurable
+ */
+const ignoredAttributes = ['figure', 'id', 'imagePath', 'link', 'name', 'objectName', 'thumbnail', 'title', 'url'];
 const filterNames = filters
-  .split(',')
-  .map((filterName) => filterName.trim());
+  ? filters
+    .split(',')
+    .map((filterName) => filterName.trim())
+  : objects.reduce((filterNames, object) => {
+    Object.entries(object).forEach(([key, value]) => {
+      /**
+       * Only render filters for keys:
+       * - that are not duplicates
+       * - are not ignored attributes
+       * - are either strings, numbers, or arrays of strings or numbers
+       */
+      if (
+        !filterNames.includes(key) &&
+        !ignoredAttributes.includes(key) &&
+        (
+          typeof value === 'string' ||
+          typeof value === 'number' ||
+          (Array.isArray(value) && value.every(
+            (item) => typeof item === 'string' ||
+              typeof item === 'number'
+          ))
+        )
+      ) {
+        filterNames.push(key);
+      }
+    });
+    return filterNames;
+  }, []);
 
 const getFilterElements = () => filterNames
   .map((filterName) => {

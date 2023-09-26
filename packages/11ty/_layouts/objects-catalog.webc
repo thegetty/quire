@@ -2,7 +2,9 @@
 layout: base.11ty.js
 ---
 <script webc:type="js">
-const filters = this.objects['object_filters'].join(',');
+const filters = this.objects['object_filters']
+  ? this.objects['object_filters'].join(',')
+  : '';
 `
 <page-header></page-header>
 <style @raw="getBundle('css')" webc:keep></style>
