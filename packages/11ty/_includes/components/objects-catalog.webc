@@ -49,7 +49,6 @@ const currentDirIndexPage = getCurrentDirIndexPage(this.eleventyNavigation(colle
 const objects = [];
 
 const addObject = ({ children, data, url }, index) => {
-  // TODO: handle de-duping of objects (only ID'd objects...)
   if (children && children.length) {
     children.forEach(addObject);
   }
