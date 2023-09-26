@@ -89,7 +89,10 @@ const addObject = ({ children, data, url }, index) => {
      */
     const objectName = this.markdownify(name || title);
 
-    objects.push({ ...objectData, id, imagePath, objectName, url });
+    const objectAlreadyAdded = objects.find((object) => object.id === id);
+    if (!objectAlreadyAdded) {
+      objects.push({ ...objectData, id, imagePath, objectName, url });
+    }
   });
 };
 

@@ -13,7 +13,8 @@ const getObjectCardElements = () => {
 <style>
 ol.object-cards {
   display: grid;
-  grid-gap: 1rem;
+  grid-column-gap: 1rem;
+  grid-row-gap: 3rem;
   list-style: none;
   --desktop: 700px;
   --gap: 16px;

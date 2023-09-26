@@ -15,7 +15,6 @@
 </a>
 <style>
 .object-card {
-  min-height: 300px;
   display: block;
   border-radius: 2px;
   box-shadow: none;
