@@ -4,7 +4,7 @@
   </figure>
 
   <div class="object-card__content">
-    <span @text="objectName"></span>
+    <span @html="objectName"></span>
     <span class="arrow" data-outputs-exclude="epub,pdf"><svg data-outputs-exclude="epub,pdf">
       <switch>
         <use xlink:href="#arrow-forward-icon"></use>
