@@ -1,10 +1,10 @@
 <a class="object-card" :href="url">
   <figure class="object-card__image">
-    <img :src="thumbnail" :alt="title">
+    <img :src="imagePath" :alt="objectName">
   </figure>
 
   <div class="object-card__content">
-    <span @text="title"></span>
+    <span @text="objectName"></span>
     <span class="arrow" data-outputs-exclude="epub,pdf"><svg data-outputs-exclude="epub,pdf">
       <switch>
         <use xlink:href="#arrow-forward-icon"></use>

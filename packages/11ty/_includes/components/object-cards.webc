@@ -4,10 +4,23 @@ const getObjectCardElements = () => {
     /**
      * Providing a fallback ID in case objects are defined in front matter without them
      */
-    const { id=`object-${index}`, thumbnail, title, url } = object;
+    const { id=`object-${index}`, name, thumbnail, title, url } = object;
+    /**
+     * If no IIIF images, point to the raw assets directory
+     */
+    const imagePath = !thumbnail.startsWith('iiif')
+      ? `/_assets/images/${thumbnail}`
+      : thumbnail
+    /**
+     * TODO: decide if objects should use either `title` or `name` key name.
+     * In the https://github.com/thegetty/quire-starter-objects-test starter,
+     * objects are specified in front matter in md files with `name`.
+     * In the default starter, they are specified with `title` in `objects.yaml`.
+     */
+    const objectName = name || title;
     return `
      <li data-object-id="${id}">
-       <object-card thumbnail="${thumbnail}" title="${title}" url="${url}"></object-card>
+       <object-card image-path="${imagePath}" object-name="${objectName}" url="${url}"></object-card>
      </li>`
   }).join('')
 };
@@ -18,7 +31,6 @@ const getObjectCardElements = () => {
 ol.object-cards {
   display: grid;
   grid-gap: 1rem;
-  /* grid-template-columns: repeat(auto-fit, minmax(360px, 4fr)); */
   list-style: none;
   --desktop: 700px;
   --gap: 16px;

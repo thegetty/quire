@@ -19,13 +19,26 @@
 </template>
 <script webc:setup>
 const { filePathStem } = this.page;
-const currentDir = filePathStem.split('/').slice(0, -1).join('/');
+const currentDir = filePathStem
+  .split('/')
+  .filter((item) => item)
+  .slice(0, -1)
+  .join('/');
 const collection = this.collections.tableOfContentsHtml;
+const getCurrentDirIndexPage = (navigation) => {
+  return navigation.reduce((indexPage, item) => {
+    const { children, key } = item;
+    if (!indexPage) {
+      indexPage = key === currentDir
+        ? item
+        : getCurrentDirIndexPage(children);
+    }
+    return indexPage;
+  }, null);
+};
 
-// We want to find the index page in the current directory
-const currentDirIndexPage = this
-  .eleventyNavigation(collection)
-  .find(({ key }) => key === this.slugify(currentDir));
+// We want to recursively find the current directory index page in the navigation array
+const currentDirIndexPage = getCurrentDirIndexPage(this.eleventyNavigation(collection));
 
 // 1. we want to get the current directory's index page's children.
 // 2. of the children, all pages that have an `object` key in their `data` are relevant
@@ -35,6 +48,7 @@ const currentDirIndexPage = this
 const objects = [];
 
 const addObject = ({ children, data, url }) => {
+  // TODO: handle de-duping of objects (only ID'd objects...)
   if (children && children.length) {
     children.forEach(addObject);
   }
@@ -55,9 +69,9 @@ const addObject = ({ children, data, url }) => {
      */
     objects.push({ ...objectData, thumbnail, url });
   });
-}
+};
 
-currentDirIndexPage.children.forEach(addObject)
+currentDirIndexPage.children.forEach(addObject);
 </script>
 <script webc:keep type="text/javascript">
 window.customElements.define('objects-catalog', class extends HTMLElement {
