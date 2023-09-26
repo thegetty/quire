@@ -50,18 +50,26 @@
   font-size: 1.125em;
   padding: 1.5em;
   line-height: 1.22em;
+  font-family: "IBM Plex Sans Condensed", sans-serif;
   font-weight: 700;
 }
 
-.object-card__content .arrow {
-  font-size: 1em;
-  vertical-align: text-top;
-  margin-top: 0;
-  fill: #CF4747;
-  font-size: inherit !important;
+.object-card .arrow {
   margin-left: 4px;
   position: absolute;
-  fill: #333333;
-  transition: all 0.25s ease;
+  fill: #CF4747;
+  transition: all .25s ease;
+}
+
+.object-card:hover .arrow {
+  transform: translate(0.75em);
+  -webkit-transition: all .25s ease;
+  fill: #a02a2a;
+}
+
+.object-card .arrow svg {
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
 }
 </style>
