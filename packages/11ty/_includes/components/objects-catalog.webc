@@ -46,9 +46,9 @@ const currentDirIndexPage = getCurrentDirIndexPage(this.eleventyNavigation(colle
 // 3. page objects can either have an id referencing an object in objects.yaml, or the full object data in front matter
 // 4. if the current page has children, it is an index page; return to step 1 to retrieve all objects in the new current directory
 
-const objects = [];
+let objects = [];
 
-const addObject = ({ children, data, url }, index) => {
+const addObject = ({ children, data, url }) => {
   if (children && children.length) {
     children.forEach(addObject);
   }
@@ -66,7 +66,7 @@ const addObject = ({ children, data, url }, index) => {
     /**
      * Providing a fallback ID in case objects are defined in front matter without them
      */
-    const id = !objectData.id ? `object-${index}` : object.id;
+    const id = !objectData.id ? `object-${objects.length}` : objectData.id;
     /**
      * If the object has figures, set thumbnail as the first image figure thumbnail.
      * Otherwise use a thumbnail defined in object data
@@ -86,16 +86,21 @@ const addObject = ({ children, data, url }, index) => {
      * objects are specified in front matter in md files with `name`.
      * In the default starter, they are specified with `title` in `objects.yaml`.
      */
-    const objectName = this.markdownify(name || title);
+    const objectName = name || title;
+    const objectNameHtml = this.markdownify(objectName);
 
-    const objectAlreadyAdded = objects.find((object) => object.id === id);
+    const objectAlreadyAdded = objects.some((object) => object.id === id);
     if (!objectAlreadyAdded) {
-      objects.push({ ...objectData, id, imagePath, objectName, url });
+      objects.push({ ...objectData, id, imagePath, objectName, objectNameHtml, url });
     }
   });
 };
 
 currentDirIndexPage.children.forEach(addObject);
+/**
+ * Objects in subdirectories will be added after top-level objects, so we need to sort them
+ */
+objects = objects.sort((a, b) => a.objectName > b.objectName ? 1 : -1);
 </script>
 <script webc:keep type="text/javascript">
 window.customElements.define('objects-catalog', class extends HTMLElement {

@@ -4,7 +4,7 @@ const { filters } = this.webc.attributes;
  * If all filters are being rendered, ignore these object attributes
  * TODO: make this list configurable
  */
-const ignoredAttributes = ['figure', 'id', 'imagePath', 'link', 'name', 'objectName', 'thumbnail', 'title', 'url'];
+const ignoredAttributes = ['figure', 'id', 'imagePath', 'link', 'name', 'objectName', 'objectNameHtml', 'thumbnail', 'title', 'url'];
 const filterNames = filters
   ? filters
     .split(',')
@@ -54,9 +54,7 @@ const getFilterElements = () => filterNames
 
           return uniqueOptions;
         }, [])
-        .sort((a, b) => {
-          return a.value > b.value ? 1 : -1;
-        })
+        .sort((a, b) => a.value > b.value ? 1 : -1)
     ];
 
     const getFilterOptionElements = () => filterOptions.map((option) => {

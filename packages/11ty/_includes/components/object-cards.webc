@@ -1,9 +1,9 @@
 <script webc:type="js">
 const getObjectCardElements = () => {
-  return objects.map(({ id, imagePath, objectName, url }) => {
+  return objects.map(({ id, imagePath, objectName, objectNameHtml, url }) => {
     return `
      <li data-object-id="${id}">
-       <object-card image-path="${imagePath}" object-name="${objectName}" url="${url}"></object-card>
+       <object-card image-path="${imagePath}" object-name="${objectName}" object-name-html="${objectNameHtml}" url="${url}"></object-card>
      </li>`
   }).join('')
 };
