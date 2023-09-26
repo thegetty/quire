@@ -1,5 +1,5 @@
 <template webc:nokeep>
-  <objects-data :objects="objects"></objects-data>
+  <objects-data :@objects="objects"></objects-data>
   <section class="object-filters">
     <input class="collapsible__checkbox" type="checkbox" id="collapsible-checkbox" />
     <label for="collapsible-checkbox" class="collapsible__toggle"></label>
@@ -15,7 +15,7 @@
     </div>
   </section>
   <section class="object-cards">
-    <object-cards :objects="objects"></object-cards>
+    <object-cards :@objects="objects"></object-cards>
   </section>
 </template>
 <script webc:setup>
