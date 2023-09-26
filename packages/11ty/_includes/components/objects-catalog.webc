@@ -67,7 +67,7 @@ const addObject = ({ children, data, url }, index) => {
     /**
      * Providing a fallback ID in case objects are defined in front matter without them
      */
-    const id = !objectData.id ? `object-${index}` : Object.id;
+    const id = !objectData.id ? `object-${index}` : object.id;
     /**
      * If the object has figures, set thumbnail as the first image figure thumbnail.
      * Otherwise use a thumbnail defined in object data
@@ -186,7 +186,7 @@ window.customElements.define('objects-catalog', class extends HTMLElement {
       return Object.entries(this.appliedFilters).every(([key, value]) => {
         if (!value) return true;
         return !Array.isArray(object[key])
-          ? object[key] === this.appliedFilters[key]
+          ? object[key].toString() === this.appliedFilters[key]
           : object[key].includes(this.appliedFilters[key]);
       });
     });
