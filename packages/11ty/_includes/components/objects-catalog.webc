@@ -15,7 +15,7 @@
     </div>
   </section>
   <section class="object-cards">
-    <object-cards :@objects="objects"></object-cards>
+    <object-cards-list :@objects="objects"></object-cards-list>
   </section>
 </template>
 <script webc:setup>
