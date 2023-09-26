@@ -1,7 +1,12 @@
 ---
 layout: base.11ty.js
 ---
+<script webc:type="js">
+const filters = this.objects['object_filters'].join(',');
+`
 <page-header></page-header>
 <style @raw="getBundle('css')" webc:keep></style>
 <catalog-content :content="content"></catalog-content>
-<objects-catalog filters="artist, medium"></objects-catalog>
+<objects-catalog filters="${filters}"></objects-catalog>
+`
+</script>

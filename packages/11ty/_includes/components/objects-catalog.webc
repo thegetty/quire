@@ -79,7 +79,7 @@ const addObject = ({ children, data, url }, index) => {
      * If no IIIF images, point to the raw assets directory
      */
     const imagePath = thumbnail && !thumbnail.startsWith('/iiif')
-      ? `/_assets/images/${thumbnail}`
+      ? `${this.config.figures.imageDir}/${thumbnail}`
       : thumbnail
     /**
      * TODO: decide if objects should use either `title` or `name` key name.
