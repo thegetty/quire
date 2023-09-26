@@ -6,15 +6,27 @@ const filterNames = filters
 
 const getFilterElements = () => filterNames
   .map((filterName) => {
-    const filterOptions = objects.reduce((uniqueOptions, object) => {
-      const existingLabels = uniqueOptions.map(({ label }) => label);
-      const label = object[filterName];
-      const value = object[filterName];
-      if (!existingLabels.includes(label) && value) {
-        uniqueOptions.push({ label, value });
-      }
-      return uniqueOptions;
-    }, [{ label: 'All', value: '' }]);
+    const filterOptions = [
+      { label: 'All', value: '' },
+      ...objects
+        .reduce((uniqueOptions, object) => {
+          const existingValues = uniqueOptions.map(({ value }) => value);
+          const values = !Array.isArray(object[filterName])
+            ? [object[filterName]]
+            : object[filterName];
+
+          values.forEach((value) => {
+            if (value && !existingValues.includes(value)) {
+              uniqueOptions.push({ label: value, value });
+            }
+          })
+
+          return uniqueOptions;
+        }, [])
+        .sort((a, b) => {
+          return a.value > b.value ? 1 : -1;
+        })
+    ];
 
     const getFilterOptionElements = () => filterOptions.map((option) => {
       return `<option value="${option.value}">${option.label}</option>`;

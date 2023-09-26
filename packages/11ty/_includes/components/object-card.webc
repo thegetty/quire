@@ -37,6 +37,7 @@
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
+  width: 100%;
 }
 
 .object-card:hover .object-card__image img {

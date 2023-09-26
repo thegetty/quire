@@ -47,7 +47,7 @@ const currentDirIndexPage = getCurrentDirIndexPage(this.eleventyNavigation(colle
 
 const objects = [];
 
-const addObject = ({ children, data, url }) => {
+const addObject = ({ children, data, url }, index) => {
   // TODO: handle de-duping of objects (only ID'd objects...)
   if (children && children.length) {
     children.forEach(addObject);
@@ -59,15 +59,18 @@ const addObject = ({ children, data, url }) => {
    */
   const { object: pageObjects } = data;
   if (!pageObjects) return;
+
   pageObjects.forEach((object) => {
     const objectData = object.id ? this.getObject(object.id) : object;
+    /**
+     * Providing a fallback ID in case objects are defined in front matter without them
+     */
+    const id = !object.id ? `object-${index}` : object.id;
     const thumbnail = objectData.figures
       ? objectData.figures.find(({ mediaType }) => mediaType === 'image').thumbnail
       : objectData.thumbnail;
-    /**
-     * Passing `url` along with object data to provide links to the object page
-     */
-    objects.push({ ...objectData, thumbnail, url });
+
+    objects.push({ ...objectData, id, thumbnail, url });
   });
 };
 
@@ -160,7 +163,9 @@ window.customElements.define('objects-catalog', class extends HTMLElement {
     this.filteredObjects = this.objects.filter((object) => {
       return Object.entries(this.appliedFilters).every(([key, value]) => {
         if (!value) return true;
-        return object[key] === this.appliedFilters[key];
+        return !Array.isArray(object[key])
+          ? object[key] === this.appliedFilters[key]
+          : object[key].includes(this.appliedFilters[key]);
       });
     });
     this.updateUI();

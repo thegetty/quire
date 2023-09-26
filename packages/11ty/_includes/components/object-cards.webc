@@ -1,10 +1,7 @@
 <script webc:type="js">
 const getObjectCardElements = () => {
   return objects.map((object, index) => {
-    /**
-     * Providing a fallback ID in case objects are defined in front matter without them
-     */
-    const { id=`object-${index}`, name, thumbnail, title, url } = object;
+    const { id, name, thumbnail, title, url } = object;
     /**
      * If no IIIF images, point to the raw assets directory
      */
