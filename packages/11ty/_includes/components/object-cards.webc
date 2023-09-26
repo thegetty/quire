@@ -1,20 +1,6 @@
 <script webc:type="js">
 const getObjectCardElements = () => {
-  return objects.map((object, index) => {
-    const { id, name, thumbnail, title, url } = object;
-    /**
-     * If no IIIF images, point to the raw assets directory
-     */
-    const imagePath = !thumbnail.startsWith('/iiif')
-      ? `/_assets/images/${thumbnail}`
-      : thumbnail
-    /**
-     * TODO: decide if objects should use either `title` or `name` key name.
-     * In the https://github.com/thegetty/quire-starter-objects-test starter,
-     * objects are specified in front matter in md files with `name`.
-     * In the default starter, they are specified with `title` in `objects.yaml`.
-     */
-    const objectName = name || title;
+  return objects.map(({ id, imagePath, objectName, url }) => {
     return `
      <li data-object-id="${id}">
        <object-card image-path="${imagePath}" object-name="${objectName}" url="${url}"></object-card>

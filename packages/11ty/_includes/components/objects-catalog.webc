@@ -9,7 +9,8 @@
     <div class="collapsible__controls">
       <div class="object-filters__controls">
         <button class="object-filters__button object-filters__button--primary" data-control-apply>Apply Filters</button>
-        <button class="object-filters__button" data-control-reset>Reset</button>
+        <button class
+="object-filters__button" data-control-reset>Reset</button>
       </div>
     </div>
   </section>
@@ -62,15 +63,33 @@ const addObject = ({ children, data, url }, index) => {
 
   pageObjects.forEach((object) => {
     const objectData = object.id ? this.getObject(object.id) : object;
+    const { figures, name, title } = objectData;
     /**
      * Providing a fallback ID in case objects are defined in front matter without them
      */
-    const id = !object.id ? `object-${index}` : object.id;
-    const thumbnail = objectData.figures
-      ? objectData.figures.find(({ mediaType }) => mediaType === 'image').thumbnail
+    const id = !objectData.id ? `object-${index}` : Object.id;
+    /**
+     * If the object has figures, set thumbnail as the first image figure thumbnail.
+     * Otherwise use a thumbnail defined in object data
+     */
+    const thumbnail = figures
+      ? figures.find(({ mediaType }) => mediaType === 'image').thumbnail
       : objectData.thumbnail;
+    /**
+     * If no IIIF images, point to the raw assets directory
+     */
+    const imagePath = thumbnail && !thumbnail.startsWith('/iiif')
+      ? `/_assets/images/${thumbnail}`
+      : thumbnail
+    /**
+     * TODO: decide if objects should use either `title` or `name` key name.
+     * In the https://github.com/thegetty/quire-starter-objects-test starter,
+     * objects are specified in front matter in md files with `name`.
+     * In the default starter, they are specified with `title` in `objects.yaml`.
+     */
+    const objectName = this.markdownify(name || title);
 
-    objects.push({ ...objectData, id, thumbnail, url });
+    objects.push({ ...objectData, id, imagePath, objectName, url });
   });
 };
 
