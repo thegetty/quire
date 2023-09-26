@@ -8,7 +8,7 @@ const getObjectCardElements = () => {
     /**
      * If no IIIF images, point to the raw assets directory
      */
-    const imagePath = !thumbnail.startsWith('iiif')
+    const imagePath = !thumbnail.startsWith('/iiif')
       ? `/_assets/images/${thumbnail}`
       : thumbnail
     /**
