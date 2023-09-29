@@ -189,6 +189,7 @@ window.customElements.define('objects-catalog', class extends HTMLElement {
     this.filteredObjects = this.objects.filter((object) => {
       return Object.entries(this.appliedFilters).every(([key, value]) => {
         if (!value) return true;
+        if (!object[key]) return false;
         return !Array.isArray(object[key])
           ? object[key].toString() === this.appliedFilters[key]
           : object[key].includes(this.appliedFilters[key]);

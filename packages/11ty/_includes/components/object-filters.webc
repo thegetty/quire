@@ -33,8 +33,30 @@ const filterNames = filters
     return filterNames;
   }, []);
 
+/**
+ * Capitalize the first letter of a string
+ */
+const capitalize = (string) => {
+  return string[0].toUpperCase() + string.slice(1);
+}
+
+/**
+ * Create humanized labels from  `_` or `-`-separated strings
+ */
+const humanize = (string) => {
+  /**
+   * Slugifying to change all `_` to `-` for consistency
+   */
+  return this
+    .slugify(string)
+    .split('-')
+    .map(capitalize)
+    .join(' ');
+}
+
 const getFilterElements = () => filterNames
   .map((filterName) => {
+    const humanizedFilterName = humanize(filterName);
     const filterOptions = [
       { label: 'All', value: '' },
       ...objects
@@ -61,7 +83,7 @@ const getFilterElements = () => filterNames
 
     return `
       <div class="object-filters__item">
-        <label for="object-type">${filterName}:</label>
+        <label for="object-type">${humanizedFilterName}:</label>
         <div class="object-filters__select">
           <select name="${filterName}" id="filter-${filterName}" data-control-filter>
             ${getFilterOptionElements()}
