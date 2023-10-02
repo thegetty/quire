@@ -1,18 +1,48 @@
-<a class="object-card" :href="url">
+<script webc:type="js">
+// TODO: get `ignoredAttributes` from `objects-catalog.webc`
+const ignoredAttributes = ['name', 'thumbnail', 'title'];
+const renderFields = () => {
+  return Object
+    .entries(this.webc.attributes)
+    .reduce((fields, [key, value]) => {
+      /**
+       * Only render fields for keys:
+       * - are not ignored attributes
+       * - are not objects
+       */
+      if (
+        !ignoredAttributes.includes(key) &&
+        value !== '[object Object]'
+      ) {
+        fields += `<span class="object-card__field"><span class="object-card__field-value">${value.split(',').join(', ')}</span></span>`;
+      }
+      return fields;
+    }, '');
+};
+`
+<a class="object-card" href="${url}">
+  <!-- TODO: make image and card name siblings of fields to allwo for reordering with CSS -->
   <figure class="object-card__image">
-    <img :src="imagePath" :alt="objectName">
+    <img src="${imagePath}" alt="${objectName}">
   </figure>
 
   <div class="object-card__content">
-    <span @html="objectNameHtml"></span>
-    <span class="arrow" data-outputs-exclude="epub,pdf"><svg data-outputs-exclude="epub,pdf">
-      <switch>
-        <use xlink:href="#arrow-forward-icon"></use>
-      </switch>
-    </svg>
+    <span class=object-card__title>
+      ${objectNameHtml}
+      <span class="arrow" data-outputs-exclude="epub,pdf">
+        <svg data-outputs-exclude="epub,pdf">
+          <switch>
+            <use xlink:href="#arrow-forward-icon"></use>
+          </switch>
+        </svg>
+      </span>
     </span>
+    <!-- TODO: style fields as inline-flex -->
+    <!-- ${renderFields()} -->
   </div>
 </a>
+`;
+</script>
 <style>
 .object-card {
   display: block;
@@ -46,8 +76,12 @@
 }
 
 .object-card__content {
-  font-size: 1.125em;
   padding: 1.5em;
+}
+
+.object-card__title,
+.object-card .arrow {
+  font-size: 1.125em;
   line-height: 1.22em;
   font-family: "IBM Plex Sans Condensed", sans-serif;
   font-weight: 700;
@@ -69,6 +103,6 @@
 .object-card .arrow svg {
   width: 18px;
   height: 18px;
-  vertical-align: middle;
 }
+
 </style>

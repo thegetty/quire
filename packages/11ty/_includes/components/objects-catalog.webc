@@ -4,7 +4,7 @@
     <input class="collapsible__checkbox" type="checkbox" id="collapsible-checkbox" />
     <label for="collapsible-checkbox" class="collapsible__toggle"></label>
     <div class="collapsible__panel">
-      <object-filters :filters="filters" :objects="objects"></object-filters>
+      <object-filters :filters="filters" :objects="objects" :ignored-attributes="ignoredAttributes"></object-filters>
     </div>
     <div class="collapsible__controls">
       <div class="object-filters__controls">
@@ -46,6 +46,7 @@ const currentDirIndexPage = getCurrentDirIndexPage(this.eleventyNavigation(colle
 // 3. page objects can either have an id referencing an object in objects.yaml, or the full object data in front matter
 // 4. if the current page has children, it is an index page; return to step 1 to retrieve all objects in the new current directory
 
+const ignoredAttributes = ['name', 'thumbnail', 'title'];
 let objects = [];
 
 const addObject = ({ children, data, url }) => {
@@ -57,7 +58,7 @@ const addObject = ({ children, data, url }) => {
    * ALL objects listed in front matter (even if the page only currently renders
    * the first one), and so we can more clearly refer to individual objects
    */
-  const { object: pageObjects } = data;
+  const { object: pageObjects, order } = data;
   if (!pageObjects) return;
 
   pageObjects.forEach((object) => {
@@ -86,12 +87,13 @@ const addObject = ({ children, data, url }) => {
      * objects are specified in front matter in md files with `name`.
      * In the default starter, they are specified with `title` in `objects.yaml`.
      */
-    const objectName = name || title;
-    const objectNameHtml = this.markdownify(objectName);
+    const objectNameMarkdown = name || title;
+    const objectNameHtml = this.markdownify(objectNameMarkdown);
+    const objectName = this.removeHTML(objectNameHtml);
 
     const objectAlreadyAdded = objects.some((object) => object.id === id);
     if (!objectAlreadyAdded) {
-      objects.push({ ...objectData, id, imagePath, objectName, objectNameHtml, url });
+      objects.push({ id, imagePath, order, objectData, objectName, objectNameHtml, url });
     }
   });
 };
@@ -100,7 +102,12 @@ currentDirIndexPage.children.forEach(addObject);
 /**
  * Objects in subdirectories will be added after top-level objects, so we need to sort them
  */
-objects = objects.sort((a, b) => a.objectName > b.objectName ? 1 : -1);
+const sortAlphabetically = (a, b) => a.objectName > b.objectName ? 1 : -1;
+const sortByOrderKey = (a, b) => {
+  if (!a.order || !b.order) return 0;
+  return a.order > b.order ? 1 : -1;
+};
+objects = objects.sort(sortByOrderKey);
 </script>
 <script webc:keep type="text/javascript">
 window.customElements.define('objects-catalog', class extends HTMLElement {
@@ -186,13 +193,13 @@ window.customElements.define('objects-catalog', class extends HTMLElement {
    * Returns a new liste of filtered objects based on the current applied filters
    */
   filterObjects() {
-    this.filteredObjects = this.objects.filter((object) => {
+    this.filteredObjects = this.objects.filter(({ objectData }) => {
       return Object.entries(this.appliedFilters).every(([key, value]) => {
         if (!value) return true;
-        if (!object[key]) return false;
-        return !Array.isArray(object[key])
-          ? object[key].toString() === this.appliedFilters[key]
-          : object[key].includes(this.appliedFilters[key]);
+        if (!objectData[key]) return false;
+        return !Array.isArray(objectData[key])
+          ? objectData[key].toString() === this.appliedFilters[key]
+          : objectData[key].includes(this.appliedFilters[key]);
       });
     });
     this.updateUI();
