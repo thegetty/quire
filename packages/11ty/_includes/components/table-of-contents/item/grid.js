@@ -80,7 +80,7 @@ module.exports = function (eleventyConfig) {
       }
       case !!pageObject: {
         const firstObjectId = pageObject[0].id
-        const object = getObject(firstObjectId)
+        const object = firstObjectId ? getObject(firstObjectId) : pageObject[0]
         const firstObjectFigure = object && object.figure
           ? getFigure(object.figure[0].id)
           : null

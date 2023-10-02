@@ -1,0 +1,19 @@
+---
+layout: base.11ty.js
+---
+<template webc:nokeep>
+  <page-header></page-header>
+  <style @raw="getBundle('css')" webc:keep></style>
+  <section class="objects-catalog-content" @html="content"></section>
+  <objects-catalog :filters="this.objects.object_filters"></objects-catalog>
+</template>
+<style>
+.objects-catalog-content {
+  margin: 1em 1em 2em;
+  display: flex;
+  justify-content: center;
+}
+.objects-catalog-content > * {
+  max-width: 30em;
+}
+</style>
