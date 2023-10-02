@@ -21,7 +21,7 @@ const renderFields = () => {
 };
 `
 <a class="object-card" href="${url}">
-  <!-- TODO: make image and card name siblings of fields to allwo for reordering with CSS -->
+  <!--- @TODO make image and card name siblings of fields to allow them to be ordering using CSS --->
   <figure class="object-card__image">
     <img src="${imagePath}" alt="${objectName}">
   </figure>
@@ -37,8 +37,8 @@ const renderFields = () => {
         </svg>
       </span>
     </span>
-    <!-- TODO: style fields as inline-flex -->
-    <!-- ${renderFields()} -->
+    <!--- @TODO style fields as inline-flex --->
+    <!--- ${renderFields()} --->
   </div>
 </a>
 `;
