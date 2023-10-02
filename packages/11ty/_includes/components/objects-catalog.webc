@@ -362,6 +362,7 @@ window.addEventListener('load', () => {
   element.classList.add(...classes);
 });
 </script>
+
 <style>
 section.object-cards {
   margin: 1rem;
