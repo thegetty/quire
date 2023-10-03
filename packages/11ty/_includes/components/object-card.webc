@@ -37,8 +37,10 @@ const renderFields = (webcAttributes) => {
       /**
        * Render default markup for an attribute
        */
-      default:
+      case webcAttributes.hasOwnProperty(name) && value:
         return `<span class="object-card__field">${value}</span>`;
+      default:
+        return '';
     }
     return fields;
   }).join('');
