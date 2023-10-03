@@ -226,7 +226,7 @@ window.customElements.define('objects-catalog', class extends HTMLElement {
         const decodedValue = decodeURIComponent(value);
         this.appliedFilters[key] = decodedValue;
         this.filterSelectElements.forEach((element) => {
-          if (element.name === key) {
+          if (element.dataset.controlName === key) {
             element.querySelector(`option[value="${decodedValue}"]`).selected = true;
           }
         })
@@ -251,8 +251,8 @@ window.customElements.define('objects-catalog', class extends HTMLElement {
    * onChange filter `<select>` element
    */
   onFilterChange = ({ target }) => {
-    const { name: label, value } = target;
-    this.selectedFilters[label] = value;
+    const { dataset, value } = target;
+    this.selectedFilters[dataset.controlName] = value;
 
     // gets a combined count of all selected and applied filters where `value` is truthy (`value !== ''`)
     const filtersCount =

@@ -81,7 +81,7 @@ const getFilterElements = () => filterNames
       <div class="object-filters__item">
         <label for="filter-${filterName}">${humanizedFilterName}:</label>
         <div class="object-filters__select">
-          <select name="filter-${filterName}" id="filter-${filterName}" data-control-filter>
+          <select id="filter-${filterName}" data-control-filter data-control-name="${filterName}">
             ${getFilterOptionElements()}
           </select>
         </div>
