@@ -1,17 +1,43 @@
-<script webc:type="js">
-const objectCardElements = objects.map((object) => {
-  const { id, imagePath, objectData, url } = object;
-  return `
-     <li data-object-id="${id}">
-       <object-card
-         image-path="${imagePath}"
-         url="${url}"
-         ${this.webc.renderAttributes(objectData)}
-       ></object-card>
-     </li>`
-}).join('');
-`<ol class="object-cards">${objectCardElements}</ol>`
+<ol class="object-cards" @html="getObjectCardElements(objects)"></ol>
+
+<script webc:setup>
+const ignoredAttributes = ['imagePath', 'uid', 'url'];
+const isIgnoredAttribute = (key) => !ignoredAttributes.includes(key);
+const isString = (value) => typeof value === 'string';
+const everyItemValueIsString = (value) => {
+  return Array.isArray(value) && value.every(isString)
+};
+const getObjectDataForDisplay = (objectData) => {
+  return Object.entries(objectData).reduce((data, [key, value]) => {
+    if (isIgnoredAttribute(key)) {
+      switch (true) {
+        case isString(value):
+          data[key] = this.markdownify(value);
+          break;
+        case everyItemValueIsString(value):
+          data[key] = value.map(this.markdownify);
+          break;
+        default:
+          break;
+      }
+    }
+    return data
+  }, {});
+};
+const renderAttributes = (objectData) => this.webc.renderAttributes(
+  getObjectDataForDisplay(objectData)
+);
+const getObjectCardElements = (objects) => objects.map(({ id, imagePath, objectData, url }) => `
+<li data-object-id="${id}">
+  <object-card
+    image-path="${imagePath}"
+    url="${url}"
+    ${renderAttributes(objectData)}
+  ></object-card>
+</li>
+`).join('');
 </script>
+
 <style>
 ol.object-cards {
   display: grid;
