@@ -1,9 +1,6 @@
 <script webc:type="js">
 const { filters } = this.webc.attributes;
-/**
- * If all filters are being rendered, ignore these object attributes
- * TODO: make this list configurable
- */
+const ignoredAttributes = ['name', 'thumbnail', 'title'];
 const filterNames = filters
   ? filters
   : objects.reduce((filterNames, { objectData }) => {
@@ -54,16 +51,21 @@ const humanize = (string) => {
 }
 
 const getFilterElements = () => filterNames
-  .map((filterName) => {
-    const humanizedFilterName = humanize(filterName);
+  .map((item) => {
+    const fieldLabel = typeof item === 'string'
+      ? humanize(item)
+      : item.label;
+    const fieldName = typeof item === 'string'
+      ? item
+      : item.field;
     const filterOptions = [
       { label: 'All', value: '' },
       ...objects
         .reduce((uniqueOptions, { objectData }) => {
           const existingValues = uniqueOptions.map(({ value }) => value);
-          const values = !Array.isArray(objectData[filterName])
-            ? [objectData[filterName]]
-            : objectData[filterName];
+          const values = !Array.isArray(objectData[fieldName])
+            ? [objectData[fieldName]]
+            : objectData[fieldName];
 
           values.forEach((value) => {
             if (value && !existingValues.includes(value)) {
@@ -82,9 +84,9 @@ const getFilterElements = () => filterNames
 
     return `
       <div class="object-filters__item">
-        <label for="object-type">${humanizedFilterName}:</label>
+        <label for="filter-${fieldName}">${fieldLabel}:</label>
         <div class="object-filters__select">
-          <select name="${filterName}" id="filter-${filterName}" data-control-filter>
+          <select id="filter-${fieldName}" data-control-filter data-control-name="${fieldName}">
             ${getFilterOptionElements()}
           </select>
         </div>
