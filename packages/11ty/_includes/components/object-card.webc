@@ -4,20 +4,16 @@ const objectCardFieldOrder = this.$data.objects.object_card ||
   Object.keys(this.webc.attributes).filter((key) => !ignoredAttributes.includes(key));
 const attributes = Object
   .entries(this.webc.attributes)
-  .filter(([key, value]) => objectCardFieldOrder.includes(key));
-const firstTextAttribute = attributes.filter(([key, value]) =>
-  !ignoredAttributes.includes(key) &&
-  key !== 'thumbnail' &&
-  value !== '[object Object]'
-)[0];
+  .filter(([key, value]) => objectCardFieldOrder.includes(key) &&
+    value !== '[object Object]' &&
+    !value.includes('[object Object]'));
+const firstTextAttribute = attributes.find(([key]) => key !== 'thumbnail');
 const renderFields = () => {
   return objectCardFieldOrder.reduce((fields, key) => {
     const value = this.webc.attributes[key];
     const renderedValue = value.split(',').map(this.markdownify).join(', ');
     switch (true) {
-      case ignoredAttributes.includes(key) ||
-        value === '[object Object]' ||
-        value.includes('[object Object]'):
+      case value === '[object Object]' || value.includes('[object Object]'):
         break;
       /**
        * Render a thumbnail image for the `thumbnail` attribute
