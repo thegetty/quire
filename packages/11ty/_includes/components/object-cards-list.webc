@@ -1,21 +1,16 @@
 <script webc:type="js">
-const getObjectCardElements = () => {
-  return objects.map((object) => {
-    const { id, imagePath, objectData, objectName, objectNameHtml, url } = object;
-    return `
+const objectCardElements = objects.map((object) => {
+  const { id, imagePath, objectData, url } = object;
+  return `
      <li data-object-id="${id}">
        <object-card
          image-path="${imagePath}"
-         object-name="${objectName}"
-         object-name-html="${objectNameHtml}"
          url="${url}"
          ${this.webc.renderAttributes(objectData)}
        ></object-card>
      </li>`
-  }).join('')
-};
-
-`<ol class="object-cards">${getObjectCardElements()}</ol>`
+}).join('');
+`<ol class="object-cards">${objectCardElements}</ol>`
 </script>
 <style>
 ol.object-cards {

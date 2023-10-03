@@ -4,7 +4,7 @@
     <input class="collapsible__checkbox" type="checkbox" id="collapsible-checkbox" />
     <label for="collapsible-checkbox" class="collapsible__toggle"></label>
     <div class="collapsible__panel">
-      <object-filters :filters="filters" :objects="objects" :ignored-attributes="ignoredAttributes"></object-filters>
+      <object-filters :filters="filters" :@objects="objects"></object-filters>
     </div>
     <div class="collapsible__controls">
       <div class="object-filters__controls">
@@ -46,7 +46,6 @@ const currentDirIndexPage = getCurrentDirIndexPage(this.eleventyNavigation(colle
 // 3. page objects can either have an id referencing an object in objects.yaml, or the full object data in front matter
 // 4. if the current page has children, it is an index page; return to step 1 to retrieve all objects in the new current directory
 
-const ignoredAttributes = ['name', 'thumbnail', 'title'];
 let objects = [];
 
 const addObject = ({ children, data, url }) => {
@@ -362,7 +361,6 @@ window.addEventListener('load', () => {
   element.classList.add(...classes);
 });
 </script>
-
 <style>
 section.object-cards {
   margin: 1rem;

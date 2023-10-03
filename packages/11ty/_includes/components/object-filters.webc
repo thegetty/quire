@@ -1,9 +1,6 @@
 <script webc:type="js">
 const { filters } = this.webc.attributes;
-/**
- * If all filters are being rendered, ignore these object attributes
- * TODO: make this list configurable
- */
+const ignoredAttributes = ['name', 'thumbnail', 'title'];
 const filterNames = filters
   ? filters
   : objects.reduce((filterNames, { objectData }) => {
@@ -82,9 +79,9 @@ const getFilterElements = () => filterNames
 
     return `
       <div class="object-filters__item">
-        <label for="object-type">${humanizedFilterName}:</label>
+        <label for="filter-${filterName}">${humanizedFilterName}:</label>
         <div class="object-filters__select">
-          <select name="${filterName}" id="filter-${filterName}" data-control-filter>
+          <select name="filter-${filterName}" id="filter-${filterName}" data-control-filter>
             ${getFilterOptionElements()}
           </select>
         </div>
