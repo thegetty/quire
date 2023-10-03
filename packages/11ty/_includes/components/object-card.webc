@@ -65,10 +65,6 @@ const renderFields = () => {
   color: #a02a2a;
 }
 
-/* .object-card__image {
-   wid
-   }
- */
 .object-card__image img {
   -webkit-transition: -webkit-box-shadow 0.35s;
   transition: box-shadow 0.35s;
