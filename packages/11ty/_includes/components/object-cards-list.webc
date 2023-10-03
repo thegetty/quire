@@ -1,25 +1,21 @@
 <ol class="object-cards" @html="getObjectCardElements(objects)"></ol>
 
 <script webc:setup>
-const ignoredAttributes = ['imagePath', 'uid', 'url'];
-const isIgnoredAttribute = (key) => !ignoredAttributes.includes(key);
 const isString = (value) => typeof value === 'string';
 const everyItemValueIsString = (value) => {
   return Array.isArray(value) && value.every(isString)
 };
 const getObjectDataForDisplay = (objectData) => {
   return Object.entries(objectData).reduce((data, [key, value]) => {
-    if (isIgnoredAttribute(key)) {
-      switch (true) {
-        case isString(value):
-          data[key] = this.markdownify(value);
-          break;
-        case everyItemValueIsString(value):
-          data[key] = value.map(this.markdownify);
-          break;
-        default:
-          break;
-      }
+    switch (true) {
+      case isString(value):
+        data[key] = this.markdownify(value);
+        break;
+      case everyItemValueIsString(value):
+        data[key] = value.map(this.markdownify);
+        break;
+      default:
+        break;
     }
     return data
   }, {});

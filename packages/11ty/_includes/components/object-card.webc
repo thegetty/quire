@@ -4,7 +4,9 @@
 
 <script webc:setup>
 const renderFields = (webcAttributes) => {
-  const attributeOrder = this.$data.objects.object_card || Object.keys(webcAttributes);
+  const ignoredAttributes = ['imagePath', 'uid', 'url'];
+  const isIgnoredAttribute = (key) => !ignoredAttributes.includes(key);
+  const attributeOrder = this.$data.objects.object_card || Object.keys(webcAttributes).filter(isIgnoredAttribute);
   const attributes = attributeOrder.map((key) => ({ name: key, value: webcAttributes[key]}));
   const firstTextAttribute = attributes.find(({ name }) => name !== 'thumbnail');
   const alt = webcAttributes.alt || '';
