@@ -1,13 +1,18 @@
 <script webc:type="js">
 const ignoredAttributes = ['imagePath', 'uid', 'url'];
-const attributes = Object.entries(this.webc.attributes);
+const objectCardFieldOrder = this.$data.objects.object_card ||
+  Object.keys(this.webc.attributes).filter((key) => !ignoredAttributes.includes(key));
+const attributes = Object
+  .entries(this.webc.attributes)
+  .filter(([key, value]) => objectCardFieldOrder.includes(key));
 const firstTextAttribute = attributes.filter(([key, value]) =>
   !ignoredAttributes.includes(key) &&
   key !== 'thumbnail' &&
   value !== '[object Object]'
 )[0];
 const renderFields = () => {
-  return attributes.reduce((fields, [key, value]) => {
+  return objectCardFieldOrder.reduce((fields, key) => {
+    const value = this.webc.attributes[key];
     const renderedValue = value.split(',').map(this.markdownify).join(', ');
     switch (true) {
       case ignoredAttributes.includes(key) ||
