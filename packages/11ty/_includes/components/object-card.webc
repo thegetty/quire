@@ -13,18 +13,19 @@ const renderFields = (webcAttributes) => {
   const { imagePath } = webcAttributes;
 
   return attributes.map(({ name, value }) => {
+    const nameAttribute = `data-field-name="${name}"`
     switch (true) {
       /**
        * Render a thumbnail image for the `thumbnail` attribute
        */
       case name === 'thumbnail':
-        return `<figure class="object-card__image"><img src="${imagePath}" alt="${alt}"></figure>`
+        return `<figure class="object-card__image" ${nameAttribute}><img src="${imagePath}" alt="${alt}"></figure>`
       /**
        * Render different markup for the first text attribute
        */
       case name === firstTextAttribute.name:
         return `
-          <span class=object-card__title>
+          <span class=object-card__title ${nameAttribute}>
             ${value}
             <span class="arrow" data-outputs-exclude="epub,pdf">
               <svg data-outputs-exclude="epub,pdf">
@@ -38,7 +39,7 @@ const renderFields = (webcAttributes) => {
        * Render default markup for an attribute
        */
       case webcAttributes.hasOwnProperty(name) && value:
-        return `<span class="object-card__field">${value}</span>`;
+        return `<span class="object-card__field" ${nameAttribute}>${value}</span>`;
       default:
         return '';
     }
