@@ -1,33 +1,31 @@
-<script webc:type="js">
-const ignoredAttributes = ['imagePath', 'uid', 'url'];
-const objectCardFieldOrder = this.$data.objects.object_card ||
-  Object.keys(this.webc.attributes).filter((key) => !ignoredAttributes.includes(key));
-const attributes = Object
-  .entries(this.webc.attributes)
-  .filter(([key, value]) => objectCardFieldOrder.includes(key) &&
-    value !== '[object Object]' &&
-    !value.includes('[object Object]'));
-const firstTextAttribute = attributes.find(([key]) => key !== 'thumbnail');
-const renderFields = () => {
-  return objectCardFieldOrder.reduce((fields, key) => {
-    const value = this.webc.attributes[key];
-    const renderedValue = value.split(',').map(this.markdownify).join(', ');
+<a class="object-card" href="this.webc.attributes.url">
+  <div class="object-card__content" @html="renderFields(this.webc.attributes)"></div>
+</a>
+
+<script webc:setup>
+const renderFields = (webcAttributes) => {
+  const ignoredAttributes = ['imagePath', 'uid', 'url'];
+  const isIgnoredAttribute = (key) => !ignoredAttributes.includes(key);
+  const attributeOrder = this.$data.objects.object_card || Object.keys(webcAttributes).filter(isIgnoredAttribute);
+  const attributes = attributeOrder.map((key) => ({ name: key, value: webcAttributes[key]}));
+  const firstTextAttribute = attributes.find(({ name }) => name !== 'thumbnail');
+  const alt = webcAttributes.alt || '';
+  const { imagePath } = webcAttributes;
+
+  return attributes.map(({ name, value }) => {
     switch (true) {
-      case value === '[object Object]' || value.includes('[object Object]'):
-        break;
       /**
        * Render a thumbnail image for the `thumbnail` attribute
        */
-      case key === 'thumbnail':
-        fields += `<figure class="object-card__image"><img src="${imagePath}" alt="${firstTextAttribute[1]}"></figure>`
-        break;
+      case name === 'thumbnail':
+        return `<figure class="object-card__image"><img src="${imagePath}" alt="${alt}"></figure>`
       /**
        * Render different markup for the first text attribute
        */
-      case key === firstTextAttribute[0]:
-        fields += `
+      case name === firstTextAttribute.name:
+        return `
           <span class=object-card__title>
-            ${renderedValue}
+            ${value}
             <span class="arrow" data-outputs-exclude="epub,pdf">
               <svg data-outputs-exclude="epub,pdf">
                 <switch>
@@ -36,22 +34,17 @@ const renderFields = () => {
               </svg>
             </span>
           </span>`;
-        break;
+      /**
+       * Render default markup for an attribute
+       */
       default:
-        fields += `<span class="object-card__field">${renderedValue}</span>`;
-        break;
+        return `<span class="object-card__field">${value}</span>`;
     }
     return fields;
-  }, '');
+  }).join('');
 };
-`
-<a class="object-card" href="${url}">
-  <div class="object-card__content">
-    ${renderFields()}
-  </div>
-</a>
-`;
 </script>
+
 <style>
 .object-card {
   display: block;
