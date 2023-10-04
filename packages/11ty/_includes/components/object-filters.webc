@@ -1,4 +1,14 @@
-<div class="object-filters__list" @html="getFilterElements({ ...this.webc.attributes, $data: this.$data })"></div>
+<div class="object-filters__list">
+  <div webc:for="filter of getFilters(this.$data, objects)" class="object-filters__item">
+    <label :for="filter.id" @html="filter.fieldLabel"></label>
+    <div class="object-filters__select">
+      <select :id="filter.id" data-control-filter :data-control-name="filter.fieldName">
+        <option value="">All</option>
+        <option webc:for="option of filter.options" :value="option.value" @text="option.label"></option>;
+      </select>
+    </div>
+  </div>
+</div>
 
 <script webc:setup>
 /**
@@ -22,9 +32,9 @@ const humanize = (string) => {
     .join(' ');
 }
 
-const getFilterElements = ({ $data, objects }) => {
-  const filterOrder = $data.object_filters || $data.objects.object_filters;
+const getFilters = ($data, objects) => {
   const ignoredAttributes = ['name', 'thumbnail', 'title'];
+  const filterOrder = $data.object_filters || $data.objects.object_filters;
   const filterNames = filterOrder
     ? filterOrder
     : objects.reduce((filterNames, { objectData }) => {
@@ -53,50 +63,35 @@ const getFilterElements = ({ $data, objects }) => {
       return filterNames;
     }, []);
 
-  return filterNames
-    .map((item) => {
-      const fieldLabel = typeof item === 'string'
-        ? humanize(item)
-        : item.label;
-      const fieldName = typeof item === 'string'
-        ? item
-        : item.field;
-      const filterOptions = [
-        { label: 'All', value: '' },
-        ...objects
-        .reduce((uniqueOptions, { objectData }) => {
-          const existingValues = uniqueOptions.map(({ value }) => value);
-          const values = !Array.isArray(objectData[fieldName])
-            ? [objectData[fieldName]]
-            : objectData[fieldName];
+  return filterNames.map((item) => {
+    const fieldLabel = typeof item === 'string' ? humanize(item) : item.label;
+    const fieldName = typeof item === 'string' ? item : item.field;
+    const options = [
+      { label: 'All', value: '' },
+      ...objects.reduce((uniqueOptions, { objectData }) => {
+        const existingValues = uniqueOptions.map(({ value }) => value);
+        const values = !Array.isArray(objectData[fieldName])
+          ? [objectData[fieldName]]
+          : objectData[fieldName];
 
-          values.forEach((value) => {
-            if (value && !existingValues.includes(value)) {
-              uniqueOptions.push({ label: value, value });
-            }
-          })
+        values.forEach((value) => {
+          if (value && !existingValues.includes(value)) {
+            uniqueOptions.push({ label: value, value });
+          }
+        })
 
-          return uniqueOptions;
-        }, [])
-        .sort((a, b) => a.value > b.value ? 1 : -1)
-      ];
+        return uniqueOptions;
+      }, [])
+      .sort((a, b) => a.value > b.value ? 1 : -1)
+    ];
 
-      const getFilterOptionElements = () => filterOptions.map((option) => {
-        return `<option value="${option.value}">${option.label}</option>`;
-      }).join('');
-
-      return `
-      <div class="object-filters__item">
-        <label for="filter-${fieldName}">${fieldLabel}:</label>
-        <div class="object-filters__select">
-          <select id="filter-${fieldName}" data-control-filter data-control-name="${fieldName}">
-            ${getFilterOptionElements()}
-          </select>
-        </div>
-      </div>
-      `
-    })
-    .join('');
+    return {
+      id: `filter-${fieldName}`,
+      fieldLabel,
+      fieldName,
+      options
+    };
+  });
 };
 </script>
 
