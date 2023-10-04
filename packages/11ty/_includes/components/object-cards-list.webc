@@ -1,10 +1,14 @@
-<ol class="object-cards" @html="getObjectCardElements(objects)"></ol>
+<ol class="object-cards">
+  <li webc:for="object of objects" :data-object-id="object.id" @html="getObjectCard(object)"></li>
+</ol>
 
 <script webc:setup>
 const isString = (value) => typeof value === 'string';
+
 const everyItemValueIsString = (value) => {
   return Array.isArray(value) && value.every(isString)
 };
+
 /**
  * This iterates over objectData, filtering out arbitrary Object-type properties
  * and markdownifying all property values, including arrays of values.
@@ -24,17 +28,17 @@ const getMarkdownifiedProperties = (objectData) => {
     return data
   }, {});
 };
-const renderAttributes = (objectData) => this.webc.renderAttributes(
-  getMarkdownifiedProperties(objectData)
-);
-const getObjectCardElements = (objects) => objects.map(({ id, objectData, url }) => `
-<li data-object-id="${id}">
-  <object-card
-    url="${url}"
-    ${renderAttributes(objectData)}
-  ></object-card>
-</li>
-`).join('');
+
+const renderAttributes = (objectData) => {
+  return this.webc.renderAttributes(
+    getMarkdownifiedProperties(objectData)
+  )
+};
+
+const getObjectCard = ({ objectData, url }) => {
+  const attributes = renderAttributes(objectData);
+  return `<object-card url="${url}" ${attributes}></object-card>`;
+};
 </script>
 
 <style>
