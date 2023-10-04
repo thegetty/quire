@@ -1,70 +1,58 @@
 <a class="object-card" href="this.webc.attributes.url">
-  <div class="object-card__content" @html="renderFields({ ...this.webc.attributes, $data: this.$data })"></div>
+  <div class="object-card__content">
+    <template webc:for="attribute of getAttributes(this.webc.attributes, this.$data)" webc:nokeep>
+      <figure webc:if="isThumbnailAttribute(attribute)" class="object-card__image" :data-field-name="attribute.name">
+        <img :src="src(this.webc.attributes)" alt="alt(this.webc.attributes)">
+      </figure>
+      <span webc:elseif="isFirstTextAttribute(attribute, this.webc.attributes, this.$data)" class=object-card__title :data-field-name="attribute.name">
+        <span @html="attribute.value"></span>
+        <span class="arrow" data-outputs-exclude="epub,pdf">
+          <svg data-outputs-exclude="epub,pdf">
+            <switch>
+              <use xlink:href="#arrow-forward-icon"></use>
+            </switch>
+          </svg>
+        </span>
+      </span>
+      <span webc:else class="object-card__field" @html="attribute.value"></span>
+    </template>
+  </div>
 </a>
 
 <script webc:setup>
-const renderFields = (objectCardAttributes) => {
-  const { $data, figures } = objectCardAttributes;
+const alt = ({ thumbnail }) => typeof thumbnail === 'object' ? thumbnail.alt : '';
+
+const src = (objectCardAttributes) => {
+  const { figures } = objectCardAttributes;
+  const thumbnail = figures
+    ? figures.find(({ mediaType }) => mediaType === 'image').thumbnail
+    : objectCardAttributes.thumbnail
+
+  const src = typeof thumbnail === 'object'
+    ? thumbnail.src
+    : thumbnail
+
+  /**
+   * If no IIIF images, point to the raw assets directory
+   */
+  return src && !src.startsWith('/iiif')
+    ? `${this.config.figures.imageDir}/${src}`
+    : src;
+};
+
+const isFirstTextAttribute = ({ name }, objectCardAttributes, $data) => {
+  const attributes = getAttributes(objectCardAttributes, $data);
+  return name === attributes.find(({ name }) => name !== 'thumbnail').name;
+};
+
+const isThumbnailAttribute = ({ name }) => name === 'thumbnail';
+
+const getAttributes = (objectCardAttributes, $data) => {
+  const { figures } = objectCardAttributes;
   const ignoredAttributes = ['uid', 'url'];
   const isIgnoredAttribute = (key) => !ignoredAttributes.includes(key);
   const attributeOrder = $data.object_card || $data.objects.object_card || Object.keys(objectCardAttributes).filter(isIgnoredAttribute);
-  const attributes = attributeOrder.map((key) => ({ name: key, value: objectCardAttributes[key]}));
-  const firstTextAttribute = attributes.find(({ name }) => name !== 'thumbnail');
-  const alt = () => typeof thumbnail === 'object' ? thumbnail.alt : '';
-  /**
-   * If the object has figures, set thumbnail as the first image figure thumbnail.
-   * Otherwise use a thumbnail defined in object data
-   */
-  const src = () => {
-    const thumbnail = figures
-      ? figures.find(({ mediaType }) => mediaType === 'image').thumbnail
-      : objectCardAttributes.thumbnail
-
-    const src = typeof thumbnail === 'object'
-      ? thumbnail.src
-      : thumbnail
-
-    /**
-     * If no IIIF images, point to the raw assets directory
-     */
-    return src && !src.startsWith('/iiif')
-      ? `${this.config.figures.imageDir}/${src}`
-      : src;
-  }
-
-  return attributes.map(({ name, value }) => {
-    const nameAttribute = `data-field-name="${name}"`
-    switch (true) {
-      /**
-       * Render a thumbnail image for the `thumbnail` attribute
-       */
-      case name === 'thumbnail':
-        return `<figure class="object-card__image" ${nameAttribute}><img src="${src()}" alt="${alt()}"></figure>`
-      /**
-       * Render different markup for the first text attribute
-       */
-      case name === firstTextAttribute.name:
-        return `
-          <span class=object-card__title ${nameAttribute}>
-            ${value}
-            <span class="arrow" data-outputs-exclude="epub,pdf">
-              <svg data-outputs-exclude="epub,pdf">
-                <switch>
-                  <use xlink:href="#arrow-forward-icon"></use>
-                </switch>
-              </svg>
-            </span>
-          </span>`;
-      /**
-       * Render default markup for an attribute
-       */
-      case objectCardAttributes.hasOwnProperty(name) && !!value:
-        return `<span class="object-card__field" ${nameAttribute}>${value}</span>`;
-      default:
-        return '';
-    }
-    return fields;
-  }).join('');
+  return attributeOrder.map((key) => ({ name: key, value: objectCardAttributes[key]}));
 };
 </script>
 
