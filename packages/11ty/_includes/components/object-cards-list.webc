@@ -23,10 +23,9 @@ const getObjectDataForDisplay = (objectData) => {
 const renderAttributes = (objectData) => this.webc.renderAttributes(
   getObjectDataForDisplay(objectData)
 );
-const getObjectCardElements = (objects) => objects.map(({ id, imagePath, objectData, url }) => `
+const getObjectCardElements = (objects) => objects.map(({ id, objectData, url }) => `
 <li data-object-id="${id}">
   <object-card
-    image-path="${imagePath}"
     url="${url}"
     ${renderAttributes(objectData)}
   ></object-card>

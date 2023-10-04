@@ -1,34 +1,6 @@
-<script webc:type="js">
-const { filters } = this.webc.attributes;
-const ignoredAttributes = ['name', 'thumbnail', 'title'];
-const filterNames = filters
-  ? filters
-  : objects.reduce((filterNames, { objectData }) => {
-    Object.entries(objectData).forEach(([key, value]) => {
-      /**
-       * Only render filters for keys:
-       * - that are not duplicates
-       * - are not ignored attributes
-       * - are either strings, numbers, or arrays of strings or numbers
-       */
-      if (
-        !filterNames.includes(key) &&
-        !ignoredAttributes.includes(key) &&
-        (
-          typeof value === 'string' ||
-          typeof value === 'number' ||
-          (Array.isArray(value) && value.every(
-            (item) => typeof item === 'string' ||
-              typeof item === 'number'
-          ))
-        )
-      ) {
-        filterNames.push(key);
-      }
-    });
-    return filterNames;
-  }, []);
+<div class="object-filters__list" @html="getFilterElements({ ...this.webc.attributes, $data: this.$data })"></div>
 
+<script webc:setup>
 /**
  * Capitalize the first letter of a string
  */
@@ -50,17 +22,53 @@ const humanize = (string) => {
     .join(' ');
 }
 
-const getFilterElements = () => filterNames
-  .map((filterName) => {
-    const humanizedFilterName = humanize(filterName);
-    const filterOptions = [
-      { label: 'All', value: '' },
-      ...objects
+const getFilterElements = ({ $data, objects }) => {
+  const filterOrder = $data.object_filters || $data.objects.object_filters;
+  const ignoredAttributes = ['name', 'thumbnail', 'title'];
+  const filterNames = filterOrder
+    ? filterOrder
+    : objects.reduce((filterNames, { objectData }) => {
+      Object.entries(objectData).forEach(([key, value]) => {
+        /**
+         * Only render filters for keys:
+         * - that are not duplicates
+         * - are not ignored attributes
+         * - are either strings, numbers, or arrays of strings or numbers
+         */
+        if (
+          !filterNames.includes(key) &&
+            !ignoredAttributes.includes(key) &&
+            (
+              typeof value === 'string' ||
+                typeof value === 'number' ||
+                (Array.isArray(value) && value.every(
+                  (item) => typeof item === 'string' ||
+                    typeof item === 'number'
+                ))
+            )
+        ) {
+          filterNames.push(key);
+        }
+      });
+      return filterNames;
+    }, []);
+
+  return filterNames
+    .map((item) => {
+      const fieldLabel = typeof item === 'string'
+        ? humanize(item)
+        : item.label;
+      const fieldName = typeof item === 'string'
+        ? item
+        : item.field;
+      const filterOptions = [
+        { label: 'All', value: '' },
+        ...objects
         .reduce((uniqueOptions, { objectData }) => {
           const existingValues = uniqueOptions.map(({ value }) => value);
-          const values = !Array.isArray(objectData[filterName])
-            ? [objectData[filterName]]
-            : objectData[filterName];
+          const values = !Array.isArray(objectData[fieldName])
+            ? [objectData[fieldName]]
+            : objectData[fieldName];
 
           values.forEach((value) => {
             if (value && !existingValues.includes(value)) {
@@ -71,27 +79,27 @@ const getFilterElements = () => filterNames
           return uniqueOptions;
         }, [])
         .sort((a, b) => a.value > b.value ? 1 : -1)
-    ];
+      ];
 
-    const getFilterOptionElements = () => filterOptions.map((option) => {
-      return `<option value="${option.value}">${option.label}</option>`;
-    }).join('');
+      const getFilterOptionElements = () => filterOptions.map((option) => {
+        return `<option value="${option.value}">${option.label}</option>`;
+      }).join('');
 
-    return `
+      return `
       <div class="object-filters__item">
-        <label for="filter-${filterName}">${humanizedFilterName}:</label>
+        <label for="filter-${fieldName}">${fieldLabel}:</label>
         <div class="object-filters__select">
-          <select id="filter-${filterName}" data-control-filter data-control-name="${filterName}">
+          <select id="filter-${fieldName}" data-control-filter data-control-name="${fieldName}">
             ${getFilterOptionElements()}
           </select>
         </div>
       </div>
-    `
-  })
-  .join('');
-
-`<div class="object-filters__list">${getFilterElements()}</div>`
+      `
+    })
+    .join('');
+};
 </script>
+
 <style>
 .object-filters {
   --max-height: 25vh;

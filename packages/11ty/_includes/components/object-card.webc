@@ -1,16 +1,36 @@
 <a class="object-card" href="this.webc.attributes.url">
-  <div class="object-card__content" @html="renderFields(this.webc.attributes)"></div>
+  <div class="object-card__content" @html="renderFields({ ...this.webc.attributes, $data: this.$data })"></div>
 </a>
 
 <script webc:setup>
-const renderFields = (webcAttributes) => {
-  const ignoredAttributes = ['imagePath', 'uid', 'url'];
+const renderFields = (objectCardAttributes) => {
+  const { $data, figures } = objectCardAttributes;
+  const ignoredAttributes = ['uid', 'url'];
   const isIgnoredAttribute = (key) => !ignoredAttributes.includes(key);
-  const attributeOrder = this.$data.objects.object_card || Object.keys(webcAttributes).filter(isIgnoredAttribute);
-  const attributes = attributeOrder.map((key) => ({ name: key, value: webcAttributes[key]}));
+  const attributeOrder = $data.object_card || $data.objects.object_card || Object.keys(objectCardAttributes).filter(isIgnoredAttribute);
+  const attributes = attributeOrder.map((key) => ({ name: key, value: objectCardAttributes[key]}));
   const firstTextAttribute = attributes.find(({ name }) => name !== 'thumbnail');
-  const alt = webcAttributes.alt || '';
-  const { imagePath } = webcAttributes;
+  const alt = () => typeof thumbnail === 'object' ? thumbnail.alt : '';
+  /**
+   * If the object has figures, set thumbnail as the first image figure thumbnail.
+   * Otherwise use a thumbnail defined in object data
+   */
+  const src = () => {
+    const thumbnail = figures
+      ? figures.find(({ mediaType }) => mediaType === 'image').thumbnail
+      : objectCardAttributes.thumbnail
+
+    const src = typeof thumbnail === 'object'
+      ? thumbnail.src
+      : thumbnail
+
+    /**
+     * If no IIIF images, point to the raw assets directory
+     */
+    return src && !src.startsWith('/iiif')
+      ? `${this.config.figures.imageDir}/${src}`
+      : src;
+  }
 
   return attributes.map(({ name, value }) => {
     const nameAttribute = `data-field-name="${name}"`
@@ -19,7 +39,7 @@ const renderFields = (webcAttributes) => {
        * Render a thumbnail image for the `thumbnail` attribute
        */
       case name === 'thumbnail':
-        return `<figure class="object-card__image" ${nameAttribute}><img src="${imagePath}" alt="${alt}"></figure>`
+        return `<figure class="object-card__image" ${nameAttribute}><img src="${src()}" alt="${alt()}"></figure>`
       /**
        * Render different markup for the first text attribute
        */
