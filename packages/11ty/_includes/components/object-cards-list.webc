@@ -5,7 +5,11 @@ const isString = (value) => typeof value === 'string';
 const everyItemValueIsString = (value) => {
   return Array.isArray(value) && value.every(isString)
 };
-const getObjectDataForDisplay = (objectData) => {
+/**
+ * This iterates over objectData, filtering out arbitrary Object-type properties
+ * and markdownifying all property values, including arrays of values.
+ */
+const getMarkdownifiedProperties = (objectData) => {
   return Object.entries(objectData).reduce((data, [key, value]) => {
     switch (true) {
       case isString(value):
@@ -21,7 +25,7 @@ const getObjectDataForDisplay = (objectData) => {
   }, {});
 };
 const renderAttributes = (objectData) => this.webc.renderAttributes(
-  getObjectDataForDisplay(objectData)
+  getMarkdownifiedProperties(objectData)
 );
 const getObjectCardElements = (objects) => objects.map(({ id, objectData, url }) => `
 <li data-object-id="${id}">
