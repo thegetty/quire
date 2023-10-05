@@ -66,27 +66,22 @@ const everyItemValueIsString = (value) => {
  * This iterates over objectData, filtering out arbitrary Object-type properties
  * and markdownifying all property values, including arrays of values.
  */
-const getMarkdownifiedProperties = (objectData) => {
-  return Object.entries(objectData).reduce((data, [key, value]) => {
-    switch (true) {
-      case isString(value):
-        data[key] = this.markdownify(value);
-        break;
-      case everyItemValueIsString(value):
-        data[key] = value.map(this.markdownify);
-        break;
-      default:
-        break;
-    }
-    return data
-  }, {});
+const getMarkdownifiedPropertyValue = (value) => {
+  switch (true) {
+    case isString(value):
+      return this.markdownify(value);
+    case everyItemValueIsString(value):
+      return value.map(this.markdownify).join(', ');
+    default:
+      return '';
+  }
 };
 
 const getAttributes = ({ data }, { object_card, objects }) => {
   const ignoredAttributes = ['uid', 'url'];
   const isIgnoredAttribute = (key) => !ignoredAttributes.includes(key);
   const attributeOrder = object_card || objects.object_card || Object.keys(data).filter(isIgnoredAttribute);
-  return attributeOrder.map((key) => ({ name: key, value: getMarkdownifiedProperties(data[key])}));
+  return attributeOrder.map((key) => ({ name: key, value: getMarkdownifiedPropertyValue(data[key])}));
 };
 </script>
 
