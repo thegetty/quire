@@ -21,9 +21,6 @@ const capitalizeFirstLetter = (string) => {
  * Create humanized labels from  `_` or `-`-separated strings
  */
 const humanize = (string) => {
-  /**
-   * Slugifying to change all `_` to `-` for consistency
-   */
   return this
     .slugify(string)
     .split(/[_-]/)
