@@ -20,13 +20,19 @@
 </a>
 
 <script webc:setup>
+/**
+ * Get object image `alt` from `thumbnail` property
+ */
 const alt = ({ thumbnail }) => typeof thumbnail === 'object' ? thumbnail.alt : '';
 
-const src = (objectCardAttributes) => {
-  const { figures } = objectCardAttributes;
+/**
+ * Get object image `src` from `figures` or `thumbnail` properties
+ */
+const src = ({ data }) => {
+  const { figures } = data;
   const thumbnail = figures
     ? figures.find(({ mediaType }) => mediaType === 'image').thumbnail
-    : objectCardAttributes.thumbnail
+    : data.thumbnail
 
   const src = typeof thumbnail === 'object'
     ? thumbnail.src
@@ -40,19 +46,47 @@ const src = (objectCardAttributes) => {
     : src;
 };
 
-const isFirstTextAttribute = ({ name }, objectCardAttributes, $data) => {
-  const attributes = getAttributes(objectCardAttributes, $data);
+/**
+ * Finds the first object property that is not `thumbnail`
+ */
+const isFirstTextAttribute = ({ name }, { data }, { object_card, objects }) => {
+  const attributes = getAttributes({ data }, { object_card, objects });
   return name === attributes.find(({ name }) => name !== 'thumbnail').name;
 };
 
 const isThumbnailAttribute = ({ name }) => name === 'thumbnail';
 
-const getAttributes = (objectCardAttributes, $data) => {
-  const { figures } = objectCardAttributes;
+const isString = (value) => typeof value === 'string';
+
+const everyItemValueIsString = (value) => {
+  return Array.isArray(value) && value.every(isString)
+};
+
+/**
+ * This iterates over objectData, filtering out arbitrary Object-type properties
+ * and markdownifying all property values, including arrays of values.
+ */
+const getMarkdownifiedProperties = (objectData) => {
+  return Object.entries(objectData).reduce((data, [key, value]) => {
+    switch (true) {
+      case isString(value):
+        data[key] = this.markdownify(value);
+        break;
+      case everyItemValueIsString(value):
+        data[key] = value.map(this.markdownify);
+        break;
+      default:
+        break;
+    }
+    return data
+  }, {});
+};
+
+const getAttributes = ({ data }, { object_card, objects }) => {
   const ignoredAttributes = ['uid', 'url'];
   const isIgnoredAttribute = (key) => !ignoredAttributes.includes(key);
-  const attributeOrder = $data.object_card || $data.objects.object_card || Object.keys(objectCardAttributes).filter(isIgnoredAttribute);
-  return attributeOrder.map((key) => ({ name: key, value: objectCardAttributes[key]}));
+  const attributeOrder = object_card || objects.object_card || Object.keys(data).filter(isIgnoredAttribute);
+  return attributeOrder.map((key) => ({ name: key, value: getMarkdownifiedProperties(data[key])}));
 };
 </script>
 
