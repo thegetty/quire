@@ -29,7 +29,7 @@ const humanize = (string) => {
 }
 
 /**
- * Check if a value is atomic (can be stringified without rendering [object Object])
+ * Check if a value is atomic; (can be stringified without becoming [object Object])
  */
 const isAtomicValue = (value) => typeof value === 'string' ||
   typeof value === 'number'
