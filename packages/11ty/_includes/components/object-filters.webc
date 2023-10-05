@@ -42,15 +42,15 @@ const getFilterNamesFromObjectData = (objects) =>
        */
       if (
         !filterNames.includes(key) &&
-          !ignoredAttributes.includes(key) &&
-          (
-            typeof value === 'string' ||
-            typeof value === 'number' ||
-            (Array.isArray(value) && value.every(
-              (item) => typeof item === 'string' ||
-              typeof item === 'number'
-            ))
-          )
+        !ignoredAttributes.includes(key) &&
+        (
+          typeof value === 'string' ||
+          typeof value === 'number' ||
+          (Array.isArray(value) && value.every(
+            (item) => typeof item === 'string' ||
+            typeof item === 'number'
+          ))
+        )
       ) {
         filterNames.push(key);
       }
