@@ -58,22 +58,27 @@ const getFilterNamesFromObjectData = (objects) =>
     return filterNames;
   }, []);
 
-const getOptionsFromObjectData = (objects) =>
-  objects.reduce((uniqueOptions, { objectData }) => {
-    const existingValues = uniqueOptions.map(({ value }) => value);
-    const values = !Array.isArray(objectData[fieldName])
-      ? [objectData[fieldName]]
-      : objectData[fieldName];
+const sortByValueWithLocaleCompare = (a, b) => {
+  return a.value.localeCompare(b.value)
+};
 
-    values.forEach((value) => {
-      if (value && !existingValues.includes(value)) {
-        uniqueOptions.push({ label: value, value });
-      }
-    })
+const getUniqueOptionsFromObjectData = (objects, fieldName) =>
+  objects
+    .reduce((uniqueOptions, { objectData }) => {
+      const existingValues = uniqueOptions.map(({ value }) => value);
+      const values = !Array.isArray(objectData[fieldName])
+        ? [objectData[fieldName]]
+        : objectData[fieldName];
 
-    return uniqueOptions;
-  }, [])
-  .sort((a, b) => a.value > b.value ? 1 : -1)
+      values.forEach((value) => {
+        if (value && !existingValues.includes(value)) {
+          uniqueOptions.push({ label: value, value });
+        }
+      })
+
+      return uniqueOptions;
+    }, [])
+    .sort(sortByValueWithLocaleCompare);
 
 const getFilters = ($data, objects) => {
   const ignoredAttributes = ['name', 'thumbnail', 'title'];
@@ -87,7 +92,7 @@ const getFilters = ($data, objects) => {
     const fieldName = typeof item === 'string' ? item : item.field;
     const options = [
       { label: 'All', value: '' },
-      ...getOptionsFromObjectData(objects)
+      ...getUniqueOptionsFromObjectData(objects, fieldName)
     ];
 
     return {
