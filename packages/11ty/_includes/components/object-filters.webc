@@ -31,6 +31,12 @@ const humanize = (string) => {
     .join(' ');
 }
 
+/**
+ * Check if a value is atomic; (can be stringified without becoming [object Object])
+ */
+const isAtomicValue = (value) => typeof value === 'string' ||
+  typeof value === 'number'
+
 const getFilterNamesFromObjectData = (objects) =>
   objects.reduce((filterNames, { objectData }) => {
     Object.entries(objectData).forEach(([key, value]) => {
@@ -44,12 +50,8 @@ const getFilterNamesFromObjectData = (objects) =>
         !filterNames.includes(key) &&
         !ignoredAttributes.includes(key) &&
         (
-          typeof value === 'string' ||
-          typeof value === 'number' ||
-          (Array.isArray(value) && value.every(
-            (item) => typeof item === 'string' ||
-            typeof item === 'number'
-          ))
+          isAtomicValue(value) ||
+          Array.isArray(value) && value.every(isAtomicValue)
         )
       ) {
         filterNames.push(key);
