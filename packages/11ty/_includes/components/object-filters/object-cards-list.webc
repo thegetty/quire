@@ -1,6 +1,6 @@
 <ol class="object-cards">
   <li webc:for="object of objects" :data-object-id="object.id">
-    <object-card :url="object.url" :data="object.objectData"></object-card>
+    <object-card :url="object.url" :@data="object.objectData"></object-card>
   </li>
 </ol>
 
