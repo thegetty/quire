@@ -63,7 +63,7 @@ module.exports = {
       computedClasses.push('frontmatter')
     }
     // filter null values, handles 11ty's first pass at build
-    const filteredClasses = classes.filter((x) => x)
+    const filteredClasses = Array.from(classes).filter((x) => x)
 
     // add custom classes from page frontmatter
     return computedClasses.concat(filteredClasses)
