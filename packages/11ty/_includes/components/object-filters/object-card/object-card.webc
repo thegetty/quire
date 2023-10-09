@@ -4,18 +4,17 @@
 
       <object-image
         webc:if="isThumbnailAttribute(attribute)"
-        :attribute="attribute"
-        :attributes="this.webc.attributes"
+        :@attributes="this.webc.attributes"
       ></object-image>
 
       <object-heading
         webc:elseif="isFirstTextAttribute(attribute, this.webc.attributes, this.$data)"
-        :attribute="attribute"
+        :@attribute="attribute"
       ></object-heading>
 
       <object-field
         webc:else
-        :attribute="attribute"
+        :@attribute="attribute"
       ></object-field>
 
     </template>
