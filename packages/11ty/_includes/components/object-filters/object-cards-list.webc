@@ -1,22 +1,9 @@
-<script webc:type="js">
-const getObjectCardElements = () => {
-  return objects.map((object) => {
-    const { id, imagePath, objectData, objectName, objectNameHtml, url } = object;
-    return `
-     <li data-object-id="${id}">
-       <object-card
-         image-path="${imagePath}"
-         object-name="${objectName}"
-         object-name-html="${objectNameHtml}"
-         url="${url}"
-         ${this.webc.renderAttributes(objectData)}
-       ></object-card>
-     </li>`
-  }).join('')
-};
+<ol class="object-cards">
+  <li webc:for="object of objects" :data-object-id="object.id">
+    <object-card :@url="object.url" :@data="object.objectData"></object-card>
+  </li>
+</ol>
 
-`<ol class="object-cards">${getObjectCardElements()}</ol>`
-</script>
 <style>
 ol.object-cards {
   display: grid;

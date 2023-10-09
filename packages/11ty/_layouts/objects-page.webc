@@ -5,7 +5,7 @@ layout: base.11ty.js
   <page-header></page-header>
   <style @raw="getBundle('css')" webc:keep></style>
   <section class="objects-catalog-content" @html="content"></section>
-  <objects-catalog :filters="this.objects.object_filters"></objects-catalog>
+  <objects-catalog></objects-catalog>
 </template>
 <style>
 .objects-catalog-content {

@@ -4,7 +4,7 @@
     <input class="collapsible__checkbox" type="checkbox" id="collapsible-checkbox" />
     <label for="collapsible-checkbox" class="collapsible__toggle"></label>
     <div class="collapsible__panel">
-      <object-filters :filters="filters" :objects="objects" :ignored-attributes="ignoredAttributes"></object-filters>
+      <object-filters :@objects="objects"></object-filters>
     </div>
     <div class="collapsible__controls">
       <div class="object-filters__controls">
@@ -46,7 +46,6 @@ const currentDirIndexPage = getCurrentDirIndexPage(this.eleventyNavigation(colle
 // 3. page objects can either have an id referencing an object in objects.yaml, or the full object data in front matter
 // 4. if the current page has children, it is an index page; return to step 1 to retrieve all objects in the new current directory
 
-const ignoredAttributes = ['name', 'thumbnail', 'title'];
 let objects = [];
 
 const addObject = ({ children, data, url }) => {
@@ -63,46 +62,19 @@ const addObject = ({ children, data, url }) => {
 
   pageObjects.forEach((object) => {
     const objectData = object.id ? this.getObject(object.id) : object;
-    const { figures, name, title } = objectData;
     /**
      * Providing a fallback ID in case objects are defined in front matter without them
      */
     const id = !objectData.id ? `object-${objects.length}` : objectData.id;
-    /**
-     * If the object has figures, set thumbnail as the first image figure thumbnail.
-     * Otherwise use a thumbnail defined in object data
-     */
-    const thumbnail = figures
-      ? figures.find(({ mediaType }) => mediaType === 'image').thumbnail
-      : objectData.thumbnail;
-    /**
-     * If no IIIF images, point to the raw assets directory
-     */
-    const imagePath = thumbnail && !thumbnail.startsWith('/iiif')
-      ? `${this.config.figures.imageDir}/${thumbnail}`
-      : thumbnail
-    /**
-     * TODO: decide if objects should use either `title` or `name` key name.
-     * In the https://github.com/thegetty/quire-starter-objects-test starter,
-     * objects are specified in front matter in md files with `name`.
-     * In the default starter, they are specified with `title` in `objects.yaml`.
-     */
-    const objectNameMarkdown = name || title;
-    const objectNameHtml = this.markdownify(objectNameMarkdown);
-    const objectName = this.removeHTML(objectNameHtml);
 
     const objectAlreadyAdded = objects.some((object) => object.id === id);
     if (!objectAlreadyAdded) {
-      objects.push({ id, imagePath, order, objectData, objectName, objectNameHtml, url });
+      objects.push({ id, order, objectData, url });
     }
   });
 };
 
 currentDirIndexPage.children.forEach(addObject);
-/**
- * Objects in subdirectories will be added after top-level objects, so we need to sort them
- */
-const sortAlphabetically = (a, b) => a.objectName > b.objectName ? 1 : -1;
 const sortByOrderKey = (a, b) => {
   if (!a.order || !b.order) return 0;
   return a.order > b.order ? 1 : -1;
@@ -227,7 +199,7 @@ window.customElements.define('objects-catalog', class extends HTMLElement {
         const decodedValue = decodeURIComponent(value);
         this.appliedFilters[key] = decodedValue;
         this.filterSelectElements.forEach((element) => {
-          if (element.name === key) {
+          if (element.dataset.controlName === key) {
             element.querySelector(`option[value="${decodedValue}"]`).selected = true;
           }
         })
@@ -252,8 +224,8 @@ window.customElements.define('objects-catalog', class extends HTMLElement {
    * onChange filter `<select>` element
    */
   onFilterChange = ({ target }) => {
-    const { name: label, value } = target;
-    this.selectedFilters[label] = value;
+    const { dataset, value } = target;
+    this.selectedFilters[dataset.controlName] = value;
 
     // gets a combined count of all selected and applied filters where `value` is truthy (`value !== ''`)
     const filtersCount =
@@ -362,7 +334,6 @@ window.addEventListener('load', () => {
   element.classList.add(...classes);
 });
 </script>
-
 <style>
 section.object-cards {
   margin: 1rem;
