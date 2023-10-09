@@ -6,6 +6,7 @@ layout: base.11ty.js
   <style @raw="getBundle('css')" webc:keep></style>
   <section class="objects-catalog-content" @html="content"></section>
   <objects-catalog></objects-catalog>
+  <template @html="pageButtons(this)" webc:nokeep></template>
 </template>
 <style>
 .objects-catalog-content {
