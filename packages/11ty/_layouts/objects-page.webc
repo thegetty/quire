@@ -2,7 +2,7 @@
 layout: base.11ty.js
 ---
 <template webc:nokeep>
-  <page-header></page-header>
+  <template @html="pageHeader(this.$data)" webc:nokeep></template>
   <style @raw="getBundle('css')" webc:keep></style>
   <section class="objects-catalog-content" @html="content"></section>
   <objects-catalog></objects-catalog>

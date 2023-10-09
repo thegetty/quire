@@ -1,3 +1,0 @@
-<script webc:type="js">
-this.$data ? this.pageHeader(this.$data) : '';
-</script>
