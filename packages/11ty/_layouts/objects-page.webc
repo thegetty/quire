@@ -4,7 +4,11 @@ layout: base.11ty.js
 <template webc:nokeep>
   <template @html="pageHeader(this.$data)" webc:nokeep></template>
   <style @raw="getBundle('css')" webc:keep></style>
-  <section class="objects-catalog-content" @html="content"></section>
+  <section class="objects-catalog-content section quire-page__content">
+    <div class="container">
+      <div class="content" @html="content"></div>
+    </div>
+  </section>
   <objects-catalog></objects-catalog>
   <template @html="pageButtons(this)" webc:nokeep></template>
 </template>
