@@ -6,7 +6,7 @@
 /**
  * Get object image `alt` from `thumbnail` property
  */
-const alt = ({ thumbnail }) => typeof thumbnail === 'object' ? thumbnail.alt : '';
+const alt = ({ data }) => typeof data.thumbnail === 'object' ? data.thumbnail.alt : '';
 
 /**
  * Get object image `src` from `figures` or `thumbnail` properties
