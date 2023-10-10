@@ -1,4 +1,4 @@
-<a class="object-card" href="this.webc.attributes.url">
+<a class="object-card" :href="this.webc.attributes.url">
   <div class="object-card__content">
     <template webc:for="attribute of getAttributes(this.webc.attributes, this.$data)" webc:nokeep>
 

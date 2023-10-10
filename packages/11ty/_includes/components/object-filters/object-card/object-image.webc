@@ -1,12 +1,12 @@
 <figure class="object-card__image" :data-field-name="attribute.name">
-  <img :src="src(attributes)" alt="alt(attributes)">
+  <img :src="src(attributes)" :alt="alt(attributes)">
 </figure>
 
 <script webc:setup>
 /**
  * Get object image `alt` from `thumbnail` property
  */
-const alt = ({ thumbnail }) => typeof thumbnail === 'object' ? thumbnail.alt : '';
+const alt = ({ data }) => typeof data.thumbnail === 'object' ? data.thumbnail.alt : '';
 
 /**
  * Get object image `src` from `figures` or `thumbnail` properties
