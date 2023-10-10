@@ -1,6 +1,6 @@
 <template webc:nokeep>
   <objects-data :@objects="objects"></objects-data>
-  <section class="object-filters">
+  <section class="object-filters" data-outputs-exclude="epub,pdf">
     <input class="collapsible__checkbox" type="checkbox" id="collapsible-checkbox" />
     <label for="collapsible-checkbox" class="collapsible__toggle"></label>
     <div class="collapsible__panel">
