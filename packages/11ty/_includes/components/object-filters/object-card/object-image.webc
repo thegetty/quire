@@ -1,5 +1,5 @@
 <figure class="object-card__image" :data-field-name="attribute.name">
-  <img :src="src(attributes)" alt="alt(attributes)">
+  <img :src="src(attributes)" :alt="alt(attributes)">
 </figure>
 
 <script webc:setup>
