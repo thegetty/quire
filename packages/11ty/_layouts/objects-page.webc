@@ -1,5 +1,7 @@
 ---
 layout: base.11ty.js
+classes:
+  - objects-page
 ---
 <template webc:nokeep>
   <template @html="pageHeader(this.$data)" webc:nokeep></template>
