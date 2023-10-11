@@ -1,5 +1,5 @@
 <div class="object-filters__list">
-  <div webc:for="filter of getFilters(this.$data, objects)" class="object-filters__item">
+  <div webc:for="filter of getFilters(getFilterOrder($data), objects)" class="object-filters__item">
     <label :for="filter.id" @html="filter.fieldLabel"></label>
     <div class="object-filters__select">
       <select :id="filter.id" data-control-filter :data-control-name="filter.fieldName">
@@ -34,8 +34,9 @@ const humanize = (string) => {
 const isAtomicValue = (value) => typeof value === 'string' ||
   typeof value === 'number'
 
-const getFilterNamesFromObjectData = (objects) =>
-  objects.reduce((filterNames, { objectData }) => {
+const getFilterNamesFromObjectData = (objects) => {
+  const ignoredAttributes = ['name', 'thumbnail', 'title'];
+  return objects.reduce((filterNames, { objectData }) => {
     Object.entries(objectData).forEach(([key, value]) => {
       /**
        * Only render filters for keys:
@@ -56,6 +57,7 @@ const getFilterNamesFromObjectData = (objects) =>
     });
     return filterNames;
   }, []);
+}
 
 const sortByValueWithLocaleCompare = (a, b) => {
   return a.value.localeCompare(b.value)
@@ -79,9 +81,26 @@ const getUniqueOptionsFromObjectData = (objects, fieldName) =>
     }, [])
     .sort(sortByValueWithLocaleCompare);
 
-const getFilters = ($data, objects) => {
-  const ignoredAttributes = ['name', 'thumbnail', 'title'];
-  const filterOrder = $data.object_filters || $data.objects.object_filters;
+const getFilterOrder = ($data) => {
+  switch (true) {
+    case $data.object_filters:
+      return $data.object_filters;
+      /*
+       * When $data.object_filters is explicitly set to `false`, use it instead of
+       * global $data.objects.object_filters
+       */
+    case $data.object_filters === false:
+      return false;
+    default:
+      return $data.objects.object_filters;
+  }
+};
+
+const getFilters = (filterOrder, objects) => {
+  if (filterOrder === false) {
+    return [];
+  }
+
   const filterNames = filterOrder
     ? filterOrder
     : getFilterNamesFromObjectData(objects);

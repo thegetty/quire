@@ -7,7 +7,7 @@
       <object-filters :@objects="objects"></object-filters>
     </div>
     <div class="collapsible__controls">
-      <div class="object-filters__controls">
+      <div webc:if="!areFiltersDisabled($data)" class="object-filters__controls">
         <button class="object-filters__button object-filters__button--primary" data-control-apply>Apply Filters</button>
         <button class
 ="object-filters__button" data-control-reset>Reset</button>
@@ -80,6 +80,10 @@ const sortByOrderKey = (a, b) => {
   return a.order > b.order ? 1 : -1;
 };
 objects = objects.sort(sortByOrderKey);
+
+const areFiltersDisabled = ($data) => {
+  return $data.object_filters === false || $data.objects.object_filters === false;
+}
 </script>
 <script webc:keep type="text/javascript">
 window.customElements.define('objects-catalog', class extends HTMLElement {
