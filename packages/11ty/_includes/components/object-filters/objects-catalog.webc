@@ -82,7 +82,7 @@ const sortByOrderKey = (a, b) => {
 objects = objects.sort(sortByOrderKey);
 
 const hasFilters = ($data) => {
-  return $data.object_filters !== false || $data.objects.object_filters !== false;
+  return $data.object_filters !== false && $data.objects.object_filters !== false;
 }
 </script>
 <script webc:keep type="text/javascript">
