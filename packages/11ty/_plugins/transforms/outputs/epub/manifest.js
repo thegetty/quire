@@ -5,7 +5,7 @@ const logger = chalkFactory('_plugins:epub:manifest')
 
 /**
  * Returns publication.yaml data as JSON for the EPUB generation library
- * 
+ *
  * @param  {Object} publication
  * @return {Object}
  */
@@ -87,14 +87,14 @@ module.exports = (eleventyConfig) => {
   const pubTitle = () => {
     const separator = title.match(/[.,:!?]$/) ? '' : ':';
     switch (true) {
-      case subtitle && readingLine:
-        return `${title}${separator} ${subtitle} ${readingLine}`
-      case readingLine:
-        return `${title} (${readingLine})`
-      case subtitle:
-        return `${title}${separator} ${subtitle}`
+      case !!subtitle && !!readingLine:
+        return `${title}${separator} ${subtitle} ${readingLine}`;
+      case !!readingLine:
+        return `${title} (${readingLine})`;
+      case !!subtitle:
+        return `${title}${separator} ${subtitle}`;
       default:
-        return title
+        return title;
     }
   }
 
