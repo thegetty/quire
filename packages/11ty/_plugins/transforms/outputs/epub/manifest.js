@@ -85,7 +85,7 @@ module.exports = (eleventyConfig) => {
    * Publication title, subtitle, and reading line
    */
   const pubTitle = () => {
-    const joiner = title.endsWith('?') || title.endsWith('!') ? '' : ':';
+    const separator = title.match(/[.,:!?]$/) ? '' : ':';
     switch (true) {
       case subtitle && readingLine:
         return `${title}${separator} ${subtitle} ${readingLine}`
