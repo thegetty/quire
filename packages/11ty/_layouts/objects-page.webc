@@ -21,14 +21,4 @@ classes:
 .objects-page-content {
   margin-bottom: 2em;
 }
-
-@media print {
-  @page objects {
-    background: #EEF2F3;
-  }
-
-  .objects-page {
-    page: objects;
-  }
-}
 </style>
