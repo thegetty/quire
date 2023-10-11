@@ -471,4 +471,8 @@ section.object-cards {
     height: 8.4em;
   }
 }
+
+@media print {
+  .object-cards: margin: 0;
+}
 </style>

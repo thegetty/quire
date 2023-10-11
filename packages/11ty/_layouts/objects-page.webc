@@ -1,5 +1,7 @@
 ---
 layout: base.11ty.js
+classes:
+  - objects-page
 ---
 <template webc:nokeep>
   <template @html="pageHeader(this.$data)" webc:nokeep></template>
@@ -18,5 +20,15 @@ layout: base.11ty.js
 <style>
 .objects-page-content {
   margin-bottom: 2em;
+}
+
+@media print {
+  @page objects {
+    background: #EEF2F3;
+  }
+
+  .objects-page {
+    page: objects;
+  }
 }
 </style>
