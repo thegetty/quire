@@ -88,7 +88,6 @@ const getFilterOrder = ($data) => {
   return $data.object_filters !== false
     ? $data.object_filters || $data.objects.object_filters
     : false;
-  }
 };
 
 const getFilters = (filterOrder, objects) => {
