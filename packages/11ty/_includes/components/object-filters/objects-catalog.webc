@@ -7,7 +7,7 @@
       <object-filters :@objects="objects"></object-filters>
     </div>
     <div class="collapsible__controls">
-      <div webc:if="displayFilters($data)" class="object-filters__controls">
+      <div webc:if="hasFilters($data)" class="object-filters__controls">
         <button class="object-filters__button object-filters__button--primary" data-control-apply>Apply Filters</button>
         <button class
 ="object-filters__button" data-control-reset>Reset</button>
