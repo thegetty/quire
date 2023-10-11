@@ -81,18 +81,13 @@ const getUniqueOptionsFromObjectData = (objects, fieldName) =>
     }, [])
     .sort(sortByValueWithLocaleCompare);
 
+/**
+ * When object_filters is set to `false` filters are not rendered
+ */
 const getFilterOrder = ($data) => {
-  switch (true) {
-    case $data.object_filters:
-      return $data.object_filters;
-      /*
-       * When $data.object_filters is explicitly set to `false`, use it instead of
-       * global $data.objects.object_filters
-       */
-    case $data.object_filters === false:
-      return false;
-    default:
-      return $data.objects.object_filters;
+  return $data.object_filters !== false
+    ? $data.object_filters || $data.objects.object_filters
+    : false;
   }
 };
 
