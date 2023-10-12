@@ -143,12 +143,23 @@ module.exports = function(eleventyConfig, collections, content) {
     }
     if (!isPageLink(href)) return
 
+    const getHashRegexp = /(.*)(\#.*$)/
+    const getHash = (href) => {
+      const match = href.match(getHashRegexp)
+      return match ? match[2] : '';
+    }
+
+    const getHrefWithoutHash = (href) => {
+      const match = href.match(getHashRegexp)
+      return match ? match[1] : href;
+    }
+
     const index = collections.epub
-      .findIndex(({ url }) => url === href)
+      .findIndex(({ url }) => url === getHrefWithoutHash(href))
 
     if (index === -1) return
 
-    linkElement.setAttribute('href', filename(index, collections.epub[index]))
+    linkElement.setAttribute('href', `${filename(index, collections.epub[index])}${getHash(href)}`)
   })
 
   transformPaths(body)
