@@ -143,20 +143,18 @@ module.exports = function(eleventyConfig, collections, content) {
     }
     if (!isPageLink(href)) return
 
-    const relativeURL = (href) => {
-      const hashRegexp = /(.*)(\#.*$)/
-      const match = href.match(hashRegexp)
-      const hash = match ? match[2] : ''
-      const pathname = match ? match[1] : href
-
-      return {
-        hash,
-        href,
-        pathname
+    function relativeUrl (path) {
+      const base = eleventyConfig.baseURL || 'http://localhost'
+      let url;
+      try {
+        url = new URL(path)
+      } catch (TypeError) {
+        url = new URL(path, base)
+      } finally {
+        return url
       }
     }
-
-    const { hash, pathname } = relativeURL(href)
+    const { hash, href, pathname } = relativeUrl(href)
 
     const index = collections.epub
       .findIndex(({ url }) => url === pathname)
