@@ -18,11 +18,13 @@ Changelog entries are classified using the following labels:
 
 - `Removed`: for deprecated features removed in this release
 
-## [unreleased]
+## [1.0.0-rc.15]
 
 ### Added
 
 - Validation method to check if an image can be tiled, and log error if invalid.
+- `objects-page` layout. This contains the 'Object Filters' feature, which renders a filterable list of all publication objects.
+- `object-filters` WebC components
 
 ### Changed
 
@@ -35,6 +37,8 @@ Changelog entries are classified using the following labels:
 - Resolved issue with logic rendering external manifests
 - Prefix epub filename with `page-` to ensure validity if filename begins with a number
 - Include `svg` definitions in body of epub pages using `svg`
+- Ensure relative links with hashes are properly transformed for EPUB output
+- Include title in epub manifest if no subtitle
 
 ### Removed
 
