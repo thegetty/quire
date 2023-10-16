@@ -18,6 +18,12 @@ Changelog entries are classified using the following labels:
 
 - `Removed`: for deprecated features removed in this release
 
+## [1.0.0-rc.11]
+
+### Changed
+- Update `epubjs-cli` to version 0.1.6
+- Update `pagedjs-cli` to version 0.4.3
+
 ## [1.0.0-rc.10]
 
 ### Added
