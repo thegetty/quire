@@ -25,8 +25,7 @@ Changelog entries are classified using the following labels:
 - `pagedjs-cli` to version 0.4.3
 
 ### Fixed
-- EPUB ...
-- PDF ...
+- EPUB validation error where pages that include SVGs must include SVG as property under `readingOrder`
 
 ## [1.0.0-rc.10]
 
