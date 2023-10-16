@@ -18,6 +18,15 @@ Changelog entries are classified using the following labels:
 
 - `Removed`: for deprecated features removed in this release
 
+## [1.0.0-rc.11]
+
+### Bumped
+- `epubjs-cli` to version 0.1.6
+- `pagedjs-cli` to version 0.4.3
+
+### Fixed
+- EPUB validation error where pages that include SVGs must include SVG as property under `readingOrder`
+
 ## [1.0.0-rc.10]
 
 ### Added
