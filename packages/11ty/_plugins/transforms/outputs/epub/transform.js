@@ -154,7 +154,7 @@ module.exports = function(eleventyConfig, collections, content) {
         return url
       }
     }
-    const { hash, href, pathname } = relativeUrl(href)
+    const { hash, pathname } = relativeUrl(href)
 
     const index = collections.epub
       .findIndex(({ url }) => url === pathname)
