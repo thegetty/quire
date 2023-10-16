@@ -20,9 +20,13 @@ Changelog entries are classified using the following labels:
 
 ## [1.0.0-rc.11]
 
-### Changed
-- Update `epubjs-cli` to version 0.1.6
-- Update `pagedjs-cli` to version 0.4.3
+### Bumped
+- `epubjs-cli` to version 0.1.6
+- `pagedjs-cli` to version 0.4.3
+
+### Fixed
+- EPUB ...
+- PDF ...
 
 ## [1.0.0-rc.10]
 
