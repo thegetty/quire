@@ -173,8 +173,8 @@ const gradoo = "Gradoo!!"
 rendered DOM:
 ```html
 <section class="my-component-section">
-  <my-component gradoo="Gradoo">
-    <div class="my-component">Gradoo</div>
+  <my-component gradoo="Gradoo!!">
+    <div class="my-component">Gradoo!!</div>
   </my-component>
 </section>
 ```
