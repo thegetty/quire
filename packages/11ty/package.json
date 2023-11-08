@@ -1,6 +1,6 @@
 {
   "name": "@thegetty/quire-11ty",
-  "version": "1.0.0-rc.16",
+  "version": "1.0.0-rc.17",
   "description": "Quire 11ty static site generator",
   "keywords": [
     "11ty",
@@ -94,7 +94,7 @@
     "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-scss": "^3.0.0",
     "sass": "^1.54.5",
-    "sharp": "^0.31.3",
+    "sharp": "^0.32.6",
     "simple-cite": "^0.2.1",
     "toml": "^3.0.0"
   },
