@@ -11,7 +11,7 @@ const components = require('../../_includes/components')
  * @param      {Object}  options         options
  */
 module.exports = function(eleventyConfig, collections, options) {
-  const { addShortcode } = shortcodeFactory(eleventyConfig, collections)
+  const { addShortcode } = shortcodeFactory(eleventyConfig, collections)
 
   for (const component in components) {
     switch(component) {
