@@ -67,5 +67,6 @@ module.exports = {
   tableOfContentsItem: require('./table-of-contents/item/index.js'),
   tableOfContentsList: require('./table-of-contents/list/index.js'),
   tableOfContentsListItem: require('./table-of-contents/item/list.js'),
-  twitterCard: require('./head-tags/twitter-card.js')
+  twitterCard: require('./head-tags/twitter-card.js'),
+  quireData: require('./quire-data.js')
 }
