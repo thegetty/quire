@@ -22,7 +22,7 @@ module.exports = async function(data) {
       <body>
         ${this.icons(data)}
         ${this.iconscc(data)}
-        ${await this.quireData(figuresJSON, 'page-figures')}
+        ${this.quireData(figuresJSON, 'page-figures')}
         <div class="quire no-js" id="container">
           <div
             aria-expanded="false"
