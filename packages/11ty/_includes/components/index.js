@@ -57,6 +57,7 @@ module.exports = {
   pageButtons: require('./page-buttons.js'),
   pageHeader: require('./page-header.js'),
   pageTitle: require('./page-title.js'),
+  quireData: require('./quire-data.js'),
   search: require('./search.js'),
   scripts: require('./scripts.js'),
   sequencePanel: require('./figure/image/sequence-panel'),
@@ -67,6 +68,5 @@ module.exports = {
   tableOfContentsItem: require('./table-of-contents/item/index.js'),
   tableOfContentsList: require('./table-of-contents/list/index.js'),
   tableOfContentsListItem: require('./table-of-contents/item/list.js'),
-  twitterCard: require('./head-tags/twitter-card.js'),
-  quireData: require('./quire-data.js')
+  twitterCard: require('./head-tags/twitter-card.js')
 }
