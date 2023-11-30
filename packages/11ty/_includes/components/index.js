@@ -57,6 +57,7 @@ module.exports = {
   pageButtons: require('./page-buttons.js'),
   pageHeader: require('./page-header.js'),
   pageTitle: require('./page-title.js'),
+  quireData: require('./quire-data.js'),
   search: require('./search.js'),
   scripts: require('./scripts.js'),
   sequencePanel: require('./figure/image/sequence-panel'),
