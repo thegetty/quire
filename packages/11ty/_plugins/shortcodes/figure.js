@@ -27,10 +27,11 @@ module.exports = function (eleventyConfig) {
   const figureTable = eleventyConfig.getFilter('figureTable')
   const figureVideo = eleventyConfig.getFilter('figureVideo')
   const getFigure = eleventyConfig.getFilter('getFigure')
+  const quireFigure = eleventyConfig.getFilter('quireFigure')
   const slugify = eleventyConfig.getFilter('slugify')
 
   return async function (id, classes=[]) {
-    classes = typeof classes === 'string' ? [classes] : classes
+    classes = typeof classes !== 'string' ? classes.join(' ') : classes
 
     /**
      * Merge figures.yaml data and additional params
@@ -44,27 +45,6 @@ module.exports = function (eleventyConfig) {
     this.page.figures ||= []
     this.page.figures.push(figure)
 
-    const { mediaType } = figure
-
-    const component = async (figure) => {
-      switch (true) {
-        case mediaType === 'soundcloud':
-          return figureAudio(figure)
-        case mediaType === 'table':
-          return await figureTable(figure)
-        case mediaType === 'video':
-        case mediaType === 'vimeo':
-        case mediaType === 'youtube':
-          return figureVideo(figure)
-        default:
-          return await figureImage(figure)
-      }
-    }
-
-    return oneLine`
-      <figure id="${slugify(id)}" class="${['q-figure', 'q-figure--' + mediaType, ...classes].join(' ')}">
-        ${await component(figure)}
-      </figure>
-    `
+    return await quireFigure.call(this, classes, id)
   }
 }

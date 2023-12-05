@@ -12,7 +12,7 @@ const title = require('./title')
 const tombstone = require('./tombstone')
 
 module.exports = function(eleventyConfig, collections, options) {
-  const { addShortcode, addPairedShortcode } = shortcodeFactory(eleventyConfig, collections)
+  const { addShortcode, addPairedShortcode, addWebcShortcode } = shortcodeFactory(eleventyConfig, collections)
 
   addPairedShortcode('accordion', accordion)
   addComponentTag(eleventyConfig, 'ref', ref)
@@ -24,4 +24,8 @@ module.exports = function(eleventyConfig, collections, options) {
   addShortcode('figuregroup', figureGroup)
   addShortcode('title', title)
   addShortcode('tombstone', tombstone)
+  /**
+   * Note: WebC attribute names must be all lowercase or snake_case
+   */
+  addWebcShortcode('quireFigure', 'quire-figure', ['classes', 'id'])
 }

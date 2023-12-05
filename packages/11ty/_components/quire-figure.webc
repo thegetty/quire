@@ -1,0 +1,36 @@
+<figure :id="slugify(id)" :class="getClasses(classes, id)">
+  <template webc:nokeep @html="component(id)"></template>
+  <template webc:nokeep @html="getCaption(id)"></template>
+</figure>
+<script webc:setup>
+const component = async (id) => {
+  const figure = this.getFigure(id)
+  const { mediaType } = figure
+  switch (true) {
+    case mediaType === 'soundcloud':
+      return this.figureAudio(figure)
+    case mediaType === 'table':
+      return await this.figureTable(figure)
+    case mediaType === 'video':
+    case mediaType === 'vimeo':
+    case mediaType === 'youtube':
+      return this.figureVideo(figure)
+    default:
+      return await this.figureImageElement(figure, { interactive: false })
+  }
+}
+
+const getCaption = (id) => {
+  const figure = this.getFigure(id)
+  return this.figureCaption({ ...figure, content: this.figureLabel(figure) })
+}
+
+const getClasses = (classes, id) => {
+  const { mediaType } = this.getFigure(id)
+  return [
+    'q-figure',
+    `q-figure--${mediaType}`,
+    classes
+  ].join(' ')
+}
+</script>
