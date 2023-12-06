@@ -1,9 +1,9 @@
 <figure :id="slugify(id)" :class="getClasses(classes, id)">
-  <template webc:nokeep @html="component(id)"></template>
+  <template webc:nokeep @html="component(id, image_dir)"></template>
   <template webc:nokeep @html="getCaption(id)"></template>
 </figure>
 <script webc:setup>
-const component = async (id) => {
+const component = async (id, imageDir) => {
   const figure = this.getFigure(id)
   const { mediaType } = figure
   switch (true) {
@@ -16,7 +16,7 @@ const component = async (id) => {
     case mediaType === 'youtube':
       return this.figureVideo(figure)
     default:
-      return await this.figureImageElement(figure, { interactive: false })
+      return await this.figureImageWebc.call(this, id, imageDir)
   }
 }
 

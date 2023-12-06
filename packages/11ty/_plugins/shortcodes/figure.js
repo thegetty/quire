@@ -20,15 +20,9 @@ const logger = chalkFactory('shortcodes:figure')
  * @return     {boolean}  An HTML <figure> element
  */
 module.exports = function (eleventyConfig) {
-  const figureAudio = eleventyConfig.getFilter('figureAudio')
-  const figureImage = eleventyConfig.getFilter('figureImage')
-  const figureLabel = eleventyConfig.getFilter('figureLabel')
-  const figureModalLink = eleventyConfig.getFilter('figureModalLink')
-  const figureTable = eleventyConfig.getFilter('figureTable')
-  const figureVideo = eleventyConfig.getFilter('figureVideo')
   const getFigure = eleventyConfig.getFilter('getFigure')
   const quireFigure = eleventyConfig.getFilter('quireFigure')
-  const slugify = eleventyConfig.getFilter('slugify')
+  const { imageDir } = eleventyConfig.globalData.config.figures
 
   return async function (id, classes=[]) {
     classes = typeof classes !== 'string' ? classes.join(' ') : classes
@@ -45,6 +39,6 @@ module.exports = function (eleventyConfig) {
     this.page.figures ||= []
     this.page.figures.push(figure)
 
-    return await quireFigure.call(this, classes, id)
+    return await quireFigure.call(this, classes, id, imageDir)
   }
 }

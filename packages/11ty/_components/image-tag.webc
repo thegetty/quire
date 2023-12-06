@@ -1,0 +1,6 @@
+<img :alt="alt" class="q-figure__image" :src="getSrc(src, image_dir)" />
+<script webc:setup>
+const getSrc = async (src, imageDir) => {
+  return src.startsWith('http') ? src : [imageDir, src].join('/')
+}
+</script>
