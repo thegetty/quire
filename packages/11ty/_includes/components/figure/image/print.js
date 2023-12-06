@@ -10,17 +10,12 @@ const path = require('path')
  * @return     {String}  HTML containing an <img> element and a caption
  */
 module.exports = function(eleventyConfig) {
-  const figureCaption = eleventyConfig.getFilter('figureCaption')
-  const figureLabel = eleventyConfig.getFilter('figureLabel')
-
   const { imageDir } = eleventyConfig.globalData.config.figures
 
   return function(figure) {
-    const { alt, caption, credit, id, label, src, staticInlineFigureImage } = figure
+    const { alt, src, staticInlineFigureImage } = figure
 
     if (!src && !staticInlineFigureImage) return ''
-
-    const labelElement = figureLabel({ caption, id, label })
 
     let imageSrc
 
@@ -40,7 +35,6 @@ module.exports = function(eleventyConfig) {
 
     return html`
       <img alt="${alt}" class="q-figure__image" src="${imageSrc}"/>
-      ${figureCaption({ caption, content: labelElement, credit })}
     `
   }
 }

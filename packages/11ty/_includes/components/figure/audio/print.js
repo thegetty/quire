@@ -2,37 +2,35 @@ const { html } = require('~lib/common-tags')
 const chalkFactory = require('~lib/chalk')
 const path = require('path')
 
+const logger = chalkFactory('Figure Video')
+
 /**
- * Renders an iframe element with the SoundCloud audio player
+ * Renders an image fallback for a video player in print output
  *
  * @param      {Object}  eleventyConfig  eleventy configuration
- * @param      {Object}  figure          The figure
+ * @param      {Object}  figure          The figure object
  *
- * @return     {String}  An embedded SoundCloud player and a caption
+ * @return     {String}  HTML containing a fallback image and a caption
  */
 module.exports = function(eleventyConfig) {
   const { imageDir } = eleventyConfig.globalData.config.figures
 
-  const figureCaption = eleventyConfig.getFilter('figureCaption')
-  const figureLabel = eleventyConfig.getFilter('figureLabel')
-
-  return function({ caption, credit, id, label, mediaId, mediaType, poster='' }) {
-    const labelElement = figureLabel({ caption, id, label })
-    const captionElement = figureCaption({ caption, content: labelElement, credit, mediaId, mediaType })
+  return function({
+    aspect_ratio: aspectRatio,
+    poster=''
+  }) {
+    if (!poster) {
+      logger.warn(`Figure '${id}' does not have a 'poster' property. Print media will not render a fallback image for id: ${id}`)
+    }
 
     const posterSrc = poster.startsWith('http')
       ? poster
       : path.join(imageDir, poster)
 
-    const imageElement = poster
-      ? `<div class="q-figure__media-wrapper">
-          <img src="${posterSrc}" />
-        </div>`
-      : ''
-
     return html`
-      ${imageElement}
-      ${captionElement}
+      <div class="q-figure__media-wrapper--${ aspectRatio || 'widescreen' }">
+        <img src="${posterSrc}" />
+      </div>
     `
   }
 }
