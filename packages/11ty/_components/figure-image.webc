@@ -29,10 +29,10 @@ const canvasPanelAttributes = (id) => {
     width
   }
 }
-const imageSequenceAttributes = (id) = {
+const imageSequenceAttributes = (id) => {
   return {}
 }
-const imageServiceAttributes = (id) = {
+const imageServiceAttributes = (id) => {
   const { src } = this.getFigure(id)
   return { src }
 }
