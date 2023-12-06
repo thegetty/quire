@@ -6,18 +6,18 @@
 const component = async (id, imageDir) => {
   const figure = this.getFigure(id)
   const { mediaType } = figure
-  switch (true) {
-    case mediaType === 'soundcloud':
-      return this.figureAudio(figure)
-    case mediaType === 'table':
-      return await this.figureTable(figure)
-    case mediaType === 'video':
-    case mediaType === 'vimeo':
-    case mediaType === 'youtube':
-      return this.figureVideo(figure)
-    default:
-      return await this.figureImageWebc.call(this, id, imageDir)
+  const { figureAudio, figureImageWebc, figureTable, figureVideo } = this
+  if (mediaType === 'image') {
+    return await figureImageWebc.call(this, id, imageDir)
   }
+  const mediaTypeToComponentMap = {
+    soundcloud: figureAudio,
+    table: figureTable,
+    video: figureVideo,
+    vimeo: figureVideo,
+    youtube: figureVideo
+  }
+  return await mediaTypeToComponentMap[mediaType](figure)
 }
 
 const getCaption = (id) => {
