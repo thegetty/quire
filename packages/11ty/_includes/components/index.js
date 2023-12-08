@@ -60,7 +60,6 @@ module.exports = {
   quireData: require('./quire-data.js'),
   search: require('./search.js'),
   scripts: require('./scripts.js'),
-  sequencePanel: require('./figure/image/sequence-panel'),
   siteTitle: require('./site-title.js'),
   tableOfContents: require('./table-of-contents/index.js'),
   tableOfContentsGridItem: require('./table-of-contents/item/grid.js'),

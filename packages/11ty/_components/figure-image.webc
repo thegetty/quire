@@ -1,0 +1,61 @@
+<template webc:nokeep>
+  <canvas-panel webc:if="isCanvas(id)" @attributes="attributes(id, image_dir).canvasPanel"></canvas-panel>
+  <image-service webc:elseif="isImageService(id)" @attributes="attributes(id, image_dir).imageService"></image-service>
+  <image-sequence webc:elseif="isSequence(id)" @attributes="attributes(id, image_dir).imageSequence"></image-sequence>
+  <image-tag webc:else @attributes="attributes(id, image_dir).imageTag"></image-tag>
+</template>
+<script webc:setup>
+const attributes = (id, image_dir) => {
+  const {
+    alt,
+    canvasId,
+    choiceId,
+    height,
+    iiifContent,
+    manifestId,
+    margin,
+    preset,
+    region,
+    src,
+    startCanvas,
+    textEnabled,
+    textSelectionEnabled,
+    virtualSizes,
+    width
+  } = this.getFigure(id)
+  return {
+    canvasPanel: {
+      'canvas-id': canvasId,
+      'choice-id': choiceId,
+      height,
+      'iiif-content': iiifContent,
+      'manifest-id': manifestId,
+      preset,
+      region,
+      'virtual-sizes': virtualSizes,
+      width
+    },
+    imageSequence: {
+      id,
+      'manifest-id': manifestId,
+      margin,
+      preset,
+      'start-canvas': startCanvas,
+      'text-enabled': textEnabled,
+      'text-selection-enabled': textSelectionEnabled
+    },
+    imageService: {
+      src
+    },
+    imageTag: {
+      alt,
+      image_dir,
+      src
+    }
+  }
+}
+
+const isCanvas = (id) => this.getFigure(id).isCanvas
+const isImageService = (id) => this.getFigure(id).isImageService
+const isSequence = (id) => this.getFigure(id).isSequence
+</script>

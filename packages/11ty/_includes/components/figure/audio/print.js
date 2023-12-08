@@ -13,13 +13,7 @@ const path = require('path')
 module.exports = function(eleventyConfig) {
   const { imageDir } = eleventyConfig.globalData.config.figures
 
-  const figureCaption = eleventyConfig.getFilter('figureCaption')
-  const figureLabel = eleventyConfig.getFilter('figureLabel')
-
-  return function({ caption, credit, id, label, mediaId, mediaType, poster='' }) {
-    const labelElement = figureLabel({ caption, id, label })
-    const captionElement = figureCaption({ caption, content: labelElement, credit, mediaId, mediaType })
-
+  return function({ poster='' }) {
     const posterSrc = poster.startsWith('http')
       ? poster
       : path.join(imageDir, poster)
@@ -32,7 +26,6 @@ module.exports = function(eleventyConfig) {
 
     return html`
       ${imageElement}
-      ${captionElement}
     `
   }
 }
