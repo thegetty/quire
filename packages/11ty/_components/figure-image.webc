@@ -1,4 +1,8 @@
 <template webc:nokeep>
+  <!---
+    Nota bene: `webc:is` does not support dynamic values (see 11ty/webc#143);
+    use webc conditional statements and call the `attributes` function multiple times rather than using a fancier pattern of implementation.
+  --->
   <canvas-panel webc:if="isCanvas(id)" @attributes="attributes(id, image_dir).canvasPanel"></canvas-panel>
   <image-service webc:elseif="isImageService(id)" @attributes="attributes(id, image_dir).imageService"></image-service>
   <image-sequence webc:elseif="isSequence(id)" @attributes="attributes(id, image_dir).imageSequence"></image-sequence>
