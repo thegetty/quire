@@ -11,7 +11,7 @@ const components = require('../../_includes/components')
  * @param      {Object}  options         options
  */
 module.exports = function(eleventyConfig, collections, options) {
-  const { addShortcode } = shortcodeFactory(eleventyConfig, collections)
+  const { addShortcode, addWebcShortcode } = shortcodeFactory(eleventyConfig, collections)
 
   for (const component in components) {
     switch(component) {
@@ -24,4 +24,9 @@ module.exports = function(eleventyConfig, collections, options) {
         break
     }
   }
+
+  /**
+   * Note: WebC attribute names must be all lowercase or snake_case
+   */
+  addWebcShortcode('figureImageWebc', 'figure-image', ['id', 'image_dir'])
 }
