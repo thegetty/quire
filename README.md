@@ -111,9 +111,9 @@ Possible contributions include:
 
 For more information visit our complete [Contributing Guidelines](https://github.com/thegetty/quire/blob/main/CONTRIBUTING.md). 
 
-## Quire Contributors
+## Thank you, Contributors
 
-Thank you to our growing list of contributors who have made Quire what it is and are working on what it will be! They’ve contributed code, written and edited documentation, answered questions or shared their work on our forum, run events, and blogged or spoken about Quire.
+Thank you to our growing list of contributors who have made Quire what it is and are working on what it will be! They’ve participated in the forum, shared their projects, reported bugs, written/edited documentation, contributed code, and spoken about Quire at conferences.
 
 - [@1000camels](https://github.com/1000camels)
 - [@ACMAA](https://github.com/ACMAA)
