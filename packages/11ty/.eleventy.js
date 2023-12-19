@@ -208,6 +208,11 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ '_includes/web-components': '_assets/javascript' })
 
   /**
+   * Manually copy `is-land` modules into client package
+   */
+  eleventyConfig.addPassthroughCopy({ 'node_modules/@11ty/is-land/is-land.js': '_assets/javascript' })
+
+  /**
    * Watch the following additional files for changes and rerun server
    * @see https://www.11ty.dev/docs/config/#add-your-own-watch-targets
    * @see https://www.11ty.dev/docs/watch-serve/#ignore-watching-files
