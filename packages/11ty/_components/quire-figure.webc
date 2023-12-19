@@ -1,7 +1,9 @@
-<figure :id="slugify(id)" :class="getClasses(classes, id)">
-  <template webc:nokeep @html="component(id, image_dir)"></template>
-  <template webc:nokeep @html="getCaption(id)"></template>
-</figure>
+<is-land on:visible>
+  <figure :id="slugify(id)" :class="getClasses(classes, id)">
+    <template webc:nokeep @html="component(id, image_dir)"></template>
+    <template webc:nokeep @html="getCaption(id)"></template>
+  </figure>
+</is-land>
 <script webc:setup>
 const component = async (id, imageDir) => {
   const figure = this.getFigure(id)
