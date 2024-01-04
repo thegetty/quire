@@ -12,7 +12,7 @@ const { oneLine } = require('~lib/common-tags')
 module.exports = function(eleventyConfig) {
   const markdownify = eleventyConfig.getFilter('markdownify')
   const figureMediaEmbedUrl = eleventyConfig.getFilter('figureMediaEmbedUrl')
-  return function({ caption, credit, content='', mediaId, mediaType}) {
+  return function({ caption='', credit='', content='', mediaId, mediaType}) {
     const { sourceUrl } = figureMediaEmbedUrl({ mediaId, mediaType })
     const mediaSourceLink = sourceUrl
       ? `<span class="q-figure__caption-embed-link"><a href="${sourceUrl}"><em>${sourceUrl}</em></a></span>`
@@ -21,8 +21,8 @@ module.exports = function(eleventyConfig) {
       <figcaption class="q-figure__caption">
         ${mediaSourceLink}
         ${markdownify(content)}
-        <span class="q-figure__caption-content">${markdownify(caption || '')}</span>
-        <span class="q-figure__credit">${markdownify(credit || '')}</span>
+        <span class="q-figure__caption-content">${markdownify(caption)}</span>
+        <span class="q-figure__credit">${markdownify(credit)}</span>
       </figcaption>
     `
   }
