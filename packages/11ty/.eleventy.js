@@ -48,7 +48,7 @@ const publicDir = process.env.ELEVENTY_ENV === 'production' ? 'public' : false /
  * @param      {Object}  base eleventy configuration
  * @return     {Object}  A modified eleventy configuation
  */
-module.exports = function(eleventyConfig) {
+export default async function(eleventyConfig) {
   /**
    * Override addPassthroughCopy to use _absolute_ system paths.
    * @see https://www.11ty.dev/docs/copy/#passthrough-file-copy
