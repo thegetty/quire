@@ -43,7 +43,8 @@ module.exports = function (eleventyConfig) {
      * Render static versions of IIIF images inline
      */
     const isStatic = true
+    const preset = 'responsive'
 
-    return await quireFigure.call(this, classes, id, imageDir, isStatic)
+    return await quireFigure.call(this, classes, id, imageDir, isStatic, preset)
   }
 }
