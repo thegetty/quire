@@ -9,9 +9,10 @@
 const component = async (id, imageDir, isStatic, preset) => {
   const figure = this.getFigure(id)
   const { mediaType } = figure
-  const { figureAudio, figureImageWebc, figureTable, figureVideo } = this
+  const { figureAudio, figureImageWebc, figureModalLink, figureTable, figureVideo } = this
   if (mediaType === 'image') {
-    return await figureImageWebc.call(this, id, imageDir, isStatic, preset)
+    const imageElement = await figureImageWebc.call(this, id, imageDir, isStatic, preset)
+    return figureModalLink({ content: imageElement, id })
   }
   const mediaTypeToComponentMap = {
     soundcloud: figureAudio,
@@ -20,7 +21,8 @@ const component = async (id, imageDir, isStatic, preset) => {
     vimeo: figureVideo,
     youtube: figureVideo
   }
-  return await mediaTypeToComponentMap[mediaType](figure)
+  const mediaElement = mediaTypeToComponentMap[mediaType](figure)
+  return await figureModalLink({ content: mediaElement, id })
 }
 const getAnnotations = (id) => {
   const figure = this.getFigure(id)
