@@ -12,7 +12,7 @@ module.exports = function(eleventyConfig) {
   const tableElement = eleventyConfig.getFilter('figureTableElement')
   const markdownify = eleventyConfig.getFilter('markdownify')
 
-  return async function({ id, src }) {
+  return async function({ caption='', id, src }) {
     const table = await tableElement({ src })
     const title = markdownify(caption)
 
@@ -21,9 +21,7 @@ module.exports = function(eleventyConfig) {
         class="q-figure__modal-link"
         href="#${id}"
         title="${title}"
-      >
-        ${table}
-      </a>
+      >${table}</a>
     `
   }
 }
