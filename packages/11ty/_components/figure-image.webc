@@ -3,7 +3,8 @@
     Nota bene: `webc:is` does not support dynamic values (see 11ty/webc#143);
     use webc conditional statements and call the `attributes` function multiple times rather than using a fancier pattern of implementation.
   --->
-  <canvas-panel webc:if="isCanvas(id)" @attributes="attributes(id, image_dir).canvasPanel"></canvas-panel>
+  <image-tag webc:if="isStatic(id, is_static)" @attributes="attributes(id, image_dir).staticInlineFigureImage"></image-tag>
+  <canvas-panel webc:elseif="isCanvas(id)" @attributes="attributes(id, image_dir).canvasPanel"></canvas-panel>
   <image-service webc:elseif="isImageService(id)" @attributes="attributes(id, image_dir).imageService"></image-service>
   <image-sequence webc:elseif="isSequence(id)" @attributes="attributes(id, image_dir).imageSequence"></image-sequence>
   <image-tag webc:else @attributes="attributes(id, image_dir).imageTag"></image-tag>
@@ -22,6 +23,7 @@ const attributes = (id, image_dir) => {
     region,
     src,
     startCanvas,
+    staticInlineFigureImage,
     textEnabled,
     textSelectionEnabled,
     virtualSizes,
@@ -55,6 +57,10 @@ const attributes = (id, image_dir) => {
       alt,
       image_dir,
       src
+    },
+    staticInlineFigureImage: {
+      alt,
+      src: staticInlineFigureImage
     }
   }
 }
@@ -62,4 +68,5 @@ const attributes = (id, image_dir) => {
 const isCanvas = (id) => this.getFigure(id).isCanvas
 const isImageService = (id) => this.getFigure(id).isImageService
 const isSequence = (id) => this.getFigure(id).isSequence
+const isStatic = (id, is_static) => is_static && !this.getFigure(id).annotations
 </script>
