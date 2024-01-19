@@ -21,8 +21,8 @@ const component = async (id, imageDir, isStatic, preset) => {
     vimeo: figureVideo,
     youtube: figureVideo
   }
-  const mediaElement = mediaTypeToComponentMap[mediaType](figure)
-  return await figureModalLink({ content: mediaElement, id })
+  const mediaElement = await mediaTypeToComponentMap[mediaType](figure)
+  return figureModalLink({ content: mediaElement, id })
 }
 const getAnnotations = (id) => {
   const figure = this.getFigure(id)
