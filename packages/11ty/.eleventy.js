@@ -274,7 +274,6 @@ export default async function(eleventyConfig) {
      */
     templateFormats: [
       '11ty.js', // JavaScript
-      'hbs',     // Handlebars
       'liquid',  // Liquid
       'md',      // Markdown
       'njk',     // Nunjucks
