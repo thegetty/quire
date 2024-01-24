@@ -21,6 +21,7 @@
     "url": "https://github.com/thegetty/quire.git",
     "directory": "packages/11ty"
   },
+  "type": "module",
   "main": ".eleventy.js",
   "scripts": {
     "benchmark": "cross-env DEBUG=Eleventy:Benchmark* eleventy",
@@ -47,6 +48,7 @@
   "dependencies": {
     "bulma": "^0.9.3",
     "core-js": "2.5.0",
+    "fs": "^0.0.1-security",
     "lit": "^2.6.1",
     "lunr": "^2.3.9",
     "template-polyfill": "^2.0.0"
