@@ -1,5 +1,5 @@
-import { oneLine } from '~lib/common-tags'
-import chalkFactory from '~lib/chalk'
+import { oneLine } from '#lib/common-tags'
+import chalkFactory from '#lib/chalk'
 
 const logger = chalkFactory('shortcodes: accordion')
 

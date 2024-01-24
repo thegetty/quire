@@ -1,4 +1,4 @@
-import chalkFactory from '~lib/chalk'
+import chalkFactory from '#lib/chalk'
 import fs from 'fs-extra'
 import jsdom from 'jsdom'
 import path from 'node:path'

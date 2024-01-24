@@ -1,4 +1,4 @@
-import { html } from '~lib/common-tags'
+import { html } from '#lib/common-tags'
 
 /**
  * This file contains inline SVG elements which can be referenced elsewhere in

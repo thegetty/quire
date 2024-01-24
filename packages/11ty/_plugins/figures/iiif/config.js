@@ -1,4 +1,4 @@
-import chalkFactory from '~lib/chalk'
+import chalkFactory from '#lib/chalk'
 import path from 'node:path'
 
 const logger = chalkFactory('Figures:IIIF:Config', 'DEBUG')

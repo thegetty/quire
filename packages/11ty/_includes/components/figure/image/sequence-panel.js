@@ -1,5 +1,5 @@
-import { html } from '~lib/common-tags'
-import chalkFactory from '~lib/chalk'
+import { html } from '#lib/common-tags'
+import chalkFactory from '#lib/chalk'
 
 /**
  * SequencePanel shortcode that renders the Digirati <sequence-panel> web component

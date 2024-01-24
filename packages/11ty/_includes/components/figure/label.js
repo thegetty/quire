@@ -1,4 +1,4 @@
-import { oneLine } from '~lib/common-tags'
+import { oneLine } from '#lib/common-tags'
 
 /**
  * A figure label element

@@ -1,6 +1,6 @@
 import jsdom from 'jsdom'
 import filterOutputs from '../filter.js'
-import truncate from '~lib/truncate'
+import truncate from '#lib/truncate'
 import writer from './write'
 
 const { JSDOM } = jsdom

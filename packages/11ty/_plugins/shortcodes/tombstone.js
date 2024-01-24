@@ -1,4 +1,4 @@
-import { html, oneLine } from '~lib/common-tags'
+import { html, oneLine } from '#lib/common-tags'
 import path from 'node:path'
 
 /**

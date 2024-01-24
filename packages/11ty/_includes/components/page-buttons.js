@@ -1,4 +1,4 @@
-import { html } from '~lib/common-tags'
+import { html } from '#lib/common-tags'
 
 /**
  * Renders previous page and next page buttons

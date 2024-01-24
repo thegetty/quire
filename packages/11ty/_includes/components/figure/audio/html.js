@@ -1,5 +1,5 @@
-import { html } from '~lib/common-tags'
-import chalkFactory from '~lib/chalk'
+import { html } from '#lib/common-tags'
+import chalkFactory from '#lib/chalk'
 
 /**
  * Renders an iframe element with the SoundCloud audio player

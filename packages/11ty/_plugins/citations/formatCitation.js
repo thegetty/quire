@@ -1,4 +1,4 @@
-import chalkFactory from '~lib/chalk'
+import chalkFactory from '#lib/chalk'
 import Processor from 'simple-cite'
 
 const logger = chalkFactory('plugins:citations')

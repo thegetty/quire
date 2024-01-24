@@ -1,4 +1,4 @@
-import { html } from '~lib/common-tags'
+import { html } from '#lib/common-tags'
 export default ({ body, language, title }) => {
   const stylesheets = ''
 

@@ -1,5 +1,5 @@
-import chalkFactory from '~lib/chalk'
-import { oneLine } from '~lib/common-tags'
+import chalkFactory from '#lib/chalk'
+import { oneLine } from '#lib/common-tags'
 const logger = chalkFactory(`Shortcodes:ref`)
 import path from 'node:path'
 

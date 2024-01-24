@@ -89,7 +89,6 @@
     "markdown-it-deflist": "^2.1.0",
     "markdown-it-footnote": "^3.0.3",
     "mime-types": "^2.1.35",
-    "module-alias": "^2.2.2",
     "path": "^0.12.7",
     "prettier": "^3.0.0-alpha.4",
     "remove-markdown": "^0.5.0",
@@ -99,12 +98,6 @@
     "sharp": "^0.32.6",
     "simple-cite": "^0.2.1",
     "toml": "^3.0.0"
-  },
-  "_moduleAliases": {
-    "~includes": "./_includes",
-    "~layouts": "./_layouts",
-    "~lib": "./_lib",
-    "~plugins": "./_plugins"
   },
   "engines": {
     "node": ">=18.16"

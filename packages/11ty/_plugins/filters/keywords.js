@@ -1,4 +1,4 @@
-import chalkFactory from '~lib/chalk'
+import chalkFactory from '#lib/chalk'
 
 const logger = chalkFactory('filters:keywords')
 

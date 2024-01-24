@@ -1,5 +1,5 @@
-import chalkFactory from '~lib/chalk'
-import { html } from '~lib/common-tags'
+import chalkFactory from '#lib/chalk'
+import { html } from '#lib/common-tags'
 
 const logger = chalkFactory('shortcodes:contributors')
 

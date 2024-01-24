@@ -1,4 +1,4 @@
-import chalkFactory from '~lib/chalk'
+import chalkFactory from '#lib/chalk'
 import FigureFactory from './figure/factory'
 import iiifConfig from './iiif/config'
 

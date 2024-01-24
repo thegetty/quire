@@ -1,4 +1,4 @@
-import chalkFactory from '~lib/chalk'
+import chalkFactory from '#lib/chalk'
 import Annotation from '../annotation'
 import AnnotationFactory from '../annotation/factory'
 import Manifest from '../iiif/manifest'

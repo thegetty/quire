@@ -1,4 +1,4 @@
-import { html } from '~lib/common-tags'
+import { html } from '#lib/common-tags'
 import fs from 'fs-extra'
 import jsdom from 'jsdom'
 const { JSDOM } = jsdom
