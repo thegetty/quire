@@ -1,6 +1,6 @@
-const fs = require('fs')
-const path = require('path')
-const Sequence = require('./index')
+import fs from 'fs'
+import path from 'node:path'
+import Sequence from './index'
 
 /**
  * The SequenceFactory creates sequences for a Figure instance

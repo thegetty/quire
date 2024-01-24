@@ -1,7 +1,7 @@
-const filterOutputs = require('../filter.js')
-const path = require('path')
-const jsdom = require('jsdom')
-const registerWebComponents = require('./web-components')
+import filterOutputs from '../filter.js'
+import path from 'node:path'
+import jsdom from 'jsdom'
+import registerWebComponents from './web-components'
 
 const { JSDOM } = jsdom
 

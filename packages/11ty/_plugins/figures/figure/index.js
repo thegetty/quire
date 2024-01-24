@@ -1,10 +1,10 @@
-const chalkFactory = require('~lib/chalk')
-const Annotation = require('../annotation')
-const AnnotationFactory = require('../annotation/factory')
-const Manifest = require('../iiif/manifest')
-const path = require('path')
-const SequenceFactory = require('../sequence/factory')
-const sharp = require('sharp')
+import chalkFactory from '~lib/chalk'
+import Annotation from '../annotation'
+import AnnotationFactory from '../annotation/factory'
+import Manifest from '../iiif/manifest'
+import path from 'node:path'
+import SequenceFactory from '../sequence/factory'
+import sharp from 'sharp'
 const {
   isCanvas,
   isImageService,

@@ -1,7 +1,7 @@
-const chalkFactory = require('~lib/chalk')
-const mime = require('mime-types')
-const path = require('path')
-const titleCase = require('~plugins/filters/titleCase')
+import chalkFactory from '~lib/chalk'
+import mime from 'mime-types'
+import path from 'node:path'
+import titleCase from '~plugins/filters/titleCase'
 
 const logger = chalkFactory('Figures:Annotation')
 

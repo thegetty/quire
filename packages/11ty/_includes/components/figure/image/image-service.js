@@ -1,4 +1,4 @@
-const { html } = require('~lib/common-tags')
+import { html } from '~lib/common-tags'
 
 /**
  * Image Service Web Component

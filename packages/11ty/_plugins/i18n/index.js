@@ -1,4 +1,4 @@
-const { EleventyI18nPlugin } = require('@11ty/eleventy')
+import { EleventyI18nPlugin } from '@11ty/eleventy'
 
 /**
  * Eleventy Internationalization Plugin

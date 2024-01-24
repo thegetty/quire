@@ -1,4 +1,4 @@
-const { html } = require('common-tags')
+import { html } from 'common-tags'
 
 /**
  * Render UI elements for selecting IIIF annotations or choices,

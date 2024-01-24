@@ -1,26 +1,26 @@
 // Quire data filters
-const fullname = require('./fullname')
-const getAnnotation = require('./getAnnotation')
-const getContributor = require('./getContributor')
-const getFigure = require('./getFigure')
-const getObject = require('./getObject')
-const initials = require('./initials')
-const keywords = require('./keywords')
-const sortContributors = require('./sortContributors')
-const sortReferences = require('./sortReferences')
+import fullname from './fullname'
+import getAnnotation from './getAnnotation'
+import getContributor from './getContributor'
+import getFigure from './getFigure'
+import getObject from './getObject'
+import initials from './initials'
+import keywords from './keywords'
+import sortContributors from './sortContributors'
+import sortReferences from './sortReferences'
 
 // string filters
-const capitalize = require('./capitalize')
-const json = require('./json')
-const removeHTML = require('./removeHTML')
-const slugifyIds = require('./slugifyIds')
-const titleCase = require('./titleCase')
+import capitalize from './capitalize'
+import json from './json'
+import removeHTML from './removeHTML'
+import slugifyIds from './slugifyIds'
+import titleCase from './titleCase'
 
 // utility filters
-const sortByKeys = require('./sortByKeys')
+import sortByKeys from './sortByKeys'
 
 // Web component rendering
-const renderWebcComponent = require('./renderWebcComponent')
+import renderWebcComponent from './renderWebcComponent'
 
 /**
  * Add universal filters for use in templates

@@ -1,12 +1,12 @@
-const CanvasBuilder = require('./canvas-builder')
-const chalkFactory = require('~lib/chalk')
-const fs = require('fs-extra')
-const path = require('path')
-const SequenceBuilder = require('./sequence-builder')
-const titleCase = require('~plugins/filters/titleCase')
-const Writer = require('./writer')
-const { globalVault } = require('@iiif/vault')
-const { IIIFBuilder } = require('iiif-builder')
+import CanvasBuilder from './canvas-builder'
+import chalkFactory from '~lib/chalk'
+import fs from 'fs-extra'
+import path from 'node:path'
+import SequenceBuilder from './sequence-builder'
+import titleCase from '~plugins/filters/titleCase'
+import Writer from './writer'
+import { globalVault } from '@iiif/vault'
+import { IIIFBuilder } from 'iiif-builder'
 
 const logger = chalkFactory('Figures:IIIF:Manifest', 'DEBUG')
 

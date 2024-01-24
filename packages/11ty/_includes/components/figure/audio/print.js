@@ -1,6 +1,6 @@
-const { html } = require('~lib/common-tags')
-const chalkFactory = require('~lib/chalk')
-const path = require('path')
+import { html } from '~lib/common-tags'
+import chalkFactory from '~lib/chalk'
+import path from 'node:path'
 
 /**
  * Renders an iframe element with the SoundCloud audio player

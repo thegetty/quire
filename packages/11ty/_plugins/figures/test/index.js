@@ -1,12 +1,12 @@
 require('module-alias/register')
-const { describe, mock, test } = require('node:test')
-const Ajv = require('ajv')
-const assert = require('assert/strict')
-const Figure = require('../figure')
-const figureFixtures = require('./__fixtures__/figures/index.js')
-const iiifConfig = require('./__fixtures__/iiif-config.json')
-const Manifest = require('../iiif/manifest')
-const manifestSchema = require('../iiif/manifest/schema.json')
+import { describe, mock, test } from 'node:test'
+import Ajv from 'ajv'
+import assert from 'assert/strict'
+import Figure from '../figure'
+import figureFixtures from './__fixtures__/figures/index.js'
+import iiifConfig from './__fixtures__/iiif-config.json'
+import Manifest from '../iiif/manifest'
+import manifestSchema from '../iiif/manifest/schema.json'
 
 const createManifestFromFigureFixture = async (figureFixtureName) => {
   const {

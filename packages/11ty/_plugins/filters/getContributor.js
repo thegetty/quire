@@ -1,4 +1,4 @@
-const chalkFactory = require('~lib/chalk')
+import chalkFactory from '~lib/chalk'
 
 const logger = chalkFactory('filters:getContributor')
 

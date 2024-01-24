@@ -1,5 +1,5 @@
-const { html } = require('~lib/common-tags')
-const path = require('path')
+import { html } from '~lib/common-tags'
+import path from 'node:path'
 
 /**
  * Contributor bio subcomponent

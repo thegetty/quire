@@ -1,7 +1,7 @@
-const chalkFactory = require('~lib/chalk')
-const fs = require('fs-extra')
-const path = require('path')
-const sharp = require('sharp')
+import chalkFactory from '~lib/chalk'
+import fs from 'fs-extra'
+import path from 'node:path'
+import sharp from 'sharp'
 
 const logger = chalkFactory('Figures:ImageTransformer', 'DEBUG')
 

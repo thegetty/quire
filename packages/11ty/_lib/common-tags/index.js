@@ -1,4 +1,4 @@
-const commonTags = require('common-tags')
+import commonTags from 'common-tags'
 const { createTag, stripIndents } = commonTags
 
 export default {

@@ -1,6 +1,6 @@
-const chalkFactory = require('~lib/chalk')
-const fs = require('fs-extra')
-const path = require('path')
+import chalkFactory from '~lib/chalk'
+import fs from 'fs-extra'
+import path from 'node:path'
 
 const logger = chalkFactory('globalData:parser')
 

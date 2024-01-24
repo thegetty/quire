@@ -1,4 +1,4 @@
-const write = require('./write')
+import write from './write'
 /**
  * An Eleventy plugin for full-text search
  *

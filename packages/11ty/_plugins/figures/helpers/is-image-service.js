@@ -1,4 +1,4 @@
-const path = require('path')
+import path from 'node:path'
 
 /**
  * Test if a figure uses an image-service

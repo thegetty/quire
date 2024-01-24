@@ -1,4 +1,4 @@
-const path = require('path')
+import path from 'node:path'
 
 export default function(eleventyConfig) {
   const renderWebcComponent = eleventyConfig.getFilter('renderWebcComponent')

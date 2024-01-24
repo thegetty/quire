@@ -1,4 +1,4 @@
-const { oneLine } = require('~lib/common-tags')
+import { oneLine } from '~lib/common-tags'
 
 /**
  * Renders a link

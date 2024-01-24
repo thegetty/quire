@@ -1,4 +1,4 @@
-const path = require('path')
+import path from 'node:path'
 
 /**
  * Renders a JSON-LD representation of the page

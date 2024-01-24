@@ -29,7 +29,7 @@ The `data` property contains the final data from the [Eleventy data cascade](htt
 
 #### In an `11ty.js` `_include`
 ```javascript
-const { html } = require('common-tags')
+import { html } from 'common-tags'
 
 export default function(eleventyConfig, params) {
   const { publication } = params
@@ -47,7 +47,7 @@ export default function(eleventyConfig, params) {
 
 #### In an `11ty.js` `_layout`
 ```javascript
-const { html } = require('common-tags')
+import { html } from 'common-tags'
 
 exports.data = {
   layout: 'base'

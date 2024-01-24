@@ -1,6 +1,6 @@
-const chalkFactory = require('~lib/chalk')
-const path = require('path')
-const prettier = require('prettier')
+import chalkFactory from '~lib/chalk'
+import path from 'node:path'
+import prettier from 'prettier'
 
 const logger = chalkFactory('transforms:format')
 

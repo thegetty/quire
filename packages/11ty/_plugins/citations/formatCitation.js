@@ -1,5 +1,5 @@
-const chalkFactory = require('~lib/chalk')
-const Processor = require('simple-cite')
+import chalkFactory from '~lib/chalk'
+import Processor from 'simple-cite'
 
 const logger = chalkFactory('plugins:citations')
 

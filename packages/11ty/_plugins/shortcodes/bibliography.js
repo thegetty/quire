@@ -1,5 +1,5 @@
-const { html } = require('~lib/common-tags')
-const chalkFactory = require('~lib/chalk')
+import { html } from '~lib/common-tags'
+import chalkFactory from '~lib/chalk'
 
 const logger = chalkFactory('configuration:bibliography')
 

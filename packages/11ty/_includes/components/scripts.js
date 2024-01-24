@@ -1,4 +1,4 @@
-const { html } = require('~lib/common-tags')
+import { html } from '~lib/common-tags'
 
 /**
  * Generate HTML <script> tags for document head

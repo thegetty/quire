@@ -1,5 +1,5 @@
-const filters = require('./filters')
-const sortCollection = require('./sort')
+import filters from './filters'
+import sortCollection from './sort'
 
 /**
  * Add Collections and Apply Transforms

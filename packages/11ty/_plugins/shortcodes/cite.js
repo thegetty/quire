@@ -1,5 +1,5 @@
-const chalkFactory = require('~lib/chalk')
-const { renderOneLine, stripIndent } = require('~lib/common-tags')
+import chalkFactory from '~lib/chalk'
+import { renderOneLine, stripIndent } from '~lib/common-tags'
 
 const logger = chalkFactory('shortcodes:cite')
 

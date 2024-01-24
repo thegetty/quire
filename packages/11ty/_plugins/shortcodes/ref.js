@@ -1,7 +1,7 @@
-const chalkFactory = require('~lib/chalk')
-const { oneLine } = require('~lib/common-tags')
+import chalkFactory from '~lib/chalk'
+import { oneLine } from '~lib/common-tags'
 const logger = chalkFactory(`Shortcodes:ref`)
-const path = require('path')
+import path from 'node:path'
 
 /**
  * ref Shortcode

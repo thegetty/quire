@@ -1,5 +1,5 @@
-const { html } = require('common-tags')
-const chalkFactory = require('~lib/chalk')
+import { html } from 'common-tags'
+import chalkFactory from '~lib/chalk'
 const logger = chalkFactory('Figure Annotations UI')
 
 export default function(eleventyConfig) {

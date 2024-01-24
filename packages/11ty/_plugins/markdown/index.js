@@ -1,12 +1,12 @@
-const MarkdownIt = require('markdown-it')
-const anchorsPlugin = require('markdown-it-anchor')
-const attributesPlugin = require('markdown-it-attrs')
-const bracketedSpansPlugin = require('markdown-it-bracketed-spans')
-const defaults = require('./defaults')
-const deflistPlugin = require('markdown-it-deflist')
-const footnotePlugin = require('markdown-it-footnote')
-const { footnoteRef, footnoteTail } = require('./footnotes')
-const removeMarkdown = require('remove-markdown')
+import MarkdownIt from 'markdown-it'
+import anchorsPlugin from 'markdown-it-anchor'
+import attributesPlugin from 'markdown-it-attrs'
+import bracketedSpansPlugin from 'markdown-it-bracketed-spans'
+import defaults from './defaults'
+import deflistPlugin from 'markdown-it-deflist'
+import footnotePlugin from 'markdown-it-footnote'
+import { footnoteRef, footnoteTail } from './footnotes'
+import removeMarkdown from 'remove-markdown'
 
 /**
  * An Eleventy plugin to configure the markdown library

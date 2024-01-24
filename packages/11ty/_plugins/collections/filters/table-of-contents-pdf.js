@@ -1,4 +1,4 @@
-const outputFilter = require('./output')
+import outputFilter from './output'
 
 /**
  * Returns `true` if page should be included in the PDF build of the Table of Contents

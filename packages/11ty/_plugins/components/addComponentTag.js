@@ -1,5 +1,5 @@
-const liquidArgs = require('liquid-args')
-// const { Liquid, Hash } = require('liquidjs')
+import liquidArgs from 'liquid-args'
+// import { Liquid, Hash } from 'liquidjs'
 
 /**
  * Adds a custom tag to template languages for a shortcode component.

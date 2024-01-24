@@ -1,4 +1,4 @@
-const isSequence = require('./is-sequence.js')
+import isSequence from './is-sequence.js'
 
 /**
  * Figure `isCanvas` helper

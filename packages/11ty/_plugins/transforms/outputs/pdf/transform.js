@@ -1,7 +1,7 @@
-const jsdom = require('jsdom')
-const filterOutputs = require('../filter.js')
-const truncate = require('~lib/truncate')
-const writer = require('./write')
+import jsdom from 'jsdom'
+import filterOutputs from '../filter.js'
+import truncate from '~lib/truncate'
+import writer from './write'
 
 const { JSDOM } = jsdom
 

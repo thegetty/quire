@@ -1,4 +1,4 @@
-const Annotation = require('./index')
+import Annotation from './index'
 
 /**
  * The AnnotationFactory creates annotations for a Figure instance

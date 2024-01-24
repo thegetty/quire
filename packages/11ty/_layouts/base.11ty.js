@@ -1,5 +1,5 @@
-const path = require('path')
-const { html } = require('~lib/common-tags')
+import path from 'node:path'
+import { html } from '~lib/common-tags'
 
 /**
  * Base layout as a JavaScript method

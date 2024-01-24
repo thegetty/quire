@@ -1,5 +1,5 @@
-const truncate = require('~lib/truncate')
-const { html } = require('~lib/common-tags')
+import truncate from '~lib/truncate'
+import { html } from '~lib/common-tags'
 
 /**
  * This controls the various navigation elements (nav, skip-link, menu and

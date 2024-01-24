@@ -1,6 +1,6 @@
-const fs = require('fs-extra')
-const jsdom = require('jsdom')
-const path = require('path')
+import fs from 'fs-extra'
+import jsdom from 'jsdom'
+import path from 'node:path'
 
 /**
  * An Eleventy transform function to register web component modules in <head>

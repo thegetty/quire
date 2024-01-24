@@ -1,5 +1,5 @@
-const path = require('path')
-const Annotation = require('../annotation')
+import path from 'node:path'
+import Annotation from '../annotation'
 
 /**
  * @typedef {Object} Sequence

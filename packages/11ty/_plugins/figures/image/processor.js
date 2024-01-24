@@ -1,8 +1,8 @@
-const chalkFactory = require('~lib/chalk')
-const fs = require('fs-extra')
-const path = require('path')
-const Tiler = require('./tiler')
-const Transformer = require('./transformer')
+import chalkFactory from '~lib/chalk'
+import fs from 'fs-extra'
+import path from 'node:path'
+import Tiler from './tiler'
+import Transformer from './transformer'
 
 const logger = chalkFactory('Figures:ImageProcessor', 'DEBUG')
 

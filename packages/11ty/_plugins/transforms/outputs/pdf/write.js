@@ -1,8 +1,8 @@
-const chalkFactory = require('~lib/chalk')
-const fs = require('fs-extra')
-const jsdom = require('jsdom')
-const path = require('path')
-const sass = require('sass')
+import chalkFactory from '~lib/chalk'
+import fs from 'fs-extra'
+import jsdom from 'jsdom'
+import path from 'node:path'
+import sass from 'sass'
 
 
 /**

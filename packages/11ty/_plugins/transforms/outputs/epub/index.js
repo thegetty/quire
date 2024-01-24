@@ -1,9 +1,9 @@
-const fs = require('fs-extra')
-const manifestFactory = require('./manifest.js')
-const path = require('path')
-const sass = require('sass')
-const transform = require('./transform.js')
-const writer = require('./writer.js')
+import fs from 'fs-extra'
+import manifestFactory from './manifest.js'
+import path from 'node:path'
+import sass from 'sass'
+import transform from './transform.js'
+import writer from './writer.js'
 
 export default (eleventyConfig, collections) => {
   const { outputDir } = eleventyConfig.globalData.config.epub

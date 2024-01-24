@@ -1,5 +1,5 @@
-const chalk = require('chalk')
-const log = require('loglevel')
+import chalk from 'chalk'
+import log from 'loglevel'
 
 /**
  * A factory function for custom logging methods using loglevel and chalk

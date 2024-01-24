@@ -1,4 +1,4 @@
-const path = require('path')
+import path from 'node:path'
 
 /**
  * Renders <head> <meta> data tags for Twitter Cards

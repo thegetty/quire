@@ -1,5 +1,5 @@
-const chalkFactory = require('~lib/chalk')
-const path = require('path')
+import chalkFactory from '~lib/chalk'
+import path from 'node:path'
 
 const { warn } = chalkFactory('eleventyComputed')
 

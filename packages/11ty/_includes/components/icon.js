@@ -1,5 +1,5 @@
-const { html } = require('~lib/common-tags')
-const path = require('path')
+import { html } from '~lib/common-tags'
+import path from 'node:path'
 
 /**
  * A shortcode for including an inline SVG icon with a PNG fallback.

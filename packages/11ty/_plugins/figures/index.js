@@ -1,6 +1,6 @@
-const chalkFactory = require('~lib/chalk')
-const FigureFactory = require('./figure/factory')
-const iiifConfig = require('./iiif/config')
+import chalkFactory from '~lib/chalk'
+import FigureFactory from './figure/factory'
+import iiifConfig from './iiif/config'
 
 const logger = chalkFactory('Figures', 'DEBUG')
 

@@ -1,8 +1,8 @@
-const { html } = require('~lib/common-tags')
-const fs = require('fs-extra')
-const jsdom = require('jsdom')
+import { html } from '~lib/common-tags'
+import fs from 'fs-extra'
+import jsdom from 'jsdom'
 const { JSDOM } = jsdom
-const path = require('path')
+import path from 'node:path'
 
 /**
  * Iterate over output files and render with a `data` attribute

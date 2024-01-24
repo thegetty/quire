@@ -1,8 +1,8 @@
-const addComponentTag = require('./addComponentTag')
-const shortcodeFactory = require('./shortcodeFactory')
+import addComponentTag from './addComponentTag'
+import shortcodeFactory from './shortcodeFactory'
 
 // Shortcode components
-const components = require('../../_includes/components')
+import components from '../../_includes/components'
 
 /**
  * Define components as universal template shortcodes

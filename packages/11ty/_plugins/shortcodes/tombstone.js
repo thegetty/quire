@@ -1,5 +1,5 @@
-const { html, oneLine } = require('~lib/common-tags')
-const path = require('path')
+import { html, oneLine } from '~lib/common-tags'
+import path from 'node:path'
 
 /**
  * A shortcode for tombstone display of object data on an entry page

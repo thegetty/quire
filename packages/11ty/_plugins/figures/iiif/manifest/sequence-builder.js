@@ -1,4 +1,4 @@
-const path = require('path')
+import path from 'node:path'
 
 export default class SequenceBuilder {
   static create(manifestObject, data) {

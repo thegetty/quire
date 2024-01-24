@@ -1,6 +1,6 @@
-const fs = require('fs')
-const path = require('path')
-const { html } = require('~lib/common-tags')
+import fs from 'fs'
+import path from 'node:path'
+import { html } from '~lib/common-tags'
 
 /**
  * Creative Commons SVG Icon

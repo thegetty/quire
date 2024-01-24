@@ -1,4 +1,4 @@
-const { html } = require('~lib/common-tags')
+import { html } from '~lib/common-tags'
 /**
  * Renders a native or embedded video player with a caption
  *

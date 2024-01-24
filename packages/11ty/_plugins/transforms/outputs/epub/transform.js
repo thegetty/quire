@@ -1,8 +1,8 @@
-const filterOutputs = require('../filter.js')
-const jsdom = require('jsdom')
-const layout = require('./layout')
-const path = require('path')
-const writer = require('./writer')
+import filterOutputs from '../filter.js'
+import jsdom from 'jsdom'
+import layout from './layout'
+import path from 'node:path'
+import writer from './writer'
 
 const { JSDOM } = jsdom
 

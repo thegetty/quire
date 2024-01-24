@@ -1,6 +1,6 @@
-const Figure = require('./index')
-const ImageProcessor = require('../image/processor')
-const path = require('path')
+import Figure from './index'
+import ImageProcessor from '../image/processor'
+import path from 'node:path'
 
 /**
  * Factory class to create instances of `Figure` on which process is called

@@ -1,4 +1,4 @@
-const outputFilter = require('./output')
+import outputFilter from './output'
 /**
  * Returns `true` if page should be built for epub output
  * @param  {Object} page Eleventy page object

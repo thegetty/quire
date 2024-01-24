@@ -1,9 +1,9 @@
-const chalk = require('chalk')
-const fs = require('fs-extra')
-const path = require('path')
+import chalk from 'chalk'
+import fs from 'fs-extra'
+import path from 'node:path'
 
-const formatOutput = require('./format')
-const outputs = require('./outputs')
+import formatOutput from './format'
+import outputs from './outputs'
 
 /**
  * An Eleventy plugin to configure output transforms
