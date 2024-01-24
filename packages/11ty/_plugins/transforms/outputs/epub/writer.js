@@ -8,7 +8,7 @@ const logger = chalkFactory('_plugins:epub:write')
  * Writes EPUB files
  * @param  {String} content Serialized DOM content
  */
-module.exports = (outputDir) => {
+export default (outputDir) => {
   return (outputPath, content) => {
     const dest = path.join(outputDir, outputPath)
     try {

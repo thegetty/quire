@@ -14,7 +14,7 @@ const logger = chalkFactory('shortcodes:contributors')
  *
  * @return {String} Markup for contributors
  */
-module.exports = function (eleventyConfig) {
+export default function(eleventyConfig) {
   const contributorBio = eleventyConfig.getFilter('contributorBio')
   const fullname = eleventyConfig.getFilter('fullname')
   const getContributor = eleventyConfig.getFilter('getContributor')

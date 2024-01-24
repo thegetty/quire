@@ -8,7 +8,7 @@ const { html } = require('~lib/common-tags')
  * 
  * @return {String}
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const { config, publication } = eleventyConfig.globalData
 
   const copyrightLicensing = eleventyConfig.getFilter('copyrightLicensing')

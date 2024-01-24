@@ -103,4 +103,4 @@ function footnoteTail(state) {
   state.tokens.push(token)
 }
 
-module.exports = { footnoteRef, footnoteTail }
+export default { footnoteRef, footnoteTail }

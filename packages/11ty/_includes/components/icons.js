@@ -4,7 +4,7 @@ const { html } = require('~lib/common-tags')
  * This file contains inline SVG elements which can be referenced elsewhere in
  * the templates. This file can be included at the end of the <body> tag.
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   return function(params) {
     return html`
       <svg style="display:none">

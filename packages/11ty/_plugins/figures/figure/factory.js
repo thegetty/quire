@@ -8,7 +8,7 @@ const path = require('path')
  *
  * @class FigureFactory
  */
-module.exports = class FigureFactory {
+export default class FigureFactory {
   constructor(iiifConfig) {
     this.iiifConfig = iiifConfig
     this.imageProcessor = new ImageProcessor(iiifConfig)

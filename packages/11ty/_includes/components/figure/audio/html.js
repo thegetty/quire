@@ -9,7 +9,7 @@ const chalkFactory = require('~lib/chalk')
  *
  * @return     {String}  An embedded SoundCloud player and a caption
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const figureCaption = eleventyConfig.getFilter('figureCaption')
   const figureImage = eleventyConfig.getFilter('figureImage')
   const figureLabel = eleventyConfig.getFilter('figureLabel')

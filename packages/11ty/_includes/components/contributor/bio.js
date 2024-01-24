@@ -11,7 +11,7 @@ const path = require('path')
  *
  * @return {String} contributor markup
  */
-module.exports = function (eleventyConfig) {
+export default function(eleventyConfig) {
   const fullname = eleventyConfig.getFilter('fullname')
   const getContributor = eleventyConfig.getFilter('getContributor')
   const icon = eleventyConfig.getFilter('icon')

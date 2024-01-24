@@ -1,7 +1,7 @@
 const commonTags = require('common-tags')
 const { createTag, stripIndents } = commonTags
 
-module.exports = {
+export default {
   ...commonTags,
   renderOneLine: createTag({
     onString(string) {

@@ -8,7 +8,7 @@ const path = require('path')
  * 
  * @return     {String}  An HTML script element with JSON-LD
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const { config, publication } = eleventyConfig.globalData
   const { imageDir } = config.figures
 

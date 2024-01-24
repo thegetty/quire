@@ -11,7 +11,7 @@ const { html } = require('~lib/common-tags')
  *
  * @return {String} TOC list
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const eleventyNavigation = eleventyConfig.getFilter('eleventyNavigation')
   const tableOfContentsItem = eleventyConfig.getFilter('tableOfContentsItem')
 

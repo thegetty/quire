@@ -5,7 +5,7 @@ const sass = require('sass')
 const transform = require('./transform.js')
 const writer = require('./writer.js')
 
-module.exports = (eleventyConfig, collections) => {
+export default (eleventyConfig, collections) => {
   const { outputDir } = eleventyConfig.globalData.config.epub
   const write = writer(outputDir)
 

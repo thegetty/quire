@@ -10,7 +10,7 @@
  *
  * @return {string} `page title: subtitle`
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const markdownify = eleventyConfig.getFilter('markdownify')
 
   const { labelDivider } = eleventyConfig.globalData.config.pageTitle

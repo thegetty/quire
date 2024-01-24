@@ -5,7 +5,7 @@ const { oneLine } = require('~lib/common-tags')
  * @param  {Object} eleventyConfig  eleventy configuration
  * @return
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const icon = eleventyConfig.getFilter('icon')
   const markdownify = eleventyConfig.getFilter('markdownify')
   const modalLink = eleventyConfig.getFilter('figureModalLink')

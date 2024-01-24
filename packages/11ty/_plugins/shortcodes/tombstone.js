@@ -4,7 +4,7 @@ const path = require('path')
 /**
  * A shortcode for tombstone display of object data on an entry page
  */
-module.exports = function(eleventyConfig, { page }) {
+export default function(eleventyConfig, { page }) {
   const { config, objects } = eleventyConfig.globalData
   const { objectLinkText } = config.entryPage
 

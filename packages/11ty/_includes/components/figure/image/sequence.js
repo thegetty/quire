@@ -1,6 +1,6 @@
 const path = require('path')
 
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const renderWebcComponent = eleventyConfig.getFilter('renderWebcComponent')
   const { assetDir } = eleventyConfig.globalData.config.figures
   return async function({ id, sequences, startCanvasIndex }, { interactive=true }) {

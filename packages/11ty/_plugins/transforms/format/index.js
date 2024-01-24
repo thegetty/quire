@@ -11,7 +11,7 @@ const logger = chalkFactory('transforms:format')
  * @param      {String}  content
  * @return     {String}  transformed content
  */
-module.exports = async function (content) {
+export default async function (content) {
   let result
   try {
     result = await prettier.format(content, { filepath: this.outputPath })

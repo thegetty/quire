@@ -5,7 +5,7 @@ const write = require('./write')
  * @param      {Object}  eleventyConfig  eleventy configuration
  * @param      {Object}  [options]       search engine options
  */
-module.exports = function(eleventyConfig, collections, options) {
+export default function(eleventyConfig, collections, options) {
   /**
    * Copy search module and write index to the output directory
    * @see {@link https://www.11ty.dev/docs/copy/ Passthrough copy in 11ty}

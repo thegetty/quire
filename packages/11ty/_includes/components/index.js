@@ -2,7 +2,7 @@
  * Export all component includes
  */
 
-module.exports = {
+export default {
   accordionGlobalControls: require('./accordion/global-controls'),
   annotationsUI: require('./figure/annotations-ui'),
   abstract: require('./abstract.js'),

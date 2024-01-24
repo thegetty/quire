@@ -11,7 +11,7 @@ const shortcodeFactory = require('../components/shortcodeFactory')
 const title = require('./title')
 const tombstone = require('./tombstone')
 
-module.exports = function(eleventyConfig, collections, options) {
+export default function(eleventyConfig, collections, options) {
   const { addShortcode, addPairedShortcode } = shortcodeFactory(eleventyConfig, collections)
 
   addPairedShortcode('accordion', accordion)

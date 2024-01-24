@@ -4,7 +4,7 @@ const { html } = require('~lib/common-tags')
  * @param {Object} eleventyConfig
  * @returns Global Accordion Controls Shortcode
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const { collapseText, expandText } = eleventyConfig.globalData.config.accordion.globalControls
 
   /**

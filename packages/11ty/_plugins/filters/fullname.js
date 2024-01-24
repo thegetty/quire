@@ -21,7 +21,7 @@ const getName = (person, options) => {
   return full_name ? full_name : joinedName
 }
 
-module.exports = function (data, options = {}) {
+export default function(data, options = {}) {
   if (Array.isArray(data)) {
     return data.map(item => getName(item, options))
   }

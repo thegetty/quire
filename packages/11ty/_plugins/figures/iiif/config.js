@@ -4,7 +4,7 @@ const path = require('path')
 const logger = chalkFactory('Figures:IIIF:Config', 'DEBUG')
 
 
-module.exports = (eleventyConfig) => {
+export default (eleventyConfig) => {
   const { url } = eleventyConfig.globalData.publication
   const { inputDir, outputDir, publicDir } = eleventyConfig.globalData.directoryConfig
   const { port=8080 } = eleventyConfig.serverOptions

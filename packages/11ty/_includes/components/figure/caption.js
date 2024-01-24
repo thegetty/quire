@@ -9,7 +9,7 @@ const { oneLine } = require('~lib/common-tags')
  * @property   {String} content
  * @return     {String}  An HTML <figcaption> element
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const markdownify = eleventyConfig.getFilter('markdownify')
   const figureMediaEmbedUrl = eleventyConfig.getFilter('figureMediaEmbedUrl')
   return function({ caption, credit, content='', mediaId, mediaType}) {

@@ -9,7 +9,7 @@ const path = require('path')
  * @param      {Array} figures
  * @return     {String}  An HTML <img> element
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const annotationsUI = eleventyConfig.getFilter('annotationsUI')
   const figureImageElement = eleventyConfig.getFilter('figureImageElement')
   const figureAudioElement = eleventyConfig.getFilter('figureAudioElement')

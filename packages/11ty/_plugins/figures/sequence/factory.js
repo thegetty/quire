@@ -5,7 +5,7 @@ const Sequence = require('./index')
 /**
  * The SequenceFactory creates sequences for a Figure instance
  */
-module.exports = class SequenceFactory {
+export default class SequenceFactory {
   /**
    * @param  {Figure} figure
    */

@@ -6,7 +6,7 @@ const path = require('path')
  *
  * @param  {EleventyConfig}  eleventyConfig  Eleventy configuration
  */
-module.exports = function (eleventyConfig) {
+export default function(eleventyConfig) {
   const renderFile = eleventyConfig.getFilter('renderFile')
   const { assetDir } = eleventyConfig.globalData.config.figures
 

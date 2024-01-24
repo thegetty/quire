@@ -8,7 +8,7 @@ const path = require('path')
  * Iterate over output files and render with a `data` attribute
  * that allows tranforms to filter elements from output formats.
  */
-module.exports = async function (eleventyConfig, dir, params, page) {
+export default async function (eleventyConfig, dir, params, page) {
   const fileNames = ['epub', 'html', 'pdf', 'print']
 
   const filePaths = fileNames.flatMap((output) => {

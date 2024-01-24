@@ -29,7 +29,7 @@ const logger = chalkFactory('shortcodes:cite')
  *  @example {% cite "Faure 1909" "" "1909" %}
  *  renders the citation "1909"
  */
-module.exports = function(eleventyConfig, { page }) {
+export default function(eleventyConfig, { page }) {
   const icon = eleventyConfig.getFilter('icon')
   const markdownify = eleventyConfig.getFilter('markdownify')
 

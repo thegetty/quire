@@ -5,7 +5,7 @@ const chalkFactory = require('~lib/chalk')
  * CanvasPanel shortcode that renders the Digirati <canvas-panel> web component
  * @see {@link https://iiif-canvas-panel.netlify.app/docs/intro/ Canvas Panel Documentation}
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const logger = chalkFactory('shortcodes:canvasPanel')
 
   /**

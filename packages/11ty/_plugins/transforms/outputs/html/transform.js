@@ -8,7 +8,7 @@ const { JSDOM } = jsdom
 /**
  * Content transforms for html output
  */
-module.exports = function(eleventyConfig, collections, content) {
+export default function(eleventyConfig, collections, content) {
   const slugifyIds = eleventyConfig.getFilter('slugifyIds')
   /**
    * Remove pages excluded from this output type

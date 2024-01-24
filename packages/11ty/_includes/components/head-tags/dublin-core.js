@@ -8,7 +8,7 @@ const path = require('path')
  * 
  * @return     {String}  HTML meta and link elements
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const { publication } = eleventyConfig.globalData
 
   return function (params) {

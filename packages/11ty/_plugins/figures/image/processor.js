@@ -14,7 +14,7 @@ const logger = chalkFactory('Figures:ImageProcessor', 'DEBUG')
  * @return {Object}
  * @property {Array} errors Process error messages
  */
-module.exports = class ImageProcessor {
+export default class ImageProcessor {
   constructor(iiifConfig) {
     const { imagesDir, inputRoot, outputRoot } = iiifConfig.dirs
     const tiler = new Tiler(iiifConfig)

@@ -8,7 +8,7 @@ const path = require('path')
  *
  * @return {String} TOC image markup
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const { imageDir } = eleventyConfig.globalData.config.figures
   return function(params) {
     const { src } = params

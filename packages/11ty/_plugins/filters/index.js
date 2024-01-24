@@ -26,7 +26,7 @@ const renderWebcComponent = require('./renderWebcComponent')
  * Add universal filters for use in templates
  * @see https://www.11ty.dev/docs/filters/#universal-filters
  */
-module.exports = function(eleventyConfig, options) {
+export default function(eleventyConfig, options) {
   /**
    * Quire data filters
    */

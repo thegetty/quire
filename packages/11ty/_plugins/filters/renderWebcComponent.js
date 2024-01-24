@@ -8,7 +8,7 @@ const path = require('path')
  * @param  {Object} attrs     Key-value pairs of component attributes
  * @return {String} html      Webc component markup
  */
-module.exports = async (filePath, attrs) => {
+export default async (filePath, attrs) => {
   const { WebC } = await import('@11ty/webc')
   const page = new WebC()
   const { name: componentName } = path.parse(filePath)

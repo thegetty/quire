@@ -11,7 +11,7 @@ const { oneLine } = require('~lib/common-tags')
  * @param  {Array<String>} classes
  * @return {String}                anchor tag
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   return function (params) {
     const { classes = [], link_relation, media_type, name, url } = params
     const rel = link_relation ? `rel="${link_relation}"` : ''

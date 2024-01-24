@@ -10,7 +10,7 @@ const logger = chalkFactory('Figures:ImageTiler', 'DEBUG')
  *
  * @class  Tiler
  */
-module.exports = class Tiler {
+export default class Tiler {
   /**
    * @param  {Object} iiifConfig 
    */

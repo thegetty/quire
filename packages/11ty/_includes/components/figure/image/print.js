@@ -9,7 +9,7 @@ const path = require('path')
  *
  * @return     {String}  HTML containing an <img> element and a caption
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const figureCaption = eleventyConfig.getFilter('figureCaption')
   const figureLabel = eleventyConfig.getFilter('figureLabel')
 

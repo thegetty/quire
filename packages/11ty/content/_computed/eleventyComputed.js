@@ -6,7 +6,7 @@ const { warn } = chalkFactory('eleventyComputed')
 /**
  * Global computed data
  */
-module.exports = {
+export default {
   canonicalURL: ({ publication, page }) => {
     const pageUrl = page.url.replace(/^\/+/, '')
     return new URL(pageUrl, publication.url).href

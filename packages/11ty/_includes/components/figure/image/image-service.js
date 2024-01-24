@@ -8,7 +8,7 @@ const { html } = require('~lib/common-tags')
  * @property   {String} figure
  * @return     {String}  An <image-service> element
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   return function({
     alt='',
     height='',

@@ -12,7 +12,7 @@ const sortCollection = require('./sort')
  * @param  {Object} options
  * @return {Object} collections
  */
-module.exports = function (eleventyConfig, options = {}) {
+export default function(eleventyConfig, options = {}) {
   let collections = {}
 
   /**

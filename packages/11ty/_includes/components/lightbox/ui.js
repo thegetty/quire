@@ -1,6 +1,6 @@
 const { html } = require('~lib/common-tags')
 
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   return function(figures) {
     const zoomButtons = () => {
       const zoomInAriaLabel = 'Zoom In'

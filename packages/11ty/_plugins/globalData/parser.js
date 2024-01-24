@@ -11,7 +11,7 @@ const logger = chalkFactory('globalData:parser')
  *
  * @return  {Function}  A proxy method to parse an Eleventy data file
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   /**
    * @typedef {Map<String, Object>} dataExtensions
    * Maps an extension string to an extension properties object

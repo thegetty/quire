@@ -2,7 +2,7 @@
  * Export all figure JSON
  */
 
-module.exports = {
+export default {
   annotationsCheckbox: {
     dimensions: { height: 1455, width: 1200 },
     figure: require('./annotations-checkbox/figure.json'),

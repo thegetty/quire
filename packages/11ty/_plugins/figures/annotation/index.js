@@ -24,7 +24,7 @@ const logger = chalkFactory('Figures:Annotation')
  *
  * @return {Annotation}
  */
-module.exports = class Annotation {
+export default class Annotation {
   constructor(figure, data) {
     const { annotationCount, iiifConfig, outputDir, outputFormat, zoom } = figure
     const { baseURI, tilesDirName } = iiifConfig

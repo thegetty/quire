@@ -10,7 +10,7 @@ const path = require('path')
  * @property   {String} src The src path for the image
  * @return     {String}  An <img> element
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const { imageDir } = eleventyConfig.globalData.config.figures
 
   return function ({ alt='', src='', isStatic=false }) {

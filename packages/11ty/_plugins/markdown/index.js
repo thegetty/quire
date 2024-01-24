@@ -20,7 +20,7 @@ const removeMarkdown = require('remove-markdown')
  * @property {boolean} [options.linkify] Autoconvert URL-like text to links
  * @property {boolean} [options.typographer] Enable some language-neutral replacement + quotes beautification
  */
-module.exports = function(eleventyConfig, options) {
+export default function(eleventyConfig, options) {
   /**
    * @see https://github.com/valeriangalliat/markdown-it-anchor#usage
    * To prevent duplicate element IDs from slugified headings, we are only generating anchor links for level 1 headings

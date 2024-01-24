@@ -11,7 +11,7 @@ const outputs = require('./outputs')
  * @param      {Object}  eleventyConfig  Eleventy configuration
  * @param      {Object}  collections  Eleventy collections
  */
-module.exports = function(eleventyConfig, collections) {
+export default function(eleventyConfig, collections) {
   /**
    * Registers a transform to format output using Prettier
    */

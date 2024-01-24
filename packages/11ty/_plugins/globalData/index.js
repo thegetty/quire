@@ -65,7 +65,7 @@ const validatePublication = (publication) => {
  * @property {String} outputDir
  * @property {String} publicDir
  */
-module.exports = function(eleventyConfig, directoryConfig) {
+export default function(eleventyConfig, directoryConfig) {
   const dir = path.resolve(directoryConfig.inputDir, '_data')
   // console.debug(`[plugins:globalData] ${dir}`)
   const files = fs.readdirSync(dir)

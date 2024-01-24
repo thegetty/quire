@@ -8,7 +8,7 @@ const logger = chalkFactory('configuration:bibliography')
  *
  * @param      {Object}  eleventyConfig
  */
-module.exports = function (eleventyConfig, { page }) {
+export default function(eleventyConfig, { page }) {
   const markdownify = eleventyConfig.getFilter('markdownify')
   const slugify = eleventyConfig.getFilter('slugify')
   const sortReferences = eleventyConfig.getFilter('sortReferences')

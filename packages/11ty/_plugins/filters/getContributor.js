@@ -8,7 +8,7 @@ const logger = chalkFactory('filters:getContributor')
  * @param  {Object} contributor
  * @return {Object}                contributor
  */
-module.exports = function (eleventyConfig, item) {
+export default function(eleventyConfig, item) {
   if (!item) return ''
 
   // If contributor object is defined on the page, return it

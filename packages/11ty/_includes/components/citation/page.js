@@ -4,7 +4,7 @@
  *
  * @return {Object} CSL-JSON page
  */
-module.exports = function (eleventyConfig) {
+export default function(eleventyConfig) {
   const citeName = eleventyConfig.getFilter('citeName')
   const citePublicationSeries = eleventyConfig.getFilter('citePublicationSeries')
   const getContributor = eleventyConfig.getFilter('getContributor')

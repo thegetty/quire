@@ -81,7 +81,7 @@ layout: base.liquid
 
 **`layout.11ty.js`**
 ```js
-module.exports = {
+export default {
   data: {
     layout: "base.11ty.js",
   },

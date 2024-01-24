@@ -1,7 +1,7 @@
 const path = require('path')
 const { html } = require('~lib/common-tags')
 
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const { imageDir } = eleventyConfig.globalData.config.figures
 
   return function(license) {

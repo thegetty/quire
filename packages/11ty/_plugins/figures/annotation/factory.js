@@ -3,7 +3,7 @@ const Annotation = require('./index')
 /**
  * The AnnotationFactory creates annotations for a Figure instance
  */
-module.exports = class AnnotationFactory {
+export default class AnnotationFactory {
   /**
    * @param  {Figure} figure
    */

@@ -6,7 +6,7 @@ const { html } = require('~lib/common-tags')
  * @param      {Object}  eleventyConfig
  * @param      {Object}  params
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const menuItem = eleventyConfig.getFilter('menuItem')
 
   const { menuType } = eleventyConfig.globalData.config

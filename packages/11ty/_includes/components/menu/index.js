@@ -10,7 +10,7 @@ const { html } = require('~lib/common-tags')
  * @param      {Object}  eleventyConfig
  * @param      {Object}  params
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const citation = eleventyConfig.getFilter('citation')
   const copyright = eleventyConfig.getFilter('copyright')
   const eleventyNavigation = eleventyConfig.getFilter('eleventyNavigation')

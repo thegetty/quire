@@ -27,7 +27,7 @@ const logger = chalkFactory('Figures:Figure', 'DEBUG')
  * @property {String} manifestId ID of IIIF manifest
  * @property {String} printImage Optional path to an alternate image to use in print
  */
-module.exports = class Figure {
+export default class Figure {
   constructor(iiifConfig, imageProcessor, data) {
     const { baseURI, dirs, manifestFileName } = iiifConfig
     const outputDir = path.join(dirs.outputPath, data.id)

@@ -5,7 +5,7 @@ const outputFilter = require('./output')
  * @param  {Object} page Eleventy `page` object
  * @return {Boolean}
  */
-module.exports = function(page) {
+export default function(page) {
   const { toc, type } = page.data
   return (outputFilter('epub', page) || toc === true) && toc !== false && type !== 'data'
 }

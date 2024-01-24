@@ -31,7 +31,7 @@ The `data` property contains the final data from the [Eleventy data cascade](htt
 ```javascript
 const { html } = require('common-tags')
 
-module.exports = function(eleventyConfig, params) {
+export default function(eleventyConfig, params) {
   const { publication } = params
   const siteTitle = eleventyConfig.getFilter('siteTitle')
 

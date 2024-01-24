@@ -11,7 +11,7 @@ const { html, oneLine } = require('~lib/common-tags')
  *
  * @return {String} TOC item markup
  */
-module.exports = function (eleventyConfig) {
+export default function(eleventyConfig) {
   const contributors = eleventyConfig.getFilter('contributors')
   const getFigure = eleventyConfig.getFilter('getFigure')
   const getObject = eleventyConfig.getFilter('getObject')

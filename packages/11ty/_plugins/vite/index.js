@@ -12,7 +12,7 @@ const EleventyVitePlugin = require('@11ty/eleventy-plugin-vite')
  * @param {Object} eleventyConfig
  * @param {Object} globalData
  */
-module.exports = function (eleventyConfig, { directoryConfig, publication }) {
+export default function(eleventyConfig, { directoryConfig, publication }) {
   const { pathname } = publication
   const { inputDir, outputDir, publicDir } = directoryConfig
 

@@ -7,7 +7,7 @@ const tableOfContentsEpub = require('./table-of-contents-epub')
 const tableOfContentsHtml = require('./table-of-contents-html')
 const tableOfContentsPdf = require('./table-of-contents-pdf')
 
-module.exports = {
+export default {
   epub,
   html,
   menu,

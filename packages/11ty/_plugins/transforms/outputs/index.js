@@ -11,7 +11,7 @@ const renderOutputs = require('./render.js')
  * @param      {Object}  eleventyConfig  Eleventy configuration
  * @param      {Object}  collections  Eleventy collections
  */
-module.exports = function(eleventyConfig, { collections }) {
+export default function(eleventyConfig, { collections }) {
   eleventyConfig.addJavaScriptFunction('renderOutputs', function(...args)  {
     return renderOutputs(eleventyConfig, ...args)
   })

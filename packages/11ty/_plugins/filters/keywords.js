@@ -7,7 +7,7 @@ const logger = chalkFactory('filters:keywords')
  *
  * @return {Array} An array of keyword strings
  */
-module.exports = function(eleventyConfig, { publication }) {
+export default function(eleventyConfig, { publication }) {
   if (!publication.subject) {
     logger.warn(`the 'subject' key is not defined in the 'publication' data file`)
     return ''

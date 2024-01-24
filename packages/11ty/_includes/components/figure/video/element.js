@@ -17,7 +17,7 @@ const logger = chalkFactory('Figure Video')
  *
  * @return     {String}  An HTML <video> element
  */
-module.exports = function (eleventyConfig) {
+export default function(eleventyConfig) {
   const { imageDir } = eleventyConfig.globalData.config.figures
   const figureMediaEmbedUrl = eleventyConfig.getFilter('figureMediaEmbedUrl')
   const videoElements = {

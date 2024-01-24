@@ -9,7 +9,7 @@ const logger = chalkFactory('_plugins:epub:manifest')
  * @param  {Object} publication
  * @return {Object}
  */
-module.exports = (eleventyConfig) => {
+export default (eleventyConfig) => {
   const removeHTML = eleventyConfig.getFilter('removeHTML')
   const sortByKeys = eleventyConfig.getFilter('sortByKeys')
 

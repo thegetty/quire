@@ -10,7 +10,7 @@ const path = require('path')
  *
  * @return     {String}  An embedded SoundCloud player and a caption
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const { imageDir } = eleventyConfig.globalData.config.figures
 
   const figureCaption = eleventyConfig.getFilter('figureCaption')

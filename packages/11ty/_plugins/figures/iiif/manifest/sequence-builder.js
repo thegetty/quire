@@ -1,6 +1,6 @@
 const path = require('path')
 
-module.exports = class SequenceBuilder {
+export default class SequenceBuilder {
   static create(manifestObject, data) {
     const sequenceBuilder = new SequenceBuilder(data)
     return sequenceBuilder.createSequences(manifestObject)

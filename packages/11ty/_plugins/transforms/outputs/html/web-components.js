@@ -8,7 +8,7 @@ const path = require('path')
  * @param      {String}  content
  * @return     {String}  transformed content
  */
-module.exports = function (dom) {
+export default function(dom) {
   const webComponentPath = path.resolve('_includes', 'web-components')
 
   const webComponentModulePaths = fs

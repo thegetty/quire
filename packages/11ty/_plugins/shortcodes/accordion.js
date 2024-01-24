@@ -13,7 +13,7 @@ const logger = chalkFactory('shortcodes: accordion')
  *
  * @return     {String}  An HTML <details> element with <summary> and <section>
  */
-module.exports = function (eleventyConfig, { page }) {
+export default function(eleventyConfig, { page }) {
   const markdownify = eleventyConfig.getFilter('markdownify')
   const slugify = eleventyConfig.getFilter('slugify')
   let { controls, copyButton } = eleventyConfig.globalData.config.accordion

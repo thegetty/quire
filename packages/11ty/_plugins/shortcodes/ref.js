@@ -17,7 +17,7 @@ const path = require('path')
  *
  * @return     {String}  Anchor tag with link text annotation and region data attributes
  */
-module.exports = function (eleventyConfig) {
+export default function(eleventyConfig) {
   const getFigure = eleventyConfig.getFilter('getFigure')
   const markdownify = eleventyConfig.getFilter('markdownify')
 

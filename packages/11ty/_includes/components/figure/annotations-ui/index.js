@@ -8,7 +8,7 @@ const { html } = require('common-tags')
  * @return {String} HTML radio or checkbox input elements
  */
 
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const figureOption = eleventyConfig.getFilter('figureOption')
 
   /**

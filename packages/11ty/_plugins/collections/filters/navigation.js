@@ -5,6 +5,6 @@ const outputFilter = require('./output')
  * @param  {Object} page Eleventy `page` object
  * @return {Boolean}
  */
-module.exports = function(page) {
+export default function(page) {
   return outputFilter('html', page) && page.data.type !== 'data'
 }

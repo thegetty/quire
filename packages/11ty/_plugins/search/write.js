@@ -9,7 +9,7 @@ const logger = chalkFactory('Search Index')
  * @param   {Object}  collections
  * @return     {Object}  Page content index JSON
  */
-module.exports = function(collections) {
+export default function(collections) {
   const wordcount = (content) => {
     if (!content) return 0
     return content.split(' ').length

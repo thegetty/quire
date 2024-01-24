@@ -1,7 +1,7 @@
 const fs = require('fs-extra')
 const path = require('path')
 
-module.exports = class ManifestWriter {
+export default class ManifestWriter {
   constructor(iiifConfig) {
     this.baseURI = iiifConfig.baseURI
     this.outputRoot = iiifConfig.dirs.outputRoot

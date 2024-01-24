@@ -14,7 +14,7 @@ const logger = chalkFactory('Figure Video')
  *
  * @return     {String}  An embedded soundcloud player
  */
-module.exports = function (eleventyConfig) {
+export default function(eleventyConfig) {
   const figureMediaEmbedUrl = eleventyConfig.getFilter('figureMediaEmbedUrl')
   const audioElements = {
     soundcloud({ id, mediaId, mediaType }) {

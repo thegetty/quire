@@ -2,7 +2,7 @@ const { html } = require('common-tags')
 const chalkFactory = require('~lib/chalk')
 const logger = chalkFactory('Figure Annotations UI')
 
-module.exports = function (eleventyConfig) {
+export default function(eleventyConfig) {
   const slugify = eleventyConfig.getFilter('slugify')
 
   const supportedInputTypes = ['checkbox', 'radio']

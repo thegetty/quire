@@ -24,7 +24,7 @@ const yaml = require('js-yaml')
  * @property {String} [encoding='utf8'] - Node readFile encoding, use `null` to
  * create a `Buffer`
  */
-module.exports = function(eleventyConfig, options) {
+export default function(eleventyConfig, options) {
   /**
    * @see https://github.com/MikeKovarik/exifr#usage
    */

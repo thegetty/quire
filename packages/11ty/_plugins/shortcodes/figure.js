@@ -19,7 +19,7 @@ const logger = chalkFactory('shortcodes:figure')
  *
  * @return     {boolean}  An HTML <figure> element
  */
-module.exports = function (eleventyConfig) {
+export default function(eleventyConfig) {
   const figureAudio = eleventyConfig.getFilter('figureAudio')
   const figureImage = eleventyConfig.getFilter('figureImage')
   const figureLabel = eleventyConfig.getFilter('figureLabel')

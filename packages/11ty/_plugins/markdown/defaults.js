@@ -2,7 +2,7 @@
  * markdown-it default options
  * @see {@link https://markdown-it.github.io/markdown-it/#MarkdownIt.new}
  */
-module.exports = {
+export default {
   /**
    * Set to `true` to convert '\n' in paragraphs into <br> tags.
    */

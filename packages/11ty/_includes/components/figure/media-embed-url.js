@@ -2,7 +2,7 @@ const chalkFactory = require('~lib/chalk')
 
 const logger = chalkFactory('Figure Media Embed URL')
 
-module.exports = function (eleventyConfig) {
+export default function(eleventyConfig) {
   const embedUrlByMediaType = {
     soundcloud(mediaId) {
       const baseUrl = 'https://w.soundcloud.com/player/'

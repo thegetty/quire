@@ -8,7 +8,7 @@ const logger = chalkFactory('Figures:ImageTransformer', 'DEBUG')
 /**
  * @param  {Object} iiifConfig Quire IIIF Process config
  */
-module.exports = class Transformer {
+export default class Transformer {
   constructor(iiifConfig) {
     const { dirs, formats } = iiifConfig
     this.formats = formats

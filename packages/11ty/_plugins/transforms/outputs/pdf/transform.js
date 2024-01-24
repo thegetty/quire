@@ -12,7 +12,7 @@ const { JSDOM } = jsdom
  * @param      {String}  content      Output content
  * @return     {Array}   The transformed content string
  */
-module.exports = function(eleventyConfig, collections, content) {
+export default function(eleventyConfig, collections, content) {
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const slugify = eleventyConfig.getFilter('slugify')
 

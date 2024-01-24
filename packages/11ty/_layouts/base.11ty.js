@@ -7,7 +7,7 @@ const { html } = require('~lib/common-tags')
  * @param      {Object}  data    Final data from the Eleventy data cascade
  * @return     {Function}  Template render function
  */
-module.exports = async function(data) {
+export default async function(data) {
   const { classes, collections, content, pageData, publication } = data
   const { inputPath, outputPath, url } = pageData || {}
   const id = this.slugify(url) || path.parse(inputPath).name

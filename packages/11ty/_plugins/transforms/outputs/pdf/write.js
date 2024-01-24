@@ -10,7 +10,7 @@ const sass = require('sass')
  * Output must be written to a directory using Passthrough File Copy
  * @see https://www.11ty.dev/docs/copy/#passthrough-file-copy
  */
-module.exports = (eleventyConfig) => {
+export default (eleventyConfig) => {
   const slugifyIds = eleventyConfig.getFilter('slugifyIds')
   const { input, output } = eleventyConfig.dir
   const { JSDOM } = jsdom

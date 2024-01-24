@@ -3,7 +3,7 @@
  * 
  * @return {String}                citation
  */
-module.exports = function (eleventyConfig) {
+export default function(eleventyConfig) {
   const citePage = eleventyConfig.getFilter('citePage')
   const citePublication = eleventyConfig.getFilter('citePublication')
   const formatCitation = eleventyConfig.getFilter('formatCitation')

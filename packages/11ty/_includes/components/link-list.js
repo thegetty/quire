@@ -9,7 +9,7 @@ const { html } = require('~lib/common-tags')
  * @property  {Array<String>} classes
  * @return    {String}                Unordered list of links
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const link = eleventyConfig.getFilter('link')
 
   return function(params) {

@@ -6,7 +6,7 @@ const path = require('path')
  *
  * @param      {Object}  eleventyConfig
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const contributors = eleventyConfig.getFilter('contributors')
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const slugify = eleventyConfig.getFilter('slugify')

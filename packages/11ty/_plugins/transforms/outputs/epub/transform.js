@@ -9,7 +9,7 @@ const { JSDOM } = jsdom
 /**
  * Content transforms for EPUB output
  */
-module.exports = function(eleventyConfig, collections, content) {
+export default function(eleventyConfig, collections, content) {
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const removeHTML = eleventyConfig.getFilter('removeHTML')
   const slugify = eleventyConfig.getFilter('slugify')

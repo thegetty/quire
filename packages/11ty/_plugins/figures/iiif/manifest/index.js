@@ -16,7 +16,7 @@ const builder = new IIIFBuilder(vault)
 /**
  * Create a IIIF manifest from a Figure instance
  */
-module.exports = class Manifest {
+export default class Manifest {
   constructor(figure) {
     const { iiifConfig } = figure
     const { locale } = iiifConfig

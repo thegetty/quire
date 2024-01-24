@@ -8,7 +8,7 @@ const defaultStyles = {
   mla: require('./styles/mla')
 }
 
-module.exports = function(options={}) {
+export default function(options={}) {
   const locale = require(options.locale || 'locale-en-us')
   const styles = Object.assign(defaultStyles, options.styles)
 

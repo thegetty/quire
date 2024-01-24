@@ -4,7 +4,7 @@ const { html } = require('~lib/common-tags')
  * Publication abstract
  * @param      {Object}  eleventyConfig
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const markdownify = eleventyConfig.getFilter('markdownify')
   return function (params) {
     const { abstract } = params
