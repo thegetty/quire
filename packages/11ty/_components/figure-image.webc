@@ -3,13 +3,13 @@
     Nota bene: `webc:is` does not support dynamic values (see 11ty/webc#143);
     use webc conditional statements and call the `attributes` function multiple times rather than using a fancier pattern of implementation.
   --->
-  <canvas-panel webc:if="isCanvas(id, is_static)" @attributes="attributes(id, image_dir, preset).canvasPanel"></canvas-panel>
-  <image-service webc:elseif="isImageService(id, is_static)" @attributes="attributes(id, image_dir, preset).imageService"></image-service>
-  <image-sequence webc:elseif="isSequence(id, is_static)" @attributes="attributes(id, image_dir, preset).imageSequence"></image-sequence>
-  <image-tag webc:else @attributes="attributes(id, image_dir, preset).imageTag"></image-tag>
+  <canvas-panel webc:if="isCanvas(id, is_static)" @attributes="attributes(id, image_dir, is_static, preset).canvasPanel"></canvas-panel>
+  <image-service webc:elseif="isImageService(id, is_static)" @attributes="attributes(id, image_dir, is_static, preset).imageService"></image-service>
+  <image-sequence webc:elseif="isSequence(id, is_static)" @attributes="attributes(id, image_dir, is_static, preset).imageSequence"></image-sequence>
+  <image-tag webc:else @attributes="attributes(image_dir, is_static, preset).imageTag"></image-tag>
 </template>
 <script webc:setup>
-const attributes = (id, image_dir, preset_override) => {
+const attributes = (id, image_dir, is_static, preset_override) => {
   const {
     alt,
     canvasId,
@@ -55,11 +55,7 @@ const attributes = (id, image_dir, preset_override) => {
     imageTag: {
       alt,
       image_dir,
-      src
-    },
-    staticInlineFigureImage: {
-      alt,
-      src: staticInlineFigureImage
+      src: is_static && !src ? staticInlineFigureImage : src
     }
   }
 }
