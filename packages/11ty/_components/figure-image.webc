@@ -6,7 +6,7 @@
   <canvas-panel webc:if="isCanvas(id, is_static)" @attributes="attributes(id, image_dir, is_static, preset).canvasPanel"></canvas-panel>
   <image-service webc:elseif="isImageService(id, is_static)" @attributes="attributes(id, image_dir, is_static, preset).imageService"></image-service>
   <image-sequence webc:elseif="isSequence(id, is_static)" @attributes="attributes(id, image_dir, is_static, preset).imageSequence"></image-sequence>
-  <image-tag webc:else @attributes="attributes(image_dir, is_static, preset).imageTag"></image-tag>
+  <image-tag webc:else @attributes="attributes(id, image_dir, is_static, preset).imageTag"></image-tag>
 </template>
 <script webc:setup>
 const attributes = (id, image_dir, is_static, preset_override) => {
