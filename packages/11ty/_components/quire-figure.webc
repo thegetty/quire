@@ -1,9 +1,7 @@
 <is-land on:visible>
   <figure :id="slugify(id)" :class="getClasses(classes, id)">
     <template webc:nokeep @html="component(id, image_dir, is_static, preset)"></template>
-    <template webc:nokeep @html="getAnnotations(id)"></template><!--
-    --><template webc:nokeep @html="getCaption(id)"></template><!--
-  --></figure>
+    <template webc:nokeep @html="getAnnotations(id)"></template><template webc:nokeep @html="getCaption(id)"></template></figure>
 </is-land>
 <script webc:setup>
 const component = async (id, imageDir, isStatic, preset) => {
