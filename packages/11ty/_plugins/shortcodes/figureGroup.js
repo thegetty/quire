@@ -33,7 +33,7 @@ module.exports = function (eleventyConfig, { page }) {
     //   logger.warn(`NoMediaType: One of the figures passed to the q-figures shortcode is missing the 'media_type' attribute. Figures in 'figures.yaml' must be have a 'media_type' attribute with a value of either  "vimeo" or "youtube"`)
     // }
 
-    const classes = ['column', 'q-figure--group__item', `quire-grid--${columns}`]
+    const classes = ['column', 'q-figure--group__item']
     const rows = Math.ceil(ids.length / columns)
     let figureTags = []
     for (let i=0; i < rows; ++i) {
@@ -42,7 +42,7 @@ module.exports = function (eleventyConfig, { page }) {
       for (let id of ids.slice(startIndex, columns + startIndex)) {
         row += await figure(eleventyConfig, { page }).bind(this)(id, classes)
       }
-      figureTags.push(`<div class="q-figure--group__row columns">${row}</div>`)
+      figureTags.push(`<div class="q-figure--group__row columns quire-grid--${columns}">${row}</div>`)
     }
 
     return oneLine`
