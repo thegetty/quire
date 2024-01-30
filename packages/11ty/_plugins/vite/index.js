@@ -35,6 +35,7 @@ module.exports = function (eleventyConfig, { directoryConfig, publication }) {
         mode: 'production',
         outDir: outputDir,
         rollupOptions: {
+          external: `${outputDir}/_assets/javascript/is-land.js`,
           output: {
             assetFileNames: ({ name }) => {
               const fullFilePathSegments = name.split('/').slice(0, -1)
