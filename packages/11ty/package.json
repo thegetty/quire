@@ -81,7 +81,7 @@
     "liquid-args": "^1.0.0",
     "liquidjs": "^10.4.0",
     "locale-en-us": "^0.0.2",
-    "loglevel": "^1.8.1",
+    "loglevel": "^1.9.1",
     "markdown-it": "^13.0.1",
     "markdown-it-anchor": "^8.6.6",
     "markdown-it-attrs": "^4.1.6",
