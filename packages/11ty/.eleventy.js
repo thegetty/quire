@@ -1,40 +1,42 @@
-require('module-alias/register')
-
-const copy = require('rollup-plugin-copy')
-const fs = require('fs-extra')
-const packageJSON = require('./package.json');
-const path = require('path')
-const scss = require('rollup-plugin-scss')
-
-const chalkFactory = require('~lib/chalk')
+import copy from 'rollup-plugin-copy'
+import fs from 'fs-extra'
+import packageJSON from './package.json';
+import path from 'path'
+import scss from 'rollup-plugin-scss'
 
 /**
- * Quire features are implemented as Eleventy plugins
+ * Eleventy plugins
  */
-const {
-  EleventyHtmlBasePlugin,
-  EleventyRenderPlugin
-} = require('@11ty/eleventy')
-const { eleventyImagePlugin } = require('@11ty/eleventy-img')
-const citationsPlugin = require('~plugins/citations')
-const collectionsPlugin = require('~plugins/collections')
-const componentsPlugin = require('~plugins/components')
-const dataExtensionsPlugin = require('~plugins/dataExtensions')
-const directoryOutputPlugin = require('@11ty/eleventy-plugin-directory-output')
-const figuresPlugin = require('~plugins/figures')
-const filtersPlugin = require('~plugins/filters')
-const frontmatterPlugin = require('~plugins/frontmatter')
-const globalDataPlugin = require('~plugins/globalData')
-const i18nPlugin = require('~plugins/i18n')
-const lintersPlugin = require('~plugins/linters')
-const markdownPlugin = require('~plugins/markdown')
-const navigationPlugin = require('@11ty/eleventy-navigation')
-const pluginWebc = require('@11ty/eleventy-plugin-webc')
-const searchPlugin = require('~plugins/search')
-const shortcodesPlugin = require('~plugins/shortcodes')
-const syntaxHighlightPlugin = require('@11ty/eleventy-plugin-syntaxhighlight')
-const transformsPlugin = require('~plugins/transforms')
-const vitePlugin = require('~plugins/vite')
+import { EleventyHtmlBasePlugin, EleventyRenderPlugin } from '@11ty/eleventy'
+import { eleventyImagePlugin } from '@11ty/eleventy-img'
+import directoryOutputPlugin from '@11ty/eleventy-plugin-directory-output'
+import navigationPlugin from '@11ty/eleventy-navigation'
+import pluginWebc from '@11ty/eleventy-plugin-webc'
+import syntaxHighlightPlugin from '@11ty/eleventy-plugin-syntaxhighlight'
+
+/**
+ * Quire plugins for Eleventy
+ */
+import citationsPlugin from '#plugins/citations'
+import collectionsPlugin from '#plugins/collections'
+import componentsPlugin from '#plugins/components'
+import dataExtensionsPlugin from '#plugins/dataExtensions'
+import figuresPlugin from '#plugins/figures'
+import filtersPlugin from '#plugins/filters'
+import frontmatterPlugin from '#plugins/frontmatter'
+import globalDataPlugin from '#plugins/globalData'
+import i18nPlugin from '#plugins/i18n'
+import lintersPlugin from '#plugins/linters'
+import markdownPlugin from '#plugins/markdown'
+import searchPlugin from '#plugins/search'
+import shortcodesPlugin from '#plugins/shortcodes'
+import transformsPlugin from '#plugins/transforms'
+import vitePlugin from '#plugins/vite'
+
+/**
+ * Application modules
+ */
+import chalkFactory from '#lib/chalk'
 
 const { error } = chalkFactory('eleventy config')
 
