@@ -15,6 +15,7 @@ const {
   EleventyHtmlBasePlugin,
   EleventyRenderPlugin
 } = require('@11ty/eleventy')
+const { eleventyImagePlugin } = require('@11ty/eleventy-img')
 const citationsPlugin = require('~plugins/citations')
 const collectionsPlugin = require('~plugins/collections')
 const componentsPlugin = require('~plugins/components')
@@ -171,9 +172,31 @@ export default async function(eleventyConfig) {
    * @property {Boolean} useTransform - Use WebC transform to process all HTML output
    */
   eleventyConfig.addPlugin(pluginWebc, {
-    components: '_includes/components/**/*.webc',
+    components: [
+      '_includes/components/**/*.webc',
+      'npm:@11ty/eleventy-img/*.webc',
+    ],
     transformData: {},
     useTransform: false,
+  })
+
+  /**
+   * Configure the Eleventy Image plugin
+   * @see https://www.11ty.dev/docs/plugins/image/
+   */
+  eleventyConfig.addPlugin(eleventyImagePlugin, {
+    defaultAttributes: {
+      decoding: 'async',
+      loading: 'lazy'
+    },
+    filenameFormat:  (id, src, width, format, options) => {
+      const extension = path.extname(src)
+      const name = path.basename(src, extension)
+      return `${name}-${width}w.${format}`
+    },
+    formats: ['jpeg'],
+    outputDir: '.',
+    urlPath: '/img/'
   })
 
   /**

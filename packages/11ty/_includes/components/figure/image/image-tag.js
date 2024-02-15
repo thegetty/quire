@@ -17,7 +17,13 @@ export default function(eleventyConfig) {
     const imageSrc = src.startsWith('http') || isStatic ? src : path.join(imageDir, src)
 
     return html`
-      <img alt="${alt}" class="q-figure__image" src="${imageSrc}" />
+      <img
+        webc:is="eleventy-image"
+        alt="${alt}"
+        class="q-figure__image"
+        src="${imageSrc}"
+        width="[600]"
+      />
     `
   }
 }
