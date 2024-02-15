@@ -6,7 +6,7 @@ import SequenceBuilder from './sequence-builder'
 import titleCase from '#plugins/filters/titleCase'
 import Writer from './writer'
 import { globalVault } from '@iiif/vault'
-import { IIIFBuilder } from 'iiif-builder'
+import { IIIFBuilder } from '@iiif/builder'
 
 const logger = chalkFactory('Figures:IIIF:Manifest', 'DEBUG')
 
