@@ -1,9 +1,7 @@
-import jsdom from 'jsdom'
+import { JSDOM } from 'jsdom'
 import filterOutputs from '../filter.js'
-import truncate from '#lib/truncate'
-import writer from './write'
-
-const { JSDOM } = jsdom
+import truncate from '#lib/truncate/index.js'
+import writer from './write.js'
 
 /**
  * A function to transform and write Eleventy content for pdf

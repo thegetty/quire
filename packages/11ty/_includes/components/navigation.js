@@ -1,5 +1,5 @@
 import truncate from '#lib/truncate'
-import { html } from '#lib/common-tags'
+import { html } from '#lib/common-tags/index.js'
 
 /**
  * This controls the various navigation elements (nav, skip-link, menu and

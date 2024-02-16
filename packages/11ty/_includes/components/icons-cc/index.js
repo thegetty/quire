@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'node:path'
-import { html } from '#lib/common-tags'
+import { html } from '#lib/common-tags/index.js'
 
 /**
  * Creative Commons SVG Icon

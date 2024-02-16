@@ -1,11 +1,11 @@
+import { footnoteRef, footnoteTail } from './footnotes.js'
 import MarkdownIt from 'markdown-it'
 import anchorsPlugin from 'markdown-it-anchor'
 import attributesPlugin from 'markdown-it-attrs'
 import bracketedSpansPlugin from 'markdown-it-bracketed-spans'
-import defaults from './defaults'
+import defaults from './defaults.js'
 import deflistPlugin from 'markdown-it-deflist'
 import footnotePlugin from 'markdown-it-footnote'
-import { footnoteRef, footnoteTail } from './footnotes'
 import removeMarkdown from 'remove-markdown'
 
 /**
@@ -100,7 +100,7 @@ export default function(eleventyConfig, options) {
       refid += ':' + tokens[idx].meta.subId
     }
   
-    return '<sup class="footnote-ref"><a href="#fn' + id + '" id="fnref' + refid + '" class="footnote-ref-anchor">' + caption + '</a></sup>';
+    return '<sup class="footnote-ref"><a href="#fn' + id + '" id="fnref' + refid + '" class="footnote-ref-anchor">' + caption + '</a></sup>'
   }
 
   /** 

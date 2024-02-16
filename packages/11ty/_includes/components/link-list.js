@@ -1,4 +1,4 @@
-import { html } from '#lib/common-tags'
+import { html } from '#lib/common-tags/index.js'
 
 /**
  * Renders a list of links with optional wrapper classes

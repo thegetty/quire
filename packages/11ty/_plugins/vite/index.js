@@ -1,6 +1,6 @@
+import EleventyVitePlugin from '@11ty/eleventy-plugin-vite'
 import copy from 'rollup-plugin-copy'
 import path from 'node:path'
-import EleventyVitePlugin from '@11ty/eleventy-plugin-vite'
 
 /**
  * Use Vite to bundle JavaScript

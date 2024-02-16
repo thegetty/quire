@@ -1,4 +1,4 @@
-import write from './write'
+import write from './write.js'
 /**
  * An Eleventy plugin for full-text search
  *

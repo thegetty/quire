@@ -1,4 +1,4 @@
-import { html } from '#lib/common-tags'
+import { html } from '#lib/common-tags/index.js'
 /**
  * Renders a native or embedded video player with a caption
  *

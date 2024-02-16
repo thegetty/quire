@@ -1,5 +1,4 @@
 import fs from 'fs-extra'
-import jsdom from 'jsdom'
 import path from 'node:path'
 
 /**

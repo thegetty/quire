@@ -1,5 +1,5 @@
-import { html } from '#lib/common-tags'
-import chalkFactory from '#lib/chalk'
+import { html } from '#lib/common-tags/index.js'
+import chalkFactory from '#lib/chalk/index.js'
 import path from 'node:path'
 
 const logger = chalkFactory('Figure Video')

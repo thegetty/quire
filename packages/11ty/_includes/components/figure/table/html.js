@@ -1,4 +1,4 @@
-import { html } from '#lib/common-tags'
+import { html } from '#lib/common-tags/index.js'
 
 /**
  * Renders a table into the document with a captionn

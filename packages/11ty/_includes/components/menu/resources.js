@@ -1,4 +1,4 @@
-import { html } from '#lib/common-tags'
+import { html } from '#lib/common-tags/index.js'
 
 /**
  * Renders the "Other Formats" and "Resources" sections of the menu

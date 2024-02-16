@@ -1,20 +1,18 @@
-import chalkFactory from '#lib/chalk'
+import chalkFactory from '#lib/chalk/index.js'
 import Processor from 'simple-cite'
 
 const logger = chalkFactory('plugins:citations')
 
 const defaultStyles = {
-  chicago: require('./styles/chicago-fullnote-bibliography'),
-  mla: require('./styles/mla')
+  chicago: await import('./styles/chicago-fullnote-bibliography'),
+  mla: await import('./styles/mla')
 }
 
-export default function(options={}) {
-  const locale = require(options.locale || 'locale-en-us')
+export default async function(options={}) {
+  const locale = await import(options.locale || 'locale-en-us')
   const styles = Object.assign(defaultStyles, options.styles)
 
-  return function(item, params) {
-    const { type } = params
-
+  return function(item, { type }) {
     const style = styles[type]
 
     if (!style) {
@@ -22,15 +20,13 @@ export default function(options={}) {
       return
     }
 
-    const processor = new Processor({
-      items: [item],
-      locale,
-      style
-    })
-    processor.cite({ citationItems: [{ id: item.id }] })
-    const citation = processor.bibliography().value
+    const processor = new Processor({ items: [item], locale, style })
+    const citation = processor.cite({ citationItems: [{ id: item.id }] })
+
+    const bibliography = processor.bibliography()
+
     return type === 'mla'
-      ? `${citation.replace(/\s+$/, '')} Accessed <span class="cite-current-date">DD Mon. YYYY</span>.`
-      : citation
+      ? `${bibliography.value.replace(/\s+$/, '')} Accessed <span class="cite-current-date">DD Mon. YYYY</span>.`
+      : bibliography.value
   }
 }

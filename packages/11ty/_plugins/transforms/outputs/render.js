@@ -1,7 +1,6 @@
-import { html } from '#lib/common-tags'
+import { JSDOM } from 'jsdom'
+import { html } from '#lib/common-tags/index.js'
 import fs from 'fs-extra'
-import jsdom from 'jsdom'
-const { JSDOM } = jsdom
 import path from 'node:path'
 
 /**

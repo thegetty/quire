@@ -1,4 +1,4 @@
-import { html, oneLine } from '#lib/common-tags'
+import { html, oneLine } from '#lib/common-tags/index.js'
 
 /**
  * Renders a TOC list item

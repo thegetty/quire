@@ -1,5 +1,5 @@
 import path from 'node:path'
-import { html } from '#lib/common-tags'
+import { html } from '#lib/common-tags/index.js'
 /**
  * Renders a TOC List
  *

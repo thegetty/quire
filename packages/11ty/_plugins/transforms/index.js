@@ -1,9 +1,5 @@
-import chalk from 'chalk'
-import fs from 'fs-extra'
-import path from 'node:path'
-
-import formatOutput from './format'
-import outputs from './outputs'
+import formatOutput from './format/index.js'
+import outputs from './outputs/index.js'
 
 /**
  * An Eleventy plugin to configure output transforms

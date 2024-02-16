@@ -1,8 +1,8 @@
-import addComponentTag from './addComponentTag'
-import shortcodeFactory from './shortcodeFactory'
+import addComponentTag from './addComponentTag.js'
+import shortcodeFactory from './shortcodeFactory.js'
 
 // Shortcode components
-import components from '../../_includes/components'
+import components from '../../_includes/components/index.js'
 
 /**
  * Define components as universal template shortcodes

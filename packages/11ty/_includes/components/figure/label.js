@@ -1,4 +1,4 @@
-import { oneLine } from '#lib/common-tags'
+import { oneLine } from '#lib/common-tags/index.js'
 
 /**
  * A figure label element

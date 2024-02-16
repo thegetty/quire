@@ -1,5 +1,5 @@
+import Annotation from '../annotation/index.js'
 import path from 'node:path'
-import Annotation from '../annotation'
 
 /**
  * @typedef {Object} Sequence

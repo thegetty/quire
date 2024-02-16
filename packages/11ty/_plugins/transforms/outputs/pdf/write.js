@@ -1,4 +1,4 @@
-import chalkFactory from '#lib/chalk'
+import chalkFactory from '#lib/chalk/index.js'
 import fs from 'fs-extra'
 import jsdom from 'jsdom'
 import path from 'node:path'
@@ -60,7 +60,7 @@ export default (eleventyConfig) => {
     })
 
     document.querySelectorAll('[style*="background-image"]').forEach((element) => {
-      const backgroundImageUrl = element.style.backgroundImage.match(/[\(](.*)[\)]/)[1] || ''
+      const backgroundImageUrl = element.style.backgroundImage.match(/[(](.*)[)]/)[1] || ''
       element.style.backgroundImage = `url('${trimLeadingSlash(backgroundImageUrl)}')`
     })
 

@@ -1,8 +1,8 @@
-import chalkFactory from '#lib/chalk'
+import Tiler from './tiler.js'
+import Transformer from './transformer.js'
+import chalkFactory from '#lib/chalk/index.js'
 import fs from 'fs-extra'
 import path from 'node:path'
-import Tiler from './tiler'
-import Transformer from './transformer'
 
 const logger = chalkFactory('Figures:ImageProcessor', 'DEBUG')
 

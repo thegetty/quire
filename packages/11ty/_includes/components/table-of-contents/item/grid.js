@@ -1,5 +1,5 @@
 const path = require ('path')
-import { html, oneLine } from '#lib/common-tags'
+import { html, oneLine } from '#lib/common-tags/index.js'
 
 /**
  * Renders a TOC item

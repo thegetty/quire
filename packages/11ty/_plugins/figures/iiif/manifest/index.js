@@ -1,12 +1,12 @@
-import CanvasBuilder from './canvas-builder'
-import chalkFactory from '#lib/chalk'
+import { IIIFBuilder } from '@iiif/builder'
+import { globalVault } from '@iiif/vault'
+import CanvasBuilder from './canvas-builder.js'
+import SequenceBuilder from './sequence-builder.js'
+import Writer from './writer.js'
+import chalkFactory from '#lib/chalk/index.js'
 import fs from 'fs-extra'
 import path from 'node:path'
-import SequenceBuilder from './sequence-builder'
-import titleCase from '#plugins/filters/titleCase'
-import Writer from './writer'
-import { globalVault } from '@iiif/vault'
-import { IIIFBuilder } from '@iiif/builder'
+import titleCase from '#plugins/filters/titleCase.js'
 
 const logger = chalkFactory('Figures:IIIF:Manifest', 'DEBUG')
 

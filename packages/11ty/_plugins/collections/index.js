@@ -1,5 +1,5 @@
-import filters from './filters'
-import sortCollection from './sort'
+import filters from './filters/index.js'
+import sortCollection from './sort/index.js'
 
 /**
  * Add Collections and Apply Transforms

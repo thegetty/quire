@@ -1,10 +1,10 @@
-import path from 'node:path'
-import jsdom from 'jsdom'
-const { JSDOM } = jsdom
-import epub from './epub'
+import { JSDOM } from 'jsdom'
+import epub from './epub/index.js'
 import html from './html/transform.js'
+import path from 'node:path'
 import pdf from './pdf/transform.js'
 import renderOutputs from './render.js'
+
 /**
  * Eleventy plugin to transform content for output as epub, html, pdf
  *

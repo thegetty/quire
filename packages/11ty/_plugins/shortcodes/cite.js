@@ -1,5 +1,5 @@
-import chalkFactory from '#lib/chalk'
-import { renderOneLine, stripIndent } from '#lib/common-tags'
+import chalkFactory from '#lib/chalk/index.js'
+import { renderOneLine, stripIndent } from '#lib/common-tags/index.js'
 
 const logger = chalkFactory('shortcodes:cite')
 

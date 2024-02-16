@@ -1,4 +1,4 @@
-import Annotation from './index'
+import Annotation from './index.js'
 
 /**
  * The AnnotationFactory creates annotations for a Figure instance

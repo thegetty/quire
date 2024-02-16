@@ -1,5 +1,5 @@
 import path from 'node:path'
-import { html } from '#lib/common-tags'
+import { html } from '#lib/common-tags/index.js'
 
 export default function(eleventyConfig) {
   const { imageDir } = eleventyConfig.globalData.config.figures

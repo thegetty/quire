@@ -1,4 +1,4 @@
-import outputFilter from './output'
+import outputFilter from './output.js'
 
 /**
  * Returns `true` if page should be included in the PDF build of the Table of Contents

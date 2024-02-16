@@ -1,26 +1,19 @@
-// Quire data filters
-import fullname from './fullname'
-import getAnnotation from './getAnnotation'
-import getContributor from './getContributor'
-import getFigure from './getFigure'
-import getObject from './getObject'
-import initials from './initials'
-import keywords from './keywords'
-import sortContributors from './sortContributors'
-import sortReferences from './sortReferences'
-
-// string filters
-import capitalize from './capitalize'
-import json from './json'
-import removeHTML from './removeHTML'
-import slugifyIds from './slugifyIds'
-import titleCase from './titleCase'
-
-// utility filters
-import sortByKeys from './sortByKeys'
-
-// Web component rendering
-import renderWebcComponent from './renderWebcComponent'
+import capitalize from './capitalize.js'
+import fullname from './fullname.js'
+import getAnnotation from './getAnnotation.js'
+import getContributor from './getContributor.js'
+import getFigure from './getFigure.js'
+import getObject from './getObject.js'
+import initials from './initials.js'
+import json from './json.js'
+import keywords from './keywords.js'
+import removeHTML from './removeHTML.js'
+import renderWebcComponent from './renderWebcComponent.js'
+import slugifyIds from './slugifyIds.js'
+import sortByKeys from './sortByKeys.js'
+import sortContributors from './sortContributors.js'
+import sortReferences from './sortReferences.js'
+import titleCase from './titleCase.js'
 
 /**
  * Add universal filters for use in templates

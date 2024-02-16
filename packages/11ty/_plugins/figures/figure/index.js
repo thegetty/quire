@@ -1,15 +1,11 @@
-import chalkFactory from '#lib/chalk'
-import Annotation from '../annotation'
-import AnnotationFactory from '../annotation/factory'
-import Manifest from '../iiif/manifest'
+import { isCanvas, isImageService, isSequence } from '../helpers/index.js'
+import Annotation from '../annotation/index.js'
+import AnnotationFactory from '../annotation/factory.js'
+import Manifest from '../iiif/manifest/index.js'
+import SequenceFactory from '../sequence/factory.js'
+import chalkFactory from '#lib/chalk/index.js'
 import path from 'node:path'
-import SequenceFactory from '../sequence/factory'
 import sharp from 'sharp'
-const {
-  isCanvas,
-  isImageService,
-  isSequence
-} = require('../helpers')
 
 const logger = chalkFactory('Figures:Figure', 'DEBUG')
 

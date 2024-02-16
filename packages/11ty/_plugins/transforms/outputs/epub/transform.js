@@ -1,10 +1,8 @@
+import { JSDOM } from 'jsdom'
 import filterOutputs from '../filter.js'
-import jsdom from 'jsdom'
-import layout from './layout'
+import layout from './layout.js'
 import path from 'node:path'
-import writer from './writer'
-
-const { JSDOM } = jsdom
+import writer from './writer.js'
 
 /**
  * Content transforms for EPUB output
@@ -145,14 +143,13 @@ export default function(eleventyConfig, collections, content) {
 
     function relativeUrl (path) {
       const base = eleventyConfig.baseURL || 'http://localhost'
-      let url;
+      let url
       try {
         url = new URL(path)
       } catch (TypeError) {
         url = new URL(path, base)
-      } finally {
-        return url
       }
+      return url
     }
     const { hash, pathname } = relativeUrl(href)
 

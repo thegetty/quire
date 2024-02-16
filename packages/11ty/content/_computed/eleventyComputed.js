@@ -1,4 +1,4 @@
-import chalkFactory from '#lib/chalk'
+import chalkFactory from '#lib/chalk/index.js'
 import path from 'node:path'
 
 const { warn } = chalkFactory('eleventyComputed')

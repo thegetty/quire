@@ -1,7 +1,7 @@
-import chalkFactory from '#lib/chalk'
+import chalkFactory from '#lib/chalk/index.js'
 import mime from 'mime-types'
 import path from 'node:path'
-import titleCase from '#plugins/filters/titleCase'
+import titleCase from '#plugins/filters/titleCase.js'
 
 const logger = chalkFactory('Figures:Annotation')
 

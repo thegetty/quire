@@ -1,7 +1,7 @@
-import chalkFactory from '#lib/chalk'
+import chalkFactory from '#lib/chalk/index.js'
 import fs from 'fs-extra'
 import path from 'node:path'
-import parser from './parser'
+import parser from './parser.js'
 
 const logger = chalkFactory('[plugins:globalData]')
 
@@ -39,8 +39,8 @@ const checkForDuplicateIds = function (data, filename) {
  * @todo replace with ajv schema validation
  */
 const validatePublication = (publication) => {
+  const { url } = publication
   try {
-    const { url } = publication
     publication.url = url.endsWith('/') ? url : url + '/'
     publication.pathname = new URL(publication.url).pathname
   } catch (errorMessage) {

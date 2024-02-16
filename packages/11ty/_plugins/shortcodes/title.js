@@ -1,4 +1,4 @@
-import { oneLine } from '#lib/common-tags'
+import { oneLine } from '#lib/common-tags/index.js'
 
 /**
  * A shortcode for the Quire project or publication title,

@@ -1,5 +1,5 @@
-import Figure from './index'
-import ImageProcessor from '../image/processor'
+import Figure from './index.js'
+import ImageProcessor from '../image/processor.js'
 import path from 'node:path'
 
 /**

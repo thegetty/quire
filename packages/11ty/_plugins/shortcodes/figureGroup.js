@@ -1,6 +1,6 @@
-import { oneLine } from '#lib/common-tags'
-import chalkFactory from '#lib/chalk'
-import figure from './figure'
+import { oneLine } from '#lib/common-tags/index.js'
+import chalkFactory from '#lib/chalk/index.js'
+import figure from './figure.js'
 
 const logger = chalkFactory('shortcodes:figureGroup')
 

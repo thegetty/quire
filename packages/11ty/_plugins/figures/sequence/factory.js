@@ -1,6 +1,6 @@
-import fs from 'fs'
+import Sequence from './index.js'
+import fs from 'fs-extra'
 import path from 'node:path'
-import Sequence from './index'
 
 /**
  * The SequenceFactory creates sequences for a Figure instance

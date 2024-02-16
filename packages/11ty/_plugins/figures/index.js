@@ -1,6 +1,6 @@
-import chalkFactory from '#lib/chalk'
-import FigureFactory from './figure/factory'
-import iiifConfig from './iiif/config'
+import FigureFactory from './figure/factory.js'
+import chalkFactory from '#lib/chalk/index.js'
+import iiifConfig from './iiif/config.js'
 
 const logger = chalkFactory('Figures', 'DEBUG')
 

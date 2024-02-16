@@ -1,7 +1,7 @@
 import copy from 'rollup-plugin-copy'
 import fs from 'fs-extra'
-import packageJSON from './package.json';
-import path from 'path'
+import packageJSON from './package.json' assert { type: 'json' };
+import path from 'node:path'
 import scss from 'rollup-plugin-scss'
 
 /**
@@ -16,27 +16,37 @@ import syntaxHighlightPlugin from '@11ty/eleventy-plugin-syntaxhighlight'
 
 /**
  * Quire plugins for Eleventy
+ * dynamic import of the default export from local plugins modules
  */
-import citationsPlugin from '#plugins/citations'
-import collectionsPlugin from '#plugins/collections'
-import componentsPlugin from '#plugins/components'
-import dataExtensionsPlugin from '#plugins/dataExtensions'
-import figuresPlugin from '#plugins/figures'
-import filtersPlugin from '#plugins/filters'
-import frontmatterPlugin from '#plugins/frontmatter'
-import globalDataPlugin from '#plugins/globalData'
-import i18nPlugin from '#plugins/i18n'
-import lintersPlugin from '#plugins/linters'
-import markdownPlugin from '#plugins/markdown'
-import searchPlugin from '#plugins/search'
-import shortcodesPlugin from '#plugins/shortcodes'
-import transformsPlugin from '#plugins/transforms'
-import vitePlugin from '#plugins/vite'
+// const plugins =
+//   fs.readdir('_plugins', { withFileTypes: true }, (error, entries) => {
+//     entries.forEach((entry) => {
+//       if (entry.isDirectory()) {
+//         const { default: plugin } = await import(`./plugins/${entry.name}`)
+//         eleventyConfig.addPlugin(plugin, collections)
+//       }
+//     })
+//   })
+import citationsPlugin from '#plugins/citations/index.js'
+import collectionsPlugin from '#plugins/collections/index.js'
+import componentsPlugin from '#plugins/components/index.js'
+import dataExtensionsPlugin from '#plugins/dataExtensions/index.js'
+import figuresPlugin from '#plugins/figures/index.js'
+import filtersPlugin from '#plugins/filters/index.js'
+import frontmatterPlugin from '#plugins/frontmatter/index.js'
+import globalDataPlugin from '#plugins/globalData/index.js'
+import i18nPlugin from '#plugins/i18n/index.js'
+import lintersPlugin from '#plugins/linters/index.js'
+import markdownPlugin from '#plugins/markdown/index.js'
+import searchPlugin from '#plugins/search/index.js'
+import shortcodesPlugin from '#plugins/shortcodes/index.js'
+import transformsPlugin from '#plugins/transforms/index.js'
+import vitePlugin from '#plugins/vite/index.js'
 
 /**
  * Application modules
  */
-import chalkFactory from '#lib/chalk'
+import chalkFactory from '#lib/chalk/index.js'
 
 const { error } = chalkFactory('eleventy config')
 

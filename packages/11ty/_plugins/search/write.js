@@ -1,4 +1,4 @@
-import chalkFactory from '#lib/chalk'
+import chalkFactory from '#lib/chalk/index.js'
 import fs from 'fs-extra'
 import path from 'node:path'
 const logger = chalkFactory('Search Index')
