@@ -2,7 +2,7 @@
   "env": {
     "browser": true,
     "es2021": true,
-    "node": true,
+    "node": true
   },
   "extends": "eslint:recommended",
   "ignorePatterns": [ "**/*.min.js" ],
@@ -23,12 +23,12 @@
     "sort-imports": [
       "warn",
       {
-        "allowSeparatedGroups": false,
-        "ignoreCase": false,
+        "allowSeparatedGroups": true,
+        "ignoreCase": true,
         "ignoreDeclarationSort": false,
-        "ignoreMemberSort": false,
-        "memberSyntaxSortOrder": ["none", "all", "multiple", "single"],
+        "ignoreMemberSort": true,
+        "memberSyntaxSortOrder": ["none", "all", "multiple", "single"]
       }
-    ],
+    ]
   }
 }
