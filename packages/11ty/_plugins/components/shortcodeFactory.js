@@ -30,7 +30,7 @@ module.exports = function(eleventyConfig, collections) {
      * @param  {String}  tagName          A template tag name for the component
      * @param  {String}  webcElementName  A webc component tag name
      */
-    addWebcShortcode: function(tagName, componentName, attributeNames) {
+    addWebcShortcode: function(tagName, componentName, attributeNames=[]) {
       eleventyConfig.addShortcode(tagName, async function(...args) {
         const renderTemplate = eleventyConfig.getFilter('renderTemplate')
         const renderedAttributes = attributeNames.map((name, index) => `${name}="${args[index]}"`).join(' ')
