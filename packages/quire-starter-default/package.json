@@ -1,0 +1,21 @@
+{
+  "name": "@thegetty/quire-starter-default",
+  "version": "2.9.0",
+  "description": "Quire's default project template",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thegetty/quire-starter-default.git"
+  },
+  "keywords": [
+    "11ty",
+    "quire"
+  ],
+  "license": "SEE LICENSE IN https://github.com/thegetty/quire-starter-default/blob/main/LICENSE",
+  "bugs": {
+    "url": "https://github.com/thegetty/quire-starter-default/issues"
+  },
+  "homepage": "https://quire.getty.edu/",
+  "peerDependencies": {
+    "@thegetty/quire-11ty": "latest"
+  }
+}

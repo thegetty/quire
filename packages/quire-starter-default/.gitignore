@@ -1,0 +1,45 @@
+# Eleventy build artifacts
+_epub/
+_pdf/
+_site/
+_temp/
+
+# EleventFetch cache directory
+.cache
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# ESLint cache directory
+.eslintcache
+
+# Dependency directories
+node_modules/
+
+# Local Netlify folder
+.netlify
+
+# log files
+logs
+*.log
+lerna-debug.log*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# npm cache directory
+.npm
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# System files
+.DS_Store
+desktop.ini
+thumbs.db
+

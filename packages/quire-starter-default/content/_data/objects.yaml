@@ -1,0 +1,32 @@
+object_display_order:
+  - artist
+  - year
+  - dimensions
+  - medium
+  - location
+
+object_list:
+
+  - id: 1
+    title: Human Erosion in California / Migrant Mother
+    artist: Dorothea Lange
+    year: 1936
+    medium: Gelatin silver print
+    dimensions: 34.1 cm × 26.8 cm (13 <sup>7</sup>⁄<sub>16</sub> in × 10 <sup>9</sup>⁄<sub>16</sub> in.)
+    location: J. Paul Getty Museum
+    link:  https://www.getty.edu/art/collection/object/108E2E
+    figure:
+      - id: "cat-1"
+
+  - id: 2
+    title: Bud Fields and His Wife Ivy, and His Daughter Ellen, Hale County, Alabama
+    artist: Walker Evans
+    year: 1936
+    medium: Gelatin silver print
+    dimensions: 19.4 x 24.4 (7 <sup>5</sup>⁄<sub>8</sub> x 9 <sup>5</sup>⁄<sub>8</sub> in.)
+    location: J. Paul Getty Museum
+    link: https://www.getty.edu/art/collection/object/104A2K
+    figure:
+      - id: "cat-2"
+      - id: "cat-2-b"
+      - id: "cat-2-c"

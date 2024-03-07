@@ -1,0 +1,372 @@
+// =============================================================================
+// Utilities.scss
+// -----------------------------------------------------------------------------
+// scss-lint:disable NameFormat
+// Mixins
+// -----------------------------------------------------------------------------
+// Adjust foreground colors based on an element's background
+@mixin animation($animationProperties) {
+  @media screen {
+    /* Safari, Chrome and Opera > 12.1 */
+    -webkit-animation: $animationProperties;
+    /* Firefox < 16 */
+    -moz-animation: $animationProperties;
+    /* Internet Explorer */
+    -ms-animation: $animationProperties;
+    /* Opera < 12.1 */
+    -o-animation: $animationProperties;
+    animation: $animationProperties;
+  }
+}
+
+@mixin foreground-color($bgcolor, $frcolor) {
+  * {
+    color: $frcolor;
+  }
+  svg {
+    fill: $frcolor;
+    &:hover {
+      fill: $frcolor;
+      background-color: transparent;
+    }
+  }
+  a,
+  button,
+  .button {
+    background-color: $bgcolor;
+    color: $frcolor !important;
+    &:hover,
+    &:focus {
+      // background-color: darken($bgcolor, 5%);
+      // color: $frcolor;
+    }
+  }
+  a {
+    border-bottom-color: $frcolor !important;
+  }
+}
+
+// Adjust text color based background
+@function background-color-text($color) {
+  @if (lightness($color) > 50) {
+    @return $off-black; // lighter background, return dark color
+  } @else {
+    @return $white; // darker background, return light color
+  }
+}
+
+// Adjust text color based background
+@function background-color-text-classic($color) {
+  @if (lightness($color) > 50) {
+    @if $theme == classic {
+      @return $black;
+    } @else {
+      @return $off-black; // lighter background, return dark color
+    }
+  } @else {
+    @return $white; // darker background, return light color
+  }
+}
+
+// Adjust button color based background
+@function button-color($color) {
+  @if $theme == classic {
+    @if (lightness($color) > 50) {
+      @return $off-black;
+    } @else {
+      @return $white;
+    }
+  } @else {
+    @return $accent-color;
+  }
+}
+
+// Adjust link hover color based on background color
+@function link-hover-color($color) {
+  @if $theme == classic {
+    @return $accent-color;
+  } @else {
+    @if (lightness($color) > 50) {
+      @return darken($accent-color, 15%);
+    } @else {
+      @return lighten($accent-color, 15%);
+    }
+  }
+}
+
+// Adjust background color
+@function background-color($color) {
+  @if (lightness($color) > 50) {
+    @return darken($color, 10%); // lighter background, return dark color
+  } @else {
+    @return lighten($color, 10%); // darker background, return light color
+  }
+}
+
+// General Bulma Overrides
+// -----------------------------------------------------------------------------
+.hero-body .container.is-fluid {
+  display: inline-block;
+  max-width: none;
+  background: $off-black-semi-transparent;
+  padding: 20px;
+  position: absolute;
+  bottom: 10%;
+  margin-left: 0;
+  left: 0;
+}
+
+.hero-body,
+.section,
+.footer {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+// Utility Classes
+// -----------------------------------------------------------------------------
+sup,
+sub {
+  line-height: 0;
+}
+
+// Visually Hidden utility class
+.visually-hidden {
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  width: 1px;
+}
+
+.is-print-only {
+  @media screen {
+    display: none;
+  }
+}
+
+.is-screen-only {
+  @media print {
+    display: none;
+  }
+}
+
+.is-pulled-right {
+  float: right;
+}
+
+.is-pulled-left {
+  float: left;
+}
+
+.overflow-container {
+  overflow: scroll;
+  box-sizing: border-box;
+}
+
+.quire-error {
+  text-align: left;
+  p {
+    font-family: sans-serif;
+    margin-bottom: 1em;
+  }
+  pre {
+    margin-top: 1em;
+  }
+}
+// @keyframes
+//-------------------------------------------------------
+// fadein
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+/* Firefox < 16 */
+@-moz-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+/* Internet Explorer */
+@-ms-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+/* Opera < 12.1 */
+@-o-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// fadeOut
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+/* Firefox < 16 */
+@-moz-keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+/* Internet Explorer */
+@-ms-keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+/* Opera < 12.1 */
+@-o-keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+// slideFromRight
+@keyframes slideFromRight {
+  from {
+    right: -100em;
+  }
+  to {
+    right: 0;
+  }
+}
+/* Firefox < 16 */
+@-moz-keyframes slideFromRight {
+  from {
+    right: -100em;
+  }
+  to {
+    right: 0;
+  }
+}
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes slideFromRight {
+  from {
+    right: -100em;
+  }
+  to {
+    right: 0;
+  }
+}
+/* Internet Explorer */
+@-ms-keyframes slideFromRight {
+  from {
+    right: -100em;
+  }
+  to {
+    right: 0;
+  }
+}
+/* Opera < 12.1 */
+@-o-keyframes slideFromRight {
+  from {
+    right: -100em;
+  }
+  to {
+    right: 0;
+  }
+}
+
+// slideFromRight
+@keyframes slideFromLeft {
+  from {
+    left: -100em;
+  }
+  to {
+    left: 0;
+  }
+}
+/* Firefox < 16 */
+@-moz-keyframes slideFromLeft {
+  from {
+    left: -100em;
+  }
+  to {
+    left: 0;
+  }
+}
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes slideFromLeft {
+  from {
+    left: -100em;
+  }
+  to {
+    left: 0;
+  }
+}
+/* Internet Explorer */
+@-ms-keyframes slideFromLeft {
+  from {
+    left: -100em;
+  }
+  to {
+    left: 0;
+  }
+}
+/* Opera < 12.1 */
+@-o-keyframes slideFromLeft {
+  from {
+    left: -100em;
+  }
+  to {
+    left: 0;
+  }
+}
+
+// Required by HTML Template Polyfill for older IE compatibility
+// -----------------------------------------------------------------------------
+// scss-lint:disable ImportantRule
+template {
+  display: none !important;
+}
+
+html {
+  overflow-y: auto;
+}

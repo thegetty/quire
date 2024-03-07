@@ -1,0 +1,116 @@
+figure_list:
+
+  - id: "lange"
+    src: figures/lange.jpg
+    caption: "*Dorothea Lange, Resettlement Administration photographer, in California*, 1936."
+    credit: "Library of Congress Prints and Photographs Division"
+
+  - id: "evans"
+    src: figures/evans.jpg
+    caption: "*Walker Evans, profile, hand up to face*, 1937."
+    credit: "Library of Congress Prints and Photographs Division"
+
+  - id: "fig-1"
+    label: "Figure 1"
+    src: figures/evans-legionnaire.jpg
+    caption: "Walker Evans. *[American Legionnaire]*, 1935."
+    credit: "The J. Paul Getty Museum, Los Angeles"
+
+  - id: "fig-2"
+    label: "Figure 2"
+    src: figures/evans-sons.jpg
+    caption: "Walker Evans. *Sons of the American Legion, Bethlehem, Pennsylvania*, 1935."
+    credit: "The J. Paul Getty Museum, Los Angeles"
+
+  - id: "fig-3"
+    label: "Figure 3"
+    src: figures/evans-graveyard.jpg
+    caption: "Walker Evans. *Graveyard, Houses and Steel Mill, Bethlehem, Pennsylvania*, 1935; printed later."
+    credit: "The J. Paul Getty Museum, Los Angeles"
+
+  - id: "fig-4"
+    label: "Figure 4"
+    src: figures/evans-hymns.jpg
+    caption: "Walker Evans. *Alabama Tenant Farmer Family Singing Hymns / The Tengle Family, Hale County, Alabama*, 1936."
+    credit: "The J. Paul Getty Museum, Los Angeles"
+
+  - id: "fig-5"
+    label: "Figure 5"
+    src: figures/evans-burroughs.jpg
+    caption: "Walker Evans. *Floyd and Lucille Burroughs, Hale County, Alabama*, 1936."
+    credit: "The J. Paul Getty Museum, Los Angeles"
+
+  - id: "lange-house"
+    src: figures/lange-house.jpg
+    caption: "Dorothea Lange. *Abandoned Dust Bowl Home*, about 1935–1940."
+    credit: The J. Paul Getty Museum, Los Angeles
+
+  - id: "vid-1"
+    poster: figures/evans-video-still.jpg
+    media_id: BpGN0UUtqqU
+    media_type: youtube
+    label: "Video 1"
+    caption: "A selection of Walker Evans photos from the across the United States of America, 1930s."
+    credit: The J. Paul Getty Museum, Los Angeles
+
+  - id: "table-1"
+    src: "tables/evans-works.html"
+    media_type: table
+
+  - id: "audio-1"
+    media_id: 336879231
+    media_type: soundcloud
+    label: "Audio 1"
+    caption: "Echoing the work of Lange and Evans, contemporary photographer Chris Killip documents social landscapes and is known for a series of powerful images of struggling industrial communities in North East England."
+    credit: "© J. Paul Getty Trust"
+
+  - id: "cat-1"
+    src: figures/lange-mother-a.jpg
+    caption: "Dorothea Lange, *Human Erosion in California / Migrant Mother*, 1936."
+    credit: The J. Paul Getty Museum, Los Angeles
+    download: true
+    zoom: true
+
+  - id: "mother-variants"
+    label: "Figure 1.1"
+    caption: "Alternate versions of Dorothea Lange’s *Migrant Mother*, 1936."
+    credit: "Library of Congress Prints and Photographs Division"
+    annotations:
+      - input: radio
+        items:
+        - src: figures/lange-mother-b.jpg
+          label: "Variant #1"
+        - src: figures/lange-mother-c.jpg
+          label: "Variant #2"
+
+  - id: "mother-annotations"
+    src: "figures/lange-layers/base.jpg"
+    zoom: true
+    label: "Figure 1.2"
+    caption: "This version of the print from the Library of Congress Prints and Photographs Division is mounted on paper board and includes an original FSA label. Note too the thumb seen in the lower right corner. It is also visible in the Getty‘s print, but Lange’s negative was later retouched to remove the thumb and in later prints, it is only a ghostly shadow."
+    annotations:
+      - input: checkbox
+        items:
+          - src: "figures/lange-layers/original-label.png"
+            selected: true
+          - src: "figures/lange-layers/additional-label.png"
+          - src: "figures/lange-layers/scratches.png"
+          - src: "figures/lange-layers/thumb.png"
+            selected: true
+
+  - id: "cat-2"
+    src: figures/evans-fields-family-a.jpg
+    caption: "Walker Evans, *Bud Fields with His Wife Ivy, and His Daughter Ellen, Hale County, Alabama*, 1936."
+    credit: The J. Paul Getty Museum, Los Angeles
+    download: true
+    zoom: true
+
+  - id: "cat-2-b"
+    src: figures/evans-fields-family-b.jpg
+    caption: "Walker Evans, *Sharecropper's Family, Hale County, Alabama / Bud Fields and His Family, Hale County, Alabama / Bud Woods and His Family*, 1936."
+    credit: The J. Paul Getty Museum, Los Angeles
+
+  - id: "cat-2-c"
+    src: figures/evans-bud-fields.jpg
+    caption: "Walker Evans, * [William Edward (Bud) Fields, A Cotton Sharecropper, Hale County, Alabama]/[Bud Woods, Tenant Farmer]*, 1936."
+    credit: The J. Paul Getty Museum, Los Angeles

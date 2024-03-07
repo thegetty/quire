@@ -1,0 +1,79 @@
+// =============================================================================
+// Quire-citation.scss
+// -----------------------------------------------------------------------------
+
+// .quire-citation
+// -----------------------------------------------------------------------------
+.quire-citation {
+  position: relative;
+  text-indent: 0;
+  .quire-page__content .content blockquote & { font-style: normal; }
+  .quire-page__content .content blockquote & em { font-style: italic; }
+  &__button {
+    border: none;
+    padding: 0;
+    font-size: 1em;
+    background-color: inherit;
+    font-family: inherit;
+    font-style: normal;
+    color: inherit;
+    cursor: pointer;
+    @if $theme == classic {
+      border-bottom: 1px dotted background-color-text-classic($content-background-color);
+    } @else {
+      border-bottom: 1px dotted $accent-color;
+    }
+    @media print { border-bottom-width: 0; }
+    &:hover {
+      color: link-hover-color($content-background-color) !important;
+      border-bottom: 1px solid link-hover-color($content-background-color);
+    }
+    &:hover {
+      color: link-hover-color($content-background-color) !important;
+      border-bottom: 1px solid link-hover-color($content-background-color);
+    }
+    &--icon {
+      border-bottom-width: 0;
+      margin-left: 2px;
+      svg {
+        @if $theme == classic {
+          fill: $black;
+        } @else {
+          fill: $accent-color;
+        }
+        width: 1em;
+        height: 1em;
+        pointer-events: none;
+      }
+      &:hover {
+        border-bottom-width: 0;
+      }
+    }
+    em, strong {
+      pointer-events: none;
+    }
+  }
+  .quire-citation__content {
+    font-size: 0.875em;
+    font-style: normal;
+    line-height: 1.5;
+    background-color: $white;
+    color: $off-black;
+    padding: 1rem;
+    position: absolute;
+    width: 400px;
+    z-index: 1;
+    bottom: 150%;
+    left: 50%;
+    transform: translateX(-200px);
+    -webkit-box-shadow: 0px 0px 6px 0px $black-semi-transparent;
+    -moz-box-shadow: 0px 0px 6px 0px $black-semi-transparent;
+    box-shadow: 0px 0px 6px 0px $black-semi-transparent;
+    @include animation(.25s ease-out 0s 1 fadeIn);
+    @media screen and (max-width: $desktop) {
+      width: 200px;
+      right: 0;
+      transform: translateX(-100px);
+    }
+  }
+}

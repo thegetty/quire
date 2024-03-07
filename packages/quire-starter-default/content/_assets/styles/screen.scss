@@ -1,0 +1,12 @@
+// =============================================================================
+// Screen.scss
+// -----------------------------------------------------------------------------
+// Component print styles should be defined inside media queries at the
+// component level. This stylesheet is for overrides and other special-case
+// rules which don't properly fit anywhere else and only show up in the site output.
+// -----------------------------------------------------------------------------
+
+// Fixed position must be excluded from print output since it cannot be overriden with specificity in pagedjs
+.side-by-side .quire-entry__content {
+  position: fixed;
+}

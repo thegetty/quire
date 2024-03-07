@@ -1,0 +1,652 @@
+@use "sass:math";
+@import "colors";
+@import "variables";
+
+// =============================================================================
+// Print.scss
+// -----------------------------------------------------------------------------
+// Component print styles should be defined inside print media queries at the
+// component level. This stylesheet is for overrides and other special-case
+// rules which don't properly fit anywhere else and only show up in print.
+
+
+// Variables (others in the variables.scss file)
+// -----------------------------------------------------------------------------
+$print-base-text-column-width: ($print-width - $print-inner-margin - $print-outer-margin) * .7;
+
+@if $print-width <= 7 {
+  $print-base-text-column-width: $print-width - $print-inner-margin - $print-outer-margin;
+}
+
+$print-footer-font: $quire-headings-font;
+$print-footer-font-size: 8pt;
+
+$print-trim: $print-bleed * 2;
+
+
+@media print {
+
+// Paged Media CSS Setup for PrinceXML
+// -----------------------------------------------------------------------------
+  @page {
+    size: $print-width $print-height;
+    prince-bleed: $print-bleed;
+    bleed: $print-bleed;
+    prince-trim: $print-trim;
+    marks: crop;
+    margin-top: $print-top-margin;
+    margin-bottom: $print-bottom-margin;
+    font-family: $print-footer-font;
+    font-size: $print-footer-font-size;
+    color: $print-text-color;
+  }
+
+  @page:left {
+    margin-left: $print-outer-margin;
+    margin-right: $print-inner-margin;
+
+    @bottom-right {
+      content: string(sectiontitle);
+      text-transform: uppercase;
+      letter-spacing: 1pt;
+      font-size: 7.5pt;
+    }
+
+    @bottom-left {
+      content: counter(page);
+    }
+  }
+
+  @page:left:first {
+    @bottom-right {
+      content: none;
+    }
+  }
+
+  @page:right {
+    margin-left: $print-inner-margin;
+    margin-right: $print-outer-margin;
+
+    @bottom-left {
+      content: string(pagetitle);
+    }
+
+    @bottom-right {
+      text-align: right;
+      content: counter(page);
+    }
+  }
+
+  @page:right:first {
+    @bottom-left {
+      content: none;
+    }
+  }
+
+  @page frontmatter:left {
+    @bottom-left {
+      content: counter(page, lower-roman);
+    }
+  }
+
+  @page frontmatter:right {
+    @bottom-right {
+      text-align: right;
+      content: counter(page, lower-roman);
+    }
+  }
+
+  @page frontmatter-splash:left {
+    background-color: $print-splash-color;
+    @bottom-left {
+      content: counter(page, lower-roman);
+    }
+  }
+
+  @page frontmatter-splash:right {
+    background-color: $print-splash-color;
+    @bottom-right {
+      text-align: right;
+      content: counter(page, lower-roman);
+    }
+  }
+
+  @page objects {
+    background-color: $print-splash-color;
+  }
+
+  @page splash {
+    background-color: $print-splash-color;
+  }
+
+  @page splash-image {
+    margin-top: 0;
+    margin-bottom: -$print-bleed;
+    margin-left: 0;
+    margin-right: 0;
+    background-color: $print-splash-color;
+    @bottom-right {
+      content: none;
+    }
+
+    @bottom-left {
+      content: none;
+    }
+  }
+
+  @page entry-image {
+    background-color: $print-entry-image-color;
+    @bottom-right {
+      content: none;
+    }
+
+    @bottom-left {
+      content: none;
+    }
+  }
+
+  @page cover {
+    margin-top: 0;
+    margin-bottom: -$print-bleed;
+    margin-left: 0;
+    margin-right: 0;
+    @bottom-right {
+      content: none;
+    }
+
+    @bottom-left {
+      content: none;
+    }
+  }
+
+  @page no-footer {
+    @bottom-right {
+      content: none;
+    }
+
+    @bottom-left {
+      content: none;
+    }
+  }
+
+  @page :blank {
+    @bottom-left {
+      content: none;
+    }
+    @bottom-right {
+      content: none;
+    }
+  }
+
+  h1 {
+    prince-bookmark-level: 1;
+  }
+  h2, h3, h4, h5, h6 {
+    prince-bookmark-level: none;
+    page-break-after: avoid;
+  }
+
+// General
+// -----------------------------------------------------------------------------
+
+// Workaround for figures splitting across pages in paged.js
+// TODO remove when https://github.com/thegetty/quire/issues/732 is fixed
+.q-figure:empty {
+	display:none;
+}
+.pagedjs_pages > .pagedjs_page > .pagedjs_sheet > .pagedjs_pagebox > .pagedjs_area > div .q-figure[data-split-from] {
+  padding-top: 1rem;
+}
+
+// Generated content for footers and page #s in TOC
+// -----------------------------------------------------------------------------
+  .quire-page {
+    string-set: pagetitle attr(data-footer-page-title), sectiontitle attr(data-footer-section-title);
+  }
+
+  // Adds page numbering with dotted leaders in PrinceXML
+  // uses .pagedjs_pages class to handle fallback in Paged.js
+  .quire-contents-list {
+    .section-item > a {
+      max-width: 90%;
+    }
+    .section-item > a::after {
+      content: leader(dotted) ' 'target-counter(attr(href, url), page);
+      margin-left: 6pt;
+      margin-right: -10%;
+      .pagedjs_pages & {
+        content: target-counter(attr(href), page);
+        float: right;
+      }
+    }
+    .section-item.frontmatter-page > a::after {
+      content: leader(dotted) ' 'target-counter(attr(href, url), page, lower-roman);
+      font-style: italic;
+      .pagedjs_pages & {
+        content: target-counter(attr(href), page, lower-roman);
+        float: right;
+      }
+    }
+    .page-item {
+      max-width: 90%;
+      a::after {
+        content: leader(dotted) ' 'target-counter(attr(href, url), page);
+        margin-left: 6pt;
+        margin-right: -10%;
+        .pagedjs_pages & {
+          content: target-counter(attr(href), page);
+          float: right;
+        }
+      }
+      &.frontmatter-page > a::after {
+        content: leader(dotted) ' 'target-counter(attr(href, url), page, lower-roman);
+        font-style: italic;
+        margin-left: 6pt;
+        margin-right: -10%;
+        .pagedjs_pages & {
+          content: target-counter(attr(href), page, lower-roman);
+          float: right;
+        }
+      }
+    }
+    &.grid {
+      .page-item {
+        a::after,
+        a.frontmatter-page::after {
+          position: absolute;
+          bottom: 1em;
+          right: 1em;
+          font-size: .75em;
+          margin-right: 0;
+        }
+      }
+    }
+  }
+
+// Assigning page types
+// -----------------------------------------------------------------------------
+  .page-one {
+    page: page-one;
+    counter-reset: page 1;
+    page-break-before: right;
+  }
+
+  .frontmatter {
+    page: frontmatter;
+  }
+
+  .half-title-page,
+  .title-page,
+  .copyright-page {
+    page: no-footer;
+  }
+
+  .objects-page {
+    page: objects;
+  }
+
+  .quire-splash {
+    page: splash;
+    .quire-page__header {
+      &.hero-image {
+        page: splash-image;
+
+      }
+      &--full-height {
+        $print-splash-height: $print-height - $print-top-margin - $print-bottom-margin;
+        height: $print-splash-height;
+        page: splash-image;
+      }
+    }
+  }
+
+  .quire-splash.frontmatter {
+    page: frontmatter-splash;
+  }
+
+  .quire-entry {
+    .quire-entry__image-wrap {
+      .q-figure {
+        page: entry-image;
+      }
+    }
+  }
+
+  .quire-contents {
+    page: no-footer;
+  }
+
+  .quire-cover {
+    page: cover;
+  }
+
+// Set columns and widths for main page content
+// -----------------------------------------------------------------------------
+  .quire-page__content {
+    column-count: 1;
+    max-width: $print-base-text-column-width;
+    margin: 0 auto;
+
+    .quire-contents & {
+      margin: 0;
+      max-width: 100%;
+
+      .quire-contents-list {
+        &:not(.grid) {
+          max-width: $print-base-text-column-width;
+          margin: 0 auto;
+        }
+      }
+    }
+
+    @if $print-width > 7 {
+      .quire-essay &,
+      .quire-entry & {
+        column-count: 2;
+        column-fill: balance;
+        column-gap: .1875in;
+        max-width: 100%;
+        margin: 0;
+
+        // with narrower columns, image should be full width
+        .q-figure.is-pulled-left,
+        .q-figure.is-pulled-right {
+          float: none;
+          width: 100%;
+          margin-left: 0;
+          margin-right: 0;
+        }
+      }
+    }
+
+  }
+
+  // make other elements same width as single-column pages
+  .quire-page__abstract {
+    column-count: 1;
+    margin: 0 auto 1.25em;
+    max-width: $print-base-text-column-width;
+  }
+
+  @media screen {
+    .quire-page__abstract {
+      column-span: all;
+    }
+  }
+
+  .quire-entry__tombstone {
+    column-count: 1;
+    margin: 0 auto .25in;
+    max-width: $print-base-text-column-width;
+  }
+
+  @media screen {
+    .quire-page__abstract {
+      column-span: all;
+    }
+  }
+
+  .quire-page__header.hero-image .hero-body {
+    margin: 2.5in .5in 0;
+    @if $print-width <= 7 {
+      width: $print-base-text-column-width;
+      margin: 2.5in auto 0;
+    }
+  }
+
+// Content list grid view
+// -----------------------------------------------------------------------------
+  $menu-grid-gap: .1875in;
+  $menu-grid-item-margin: math.div($menu-grid-gap, 2);
+
+  $menu-grid-item-width: math.div($print-width - $print-outer-margin - $print-inner-margin - 3 * $menu-grid-gap, 3);
+
+  @if $print-width <= 7 {
+    $menu-grid-item-width: math.div($print-width - $print-outer-margin - $print-inner-margin - (2 * $menu-grid-gap), 2);
+  }
+
+  .quire-contents-list.grid .menu-list ol {
+    .page-item {
+      width: $menu-grid-item-width;
+      height: 2.5in;
+      margin-bottom: $menu-grid-gap;
+      @if $theme == modern {
+        background-color: $print-splash-color;
+        padding: 1em;
+      }
+      position: relative;
+      * {
+        margin: 0;
+        padding: 0;
+        background-color: transparent;
+      }
+      margin: 0 $menu-grid-item-margin $menu-grid-gap;
+      a {
+        position: initial;
+      }
+      .card.image {
+        .card-content {
+          padding: $menu-grid-gap 0;
+          font-size: 1.25rem;
+          font-family: $quire-primary-font;
+        }
+        img {
+          max-height: 1.25in;
+          width: auto;
+        }
+      }
+    }
+    .section-item {
+      width: 100%;
+      border-bottom: 1px solid $print-text-color;
+      margin-bottom: .25in;
+    }
+  }
+
+// Entry image pages
+// -----------------------------------------------------------------------------
+  $print-entry-image-height: $print-height - $print-top-margin - $print-bottom-margin;
+  $print-entry-image-width: $print-width - $print-inner-margin - $print-outer-margin;
+
+  .quire-entry__image-wrap .q-figure {
+    align-items: center;
+    border-width: 0px;
+    display: flex;
+    flex-direction: column;
+    height: $print-entry-image-height;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    @if $print-entry-image-display == first {
+      display: none;
+      &:first-child {
+        display: flex;
+      }
+    }
+    // make the img, or the div > img for video poster images
+    // fill but not exceed the space remaining from the caption
+    > :first-child {
+      flex-grow: 1;
+      height: 0;
+      object-fit: contain;
+      width: auto;
+    }
+    // align the poster image within its parent div
+    > div {
+      align-items: center;
+      display: flex;
+      img {
+        max-width: $print-entry-image-width;
+      }
+    }
+    .q-figure__caption {
+      color: $print-entry-caption-color;
+      font-size: .75rem;
+      margin-top: .5rem;
+      max-width: $print-base-text-column-width;
+      &-embed-link a {
+        color: $print-entry-caption-color;
+        display: block;
+        margin-bottom: .5rem;
+      }
+      .q-figure__modal-link {
+        color: $print-entry-caption-color;
+      }
+    }
+  }
+
+// Improve page and line breaks
+// -----------------------------------------------------------------------------
+  html body * {
+    orphans: 2;
+    widows: 2;
+  }
+
+  // Use PrinceXML prince-text-replace to insert zero-width-spaces in URLs
+  // that are printed in the text of the book, in order to facilitate better
+  // line breaking per Chicago Manual of Style
+  // https://www.chicagomanualofstyle.org/book/ed17/part3/ch14/psec018.html
+  a[target=_blank] {
+    prince-text-replace: "/" "\200B/"
+                          "~" "\200B~"
+                          "." "\200B."
+                          "," "\200B,"
+                          "-" "\200B-"
+                          "_" "\200B_"
+                          "?" "\200B?"
+                          "#" "\200B#"
+                          "%" "\200B%"
+                          "=" "\200B="
+                          "&" "\200B&"
+                          "+" "\200B+"
+                          ":" "\200B:"
+                          "\200B/\200B/" "//\200B"
+                          "\200B:\200B:" "\200B::";
+  }
+
+  // Same method as above but to improve breaks around em-dashes
+  html body * {
+    prince-text-replace: "—" "—\200B";
+  }
+
+  // For contributor bio lists/pages
+  .quire-contributor .title {
+    page-break-after: avoid;
+  }
+  .quire-contributor .media {
+    page-break-before: avoid;
+    page-break-inside: auto;
+  }
+
+// Better list defaults and custom bullet alignment
+// -----------------------------------------------------------------------------
+  .quire-page__content .container .content ul {
+    margin-left: 1rem;
+  }
+  .quire-page__content .container .content ul li:before {
+    margin-top: .15em;
+    font-size: 7pt;
+  }
+  .quire-page__content .container .content hr:after {
+    font-size: 7pt;
+  }
+
+// Globally hidden elements
+// -----------------------------------------------------------------------------
+  html body {
+    .button,
+    .input,
+    .textarea,
+    .select,
+    .visually-hidden,
+    .footnote-return,
+    .footnote-backref,
+    .is-screen-only {
+      display: none;
+    }
+
+    // Leaflet
+    .leaflet-pane,
+    .leaflet-map-pane,
+    .leaflet-container,
+    .lvml {
+      display: none !important;
+    }
+  }
+
+// Title Page and Half Title Page
+// -----------------------------------------------------------------------------
+  .title-page {
+    page-break-before: right;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-end;
+    text-align: right;
+    font-family: $quire-headings-font;
+
+    * {
+      max-width: 5.5in;
+    }
+
+    .title {
+      font-size: 4em;
+      font-weight: 700;
+      color: $accent-color;
+      line-height: 1.1;
+      margin-bottom: .3em;
+    }
+
+    .contributor {
+      font-size: 1.75em;
+      margin-top: .125in;
+    }
+
+    .publisher {
+      font-size: 1.5em;
+      text-transform: uppercase;
+      letter-spacing: 1pt;
+    }
+  }
+
+  .half-title-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    font-family: $quire-headings-font;
+    font-size: 1.5em;
+    color: $accent-color;
+    text-align: right;
+  }
+
+  .copyright-page {
+    color: $print-text-color;
+    column-count: 2;
+    column-fill: auto;
+    column-gap: .1875in;
+    font-size: .75rem;
+    margin: 0;
+    max-width: 100%; 
+    .quire-page__header {
+      display: none;
+    } 
+    .quire-page__content .container .content {
+      ul {
+        margin-left: 0;
+        li {
+          margin: 0;
+          &::before {
+            content: none;
+          }
+        }
+      }
+      div {
+        margin-bottom: 1em;
+      }
+      .copyright__publisher-logo {
+        display: none;
+      }
+    }
+  }
+}
