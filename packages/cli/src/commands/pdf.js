@@ -6,15 +6,22 @@ import open from 'open'
 import path from 'node:path'
 import yaml from 'js-yaml'
 
+// FIXME: All this config loading might be better moved to another lib helper?
+// FIXME: Also it should probably load the same config validator(s) used in the build proc.
 /**
- * @function loadConfig(path) - loads and validates quire config 
+ * @function loadConfig(path) - loads and validates quire config, returns an empty object if not found
  * @param {path} string - file path to config file
  */
 function loadConfig(path) {
-  const data = fs.readFileSync(path)
-  const config = yaml.load(data)
+  if (fs.existsSync(path)) {
+    const data = fs.readFileSync(path)
+    const config = yaml.load(data)
+  
+    return config
+  }
 
-  return config
+  return {}
+
 }
 
 const quireConfig = loadConfig(path.join(projectRoot,'content','_data','config.yaml'))
@@ -43,7 +50,7 @@ export default class PDFCommand extends Command {
       [ '--page-pdfs', 'Produce PDFs for each quire page enabled with `paged-pdf`'],
       [ '--websafe', 'Make the PDF websafe (no crop marks+margins, downsample images)'],
       [ '--output-dir', 'Output the PDF to this directory'],
-      [ '--filename <string>', 'Use this as the prefix for PDF ouptuts', {default: quireConfig.pdf.filename}],
+      [ '--filename <string>', 'Use this as the prefix for PDF ouptuts', {default: quireConfig?.pdf?.filename ?? 'publication' }],
       [ '--open', 'open PDF in default application' ],
       [ '--debug', 'run build with debug output to console' ],
     ],
