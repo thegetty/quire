@@ -35,6 +35,11 @@ export default async (input, output, options = {}) => {
   if (options.debug) cmdOptions.push('--debug')
   if (options.verbose) cmdOptions.push('--verbose')
 
+  const { dir } = path.parse(output)
+  if (!fs.existsSync(dir)) { 
+    fs.mkdirsSync(dir)
+  }
+  
   let pageMapOutput = await execa('prince', [...pageMapOptions, input])
   // FIXME: check for errors here
   const pageMap = JSON.parse(pageMapOutput.stdout)

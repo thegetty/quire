@@ -87,21 +87,32 @@ export default async (input, output, options = {}) => {
     const file = await printer.pdf(input, pdfOptions)
       .catch((error) => console.error(error))
 
+    let pageMap
+
+    // Now it's printed, create the pageMap by running JS in the printer's context
     const pages = await printer.browser.pages()
     if (pages.length > 0) {
-      const pageMap = await pages[pages.length - 1].evaluate(() => {
+      pageMap = await pages[pages.length - 1].evaluate(() => {
         // Retrieves the pageMap from our plugin
         return window.pageMap ?? {}
       })
 
-      splitPdf(file,pageMap,options.pdfConfig)
     }
 
     if (file && output) {
+
+      const { dir } = path.parse(output)
+      if (!fs.existsSync(dir)) { 
+        fs.mkdirsSync(dir)
+      }
+
       await fs.promises.writeFile(output, file)
         .catch((error) => console.error(error))
+      splitPdf(file,pageMap,options.pdfConfig)
+
     }
 
+    // Leave the printer open for debug logs
     if (!options.debug) {
       printer.close()    
     }

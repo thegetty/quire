@@ -11,7 +11,7 @@ import path from 'node:path'
  * @param {Object} pageMap - page map to split PDf by
  * 
  * Creates individual PDFs from by copying `file` (so boxes are already set) and stripping pages out of the range (in reverse order to retain the index sequence)
- * 
+ * FIXME: Should return an array of `file` for serialization 
  */
 
 export async function splitPdf(file,pageMap,pdfConfig) {
