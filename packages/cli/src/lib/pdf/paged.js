@@ -1,8 +1,17 @@
 import Printer from 'pagedjs-cli'
+import { projectRoot  } from '#lib/11ty/index.js'
+
 import fs from 'fs-extra'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+import { splitPdf } from './common.js'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 /**
- * A façade module for interacting with Paged.js
+ * A façade module for interacting with Paged.js and pagedjs-cli  
  * @see https://gitlab.coko.foundation/pagedjs/
  */
 export default async (input, output, options = {}) => {
@@ -10,10 +19,29 @@ export default async (input, output, options = {}) => {
    * Configure the Paged.js Printer options
    * @see https://gitlab.coko.foundation/pagedjs/pagedjs-cli/-/blob/main/src/cli.js
    */
+
+  let additionalScripts = []
+
+  if (options.pagePdfs) {
+    additionalScripts.push( path.join(__dirname, 'pagedPlugin.js') )
+  }
+
+  if (options.websafe) {
+    // FIXME: .. add styles or...
+    // FIXME: additionaScripts.push( path.join(__dirname, 'websafeImages.js')) 
+  }
+
+  if (options.withCropsBleeds) {
+    // FIXME: .. add styles or..
+    // FIXME: additionalScripts.push( path.join(__dirname, 'cropsBleedsRemove.js')) 
+  }
+
   const printerOptions = {
     allowLocal: true,
     debug: options.debug || false,
     enableWarnings: options.debug || false,
+    closeAfter: false,
+    additionalScripts,
   }
 
   if (options.debug) {
@@ -23,10 +51,10 @@ export default async (input, output, options = {}) => {
 
   const printer = new Printer(printerOptions)
 
-  printer.on('page', (page) => {
+  printer.on('page', (page,pageElement,breakToken) => {
     if (page.position === 0) {
       console.info(`[CLI:lib/pdf/pagedjs] loaded`)
-    }
+    } 
   })
 
   printer.on('rendered', (msg) => {
@@ -59,12 +87,25 @@ export default async (input, output, options = {}) => {
     const file = await printer.pdf(input, pdfOptions)
       .catch((error) => console.error(error))
 
-    printer.close()
+    const pages = await printer.browser.pages()
+    if (pages.length > 0) {
+      const pageMap = await pages[pages.length - 1].evaluate(() => {
+        // Retrieves the pageMap from our plugin
+        return window.pageMap ?? {}
+      })
+
+      splitPdf(file,pageMap,options.pdfConfig)
+    }
 
     if (file && output) {
       await fs.promises.writeFile(output, file)
         .catch((error) => console.error(error))
     }
+
+    if (!options.debug) {
+      printer.close()    
+    }
+
   } catch (ERR_FILE_NOT_FOUND) {
     console.error(`[CLI:lib/pdf/pagedjs] file not found ${input}`)
   }

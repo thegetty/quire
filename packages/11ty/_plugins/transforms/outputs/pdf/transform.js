@@ -3,6 +3,9 @@ const filterOutputs = require('../filter.js')
 const truncate = require('~lib/truncate')
 const writer = require('./write')
 
+const chalkFactory = require('~lib/chalk')
+const logger = chalkFactory("pdf:transform")
+
 const { JSDOM } = jsdom
 
 /**
@@ -15,6 +18,8 @@ const { JSDOM } = jsdom
 module.exports = function(eleventyConfig, collections, content) {
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const slugify = eleventyConfig.getFilter('slugify')
+  const citation = eleventyConfig.getFilter('citation')
+  const quirePDFConfig = eleventyConfig.globalData.config.pdf
 
   const writeOutput = writer(eleventyConfig)
 
@@ -37,13 +42,25 @@ module.exports = function(eleventyConfig, collections, content) {
    */
   const setDataAttributes = (page, element) => {
     const { dataset } = element
-    const { parentPage } = page.data
+    const { parentPage, pagePDFOutput, pagePDFCoverPageCitationStyle } = page.data
 
     dataset.footerPageTitle = formatTitle(page.data)
 
     if (parentPage) {
       dataset.footerSectionTitle = formatTitle(parentPage.data)
     }
+
+    if (pagePDFOutput || quirePDFConfig?.pagePDF?.output) {
+
+      dataset.pagePdf = true
+      // FIXME: Gross, this serializes HTML and anyway the 'page' citation has acc'd dates that are wrong (non-existent)
+      if (pagePDFCoverPageCitationStyle || quirePDFConfig?.pagePDF?.coverPageCitationStyle ) {
+        dataset.coverPageCitation = citation({context: 'page',page, type: pagePDFCoverPageCitationStyle || quirePDFConfig?.pagePDF?.coverPageCitationStyle })
+      }
+
+    }
+
+
   }
 
   /**

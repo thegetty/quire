@@ -4,7 +4,20 @@ import fs from 'fs-extra'
 import libPdf from '#lib/pdf/index.js'
 import open from 'open'
 import path from 'node:path'
-// import testcwd from '#helpers/test-cwd.js'
+import yaml from 'js-yaml'
+
+/**
+ * @function loadConfig(path) - loads and validates quire config 
+ * @param {path} string - file path to config file
+ */
+function loadConfig(path) {
+  const data = fs.readFileSync(path)
+  const config = yaml.load(data)
+
+  return config
+}
+
+const quireConfig = loadConfig(path.join(projectRoot,'content','_data','config.yaml'))
 
 /**
  * Quire CLI `pdf` Command
@@ -27,6 +40,10 @@ export default class PDFCommand extends Command {
         '--lib <module>', 'use the specified pdf module', 'pagedjs',
         { choices: ['pagedjs', 'prince'], default: 'pagedjs' }
       ],
+      [ '--page-pdfs', 'Produce PDFs for each quire page enabled with `paged-pdf`'],
+      [ '--websafe', 'Make the PDF websafe (no crop marks+margins, downsample images)'],
+      [ '--output-dir', 'Output the PDF to this directory'],
+      [ '--filename <string>', 'Use this as the prefix for PDF ouptuts', {default: quireConfig.pdf.filename}],
       [ '--open', 'open PDF in default application' ],
       [ '--debug', 'run build with debug output to console' ],
     ],
@@ -48,9 +65,9 @@ export default class PDFCommand extends Command {
       return
     }
 
-    const output = path.join(projectRoot, `${options.lib}.pdf`)
+    const output = path.join(paths.output, quireConfig.pdf.outputDir, `${quireConfig.pdf.filename}.pdf`)
 
-    const pdfLib = await libPdf(options.lib, { debug: options.debug })
+    const pdfLib = await libPdf(options.lib, { ...options, pdfConfig: quireConfig.pdf })
     await pdfLib(input, output)
 
     try {
