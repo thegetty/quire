@@ -11,17 +11,19 @@ import path from 'node:path'
  * @param {Object} pageMap - page map to split PDf by
  * 
  * Creates individual PDFs from by copying `file` (so boxes are already set) and stripping pages out of the range (in reverse order to retain the index sequence)
- * FIXME: Should return an array of `file` for serialization 
+ * FIXME: Should return a tupe of array of `file Array<Serializable>` for serialization 
+ * FIXME: Needs to take a printer arg so we can print more cover pages? Or return the data / html for the covers and let our caller do it
  */
 
-export async function splitPdf(file,pageMap,pdfConfig) {
+export async function splitPdf(file,coversFile,pageMap,pdfConfig) {
 
   const pdfDoc = await PDFDocument.load(file)
-  for ( const [pageId, pageConfig] of Object.entries(pageMap) ) {
-    const { title, endPage, startPage } = pageConfig
-    if (title === "") { continue }
+  const coversDoc = await PDFDocument.load(coversFile)
 
-    // FIXME: Set the sectional doc metadata
+  for ( const [pageId, pageConfig] of Object.entries(pageMap) ) {
+    const { endPage, startPage, coverPage } = pageConfig
+
+    // FIXME: Set the PDF's sectional doc metadata
     
     const sectionDoc = await pdfDoc.copy()
 
@@ -32,9 +34,14 @@ export async function splitPdf(file,pageMap,pdfConfig) {
       sectionDoc.removePage(p)
     }
 
+    if (coverPage >= 0) {
+      // NB: `copyPages()` sets page sizing + other metadata 
+      const cover = await sectionDoc.copyPages(coversDoc,[coverPage])
+      sectionDoc.insertPage(0,cover[0])
+    }
+
     const section = await sectionDoc.save()
 
-    // FIXME: Generate the coverpage if there is one (erm.. pre-generate the HTML since it needs data templating) and add it
     const sectionId = pageId.replace(/^page-/g,"")
     const sectionFn = `${pdfConfig.filename}-${sectionId}.pdf`
     const sectionFp = path.join( paths.output, pdfConfig.outputDir, sectionFn )

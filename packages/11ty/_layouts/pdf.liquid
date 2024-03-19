@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+  <head>
+    <!--
+    <meta charset="utf-8" />
+    <meta name="description" content="${description}">
+    <meta name="keywords" content="${keywords}">
+    <title>${pageTitle}</title>
+    <link rel="canonical" href="${canonicalURL}">
+    <link rel="version-history" href="${publication.repositoryUrl}">
+    -->
+    <link rel="stylesheet" href="pdf.css" />
+  </head>
+  <body>
+
+  {% for page in pages %}
+    {% if forloop.first == true %}
+      {{ page.svgElements }}
+    {% endif %}
+    {{ page.sectionElement }}
+  {% endfor %}
+
+  </body>
+</html>
+
+
+

@@ -65,17 +65,18 @@ export default class PDFCommand extends Command {
       console.debug('[CLI] Command \'%s\' called with options %o', this.name(), options)
     }
 
-    const input = path.join(projectRoot, paths.output, 'pdf.html')
+    const publicationInput = path.join(projectRoot, paths.output, 'pdf.html')
+    const coversInput = path.join(projectRoot, paths.output, 'pdf-covers.html')
 
-    if (!fs.existsSync(input)) {
-      console.error(`Unable to find PDF input at ${input}\nPlease first run the 'quire build' command.`)
+    if (!fs.existsSync(publicationInput)) {
+      console.error(`Unable to find PDF input at ${publicationInput}\nPlease first run the 'quire build' command.`)
       return
     }
 
     const output = path.join(paths.output, quireConfig.pdf.outputDir, `${quireConfig.pdf.filename}.pdf`)
 
     const pdfLib = await libPdf(options.lib, { ...options, pdfConfig: quireConfig.pdf })
-    await pdfLib(input, output)
+    await pdfLib(publicationInput, coversInput, output)
 
     try {
       if (fs.existsSync(output) && options.open) open(output)

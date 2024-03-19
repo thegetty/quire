@@ -16,7 +16,7 @@ const __dirname = path.dirname(__filename)
  * A façade module for interacting with the Prince CLI.
  * @see https://www.princexml.com/doc/command-line/
  */
-export default async (input, output, options = {}) => {
+export default async (publicationInput, coversInput, output, options = {}) => {
   which('prince')
 
   /**
@@ -40,13 +40,17 @@ export default async (input, output, options = {}) => {
     fs.mkdirsSync(dir)
   }
   
-  let pageMapOutput = await execa('prince', [...pageMapOptions, input])
+  let pageMapOutput = await execa('prince', [...pageMapOptions, publicationInput])
   // FIXME: check for errors here
   const pageMap = JSON.parse(pageMapOutput.stdout)
 
-  const { stderror, stdout } = await execa('prince', [...cmdOptions, input])
+  const { stderror, stdout } = await execa('prince', [...cmdOptions, publicationInput])
   const pdfData = fs.readFileSync(output,null)
 
+  // FIXME: Print the cover pages
+  // FIXME: Load the cover page map
+  // FIXME: Pass the cover page map to SplitPDF
+  
   splitPdf(pdfData,pageMap,options.pdfConfig)
 
   return { stderror, stdout }

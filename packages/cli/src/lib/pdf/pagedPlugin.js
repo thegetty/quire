@@ -28,15 +28,20 @@ if (Paged) {
 			if (quirePageElement.dataset.pagePdf !== 'true') { continue }
 
 	  		const quirePageId = quirePageElement.dataset.id ?? quirePageElement.id
-	  		const title = quirePageElement.dataset.footerPageTitle
-	  		const citation = quirePageElement.dataset.coverPageCitation
 
 	  		if (webpageKey !== quirePageId) {
 	  			webpageKey = quirePageId
 
-	  			pageMap[webpageKey] = { id: webpageKey, startPage: p.position, 
-	  									endPage: p.position,
-	  									title, }
+		  		const title = quirePageElement.dataset.pdfCoverPageTitle
+
+	  			let data = { id: webpageKey, 
+	  						startPage: p.position, 
+							endPage: p.position,
+							title, 
+	  						}
+
+	  			pageMap[webpageKey] = data
+
 	  		} else {
 	  			pageMap[webpageKey].endPage = p.position
 	  		}

@@ -35,8 +35,8 @@ export default async (name = 'pagedjs', options = {}) => {
 
   const { default: pdfLib } = await dynamicImport(lib.path)
 
-  return async (input, output) => {
+  return async (publicationInput, coversInput, output) => {
     console.info(`[CLI:lib/pdf] generating PDF using ${lib.name}`)
-    return await pdfLib(input, output, lib.options)
+    return await pdfLib(publicationInput, coversInput, output, lib.options)
   }
 }
