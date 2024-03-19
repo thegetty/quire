@@ -4,7 +4,7 @@ const truncate = require('~lib/truncate')
 const writer = require('./write')
 
 const chalkFactory = require('~lib/chalk')
-const logger = chalkFactory("pdf:transform")
+const logger = chalkFactory('pdf:transform')
 
 const { JSDOM } = jsdom
 
@@ -136,18 +136,17 @@ module.exports = async function(eleventyConfig, collections, content) {
    **/
   function normalizeCoverPageData(page,pdfConfig) { 
 
-      const { pagePDFCoverPageCitationStyle } = page.data
+    const { pagePDFCoverPageCitationStyle } = page.data
 
-      const id = `page-${page.data.key}`
-      const title = pageTitle(page.data)
-      const accessUrl = page.data.canonicalUrl
-      const contributors = JSON.stringify(page.data.pageContributors ?? "[]")     
-      const license = page.data.publication.license.name // FIXME: Need a license *text* ala https://www.getty.edu/publications/cultural-heritage-mass-atrocities/downloads/pages/CunoWeiss_CHMA_part-1-02-macgregor.pdf 
-      const copyright = page.data.publication.copyright
-      const pageCitation = (pagePDFCoverPageCitationStyle ?? quirePDFConfig?.pagePDF?.coverPageCitationStyle ) ? 
-                          citation({context: 'page',page, type: pagePDFCoverPageCitationStyle ?? quirePDFConfig?.pagePDF?.coverPageCitationStyle }) : ""
+    const id = `page-${page.data.key}`
+    const title = pageTitle(page.data)
+    const accessUrl = page.data.canonicalUrl
+    const contributors = JSON.stringify(page.data.pageContributors ?? '[]')     
+    const license = page.data.publication.license.name // FIXME: Need a license *text* ala https://www.getty.edu/publications/cultural-heritage-mass-atrocities/downloads/pages/CunoWeiss_CHMA_part-1-02-macgregor.pdf 
+    const copyright = page.data.publication.copyright
+    const pageCitation = (pagePDFCoverPageCitationStyle ?? quirePDFConfig?.pagePDF?.coverPageCitationStyle ) ? citation({context: 'page',page, type: pagePDFCoverPageCitationStyle ?? quirePDFConfig?.pagePDF?.coverPageCitationStyle }) : ''
 
-      return { id, title, accessUrl, contributors, license, copyright, citation: pageCitation }
+    return { id, title, accessUrl, contributors, license, copyright, citation: pageCitation }
 
   }
 
