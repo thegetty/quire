@@ -138,8 +138,12 @@ export default async (publicationInput, coversInput, output, options = {}) => {
       await fs.promises.writeFile(output, file)
         .catch((error) => console.error(error))
 
-      splitPdf(file,coversFile,pageMap,options.pdfConfig)
-      
+      const files = await splitPdf(file,coversFile,pageMap,options.pdfConfig)
+
+      Object.entries(files).forEach( async ([filePath,pagePdf]) => {
+        await fs.promises.writeFile(filePath,pagePdf)
+          .catch((error) => console.error(error))
+      })
     }
 
   } catch (ERR_FILE_NOT_FOUND) {

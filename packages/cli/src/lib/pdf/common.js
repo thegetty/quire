@@ -11,14 +11,15 @@ import path from 'node:path'
  * @param {Object} pageMap - page map to split PDf by
  * 
  * Creates individual PDFs from by copying `file` (so boxes are already set) and stripping pages out of the range (in reverse order to retain the index sequence)
- * FIXME: Should return a tupe of array of `file Array<Serializable>` for serialization 
- * FIXME: Needs to take a printer arg so we can print more cover pages? Or return the data / html for the covers and let our caller do it
+ * Returns a map of file paths to PDF binary data for serialization
  */
 
 export async function splitPdf(file,coversFile,pageMap,pdfConfig) {
 
   const pdfDoc = await PDFDocument.load(file)
   const coversDoc = await PDFDocument.load(coversFile)
+
+  let files = {}
 
   for ( const [pageId, pageConfig] of Object.entries(pageMap) ) {
     const { endPage, startPage, coverPage } = pageConfig
@@ -35,7 +36,7 @@ export async function splitPdf(file,coversFile,pageMap,pdfConfig) {
     }
 
     if (coverPage >= 0) {
-      // NB: `copyPages()` sets page sizing + other metadata 
+      // NB: `copyPages()` sets page sizing + other metadata on the way into the target PDF
       const cover = await sectionDoc.copyPages(coversDoc,[coverPage])
       sectionDoc.insertPage(0,cover[0])
     }
@@ -46,9 +47,11 @@ export async function splitPdf(file,coversFile,pageMap,pdfConfig) {
     const sectionFn = `${pdfConfig.filename}-${sectionId}.pdf`
     const sectionFp = path.join( paths.output, pdfConfig.outputDir, sectionFn )
 
-    await fs.promises.writeFile(sectionFp,section)
-            .catch((error) => console.error(error))
+    files[sectionFp] = section
+
   }
+
+  return files
 
 }
     

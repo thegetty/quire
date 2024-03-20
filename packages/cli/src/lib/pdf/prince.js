@@ -40,18 +40,32 @@ export default async (publicationInput, coversInput, output, options = {}) => {
     fs.mkdirsSync(dir)
   }
   
-  let pageMapOutput = await execa('prince', [...pageMapOptions, publicationInput])
+  const pageMapOutput = await execa('prince', [...pageMapOptions, publicationInput])
   // FIXME: check for errors here
-  const pageMap = JSON.parse(pageMapOutput.stdout)
+  let pageMap = JSON.parse(pageMapOutput.stdout)
+
+  let coversData = ""
+  if (options.pdfConfig.pagePDF.coverPage) {
+
+    const coversPageMapOutput = await execa('prince', [...pageMapOptions, coversInput])
+    // FIXME: check for errors here
+    const coversMap = JSON.parse(coversPageMapOutput.stdout)
+
+    for (const pageId of Object.keys(coversMap))  {
+      pageMap[pageId].coverPage = coversMap[pageId].startPage 
+    }
+    coversData = fs.readFileSync(output,null)
+
+  }
 
   const { stderror, stdout } = await execa('prince', [...cmdOptions, publicationInput])
   const pdfData = fs.readFileSync(output,null)
-
-  // FIXME: Print the cover pages
-  // FIXME: Load the cover page map
-  // FIXME: Pass the cover page map to SplitPDF
   
-  splitPdf(pdfData,pageMap,options.pdfConfig)
+  let files = await splitPdf(pdfData,coversData,pageMap,options.pdfConfig)
+  Object.entries(files).forEach( async ([filePath,pagePdf]) => {
+    await fs.promises.writeFile(filePath,pagePdf)
+      .catch((error) => console.error(error))
+  })
 
   return { stderror, stdout }
 }
