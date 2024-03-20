@@ -1,9 +1,8 @@
-import { PDFDocument } from 'pdf-lib'
-import { paths, projectRoot  } from '#lib/11ty/index.js'
-import fs from 'fs-extra'
-  
 import path from 'node:path'
 
+import { PDFDocument } from 'pdf-lib'
+import { paths } from '#lib/11ty/index.js'
+  
 /**
  * @function splitPdf(file,pageMap) -- sections out individual PDFs from `file` according to `pageMap`
  * 
@@ -31,8 +30,8 @@ export async function splitPdf(file,coversFile,pageMap,pdfConfig) {
     for (var p=pdfDoc.getPageCount()-1;p>endPage;p--) {
       sectionDoc.removePage(p)
     }
-    for (var p=startPage-1;p>=0;p--) {
-      sectionDoc.removePage(p)
+    for (var q=startPage-1;q>=0;q--) {
+      sectionDoc.removePage(q)
     }
 
     if (coverPage >= 0) {
@@ -43,7 +42,7 @@ export async function splitPdf(file,coversFile,pageMap,pdfConfig) {
 
     const section = await sectionDoc.save()
 
-    const sectionId = pageId.replace(/^page-/g,"")
+    const sectionId = pageId.replace(/^page-/g,'')
     const sectionFn = `${pdfConfig.filename}-${sectionId}.pdf`
     const sectionFp = path.join( paths.output, pdfConfig.outputDir, sectionFn )
 

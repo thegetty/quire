@@ -15,18 +15,14 @@ function generatePageMap() {
 
     if (boxes.length < 1) { continue }
 
-    let data = { id: el.getAttribute('data-id') || el.id,
-                title: el.getAttribute('data-footer-page-title'), 
-                startPage: boxes[0].pageNum - 1, 
-                endPage: boxes[boxes.length-1].pageNum - 1
-            }
+    let data = { id: el.getAttribute('data-id') || el.id, title: el.getAttribute('data-footer-page-title'), startPage: boxes[0].pageNum - 1, endPage: boxes[boxes.length-1].pageNum - 1 }
 
     let pageKey = el.getAttribute('data-id') || el.id
 
     pageMap[pageKey] = data 
 
-    if ( el.getAttribute('data-pdf-cover-page') !== "true" ) {
-        continue
+    if ( el.getAttribute('data-pdf-cover-page') !== 'true' ) {
+      continue
     }
 
   }

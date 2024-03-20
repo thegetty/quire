@@ -1,13 +1,11 @@
 import { execa } from 'execa'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { PDFDocument } from 'pdf-lib'
 
-import { splitPdf } from './common.js';
-import fs from 'fs-extra';
+import { splitPdf } from './common.js'
+import fs from 'fs-extra'
 
 import which from '#helpers/which.js'
-import { projectRoot  } from '#lib/11ty/index.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -44,7 +42,7 @@ export default async (publicationInput, coversInput, output, options = {}) => {
   // FIXME: check for errors here
   let pageMap = JSON.parse(pageMapOutput.stdout)
 
-  let coversData = ""
+  let coversData = ''
   if (options.pdfConfig.pagePDF.coverPage) {
 
     const coversPageMapOutput = await execa('prince', [...pageMapOptions, coversInput])

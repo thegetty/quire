@@ -1,5 +1,4 @@
 import Printer from 'pagedjs-cli'
-import { projectRoot  } from '#lib/11ty/index.js'
 
 import fs from 'fs-extra'
 import path from 'node:path'
@@ -111,7 +110,7 @@ export default async (publicationInput, coversInput, output, options = {}) => {
 
       const coverPrinter = new Printer(printerOptions)
       coversFile = await coverPrinter.pdf(coversInput, pdfOptions)
-                            .catch((error) => console.error(error))
+        .catch((error) => console.error(error))
 
       const coverPages = await coverPrinter.browser.pages() 
       if (coverPages.length > 0) {

@@ -8,7 +8,7 @@ if (Paged) {
    */
   class pageTableMapper extends Paged.Handler {
     constructor(chunker, polisher, caller) {
-      super(chunker, polisher, caller);
+      super(chunker, polisher, caller)
     }
 
     /**
@@ -25,7 +25,7 @@ if (Paged) {
         const quirePageElement = p.element.querySelector('.quire-page')
 
         if (!quirePageElement) { continue }
-      if (quirePageElement.dataset.pagePdf !== 'true') { continue }
+        if (quirePageElement.dataset.pagePdf !== 'true') { continue }
 
         const quirePageId = quirePageElement.dataset.id ?? quirePageElement.id
 
@@ -34,11 +34,7 @@ if (Paged) {
 
           const title = quirePageElement.dataset.pdfCoverPageTitle
 
-          let data = { id: webpageKey, 
-                startPage: p.position, 
-              endPage: p.position,
-              title, 
-                }
+          let data = { id: webpageKey, startPage: p.position, endPage: p.position, title, }
 
           pageMap[webpageKey] = data
 
