@@ -1,14 +1,16 @@
-<figure :id="slugify(id)" :class="getClasses(classes, id)">
-  <template webc:nokeep @html="component(id, image_dir)"></template>
-  <template webc:nokeep @html="getCaption(id)"></template>
-</figure>
+<is-land on:visible>
+  <figure :id="slugify(id)" :class="getClasses(classes, id)">
+    <template webc:nokeep @html="component(id, image_dir, is_static, preset)"></template>
+    <template webc:nokeep @html="getAnnotations(id)"></template><template webc:nokeep @html="getCaption(id)"></template></figure>
+</is-land>
 <script webc:setup>
-const component = async (id, imageDir) => {
+const component = async (id, imageDir, isStatic, preset) => {
   const figure = this.getFigure(id)
   const { mediaType } = figure
-  const { figureAudio, figureImageWebc, figureTable, figureVideo } = this
+  const { figureAudio, figureImageWebc, figureModalLink, figureTable, figureVideo } = this
   if (mediaType === 'image') {
-    return await figureImageWebc.call(this, id, imageDir)
+    const imageElement = await figureImageWebc.call(this, id, imageDir, isStatic, preset)
+    return figureModalLink({ content: imageElement, id })
   }
   const mediaTypeToComponentMap = {
     soundcloud: figureAudio,
@@ -17,7 +19,12 @@ const component = async (id, imageDir) => {
     vimeo: figureVideo,
     youtube: figureVideo
   }
-  return await mediaTypeToComponentMap[mediaType](figure)
+  const mediaElement = await mediaTypeToComponentMap[mediaType](figure)
+  return figureModalLink({ content: mediaElement, id })
+}
+const getAnnotations = (id) => {
+  const figure = this.getFigure(id)
+  return this.annotationsUI({ figure })
 }
 
 const getCaption = (id) => {

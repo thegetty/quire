@@ -39,6 +39,12 @@ module.exports = function (eleventyConfig) {
     this.page.figures ||= []
     this.page.figures.push(figure)
 
-    return await quireFigure.call(this, classes, id, imageDir)
+    /**
+     * Render static versions of IIIF images inline
+     */
+    const isStatic = true
+    const preset = 'responsive'
+
+    return await quireFigure.call(this, classes, id, imageDir, isStatic, preset)
   }
 }

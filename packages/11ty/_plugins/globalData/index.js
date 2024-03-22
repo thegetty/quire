@@ -1,6 +1,9 @@
-const chalkFactory = require('~lib/chalk')
+const assert = require('node:assert')
 const fs = require('fs-extra')
 const path = require('path')
+
+const chalkFactory = require('~lib/chalk')
+
 const parser = require('./parser')
 
 const logger = chalkFactory('[plugins:globalData]')
@@ -53,6 +56,31 @@ const validatePublication = (publication) => {
 }
 
 /**
+ * @function validateConfig - throws error if data does not parse to config 
+ * @throws {Error}
+ * 
+ * @param {Object} config - Deserialized config data
+ * 
+ */
+const validateConfig = (config) => {
+
+  for (let [key,value] of Object.entries(config)) {
+    switch (key) {
+    case 'pdf':
+
+      // For now just use some quickie type-checking asserts
+      assert.strictEqual(typeof value.outputDir,'string',new TypeError("pdf.outputDir must be a string"))
+      assert.strictEqual(typeof value.filename,'string',new TypeError("pdf.filename must be a string"))
+      // FIXME: if pagePDF exists... assert.strictEqual(typeof value.pagePDF,'object',new TypeError("pdf.pagePdf must be an object"))
+      // FIXME: assetLinks should be an array of objects if it exists
+      break
+    }    
+  }
+
+  return config
+}
+
+/**
  * Eleventy plugin to programmatically load global data from files
  * so that it is available to plugins and shortcode components.
  *
@@ -73,15 +101,27 @@ module.exports = function(eleventyConfig, directoryConfig) {
   const parse = parser(eleventyConfig)
 
   for (const file of files) {
+
     const { name: key } = path.parse(file)
     let value = parse(path.join(dir, file))
-    if (key === 'publication') {
+    // console.log(key,value)
+
+    switch (key) {
+    case 'config':
+      value = validateConfig(value)
+      break
+    case 'publication':
       value = validatePublication(value)
+      break
     }
-    if (key && value) {
-      checkForDuplicateIds(value, file)
-      eleventyConfig.addGlobalData(key, value)
+
+    if (!key || !value) { 
+      continue
     }
+
+    checkForDuplicateIds(value, file)
+    eleventyConfig.addGlobalData(key, value)
+    
   }
 
   // Add directory config to globalData so that it is available to other plugins

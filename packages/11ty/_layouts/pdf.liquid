@@ -12,5 +12,16 @@
     <link rel="stylesheet" href="pdf.css" />
   </head>
   <body>
+
+  {% for page in pages %}
+    {% if forloop.first == true %}
+      {{ page.svgElements }}
+    {% endif %}
+    {{ page.sectionElement }}
+  {% endfor %}
+
   </body>
 </html>
+
+
+

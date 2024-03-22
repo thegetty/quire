@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+  <head>
+    <!--
+    <meta charset="utf-8" />
+    <meta name="description" content="${description}">
+    <meta name="keywords" content="${keywords}">
+    <title>${pageTitle}</title>
+    <link rel="canonical" href="${canonicalURL}">
+    <link rel="version-history" href="${publication.repositoryUrl}">
+    -->
+    <link rel="stylesheet" href="pdf.css" />
+  </head>
+  <body>
+
+  {% for cover in covers %}
+  
+    <section class="quire-page pdf-cover-page pdf-no-page-num" data-page-pdf="true" data-id="{{cover.id}}" id="{{cover.id}}">
+      <section class="section quire-pdf-cover-page__content">
+        <div class="container">
+          <div class="content">
+            <h2>{{cover.title}}</h2>
+
+            <dl>
+              {% if cover.accessUrl %}
+                <dt><h3>URL:</h3></dt>
+                <dd>{{cover.accessUrl}}</dd>
+              {% endif %}
+
+              {% if cover.contributors.size > 0 %}
+                <dt><h3>Author(s):</h3></dt>
+                <dd>{{ cover.contributors | map: "id" | join: ", "}}</dd>
+              {% endif %}
+
+              {% if cover.citation %}
+                <dt><h3>Source:</h3></dt>
+                <dd>{{cover.citation}}</dd>
+              {% endif %}
+
+              {% if cover.license %}
+                <dt><h3>License:</h3></dt>
+                <dd>{{cover.license}}</dd>
+              {% endif %}
+
+              {% if cover.copyright %}
+                <dt><h3>Copyright:</h3></dt>
+                <dd>{{cover.copyright}}</dd>
+              {% endif %}
+
+            </dl>
+
+          </div>
+        </div>
+      </section>
+    </section>
+
+  {% endfor %}
+
+  </body>
+</html>
+
+
+

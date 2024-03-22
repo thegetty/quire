@@ -13,7 +13,14 @@ module.exports = async function(data) {
   const id = this.slugify(url) || path.parse(inputPath).name
   const pageId = `page-${id}`
   const figures = pageData.page.figures
-  const figuresJSON = figures ? JSON.stringify(figures) : '{}'
+  /**
+   * This is currently throwing an error about circular references in figure data
+   * Removing until we need quire-data written to page
+   *
+   * TODO: add `quire-data` when refactoring lightbox and modal to use webc + is-land
+   */
+  // const figuresJSON = figures ? JSON.stringify(figures) : '{}'
+  const figuresJSON = '{}';
 
   return html`
     <!doctype html>

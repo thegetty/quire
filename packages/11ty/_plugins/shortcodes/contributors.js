@@ -36,7 +36,7 @@ module.exports = function (eleventyConfig) {
 
     const formats = ['bio', 'initials', 'name', 'name-title', 'name-title-block', 'string']
 
-    if (!formats.includes(format)) {
+    if (format && !formats.includes(format)) {
       logger.error(
         `Unrecognized contributors shortcode format "${format}". Supported format values are: ${formats.join(', ')}`
       )
