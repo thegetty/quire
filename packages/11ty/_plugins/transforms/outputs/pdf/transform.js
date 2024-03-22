@@ -101,26 +101,40 @@ module.exports = async function(eleventyConfig, collections, content) {
   }
 
   /**
-   * @function trimImageURLs
+   * @function trimLeadingSeparator
    * 
-   * Rewrites image src attributes and style background-image URLs
+   * Trims the publication URL path from @src attribs and style background-image URLs 
+   * 
    **/
+  const trimLeadingSeparator = (document) => {
 
-  const trimImageURLs = (document) => {
-
-    const trimLeadingSlash = (string) => string.startsWith('/') ? string.substr(1) : string
+    const urlPath = eleventyConfig.globalData.publication.pathname
 
     /**
-     * Rewrite image src attributes to be relative
+     * Trim func, removes either the deploy path or just the leading slash 
      */
+    const trimDeployPathComponentOrSlash = (srcAttr) => {
+      // - /foo/_assets/image.jpg -> _assets/image.jpg -- FIXME: How is it that the background-image doesn't need fixed?
+      // - /_assets/image.jpg -> _assets/image.jpg
+      // - Passes URLs with protocols
+      switch (true) {
+        case srcAttr.startsWith(urlPath):
+          return srcAttr.substr(urlPath.length)
+        case srcAttr.startsWith('/'):
+          return srcAttr.substr(1)
+        default:
+          return srcAttr
+      }
+    }
+
     document.querySelectorAll('[src]').forEach((asset) => {
       const src = asset.getAttribute('src')
-      asset.setAttribute('src', trimLeadingSlash(src))
+      asset.setAttribute('src', trimDeployPathComponentOrSlash(src))
     })
 
     document.querySelectorAll('[style*="background-image"]').forEach((element) => {
       const backgroundImageUrl = element.style.backgroundImage.match(/[\(](.*)[\)]/)[1] || ''
-      element.style.backgroundImage = `url('${trimLeadingSlash(backgroundImageUrl)}')`
+      element.style.backgroundImage = `url('${trimDeployPathComponentOrSlash(backgroundImageUrl)}')`
     })
 
   }
@@ -184,11 +198,9 @@ module.exports = async function(eleventyConfig, collections, content) {
   // prefix footnote attributes to prevent duplicates
   prefixFootnotes(sectionElement, pageId)
 
-  // - UNMARK
-
   // Final cleanups: remove non-pdf content, remove image leading slashes, slugify it all
   filterOutputs(sectionElement, 'pdf')  
-  trimImageURLs(sectionElement)
+  trimLeadingSeparator(sectionElement)
   slugifyIds(sectionElement)
 
   collections.pdf[pageIndex].svgSymbolElements = Array.from(svgSymbolElements).map( el => el.outerHTML )
