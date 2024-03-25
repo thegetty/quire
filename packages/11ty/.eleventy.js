@@ -205,7 +205,12 @@ module.exports = function(eleventyConfig) {
    */
   if (process.env.ELEVENTY_ENV === 'production') eleventyConfig.addPassthroughCopy(publicDir)
   eleventyConfig.addPassthroughCopy(`${inputDir}/_assets`)
-  eleventyConfig.addPassthroughCopy({ '_includes/web-components': '_assets/javascript' })
+  eleventyConfig.addPassthroughCopy({ '_includes/web-components': '_assets/javascript/' })
+
+  /**
+   * Manually copy `is-land` module into client package
+   */
+  eleventyConfig.addPassthroughCopy({ 'node_modules/@11ty/is-land/is-land.js': '_assets/javascript/is-land.js' })
 
   /**
    * Watch the following additional files for changes and rerun server
