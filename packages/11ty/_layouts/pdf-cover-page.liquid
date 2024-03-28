@@ -11,40 +11,45 @@
     -->
     <link rel="stylesheet" href="pdf.css" />
   </head>
-  <body>
+  <body class="pdf-all-cover-pages">
 
   {% for cover in covers %}
   
-    <section class="quire-page pdf-cover-page pdf-no-page-num" data-page-pdf="true" data-id="{{cover.id}}" id="{{cover.id}}">
-      <section class="section quire-pdf-cover-page__content">
+    <section class="quire-page pdf-cover-page" data-page-pdf="true" data-id="{{cover.id}}" id="{{cover.id}}">
+
+      <section class="section quire-page__content pdf-page">
         <div class="container">
           <div class="content">
-            <h2>{{cover.title}}</h2>
 
-            <dl>
-              {% if cover.accessUrl %}
-                <dt><h3>URL:</h3></dt>
-                <dd>{{cover.accessUrl}}</dd>
+            <h3>{{cover.title}}</h3>
+
+            <dl class="cover-content">
+              {% if cover.accessURL %}
+                <dt class="cover-content-label">URL:</dt>
+                <dd class="cover-content-data">{{cover.accessURL}}</dd>
               {% endif %}
 
+              # FIXME: This isn't de-ref'ing contribs
               {% if cover.contributors.size > 0 %}
-                <dt><h3>Author(s):</h3></dt>
-                <dd>{{ cover.contributors | map: "id" | join: ", "}}</dd>
+                <dt class="cover-content-label">Author(s):</dt>
+                <dd class="cover-content-data">{{ cover.contributors | map: "id" | join: ", "}}</dd>
               {% endif %}
+
+              # FIXME: missing About the authors
 
               {% if cover.citation %}
-                <dt><h3>Source:</h3></dt>
-                <dd>{{cover.citation}}</dd>
+                <dt class="cover-content-label">Source:</dt>
+                <dd class="cover-content-data">{{cover.citation}}</dd>
               {% endif %}
 
               {% if cover.license %}
-                <dt><h3>License:</h3></dt>
-                <dd>{{cover.license}}</dd>
+                <dt class="cover-content-label">License:</dt>
+                <dd class="cover-content-data">{{cover.license}}</dd>
               {% endif %}
 
               {% if cover.copyright %}
-                <dt><h3>Copyright:</h3></dt>
-                <dd>{{cover.copyright}}</dd>
+                <dt class="cover-content-label">Copyright:</dt>
+                <dd class="cover-content-data">{{cover.copyright}}</dd>
               {% endif %}
 
             </dl>

@@ -153,14 +153,14 @@ module.exports = async function(eleventyConfig, collections, content) {
     const { pagePDFCoverPageCitationStyle } = page.data
 
     const id = `page-${page.data.key}`
-    const title = pageTitle(page.data)
-    const accessUrl = page.data.canonicalUrl
+    const title = pageTitle({...page.data, label: ""})
+    const accessURL = page.data.canonicalURL
     const contributors = JSON.stringify(page.data.pageContributors ?? '[]')     
     const license = page.data.publication.license.name // FIXME: Need a license *text* ala https://www.getty.edu/publications/cultural-heritage-mass-atrocities/downloads/pages/CunoWeiss_CHMA_part-1-02-macgregor.pdf 
     const copyright = page.data.publication.copyright
     const pageCitation = (pagePDFCoverPageCitationStyle ?? quirePDFConfig?.pagePDF?.coverPageCitationStyle ) ? citation({context: 'page',page, type: pagePDFCoverPageCitationStyle ?? quirePDFConfig?.pagePDF?.coverPageCitationStyle }) : ''
 
-    return { id, title, accessUrl, contributors, license, copyright, citation: pageCitation }
+    return { id, title, accessURL, contributors, license, copyright, citation: pageCitation }
 
   }
 
