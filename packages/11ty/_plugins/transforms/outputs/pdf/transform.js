@@ -19,7 +19,7 @@ module.exports = async function(eleventyConfig, collections, content) {
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const slugify = eleventyConfig.getFilter('slugify')
   const citation = eleventyConfig.getFilter('citation')
-  const quirePDFConfig = eleventyConfig.globalData.config.pdf
+  const pdfConfig = eleventyConfig.globalData.config.pdf
   const slugifyIds = eleventyConfig.getFilter('slugifyIds')
 
   const writeOutput = writer(eleventyConfig)
@@ -40,10 +40,14 @@ module.exports = async function(eleventyConfig, collections, content) {
    *
    * @param  {Object}       page     The page being transformed
    * @param  {HTMLElement}  element  HTML element on which to set data attributes
+   * 
+   * `pagePdf` = true | false will determine whether this page generates a one-off PDF
+   * 
    */
   const setDataAttributes = (page, element) => {
     const { dataset } = element
-    const { parentPage, pagePDFOutput } = page.data
+    const { parentPage, pagePDFOutput, layout } = page.data
+    const { pagePdf } = pdfConfig
 
     dataset.footerPageTitle = formatTitle(page.data)
 
@@ -51,11 +55,14 @@ module.exports = async function(eleventyConfig, collections, content) {
       dataset.footerSectionTitle = formatTitle(parentPage.data)
     }
 
-    if (!pagePDFOutput && !quirePDFConfig?.pagePDF?.output) {
+    if ( (pagePDFOutput || pagePdf?.output === true) && layout === "cover" ) {
+      logger.warn(`${page.data.page.inputPath} uses a \`cover\` layout, skipping page PDF`)
       return
     }
 
-    dataset.pagePdf = true
+    if (pagePDFOutput || pdfConfig?.pagePDF?.output) {
+      dataset.pagePdf = true
+    }
 
   }
 
@@ -152,13 +159,14 @@ module.exports = async function(eleventyConfig, collections, content) {
 
     const { pagePDFCoverPageCitationStyle } = page.data
 
-    const id = `page-${page.data.key}`
+    // NB: `id` must match the @id slug scheme in `base.11ty.js` so the cover pages have the same keys
+    const id = `page-${slugify(page.data.pageData.url)}` 
     const title = pageTitle({...page.data, label: ""})
     const accessURL = page.data.canonicalURL
     const contributors = JSON.stringify(page.data.pageContributors ?? '[]')     
     const license = page.data.publication.license.name // FIXME: Need a license *text* ala https://www.getty.edu/publications/cultural-heritage-mass-atrocities/downloads/pages/CunoWeiss_CHMA_part-1-02-macgregor.pdf 
     const copyright = page.data.publication.copyright
-    const pageCitation = (pagePDFCoverPageCitationStyle ?? quirePDFConfig?.pagePDF?.coverPageCitationStyle ) ? citation({context: 'page',page, type: pagePDFCoverPageCitationStyle ?? quirePDFConfig?.pagePDF?.coverPageCitationStyle }) : ''
+    const pageCitation = (pagePDFCoverPageCitationStyle ?? pdfConfig?.pagePDF?.coverPageCitationStyle ) ? citation({context: 'page',page, type: pagePDFCoverPageCitationStyle ?? pdfConfig?.pagePDF?.coverPageCitationStyle }) : ''
 
     return { id, title, accessURL, contributors, license, copyright, citation: pageCitation }
 
@@ -206,8 +214,8 @@ module.exports = async function(eleventyConfig, collections, content) {
   collections.pdf[pageIndex].svgSymbolElements = Array.from(svgSymbolElements).map( el => el.outerHTML )
   collections.pdf[pageIndex].sectionElement = sectionElement.outerHTML
 
-  if ( ( currentPage.data.pagePDFOutput || quirePDFConfig.pagePDF.output ) && quirePDFConfig.pagePDF.coverPage) {
-    collections.pdf[pageIndex].coverPageData = normalizeCoverPageData(currentPage,quirePDFConfig) 
+  if ( ( currentPage.data.pagePDFOutput || pdfConfig.pagePDF.output ) && pdfConfig.pagePDF.coverPage) {
+    collections.pdf[pageIndex].coverPageData = normalizeCoverPageData(currentPage,pdfConfig) 
   }
 
   /**
