@@ -47,7 +47,7 @@ module.exports = async function(eleventyConfig, collections, content) {
   const setDataAttributes = (page, element) => {
     const { dataset } = element
     const { parentPage, pagePDFOutput, layout } = page.data
-    const { pagePdf } = pdfConfig
+    const { pagePDF } = pdfConfig
 
     dataset.footerPageTitle = formatTitle(page.data)
 
@@ -55,12 +55,12 @@ module.exports = async function(eleventyConfig, collections, content) {
       dataset.footerSectionTitle = formatTitle(parentPage.data)
     }
 
-    if ( (pagePDFOutput || pagePdf?.output === true) && layout === "cover" ) {
-      logger.warn(`${page.data.page.inputPath} uses a \`cover\` layout, skipping page PDF`)
+    if ( (pagePDFOutput || pagePDF?.output === true) && layout === "cover" ) {
+      logger.warn(`${page.data.page.inputPath} uses a \`cover\` layout, this will only appear in the full publication PDF`)
       return
     }
 
-    if (pagePDFOutput || pdfConfig?.pagePDF?.output) {
+    if (pagePDFOutput || pagePDF?.output === true) {
       dataset.pagePdf = true
     }
 
