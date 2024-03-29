@@ -122,7 +122,9 @@ export default async (publicationInput, coversInput, output, options = {}) => {
         })
 
         Object.values(coversMap).forEach( cov => {
-          pageMap[cov.id].coverPage = cov.startPage 
+          if (cov.id in pageMap) {
+            pageMap[cov.id].coverPage = cov.startPage           
+          }
         })
       }
 
