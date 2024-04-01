@@ -4,9 +4,12 @@ const path = require('path')
 /**
  * A shortcode for tombstone display of object data on an entry page
  */
-module.exports = function(eleventyConfig, { page }) {
+module.exports = function(eleventyConfig, { page, key }) {
+  const slugify = eleventyConfig.getFilter('slugify')
+
   const { config, objects } = eleventyConfig.globalData
   const { objectLinkText } = config.entryPage
+  const pdfConfig = eleventyConfig.globalData.config.pdf
 
   return function (pageObjects = []) {
     const titleCase = eleventyConfig.getFilter('titleCase')
@@ -32,6 +35,16 @@ module.exports = function(eleventyConfig, { page }) {
         </a>`
       : ''
 
+    let downloadLink = ''
+    if ( (pdfConfig.pagePDF.output === true || pagePDFOutput === true) && pdfConfig.pagePDF.accessLinks.findIndex( (al) => al.header === true ) > -1 ) {
+
+      const text = pdfConfig.pagePDF.accessLinks.find( al => al.header === true ).label
+      const href = path.join( pdfConfig.outputDir, `${pdfConfig.filename}-${slugify(key)}.pdf` )
+      downloadLink = oneLine`
+              <a class="button" href="${ href }" target="_blank" ><span>${ text }</span><svg class="quire-download__link__icon"><use xlink:href="#download-icon"></use></svg></a>`
+    }
+    
+    // FIXME: Insert a pdf link if it's configured
     const table = (object) => html`
       <section class="quire-entry__tombstone">
         <div class="container">
@@ -40,7 +53,7 @@ module.exports = function(eleventyConfig, { page }) {
               ${properties.map((property) => tableRow(object, property)).join('')}
             </tbody>
           </table>
-          ${objectLink(object)}
+          ${objectLink(object)}${downloadLink}
         </div>
       </section>
     `
