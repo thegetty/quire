@@ -64,7 +64,7 @@ module.exports = function(eleventyConfig) {
       const text = pdfConfig.pagePDF.accessLinks.find( al => al.header === true ).label
       const href = path.join( pdfConfig.outputDir, `${pdfConfig.filename}-${slugify(pageKey)}.pdf` )
       downloadLink = html`
-            <div class="quire-download">
+            <div class="quire-download" data-outputs-exclude="epub,pdf">
               <a class="quire-download__link" href="${ href }" target="_blank" ><span>${ text }</span><svg class="quire-download__link__icon"><use xlink:href="#download-icon"></use></svg></a>
             </div>`
 
