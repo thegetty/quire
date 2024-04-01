@@ -41,7 +41,7 @@ module.exports = function(eleventyConfig, { page, key }) {
       const text = pdfConfig.pagePDF.accessLinks.find( al => al.header === true ).label
       const href = path.join( pdfConfig.outputDir, `${pdfConfig.filename}-${slugify(key)}.pdf` )
       downloadLink = oneLine`
-              <a class="button" href="${ href }" target="_blank" data-exclude-outputs="epub,pdf" ><span>${ text }</span><svg class="quire-download__link__icon"><use xlink:href="#download-icon"></use></svg></a>`
+              <a class="button" href="${ href }" target="_blank" data-outputs-exclude="epub,pdf" ><span>${ text }</span><svg class="quire-download__link__icon"><use xlink:href="#download-icon"></use></svg></a>`
     }
     
     // FIXME: Insert a pdf link if it's configured
