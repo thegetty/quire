@@ -36,7 +36,7 @@ module.exports = function(eleventyConfig, { page, key }) {
       : ''
 
     let downloadLink = ''
-    if ( (pdfConfig.pagePDF.output === true || pagePDFOutput === true) && pdfConfig.pagePDF.accessLinks.findIndex( (al) => al.header === true ) > -1 ) {
+    if ( (pdfConfig.pagePDF.output === true || page.pagePDFOutput === true) && pdfConfig.pagePDF.accessLinks.findIndex( (al) => al.header === true ) > -1 ) {
 
       const text = pdfConfig.pagePDF.accessLinks.find( al => al.header === true ).label
       const href = path.join( pdfConfig.outputDir, `${pdfConfig.filename}-${slugify(key)}.pdf` )

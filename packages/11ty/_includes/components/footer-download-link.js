@@ -28,11 +28,10 @@ module.exports = function(eleventyConfig) {
       return ''
     }
 
-    logger.info("Config'd for download")
     if ( pdfConfig.pagePDF.accessLinks.find( (al) => al.footer === true ) === undefined )  {
       return ''
     }
-    logger.info('configd for footer dl')
+
     const text = pdfConfig.pagePDF.accessLinks.find( al => al.footer === true ).label
     const href = path.join( pdfConfig.outputDir, `${pdfConfig.filename}-${slugify(pageKey)}.pdf` )
 
