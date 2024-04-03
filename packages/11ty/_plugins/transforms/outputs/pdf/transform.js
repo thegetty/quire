@@ -44,7 +44,7 @@ module.exports = async function(eleventyConfig, collections, content) {
    * `pagePdf` = true | false will determine whether this page generates a one-off PDF
    * 
    */
-  const setDataAttributes = (page, element) => {
+  const setDataAttributes = (page, element, generatePagedPDF) => {
     const { dataset } = element
     const { parentPage, pagePDFOutput, layout } = page.data
     const { pagePDF } = pdfConfig
@@ -55,14 +55,16 @@ module.exports = async function(eleventyConfig, collections, content) {
       dataset.footerSectionTitle = formatTitle(parentPage.data)
     }
 
-    if ( (pagePDFOutput || pagePDF?.output === true) && layout === "cover" ) {
+    if (!generatePagedPDF) {
+      return
+    }
+
+    if (layout === "cover") {
       logger.warn(`${page.data.page.inputPath} uses a \`cover\` layout, this will only appear in the full publication PDF`)
       return
     }
 
-    if (pagePDFOutput || pagePDF?.output === true) {
-      dataset.pagePdf = true
-    }
+    dataset.pagePdf = true
 
   }
 
@@ -189,13 +191,16 @@ module.exports = async function(eleventyConfig, collections, content) {
   const sectionElement = document.createElement('section')
   const pageId = mainElement.dataset.pageId
 
+  const hasPagePDF = (currentPage.data.pagePDFOutput === true) || (pdfConfig.pagePDF.output === true && currentPage.data.pagePDFOutput !== false)
+  const hasCoverPage = (currentPage.data.pagePDFOutput === true) || (pdfConfig.pagePDF.output === true && currentPage.data.pagePDFOutput !== false)
+
   sectionElement.innerHTML = mainElement.innerHTML
 
   for (const className of mainElement.classList) {
     sectionElement.classList.add(className)
   }
 
-  setDataAttributes(currentPage, sectionElement)
+  setDataAttributes(currentPage, sectionElement, generatePagedPDF)
 
   // set an id for anchor links to each section
   sectionElement.setAttribute('id', pageId)
@@ -214,8 +219,8 @@ module.exports = async function(eleventyConfig, collections, content) {
   collections.pdf[pageIndex].svgSymbolElements = Array.from(svgSymbolElements).map( el => el.outerHTML )
   collections.pdf[pageIndex].sectionElement = sectionElement.outerHTML
 
-  if ( ( currentPage.data.pagePDFOutput || pdfConfig.pagePDF.output ) && pdfConfig.pagePDF.coverPage) {
-    collections.pdf[pageIndex].coverPageData = normalizeCoverPageData(currentPage,pdfConfig) 
+  if (hasPagePDF && hasCoverPage) {
+    collections.pdf[pageIndex].coverPageData = normalizeCoverPageData(currentPage,pdfConfig)         
   }
 
   /**
