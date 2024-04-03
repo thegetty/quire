@@ -68,6 +68,10 @@ Entry content, including entry image and tombstone data
         <div class="content">
           {{ content }}
           {% bibliography citations %}
+          {% footerDownloadLink 
+             page_pdf_output=pagePDFOutput 
+             key=key 
+          %}
         </div>
       </div>
     </section>

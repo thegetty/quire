@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+  <head>
+    <!--
+    <meta charset="utf-8" />
+    <meta name="description" content="${description}">
+    <meta name="keywords" content="${keywords}">
+    <title>${pageTitle}</title>
+    <link rel="canonical" href="${canonicalURL}">
+    <link rel="version-history" href="${publication.repositoryUrl}">
+    -->
+    <link rel="stylesheet" href="pdf.css" />
+  </head>
+  <body class="pdf-all-cover-pages">
+
+  {% for cover in covers %}
+  
+    <section class="quire-page pdf-cover-page" data-page-pdf="true" data-id="{{cover.id}}" id="{{cover.id}}">
+
+      <section class="section quire-page__content pdf-page">
+        <div class="container">
+          <div class="content">
+
+            <h3>{{cover.title}}</h3>
+
+            {% comment %}
+            FIXME: These classes are only here because there's a too-specific CSS rule for .quire-page__content .container .content dl dt, resolve that and remove these!! 
+            {% endcomment %}
+
+            <dl class="cover-content">
+              {% if cover.accessURL %}
+                <dt class="cover-content-label">URL:</dt>
+                <dd class="cover-content-data">{{cover.accessURL}}</dd>
+              {% endif %}
+
+              {% comment %}
+              # FIXME: This isn't de-ref'ing contribs
+              {% endcomment %}
+
+              {% if cover.contributors.size > 0 %}
+                <dt class="cover-content-label">Author(s):</dt>
+                <dd class="cover-content-data">{{ cover.contributors | map: "id" | join: ", "}}</dd>
+              {% endif %}
+
+              {% comment %}
+              # FIXME: missing About the authors
+              {% endcomment %}
+              
+              {% if cover.citation %}
+                <dt class="cover-content-label">Source:</dt>
+                <dd class="cover-content-data">{{cover.citation}}</dd>
+              {% endif %}
+
+              {% if cover.license %}
+                <dt class="cover-content-label">License:</dt>
+                <dd class="cover-content-data">{{cover.license}}</dd>
+              {% endif %}
+
+              {% if cover.copyright %}
+                <dt class="cover-content-label">Copyright:</dt>
+                <dd class="cover-content-data">{{cover.copyright}}</dd>
+              {% endif %}
+
+            </dl>
+
+          </div>
+        </div>
+      </section>
+    </section>
+
+  {% endfor %}
+
+  </body>
+</html>
+
+
+

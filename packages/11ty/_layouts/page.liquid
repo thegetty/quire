@@ -11,7 +11,9 @@ description: Single page default template
   label=label,
   pageContributors=pageContributors,
   subtitle=subtitle,
-  title=title
+  title=title,
+  page_pdf_output=pagePDFOutput,
+  key=key
 %}
 {% if content %}
 <section class="section quire-page__content">
@@ -19,6 +21,10 @@ description: Single page default template
     <div class="content">
       {{ content }}
       {% bibliography citations %}
+      {% footerDownloadLink 
+         page_pdf_output=pagePDFOutput 
+         key=key 
+      %}
     </div>
   </div>
 </section>

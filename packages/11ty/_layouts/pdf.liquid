@@ -12,5 +12,19 @@
     <link rel="stylesheet" href="pdf.css" />
   </head>
   <body>
+
+  {% comment %}
+  FIXME: Since we're in template space we can just use `this.icons()` and `this.iconscc()` for the SVGs
+  {% endcomment %}
+  {% for page in pages %}
+    {% if forloop.first == true %}
+      {{ page.svgElements }}
+    {% endif %}
+    {{ page.sectionElement }}
+  {% endfor %}
+
   </body>
 </html>
+
+
+

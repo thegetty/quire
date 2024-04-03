@@ -3,6 +3,9 @@ const filterOutputs = require('../filter.js')
 const truncate = require('~lib/truncate')
 const writer = require('./write')
 
+const chalkFactory = require('~lib/chalk')
+const logger = chalkFactory('pdf:transform')
+
 const { JSDOM } = jsdom
 
 /**
@@ -12,9 +15,12 @@ const { JSDOM } = jsdom
  * @param      {String}  content      Output content
  * @return     {Array}   The transformed content string
  */
-module.exports = function(eleventyConfig, collections, content) {
+module.exports = async function(eleventyConfig, collections, content) {
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const slugify = eleventyConfig.getFilter('slugify')
+  const citation = eleventyConfig.getFilter('citation')
+  const pdfConfig = eleventyConfig.globalData.config.pdf
+  const slugifyIds = eleventyConfig.getFilter('slugifyIds')
 
   const writeOutput = writer(eleventyConfig)
 
@@ -34,16 +40,30 @@ module.exports = function(eleventyConfig, collections, content) {
    *
    * @param  {Object}       page     The page being transformed
    * @param  {HTMLElement}  element  HTML element on which to set data attributes
+   * 
+   * `pagePdf` = true | false will determine whether this page generates a one-off PDF
+   * 
    */
   const setDataAttributes = (page, element) => {
     const { dataset } = element
-    const { parentPage } = page.data
+    const { parentPage, pagePDFOutput, layout } = page.data
+    const { pagePDF } = pdfConfig
 
     dataset.footerPageTitle = formatTitle(page.data)
 
     if (parentPage) {
       dataset.footerSectionTitle = formatTitle(parentPage.data)
     }
+
+    if ( (pagePDFOutput || pagePDF?.output === true) && layout === "cover" ) {
+      logger.warn(`${page.data.page.inputPath} uses a \`cover\` layout, this will only appear in the full publication PDF`)
+      return
+    }
+
+    if (pagePDFOutput || pagePDF?.output === true) {
+      dataset.pagePdf = true
+    }
+
   }
 
   /**
@@ -87,6 +107,71 @@ module.exports = function(eleventyConfig, collections, content) {
     // 
   }
 
+  /**
+   * @function trimLeadingSeparator
+   * 
+   * Trims the publication URL path from @src attribs and style background-image URLs 
+   * 
+   **/
+  const trimLeadingSeparator = (document) => {
+
+    const urlPath = eleventyConfig.globalData.publication.pathname
+
+    /**
+     * Trim func, removes either the deploy path or just the leading slash 
+     */
+    const trimDeployPathComponentOrSlash = (srcAttr) => {
+      // - /foo/_assets/image.jpg -> _assets/image.jpg -- FIXME: How is it that the background-image doesn't need fixed?
+      // - /_assets/image.jpg -> _assets/image.jpg
+      // - Passes URLs with protocols
+      switch (true) {
+        case srcAttr.startsWith(urlPath):
+          return srcAttr.substr(urlPath.length)
+        case srcAttr.startsWith('/'):
+          return srcAttr.substr(1)
+        default:
+          return srcAttr
+      }
+    }
+
+    document.querySelectorAll('[src]').forEach((asset) => {
+      const src = asset.getAttribute('src')
+      asset.setAttribute('src', trimDeployPathComponentOrSlash(src))
+    })
+
+    document.querySelectorAll('[style*="background-image"]').forEach((element) => {
+      const backgroundImageUrl = element.style.backgroundImage.match(/[\(](.*)[\)]/)[1] || ''
+      element.style.backgroundImage = `url('${trimDeployPathComponentOrSlash(backgroundImageUrl)}')`
+    })
+
+  }
+
+  /**
+   * @function normalizeCoverPageData
+   * 
+   * @param {Object} pageData - page data object
+   * @param {Object} pdfConfig - configuration for the pdf
+   * 
+   * Returns {Object} data formatted for the layout at _layouts/pdf-cover-page.liquid
+   *   
+   **/
+  function normalizeCoverPageData(page,pdfConfig) { 
+
+    const { pagePDFCoverPageCitationStyle } = page.data
+
+    // NB: `id` must match the @id slug scheme in `base.11ty.js` so the cover pages have the same keys
+    const id = `page-${slugify(page.data.pageData.url)}` 
+    const title = pageTitle({...page.data, label: ""})
+    const accessURL = page.data.canonicalURL
+    const contributors = JSON.stringify(page.data.pageContributors ?? '[]')     
+    const license = page.data.publication.license.name // FIXME: Need a license *text* ala https://www.getty.edu/publications/cultural-heritage-mass-atrocities/downloads/pages/CunoWeiss_CHMA_part-1-02-macgregor.pdf 
+    const copyright = page.data.publication.copyright
+    const pageCitation = (pagePDFCoverPageCitationStyle ?? pdfConfig?.pagePDF?.coverPageCitationStyle ) ? citation({context: 'page',page, type: pagePDFCoverPageCitationStyle ?? pdfConfig?.pagePDF?.coverPageCitationStyle }) : ''
+
+    return { id, title, accessURL, contributors, license, copyright, citation: pageCitation }
+
+  }
+
   const pdfPages = collections.pdf.map(({ outputPath }) => outputPath)
 
   // Returning content allows subsequent transforms to process it unmodified
@@ -121,10 +206,17 @@ module.exports = function(eleventyConfig, collections, content) {
   // prefix footnote attributes to prevent duplicates
   prefixFootnotes(sectionElement, pageId)
 
-  // remove non-pdf content
-  filterOutputs(sectionElement, 'pdf')
-  collections.pdf[pageIndex].svgSymbolElements = Array.from(svgSymbolElements)
-  collections.pdf[pageIndex].sectionElement = sectionElement
+  // Final cleanups: remove non-pdf content, remove image leading slashes, slugify it all
+  filterOutputs(sectionElement, 'pdf')  
+  trimLeadingSeparator(sectionElement)
+  slugifyIds(sectionElement)
+
+  collections.pdf[pageIndex].svgSymbolElements = Array.from(svgSymbolElements).map( el => el.outerHTML )
+  collections.pdf[pageIndex].sectionElement = sectionElement.outerHTML
+
+  if ( ( currentPage.data.pagePDFOutput || pdfConfig.pagePDF.output ) && pdfConfig.pagePDF.coverPage) {
+    collections.pdf[pageIndex].coverPageData = normalizeCoverPageData(currentPage,pdfConfig) 
+  }
 
   /**
    * Once this transform has been called for each PDF page

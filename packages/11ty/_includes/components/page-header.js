@@ -14,6 +14,8 @@ module.exports = function(eleventyConfig) {
   const { labelDivider } = eleventyConfig.globalData.config.pageTitle
   const { imageDir } = eleventyConfig.globalData.config.figures
 
+  const pdfConfig = eleventyConfig.globalData.config.pdf
+
   return function (params) {
     const {
       byline_format: bylineFormat,
@@ -21,7 +23,9 @@ module.exports = function(eleventyConfig) {
       label,
       pageContributors,
       subtitle,
-      title
+      title,
+      page_pdf_output: pagePDFOutput,
+      key: pageKey,
     } = params
 
     const classes = ['quire-page__header', 'hero']
@@ -52,6 +56,20 @@ module.exports = function(eleventyConfig) {
         `
       : ''
 
+    // FIXME: Also check the PDF config 
+    let downloadLink = ''
+
+    if ( (pdfConfig.pagePDF.output === true || pagePDFOutput === true) && pdfConfig.pagePDF.accessLinks.findIndex( (al) => al.header === true ) > -1 ) {
+
+      const text = pdfConfig.pagePDF.accessLinks.find( al => al.header === true ).label
+      const href = path.join( pdfConfig.outputDir, `${pdfConfig.filename}-${slugify(pageKey)}.pdf` )
+      downloadLink = html`
+            <div class="quire-download" data-outputs-exclude="epub,pdf">
+              <a class="quire-download__link" href="${ href }" target="_blank" ><span>${ text }</span><svg class="quire-download__link__icon"><use xlink:href="#download-icon"></use></svg></a>
+            </div>`
+
+    }
+
     return html`
       <section class="${classes}">
         <div class="hero-body">
@@ -60,6 +78,7 @@ module.exports = function(eleventyConfig) {
             ${pageTitle({ title, subtitle })}
           </h1>
           ${contributorsElement}
+          ${downloadLink}
         </div>
       </section>
       ${imageElement}
