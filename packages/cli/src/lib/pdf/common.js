@@ -16,9 +16,10 @@ import { paths } from '#lib/11ty/index.js'
 export async function splitPdf(file,coversFile,pageMap,pdfConfig) {
 
   const pdfDoc = await PDFDocument.load(file)
-  const coversDoc = await PDFDocument.load(coversFile)
 
-  let files = {}
+  const coversDoc = (coversFile !== undefined) ? await PDFDocument.load(coversFile) : undefined
+
+  let resultFiles = {}
 
   for ( const [pageId, pageConfig] of Object.entries(pageMap) ) {
     const { endPage, startPage, coverPage } = pageConfig
@@ -34,7 +35,7 @@ export async function splitPdf(file,coversFile,pageMap,pdfConfig) {
       sectionDoc.removePage(q)
     }
 
-    if (coverPage >= 0) {
+    if (coversDoc && coverPage !== undefined && coverPage >= 0) {
       // NB: `copyPages()` sets page sizing + other metadata on the way into the target PDF
       const cover = await sectionDoc.copyPages(coversDoc,[coverPage])
       sectionDoc.insertPage(0,cover[0])
@@ -46,11 +47,11 @@ export async function splitPdf(file,coversFile,pageMap,pdfConfig) {
     const sectionFn = `${pdfConfig.filename}-${sectionId}.pdf`
     const sectionFp = path.join( paths.output, pdfConfig.outputDir, sectionFn )
 
-    files[sectionFp] = section
+    resultFiles[sectionFp] = section
 
   }
 
-  return files
+  return resultFiles
 
 }
     
