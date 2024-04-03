@@ -50,7 +50,9 @@ export default async (publicationInput, coversInput, output, options = {}) => {
     const coversMap = JSON.parse(coversPageMapOutput.stdout)
 
     for (const pageId of Object.keys(coversMap))  {
-      pageMap[pageId].coverPage = coversMap[pageId].startPage 
+      if (pageId in pageMap) {
+        pageMap[pageId].coverPage = coversMap[pageId].startPage       
+      }
     }
     coversData = fs.readFileSync(output,null)
 
