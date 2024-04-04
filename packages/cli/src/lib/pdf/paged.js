@@ -88,27 +88,21 @@ export default async (publicationInput, coversInput, output, options = {}) => {
     const file = await printer.pdf(publicationInput, pdfOptions)
       .catch((error) => console.error(error))
 
+
     let pageMap
 
     // Now it's printed, create the pageMap by running JS in the printer's context
-
-    const pages = await printer.browser.pages()
-    if (pages.length > 0) {
-      pageMap = await pages[pages.length - 1].evaluate(() => {
-        // Retrieves the pageMap from our plugin
-        return window.pageMap ?? {}
-      })
-
-    }
-
-    // Leave the printer open for debug logs
-    if (!options.debug) {
-      printer.close()    
-    }
-
     let coversFile
-    if (options.pdfConfig.pagePDF.coverPage) {
+    if (options.pdfConfig && options.pdfConfig.pagePDF.coverPage) {
       console.info(`[CLI:lib/pdf/pagedjs] printing ${coversInput}`)
+      const pages = await printer.browser.pages()
+      if (pages.length > 0) {
+        pageMap = await pages[pages.length - 1].evaluate(() => {
+          // Retrieves the pageMap from our plugin
+          return window.pageMap ?? {}
+        })
+
+      }
 
       const coverPrinter = new Printer(printerOptions)
       coversFile = await coverPrinter.pdf(coversInput, pdfOptions)
@@ -129,6 +123,11 @@ export default async (publicationInput, coversInput, output, options = {}) => {
       }
 
       coverPrinter.close()
+    }
+
+    // Leave the printer open for debug logs
+    if (!options.debug) {
+      printer.close()    
     }
 
     if (file && output) {

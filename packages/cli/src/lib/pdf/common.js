@@ -15,6 +15,10 @@ import { paths } from '#lib/11ty/index.js'
 
 export async function splitPdf(file,coversFile,pageMap,pdfConfig) {
 
+  if (!pdfConfig) { 
+    return {}
+  }
+
   const pdfDoc = await PDFDocument.load(file)
 
   const coversDoc = (coversFile !== undefined) ? await PDFDocument.load(coversFile) : undefined
