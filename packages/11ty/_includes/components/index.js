@@ -16,6 +16,7 @@ module.exports = {
   contributorBio: require('./contributor/bio.js'),
   copyright: require('./copyright/index.js'),
   copyrightLicensing: require('./copyright/licensing.js'),
+  downloadLink: require('./download-link.js'),
   dublinCore: require('./head-tags/dublin-core.js'),
   figureCaption: require('./figure/caption'),
   figureImage: require('./figure/image'),

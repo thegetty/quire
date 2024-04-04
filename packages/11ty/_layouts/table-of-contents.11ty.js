@@ -43,7 +43,10 @@ module.exports = class TableOfContents {
         label=label,
         pageContributors=pageContributors,
         subtitle=subtitle,
-        title=title
+        title=title,
+        key=key,
+        page_pdf_output=pagePDFOutput,
+        outputs=outputs
       %}
       <section class="section quire-page__content">
         ${contentElement}
@@ -52,6 +55,11 @@ module.exports = class TableOfContents {
             ${await this.tableOfContents({ collections, currentPageUrl: page.url, key, presentation })}
             <div class="content">
               {% bibliography citations %}
+              {% footerDownloadLink 
+                 key=key
+                 outputs=outputs 
+                 page_pdf_output=page_pdf_output
+              %}
             </div>
           </div>
           ${this.pageButtons({ pagination })}

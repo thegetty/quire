@@ -1,17 +1,45 @@
 const { html, oneLine } = require('~lib/common-tags')
 const path = require('path')
 
+const checkFormat = require('../collections/filters/output.js')
+
+/**
+ * @function checkPagePDF
+ * 
+ * @param {Object} config pdf object from Quire config
+ * @param {Array<string>,string,undefined} outputs outputs setting from page frontmatter 
+ * @param {bool} frontmatterSetting pdf page setting from page frontmatter
+ * 
+ * Check if the PDF link should be generated for this page
+ **/
+const checkPagePDF = (config,outputs,frontmatterSetting) => {
+
+  // Is the output being created?
+  if ( !checkFormat('pdf',{data:{outputs}}) ) { 
+    return false 
+  }
+
+  // Are the footer links set?
+  if ( config.pagePDF.accessLinks.find( (al) => al.header === true ) === undefined )  {
+    return false
+  }
+
+  // Return the core logic check
+  return ( config.pagePDF.output === true && frontmatterSetting !== false ) || frontmatterSetting === true
+
+}
+
 /**
  * A shortcode for tombstone display of object data on an entry page
  */
-module.exports = function(eleventyConfig, { page, key }) {
+module.exports = function(eleventyConfig, { page }) {
   const slugify = eleventyConfig.getFilter('slugify')
 
   const { config, objects } = eleventyConfig.globalData
   const { objectLinkText } = config.entryPage
   const pdfConfig = eleventyConfig.globalData.config.pdf
 
-  return function (pageObjects = []) {
+  return function (pageObjects = [],key,outputs,pagePDFOutput) {
     const titleCase = eleventyConfig.getFilter('titleCase')
     const icon = eleventyConfig.getFilter('icon')
     const markdownify = eleventyConfig.getFilter('markdownify')
@@ -36,8 +64,8 @@ module.exports = function(eleventyConfig, { page, key }) {
       : ''
 
     let downloadLink = ''
-    if ( (pdfConfig.pagePDF.output === true || page.pagePDFOutput === true) && pdfConfig.pagePDF.accessLinks.findIndex( (al) => al.header === true ) > -1 ) {
-
+    if ( checkPagePDF(pdfConfig,outputs,pagePDFOutput) ) {
+      
       const text = pdfConfig.pagePDF.accessLinks.find( al => al.header === true ).label
       const href = path.join( pdfConfig.outputDir, `${pdfConfig.filename}-${slugify(key)}.pdf` )
       downloadLink = oneLine`

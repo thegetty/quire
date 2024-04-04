@@ -1,6 +1,8 @@
 const { html } = require('~lib/common-tags')
 const path = require('path')
 
+const checkFormat = require('../../_plugins/collections/filters/output.js')
+
 /**
  * Publication page header
  *
@@ -16,6 +18,32 @@ module.exports = function(eleventyConfig) {
 
   const pdfConfig = eleventyConfig.globalData.config.pdf
 
+  /**
+   * @function checkPagePDF
+   * 
+   * @param {Object} config pdf object from Quire config
+   * @param {Array<string>,string,undefined} outputs outputs setting from page frontmatter 
+   * @param {bool} frontmatterSetting pdf page setting from page frontmatter
+   * 
+   * Check if the PDF link should be generated for this page
+   **/
+  const checkPagePDF = (config,outputs,frontmatterSetting) => {
+
+    // Is the output being created?
+    if ( !checkFormat('pdf',{data:{outputs}}) ) { 
+      return false 
+    }
+
+    // Are the footer links set?
+    if ( config.pagePDF.accessLinks.find( (al) => al.header === true ) === undefined )  {
+      return false
+    }
+
+    // Return the core logic check
+    return ( config.pagePDF.output === true && frontmatterSetting !== false ) || frontmatterSetting === true
+
+  }
+
   return function (params) {
     const {
       byline_format: bylineFormat,
@@ -24,8 +52,9 @@ module.exports = function(eleventyConfig) {
       pageContributors,
       subtitle,
       title,
+      outputs,
       page_pdf_output: pagePDFOutput,
-      key: pageKey,
+      key,
     } = params
 
     const classes = ['quire-page__header', 'hero']
@@ -56,13 +85,12 @@ module.exports = function(eleventyConfig) {
         `
       : ''
 
-    // FIXME: Also check the PDF config 
     let downloadLink = ''
 
-    if ( (pdfConfig.pagePDF.output === true || pagePDFOutput === true) && pdfConfig.pagePDF.accessLinks.findIndex( (al) => al.header === true ) > -1 ) {
+    if ( checkPagePDF(pdfConfig,outputs,pagePDFOutput) ) {
 
       const text = pdfConfig.pagePDF.accessLinks.find( al => al.header === true ).label
-      const href = path.join( pdfConfig.outputDir, `${pdfConfig.filename}-${slugify(pageKey)}.pdf` )
+      const href = path.join( pdfConfig.outputDir, `${pdfConfig.filename}-${slugify(key)}.pdf` )
       downloadLink = html`
             <div class="quire-download" data-outputs-exclude="epub,pdf">
               <a class="quire-download__link" href="${ href }" target="_blank" ><span>${ text }</span><svg class="quire-download__link__icon"><use xlink:href="#download-icon"></use></svg></a>

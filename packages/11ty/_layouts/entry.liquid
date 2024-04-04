@@ -57,7 +57,7 @@ Entry content, including entry image and tombstone data
       </div>
     </header>
 
-    {% tombstone pageObjects %}
+    {% tombstone pageObjects key outputs page_pdf_output %}
 
     {% if abstract %}
       {% abstract abstract=abstract %}
@@ -69,8 +69,9 @@ Entry content, including entry image and tombstone data
           {{ content }}
           {% bibliography citations %}
           {% footerDownloadLink 
-             page_pdf_output=pagePDFOutput 
-             key=key 
+             key=key
+             outputs=outputs 
+             page_pdf_output=page_pdf_output
           %}
         </div>
       </div>

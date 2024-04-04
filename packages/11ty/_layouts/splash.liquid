@@ -24,6 +24,9 @@ description: splash page layout
         {% contributors context=pageContributors, format=byline_format %}
       </div>
     {% endif %}
+    {% comment %}
+    FIXME: add header download link
+    {% endcomment %}
   </div>
 </section>
 
@@ -36,6 +39,11 @@ description: splash page layout
       <div class="content{% if image %}{% else %} no-image-above{% endif %}">
         {{ content }}
         {% bibliography citations %}
+        {% footerDownloadLink 
+         key=key
+         outputs=outputs 
+         page_pdf_output=page_pdf_output
+        %}
       </div>
       {% pageButtons pagination=pagination %}
     </div>
