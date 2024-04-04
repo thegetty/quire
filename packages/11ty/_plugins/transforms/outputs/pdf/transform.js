@@ -200,7 +200,7 @@ module.exports = async function(eleventyConfig, collections, content) {
     sectionElement.classList.add(className)
   }
 
-  setDataAttributes(currentPage, sectionElement, generatePagedPDF)
+  setDataAttributes(currentPage, sectionElement, hasPagePDF)
 
   // set an id for anchor links to each section
   sectionElement.setAttribute('id', pageId)
