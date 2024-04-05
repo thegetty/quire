@@ -45,7 +45,7 @@ module.exports = class TableOfContents {
         subtitle=subtitle,
         title=title,
         key=key,
-        page_pdf_output=pagePDFOutput,
+        page_pdf_output=page_pdf_output,
         outputs=outputs
       %}
       <section class="section quire-page__content">

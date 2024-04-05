@@ -19,7 +19,7 @@ module.exports = async function(eleventyConfig, collections, content) {
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const slugify = eleventyConfig.getFilter('slugify')
   const citation = eleventyConfig.getFilter('citation')
-  const pdfConfig = eleventyConfig.globalData.config.pdf
+  const { pdf: pdfConfig } = eleventyConfig.globalData.config
   const slugifyIds = eleventyConfig.getFilter('slugifyIds')
 
   const writeOutput = writer(eleventyConfig)
@@ -40,13 +40,13 @@ module.exports = async function(eleventyConfig, collections, content) {
    *
    * @param  {Object}       page     The page being transformed
    * @param  {HTMLElement}  element  HTML element on which to set data attributes
+   * @param  {boolean}      generatePagedPDF Whether to generate a PDF for this webpage
    * 
-   * `pagePdf` = true | false will determine whether this page generates a one-off PDF
    * 
    */
   const setDataAttributes = (page, element, generatePagedPDF) => {
     const { dataset } = element
-    const { parentPage, pagePDFOutput, layout } = page.data
+    const { parentPage, layout } = page.data
     const { pagePDF } = pdfConfig
 
     dataset.footerPageTitle = formatTitle(page.data)
@@ -208,8 +208,8 @@ module.exports = async function(eleventyConfig, collections, content) {
   const sectionElement = document.createElement('section')
   const pageId = mainElement.dataset.pageId
 
-  const hasPagePDF = (currentPage.data.pagePDFOutput === true) || (pdfConfig.pagePDF.output === true && currentPage.data.pagePDFOutput !== false)
-  const hasCoverPage = (currentPage.data.pagePDFOutput === true) || (pdfConfig.pagePDF.output === true && currentPage.data.pagePDFOutput !== false)
+  const hasPagePDF = (currentPage.data.page_pdf_output === true) || (pdfConfig.pagePDF.output === true && currentPage.data.page_pdf_output !== false)
+  const hasCoverPage = (currentPage.data.page_pdf_output === true) || (pdfConfig.pagePDF.output === true && currentPage.data.page_pdf_output !== false)
 
   sectionElement.innerHTML = mainElement.innerHTML
 
