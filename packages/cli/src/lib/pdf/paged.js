@@ -28,13 +28,12 @@ export default async (publicationInput, coversInput, output, options = {}) => {
   }
 
   if (options.websafe) {
-    // FIXME: .. add styles or...
-    // FIXME: additionaScripts.push( path.join(__dirname, 'websafeImages.js')) 
+    // @todo: add styles to downsampling (if possible)
+    //        additionaScripts.push( path.join(__dirname, 'websafeImages.js')) (if not)
   }
 
   if (options.withCropsBleeds) {
-    // FIXME: .. add styles or..
-    // FIXME: additionalScripts.push( path.join(__dirname, 'cropsBleedsRemove.js')) 
+    // @todo: add styles to remove crops / bleeds
   }
 
   const printerOptions = {
