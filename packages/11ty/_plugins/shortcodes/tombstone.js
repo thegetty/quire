@@ -72,7 +72,6 @@ module.exports = function(eleventyConfig, { page }) {
               <a class="button" href="${ href }" target="_blank" data-outputs-exclude="epub,pdf" ><span>${ text }</span><svg class="quire-download__link__icon"><use xlink:href="#download-icon"></use></svg></a>`
     }
     
-    // FIXME: Insert a pdf link if it's configured
     const table = (object) => html`
       <section class="quire-entry__tombstone">
         <div class="container">

@@ -124,11 +124,11 @@ module.exports = async function(eleventyConfig, collections, content) {
     /**
      * This function removes either the deploy path or just the leading slash 
      * 
-     * @example /foo/_assets/image.jpg -> _assets/image.jpg -- FIXME: How is it that the background-image doesn't need fixed?
+     * @example /foo/_assets/image.jpg -> _assets/image.jpg
      * @example /_assets/image.jpg -> _assets/image.jpg
      * @example Pass any other @src attributes (incl. `http(s)://..`)
      * 
-     * @todo Why does background-image carry the root asset URL without path?
+     * @todo Why does background-image carry the root asset path but no pathPrefix?
      * 
      **/
     const trimDeployPathComponentOrSlash = (srcAttr) => {
