@@ -8,18 +8,18 @@ import yaml from 'js-yaml'
 
 /**
  * @function loadConfig(path) - loads and validates quire config, returns an empty object if not found
- * @throws Will throw an error if the configuration path is not found
  *  
  * @param {path} string - file path to config file
  * 
  * @todo refactor loading configs to a separate module,
  * which uses the same validator(s) as the build proceess
  * 
+ * @return {Object|undefined} User configuration object or undefined
  **/
 function loadConfig(path) {
 
   if (!fs.existsSync(path)) {
-    throw new Error(`User configuration file ${path} not found!`)
+    return undefined
   }
 
   const data = fs.readFileSync(path)
@@ -62,6 +62,7 @@ export default class PDFCommand extends Command {
   }
 
   constructor() {
+    const config = loadConfig(path.join(projectRoot,'content','_data','config.yaml'))
     super(PDFCommand.definition)
   }
 
@@ -73,9 +74,14 @@ export default class PDFCommand extends Command {
     const publicationInput = path.join(projectRoot, paths.output, 'pdf.html')
     const coversInput = path.join(projectRoot, paths.output, 'pdf-covers.html')
 
+    if (quireConfig===undefined) {
+      console.error(`[quire pdf]: ERROR Unable to find a configuration file at ${path.join(projectRoot,'content','_data','config.yaml')}\nIs the command being run in a quire project?`)
+      process.exit(1)
+    }
+
     if (!fs.existsSync(publicationInput)) {
-      console.error(`Unable to find PDF input at ${publicationInput}\nPlease first run the 'quire build' command.`)
-      return
+      console.error(`[quire pdf]: ERROR Unable to find PDF input at ${publicationInput}\nPlease first run the 'quire build' command.`)
+      process.exit(1)
     }
 
     const output = quireConfig.pdf !== undefined ? path.join(paths.output, quireConfig.pdf.outputDir, `${quireConfig.pdf.filename}.pdf`) : path.join(projectRoot, `${options.lib}.pdf`)
@@ -86,7 +92,7 @@ export default class PDFCommand extends Command {
     try {
       if (fs.existsSync(output) && options.open) open(output)
     } catch (error) {
-      console.error(error)
+      console.error(`[quire pdf]: ERROR`,error)
       process.exit(1)
     }
   }
