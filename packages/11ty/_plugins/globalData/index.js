@@ -39,45 +39,43 @@ const checkForDuplicateIds = function (data, filename) {
 }
 
 /**
- * @todo replace with ajv schema validation
- */
-const validatePublication = (publication) => {
-  try {
-    const { url } = publication
-    publication.url = url.endsWith('/') ? url : url + '/'
-    publication.pathname = new URL(publication.url).pathname
-  } catch (errorMessage) {
-    logger.error(
-      `Publication.yaml url property must be a valid url. Current url value: "${url}"`
-    )
-    throw new Error(errorMessage)
-  }
-  return publication
-}
-
-/**
- * @function validateConfig - throws error if data does not parse to config 
+ * 
+ * @function validateUserConfig - throws error if user config data is not structured as expected 
  * @throws {Error}
  * 
- * @param {Object} config - Deserialized config data
+ * @param {string} type - User configuration type to validate
+ * @param {Object} data - Deserialized config data from `config.yaml`, `publication.yaml`, etc
  * 
+ * @todo replace with ajv schema validation
  */
-const validateConfig = (config) => {
-
-  for (let [key,value] of Object.entries(config)) {
-    switch (key) {
-    case 'pdf':
-
-      // For now just use some quickie type-checking asserts
-      assert.strictEqual(typeof value.outputDir,'string',new TypeError("pdf.outputDir must be a string"))
-      assert.strictEqual(typeof value.filename,'string',new TypeError("pdf.filename must be a string"))
-      // FIXME: if pagePDF exists... assert.strictEqual(typeof value.pagePDF,'object',new TypeError("pdf.pagePdf must be an object"))
-      // FIXME: assetLinks should be an array of objects if it exists
+const validateUserConfig = (type,data) => {
+  switch (type) {
+    case 'publication':
+      try {
+        const { url } = data
+        data.url = url.endsWith('/') ? url : url + '/'
+        data.pathname = new URL(data.url).pathname
+      } catch (errorMessage) {
+        logger.error(
+          `Publication.yaml url property must be a valid url. Current url value: "${url}"`
+        )
+        throw new Error(errorMessage)
+      }
       break
-    }    
+    case 'config': // FIXME: *pretty* sure `strictEqual()` throws, but it's node so double check with bad data
+      if ( 'pdf' in data ) {
+        // For now just use some quickie type-checking asserts
+        assert.strictEqual(typeof data.pdf.outputDir,'string',new TypeError("pdf.outputDir must be a string"))
+        assert.strictEqual(typeof data.pdf.filename,'string',new TypeError("pdf.filename must be a string"))
+        // FIXME: if pagePDF exists... assert.strictEqual(typeof value.pagePDF,'object',new TypeError("pdf.pagePdf must be an object"))
+        // FIXME: assetLinks should be an array of objects if it exists        
+      } 
+      break
+    default:
+      break
   }
 
-  return config
+  return data
 }
 
 /**
@@ -103,17 +101,8 @@ module.exports = function(eleventyConfig, directoryConfig) {
   for (const file of files) {
 
     const { name: key } = path.parse(file)
-    let value = parse(path.join(dir, file))
-    // console.log(key,value)
-
-    switch (key) {
-    case 'config':
-      value = validateConfig(value)
-      break
-    case 'publication':
-      value = validatePublication(value)
-      break
-    }
+    const parsed = parse(path.join(dir, file)) 
+    const value = validateUserConfig(key,parsed)
 
     if (!key || !value) { 
       continue

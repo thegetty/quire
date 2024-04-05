@@ -6,21 +6,26 @@ import open from 'open'
 import path from 'node:path'
 import yaml from 'js-yaml'
 
-// FIXME: All this config loading might be better moved to another lib helper?
-// FIXME: Also it should probably load the same config validator(s) used in the build proc.
 /**
  * @function loadConfig(path) - loads and validates quire config, returns an empty object if not found
+ * @throws Will throw an error if the configuration path is not found
+ *  
  * @param {path} string - file path to config file
- */
+ * 
+ * @todo refactor loading configs to a separate module,
+ * which uses the same validator(s) as the build proceess
+ * 
+ **/
 function loadConfig(path) {
-  if (fs.existsSync(path)) {
-    const data = fs.readFileSync(path)
-    const config = yaml.load(data)
-  
-    return config
+
+  if (!fs.existsSync(path)) {
+    throw new Error(`User configuration file ${path} not found!`)
   }
 
-  return {}
+  const data = fs.readFileSync(path)
+  const config = yaml.load(data)
+
+  return config
 
 }
 

@@ -32,10 +32,10 @@ export async function splitPdf(file,coversFile,pageMap,pdfConfig) {
     
     const sectionDoc = await pdfDoc.copy()
 
-    for (var p=pdfDoc.getPageCount()-1;p>endPage;p--) {
+    for (const p=pdfDoc.getPageCount() - 1; p > endPage; --p) {
       sectionDoc.removePage(p)
     }
-    for (var q=startPage-1;q>=0;q--) {
+    for (const q=startPage - 1; q >= 0; --q) {
       sectionDoc.removePage(q)
     }
 

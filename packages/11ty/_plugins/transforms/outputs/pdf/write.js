@@ -1,6 +1,5 @@
 const chalkFactory = require('~lib/chalk')
 const fs = require('fs-extra')
-const { JSDOM } = require('jsdom')
 const path = require('path')
 const sass = require('sass')
 
@@ -11,7 +10,6 @@ const sass = require('sass')
  */
 module.exports = (eleventyConfig) => {
   const { input, output } = eleventyConfig.dir
-  const quireConfigPdf = eleventyConfig.globalData.config.pdf
 
   const logger = chalkFactory('transforms:pdf:writer')
 

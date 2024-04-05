@@ -2,7 +2,7 @@ import { execa } from 'execa'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { splitPdf } from './common.js'
+import { splitPdf } from './split.js'
 import fs from 'fs-extra'
 
 import which from '#helpers/which.js'
@@ -43,6 +43,7 @@ export default async (publicationInput, coversInput, output, options = {}) => {
   let pageMap = JSON.parse(pageMapOutput.stdout)
 
   let coversData
+
   if (options.pdfConfig && options.pdfConfig.pagePDF.coverPage === true) {
 
     const coversPageMapOutput = await execa('prince', [...pageMapOptions, coversInput])
@@ -54,6 +55,7 @@ export default async (publicationInput, coversInput, output, options = {}) => {
         pageMap[pageId].coverPage = coversMap[pageId].startPage       
       }
     }
+
     coversData = fs.readFileSync(output,null)
 
   }

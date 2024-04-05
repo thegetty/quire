@@ -112,6 +112,8 @@ module.exports = async function(eleventyConfig, collections, content) {
   /**
    * @function trimLeadingSeparator
    * 
+   * @param {Object} document JSDom `document` object of a section element
+   * 
    * Trims the publication URL path from @src attribs and style background-image URLs 
    * 
    **/
@@ -120,12 +122,16 @@ module.exports = async function(eleventyConfig, collections, content) {
     const urlPath = eleventyConfig.globalData.publication.pathname
 
     /**
-     * Trim func, removes either the deploy path or just the leading slash 
-     */
+     * This function removes either the deploy path or just the leading slash 
+     * 
+     * @example /foo/_assets/image.jpg -> _assets/image.jpg -- FIXME: How is it that the background-image doesn't need fixed?
+     * @example /_assets/image.jpg -> _assets/image.jpg
+     * @example Pass any other @src attributes (incl. `http(s)://..`)
+     * 
+     * @todo Why does background-image carry the root asset URL without path?
+     * 
+     **/
     const trimDeployPathComponentOrSlash = (srcAttr) => {
-      // - /foo/_assets/image.jpg -> _assets/image.jpg -- FIXME: How is it that the background-image doesn't need fixed?
-      // - /_assets/image.jpg -> _assets/image.jpg
-      // - Passes URLs with protocols
       switch (true) {
         case srcAttr.startsWith(urlPath):
           return srcAttr.substr(urlPath.length)
@@ -154,7 +160,7 @@ module.exports = async function(eleventyConfig, collections, content) {
    * @param {Object} pageData - page data object
    * @param {Object} pdfConfig - configuration for the pdf
    * 
-   * Returns {Object} data formatted for the layout at _layouts/pdf-cover-page.liquid
+   * @return {Object} data formatted for the layout at _layouts/pdf-cover-pages.liquid
    *   
    **/
   function normalizeCoverPageData(page,pdfConfig) { 
@@ -162,15 +168,26 @@ module.exports = async function(eleventyConfig, collections, content) {
     const { pagePDFCoverPageCitationStyle } = page.data
 
     // NB: `id` must match the @id slug scheme in `base.11ty.js` so the cover pages have the same keys
-    const id = `page-${slugify(page.data.pageData.url)}` 
-    const title = pageTitle({...page.data, label: ""})
     const accessURL = page.data.canonicalURL
     const contributors = JSON.stringify(page.data.pageContributors ?? '[]')     
-    const license = page.data.publication.license.name // FIXME: Need a license *text* ala https://www.getty.edu/publications/cultural-heritage-mass-atrocities/downloads/pages/CunoWeiss_CHMA_part-1-02-macgregor.pdf 
     const copyright = page.data.publication.copyright
-    const pageCitation = (pagePDFCoverPageCitationStyle ?? pdfConfig?.pagePDF?.coverPageCitationStyle ) ? citation({context: 'page',page, type: pagePDFCoverPageCitationStyle ?? pdfConfig?.pagePDF?.coverPageCitationStyle }) : ''
+    const id = `page-${slugify(page.data.pageData.url)}` 
 
-    return { id, title, accessURL, contributors, license, copyright, citation: pageCitation }
+    // @todo Need license *text* per example
+
+    const license = page.data.publication.license.name 
+    const pageCitation = (pagePDFCoverPageCitationStyle ?? pdfConfig?.pagePDF?.coverPageCitationStyle ) ? citation({context: 'page',page, type: pagePDFCoverPageCitationStyle ?? pdfConfig?.pagePDF?.coverPageCitationStyle }) : ''
+    const title = pageTitle({...page.data, label: ""})
+
+    return { 
+      accessURL, 
+      citation: pageCitation, 
+      contributors, 
+      copyright, 
+      id, 
+      license, 
+      title 
+    };
 
   }
 
