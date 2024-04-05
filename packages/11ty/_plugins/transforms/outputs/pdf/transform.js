@@ -19,6 +19,8 @@ module.exports = async function(eleventyConfig, collections, content) {
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const slugify = eleventyConfig.getFilter('slugify')
   const citation = eleventyConfig.getFilter('citation')
+  const citePage = eleventyConfig.getFilter('citePage')
+  const formatCitation = eleventyConfig.getFilter('formatCitation')
   const { pdf: pdfConfig } = eleventyConfig.globalData.config
   const slugifyIds = eleventyConfig.getFilter('slugifyIds')
 
@@ -176,12 +178,39 @@ module.exports = async function(eleventyConfig, collections, content) {
     // @todo Need license *text* per example
 
     const license = page.data.publication.license.name 
-    const pageCitation = (pagePDFCoverPageCitationStyle ?? pdfConfig?.pagePDF?.coverPageCitationStyle ) ? citation({context: 'page',page, type: pagePDFCoverPageCitationStyle ?? pdfConfig?.pagePDF?.coverPageCitationStyle }) : ''
+
+    // @todo replace date in mla citation
+    /**
+     * The function to do this in the app client code:
+       function mlaDate(date) {
+          const options = {
+            month: 'long'
+          }
+          const monthNum = date.getMonth()
+          let month
+          if ([4, 5, 6].includes(monthNum)) {
+            let dateString = date.toLocaleDateString('en-US', options)
+            month = dateString.replace(/[^A-Za-z]+/, '')
+          } else {
+            month = (month === 8) ? 'Sept' : date.toLocaleDateString('en-US', options).slice(0, 3)
+            month += '.'
+          }
+          const day = date.getDate()
+          const year = date.getFullYear()
+          return [day, month, year].join(' ')
+        }
+     * 
+     **/
+
+    // Feed the CSL processor an access date (@todo: either make this work or use the func above..)
+    const pageCiteData = citePage({page,context: 'page',type:'mla'})
+    const mla = formatCitation({...pageCiteData,accessed: "01 Oct 1999"},{page,context: 'page',type:'mla'})
+    const pageCitations = { mla, chicago: citation({context: 'page',page, type: 'chicago' }) }
     const title = pageTitle({...page.data, label: ""})
 
     return { 
       accessURL, 
-      citation: pageCitation, 
+      citations: pageCitations, 
       contributors, 
       copyright, 
       id, 

@@ -46,9 +46,11 @@
               # FIXME: missing About the authors
               {% endcomment %}
               
-              {% if cover.citation %}
-                <dt class="cover-content-label">Source:</dt>
-                <dd class="cover-content-data">{{cover.citation}}</dd>
+              {% if cover.citations %}
+                <dt class="cover-content-label">Source (MLA):</dt>
+                <dd class="cover-content-data">{{cover.citations.mla}}</dd>                
+                <dt class="cover-content-label">Source (Chicago):</dt>
+                <dd class="cover-content-data">{{cover.citations.chicago}}</dd>
               {% endif %}
 
               {% if cover.license %}
