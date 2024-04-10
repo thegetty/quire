@@ -61,8 +61,8 @@ module.exports = function(eleventyConfig) {
     const href = path.join( pdfConfig.outputDir, `${pdfConfig.filename}-${slugify(key)}.pdf` )
 
     return oneLine`
-      <div class="quire-download" data-outputs-exclude="epub,pdf">
-        <a class="quire-download__link" href="${ href }" target="_blank" ><span>${ text }</span><svg class="quire-download__link__icon"><use xlink:href="#download-icon"></use></svg></a>
+      <div class="quire-download ${ type==="footer" ? "quire-download-footer-link" : "" }" data-outputs-exclude="epub,pdf">
+        <a class="quire-download__link" href="${ href }" download><span>${ text }</span><svg class="quire-download__link__icon"><use xlink:href="#download-icon"></use></svg></a>
       </div>`
   }
 

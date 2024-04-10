@@ -19,7 +19,7 @@ const checkPagePDF = (config,outputs,frontmatterSetting) => {
     return false 
   }
 
-  // Are the footer links set?
+  // Are the header links set?
   if ( config.pagePDF.accessLinks.find( (al) => al.header === true ) === undefined )  {
     return false
   }
@@ -37,7 +37,7 @@ module.exports = function(eleventyConfig, { page }) {
 
   const { config, objects } = eleventyConfig.globalData
   const { objectLinkText } = config.entryPage
-  const pdfConfig = eleventyConfig.globalData.config.pdf
+  const { pdf: pdfConfig } = config
 
   return function (pageObjects = [],key,outputs,pagePDFOutput) {
     const titleCase = eleventyConfig.getFilter('titleCase')
