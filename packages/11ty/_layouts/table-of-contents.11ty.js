@@ -55,7 +55,8 @@ module.exports = class TableOfContents {
             ${await this.tableOfContents({ collections, currentPageUrl: page.url, key, presentation })}
             <div class="content">
               {% bibliography citations %}
-              {% footerDownloadLink 
+              {% downloadLink 
+                 type="footer"
                  key=key
                  outputs=outputs 
                  page_pdf_output=page_pdf_output

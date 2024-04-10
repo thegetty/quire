@@ -27,7 +27,8 @@ description: Single page default template
         NB: Reivisit this in 11ty 3.0.
         There's a lot of logic coming together in this component -- page data and the project pdf config, plus user-generated content in the key. Control looks inverted.
       {% endcomment %}
-      {% footerDownloadLink 
+      {% downloadLink
+         type="footer" 
          key=key
          outputs=outputs 
          page_pdf_output=page_pdf_output

@@ -1,3 +1,4 @@
+const path = require('path')
 const { html, oneLine } = require('~lib/common-tags')
 
 /**
@@ -15,9 +16,12 @@ module.exports = function (eleventyConfig) {
   const contributors = eleventyConfig.getFilter('contributors')
   const icon = eleventyConfig.getFilter('icon')
   const markdownify = eleventyConfig.getFilter('markdownify')
+  const slugify = eleventyConfig.getFilter('slugify')
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const removeHTML = eleventyConfig.getFilter('removeHTML')
   const { contributorDivider } = eleventyConfig.globalData.config.tableOfContents
+
+  const { pdf: pdfConfig } = eleventyConfig.globalData.config
 
   return function (params) {
     const {
@@ -44,6 +48,9 @@ module.exports = function (eleventyConfig) {
      */
     const isPage = !!layout
 
+    const hasPagePDF = ( pdfConfig.pagePDF.output && page.data.page_pdf_output !== false ) || page.data.page_pdf_ouptut === true
+    const hasAccessLinks = pdfConfig.pagePDF.accessLinks.find( al => al.toc === true ) !== undefined
+
     const pageContributorsElement = pageContributors
       ? `<span class="contributor-divider">${contributorDivider}</span><span class="contributor">${contributors({ context: pageContributors, format: 'string' })}</span>`
       : ''
@@ -54,6 +61,7 @@ module.exports = function (eleventyConfig) {
     } else {
       pageTitleElement = oneLine`${pageTitle({ label, subtitle, title })}${pageContributorsElement}`
     }
+
     const arrowIcon = `<span class="arrow" data-outputs-exclude="epub,pdf">${icon({ type: 'arrow-forward', description: '' })}</span>`
 
     // Returns abstract with any links stripped out
@@ -66,6 +74,13 @@ module.exports = function (eleventyConfig) {
 
     if (isPage) {
       mainElement = `<a href="${page.url}">${mainElement}</a>`
+
+      if (hasPagePDF && hasAccessLinks) {
+        const pdfText = pdfConfig.pagePDF.accessLinks.find( al => al.toc === true ).label
+        const pdfHref = path.join( pdfConfig.outputDir, `${pdfConfig.filename}-${slugify(page.key)}.pdf` )
+
+        mainElement += `<a href="${pdfHref}"><span>${pdfText}</span></a>`
+      }
     } else {
       classes.push('no-landing')
     }

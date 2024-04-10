@@ -25,7 +25,8 @@ description: Essay layout. This layout describes a single-page template that has
     <div class="content">
       {{ content }}
       {% bibliography citations %}
-      {% footerDownloadLink 
+      {% downloadLink 
+         type="footer"
          key=key
          outputs=outputs 
          page_pdf_output=page_pdf_output
