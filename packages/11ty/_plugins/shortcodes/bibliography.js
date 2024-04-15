@@ -46,9 +46,9 @@ module.exports = function (eleventyConfig, { page }) {
     ? eleventyConfig.globalData.references.entries
     : []
   const { pdf: pdfConfig } = eleventyConfig.globalData.config
-
-  const { outputs, page_pdf_output: pagePDFOutput } = page
+  const { outputs, page_pdf_output: pagePDFOutput } = page.data
   const { displayOnPage, displayShort, heading } = page.data.config.bibliography
+
   /**
    * bibliography shortcode
    * @example {% bibliography citations %}
@@ -61,6 +61,7 @@ module.exports = function (eleventyConfig, { page }) {
    *                                to include in the rendered bibliography
    */
   return function (referenceIds = [],pagePDFOutput) {
+
     if (!page.citations && !referenceIds) return
 
     if (!displayOnPage) {
@@ -108,28 +109,36 @@ module.exports = function (eleventyConfig, { page }) {
       </ul>
     `
 
-    let downloadLink = ''
-    if ( checkPagePDF(pdfConfig,outputs,pagePDFOutput) && page.data.layout!=="cover" ) {
-      
+    const downloadLink = () => {
+
+      if ( !checkPagePDF(pdfConfig,outputs,pagePDFOutput) || page.data.layout === 'cover' ) {
+        return ''
+      }
+        
       const text = pdfConfig.pagePDF.accessLinks.find( al => al.footer === true ).label
       const href = path.join( pdfConfig.outputDir, `${pdfConfig.filename}-${slugify(page.data.key)}.pdf` )
-      downloadLink = oneLine`<div class="quire-download quire-download-footer-link" data-outputs-exclude="epub,pdf">
+      return oneLine`<div class="quire-download quire-download-footer-link" data-outputs-exclude="epub,pdf">
         <a class="quire-download__link" href="${ href }" download><span>${ text }</span><svg class="quire-download__link__icon"><use xlink:href="#download-icon"></use></svg></a>
       </div>`
 
     }
 
     /**
-     * Do not render the list when there are no citations nor page references
+     * Render: the list if there are citations or page references, d/l link, or nothing
      */
-    return bibliographyItems.length
-      ? html`
-          <div class="quire-page__content__references backmatter">
-            ${bibliographyHeading()}
-            ${displayShort ? definitionList() : unorderedList()}
-            ${downloadLink}
-          </div>
-        `
-      : ''
+    switch (true) {
+      case bibliographyItems.length > 0:
+        return html`
+            <div class="quire-page__content__references backmatter">
+              ${bibliographyHeading()}
+              ${displayShort ? definitionList() : unorderedList()}
+              ${downloadLink()}
+            </div>
+          `
+      case downloadLink() !== '':
+        return html`${downloadLink()}`
+      default:
+        return ''
+    }
   }
 }
