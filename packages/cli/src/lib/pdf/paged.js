@@ -91,6 +91,7 @@ export default async (publicationInput, coversInput, output, options = {}) => {
     let pageMap
 
     // Now it's printed, create the pageMap by running JS in the printer's context
+    // @todo: Abstract this into its own function
     let coversFile
     if (options.pdfConfig && options.pdfConfig.pagePDF.coverPage) {
       console.info(`[CLI:lib/pdf/pagedjs] printing ${coversInput}`)

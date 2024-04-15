@@ -31,7 +31,5 @@ function generatePageMap() {
 
 }
 
-if (Prince) {
-  Prince.trackBoxes = true
-  Prince.oncomplete = generatePageMap  
-}
+Prince.trackBoxes = true
+Prince.oncomplete = generatePageMap  
