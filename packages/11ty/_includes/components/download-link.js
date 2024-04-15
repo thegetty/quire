@@ -5,7 +5,7 @@ const chalkFactory = require('~lib/chalk')
 
 const checkFormat = require('../../_plugins/collections/filters/output.js')
 
-const logger = chalkFactory("shortcode:footer-dl")
+const logger = chalkFactory('shortcode:footer-dl')
 /**
  * Handles logic about whether a footer d/l link appears at all and renders a link
  *
@@ -61,7 +61,7 @@ module.exports = function(eleventyConfig) {
     const href = path.join( pdfConfig.outputDir, `${pdfConfig.filename}-${slugify(key)}.pdf` )
 
     return oneLine`
-      <div class="quire-download ${ type==="footer" ? "quire-download-footer-link" : "" }" data-outputs-exclude="epub,pdf">
+      <div class="quire-download ${ type==='footer' ? 'quire-download-footer-link' : '' }" data-outputs-exclude="epub,pdf">
         <a class="quire-download__link" href="${ href }" download><span>${ text }</span><svg class="quire-download__link__icon"><use xlink:href="#download-icon"></use></svg></a>
       </div>`
   }

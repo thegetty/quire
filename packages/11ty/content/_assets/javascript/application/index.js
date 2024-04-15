@@ -8,7 +8,7 @@
  */
 
 // Stylesheets
-import '../../fonts/index.scss';
+import '../../fonts/index.scss'
 import '../../styles/application.scss'
 import '../../styles/screen.scss'
 import '../../styles/custom.css'

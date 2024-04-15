@@ -61,7 +61,7 @@ module.exports = async function(eleventyConfig, collections, content) {
       return
     }
 
-    if (layout === "cover") {
+    if (layout === 'cover') {
       logger.warn(`${page.data.page.inputPath} uses a \`cover\` layout, this will only appear in the full publication PDF`)
       return
     }
@@ -150,7 +150,7 @@ module.exports = async function(eleventyConfig, collections, content) {
     })
 
     document.querySelectorAll('[style*="background-image"]').forEach((element) => {
-      const backgroundImageUrl = element.style.backgroundImage.match(/[\(](.*)[\)]/)[1] || ''
+      const backgroundImageUrl = element.style.backgroundImage.match(/[(](.*)[)]/)[1] || ''
       element.style.backgroundImage = `url('${trimDeployPathComponentOrSlash(backgroundImageUrl)}')`
     })
 
@@ -204,9 +204,9 @@ module.exports = async function(eleventyConfig, collections, content) {
 
     // Feed the CSL processor an access date (@todo: either make this work or use the func above..)
     const pageCiteData = citePage({page,context: 'page',type:'mla'})
-    const mla = formatCitation({...pageCiteData,accessed: "01 Oct 1999"},{page,context: 'page',type:'mla'})
+    const mla = formatCitation({...pageCiteData,accessed: '01 Oct 1999'},{page,context: 'page',type:'mla'})
     const pageCitations = { mla, chicago: citation({context: 'page',page, type: 'chicago' }) }
-    const title = pageTitle({...page.data, label: ""})
+    const title = pageTitle({...page.data, label: ''})
 
     return { 
       accessURL, 
@@ -216,7 +216,7 @@ module.exports = async function(eleventyConfig, collections, content) {
       id, 
       license, 
       title 
-    };
+    }
 
   }
 
