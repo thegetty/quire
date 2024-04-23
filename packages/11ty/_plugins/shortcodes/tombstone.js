@@ -1,7 +1,6 @@
 const { html, oneLine } = require('~lib/common-tags')
-const path = require('path')
-
 const checkFormat = require('../collections/filters/output.js')
+const path = require('path')
 
 /**
  * @function checkPagePDF
@@ -11,22 +10,21 @@ const checkFormat = require('../collections/filters/output.js')
  * @param {bool} frontmatterSetting pdf page setting from page frontmatter
  * 
  * Check if the PDF link should be generated for this page
- **/
-const checkPagePDF = (config,outputs,frontmatterSetting) => {
+ */
+const checkPagePDF = (config, outputs, frontmatterSetting) => {
 
   // Is the output being created?
-  if ( !checkFormat('pdf',{data:{outputs}}) ) { 
+  if (!checkFormat('pdf', { data: { outputs } })) {
     return false 
   }
 
   // Are the header links set?
-  if ( config.pagePDF.accessLinks.find( (al) => al.header === true ) === undefined )  {
+  if (config.pagePDF.accessLinks.find((al) => al.header === true) === undefined)  {
     return false
   }
 
   // Return the core logic check
-  return ( config.pagePDF.output === true && frontmatterSetting !== false ) || frontmatterSetting === true
-
+  return (config.pagePDF.output === true && frontmatterSetting !== false) || frontmatterSetting === true
 }
 
 /**
@@ -39,7 +37,7 @@ module.exports = function(eleventyConfig, { page }) {
   const { objectLinkText } = config.entryPage
   const { pdf: pdfConfig } = config
 
-  return function (pageObjects = [],key,outputs,pagePDFOutput) {
+  return function (pageObjects = [], key, outputs, pagePDFOutput) {
     const titleCase = eleventyConfig.getFilter('titleCase')
     const icon = eleventyConfig.getFilter('icon')
     const markdownify = eleventyConfig.getFilter('markdownify')
@@ -69,7 +67,8 @@ module.exports = function(eleventyConfig, { page }) {
       const text = pdfConfig.pagePDF.accessLinks.find( al => al.header === true ).label
       const href = path.join( pdfConfig.outputDir, `${pdfConfig.filename}-${slugify(key)}.pdf` )
       downloadLink = oneLine`
-              <a class="button" href="${ href }" target="_blank" data-outputs-exclude="epub,pdf" ><span>${ text }</span><svg class="quire-download__link__icon"><use xlink:href="#download-icon"></use></svg></a>`
+        <a class="button" href="${href}" target="_blank" data-outputs-exclude="epub,pdf" ><span>${text}</span><svg class="quire-download__link__icon"><use xlink:href="#download-icon"></use></svg></a>
+      `
     }
     
     const table = (object) => html`

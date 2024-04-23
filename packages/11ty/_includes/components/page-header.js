@@ -26,22 +26,21 @@ module.exports = function(eleventyConfig) {
    * @param {bool} frontmatterSetting pdf page setting from page frontmatter
    * 
    * Check if the PDF link should be generated for this page
-   **/
+   */
   const checkPagePDF = (config,outputs,frontmatterSetting) => {
 
     // Is the output being created?
-    if ( !checkFormat('pdf',{data:{outputs}}) ) { 
+    if (!checkFormat('pdf', { data: { outputs } })) {
       return false 
     }
 
     // Are the footer links set?
-    if ( config.pagePDF.accessLinks.find( (al) => al.header === true ) === undefined )  {
+    if (config.pagePDF.accessLinks.find((al) => al.header === true) === undefined)  {
       return false
     }
 
     // Return the core logic check
-    return ( config.pagePDF.output === true && frontmatterSetting !== false ) || frontmatterSetting === true
-
+    return (config.pagePDF.output === true && frontmatterSetting !== false) || frontmatterSetting === true
   }
 
   return function (params) {
@@ -71,7 +70,7 @@ module.exports = function(eleventyConfig) {
       ? html`
           <section
             class="${classes} hero__image"
-           style="background-image: url('${path.join(imageDir, image)}');"
+            style="background-image: url('${path.join(imageDir, image)}');"
           >
           </section>
         `
@@ -87,15 +86,14 @@ module.exports = function(eleventyConfig) {
 
     let downloadLink = ''
 
-    if ( checkPagePDF(pdfConfig,outputs,pagePDFOutput) ) {
-
-      const text = pdfConfig.pagePDF.accessLinks.find( al => al.header === true ).label
-      const href = path.join( pdfConfig.outputDir, `${pdfConfig.filename}-${slugify(key)}.pdf` )
+    if (checkPagePDF(pdfConfig,outputs,pagePDFOutput)) {
+      const text = pdfConfig.pagePDF.accessLinks.find((al) => al.header === true).label
+      const href = path.join(pdfConfig.outputDir, `${pdfConfig.filename}-${slugify(key)}.pdf`)
       downloadLink = html`
-            <div class="quire-download" data-outputs-exclude="epub,pdf">
-              <a class="quire-download__link" href="${ href }" download><span>${ text }</span><svg class="quire-download__link__icon"><use xlink:href="#download-icon"></use></svg></a>
-            </div>`
-
+        <div class="quire-download" data-outputs-exclude="epub,pdf">
+          <a class="quire-download__link" href="${ href }" download><span>${ text }</span><svg class="quire-download__link__icon"><use xlink:href="#download-icon"></use></svg></a>
+        </div>
+      `
     }
 
     return html`

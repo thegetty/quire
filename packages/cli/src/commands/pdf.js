@@ -1,5 +1,5 @@
-import Command from '#src/Command.js'
 import { paths, projectRoot  } from '#lib/11ty/index.js'
+import Command from '#src/Command.js'
 import fs from 'fs-extra'
 import libPdf from '#lib/pdf/index.js'
 import open from 'open'
@@ -15,9 +15,8 @@ import yaml from 'js-yaml'
  * which uses the same validator(s) as the build proceess
  * 
  * @return {Object|undefined} User configuration object or undefined
- **/
+ */
 function loadConfig(path) {
-
   if (!fs.existsSync(path)) {
     return undefined
   }
@@ -26,7 +25,6 @@ function loadConfig(path) {
   const config = yaml.load(data)
 
   return config
-
 }
 
 const quireConfig = loadConfig(path.join(projectRoot,'content','_data','config.yaml'))
