@@ -1,9 +1,9 @@
-const filters = require('./filters')
-const sortCollection = require('./sort')
+const filters = require("./filters");
+const sortCollection = require("./sort");
 
 /**
  * Add Collections and Apply Transforms
- * 
+ *
  * Nota bene: The Eleventy API does not make collections data accessible
  * from the plugin context. Adding `collections` and `transforms` sequentially
  * in the same file allows access to `collections` data from `transforms`
@@ -13,23 +13,23 @@ const sortCollection = require('./sort')
  * @return {Object} collections
  */
 module.exports = function (eleventyConfig, options = {}) {
-  let collections = {}
+  let collections = {};
 
   /**
    * Add sorted "all" collection
    */
-  eleventyConfig.addCollection('allSorted', function (collectionApi) {
-    return collectionApi.getAll().sort(sortCollection)
-  })
+  eleventyConfig.addCollection("allSorted", function (collectionApi) {
+    return collectionApi.getAllSorted().sort(sortCollection);
+  });
 
   /**
    * Add eleventy-generated collections to collections object
    */
-  eleventyConfig.addCollection('temp', function (collectionApi) {
-    const eleventyCollections = collectionApi.getAll()[0].data.collections
-    Object.assign(collections, eleventyCollections)
-    return []
-  })
+  eleventyConfig.addCollection("temp", function (collectionApi) {
+    const eleventyCollections = collectionApi.getAll()[0].data.collections;
+    Object.assign(collections, eleventyCollections);
+    return [];
+  });
 
   /**
    * Add custom collections
@@ -37,11 +37,11 @@ module.exports = function (eleventyConfig, options = {}) {
   for (const name in filters) {
     eleventyConfig.addCollection(name, function (collectionApi) {
       collections[name] = collectionApi
-        .getAll()
+        .getAllSorted()
         .filter(filters[name])
-        .sort(sortCollection)
-      return collections[name]
-    })
+        .sort(sortCollection);
+      return collections[name];
+    });
   }
-  return collections
-}
+  return collections;
+};
