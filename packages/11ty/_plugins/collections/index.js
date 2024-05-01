@@ -1,5 +1,5 @@
-const filters = require("./filters");
-const sortCollection = require("./sort");
+const filters = require('./filters')
+const sortCollection = require('./sort')
 
 /**
  * Add Collections and Apply Transforms
@@ -13,35 +13,32 @@ const sortCollection = require("./sort");
  * @return {Object} collections
  */
 module.exports = function (eleventyConfig, options = {}) {
-  let collections = {};
+  let collections = {}
 
   /**
    * Add sorted "all" collection
    */
-  eleventyConfig.addCollection("allSorted", function (collectionApi) {
-    return collectionApi.getAllSorted().sort(sortCollection);
-  });
+  eleventyConfig.addCollection('allSorted', function (collectionApi) {
+    return collectionApi.getAllSorted().sort(sortCollection)
+  })
 
   /**
    * Add eleventy-generated collections to collections object
    */
-  eleventyConfig.addCollection("temp", function (collectionApi) {
-    const eleventyCollections = collectionApi.getAll()[0].data.collections;
-    Object.assign(collections, eleventyCollections);
-    return [];
-  });
+  eleventyConfig.addCollection('temp', function (collectionApi) {
+    const eleventyCollections = collectionApi.getAll()[0].data.collections
+    Object.assign(collections, eleventyCollections)
+    return []
+  })
 
   /**
    * Add custom collections
    */
   for (const name in filters) {
     eleventyConfig.addCollection(name, function (collectionApi) {
-      collections[name] = collectionApi
-        .getAllSorted()
-        .filter(filters[name])
-        .sort(sortCollection);
-      return collections[name];
-    });
+      collections[name] = collectionApi.getAllSorted().filter(filters[name]).sort(sortCollection)
+      return collections[name]
+    })
   }
-  return collections;
-};
+  return collections
+}
