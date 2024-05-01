@@ -36,7 +36,10 @@ module.exports = function (eleventyConfig, options = {}) {
    */
   for (const name in filters) {
     eleventyConfig.addCollection(name, function (collectionApi) {
-      collections[name] = collectionApi.getAllSorted().filter(filters[name]).sort(sortCollection)
+      collections[name] = collectionApi
+        .getAllSorted()
+        .filter(filters[name])
+        .sort(sortCollection)
       return collections[name]
     })
   }
