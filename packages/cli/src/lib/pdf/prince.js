@@ -21,30 +21,47 @@ export default async (publicationInput, coversInput, output, options = {}) => {
    * @see https://www.princexml.com/doc/command-line/#options
    */
   
+  const { pdfConfig } = options
+
+  // These options run once to get the map pages to essays
   const pageMapOptions = [
     `--script=${ path.join(__dirname, 'princePlugin.js') }`,
     `--output=${output}`,
   ]
 
+  // These options are for the actual user-facing PDF
   const cmdOptions = [
     `--output=${output}`,
   ]
 
-  if (options.debug) cmdOptions.push('--debug')
-  if (options.verbose) cmdOptions.push('--verbose')
+  if (options.debug) {
+    pageMapOptions.push('--debug')
+    cmdOptions.push('--debug')
+  }
+  
+  if (options.verbose) {
+    pageMapOptions.push('--verbose')
+    cmdOptions.push('--verbose')
+  }
 
   const { dir } = path.parse(output)
   if (!fs.existsSync(dir)) { 
     fs.mkdirsSync(dir)
   }
   
-  const pageMapOutput = await execa('prince', [...pageMapOptions, publicationInput])
-  // FIXME: check for errors here
-  let pageMap = JSON.parse(pageMapOutput.stdout)
+  // Execute the page mapping PDF build  
+  let pageMap = {}
+  try {
+    const pageMapOutput = await execa('prince', [...pageMapOptions, publicationInput])  
+    pageMap = JSON.parse(pageMapOutput.stdout)
+  } catch (err) {
+    console.error(`Generating the PDF page map failed with the error ${err.stderr}`)
+    process.exit(1)
+  }
 
   let coversData
 
-  if (options.pdfConfig && options.pdfConfig.pagePDF.coverPage === true) {
+  if (pdfConfig?.pagePDF?.coverPage === true) {
 
     const coversPageMapOutput = await execa('prince', [...pageMapOptions, coversInput])
     // FIXME: check for errors here
@@ -60,10 +77,18 @@ export default async (publicationInput, coversInput, output, options = {}) => {
 
   }
 
-  const { stderror, stdout } = await execa('prince', [...cmdOptions, publicationInput])
+  let stderror,stdout
+
+  try {
+    ({ stderror, stdout } = await execa('prince', [...cmdOptions, publicationInput]))
+  } catch (err) {
+    console.error(`Printing the PDF failed with the error ${err.stderr}`)
+    process.exit(1)
+  }
+
   const pdfData = fs.readFileSync(output,null)
   
-  let files = await splitPdf(pdfData,coversData,pageMap,options.pdfConfig)
+  let files = await splitPdf(pdfData,coversData,pageMap,pdfConfig)
   Object.entries(files).forEach( async ([filePath,pagePdf]) => {
     await fs.promises.writeFile(filePath,pagePdf)
       .catch((error) => console.error(error))

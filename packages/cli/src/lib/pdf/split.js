@@ -19,6 +19,8 @@ export async function splitPdf(file,coversFile,pageMap,pdfConfig) {
     return {}
   }
 
+  const { filename, outputDir } = pdfConfig
+
   const pdfDoc = await PDFDocument.load(file)
 
   const coversDoc = (coversFile !== undefined) ? await PDFDocument.load(coversFile) : undefined
@@ -48,8 +50,8 @@ export async function splitPdf(file,coversFile,pageMap,pdfConfig) {
     const section = await sectionDoc.save()
 
     const sectionId = pageId.replace(/^page-/g,'')
-    const sectionFn = `${pdfConfig.filename}-${sectionId}.pdf`
-    const sectionFp = path.join( paths.output, pdfConfig.outputDir, sectionFn )
+    const sectionFn = `${filename}-${sectionId}.pdf`
+    const sectionFp = path.join( paths.output, outputDir, sectionFn )
 
     resultFiles[sectionFp] = section
 
