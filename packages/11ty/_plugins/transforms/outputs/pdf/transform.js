@@ -1,9 +1,9 @@
-const jsdom = require('jsdom')
+const chalkFactory = require('~lib/chalk')
 const filterOutputs = require('../filter.js')
+const jsdom = require('jsdom')
 const truncate = require('~lib/truncate')
 const writer = require('./write')
 
-const chalkFactory = require('~lib/chalk')
 const logger = chalkFactory('pdf:transform')
 
 const { JSDOM } = jsdom
@@ -67,7 +67,6 @@ module.exports = async function(eleventyConfig, collections, content) {
     }
 
     dataset.pagePdf = true
-
   }
 
   /**
@@ -108,19 +107,16 @@ module.exports = async function(eleventyConfig, collections, content) {
       item.setAttribute('href', `#${prefix}-${href.replace(/^#/, '')}`)
       item.setAttribute('id', `${prefix}-${id}`)
     })
-    // 
   }
 
   /**
    * @function trimLeadingSeparator
    * 
-   * @param {Object} document JSDom `document` object of a section element
-   * 
-   * Trims the publication URL path from @src attribs and style background-image URLs 
-   * 
-   **/
-  const trimLeadingSeparator = (document) => {
+   * Trims the publication URL path from @src attribs and style background-image URLs
 
+   * @param {Object} document JSDom `document` object of a section element
+   */
+  const trimLeadingSeparator = (document) => {
     const urlPath = eleventyConfig.globalData.publication.pathname
 
     /**
@@ -131,8 +127,7 @@ module.exports = async function(eleventyConfig, collections, content) {
      * @example Pass any other @src attributes (incl. `http(s)://..`)
      * 
      * @todo Why does background-image carry the root asset path but no pathPrefix?
-     * 
-     **/
+     */
     const trimDeployPathComponentOrSlash = (srcAttr) => {
       switch (true) {
         case srcAttr.startsWith(urlPath):
@@ -153,7 +148,6 @@ module.exports = async function(eleventyConfig, collections, content) {
       const backgroundImageUrl = element.style.backgroundImage.match(/[(](.*)[)]/)[1] || ''
       element.style.backgroundImage = `url('${trimDeployPathComponentOrSlash(backgroundImageUrl)}')`
     })
-
   }
 
   /**
@@ -163,10 +157,8 @@ module.exports = async function(eleventyConfig, collections, content) {
    * @param {Object} pdfConfig - configuration for the pdf
    * 
    * @return {Object} data formatted for the layout at _layouts/pdf-cover-pages.liquid
-   *   
-   **/
-  function normalizeCoverPageData(page,pdfConfig) { 
-
+   */
+  function normalizeCoverPageData(page,pdfConfig) {
     const { pagePDFCoverPageCitationStyle } = page.data
 
     // NB: `id` must match the @id slug scheme in `base.11ty.js` so the cover pages have the same keys
@@ -203,10 +195,16 @@ module.exports = async function(eleventyConfig, collections, content) {
      **/
 
     // Feed the CSL processor an access date (@todo: either make this work or use the func above..)
-    const pageCiteData = citePage({page,context: 'page',type:'mla'})
-    const mla = formatCitation({...pageCiteData,accessed: '01 Oct 1999'},{page,context: 'page',type:'mla'})
-    const pageCitations = { mla, chicago: citation({context: 'page',page, type: 'chicago' }) }
-    const title = pageTitle({...page.data, label: ''})
+    const pageCiteData = citePage({ page, context: 'page', type: 'mla' })
+    const mla = formatCitation(
+      { ...pageCiteData, accessed: '01 Oct 1999' },
+      { page, context: 'page', type: 'mla' }
+    )
+    const pageCitations = {
+      chicago: citation({ context: 'page', page, type: 'chicago' }),
+      mla
+    };
+    const title = pageTitle({ ...page.data, label: '' })
 
     return { 
       accessURL, 
@@ -217,7 +215,6 @@ module.exports = async function(eleventyConfig, collections, content) {
       license, 
       title 
     }
-
   }
 
   const pdfPages = collections.pdf.map(({ outputPath }) => outputPath)

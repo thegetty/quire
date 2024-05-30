@@ -1,10 +1,8 @@
 const assert = require('node:assert')
-const fs = require('fs-extra')
-const path = require('path')
-
 const chalkFactory = require('~lib/chalk')
-
+const fs = require('fs-extra')
 const parser = require('./parser')
+const path = require('path')
 
 const logger = chalkFactory('[plugins:globalData]')
 
@@ -48,7 +46,7 @@ const checkForDuplicateIds = function (data, filename) {
  * 
  * @todo replace with ajv schema validation
  */
-const validateUserConfig = (type,data) => {
+const validateUserConfig = (type, data) => {
   switch (type) {
     case 'publication':
       try {
@@ -63,7 +61,7 @@ const validateUserConfig = (type,data) => {
       }
       break
     case 'config': // FIXME: *pretty* sure `strictEqual()` throws, but it's node so double check with bad data
-      if ( 'pdf' in data ) {
+      if ('pdf' in data) {
         // For now just use some quickie type-checking asserts
         assert.strictEqual(typeof data.pdf.outputDir,'string',new TypeError('pdf.outputDir must be a string'))
         assert.strictEqual(typeof data.pdf.filename,'string',new TypeError('pdf.filename must be a string'))
@@ -99,18 +97,14 @@ module.exports = function(eleventyConfig, directoryConfig) {
   const parse = parser(eleventyConfig)
 
   for (const file of files) {
-
     const { name: key } = path.parse(file)
     const parsed = parse(path.join(dir, file)) 
-    const value = validateUserConfig(key,parsed)
-
+    const value = validateUserConfig(key, parsed)
     if (!key || !value) { 
       continue
     }
-
     checkForDuplicateIds(value, file)
     eleventyConfig.addGlobalData(key, value)
-    
   }
 
   // Add directory config to globalData so that it is available to other plugins

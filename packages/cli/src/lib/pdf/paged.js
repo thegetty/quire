@@ -90,23 +90,24 @@ export default async (publicationInput, coversInput, output, options = {}) => {
 
       console.info(`[CLI:lib/pdf/pagedjs] generating page map`)
       const pages = await printer.browser.pages()
+
       if (pages.length > 0) {
         pageMap = await pages[pages.length - 1].evaluate(() => {
           // Retrieves the pageMap from our plugin
           return window.pageMap ?? {}
         })
-
       }
 
       if ( pdfConfig?.coverPage===true ) {
-
         console.info(`[CLI:lib/pdf/pagedjs] printing ${coversInput}`)
 
         const coverPrinter = new Printer(printerOptions)
+
         coversFile = await coverPrinter.pdf(coversInput, pdfOptions)
           .catch((error) => console.error(error))
 
-        const coverPages = await coverPrinter.browser.pages() 
+        const coverPages = await coverPrinter.browser.pages()
+
         if (coverPages.length > 0) {
           const coversMap = await coverPages[coverPages.length - 1].evaluate(() => {
             // Retrieves the pageMap from our plugin
@@ -121,7 +122,6 @@ export default async (publicationInput, coversInput, output, options = {}) => {
         }
 
         coverPrinter.close()
-
       }      
 
     }

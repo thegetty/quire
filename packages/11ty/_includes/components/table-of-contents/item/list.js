@@ -67,18 +67,16 @@ module.exports = function (eleventyConfig) {
     // Returns abstract with any links stripped out
     const abstractText =
       presentation === 'abstract' && (abstract || summary)
-        ? `<div class="abstract-text">${ removeHTML(markdownify(abstract)) }</div>`
+        ? `<div class="abstract-text">${removeHTML(markdownify(abstract))}</div>`
         : ''
 
     let mainElement = `${markdownify(pageTitleElement)}${isPage && !children ? arrowIcon : ''}`
 
     if (isPage) {
       mainElement = `<a href="${page.url}">${mainElement}</a>`
-
       if (hasPagePDF && hasAccessLinks) {
-        const pdfText = pdfConfig.pagePDF.accessLinks.find( al => al.toc === true ).label
-        const pdfHref = path.join( pdfConfig.outputDir, `${pdfConfig.filename}-${slugify(page.key)}.pdf` )
-
+        const pdfText = pdfConfig.pagePDF.accessLinks.find((al) => al.toc === true).label
+        const pdfHref = path.join(pdfConfig.outputDir, `${pdfConfig.filename}-${slugify(page.key)}.pdf`)
         mainElement += `<a href="${pdfHref}"><span>${pdfText}</span></a>`
       }
     } else {
