@@ -4,6 +4,7 @@ import fs from 'fs-extra'
 import libPdf from '#lib/pdf/index.js'
 import open from 'open'
 import path from 'node:path'
+import { validateUserConfig } from '../../../11ty/_plugins/globalData/validator.js'
 import yaml from 'js-yaml'
 
 /**
@@ -16,13 +17,25 @@ import yaml from 'js-yaml'
  * 
  * @return {Object|undefined} User configuration object or undefined
  */
-function loadConfig(path) {
-  if (!fs.existsSync(path)) {
+function loadConfig(confPath) {
+  if (!fs.existsSync(confPath)) {
     return undefined
   }
 
-  const data = fs.readFileSync(path)
-  const config = yaml.load(data)
+  const data = fs.readFileSync(confPath)
+  let config = yaml.load(data)
+
+  // NB: Schemas may be project specific so the CLI must loads from project root rather than package root
+  const schemaPath = path.join(projectRoot,'_plugins','schemas','config.json')
+
+  // TODO: Check the project version string for whether we should check the schema
+  if (fs.existsSync(schemaPath)) {
+
+    const sch = fs.readFileSync(schemaPath)
+    const schema = JSON.parse(sch)      
+
+    config = validateUserConfig('config',data,{config: schema})
+  }
 
   return config
 }

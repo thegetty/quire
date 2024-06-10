@@ -45,6 +45,7 @@
     "#lib/*.js": "./src/lib/*.js"
   },
   "dependencies": {
+    "ajv": "^8.16.0",
     "boxen": "^7.0.1",
     "chalk": "^5.2.0",
     "commander": "^10.0.0",

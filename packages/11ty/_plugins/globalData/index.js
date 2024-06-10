@@ -1,7 +1,8 @@
-const assert = require('node:assert')
 const chalkFactory = require('~lib/chalk')
 const fs = require('fs-extra')
 const parser = require('./parser')
+const { validateUserConfig } = require('./validator')
+
 const path = require('path')
 
 const logger = chalkFactory('[plugins:globalData]')
@@ -34,46 +35,6 @@ const checkForDuplicateIds = function (data, filename) {
       }
     })
   }
-}
-
-/**
- * 
- * @function validateUserConfig - throws error if user config data is not structured as expected 
- * @throws {Error}
- * 
- * @param {string} type - User configuration type to validate
- * @param {Object} data - Deserialized config data from `config.yaml`, `publication.yaml`, etc
- * 
- * @todo replace with ajv schema validation
- */
-const validateUserConfig = (type, data) => {
-  switch (type) {
-    case 'publication':
-      try {
-        const { url } = data
-        data.url = url.endsWith('/') ? url : url + '/'
-        data.pathname = new URL(data.url).pathname
-      } catch (errorMessage) {
-        logger.error(
-          `Publication.yaml url property must be a valid url. Current url value: "${data.url}"`
-        )
-        throw new Error(errorMessage)
-      }
-      break
-    case 'config': // FIXME: *pretty* sure `strictEqual()` throws, but it's node so double check with bad data
-      if ('pdf' in data) {
-        // For now just use some quickie type-checking asserts
-        assert.strictEqual(typeof data.pdf.outputDir,'string',new TypeError('pdf.outputDir must be a string'))
-        assert.strictEqual(typeof data.pdf.filename,'string',new TypeError('pdf.filename must be a string'))
-        // FIXME: if pagePDF exists... assert.strictEqual(typeof value.pagePDF,'object',new TypeError("pdf.pagePdf must be an object"))
-        // FIXME: assetLinks should be an array of objects if it exists        
-      } 
-      break
-    default:
-      break
-  }
-
-  return data
 }
 
 /**
