@@ -163,7 +163,7 @@ module.exports = async function(eleventyConfig, collections, content) {
 
     // NB: `id` must match the @id slug scheme in `base.11ty.js` so the cover pages have the same keys
     const accessURL = page.data.canonicalURL
-    const contributors = JSON.stringify(page.data.pageContributors ?? '[]')     
+    const contributors = page.data.pageContributors ?? []    
     const copyright = page.data.publication.copyright
     const id = `page-${slugify(page.data.pageData.url)}` 
 

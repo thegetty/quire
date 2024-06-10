@@ -33,13 +33,9 @@
                 <dd class="cover-content-data">{{cover.accessURL}}</dd>
               {% endif %}
 
-              {% comment %}
-              # FIXME: This isn't de-ref'ing contribs
-              {% endcomment %}
-
               {% if cover.contributors.size > 0 %}
                 <dt class="cover-content-label">Author(s):</dt>
-                <dd class="cover-content-data">{{ cover.contributors | map: "id" | join: ", "}}</dd>
+                <dd class="cover-content-data">{% contributors context=cover.contributors format='string' %}</dd>
               {% endif %}
 
               {% comment %}

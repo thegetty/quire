@@ -30,7 +30,7 @@ export async function splitPdf(file,coversFile,pageMap,pdfConfig) {
   for ( const [pageId, pageConfig] of Object.entries(pageMap) ) {
     const { endPage, startPage, coverPage } = pageConfig
 
-    // FIXME: Set the PDF's sectional doc metadata
+    // TODO: Set the PDF's sectional doc metadata
     
     const sectionDoc = await pdfDoc.copy()
 

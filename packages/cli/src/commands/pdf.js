@@ -35,7 +35,7 @@ function loadConfig(confPath) {
     const schema = JSON.parse(sch)      
 
     try {
-      config = validateUserConfig('config',data,{config: schema})    
+      config = validateUserConfig('config',config,{config: schema})    
     } catch (err) {
       console.error(err)
       process.exit(1)

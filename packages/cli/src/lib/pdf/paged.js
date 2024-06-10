@@ -98,7 +98,7 @@ export default async (publicationInput, coversInput, output, options = {}) => {
         })
       }
 
-      if ( pdfConfig?.coverPage===true ) {
+      if ( pdfConfig?.pagePDF?.coverPage===true ) {
         console.info(`[CLI:lib/pdf/pagedjs] printing ${coversInput}`)
 
         const coverPrinter = new Printer(printerOptions)
@@ -119,6 +119,7 @@ export default async (publicationInput, coversInput, output, options = {}) => {
               pageMap[cov.id].coverPage = cov.startPage           
             }
           })
+
         }
 
         coverPrinter.close()
