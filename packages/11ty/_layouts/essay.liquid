@@ -24,7 +24,7 @@ description: Essay layout. This layout describes a single-page template that has
   <div class="container">
     <div class="content">
       {{ content }}
-      {% bibliography citations %}
+      {% bibliography citations outputs page_pdf_output %}
     </div>
     {% pageButtons pagination=pagination %}
   </div>

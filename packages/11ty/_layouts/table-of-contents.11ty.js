@@ -54,7 +54,7 @@ module.exports = class TableOfContents {
           <div class="quire-contents-list ${presentation}">
             ${await this.tableOfContents({ collections, currentPageUrl: page.url, key, presentation })}
             <div class="content">
-              {% bibliography citations %}
+              {% bibliography citations outputs page_pdf_output %}
             </div>
           </div>
           ${this.pageButtons({ pagination })}

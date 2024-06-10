@@ -58,7 +58,7 @@ module.exports = function (eleventyConfig, { page }) {
    * @param  {Array}  referenceIds  An array of `references.yaml` entry ids
    *                                to include in the rendered bibliography
    */
-  return function (referenceIds = [], pagePDFOutput) {
+  return function (referenceIds = [],outputs,pagePDFOutput) {
 
     if (!page.citations && !referenceIds) return
 
