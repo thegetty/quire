@@ -36,7 +36,7 @@
         },
         "publicationPDF": {
           "type": "object",
-          "required": "output",
+          "required": ["output"],
           "properties": {
             "output": { "type": "boolean" }
           }
