@@ -60,7 +60,15 @@ module.exports = function(eleventyConfig, directoryConfig) {
   for (const file of files) {
     const { name: key } = path.parse(file)
     const parsed = parse(path.join(dir, file)) 
-    const value = validateUserConfig(key, parsed)
+
+    let value
+    try {
+      value = validateUserConfig(key, parsed)
+    } catch (err) {
+      logger.error(err)
+      process.exit(1)
+    }
+
     if (!key || !value) { 
       continue
     }

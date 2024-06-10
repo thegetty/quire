@@ -55,8 +55,8 @@ const validateUserConfig = (type, data, schemas = { config: configSchema }) => {
 
         if (!valid) {
           const formatted = validate.errors.map( e => `${e.instancePath ?? ""}: ${e.message}` ).join(", ")
-          console.error("config.yaml does not match the expected format: ",validate.errors)
-          process.exit(1)
+          
+          throw new Error("config.yaml does not match the expected format: ",validate.errors)
         }
 
       } 

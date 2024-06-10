@@ -34,7 +34,12 @@ function loadConfig(confPath) {
     const sch = fs.readFileSync(schemaPath)
     const schema = JSON.parse(sch)      
 
-    config = validateUserConfig('config',data,{config: schema})
+    try {
+      config = validateUserConfig('config',data,{config: schema})    
+    } catch (err) {
+      console.error(err)
+      process.exit(1)
+    }
   }
 
   return config

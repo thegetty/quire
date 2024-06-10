@@ -17,6 +17,7 @@
         },
         "pagePDF": { 
           "type": "object",
+          "required": [ "accessLinks", "coverPage", "output" ],
           "properties": {
             "accessLinks": {
               "type": "array",
@@ -35,6 +36,7 @@
         },
         "publicationPDF": {
           "type": "object",
+          "required": "output",
           "properties": {
             "output": { "type": "boolean" }
           }
