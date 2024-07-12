@@ -28,38 +28,29 @@
             {% endcomment %}
 
             <dl class="cover-content">
-              {% if cover.accessURL %}
-                <dt class="cover-content-label">URL:</dt>
-                <dd class="cover-content-data">{{cover.accessURL}}</dd>
-              {% endif %}
 
               {% if cover.contributors.size > 0 %}
                 <dt class="cover-content-label">Author(s):</dt>
                 <dd class="cover-content-data">{% contributors context=cover.contributors format='string' %}</dd>
               {% endif %}
 
-              {% comment %}
-              # FIXME: missing About the authors
-              {% endcomment %}
+              {% if cover.accessURL %}
+                <dt class="cover-content-label">URL:</dt>
+                <dd class="cover-content-data">{{cover.accessURL}}</dd>
+              {% endif %}
               
               {% if cover.citations %}
-                <dt class="cover-content-label">Source (MLA):</dt>
-                <dd class="cover-content-data">{{cover.citations.mla}}</dd>                
-                <dt class="cover-content-label">Source (Chicago):</dt>
+                <dt class="cover-content-label">Citation (Chicago):</dt>
                 <dd class="cover-content-data">{{cover.citations.chicago}}</dd>
-              {% endif %}
-
-              {% if cover.license %}
-                <dt class="cover-content-label">License:</dt>
-                <dd class="cover-content-data">{{cover.license}}</dd>
-              {% endif %}
-
-              {% if cover.copyright %}
-                <dt class="cover-content-label">Copyright:</dt>
-                <dd class="cover-content-data">{{cover.copyright}}</dd>
+                <dt class="cover-content-label">Citation (MLA):</dt>
+                <dd class="cover-content-data">{{cover.citations.mla}}</dd>
               {% endif %}
 
             </dl>
+
+            <hr />
+
+            {% copyright %}
 
           </div>
         </div>
