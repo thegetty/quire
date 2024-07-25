@@ -12,10 +12,11 @@
     <link rel="stylesheet" href="pdf.css" />
   </head>
   <body>
-
   {% comment %}
-  @todo Check what SVG packages this expects besides those in iconscc() and icons() 
+  This template renders the `pages` property of the data passed to it. 
+  `pages` is an array of `section` elements from each PDF-having page in the publication.
   {% endcomment %}
+
   {% for page in pages %}
     {% if forloop.first == true %}
       {{ page.svgElements }}
