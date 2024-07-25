@@ -68,10 +68,6 @@ export default class PDFCommand extends Command {
         '--lib <module>', 'use the specified pdf module', 'pagedjs',
         { choices: ['pagedjs', 'prince'], default: 'pagedjs' }
       ],
-      [ '--page-pdfs', 'Produce PDFs for each quire page enabled with `paged-pdf`'],
-      // @todo [ '--websafe', 'Make the PDF websafe (no crop marks+margins, downsample images)'],
-      // @todo [ '--output-dir', 'Output the PDF to this directory'],
-      // @todo (also name the default text here "configured"? [ '--filename <string>', 'Use this as the prefix for PDF ouptuts', {default: quireConfig?.pdf?.filename ?? 'publication' }],
       [ '--open', 'open PDF in default application' ],
       [ '--debug', 'run build with debug output to console' ],
     ],
