@@ -47,10 +47,13 @@ module.exports = (eleventyConfig) => {
       logger.error(`Eleventy transform for PDF error writing combined HTML output for PDF. ${error}`)
     }
 
-    try {
-      fs.writeFileSync(coversOutputPath, coversHtml)
-    } catch (error) {
-      logger.error(`Eleventy transform for PDF error writing covers HTML output for PDF. ${error}`)
+    if (coversMarkups.length > 0) {
+
+      try {
+        fs.writeFileSync(coversOutputPath, coversHtml)
+      } catch (error) {
+        logger.error(`Eleventy transform for PDF error writing covers HTML output for PDF. ${error}`)
+      }      
     }
 
     const sassOptions = {
