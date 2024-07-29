@@ -171,7 +171,7 @@ module.exports = function(eleventyConfig) {
    * @property {Boolean} useTransform - Use WebC transform to process all HTML output
    */
   eleventyConfig.addPlugin(pluginWebc, {
-    components: '_includes/components/**/*.webc',
+    components: ['_components/**/*.webc', '_includes/components/**/*.webc'],
     transformData: {},
     useTransform: false,
   })

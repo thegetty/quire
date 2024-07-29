@@ -3,7 +3,7 @@ const { html } = require('~lib/common-tags')
 /**
  * Image Service Web Component
  * @param      {Object} eleventyConfig  eleventy configuration
- * 
+ *
  * @param      {Object} params
  * @property   {String} figure
  * @return     {String}  An <image-service> element
@@ -19,7 +19,7 @@ module.exports = function(eleventyConfig) {
     width=''
   }) {
     return html`
-      <image-service 
+      <image-service
         alt="${alt}"
         class="q-figure__image"
         height="${height}"
