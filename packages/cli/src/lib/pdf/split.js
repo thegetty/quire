@@ -54,10 +54,8 @@ export async function splitPdf(file,coversFile,pageMap,pdfConfig) {
     const sectionFp = path.join( paths.output, outputDir, sectionFn )
 
     resultFiles[sectionFp] = section
-
   }
 
   return resultFiles
-
 }
     
