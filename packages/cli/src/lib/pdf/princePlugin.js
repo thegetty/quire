@@ -5,7 +5,7 @@
  */
 function generatePageMap() {
   
-  const els = document.querySelectorAll('.quire-page[data-page-pdf=true]')
+  const els = document.querySelectorAll('.quire-page[data-page-pdf=true]') // eslint-disable-line no-undef
   let pageMap = {}
 
   for (let i=0;i < els.length;i++) {
@@ -31,5 +31,5 @@ function generatePageMap() {
 
 }
 
-Prince.trackBoxes = true
-Prince.oncomplete = generatePageMap  
+Prince.trackBoxes = true // eslint-disable-line no-undef
+Prince.oncomplete = generatePageMap // eslint-disable-line no-undef

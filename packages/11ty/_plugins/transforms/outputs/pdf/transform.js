@@ -203,7 +203,7 @@ module.exports = async function(eleventyConfig, collections, content) {
     const pageCitations = {
       chicago: citation({ context: 'page', page, type: 'chicago' }),
       mla
-    };
+    }
     const title = pageTitle({ ...page.data, label: '' })
 
     return { 

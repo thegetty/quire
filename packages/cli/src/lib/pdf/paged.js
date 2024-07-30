@@ -91,7 +91,7 @@ export default async (publicationInput, coversInput, output, options = {}) => {
     if (pages.length > 0) {
       pageMap = await pages[pages.length - 1].evaluate(() => {
         // Retrieves the pageMap from our plugin
-        return window.pageMap ?? {}
+        return window.pageMap ?? {} // eslint-disable-line no-undef
       })
     }
 
@@ -108,7 +108,7 @@ export default async (publicationInput, coversInput, output, options = {}) => {
       if (coverPages.length > 0) {
         const coversMap = await coverPages[coverPages.length - 1].evaluate(() => {
           // Retrieves the pageMap from our plugin
-          return window.pageMap ?? {}
+          return window.pageMap ?? {} // eslint-disable-line no-undef
         })
 
         Object.values(coversMap).forEach( cov => {

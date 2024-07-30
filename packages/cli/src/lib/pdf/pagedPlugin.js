@@ -4,7 +4,7 @@
  * Responds to [paged.js afterRender hook](https://pagedjs.org/documentation/10-handlers-hooks-and-custom-javascript/) to map the PDF's page table and store it in window.pageMap
  * 
  */
-class pageTableMapper extends Paged.Handler {
+class pageTableMapper extends Paged.Handler { // eslint-disable-line no-undef
   constructor(chunker, polisher, caller) {
     super(chunker, polisher, caller)
   }
@@ -41,9 +41,9 @@ class pageTableMapper extends Paged.Handler {
       }
     }
 
-    window.pageMap = pageMap
+    window.pageMap = pageMap // eslint-disable-line no-undef
 
   }
 }
 
-Paged.registerHandlers(pageTableMapper)
+Paged.registerHandlers(pageTableMapper) // eslint-disable-line no-undef
