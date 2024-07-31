@@ -25,7 +25,6 @@ const currentDir = filePathStem
   .filter((item) => item)
   .slice(0, -1)
   .join('/');
-if (!this.collections) return;
 const collection = this.collections.tableOfContentsHtml;
 const getCurrentDirIndexPage = (navigation) => {
   return navigation.reduce((indexPage, item) => {

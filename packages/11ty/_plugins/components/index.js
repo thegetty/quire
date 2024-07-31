@@ -24,9 +24,4 @@ module.exports = function(eleventyConfig, collections, options) {
         break
     }
   }
-
-  /**
-   * Note: WebC attribute names must be all lowercase or snake_case
-   */
-  addWebcShortcode('figureImageWebc', 'figure-image', ['id', 'image_dir'])
 }

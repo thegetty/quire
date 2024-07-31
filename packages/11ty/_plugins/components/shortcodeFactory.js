@@ -22,27 +22,6 @@ module.exports = function(eleventyConfig, collections) {
         const page = collections.all.find(({ inputPath }) => inputPath === this.page.inputPath)
         return component(eleventyConfig, { collections, page })(content, ...args)
       })
-    },
-    /**
-     * Adds a custom tag for a webc component.
-     *
-     * @param  {Array}  attributeNames    An array of attribute names to map to shortcode argument values
-     * @param  {String}  tagName          A template tag name for the component
-     * @param  {String}  webcElementName  A webc component tag name
-     */
-    addWebcShortcode: function(tagName, componentName, attributeNames) {
-      eleventyConfig.addShortcode(tagName, async function(...args) {
-        const renderTemplate = eleventyConfig.getFilter('renderTemplate')
-        const renderedAttributes = attributeNames.map((name, index) => `${name}="${args[index]}"`).join(' ')
-        const template = `<${componentName} ${renderedAttributes}></${componentName}>`
-        let renderedHTML
-        try {
-          renderedHTML = await renderTemplate.call(this, template, 'webc')
-        } catch (error) {
-          console.warn('ERROR', error)
-        }
-        return renderedHTML
-      });
     }
   }
 }

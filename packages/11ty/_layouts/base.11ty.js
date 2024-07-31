@@ -13,7 +13,6 @@ module.exports = async function(data) {
   const id = this.slugify(url) || path.parse(inputPath).name
   const pageId = `page-${id}`
   const figures = pageData.page.figures
-  const figuresJSON = figures ? JSON.stringify(figures) : '{}'
 
   return html`
     <!doctype html>
@@ -22,7 +21,6 @@ module.exports = async function(data) {
       <body>
         ${this.icons(data)}
         ${this.iconscc(data)}
-        ${this.quireData(figuresJSON, 'page-figures')}
         <div class="quire no-js" id="container">
           <div
             aria-expanded="false"
