@@ -1,0 +1,26 @@
+{
+  "ci": {
+    "assert": {
+      "assertions": {
+        "categories:performance": [ "warn", { "minScore": 1 } ]
+      }
+    },
+    "collect": {
+      "chromePath": "/path/to/chrome",
+      "headful": false,
+      "numberOfRuns": 1,
+      "onlyCategories": [ "performance" ],
+      "settings": {
+        "chromeFlags": "--no-sandbox"
+      },
+      "staticDistDir": "./_site",
+    },
+    "upload": {
+      "settings": {
+        "chromeFlags": "--no-sandbox",
+        "ignoreDuplicateBuildFailure": true
+      },
+      "target": "lhci"
+    }
+  }
+}
