@@ -14,9 +14,15 @@ Changelog entries are classified using the following labels:
 
 ## [1.0.0-rc.17]
 
+### Added
+
+- PDF creation for a single quire webpage and cover pages
+- PDF transform to template using `_layouts/pdf.liquid` (was: HTML string append)
+- Front-end markup for PDF download link
+
 ### Bumped
 
-- `sharp@0.32` which includes prebuilt binaries that contain patches for macOS 10.13+ support.
+- sharp@0.32` which includes prebuilt binaries that contain patches for macOS 10.13+ support.
 
 ## [1.0.0-rc.16]
 
