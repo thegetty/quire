@@ -25,9 +25,7 @@ export default async (publicationInput, coversInput, output, options = {}) => {
   
   const { pdfConfig } = options
 
-  if (pdfConfig?.pagePDF?.output === true) {
-    additionalScripts.push( path.join(__dirname, 'pagedPlugin.js') )
-  }
+  additionalScripts.push( path.join(__dirname, 'pagedPlugin.js') )
 
   const printerOptions = {
     allowLocal: true,
