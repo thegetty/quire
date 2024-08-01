@@ -4,7 +4,6 @@ const path = require('path')
 
 const logger = chalkFactory('Figure Video')
 
-const PRIORITY_THRESHOLD=2
 /**
  * Renders a native or embedded video player
  *

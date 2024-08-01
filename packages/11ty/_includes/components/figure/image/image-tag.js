@@ -10,15 +10,12 @@ const path = require('path')
  * @property   {String} src The src path for the image
  * @return     {String}  An <img> element
  */
-const PRIORITY_THRESHOLD=2
-
 module.exports = function(eleventyConfig) {
   const { imageDir } = eleventyConfig.globalData.config.figures
 
   return function ({ alt='', src='', isStatic=false, lazyLoading='lazy' }) {
     const imageSrc = src.startsWith('http') || isStatic ? src : path.join(imageDir, src)
 
-    // Everything gets lazyloaded except above-fold (don't think about it too much)
     return html`
       <img alt="${alt}" 
            class="q-figure__image" 
