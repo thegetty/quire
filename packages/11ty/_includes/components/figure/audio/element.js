@@ -2,6 +2,7 @@ const { html } = require('~lib/common-tags')
 const chalkFactory = require('~lib/chalk')
 
 const logger = chalkFactory('Figure Video')
+
 /**
  * Renders an embedded soundcloud audio player
  *
@@ -17,7 +18,7 @@ const logger = chalkFactory('Figure Video')
 module.exports = function (eleventyConfig) {
   const figureMediaEmbedUrl = eleventyConfig.getFilter('figureMediaEmbedUrl')
   const audioElements = {
-    soundcloud({ id, mediaId, mediaType }) {
+    soundcloud({ id, mediaId, mediaType, lazyLoading }) {
       if (!mediaId) {
         logger.error(`Cannot render SoundCloud component without 'media_id'. Check that figures data for id: ${id} has a valid 'media_id'`)
         return ''
@@ -29,6 +30,7 @@ module.exports = function (eleventyConfig) {
         <iframe
           allow="autoplay"
           frameborder="no"
+          loading="${ lazyLoading ?? 'lazy' }"
           height="166"
           scrolling="no"
           src="${embedUrl}"
@@ -37,7 +39,7 @@ module.exports = function (eleventyConfig) {
       `
     }
   }
-  return function ({ id, mediaId, mediaType }) {
-    return audioElements[mediaType]({ id, mediaId, mediaType })
+  return function ({ id, mediaId, mediaType, lazyLoading }) {
+    return audioElements[mediaType]({ id, mediaId, mediaType, lazyLoading })
   }
 }
