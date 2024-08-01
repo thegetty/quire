@@ -11,7 +11,10 @@ description: Essay layout. This layout describes a single-page template that has
   label=label,
   pageContributors=pageContributors,
   subtitle=subtitle,
-  title=title
+  title=title,
+  page_pdf_output=page_pdf_output,
+  key=key,
+  outputs=outputs
 %}
 
 <section class="section quire-page__content">
@@ -21,7 +24,7 @@ description: Essay layout. This layout describes a single-page template that has
   <div class="container">
     <div class="content">
       {{ content }}
-      {% bibliography citations %}
+      {% bibliography citations outputs page_pdf_output %}
     </div>
     {% pageButtons pagination=pagination %}
   </div>

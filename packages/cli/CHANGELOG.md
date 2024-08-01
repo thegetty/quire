@@ -18,6 +18,16 @@ Changelog entries are classified using the following labels:
 
 - `Removed`: for deprecated features removed in this release
 
+## [1.0.0-rc.12]
+
+### Added
+- Handling for single-page PDFs
+- Paged and Prince plugins to map quire pages to PDF page sections 
+
+### Changed
+
+- `quire clean` also removes `.11ty-vite` in the project root
+
 ## [1.0.0-rc.11]
 
 ### Bumped

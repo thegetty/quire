@@ -1,9 +1,7 @@
 const chalkFactory = require('~lib/chalk')
 const fs = require('fs-extra')
-const jsdom = require('jsdom')
 const path = require('path')
 const sass = require('sass')
-
 
 /**
  * Nota bene:
@@ -11,66 +9,51 @@ const sass = require('sass')
  * @see https://www.11ty.dev/docs/copy/#passthrough-file-copy
  */
 module.exports = (eleventyConfig) => {
-  const slugifyIds = eleventyConfig.getFilter('slugifyIds')
   const { input, output } = eleventyConfig.dir
-  const { JSDOM } = jsdom
 
   const logger = chalkFactory('transforms:pdf:writer')
 
-  const layoutPath =
-    path.join('_plugins', 'transforms', 'outputs', 'pdf', 'layout.html')
+  const pdfTemplatePath =
+    path.join('_layouts', 'pdf.liquid')
+  const coversTemplatePath =
+    path.join('_layouts', 'pdf-cover-page.liquid')
 
   const inputDir = input
   const outputDir = process.env.ELEVENTY_ENV === 'production' ? 'public' : output
-  const outputPath = path.join(outputDir, 'pdf.html')
 
-  fs.ensureDirSync(path.parse(outputPath).dir)
+  const pdfOutputPath = path.join(outputDir, 'pdf.html')
+  const coversOutputPath = path.join(outputDir, 'pdf-covers.html')
+
+  fs.ensureDirSync(path.parse(pdfOutputPath).dir)
 
   /**
-   * Write each page section in the PDF collection to a single HTML file,
-   * as well as one instance of SVG symbol definitions
-   * @param  {Object} collection collections.pdf with `sectionElement` property
+   * Render the PDF pages in a liquid layout that merges them into one file
+   * Do the same for covers of the PDF pages.
+   *  
+   * NB: layout will only add SVG symbols once
+   * 
+   * @param  {Object} collection collections.pdf with `sectionElement`,`svgElements`, and `coverPageData`
    */
   return async (collection) => {
-    const dom = await JSDOM.fromFile(layoutPath)
-    const { document } = dom.window
 
-    collection.forEach(({ outputPath, sectionElement, svgSymbolElements }, index) => {
-      try {
-        // only write SVG symbol definitions one time
-        if (index === 0) {
-          svgSymbolElements.forEach((svgSymbolElement) => {
-            document.body.appendChild(svgSymbolElement)
-          })
-        }
-        document.body.appendChild(sectionElement)
-      } catch (error) {
-        logger.error(`Eleventy transform for PDF error appending content for ${outputPath} to combined output. ${error}`)
-      }
-    })
+    const publicationHtml = await eleventyConfig.javascriptFunctions.renderFile(pdfTemplatePath,{pages: collection},'liquid')
 
-    const trimLeadingSlash = (string) => string.startsWith('/') ? string.substr(1) : string
-
-    /**
-     * Rewrite image src attributes to be relative
-     */
-    document.querySelectorAll('[src]').forEach((asset) => {
-      const src = asset.getAttribute('src')
-      asset.setAttribute('src', trimLeadingSlash(src))
-    })
-
-    document.querySelectorAll('[style*="background-image"]').forEach((element) => {
-      const backgroundImageUrl = element.style.backgroundImage.match(/[\(](.*)[\)]/)[1] || ''
-      element.style.backgroundImage = `url('${trimLeadingSlash(backgroundImageUrl)}')`
-    })
-
-    slugifyIds(document)
-    const content = dom.serialize()
+    const coversMarkups = collection.filter( collex => collex.coverPageData ).map( (collex) => collex.coverPageData )
+    const coversHtml = await eleventyConfig.javascriptFunctions.renderFile(coversTemplatePath,{covers: coversMarkups},'liquid')
 
     try {
-      fs.writeFileSync(outputPath, content)
+      fs.writeFileSync(pdfOutputPath, publicationHtml)
     } catch (error) {
       logger.error(`Eleventy transform for PDF error writing combined HTML output for PDF. ${error}`)
+    }
+
+    if (coversMarkups.length > 0) {
+
+      try {
+        fs.writeFileSync(coversOutputPath, coversHtml)
+      } catch (error) {
+        logger.error(`Eleventy transform for PDF error writing covers HTML output for PDF. ${error}`)
+      }      
     }
 
     const sassOptions = {

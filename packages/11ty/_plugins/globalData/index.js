@@ -1,7 +1,9 @@
 const chalkFactory = require('~lib/chalk')
 const fs = require('fs-extra')
-const path = require('path')
 const parser = require('./parser')
+const { validateUserConfig } = require('./validator')
+
+const path = require('path')
 
 const logger = chalkFactory('[plugins:globalData]')
 
@@ -36,23 +38,6 @@ const checkForDuplicateIds = function (data, filename) {
 }
 
 /**
- * @todo replace with ajv schema validation
- */
-const validatePublication = (publication) => {
-  try {
-    const { url } = publication
-    publication.url = url.endsWith('/') ? url : url + '/'
-    publication.pathname = new URL(publication.url).pathname
-  } catch (errorMessage) {
-    logger.error(
-      `Publication.yaml url property must be a valid url. Current url value: "${url}"`
-    )
-    throw new Error(errorMessage)
-  }
-  return publication
-}
-
-/**
  * Eleventy plugin to programmatically load global data from files
  * so that it is available to plugins and shortcode components.
  *
@@ -74,14 +59,21 @@ module.exports = function(eleventyConfig, directoryConfig) {
 
   for (const file of files) {
     const { name: key } = path.parse(file)
-    let value = parse(path.join(dir, file))
-    if (key === 'publication') {
-      value = validatePublication(value)
+    const parsed = parse(path.join(dir, file)) 
+
+    let value
+    try {
+      value = validateUserConfig(key, parsed)
+    } catch (err) {
+      logger.error(err)
+      process.exit(1)
     }
-    if (key && value) {
-      checkForDuplicateIds(value, file)
-      eleventyConfig.addGlobalData(key, value)
+
+    if (!key || !value) { 
+      continue
     }
+    checkForDuplicateIds(value, file)
+    eleventyConfig.addGlobalData(key, value)
   }
 
   // Add directory config to globalData so that it is available to other plugins

@@ -9,13 +9,19 @@ const { html } = require('~lib/common-tags')
  * @return     {String}  Content of referenced table file and a caption
  */
 module.exports = function(eleventyConfig) {
+  const figureCaption = eleventyConfig.getFilter('figureCaption')
+  const figureLabel = eleventyConfig.getFilter('figureLabel')
   const tableElement = eleventyConfig.getFilter('figureTableElement')
 
-  return async function({ src }) {
+  return async function({ caption, credit, id, label, src }) {
     const table = await tableElement({ src })
+
+    const labelElement = figureLabel({ caption, id, label })
+    const captionElement = figureCaption({ caption, content: labelElement, credit })
 
     return html`
       ${table}
+      ${captionElement}
     `
   }
 }
