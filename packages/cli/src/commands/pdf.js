@@ -4,7 +4,6 @@ import fs from 'fs-extra'
 import libPdf from '#lib/pdf/index.js'
 import open from 'open'
 import path from 'node:path'
-import { validateUserConfig } from '../../../11ty/_plugins/globalData/validator.js'
 import yaml from 'js-yaml'
 
 /**
@@ -17,35 +16,35 @@ import yaml from 'js-yaml'
  * 
  * @return {Object|undefined} User configuration object or undefined
  */
-function loadConfig(confPath) {
-  if (!fs.existsSync(confPath)) {
+async function loadConfig(configPath) {
+  if (!fs.existsSync(configPath)) {
     return undefined
   }
 
-  const data = fs.readFileSync(confPath)
+  const data = fs.readFileSync(configPath)
   let config = yaml.load(data)
 
   // NB: Schemas may be project specific so the CLI must loads from project root rather than package root
   const schemaPath = path.join(projectRoot,'_plugins','schemas','config.json')
+  const validatorPlugin = path.join(projectRoot, '_plugins', 'globalData', 'validator.js')
+
+  const validateUserConfig = await import(validatorPlugin)
 
   // TODO: Check the project version string for whether we should check the schema
   if (fs.existsSync(schemaPath)) {
-
-    const sch = fs.readFileSync(schemaPath)
-    const schema = JSON.parse(sch)      
+    const schemaJSON = fs.readFileSync(schemaPath)
+    const schema = JSON.parse(schemaJSON)
 
     try {
-      config = validateUserConfig('config',config,{config: schema})    
-    } catch (err) {
-      console.error(err)
+      config = validateUserConfig('config', config, { config: schema })
+    } catch (error) {
+      console.error(error)
       process.exit(1)
     }
   }
 
   return config
 }
-
-const quireConfig = loadConfig(path.join(projectRoot,'content','_data','config.yaml'))
 
 /**
  * Quire CLI `pdf` Command
@@ -74,7 +73,6 @@ export default class PDFCommand extends Command {
   }
 
   constructor() {
-    const config = loadConfig(path.join(projectRoot,'content','_data','config.yaml'))
     super(PDFCommand.definition)
   }
 
@@ -86,7 +84,9 @@ export default class PDFCommand extends Command {
     const publicationInput = path.join(projectRoot, paths.output, 'pdf.html')
     const coversInput = path.join(projectRoot, paths.output, 'pdf-covers.html')
 
-    if (quireConfig===undefined) {
+    const quireConfig = await loadConfig(path.join(projectRoot,'content','_data','config.yaml'))
+
+    if (quireConfig === undefined) {
       console.error(`[quire pdf]: ERROR Unable to find a configuration file at ${path.join(projectRoot,'content','_data','config.yaml')}\nIs the command being run in a quire project?`)
       process.exit(1)
     }
@@ -96,7 +96,9 @@ export default class PDFCommand extends Command {
       process.exit(1)
     }
 
-    const output = quireConfig.pdf !== undefined ? path.join(paths.output, quireConfig.pdf.outputDir, `${quireConfig.pdf.filename}.pdf`) : path.join(projectRoot, `${options.lib}.pdf`)
+    const output = quireConfig.pdf !== undefined
+      ? path.join(paths.output, quireConfig.pdf.outputDir, `${quireConfig.pdf.filename}.pdf`)
+      : path.join(projectRoot, `${options.lib}.pdf`);
 
     const pdfLib = await libPdf(options.lib, { ...options, pdfConfig: quireConfig.pdf })
     await pdfLib(publicationInput, coversInput, output)
