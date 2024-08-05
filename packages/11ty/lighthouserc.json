@@ -6,14 +6,18 @@
       }
     },
     "collect": {
-      "chromePath": "/path/to/chrome",
       "headful": false,
-      "numberOfRuns": 1,
+      "numberOfRuns": 3,
       "onlyCategories": [ "performance" ],
       "settings": {
         "chromeFlags": "--no-sandbox"
       },
       "staticDistDir": "./_site",
+      "url": [
+        "/essay/",
+        "/catalogue/1/",
+        "/catalogue/2/"
+      ]
     },
     "upload": {
       "settings": {
