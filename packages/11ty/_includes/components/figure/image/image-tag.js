@@ -18,10 +18,11 @@ module.exports = function(eleventyConfig) {
 
     return html`
       <img alt="${alt}" 
-           class="q-figure__image" 
-           src="${imageSrc}" 
-           loading="${ lazyLoading }"
-           decoding="async" 
-           />`
+        class="q-figure__image"
+        decoding="async"
+        loading="${lazyLoading}"
+        src="${imageSrc}"
+      />
+    `
   }
 }
