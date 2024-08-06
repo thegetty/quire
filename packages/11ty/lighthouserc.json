@@ -1,0 +1,30 @@
+{
+  "ci": {
+    "assert": {
+      "assertions": {
+        "categories:performance": [ "warn", { "minScore": 1 } ]
+      }
+    },
+    "collect": {
+      "headful": false,
+      "numberOfRuns": 3,
+      "onlyCategories": [ "performance" ],
+      "settings": {
+        "chromeFlags": "--no-sandbox"
+      },
+      "staticDistDir": "./_site",
+      "url": [
+        "/essay/",
+        "/catalogue/1/",
+        "/catalogue/2/"
+      ]
+    },
+    "upload": {
+      "settings": {
+        "chromeFlags": "--no-sandbox",
+        "ignoreDuplicateBuildFailure": true
+      },
+      "target": "lhci"
+    }
+  }
+}

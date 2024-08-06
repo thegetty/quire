@@ -3,6 +3,7 @@ const chalkFactory = require('~lib/chalk')
 const path = require('path')
 
 const logger = chalkFactory('Figure Video')
+
 /**
  * Renders a native or embedded video player
  *
@@ -43,7 +44,7 @@ module.exports = function (eleventyConfig) {
         </video>
       `
     },
-    vimeo({ id, mediaId, mediaType }) {
+    vimeo({ id, mediaId, mediaType, lazyLoading }) {
       if (!mediaId) {
         logger.error(`Cannot render Vimeo embed without 'media_id'. Check that figures data for id: ${id} has a valid 'media_id'`)
         return ''
@@ -58,10 +59,11 @@ module.exports = function (eleventyConfig) {
           class="q-figure-video-element q-figure-video-element--embed"
           frameborder="0"
           src="${embedUrl}"
+          loading="${ lazyLoading ?? 'lazy' }"
         ></iframe>
       `
     },
-    youtube({ id, mediaId, mediaType }) {
+    youtube({ id, mediaId, mediaType, lazyLoading }) {
       if (!mediaId) {
         logger.error(`Cannot render Youtube component without 'media_id'. Check that figures data for id: ${id} has a valid 'media_id'`)
         return ''
@@ -76,6 +78,7 @@ module.exports = function (eleventyConfig) {
           class="q-figure-video-element q-figure-video-element--embed"
           frameborder="0"
           src="${embedUrl}"
+          loading="${ lazyLoading ?? 'lazy' }"
         ></iframe>
       `
     }
@@ -86,6 +89,7 @@ module.exports = function (eleventyConfig) {
     mediaId,
     mediaType,
     poster,
+    lazyLoading,
     src
   }) {
     if (poster) {
@@ -95,6 +99,6 @@ module.exports = function (eleventyConfig) {
       src = src.startsWith('http') ? src : path.join(imageDir, src)
     }
 
-    return videoElements[mediaType]({ id, mediaId, mediaType, poster, src })
+    return videoElements[mediaType]({ id, mediaId, mediaType, poster, lazyLoading, src })
   }
 }

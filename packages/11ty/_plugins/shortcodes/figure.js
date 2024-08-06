@@ -3,6 +3,8 @@ const { oneLine } = require('~lib/common-tags')
 
 const logger = chalkFactory('shortcodes:figure')
 
+const FETCH_PRIORITY_THRESHOLD = 2
+
 /**
  * Render an HTML <figure> element
  *
@@ -44,6 +46,10 @@ module.exports = function (eleventyConfig) {
     this.page.figures ||= []
     this.page.figures.push(figure)
 
+    // Pass a lazyload parameter for use in downstream components  
+    const position = ( this.page.figures ?? [] ).length - 1
+    const lazyLoading = position < FETCH_PRIORITY_THRESHOLD ? 'eager' : 'lazy'
+
     const { mediaType } = figure
 
     const component = async (figure) => {
@@ -63,7 +69,7 @@ module.exports = function (eleventyConfig) {
 
     return oneLine`
       <figure id="${slugify(id)}" class="${['q-figure', 'q-figure--' + mediaType, ...classes].join(' ')}">
-        ${await component(figure)}
+        ${await component({...figure,lazyLoading})}
       </figure>
     `
   }
