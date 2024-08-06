@@ -11,10 +11,9 @@ import yaml from 'js-yaml'
  *  
  * @param {path} string - file path to config file
  * 
- * @todo refactor loading configs to a separate module,
- * which uses the same validator(s) as the build proceess
- * 
  * @return {Object|undefined} User configuration object or undefined
+ * 
+ * @todo consider hardcoding a version check against .quire / project's package.json ver
  */
 async function loadConfig(configPath) {
   if (!fs.existsSync(configPath)) {
@@ -24,14 +23,14 @@ async function loadConfig(configPath) {
   const data = fs.readFileSync(configPath)
   let config = yaml.load(data)
 
-  // NB: Schemas may be project specific so the CLI must loads from project root rather than package root
+  // NB: Schemas and validators are specific to the 11ty version of the project being built
   const schemaPath = path.join(projectRoot,'_plugins','schemas','config.json')
-  const validatorPlugin = path.join(projectRoot, '_plugins', 'globalData', 'validator.js')
+  const validatorPath = path.join(projectRoot, '_plugins', 'globalData', 'validator.js')
 
-  const validateUserConfig = await import(validatorPlugin)
+  if (fs.existsSync(schemaPath) && fs.existsSync(validatorPath)) {
 
-  // TODO: Check the project version string for whether we should check the schema
-  if (fs.existsSync(schemaPath)) {
+    const { validateUserConfig } = await import(validatorPath)
+  
     const schemaJSON = fs.readFileSync(schemaPath)
     const schema = JSON.parse(schemaJSON)
 
@@ -98,7 +97,7 @@ export default class PDFCommand extends Command {
 
     const output = quireConfig.pdf !== undefined
       ? path.join(paths.output, quireConfig.pdf.outputDir, `${quireConfig.pdf.filename}.pdf`)
-      : path.join(projectRoot, `${options.lib}.pdf`);
+      : path.join(projectRoot, `${options.lib}.pdf`)
 
     const pdfLib = await libPdf(options.lib, { ...options, pdfConfig: quireConfig.pdf })
     await pdfLib(publicationInput, coversInput, output)
