@@ -23,13 +23,13 @@ async function loadConfig(configPath) {
   const data = fs.readFileSync(configPath)
   let config = yaml.load(data)
 
-  // NB: Schemas may be project specific so the CLI must loads from project root rather than package root
+  // NB: Schemas and validators are specific to the 11ty version of the project being built
   const schemaPath = path.join(projectRoot,'_plugins','schemas','config.json')
-  const validatorPlugin = path.join(projectRoot, '_plugins', 'globalData', 'validator.js')
+  const validatorPath = path.join(projectRoot, '_plugins', 'globalData', 'validator.js')
 
-  if (fs.existsSync(schemaPath) && fs.existsSync(validatorPlugin)) {
+  if (fs.existsSync(schemaPath) && fs.existsSync(validatorPath)) {
 
-    const { validateUserConfig } = await import(validatorPlugin)
+    const { validateUserConfig } = await import(validatorPath)
   
     const schemaJSON = fs.readFileSync(schemaPath)
     const schema = JSON.parse(schemaJSON)
