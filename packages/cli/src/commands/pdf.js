@@ -27,9 +27,10 @@ async function loadConfig(configPath) {
   const schemaPath = path.join(projectRoot,'_plugins','schemas','config.json')
   const validatorPlugin = path.join(projectRoot, '_plugins', 'globalData', 'validator.js')
 
-  const { validateUserConfig } = await import(validatorPlugin)
-
   if (fs.existsSync(schemaPath) && fs.existsSync(validatorPlugin)) {
+
+    const { validateUserConfig } = await import(validatorPlugin)
+  
     const schemaJSON = fs.readFileSync(schemaPath)
     const schema = JSON.parse(schemaJSON)
 
