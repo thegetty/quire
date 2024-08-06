@@ -96,7 +96,7 @@ export default class PDFCommand extends Command {
 
     const output = quireConfig.pdf !== undefined
       ? path.join(paths.output, quireConfig.pdf.outputDir, `${quireConfig.pdf.filename}.pdf`)
-      : path.join(projectRoot, `${options.lib}.pdf`);
+      : path.join(projectRoot, `${options.lib}.pdf`)
 
     const pdfLib = await libPdf(options.lib, { ...options, pdfConfig: quireConfig.pdf })
     await pdfLib(publicationInput, coversInput, output)

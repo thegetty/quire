@@ -13,6 +13,8 @@ const configSchema = require('../schemas/config.json')
  * @param {Object} data - Deserialized config data from `config.yaml`, `publication.yaml`, etc
  * @param {Object} schemas - Object of schemas to use for validation `config`, `publication`, etc. Schemas should be deserialized JSONSchema objects.
  * 
+ * NB: This is also imported by CLI commands
+ *  
  */
 const validateUserConfig = (type, data, schemas = { config: configSchema }) => {
 
