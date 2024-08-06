@@ -11,10 +11,9 @@ import yaml from 'js-yaml'
  *  
  * @param {path} string - file path to config file
  * 
- * @todo refactor loading configs to a separate module,
- * which uses the same validator(s) as the build proceess
- * 
  * @return {Object|undefined} User configuration object or undefined
+ * 
+ * @todo consider hardcoding a version check against .quire / project's package.json ver
  */
 async function loadConfig(configPath) {
   if (!fs.existsSync(configPath)) {
@@ -28,10 +27,9 @@ async function loadConfig(configPath) {
   const schemaPath = path.join(projectRoot,'_plugins','schemas','config.json')
   const validatorPlugin = path.join(projectRoot, '_plugins', 'globalData', 'validator.js')
 
-  const validateUserConfig = await import(validatorPlugin)
+  const { validateUserConfig } = await import(validatorPlugin)
 
-  // TODO: Check the project version string for whether we should check the schema
-  if (fs.existsSync(schemaPath)) {
+  if (fs.existsSync(schemaPath) && fs.existsSync(validatorPlugin)) {
     const schemaJSON = fs.readFileSync(schemaPath)
     const schema = JSON.parse(schemaJSON)
 
