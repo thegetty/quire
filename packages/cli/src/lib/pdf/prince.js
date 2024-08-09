@@ -61,7 +61,7 @@ export default async (publicationInput, coversInput, output, options = {}) => {
 
   let coversData
 
-  if (pdfConfig?.pagePDF?.coverPage === true) {
+  if (pdfConfig?.pagePDF?.coverPage === true && fs.existsSync(coversInput)) {
 
     const coversPageMapOutput = await execa('prince', [...pageMapOptions, coversInput])
     const coversMap = JSON.parse(coversPageMapOutput.stdout)
