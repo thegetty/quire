@@ -21,10 +21,11 @@ module.exports = function(eleventyConfig) {
     mediaId,
     mediaType,
     poster,
-    src
+    src,
+    lazyLoading
   }) {
     const isEmbed = mediaType === 'vimeo' || mediaType === 'youtube'
-    const videoElement = figureVideoElement({ id, mediaId, mediaType, src, poster })
+    const videoElement = figureVideoElement({ id, mediaId, mediaType, src, poster, lazyLoading })
     const labelElement = figureLabel({ caption, id, label })
     const captionElement = figureCaption({ caption, content: labelElement, credit })
 
