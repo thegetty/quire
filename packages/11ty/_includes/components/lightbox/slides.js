@@ -79,6 +79,7 @@ module.exports = function(eleventyConfig) {
       return html`
         <div
           class="q-lightbox-slides__slide"
+          slot="slides"
           data-lightbox-slide
           data-lightbox-slide-id="${id}"
         >
@@ -101,10 +102,6 @@ module.exports = function(eleventyConfig) {
       return slides
     }
 
-    return html`
-      <div class="q-lightbox-slides">
-        ${await slideElements()}
-      </div>
-    `
+    return html`${await slideElements()}`
   }
 }

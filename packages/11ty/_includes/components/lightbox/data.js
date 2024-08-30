@@ -11,6 +11,12 @@ module.exports = function(eleventyConfig) {
    *
    * */
 
+  const annotationsUI = eleventyConfig.getFilter('annotationsUI')
+  const figureImageElement = eleventyConfig.getFilter('figureImageElement')
+  const figureAudioElement = eleventyConfig.getFilter('figureAudioElement')
+  const figureTableElement = eleventyConfig.getFilter('figureTableElement')
+  const figureVideoElement = eleventyConfig.getFilter('figureVideoElement')
+
   const markdownify = eleventyConfig.getFilter('markdownify')
   const renderFile = eleventyConfig.getFilter('renderFile')
   const slugify = eleventyConfig.getFilter('slugify')
@@ -18,6 +24,7 @@ module.exports = function(eleventyConfig) {
   const { assetDir } = eleventyConfig.globalData.config.figures
 
   return async function(...args) {
+
     const [data] = args
 
     const figures = await Promise.all(data.map( async (fig) => {
@@ -27,42 +34,51 @@ module.exports = function(eleventyConfig) {
         credit,
         id,
         label,
-        media_type,
+        mediaType,
         src,
       } = fig
 
       let mapped = { ...fig, slugged_id: slugify(id) }
 
       if (label) {
-        mapped.label_html = markdownify(label) 
+        mapped.labelHtml = markdownify(label) 
       }
 
       if (caption) {
-        mapped.caption_html = markdownify(caption)
+        mapped.captionHtml = markdownify(caption)
       }
 
       if (credit) {
-        mapped.credit_html = markdownify(caption)
+        mapped.creditHtml = markdownify(caption)
       }
 
-      switch (media_type) {
-        case 'table': {
-          // Load the linked HTML file for table figures
-          let htmlFilePath = path.join(eleventyConfig.dir.input, assetDir, src)
-          mapped.src_content = await renderFile(htmlFilePath) 
-          return mapped
+      const isAudio = mediaType === 'soundcloud'
+      const isVideo = mediaType === 'video' || mediaType === 'vimeo' || mediaType === 'youtube'
+
+      const figureElement = async (figure) => {
+        switch (true) {
+          case mediaType === 'soundcloud':
+            return figureAudioElement(figure)
+          case mediaType === 'table':
+            return `<div class="overflow-container">${await figureTableElement(figure)}</div>`
+          case isVideo:
+            return figureVideoElement(figure)
+          case mediaType === 'image':
+          default:
+            return figureImageElement(figure, { preset: 'zoom', interactive: true })
         }
-        default: 
-          return mapped
       }
+
+      mapped.figureElementContent = await figureElement(fig)
+      return mapped
     }))
 
 
     const jsonData = JSON.stringify(figures)
 
     return html`<script type="application/json" 
-                    class="quire-data" 
-                    id="page-figures">
+                    class="q-lightbox-data"
+                    slot="data">
                       ${jsonData}
                     </script>`
   }

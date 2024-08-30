@@ -220,7 +220,11 @@ class Lightbox extends LitElement {
     // TODO: Add prev-slide, cur-slide, next-slide data
     return html`
       <div class="q-lightbox">
-        <slot></slot>
+        <slot name="data"></slot>
+        <div class="q-lightbox-slides">
+          <slot name="slides"></slot>
+        </div>
+        <slot name="ui"></slot>
       </div>
     `
   }
