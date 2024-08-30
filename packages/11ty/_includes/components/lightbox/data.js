@@ -13,6 +13,8 @@ module.exports = function(eleventyConfig) {
 
   const markdownify = eleventyConfig.getFilter('markdownify')
   const renderFile = eleventyConfig.getFilter('renderFile')
+  const slugify = eleventyConfig.getFilter('slugify')
+  
   const { assetDir } = eleventyConfig.globalData.config.figures
 
   return async function(...args) {
@@ -21,14 +23,15 @@ module.exports = function(eleventyConfig) {
     const figures = await Promise.all(data.map( async (fig) => {
 
       const {
-        label,
         caption,
         credit,
+        id,
+        label,
         media_type,
-        src
+        src,
       } = fig
 
-      let mapped = fig
+      let mapped = { ...fig, slugged_id: slugify(id) }
 
       if (label) {
         mapped.label_html = markdownify(label) 
