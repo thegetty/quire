@@ -1,15 +1,13 @@
 const path = require('path')
 const { html } = require('~lib/common-tags')
 
+/**
+ * lightboxData
+ * @parameter data Object - Figures data to insert
+ *
+ * @returns An HTML Script Element with the JSON-serialized payload
+ */
 module.exports = function(eleventyConfig) {
-  
-  /**
-   * lightboxData
-   * @parameter data Object - Figures data to insert
-   *
-   * Returns an HTML script element with the JSON-serialized payload
-   *
-   * */
 
   const markdownify = eleventyConfig.getFilter('markdownify')
   const renderFile = eleventyConfig.getFilter('renderFile')
