@@ -44,7 +44,7 @@ module.exports = {
   licenseIcons: require('./license-icons.js'),
   lightbox: require('./lightbox/index.js'),
   lightboxData: require('./lightbox/data.js'),
-  lightboxSlides: require('./lightbox/slides'),
+  lightboxSlide: require('./lightbox/slide.js'),
   lightboxUI: require('./lightbox/ui'),
   link: require('./link.js'),
   linkList: require('./link-list.js'),

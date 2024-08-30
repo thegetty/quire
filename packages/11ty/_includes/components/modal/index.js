@@ -7,18 +7,19 @@ const { html } = require('~lib/common-tags')
  * @param      {Object}  globalData
  */
 module.exports = function (eleventyConfig) {
-  const lightboxSlides = eleventyConfig.getFilter('lightboxSlides')
+  const lightboxSlide = eleventyConfig.getFilter('lightboxSlide')
   const lightboxUI = eleventyConfig.getFilter('lightboxUI')
   const lightboxData = eleventyConfig.getFilter('lightboxData')
 
   return async function (figures) {
     if (!figures) return
 
+    // TODO: Do this Promise.all() dance outside the return value
     return html`
       <q-modal>
         <q-lightbox>
           ${await lightboxData(figures)}        
-          ${await lightboxSlides(figures)}
+          ${(await Promise.all( figures.map( f => lightboxSlide(f)) )).join('')}
           ${lightboxUI(figures)}
         </q-lightbox>
         <button
