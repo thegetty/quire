@@ -46,13 +46,14 @@ module.exports = function(eleventyConfig) {
       }
 
       switch (media_type) {
-      case 'table':
-        // Load the linked HTML file for table figures
-        const htmlFilePath = path.join(eleventyConfig.dir.input, assetDir, src)
-        mapped.src_content = await renderFile(htmlFilePath) 
-        return mapped
-      default: 
-        return mapped
+        case 'table': {
+          // Load the linked HTML file for table figures
+          let htmlFilePath = path.join(eleventyConfig.dir.input, assetDir, src)
+          mapped.src_content = await renderFile(htmlFilePath) 
+          return mapped
+        }
+        default: 
+          return mapped
       }
     }))
 
