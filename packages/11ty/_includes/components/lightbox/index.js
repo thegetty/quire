@@ -8,9 +8,9 @@ const { html } = require('~lib/common-tags')
  * @param      {Object}  globalData
  */
 module.exports = function (eleventyConfig, { page }) {
+  const lightboxData = eleventyConfig.getFilter('lightboxData')
   const lightboxSlides = eleventyConfig.getFilter('lightboxSlides')
   const lightboxUI = eleventyConfig.getFilter('lightboxUI')
-  const lightboxData = eleventyConfig.getFilter('lightboxData')
 
   return async function (figures=page.figures) {
     if (!figures) return
