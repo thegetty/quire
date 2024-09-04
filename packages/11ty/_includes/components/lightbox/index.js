@@ -8,18 +8,17 @@ const { html } = require('~lib/common-tags')
  * @param      {Object}  globalData
  */
 module.exports = function (eleventyConfig, { page }) {
-  const lightboxSlide = eleventyConfig.getFilter('lightboxSlide')
+  const lightboxStyles = eleventyConfig.getFilter('lightboxStyles')
   const lightboxUI = eleventyConfig.getFilter('lightboxUI')
   const lightboxData = eleventyConfig.getFilter('lightboxData')
 
   return async function (figures=page.figures) {
     if (!figures) return
 
-    const slides = await Promise.all( figures.map( f => lightboxSlide(f) ) )
     return html`
       <q-lightbox>
+        ${lightboxStyles()}
         ${await lightboxData(figures)}
-        ${slides.join('')}
         ${lightboxUI(figures)}
       </q-lightbox>
     `

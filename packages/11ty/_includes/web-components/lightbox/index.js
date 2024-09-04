@@ -1,8 +1,8 @@
-import { LitElement, html } from 'lit'
+import { LitElement, html, render, unsafeCSS } from 'lit'
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js'
 
 /**
- * Lightbox lit-element web component
+ * Lightbox lit-element web component markup and browser runtime
  *
  * This component renders image slides with navigation UI.
  * It provides a default slot for passing markup to render:
@@ -21,18 +21,31 @@ import { unsafeHTML } from 'lit-html/directives/unsafe-html.js'
  * - `data-lightbox-counter-total` displays total number of slides
  */
 class Lightbox extends LitElement {
+
   static properties = {
     currentId: { attribute: 'current-id', type: String },
     preloadNextId: { attribute: 'preload-next-id', type: String },
     preloadPrevId: { attribute: 'preload-prev-id', type: String },
   }
 
+  setupStyles() {
+    let styleElement = this.querySelector('style[slot="lightbox-styles"]')
+
+    if (styleElement && styleElement.sheet) {
+      this.adoptedStyleSheets = [ styleElement.sheet ]    
+    }
+
+  }
+
   constructor() {
     super()
+
+    // NB: UI controls check this.slides so load figures first
+    this.setupStyles()
+    this.setupFiguresData()
     this.setupFullscreenButton()
     this.setupNavigationButtons()
     this.setupKeyboardControls()
-    this.setupFiguresData()
   }
 
   get counterCurrent() {
@@ -56,13 +69,13 @@ class Lightbox extends LitElement {
   }
 
   get slides() {
-    return this.querySelectorAll('[data-lightbox-slide]')
+    return this.querySelectorAll('.q-lightbox-slides__slide')
   }
 
   get slideIds() {
     return Array
       .from(this.slides)
-      .map((slide) => slide.dataset.lightboxSlideId)
+      .map((slide) => slide.id)
   }
 
   get currentSlide() {
@@ -124,10 +137,73 @@ class Lightbox extends LitElement {
     this.currentId = previousId
   }
 
+  // Adds some useful props we need for slide processing
+  _alignSlideData(figure) {
+    const {
+      aspect_ratio: aspectRatio='widescreen',
+      caption,
+      credit,
+      id,
+      isSequence,
+      label,
+      mediaType
+    } = figure
+
+    const isAudio = mediaType === 'soundcloud'
+    const isVideo = mediaType === 'video' || mediaType === 'vimeo' || mediaType === 'youtube'
+
+    return { ...figure, isAudio, isVideo, aspectRatio }
+  }
+
+  _lightboxSlide(figure) {
+    const { id, 
+            mediaType, 
+            figureElementContent,
+            annotationsElementContent, 
+            aspectRatio, 
+            isVideo,
+            isAudio,
+            label, 
+            labelHtml, 
+            caption, 
+            captionHtml, 
+            credit, 
+            creditHtml } = figure
+
+    const slideMediaClass = `q-lightbox-slides__element--${mediaType}`
+    const videoClass = isVideo ? `q-lightbox-slides__element--video q-lightbox-slides__element--${aspectRatio}` : ''
+    const audioClass = isAudio ? 'q-lightbox-slides__element--audio' : ''
+
+    return html`<div class="q-lightbox-slides__slide" slot="slides" id="${id}">
+      <div class="q-lightbox-slides__element ${slideMediaClass} ${videoClass} ${audioClass}">
+        ${unsafeHTML(figureElementContent)}
+      </div>
+      <div class="q-figure-slides__slide-ui">
+        <div class="q-lightbox-slides__caption ${ label || caption || credit ? '' : 'is-hidden' }">
+          <span class="q-lightbox-slides__caption-label ${ label ? '' : 'is-hidden' }">${unsafeHTML(labelHtml)}</span>
+          <span class="q-lightbox-slides__caption-content ${ caption || credit ? '' : 'is-hidden' }">${captionHtml ? unsafeHTML(captionHtml) : ''} ${creditHtml ? unsafeHTML(creditHtml) : ''}</span>
+        </div>
+        ${unsafeHTML(annotationsElementContent ?? '')}
+      </div>
+    </div>`
+  }
+
   setupFiguresData() {
     const figuresData = this.querySelector('script[type="application/json"]')
     const figures = JSON.parse(figuresData.innerHTML)
     this.figures = figures
+
+    figures.forEach( fig => {
+      console.log('Rendering',fig.id)
+      const dat = this._alignSlideData(fig)
+      
+      // NB: This is done in lightDOM *not* shadowDOM
+      let slideElement = document.createElement('template') 
+      render(this._lightboxSlide(dat),slideElement.content)
+
+      const slide = slideElement.content.cloneNode(true)
+      this.appendChild(slide)
+    })
   }
 
   setupFullscreenButton() {
@@ -186,13 +262,12 @@ class Lightbox extends LitElement {
   updateCurrentSlideElement() {
     if (!this.currentSlide) return
 
-    // TODO: Change this so we're modding the slides' next/cur/prev markup (so no load bounce) and then reset the next/prev IDs
     this.slides.forEach((slide) => {
-      if (slide.dataset.lightboxSlideId !== this.currentId) {
+      if (slide.id !== this.currentId) {
         delete slide.dataset.lightboxCurrent
       }
 
-      if ([this.preloadNextId,this.preloadPrevId].includes(slide.dataset.lightboxSlideId)) {
+      if ([this.preloadNextId,this.preloadPrevId].includes(slide.id)) {
         slide.dataset.lightboxPreload = true
       } else {
         delete slide.dataset.lightboxPreload
@@ -214,12 +289,11 @@ class Lightbox extends LitElement {
     this.preloadPrevId = this.currentSlideIndex - 1 >= 0 ? this.slideIds[this.currentSlideIndex - 1] : undefined
     this.updateCurrentSlideElement()
     this.updateCounterElements()
-    // console.log(this.figures)
 
-    // TODO: Add figureElement, captionElement, and Annotations element markup
-    // TODO: Add prev-slide, cur-slide, next-slide data
+    // NB: `lightbox-styles` are dynamically loaded by the constructor
     return html`
       <div class="q-lightbox">
+        <slot name="lightbox-styles"></slot>
         <slot name="data"></slot>
         <div class="q-lightbox-slides">
           <slot name="slides"></slot>

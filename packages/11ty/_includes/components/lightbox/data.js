@@ -33,6 +33,7 @@ module.exports = function(eleventyConfig) {
         caption,
         credit,
         id,
+        isSequence,
         label,
         mediaType,
         src,
@@ -50,6 +51,10 @@ module.exports = function(eleventyConfig) {
 
       if (credit) {
         mapped.creditHtml = markdownify(caption)
+      }
+
+      if (!isSequence) {
+        mapped.annotationsElementContent = annotationsUI({ figure: fig, lightbox: true })
       }
 
       const isAudio = mediaType === 'soundcloud'
