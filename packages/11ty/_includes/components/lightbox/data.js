@@ -4,7 +4,11 @@ const { html } = require('~lib/common-tags')
 /**
  * Quire lightboxData component
  * @param {Object} eleventyConfig
- * @return {Function} lightboxData shortcode component function
+ * @return {Function} 11ty component function for lightboxData
+ * 
+ * Serializes the data for a lightbox's figures to a slotted
+ * `<script>` tag. Where necessary it uses 11ty / quire functions
+ * to generate HTML markup and slugified resource IDs.
  */
 module.exports = function(eleventyConfig) {
 
@@ -20,9 +24,7 @@ module.exports = function(eleventyConfig) {
   
   const { assetDir } = eleventyConfig.globalData.config.figures
 
-  return async function(...args) {
-
-    const [data] = args
+  return async function(data) {
 
     const figures = await Promise.all(data.map( async (fig) => {
 
@@ -36,23 +38,20 @@ module.exports = function(eleventyConfig) {
         src,
       } = fig
 
-      let mapped = { ...fig, slugged_id: slugify(id) }
+      const annotationsElementContent = !isSequence ? annotationsUI({ figure: fig, lightbox: true }) : undefined
+      const labelHtml = label ? markdownify(label) : undefined 
+      const captionHtml = caption ? markdownify(caption) : undefined
+      const creditHtml = credit ? markdownify(caption) : undefined
+      const sluggedId = slugify(id)
 
-      if (label) {
-        mapped.labelHtml = markdownify(label) 
-      }
+      let mapped = { ...fig, 
+                     annotationsElementContent,
+                     captionHtml, 
+                     creditHtml,                     
+                     labelHtml, 
+                     sluggedId, 
+                    }
 
-      if (caption) {
-        mapped.captionHtml = markdownify(caption)
-      }
-
-      if (credit) {
-        mapped.creditHtml = markdownify(caption)
-      }
-
-      if (!isSequence) {
-        mapped.annotationsElementContent = annotationsUI({ figure: fig, lightbox: true })
-      }
 
       const isAudio = mediaType === 'soundcloud'
       const isVideo = mediaType === 'video' || mediaType === 'vimeo' || mediaType === 'youtube'
@@ -74,7 +73,6 @@ module.exports = function(eleventyConfig) {
       mapped.figureElementContent = await figureElement(fig)
       return mapped
     }))
-
 
     const jsonData = JSON.stringify(figures)
 

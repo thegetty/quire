@@ -138,6 +138,7 @@ class Lightbox extends LitElement {
   }
 
   // Adds some useful props we need for slide processing
+  // TODO: jsdoc
   _alignSlideData(figure) {
     const {
       aspect_ratio: aspectRatio='widescreen',
@@ -155,6 +156,7 @@ class Lightbox extends LitElement {
     return { ...figure, isAudio, isVideo, aspectRatio }
   }
 
+  // TODO: jsdoc
   _lightboxSlide(figure) {
     const { id, 
       mediaType, 
