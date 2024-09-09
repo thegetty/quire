@@ -1,15 +1,12 @@
 const path = require('path')
 const { html } = require('~lib/common-tags')
 
+/**
+ * Quire lightboxData component
+ * @param {Object} eleventyConfig
+ * @return {Function} lightboxData shortcode component function
+ */
 module.exports = function(eleventyConfig) {
-  
-  /**
-   * lightboxData
-   * @parameter data Object - Figures data to insert
-   *
-   * Returns an HTML script element with the JSON-serialized payload
-   *
-   * */
 
   const annotationsUI = eleventyConfig.getFilter('annotationsUI')
   const figureImageElement = eleventyConfig.getFilter('figureImageElement')
