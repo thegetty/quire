@@ -157,18 +157,19 @@ class Lightbox extends LitElement {
 
   _lightboxSlide(figure) {
     const { id, 
-            mediaType, 
-            figureElementContent,
-            annotationsElementContent, 
-            aspectRatio, 
-            isVideo,
-            isAudio,
-            label, 
-            labelHtml, 
-            caption, 
-            captionHtml, 
-            credit, 
-            creditHtml } = figure
+      mediaType, 
+      figureElementContent,
+      annotationsElementContent, 
+      aspectRatio, 
+      isVideo,
+      isAudio,
+      label, 
+      labelHtml, 
+      caption, 
+      captionHtml, 
+      credit, 
+      creditHtml 
+    } = figure
 
     const slideMediaClass = `q-lightbox-slides__element--${mediaType}`
     const videoClass = isVideo ? `q-lightbox-slides__element--video q-lightbox-slides__element--${aspectRatio}` : ''
