@@ -1,18 +1,25 @@
+const chalkFactory = require('chalk')
+const fs = require('fs-extra')
 const { html } = require('~lib/common-tags')
-const sass = require('sass')
 const path = require('path')
+const sass = require('sass')
+
+const logger = chalkFactory('lightbox:styles')
 /**
- * Lightbox Tag
- * @todo add conditional rendering for epub and pdf when lightbox is included in `entry`
+ * Lightbox Styles Tag
  *
  * @param      {Object}  eleventyConfig
- * @param      {Object}  globalData
+ * @return     {Function} 11ty component returning a slotted `style` tag
  */
 module.exports = function (eleventyConfig) {
   const lightboxStylesPath = path.resolve('content/_assets/styles/components/q-lightbox.scss')
 
-  // TODO: if not lightboxStylesPath WARN
-  let lightboxCSS = sass.compile(lightboxStylesPath)
+  let lightboxCSS = {css:''}
+  if (!fs.existsSync()) {
+    logger.warn(`q-lightbox component styles were not found at ${lightboxStylesPath}, this may cause the lightbox to behave unexpectedly.`)
+  } else {
+    lightboxCSS = sass.compile(lightboxStylesPath)
+  }
 
   return function () {
     if (!lightboxCSS) return

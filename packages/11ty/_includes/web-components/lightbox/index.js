@@ -4,21 +4,29 @@ import { unsafeHTML } from 'lit-html/directives/unsafe-html.js'
 /**
  * Lightbox lit-element web component markup and browser runtime
  *
- * This component renders image slides with navigation UI.
- * It provides a default slot for passing markup to render:
+ * This component renders a custom element (q-lightbox) with slots for 
+ * figures data, styles, and ui. On startup it loads its data, inserts its
+ * slides' markup, and manages a few internal properties and attributes during
+ * the component lifecycle.
  *
- * To display an element as a slide, provide it with a
- * `data-lightbox-slide` attribute set to any value
- * `data-lightbox-slide-id` attribute set to a unique id string
+ * Each slide (see `_lightboxSlide`) carries a
+ * `q-lightbox-slides__slid` class
+ * `id` attribute set to the figure's id
+ * `data-lightbox-current` (optional, any value) attribute lays out and displays the slide 
+ * `data-lightbox-preload` (optional, any value) attribute lays out the slide without display
  *
- * This lightbox provides access to controls with the following data attributes:
+ * This lightbox expects its UI slot to have elements for a few controls:
  * - `data-lightbox-fullscreen` triggers fullscreen on click and indicates status
  * - `data-lightbox-next` triggers rendering of next slide on click
  * - `data-lightbox-previous` triggers rendering of previous slide on click
  *
- * It dynamically updates the content of elements with these data attributes:
+ * It dynamically updates the content of its UI labels with these data attributes:
  * - `data-lightbox-counter-current` displays the current slide index
  * - `data-lightbox-counter-total` displays total number of slides
+ * 
+ * For each figure's data:
+ * - Aligned to an internal data representation that eases slide logic and markup
+ * - Inserted into slide markup with the appropriate slot and added to the lightbox
  */
 class Lightbox extends LitElement {
 
