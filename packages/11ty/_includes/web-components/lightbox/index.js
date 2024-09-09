@@ -23,6 +23,8 @@ import { unsafeHTML } from 'lit-html/directives/unsafe-html.js'
 class Lightbox extends LitElement {
   static properties = {
     currentId: { attribute: 'current-id', type: String },
+    preloadNextId: { attribute: 'preload-next-id', type: String },
+    preloadPrevId: { attribute: 'preload-prev-id', type: String },
   }
 
   constructor() {
@@ -30,6 +32,7 @@ class Lightbox extends LitElement {
     this.setupFullscreenButton()
     this.setupNavigationButtons()
     this.setupKeyboardControls()
+    this.setupFiguresData()
   }
 
   get counterCurrent() {
@@ -121,6 +124,12 @@ class Lightbox extends LitElement {
     this.currentId = previousId
   }
 
+  setupFiguresData() {
+    const figuresData = this.querySelector('script[type="application/json"]')
+    const figures = JSON.parse(figuresData.innerHTML)
+    this.figures = figures
+  }
+
   setupFullscreenButton() {
     if (!this.fullscreenButton) return
 
@@ -177,10 +186,20 @@ class Lightbox extends LitElement {
   updateCurrentSlideElement() {
     if (!this.currentSlide) return
 
+    // TODO: Change this so we're modding the slides' next/cur/prev markup (so no load bounce) and then reset the next/prev IDs
     this.slides.forEach((slide) => {
-      if (slide.dataset.lightboxSlideId !== this.currentId)
+      if (slide.dataset.lightboxSlideId !== this.currentId) {
         delete slide.dataset.lightboxCurrent
+      }
+
+      if ([this.preloadNextId,this.preloadPrevId].includes(slide.dataset.lightboxSlideId)) {
+        slide.dataset.lightboxPreload = true
+      } else {
+        delete slide.dataset.lightboxPreload
+      }
+
     })
+
     this.currentSlide.dataset.lightboxCurrent = true
   }
 
@@ -191,9 +210,14 @@ class Lightbox extends LitElement {
   render() {
     if (!this.slides.length) return ''
     this.currentId = this.slideIds[this.currentSlideIndex]
+    this.preloadNextId = this.currentSlideIndex + 1 < this.slideIds.length ? this.slideIds[this.currentSlideIndex + 1] : undefined
+    this.preloadPrevId = this.currentSlideIndex - 1 >= 0 ? this.slideIds[this.currentSlideIndex - 1] : undefined
     this.updateCurrentSlideElement()
     this.updateCounterElements()
+    // console.log(this.figures)
 
+    // TODO: Add figureElement, captionElement, and Annotations element markup
+    // TODO: Add prev-slide, cur-slide, next-slide data
     return html`
       <div class="q-lightbox">
         <slot></slot>

@@ -43,6 +43,7 @@ module.exports = {
   jsonld: require('./head-tags/jsonld.js'),
   licenseIcons: require('./license-icons.js'),
   lightbox: require('./lightbox/index.js'),
+  lightboxData: require('./lightbox/data.js'),
   lightboxSlides: require('./lightbox/slides'),
   lightboxUI: require('./lightbox/ui'),
   link: require('./link.js'),
