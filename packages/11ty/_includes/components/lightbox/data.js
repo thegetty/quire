@@ -45,12 +45,12 @@ module.exports = function(eleventyConfig) {
       const sluggedId = slugify(id)
 
       let mapped = { ...fig, 
-                     annotationsElementContent,
-                     captionHtml, 
-                     creditHtml,                     
-                     labelHtml, 
-                     sluggedId, 
-                    }
+        annotationsElementContent,
+        captionHtml, 
+        creditHtml,                     
+        labelHtml, 
+        sluggedId, 
+      }
 
 
       const isAudio = mediaType === 'soundcloud'
