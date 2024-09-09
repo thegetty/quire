@@ -1,10 +1,11 @@
-const chalkFactory = require('chalk')
-const fs = require('fs-extra')
+const chalkFactory = require('~lib/chalk')
+const fs = require('fs')
 const { html } = require('~lib/common-tags')
 const path = require('path')
 const sass = require('sass')
 
 const logger = chalkFactory('lightbox:styles')
+
 /**
  * Lightbox Styles Tag
  *
@@ -15,7 +16,8 @@ module.exports = function (eleventyConfig) {
   const lightboxStylesPath = path.resolve('content/_assets/styles/components/q-lightbox.scss')
 
   let lightboxCSS = {css:''}
-  if (!fs.existsSync()) {
+
+  if (!fs.existsSync(lightboxStylesPath)) {
     logger.warn(`q-lightbox component styles were not found at ${lightboxStylesPath}, this may cause the lightbox to behave unexpectedly.`)
   } else {
     lightboxCSS = sass.compile(lightboxStylesPath)
