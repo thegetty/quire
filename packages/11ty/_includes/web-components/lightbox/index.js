@@ -1,6 +1,8 @@
 import { LitElement, html, render, unsafeCSS } from 'lit'
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js'
 
+// TODO: Make current-id work (for .ref links)
+
 /**
  * Lightbox lit-element web component markup and browser runtime
  *
@@ -145,8 +147,12 @@ class Lightbox extends LitElement {
     this.currentId = previousId
   }
 
-  // Adds some useful props we need for slide processing
-  // TODO: jsdoc
+  /**
+   * @function _alignSlideData
+   * @param {Object} figure - data for a quire figure
+   * @return {Object} - data w/ a few useful props added
+   * 
+   **/
   _alignSlideData(figure) {
     const {
       aspect_ratio: aspectRatio='widescreen',
@@ -164,7 +170,13 @@ class Lightbox extends LitElement {
     return { ...figure, isAudio, isVideo, aspectRatio }
   }
 
-  // TODO: jsdoc
+  /**
+   * @function _lightboxSlide
+   * @param {Object} figure - slide data
+   * @return {Lit.html} - Lit HTML component
+   * 
+   * Composites slide data into the slide markup and injects pre-serialized figure elements
+   **/
   _lightboxSlide(figure) {
     const { id, 
       mediaType, 
