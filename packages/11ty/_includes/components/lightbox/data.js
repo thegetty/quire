@@ -73,7 +73,8 @@ module.exports = function(eleventyConfig) {
       mapped.figureElementContent = await figureElement(fig)
       return mapped
     }))
-
+    
+    // TODO: The issue is that now that all the stuff isn't circular `vite` still complains about embedded HTML in the JSON
     const jsonData = JSON.stringify(figures)
 
     return html`<script type="application/json" 

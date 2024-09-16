@@ -13,7 +13,8 @@ module.exports = function (eleventyConfig) {
   const imageTag = eleventyConfig.getFilter('imageTag')
   const { imageDir } = eleventyConfig.globalData.config.figures
 
-  return async function (figure, options) {
+  return function (figure, options) {
+
     const { alt, isCanvas, isImageService, isSequence, staticInlineFigureImage } = figure
     const { interactive, preset } = options
     if (preset) {
@@ -25,7 +26,7 @@ module.exports = function (eleventyConfig) {
         if (!interactive && staticInlineFigureImage) {
           return imageTag({ alt, src: staticInlineFigureImage, isStatic: !interactive })
         } else {
-          return await imageSequence(figure, options)
+          return imageSequence(figure, options)
         }
       case isCanvas:
         if (!interactive && staticInlineFigureImage) {
