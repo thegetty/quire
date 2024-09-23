@@ -1,8 +1,6 @@
 import { LitElement, html, render, unsafeCSS } from 'lit'
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js'
 
-// TODO: Make current-id work (for .ref links)
-
 /**
  * Lightbox lit-element web component markup and browser runtime
  *
@@ -12,7 +10,7 @@ import { unsafeHTML } from 'lit-html/directives/unsafe-html.js'
  * the component lifecycle.
  *
  * Each slide (see `_lightboxSlide`) carries a
- * `q-lightbox-slides__slid` class
+ * `q-lightbox-slides__slide` class
  * `id` attribute set to the figure's id
  * `data-lightbox-current` (optional, any value) attribute lays out and displays the slide 
  * `data-lightbox-preload` (optional, any value) attribute lays out the slide without display

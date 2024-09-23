@@ -29,7 +29,7 @@ Because only 11ty has build-time access to the sass stylesheets, `_includes/comp
 
 ### Interactivity
 To display a child element of the slot as a slide, provide it with a `data-lightbox-slide` attribute set to anything and a `data-lightbox-slide-id`
-set to a unique string (in our case, the figure id). **Note:** the value of `data-lightbox-slide-id` only needs to be unique among other slot children with `data-lightbox-slide` set
+set to a unique string (in our case, the figure id). **Note:** the value of `id` only needs to be unique among other slot children with `data-lightbox-slide` set
 
 This lightbox provides access to controls with the following data attributes:
 - `data-lightbox-fullscreen` triggers fullscreen on click and indicates status
