@@ -138,6 +138,10 @@ class ImageSequence extends LitElement {
       type: Boolean,
       state: true,
     },
+    visible: {
+      type: Boolean,
+      state: true,
+    },
     images: {
       type: Array,
       state: true,
@@ -155,6 +159,13 @@ class ImageSequence extends LitElement {
     return this.imagesLoaded === this.images.length
   }
 
+  // Fires when this component is visible
+  _loadImages() {
+    const imageElements = this.images.map( (img,i) => {
+      fetch(img).then( this.imagesLoaded++ )
+    })
+  }
+
   constructor() {
     super()
 
@@ -169,15 +180,28 @@ class ImageSequence extends LitElement {
 
     // Internal state
     this.imageData = []
+    this.visible = false
     this.index = 0
     this.oldIndex = null
     this.oldX = null
     this.imagesLoaded = 0
     this.totalCanvases = this.images.length
 
-    const imageElements = this.images.map( (img,i) => {
-      fetch(img).then( this.imagesLoaded++ )
-    })
+    // Set up observable and mouse events
+
+    this._loadImages()
+
+    // TODO: Setup observer and run isVisible() when we're at least one screen away 
+    // const io = new IntersectionObserver( (entries,observer) => {
+    //   entries.forEach(entry => {
+    //     if (entry.intersectionRatio > 0) {
+    //       this.visible = true
+    //       this._isObservable()
+    //     }
+    //   })
+    // })
+
+    // io.observe(this)
 
     if (this.isInteractive) {
       this.addEventListener('mousemove', this.handleMouseMove.bind(this))
@@ -225,10 +249,10 @@ class ImageSequence extends LitElement {
     }
   }
 
-  getClampedIndex(index) {
-    if (!this.images) return 0
-    return Math.max(Math.min(index, this.images.length - 1), 0)
-  }
+  // getClampedIndex(index) {
+  //   if (!this.images) return 0
+  //   return Math.max(Math.min(index, this.images.length - 1), 0)
+  // }
 
   handleMouseMove({ buttons, clientX }) {
     if (buttons) {
@@ -286,59 +310,33 @@ class ImageSequence extends LitElement {
     const newIndex = this.index + n >= this.totalCanvases
       ? this.index + n - this.totalCanvases
       : this.index + n
-    this.setSequenceIndex(newIndex)
+    this.index = newIndex
   }
 
-  indexChanged(value) {
-    this.updateCurrentSequenceImage(value)
-  }
-
-  onIndexChange(oldValue, newValue) {
-    // TODO: Make this the validator on hasChanged 
-    newValue = parseInt(newValue)
-    const isInit = newValue && !oldValue
-    if (isInit) {
-      this.updateCurrentSequenceImage(newValue)
-      return
-    }
-
-    oldValue = parseInt(oldValue)
-    this.oldIndex = !isNaN(oldValue)
-      ? this.getClampedIndex(oldValue)
-      : null
-    const isInvalidIndex = isNaN(newValue) && !isNaN(oldValue)
-    if (isInvalidIndex) {
-      console.error(`Index '${newValue}' is not a valid sequence index`)
-      this.setSequenceIndex(oldValue)
-    }
-
-    const newIndex = !isNaN(newValue)
-      ? this.getClampedIndex(newValue)
-      : this.index
-    if (newIndex !== this.oldIndex) {
-      // TODO: Run this in render() before we return
-      this.setSequenceIndex(newIndex)
-      this.updateCurrentSequenceImage(newIndex)
+  willUpdate(changedProperties) {
+    if (changedProperties.has('rotateToIndex') && this.rotateToIndex!==false) {
+      this.performRotation(this.rotateToIndex)
     }
   }
 
   /**
    * Animates a rotation by stepping through canvases from the current index to the provided `newValue`
    */
-  onRotateToIndex(oldValue, newValue) {
-    const newIndex = parseInt(newValue)
-    if (this.index === newIndex || isNaN(newIndex) || oldValue === newValue) return
+  performRotation(indexToMove) {
+    if (this.index === indexToMove) return
     const interval = setInterval(() => {
       /**
-       * Set rotateToIndex to false when rotation is done
+       * Set rotateToIndex to false when rotation is done and clear the interval
        */
-      if (this.index === newIndex) {
+      // TODO: 
+      console.log(this.index)
+      if (this.index === indexToMove) {
         this.rotateToIndex = false
       }
       /**
-       * Clear the interval if user has triggered another rotation or if the rotation is complete
+       * Clear the interval if user has triggered another rotation
        */
-      if (this.rotateToIndex !== newIndex) {
+      if (this.rotateToIndex !== indexToMove) {
         clearInterval(interval)
         return
       }
@@ -357,45 +355,27 @@ class ImageSequence extends LitElement {
     const newIndex = this.index - n < 0
       ? this.totalCanvases + this.index - n
       : this.index - n
-    this.setSequenceIndex(newIndex)
+    this.index = newIndex
   }
 
-  setSequenceIndex(newIndex) {
-    if (newIndex !== this.index) {
-      this.index = newIndex
-      this.synchronizeSequenceInstances()
-    }
-  }
-
+  // TODO: Add this to the class list if no interaction
   showImage(imageElement, shouldFadeIn) {
     if (!imageElement) return
     shouldFadeIn && imageElement.classList.add('fade-in')
     imageElement.classList.add('visible')
   }
 
+  // TODO: maybe do this in an await this.updateComplete callback? -- synchro to the on-page resources?
   synchronizeSequenceInstances() {
     clearTimeout(this.updateTimer)
     this.updateTimer = setTimeout(() => {
-      const sequenceInstances = document.querySelectorAll(`image-sequence[sequence-id="${this.sequenceId}"]`)
+      const sequenceInstances = document.querySelectorAll(`q-image-sequence[sequence-id="${this.sequenceId}"]`)
       sequenceInstances.forEach((sequence) => {
         if (parseInt(sequence.getAttribute('index')) !== this.index) {
           sequence.setAttribute('index', this.index)
         }
       })
     }, 250)
-  }
-
-  updateCurrentSequenceImage(newIndex) {
-    if (!this) return
-    /* add `fadeIn` class if we are seeing an image for the first time (if there is no old value) */
-    this.showImage(this.images[newIndex], isNaN(parseInt(this.oldIndex)))
-    if (
-      !isNaN(this.oldIndex) &&
-      newIndex !== this.oldIndex &&
-      this.images[this.oldIndex]
-    ) {
-      this.hideImage(this.images[this.oldIndex])
-    }
   }
 
   render() {
