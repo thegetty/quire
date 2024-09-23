@@ -24,6 +24,12 @@ module.exports = function(eleventyConfig) {
   
   const { assetDir } = eleventyConfig.globalData.config.figures
 
+  /**
+   * lightboxData shortcode component function
+   * @param {Object} data - Figures data to insert
+   * @return an HTML script element with JSON-serialized payload
+   * 
+   **/
   return async function(data) {
 
     const figures = await Promise.all(data.map( async (fig) => {
@@ -74,13 +80,11 @@ module.exports = function(eleventyConfig) {
       return mapped
     }))
     
-    // TODO: The issue is that now that all the stuff isn't circular `vite` still complains about embedded HTML in the JSON
     const jsonData = JSON.stringify(figures)
 
-    return html`<script type="application/json" 
-                    class="q-lightbox-data"
-                    slot="data">
-                      ${jsonData}
-                    </script>`
+    return html`
+      <script type="application/json" class="q-lightbox-data" slot="data">
+        ${jsonData}
+      </script>`
   }
 }
