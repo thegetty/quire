@@ -14,6 +14,7 @@ module.exports = function (eleventyConfig) {
   const { imageDir } = eleventyConfig.globalData.config.figures
 
   return function (figure, options) {
+
     const { alt, isCanvas, isImageService, isSequence, staticInlineFigureImage, lazyLoading } = figure
     const { interactive, preset } = options
     if (preset) {

@@ -17,7 +17,6 @@ module.exports = function(eleventyConfig) {
   const figureAudioElement = eleventyConfig.getFilter('figureAudioElement')
   const figureTableElement = eleventyConfig.getFilter('figureTableElement')
   const figureVideoElement = eleventyConfig.getFilter('figureVideoElement')
-
   const markdownify = eleventyConfig.getFilter('markdownify')
   const renderFile = eleventyConfig.getFilter('renderFile')
   const slugify = eleventyConfig.getFilter('slugify')
