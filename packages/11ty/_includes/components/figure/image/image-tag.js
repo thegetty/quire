@@ -13,11 +13,16 @@ const path = require('path')
 module.exports = function(eleventyConfig) {
   const { imageDir } = eleventyConfig.globalData.config.figures
 
-  return function ({ alt='', src='', isStatic=false }) {
+  return function ({ alt='', src='', isStatic=false, lazyLoading='lazy' }) {
     const imageSrc = src.startsWith('http') || isStatic ? src : path.join(imageDir, src)
 
     return html`
-      <img alt="${alt}" class="q-figure__image" src="${imageSrc}" />
+      <img alt="${alt}" 
+        class="q-figure__image"
+        decoding="async"
+        loading="${lazyLoading}"
+        src="${imageSrc}"
+      />
     `
   }
 }

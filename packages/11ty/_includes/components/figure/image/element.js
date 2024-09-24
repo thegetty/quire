@@ -14,8 +14,7 @@ module.exports = function (eleventyConfig) {
   const { imageDir } = eleventyConfig.globalData.config.figures
 
   return function (figure, options) {
-
-    const { alt, isCanvas, isImageService, isSequence, staticInlineFigureImage } = figure
+    const { alt, isCanvas, isImageService, isSequence, staticInlineFigureImage, lazyLoading } = figure
     const { interactive, preset } = options
     if (preset) {
       figure.preset = preset
@@ -24,19 +23,19 @@ module.exports = function (eleventyConfig) {
     switch (true) {
       case isSequence:
         if (!interactive && staticInlineFigureImage) {
-          return imageTag({ alt, src: staticInlineFigureImage, isStatic: !interactive })
+          return imageTag({ alt, src: staticInlineFigureImage, isStatic: !interactive, lazyLoading })
         } else {
           return imageSequence(figure, options)
         }
       case isCanvas:
         if (!interactive && staticInlineFigureImage) {
-          return imageTag({ alt, src: staticInlineFigureImage, isStatic: !interactive })
+          return imageTag({ alt, src: staticInlineFigureImage, isStatic: !interactive, lazyLoading })
         } else {
           return canvasPanel(figure)
         }
       case isImageService:
         if (!interactive && staticInlineFigureImage) {
-          return imageTag({ alt, src: staticInlineFigureImage, isStatic: !interactive })
+          return imageTag({ alt, src: staticInlineFigureImage, isStatic: !interactive, lazyLoading })
         } else {
           return imageService(figure)
         }
