@@ -28,8 +28,7 @@ module.exports = function(eleventyConfig) {
    * lightboxData shortcode component function
    * @param {Object} data - Figures data to insert
    * @return an HTML script element with JSON-serialized payload
-   * 
-   **/
+   */
   return async function(data) {
 
     const figures = await Promise.all(data.map( async (fig) => {
