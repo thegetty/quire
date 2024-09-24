@@ -58,8 +58,7 @@ module.exports = function(eleventyConfig) {
         <link rel="canonical" href="${canonicalURL}">
         <link rel="version-history" href="${publication.repositoryUrl}">
 
-        <script src="https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@1.0.56" type="module"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@iiif/vault-helpers@latest/dist/index.umd.js"></script>
+        <script src="/_assets/javascript/application/canvas-panel-web-components-1.0.68.js" type="module"></script>
 
         ${publisherLinks}
 
