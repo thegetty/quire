@@ -149,8 +149,7 @@ class Lightbox extends LitElement {
    * @function _alignSlideData
    * @param {Object} figure - data for a quire figure
    * @return {Object} - data w/ a few useful props added
-   * 
-   **/
+   */
   _alignSlideData(figure) {
     const {
       aspect_ratio: aspectRatio='widescreen',
