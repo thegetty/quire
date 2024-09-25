@@ -7,7 +7,7 @@ const { html } = require('~lib/common-tags')
  * @param      {Object}  globalData
  */
 module.exports = function (eleventyConfig) {
-  const lightboxSlides = eleventyConfig.getFilter('lightboxSlides')
+  const lightboxStyles = eleventyConfig.getFilter('lightboxStyles')
   const lightboxUI = eleventyConfig.getFilter('lightboxUI')
   const lightboxData = eleventyConfig.getFilter('lightboxData')
 
@@ -17,8 +17,8 @@ module.exports = function (eleventyConfig) {
     return html`
       <q-modal>
         <q-lightbox>
+          ${lightboxStyles()}
           ${await lightboxData(figures)}        
-          ${await lightboxSlides(figures)}
           ${lightboxUI(figures)}
         </q-lightbox>
         <button

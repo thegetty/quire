@@ -2,21 +2,33 @@ const path = require('path')
 const { html } = require('~lib/common-tags')
 
 /**
- * lightboxData
- * @parameter data Object - Figures data to insert
- *
- * @returns An HTML Script Element with the JSON-serialized payload
+ * Quire lightboxData component
+ * @param {Object} eleventyConfig
+ * @return {Function} 11ty component function for lightboxData
+ * 
+ * Serializes the data for a lightbox's figures to a slotted
+ * `<script>` tag. Where necessary it uses 11ty / quire functions
+ * to generate HTML markup and slugified resource IDs.
  */
 module.exports = function(eleventyConfig) {
 
+  const annotationsUI = eleventyConfig.getFilter('annotationsUI')
+  const figureImageElement = eleventyConfig.getFilter('figureImageElement')
+  const figureAudioElement = eleventyConfig.getFilter('figureAudioElement')
+  const figureTableElement = eleventyConfig.getFilter('figureTableElement')
+  const figureVideoElement = eleventyConfig.getFilter('figureVideoElement')
   const markdownify = eleventyConfig.getFilter('markdownify')
   const renderFile = eleventyConfig.getFilter('renderFile')
   const slugify = eleventyConfig.getFilter('slugify')
   
   const { assetDir } = eleventyConfig.globalData.config.figures
 
-  return async function(...args) {
-    const [data] = args
+  /**
+   * lightboxData shortcode component function
+   * @param {Object} data - Figures data to insert
+   * @return an HTML script element with JSON-serialized payload
+   */
+  return async function(data) {
 
     const figures = await Promise.all(data.map( async (fig) => {
 
@@ -24,44 +36,53 @@ module.exports = function(eleventyConfig) {
         caption,
         credit,
         id,
+        isSequence,
         label,
-        media_type,
+        mediaType,
         src,
       } = fig
 
-      let mapped = { ...fig, slugged_id: slugify(id) }
+      const annotationsElementContent = !isSequence ? annotationsUI({ figure: fig, lightbox: true }) : undefined
+      const labelHtml = label ? markdownify(label) : undefined 
+      const captionHtml = caption ? markdownify(caption) : undefined
+      const creditHtml = credit ? markdownify(caption) : undefined
+      const sluggedId = slugify(id)
 
-      if (label) {
-        mapped.label_html = markdownify(label) 
+      let mapped = { ...fig, 
+        annotationsElementContent,
+        captionHtml, 
+        creditHtml,                     
+        labelHtml, 
+        sluggedId, 
       }
 
-      if (caption) {
-        mapped.caption_html = markdownify(caption)
-      }
 
-      if (credit) {
-        mapped.credit_html = markdownify(caption)
-      }
+      const isAudio = mediaType === 'soundcloud'
+      const isVideo = mediaType === 'video' || mediaType === 'vimeo' || mediaType === 'youtube'
 
-      switch (media_type) {
-        case 'table': {
-          // Load the linked HTML file for table figures
-          let htmlFilePath = path.join(eleventyConfig.dir.input, assetDir, src)
-          mapped.src_content = await renderFile(htmlFilePath) 
-          return mapped
+      const figureElement = async (figure) => {
+        switch (true) {
+          case mediaType === 'soundcloud':
+            return figureAudioElement(figure)
+          case mediaType === 'table':
+            return `<div class="overflow-container">${await figureTableElement(figure)}</div>`
+          case isVideo:
+            return figureVideoElement(figure)
+          case mediaType === 'image':
+          default:
+            return figureImageElement(figure, { preset: 'zoom', interactive: true })
         }
-        default: 
-          return mapped
       }
+
+      mapped.figureElementContent = await figureElement(fig)
+      return mapped
     }))
-
-
+    
     const jsonData = JSON.stringify(figures)
 
-    return html`<script type="application/json" 
-                    class="quire-data" 
-                    id="page-figures">
-                      ${jsonData}
-                    </script>`
+    return html`
+      <script type="application/json" class="q-lightbox-data" slot="data">
+        ${jsonData}
+      </script>`
   }
 }

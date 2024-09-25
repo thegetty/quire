@@ -26,7 +26,7 @@ const logger = chalkFactory('Figures:Annotation')
  */
 module.exports = class Annotation {
   constructor(figure, data) {
-    const { annotationCount, iiifConfig, outputDir, outputFormat, zoom } = figure
+    const { annotationCount, iiifConfig, outputDir, outputFormat, src: figureSrc, zoom } = figure
     const { baseURI, tilesDirName } = iiifConfig
     const { label, region, selected, src, text } = data
     const { base, name } = src ? path.parse(src) : {}
@@ -61,7 +61,7 @@ module.exports = class Annotation {
     const isImageService =
       !!zoom
       && outputFormat === '.jpg'
-      && (annotationCount === 0 || src === figure.src)
+      && (annotationCount === 0 || src === figureSrc)
     const info = () => {
       if (!isImageService) return
       const tilesPath = path.join(outputDir, name, tilesDirName)
@@ -98,7 +98,7 @@ module.exports = class Annotation {
     this.src = src
     this.region = region
     this.text = text
-    this.type = figure.src || region || text ? 'annotation' : 'choice'
+    this.type = figureSrc || region || text ? 'annotation' : 'choice'
     this.uri = uri()
   }
 }

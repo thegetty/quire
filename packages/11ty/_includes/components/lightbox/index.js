@@ -9,7 +9,6 @@ const { html } = require('~lib/common-tags')
  */
 module.exports = function (eleventyConfig, { page }) {
   const lightboxData = eleventyConfig.getFilter('lightboxData')
-  const lightboxSlides = eleventyConfig.getFilter('lightboxSlides')
   const lightboxUI = eleventyConfig.getFilter('lightboxUI')
 
   return async function (figures=page.figures) {
@@ -18,7 +17,6 @@ module.exports = function (eleventyConfig, { page }) {
     return html`
       <q-lightbox>
         ${await lightboxData(figures)}
-        ${await lightboxSlides(figures)}
         ${lightboxUI(figures)}
       </q-lightbox>
     `

@@ -89,7 +89,6 @@ module.exports = class Figure {
     const format = iiifConfig.formats.find(({ input }) => input.includes(ext))
 
     this.annotationCount = data.annotations ? data.annotations.length : 0
-    this.annotationFactory = new AnnotationFactory(this)
     this.canvasId = canvasId()
     this.data = data
     this.id = id
@@ -104,13 +103,16 @@ module.exports = class Figure {
     this.outputDir = outputDir
     this.outputFormat = format && format.output
     this.processImage = imageProcessor
-    this.sequenceFactory = new SequenceFactory(this)
     this.src = src
     /**
      * We are disabling zoom for all sequence figures
      * our custom image-sequence component currently only supports static images
      */
     this.zoom = isSequence(data) ? false : zoom
+
+    // NB: *Factory depend on props of `this` so Object.assign() breaks circularity
+    this.annotationFactory = new AnnotationFactory(Object.assign({},this))
+    this.sequenceFactory = new SequenceFactory(Object.assign({},this))
   }
 
   /**
