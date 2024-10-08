@@ -1,4 +1,7 @@
 import { LitElement, css, html, render, unsafeCSS } from 'lit'
+import { createRef, ref } from 'lit/directives/ref.js'
+
+// TODO: Make sure to swallow internal errors (etc) 
 
 class ImageSequence extends LitElement {
 
@@ -7,12 +10,13 @@ class ImageSequence extends LitElement {
         position: relative;
         display: flex;
         justify-content: center;
-        max-width: 100vw;
         max-height: 100vh;
+        max-width: 100vw;
       }
 
       .image-sequence.interactive {
         height: 100%;
+        width: 100%;
         cursor: grab;
       }
 
@@ -23,7 +27,6 @@ class ImageSequence extends LitElement {
         position: absolute;
         top: 0;
         left: 0;
-        width: 100%;
         height: 100%;
         background: rgba(0,0,0,0);
         color: white;
@@ -73,7 +76,7 @@ class ImageSequence extends LitElement {
         opacity: 1;
       }
 
-      slot[name='images'] img {
+      slot[name='images'] canvas {
         display: block;
         pointer-events: none;
         user-select: none;
@@ -81,22 +84,22 @@ class ImageSequence extends LitElement {
         height: 100%;
       }
 
-      slot[name='images'] img:not(.placeholder) {
+      slot[name='images'] canvas:not(.placeholder) {
         position: absolute;
         top: 0;
         left: 0;
       }
 
-      slot[name='images'] img.visible {
+      slot[name='images'] canvas.visible {
         opacity: 1;
         object-fit: contain;
       }
 
-      slot[name='images'] img:not(.visible) {
+      slot[name='images'] canvas:not(.visible) {
         opacity: 0;
       }
 
-      slot[name='images'] img.fade-in {
+      slot[name='images'] canvas.fade-in {
         animation: fade-in 0.25s 1 linear;          
       }
 
@@ -125,10 +128,15 @@ class ImageSequence extends LitElement {
       }
 
       slot[name='placeholder-image'] img {
-        opacity: 0;
+        height: 100%;
         transition: opacity 0.25s linear;
         object-fit: cover;
-      }`
+      }
+
+      slot[name='placeholder-image'] img.interacted {
+        opacity: 0;
+      }
+      `
 
   static properties = {
     index: {
@@ -142,8 +150,20 @@ class ImageSequence extends LitElement {
       type: Boolean,
       state: true,
     },
+    imageUrls: {
+      attribute: 'image-urls',
+      type: String,
+    },
     images: {
       type: Array,
+      state: true,
+    },
+    intrinsicHeight: {
+      type: Number,
+      state: true,
+    },
+    intrinsicWidth: {
+      type: Number,
       state: true,
     },
     rotateToIndex: {
@@ -155,23 +175,66 @@ class ImageSequence extends LitElement {
     }
   }
 
+  canvasRef = createRef()
+
   get allImagesLoaded() {
     return this.imagesLoaded === this.images.length
   }
 
+  /**
+   * @function _fetchImage
+   * @param url {string} - image URL to fetch
+   * @param seqIndex {Number} - index to store this image 
+   * 
+   * Fetches `url`, converts it into a blob and stores the image data
+   **/
+  _fetchImage(url,seqIndex) {
+    // TODO: These should be moved to a worker
+    fetch(url)
+    .then( (resp) => resp.blob() )
+    .then( (blob) => {
+      const url = URL.createObjectURL(blob)
+      let img = new Image()
+      img.src = url
+
+      if (this.intrinsicHeight === 0) {
+        window.createImageBitmap(blob).then( bmp => {
+          this.intrinsicHeight = bmp.height
+          this.intrinsicWidth = bmp.width          
+        })
+      }
+
+      this.images[seqIndex] = img
+      this.imagesLoaded++
+
+      if (this.allImagesLoaded) {
+        this.requestUpdate()
+        this._updateCanvas()
+      }
+
+    })
+    .catch( (err) => {
+      // TODO: Raise and set an error message on the component, try to cancel other loads
+      console.error(err)
+    })
+  }
+
   // Fires when this component is visible
   _loadImages() {
-    const imageElements = this.images.map( (img,i) => {
-      fetch(img).then( this.imagesLoaded++ )
+    this.imageUrls.forEach( (imgUrl,i) => {
+      this._fetchImage(imgUrl,i)
     })
   }
 
   constructor() {
     super()
 
+    // TODO: Grab our canvas, context
+
     // Passed params and config
     this.description = 'Click and drag horizontally to rotate image'
-    this.images = this.getAttribute('items').split(',')
+    this.imageUrls = this.getAttribute('items').split(',')
+    this.posterImageSrc = this.imageUrls.length > 0 ? this.imageUrls[0] : ''
     this.isContinuous = this.getAttribute('continuous') === 'true'
     this.isInteractive = this.getAttribute('interactive') === 'true'
     this.didInteract = false
@@ -179,17 +242,24 @@ class ImageSequence extends LitElement {
     this.sequenceId = this.getAttribute('sequence-id')
 
     // Internal state
-    this.imageData = []
+    this.images = Array(this.imageUrls.length) // Array<ImageData>
     this.visible = false
     this.index = 0
+    this.intrinsicHeight = 0
+    this.intrinsicWidth = 0
     this.oldIndex = null
     this.oldX = null
     this.imagesLoaded = 0
-    this.totalCanvases = this.images.length
+    this.totalCanvases = this.imageUrls.length
+
+    // this.context = this.canvasRef.value.getContext('2d')
+
+    // this.canvasRef.value.classList.add('fade-in')
+
+    // Begin loading images
+    this._loadImages()
 
     // Set up observable and mouse events
-
-    this._loadImages()
 
     // TODO: Setup observer and run isVisible() when we're at least one screen away 
     // const io = new IntersectionObserver( (entries,observer) => {
@@ -256,9 +326,7 @@ class ImageSequence extends LitElement {
 
   handleMouseMove({ buttons, clientX }) {
     if (buttons) {
-      if (this.didInteract) {
-        this.didInteract = true
-      }
+      this.didInteract = true
 
       this.hideOverlays()
       if (this.oldX) {
@@ -278,13 +346,6 @@ class ImageSequence extends LitElement {
     } else {
       this.oldX = null
     }
-  }
-
-  hideAllImages() {
-    this.images.forEach((element) => {
-      element.classList.remove('visible')
-    })
-
   }
 
   hideOverlays() {
@@ -313,10 +374,33 @@ class ImageSequence extends LitElement {
     this.index = newIndex
   }
 
+
+  /**
+   * @function _updateCanvas
+   * Updates the `canvas` element with this.index
+   **/
+  _updateCanvas() {
+    if (!this.canvasRef.value) {
+      return
+    }
+
+    if (!this.context) {
+      this.context = this.canvasRef.value.getContext('2d')
+    }
+
+    this.context.drawImage(this.images[this.index],0,0)
+  }
+
   willUpdate(changedProperties) {
+
     if (changedProperties.has('rotateToIndex') && this.rotateToIndex!==false) {
       this.performRotation(this.rotateToIndex)
     }
+
+    if (changedProperties.has('index') && this.allImagesLoaded) {
+      this._updateCanvas()
+    }
+
   }
 
   /**
@@ -328,8 +412,6 @@ class ImageSequence extends LitElement {
       /**
        * Set rotateToIndex to false when rotation is done and clear the interval
        */
-      // TODO: 
-      console.log(this.index)
       if (this.index === indexToMove) {
         this.rotateToIndex = false
       }
@@ -398,14 +480,14 @@ class ImageSequence extends LitElement {
 
     return html`<div class="image-sequence ${ this.allImagesLoaded ? '' : 'loading' } ${ this.isInteractive ? 'interactive' : '' }">
                   <slot name="placeholder-image">
-                    <img slot="placeholder-image" class="${ this.allImagesLoaded ? '' : 'loading' } placeholder" src="${ this.images.length > 0 ? this.images[0] : '' }" >
+                    <img slot="placeholder-image" class="${ this.didInteract ? 'interacted' : '' } ${ this.allImagesLoaded ? '' : 'loading' } placeholder" src="${ this.posterImageSrc }" >
                   </slot>
                   <slot name="loading-overlay">
                     ${ loadingOverlayElement }
-                  </slot>                
-                  <slot name="images">
-                    <img slot="images" class="${ this.allImagesLoaded ? 'visible' : '' } ${ this.didInteract ? '' : 'fade-in' } " src="${this.images[this.index]}">
                   </slot>
+                  <slot name="images">
+                    <canvas ${ref(this.canvasRef)} height="${this.intrinsicHeight}" width="${this.intrinsicWidth}" class="${ this.allImagesLoaded ? 'visible' : '' } ${ this.didInteract ? '' : 'fade-in' }" slot="images"></canvas>                
+                  </slot>                  
                   <slot name="overlay">
                     ${ descriptionOverlay }
                   </slot>
