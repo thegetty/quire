@@ -200,14 +200,13 @@ class ImageSequence extends LitElement {
       }
 
       this.images[seqIndex] = bmp
+      this.imagesLoaded++
 
-      if (interactive) {
-        this.imagesLoaded++
-      } else {
+      if (!interactive) {
         this.imagesLoaded = this.images.length
       }
-
-      if (this.allImagesLoaded) {
+      
+      if (!interactive || this.allImagesLoaded) {
         this.requestUpdate()
         this._updateCanvas()
       }
