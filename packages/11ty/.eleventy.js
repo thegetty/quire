@@ -7,8 +7,13 @@ import scss from 'rollup-plugin-scss'
 /**
  * Eleventy plugins
  */
-import { EleventyHtmlBasePlugin, EleventyRenderPlugin } from '@11ty/eleventy'
-import { eleventyImagePlugin } from '@11ty/eleventy-img'
+import {
+  EleventyHtmlBasePlugin,
+  IdAttributePlugin,
+  InputPathToUrlTransformPlugin,
+  EleventyRenderPlugin
+} from '@11ty/eleventy'
+import { eleventyImageTransformPlugin } from '@11ty/eleventy-img'
 import directoryOutputPlugin from '@11ty/eleventy-plugin-directory-output'
 import navigationPlugin from '@11ty/eleventy-navigation'
 import pluginWebc from '@11ty/eleventy-plugin-webc'
@@ -68,6 +73,37 @@ export default async function(eleventyConfig) {
    * @see https://www.11ty.dev/docs/plugins/upgrade-help/
    */
   eleventyConfig.addPlugin(UpgradeHelper)
+
+  const dataDir = process.env.ELEVENTY_DATA || '_computed',
+  const includesDir = process.env.ELEVENTY_INCLUDES || path.join('..', '_includes')
+  const layoutsDir = process.env.ELEVENTY_LAYOUTS || path.join('..', '_layouts')
+
+  // ⚠️ input and output dirs are _relative_ to the `.eleventy.js` module
+  eleventyConfig.setInputDirectory(inputDir)
+  eleventyConfig.setOutputDirectory(outputDir)
+  // ⚠️ the following directories are _relative_ to the `input` directory
+  eleventyConfig.setDataDirectory(dataDir)
+  eleventyConfig.setIncludesDirectory(includesDir)
+  eleventyConfig.setLayoutsDirectory(layoutsDir)
+
+  /**
+   * All of the following template formats support universal shortcodes.
+   *
+   * Nota bene:
+   * Markdown files are pre-processed as Liquid templates by default. This
+   * means that shortcodes available in Liquid templates are also available
+   * in Markdown files. Likewise, if you change the template engine for
+   * Markdown files, the shortcodes available for that templating language
+   * will also be available in Markdown files.
+   * @see {@link https://www.11ty.dev/docs/config/#template-formats}
+   */
+  eleventyConfig.setTemplateFormats: [
+    '11ty.js', // JavaScript
+    'html',    // HTML
+    'liquid',  // Liquid
+    'md',      // Markdown
+    'njk',     // Nunjucks
+  ]
 
   /**
    * Override addPassthroughCopy to use _absolute_ system paths.
@@ -134,6 +170,16 @@ export default async function(eleventyConfig) {
    * @see https://www.11ty.dev/docs/plugins/html-base/
    */
   eleventyConfig.addPlugin(EleventyHtmlBasePlugin)
+
+  /**
+   * @see https://www.11ty.dev/docs/plugins/id-attribute/
+   */
+  eleventyConfig.addPlugin(IdAttributePlugin)
+
+  /**
+   * @see https://www.11ty.dev/docs/plugins/inputpath-to-url/
+   */
+  eleventyConfig.addPlugin(InputPathToUrlTransformPlugin)
 
   /**
    * Plugins are loaded in this order: 
@@ -203,7 +249,7 @@ export default async function(eleventyConfig) {
    * Configure the Eleventy Image plugin
    * @see https://www.11ty.dev/docs/plugins/image/
    */
-  eleventyConfig.addPlugin(eleventyImagePlugin, {
+  eleventyConfig.addPlugin(eleventyImageTransformPlugin, {
     defaultAttributes: {
       decoding: 'async',
       loading: 'lazy'
@@ -267,58 +313,12 @@ export default async function(eleventyConfig) {
   eleventyConfig.watchIgnores.add('_pdf')
   eleventyConfig.watchIgnores.add('_temp')
 
-  const { pathname: pathPrefix } = globalData.publication
-  return {
-    /**
-     * @see {@link https://www.11ty.dev/docs/config/#configuration-options}
-     */
-    dir: {
-      // ⚠️ input and output dirs are _relative_ to the `.eleventy.js` module
-      input: inputDir,
-      output: outputDir,
-      // ⚠️ the following directories are _relative_ to the `input` directory
-      data: process.env.ELEVENTY_DATA || '_computed',
-      includes: process.env.ELEVENTY_INCLUDES || path.join('..', '_includes'),
-      layouts: process.env.ELEVENTY_LAYOUTS || path.join('..', '_layouts'),
-    },
-    /**
-     * The default global template engine to pre-process HTML files.
-     * Use false to avoid pre-processing and passthrough copy the content (HTML is not transformed, so technically this could be any plaintext).
-     * @see {@link https://www.11ty.dev/docs/config/#default-template-engine-for-html-files}
-     */
-    htmlTemplateEngine: 'liquid',
-    /**
-     * Suffix for template and directory specific data files
-     * @example '.data' will search for `*.data.js` and `*.data.json` data files.
-     * @see {@link https://www.11ty.dev/docs/data-template-dir/ Template and Directory Specific Data Files}
-     */
-    jsDataFileSuffix: '.data',
-    /**
-     * The default global template engine to pre-process markdown files.
-     * Use false to avoid pre-processing and only transform markdown.
-     * @see {@link https://www.11ty.dev/docs/config/#default-template-engine-for-markdown-files}
-     */
-    markdownTemplateEngine: 'liquid',
-    /**
-     * @see {@link https://www.11ty.dev/docs/config/#deploy-to-a-subdirectory-with-a-path-prefix}
-     */
-    pathPrefix,
-    /**
-     * All of the following template formats support universal shortcodes.
-     *
-     * Nota bene:
-     * Markdown files are pre-processed as Liquid templates by default. This
-     * means that shortcodes available in Liquid templates are also available
-     * in Markdown files. Likewise, if you change the template engine for
-     * Markdown files, the shortcodes available for that templating language
-     * will also be available in Markdown files.
-     * @see {@link https://www.11ty.dev/docs/config/#template-formats}
-     */
-    templateFormats: [
-      '11ty.js', // JavaScript
-      'liquid',  // Liquid
-      'md',      // Markdown
-      'njk',     // Nunjucks
-    ]
-  }
+  /**
+   * Suffix for template and directory specific data files
+   * @example '.data' will search for `*.data.js` and `*.data.json` data files
+   * @see https://www.11ty.dev/docs/config/#change-base-file-name-for-data-files
+   * @see https://www.11ty.dev/docs/config/#change-file-suffix-for-data-files
+   */
+  eleventyConfig.setDataFileBaseName('index')
+  eleventyConfig.setDataFileSuffixes(['.data', ''])
 }
