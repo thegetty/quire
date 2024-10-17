@@ -2,6 +2,7 @@ import { LitElement, css, html, render, unsafeCSS } from 'lit'
 import { createRef, ref } from 'lit/directives/ref.js'
 
 // TODO: Make sure to swallow internal errors (etc) 
+// TODO: Use a buffer
 
 class ImageSequence extends LitElement {
 
@@ -205,7 +206,7 @@ class ImageSequence extends LitElement {
       if (!interactive) {
         this.imagesLoaded = this.images.length
       }
-      
+
       if (!interactive || this.allImagesLoaded) {
         this.requestUpdate()
         this._updateCanvas()
@@ -318,11 +319,6 @@ class ImageSequence extends LitElement {
     }
   }
 
-  // getClampedIndex(index) {
-  //   if (!this.images) return 0
-  //   return Math.max(Math.min(index, this.images.length - 1), 0)
-  // }
-
   handleMouseMove({ buttons, clientX }) {
     if (buttons) {
       this.didInteract = true
@@ -351,14 +347,6 @@ class ImageSequence extends LitElement {
     this.querySelectorAll('.overlay').forEach((element) => {
       element.classList.remove('visible')
     })
-  }
-
-  hideImage(imageElement) {
-    imageElement.className = ''
-  }
-
-  hideLoadingOverlay() {
-    this.querySelector('.overlay').classList.remove('visible')
   }
 
   /**
@@ -407,10 +395,7 @@ class ImageSequence extends LitElement {
     }
 
     if (changedProperties.has('visible') && !this.visible ) {
-      console.log(this.posterImageSrc,'is visible')
-
       this._loadImages()
-
     }
   }
 
@@ -449,13 +434,6 @@ class ImageSequence extends LitElement {
       ? this.totalCanvases + this.index - n
       : this.index - n
     this.index = newIndex
-  }
-
-  // TODO: Add this to the class list if no interaction
-  showImage(imageElement, shouldFadeIn) {
-    if (!imageElement) return
-    shouldFadeIn && imageElement.classList.add('fade-in')
-    imageElement.classList.add('visible')
   }
 
   // TODO: maybe do this in an await this.updateComplete callback? -- synchro to the on-page resources?
