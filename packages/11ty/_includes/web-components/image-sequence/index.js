@@ -1,8 +1,7 @@
 import { LitElement, css, html, render, unsafeCSS } from 'lit'
 import { createRef, ref } from 'lit/directives/ref.js'
 
-// TODO: Make sure to swallow internal errors (etc) 
-// TODO: Use a buffer
+// TODO: Raise and set an error message on the component if fetches error out
 
 class ImageSequence extends LitElement {
 
@@ -136,16 +135,12 @@ class ImageSequence extends LitElement {
       `
 
   static properties = {
-    index: {
-      type: Number,
-    },
     didInteract: {
       type: Boolean,
       state: true,
     },
-    visible: {
-      type: Boolean,
-      state: true,
+    index: {
+      type: Number,
     },
     imageUrls: {
       attribute: 'image-urls',
@@ -178,20 +173,22 @@ class ImageSequence extends LitElement {
 
   canvasRef = createRef()
 
-  get allImagesLoaded() {
-    return this.imagesLoaded === this.images.length
+  get someImagesLoaded() {
+    return this.images.some( i => i !== null )
   }
 
   /**
    * @function _fetchImage
    * @param url {string} - image URL to fetch
    * @param seqIndex {Number} - index to store this image 
+   * @param draw {Boolean} - whether to draw after fetching
    * 
-   * Fetches `url`, converts it into a blob and stores the image data
+   * Fetches `url`, converts it into a blob and stores the image data, optionally drawing to the canvas
    **/
-  _fetchImage(url,seqIndex,interactive) {
-    // TODO: These should be moved to a worker
-    fetch(url)
+  _fetchImage(url,seqIndex,draw) {
+    const req = new Request(url)
+
+    fetch(req)
     .then( (resp) => resp.blob() )
     .then( (blob) => window.createImageBitmap(blob) )
     .then( (bmp) => {
@@ -201,52 +198,36 @@ class ImageSequence extends LitElement {
       }
 
       this.images[seqIndex] = bmp
-      this.imagesLoaded++
 
-      if (!interactive) {
-        this.imagesLoaded = this.images.length
-      }
-
-      if (!interactive || this.allImagesLoaded) {
-        this.requestUpdate()
-        this._updateCanvas()
+      if (draw) {
+        this._paintCanvas(bmp)        
       }
 
     })
     .catch( (err) => {
-      // TODO: Raise and set an error message on the component, try to cancel other loads
       console.error(err)
     })
-  }
-
-  // Fires when this component is visible
-  _loadImages() {
-    this.imageUrls.slice(0, this.isInteractive ? this.imageUrls.length : 1 ).forEach( (imgUrl,i) => {
-      this._fetchImage(imgUrl,i,this.isInteractive)
-    })
-
   }
 
   connectedCallback() {
     super.connectedCallback()
 
-    // TODO: Setup observer and run isVisible() when we're at least one screen away 
+    // Observes this component against the viewport to trigger image preloads
     const io = new IntersectionObserver( (entries,observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting && !this.visible) {
+      entries.forEach( (entry) => {
+        if (entry.isIntersecting) {
           this.visible = true
+          observer.disconnect()
         }
       })
-    },{ root: document.documentElement, rootMargin: '-50% 0% -50% 0%',
-        threshold: 0 })
+    }, {root:null, threshold: 0.5})
 
     io.observe(this)
+
   }
 
   constructor() {
     super()
-
-    // TODO: Grab our canvas, context
 
     // Passed params and config
     this.description = 'Click and drag horizontally to rotate image'
@@ -259,18 +240,15 @@ class ImageSequence extends LitElement {
     this.sequenceId = this.getAttribute('sequence-id')
 
     // Internal state
-    this.images = Array(this.imageUrls.length) // Array<ImageData>
+    this.blitting = null // null | animationFrameRequestId
+    this.images = Array(this.imageUrls.length) // Array<ImageBitmap>
     this.visible = false
     this.index = 0
     this.intrinsicHeight = 0
     this.intrinsicWidth = 0
     this.oldIndex = null
     this.oldX = null
-    this.imagesLoaded = 0
     this.totalCanvases = this.imageUrls.length
-
-    // TODO: Replace this with the visibility handler
-    // this._loadImages()
 
     // Set up observable and mouse events
     if (this.isInteractive) {
@@ -350,9 +328,10 @@ class ImageSequence extends LitElement {
   }
 
   /**
-   * Set the sequence canvas to the index `n` steps after the current index
-   * 
+   * @function nextCanvas
    * @param {Integer} n Number of steps between start index and end index
+   * 
+   * Set the sequence canvas to the index `n` steps after the current index
    */
   nextCanvas(n=1) {
     const newIndex = this.index + n >= this.totalCanvases
@@ -363,10 +342,21 @@ class ImageSequence extends LitElement {
 
 
   /**
-   * @function _updateCanvas
-   * Updates the `canvas` element with this.index
+   * @function _draw
+   * 
+   * Performs drawing operations against `this.context`
    **/
-  _updateCanvas() {
+  _draw(image) {
+    this.context.drawImage(image,0,0)
+  }
+
+  /**
+   * @function _paintCanvas
+   * @param {ImageBitmap} - image - image to paint 
+   * 
+   * Paints the `canvas` element with the image from this.index
+   **/
+  _paintCanvas(image) {
     if (!this.canvasRef.value) {
       return
     }
@@ -375,28 +365,60 @@ class ImageSequence extends LitElement {
       this.context = this.canvasRef.value.getContext('2d')
     }
 
+    if (image) {
+      window.cancelAnimationFrame(this.blitting)
+      this.blitting = window.requestAnimationFrame( () => this._draw(image) )
+    }
+
     if (!this.images[this.index]) {
-      // Not loaded yet
-      // TODO: Use a callback to load the next N
+      this._fetchImage(this.imageUrls[this.index],this.index,true)
       return
     }
 
-    this.context.drawImage(this.images[this.index],0,0)
+    window.cancelAnimationFrame(this.blitting)
+    this.blitting = window.requestAnimationFrame( () => this._draw(this.images[this.index]) )
+    
   }
 
+  /**
+   * @function willUpdate
+   * @param changedProperties
+   * 
+   * `lit` lifecycle method for changed properties
+   * 
+   **/ 
   willUpdate(changedProperties) {
-
     if (changedProperties.has('rotateToIndex') && this.rotateToIndex!==false) {
       this.performRotation(this.rotateToIndex)
     }
 
-    if (changedProperties.has('index') && this.allImagesLoaded) {
-      this._updateCanvas()
+    if (changedProperties.has('index') && this.someImagesLoaded) {
+      this._preloadImages()
+      this._paintCanvas()
     }
 
-    if (changedProperties.has('visible') && !this.visible ) {
-      this._loadImages()
+    if (changedProperties.has('visible') && !this.visible) {
+      this._preloadImages()
     }
+  }
+
+  /**
+   * @function _preloadImages
+   * 
+   * Loads the k images behind and ahead of this.index
+   **/
+  _preloadImages() {
+    const k = 2
+    this.imageUrls.forEach( (url,i) => {
+
+      // Skip anything out of our range or already loaded
+      if ( i < this.index - k || i > this.index + k  || this.images[i] ) {
+        return
+      }
+
+      const doDraw = this.blitting === null
+      this._fetchImage(url,i,doDraw)
+    })
   }
 
   /**
@@ -436,7 +458,7 @@ class ImageSequence extends LitElement {
     this.index = newIndex
   }
 
-  // TODO: maybe do this in an await this.updateComplete callback? -- synchro to the on-page resources?
+  // TODO: Consult quire team for expected behavior here
   synchronizeSequenceInstances() {
     clearTimeout(this.updateTimer)
     this.updateTimer = setTimeout(() => {
@@ -465,14 +487,14 @@ class ImageSequence extends LitElement {
           </span></div>` 
       : ''
 
-    return html`<div class="image-sequence ${ this.allImagesLoaded ? '' : 'loading' } ${ this.isInteractive ? 'interactive' : '' }">
+    return html`<div class="image-sequence ${ this.someImagesLoaded ? '' : 'loading' } ${ this.isInteractive ? 'interactive' : '' }">
                   <slot name="placeholder-image">
-                    <img slot="placeholder-image" class="${ this.allImagesLoaded ? '' : 'loading' } placeholder" src="${ this.posterImageSrc }" >
+                    <img slot="placeholder-image" class="${ this.someImagesLoaded ? '' : 'loading' } placeholder" src="${ this.posterImageSrc }" >
                   </slot>
                   <slot name="loading-overlay">
-                    <div slot="loading-overlay" class='${ this.allImagesLoaded ? '' : 'visible'} loading overlay'>Loading Image Sequence...</div>
+                    <div slot="loading-overlay" class='${ this.someImagesLoaded ? '' : 'visible'} loading overlay'>Loading Image Sequence...</div>
                   </slot>
-                  <canvas ${ref(this.canvasRef)} height="${this.intrinsicHeight}" width="${this.intrinsicWidth}" class="${ this.allImagesLoaded ? 'visible' : '' } ${ this.didInteract ? '' : 'fade-in' }" slot="images"></canvas>                
+                  <canvas ${ref(this.canvasRef)} height="${this.intrinsicHeight}" width="${this.intrinsicWidth}" class="${ this.someImagesLoaded ? 'visible' : '' } ${ this.didInteract ? '' : 'fade-in' }" slot="images"></canvas>                
                   <slot name="overlay">
                     ${ descriptionOverlay }
                   </slot>
