@@ -248,7 +248,7 @@ class ImageSequence extends LitElement {
     this.intrinsicWidth = 0
     this.oldIndex = null
     this.oldX = null
-    this.totalCanvases = this.imageUrls.length
+    this.imageCount = this.imageUrls.length
 
     // Set up observable and mouse events
     if (this.isInteractive) {
@@ -307,12 +307,12 @@ class ImageSequence extends LitElement {
         const deltaIndex = Math.floor(Math.log(Math.abs(deltaX))) || 1
         if (deltaX > 0) {
           this.isReversed
-            ? this.previousCanvas(deltaIndex)
-            : this.nextCanvas(deltaIndex)
+            ? this.previousImage(deltaIndex)
+            : this.nextImage(deltaIndex)
         } else if (deltaX < 0) {
           this.isReversed
-            ? this.nextCanvas(deltaIndex)
-            : this.previousCanvas(deltaIndex)
+            ? this.nextImage(deltaIndex)
+            : this.previousImage(deltaIndex)
         }
       }
       this.oldX = clientX
@@ -328,14 +328,14 @@ class ImageSequence extends LitElement {
   }
 
   /**
-   * @function nextCanvas
+   * @function nextImage
    * @param {Integer} n Number of steps between start index and end index
    * 
-   * Set the sequence canvas to the index `n` steps after the current index
+   * Set the sequence image to the index `n` steps after the current index
    */
-  nextCanvas(n=1) {
-    const newIndex = this.index + n >= this.totalCanvases
-      ? this.index + n - this.totalCanvases
+  nextImage(n=1) {
+    const newIndex = this.index + n >= this.imageCount
+      ? this.index + n - this.imageCount
       : this.index + n
     this.index = newIndex
   }
@@ -422,7 +422,7 @@ class ImageSequence extends LitElement {
   }
 
   /**
-   * Animates a rotation by stepping through canvases from the current index to the provided `newValue`
+   * Animates a rotation by stepping through images from the current index to the provided `newValue`
    */
   performRotation(indexToMove) {
     if (this.index === indexToMove) return
@@ -441,19 +441,19 @@ class ImageSequence extends LitElement {
         return
       }
       /**
-       * Step through canvases
+       * Step through images
        */
-      this.nextCanvas()
+      this.nextImage()
     }, this.transition)
   }
 
   /**
-   * Set the sequence canvas to the index `n` indices before the current index
+   * Set the sequence image to the index `n` indices before the current index
    * @param {Integer} n Number of steps between start index and end index
    */
-  previousCanvas(n=1) {
+  previousImage(n=1) {
     const newIndex = this.index - n < 0
-      ? this.totalCanvases + this.index - n
+      ? this.imageCount + this.index - n
       : this.index - n
     this.index = newIndex
   }
