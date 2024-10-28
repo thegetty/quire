@@ -139,16 +139,16 @@ class ImageSequence extends LitElement {
       type: Boolean,
       state: true,
     },
-    index: {
-      type: Number,
+    images: {
+      type: Array,
+      state: true,
     },
     imageUrls: {
       attribute: 'image-urls',
       type: String,
     },
-    images: {
-      type: Array,
-      state: true,
+    index: {
+      type: Number,
     },
     intrinsicHeight: {
       type: Number,
