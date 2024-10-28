@@ -178,14 +178,14 @@ class ImageSequence extends LitElement {
   }
 
   /**
-   * @function _fetchImage
+   * @function #fetchImage
    * @param url {string} - image URL to fetch
    * @param seqIndex {Number} - index to store this image 
    * @param draw {Boolean} - whether to draw after fetching
    * 
    * Fetches `url`, converts it into a blob and stores the image data, optionally drawing to the canvas
    **/
-  _fetchImage(url,seqIndex,draw) {
+  #fetchImage(url,seqIndex,draw) {
     const req = new Request(url)
 
     fetch(req)
@@ -200,7 +200,7 @@ class ImageSequence extends LitElement {
       this.images[seqIndex] = bmp
 
       if (draw) {
-        this._paintCanvas(bmp)        
+        this.#paintCanvas(bmp)        
       }
 
     })
@@ -342,21 +342,21 @@ class ImageSequence extends LitElement {
 
 
   /**
-   * @function _draw
+   * @function #draw
    * 
    * Performs drawing operations against `this.context`
    **/
-  _draw(image) {
+  #draw(image) {
     this.context.drawImage(image,0,0)
   }
 
   /**
-   * @function _paintCanvas
+   * @function #paintCanvas
    * @param {ImageBitmap} - image - image to paint 
    * 
    * Paints the `canvas` element with the image from this.index
    **/
-  _paintCanvas(image) {
+  #paintCanvas(image) {
     if (!this.canvasRef.value) {
       return
     }
@@ -365,16 +365,16 @@ class ImageSequence extends LitElement {
 
     if (image) {
       window.cancelAnimationFrame(this.blitting)
-      this.blitting = window.requestAnimationFrame( () => this._draw(image) )
+      this.blitting = window.requestAnimationFrame( () => this.#draw(image) )
     }
 
     if (!this.images[this.index]) {
-      this._fetchImage(this.imageUrls[this.index],this.index,true)
+      this.#fetchImage(this.imageUrls[this.index],this.index,true)
       return
     }
 
     window.cancelAnimationFrame(this.blitting)
-    this.blitting = window.requestAnimationFrame( () => this._draw(this.images[this.index]) )
+    this.blitting = window.requestAnimationFrame( () => this.#draw(this.images[this.index]) )
     
   }
 
@@ -391,21 +391,21 @@ class ImageSequence extends LitElement {
     }
 
     if (changedProperties.has('index') && this.someImagesLoaded) {
-      this._preloadImages()
-      this._paintCanvas()
+      this.#preloadImages()
+      this.#paintCanvas()
     }
 
     if (changedProperties.has('visible') && !this.visible) {
-      this._preloadImages()
+      this.#preloadImages()
     }
   }
 
   /**
-   * @function _preloadImages
+   * @function #preloadImages
    * 
    * Loads the k images behind and ahead of this.index
    **/
-  _preloadImages() {
+  #preloadImages() {
     const k = 2
     this.imageUrls.forEach( (url,i) => {
 
@@ -415,7 +415,7 @@ class ImageSequence extends LitElement {
       }
 
       const doDraw = this.blitting === null
-      this._fetchImage(url,i,doDraw)
+      this.#fetchImage(url,i,doDraw)
     })
   }
 
