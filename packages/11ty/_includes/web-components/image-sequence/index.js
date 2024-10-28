@@ -361,9 +361,7 @@ class ImageSequence extends LitElement {
       return
     }
 
-    if (!this.context) {
-      this.context = this.canvasRef.value.getContext('2d')
-    }
+    this.context ??= this.canvasRef.value.getContext('2d')
 
     if (image) {
       window.cancelAnimationFrame(this.blitting)
