@@ -46,6 +46,18 @@ class ImageSequence extends LitElement {
 
   canvasRef = createRef()
 
+  /**
+   * @property bufferReady
+   * 
+   * Returns true if the buffer is loaded ahead and behind of `index`
+   * 
+   * TODO: Implement behind check
+   **/ 
+  get bufferReady() {
+    const k = 2
+    return this.images.slice(this.index,this.index + k).filter( i => i !== null ).length === 2
+  }
+
   get someImagesLoaded() {
     return this.images.some( i => i !== null )
   }
@@ -58,7 +70,7 @@ class ImageSequence extends LitElement {
    * 
    * Fetches `url`, converts it into a blob and stores the image data, optionally drawing to the canvas
    **/
-  #fetchImage(url,seqIndex,draw) {
+  #fetchImage(url,seqIndex) {
     const req = new Request(url)
 
     fetch(req)
@@ -72,9 +84,14 @@ class ImageSequence extends LitElement {
 
         this.images[seqIndex] = bmp
 
-        if (draw) {
-          this.#paintCanvas(bmp)        
-        }
+        // Draw if the user hasn't already gone past this index
+        if (this.index===seqIndex) {
+          this.#paintCanvas(bmp)
+          return        
+        } 
+
+        // NB: Must request update so buffering message may clear
+        this.requestUpdate()
 
       })
       .catch( (err) => {
@@ -242,7 +259,7 @@ class ImageSequence extends LitElement {
     }
 
     if (!this.images[this.index]) {
-      this.#fetchImage(this.imageUrls[this.index],this.index,true)
+      this.#fetchImage(this.imageUrls[this.index],this.index)
       return
     }
 
@@ -287,8 +304,7 @@ class ImageSequence extends LitElement {
         return
       }
 
-      const doDraw = this.blitting === null
-      this.#fetchImage(url,i,doDraw)
+      this.#fetchImage(url,i)
     })
   }
 
@@ -358,14 +374,14 @@ class ImageSequence extends LitElement {
           </span></div>` 
       : ''
 
-    return html`<div class="image-sequence ${ this.someImagesLoaded ? '' : 'loading' } ${ this.isInteractive ? 'interactive' : '' }">
+    return html`<div class="image-sequence ${ this.bufferReady ? '' : 'loading' } ${ this.isInteractive ? 'interactive' : '' }">
                   <slot name="placeholder-image">
-                    <img slot="placeholder-image" class="${ this.someImagesLoaded ? '' : 'loading' } placeholder" src="${ this.posterImageSrc }" >
+                    <img slot="placeholder-image" class="${ this.bufferReady ? '' : 'loading' } placeholder" src="${ this.posterImageSrc }" >
                   </slot>
                   <slot name="loading-overlay">
-                    <div slot="loading-overlay" class='${ this.someImagesLoaded ? '' : 'visible'} loading overlay'>Loading Image Sequence...</div>
+                    <div slot="loading-overlay" class='${ this.bufferReady ? '' : 'visible'} loading overlay'>Loading Image Sequence...</div>
                   </slot>
-                  <canvas ${ref(this.canvasRef)} height="${this.intrinsicHeight}" width="${this.intrinsicWidth}" class="${ this.someImagesLoaded ? 'visible' : '' } ${ this.didInteract ? '' : 'fade-in' }" slot="images"></canvas>                
+                  <canvas ${ref(this.canvasRef)} height="${this.intrinsicHeight}" width="${this.intrinsicWidth}" class="${ this.bufferReady ? 'visible' : '' } ${ this.didInteract ? '' : 'fade-in' }" slot="images"></canvas>                
                   <slot name="overlay">
                     ${ descriptionOverlay }
                   </slot>
