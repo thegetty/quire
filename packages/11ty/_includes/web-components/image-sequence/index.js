@@ -3,11 +3,18 @@ import { createRef, ref } from 'lit/directives/ref.js'
 
 import { imageSequenceStyles } from './styles.js'
 
+// TODO: Ensure buffer size is > than performRotation increment
+// TODO: Raise and set an error message on the component if fetches error out
+
 class ImageSequence extends LitElement {
 
   static styles = [ imageSequenceStyles ]
 
   static properties = {
+    bufferSize: {
+      type: Number,
+      state: true,
+    },
     didInteract: {
       type: Boolean,
       state: true,
@@ -51,11 +58,22 @@ class ImageSequence extends LitElement {
    * 
    * Returns true if the buffer is loaded ahead and behind of `index`
    * 
-   * TODO: Implement behind check
    **/ 
   get bufferReady() {
-    const k = 2
-    return this.images.slice(this.index,this.index + k).filter( i => i !== null ).length === 2
+    const k = this.bufferSize
+    return this.images.filter( (img,j) => j >= this.index && j < this.index + k && img !== null ).length === k
+  }
+
+  /**
+   * @property buffered
+   * 
+   * Returns true if the buffer is loaded ahead and behind of `index`
+   * 
+   **/ 
+  get bufferedPct() {
+    const k = this.bufferSize
+
+    return Math.floor( this.images.filter( (img,j) => j >= this.index && j < this.index + k && img !== null ).length / k * 100 ) 
   }
 
   get someImagesLoaded() {
@@ -66,14 +84,19 @@ class ImageSequence extends LitElement {
    * @function #fetchImage
    * @param url {string} - image URL to fetch
    * @param seqIndex {Number} - index to store this image 
-   * @param draw {Boolean} - whether to draw after fetching
    * 
-   * Fetches `url`, converts it into a blob and stores the image data, optionally drawing to the canvas
+   * Fetches `url`, converts it into a blob and stores the image data, optionally drawing to the canvas.
+   * 
+   * The in-flight fetch is stored in requests[seqIndex] for cancellation and request deduplication.
    **/
   #fetchImage(url,seqIndex) {
     const req = new Request(url)
 
-    fetch(req)
+    if (this.requests[seqIndex]) {
+      return
+    }
+
+    this.requests[seqIndex] = fetch(req)
       .then( (resp) => resp.blob() )
       .then( (blob) => window.createImageBitmap(blob) )
       .then( (bmp) => {
@@ -89,10 +112,10 @@ class ImageSequence extends LitElement {
           this.#paintCanvas(bmp)
           return        
         } 
-
-        // NB: Must request update so buffering message may clear
+      })
+      .then( () => {
+        this.requests[seqIndex] = null
         this.requestUpdate()
-
       })
       .catch( (err) => {
         console.error(err)
@@ -130,8 +153,11 @@ class ImageSequence extends LitElement {
     this.sequenceId = this.getAttribute('sequence-id')
 
     // Internal state
+    const pctToBuffer = 0.33
+    this.bufferSize = Math.ceil( this.imageUrls.length * pctToBuffer )
     this.blitting = null // null | animationFrameRequestId
-    this.images = Array(this.imageUrls.length) // Array<ImageBitmap>
+    this.images = Array(this.imageUrls.length) // Array< null | ImageBitmap >
+    this.requests = Array(this.imageUrls.length) // Array< null | Promise >
     this.visible = false
     this.index = 0
     this.intrinsicHeight = 0
@@ -256,6 +282,7 @@ class ImageSequence extends LitElement {
     if (image) {
       window.cancelAnimationFrame(this.blitting)
       this.blitting = window.requestAnimationFrame( () => this.#draw(image) )
+      return
     }
 
     if (!this.images[this.index]) {
@@ -296,11 +323,11 @@ class ImageSequence extends LitElement {
    * Loads the k images behind and ahead of this.index
    **/
   #preloadImages() {
-    const k = 2
+    const k = this.bufferSize
     this.imageUrls.forEach( (url,i) => {
 
       // Skip anything out of our range or already loaded
-      if ( i < this.index - k || i > this.index + k  || this.images[i] ) {
+      if ( i < this.index - k || i > this.index + k || this.images[i] ) {
         return
       }
 
@@ -379,7 +406,7 @@ class ImageSequence extends LitElement {
                     <img slot="placeholder-image" class="${ this.bufferReady ? '' : 'loading' } placeholder" src="${ this.posterImageSrc }" >
                   </slot>
                   <slot name="loading-overlay">
-                    <div slot="loading-overlay" class='${ this.bufferReady ? '' : 'visible'} loading overlay'>Loading Image Sequence...</div>
+                    <div slot="loading-overlay" class='${ this.bufferReady ? '' : 'visible'} loading overlay'>Loading Image Sequence (${ this.bufferedPct }%)...</div>
                   </slot>
                   <canvas ${ref(this.canvasRef)} height="${this.intrinsicHeight}" width="${this.intrinsicWidth}" class="${ this.bufferReady ? 'visible' : '' } ${ this.didInteract ? '' : 'fade-in' }" slot="images"></canvas>                
                   <slot name="overlay">
