@@ -189,24 +189,24 @@ class ImageSequence extends LitElement {
     const req = new Request(url)
 
     fetch(req)
-    .then( (resp) => resp.blob() )
-    .then( (blob) => window.createImageBitmap(blob) )
-    .then( (bmp) => {
-      if (this.intrinsicHeight === 0) {
-        this.intrinsicHeight = bmp.height
-        this.intrinsicWidth = bmp.width   
-      }
+      .then( (resp) => resp.blob() )
+      .then( (blob) => window.createImageBitmap(blob) )
+      .then( (bmp) => {
+        if (this.intrinsicHeight === 0) {
+          this.intrinsicHeight = bmp.height
+          this.intrinsicWidth = bmp.width   
+        }
 
-      this.images[seqIndex] = bmp
+        this.images[seqIndex] = bmp
 
-      if (draw) {
-        this.#paintCanvas(bmp)        
-      }
+        if (draw) {
+          this.#paintCanvas(bmp)        
+        }
 
-    })
-    .catch( (err) => {
-      console.error(err)
-    })
+      })
+      .catch( (err) => {
+        console.error(err)
+      })
   }
 
   connectedCallback() {
