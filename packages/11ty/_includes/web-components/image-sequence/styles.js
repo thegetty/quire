@@ -10,7 +10,7 @@ export const imageSequenceStyles = css`
   }
 
   .image-sequence {
-    height: 100%;
+    height: auto;
     width: 100%;
   }
 
@@ -109,8 +109,10 @@ export const imageSequenceStyles = css`
     pointer-events: none;
     opacity: 0;
     height: 100%;
+    width: 100%;
+    margin: 0px auto 0px;
     transition: opacity 0.25s linear;
-    object-fit: cover;
+    object-fit: contain;
   }
 
   slot[name='placeholder-image'] img.loading {
