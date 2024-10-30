@@ -10,7 +10,7 @@ export const imageSequenceStyles = css`
   }
 
   .image-sequence {
-    height: auto;
+    height: 100vh;
     width: 100%;
   }
 
