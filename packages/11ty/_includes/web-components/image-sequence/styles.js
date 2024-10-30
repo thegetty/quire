@@ -18,6 +18,10 @@ export const imageSequenceStyles = css`
     cursor: grab;
   }
 
+  .image-sequence.interactive.loading {
+    cursor: wait;
+  }
+
   .overlay {
     display: flex;
     justify-content: center;
@@ -30,6 +34,8 @@ export const imageSequenceStyles = css`
     background: rgba(0,0,0,0);
     color: white;
     transition: all 0.25s linear;
+    z-index: 9999;
+    pointer-events: none;
   }
 
   .overlay.visible {
@@ -38,6 +44,7 @@ export const imageSequenceStyles = css`
 
   .overlay:not(.visible) {
     opacity: 0;
+    display: none;
   }
 
   .overlay:hover {
@@ -46,6 +53,17 @@ export const imageSequenceStyles = css`
 
   .overlay.loading.visible {
     animation: loading-overlay 1s infinite alternate;
+  }
+
+  .buffering-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 5px;
+    height: 15%;
+    width: 15%;
+    background: rgba(0,0,0,0.6);
   }
 
   @keyframes loading-overlay {

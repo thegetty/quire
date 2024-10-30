@@ -4,7 +4,6 @@ import { createRef, ref } from 'lit/directives/ref.js'
 import { imageSequenceStyles } from './styles.js'
 
 // TODO: Ensure buffer size is > then performRotation increment (set bufferSize larger, make prefetch return a promise that we .then() )
-// TODO: Refactor loading-overlay to "status-overlay", a smaller roundrect over the canvas (ie, no placeholder-image) w/ cusor: wait;
 // TODO: Raise and set an error message on the status-overlay component if fetches error out and cursor: not-allowed
 
 class ImageSequence extends LitElement {
@@ -162,7 +161,7 @@ class ImageSequence extends LitElement {
     this.sequenceId = this.getAttribute('sequence-id')
 
     // Internal state
-    const pctToBuffer = 0.33
+    const pctToBuffer = 0.2
     this.bufferSize = Math.ceil( this.imageUrls.length * pctToBuffer )
     this.blitting = null // null | animationFrameRequestId
     this.images = Array(this.imageUrls.length).fill(null) // Array< null | ImageBitmap >
@@ -418,10 +417,10 @@ class ImageSequence extends LitElement {
     return html`<div class="image-sequence ${ this.bufferReady ? '' : 'loading' } ${ this.isInteractive ? 'interactive' : '' }">
                   <slot name="loading-overlay">
                     <div slot="loading-overlay" class='${ this.bufferReady ? '' : 'visible'} loading overlay'>
-                      <div>Loading Image Sequence (${ this.bufferedPct }%)...</div>
+                      <div class="buffering-indicator">Loading Image Sequence&nbsp;(${ this.bufferedPct }%)...</div>
                       </div>
                   </slot>
-                  <canvas ${ref(this.canvasRef)} height="${this.intrinsicHeight}" width="${this.intrinsicWidth}" class="${ this.bufferReady ? 'visible' : '' } ${ this.didInteract ? '' : 'fade-in' }" slot="images"></canvas>                
+                  <canvas ${ref(this.canvasRef)} height="${this.intrinsicHeight}" width="${this.intrinsicWidth}" class="${ this.someImagesLoaded ? 'visible' : '' } ${ this.didInteract ? '' : 'fade-in' }" slot="images"></canvas>                
                   <slot name="overlay">
                     ${ descriptionOverlay }
                   </slot>
