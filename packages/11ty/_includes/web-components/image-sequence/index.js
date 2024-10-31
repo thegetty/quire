@@ -112,9 +112,7 @@ class ImageSequence extends LitElement {
           this.intrinsicHeight = bmp.height
           this.intrinsicWidth = bmp.width   
         }
-
         this.images[seqIndex] = bmp
-
         // Draw if the user hasn't already gone past this index
         if (this.index===seqIndex) {
           this.#paintCanvas(bmp)
@@ -133,18 +131,21 @@ class ImageSequence extends LitElement {
   connectedCallback() {
     super.connectedCallback()
 
-    // Observes this component against the viewport to trigger image preloads
-    const io = new IntersectionObserver( (entries,observer) => {
+    const callback = (entries,observer) => {
       entries.forEach( (entry) => {
         if (entry.isIntersecting) {
           this.visible = true
           observer.disconnect()
         }
       })
-    }, {root:null, threshold: 0.5})
+    }
+
+    const options = { root: null, threshold: 0.5 }
+
+    // Observes this component against the viewport to trigger image preloads
+    const io = new IntersectionObserver(callback, options)
 
     io.observe(this)
-
   }
 
   constructor() {
