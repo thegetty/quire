@@ -14,12 +14,17 @@ Changelog entries are classified using the following labels:
 
 ## [1.0.0-rc.19]
 
+### Changed
+
+- Performance improvments and refactoring for image sequences:
+  - Refactor `q-image-sequence` component to load a buffer of image bitmaps from the image URLs passed to it
+  - Refactor `q-image-sequence` to use encapsulated styles at the module level
 
 ## [1.0.0-rc.18]
 
 ### Changed
 
-- Performance improvments for images:
+- Performance improvements for images:
   - Refactor `figure` subcomponent composition using named `slot` elements for data, ui, slides, and styles
   - Refactor `lightbox` components to generate slides dynamically from JSON data
   - Compiles `lightbox` styles and inserts them in the component's style slot at publication build-time
