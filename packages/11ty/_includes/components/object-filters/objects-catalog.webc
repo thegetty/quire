@@ -19,67 +19,32 @@
   </section>
 </template>
 <script webc:setup>
-const { filePathStem } = this.page;
-const currentDir = filePathStem
-  .split('/')
-  .filter((item) => item)
-  .slice(0, -1)
-  .join('/');
-const collection = this.collections.tableOfContentsHtml;
-const getCurrentDirIndexPage = (navigation) => {
-  return navigation.reduce((indexPage, item) => {
-    const { children, key } = item;
-    if (!indexPage) {
-      indexPage = key === currentDir
-        ? item
-        : getCurrentDirIndexPage(children);
-    }
-    return indexPage;
-  }, null);
-};
-
-// We want to recursively find the current directory index page in the navigation array
-const currentDirIndexPage = getCurrentDirIndexPage(this.eleventyNavigation(collection));
-
-// 1. we want to get the current directory's index page's children.
-// 2. of the children, all pages that have an `object` key in their `data` are relevant
-// 3. page objects can either have an id referencing an object in objects.yaml, or the full object data in front matter
-// 4. if the current page has children, it is an index page; return to step 1 to retrieve all objects in the new current directory
-
-let objects = [];
-
-const addObject = ({ children, data, url }) => {
-  if (children && children.length) {
-    children.forEach(addObject);
-  }
-  /**
-   * Renaming `object` to the pluralized `pageObjects` to clarify that we want
-   * ALL objects listed in front matter (even if the page only currently renders
-   * the first one), and so we can more clearly refer to individual objects
-   */
-  const { object: pageObjects, order } = data;
-  if (!pageObjects) return;
-
-  pageObjects.forEach((object) => {
-    const objectData = object.id ? this.getObject(object.id) : object;
-    /**
-     * Providing a fallback ID in case objects are defined in front matter without them
-     */
-    const id = !objectData.id ? `object-${objects.length}` : objectData.id;
-
-    const objectAlreadyAdded = objects.some((object) => object.id === id);
-    if (!objectAlreadyAdded) {
-      objects.push({ id, order, objectData, url });
-    }
-  });
-};
-
-currentDirIndexPage.children.forEach(addObject);
 const sortByOrderKey = (a, b) => {
   if (!a.order || !b.order) return 0;
   return a.order > b.order ? 1 : -1;
 };
-objects = objects.sort(sortByOrderKey);
+
+const objects = this.collections.all
+  .reduce((objects, { data: collectionItemData }) => {
+    const { eleventyNavigation } = collectionItemData;
+    const { data, order, url } = eleventyNavigation;
+    const { object: pageObjects } = data;
+    if (!pageObjects) return objects;
+    pageObjects.forEach((object) => {
+      const objectData = object.id ? this.getObject(object.id) : object;
+      /**
+       * Providing a fallback ID in case objects are defined in front matter without them
+       */
+      const id = !objectData.id ? `object-${objects.length}` : objectData.id;
+
+      const objectAlreadyAdded = objects.some((object) => object.id === id);
+      if (!objectAlreadyAdded) {
+        objects.push({ id, order, objectData, url });
+      }
+    });
+    return objects;
+  }, [])
+  .sort(sortByOrderKey);
 
 const hasFilters = ($data) => {
   return $data.object_filters !== false && $data.objects.object_filters !== false;
