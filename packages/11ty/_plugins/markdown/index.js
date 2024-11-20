@@ -100,7 +100,7 @@ module.exports = function(eleventyConfig, options) {
       refid += ':' + tokens[idx].meta.subId
     }
   
-    return '<sup class="footnote-ref"><a href="#fn' + id + '" id="fnref' + refid + '" class="footnote-ref-anchor">' + caption + '</a></sup>';
+    return '<sup class="footnote-ref"><a href="#fn' + id + '" id="fnref' + refid + '" class="footnote-ref-anchor">' + caption + '</a></sup>'
   }
 
   /** 

@@ -52,7 +52,7 @@ module.exports = function(eleventyConfig) {
     }
 
     return html`
-      <div class="q-lightbox-ui">
+      <div class="q-lightbox-ui" slot="ui">
         <div class="q-lightbox-ui__zoom-and-fullscreen">
           ${zoomButtons()}
           ${fullscreenButton()}

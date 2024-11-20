@@ -30,7 +30,7 @@ module.exports = function(options={}) {
     processor.cite({ citationItems: [{ id: item.id }] })
     const citation = processor.bibliography().value
     return type === 'mla'
-      ? `${citation.replace(/\s+$/, '')} Accessed <span class="cite-current-date">DD Mon. YYYY</span>.`
+      ? `${citation.replace(/\s+$/, '')} <span class="cite-current-date__statement">Accessed <span class="cite-current-date">DD Mon. YYYY</span>.</span>`
       : citation
   }
 }

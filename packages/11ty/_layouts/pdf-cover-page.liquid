@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+  <head>
+    <!--
+    <meta charset="utf-8" />
+    <meta name="description" content="${description}">
+    <meta name="keywords" content="${keywords}">
+    <title>${pageTitle}</title>
+    <link rel="canonical" href="${canonicalURL}">
+    <link rel="version-history" href="${publication.repositoryUrl}">
+    -->
+    <link rel="stylesheet" href="pdf.css" />
+  </head>
+  <body class="pdf-all-cover-pages">
+
+  {% for cover in covers %}
+  
+    <section class="quire-page pdf-cover-page" data-page-pdf="true" data-id="{{cover.id}}" id="{{cover.id}}">
+
+      <section class="section quire-page__content pdf-page">
+        <div class="container">
+          <div class="content">
+
+            <h3>{{cover.title}}</h3>
+
+            {% comment %}
+            FIXME: These classes are only here because there's a too-specific CSS rule for .quire-page__content .container .content dl dt, resolve that and remove these!! 
+            {% endcomment %}
+
+            <dl class="cover-content">
+
+              {% if cover.contributors.size > 0 %}
+                <dt class="cover-content-label">Author(s):</dt>
+                <dd class="cover-content-data">{% contributors context=cover.contributors format='string' %}</dd>
+              {% endif %}
+
+              {% if cover.accessURL %}
+                <dt class="cover-content-label">URL:</dt>
+                <dd class="cover-content-data">{{cover.accessURL}}</dd>
+              {% endif %}
+              
+              {% if cover.citations %}
+                <dt class="cover-content-label">Citation (Chicago):</dt>
+                <dd class="cover-content-data">{{cover.citations.chicago}}</dd>
+                <dt class="cover-content-label">Citation (MLA):</dt>
+                <dd class="cover-content-data">{{cover.citations.mla}}</dd>
+              {% endif %}
+
+            </dl>
+
+            <hr />
+
+            {% copyright %}
+
+          </div>
+        </div>
+      </section>
+    </section>
+
+  {% endfor %}
+
+  </body>
+</html>
+
+
+

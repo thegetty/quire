@@ -12,11 +12,30 @@ Changelog entries are classified using the following labels:
 - `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
+## [1.0.0-rc.19]
+
+
+## [1.0.0-rc.18]
+
+### Changed
+
+- Performance improvments for images:
+  - Refactor `figure` subcomponent composition using named `slot` elements for data, ui, slides, and styles
+  - Refactor `lightbox` components to generate slides dynamically from JSON data
+  - Compiles `lightbox` styles and inserts them in the component's style slot at publication build-time
+  - Refactors `image-sequence` as a Lit web component: `q-image-sequence`
+
 ## [1.0.0-rc.17]
+
+### Added
+
+- PDF creation for a single quire webpage and cover pages
+- PDF transform to template using `_layouts/pdf.liquid` (was: HTML string append)
+- Front-end markup for PDF download link
 
 ### Bumped
 
-- `sharp@0.32` which includes prebuilt binaries that contain patches for macOS 10.13+ support.
+- sharp@0.32` which includes prebuilt binaries that contain patches for macOS 10.13+ support.
 
 ## [1.0.0-rc.16]
 

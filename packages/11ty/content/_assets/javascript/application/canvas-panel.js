@@ -26,7 +26,7 @@ const getServiceId = (element) => {
   if (!element) return
 
   const canvasPanel = element.querySelector('canvas-panel')
-  const imageSequence = element.querySelector('image-sequence')
+  const imageSequence = element.querySelector('q-image-sequence')
   const imageService = element.querySelector('image-service')
 
   if (canvasPanel) {
@@ -77,7 +77,7 @@ const goToFigureState = function ({
     return
   }
   const figureSelector = `#${figureId}`
-  const slideSelector = `[data-lightbox-slide-id="${figureId}"]`
+  const slideSelector = `[slot="slides"][id="${figureId}"]`
   const figure = document.querySelector(figureSelector)
   const figureSlide = document.querySelector(slideSelector)
   const serviceId = getServiceId(figure || figureSlide)
@@ -85,7 +85,7 @@ const goToFigureState = function ({
   // return if id does not reference a figure
   if ((!figure && !figureSlide) || !serviceId) return
 
-  const inputs = document.querySelectorAll(`#${figureId} .annotations-ui__input, [data-lightbox-slide-id="${figureId}"] .annotations-ui__input`)
+  const inputs = document.querySelectorAll(`#${figureId} .annotations-ui__input, [slot="slides"][id="${figureId}"] .annotations-ui__input`)
   const annotations = [...inputs].map((input) => {
     const id = input.getAttribute('data-annotation-id')
     input.checked = annotationIds.includes(id)
@@ -281,7 +281,7 @@ const setUpUIEventHandlers = () => {
  * @property {Array<Object>} annotations
  */
 const update = (id, data) => {
-  const webComponents = document.querySelectorAll(`canvas-panel[canvas-id="${id}"], image-service[src="${id}"], image-sequence[sequence-id="${id}"]`)
+  const webComponents = document.querySelectorAll(`canvas-panel[canvas-id="${id}"], image-service[src="${id}"], q-image-sequence[sequence-id="${id}"]`)
   if (!webComponents.length) {
     console.error(`Failed to call update on canvas panel or image-service component with id ${id}. Element does not exist.`)
   }
@@ -289,7 +289,7 @@ const update = (id, data) => {
   
   webComponents.forEach((element) => {
 
-    const isImageSequence = element.tagName.toLowerCase() === 'image-sequence'
+    const isImageSequence = element.tagName.toLowerCase() === 'q-image-sequence'
 
     if (isImageSequence) {
       updateSequenceIndex(element, data)
