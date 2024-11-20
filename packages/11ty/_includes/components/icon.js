@@ -1,4 +1,4 @@
-const { html } = require('#lib/common-tags')
+const { html } = require('~lib/common-tags')
 const path = require('path')
 
 /**
@@ -17,7 +17,6 @@ module.exports = function(eleventyConfig) {
 
   return function (params) {
     const { description, type } = params
-    const iconPath = path.join(imageDir, 'icons', `${type}.png`)
     const descriptionElement = description
       ? `<span class="visually-hidden" data-outputs-exclude="epub,pdf">${description}</span>`
       : ''

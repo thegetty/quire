@@ -1,0 +1,52 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "http://localhost:8080/iiif/zoom/manifest.json",
+  "type": "Manifest",
+  "label": {
+    "en": [
+      "Figure 1"
+    ]
+  },
+  "items": [
+    {
+      "id": "http://localhost:8080/iiif/zoom/canvas",
+      "type": "Canvas",
+      "height": 3221,
+      "width": 4096,
+      "items": [
+        {
+          "id": "http://localhost:8080/iiif/zoom/canvas/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http://localhost:8080/iiif/zoom/canvas/irises",
+              "motivation": "painting",
+              "target": "http://localhost:8080/iiif/zoom/canvas",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/zoom/irises/tiles/info.json",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 3221,
+                "width": 4096,
+                "label": {
+                  "en": [
+                    "Figure 1"
+                  ]
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/zoom/irises/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

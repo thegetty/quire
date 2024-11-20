@@ -16,6 +16,14 @@ Build Quire publication EPUB format.
 quire build epub
 ```
 
+#### `info`
+
+List `quire-11ty`, `quire-cli`, and starter package versions; use the `--debug` option to include node, npm, and os versions.
+
+```sh
+quire build info
+```
+
 #### `pdf`
 
 Build Quire publication PDF format.
@@ -80,6 +88,26 @@ To create a new project from a starter template
 quire new <path> <starter>
 ```
 
+#### Specifying the `quire-11ty` version
+
+When the `--quire` flag is used the new project will be started using the specified version of `quire-11ty`
+
+```sh
+quire new <path> <starter> --quire <version>
+```
+
+##### Version identifiers
+
+The `--quire` flag must be either a semantic version identifier or a npm distribution tag. For example:
+
+```sh
+quire new ./blargh --quire 1.0.0-rc.5
+```
+
+```sh
+quire new ./blargh --quire latest
+```
+
 ### `preview`
 
 Build and server the Quire site in development mode.
@@ -132,14 +160,6 @@ To set the quire version globally use the `--global` command flag.
 
 ```sh
 quire version 1.0.0 --global
-```
-
-#### `info`
-
-Display the local and global `quire-11ty` version; this is the *default* subcommand (running `quire version` invokes the `info` subcommand).
-
-```sh
-quire version info
 ```
 
 #### `install`

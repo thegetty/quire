@@ -47,7 +47,7 @@ There are three Quire repositories hosted on GitHub:
 2. Install Quire with `npm install --global @thegetty/quire-cli`
 3. If you receive an error message that says "Error: EACCES: permission denied," run `sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share}`. Then try step 2 again.
 4. Confirm installation with `quire --version`. You should see a version number that begins with a 1. If you receive the message "command not found" this means installation was unsuccessful.
-5. Vist the [*Get Started*](https://quire.getty.edu/docs-v1/get-started) section of the documentation to begin a new Quire project.
+5. Vist the [*Get Started*](https://quire.getty.edu/docs-v1/getting-started) section of the documentation to begin a new Quire project.
 
 ### Windows
 
@@ -56,7 +56,7 @@ There are three Quire repositories hosted on GitHub:
 3. In PowerShell (Admin) install Quire with `npm install --global @thegetty/quire-cli`
 4. Once Quire has been installed, change your PowerShell permissions settings with  `Set-ExecutionPolicy -ExecutionPolicy Unrestricted`. 
 5. Confirm installation with `quire --version`. You should see a version number that begins with a 1. If you receive the message "command not found" this means installation was unsuccessful.
-6. Vist the [*Get Started*](https://quire.getty.edu/docs-v1/get-started) section of the documentation to begin a new Quire project.
+6. Vist the [*Get Started*](https://quire.getty.edu/docs-v1/getting-started/) section of the documentation to begin a new Quire project.
 
 ## Dependencies
 

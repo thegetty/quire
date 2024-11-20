@@ -1,0 +1,1 @@
+<span class="object-card__field" @html="attribute.value" :data-field-name="attribute.name"></span>

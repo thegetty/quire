@@ -1,4 +1,4 @@
-const { oneLine } = require('#lib/common-tags')
+const { oneLine } = require('~lib/common-tags')
 
 /**
  * A shortcode for the Quire project or publication title,
@@ -19,6 +19,6 @@ module.exports = function(eleventyConfig) {
 
     const titleElement = `<span class="title">${markdownify(title)}</span>`
 
-    return oneLine`${titleElement}${separator}&#32;${subtitleElement}`
+    return oneLine`${titleElement}${separator}\u0020${subtitleElement}`
   }
 }

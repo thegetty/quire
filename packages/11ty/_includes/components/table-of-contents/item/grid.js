@@ -1,5 +1,5 @@
 const path = require ('path')
-const { html, oneLine } = require('#lib/common-tags')
+const { html, oneLine } = require('~lib/common-tags')
 
 /**
  * Renders a TOC item
@@ -19,7 +19,6 @@ module.exports = function (eleventyConfig) {
   const markdownify = eleventyConfig.getFilter('markdownify')
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const tableOfContentsImage = eleventyConfig.getFilter('tableOfContentsImage')
-  const urlFilter = eleventyConfig.getFilter('url')
   const { contributorDivider } = eleventyConfig.globalData.config.tableOfContents
   const { imageDir } = eleventyConfig.globalData.config.figures
 
@@ -81,7 +80,7 @@ module.exports = function (eleventyConfig) {
       }
       case !!pageObject: {
         const firstObjectId = pageObject[0].id
-        const object = getObject(firstObjectId)
+        const object = firstObjectId ? getObject(firstObjectId) : pageObject[0]
         const firstObjectFigure = object && object.figure
           ? getFigure(object.figure[0].id)
           : null
@@ -108,7 +107,7 @@ module.exports = function (eleventyConfig) {
 
     if (isPage) {
       mainElement = html`
-        <a href="${urlFilter(page.url)}">
+        <a href="${page.url}">
           ${mainElement}
         </a>
       `

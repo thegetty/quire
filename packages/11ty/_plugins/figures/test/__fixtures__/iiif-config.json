@@ -1,0 +1,46 @@
+{
+  "baseURI": "http://localhost:8080",
+  "dirs": {
+    "imagesDir": "_assets/images",
+    "inputRoot": "/test-project/_site",
+    "outputPath": "iiif",
+    "outputRoot": "/test-project/_site"
+  },
+  "formats": [
+    {
+      "input": [
+        ".png",
+        ".svg"
+      ],
+      "output": ".jpg"
+    },
+    {
+      "input": [
+        ".jpg",
+        ".jpeg",
+        ".tif",
+        ".tiff"
+      ],
+      "output": ".jpg"
+    }
+  ],
+  "locale": "en",
+  "manifestFileName": "manifest.json",
+  "tilesDirName": "tiles",
+  "tileSize": 256,
+  "transformations": [
+    {
+      "name": "thumbnail",
+      "resize": {
+        "width": 50
+      }
+    },
+    {
+      "name": "print-image",
+      "resize": {
+        "width": 2025,
+        "withoutEnlargement": true
+      }
+    }
+  ]
+}

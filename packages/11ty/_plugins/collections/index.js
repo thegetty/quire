@@ -26,7 +26,8 @@ module.exports = function (eleventyConfig, options = {}) {
    * Add eleventy-generated collections to collections object
    */
   eleventyConfig.addCollection('temp', function (collectionApi) {
-    const eleventyCollections = collectionApi.getAll()[0].data.collections
+    const allCollections = collectionApi.getAll()
+    const eleventyCollections = allCollections.length > 0 ? collectionApi.getAll()[0].data.collections : {}
     Object.assign(collections, eleventyCollections)
     return []
   })

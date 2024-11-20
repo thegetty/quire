@@ -5,6 +5,7 @@ const bracketedSpansPlugin = require('markdown-it-bracketed-spans')
 const defaults = require('./defaults')
 const deflistPlugin = require('markdown-it-deflist')
 const footnotePlugin = require('markdown-it-footnote')
+const { footnoteRef, footnoteTail } = require('./footnotes')
 const removeMarkdown = require('remove-markdown')
 
 /**
@@ -77,7 +78,7 @@ module.exports = function(eleventyConfig, options) {
   }
 
   /**
-   * Override default renderer to remove brakcets from footnotes
+   * Override default renderer to remove brackets from footnotes
    */
   markdownLibrary.renderer.rules.footnote_caption = (tokens, idx) => {
     let n = Number(tokens[idx].meta.id + 1).toString()
@@ -87,18 +88,39 @@ module.exports = function(eleventyConfig, options) {
     return n
   }
 
+  /**
+   * Override default renderer to add class to footnote ref anchor
+   */
+  markdownLibrary.renderer.rules.footnote_ref = (tokens, idx, options, env, slf) => {
+    var id = slf.rules.footnote_anchor_name(tokens, idx, options, env, slf)
+    var caption = slf.rules.footnote_caption(tokens, idx, options, env, slf)
+    var refid = id
+  
+    if (tokens[idx].meta.subId > 0) {
+      refid += ':' + tokens[idx].meta.subId
+    }
+  
+    return '<sup class="footnote-ref"><a href="#fn' + id + '" id="fnref' + refid + '" class="footnote-ref-anchor">' + caption + '</a></sup>'
+  }
+
+  /** 
+   * Use custom footnote_ref and footnote_tail definitions
+   */
+  markdownLibrary.inline.ruler.after('footnote_inline', 'footnote_ref', footnoteRef)
+  markdownLibrary.core.ruler.after('inline', 'footnote_tail', footnoteTail)
+
   eleventyConfig.setLibrary('md', markdownLibrary)
 
   /**
    * Add a universal template filter to render markdown strings as HTML
    * @see https://github.com/markdown-it/markdown-it#simple
    */
-  eleventyConfig.addFilter('markdownify', (content) => {
+  eleventyConfig.addFilter('markdownify', (content, options = {}) => {
     if (!content) return ''
 
-    return !content.match(/\n/)
-      ? markdownLibrary.renderInline(content)
-      : markdownLibrary.render(content)
+    return content.match(/\n/) || options.inline === false
+      ? markdownLibrary.render(content)
+      : markdownLibrary.renderInline(content) 
   })
 
   /**

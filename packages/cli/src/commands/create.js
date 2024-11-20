@@ -1,4 +1,5 @@
 import Command from '#src/Command.js'
+import fs from 'fs-extra'
 import { quire } from '#src/lib/quire/index.js'
 
 /**
@@ -22,8 +23,10 @@ export default class CreateCommand extends Command {
       [ '[starter]', 'repository url or local path for a starter project' ],
     ],
     options: [
-      [ '--debug', 'debug the `quire new` command' ],
-      [ '--eject', 'install quire-11ty into the project directory', 'true' ],
+      [ '--quire-path <path>', 'local path to quire-11ty package' ],
+      [ '--quire-version <version>', 'quire-11ty version to install' ],
+      // [ '--eject', 'install quire-11ty into the project directory', true ],
+      [ '--debug', 'debug the `quire new` command', false ],
     ],
   }
 
@@ -52,14 +55,27 @@ export default class CreateCommand extends Command {
       // const starter = starters['default']
       // `git clone starter path`
     } else {
-      const version = await quire.initStarter(starter, projectPath)
-      // @TODO we will want to abstract the test for emptiness to prevent further install steps on error
-      if (!version) return
+      /**
+       * @TODO test that `version` is compatible with the `requiredVersion`
+       * if version is incompatible or unknown
+       *   - interactive mode prompt to continue
+       *   - non-interactive mode throw an error and exit the process
+       */
+      let quireVersion
+      try {
+        quireVersion = await quire.initStarter(starter, projectPath, options)
+      } catch (error) {
+        console.error(error.message)
+        fs.removeSync(projectPath)
+        return
+      }
+
+      options.eject = true
 
       if (options.eject) {
-        await quire.installInProject(projectPath, version, options)
+        await quire.installInProject(projectPath, quireVersion, options)
       } else {
-        await quire.install(version, options)
+        await quire.install(options)
       }
     }
   }

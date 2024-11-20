@@ -15,11 +15,10 @@ module.exports = function (eleventyConfig) {
     contributor: publicationContributors,
     pub_date: pubDate,
     publisher: publishers,
-    url
   } = eleventyConfig.globalData.publication
 
   return function (params) {
-    let { context, page, type } = params
+    let { context, page } = params
     
     const pageContributors = page.data.contributor
       ? page.data.contributor.map((item) => getContributor(item))
@@ -31,7 +30,9 @@ module.exports = function (eleventyConfig) {
       'container-author': publicationContributors
         .filter(({ type }) => type === 'primary')
         .map(citeName),
-      'container-title': `<em>${siteTitle()}</em>`,
+      // CSL-JSON support for html tags is spotty, use a span here
+      // since an <em> tag would be treated as a word and title-cased
+      'container-title': `<span style="font-style: italic;">${siteTitle()}</span>`,
       editor: pageContributors
         .filter(({ role }) => role === 'editor')
         .map(citeName),
@@ -42,7 +43,7 @@ module.exports = function (eleventyConfig) {
       'publisher-place': publishers[0].location,
       title: pageTitle(page.data),
       type: 'chapter',
-      URL: new URL(page.url, url).toString()
+      URL: page.data.canonicalURL
     }
   }
 }

@@ -1,0 +1,124 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "http://localhost:8080/iiif/checkbox-annotations/manifest.json",
+  "type": "Manifest",
+  "label": {
+    "en": [
+      "Figure 3"
+    ]
+  },
+  "items": [
+    {
+      "id": "http://localhost:8080/iiif/checkbox-annotations/canvas",
+      "type": "Canvas",
+      "height": 1455,
+      "width": 1200,
+      "items": [
+        {
+          "id": "http://localhost:8080/iiif/checkbox-annotations/canvas/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http://localhost:8080/iiif/checkbox-annotations/canvas/base",
+              "motivation": "painting",
+              "target": "http://localhost:8080/iiif/checkbox-annotations/canvas",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/checkbox-annotations/base/tiles/info.json",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 1455,
+                "width": 1200,
+                "label": {
+                  "en": [
+                    "Figure 3"
+                  ]
+                },
+                "service": [
+                  {
+                    "@context": "http://iiif.io/api/image/2/context.json",
+                    "@id": "http://localhost:8080/iiif/checkbox-annotations/base/tiles/info.json",
+                    "profile": "level0",
+                    "protocol": "http://iiif.io/api/image"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "http://localhost:8080/iiif/checkbox-annotations/canvas/original-label",
+              "motivation": "painting",
+              "target": "http://localhost:8080/iiif/checkbox-annotations/canvas",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/checkbox-annotations/original-label.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 1455,
+                "width": 1200,
+                "label": {
+                  "en": [
+                    "Original-label"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "http://localhost:8080/iiif/checkbox-annotations/canvas/additional-label",
+              "motivation": "painting",
+              "target": "http://localhost:8080/iiif/checkbox-annotations/canvas",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/checkbox-annotations/additional-label.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 1455,
+                "width": 1200,
+                "label": {
+                  "en": [
+                    "Additional-label"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "http://localhost:8080/iiif/checkbox-annotations/canvas/scratches",
+              "motivation": "painting",
+              "target": "http://localhost:8080/iiif/checkbox-annotations/canvas",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/checkbox-annotations/scratches.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 1455,
+                "width": 1200,
+                "label": {
+                  "en": [
+                    "Scratches"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "http://localhost:8080/iiif/checkbox-annotations/canvas/thumb",
+              "motivation": "painting",
+              "target": "http://localhost:8080/iiif/checkbox-annotations/canvas",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/checkbox-annotations/thumb.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 1455,
+                "width": 1200,
+                "label": {
+                  "en": [
+                    "Thumb"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

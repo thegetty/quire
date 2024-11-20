@@ -1,0 +1,31 @@
+<figure class="object-card__image" :data-field-name="attribute.name">
+  <img :src="src(attributes)" :alt="alt(attributes)">
+</figure>
+
+<script webc:setup>
+/**
+ * Get object image `alt` from `thumbnail` property
+ */
+const alt = ({ data }) => typeof data.thumbnail === 'object' ? data.thumbnail.alt : '';
+
+/**
+ * Get object image `src` from `figures` or `thumbnail` properties
+ */
+const src = ({ data }) => {
+  const { figures } = data;
+  const thumbnail = figures
+    ? figures.find(({ mediaType }) => mediaType === 'image').thumbnail
+    : data.thumbnail
+
+  const src = typeof thumbnail === 'object'
+    ? thumbnail.src
+    : thumbnail
+
+  /**
+   * If no IIIF images, point to the raw assets directory
+   */
+  return src && !src.startsWith('/iiif')
+    ? `${this.config.figures.imageDir}/${src}`
+    : src;
+};
+</script>

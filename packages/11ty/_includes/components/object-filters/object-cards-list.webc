@@ -1,0 +1,59 @@
+<ol class="object-cards-list">
+  <li webc:for="object of objects" :data-object-id="object.id">
+    <object-card :@url="object.url" :@data="object.objectData"></object-card>
+  </li>
+</ol>
+
+<style>
+@media screen {
+  ol.object-cards-list {
+    display: grid;
+    grid-column-gap: 1rem;
+    grid-row-gap: 3rem;
+    list-style: none;
+    --desktop: 700px;
+    --gap: 16px;
+    --tablet: 500px;
+    --desktop: 700px;
+    --fullhd: calc(1344px + (2 * var(--gap)));
+    --widescreen: calc(1152px + (2 * var(--gap)));
+  }
+}
+
+/* $desktop */
+@media screen and (min-width: 700px) {
+  ol.object-cards-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
+/* $widescreen */
+@media screen and (min-width: 1184px) {
+  ol.object-cards-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* $fullhd */
+@media screen and (min-width: 1376px) {
+  ol.object-cards-list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media print {
+  .object-cards-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .object-cards-list li {
+    width: 2in;
+    margin-bottom: 0.375in;
+    list-style-type: none;
+  }
+
+}
+</style>

@@ -1,4 +1,4 @@
-const chalkFactory = require('#lib/chalk')
+const chalkFactory = require('~lib/chalk')
 
 const logger = chalkFactory('Figure Media Embed URL')
 
@@ -33,16 +33,18 @@ module.exports = function (eleventyConfig) {
     },
     vimeo(mediaId) {
       const baseUrl = 'https://player.vimeo.com/video/'
+      const sourceBaseUrl = 'https://vimeo.com/'
       // Sample Vimeo id: 672853278/b3f8d29d53
+      // or id: 672853278
       const embedId = mediaId.replace('/', '?h=')
       return {
         embedUrl: `${baseUrl}${embedId}`,
-        sourceUrl: `${baseUrl}${embedId}`
+        sourceUrl: `${sourceBaseUrl}${mediaId}`
       }
     },
     youtube(mediaId) {
       const embedBaseUrl = 'https://www.youtube-nocookie.com/embed/'
-      const sourceBaseUrl = 'https://www.youtube.com/watch?v='
+      const sourceBaseUrl = 'https://youtu.be/'
       return {
         embedUrl: `${embedBaseUrl}${mediaId}`,
         sourceUrl: `${sourceBaseUrl}${mediaId}`

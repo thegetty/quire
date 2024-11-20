@@ -66,17 +66,19 @@ A default class is set in the layout:
 **`_layouts/entry.liquid`**
 ```yaml
 ---
-class: quire-entry
+classes:
+  - quire-entry
 ---
 ```
 
-Additional style classes can also be added in a template. These will be appended to the class value set in the layout.
+Additional style classes can also be added in a template. These will be appended to the class value set in the layout. The `class` property must use array syntax.
 
 **`content/catalogue/1.md`**
 ```yaml
 ---
 layout: entry
-class: fancy-custom-class
+classes:
+  - fancy-custom-class
 ---
 ```
 

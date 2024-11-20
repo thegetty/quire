@@ -1,0 +1,48 @@
+{
+  "$id": "https://data.getty.edu/quire/v1.0.0/schemas/config.json",
+  "title": "Config",
+  "description": "Quire configuration schema",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "pdf": {
+      "type": "object",
+      "required": [ "pagePDF", "publicationPDF", "outputDir", "filename" ],
+      "properties": {
+        "outputDir": { 
+          "type": "string"
+        },
+        "filename": { 
+          "type": "string" 
+        },
+        "pagePDF": { 
+          "type": "object",
+          "required": [ "accessLinks", "coverPage", "output" ],
+          "properties": {
+            "accessLinks": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "header": { "type": ["boolean", "null"] },
+                  "footer": { "type": ["boolean", "null"] },
+                  "label": { "type": "string" }
+                }
+              }
+            }, 
+            "coverPage": { "type": "boolean" },
+            "output": { "type": "boolean" }
+          }
+        },
+        "publicationPDF": {
+          "type": "object",
+          "required": ["output"],
+          "properties": {
+            "output": { "type": "boolean" }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {}
+}

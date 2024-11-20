@@ -1,0 +1,1647 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "http://localhost:8080/iiif/rotating-annotation/manifest.json",
+  "type": "Manifest",
+  "behavior": [
+    [
+      "continuous",
+      "sequence"
+    ]
+  ],
+  "label": {
+    "en": [
+      "Figure 5"
+    ]
+  },
+  "items": [
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00000",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00000/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00000/annotation-page/fountain02_00000",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00000",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00000.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00004",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00004/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00004/annotation-page/fountain02_00004",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00004",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00004.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00008",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00008/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00008/annotation-page/fountain02_00008",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00008",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00008.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00012",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00012/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00012/annotation-page/fountain02_00012",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00012",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00012.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00016",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00016/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00016/annotation-page/fountain02_00016",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00016",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00016.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00020",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00020/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00020/annotation-page/fountain02_00020",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00020",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00020.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00024",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00024/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00024/annotation-page/fountain02_00024",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00024",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00024.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00028",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00028/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00028/annotation-page/fountain02_00028",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00028",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00028.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00032",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00032/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00032/annotation-page/fountain02_00032",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00032",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00032.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00036",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00036/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00036/annotation-page/fountain02_00036",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00036",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00036.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00040",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00040/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00040/annotation-page/fountain02_00040",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00040",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00040.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00044",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00044/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00044/annotation-page/fountain02_00044",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00044",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00044.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00048",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00048/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00048/annotation-page/fountain02_00048",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00048",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00048.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00052",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00052/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00052/annotation-page/fountain02_00052",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00052",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00052.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00056",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00056/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00056/annotation-page/fountain02_00056",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00056",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00056.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00060",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00060/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00060/annotation-page/fountain02_00060",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00060",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00060.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00064",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00064/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00064/annotation-page/fountain02_00064",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00064",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00064.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00068",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00068/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00068/annotation-page/fountain02_00068",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00068",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00068.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00072",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00072/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00072/annotation-page/fountain02_00072",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00072",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00072.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00076",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00076/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00076/annotation-page/fountain02_00076",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00076",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00076.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00080",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00080/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00080/annotation-page/fountain02_00080",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00080",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00080.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00084",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00084/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00084/annotation-page/fountain02_00084",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00084",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00084.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00088",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00088/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00088/annotation-page/fountain02_00088",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00088",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00088.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00092",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00092/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00092/annotation-page/fountain02_00092",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00092",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00092.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00096",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00096/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00096/annotation-page/fountain02_00096",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00096",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00096.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00100",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00100/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00100/annotation-page/fountain02_00100",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00100",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00100.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00104",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00104/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00104/annotation-page/fountain02_00104",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00104",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00104.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00108",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00108/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00108/annotation-page/fountain02_00108",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00108",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00108.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00112",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00112/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00112/annotation-page/fountain02_00112",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00112",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00112.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00116",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00116/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00116/annotation-page/fountain02_00116",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00116",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00116.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00120",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00120/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00120/annotation-page/fountain02_00120",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00120",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00120.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00124",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00124/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00124/annotation-page/fountain02_00124",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00124",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00124.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00128",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00128/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00128/annotation-page/fountain02_00128",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00128",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00128.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00132",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00132/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00132/annotation-page/fountain02_00132",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00132",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00132.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00136",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00136/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00136/annotation-page/fountain02_00136",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00136",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00136.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00140",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00140/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00140/annotation-page/fountain02_00140",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00140",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00140.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00144",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00144/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00144/annotation-page/fountain02_00144",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00144",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00144.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00148",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00148/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00148/annotation-page/fountain02_00148",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00148",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00148.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00152",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00152/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00152/annotation-page/fountain02_00152",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00152",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00152.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00156",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00156/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00156/annotation-page/fountain02_00156",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00156",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00156.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00160",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00160/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00160/annotation-page/fountain02_00160",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00160",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00160.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00164",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00164/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00164/annotation-page/fountain02_00164",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00164",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00164.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00168",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00168/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00168/annotation-page/fountain02_00168",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00168",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00168.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00172",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00172/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00172/annotation-page/fountain02_00172",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00172",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00172.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00176",
+      "type": "Canvas",
+      "height": 2048,
+      "width": 1536,
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00176/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00176/annotation-page/fountain02_00176",
+              "motivation": "painting",
+              "target": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00176",
+              "type": "Annotation",
+              "body": {
+                "id": "http://localhost:8080/iiif/rotating-annotation/fountain02_00176.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 2048,
+                "width": 1536,
+                "label": {
+                  "en": [
+                    "Figure 5"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "structures": [
+    {
+      "id": "http:/localhost:8080/iiif/rotating-annotation/ranges/0",
+      "items": [
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00000",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00004",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00008",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00012",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00016",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00020",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00024",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00028",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00032",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00036",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00040",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00044",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00048",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00052",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00056",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00060",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00064",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00068",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00072",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00076",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00080",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00084",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00088",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00092",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00096",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00100",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00104",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00108",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00112",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00116",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00120",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00124",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00128",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00132",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00136",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00140",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00144",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00148",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00152",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00156",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00160",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00164",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00168",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00172",
+          "type": "Canvas"
+        },
+        {
+          "id": "http:/localhost:8080/iiif/rotating-annotation/canvas/fountain02_00176",
+          "type": "Canvas"
+        }
+      ],
+      "type": "Range",
+      "viewingDirection": "left-to-right"
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-const { html } = require('#lib/common-tags')
+const { html } = require('~lib/common-tags')
 const path = require('path')
 
 /**
@@ -16,15 +16,18 @@ module.exports = function(eleventyConfig) {
   const { imageDir } = eleventyConfig.globalData.config.figures
 
   return function(figure) {
-    const { alt, caption, credit, id, label, src } = figure
+    const { alt, caption, credit, id, label, src, staticInlineFigureImage } = figure
 
-    if (!src) return ''
+    if (!src && !staticInlineFigureImage) return ''
 
     const labelElement = figureLabel({ caption, id, label })
 
     let imageSrc
 
     switch (true) {
+      case figure.isSequence:
+        imageSrc = figure.staticInlineFigureImage
+        break
       case figure.isCanvas || figure.isImageService:
         imageSrc = figure.printImage
         break

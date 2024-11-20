@@ -1,4 +1,4 @@
-const { html } = require('#lib/common-tags')
+const { html } = require('~lib/common-tags')
 
 module.exports = function(eleventyConfig) {
   return function(figures) {
@@ -52,7 +52,7 @@ module.exports = function(eleventyConfig) {
     }
 
     return html`
-      <div class="q-lightbox-ui">
+      <div class="q-lightbox-ui" slot="ui">
         <div class="q-lightbox-ui__zoom-and-fullscreen">
           ${zoomButtons()}
           ${fullscreenButton()}

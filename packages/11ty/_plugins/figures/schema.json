@@ -1,0 +1,226 @@
+{
+  "$id": "https://data.getty.edu/quire/v1.0.0/schemas/figures.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Figures",
+  "description": "Quire figures data schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "figure_list": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Figure"
+      },
+      "uniqueItems": true
+    }
+  },
+  "required": [ "figure_list" ],
+  "$defs": {
+    "AnnotationSets": {
+      "type": "array",
+      "additionalProperties": false,
+      "items": {
+        "type": "object",
+        "properties": {
+          "input": {
+            "type": "string",
+            "enum": [ "checkbox", "radio" ],
+            "default": "radio"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/AnnotationItem"
+            },
+            "uniqueItems": true
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [ "items" ]
+      },
+      "title": "Annotation Set"
+    },
+    "AnnotationItem": {
+      "description": "",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "src": {
+          "description": "A relative path to the annotation image source",
+          "type": "string",
+          "pattern": "^(/[^/]+)+$"
+        },
+        "label": {
+          "type": "string"
+        },
+        "region": {
+          "$ref": "#/$defs/Region"
+        },
+        "selected": {
+          "description": "Wether the annotation will be selected by default",
+          "type": "boolean",
+          "default": false
+        },
+        "target": {
+          "description": "A relative path to an image in a sequence; only valid for figures that define a sequence",
+          "type": "string"
+        },
+        "text": {
+          "description": "A IIIF text annotation",
+          "type": "string"
+        }
+      },
+      "required": [ "src" ],
+      "title": "Item"
+    },
+    "Figure": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "annotations": {
+          "description": "An array of Quire annotation sets",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AnnotationSets"
+          },
+          "uniqueItems": false
+        },
+        "canvasId": {
+          "description": "URI of a IIIF canvas",
+          "type": "string",
+          "format": "uri"
+        },
+        "caption": {
+          "description": "A text caption for the figure",
+          "type": "string"
+        },
+        "credit": {
+          "description": "A text credit line for the figure",
+          "type": "string"
+        },
+        "download": {
+          "description": "Enable download of the figure source",
+          "type": "boolean",
+          "default": false
+        },
+        "id": {
+          "description": "A unique id for the figure object",
+          "type": "string"
+        },
+        "label": {
+          "description": "A text label for the figure",
+          "type": "string"
+        },
+        "media_id": {
+          "$ref": "#/$defs/MediaID"
+        },
+        "manifestId": {
+          "description": "URI of a IIIF manifest",
+          "type": "string",
+          "format": "uri"
+        },
+        "media_type": {
+          "$ref": "#/$defs/MediaType"
+        },
+        "poster": {
+          "description": "A static image for a video",
+          "type": "string"
+        },
+        "printImage": {
+          "description": "A relative path to an image project assets directory for print output",
+          "type": "string",
+          "pattern": "^(/[^/]+)+$"
+        },
+        "region": {
+          "$ref": "#/$defs/Region"
+        },
+        "sequences": {
+          "description": "An array of IIIF sequence structures",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Sequence"
+          },
+          "uniqueItems": true
+        },
+        "src": {
+          "description": "A relative path to an image in the project assets directory",
+          "type": "string",
+          "pattern": "^(/[^/]+)+$"
+        },
+        "staticInlineFigureImage": {
+          "description": "A relative path to an image project assets directory for static inline display",
+          "type": "string",
+          "pattern": "^(/[^/]+)+$"
+        },
+        "zoom": {
+          "description": "Enable image tiling for IIIF zoom interaction",
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "required": [ "id" ],
+      "title": "FigureList"
+    },
+    "MediaID": {
+      "description": "A unique id for the media",
+      "oneOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "string"
+        }
+      ],
+      "title": "MediaID"
+    },
+    "MediaType": {
+      "description": "Quire figure media type",
+      "type": "string",
+      "enum": [ "soundcloud", "table", "video", "vimeo", "youtube" ]
+    },
+    "Region": {
+      "description": "IIIF region, https://iiif.io/api/image/3.0/#41-region",
+      "type": "string",
+      "pattern": "^(full|square|(pct:)?\\d+,\\d+,\\d+,\\d+)$"
+    },
+    "Sequence": {
+      "description": "A Quire data IIIF sequence structure",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "behavior": {
+          "description": "IIIF Presentation API 3.0 sequence behavior",
+          "type": "array",
+          "enum": [ "continuous", "sequence" ]
+        },
+        "id": {
+          "description": "A relative path to the directory of sequence images",
+          "type": "string",
+          "pattern": "^(/[^/]+)+$"
+        },
+        "items": {
+          "description": "",
+          "type": "array",
+          "items": {
+            "type": "object"
+          },
+          "uniqueItems": false
+        },
+        "label": {
+          "description": "A text label for the IIIF sequence",
+          "type": "string"
+        },
+        "regex": {
+          "description": "A file pattern for images in the sequence",
+          "type": "string"
+        },
+        "start": {
+          "description": "An id for the starting item in the sequence",
+          "type": "string"
+        }
+      }
+    }
+  }
+}

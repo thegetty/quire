@@ -1,0 +1,255 @@
+<div class="object-filters__list">
+  <div webc:for="filter of getFilters(getFilterOrder($data), objects)" class="object-filters__item">
+    <label :for="filter.id" @html="filter.fieldLabel"></label>
+    <div class="object-filters__select">
+      <select :id="filter.id" data-control-filter :data-control-name="filter.fieldName">
+        <option webc:for="option of filter.options" :value="option.value" @text="option.label"></option>;
+      </select>
+    </div>
+  </div>
+</div>
+
+<script webc:setup>
+/**
+ * Capitalize the first letter of a string
+ */
+const capitalizeFirstLetter = (string) => {
+  return string[0].toUpperCase() + string.slice(1);
+}
+
+/**
+ * Create humanized labels from  `_` or `-`-separated strings
+ */
+const humanize = (string) => {
+  return this
+    .slugify(string)
+    .split(/[_-]/)
+    .map(capitalizeFirstLetter)
+    .join(' ');
+}
+
+/**
+ * Check if a value is atomic; (can be stringified without becoming [object Object])
+ */
+const isAtomicValue = (value) => typeof value === 'string' ||
+  typeof value === 'number'
+
+const getFilterNamesFromObjectData = (objects) => {
+  const ignoredAttributes = ['name', 'thumbnail', 'title'];
+  return objects.reduce((filterNames, { objectData }) => {
+    Object.entries(objectData).forEach(([key, value]) => {
+      /**
+       * Only render filters for keys:
+       * - that are not duplicates
+       * - are not ignored attributes
+       * - are either strings, numbers, or arrays of strings or numbers
+       */
+      if (
+        !filterNames.includes(key) &&
+        !ignoredAttributes.includes(key) &&
+        (
+          isAtomicValue(value) ||
+          Array.isArray(value) && value.every(isAtomicValue)
+        )
+      ) {
+        filterNames.push(key);
+      }
+    });
+    return filterNames;
+  }, []);
+}
+
+const sortByValueWithLocaleCompare = (a, b) => {
+  return a.value.localeCompare(b.value)
+};
+
+const getUniqueOptionsFromObjectData = (objects, fieldName) =>
+  objects
+    .reduce((uniqueOptions, { objectData }) => {
+      const existingValues = uniqueOptions.map(({ value }) => value);
+      const values = !Array.isArray(objectData[fieldName])
+        ? [objectData[fieldName]]
+        : objectData[fieldName];
+
+      values.forEach((value) => {
+        if (value && !existingValues.includes(value)) {
+          uniqueOptions.push({ label: value, value });
+        }
+      })
+
+      return uniqueOptions;
+    }, [])
+    .sort(sortByValueWithLocaleCompare);
+
+/**
+ * When object_filters is set to `false` filters are not rendered
+ */
+const getFilterOrder = ($data) => {
+  return $data.object_filters !== false
+    ? $data.object_filters || $data.objects.object_filters
+    : false;
+};
+
+const getFilters = (filterOrder, objects) => {
+  if (filterOrder === false) {
+    return [];
+  }
+
+  const filterNames = filterOrder
+    ? filterOrder
+    : getFilterNamesFromObjectData(objects);
+
+  return filterNames.map((item) => {
+    const fieldLabel = typeof item === 'string' ? humanize(item) : item.label;
+    const fieldName = typeof item === 'string' ? item : item.field;
+    const options = [
+      { label: 'All', value: '' },
+      ...getUniqueOptionsFromObjectData(objects, fieldName)
+    ];
+
+    return {
+      id: `filter-${fieldName}`,
+      fieldLabel,
+      fieldName,
+      options
+    };
+  });
+};
+</script>
+
+<style>
+.object-filters {
+  --max-height: 25vh;
+  padding: 0 28.5px;
+  background: #eef2f3;
+  display: grid;
+  font-family: Noto Sans,sans-serif;
+  font-size: 14px;
+  color: rgb(51, 51, 51);
+  margin-bottom: 3em;
+}
+
+.object-filters__list {
+  padding-top: 1em;
+  padding-bottom: 2em;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(auto, 1fr));
+  grid-row-gap: 1.2em;
+  grid-column-gap: 3em;
+}
+
+.object-filters__item {
+  display: grid;
+  grid-template-columns: auto;
+  grid-gap: 0.5em;
+  align-items: end;
+  position: relative;
+  max-width: 50em;
+  justify-self: center;
+  width: 100%;
+}
+
+.object-filters__item label {
+  font-weight: 700;
+}
+
+.object-filters__select:after {
+  content: "";
+  position: absolute;
+  width: 0.5em;
+  height: 0.9em;
+  bottom: 0;
+  right: 0.4em;
+  pointer-events: none;
+  border-left: 0.3em solid transparent;
+  border-right: 0.3em solid transparent;
+  border-top: 0.4em solid rgb(51, 51, 51);
+}
+
+.object-filters__select select,
+.object-filters__select select:focus,
+.object-filters__select select:focus-visible {
+  -webkit-appearance: none;
+  border: none;
+  border-bottom: 1px solid #d0dbde;
+  border-radius: 0;
+  color: rgb(51, 51, 51);
+  background: transparent;
+  height: 1.5em;
+  width: 100%;
+  min-width: 10em;
+  padding: 0 1.4em 0 0;
+  font-family: Noto Sans,sans-serif;
+  font-size: 14px;
+}
+
+.object-filters__controls {
+  display: grid;
+  grid-column-gap: 1em;
+  grid-template-columns: repeat(auto-fit, minmax(max-content, 12em));
+  align-items: center;
+  justify-content: center;
+}
+
+.object-filters__button {
+  align-self: center;
+  border-radius: 2px;
+  border: 1px solid rgb(51, 51, 51);
+  background: #eef2f3;
+  color: rgb(51, 51, 51);
+  font-family: Noto Sans,sans-serif;
+  font-size: 14px;
+  height: 2em;
+  margin-top: 1em;
+  padding: 0.1em 2em 0.15em;
+  cursor: pointer;
+  user-select: none;
+}
+
+.object-filters__button.object-filters__button--active {
+  background: rgb(51, 51, 51);
+  color: white;
+}
+
+@media screen and (min-width: 500px) {
+  .object-filters__list {
+    margin-right: 4em;
+  }
+
+  .object-filters__item {
+    grid-template-columns: minmax(auto, 1fr) minmax(auto, 2fr);
+  }
+
+  .object-filters__item label {
+    text-align: right;
+  }
+
+  .object-filters__select select,
+  .object-filters__select select:focus,
+  .object-filters__select select:focus-visible {
+    padding: 0 1.4em 0 0.4em;
+  }
+}
+
+@media screen and (min-width: 700px) {
+  .object-filters__list {
+    grid-template-columns: repeat(auto-fit, minmax(30em, 1fr));
+    margin-right: 8em;
+  }
+}
+
+.object-filters.sticky {
+  position: sticky;
+  z-index: 1;
+  top: 50px;
+}
+
+.sticky .object-filters__list {
+  padding-bottom: 1em;
+}
+
+.collapsible.sticky .object-filters__list {
+  max-height: var(--max-height);
+  overflow-y: scroll;
+}
+</style>

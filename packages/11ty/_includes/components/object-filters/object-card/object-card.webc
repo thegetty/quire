@@ -1,0 +1,131 @@
+<a class="object-card" :href="this.webc.attributes.url">
+  <div class="object-card__content">
+    <template webc:for="attribute of getAttributes(this.webc.attributes, this.$data)" webc:nokeep>
+
+      <object-image
+        webc:if="isThumbnailAttribute(attribute)"
+        :@attributes="this.webc.attributes"
+      ></object-image>
+
+      <object-heading
+        webc:elseif="isFirstTextAttribute(attribute, this.webc.attributes, this.$data)"
+        :@attribute="attribute"
+      ></object-heading>
+
+      <object-field
+        webc:else
+        :@attribute="attribute"
+      ></object-field>
+
+    </template>
+  </div>
+</a>
+
+<script webc:setup>
+/**
+ * Finds the first object property that is not `thumbnail`
+ */
+const isFirstTextAttribute = ({ name }, { data }, { object_card, objects }) => {
+  const attributes = getAttributes({ data }, { object_card, objects });
+  return name === attributes.find(({ name }) => name !== 'thumbnail').name;
+};
+
+const isThumbnailAttribute = ({ name }) => name === 'thumbnail';
+
+const isString = (value) => typeof value === 'string';
+
+const everyItemValueIsString = (value) => {
+  return Array.isArray(value) && value.every(isString)
+};
+
+/**
+ * Returns a markdownified property value or array of markdownified values.
+ */
+const getMarkdownifiedPropertyValue = (value) => {
+  switch (true) {
+    case isString(value):
+      return this.markdownify(value);
+    case everyItemValueIsString(value):
+      return value.map(this.markdownify).join(', ');
+    default:
+      return '';
+  }
+};
+
+const getAttributes = ({ data }, { object_card, objects }) => {
+  const ignoredAttributes = ['uid', 'url'];
+  const isIgnoredAttribute = (key) => !ignoredAttributes.includes(key);
+  const attributeOrder = object_card || objects.object_card || Object.keys(data).filter(isIgnoredAttribute);
+  return attributeOrder.map((key) => ({ name: key, value: getMarkdownifiedPropertyValue(data[key])}));
+};
+</script>
+
+<style>
+.object-card {
+  display: block;
+  border-radius: 2px;
+  box-shadow: none;
+  background-color: #ffffff;
+  color: #CF4747;
+}
+
+.object-card:hover {
+  color: #a02a2a;
+}
+
+.object-card__image img {
+  -webkit-transition: -webkit-box-shadow 0.35s;
+  transition: box-shadow 0.35s;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  width: 100%;
+}
+
+.object-card:hover .object-card__image img {
+  -webkit-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.75);
+}
+
+.object-card__content {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5em;
+}
+
+.object-card__title,
+.object-card .arrow {
+  font-size: 1.125em;
+  line-height: 1.22em;
+  font-family: "IBM Plex Sans Condensed", sans-serif;
+  font-weight: 700;
+}
+
+.object-card__title:not(:last-child),
+.object-card__image:not(:last-child) {
+  margin-bottom: 1em;
+}
+
+.object-card .arrow {
+  margin-left: 4px;
+  position: absolute;
+  fill: #CF4747;
+  transition: all .25s ease;
+}
+
+.object-card:hover .arrow {
+  transform: translate(0.75em);
+  -webkit-transition: all .25s ease;
+  fill: #a02a2a;
+}
+
+.object-card .arrow svg {
+  width: 18px;
+  height: 18px;
+}
+
+.object-card__field {
+  color: rgb(51, 51, 51);
+}
+</style>

@@ -1,5 +1,5 @@
-const { html } = require('#lib/common-tags')
-const chalkFactory = require('#lib/chalk')
+const { html } = require('~lib/common-tags')
+const chalkFactory = require('~lib/chalk')
 
 /**
  * Renders an iframe element with the SoundCloud audio player
@@ -15,8 +15,8 @@ module.exports = function(eleventyConfig) {
   const figureLabel = eleventyConfig.getFilter('figureLabel')
   const figureAudioElement = eleventyConfig.getFilter('figureAudioElement')
 
-  return function({ caption, credit, id, label, mediaId, mediaType }) {
-    const audioElement = figureAudioElement({ id, mediaId, mediaType })
+  return function({ caption, credit, id, label, mediaId, mediaType, lazyLoading }) {
+    const audioElement = figureAudioElement({ id, mediaId, mediaType, lazyLoading })
     const labelElement = figureLabel({ caption, id, label })
     const captionElement = figureCaption({ caption, content: labelElement, credit })
 

@@ -1,0 +1,10 @@
+<span  class=object-card__title :data-field-name="attribute.name">
+  <span @html="attribute.value"></span>
+  <span class="arrow" data-outputs-exclude="epub,pdf">
+    <svg data-outputs-exclude="epub,pdf">
+    <switch>
+        <use xlink:href="#arrow-forward-icon"></use>
+    </switch>
+    </svg>
+  </span>
+</span>
