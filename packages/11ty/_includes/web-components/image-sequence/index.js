@@ -3,15 +3,24 @@ import { createRef, ref } from 'lit/directives/ref.js'
 
 import { imageSequenceStyles } from './styles.js'
 
-// TODO: Ensure buffer size is > then performRotation increment (set bufferSize larger, make prefetch return a promise that we .then() )
 // TODO: Raise and set an error message on the status-overlay component if fetches error out and cursor: not-allowed
 
+/**
+ * @class ImageSequence
+ * @description A reactive Lit element for showing and interacting with a sequence of images.
+ * 
+ * 
+ **/ 
 class ImageSequence extends LitElement {
 
   static styles = [ imageSequenceStyles ]
 
   static properties = {
-    bufferSize: {
+    animationFrame: { 
+      type: Number,
+      state: true,
+    },
+    bufferSize: { 
       type: Number,
       state: true,
     },
@@ -54,36 +63,49 @@ class ImageSequence extends LitElement {
   canvasRef = createRef()
 
   /**
-   * @property bufferReady
+   * @private
+   * @property #bufferWindow
    * 
-   * Returns an array of indexes to buffer
+   * @returns an array of indexes included in `bufferSize` given `index`
    * 
-   **/ 
-  get indexesToBuffer() {
+   */ 
+  get #bufferWindow() {
     // NB: Calculated one length higher to protect against numerical under run
-    return Array(this.bufferSize).fill(0).map( (_,i) => ( this.images.length + this.index + i - Math.round(this.bufferSize/2) ) % this.images.length )
+    const imageCount = this.images.length
+    const windowStart = imageCount + this.index - Math.round(this.bufferSize/2)
+    
+    return Array(this.bufferSize)
+            .fill(0)
+            .map((_, i) => ((windowStart + i) % imageCount))
   }
 
   /**
-   * @property bufferReady
+   * @private
+   * @property #bufferReady
    * 
-   * Returns true if the buffer is loaded ahead and behind of `index`
+   * @returns true if the buffer is loaded ahead and behind of `index`
    * 
    **/ 
-  get bufferReady() {
-    return this.images.filter( (img,j) => this.indexesToBuffer.includes(j) && img !== null ).length === this.bufferSize
+  get #bufferReady() {
+    return this.images.filter( (img,j) => this.#bufferWindow.includes(j) && img !== null ).length === this.bufferSize
   }
 
   /**
-   * @property buffered
+   * @property bufferedPct
    * 
-   * Returns true if the buffer is loaded ahead and behind of `index`
+   * Returns percent of the buffer that is not-null
    * 
    **/ 
   get bufferedPct() {
-    return Math.floor( this.images.filter( (img,j) => this.indexesToBuffer.includes(j) && img !== null ).length / this.bufferSize * 100 ) 
+    return Math.floor( this.images.filter( (img,j) => this.#bufferWindow.includes(j) && img !== null ).length / this.bufferSize * 100 ) 
   }
 
+  /**
+   * @property someImagesLoaded
+   * 
+   * Returns true if there is at least one image loaded
+   * 
+   **/ 
   get someImagesLoaded() {
     return this.images.some( i => i !== null )
   }
@@ -93,9 +115,11 @@ class ImageSequence extends LitElement {
    * @param url {string} - image URL to fetch
    * @param seqIndex {Number} - index to store this image 
    * 
-   * Fetches `url`, converts it into a blob and stores the image data, optionally drawing to the canvas.
+   * Fetches `url`, converts it into a blob and stores the image data in `seqIndex`.
    * 
-   * The in-flight fetch is stored in requests[seqIndex] for cancellation and request deduplication.
+   * The in-flight fetch is stored in this.requests for cancellation and request deduplication, nulled on completion.
+   * 
+   * @returns {Promise} fetch resposne
    **/
   #fetchImage(url,seqIndex) {
     const req = new Request(url)
@@ -104,7 +128,7 @@ class ImageSequence extends LitElement {
       return
     }
 
-    this.requests[seqIndex] = fetch(req)
+    const resp = fetch(req)
       .then( (resp) => resp.blob() )
       .then( (blob) => window.createImageBitmap(blob) )
       .then( (bmp) => {
@@ -113,11 +137,6 @@ class ImageSequence extends LitElement {
           this.intrinsicWidth = bmp.width   
         }
         this.images[seqIndex] = bmp
-        // Draw if the user hasn't already gone past this index
-        if (this.index===seqIndex) {
-          this.#paintCanvas(bmp)
-          return        
-        } 
       })
       .then( () => {
         this.requests[seqIndex] = null
@@ -126,8 +145,18 @@ class ImageSequence extends LitElement {
       .catch( (err) => {
         console.error(err)
       })
+    this.requests[seqIndex] = resp
+    return resp
   }
 
+  /**
+   * @function connectedCallback
+   * 
+   * `lit` lifecycle method fired the first time the element is connected to the document
+   * 
+   * Used to register our visibility IntersectionObserver
+   * 
+   **/ 
   connectedCallback() {
     super.connectedCallback()
 
@@ -182,6 +211,8 @@ class ImageSequence extends LitElement {
   }
 
   /**
+   * @function debounce
+   * 
    * Returns a function, that, as long as it continues to be invoked, will not
    * be triggered. The function will be called after it stops being called for
    * N milliseconds. If `immediate` is passed, trigger the function on the
@@ -222,11 +253,19 @@ class ImageSequence extends LitElement {
     }
   }
 
+  /**
+   * @function handleMouseMove
+   * 
+   * @param {Event.buttons}
+   * @param {Event.clientX}
+   * 
+   * Sets interaction flag, hides overlays, and handles reversability check
+   * 
+   **/ 
   handleMouseMove({ buttons, clientX }) {
     if (buttons) {
       this.didInteract = true
 
-      this.hideOverlays()
       if (this.oldX) {
         const deltaX = clientX - this.oldX
         const deltaIndex = Math.floor(Math.log(Math.abs(deltaX))) || 1
@@ -244,12 +283,6 @@ class ImageSequence extends LitElement {
     } else {
       this.oldX = null
     }
-  }
-
-  hideOverlays() {
-    this.querySelectorAll('.overlay').forEach((element) => {
-      element.classList.remove('visible')
-    })
   }
 
   /**
@@ -311,67 +344,85 @@ class ImageSequence extends LitElement {
    * 
    **/ 
   willUpdate(changedProperties) {
+    // Determine the animation indices, preload them, and then do the rotation 
     if (changedProperties.has('rotateToIndex') && this.rotateToIndex!==false) {
-      this.performRotation(this.rotateToIndex)
+      const frameCount = this.rotateToIndex - this.index
+      const animationIndices = Array(frameCount).fill(0).map( (_,i) => this.index + i + 1 )
+      this.#preloadImages( animationIndices ).then( this.animateRotation(this.rotateToIndex) )
     }
+
+    // Draws `animationFrame` directly to canvas (for use )
+    if (changedProperties.has('animationFrame')) {
+      if (!this.animationFrame) { return }
+      if (this.images[this.animationFrame] === null) { return }
+
+      this.#paintCanvas(this.images[this.animationFrame])
+    } 
 
     if (changedProperties.has('index') && this.someImagesLoaded) {
-      this.#preloadImages()
-
-      if (this.bufferReady) {
-        this.#paintCanvas()      
-      }
+      this.#preloadImages().then( () => {
+        this.animateRotation(this.index)
+      })
     }
 
+    // Load enough to prepare for interaction
     if (changedProperties.has('visible') && !this.visible) {
-      this.#preloadImages()
+      this.#preloadImages().then( () => this.#paintCanvas() )
     }
   }
 
   /**
    * @function #preloadImages
    * 
-   * Loads the k images behind and ahead of this.index
+   * Loads images of this.indexesToBuffer -- ahead and behind `this.index`
+   * 
+   * @returns {Promise} - Promise resolution for all preloads
+   * 
    **/
-  #preloadImages() {
-    if (!this.images.some(i => i === null)) { return }
+  #preloadImages(bufferWindow) {
+    if (!this.images.some(i => i === null)) { return Promise.all([]) }
 
-    // Really just making buffer counting ergonomic / readable here
-    // const indexesToBuf = Array(this.bufferSize).fill(0).map( (_,i) => ( this.images.length + this.index + i - Math.round(this.bufferSize/2) ) % this.images.length )
-    this.images.forEach( (image,i) => {
+    const indexesToLoad = bufferWindow ?? this.#bufferWindow
+    const imageRequests = this.images.map( (image,i) => {
       // Skip anything out of our range or already loaded
-      if ( !this.indexesToBuffer.includes(i) || image !== null ) {
-        return
+      if ( !indexesToLoad.includes(i) || image !== null ) {
+        return null
       } 
 
       const url = this.imageUrls[i]
-      this.#fetchImage(url,i)
-    })
+      return this.#fetchImage(url,i)
+    }).filter( (imageRequest) => imageRequest )
+
+    return Promise.all(imageRequests)
   }
 
   /**
    * Animates a rotation by stepping through images from the current index to the provided `newValue`
    */
-  performRotation(indexToMove) {
-    if (this.index === indexToMove) return
+  animateRotation(untilIndex) {
+    if (this.animationFrame === untilIndex) return
+
+    this.animationFrame = this.index
     const interval = setInterval(() => {
       /**
        * Set rotateToIndex to false when rotation is done and clear the interval
        */
-      if (this.index === indexToMove) {
+      if (this.animationFrame === untilIndex) {
+        this.index = untilIndex
         this.rotateToIndex = false
+        this.synchronizeSequenceInstances()
       }
       /**
        * Clear the interval if user has triggered another rotation
        */
-      if (this.rotateToIndex !== indexToMove) {
+      if (this.rotateToIndex !== untilIndex) {
         clearInterval(interval)
         return
       }
       /**
        * Step through images
        */
-      this.nextImage()
+      this.animationFrame += 1
     }, this.transition)
   }
 
@@ -386,7 +437,6 @@ class ImageSequence extends LitElement {
     this.index = newIndex
   }
 
-  // TODO: Consult quire team for expected behavior here
   synchronizeSequenceInstances() {
     clearTimeout(this.updateTimer)
     this.updateTimer = setTimeout(() => {
@@ -415,9 +465,9 @@ class ImageSequence extends LitElement {
           </span></div>` 
       : ''
 
-    return html`<div class="image-sequence ${ this.bufferReady ? '' : 'loading' } ${ this.isInteractive ? 'interactive' : '' }">
+    return html`<div class="image-sequence ${ this.#bufferReady ? '' : 'loading' } ${ this.isInteractive ? 'interactive' : '' }">
                   <slot name="loading-overlay">
-                    <div slot="loading-overlay" class='${ this.bufferReady ? '' : 'visible'} loading overlay'>
+                    <div slot="loading-overlay" class='${ this.#bufferReady ? '' : 'visible'} loading overlay'>
                       <div class="buffering-indicator">Loading Image Sequence&nbsp;(${ this.bufferedPct }%)...</div>
                       </div>
                   </slot>
