@@ -20,10 +20,6 @@ class ImageSequence extends LitElement {
       type: Number,
       state: true,
     },
-    bufferReady: { 
-      type: Boolean,
-      state: true,
-    },
     bufferSize: { 
       type: Number,
       state: true,
@@ -68,12 +64,12 @@ class ImageSequence extends LitElement {
 
   /**
    * @private
-   * @function computeBufferWindow
+   * @property #bufferWindow
    * 
    * @returns an array of indexes included in `bufferSize` given `index`
    * 
    */ 
-  #computeBufferWindow() {
+  get #bufferWindow() {
     // NB: Calculated one length higher to protect against numerical under run
     const imageCount = this.images.length
     const windowStart = imageCount + this.index - Math.round(this.bufferSize/2)
@@ -85,14 +81,13 @@ class ImageSequence extends LitElement {
 
   /**
    * @private
-   * @function computeBufferReady
+   * @property #bufferReady
    * 
    * @returns true if the buffer is loaded ahead and behind of `index`
    * 
    **/ 
-  #computeBufferReady() {
-    const bufferWindow = this.#computeBufferWindow()
-    return this.images.filter( (img,j) => bufferWindow.includes(j) && img !== null ).length === this.bufferSize
+  get #bufferReady() {
+    return this.images.filter( (img,j) => this.#bufferWindow.includes(j) && img !== null ).length === this.bufferSize
   }
 
   /**
@@ -102,8 +97,7 @@ class ImageSequence extends LitElement {
    * 
    **/ 
   get bufferedPct() {
-    const bufferWindow = this.#computeBufferWindow()
-    return Math.floor( this.images.filter( (img,j) => bufferWindow.includes(j) && img !== null ).length / this.bufferSize * 100 ) 
+    return Math.floor( this.images.filter( (img,j) => this.#bufferWindow.includes(j) && img !== null ).length / this.bufferSize * 100 ) 
   }
 
   /**
@@ -143,7 +137,6 @@ class ImageSequence extends LitElement {
           this.intrinsicWidth = bmp.width   
         }
         this.images[seqIndex] = bmp
-        this.bufferReady = this.#computeBufferReady()
       })
       .then( () => {
         this.requests[seqIndex] = null
@@ -199,7 +192,6 @@ class ImageSequence extends LitElement {
 
     // Internal state
     const pctToBuffer = 0.2
-    this.bufferReady = false
     this.bufferSize = Math.ceil( this.imageUrls.length * pctToBuffer )
     this.blitting = null // null | animationFrameRequestId
     this.images = Array(this.imageUrls.length).fill(null) // Array< null | ImageBitmap >
@@ -390,7 +382,7 @@ class ImageSequence extends LitElement {
   #preloadImages(bufferWindow) {
     if (!this.images.some(i => i === null)) { return Promise.all([]) }
 
-    const indexesToLoad = bufferWindow ?? this.#computeBufferWindow()
+    const indexesToLoad = bufferWindow ?? this.#bufferWindow
     const imageRequests = this.images.map( (image,i) => {
       // Skip anything out of our range or already loaded
       if ( !indexesToLoad.includes(i) || image !== null ) {
@@ -473,9 +465,9 @@ class ImageSequence extends LitElement {
           </span></div>` 
       : ''
 
-    return html`<div class="image-sequence ${ this.bufferReady ? '' : 'loading' } ${ this.isInteractive ? 'interactive' : '' }">
+    return html`<div class="image-sequence ${ this.#bufferReady ? '' : 'loading' } ${ this.isInteractive ? 'interactive' : '' }">
                   <slot name="loading-overlay">
-                    <div slot="loading-overlay" class='${ this.bufferReady ? '' : 'visible'} loading overlay'>
+                    <div slot="loading-overlay" class='${ this.#bufferReady ? '' : 'visible'} loading overlay'>
                       <div class="buffering-indicator">Loading Image Sequence&nbsp;(${ this.bufferedPct }%)...</div>
                       </div>
                   </slot>
