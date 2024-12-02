@@ -20,6 +20,10 @@ class ImageSequence extends LitElement {
       type: Number,
       state: true,
     },
+    bufferReady: { 
+      type: Boolean,
+      state: true,
+    },
     bufferSize: { 
       type: Number,
       state: true,
@@ -63,24 +67,32 @@ class ImageSequence extends LitElement {
   canvasRef = createRef()
 
   /**
-   * @property indexesToBuffer
+   * @private
+   * @function computeBufferWindow
    * 
-   * Returns an array of indexes included in `bufferSize` given `index`
+   * @returns an array of indexes included in `bufferSize` given `index`
    * 
-   **/ 
-  get indexesToBuffer() {
+   */ 
+  #computeBufferWindow() {
     // NB: Calculated one length higher to protect against numerical under run
-    return Array(this.bufferSize).fill(0).map( (_,i) => ( this.images.length + this.index + i - Math.round(this.bufferSize/2) ) % this.images.length )
+    const imageCount = this.images.length
+    const windowStart = imageCount + this.index - Math.round(this.bufferSize/2)
+    
+    return Array(this.bufferSize)
+            .fill(0)
+            .map((_, i) => ((windowStart + i) % imageCount))
   }
 
   /**
-   * @property bufferReady
+   * @private
+   * @function computeBufferReady
    * 
-   * Returns true if the buffer is loaded ahead and behind of `index`
+   * @returns true if the buffer is loaded ahead and behind of `index`
    * 
    **/ 
-  get bufferReady() {
-    return this.images.filter( (img,j) => this.indexesToBuffer.includes(j) && img !== null ).length === this.bufferSize
+  #computeBufferReady() {
+    const bufferWindow = this.#computeBufferWindow()
+    return this.images.filter( (img,j) => bufferWindow.includes(j) && img !== null ).length === this.bufferSize
   }
 
   /**
@@ -90,7 +102,8 @@ class ImageSequence extends LitElement {
    * 
    **/ 
   get bufferedPct() {
-    return Math.floor( this.images.filter( (img,j) => this.indexesToBuffer.includes(j) && img !== null ).length / this.bufferSize * 100 ) 
+    const bufferWindow = this.#computeBufferWindow()
+    return Math.floor( this.images.filter( (img,j) => bufferWindow.includes(j) && img !== null ).length / this.bufferSize * 100 ) 
   }
 
   /**
@@ -130,12 +143,7 @@ class ImageSequence extends LitElement {
           this.intrinsicWidth = bmp.width   
         }
         this.images[seqIndex] = bmp
-
-        // Draw if the user hasn't already gone past this index
-        // if (this.index===seqIndex) {
-        //   this.#paintCanvas(bmp)
-        //   return        
-        // } 
+        this.bufferReady = this.#computeBufferReady()
       })
       .then( () => {
         this.requests[seqIndex] = null
@@ -191,6 +199,7 @@ class ImageSequence extends LitElement {
 
     // Internal state
     const pctToBuffer = 0.2
+    this.bufferReady = false
     this.bufferSize = Math.ceil( this.imageUrls.length * pctToBuffer )
     this.blitting = null // null | animationFrameRequestId
     this.images = Array(this.imageUrls.length).fill(null) // Array< null | ImageBitmap >
@@ -288,7 +297,7 @@ class ImageSequence extends LitElement {
   /**
    * @function hideOverlays
    * 
-   * TODO: Should be removed in favor of dynamic markup (may already be)
+   * @todo Should be removed in favor of dynamic markup (may already be)
    * 
    **/ 
   hideOverlays() {
@@ -372,16 +381,9 @@ class ImageSequence extends LitElement {
     } 
 
     if (changedProperties.has('index') && this.someImagesLoaded) {
-
-      if (this.bufferReady) {
-        this.#paintCanvas()
-        return      
-      }
-
       this.#preloadImages().then( () => {
         this.performRotation(this.index)
       })
-
     }
 
     // Load enough to prepare for interaction
@@ -398,11 +400,11 @@ class ImageSequence extends LitElement {
    * @returns {Promise} - Promise resolution for all preloads
    * 
    **/
-  #preloadImages(indices) {
-    if (!this.images.some(i => i === null)) { return }
+  #preloadImages(bufferWindow) {
+    if (!this.images.some(i => i === null)) { return Promise.all([]) }
 
-    const indexesToLoad = indices ?? this.indexesToBuffer
-    const fetches = this.images.map( (image,i) => {
+    const indexesToLoad = bufferWindow ?? this.#computeBufferWindow()
+    const imageRequests = this.images.map( (image,i) => {
       // Skip anything out of our range or already loaded
       if ( !indexesToLoad.includes(i) || image !== null ) {
         return null
@@ -410,10 +412,9 @@ class ImageSequence extends LitElement {
 
       const url = this.imageUrls[i]
       return this.#fetchImage(url,i)
-    }).filter( ftch => ftch )
+    }).filter( (imageRequest) => imageRequest )
 
-
-    return Promise.all(fetches)
+    return Promise.all(imageRequests)
   }
 
   /**
