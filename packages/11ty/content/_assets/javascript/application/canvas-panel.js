@@ -93,6 +93,9 @@ const goToFigureState = function ({
   })
 
   if (figureSlide) {
+    // Set the preloading attribute to ensure the slide has a chance to load
+    figureSlide.dataset.lightboxPreload = true
+
     const lightbox = figureSlide.closest('q-lightbox')
     lightbox.currentId = figureId
   }
@@ -299,14 +302,25 @@ const update = (id, data) => {
       const target = region && region !== 'reset'
         ? getTarget(region)
         : getTarget(element.getAttribute('region'))
-      element.transition(tm => {
-        tm.goToRegion(target, {
-          transition: {
-            easing: element.easingFunctions().easeOutExpo,
-            duration: 2000
+
+      setTimeout( () => { 
+        element.transition(tm => {
+          // If the transitionManager is not present, wait to load and manually set a region
+          if (!tm) {
+            setTimeout( () => {
+              element.setAttribute('region',region)          
+            },500)
+            return
           }
-        })
-      })
+          tm.goToRegion(target, {
+              transition: {
+                easing: element.easingFunctions().easeOutExpo,
+                duration: 2000
+              }
+          })
+        }) 
+      },300)
+
     }
 
     if (Array.isArray(annotations)) {
