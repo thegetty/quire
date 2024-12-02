@@ -16,7 +16,7 @@ class ImageSequence extends LitElement {
   static styles = [ imageSequenceStyles ]
 
   static properties = {
-    animationIndex: { 
+    animationFrame: { 
       type: Number,
       state: true,
     },
@@ -274,7 +274,6 @@ class ImageSequence extends LitElement {
     if (buttons) {
       this.didInteract = true
 
-      this.hideOverlays()
       if (this.oldX) {
         const deltaX = clientX - this.oldX
         const deltaIndex = Math.floor(Math.log(Math.abs(deltaX))) || 1
@@ -292,18 +291,6 @@ class ImageSequence extends LitElement {
     } else {
       this.oldX = null
     }
-  }
-
-  /**
-   * @function hideOverlays
-   * 
-   * @todo Should be removed in favor of dynamic markup (may already be)
-   * 
-   **/ 
-  hideOverlays() {
-    this.querySelectorAll('.overlay').forEach((element) => {
-      element.classList.remove('visible')
-    })
   }
 
   /**
@@ -369,20 +356,20 @@ class ImageSequence extends LitElement {
     if (changedProperties.has('rotateToIndex') && this.rotateToIndex!==false) {
       const frameCount = this.rotateToIndex - this.index
       const animationIndices = Array(frameCount).fill(0).map( (_,i) => this.index + i + 1 )
-      this.#preloadImages( animationIndices ).then( this.performRotation(this.rotateToIndex) )
+      this.#preloadImages( animationIndices ).then( this.animateRotation(this.rotateToIndex) )
     }
 
-    // Draws `animationIndex` directly to canvas (for use )
-    if (changedProperties.has('animationIndex')) {
-      if (!this.animationIndex) { return }
-      if (this.images[this.animationIndex] === null) { return }
+    // Draws `animationFrame` directly to canvas (for use )
+    if (changedProperties.has('animationFrame')) {
+      if (!this.animationFrame) { return }
+      if (this.images[this.animationFrame] === null) { return }
 
-      this.#paintCanvas(this.images[this.animationIndex])
+      this.#paintCanvas(this.images[this.animationFrame])
     } 
 
     if (changedProperties.has('index') && this.someImagesLoaded) {
       this.#preloadImages().then( () => {
-        this.performRotation(this.index)
+        this.animateRotation(this.index)
       })
     }
 
@@ -420,30 +407,30 @@ class ImageSequence extends LitElement {
   /**
    * Animates a rotation by stepping through images from the current index to the provided `newValue`
    */
-  performRotation(indexToMove) {
-    if (this.animationIndex === indexToMove) return
+  animateRotation(untilIndex) {
+    if (this.animationFrame === untilIndex) return
 
-    this.animationIndex = this.index
+    this.animationFrame = this.index
     const interval = setInterval(() => {
       /**
        * Set rotateToIndex to false when rotation is done and clear the interval
        */
-      if (this.animationIndex === indexToMove) {
-        this.index = indexToMove
+      if (this.animationFrame === untilIndex) {
+        this.index = untilIndex
         this.rotateToIndex = false
         this.synchronizeSequenceInstances()
       }
       /**
        * Clear the interval if user has triggered another rotation
        */
-      if (this.rotateToIndex !== indexToMove) {
+      if (this.rotateToIndex !== untilIndex) {
         clearInterval(interval)
         return
       }
       /**
        * Step through images
        */
-      this.animationIndex += 1
+      this.animationFrame += 1
     }, this.transition)
   }
 
