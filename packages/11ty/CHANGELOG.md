@@ -12,6 +12,18 @@ Changelog entries are classified using the following labels:
 - `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
+## [1.0.0-rc.20]
+
+### Changed
+
+- Refactor image-sequence preloadImages to accept an indices parameter of indices to preload and return the promise of all fetch responses
+- Adds an animationIndex property for managing animation when rotating
+
+### Fixed
+
+- image-sequence rotation to an index on load
+- display of the rotation call to action
+
 ## [1.0.0-rc.19]
 
 ### Changed
