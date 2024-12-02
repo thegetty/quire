@@ -116,9 +116,9 @@ class ImageSequence extends LitElement {
    * @returns {Promise} fetch resposne
    */
   #fetchImage(url, seqIndex) {
-    const request = new Request(url)
-
     if (this.requests[seqIndex]) return
+
+    const request = new Request(url)
 
     const response = fetch(request)
       .then((response) => response.blob())
