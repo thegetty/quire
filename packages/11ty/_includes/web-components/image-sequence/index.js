@@ -75,8 +75,8 @@ class ImageSequence extends LitElement {
     const windowStart = imageCount + this.index - Math.round(this.bufferSize/2)
     
     return Array(this.bufferSize)
-            .fill(0)
-            .map((_, i) => ((windowStart + i) % imageCount))
+      .fill(0)
+      .map((_, i) => ((windowStart + i) % imageCount))
   }
 
   /**

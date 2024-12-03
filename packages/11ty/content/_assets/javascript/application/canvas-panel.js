@@ -1,5 +1,5 @@
-import { intersectionObserverFactory } from './intersection-observer-factory'
 import Accordion from './accordion'
+import { intersectionObserverFactory } from './intersection-observer-factory'
 import poll from './poll'
 import scrollToHash from './scroll-to-hash'
 
@@ -301,16 +301,13 @@ const update = (id, data) => {
         ? getTarget(region)
         : getTarget(element.getAttribute('region'))
 
-      setTimeout( () => {
+      const transition =  { easing: element.easingFunctions().easeOutExpo, duration: 2000 }
+      const regionTransition = () => {
         element.transition(tm => {
-          tm.goToRegion(target, {
-              transition: {
-                easing: element.easingFunctions().easeOutExpo,
-                duration: 2000
-              }
-          })
+          tm.goToRegion(target, { transition })
         })         
-      },500)
+      } 
+      setTimeout( regionTransition() ,500)
 
     }
 
