@@ -1,5 +1,5 @@
-import { intersectionObserverFactory } from './intersection-observer-factory'
 import Accordion from './accordion'
+import { intersectionObserverFactory } from './intersection-observer-factory'
 import poll from './poll'
 import scrollToHash from './scroll-to-hash'
 
@@ -82,8 +82,14 @@ const goToFigureState = function ({
   const figureSlide = document.querySelector(slideSelector)
   const serviceId = getServiceId(figure || figureSlide)
 
-  // return if id does not reference a figure
-  if ((!figure && !figureSlide) || !serviceId) return
+  // Do nothing if the passed figureId isn't on this page
+  if (!figure && !figureSlide) return
+
+  const lightbox = figureSlide.closest('q-lightbox')
+  lightbox.currentId = figureId
+
+  // Done if there's no service to annotate / target
+  if (!serviceId) return
 
   const inputs = document.querySelectorAll(`#${figureId} .annotations-ui__input, [slot="slides"][id="${figureId}"] .annotations-ui__input`)
   const annotations = [...inputs].map((input) => {
@@ -91,11 +97,6 @@ const goToFigureState = function ({
     input.checked = annotationIds.includes(id)
     return annotationData(input)
   })
-
-  if (figureSlide) {
-    const lightbox = figureSlide.closest('q-lightbox')
-    lightbox.currentId = figureId
-  }
 
   /**
    * Open parent accordions if figure is within an accordion
@@ -105,7 +106,7 @@ const goToFigureState = function ({
   })
 
   /**
-   * Update figure state
+   * Update figure state -- wrapped in a timeout to allow for off-page 
    */
   update(serviceId, { annotations, region: region || 'reset', sequence })
 
@@ -299,14 +300,15 @@ const update = (id, data) => {
       const target = region && region !== 'reset'
         ? getTarget(region)
         : getTarget(element.getAttribute('region'))
-      element.transition(tm => {
-        tm.goToRegion(target, {
-          transition: {
-            easing: element.easingFunctions().easeOutExpo,
-            duration: 2000
-          }
-        })
-      })
+
+      const transition =  { easing: element.easingFunctions().easeOutExpo, duration: 2000 }
+      const regionTransition = () => {
+        element.transition(tm => {
+          tm.goToRegion(target, { transition })
+        })         
+      } 
+      setTimeout( regionTransition() ,500)
+
     }
 
     if (Array.isArray(annotations)) {

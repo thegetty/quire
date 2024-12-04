@@ -26,7 +26,7 @@ export const imageSequenceStyles = css`
     display: flex;
     justify-content: center;
     align-items: center;
-    position: absolute;
+    position: relative;
     top: 0;
     left: 0;
     height: 100%;
@@ -40,6 +40,7 @@ export const imageSequenceStyles = css`
 
   .overlay.visible {
     opacity: 1;
+    pointer-events: auto;
   }
 
   .overlay:not(.visible) {
