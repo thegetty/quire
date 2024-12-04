@@ -338,7 +338,7 @@ class ImageSequence extends LitElement {
   willUpdate(changedProperties) {
     // Determine the animation indices, preload them, and then do the rotation 
     if (changedProperties.has('rotateToIndex') && this.rotateToIndex!==false) {
-      const frameCount = this.rotateToIndex - this.index
+      const frameCount = this.rotateToIndex - this.index + this.bufferSize / 2
       const animationIndices = Array(frameCount).fill(0).map((_, i) => this.index + i + 1)
       this.#preloadImages(animationIndices).then(this.animateRotation(this.rotateToIndex))
     }
