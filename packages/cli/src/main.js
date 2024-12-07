@@ -1,6 +1,6 @@
 import { Argument, Command, Option } from 'commander'
 import commands from './commands/index.js'
-import packageConfig from '../package.json' assert { type: 'json' }
+import packageConfig from '../package.json' with { type: 'json' }
 
 /**
  * Quire CLI implements the command pattern.
