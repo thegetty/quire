@@ -1,4 +1,4 @@
-## Quire 11ty Patches
+## Quire CLI Patches
 
 Patches in this directory are applied to locally installed `node_modules` by the npm `postinstall` script ([npm scripts docs](https://docs.npmjs.com/cli/v10/using-npm/scripts)).
 

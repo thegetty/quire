@@ -36,6 +36,7 @@
   "scripts": {
     "lint": "eslint src --ext .js",
     "lint:fix": "npm run lint -- --fix",
+    "postinstall": "patch-package",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "imports": {
@@ -63,6 +64,7 @@
     "loglevel": "^1.8.1",
     "open": "^8.4.0",
     "ora": "^6.1.2",
+    "patch-package": "^8.0.0",
     "pagedjs-cli": "^0.4.3",
     "semver": "^7.3.8",
     "simple-git": "^3.16.0",
