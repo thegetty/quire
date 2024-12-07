@@ -64,7 +64,6 @@
     "open": "^8.4.0",
     "ora": "^6.1.2",
     "pagedjs-cli": "^0.4.3",
-    "read-pkg-up": "^9.1.0",
     "semver": "^7.3.8",
     "simple-git": "^3.16.0",
     "update-notifier": "^6.0.2"
