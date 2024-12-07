@@ -1,3 +1,5 @@
+import config from '#src/lib/config'
+
 /**
  * Command
  * @abstract
@@ -30,6 +32,8 @@ export default class Command {
     if (this.constructor.prototype === Command) {
       throw new Error('Command is an *abstract* class')
     }
+
+    this.config = config // quire-cli configuration
 
     this.name = definition.name
     this.aliases = definition.aliases
