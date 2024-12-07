@@ -8,12 +8,15 @@ const { name, version } = packageConfig
 
 const beforeEachMigration = (store, context) => {
   const { fromVersion, toVersion } = context
-  console.info(`[CLI] migrating config from ${fromVersion} → ${toVersion}`)
+  console.info(`quire-cli migrating config from ${fromVersion} → ${toVersion}`)
 }
 
 /**
  * Create quire-cli configuration instance
  * @see https://github.com/sindresorhus/conf#confoptions
+ *
+ * @todo support yaml configuration files
+ * https://github.com/sindresorhus/conf?tab=readme-ov-file#can-i-use-yaml-or-another-serialization-format
  *
  * @type       {Conf}
  */
@@ -28,9 +31,5 @@ const config = new Conf({
   schema,
   watch: true,
 })
-
-if (process.env.DEBUG) {
-  console.debug(`[CLI:config] ${config.path}`)
-}
 
 export default config

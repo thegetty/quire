@@ -2,6 +2,9 @@
 
 This `quire-cli/lib/config` module manages reading and writing (persisting) options for the Quire CLI using the [`conf`](https://github.com/sindresorhus/conf) package.
 
+`conf` stores the config in the system default [user config directory](https://github.com/sindresorhus/env-paths#pathsconfig). For example, on macOS, the config file will be stored in the `~/Library/Preferences/@thegetty/quire-cli` directory.
+
+> Changes are written to disk atomically, so if the process crashes during a write, it will not corrupt the existing config.
 
 ### Configuration
 

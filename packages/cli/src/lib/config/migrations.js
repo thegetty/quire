@@ -4,7 +4,7 @@
  */
 const migrations = {
   '1.0.0': (store) => {
-    store.set('updateChannels', ['latest'])
+    store.set('updateChannel', 'latest')
   }
 }
 

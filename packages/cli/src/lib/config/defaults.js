@@ -22,10 +22,9 @@ export default {
    */
   quireVersion: 'latest',
   /**
-   * A list of distribution tags to use when checking for version updates.
-   * To show notifications for pre-releases version updates include `'pre-release'` in the array of channels.
+   * A npm distribution tag to use when checking for version updates
    */
-  updateChannels: ['latest', 'rc'],
+  updateChannels: 'rc',
   /**
    * Interval at which to check for updates to the Quire CLI and project's `quire-11ty` version.
    */
