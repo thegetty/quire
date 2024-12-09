@@ -18,8 +18,8 @@ export default {
   quireVersion: {
     type: 'string'
   },
-  updateChannels: {
-    type: 'array'
+  updateChannel: {
+    type: 'string'
   },
   updateInterval: {
     type: 'string'
