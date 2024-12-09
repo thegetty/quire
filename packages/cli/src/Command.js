@@ -1,4 +1,4 @@
-import config from '#src/lib/config'
+import config from '#src/lib/conf/config.js'
 
 /**
  * Command
@@ -14,6 +14,7 @@ export default class Command {
   /**
    * @typedef CommandDefinition
    * @property {String} name
+   * @property {String} alias
    * @property {Array<String>} aliases
    * @property {String} descriptions
    * @property {Array<CommandArgument>} args
@@ -26,6 +27,8 @@ export default class Command {
   /**
    * Constructs a new instance
    *
+   * Nota bene: Only the first command alias is displayed in the help.
+   *
    * @param {CommandDefinition}  definition  The definition
    */
   constructor(definition) {
@@ -34,6 +37,13 @@ export default class Command {
     }
 
     this.config = config // quire-cli configuration
+
+    /**
+     * Merge and deduplicate command definition alias and aliases
+     * Nota bene: Only the first command alias is displayed in the help.
+     */
+    // let aliases = Array.isArray(definition.aliases) ? definition.aliases || []
+    // aliases = new Set([ definition.alias, ...aliases ])
 
     this.name = definition.name
     this.aliases = definition.aliases

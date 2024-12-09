@@ -22,7 +22,9 @@ export default class InfoCommand extends Command {
     summary: 'list info',
     version: '1.0.0',
     args: [],
-    options: [['--debug', 'include os versions in output']],
+    options: [
+      ['--debug', 'include os versions in output']
+    ],
   }
 
   constructor() {

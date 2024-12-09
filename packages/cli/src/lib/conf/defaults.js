@@ -12,13 +12,13 @@ export default {
   /**
    * Project starter template to use when creating new projects.
    */
-  projectTemplate: 'quire-starter-default',
+  projectTemplate: 'https://github.com/thegetty/quire-starter-default',
   /**
    * Relative path to quire-11ty installed in the project directory.
    */
   quire11tyPath: '.',
   /**
-   * Version of quire-11ty to install when creating new Quire projects.
+   * Version of quire-11ty to install when creating new projects.
    */
   quireVersion: 'latest',
   /**

@@ -1,7 +1,7 @@
 #!/usr/bin/env -S node --no-warnings
 
 import cli from '#src/main.js'
-import config from '#src/lib/config'
+import config from '#src/lib/conf/config.js'
 import packageConfig from '#root/package.json' assert { type: 'json' }
 import updateNotifier from 'update-notifier'
 
@@ -17,16 +17,19 @@ const INTERVAL = Object.freeze({
   WEEKLY: 1000 * 60 * 60 * 24 * 7
 })
 
-const { updateChannel, updateIterval } = config
+const updateChannel = config.get('updateChannel')
+const updateIterval = config.get('updateIterval')
 
 /**
  * Create a notifier to Check for quire-cli updates
  * @see https://github.com/yeoman/update-notifier#usage
+ *
+ * @todo refactor to check multiple channels
  */
-const notifiers.push(updateNotifier({
-  distTag: updateChannel || 'latest',
+const notifier = updateNotifier({
+  distTag: updateChannel,
   pkg: packageConfig,
-  updateCheckInterval: INTERVAL[updateIterval] || 'DAILY',
+  updateCheckInterval: INTERVAL[updateIterval],
 })
 
 notifier.notify({ defer: false })
