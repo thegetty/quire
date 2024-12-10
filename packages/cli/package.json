@@ -19,7 +19,8 @@
   "type": "module",
   "files": [
     "bin/",
-    "scripts",
+    "patches/",
+    "scripts/",
     "src/",
     "CHANGELOG.md",
     "LICENSE",
@@ -36,7 +37,7 @@
   "scripts": {
     "lint": "eslint src --ext .js",
     "lint:fix": "npm run lint -- --fix",
-    "postinstall": "patch-package",
+    "postinstall": "cross-env patch-package --error-on-fail",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "imports": {
