@@ -12,6 +12,26 @@ Changelog entries are classified using the following labels:
 - `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
+## [1.0.0-rc.21]
+
+### Fixed
+
+- `canvas-panel` components were not responding to `ref` tag regions in all cases (`DEV-19079`)
+- Video and Table figures were not repsonsive to `ref` tag behaviors (`DEV-18548`)
+- Rotate-to-index attribute transitions could underrun their buffer
+
+## [1.0.0-rc.20]
+
+### Changed
+
+- Refactor image-sequence preloadImages to accept an indices parameter of indices to preload and return the promise of all fetch responses
+- Adds an animationIndex property for managing animation when rotating
+
+### Fixed
+
+- image-sequence rotation to an index on load
+- display of the rotation call to action
+
 ## [1.0.0-rc.19]
 
 ### Changed
