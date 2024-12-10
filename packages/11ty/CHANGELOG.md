@@ -12,6 +12,16 @@ Changelog entries are classified using the following labels:
 - `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
+## [1.0.0-rc.22]
+
+### Changed
+
+- Patch `@11ty/eleventy-plugin-vite` 11ty/eleventy-plugin-vite/issues/22
+
+### Fixed
+
+- Windows EPERM error when running `quire build`, DEV-13837
+
 ## [1.0.0-rc.21]
 
 ### Fixed
