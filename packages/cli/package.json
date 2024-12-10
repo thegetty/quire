@@ -1,7 +1,7 @@
 {
   "name": "@thegetty/quire-cli",
   "description": "Quire command-line interface",
-  "version": "1.0.0-rc.15",
+  "version": "1.0.0-rc.17",
   "author": "Getty Digital",
   "license": "SEE LICENSE IN https://github.com/thegetty/quire/blob/main/LICENSE",
   "bugs": {
@@ -19,7 +19,8 @@
   "type": "module",
   "files": [
     "bin/",
-    "scripts",
+    "patches/",
+    "scripts/",
     "src/",
     "CHANGELOG.md",
     "LICENSE",
@@ -36,6 +37,7 @@
   "scripts": {
     "lint": "eslint src --ext .js",
     "lint:fix": "npm run lint -- --fix",
+    "postinstall": "cross-env patch-package --error-on-fail",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "imports": {
@@ -58,11 +60,12 @@
     "hosted-git-info": "^6.1.1",
     "i18next": "^22.4.9",
     "inquirer": "^9.1.4",
-    "install-npm-version": "^1.0.8",
+    "install-npm-version": "^1.0.9",
     "js-yaml": "^4.1.0",
     "loglevel": "^1.8.1",
     "open": "^8.4.0",
     "ora": "^6.1.2",
+    "patch-package": "^8.0.0",
     "pagedjs-cli": "^0.4.3",
     "semver": "^7.3.8",
     "simple-git": "^3.16.0",
