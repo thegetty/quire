@@ -45,6 +45,8 @@ export default class CreateCommand extends Command {
       console.info('Command \'%s\' called with options %o', CreateCommand.name, options)
     }
 
+    starter = starter || this.config.get('projectTemplate')
+
     if (!projectPath && !starter) {
       // @TODO implement this case of interactively selecting starter templates
       // from available subtrees in `lib/quire` module

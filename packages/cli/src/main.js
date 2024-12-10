@@ -1,5 +1,6 @@
 import { Argument, Command, Option } from 'commander'
-import commands from './commands/index.js'
+import commands from '#src/commands/index.js'
+import config from '#lib/conf/config.js'
 import packageConfig from '../package.json' assert { type: 'json' }
 
 /**
@@ -12,7 +13,7 @@ import packageConfig from '../package.json' assert { type: 'json' }
 const program = new Command()
 
 program
-  .name('quire-cli')
+  .name('quire')
   .description('Quire command-line interface')
   .version(packageConfig.version,  '-v, --version', 'output quire version number')
   .configureHelp({
@@ -23,9 +24,12 @@ program
 
 /**
  * Register each command as a subcommand of this program
+ *
+ * @todo refactor command definition to allow for per-command custom help text
+ * @see https://github.com/tj/commander.js?tab=readme-ov-file#automated-help
  */
 commands.forEach((command) => {
-  const { action, aliases, args, description, name, options } = command
+  const { action, alias, aliases, args, description, name, options } = command
 
   const subCommand = program
     .command(name)
@@ -33,8 +37,12 @@ commands.forEach((command) => {
     .addHelpCommand()
     .showHelpAfterError()
 
+  if (alias instanceof String) {
+    subCommand.alias(alias)
+  }
+
   if (Array.isArray(aliases)) {
-    aliases.forEach((alias) => subCommand.alias(alias))
+    subCommand.aliases(aliases)
   }
 
   /**
@@ -103,6 +111,11 @@ commands.forEach((command) => {
 
   // subCommand.action((args) => action.apply(command, args))
   subCommand.action(action)
+
+  /**
+   * Inject the CLI configuration into commands
+   */
+  subCommand.config = config
 })
 
 /**

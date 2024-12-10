@@ -1,7 +1,7 @@
 {
   "name": "@thegetty/quire-cli",
   "description": "Quire command-line interface",
-  "version": "1.0.0-rc.17",
+  "version": "1.0.0-rc.18",
   "author": "Getty Digital",
   "license": "SEE LICENSE IN https://github.com/thegetty/quire/blob/main/LICENSE",
   "bugs": {
@@ -51,7 +51,7 @@
     "boxen": "^7.0.1",
     "chalk": "^5.2.0",
     "commander": "^10.0.0",
-    "conf": "^11.0.1",
+    "conf": "^13.1.0",
     "cross-env": "^7.0.3",
     "del": "^7.0.0",
     "epubjs-cli": "^0.1.6",
@@ -69,7 +69,7 @@
     "pagedjs-cli": "^0.4.3",
     "semver": "^7.3.8",
     "simple-git": "^3.16.0",
-    "update-notifier": "^6.0.2"
+    "update-notifier": "^7.3.1"
   },
   "devDependencies": {
     "eslint": "^8.32.0"

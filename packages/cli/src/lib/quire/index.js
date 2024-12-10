@@ -89,8 +89,6 @@ async function initStarter (starter, projectPath, options) {
     return
   }
 
-  starter = starter || 'https://github.com/thegetty/quire-starter-default'
-
   console.debug('[CLI:quire] init-starter',
     `\n  project root: "${projectPath}"`,
     `\n  starter: "${starter}"`
