@@ -12,6 +12,30 @@ Changelog entries are classified using the following labels:
 - `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
+## [1.0.0-rc.17]
+
+### Bumped
+
+- `install-npm-version` patch version
+
+### Changed
+
+- update patch `install-npm-version`
+
+## [1.0.0-rc.16]
+
+### Added
+
+- Patch for `install-npm-version`; see https://nodejs.org/en/blog/vulnerability/april-2024-security-releases-2
+
+### Changed
+
+**Nota bene** installing `quire-cli` as a _local package_ requires running `npm install` with the `--install-strategy=nested` flag; installing `quire-cli` as a global node module has not changed.
+
+### Fixed
+
+- Dependency instal error on Windows when running quire new DEV-19124
+
 ## [1.0.0-rc.12]
 
 ### Added
