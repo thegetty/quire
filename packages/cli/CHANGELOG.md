@@ -12,6 +12,14 @@ Changelog entries are classified using the following labels:
 - `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
+## [1.0.0-rc.19]
+
+### Added
+
+- `jsdoc-to-markdown` to development dependencies
+- JSDoc configuration (see https://jsdoc.app/about-configuring-jsdoc)
+- Npm script `docs` to run jsdoc-to-markdown
+
 ## [1.0.0-rc.18]
 
 ### Added

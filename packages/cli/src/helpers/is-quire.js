@@ -1,3 +1,7 @@
+/**
+ * A helper module to test if a directory is a Quire project root
+ * @module is-quire
+ */
 import fs from 'node:fs'
 
 const QUIRE_DOT_FILES = Object.freeze([

@@ -1,7 +1,7 @@
 {
   "name": "@thegetty/quire-cli",
   "description": "Quire command-line interface",
-  "version": "1.0.0-rc.18",
+  "version": "1.0.0-rc.19",
   "author": "Getty Digital",
   "license": "SEE LICENSE IN https://github.com/thegetty/quire/blob/main/LICENSE",
   "bugs": {
@@ -35,6 +35,7 @@
     "directory": "packages/cli"
   },
   "scripts": {
+    "docs": "jsdoc2md --configure jsdoc.json --files src/**/*.js > docs/cli.md",
     "lint": "eslint src --ext .js",
     "lint:fix": "npm run lint -- --fix",
     "postinstall": "cross-env patch-package --error-on-fail",
@@ -65,14 +66,15 @@
     "loglevel": "^1.8.1",
     "open": "^8.4.0",
     "ora": "^6.1.2",
-    "patch-package": "^8.0.0",
     "pagedjs-cli": "^0.4.3",
+    "patch-package": "^8.0.0",
     "semver": "^7.3.8",
     "simple-git": "^3.16.0",
     "update-notifier": "^7.3.1"
   },
   "devDependencies": {
-    "eslint": "^8.32.0"
+    "eslint": "^8.32.0",
+    "jsdoc-to-markdown": "^9.1.1"
   },
   "engines": {
     "node": ">=14.16"
