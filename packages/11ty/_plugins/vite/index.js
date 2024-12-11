@@ -84,7 +84,13 @@ module.exports = function (eleventyConfig, { directoryConfig, publication }) {
         preprocessorOptions: {
           scss: {
             api: 'modern-compiler',
-            quietDeps: true,
+            logger: {
+              warn(message, options) {
+                if (options.deprecation) return;
+                console.warn('Warning: %O', message)
+              }
+            },
+            silenceDeprecations: ['color-functions', 'import', 'mixed-decls']
           }
         }
       },
