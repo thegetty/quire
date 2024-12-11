@@ -4,9 +4,7 @@ import { fileURLToPath } from 'node:url'
 import fs from 'node:fs'
 import commands from '#src/commands/index.js'
 import config from '#lib/conf/config.js'
-
-const packagePath = join(fileURLToPath(import.meta.url), 'package.json')
-const packageConfig = JSON.parse(fs.readFileSync(packagePath, 'utf8'))
+import packageConfig from '#src/packageConfig.js'
 
 const { version } = packageConfig
 

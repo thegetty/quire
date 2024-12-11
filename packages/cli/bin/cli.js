@@ -1,15 +1,8 @@
 #!/usr/bin/env -S node --no-warnings
-import { dirname, join } from 'node:path'
-import { fileURLToPath } from 'node:url'
-import fs from 'node:fs'
 import cli from '#src/main.js'
 import config from '#src/lib/conf/config.js'
+import packageConfig from '#src/packageConfig.js'
 import updateNotifier from 'update-notifier'
-
-const __dirname = dirname(fileURLToPath(import.meta.url))
-
-const packagePath = join(__dirname, 'package.json')
-const packageConfig = JSON.parse(fs.readFileSync(packagePath, 'utf8'))
 
 process.removeAllListeners('warning')
 

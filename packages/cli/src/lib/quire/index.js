@@ -1,19 +1,14 @@
 import { IS_WINDOWS } from '#helpers/os-utils.js'
 import { chdir, cwd } from 'node:process'
 import { execa, execaCommand } from 'execa'
-import { fileURLToPath } from 'node:url'
 import { isEmpty } from '#helpers/is-empty.js'
 import fetch from 'node-fetch'
 import fs from 'fs-extra'
 import git from '#src/lib/git/index.js'
 import inv from 'install-npm-version'
+import packageConfig from '#src/packageConfig.js'
 import path from 'node:path'
 import semver from 'semver'
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
-
-const packagePath = path.join(__dirname, 'package.json')
-const packageConfig = JSON.parse(fs.readFileSync(packagePath, 'utf8'))
 
 const { name: PACKAGE_NAME } = packageConfig
 

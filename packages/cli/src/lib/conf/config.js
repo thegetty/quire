@@ -1,15 +1,8 @@
-import { fileURLToPath } from 'node:url'
 import Conf from 'conf'
 import defaults from './defaults.js'
-import fs from 'node:fs'
 import migrations from './migrations.js'
-import path from 'node:path'
+import packageConfig from '#src/packageConfig.js'
 import schema from './schema.js'
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
-
-const packagePath = path.join(__dirname, 'package.json')
-const packageConfig = JSON.parse(fs.readFileSync(packagePath, 'utf8'))
 
 const { name, version } = packageConfig
 

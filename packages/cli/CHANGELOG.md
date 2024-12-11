@@ -12,6 +12,17 @@ Changelog entries are classified using the following labels:
 - `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
+## [1.0.0-rc.22]
+
+### Added
+
+- `read-package-up` to dependencies
+- `packageConfig` module, exports parsed `package.json` configuration file
+
+### Changed
+
+- Read package configuration using `read-package-up` and export the  configuration object from the `packageConfig` module
+
 ## [1.0.0-rc.21]
 
 ### Fixed
