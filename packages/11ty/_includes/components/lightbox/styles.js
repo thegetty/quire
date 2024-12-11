@@ -20,7 +20,18 @@ module.exports = function (eleventyConfig) {
   if (!fs.existsSync(lightboxStylesPath)) {
     logger.warn(`q-lightbox component styles were not found at ${lightboxStylesPath}, this may cause the lightbox to behave unexpectedly.`)
   } else {
-    lightboxCSS = sass.compile(lightboxStylesPath)
+    const sassOptions = {
+      api: 'modern-compiler',
+      loadPaths: [path.resolve('node_modules')],
+      silenceDeprecations: [
+        'color-functions',
+        'global-builtin',
+        'import',
+        'legacy-js-api',
+        'mixed-decls'
+      ]
+    }
+    lightboxCSS = sass.compile(lightboxStylesPath, sassOptions)
   }
 
   return function () {

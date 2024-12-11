@@ -76,6 +76,25 @@ module.exports = function (eleventyConfig, { directoryConfig, publication }) {
         sourcemap: true
       },
       /**
+       * Configure style pre-procssing
+       * @see https://vite.dev/config/shared-options#css-preprocessoroptions
+       * @see https://sass-lang.com/documentation/js-api/interfaces/options/
+       */
+      css: {
+        preprocessorOptions: {
+          scss: {
+            api: 'modern-compiler',
+            silenceDeprecations: [
+              'color-functions',
+              'global-builtin',
+              'import',
+              'legacy-js-api',
+              'mixed-decls'
+            ]
+          }
+        }
+      },
+      /**
        * Set to false to prevent Vite from clearing the terminal screen
        * and have Vite logging messages rendered alongside Eleventy output.
        */
