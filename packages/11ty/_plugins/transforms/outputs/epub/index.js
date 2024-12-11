@@ -43,8 +43,14 @@ module.exports = (eleventyConfig, collections) => {
      * Copy styles
      */
     const sassOptions = {
-      loadPaths: [
-        path.resolve('node_modules')
+      api: 'modern-compiler',
+      loadPaths: [path.resolve('node_modules')],
+      silenceDeprecations: [
+        'color-functions',
+        'global-builtin',
+        'import',
+        'legacy-js-api',
+        'mixed-decls'
       ]
     }
     const styles = sass.compile(path.resolve('content', assetsDir, 'styles', 'epub.scss'), sassOptions)

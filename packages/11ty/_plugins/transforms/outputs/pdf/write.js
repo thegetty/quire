@@ -59,14 +59,13 @@ module.exports = (eleventyConfig) => {
     const sassOptions = {
       api: 'modern-compiler',
       loadPaths: [path.resolve('node_modules')],
-      // logger: {
-      //   warn(message, options) {
-      //     if (options.deprecation) return;
-      //     console.warn('Warning: %O', message)
-      //   }
-      // },
-      quietDeps: true,
-      silenceDeprecations: ['color-functions', 'import', 'mixed-decls']
+      silenceDeprecations: [
+        'color-functions',
+        'global-builtin',
+        'import',
+        'legacy-js-api',
+        'mixed-decls'
+      ]
     }
 
     try {
