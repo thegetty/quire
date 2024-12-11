@@ -1,7 +1,14 @@
 import { Argument, Command, Option } from 'commander'
+import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import fs from 'node:fs'
 import commands from '#src/commands/index.js'
 import config from '#lib/conf/config.js'
-import packageConfig from '../package.json' assert { type: 'json' }
+
+const packagePath = join(fileURLToPath(import.meta.url), 'package.json')
+const packageConfig = JSON.parse(fs.readFileSync(packagePath, 'utf8'))
+
+const { version } = packageConfig
 
 /**
  * Quire CLI implements the command pattern.
@@ -15,7 +22,7 @@ const program = new Command()
 program
   .name('quire')
   .description('Quire command-line interface')
-  .version(packageConfig.version,  '-v, --version', 'output quire version number')
+  .version(version,  '-v, --version', 'output quire version number')
   .configureHelp({
     helpWidth: 80,
     sortOptions: false,

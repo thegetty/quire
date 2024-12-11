@@ -7,16 +7,18 @@ import fetch from 'node-fetch'
 import fs from 'fs-extra'
 import git from '#src/lib/git/index.js'
 import inv from 'install-npm-version'
-import packageConfig from '#root/package.json' assert { type: 'json' }
 import path from 'node:path'
 import semver from 'semver'
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+
+const packagePath = path.join(__dirname, 'package.json')
+const packageConfig = JSON.parse(fs.readFileSync(packagePath, 'utf8'))
+
+const { name: PACKAGE_NAME } = packageConfig
 
 // Version install path is relative to process working directory
 const INSTALL_PATH = path.join('src', 'lib', 'quire', 'versions')
-const PACKAGE_NAME = '@thegetty/quire-11ty'
 const VERSION_FILE = '.quire'
 
 /**
