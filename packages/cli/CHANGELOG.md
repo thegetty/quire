@@ -12,6 +12,12 @@ Changelog entries are classified using the following labels:
 - `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
+## [1.0.0-rc.21]
+
+### Fixed
+
+- Fixed missing import of `node:path`
+
 ## [1.0.0-rc.20]
 
 ### Changed

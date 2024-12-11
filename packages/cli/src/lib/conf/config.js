@@ -1,8 +1,9 @@
 import { fileURLToPath } from 'node:url'
-import fs from 'node:fs'
 import Conf from 'conf'
 import defaults from './defaults.js'
+import fs from 'node:fs'
 import migrations from './migrations.js'
+import path from 'node:path'
 import schema from './schema.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
