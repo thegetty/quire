@@ -1,3 +1,7 @@
+/**
+ * A helper module to test the current working directory
+ * @module test-csd
+ */
 import isQuire from '#helpers/is-quire.js'
 
 /**

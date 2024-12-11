@@ -1,3 +1,7 @@
+/**
+ * A helper module to wrap the `which` utility
+ * @module which
+ */
 import which from 'which'
 
 /**

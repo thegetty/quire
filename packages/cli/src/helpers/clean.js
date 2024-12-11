@@ -1,3 +1,7 @@
+/**
+ * A helper module for cleaning quire outputs
+ * @module clean
+ */
 import { deleteAsync } from 'del'
 import path from 'node:path'
 
