@@ -1,7 +1,4 @@
 import { Argument, Command, Option } from 'commander'
-import { dirname, join } from 'node:path'
-import { fileURLToPath } from 'node:url'
-import fs from 'node:fs'
 import commands from '#src/commands/index.js'
 import config from '#lib/conf/config.js'
 import packageConfig from '#src/packageConfig.js'
