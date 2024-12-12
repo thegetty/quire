@@ -25,11 +25,15 @@ Changelog entries are classified using the following labels:
 
 ## [1.0.0-rc.21]
 
+:warning: broken release candidate
+
 ### Fixed
 
 - Fixed missing import of `node:path`
 
 ## [1.0.0-rc.20]
+
+:warning: broken release candidate
 
 ### Changed
 
