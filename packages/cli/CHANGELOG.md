@@ -12,28 +12,7 @@ Changelog entries are classified using the following labels:
 - `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
-## [1.0.0-rc.22]
-
-### Added
-
-- `read-package-up` to dependencies
-- `packageConfig` module, exports parsed `package.json` configuration file
-
-### Changed
-
-- Read package configuration using `read-package-up` and export the  configuration object from the `packageConfig` module
-
-## [1.0.0-rc.21]
-
-:warning: broken release candidate
-
-### Fixed
-
-- Fixed missing import of `node:path`
-
-## [1.0.0-rc.20]
-
-:warning: broken release candidate
+## [1.0.0-rc.23]
 
 ### Changed
 
@@ -42,6 +21,18 @@ Changelog entries are classified using the following labels:
 ### Fixed
 
 - Quire new command fails with newer version of Node #968
+
+## [1.0.0-rc.22]
+
+:warning: broken release candidate
+
+## [1.0.0-rc.21]
+
+:warning: broken release candidate
+
+## [1.0.0-rc.20]
+
+:warning: broken release candidate
 
 ## [1.0.0-rc.19]
 
