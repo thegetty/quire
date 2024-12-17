@@ -10,8 +10,6 @@ import packageConfig from '#src/packageConfig.js'
 import path from 'node:path'
 import semver from 'semver'
 
-const { name: PACKAGE_NAME } = packageConfig
-
 // Version install path is relative to process working directory
 const INSTALL_PATH = path.join('src', 'lib', 'quire', 'versions')
 const VERSION_FILE = '.quire'
@@ -22,7 +20,7 @@ const VERSION_FILE = '.quire'
  * @return  {String}  path to installed `quire-11ty` version
  */
 function getPath(version='latest') {
-  const absolutePath = path.relative('/', `${INSTALL_PATH}/${version}`)
+  const absolutePath = path.relative('/', path.join(INSTALL_PATH, version))
   if (!fs.existsSync(absolutePath)) {
     console.error(`[CLI:quire] \`quire-11ty@${version}\` is not installed`)
     return null
@@ -58,7 +56,7 @@ function getVersion(projectPath) {
 async function getVersionsFromStarter(projectPath) {
   const projectPackageConfig = fs.readFileSync(path.join(projectPath, 'package.json'), { encoding:'utf8' })
   const { peerDependencies, version: starterVersion } = JSON.parse(projectPackageConfig)
-  const quire11tyVersion = peerDependencies[PACKAGE_NAME]
+  const quire11tyVersion = peerDependencies['@thegetty/quire-11ty']
   return { quire11tyVersion, starterVersion }
 }
 
@@ -111,9 +109,9 @@ async function initStarter (starter, projectPath, options) {
   setVersion(projectPath, quireVersion)
 
   /**
-   * Write quire-11ty, cli, starter name and version to VERSION_FILE
+   * Write quire-11ty, quire-cli, starter@version to the version file
    */
-  const versionInfo = { 
+  const versionInfo = {
     cli: packageConfig.version,
     starter: `${starter}@${starterVersion}`,
   }
@@ -182,8 +180,7 @@ async function install(options = {}) {
    * the final `_site` package when running `quire build`
    */
   const currentWorkingDirectory = cwd()
-  const versionDir = path.join(absoluteInstallPath, version)
-  chdir(versionDir)
+  chdir(path.join(absoluteInstallPath, version))
   await execaCommand('npm cache clean --force')
   await execaCommand('npm install --save-dev')
 }
