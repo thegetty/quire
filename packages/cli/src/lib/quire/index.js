@@ -16,14 +16,14 @@ const PACKAGE_NAME = '@thegetty/quire-11ty'
 const VERSION_FILE = '.quire'
 
 /**
- * Return an absolute path to an installed `quire-11ty` version
+ * Return an absolute path to an installed quire-11ty version
  *
- * @return  {String}  path to installed `quire-11ty` version
+ * @return  {String}  path to installed quire-11ty version
  */
 function getPath(version='latest') {
   const absolutePath = path.relative('/', path.join(INSTALL_PATH, version))
   if (!fs.existsSync(absolutePath)) {
-    console.error(`[CLI:quire] \`quire-11ty@${version}\` is not installed`)
+    console.error(`[CLI:quire] quire-11ty@${version} is not installed`)
     return null
   }
   console.debug(`[CLI:quire] %s`, absolutePath)
@@ -31,7 +31,7 @@ function getPath(version='latest') {
 }
 
 /**
- * Read the required `quire-11ty` version for the project `.quire` file
+ * Read the required quire-11ty version for the quire version file
  *
  * @param    {String}   projectPath  Absolute system path to the project root
  *
@@ -46,7 +46,7 @@ function getVersion(projectPath) {
 }
 
 /**
- * Read the required `quire-11ty` and starter versions from starter `package.json` `peerDependencies`
+ * Read required quire-11ty and starter versions from starter peerDependencies
  *
  * @param    {String}   projectPath  Absolute system path to the project root
  *
@@ -100,17 +100,17 @@ async function initStarter (starter, projectPath, options) {
     .catch((error) => console.error('[CLI:error] ', error))
 
   /**
-   * Determine the `quire-11ty` version to use in the new project,
-   * from the `quireVersion` option or as required by the starter project.
+   * Determine the quire-11ty version to use in the new project,
+   * from the quireVersion option or as required by the starter project.
    *
-   * Uses `latest` to get the latest semantic version compatible with version ranges
+   * Uses 'latest' to get the latest semantic version compatible with version ranges
    */
   const { quire11tyVersion, starterVersion } = await getVersionsFromStarter(projectPath)
   const quireVersion = await latest(options.quireVersion || quire11tyVersion)
   setVersion(projectPath, quireVersion)
 
   /**
-   * Write quire-11ty, quire-cli, starter@version to the version file
+   * Write quire-11ty, quire-cli, starter versions to the version file
    */
   const versionInfo = {
     cli: packageConfig.version,
@@ -141,7 +141,7 @@ async function initStarter (starter, projectPath, options) {
 }
 
 /**
- * Install `quire-11ty`, default to 'latest' version
+ * Install quire-11ty (default to 'latest' version)
  *
  * @TODO refactor this to be callable by the installInProject method
  *
