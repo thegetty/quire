@@ -12,6 +12,7 @@ import semver from 'semver'
 
 // Version install path is relative to process working directory
 const INSTALL_PATH = path.join('src', 'lib', 'quire', 'versions')
+const PACKAGE_NAME = '@thegetty/quire-11ty'
 const VERSION_FILE = '.quire'
 
 /**
@@ -56,7 +57,7 @@ function getVersion(projectPath) {
 async function getVersionsFromStarter(projectPath) {
   const projectPackageConfig = fs.readFileSync(path.join(projectPath, 'package.json'), { encoding:'utf8' })
   const { peerDependencies, version: starterVersion } = JSON.parse(projectPackageConfig)
-  const quire11tyVersion = peerDependencies['@thegetty/quire-11ty']
+  const quire11tyVersion = peerDependencies[PACKAGE_NAME]
   return { quire11tyVersion, starterVersion }
 }
 
