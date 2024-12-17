@@ -12,15 +12,19 @@ Changelog entries are classified using the following labels:
 - `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
-## [1.0.0-rc.23]
+## [1.0.0-rc.24]
 
 ### Changed
 
-- Replace Node `import` assertions (deprecated) with file operations
+- Replace Node `import` assertions (deprecated) with a packageConfig module
 
 ### Fixed
 
 - Quire new command fails with newer version of Node #968
+
+## [1.0.0-rc.23]
+
+:warning: broken release candidate
 
 ## [1.0.0-rc.22]
 
