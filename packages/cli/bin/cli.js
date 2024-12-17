@@ -1,8 +1,7 @@
 #!/usr/bin/env -S node --no-warnings
-
 import cli from '#src/main.js'
 import config from '#src/lib/conf/config.js'
-import packageConfig from '#root/package.json' assert { type: 'json' }
+import packageConfig from '#src/packageConfig.js'
 import updateNotifier from 'update-notifier'
 
 process.removeAllListeners('warning')

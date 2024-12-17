@@ -1,7 +1,9 @@
 import { Argument, Command, Option } from 'commander'
 import commands from '#src/commands/index.js'
 import config from '#lib/conf/config.js'
-import packageConfig from '../package.json' assert { type: 'json' }
+import packageConfig from '#src/packageConfig.js'
+
+const { version } = packageConfig
 
 /**
  * Quire CLI implements the command pattern.
@@ -15,7 +17,7 @@ const program = new Command()
 program
   .name('quire')
   .description('Quire command-line interface')
-  .version(packageConfig.version,  '-v, --version', 'output quire version number')
+  .version(version,  '-v, --version', 'output quire version number')
   .configureHelp({
     helpWidth: 80,
     sortOptions: false,

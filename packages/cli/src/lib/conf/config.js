@@ -1,8 +1,8 @@
 import Conf from 'conf'
 import defaults from './defaults.js'
 import migrations from './migrations.js'
+import packageConfig from '#src/packageConfig.js'
 import schema from './schema.js'
-import packageConfig from '#root/package.json' assert { type: 'json' }
 
 const { name, version } = packageConfig
 
