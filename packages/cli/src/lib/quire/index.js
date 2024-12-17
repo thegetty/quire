@@ -1,26 +1,33 @@
 import { IS_WINDOWS } from '#helpers/os-utils.js'
 import { chdir, cwd } from 'node:process'
 import { execa, execaCommand } from 'execa'
+import { fileURLToPath } from 'node:url'
 import { isEmpty } from '#helpers/is-empty.js'
+import config from '#lib/conf/config.js'
 import fetch from 'node-fetch'
 import fs from 'fs-extra'
-import git from '#src/lib/git/index.js'
+import git from '#lib/git/index.js'
 import inv from 'install-npm-version'
 import packageConfig from '#src/packageConfig.js'
 import path from 'node:path'
 import semver from 'semver'
 
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
 // Version install path is relative to process working directory
 const INSTALL_PATH = path.join('src', 'lib', 'quire', 'versions')
 const PACKAGE_NAME = '@thegetty/quire-11ty'
-const VERSION_FILE = '.quire'
+
+const QUIRE_VERSION = config.get('quireVersion')
+const VERSION_FILE = config.get('versionFile')
 
 /**
  * Return an absolute path to an installed quire-11ty version
  *
  * @return  {String}  path to installed quire-11ty version
  */
-function getPath(version='latest') {
+function getPath(version=QUIRE_VERSION) {
   const absolutePath = path.relative('/', path.join(INSTALL_PATH, version))
   if (!fs.existsSync(absolutePath)) {
     console.error(`[CLI:quire] quire-11ty@${version} is not installed`)
@@ -86,8 +93,8 @@ async function initStarter (starter, projectPath, options) {
   }
 
   console.debug('[CLI:quire] init-starter',
-    `\n  project root: "${projectPath}"`,
-    `\n  starter: "${starter}"`
+    `\n  project: ${path.join(__dirname, projectPath)}`,
+    `\n  starter: ${starter}`
   )
 
   /**
@@ -149,7 +156,7 @@ async function initStarter (starter, projectPath, options) {
  * @return  {Promise}
  */
 async function install(options = {}) {
-  const version = options.quireVersion || 'latest'
+  const version = options.quireVersion || QUIRE_VERSION
   console.debug(`[CLI:quire] installing quire-11ty@${version}`)
   const absoluteInstallPath = path.join(__dirname, 'versions')
   fs.ensureDirSync(absoluteInstallPath)
@@ -180,7 +187,6 @@ async function install(options = {}) {
    * these must be `devDependencies` so that they are not bundled into
    * the final `_site` package when running `quire build`
    */
-  const currentWorkingDirectory = cwd()
   chdir(path.join(absoluteInstallPath, version))
   await execaCommand('npm cache clean --force')
   await execaCommand('npm install --save-dev')

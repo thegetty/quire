@@ -12,6 +12,16 @@ Changelog entries are classified using the following labels:
 - `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
+## [1.0.0-rc.25]
+
+### Changed
+
+- Use quire-cli config values for quire-11ty version and version file name
+
+### Fixed
+
+- Install path for quire-11ty versions
+
 ## [1.0.0-rc.24]
 
 ### Changed
