@@ -9,7 +9,7 @@
  *
  * @return {String} TOC item markup
  */
-module.exports = function (eleventyConfig) {
+export default function(eleventyConfig) {
   const tableOfContentsGridItem = eleventyConfig.getFilter('tableOfContentsGridItem')
   const tableOfContentsListItem = eleventyConfig.getFilter('tableOfContentsListItem')
 

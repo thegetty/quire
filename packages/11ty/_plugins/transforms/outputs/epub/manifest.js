@@ -1,5 +1,5 @@
-const chalkFactory = require('~lib/chalk')
-const path = require('path')
+import chalkFactory from '#lib/chalk/index.js'
+import path from 'node:path'
 
 const logger = chalkFactory('_plugins:epub:manifest')
 
@@ -9,7 +9,7 @@ const logger = chalkFactory('_plugins:epub:manifest')
  * @param  {Object} publication
  * @return {Object}
  */
-module.exports = (eleventyConfig) => {
+export default (eleventyConfig) => {
   const removeHTML = eleventyConfig.getFilter('removeHTML')
   const sortByKeys = eleventyConfig.getFilter('sortByKeys')
 
@@ -85,16 +85,16 @@ module.exports = (eleventyConfig) => {
    * Publication title, subtitle, and reading line
    */
   const pubTitle = () => {
-    const separator = title.match(/[.,:!?]$/) ? '' : ':';
+    const separator = title.match(/[.,:!?]$/) ? '' : ':'
     switch (true) {
       case !!subtitle && !!readingLine:
-        return `${title}${separator} ${subtitle} ${readingLine}`;
+        return `${title}${separator} ${subtitle} ${readingLine}`
       case !!readingLine:
-        return `${title} (${readingLine})`;
+        return `${title} (${readingLine})`
       case !!subtitle:
-        return `${title}${separator} ${subtitle}`;
+        return `${title}${separator} ${subtitle}`
       default:
-        return title;
+        return title
     }
   }
 

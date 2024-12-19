@@ -1,5 +1,5 @@
-const chalkFactory = require('~lib/chalk')
-const { html } = require('~lib/common-tags')
+import chalkFactory from '#lib/chalk/index.js'
+import { html } from '#lib/common-tags/index.js'
 
 const logger = chalkFactory('shortcodes:contributors')
 
@@ -14,7 +14,7 @@ const logger = chalkFactory('shortcodes:contributors')
  *
  * @return {String} Markup for contributors
  */
-module.exports = function (eleventyConfig) {
+export default function(eleventyConfig) {
   const contributorBio = eleventyConfig.getFilter('contributorBio')
   const fullname = eleventyConfig.getFilter('fullname')
   const getContributor = eleventyConfig.getFilter('getContributor')

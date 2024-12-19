@@ -1,6 +1,6 @@
-const copy = require('rollup-plugin-copy')
-const path = require('path')
-const EleventyVitePlugin = require('@11ty/eleventy-plugin-vite')
+import EleventyVitePlugin from '@11ty/eleventy-plugin-vite'
+import copy from 'rollup-plugin-copy'
+import path from 'node:path'
 
 /**
  * Use Vite to bundle JavaScript
@@ -12,7 +12,7 @@ const EleventyVitePlugin = require('@11ty/eleventy-plugin-vite')
  * @param {Object} eleventyConfig
  * @param {Object} globalData
  */
-module.exports = function (eleventyConfig, { directoryConfig, publication }) {
+export default function(eleventyConfig, { directoryConfig, publication }) {
   const { pathname } = publication
   const { inputDir, outputDir, publicDir } = directoryConfig
 

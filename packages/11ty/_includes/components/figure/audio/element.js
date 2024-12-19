@@ -1,5 +1,5 @@
-const { html } = require('~lib/common-tags')
-const chalkFactory = require('~lib/chalk')
+import { html } from '#lib/common-tags/index.js'
+import chalkFactory from '#lib/chalk/index.js'
 
 const logger = chalkFactory('Figure Video')
 
@@ -15,7 +15,7 @@ const logger = chalkFactory('Figure Video')
  *
  * @return     {String}  An embedded soundcloud player
  */
-module.exports = function (eleventyConfig) {
+export default function(eleventyConfig) {
   const figureMediaEmbedUrl = eleventyConfig.getFilter('figureMediaEmbedUrl')
   const audioElements = {
     soundcloud({ id, mediaId, mediaType, lazyLoading }) {

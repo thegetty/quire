@@ -1,5 +1,5 @@
-const { html } = require('~lib/common-tags')
- 
+import { html } from '~lib/common-tags.js'
+
 /**
  * Lightbox Tag
  * @todo add conditional rendering for epub and pdf when lightbox is included in `entry`
@@ -7,7 +7,7 @@ const { html } = require('~lib/common-tags')
  * @param      {Object}  eleventyConfig
  * @param      {Object}  globalData
  */
-module.exports = function (eleventyConfig, { page }) {
+export default function (eleventyConfig, { page }) {
   const lightboxData = eleventyConfig.getFilter('lightboxData')
   const lightboxUI = eleventyConfig.getFilter('lightboxUI')
 

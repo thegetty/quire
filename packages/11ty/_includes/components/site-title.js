@@ -6,7 +6,7 @@
  * 
  * @return  {String} Site title
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const { publication } = eleventyConfig.globalData
   const { reading_line: readingLine, subtitle, title } = publication
   return function() {

@@ -14,12 +14,12 @@ import '../../styles/screen.scss'
 import '../../styles/custom.css'
 
 // Modules (feel free to define your own and import here)
-import './canvas-panel'
+import './canvas-panel.js'
 import './soundcloud-api.min.js'
-import { goToFigureState, setUpUIEventHandlers } from './canvas-panel'
-import Accordion from './accordion'
+import { goToFigureState, setUpUIEventHandlers } from './canvas-panel.js'
+import Accordion from './accordion.js'
 import Search from '../../../../_plugins/search/search.js'
-import scrollToHash from './scroll-to-hash'
+import scrollToHash from './scroll-to-hash.js'
 
 // array of leaflet instances
 const mapArr = []

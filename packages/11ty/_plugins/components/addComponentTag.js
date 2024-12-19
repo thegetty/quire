@@ -1,5 +1,5 @@
-const liquidArgs = require('liquid-args')
-// const { Liquid, Hash } = require('liquidjs')
+import liquidArgs from 'liquid-args'
+// import { Liquid, Hash } from 'liquidjs'
 
 /**
  * Adds a custom tag to template languages for a shortcode component.
@@ -12,7 +12,7 @@ const liquidArgs = require('liquid-args')
  * @param  {Object}  component       A JavaScript shortcode component
  * @param  {String}  tagName         A template tag name for the component
  */
-module.exports = function(eleventyConfig, tagName, component) {
+export default function(eleventyConfig, tagName, component) {
   /**
    * JavaScript template function
    * @see https://www.11ty.dev/docs/languages/javascript/#javascript-template-functions

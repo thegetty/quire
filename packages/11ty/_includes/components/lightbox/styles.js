@@ -1,8 +1,8 @@
-const chalkFactory = require('~lib/chalk')
-const fs = require('fs')
-const { html } = require('~lib/common-tags')
-const path = require('path')
-const sass = require('sass')
+import { html } from '~lib/common-tags.js'
+import chalkFactory from '~lib/chalk.js'
+import fs from 'fs'
+import path from 'node:path'
+import sass from 'sass'
 
 const logger = chalkFactory('lightbox:styles')
 
@@ -12,7 +12,7 @@ const logger = chalkFactory('lightbox:styles')
  * @param      {Object}  eleventyConfig
  * @return     {Function} 11ty component returning a slotted `style` tag
  */
-module.exports = function (eleventyConfig) {
+export default function (eleventyConfig) {
   const lightboxStylesPath = path.resolve('content/_assets/styles/components/q-lightbox.scss')
 
   let lightboxCSS = {css:''}

@@ -1,12 +1,12 @@
-const CanvasBuilder = require('./canvas-builder')
-const chalkFactory = require('~lib/chalk')
-const fs = require('fs-extra')
-const path = require('path')
-const SequenceBuilder = require('./sequence-builder')
-const titleCase = require('~plugins/filters/titleCase')
-const Writer = require('./writer')
-const { globalVault } = require('@iiif/vault')
-const { IIIFBuilder } = require('iiif-builder')
+import { IIIFBuilder } from '@iiif/builder'
+import { globalVault } from '@iiif/vault'
+import CanvasBuilder from './canvas-builder.js'
+import SequenceBuilder from './sequence-builder.js'
+import Writer from './writer.js'
+import chalkFactory from '#lib/chalk/index.js'
+import fs from 'fs-extra'
+import path from 'node:path'
+import titleCase from '#plugins/filters/titleCase.js'
 
 const logger = chalkFactory('Figures:IIIF:Manifest', 'DEBUG')
 
@@ -16,7 +16,7 @@ const builder = new IIIFBuilder(vault)
 /**
  * Create a IIIF manifest from a Figure instance
  */
-module.exports = class Manifest {
+export default class Manifest {
   constructor(figure) {
     const { iiifConfig } = figure
     const { locale } = iiifConfig

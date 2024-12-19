@@ -1,7 +1,7 @@
-const chalkFactory = require('~lib/chalk')
-const { oneLine } = require('~lib/common-tags')
+import chalkFactory from '#lib/chalk/index.js'
+import { oneLine } from '#lib/common-tags/index.js'
 const logger = chalkFactory(`Shortcodes:ref`)
-const path = require('path')
+import path from 'node:path'
 
 /**
  * ref Shortcode
@@ -17,7 +17,7 @@ const path = require('path')
  *
  * @return     {String}  Anchor tag with link text annotation and region data attributes
  */
-module.exports = function (eleventyConfig) {
+export default function(eleventyConfig) {
   const getFigure = eleventyConfig.getFilter('getFigure')
   const markdownify = eleventyConfig.getFilter('markdownify')
 

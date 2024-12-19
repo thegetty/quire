@@ -1,11 +1,11 @@
-const { html } = require('~lib/common-tags')
+import { html } from '#lib/common-tags/index.js'
 
 /**
  * Google Analytics
  * @param      {Object}  eleventyConfig
  * @param      {Object}  data
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const { googleId } = eleventyConfig.globalData.config.analytics
   return function(params) {
     if (!googleId) return ''

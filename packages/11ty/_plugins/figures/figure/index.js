@@ -1,15 +1,11 @@
-const chalkFactory = require('~lib/chalk')
-const Annotation = require('../annotation')
-const AnnotationFactory = require('../annotation/factory')
-const Manifest = require('../iiif/manifest')
-const path = require('path')
-const SequenceFactory = require('../sequence/factory')
-const sharp = require('sharp')
-const {
-  isCanvas,
-  isImageService,
-  isSequence
-} = require('../helpers')
+import { isCanvas, isImageService, isSequence } from '../helpers/index.js'
+import Annotation from '../annotation/index.js'
+import AnnotationFactory from '../annotation/factory.js'
+import Manifest from '../iiif/manifest/index.js'
+import SequenceFactory from '../sequence/factory.js'
+import chalkFactory from '#lib/chalk/index.js'
+import path from 'node:path'
+import sharp from 'sharp'
 
 const logger = chalkFactory('Figures:Figure', 'DEBUG')
 
@@ -27,7 +23,7 @@ const logger = chalkFactory('Figures:Figure', 'DEBUG')
  * @property {String} manifestId ID of IIIF manifest
  * @property {String} printImage Optional path to an alternate image to use in print
  */
-module.exports = class Figure {
+export default class Figure {
   constructor(iiifConfig, imageProcessor, data) {
     const { baseURI, dirs, manifestFileName } = iiifConfig
     const outputDir = path.join(dirs.outputPath, data.id)

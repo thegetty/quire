@@ -1,9 +1,9 @@
-const Annotation = require('./index')
+import Annotation from './index.js'
 
 /**
  * The AnnotationFactory creates annotations for a Figure instance
  */
-module.exports = class AnnotationFactory {
+export default class AnnotationFactory {
   /**
    * @param  {Figure} figure
    */

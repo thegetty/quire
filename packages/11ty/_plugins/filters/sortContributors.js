@@ -8,7 +8,7 @@
  * @param  {Array} contributors
  * @return {Object}                object
  */
-module.exports = function(eleventyConfig, contributors) {
+export default function(eleventyConfig, contributors) {
   const fullname = eleventyConfig.getFilter('fullname')
   return contributors
     .map((item) => {

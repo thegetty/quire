@@ -7,7 +7,7 @@
  * extracts the table of contents `collection` for the current output,
  * and provides it to `tableOfContentsList`.
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const renderOutputs = eleventyConfig.getFilter('renderOutputs')
   return function(params) {
     return renderOutputs(__dirname, params)

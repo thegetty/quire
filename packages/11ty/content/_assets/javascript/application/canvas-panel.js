@@ -1,7 +1,7 @@
-import Accordion from './accordion'
-import { intersectionObserverFactory } from './intersection-observer-factory'
-import poll from './poll'
-import scrollToHash from './scroll-to-hash'
+import { intersectionObserverFactory } from './intersection-observer-factory.js'
+import Accordion from './accordion.js'
+import poll from './poll.js'
+import scrollToHash from './scroll-to-hash.js'
 
 /**
  * Get annotation data from annotaitons UI input element

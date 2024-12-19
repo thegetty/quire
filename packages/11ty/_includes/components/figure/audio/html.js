@@ -1,5 +1,5 @@
-const { html } = require('~lib/common-tags')
-const chalkFactory = require('~lib/chalk')
+import { html } from '#lib/common-tags/index.js'
+import chalkFactory from '#lib/chalk/index.js'
 
 /**
  * Renders an iframe element with the SoundCloud audio player
@@ -9,7 +9,7 @@ const chalkFactory = require('~lib/chalk')
  *
  * @return     {String}  An embedded SoundCloud player and a caption
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const figureCaption = eleventyConfig.getFilter('figureCaption')
   const figureImage = eleventyConfig.getFilter('figureImage')
   const figureLabel = eleventyConfig.getFilter('figureLabel')

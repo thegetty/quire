@@ -1,4 +1,4 @@
-const isSequence = require('./is-sequence.js')
+import isSequence from './is-sequence.js'
 
 /**
  * Figure `isCanvas` helper
@@ -8,7 +8,7 @@ const isSequence = require('./is-sequence.js')
  * @param  {Object} figure Figure data
  * @return {Boolean}       True if figure contains a canvas
  */
-module.exports = (figure) => {
+export default (figure) => {
   const {
     annotations,
     canvasId,

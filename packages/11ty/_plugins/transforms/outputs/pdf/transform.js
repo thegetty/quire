@@ -1,12 +1,10 @@
-const chalkFactory = require('~lib/chalk')
-const filterOutputs = require('../filter.js')
-const jsdom = require('jsdom')
-const truncate = require('~lib/truncate')
-const writer = require('./write')
+import { JSDOM } from 'jsdom'
+import chalkFactory from '~lib/chalk.js'
+import filterOutputs from '../filter.js'
+import truncate from '#lib/truncate/index.js'
+import writer from './write.js'
 
 const logger = chalkFactory('pdf:transform')
-
-const { JSDOM } = jsdom
 
 /**
  * A function to transform and write Eleventy content for pdf
@@ -15,7 +13,7 @@ const { JSDOM } = jsdom
  * @param      {String}  content      Output content
  * @return     {Array}   The transformed content string
  */
-module.exports = async function(eleventyConfig, collections, content) {
+export default function(eleventyConfig, collections, content) {
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const slugify = eleventyConfig.getFilter('slugify')
   const citation = eleventyConfig.getFilter('citation')
@@ -43,8 +41,8 @@ module.exports = async function(eleventyConfig, collections, content) {
    * @param  {Object}       page     The page being transformed
    * @param  {HTMLElement}  element  HTML element on which to set data attributes
    * @param  {boolean}      generatePagedPDF Whether to generate a PDF for this webpage
-   * 
-   * 
+   *
+   *
    */
   const setDataAttributes = (page, element, generatePagedPDF) => {
     const { dataset } = element
@@ -111,7 +109,7 @@ module.exports = async function(eleventyConfig, collections, content) {
 
   /**
    * @function trimLeadingSeparator
-   * 
+   *
    * Trims the publication URL path from @src attribs and style background-image URLs
 
    * @param {Object} document JSDom `document` object of a section element
@@ -120,12 +118,12 @@ module.exports = async function(eleventyConfig, collections, content) {
     const urlPath = eleventyConfig.globalData.publication.pathname
 
     /**
-     * This function removes either the deploy path or just the leading slash 
-     * 
+     * This function removes either the deploy path or just the leading slash
+     *
      * @example /foo/_assets/image.jpg -> _assets/image.jpg
      * @example /_assets/image.jpg -> _assets/image.jpg
      * @example Pass any other @src attributes (incl. `http(s)://..`)
-     * 
+     *
      * @todo Why does background-image carry the root asset path but no pathPrefix?
      */
     const trimDeployPathComponentOrSlash = (srcAttr) => {
@@ -152,10 +150,10 @@ module.exports = async function(eleventyConfig, collections, content) {
 
   /**
    * @function normalizeCoverPageData
-   * 
+   *
    * @param {Object} pageData - page data object
    * @param {Object} pdfConfig - configuration for the pdf
-   * 
+   *
    * @return {Object} data formatted for the layout at _layouts/pdf-cover-pages.liquid
    */
   function normalizeCoverPageData(page,pdfConfig) {
@@ -163,13 +161,13 @@ module.exports = async function(eleventyConfig, collections, content) {
 
     // NB: `id` must match the @id slug scheme in `base.11ty.js` so the cover pages have the same keys
     const accessURL = page.data.canonicalURL
-    const contributors = page.data.pageContributors ?? []    
+    const contributors = page.data.pageContributors ?? []
     const copyright = page.data.publication.copyright
-    const id = `page-${slugify(page.data.pageData.url)}` 
+    const id = `page-${slugify(page.data.pageData.url)}`
 
     // @todo Need license *text* per example
 
-    const license = page.data.publication.license.name 
+    const license = page.data.publication.license.name
 
     // @todo replace date in mla citation
     /**
@@ -191,7 +189,7 @@ module.exports = async function(eleventyConfig, collections, content) {
           const year = date.getFullYear()
           return [day, month, year].join(' ')
         }
-     * 
+     *
      **/
 
     // Feed the CSL processor an access date (@todo: either make this work or use the func above..)
@@ -206,14 +204,14 @@ module.exports = async function(eleventyConfig, collections, content) {
     }
     const title = pageTitle({ ...page.data, label: '' })
 
-    return { 
-      accessURL, 
-      citations: pageCitations, 
-      contributors, 
-      copyright, 
-      id, 
-      license, 
-      title 
+    return {
+      accessURL,
+      citations: pageCitations,
+      contributors,
+      copyright,
+      id,
+      license,
+      title
     }
   }
 
@@ -255,7 +253,7 @@ module.exports = async function(eleventyConfig, collections, content) {
   prefixFootnotes(sectionElement, pageId)
 
   // Final cleanups: remove non-pdf content, remove image leading slashes, slugify it all
-  filterOutputs(sectionElement, 'pdf')  
+  filterOutputs(sectionElement, 'pdf')
   trimLeadingSeparator(sectionElement)
   slugifyIds(sectionElement)
 
@@ -263,7 +261,7 @@ module.exports = async function(eleventyConfig, collections, content) {
   collections.pdf[pageIndex].sectionElement = sectionElement.outerHTML
 
   if (hasPagePDF && hasCoverPage) {
-    collections.pdf[pageIndex].coverPageData = normalizeCoverPageData(currentPage,pdfConfig)         
+    collections.pdf[pageIndex].coverPageData = normalizeCoverPageData(currentPage,pdfConfig)
   }
 
   /**

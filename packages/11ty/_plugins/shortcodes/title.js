@@ -1,10 +1,10 @@
-const { oneLine } = require('~lib/common-tags')
+import { oneLine } from '#lib/common-tags/index.js'
 
 /**
  * A shortcode for the Quire project or publication title,
  * currently used for the Quire cover template.
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const markdownify = eleventyConfig.getFilter('markdownify')
   const { subtitle, title } = eleventyConfig.globalData.publication
 

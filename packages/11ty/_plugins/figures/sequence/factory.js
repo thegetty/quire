@@ -1,11 +1,11 @@
-const fs = require('fs')
-const path = require('path')
-const Sequence = require('./index')
+import Sequence from './index.js'
+import fs from 'fs-extra'
+import path from 'node:path'
 
 /**
  * The SequenceFactory creates sequences for a Figure instance
  */
-module.exports = class SequenceFactory {
+export default class SequenceFactory {
   /**
    * @param  {Figure} figure
    */

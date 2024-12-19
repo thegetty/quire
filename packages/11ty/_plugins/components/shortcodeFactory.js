@@ -9,7 +9,7 @@
  * @param  {Object}  component       A JavaScript shortcode component
  * @param  {String}  tagName         A template tag name for the component
  */
-module.exports = function(eleventyConfig, collections) {
+export default function(eleventyConfig, collections) {
   return {
     addShortcode: function(tagName, component) {
       eleventyConfig.addShortcode(tagName, function(...args) {

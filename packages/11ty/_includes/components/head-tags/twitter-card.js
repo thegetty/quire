@@ -1,4 +1,4 @@
-const path = require('path')
+import path from 'node:path'
 
 /**
  * Renders <head> <meta> data tags for Twitter Cards
@@ -8,7 +8,7 @@ const path = require('path')
  * 
  * @return     {String}  HTML meta and link elements
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const { config, publication } = eleventyConfig.globalData
   const { description, promo_image } = publication
   const { imageDir } = config.figures

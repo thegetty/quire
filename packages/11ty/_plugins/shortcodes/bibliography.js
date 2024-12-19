@@ -1,24 +1,24 @@
-const { html, oneLine } = require('~lib/common-tags')
-const chalkFactory = require('~lib/chalk')
-const checkFormat = require('../collections/filters/output.js')
-const path = require('path')
+import { html, oneLine } from '~lib/common-tags.js'
+import chalkFactory from '~lib/chalk.js'
+import checkFormat from '../collections/filters/output.js'
+import path from 'node:path'
 
 const logger = chalkFactory('configuration:bibliography')
 
 /**
  * @function checkPagePDF
- * 
+ *
  * @param {Object} config pdf object from Quire config
- * @param {Array<string>,string,undefined} outputs outputs setting from page frontmatter 
+ * @param {Array<string>,string,undefined} outputs outputs setting from page frontmatter
  * @param {bool} frontmatterSetting pdf page setting from page frontmatter
- * 
+ *
  * Check if the PDF link should be generated for this page
  */
 const checkPagePDF = (config, outputs, frontmatterSetting) => {
 
   // Is the output being created?
   if (!checkFormat('pdf', { data: { outputs } })) {
-    return false 
+    return false
   }
 
   // Are the footer links set?
@@ -109,7 +109,7 @@ module.exports = function (eleventyConfig, { page }) {
       if (!checkPagePDF(pdfConfig, outputs, pagePDFOutput) || page.data.layout === 'cover') {
         return ''
       }
-        
+
       const text = pdfConfig.pagePDF.accessLinks.find((al) => al.footer === true).label
       const href = path.join(pdfConfig.outputDir, `${pdfConfig.filename}-${slugify(page.data.key)}.pdf`)
 

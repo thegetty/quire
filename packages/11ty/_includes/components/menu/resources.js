@@ -1,4 +1,4 @@
-const { html } = require('~lib/common-tags')
+import { html } from '#lib/common-tags/index.js'
 
 /**
  * Renders the "Other Formats" and "Resources" sections of the menu
@@ -6,7 +6,7 @@ const { html } = require('~lib/common-tags')
  * @param      {Object}  eleventyConfig
  * @param      {Object}  params
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const { resource_link: resourceLinks } = eleventyConfig.globalData.publication
 
   return function() {

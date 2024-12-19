@@ -1,6 +1,6 @@
-const { oneLine } = require('~lib/common-tags')
-const chalkFactory = require('~lib/chalk')
-const figure = require('./figure')
+import { oneLine } from '#lib/common-tags/index.js'
+import chalkFactory from '#lib/chalk/index.js'
+import figure from './figure.js'
 
 const logger = chalkFactory('shortcodes:figureGroup')
 
@@ -11,7 +11,7 @@ const logger = chalkFactory('shortcodes:figureGroup')
  * @param      {Array<id>}  ids          An array or list of figure identifiers
  * @return     {String}  An HTML string of the elements to render
  */
-module.exports = function (eleventyConfig, { page }) {
+export default function(eleventyConfig, { page }) {
 
   return async function (columns, ids=[]) {
     columns = parseInt(columns)

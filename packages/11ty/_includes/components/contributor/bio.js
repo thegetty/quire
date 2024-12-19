@@ -1,5 +1,5 @@
-const { html } = require('~lib/common-tags')
-const path = require('path')
+import { html } from '#lib/common-tags/index.js'
+import path from 'node:path'
 
 /**
  * Contributor bio subcomponent
@@ -11,7 +11,7 @@ const path = require('path')
  *
  * @return {String} contributor markup
  */
-module.exports = function (eleventyConfig) {
+export default function(eleventyConfig) {
   const fullname = eleventyConfig.getFilter('fullname')
   const getContributor = eleventyConfig.getFilter('getContributor')
   const icon = eleventyConfig.getFilter('icon')

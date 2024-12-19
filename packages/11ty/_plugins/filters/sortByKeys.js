@@ -21,7 +21,7 @@
  *
  * @return  {Number}  Comparison 1, 0, -1
  */
-module.exports = (sortKeys = [], sortOrder = 'ascending') => {
+export default (sortKeys = [], sortOrder = 'ascending') => {
   if (!sortKeys.length) return
 
   if (!['ascending', 'descending'].includes(sortOrder)) {

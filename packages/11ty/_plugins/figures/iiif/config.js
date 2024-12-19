@@ -1,10 +1,10 @@
-const chalkFactory = require('~lib/chalk')
-const path = require('path')
+import chalkFactory from '#lib/chalk/index.js'
+import path from 'node:path'
 
 const logger = chalkFactory('Figures:IIIF:Config', 'DEBUG')
 
 
-module.exports = (eleventyConfig) => {
+export default (eleventyConfig) => {
   const { url } = eleventyConfig.globalData.publication
   const { inputDir, outputDir, publicDir } = eleventyConfig.globalData.directoryConfig
   const { port=8080 } = eleventyConfig.serverOptions

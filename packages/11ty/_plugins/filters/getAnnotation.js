@@ -4,7 +4,7 @@
  * @param  {String} id             annotation id
  * @return {Object}                annotation
  */
-module.exports = function(eleventyConfig, fig, annotationId) {
+export default function(eleventyConfig, fig, annotationId) {
   const getFigure = eleventyConfig.getFilter('getFigure')
   const { figure_list: figureList } = eleventyConfig.globalData.figures
   const figure = getFigure(fig)

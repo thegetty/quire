@@ -1,7 +1,7 @@
-const path = require('path')
-const { html } = require('~lib/common-tags')
+import path from 'node:path'
+import { html } from '#lib/common-tags/index.js'
 
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const figureLabel = eleventyConfig.getFilter('figureLabel')
 
   const { imageDir } = eleventyConfig.globalData.config.figures

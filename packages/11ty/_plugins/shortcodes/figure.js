@@ -1,5 +1,5 @@
-const chalkFactory = require('~lib/chalk')
-const { oneLine } = require('~lib/common-tags')
+import chalkFactory from '#lib/chalk/index.js'
+import { oneLine } from '#lib/common-tags/index.js'
 
 const logger = chalkFactory('shortcodes:figure')
 
@@ -21,7 +21,7 @@ const FETCH_PRIORITY_THRESHOLD = 2
  *
  * @return     {boolean}  An HTML <figure> element
  */
-module.exports = function (eleventyConfig) {
+export default function(eleventyConfig) {
   const figureAudio = eleventyConfig.getFilter('figureAudio')
   const figureImage = eleventyConfig.getFilter('figureImage')
   const figureLabel = eleventyConfig.getFilter('figureLabel')

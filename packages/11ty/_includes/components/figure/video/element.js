@@ -1,6 +1,6 @@
-const { html } = require('~lib/common-tags')
-const chalkFactory = require('~lib/chalk')
-const path = require('path')
+import { html } from '#lib/common-tags/index.js'
+import chalkFactory from '#lib/chalk/index.js'
+import path from 'node:path'
 
 const logger = chalkFactory('Figure Video')
 
@@ -18,7 +18,7 @@ const logger = chalkFactory('Figure Video')
  *
  * @return     {String}  An HTML <video> element
  */
-module.exports = function (eleventyConfig) {
+export default function(eleventyConfig) {
   const { imageDir } = eleventyConfig.globalData.config.figures
   const figureMediaEmbedUrl = eleventyConfig.getFilter('figureMediaEmbedUrl')
   const videoElements = {

@@ -5,7 +5,7 @@
  * @param  {String} pluralized override for pluralized word if irregular, i.e. "mouse" and "mice"
  * @return {String} pluralized word
  */
-module.exports = (count, string, pluralized) => {
+export default (count, string, pluralized) => {
   pluralized = pluralized || `${string}s`
   return count === 1 ? string : pluralized
 }

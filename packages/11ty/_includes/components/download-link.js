@@ -1,7 +1,7 @@
-const { oneLine } = require('~lib/common-tags')
-const chalkFactory = require('~lib/chalk')
-const checkFormat = require('../../_plugins/collections/filters/output.js')
-const path = require('path')
+import { oneLine } from '~lib/common-tags.js'
+import chalkFactory from '~lib/chalk.js'
+import checkFormat from '../../_plugins/collections/filters/output.js'
+import path from 'node:path'
 
 const logger = chalkFactory('shortcode:footer-dl')
 
@@ -18,7 +18,7 @@ const logger = chalkFactory('shortcode:footer-dl')
  *
  * @return {String}  anchor tag
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const slugify = eleventyConfig.getFilter('slugify')
   const pdfConfig = eleventyConfig.globalData.config.pdf
 

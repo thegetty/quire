@@ -1,4 +1,4 @@
-const { html } = require('~lib/common-tags')
+import { html } from '#lib/common-tags/index.js'
 
 /**
  * Publication title block in menu
@@ -8,7 +8,7 @@ const { html } = require('~lib/common-tags')
  * @property   {String}  currentURL
  * @property   {Array|String}   contributors - publication contributors array or string override
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const contributors = eleventyConfig.getFilter('contributors')
   const markdownify = eleventyConfig.getFilter('markdownify')
   const siteTitle = eleventyConfig.getFilter('siteTitle')

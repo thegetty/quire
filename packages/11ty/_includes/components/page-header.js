@@ -1,14 +1,14 @@
-const { html } = require('~lib/common-tags')
-const path = require('path')
+import { html } from '#lib/common-tags/index.js'
+import path from 'node:path'
 
-const checkFormat = require('../../_plugins/collections/filters/output.js')
+import checkFormat from '../../_plugins/collections/filters/output.js'
 
 /**
  * Publication page header
  *
  * @param      {Object}  eleventyConfig
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const contributors = eleventyConfig.getFilter('contributors')
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const slugify = eleventyConfig.getFilter('slugify')
@@ -20,18 +20,18 @@ module.exports = function(eleventyConfig) {
 
   /**
    * @function checkPagePDF
-   * 
+   *
    * @param {Object} config pdf object from Quire config
-   * @param {Array<string>,string,undefined} outputs outputs setting from page frontmatter 
+   * @param {Array<string>,string,undefined} outputs outputs setting from page frontmatter
    * @param {bool} frontmatterSetting pdf page setting from page frontmatter
-   * 
+   *
    * Check if the PDF link should be generated for this page
    */
   const checkPagePDF = (config,outputs,frontmatterSetting) => {
 
     // Is the output being created?
     if (!checkFormat('pdf', { data: { outputs } })) {
-      return false 
+      return false
     }
 
     // Are the footer links set?

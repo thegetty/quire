@@ -1,5 +1,5 @@
-const path = require('path')
-const { html } = require('~lib/common-tags')
+import { html } from '~lib/common-tags.js'
+import path from 'node:path'
 
 /**
  * Quire lightboxData component
@@ -10,7 +10,7 @@ const { html } = require('~lib/common-tags')
  * `<script>` tag. Where necessary it uses 11ty / quire functions
  * to generate HTML markup and slugified resource IDs.
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
 
   const annotationsUI = eleventyConfig.getFilter('annotationsUI')
   const figureImageElement = eleventyConfig.getFilter('figureImageElement')

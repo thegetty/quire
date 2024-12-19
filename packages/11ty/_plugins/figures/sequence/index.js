@@ -1,5 +1,5 @@
-const path = require('path')
-const Annotation = require('../annotation')
+import Annotation from '../annotation/index.js'
+import path from 'node:path'
 
 /**
  * @typedef {Object} Sequence
@@ -10,7 +10,7 @@ const Annotation = require('../annotation')
  *
  * @return {Sequence}
  */
-module.exports = class Sequence {
+export default class Sequence {
   constructor(figure, sequence, files) {
     const { behavior, id, regex, start, transition, viewing_direction } = sequence
     this.behavior = behavior

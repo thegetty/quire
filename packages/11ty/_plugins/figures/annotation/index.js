@@ -1,7 +1,7 @@
-const chalkFactory = require('~lib/chalk')
-const mime = require('mime-types')
-const path = require('path')
-const titleCase = require('~plugins/filters/titleCase')
+import chalkFactory from '#lib/chalk/index.js'
+import mime from 'mime-types'
+import path from 'node:path'
+import titleCase from '#plugins/filters/titleCase.js'
 
 const logger = chalkFactory('Figures:Annotation')
 
@@ -24,7 +24,7 @@ const logger = chalkFactory('Figures:Annotation')
  *
  * @return {Annotation}
  */
-module.exports = class Annotation {
+export default class Annotation {
   constructor(figure, data) {
     const { annotationCount, iiifConfig, outputDir, outputFormat, src: figureSrc, zoom } = figure
     const { baseURI, tilesDirName } = iiifConfig

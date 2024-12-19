@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   name: 'style',
   attrs: {
     xmlns: 'http://purl.org/net/xbiblio/csl',

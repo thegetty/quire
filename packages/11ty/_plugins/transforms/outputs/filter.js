@@ -4,7 +4,7 @@
  * @param  {Object} element HTML elmeent
  * @param  {String} output  pdf, epub, html
  */
-module.exports = function (element, output) {
+export default function(element, output) {
   for (const item of element.querySelectorAll('[data-outputs-include]')) {
     const value = item.dataset.outputsInclude
     if (!value.split(',').map((item) => item.trim()).includes(output)) {

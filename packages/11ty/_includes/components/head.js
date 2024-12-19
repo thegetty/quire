@@ -1,10 +1,10 @@
-const path = require('path')
+import path from 'node:path'
 /**
  * Head Tag
  *
  * @param      {Object}  eleventyConfig
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const analytics = eleventyConfig.getFilter('analytics')
   const dublinCore = eleventyConfig.getFilter('dublinCore')
   const jsonld = eleventyConfig.getFilter('jsonld')

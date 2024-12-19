@@ -1,12 +1,12 @@
-const chalkFactory = require('~lib/chalk')
-const path = require('path')
+import chalkFactory from '#lib/chalk/index.js'
+import path from 'node:path'
 
 const { warn } = chalkFactory('eleventyComputed')
 
 /**
  * Global computed data
  */
-module.exports = {
+export default {
   canonicalURL: ({ publication, page }) => {
     const pageUrl = page.url.replace(/^\/+/, '')
     return new URL(pageUrl, publication.url).href

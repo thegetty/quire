@@ -2,7 +2,7 @@ import Command from '#src/Command.js'
 import { execaCommand } from 'execa'
 import fs from 'node:fs'
 import os from 'node:os'
-import path from 'path'
+import path from 'node:path'
 import testcwd from '#helpers/test-cwd.js'
 
 /**

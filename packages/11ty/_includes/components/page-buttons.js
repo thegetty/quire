@@ -1,4 +1,4 @@
-const { html } = require('~lib/common-tags')
+import { html } from '#lib/common-tags/index.js'
 
 /**
  * Renders previous page and next page buttons
@@ -10,7 +10,7 @@ const { html } = require('~lib/common-tags')
  *
  * @return {String} "previous" and "next" buttons
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const icon = eleventyConfig.getFilter('icon')
   const {
     nextButtonText,

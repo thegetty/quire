@@ -1,6 +1,6 @@
-const { html, oneLine } = require('~lib/common-tags')
-const checkFormat = require('../collections/filters/output.js')
-const path = require('path')
+import { html, oneLine } from '~lib/common-tags.js'
+import checkFormat from '../collections/filters/output.js'
+import path from 'node:path'
 
 /**
  * @function checkPagePDF

@@ -1,15 +1,13 @@
-const filterOutputs = require('../filter.js')
-const jsdom = require('jsdom')
-const layout = require('./layout')
-const path = require('path')
-const writer = require('./writer')
-
-const { JSDOM } = jsdom
+import { JSDOM } from 'jsdom'
+import filterOutputs from '../filter.js'
+import layout from './layout.js'
+import path from 'node:path'
+import writer from './writer.js'
 
 /**
  * Content transforms for EPUB output
  */
-module.exports = function(eleventyConfig, collections, content) {
+export default function(eleventyConfig, collections, content) {
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const removeHTML = eleventyConfig.getFilter('removeHTML')
   const slugify = eleventyConfig.getFilter('slugify')
@@ -145,14 +143,13 @@ module.exports = function(eleventyConfig, collections, content) {
 
     function relativeUrl (path) {
       const base = eleventyConfig.baseURL || 'http://localhost'
-      let url;
+      let url
       try {
         url = new URL(path)
       } catch (TypeError) {
         url = new URL(path, base)
-      } finally {
-        return url
       }
+      return url
     }
     const { hash, pathname } = relativeUrl(href)
 

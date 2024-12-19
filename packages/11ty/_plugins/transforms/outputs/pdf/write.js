@@ -1,14 +1,14 @@
-const chalkFactory = require('~lib/chalk')
-const fs = require('fs-extra')
-const path = require('path')
-const sass = require('sass')
+import chalkFactory from '~lib/chalk.js'
+import fs from 'fs-extra'
+import path from 'node:path'
+import sass from 'sass'
 
 /**
  * Nota bene:
  * Output must be written to a directory using Passthrough File Copy
  * @see https://www.11ty.dev/docs/copy/#passthrough-file-copy
  */
-module.exports = (eleventyConfig) => {
+export default function(eleventyConfig) {
   const { input, output } = eleventyConfig.dir
 
   const logger = chalkFactory('transforms:pdf:writer')
@@ -29,9 +29,9 @@ module.exports = (eleventyConfig) => {
   /**
    * Render the PDF pages in a liquid layout that merges them into one file
    * Do the same for covers of the PDF pages.
-   *  
+   *
    * NB: layout will only add SVG symbols once
-   * 
+   *
    * @param  {Object} collection collections.pdf with `sectionElement`,`svgElements`, and `coverPageData`
    */
   return async (collection) => {
@@ -53,7 +53,7 @@ module.exports = (eleventyConfig) => {
         fs.writeFileSync(coversOutputPath, coversHtml)
       } catch (error) {
         logger.error(`Eleventy transform for PDF error writing covers HTML output for PDF. ${error}`)
-      }      
+      }
     }
 
     const sassOptions = {

@@ -1,6 +1,6 @@
-const Figure = require('./index')
-const ImageProcessor = require('../image/processor')
-const path = require('path')
+import Figure from './index.js'
+import ImageProcessor from '../image/processor.js'
+import path from 'node:path'
 
 /**
  * Factory class to create instances of `Figure` on which process is called
@@ -8,7 +8,7 @@ const path = require('path')
  *
  * @class FigureFactory
  */
-module.exports = class FigureFactory {
+export default class FigureFactory {
   constructor(iiifConfig) {
     this.iiifConfig = iiifConfig
     this.imageProcessor = new ImageProcessor(iiifConfig)

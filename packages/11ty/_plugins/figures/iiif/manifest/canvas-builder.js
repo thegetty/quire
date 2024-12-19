@@ -1,4 +1,4 @@
-module.exports = class CanvasBuilder {
+export default class CanvasBuilder {
   static create(manifest, data) {
     const canvasBuilder = new CanvasBuilder(data)
     canvasBuilder.createCanvases(manifest)

@@ -1,4 +1,4 @@
-const { html } = require('common-tags')
+import { html } from 'common-tags'
 
 /**
  * Render UI elements for selecting IIIF annotations or choices,
@@ -8,7 +8,7 @@ const { html } = require('common-tags')
  * @return {String} HTML radio or checkbox input elements
  */
 
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const figureOption = eleventyConfig.getFilter('figureOption')
 
   /**

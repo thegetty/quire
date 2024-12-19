@@ -1,13 +1,13 @@
-const fs = require('fs')
-const path = require('path')
-const { html } = require('~lib/common-tags')
+import fs from 'fs'
+import path from 'node:path'
+import { html } from '#lib/common-tags/index.js'
 
 /**
  * Creative Commons SVG Icon
   The individual svg elements are assembled according to the specific license used:
   "CC 0", "CC BY", "CC BY-SA", "CC BY-ND", "CC BY-NC", "CC BY-NC-SA", or "CC BY-NC-ND".
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const { config } = eleventyConfig.globalData
 
   return function() {

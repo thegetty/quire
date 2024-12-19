@@ -1,5 +1,5 @@
-const { html } = require('~lib/common-tags')
-module.exports = ({ body, language, title }) => {
+import { html } from '#lib/common-tags/index.js'
+export default ({ body, language, title }) => {
   const stylesheets = ''
 
   const titleElement = title ? `<title>${title}</title>` : ''

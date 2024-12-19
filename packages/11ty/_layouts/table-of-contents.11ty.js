@@ -6,7 +6,7 @@
  * Pages can be removed from the TOC indivudally by setting toc to `false` in the page yaml.
  */
 
-module.exports = class TableOfContents {
+export default class TableOfContents {
   data() {
     return {
       classes: ['quire-contents'],

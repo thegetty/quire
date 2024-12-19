@@ -1,14 +1,14 @@
-const chalkFactory = require('~lib/chalk')
-const fs = require('fs-extra')
-const path = require('path')
-const sharp = require('sharp')
+import chalkFactory from '#lib/chalk/index.js'
+import fs from 'fs-extra'
+import path from 'node:path'
+import sharp from 'sharp'
 
 const logger = chalkFactory('Figures:ImageTransformer', 'DEBUG')
 
 /**
  * @param  {Object} iiifConfig Quire IIIF Process config
  */
-module.exports = class Transformer {
+export default class Transformer {
   constructor(iiifConfig) {
     const { dirs, formats } = iiifConfig
     this.formats = formats

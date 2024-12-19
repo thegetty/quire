@@ -1,4 +1,4 @@
-const { html } = require('~lib/common-tags')
+import { html } from '#lib/common-tags/index.js'
 
 /**
  * Search Input
@@ -6,7 +6,7 @@ const { html } = require('~lib/common-tags')
  * @param  {EleventyConfig} eleventyConfig
  * @return {String} HTML tags
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const icon = eleventyConfig.getFilter('icon')
   return (params) => {
     const { url } = params.publication

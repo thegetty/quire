@@ -1,5 +1,5 @@
-const truncate = require('~lib/truncate')
-const { html } = require('~lib/common-tags')
+import truncate from '#lib/truncate'
+import { html } from '#lib/common-tags/index.js'
 
 /**
  * This controls the various navigation elements (nav, skip-link, menu and
@@ -13,7 +13,7 @@ const { html } = require('~lib/common-tags')
  * eligible pages are ranged through and based on weight, the next or previous
  * one in the range is linked to.
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const eleventyNavigation = eleventyConfig.getFilter('eleventyNavigation')
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const { imageDir } = eleventyConfig.globalData.config.figures

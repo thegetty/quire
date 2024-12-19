@@ -1,8 +1,8 @@
-const chalkFactory = require('~lib/chalk')
-const fs = require('fs-extra')
-const path = require('path')
-const Tiler = require('./tiler')
-const Transformer = require('./transformer')
+import Tiler from './tiler.js'
+import Transformer from './transformer.js'
+import chalkFactory from '#lib/chalk/index.js'
+import fs from 'fs-extra'
+import path from 'node:path'
 
 const logger = chalkFactory('Figures:ImageProcessor', 'DEBUG')
 
@@ -14,7 +14,7 @@ const logger = chalkFactory('Figures:ImageProcessor', 'DEBUG')
  * @return {Object}
  * @property {Array} errors Process error messages
  */
-module.exports = class ImageProcessor {
+export default class ImageProcessor {
   constructor(iiifConfig) {
     const { imagesDir, inputRoot, outputRoot } = iiifConfig.dirs
     const tiler = new Tiler(iiifConfig)

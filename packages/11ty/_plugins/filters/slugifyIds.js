@@ -4,7 +4,7 @@
  * @param   {Object}   HTML Document element
  * @param   {Function} slugifyFn Function to slugify ids strings
  */
-module.exports = (documentElement, eleventyConfig) => {
+export default (documentElement, eleventyConfig) => {
   const slugify = eleventyConfig.getFilter('slugify')
 
   Array

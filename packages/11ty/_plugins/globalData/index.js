@@ -1,9 +1,8 @@
-const chalkFactory = require('~lib/chalk')
-const fs = require('fs-extra')
-const parser = require('./parser')
-const { validateUserConfig } = require('./validator')
-
-const path = require('path')
+import { validateUserConfig } from './validator.js'
+import chalkFactory from '~lib/chalk.js'
+import fs from 'fs-extra'
+import parser from './parser.js'
+import path from 'node:path'
 
 const logger = chalkFactory('[plugins:globalData]')
 
