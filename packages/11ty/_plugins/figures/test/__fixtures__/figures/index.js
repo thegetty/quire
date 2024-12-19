@@ -1,7 +1,6 @@
 /**
  * Export all figure JSON
  */
-
 export default {
   annotationsCheckbox: {
     dimensions: { height: 1455, width: 1200 },

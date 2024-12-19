@@ -12,5 +12,20 @@
     <link rel="stylesheet" href="pdf.css" />
   </head>
   <body>
+  {% comment %}
+  This template renders the `pages` property of the data passed to it. 
+  `pages` is an array of `section` elements from each PDF-having page in the publication.
+  {% endcomment %}
+
+  {% for page in pages %}
+    {% if forloop.first == true %}
+      {{ page.svgElements }}
+    {% endif %}
+    {{ page.sectionElement }}
+  {% endfor %}
+
   </body>
 </html>
+
+
+

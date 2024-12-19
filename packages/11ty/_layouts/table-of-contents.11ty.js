@@ -43,7 +43,10 @@ export default class TableOfContents {
         label=label,
         pageContributors=pageContributors,
         subtitle=subtitle,
-        title=title
+        title=title,
+        key=key,
+        page_pdf_output=page_pdf_output,
+        outputs=outputs
       %}
       <section class="section quire-page__content">
         ${contentElement}
@@ -51,7 +54,7 @@ export default class TableOfContents {
           <div class="quire-contents-list ${presentation}">
             ${await this.tableOfContents({ collections, currentPageUrl: page.url, key, presentation })}
             <div class="content">
-              {% bibliography citations %}
+              {% bibliography citations outputs page_pdf_output %}
             </div>
           </div>
           ${this.pageButtons({ pagination })}

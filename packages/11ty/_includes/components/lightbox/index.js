@@ -1,4 +1,4 @@
-import { html } from '#lib/common-tags/index.js'
+import { html } from '~lib/common-tags.js'
 
 /**
  * Lightbox Tag
@@ -7,8 +7,8 @@ import { html } from '#lib/common-tags/index.js'
  * @param      {Object}  eleventyConfig
  * @param      {Object}  globalData
  */
-export default function(eleventyConfig, { page }) {
-  const lightboxSlides = eleventyConfig.getFilter('lightboxSlides')
+export default function (eleventyConfig, { page }) {
+  const lightboxData = eleventyConfig.getFilter('lightboxData')
   const lightboxUI = eleventyConfig.getFilter('lightboxUI')
 
   return async function (figures=page.figures) {
@@ -16,7 +16,7 @@ export default function(eleventyConfig, { page }) {
 
     return html`
       <q-lightbox>
-        ${await lightboxSlides(figures)}
+        ${await lightboxData(figures)}
         ${lightboxUI(figures)}
       </q-lightbox>
     `

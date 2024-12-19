@@ -32,7 +32,7 @@ export default function(eleventyConfig) {
     /**
      * Wrap image in modal link
      */
-    let imageElement = await figureImageElement(figure, { interactive: false })
+    let imageElement = figureImageElement(figure, { interactive: false })
     imageElement = figureModalLink({ content: imageElement, id })
 
     const captionElement = figureCaption({ caption, content: labelElement, credit })

@@ -1,4 +1,4 @@
-import { html } from '#lib/common-tags/index.js'
+import { html } from '~lib/common-tags.js'
 import path from 'node:path'
 
 /**
@@ -13,16 +13,16 @@ import path from 'node:path'
 export default function(eleventyConfig) {
   const { imageDir } = eleventyConfig.globalData.config.figures
 
-  return function ({ alt='', src='', isStatic=false }) {
+  return function ({ alt='', src='', isStatic=false, lazyLoading='lazy' }) {
     const imageSrc = src.startsWith('http') || isStatic ? src : path.join(imageDir, src)
 
     return html`
       <img
-        webc:is="eleventy-image"
         alt="${alt}"
         class="q-figure__image"
+        decoding="async"
+        loading="${lazyLoading}"
         src="${imageSrc}"
-        width="[600]"
       />
     `
   }

@@ -5,8 +5,6 @@ import os from 'node:os'
 import path from 'node:path'
 import testcwd from '#helpers/test-cwd.js'
 
-const VERSION_FILE = '.quire'
-
 /**
  * Quire CLI `info` Command
  *
@@ -22,7 +20,9 @@ export default class InfoCommand extends Command {
     summary: 'list info',
     version: '1.0.0',
     args: [],
-    options: [['--debug', 'include os versions in output']],
+    options: [
+      ['--debug', 'include os versions in output']
+    ],
   }
 
   constructor() {
@@ -40,15 +40,18 @@ export default class InfoCommand extends Command {
       console.debug('[CLI] Command \'%s\' called', this.name())
     }
 
-    let versionFile = fs.readFileSync(VERSION_FILE, { encoding: 'utf8' })
+    const versionFileName = this.config.get('versionFile')
+
     try {
-      versionFile = JSON.parse(versionFile)
+      // the quire version file is always local to the project root
+      let fileData = fs.readFileSync(versionFileName, { encoding: 'utf8' })
+      versionInfo = JSON.parse(fileData)
     } catch (error) {
       console.warn(
         `This project was generated with the quire-cli prior to version 1.0.0.rc-8. Updating the version file to the new format, though this project's version file will not contain specific starter version information.`
       )
-      versionFile = { cli: '<=1.0.0.rc-7' }
-      fs.writeFileSync(VERSION_FILE, JSON.stringify(versionFile))
+      versionInfo = { cli: '<=1.0.0.rc-7' }
+      fs.writeFileSync(versionFileName, JSON.stringify(versionInfo))
     }
 
     const { name: projectDirectory } = path.parse(process.cwd())
@@ -59,7 +62,7 @@ export default class InfoCommand extends Command {
         items: [
           {
             name: 'quire-cli',
-            get: () => versionFile.cli,
+            get: () => versionInfo.cli,
           },
           {
             name: 'quire-11ty',
@@ -70,7 +73,7 @@ export default class InfoCommand extends Command {
           },
           {
             name: 'starter',
-            get: () => versionFile.starter,
+            get: () => versionInfo.starter,
           },
         ],
       },

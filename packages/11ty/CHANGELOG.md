@@ -12,11 +12,65 @@ Changelog entries are classified using the following labels:
 - `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
+## [1.0.0-rc.22]
+
+### Changed
+
+- Patch `@11ty/eleventy-plugin-vite` 11ty/eleventy-plugin-vite/issues/22
+
+### Fixed
+
+- Windows EPERM error when running `quire build`, DEV-13837
+
+## [1.0.0-rc.21]
+
+### Fixed
+
+- `canvas-panel` components were not responding to `ref` tag regions in all cases (`DEV-19079`)
+- Video and Table figures were not repsonsive to `ref` tag behaviors (`DEV-18548`)
+- Rotate-to-index attribute transitions could underrun their buffer
+
+## [1.0.0-rc.20]
+
+### Changed
+
+- Refactor image-sequence preloadImages to accept an indices parameter of indices to preload and return the promise of all fetch responses
+- Adds an animationIndex property for managing animation when rotating
+
+### Fixed
+
+- image-sequence rotation to an index on load
+- display of the rotation call to action
+
+## [1.0.0-rc.19]
+
+### Changed
+
+- Performance improvments and refactoring for image sequences:
+  - Refactor `q-image-sequence` component to load a buffer of image bitmaps from the image URLs passed to it
+  - Refactor `q-image-sequence` to use encapsulated styles at the module level
+
+## [1.0.0-rc.18]
+
+### Changed
+
+- Performance improvements for images:
+  - Refactor `figure` subcomponent composition using named `slot` elements for data, ui, slides, and styles
+  - Refactor `lightbox` components to generate slides dynamically from JSON data
+  - Compiles `lightbox` styles and inserts them in the component's style slot at publication build-time
+  - Refactors `image-sequence` as a Lit web component: `q-image-sequence`
+
 ## [1.0.0-rc.17]
+
+### Added
+
+- PDF creation for a single quire webpage and cover pages
+- PDF transform to template using `_layouts/pdf.liquid` (was: HTML string append)
+- Front-end markup for PDF download link
 
 ### Bumped
 
-- `sharp@0.32` which includes prebuilt binaries that contain patches for macOS 10.13+ support.
+- sharp@0.32` which includes prebuilt binaries that contain patches for macOS 10.13+ support.
 
 ## [1.0.0-rc.16]
 

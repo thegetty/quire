@@ -26,7 +26,7 @@ export default async function(options={}) {
     const bibliography = processor.bibliography()
 
     return type === 'mla'
-      ? `${bibliography.value.replace(/\s+$/, '')} Accessed <span class="cite-current-date">DD Mon. YYYY</span>.`
-      : bibliography.value
+      ? `${citation.replace(/\s+$/, '')} <span class="cite-current-date__statement">Accessed <span class="cite-current-date">DD Mon. YYYY</span>.</span>`
+      : citation
   }
 }

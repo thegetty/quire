@@ -24,6 +24,12 @@ description: splash page layout
         {% contributors context=pageContributors, format=byline_format %}
       </div>
     {% endif %}
+    {% downloadLink
+      type="header"
+      key=key
+      outputs=outputs
+      page_pdf_output=page_pdf_output
+    %}
   </div>
 </section>
 
@@ -35,7 +41,7 @@ description: splash page layout
     <div class="container">
       <div class="content{% if image %}{% else %} no-image-above{% endif %}">
         {{ content }}
-        {% bibliography citations %}
+        {% bibliography citations outputs page_pdf_output %}
       </div>
       {% pageButtons pagination=pagination %}
     </div>

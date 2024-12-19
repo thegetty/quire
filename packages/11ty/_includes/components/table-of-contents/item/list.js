@@ -1,4 +1,5 @@
-import { html, oneLine } from '#lib/common-tags/index.js'
+import { html, oneLine } = from '~lib/common-tags.js'
+import path from 'node:path'
 
 /**
  * Renders a TOC list item
@@ -11,10 +12,11 @@ import { html, oneLine } from '#lib/common-tags/index.js'
  *
  * @return {String} TOC list item markup
  */
-export default function(eleventyConfig) {
+export default function (eleventyConfig) {
   const contributors = eleventyConfig.getFilter('contributors')
   const icon = eleventyConfig.getFilter('icon')
   const markdownify = eleventyConfig.getFilter('markdownify')
+  const slugify = eleventyConfig.getFilter('slugify')
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const removeHTML = eleventyConfig.getFilter('removeHTML')
   const { contributorDivider } = eleventyConfig.globalData.config.tableOfContents
@@ -54,12 +56,13 @@ export default function(eleventyConfig) {
     } else {
       pageTitleElement = oneLine`${pageTitle({ label, subtitle, title })}${pageContributorsElement}`
     }
+
     const arrowIcon = `<span class="arrow" data-outputs-exclude="epub,pdf">${icon({ type: 'arrow-forward', description: '' })}</span>`
 
     // Returns abstract with any links stripped out
     const abstractText =
       presentation === 'abstract' && (abstract || summary)
-        ? `<div class="abstract-text">${ removeHTML(markdownify(abstract)) }</div>`
+        ? `<div class="abstract-text">${removeHTML(markdownify(abstract))}</div>`
         : ''
 
     let mainElement = `${markdownify(pageTitleElement)}${isPage && !children ? arrowIcon : ''}`
