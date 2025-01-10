@@ -1,11 +1,13 @@
 import chalkFactory from '#lib/chalk/index.js'
-import Processor from 'simple-cite'
+// import Processor from 'simple-cite'
+import chicago from './styles/chicago-fullnote-bibliography.js'
+import mla from './styles/mla.js'
 
 const logger = chalkFactory('plugins:citations')
 
 const defaultStyles = {
-  chicago: await import('./styles/chicago-fullnote-bibliography'),
-  mla: await import('./styles/mla')
+  chicago,
+  mla
 }
 
 export default async function(options={}) {
@@ -20,10 +22,10 @@ export default async function(options={}) {
       return
     }
 
-    const processor = new Processor({ items: [item], locale, style })
-    const citation = processor.cite({ citationItems: [{ id: item.id }] })
-
-    const bibliography = processor.bibliography()
+    // const processor = new Processor({ items: [item], locale, style })
+    // const citation = processor.cite({ citationItems: [{ id: item.id }] })
+    const citation = ''
+    const bibliography = '' //processor.bibliography()
 
     return type === 'mla'
       ? `${citation.replace(/\s+$/, '')} <span class="cite-current-date__statement">Accessed <span class="cite-current-date">DD Mon. YYYY</span>.</span>`

@@ -1,4 +1,4 @@
-import { html, oneLine } from '~lib/common-tags.js'
+import { html, oneLine } from '#lib/common-tags/index.js'
 import checkFormat from '../collections/filters/output.js'
 import path from 'node:path'
 
@@ -30,7 +30,7 @@ const checkPagePDF = (config, outputs, frontmatterSetting) => {
 /**
  * A shortcode for tombstone display of object data on an entry page
  */
-module.exports = function(eleventyConfig, { page }) {
+export default function(eleventyConfig, { page }) {
   const slugify = eleventyConfig.getFilter('slugify')
 
   const { config, objects } = eleventyConfig.globalData

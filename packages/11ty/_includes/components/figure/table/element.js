@@ -7,7 +7,7 @@ import path from 'node:path'
  * @param  {EleventyConfig}  eleventyConfig  Eleventy configuration
  */
 export default function(eleventyConfig) {
-  const renderFile = eleventyConfig.getFilter('renderFile')
+  // const renderFile = eleventyConfig.getFilter('renderFile')
   const { assetDir } = eleventyConfig.globalData.config.figures
 
   /**
@@ -21,7 +21,8 @@ export default function(eleventyConfig) {
    * @return  {String}  Text content of the referenced template file
    */
   return async function ({ src }) {
-    const filePath = path.join(eleventyConfig.dir.input, assetDir, src)
-    return await renderFile(filePath)
+    const filePath = path.join(eleventyConfig.directoryAssignments.input, assetDir, src)
+
+    return await eleventyConfig.javascript.shortcodes.renderFile(filePath,{},'html')
   }
 }

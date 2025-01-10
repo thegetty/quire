@@ -1,4 +1,4 @@
-import chalkFactory from '~lib/chalk.js'
+import chalkFactory from '#lib/chalk/index.js'
 import fs from 'fs-extra'
 import path from 'node:path'
 import sass from 'sass'
@@ -9,7 +9,7 @@ import sass from 'sass'
  * @see https://www.11ty.dev/docs/copy/#passthrough-file-copy
  */
 export default function(eleventyConfig) {
-  const { input, output } = eleventyConfig.dir
+  const { input, output } = eleventyConfig.directoryAssignments
 
   const logger = chalkFactory('transforms:pdf:writer')
 
@@ -36,10 +36,10 @@ export default function(eleventyConfig) {
    */
   return async (collection) => {
 
-    const publicationHtml = await eleventyConfig.javascriptFunctions.renderFile(pdfTemplatePath,{pages: collection},'liquid')
+    const publicationHtml = await eleventyConfig.javascript.shortcodes.renderFile(pdfTemplatePath,{pages: collection},'liquid')
 
     const coversMarkups = collection.filter( collex => collex.coverPageData ).map( (collex) => collex.coverPageData )
-    const coversHtml = await eleventyConfig.javascriptFunctions.renderFile(coversTemplatePath,{covers: coversMarkups},'liquid')
+    const coversHtml = await eleventyConfig.javascript.shortcodes.renderFile(coversTemplatePath,{covers: coversMarkups},'liquid')
 
     try {
       fs.writeFileSync(pdfOutputPath, publicationHtml)

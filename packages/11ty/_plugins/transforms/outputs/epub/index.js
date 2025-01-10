@@ -34,7 +34,7 @@ export default (eleventyConfig, collections) => {
     const assetDirsToCopy = ['fonts']
 
     assetDirsToCopy.forEach((name) => {
-      const source = path.join(eleventyConfig.dir.input, assetsDir, name)
+      const source = path.join(eleventyConfig.directoryAssignments.input, assetsDir, name)
       const dest = path.join(outputDir, assetsDir, name)
       fs.copySync(source, dest)
     })
@@ -59,12 +59,13 @@ export default (eleventyConfig, collections) => {
     /**
      * Copy assets
      */
+
     const { assets } = eleventyConfig.globalData.epub
     const { url: coverUrl } = manifest.resources.find(({ rel }) => rel === 'cover-image')
     assets.push(coverUrl)
     for (const asset of assets) {
       fs.copySync(
-        path.join(eleventyConfig.dir.output, asset),
+        path.join(eleventyConfig.directoryAssignments.output, asset),
         path.join(outputDir, asset)
       )
     }

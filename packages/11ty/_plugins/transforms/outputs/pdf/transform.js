@@ -1,5 +1,5 @@
 import { JSDOM } from 'jsdom'
-import chalkFactory from '~lib/chalk.js'
+import chalkFactory from '#lib/chalk/index.js'
 import filterOutputs from '../filter.js'
 import truncate from '#lib/truncate/index.js'
 import writer from './write.js'

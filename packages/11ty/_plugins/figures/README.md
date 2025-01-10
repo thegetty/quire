@@ -39,7 +39,7 @@ Quire's IIIF processing uses [`@iiif/builder`](https://github.com/IIIF-Commons/i
 Output from the IIIF image processing follows the directory structure below.
 
 ```sh
-<eleventy.dir.output>/
+<eleventy.directoryAssignments.output>/
   <iiifConfig.dirs.output>/
     <figure-id>/
       <image-name>/

@@ -1,5 +1,5 @@
-import { html } from '~lib/common-tags.js'
-import chalkFactory from '~lib/chalk.js'
+import { html } from '#lib/common-tags/index.js'
+import chalkFactory from '#lib/chalk/index.js'
 import fs from 'fs'
 import path from 'node:path'
 import sass from 'sass'

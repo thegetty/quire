@@ -1,5 +1,5 @@
-import { oneLine } from '~lib/common-tags.js'
-import chalkFactory from '~lib/chalk.js'
+import { oneLine } from '#lib/common-tags/index.js'
+import chalkFactory from '#lib/chalk/index.js'
 import checkFormat from '../../_plugins/collections/filters/output.js'
 import path from 'node:path'
 

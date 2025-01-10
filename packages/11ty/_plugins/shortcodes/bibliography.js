@@ -1,5 +1,5 @@
-import { html, oneLine } from '~lib/common-tags.js'
-import chalkFactory from '~lib/chalk.js'
+import { html, oneLine } from '#lib/common-tags/index.js'
+import chalkFactory from '#lib/chalk/index.js'
 import checkFormat from '../collections/filters/output.js'
 import path from 'node:path'
 
@@ -35,7 +35,7 @@ const checkPagePDF = (config, outputs, frontmatterSetting) => {
  *
  * @param      {Object}  eleventyConfig
  */
-module.exports = function (eleventyConfig, { page }) {
+export default function (eleventyConfig, { page }) {
   const markdownify = eleventyConfig.getFilter('markdownify')
   const slugify = eleventyConfig.getFilter('slugify')
   const sortReferences = eleventyConfig.getFilter('sortReferences')

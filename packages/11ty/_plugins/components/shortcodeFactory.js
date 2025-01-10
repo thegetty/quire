@@ -14,6 +14,7 @@ export default function(eleventyConfig, collections) {
     addShortcode: function(tagName, component) {
       eleventyConfig.addShortcode(tagName, function(...args) {
         const page = collections.all.find(({ inputPath }) => inputPath === this.page.inputPath)
+        // console.log(tagName,page.inputPath)
         return component(eleventyConfig, { collections, page }).bind(this)(...args)
       })
     },

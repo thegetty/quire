@@ -16,7 +16,7 @@ export default async function (eleventyConfig, dir, params, page) {
   })
 
   const content = await Promise.all(filePaths.flatMap(async (filePath, index) => {
-    const init = require(filePath)
+    const {default: init} = await import(`${filePath}.js`)
     const renderFn = init(eleventyConfig, { page })
     const component = await renderFn(params)
     const fragment = JSDOM.fragment(component)

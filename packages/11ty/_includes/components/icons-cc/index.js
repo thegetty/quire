@@ -14,12 +14,12 @@ export default function(eleventyConfig) {
     if (!config.licenseIcons) return ''
 
     const ccIcons = fs
-      .readdirSync(path.join(__dirname, 'icons'))
+      .readdirSync(path.join(import.meta.dirname, 'icons'))
       .map((filename) => {
         const id = path.basename(filename, '.svg')
         return fs
           .readFileSync(
-            path.join(__dirname, 'icons', filename),
+            path.join(import.meta.dirname, 'icons', filename),
             { encoding: 'utf8' }
           )
           .replace('<svg', `<symbol id="${id}"`)

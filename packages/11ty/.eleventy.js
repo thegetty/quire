@@ -1,6 +1,12 @@
 import copy from 'rollup-plugin-copy'
 import fs from 'fs-extra'
-import packageJSON from './package.json' assert { type: 'json' };
+
+// Read package.json manually for now, see: https://github.com/11ty/eleventy/issues/3128
+// When issue merged, use: import packageJSON from './package.json' with { type: 'json' };
+let packageJSON = JSON.parse(
+  (await fs.readFile(new URL(`package.json`, import.meta.url))).toString(),
+)
+
 import path from 'node:path'
 import scss from 'rollup-plugin-scss'
 
@@ -74,7 +80,7 @@ export default async function(eleventyConfig) {
    */
   eleventyConfig.addPlugin(UpgradeHelper)
 
-  const dataDir = process.env.ELEVENTY_DATA || '_computed',
+  const dataDir = process.env.ELEVENTY_DATA || '_computed'
   const includesDir = process.env.ELEVENTY_INCLUDES || path.join('..', '_includes')
   const layoutsDir = process.env.ELEVENTY_LAYOUTS || path.join('..', '_layouts')
 
@@ -97,13 +103,13 @@ export default async function(eleventyConfig) {
    * will also be available in Markdown files.
    * @see {@link https://www.11ty.dev/docs/config/#template-formats}
    */
-  eleventyConfig.setTemplateFormats: [
+  eleventyConfig.setTemplateFormats([
     '11ty.js', // JavaScript
     'html',    // HTML
     'liquid',  // Liquid
     'md',      // Markdown
     'njk',     // Nunjucks
-  ]
+  ])
 
   /**
    * Override addPassthroughCopy to use _absolute_ system paths.
@@ -249,20 +255,20 @@ export default async function(eleventyConfig) {
    * Configure the Eleventy Image plugin
    * @see https://www.11ty.dev/docs/plugins/image/
    */
-  eleventyConfig.addPlugin(eleventyImageTransformPlugin, {
-    defaultAttributes: {
-      decoding: 'async',
-      loading: 'lazy'
-    },
-    filenameFormat:  (id, src, width, format, options) => {
-      const extension = path.extname(src)
-      const name = path.basename(src, extension)
-      return `${name}-${width}w.${format}`
-    },
-    formats: ['jpeg'],
-    outputDir: '.',
-    urlPath: '/img/'
-  })
+  // eleventyConfig.addPlugin(eleventyImageTransformPlugin, {
+  //   defaultAttributes: {
+  //     decoding: 'async',
+  //     loading: 'lazy'
+  //   },
+  //   filenameFormat:  (id, src, width, format, options) => {
+  //     const extension = path.extname(src)
+  //     const name = path.basename(src, extension)
+  //     return `${name}-${width}w.${format}`
+  //   },
+  //   formats: ['jpeg'],
+  //   outputDir: '.',
+  //   urlPath: '/img/'
+  // })
 
   /**
    * Register a plugin to run linters on input templates

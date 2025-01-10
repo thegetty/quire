@@ -1,5 +1,5 @@
 import { validateUserConfig } from './validator.js'
-import chalkFactory from '~lib/chalk.js'
+import chalkFactory from '#lib/chalk/index.js'
 import fs from 'fs-extra'
 import parser from './parser.js'
 import path from 'node:path'
@@ -41,7 +41,7 @@ const checkForDuplicateIds = function (data, filename) {
  * so that it is available to plugins and shortcode components.
  *
  * Nota bene: data is loaded from a sub directory of the `input` directory,
- * distinct from the `eleventyConfig.dir.data` directory.
+ * distinct from the `eleventyConfig.directoryAssignments.data` directory.
  *
  * @param {Object} eleventyConfig
  * @param {Object} directoryConfig
@@ -49,7 +49,7 @@ const checkForDuplicateIds = function (data, filename) {
  * @property {String} outputDir
  * @property {String} publicDir
  */
-module.exports = function(eleventyConfig, directoryConfig) {
+export default function(eleventyConfig, directoryConfig) {
   const dir = path.resolve(directoryConfig.inputDir, '_data')
   // console.debug(`[plugins:globalData] ${dir}`)
   const files = fs.readdirSync(dir)

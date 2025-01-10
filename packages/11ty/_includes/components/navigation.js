@@ -1,4 +1,4 @@
-import truncate from '#lib/truncate'
+import truncate from '#lib/truncate/index.js'
 import { html } from '#lib/common-tags/index.js'
 
 /**

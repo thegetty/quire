@@ -2,7 +2,7 @@ import Ajv from 'ajv'
 import fs from 'fs-extra'
 import path from 'node:path'
 
-import configSchema from '../schemas/config.json'
+import configSchema from '../schemas/config.json' assert { type: 'json' }
 
 /**
  * 
@@ -16,7 +16,7 @@ import configSchema from '../schemas/config.json'
  * NB: This is also imported by CLI commands
  *  
  */
-const validateUserConfig = (type, data, schemas = { config: configSchema }) => {
+export const validateUserConfig = (type, data, schemas = { config: configSchema }) => {
 
   const { config: configSchema } = schemas 
 
@@ -69,6 +69,3 @@ const validateUserConfig = (type, data, schemas = { config: configSchema }) => {
 
   return data
 }
-
-module.exports = { validateUserConfig }
-// export default validateUserConfig;

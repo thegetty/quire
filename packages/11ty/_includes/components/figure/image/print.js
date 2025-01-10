@@ -38,6 +38,7 @@ export default function(eleventyConfig) {
         break
     }
 
+    // console.log(imageSrc)
     return html`
       <img alt="${alt}" class="q-figure__image" src="${imageSrc}"/>
       ${figureCaption({ caption, content: labelElement, credit })}

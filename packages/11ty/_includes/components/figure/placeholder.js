@@ -22,7 +22,7 @@ export default function(eleventyConfig) {
     } else {
       const imagePath = path.join(imageDir, 'icons', `${mediaType}.png`)
       imageElement = `
-        <img src="${imagePath}" class="q-figure__media-fallback" />
+        <img src="${imagePath}" class="q-figure__media-fallback" alt="${alt}" />
       `
     }
 
@@ -30,7 +30,7 @@ export default function(eleventyConfig) {
 
     const captionElement = `
       <figcaption class="quire-figure__caption">
-        <a href="${src}" target="_blank">${src}</a>
+        <a href="${src}" target="_blank" alt=>${src}</a>
       </figcaption>
     `
 

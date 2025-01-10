@@ -1,4 +1,5 @@
 import liquidArgs from 'liquid-args'
+import { isAsyncFunction } from 'node:util/types'
 // import { Liquid, Hash } from 'liquidjs'
 
 /**
@@ -18,12 +19,13 @@ export default function(eleventyConfig, tagName, component) {
    * @see https://www.11ty.dev/docs/languages/javascript/#javascript-template-functions
    * @see https://www.11ty.dev/docs/languages/javascript/#relationship-to-filters-and-shortcodes
    */
-  if (component.constructor.name === 'AsyncFunction') {
+  if (isAsyncFunction(component)) {
     eleventyConfig.addJavaScriptFunction(tagName, async function(...args) {
       return await component(eleventyConfig)(...args)
     })
   } else {
     eleventyConfig.addJavaScriptFunction(tagName, function(...args) {
+      // console.log(tagName,component)
       return component(eleventyConfig)(...args)
     })
   }

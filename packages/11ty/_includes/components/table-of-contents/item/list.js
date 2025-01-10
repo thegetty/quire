@@ -1,4 +1,4 @@
-import { html, oneLine } = from '~lib/common-tags.js'
+import { html, oneLine } from '#lib/common-tags/index.js'
 import path from 'node:path'
 
 /**

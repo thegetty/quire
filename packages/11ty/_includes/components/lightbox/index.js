@@ -1,4 +1,4 @@
-import { html } from '~lib/common-tags.js'
+import { html } from '#lib/common-tags/index.js'
 
 /**
  * Lightbox Tag
