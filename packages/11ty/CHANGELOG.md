@@ -12,6 +12,14 @@ Changelog entries are classified using the following labels:
 - `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
+## []
+
+### Bumped
+
+- Update dependency pins for `@11ty/eleventy`, `@11ty/eleventy-plugin-vite` to support Eleventy v3
+
+This release is a somewhat major change to eleventy's version 3, which requires javascript files to use ESM imports and associated abstractions (eg, import.meta.url). For most quire users this should not affect much but some integrators that make customizations to quire code or import packages not in a quire publication's dependency tree may need to address ESM conformance in their custom modules.
+
 ## [1.0.0-rc.22]
 
 ### Changed
