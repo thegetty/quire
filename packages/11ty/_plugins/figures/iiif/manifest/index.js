@@ -1,4 +1,4 @@
-import { IIIFBuilder } from '@iiif/builder'
+import { IIIFBuilder } from 'iiif-builder'
 import { globalVault } from '@iiif/vault'
 import CanvasBuilder from './canvas-builder.js'
 import SequenceBuilder from './sequence-builder.js'
