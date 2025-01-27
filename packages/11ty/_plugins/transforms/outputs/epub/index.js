@@ -53,7 +53,8 @@ export default (eleventyConfig, collections) => {
         'mixed-decls'
       ]
     }
-    const styles = sass.compile(path.resolve('content', assetsDir, 'styles', 'epub.scss'), sassOptions)
+
+    const styles = sass.compile(path.resolve(eleventyConfig.directoryAssignments.input, assetsDir, 'styles', 'epub.scss'), sassOptions)
     write(path.join(assetsDir, 'epub.css'), styles.css)
 
     /**
@@ -63,11 +64,27 @@ export default (eleventyConfig, collections) => {
     const { assets } = eleventyConfig.globalData.epub
     const { url: coverUrl } = manifest.resources.find(({ rel }) => rel === 'cover-image')
     assets.push(coverUrl)
+
+    // Because epub runs simultaneously to the vite transform (!!) do path math to understand asset locations 
     for (const asset of assets) {
-      fs.copySync(
-        path.join(eleventyConfig.directoryAssignments.output, asset),
-        path.join(outputDir, asset)
-      )
+      let assetDir 
+
+      switch (true) {
+        case asset.startsWith('_assets'):
+          assetDir = eleventyConfig.directoryAssignments.input
+          break
+        case eleventyConfig.globalData.directoryConfig.publicDir !== false:
+          assetDir = eleventyConfig.globalData.directoryConfig.publicDir
+          break
+        default:
+          assetDir = eleventyConfig.directoryAssignments.output
+      }
+                          
+      let srcPath = path.join(assetDir, asset)
+      console.log(srcPath)
+      const destPath = path.join(outputDir, asset)
+
+      fs.copySync( srcPath, destPath )
     }
   })
 }
