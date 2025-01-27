@@ -1,5 +1,5 @@
 import chalkFactory from '#lib/chalk/index.js'
-// import Processor from 'simple-cite'
+import citeproc from 'citeproc'
 import chicago from './styles/chicago-fullnote-bibliography.js'
 import mla from './styles/mla.js'
 
@@ -11,7 +11,7 @@ const defaultStyles = {
 }
 
 export default async function(options={}) {
-  const locale = await import(options.locale || 'locale-en-us')
+  const { default: locale } = await import(options.locale || 'locale-en-us')
   const styles = Object.assign(defaultStyles, options.styles)
 
   return function(item, { type }) {
@@ -22,10 +22,19 @@ export default async function(options={}) {
       return
     }
 
-    // const processor = new Processor({ items: [item], locale, style })
-    // const citation = processor.cite({ citationItems: [{ id: item.id }] })
-    const citation = ''
-    const bibliography = '' //processor.bibliography()
+    const sys = {
+      retrieveItem: () => { return { ...item, properties: { noteIndex: 0 } } },
+      retrieveLocale: () => locale
+    }
+
+    let engine = new citeproc.Engine(sys, style)
+    engine.opt.development_extensions.wrap_url_and_doi = true
+    engine.setOutputFormat('text')
+
+    const citationData = { citationItems:  [{id: item.id }] }
+
+    const result = engine.processCitationCluster( citationData, [], [])
+    const citation = engine.previewCitationCluster( citationData, [] , [], 'text')
 
     return type === 'mla'
       ? `${citation.replace(/\s+$/, '')} <span class="cite-current-date__statement">Accessed <span class="cite-current-date">DD Mon. YYYY</span>.</span>`
