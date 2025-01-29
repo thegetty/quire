@@ -3,6 +3,7 @@ import chalkFactory from '#lib/chalk/index.js'
 import checkFormat from '../../_plugins/collections/filters/output.js'
 import path from 'node:path'
 
+// eslint-disable-next-line no-unused-vars
 const logger = chalkFactory('shortcode:footer-dl')
 
 /**

@@ -1,4 +1,4 @@
-import path from 'node:path'
+/* eslint-disable camelcase */
 
 /**
  * Renders <head> meta and link tags

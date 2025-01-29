@@ -1,5 +1,4 @@
 import { html } from '#lib/common-tags/index.js'
-import chalkFactory from '#lib/chalk/index.js'
 import path from 'node:path'
 
 /**

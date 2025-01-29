@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+
 import { oneLine } from '#lib/common-tags/index.js'
 
 /**

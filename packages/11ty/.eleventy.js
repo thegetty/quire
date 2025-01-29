@@ -1,8 +1,5 @@
-import copy from 'rollup-plugin-copy'
 import fs from 'fs-extra'
-
 import path from 'node:path'
-import scss from 'rollup-plugin-scss'
 
 /**
  * Eleventy plugins
@@ -13,7 +10,7 @@ import {
   InputPathToUrlTransformPlugin,
   EleventyRenderPlugin
 } from '@11ty/eleventy'
-import { eleventyImageTransformPlugin } from '@11ty/eleventy-img'
+// import { eleventyImageTransformPlugin } from '@11ty/eleventy-img'
 import directoryOutputPlugin from '@11ty/eleventy-plugin-directory-output'
 import navigationPlugin from '@11ty/eleventy-navigation'
 import pluginWebc from '@11ty/eleventy-plugin-webc'
@@ -60,6 +57,7 @@ const packageJSON = JSON.parse(
   (await fs.readFile(new URL('package.json', import.meta.url))).toString()
 )
 
+// eslint-disable-next-line no-unused-vars
 const { error } = chalkFactory('eleventy config')
 
 const inputDir = process.env.ELEVENTY_INPUT || 'content'

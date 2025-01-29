@@ -13,7 +13,6 @@ import path from 'node:path'
  */
 export default function (eleventyConfig) {
   const fullname = eleventyConfig.getFilter('fullname')
-  const getContributor = eleventyConfig.getFilter('getContributor')
   const icon = eleventyConfig.getFilter('icon')
   const link = eleventyConfig.getFilter('link')
   const markdownify = eleventyConfig.getFilter('markdownify')
@@ -30,7 +29,7 @@ export default function (eleventyConfig) {
    * @property {String} URL Contributor URL
    */
   return function (params) {
-    const { bio, id, image, pages = [], url } = params
+    const { bio, image, pages = [], url } = params
 
     const name = fullname(params)
 

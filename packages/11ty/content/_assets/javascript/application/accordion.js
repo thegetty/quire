@@ -17,7 +17,7 @@ const Accordion = class {
    */
   get parentAccordions () {
     return Array.from(Accordion.elements).filter(
-      (el) => el.contains(this.element) && el != this.element
+      (el) => el.contains(this.element) && el !== this.element
     )
   }
 

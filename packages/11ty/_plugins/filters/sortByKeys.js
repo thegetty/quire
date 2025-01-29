@@ -50,6 +50,7 @@ export default (sortKeys = [], sortOrder = 'ascending') => {
     const key = Array.isArray(item) ? item[0] : item.key || item
     const order = Array.isArray(item) ? item[1] : item.order || sortOrder
     array[index] = [key, order]
+    return {}
   })
 
   return (a, b) => {

@@ -13,9 +13,9 @@ export default async (filePath, attrs) => {
   const page = new WebC()
   const { name: componentName } = path.parse(filePath)
   const attributes = Object.keys(attrs).reduce((acc, key) => {
-    return acc += `${key}="${attrs[key]}"`
+    return acc + `${key}="${attrs[key]}"`
   }, '')
   page.setContent(`<${componentName} ${attributes} webc:import="${filePath}"></${componentName}>`)
-  const { html, css, js, components } = await page.compile()
+  const { html } = await page.compile()
   return html
 }

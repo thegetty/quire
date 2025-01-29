@@ -1,5 +1,4 @@
 import { html } from '#lib/common-tags/index.js'
-import path from 'node:path'
 
 /**
  * Renders an image with a caption and annotations UI
@@ -14,9 +13,6 @@ export default function (eleventyConfig) {
   const figureImageElement = eleventyConfig.getFilter('figureImageElement')
   const figureLabel = eleventyConfig.getFilter('figureLabel')
   const figureModalLink = eleventyConfig.getFilter('figureModalLink')
-  const markdownify = eleventyConfig.getFilter('markdownify')
-
-  const { imageDir } = eleventyConfig.globalData.config.figures
 
   return async function (figure) {
     const {

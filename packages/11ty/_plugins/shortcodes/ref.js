@@ -42,7 +42,7 @@ export default function (eleventyConfig) {
      * Image sequences
      */
     const { id, isSequence, sequences, startCanvasIndex } = figure
-    const { files, transition: figureTransition } = isSequence && sequences[0] || {}
+    const { files, transition: figureTransition } = (isSequence && sequences[0]) || {}
     const transition = params.transition || figureTransition || defaultSequenceTransition
 
     /**

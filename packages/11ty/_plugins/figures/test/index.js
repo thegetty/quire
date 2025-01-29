@@ -1,4 +1,4 @@
-import { describe, mock, test } from 'node:test'
+import { describe, test } from 'node:test'
 import { readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import Ajv from 'ajv'
@@ -81,32 +81,32 @@ describe('validating manifests via ajv', { skip: true }, () => {
   const validate = ajv.compile(manifestSchema)
 
   test('figure with checkbox annotations creates a valid manifest', { skip: true }, async () => {
-    const { manifestFixture, manifestJson } = await createManifestFromFigureFixture('annotationsCheckbox')
+    const { manifestJson } = await createManifestFromFigureFixture('annotationsCheckbox')
     assert.equal(validate(manifestJson), true)
   })
 
   test('figure with radio annotations creates a valid manifest', { skip: true }, async () => {
-    const { manifestFixture, manifestJson } = await createManifestFromFigureFixture('annotationsRadio')
+    const { manifestJson } = await createManifestFromFigureFixture('annotationsRadio')
     assert.equal(validate(manifestJson), true)
   })
 
   test('sequence figure creates a valid manifest', { skip: true }, async () => {
-    const { manifestFixture, manifestJson } = await createManifestFromFigureFixture('sequence')
+    const { manifestJson } = await createManifestFromFigureFixture('sequence')
     assert.equal(validate(manifestJson), true)
   })
 
   test('sequence figure with annotations creates a valid manifest', { skip: true }, async () => {
-    const { manifestFixture, manifestJson } = await createManifestFromFigureFixture('sequenceWithAnnotations')
+    const { manifestJson } = await createManifestFromFigureFixture('sequenceWithAnnotations')
     assert.equal(validate(manifestJson), true)
   })
 
   test('zoomable figure creates a valid manifest', { skip: true }, async () => {
-    const { manifestFixture, manifestJson } = await createManifestFromFigureFixture('zoomable')
+    const { manifestJson } = await createManifestFromFigureFixture('zoomable')
     assert.equal(validate(manifestJson), true)
   })
 
   test('zoomable sequence figure creates a valid manifest', { skip: true }, async () => {
-    const { manifestFixture, manifestJson } = await createManifestFromFigureFixture('zoomableSequence')
+    const { manifestJson } = await createManifestFromFigureFixture('zoomableSequence')
     assert.equal(validate(manifestJson), true)
   })
 })

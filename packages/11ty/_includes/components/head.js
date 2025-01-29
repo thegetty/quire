@@ -1,4 +1,3 @@
-import path from 'node:path'
 /**
  * Head Tag
  *
@@ -11,9 +10,8 @@ export default function (eleventyConfig) {
   const opengraph = eleventyConfig.getFilter('opengraph')
   const removeHTML = eleventyConfig.getFilter('removeHTML')
   const twitterCard = eleventyConfig.getFilter('twitterCard')
-  const webComponents = eleventyConfig.getFilter('webComponents')
 
-  const { application, figures, publication } = eleventyConfig.globalData
+  const { application, publication } = eleventyConfig.globalData
 
   /**
    * @param  {Object} params The Whole Dang Data Object, from base.11ty.js

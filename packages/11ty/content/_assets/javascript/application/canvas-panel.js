@@ -123,8 +123,14 @@ const goToFigureState = function ({
   const params = new URLSearchParams(
     annotationIds.map((id) => ['annotation-id', encodeURIComponent(id)])
   )
-  region ? params.set('region', encodeURIComponent(region)) : null
-  Number.isInteger(parseInt(sequence.index)) ? params.set('sequence-index', encodeURIComponent(sequence.index)) : null
+
+  if (region) {
+    params.set('region', encodeURIComponent(region))
+  }
+
+  if (Number.isInteger(parseInt(sequence.index))) {
+    params.set('sequence-index', encodeURIComponent(sequence.index))
+  }
 
   const paramsString = params.toString()
   const urlParts = [url.pathname]
@@ -171,7 +177,9 @@ const handleSelect = (element) => {
     }
     if (checked) {
       const disabledInput = form.querySelector('[disabled]')
-      disabledInput ? disabledInput.removeAttribute('disabled') : null
+      if (disabledInput) {
+        disabledInput.removeAttribute('disabled')
+      }
     }
   }
   /**

@@ -12,7 +12,7 @@ export default function (eleventyConfig) {
       ? `<a rel="license" href="${license.url}" target="_blank">${license.name}</a>`
       : license.name
 
-    if (license.scope == 'some-exceptions') {
+    if (license.scope === 'some-exceptions') {
       licenseText += `
         Unless otherwise indicated, this work is licensed under a ${licenseName}.
       `

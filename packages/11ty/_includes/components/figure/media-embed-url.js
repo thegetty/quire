@@ -1,5 +1,6 @@
 import chalkFactory from '#lib/chalk/index.js'
 
+// eslint-disable-next-line no-unused-vars
 const logger = chalkFactory('Figure Media Embed URL')
 
 export default function (eleventyConfig) {

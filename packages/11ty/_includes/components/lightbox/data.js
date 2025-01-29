@@ -1,5 +1,4 @@
 import { html } from '#lib/common-tags/index.js'
-import path from 'node:path'
 
 /**
  * Quire lightboxData component
@@ -17,10 +16,7 @@ export default function (eleventyConfig) {
   const figureTableElement = eleventyConfig.getFilter('figureTableElement')
   const figureVideoElement = eleventyConfig.getFilter('figureVideoElement')
   const markdownify = eleventyConfig.getFilter('markdownify')
-  const renderFile = eleventyConfig.getFilter('renderFile')
   const slugify = eleventyConfig.getFilter('slugify')
-
-  const { assetDir } = eleventyConfig.globalData.config.figures
 
   /**
    * lightboxData shortcode component function
@@ -35,8 +31,7 @@ export default function (eleventyConfig) {
         id,
         isSequence,
         label,
-        mediaType,
-        src
+        mediaType
       } = fig
 
       const annotationsElementContent = !isSequence ? annotationsUI({ figure: fig, lightbox: true }) : undefined
@@ -59,7 +54,7 @@ export default function (eleventyConfig) {
 
       const figureElement = async (figure) => {
         switch (true) {
-          case mediaType === 'soundcloud':
+          case isAudio:
             return figureAudioElement(figure)
           case mediaType === 'table':
             return `<div class="overflow-container">${await figureTableElement(figure)}</div>`

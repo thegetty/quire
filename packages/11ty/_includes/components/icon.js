@@ -1,5 +1,4 @@
 import { html } from '#lib/common-tags/index.js'
-import path from 'node:path'
 
 /**
  * A shortcode for including an inline SVG icon with a PNG fallback.
@@ -13,8 +12,6 @@ import path from 'node:path'
  * {% icon type="link", description="Open in new window" %}
  */
 export default function (eleventyConfig) {
-  const { imageDir } = eleventyConfig.globalData.config.figures
-
   return function (params) {
     const { description, type } = params
     const descriptionElement = description

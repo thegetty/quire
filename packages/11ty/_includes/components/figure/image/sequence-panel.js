@@ -21,7 +21,6 @@ export default function (eleventyConfig) {
    */
   return function (data) {
     const {
-      height = '',
       id,
       manifestId,
       margin = '',

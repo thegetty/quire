@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+
 import path from 'node:path'
 
 /**

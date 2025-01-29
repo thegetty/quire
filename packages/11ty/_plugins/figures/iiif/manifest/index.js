@@ -4,9 +4,7 @@ import CanvasBuilder from './canvas-builder.js'
 import SequenceBuilder from './sequence-builder.js'
 import Writer from './writer.js'
 import chalkFactory from '#lib/chalk/index.js'
-import fs from 'fs-extra'
 import path from 'node:path'
-import titleCase from '#plugins/filters/titleCase.js'
 
 const logger = chalkFactory('Figures:IIIF:Manifest', 'DEBUG')
 
@@ -75,7 +73,6 @@ export default class Manifest {
       .map((item) => {
         const canvasId = path.join(this.figure.canvasId, item.id)
         const sequenceItemImage = ({ format, info, label, src, uri }) => {
-          const { ext } = path.parse(src)
           return {
             format,
             height: this.figure.canvasHeight,

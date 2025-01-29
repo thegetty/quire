@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+
 /**
  * Looks up a figure in figures.yaml by id
  * @param  {Object} eleventyConfig

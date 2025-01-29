@@ -14,7 +14,7 @@ const checkForDuplicateIds = function (data, filename) {
   if (!data) return
 
   if (Array.isArray(data)) {
-    if (data.every((item) => item.hasOwnProperty('id'))) {
+    if (data.every((item) => Object.hasOwn(item, 'id'))) {
       const duplicates = data.filter((a, index) => {
         return index !== data.findIndex((b) => b.id === a.id)
       })

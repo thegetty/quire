@@ -24,8 +24,6 @@ const FETCH_PRIORITY_THRESHOLD = 2
 export default function (eleventyConfig) {
   const figureAudio = eleventyConfig.getFilter('figureAudio')
   const figureImage = eleventyConfig.getFilter('figureImage')
-  const figureLabel = eleventyConfig.getFilter('figureLabel')
-  const figureModalLink = eleventyConfig.getFilter('figureModalLink')
   const figureTable = eleventyConfig.getFilter('figureTable')
   const figureVideo = eleventyConfig.getFilter('figureVideo')
   const getFigure = eleventyConfig.getFilter('getFigure')

@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+
 import chalkFactory from '#lib/chalk/index.js'
 import path from 'node:path'
 

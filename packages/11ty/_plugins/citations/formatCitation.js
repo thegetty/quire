@@ -33,7 +33,8 @@ export default async function (options = {}) {
 
     const citationData = { citationItems: [{ id: item.id }] }
 
-    const result = engine.processCitationCluster(citationData, [], [])
+    // eslint-disable-next-line unused-vars
+    const citationResult = engine.processCitationCluster(citationData, [], [])
     const citation = engine.previewCitationCluster(citationData, [], [], 'text')
 
     return type === 'mla'

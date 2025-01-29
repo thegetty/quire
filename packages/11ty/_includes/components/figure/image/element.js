@@ -11,7 +11,6 @@ export default function (eleventyConfig) {
   const imageService = eleventyConfig.getFilter('imageService')
   const imageSequence = eleventyConfig.getFilter('figureImageSequence')
   const imageTag = eleventyConfig.getFilter('imageTag')
-  const { imageDir } = eleventyConfig.globalData.config.figures
 
   return function (figure, options) {
     const { alt, isCanvas, isImageService, isSequence, staticInlineFigureImage, lazyLoading } = figure

@@ -47,7 +47,6 @@ export default function (eleventyConfig, collections, content) {
   const setDataAttributes = (page, element, generatePagedPDF) => {
     const { dataset } = element
     const { parentPage, layout } = page.data
-    const { pagePDF } = pdfConfig
 
     dataset.footerPageTitle = formatTitle(page.data)
 
@@ -157,8 +156,6 @@ export default function (eleventyConfig, collections, content) {
    * @return {Object} data formatted for the layout at _layouts/pdf-cover-pages.liquid
    */
   function normalizeCoverPageData (page, pdfConfig) {
-    const { pagePDFCoverPageCitationStyle } = page.data
-
     // NB: `id` must match the @id slug scheme in `base.11ty.js` so the cover pages have the same keys
     const accessURL = page.data.canonicalURL
     const contributors = page.data.pageContributors ?? []

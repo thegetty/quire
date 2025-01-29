@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+
 import path from 'node:path'
 
 /**
@@ -18,7 +20,7 @@ export default function (eleventyConfig) {
       ? contributor
         .map((contributor, { id }) => {
           contributor = id ? publication.contributor[id] : contributor
-          if (!contributor) return
+          if (!contributor) return {}
           const { full_name, first_name, last_name } = contributor
           return {
             type: 'Person',

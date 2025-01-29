@@ -88,16 +88,18 @@ export default function (eleventyConfig) {
           const contributorParts = [
             `<span class="quire-contributor__name">${fullname(contributor)}</span>`
           ]
-          contributor.title && format !== 'name'
-            ? contributorParts.push(
+          if (contributor.title && format !== 'name') {
+            contributorParts.push(
               `<span class="quire-contributor__title">${contributor.title}</span>`
             )
-            : null
-          contributor.affiliation && format !== 'name'
-            ? contributorParts.push(
+          }
+
+          if (contributor.affiliation && format !== 'name') {
+            contributorParts.push(
               `<span class="quire-contributor__affiliation">${contributor.affiliation}</span>`
             )
-            : null
+          }
+
           return `
             <li class="quire-contributor" id="${slugify(contributor.id)}">${contributorParts.join(separator)}</li>
           `
