@@ -18,11 +18,9 @@ Changelog entries are classified using the following labels:
 
 - Update dependency pins for `@11ty/eleventy`, `@11ty/eleventy-plugin-vite` to support Eleventy v3
 
-
 ### Breaking
 
-This release is updates the *major* version of `eleventy`, which requires using ECMAScript module (ESM) syntax for JavaScript code. Specifically, ESM `import` statements to use other modules and use the `import.meta.url` property for a module's file path from within that module. For most Quire users this update should be transparent. For publications that have customized the quire code or import packages that are not already in the publication's package dependency tree changes may be needed to address ESM conformance to the custom modules.
-
+This release is updates the *major* version of `eleventy`, which requires using ECMAScript module (ESM) syntax for JavaScript code. Specifically, ESM `import` statements to use other modules and the `import.meta.url` property for a module's file path from within that module. For most Quire users this update should be transparent. For publications that have customized the quire code or import packages that are not already in the publication's package dependency tree changes may be needed to address ESM conformance to the custom modules.
 ## [1.0.0-rc.22]
 
 ### Changed
