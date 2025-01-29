@@ -1,7 +1,5 @@
-import { JSDOM } from 'jsdom'
 import epub from './epub/index.js'
 import html from './html/transform.js'
-import path from 'node:path'
 import pdf from './pdf/transform.js'
 import renderOutputs from './render.js'
 

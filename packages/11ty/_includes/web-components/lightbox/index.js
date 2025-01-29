@@ -1,4 +1,4 @@
-import { LitElement, html, render, unsafeCSS } from 'lit'
+import { LitElement, html, render } from 'lit'
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js'
 
 /**
@@ -151,11 +151,6 @@ class Lightbox extends LitElement {
   _alignSlideData (figure) {
     const {
       aspect_ratio: aspectRatio = 'widescreen',
-      caption,
-      credit,
-      id,
-      isSequence,
-      label,
       mediaType
     } = figure
 
@@ -248,13 +243,13 @@ class Lightbox extends LitElement {
     document.addEventListener('keyup', ({ code }) => {
       if (this.slides.length > 1) {
         switch (code) {
-          default:
-            break
           case 'ArrowRight':
             this.next()
             break
           case 'ArrowLeft':
             this.previous()
+            break
+          default:
             break
         }
       }

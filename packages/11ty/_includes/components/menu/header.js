@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+
 import { html } from '#lib/common-tags/index.js'
 
 /**
@@ -10,7 +12,6 @@ import { html } from '#lib/common-tags/index.js'
  */
 export default function (eleventyConfig) {
   const contributors = eleventyConfig.getFilter('contributors')
-  const markdownify = eleventyConfig.getFilter('markdownify')
   const siteTitle = eleventyConfig.getFilter('siteTitle')
   const { contributor: publicationContributors, contributor_as_it_appears } = eleventyConfig.globalData.publication
 

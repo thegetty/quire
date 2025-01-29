@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /**
  * Adapts Quire person data to CSL "name" variable
  */

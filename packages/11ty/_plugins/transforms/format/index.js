@@ -1,5 +1,4 @@
 import chalkFactory from '#lib/chalk/index.js'
-import path from 'node:path'
 import prettier from 'prettier'
 
 const logger = chalkFactory('transforms:format')

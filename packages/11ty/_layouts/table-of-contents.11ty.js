@@ -20,7 +20,6 @@ export default class TableOfContents {
       content,
       key,
       page,
-      pages,
       pagination,
       presentation = 'list'
     } = data

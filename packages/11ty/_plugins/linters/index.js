@@ -1,5 +1,6 @@
 import chalkFactory from '#lib/chalk/index.js'
 
+// eslint-disable-next-line no-unused-vars
 const logger = chalkFactory('plugins:linters')
 /**
  * Register linters that will be run on input templates

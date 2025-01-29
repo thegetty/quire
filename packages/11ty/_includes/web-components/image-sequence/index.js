@@ -1,4 +1,4 @@
-import { LitElement, css, html, render, unsafeCSS } from 'lit'
+import { LitElement, html } from 'lit'
 import { createRef, ref } from 'lit/directives/ref.js'
 
 import { imageSequenceStyles } from './styles.js'

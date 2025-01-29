@@ -22,7 +22,7 @@ export default function (eleventyConfig) {
   const { dataExtensions } = eleventyConfig
 
   return (filePath) => {
-    const { base, ext, name } = path.parse(filePath)
+    const { ext } = path.parse(filePath)
     const fileExt = ext.slice(1)
     const extension = dataExtensions.get(fileExt)
     try {

@@ -32,8 +32,6 @@ export default async function (options = {}) {
     engine.setOutputFormat('text')
 
     const citationData = { citationItems: [{ id: item.id }] }
-
-    const result = engine.processCitationCluster(citationData, [], [])
     const citation = engine.previewCitationCluster(citationData, [], [], 'text')
 
     return type === 'mla'

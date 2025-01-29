@@ -1,6 +1,5 @@
 import Figure from './index.js'
 import ImageProcessor from '../image/processor.js'
-import path from 'node:path'
 
 /**
  * Factory class to create instances of `Figure` on which process is called

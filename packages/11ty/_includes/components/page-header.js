@@ -57,7 +57,7 @@ export default function (eleventyConfig) {
 
     const classes = ['quire-page__header', 'hero']
 
-    if (title == 'title page' || title == 'half title page') {
+    if (title === 'title page' || title === 'half title page') {
       classes.push('is-screen-only')
     }
 

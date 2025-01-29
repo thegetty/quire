@@ -43,7 +43,6 @@ export default function (eleventyConfig, { page }) {
     ? eleventyConfig.globalData.references.entries
     : []
   const { pdf: pdfConfig } = eleventyConfig.globalData.config
-  const { outputs, page_pdf_output: pagePDFOutput } = page.data
   const { displayOnPage, displayShort, heading } = page.data.config.bibliography
 
   /**
@@ -61,9 +60,8 @@ export default function (eleventyConfig, { page }) {
     if (!page.citations && !referenceIds) return
 
     if (!displayOnPage) {
-      page.citations
-        ? logger.info(`A bibiliography of citations on ${page.inputPath} is not being displayed there, because 'config.bibliography.displayOnPage' on that page or in config.yaml, is set to false.`)
-        : ''
+      if (page.citations) logger.info(`A bibiliography of citations on ${page.inputPath} is not being displayed there, because 'config.bibliography.displayOnPage' on that page or in config.yaml, is set to false.`)
+
       return ''
     }
 

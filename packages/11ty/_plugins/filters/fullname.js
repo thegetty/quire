@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+
 /**
  * @param     {Object|Array<Object>} person or array of people
  * @property  {Object} first_name

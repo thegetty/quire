@@ -1,5 +1,4 @@
 import { html } from '#lib/common-tags/index.js'
-import path from 'node:path'
 
 export default function (eleventyConfig) {
   return function ({ id, sequences, startCanvasIndex }, { interactive = true }) {

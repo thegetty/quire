@@ -67,7 +67,7 @@ export default function (eleventyConfig, collections, content) {
    */
   const epubPages = collections.epub.map(({ outputPath }) => outputPath)
   const { ext } = path.parse(this.outputPath)
-  const index = epubPages.findIndex((path) => path == this.outputPath)
+  const index = epubPages.findIndex((path) => path === this.outputPath)
   let epubContent = index !== -1 ? content : undefined
 
   // Returning content allows subsequent transforms to process it unmodified

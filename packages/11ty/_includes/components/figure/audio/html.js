@@ -1,5 +1,4 @@
 import { html } from '#lib/common-tags/index.js'
-import chalkFactory from '#lib/chalk/index.js'
 
 /**
  * Renders an iframe element with the SoundCloud audio player
@@ -11,7 +10,6 @@ import chalkFactory from '#lib/chalk/index.js'
  */
 export default function (eleventyConfig) {
   const figureCaption = eleventyConfig.getFilter('figureCaption')
-  const figureImage = eleventyConfig.getFilter('figureImage')
   const figureLabel = eleventyConfig.getFilter('figureLabel')
   const figureAudioElement = eleventyConfig.getFilter('figureAudioElement')
 

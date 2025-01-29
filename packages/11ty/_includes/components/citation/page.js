@@ -6,7 +6,6 @@
  */
 export default function (eleventyConfig) {
   const citeName = eleventyConfig.getFilter('citeName')
-  const citePublicationSeries = eleventyConfig.getFilter('citePublicationSeries')
   const getContributor = eleventyConfig.getFilter('getContributor')
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const siteTitle = eleventyConfig.getFilter('siteTitle')

@@ -15,12 +15,12 @@ export default function (eleventyConfig, collections, options) {
 
   for (const component in components) {
     switch (component) {
-      default:
-        addComponentTag(eleventyConfig, `${component}`, components[component])
-        break
       case 'lightbox':
       case 'modal':
         addShortcode(`${component}`, components[component])
+        break
+      default:
+        addComponentTag(eleventyConfig, `${component}`, components[component])
         break
     }
   }

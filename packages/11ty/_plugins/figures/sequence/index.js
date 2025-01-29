@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+
 import Annotation from '../annotation/index.js'
 import path from 'node:path'
 

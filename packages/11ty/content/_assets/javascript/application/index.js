@@ -14,15 +14,11 @@ import '../../styles/screen.scss'
 import '../../styles/custom.css'
 
 // Modules (feel free to define your own and import here)
-import './canvas-panel.js'
 import './soundcloud-api.min.js'
 import { goToFigureState, setUpUIEventHandlers } from './canvas-panel.js'
 import Accordion from './accordion.js'
 import Search from '../../../../_plugins/search/search.js'
 import scrollToHash from './scroll-to-hash.js'
-
-// array of leaflet instances
-const mapArr = []
 
 /**
  * toggleMenu
@@ -66,20 +62,6 @@ window.toggleSearch = () => {
     searchInput.focus()
     searchControls.setAttribute('aria-expanded', 'true')
   }
-}
-
-/**
- * Paul Frazee's easy templating function
- * https://twitter.com/pfrazee/status/1223249561063477250?s=20
- */
-function createHtml (tag, attributes, ...children) {
-  const element = document.createElement(tag)
-  for (const attribute in attributes) {
-    if (attribute === 'className') element.className = attributes[attribute]
-    else element.setAttribute(attribute, attributes[attribute])
-  }
-  for (const child of children) element.append(child)
-  return element
 }
 
 /**

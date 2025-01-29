@@ -36,9 +36,7 @@ export default function (eleventyConfig) {
       label,
       layout,
       object: pageObject,
-      short_title,
       subtitle,
-      summary,
       title
     } = page.data
 

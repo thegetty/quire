@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+
 import truncate from '#lib/truncate/index.js'
 import { html } from '#lib/common-tags/index.js'
 
@@ -14,12 +16,10 @@ import { html } from '#lib/common-tags/index.js'
  * one in the range is linked to.
  */
 export default function (eleventyConfig) {
-  const eleventyNavigation = eleventyConfig.getFilter('eleventyNavigation')
   const pageTitle = eleventyConfig.getFilter('pageTitle')
-  const { imageDir } = eleventyConfig.globalData.config.figures
 
   return function (params) {
-    const { collections, pagination, title } = params
+    const { collections, pagination } = params
     const {
       currentPage,
       currentPageIndex,

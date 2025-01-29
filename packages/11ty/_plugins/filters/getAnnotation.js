@@ -6,7 +6,7 @@
  */
 export default function (eleventyConfig, fig, annotationId) {
   const getFigure = eleventyConfig.getFilter('getFigure')
-  const { figure_list: figureList } = eleventyConfig.globalData.figures
+
   const figure = getFigure(fig)
   if (!figure || !Array.isArray(figure.annotations)) return
   return figure.annotations

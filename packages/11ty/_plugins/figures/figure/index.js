@@ -180,7 +180,7 @@ export default class Figure {
    */
   get printImage () {
     if (!this.isExternalResource && this.src && !this.data.printImage) {
-      const { ext, name } = path.parse(this.src)
+      const { name } = path.parse(this.src)
       return path.join('/', this.outputDir, name, `print-image${this.outputFormat}`)
     }
     return this.data.printImage
@@ -208,7 +208,7 @@ export default class Figure {
       filename = sequenceStart || this.sequences[0].files[0]
     }
 
-    if (!this.isExternalResource && filename && this.mediaType != 'table') {
+    if (!this.isExternalResource && filename && this.mediaType !== 'table') {
       const { ext, name } = path.parse(filename)
       const format = this.iiifConfig.formats.find(({ input }) => input.includes(ext))
       return path.join('/', this.outputDir, name, `static-inline-figure-image${format.output}`)
