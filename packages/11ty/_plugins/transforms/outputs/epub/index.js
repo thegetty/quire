@@ -81,7 +81,6 @@ export default (eleventyConfig, collections) => {
       }
 
       const srcPath = path.join(assetDir, asset)
-      console.log(srcPath)
       const destPath = path.join(outputDir, asset)
 
       fs.copySync(srcPath, destPath)
