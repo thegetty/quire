@@ -12,7 +12,7 @@ Changelog entries are classified using the following labels:
 - `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
-## []
+## [unreleased]
 
 ### Bumped
 
