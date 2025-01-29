@@ -1,12 +1,12 @@
-const path = require('path')
-const { html } = require('~lib/common-tags')
+import path from 'node:path'
+import { html } from '#lib/common-tags/index.js'
 
-module.exports = function(eleventyConfig) {
+export default function (eleventyConfig) {
   const figureLabel = eleventyConfig.getFilter('figureLabel')
 
   const { imageDir } = eleventyConfig.globalData.config.figures
 
-  return function({ alt, caption, id, label, mediaType, src }) {
+  return function ({ alt, caption, id, label, mediaType, src }) {
     let imageElement
 
     if (src) {
@@ -22,7 +22,7 @@ module.exports = function(eleventyConfig) {
     } else {
       const imagePath = path.join(imageDir, 'icons', `${mediaType}.png`)
       imageElement = `
-        <img src="${imagePath}" class="q-figure__media-fallback" />
+        <img src="${imagePath}" class="q-figure__media-fallback" alt="${alt}" />
       `
     }
 
@@ -30,7 +30,7 @@ module.exports = function(eleventyConfig) {
 
     const captionElement = `
       <figcaption class="quire-figure__caption">
-        <a href="${src}" target="_blank">${src}</a>
+        <a href="${src}" target="_blank" alt=>${src}</a>
       </figcaption>
     `
 

@@ -3,39 +3,39 @@ import { LitElement, html } from 'lit'
 class Modal extends LitElement {
   static properties = {
     active: { type: Boolean },
-    currentId: { attribute: 'current-id', type: String },
+    currentId: { attribute: 'current-id', type: String }
   }
 
-  get closeButton() {
+  get closeButton () {
     return this.querySelector('[data-modal-close]')
   }
 
-  get lightbox() {
+  get lightbox () {
     return this.querySelector('q-lightbox')
   }
 
-  constructor() {
+  constructor () {
     super()
     this.setupKeyboardControls()
     this.setupModalTriggers()
   }
 
-  close() {
+  close () {
     this.active = false
     this.currentId = null
     this.updateLightboxCurrentId()
     this.enableScrolling()
   }
 
-  disableScrolling() {
+  disableScrolling () {
     document.querySelector('html').style.overflow = 'hidden'
   }
 
-  enableScrolling() {
+  enableScrolling () {
     document.querySelector('html').style.overflow = 'auto'
   }
 
-  getCurrentFigureId(event) {
+  getCurrentFigureId (event) {
     const { target } = event
     let currentFigure = target
     while (
@@ -47,14 +47,14 @@ class Modal extends LitElement {
     return currentFigure.getAttribute('id')
   }
 
-  open(event) {
+  open (event) {
     this.currentId = this.getCurrentFigureId(event)
     this.active = true
     this.updateLightboxCurrentId()
     this.disableScrolling()
   }
 
-  setupCloseButton() {
+  setupCloseButton () {
     if (!this.closeButton) return
 
     this.closeButton.addEventListener('click', () => {
@@ -62,17 +62,17 @@ class Modal extends LitElement {
     })
   }
 
-  setupKeyboardControls() {
+  setupKeyboardControls () {
     document.addEventListener('keyup', ({ code }) => {
       if (this.active) {
-        if(code === 'Escape') {
+        if (code === 'Escape') {
           this.close()
         }
       }
     })
   }
 
-  setupModalTriggers() {
+  setupModalTriggers () {
     document.querySelectorAll('.q-figure__modal-link').forEach((item) => {
       item.addEventListener('click', (event) => {
         event.preventDefault()
@@ -81,11 +81,11 @@ class Modal extends LitElement {
     })
   }
 
-  updateLightboxCurrentId() {
+  updateLightboxCurrentId () {
     this.lightbox && this.lightbox.setAttribute('current-id', this.currentId)
   }
 
-  render() {
+  render () {
     this.dataset.modalActive = this.active
     this.setupCloseButton()
 

@@ -1,68 +1,60 @@
-const path = require('path')
-const { html } = require('~lib/common-tags')
+import { html } from '#lib/common-tags/index.js'
 
 /**
  * Quire lightboxData component
  * @param {Object} eleventyConfig
  * @return {Function} 11ty component function for lightboxData
- * 
+ *
  * Serializes the data for a lightbox's figures to a slotted
  * `<script>` tag. Where necessary it uses 11ty / quire functions
  * to generate HTML markup and slugified resource IDs.
  */
-module.exports = function(eleventyConfig) {
-
+export default function (eleventyConfig) {
   const annotationsUI = eleventyConfig.getFilter('annotationsUI')
   const figureImageElement = eleventyConfig.getFilter('figureImageElement')
   const figureAudioElement = eleventyConfig.getFilter('figureAudioElement')
   const figureTableElement = eleventyConfig.getFilter('figureTableElement')
   const figureVideoElement = eleventyConfig.getFilter('figureVideoElement')
   const markdownify = eleventyConfig.getFilter('markdownify')
-  const renderFile = eleventyConfig.getFilter('renderFile')
   const slugify = eleventyConfig.getFilter('slugify')
-  
-  const { assetDir } = eleventyConfig.globalData.config.figures
 
   /**
    * lightboxData shortcode component function
    * @param {Object} data - Figures data to insert
    * @return an HTML script element with JSON-serialized payload
    */
-  return async function(data) {
-
-    const figures = await Promise.all(data.map( async (fig) => {
-
+  return async function (data) {
+    const figures = await Promise.all(data.map(async (fig) => {
       const {
         caption,
         credit,
         id,
         isSequence,
         label,
-        mediaType,
-        src,
+        mediaType
       } = fig
 
       const annotationsElementContent = !isSequence ? annotationsUI({ figure: fig, lightbox: true }) : undefined
-      const labelHtml = label ? markdownify(label) : undefined 
+      const labelHtml = label ? markdownify(label) : undefined
       const captionHtml = caption ? markdownify(caption) : undefined
       const creditHtml = credit ? markdownify(caption) : undefined
       const sluggedId = slugify(id)
 
-      let mapped = { ...fig, 
+      const mapped = {
+        ...fig,
         annotationsElementContent,
-        captionHtml, 
-        creditHtml,                     
-        labelHtml, 
-        sluggedId, 
+        captionHtml,
+        creditHtml,
+        labelHtml,
+        sluggedId
       }
-
 
       const isAudio = mediaType === 'soundcloud'
       const isVideo = mediaType === 'video' || mediaType === 'vimeo' || mediaType === 'youtube'
 
       const figureElement = async (figure) => {
         switch (true) {
-          case mediaType === 'soundcloud':
+          case isAudio:
             return figureAudioElement(figure)
           case mediaType === 'table':
             return `<div class="overflow-container">${await figureTableElement(figure)}</div>`
@@ -77,7 +69,7 @@ module.exports = function(eleventyConfig) {
       mapped.figureElementContent = await figureElement(fig)
       return mapped
     }))
-    
+
     const jsonData = JSON.stringify(figures)
 
     return html`

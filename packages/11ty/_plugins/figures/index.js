@@ -1,6 +1,6 @@
-const chalkFactory = require('~lib/chalk')
-const FigureFactory = require('./figure/factory')
-const iiifConfig = require('./iiif/config')
+import FigureFactory from './figure/factory.js'
+import chalkFactory from '#lib/chalk/index.js'
+import iiifConfig from './iiif/config.js'
 
 const logger = chalkFactory('Figures', 'DEBUG')
 
@@ -9,7 +9,7 @@ const logger = chalkFactory('Figures', 'DEBUG')
  * Uses the FigureFactory to create Figure instances
  * for all figures in `figures.yaml` and updates global data
  */
-module.exports = function (eleventyConfig, options = {}) {
+export default function (eleventyConfig, options = {}) {
   eleventyConfig.on('eleventy.before', async () => {
     const config = iiifConfig(eleventyConfig)
     const figureFactory = new FigureFactory(config)
@@ -43,7 +43,7 @@ module.exports = function (eleventyConfig, options = {}) {
      */
     Object.assign(
       figureList,
-      figures.map(({ figure }) => figure.adapter()),
+      figures.map(({ figure }) => figure.adapter())
     )
     logger.info('Processing complete')
   })

@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+
 /**
  * @param     {Object|Array<Object>} person or array of people
  * @property  {Object} first_name
@@ -18,10 +20,10 @@ const getName = (person, options) => {
   } else {
     joinedName = nameParts.join(' ')
   }
-  return full_name ? full_name : joinedName
+  return full_name || joinedName
 }
 
-module.exports = function (data, options = {}) {
+export default function (data, options = {}) {
   if (Array.isArray(data)) {
     return data.map(item => getName(item, options))
   }

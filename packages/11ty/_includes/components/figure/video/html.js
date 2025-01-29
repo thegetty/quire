@@ -1,4 +1,4 @@
-const { html } = require('~lib/common-tags')
+import { html } from '#lib/common-tags/index.js'
 /**
  * Renders a native or embedded video player with a caption
  *
@@ -7,12 +7,12 @@ const { html } = require('~lib/common-tags')
  *
  * @return     {String}  HTML containing a video player and a caption
  */
-module.exports = function(eleventyConfig) {
+export default function (eleventyConfig) {
   const figureCaption = eleventyConfig.getFilter('figureCaption')
   const figureLabel = eleventyConfig.getFilter('figureLabel')
   const figureVideoElement = eleventyConfig.getFilter('figureVideoElement')
 
-  return function({
+  return function ({
     aspect_ratio: aspectRatio,
     caption,
     credit,

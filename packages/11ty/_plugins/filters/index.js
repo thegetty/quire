@@ -1,32 +1,25 @@
-// Quire data filters
-const fullname = require('./fullname')
-const getAnnotation = require('./getAnnotation')
-const getContributor = require('./getContributor')
-const getFigure = require('./getFigure')
-const getObject = require('./getObject')
-const initials = require('./initials')
-const keywords = require('./keywords')
-const sortContributors = require('./sortContributors')
-const sortReferences = require('./sortReferences')
-
-// string filters
-const capitalize = require('./capitalize')
-const json = require('./json')
-const removeHTML = require('./removeHTML')
-const slugifyIds = require('./slugifyIds')
-const titleCase = require('./titleCase')
-
-// utility filters
-const sortByKeys = require('./sortByKeys')
-
-// Web component rendering
-const renderWebcComponent = require('./renderWebcComponent')
+import capitalize from './capitalize.js'
+import fullname from './fullname.js'
+import getAnnotation from './getAnnotation.js'
+import getContributor from './getContributor.js'
+import getFigure from './getFigure.js'
+import getObject from './getObject.js'
+import initials from './initials.js'
+import json from './json.js'
+import keywords from './keywords.js'
+import removeHTML from './removeHTML.js'
+import renderWebcComponent from './renderWebcComponent.js'
+import slugifyIds from './slugifyIds.js'
+import sortByKeys from './sortByKeys.js'
+import sortContributors from './sortContributors.js'
+import sortReferences from './sortReferences.js'
+import titleCase from './titleCase.js'
 
 /**
  * Add universal filters for use in templates
  * @see https://www.11ty.dev/docs/filters/#universal-filters
  */
-module.exports = function(eleventyConfig, options) {
+export default function (eleventyConfig, options) {
   /**
    * Quire data filters
    */

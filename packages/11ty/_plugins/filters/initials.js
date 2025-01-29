@@ -9,8 +9,8 @@
  * @example "H.B."
  */
 
-module.exports = (person, options) => {
-  const { 
+export default (person, options) => {
+  const {
     first_name: firstName,
     full_name: fullName,
     last_name: lastName

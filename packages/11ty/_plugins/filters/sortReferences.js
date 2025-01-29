@@ -7,7 +7,7 @@
  * @param  {Array} items References
  * @return {Array} sorted references
  */
-module.exports = function (eleventyConfig, items) {
+export default function (eleventyConfig, items) {
   if (!items || !Array.isArray(items)) return null
   const { defaultLocale } = eleventyConfig.globalData.config.localization
   const removeMarkdown = eleventyConfig.getFilter('removeMarkdown')

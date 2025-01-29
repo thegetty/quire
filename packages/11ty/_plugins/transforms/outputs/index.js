@@ -1,18 +1,16 @@
-const path = require('path')
-const jsdom = require('jsdom')
-const { JSDOM } = jsdom
-const epub = require('./epub')
-const html = require('./html/transform.js')
-const pdf = require('./pdf/transform.js')
-const renderOutputs = require('./render.js')
+import epub from './epub/index.js'
+import html from './html/transform.js'
+import pdf from './pdf/transform.js'
+import renderOutputs from './render.js'
+
 /**
  * Eleventy plugin to transform content for output as epub, html, pdf
  *
  * @param      {Object}  eleventyConfig  Eleventy configuration
  * @param      {Object}  collections  Eleventy collections
  */
-module.exports = function(eleventyConfig, { collections }) {
-  eleventyConfig.addJavaScriptFunction('renderOutputs', function(...args)  {
+export default function (eleventyConfig, { collections }) {
+  eleventyConfig.addJavaScriptFunction('renderOutputs', function (...args) {
     return renderOutputs(eleventyConfig, ...args)
   })
   /**

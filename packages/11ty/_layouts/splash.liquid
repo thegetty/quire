@@ -12,7 +12,7 @@ description: splash page layout
 <section class="{% if title == "title page" or title == "half title page" %} is-screen-only {% endif %} quire-page__header hero {% if content %}{% else %}quire-page__header--full-height{% endif %} {% if image %}hero-image{% endif %}" {% if image %}style="background-image: url('{{ imagePath }}');"{% endif %}>
   {% if image %}
     <!-- This ensures background image asset gets copied into epub package -->
-    <img class="visually-hidden" src="{{ imagePath }}" />
+    <img class="visually-hidden" src="{{ imagePath }}" alt=""/>
   {% endif %}
   <div class="hero-body">
     <h1 class="quire-page__header__title" id="page-header-{{ page.filePathStem }}">

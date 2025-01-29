@@ -1,12 +1,12 @@
-const chalkFactory = require('~lib/chalk')
-const path = require('path')
+/* eslint-disable camelcase */
+import chalkFactory from '#lib/chalk/index.js'
 
 const { warn } = chalkFactory('eleventyComputed')
 
 /**
  * Global computed data
  */
-module.exports = {
+export default {
   canonicalURL: ({ publication, page }) => {
     const pageUrl = page.url.replace(/^\/+/, '')
     return new URL(pageUrl, publication.url).href
@@ -53,7 +53,7 @@ module.exports = {
   /**
    * Classes applied to <main> page element
    */
-  classes: ({ collections, classes=[], page }) => {
+  classes: ({ collections, classes = [], page }) => {
     const computedClasses = []
     // Add computed frontmatter and page-one classes
     const pageIndex = collections.allSorted.findIndex(({ outputPath }) => outputPath === page.outputPath)
@@ -141,7 +141,7 @@ module.exports = {
     const parentSegment = segments.slice(1, segments.length - 2).join('/')
     return parent || parentSegment
   },
-  parentPage:({ collections, parent }) => {
+  parentPage: ({ collections, parent }) => {
     return collections.all.find((item) => parent && item.data.key === parent)
   },
   /**
@@ -168,12 +168,14 @@ module.exports = {
           const includePage = Array.isArray(contributor)
             ? contributor.find((item) => item.id === id)
             : contributor.id === id
-          return includePage ? {
-            label,
-            subtitle,
-            title,
-            url
-          } : []
+          return includePage
+            ? {
+                label,
+                subtitle,
+                title,
+                url
+              }
+            : []
         }
       )
       return contributor

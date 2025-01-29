@@ -1,5 +1,5 @@
-const formatCitationFn = require('./formatCitation')
+import formatCitationFn from './formatCitation.js'
 
-module.exports = function (eleventyConfig, options) {
-  eleventyConfig.addJavaScriptFunction('formatCitation', formatCitationFn(options))
+export default function (eleventyConfig, options) {
+  formatCitationFn(options).then(fn => eleventyConfig.addJavaScriptFunction('formatCitation', fn))
 }

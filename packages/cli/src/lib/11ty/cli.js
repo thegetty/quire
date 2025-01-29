@@ -19,7 +19,7 @@ const factory = (options = {}) => {
    * Use the version of Eleventy installed to `lib/quire/versions`
    */
   const eleventy =
-    path.join(eleventyRoot, 'node_modules', '@11ty', 'eleventy', 'cmd.js')
+    path.join(eleventyRoot, 'node_modules', '@11ty', 'eleventy', 'cmd.cjs')
 
   const command = [
     eleventy,

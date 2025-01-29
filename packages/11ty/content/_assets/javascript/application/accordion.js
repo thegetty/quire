@@ -3,7 +3,7 @@
  * @param {HTMLElement} element Accordion section element
  */
 const Accordion = class {
-  constructor(element) {
+  constructor (element) {
     this.copyLinkButton = element.querySelector('.accordion-section__copy-link-button')
     this.element = element
     this.id = element.getAttribute('id')
@@ -15,9 +15,9 @@ const Accordion = class {
   /**
    * @return {NodeList} All of this accordion's parent accordions, if accordion is nested
    */
-  get parentAccordions() {
+  get parentAccordions () {
     return Array.from(Accordion.elements).filter(
-      (el) => el.contains(this.element) && el != this.element
+      (el) => el.contains(this.element) && el !== this.element
     )
   }
 
@@ -28,7 +28,7 @@ const Accordion = class {
   // Static method to check if an element is or is included in an accordion
   static partOfAccordion = (element) => element.closest(`.${this.className}`)
 
-  static setGlobalControls() {
+  static setGlobalControls () {
     const hasGlobalControls = !!Accordion.globalCollapse && !!Accordion.globalExpand
     if (!hasGlobalControls) return
 
@@ -78,7 +78,7 @@ const Accordion = class {
   /**
    * Set initial UI state on page load and initialize accordions
    */
-  static setup() {
+  static setup () {
     if (!Accordion.elements.length) return
     Accordion.elements.forEach((element) => {
       const accordion = new Accordion(element)
@@ -92,7 +92,7 @@ const Accordion = class {
    * - copy to clipboard
    * - global expand/collapse
    */
-  addEventListeners() {
+  addEventListeners () {
     this.copyLinkButton.addEventListener('click', this.copyLink.bind(this))
     this.element.addEventListener('toggle', Accordion.setGlobalControls.bind(this))
 
@@ -107,7 +107,7 @@ const Accordion = class {
   /**
    * Collapse accordion
    */
-  close() {
+  close () {
     this.element.removeAttribute('open')
     Accordion.setGlobalControls()
   }
@@ -116,7 +116,7 @@ const Accordion = class {
    * Copy link to heading to clipboard
    * Push url to window.history
    */
-  copyLink() {
+  copyLink () {
     if (this.copying) return
     this.copying = true
     const href = this.copyLinkButton.getAttribute('value')
@@ -131,14 +131,14 @@ const Accordion = class {
         this.copying = false
       }, 2000)
     } catch (error) {
-      console.error(`Error copying heading link: `, error)
+      console.error('Error copying heading link: ', error)
     }
   }
 
   /**
    * Add event listeners and set initial state
    */
-  init() {
+  init () {
     this.addEventListeners()
     this.setStateFromUrl()
   }
@@ -146,7 +146,7 @@ const Accordion = class {
   /**
    * Expand accordion
    */
-  open() {
+  open () {
     this.element.setAttribute('open', true)
     Accordion.setGlobalControls()
   }
@@ -155,7 +155,7 @@ const Accordion = class {
    * Sets the the initial accordion state if url contains a hash to an accordion id or an element within an accordion
    * Expands parent accordions if selected accordion is nested
    */
-  setStateFromUrl() {
+  setStateFromUrl () {
     const hashId = window.location.hash.replace(/^#/, '')
     if (!hashId) return
     const target = document.querySelector(window.location.hash)

@@ -1,5 +1,4 @@
-const { html } = require('~lib/common-tags')
-const path = require('path')
+import { html } from '#lib/common-tags/index.js'
 
 /**
  * Renders an image with a caption and annotations UI
@@ -9,16 +8,13 @@ const path = require('path')
  *
  * @return     {String}  HTML containing  a `figureImageElement`, a caption and annotations UI
  */
-module.exports = function(eleventyConfig) {
+export default function (eleventyConfig) {
   const figureCaption = eleventyConfig.getFilter('figureCaption')
   const figureImageElement = eleventyConfig.getFilter('figureImageElement')
   const figureLabel = eleventyConfig.getFilter('figureLabel')
   const figureModalLink = eleventyConfig.getFilter('figureModalLink')
-  const markdownify = eleventyConfig.getFilter('markdownify')
 
-  const { imageDir } = eleventyConfig.globalData.config.figures
-
-  return async function(figure) {
+  return async function (figure) {
     const {
       caption,
       credit,

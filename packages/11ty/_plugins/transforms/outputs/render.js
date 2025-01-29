@@ -1,14 +1,13 @@
-const { html } = require('~lib/common-tags')
-const fs = require('fs-extra')
-const jsdom = require('jsdom')
-const { JSDOM } = jsdom
-const path = require('path')
+import { JSDOM } from 'jsdom'
+import { html } from '#lib/common-tags/index.js'
+import fs from 'fs-extra'
+import path from 'node:path'
 
 /**
  * Iterate over output files and render with a `data` attribute
  * that allows tranforms to filter elements from output formats.
  */
-module.exports = async function (eleventyConfig, dir, params, page) {
+export default async function (eleventyConfig, dir, params, page) {
   const fileNames = ['epub', 'html', 'pdf', 'print']
 
   const filePaths = fileNames.flatMap((output) => {
@@ -17,7 +16,7 @@ module.exports = async function (eleventyConfig, dir, params, page) {
   })
 
   const content = await Promise.all(filePaths.flatMap(async (filePath, index) => {
-    const init = require(filePath)
+    const { default: init } = await import(`${filePath}.js`)
     const renderFn = init(eleventyConfig, { page })
     const component = await renderFn(params)
     const fragment = JSDOM.fragment(component)

@@ -3,12 +3,12 @@
  * Separate sort functions for different content types is not ideal,
  * however Quire requires that data could be defined globally, per-page, or per-shortcode.
  * As a result the logic to define the sort key and sort must be performed at the shortcode-level.
- * 
+ *
  * @param  {Object} eleventyConfig
  * @param  {Array} contributors
  * @return {Object}                object
  */
-module.exports = function(eleventyConfig, contributors) {
+export default function (eleventyConfig, contributors) {
   const fullname = eleventyConfig.getFilter('fullname')
   return contributors
     .map((item) => {

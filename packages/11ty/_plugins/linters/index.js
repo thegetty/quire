@@ -1,5 +1,6 @@
-const chalkFactory = require('~lib/chalk')
+import chalkFactory from '#lib/chalk/index.js'
 
+// eslint-disable-next-line no-unused-vars
 const logger = chalkFactory('plugins:linters')
 /**
  * Register linters that will be run on input templates
@@ -7,7 +8,7 @@ const logger = chalkFactory('plugins:linters')
  *
  * Nota bene: linters are run on the input *before* applying layouts
  */
-module.exports = function(eleventyConfig, options) {
+export default function (eleventyConfig, options) {
   // eleventyConfig.addLinter('test', function(content) {
   //   logger.info(`writing ${this.inputPath} to ${this.outputPath}`)
   // })

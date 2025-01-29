@@ -1,8 +1,7 @@
 /**
  * Export all figure JSON
  */
-
-module.exports = {
+export default {
   annotationsCheckbox: {
     dimensions: { height: 1455, width: 1200 },
     figure: require('./annotations-checkbox/figure.json'),
@@ -11,7 +10,7 @@ module.exports = {
   annotationsRadio: {
     dimensions: { height: 2868, width: 2082 },
     figure: require('./annotations-radio/figure.json'),
-    manifest: require('./annotations-radio/manifest.json'),
+    manifest: require('./annotations-radio/manifest.json')
   },
   sequence: {
     dimensions: { height: 2160, width: 1827 },

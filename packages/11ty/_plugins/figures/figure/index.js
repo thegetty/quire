@@ -1,15 +1,11 @@
-const chalkFactory = require('~lib/chalk')
-const Annotation = require('../annotation')
-const AnnotationFactory = require('../annotation/factory')
-const Manifest = require('../iiif/manifest')
-const path = require('path')
-const SequenceFactory = require('../sequence/factory')
-const sharp = require('sharp')
-const {
-  isCanvas,
-  isImageService,
-  isSequence
-} = require('../helpers')
+import { isCanvas, isImageService, isSequence } from '../helpers/index.js'
+import Annotation from '../annotation/index.js'
+import AnnotationFactory from '../annotation/factory.js'
+import Manifest from '../iiif/manifest/index.js'
+import SequenceFactory from '../sequence/factory.js'
+import chalkFactory from '#lib/chalk/index.js'
+import path from 'node:path'
+import sharp from 'sharp'
 
 const logger = chalkFactory('Figures:Figure', 'DEBUG')
 
@@ -27,8 +23,8 @@ const logger = chalkFactory('Figures:Figure', 'DEBUG')
  * @property {String} manifestId ID of IIIF manifest
  * @property {String} printImage Optional path to an alternate image to use in print
  */
-module.exports = class Figure {
-  constructor(iiifConfig, imageProcessor, data) {
+export default class Figure {
+  constructor (iiifConfig, imageProcessor, data) {
     const { baseURI, dirs, manifestFileName } = iiifConfig
     const outputDir = path.join(dirs.outputPath, data.id)
 
@@ -47,7 +43,6 @@ module.exports = class Figure {
             return new URL(path.join(outputDir, 'canvas'), baseURI).href
           } catch (error) {
             logger.error(`Error creating canvas id. Either the output directory (${outputDir}) or base URI (${baseURI}) are invalid to form a fully qualified URI.`)
-            return
           }
       }
     }
@@ -67,7 +62,6 @@ module.exports = class Figure {
             return new URL(path.join(outputDir, manifestFileName), baseURI).href
           } catch (error) {
             logger.error(`Error creating manifest id. Either the output directory (${outputDir}), filename (${manifestFileName}), or base URI (${baseURI}) are invalid to form a fully qualified URI.`)
-            return
           }
       }
     }
@@ -111,15 +105,15 @@ module.exports = class Figure {
     this.zoom = isSequence(data) ? false : zoom
 
     // NB: *Factory depend on props of `this` so Object.assign() breaks circularity
-    this.annotationFactory = new AnnotationFactory(Object.assign({},this))
-    this.sequenceFactory = new SequenceFactory(Object.assign({},this))
+    this.annotationFactory = new AnnotationFactory(Object.assign({}, this))
+    this.sequenceFactory = new SequenceFactory(Object.assign({}, this))
   }
 
   /**
    * Figure image annotations
    * @type  {Array<Annotations>}
    */
-  get annotations() {
+  get annotations () {
     return this.annotationFactory.create()
   }
 
@@ -127,7 +121,7 @@ module.exports = class Figure {
    * Figure image sequence
    * @type  {Array<Sequence>}
    */
-  get sequences() {
+  get sequences () {
     return this.sequenceFactory.create()
   }
 
@@ -136,7 +130,7 @@ module.exports = class Figure {
    * in `figure.src` as an annotation for use in IIIF manifests
    * @return {Annotation|null}
    */
-  get baseImageAnnotation() {
+  get baseImageAnnotation () {
     const { src, label } = this.data
     return src && this.isCanvas
       ? new Annotation(this, { label, src })
@@ -147,7 +141,7 @@ module.exports = class Figure {
    * Path to the image file that represents the canvas
    * Used to define canvas properties `width` and `height`
    */
-  get canvasImagePath() {
+  get canvasImagePath () {
     if (!this.isCanvas) return
     const firstChoiceSrc = () => {
       if (!this.annotations) return
@@ -176,7 +170,7 @@ module.exports = class Figure {
    * Test if the `src` is an external resource
    * @return {Boolean}
    */
-  get isExternalResource() {
+  get isExternalResource () {
     return (this.src && this.src.startsWith('http')) || this.data.manifestId
   }
 
@@ -184,9 +178,9 @@ module.exports = class Figure {
    * Path to a print representation of the figure for EPUB & PDF outputs
    * @type {String}
    */
-  get printImage() {
+  get printImage () {
     if (!this.isExternalResource && this.src && !this.data.printImage) {
-      const { ext, name } = path.parse(this.src)
+      const { name } = path.parse(this.src)
       return path.join('/', this.outputDir, name, `print-image${this.outputFormat}`)
     }
     return this.data.printImage
@@ -196,7 +190,7 @@ module.exports = class Figure {
    * The figure region to display on load
    * @return {String} format "x,y,width,height" Defaults to full dimensions
    */
-  get region() {
+  get region () {
     if (this.isExternal || this.mediaType !== 'image') return
     return this.data.region || `0,0,${this.canvasWidth},${this.canvasHeight}`
   }
@@ -205,16 +199,16 @@ module.exports = class Figure {
    * Path to a static representation of the figure for inline display
    * @type {String}
    */
-  get staticInlineFigureImage() {
+  get staticInlineFigureImage () {
     let filename
     if (this.src) {
       filename = this.src
     } else if (this.sequences) {
       const sequenceStart = this.sequences[0].start
-      filename = sequenceStart ? sequenceStart : this.sequences[0].files[0]
+      filename = sequenceStart || this.sequences[0].files[0]
     }
 
-    if (!this.isExternalResource && filename && this.mediaType != 'table') {
+    if (!this.isExternalResource && filename && this.mediaType !== 'table') {
       const { ext, name } = path.parse(filename)
       const format = this.iiifConfig.formats.find(({ input }) => input.includes(ext))
       return path.join('/', this.outputDir, name, `static-inline-figure-image${format.output}`)
@@ -226,7 +220,7 @@ module.exports = class Figure {
    * Return only the data properties consumed by quire shortcodes
    * @return {Object} figure
    */
-  adapter() {
+  adapter () {
     /**
      * TODO determine how to handle multiple sequence starting points.
      * Assuming one (the first) sequence for now
@@ -259,7 +253,7 @@ module.exports = class Figure {
   /**
    * Get the width and height of the canvas
    */
-  async calcCanvasDimensions() {
+  async calcCanvasDimensions () {
     if (!this.canvasImagePath) return
     const { height, width } = await sharp(this.canvasImagePath).metadata()
     this.canvasHeight = height
@@ -274,7 +268,7 @@ module.exports = class Figure {
    * @return {Object}
    * @property {Array} errors
    */
-  async processFiles() {
+  async processFiles () {
     this.errors = []
 
     if (this.isExternalResource) return {}
@@ -297,7 +291,7 @@ module.exports = class Figure {
   /**
    * Process annotation images
    */
-  async processAnnotationImages() {
+  async processAnnotationImages () {
     // TODO Consider refactor - any time `this.annotations` is referenced, it creates a new instance of AnnotationFactory
     if (!this.annotations) return
     const annotationItems = this.annotations.flatMap(({ items }) => items)
@@ -315,7 +309,7 @@ module.exports = class Figure {
   /**
    * Process `figure.src`
    */
-  async processFigureImage() {
+  async processFigureImage () {
     if (!this.isCanvas || !this.src) return
     const { transformations } = this.iiifConfig
     this.validateImageForTiling(this.src)
@@ -326,11 +320,11 @@ module.exports = class Figure {
     if (errors) this.errors = this.errors.concat(errors)
   }
 
-  async processFigureSequence() {
+  async processFigureSequence () {
     // TODO Consider refactor - any time `this.sequences` is referenced, it creates a new instance of SequenceFactory
     if (!this.sequences) return
     const { transformations } = this.iiifConfig
-    const [ sequenceStartFilename ] = this.sequences.flatMap(({ files, start }) => {
+    const [sequenceStartFilename] = this.sequences.flatMap(({ files, start }) => {
       const { name: firstFileName } = path.parse(files[0])
       return start || firstFileName
     })
@@ -351,7 +345,7 @@ module.exports = class Figure {
   /**
    * Check if image dimensions are valid before proceeding with image processing
    */
-  validateImageForTiling(src) {
+  validateImageForTiling (src) {
     const minLength = this.iiifConfig.tileSize * 2
 
     this.dimensionsValidForTiling = this.canvasWidth > minLength && this.canvasHeight > minLength
@@ -365,7 +359,7 @@ module.exports = class Figure {
    * Create the IIIF `manifest.json` for <canvas-panel> components,
    * collect errors from calling toJSON and the file system writer.
    */
-  async createManifest() {
+  async createManifest () {
     // TODO Figure out why this isn't building properly when `if (!this.isCanvas || !this.isSequence) return`
     if (!this.isCanvas) return
     const manifest = new Manifest(this)

@@ -1,5 +1,6 @@
-const path = require('path')
-const { html, oneLine } = require('~lib/common-tags')
+/* eslint-disable camelcase */
+
+import { html, oneLine } from '#lib/common-tags/index.js'
 
 /**
  * Renders a TOC list item
@@ -12,19 +13,18 @@ const { html, oneLine } = require('~lib/common-tags')
  *
  * @return {String} TOC list item markup
  */
-module.exports = function (eleventyConfig) {
+export default function (eleventyConfig) {
   const contributors = eleventyConfig.getFilter('contributors')
   const icon = eleventyConfig.getFilter('icon')
   const markdownify = eleventyConfig.getFilter('markdownify')
-  const slugify = eleventyConfig.getFilter('slugify')
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const removeHTML = eleventyConfig.getFilter('removeHTML')
   const { contributorDivider } = eleventyConfig.globalData.config.tableOfContents
 
   return function (params) {
     const {
-      children='',
-      classes=[],
+      children = '',
+      classes = [],
       page,
       presentation
     } = params

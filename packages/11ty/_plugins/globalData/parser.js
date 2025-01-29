@@ -1,6 +1,6 @@
-const chalkFactory = require('~lib/chalk')
-const fs = require('fs-extra')
-const path = require('path')
+import chalkFactory from '#lib/chalk/index.js'
+import fs from 'fs-extra'
+import path from 'node:path'
 
 const logger = chalkFactory('globalData:parser')
 
@@ -11,7 +11,7 @@ const logger = chalkFactory('globalData:parser')
  *
  * @return  {Function}  A proxy method to parse an Eleventy data file
  */
-module.exports = function(eleventyConfig) {
+export default function (eleventyConfig) {
   /**
    * @typedef {Map<String, Object>} dataExtensions
    * Maps an extension string to an extension properties object
@@ -22,7 +22,7 @@ module.exports = function(eleventyConfig) {
   const { dataExtensions } = eleventyConfig
 
   return (filePath) => {
-    const { base, ext, name } = path.parse(filePath)
+    const { ext } = path.parse(filePath)
     const fileExt = ext.slice(1)
     const extension = dataExtensions.get(fileExt)
     try {

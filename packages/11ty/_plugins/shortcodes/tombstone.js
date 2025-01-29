@@ -1,25 +1,24 @@
-const { html, oneLine } = require('~lib/common-tags')
-const checkFormat = require('../collections/filters/output.js')
-const path = require('path')
+import { html, oneLine } from '#lib/common-tags/index.js'
+import checkFormat from '../collections/filters/output.js'
+import path from 'node:path'
 
 /**
  * @function checkPagePDF
- * 
+ *
  * @param {Object} config pdf object from Quire config
- * @param {Array<string>,string,undefined} outputs outputs setting from page frontmatter 
+ * @param {Array<string>,string,undefined} outputs outputs setting from page frontmatter
  * @param {bool} frontmatterSetting pdf page setting from page frontmatter
- * 
+ *
  * Check if the PDF link should be generated for this page
  */
 const checkPagePDF = (config, outputs, frontmatterSetting) => {
-
   // Is the output being created?
   if (!checkFormat('pdf', { data: { outputs } })) {
-    return false 
+    return false
   }
 
   // Are the header links set?
-  if (config.pagePDF.accessLinks.find((al) => al.header === true) === undefined)  {
+  if (config.pagePDF.accessLinks.find((al) => al.header === true) === undefined) {
     return false
   }
 
@@ -30,7 +29,7 @@ const checkPagePDF = (config, outputs, frontmatterSetting) => {
 /**
  * A shortcode for tombstone display of object data on an entry page
  */
-module.exports = function(eleventyConfig, { page }) {
+export default function (eleventyConfig, { page }) {
   const slugify = eleventyConfig.getFilter('slugify')
 
   const { config, objects } = eleventyConfig.globalData
@@ -62,15 +61,14 @@ module.exports = function(eleventyConfig, { page }) {
       : ''
 
     let downloadLink = ''
-    if ( checkPagePDF(pdfConfig,outputs,pagePDFOutput) ) {
-      
-      const text = pdfConfig.pagePDF.accessLinks.find( al => al.header === true ).label
-      const href = path.join( pdfConfig.outputDir, `${pdfConfig.filename}-${slugify(key)}.pdf` )
+    if (checkPagePDF(pdfConfig, outputs, pagePDFOutput)) {
+      const text = pdfConfig.pagePDF.accessLinks.find(al => al.header === true).label
+      const href = path.join(pdfConfig.outputDir, `${pdfConfig.filename}-${slugify(key)}.pdf`)
       downloadLink = oneLine`
         <a class="button" href="${href}" target="_blank" data-outputs-exclude="epub,pdf" download><span>${text}</span><svg class="quire-download__link__icon"><use xlink:href="#download-icon"></use></svg></a>
       `
     }
-    
+
     const table = (object) => html`
       <section class="quire-entry__tombstone">
         <div class="container">

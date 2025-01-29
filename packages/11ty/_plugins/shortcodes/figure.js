@@ -1,5 +1,5 @@
-const chalkFactory = require('~lib/chalk')
-const { oneLine } = require('~lib/common-tags')
+import chalkFactory from '#lib/chalk/index.js'
+import { oneLine } from '#lib/common-tags/index.js'
 
 const logger = chalkFactory('shortcodes:figure')
 
@@ -21,17 +21,15 @@ const FETCH_PRIORITY_THRESHOLD = 2
  *
  * @return     {boolean}  An HTML <figure> element
  */
-module.exports = function (eleventyConfig) {
+export default function (eleventyConfig) {
   const figureAudio = eleventyConfig.getFilter('figureAudio')
   const figureImage = eleventyConfig.getFilter('figureImage')
-  const figureLabel = eleventyConfig.getFilter('figureLabel')
-  const figureModalLink = eleventyConfig.getFilter('figureModalLink')
   const figureTable = eleventyConfig.getFilter('figureTable')
   const figureVideo = eleventyConfig.getFilter('figureVideo')
   const getFigure = eleventyConfig.getFilter('getFigure')
   const slugify = eleventyConfig.getFilter('slugify')
 
-  return async function (id, classes=[]) {
+  return async function (id, classes = []) {
     classes = typeof classes === 'string' ? [classes] : classes
 
     /**
@@ -46,8 +44,8 @@ module.exports = function (eleventyConfig) {
     this.page.figures ||= []
     this.page.figures.push(figure)
 
-    // Pass a lazyload parameter for use in downstream components  
-    const position = ( this.page.figures ?? [] ).length - 1
+    // Pass a lazyload parameter for use in downstream components
+    const position = (this.page.figures ?? []).length - 1
     const lazyLoading = position < FETCH_PRIORITY_THRESHOLD ? 'eager' : 'lazy'
 
     const { mediaType } = figure
@@ -69,7 +67,7 @@ module.exports = function (eleventyConfig) {
 
     return oneLine`
       <figure id="${slugify(id)}" class="${['q-figure', 'q-figure--' + mediaType, ...classes].join(' ')}">
-        ${await component({...figure,lazyLoading})}
+        ${await component({ ...figure, lazyLoading })}
       </figure>
     `
   }

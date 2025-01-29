@@ -1,5 +1,5 @@
-const chalkFactory = require('~lib/chalk')
-const { renderOneLine, stripIndent } = require('~lib/common-tags')
+import chalkFactory from '#lib/chalk/index.js'
+import { renderOneLine, stripIndent } from '#lib/common-tags/index.js'
 
 const logger = chalkFactory('shortcodes:cite')
 
@@ -29,7 +29,7 @@ const logger = chalkFactory('shortcodes:cite')
  *  @example {% cite "Faure 1909" "" "1909" %}
  *  renders the citation "1909"
  */
-module.exports = function(eleventyConfig, { page }) {
+export default function (eleventyConfig, { page }) {
   const icon = eleventyConfig.getFilter('icon')
   const markdownify = eleventyConfig.getFilter('markdownify')
 
@@ -42,7 +42,7 @@ module.exports = function(eleventyConfig, { page }) {
     ? eleventyConfig.globalData.references.entries
     : []
 
-  return function(id, pageNumber, text) {
+  return function (id, pageNumber, text) {
     if (!id) {
       logger.warn(stripIndent`
         missing shortcode parameters ${page.inputPath}
@@ -59,7 +59,6 @@ module.exports = function(eleventyConfig, { page }) {
       `)
       return ''
     }
-
 
     const findCitationReference = (id) => {
       /**
@@ -98,7 +97,7 @@ module.exports = function(eleventyConfig, { page }) {
 
     page.citations[id] = citation
 
-    let buttonText = (text) ? text : citation.short
+    let buttonText = (text) || citation.short
 
     if (pageNumber) buttonText += divider + pageNumber
 

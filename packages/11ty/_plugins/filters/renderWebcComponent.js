@@ -1,4 +1,4 @@
-const path = require('path')
+import path from 'node:path'
 
 /**
  * Renders a WebC Component
@@ -8,14 +8,14 @@ const path = require('path')
  * @param  {Object} attrs     Key-value pairs of component attributes
  * @return {String} html      Webc component markup
  */
-module.exports = async (filePath, attrs) => {
+export default async (filePath, attrs) => {
   const { WebC } = await import('@11ty/webc')
   const page = new WebC()
   const { name: componentName } = path.parse(filePath)
   const attributes = Object.keys(attrs).reduce((acc, key) => {
-    return acc += `${key}="${attrs[key]}"`
+    return acc + `${key}="${attrs[key]}"`
   }, '')
   page.setContent(`<${componentName} ${attributes} webc:import="${filePath}"></${componentName}>`)
-  const { html, css, js, components } = await page.compile()
+  const { html } = await page.compile()
   return html
 }

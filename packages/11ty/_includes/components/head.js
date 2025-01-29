@@ -1,19 +1,17 @@
-const path = require('path')
 /**
  * Head Tag
  *
  * @param      {Object}  eleventyConfig
  */
-module.exports = function(eleventyConfig) {
+export default function (eleventyConfig) {
   const analytics = eleventyConfig.getFilter('analytics')
   const dublinCore = eleventyConfig.getFilter('dublinCore')
   const jsonld = eleventyConfig.getFilter('jsonld')
   const opengraph = eleventyConfig.getFilter('opengraph')
   const removeHTML = eleventyConfig.getFilter('removeHTML')
   const twitterCard = eleventyConfig.getFilter('twitterCard')
-  const webComponents = eleventyConfig.getFilter('webComponents')
 
-  const { application, figures, publication } = eleventyConfig.globalData
+  const { application, publication } = eleventyConfig.globalData
 
   /**
    * @param  {Object} params The Whole Dang Data Object, from base.11ty.js
@@ -28,12 +26,12 @@ module.exports = function(eleventyConfig) {
 
     const publisherLinks = publication.publisher
       .filter(({ url }) => url)
-      .map(({ url }) => `<link rel="publisher" href="${ url }">`)
+      .map(({ url }) => `<link rel="publisher" href="${url}">`)
       .join('\n')
 
     const contributorLinks = publication.contributor
       .filter(({ url }) => url)
-      .map(({ url }) => `<link rel="author" href="${ url }">`)
+      .map(({ url }) => `<link rel="author" href="${url}">`)
       .join('\n')
 
     const keywords = publication.subject

@@ -1,14 +1,14 @@
-const path = require('path')
+/* eslint-disable camelcase */
 
 /**
  * Renders <head> meta and link tags
  *
  * @param      {Object}  eleventyConfig
  * @param      {Object}  data
- * 
+ *
  * @return     {String}  HTML meta and link elements
  */
-module.exports = function(eleventyConfig) {
+export default function (eleventyConfig) {
   const { publication } = eleventyConfig.globalData
 
   return function (params) {
@@ -19,7 +19,8 @@ module.exports = function(eleventyConfig) {
     const meta = [
       {
         name: 'dcterms.title',
-        content: publication.title },
+        content: publication.title
+      },
       {
         name: 'dcterms.date',
         content: publication.pub_date

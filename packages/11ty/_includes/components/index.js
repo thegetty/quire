@@ -1,73 +1,69 @@
 /**
  * Export all component includes
  */
-
-module.exports = {
-  accordionGlobalControls: require('./accordion/global-controls'),
-  annotationsUI: require('./figure/annotations-ui'),
-  abstract: require('./abstract.js'),
-  analytics: require('./analytics.js'),
-  canvasPanel: require('./figure/image/canvas-panel'),
-  citation: require('./citation/index.js'),
-  citeName: require('./citation/name.js'),
-  citePage: require('./citation/page.js'),
-  citePublication: require('./citation/publication.js'),
-  citePublicationSeries: require('./citation/publication-series.js'),
-  contributorBio: require('./contributor/bio.js'),
-  copyright: require('./copyright/index.js'),
-  copyrightLicensing: require('./copyright/licensing.js'),
-  downloadLink: require('./download-link.js'),
-  dublinCore: require('./head-tags/dublin-core.js'),
-  figureCaption: require('./figure/caption'),
-  figureImage: require('./figure/image'),
-  figureImageElement: require('./figure/image/element'),
-  figureImageSequence: require('./figure/image/sequence'),
-  figureLabel: require('./figure/label'),
-  figureModalLink: require('./figure/modal-link'),
-  figureMediaEmbedUrl: require('./figure/media-embed-url'),
-  figureOption: require('./figure/annotations-ui/option'),
-  figurePlaceholder: require('./figure/placeholder'),
-  figureAudio: require('./figure/audio'),
-  figureAudioElement: require('./figure/audio/element'),
-  figureTable: require('./figure/table'),
-  figureTableElement: require('./figure/table/element'),
-  figureVideo: require('./figure/video'),
-  figureVideoElement: require('./figure/video/element'),
-  head: require('./head.js'),
-  icon: require('./icon.js'),
-  icons: require('./icons.js'),
-  iconscc: require('./icons-cc/index.js'),
-  imageService: require('./figure/image/image-service'),
-  imageTag: require('./figure/image/image-tag'),
-  index: require('./index.js'),
-  jsonld: require('./head-tags/jsonld.js'),
-  licenseIcons: require('./license-icons.js'),
-  lightbox: require('./lightbox/index.js'),
-  lightboxData: require('./lightbox/data.js'),
-  lightboxStyles: require('./lightbox/styles.js'),
-  lightboxUI: require('./lightbox/ui'),
-  link: require('./link.js'),
-  linkList: require('./link-list.js'),
-  menu: require('./menu/index.js'),
-  menuHeader: require('./menu/header.js'),
-  menuItem: require('./menu/item.js'),
-  menuList: require('./menu/list.js'),
-  menuResources: require('./menu/resources.js'),
-  modal: require('./modal/index.js'),
-  navigation: require('./navigation.js'),
-  opengraph: require('./head-tags/opengraph.js'),
-  pageButtons: require('./page-buttons.js'),
-  pageHeader: require('./page-header.js'),
-  pageTitle: require('./page-title.js'),
-  search: require('./search.js'),
-  scripts: require('./scripts.js'),
-  sequencePanel: require('./figure/image/sequence-panel'),
-  siteTitle: require('./site-title.js'),
-  tableOfContents: require('./table-of-contents/index.js'),
-  tableOfContentsGridItem: require('./table-of-contents/item/grid.js'),
-  tableOfContentsImage: require('./table-of-contents/item/image.js'),
-  tableOfContentsItem: require('./table-of-contents/item/index.js'),
-  tableOfContentsList: require('./table-of-contents/list/index.js'),
-  tableOfContentsListItem: require('./table-of-contents/item/list.js'),
-  twitterCard: require('./head-tags/twitter-card.js')
-}
+export { default as accordionGlobalControls } from './accordion/global-controls.js'
+export { default as annotationsUI } from './figure/annotations-ui/index.js'
+export { default as abstract } from './abstract.js'
+export { default as analytics } from './analytics.js'
+export { default as canvasPanel } from './figure/image/canvas-panel.js'
+export { default as citation } from './citation/index.js'
+export { default as citeName } from './citation/name.js'
+export { default as citePage } from './citation/page.js'
+export { default as citePublication } from './citation/publication.js'
+export { default as citePublicationSeries } from './citation/publication-series.js'
+export { default as contributorBio } from './contributor/bio.js'
+export { default as copyright } from './copyright/index.js'
+export { default as copyrightLicensing } from './copyright/licensing.js'
+export { default as downloadLink } from './download-link.js'
+export { default as dublinCore } from './head-tags/dublin-core.js'
+export { default as figureCaption } from './figure/caption.js'
+export { default as figureImage } from './figure/image/index.js'
+export { default as figureImageElement } from './figure/image/element.js'
+export { default as figureImageSequence } from './figure/image/sequence.js'
+export { default as figureLabel } from './figure/label.js'
+export { default as figureModalLink } from './figure/modal-link.js'
+export { default as figureMediaEmbedUrl } from './figure/media-embed-url.js'
+export { default as figureOption } from './figure/annotations-ui/option.js'
+export { default as figurePlaceholder } from './figure/placeholder.js'
+export { default as figureAudio } from './figure/audio/index.js'
+export { default as figureAudioElement } from './figure/audio/element.js'
+export { default as figureTable } from './figure/table/index.js'
+export { default as figureTableElement } from './figure/table/element.js'
+export { default as figureVideo } from './figure/video/index.js'
+export { default as figureVideoElement } from './figure/video/element.js'
+export { default as head } from './head.js'
+export { default as icon } from './icon.js'
+export { default as icons } from './icons.js'
+export { default as iconscc } from './icons-cc/index.js'
+export { default as imageService } from './figure/image/image-service.js'
+export { default as imageTag } from './figure/image/image-tag.js'
+export { default as jsonld } from './head-tags/jsonld.js'
+export { default as licenseIcons } from './license-icons.js'
+export { default as lightbox } from './lightbox/index.js'
+export { default as lightboxData } from './lightbox/data.js'
+export { default as lightboxStyles } from './lightbox/styles.js'
+export { default as lightboxUI } from './lightbox/ui.js'
+export { default as link } from './link.js'
+export { default as linkList } from './link-list.js'
+export { default as menu } from './menu/index.js'
+export { default as menuHeader } from './menu/header.js'
+export { default as menuItem } from './menu/item.js'
+export { default as menuList } from './menu/list.js'
+export { default as menuResources } from './menu/resources.js'
+export { default as modal } from './modal/index.js'
+export { default as navigation } from './navigation.js'
+export { default as opengraph } from './head-tags/opengraph.js'
+export { default as pageButtons } from './page-buttons.js'
+export { default as pageHeader } from './page-header.js'
+export { default as pageTitle } from './page-title.js'
+export { default as search } from './search.js'
+export { default as scripts } from './scripts.js'
+export { default as sequencePanel } from './figure/image/sequence-panel.js'
+export { default as siteTitle } from './site-title.js'
+export { default as tableOfContents } from './table-of-contents/index.js'
+export { default as tableOfContentsGridItem } from './table-of-contents/item/grid.js'
+export { default as tableOfContentsImage } from './table-of-contents/item/image.js'
+export { default as tableOfContentsItem } from './table-of-contents/item/index.js'
+export { default as tableOfContentsList } from './table-of-contents/list/index.js'
+export { default as tableOfContentsListItem } from './table-of-contents/item/list.js'
+export { default as twitterCard } from './head-tags/twitter-card.js'

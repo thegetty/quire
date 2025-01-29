@@ -1,28 +1,27 @@
-const { html, oneLine } = require('~lib/common-tags')
-const chalkFactory = require('~lib/chalk')
-const checkFormat = require('../collections/filters/output.js')
-const path = require('path')
+import { html, oneLine } from '#lib/common-tags/index.js'
+import chalkFactory from '#lib/chalk/index.js'
+import checkFormat from '../collections/filters/output.js'
+import path from 'node:path'
 
 const logger = chalkFactory('configuration:bibliography')
 
 /**
  * @function checkPagePDF
- * 
+ *
  * @param {Object} config pdf object from Quire config
- * @param {Array<string>,string,undefined} outputs outputs setting from page frontmatter 
+ * @param {Array<string>,string,undefined} outputs outputs setting from page frontmatter
  * @param {bool} frontmatterSetting pdf page setting from page frontmatter
- * 
+ *
  * Check if the PDF link should be generated for this page
  */
 const checkPagePDF = (config, outputs, frontmatterSetting) => {
-
   // Is the output being created?
   if (!checkFormat('pdf', { data: { outputs } })) {
-    return false 
+    return false
   }
 
   // Are the footer links set?
-  if (config.pagePDF.accessLinks.find((al) => al.footer === true) === undefined )  {
+  if (config.pagePDF.accessLinks.find((al) => al.footer === true) === undefined) {
     return false
   }
 
@@ -35,7 +34,7 @@ const checkPagePDF = (config, outputs, frontmatterSetting) => {
  *
  * @param      {Object}  eleventyConfig
  */
-module.exports = function (eleventyConfig, { page }) {
+export default function (eleventyConfig, { page }) {
   const markdownify = eleventyConfig.getFilter('markdownify')
   const slugify = eleventyConfig.getFilter('slugify')
   const sortReferences = eleventyConfig.getFilter('sortReferences')
@@ -44,7 +43,6 @@ module.exports = function (eleventyConfig, { page }) {
     ? eleventyConfig.globalData.references.entries
     : []
   const { pdf: pdfConfig } = eleventyConfig.globalData.config
-  const { outputs, page_pdf_output: pagePDFOutput } = page.data
   const { displayOnPage, displayShort, heading } = page.data.config.bibliography
 
   /**
@@ -58,14 +56,12 @@ module.exports = function (eleventyConfig, { page }) {
    * @param  {Array}  referenceIds  An array of `references.yaml` entry ids
    *                                to include in the rendered bibliography
    */
-  return function (referenceIds = [],outputs,pagePDFOutput) {
-
+  return function (referenceIds = [], outputs, pagePDFOutput) {
     if (!page.citations && !referenceIds) return
 
     if (!displayOnPage) {
-      page.citations
-        ? logger.info(`A bibiliography of citations on ${page.inputPath} is not being displayed there, because 'config.bibliography.displayOnPage' on that page or in config.yaml, is set to false.`)
-        : ''
+      if (page.citations) logger.info(`A bibiliography of citations on ${page.inputPath} is not being displayed there, because 'config.bibliography.displayOnPage' on that page or in config.yaml, is set to false.`)
+
       return ''
     }
 
@@ -109,7 +105,7 @@ module.exports = function (eleventyConfig, { page }) {
       if (!checkPagePDF(pdfConfig, outputs, pagePDFOutput) || page.data.layout === 'cover') {
         return ''
       }
-        
+
       const text = pdfConfig.pagePDF.accessLinks.find((al) => al.footer === true).label
       const href = path.join(pdfConfig.outputDir, `${pdfConfig.filename}-${slugify(page.data.key)}.pdf`)
 

@@ -1,4 +1,4 @@
-const { html } = require('~lib/common-tags')
+import { html } from '#lib/common-tags/index.js'
 
 /**
  * Renders the menu list
@@ -6,12 +6,12 @@ const { html } = require('~lib/common-tags')
  * @param      {Object}  eleventyConfig
  * @param      {Object}  params
  */
-module.exports = function(eleventyConfig) {
+export default function (eleventyConfig) {
   const menuItem = eleventyConfig.getFilter('menuItem')
 
   const { menuType } = eleventyConfig.globalData.config
 
-  return function(params) {
+  return function (params) {
     const { currentURL, navigation } = params
 
     const listItem = (page) => {

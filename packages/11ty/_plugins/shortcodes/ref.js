@@ -1,7 +1,7 @@
-const chalkFactory = require('~lib/chalk')
-const { oneLine } = require('~lib/common-tags')
-const logger = chalkFactory(`Shortcodes:ref`)
-const path = require('path')
+import chalkFactory from '#lib/chalk/index.js'
+import { oneLine } from '#lib/common-tags/index.js'
+import path from 'node:path'
+const logger = chalkFactory('Shortcodes:ref')
 
 /**
  * ref Shortcode
@@ -17,14 +17,14 @@ const path = require('path')
  *
  * @return     {String}  Anchor tag with link text annotation and region data attributes
  */
-module.exports = function (eleventyConfig) {
+export default function (eleventyConfig) {
   const getFigure = eleventyConfig.getFilter('getFigure')
   const markdownify = eleventyConfig.getFilter('markdownify')
 
   const { sequenceTransition: defaultSequenceTransition } = eleventyConfig.globalData.config.ref || {}
 
   return (params) => {
-    const { anno='', fig, region='', start, onscroll } = params
+    const { anno = '', fig, region = '', start, onscroll } = params
 
     const figure = getFigure(fig)
     if (!figure) {
@@ -42,7 +42,7 @@ module.exports = function (eleventyConfig) {
      * Image sequences
      */
     const { id, isSequence, sequences, startCanvasIndex } = figure
-    const { files, transition: figureTransition } = isSequence && sequences[0] || {}
+    const { files, transition: figureTransition } = (isSequence && sequences[0]) || {}
     const transition = params.transition || figureTransition || defaultSequenceTransition
 
     /**

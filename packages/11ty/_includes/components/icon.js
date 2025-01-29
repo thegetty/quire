@@ -1,5 +1,4 @@
-const { html } = require('~lib/common-tags')
-const path = require('path')
+import { html } from '#lib/common-tags/index.js'
 
 /**
  * A shortcode for including an inline SVG icon with a PNG fallback.
@@ -12,9 +11,7 @@ const path = require('path')
  * @example.liquid
  * {% icon type="link", description="Open in new window" %}
  */
-module.exports = function(eleventyConfig) {
-  const { imageDir } = eleventyConfig.globalData.config.figures
-
+export default function (eleventyConfig) {
   return function (params) {
     const { description, type } = params
     const descriptionElement = description

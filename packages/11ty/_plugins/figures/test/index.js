@@ -1,12 +1,25 @@
+import { describe, test } from 'node:test'
+import { readFile } from 'node:fs/promises'
+import { resolve } from 'node:path'
+import Ajv from 'ajv'
+import Figure from '../figure.js'
+import Manifest from '../iiif/manifest.js'
+import assert from 'assert/strict'
+import figureFixtures from './__fixtures__/figures/index.js'
 require('module-alias/register')
-const { describe, mock, test } = require('node:test')
-const Ajv = require('ajv')
-const assert = require('assert/strict')
-const Figure = require('../figure')
-const figureFixtures = require('./__fixtures__/figures/index.js')
-const iiifConfig = require('./__fixtures__/iiif-config.json')
-const Manifest = require('../iiif/manifest')
-const manifestSchema = require('../iiif/manifest/schema.json')
+
+const loadJson = async (filepath) => {
+  try {
+    // const fileUrl = new URL(filepath, import.meta.url)
+    const json = await readFile(resolve(filepath))
+    return JSON.parse(json)
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const iiifConfig = await loadJson('./__fixtures__/iiif-config.json')
+const manifestSchema = await loadJson('../iiif/manifest/schema.json')
 
 const createManifestFromFigureFixture = async (figureFixtureName) => {
   const {
@@ -64,37 +77,36 @@ describe('validating manifests via deepStrictEqual', () => {
 
 /* Skipping all ajv validation tests. The IIIF 3.0 schema is not ready for prime-time */
 describe('validating manifests via ajv', { skip: true }, () => {
-  let ajv = new Ajv({ allErrors: true })
-  let validate = ajv.compile(manifestSchema)
+  const ajv = new Ajv({ allErrors: true })
+  const validate = ajv.compile(manifestSchema)
 
   test('figure with checkbox annotations creates a valid manifest', { skip: true }, async () => {
-    const { manifestFixture, manifestJson } = await createManifestFromFigureFixture('annotationsCheckbox')
+    const { manifestJson } = await createManifestFromFigureFixture('annotationsCheckbox')
     assert.equal(validate(manifestJson), true)
   })
 
   test('figure with radio annotations creates a valid manifest', { skip: true }, async () => {
-    const { manifestFixture, manifestJson } = await createManifestFromFigureFixture('annotationsRadio')
+    const { manifestJson } = await createManifestFromFigureFixture('annotationsRadio')
     assert.equal(validate(manifestJson), true)
   })
 
   test('sequence figure creates a valid manifest', { skip: true }, async () => {
-    const { manifestFixture, manifestJson } = await createManifestFromFigureFixture('sequence')
+    const { manifestJson } = await createManifestFromFigureFixture('sequence')
     assert.equal(validate(manifestJson), true)
   })
 
-
   test('sequence figure with annotations creates a valid manifest', { skip: true }, async () => {
-    const { manifestFixture, manifestJson } = await createManifestFromFigureFixture('sequenceWithAnnotations')
+    const { manifestJson } = await createManifestFromFigureFixture('sequenceWithAnnotations')
     assert.equal(validate(manifestJson), true)
   })
 
   test('zoomable figure creates a valid manifest', { skip: true }, async () => {
-    const { manifestFixture, manifestJson } = await createManifestFromFigureFixture('zoomable')
+    const { manifestJson } = await createManifestFromFigureFixture('zoomable')
     assert.equal(validate(manifestJson), true)
   })
 
   test('zoomable sequence figure creates a valid manifest', { skip: true }, async () => {
-    const { manifestFixture, manifestJson } = await createManifestFromFigureFixture('zoomableSequence')
+    const { manifestJson } = await createManifestFromFigureFixture('zoomableSequence')
     assert.equal(validate(manifestJson), true)
   })
 })

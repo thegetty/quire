@@ -1,4 +1,4 @@
-module.exports = function(array, separator=', ', finalSeparator) {
+export default function (array, separator = ', ', finalSeparator) {
   finalSeparator = finalSeparator || separator
   if (array.length <= 1) return array.join(separator)
   const last = array.pop()

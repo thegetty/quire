@@ -1,5 +1,5 @@
-const filters = require('./filters')
-const sortCollection = require('./sort')
+import filters from './filters/index.js'
+import sortCollection from './sort/index.js'
 
 /**
  * Add Collections and Apply Transforms
@@ -12,8 +12,8 @@ const sortCollection = require('./sort')
  * @param  {Object} options
  * @return {Object} collections
  */
-module.exports = function (eleventyConfig, options = {}) {
-  let collections = {}
+export default function (eleventyConfig, options = {}) {
+  const collections = {}
 
   /**
    * Add sorted "all" collection

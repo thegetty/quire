@@ -1,10 +1,7 @@
-const path = require('path')
-const { html } = require('~lib/common-tags')
+import { html } from '#lib/common-tags/index.js'
 
-module.exports = function(eleventyConfig) {
-  const { imageDir } = eleventyConfig.globalData.config.figures
-
-  return function(license) {
+export default function (eleventyConfig) {
+  return function (license) {
     const abbreviations = license
       .abbreviation
       .toLowerCase()

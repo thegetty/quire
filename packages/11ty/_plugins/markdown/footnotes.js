@@ -1,15 +1,15 @@
 /**
  * Overrides for markdown-it-footnote plugin
  * Removes use of state.env, which allows footnotes to render within shortcodes which do not have access to the state
- * 
+ *
  * @link https://github.com/markdown-it/markdown-it-footnote/blob/master/dist/markdown-it-footnote.js
- * 
- * @param {*} state 
- * @param {*} silent 
- * @returns 
+ *
+ * @param {*} state
+ * @param {*} silent
+ * @returns
  */
-// Defines footnote_ref footnote reference 
-function footnoteRef(state, silent) {
+// Defines footnote_ref footnote reference
+function footnoteRef (state, silent) {
   const max = state.posMax
   const start = state.pos
   let pos
@@ -36,7 +36,7 @@ function footnoteRef(state, silent) {
   const id = parseInt(label) - 1
 
   if (!silent) {
-    let token = state.push('footnote_ref', '', 0)
+    const token = state.push('footnote_ref', '', 0)
     token.meta = { id, label }
   }
 
@@ -45,10 +45,10 @@ function footnoteRef(state, silent) {
   return true
 }
 
-function footnoteTail(state) {
+function footnoteTail (state) {
   if (!state.env.footnotes) return
 
-  let current, currentLabel, insideRef, refTokens = {}
+  let current; let currentLabel; let insideRef; const refTokens = {}
   state.tokens = state.tokens.filter(function (tok) {
     if (tok.type === 'footnote_reference_open') {
       insideRef = true
@@ -103,4 +103,4 @@ function footnoteTail(state) {
   state.tokens.push(token)
 }
 
-module.exports = { footnoteRef, footnoteTail }
+export { footnoteRef, footnoteTail }

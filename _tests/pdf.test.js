@@ -1,7 +1,6 @@
-const test = require('node:test');
-
-import { execa } from 'execa';
 import { PDFDocument } from 'pdf-lib';
+import { execa } from 'execa';
+import test from 'node:test';
 
 // Start a new default publication, build it, and make the pdf
 var { stderr, stdout } = await execa("npx",["quire","new", "--quire-path", "$(pwd)/packages/11ty", "test-pub"])

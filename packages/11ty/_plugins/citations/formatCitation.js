@@ -1,20 +1,20 @@
-const chalkFactory = require('~lib/chalk')
-const Processor = require('simple-cite')
+import chalkFactory from '#lib/chalk/index.js'
+import citeproc from 'citeproc'
+import chicago from './styles/chicago-fullnote-bibliography.js'
+import mla from './styles/mla.js'
 
 const logger = chalkFactory('plugins:citations')
 
 const defaultStyles = {
-  chicago: require('./styles/chicago-fullnote-bibliography'),
-  mla: require('./styles/mla')
+  chicago,
+  mla
 }
 
-module.exports = function(options={}) {
-  const locale = require(options.locale || 'locale-en-us')
+export default async function (options = {}) {
+  const { default: locale } = await import(options.locale || 'locale-en-us')
   const styles = Object.assign(defaultStyles, options.styles)
 
-  return function(item, params) {
-    const { type } = params
-
+  return function (item, { type }) {
     const style = styles[type]
 
     if (!style) {
@@ -22,13 +22,21 @@ module.exports = function(options={}) {
       return
     }
 
-    const processor = new Processor({
-      items: [item],
-      locale,
-      style
-    })
-    processor.cite({ citationItems: [{ id: item.id }] })
-    const citation = processor.bibliography().value
+    const sys = {
+      retrieveItem: () => { return { ...item, properties: { noteIndex: 0 } } },
+      retrieveLocale: () => locale
+    }
+
+    const engine = new citeproc.Engine(sys, style)
+    engine.opt.development_extensions.wrap_url_and_doi = true
+    engine.setOutputFormat('text')
+
+    const citationData = { citationItems: [{ id: item.id }] }
+
+    // eslint-disable-next-line unused-vars
+    const citationResult = engine.processCitationCluster(citationData, [], [])
+    const citation = engine.previewCitationCluster(citationData, [], [], 'text')
+
     return type === 'mla'
       ? `${citation.replace(/\s+$/, '')} <span class="cite-current-date__statement">Accessed <span class="cite-current-date">DD Mon. YYYY</span>.</span>`
       : citation

@@ -1,6 +1,5 @@
-const Figure = require('./index')
-const ImageProcessor = require('../image/processor')
-const path = require('path')
+import Figure from './index.js'
+import ImageProcessor from '../image/processor.js'
 
 /**
  * Factory class to create instances of `Figure` on which process is called
@@ -8,8 +7,8 @@ const path = require('path')
  *
  * @class FigureFactory
  */
-module.exports = class FigureFactory {
-  constructor(iiifConfig) {
+export default class FigureFactory {
+  constructor (iiifConfig) {
     this.iiifConfig = iiifConfig
     this.imageProcessor = new ImageProcessor(iiifConfig)
   }
@@ -19,12 +18,12 @@ module.exports = class FigureFactory {
    * to create the IIIF info, manifest, and generate image tiles.
    *
    * @param {Object} data  A figure entry from `figures.yaml`
-   * 
+   *
    * @return {Object}
    * @property {Figure} figure  A new Figure instance
    * @property {Array} errors  `processFiles` errors
    */
-  async create(data) {
+  async create (data) {
     const processImage =
       this.imageProcessor.processImage.bind(this.imageProcessor)
     const figure = new Figure(this.iiifConfig, processImage, data)

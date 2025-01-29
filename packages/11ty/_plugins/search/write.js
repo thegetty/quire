@@ -1,6 +1,6 @@
-const chalkFactory = require('~lib/chalk')
-const fs = require('fs-extra')
-const path = require('path')
+import chalkFactory from '#lib/chalk/index.js'
+import fs from 'fs-extra'
+import path from 'node:path'
 const logger = chalkFactory('Search Index')
 
 /**
@@ -9,7 +9,7 @@ const logger = chalkFactory('Search Index')
  * @param   {Object}  collections
  * @return     {Object}  Page content index JSON
  */
-module.exports = function(collections) {
+export default function (collections) {
   const wordcount = (content) => {
     if (!content) return 0
     return content.split(' ').length
@@ -35,7 +35,7 @@ module.exports = function(collections) {
   try {
     fs.ensureDirSync(path.parse(outputPath).dir)
     fs.writeJsonSync(outputPath, contentIndex)
-  } catch(error) {
+  } catch (error) {
     logger.error(error)
   }
 }

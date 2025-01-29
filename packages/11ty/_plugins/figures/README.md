@@ -32,14 +32,14 @@ Quire uses [`sharp`](https://sharp.pixelplumbing.com/api-output#tile) to generat
 
 ### Manifests with Annotations
 
-Quire's IIIF processing uses [`iiif-builder`](https://github.com/stephenwf/iiif-builder) to create manifests with annotations from entries in `figures.yaml` that have an `annotations` property and write a `manifest.json` file to the IIIF output directory (default: `iiif/`) and [eleventy global data](https://www.11ty.dev/docs/data-global-custom/#global-data-from-the-configuration-api).
+Quire's IIIF processing uses [`@iiif/builder`](https://github.com/IIIF-Commons/iiif-builder) to create manifests with annotations from entries in `figures.yaml` that have an `annotations` property and write a `manifest.json` file to the IIIF output directory (default: `iiif/`) and [eleventy global data](https://www.11ty.dev/docs/data-global-custom/#global-data-from-the-configuration-api).
 
 ### Output Directory structure
 
 Output from the IIIF image processing follows the directory structure below.
 
 ```sh
-<eleventy.dir.output>/
+<eleventy.directoryAssignments.output>/
   <iiifConfig.dirs.output>/
     <figure-id>/
       <image-name>/

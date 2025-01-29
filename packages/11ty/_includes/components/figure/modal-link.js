@@ -1,6 +1,6 @@
-const { html } = require('~lib/common-tags')
+import { html } from '#lib/common-tags/index.js'
 
-module.exports = function (eleventyConfig) {
+export default function (eleventyConfig) {
   const { enableModal } = eleventyConfig.globalData.config.figures
 
   return ({ content, id }) => enableModal

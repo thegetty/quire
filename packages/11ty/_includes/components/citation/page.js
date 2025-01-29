@@ -4,9 +4,8 @@
  *
  * @return {Object} CSL-JSON page
  */
-module.exports = function (eleventyConfig) {
+export default function (eleventyConfig) {
   const citeName = eleventyConfig.getFilter('citeName')
-  const citePublicationSeries = eleventyConfig.getFilter('citePublicationSeries')
   const getContributor = eleventyConfig.getFilter('getContributor')
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const siteTitle = eleventyConfig.getFilter('siteTitle')
@@ -14,12 +13,12 @@ module.exports = function (eleventyConfig) {
   const {
     contributor: publicationContributors,
     pub_date: pubDate,
-    publisher: publishers,
+    publisher: publishers
   } = eleventyConfig.globalData.publication
 
   return function (params) {
-    let { context, page } = params
-    
+    const { context, page } = params
+
     const pageContributors = page.data.contributor
       ? page.data.contributor.map((item) => getContributor(item))
       : []
@@ -37,7 +36,7 @@ module.exports = function (eleventyConfig) {
         .filter(({ role }) => role === 'editor')
         .map(citeName),
       issued: pubDate && {
-        'date-parts': [[new Date(pubDate).getFullYear()]],
+        'date-parts': [[new Date(pubDate).getFullYear()]]
       },
       publisher: publishers[0].name,
       'publisher-place': publishers[0].location,

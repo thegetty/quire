@@ -1,6 +1,6 @@
-const { html } = require('~lib/common-tags')
-const chalkFactory = require('~lib/chalk')
-const path = require('path')
+import { html } from '#lib/common-tags/index.js'
+import chalkFactory from '#lib/chalk/index.js'
+import path from 'node:path'
 
 const logger = chalkFactory('Figure Video')
 
@@ -18,11 +18,11 @@ const logger = chalkFactory('Figure Video')
  *
  * @return     {String}  An HTML <video> element
  */
-module.exports = function (eleventyConfig) {
+export default function (eleventyConfig) {
   const { imageDir } = eleventyConfig.globalData.config.figures
   const figureMediaEmbedUrl = eleventyConfig.getFilter('figureMediaEmbedUrl')
   const videoElements = {
-    video({ id, poster='', src }) {
+    video ({ id, poster = '', src }) {
       if (!src) {
         logger.error(`Cannot render Video without 'src'. Check that figures data for id: ${id} has a valid 'src'`)
         return ''
@@ -44,7 +44,7 @@ module.exports = function (eleventyConfig) {
         </video>
       `
     },
-    vimeo({ id, mediaId, mediaType, lazyLoading }) {
+    vimeo ({ id, mediaId, mediaType, lazyLoading }) {
       if (!mediaId) {
         logger.error(`Cannot render Vimeo embed without 'media_id'. Check that figures data for id: ${id} has a valid 'media_id'`)
         return ''
@@ -59,11 +59,11 @@ module.exports = function (eleventyConfig) {
           class="q-figure-video-element q-figure-video-element--embed"
           frameborder="0"
           src="${embedUrl}"
-          loading="${ lazyLoading ?? 'lazy' }"
+          loading="${lazyLoading ?? 'lazy'}"
         ></iframe>
       `
     },
-    youtube({ id, mediaId, mediaType, lazyLoading }) {
+    youtube ({ id, mediaId, mediaType, lazyLoading }) {
       if (!mediaId) {
         logger.error(`Cannot render Youtube component without 'media_id'. Check that figures data for id: ${id} has a valid 'media_id'`)
         return ''
@@ -78,7 +78,7 @@ module.exports = function (eleventyConfig) {
           class="q-figure-video-element q-figure-video-element--embed"
           frameborder="0"
           src="${embedUrl}"
-          loading="${ lazyLoading ?? 'lazy' }"
+          loading="${lazyLoading ?? 'lazy'}"
         ></iframe>
       `
     }

@@ -1,8 +1,8 @@
-const addComponentTag = require('./addComponentTag')
-const shortcodeFactory = require('./shortcodeFactory')
+import addComponentTag from './addComponentTag.js'
+import shortcodeFactory from './shortcodeFactory.js'
 
 // Shortcode components
-const components = require('../../_includes/components')
+import * as components from '../../_includes/components/index.js'
 
 /**
  * Define components as universal template shortcodes
@@ -10,17 +10,17 @@ const components = require('../../_includes/components')
  * @param      {Object}  eleventyConfig  eleventy configuration
  * @param      {Object}  options         options
  */
-module.exports = function(eleventyConfig, collections, options) {
+export default function (eleventyConfig, collections, options) {
   const { addShortcode } = shortcodeFactory(eleventyConfig, collections)
 
   for (const component in components) {
-    switch(component) {
-      default:
-        addComponentTag(eleventyConfig, `${component}`, components[component])
-        break
+    switch (component) {
       case 'lightbox':
       case 'modal':
         addShortcode(`${component}`, components[component])
+        break
+      default:
+        addComponentTag(eleventyConfig, `${component}`, components[component])
         break
     }
   }
