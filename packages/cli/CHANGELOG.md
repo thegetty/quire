@@ -12,6 +12,13 @@ Changelog entries are classified using the following labels:
 - `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
+## [1.0.0-rc.26]
+
+### Changed
+
+- Import path using node namespace in the cli info command
+- Correct file extension of cmd module called by the cli
+
 ## [1.0.0-rc.25]
 
 ### Changed
