@@ -4,35 +4,35 @@
 export default {
   annotationsCheckbox: {
     dimensions: { height: 1455, width: 1200 },
-    figure: require('./annotations-checkbox/figure.json'),
-    manifest: require('./annotations-checkbox/manifest.json')
+    figure: await import('./annotations-checkbox/figure.json', { assert: { type: 'json' }}),
+    manifest: await import('./annotations-checkbox/manifest.json', { assert: { type: 'json' }})
   },
   annotationsRadio: {
     dimensions: { height: 2868, width: 2082 },
-    figure: require('./annotations-radio/figure.json'),
-    manifest: require('./annotations-radio/manifest.json')
+    figure: await import('./annotations-radio/figure.json', { assert: { type: 'json' }}),
+    manifest: await import('./annotations-radio/manifest.json', { assert: { type: 'json' }})
   },
   sequence: {
     dimensions: { height: 2160, width: 1827 },
-    figure: require('./sequence/figure.json'),
-    files: require('./sequence/files.json'),
-    manifest: require('./sequence/manifest.json')
+    figure: await import('./sequence/figure.json', { assert: { type: 'json' }}),
+    files: await import('./sequence/files.json', { assert: { type: 'json' }}),
+    manifest: await import('./sequence/manifest.json', { assert: { type: 'json' }})
   },
   sequenceWithAnnotations: {
     dimensions: { height: 2048, width: 1536 },
-    figure: require('./sequence-with-annotations/figure.json'),
-    files: require('./sequence-with-annotations/files.json'),
-    manifest: require('./sequence-with-annotations/manifest.json')
+    figure: await import('./sequence-with-annotations/figure.json', { assert: { type: 'json' }}),
+    files: await import('./sequence-with-annotations/files.json', { assert: { type: 'json' }}),
+    manifest: await import('./sequence-with-annotations/manifest.json', { assert: { type: 'json' }})
   },
   zoomable: {
     dimensions: { height: 3221, width: 4096 },
-    figure: require('./zoomable/figure.json'),
-    manifest: require('./zoomable/manifest.json')
+    figure: await import('./zoomable/figure.json', { assert: { type: 'json' }}),
+    manifest: await import('./zoomable/manifest.json', { assert: { type: 'json' }})
   },
   zoomableSequence: {
     dimensions: { height: 2160, width: 1827 },
-    figure: require('./zoomable-sequence/figure.json'),
-    files: require('./zoomable-sequence/files.json'),
-    manifest: require('./zoomable-sequence/manifest.json')
+    figure: await import('./zoomable-sequence/figure.json', { assert: { type: 'json' }}),
+    files: await import('./zoomable-sequence/files.json', { assert: { type: 'json' }}),
+    manifest: await import('./zoomable-sequence/manifest.json', { assert: { type: 'json' }})
   }
 }

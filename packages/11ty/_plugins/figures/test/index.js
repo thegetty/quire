@@ -2,11 +2,10 @@ import { describe, test } from 'node:test'
 import { readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import Ajv from 'ajv'
-import Figure from '../figure.js'
+import Figure from '../index.js'
 import Manifest from '../iiif/manifest.js'
 import assert from 'assert/strict'
 import figureFixtures from './__fixtures__/figures/index.js'
-require('module-alias/register')
 
 const loadJson = async (filepath) => {
   try {
