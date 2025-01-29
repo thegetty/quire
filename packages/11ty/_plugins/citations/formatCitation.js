@@ -33,7 +33,7 @@ export default async function (options = {}) {
 
     const citationData = { citationItems: [{ id: item.id }] }
 
-    // eslint-disable-next-line unused-vars
+    // eslint-disable-next-line no-unused-vars
     const citationResult = engine.processCitationCluster(citationData, [], [])
     const citation = engine.previewCitationCluster(citationData, [], [], 'text')
 
