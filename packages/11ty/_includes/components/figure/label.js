@@ -5,12 +5,12 @@ import { oneLine } from '#lib/common-tags/index.js'
  * @param  {Object} eleventyConfig  eleventy configuration
  * @return
  */
-export default function(eleventyConfig) {
+export default function (eleventyConfig) {
   const icon = eleventyConfig.getFilter('icon')
   const markdownify = eleventyConfig.getFilter('markdownify')
   const modalLink = eleventyConfig.getFilter('figureModalLink')
 
-  return function({ id, label, isSequence }) {
+  return function ({ id, label, isSequence }) {
     if (!label) return ''
 
     let content = `<span class="q-figure__label-icon">${icon({ type: 'fullscreen', description: 'Expand' })}</span>`

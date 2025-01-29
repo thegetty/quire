@@ -5,7 +5,7 @@ export default {
     class: 'in-text',
     version: '1.0',
     'demote-non-dropping-particle': 'never',
-    'page-range-format': 'minimal-two',
+    'page-range-format': 'minimal-two'
   },
   children: [
     {
@@ -15,58 +15,58 @@ export default {
         {
           name: 'title',
           attrs: {},
-          children: ['Modern Language Association 9th edition'],
+          children: ['Modern Language Association 9th edition']
         },
         { name: 'title-short', attrs: {}, children: ['MLA'] },
         {
           name: 'id',
           attrs: {},
           children: [
-            'http://www.zotero.org/styles/modern-language-association',
-          ],
+            'http://www.zotero.org/styles/modern-language-association'
+          ]
         },
         {
           name: 'link',
           attrs: {
             href: 'http://www.zotero.org/styles/modern-language-association',
-            rel: 'self',
+            rel: 'self'
           },
-          children: [],
+          children: []
         },
         {
           name: 'link',
           attrs: { href: 'http://style.mla.org', rel: 'documentation' },
-          children: [],
+          children: []
         },
         {
           name: 'author',
           attrs: {},
           children: [
-            { name: 'name', attrs: {}, children: ['Sebastian Karcher'] },
-          ],
+            { name: 'name', attrs: {}, children: ['Sebastian Karcher'] }
+          ]
         },
         {
           name: 'category',
           attrs: { 'citation-format': 'author' },
-          children: [],
+          children: []
         },
         { name: 'category', attrs: { field: 'generic-base' }, children: [] },
         {
           name: 'summary',
           attrs: {},
           children: [
-            'This style adheres to the MLA 9th edition handbook. Follows the structure of references as outlined in the MLA Manual closely',
-          ],
+            'This style adheres to the MLA 9th edition handbook. Follows the structure of references as outlined in the MLA Manual closely'
+          ]
         },
         { name: 'updated', attrs: {}, children: ['2021-07-13T20:05:10+00:00'] },
         {
           name: 'rights',
           attrs: { license: 'http://creativecommons.org/licenses/by-sa/3.0/' },
           children: [
-            'This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License',
-          ],
-        },
-      ],
+            'This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License'
+          ]
+        }
+      ]
     },
     {
       name: 'locale',
@@ -79,15 +79,15 @@ export default {
             {
               name: 'date-part',
               attrs: { name: 'day', suffix: ' ' },
-              children: [],
+              children: []
             },
             {
               name: 'date-part',
               attrs: { name: 'month', suffix: ' ', form: 'short' },
-              children: [],
+              children: []
             },
-            { name: 'date-part', attrs: { name: 'year' }, children: [] },
-          ],
+            { name: 'date-part', attrs: { name: 'year' }, children: [] }
+          ]
         },
         {
           name: 'terms',
@@ -96,71 +96,71 @@ export default {
             {
               name: 'term',
               attrs: { name: 'month-01', form: 'short' },
-              children: ['Jan.'],
+              children: ['Jan.']
             },
             {
               name: 'term',
               attrs: { name: 'month-02', form: 'short' },
-              children: ['Feb.'],
+              children: ['Feb.']
             },
             {
               name: 'term',
               attrs: { name: 'month-03', form: 'short' },
-              children: ['Mar.'],
+              children: ['Mar.']
             },
             {
               name: 'term',
               attrs: { name: 'month-04', form: 'short' },
-              children: ['Apr.'],
+              children: ['Apr.']
             },
             {
               name: 'term',
               attrs: { name: 'month-05', form: 'short' },
-              children: ['May'],
+              children: ['May']
             },
             {
               name: 'term',
               attrs: { name: 'month-06', form: 'short' },
-              children: ['June'],
+              children: ['June']
             },
             {
               name: 'term',
               attrs: { name: 'month-07', form: 'short' },
-              children: ['July'],
+              children: ['July']
             },
             {
               name: 'term',
               attrs: { name: 'month-08', form: 'short' },
-              children: ['Aug.'],
+              children: ['Aug.']
             },
             {
               name: 'term',
               attrs: { name: 'month-09', form: 'short' },
-              children: ['Sept.'],
+              children: ['Sept.']
             },
             {
               name: 'term',
               attrs: { name: 'month-10', form: 'short' },
-              children: ['Oct.'],
+              children: ['Oct.']
             },
             {
               name: 'term',
               attrs: { name: 'month-11', form: 'short' },
-              children: ['Nov.'],
+              children: ['Nov.']
             },
             {
               name: 'term',
               attrs: { name: 'month-12', form: 'short' },
-              children: ['Dec.'],
+              children: ['Dec.']
             },
             {
               name: 'term',
               attrs: { name: 'translator', form: 'short' },
-              children: ['trans.'],
-            },
-          ],
-        },
-      ],
+              children: ['trans.']
+            }
+          ]
+        }
+      ]
     },
     {
       name: 'macro',
@@ -178,14 +178,14 @@ export default {
                 'delimiter-precedes-last': 'always',
                 'delimiter-precedes-et-al': 'always',
                 initialize: 'false',
-                'initialize-with': '. ',
+                'initialize-with': '. '
               },
-              children: [],
+              children: []
             },
             {
               name: 'label',
               attrs: { form: 'long', prefix: ', ' },
-              children: [],
+              children: []
             },
             {
               name: 'substitute',
@@ -195,14 +195,14 @@ export default {
                 {
                   name: 'names',
                   attrs: { variable: 'translator' },
-                  children: [],
+                  children: []
                 },
-                { name: 'text', attrs: { macro: 'title' }, children: [] },
-              ],
-            },
-          ],
-        },
-      ],
+                { name: 'text', attrs: { macro: 'title' }, children: [] }
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
       name: 'macro',
@@ -221,9 +221,9 @@ export default {
                   attrs: {
                     form: 'short',
                     'initialize-with': '. ',
-                    and: 'text',
+                    and: 'text'
                   },
-                  children: [],
+                  children: []
                 },
                 {
                   name: 'substitute',
@@ -232,21 +232,21 @@ export default {
                     {
                       name: 'names',
                       attrs: { variable: 'editor' },
-                      children: [],
+                      children: []
                     },
                     {
                       name: 'names',
                       attrs: { variable: 'translator' },
-                      children: [],
+                      children: []
                     },
                     {
                       name: 'text',
                       attrs: { macro: 'title-short' },
-                      children: [],
-                    },
-                  ],
-                },
-              ],
+                      children: []
+                    }
+                  ]
+                }
+              ]
             },
             {
               name: 'choose',
@@ -259,15 +259,15 @@ export default {
                     {
                       name: 'text',
                       attrs: { macro: 'title-short' },
-                      children: [],
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ],
+                      children: []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
       name: 'macro',
@@ -286,11 +286,11 @@ export default {
                   attrs: {
                     variable: 'title',
                     quotes: 'true',
-                    'text-case': 'title',
+                    'text-case': 'title'
                   },
-                  children: [],
-                },
-              ],
+                  children: []
+                }
+              ]
             },
             {
               name: 'else',
@@ -301,15 +301,15 @@ export default {
                   attrs: {
                     variable: 'title',
                     'font-style': 'italic',
-                    'text-case': 'title',
+                    'text-case': 'title'
                   },
-                  children: [],
-                },
-              ],
-            },
-          ],
-        },
-      ],
+                  children: []
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
       name: 'macro',
@@ -329,11 +329,11 @@ export default {
                     variable: 'title',
                     form: 'short',
                     quotes: 'true',
-                    'text-case': 'title',
+                    'text-case': 'title'
                   },
-                  children: [],
-                },
-              ],
+                  children: []
+                }
+              ]
             },
             {
               name: 'else',
@@ -345,15 +345,15 @@ export default {
                     variable: 'title',
                     form: 'short',
                     'font-style': 'italic',
-                    'text-case': 'title',
+                    'text-case': 'title'
                   },
-                  children: [],
-                },
-              ],
-            },
-          ],
-        },
-      ],
+                  children: []
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
       name: 'macro',
@@ -364,11 +364,11 @@ export default {
           attrs: {
             variable: 'container-title',
             'font-style': 'italic',
-            'text-case': 'title',
+            'text-case': 'title'
           },
-          children: [],
-        },
-      ],
+          children: []
+        }
+      ]
     },
     {
       name: 'macro',
@@ -393,10 +393,10 @@ export default {
                         {
                           name: 'label',
                           attrs: { form: 'verb', suffix: ' ' },
-                          children: [],
+                          children: []
                         },
-                        { name: 'name', attrs: { and: 'text' }, children: [] },
-                      ],
+                        { name: 'name', attrs: { and: 'text' }, children: [] }
+                      ]
                     },
                     {
                       name: 'names',
@@ -405,29 +405,29 @@ export default {
                         {
                           name: 'label',
                           attrs: { form: 'verb', suffix: ' ' },
-                          children: [],
+                          children: []
                         },
-                        { name: 'name', attrs: { and: 'text' }, children: [] },
-                      ],
+                        { name: 'name', attrs: { and: 'text' }, children: [] }
+                      ]
                     },
                     {
                       name: 'names',
                       attrs: {
                         variable: 'director illustrator interviewer',
-                        delimiter: ', ',
+                        delimiter: ', '
                       },
                       children: [
                         {
                           name: 'label',
                           attrs: { form: 'verb', suffix: ' ' },
-                          children: [],
+                          children: []
                         },
-                        { name: 'name', attrs: { and: 'text' }, children: [] },
-                      ],
-                    },
-                  ],
-                },
-              ],
+                        { name: 'name', attrs: { and: 'text' }, children: [] }
+                      ]
+                    }
+                  ]
+                }
+              ]
             },
             {
               name: 'else',
@@ -446,12 +446,12 @@ export default {
                           attrs: {
                             form: 'verb',
                             suffix: ' ',
-                            'text-case': 'capitalize-first',
+                            'text-case': 'capitalize-first'
                           },
-                          children: [],
+                          children: []
                         },
-                        { name: 'name', attrs: { and: 'text' }, children: [] },
-                      ],
+                        { name: 'name', attrs: { and: 'text' }, children: [] }
+                      ]
                     },
                     {
                       name: 'names',
@@ -462,18 +462,18 @@ export default {
                           attrs: {
                             form: 'verb',
                             suffix: ' ',
-                            'text-case': 'capitalize-first',
+                            'text-case': 'capitalize-first'
                           },
-                          children: [],
+                          children: []
                         },
-                        { name: 'name', attrs: { and: 'text' }, children: [] },
-                      ],
+                        { name: 'name', attrs: { and: 'text' }, children: [] }
+                      ]
                     },
                     {
                       name: 'names',
                       attrs: {
                         variable: 'director illustrator interviewer',
-                        delimiter: ', ',
+                        delimiter: ', '
                       },
                       children: [
                         {
@@ -481,20 +481,20 @@ export default {
                           attrs: {
                             form: 'verb',
                             suffix: ' ',
-                            'text-case': 'capitalize-first',
+                            'text-case': 'capitalize-first'
                           },
-                          children: [],
+                          children: []
                         },
-                        { name: 'name', attrs: { and: 'text' }, children: [] },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ],
+                        { name: 'name', attrs: { and: 'text' }, children: [] }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
       name: 'macro',
@@ -519,16 +519,16 @@ export default {
                         {
                           name: 'number',
                           attrs: { variable: 'edition', form: 'ordinal' },
-                          children: [],
+                          children: []
                         },
                         {
                           name: 'text',
                           attrs: { term: 'edition', form: 'short' },
-                          children: [],
-                        },
-                      ],
-                    },
-                  ],
+                          children: []
+                        }
+                      ]
+                    }
+                  ]
                 },
                 {
                   name: 'else',
@@ -538,19 +538,19 @@ export default {
                       name: 'text',
                       attrs: {
                         variable: 'edition',
-                        'text-case': 'capitalize-first',
+                        'text-case': 'capitalize-first'
                       },
-                      children: [],
-                    },
-                  ],
-                },
-              ],
+                      children: []
+                    }
+                  ]
+                }
+              ]
             },
             { name: 'text', attrs: { variable: 'version' }, children: [] },
-            { name: 'text', attrs: { variable: 'medium' }, children: [] },
-          ],
-        },
-      ],
+            { name: 'text', attrs: { variable: 'medium' }, children: [] }
+          ]
+        }
+      ]
     },
     {
       name: 'macro',
@@ -563,12 +563,12 @@ export default {
             {
               name: 'text',
               attrs: { term: 'volume', form: 'short' },
-              children: [],
+              children: []
             },
-            { name: 'text', attrs: { variable: 'volume' }, children: [] },
-          ],
-        },
-      ],
+            { name: 'text', attrs: { variable: 'volume' }, children: [] }
+          ]
+        }
+      ]
     },
     {
       name: 'macro',
@@ -590,15 +590,15 @@ export default {
                       name: 'if',
                       attrs: {
                         variable: 'edition container-title',
-                        match: 'any',
+                        match: 'any'
                       },
                       children: [
                         {
                           name: 'text',
                           attrs: { macro: 'volume-lowercase' },
-                          children: [],
-                        },
-                      ],
+                          children: []
+                        }
+                      ]
                     },
                     {
                       name: 'else-if',
@@ -613,19 +613,19 @@ export default {
                               attrs: {
                                 variable:
                                   'editor translator container-author illustrator interviewer director',
-                                match: 'any',
+                                match: 'any'
                               },
                               children: [
                                 {
                                   name: 'text',
                                   attrs: { macro: 'volume-lowercase' },
-                                  children: [],
-                                },
-                              ],
-                            },
-                          ],
-                        },
-                      ],
+                                  children: []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
                     },
                     {
                       name: 'else-if',
@@ -640,34 +640,34 @@ export default {
                               attrs: {
                                 variable:
                                   'translator container-author illustrator interviewer director',
-                                match: 'any',
+                                match: 'any'
                               },
                               children: [
                                 {
                                   name: 'text',
                                   attrs: { macro: 'volume-lowercase' },
-                                  children: [],
-                                },
-                              ],
-                            },
-                          ],
-                        },
-                      ],
+                                  children: []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
                     },
                     {
                       name: 'else-if',
                       attrs: {
                         variable:
                           'container-author illustrator interviewer director',
-                        match: 'any',
+                        match: 'any'
                       },
                       children: [
                         {
                           name: 'text',
                           attrs: { macro: 'volume-lowercase' },
-                          children: [],
-                        },
-                      ],
+                          children: []
+                        }
+                      ]
                     },
                     {
                       name: 'else',
@@ -682,22 +682,22 @@ export default {
                               attrs: {
                                 term: 'volume',
                                 form: 'short',
-                                'text-case': 'capitalize-first',
+                                'text-case': 'capitalize-first'
                               },
-                              children: [],
+                              children: []
                             },
                             {
                               name: 'text',
                               attrs: { variable: 'volume' },
-                              children: [],
-                            },
-                          ],
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
+                              children: []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
             },
             {
               name: 'group',
@@ -706,10 +706,10 @@ export default {
                 {
                   name: 'text',
                   attrs: { term: 'issue', form: 'short' },
-                  children: [],
+                  children: []
                 },
-                { name: 'text', attrs: { variable: 'issue' }, children: [] },
-              ],
+                { name: 'text', attrs: { variable: 'issue' }, children: [] }
+              ]
             },
             {
               name: 'choose',
@@ -722,16 +722,16 @@ export default {
                     {
                       name: 'text',
                       attrs: { variable: 'genre' },
-                      children: [],
-                    },
-                  ],
-                },
-              ],
+                      children: []
+                    }
+                  ]
+                }
+              ]
             },
-            { name: 'text', attrs: { variable: 'number' }, children: [] },
-          ],
-        },
-      ],
+            { name: 'text', attrs: { variable: 'number' }, children: [] }
+          ]
+        }
+      ]
     },
     {
       name: 'macro',
@@ -745,19 +745,19 @@ export default {
               name: 'if',
               attrs: {
                 type: 'article-magazine article-newspaper article-journal',
-                match: 'none',
+                match: 'none'
               },
               children: [
                 {
                   name: 'text',
                   attrs: { variable: 'publisher' },
-                  children: [],
-                },
-              ],
-            },
-          ],
-        },
-      ],
+                  children: []
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
       name: 'macro',
@@ -771,7 +771,7 @@ export default {
               name: 'if',
               attrs: {
                 type: 'book chapter paper-conference motion_picture',
-                match: 'any',
+                match: 'any'
               },
               children: [
                 {
@@ -779,11 +779,11 @@ export default {
                   attrs: {
                     variable: 'issued',
                     form: 'numeric',
-                    'date-parts': 'year',
+                    'date-parts': 'year'
                   },
-                  children: [],
-                },
-              ],
+                  children: []
+                }
+              ]
             },
             {
               name: 'else-if',
@@ -794,11 +794,11 @@ export default {
                   attrs: {
                     variable: 'issued',
                     form: 'text',
-                    'date-parts': 'year-month',
+                    'date-parts': 'year-month'
                   },
-                  children: [],
-                },
-              ],
+                  children: []
+                }
+              ]
             },
             {
               name: 'else-if',
@@ -807,13 +807,13 @@ export default {
                 {
                   name: 'date',
                   attrs: { variable: 'issued', form: 'text' },
-                  children: [],
-                },
-              ],
-            },
-          ],
-        },
-      ],
+                  children: []
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
       name: 'macro',
@@ -830,10 +830,10 @@ export default {
                 {
                   name: 'label',
                   attrs: { variable: 'page', form: 'short' },
-                  children: [],
+                  children: []
                 },
-                { name: 'text', attrs: { variable: 'page' }, children: [] },
-              ],
+                { name: 'text', attrs: { variable: 'page' }, children: [] }
+              ]
             },
             {
               name: 'choose',
@@ -843,14 +843,14 @@ export default {
                   name: 'if',
                   attrs: { variable: 'source', match: 'none' },
                   children: [
-                    { name: 'text', attrs: { macro: 'URI' }, children: [] },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ],
+                    { name: 'text', attrs: { macro: 'URI' }, children: [] }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
       name: 'macro',
@@ -871,36 +871,36 @@ export default {
                     {
                       name: 'text',
                       attrs: { variable: 'event' },
-                      children: [],
+                      children: []
                     },
                     {
                       name: 'date',
                       attrs: { variable: 'event-date', form: 'text' },
-                      children: [],
+                      children: []
                     },
                     {
                       name: 'text',
                       attrs: { variable: 'event-place' },
-                      children: [],
-                    },
-                  ],
-                },
-              ],
+                      children: []
+                    }
+                  ]
+                }
+              ]
             },
             { name: 'text', attrs: { variable: 'archive' }, children: [] },
             {
               name: 'text',
               attrs: { variable: 'archive-place' },
-              children: [],
+              children: []
             },
             {
               name: 'text',
               attrs: { variable: 'archive_location' },
-              children: [],
-            },
-          ],
-        },
-      ],
+              children: []
+            }
+          ]
+        }
+      ]
     },
     {
       name: 'macro',
@@ -930,26 +930,26 @@ export default {
                               name: 'text',
                               attrs: {
                                 variable: 'source',
-                                'font-style': 'italic',
+                                'font-style': 'italic'
                               },
-                              children: [],
+                              children: []
                             },
                             {
                               name: 'text',
                               attrs: { macro: 'URI' },
-                              children: [],
-                            },
-                          ],
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ],
+                              children: []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
       name: 'macro',
@@ -966,20 +966,20 @@ export default {
                 {
                   name: 'text',
                   attrs: { variable: 'DOI', prefix: 'https://doi.org/' },
-                  children: [],
-                },
-              ],
+                  children: []
+                }
+              ]
             },
             {
               name: 'else',
               attrs: {},
               children: [
-                { name: 'text', attrs: { variable: 'URL' }, children: [] },
-              ],
-            },
-          ],
-        },
-      ],
+                { name: 'text', attrs: { variable: 'URL' }, children: [] }
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
       name: 'macro',
@@ -1001,22 +1001,22 @@ export default {
                       name: 'text',
                       attrs: {
                         term: 'accessed',
-                        'text-case': 'capitalize-first',
+                        'text-case': 'capitalize-first'
                       },
-                      children: [],
+                      children: []
                     },
                     {
                       name: 'date',
                       attrs: { variable: 'accessed', form: 'text' },
-                      children: [],
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ],
+                      children: []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
       name: 'citation',
@@ -1024,7 +1024,7 @@ export default {
         'et-al-min': '3',
         'et-al-use-first': '1',
         'disambiguate-add-names': 'true',
-        'disambiguate-add-givenname': 'true',
+        'disambiguate-add-givenname': 'true'
       },
       children: [
         {
@@ -1046,16 +1046,16 @@ export default {
                         {
                           name: 'text',
                           attrs: { macro: 'author-short' },
-                          children: [],
+                          children: []
                         },
                         {
                           name: 'text',
                           attrs: { variable: 'locator' },
-                          children: [],
-                        },
-                      ],
-                    },
-                  ],
+                          children: []
+                        }
+                      ]
+                    }
+                  ]
                 },
                 {
                   name: 'else',
@@ -1068,7 +1068,7 @@ export default {
                         {
                           name: 'text',
                           attrs: { macro: 'author-short' },
-                          children: [],
+                          children: []
                         },
                         {
                           name: 'group',
@@ -1077,24 +1077,24 @@ export default {
                             {
                               name: 'label',
                               attrs: { variable: 'locator', form: 'short' },
-                              children: [],
+                              children: []
                             },
                             {
                               name: 'text',
                               attrs: { variable: 'locator' },
-                              children: [],
-                            },
-                          ],
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ],
+                              children: []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
       name: 'bibliography',
@@ -1104,7 +1104,7 @@ export default {
         'et-al-use-first': '1',
         'line-spacing': '2',
         'entry-spacing': '0',
-        'subsequent-author-substitute': '---',
+        'subsequent-author-substitute': '---'
       },
       children: [
         {
@@ -1112,8 +1112,8 @@ export default {
           attrs: {},
           children: [
             { name: 'key', attrs: { macro: 'author' }, children: [] },
-            { name: 'key', attrs: { variable: 'title' }, children: [] },
-          ],
+            { name: 'key', attrs: { variable: 'title' }, children: [] }
+          ]
         },
         {
           name: 'layout',
@@ -1130,9 +1130,9 @@ export default {
                   attrs: {
                     variable: 'original-date',
                     form: 'numeric',
-                    'date-parts': 'year',
+                    'date-parts': 'year'
                   },
-                  children: [],
+                  children: []
                 },
                 {
                   name: 'group',
@@ -1141,31 +1141,31 @@ export default {
                     {
                       name: 'text',
                       attrs: { macro: 'container-title' },
-                      children: [],
+                      children: []
                     },
                     {
                       name: 'text',
                       attrs: { macro: 'other-contributors' },
-                      children: [],
+                      children: []
                     },
                     { name: 'text', attrs: { macro: 'version' }, children: [] },
                     { name: 'text', attrs: { macro: 'number' }, children: [] },
                     {
                       name: 'text',
                       attrs: { macro: 'publisher' },
-                      children: [],
+                      children: []
                     },
                     {
                       name: 'text',
                       attrs: { macro: 'publication-date' },
-                      children: [],
+                      children: []
                     },
                     {
                       name: 'text',
                       attrs: { macro: 'location' },
-                      children: [],
-                    },
-                  ],
+                      children: []
+                    }
+                  ]
                 },
                 {
                   name: 'group',
@@ -1174,21 +1174,21 @@ export default {
                     {
                       name: 'text',
                       attrs: { macro: 'container2-title' },
-                      children: [],
+                      children: []
                     },
                     {
                       name: 'text',
                       attrs: { macro: 'container2-location' },
-                      children: [],
-                    },
-                  ],
+                      children: []
+                    }
+                  ]
                 },
-                { name: 'text', attrs: { macro: 'accessed' }, children: [] },
-              ],
-            },
-          ],
-        },
-      ],
-    },
-  ],
+                { name: 'text', attrs: { macro: 'accessed' }, children: [] }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

@@ -7,10 +7,10 @@ import { html } from '#lib/common-tags/index.js'
   The individual svg elements are assembled according to the specific license used:
   "CC 0", "CC BY", "CC BY-SA", "CC BY-ND", "CC BY-NC", "CC BY-NC-SA", or "CC BY-NC-ND".
  */
-export default function(eleventyConfig) {
+export default function (eleventyConfig) {
   const { config } = eleventyConfig.globalData
 
-  return function() {
+  return function () {
     if (!config.licenseIcons) return ''
 
     const ccIcons = fs
@@ -33,4 +33,3 @@ export default function(eleventyConfig) {
     `
   }
 }
-

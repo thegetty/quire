@@ -9,10 +9,10 @@ import { html } from '#lib/common-tags/index.js'
  * @property  {Array<String>} classes
  * @return    {String}                Unordered list of links
  */
-export default function(eleventyConfig) {
+export default function (eleventyConfig) {
   const link = eleventyConfig.getFilter('link')
 
-  return function(params) {
+  return function (params) {
     const { links, classes = [] } = params
     if (!links) return ''
 

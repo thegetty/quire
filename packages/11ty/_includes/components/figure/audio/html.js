@@ -9,13 +9,13 @@ import chalkFactory from '#lib/chalk/index.js'
  *
  * @return     {String}  An embedded SoundCloud player and a caption
  */
-export default function(eleventyConfig) {
+export default function (eleventyConfig) {
   const figureCaption = eleventyConfig.getFilter('figureCaption')
   const figureImage = eleventyConfig.getFilter('figureImage')
   const figureLabel = eleventyConfig.getFilter('figureLabel')
   const figureAudioElement = eleventyConfig.getFilter('figureAudioElement')
 
-  return function({ caption, credit, id, label, mediaId, mediaType, lazyLoading }) {
+  return function ({ caption, credit, id, label, mediaId, mediaType, lazyLoading }) {
     const audioElement = figureAudioElement({ id, mediaId, mediaType, lazyLoading })
     const labelElement = figureLabel({ caption, id, label })
     const captionElement = figureCaption({ caption, content: labelElement, credit })

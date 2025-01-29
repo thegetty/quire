@@ -2,7 +2,7 @@ import { html } from '#lib/common-tags/index.js'
 
 /**
  * Menu
- * 
+ *
  * This controls the global table of contents for the publication, which is
  * available on all pages. For users with Javascript enabled, this menu is hidden
  * by default. Users with JS disabled will alwasy see the menu in its expanded state.
@@ -10,7 +10,7 @@ import { html } from '#lib/common-tags/index.js'
  * @param      {Object}  eleventyConfig
  * @param      {Object}  params
  */
-export default function(eleventyConfig) {
+export default function (eleventyConfig) {
   const citation = eleventyConfig.getFilter('citation')
   const copyright = eleventyConfig.getFilter('copyright')
   const eleventyNavigation = eleventyConfig.getFilter('eleventyNavigation')
@@ -21,7 +21,7 @@ export default function(eleventyConfig) {
 
   const { resource_link: resourceLinks } = eleventyConfig.globalData.publication
 
-  return function(params) {
+  return function (params) {
     const { collections, pageData } = params
 
     if (!pageData) return
@@ -65,7 +65,7 @@ export default function(eleventyConfig) {
 
         <footer class="quire-menu__footer" role="contentinfo">
           ${copyright()}
-          ${linkList({ links: footerLinks, classes: ['menu-list']}) }
+          ${linkList({ links: footerLinks, classes: ['menu-list'] })}
         </footer>
       </div>
     `

@@ -65,9 +65,9 @@ export default (eleventyConfig, collections) => {
     const { url: coverUrl } = manifest.resources.find(({ rel }) => rel === 'cover-image')
     assets.push(coverUrl)
 
-    // Because epub runs simultaneously to the vite transform (!!) do path math to understand asset locations 
+    // Because epub runs simultaneously to the vite transform (!!) do path math to understand asset locations
     for (const asset of assets) {
-      let assetDir 
+      let assetDir
 
       switch (true) {
         case asset.startsWith('_assets'):
@@ -79,12 +79,12 @@ export default (eleventyConfig, collections) => {
         default:
           assetDir = eleventyConfig.directoryAssignments.output
       }
-                          
-      let srcPath = path.join(assetDir, asset)
+
+      const srcPath = path.join(assetDir, asset)
       console.log(srcPath)
       const destPath = path.join(outputDir, asset)
 
-      fs.copySync( srcPath, destPath )
+      fs.copySync(srcPath, destPath)
     }
   })
 }

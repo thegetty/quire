@@ -14,7 +14,7 @@ const logger = chalkFactory('shortcodes:contributors')
  *
  * @return {String} Markup for contributors
  */
-export default function(eleventyConfig) {
+export default function (eleventyConfig) {
   const contributorBio = eleventyConfig.getFilter('contributorBio')
   const fullname = eleventyConfig.getFilter('fullname')
   const getContributor = eleventyConfig.getFilter('getContributor')
@@ -27,11 +27,11 @@ export default function(eleventyConfig) {
 
   return function (params) {
     const {
-      align='left',
+      align = 'left',
       context: contributors,
-      format=bylineFormat,
+      format = bylineFormat,
       role,
-      type='all'
+      type = 'all'
     } = params
 
     const formats = ['bio', 'initials', 'name', 'name-title', 'name-title-block', 'string']
@@ -90,12 +90,12 @@ export default function(eleventyConfig) {
           ]
           contributor.title && format !== 'name'
             ? contributorParts.push(
-              `<span class="quire-contributor__title">${ contributor.title }</span>`
+              `<span class="quire-contributor__title">${contributor.title}</span>`
             )
             : null
           contributor.affiliation && format !== 'name'
             ? contributorParts.push(
-              `<span class="quire-contributor__affiliation">${ contributor.affiliation }</span>`
+              `<span class="quire-contributor__affiliation">${contributor.affiliation}</span>`
             )
             : null
           return `

@@ -17,7 +17,7 @@ import log from 'loglevel'
  *
  * @return {Object}  Logger with methods `debug`, error`, `info`, `trace` ,`warn`
  */
-export default function(prefix='', loglevel=2) {
+export default function (prefix = '', loglevel = 2) {
   /**
    * Get a new logger object and set logging level (non-persistent)
    * @see https://github.com/pimterry/loglevel

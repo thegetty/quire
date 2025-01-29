@@ -10,11 +10,11 @@ const defaultStyles = {
   mla
 }
 
-export default async function(options={}) {
+export default async function (options = {}) {
   const { default: locale } = await import(options.locale || 'locale-en-us')
   const styles = Object.assign(defaultStyles, options.styles)
 
-  return function(item, { type }) {
+  return function (item, { type }) {
     const style = styles[type]
 
     if (!style) {
@@ -27,14 +27,14 @@ export default async function(options={}) {
       retrieveLocale: () => locale
     }
 
-    let engine = new citeproc.Engine(sys, style)
+    const engine = new citeproc.Engine(sys, style)
     engine.opt.development_extensions.wrap_url_and_doi = true
     engine.setOutputFormat('text')
 
-    const citationData = { citationItems:  [{id: item.id }] }
+    const citationData = { citationItems: [{ id: item.id }] }
 
-    const result = engine.processCitationCluster( citationData, [], [])
-    const citation = engine.previewCitationCluster( citationData, [] , [], 'text')
+    const result = engine.processCitationCluster(citationData, [], [])
+    const citation = engine.previewCitationCluster(citationData, [], [], 'text')
 
     return type === 'mla'
       ? `${citation.replace(/\s+$/, '')} <span class="cite-current-date__statement">Accessed <span class="cite-current-date">DD Mon. YYYY</span>.</span>`

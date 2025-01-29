@@ -5,18 +5,18 @@ import path from 'node:path'
  *
  * @param      {Object}  eleventyConfig
  * @param      {Object}  globalData
- * 
+ *
  * @return     {String}  HTML meta and link elements
  */
-export default function(eleventyConfig) {
+export default function (eleventyConfig) {
   const { config, publication } = eleventyConfig.globalData
   const { description, promo_image } = publication
   const { imageDir } = config.figures
 
-  return function({ abstract, cover, layout }) {
+  return function ({ abstract, cover, layout }) {
     const imagePath = () => {
       if (!publication.url) return
-      if (layout !== 'essay' ) {
+      if (layout !== 'essay') {
         return promo_image && path.join(imageDir, promo_image)
       } else {
         const image = cover || promo_image
@@ -55,4 +55,3 @@ export default function(eleventyConfig) {
     return `${metaTags.join('\n')}`
   }
 }
-

@@ -3,11 +3,10 @@ import path from 'node:path'
 
 const logger = chalkFactory('Figures:IIIF:Config', 'DEBUG')
 
-
 export default (eleventyConfig) => {
   const { url } = eleventyConfig.globalData.publication
   const { inputDir, outputDir, publicDir } = eleventyConfig.globalData.directoryConfig
-  const { port=8080 } = eleventyConfig.serverOptions
+  const { port = 8080 } = eleventyConfig.serverOptions
 
   const projectRoot = path.resolve(inputDir, '..')
 

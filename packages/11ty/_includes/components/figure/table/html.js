@@ -8,13 +8,13 @@ import { html } from '#lib/common-tags/index.js'
  *
  * @return     {String}  Content of referenced table file and a caption
  */
-export default function(eleventyConfig) {
+export default function (eleventyConfig) {
   const figureCaption = eleventyConfig.getFilter('figureCaption')
   const figureLabel = eleventyConfig.getFilter('figureLabel')
   const tableElement = eleventyConfig.getFilter('figureTableElement')
   const markdownify = eleventyConfig.getFilter('markdownify')
 
-  return async function({ caption, credit, id, label, src }) {
+  return async function ({ caption, credit, id, label, src }) {
     const table = await tableElement({ src })
     const title = markdownify(caption)
 

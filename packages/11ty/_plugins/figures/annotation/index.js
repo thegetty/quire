@@ -25,7 +25,7 @@ const logger = chalkFactory('Figures:Annotation')
  * @return {Annotation}
  */
 export default class Annotation {
-  constructor(figure, data) {
+  constructor (figure, data) {
     const { annotationCount, iiifConfig, outputDir, outputFormat, src: figureSrc, zoom } = figure
     const { baseURI, tilesDirName } = iiifConfig
     const { label, region, selected, src, text } = data
@@ -36,7 +36,7 @@ export default class Annotation {
      * @return {String}
      */
     const id = () => {
-      switch(true) {
+      switch (true) {
         case !!data.id:
           return data.id
         case !!src:
@@ -44,24 +44,23 @@ export default class Annotation {
         case !!label:
           return label.split(' ').join('-').toLowerCase()
         default:
-          logger.error(`Unable to set an id for annotation. Annotations must have an 'id', 'label', or 'src' property.`)
-          return
+          logger.error('Unable to set an id for annotation. Annotations must have an \'id\', \'label\', or \'src\' property.')
       }
     }
 
     /**
      * Create image service for annotation image if it is a JPG and
      * the figure has zoom enabled
-     * 
+     *
      * Note: Currently tiling is only supported for the figure.src, not annotations
      *
      * Note: Currently only JPG image services are supported by
      * canvas-panel/image-service tags
      */
     const isImageService =
-      !!zoom
-      && outputFormat === '.jpg'
-      && (annotationCount === 0 || src === figureSrc)
+      !!zoom &&
+      outputFormat === '.jpg' &&
+      (annotationCount === 0 || src === figureSrc)
     const info = () => {
       if (!isImageService) return
       const tilesPath = path.join(outputDir, name, tilesDirName)
@@ -70,7 +69,6 @@ export default class Annotation {
         return new URL(path.join(baseURI, infoPath)).href
       } catch (error) {
         logger.error(`Error creating info.json. Either the tile path (${tilesPath}) or base URI (${baseURI}) are invalid to form a fully qualified URI.`)
-        return
       }
     }
 
@@ -79,11 +77,10 @@ export default class Annotation {
         case isImageService:
           return info()
         default:
-          try{
+          try {
             return new URL(path.join(baseURI, outputDir, base)).href
           } catch (error) {
             logger.error(`Error creating annotation URI. Either the output directory (${outputDir}), filename (${base}) or base URI (${baseURI}) are invalid to form a fully qualified URI.`)
-            return
           }
       }
     }

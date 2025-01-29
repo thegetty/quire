@@ -4,7 +4,7 @@ import path from 'node:path'
  *
  * @param      {Object}  eleventyConfig
  */
-export default function(eleventyConfig) {
+export default function (eleventyConfig) {
   const analytics = eleventyConfig.getFilter('analytics')
   const dublinCore = eleventyConfig.getFilter('dublinCore')
   const jsonld = eleventyConfig.getFilter('jsonld')
@@ -28,12 +28,12 @@ export default function(eleventyConfig) {
 
     const publisherLinks = publication.publisher
       .filter(({ url }) => url)
-      .map(({ url }) => `<link rel="publisher" href="${ url }">`)
+      .map(({ url }) => `<link rel="publisher" href="${url}">`)
       .join('\n')
 
     const contributorLinks = publication.contributor
       .filter(({ url }) => url)
-      .map(({ url }) => `<link rel="author" href="${ url }">`)
+      .map(({ url }) => `<link rel="author" href="${url}">`)
       .join('\n')
 
     const keywords = publication.subject

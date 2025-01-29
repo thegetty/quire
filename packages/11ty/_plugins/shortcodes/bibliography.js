@@ -15,14 +15,13 @@ const logger = chalkFactory('configuration:bibliography')
  * Check if the PDF link should be generated for this page
  */
 const checkPagePDF = (config, outputs, frontmatterSetting) => {
-
   // Is the output being created?
   if (!checkFormat('pdf', { data: { outputs } })) {
     return false
   }
 
   // Are the footer links set?
-  if (config.pagePDF.accessLinks.find((al) => al.footer === true) === undefined )  {
+  if (config.pagePDF.accessLinks.find((al) => al.footer === true) === undefined) {
     return false
   }
 
@@ -58,8 +57,7 @@ export default function (eleventyConfig, { page }) {
    * @param  {Array}  referenceIds  An array of `references.yaml` entry ids
    *                                to include in the rendered bibliography
    */
-  return function (referenceIds = [],outputs,pagePDFOutput) {
-
+  return function (referenceIds = [], outputs, pagePDFOutput) {
     if (!page.citations && !referenceIds) return
 
     if (!displayOnPage) {

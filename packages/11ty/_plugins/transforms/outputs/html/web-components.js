@@ -7,15 +7,17 @@ import path from 'node:path'
  * @param      {String}  content
  * @return     {String}  transformed content
  */
-export default function(dom) {
+export default function (dom) {
   const webComponentPath = path.resolve('_includes', 'web-components')
 
   const webComponentModulePaths = fs
     .readdirSync(webComponentPath, { withFileTypes: true })
     .reduce((modulePaths, filePath) => {
-      if (filePath.isDirectory()) modulePaths.push(
-        path.join('_assets', 'javascript', filePath.name, 'index.js'),
-      )
+      if (filePath.isDirectory()) {
+        modulePaths.push(
+          path.join('_assets', 'javascript', filePath.name, 'index.js')
+        )
+      }
 
       return modulePaths
     }, [])

@@ -6,7 +6,7 @@
  *
  * @return     {String}  An HTML <img> element, `<canvas-panel>` or `<image-service>` web components
  */
-export default function(eleventyConfig) {
+export default function (eleventyConfig) {
   const canvasPanel = eleventyConfig.getFilter('canvasPanel')
   const imageService = eleventyConfig.getFilter('imageService')
   const imageSequence = eleventyConfig.getFilter('figureImageSequence')
@@ -14,7 +14,6 @@ export default function(eleventyConfig) {
   const { imageDir } = eleventyConfig.globalData.config.figures
 
   return function (figure, options) {
-
     const { alt, isCanvas, isImageService, isSequence, staticInlineFigureImage, lazyLoading } = figure
     const { interactive, preset } = options
     if (preset) {

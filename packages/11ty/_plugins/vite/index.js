@@ -12,7 +12,7 @@ import path from 'node:path'
  * @param {Object} eleventyConfig
  * @param {Object} globalData
  */
-export default function(eleventyConfig, { directoryConfig, publication }) {
+export default function (eleventyConfig, { directoryConfig, publication }) {
   const { pathname } = publication
   const { inputDir, outputDir, publicDir } = directoryConfig
 
@@ -24,7 +24,7 @@ export default function(eleventyConfig, { directoryConfig, publication }) {
        * @see https://vitejs.dev/config/#build-options
        */
       root: outputDir,
-      base: pathname, 
+      base: pathname,
       resolve: {
         alias: pathname === '/' ? [] : [{ find: pathname, replacement: '/' }]
       },
@@ -53,9 +53,9 @@ export default function(eleventyConfig, { directoryConfig, publication }) {
           plugins: [
             copy({
               targets: [
-                { 
-                  src: 'public/*', 
-                  dest: outputDir,
+                {
+                  src: 'public/*',
+                  dest: outputDir
                 },
                 {
                   src: path.join(inputDir, '_assets', 'images', '*'),

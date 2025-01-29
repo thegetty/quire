@@ -12,9 +12,9 @@ const logger = chalkFactory('Figures:ImageTiler', 'DEBUG')
  */
 export default class Tiler {
   /**
-   * @param  {Object} iiifConfig 
+   * @param  {Object} iiifConfig
    */
-  constructor(iiifConfig) {
+  constructor (iiifConfig) {
     this.baseURI = iiifConfig.baseURI
     this.formats = iiifConfig.formats
     this.outputRoot = iiifConfig.dirs.outputRoot
@@ -29,7 +29,7 @@ export default class Tiler {
    * @param  {String} outputDir   Destination directory for the tiles
    * @return {Promise}
    */
-  tile(inputPath, outputDir) {
+  tile (inputPath, outputDir) {
     if (!inputPath) return
 
     const { ext, name } = path.parse(inputPath)

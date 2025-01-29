@@ -29,7 +29,7 @@ const logger = chalkFactory('shortcodes:cite')
  *  @example {% cite "Faure 1909" "" "1909" %}
  *  renders the citation "1909"
  */
-export default function(eleventyConfig, { page }) {
+export default function (eleventyConfig, { page }) {
   const icon = eleventyConfig.getFilter('icon')
   const markdownify = eleventyConfig.getFilter('markdownify')
 
@@ -42,7 +42,7 @@ export default function(eleventyConfig, { page }) {
     ? eleventyConfig.globalData.references.entries
     : []
 
-  return function(id, pageNumber, text) {
+  return function (id, pageNumber, text) {
     if (!id) {
       logger.warn(stripIndent`
         missing shortcode parameters ${page.inputPath}
@@ -59,7 +59,6 @@ export default function(eleventyConfig, { page }) {
       `)
       return ''
     }
-
 
     const findCitationReference = (id) => {
       /**
@@ -98,7 +97,7 @@ export default function(eleventyConfig, { page }) {
 
     page.citations[id] = citation
 
-    let buttonText = (text) ? text : citation.short
+    let buttonText = (text) || citation.short
 
     if (pageNumber) buttonText += divider + pageNumber
 

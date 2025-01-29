@@ -19,7 +19,7 @@ import titleCase from './titleCase.js'
  * Add universal filters for use in templates
  * @see https://www.11ty.dev/docs/filters/#universal-filters
  */
-export default function(eleventyConfig, options) {
+export default function (eleventyConfig, options) {
   /**
    * Quire data filters
    */

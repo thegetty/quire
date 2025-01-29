@@ -2,11 +2,11 @@ import { html } from '#lib/common-tags/index.js'
 
 /**
  * Search Input
- * 
+ *
  * @param  {EleventyConfig} eleventyConfig
  * @return {String} HTML tags
  */
-export default function(eleventyConfig) {
+export default function (eleventyConfig) {
   const icon = eleventyConfig.getFilter('icon')
   return (params) => {
     const { url } = params.publication
@@ -45,7 +45,7 @@ export default function(eleventyConfig) {
                   type="search"
                   value=""
                 />
-                <span>${icon({ type: 'search', description: 'Search'})}</span>
+                <span>${icon({ type: 'search', description: 'Search' })}</span>
               </div>
               <ul class="quire-search__inner__list" id="js-search-results-list">
                 <!-- js-search-results-template -->

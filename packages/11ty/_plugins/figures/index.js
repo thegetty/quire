@@ -9,7 +9,7 @@ const logger = chalkFactory('Figures', 'DEBUG')
  * Uses the FigureFactory to create Figure instances
  * for all figures in `figures.yaml` and updates global data
  */
-export default function(eleventyConfig, options = {}) {
+export default function (eleventyConfig, options = {}) {
   eleventyConfig.on('eleventy.before', async () => {
     const config = iiifConfig(eleventyConfig)
     const figureFactory = new FigureFactory(config)
@@ -43,7 +43,7 @@ export default function(eleventyConfig, options = {}) {
      */
     Object.assign(
       figureList,
-      figures.map(({ figure }) => figure.adapter()),
+      figures.map(({ figure }) => figure.adapter())
     )
     logger.info('Processing complete')
   })

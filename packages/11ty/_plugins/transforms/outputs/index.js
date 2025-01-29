@@ -11,8 +11,8 @@ import renderOutputs from './render.js'
  * @param      {Object}  eleventyConfig  Eleventy configuration
  * @param      {Object}  collections  Eleventy collections
  */
-export default function(eleventyConfig, { collections }) {
-  eleventyConfig.addJavaScriptFunction('renderOutputs', function(...args)  {
+export default function (eleventyConfig, { collections }) {
+  eleventyConfig.addJavaScriptFunction('renderOutputs', function (...args) {
     return renderOutputs(eleventyConfig, ...args)
   })
   /**

@@ -12,8 +12,8 @@ import sortCollection from './sort/index.js'
  * @param  {Object} options
  * @return {Object} collections
  */
-export default function(eleventyConfig, options = {}) {
-  let collections = {}
+export default function (eleventyConfig, options = {}) {
+  const collections = {}
 
   /**
    * Add sorted "all" collection

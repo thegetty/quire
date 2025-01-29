@@ -9,7 +9,7 @@ import { html } from '#lib/common-tags/index.js'
  * @param  {EleventyConfig} eleventyConfig
  * @return {String} HTML <script> tags
  */
-export default function(eleventyConfig) {
+export default function (eleventyConfig) {
   return () => html`
     <script type="module" src="/_assets/javascript/application/index.js"></script>
   `

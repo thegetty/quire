@@ -11,7 +11,7 @@ export default function (eleventyConfig, { page }) {
   const lightboxData = eleventyConfig.getFilter('lightboxData')
   const lightboxUI = eleventyConfig.getFilter('lightboxUI')
 
-  return async function (figures=page.figures) {
+  return async function (figures = page.figures) {
     if (!figures) return
 
     return html`

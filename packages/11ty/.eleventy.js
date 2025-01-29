@@ -1,12 +1,6 @@
 import copy from 'rollup-plugin-copy'
 import fs from 'fs-extra'
 
-// Read package.json manually for now, see: https://github.com/11ty/eleventy/issues/3128
-// When issue merged, use: import packageJSON from './package.json' with { type: 'json' };
-let packageJSON = JSON.parse(
-  (await fs.readFile(new URL(`package.json`, import.meta.url))).toString(),
-)
-
 import path from 'node:path'
 import scss from 'rollup-plugin-scss'
 
@@ -24,7 +18,7 @@ import directoryOutputPlugin from '@11ty/eleventy-plugin-directory-output'
 import navigationPlugin from '@11ty/eleventy-navigation'
 import pluginWebc from '@11ty/eleventy-plugin-webc'
 import syntaxHighlightPlugin from '@11ty/eleventy-plugin-syntaxhighlight'
-import UpgradeHelper from '@11ty/eleventy-upgrade-help';
+import UpgradeHelper from '@11ty/eleventy-upgrade-help'
 
 /**
  * Quire plugins for Eleventy
@@ -60,11 +54,17 @@ import vitePlugin from '#plugins/vite/index.js'
  */
 import chalkFactory from '#lib/chalk/index.js'
 
+// Read package.json manually for now, see: https://github.com/11ty/eleventy/issues/3128
+// When issue merged, use: import packageJSON from './package.json' with { type: 'json' };
+const packageJSON = JSON.parse(
+  (await fs.readFile(new URL('package.json', import.meta.url))).toString()
+)
+
 const { error } = chalkFactory('eleventy config')
 
 const inputDir = process.env.ELEVENTY_INPUT || 'content'
 const outputDir = process.env.ELEVENTY_OUTPUT || '_site'
-const publicDir = process.env.ELEVENTY_ENV === 'production' ? 'public' : false // publicDir should be set explicitly to false in development 
+const publicDir = process.env.ELEVENTY_ENV === 'production' ? 'public' : false // publicDir should be set explicitly to false in development
 
 /**
  * Eleventy configuration
@@ -73,7 +73,7 @@ const publicDir = process.env.ELEVENTY_ENV === 'production' ? 'public' : false /
  * @param      {Object}  base eleventy configuration
  * @return     {Object}  A modified eleventy configuation
  */
-export default async function(eleventyConfig) {
+export default async function (eleventyConfig) {
   /**
    * Eleventy v2 to v3 upgrade helper
    * @see https://www.11ty.dev/docs/plugins/upgrade-help/
@@ -105,10 +105,10 @@ export default async function(eleventyConfig) {
    */
   eleventyConfig.setTemplateFormats([
     '11ty.js', // JavaScript
-    'html',    // HTML
-    'liquid',  // Liquid
-    'md',      // Markdown
-    'njk',     // Nunjucks
+    'html', // HTML
+    'liquid', // Liquid
+    'md', // Markdown
+    'njk' // Nunjucks
   ])
 
   /**
@@ -188,7 +188,7 @@ export default async function(eleventyConfig) {
   eleventyConfig.addPlugin(InputPathToUrlTransformPlugin)
 
   /**
-   * Plugins are loaded in this order: 
+   * Plugins are loaded in this order:
    *   1) immediately invoked
    *   2) addPlugin statements
    * Plugins that mutate globalData must be added before other plugins
@@ -245,10 +245,10 @@ export default async function(eleventyConfig) {
   eleventyConfig.addPlugin(pluginWebc, {
     components: [
       '_includes/components/**/*.webc',
-      'npm:@11ty/eleventy-img/*.webc',
+      'npm:@11ty/eleventy-img/*.webc'
     ],
     transformData: {},
-    useTransform: false,
+    useTransform: false
   })
 
   /**

@@ -7,12 +7,12 @@ import { html } from '#lib/common-tags/index.js'
  *
  * @return     {String}  HTML containing a video player and a caption
  */
-export default function(eleventyConfig) {
+export default function (eleventyConfig) {
   const figureCaption = eleventyConfig.getFilter('figureCaption')
   const figureLabel = eleventyConfig.getFilter('figureLabel')
   const figureVideoElement = eleventyConfig.getFilter('figureVideoElement')
 
-  return function({
+  return function ({
     aspect_ratio: aspectRatio,
     caption,
     credit,

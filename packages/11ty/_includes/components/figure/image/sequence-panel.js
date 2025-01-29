@@ -5,7 +5,7 @@ import chalkFactory from '#lib/chalk/index.js'
  * SequencePanel shortcode that renders the Digirati <sequence-panel> web component
  * @see {@link https://iiif-canvas-panel.netlify.app/docs/api-reference/sequence-panel/ Sequence Panel Documentation}
  */
-export default function(eleventyConfig) {
+export default function (eleventyConfig) {
   const logger = chalkFactory('shortcodes:sequence-panel')
 
   /**
@@ -19,16 +19,16 @@ export default function(eleventyConfig) {
    *
    * @return {String}        <sequence-panel> markup
    */
-  return function(data) {
+  return function (data) {
     const {
-      height='',
+      height = '',
       id,
       manifestId,
-      margin='',
-      preset='static',
+      margin = '',
+      preset = 'static',
       startCanvas,
-      textEnabled='false',
-      textSelectionEnabled='false',
+      textEnabled = 'false',
+      textSelectionEnabled = 'false'
     } = data
 
     if (!manifestId) {

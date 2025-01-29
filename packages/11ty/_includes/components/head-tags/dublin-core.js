@@ -5,10 +5,10 @@ import path from 'node:path'
  *
  * @param      {Object}  eleventyConfig
  * @param      {Object}  data
- * 
+ *
  * @return     {String}  HTML meta and link elements
  */
-export default function(eleventyConfig) {
+export default function (eleventyConfig) {
   const { publication } = eleventyConfig.globalData
 
   return function (params) {
@@ -19,7 +19,8 @@ export default function(eleventyConfig) {
     const meta = [
       {
         name: 'dcterms.title',
-        content: publication.title },
+        content: publication.title
+      },
       {
         name: 'dcterms.date',
         content: publication.pub_date

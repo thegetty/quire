@@ -42,5 +42,5 @@ export default {
    * Use '/' to close single tags, for example <br />
    * This is only for full CommonMark compatibility.
    */
-  xhtmlOut: false,
+  xhtmlOut: false
 }

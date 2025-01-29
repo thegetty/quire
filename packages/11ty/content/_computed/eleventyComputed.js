@@ -53,7 +53,7 @@ export default {
   /**
    * Classes applied to <main> page element
    */
-  classes: ({ collections, classes=[], page }) => {
+  classes: ({ collections, classes = [], page }) => {
     const computedClasses = []
     // Add computed frontmatter and page-one classes
     const pageIndex = collections.allSorted.findIndex(({ outputPath }) => outputPath === page.outputPath)
@@ -141,7 +141,7 @@ export default {
     const parentSegment = segments.slice(1, segments.length - 2).join('/')
     return parent || parentSegment
   },
-  parentPage:({ collections, parent }) => {
+  parentPage: ({ collections, parent }) => {
     return collections.all.find((item) => parent && item.data.key === parent)
   },
   /**
@@ -168,12 +168,14 @@ export default {
           const includePage = Array.isArray(contributor)
             ? contributor.find((item) => item.id === id)
             : contributor.id === id
-          return includePage ? {
-            label,
-            subtitle,
-            title,
-            url
-          } : []
+          return includePage
+            ? {
+                label,
+                subtitle,
+                title,
+                url
+              }
+            : []
         }
       )
       return contributor

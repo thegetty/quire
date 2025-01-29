@@ -9,10 +9,10 @@ import { oneLine } from '#lib/common-tags/index.js'
  * @property   {String} content
  * @return     {String}  An HTML <figcaption> element
  */
-export default function(eleventyConfig) {
+export default function (eleventyConfig) {
   const markdownify = eleventyConfig.getFilter('markdownify')
   const figureMediaEmbedUrl = eleventyConfig.getFilter('figureMediaEmbedUrl')
-  return function({ caption, credit, content='', mediaId, mediaType}) {
+  return function ({ caption, credit, content = '', mediaId, mediaType }) {
     const { sourceUrl } = figureMediaEmbedUrl({ mediaId, mediaType })
     const mediaSourceLink = sourceUrl
       ? `<span class="q-figure__caption-embed-link"><a href="${sourceUrl}"><em>${sourceUrl}</em></a></span>`

@@ -18,10 +18,10 @@ const getName = (person, options) => {
   } else {
     joinedName = nameParts.join(' ')
   }
-  return full_name ? full_name : joinedName
+  return full_name || joinedName
 }
 
-export default function(data, options = {}) {
+export default function (data, options = {}) {
   if (Array.isArray(data)) {
     return data.map(item => getName(item, options))
   }

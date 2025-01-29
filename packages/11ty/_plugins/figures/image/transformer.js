@@ -9,7 +9,7 @@ const logger = chalkFactory('Figures:ImageTransformer', 'DEBUG')
  * @param  {Object} iiifConfig Quire IIIF Process config
  */
 export default class Transformer {
-  constructor(iiifConfig) {
+  constructor (iiifConfig) {
     const { dirs, formats } = iiifConfig
     this.formats = formats
     this.outputRoot = dirs.outputRoot
@@ -18,14 +18,14 @@ export default class Transformer {
   /**
    * Creates a `sharp/transform` that writes the image file to the output directory.
    * Nota bene: this `transform` is distinct form `11ty/transform`
-   * 
+   *
    * @property {String} inputPath The path to the image file to transform
    * @property  {Object} transformation A transformation item from `iiif/config.js#transformations`
    * @param  {Object} options
    * @property  {Object} resize Resize options for `sharp`
    * @return {Promise}
    */
-  async transform(inputPath, outputDir, transformation, options = {}) {
+  async transform (inputPath, outputDir, transformation, options = {}) {
     if (!inputPath) return {}
 
     const { region } = options
@@ -48,7 +48,7 @@ export default class Transformer {
     const service = sharp(inputPath)
     service.crop = function (region) {
       if (!region) return this
-      const [ top, left, width, height ] = region.split(',').map((item) => parseFloat(item.trim()))
+      const [top, left, width, height] = region.split(',').map((item) => parseFloat(item.trim()))
       service.extract({ top, left, width, height })
       return this
     }

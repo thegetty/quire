@@ -3,6 +3,6 @@
  * @param      {String}
  * @return     {String}  String with no HTML
  */
-export default function(string) {
+export default function (string) {
   return string.replace(/(<([^>]+)>)/gi, '')
 }

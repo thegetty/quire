@@ -10,12 +10,12 @@ const logger = chalkFactory('Figures:ImageProcessor', 'DEBUG')
  * The Quire Image Processor handles file system changes for IIIF images
  * - Create image transformations
  * - Tiles images OR copies image into output directory so it's not removed by Vite
- * 
+ *
  * @return {Object}
  * @property {Array} errors Process error messages
  */
 export default class ImageProcessor {
-  constructor(iiifConfig) {
+  constructor (iiifConfig) {
     const { imagesDir, inputRoot, outputRoot } = iiifConfig.dirs
     const tiler = new Tiler(iiifConfig)
     const transformer = new Transformer(iiifConfig)
@@ -38,7 +38,7 @@ export default class ImageProcessor {
    * @property  {Boolean} tile To tile or not to tile
    * @property  {Object} transformations Image transformations to perform
    */
-  async processImage(imagePath, outputPath, options = {}) {
+  async processImage (imagePath, outputPath, options = {}) {
     if (!imagePath || imagePath.startsWith('http')) {
       logger.debug(`processing skipped for '${imagePath}'`)
       return {}
@@ -68,7 +68,7 @@ export default class ImageProcessor {
        */
       try {
         await this.tiler(inputPath, outputPath)
-      } catch(error) {
+      } catch (error) {
         errors.push(`Failed to generate tiles from source ${imagePath} ${error}`)
       }
     } else {
@@ -79,11 +79,11 @@ export default class ImageProcessor {
       const { base } = path.parse(imagePath)
       try {
         fs.copySync(inputPath, path.join(this.outputRoot, outputPath, base))
-      } catch(error) {
+      } catch (error) {
         errors.push(`Failed to copy source image ${imagePath} ${error}`)
       }
     }
 
     return { errors }
   }
-} 
+}

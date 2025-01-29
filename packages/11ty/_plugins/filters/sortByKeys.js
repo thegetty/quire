@@ -1,5 +1,5 @@
 /**
- * 
+ *
  * Sort comparator using the keys in the ordered array
  * All keys will be sorted in the `sortOrder` passed unless a key specific order
  * is set in the SortKey item.
@@ -33,7 +33,7 @@ export default (sortKeys = [], sortOrder = 'ascending') => {
 
   /**
    * Helper to check if value is a valid date
-   * @param {Any} value 
+   * @param {Any} value
    * @returns {Boolean}
    */
   const isDate = (value) => {

@@ -8,7 +8,7 @@ const logger = chalkFactory('filters:getObject')
  * @param  {String} id             object id
  * @return {Object}                object
  */
-export default function(eleventyConfig, id) {
+export default function (eleventyConfig, id) {
   const { objects } = eleventyConfig.globalData
   const object = objects.object_list.find((item) => item.id === id)
   if (!object) {

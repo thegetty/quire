@@ -11,11 +11,11 @@ import { html } from '#lib/common-tags/index.js'
  *
  * @return {String} TOC list
  */
-export default function(eleventyConfig) {
+export default function (eleventyConfig) {
   const eleventyNavigation = eleventyConfig.getFilter('eleventyNavigation')
   const tableOfContentsItem = eleventyConfig.getFilter('tableOfContentsItem')
 
-  return function(params) {
+  return function (params) {
     const { collection, currentPageUrl, key, presentation } = params
 
     const sectionNavigation = eleventyNavigation(collection, key)

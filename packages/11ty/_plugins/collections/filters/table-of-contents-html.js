@@ -5,7 +5,7 @@ import outputFilter from './output.js'
  * @param  {Object} page Eleventy `page` object
  * @return {Boolean}
  */
-export default function(page) {
+export default function (page) {
   const { toc, type } = page.data
   return (outputFilter('html', page) || toc === true) && toc !== false && type !== 'data'
 }

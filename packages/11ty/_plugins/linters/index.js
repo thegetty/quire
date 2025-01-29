@@ -7,7 +7,7 @@ const logger = chalkFactory('plugins:linters')
  *
  * Nota bene: linters are run on the input *before* applying layouts
  */
-export default function(eleventyConfig, options) {
+export default function (eleventyConfig, options) {
   // eleventyConfig.addLinter('test', function(content) {
   //   logger.info(`writing ${this.inputPath} to ${this.outputPath}`)
   // })

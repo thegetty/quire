@@ -13,7 +13,7 @@ import { html } from '#lib/common-tags/index.js'
  * eligible pages are ranged through and based on weight, the next or previous
  * one in the range is linked to.
  */
-export default function(eleventyConfig) {
+export default function (eleventyConfig) {
   const eleventyNavigation = eleventyConfig.getFilter('eleventyNavigation')
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const { imageDir } = eleventyConfig.globalData.config.figures
@@ -29,12 +29,12 @@ export default function(eleventyConfig) {
     } = pagination
 
     if (!currentPage) return
-    
+
     const home = '/'
     const isHomePage = currentPage.url === home
 
     const navBarLabel = ({ label, short_title, title }) => {
-      return pageTitle({ label, title: short_title || truncate(title, 34)})
+      return pageTitle({ label, title: short_title || truncate(title, 34) })
     }
 
     const navBarStartButton = () => {

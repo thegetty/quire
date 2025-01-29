@@ -6,7 +6,7 @@ import registerWebComponents from './web-components.js'
 /**
  * Content transforms for html output
  */
-export default function(eleventyConfig, collections, content) {
+export default function (eleventyConfig, collections, content) {
   const slugifyIds = eleventyConfig.getFilter('slugifyIds')
   /**
    * Remove pages excluded from this output type

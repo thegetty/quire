@@ -11,7 +11,7 @@ import path from 'node:path'
  * @return {Sequence}
  */
 export default class Sequence {
-  constructor(figure, sequence, files) {
+  constructor (figure, sequence, files) {
     const { behavior, id, regex, start, transition, viewing_direction } = sequence
     this.behavior = behavior
     this.dir = id
@@ -24,7 +24,7 @@ export default class Sequence {
     this.viewingDirection = viewing_direction || sequence.viewingDirection
   }
 
-  get items() {
+  get items () {
     const { label } = this.figure.data
     return this.files.map((filename) => {
       const src = path.join(this.dir, filename)
@@ -32,7 +32,7 @@ export default class Sequence {
     })
   }
 
-  get itemsWithTargetedAnnotations() {
+  get itemsWithTargetedAnnotations () {
     const { annotations } = this.figure
     const annotationItems = annotations
       ? annotations.flatMap(({ items }) => items)
@@ -49,7 +49,7 @@ export default class Sequence {
     })
   }
 
-  get startCanvas() {
+  get startCanvas () {
     if (!this.start) return
     const startCanvasItem = this.items.find(({ src }) => {
       const { base } = path.parse(src)
@@ -58,7 +58,7 @@ export default class Sequence {
     return startCanvasItem ? path.join(this.figure.canvasId, startCanvasItem.id) : null
   }
 
-  get startCanvasIndex() {
+  get startCanvasIndex () {
     if (!this.start) return 0
     const startCanvasIndex = this.items.findIndex(({ src }) => {
       const { base } = path.parse(src)

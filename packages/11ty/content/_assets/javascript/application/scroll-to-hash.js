@@ -11,7 +11,7 @@ import Accordion from './accordion.js'
  * @description scroll viewport to a certain vertical offset, minus the height of the quire navbar
  * TODO add animation duration and style of easing function previously provided by jQuery `.animate()`
  */
-function scrollWindow(verticalOffset, animationDuration = null, animationStyle = null) {
+function scrollWindow (verticalOffset, animationDuration = null, animationStyle = null) {
   const navBar = document.querySelector('.quire-navbar')
   const extraSpace = 7
   const scrollDistance = navBar

@@ -11,7 +11,7 @@ import shortcodeFactory from '../components/shortcodeFactory.js'
 import title from './title.js'
 import tombstone from './tombstone.js'
 
-export default function(eleventyConfig, collections, options) {
+export default function (eleventyConfig, collections, options) {
   const { addShortcode, addPairedShortcode } = shortcodeFactory(eleventyConfig, collections)
 
   addPairedShortcode('accordion', accordion)

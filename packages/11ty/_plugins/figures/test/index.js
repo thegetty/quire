@@ -1,4 +1,3 @@
-require('module-alias/register')
 import { describe, mock, test } from 'node:test'
 import { readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
@@ -7,6 +6,7 @@ import Figure from '../figure.js'
 import Manifest from '../iiif/manifest.js'
 import assert from 'assert/strict'
 import figureFixtures from './__fixtures__/figures/index.js'
+require('module-alias/register')
 
 const loadJson = async (filepath) => {
   try {
@@ -77,8 +77,8 @@ describe('validating manifests via deepStrictEqual', () => {
 
 /* Skipping all ajv validation tests. The IIIF 3.0 schema is not ready for prime-time */
 describe('validating manifests via ajv', { skip: true }, () => {
-  let ajv = new Ajv({ allErrors: true })
-  let validate = ajv.compile(manifestSchema)
+  const ajv = new Ajv({ allErrors: true })
+  const validate = ajv.compile(manifestSchema)
 
   test('figure with checkbox annotations creates a valid manifest', { skip: true }, async () => {
     const { manifestFixture, manifestJson } = await createManifestFromFigureFixture('annotationsCheckbox')
@@ -94,7 +94,6 @@ describe('validating manifests via ajv', { skip: true }, () => {
     const { manifestFixture, manifestJson } = await createManifestFromFigureFixture('sequence')
     assert.equal(validate(manifestJson), true)
   })
-
 
   test('sequence figure with annotations creates a valid manifest', { skip: true }, async () => {
     const { manifestFixture, manifestJson } = await createManifestFromFigureFixture('sequenceWithAnnotations')

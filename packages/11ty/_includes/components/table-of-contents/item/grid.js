@@ -11,7 +11,7 @@ import path from 'node:path'
  *
  * @return {String} TOC item markup
  */
-export default function(eleventyConfig) {
+export default function (eleventyConfig) {
   const contributors = eleventyConfig.getFilter('contributors')
   const getFigure = eleventyConfig.getFilter('getFigure')
   const getObject = eleventyConfig.getFilter('getObject')
@@ -24,8 +24,8 @@ export default function(eleventyConfig) {
 
   return function (params) {
     const {
-      children='',
-      classes=[],
+      children = '',
+      classes = [],
       page
     } = params
 

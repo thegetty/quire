@@ -1,7 +1,7 @@
 import chalkFactory from '#lib/chalk/index.js'
 import { oneLine } from '#lib/common-tags/index.js'
-const logger = chalkFactory(`Shortcodes:ref`)
 import path from 'node:path'
+const logger = chalkFactory('Shortcodes:ref')
 
 /**
  * ref Shortcode
@@ -17,14 +17,14 @@ import path from 'node:path'
  *
  * @return     {String}  Anchor tag with link text annotation and region data attributes
  */
-export default function(eleventyConfig) {
+export default function (eleventyConfig) {
   const getFigure = eleventyConfig.getFilter('getFigure')
   const markdownify = eleventyConfig.getFilter('markdownify')
 
   const { sequenceTransition: defaultSequenceTransition } = eleventyConfig.globalData.config.ref || {}
 
   return (params) => {
-    const { anno='', fig, region='', start, onscroll } = params
+    const { anno = '', fig, region = '', start, onscroll } = params
 
     const figure = getFigure(fig)
     if (!figure) {

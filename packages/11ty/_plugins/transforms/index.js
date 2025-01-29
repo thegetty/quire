@@ -7,7 +7,7 @@ import outputs from './outputs/index.js'
  * @param      {Object}  eleventyConfig  Eleventy configuration
  * @param      {Object}  collections  Eleventy collections
  */
-export default function(eleventyConfig, collections) {
+export default function (eleventyConfig, collections) {
   /**
    * Registers a transform to format output using Prettier
    */

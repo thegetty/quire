@@ -6,10 +6,10 @@ import { html } from '#lib/common-tags/index.js'
  * @param      {Object}  eleventyConfig
  * @param      {Object}  params
  */
-export default function(eleventyConfig) {
+export default function (eleventyConfig) {
   const { resource_link: resourceLinks } = eleventyConfig.globalData.publication
 
-  return function() {
+  return function () {
     if (!Array.isArray(resourceLinks)) return ''
 
     const linkList = eleventyConfig.getFilter('linkList')

@@ -5,9 +5,9 @@ import { html } from '#lib/common-tags/index.js'
  * @param      {Object}  eleventyConfig
  * @param      {Object}  data
  */
-export default function(eleventyConfig) {
+export default function (eleventyConfig) {
   const { googleId } = eleventyConfig.globalData.config.analytics
-  return function(params) {
+  return function (params) {
     if (!googleId) return ''
     return html`
       <script>

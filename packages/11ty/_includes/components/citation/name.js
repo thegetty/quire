@@ -1,7 +1,7 @@
 /**
  * Adapts Quire person data to CSL "name" variable
  */
-export default function(eleventyConfig) {
+export default function (eleventyConfig) {
   return function (params) {
     const { first_name, full_name, last_name } = params
     const family = last_name || full_name.split(' ').pop()

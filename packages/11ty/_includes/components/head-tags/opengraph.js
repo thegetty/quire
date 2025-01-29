@@ -3,10 +3,10 @@
  *
  * @param      {Object}  eleventyConfig
  * @param      {Object}  data
- * 
+ *
  * @return     {String}  HTML meta and link elements
  */
-export default function(eleventyConfig) {
+export default function (eleventyConfig) {
   const { config, publication } = eleventyConfig.globalData
 
   return function ({ page }) {

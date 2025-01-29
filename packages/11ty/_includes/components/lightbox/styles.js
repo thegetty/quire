@@ -15,7 +15,7 @@ const logger = chalkFactory('lightbox:styles')
 export default function (eleventyConfig) {
   const lightboxStylesPath = path.resolve('content/_assets/styles/components/q-lightbox.scss')
 
-  let lightboxCSS = {css:''}
+  let lightboxCSS = { css: '' }
 
   if (!fs.existsSync(lightboxStylesPath)) {
     logger.warn(`q-lightbox component styles were not found at ${lightboxStylesPath}, this may cause the lightbox to behave unexpectedly.`)

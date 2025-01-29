@@ -40,7 +40,7 @@ export default (eleventyConfig) => {
     return contributors.map(({ first_name, full_name, last_name, role }) => {
       const name = full_name || `${first_name} ${last_name}`
       const item = {
-        name: name,
+        name,
         role: `${role || 'aut'}`
       }
 
@@ -55,7 +55,7 @@ export default (eleventyConfig) => {
   const cover = () => {
     const image = promoImage || epub.defaultCoverImage
     if (!image) {
-      logger.error(`Epub requires a cover image defined in publication.promo_image or config.epub.defaultCoverImage.`)
+      logger.error('Epub requires a cover image defined in publication.promo_image or config.epub.defaultCoverImage.')
       return
     }
     return path.join(imageDir, image).replace(/^\//, '')
@@ -101,10 +101,10 @@ export default (eleventyConfig) => {
   /**
    * Collect resources for the publication
    */
-  let resources = []
+  const resources = []
   for (const url of stylesheets()) {
     resources.push({
-      url: url,
+      url,
       encodingFormat: 'text/css'
     })
   }
@@ -115,7 +115,7 @@ export default (eleventyConfig) => {
     rel: 'cover-image'
   })
   for (const asset of assets) {
-    let item = { url: asset }
+    const item = { url: asset }
     resources.push(item)
   }
 
@@ -145,7 +145,7 @@ export default (eleventyConfig) => {
     languages: language,
     publisher: publisherNameAndLocations(),
     readingOrder: readingOrder.sort(sortByKeys(['url'])),
-    resources: resources,
+    resources,
     rights: copyright,
     title: pubTitle(),
     type: 'Book'

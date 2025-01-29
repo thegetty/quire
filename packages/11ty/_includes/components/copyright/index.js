@@ -5,10 +5,10 @@ import path from 'node:path'
  * Copyright info
  * @param  {Object} eleventyConfig
  * @param  {Object} data
- * 
+ *
  * @return {String}
  */
-export default function(eleventyConfig) {
+export default function (eleventyConfig) {
   const { config, publication } = eleventyConfig.globalData
 
   const copyrightLicensing = eleventyConfig.getFilter('copyrightLicensing')

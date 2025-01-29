@@ -10,7 +10,7 @@
  */
 
 export default (person, options) => {
-  const { 
+  const {
     first_name: firstName,
     full_name: fullName,
     last_name: lastName

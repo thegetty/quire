@@ -11,7 +11,7 @@ import path from 'node:path'
  *
  * @return {String} contributor markup
  */
-export default function(eleventyConfig) {
+export default function (eleventyConfig) {
   const fullname = eleventyConfig.getFilter('fullname')
   const getContributor = eleventyConfig.getFilter('getContributor')
   const icon = eleventyConfig.getFilter('icon')
@@ -30,12 +30,12 @@ export default function(eleventyConfig) {
    * @property {String} URL Contributor URL
    */
   return function (params) {
-    const { bio, id, image, pages=[], url } = params
+    const { bio, id, image, pages = [], url } = params
 
     const name = fullname(params)
 
     const contributorLink = url
-      ? link({ classes: ['quire-contributor__url'], name: icon({ type: 'link', description:'' }), url })
+      ? link({ classes: ['quire-contributor__url'], name: icon({ type: 'link', description: '' }), url })
       : ''
 
     const contributorImage = image

@@ -9,7 +9,7 @@ import { EleventyI18nPlugin } from '@11ty/eleventy'
  * @param      {Object}  eleventyConfig  eleventy configuration
  * @param      {Object}  options         options
  */
-export default function(eleventyConfig, options) {
+export default function (eleventyConfig, options) {
   eleventyConfig.addPlugin(EleventyI18nPlugin, {
     /**
      * Default locale code; any valid BCP 47-compatible language tag is supported

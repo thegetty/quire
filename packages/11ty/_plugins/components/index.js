@@ -10,11 +10,11 @@ import * as components from '../../_includes/components/index.js'
  * @param      {Object}  eleventyConfig  eleventy configuration
  * @param      {Object}  options         options
  */
-export default function(eleventyConfig, collections, options) {
+export default function (eleventyConfig, collections, options) {
   const { addShortcode } = shortcodeFactory(eleventyConfig, collections)
 
   for (const component in components) {
-    switch(component) {
+    switch (component) {
       default:
         addComponentTag(eleventyConfig, `${component}`, components[component])
         break

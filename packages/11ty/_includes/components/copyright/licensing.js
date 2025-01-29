@@ -1,6 +1,6 @@
 import { oneLine } from '#lib/common-tags/index.js'
 
-export default function(eleventyConfig) {
+export default function (eleventyConfig) {
   return function (params) {
     const { publication } = eleventyConfig.globalData
     const { license } = publication

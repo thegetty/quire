@@ -12,7 +12,7 @@ import path from 'node:path'
  * @example.liquid
  * {% icon type="link", description="Open in new window" %}
  */
-export default function(eleventyConfig) {
+export default function (eleventyConfig) {
   const { imageDir } = eleventyConfig.globalData.config.figures
 
   return function (params) {

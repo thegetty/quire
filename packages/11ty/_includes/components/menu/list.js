@@ -6,12 +6,12 @@ import { html } from '#lib/common-tags/index.js'
  * @param      {Object}  eleventyConfig
  * @param      {Object}  params
  */
-export default function(eleventyConfig) {
+export default function (eleventyConfig) {
   const menuItem = eleventyConfig.getFilter('menuItem')
 
   const { menuType } = eleventyConfig.globalData.config
 
-  return function(params) {
+  return function (params) {
     const { currentURL, navigation } = params
 
     const listItem = (page) => {

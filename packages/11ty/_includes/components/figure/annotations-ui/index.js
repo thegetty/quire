@@ -8,16 +8,16 @@ import { html } from 'common-tags'
  * @return {String} HTML radio or checkbox input elements
  */
 
-export default function(eleventyConfig) {
+export default function (eleventyConfig) {
   const figureOption = eleventyConfig.getFilter('figureOption')
 
   /**
    * @param  {Object} figure
    */
-  return function({ figure, lightbox=false }) {
+  return function ({ figure, lightbox = false }) {
     const { annotations } = figure
     if (!annotations || !annotations.length) return ''
-    const fieldsets = annotations.map(({ input, items, title='', type }, index) => {
+    const fieldsets = annotations.map(({ input, items, title = '', type }, index) => {
       const nameParts = [figure.id, index]
       if (lightbox) nameParts.unshift('lightbox')
       const name = nameParts.join('-')

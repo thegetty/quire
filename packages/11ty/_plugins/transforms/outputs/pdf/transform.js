@@ -13,7 +13,7 @@ const logger = chalkFactory('pdf:transform')
  * @param      {String}  content      Output content
  * @return     {Array}   The transformed content string
  */
-export default function(eleventyConfig, collections, content) {
+export default function (eleventyConfig, collections, content) {
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const slugify = eleventyConfig.getFilter('slugify')
   const citation = eleventyConfig.getFilter('citation')
@@ -83,9 +83,9 @@ export default function(eleventyConfig, collections, content) {
 
   /**
    * Prefix footnote hrefs and ids to guarantee unique references in PDF output
-   * 
-   * @param {HTMLElement} element 
-   * @param {String} prefix 
+   *
+   * @param {HTMLElement} element
+   * @param {String} prefix
    */
   const prefixFootnotes = (element, prefix) => {
     const footnoteItems = element.querySelectorAll('.footnote-item')
@@ -156,7 +156,7 @@ export default function(eleventyConfig, collections, content) {
    *
    * @return {Object} data formatted for the layout at _layouts/pdf-cover-pages.liquid
    */
-  function normalizeCoverPageData(page,pdfConfig) {
+  function normalizeCoverPageData (page, pdfConfig) {
     const { pagePDFCoverPageCitationStyle } = page.data
 
     // NB: `id` must match the @id slug scheme in `base.11ty.js` so the cover pages have the same keys
@@ -257,11 +257,11 @@ export default function(eleventyConfig, collections, content) {
   trimLeadingSeparator(sectionElement)
   slugifyIds(sectionElement)
 
-  collections.pdf[pageIndex].svgSymbolElements = Array.from(svgSymbolElements).map( el => el.outerHTML )
+  collections.pdf[pageIndex].svgSymbolElements = Array.from(svgSymbolElements).map(el => el.outerHTML)
   collections.pdf[pageIndex].sectionElement = sectionElement.outerHTML
 
   if (hasPagePDF && hasCoverPage) {
-    collections.pdf[pageIndex].coverPageData = normalizeCoverPageData(currentPage,pdfConfig)
+    collections.pdf[pageIndex].coverPageData = normalizeCoverPageData(currentPage, pdfConfig)
   }
 
   /**

@@ -7,21 +7,21 @@ export default class AnnotationFactory {
   /**
    * @param  {Figure} figure
    */
-  constructor(figure) {
+  constructor (figure) {
     this.figure = figure
   }
 
   /**
-   * AnnotationSet 
+   * AnnotationSet
    * UI Structure for Figure Annotations
-   * 
+   *
    * @typedef {Object} AnnotationSet
    * @property {String} input Input element type "radio|checkbox"
    * @property {<Array[Annotation]>} items
    * @property {String} title The title of the set of UI option items
    * @return {AnnotationSet}
    */
-  annotationSet(data) {
+  annotationSet (data) {
     const { input, items, title } = data
     return {
       input: input || 'radio',
@@ -35,7 +35,7 @@ export default class AnnotationFactory {
    * with Annotation instances for each item in set.items
    * @return {<Array[AnnotationSet]>}
    */
-  create() {
+  create () {
     const { annotations } = this.figure.data
     if (!annotations) return
     return annotations.map((data) => this.annotationSet(data))

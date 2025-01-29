@@ -17,7 +17,7 @@ const builder = new IIIFBuilder(vault)
  * Create a IIIF manifest from a Figure instance
  */
 export default class Manifest {
-  constructor(figure) {
+  constructor (figure) {
     const { iiifConfig } = figure
     const { locale } = iiifConfig
     this.figure = figure
@@ -25,7 +25,7 @@ export default class Manifest {
     this.writer = new Writer(iiifConfig)
   }
 
-  get annotations() {
+  get annotations () {
     const annotations = []
     /**
      * Add the "base" image as a canvas annotation
@@ -42,7 +42,7 @@ export default class Manifest {
     return annotations
   }
 
-  get choices() {
+  get choices () {
     if (!this.figure.annotations) return
     const choices = this.figure.annotations
       .flatMap(({ items }) => items)
@@ -67,7 +67,7 @@ export default class Manifest {
     })
   }
 
-  get sequenceItems() {
+  get sequenceItems () {
     if (!this.figure.sequences || !this.figure.sequences.length) return
     return this
       .figure.sequences
@@ -103,7 +103,7 @@ export default class Manifest {
       })
   }
 
-  createAnnotation(data) {
+  createAnnotation (data) {
     const { body, id, motivation, region } = data
     return {
       body: body || this.createAnnotationBody(data),
@@ -118,7 +118,7 @@ export default class Manifest {
    * @todo handle text annotations
    * @todo handle annotations with target region
    */
-  createAnnotationBody({ format, info, label, uri }) {
+  createAnnotationBody ({ format, info, label, uri }) {
     return {
       format,
       height: this.figure.canvasHeight,
@@ -141,7 +141,7 @@ export default class Manifest {
    * Uses `builder` to create the JSON representation of the manifest
    * @return {JSON}
    */
-  async toJSON() {
+  async toJSON () {
     const manifest = builder.createManifest(this.figure.manifestId, (manifest) => {
       if (this.figure.isSequence) {
         manifest.addBehavior(['continuous', 'sequence'])
@@ -160,17 +160,17 @@ export default class Manifest {
         figure: this.figure,
         sequenceItems: this.sequenceItems
       })
-    } catch(error) {
+    } catch (error) {
       throw new Error(`Failed to generate manifest: ${error}`)
     }
   }
 
-  async write() {
+  async write () {
     try {
       const json = await this.toJSON()
       logger.info(`Generated manifest for figure "${this.figure.id}"`)
       return await this.writer.write(json)
-    } catch(error) {
+    } catch (error) {
       return { errors: [error] }
     }
   }

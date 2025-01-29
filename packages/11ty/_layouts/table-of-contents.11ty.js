@@ -1,20 +1,20 @@
 /**
- * Contents page template for TOC and Section TOCs. 
- * Page content from the markdown will appear in the content outlet below. 
- * The Table of Contents list will appear below that. 
- * It is scoped to show the contents of the full site. 
+ * Contents page template for TOC and Section TOCs.
+ * Page content from the markdown will appear in the content outlet below.
+ * The Table of Contents list will appear below that.
+ * It is scoped to show the contents of the full site.
  * Pages can be removed from the TOC indivudally by setting toc to `false` in the page yaml.
  */
 
 export default class TableOfContents {
-  data() {
+  data () {
     return {
       classes: ['quire-contents'],
       layout: 'base'
     }
   }
 
-  async render(data) {
+  async render (data) {
     const {
       collections,
       content,
@@ -22,7 +22,7 @@ export default class TableOfContents {
       page,
       pages,
       pagination,
-      presentation='list'
+      presentation = 'list'
     } = data
 
     const contentElement = content

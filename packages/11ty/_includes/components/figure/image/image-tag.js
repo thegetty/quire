@@ -10,10 +10,10 @@ import path from 'node:path'
  * @property   {String} src The src path for the image
  * @return     {String}  An <img> element
  */
-export default function(eleventyConfig) {
+export default function (eleventyConfig) {
   const { imageDir } = eleventyConfig.globalData.config.figures
 
-  return function ({ alt='', src='', isStatic=false, lazyLoading='lazy' }) {
+  return function ({ alt = '', src = '', isStatic = false, lazyLoading = 'lazy' }) {
     const imageSrc = src.startsWith('http') || isStatic ? src : path.join(imageDir, src)
 
     return html`

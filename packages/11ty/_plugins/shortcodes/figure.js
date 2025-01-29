@@ -21,7 +21,7 @@ const FETCH_PRIORITY_THRESHOLD = 2
  *
  * @return     {boolean}  An HTML <figure> element
  */
-export default function(eleventyConfig) {
+export default function (eleventyConfig) {
   const figureAudio = eleventyConfig.getFilter('figureAudio')
   const figureImage = eleventyConfig.getFilter('figureImage')
   const figureLabel = eleventyConfig.getFilter('figureLabel')
@@ -31,7 +31,7 @@ export default function(eleventyConfig) {
   const getFigure = eleventyConfig.getFilter('getFigure')
   const slugify = eleventyConfig.getFilter('slugify')
 
-  return async function (id, classes=[]) {
+  return async function (id, classes = []) {
     classes = typeof classes === 'string' ? [classes] : classes
 
     /**
@@ -46,8 +46,8 @@ export default function(eleventyConfig) {
     this.page.figures ||= []
     this.page.figures.push(figure)
 
-    // Pass a lazyload parameter for use in downstream components  
-    const position = ( this.page.figures ?? [] ).length - 1
+    // Pass a lazyload parameter for use in downstream components
+    const position = (this.page.figures ?? []).length - 1
     const lazyLoading = position < FETCH_PRIORITY_THRESHOLD ? 'eager' : 'lazy'
 
     const { mediaType } = figure
@@ -69,7 +69,7 @@ export default function(eleventyConfig) {
 
     return oneLine`
       <figure id="${slugify(id)}" class="${['q-figure', 'q-figure--' + mediaType, ...classes].join(' ')}">
-        ${await component({...figure,lazyLoading})}
+        ${await component({ ...figure, lazyLoading })}
       </figure>
     `
   }

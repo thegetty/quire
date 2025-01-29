@@ -23,8 +23,8 @@ export default function (eleventyConfig) {
 
   return function (params) {
     const {
-      children='',
-      classes=[],
+      children = '',
+      classes = [],
       page,
       presentation
     } = params

@@ -3,7 +3,7 @@ import { html } from 'common-tags'
 
 const logger = chalkFactory('Figure Annotations UI')
 
-export default function(eleventyConfig) {
+export default function (eleventyConfig) {
   const slugify = eleventyConfig.getFilter('slugify')
 
   const supportedInputTypes = ['checkbox', 'radio']
@@ -53,5 +53,4 @@ export default function(eleventyConfig) {
       </div>
     `
   }
-
 }

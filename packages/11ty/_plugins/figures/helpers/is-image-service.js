@@ -6,7 +6,7 @@ import path from 'node:path'
  * @param  {Object} figure
  * @return {Boolean}
  */
-export default function(figure) {
+export default function (figure) {
   const { src } = figure
   if (!src) return false
   return path.parse(src) === 'info.json'

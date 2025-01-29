@@ -3,13 +3,13 @@
  *
  * Nota bene: The Table of Contents component renders the same markup
  * for each output with different data.
- * Each output file (`html.js`, `pdf.js`, `epub.js`) accepts all `collections`, 
+ * Each output file (`html.js`, `pdf.js`, `epub.js`) accepts all `collections`,
  * extracts the table of contents `collection` for the current output,
  * and provides it to `tableOfContentsList`.
  */
-export default function(eleventyConfig) {
+export default function (eleventyConfig) {
   const renderOutputs = eleventyConfig.getFilter('renderOutputs')
-  return function(params) {
+  return function (params) {
     return renderOutputs(import.meta.dirname, params)
   }
 }

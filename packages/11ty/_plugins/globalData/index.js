@@ -49,7 +49,7 @@ const checkForDuplicateIds = function (data, filename) {
  * @property {String} outputDir
  * @property {String} publicDir
  */
-export default function(eleventyConfig, directoryConfig) {
+export default function (eleventyConfig, directoryConfig) {
   const dir = path.resolve(directoryConfig.inputDir, '_data')
   // console.debug(`[plugins:globalData] ${dir}`)
   const files = fs.readdirSync(dir)
@@ -58,7 +58,7 @@ export default function(eleventyConfig, directoryConfig) {
 
   for (const file of files) {
     const { name: key } = path.parse(file)
-    const parsed = parse(path.join(dir, file)) 
+    const parsed = parse(path.join(dir, file))
 
     let value
     try {
@@ -68,7 +68,7 @@ export default function(eleventyConfig, directoryConfig) {
       process.exit(1)
     }
 
-    if (!key || !value) { 
+    if (!key || !value) {
       continue
     }
     checkForDuplicateIds(value, file)

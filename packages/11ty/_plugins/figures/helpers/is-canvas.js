@@ -18,9 +18,9 @@ export default (figure) => {
     zoom
   } = figure
   // TODO refactor this to NOT need `isSequence` and `Figure:createManifest` to work with `isSequence`
-  return (!!canvasId && !!manifestId)
-    || isSequence(figure)
-    || !!iiifContent
-    || !!annotations
-    || (!!src && !!zoom)
+  return (!!canvasId && !!manifestId) ||
+    isSequence(figure) ||
+    !!iiifContent ||
+    !!annotations ||
+    (!!src && !!zoom)
 }

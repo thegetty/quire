@@ -37,7 +37,7 @@ const getServiceId = (element) => {
     return imageSequence.getAttribute('sequence-id')
   } else {
     // console.info(`Hash does not reference a canvas panel or image service component:`, element)
-    return
+
   }
 }
 
@@ -73,7 +73,7 @@ const goToFigureState = function ({
   sequence = {}
 }) {
   if (!figureId) {
-    console.error(`goToFigureState called without an undefined figureId`)
+    console.error('goToFigureState called without an undefined figureId')
     return
   }
   const figureSelector = `#${figureId}`
@@ -106,7 +106,7 @@ const goToFigureState = function ({
   })
 
   /**
-   * Update figure state -- wrapped in a timeout to allow for off-page 
+   * Update figure state -- wrapped in a timeout to allow for off-page
    */
   update(serviceId, { annotations, region: region || 'reset', sequence })
 
@@ -117,7 +117,7 @@ const goToFigureState = function ({
   url.hash = figureId
   scrollToHash(url.hash)
 
-  /** 
+  /**
    * Build params
    */
   const params = new URLSearchParams(
@@ -238,7 +238,7 @@ const setUpUIEventHandlers = () => {
     const figureId = ref.getAttribute('data-figure-id')
     const sequence = {
       index: parseInt(ref.getAttribute('data-sequence-index')),
-      transition: parseInt(ref.getAttribute('data-sequence-transition')),
+      transition: parseInt(ref.getAttribute('data-sequence-transition'))
     }
     /**
      * ref shortcode resets the region if none is provided
@@ -287,9 +287,8 @@ const update = (id, data) => {
     console.error(`Failed to call update on canvas panel or image-service component with id ${id}. Element does not exist.`)
   }
   const { annotations, region } = data
-  
-  webComponents.forEach((element) => {
 
+  webComponents.forEach((element) => {
     const isImageSequence = element.tagName.toLowerCase() === 'q-image-sequence'
 
     if (isImageSequence) {
@@ -301,14 +300,13 @@ const update = (id, data) => {
         ? getTarget(region)
         : getTarget(element.getAttribute('region'))
 
-      const transition =  { easing: element.easingFunctions().easeOutExpo, duration: 2000 }
+      const transition = { easing: element.easingFunctions().easeOutExpo, duration: 2000 }
       const regionTransition = () => {
         element.transition(tm => {
           tm.goToRegion(target, { transition })
-        })         
-      } 
-      setTimeout( regionTransition() ,500)
-
+        })
+      }
+      setTimeout(regionTransition(), 500)
     }
 
     if (Array.isArray(annotations)) {
@@ -320,11 +318,11 @@ const update = (id, data) => {
 /**
  * Rotates the image to a the provided index by iterating over each sequence item step
  * and updating the index property on the image sequence element
- * 
+ *
  * @param {HTMLElement} element Image sequence element
  * @param {Object} data Property values to update on the image sequence element
  */
-const updateSequenceIndex = (element, { sequence={} }) => {
+const updateSequenceIndex = (element, { sequence = {} }) => {
   const { index, transition } = sequence
   const startIndex = parseInt(element.getAttribute('index'))
   const endIndex = parseInt(index)
