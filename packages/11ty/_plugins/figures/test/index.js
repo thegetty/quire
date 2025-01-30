@@ -1,9 +1,9 @@
 import { describe, test } from 'node:test'
 import { readFile } from 'node:fs/promises'
-import { resolve } from 'node:path'
+import { join, resolve } from 'node:path'
 import Ajv from 'ajv'
-import Figure from '../index.js'
-import Manifest from '../iiif/manifest.js'
+import Figure from '../figure/index.js'
+import Manifest from '../iiif/manifest/index.js'
 import assert from 'assert/strict'
 import figureFixtures from './__fixtures__/figures/index.js'
 
@@ -17,7 +17,7 @@ const loadJson = async (filepath) => {
   }
 }
 
-const iiifConfig = await loadJson('./__fixtures__/iiif-config.json')
+const iiifConfig = await loadJson(join(import.meta.dirname, './__fixtures__/iiif-config.json'))
 const manifestSchema = await loadJson('../iiif/manifest/schema.json')
 
 const createManifestFromFigureFixture = async (figureFixtureName) => {
