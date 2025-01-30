@@ -15,7 +15,6 @@ import directoryOutputPlugin from '@11ty/eleventy-plugin-directory-output'
 import navigationPlugin from '@11ty/eleventy-navigation'
 import pluginWebc from '@11ty/eleventy-plugin-webc'
 import syntaxHighlightPlugin from '@11ty/eleventy-plugin-syntaxhighlight'
-import UpgradeHelper from '@11ty/eleventy-upgrade-help'
 
 /**
  * Quire plugins for Eleventy
@@ -72,12 +71,6 @@ const publicDir = process.env.ELEVENTY_ENV === 'production' ? 'public' : false /
  * @return     {Object}  A modified eleventy configuation
  */
 export default async function (eleventyConfig) {
-  /**
-   * Eleventy v2 to v3 upgrade helper
-   * @see https://www.11ty.dev/docs/plugins/upgrade-help/
-   */
-  eleventyConfig.addPlugin(UpgradeHelper)
-
   const dataDir = process.env.ELEVENTY_DATA || '_computed'
   const includesDir = process.env.ELEVENTY_INCLUDES || path.join('..', '_includes')
   const layoutsDir = process.env.ELEVENTY_LAYOUTS || path.join('..', '_layouts')
