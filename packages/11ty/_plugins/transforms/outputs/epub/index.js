@@ -1,7 +1,7 @@
 import fs from 'fs-extra'
 import manifestFactory from './manifest.js'
 import path from 'node:path'
-import sass from 'sass'
+import * as sass from 'sass'
 import transform from './transform.js'
 import writer from './writer.js'
 

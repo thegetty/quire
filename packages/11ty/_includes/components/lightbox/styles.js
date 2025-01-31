@@ -2,7 +2,7 @@ import { html } from '#lib/common-tags/index.js'
 import chalkFactory from '#lib/chalk/index.js'
 import fs from 'fs'
 import path from 'node:path'
-import sass from 'sass'
+import * as sass from 'sass'
 
 const logger = chalkFactory('lightbox:styles')
 
