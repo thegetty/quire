@@ -1,8 +1,19 @@
+import { fileURLToPath } from 'node:url'
 import { readFileSync } from 'node:fs'
-import { join } from 'node:path'
+import { dirname, resolve } from 'node:path'
 
-function resolver = (path) => join(import.meta.dirname, path)
-function readJson = (path) => JSON.parse(readFileSync(resolver(path)))
+const resolver = (path) => {
+  const __dirname = dirname(fileURLToPath(import.meta.url))
+  return resolve(__dirname, path)
+}
+
+const readJson = (path) => {
+  try {
+    return JSON.parse(readFileSync(resolver(path)))
+  } catch (error) {
+    console.error(error)
+  }
+}
 
 /**
  * Export all figures fixture data
