@@ -47,7 +47,6 @@ export default function (prefix = '', loglevel = 2) {
   }
 
   Object.entries(loggers).forEach(([logLevel, logger]) => {
-    logger.enabled = true
     logger.useColors = false
   })
 
@@ -57,7 +56,7 @@ export default function (prefix = '', loglevel = 2) {
     const logger = loggers[type]
     const style = styles[type]
     prefix = prefix.padEnd(30, '\u0020')
-    return (message) => logger(style(chalk.bold(`${type.toUpperCase()}\t`), message))
+    return (message) => logger(style(message))
   }
 
   /**
