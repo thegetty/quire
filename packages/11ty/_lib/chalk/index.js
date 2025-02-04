@@ -33,9 +33,9 @@ export default function (prefix = '', loglevel = 2) {
 
   /**
    * Initialize loggers for each loglevel.
-   * 
+   *
    * NB: colors are manually disabled to use color-per-loglevel styling
-   * 
+   *
    * @see https://github.com/debug-js/debug
    */
   const loggers = {
@@ -43,12 +43,12 @@ export default function (prefix = '', loglevel = 2) {
     error: debug(styles.error(`[quire] ${prefix} ${chalk.bold('ERROR')}\t`)),
     info: debug(styles.info(`[quire] ${prefix} ${chalk.bold('INFO')}\t`)),
     trace: debug(styles.trace(`[quire] ${prefix} ${chalk.bold('TRACE')}\t`)),
-    warn: debug(styles.warn(`[quire] ${prefix} ${chalk.bold('WARN')}\t`)),
+    warn: debug(styles.warn(`[quire] ${prefix} ${chalk.bold('WARN')}\t`))
   }
 
-  Object.entries(loggers).forEach(([logLevel,logger]) => {
+  Object.entries(loggers).forEach(([logLevel, logger]) => {
     logger.enabled = true
-    logger.useColors = false    
+    logger.useColors = false
   })
 
   const logFn = (type) => {
