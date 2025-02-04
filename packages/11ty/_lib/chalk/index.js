@@ -38,6 +38,8 @@ export default function (prefix = '', loglevel = 2) {
    *
    * @see https://github.com/debug-js/debug
    */
+  prefix = prefix.padEnd(30, '\u0020')
+
   const loggers = {
     debug: debug(styles.debug(`[quire] ${prefix} ${chalk.bold('DEBUG')}\t`)),
     error: debug(styles.error(`[quire] ${prefix} ${chalk.bold('ERROR')}\t`)),
@@ -51,11 +53,8 @@ export default function (prefix = '', loglevel = 2) {
   })
 
   const logFn = (type) => {
-    // logger(styles[type])
-
     const logger = loggers[type]
     const style = styles[type]
-    prefix = prefix.padEnd(30, '\u0020')
     return (message) => logger(style(message))
   }
 
