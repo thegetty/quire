@@ -76,7 +76,7 @@ export default class Annotation {
       switch (true) {
         case isImageService:
           // NB: Annotations for imageServices are *max jpeg*s not the service endpoint
-          return path.join(outputDir,name,printImage)
+          return path.join(outputDir, name, printImage)
         default:
           try {
             return new URL(path.join(baseURI, outputDir, base)).href
