@@ -26,7 +26,7 @@ export default function (eleventyConfig) {
     } = figure
 
     const labelElement = figureLabel({ id, label, isSequence })
-    const isInteractive = (annotations ?? []).length > 0
+    const interactive = (annotations ?? []).length > 0
 
     /**
      * Construct the HTML figure:
@@ -35,7 +35,7 @@ export default function (eleventyConfig) {
      * - Add optional annotations UI
      **/
 
-    let imageElement = figureImageElement(figure, { interactive: isInteractive })
+    let imageElement = figureImageElement(figure, { interactive })
     imageElement = figureModalLink({ content: imageElement, id })
 
     const captionElement = figureCaption({ caption, content: labelElement, credit })
