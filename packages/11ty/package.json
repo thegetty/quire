@@ -27,7 +27,7 @@
     "benchmark": "cross-env DEBUG=Eleventy:Benchmark* eleventy",
     "build": "cross-env ELEVENTY_ENV=production DEBUG=\"\" eleventy",
     "clean": "del-cli _epub _site public",
-    "debug": "cross-env DEBUG=Eleventy* eleventy --dryrun",
+    "debug": "cross-env DEBUG='Eleventy*,*quire*' eleventy --dryrun",
     "dev": "cross-env ELEVENTY_ENV=development eleventy --serve",
     "lint": "eslint .",
     "lint:debug": "eslint . --debug",
