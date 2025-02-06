@@ -1,25 +1,28 @@
 import { describe, test } from 'node:test'
-import { readFile } from 'node:fs/promises'
-import { resolve } from 'node:path'
+import { dirname, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { readFileSync } from 'node:fs'
 import Ajv from 'ajv'
-import Figure from '../figure.js'
-import Manifest from '../iiif/manifest.js'
+import Figure from '../figure/index.js'
+import Manifest from '../iiif/manifest/index.js'
 import assert from 'assert/strict'
 import figureFixtures from './__fixtures__/figures/index.js'
-require('module-alias/register')
 
-const loadJson = async (filepath) => {
+const resolver = (path) => {
+  const __dirname = dirname(fileURLToPath(import.meta.url))
+  return resolve(__dirname, path)
+}
+
+const readJson = (path) => {
   try {
-    // const fileUrl = new URL(filepath, import.meta.url)
-    const json = await readFile(resolve(filepath))
-    return JSON.parse(json)
+    return JSON.parse(readFileSync(resolver(path)))
   } catch (error) {
     console.error(error)
   }
 }
 
-const iiifConfig = await loadJson('./__fixtures__/iiif-config.json')
-const manifestSchema = await loadJson('../iiif/manifest/schema.json')
+const iiifConfig = readJson('./__fixtures__/iiif-config.json')
+const manifestSchema = readJson('../iiif/manifest/schema.json')
 
 const createManifestFromFigureFixture = async (figureFixtureName) => {
   const {
