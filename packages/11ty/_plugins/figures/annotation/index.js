@@ -26,7 +26,7 @@ const logger = chalkFactory('Figures:Annotation')
  */
 export default class Annotation {
   constructor (figure, data) {
-    const { annotationCount, iiifConfig, outputDir, outputFormat, src: figureSrc, zoom } = figure
+    const { annotationCount, iiifConfig, outputDir, outputFormat, printImage, src: figureSrc, zoom } = figure
     const { baseURI, tilesDirName } = iiifConfig
     const { label, region, selected, src, text } = data
     const { base, name } = src ? path.parse(src) : {}
@@ -75,7 +75,8 @@ export default class Annotation {
     const uri = () => {
       switch (true) {
         case isImageService:
-          return info()
+          // NB: Annotations for imageServices are *max jpeg*s not the service endpoint
+          return path.join(outputDir, name, printImage)
         default:
           try {
             return new URL(path.join(baseURI, outputDir, base)).href
