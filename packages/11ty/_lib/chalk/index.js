@@ -41,11 +41,11 @@ export default function (prefix = '', loglevel = 2) {
   prefix = prefix.padEnd(30, '\u0020')
 
   const loggers = {
-    debug: debug(styles.debug(`[quire] ${prefix} ${chalk.bold('DEBUG')}\t`)),
-    error: debug(styles.error(`[quire] ${prefix} ${chalk.bold('ERROR')}\t`)),
-    info: debug(styles.info(`[quire] ${prefix} ${chalk.bold('INFO')}\t`)),
-    trace: debug(styles.trace(`[quire] ${prefix} ${chalk.bold('TRACE')}\t`)),
-    warn: debug(styles.warn(`[quire] ${prefix} ${chalk.bold('WARN')}\t`))
+    debug: debug(styles.debug(`Quire:${prefix} ${chalk.bold('DEBUG')}\t`)),
+    error: debug(styles.error(`Quire:${prefix} ${chalk.bold('ERROR')}\t`)),
+    info: debug(styles.info(`Quire:${prefix} ${chalk.bold('INFO')}\t`)),
+    trace: debug(styles.trace(`Quire:${prefix} ${chalk.bold('TRACE')}\t`)),
+    warn: debug(styles.warn(`Quire:${prefix} ${chalk.bold('WARN')}\t`))
   }
 
   Object.entries(loggers).forEach(([logLevel, logger]) => {
