@@ -1,4 +1,5 @@
 import { execa } from 'execa'
+import fs from 'node:fs'
 import path from 'node:path'
 import paths, { eleventyRoot, projectRoot } from './paths.js'
 
@@ -17,9 +18,24 @@ const factory = (options = {}) => {
 
   /**
    * Use the version of Eleventy installed to `lib/quire/versions`
+   * 
+   * NB: in eleventy v3 the CLI extension (".cjs") is load-bearing but v2 is simply ".js"
+   * 
    */
-  const eleventy =
-    path.join(eleventyRoot, 'node_modules', '@11ty', 'eleventy', 'cmd.cjs')
+  const eleventyModuleDir = path.join(eleventyRoot, 'node_modules', '@11ty', 'eleventy')
+  const packagePath = path.join(eleventyModuleDir,'package.json')  
+
+  const pack = JSON.parse(fs.readFileSync(packagePath))
+
+  const { version } = pack
+
+  const eleventyMajorVer = version.split('.').at(0)
+
+  let eleventy = path.join(eleventyModuleDir,'cmd.cjs')
+
+  if ( Number(eleventyMajorVer) < 3 ) {
+    eleventy = path.join(eleventyModuleDir,'cmd.js')
+  }
 
   const command = [
     eleventy,
