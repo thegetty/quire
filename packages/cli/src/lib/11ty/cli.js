@@ -25,7 +25,8 @@ const factory = (options = {}) => {
   const eleventyModuleDir = path.join(eleventyRoot, 'node_modules', '@11ty', 'eleventy')
   const packagePath = path.join(eleventyModuleDir,'package.json')  
 
-  const pack = fs.readFileSync(packagePath)
+  const pack = JSON.parse(fs.readFileSync(packagePath))
+
   const { version } = pack
 
   const eleventyMajorVer = version.split('.').at(0)
