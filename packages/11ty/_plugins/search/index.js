@@ -17,6 +17,8 @@ export default function (eleventyConfig, collections, options) {
    * Write index
    */
   eleventyConfig.on('eleventy.after', async () => {
-    write(collections)
+    const { outputDir, publicDir } = eleventyConfig.globalData.directoryConfig
+
+    write(collections, publicDir || outputDir)
   })
 }
