@@ -1,3 +1,4 @@
+import escape from 'html-escape'
 import { html } from '#lib/common-tags/index.js'
 import path from 'node:path'
 
@@ -40,7 +41,7 @@ export default function (eleventyConfig) {
 
     // console.log(imageSrc)
     return html`
-      <img alt="${alt}" class="q-figure__image" src="${imageSrc}"/>
+      <img alt="${escape(alt)}" class="q-figure__image" src="${imageSrc}"/>
       ${figureCaption({ caption, content: labelElement, credit })}
     `
   }

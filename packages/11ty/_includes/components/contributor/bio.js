@@ -1,3 +1,4 @@
+import escape from 'html-escape'
 import { html } from '#lib/common-tags/index.js'
 import path from 'node:path'
 
@@ -40,7 +41,7 @@ export default function (eleventyConfig) {
     const contributorImage = image
       ? html`
           <div class="media-left">
-            <img class="image quire-contributor__pic" src="${path.join(config.figures.imageDir, image)}" alt="Picture of ${name}">
+            <img class="image quire-contributor__pic" src="${path.join(config.figures.imageDir, image)}" alt="Picture of ${escape(name)}">
           </div>
       `
       : ''

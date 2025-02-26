@@ -1,3 +1,4 @@
+import escape from 'html-escape'
 import { html } from '#lib/common-tags/index.js'
 
 /**
@@ -20,7 +21,7 @@ export default function (eleventyConfig) {
   }) {
     return html`
       <image-service 
-        alt="${alt}"
+        alt="${escape(alt)}"
         class="q-figure__image"
         height="${height}"
         preset="${preset}"
