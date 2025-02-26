@@ -13,12 +13,11 @@ executors:
         user: root
   macos:
     macos:
-      xcode: 11.4
+      xcode: '16.2.0'
   win: 
     machine:
-      image: windows-server-2019-vs2019:stable
+      image: windows-server-2019-vs2019:current
       resource_class: windows.medium
-      shell: bash.exe
 
 anchors:
   - &npm_cache_key package-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ .Environment.CACHE_VERSION }}
@@ -36,9 +35,6 @@ anchors:
 commands:
   build_install_cli:
     steps:
-      - run:
-          name: Install NPM dependencies
-          command: npm install
       - run:
           name: Install CLI dependencies
           command: cd packages/cli && npm install
@@ -68,47 +64,53 @@ commands:
     steps:
       - build_install_cli
 
-  install_deps-linux:
-    steps:
-      - run:
-          name: Install External Dependencies
-          command: |
-            chmod +x scripts/install-deps-linux.sh
-            scripts/install-deps-linux.sh
+  # install_deps-linux:
+  #   steps:
+  #     - run:
+  #         name: Install External Dependencies
+  #         command: |
+  #           chmod +x scripts/install-deps-linux.sh
+  #           scripts/install-deps-linux.sh
 
-  install_deps-macos:
-    steps:
-      - run:
-          name: Install External Dependencies
-          command: |
-            chmod +x scripts/install-deps-macos.sh
-            scripts/install-deps-macos.sh
+  # install_deps-macos:
+  #   steps:
+  #     - run:
+  #         name: Install External Dependencies
+  #         command: |
+  #           chmod +x scripts/install-deps-macos.sh
+  #           scripts/install-deps-macos.sh
 
-  install_deps-win:
-    steps:
-      - run:
-          name: Install External Dependencies
-          shell: powershell.exe
-          command: .\scripts\install-deps-win.ps1
+  # install_deps-win:
+  #   steps:
+  #     - run:
+  #         name: Install External Dependencies
+  #         shell: powershell.exe
+  #         command: .\scripts\install-deps-win.ps1
 
   run_tests:
     steps:
+      # TODO: Create test artifact / result directory
+      # - run:
+      #     name: Add test report directory
+      #     command: mkdir -p test-results
       - run:
-          name: Add test report directory
-          command: mkdir -p test-results
+          name: Run CLI tests
+          command: cd packages/cli && npm run test
       - run:
-          name: Run e2e tests
-          command: npm test
-      - store_test_results:
-          path: test-results
-      - store_artifacts:
-          path: test-results
+          name: Run 11ty tests
+          command: cd packages/11ty && npm run test
+      # TODO: Store test artifacts /results
+      # - store_test_results:
+      #     path: test-results
+      # - store_artifacts:
+      #     path: test-results
 
   test-linux:
     steps:
-      - run:
-          name: Install Cypress Dependencies
-          command: apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+      # TODO: Don't think we need this anymore? Might be being naive tho
+      # - run:
+      #     name: Install Cypress Dependencies
+      #     command: apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
       - run_tests
 
   test-macos:
@@ -140,7 +142,8 @@ jobs:
 
 workflows:
   build_install_test:
-    when: false # disable workflow until refactored for Quire v1
+    # TODO: Update this with tests against branch (eg, don't run for docs/, etc)
+    when: true
     jobs:
       - build_install_test:
           <<: *matrix_params
