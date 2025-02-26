@@ -1,17 +1,18 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import sitemapPlugin from '@quasibit/eleventy-plugin-sitemap'
+import eleventySitemapPlugin from '@quasibit/eleventy-plugin-sitemap'
 
 /**
- * Quire sitemamp plugin
+ * Eleventy plugin to dynamically generate a sitemap from publication content.
  *
- * Wraps eleventy-plugin-sitemap to make the sitemap file plugin-internal
+ * @param {Object} eleventyConfig
+ * @param {Object} collections
  **/
 export default async function (eleventyConfig, collections) {
   const { url: hostname } = eleventyConfig.globalData.publication
   const { outputDir, publicDir } = eleventyConfig.globalData.directoryConfig
 
-  eleventyConfig.addPlugin(sitemapPlugin, {
+  eleventyConfig.addPlugin(eleventySitemapPlugin, {
     sitemap: { hostname }
   })
 
