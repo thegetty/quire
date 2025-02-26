@@ -64,28 +64,23 @@ commands:
     steps:
       - build_install_cli
 
-  # install_deps-linux:
-  #   steps:
-  #     - run:
-  #         name: Install External Dependencies
-  #         command: |
-  #           chmod +x scripts/install-deps-linux.sh
-  #           scripts/install-deps-linux.sh
+  install_deps-linux:
+    steps:
+      - run:
+          name: Install External Dependencies
+          command: exit
 
-  # install_deps-macos:
-  #   steps:
-  #     - run:
-  #         name: Install External Dependencies
-  #         command: |
-  #           chmod +x scripts/install-deps-macos.sh
-  #           scripts/install-deps-macos.sh
+  install_deps-macos:
+    steps:
+      - run:
+          name: Install External Dependencies
+          command: exit
 
-  # install_deps-win:
-  #   steps:
-  #     - run:
-  #         name: Install External Dependencies
-  #         shell: powershell.exe
-  #         command: .\scripts\install-deps-win.ps1
+  install_deps-win:
+    steps:
+      - run:
+          name: Install External Dependencies
+          command: exit
 
   run_tests:
     steps:
