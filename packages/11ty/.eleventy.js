@@ -42,6 +42,7 @@ import lintersPlugin from '#plugins/linters/index.js'
 import markdownPlugin from '#plugins/markdown/index.js'
 import searchPlugin from '#plugins/search/index.js'
 import shortcodesPlugin from '#plugins/shortcodes/index.js'
+import sitemapPlugin from '#plugins/sitemap/index.js'
 import transformsPlugin from '#plugins/transforms/index.js'
 import vitePlugin from '#plugins/vite/index.js'
 
@@ -192,7 +193,7 @@ export default async function (eleventyConfig) {
   const globalData = globalDataPlugin(eleventyConfig, { inputDir, outputDir, publicDir })
   const collections = collectionsPlugin(eleventyConfig)
   vitePlugin(eleventyConfig, globalData)
-
+  
   eleventyConfig.addPlugin(i18nPlugin)
   eleventyConfig.addPlugin(figuresPlugin)
 
@@ -223,6 +224,9 @@ export default async function (eleventyConfig) {
    * @see {@link https://www.11ty.dev/docs/_plugins/render/}
    */
   eleventyConfig.addPlugin(EleventyRenderPlugin)
+
+  // Uses RenderPlugin so must load second
+  sitemapPlugin(eleventyConfig, collections)
 
   /**
    * Add plugin for WebC support
