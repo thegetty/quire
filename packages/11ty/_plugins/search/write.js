@@ -7,9 +7,10 @@ const logger = chalkFactory('Search Index')
  * Write JSON index of page content in `collections.html`
  *
  * @param   {Object}  collections
+ * @param   {String}  outputDir
  * @return     {Object}  Page content index JSON
  */
-export default function (collections) {
+export default function (collections, outputDir) {
   const wordcount = (content) => {
     if (!content) return 0
     return content.split(' ').length
@@ -29,7 +30,6 @@ export default function (collections) {
     }
   })
 
-  const outputDir = process.env.ELEVENTY_ENV === 'production' ? 'public' : '_site'
   const outputPath = path.join(outputDir, 'search-index.json')
 
   try {
