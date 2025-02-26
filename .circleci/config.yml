@@ -51,13 +51,13 @@ commands:
   build_install_cli-linux:
     steps:
       - node/install:
-          version: "22.14.0"
+          node-version: "22.14.0"
       - build_install_cli
 
   build_install_cli-macos:
     steps:
       - node/install:
-          version: "22.14.0"
+          node-version: "22.14.0"
       - build_install_cli
 
   build_install_cli-win:
