@@ -9,7 +9,7 @@ import sitemapPlugin from '@quasibit/eleventy-plugin-sitemap'
  **/
 export default async function (eleventyConfig, collections) {
   const { url: hostname } = eleventyConfig.globalData.publication
-  const { inputDir, outputDir, publicDir } = eleventyConfig.globalData.directoryConfig
+  const { outputDir, publicDir } = eleventyConfig.globalData.directoryConfig
 
   eleventyConfig.addPlugin(sitemapPlugin, {
     sitemap: { hostname }
@@ -17,9 +17,7 @@ export default async function (eleventyConfig, collections) {
 
   eleventyConfig.on('eleventy.after', async () => {
     const sitemap = await eleventyConfig.javascript.functions.renderTemplate('{% sitemap collections.html %}', 'liquid,md', { collections })
-    
-    const directory = publicDir ? publicDir : outputDir
-    const outputPath = path.join(directory, 'sitemap.xml')
+    const outputPath = path.join(publicDir || outputDir, 'sitemap.xml')
 
     fs.writeFileSync(outputPath, sitemap)
   })
