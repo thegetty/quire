@@ -1,4 +1,4 @@
-import ecsape from 'html-escape'
+import escape from 'html-escape'
 import { html } from '#lib/common-tags/index.js'
 
 /**
