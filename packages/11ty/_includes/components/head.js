@@ -1,3 +1,5 @@
+import escape from 'html-escape'
+
 /**
  * Head Tag
  *
@@ -50,8 +52,8 @@ export default function (eleventyConfig) {
 
         <title>${pageTitle}</title>
 
-        <meta name="description" content="${description}">
-        <meta name="keywords" content="${keywords}">
+        <meta name="description" content="${escape(description)}">
+        <meta name="keywords" content="${escape(keywords)}">
 
         <link rel="canonical" href="${canonicalURL}">
         <link rel="version-history" href="${publication.repositoryUrl}">

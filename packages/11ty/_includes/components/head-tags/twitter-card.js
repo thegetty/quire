@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-
+import escape from 'html-escape'
 import path from 'node:path'
 
 /**
@@ -52,7 +52,7 @@ export default function (eleventyConfig) {
     ]
 
     const metaTags = meta.map(({ name, content }) => (
-      `<meta name="${name}" content="${content}">`
+      `<meta name="${name}" content="${escape(content)}">`
     ))
     return `${metaTags.join('\n')}`
   }

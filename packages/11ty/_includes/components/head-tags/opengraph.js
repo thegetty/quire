@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-
+import escape from 'html-escape'
 /**
  * Renders <head> <meta> data tags for Open Graph protocol data
  *
@@ -69,7 +69,7 @@ export default function (eleventyConfig) {
     })
 
     const metaTags = meta.map(({ property, content }) => (
-      `<meta property="${property}" content="${content}">`
+      `<meta property="${property}" content="${escape(content)}">`
     ))
     return `${metaTags.join('\n')}`
   }
