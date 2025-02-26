@@ -193,7 +193,7 @@ export default async function (eleventyConfig) {
   const globalData = globalDataPlugin(eleventyConfig, { inputDir, outputDir, publicDir })
   const collections = collectionsPlugin(eleventyConfig)
   vitePlugin(eleventyConfig, globalData)
-  
+
   eleventyConfig.addPlugin(i18nPlugin)
   eleventyConfig.addPlugin(figuresPlugin)
 
