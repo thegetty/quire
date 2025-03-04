@@ -1,6 +1,6 @@
 {
   "name": "@thegetty/quire-11ty",
-  "version": "1.0.0-rc.24",
+  "version": "1.0.0-rc.26",
   "description": "Quire 11ty static site generator",
   "keywords": [
     "11ty",
@@ -33,7 +33,6 @@
     "lint:debug": "eslint . --debug",
     "lint:fix": "eslint . --fix",
     "lint:inspect": "npx @eslint/config-inspector",
-    "postinstall": "patch-package --patch-dir _patches",
     "prebuild": "npm run clean",
     "predev": "del-cli public",
     "prepublishOnly": "npm run test",
@@ -103,7 +102,6 @@
     "markdown-it-footnote": "^4.0.0",
     "mime-types": "^2.1.35",
     "module-alias": "^2.2.2",
-    "patch-package": "^8.0.0",
     "path": "^0.12.7",
     "prettier": "^3.2.5",
     "remove-markdown": "^0.5.0",
