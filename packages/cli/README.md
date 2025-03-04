@@ -13,7 +13,7 @@ npm install quire-cli --global
 Installing the `quire-cli` as a _local package dependency_ requires additional npm command flags to support patching package dependencies as follows,
 
 ```sh
-npm install quire-cli --install-strategy=nested
+npm install quire-cli --install-strategy=shallow
 ```
 
 ### Using the CLI
