@@ -28,7 +28,7 @@ const checkForDuplicateIds = function (data, filename) {
   if (typeof data === 'object') {
     Object.keys(data).forEach((key) => {
       try {
-        checkForDuplicateIds(data[key])
+        checkForDuplicateIds(data[key], filename)
       } catch (error) {
         logger.error(`${filename} ${key} contains multiple entries with the same id.\nEach entry in ${key} must have a unique id. ${error.message}`)
       }
