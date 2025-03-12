@@ -1,11 +1,11 @@
-const write = require('./write')
+import write from './write.js'
 /**
  * An Eleventy plugin for full-text search
  *
  * @param      {Object}  eleventyConfig  eleventy configuration
  * @param      {Object}  [options]       search engine options
  */
-module.exports = function(eleventyConfig, collections, options) {
+export default function (eleventyConfig, collections, options) {
   /**
    * Copy search module and write index to the output directory
    * @see {@link https://www.11ty.dev/docs/copy/ Passthrough copy in 11ty}
@@ -17,6 +17,8 @@ module.exports = function(eleventyConfig, collections, options) {
    * Write index
    */
   eleventyConfig.on('eleventy.after', async () => {
-    write(collections)
+    const { outputDir, publicDir } = eleventyConfig.globalData.directoryConfig
+
+    write(collections, publicDir || outputDir)
   })
 }

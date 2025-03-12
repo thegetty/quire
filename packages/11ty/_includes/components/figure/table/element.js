@@ -1,4 +1,4 @@
-const path = require('path')
+import path from 'node:path'
 
 /**
  * Shortcode component to render referenced template file content
@@ -6,8 +6,8 @@ const path = require('path')
  *
  * @param  {EleventyConfig}  eleventyConfig  Eleventy configuration
  */
-module.exports = function (eleventyConfig) {
-  const renderFile = eleventyConfig.getFilter('renderFile')
+export default function (eleventyConfig) {
+  // const renderFile = eleventyConfig.getFilter('renderFile')
   const { assetDir } = eleventyConfig.globalData.config.figures
 
   /**
@@ -21,7 +21,8 @@ module.exports = function (eleventyConfig) {
    * @return  {String}  Text content of the referenced template file
    */
   return async function ({ src }) {
-    const filePath = path.join(eleventyConfig.dir.input, assetDir, src)
-    return await renderFile(filePath)
+    const filePath = path.join(eleventyConfig.directoryAssignments.input, assetDir, src)
+
+    return await eleventyConfig.javascript.shortcodes.renderFile(filePath, {}, 'html')
   }
 }

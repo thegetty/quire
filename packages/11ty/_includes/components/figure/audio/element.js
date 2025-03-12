@@ -1,40 +1,8 @@
-const { html } = require('~lib/common-tags')
-const chalkFactory = require('~lib/chalk')
+import { html } from '#lib/common-tags/index.js'
+import chalkFactory from '#lib/chalk/index.js'
 
 const logger = chalkFactory('Figure Video')
 
-const audioElements = {
-  soundcloud({ id, mediaId }) {
-    if (!mediaId) {
-      logger.error(`Cannot render SoundCloud component without 'media_id'. Check that figures data for id: ${id} has a valid 'media_id'`)
-      return ''
-    }
-
-    const src = new URL('https://w.soundcloud.com/player/')
-    const params = new URLSearchParams({
-      auto_play: 'false',
-      color: encodeURIComponent('#ff5500'),
-      hide_related: 'true',
-      show_comments: 'false',
-      show_reposts: 'false',
-      show_teaser: 'false',
-      show_user: 'false',
-      url: encodeURIComponent(`https://api.soundcloud.com/tracks/${mediaId}`)
-    })
-    src.search = `?${params.toString()}`
-
-    return html`
-      <iframe
-        allow="autoplay"
-        frameborder="no"
-        height="166"
-        scrolling="no"
-        src="${src.href}"
-        width="100%"
-      ></iframe>
-    `
-  }
-}
 /**
  * Renders an embedded soundcloud audio player
  *
@@ -42,12 +10,36 @@ const audioElements = {
  *
  * @param      {Object}  figure          The figure object
  * @param      {String}  id              The id of the figure
- * @param      {String}  mediaId        An id for a soundcloud embed
+ * @param      {String}  mediaId         An id for a soundcloud embed
+ * @param      {String}  mediaType       The type of tag video ('video', 'vimeo' or 'youtube')
  *
  * @return     {String}  An embedded soundcloud player
  */
-module.exports = function (eleventyConfig) {
-  return function ({ id, mediaId, mediaType }) {
-    return audioElements[mediaType]({ id, mediaId })
+export default function (eleventyConfig) {
+  const figureMediaEmbedUrl = eleventyConfig.getFilter('figureMediaEmbedUrl')
+  const audioElements = {
+    soundcloud ({ id, mediaId, mediaType, lazyLoading }) {
+      if (!mediaId) {
+        logger.error(`Cannot render SoundCloud component without 'media_id'. Check that figures data for id: ${id} has a valid 'media_id'`)
+        return ''
+      }
+
+      const { embedUrl } = figureMediaEmbedUrl({ mediaId, mediaType })
+
+      return html`
+        <iframe
+          allow="autoplay"
+          frameborder="no"
+          loading="${lazyLoading ?? 'lazy'}"
+          height="166"
+          scrolling="no"
+          src="${embedUrl}"
+          width="100%"
+        ></iframe>
+      `
+    }
+  }
+  return function ({ id, mediaId, mediaType, lazyLoading }) {
+    return audioElements[mediaType]({ id, mediaId, mediaType, lazyLoading })
   }
 }

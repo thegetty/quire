@@ -1,16 +1,16 @@
-const { oneLine } = require('~lib/common-tags')
+import { oneLine } from '#lib/common-tags/index.js'
 
 /**
  * A shortcode for the Quire project or publication title,
  * currently used for the Quire cover template.
  */
-module.exports = function(eleventyConfig) {
+export default function (eleventyConfig) {
   const markdownify = eleventyConfig.getFilter('markdownify')
   const { subtitle, title } = eleventyConfig.globalData.publication
 
-  return function(params) {
+  return function (params) {
     const separator = title.slice(-1).match(/[a-zA-Z]/)
-      ? `<span class="visually-hidden">:</span>`
+      ? '<span class="visually-hidden">:</span>'
       : ''
 
     const subtitleElement = subtitle
@@ -19,6 +19,6 @@ module.exports = function(eleventyConfig) {
 
     const titleElement = `<span class="title">${markdownify(title)}</span>`
 
-    return oneLine`${titleElement}${separator}&#32;${subtitleElement}`
+    return oneLine`${titleElement}${separator}\u0020${subtitleElement}`
   }
 }

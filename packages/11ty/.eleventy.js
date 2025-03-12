@@ -1,41 +1,68 @@
-require('module-alias/register')
-
-const copy = require('rollup-plugin-copy')
-const fs = require('fs-extra')
-const packageJSON = require('./package.json');
-const path = require('path')
-const scss = require('rollup-plugin-scss')
+import fs from 'fs-extra'
+import path from 'node:path'
 
 /**
- * Quire features are implemented as Eleventy plugins
+ * Eleventy plugins
  */
-const {
+import {
   EleventyHtmlBasePlugin,
+  IdAttributePlugin,
+  InputPathToUrlTransformPlugin,
   EleventyRenderPlugin
-} = require('@11ty/eleventy')
-const EleventyVitePlugin = require('@11ty/eleventy-plugin-vite')
-const citationsPlugin = require('~plugins/citations')
-const collectionsPlugin = require('~plugins/collections')
-const componentsPlugin = require('~plugins/components')
-const dataExtensionsPlugin = require('~plugins/dataExtensions')
-const directoryOutputPlugin = require('@11ty/eleventy-plugin-directory-output')
-const figuresPlugin = require('~plugins/figures')
-const filtersPlugin = require('~plugins/filters')
-const frontmatterPlugin = require('~plugins/frontmatter')
-const globalDataPlugin = require('~plugins/globalData')
-const i18nPlugin = require('~plugins/i18n')
-const lintersPlugin = require('~plugins/linters')
-const markdownPlugin = require('~plugins/markdown')
-const navigationPlugin = require('@11ty/eleventy-navigation')
-const pluginWebc = require('@11ty/eleventy-plugin-webc')
-const searchPlugin = require('~plugins/search')
-const shortcodesPlugin = require('~plugins/shortcodes')
-const syntaxHighlightPlugin = require('@11ty/eleventy-plugin-syntaxhighlight')
-const transformsPlugin = require('~plugins/transforms')
+} from '@11ty/eleventy'
+// import { eleventyImageTransformPlugin } from '@11ty/eleventy-img'
+import directoryOutputPlugin from '@11ty/eleventy-plugin-directory-output'
+import navigationPlugin from '@11ty/eleventy-navigation'
+import pluginWebc from '@11ty/eleventy-plugin-webc'
+import syntaxHighlightPlugin from '@11ty/eleventy-plugin-syntaxhighlight'
 
-const inputDir = 'content'
-const outputDir = '_site'
-const publicDir = 'public'
+/**
+ * Quire plugins for Eleventy
+ * dynamic import of the default export from local plugins modules
+ */
+// const plugins =
+//   fs.readdir('_plugins', { withFileTypes: true }, (error, entries) => {
+//     entries.forEach((entry) => {
+//       if (entry.isDirectory()) {
+//         const { default: plugin } = await import(`./plugins/${entry.name}`)
+//         eleventyConfig.addPlugin(plugin, collections)
+//       }
+//     })
+//   })
+import citationsPlugin from '#plugins/citations/index.js'
+import collectionsPlugin from '#plugins/collections/index.js'
+import componentsPlugin from '#plugins/components/index.js'
+import dataExtensionsPlugin from '#plugins/dataExtensions/index.js'
+import figuresPlugin from '#plugins/figures/index.js'
+import filtersPlugin from '#plugins/filters/index.js'
+import frontmatterPlugin from '#plugins/frontmatter/index.js'
+import globalDataPlugin from '#plugins/globalData/index.js'
+import i18nPlugin from '#plugins/i18n/index.js'
+import lintersPlugin from '#plugins/linters/index.js'
+import markdownPlugin from '#plugins/markdown/index.js'
+import searchPlugin from '#plugins/search/index.js'
+import shortcodesPlugin from '#plugins/shortcodes/index.js'
+import sitemapPlugin from '#plugins/sitemap/index.js'
+import transformsPlugin from '#plugins/transforms/index.js'
+import vitePlugin from '#plugins/vite/index.js'
+
+/**
+ * Application modules
+ */
+import chalkFactory from '#lib/chalk/index.js'
+
+// Read package.json manually for now, see: https://github.com/11ty/eleventy/issues/3128
+// When issue merged, use: import packageJSON from './package.json' with { type: 'json' };
+const packageJSON = JSON.parse(
+  (await fs.readFile(new URL('package.json', import.meta.url))).toString()
+)
+
+// eslint-disable-next-line no-unused-vars
+const { error } = chalkFactory('eleventy config')
+
+const inputDir = process.env.ELEVENTY_INPUT || 'content'
+const outputDir = process.env.ELEVENTY_OUTPUT || '_site'
+const publicDir = process.env.ELEVENTY_ENV === 'production' ? 'public' : false // publicDir should be set explicitly to false in development
 
 /**
  * Eleventy configuration
@@ -44,7 +71,38 @@ const publicDir = 'public'
  * @param      {Object}  base eleventy configuration
  * @return     {Object}  A modified eleventy configuation
  */
-module.exports = function(eleventyConfig) {
+export default async function (eleventyConfig) {
+  const dataDir = process.env.ELEVENTY_DATA || '_computed'
+  const includesDir = process.env.ELEVENTY_INCLUDES || path.join('..', '_includes')
+  const layoutsDir = process.env.ELEVENTY_LAYOUTS || path.join('..', '_layouts')
+
+  // ⚠️ input and output dirs are _relative_ to the `.eleventy.js` module
+  eleventyConfig.setInputDirectory(inputDir)
+  eleventyConfig.setOutputDirectory(outputDir)
+  // ⚠️ the following directories are _relative_ to the `input` directory
+  eleventyConfig.setDataDirectory(dataDir)
+  eleventyConfig.setIncludesDirectory(includesDir)
+  eleventyConfig.setLayoutsDirectory(layoutsDir)
+
+  /**
+   * All of the following template formats support universal shortcodes.
+   *
+   * Nota bene:
+   * Markdown files are pre-processed as Liquid templates by default. This
+   * means that shortcodes available in Liquid templates are also available
+   * in Markdown files. Likewise, if you change the template engine for
+   * Markdown files, the shortcodes available for that templating language
+   * will also be available in Markdown files.
+   * @see {@link https://www.11ty.dev/docs/config/#template-formats}
+   */
+  eleventyConfig.setTemplateFormats([
+    '11ty.js', // JavaScript
+    'html', // HTML
+    'liquid', // Liquid
+    'md', // Markdown
+    'njk' // Nunjucks
+  ])
+
   /**
    * Override addPassthroughCopy to use _absolute_ system paths.
    * @see https://www.11ty.dev/docs/copy/#passthrough-file-copy
@@ -100,6 +158,19 @@ module.exports = function(eleventyConfig) {
   })
 
   /**
+   * Register a preprocessor to ignore HTML files from the input asset directory.
+   * Preprocessors run on input templates before parsing.
+   * @see https://www.11ty.dev/docs/config-preprocessors/
+   */
+  const assetPathFragment = [inputDir, '_assets'].join(path.sep)
+  const ignoreAssetHTML = ({ page }, content) => {
+    if (page.inputPath.includes(assetPathFragment)) return false 
+    return content;
+  }
+  
+  eleventyConfig.addPreprocessor('html-files', 'html', ignoreAssetHTML)
+  
+  /**
    * Configure build output
    * @see https://www.11ty.dev/docs/plugins/directory-output/#directory-output
    */
@@ -109,16 +180,33 @@ module.exports = function(eleventyConfig) {
   /**
    * @see https://www.11ty.dev/docs/plugins/html-base/
    */
-  // eleventyConfig.addPlugin(EleventyHtmlBasePlugin, {
-  //   baseHref: eleventyConfig.pathPrefix
-  // })
+  eleventyConfig.addPlugin(EleventyHtmlBasePlugin)
 
   /**
-   * Plugins are loaded in order of the `addPlugin` statements,
-   * plugins that mutate globalData must be added before other plugins
+   * @see https://www.11ty.dev/docs/plugins/id-attribute/
    */
-  eleventyConfig.addPlugin(dataExtensionsPlugin)
-  eleventyConfig.addPlugin(globalDataPlugin)
+  eleventyConfig.addPlugin(IdAttributePlugin)
+
+  /**
+   * @see https://www.11ty.dev/docs/plugins/inputpath-to-url/
+   */
+  eleventyConfig.addPlugin(InputPathToUrlTransformPlugin)
+
+  /**
+   * Plugins are loaded in this order:
+   *   1) immediately invoked
+   *   2) addPlugin statements
+   * Plugins that mutate globalData must be added before other plugins
+   *
+   * Note: The config does **not** have access to collections or global,
+   * to get around this we invoke some plugins immediately and return a value
+   * so that data can be provided to the config or another plugin.
+   */
+  dataExtensionsPlugin(eleventyConfig)
+  const globalData = globalDataPlugin(eleventyConfig, { inputDir, outputDir, publicDir })
+  const collections = collectionsPlugin(eleventyConfig)
+  vitePlugin(eleventyConfig, globalData)
+
   eleventyConfig.addPlugin(i18nPlugin)
   eleventyConfig.addPlugin(figuresPlugin)
 
@@ -126,11 +214,6 @@ module.exports = function(eleventyConfig) {
    * Load plugin for custom configuration of the markdown library
    */
   eleventyConfig.addPlugin(markdownPlugin)
-
-  /**
-   * Add collections
-   */
-  const collections = collectionsPlugin(eleventyConfig)
 
   /**
    * Load plugins for the Quire template shortcodes and filters
@@ -155,6 +238,9 @@ module.exports = function(eleventyConfig) {
    */
   eleventyConfig.addPlugin(EleventyRenderPlugin)
 
+  // Uses RenderPlugin so must load second
+  sitemapPlugin(eleventyConfig, collections)
+
   /**
    * Add plugin for WebC support
    * @see https://www.11ty.dev/docs/languages/webc/#installation
@@ -165,10 +251,32 @@ module.exports = function(eleventyConfig) {
    * @property {Boolean} useTransform - Use WebC transform to process all HTML output
    */
   eleventyConfig.addPlugin(pluginWebc, {
-    components: '_includes/components/**/*.webc',
+    components: [
+      '_includes/components/**/*.webc',
+      'npm:@11ty/eleventy-img/*.webc'
+    ],
     transformData: {},
-    useTransform: false,
+    useTransform: false
   })
+
+  /**
+   * Configure the Eleventy Image plugin
+   * @see https://www.11ty.dev/docs/plugins/image/
+   */
+  // eleventyConfig.addPlugin(eleventyImageTransformPlugin, {
+  //   defaultAttributes: {
+  //     decoding: 'async',
+  //     loading: 'lazy'
+  //   },
+  //   filenameFormat:  (id, src, width, format, options) => {
+  //     const extension = path.extname(src)
+  //     const name = path.basename(src, extension)
+  //     return `${name}-${width}w.${format}`
+  //   },
+  //   formats: ['jpeg'],
+  //   outputDir: '.',
+  //   urlPath: '/img/'
+  // })
 
   /**
    * Register a plugin to run linters on input templates
@@ -180,73 +288,6 @@ module.exports = function(eleventyConfig) {
    * Register plugin to run tranforms on build output
    */
   eleventyConfig.addPlugin(transformsPlugin, collections)
-
-  /**
-   * Use Vite to bundle JavaScript
-   * @see https://github.com/11ty/eleventy-plugin-vite
-   *
-   * Runs Vite as Middleware in the Eleventy Dev Server
-   * Runs Vite build to postprocess the Eleventy build output
-   */
-  eleventyConfig.addPlugin(EleventyVitePlugin, {
-    tempFolderName: '.11ty-vite',
-    viteOptions: {
-      publicDir: process.env.ELEVENTY_ENV === 'production'
-        ? publicDir
-        : false,
-      /**
-       * @see https://vitejs.dev/config/#build-options
-       */
-      root: outputDir,
-      build: {
-        assetsDir: '_assets',
-        emptyOutDir: process.env.ELEVENTY_ENV !== 'production',
-        manifest: true,
-        mode: 'production',
-        outDir: outputDir,
-        rollupOptions: {
-          output: {
-            assetFileNames: ({ name }) => {
-              const fullFilePathSegments = name.split('/').slice(0, -1)
-              let filePath = '_assets/';
-              ['_assets', 'node_modules'].forEach((assetDir) => {
-                if (name.includes(assetDir)) {
-                  filePath +=
-                    fullFilePathSegments
-                      .slice(fullFilePathSegments.indexOf(assetDir) + 1)
-                      .join('/') + '/'
-                }
-              })
-              return `${filePath}[name][extname]`
-            }
-          },
-          plugins: [
-            copy({
-              targets: [
-                { src: 'public/*', dest: '_site' }
-              ]
-            })
-          ]
-        },
-        sourcemap: true
-      },
-      /**
-       * Set to false to prevent Vite from clearing the terminal screen
-       * and have Vite logging messages rendered alongside Eleventy output.
-       */
-      clearScreen: false,
-      /**
-       * @see https://vitejs.dev/config/#server-host
-       */
-      server: {
-        hmr: {
-          overlay: false
-        },
-        middlewareMode: true,
-        mode: 'development'
-      }
-    }
-  })
 
   /**
    * Set eleventy dev server options
@@ -286,58 +327,12 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.watchIgnores.add('_pdf')
   eleventyConfig.watchIgnores.add('_temp')
 
-  return {
-    /**
-     * @see {@link https://www.11ty.dev/docs/config/#configuration-options}
-     */
-    dir: {
-      // ⚠️ input and output dirs are _relative_ to the `.eleventy.js` module
-      input: process.env.ELEVENTY_INPUT || inputDir,
-      output: process.env.ELEVENTY_OUTPUT || outputDir,
-      // ⚠️ the following directories are _relative_ to the `input` directory
-      data: process.env.ELEVENTY_DATA || '_computed',
-      includes: process.env.ELEVENTY_INCLUDES || path.join('..', '_includes'),
-      layouts: process.env.ELEVENTY_LAYOUTS || path.join('..', '_layouts'),
-    },
-    /**
-     * The default global template engine to pre-process HTML files.
-     * Use false to avoid pre-processing and passthrough copy the content (HTML is not transformed, so technically this could be any plaintext).
-     * @see {@link https://www.11ty.dev/docs/config/#default-template-engine-for-html-files}
-     */
-    htmlTemplateEngine: 'liquid',
-    /**
-     * Suffix for template and directory specific data files
-     * @example '.data' will search for `*.data.js` and `*.data.json` data files.
-     * @see {@link https://www.11ty.dev/docs/data-template-dir/ Template and Directory Specific Data Files}
-     */
-    jsDataFileSuffix: '.data',
-    /**
-     * The default global template engine to pre-process markdown files.
-     * Use false to avoid pre-processing and only transform markdown.
-     * @see {@link https://www.11ty.dev/docs/config/#default-template-engine-for-markdown-files}
-     */
-    markdownTemplateEngine: 'liquid',
-    /**
-     * @see {@link https://www.11ty.dev/docs/config/#deploy-to-a-subdirectory-with-a-path-prefix}
-     */
-    pathPrefix: '/',
-    /**
-     * All of the following template formats support universal shortcodes.
-     *
-     * Nota bene:
-     * Markdown files are pre-processed as Liquid templates by default. This
-     * means that shortcodes available in Liquid templates are also available
-     * in Markdown files. Likewise, if you change the template engine for
-     * Markdown files, the shortcodes available for that templating language
-     * will also be available in Markdown files.
-     * @see {@link https://www.11ty.dev/docs/config/#template-formats}
-     */
-    templateFormats: [
-      '11ty.js', // JavaScript
-      'hbs',     // Handlebars
-      'liquid',  // Liquid
-      'md',      // Markdown
-      'njk',     // Nunjucks
-    ]
-  }
+  /**
+   * Suffix for template and directory specific data files
+   * @example '.data' will search for `*.data.js` and `*.data.json` data files
+   * @see https://www.11ty.dev/docs/config/#change-base-file-name-for-data-files
+   * @see https://www.11ty.dev/docs/config/#change-file-suffix-for-data-files
+   */
+  eleventyConfig.setDataFileBaseName('index')
+  eleventyConfig.setDataFileSuffixes(['.data', ''])
 }

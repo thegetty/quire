@@ -1,10 +1,49 @@
-import Command from '#src/Command.js'
 import { paths, projectRoot  } from '#lib/11ty/index.js'
+import Command from '#src/Command.js'
 import fs from 'fs-extra'
 import libPdf from '#lib/pdf/index.js'
 import open from 'open'
 import path from 'node:path'
-// import testcwd from '#helpers/test-cwd.js'
+import yaml from 'js-yaml'
+
+/**
+ * @function loadConfig(path) - loads and validates quire config, returns an empty object if not found
+ *  
+ * @param {path} string - file path to config file
+ * 
+ * @return {Object|undefined} User configuration object or undefined
+ * 
+ * @todo consider hardcoding a version check against .quire / project's package.json ver
+ */
+async function loadConfig(configPath) {
+  if (!fs.existsSync(configPath)) {
+    return undefined
+  }
+
+  const data = fs.readFileSync(configPath)
+  let config = yaml.load(data)
+
+  // NB: Schemas and validators are specific to the 11ty version of the project being built
+  const schemaPath = path.join(projectRoot,'_plugins','schemas','config.json')
+  const validatorPath = path.join(projectRoot, '_plugins', 'globalData', 'validator.js')
+
+  if (fs.existsSync(schemaPath) && fs.existsSync(validatorPath)) {
+
+    const { validateUserConfig } = await import(validatorPath)
+  
+    const schemaJSON = fs.readFileSync(schemaPath)
+    const schema = JSON.parse(schemaJSON)
+
+    try {
+      config = validateUserConfig('config', config, { config: schema })
+    } catch (error) {
+      console.error(error)
+      process.exit(1)
+    }
+  }
+
+  return config
+}
 
 /**
  * Quire CLI `pdf` Command
@@ -41,22 +80,32 @@ export default class PDFCommand extends Command {
       console.debug('[CLI] Command \'%s\' called with options %o', this.name(), options)
     }
 
-    const input = path.join(projectRoot, paths.output, 'pdf.html')
+    const publicationInput = path.join(projectRoot, paths.output, 'pdf.html')
+    const coversInput = path.join(projectRoot, paths.output, 'pdf-covers.html')
 
-    if (!fs.existsSync(input)) {
-      console.error(`Unable to find PDF input at ${input}\nPlease first run the 'quire build' command.`)
-      return
+    const quireConfig = await loadConfig(path.join(projectRoot,'content','_data','config.yaml'))
+
+    if (quireConfig === undefined) {
+      console.error(`[quire pdf]: ERROR Unable to find a configuration file at ${path.join(projectRoot,'content','_data','config.yaml')}\nIs the command being run in a quire project?`)
+      process.exit(1)
     }
 
-    const output = path.join(projectRoot, `${options.lib}.pdf`)
+    if (!fs.existsSync(publicationInput)) {
+      console.error(`[quire pdf]: ERROR Unable to find PDF input at ${publicationInput}\nPlease first run the 'quire build' command.`)
+      process.exit(1)
+    }
 
-    const pdfLib = await libPdf(options.lib, { ...options.debug })
-    await pdfLib(input, output, { ...options.debug })
+    const output = quireConfig.pdf !== undefined
+      ? path.join(paths.output, quireConfig.pdf.outputDir, `${quireConfig.pdf.filename}.pdf`)
+      : path.join(projectRoot, `${options.lib}.pdf`)
+
+    const pdfLib = await libPdf(options.lib, { ...options, pdfConfig: quireConfig.pdf })
+    await pdfLib(publicationInput, coversInput, output)
 
     try {
       if (fs.existsSync(output) && options.open) open(output)
     } catch (error) {
-      console.error(error)
+      console.error(`[quire pdf]: ERROR`,error)
       process.exit(1)
     }
   }

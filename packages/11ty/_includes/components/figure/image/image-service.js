@@ -1,26 +1,27 @@
-const { html } = require('~lib/common-tags')
+import escape from 'html-escape'
+import { html } from '#lib/common-tags/index.js'
 
 /**
  * Image Service Web Component
  * @param      {Object} eleventyConfig  eleventy configuration
- * 
+ *
  * @param      {Object} params
  * @property   {String} figure
  * @return     {String}  An <image-service> element
  */
-module.exports = function(eleventyConfig) {
-  return function({
-    alt='',
-    height='',
+export default function (eleventyConfig) {
+  return function ({
+    alt = '',
+    height = '',
     info,
-    preset='responsive',
-    region='',
-    virtualSizes='',
-    width=''
+    preset = 'responsive',
+    region = '',
+    virtualSizes = '',
+    width = ''
   }) {
     return html`
       <image-service 
-        alt="${alt}"
+        alt="${escape(alt)}"
         class="q-figure__image"
         height="${height}"
         preset="${preset}"

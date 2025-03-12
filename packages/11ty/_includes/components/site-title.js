@@ -3,17 +3,17 @@
  * See also page/title.liquid
  *
  * @param  {Object} eleventyConfig
- * 
+ *
  * @return  {String} Site title
  */
-module.exports = function(eleventyConfig) {
+export default function (eleventyConfig) {
   const { publication } = eleventyConfig.globalData
   const { reading_line: readingLine, subtitle, title } = publication
-  return function() {
+  return function () {
     const separator = '!?'.includes(title.slice(-1)) ? '' : ':'
     let siteTitle = `${title}`
-    if (subtitle) siteTitle += `${separator}&#32;${subtitle}`
-    if (readingLine) siteTitle += `&#32;(${readingLine})`
+    if (subtitle) siteTitle += `${separator}\u0020${subtitle}`
+    if (readingLine) siteTitle += `\u0020(${readingLine})`
     return siteTitle
   }
 }

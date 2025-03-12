@@ -1,22 +1,24 @@
-const path = require('path')
+/* eslint-disable camelcase */
+import escape from 'html-escape'
+import path from 'node:path'
 
 /**
  * Renders <head> <meta> data tags for Twitter Cards
  *
  * @param      {Object}  eleventyConfig
  * @param      {Object}  globalData
- * 
+ *
  * @return     {String}  HTML meta and link elements
  */
-module.exports = function(eleventyConfig) {
+export default function (eleventyConfig) {
   const { config, publication } = eleventyConfig.globalData
   const { description, promo_image } = publication
   const { imageDir } = config.figures
 
-  return function({ abstract, cover, layout }) {
+  return function ({ abstract, cover, layout }) {
     const imagePath = () => {
       if (!publication.url) return
-      if (layout !== 'essay' ) {
+      if (layout !== 'essay') {
         return promo_image && path.join(imageDir, promo_image)
       } else {
         const image = cover || promo_image
@@ -50,9 +52,8 @@ module.exports = function(eleventyConfig) {
     ]
 
     const metaTags = meta.map(({ name, content }) => (
-      `<meta name="${name}" content="${content}">`
+      `<meta name="${name}" content="${escape(content)}">`
     ))
     return `${metaTags.join('\n')}`
   }
 }
-

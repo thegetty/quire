@@ -1,29 +1,33 @@
-const path = require('path')
+/* eslint-disable camelcase */
+
+import path from 'node:path'
 
 /**
  * Renders a JSON-LD representation of the page
  *
  * @param      {Object}  eleventyConfig
  * @param      {Object}  data
- * 
+ *
  * @return     {String}  An HTML script element with JSON-LD
  */
-module.exports = function(eleventyConfig) {
+export default function (eleventyConfig) {
   const { config, publication } = eleventyConfig.globalData
   const { imageDir } = config.figures
 
   return function ({ canonicalURL, page }) {
     const { abstract, contributor, cover, title } = page
-    const pageContributors = contributor ? contributor
-      .map((contributor, { id }) => {
-        contributor = id ? publication.contributor[id] : contributor
-        if (!contributor) return
-        const { full_name, first_name, last_name } = contributor
-        return {
-          type: 'Person',
-          name: full_name || `${first_name} ${last_name}`
-        }
-      }) : []
+    const pageContributors = contributor
+      ? contributor
+        .map((contributor, { id }) => {
+          contributor = id ? publication.contributor[id] : contributor
+          if (!contributor) return {}
+          const { full_name, first_name, last_name } = contributor
+          return {
+            type: 'Person',
+            name: full_name || `${first_name} ${last_name}`
+          }
+        })
+      : []
 
     const publicationContributors = publication.contributor
       .filter((contributor) => contributor.type === 'primary')
@@ -44,14 +48,14 @@ module.exports = function(eleventyConfig) {
     const Book = {
       type: 'Book',
       name: publication.title,
-      description: publicationDescription.replace(/\n/g,' '),
+      description: publicationDescription.replace(/\n/g, ' '),
       isbn: isbn && isbn.replace(/-/g, '')
     }
 
     const Periodical = {
       type: 'PublicationIssue',
-      name:  publication.title,
-      description: publicationDescription.replace(/\n/g,' '),
+      name: publication.title,
+      description: publicationDescription.replace(/\n/g, ' '),
       issueNumber: publication.series_issue_number,
       isPartOf: {
         type: 'Periodical',
@@ -63,7 +67,7 @@ module.exports = function(eleventyConfig) {
     // publication.pub_type === null
     const WebSite = {
       type: 'WebSite',
-      name: publication.title,
+      name: publication.title
     }
 
     const partOf = (type) => {
@@ -105,7 +109,7 @@ module.exports = function(eleventyConfig) {
     const Article = {
       '@type': 'Article',
       author: [...pageContributors],
-      description: abstract && abstract.replace(/\n/g,' '),
+      description: abstract && abstract.replace(/\n/g, ' '),
       headline: title,
       image: cover && path.join(imageDir, cover),
       partOf: {

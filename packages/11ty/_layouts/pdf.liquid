@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+  <head>
+    <!--
+    <meta charset="utf-8" />
+    <meta name="description" content="${description}">
+    <meta name="keywords" content="${keywords}">
+    <title>${pageTitle}</title>
+    <link rel="canonical" href="${canonicalURL}">
+    <link rel="version-history" href="${publication.repositoryUrl}">
+    -->
+    <link rel="stylesheet" href="pdf.css" />
+  </head>
+  <body>
+  {% comment %}
+  This template renders the `pages` property of the data passed to it. 
+  `pages` is an array of `section` elements from each PDF-having page in the publication.
+  {% endcomment %}
+
+  {% for page in pages %}
+    {% if forloop.first == true %}
+      {{ page.svgElements }}
+    {% endif %}
+    {{ page.sectionElement }}
+  {% endfor %}
+
+  </body>
+</html>
+
+
+

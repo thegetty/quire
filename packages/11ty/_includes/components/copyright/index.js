@@ -1,14 +1,14 @@
-const path = require('path')
-const { html } = require('~lib/common-tags')
+import { html } from '#lib/common-tags/index.js'
+import path from 'node:path'
 
 /**
  * Copyright info
  * @param  {Object} eleventyConfig
  * @param  {Object} data
- * 
+ *
  * @return {String}
  */
-module.exports = function(eleventyConfig) {
+export default function (eleventyConfig) {
   const { config, publication } = eleventyConfig.globalData
 
   const copyrightLicensing = eleventyConfig.getFilter('copyrightLicensing')
@@ -24,6 +24,7 @@ module.exports = function(eleventyConfig) {
 
     const publisherImages = publication.publisher.flatMap(({ logo, name }) => {
       const imagePath = logo && path.join(imageDir, logo)
+
       return imagePath
         ? [`<img src="${imagePath}" class="copyright__publisher-logo" alt="${name}" />`]
         : []

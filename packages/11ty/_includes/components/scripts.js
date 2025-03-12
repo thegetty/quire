@@ -1,4 +1,4 @@
-const { html } = require('~lib/common-tags')
+import { html } from '#lib/common-tags/index.js'
 
 /**
  * Generate HTML <script> tags for document head
@@ -9,7 +9,7 @@ const { html } = require('~lib/common-tags')
  * @param  {EleventyConfig} eleventyConfig
  * @return {String} HTML <script> tags
  */
-module.exports = function(eleventyConfig) {
+export default function (eleventyConfig) {
   return () => html`
     <script type="module" src="/_assets/javascript/application/index.js"></script>
   `

@@ -1,0 +1,24 @@
+---
+layout: base.11ty.js
+classes:
+  - objects-page
+---
+<template webc:nokeep>
+  <template @html="pageHeader(this.$data)" webc:nokeep></template>
+  <style @raw="getBundle('css')" webc:keep></style>
+  <section webc:if="content" class="objects-page-content section quire-page__content">
+    <div class="container">
+      <div class="content">
+        <template @html="content" webc:nokeep></template>
+        <template @html="bibliography(this.$citations)" webc:nokeep></template>
+      </div>
+    </div>
+  </section>
+  <objects-catalog></objects-catalog>
+  <template @html="pageButtons(this)" webc:nokeep></template>
+</template>
+<style>
+.objects-page-content {
+  margin-bottom: 2em;
+}
+</style>

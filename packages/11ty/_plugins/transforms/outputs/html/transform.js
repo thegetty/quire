@@ -1,14 +1,13 @@
-const filterOutputs = require('../filter.js')
-const path = require('path')
-const jsdom = require('jsdom')
-const registerWebComponents = require('./web-components')
-
-const { JSDOM } = jsdom
+import { JSDOM } from 'jsdom'
+import filterOutputs from '../filter.js'
+import path from 'node:path'
+import registerWebComponents from './web-components.js'
 
 /**
  * Content transforms for html output
  */
-module.exports = function(eleventyConfig, collections, content) {
+export default function (eleventyConfig, collections, content) {
+  const slugifyIds = eleventyConfig.getFilter('slugifyIds')
   /**
    * Remove pages excluded from this output type
    */
@@ -16,7 +15,7 @@ module.exports = function(eleventyConfig, collections, content) {
   const { ext } = path.parse(this.outputPath)
   content = pages.includes(this.outputPath) ? content : undefined
 
-  if (ext === '.html') {
+  if (content && ext === '.html') {
     const dom = new JSDOM(content)
     /**
      * Remove elements excluded from this output type
@@ -26,6 +25,7 @@ module.exports = function(eleventyConfig, collections, content) {
      * Add web component script tags to <head>
      */
     registerWebComponents(dom)
+    slugifyIds(dom.window.document)
     content = dom.serialize()
   }
 

@@ -1,7 +1,7 @@
-const chalkFactory = require('~lib/chalk')
-const fs = require('fs-extra')
-const path = require('path')
-const sharp = require('sharp')
+import chalkFactory from '#lib/chalk/index.js'
+import fs from 'fs-extra'
+import path from 'node:path'
+import sharp from 'sharp'
 
 const logger = chalkFactory('Figures:ImageTiler', 'DEBUG')
 
@@ -10,11 +10,11 @@ const logger = chalkFactory('Figures:ImageTiler', 'DEBUG')
  *
  * @class  Tiler
  */
-module.exports = class Tiler {
+export default class Tiler {
   /**
-   * @param  {Object} iiifConfig 
+   * @param  {Object} iiifConfig
    */
-  constructor(iiifConfig) {
+  constructor (iiifConfig) {
     this.baseURI = iiifConfig.baseURI
     this.formats = iiifConfig.formats
     this.outputRoot = iiifConfig.dirs.outputRoot
@@ -29,7 +29,7 @@ module.exports = class Tiler {
    * @param  {String} outputDir   Destination directory for the tiles
    * @return {Promise}
    */
-  tile(inputPath, outputDir) {
+  tile (inputPath, outputDir) {
     if (!inputPath) return
 
     const { ext, name } = path.parse(inputPath)

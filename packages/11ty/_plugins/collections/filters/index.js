@@ -1,13 +1,13 @@
-const epub = require('./epub')
-const html = require('./html')
-const menu = require('./menu')
-const navigation = require('./navigation')
-const pdf = require('./pdf')
-const tableOfContentsEpub = require('./table-of-contents-epub')
-const tableOfContentsHtml = require('./table-of-contents-html')
-const tableOfContentsPdf = require('./table-of-contents-pdf')
+import epub from './epub.js'
+import html from './html.js'
+import menu from './menu.js'
+import navigation from './navigation.js'
+import pdf from './pdf.js'
+import tableOfContentsEpub from './table-of-contents-epub.js'
+import tableOfContentsHtml from './table-of-contents-html.js'
+import tableOfContentsPdf from './table-of-contents-pdf.js'
 
-module.exports = {
+export default {
   epub,
   html,
   menu,

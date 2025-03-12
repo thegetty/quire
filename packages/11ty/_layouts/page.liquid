@@ -1,5 +1,6 @@
 ---
-class: quire-page
+classes:
+  - quire-page
 layout: base.11ty.js
 description: Single page default template
 ---
@@ -10,14 +11,17 @@ description: Single page default template
   label=label,
   pageContributors=pageContributors,
   subtitle=subtitle,
-  title=title
+  title=title,
+  page_pdf_output=page_pdf_output,
+  key=key,
+  outputs=outputs
 %}
 {% if content %}
 <section class="section quire-page__content">
   <div class="container">
     <div class="content">
       {{ content }}
-      {% bibliography pageReferences %}
+      {% bibliography citations outputs page_pdf_output %}
     </div>
   </div>
 </section>

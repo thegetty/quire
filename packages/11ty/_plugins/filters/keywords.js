@@ -1,4 +1,4 @@
-const chalkFactory = require('~lib/chalk')
+import chalkFactory from '#lib/chalk/index.js'
 
 const logger = chalkFactory('filters:keywords')
 
@@ -7,9 +7,9 @@ const logger = chalkFactory('filters:keywords')
  *
  * @return {Array} An array of keyword strings
  */
-module.exports = function(eleventyConfig, { publication }) {
+export default function (eleventyConfig, { publication }) {
   if (!publication.subject) {
-    logger.warn(`the 'subject' key is not defined in the 'publication' data file`)
+    logger.warn('the \'subject\' key is not defined in the \'publication\' data file')
     return ''
   }
 

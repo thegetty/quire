@@ -1,4 +1,4 @@
-const { html } = require('~lib/common-tags')
+import { html } from '#lib/common-tags/index.js'
 
 /**
  * Modal Tag
@@ -6,17 +6,19 @@ const { html } = require('~lib/common-tags')
  * @param      {Object}  eleventyConfig
  * @param      {Object}  globalData
  */
-module.exports = function (eleventyConfig, { page }) {
-  const lightboxSlides = eleventyConfig.getFilter('lightboxSlides')
+export default function (eleventyConfig) {
+  const lightboxStyles = eleventyConfig.getFilter('lightboxStyles')
   const lightboxUI = eleventyConfig.getFilter('lightboxUI')
+  const lightboxData = eleventyConfig.getFilter('lightboxData')
 
-  return async function (figures=page.figures) {
+  return async function (figures) {
     if (!figures) return
 
     return html`
       <q-modal>
         <q-lightbox>
-          ${await lightboxSlides(figures)}
+          ${lightboxStyles()}
+          ${await lightboxData(figures)}
           ${lightboxUI(figures)}
         </q-lightbox>
         <button

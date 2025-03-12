@@ -1,5 +1,6 @@
-const { html } = require('~lib/common-tags')
-const path = require('path')
+import escape from 'html-escape'
+import { html } from '#lib/common-tags/index.js'
+import path from 'node:path'
 
 /**
  * Contributor bio subcomponent
@@ -11,9 +12,8 @@ const path = require('path')
  *
  * @return {String} contributor markup
  */
-module.exports = function (eleventyConfig) {
+export default function (eleventyConfig) {
   const fullname = eleventyConfig.getFilter('fullname')
-  const getContributor = eleventyConfig.getFilter('getContributor')
   const icon = eleventyConfig.getFilter('icon')
   const link = eleventyConfig.getFilter('link')
   const markdownify = eleventyConfig.getFilter('markdownify')
@@ -30,18 +30,18 @@ module.exports = function (eleventyConfig) {
    * @property {String} URL Contributor URL
    */
   return function (params) {
-    const { bio, id, image, pages=[], url } = params
+    const { bio, image, pages = [], url } = params
 
     const name = fullname(params)
 
     const contributorLink = url
-      ? link({ classes: ['quire-contributor__url'], name: icon({ type: 'link', description:'' }), url })
+      ? link({ classes: ['quire-contributor__url'], name: icon({ type: 'link', description: '' }), url })
       : ''
 
     const contributorImage = image
       ? html`
           <div class="media-left">
-            <img class="image quire-contributor__pic" src="${path.join(config.figures.imageDir, image)}" alt="Picture of ${name}">
+            <img class="image quire-contributor__pic" src="${path.join(config.figures.imageDir, image)}" alt="Picture of ${escape(name)}">
           </div>
       `
       : ''

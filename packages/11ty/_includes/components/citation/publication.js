@@ -1,10 +1,10 @@
 /**
  * Adapts Quire publication data to the CSL-JSON 'book' type
  * https://docs.citationstyles.org/en/stable/specification.html
- * 
+ *
  * @return {Object}                CSL-JSON book
  */
-module.exports = function (eleventyConfig) {
+export default function (eleventyConfig) {
   const citeName = eleventyConfig.getFilter('citeName')
   const citePublicationSeries = eleventyConfig.getFilter('citePublicationSeries')
   const siteTitle = eleventyConfig.getFilter('siteTitle')
@@ -19,7 +19,7 @@ module.exports = function (eleventyConfig) {
   const { url } = eleventyConfig.globalData.publication
 
   return function (params) {
-    let { context } = params
+    const { context } = params
 
     return {
       id: context,
@@ -31,7 +31,7 @@ module.exports = function (eleventyConfig) {
         .filter(({ role }) => role === 'editor')
         .map(citeName),
       issued: pubDate && {
-        'date-parts': [[new Date(pubDate).getFullYear()]],
+        'date-parts': [[new Date(pubDate).getFullYear()]]
       },
       publisher: publishers[0].name,
       'publisher-place': publishers[0].location,

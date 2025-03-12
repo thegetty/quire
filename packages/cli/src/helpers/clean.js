@@ -1,3 +1,7 @@
+/**
+ * A helper module for cleaning quire outputs
+ * @module clean
+ */
 import { deleteAsync } from 'del'
 import path from 'node:path'
 
@@ -9,6 +13,7 @@ import path from 'node:path'
  */
 export async function clean (projectRoot, paths, options = {}) {
   const pathsToClean = [
+    path.join(projectRoot, '.11ty-vite'),
     path.join(projectRoot, paths.epub),
     path.join(projectRoot, paths.output),
     path.join(projectRoot, '*.epub'),

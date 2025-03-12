@@ -1,6 +1,6 @@
-const chalkFactory = require('~lib/chalk')
-const FigureFactory = require('./figure/factory')
-const iiifConfig = require('./iiif/config')
+import FigureFactory from './figure/factory.js'
+import chalkFactory from '#lib/chalk/index.js'
+import iiifConfig from './iiif/config.js'
 
 const logger = chalkFactory('Figures', 'DEBUG')
 
@@ -9,15 +9,18 @@ const logger = chalkFactory('Figures', 'DEBUG')
  * Uses the FigureFactory to create Figure instances
  * for all figures in `figures.yaml` and updates global data
  */
-module.exports = function (eleventyConfig, options = {}) {
-  const figureFactory = new FigureFactory(iiifConfig(eleventyConfig))
-
+export default function (eleventyConfig, options = {}) {
   eleventyConfig.on('eleventy.before', async () => {
+    const config = iiifConfig(eleventyConfig)
+    const figureFactory = new FigureFactory(config)
+
     const { figure_list: figureList } = eleventyConfig.globalData.figures
 
-    const figures = await Promise.all(figureList.map((data) => {
-      return figureFactory.create(data)
-    }))
+    const figures = await Promise.all(
+      figureList.map((data) => {
+        return figureFactory.create(data)
+      })
+    )
     const errors = figureList.filter(({ errors }) => errors && !!errors.length)
 
     if (errors.length) {
@@ -31,9 +34,17 @@ module.exports = function (eleventyConfig, options = {}) {
     }
 
     /**
+     * Add IIIFConfig to global data
+     */
+    eleventyConfig.globalData.iiifConfig = config
+
+    /**
      * Update global figures data to only have properties for Quire shortcodes
      */
-    Object.assign(figureList, figures.map(({ figure }) => figure.adapter()))
+    Object.assign(
+      figureList,
+      figures.map(({ figure }) => figure.adapter())
+    )
     logger.info('Processing complete')
   })
 }

@@ -3,6 +3,6 @@
  * @param      {Object}  data    JSON data to pretty print
  * @return     {String}  A formatted JSON string
  */
-module.exports = function(data) {
+export default function (data) {
   return `<pre><code>${JSON.stringify(data, null, 2)}</code></pre>`
 }

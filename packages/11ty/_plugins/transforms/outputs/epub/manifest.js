@@ -1,16 +1,20 @@
-const chalkFactory = require('~lib/chalk')
-const path = require('path')
+/* eslint-disable camelcase */
+
+import chalkFactory from '#lib/chalk/index.js'
+import path from 'node:path'
 
 const logger = chalkFactory('_plugins:epub:manifest')
 
 /**
  * Returns publication.yaml data as JSON for the EPUB generation library
- * 
+ *
  * @param  {Object} publication
  * @return {Object}
  */
-module.exports = (eleventyConfig) => {
+export default (eleventyConfig) => {
   const removeHTML = eleventyConfig.getFilter('removeHTML')
+  const sortByKeys = eleventyConfig.getFilter('sortByKeys')
+
   const { assets, readingOrder } = eleventyConfig.globalData.epub
 
   const {
@@ -27,7 +31,6 @@ module.exports = (eleventyConfig) => {
     title
   } = eleventyConfig.globalData.publication
   const { epub, figures: { imageDir } } = eleventyConfig.globalData.config
-  const { url } = eleventyConfig.globalData.publication
 
   /**
    * Contributor name, filtered by type
@@ -39,7 +42,7 @@ module.exports = (eleventyConfig) => {
     return contributors.map(({ first_name, full_name, last_name, role }) => {
       const name = full_name || `${first_name} ${last_name}`
       const item = {
-        name: name,
+        name,
         role: `${role || 'aut'}`
       }
 
@@ -54,7 +57,7 @@ module.exports = (eleventyConfig) => {
   const cover = () => {
     const image = promoImage || epub.defaultCoverImage
     if (!image) {
-      logger.error(`Epub requires a cover image defined in publication.promo_image or config.epub.defaultCoverImage.`)
+      logger.error('Epub requires a cover image defined in publication.promo_image or config.epub.defaultCoverImage.')
       return
     }
     return path.join(imageDir, image).replace(/^\//, '')
@@ -77,40 +80,76 @@ module.exports = (eleventyConfig) => {
    * @returns {Array} Paths to stylesheets
    */
   const stylesheets = () => {
-    return [path.join('css', 'epub.css')]
+    return [path.join('_assets', 'epub.css')]
   }
 
   /**
    * Publication title, subtitle, and reading line
    */
   const pubTitle = () => {
-    if (subtitle && readingLine) {
-      return `${title}: ${subtitle} ${readingLine}`
-    } else if (subtitle) {
-      return `${title}: ${subtitle}`
+    const separator = title.match(/[.,:!?]$/) ? '' : ':'
+    switch (true) {
+      case !!subtitle && !!readingLine:
+        return `${title}${separator} ${subtitle} ${readingLine}`
+      case !!readingLine:
+        return `${title} (${readingLine})`
+      case !!subtitle:
+        return `${title}${separator} ${subtitle}`
+      default:
+        return title
     }
   }
+
+  /**
+   * Collect resources for the publication
+   */
+  const resources = []
+  for (const url of stylesheets()) {
+    resources.push({
+      url,
+      encodingFormat: 'text/css'
+    })
+  }
+
+  const coverUrl = cover()
+  resources.push({
+    url: coverUrl,
+    rel: 'cover-image'
+  })
+  for (const asset of assets) {
+    const item = { url: asset }
+    resources.push(item)
+  }
+
+  const { full, one_line: oneLine } = description
+  const publicationDescription = full
+    ? removeHTML(full).replace(/\r?\n|\r/g, ' ')
+    : oneLine
+
+  /**
+   * Strip milliseconds from ISO date string (`.sss`)
+   */
+  const pubDateWithoutMs = pubDate
+    .toISOString()
+    .replace(/\.\d{3}/, '')
 
   return {
     '@context': [
       'https://schema.org',
       'https://www.w3.org/ns/pub-context'
     ],
-    // css: stylesheets(),
     conformsTo: 'https://www.w3.org/TR/pub-manifest/',
     contributors: contributors('secondary'),
-    cover: cover(),
     creators: contributors('primary'),
-    date: pubDate,
-    description: removeHTML(description.full).replace(/\r?\n|\r/g, ' '),
+    dateModified: pubDateWithoutMs,
+    description: publicationDescription,
     id: isbn,
     languages: language,
     publisher: publisherNameAndLocations(),
-    readingOrder: readingOrder.sort(),
-    resources: assets,
+    readingOrder: readingOrder.sort(sortByKeys(['url'])),
+    resources,
     rights: copyright,
     title: pubTitle(),
-    type: 'Book',
-    url
+    type: 'Book'
   }
 }

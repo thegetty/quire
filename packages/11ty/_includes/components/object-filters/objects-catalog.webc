@@ -1,0 +1,482 @@
+<template webc:nokeep>
+  <objects-data :@objects="objects"></objects-data>
+  <section class="object-filters" data-outputs-exclude="epub,pdf">
+    <input class="collapsible__checkbox" type="checkbox" id="collapsible-checkbox" />
+    <label for="collapsible-checkbox" class="collapsible__toggle"></label>
+    <div class="collapsible__panel">
+      <object-filters :@objects="objects"></object-filters>
+    </div>
+    <div class="collapsible__controls">
+      <div webc:if="hasFilters($data)" class="object-filters__controls">
+        <button class="object-filters__button object-filters__button--primary" data-control-apply>Apply Filters</button>
+        <button class
+="object-filters__button" data-control-reset>Reset</button>
+      </div>
+    </div>
+  </section>
+  <section class="object-cards">
+    <object-cards-list :@objects="objects"></object-cards-list>
+  </section>
+</template>
+<script webc:setup>
+const { filePathStem } = this.page;
+const currentDir = filePathStem
+  .split('/')
+  .filter((item) => item)
+  .slice(0, -1)
+  .join('/');
+const collection = this.collections.tableOfContentsHtml;
+const getCurrentDirIndexPage = (navigation) => {
+  return navigation.reduce((indexPage, item) => {
+    const { children, key } = item;
+    if (!indexPage) {
+      indexPage = key === currentDir
+        ? item
+        : getCurrentDirIndexPage(children);
+    }
+    return indexPage;
+  }, null);
+};
+
+// We want to recursively find the current directory index page in the navigation array
+const currentDirIndexPage = getCurrentDirIndexPage(this.eleventyNavigation(collection));
+
+// 1. we want to get the current directory's index page's children.
+// 2. of the children, all pages that have an `object` key in their `data` are relevant
+// 3. page objects can either have an id referencing an object in objects.yaml, or the full object data in front matter
+// 4. if the current page has children, it is an index page; return to step 1 to retrieve all objects in the new current directory
+
+let objects = [];
+
+const addObject = ({ children, data, url }) => {
+  if (children && children.length) {
+    children.forEach(addObject);
+  }
+  /**
+   * Renaming `object` to the pluralized `pageObjects` to clarify that we want
+   * ALL objects listed in front matter (even if the page only currently renders
+   * the first one), and so we can more clearly refer to individual objects
+   */
+  const { object: pageObjects, order } = data;
+  if (!pageObjects) return;
+
+  pageObjects.forEach((object) => {
+    const objectData = object.id ? this.getObject(object.id) : object;
+    /**
+     * Providing a fallback ID in case objects are defined in front matter without them
+     */
+    const id = !objectData.id ? `object-${objects.length}` : objectData.id;
+
+    const objectAlreadyAdded = objects.some((object) => object.id === id);
+    if (!objectAlreadyAdded) {
+      objects.push({ id, order, objectData, url });
+    }
+  });
+};
+
+currentDirIndexPage.children.forEach(addObject);
+const sortByOrderKey = (a, b) => {
+  if (!a.order || !b.order) return 0;
+  return a.order > b.order ? 1 : -1;
+};
+objects = objects.sort(sortByOrderKey);
+
+const hasFilters = ($data) => {
+  return $data.object_filters !== false && $data.objects.object_filters !== false;
+}
+</script>
+<script webc:keep type="text/javascript">
+window.customElements.define('objects-catalog', class extends HTMLElement {
+  constructor() {
+    super();
+    this._selectedFilters = {};
+    this._appliedFilters = {};
+    this._filteredObjects = this.objects;
+  }
+
+  connectedCallback() {
+    this.init();
+  }
+
+  /**
+   * Filters that are currently selected but not applied
+   */
+  get selectedFilters() {
+    return this._selectedFilters;
+  }
+  set selectedFilters(filters) {
+    this._selectedFilters = filters;
+  }
+
+  /**
+   * Filters that are currently applied
+   */
+  get appliedFilters() {
+    return this._appliedFilters;
+  }
+  set appliedFilters(filters) {
+    this._appliedFilters = filters;
+  }
+
+  /**
+   * The "Apply Filters" button HTML element
+   */
+  get applyButton() {
+    return this.querySelector('[data-control-apply]');
+  }
+
+  /**
+   * Objects filtered through currently applied filters
+   */
+  get filteredObjects() {
+    return this._filteredObjects;
+  }
+  set filteredObjects(objects) {
+    this._filteredObjects = objects;
+  }
+
+  /**
+   * All filter `<select>` HTML elements
+   */
+  get filterSelectElements() {
+    return this.querySelectorAll('[data-control-filter]');
+  }
+
+  /**
+   * All Object data from an embedded `<script type="application/json">`
+   */
+  get objects() {
+    const element = this.querySelector('[data-objects]');
+    if (!element) return [];
+    return JSON.parse(element.textContent);
+  }
+
+  /**
+   * All object card HTML elements (hidden or otherwise)
+   */
+  get objectCards() {
+    return this.querySelectorAll('[data-object-id]');
+  }
+
+  /**
+   * The "Reset" button HTML element
+   */
+  get resetButton() {
+    return this.querySelector('[data-control-reset]');
+  }
+
+  /**
+   * Returns a new liste of filtered objects based on the current applied filters
+   */
+  filterObjects() {
+    this.filteredObjects = this.objects.filter(({ objectData }) => {
+      return Object.entries(this.appliedFilters).every(([key, value]) => {
+        if (!value) return true;
+        if (!objectData[key]) return false;
+        return !Array.isArray(objectData[key])
+          ? objectData[key].toString() === this.appliedFilters[key]
+          : objectData[key].includes(this.appliedFilters[key]);
+      });
+    });
+    this.updateUI();
+  }
+
+  /**
+   * Hide an HTML element with CSS `display: none` declaration
+   */
+  hideElement(element) {
+    element.style.display = 'none';
+  }
+
+  /**
+   * Setup element event handlers
+   */
+  init() {
+    this.filterSelectElements.forEach((element) => {
+      element.addEventListener('change', this.onFilterChange);
+    });
+    this.applyButton.addEventListener('click', this.onApplyFilters);
+    this.resetButton.addEventListener('click', this.onResetFilters);
+    if (window.location.search) {
+      const searchParams = new URLSearchParams(window.location.search);
+      for (const [key, value] of searchParams.entries()) {
+        const decodedValue = decodeURIComponent(value);
+        this.appliedFilters[key] = decodedValue;
+        this.filterSelectElements.forEach((element) => {
+          if (element.dataset.controlName === key) {
+            element.querySelector(`option[value="${decodedValue}"]`).selected = true;
+          }
+        })
+      }
+      this.filterObjects();
+    }
+  }
+
+  /**
+   * onClick "Apply Filters" button
+   */
+  onApplyFilters = () => {
+    Object.keys(this.selectedFilters).forEach((key) => {
+      this.appliedFilters[key] = this.selectedFilters[key];
+      delete this.selectedFilters[key];
+    });
+    this.filterObjects()
+    this.updateSearchParams();
+  }
+
+  /**
+   * onChange filter `<select>` element
+   */
+  onFilterChange = ({ target }) => {
+    const { dataset, value } = target;
+    this.selectedFilters[dataset.controlName] = value;
+
+    // gets a combined count of all selected and applied filters where `value` is truthy (`value !== ''`)
+    const filtersCount =
+      Object
+        .entries({ ...this.appliedFilters, ...this.selectedFilters })
+        .filter(([key, value]) => {
+          return value;
+        })
+        .length;
+
+    this.applyButton.classList.add('object-filters__button--active');
+    this.applyButton.innerText = `Apply ${filtersCount === 0 ? '' : filtersCount + ' '}Filter${filtersCount === 0 || filtersCount > 1 ? 's' : ''}`;
+  }
+
+  /**
+   * onClick "Reset" button
+   * Reset everything back to default state
+   */
+  onResetFilters = () => {
+    this.selectedFilters = {};
+    this.appliedFilters = {};
+    this.filteredObjects = this.objects;
+    this.resetUI();
+  }
+
+  /**
+   * Show an HTML element previously hidden with CSS `display: none` declaration
+   */
+  showElement(element) {
+    element.style.removeProperty('display');
+  }
+
+  /**
+   * Hide all object that aren't in the current list of `filteredObjects`
+   */
+  renderFilteredObjects = () => {
+    const filteredObjectIds = this.filteredObjects.map(({ id }) => id.toString());
+    this.objectCards.forEach((card) => {
+      if (filteredObjectIds.includes(card.dataset.objectId)) {
+        this.showElement(card);
+      } else {
+        this.hideElement(card);
+      }
+    });
+  }
+
+  /**
+   * Reset "Apply Filters" button to default state
+   */
+  resetApplyButton = () => {
+    this.applyButton.classList.remove('object-filters__button--active');
+    this.applyButton.innerText = 'Apply Filters';
+  }
+
+  /**
+   * For every `<select>` element, select the option with `value=""`
+   */
+  resetSelectElements = () => {
+    this.filterSelectElements.forEach((selectElement) => {
+      selectElement.querySelector('option[value=""]').selected = true;
+    });
+  }
+
+  /**
+   * Reset changes to DOM
+   */
+  resetUI = () => {
+    this.resetSelectElements();
+    this.resetApplyButton();
+    this.objectCards.forEach(this.showElement);
+    this.updateSearchParams();
+  }
+
+  /**
+   * onApplyFilters update query parameters
+   */
+  updateSearchParams = () => {
+    const url = new URL(window.location.pathname, window.location.origin)
+    url.search = new URLSearchParams(
+      Object.entries(this.appliedFilters).reduce((params, [key, value]) => {
+        params[key] = encodeURIComponent(value)
+        return params;
+      }, {})
+    ).toString();
+    history.replaceState({}, '', url.toString());
+  }
+
+  /**
+   * onApplyFilters update DOM
+   */
+  updateUI = () => {
+    this.resetApplyButton();
+    this.renderFilteredObjects();
+  }
+});
+
+/**
+ * @TODO pass 'collapsible/sticky' through as props. This is leftover from Object Filters UI Demo
+ */
+const classes = [
+  // 'collapsible',
+  // 'sticky'
+];
+window.addEventListener('load', () => {
+  const element = document.querySelector('.object-filters');
+  element.classList.add(...classes);
+});
+</script>
+<style>
+section.object-cards {
+  margin: 1rem;
+}
+
+.collapsible {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.collapsible__checkbox {
+  display: none;
+}
+
+.collapsible__toggle {
+  height: 1em;
+  order: 2;
+}
+
+.collapsible .collapsible__toggle {
+  position: relative;
+  left: 50%;
+  background: linear-gradient(0deg, rgba(238,242,243,1) 0%, rgba(238,242,243,1) 33%, rgba(238,242,243,0) 100%);
+  height: 2em;
+  width: 100%;
+  z-index: 1;
+  bottom: 0;
+  transition: bottom .3s ease-in-out;
+  cursor: pointer;
+}
+
+.collapsible .collapsible__checkbox:not(:checked) ~ .collapsible__toggle {
+  transform: translate(-50%, -100%);
+  margin-bottom: -1em;
+}
+
+.collapsible .collapsible__checkbox:checked ~ .collapsible__toggle {
+  transform: translate(-50%, -0%);
+  margin-bottom: 1em;
+}
+
+.collapsible .collapsible__checkbox:not(:checked) ~ .collapsible__toggle:hover {
+  bottom: -0.4em;
+}
+
+.collapsible .collapsible__checkbox:checked ~ .collapsible__toggle:hover {
+  bottom: 0.4em;
+}
+
+.collapsible .collapsible__toggle::before {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  display: inline-block;
+  background: #d0dbde;
+  padding: 0.2em 0.5em;
+  border-radius: 2px;
+  color: rgb(51, 51, 51);
+  font-size: 75%;
+  transform: translate(-50%, 0);
+  transition-property: background color;
+  transition-duration: 0.4s;
+  transition-timing-function: ease-in-out;
+}
+
+.collapsible .collapsible__toggle:hover::before {
+  background: rgb(51, 51, 51);
+  color: white;
+}
+
+.collapsible .collapsible__checkbox:not(:checked) ~ .collapsible__toggle::before {
+  content: 'Show All Filters';
+}
+
+.collapsible .collapsible__checkbox:checked ~ .collapsible__toggle::before {
+  content: 'Hide Filters';
+}
+
+.collapsible .collapsible__toggle::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 100%);
+  display: inline-block;
+  border-left: 0.6em solid transparent;
+  border-right: 0.6em solid transparent;
+  transition-property: border-top-color border-bottom-color;
+  transition-duration: 0.4s;
+  transition-timing-function: ease-in-out;
+}
+
+.collapsible .collapsible__checkbox:not(:checked) ~ .collapsible__toggle::after {
+  bottom: 0;
+  border-top: 0.3em solid #d0dbde;
+}
+
+.collapsible .collapsible__checkbox:not(:checked) ~ .collapsible__toggle:hover::after {
+  border-top-color: rgb(51, 51, 51);
+}
+
+.collapsible .collapsible__checkbox:checked ~ .collapsible__toggle::after {
+  top: 0;
+  border-bottom: 0.3em solid #d0dbde;
+}
+
+.collapsible .collapsible__checkbox:checked ~ .collapsible__toggle:hover::after {
+  border-bottom-color: rgb(51, 51, 51);
+}
+
+.collapsible__panel {
+  display: flex;
+  flex-direction: column;
+  order: 1;
+}
+
+.collapsible .collapsible__checkbox:not(:checked) ~ .collapsible__panel {
+  height: 12.5em;
+}
+
+.collapsible__controls {
+  order: 3;
+}
+
+.collapsible .collapsible__panel {
+  overflow: hidden;
+}
+
+.collapsible .collapsible__checkbox:checked ~ .collapsible__panel {
+  height: unset;
+}
+
+@media screen and (min-width: 500px) {
+  .collapsible .collapsible__checkbox:not(:checked) ~ .collapsible__panel {
+    height: 8.4em;
+  }
+}
+
+@media print {
+  .object-cards: margin: 0;
+}
+</style>

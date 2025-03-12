@@ -1,3 +1,7 @@
+/**
+ * A helper module to test if a path is an empty directory
+ * @module is-empty
+ */
 import fs from 'node:fs'
 
 /**

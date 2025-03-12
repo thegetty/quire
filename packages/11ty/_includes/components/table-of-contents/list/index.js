@@ -1,5 +1,4 @@
-const path = require('path')
-const { html } = require('~lib/common-tags')
+import { html } from '#lib/common-tags/index.js'
 /**
  * Renders a TOC List
  *
@@ -11,11 +10,11 @@ const { html } = require('~lib/common-tags')
  *
  * @return {String} TOC list
  */
-module.exports = function(eleventyConfig) {
+export default function (eleventyConfig) {
   const eleventyNavigation = eleventyConfig.getFilter('eleventyNavigation')
   const tableOfContentsItem = eleventyConfig.getFilter('tableOfContentsItem')
 
-  return function(params) {
+  return function (params) {
     const { collection, currentPageUrl, key, presentation } = params
 
     const sectionNavigation = eleventyNavigation(collection, key)
@@ -40,16 +39,16 @@ module.exports = function(eleventyConfig) {
     const renderList = (pages) => {
       const otherPages = filterCurrentPage(pages)
       return html`
-        <ol class="toc-list">
+        <ol class="table-of-contents-list">
           ${otherPages.map(listItem)}
         </ol>
       `
     }
 
     return html`
-      <div class="menu-list">
+      <nav class="table-of-contents menu-list">
         ${renderList(navigation)}
-      </div>
+      </nav>
     `
   }
 }

@@ -1,29 +1,27 @@
-const addComponentTag = require('../../_plugins/components/addComponentTag')
-const annoref = require('./annoref')
-const backmatter = require('./backmatter')
-const bibliography = require('./bibliography')
-const cite = require('./cite')
-const contributors = require('./contributors')
-const figure = require('./figure')
-const figureGroup = require('./figureGroup')
-const ref = require('./figureRef')
-const shortcodeFactory = require('../../_plugins/components/addShortcode')
-const title = require('./title')
-const tombstone = require('./tombstone')
+import accordion from './accordion.js'
+import addComponentTag from '../../_plugins/components/addComponentTag.js'
+import backmatter from './backmatter.js'
+import bibliography from './bibliography.js'
+import cite from './cite.js'
+import contributors from './contributors.js'
+import figure from './figure.js'
+import figureGroup from './figureGroup.js'
+import ref from './ref.js'
+import shortcodeFactory from '../components/shortcodeFactory.js'
+import title from './title.js'
+import tombstone from './tombstone.js'
 
-module.exports = function(eleventyConfig, collections, options) {
-  const addShortcode = shortcodeFactory(eleventyConfig, collections)
+export default function (eleventyConfig, collections, options) {
+  const { addShortcode, addPairedShortcode } = shortcodeFactory(eleventyConfig, collections)
 
-  addComponentTag(eleventyConfig, 'annoref', annoref)
-  eleventyConfig.addPairedShortcode('backmatter', function(content, ...args) {
-    return backmatter(eleventyConfig)(content, ...args)
-  })
+  addPairedShortcode('accordion', accordion)
+  addComponentTag(eleventyConfig, 'ref', ref)
+  addPairedShortcode('backmatter', backmatter)
   addShortcode('bibliography', bibliography)
   addShortcode('cite', cite)
   addComponentTag(eleventyConfig, 'contributors', contributors)
   addShortcode('figure', figure)
   addShortcode('figuregroup', figureGroup)
-  addShortcode('ref', ref)
   addShortcode('title', title)
   addShortcode('tombstone', tombstone)
 }

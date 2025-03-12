@@ -1,4 +1,4 @@
-module.exports = function(eleventyConfig, options) {
+export default function (eleventyConfig, options) {
   eleventyConfig.setFrontMatterParsingOptions({
 
   })

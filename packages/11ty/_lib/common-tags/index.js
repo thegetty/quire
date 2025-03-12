@@ -1,14 +1,13 @@
-const commonTags = require('common-tags')
-const { createTag, stripIndents } = commonTags
+import { createTag, stripIndents } from 'common-tags'
 
-module.exports = {
-  ...commonTags,
-  renderOneLine: createTag({
-    onString(string) {
-      return stripIndents(string)
-    },
-    onEndResult(string) {
-      return string.replace(/\n/g, '')
-    }
-  })
-}
+const renderOneLine = createTag({
+  onString (string) {
+    return stripIndents(string)
+  },
+  onEndResult (string) {
+    return string.replace(/\n/g, '')
+  }
+})
+
+export * from 'common-tags'
+export { renderOneLine }

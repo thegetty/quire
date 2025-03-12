@@ -1,0 +1,17 @@
+{
+  "id": "rotating",
+  "zoom": false,
+  "label": "Figure 4",
+  "caption": "Head of a Woman, 350–300 B.C., Unknown (Greek (Sicilian)). Terracotta with white slip and polychromy (pink, red, dark pink, white, purple), 28.8 × 19.1 × 15.1 cm (11 5/16 × 7 1/2 × 5 15/16 in.).",
+  "credit": "The J. Paul Getty Museum, Villa Collection, Malibu, California, Gift of Dr. Max Gerchik, 76.AD.34",
+  "sequences": [
+    {
+      "id": "figures/terracotta/",
+      "behavior": [
+        "continuous",
+        "sequence"
+      ],
+      "start": "171.jpg"
+    }
+  ]
+}

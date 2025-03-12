@@ -2,7 +2,7 @@
  * markdown-it default options
  * @see {@link https://markdown-it.github.io/markdown-it/#MarkdownIt.new}
  */
-module.exports = {
+export default {
   /**
    * Set to `true` to convert '\n' in paragraphs into <br> tags.
    */
@@ -42,5 +42,5 @@ module.exports = {
    * Use '/' to close single tags, for example <br />
    * This is only for full CommonMark compatibility.
    */
-  xhtmlOut: false,
+  xhtmlOut: false
 }

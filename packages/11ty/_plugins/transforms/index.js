@@ -1,9 +1,5 @@
-const chalk = require('chalk')
-const fs = require('fs-extra')
-const path = require('path')
-
-const formatOutput = require('./format')
-const outputs = require('./outputs')
+import formatOutput from './format/index.js'
+import outputs from './outputs/index.js'
 
 /**
  * An Eleventy plugin to configure output transforms
@@ -11,7 +7,7 @@ const outputs = require('./outputs')
  * @param      {Object}  eleventyConfig  Eleventy configuration
  * @param      {Object}  collections  Eleventy collections
  */
-module.exports = function(eleventyConfig, collections) {
+export default function (eleventyConfig, collections) {
   /**
    * Registers a transform to format output using Prettier
    */
