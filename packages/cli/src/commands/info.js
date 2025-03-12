@@ -45,9 +45,9 @@ export default class InfoCommand extends Command {
     let versionInfo = { cli: '<=1.0.0.rc-7' }
 
     try {
-      const fileBytes = fs.readFileSync(versionFileName, { encoding: 'utf8' })
+      const versionFileData = fs.readFileSync(versionFileName, { encoding: 'utf8' })
 
-      versionInfo = JSON.parse(fileBytes)      
+      versionInfo = JSON.parse(versionFileData)      
     } catch (error) {
       console.warn(
         `This project was generated with the quire-cli prior to version 1.0.0.rc-8. Updating the version file to the new format, though this project's version file will not contain specific starter version information.`
