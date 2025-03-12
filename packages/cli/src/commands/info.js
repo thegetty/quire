@@ -40,17 +40,19 @@ export default class InfoCommand extends Command {
       console.debug('[CLI] Command \'%s\' called', this.name())
     }
 
+    // Load filename from config with a default constraint if it doesn't exist
     const versionFileName = this.config.get('versionFile')
+    let versionInfo = { cli: '<=1.0.0.rc-7' }
 
     try {
-      // the quire version file is always local to the project root
-      let fileData = fs.readFileSync(versionFileName, { encoding: 'utf8' })
-      versionInfo = JSON.parse(fileData)
+      const versionFileData = fs.readFileSync(versionFileName, { encoding: 'utf8' })
+
+      versionInfo = JSON.parse(versionFileData)      
     } catch (error) {
       console.warn(
         `This project was generated with the quire-cli prior to version 1.0.0.rc-8. Updating the version file to the new format, though this project's version file will not contain specific starter version information.`
       )
-      versionInfo = { cli: '<=1.0.0.rc-7' }
+
       fs.writeFileSync(versionFileName, JSON.stringify(versionInfo))
     }
 

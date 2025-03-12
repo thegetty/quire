@@ -12,6 +12,12 @@ Changelog entries are classified using the following labels:
 - `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
+## [1.0.0-rc.27]
+
+### Fixed
+
+- Fixed post-v3 `quire info` bug (DEV-19984)
+
 ## [1.0.0-rc.26]
 
 ### Changed
