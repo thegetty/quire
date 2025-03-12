@@ -163,8 +163,11 @@ export default async function (eleventyConfig) {
    * @see https://www.11ty.dev/docs/config-preprocessors/
    */
   const assetPathFragment = [inputDir, '_assets'].join(path.sep)
-  const ignoreAssetHTML = ({ page }, content) => 
-    (page.inputPath.includes(assetPathFragment)) ? false : content;
+  const ignoreAssetHTML = ({ page }, content) => {
+    if (page.inputPath.includes(assetPathFragment)) return false 
+    return content;
+  }
+  
   eleventyConfig.addPreprocessor('html-files', 'html', ignoreAssetHTML)
   
   /**
