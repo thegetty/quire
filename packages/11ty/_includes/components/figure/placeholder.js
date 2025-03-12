@@ -1,4 +1,4 @@
-import escape from 'escape'
+import escape from 'html-escape'
 import path from 'node:path'
 import { html } from '#lib/common-tags/index.js'
 
