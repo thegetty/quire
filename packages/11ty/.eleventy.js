@@ -158,6 +158,20 @@ export default async function (eleventyConfig) {
   })
 
   /**
+   * Register a preprocessor to ignore HTML files from the input asset directory.
+   * Preprocessors run on input templates before parsing.
+   *
+   * See https://www.11ty.dev/docs/config-preprocessors/
+   **/
+  const assetPathFrag = [inputDir, '_assets'].join(path.sep)
+  const ignoreAssetHTML = (data, content) => {
+    if (data.page.inputPath.includes(assetPathFrag)) return false
+
+    return content
+  }
+  eleventyConfig.addPreprocessor('html-files', 'html', ignoreAssetHTML)
+  
+  /**
    * Configure build output
    * @see https://www.11ty.dev/docs/plugins/directory-output/#directory-output
    */
