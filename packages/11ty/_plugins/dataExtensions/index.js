@@ -1,8 +1,8 @@
-// const camelize = require('camelize')
-const exifr = require('exifr')
-const json5 = require('json5')
-const toml = require('toml')
-const yaml = require('js-yaml')
+// import camelize from 'camelize'
+import exifr from 'exifr'
+import json5 from 'json5'
+import toml from 'toml'
+import yaml from 'js-yaml'
 
 /**
  * Custom data formats
@@ -24,7 +24,7 @@ const yaml = require('js-yaml')
  * @property {String} [encoding='utf8'] - Node readFile encoding, use `null` to
  * create a `Buffer`
  */
-module.exports = function(eleventyConfig, options) {
+export default function (eleventyConfig, options) {
   /**
    * @see https://github.com/MikeKovarik/exifr#usage
    */

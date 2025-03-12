@@ -1,17 +1,17 @@
-const accordion = require('./accordion.js')
-const addComponentTag = require('../../_plugins/components/addComponentTag')
-const backmatter = require('./backmatter')
-const bibliography = require('./bibliography')
-const cite = require('./cite')
-const contributors = require('./contributors')
-const figure = require('./figure')
-const figureGroup = require('./figureGroup')
-const ref = require('./ref')
-const shortcodeFactory = require('../components/shortcodeFactory')
-const title = require('./title')
-const tombstone = require('./tombstone')
+import accordion from './accordion.js'
+import addComponentTag from '../../_plugins/components/addComponentTag.js'
+import backmatter from './backmatter.js'
+import bibliography from './bibliography.js'
+import cite from './cite.js'
+import contributors from './contributors.js'
+import figure from './figure.js'
+import figureGroup from './figureGroup.js'
+import ref from './ref.js'
+import shortcodeFactory from '../components/shortcodeFactory.js'
+import title from './title.js'
+import tombstone from './tombstone.js'
 
-module.exports = function(eleventyConfig, collections, options) {
+export default function (eleventyConfig, collections, options) {
   const { addShortcode, addPairedShortcode } = shortcodeFactory(eleventyConfig, collections)
 
   addPairedShortcode('accordion', accordion)

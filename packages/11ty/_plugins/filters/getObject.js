@@ -1,4 +1,4 @@
-const chalkFactory = require('~lib/chalk')
+import chalkFactory from '#lib/chalk/index.js'
 
 const logger = chalkFactory('filters:getObject')
 
@@ -8,7 +8,7 @@ const logger = chalkFactory('filters:getObject')
  * @param  {String} id             object id
  * @return {Object}                object
  */
-module.exports = function(eleventyConfig, id) {
+export default function (eleventyConfig, id) {
   const { objects } = eleventyConfig.globalData
   const object = objects.object_list.find((item) => item.id === id)
   if (!object) {

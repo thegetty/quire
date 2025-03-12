@@ -1,10 +1,11 @@
-const chalkFactory = require('~lib/chalk')
+import chalkFactory from '#lib/chalk/index.js'
 
+// eslint-disable-next-line no-unused-vars
 const logger = chalkFactory('Figure Media Embed URL')
 
-module.exports = function (eleventyConfig) {
+export default function (eleventyConfig) {
   const embedUrlByMediaType = {
-    soundcloud(mediaId) {
+    soundcloud (mediaId) {
       const baseUrl = 'https://w.soundcloud.com/player/'
       const embedUrl = new URL(baseUrl)
       const embedParams = new URLSearchParams({
@@ -25,13 +26,12 @@ module.exports = function (eleventyConfig) {
       })
       sourceUrl.search = `?${sourceParams.toString()}`
 
-
       return {
         embedUrl: embedUrl.href,
         sourceUrl: sourceUrl.href
       }
     },
-    vimeo(mediaId) {
+    vimeo (mediaId) {
       const baseUrl = 'https://player.vimeo.com/video/'
       const sourceBaseUrl = 'https://vimeo.com/'
       // Sample Vimeo id: 672853278/b3f8d29d53
@@ -42,7 +42,7 @@ module.exports = function (eleventyConfig) {
         sourceUrl: `${sourceBaseUrl}${mediaId}`
       }
     },
-    youtube(mediaId) {
+    youtube (mediaId) {
       const embedBaseUrl = 'https://www.youtube-nocookie.com/embed/'
       const sourceBaseUrl = 'https://youtu.be/'
       return {

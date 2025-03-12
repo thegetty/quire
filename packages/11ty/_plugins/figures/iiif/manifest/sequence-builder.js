@@ -1,22 +1,22 @@
-const path = require('path')
+import path from 'node:path'
 
-module.exports = class SequenceBuilder {
-  static create(manifestObject, data) {
+export default class SequenceBuilder {
+  static create (manifestObject, data) {
     const sequenceBuilder = new SequenceBuilder(data)
     return sequenceBuilder.createSequences(manifestObject)
   }
 
-  constructor({ figure, sequenceItems }) {
+  constructor ({ figure, sequenceItems }) {
     this.figure = figure
     this.sequences = figure.sequences
     this.sequenceItems = sequenceItems
   }
 
-  get items() {
+  get items () {
     return this.sequenceItems.map(this.createSequenceItem)
   }
 
-  createSequenceItem(sequenceItem) {
+  createSequenceItem (sequenceItem) {
     const { target } = sequenceItem
     return {
       id: target,
@@ -24,8 +24,8 @@ module.exports = class SequenceBuilder {
     }
   }
 
-  createSequence(sequence, index) {
-    const { figure, label, viewingDirection='left-to-right' } = sequence
+  createSequence (sequence, index) {
+    const { figure, label, viewingDirection = 'left-to-right' } = sequence
     const { iiifConfig, outputDir } = figure
     const { baseURI } = iiifConfig
     const items = this.items.slice(sequence.startIndex)
@@ -37,12 +37,12 @@ module.exports = class SequenceBuilder {
       viewingDirection
     }
     if (label) {
-      structure.label = { en: [ label ] }
+      structure.label = { en: [label] }
     }
     return structure
   }
 
-  createSequences(manifestObject) {
+  createSequences (manifestObject) {
     if (!this.sequences || !this.sequences.length) return manifestObject
     manifestObject.structures = []
     this.sequences.forEach((sequence, index) => {

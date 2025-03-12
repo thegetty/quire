@@ -1,13 +1,15 @@
+/* eslint-disable camelcase */
+import escape from 'html-escape'
 /**
  * Renders <head> <meta> data tags for Open Graph protocol data
  *
  * @param      {Object}  eleventyConfig
  * @param      {Object}  data
- * 
+ *
  * @return     {String}  HTML meta and link elements
  */
-module.exports = function(eleventyConfig) {
-  const { config, publication } = eleventyConfig.globalData
+export default function (eleventyConfig) {
+  const { publication } = eleventyConfig.globalData
 
   return function ({ page }) {
     const { description, identifier, promo_image, pub_date, pub_type, url } = publication
@@ -16,7 +18,7 @@ module.exports = function(eleventyConfig) {
     const meta = [
       {
         property: 'og:title',
-        content: pageType != 'essay' ? publication.title : page.title
+        content: pageType !== 'essay' ? publication.title : page.title
       },
       {
         property: 'og:url',
@@ -24,19 +26,19 @@ module.exports = function(eleventyConfig) {
       },
       {
         property: 'og:image',
-        content: pageType != 'essay'
+        content: pageType !== 'essay'
           ? promo_image
           : page.cover || promo_image
       },
       {
         property: 'og:description',
-        content: pageType != 'essay'
+        content: pageType !== 'essay'
           ? description.one_line || description.full
           : page.abstract || description.one_line || description.full
       }
     ]
 
-    if (pageType != 'essay' && pub_type === 'book') {
+    if (pageType !== 'essay' && pub_type === 'book') {
       meta.push({ property: 'og:type', content: 'book' })
       meta.push({
         property: 'og:book:isbn', content: identifier.isbn && identifier.isbn.replace(/-/g, '')
@@ -67,7 +69,7 @@ module.exports = function(eleventyConfig) {
     })
 
     const metaTags = meta.map(({ property, content }) => (
-      `<meta property="${property}" content="${content}">`
+      `<meta property="${property}" content="${escape(content)}">`
     ))
     return `${metaTags.join('\n')}`
   }

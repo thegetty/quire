@@ -1,5 +1,5 @@
 /**
- * 
+ *
  * Sort comparator using the keys in the ordered array
  * All keys will be sorted in the `sortOrder` passed unless a key specific order
  * is set in the SortKey item.
@@ -21,7 +21,7 @@
  *
  * @return  {Number}  Comparison 1, 0, -1
  */
-module.exports = (sortKeys = [], sortOrder = 'ascending') => {
+export default (sortKeys = [], sortOrder = 'ascending') => {
   if (!sortKeys.length) return
 
   if (!['ascending', 'descending'].includes(sortOrder)) {
@@ -33,7 +33,7 @@ module.exports = (sortKeys = [], sortOrder = 'ascending') => {
 
   /**
    * Helper to check if value is a valid date
-   * @param {Any} value 
+   * @param {Any} value
    * @returns {Boolean}
    */
   const isDate = (value) => {
@@ -50,6 +50,7 @@ module.exports = (sortKeys = [], sortOrder = 'ascending') => {
     const key = Array.isArray(item) ? item[0] : item.key || item
     const order = Array.isArray(item) ? item[1] : item.order || sortOrder
     array[index] = [key, order]
+    return {}
   })
 
   return (a, b) => {

@@ -5,18 +5,84 @@ All notable changes to the `quire-11ty` package will be documented in this file.
 The log format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 Changelog entries are classified using the following labels:
-
 - `Added`: for new features
-
 - `Bumped`: updated dependencies, only minor or higher will be listed
-
 - `Changed`: for changes in existing functionality
-
 - `Deprecated`: for once-stable features removed in upcoming releases
-
 - `Fixed`: for any bug fixes
-
 - `Removed`: for deprecated features removed in this release
+
+## [1.0.0-rc.23]
+
+### Bumped
+
+- Update `@11ty/eleventy` and `@11ty/eleventy-plugin-vite` to Eleventy v3
+
+### Breaking
+
+This release is updates the *major* version of `eleventy`, which requires using ECMAScript module (ESM) syntax for JavaScript code. Specifically, ESM `import` statements to use other modules and the `import.meta.url` property for a module's file path from within that module. For most Quire users this update should be transparent. For publications that have customized the quire code or import packages that are not already in the publication's package dependency tree changes may be needed to address ESM conformance to the custom modules.
+
+## [1.0.0-rc.22]
+
+### Changed
+
+- Patch `@11ty/eleventy-plugin-vite` 11ty/eleventy-plugin-vite/issues/22
+
+### Fixed
+
+- Windows EPERM error when running `quire build`, DEV-13837
+
+## [1.0.0-rc.21]
+
+### Fixed
+
+- `canvas-panel` components were not responding to `ref` tag regions in all cases (`DEV-19079`)
+- Video and Table figures were not repsonsive to `ref` tag behaviors (`DEV-18548`)
+- Rotate-to-index attribute transitions could underrun their buffer
+
+## [1.0.0-rc.20]
+
+### Changed
+
+- Refactor image-sequence preloadImages to accept an indices parameter of indices to preload and return the promise of all fetch responses
+- Adds an animationIndex property for managing animation when rotating
+
+### Fixed
+
+- image-sequence rotation to an index on load
+- display of the rotation call to action
+
+## [1.0.0-rc.19]
+
+### Changed
+
+- Performance improvments and refactoring for image sequences:
+  - Refactor `q-image-sequence` component to load a buffer of image bitmaps from the image URLs passed to it
+  - Refactor `q-image-sequence` to use encapsulated styles at the module level
+
+## [1.0.0-rc.18]
+
+### Changed
+
+- Performance improvements for images:
+  - Refactor `figure` subcomponent composition using named `slot` elements for data, ui, slides, and styles
+  - Refactor `lightbox` components to generate slides dynamically from JSON data
+  - Compiles `lightbox` styles and inserts them in the component's style slot at publication build-time
+  - Refactors `image-sequence` as a Lit web component: `q-image-sequence`
+
+## [1.0.0-rc.17]
+
+### Added
+
+- PDF creation for a single quire webpage and cover pages
+- PDF transform to template using `_layouts/pdf.liquid` (was: HTML string append)
+- Front-end markup for PDF download link
+
+### Bumped
+
+- sharp@0.32` which includes prebuilt binaries that contain patches for macOS 10.13+ support.
+
+## [1.0.0-rc.16]
 
 ## [1.0.0-rc.15]
 

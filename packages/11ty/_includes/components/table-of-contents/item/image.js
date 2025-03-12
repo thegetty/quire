@@ -1,5 +1,5 @@
-const { html } = require('~lib/common-tags')
-const path = require('path')
+import path from 'node:path'
+
 /**
  * Renders a TOC item image
  *
@@ -11,16 +11,15 @@ const path = require('path')
  *
  * @return {String} TOC image markup
  */
-module.exports = function(eleventyConfig) {
+export default function (eleventyConfig) {
   const { imageDir } = eleventyConfig.globalData.config.figures
-
   return function({ alt='', src='', isStatic=false }) {
     if (!imageDir || !src) return ''
     const imgPath = src.startsWith('http') || isStatic ? src : path.join(imageDir, src)
     return html`
       <div class="card-image">
         <figure class="image">
-          <img src="${ imgPath }" alt="${alt}" />
+          <img src="${imgPath}" alt="${alt}" />
         </figure>
       </div>
     `

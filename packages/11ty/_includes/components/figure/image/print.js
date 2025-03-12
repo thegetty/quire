@@ -1,5 +1,6 @@
-const { html } = require('~lib/common-tags')
-const path = require('path')
+import escape from 'html-escape'
+import { html } from '#lib/common-tags/index.js'
+import path from 'node:path'
 
 /**
  * Renders an image with a caption in print output
@@ -9,13 +10,13 @@ const path = require('path')
  *
  * @return     {String}  HTML containing an <img> element and a caption
  */
-module.exports = function(eleventyConfig) {
+export default function (eleventyConfig) {
   const figureCaption = eleventyConfig.getFilter('figureCaption')
   const figureLabel = eleventyConfig.getFilter('figureLabel')
 
   const { imageDir } = eleventyConfig.globalData.config.figures
 
-  return function(figure) {
+  return function (figure) {
     const { alt, caption, credit, id, label, src, staticInlineFigureImage } = figure
 
     if (!src && !staticInlineFigureImage) return ''
@@ -38,8 +39,9 @@ module.exports = function(eleventyConfig) {
         break
     }
 
+    // console.log(imageSrc)
     return html`
-      <img alt="${alt}" class="q-figure__image" src="${imageSrc}"/>
+      <img alt="${escape(alt)}" class="q-figure__image" src="${imageSrc}"/>
       ${figureCaption({ caption, content: labelElement, credit })}
     `
   }

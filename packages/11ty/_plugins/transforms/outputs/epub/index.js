@@ -1,11 +1,11 @@
-const fs = require('fs-extra')
-const manifestFactory = require('./manifest.js')
-const path = require('path')
-const sass = require('sass')
-const transform = require('./transform.js')
-const writer = require('./writer.js')
+import fs from 'fs-extra'
+import manifestFactory from './manifest.js'
+import path from 'node:path'
+import * as sass from 'sass'
+import transform from './transform.js'
+import writer from './writer.js'
 
-module.exports = (eleventyConfig, collections) => {
+export default (eleventyConfig, collections) => {
   const { outputDir } = eleventyConfig.globalData.config.epub
   const write = writer(outputDir)
 
@@ -34,7 +34,7 @@ module.exports = (eleventyConfig, collections) => {
     const assetDirsToCopy = ['fonts']
 
     assetDirsToCopy.forEach((name) => {
-      const source = path.join(eleventyConfig.dir.input, assetsDir, name)
+      const source = path.join(eleventyConfig.directoryAssignments.input, assetsDir, name)
       const dest = path.join(outputDir, assetsDir, name)
       fs.copySync(source, dest)
     })
@@ -43,24 +43,47 @@ module.exports = (eleventyConfig, collections) => {
      * Copy styles
      */
     const sassOptions = {
-      loadPaths: [
-        path.resolve('node_modules')
+      api: 'modern-compiler',
+      loadPaths: [path.resolve('node_modules')],
+      silenceDeprecations: [
+        'color-functions',
+        'global-builtin',
+        'import',
+        'legacy-js-api',
+        'mixed-decls'
       ]
     }
-    const styles = sass.compile(path.resolve('content', assetsDir, 'styles', 'epub.scss'), sassOptions)
+
+    const styles = sass.compile(path.resolve(eleventyConfig.directoryAssignments.input, assetsDir, 'styles', 'epub.scss'), sassOptions)
     write(path.join(assetsDir, 'epub.css'), styles.css)
 
     /**
      * Copy assets
      */
+
     const { assets } = eleventyConfig.globalData.epub
     const { url: coverUrl } = manifest.resources.find(({ rel }) => rel === 'cover-image')
     assets.push(coverUrl)
+
+    // Because epub runs simultaneously to the vite transform (!!) do path math to understand asset locations
     for (const asset of assets) {
-      fs.copySync(
-        path.join(eleventyConfig.dir.output, asset),
-        path.join(outputDir, asset)
-      )
+      let assetDir
+
+      switch (true) {
+        case asset.startsWith('_assets'):
+          assetDir = eleventyConfig.directoryAssignments.input
+          break
+        case eleventyConfig.globalData.directoryConfig.publicDir !== false:
+          assetDir = eleventyConfig.globalData.directoryConfig.publicDir
+          break
+        default:
+          assetDir = eleventyConfig.directoryAssignments.output
+      }
+
+      const srcPath = path.join(assetDir, asset)
+      const destPath = path.join(outputDir, asset)
+
+      fs.copySync(srcPath, destPath)
     }
   })
 }

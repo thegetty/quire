@@ -1,5 +1,7 @@
-const chalkFactory = require('~lib/chalk')
-const path = require('path')
+/* eslint-disable camelcase */
+
+import chalkFactory from '#lib/chalk/index.js'
+import path from 'node:path'
 
 const logger = chalkFactory('_plugins:epub:manifest')
 
@@ -9,7 +11,7 @@ const logger = chalkFactory('_plugins:epub:manifest')
  * @param  {Object} publication
  * @return {Object}
  */
-module.exports = (eleventyConfig) => {
+export default (eleventyConfig) => {
   const removeHTML = eleventyConfig.getFilter('removeHTML')
   const sortByKeys = eleventyConfig.getFilter('sortByKeys')
 
@@ -40,7 +42,7 @@ module.exports = (eleventyConfig) => {
     return contributors.map(({ first_name, full_name, last_name, role }) => {
       const name = full_name || `${first_name} ${last_name}`
       const item = {
-        name: name,
+        name,
         role: `${role || 'aut'}`
       }
 
@@ -55,7 +57,7 @@ module.exports = (eleventyConfig) => {
   const cover = () => {
     const image = promoImage || epub.defaultCoverImage
     if (!image) {
-      logger.error(`Epub requires a cover image defined in publication.promo_image or config.epub.defaultCoverImage.`)
+      logger.error('Epub requires a cover image defined in publication.promo_image or config.epub.defaultCoverImage.')
       return
     }
     return path.join(imageDir, image).replace(/^\//, '')
@@ -85,26 +87,26 @@ module.exports = (eleventyConfig) => {
    * Publication title, subtitle, and reading line
    */
   const pubTitle = () => {
-    const separator = title.match(/[.,:!?]$/) ? '' : ':';
+    const separator = title.match(/[.,:!?]$/) ? '' : ':'
     switch (true) {
       case !!subtitle && !!readingLine:
-        return `${title}${separator} ${subtitle} ${readingLine}`;
+        return `${title}${separator} ${subtitle} ${readingLine}`
       case !!readingLine:
-        return `${title} (${readingLine})`;
+        return `${title} (${readingLine})`
       case !!subtitle:
-        return `${title}${separator} ${subtitle}`;
+        return `${title}${separator} ${subtitle}`
       default:
-        return title;
+        return title
     }
   }
 
   /**
    * Collect resources for the publication
    */
-  let resources = []
+  const resources = []
   for (const url of stylesheets()) {
     resources.push({
-      url: url,
+      url,
       encodingFormat: 'text/css'
     })
   }
@@ -115,7 +117,7 @@ module.exports = (eleventyConfig) => {
     rel: 'cover-image'
   })
   for (const asset of assets) {
-    let item = { url: asset }
+    const item = { url: asset }
     resources.push(item)
   }
 
@@ -145,7 +147,7 @@ module.exports = (eleventyConfig) => {
     languages: language,
     publisher: publisherNameAndLocations(),
     readingOrder: readingOrder.sort(sortByKeys(['url'])),
-    resources: resources,
+    resources,
     rights: copyright,
     title: pubTitle(),
     type: 'Book'

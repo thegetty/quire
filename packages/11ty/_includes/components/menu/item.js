@@ -7,10 +7,10 @@
  * @property      {String}  title Page title
  * @property      {String}  url Page url
  */
-module.exports = function(eleventyConfig) {
+export default function (eleventyConfig) {
   const pageTitle = eleventyConfig.getFilter('pageTitle')
 
-  return function(params) {
+  return function (params) {
     const { currentURL, page } = params
     const { data, url } = page
     const { label, layout, title } = data

@@ -1,6 +1,6 @@
-const { oneLine } = require('~lib/common-tags')
-const chalkFactory = require('~lib/chalk')
-const figure = require('./figure')
+import { oneLine } from '#lib/common-tags/index.js'
+import chalkFactory from '#lib/chalk/index.js'
+import figure from './figure.js'
 
 const logger = chalkFactory('shortcodes:figureGroup')
 
@@ -11,9 +11,8 @@ const logger = chalkFactory('shortcodes:figureGroup')
  * @param      {Array<id>}  ids          An array or list of figure identifiers
  * @return     {String}  An HTML string of the elements to render
  */
-module.exports = function (eleventyConfig, { page }) {
-
-  return async function (columns, ids=[]) {
+export default function (eleventyConfig, { page }) {
+  return async function (columns, ids = []) {
     columns = parseInt(columns)
 
     /**
@@ -26,7 +25,7 @@ module.exports = function (eleventyConfig, { page }) {
     ids = Array.isArray(ids) ? ids : ids.split(',').map((id) => id.trim())
 
     if (!ids.length) {
-      logger.warn(`NoId: the q-figures shortcode must include one or more 'id' values that correspond to an 'id' in the 'figures.yaml' file. @example {% qfiguregroup columns=2, ids='3.1, 3.2, 3.3' %}`)
+      logger.warn('NoId: the q-figures shortcode must include one or more \'id\' values that correspond to an \'id\' in the \'figures.yaml\' file. @example {% qfiguregroup columns=2, ids=\'3.1, 3.2, 3.3\' %}')
     }
 
     // if (ErrorNoMediaType) {
@@ -35,11 +34,11 @@ module.exports = function (eleventyConfig, { page }) {
 
     const classes = ['column', 'q-figure--group__item', `quire-grid--${columns}`]
     const rows = Math.ceil(ids.length / columns)
-    let figureTags = []
-    for (let i=0; i < rows; ++i) {
+    const figureTags = []
+    for (let i = 0; i < rows; ++i) {
       const startIndex = i * columns
       let row = ''
-      for (let id of ids.slice(startIndex, columns + startIndex)) {
+      for (const id of ids.slice(startIndex, columns + startIndex)) {
         row += await figure(eleventyConfig, { page }).bind(this)(id, classes)
       }
       figureTags.push(`<div class="q-figure--group__row columns">${row}</div>`)

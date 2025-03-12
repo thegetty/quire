@@ -1,3 +1,7 @@
+/**
+ * A helper module for cross platform dynamic imports
+ * @module os-utils
+ */
 import { pathToFileURL } from 'node:url'
 
 /**

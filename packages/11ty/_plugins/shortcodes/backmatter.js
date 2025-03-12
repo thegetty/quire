@@ -5,6 +5,6 @@
  *
  * @return     {boolean}  A styled HTML <div> element with the content
  */
-module.exports = function (eleventyConfig) {
+export default function (eleventyConfig) {
   return (content) => `<div class="backmatter">${content}</div>`
 }

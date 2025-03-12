@@ -5,7 +5,7 @@
  * @param  {Object} figure Figure data
  * @return {Boolean}       True if figure contains a canvas
  */
-module.exports = (figure) => {
+export default (figure) => {
   const { sequences } = figure
   return !!sequences && !!sequences.length
 }

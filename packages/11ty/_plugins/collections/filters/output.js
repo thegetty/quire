@@ -5,9 +5,9 @@
  * @param {String} type 'epub', 'html', or 'pdf'
  * @param {Object} page Eleventy page
  */
-module.exports =  function (type, page) {
+export default function (type, page) {
   const { outputs } = page.data
   const useDefault = !outputs
-  const pageOutputMatchesType = Array.isArray(outputs) && outputs.includes(type) || outputs === type
+  const pageOutputMatchesType = (Array.isArray(outputs) && outputs.includes(type)) || outputs === type
   return useDefault || pageOutputMatchesType
 }

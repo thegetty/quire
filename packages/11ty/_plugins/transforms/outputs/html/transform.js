@@ -1,14 +1,12 @@
-const filterOutputs = require('../filter.js')
-const path = require('path')
-const jsdom = require('jsdom')
-const registerWebComponents = require('./web-components')
-
-const { JSDOM } = jsdom
+import { JSDOM } from 'jsdom'
+import filterOutputs from '../filter.js'
+import path from 'node:path'
+import registerWebComponents from './web-components.js'
 
 /**
  * Content transforms for html output
  */
-module.exports = function(eleventyConfig, collections, content) {
+export default function (eleventyConfig, collections, content) {
   const slugifyIds = eleventyConfig.getFilter('slugifyIds')
   /**
    * Remove pages excluded from this output type

@@ -1,19 +1,19 @@
-const path = require('path')
+import escape from 'html-escape'
+
 /**
  * Head Tag
  *
  * @param      {Object}  eleventyConfig
  */
-module.exports = function(eleventyConfig) {
+export default function (eleventyConfig) {
   const analytics = eleventyConfig.getFilter('analytics')
   const dublinCore = eleventyConfig.getFilter('dublinCore')
   const jsonld = eleventyConfig.getFilter('jsonld')
   const opengraph = eleventyConfig.getFilter('opengraph')
   const removeHTML = eleventyConfig.getFilter('removeHTML')
   const twitterCard = eleventyConfig.getFilter('twitterCard')
-  const webComponents = eleventyConfig.getFilter('webComponents')
 
-  const { application, figures, publication } = eleventyConfig.globalData
+  const { application, publication } = eleventyConfig.globalData
 
   /**
    * @param  {Object} params The Whole Dang Data Object, from base.11ty.js
@@ -28,12 +28,12 @@ module.exports = function(eleventyConfig) {
 
     const publisherLinks = publication.publisher
       .filter(({ url }) => url)
-      .map(({ url }) => `<link rel="publisher" href="${ url }">`)
+      .map(({ url }) => `<link rel="publisher" href="${url}">`)
       .join('\n')
 
     const contributorLinks = publication.contributor
       .filter(({ url }) => url)
-      .map(({ url }) => `<link rel="author" href="${ url }">`)
+      .map(({ url }) => `<link rel="author" href="${url}">`)
       .join('\n')
 
     const keywords = publication.subject
@@ -52,14 +52,13 @@ module.exports = function(eleventyConfig) {
 
         <title>${pageTitle}</title>
 
-        <meta name="description" content="${description}">
-        <meta name="keywords" content="${keywords}">
+        <meta name="description" content="${escape(description)}">
+        <meta name="keywords" content="${escape(keywords)}">
 
         <link rel="canonical" href="${canonicalURL}">
         <link rel="version-history" href="${publication.repositoryUrl}">
 
-        <script src="https://cdn.jsdelivr.net/npm/@digirati/canvas-panel-web-components@1.0.56" type="module"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@iiif/vault-helpers@latest/dist/index.umd.js"></script>
+        <script src="/_assets/javascript/application/canvas-panel-web-components-1.0.68.js" type="module"></script>
 
         ${publisherLinks}
 

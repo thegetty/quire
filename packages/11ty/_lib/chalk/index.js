@@ -1,5 +1,5 @@
-const chalk = require('chalk')
-const log = require('loglevel')
+import chalk from 'chalk'
+import log from 'loglevel'
 
 /**
  * A factory function for custom logging methods using loglevel and chalk
@@ -17,7 +17,7 @@ const log = require('loglevel')
  *
  * @return {Object}  Logger with methods `debug`, error`, `info`, `trace` ,`warn`
  */
-module.exports = function (prefix='', loglevel=2) {
+export default function (prefix = '', loglevel = 2) {
   /**
    * Get a new logger object and set logging level (non-persistent)
    * @see https://github.com/pimterry/loglevel

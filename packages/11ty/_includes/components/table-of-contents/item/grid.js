@@ -1,5 +1,5 @@
-const path = require ('path')
-const { html, oneLine } = require('~lib/common-tags')
+import { html, oneLine } from '#lib/common-tags/index.js'
+import path from 'node:path'
 
 /**
  * Renders a TOC item
@@ -11,7 +11,7 @@ const { html, oneLine } = require('~lib/common-tags')
  *
  * @return {String} TOC item markup
  */
-module.exports = function (eleventyConfig) {
+export default function (eleventyConfig) {
   const contributors = eleventyConfig.getFilter('contributors')
   const getFigure = eleventyConfig.getFilter('getFigure')
   const getObject = eleventyConfig.getFilter('getObject')
@@ -24,8 +24,8 @@ module.exports = function (eleventyConfig) {
 
   return function (params) {
     const {
-      children='',
-      classes=[],
+      children = '',
+      classes = [],
       page
     } = params
 
@@ -36,9 +36,7 @@ module.exports = function (eleventyConfig) {
       label,
       layout,
       object: pageObject,
-      short_title,
       subtitle,
-      summary,
       title
     } = page.data
 

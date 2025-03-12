@@ -1,5 +1,5 @@
-const { oneLine } = require('~lib/common-tags')
-const chalkFactory = require('~lib/chalk')
+import { oneLine } from '#lib/common-tags/index.js'
+import chalkFactory from '#lib/chalk/index.js'
 
 const logger = chalkFactory('shortcodes: accordion')
 
@@ -13,7 +13,7 @@ const logger = chalkFactory('shortcodes: accordion')
  *
  * @return     {String}  An HTML <details> element with <summary> and <section>
  */
-module.exports = function (eleventyConfig, { page }) {
+export default function (eleventyConfig, { page }) {
   const markdownify = eleventyConfig.getFilter('markdownify')
   const slugify = eleventyConfig.getFilter('slugify')
   let { controls, copyButton } = eleventyConfig.globalData.config.accordion
@@ -71,7 +71,7 @@ module.exports = function (eleventyConfig, { page }) {
         </summary>
         <section class="accordion-section__body">${markdownify(content, { inline: false })}</section>
       </details>
-    ` 
+    `
 
     return oneLine`
       ${printComponent}

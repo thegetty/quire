@@ -1,6 +1,6 @@
-const { html } = require('~lib/common-tags')
-const chalkFactory = require('~lib/chalk')
-const path = require('path')
+import { html } from '#lib/common-tags/index.js'
+import chalkFactory from '#lib/chalk/index.js'
+import path from 'node:path'
 
 const logger = chalkFactory('Figure Video')
 
@@ -12,13 +12,13 @@ const logger = chalkFactory('Figure Video')
  *
  * @return     {String}  HTML containing a fallback image and a caption
  */
-module.exports = function(eleventyConfig) {
+export default function (eleventyConfig) {
   const figureCaption = eleventyConfig.getFilter('figureCaption')
   const figureLabel = eleventyConfig.getFilter('figureLabel')
 
   const { imageDir } = eleventyConfig.globalData.config.figures
 
-  return function({
+  return function ({
     aspect_ratio: aspectRatio,
     caption,
     credit,
@@ -26,7 +26,7 @@ module.exports = function(eleventyConfig) {
     label,
     mediaId,
     mediaType,
-    poster=''
+    poster = ''
   }) {
     if (!poster) {
       logger.warn(`Figure '${id}' does not have a 'poster' property. Print media will not render a fallback image for id: ${id}`)
@@ -36,11 +36,12 @@ module.exports = function(eleventyConfig) {
       ? poster
       : path.join(imageDir, poster)
     const labelElement = figureLabel({ caption, id, label })
-    const captionElement = figureCaption({ caption, content: labelElement,  credit, mediaId, mediaType })
+    const captionElement = figureCaption({ caption, content: labelElement, credit, mediaId, mediaType })
 
+    // TODO: Actually do alt here?
     return html`
-      <div class="q-figure__media-wrapper--${ aspectRatio || 'widescreen' }">
-        <img src="${posterSrc}" />
+      <div class="q-figure__media-wrapper--${aspectRatio || 'widescreen'}">
+        <img src="${posterSrc}" alt="" />
       </div>
       ${captionElement}
     `

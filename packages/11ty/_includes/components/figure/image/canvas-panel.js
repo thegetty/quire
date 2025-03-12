@@ -1,11 +1,11 @@
-const { html } = require('~lib/common-tags')
-const chalkFactory = require('~lib/chalk')
+import { html } from '#lib/common-tags/index.js'
+import chalkFactory from '#lib/chalk/index.js'
 
 /**
  * CanvasPanel shortcode that renders the Digirati <canvas-panel> web component
  * @see {@link https://iiif-canvas-panel.netlify.app/docs/intro/ Canvas Panel Documentation}
  */
-module.exports = function(eleventyConfig) {
+export default function (eleventyConfig) {
   const logger = chalkFactory('shortcodes:canvasPanel')
 
   /**
@@ -20,18 +20,18 @@ module.exports = function(eleventyConfig) {
    *
    * @return {String}        <canvas-panel> markup
    */
-  return function(data) {
+  return function (data) {
     const {
       canvasId,
       choiceId,
-      height='',
+      height = '',
       id,
       iiifContent,
       manifestId,
-      preset='responsive',
-      region='',
-      virtualSizes='',
-      width=''
+      preset = 'responsive',
+      region = '',
+      virtualSizes = '',
+      width = ''
     } = data
 
     if (!manifestId && !iiifContent) {

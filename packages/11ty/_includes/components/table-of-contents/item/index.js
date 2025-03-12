@@ -9,13 +9,13 @@
  *
  * @return {String} TOC item markup
  */
-module.exports = function (eleventyConfig) {
+export default function (eleventyConfig) {
   const tableOfContentsGridItem = eleventyConfig.getFilter('tableOfContentsGridItem')
   const tableOfContentsListItem = eleventyConfig.getFilter('tableOfContentsListItem')
 
   return function (params) {
     const {
-      children='',
+      children = '',
       page,
       presentation
     } = params
@@ -37,7 +37,7 @@ module.exports = function (eleventyConfig) {
       classes.push('frontmatter-page')
     }
 
-    return presentation === 'grid' 
+    return presentation === 'grid'
       ? tableOfContentsGridItem({ children, classes, page })
       : tableOfContentsListItem({ children, classes, page, presentation })
   }

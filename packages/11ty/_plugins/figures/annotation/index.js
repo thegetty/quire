@@ -1,7 +1,7 @@
-const chalkFactory = require('~lib/chalk')
-const mime = require('mime-types')
-const path = require('path')
-const titleCase = require('~plugins/filters/titleCase')
+import chalkFactory from '#lib/chalk/index.js'
+import mime from 'mime-types'
+import path from 'node:path'
+import titleCase from '#plugins/filters/titleCase.js'
 
 const logger = chalkFactory('Figures:Annotation')
 
@@ -24,9 +24,9 @@ const logger = chalkFactory('Figures:Annotation')
  *
  * @return {Annotation}
  */
-module.exports = class Annotation {
-  constructor(figure, data) {
-    const { annotationCount, iiifConfig, outputDir, outputFormat, zoom } = figure
+export default class Annotation {
+  constructor (figure, data) {
+    const { annotationCount, iiifConfig, outputDir, outputFormat, printImage, src: figureSrc, zoom } = figure
     const { baseURI, tilesDirName } = iiifConfig
     const { label, region, selected, src, text } = data
     const { base, name } = src ? path.parse(src) : {}
@@ -36,7 +36,7 @@ module.exports = class Annotation {
      * @return {String}
      */
     const id = () => {
-      switch(true) {
+      switch (true) {
         case !!data.id:
           return data.id
         case !!src:
@@ -44,24 +44,23 @@ module.exports = class Annotation {
         case !!label:
           return label.split(' ').join('-').toLowerCase()
         default:
-          logger.error(`Unable to set an id for annotation. Annotations must have an 'id', 'label', or 'src' property.`)
-          return
+          logger.error('Unable to set an id for annotation. Annotations must have an \'id\', \'label\', or \'src\' property.')
       }
     }
 
     /**
      * Create image service for annotation image if it is a JPG and
      * the figure has zoom enabled
-     * 
+     *
      * Note: Currently tiling is only supported for the figure.src, not annotations
      *
      * Note: Currently only JPG image services are supported by
      * canvas-panel/image-service tags
      */
     const isImageService =
-      !!zoom
-      && outputFormat === '.jpg'
-      && (annotationCount === 0 || src === figure.src)
+      !!zoom &&
+      outputFormat === '.jpg' &&
+      (annotationCount === 0 || src === figureSrc)
     const info = () => {
       if (!isImageService) return
       const tilesPath = path.join(outputDir, name, tilesDirName)
@@ -70,20 +69,19 @@ module.exports = class Annotation {
         return new URL(path.join(baseURI, infoPath)).href
       } catch (error) {
         logger.error(`Error creating info.json. Either the tile path (${tilesPath}) or base URI (${baseURI}) are invalid to form a fully qualified URI.`)
-        return
       }
     }
 
     const uri = () => {
       switch (true) {
         case isImageService:
-          return info()
+          // NB: Annotations for imageServices are *jpeg*s not the service endpoint
+          return new URL(path.join(baseURI, printImage)).href
         default:
-          try{
+          try {
             return new URL(path.join(baseURI, outputDir, base)).href
           } catch (error) {
             logger.error(`Error creating annotation URI. Either the output directory (${outputDir}), filename (${base}) or base URI (${baseURI}) are invalid to form a fully qualified URI.`)
-            return
           }
       }
     }
@@ -98,7 +96,7 @@ module.exports = class Annotation {
     this.src = src
     this.region = region
     this.text = text
-    this.type = figure.src || region || text ? 'annotation' : 'choice'
+    this.type = figureSrc || region || text ? 'annotation' : 'choice'
     this.uri = uri()
   }
 }

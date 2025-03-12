@@ -1,5 +1,6 @@
-const { html } = require('~lib/common-tags')
-const path = require('path')
+import escape from 'html-escape'
+import { html } from '#lib/common-tags/index.js'
+import path from 'node:path'
 
 /**
  * Image Tag for figures that are static images
@@ -10,14 +11,20 @@ const path = require('path')
  * @property   {String} src The src path for the image
  * @return     {String}  An <img> element
  */
-module.exports = function(eleventyConfig) {
+export default function (eleventyConfig) {
   const { imageDir } = eleventyConfig.globalData.config.figures
 
-  return function ({ alt='', src='', isStatic=false }) {
+  return function ({ alt = '', src = '', isStatic = false, lazyLoading = 'lazy' }) {
     const imageSrc = src.startsWith('http') || isStatic ? src : path.join(imageDir, src)
 
     return html`
-      <img alt="${alt}" class="q-figure__image" src="${imageSrc}" />
+      <img
+        alt="${escape(alt)}"
+        class="q-figure__image"
+        decoding="async"
+        loading="${lazyLoading}"
+        src="${imageSrc}"
+      />
     `
   }
 }

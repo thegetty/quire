@@ -1,4 +1,6 @@
-const { html } = require('~lib/common-tags')
+/* eslint-disable camelcase */
+
+import { html } from '#lib/common-tags/index.js'
 
 /**
  * Publication title block in menu
@@ -8,18 +10,17 @@ const { html } = require('~lib/common-tags')
  * @property   {String}  currentURL
  * @property   {Array|String}   contributors - publication contributors array or string override
  */
-module.exports = function(eleventyConfig) {
+export default function (eleventyConfig) {
   const contributors = eleventyConfig.getFilter('contributors')
-  const markdownify = eleventyConfig.getFilter('markdownify')
   const siteTitle = eleventyConfig.getFilter('siteTitle')
   const { contributor: publicationContributors, contributor_as_it_appears } = eleventyConfig.globalData.publication
 
-  return function(params) {
+  return function (params) {
     const { currentURL } = params
     const isHomePage = currentURL === '/'
 
-    const homePageLinkOpenTag = isHomePage ? '' : `<a class="quire-menu__header__title-link" href="/">`
-    const homePageLinkCloseTag = isHomePage ? '' : `</a>`
+    const homePageLinkOpenTag = isHomePage ? '' : '<a class="quire-menu__header__title-link" href="/">'
+    const homePageLinkCloseTag = isHomePage ? '' : '</a>'
 
     const contributorContent = contributor_as_it_appears || contributors({ context: publicationContributors, format: 'string', type: 'primary' })
 

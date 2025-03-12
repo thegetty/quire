@@ -1,5 +1,7 @@
-const path = require('path')
-const Annotation = require('../annotation')
+/* eslint-disable camelcase */
+
+import Annotation from '../annotation/index.js'
+import path from 'node:path'
 
 /**
  * @typedef {Object} Sequence
@@ -10,8 +12,8 @@ const Annotation = require('../annotation')
  *
  * @return {Sequence}
  */
-module.exports = class Sequence {
-  constructor(figure, sequence, files) {
+export default class Sequence {
+  constructor (figure, sequence, files) {
     const { behavior, id, regex, start, transition, viewing_direction } = sequence
     this.behavior = behavior
     this.dir = id
@@ -24,7 +26,7 @@ module.exports = class Sequence {
     this.viewingDirection = viewing_direction || sequence.viewingDirection
   }
 
-  get items() {
+  get items () {
     const { label } = this.figure.data
     return this.files.map((filename) => {
       const src = path.join(this.dir, filename)
@@ -32,7 +34,7 @@ module.exports = class Sequence {
     })
   }
 
-  get itemsWithTargetedAnnotations() {
+  get itemsWithTargetedAnnotations () {
     const { annotations } = this.figure
     const annotationItems = annotations
       ? annotations.flatMap(({ items }) => items)
@@ -49,7 +51,7 @@ module.exports = class Sequence {
     })
   }
 
-  get startCanvas() {
+  get startCanvas () {
     if (!this.start) return
     const startCanvasItem = this.items.find(({ src }) => {
       const { base } = path.parse(src)
@@ -58,7 +60,7 @@ module.exports = class Sequence {
     return startCanvasItem ? path.join(this.figure.canvasId, startCanvasItem.id) : null
   }
 
-  get startCanvasIndex() {
+  get startCanvasIndex () {
     if (!this.start) return 0
     const startCanvasIndex = this.items.findIndex(({ src }) => {
       const { base } = path.parse(src)

@@ -1,17 +1,17 @@
-module.exports = class CanvasBuilder {
-  static create(manifest, data) {
+export default class CanvasBuilder {
+  static create (manifest, data) {
     const canvasBuilder = new CanvasBuilder(data)
     canvasBuilder.createCanvases(manifest)
   }
 
-  constructor(data) {
+  constructor (data) {
     this.annotations = data.annotations
     this.choices = data.choices
     this.figure = data.figure
     this.sequenceItems = data.sequenceItems
   }
 
-  get canvases() {
+  get canvases () {
     if (this.figure.isSequence) {
       return this.sequenceItems.map((item) => {
         return {
@@ -34,7 +34,7 @@ module.exports = class CanvasBuilder {
     }
   }
 
-  createCanvasAnnotations(canvas, item) {
+  createCanvasAnnotations (canvas, item) {
     const { annotations, choices, height, width } = item
     canvas.height = height
     canvas.width = width
@@ -48,7 +48,7 @@ module.exports = class CanvasBuilder {
     }
   }
 
-  createCanvases(manifest) {
+  createCanvases (manifest) {
     this.canvases.forEach((item) => {
       manifest.createCanvas(item.id, (canvas) => {
         this.createCanvasAnnotations(canvas, item)

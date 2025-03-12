@@ -6,12 +6,12 @@ import lunr from 'lunr'
  * @class      Search
  */
 export default class Search {
-  constructor(data) {
+  constructor (data) {
     this.contentList = data
     this.index = this.buildIndex(data)
   }
 
-  buildIndex(pages) {
+  buildIndex (pages) {
     return lunr(function () {
       this.field('abstract')
       this.field('content')
@@ -32,8 +32,8 @@ export default class Search {
    * @param      {String}  query   Terms for which to search
    * @return     {Array}  An array of result objects
    */
-  search(query) {
+  search (query) {
     const results = this.index.search(query)
-    return results.map((result) => this.contentList.find(({url}) => url === result.ref))
+    return results.map((result) => this.contentList.find(({ url }) => url === result.ref))
   }
 }

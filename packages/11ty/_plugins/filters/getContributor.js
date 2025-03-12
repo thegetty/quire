@@ -1,4 +1,4 @@
-const chalkFactory = require('~lib/chalk')
+import chalkFactory from '#lib/chalk/index.js'
 
 const logger = chalkFactory('filters:getContributor')
 
@@ -8,7 +8,7 @@ const logger = chalkFactory('filters:getContributor')
  * @param  {Object} contributor
  * @return {Object}                contributor
  */
-module.exports = function (eleventyConfig, item) {
+export default function (eleventyConfig, item) {
   if (!item) return ''
 
   // If contributor object is defined on the page, return it
@@ -23,7 +23,7 @@ module.exports = function (eleventyConfig, item) {
   )
 
   if (!contributor) {
-    logger.error(`Contributor not found in 'publication.yaml.' Contributor: `, item)
+    logger.error('Contributor not found in \'publication.yaml.\' Contributor: ', item)
     return ''
   }
   return contributor
