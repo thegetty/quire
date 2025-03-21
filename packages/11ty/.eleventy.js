@@ -164,12 +164,12 @@ export default async function (eleventyConfig) {
    */
   const assetPathFragment = [inputDir, '_assets'].join(path.sep)
   const ignoreAssetHTML = ({ page }, content) => {
-    if (page.inputPath.includes(assetPathFragment)) return false 
-    return content;
+    if (page.inputPath.includes(assetPathFragment)) return false
+    return content
   }
-  
+
   eleventyConfig.addPreprocessor('html-files', 'html', ignoreAssetHTML)
-  
+
   /**
    * Configure build output
    * @see https://www.11ty.dev/docs/plugins/directory-output/#directory-output

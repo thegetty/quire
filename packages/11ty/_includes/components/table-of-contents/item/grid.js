@@ -1,5 +1,4 @@
 import { html, oneLine } from '#lib/common-tags/index.js'
-import path from 'node:path'
 
 /**
  * Renders a TOC item
@@ -20,7 +19,6 @@ export default function (eleventyConfig) {
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const tableOfContentsImage = eleventyConfig.getFilter('tableOfContentsImage')
   const { contributorDivider } = eleventyConfig.globalData.config.tableOfContents
-  const { imageDir } = eleventyConfig.globalData.config.figures
 
   return function (params) {
     const {
