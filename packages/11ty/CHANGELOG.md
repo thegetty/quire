@@ -12,6 +12,14 @@ Changelog entries are classified using the following labels:
 - `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
+## [1.0.0-rc.28]
+
+### Bumped
+
+- `@11ty/eleventy-img` v6
+- `@11ty/eleventy-navigation` v1
+- `@11ty/eleventy-plugin-vite` v6
+
 ## [1.0.0-rc.27]
 
 ### Added
