@@ -14,7 +14,6 @@ Changelog entries are classified using the following labels:
 
 ## [1.0.0-rc.27]
 
-
 ### Added
 
 - Sitemap plugin for quire publications
@@ -25,17 +24,29 @@ Changelog entries are classified using the following labels:
 
 ### Fixed
 
-- Windows URI/URL issues with file imports (DEV-19999)
-- MLA citations in menu
-- Correct handling of table figures so they are not added to 11ty templates
+- Handling of table figures so they are not added to 11ty templates
+- Corrected search JSON output path when using a directory other than `_site`
 - Escaped HTML entities in OpenGraph page `<meta>` tags
-- Corrected search JSON output path when using directory that isn't `_site`
+- MLA citations in menu
+- Windows URI/URL issues with file imports [DEV-19999]
 
 ## [1.0.0-rc.26]
 
+### Removed
+
+- `patch-package` dependency
+
 ## [1.0.0-rc.25]
 
+### Changed
+
+- Make `patch-package` a core dependency
+
 ## [1.0.0-rc.24]
+
+### Changed
+
+- Replaced in-text placeholder for IIIF choice figures with user-controlled choices + UI
 
 ## [1.0.0-rc.23]
 
