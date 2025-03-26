@@ -14,13 +14,22 @@ Changelog entries are classified using the following labels:
 
 ## [1.0.0-rc.27]
 
-- `Fixed`: Windows URI/URL issues with file imports (DEV-19999)
-- `Fixed`: MLA citations in menu
-- `Fixed`: Correct handling of table figures so they are not added to 11ty templates
-- `Changed`: Allow TOC images to be externally hosted
-- `Fixed`: Escaped HTML entities in OpenGraph page `<meta>` tags
-- `Fixed`: Corrected search JSON output path when using directory that isn't `_site`
-- `Added`: Sitemap plugin for quire publications
+
+### Added
+
+- Sitemap plugin for quire publications
+
+### Changed
+
+- Allow TOC images to be externally hosted
+
+### Fixed
+
+- Windows URI/URL issues with file imports (DEV-19999)
+- MLA citations in menu
+- Correct handling of table figures so they are not added to 11ty templates
+- Escaped HTML entities in OpenGraph page `<meta>` tags
+- Corrected search JSON output path when using directory that isn't `_site`
 
 ## [1.0.0-rc.26]
 
