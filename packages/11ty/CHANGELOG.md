@@ -16,9 +16,14 @@ Changelog entries are classified using the following labels:
 
 ### Bumped
 
-- `@11ty/eleventy-img` v6
-- `@11ty/eleventy-navigation` v1
-- `@11ty/eleventy-plugin-vite` v6
+- `@11ty/eleventy-img` to v6.0.1
+- `@11ty/eleventy-navigation` to v1.0.1
+- `@11ty/eleventy-plugin-vite` to v6.0.0
+
+### Fixed
+
+- `DEV-19999`: import.meta.dirname in table of contents component breaks builds on Windows 
+- `DEV-20261`: Figure components not rendering in HTML representations
 
 ## [1.0.0-rc.27]
 
