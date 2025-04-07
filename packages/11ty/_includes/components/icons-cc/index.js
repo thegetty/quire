@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { html } from '#lib/common-tags/index.js'
 
 /**
@@ -14,12 +15,12 @@ export default function (eleventyConfig) {
     if (!config.licenseIcons) return ''
 
     const ccIcons = fs
-      .readdirSync(path.join(import.meta.dirname, 'icons'))
+      .readdirSync(path.join(path.dirname(fileURLToPath(import.meta.url)), 'icons'))
       .map((filename) => {
         const id = path.basename(filename, '.svg')
         return fs
           .readFileSync(
-            path.join(import.meta.dirname, 'icons', filename),
+            path.join(path.dirname(fileURLToPath(import.meta.url)), 'icons', filename),
             { encoding: 'utf8' }
           )
           .replace('<svg', `<symbol id="${id}"`)
