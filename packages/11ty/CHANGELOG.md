@@ -12,8 +12,20 @@ Changelog entries are classified using the following labels:
 - `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
-## [1.0.0-rc.27]
+## [1.0.0-rc.28]
 
+### Bumped
+
+- `@11ty/eleventy-img` to v6.0.1
+- `@11ty/eleventy-navigation` to v1.0.1
+- `@11ty/eleventy-plugin-vite` to v6.0.0
+
+### Fixed
+
+- `DEV-19999`: import.meta.dirname in table of contents component breaks builds on Windows 
+- `DEV-20261`: Figure components not rendering in HTML representations
+
+## [1.0.0-rc.27]
 
 ### Added
 
