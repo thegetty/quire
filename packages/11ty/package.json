@@ -1,6 +1,6 @@
 {
   "name": "@thegetty/quire-11ty",
-  "version": "1.0.0-rc.27",
+  "version": "1.0.0-rc.28",
   "description": "Quire 11ty static site generator",
   "keywords": [
     "11ty",
