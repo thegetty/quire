@@ -3,7 +3,7 @@ import fs from 'fs-extra'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const configSchema = fs.readJSONSync(path.resolve(fileURLToPath(import.meta.url), '../schemas/config.json'))
+const configSchema = fs.readJSONSync(path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../schemas/config.json'))
 /**
  *
  * @function validateUserConfig - throws error if user config data is not structured as expected
