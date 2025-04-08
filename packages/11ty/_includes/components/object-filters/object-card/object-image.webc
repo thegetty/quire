@@ -9,23 +9,38 @@
 const alt = ({ data }) => typeof data.thumbnail === 'object' ? data.thumbnail.alt : '';
 
 /**
- * Get object image `src` from `figures` or `thumbnail` properties
+ * Returns the served asset location for this src
+ **/
+const assetSrc = (srcPath) => {
+  if ( srcPath.startsWith('/iiif') || 
+          srcPath.startsWith('http://') || 
+          srcPath.startsWith('https://') ) return srcPath
+
+  // TODO: Account for pathPrefix here
+  // Everything else is a hosted asset
+  console.log(`${this.config.figures.imageDir}/${srcPath}`)
+  return `${this.config.figures.imageDir}/${srcPath}`
+}
+
+/**
+ * Get object image `src` from `figures` or `thumbnail` properties.
+ * 
+ * @TODO: Find source of thumbnail string / object type ambiguity, refactor it out of state spcae
  */
 const src = ({ data }) => {
-  const { figures } = data;
-  const thumbnail = figures
-    ? figures.find(({ mediaType }) => mediaType === 'image').thumbnail
-    : data.thumbnail
+  const { figures, thumbnail } = data;
 
-  const src = typeof thumbnail === 'object'
-    ? thumbnail.src
-    : thumbnail
+  if (thumbnail && typeof thumbnail === 'string') return assetSrc(thumbnail)
+  if (thumbnail && typeof thumbnail === 'object') return assetSrc(thumbnail.src)
 
-  /**
-   * If no IIIF images, point to the raw assets directory
-   */
-  return src && !src.startsWith('/iiif')
-    ? `${this.config.figures.imageDir}/${src}`
-    : src;
+  if (!figures) return ''
+
+  const thumbFig = figures?.find(({ mediaType }) => mediaType === 'image')
+
+  if (thumbFig && thumbFig.thumbnail && typeof thumbFig.thumbnail == 'string' ) return assetSrc(thumbFig.thumbnail)
+
+  if (thumbFig && thumbFig.thumbnail && typeof thumbFig.thumbnail == 'object' ) return assetSrc(thumbFig.thumbnail.src)
+
+  return ''
 };
 </script>
