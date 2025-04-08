@@ -19,7 +19,7 @@ const assetSrc = (srcPath) => {
 }
 
 /**
- * Get object image `src` from `figures` or `thumbnail` properties.
+ * Get object image src from either the thumbnail (preferred) or figures data.
  */
 const src = ({ data }) => {
   const { figures, thumbnail } = data
