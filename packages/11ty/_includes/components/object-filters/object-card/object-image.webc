@@ -11,7 +11,6 @@ const alt = ({ data }) => typeof data.thumbnail === 'object' ? data.thumbnail.al
 /**
  * Returns the served asset location for this image
  * accounting for fully qualified asset URLs
- * @TODO account for pathPrefix of hosted assets
  */
 const assetSrc = (srcPath) => {
   const regexp = new RegExp(/^(https?:\/\/|\/iiif\/)/)
@@ -21,23 +20,26 @@ const assetSrc = (srcPath) => {
 
 /**
  * Get object image `src` from `figures` or `thumbnail` properties.
- * 
- * @TODO: Find source of thumbnail string / object type ambiguity, refactor it out of state spcae
  */
 const src = ({ data }) => {
-  const { figures, thumbnail } = data;
+  const { figures, thumbnail } = data
+  const figure = figures?.find(({ mediaType }) => mediaType === 'image')
+  
+  let value = ''
+  switch (true) {
+   case thumbnail: 
+      value = figure; 
+      break;
+   case figure && figure.thumbnail: 
+      value = figure.thumbnail; 
+      break;
+   case figure: 
+      value = figure.src; 
+      break;
+   default: 
+      value = '';
+  }
 
-  if (thumbnail && typeof thumbnail === 'string') return assetSrc(thumbnail)
-  if (thumbnail && typeof thumbnail === 'object') return assetSrc(thumbnail.src)
-
-  if (!figures) return ''
-
-  const thumbFig = figures?.find(({ mediaType }) => mediaType === 'image')
-
-  if (thumbFig && thumbFig.thumbnail && typeof thumbFig.thumbnail == 'string' ) return assetSrc(thumbFig.thumbnail)
-
-  if (thumbFig && thumbFig.thumbnail && typeof thumbFig.thumbnail == 'object' ) return assetSrc(thumbFig.thumbnail.src)
-
-  return ''
+  return assetSrc(value)
 };
 </script>
