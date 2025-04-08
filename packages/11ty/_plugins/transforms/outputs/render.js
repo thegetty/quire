@@ -13,7 +13,7 @@ export default async function (eleventyConfig, dir, params, page) {
 
   const filePaths = fileNames.flatMap((output) => {
     const filePath = path.join(dir, `${output}.js`)
-    return (!fs.existsSync(filePath)) ? [] : filePath
+    return (fs.existsSync(filePath)) ? filePath : []
   })
 
   const content = await Promise.all(filePaths.flatMap(async (filePath, index) => {
