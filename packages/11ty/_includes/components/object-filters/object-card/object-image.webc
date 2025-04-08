@@ -9,23 +9,34 @@
 const alt = ({ data }) => typeof data.thumbnail === 'object' ? data.thumbnail.alt : '';
 
 /**
- * Get object image `src` from `figures` or `thumbnail` properties
+ * Returns the served asset location for this image
+ * accounting for fully qualified asset URLs
+ */
+const assetSrc = (srcPath) => {
+  const regexp = new RegExp(/^(https?:\/\/|\/iiif\/)/)
+  const { imageDir } = this.config.figures
+  return regexp.test(srcPath)) ? srcPath : `${imageDir}/${srcPath}`
+}
+
+/**
+ * Get object image src from either the thumbnail (preferred) or figures data.
  */
 const src = ({ data }) => {
-  const { figures } = data;
-  const thumbnail = figures
-    ? figures.find(({ mediaType }) => mediaType === 'image').thumbnail
-    : data.thumbnail
+  const { figures, thumbnail } = data
+  const figure = figures?.find(({ mediaType }) => mediaType === 'image')
+  
+  let value = ''
+  switch (true) {
+   case thumbnail: 
+      value = figure; 
+      break;
+   case figure: 
+      value = figure.thumbnail || figure.src; 
+      break;
+   default: 
+      value = '';
+  }
 
-  const src = typeof thumbnail === 'object'
-    ? thumbnail.src
-    : thumbnail
-
-  /**
-   * If no IIIF images, point to the raw assets directory
-   */
-  return src && !src.startsWith('/iiif')
-    ? `${this.config.figures.imageDir}/${src}`
-    : src;
+  return assetSrc(value)
 };
 </script>
