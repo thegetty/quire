@@ -17,7 +17,7 @@ export default async function (eleventyConfig, dir, params, page) {
   })
 
   const content = await Promise.all(filePaths.flatMap(async (filePath, index) => {
-    const { default: init } = await import( pathToFileURL(filePath) )
+    const { default: init } = await import(pathToFileURL(filePath))
 
     const renderFn = init(eleventyConfig, { page })
     const component = await renderFn(params)
