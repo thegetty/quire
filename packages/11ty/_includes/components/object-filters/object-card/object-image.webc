@@ -30,11 +30,8 @@ const src = ({ data }) => {
    case thumbnail: 
       value = figure; 
       break;
-   case figure && figure.thumbnail: 
-      value = figure.thumbnail; 
-      break;
    case figure: 
-      value = figure.src; 
+      value = figure.thumbnail || figure.src; 
       break;
    default: 
       value = '';
