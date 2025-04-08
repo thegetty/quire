@@ -14,8 +14,6 @@
     "url": "https://github.com/thegetty/quire.git"
   },
   "workspaces": [
-    "packages/11ty",
-    "packages/cli",
-    "starters/default"
+    "packages/*"
   ]
 }
