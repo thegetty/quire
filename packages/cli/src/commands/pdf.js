@@ -4,6 +4,7 @@ import fs from 'fs-extra'
 import libPdf from '#lib/pdf/index.js'
 import open from 'open'
 import path from 'node:path'
+import { pathToFileURL } from 'node:url'
 import yaml from 'js-yaml'
 
 /**
@@ -29,7 +30,7 @@ async function loadConfig(configPath) {
 
   if (fs.existsSync(schemaPath) && fs.existsSync(validatorPath)) {
 
-    const { validateUserConfig } = await import(validatorPath)
+    const { validateUserConfig } = await import(pathToFileURL(validatorPath))
   
     const schemaJSON = fs.readFileSync(schemaPath)
     const schema = JSON.parse(schemaJSON)
