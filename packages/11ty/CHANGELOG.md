@@ -12,6 +12,16 @@ Changelog entries are classified using the following labels:
 - `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
+## [1.0.0-rc.29]
+
+### Fixed
+
+- Fixes an issue where externally-hosted IIIF images did not appear in object grids - DEV-19295
+- Filepaths + renderOutputs - DEV-20261
+- Preprocessor check / HTML page - DEV-19983
+- IIIF assets were not generating - DEV-20272
+- Fixes pathing for epub cover - DEV-20269
+
 ## [1.0.0-rc.28]
 
 ### Bumped
