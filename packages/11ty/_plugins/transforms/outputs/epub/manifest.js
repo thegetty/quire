@@ -60,7 +60,8 @@ export default (eleventyConfig) => {
       logger.error('Epub requires a cover image defined in publication.promo_image or config.epub.defaultCoverImage.')
       return
     }
-    return path.join(imageDir, image).replace(/^\//, '')
+
+    return path.join(imageDir.replace(/^\//, ''), image)
   }
 
   /**
