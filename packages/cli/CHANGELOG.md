@@ -12,6 +12,12 @@ Changelog entries are classified using the following labels:
 - `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
+## [1.0.0-rc.28]
+
+### Fixed
+
+- Fixed issue where `quire pdf` errored and failed (DEV-20270)
+
 ## [1.0.0-rc.27]
 
 ### Fixed
