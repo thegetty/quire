@@ -1,7 +1,0 @@
-{
-  "baseUrl": "http://localhost:1313",
-  "chromeWebSecurity": false,
-  "fileServerFolder": "/",
-  "pluginsFile": "tests/e2e/plugins/index.js",
-  "video": false
-}
