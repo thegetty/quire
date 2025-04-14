@@ -1,5 +1,7 @@
 ## A façade module for the `chalk` library
 
-A logging concern for Quire/11ty implemented using [loglevel](https://github.com/pimterry/loglevel) and [chalk](https://github.com/chalk/).
+A logging concern for Quire/11ty implemented using [debug.js](https://github.com/debug-js/debug) and [chalk](https://github.com/chalk/).
 
-Nota bene: `chalk` v5 is an ESM only library, Eleventy uses v4. For more information see the [chalk v4 documentation](https://github.com/chalk/chalk/tree/v4.1.2).
+Log lines are in the format: `[quire] component:subComponent LEVEL ...message...`.
+
+Log level selection responds to globs on the `DEBUG` environment variable as it does for [11ty]() so `cross-env DEBUG='Eleventy*,*quire*' eleventy` will turn on logging for Eleventy itself and for quire while `cross-env DEBUG='*quire*' eleventy` will emit logs for only quire.
