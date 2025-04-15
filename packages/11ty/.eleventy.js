@@ -337,4 +337,8 @@ export default async function (eleventyConfig) {
    */
   eleventyConfig.setDataFileBaseName('index')
   eleventyConfig.setDataFileSuffixes(['.data', ''])
+
+  const { pathname } = globalData.publication
+
+  return { pathPrefix: pathname }
 }
