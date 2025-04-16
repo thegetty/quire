@@ -15,7 +15,13 @@ export default function (eleventyConfig) {
   const { imageDir } = eleventyConfig.globalData.config.figures
 
   return function ({ alt = '', src = '', isStatic = false, lazyLoading = 'lazy' }) {
-    const imageSrc = src.startsWith('http') || isStatic ? src : path.join(imageDir, src)
+    const extOrIiifRegex = new RegExp(/^(https?:\/\/|\/iiif\/|\\iiif\\)/)
+    let imageSrc = extOrIiifRegex.test(src) || isStatic ? src : path.join(imageDir, src)
+
+    // HACK: If an URL-unsafe path separator has made it this far, remove it
+    if (path.sep !== '/') {
+      imageSrc = imageSrc.replaceAll(path.sep,'/')
+    }
 
     return html`
       <img

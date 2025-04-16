@@ -22,9 +22,12 @@ export default function (eleventyConfig) {
     if (!src && !staticInlineFigureImage) return ''
 
     const labelElement = figureLabel({ caption, id, label })
+    const extOrIiifRegex = new RegExp(/^(https?:\/\/|\/iiif\/|\\iiif\\)/)
 
+    /**
+     * NB: Image assets can be: external, in the asset dir, or in the IIIF directory 
+     **/
     let imageSrc
-
     switch (true) {
       case figure.isSequence:
         imageSrc = figure.staticInlineFigureImage
@@ -32,14 +35,13 @@ export default function (eleventyConfig) {
       case figure.isCanvas || figure.isImageService:
         imageSrc = figure.printImage
         break
-      default:
-        imageSrc = src.startsWith('http')
-          ? src
-          : path.join(imageDir, src)
+      case extOrIiifRegex.test(src):
+        imageSrc = src
         break
+      default:
+        path.join(imageDir, src)
     }
 
-    // console.log(imageSrc)
     return html`
       <img alt="${escape(alt)}" class="q-figure__image" src="${imageSrc}"/>
       ${figureCaption({ caption, content: labelElement, credit })}
