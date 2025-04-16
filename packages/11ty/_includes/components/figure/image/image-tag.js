@@ -20,7 +20,7 @@ export default function (eleventyConfig) {
 
     // HACK: If an URL-unsafe path separator has made it this far, remove it
     if (path.sep !== '/') {
-      imageSrc = imageSrc.replaceAll(path.sep,'/')
+      imageSrc = imageSrc.replaceAll(path.sep, '/')
     }
 
     return html`
