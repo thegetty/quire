@@ -13,7 +13,7 @@ const alt = ({ data }) => typeof data.thumbnail === 'object' ? data.thumbnail.al
  * accounting for fully qualified asset URLs
  */
 const assetSrc = (srcPath) => {
-  const regexp = new RegExp(/^(https?:\/\/|\/iiif\/)/)
+  const regexp = new RegExp(/^(https?:\/\/|\/iiif\/|\\iiif\\)/)
   const { imageDir } = this.config.figures
   return regexp.test(srcPath) ? srcPath : `${imageDir}/${srcPath}`
 }
