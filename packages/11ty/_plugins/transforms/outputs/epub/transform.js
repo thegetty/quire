@@ -21,7 +21,7 @@ export default function (eleventyConfig, collections, content) {
   const write = writer(outputDir)
 
   /**
-   * Gather asset filepaths
+   * Gather asset filepaths, normalizing to platform paths for consumers
    *
    * @param      {HTMLElement}  element
    */
@@ -30,12 +30,10 @@ export default function (eleventyConfig, collections, content) {
     images.forEach((img) => {
       const src = img.getAttribute('src')
       if (!src) return
-      const pattern = `^(${imageDir}|/${iiifOutputDir})`
-      const regex = new RegExp(pattern, 'g')
-      if (src.match(regex)) {
-        const relativePath = src.replace(/^\//, '')
-        assets.push(relativePath)
-      }
+
+      const relativePath = path.normalize(src).split(path.sep).at(0) === '' ?
+                              path.normalize(src).split(path.sep).slice(1).join(path.sep) : src
+      assets.push(relativePath)
     })
   }
 

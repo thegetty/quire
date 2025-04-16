@@ -36,11 +36,11 @@ export default function (eleventyConfig, { directoryConfig, publication }) {
         outDir: outputDir,
         rollupOptions: {
           output: {
-            assetFileNames: ({ name }) => {
-              const fullFilePathSegments = name.split('/').slice(0, -1)
+            assetFileNames: ({ name, originalFileName }) => {
+              const fullFilePathSegments = (originalFileName ?? name).split('/').slice(0, -1)
               let filePath = '_assets/';
               ['_assets', 'node_modules'].forEach((assetDir) => {
-                if (name.includes(assetDir)) {
+                if (fullFilePathSegments.includes(assetDir)) {
                   filePath +=
                     fullFilePathSegments
                       .slice(fullFilePathSegments.indexOf(assetDir) + 1)
