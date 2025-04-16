@@ -39,7 +39,7 @@ export default function (eleventyConfig) {
         imageSrc = src
         break
       default:
-        path.join(imageDir, src)
+        imageSrc = path.join(imageDir, src).replaceAll(path.sep,'/')
     }
 
     return html`
