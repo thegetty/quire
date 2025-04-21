@@ -41,7 +41,7 @@ export default function (eleventyConfig) {
     const contributorImage = image
       ? html`
           <div class="media-left">
-            <img class="image quire-contributor__pic" src="${path.join(config.figures.imageDir, image)}" alt="Picture of ${escape(name)}">
+            <img class="image quire-contributor__pic" src="${path.join(config.figures.imageDir, image).replaceAll(path.sep, '/')}" alt="Picture of ${escape(name)}">
           </div>
       `
       : ''

@@ -12,6 +12,14 @@ Changelog entries are classified using the following labels:
 - `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
+## [1.0.0-rc.30]
+
+### Fixed
+
+- Ensure `@src` attributes on img tags always use URL path separators - DEV-20272
+- Ensure paths in epub transform are correctly normalized to the platform - DEV-20270 / DEV-20269
+- Update signature of `assetFileNames` in `vite` config to handle input paths - DEV-20316
+
 ## [1.0.0-rc.29]
 
 ### Fixed

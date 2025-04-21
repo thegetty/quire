@@ -12,8 +12,6 @@ export default function (eleventyConfig, collections, content) {
   const removeHTML = eleventyConfig.getFilter('removeHTML')
   const slugify = eleventyConfig.getFilter('slugify')
   const slugifyIds = eleventyConfig.getFilter('slugifyIds')
-  const { imageDir } = eleventyConfig.globalData.config.figures
-  const { outputPath: iiifOutputDir } = eleventyConfig.globalData.iiifConfig.dirs
   const { language } = eleventyConfig.globalData.publication
   const { assets, readingOrder } = eleventyConfig.globalData.epub
   const { outputDir } = eleventyConfig.globalData.config.epub
@@ -21,7 +19,7 @@ export default function (eleventyConfig, collections, content) {
   const write = writer(outputDir)
 
   /**
-   * Gather asset filepaths
+   * Gather asset filepaths, normalizing to platform paths for consumers
    *
    * @param      {HTMLElement}  element
    */
@@ -30,12 +28,11 @@ export default function (eleventyConfig, collections, content) {
     images.forEach((img) => {
       const src = img.getAttribute('src')
       if (!src) return
-      const pattern = `^(${imageDir}|/${iiifOutputDir})`
-      const regex = new RegExp(pattern, 'g')
-      if (src.match(regex)) {
-        const relativePath = src.replace(/^\//, '')
-        assets.push(relativePath)
-      }
+
+      const normalizedPath = path.normalize(src)
+      const relativePath = normalizedPath.startsWith(path.sep) ? normalizedPath.slice(path.sep.length) : src
+
+      assets.push(relativePath)
     })
   }
 

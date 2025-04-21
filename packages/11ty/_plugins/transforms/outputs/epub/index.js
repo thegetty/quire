@@ -69,8 +69,9 @@ export default (eleventyConfig, collections) => {
     for (const asset of assets) {
       let assetDir
 
+      // Fetch assets from content/_assets, otherwise use public or _site
       switch (true) {
-        case asset.startsWith('_assets'):
+        case asset.split(path.sep).at(0) === '_assets':
           assetDir = eleventyConfig.directoryAssignments.input
           break
         case eleventyConfig.globalData.directoryConfig.publicDir !== false:
