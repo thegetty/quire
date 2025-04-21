@@ -22,10 +22,10 @@ export default function (eleventyConfig) {
     if (!src && !staticInlineFigureImage) return ''
 
     const labelElement = figureLabel({ caption, id, label })
-    const extOrIiifRegex = new RegExp(/^(https?:\/\/|\/iiif\/|\\iiif\\)/)
+    const extOrIiifRegex = /^(https?:\/\/|\/iiif\/|\\iiif\\)/
 
     /**
-     * NB: Image assets can be: external, in the asset dir, or in the IIIF directory 
+     * NB: Image assets can be: external, in the asset dir, or in the IIIF directory
      **/
     let imageSrc
     switch (true) {
@@ -39,7 +39,7 @@ export default function (eleventyConfig) {
         imageSrc = src
         break
       default:
-        imageSrc = path.join(imageDir, src).replaceAll(path.sep,'/')
+        imageSrc = path.join(imageDir, src).replaceAll(path.sep, '/')
     }
 
     return html`

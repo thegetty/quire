@@ -64,7 +64,7 @@ export default (eleventyConfig) => {
     // Remove leading absolute pathing
     let imageDirPath = path.normalize(imageDir)
     if (imageDirPath.split(path.sep).at(0) === '') imageDirPath = imageDirPath.split(path.sep).slice(1).join(path.sep)
-    
+
     return path.join(imageDirPath, image)
   }
 

@@ -12,8 +12,6 @@ export default function (eleventyConfig, collections, content) {
   const removeHTML = eleventyConfig.getFilter('removeHTML')
   const slugify = eleventyConfig.getFilter('slugify')
   const slugifyIds = eleventyConfig.getFilter('slugifyIds')
-  const { imageDir } = eleventyConfig.globalData.config.figures
-  const { outputPath: iiifOutputDir } = eleventyConfig.globalData.iiifConfig.dirs
   const { language } = eleventyConfig.globalData.publication
   const { assets, readingOrder } = eleventyConfig.globalData.epub
   const { outputDir } = eleventyConfig.globalData.config.epub
@@ -31,8 +29,8 @@ export default function (eleventyConfig, collections, content) {
       const src = img.getAttribute('src')
       if (!src) return
 
-      const relativePath = path.normalize(src).split(path.sep).at(0) === '' ?
-                              path.normalize(src).split(path.sep).slice(1).join(path.sep) : src
+      const relativePath = path.normalize(src).split(path.sep).at(0) === '' ? path.normalize(src).split(path.sep).slice(1).join(path.sep) : src
+
       assets.push(relativePath)
     })
   }
