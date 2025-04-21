@@ -29,7 +29,8 @@ export default function (eleventyConfig, collections, content) {
       const src = img.getAttribute('src')
       if (!src) return
 
-      const relativePath = path.normalize(src).split(path.sep).at(0) === '' ? path.normalize(src).split(path.sep).slice(1).join(path.sep) : src
+      const normalizedPath = path.normalize(src)
+      const relativePath = normalizedPath.startsWith(path.sep) ? normalizedPath.slice(path.sep.length) : src
 
       assets.push(relativePath)
     })
