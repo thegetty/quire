@@ -9,7 +9,7 @@ orbs:
 executors:
   linux:
     docker:
-      - image: circleci/buildpack-deps:trusty
+      - image: cimg/base:current-22.04-browsers
         user: root
   macos:
     macos:
