@@ -36,14 +36,8 @@ commands:
   build_install_cli:
     steps:
       - run:
-          name: Install CLI dependencies
-          command: cd packages/cli && npm install
-      - run:
-          name: Build CLI
-          command: cd packages/cli && npm run build
-      - run:
           name: Install CLI
-          command: cd packages/cli && npm install -g
+          command: cd packages/cli && npm pack --pack-destination cli.tgz && npm install -g cli.tgz 
       - run:
           name: Quire Version
           command: quire --version
