@@ -37,7 +37,7 @@ commands:
     steps:
       - run:
           name: Install CLI
-          command: cd packages/cli && npm pack --pack-destination cli.tgz && npm install -g cli.tgz 
+          command: cd packages/cli && npm pack && npm install -g thegetty-quire-cli-*.tgz 
       - run:
           name: Quire Version
           command: quire --version
