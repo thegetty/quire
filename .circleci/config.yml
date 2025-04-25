@@ -37,7 +37,7 @@ commands:
     steps:
       - run:
           name: Install CLI
-          command: cd packages/cli && npm pack && npm install -g thegetty-quire-cli-*.tgz && exit 
+          command: cd packages/cli && npm pack && npm install --foreground-scripts -g thegetty-quire-cli-*.tgz && exit 
       - run:
           name: Quire Version
           command: quire --version && exit
