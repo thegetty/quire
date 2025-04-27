@@ -82,7 +82,7 @@ commands:
     steps:
       - run:
           name: Create a new publication
-          command: quire new --quire-path $(pwd)/packages/11ty test-pub
+          command: git config --global user.email quire@getty.edu && quire new --quire-path $(pwd)/packages/11ty test-pub
       - run:
           name: Build the publication
           command: cd test-pub && quire build
@@ -97,7 +97,7 @@ commands:
     steps:
       - run:
           name: Create a new publication
-          command: quire new --quire-path $(pwd)/packages/11ty test-pub
+          command: git config --global user.email quire@getty.edu && quire new --quire-path $(pwd)/packages/11ty test-pub
       - run:
           name: Build the publication
           command: cd test-pub && quire build
@@ -112,7 +112,7 @@ commands:
     steps:
       - run:
           name: Create a new publication
-          command: quire new --quire-path $(pwd)/packages/11ty test-pub
+          command: git config --global user.email quire@getty.edu && quire new --quire-path $(pwd)/packages/11ty test-pub
       - run:
           name: Build the publication
           command: cd test-pub && quire build
