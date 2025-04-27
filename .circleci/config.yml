@@ -31,13 +31,14 @@ anchors:
     matrix:
       parameters:
         os: [ 'linux', 'macos', 'win' ]
+        # TODO: Supported node versions
 
 commands:
   build_install_cli:
     steps:
       - run:
           name: Install CLI
-          no_output_timeout: 20m
+          no_output_timeout: 30m
           command: cd packages/cli && npm pack && npm install --foreground-scripts -g thegetty-quire-cli-*.tgz && exit 
       - run:
           name: Quire Version
