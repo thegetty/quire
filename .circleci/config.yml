@@ -89,10 +89,10 @@ commands:
           command: cd test-pub && quire build
       - run:
           name: Build the PDF
-          command: quire pdf
+          command: cd test-pub && quire pdf
       - run:
           name: Build the epub
-          command: quire epub
+          command: cd test-pub && quire epub
 
   build_pub-macos:
     steps:
@@ -104,10 +104,10 @@ commands:
           command: cd test-pub && quire build
       - run:
           name: Build the PDF
-          command: quire pdf
+          command: cd test-pub && quire pdf
       - run:
           name: Build the epub
-          command: quire epub
+          command: cd test-pub && quire epub
 
   build_pub-win:
     steps:
