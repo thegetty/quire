@@ -37,6 +37,7 @@ commands:
     steps:
       - run:
           name: Install CLI
+          no_output_timeout: 30m
           command: cd packages/cli && npm pack && npm install --foreground-scripts -g thegetty-quire-cli-*.tgz && exit 
       - run:
           name: Quire Version
