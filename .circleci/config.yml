@@ -78,11 +78,51 @@ commands:
           name: Install External Dependencies -- eg Prince
           command: exit
 
-  # TODO: Start and build a project
-  # start_build_project:
-  #   steps:
-  #     - run:
-  #         name: 
+  build_pub-linux:
+    steps:
+      - run:
+          name: Create a new publication
+          command: quire new --quire-path $(pwd)/packages/11ty test-pub
+      - run:
+          name: Build the publication
+          command: cd test-pub && quire build
+      - run:
+          name: Build the PDF
+          command: quire pdf
+      - run:
+          name: Build the epub
+          command: quire epub
+
+  build_pub-macos:
+    steps:
+      - run:
+          name: Create a new publication
+          command: quire new --quire-path $(pwd)/packages/11ty test-pub
+      - run:
+          name: Build the publication
+          command: cd test-pub && quire build
+      - run:
+          name: Build the PDF
+          command: quire pdf
+      - run:
+          name: Build the epub
+          command: quire epub
+
+  build_pub-win:
+    steps:
+      - run:
+          name: Create a new publication
+          command: quire new --quire-path $(pwd)/packages/11ty test-pub
+      - run:
+          name: Build the publication
+          command: cd test-pub && quire build
+      - run:
+          name: Build the PDF
+          command: quire pdf
+      - run:
+          name: Build the epub
+          command: quire epub
+
   run_tests:
     steps:
       # TODO: Create test artifact / result directory
@@ -129,6 +169,7 @@ jobs:
       - build_install_cli-<< parameters.os >>
       - install_deps-<< parameters.os >>
       - test-<< parameters.os >>
+      - build_pub-<< parameters.os >>
       - save_cache:
           key: *npm_cache_key
           paths:
