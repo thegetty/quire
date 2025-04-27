@@ -131,7 +131,7 @@ commands:
       #     command: mkdir -p test-results
       - run:
           name: Run CLI tests
-          command: cd packages/cli && npm i && npm run test
+          command: cd packages/cli && npm run test
       - run:
           name: Run 11ty tests
           command: cd packages/11ty && npm i && npm run test
