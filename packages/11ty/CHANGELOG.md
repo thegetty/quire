@@ -12,6 +12,65 @@ Changelog entries are classified using the following labels:
 - `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
+## [1.0.0-rc.29]
+
+### Fixed
+
+- Fixes an issue where externally-hosted IIIF images did not appear in object grids - DEV-19295
+- Filepaths + renderOutputs - DEV-20261
+- Preprocessor check / HTML page - DEV-19983
+- IIIF assets were not generating - DEV-20272
+- Fixes pathing for epub cover - DEV-20269
+
+## [1.0.0-rc.28]
+
+### Bumped
+
+- `@11ty/eleventy-img` to v6.0.1
+- `@11ty/eleventy-navigation` to v1.0.1
+- `@11ty/eleventy-plugin-vite` to v6.0.0
+
+### Fixed
+
+- `DEV-19999`: import.meta.dirname in table of contents component breaks builds on Windows 
+- `DEV-20261`: Figure components not rendering in HTML representations
+
+## [1.0.0-rc.27]
+
+### Added
+
+- Sitemap plugin for quire publications
+
+### Changed
+
+- Allow TOC images to be externally hosted
+
+### Fixed
+
+- Handling of table figures so they are not added to 11ty templates
+- Corrected search JSON output path when using a directory other than `_site`
+- Escaped HTML entities in OpenGraph page `<meta>` tags
+- MLA citations in menu
+- Windows URI/URL issues with file imports [DEV-19999]
+
+## [1.0.0-rc.26]
+
+### Removed
+
+- `patch-package` dependency
+
+## [1.0.0-rc.25]
+
+### Changed
+
+- Make `patch-package` a core dependency
+
+## [1.0.0-rc.24]
+
+### Changed
+
+- Replaced in-text placeholder for IIIF choice figures with user-controlled choices + UI
+
 ## [1.0.0-rc.23]
 
 ### Bumped

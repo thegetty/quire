@@ -1,18 +1,33 @@
 import chalkFactory from '#lib/chalk/index.js'
-import citeproc from 'citeproc'
-import chicago from './styles/chicago-fullnote-bibliography.js'
-import mla from './styles/mla.js'
+import { Cite, plugins } from '@citation-js/core'
+import '@citation-js/plugin-csl'
+import fs from 'node:fs'
+import path from 'node:path'
+import url from 'node:url'
 
 const logger = chalkFactory('plugins:citations')
 
+// Stub `import.meta.dirname` for users on node < v20 that don't have it
+const importMetaDirname = path.dirname(url.fileURLToPath(import.meta.url))
+
 const defaultStyles = {
-  chicago,
-  mla
+  chicago: path.join(importMetaDirname, 'styles/chicago-fullnote-bibliography.csl'),
+  mla: path.join(importMetaDirname, 'styles/modern-language-association.csl')
 }
 
 export default async function (options = {}) {
-  const { default: locale } = await import(options.locale || 'locale-en-us')
   const styles = Object.assign(defaultStyles, options.styles)
+  const locale = options.locale || 'en-US'
+
+  // Load CSL stylesheets see: https://github.com/citation-js/citation-js/tree/main/packages/plugin-csl
+  const cslConfig = plugins.config.get('@csl')
+
+  Object.entries(styles).forEach(([styleKey, stylePath]) => {
+    if (!fs.existsSync(stylePath)) return
+
+    const data = fs.readFileSync(stylePath, 'utf8')
+    cslConfig.templates.add(styleKey, data)
+  })
 
   return function (item, { type }) {
     const style = styles[type]
@@ -22,20 +37,7 @@ export default async function (options = {}) {
       return
     }
 
-    const sys = {
-      retrieveItem: () => { return { ...item, properties: { noteIndex: 0 } } },
-      retrieveLocale: () => locale
-    }
-
-    const engine = new citeproc.Engine(sys, style)
-    engine.opt.development_extensions.wrap_url_and_doi = true
-    engine.setOutputFormat('text')
-
-    const citationData = { citationItems: [{ id: item.id }] }
-
-    // eslint-disable-next-line no-unused-vars
-    const citationResult = engine.processCitationCluster(citationData, [], [])
-    const citation = engine.previewCitationCluster(citationData, [], [], 'text')
+    const citation = new Cite({ ...item }).format('bibliography', { format: 'text', template: type, lang: locale })
 
     return type === 'mla'
       ? `${citation.replace(/\s+$/, '')} <span class="cite-current-date__statement">Accessed <span class="cite-current-date">DD Mon. YYYY</span>.</span>`

@@ -1,3 +1,4 @@
+import escape from 'html-escape'
 import path from 'node:path'
 import { html } from '#lib/common-tags/index.js'
 
@@ -16,13 +17,13 @@ export default function (eleventyConfig) {
           id="${id}"
           class="q-figure__image"
           src="${imagePath}"
-          alt="${alt}"
+          alt="${escape(alt)}"
         />
       `
     } else {
       const imagePath = path.join(imageDir, 'icons', `${mediaType}.png`)
       imageElement = `
-        <img src="${imagePath}" class="q-figure__media-fallback" alt="${alt}" />
+        <img src="${imagePath}" class="q-figure__media-fallback" alt="${escape(alt)}" />
       `
     }
 
@@ -30,7 +31,7 @@ export default function (eleventyConfig) {
 
     const captionElement = `
       <figcaption class="quire-figure__caption">
-        <a href="${src}" target="_blank" alt=>${src}</a>
+        <a href="${src}" target="_blank">${src}</a>
       </figcaption>
     `
 

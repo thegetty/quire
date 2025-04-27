@@ -26,7 +26,7 @@ export default function (eleventyConfig, { directoryConfig, publication }) {
       root: outputDir,
       base: pathname,
       resolve: {
-        alias: pathname === '/' ? [] : [{ find: pathname, replacement: '/' }]
+        alias: pathname === '/' ? {} : { [pathname]: '/' }
       },
       build: {
         assetsDir: '_assets',

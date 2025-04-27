@@ -1,3 +1,6 @@
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+
 /**
  * Render all `table-of-contents` outputs
  *
@@ -10,6 +13,6 @@
 export default function (eleventyConfig) {
   const renderOutputs = eleventyConfig.getFilter('renderOutputs')
   return function (params) {
-    return renderOutputs(import.meta.dirname, params)
+    return renderOutputs(path.dirname(fileURLToPath(import.meta.url)), params)
   }
 }

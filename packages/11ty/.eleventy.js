@@ -42,6 +42,7 @@ import lintersPlugin from '#plugins/linters/index.js'
 import markdownPlugin from '#plugins/markdown/index.js'
 import searchPlugin from '#plugins/search/index.js'
 import shortcodesPlugin from '#plugins/shortcodes/index.js'
+import sitemapPlugin from '#plugins/sitemap/index.js'
 import transformsPlugin from '#plugins/transforms/index.js'
 import vitePlugin from '#plugins/vite/index.js'
 
@@ -157,6 +158,21 @@ export default async function (eleventyConfig) {
   })
 
   /**
+   * Register a preprocessor to ignore HTML files from the input asset directory.
+   * Preprocessors run on input templates before parsing.
+   * @see https://www.11ty.dev/docs/config-preprocessors/
+   *
+   * NB: `inputPath` is normalized to URL path separators (`/`) not the platform's separator
+   */
+  const assetPathFragment = [inputDir, '_assets'].join('/')
+  const ignoreAssetHTML = ({ page }, content) => {
+    if (page.inputPath.includes(assetPathFragment)) return false
+    return content
+  }
+
+  eleventyConfig.addPreprocessor('html-files', 'html', ignoreAssetHTML)
+
+  /**
    * Configure build output
    * @see https://www.11ty.dev/docs/plugins/directory-output/#directory-output
    */
@@ -223,6 +239,9 @@ export default async function (eleventyConfig) {
    * @see {@link https://www.11ty.dev/docs/_plugins/render/}
    */
   eleventyConfig.addPlugin(EleventyRenderPlugin)
+
+  // Uses RenderPlugin so must load second
+  sitemapPlugin(eleventyConfig, collections)
 
   /**
    * Add plugin for WebC support
@@ -318,4 +337,8 @@ export default async function (eleventyConfig) {
    */
   eleventyConfig.setDataFileBaseName('index')
   eleventyConfig.setDataFileSuffixes(['.data', ''])
+
+  const { pathname } = globalData.publication
+
+  return { pathPrefix: pathname }
 }

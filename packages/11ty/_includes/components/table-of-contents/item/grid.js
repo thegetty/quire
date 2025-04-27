@@ -1,5 +1,4 @@
 import { html, oneLine } from '#lib/common-tags/index.js'
-import path from 'node:path'
 
 /**
  * Renders a TOC item
@@ -20,7 +19,6 @@ export default function (eleventyConfig) {
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const tableOfContentsImage = eleventyConfig.getFilter('tableOfContentsImage')
   const { contributorDivider } = eleventyConfig.globalData.config.tableOfContents
-  const { imageDir } = eleventyConfig.globalData.config.figures
 
   return function (params) {
     const {
@@ -58,39 +56,31 @@ export default function (eleventyConfig) {
     const imageAttribute = image || pageFigure || pageObject ? 'image' : 'no-image'
     const slugPageAttribute = children ? 'slug-page' : ''
 
-    let imageElement
+    let tocFigure
+
     switch (true) {
       case !!image:
-        imageElement = html`
-          <div class="card-image">
-            <figure class="image">
-              <img src="${path.join(imageDir, image)}" alt="" />
-            </figure>
-          </div>
-        `
+        tocFigure = { alt: '', src: image }
         break
       case !!pageFigure: {
-        const firstFigure = pageFigure[0] ? getFigure(pageFigure[0]) : null
-        imageElement = firstFigure
-          ? tableOfContentsImage({ src: firstFigure.src })
-          : ''
+        tocFigure = pageFigure[0] ? getFigure(pageFigure[0]) : null
         break
       }
       case !!pageObject: {
         const firstObjectId = pageObject[0].id
         const object = firstObjectId ? getObject(firstObjectId) : pageObject[0]
-        const firstObjectFigure = object && object.figure
+        tocFigure = object && object.figure
           ? getFigure(object.figure[0].id)
           : null
-        imageElement = firstObjectFigure
-          ? tableOfContentsImage({ src: firstObjectFigure.src })
-          : ''
         break
       }
       default:
-        imageElement = ''
         break
     }
+
+    const imageElement = tocFigure
+      ? tableOfContentsImage({ alt: tocFigure.alt, src: tocFigure.src })
+      : ''
 
     if (!children) {
       mainElement = html`
