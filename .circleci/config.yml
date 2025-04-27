@@ -20,6 +20,7 @@ executors:
       resource_class: windows.medium
 
 anchors:
+  # TODO: Need the release ver as a var
   - &npm_cache_key package-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ .Environment.CACHE_VERSION }}
 
   - &os_param
@@ -118,10 +119,10 @@ commands:
           command: cd test-pub && quire build
       - run:
           name: Build the PDF
-          command: quire pdf
+          command: cd test-pub && quire pdf
       - run:
           name: Build the epub
-          command: quire epub
+          command: cd test-pub && quire epub
 
   run_tests:
     steps:
