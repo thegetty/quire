@@ -62,21 +62,26 @@ commands:
   install_deps-linux:
     steps:
       - run:
-          name: Install External Dependencies
+          name: Install External Dependencies -- eg Prince
           command: exit
 
   install_deps-macos:
     steps:
       - run:
-          name: Install External Dependencies
+          name: Install External Dependencies -- eg Prince
           command: exit
 
   install_deps-win:
     steps:
       - run:
-          name: Install External Dependencies
+          name: Install External Dependencies -- eg Prince
           command: exit
 
+  # TODO: Start and build a project
+  # start_build_project:
+  #   steps:
+  #     - run:
+  #         name: 
   run_tests:
     steps:
       # TODO: Create test artifact / result directory
@@ -85,10 +90,10 @@ commands:
       #     command: mkdir -p test-results
       - run:
           name: Run CLI tests
-          command: cd packages/cli && npm run test
+          command: cd packages/cli && npm i && npm run test
       - run:
           name: Run 11ty tests
-          command: cd packages/11ty && npm run test
+          command: cd packages/11ty && npm i && npm run test
       # TODO: Store test artifacts /results
       # - store_test_results:
       #     path: test-results
