@@ -9,7 +9,7 @@ orbs:
 executors:
   linux:
     docker:
-      - image: cimg/base:22.04-browsers
+      - image: cimg/base:current-22.04
         user: root
   macos:
     macos:
@@ -37,7 +37,7 @@ commands:
     steps:
       - run:
           name: Install CLI
-          no_output_timeout: 30m
+          no_output_timeout: 20m
           command: cd packages/cli && npm pack && npm install --foreground-scripts -g thegetty-quire-cli-*.tgz && exit 
       - run:
           name: Quire Version
