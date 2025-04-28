@@ -95,7 +95,7 @@ commands:
           command: cd test-pub && quire epub
       - run:
           name: Zip the publication artifacts
-          command: cd test-pub && zip publication.zip _site _epub
+          command: cd test-pub && zip -r publication.zip _site _epub
       - store_artifacts:
           path: test-pub/publication.zip
 
