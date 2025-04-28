@@ -20,7 +20,7 @@ executors:
       resource_class: windows.medium
 
 anchors:
-  # TODO: Need the release ver as a var
+  # TODO: Need the release ver as a var for use in npm pack
   - &npm_cache_key package-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ .Environment.CACHE_VERSION }}
 
   - &os_param
@@ -93,6 +93,10 @@ commands:
       - run:
           name: Build the epub
           command: cd test-pub && quire epub
+      - store_artifacts:
+          path: test-pub/_site
+      - store_artifacts:
+          path: test-pub/_epub
 
   build_pub-macos:
     steps:
@@ -108,6 +112,10 @@ commands:
       - run:
           name: Build the epub
           command: cd test-pub && quire epub
+      - store_artifacts:
+          path: test-pub/_site
+      - store_artifacts:
+          path: test-pub/_epub
 
   build_pub-win:
     steps:
@@ -123,10 +131,14 @@ commands:
       - run:
           name: Build the epub
           command: cd test-pub && quire epub
+      - store_artifacts:
+          path: test-pub/_site
+      - store_artifacts:
+          path: test-pub/_epub
 
   run_tests:
     steps:
-      # TODO: Create test artifact / result directory
+      # @TODO: Create test artifact / result directory
       # - run:
       #     name: Add test report directory
       #     command: mkdir -p test-results
@@ -136,7 +148,7 @@ commands:
       - run:
           name: Run 11ty tests
           command: cd packages/11ty && npm i && npm run test
-      # TODO: Store test artifacts /results
+      # @TODO: Store test artifacts /results
       # - store_test_results:
       #     path: test-results
       # - store_artifacts:
@@ -144,7 +156,7 @@ commands:
 
   test-linux:
     steps:
-      # TODO: Don't think we need this anymore? Might be being naive tho
+      # @TODO: This was the old cypress line, likely needs replicated or -browsers image used
       # - run:
       #     name: Install Cypress Dependencies
       #     command: apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
@@ -180,7 +192,7 @@ jobs:
 
 workflows:
   build_install_test:
-    # TODO: Update this with tests against branch (eg, don't run for docs/, etc)
+    # @TODO: don't run for docs/, etc
     when: true
     jobs:
       - build_install_test:
