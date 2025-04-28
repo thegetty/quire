@@ -79,8 +79,8 @@ commands:
           name: Install External Dependencies -- eg Prince
           command: exit
 
-  build_pub-linux:
-    steps:
+  build_pub:
+    steps:    
       - run:
           name: Create a new publication
           command: git config --global user.email quire@getty.edu && quire new --quire-path $(pwd)/packages/11ty test-pub
@@ -93,48 +93,23 @@ commands:
       - run:
           name: Build the epub
           command: cd test-pub && quire epub
+      - run:
+          name: Zip the publication artifacts
+          command: cd test-pub && zip publication.zip _site _epub
       - store_artifacts:
-          path: test-pub/_site
-      - store_artifacts:
-          path: test-pub/_epub
+          path: test-pub/publication.zip
+
+  build_pub-linux:
+    steps:
+      - build_pub
 
   build_pub-macos:
     steps:
-      - run:
-          name: Create a new publication
-          command: git config --global user.email quire@getty.edu && quire new --quire-path $(pwd)/packages/11ty test-pub
-      - run:
-          name: Build the publication
-          command: cd test-pub && quire build
-      - run:
-          name: Build the PDF
-          command: cd test-pub && quire pdf
-      - run:
-          name: Build the epub
-          command: cd test-pub && quire epub
-      - store_artifacts:
-          path: test-pub/_site
-      - store_artifacts:
-          path: test-pub/_epub
+      - build_pub
 
   build_pub-win:
     steps:
-      - run:
-          name: Create a new publication
-          command: git config --global user.email quire@getty.edu && quire new --quire-path $(pwd)/packages/11ty test-pub
-      - run:
-          name: Build the publication
-          command: cd test-pub && quire build
-      - run:
-          name: Build the PDF
-          command: cd test-pub && quire pdf
-      - run:
-          name: Build the epub
-          command: cd test-pub && quire epub
-      - store_artifacts:
-          path: test-pub/_site
-      - store_artifacts:
-          path: test-pub/_epub
+      - build_pub
 
   run_tests:
     steps:
