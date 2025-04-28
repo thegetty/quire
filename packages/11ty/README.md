@@ -1,5 +1,5 @@
 ## Quire Eleventy
-[![CircleCI](https://dl.circleci.com/status-badge/img/gh/thegetty/quire/tree/main.svg?style=shielf)](https://dl.circleci.com/status-badge/redirect/gh/thegetty/quire/tree/main)
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/thegetty/quire/tree/main.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/thegetty/quire/tree/main)
 
 The [Quire Eleventy package](https://github.com/thegetty/quire/tree/main/packages/11ty) contains configuration and modules for the [Eleventy static site generator](https://11ty.dev). This package is published to npm as [`@thegetty/quire-11ty`](https://www.npmjs.com/package/@thegetty/quire-11ty) and installed by the [`@thegetty/quire-cli`](https://www.npmjs.com/package/@thegetty/quire-cli) to build [Quire](https://quire.getty.edu) projects.
 
