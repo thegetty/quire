@@ -1,4 +1,5 @@
 # Quire
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/thegetty/quire/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/thegetty/quire/tree/main)
 
 ## About Quire 
 
