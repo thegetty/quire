@@ -128,13 +128,13 @@ jobs:
             - *npm_cache_key
       - build_install_cli-<< parameters.os >>
       - install_deps-<< parameters.os >>
-      - test-<< parameters.os >>
       - save_cache:
           key: *npm_cache_key
           paths:
             - node_modules
             - ~/.npm
             - ~/.cache
+      - test-<< parameters.os >>
 
 workflows:
   build_install_test:
