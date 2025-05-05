@@ -88,7 +88,7 @@ commands:
           command: git config --global user.email quire@getty.edu 
       - run:
           name: Install deps
-          command: npm install --global-style
+          command: npm install --ignore-scripts
       - run:
           name: Run integration tests
           command: npm --test run test
