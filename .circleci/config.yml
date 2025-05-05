@@ -36,7 +36,7 @@ anchors:
         # TODO: Supported node versions
 
 commands:
-  # Pack and install the CLI globally (NB: puppeteer install a awhile thus the timeout)
+  # Pack and install the CLI globally (NB: uncached puppeteer install takes a while)
   build_install_cli:
     steps:
       - run:
@@ -131,7 +131,6 @@ jobs:
       - test-<< parameters.os >>
       - save_cache:
           key: *npm_cache_key
-          # TODO: Add puppeteer install location
           paths:
             - node_modules
             - ~/.npm
