@@ -36,6 +36,7 @@ anchors:
         # TODO: Supported node versions
 
 commands:
+  # Pack and install the CLI globally (NB: puppeteer install a awhile thus the timeout)
   build_install_cli:
     steps:
       - run:
@@ -86,6 +87,9 @@ commands:
           name: Set git email
           command: git config --global user.email quire@getty.edu 
       - run:
+          name: Install deps
+          command: npm install --global-style
+      - run:
           name: Run integration tests
           command: npm --test run test
       - store_artifacts:
@@ -127,6 +131,7 @@ jobs:
       - test-<< parameters.os >>
       - save_cache:
           key: *npm_cache_key
+          # TODO: Add puppeteer install location
           paths:
             - node_modules
             - ~/.npm
