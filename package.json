@@ -30,6 +30,7 @@
   },
   "devDependencies": {
     "ava": "^6.2.0",
+    "execa": "^9.5.2",
     "tap-xunit": "^2.4.1"
   }
 }
