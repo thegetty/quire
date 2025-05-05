@@ -91,15 +91,17 @@ commands:
           command: npm install --ignore-scripts
       - run:
           name: Run integration tests
-          command: npm --test run test
+          command: mkdir -p reports && npm run test:report
+      - store_test_results:
+          path: ava.xml
       - store_artifacts:
           path: publication.zip
       - run:
           name: Run CLI tests
-          command: npm --test -w packages/cli run test
+          command: npm -w packages/cli run test
       - run:
           name: Run 11ty tests
-          command: npm --test -w packages/11ty run test
+          command: npm -w packages/11ty run test
 
   test-linux:
     steps:
