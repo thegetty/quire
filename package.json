@@ -15,5 +15,19 @@
   },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "ava": {
+    "environmentVariables": {},
+    "failFast": true,
+    "files": [
+      "./_tests/*-test.mjs"
+    ],
+    "workerThreads": false
+  },
+  "scripts": {
+    "test": "ava --verbose --timeout 360s"
+  },
+  "devDependencies": {
+    "ava": "^6.2.0"
+  }
 }
