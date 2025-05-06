@@ -204,7 +204,8 @@ async function install(options = {}) {
  */
 async function installInProject(projectPath, quireVersion, options = {}) {
   const { quirePath } = options
-  const quire11tyPackage = fs.existsSync(quirePath) ? quirePath : `${PACKAGE_NAME}@${quireVersion}`
+  const quire11tyPackage = `${PACKAGE_NAME}@${quireVersion}`
+
   console.debug(`[CLI:quire] installing ${quire11tyPackage} into ${projectPath}`)
 
   /**
@@ -219,27 +220,23 @@ async function installInProject(projectPath, quireVersion, options = {}) {
     .catch((error) => console.error('[CLI:error] ', error))
 
   const temp11tyDirectory = '.temp'
-  /**
-   * `Destination` is relative to `node_modules` of the working-directory
-   * so we have included a relative path to parent directory in order to
-   * install versions to a different local path.
-   * @see https://github.com/scott-lin/install-npm-version
-   */
-  const installOptions = {
-    Destination: path.join('..', temp11tyDirectory),
-    Debug: false,
-    Overwrite: options.force || options.overwrite || false,
-    Verbosity: options.debug ? 'Debug' : 'Silent',
-    WorkingDirectory: projectPath
+  // TODO: What to do with options.force, options.overwrite?
+
+  const tempDir = path.join(projectPath,temp11tyDirectory)
+  fs.mkdirSync(tempDir)
+
+  // Copy the 11ty path or download the tarball from the package spec and unpack it 
+  if (fs.existsSync(quirePath)) {
+    fs.copySync(quirePath, tempDir)
+  } else {
+    await execaCommand(`npm pack ${ options.debug ? '--debug' : '--quiet' } ${quire11tyPackage}`)
+
+    // Extract only the package dir from the tar bar and strip it from the extracted path
+    await execaCommand(`tar -xzf thegetty-quire-11ty-${quireVersion}.tgz -C ${tempDir} --strip-components=1 package/`)
   }
-  await inv.Install(quire11tyPackage, installOptions)
 
-  // delete empty `node_modules` directory that `install-npm-version` creates
-  const invNodeModulesDir = path.join(projectPath, 'node_modules')
-  if (fs.existsSync(invNodeModulesDir)) fs.rmdir(invNodeModulesDir)
-
-  // Copy all files installed in `.temp` to projectPath
-  fs.copySync(path.join(projectPath, '.temp'), projectPath)
+  // Copy `.temp` to projectPath
+  fs.copySync(tempDir, projectPath)
 
   console.debug('[CLI:quire] installing dev dependencies into quire project')
   /**
@@ -257,7 +254,7 @@ async function installInProject(projectPath, quireVersion, options = {}) {
   }
 
   const eleventyFilesToCommit = fs
-    .readdirSync(path.join(projectPath, temp11tyDirectory))
+    .readdirSync(tempDir)
     .filter((filePath) => filePath !== 'node_modules')
 
   eleventyFilesToCommit.push('package-lock.json')
