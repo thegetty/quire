@@ -1,6 +1,7 @@
 version: 2.1
 
 orbs:
+  browser-tools: circleci/browser-tools@1.5.3
   cypress: cypress-io/cypress@3.4.3
   mac: circleci/macos@2.5.2
   node: circleci/node@7.1.0
@@ -37,6 +38,9 @@ anchors:
 commands:
   build_install_cli:
     steps:
+      # Pre-install chrome
+      - browser-tools/install-browser-tools:
+          chrome-version: 115.0.5790.98
       - run:
           name: Install CLI
           no_output_timeout: 30m
