@@ -69,7 +69,7 @@ commands:
     steps:
       # Zip to package the test-built site
       - run: choco install zip
-      - run: choco install googlechrome chromedriver
+      - run: choco install googlechrome chromedriver --ignore-checksums
       - build_install_cli
 
   install_deps-linux:
