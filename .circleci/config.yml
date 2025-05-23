@@ -52,18 +52,18 @@ commands:
     steps:
       - node/install:
           node-version: "22.14.0"
-      - browser-tools:install-chrome:
+      - browser-tools/install-chrome:
           chrome-version: 115.0.5790.98
-      - browser-tools:install-chromedriver
+      - browser-tools/install-chromedriver
       - build_install_cli
 
   build_install_cli-macos:
     steps:
       - node/install:
           node-version: "22.14.0"
-      - browser-tools:install-chrome:
+      - browser-tools/install-chrome:
           chrome-version: 115.0.5790.98
-      - browser-tools:install-chromedriver      
+      - browser-tools/install-chromedriver      
       - build_install_cli
 
   build_install_cli-win:
