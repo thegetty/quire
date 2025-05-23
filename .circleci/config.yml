@@ -89,7 +89,7 @@ commands:
       # Install test dependencies only
       - run:
           name: Install deps
-          command: npm install --workspaces=false
+          command: npm install
       - run:
           name: Run integration tests
           command: mkdir -p reports && npm run test:report
