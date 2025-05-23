@@ -15,5 +15,22 @@
   },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "ava": {
+    "environmentVariables": {},
+    "failFast": true,
+    "files": [
+      "./_tests/*-test.mjs"
+    ],
+    "workerThreads": false
+  },
+  "scripts": {
+    "test": "ava --verbose --timeout 360s",
+    "test:report": "ava --tap --timeout 360s | tap-xunit > ava.xml"
+  },
+  "devDependencies": {
+    "ava": "^6.2.0",
+    "execa": "^9.5.2",
+    "tap-xunit": "^2.4.1"
+  }
 }

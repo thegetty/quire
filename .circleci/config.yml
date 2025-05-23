@@ -20,6 +20,7 @@ executors:
       resource_class: windows.medium
 
 anchors:
+
   # TODO: Need the release ver as a var for use in npm pack
   - &npm_cache_key package-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ .Environment.CACHE_VERSION }}
 
@@ -35,15 +36,16 @@ anchors:
         # TODO: Supported node versions
 
 commands:
+  # Pack and install the CLI globally (NB: uncached puppeteer install takes a while)
   build_install_cli:
     steps:
       - run:
           name: Install CLI
           no_output_timeout: 30m
-          command: cd packages/cli && npm pack && npm install --foreground-scripts -g thegetty-quire-cli-*.tgz && exit 
+          command: npm pack -w packages/cli && npm install --foreground-scripts -g thegetty-quire-cli-*.tgz
       - run:
           name: Quire Version
-          command: quire --version && exit
+          command: quire --version
 
   build_install_cli-linux:
     steps:
@@ -79,55 +81,28 @@ commands:
           name: Install External Dependencies -- eg Prince
           command: exit
 
-  build_pub:
-    steps:    
-      - run:
-          name: Create a new publication
-          command: git config --global user.email quire@getty.edu && quire new --quire-path $(pwd)/packages/11ty test-pub
-      - run:
-          name: Build the publication
-          command: cd test-pub && quire build
-      - run:
-          name: Build the PDF
-          command: cd test-pub && quire pdf
-      - run:
-          name: Build the epub
-          command: cd test-pub && quire epub
-      - run:
-          name: Zip the publication artifacts
-          command: cd test-pub && zip -r publication.zip _site _epub
-      - store_artifacts:
-          path: test-pub/publication.zip
-
-  build_pub-linux:
-    steps:
-      - build_pub
-
-  build_pub-macos:
-    steps:
-      - build_pub
-
-  build_pub-win:
-    steps:
-      - build_pub
-
   run_tests:
     steps:
-      # @TODO: Create test artifact / result directory
-      # - run:
-      #     name: Add test report directory
-      #     command: mkdir -p test-results
+      - run:
+          name: Set git email
+          command: git config --global user.email quire@getty.edu 
+      # Install test dependencies only
+      - run:
+          name: Install deps
+          command: npm install --workspaces=false
+      - run:
+          name: Run integration tests
+          command: mkdir -p reports && npm run test:report
+      - store_test_results:
+          path: ava.xml
+      - store_artifacts:
+          path: publication.zip
       - run:
           name: Run CLI tests
-          command: cd packages/cli && npm run test
+          command: npm -w packages/cli run test
       - run:
           name: Run 11ty tests
-          command: cd packages/11ty && npm i && npm run test
-      # @TODO: Store test artifacts /results
-      # - store_test_results:
-      #     path: test-results
-      # - store_artifacts:
-      #     path: test-results
+          command: npm -w packages/11ty run test
 
   test-linux:
     steps:
@@ -156,14 +131,13 @@ jobs:
             - *npm_cache_key
       - build_install_cli-<< parameters.os >>
       - install_deps-<< parameters.os >>
-      - test-<< parameters.os >>
-      - build_pub-<< parameters.os >>
       - save_cache:
           key: *npm_cache_key
           paths:
             - node_modules
             - ~/.npm
             - ~/.cache
+      - test-<< parameters.os >>
 
 workflows:
   build_install_test:
