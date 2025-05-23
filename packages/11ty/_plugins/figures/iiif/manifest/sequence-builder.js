@@ -1,3 +1,5 @@
+import path from 'node:path'
+
 export default class SequenceBuilder {
   static create (manifestObject, data) {
     const sequenceBuilder = new SequenceBuilder(data)
@@ -27,7 +29,13 @@ export default class SequenceBuilder {
     const { iiifConfig, outputDir } = figure
     const { baseURI } = iiifConfig
     const items = this.items.slice(sequence.startIndex)
-    const id = [baseURI, outputDir, 'ranges', `${index}`].join('/')
+
+    // Construct URL-safe path if outputDir has a platform-specific url separator
+    const outputUrlPath = path.sep !== '/' && outputDir.includes(path.sep)
+      ? outputDir.replace(path.sep, '/')
+      : outputDir
+
+    const id = [baseURI, outputUrlPath, 'ranges', `${index}`].join('/')
     const structure = {
       id,
       items,
