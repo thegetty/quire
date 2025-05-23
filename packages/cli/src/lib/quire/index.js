@@ -220,12 +220,10 @@ async function installInProject(projectPath, quireVersion, options = {}) {
     .catch((error) => console.error('[CLI:error] ', error))
 
   const temp11tyDirectory = '.temp'
-  // TODO: What to do with options.force, options.overwrite?
-
   const tempDir = path.join(projectPath,temp11tyDirectory)
   fs.mkdirSync(tempDir)
 
-  // Copy the 11ty path or download the tarball from the package spec and unpack it 
+  // Copy if passed a path and it exists, otherwise attempt to download the tarball for this pathspec
   if (fs.existsSync(quirePath)) {
     fs.copySync(quirePath, tempDir)
   } else {
