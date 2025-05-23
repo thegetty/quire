@@ -61,6 +61,7 @@ commands:
 
   build_install_cli-win:
     steps:
+      - run: choco install zip
       - build_install_cli
 
   install_deps-linux:
