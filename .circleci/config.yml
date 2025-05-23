@@ -10,7 +10,7 @@ orbs:
 executors:
   linux:
     docker:
-      - image: cimg/node:22.14.0-browsers
+      - image: cimg/base:current-22.04
         user: root
   macos:
     macos:
@@ -43,7 +43,7 @@ commands:
       - run:
           name: Install CLI
           no_output_timeout: 30m
-          command: npm pack -w packages/cli && npm install --foreground-scripts -g thegetty-quire-cli-*.tgz
+          command: npm pack -w packages/cli && npm install --ignore-scripts --foreground-scripts -g thegetty-quire-cli-*.tgz
       - run:
           name: Quire Version
           command: quire --version
@@ -52,8 +52,7 @@ commands:
     steps:
       - node/install:
           node-version: "22.14.0"
-      - browser-tools/install-chrome:
-          chrome-version: 115.0.5790.98
+      - browser-tools/install-chrome
       - browser-tools/install-chromedriver
       - build_install_cli
 
@@ -68,7 +67,9 @@ commands:
 
   build_install_cli-win:
     steps:
+      # Zip to package the test-built site, chrome for the test-print of the PDF
       - run: choco install zip
+      - run: choco install googlechrome --version=115.0.5790.99
       - build_install_cli
 
   install_deps-linux:
