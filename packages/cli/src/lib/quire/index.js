@@ -148,51 +148,6 @@ async function initStarter (starter, projectPath, options) {
 }
 
 /**
- * Install quire-11ty (default to 'latest' version)
- *
- * @TODO refactor this to be callable by the installInProject method
- *
- * @param  {Object}  options  options passed from `quire new` command
- * @return  {Promise}
- */
-async function install(options = {}) {
-  const version = options.quireVersion || QUIRE_VERSION
-  console.debug(`[CLI:quire] installing quire-11ty@${version}`)
-  const absoluteInstallPath = path.join(__dirname, 'versions')
-  fs.ensureDirSync(absoluteInstallPath)
-  /**
-   * `Destination` is relative to `node_modules` of the working-directory
-   * so we have included a relative path to parent directory in order to
-   * install versions to a different local path.
-   * @see https://github.com/scott-lin/install-npm-version
-   */
-  const installOptions = {
-    Destination: path.join('..', version),
-    Debug: false,
-    Overwrite: options.force || options.overwrite || false,
-    Verbosity: options.debug ? 'Debug' : 'Silent',
-    WorkingDirectory: absoluteInstallPath
-  }
-  await inv.Install(`${PACKAGE_NAME}@${version}`, installOptions)
-
-  // delete empty `node_modules` directory that `install-npm-version` creates
-  const invNodeModulesDir = path.join(absoluteInstallPath, 'node_modules')
-  if (fs.existsSync(invNodeModulesDir)) fs.rmdir(invNodeModulesDir)
-
-  symlinkLatest()
-
-  console.debug('[CLI:quire] installing dev dependencies')
-  /**
-   * Manually install necessary dev dependencies to run 11ty;
-   * these must be `devDependencies` so that they are not bundled into
-   * the final `_site` package when running `quire build`
-   */
-  chdir(path.join(absoluteInstallPath, version))
-  await execaCommand('npm cache clean --force')
-  await execaCommand('npm install --save-dev')
-}
-
-/**
  * Install `quire-11ty` directly into a quire project
  *
  * @TODO refactor this to use the install method with pre and post-install hooks
@@ -375,19 +330,6 @@ function symlinkLatest() {
 }
 
 /**
- * Tests if a `quire-11ty` version is already installed
- * and installs the version if it is not already installed.
- *
- * @param  {String}  version  `quire-11ty` semantic version
- */
-function testVersion(version) {
-  version ||= getVersion()
-  if (!versions.includes(version)) {
-    install(version)
-  }
-}
-
-/**
  * Get an array of published `quire-11ty` package versions
  *
  * @return  {Array<String>}  published versions
@@ -400,12 +342,10 @@ export const quire = {
   getPath,
   getVersion,
   initStarter,
-  install,
   installInProject,
   latest,
   list,
   remove,
   setVersion,
-  testVersion,
   versions,
 }
