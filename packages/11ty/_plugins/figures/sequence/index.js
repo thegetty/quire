@@ -29,7 +29,7 @@ export default class Sequence {
   get items () {
     const { label } = this.figure.data
     return this.files.map((filename) => {
-      const src = path.join(this.dir, filename)
+      const src = `${this.dir}/${filename}`
       return new Annotation(this.figure, { label, src })
     })
   }
@@ -57,7 +57,7 @@ export default class Sequence {
       const { base } = path.parse(src)
       return this.start === base
     })
-    return startCanvasItem ? path.join(this.figure.canvasId, startCanvasItem.id) : null
+    return startCanvasItem ? `${this.figure.canvasId}/${startCanvasItem.id}` : null
   }
 
   get startCanvasIndex () {

@@ -1,5 +1,3 @@
-import path from 'node:path'
-
 export default class SequenceBuilder {
   static create (manifestObject, data) {
     const sequenceBuilder = new SequenceBuilder(data)
@@ -29,7 +27,7 @@ export default class SequenceBuilder {
     const { iiifConfig, outputDir } = figure
     const { baseURI } = iiifConfig
     const items = this.items.slice(sequence.startIndex)
-    const id = path.join(baseURI, outputDir, 'ranges', `${index}`)
+    const id = [baseURI, outputDir, 'ranges', `${index}`].join('/')
     const structure = {
       id,
       items,

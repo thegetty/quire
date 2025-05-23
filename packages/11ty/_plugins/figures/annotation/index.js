@@ -63,10 +63,11 @@ export default class Annotation {
       (annotationCount === 0 || src === figureSrc)
     const info = () => {
       if (!isImageService) return
-      const tilesPath = path.join(outputDir, name, tilesDirName)
-      const infoPath = path.join(tilesPath, 'info.json')
+      // NB: Not joining by path.sep because these are URLs
+      const tilesPath = [outputDir, name, tilesDirName].join('/')
+      const infoPath = [tilesPath, 'info.json'].join('/')
       try {
-        return new URL(path.join(baseURI, infoPath)).href
+        return new URL(`${baseURI}/${infoPath}`).href
       } catch (error) {
         logger.error(`Error creating info.json. Either the tile path (${tilesPath}) or base URI (${baseURI}) are invalid to form a fully qualified URI.`)
       }
@@ -76,10 +77,10 @@ export default class Annotation {
       switch (true) {
         case isImageService:
           // NB: Annotations for imageServices are *jpeg*s not the service endpoint
-          return new URL(path.join(baseURI, printImage)).href
+          return new URL(`${baseURI}${printImage}`).href
         default:
           try {
-            return new URL(path.join(baseURI, outputDir, base)).href
+            return new URL(`${baseURI}/${outputDir}/${base}`).href
           } catch (error) {
             logger.error(`Error creating annotation URI. Either the output directory (${outputDir}), filename (${base}) or base URI (${baseURI}) are invalid to form a fully qualified URI.`)
           }
