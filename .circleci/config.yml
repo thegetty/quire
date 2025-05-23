@@ -67,9 +67,10 @@ commands:
 
   build_install_cli-win:
     steps:
-      # Zip to package the test-built site, chrome for the test-print of the PDF
+      # Zip to package the test-built site
       - run: choco install zip
-      - run: choco install googlechrome --version=115.0.5790.99
+      - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
       - build_install_cli
 
   install_deps-linux:
