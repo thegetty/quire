@@ -39,8 +39,8 @@ commands:
   build_install_cli:
     steps:
       # Pre-install chrome
-      - browser-tools/install-browser-tools:
-          chrome-version: 115.0.5790.98
+      - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
       - run:
           name: Install CLI
           no_output_timeout: 30m
