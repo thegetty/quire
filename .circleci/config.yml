@@ -8,6 +8,9 @@ orbs:
   win: circleci/windows@5.1.0
 
 executors:
+  pw-noble-development:
+    docker:
+      - image: mcr.microsoft.com/playwright:v1.52.0-noble
   linux:
     docker:
       - image: cimg/base:current-22.04
@@ -101,11 +104,20 @@ commands:
           command: npm install --ignore-scripts --foreground-scripts
       - run:
           name: Run integration tests
-          command: mkdir -p reports && npm run test:report
+          command: mkdir -p reports && npm run test:integration
+
+      # Persist the site build for browser testing and submit test reports
+      - persist_to_workspace:
+          root: test-publication
+          paths:
+            - _site
       - store_test_results:
           path: reports
+      # @TODO: Turn this off when we're happy with browser test coverage
       - store_artifacts:
           path: publication.zip
+
+      # Run core package tests - @TODO: Consider moving this above the integration test
       - run:
           name: Run CLI tests
           command: npm -w packages/cli run test
@@ -147,6 +159,14 @@ jobs:
             - ~/.npm
             - ~/.cache
       - test-<< parameters.os >>
+  browser_test:
+    executor: pw-noble-development
+    steps:
+      - attach_workspace:
+          at: test-publication
+      - run: 
+          name: Run browser testing on integration test artifacts
+          command: npx playwright test
 
 workflows:
   build_install_test:
@@ -156,3 +176,5 @@ workflows:
       - build_install_test:
           <<: *matrix_params
           name: build_install_test-<< matrix.os >>
+      - browser_test
+

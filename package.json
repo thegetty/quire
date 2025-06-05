@@ -25,8 +25,9 @@
     "workerThreads": false
   },
   "scripts": {
-    "test": "ava --verbose --timeout 360s",
-    "test:report": "ava --tap --timeout 360s | tap-xunit > reports/publication-build.xml",
+    "test": "ava --verbose --timeout 360s && npx playwright test",
+    "test:browsers": "npx playwright test",
+    "test:integration": "ava --tap --timeout 360s | tap-xunit > reports/publication-build.xml",
     "test:serve": "npx --yes http-server test-publication/_site -a localhost -p 8080"
   },
   "devDependencies": {

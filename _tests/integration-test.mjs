@@ -38,12 +38,6 @@ test.serial('Build the default publication', async (t) => {
   t.pass()
 })
 
-test.serial('Test the default publication', async (t) => {
-  process.chdir( repoRoot )
-  await execa('npx', ['playwright', 'test'])
-  t.pass()
-})
-
 test.serial('Build the default publication\'s pdf', async (t) => {
   process.chdir( publicationPath )
   const pdfCmd = await execa('quire', ['pdf'])
