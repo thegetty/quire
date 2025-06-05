@@ -30,9 +30,7 @@ export default function (eleventyConfig) {
    * Render the PDF pages in a liquid layout that merges them into one file
    * Do the same for covers of the PDF pages.
    *
-   * NB: layout will only add SVG symbols once
-   *
-   * @param  {Object} collection collections.pdf with `sectionElement`,`svgElements`, and `coverPageData`
+   * @param  {Object} collection collections.pdf with `sectionElement` and `coverPageData`
    */
   return async (collection) => {
     const publicationHtml = await eleventyConfig.javascript.shortcodes.renderFile(pdfTemplatePath, { pages: collection }, 'liquid')
