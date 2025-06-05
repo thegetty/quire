@@ -25,7 +25,9 @@ layout: base.11ty.js
           <span class="subtitle">{{ publication.subtitle | markdownify }}</span>
         {% endif %}
       </h1>
-      <p class="reading-line">{{ publication.reading_line | markdownify }}</p>
+      {% if publication.reading_line %}
+        <p class="reading-line">{{ publication.reading_line | markdownify }}</p>
+      {% endif %}
       <div class="contributor">
         <span class="visually-hidden">Contributors: </span>
         {% if publication.contributor_as_it_appears %}
