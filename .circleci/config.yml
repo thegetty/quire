@@ -178,5 +178,5 @@ workflows:
           name: build_install_test-<< matrix.os >>
       - browser_test:
           requires:
-            - build_install_test
+            - build_install_test-linux
 
