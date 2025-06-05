@@ -26,7 +26,7 @@
   },
   "scripts": {
     "test": "ava --verbose --timeout 360s",
-    "test:report": "ava --tap --timeout 360s | tap-xunit > ava.xml",
+    "test:report": "ava --tap --timeout 360s | tap-xunit > test-results-publication-build.xml",
     "test:serve": "npx --yes http-server test-publication/_site -a localhost -p 8080"
   },
   "devDependencies": {

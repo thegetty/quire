@@ -103,7 +103,7 @@ commands:
           name: Run integration tests
           command: mkdir -p reports && npm run test:report
       - store_test_results:
-          path: ava.xml
+          path: test-results-*.xml
       - store_artifacts:
           path: publication.zip
       - run:
