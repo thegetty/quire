@@ -29,8 +29,11 @@
     "test:report": "ava --tap --timeout 360s | tap-xunit > ava.xml"
   },
   "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^22.15.29",
     "ava": "^6.2.0",
     "execa": "^9.5.2",
+    "playwright": "^1.52.0",
     "tap-xunit": "^2.4.1"
   }
 }
