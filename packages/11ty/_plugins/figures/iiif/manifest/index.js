@@ -4,7 +4,6 @@ import CanvasBuilder from './canvas-builder.js'
 import SequenceBuilder from './sequence-builder.js'
 import Writer from './writer.js'
 import chalkFactory from '#lib/chalk/index.js'
-import path from 'node:path'
 
 const logger = chalkFactory('Figures:IIIF:Manifest', 'DEBUG')
 
@@ -71,7 +70,7 @@ export default class Manifest {
       .figure.sequences
       .flatMap(({ items }) => items)
       .map((item) => {
-        const canvasId = path.join(this.figure.canvasId, item.id)
+        const canvasId = [this.figure.canvasId, item.id].join('/')
         const sequenceItemImage = ({ format, info, label, src, uri }) => {
           return {
             format,
@@ -92,7 +91,7 @@ export default class Manifest {
         }
         return {
           body: sequenceItemImage(item),
-          id: path.join(canvasId, 'annotation-page', item.id),
+          id: [canvasId, 'annotation-page', item.id].join('/'),
           motivation: 'painting',
           target: canvasId,
           type: 'Annotation'

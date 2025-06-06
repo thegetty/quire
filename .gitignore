@@ -120,3 +120,8 @@ Icon
 
 # Thumbnails
 ._*
+
+# Playwright
+/playwright-report/
+/blob-report/
+/playwright/.cache/
