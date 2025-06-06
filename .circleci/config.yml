@@ -165,6 +165,9 @@ jobs:
   browser_test:
     executor: pw-noble-development
     steps:
+      - run:
+          name: Install browser testing dependencies
+          run: npm i
       - attach_workspace:
           at: .
       - run: 
