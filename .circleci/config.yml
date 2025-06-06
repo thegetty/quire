@@ -110,10 +110,12 @@ commands:
       - persist_to_workspace:
           root: .
           paths:
-            - test-publication/_site
-            - _tests
             - playwright.config.js
             - package.json
+            - reports
+            - test-publication/_site
+            - _tests
+
       - store_test_results:
           path: reports
       # @TODO: Turn this off when we're happy with browser test coverage
@@ -169,10 +171,12 @@ jobs:
           at: .
       - run:
           name: Install browser testing dependencies
-          command: npm i
+          command: npm i && npx playwright install
       - run: 
           name: Run browser testing on integration test artifacts
-          command: npx playwright test
+          command: npm run test:browsers
+      - store_test_results:
+          path: reports
 
 workflows:
   build_install_test:
