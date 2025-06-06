@@ -167,7 +167,7 @@ jobs:
     steps:
       - run:
           name: Install browser testing dependencies
-          run: npm i
+          command: npm i
       - attach_workspace:
           at: .
       - run: 
