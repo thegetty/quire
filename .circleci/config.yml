@@ -165,11 +165,11 @@ jobs:
   browser_test:
     executor: pw-noble-development
     steps:
+      - attach_workspace:
+          at: .
       - run:
           name: Install browser testing dependencies
           command: npm i
-      - attach_workspace:
-          at: .
       - run: 
           name: Run browser testing on integration test artifacts
           command: npx playwright test
