@@ -1,4 +1,10 @@
 // @ts-check
+/**
+ * publication-cover.spec.js
+ * 
+ * Browser testing for the publication's index page / cover page 
+ * 
+ **/ 
 import { expect, test } from '@playwright/test'
 
 test.beforeEach(async ({ page }) => {

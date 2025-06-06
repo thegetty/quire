@@ -10,8 +10,6 @@
  *  - PDF must build successfully
  *  - epub must build successfully
  * 
- * @TODO: Test epub, pdf outputs
- * 
  **/ 
 
 import fs from 'node:fs'
