@@ -108,9 +108,12 @@ commands:
 
       # Persist the site build for browser testing and submit test reports
       - persist_to_workspace:
-          root: test-publication
+          root: .
           paths:
-            - _site
+            - test-publication/_site
+            - _tests
+            - playwright.config.js
+            - package.json
       - store_test_results:
           path: reports
       # @TODO: Turn this off when we're happy with browser test coverage
@@ -163,7 +166,7 @@ jobs:
     executor: pw-noble-development
     steps:
       - attach_workspace:
-          at: test-publication
+          at: .
       - run: 
           name: Run browser testing on integration test artifacts
           command: npx playwright test
