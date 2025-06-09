@@ -192,6 +192,8 @@ workflows:
           <<: *matrix_params
           name: build_install_test-<< matrix.os >>
       - browser_test:
+          <<: *matrix_params
+          name: browser_test-<< matrix.os >>
           requires:
-            - build_install_test-linux
+            - build_install_test-<< matrix.os >>
 
