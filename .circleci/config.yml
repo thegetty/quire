@@ -147,6 +147,7 @@ commands:
       - run_tests
 
 jobs:
+  # Builds the CLI, installs it, and tests it by building a publication
   build_install_test:
     <<: *os_param
     executor: << parameters.os >>
@@ -164,6 +165,7 @@ jobs:
             - ~/.npm
             - ~/.cache
       - test-<< parameters.os >>
+  # Tests the output of the publication build -- must be separate for the playwright executor
   browser_test:
     executor: pw-noble-development
     steps:
@@ -192,8 +194,15 @@ workflows:
           <<: *matrix_params
           name: build_install_test-<< matrix.os >>
       - browser_test:
-          <<: *matrix_params
-          name: browser_test-<< matrix.os >>
+          name: browser_test-linux
           requires:
-            - build_install_test-<< matrix.os >>
+            - build_install_test-linux
+      - browser_test:
+          name: browser_test-macos
+          requires:
+            - build_install_test-macos
+      - browser_test:
+          name: browser_test-win
+          requires:
+            - build_install_test-win
 
