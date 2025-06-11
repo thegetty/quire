@@ -48,33 +48,34 @@ const createManifestFromFigureFixture = async (figureFixtureName) => {
 describe('validating manifests via deepStrictEqual', () => {
   test('figure with checkbox annotations creates a valid manifest', async () => {
     const { manifestFixture, manifestJson } = await createManifestFromFigureFixture('annotationsCheckbox')
-    assert.deepStrictEqual(manifestFixture, manifestJson)
+    assert.deepStrictEqual(manifestJson, manifestFixture)
   })
 
   test('figure with radio annotations creates a valid manifest', async () => {
     const { manifestFixture, manifestJson } = await createManifestFromFigureFixture('annotationsRadio')
-    assert.deepStrictEqual(manifestFixture, manifestJson)
+    assert.deepStrictEqual(manifestJson, manifestFixture)
   })
 
   test('sequence figure creates a valid manifest', async () => {
     const { manifestFixture, manifestJson } = await createManifestFromFigureFixture('sequence')
-    assert.deepStrictEqual(manifestFixture, manifestJson)
+    assert.deepStrictEqual(manifestJson, manifestFixture)
   })
 
   test('sequence figure with annotations creates a valid manifest', async () => {
     const { manifestFixture, manifestJson } = await createManifestFromFigureFixture('sequenceWithAnnotations')
-    assert.deepStrictEqual(manifestFixture, manifestJson)
+    console.log(manifestJson.structures)
+    assert.deepStrictEqual(manifestJson, manifestFixture)
   })
 
   test('zoomable figure creates a valid manifest', async () => {
     const { manifestFixture, manifestJson } = await createManifestFromFigureFixture('zoomable')
-    assert.deepStrictEqual(manifestFixture, manifestJson)
+    assert.deepStrictEqual(manifestJson, manifestFixture)
   })
 
   /* Skipping this test, since we are currently overriding zoom on all sequence manifests */
   test('zoomable sequence figure creates a valid manifest', { skip: true }, async () => {
     const { manifestFixture, manifestJson } = await createManifestFromFigureFixture('zoomableSequence')
-    assert.deepStrictEqual(manifestFixture, manifestJson)
+    assert.deepStrictEqual(manifestJson, manifestFixture)
   })
 })
 
