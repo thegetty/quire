@@ -181,7 +181,7 @@ export default class Figure {
   get printImage () {
     if (!this.isExternalResource && this.src && !this.data.printImage) {
       const { name } = path.parse(this.src)
-      return path.join('/', this.outputDir, name, `print-image${this.outputFormat}`)
+      return path.posix.join('/', this.outputDir, name, `print-image${this.outputFormat}`)
     }
     return this.data.printImage
   }
