@@ -1,23 +1,24 @@
-import { posix as path } from 'node:path'
+import path from 'node:path'
+
 /**
  * @function urlPathJoin
  *
- * @argument {String} url
- * @argument {Iterable} segs
+ * @argument {String} baseUrl
+ * @argument {Iterable} pathSegments
  *
- * Parses `url` and safely joins all of `segs` to its pathname
+ * Joins path segments into a fully qualified URL for output
  *
- * @return {String}
+ * @return {String} URL string
  *
  **/
 
-const urlPathJoin = (url, ...segs) => {
-  const base = new URL(url)
-  const basePath = base.pathname
+const urlPathJoin = (baseUrl, ...pathSegments) => {
+  const url = new URL(baseUrl)
+  const basePath = url.pathname
 
-  base.pathname = path.join(basePath, ...segs)
+  url.pathname = path.posix.join(basePath, ...pathSegments)
 
-  return base.href
+  return url.toString()
 }
 
 export default urlPathJoin
