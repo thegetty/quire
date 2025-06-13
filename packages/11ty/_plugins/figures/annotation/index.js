@@ -2,6 +2,7 @@ import chalkFactory from '#lib/chalk/index.js'
 import mime from 'mime-types'
 import path from 'node:path'
 import titleCase from '#plugins/filters/titleCase.js'
+import urlPathJoin from '#lib/urlPathJoin/index.js'
 
 const logger = chalkFactory('Figures:Annotation')
 
@@ -63,10 +64,13 @@ export default class Annotation {
       (annotationCount === 0 || src === figureSrc)
     const info = () => {
       if (!isImageService) return
-      const tilesPath = path.join(outputDir, name, tilesDirName)
-      const infoPath = path.join(tilesPath, 'info.json')
+
+      // NB: Joining by posix because will become URLs
+      const tilesPath = path.posix.join(outputDir, name, tilesDirName)
+      const infoPath = path.posix.join(tilesPath, 'info.json')
+
       try {
-        return new URL(path.join(baseURI, infoPath)).href
+        return urlPathJoin(baseURI, infoPath)
       } catch (error) {
         logger.error(`Error creating info.json. Either the tile path (${tilesPath}) or base URI (${baseURI}) are invalid to form a fully qualified URI.`)
       }
@@ -76,10 +80,10 @@ export default class Annotation {
       switch (true) {
         case isImageService:
           // NB: Annotations for imageServices are *jpeg*s not the service endpoint
-          return new URL(path.join(baseURI, printImage)).href
+          return urlPathJoin(baseURI, printImage)
         default:
           try {
-            return new URL(path.join(baseURI, outputDir, base)).href
+            return urlPathJoin(baseURI, outputDir, base)
           } catch (error) {
             logger.error(`Error creating annotation URI. Either the output directory (${outputDir}), filename (${base}) or base URI (${baseURI}) are invalid to form a fully qualified URI.`)
           }

@@ -1,4 +1,5 @@
 import path from 'node:path'
+import urlPathJoin from '#lib/urlPathJoin/index.js'
 
 export default class SequenceBuilder {
   static create (manifestObject, data) {
@@ -29,7 +30,13 @@ export default class SequenceBuilder {
     const { iiifConfig, outputDir } = figure
     const { baseURI } = iiifConfig
     const items = this.items.slice(sequence.startIndex)
-    const id = path.join(baseURI, outputDir, 'ranges', `${index}`)
+
+    // Construct URL-safe path if outputDir has a platform-specific url separator
+    const outputUrlPath = path.sep !== '/' && outputDir.includes(path.sep)
+      ? outputDir.replace(path.sep, '/')
+      : outputDir
+
+    const id = urlPathJoin(baseURI, outputUrlPath, 'ranges', `${index}`)
     const structure = {
       id,
       items,

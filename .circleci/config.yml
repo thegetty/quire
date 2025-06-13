@@ -1,6 +1,7 @@
 version: 2.1
 
 orbs:
+  browser-tools: circleci/browser-tools@1.5.3
   cypress: cypress-io/cypress@3.4.3
   mac: circleci/macos@2.5.2
   node: circleci/node@7.1.0
@@ -42,7 +43,7 @@ commands:
       - run:
           name: Install CLI
           no_output_timeout: 30m
-          command: npm pack -w packages/cli && npm install --foreground-scripts -g thegetty-quire-cli-*.tgz
+          command: npm pack -w packages/cli && npm install --ignore-scripts --foreground-scripts -g thegetty-quire-cli-*.tgz
       - run:
           name: Quire Version
           command: quire --version
@@ -51,16 +52,24 @@ commands:
     steps:
       - node/install:
           node-version: "22.14.0"
+      - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
       - build_install_cli
 
   build_install_cli-macos:
     steps:
       - node/install:
           node-version: "22.14.0"
+      - browser-tools/install-chrome:
+          chrome-version: 115.0.5790.98
+      - browser-tools/install-chromedriver      
       - build_install_cli
 
   build_install_cli-win:
     steps:
+      # Zip to package the test-built site
+      - run: choco install zip
+      - run: choco install googlechrome chromedriver --ignore-checksums
       - build_install_cli
 
   install_deps-linux:
@@ -89,14 +98,18 @@ commands:
       # Install test dependencies only
       - run:
           name: Install deps
-          command: npm install --workspaces=false
+          command: npm install --ignore-scripts --foreground-scripts
       - run:
           name: Run integration tests
           command: mkdir -p reports && npm run test:report
+
       - store_test_results:
           path: ava.xml
+      # @TODO: Turn this off when we're happy with browser test coverage
       - store_artifacts:
           path: publication.zip
+
+      # Run core package tests - @TODO: Consider moving this above the integration test
       - run:
           name: Run CLI tests
           command: npm -w packages/cli run test
