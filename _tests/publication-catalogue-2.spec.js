@@ -16,13 +16,13 @@ test('page title', async ({ page }) => {
   await expect(page).toHaveTitle(/Bud Fields with His Wife Ivy, and His Duaghter Ellen, Hale County, Alabama | New Deal Photography/)
 })
 
-test('image tags contain valid URLs', async ({ page }) => {
+test('page image tags contain valid URLs', async ({ page }) => {
   // Locate all the img tags, make sure they're not empty and parse as URLs
   const imgLoc = page.locator('img')
   const imgs = await imgLoc.all()  
-  const imgHrefs = await Promise.all( imgs.map( img => img.getAttribute('src')) )
+  const imgHrefs = await Promise.all(imgs.map( async (img) => await img.getAttribute('src') ))
 
-  imgHrefs.forEach( async (imgSrc) => {
+  const checkHref = async (imgSrc) => {
     if (!imgSrc) {
       test.fail('img URLs must not be empty', () => {})
       return
@@ -30,6 +30,8 @@ test('image tags contain valid URLs', async ({ page }) => {
 
     const url = new URL(imgSrc, 'http://localhost:8080')
     const req = await page.request.get(url.href)
-    expect(req.status()).toBe(200)
-  })
+    await expect.soft(req).toBeOK()    
+  }
+
+  await Promise.all( imgHrefs.map( checkHref ) )
 })
