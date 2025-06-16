@@ -1,4 +1,5 @@
 import path from 'node:path'
+import urlPathJoin from '#lib/urlPathJoin/index.js'
 
 export default class SequenceBuilder {
   static create (manifestObject, data) {
@@ -35,7 +36,7 @@ export default class SequenceBuilder {
       ? outputDir.replace(path.sep, '/')
       : outputDir
 
-    const id = [baseURI, outputUrlPath, 'ranges', `${index}`].join('/')
+    const id = urlPathJoin(baseURI, outputUrlPath, 'ranges', `${index}`)
     const structure = {
       id,
       items,
