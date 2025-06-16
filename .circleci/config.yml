@@ -178,11 +178,6 @@ jobs:
           command: npm run test:browsers
       - store_test_results:
           path: reports
-      - run:
-          name: Zip up screenshots
-          command: zip -r screenshots.zip _tests/publication-cover.spec.js-snapshots/ 
-      - store_artifacts:
-          path: screenshots.zip
 
 workflows:
   build_install_test:
