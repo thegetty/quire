@@ -118,7 +118,8 @@ commands:
 
       - store_test_results:
           path: reports
-      # @TODO: Turn this off when we're happy with browser test coverage
+
+      # @TODO: Turn this off when we're happy with snapshot coverage of browser tests
       - store_artifacts:
           path: publication.zip
 
