@@ -27,6 +27,7 @@ export default class Figure {
   constructor (iiifConfig, imageProcessor, data) {
     const { baseURI, dirs, manifestFileName } = iiifConfig
     const outputDir = path.join(dirs.outputPath, data.id)
+    const outputPathname = path.posix.join(dirs.outputPath, data.id)
 
     /**
      * URI of the IIIF CanvasPanel element; a fully qualified URL.
@@ -40,9 +41,9 @@ export default class Figure {
           return data.canvasId
         default:
           try {
-            return new URL(path.join(outputDir, 'canvas'), baseURI).href
+            return new URL(path.join(outputPathname, 'canvas'), baseURI).href
           } catch (error) {
-            logger.error(`Error creating canvas id. Either the output directory (${outputDir}) or base URI (${baseURI}) are invalid to form a fully qualified URI.`)
+            logger.error(`Error creating canvas id. Either the output directory (${outputPathname}) or base URI (${baseURI}) are invalid to form a fully qualified URI.`)
           }
       }
     }
@@ -59,9 +60,9 @@ export default class Figure {
           return data.manifestId
         default:
           try {
-            return new URL(path.join(outputDir, manifestFileName), baseURI).href
+            return new URL(path.join(outputPathname, manifestFileName), baseURI).href
           } catch (error) {
-            logger.error(`Error creating manifest id. Either the output directory (${outputDir}), filename (${manifestFileName}), or base URI (${baseURI}) are invalid to form a fully qualified URI.`)
+            logger.error(`Error creating manifest id. Either the output directory (${outputPathname}), filename (${manifestFileName}), or base URI (${baseURI}) are invalid to form a fully qualified URI.`)
           }
       }
     }
@@ -95,6 +96,7 @@ export default class Figure {
     this.mediaType = mediaType || defaults.mediaType
     this.mediaId = mediaId
     this.outputDir = outputDir
+    this.outputPathname = outputPathname
     this.outputFormat = format && format.output
     this.processImage = imageProcessor
     this.src = src
@@ -181,7 +183,7 @@ export default class Figure {
   get printImage () {
     if (!this.isExternalResource && this.src && !this.data.printImage) {
       const { name } = path.parse(this.src)
-      return path.posix.join('/', this.outputDir, name, `print-image${this.outputFormat}`)
+      return path.posix.join('/', this.outputPathname, name, `print-image${this.outputFormat}`)
     }
     return this.data.printImage
   }
@@ -211,7 +213,7 @@ export default class Figure {
     if (!this.isExternalResource && filename && this.mediaType !== 'table') {
       const { ext, name } = path.parse(filename)
       const format = this.iiifConfig.formats.find(({ input }) => input.includes(ext))
-      return path.join('/', this.outputDir, name, `static-inline-figure-image${format.output}`)
+      return path.posix.join('/', this.outputPathname, name, `static-inline-figure-image${format.output}`)
     }
     return this.data.staticInlineFigure
   }

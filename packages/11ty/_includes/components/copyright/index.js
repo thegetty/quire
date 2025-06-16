@@ -23,7 +23,7 @@ export default function (eleventyConfig) {
       : ''
 
     const publisherImages = publication.publisher.flatMap(({ logo, name }) => {
-      const imagePath = logo && path.join(imageDir, logo)
+      const imagePath = logo && path.posix.join(imageDir, logo)
 
       return imagePath
         ? [`<img src="${imagePath}" class="copyright__publisher-logo" alt="${name}" />`]

@@ -58,16 +58,16 @@ export default function (eleventyConfig, { directoryConfig, publication }) {
                   dest: outputDir
                 },
                 {
-                  src: path.join(inputDir, '_assets', 'images', '*'),
-                  dest: path.join(outputDir, '_assets', 'images')
+                  src: path.posix.join(inputDir, '_assets', 'images', '*'),
+                  dest: path.posix.join(outputDir, '_assets', 'images')
                 },
                 {
-                  src: path.join(inputDir, '_assets', 'downloads', '*'),
-                  dest: path.join(outputDir, '_assets', 'downloads')
+                  src: path.posix.join(inputDir, '_assets', 'downloads', '*'),
+                  dest: path.posix.join(outputDir, '_assets', 'downloads')
                 },
                 {
-                  src: path.join(inputDir, '_assets', 'fonts', '*'),
-                  dest: path.join(outputDir, '_assets', 'fonts')
+                  src: path.posix.join(inputDir, '_assets', 'fonts', '*'),
+                  dest: path.posix.join(outputDir, '_assets', 'fonts')
                 }
               ]
             })
