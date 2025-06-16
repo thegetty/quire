@@ -4,7 +4,7 @@ import CanvasBuilder from './canvas-builder.js'
 import SequenceBuilder from './sequence-builder.js'
 import Writer from './writer.js'
 import chalkFactory from '#lib/chalk/index.js'
-import path from 'node:path'
+import urlPathJoin from '#lib/urlPathJoin/index.js'
 
 const logger = chalkFactory('Figures:IIIF:Manifest', 'DEBUG')
 
@@ -71,7 +71,8 @@ export default class Manifest {
       .figure.sequences
       .flatMap(({ items }) => items)
       .map((item) => {
-        const canvasId = path.join(this.figure.canvasId, item.id)
+        // NB: `path` is posix because this targets a URL!
+        const canvasId = urlPathJoin(this.figure.canvasId, item.id)
         const sequenceItemImage = ({ format, info, label, src, uri }) => {
           return {
             format,
@@ -92,7 +93,7 @@ export default class Manifest {
         }
         return {
           body: sequenceItemImage(item),
-          id: path.join(canvasId, 'annotation-page', item.id),
+          id: urlPathJoin(canvasId, 'annotation-page', item.id),
           motivation: 'painting',
           target: canvasId,
           type: 'Annotation'
@@ -104,7 +105,7 @@ export default class Manifest {
     const { body, id, motivation, region } = data
     return {
       body: body || this.createAnnotationBody(data),
-      id: [this.figure.canvasId, id].join('/'),
+      id: urlPathJoin(this.figure.canvasId, id),
       motivation,
       target: region ? `${this.figure.canvasId}#xywh=${region}` : this.figure.canvasId,
       type: 'Annotation'

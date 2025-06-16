@@ -34,5 +34,5 @@ test.serial("Build the default publication's epub", async (t) => {
 
 test.after(async (t) => {
 	await execa('zip', ['-r', publicationZip, path.join(publicationPath, '_site'), path.join(publicationPath, '_epub')])
-	fs.rmSync(publicationPath, {recursive: true, force: true})
+	// fs.rmSync(publicationPath, {recursive: true, force: true})
 })

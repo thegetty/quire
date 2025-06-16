@@ -15,19 +15,19 @@
   },
   "items": [
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/001",
+      "id": "http://localhost:8080/iiif/rotating/canvas/001",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/001/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/001/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/001/annotation-page/001",
+              "id": "http://localhost:8080/iiif/rotating/canvas/001/annotation-page/001",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/001",
+              "target": "http://localhost:8080/iiif/rotating/canvas/001",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/001/tiles/info.json",
@@ -55,19 +55,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/003",
+      "id": "http://localhost:8080/iiif/rotating/canvas/003",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/003/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/003/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/003/annotation-page/003",
+              "id": "http://localhost:8080/iiif/rotating/canvas/003/annotation-page/003",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/003",
+              "target": "http://localhost:8080/iiif/rotating/canvas/003",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/003/tiles/info.json",
@@ -95,19 +95,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/005",
+      "id": "http://localhost:8080/iiif/rotating/canvas/005",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/005/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/005/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/005/annotation-page/005",
+              "id": "http://localhost:8080/iiif/rotating/canvas/005/annotation-page/005",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/005",
+              "target": "http://localhost:8080/iiif/rotating/canvas/005",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/005/tiles/info.json",
@@ -135,19 +135,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/007",
+      "id": "http://localhost:8080/iiif/rotating/canvas/007",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/007/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/007/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/007/annotation-page/007",
+              "id": "http://localhost:8080/iiif/rotating/canvas/007/annotation-page/007",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/007",
+              "target": "http://localhost:8080/iiif/rotating/canvas/007",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/007/tiles/info.json",
@@ -175,19 +175,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/009",
+      "id": "http://localhost:8080/iiif/rotating/canvas/009",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/009/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/009/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/009/annotation-page/009",
+              "id": "http://localhost:8080/iiif/rotating/canvas/009/annotation-page/009",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/009",
+              "target": "http://localhost:8080/iiif/rotating/canvas/009",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/009/tiles/info.json",
@@ -215,19 +215,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/011",
+      "id": "http://localhost:8080/iiif/rotating/canvas/011",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/011/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/011/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/011/annotation-page/011",
+              "id": "http://localhost:8080/iiif/rotating/canvas/011/annotation-page/011",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/011",
+              "target": "http://localhost:8080/iiif/rotating/canvas/011",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/011/tiles/info.json",
@@ -255,19 +255,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/013",
+      "id": "http://localhost:8080/iiif/rotating/canvas/013",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/013/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/013/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/013/annotation-page/013",
+              "id": "http://localhost:8080/iiif/rotating/canvas/013/annotation-page/013",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/013",
+              "target": "http://localhost:8080/iiif/rotating/canvas/013",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/013/tiles/info.json",
@@ -295,19 +295,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/015",
+      "id": "http://localhost:8080/iiif/rotating/canvas/015",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/015/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/015/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/015/annotation-page/015",
+              "id": "http://localhost:8080/iiif/rotating/canvas/015/annotation-page/015",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/015",
+              "target": "http://localhost:8080/iiif/rotating/canvas/015",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/015/tiles/info.json",
@@ -335,19 +335,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/017",
+      "id": "http://localhost:8080/iiif/rotating/canvas/017",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/017/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/017/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/017/annotation-page/017",
+              "id": "http://localhost:8080/iiif/rotating/canvas/017/annotation-page/017",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/017",
+              "target": "http://localhost:8080/iiif/rotating/canvas/017",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/017/tiles/info.json",
@@ -375,19 +375,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/019",
+      "id": "http://localhost:8080/iiif/rotating/canvas/019",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/019/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/019/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/019/annotation-page/019",
+              "id": "http://localhost:8080/iiif/rotating/canvas/019/annotation-page/019",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/019",
+              "target": "http://localhost:8080/iiif/rotating/canvas/019",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/019/tiles/info.json",
@@ -415,19 +415,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/021",
+      "id": "http://localhost:8080/iiif/rotating/canvas/021",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/021/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/021/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/021/annotation-page/021",
+              "id": "http://localhost:8080/iiif/rotating/canvas/021/annotation-page/021",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/021",
+              "target": "http://localhost:8080/iiif/rotating/canvas/021",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/021/tiles/info.json",
@@ -455,19 +455,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/023",
+      "id": "http://localhost:8080/iiif/rotating/canvas/023",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/023/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/023/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/023/annotation-page/023",
+              "id": "http://localhost:8080/iiif/rotating/canvas/023/annotation-page/023",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/023",
+              "target": "http://localhost:8080/iiif/rotating/canvas/023",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/023/tiles/info.json",
@@ -495,19 +495,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/025",
+      "id": "http://localhost:8080/iiif/rotating/canvas/025",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/025/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/025/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/025/annotation-page/025",
+              "id": "http://localhost:8080/iiif/rotating/canvas/025/annotation-page/025",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/025",
+              "target": "http://localhost:8080/iiif/rotating/canvas/025",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/025/tiles/info.json",
@@ -535,19 +535,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/027",
+      "id": "http://localhost:8080/iiif/rotating/canvas/027",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/027/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/027/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/027/annotation-page/027",
+              "id": "http://localhost:8080/iiif/rotating/canvas/027/annotation-page/027",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/027",
+              "target": "http://localhost:8080/iiif/rotating/canvas/027",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/027/tiles/info.json",
@@ -575,19 +575,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/029",
+      "id": "http://localhost:8080/iiif/rotating/canvas/029",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/029/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/029/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/029/annotation-page/029",
+              "id": "http://localhost:8080/iiif/rotating/canvas/029/annotation-page/029",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/029",
+              "target": "http://localhost:8080/iiif/rotating/canvas/029",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/029/tiles/info.json",
@@ -615,19 +615,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/031",
+      "id": "http://localhost:8080/iiif/rotating/canvas/031",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/031/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/031/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/031/annotation-page/031",
+              "id": "http://localhost:8080/iiif/rotating/canvas/031/annotation-page/031",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/031",
+              "target": "http://localhost:8080/iiif/rotating/canvas/031",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/031/tiles/info.json",
@@ -655,19 +655,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/033",
+      "id": "http://localhost:8080/iiif/rotating/canvas/033",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/033/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/033/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/033/annotation-page/033",
+              "id": "http://localhost:8080/iiif/rotating/canvas/033/annotation-page/033",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/033",
+              "target": "http://localhost:8080/iiif/rotating/canvas/033",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/033/tiles/info.json",
@@ -695,19 +695,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/035",
+      "id": "http://localhost:8080/iiif/rotating/canvas/035",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/035/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/035/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/035/annotation-page/035",
+              "id": "http://localhost:8080/iiif/rotating/canvas/035/annotation-page/035",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/035",
+              "target": "http://localhost:8080/iiif/rotating/canvas/035",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/035/tiles/info.json",
@@ -735,19 +735,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/037",
+      "id": "http://localhost:8080/iiif/rotating/canvas/037",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/037/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/037/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/037/annotation-page/037",
+              "id": "http://localhost:8080/iiif/rotating/canvas/037/annotation-page/037",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/037",
+              "target": "http://localhost:8080/iiif/rotating/canvas/037",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/037/tiles/info.json",
@@ -775,19 +775,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/039",
+      "id": "http://localhost:8080/iiif/rotating/canvas/039",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/039/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/039/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/039/annotation-page/039",
+              "id": "http://localhost:8080/iiif/rotating/canvas/039/annotation-page/039",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/039",
+              "target": "http://localhost:8080/iiif/rotating/canvas/039",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/039/tiles/info.json",
@@ -815,19 +815,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/041",
+      "id": "http://localhost:8080/iiif/rotating/canvas/041",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/041/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/041/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/041/annotation-page/041",
+              "id": "http://localhost:8080/iiif/rotating/canvas/041/annotation-page/041",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/041",
+              "target": "http://localhost:8080/iiif/rotating/canvas/041",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/041/tiles/info.json",
@@ -855,19 +855,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/043",
+      "id": "http://localhost:8080/iiif/rotating/canvas/043",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/043/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/043/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/043/annotation-page/043",
+              "id": "http://localhost:8080/iiif/rotating/canvas/043/annotation-page/043",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/043",
+              "target": "http://localhost:8080/iiif/rotating/canvas/043",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/043/tiles/info.json",
@@ -895,19 +895,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/045",
+      "id": "http://localhost:8080/iiif/rotating/canvas/045",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/045/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/045/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/045/annotation-page/045",
+              "id": "http://localhost:8080/iiif/rotating/canvas/045/annotation-page/045",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/045",
+              "target": "http://localhost:8080/iiif/rotating/canvas/045",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/045/tiles/info.json",
@@ -935,19 +935,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/047",
+      "id": "http://localhost:8080/iiif/rotating/canvas/047",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/047/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/047/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/047/annotation-page/047",
+              "id": "http://localhost:8080/iiif/rotating/canvas/047/annotation-page/047",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/047",
+              "target": "http://localhost:8080/iiif/rotating/canvas/047",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/047/tiles/info.json",
@@ -975,19 +975,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/049",
+      "id": "http://localhost:8080/iiif/rotating/canvas/049",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/049/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/049/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/049/annotation-page/049",
+              "id": "http://localhost:8080/iiif/rotating/canvas/049/annotation-page/049",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/049",
+              "target": "http://localhost:8080/iiif/rotating/canvas/049",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/049/tiles/info.json",
@@ -1015,19 +1015,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/051",
+      "id": "http://localhost:8080/iiif/rotating/canvas/051",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/051/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/051/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/051/annotation-page/051",
+              "id": "http://localhost:8080/iiif/rotating/canvas/051/annotation-page/051",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/051",
+              "target": "http://localhost:8080/iiif/rotating/canvas/051",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/051/tiles/info.json",
@@ -1055,19 +1055,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/053",
+      "id": "http://localhost:8080/iiif/rotating/canvas/053",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/053/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/053/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/053/annotation-page/053",
+              "id": "http://localhost:8080/iiif/rotating/canvas/053/annotation-page/053",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/053",
+              "target": "http://localhost:8080/iiif/rotating/canvas/053",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/053/tiles/info.json",
@@ -1095,19 +1095,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/055",
+      "id": "http://localhost:8080/iiif/rotating/canvas/055",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/055/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/055/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/055/annotation-page/055",
+              "id": "http://localhost:8080/iiif/rotating/canvas/055/annotation-page/055",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/055",
+              "target": "http://localhost:8080/iiif/rotating/canvas/055",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/055/tiles/info.json",
@@ -1135,19 +1135,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/057",
+      "id": "http://localhost:8080/iiif/rotating/canvas/057",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/057/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/057/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/057/annotation-page/057",
+              "id": "http://localhost:8080/iiif/rotating/canvas/057/annotation-page/057",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/057",
+              "target": "http://localhost:8080/iiif/rotating/canvas/057",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/057/tiles/info.json",
@@ -1175,19 +1175,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/059",
+      "id": "http://localhost:8080/iiif/rotating/canvas/059",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/059/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/059/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/059/annotation-page/059",
+              "id": "http://localhost:8080/iiif/rotating/canvas/059/annotation-page/059",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/059",
+              "target": "http://localhost:8080/iiif/rotating/canvas/059",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/059/tiles/info.json",
@@ -1215,19 +1215,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/061",
+      "id": "http://localhost:8080/iiif/rotating/canvas/061",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/061/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/061/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/061/annotation-page/061",
+              "id": "http://localhost:8080/iiif/rotating/canvas/061/annotation-page/061",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/061",
+              "target": "http://localhost:8080/iiif/rotating/canvas/061",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/061/tiles/info.json",
@@ -1255,19 +1255,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/063",
+      "id": "http://localhost:8080/iiif/rotating/canvas/063",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/063/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/063/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/063/annotation-page/063",
+              "id": "http://localhost:8080/iiif/rotating/canvas/063/annotation-page/063",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/063",
+              "target": "http://localhost:8080/iiif/rotating/canvas/063",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/063/tiles/info.json",
@@ -1295,19 +1295,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/065",
+      "id": "http://localhost:8080/iiif/rotating/canvas/065",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/065/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/065/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/065/annotation-page/065",
+              "id": "http://localhost:8080/iiif/rotating/canvas/065/annotation-page/065",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/065",
+              "target": "http://localhost:8080/iiif/rotating/canvas/065",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/065/tiles/info.json",
@@ -1335,19 +1335,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/067",
+      "id": "http://localhost:8080/iiif/rotating/canvas/067",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/067/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/067/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/067/annotation-page/067",
+              "id": "http://localhost:8080/iiif/rotating/canvas/067/annotation-page/067",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/067",
+              "target": "http://localhost:8080/iiif/rotating/canvas/067",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/067/tiles/info.json",
@@ -1375,19 +1375,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/069",
+      "id": "http://localhost:8080/iiif/rotating/canvas/069",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/069/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/069/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/069/annotation-page/069",
+              "id": "http://localhost:8080/iiif/rotating/canvas/069/annotation-page/069",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/069",
+              "target": "http://localhost:8080/iiif/rotating/canvas/069",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/069/tiles/info.json",
@@ -1415,19 +1415,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/071",
+      "id": "http://localhost:8080/iiif/rotating/canvas/071",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/071/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/071/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/071/annotation-page/071",
+              "id": "http://localhost:8080/iiif/rotating/canvas/071/annotation-page/071",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/071",
+              "target": "http://localhost:8080/iiif/rotating/canvas/071",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/071/tiles/info.json",
@@ -1455,19 +1455,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/073",
+      "id": "http://localhost:8080/iiif/rotating/canvas/073",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/073/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/073/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/073/annotation-page/073",
+              "id": "http://localhost:8080/iiif/rotating/canvas/073/annotation-page/073",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/073",
+              "target": "http://localhost:8080/iiif/rotating/canvas/073",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/073/tiles/info.json",
@@ -1495,19 +1495,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/075",
+      "id": "http://localhost:8080/iiif/rotating/canvas/075",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/075/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/075/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/075/annotation-page/075",
+              "id": "http://localhost:8080/iiif/rotating/canvas/075/annotation-page/075",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/075",
+              "target": "http://localhost:8080/iiif/rotating/canvas/075",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/075/tiles/info.json",
@@ -1535,19 +1535,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/077",
+      "id": "http://localhost:8080/iiif/rotating/canvas/077",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/077/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/077/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/077/annotation-page/077",
+              "id": "http://localhost:8080/iiif/rotating/canvas/077/annotation-page/077",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/077",
+              "target": "http://localhost:8080/iiif/rotating/canvas/077",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/077/tiles/info.json",
@@ -1575,19 +1575,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/079",
+      "id": "http://localhost:8080/iiif/rotating/canvas/079",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/079/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/079/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/079/annotation-page/079",
+              "id": "http://localhost:8080/iiif/rotating/canvas/079/annotation-page/079",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/079",
+              "target": "http://localhost:8080/iiif/rotating/canvas/079",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/079/tiles/info.json",
@@ -1615,19 +1615,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/081",
+      "id": "http://localhost:8080/iiif/rotating/canvas/081",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/081/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/081/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/081/annotation-page/081",
+              "id": "http://localhost:8080/iiif/rotating/canvas/081/annotation-page/081",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/081",
+              "target": "http://localhost:8080/iiif/rotating/canvas/081",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/081/tiles/info.json",
@@ -1655,19 +1655,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/083",
+      "id": "http://localhost:8080/iiif/rotating/canvas/083",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/083/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/083/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/083/annotation-page/083",
+              "id": "http://localhost:8080/iiif/rotating/canvas/083/annotation-page/083",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/083",
+              "target": "http://localhost:8080/iiif/rotating/canvas/083",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/083/tiles/info.json",
@@ -1695,19 +1695,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/085",
+      "id": "http://localhost:8080/iiif/rotating/canvas/085",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/085/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/085/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/085/annotation-page/085",
+              "id": "http://localhost:8080/iiif/rotating/canvas/085/annotation-page/085",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/085",
+              "target": "http://localhost:8080/iiif/rotating/canvas/085",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/085/tiles/info.json",
@@ -1735,19 +1735,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/087",
+      "id": "http://localhost:8080/iiif/rotating/canvas/087",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/087/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/087/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/087/annotation-page/087",
+              "id": "http://localhost:8080/iiif/rotating/canvas/087/annotation-page/087",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/087",
+              "target": "http://localhost:8080/iiif/rotating/canvas/087",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/087/tiles/info.json",
@@ -1775,19 +1775,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/089",
+      "id": "http://localhost:8080/iiif/rotating/canvas/089",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/089/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/089/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/089/annotation-page/089",
+              "id": "http://localhost:8080/iiif/rotating/canvas/089/annotation-page/089",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/089",
+              "target": "http://localhost:8080/iiif/rotating/canvas/089",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/089/tiles/info.json",
@@ -1815,19 +1815,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/091",
+      "id": "http://localhost:8080/iiif/rotating/canvas/091",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/091/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/091/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/091/annotation-page/091",
+              "id": "http://localhost:8080/iiif/rotating/canvas/091/annotation-page/091",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/091",
+              "target": "http://localhost:8080/iiif/rotating/canvas/091",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/091/tiles/info.json",
@@ -1855,19 +1855,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/093",
+      "id": "http://localhost:8080/iiif/rotating/canvas/093",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/093/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/093/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/093/annotation-page/093",
+              "id": "http://localhost:8080/iiif/rotating/canvas/093/annotation-page/093",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/093",
+              "target": "http://localhost:8080/iiif/rotating/canvas/093",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/093/tiles/info.json",
@@ -1895,19 +1895,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/095",
+      "id": "http://localhost:8080/iiif/rotating/canvas/095",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/095/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/095/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/095/annotation-page/095",
+              "id": "http://localhost:8080/iiif/rotating/canvas/095/annotation-page/095",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/095",
+              "target": "http://localhost:8080/iiif/rotating/canvas/095",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/095/tiles/info.json",
@@ -1935,19 +1935,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/097",
+      "id": "http://localhost:8080/iiif/rotating/canvas/097",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/097/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/097/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/097/annotation-page/097",
+              "id": "http://localhost:8080/iiif/rotating/canvas/097/annotation-page/097",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/097",
+              "target": "http://localhost:8080/iiif/rotating/canvas/097",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/097/tiles/info.json",
@@ -1975,19 +1975,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/099",
+      "id": "http://localhost:8080/iiif/rotating/canvas/099",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/099/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/099/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/099/annotation-page/099",
+              "id": "http://localhost:8080/iiif/rotating/canvas/099/annotation-page/099",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/099",
+              "target": "http://localhost:8080/iiif/rotating/canvas/099",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/099/tiles/info.json",
@@ -2015,19 +2015,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/101",
+      "id": "http://localhost:8080/iiif/rotating/canvas/101",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/101/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/101/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/101/annotation-page/101",
+              "id": "http://localhost:8080/iiif/rotating/canvas/101/annotation-page/101",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/101",
+              "target": "http://localhost:8080/iiif/rotating/canvas/101",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/101/tiles/info.json",
@@ -2055,19 +2055,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/103",
+      "id": "http://localhost:8080/iiif/rotating/canvas/103",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/103/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/103/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/103/annotation-page/103",
+              "id": "http://localhost:8080/iiif/rotating/canvas/103/annotation-page/103",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/103",
+              "target": "http://localhost:8080/iiif/rotating/canvas/103",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/103/tiles/info.json",
@@ -2095,19 +2095,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/105",
+      "id": "http://localhost:8080/iiif/rotating/canvas/105",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/105/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/105/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/105/annotation-page/105",
+              "id": "http://localhost:8080/iiif/rotating/canvas/105/annotation-page/105",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/105",
+              "target": "http://localhost:8080/iiif/rotating/canvas/105",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/105/tiles/info.json",
@@ -2135,19 +2135,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/107",
+      "id": "http://localhost:8080/iiif/rotating/canvas/107",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/107/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/107/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/107/annotation-page/107",
+              "id": "http://localhost:8080/iiif/rotating/canvas/107/annotation-page/107",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/107",
+              "target": "http://localhost:8080/iiif/rotating/canvas/107",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/107/tiles/info.json",
@@ -2175,19 +2175,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/109",
+      "id": "http://localhost:8080/iiif/rotating/canvas/109",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/109/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/109/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/109/annotation-page/109",
+              "id": "http://localhost:8080/iiif/rotating/canvas/109/annotation-page/109",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/109",
+              "target": "http://localhost:8080/iiif/rotating/canvas/109",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/109/tiles/info.json",
@@ -2215,19 +2215,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/111",
+      "id": "http://localhost:8080/iiif/rotating/canvas/111",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/111/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/111/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/111/annotation-page/111",
+              "id": "http://localhost:8080/iiif/rotating/canvas/111/annotation-page/111",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/111",
+              "target": "http://localhost:8080/iiif/rotating/canvas/111",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/111/tiles/info.json",
@@ -2255,19 +2255,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/113",
+      "id": "http://localhost:8080/iiif/rotating/canvas/113",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/113/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/113/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/113/annotation-page/113",
+              "id": "http://localhost:8080/iiif/rotating/canvas/113/annotation-page/113",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/113",
+              "target": "http://localhost:8080/iiif/rotating/canvas/113",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/113/tiles/info.json",
@@ -2295,19 +2295,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/115",
+      "id": "http://localhost:8080/iiif/rotating/canvas/115",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/115/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/115/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/115/annotation-page/115",
+              "id": "http://localhost:8080/iiif/rotating/canvas/115/annotation-page/115",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/115",
+              "target": "http://localhost:8080/iiif/rotating/canvas/115",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/115/tiles/info.json",
@@ -2335,19 +2335,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/117",
+      "id": "http://localhost:8080/iiif/rotating/canvas/117",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/117/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/117/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/117/annotation-page/117",
+              "id": "http://localhost:8080/iiif/rotating/canvas/117/annotation-page/117",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/117",
+              "target": "http://localhost:8080/iiif/rotating/canvas/117",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/117/tiles/info.json",
@@ -2375,19 +2375,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/119",
+      "id": "http://localhost:8080/iiif/rotating/canvas/119",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/119/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/119/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/119/annotation-page/119",
+              "id": "http://localhost:8080/iiif/rotating/canvas/119/annotation-page/119",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/119",
+              "target": "http://localhost:8080/iiif/rotating/canvas/119",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/119/tiles/info.json",
@@ -2415,19 +2415,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/121",
+      "id": "http://localhost:8080/iiif/rotating/canvas/121",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/121/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/121/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/121/annotation-page/121",
+              "id": "http://localhost:8080/iiif/rotating/canvas/121/annotation-page/121",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/121",
+              "target": "http://localhost:8080/iiif/rotating/canvas/121",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/121/tiles/info.json",
@@ -2455,19 +2455,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/123",
+      "id": "http://localhost:8080/iiif/rotating/canvas/123",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/123/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/123/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/123/annotation-page/123",
+              "id": "http://localhost:8080/iiif/rotating/canvas/123/annotation-page/123",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/123",
+              "target": "http://localhost:8080/iiif/rotating/canvas/123",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/123/tiles/info.json",
@@ -2495,19 +2495,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/125",
+      "id": "http://localhost:8080/iiif/rotating/canvas/125",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/125/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/125/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/125/annotation-page/125",
+              "id": "http://localhost:8080/iiif/rotating/canvas/125/annotation-page/125",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/125",
+              "target": "http://localhost:8080/iiif/rotating/canvas/125",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/125/tiles/info.json",
@@ -2535,19 +2535,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/127",
+      "id": "http://localhost:8080/iiif/rotating/canvas/127",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/127/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/127/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/127/annotation-page/127",
+              "id": "http://localhost:8080/iiif/rotating/canvas/127/annotation-page/127",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/127",
+              "target": "http://localhost:8080/iiif/rotating/canvas/127",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/127/tiles/info.json",
@@ -2575,19 +2575,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/129",
+      "id": "http://localhost:8080/iiif/rotating/canvas/129",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/129/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/129/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/129/annotation-page/129",
+              "id": "http://localhost:8080/iiif/rotating/canvas/129/annotation-page/129",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/129",
+              "target": "http://localhost:8080/iiif/rotating/canvas/129",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/129/tiles/info.json",
@@ -2615,19 +2615,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/131",
+      "id": "http://localhost:8080/iiif/rotating/canvas/131",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/131/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/131/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/131/annotation-page/131",
+              "id": "http://localhost:8080/iiif/rotating/canvas/131/annotation-page/131",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/131",
+              "target": "http://localhost:8080/iiif/rotating/canvas/131",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/131/tiles/info.json",
@@ -2655,19 +2655,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/133",
+      "id": "http://localhost:8080/iiif/rotating/canvas/133",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/133/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/133/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/133/annotation-page/133",
+              "id": "http://localhost:8080/iiif/rotating/canvas/133/annotation-page/133",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/133",
+              "target": "http://localhost:8080/iiif/rotating/canvas/133",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/133/tiles/info.json",
@@ -2695,19 +2695,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/135",
+      "id": "http://localhost:8080/iiif/rotating/canvas/135",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/135/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/135/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/135/annotation-page/135",
+              "id": "http://localhost:8080/iiif/rotating/canvas/135/annotation-page/135",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/135",
+              "target": "http://localhost:8080/iiif/rotating/canvas/135",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/135/tiles/info.json",
@@ -2735,19 +2735,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/137",
+      "id": "http://localhost:8080/iiif/rotating/canvas/137",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/137/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/137/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/137/annotation-page/137",
+              "id": "http://localhost:8080/iiif/rotating/canvas/137/annotation-page/137",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/137",
+              "target": "http://localhost:8080/iiif/rotating/canvas/137",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/137/tiles/info.json",
@@ -2775,19 +2775,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/139",
+      "id": "http://localhost:8080/iiif/rotating/canvas/139",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/139/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/139/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/139/annotation-page/139",
+              "id": "http://localhost:8080/iiif/rotating/canvas/139/annotation-page/139",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/139",
+              "target": "http://localhost:8080/iiif/rotating/canvas/139",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/139/tiles/info.json",
@@ -2815,19 +2815,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/141",
+      "id": "http://localhost:8080/iiif/rotating/canvas/141",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/141/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/141/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/141/annotation-page/141",
+              "id": "http://localhost:8080/iiif/rotating/canvas/141/annotation-page/141",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/141",
+              "target": "http://localhost:8080/iiif/rotating/canvas/141",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/141/tiles/info.json",
@@ -2855,19 +2855,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/143",
+      "id": "http://localhost:8080/iiif/rotating/canvas/143",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/143/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/143/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/143/annotation-page/143",
+              "id": "http://localhost:8080/iiif/rotating/canvas/143/annotation-page/143",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/143",
+              "target": "http://localhost:8080/iiif/rotating/canvas/143",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/143/tiles/info.json",
@@ -2895,19 +2895,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/145",
+      "id": "http://localhost:8080/iiif/rotating/canvas/145",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/145/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/145/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/145/annotation-page/145",
+              "id": "http://localhost:8080/iiif/rotating/canvas/145/annotation-page/145",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/145",
+              "target": "http://localhost:8080/iiif/rotating/canvas/145",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/145/tiles/info.json",
@@ -2935,19 +2935,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/147",
+      "id": "http://localhost:8080/iiif/rotating/canvas/147",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/147/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/147/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/147/annotation-page/147",
+              "id": "http://localhost:8080/iiif/rotating/canvas/147/annotation-page/147",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/147",
+              "target": "http://localhost:8080/iiif/rotating/canvas/147",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/147/tiles/info.json",
@@ -2975,19 +2975,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/149",
+      "id": "http://localhost:8080/iiif/rotating/canvas/149",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/149/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/149/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/149/annotation-page/149",
+              "id": "http://localhost:8080/iiif/rotating/canvas/149/annotation-page/149",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/149",
+              "target": "http://localhost:8080/iiif/rotating/canvas/149",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/149/tiles/info.json",
@@ -3015,19 +3015,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/151",
+      "id": "http://localhost:8080/iiif/rotating/canvas/151",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/151/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/151/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/151/annotation-page/151",
+              "id": "http://localhost:8080/iiif/rotating/canvas/151/annotation-page/151",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/151",
+              "target": "http://localhost:8080/iiif/rotating/canvas/151",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/151/tiles/info.json",
@@ -3055,19 +3055,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/153",
+      "id": "http://localhost:8080/iiif/rotating/canvas/153",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/153/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/153/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/153/annotation-page/153",
+              "id": "http://localhost:8080/iiif/rotating/canvas/153/annotation-page/153",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/153",
+              "target": "http://localhost:8080/iiif/rotating/canvas/153",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/153/tiles/info.json",
@@ -3095,19 +3095,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/155",
+      "id": "http://localhost:8080/iiif/rotating/canvas/155",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/155/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/155/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/155/annotation-page/155",
+              "id": "http://localhost:8080/iiif/rotating/canvas/155/annotation-page/155",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/155",
+              "target": "http://localhost:8080/iiif/rotating/canvas/155",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/155/tiles/info.json",
@@ -3135,19 +3135,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/157",
+      "id": "http://localhost:8080/iiif/rotating/canvas/157",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/157/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/157/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/157/annotation-page/157",
+              "id": "http://localhost:8080/iiif/rotating/canvas/157/annotation-page/157",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/157",
+              "target": "http://localhost:8080/iiif/rotating/canvas/157",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/157/tiles/info.json",
@@ -3175,19 +3175,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/159",
+      "id": "http://localhost:8080/iiif/rotating/canvas/159",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/159/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/159/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/159/annotation-page/159",
+              "id": "http://localhost:8080/iiif/rotating/canvas/159/annotation-page/159",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/159",
+              "target": "http://localhost:8080/iiif/rotating/canvas/159",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/159/tiles/info.json",
@@ -3215,19 +3215,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/161",
+      "id": "http://localhost:8080/iiif/rotating/canvas/161",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/161/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/161/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/161/annotation-page/161",
+              "id": "http://localhost:8080/iiif/rotating/canvas/161/annotation-page/161",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/161",
+              "target": "http://localhost:8080/iiif/rotating/canvas/161",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/161/tiles/info.json",
@@ -3255,19 +3255,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/163",
+      "id": "http://localhost:8080/iiif/rotating/canvas/163",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/163/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/163/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/163/annotation-page/163",
+              "id": "http://localhost:8080/iiif/rotating/canvas/163/annotation-page/163",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/163",
+              "target": "http://localhost:8080/iiif/rotating/canvas/163",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/163/tiles/info.json",
@@ -3295,19 +3295,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/165",
+      "id": "http://localhost:8080/iiif/rotating/canvas/165",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/165/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/165/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/165/annotation-page/165",
+              "id": "http://localhost:8080/iiif/rotating/canvas/165/annotation-page/165",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/165",
+              "target": "http://localhost:8080/iiif/rotating/canvas/165",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/165/tiles/info.json",
@@ -3335,19 +3335,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/167",
+      "id": "http://localhost:8080/iiif/rotating/canvas/167",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/167/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/167/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/167/annotation-page/167",
+              "id": "http://localhost:8080/iiif/rotating/canvas/167/annotation-page/167",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/167",
+              "target": "http://localhost:8080/iiif/rotating/canvas/167",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/167/tiles/info.json",
@@ -3375,19 +3375,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/169",
+      "id": "http://localhost:8080/iiif/rotating/canvas/169",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/169/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/169/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/169/annotation-page/169",
+              "id": "http://localhost:8080/iiif/rotating/canvas/169/annotation-page/169",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/169",
+              "target": "http://localhost:8080/iiif/rotating/canvas/169",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/169/tiles/info.json",
@@ -3415,19 +3415,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/171",
+      "id": "http://localhost:8080/iiif/rotating/canvas/171",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/171/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/171/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/171/annotation-page/171",
+              "id": "http://localhost:8080/iiif/rotating/canvas/171/annotation-page/171",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/171",
+              "target": "http://localhost:8080/iiif/rotating/canvas/171",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/171/tiles/info.json",
@@ -3455,19 +3455,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/173",
+      "id": "http://localhost:8080/iiif/rotating/canvas/173",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/173/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/173/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/173/annotation-page/173",
+              "id": "http://localhost:8080/iiif/rotating/canvas/173/annotation-page/173",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/173",
+              "target": "http://localhost:8080/iiif/rotating/canvas/173",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/173/tiles/info.json",
@@ -3495,19 +3495,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/175",
+      "id": "http://localhost:8080/iiif/rotating/canvas/175",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/175/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/175/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/175/annotation-page/175",
+              "id": "http://localhost:8080/iiif/rotating/canvas/175/annotation-page/175",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/175",
+              "target": "http://localhost:8080/iiif/rotating/canvas/175",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/175/tiles/info.json",
@@ -3535,19 +3535,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/177",
+      "id": "http://localhost:8080/iiif/rotating/canvas/177",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/177/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/177/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/177/annotation-page/177",
+              "id": "http://localhost:8080/iiif/rotating/canvas/177/annotation-page/177",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/177",
+              "target": "http://localhost:8080/iiif/rotating/canvas/177",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/177/tiles/info.json",
@@ -3575,19 +3575,19 @@
       ]
     },
     {
-      "id": "http:/localhost:8080/iiif/rotating/canvas/179",
+      "id": "http://localhost:8080/iiif/rotating/canvas/179",
       "type": "Canvas",
       "height": 2160,
       "width": 1827,
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/179/annotation-page",
+          "id": "http://localhost:8080/iiif/rotating/canvas/179/annotation-page",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http:/localhost:8080/iiif/rotating/canvas/179/annotation-page/179",
+              "id": "http://localhost:8080/iiif/rotating/canvas/179/annotation-page/179",
               "motivation": "painting",
-              "target": "http:/localhost:8080/iiif/rotating/canvas/179",
+              "target": "http://localhost:8080/iiif/rotating/canvas/179",
               "type": "Annotation",
               "body": {
                 "id": "http://localhost:8080/iiif/rotating/179/tiles/info.json",
@@ -3617,366 +3617,366 @@
   ],
   "structures": [
     {
-      "id": "http:/localhost:8080/iiif/rotating/ranges/0",
+      "id": "http://localhost:8080/iiif/rotating/ranges/0",
       "items": [
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/001",
+          "id": "http://localhost:8080/iiif/rotating/canvas/001",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/003",
+          "id": "http://localhost:8080/iiif/rotating/canvas/003",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/005",
+          "id": "http://localhost:8080/iiif/rotating/canvas/005",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/007",
+          "id": "http://localhost:8080/iiif/rotating/canvas/007",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/009",
+          "id": "http://localhost:8080/iiif/rotating/canvas/009",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/011",
+          "id": "http://localhost:8080/iiif/rotating/canvas/011",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/013",
+          "id": "http://localhost:8080/iiif/rotating/canvas/013",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/015",
+          "id": "http://localhost:8080/iiif/rotating/canvas/015",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/017",
+          "id": "http://localhost:8080/iiif/rotating/canvas/017",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/019",
+          "id": "http://localhost:8080/iiif/rotating/canvas/019",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/021",
+          "id": "http://localhost:8080/iiif/rotating/canvas/021",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/023",
+          "id": "http://localhost:8080/iiif/rotating/canvas/023",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/025",
+          "id": "http://localhost:8080/iiif/rotating/canvas/025",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/027",
+          "id": "http://localhost:8080/iiif/rotating/canvas/027",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/029",
+          "id": "http://localhost:8080/iiif/rotating/canvas/029",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/031",
+          "id": "http://localhost:8080/iiif/rotating/canvas/031",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/033",
+          "id": "http://localhost:8080/iiif/rotating/canvas/033",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/035",
+          "id": "http://localhost:8080/iiif/rotating/canvas/035",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/037",
+          "id": "http://localhost:8080/iiif/rotating/canvas/037",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/039",
+          "id": "http://localhost:8080/iiif/rotating/canvas/039",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/041",
+          "id": "http://localhost:8080/iiif/rotating/canvas/041",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/043",
+          "id": "http://localhost:8080/iiif/rotating/canvas/043",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/045",
+          "id": "http://localhost:8080/iiif/rotating/canvas/045",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/047",
+          "id": "http://localhost:8080/iiif/rotating/canvas/047",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/049",
+          "id": "http://localhost:8080/iiif/rotating/canvas/049",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/051",
+          "id": "http://localhost:8080/iiif/rotating/canvas/051",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/053",
+          "id": "http://localhost:8080/iiif/rotating/canvas/053",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/055",
+          "id": "http://localhost:8080/iiif/rotating/canvas/055",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/057",
+          "id": "http://localhost:8080/iiif/rotating/canvas/057",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/059",
+          "id": "http://localhost:8080/iiif/rotating/canvas/059",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/061",
+          "id": "http://localhost:8080/iiif/rotating/canvas/061",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/063",
+          "id": "http://localhost:8080/iiif/rotating/canvas/063",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/065",
+          "id": "http://localhost:8080/iiif/rotating/canvas/065",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/067",
+          "id": "http://localhost:8080/iiif/rotating/canvas/067",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/069",
+          "id": "http://localhost:8080/iiif/rotating/canvas/069",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/071",
+          "id": "http://localhost:8080/iiif/rotating/canvas/071",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/073",
+          "id": "http://localhost:8080/iiif/rotating/canvas/073",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/075",
+          "id": "http://localhost:8080/iiif/rotating/canvas/075",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/077",
+          "id": "http://localhost:8080/iiif/rotating/canvas/077",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/079",
+          "id": "http://localhost:8080/iiif/rotating/canvas/079",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/081",
+          "id": "http://localhost:8080/iiif/rotating/canvas/081",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/083",
+          "id": "http://localhost:8080/iiif/rotating/canvas/083",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/085",
+          "id": "http://localhost:8080/iiif/rotating/canvas/085",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/087",
+          "id": "http://localhost:8080/iiif/rotating/canvas/087",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/089",
+          "id": "http://localhost:8080/iiif/rotating/canvas/089",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/091",
+          "id": "http://localhost:8080/iiif/rotating/canvas/091",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/093",
+          "id": "http://localhost:8080/iiif/rotating/canvas/093",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/095",
+          "id": "http://localhost:8080/iiif/rotating/canvas/095",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/097",
+          "id": "http://localhost:8080/iiif/rotating/canvas/097",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/099",
+          "id": "http://localhost:8080/iiif/rotating/canvas/099",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/101",
+          "id": "http://localhost:8080/iiif/rotating/canvas/101",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/103",
+          "id": "http://localhost:8080/iiif/rotating/canvas/103",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/105",
+          "id": "http://localhost:8080/iiif/rotating/canvas/105",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/107",
+          "id": "http://localhost:8080/iiif/rotating/canvas/107",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/109",
+          "id": "http://localhost:8080/iiif/rotating/canvas/109",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/111",
+          "id": "http://localhost:8080/iiif/rotating/canvas/111",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/113",
+          "id": "http://localhost:8080/iiif/rotating/canvas/113",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/115",
+          "id": "http://localhost:8080/iiif/rotating/canvas/115",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/117",
+          "id": "http://localhost:8080/iiif/rotating/canvas/117",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/119",
+          "id": "http://localhost:8080/iiif/rotating/canvas/119",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/121",
+          "id": "http://localhost:8080/iiif/rotating/canvas/121",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/123",
+          "id": "http://localhost:8080/iiif/rotating/canvas/123",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/125",
+          "id": "http://localhost:8080/iiif/rotating/canvas/125",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/127",
+          "id": "http://localhost:8080/iiif/rotating/canvas/127",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/129",
+          "id": "http://localhost:8080/iiif/rotating/canvas/129",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/131",
+          "id": "http://localhost:8080/iiif/rotating/canvas/131",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/133",
+          "id": "http://localhost:8080/iiif/rotating/canvas/133",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/135",
+          "id": "http://localhost:8080/iiif/rotating/canvas/135",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/137",
+          "id": "http://localhost:8080/iiif/rotating/canvas/137",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/139",
+          "id": "http://localhost:8080/iiif/rotating/canvas/139",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/141",
+          "id": "http://localhost:8080/iiif/rotating/canvas/141",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/143",
+          "id": "http://localhost:8080/iiif/rotating/canvas/143",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/145",
+          "id": "http://localhost:8080/iiif/rotating/canvas/145",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/147",
+          "id": "http://localhost:8080/iiif/rotating/canvas/147",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/149",
+          "id": "http://localhost:8080/iiif/rotating/canvas/149",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/151",
+          "id": "http://localhost:8080/iiif/rotating/canvas/151",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/153",
+          "id": "http://localhost:8080/iiif/rotating/canvas/153",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/155",
+          "id": "http://localhost:8080/iiif/rotating/canvas/155",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/157",
+          "id": "http://localhost:8080/iiif/rotating/canvas/157",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/159",
+          "id": "http://localhost:8080/iiif/rotating/canvas/159",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/161",
+          "id": "http://localhost:8080/iiif/rotating/canvas/161",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/163",
+          "id": "http://localhost:8080/iiif/rotating/canvas/163",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/165",
+          "id": "http://localhost:8080/iiif/rotating/canvas/165",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/167",
+          "id": "http://localhost:8080/iiif/rotating/canvas/167",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/169",
+          "id": "http://localhost:8080/iiif/rotating/canvas/169",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/171",
+          "id": "http://localhost:8080/iiif/rotating/canvas/171",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/173",
+          "id": "http://localhost:8080/iiif/rotating/canvas/173",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/175",
+          "id": "http://localhost:8080/iiif/rotating/canvas/175",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/177",
+          "id": "http://localhost:8080/iiif/rotating/canvas/177",
           "type": "Canvas"
         },
         {
-          "id": "http:/localhost:8080/iiif/rotating/canvas/179",
+          "id": "http://localhost:8080/iiif/rotating/canvas/179",
           "type": "Canvas"
         }
       ],
