@@ -172,7 +172,7 @@ jobs:
           at: .
       - run:
           name: Install browser testing dependencies
-          command: npm i && apt-get update && apt-get install -y zip
+          command: npm i && apt-get update && apt-get install -y zip && npx playwright install
       - run: 
           name: Run browser testing on integration test artifacts
           command: npm run test:browsers
