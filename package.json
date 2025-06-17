@@ -25,12 +25,17 @@
     "workerThreads": false
   },
   "scripts": {
-    "test": "ava --verbose --timeout 360s",
-    "test:report": "ava --tap --timeout 360s | tap-xunit > ava.xml"
+    "test": "cross-env mkdir -p reports && ava --verbose --timeout 360s && playwright test",
+    "test:browsers": "npx playwright test",
+    "test:integration": "ava --tap --timeout 360s | tap-xunit > reports/publication-build.xml",
+    "test:serve": "npx --yes http-server test-publication/_site -a localhost -p 8080"
   },
   "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^22.15.29",
     "ava": "^6.2.0",
     "execa": "^9.5.2",
+    "playwright": "^1.52.0",
     "tap-xunit": "^2.4.1"
   }
 }
