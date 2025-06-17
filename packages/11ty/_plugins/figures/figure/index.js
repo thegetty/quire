@@ -6,6 +6,7 @@ import SequenceFactory from '../sequence/factory.js'
 import chalkFactory from '#lib/chalk/index.js'
 import path from 'node:path'
 import sharp from 'sharp'
+import urlPathJoin from '#lib/urlPathJoin/index.js'
 
 const logger = chalkFactory('Figures:Figure', 'DEBUG')
 
@@ -41,7 +42,7 @@ export default class Figure {
           return data.canvasId
         default:
           try {
-            return new URL(path.join(outputPathname, 'canvas'), baseURI).href
+            return urlPathJoin(baseURI, outputPathname, 'canvas')
           } catch (error) {
             logger.error(`Error creating canvas id. Either the output directory (${outputPathname}) or base URI (${baseURI}) are invalid to form a fully qualified URI.`)
           }
@@ -60,7 +61,7 @@ export default class Figure {
           return data.manifestId
         default:
           try {
-            return new URL(path.join(outputPathname, manifestFileName), baseURI).href
+            return urlPathJoin(baseURI, outputPathname, manifestFileName)
           } catch (error) {
             logger.error(`Error creating manifest id. Either the output directory (${outputPathname}), filename (${manifestFileName}), or base URI (${baseURI}) are invalid to form a fully qualified URI.`)
           }
