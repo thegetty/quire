@@ -25,7 +25,7 @@
     "workerThreads": false
   },
   "scripts": {
-    "test": "ava --verbose --timeout 360s && npx playwright test",
+    "test": "cross-env mkdir -p reports && ava --verbose --timeout 360s && playwright test",
     "test:browsers": "npx playwright test",
     "test:integration": "ava --tap --timeout 360s | tap-xunit > reports/publication-build.xml",
     "test:serve": "npx --yes http-server test-publication/_site -a localhost -p 8080"

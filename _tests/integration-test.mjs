@@ -16,7 +16,6 @@ import fs from 'node:fs'
 import { execa } from 'execa'
 import path from 'node:path'
 import test from 'ava'
-import { test as browserTest, expect as browserExpect } from '@playwright/test'
 
 const publicationName = 'test-publication'
 

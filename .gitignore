@@ -125,3 +125,8 @@ Icon
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# Test reports + build outputs
+/reports/
+/test-results/
+/test-publication/
