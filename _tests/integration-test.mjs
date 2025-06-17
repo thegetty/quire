@@ -38,6 +38,19 @@ test.serial('Build the default publication', async (t) => {
 test.serial('Build the default publication\'s pdf', async (t) => {
   process.chdir( publicationPath )
   const pdfCmd = await execa('quire', ['pdf'])
+
+  const downloadsDir = path.join('_site', '_assets', 'downloads')
+
+  const publicationPdf = path.join(downloadsDir, 'publication.pdf')
+  if (!fs.existsSync(publicationPdf)) {
+    t.fail('No publication PDF generated')
+  }
+
+  const essayPdf = path.join(downloadsDir, 'publication-essay.pdf')
+  if (!fs.existsSync(essayPdf)) {
+    t.fail('No essay PDF generated')
+  }
+
   t.pass()
 })
 
