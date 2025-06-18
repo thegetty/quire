@@ -16,7 +16,7 @@ export default function (eleventyConfig) {
 
   return function ({ alt = '', src = '', isStatic = false, lazyLoading = 'lazy' }) {
     const extOrIiifRegex = /^(https?:\/\/|\/iiif\/|\\iiif\\)/
-    let imageSrc = extOrIiifRegex.test(src) || isStatic ? src : path.join(imageDir, src)
+    let imageSrc = extOrIiifRegex.test(src) || isStatic ? src : path.posix.join(imageDir, src)
 
     // HACK: If an URL-unsafe path separator has made it this far, remove it
     if (path.sep !== '/') {
