@@ -219,7 +219,6 @@ export default function (eleventyConfig, collections, content) {
 
   const { document } = new JSDOM(content).window
   const mainElement = document.querySelector('main[data-output-path]')
-  const svgSymbolElements = document.querySelectorAll('body > svg')
   const pageIndex = pdfPages.findIndex((path) => path === this.outputPath)
 
   // Returning content allows subsequent transforms to process it unmodified
@@ -254,7 +253,6 @@ export default function (eleventyConfig, collections, content) {
   trimLeadingSeparator(sectionElement)
   slugifyIds(sectionElement)
 
-  collections.pdf[pageIndex].svgSymbolElements = Array.from(svgSymbolElements).map(el => el.outerHTML)
   collections.pdf[pageIndex].sectionElement = sectionElement.outerHTML
 
   if (hasPagePDF && hasCoverPage) {
