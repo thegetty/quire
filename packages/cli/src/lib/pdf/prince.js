@@ -32,6 +32,7 @@ export default async (publicationInput, coversInput, output, options = {}) => {
   // These options are for the actual user-facing PDF
   const cmdOptions = [
     `--output=${output}`,
+    `--pdf-profile=PDF/UA-1`,
   ]
 
   if (options.debug) {

@@ -10,6 +10,7 @@ import * as sass from 'sass'
  */
 export default function (eleventyConfig) {
   const { input, output } = eleventyConfig.directoryAssignments
+  const { publication } = eleventyConfig.globalData
 
   const logger = chalkFactory('transforms:pdf:writer')
 
@@ -35,7 +36,7 @@ export default function (eleventyConfig) {
    * @param  {Object} collection collections.pdf with `sectionElement`,`svgElements`, and `coverPageData`
    */
   return async (collection) => {
-    const publicationHtml = await eleventyConfig.javascript.shortcodes.renderFile(pdfTemplatePath, { pages: collection }, 'liquid')
+    const publicationHtml = await eleventyConfig.javascript.shortcodes.renderFile(pdfTemplatePath, { pages: collection, publication }, 'liquid')
 
     const coversMarkups = collection.filter(collex => collex.coverPageData).map((collex) => collex.coverPageData)
     const coversHtml = await eleventyConfig.javascript.shortcodes.renderFile(coversTemplatePath, { covers: coversMarkups }, 'liquid')

@@ -47,7 +47,7 @@ export default function (eleventyConfig, { page }) {
 
       return html`
         <tr>
-          <td>${titleCase(property)}</td>
+          <th>${titleCase(property)}</th>
           <td>${markdownify(object[property].toString())}</td>
         </tr>
       `

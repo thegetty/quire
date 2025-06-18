@@ -29,7 +29,7 @@ export default function (eleventyConfig) {
     return oneLine`
       ${licenseText}
       <span class="is-print-only">
-        To view a copy of this license visit ${license.url}.
+        To view a copy of this license visit <a href="${license.url}">${license.url}</a>.
       </span>
     `
   }
