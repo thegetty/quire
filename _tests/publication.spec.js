@@ -1,4 +1,3 @@
-// @ts-check
 /**
  * publication-cover.spec.js
  * 
@@ -10,23 +9,52 @@ import { JSDOM } from 'jsdom'
 import { readFile, readFileSync } from 'node:fs'
 import path from 'node:path'
 
-const allImagesValid = async (page) => {
-  const imgLoc = page.locator('img')
-  const imgs = await imgLoc.all()  
-  const imgHrefs = await Promise.all(imgs.map( async (img) => await img.getAttribute('src') ))
-
-  const checkHref = async (imgSrc) => {
-    if (!imgSrc) {
-      test.fail('img URLs must not be empty', () => {})
-      return
-    }
-
-    const url = new URL(imgSrc, 'http://localhost:8080')
-    const req = await page.request.get(url.href)
-    await expect.soft(req).toBeOK()    
+/**
+ * @function checkUrl
+ * 
+ * @argument {String} url
+ * @argument {Page} page
+ * 
+ * Checks the input url is valid and returns a good response
+ * 
+ **/ 
+const checkUrl = async (url,page) => {
+  if (!url) {
+    test.fail('img URLs must not be empty', () => {})
+    return
   }
 
-  await Promise.all( imgHrefs.map( checkHref ) )
+  const parsed = new URL(url)
+  const req = await page.request.get(parsed.href)
+  await expect.soft(req).toBeOK()    
+}
+
+/**
+ * @function checkAllImgsOK
+ * 
+ * @argument {Page} page
+ * 
+ * Checks the @src attributes of all img tags
+ * 
+ **/ 
+const checkAllImgsOK = async (page) => {
+  const imgLoc = page.locator('img')
+  const imgs = await imgLoc.all()  
+
+  // Get all the src attributes and root them to localhost:8080 if they aren't valid URLs
+  const imgHrefs = await Promise.all(imgs.map( async (img) => await img.getAttribute('src') ))
+  const imgUrls = imgHrefs.map( (href) => {
+    let url
+    try {
+      url = new URL(href)
+    } catch {
+      url = new URL(href,'http://localhost:8080/')
+    }
+
+    return url
+  })
+
+  await Promise.all( imgUrls.map( (u) => checkUrl(u,page) ) )
 }
 
 let siteURLs = [ 'http://localhost:8080/pdf.html' ]
@@ -34,7 +62,7 @@ let siteURLs = [ 'http://localhost:8080/pdf.html' ]
 const dom = new JSDOM()
 const parser = new dom.window.DOMParser()
 
-// @TODO: Replace this with a fetch from localhost:8080/sitemap.xml
+// Load the sitemap synchronously because playwright requires declarative tests
 const body = readFileSync(path.join('test-publication','_site','sitemap.xml')).toString()
 const sitemap = parser.parseFromString(body, 'text/xml')
 sitemap.querySelectorAll('urlset > url > loc').forEach( loc => {
@@ -49,6 +77,6 @@ for (const url of siteURLs) {
     await page.goto(url)
     await page.waitForLoadState('domcontentloaded')
     await expect.soft(page).toHaveTitle(/.{1,}/)
-    await allImagesValid(page)
+    await checkAllImgsOK(page)
   })  
 }
