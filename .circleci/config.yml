@@ -15,13 +15,19 @@ executors:
     docker:
       - image: cimg/base:current-22.04
         user: root
+    environment:
+        PUPPETEER_EXECUTABLE_PATH: '/usr/bin/google-chrome-stable'
   macos:
     macos:
       xcode: '16.2.0'
+    environment:
+        PUPPETEER_EXECUTABLE_PATH: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
   win: 
     machine:
       image: windows-server-2019-vs2019:current
       resource_class: windows.medium
+    environment:
+        PUPPETEER_EXECUTABLE_PATH: 'C:\Program Files\Google\Chrome\Application\chrome.exe'
 
 anchors:
 
@@ -55,8 +61,7 @@ commands:
     steps:
       - node/install:
           node-version: "22.14.0"
-      - browser-tools/install_chrome:
-          chrome_version: 137.0.7151.120
+      - browser-tools/install_chrome
       - browser-tools/install_chromedriver
       - build_install_cli
 
@@ -64,8 +69,7 @@ commands:
     steps:
       - node/install:
           node-version: "22.14.0"
-      - browser-tools/install_chrome:
-          chrome_version: 137.0.7151.120
+      - browser-tools/install_chrome
       - browser-tools/install_chromedriver      
       - build_install_cli
 
@@ -106,8 +110,6 @@ commands:
       - run:
           name: Run integration tests
           command: mkdir -p reports && npm run test:integration
-          environment:
-            PUPPETEER_CHROME_VERSION: '137.0.7151.120'
 
       # Persist the site build for browser testing and submit test reports
       - persist_to_workspace:
