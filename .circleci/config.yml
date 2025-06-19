@@ -14,7 +14,6 @@ executors:
   linux:
     docker:
       - image: cimg/base:current-22.04
-        user: ubuntu
     environment:
         # Make puppeteer use installed chrome and disable sandboxing on linux 
         # NB: Disable sandboxing is a workaround for headless usage by non-root
