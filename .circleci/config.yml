@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  browser-tools: circleci/browser-tools@1.5.3
+  browser-tools: circleci/browser-tools@2.1.2
   cypress: cypress-io/cypress@3.4.3
   mac: circleci/macos@2.5.2
   node: circleci/node@7.1.0
@@ -55,7 +55,8 @@ commands:
     steps:
       - node/install:
           node-version: "22.14.0"
-      - browser-tools/install-chrome
+      - browser-tools/install-chrome:
+          chrome-version: 137.0.7151.120
       - browser-tools/install-chromedriver
       - build_install_cli
 
@@ -64,7 +65,7 @@ commands:
       - node/install:
           node-version: "22.14.0"
       - browser-tools/install-chrome:
-          chrome-version: 115.0.5790.98
+          chrome-version: 137.0.7151.120
       - browser-tools/install-chromedriver      
       - build_install_cli
 
@@ -72,7 +73,7 @@ commands:
     steps:
       # Zip to package the test-built site
       - run: choco install zip
-      - run: choco install googlechrome chromedriver --ignore-checksums
+      - run: choco install googlechrome chromedriver --ignore-checksums -v
       - build_install_cli
 
   install_deps-linux:
@@ -105,6 +106,8 @@ commands:
       - run:
           name: Run integration tests
           command: mkdir -p reports && npm run test:integration
+          environment:
+            PUPPETEER_CHROME_VERSION: '137.0.7151.120'
 
       # Persist the site build for browser testing and submit test reports
       - persist_to_workspace:
