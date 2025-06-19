@@ -14,14 +14,13 @@ executors:
   linux:
     docker:
       - image: cimg/base:current-22.04
-        user: root
+        user: ubuntu
     environment:
         # Make puppeteer use installed chrome and disable sandboxing on linux 
         # NB: Disable sandboxing is a workaround for headless usage by non-root
         #
         # For more see https://github.com/wikimedia/integration-config/blob/de60ab21ed/dockerfiles/node10-test/Dockerfile.template#L32-L37
         PUPPETEER_EXECUTABLE_PATH: '/usr/bin/google-chrome-stable'
-        CHROMIUM_FLAGS: "--no-sandbox"
   macos:
     macos:
       xcode: '16.2.0'
@@ -143,10 +142,6 @@ commands:
 
   test-linux:
     steps:
-      # @TODO: This was the old cypress line, likely needs replicated or -browsers image used
-      # - run:
-      #     name: Install Cypress Dependencies
-      #     command: apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
       - run_tests
 
   test-macos:
