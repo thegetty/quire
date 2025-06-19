@@ -14,12 +14,14 @@ executors:
   linux:
     docker:
       - image: cimg/base:current-22.04
+        user: root
     environment:
         # Make puppeteer use installed chrome and disable sandboxing on linux 
         # NB: Disable sandboxing is a workaround for headless usage by non-root
         #
         # For more see https://github.com/wikimedia/integration-config/blob/de60ab21ed/dockerfiles/node10-test/Dockerfile.template#L32-L37
         PUPPETEER_EXECUTABLE_PATH: '/usr/bin/google-chrome-stable'
+
   macos:
     macos:
       xcode: '16.2.0'
@@ -65,6 +67,10 @@ commands:
       - node/install:
           node-version: "22.14.0"
       - browser-tools/install_chrome
+      # @TODO: Replace this hack
+      - run:
+          name: "Modify chrome app"
+          command: sudo sed -i 's|HERE/chrome"|HERE/chrome" --no-sandbox|g' /usr/bin/google-chrome-stable
       - browser-tools/install_chromedriver
       - build_install_cli
 
