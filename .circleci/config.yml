@@ -70,7 +70,7 @@ commands:
       # @TODO: Replace this hack
       - run:
           name: "Modify chrome app"
-          command: sudo sed -i 's|HERE/chrome"|HERE/chrome" --no-sandbox|g' /usr/bin/google-chrome-stable
+          command: sudo sed -i 's|HERE/chrome"|HERE/chrome" --no-sandbox|g' /opt/google/chrome/google-chrome
       - browser-tools/install_chromedriver
       - build_install_cli
 
