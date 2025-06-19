@@ -16,7 +16,12 @@ executors:
       - image: cimg/base:current-22.04
         user: root
     environment:
+        # Make puppeteer use installed chrome and disable sandboxing on linux 
+        # NB: Disable sandboxing is a workaround for headless usage by non-root
+        #
+        # For more see https://github.com/wikimedia/integration-config/blob/de60ab21ed/dockerfiles/node10-test/Dockerfile.template#L32-L37
         PUPPETEER_EXECUTABLE_PATH: '/usr/bin/google-chrome-stable'
+        CHROMIUM_FLAGS: "--no-sandbox"
   macos:
     macos:
       xcode: '16.2.0'
@@ -77,7 +82,7 @@ commands:
     steps:
       # Zip to package the test-built site
       - run: choco install zip
-      - run: choco install googlechrome chromedriver --ignore-checksums -v
+      - run: choco install googlechrome chromedriver --ignore-checksums
       - build_install_cli
 
   install_deps-linux:
