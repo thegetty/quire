@@ -29,7 +29,7 @@ const allImagesValid = async (page) => {
   await Promise.all( imgHrefs.map( checkHref ) )
 }
 
-let siteURLs = []
+let siteURLs = [ 'http://localhost:8080/pdf.html' ]
 
 const dom = new JSDOM()
 const parser = new dom.window.DOMParser()
@@ -37,10 +37,10 @@ const parser = new dom.window.DOMParser()
 // @TODO: Replace this with a fetch from localhost:8080/sitemap.xml
 const body = readFileSync(path.join('test-publication','_site','sitemap.xml')).toString()
 const sitemap = parser.parseFromString(body, 'text/xml')
-
-siteURLs = Array.from(sitemap.querySelectorAll('urlset > url > loc'))
-                  .map( loc => loc.textContent )
-
+sitemap.querySelectorAll('urlset > url > loc').forEach( loc => {
+  if (!loc.textContent) return
+  siteURLs.push(loc.textContent)
+})
 
 for (const url of siteURLs) {
   if (!url) continue
