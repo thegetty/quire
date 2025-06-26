@@ -12,6 +12,19 @@ Changelog entries are classified using the following labels:
 - `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
+## [1.0.0-rc.31]
+
+### Added
+
+- Integration tests for Linux, macos, and Windows. 
+
+### Fixed
+
+- Ensure SVG icons are included in the markup passed to the PDF generators.
+- Corrects IIIF identifiers to use '/' as path separator on Windows.
+- Corrects separator of paths passed to the `vite` copy plugin use '/' on windows.
+- Fixes paths used in figures plugin to be platform-specific when referring to disk assets and '/'-separated when in a URL context. 
+
 ## [1.0.0-rc.30]
 
 ### Fixed
