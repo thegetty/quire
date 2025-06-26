@@ -12,6 +12,22 @@ Changelog entries are classified using the following labels:
 - `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
+## [1.0.0-rc.31]
+
+### Changed
+
+- Improved accessibility of PDFs generated with prince with `--pdf-profile=PDF/UA-1` flag
+
+### Removed
+
+- Removed `install-npm-version` in favor of `npm pack` and `tar xfz` run as subprocesses
+- Removed `patch-package`
+
+## [1.0.0-rc.30]
+## [1.0.0-rc.29]
+
+Candidate versions skipped to align with @thegetty/quire-11ty
+
 ## [1.0.0-rc.28]
 
 ### Fixed
