@@ -1,9 +1,16 @@
 /**
  * publication-cover.spec.js
  * 
- * Browser testing for the publication's index page / cover page 
+ * Browser testing for the publication's index page / cover page.
+ * 
+ * These tests run on each platform's publication build, walking the sitemap to test each page. 
+ * Each page gets a few specific tests:
+ * - Page has a title
+ * - src attributes used by img tags do not 404
+ * - canvas-panel elements' inner canvas has dimensions (ie, IIIF images loaded correctly)
  * 
  **/ 
+
 import { expect, test } from '@playwright/test'
 import { JSDOM } from 'jsdom'
 import { readFile, readFileSync } from 'node:fs'
@@ -18,7 +25,7 @@ import path from 'node:path'
  * Checks the input url is valid and returns a good response
  * 
  **/ 
-const checkUrl = async (url,page) => {
+const checkUrl = async (url, page) => {
   if (!url) {
     test.fail('img URLs must not be empty', () => {})
     return
@@ -34,16 +41,19 @@ const checkUrl = async (url,page) => {
  * 
  * @argument {Page} page
  * 
- * Checks whether canas-panel inner canvas elements have proper dimensions
+ * Checks whether canas-panel inner canvas elements have non-zero dimensions
  * 
  **/ 
 const checkCanvasPanelCanvasDims = async (page) => {
   const canvasLocators = page.locator('canvas-panel canvas')
   const canvases = await canvasLocators.all()  
 
-  // Get all the src attributes and root them to localhost:8080 if they aren't valid URLs
+  // Get all canvases height and width attributes, verify they're non-zero
   const canvasDims = await Promise.all(canvases.map( async (canv) => {
-    return { height: await canv.getAttribute('height'), width: await canv.getAttribute('width') } 
+    return { 
+             height: await canv.getAttribute('height'), 
+             width: await canv.getAttribute('width') 
+           } 
   }))
 
   canvasDims.forEach( (dim) => {
