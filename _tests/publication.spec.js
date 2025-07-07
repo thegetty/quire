@@ -30,6 +30,29 @@ const checkUrl = async (url,page) => {
 }
 
 /**
+ * @function checkCanvasPanelCanvasDims
+ * 
+ * @argument {Page} page
+ * 
+ * Checks whether canas-panel inner canvas elements have proper dimensions
+ * 
+ **/ 
+const checkCanvasPanelCanvasDims = async (page) => {
+  const canvasLocators = page.locator('canvas-panel canvas')
+  const canvases = await canvasLocators.all()  
+
+  // Get all the src attributes and root them to localhost:8080 if they aren't valid URLs
+  const canvasDims = await Promise.all(canvases.map( async (canv) => {
+    return { height: await canv.getAttribute('height'), width: await canv.getAttribute('width') } 
+  }))
+
+  canvasDims.forEach( (dim) => {
+    expect.soft(Number(dim.height ?? 0)).toBeGreaterThan(0)
+    expect.soft(Number(dim.width ?? 0)).toBeGreaterThan(0)
+  })
+}
+
+/**
  * @function checkAllImgsOK
  * 
  * @argument {Page} page
@@ -78,5 +101,6 @@ for (const url of siteURLs) {
     await page.waitForLoadState('domcontentloaded')
     await expect.soft(page).toHaveTitle(/.{1,}/)
     await checkAllImgsOK(page)
+    await checkCanvasPanelCanvasDims(page)
   })  
 }
