@@ -58,7 +58,7 @@
     "template-polyfill": "^2.0.0"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^3.0.1-alpha.1",
+    "@11ty/eleventy": "<=3.1.0",
     "@11ty/eleventy-img": "^6.0.1",
     "@11ty/eleventy-navigation": "^1.0.1",
     "@11ty/eleventy-plugin-directory-output": "^1.0.1",
