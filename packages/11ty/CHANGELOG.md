@@ -12,6 +12,12 @@ Changelog entries are classified using the following labels:
 - `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
+## [1.0.0-rc.32]
+
+### Bumped
+
+- Moved `@11ty/eleventy` to 3.1.0. Resolves issue in 1.0.0-rc.31 where new projects would fail to build.
+
 ## [1.0.0-rc.31]
 
 ### Added
