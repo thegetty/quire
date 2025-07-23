@@ -133,7 +133,7 @@ export default class Annotation {
     this.id = id()
     this.info = info()
     this.isImageService = isImageService
-    this.label = label || titleCase(path.parse(src).name)
+    this.label = label || titleCase(src ? path.parse(src).name : figure.id)
     this.motivation = src ? 'painting' : 'text'
     this.selected = selected
     this.src = src

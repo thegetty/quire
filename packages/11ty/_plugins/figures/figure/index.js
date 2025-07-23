@@ -178,7 +178,7 @@ export default class Figure {
     switch (true) {
       case (src && this.isCanvas):
       case (this.iiifImage && this.isCanvas):
-        return new Annotation(this, { label, src })
+        return new Annotation(this, { label, src, id: this.id })
       default:
         return null
     }
@@ -236,23 +236,34 @@ export default class Figure {
    * @type {String}
    */
   get printImage () {
+    if (this.data.printImage) return this.data.printImage
+
     let name
     switch (true) {
-      case (!this.isExternalResource &&
-        this.iiifImage &&
-        !this.data.printImage):
-        name = slugify(this.iiifImage)
+      // IIIF Images that are external return a print-width'd resource
+      case (this.iiifImage && this.isExternalResource):{
+        const terminated = this.iiifImage.endsWith('/') ? this.iiifImage : this.iiifImage + '/'
+        const printSized = 'full/2025,/0/default.jpg'
 
-        return path.posix.join('/', this.outputPathname, name, `print-image${this.outputFormat}`)
+        const url = new URL(printSized, terminated)
+        return url.href
+      }
+      // CDN / external images are passed as-is
+      case (this.src && this.isExternalResource):
+        return this.src
 
-      case (!this.isExternalResource &&
-        this.src &&
-        !this.data.printImage):
-        ({ name } = path.parse(this.src))
+      // Image files and hosted ext. IIIF images serve a transform-created image
+      case (this.iiifImage && !this.isExternalResource):
+      case (this.src && !this.isExternalResource):
+        if (this.iiifImage) {
+          name = slugify(this.iiifImage)
+        } else {
+          ({ name } = path.parse(this.src))
+        }
         return path.posix.join('/', this.outputPathname, name, `print-image${this.outputFormat}`)
 
       default:
-        return this.data.printImage
+        return undefined
     }
   }
 
@@ -270,22 +281,39 @@ export default class Figure {
    * @type {String}
    */
   get staticInlineFigureImage () {
-    let filename
-    if (this.src) {
-      filename = this.src
-    } else if (this.sequences) {
-      const sequenceStart = this.sequences[0].start
-      filename = sequenceStart || this.sequences[0].files[0]
-    } else if (this.iiifImage) {
-      filename = `${slugify(this.iiifImage)}.jpg`
-    }
+    switch (true) {
+      case (this.src && this.mediaType !== 'table'):
+      case (this.sequences && this.mediaType !== 'table'): {
+        let filename
+        if (this.src) {
+          filename = this.src
+        } else {
+          const sequenceStart = this.sequences[0].start
+          filename = sequenceStart || this.sequences[0].files[0]
+        }
 
-    if (!this.isExternalResource && filename && this.mediaType !== 'table') {
-      const { ext, name } = path.parse(filename)
-      const format = this.iiifConfig.formats.find(({ input }) => input.includes(ext))
-      return path.posix.join('/', this.outputPathname, name, `static-inline-figure-image${format.output}`)
+        const { ext, name } = path.parse(filename)
+        const format = this.iiifConfig.formats.find(({ input }) => input.includes(ext))
+
+        return path.posix.join('/', this.outputPathname, name, `static-inline-figure-image${format.output}`)
+      }
+      case (this.iiifImage && !this.isExternalResource):
+        return path.posix.join('/', this.outputPathname, slugify(this.iiifImage), 'static-inline-figure-image.jpg')
+
+      case (this.src && this.isExternalResource):
+        return this.src
+
+      case (this.iiifImage && this.isExternalResource): {
+        const terminated = this.iiifImage.endsWith('/') ? this.iiifImage : this.iiifImage + '/'
+        const inlineSize = 'full/600,/0/default.jpg'
+
+        const url = new URL(inlineSize, terminated)
+        return url.href
+      }
+
+      default:
+        return this.data.staticInlineFigure
     }
-    return this.data.staticInlineFigure
   }
 
   /**
@@ -472,6 +500,7 @@ export default class Figure {
 
     const manifest = new Manifest(this)
     const { errors } = await manifest.write()
+    if (this.id === 'cat-1') console.log(errors)
     if (errors) this.errors = this.errors.concat(errors)
   }
 }
