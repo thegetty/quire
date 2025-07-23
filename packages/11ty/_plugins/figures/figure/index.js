@@ -1,11 +1,13 @@
 import { isCanvas, isImageService, isSequence } from '../helpers/index.js'
 import Annotation from '../annotation/index.js'
 import AnnotationFactory from '../annotation/factory.js'
+import Fetch from '@11ty/eleventy-fetch'
 import Manifest from '../iiif/manifest/index.js'
 import SequenceFactory from '../sequence/factory.js'
 import chalkFactory from '#lib/chalk/index.js'
 import path from 'node:path'
 import sharp from 'sharp'
+import slugify from '@sindresorhus/slugify'
 import urlPathJoin from '#lib/urlPathJoin/index.js'
 
 const logger = chalkFactory('Figures:Figure', 'DEBUG')
@@ -38,8 +40,28 @@ export default class Figure {
       switch (true) {
         case !isCanvas(data):
           return
+
         case !!data.canvasId:
           return data.canvasId
+
+        case data.iiif_image && iiifConfig.hostExternal:
+          const terminated = data.iiif_image.endsWith('/') ? data.iiif_image : data.iiif_image + '/'
+          const full = `full/full/0/default.jpg`
+
+          try {
+            const fullUrl = new URL(full, terminated)
+            return fullUrl.href
+          } catch (error) {
+            logger.error(`Erorr creating canvas id. The IIIF Image API URL ${data.iiif_image} and full parameter ${full} do not create a fully qualified URL`)
+          }
+
+        case data.iiif_image && !iiifConfig.hostExternal:
+          try {
+            return urlPathJoin(baseURI, slugify(data.iiif_image), 'canvas')
+          } catch (error) {
+            logger.error(`Error creating canvas id. The baseURI (${baseURI}) and the slugged IIIF Image URL (${slugify(data.iiif_image)}) are invalid to form a fully qualified URI.`)
+          }
+
         default:
           try {
             return urlPathJoin(baseURI, outputPathname, 'canvas')
@@ -57,8 +79,10 @@ export default class Figure {
       switch (true) {
         case !isCanvas(data):
           return
+
         case !!data.manifestId:
           return data.manifestId
+
         default:
           try {
             return urlPathJoin(baseURI, outputPathname, manifestFileName)
@@ -74,6 +98,7 @@ export default class Figure {
 
     const {
       id,
+      iiif_image,
       label,
       media_id: mediaId,
       media_type: mediaType,
@@ -81,7 +106,18 @@ export default class Figure {
       zoom
     } = data
 
-    const ext = src ? path.parse(src).ext : null
+    let ext
+    switch (true) {
+      case (!!iiif_image):
+        ext = '.jpg'
+        break
+      case (!!src):
+        ext = path.parse(src).ext
+        break
+      default: 
+        ext = null
+    }
+
     const format = iiifConfig.formats.find(({ input }) => input.includes(ext))
 
     this.annotationCount = data.annotations ? data.annotations.length : 0
@@ -89,6 +125,7 @@ export default class Figure {
     this.data = data
     this.id = id
     this.iiifConfig = iiifConfig
+    this.iiifImage = iiif_image
     this.isCanvas = isCanvas(data)
     this.isImageService = isImageService(data)
     this.isSequence = isSequence(data)
@@ -129,15 +166,21 @@ export default class Figure {
   }
 
   /**
-   * When the figure is a canvas, represent the image
-   * in `figure.src` as an annotation for use in IIIF manifests
+   * When the figure is a canvas, create an annotation for this 
+   * `src` or `iiif_image` as an annotation for use in IIIF manifests.
+   * 
    * @return {Annotation|null}
    */
   get baseImageAnnotation () {
-    const { src, label } = this.data
-    return src && this.isCanvas
-      ? new Annotation(this, { label, src })
-      : null
+    const { iiif_image, label, src } = this.data
+
+    switch (true) {
+      case ( src && this.isCanvas ): 
+      case ( this.iiifImage && this.isCanvas ):
+        return new Annotation(this, { label, src })
+      default:
+        return null
+    }
   }
 
   /**
@@ -146,6 +189,9 @@ export default class Figure {
    */
   get canvasImagePath () {
     if (!this.isCanvas) return
+
+    if (this.iiifImage) return this.iiifImage
+
     const firstChoiceSrc = () => {
       if (!this.annotations) return
       const firstChoice = this.annotations
@@ -154,18 +200,22 @@ export default class Figure {
       if (!firstChoice) return
       return firstChoice.src
     }
+
     const firstSequenceItemSrc = () => {
       if (!this.sequences) return
       const firstSequenceItemDirname = this.sequences[0].dir
       const firstSequenceItemFilename = this.sequences[0].files[0]
       return path.join(firstSequenceItemDirname, firstSequenceItemFilename)
     }
+
     const imagePath = this.src || firstChoiceSrc() || firstSequenceItemSrc()
     if (!imagePath) {
       this.errors.push(`Invalid figure ID "${this.id}". Figures with annotations must have "choice" annotations or a "src" property.`)
       return
     }
+
     const { imagesDir, inputRoot } = this.iiifConfig.dirs
+
     return path.join(inputRoot, imagesDir, imagePath)
   }
 
@@ -174,19 +224,35 @@ export default class Figure {
    * @return {Boolean}
    */
   get isExternalResource () {
-    return (this.src && this.src.startsWith('http')) || this.data.manifestId
+    const url = /^https?:\/\//
+    return (this.src && url.test(this.src)) 
+            || this.data.manifestId
+            || ( this.iiifImage && !this.iiifConfig.hostExternal )  
   }
 
   /**
    * Path to a print representation of the figure for EPUB & PDF outputs
    * @type {String}
    */
-  get printImage () {
-    if (!this.isExternalResource && this.src && !this.data.printImage) {
-      const { name } = path.parse(this.src)
-      return path.posix.join('/', this.outputPathname, name, `print-image${this.outputFormat}`)
+  get printImage () {  
+    let name  
+    switch (true) {
+      case(!this.isExternalResource
+        && this.iiifImage
+        && !this.data.printImage):
+        name = slugify(this.iiifImage)
+
+        return path.posix.join('/',this.outputPathname, name, `print-image${this.outputFormat}`)
+
+      case(!this.isExternalResource
+        && this.src
+        && !this.data.printImage):
+        ({ name } = path.parse(this.src))
+        return path.posix.join('/', this.outputPathname, name, `print-image${this.outputFormat}`)
+
+      default:
+        return this.data.printImage
     }
-    return this.data.printImage
   }
 
   /**
@@ -209,6 +275,8 @@ export default class Figure {
     } else if (this.sequences) {
       const sequenceStart = this.sequences[0].start
       filename = sequenceStart || this.sequences[0].files[0]
+    } else if (this.iiifImage) {
+      filename = `${slugify(this.iiifImage)}.jpg`
     }
 
     if (!this.isExternalResource && filename && this.mediaType !== 'table') {
@@ -235,7 +303,9 @@ export default class Figure {
       annotations: this.annotations,
       canvasId: this.canvasId,
       id: this.id,
+      iiifImage: this.iiifImage,
       isCanvas: this.isCanvas,
+      isExternalResource: this.isExternalResource,
       isImageService: this.isImageService,
       isSequence: this.isSequence,
       label: this.label,
@@ -257,8 +327,29 @@ export default class Figure {
    * Get the width and height of the canvas
    */
   async calcCanvasDimensions () {
-    if (!this.canvasImagePath) return
-    const { height, width } = await sharp(this.canvasImagePath).metadata()
+    if (!this.canvasImagePath || (this.iiifImage && !this.isCanvas)) return
+
+    let height, width
+
+    // Fetch dimensions from IIIF via `Fetch` or the disk via `sharp` 
+    if (this.iiifImage) {
+      // TODO: Move `try` to outer scope!! can't sharp().metadata() also throw?
+      try {
+        const terminatedUrl = this.iiifImage.endsWith('/') ? this.iiifImage : this.iiifImage + '/' 
+
+        const infoUrl = new URL('info.json', terminatedUrl)
+        const info = await Fetch(infoUrl.href, {type: 'json'})
+
+        height = info.height 
+        width = info.width
+     } catch (err) {
+        logger.error(`Could not fetch metadata for figure ${this.id} with error ${err}!`)
+        return
+      }
+    } else {
+      ({ height, width } = await sharp(this.canvasImagePath).metadata())    
+    }
+
     this.canvasHeight = height
     this.canvasWidth = width
   }
@@ -274,7 +365,7 @@ export default class Figure {
   async processFiles () {
     this.errors = []
 
-    if (this.isExternalResource) return {}
+    if (this.isExternalResource && !this.iiifImage) return {}
 
     await this.calcCanvasDimensions()
 
@@ -295,7 +386,7 @@ export default class Figure {
    * Process annotation images
    */
   async processAnnotationImages () {
-    // TODO Consider refactor - any time `this.annotations` is referenced, it creates a new instance of AnnotationFactory
+    // TODO Consider refactor - `this.annotations` creates new instances of AnnotationFactory on each call, `validateImageForTiling` is a no-op against its passed arg
     if (!this.annotations) return
     const annotationItems = this.annotations.flatMap(({ items }) => items)
     const results = await Promise.all(annotationItems.map((item) => {
@@ -313,26 +404,36 @@ export default class Figure {
    * Process `figure.src`
    */
   async processFigureImage () {
-    if (!this.isCanvas || !this.src) return
+    if (!this.isCanvas) return
+    if (!(this.src || this.iiifImage)) return
+    if (this.isExternalResource) return
+
     const { transformations } = this.iiifConfig
-    this.validateImageForTiling(this.src)
-    const { errors } = await this.processImage(this.src, this.outputDir, {
+
+    this.validateImageForTiling()
+    const processSrc = this.src ?? this.iiifImage
+    const { errors } = await this.processImage(processSrc, this.outputDir, {
       tile: true,
+      iiif_endpoint: !!this.iiifImage,
       transformations
     })
+
     if (errors) this.errors = this.errors.concat(errors)
   }
 
   async processFigureSequence () {
     // TODO Consider refactor - any time `this.sequences` is referenced, it creates a new instance of SequenceFactory
     if (!this.sequences) return
+
     const { transformations } = this.iiifConfig
     const [sequenceStartFilename] = this.sequences.flatMap(({ files, start }) => {
       const { name: firstFileName } = path.parse(files[0])
       return start || firstFileName
     })
+
     const { name: startId } = sequenceStartFilename ? path.parse(sequenceStartFilename) : {}
     const sequenceItems = this.sequences.flatMap(({ items }) => items)
+
     const results = await Promise.all(sequenceItems.map((item) => {
       const isStartItem = startId === item.id
       logger.debug(`processing sequence image ${item.src}`)
@@ -341,12 +442,15 @@ export default class Figure {
         transformations: isStartItem ? transformations : []
       })
     }))
+
     const errors = results.flatMap(({ errors }) => errors || [])
     if (errors.length) this.errors = this.errors.concat(errors)
   }
 
   /**
    * Check if image dimensions are valid before proceeding with image processing
+   * 
+   * TODO: This check can almost certainly be removed now that the base canvas uses .jpg
    */
   validateImageForTiling (src) {
     const minLength = this.iiifConfig.tileSize * 2
@@ -354,7 +458,7 @@ export default class Figure {
     this.dimensionsValidForTiling = this.canvasWidth > minLength && this.canvasHeight > minLength
 
     if (!this.dimensionsValidForTiling) {
-      logger.error(`Unable to create a zooming image from "${path.parse(src).base}". Images under ${minLength}px will not display unless zoom is set to false.`)
+      logger.error(`Unable to create a zooming image from "${ this.src ? path.parse(this.src).base : this.iiifImage }". Images under ${minLength}px will not display unless zoom is set to false.`)
     }
   }
 
@@ -363,8 +467,8 @@ export default class Figure {
    * collect errors from calling toJSON and the file system writer.
    */
   async createManifest () {
-    // TODO Figure out why this isn't building properly when `if (!this.isCanvas || !this.isSequence) return`
     if (!this.isCanvas) return
+
     const manifest = new Manifest(this)
     const { errors } = await manifest.write()
     if (errors) this.errors = this.errors.concat(errors)

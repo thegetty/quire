@@ -66,6 +66,7 @@ export default (eleventyConfig) => {
         output: '.jpg'
       }
     ],
+    hostExternal: false,
     /**
      * Locale of the generated manifest
      * @type {String}
