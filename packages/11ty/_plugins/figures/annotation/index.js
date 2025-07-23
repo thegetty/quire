@@ -62,6 +62,8 @@ export default class Annotation {
           return data.id
         case !!src:
           return name
+        case !!iiifImage:
+          return slugify(iiifImage)
         case !!label:
           return label.split(' ').join('-').toLowerCase()
         default:

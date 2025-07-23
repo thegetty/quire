@@ -178,7 +178,7 @@ export default class Figure {
     switch (true) {
       case (src && this.isCanvas):
       case (this.iiifImage && this.isCanvas):
-        return new Annotation(this, { label, src, id: this.id })
+        return new Annotation(this, { label, src })
       default:
         return null
     }
