@@ -17,12 +17,20 @@ export default function (eleventyConfig) {
   const { imageDir } = eleventyConfig.globalData.config.figures
 
   return function (figure) {
-    const { alt, caption, credit, id, label, src, staticInlineFigureImage } = figure
+    const {
+      alt,
+      caption,
+      credit,
+      id,
+      isExternalResource,
+      label,
+      src,
+      staticInlineFigureImage
+    } = figure
 
     if (!src && !staticInlineFigureImage) return ''
 
     const labelElement = figureLabel({ caption, id, label })
-    const extOrIiifRegex = /^(https?:\/\/|\/iiif\/|\\iiif\\)/
 
     /**
      * NB: Image assets can be: external, in the asset dir, or in the IIIF directory
@@ -35,7 +43,7 @@ export default function (eleventyConfig) {
       case figure.isCanvas || figure.isImageService:
         imageSrc = figure.printImage
         break
-      case extOrIiifRegex.test(src):
+      case isExternalResource && src:
         imageSrc = src
         break
       default:

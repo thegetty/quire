@@ -36,20 +36,23 @@ export default class ImageProcessor {
    * @param  {String} outputPath
    * @param  {Object} options
    * @property  {Boolean} tile To tile or not to tile
+   * @property  {Boolean} iiifEndpoint Whether to handle input as an IIIF endpoint
    * @property  {Object} transformations Image transformations to perform
    */
   async processImage (imagePath, outputPath, options = {}) {
-    if (!imagePath || imagePath.startsWith('http')) {
+    const { iiifEndpoint, tile, transformations } = options
+
+    if (!imagePath || (imagePath.startsWith('http') && !options.iiifEndpoint)) {
       logger.debug(`processing skipped for '${imagePath}'`)
       return {}
     }
 
     const errors = []
-    const inputPath = path.join(this.inputRoot, imagePath)
+    const inputPath = iiifEndpoint ? imagePath : path.join(this.inputRoot, imagePath)
 
     logger.debug(`processing inputPath: ${inputPath}`)
 
-    if (options.transformations) {
+    if (transformations) {
       /**
        * Transform Image
        */
@@ -62,12 +65,12 @@ export default class ImageProcessor {
       })
     }
 
-    if (options.tile) {
+    if (tile) {
       /**
        * Tile image
        */
       try {
-        await this.tiler(inputPath, outputPath)
+        await this.tiler(inputPath, outputPath, options)
       } catch (error) {
         errors.push(`Failed to generate tiles from source ${imagePath} ${error}`)
       }
@@ -76,6 +79,7 @@ export default class ImageProcessor {
        * Copy file to output directory since vite removes images
        * not directly referenced by the templates
        */
+
       const { base } = path.parse(imagePath)
       try {
         fs.copySync(inputPath, path.join(this.outputRoot, outputPath, base))

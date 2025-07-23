@@ -7,7 +7,9 @@ import path from 'node:path'
  * @return {Boolean}
  */
 export default function (figure) {
-  const { src } = figure
+  const { src, iiif_image: iiifImage } = figure
+  if (iiifImage) return true
   if (!src) return false
+
   return path.parse(src) === 'info.json'
 }
