@@ -45,6 +45,7 @@ const checkUrl = async (url, page) => {
  * 
  **/ 
 const checkCanvasPanelCanvasDims = async (page) => {
+  await page.waitForTimeout(2000)
   const canvasLocators = page.locator('canvas-panel canvas')
   const canvases = await canvasLocators.all()  
 
