@@ -66,7 +66,13 @@ export default (eleventyConfig) => {
         output: '.jpg'
       }
     ],
-    hostExternal: false,
+    /**
+     * Whether to host external IIIF images.
+     * `true` re-creates image tiles in the publication
+     * `false` uses the external URLs directly in manifests / pages
+     * @type {Boolean}
+     **/
+    hostExternal: true,
     /**
      * Locale of the generated manifest
      * @type {String}
