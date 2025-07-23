@@ -6,7 +6,7 @@ import isSequence from './is-sequence.js'
  * is a sequence, or links to an external IIIF manifest
  *
  * NB: `figure` is _figure data_ so props are snake-cased
- * 
+ *
  * @param  {Object} figure Figure data
  * @return {Boolean}       True if figure contains a canvas
  */

@@ -45,21 +45,22 @@ export default class Figure {
           return data.canvasId
 
         case data.iiif_image && iiifConfig.hostExternal:
-          const terminated = data.iiif_image.endsWith('/') ? data.iiif_image : data.iiif_image + '/'
-          const full = `full/full/0/default.jpg`
-
           try {
+            const terminated = data.iiif_image.endsWith('/') ? data.iiif_image : data.iiif_image + '/'
+            const full = 'full/full/0/default.jpg'
+
             const fullUrl = new URL(full, terminated)
             return fullUrl.href
           } catch (error) {
-            logger.error(`Erorr creating canvas id. The IIIF Image API URL ${data.iiif_image} and full parameter ${full} do not create a fully qualified URL`)
+            logger.error(`Erorr creating canvas id. The IIIF Image API URL ${data.iiif_image} did not create a fully qualified URL`)
+            return
           }
-
         case data.iiif_image && !iiifConfig.hostExternal:
           try {
             return urlPathJoin(baseURI, slugify(data.iiif_image), 'canvas')
           } catch (error) {
             logger.error(`Error creating canvas id. The baseURI (${baseURI}) and the slugged IIIF Image URL (${slugify(data.iiif_image)}) are invalid to form a fully qualified URI.`)
+            return
           }
 
         default:
@@ -98,7 +99,7 @@ export default class Figure {
 
     const {
       id,
-      iiif_image,
+      iiif_image: iiifImage,
       label,
       media_id: mediaId,
       media_type: mediaType,
@@ -108,13 +109,13 @@ export default class Figure {
 
     let ext
     switch (true) {
-      case (!!iiif_image):
+      case (!!iiifImage):
         ext = '.jpg'
         break
       case (!!src):
         ext = path.parse(src).ext
         break
-      default: 
+      default:
         ext = null
     }
 
@@ -125,7 +126,7 @@ export default class Figure {
     this.data = data
     this.id = id
     this.iiifConfig = iiifConfig
-    this.iiifImage = iiif_image
+    this.iiifImage = iiifImage
     this.isCanvas = isCanvas(data)
     this.isImageService = isImageService(data)
     this.isSequence = isSequence(data)
@@ -166,17 +167,17 @@ export default class Figure {
   }
 
   /**
-   * When the figure is a canvas, create an annotation for this 
+   * When the figure is a canvas, create an annotation for this
    * `src` or `iiif_image` as an annotation for use in IIIF manifests.
-   * 
+   *
    * @return {Annotation|null}
    */
   get baseImageAnnotation () {
-    const { iiif_image, label, src } = this.data
+    const { label, src } = this.data
 
     switch (true) {
-      case ( src && this.isCanvas ): 
-      case ( this.iiifImage && this.isCanvas ):
+      case (src && this.isCanvas):
+      case (this.iiifImage && this.isCanvas):
         return new Annotation(this, { label, src })
       default:
         return null
@@ -225,28 +226,28 @@ export default class Figure {
    */
   get isExternalResource () {
     const url = /^https?:\/\//
-    return (this.src && url.test(this.src)) 
-            || this.data.manifestId
-            || ( this.iiifImage && !this.iiifConfig.hostExternal )  
+    return (this.src && url.test(this.src)) ||
+            this.data.manifestId ||
+            (this.iiifImage && !this.iiifConfig.hostExternal)
   }
 
   /**
    * Path to a print representation of the figure for EPUB & PDF outputs
    * @type {String}
    */
-  get printImage () {  
-    let name  
+  get printImage () {
+    let name
     switch (true) {
-      case(!this.isExternalResource
-        && this.iiifImage
-        && !this.data.printImage):
+      case (!this.isExternalResource &&
+        this.iiifImage &&
+        !this.data.printImage):
         name = slugify(this.iiifImage)
 
-        return path.posix.join('/',this.outputPathname, name, `print-image${this.outputFormat}`)
+        return path.posix.join('/', this.outputPathname, name, `print-image${this.outputFormat}`)
 
-      case(!this.isExternalResource
-        && this.src
-        && !this.data.printImage):
+      case (!this.isExternalResource &&
+        this.src &&
+        !this.data.printImage):
         ({ name } = path.parse(this.src))
         return path.posix.join('/', this.outputPathname, name, `print-image${this.outputFormat}`)
 
@@ -331,23 +332,23 @@ export default class Figure {
 
     let height, width
 
-    // Fetch dimensions from IIIF via `Fetch` or the disk via `sharp` 
+    // Fetch dimensions from IIIF via `Fetch` or the disk via `sharp`
     if (this.iiifImage) {
       // TODO: Move `try` to outer scope!! can't sharp().metadata() also throw?
       try {
-        const terminatedUrl = this.iiifImage.endsWith('/') ? this.iiifImage : this.iiifImage + '/' 
+        const terminatedUrl = this.iiifImage.endsWith('/') ? this.iiifImage : this.iiifImage + '/'
 
         const infoUrl = new URL('info.json', terminatedUrl)
-        const info = await Fetch(infoUrl.href, {type: 'json'})
+        const info = await Fetch(infoUrl.href, { type: 'json' })
 
-        height = info.height 
+        height = info.height
         width = info.width
-     } catch (err) {
+      } catch (err) {
         logger.error(`Could not fetch metadata for figure ${this.id} with error ${err}!`)
         return
       }
     } else {
-      ({ height, width } = await sharp(this.canvasImagePath).metadata())    
+      ({ height, width } = await sharp(this.canvasImagePath).metadata())
     }
 
     this.canvasHeight = height
@@ -414,7 +415,7 @@ export default class Figure {
     const processSrc = this.src ?? this.iiifImage
     const { errors } = await this.processImage(processSrc, this.outputDir, {
       tile: true,
-      iiif_endpoint: !!this.iiifImage,
+      iiifEndpoint: !!this.iiifImage,
       transformations
     })
 
@@ -449,7 +450,7 @@ export default class Figure {
 
   /**
    * Check if image dimensions are valid before proceeding with image processing
-   * 
+   *
    * TODO: This check can almost certainly be removed now that the base canvas uses .jpg
    */
   validateImageForTiling (src) {
@@ -458,7 +459,7 @@ export default class Figure {
     this.dimensionsValidForTiling = this.canvasWidth > minLength && this.canvasHeight > minLength
 
     if (!this.dimensionsValidForTiling) {
-      logger.error(`Unable to create a zooming image from "${ this.src ? path.parse(this.src).base : this.iiifImage }". Images under ${minLength}px will not display unless zoom is set to false.`)
+      logger.error(`Unable to create a zooming image from "${this.src ? path.parse(this.src).base : this.iiifImage}". Images under ${minLength}px will not display unless zoom is set to false.`)
     }
   }
 

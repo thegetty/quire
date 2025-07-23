@@ -28,19 +28,21 @@ const logger = chalkFactory('Figures:Annotation')
  */
 export default class Annotation {
   constructor (figure, data) {
-    const { annotationCount, 
-            iiifConfig, 
-            iiifImage, 
-            isExternalResource,
-            outputDir, 
-            outputFormat, 
-            printImage, 
-            src: figureSrc, 
-            zoom } = figure
+    const {
+      annotationCount,
+      iiifConfig,
+      iiifImage,
+      isExternalResource,
+      outputDir,
+      outputFormat,
+      printImage,
+      src: figureSrc,
+      zoom
+    } = figure
     const { baseURI, tilesDirName } = iiifConfig
     const { label, region, selected, src, text } = data
 
-    let base,name
+    let base, name
     switch (true) {
       case (!!src):
         ({ base, name } = path.parse(src))
@@ -117,14 +119,14 @@ export default class Annotation {
 
     let format
     switch (true) {
-    case (!!iiifImage):
-      format = 'image/jpeg'
-      break
-    case (text && !src):
-      format = 'text/plain'
-      break
-    default:
-      format = mime.lookup(src)
+      case (!!iiifImage):
+        format = 'image/jpeg'
+        break
+      case (text && !src):
+        format = 'text/plain'
+        break
+      default:
+        format = mime.lookup(src)
     }
 
     this.format = format

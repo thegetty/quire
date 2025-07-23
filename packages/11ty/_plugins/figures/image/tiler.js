@@ -34,9 +34,9 @@ export default class Tiler {
   async tile (inputPath, outputDir, options) {
     if (!inputPath) return
 
-    const { iiif_endpoint } = options
-    let ext,name
-    if (iiif_endpoint) {
+    const { iiifEndpoint } = options
+    let ext, name
+    if (iiifEndpoint) {
       ext = '.jpg'
       name = slugify(inputPath)
     } else {
@@ -59,7 +59,7 @@ export default class Tiler {
     // For a IIIF image, download the full image and pass the buffer to sharp
     // TODO: Use a sensible full max here in case something is mega mega big?
     let imagePathOrBuf = inputPath
-    if (iiif_endpoint) {
+    if (iiifEndpoint) {
       const iiifUrl = inputPath.endsWith('/') ? inputPath : inputPath + '/'
       const fullParams = 'full/full/0/default.jpg'
 

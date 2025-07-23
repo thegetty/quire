@@ -36,19 +36,19 @@ export default class ImageProcessor {
    * @param  {String} outputPath
    * @param  {Object} options
    * @property  {Boolean} tile To tile or not to tile
-   * @property  {Boolean} iiif_endpoint Whether to handle input as an IIIF endpoint
+   * @property  {Boolean} iiifEndpoint Whether to handle input as an IIIF endpoint
    * @property  {Object} transformations Image transformations to perform
    */
   async processImage (imagePath, outputPath, options = {}) {
-    const { iiif_endpoint, tile, transformations } = options
+    const { iiifEndpoint, tile, transformations } = options
 
-    if (!imagePath || ( imagePath.startsWith('http') && !options.iiif_endpoint ) ) {
+    if (!imagePath || (imagePath.startsWith('http') && !options.iiifEndpoint)) {
       logger.debug(`processing skipped for '${imagePath}'`)
       return {}
     }
 
     const errors = []
-    const inputPath = iiif_endpoint ? imagePath : path.join(this.inputRoot, imagePath)
+    const inputPath = iiifEndpoint ? imagePath : path.join(this.inputRoot, imagePath)
 
     logger.debug(`processing inputPath: ${inputPath}`)
 

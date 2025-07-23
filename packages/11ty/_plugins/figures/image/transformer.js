@@ -9,13 +9,13 @@ const logger = chalkFactory('Figures:ImageTransformer', 'DEBUG')
 
 /**
  * @function iiifSize
- * 
+ *
  * @param {Object} resize - resize transform options
- * 
+ *
  * @return an IIIF Image size param representing this transform
- **/ 
+ **/
 const iiifSize = (resize, imgInfo) => {
-  const { width, height } = imgInfo 
+  const { width } = imgInfo
   const { width: xformWidth, withoutEnlargement } = resize
 
   let reqWidth = xformWidth
@@ -24,7 +24,7 @@ const iiifSize = (resize, imgInfo) => {
   }
 
   // TODO: Add ^ if this is a v3 endpoint -- in imgInfo.profiles look for http://iiif.io/api/image/2/level2.json, etc
-  return `${ reqWidth },`
+  return `${reqWidth},`
 }
 
 /**
@@ -50,11 +50,11 @@ export default class Transformer {
   async transform (inputPath, outputDir, transformation, options = {}) {
     if (!inputPath) return {}
 
-    const { region, iiif_endpoint } = options
+    const { region, iiifEndpoint } = options
     const { resize } = transformation
 
     let ext, name
-    if (iiif_endpoint) {
+    if (iiifEndpoint) {
       ext = '.jpg'
       name = slugify(inputPath)
     } else {
@@ -72,13 +72,13 @@ export default class Transformer {
     }
 
     // If this is an IIIF endpoint, download with the appropriate size params
-    if (iiif_endpoint) {
+    if (iiifEndpoint) {
       const iiifUrl = inputPath.endsWith('/') ? inputPath : inputPath + '/'
 
       // Will need info for profile detection (v2/v3) and dimensions
       const infoUrl = new URL('info.json', iiifUrl)
 
-      const info = await Fetch(infoUrl.href, {type: 'json'})
+      const info = await Fetch(infoUrl.href, { type: 'json' })
 
       // Construct the transform URL and save to disk
       const size = iiifSize(resize, info)
@@ -87,12 +87,13 @@ export default class Transformer {
       const image = await Fetch(imageUrl.href)
       const buf = Buffer.from(image)
 
-      return new Promise( (resolve,reject) => {
+      return new Promise((resolve, reject) => {
         fs.createWriteStream(outputPath).write(buf)
         logger.debug(`Wrote buffer to ${outputPath}`)
-        resolve() 
+        resolve()
       })
     }
+
     /**
      * Declare a `sharp` service with a `crop` method that is callable
      * without a `region`, which the sharp API `extract` method does not allow
