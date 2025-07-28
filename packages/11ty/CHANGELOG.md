@@ -12,6 +12,24 @@ Changelog entries are classified using the following labels:
 - `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
+## [1.0.0-rc.33]
+
+### Added
+
+- Added `iiif_image` property to Figure factory and schema. When passed an IIIF Image API URL (eg, `iiif_image: "https://media.getty.edu/iiif/image/aedba790-5d99-4eec-9453-103efd6a1429"`) the IIIF URL will be used to source image tiles and static-sized derivatives for this figure.
+
+### Changed 
+
+- Ensured that `isExternalResource` is passed through the Figure adapter to data consumers.
+
+### Bumped
+
+- Bumped minimum supported node engine version to v22.
+
+### Fixed
+
+- Fixed various pathing issues for image files used in the epub and pdf outputs.
+
 ## [1.0.0-rc.32]
 
 ### Bumped
