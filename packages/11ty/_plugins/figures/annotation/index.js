@@ -3,6 +3,7 @@ import mime from 'mime-types'
 import path from 'node:path'
 import titleCase from '#plugins/filters/titleCase.js'
 import urlPathJoin from '#lib/urlPathJoin/index.js'
+import slugify from '@sindresorhus/slugify'
 
 const logger = chalkFactory('Figures:Annotation')
 
@@ -27,10 +28,29 @@ const logger = chalkFactory('Figures:Annotation')
  */
 export default class Annotation {
   constructor (figure, data) {
-    const { annotationCount, iiifConfig, outputDir, outputFormat, printImage, src: figureSrc, zoom } = figure
+    const {
+      annotationCount,
+      iiifConfig,
+      iiifImage,
+      isExternalResource,
+      outputDir,
+      outputFormat,
+      printImage,
+      src: figureSrc,
+      zoom
+    } = figure
     const { baseURI, tilesDirName } = iiifConfig
     const { label, region, selected, src, text } = data
-    const { base, name } = src ? path.parse(src) : {}
+
+    let base, name
+    switch (true) {
+      case (!!src):
+        ({ base, name } = path.parse(src))
+        break
+      case (!!iiifImage):
+        name = slugify(iiifImage)
+        break
+    }
 
     /**
      * If an id is not provided, compute id from the `label` or `src` properties
@@ -42,6 +62,8 @@ export default class Annotation {
           return data.id
         case !!src:
           return name
+        case !!iiifImage:
+          return slugify(iiifImage)
         case !!label:
           return label.split(' ').join('-').toLowerCase()
         default:
@@ -61,9 +83,14 @@ export default class Annotation {
     const isImageService =
       !!zoom &&
       outputFormat === '.jpg' &&
-      (annotationCount === 0 || src === figureSrc)
+      (annotationCount === 0 || src === figureSrc || iiifImage)
+
     const info = () => {
       if (!isImageService) return
+
+      if (iiifImage && isExternalResource) {
+        return urlPathJoin(iiifImage, 'info.json')
+      }
 
       // NB: Joining by posix because will become URLs
       const tilesPath = path.posix.join(outputDir, name, tilesDirName)
@@ -78,7 +105,9 @@ export default class Annotation {
 
     const uri = () => {
       switch (true) {
-        case isImageService:
+        case isImageService && isExternalResource:
+          return urlPathJoin(iiifImage, 'full', 'full', '0', 'default.jpg')
+        case isImageService && !isExternalResource:
           // NB: Annotations for imageServices are *jpeg*s not the service endpoint
           return urlPathJoin(baseURI, printImage)
         default:
@@ -90,11 +119,23 @@ export default class Annotation {
       }
     }
 
-    this.format = text && !src ? 'text/plain' : mime.lookup(src)
+    let format
+    switch (true) {
+      case (!!iiifImage):
+        format = 'image/jpeg'
+        break
+      case (text && !src):
+        format = 'text/plain'
+        break
+      default:
+        format = mime.lookup(src)
+    }
+
+    this.format = format
     this.id = id()
     this.info = info()
     this.isImageService = isImageService
-    this.label = label || titleCase(path.parse(src).name)
+    this.label = label || titleCase(src ? path.parse(src).name : figure.id)
     this.motivation = src ? 'painting' : 'text'
     this.selected = selected
     this.src = src

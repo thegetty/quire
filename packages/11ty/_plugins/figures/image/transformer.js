@@ -1,9 +1,31 @@
 import chalkFactory from '#lib/chalk/index.js'
+import Fetch from '@11ty/eleventy-fetch'
 import fs from 'fs-extra'
 import path from 'node:path'
 import sharp from 'sharp'
+import slugify from '@sindresorhus/slugify'
 
 const logger = chalkFactory('Figures:ImageTransformer', 'DEBUG')
+
+/**
+ * @function iiifSize
+ *
+ * @param {Object} resize - resize transform options
+ *
+ * @return an IIIF Image size param representing this transform
+ **/
+const iiifSize = (resize, imgInfo) => {
+  const { width } = imgInfo
+  const { width: xformWidth, withoutEnlargement } = resize
+
+  let reqWidth = xformWidth
+  if (xformWidth > width && withoutEnlargement) {
+    reqWidth = width
+  }
+
+  // TODO: Add ^ if this is a v3 endpoint -- in imgInfo.profiles look for http://iiif.io/api/image/2/level2.json, etc
+  return `${reqWidth},`
+}
 
 /**
  * @param  {Object} iiifConfig Quire IIIF Process config
@@ -28,9 +50,17 @@ export default class Transformer {
   async transform (inputPath, outputDir, transformation, options = {}) {
     if (!inputPath) return {}
 
-    const { region } = options
+    const { region, iiifEndpoint } = options
     const { resize } = transformation
-    const { ext, name } = path.parse(inputPath)
+
+    let ext, name
+    if (iiifEndpoint) {
+      ext = '.jpg'
+      name = slugify(inputPath)
+    } else {
+      ({ ext, name } = path.parse(inputPath))
+    }
+
     const format = this.formats.find(({ input }) => input.includes(ext))
     const outputPath = path.join(this.outputRoot, outputDir, name, `${transformation.name}${format.output}`)
 
@@ -39,6 +69,29 @@ export default class Transformer {
     if (fs.pathExistsSync(outputPath)) {
       logger.debug(`skipping previously transformed image '${inputPath}'`)
       return
+    }
+
+    // If this is an IIIF endpoint, download with the appropriate size params
+    if (iiifEndpoint) {
+      const iiifUrl = inputPath.endsWith('/') ? inputPath : inputPath + '/'
+
+      // Will need info for profile detection (v2/v3) and dimensions
+      const infoUrl = new URL('info.json', iiifUrl)
+
+      const info = await Fetch(infoUrl.href, { type: 'json' })
+
+      // Construct the transform URL and save to disk
+      const size = iiifSize(resize, info)
+      const imageUrl = new URL(`full/${size}/0/default.jpg`, iiifUrl)
+
+      const image = await Fetch(imageUrl.href)
+      const buf = Buffer.from(image)
+
+      return new Promise((resolve, reject) => {
+        fs.createWriteStream(outputPath).write(buf)
+        logger.debug(`Wrote buffer to ${outputPath}`)
+        resolve()
+      })
     }
 
     /**
