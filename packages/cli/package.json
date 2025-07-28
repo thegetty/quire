@@ -76,6 +76,6 @@
     "jsdoc-to-markdown": "^9.1.1"
   },
   "engines": {
-    "node": ">=14.16"
+    "node": ">=22"
   }
 }
