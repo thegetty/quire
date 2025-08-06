@@ -62,12 +62,16 @@ export default (eleventyConfig, collections) => {
      */
 
     const { assets } = eleventyConfig.globalData.epub
+    const { pathname } = eleventyConfig.globalData.publication 
     const { url: coverUrl } = manifest.resources.find(({ rel }) => rel === 'cover-image')
     assets.push(coverUrl)
 
+    const pathStem = pathname.replace(/^\//,'')
+    const assetStem = path.join(pathStem, '_assets')
+
     const isUrl = /https?:\/\//
     // Because epub runs simultaneously to the vite transform (!!) do path math to understand asset locations
-    for (const asset of assets) {
+    for (let asset of assets) {
       let assetDir
       // TODO: `destPath` needs to create a filename for `asset`
       const destPath = path.join(outputDir, asset)
@@ -76,10 +80,22 @@ export default (eleventyConfig, collections) => {
       switch (true) {
         case isUrl.test(asset):
           continue
+        case pathStem !== '' 
+              && asset.startsWith(assetStem):
 
+          assetDir = eleventyConfig.directoryAssignments.input
+          asset = asset.replace(pathStem, '')
+          break
         case asset.split(path.sep).at(0) === '_assets':
           assetDir = eleventyConfig.directoryAssignments.input
           break
+        case pathStem !== '' &&
+          eleventyConfig.globalData.directoryConfig.publicDir !== false:
+
+          asset = asset.replace(pathStem, '')
+          assetDir = eleventyConfig.globalData.directoryConfig.publicDir
+          break
+
         case eleventyConfig.globalData.directoryConfig.publicDir !== false:
           assetDir = eleventyConfig.globalData.directoryConfig.publicDir
           break
