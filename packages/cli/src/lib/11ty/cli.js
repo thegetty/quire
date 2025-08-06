@@ -83,12 +83,17 @@ export default {
 
     env.ELEVENTY_ENV = 'production'
 
-    await execa('node', command, {
+    const build = await execa('node', command, {
       all: true,
       cwd: projectRoot,
       env,
       execPath: process.execPath
-    }).all.pipe(process.stdout)
+    })
+    build.all.pipe(process.stdout)
+
+    if (build.exitCode !== 0) {
+      process.exit(build.exitCode)
+    }
   },
 
   serve: async (options = {}) => {

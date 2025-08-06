@@ -89,7 +89,12 @@ export default (eleventyConfig, collections) => {
 
       const srcPath = path.join(assetDir, asset)
 
-      fs.copySync(srcPath, destPath)
+      try {
+        fs.copySync(srcPath, destPath)
+      } catch (err) {
+        console.error(err)
+        process.exit(1)
+      }
     }
   })
 }

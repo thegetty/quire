@@ -15,6 +15,7 @@
 import fs from 'node:fs'
 import { execa } from 'execa'
 import path from 'node:path'
+import yaml from 'js-yaml'
 import test from 'ava'
 
 const publicationName = 'test-publication'
@@ -24,8 +25,40 @@ const eleventyPath = path.join( process.cwd() , 'packages', '11ty' )
 const publicationPath = path.join( process.cwd(), publicationName )
 const publicationZip = path.join( process.cwd(), 'publication.zip' )
 
+/**
+ * @function changePubUrl
+ * 
+ * @param {String} url URL to use in YAML
+ * @param {test} t ava test object
+ * 
+ * Modifies publication YAML file to change publication url
+ **/ 
+const changePubUrl = (url, t) => {
+  const publicationYaml = 'content/_data/publication.yaml'
+
+  if (!fs.existsSync(publicationYaml)) t.fail()
+  
+  const data = fs.readFileSync(publicationYaml)
+  let publication = yaml.load(data)
+
+  publication.url = url
+
+  fs.writeFileSync(publicationYaml, yaml.dump(publication))
+}
+
 test.serial('Create the default publication', async (t) => {
   const newCmd = await execa('quire', ['new', '--debug', '--quire-path', eleventyPath, publicationName ])
+  t.pass()
+})
+
+test.serial('Build the default publication with a pathPrefix', async (t) => {
+  process.chdir( publicationPath )
+
+  changePubUrl('http://localhost:8080/test-path/', t)
+  const buildCmd = await execa('quire', ['build'])
+  console.log(buildCmd)
+  changePubUrl('http://localhost:8080', t)
+
   t.pass()
 })
 
