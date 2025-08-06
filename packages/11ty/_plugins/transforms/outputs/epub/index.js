@@ -62,11 +62,11 @@ export default (eleventyConfig, collections) => {
      */
 
     const { assets } = eleventyConfig.globalData.epub
-    const { pathname } = eleventyConfig.globalData.publication 
+    const { pathname } = eleventyConfig.globalData.publication
     const { url: coverUrl } = manifest.resources.find(({ rel }) => rel === 'cover-image')
     assets.push(coverUrl)
 
-    const pathStem = pathname.replace(/^\//,'')
+    const pathStem = pathname.replace(/^\//, '')
     const assetStem = path.join(pathStem, '_assets')
 
     const isUrl = /https?:\/\//
@@ -80,8 +80,8 @@ export default (eleventyConfig, collections) => {
       switch (true) {
         case isUrl.test(asset):
           continue
-        case pathStem !== '' 
-              && asset.startsWith(assetStem):
+        case pathStem !== '' &&
+              asset.startsWith(assetStem):
 
           assetDir = eleventyConfig.directoryAssignments.input
           asset = asset.replace(pathStem, '')
