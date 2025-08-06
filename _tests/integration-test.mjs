@@ -56,7 +56,6 @@ test.serial('Build the default publication with a pathPrefix', async (t) => {
 
   changePubUrl('http://localhost:8080/test-path/', t)
   const buildCmd = await execa('quire', ['build'])
-  console.log(buildCmd)
   changePubUrl('http://localhost:8080', t)
 
   t.pass()
