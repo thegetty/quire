@@ -12,23 +12,36 @@ export default function (eleventyConfig, collections, content) {
   const removeHTML = eleventyConfig.getFilter('removeHTML')
   const slugify = eleventyConfig.getFilter('slugify')
   const slugifyIds = eleventyConfig.getFilter('slugifyIds')
-  const { language } = eleventyConfig.globalData.publication
+  const { language, pathname } = eleventyConfig.globalData.publication
   const { assets, readingOrder } = eleventyConfig.globalData.epub
   const { outputDir } = eleventyConfig.globalData.config.epub
 
   const write = writer(outputDir)
 
   /**
-   * Gather asset filepaths, normalizing to platform paths for consumers
+   * Add asset URLs or paths to `assets`
    *
    * @param      {HTMLElement}  element
+   *
    */
   const getAssets = (element) => {
     const images = element.querySelectorAll('img')
     images.forEach((img) => {
-      const src = img.getAttribute('src')
+      let src = img.getAttribute('src')
       if (!src) return
 
+      // Pass URLs as-is
+      if (/https?:\/\//.test(src)) {
+        assets.push(src)
+        return
+      }
+
+      // Remove publication `pathname`
+      if (pathname !== '/' && src.startsWith(pathname)) {
+        src = src.replace(pathname, '/')
+      }
+
+      // Normalize disk paths to platform-specific paths for consumers
       const normalizedPath = path.normalize(src)
       const relativePath = normalizedPath.startsWith(path.sep) ? normalizedPath.slice(path.sep.length) : src
 

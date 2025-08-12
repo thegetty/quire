@@ -66,7 +66,8 @@ export default (eleventyConfig, collections) => {
     assets.push(coverUrl)
 
     const isUrl = /https?:\/\//
-    // Because epub runs simultaneously to the vite transform (!!) do path math to understand asset locations
+
+    // NB: `asset` is a platform-normalized path or an URL
     for (const asset of assets) {
       let assetDir
       // TODO: `destPath` needs to create a filename for `asset`
@@ -80,16 +81,23 @@ export default (eleventyConfig, collections) => {
         case asset.split(path.sep).at(0) === '_assets':
           assetDir = eleventyConfig.directoryAssignments.input
           break
+
         case eleventyConfig.globalData.directoryConfig.publicDir !== false:
           assetDir = eleventyConfig.globalData.directoryConfig.publicDir
           break
+
         default:
           assetDir = eleventyConfig.directoryAssignments.output
       }
 
       const srcPath = path.join(assetDir, asset)
 
-      fs.copySync(srcPath, destPath)
+      try {
+        fs.copySync(srcPath, destPath)
+      } catch (err) {
+        console.error(err)
+        process.exit(1)
+      }
     }
   })
 }

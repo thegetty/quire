@@ -500,7 +500,7 @@ export default class Figure {
 
     const manifest = new Manifest(this)
     const { errors } = await manifest.write()
-    if (this.id === 'cat-1') console.log(errors)
+
     if (errors) this.errors = this.errors.concat(errors)
   }
 }
