@@ -37,7 +37,7 @@ export default function (eleventyConfig) {
       const annotationsElementContent = !isSequence ? annotationsUI({ figure: fig, lightbox: true }) : undefined
       const labelHtml = label ? markdownify(label) : undefined
       const captionHtml = caption ? markdownify(caption) : undefined
-      const creditHtml = credit ? markdownify(caption) : undefined
+      const creditHtml = credit ? markdownify(credit) : undefined
       const sluggedId = slugify(id)
 
       const mapped = {
