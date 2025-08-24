@@ -51,7 +51,12 @@ const checkForDuplicateIds = function (data, filename) {
  */
 export default function (eleventyConfig, directoryConfig) {
   const dir = path.resolve(directoryConfig.inputDir, '_data')
-  // console.debug(`[plugins:globalData] ${dir}`)
+
+  // Add directory config to globalData so that it is available to other plugins
+  eleventyConfig.addGlobalData('directoryConfig', directoryConfig)
+
+  if (!fs.existsSync(dir)) return eleventyConfig.globalData
+
   const files = fs.readdirSync(dir)
     .filter((file) => path.extname(file) !== '.md')
   const parse = parser(eleventyConfig)
@@ -74,9 +79,6 @@ export default function (eleventyConfig, directoryConfig) {
     checkForDuplicateIds(value, file)
     eleventyConfig.addGlobalData(key, value)
   }
-
-  // Add directory config to globalData so that it is available to other plugins
-  eleventyConfig.globalData.directoryConfig = directoryConfig
 
   return eleventyConfig.globalData
 }

@@ -212,6 +212,10 @@ export default function (eleventyConfig, collections, content) {
     }
   }
 
+  function openAccordions (document) {
+    document.querySelectorAll('details.accordion-section').forEach((sect) => { sect.open = true })
+  }
+
   const pdfPages = collections.pdf.map(({ outputPath }) => outputPath)
 
   // Returning content allows subsequent transforms to process it unmodified
@@ -252,6 +256,7 @@ export default function (eleventyConfig, collections, content) {
   filterOutputs(sectionElement, 'pdf')
   trimLeadingSeparator(sectionElement)
   slugifyIds(sectionElement)
+  openAccordions(sectionElement)
 
   collections.pdf[pageIndex].sectionElement = sectionElement.outerHTML
 
