@@ -1,44 +1,7 @@
 import Eleventy from '@11ty/eleventy'
 import { JSDOM } from 'jsdom'
 import test from 'ava'
-
-/**
- * @function stubGlobalData
- *
- * @param {Object} eleventyConfig
- *
- * Inserts keys / values into globalData suitable to make Eleventy() init
- *
- **/
-const stubGlobalData = (eleventyConfig) => {
-  eleventyConfig.addGlobalData('publication', {})
-
-  const config = {
-    accordion: {
-      copyButton: {}
-    },
-    epub: {},
-    figures: {}
-  }
-  eleventyConfig.addGlobalData('config', config)
-
-  const figures = { figure_list: [] }
-  eleventyConfig.addGlobalData('figures', figures)
-}
-
-/**
- * @function stubEleventy
- *
- * Initializes an Eleventy object suitable for rendering out shortcodes
- *
- **/
-const stubEleventy = async () => {
-  const elev = new Eleventy('../', '_site', { config: stubGlobalData })
-  await elev.init()
-
-  return elev
-}
-
+import { initEleventyEnvironment } from './helpers'
 /**
  * @function renderAndTestIds
  *
@@ -59,8 +22,8 @@ const renderAndTestIds = async (content, eleventy, t) => {
 }
 
 // Initialize Eleventy and pass into test context
-test.before('Stub eleventyConfig', async (t) => {
-  const elev = await stubEleventy()
+test.before('Stub the eleventy environment', async (t) => {
+  const elev = await initEleventyEnvironment()
 
   t.context.eleventy = elev
 })
