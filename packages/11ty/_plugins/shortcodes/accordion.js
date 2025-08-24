@@ -42,7 +42,7 @@ export default function (eleventyConfig, { page }) {
     ].filter((x) => x)
 
     const printComponent = `
-      <section id="${sectionId}" class="accordion-section" data-outputs-include="epub,pdf">
+      <section id="${sectionId}-print" class="accordion-section" data-outputs-include="epub,pdf">
         ${markdownify(heading, { inline: false })}
         ${markdownify(content, { inline: false })}
       </section>

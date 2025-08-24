@@ -13,14 +13,14 @@ export default function (eleventyConfig, collections) {
   return {
     addShortcode: function (tagName, component) {
       eleventyConfig.addShortcode(tagName, function (...args) {
-        const page = collections.all.find(({ inputPath }) => inputPath === this.page.inputPath)
+        const page = collections.all?.find(({ inputPath }) => inputPath === this.page.inputPath)
         // console.log(tagName,page.inputPath)
         return component(eleventyConfig, { collections, page }).bind(this)(...args)
       })
     },
     addPairedShortcode: function (tagName, component) {
       eleventyConfig.addPairedShortcode(tagName, function (content, ...args) {
-        const page = collections.all.find(({ inputPath }) => inputPath === this.page.inputPath)
+        const page = collections.all?.find(({ inputPath }) => inputPath === this.page.inputPath)
         return component(eleventyConfig, { collections, page })(content, ...args)
       })
     }
