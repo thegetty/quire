@@ -39,6 +39,25 @@ const stubEleventy = async () => {
   return elev
 }
 
+/**
+ * @function renderAndTestIds
+ *
+ * @param {String} content
+ * @param {Eleventy} eleventy
+ * @param {ava.test} t
+ *
+ * Renders `content` and tests it for unique IDs
+ **/
+const renderAndTestIds = async (content, eleventy, t) => {
+  const rendered = await eleventy.eleventyConfig.config.javascriptFunctions.renderTemplate(content, 'liquid,md', {})
+  const markup = JSDOM.fragment(rendered)
+
+  const ids = Array.from(markup.querySelectorAll('[id]')).map((el) => el.id)
+  const uniques = new Set(ids)
+
+  if (ids.length !== uniques.size) t.fail('Accordion shortcode should not emit duplicate ids.')
+}
+
 // Initialize Eleventy and pass into test context
 test.before('Stub eleventyConfig', async (t) => {
   const elev = await stubEleventy()
@@ -58,31 +77,7 @@ test('Accordion sections should never produce duplicate ids', async (t) => {
   {% endaccordion %}`
 
   const testContent = [content, contentWithFootnote]
-  testContent.forEach(async (c) => {
-    const rendered = await eleventy.eleventyConfig.config.javascriptFunctions.renderTemplate(contentWithFootnote, 'liquid,md', {})
-    const markup = JSDOM.fragment(rendered)
-
-    const ids = Array.from(markup.querySelectorAll('[id]')).map((el) => el.id)
-    const uniques = new Set(ids)
-
-    if (ids.length !== uniques.length) t.fail('Accordion shortcode should not emit duplicate ids.')
-  })
+  testContent.forEach(async (c) => await renderAndTestIds(c, eleventy, t))
 
   t.pass()
-})
-
-test('Accordion sections should not produce duplicate ids in the markup with a footnote', async (t) => {
-  const { eleventy } = t.context
-
-  const contentWithFootnote = `{% accordion '## Test Section' %}
-  Test content.[^1]
-  {% endaccordion %}`
-
-  const rendered = await eleventy.eleventyConfig.config.javascriptFunctions.renderTemplate(contentWithFootnote, 'liquid,md', {})
-  const markup = JSDOM.fragment(rendered)
-
-  const ids = Array.from(markup.querySelectorAll('[id]')).map((el) => el.id)
-  const uniques = new Set(ids)
-
-  if (ids.length !== uniques.length) t.fail('Accordion shortcode should not emit duplicate ids.')
 })
