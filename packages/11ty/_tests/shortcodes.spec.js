@@ -1,7 +1,7 @@
-import Eleventy from '@11ty/eleventy'
 import { JSDOM } from 'jsdom'
 import test from 'ava'
-import { initEleventyEnvironment } from './helpers'
+import { initEleventyEnvironment } from './helpers/index.js'
+
 /**
  * @function renderAndTestIds
  *

@@ -1,3 +1,5 @@
+import Eleventy from '@11ty/eleventy'
+
 /**
  * @function stubGlobalData
  *
