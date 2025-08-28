@@ -59,7 +59,7 @@ export default function (eleventyConfig) {
           case mediaType === 'table':
             return `<div class="overflow-container">${await figureTableElement(figure)}</div>`
           case isVideo:
-            return figureVideoElement({...figure, lightbox: true})
+            return figureVideoElement({ ...figure, lightbox: true })
           case mediaType === 'image':
           default:
             return figureImageElement(figure, { preset: 'zoom', interactive: true, lightbox: true })

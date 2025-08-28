@@ -39,7 +39,7 @@ export default function (eleventyConfig) {
           return imageService(figure)
         }
       default:
-        return imageTag({...figure, lightbox})
+        return imageTag({ ...figure, lightbox })
     }
   }
 }
