@@ -12,11 +12,15 @@ import path from 'node:path'
  * @return     {String}  An <img> element
  */
 export default function (eleventyConfig) {
+  const { publicDir } = eleventyConfig.globalData.directoryConfig
   const { imageDir } = eleventyConfig.globalData.config.figures
+  const { pathname } = eleventyConfig.globalData.publication
 
-  return function ({ alt = '', src = '', isStatic = false, lazyLoading = 'lazy' }) {
+  return function ({ alt = '', src = '', isStatic = false, lazyLoading = 'lazy', lightbox = false }) {
+    // Lightbox loads in-browser so urls must have pathname, rest are prepended by 11ty
     const extOrIiifRegex = /^(https?:\/\/|\/iiif\/|\\iiif\\)/
-    let imageSrc = extOrIiifRegex.test(src) || isStatic ? src : path.posix.join(imageDir, src)
+    const assetRoot = lightbox && pathname !== '/' ? path.posix.join(pathname, imageDir) : imageDir
+    const imageSrc = extOrIiifRegex.test(src) || isStatic ? src : path.posix.join(assetRoot, src)
 
     // HACK: If an URL-unsafe path separator has made it this far, remove it
     if (path.sep !== '/') {
