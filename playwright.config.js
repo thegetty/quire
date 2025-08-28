@@ -75,7 +75,7 @@ export default defineConfig({
   },{
     command: 'npx --yes http-server -a localhost -p 8181 test-publication-pathname',
     url: 'http://localhost:8181',
-    timeout: 120 * 1000,
+    timeout: 240 * 1000,
     // reuseExistingServer: !process.env.CI,
   }]
 });
