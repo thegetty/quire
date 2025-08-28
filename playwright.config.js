@@ -14,7 +14,7 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  workers: undefined, //process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     ['junit', {printSteps: true, outputFile: 'reports/publication-browser.xml'}]
@@ -70,11 +70,11 @@ export default defineConfig({
   webServer: [{
     command: 'npm run test:serve',
     url: 'http://localhost:8080',
-    reuseExistingServer: !process.env.CI,
+    // reuseExistingServer: !process.env.CI,
   },{
     command: 'npx --yes http-server -a localhost -p 8181 test-publication-pathname',
     url: 'http://localhost:8181',
-    reuseExistingServer: !process.env.CI,
+    // reuseExistingServer: !process.env.CI,
   }]
 });
 
