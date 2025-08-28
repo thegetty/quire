@@ -70,10 +70,12 @@ export default defineConfig({
   webServer: [{
     command: 'npm run test:serve',
     url: 'http://localhost:8080',
+    timeout: 120 * 1000,
     // reuseExistingServer: !process.env.CI,
   },{
     command: 'npx --yes http-server -a localhost -p 8181 test-publication-pathname',
     url: 'http://localhost:8181',
+    timeout: 120 * 1000,
     // reuseExistingServer: !process.env.CI,
   }]
 });
