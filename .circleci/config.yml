@@ -127,6 +127,7 @@ commands:
             - package.json
             - reports
             - test-publication/_site
+            - test-publication-pathname/_site
             - _tests
 
       - store_test_results:

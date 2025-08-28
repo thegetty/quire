@@ -67,10 +67,14 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
-  webServer: {
+  webServer: [{
     command: 'npm run test:serve',
     url: 'http://localhost:8080',
     reuseExistingServer: !process.env.CI,
-  },
+  },{
+    command: 'npx --yes http-server -a localhost -p 8181 test-publication-pathname',
+    url: 'http://localhost:8181',
+    reuseExistingServer: !process.env.CI,
+  }]
 });
 

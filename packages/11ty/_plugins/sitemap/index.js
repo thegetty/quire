@@ -17,7 +17,11 @@ export default async function (eleventyConfig, collections) {
   })
 
   eleventyConfig.on('eleventy.after', async () => {
-    const sitemap = await eleventyConfig.javascript.functions.renderTemplate('{% sitemap collections.html %}', 'liquid,md', { collections })
+    // Ensure the page's canonical URL is used so pub pathname is preserved
+    const urls = collections.html.map( p => {
+      return {...p, url: p.data.canonicalURL}
+    })
+    const sitemap = await eleventyConfig.javascript.functions.renderTemplate('{% sitemap urls %}', 'liquid,md', { urls })
     const outputPath = path.join(publicDir || outputDir, 'sitemap.xml')
 
     fs.writeFileSync(outputPath, sitemap)

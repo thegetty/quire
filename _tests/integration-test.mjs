@@ -19,6 +19,7 @@ import yaml from 'js-yaml'
 import test from 'ava'
 
 const publicationName = 'test-publication'
+const pathedPub = `${publicationName}-pathname`
 
 const repoRoot = process.cwd()
 const eleventyPath = path.join( process.cwd() , 'packages', '11ty' )
@@ -46,33 +47,20 @@ const changePubUrl = (url, t) => {
   fs.writeFileSync(publicationYaml, yaml.dump(publication))
 }
 
-test.serial('Create the default publication', async (t) => {
-  const newCmd = await execa('quire', ['new', '--debug', '--quire-path', eleventyPath, publicationName ])
-  t.pass()
-})
-
-test.serial('Build the default publication with a pathPrefix', async (t) => {
-  process.chdir( publicationPath )
-
-  changePubUrl('http://localhost:8080/test-path/', t)
+/**
+ * @function buildSitePdfEpub
+ * 
+ * @param {ava:test} t
+ * 
+ * Builds a quire site, its pdf and epub.
+ * 
+ **/ 
+const buildSitePdfEpub = async (t) => {
   const buildCmd = await execa('quire', ['build'])
-  changePubUrl('http://localhost:8080', t)
-
-  t.pass()
-})
-
-test.serial('Build the default publication', async (t) => {
-  process.chdir( publicationPath )
-  const buildCmd = await execa('quire', ['build'])
-  t.pass()
-})
-
-test.serial('Build the default publication\'s pdf', async (t) => {
-  process.chdir( publicationPath )
   const {stdout, stderr} = await execa('quire', ['pdf'])
+  const epubCmd = await execa('quire', ['epub'])
 
   const downloadsDir = path.join('_site', '_assets', 'downloads')
-
   const publicationPdf = path.join(downloadsDir, 'publication.pdf')
   if (!fs.existsSync(publicationPdf)) {
     t.fail(`No publication PDF generated! ${stdout} ${stderr}`)
@@ -83,15 +71,34 @@ test.serial('Build the default publication\'s pdf', async (t) => {
     t.fail(`No essay PDF generated! ${stdout} ${stderr}`)
   }
 
+  const epubDir = '_epub'
+  if (!fs.existsSync(epubDir)) {
+    t.fail(`No epub generated! ${stdout} ${stderr}`)
+  }
+}
+
+test.serial('Create the default publication and build the site, epub, pdf', async (t) => {
+  const newCmd = await execa('quire', ['new', '--debug', '--quire-path', eleventyPath, publicationName ])
+
+  process.chdir(publicationName)
+  await buildSitePdfEpub(t)
+  process.chdir(repoRoot)
   t.pass()
 })
 
-test.serial('Build the default publication\'s epub', async (t) => {
-  process.chdir( publicationPath )
-  const epubCmd = await execa('quire', ['epub'])
+test.serial('Create the default publication with a pathname and build the site, epub, pdf', async (t) => {
+  const newCmd = await execa('quire', ['new', '--debug', '--quire-path', eleventyPath, pathedPub ])
+
+  process.chdir(pathedPub)
+  changePubUrl(`http://localhost:8181/${ pathedPub }/`, t)
+
+  await buildSitePdfEpub()
+  process.chdir(repoRoot)
   t.pass()
 })
 
+// Package built site products for artifact storage and stage pathed publication
 test.after(async (t) => {
+  fs.renameSync(path.join(pathedPub, '_site'), path.join(pathedPub, pathedPub))
   await execa('zip', ['-r', publicationZip, path.join(publicationPath, '_site'), path.join(publicationPath, '_epub')])
 })
