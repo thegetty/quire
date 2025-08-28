@@ -27,6 +27,7 @@
   "scripts": {
     "test": "cross-env mkdir -p reports && ava --verbose --timeout 360s && playwright test",
     "test:browsers": "npx playwright test",
+    "test:browsers-circleci": "SHARD=\"$((${CIRCLE_NODE_INDEX}+1))\" && npx playwright test --shard=${SHARD}/${CIRCLE_NODE_TOTAL}",
     "test:integration": "ava --tap --timeout 360s | tap-xunit > reports/publication-build.xml",
     "test:serve": "npx --yes http-server test-publication/_site -a localhost -p 8080"
   },
