@@ -179,6 +179,7 @@ jobs:
   # Tests the output of the publication build -- must be separate for the playwright executor
   browser_test:
     executor: pw-noble-development
+    # NB: taken from https://playwright.dev/docs/ci#sharding-in-circleci
     parallelism: 4
     steps:
       - attach_workspace:
