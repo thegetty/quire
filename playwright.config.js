@@ -1,6 +1,8 @@
 // @ts-check
 import { defineConfig, devices } from '@playwright/test';
 
+const pathnameTesting = !!process.env.QUIRE_TEST_PUB_PATHNAME
+
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
@@ -17,7 +19,7 @@ export default defineConfig({
   workers: undefined, //process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
-    ['junit', {printSteps: true, outputFile: 'reports/publication-browser.xml'}]
+    ['junit', {printSteps: true, outputFile: pathnameTesting ? 'reports/publication-browser-pathname.xml' :  'reports/publication-browser.xml' }]
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
@@ -31,39 +33,25 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
+      name: 'setup',
+      testMatch: /publication-setup\.js/
+    },
+    {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
+      dependencies: ['setup']
     },
 
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
+      dependencies: ['setup']
     },
-
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
+      dependencies: ['setup']
     },
-
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
   ],
 
   /* Run your local dev server before starting the tests */
@@ -71,11 +59,6 @@ export default defineConfig({
     command: 'npm run test:serve',
     url: 'http://localhost:8080',
     timeout: 120 * 1000,
-    // reuseExistingServer: !process.env.CI,
-  },{
-    command: 'npx --yes http-server -a localhost -p 8181 test-publication-pathname',
-    url: 'http://localhost:8181',
-    timeout: 240 * 1000,
     // reuseExistingServer: !process.env.CI,
   }]
 });

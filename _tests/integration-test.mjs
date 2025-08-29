@@ -90,7 +90,7 @@ test.serial('Create the default publication with a pathname and build the site, 
   const newCmd = await execa('quire', ['new', '--debug', '--quire-path', eleventyPath, pathedPub ])
 
   process.chdir(pathedPub)
-  changePubUrl(`http://localhost:8181/${ pathedPub }/`, t)
+  changePubUrl(`http://localhost:8080/${ pathedPub }/`, t)
 
   await buildSitePdfEpub()
   process.chdir(repoRoot)
@@ -99,6 +99,5 @@ test.serial('Create the default publication with a pathname and build the site, 
 
 // Package built site products for artifact storage and stage pathed publication
 test.after(async (t) => {
-  fs.renameSync(path.join(pathedPub, '_site'), path.join(pathedPub, pathedPub))
   await execa('zip', ['-r', publicationZip, path.join(publicationPath, '_site'), path.join(publicationPath, '_epub')])
 })
