@@ -148,9 +148,8 @@ const loadSitemapUrls = (sitemapPath) => {
 }
 
 // Add the PDF, URLs from the prime publication, and URLs from the pathed publication
-let siteURLs = [ 'http://localhost:8080/pdf.html' ]
-siteURLs = siteURLs.concat(loadSitemapUrls(path.join('test-publication','_site','sitemap.xml')))
-siteURLs = siteURLs.concat(loadSitemapUrls(path.join('test-publication-pathname','test-publication-pathname','sitemap.xml')))
+let siteURLs = !!process.env.QUIRE_TEST_PUB_PATHNAME ? [] : [ 'http://localhost:8080/pdf.html' ]
+siteURLs = siteURLs.concat(loadSitemapUrls(path.join('_site-test','sitemap.xml')))
 
 for (const url of siteURLs) {
   if (!url) continue

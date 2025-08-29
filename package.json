@@ -25,10 +25,11 @@
     "workerThreads": false
   },
   "scripts": {
-    "test": "cross-env mkdir -p reports && ava --verbose --timeout 360s && playwright test",
-    "test:browsers": "npx playwright test",
+    "test": "cross-env mkdir -p reports _site-test && ava --verbose --timeout 360s && playwright test && QUIRE_TEST_PUB_PATHNAME=1 playwright test",
+    "test:browsers": "cross-env mkdir -p _site-test && playwright test && QUIRE_TEST_PUB_PATHNAME=1 playwright test",
+    "test:browsers-circleci": "mkdir -p _site-test && SHARD=\"$((${CIRCLE_NODE_INDEX}+1))\" && npx playwright test --shard=${SHARD}/${CIRCLE_NODE_TOTAL} && QUIRE_TEST_PUB_PATHNAME=1 npx playwright test --shard=${SHARD}/${CIRCLE_NODE_TOTAL}",
     "test:integration": "ava --tap --timeout 360s | tap-xunit > reports/publication-build.xml",
-    "test:serve": "npx --yes http-server test-publication/_site -a localhost -p 8080"
+    "test:serve": "npx --yes http-server _site-test -a localhost -p 8080"
   },
   "devDependencies": {
     "@playwright/test": "^1.52.0",
