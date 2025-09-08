@@ -14,7 +14,7 @@ export default function (eleventyConfig) {
 
   return function (figure, options) {
     const { alt, isCanvas, isImageService, isSequence, staticInlineFigureImage, lazyLoading } = figure
-    const { interactive, preset } = options
+    const { interactive, preset, lightbox } = options
     if (preset) {
       figure.preset = preset
     }
@@ -22,24 +22,24 @@ export default function (eleventyConfig) {
     switch (true) {
       case isSequence:
         if (!interactive && staticInlineFigureImage) {
-          return imageTag({ alt, src: staticInlineFigureImage, isStatic: !interactive, lazyLoading })
+          return imageTag({ alt, src: staticInlineFigureImage, isStatic: !interactive, lazyLoading, lightbox })
         } else {
           return imageSequence(figure, options)
         }
       case isCanvas:
         if (!interactive && staticInlineFigureImage) {
-          return imageTag({ alt, src: staticInlineFigureImage, isStatic: !interactive, lazyLoading })
+          return imageTag({ alt, src: staticInlineFigureImage, isStatic: !interactive, lazyLoading, lightbox })
         } else {
           return canvasPanel(figure)
         }
       case isImageService:
         if (!interactive && staticInlineFigureImage) {
-          return imageTag({ alt, src: staticInlineFigureImage, isStatic: !interactive, lazyLoading })
+          return imageTag({ alt, src: staticInlineFigureImage, isStatic: !interactive, lazyLoading, lightbox })
         } else {
           return imageService(figure)
         }
       default:
-        return imageTag(figure)
+        return imageTag({ ...figure, lightbox })
     }
   }
 }

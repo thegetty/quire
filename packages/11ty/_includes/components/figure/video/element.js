@@ -19,6 +19,7 @@ const logger = chalkFactory('Figure Video')
  * @return     {String}  An HTML <video> element
  */
 export default function (eleventyConfig) {
+  const { pathname } = eleventyConfig.globalData.publication
   const { imageDir } = eleventyConfig.globalData.config.figures
   const figureMediaEmbedUrl = eleventyConfig.getFilter('figureMediaEmbedUrl')
   const videoElements = {
@@ -90,13 +91,16 @@ export default function (eleventyConfig) {
     mediaType,
     poster,
     lazyLoading,
+    lightbox,
     src
   }) {
+    const assetRoot = lightbox && pathname !== '/' ? path.posix.join(pathname, imageDir) : imageDir
+
     if (poster) {
-      poster = path.join(imageDir, poster)
+      poster = path.join(assetRoot, poster)
     }
     if (src) {
-      src = src.startsWith('http') ? src : path.join(imageDir, src)
+      src = src.startsWith('http') ? src : path.join(assetRoot, src)
     }
 
     return videoElements[mediaType]({ id, mediaId, mediaType, poster, lazyLoading, src })

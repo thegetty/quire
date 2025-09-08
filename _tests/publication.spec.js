@@ -72,6 +72,7 @@ const checkCanvasPanelCanvasDims = async (page) => {
  * 
  **/ 
 const checkAllImgsOK = async (page) => {
+  const pageUrl = page.url()
   const imgLoc = page.locator('img')
   const imgs = await imgLoc.all()  
 
@@ -79,10 +80,11 @@ const checkAllImgsOK = async (page) => {
   const imgHrefs = await Promise.all(imgs.map( async (img) => await img.getAttribute('src') ))
   const imgUrls = imgHrefs.map( (href) => {
     let url
+
     try {
-      url = new URL(href)
+      url = new URL(href, pageUrl)
     } catch {
-      url = new URL(href,'http://localhost:8080/')
+      test.fail(`${href} could not be parsed into a valid URL`)
     }
 
     return url
@@ -91,18 +93,63 @@ const checkAllImgsOK = async (page) => {
   await Promise.all( imgUrls.map( (u) => checkUrl(u,page) ) )
 }
 
-let siteURLs = [ 'http://localhost:8080/pdf.html' ]
+/**
+ * @function checkLightboxSlides
+ * 
+ * @argument {Page} page
+ * 
+ * Checks that src attrs of all lightbox slide images work
+ * 
+ **/ 
+const checkLightboxSlides = async (page) => {
+  // Find each figure image on the page, click it
+  // TODO: Drill shadowRoots
+  const modal = await page.locator('q-modal').first()
+  const lightbox = await modal.locator('q-lightbox').first()
 
-const dom = new JSDOM()
-const parser = new dom.window.DOMParser()
+  for ( const slideImg of await lightbox.locator('.q-lightbox-slides__element--image > img').all() ) {
+    const src = await slideImg.getAttribute('src')
 
-// Load the sitemap synchronously because playwright requires declarative tests
-const body = readFileSync(path.join('test-publication','_site','sitemap.xml')).toString()
-const sitemap = parser.parseFromString(body, 'text/xml')
-sitemap.querySelectorAll('urlset > url > loc').forEach( loc => {
-  if (!loc.textContent) return
-  siteURLs.push(loc.textContent)
-})
+    let url
+    try {
+      url = new URL(src)
+    } catch {
+      url = new URL(src,'http://localhost:8080/')
+    }
+    console.log(url.href)
+    await checkUrl(url.href, page)
+  }
+}
+
+/**
+ * @function loadSitemapUrls
+ * 
+ * @param {String} sitemapPath Path on disk to the sitemap
+ * 
+ * @returns {Array} All URLs from the sitemap
+ * 
+ * Loads a sitemap synchronously from disk (to mesh w/ playwright's declarative tests)
+ **/ 
+const loadSitemapUrls = (sitemapPath) => {  
+  // Use the JSDOM's potted DOMParser implementation for the XML
+  const dom = new JSDOM()
+  const parser = new dom.window.DOMParser()
+
+  let urls = []
+  const body = readFileSync(sitemapPath).toString()
+  const sitemap = parser.parseFromString(body, 'text/xml')
+
+  sitemap.querySelectorAll('urlset > url > loc').forEach( loc => {
+    if (!loc.textContent) return
+    urls.push(loc.textContent)
+  })
+
+  return urls
+}
+
+// Add the PDF, URLs from the prime publication, and URLs from the pathed publication
+let siteURLs = !!process.env.QUIRE_TEST_PUB_PATHNAME ? [] : [ 'http://localhost:8080/pdf.html' ]
+siteURLs = siteURLs.concat(loadSitemapUrls(path.join('_site-test','sitemap.xml')))
 
 for (const url of siteURLs) {
   if (!url) continue
@@ -113,5 +160,6 @@ for (const url of siteURLs) {
     await expect.soft(page).toHaveTitle(/.{1,}/)
     await checkAllImgsOK(page)
     await checkCanvasPanelCanvasDims(page)
+    // await checkLightboxSlides(page)
   })  
 }
