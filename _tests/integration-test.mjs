@@ -104,5 +104,5 @@ test.serial('Create the default publication with a pathname and build the site, 
 
 // Package built site products for artifact storage and stage pathed publication
 test.after(async (t) => {
-  await execa('zip', ['-r', publicationZip, path.join(publicationPath, '_site'), path.join(publicationPath, '_epub'), 'epubjs.epub'])
+  await execa('zip', ['-r', publicationZip, path.join(publicationPath, '_site'), path.join(publicationPath, '_epub'), path.join(publicationPath, 'epubjs.epub')])
 })
