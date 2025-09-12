@@ -36,6 +36,11 @@ export default (eleventyConfig, collections) => {
     assetDirsToCopy.forEach((name) => {
       const source = path.join(eleventyConfig.directoryAssignments.input, assetsDir, name)
       const dest = path.join(outputDir, assetsDir, name)
+
+      if (!fs.existsSync(source)) {
+        console.warn(`The asset directory ${source} does not exist, skipping..`)
+        return
+      }
       fs.copySync(source, dest)
     })
 
@@ -54,8 +59,10 @@ export default (eleventyConfig, collections) => {
       ]
     }
 
-    const styles = sass.compile(path.resolve(eleventyConfig.directoryAssignments.input, assetsDir, 'styles', 'epub.scss'), sassOptions)
-    write(path.join(assetsDir, 'epub.css'), styles.css)
+    if (fs.existsSync(path.join(assetsDir, 'epub.css'))) {
+      const styles = sass.compile(path.resolve(eleventyConfig.directoryAssignments.input, assetsDir, 'styles', 'epub.scss'), sassOptions)
+      write(path.join(assetsDir, 'epub.css'), styles.css)
+    }
 
     /**
      * Copy assets
@@ -91,6 +98,11 @@ export default (eleventyConfig, collections) => {
       }
 
       const srcPath = path.join(assetDir, asset)
+
+      if (!fs.existsSync(srcPath)) {
+        console.warn(`Asset ${srcPath} not present for copy, skipping...`)
+        continue
+      }
 
       try {
         fs.copySync(srcPath, destPath)
