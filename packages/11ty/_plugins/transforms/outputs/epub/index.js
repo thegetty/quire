@@ -59,8 +59,9 @@ export default (eleventyConfig, collections) => {
       ]
     }
 
-    if (fs.existsSync(path.join(assetsDir, 'epub.css'))) {
-      const styles = sass.compile(path.resolve(eleventyConfig.directoryAssignments.input, assetsDir, 'styles', 'epub.scss'), sassOptions)
+    const stylesPath = path.resolve(eleventyConfig.directoryAssignments.input, assetsDir, 'styles', 'epub.scss')
+    if (fs.existsSync(stylesPath)) {
+      const styles = sass.compile(stylesPath, sassOptions)
       write(path.join(assetsDir, 'epub.css'), styles.css)
     }
 
