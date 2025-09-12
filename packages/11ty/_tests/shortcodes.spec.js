@@ -23,7 +23,7 @@ const renderAndTestIds = async (content, eleventy, t) => {
 
 // Initialize Eleventy and pass into test context
 test.before('Stub the eleventy environment', async (t) => {
-  const elev = await initEleventyEnvironment()
+  const elev = await initEleventyEnvironment({})
 
   t.context.eleventy = elev
 })
