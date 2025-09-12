@@ -34,7 +34,7 @@ export default function (eleventyConfig) {
 
     const posterSrc = poster.startsWith('http')
       ? poster
-      : path.join(imageDir, poster)
+      : path.posix.join(imageDir, poster)
     const labelElement = figureLabel({ caption, id, label })
     const captionElement = figureCaption({ caption, content: labelElement, credit, mediaId, mediaType })
 

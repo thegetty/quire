@@ -29,7 +29,7 @@ export default function (eleventyConfig, collections, content) {
     images.forEach((img) => {
       let src = img.getAttribute('src')
       if (!src) return
-
+      console.log(src)
       // Pass URLs as-is
       if (/https?:\/\//.test(src)) {
         assets.push(src)
@@ -41,9 +41,8 @@ export default function (eleventyConfig, collections, content) {
         src = src.replace(pathname, '/')
       }
 
-      // Normalize disk paths to platform-specific paths for consumers
-      const normalizedPath = path.normalize(src)
-      const relativePath = normalizedPath.startsWith(path.sep) ? normalizedPath.slice(path.sep.length) : src
+      // Normalize paths to be relative
+      const relativePath = src.startsWith('/') ? src.slice(1) : src
 
       assets.push(relativePath)
     })
