@@ -52,7 +52,6 @@ test('Manifest factory should only expose POSIX-style resource paths', async (t)
   const collections = { epub: [{ path: 'test.md', outputPath: 'test.html', data: { title: 'Test Page' } }] }
 
   // Run the build job so eleventyConfig matches the state when the transform gets it
-  // TODO: This is erroring in the real transform
   await eleventy.toJSON()
   const eleventyConfig = eleventy.writer.userConfig
 
@@ -60,9 +59,10 @@ test('Manifest factory should only expose POSIX-style resource paths', async (t)
   // NB: epub transform returns unmodified content
   transform.call({ outputPath: 'test.html' }, eleventy.writer.userConfig, collections, content)
 
+  // Get the manifest object
   const manifest = manifestFactory(eleventyConfig)
 
-  // Each `resources` url should only use '/' as a separator
+  // Test that each `resources` url doesm't use '\' as a separator
   manifest.resources.forEach((r) => {
     if (r.url.includes('\\')) t.fail('epub manifest resources must use POSIX-style path separators!')
   })
