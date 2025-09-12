@@ -21,6 +21,8 @@ export default async function (eleventyConfig, collections) {
     const urls = collections.html.map(p => {
       return { ...p, url: p.data.canonicalURL }
     })
+
+    if (urls.length === 0) return
     const sitemap = await eleventyConfig.javascript.functions.renderTemplate('{% sitemap urls %}', 'liquid,md', { urls })
     const outputPath = path.join(publicDir || outputDir, 'sitemap.xml')
 
