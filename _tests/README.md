@@ -5,6 +5,7 @@ This directory contains integration and functional browser tests for quire-cli a
 ## Running tests
 
 - `npm run test` - runs all tests for all packages in the project, including the integration tests and browser-based testing of HTML outputs. Use `npm run -w packages/11ty test` and `npm run -w packages/cli test` to only test the 11ty module or CLI, respectively.
+- `npm run test:clean` - removes all test artifacts
 - `npm run test:integration` - run only the integration test
 - `npm run test:browsers` - run headless browser testing on the integration test's built outputs
 - `npm run test:serve` - a convenience script for establishing a web server pointed at `test-publication/_site`, used by the browser testing script
