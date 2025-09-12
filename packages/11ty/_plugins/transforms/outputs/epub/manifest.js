@@ -63,7 +63,7 @@ export default (eleventyConfig) => {
 
     // Remove leading absolute pathing
     let realtiveImageDir = imageDir
-    if (imageDirPath.startsWith('/')) {
+    if (realtiveImageDir.startsWith('/')) {
       realtiveImageDir = realtiveImageDir.slice(1)
     }
 
