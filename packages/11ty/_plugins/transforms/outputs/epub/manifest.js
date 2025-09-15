@@ -62,12 +62,8 @@ export default (eleventyConfig) => {
     }
 
     // Remove leading absolute pathing
-    let imageDirPath = path.normalize(imageDir)
-    if (imageDirPath.startsWith(path.sep)) {
-      imageDirPath = imageDirPath.slice(path.sep.length)
-    }
-
-    return path.join(imageDirPath, image)
+    const realtiveImageDir = imageDir.startsWith('/') ? imageDir.slice(1) : imageDir
+    return path.posix.join(realtiveImageDir, image)
   }
 
   /**
@@ -87,7 +83,7 @@ export default (eleventyConfig) => {
    * @returns {Array} Paths to stylesheets
    */
   const stylesheets = () => {
-    return [path.join('_assets', 'epub.css')]
+    return [path.posix.join('_assets', 'epub.css')]
   }
 
   /**

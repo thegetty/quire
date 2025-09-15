@@ -5,23 +5,45 @@ import Eleventy from '@11ty/eleventy'
  *
  * @param {Object} eleventyConfig
  *
- * Inserts keys / values into globalData suitable to make Eleventy() init
+ * Runs at config time to configure the globalData store.
+ *
+ * @returns {Callable} Function to run at configure time
  *
  **/
-const stubGlobalData = (eleventyConfig) => {
-  eleventyConfig.addGlobalData('publication', {})
+const stubGlobalData = (stubData) => {
+  return (eleventyConfig) => {
+    // TODO: Move accordion.copyButton to shortcodes test
+    let config = {
+      accordion: {
+        copyButton: {}
+      },
+      epub: {},
+      figures: { }
+    }
+    let publication = {}
+    const figures = { figure_list: [] }
 
-  const config = {
-    accordion: {
-      copyButton: {}
-    },
-    epub: {},
-    figures: {}
+    // Merge `stubData` with defaults -- NB: merge is shallow!
+    Object.entries(stubData).forEach(([key, val]) => {
+      switch (key) {
+        case 'publication':
+          publication = { ...publication, ...val }
+          break
+        case 'config':
+          config = { ...config, ...val }
+          break
+        case 'figures':
+          figures.figure_list = [...figures.figure_list, ...val.figure_list]
+          break
+        default:
+          eleventyConfig.addGlobalData(key, val)
+      }
+    })
+
+    eleventyConfig.addGlobalData('publication', publication)
+    eleventyConfig.addGlobalData('config', config)
+    eleventyConfig.addGlobalData('figures', figures)
   }
-  eleventyConfig.addGlobalData('config', config)
-
-  const figures = { figure_list: [] }
-  eleventyConfig.addGlobalData('figures', figures)
 }
 
 /**
@@ -29,9 +51,10 @@ const stubGlobalData = (eleventyConfig) => {
  *
  * Initializes an Eleventy object suitable for rendering out shortcodes
  *
+ * TODO: Use `globalData` here to pass some params to stubGlobalData or whatever
  **/
-const initEleventyEnvironment = async () => {
-  const elev = new Eleventy('../', '_site', { config: stubGlobalData })
+const initEleventyEnvironment = async (stub, finalizer) => {
+  const elev = new Eleventy('../', '_site', { config: stubGlobalData(stub) })
   await elev.init()
 
   return elev

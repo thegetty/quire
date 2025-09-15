@@ -28,6 +28,7 @@
     "test": "cross-env mkdir -p reports _site-test && ava --verbose --timeout 360s && playwright test && QUIRE_TEST_PUB_PATHNAME=1 playwright test",
     "test:browsers": "cross-env mkdir -p _site-test && playwright test && QUIRE_TEST_PUB_PATHNAME=1 playwright test",
     "test:browsers-circleci": "mkdir -p _site-test && SHARD=\"$((${CIRCLE_NODE_INDEX}+1))\" && npx playwright test --shard=${SHARD}/${CIRCLE_NODE_TOTAL} && QUIRE_TEST_PUB_PATHNAME=1 npx playwright test --shard=${SHARD}/${CIRCLE_NODE_TOTAL}",
+    "test:clean": "cross-env rm -rf test-publication* reports test-results publication.zip ava.xml packages/11ty/_site packages/11ty/_epub",
     "test:integration": "ava --tap --timeout 360s | tap-xunit > reports/publication-build.xml",
     "test:serve": "npx --yes http-server _site-test -a localhost -p 8080"
   },

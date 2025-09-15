@@ -56,24 +56,29 @@ const changePubUrl = (url, t) => {
  * 
  **/ 
 const buildSitePdfEpub = async (t) => {
-  const buildCmd = await execa('quire', ['build'])
-  const {stdout, stderr} = await execa('quire', ['pdf'])
-  const epubCmd = await execa('quire', ['epub'])
+  const {stdout: buildStdout, stderr: buildStderr } = await execa('quire', ['build'])
+  const {stdout: pdfStdout, stderr: pdfStderr} = await execa('quire', ['pdf'])
+  const {stdout: epubStdout, stderr: epubStderr} = await execa('quire', ['epub'])
 
   const downloadsDir = path.join('_site', '_assets', 'downloads')
   const publicationPdf = path.join(downloadsDir, 'publication.pdf')
   if (!fs.existsSync(publicationPdf)) {
-    t.fail(`No publication PDF generated! ${stdout} ${stderr}`)
+    t.fail(`No publication PDF generated! ${buildStdout} ${buildStderr}`)
   }
 
   const essayPdf = path.join(downloadsDir, 'publication-essay.pdf')
   if (!fs.existsSync(essayPdf)) {
-    t.fail(`No essay PDF generated! ${stdout} ${stderr}`)
+    t.fail(`No essay PDF generated! ${pdfStdout} ${pdfStderr}`)
   }
 
   const epubDir = '_epub'
   if (!fs.existsSync(epubDir)) {
-    t.fail(`No epub generated! ${stdout} ${stderr}`)
+    t.fail(`No epub assets generated! ${stdout} ${stderr}`)
+  }
+
+  const epubFile = 'epubjs.epub'
+  if (!fs.existsSync(epubFile)) {
+    t.fail(`No epub file generated! ${epubStdout} ${epubStderr}`)
   }
 }
 
@@ -99,5 +104,5 @@ test.serial('Create the default publication with a pathname and build the site, 
 
 // Package built site products for artifact storage and stage pathed publication
 test.after(async (t) => {
-  await execa('zip', ['-r', publicationZip, path.join(publicationPath, '_site'), path.join(publicationPath, '_epub')])
+  await execa('zip', ['-r', publicationZip, path.join(publicationPath, '_site'), path.join(publicationPath, '_epub'), path.join(publicationPath, 'epubjs.epub')])
 })

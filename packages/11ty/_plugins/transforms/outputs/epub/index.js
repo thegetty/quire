@@ -36,6 +36,12 @@ export default (eleventyConfig, collections) => {
     assetDirsToCopy.forEach((name) => {
       const source = path.join(eleventyConfig.directoryAssignments.input, assetsDir, name)
       const dest = path.join(outputDir, assetsDir, name)
+
+      if (!fs.existsSync(source)) {
+        console.warn(`The asset directory ${source} does not exist.`)
+        return
+      }
+
       fs.copySync(source, dest)
     })
 
@@ -54,8 +60,11 @@ export default (eleventyConfig, collections) => {
       ]
     }
 
-    const styles = sass.compile(path.resolve(eleventyConfig.directoryAssignments.input, assetsDir, 'styles', 'epub.scss'), sassOptions)
-    write(path.join(assetsDir, 'epub.css'), styles.css)
+    const stylesPath = path.resolve(eleventyConfig.directoryAssignments.input, assetsDir, 'styles', 'epub.scss')
+    if (fs.existsSync(stylesPath)) {
+      const styles = sass.compile(stylesPath, sassOptions)
+      write(path.join(assetsDir, 'epub.css'), styles.css)
+    }
 
     /**
      * Copy assets
@@ -67,18 +76,17 @@ export default (eleventyConfig, collections) => {
 
     const isUrl = /https?:\/\//
 
-    // NB: `asset` is a platform-normalized path or an URL
+    // NB: `asset` contains POSIX-style paths or a URL
     for (const asset of assets) {
       let assetDir
-      // TODO: `destPath` needs to create a filename for `asset`
-      const destPath = path.join(outputDir, asset)
+      const destPath = path.posix.join(outputDir, asset)
 
       // Fetch assets from content/_assets, otherwise use public or _site
       switch (true) {
         case isUrl.test(asset):
           continue
 
-        case asset.split(path.sep).at(0) === '_assets':
+        case asset.split('/').at(0) === '_assets':
           assetDir = eleventyConfig.directoryAssignments.input
           break
 
@@ -90,7 +98,12 @@ export default (eleventyConfig, collections) => {
           assetDir = eleventyConfig.directoryAssignments.output
       }
 
-      const srcPath = path.join(assetDir, asset)
+      const srcPath = path.posix.join(assetDir, asset)
+
+      if (!fs.existsSync(srcPath)) {
+        console.warn(`Asset ${srcPath} not present for copy, skipping...`)
+        continue
+      }
 
       try {
         fs.copySync(srcPath, destPath)
