@@ -38,7 +38,7 @@ export default (eleventyConfig, collections) => {
       const dest = path.join(outputDir, assetsDir, name)
 
       if (!fs.existsSync(source)) {
-        console.warn(`The asset directory ${source} does not exist, skipping..`)
+        console.warn(`The asset directory ${source} does not exist.`)
         return
       }
 
