@@ -75,7 +75,11 @@ export default function (eleventyConfig, collections, content) {
     const nodes = element.querySelectorAll('a:not(.footnote-backref, .footnote-ref-anchor)')
     nodes.forEach((a) => {
       const url = a.getAttribute('href')
-      a.setAttribute('href', slugify(`page-${url}`).replace(/^([^#])/, '#$1'))
+
+      const regex = /https?:\/\//
+      const href = regex.test(url) ? url : slugify(`page-${url}`).replace(/^([^#])/, '#$1')
+
+      a.setAttribute('href', href)
     })
     return element
   }
