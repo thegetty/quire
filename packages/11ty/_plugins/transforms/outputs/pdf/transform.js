@@ -76,7 +76,7 @@ export default function (eleventyConfig, collections, content) {
     nodes.forEach((a) => {
       const url = a.getAttribute('href')
 
-      const regex = new RegExp(/https?:\/\//)
+      const regex = /https?:\/\//
       const href = regex.test(url) ? url : slugify(`page-${url}`).replace(/^([^#])/, '#$1')
 
       a.setAttribute('href', href)
