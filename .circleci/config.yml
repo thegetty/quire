@@ -20,7 +20,7 @@ executors:
 
   macos:
     macos:
-      xcode: '16.2.0'
+      xcode: '15.4.0'
     environment:
         PUPPETEER_EXECUTABLE_PATH: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
   win: 
