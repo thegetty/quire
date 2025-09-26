@@ -12,6 +12,24 @@ Changelog entries are classified using the following labels:
 - `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
+## [1.0.0-rc.36]
+
+## Changed
+
+- Adds `esbuild` and `vite` as direct dependencies of `@thegetty/quire-11ty`. Adds a version constraint to esbuild as `esbuild<=0.25.9` as a workaround to https://github.com/thegetty/quire/issues/1066 .
+
+## [1.0.0-rc.35]
+
+## Fixed
+
+- Fixed an issue where external links in PDFs were being improperly slugged. 
+
+## [1.0.0-rc.34]
+
+## Fixed
+
+- Fixed various issues around path creation in epub manifests on Windows.
+
 ## [1.0.0-rc.33]
 
 ### Added
