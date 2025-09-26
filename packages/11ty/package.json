@@ -1,6 +1,6 @@
 {
   "name": "@thegetty/quire-11ty",
-  "version": "1.0.0-rc.35",
+  "version": "1.0.0-rc.36",
   "description": "Quire 11ty static site generator",
   "keywords": [
     "11ty",
@@ -55,7 +55,8 @@
     "iiif-builder": "^1.0.7",
     "lit": "^3.1.2",
     "lunr": "^2.3.9",
-    "template-polyfill": "^2.0.0"
+    "template-polyfill": "^2.0.0",
+    "vite": "^6.3.6"
   },
   "devDependencies": {
     "@11ty/eleventy": "<=3.1.0",
@@ -84,6 +85,7 @@
     "cpy-cli": "^5.0.0",
     "cross-env": "^7.0.3",
     "del-cli": "^5.1.0",
+    "esbuild": "<=0.25.9",
     "eslint": "^8.57.0",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-import": "^2.29.1",
