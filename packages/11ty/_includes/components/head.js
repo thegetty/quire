@@ -12,6 +12,7 @@ export default function (eleventyConfig) {
   const opengraph = eleventyConfig.getFilter('opengraph')
   const removeHTML = eleventyConfig.getFilter('removeHTML')
   const twitterCard = eleventyConfig.getFilter('twitterCard')
+  const pagefind = eleventyConfig.getFilter('pagefind')
 
   const { application, publication } = eleventyConfig.globalData
 
@@ -69,6 +70,8 @@ export default function (eleventyConfig) {
         ${opengraph({ page })}
 
         ${twitterCard({ abstract, cover, layout })}
+
+        ${pagefind({ page, layout })}
 
         <script type="application/ld+json">${jsonld({ canonicalURL, page })}</script>
 
