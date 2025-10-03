@@ -12,6 +12,7 @@ export default function (eleventyConfig) {
   const opengraph = eleventyConfig.getFilter('opengraph')
   const removeHTML = eleventyConfig.getFilter('removeHTML')
   const twitterCard = eleventyConfig.getFilter('twitterCard')
+  const pagefind = eleventyConfig.getFilter('pagefind')
 
   const { application, publication } = eleventyConfig.globalData
 
