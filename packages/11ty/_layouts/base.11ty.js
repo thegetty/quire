@@ -33,7 +33,7 @@ export default async function (data) {
           </div>
           <div class="quire__primary">
             ${this.navigation(data)}
-            <main class="quire-page ${classes}" data-output-path="${outputPath}" data-page-id="${pageId}" >
+            <main class="quire-page ${classes}" data-output-path="${outputPath}" data-page-id="${pageId}" data-pagefind-body>
               ${content}
             </main>
           </div>
