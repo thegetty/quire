@@ -12,7 +12,7 @@ export default (elements) => {
     case 1:
       return elements.at(0)
     case 2:
-      return elements.at(0) + last
+      return elements.at(0) + ' ' + last
     default:
       return elements.slice(0, -1).concat([last]).join(', ')
   }

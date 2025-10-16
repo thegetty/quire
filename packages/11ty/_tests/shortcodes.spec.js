@@ -73,31 +73,34 @@ test('contributors shortcode should use serial commas to join with format == "in
     const initialsOutput = await environment.eleventyConfig.config.javascriptFunctions.renderTemplate('{% contributors context=contributors format="initials" %}', 'liquid', { contributors })
     const stringOutput = await environment.eleventyConfig.config.javascriptFunctions.renderTemplate('{% contributors context=contributors format="string" %}', 'liquid', { contributors })
 
+    const initialsElement = JSDOM.fragment(initialsOutput)
+    const stringElement = JSDOM.fragment(stringOutput)
+
     switch (count) {
       // All should be empty
       case '0':
         t.is(initialsOutput, '')
         t.is(stringOutput, '')
-        break
 
+        break
       // Should be just the contributor
       case '1':
-        t.is(initialsOutput, '<span class="quire-contributor">T.0.</span>')
-        t.is(stringOutput, 'Test 0Contributor')
-        break
+        t.is(initialsElement.firstElementChild.textContent, 'T.0.')
+        t.is(stringElement.firstElementChild.textContent, 'Test 0Contributor')
 
+        break
       // Should be joined by 'and'
       case '2':
-        t.is(initialsOutput, '<span class="quire-contributor">T.0. and T.1.</span>')
-        t.is(stringOutput, 'Test 0Contributor and Test 1Contributor')
-        break
+        t.is(initialsElement.firstElementChild.textContent, 'T.0. and T.1.')
+        t.is(stringElement.firstElementChild.textContent, 'Test 0Contributor and Test 1Contributor')
 
+        break
       // Should be serial-comma joined
       case '3':
-        t.is(initialsOutput, '<span class="quire-contributor">T.0., T.1., and T.2.</span>')
-        t.is(stringOutput, 'Test 0Contributor, Test 1Contributor, and Test 2Contributor')
-        break
+        t.is(initialsElement.firstElementChild.textContent, 'T.0., T.1., and T.2.')
+        t.is(stringElement.firstElementChild.textContent, 'Test 0Contributor, Test 1Contributor, and Test 2Contributor')
 
+        break
       default:
         console.warn('Got an unexpected constributor count', count)
     }
