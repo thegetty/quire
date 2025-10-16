@@ -12,6 +12,13 @@ Changelog entries are classified using the following labels:
 - `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
+## [1.0.0-rc.37]
+
+## Fixed
+
+- `contributors` shortcode insert unnecessary comma - https://github.com/thegetty/quire/issues/873
+
+
 ## [1.0.0-rc.36]
 
 ## Changed
