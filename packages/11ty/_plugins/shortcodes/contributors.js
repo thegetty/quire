@@ -1,5 +1,6 @@
 import chalkFactory from '#lib/chalk/index.js'
 import { html } from '#lib/common-tags/index.js'
+import serialCommaJoin from '#lib/serialCommaJoin/index.js'
 
 const logger = chalkFactory('shortcodes:contributors')
 
@@ -72,11 +73,7 @@ export default function (eleventyConfig) {
         break
       case 'initials': {
         const contributorInitials = contributorList.map(initials)
-        const last = contributorInitials.pop()
-        const nameString =
-          contributorInitials.length >= 1
-            ? contributorInitials.join(', ') + ', and ' + last
-            : last
+        const nameString = serialCommaJoin(contributorInitials)
         contributorsElement = `<span class="quire-contributor">${nameString}</span>`
         break
       }
@@ -112,11 +109,8 @@ export default function (eleventyConfig) {
         break
       }
       case 'string': {
-        const last = contributorNames.pop()
-        const namesString =
-          contributorNames.length >= 1
-            ? contributorNames.join(', ') + ', and ' + last
-            : last
+        const namesString = serialCommaJoin(contributorNames)
+
         contributorsElement = `<span class='quire-contributor'>${namesString}</span>`
         break
       }

@@ -44,3 +44,65 @@ test('Accordion sections should never produce duplicate ids', async (t) => {
 
   t.pass()
 })
+
+test('contributors shortcode should use serial commas to join with format == "initials", "name-title", "string"', async (t) => {
+  const contributorEnvironments = {
+    0: await initEleventyEnvironment({ publication: { contributors: [] } }),
+    1: await initEleventyEnvironment({ publication: { contributors: [{ id: 'test-0', full_name: 'Test 0Contributor', first_name: 'Test', last_name: '0Contributor' }] } }),
+    2: await initEleventyEnvironment({
+      publication: {
+        contributors: [
+          { id: 'test-0', full_name: 'Test 0Contributor', first_name: 'Test', last_name: '0Contributor' },
+          { id: 'test-1', full_name: 'Test 1Contributor', first_name: 'Test', last_name: '1Contributor' }
+        ]
+      }
+    }),
+    3: await initEleventyEnvironment({
+      publication: {
+        contributors: [
+          { id: 'test-0', full_name: 'Test 0Contributor', first_name: 'Test', last_name: '0Contributor' },
+          { id: 'test-1', full_name: 'Test 1Contributor', first_name: 'Test', last_name: '1Contributor' },
+          { id: 'test-2', full_name: 'Test 2Contributor', first_name: 'Test', last_name: '2Contributor' }]
+      }
+    })
+  }
+
+  // NB: Traditional iteration to avoid an outer Promise.all()
+  for (const [count, environment] of Object.entries(contributorEnvironments)) {
+    const contributors = environment.eleventyConfig.config.globalData.publication.contributors
+    const initialsOutput = await environment.eleventyConfig.config.javascriptFunctions.renderTemplate('{% contributors context=contributors format="initials" %}', 'liquid', { contributors })
+    const stringOutput = await environment.eleventyConfig.config.javascriptFunctions.renderTemplate('{% contributors context=contributors format="string" %}', 'liquid', { contributors })
+
+    const initialsElement = JSDOM.fragment(initialsOutput)
+    const stringElement = JSDOM.fragment(stringOutput)
+
+    switch (count) {
+      // All should be empty
+      case '0':
+        t.is(initialsOutput, '')
+        t.is(stringOutput, '')
+
+        break
+      // Should be just the contributor
+      case '1':
+        t.is(initialsElement.firstElementChild.textContent, 'T.0.')
+        t.is(stringElement.firstElementChild.textContent, 'Test 0Contributor')
+
+        break
+      // Should be joined by 'and'
+      case '2':
+        t.is(initialsElement.firstElementChild.textContent, 'T.0. and T.1.')
+        t.is(stringElement.firstElementChild.textContent, 'Test 0Contributor and Test 1Contributor')
+
+        break
+      // Should be serial-comma joined
+      case '3':
+        t.is(initialsElement.firstElementChild.textContent, 'T.0., T.1., and T.2.')
+        t.is(stringElement.firstElementChild.textContent, 'Test 0Contributor, Test 1Contributor, and Test 2Contributor')
+
+        break
+      default:
+        console.warn('Got an unexpected constributor count', count)
+    }
+  }
+})
