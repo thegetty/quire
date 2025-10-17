@@ -1,6 +1,7 @@
+import Eleventy from '@11ty/eleventy'
 import { JSDOM } from 'jsdom'
 import test from 'ava'
-import { initEleventyEnvironment } from './helpers/index.js'
+import { initEleventyEnvironment, stubGlobalData } from './helpers/index.js'
 
 /**
  * @function renderAndTestIds
@@ -24,7 +25,6 @@ const renderAndTestIds = async (content, eleventy, t) => {
 // Initialize Eleventy and pass into test context
 test.before('Stub the eleventy environment', async (t) => {
   const elev = await initEleventyEnvironment({})
-
   t.context.eleventy = elev
 })
 
@@ -105,4 +105,72 @@ test('contributors shortcode should use serial commas to join with format == "in
         console.warn('Got an unexpected constributor count', count)
     }
   }
+})
+
+test('publicationContributors / contributors page lists should be displayed in publication order', async (t) => {
+  // Populate enough data to complete an entire site build, plus the test contributor
+  const stub = {
+    config: {
+      analytics: {
+      },
+      bibliography: {
+        displayOnPage: true,
+        displayShort: true,
+        heading: 'Bibliography'
+      },
+      epub: {
+        outputDir: '_epub'
+      },
+      figures: {
+        imageDir: '_assets/images/figures'
+      },
+      pageTitle: {
+        labelDivider: '. '
+      }
+    },
+    publication: {
+      contributor: [{ id: 'test-contributor', full_name: 'Test Contributor' }],
+      description: {
+        full: 'Publication Description'
+      },
+      identifier: {
+        isbn: ''
+      },
+      license: {
+      },
+      resource_link: [],
+      revision_history: {
+      },
+      promo_image: 'image.jpg',
+      pub_date: new Date(),
+      publisher: [{ name: 'Publisher' }],
+      subject: [],
+      title: 'Publication',
+      url: 'http://localhost:8080'
+    }
+  }
+
+  // Create an environment and add test templates
+  const environment = new Eleventy('.', '_site', {
+    config: stubGlobalData(stub, (eleventyConfig) => {
+      eleventyConfig.addTemplate('b-page.md', '# B Page', { abstract: '', contributor: [{ id: 'test-contributor' }], title: 'B Page', layout: 'base.11ty.js', order: 1, outputs: ['html'] })
+      eleventyConfig.addTemplate('a-page.md', '# A Page\n{% contributors context=publicationContributors format="bio" %}', { abstract: '', contributor: [{ id: 'test-contributor' }], title: 'A Page', layout: 'base.11ty.js', order: 2, outputs: ['html'] })
+    })
+  })
+
+  // Build the publication
+  const pages = await environment.toJSON()
+
+  // Get the test contributors page
+  const contributorsPage = pages.find(p => p.inputPath === './content/a-page.md')
+  const contributorsDom = JSDOM.fragment(contributorsPage.content)
+
+  // Test that the contributor is our test
+  const contributorElement = contributorsDom.querySelector('li.quire-contributor')
+  t.is(contributorElement.id, 'test-contributor')
+
+  // Compare the actual pages to the input order
+  // NB: `like` because they are not the same instance
+  const actualLinks = Array.from(contributorsDom.querySelectorAll('a.quire-contributor__page-link')).map(a => a.href)
+  t.like(actualLinks, ['/b-page/', '/a-page/'])
 })

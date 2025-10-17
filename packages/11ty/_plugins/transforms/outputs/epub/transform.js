@@ -29,7 +29,7 @@ export default function (eleventyConfig, collections, content) {
     images.forEach((img) => {
       let src = img.getAttribute('src')
       if (!src) return
-      console.log(src)
+
       // Pass URLs as-is
       if (/https?:\/\//.test(src)) {
         assets.push(src)

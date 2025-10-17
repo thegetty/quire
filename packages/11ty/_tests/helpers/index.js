@@ -3,14 +3,16 @@ import Eleventy from '@11ty/eleventy'
 /**
  * @function stubGlobalData
  *
- * @param {Object} eleventyConfig
+ * @param {Object} stubData
+ * @param {Callable} finalizer - a function to run after the globalData steps
  *
- * Runs at config time to configure the globalData store.
+ * Runs before initialization to setup the globalData store and other config
  *
  * @returns {Callable} Function to run at configure time
+ *   @param {Object} eleventyConfig
  *
  **/
-const stubGlobalData = (stubData) => {
+const stubGlobalData = (stubData, finalizer) => {
   return (eleventyConfig) => {
     // TODO: Move accordion.copyButton to shortcodes test
     let config = {
@@ -43,6 +45,10 @@ const stubGlobalData = (stubData) => {
     eleventyConfig.addGlobalData('publication', publication)
     eleventyConfig.addGlobalData('config', config)
     eleventyConfig.addGlobalData('figures', figures)
+
+    if (finalizer) {
+      finalizer(eleventyConfig)
+    }
   }
 }
 
@@ -51,13 +57,12 @@ const stubGlobalData = (stubData) => {
  *
  * Initializes an Eleventy object suitable for rendering out shortcodes
  *
- * TODO: Use `globalData` here to pass some params to stubGlobalData or whatever
  **/
 const initEleventyEnvironment = async (stub, finalizer) => {
-  const elev = new Eleventy('../', '_site', { config: stubGlobalData(stub) })
+  const elev = new Eleventy('.', '_site', { config: stubGlobalData(stub, finalizer) })
   await elev.init()
 
   return elev
 }
 
-export { initEleventyEnvironment }
+export { initEleventyEnvironment, stubGlobalData }
