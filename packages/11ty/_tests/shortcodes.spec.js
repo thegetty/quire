@@ -170,12 +170,7 @@ test('publicationContributors / contributors page lists should be displayed in p
   t.is(contributorElement.id, 'test-contributor')
 
   // Compare the actual pages to the input order
+  // NB: `like` because they are not the same instance
   const actualLinks = Array.from(contributorsDom.querySelectorAll('a.quire-contributor__page-link')).map(a => a.href)
-  t.is(actualLinks, ['/b-page/', '/a-page/'])
-  // console.log(element.querySelector('.quire-contributor__details').outerHTML)
-
-  // t.fail()
-  // TODO: test the template output in JSDOM and verify the page order titles match [ 'B Page', 'A Page' ]
+  t.like(actualLinks, ['/b-page/', '/a-page/'])
 })
-
-// TODO: test('contributor shortcode should obey sort_as in page headmatter', async (t) => {} )
