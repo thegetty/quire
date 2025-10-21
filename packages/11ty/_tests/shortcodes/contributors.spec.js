@@ -135,7 +135,7 @@ test('publicationContributors / contributors page lists should be displayed in p
 
   // Test that all publication contributors are present
   const contributorElementIds = Array.from(publicationContributorsDom.querySelectorAll('li.quire-contributor')).map(c => c.id)
-  t.like(contributorElementIds, ['other-contributor', 'test-contributor'], 'all publication contributors should be shown')
+  t.like(contributorElementIds, ['test-contributor', 'other-contributor'], 'all publication contributors should be shown')
 
   // Test that pages are in the correct order
   // NB: `like` because they are not the same instance
