@@ -111,21 +111,10 @@ commands:
       - run:
           name: Set git email
           command: git config --global user.email quire@getty.edu 
-
       # Install test dependencies only
       - run:
           name: Install deps
           command: npm install --ignore-scripts --foreground-scripts
-
-      # Run package unit tests
-      - run:
-          name: Run CLI tests
-          command: npm -w packages/cli run test
-
-      - run:
-          name: Run 11ty tests
-          command: npm -w packages/11ty run test && npm -w packages/11ty run test:clean
-
       - run:
           name: Run integration tests
           command: mkdir -p reports && npm run test:integration
@@ -147,6 +136,14 @@ commands:
       # @TODO: Turn this off when we're happy with snapshot coverage of browser tests
       - store_artifacts:
           path: publication.zip
+
+      # Run core package tests - @TODO: Consider moving this above the integration test
+      - run:
+          name: Run CLI tests
+          command: npm -w packages/cli run test
+      - run:
+          name: Run 11ty tests
+          command: npm -w packages/11ty run test
 
   test-linux:
     steps:
