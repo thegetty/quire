@@ -124,7 +124,7 @@ commands:
 
       - run:
           name: Run 11ty tests
-          command: npm -w packages/11ty run test
+          command: npm -w packages/11ty run test && npm -w packages/11ty run test:clean
 
       - run:
           name: Run integration tests
