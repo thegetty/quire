@@ -1,49 +1,14 @@
 import Eleventy from '@11ty/eleventy'
 import { JSDOM } from 'jsdom'
 import test from 'ava'
-import { initEleventyEnvironment, stubGlobalData } from './helpers/index.js'
+import { initEleventyEnvironment, stubGlobalData } from '../helpers/index.js'
 
 /**
- * @function renderAndTestIds
+ * `contributors` shortcode tests
  *
- * @param {String} content
- * @param {Eleventy} eleventy
- * @param {ava.test} t
+ * Spin up canned 11ty environment(s), renders the shortcode, and test-asserts
  *
- * Renders `content` and tests it for unique IDs
  **/
-const renderAndTestIds = async (content, eleventy, t) => {
-  const rendered = await eleventy.eleventyConfig.config.javascriptFunctions.renderTemplate(content, 'liquid,md', {})
-  const markup = JSDOM.fragment(rendered)
-
-  const ids = Array.from(markup.querySelectorAll('[id]')).map((el) => el.id)
-  const uniques = new Set(ids)
-
-  if (ids.length !== uniques.size) t.fail('Accordion shortcode should not emit duplicate ids.')
-}
-
-// Initialize Eleventy and pass into test context
-test.before('Stub the eleventy environment', async (t) => {
-  const elev = await initEleventyEnvironment({})
-  t.context.eleventy = elev
-})
-
-test('Accordion sections should never produce duplicate ids', async (t) => {
-  const { eleventy } = t.context
-
-  const content = `{% accordion '## Test Section' %}
-  Test content.
-  {% endaccordion %}`
-
-  const contentWithFootnote = `{% accordion '## Test Section' %}
-  Test content.[^1]
-  {% endaccordion %}`
-
-  const testContent = [content, contentWithFootnote]
-  testContent.forEach(async (c) => await renderAndTestIds(c, eleventy, t))
-
-  t.pass()
-})
 
 test('contributors shortcode should use serial commas to join with format == "initials", "name-title", "string"', async (t) => {
   const contributorEnvironments = {
@@ -129,7 +94,10 @@ test('publicationContributors / contributors page lists should be displayed in p
       }
     },
     publication: {
-      contributor: [{ id: 'test-contributor', full_name: 'Test Contributor' }],
+      contributor: [
+        { id: 'test-contributor', full_name: 'Test Contributor' },
+        { id: 'other-contributor', full_name: 'Other Contributor' }
+      ],
       description: {
         full: 'Publication Description'
       },
@@ -153,7 +121,7 @@ test('publicationContributors / contributors page lists should be displayed in p
   // Create an environment and add test templates
   const environment = new Eleventy('.', '_site', {
     config: stubGlobalData(stub, (eleventyConfig) => {
-      eleventyConfig.addTemplate('b-page.md', '# B Page', { abstract: '', contributor: [{ id: 'test-contributor' }], title: 'B Page', layout: 'base.11ty.js', order: 1, outputs: ['html'] })
+      eleventyConfig.addTemplate('b-page.md', '# B Page\n{% contributors context=pageContributors format="name" %}', { abstract: '', contributor: [{ id: 'test-contributor', sort_as: '1' }, { id: 'other-contributor', sort_as: '2' }], title: 'B Page', layout: 'base.11ty.js', order: 1, outputs: ['html'] })
       eleventyConfig.addTemplate('a-page.md', '# A Page\n{% contributors context=publicationContributors format="bio" %}', { abstract: '', contributor: [{ id: 'test-contributor' }], title: 'A Page', layout: 'base.11ty.js', order: 2, outputs: ['html'] })
     })
   })
@@ -161,16 +129,24 @@ test('publicationContributors / contributors page lists should be displayed in p
   // Build the publication
   const pages = await environment.toJSON()
 
-  // Get the test contributors page
-  const contributorsPage = pages.find(p => p.inputPath === './content/a-page.md')
-  const contributorsDom = JSDOM.fragment(contributorsPage.content)
+  // Get the publication contributors page
+  const publicationContributors = pages.find(p => p.inputPath === './content/a-page.md')
+  const publicationContributorsDom = JSDOM.fragment(publicationContributors.content)
 
-  // Test that the contributor is our test
-  const contributorElement = contributorsDom.querySelector('li.quire-contributor')
-  t.is(contributorElement.id, 'test-contributor')
+  // Test that all publication contributors are present
+  const contributorElementIds = Array.from(publicationContributorsDom.querySelectorAll('li.quire-contributor')).map(c => c.id)
+  t.like(contributorElementIds, ['other-contributor', 'test-contributor'], 'all publication contributors should be shown')
 
-  // Compare the actual pages to the input order
+  // Test that pages are in the correct order
   // NB: `like` because they are not the same instance
-  const actualLinks = Array.from(contributorsDom.querySelectorAll('a.quire-contributor__page-link')).map(a => a.href)
-  t.like(actualLinks, ['/b-page/', '/a-page/'])
+  const actualLinks = Array.from(publicationContributorsDom.querySelectorAll('li.quire-contributor#test-contributor a.quire-contributor__page-link')).map(a => a.href)
+  t.like(actualLinks, ['/b-page/', '/a-page/'], 'contributor pages should be in publication order')
+
+  // Get the page contributors page
+  const pageContributors = pages.find(p => p.inputPath === './content/b-page.md')
+  const pageContributorsDom = JSDOM.fragment(pageContributors.content)
+
+  // Test that page contributors follow page data sort_as
+  const pageContributorIds = Array.from(pageContributorsDom.querySelectorAll('li.quire-contributor')).map(pc => pc.id)
+  t.like(pageContributorIds, ['test-contributor', 'other-contributor'], 'contributor order should follow page data sort_as')
 })
