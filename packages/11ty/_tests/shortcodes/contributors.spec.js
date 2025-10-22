@@ -121,7 +121,7 @@ test('publicationContributors / contributors page lists should be displayed in p
   // Create an environment and add test templates
   const environment = new Eleventy('.', '_site', {
     config: stubGlobalData(stub, (eleventyConfig) => {
-      eleventyConfig.addTemplate('b-page.md', '# B Page\n{% contributors context=pageContributors format="name" %}', { abstract: '', contributor: [{ id: 'test-contributor', sort_as: '1' }, { id: 'other-contributor', sort_as: '2' }], title: 'B Page', layout: 'base.11ty.js', order: 1, outputs: ['html'] })
+      eleventyConfig.addTemplate('b-page.md', '# B Page\n{% contributors context=pageContributors format="bio" %}', { abstract: '', contributor: [{ id: 'test-contributor', sort_as: '1' }, { id: 'other-contributor', sort_as: '2' }], title: 'B Page', layout: 'base.11ty.js', order: 1, outputs: ['html'] })
       eleventyConfig.addTemplate('a-page.md', '# A Page\n{% contributors context=publicationContributors format="bio" %}', { abstract: '', contributor: [{ id: 'test-contributor' }], title: 'A Page', layout: 'base.11ty.js', order: 2, outputs: ['html'] })
     })
   })
@@ -149,4 +149,8 @@ test('publicationContributors / contributors page lists should be displayed in p
   // Test that page contributors follow page data sort_as
   const pageContributorIds = Array.from(pageContributorsDom.querySelectorAll('li.quire-contributor')).map(pc => pc.id)
   t.like(pageContributorIds, ['test-contributor', 'other-contributor'], 'contributor order should follow page data sort_as')
+
+  // Test that pageContributors only lists *other* pages for contributors
+  const pageContributorListItems = Array.from(pageContributorsDom.querySelectorAll('li.quire-contributor#test-contributor a.quire-contributor__page-link')).map(a => a.href)
+  t.like(pageContributorListItems, ['/a-page/'])
 })

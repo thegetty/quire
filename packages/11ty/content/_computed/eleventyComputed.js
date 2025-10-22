@@ -72,7 +72,14 @@ export default {
   pageContributors: ({ contributor, contributor_as_it_appears }) => {
     if (!contributor) return
     if (contributor_as_it_appears) return contributor_as_it_appears
-    return (Array.isArray(contributor)) ? contributor : [contributor]
+
+    // Ease type to an array and pass flag to signal as pageContributor
+    const contributors = (Array.isArray(contributor)) ? contributor : [contributor]
+    const contributorsWithMeta = contributors.map((c) => {
+      return { ...c, _meta: { pageContributor: true } }
+    })
+
+    return contributorsWithMeta
   },
   /**
    * Compute a 'pageData' property that includes the page and collection page data
