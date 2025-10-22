@@ -76,7 +76,8 @@ export default {
     // Ease type to an array and pass flag to signal as pageContributor
     const contributors = (Array.isArray(contributor)) ? contributor : [contributor]
     const contributorsWithMeta = contributors.map((c) => {
-      return { ...c, _meta: { pageContributor: true } }
+      const _meta = { ...(c._meta ?? {}), pageContributor: true }
+      return { ...c, _meta }
     })
 
     return contributorsWithMeta
