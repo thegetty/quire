@@ -26,5 +26,9 @@ export default function (eleventyConfig, item) {
     logger.error('Contributor not found in \'publication.yaml.\' Contributor: ', item)
     return ''
   }
+
+  // Pass page-data value sort value if exists
+  if (item.sort_as) contributor.sort_as = item.sort_as
+
   return contributor
 }
