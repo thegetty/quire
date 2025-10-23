@@ -27,7 +27,7 @@ export default function (eleventyConfig, item) {
     return ''
   }
 
-  // Pass these properties from the caller parameter if they exist
+  // Pass sort property from page data 
   if (item.sort_as) contributor.sort_as = item.sort_as
 
   return contributor
