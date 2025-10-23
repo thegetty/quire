@@ -211,7 +211,18 @@ export default {
     if (!collections.all) return
     if (!publication.contributor) return []
 
-    const contributors = publication.contributor.map((c) => addPages(c, collections))
+    // NB: filter() here removes empty items from array (!!) in tests
+    let contributors = publication.contributor.filter(c => !!c)
+    const inPubData = (contrib) => !!contributors.find((c) => c.id === contrib.id)
+
+    // Add any contributors that are only present in page headmatter
+    const headmatterOnly = collections.allSorted.flatMap((page) => {
+      return (page.data.contributor ?? []).filter((c) => !inPubData(c))
+    })
+
+    contributors = contributors.concat(headmatterOnly)
+      .map((c) => addPages(c, collections))
+
     return contributors
   }
 }
