@@ -29,7 +29,6 @@ export default function (eleventyConfig, item) {
 
   // Pass these properties from the caller parameter if they exist
   if (item.sort_as) contributor.sort_as = item.sort_as
-  if (item._meta) contributor._meta = item._meta
 
   return contributor
 }

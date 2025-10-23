@@ -49,12 +49,6 @@ export default function (eleventyConfig, tagName, component) {
         const evalValue = (arg) => liquidEngine.evalValue(arg, scope)
         const args = await Promise.all(liquidArgs(this.args, evalValue))
 
-        // Find the keyword arg and insert page meta
-        const argIndex = args.findIndex((arg) => arg.__keywords)
-        if (argIndex > -1) {
-          args[argIndex]._meta = { page: scope.environments.page }
-        }
-
         return await renderComponent(...args)
       }
     }
