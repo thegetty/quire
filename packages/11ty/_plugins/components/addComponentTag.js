@@ -48,7 +48,6 @@ export default function (eleventyConfig, tagName, component) {
       render: async function (scope) {
         const evalValue = (arg) => liquidEngine.evalValue(arg, scope)
         const args = await Promise.all(liquidArgs(this.args, evalValue))
-
         return await renderComponent(...args)
       }
     }
