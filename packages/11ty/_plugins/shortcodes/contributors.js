@@ -49,7 +49,20 @@ export default function (eleventyConfig) {
     if (typeof contributors === 'string') return markdownify(contributors)
 
     let contributorList = contributors
-      .flatMap(getContributor)
+      .map((c) => {
+        const data = getContributor(c)
+        if (c.pages) {
+          data.pages = c.pages
+        } else {
+          data.pages = []
+        }
+
+        if (c.sort_as) {
+          data.sort_as = c.sort_as
+        }
+
+        return data
+      })
       .filter((item) => (type || role) && type !== 'all'
         ? (type && item.type === type) || (role && item.role === role)
         : item

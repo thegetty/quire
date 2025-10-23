@@ -4,6 +4,60 @@ import chalkFactory from '#lib/chalk/index.js'
 const { warn } = chalkFactory('eleventyComputed')
 
 /**
+ * @function mapContributorPage
+ *
+ * @param {Object} page
+ *
+ * Maps a `page` object to the internal API
+ *
+ **/
+const mapContributorPage = (page) => {
+  const { data, url } = page
+  const { label, subtitle, title } = data
+
+  return {
+    label,
+    subtitle,
+    title,
+    url
+  }
+}
+
+/**
+ * @function isContributorPage
+ *
+ * @param {String} id
+ * @param {Object} page
+ * @param {String} except
+ *
+ * True if this contributor `id` is in `page`, unless page url is `except`
+ *
+ **/
+const isContributorPage = (page, id, except) => {
+  return page.data.contributor?.find((contrib) => contrib.id === id) && (!except || page.url !== except)
+}
+
+/**
+ * @function addPages
+ *
+ * @param {Object} contributor
+ * @param {Object} collections - 11ty Collections API object
+ * @param {String|undefined} omitUrl
+ *
+ * Returns shallow copy of `contributor` with mapped array of contributed `pages`.
+ * Omits pages published at `omitUrl`
+ *
+ **/
+const addPages = (contributor, collections, omitUrl) => {
+  const { id } = contributor
+  const pages = collections.allSorted
+    .filter((page) => isContributorPage(page, id, omitUrl))
+    .map((page) => mapContributorPage(page))
+
+  return { ...contributor, pages }
+}
+
+/**
  * Global computed data
  */
 export default {
@@ -69,18 +123,16 @@ export default {
     // add custom classes from page frontmatter
     return computedClasses.concat(filteredClasses)
   },
-  pageContributors: ({ contributor, contributor_as_it_appears }) => {
-    if (!contributor) return
+  pageContributors: ({ collections, contributor, contributor_as_it_appears, page }) => {
+    if (!contributor) return []
+
     if (contributor_as_it_appears) return contributor_as_it_appears
 
-    // Ease type to an array and pass flag to signal as pageContributor
-    const contributors = (Array.isArray(contributor)) ? contributor : [contributor]
-    const contributorsWithMeta = contributors.map((c) => {
-      const _meta = { ...(c._meta ?? {}), pageContributor: true }
-      return { ...c, _meta }
-    })
+    if (!collections.all) {
+      return contributor
+    }
 
-    return contributorsWithMeta
+    return contributor.map((c) => addPages(c, collections, page?.url))
   },
   /**
    * Compute a 'pageData' property that includes the page and collection page data
@@ -157,42 +209,9 @@ export default {
    */
   publicationContributors: ({ collections, config, page, publication }) => {
     if (!collections.all) return
-    let publicationContributors = Array.isArray(publication.contributor)
-      ? publication.contributor
-      : []
-    publicationContributors = publicationContributors.filter((item) => item)
-    if (!publicationContributors.length) return
+    if (!publication.contributor) return []
 
-    /**
-     * Add `pages` properties to contributor with limited `page` model
-     */
-    const addPages = (contributor) => {
-      const { id } = contributor
-      contributor.pages = collections.allSorted.flatMap(
-        (page) => {
-          const { data, url } = page
-          const { contributor, label, subtitle, title } = data
-          if (!contributor) return []
-          const includePage = Array.isArray(contributor)
-            ? contributor.find((item) => item.id === id)
-            : contributor.id === id
-          return includePage
-            ? {
-                label,
-                subtitle,
-                title,
-                url
-              }
-            : []
-        }
-      )
-      return contributor
-    }
-    const pageContributors = collections.all.flatMap(({ data }) => data.pageContributors || [])
-
-    const uniqueContributors = publicationContributors.concat(pageContributors)
-      .filter((value, index, array) => array.findIndex((item) => item.id === value.id) === index)
-      .map(addPages)
-    return uniqueContributors
+    const contributors = publication.contributor.map((c) => addPages(c, collections))
+    return contributors
   }
 }
