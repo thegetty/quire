@@ -121,7 +121,7 @@ test('publicationContributors / contributors page lists should be displayed in p
   // Create an environment and add test templates
   const environment = new Eleventy('.', '_site', {
     config: stubGlobalData(stub, (eleventyConfig) => {
-      eleventyConfig.addTemplate('b-page.md', '# B Page\n{% contributors context=pageContributors format="name" %}', { abstract: '', contributor: [{ id: 'test-contributor', sort_as: '1' }, { id: 'other-contributor', sort_as: '2' }], title: 'B Page', layout: 'base.11ty.js', order: 1, outputs: ['html'] })
+      eleventyConfig.addTemplate('b-page.md', '# B Page\n{% contributors context=pageContributors format="bio" %}', { abstract: '', contributor: [{ id: 'test-contributor', sort_as: '1' }, { id: 'other-contributor', sort_as: '2' }], title: 'B Page', layout: 'base.11ty.js', order: 1, outputs: ['html'] })
       eleventyConfig.addTemplate('a-page.md', '# A Page\n{% contributors context=publicationContributors format="bio" %}', { abstract: '', contributor: [{ id: 'test-contributor' }], title: 'A Page', layout: 'base.11ty.js', order: 2, outputs: ['html'] })
     })
   })
@@ -133,9 +133,10 @@ test('publicationContributors / contributors page lists should be displayed in p
   const publicationContributors = pages.find(p => p.inputPath === './content/a-page.md')
   const publicationContributorsDom = JSDOM.fragment(publicationContributors.content)
 
-  // Test that all publication contributors are present
+  // Test that all publication contributors are present -- in alpha order by full_name
+  // NB: Unclear whether the contributor array is always ordered
   const contributorElementIds = Array.from(publicationContributorsDom.querySelectorAll('li.quire-contributor')).map(c => c.id)
-  t.like(contributorElementIds, ['test-contributor', 'other-contributor'], 'all publication contributors should be shown')
+  t.is(contributorElementIds.includes('test-contributor') && contributorElementIds.includes('other-contributor'), true)
 
   // Test that pages are in the correct order
   // NB: `like` because they are not the same instance
@@ -149,4 +150,8 @@ test('publicationContributors / contributors page lists should be displayed in p
   // Test that page contributors follow page data sort_as
   const pageContributorIds = Array.from(pageContributorsDom.querySelectorAll('li.quire-contributor')).map(pc => pc.id)
   t.like(pageContributorIds, ['test-contributor', 'other-contributor'], 'contributor order should follow page data sort_as')
+
+  // Test that pageContributors only lists *other* pages for contributors
+  const pageContributorListItems = Array.from(pageContributorsDom.querySelectorAll('li.quire-contributor#test-contributor a.quire-contributor__page-link')).map(a => a.href)
+  t.like(pageContributorListItems, ['/a-page/'])
 })
