@@ -211,8 +211,8 @@ export default {
     if (!collections.all) return
     if (!publication.contributor) return []
 
-    // NB: filter() here removes empty items from array (!!) in tests
-    let contributors = publication.contributor.filter(c => !!c)
+    // NB: filter empty items (unresolved promises?) from publication.contributor
+    let contributors = publication.contributor.filter(Boolean)
     const inPubData = (contrib) => !!contributors.find((c) => c.id === contrib.id)
 
     // Add any contributors that are only present in page headmatter
