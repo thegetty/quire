@@ -72,6 +72,7 @@ test('contributors shortcode should use serial commas to join with format == "in
   }
 })
 
+// NB: Eleventy envs conflicted with one another (user error?) thus serial()
 test.serial('publicationContributors / contributors page lists should be displayed in publication order', async (t) => {
   // Use a minimal data stub to create a buildable enviornment
   const data = structuredClone(minimalBuildingData)
@@ -130,26 +131,31 @@ test.serial('contributors from page data behave properly on content=pageContribu
     })
   })
 
+  // Build the pages and read each page's HTML to a DOM object
   const pages = await environment.toJSON()
 
   const pageContributors = pages.find((page) => page.inputPath === './content/page-contributors.md')
   const pageContributorsDom = JSDOM.fragment(pageContributors.content)
-  const contributorNameSpan = pageContributorsDom.querySelector('li.quire-contributor .quire-contributor__name')
-  const contributorPageLink = pageContributorsDom.querySelector('li.quire-contributor .quire-contributor__page-link')
-
-  t.is(contributorNameSpan.textContent, 'Contributor Two')
-  t.is(contributorPageLink, null, 'Page data contributors should not list their page on the')
 
   const publicationContributors = pages.find((page) => page.inputPath === './content/publication-contributors.md')
   const publicationContributorsDom = JSDOM.fragment(publicationContributors.content)
 
+  // pageContributors should have the name but not pages that contrib appears on
+  const contributorNameSpan = pageContributorsDom.querySelector('li.quire-contributor .quire-contributor__name')
+  const contributorPageLink = pageContributorsDom.querySelector('li.quire-contributor .quire-contributor__page-link')
+
+  t.is(contributorNameSpan.textContent, 'Contributor Two', 'Page data contributor name should be in context=pageContributors')
+  t.is(contributorPageLink, null, 'Page data contributors should not have their page with context=pageContributors')
+
+  // publicationContributors should have each contributors with their page
   Array.from(publicationContributorsDom.querySelectorAll('li.quire-contributor')).forEach((contributor) => {
     const contributorNameSpan = contributor.querySelector('.quire-contributor__name')
     const contributorPageLink = Array.from(contributor.querySelectorAll('.quire-contributor__page-link'))
 
-    // console.log(contributor.outerHTML)
-    t.is(contributorPageLink.length, 1, 'Incorrect number of pages for pageData contributors')
+    // Each contributor should only have one page
+    t.is(contributorPageLink.length, 1)
 
+    // And the page should be the one assigned
     if (contributorNameSpan.textContent === 'Contributor One') {
       t.is(contributorPageLink.at(0).href, '/publication-contributors/')
     } else if (contributorNameSpan.textContent === 'Contributor Two') {
