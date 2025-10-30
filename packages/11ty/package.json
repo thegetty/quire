@@ -38,7 +38,7 @@
     "prepublishOnly": "npm run test",
     "preserve": "npm run clean",
     "serve": "cross-env ELEVENTY_ENV=production eleventy --serve",
-    "test": "npm run lint && ava --verbose --timeout 360s _tests/* && node --test _plugins/figures/test/*.spec.js"
+    "test": "npm run lint && ava --verbose --timeout 360s _tests/* _tests/shortcodes/* && node --test _plugins/figures/test/*.spec.js"
   },
   "imports": {
     "#root/*": "./*",

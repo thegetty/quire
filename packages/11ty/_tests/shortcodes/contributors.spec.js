@@ -1,7 +1,7 @@
 import Eleventy from '@11ty/eleventy'
 import { JSDOM } from 'jsdom'
 import test from 'ava'
-import { initEleventyEnvironment, stubGlobalData } from '../helpers/index.js'
+import { initEleventyEnvironment, minimalBuildingData, stubGlobalData } from '../helpers/index.js'
 
 /**
  * `contributors` shortcode tests
@@ -72,55 +72,18 @@ test('contributors shortcode should use serial commas to join with format == "in
   }
 })
 
-test('publicationContributors / contributors page lists should be displayed in publication order', async (t) => {
-  // Populate enough data to complete an entire site build, plus the test contributor
-  const stub = {
-    config: {
-      analytics: {
-      },
-      bibliography: {
-        displayOnPage: true,
-        displayShort: true,
-        heading: 'Bibliography'
-      },
-      epub: {
-        outputDir: '_epub'
-      },
-      figures: {
-        imageDir: '_assets/images/figures'
-      },
-      pageTitle: {
-        labelDivider: '. '
-      }
-    },
-    publication: {
-      contributor: [
-        { id: 'test-contributor', full_name: 'Test Contributor' },
-        { id: 'other-contributor', full_name: 'Other Contributor' }
-      ],
-      description: {
-        full: 'Publication Description'
-      },
-      identifier: {
-        isbn: ''
-      },
-      license: {
-      },
-      resource_link: [],
-      revision_history: {
-      },
-      promo_image: 'image.jpg',
-      pub_date: new Date(),
-      publisher: [{ name: 'Publisher' }],
-      subject: [],
-      title: 'Publication',
-      url: 'http://localhost:8080'
-    }
-  }
+// NB: Eleventy envs conflicted with one another (user error?) thus serial()
+test.serial('publicationContributors / contributors page lists should be displayed in publication order', async (t) => {
+  // Use a minimal data stub to create a buildable enviornment
+  const data = structuredClone(minimalBuildingData)
+  data.publication.contributor = [
+    { id: 'test-contributor', full_name: 'Test Contributor' },
+    { id: 'other-contributor', full_name: 'Other Contributor' }
+  ]
 
   // Create an environment and add test templates
   const environment = new Eleventy('.', '_site', {
-    config: stubGlobalData(stub, (eleventyConfig) => {
+    config: stubGlobalData(data, (eleventyConfig) => {
       eleventyConfig.addTemplate('b-page.md', '# B Page\n{% contributors context=pageContributors format="bio" %}', { abstract: '', contributor: [{ id: 'test-contributor', sort_as: '1' }, { id: 'other-contributor', sort_as: '2' }], title: 'B Page', layout: 'base.11ty.js', order: 1, outputs: ['html'] })
       eleventyConfig.addTemplate('a-page.md', '# A Page\n{% contributors context=publicationContributors format="bio" %}', { abstract: '', contributor: [{ id: 'test-contributor' }], title: 'A Page', layout: 'base.11ty.js', order: 2, outputs: ['html'] })
     })
@@ -154,4 +117,53 @@ test('publicationContributors / contributors page lists should be displayed in p
   // Test that pageContributors only lists *other* pages for contributors
   const pageContributorListItems = Array.from(pageContributorsDom.querySelectorAll('li.quire-contributor#test-contributor a.quire-contributor__page-link')).map(a => a.href)
   t.like(pageContributorListItems, ['/a-page/'])
+})
+
+test.serial('contributors from page data behave properly on content=pageContributors and content=publicationContributors', async (t) => {
+  // Create a publication without configured contributors
+  const data = structuredClone(minimalBuildingData)
+
+  // Create an environment and add test templates
+  const environment = new Eleventy('.', '_site', {
+    config: stubGlobalData(data, (eleventyConfig) => {
+      eleventyConfig.addTemplate('publication-contributors.md', '# A Page\n{% contributors context=publicationContributors format="bio" %}', { abstract: '', contributor: [{ first_name: 'Contributor', last_name: 'One' }], title: 'A Page', layout: 'base.11ty.js', outputs: ['html'] })
+      eleventyConfig.addTemplate('page-contributors.md', '# B Page\n{% contributors context=pageContributors format="bio" %}', { abstract: '', contributor: [{ first_name: 'Contributor', last_name: 'Two' }], title: 'B Page', layout: 'base.11ty.js', outputs: ['html'] })
+    })
+  })
+
+  // Build the pages and read each page's HTML to a DOM object
+  const pages = await environment.toJSON()
+
+  const pageContributors = pages.find((page) => page.inputPath === './content/page-contributors.md')
+  const pageContributorsDom = JSDOM.fragment(pageContributors.content)
+
+  const publicationContributors = pages.find((page) => page.inputPath === './content/publication-contributors.md')
+  const publicationContributorsDom = JSDOM.fragment(publicationContributors.content)
+
+  // pageContributors should have the name but not pages that contrib appears on
+  const contributorNameSpan = pageContributorsDom.querySelector('li.quire-contributor .quire-contributor__name')
+  const contributorPageLink = pageContributorsDom.querySelector('li.quire-contributor .quire-contributor__page-link')
+
+  t.is(contributorNameSpan.textContent, 'Contributor Two', 'Page data contributor name should be in context=pageContributors')
+  t.is(contributorPageLink, null, 'Page data contributors should not have their page with context=pageContributors')
+
+  // publicationContributors should have each contributors with their page
+  Array.from(publicationContributorsDom.querySelectorAll('li.quire-contributor')).forEach((contributor) => {
+    const contributorNameSpan = contributor.querySelector('.quire-contributor__name')
+    const contributorPageLink = Array.from(contributor.querySelectorAll('.quire-contributor__page-link'))
+
+    // Each contributor should only have one page
+    t.is(contributorPageLink.length, 1)
+
+    // And the page should be the one assigned
+    if (contributorNameSpan.textContent === 'Contributor One') {
+      t.is(contributorPageLink.at(0).href, '/publication-contributors/')
+    } else if (contributorNameSpan.textContent === 'Contributor Two') {
+      t.is(contributorPageLink.at(0).href, '/page-contributors/')
+    } else {
+      t.fail()
+    }
+  })
+
+  t.pass()
 })

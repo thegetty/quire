@@ -65,4 +65,49 @@ const initEleventyEnvironment = async (stub, finalizer) => {
   return elev
 }
 
-export { initEleventyEnvironment, stubGlobalData }
+const minimalBuildingData = {
+  config: {
+    analytics: {
+    },
+    bibliography: {
+      displayOnPage: true,
+      displayShort: true,
+      heading: 'Bibliography'
+    },
+    epub: {
+      outputDir: '_epub'
+    },
+    figures: {
+      imageDir: '_assets/images/figures'
+    },
+    pageTitle: {
+      labelDivider: '. '
+    },
+    pdf: {
+      pagePDF: true
+    }
+  },
+  publication: {
+    contributor: [
+
+    ],
+    description: {
+      full: 'Publication Description'
+    },
+    identifier: {
+      isbn: ''
+    },
+    license: {
+    },
+    resource_link: [],
+    revision_history: {
+    },
+    promo_image: 'image.jpg',
+    pub_date: new Date(),
+    publisher: [{ name: 'Publisher' }],
+    subject: [],
+    title: 'Publication',
+    url: 'http://localhost:8080'
+  }
+}
+export { initEleventyEnvironment, minimalBuildingData, stubGlobalData }

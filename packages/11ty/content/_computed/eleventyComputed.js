@@ -33,8 +33,19 @@ const mapContributorPage = (page) => {
  * True if this contributor `id` is in `page`, unless page url is `except`
  *
  **/
-const isContributorPage = (page, id, except) => {
-  return page.data.contributor?.find((contrib) => contrib.id === id) && (!except || page.url !== except)
+const isContributorPage = (page, contributor, except) => {
+  const { id, first_name, last_name } = contributor
+
+  switch (true) {
+    case except && page.url === except:
+      return false
+
+    case id === undefined:
+      return page.data.contributor.some((contrib) => first_name === contrib.first_name && last_name === contrib.last_name)
+
+    default:
+      return page.data.contributor?.some((contrib) => contrib.id === id)
+  }
 }
 
 /**
@@ -49,9 +60,8 @@ const isContributorPage = (page, id, except) => {
  *
  **/
 const addPages = (contributor, collections, omitUrl) => {
-  const { id } = contributor
   const pages = collections.allSorted
-    .filter((page) => isContributorPage(page, id, omitUrl))
+    .filter((page) => isContributorPage(page, contributor, omitUrl))
     .map((page) => mapContributorPage(page))
 
   return { ...contributor, pages }
@@ -213,7 +223,7 @@ export default {
 
     // NB: filter empty items (unresolved promises?) from publication.contributor
     let contributors = publication.contributor.filter(Boolean)
-    const inPubData = (contrib) => !!contributors.find((c) => c.id === contrib.id)
+    const inPubData = (contrib) => !!contributors.find((c) => c.id === contrib.id || (!contrib.id && contrib.first_name === c.first_name && contrib.last_name === c.last_name))
 
     // Add any contributors that are only present in page headmatter
     const headmatterOnly = collections.allSorted.flatMap((page) => {
