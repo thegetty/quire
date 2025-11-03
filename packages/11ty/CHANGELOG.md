@@ -12,28 +12,36 @@ Changelog entries are classified using the following labels:
 - `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
+## [1.0.0-rc.38]
+
+### Fixed
+
+- Fix issue where `publicationContributors` lists contributors that come from page headmatter with merged page lists (DEV-16622) / https://github.com/thegetty/quire/issues/853
+- Fix `pageContributors` to omit the current page in page lists (DEV-16623) / https://github.com/thegetty/quire/issues/847
+- Fix order of contributors when `sort_as` is used (DEV-16621) / https://github.com/thegetty/quire/issues/854
+- Fix order of pages in `publicationContributors` to follow publication order shortcode (DEV-18049)
+
 ## [1.0.0-rc.37]
 
-## Fixed
+### Fixed
 
 - `contributors` shortcode insert unnecessary comma - https://github.com/thegetty/quire/issues/873
 
-
 ## [1.0.0-rc.36]
 
-## Changed
+### Changed
 
 - Adds `esbuild` and `vite` as direct dependencies of `@thegetty/quire-11ty`. Adds a version constraint to esbuild as `esbuild<=0.25.9` as a workaround to https://github.com/thegetty/quire/issues/1066 .
 
 ## [1.0.0-rc.35]
 
-## Fixed
+### Fixed
 
 - Fixed an issue where external links in PDFs were being improperly slugged. 
 
 ## [1.0.0-rc.34]
 
-## Fixed
+### Fixed
 
 - Fixed various issues around path creation in epub manifests on Windows.
 
