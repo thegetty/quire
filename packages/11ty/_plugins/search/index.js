@@ -1,5 +1,5 @@
 import SearchIndex from './search.js'
-import path from 'path'
+import path from 'node:path'
 
 const QUIRE_FIGURE_CLASS = '.q-figure'
 const SEARCH_INDEX_DIR = '_search'
