@@ -1,5 +1,5 @@
 import * as pagefind from 'pagefind'
-import path from 'path'
+import path from 'node:path'
 
 export default class SearchIndex {
   constructor (eleventyConfig, {
