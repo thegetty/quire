@@ -45,7 +45,10 @@ export default function (eleventyConfig, collections, {
      * Adds each results HTML content to the search index.
      */
     await Promise.all(results.map(async ({ url, content }) => {
-      await index.addPageRecord({ url, content })
+      const page = collections.html.find(({ url: pageUrl }) => url === pageUrl)
+      if (!page || page.search === false) return
+      const { canonicalURL } = page.data
+      await index.addPageRecord({ url: canonicalURL, content })
     }))
 
     /**
