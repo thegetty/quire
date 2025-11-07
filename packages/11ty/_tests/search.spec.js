@@ -38,19 +38,20 @@ const stubData = {
     },
     pub_date: new Date('2025-01-11'),
     promo_image: promoImage,
-    language: 'en-us'
+    language: 'en-us',
+    url: 'https://example.com/test-publication/'
   }
 }
 
 const results = [
   {
-    url: 'https://example.com/page1/',
+    url: 'https://example.com/test-publication/page1/',
     content: '<html><body><p>This is a test page.</p></body></html>',
     inputPath: 'path/to/page1.html',
     outputPath: '_site/page1.html'
   },
   {
-    url: 'https://example.com/page2/',
+    url: 'https://example.com/test-publication/page2/',
     content: '<html><body><p>This is another test page.</p></body></html>',
     inputPath: 'path/to/page2.html',
     outputPath: '_site/page2.html'
@@ -63,7 +64,7 @@ const collections = {
       path: 'page-1.md',
       outputPath: 'page-1.html',
       data: {
-        canonicalURL: 'https://example.com/page1/index.html',
+        canonicalURL: 'https://example.com/test-publication/page1/index.html',
         page: {
           figures: [
             stubData.config.figures.figure_list[0]
@@ -78,7 +79,7 @@ const collections = {
       path: 'page-2.md',
       outputPath: 'page-2.html',
       data: {
-        canonicalURL: 'https://example.com/page2/index.html',
+        canonicalURL: 'https://example.com/test-publication/page2/index.html',
         page: { }
       }
     },
@@ -88,7 +89,7 @@ const collections = {
       data: {
         search: false,
         page: {
-          canonicalURL: 'https://example.com/page3/index.html',
+          canonicalURL: 'https://example.com/test-publication/page3/index.html',
           figures: [
             stubData.config.figures.figure_list[0]
           ]
@@ -113,7 +114,7 @@ const figureRecords = [
       title: 'Figure 1',
       type: 'image'
     },
-    url: 'https://example.com/page1/index.html#fig1'
+    url: 'https://example.com/test-publication/page1/index.html#fig1'
   }
 ]
 

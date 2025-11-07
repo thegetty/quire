@@ -154,15 +154,10 @@ function globalSetup () {
  * loadSearchData
  * @description Load full-text index data from the specified URL
  * and pass it to the search module.
- *
- * @param {string} basePath - Location of the search index.
- * @param {string} libraryPath - Location of the search library.
  */
-async function loadSearchData (basePath = '/_search/', libraryPath = '/_search/pagefind.js') {
-  const pagefind = await import(libraryPath)
-  await pagefind.options({
-    basePath
-  })
+async function loadSearchData () {
+  // Import path must exactly match the string in rollupOptions.external
+  const pagefind = await import('../../../_search/pagefind.js')
   window.QUIRE_SEARCH = pagefind
 }
 
