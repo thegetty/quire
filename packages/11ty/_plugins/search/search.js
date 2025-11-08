@@ -69,7 +69,7 @@ export default class SearchIndex {
     if (!srcPath) return null
     const regexp = /^(https?:\/\/|\/iiif\/|\\iiif\\)/
     const { imageDir } = this.config.figures
-    return regexp.test(srcPath) ? srcPath : path.join(imageDir, srcPath)
+    return regexp.test(srcPath) ? srcPath : path.posix.join(imageDir, srcPath)
   }
 
   /**
