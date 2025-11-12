@@ -220,10 +220,10 @@ export default async function (eleventyConfig) {
   /**
    * Load plugins for the Quire template shortcodes and filters
    */
-  eleventyConfig.addPlugin(componentsPlugin, collections)
+  eleventyConfig.addPlugin(componentsPlugin)
   eleventyConfig.addPlugin(filtersPlugin)
   eleventyConfig.addPlugin(frontmatterPlugin)
-  eleventyConfig.addPlugin(shortcodesPlugin, collections)
+  eleventyConfig.addPlugin(shortcodesPlugin)
 
   /**
    * Load additional plugins used for Quire projects

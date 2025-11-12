@@ -12,6 +12,12 @@ Changelog entries are classified using the following labels:
 - `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
+## [1.0.0-rc.39]
+
+### Fixed
+
+- Fix issue where publications started via `quire new` against 1.0.0-rc.38 would not build with an error about `citations` - https://github.com/thegetty/quire/issues/1091
+
 ## [1.0.0-rc.38]
 
 ### Fixed
