@@ -9,18 +9,22 @@
  * @param  {Object}  component       A JavaScript shortcode component
  * @param  {String}  tagName         A template tag name for the component
  */
-export default function (eleventyConfig, collections) {
+export default function (eleventyConfig) {
   return {
     addShortcode: function (tagName, component) {
       eleventyConfig.addShortcode(tagName, function (...args) {
+        // Pass access from the internal collections environment to shortcodes
+        const collections = this.ctx?.environments?.collections ?? {}
         const page = collections.all?.find(({ inputPath }) => inputPath === this.page.inputPath)
-        // console.log(tagName,page.inputPath)
+
         return component(eleventyConfig, { collections, page }).bind(this)(...args)
       })
     },
     addPairedShortcode: function (tagName, component) {
       eleventyConfig.addPairedShortcode(tagName, function (content, ...args) {
+        const collections = this.ctx?.environments?.collections ?? {}
         const page = collections.all?.find(({ inputPath }) => inputPath === this.page.inputPath)
+
         return component(eleventyConfig, { collections, page })(content, ...args)
       })
     }

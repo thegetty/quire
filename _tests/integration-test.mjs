@@ -82,6 +82,14 @@ const buildSitePdfEpub = async (t) => {
   }
 }
 
+test.before('Mirror user package environment.', (t) => {
+  // Remove lockfile to ensure dependency resolution runs as from npm package
+  const lockfile = path.join('packages','11ty','package-lock.json')
+  if (fs.existsSync(lockfile)) {
+    fs.rmSync(lockfile)
+  }
+})
+
 test.serial('Create the default publication and build the site, epub, pdf', async (t) => {
   const newCmd = await execa('quire', ['new', '--debug', '--quire-path', eleventyPath, publicationName ])
 
