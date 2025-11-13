@@ -18,6 +18,9 @@ export default [
     files: ['**/*.js']
   },
   {
+    ignores: ['**/pagefind*.js']
+  },
+  {
     languageOptions: {
       globals: {
         ...globals.browser,
