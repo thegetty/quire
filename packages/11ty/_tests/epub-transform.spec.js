@@ -1,7 +1,8 @@
-import test from 'ava'
-import manifestFactory from '../_plugins/transforms/outputs/epub/manifest.js'
-import transform from '../_plugins/transforms/outputs/epub/transform.js'
 import { initEleventyEnvironment } from './helpers/index.js'
+import { JSDOM } from 'jsdom'
+import manifestFactory from '../_plugins/transforms/outputs/epub/manifest.js'
+import test from 'ava'
+import transform from '../_plugins/transforms/outputs/epub/transform.js'
 
 // Initialize the eleventy environment with
 test.before('Stub the eleventy environment', async (t) => {
@@ -68,4 +69,31 @@ test('Manifest factory should only expose POSIX-style resource paths', async (t)
   })
 
   t.pass()
+})
+
+test('epub transform should set accordion `details` to open and `summary` should have no tabIndex', async (t) => {
+  // Run the eleventy environment to initialize userConfig
+  const { eleventy } = t.context
+  await eleventy.toJSON()
+
+  // Render the accordion and pass results to the transform
+  // NB: `main` emulates base.11ty.js layout -- should be programmatic instead?
+  const accordionContent = `<main data-output-path>{% accordion '## Test' %}
+  Test Accordion.
+  {% endaccordion %}</main>`
+  const accordionHtml = await eleventy.eleventyConfig.config.javascriptFunctions.renderTemplate(accordionContent, 'liquid,md', {})
+
+  // Mock the collections object object so this content gets processed
+  const collections = { epub: [{ path: 'test.md', outputPath: 'test.html', data: { title: 'Test Page' } }] }
+
+  // Run the transform on the accordion content with the mocked configuration and collections
+  const epubPage = transform.call({ outputPath: 'test.html' }, eleventy.writer.userConfig, collections, accordionHtml, true)
+  const accordion = JSDOM.fragment(epubPage)
+
+  const details = accordion.querySelector('details')
+  t.is(details.open, true, '`details` tag should be open')
+
+  // NB: tabIndex will read 0 even without the attribute on the element
+  const summary = accordion.querySelector('summary')
+  t.is(summary.tabIndex, 0, '`summary` tag should have no tabIndex')
 })

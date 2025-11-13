@@ -7,7 +7,7 @@ import writer from './writer.js'
 /**
  * Content transforms for EPUB output
  */
-export default function (eleventyConfig, collections, content) {
+export default function (eleventyConfig, collections, content, returnTransformed = false) {
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const removeHTML = eleventyConfig.getFilter('removeHTML')
   const slugify = eleventyConfig.getFilter('slugify')
@@ -171,6 +171,17 @@ export default function (eleventyConfig, collections, content) {
     linkElement.setAttribute('href', `${filename(index, collections.epub[index])}${hash}`)
   })
 
+  /**
+   * Set accordions to open and ensure they don't carry `tabindex` attributes
+   **/
+  body.querySelectorAll('details.accordion-section').forEach((details) => {
+    details.open = true
+  })
+
+  body.querySelectorAll('summary.accordion-section__heading').forEach((summary) => {
+    summary.removeAttribute('tabindex')
+  })
+
   transformPaths(body)
 
   /**
@@ -203,6 +214,10 @@ export default function (eleventyConfig, collections, content) {
   }
 
   readingOrder.push(item)
+
+  if (returnTransformed) {
+    return epubContent
+  }
 
   write(outputFilename, epubContent)
 
