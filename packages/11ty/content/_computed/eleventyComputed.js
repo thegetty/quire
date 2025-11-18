@@ -41,7 +41,7 @@ const isContributorPage = (page, contributor, except) => {
       return false
 
     case id === undefined:
-      return page.data.contributor.some((contrib) => first_name === contrib.first_name && last_name === contrib.last_name)
+      return page.data.contributor?.some((contrib) => first_name === contrib.first_name && last_name === contrib.last_name)
 
     default:
       return page.data.contributor?.some((contrib) => contrib.id === id)

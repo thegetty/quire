@@ -124,10 +124,12 @@ test.serial('contributors from page data behave properly on content=pageContribu
   const data = structuredClone(minimalBuildingData)
 
   // Create an environment and add test templates
+  // NB: Including a page without a contributor element to track https://github.com/thegetty/quire/issues/853#issuecomment-3534338465
   const environment = new Eleventy('.', '_site', {
     config: stubGlobalData(data, (eleventyConfig) => {
       eleventyConfig.addTemplate('publication-contributors.md', '# A Page\n{% contributors context=publicationContributors format="bio" %}', { abstract: '', contributor: [{ first_name: 'Contributor', last_name: 'One' }], title: 'A Page', layout: 'base.11ty.js', outputs: ['html'] })
       eleventyConfig.addTemplate('page-contributors.md', '# B Page\n{% contributors context=pageContributors format="bio" %}', { abstract: '', contributor: [{ first_name: 'Contributor', last_name: 'Two' }], title: 'B Page', layout: 'base.11ty.js', outputs: ['html'] })
+      eleventyConfig.addTemplate('page-without-contributor.md', '# No Contributor Page\n{% contributors context=pageContributors format="bio" %}', { abstract: '', title: 'B Page', layout: 'base.11ty.js', outputs: ['html'] })
     })
   })
 
