@@ -54,8 +54,11 @@ export default class SearchIndex {
    * Disconnect the PageFind backend.
    */
   async close () {
-    await pagefind.close()
     this.#index = null
+    // We don't want to close the PageFind backend when running tests,
+    // as test runs are parallel and will share the same PageFind backend.
+    if (process.env.NODE_ENV === 'test') return
+    await pagefind.close()
   }
 
   /**
