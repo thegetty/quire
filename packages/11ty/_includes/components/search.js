@@ -10,14 +10,6 @@ export default function (eleventyConfig) {
   const icon = eleventyConfig.getFilter('icon')
   return (params) => {
     return html`
-      <template id="js-search-results-template">
-        <li class="quire-search__inner__list-item">
-          <a class="js-search-results-item" href=""><h2 class="title"><span class="js-search-results-item-title"></span></h2>
-          </a>
-          <p><span class="js-search-results-item-type"></span> | <span class="js-search-results-item-length"></span> words</p>
-        </li>
-      </template>
-
       <div
         aria-expanded="false"
         class="quire-search"
@@ -44,9 +36,7 @@ export default function (eleventyConfig) {
                 />
                 <span>${icon({ type: 'search', description: 'Search' })}</span>
               </div>
-              <ul class="quire-search__inner__list" id="js-search-results-list">
-                <!-- js-search-results-template -->
-              </ul>
+                <q-search-results-list id="js-search-results-list"></q-search-results-list>
               </div>
             </div>
           </section>

@@ -19,7 +19,7 @@ const SEARCH_INDEX_DIR = '_search'
  *
  */
 export default function (eleventyConfig, collections, {
-  indexFigures = false,
+  indexFigures = true,
   excludeSelectors = [],
   searchIndexDir = SEARCH_INDEX_DIR
 } = {}) {
