@@ -86,7 +86,7 @@ export default class SearchIndex {
    * @returns {Promise<void>}
    */
   async addFigureRecord ({ figureData, canonicalURL, title } = {}) {
-    const { id, caption, alt, src, thumbnail, label, credit, mediaType } = figureData
+    const { id, caption, alt, src, label, credit, mediaType } = figureData
     const markdownify = this.eleventyConfig.getFilter('markdownify')
     const removeHTML = this.eleventyConfig.getFilter('removeHTML')
 
@@ -103,7 +103,7 @@ export default class SearchIndex {
       meta: {
         title: label,
         pageTitle: title,
-        image: thumbnail || this.assetSrc(src) || '',
+        image: this.assetSrc(src) || '',
         image_alt: alt || '',
         credit,
         type: mediaType
