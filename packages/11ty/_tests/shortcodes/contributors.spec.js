@@ -128,7 +128,7 @@ test.serial('contributors from page data behave properly on content=pageContribu
   const environment = new Eleventy('.', '_site', {
     config: stubGlobalData(data, (eleventyConfig) => {
       eleventyConfig.addTemplate('publication-contributors.md', '# A Page\n{% contributors context=publicationContributors format="bio" %}', { abstract: '', contributor: [{ first_name: 'Contributor', last_name: 'One' }], title: 'A Page', layout: 'base.11ty.js', outputs: ['html'] })
-      eleventyConfig.addTemplate('page-contributors.md', '# B Page\n{% contributors context=pageContributors format="bio" %}', { abstract: '', contributor: [{ first_name: 'Contributor', last_name: 'Two' }], title: 'B Page', layout: 'base.11ty.js', outputs: ['html'] })
+      eleventyConfig.addTemplate('page-contributors.md', '# B Page\n{% contributors context=pageContributors format="bio" %}', { abstract: '', contributor: [{ first_name: 'Contributor', last_name: 'Two' }, { first_name: 'Contributor', last_name: 'Three' }], title: 'B Page', layout: 'base.11ty.js', outputs: ['html'] })
       eleventyConfig.addTemplate('page-without-contributor.md', '# No Contributor Page\n{% contributors context=pageContributors format="bio" %}', { abstract: '', title: 'B Page', layout: 'base.11ty.js', outputs: ['html'] })
     })
   })
