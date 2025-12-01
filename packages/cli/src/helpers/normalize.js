@@ -12,6 +12,6 @@ import { projectRoot  } from '#lib/11ty/index.js'
  * @param {String} src 
  * @returns {String}
  */
-export default function normalizeImagePath(src) {
+export function normalizeImagePath(src) {
   return path.join(projectRoot, 'content', '_assets', 'images', src)
 }

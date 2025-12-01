@@ -1,7 +1,7 @@
-import { exists } from '../helpers/exists.js'
+import { exists } from '../../helpers/exists.js'
 import { fileURLToPath } from 'url'
 import fs from 'fs'
-import normalizeImagePath from '../helpers/normalize.js'
+import { normalizeImagePath } from '../../helpers/normalize.js'
 import path from 'path'
 
 const schemaCache = new Map()
