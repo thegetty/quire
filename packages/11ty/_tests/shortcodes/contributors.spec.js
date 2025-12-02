@@ -129,7 +129,8 @@ test.serial('contributors from page data behave properly on content=pageContribu
   // - A page with no contributor
   // - Page contributors by Contributor One, Contributor Three
 
-  // NB: Including a page without a contributor element to track https://github.com/thegetty/quire/issues/853#issuecomment-3534338465
+  // NB: Page without a contributor element to tracks https://github.com/thegetty/quire/issues/853#issuecomment-3534338465
+  // Page with multiple contributors tracks https://github.com/thegetty/quire/issues/853#issuecomment-3577118911
   const environment = new Eleventy('.', '_site', {
     config: stubGlobalData(data, (eleventyConfig) => {
       eleventyConfig.addTemplate('publication-contributors.md', '# A Page\n{% contributors context=publicationContributors format="bio" %}', { abstract: '', contributor: [{ first_name: 'Contributor', last_name: 'One' }], title: 'A Page', layout: 'base.11ty.js', order: 0, outputs: ['html'] })
