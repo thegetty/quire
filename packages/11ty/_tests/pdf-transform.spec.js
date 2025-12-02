@@ -39,7 +39,7 @@ test.before('Stub the eleventy environment', async (t) => {
   t.context.eleventy = eleventy
 })
 
-test('PDF transform should only relativize ', async (t) => {
+test('PDF transform should only relativize internal URLs', async (t) => {
   const { eleventy } = t.context
 
   // Set up some test link and data attributes with the expected output
@@ -99,4 +99,33 @@ test('PDF transform should only relativize ', async (t) => {
   })
 
   t.pass()
+})
+
+test('PDF transform should emit `section` tags for accordions', async (t) => {
+  // Initialize the environment
+  const { eleventy } = t.context
+  await eleventy.toJSON()
+
+  // Render the accordion and pass results to the transform
+  // NB: `main` emulates base.11ty.js layout -- should be programmatic instead?
+  const accordionContent = `<main data-output-path>{% accordion '## Test' %}
+  Test Accordion.
+  {% endaccordion %}</main>`
+  const accordionHtml = await eleventy.eleventyConfig.config.javascriptFunctions.renderTemplate(accordionContent, 'liquid,md', {})
+
+  // Mock the collections object object so this content gets processed
+  const collections = { pdf: [{ path: 'test.md', outputPath: 'test.html', data: { title: 'Test Page' } }] }
+
+  // Run the transform on the accordion content with the mocked configuration and collections
+  transform.call({ outputPath: 'test.html' }, eleventy.writer.userConfig, collections, accordionHtml)
+
+  // Parse the output stored by the transform
+  const rendered = collections.pdf.at(0).sectionElement
+  const page = JSDOM.fragment(rendered)
+
+  const sectionBodyPara = page.querySelector('section.accordion-section .accordion-section__body p')
+  const heading = page.querySelector('section.accordion-section h2')
+
+  t.is(sectionBodyPara?.innerHTML, 'Test Accordion.')
+  t.is(heading?.innerHTML, 'Test')
 })
