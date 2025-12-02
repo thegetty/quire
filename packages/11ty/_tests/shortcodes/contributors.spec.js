@@ -123,13 +123,19 @@ test.serial('contributors from page data behave properly on content=pageContribu
   // Create a publication without configured contributors
   const data = structuredClone(minimalBuildingData)
 
-  // Create an environment and add test templates
+  // Create an environment and add test templates:
+  // - Publication contributors by Contributor One
+  // - Page contributors by Contributor Two
+  // - A page with no contributor
+  // - Page contributors by Contributor One, Contributor Three
+
   // NB: Including a page without a contributor element to track https://github.com/thegetty/quire/issues/853#issuecomment-3534338465
   const environment = new Eleventy('.', '_site', {
     config: stubGlobalData(data, (eleventyConfig) => {
-      eleventyConfig.addTemplate('publication-contributors.md', '# A Page\n{% contributors context=publicationContributors format="bio" %}', { abstract: '', contributor: [{ first_name: 'Contributor', last_name: 'One' }], title: 'A Page', layout: 'base.11ty.js', outputs: ['html'] })
-      eleventyConfig.addTemplate('page-contributors.md', '# B Page\n{% contributors context=pageContributors format="bio" %}', { abstract: '', contributor: [{ first_name: 'Contributor', last_name: 'Two' }, { first_name: 'Contributor', last_name: 'Three' }], title: 'B Page', layout: 'base.11ty.js', outputs: ['html'] })
-      eleventyConfig.addTemplate('page-without-contributor.md', '# No Contributor Page\n{% contributors context=pageContributors format="bio" %}', { abstract: '', title: 'B Page', layout: 'base.11ty.js', outputs: ['html'] })
+      eleventyConfig.addTemplate('publication-contributors.md', '# A Page\n{% contributors context=publicationContributors format="bio" %}', { abstract: '', contributor: [{ first_name: 'Contributor', last_name: 'One' }], title: 'A Page', layout: 'base.11ty.js', order: 0, outputs: ['html'] })
+      eleventyConfig.addTemplate('page-contributors.md', '# B Page\n{% contributors context=pageContributors format="bio" %}', { abstract: '', contributor: [{ first_name: 'Contributor', last_name: 'Two' }], title: 'B Page', layout: 'base.11ty.js', order: 1, outputs: ['html'] })
+      eleventyConfig.addTemplate('page-without-contributor.md', '# No Contributor Page\n{% contributors context=pageContributors format="bio" %}', { abstract: '', title: 'B Page', layout: 'base.11ty.js', order: 2, outputs: ['html'] })
+      eleventyConfig.addTemplate('page-with-multiple-contributors.md', '# Multiple Page Contributors\n{% contributors context=pageContributors format="bio" %}', { abstract: '', contributor: [{ first_name: 'Contributor', last_name: 'One' }, { first_name: 'Contributor', last_name: 'Three' }], title: 'Multiple contributors page', layout: 'base.11ty.js', order: 3, outputs: ['html'] })
     })
   })
 
@@ -154,14 +160,16 @@ test.serial('contributors from page data behave properly on content=pageContribu
     const contributorNameSpan = contributor.querySelector('.quire-contributor__name')
     const contributorPageLink = Array.from(contributor.querySelectorAll('.quire-contributor__page-link'))
 
-    // Each contributor should only have one page
-    t.is(contributorPageLink.length, 1)
-
-    // And the page should be the one assigned
+    // And the page should be the one(s) assigned
     if (contributorNameSpan.textContent === 'Contributor One') {
       t.is(contributorPageLink.at(0).href, '/publication-contributors/')
+      t.is(contributorPageLink.length, 2)
     } else if (contributorNameSpan.textContent === 'Contributor Two') {
       t.is(contributorPageLink.at(0).href, '/page-contributors/')
+      t.is(contributorPageLink.length, 1)
+    } else if (contributorNameSpan.textContent === 'Contributor Three') {
+      t.is(contributorPageLink.at(0).href, '/page-with-multiple-contributors/')
+      t.is(contributorPageLink.length, 1)
     } else {
       t.fail()
     }
