@@ -7,9 +7,9 @@ import path from 'path'
 const schemaCache = new Map()
 
 export function getSchemaForDocument(file) {
-  const baseName = path.basename(file, path.extname(file))
+  const schemaName = path.basename(file, path.extname(file))
   const __dirname = path.dirname(fileURLToPath(import.meta.url))
-  const schemaPath = path.join(__dirname, 'schemas', `${baseName}.schema.json`)
+  const schemaPath = path.join(__dirname, '..', 'schemas', `${schemaName}.schema.json`)
 
   // Prevent from loading schema multiple times when checking for multiple files
   if (!schemaCache.has(schemaPath)) {
@@ -19,6 +19,7 @@ export function getSchemaForDocument(file) {
   return schemaCache.get(schemaPath)
 }
 
+// TODO check all image paths in respective documents
 export function checkIfImagesExist(doc) {
   let errors = []
   const promoImagePath = normalizeImagePath(doc['promo_image'])

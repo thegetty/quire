@@ -46,13 +46,18 @@ export default class ValidateCommand extends Command {
       try {
         yamlValidation(file)
       } catch (error){
+        console.log('file: ', file)
+        console.log('error: ', error)
         errorList.push(new YamlValidationError(file, error))
       }
     }
 
     if(errorList.length > 0) {
       console.error(`Found ${errorList.length} validation errors:`)
+      // TODO improve error output and formatting
       errorList.forEach(err => { console.error(err.message) })
+    } else {
+      console.log('All files validated successfully.')
     }
   }
 

@@ -1,0 +1,72 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Figures YAML Schema",
+  "type": "object",
+  "properties": {
+    "figure_list": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id"],
+        "properties": {
+          "id": { "type": "string" },
+
+          "label": { "type": "string" },
+
+          "src": { "type": "string" },
+
+          "caption": { "type": "string" },
+
+          "credit": { "type": ["string", "null"] },
+
+          "alt": { "type": ["string", "null"] },
+
+          "poster": { "type": "string" },
+
+          "download": { "type": "boolean" },
+
+          "zoom": { "type": "boolean" },
+
+          "media_id": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "number" }
+            ]
+          },
+
+          "media_type": {
+            "type": "string",
+            "enum": ["youtube", "soundcloud", "table"]
+          },
+
+          "annotations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["input", "items"],
+              "properties": {
+                "input": {
+                  "type": "string",
+                  "enum": ["radio", "checkbox"]
+                },
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "src": { "type": "string" },
+                      "label": { "type": "string" },
+                      "selected": { "type": "boolean" }
+                    },
+                    "required": ["src"]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["figure_list"]
+}
