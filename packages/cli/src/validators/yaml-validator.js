@@ -1,6 +1,6 @@
 import Ajv from 'ajv'
 import addFormats from 'ajv-formats'
-import { checkIfImagesExist ,getSchemaForDocument } from './helpers/yaml-validators.js'
+import { validateImagePaths ,getSchemaForDocument } from './helpers/yaml-validators.js'
 import YamlValidationError from '../errors/yaml-validation-error.js'
 import fs from 'fs'
 import yaml from 'js-yaml'
@@ -23,5 +23,5 @@ export default function yamlValidation(file) {
   // Check project specific rules
   // Handle lint errors
   // This might be breaking where you check the path before checking if valid
-  // checkIfImagesExist(doc)
+  validateImagePaths(doc)
 }

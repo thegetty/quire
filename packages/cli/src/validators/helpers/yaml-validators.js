@@ -5,6 +5,9 @@ import { normalizeImagePath } from '../../helpers/normalize.js'
 import path from 'path'
 
 const schemaCache = new Map()
+const allowedImageExtensions = new Set([
+  '.jpg', '.jpeg', '.png', '.gif', '.svg', '.webp', '.tiff'
+])
 
 export function getSchemaForDocument(file) {
   const schemaName = path.basename(file, path.extname(file))
@@ -19,19 +22,34 @@ export function getSchemaForDocument(file) {
   return schemaCache.get(schemaPath)
 }
 
-// TODO check all image paths in respective documents
-export function checkIfImagesExist(doc) {
-  let errors = []
-  const promoImagePath = normalizeImagePath(doc['promo_image'])
-  if(!exists(promoImagePath)) {
-    errors.push(`Promo image does not exist at path: ${promoImagePath}`)
-  }
+// TODO check media type before source
+// Check deeply nested image paths
+function validateImage(label, src) {
+  if(!src) return
 
-  // TODO Check all contributor images
-  const contributorImagePath = normalizeImagePath(doc.contributor[0].image)
-  if(!exists(contributorImagePath)) {
-    errors.push(`Contributor image does not exist at path: ${contributorImagePath}`)
+  if(!allowedImageExtensions.has(path.extname(src).toLowerCase())) {
+    throw new Error(`${label} has an invalid file extension: ${src}`)
   }
   
-  return errors
+  const imagePath = normalizeImagePath(src)
+  if(!exists(imagePath)) {
+    throw new Error(`${label} does not exist at path: ${imagePath}`)
+  }
+}
+
+export function validateImagePaths(doc) {
+  validateImage('Cover image', doc?.epub?.defaultCoverImage)
+  validateImage('Promo image', doc?.promo_image)
+
+  for (const figure of doc?.figure_list || []) {
+    validateImage('Figure', figure?.src)
+  }
+
+  for (const publisher of doc?.publisher || []) {
+    validateImage('Logo', publisher?.logo)
+  }
+
+  for (const contributor of doc?.contributor || []) {
+    validateImage('Contributor', contributor?.image)
+  }
 }
