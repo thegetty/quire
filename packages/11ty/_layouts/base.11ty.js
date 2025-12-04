@@ -13,6 +13,8 @@ export default async function (data) {
   const id = this.slugify(url) || path.parse(inputPath).name
   const pageId = `page-${id}`
   const figures = pageData.page.figures
+  const shouldIndex = pageData.page.search !== false
+  const search = shouldIndex ? 'data-pagefind-body' : ''
 
   return html`
     <!doctype html>
@@ -33,7 +35,7 @@ export default async function (data) {
           </div>
           <div class="quire__primary">
             ${this.navigation(data)}
-            <main class="quire-page ${classes}" data-output-path="${outputPath}" data-page-id="${pageId}" >
+            <main class="quire-page ${classes}" data-output-path="${outputPath}" data-page-id="${pageId}" ${search}>
               ${content}
             </main>
           </div>
