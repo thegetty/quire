@@ -1,10 +1,11 @@
 import Command from '#src/Command.js'
-import YamlValidationError from '../errors/yaml-validation-error.js'
+import { YAMLException } from 'js-yaml'
+import { YamlValidationError } from '../errors/yaml-validation-error.js'
 import fs from 'fs-extra'
 import path from 'node:path'
 import { projectRoot  } from '#lib/11ty/index.js'
 import testcwd from '../helpers/test-cwd.js'
-import yamlValidation from '../validators/yaml-validator.js'
+import yamlValidation from '../validators/validate-yaml.js'
 
 
 /**
@@ -42,20 +43,19 @@ export default class ValidateCommand extends Command {
       )
 
     let errorList = []
+    console.log('Validating YAML files..')
     for (const file of files) {
       try {
         yamlValidation(file)
       } catch (error){
-        console.log('file: ', file)
-        console.log('error: ', error)
-        errorList.push(new YamlValidationError(file, error))
+        const err = error instanceof YAMLException ? new YamlValidationError(file, `${error.message} in ${file}`) : error
+        errorList.push(err)
       }
     }
 
     if(errorList.length > 0) {
       console.error(`Found ${errorList.length} validation errors:`)
-      // TODO improve error output and formatting
-      errorList.forEach(err => { console.error(err.message) })
+      errorList.forEach(err => { console.error(`${err.reason}`) })
     } else {
       console.log('All files validated successfully.')
     }
