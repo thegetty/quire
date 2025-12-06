@@ -14,8 +14,13 @@ export default function yamlValidation(file) {
   const schema = getSchemaForDocument(file)
   const validate = ajv.compile(schema)
   const valid = validate(doc)
+
   if(!valid) {
-    throw new YamlValidationError(file, `${validate.errors} in ${file}`)
+    let err = ''
+    for (const error of validate.errors) {
+      err += `\n- ${error.instancePath} ${error.message}`
+    }
+    throw new YamlValidationError(file, `${err} in ${file}`)
   }
 
   validateImagePaths(doc)

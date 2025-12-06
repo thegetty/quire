@@ -46,12 +46,12 @@ function validateImage(label, src) {
   if(path.extname(src).toLowerCase() === '.html') return 
 
   if(!allowedImageExtensions.has(path.extname(src).toLowerCase())) {
-    throw new YamlParseError(src, `${label} has an invalid file extension: ${src}`)
+    throw new YamlParseError(src, `\n- ${label} has an invalid file extension: ${src}`)
   }
 
   const imagePath = normalizeImagePath(src)
   if(!exists(imagePath)) {
-    throw new YamlParseError(imagePath, `${label} does not exist at path: ${imagePath}`)
+    throw new YamlParseError(imagePath, `\n- ${label} does not exist at path: ${imagePath}`)
   }
 }
 
@@ -77,6 +77,7 @@ export function validateImagePaths(doc) {
 }
 
 /**
+ * Lifted from packages/11ty/_plugins/globalData
  * Throws an error if data contains duplicate ids
  * @param  {Object|Array} data
  */
@@ -90,7 +91,7 @@ export const checkForDuplicateIds = function (data, file) {
       })
       if (duplicates.length) {
         const ids = duplicates.map(({ id }) => id)
-        throw new YamlDuplicateIdError(file, `Duplicate IDs found: ${ids.join(', ')} in ${file}`)
+        throw new YamlDuplicateIdError(file, `\n- Duplicate IDs found: ${ids.join(', ')} in ${file}`)
       }
     }
   }
