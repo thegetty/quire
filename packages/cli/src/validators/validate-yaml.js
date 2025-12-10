@@ -17,12 +17,9 @@ export default function yamlValidation(file) {
     throw new YamlValidationError(file, `${message}`)
   }
 
-
   const schema = getSchemaForDocument(file)
-  if(!schema){
-    console.warn(`No schema found for file ${file}`)
-    return 
-  } 
+  if(!schema){ return } 
+
   const ajv = new Ajv({allErrors:true})
   addFormats(ajv)
   const validate = ajv.compile(schema)
