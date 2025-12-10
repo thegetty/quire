@@ -5,5 +5,9 @@ export default class ValidationError extends Error {
     this.filePath = filePath
     this.reason = reason
     this.code = code
+
+    if ('captureStackTrace' in Error) {
+      Error.captureStackTrace(this, this.constructor)
+    }
   }
 }

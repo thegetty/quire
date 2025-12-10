@@ -1,27 +1,22 @@
-import { YamlDuplicateIdError, YamlParseError } from '#root/src/errors/yaml-validation-error.js'
-import { exists } from '../helpers/exists.js'
+import YamlDuplicateIdError from '../errors/validation/yaml-duplicate-error.js'
 import { fileURLToPath } from 'url'
-import fs from 'fs'
-import { normalizeImagePath } from '../helpers/normalize.js'
+import fs from 'node:fs'
 import path from 'path'
+import { projectRoot  } from '#lib/11ty/index.js'
 
-const schemaCache = new Map()
-const allowedImageExtensions = new Set([
-  '.jpg', '.jpeg', '.png', '.gif', '.svg', '.webp', '.tiff'
-])
 const IMAGE_KEYS = new Set(['src', 'image', 'logo'])
 
 export function getSchemaForDocument(file) {
   const schemaName = path.basename(file, path.extname(file))
   const __dirname = path.dirname(fileURLToPath(import.meta.url))
-  const schemaPath = path.join(__dirname, 'schemas', `${schemaName}.schema.json`)
+  const schemaPath = path.join(__dirname,'..','..','schemas', `${schemaName}.schema.json`)
 
-  // Prevent from loading schema multiple times when checking for multiple files
-  if (!schemaCache.has(schemaPath)) {
-    schemaCache.set(schemaPath, JSON.parse(fs.readFileSync(schemaPath, 'utf8')))
+  try {
+    return JSON.parse(fs.readFileSync(schemaPath, 'utf8'))
+  } catch (error) {
+    console.warn(`Warning: No schema found for document ${schemaName} at path: ${schemaPath}.`)
+    return null
   }
-
-  return schemaCache.get(schemaPath)
 }
 
 // Recursive helper to check image paths in nested figure list structures
@@ -42,16 +37,15 @@ function collectImagePaths(node, paths=[]) {
 function validateImage(label, src) {
   if(!src) return
 
-  // Likely table and can skip
-  if(path.extname(src).toLowerCase() === '.html') return 
-
-  if(!allowedImageExtensions.has(path.extname(src).toLowerCase())) {
-    throw new YamlParseError(src, `\n- ${label} has an invalid file extension: ${src}`)
+  let assetPath = ''
+  if(src.endsWith('.html')) {
+    assetPath = path.join(projectRoot, 'content', '_assets', src)
+  } else {
+    assetPath = path.join(projectRoot, 'content', '_assets', 'images', src)
   }
 
-  const imagePath = normalizeImagePath(src)
-  if(!exists(imagePath)) {
-    throw new YamlParseError(imagePath, `\n- ${label} does not exist at path: ${imagePath}`)
+  if(!fs.existsSync(assetPath)) {
+    console.warn(`Warning: ${label} source not found at path: ${assetPath}`)
   }
 }
 
@@ -63,7 +57,7 @@ export function validateImagePaths(doc) {
     let paths = []
     const imagePaths = collectImagePaths(figure, paths)
     for (const imgPath of imagePaths) {
-      validateImage(`Figure id: ${figure.id}`, imgPath)
+      validateImage(`Figure id ${figure.id}`, imgPath)
     }
   }
 
@@ -91,7 +85,7 @@ export const checkForDuplicateIds = function (data, file) {
       })
       if (duplicates.length) {
         const ids = duplicates.map(({ id }) => id)
-        throw new YamlDuplicateIdError(file, `\n- Duplicate IDs found: ${ids.join(', ')} in ${file}`)
+        throw new YamlDuplicateIdError(file, `Error in ${file}: Duplicate IDs found: ${ids.join(', ')}`)
       }
     }
   }

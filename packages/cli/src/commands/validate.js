@@ -1,6 +1,6 @@
 import Command from '#src/Command.js'
 import { YAMLException } from 'js-yaml'
-import { YamlValidationError } from '../errors/yaml-validation-error.js'
+import YamlValidationError from '../errors/validation/yaml-validation-error.js'
 import fs from 'fs-extra'
 import path from 'node:path'
 import { projectRoot  } from '#lib/11ty/index.js'
@@ -10,9 +10,7 @@ import yamlValidation from '../validators/validate-yaml.js'
 
 /**
  * Quire CLI `validate` Command
- * 
- * Validates user configuration files such as TODO.
- * 
+ *  
  * @class     ValidateCommand
  * @extends   {Command}
  */
@@ -44,20 +42,19 @@ export default class ValidateCommand extends Command {
 
     let errorList = []
     console.log('Validating YAML files..')
+
     for (const file of files) {
       try {
         yamlValidation(file)
       } catch (error){
-        const err = error instanceof YAMLException ? new YamlValidationError(file, `${error.message} in ${file}`) : error
-        errorList.push(err)
+        errorList.push(error)
       }
     }
 
     if(errorList.length > 0) {
-      console.error(`Found ${errorList.length} validation errors:`)
       errorList.forEach(err => { console.error(`${err.reason}`) })
     } else {
-      console.log('All files validated successfully.')
+      console.log('Validation complete.')
     }
   }
 
