@@ -41,7 +41,7 @@ const isContributorPage = (page, contributor, except) => {
       return false
 
     case id === undefined:
-      return page.data.contributor.some((contrib) => first_name === contrib.first_name && last_name === contrib.last_name)
+      return page.data.contributor?.some((contrib) => first_name === contrib.first_name && last_name === contrib.last_name)
 
     default:
       return page.data.contributor?.some((contrib) => contrib.id === id)
@@ -225,12 +225,18 @@ export default {
     let contributors = publication.contributor.filter(Boolean)
     const inPubData = (contrib) => !!contributors.find((c) => c.id === contrib.id || (!contrib.id && contrib.first_name === c.first_name && contrib.last_name === c.last_name))
 
-    // Add any contributors that are only present in page headmatter
-    const headmatterOnly = collections.allSorted.flatMap((page) => {
+    // Add unique'd contributors that are present in page headmatter only
+    const headmatterOnly = new Map()
+    collections.allSorted.flatMap((page) => {
       return (page.data.contributor ?? []).filter((c) => !inPubData(c))
+    }).forEach((contributor) => {
+      const { id, first_name, last_name } = contributor
+      const key = id ?? `${first_name} ${last_name}`
+
+      headmatterOnly.set(key, contributor)
     })
 
-    contributors = contributors.concat(headmatterOnly)
+    contributors = contributors.concat(Array.from(headmatterOnly.values()))
       .map((c) => addPages(c, collections))
 
     return contributors
