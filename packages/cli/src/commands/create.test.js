@@ -1,7 +1,8 @@
+import esmock from 'esmock'
+import path from 'node:path'
+import sinon from 'sinon'
 import test from 'ava'
 import { Volume, createFsFromVolume } from 'memfs'
-import sinon from 'sinon'
-import esmock from 'esmock'
 
 test.beforeEach((t) => {
   // Create sinon sandbox for mocking
@@ -291,4 +292,45 @@ test('create command should pass quire-path option to methods', async (t) => {
 
   t.true(initCall.args[2] === options, 'initStarter should receive options with quire-path')
   t.true(installCall.args[2] === options, 'installInProject should receive options with quire-path')
+})
+
+test('create command should remove temp dir and package artifacts', async (t) => {
+  const { sandbox, fs, projectRoot, vol } = t.context
+
+  // Setup project directory
+  fs.mkdirSync(projectRoot)
+
+  // Mock fs (adding copySync) and git (with mocked chainable stubs)
+  // NB: Passing `vol` here as fs because memfs only provides the cpSync there 
+  const { quire } = await esmock('../lib/quire/index.js', {
+    'fs-extra': vol,
+    '#lib/git/index.js': {
+      add: () => {
+        return {
+          commit: sandbox.stub()
+        }
+      },
+      cwd: () => {
+        return {
+          rm: () => {
+            return {
+              catch: sandbox.stub()
+            }
+          }
+        }
+      }
+    },
+    'execa': {
+      // Mock `npm pack` behvaior of creating a file in .temp
+      execaCommand: sandbox.stub().withArgs(/npm pack/).callsFake(() => {
+        fs.writeFileSync(path.join(projectRoot, '.temp', 'thegetty-quire-11ty-1.0.0.tgz'), '')
+      })
+    }
+  })
+
+  await quire.installInProject(projectRoot, '1.0.0')
+
+  // Check that neither the temp dir nor the tarball exist
+  t.false(fs.existsSync(path.join(projectRoot, '.temp')))
+  t.false(fs.existsSync(path.join(projectRoot, 'thegetty-quire-11ty-1.0.0.tgz')))
 })
