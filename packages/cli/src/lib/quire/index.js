@@ -184,7 +184,10 @@ async function installInProject(projectPath, quireVersion, options = {}) {
     await execaCommand(`npm pack ${ options.debug ? '--debug' : '--quiet' } ${quire11tyPackage}`)
 
     // Extract only the package dir from the tar bar and strip it from the extracted path
-    await execaCommand(`tar -xzf thegetty-quire-11ty-${quireVersion}.tgz -C ${tempDir} --strip-components=1 package/`)
+    const tarballPath = `thegetty-quire-11ty-${quireVersion}.tgz`
+    await execaCommand(`tar -xzf ${tarballPath} -C ${tempDir} --strip-components=1 package/`)
+
+    fs.removeSync(tarballPath)
   }
 
   // Copy `.temp` to projectPath
