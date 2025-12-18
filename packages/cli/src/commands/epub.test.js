@@ -187,6 +187,9 @@ test('epub command should pass debug option to library', async (t) => {
     '#lib/logger/index.js': {
       logger: mockLogger
     },
+    '#src/lib/logger.js': {
+      default: mockLogger
+    },
     'fs-extra': fs,
     open: {
       default: sandbox.stub()
@@ -231,6 +234,9 @@ test('epub command should handle missing build output gracefully', async (t) => 
     },
     '#lib/logger/index.js': {
       logger: mockLogger
+    },
+    '#src/lib/logger.js': {
+      default: mockLogger
     },
     'fs-extra': fs,
     open: {
