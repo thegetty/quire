@@ -10,6 +10,7 @@ test('pdf command should be instantiated with correct definition', (t) => {
   t.truthy(command.description)
   t.truthy(command.summary)
   t.truthy(semver.valid(command.version), `command must have a semantic version, got: ${command.version}`)
-  t.truthy(command.args)
+  // Note bene: args may be omitted from some command definitions
+  t.true(command.args === undefined)
   t.truthy(command.options)
 })
