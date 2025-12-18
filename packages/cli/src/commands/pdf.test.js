@@ -25,8 +25,15 @@ pdf:
   t.context.projectRoot = '/project'
 
   // Stub console methods to suppress output during tests
-  t.context.consoleDebugStub = t.context.sandbox.stub(console, 'debug')
-  t.context.consoleErrorStub = t.context.sandbox.stub(console, 'error')
+  // Create mock logger (no global console stubbing needed!)
+  t.context.mockLogger = {
+    info: t.context.sandbox.stub(),
+    error: t.context.sandbox.stub(),
+    debug: t.context.sandbox.stub(),
+    log: t.context.sandbox.stub(),
+    warn: t.context.sandbox.stub()
+  }
+  // mockLogger already created above
 })
 
 test.afterEach.always((t) => {
@@ -37,8 +44,8 @@ test.afterEach.always((t) => {
   t.context.vol.reset()
 })
 
-test.serial('pdf command should generate PDF using pagedjs library', async (t) => {
-  const { sandbox, fs } = t.context
+test('pdf command should generate PDF using pagedjs library', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
 
   // Mock the pdf library module
   const mockPdfGenerator = sandbox.stub().callsFake(async (input, covers, output) => {
@@ -87,8 +94,8 @@ test.serial('pdf command should generate PDF using pagedjs library', async (t) =
   t.true(mockPdfGenerator.called, 'PDF generator should be called')
 })
 
-test.serial('pdf command should generate PDF using prince library', async (t) => {
-  const { sandbox, fs } = t.context
+test('pdf command should generate PDF using prince library', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
 
   // Mock the pdf library module
   const mockPdfGenerator = sandbox.stub().callsFake(async (input, covers, output) => {
@@ -137,8 +144,8 @@ test.serial('pdf command should generate PDF using prince library', async (t) =>
   t.true(mockPdfGenerator.called, 'PDF generator should be called')
 })
 
-test.serial('pdf command should open PDF when --open flag is provided', async (t) => {
-  const { sandbox, fs } = t.context
+test('pdf command should open PDF when --open flag is provided', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
 
   // Mock the pdf library module
   const mockPdfGenerator = sandbox.stub().callsFake(async (input, covers, output) => {
@@ -188,8 +195,8 @@ test.serial('pdf command should open PDF when --open flag is provided', async (t
   t.true(mockOpen.called, 'open should be called when --open flag is provided')
 })
 
-test.serial('pdf command should pass PDF configuration to library', async (t) => {
-  const { sandbox, fs } = t.context
+test('pdf command should pass PDF configuration to library', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
 
   const pdfConfig = {
     filename: 'custom-book',
@@ -239,7 +246,7 @@ test.serial('pdf command should pass PDF configuration to library', async (t) =>
   t.true(libPdfCall.args[1].pdfConfig === pdfConfig || libPdfCall.args[1].pdfConfig !== undefined, 'PDF config should be passed to library')
 })
 
-test.serial('pdf command should handle missing build output gracefully', async (t) => {
+test('pdf command should handle missing build output gracefully', async (t) => {
   const { sandbox, fs, vol } = t.context
 
   // Remove the built PDF file

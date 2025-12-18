@@ -21,9 +21,16 @@ test.beforeEach((t) => {
   t.context.projectRoot = '/project'
 
   // Stub console methods to suppress output during tests
-  t.context.consoleDebugStub = t.context.sandbox.stub(console, 'debug')
-  t.context.consoleLogStub = t.context.sandbox.stub(console, 'log')
-  t.context.consoleErrorStub = t.context.sandbox.stub(console, 'error')
+  // Create mock logger (no global console stubbing needed!)
+  t.context.mockLogger = {
+    info: t.context.sandbox.stub(),
+    error: t.context.sandbox.stub(),
+    debug: t.context.sandbox.stub(),
+    log: t.context.sandbox.stub(),
+    warn: t.context.sandbox.stub()
+  }
+  // mockLogger already created above
+  // mockLogger already created above
 })
 
 test.afterEach.always((t) => {
@@ -34,8 +41,8 @@ test.afterEach.always((t) => {
   t.context.vol.reset()
 })
 
-test.serial('validate command should find and validate YAML files', async (t) => {
-  const { sandbox, fs } = t.context
+test('validate command should find and validate YAML files', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
 
   // Mock yamlValidation function
   const mockYamlValidation = sandbox.stub()
@@ -54,6 +61,9 @@ test.serial('validate command should find and validate YAML files', async (t) =>
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
+    '#src/lib/logger.js': {
+      default: mockLogger
+    },
     'fs-extra': fs
   })
 
@@ -67,8 +77,8 @@ test.serial('validate command should find and validate YAML files', async (t) =>
   t.true(mockYamlValidation.callCount >= 2, 'should validate multiple YAML files')
 })
 
-test.serial('validate command should handle validation errors', async (t) => {
-  const { sandbox, fs } = t.context
+test('validate command should handle validation errors', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
 
   // Mock yamlValidation function to throw error
   const validationError = new Error('Invalid YAML')
@@ -89,6 +99,9 @@ test.serial('validate command should handle validation errors', async (t) => {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
+    '#src/lib/logger.js': {
+      default: mockLogger
+    },
     'fs-extra': fs
   })
 
@@ -102,8 +115,8 @@ test.serial('validate command should handle validation errors', async (t) => {
   t.true(mockYamlValidation.called, 'validation should be attempted')
 })
 
-test.serial('validate command should call testcwd in preAction', async (t) => {
-  const { sandbox, fs } = t.context
+test('validate command should call testcwd in preAction', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
 
   // Mock yamlValidation function
   const mockYamlValidation = sandbox.stub()
@@ -122,6 +135,9 @@ test.serial('validate command should call testcwd in preAction', async (t) => {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
+    '#src/lib/logger.js': {
+      default: mockLogger
+    },
     'fs-extra': fs
   })
 
@@ -134,8 +150,8 @@ test.serial('validate command should call testcwd in preAction', async (t) => {
   t.true(mockTestcwd.called, 'testcwd should be called in preAction')
 })
 
-test.serial('validate command should filter YAML files correctly', async (t) => {
-  const { sandbox, fs, vol } = t.context
+test('validate command should filter YAML files correctly', async (t) => {
+  const { sandbox, fs, vol, mockLogger } = t.context
 
   // Add non-YAML files
   vol.fromJSON({
@@ -161,6 +177,9 @@ test.serial('validate command should filter YAML files correctly', async (t) => 
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
+    '#src/lib/logger.js': {
+      default: mockLogger
+    },
     'fs-extra': fs
   })
 
@@ -174,8 +193,8 @@ test.serial('validate command should filter YAML files correctly', async (t) => 
   t.is(mockYamlValidation.callCount, 2, 'should only validate YAML files')
 })
 
-test.serial('validate command should pass debug option through', async (t) => {
-  const { sandbox, fs } = t.context
+test('validate command should pass debug option through', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
 
   // Mock yamlValidation function
   const mockYamlValidation = sandbox.stub()
@@ -193,6 +212,9 @@ test.serial('validate command should pass debug option through', async (t) => {
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd
+    },
+    '#src/lib/logger.js': {
+      default: mockLogger
     },
     'fs-extra': fs
   })

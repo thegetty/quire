@@ -20,8 +20,14 @@ test.beforeEach((t) => {
 
   t.context.projectRoot = '/project'
 
-  // Stub console methods to suppress output during tests
-  t.context.consoleDebugStub = t.context.sandbox.stub(console, 'debug')
+  // Create mock logger (no global console stubbing needed!)
+  t.context.mockLogger = {
+    info: t.context.sandbox.stub(),
+    error: t.context.sandbox.stub(),
+    debug: t.context.sandbox.stub(),
+    log: t.context.sandbox.stub(),
+    warn: t.context.sandbox.stub()
+  }
 })
 
 test.afterEach.always((t) => {
@@ -32,8 +38,8 @@ test.afterEach.always((t) => {
   t.context.vol.reset()
 })
 
-test.serial('build command should call eleventy CLI with default options', async (t) => {
-  const { sandbox, fs } = t.context
+test('build command should call eleventy CLI with default options', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
 
   // Mock eleventy CLI module
   const mockEleventyCli = {
@@ -64,6 +70,9 @@ test.serial('build command should call eleventy CLI with default options', async
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd
+    },
+    '#src/lib/logger.js': {
+      default: mockLogger
     },
     'fs-extra': fs
   })
@@ -84,8 +93,8 @@ test.serial('build command should call eleventy CLI with default options', async
   t.true(mockEleventyCli.build.called, 'eleventy CLI build should be called')
 })
 
-test.serial('build command should call eleventy API when 11ty option is "api"', async (t) => {
-  const { sandbox, fs } = t.context
+test('build command should call eleventy API when 11ty option is "api"', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
 
   // Mock eleventy CLI module
   const mockEleventyCli = {
@@ -117,6 +126,9 @@ test.serial('build command should call eleventy API when 11ty option is "api"', 
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
+    '#src/lib/logger.js': {
+      default: mockLogger
+    },
     'fs-extra': fs
   })
 
@@ -130,8 +142,8 @@ test.serial('build command should call eleventy API when 11ty option is "api"', 
   t.true(mockEleventyApi.build.called, 'eleventy API build should be called')
 })
 
-test.serial('build command should call clean with correct parameters in preAction', async (t) => {
-  const { sandbox, fs } = t.context
+test('build command should call clean with correct parameters in preAction', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
 
   // Mock eleventy modules
   const mockEleventyCli = {
@@ -162,6 +174,9 @@ test.serial('build command should call clean with correct parameters in preActio
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
+    '#src/lib/logger.js': {
+      default: mockLogger
+    },
     'fs-extra': fs
   })
 
@@ -177,8 +192,8 @@ test.serial('build command should call clean with correct parameters in preActio
   t.true(mockClean.calledWith('/project', { output: '_site' }, options), 'clean should be called with correct parameters')
 })
 
-test.serial('build command should pass options to eleventy build', async (t) => {
-  const { sandbox, fs } = t.context
+test('build command should pass options to eleventy build', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
 
   // Mock eleventy CLI module
   const mockEleventyCli = {
@@ -209,6 +224,9 @@ test.serial('build command should pass options to eleventy build', async (t) => 
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd
+    },
+    '#src/lib/logger.js': {
+      default: mockLogger
     },
     'fs-extra': fs
   })

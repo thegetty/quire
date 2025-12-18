@@ -1,4 +1,5 @@
 import Command from '#src/Command.js'
+import logger from '#src/lib/logger.js'
 import { api, cli, paths, projectRoot  } from '#lib/11ty/index.js'
 import { clean } from '#helpers/clean.js'
 import testcwd from '#helpers/test-cwd.js'
@@ -43,14 +44,14 @@ export default class BuildCommand extends Command {
 
   action(options, command) {
     if (options.debug) {
-      console.debug('[CLI] Command \'%s\' called with options %o', this.name(), options)
+      logger.debug('[CLI] Command \'%s\' called with options %o', this.name(), options)
     }
 
     if (options['11ty'] === 'cli') {
-      console.debug('[CLI] running eleventy using lib/11ty cli')
+      logger.debug('[CLI] running eleventy using lib/11ty cli')
       cli.build(options)
     } else {
-      console.debug('[CLI] running eleventy using lib/11ty api')
+      logger.debug('[CLI] running eleventy using lib/11ty api')
       api.build(options)
     }
   }
@@ -60,7 +61,7 @@ export default class BuildCommand extends Command {
 
     const options = command.opts()
     if (options.debug) {
-      console.debug('[CLI] Calling \'build\' command pre-action with options', options)
+      logger.debug('[CLI] Calling \'build\' command pre-action with options', options)
     }
     clean(projectRoot, paths, options)
   }
