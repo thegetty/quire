@@ -20,15 +20,8 @@ test.beforeEach((t) => {
   t.context.projectRoot = '/new-project'
 
   // Stub console methods to suppress output during tests
-  if (!console.info.restore) {
-    t.context.consoleInfoStub = t.context.sandbox.stub(console, 'info')
-    t.context.consoleErrorStub = t.context.sandbox.stub(console, 'error')
-  } else {
-    t.context.consoleInfoStub = console.info
-    t.context.consoleInfoStub.resetHistory()
-    t.context.consoleErrorStub = console.error
-    t.context.consoleErrorStub.resetHistory()
-  }
+  t.context.consoleInfoStub = t.context.sandbox.stub(console, 'info')
+  t.context.consoleErrorStub = t.context.sandbox.stub(console, 'error')
 })
 
 test.afterEach.always((t) => {
@@ -39,7 +32,7 @@ test.afterEach.always((t) => {
   t.context.vol.reset()
 })
 
-test('create command should initialize starter and install quire', async (t) => {
+test.serial('create command should initialize starter and install quire', async (t) => {
   const { sandbox, fs } = t.context
 
   // Mock quire library
@@ -79,7 +72,7 @@ test('create command should initialize starter and install quire', async (t) => 
   t.true(mockQuire.installInProject.calledWith('/new-project', '1.0.0'), 'installInProject should be called with project path and version')
 })
 
-test('create command should use default starter from config when not provided', async (t) => {
+test.serial('create command should use default starter from config when not provided', async (t) => {
   const { sandbox, fs } = t.context
 
   // Mock quire library
@@ -116,7 +109,7 @@ test('create command should use default starter from config when not provided', 
   t.true(mockQuire.initStarter.calledWith('https://github.com/thegetty/quire-starter-default', '/new-project'), 'initStarter should use default starter from config')
 })
 
-test('create command should pass quire-version option to installInProject', async (t) => {
+test.serial('create command should pass quire-version option to installInProject', async (t) => {
   const { sandbox, fs } = t.context
 
   // Mock quire library
@@ -156,7 +149,7 @@ test('create command should pass quire-version option to installInProject', asyn
   t.true(installCall.args[2] === options, 'installInProject should receive options object')
 })
 
-test('create command should handle initStarter errors gracefully', async (t) => {
+test.serial('create command should handle initStarter errors gracefully', async (t) => {
   const { sandbox, fs } = t.context
 
   const error = new Error('Failed to initialize starter template')
@@ -202,7 +195,7 @@ test('create command should handle initStarter errors gracefully', async (t) => 
   t.true(t.context.consoleErrorStub.calledWith(error.message), 'error message should be logged')
 })
 
-test('create command should pass debug option through', async (t) => {
+test.serial('create command should pass through debug option', async (t) => {
   const { sandbox, fs } = t.context
 
   // Mock quire library
@@ -222,9 +215,7 @@ test('create command should pass debug option through', async (t) => {
 
   // Use esmock to replace imports
   const CreateCommand = await esmock('./create.js', {
-    '#src/lib/quire/index.js': {
-      quire: mockQuire
-    },
+    '#src/lib/quire/index.js': { quire: mockQuire },
     'fs-extra': fs
   })
 
@@ -239,7 +230,7 @@ test('create command should pass debug option through', async (t) => {
   t.true(mockQuire.initStarter.called, 'initStarter should be called')
 })
 
-test('create command should pass quire-path option to methods', async (t) => {
+test.serial('create command should pass quire-path option to methods', async (t) => {
   const { sandbox, fs } = t.context
 
   // Mock quire library

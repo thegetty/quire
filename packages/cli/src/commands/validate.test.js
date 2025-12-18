@@ -21,18 +21,9 @@ test.beforeEach((t) => {
   t.context.projectRoot = '/project'
 
   // Stub console methods to suppress output during tests
-  if (!console.debug.restore) {
-    t.context.consoleDebugStub = t.context.sandbox.stub(console, 'debug')
-    t.context.consoleLogStub = t.context.sandbox.stub(console, 'log')
-    t.context.consoleErrorStub = t.context.sandbox.stub(console, 'error')
-  } else {
-    t.context.consoleDebugStub = console.debug
-    t.context.consoleDebugStub.resetHistory()
-    t.context.consoleLogStub = console.log
-    t.context.consoleLogStub.resetHistory()
-    t.context.consoleErrorStub = console.error
-    t.context.consoleErrorStub.resetHistory()
-  }
+  t.context.consoleDebugStub = t.context.sandbox.stub(console, 'debug')
+  t.context.consoleLogStub = t.context.sandbox.stub(console, 'log')
+  t.context.consoleErrorStub = t.context.sandbox.stub(console, 'error')
 })
 
 test.afterEach.always((t) => {
@@ -43,7 +34,7 @@ test.afterEach.always((t) => {
   t.context.vol.reset()
 })
 
-test('validate command should find and validate YAML files', async (t) => {
+test.serial('validate command should find and validate YAML files', async (t) => {
   const { sandbox, fs } = t.context
 
   // Mock yamlValidation function
@@ -76,7 +67,7 @@ test('validate command should find and validate YAML files', async (t) => {
   t.true(mockYamlValidation.callCount >= 2, 'should validate multiple YAML files')
 })
 
-test('validate command should handle validation errors', async (t) => {
+test.serial('validate command should handle validation errors', async (t) => {
   const { sandbox, fs } = t.context
 
   // Mock yamlValidation function to throw error
@@ -111,7 +102,7 @@ test('validate command should handle validation errors', async (t) => {
   t.true(mockYamlValidation.called, 'validation should be attempted')
 })
 
-test('validate command should call testcwd in preAction', async (t) => {
+test.serial('validate command should call testcwd in preAction', async (t) => {
   const { sandbox, fs } = t.context
 
   // Mock yamlValidation function
@@ -143,7 +134,7 @@ test('validate command should call testcwd in preAction', async (t) => {
   t.true(mockTestcwd.called, 'testcwd should be called in preAction')
 })
 
-test('validate command should filter YAML files correctly', async (t) => {
+test.serial('validate command should filter YAML files correctly', async (t) => {
   const { sandbox, fs, vol } = t.context
 
   // Add non-YAML files
@@ -183,7 +174,7 @@ test('validate command should filter YAML files correctly', async (t) => {
   t.is(mockYamlValidation.callCount, 2, 'should only validate YAML files')
 })
 
-test('validate command should pass debug option through', async (t) => {
+test.serial('validate command should pass debug option through', async (t) => {
   const { sandbox, fs } = t.context
 
   // Mock yamlValidation function

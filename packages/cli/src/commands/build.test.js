@@ -21,12 +21,7 @@ test.beforeEach((t) => {
   t.context.projectRoot = '/project'
 
   // Stub console methods to suppress output during tests
-  if (!console.debug.restore) {
-    t.context.consoleDebugStub = t.context.sandbox.stub(console, 'debug')
-  } else {
-    t.context.consoleDebugStub = console.debug
-    t.context.consoleDebugStub.resetHistory()
-  }
+  t.context.consoleDebugStub = t.context.sandbox.stub(console, 'debug')
 })
 
 test.afterEach.always((t) => {
@@ -37,7 +32,7 @@ test.afterEach.always((t) => {
   t.context.vol.reset()
 })
 
-test('build command should call eleventy CLI with default options', async (t) => {
+test.serial('build command should call eleventy CLI with default options', async (t) => {
   const { sandbox, fs } = t.context
 
   // Mock eleventy CLI module
@@ -89,7 +84,7 @@ test('build command should call eleventy CLI with default options', async (t) =>
   t.true(mockEleventyCli.build.called, 'eleventy CLI build should be called')
 })
 
-test('build command should call eleventy API when 11ty option is "api"', async (t) => {
+test.serial('build command should call eleventy API when 11ty option is "api"', async (t) => {
   const { sandbox, fs } = t.context
 
   // Mock eleventy CLI module
@@ -135,7 +130,7 @@ test('build command should call eleventy API when 11ty option is "api"', async (
   t.true(mockEleventyApi.build.called, 'eleventy API build should be called')
 })
 
-test('build command should call clean with correct parameters in preAction', async (t) => {
+test.serial('build command should call clean with correct parameters in preAction', async (t) => {
   const { sandbox, fs } = t.context
 
   // Mock eleventy modules
@@ -182,7 +177,7 @@ test('build command should call clean with correct parameters in preAction', asy
   t.true(mockClean.calledWith('/project', { output: '_site' }, options), 'clean should be called with correct parameters')
 })
 
-test('build command should pass options to eleventy build', async (t) => {
+test.serial('build command should pass options to eleventy build', async (t) => {
   const { sandbox, fs } = t.context
 
   // Mock eleventy CLI module

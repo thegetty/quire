@@ -21,12 +21,7 @@ test.beforeEach((t) => {
   t.context.projectRoot = '/project'
 
   // Stub console methods to suppress output during tests
-  if (!console.debug.restore) {
-    t.context.consoleDebugStub = t.context.sandbox.stub(console, 'debug')
-  } else {
-    t.context.consoleDebugStub = console.debug
-    t.context.consoleDebugStub.resetHistory()
-  }
+  t.context.consoleDebugStub = t.context.sandbox.stub(console, 'debug')
 })
 
 test.afterEach.always((t) => {
@@ -37,7 +32,7 @@ test.afterEach.always((t) => {
   t.context.vol.reset()
 })
 
-test('preview command should call eleventy CLI serve with default options', async (t) => {
+test.serial('preview command should call eleventy CLI serve with default options', async (t) => {
   const { sandbox, fs } = t.context
 
   // Mock eleventy CLI module
@@ -81,7 +76,7 @@ test('preview command should call eleventy CLI serve with default options', asyn
   t.false(mockEleventyApi.serve.called, 'eleventy API serve should not be called')
 })
 
-test('preview command should call eleventy API when 11ty option is "api"', async (t) => {
+test.serial('preview command should call eleventy API when 11ty option is "api"', async (t) => {
   const { sandbox, fs } = t.context
 
   // Mock eleventy CLI module
@@ -121,7 +116,7 @@ test('preview command should call eleventy API when 11ty option is "api"', async
   t.true(mockEleventyApi.serve.called, 'eleventy API serve should be called')
 })
 
-test('preview command should pass port option to eleventy serve', async (t) => {
+test.serial('preview command should pass port option to eleventy serve', async (t) => {
   const { sandbox, fs } = t.context
 
   // Mock eleventy CLI module
@@ -162,7 +157,7 @@ test('preview command should pass port option to eleventy serve', async (t) => {
   t.true(mockEleventyCli.serve.calledWith(options), 'eleventy CLI serve should be called with port option')
 })
 
-test('preview command should pass quiet and verbose options', async (t) => {
+test.serial('preview command should pass quiet and verbose options', async (t) => {
   const { sandbox, fs } = t.context
 
   // Mock eleventy CLI module
@@ -203,7 +198,7 @@ test('preview command should pass quiet and verbose options', async (t) => {
   t.true(mockEleventyCli.serve.calledWith(options), 'eleventy CLI serve should be called with all options')
 })
 
-test('preview command should call testcwd in preAction', async (t) => {
+test.serial('preview command should call testcwd in preAction', async (t) => {
   const { sandbox, fs } = t.context
 
   // Mock eleventy modules

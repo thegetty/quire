@@ -25,15 +25,8 @@ pdf:
   t.context.projectRoot = '/project'
 
   // Stub console methods to suppress output during tests
-  if (!console.debug.restore) {
-    t.context.consoleDebugStub = t.context.sandbox.stub(console, 'debug')
-    t.context.consoleErrorStub = t.context.sandbox.stub(console, 'error')
-  } else {
-    t.context.consoleDebugStub = console.debug
-    t.context.consoleDebugStub.resetHistory()
-    t.context.consoleErrorStub = console.error
-    t.context.consoleErrorStub.resetHistory()
-  }
+  t.context.consoleDebugStub = t.context.sandbox.stub(console, 'debug')
+  t.context.consoleErrorStub = t.context.sandbox.stub(console, 'error')
 })
 
 test.afterEach.always((t) => {
@@ -44,7 +37,7 @@ test.afterEach.always((t) => {
   t.context.vol.reset()
 })
 
-test('pdf command should generate PDF using pagedjs library', async (t) => {
+test.serial('pdf command should generate PDF using pagedjs library', async (t) => {
   const { sandbox, fs } = t.context
 
   // Mock the pdf library module
@@ -94,7 +87,7 @@ test('pdf command should generate PDF using pagedjs library', async (t) => {
   t.true(mockPdfGenerator.called, 'PDF generator should be called')
 })
 
-test('pdf command should generate PDF using prince library', async (t) => {
+test.serial('pdf command should generate PDF using prince library', async (t) => {
   const { sandbox, fs } = t.context
 
   // Mock the pdf library module
@@ -144,7 +137,7 @@ test('pdf command should generate PDF using prince library', async (t) => {
   t.true(mockPdfGenerator.called, 'PDF generator should be called')
 })
 
-test('pdf command should open PDF when --open flag is provided', async (t) => {
+test.serial('pdf command should open PDF when --open flag is provided', async (t) => {
   const { sandbox, fs } = t.context
 
   // Mock the pdf library module
@@ -195,7 +188,7 @@ test('pdf command should open PDF when --open flag is provided', async (t) => {
   t.true(mockOpen.called, 'open should be called when --open flag is provided')
 })
 
-test('pdf command should pass PDF configuration to library', async (t) => {
+test.serial('pdf command should pass PDF configuration to library', async (t) => {
   const { sandbox, fs } = t.context
 
   const pdfConfig = {
@@ -246,7 +239,7 @@ test('pdf command should pass PDF configuration to library', async (t) => {
   t.true(libPdfCall.args[1].pdfConfig === pdfConfig || libPdfCall.args[1].pdfConfig !== undefined, 'PDF config should be passed to library')
 })
 
-test('pdf command should handle missing build output gracefully', async (t) => {
+test.serial('pdf command should handle missing build output gracefully', async (t) => {
   const { sandbox, fs, vol } = t.context
 
   // Remove the built PDF file

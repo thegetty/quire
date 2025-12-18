@@ -22,12 +22,7 @@ test.beforeEach((t) => {
   t.context.projectRoot = '/project'
 
   // Stub console methods to suppress output during tests
-  if (!console.debug.restore) {
-    t.context.consoleDebugStub = t.context.sandbox.stub(console, 'debug')
-  } else {
-    t.context.consoleDebugStub = console.debug
-    t.context.consoleDebugStub.resetHistory()
-  }
+  t.context.consoleDebugStub = t.context.sandbox.stub(console, 'debug')
 })
 
 test.afterEach.always((t) => {
@@ -38,7 +33,7 @@ test.afterEach.always((t) => {
   t.context.vol.reset()
 })
 
-test('clean command should call clean helper with correct parameters', async (t) => {
+test.serial('clean command should call clean helper with correct parameters', async (t) => {
   const { sandbox, fs } = t.context
 
   // Mock clean helper
@@ -73,7 +68,7 @@ test('clean command should call clean helper with correct parameters', async (t)
   t.true(mockClean.calledWith('/project', { output: '_site' }, options), 'clean should be called with correct parameters')
 })
 
-test('clean command should handle dry-run option', async (t) => {
+test.serial('clean command should handle dry-run option', async (t) => {
   const { sandbox, fs } = t.context
 
   // Mock clean helper to return paths that would be deleted
@@ -108,7 +103,7 @@ test('clean command should handle dry-run option', async (t) => {
   t.true(mockClean.calledWith('/project', { output: '_site' }, options), 'clean should receive dry-run option')
 })
 
-test('clean command should call testcwd in preAction', async (t) => {
+test.serial('clean command should call testcwd in preAction', async (t) => {
   const { sandbox, fs } = t.context
 
   // Mock clean helper
@@ -142,7 +137,7 @@ test('clean command should call testcwd in preAction', async (t) => {
   t.true(mockTestcwd.calledWith(command), 'testcwd should be called with command object')
 })
 
-test('clean command should handle empty deletedPaths', async (t) => {
+test.serial('clean command should handle empty deletedPaths', async (t) => {
   const { sandbox, fs } = t.context
 
   // Mock clean helper to return empty array (no files to delete)
@@ -178,7 +173,7 @@ test('clean command should handle empty deletedPaths', async (t) => {
   t.pass()
 })
 
-test('clean command should pass all options to clean helper', async (t) => {
+test.serial('clean command should pass all options to clean helper', async (t) => {
   const { sandbox, fs } = t.context
 
   // Mock clean helper
