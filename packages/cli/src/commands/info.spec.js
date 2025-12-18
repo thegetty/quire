@@ -1,4 +1,3 @@
-import { mock } from 'node:test'
 import fs from 'node:fs'
 import InfoCommand from '#src/commands/info.js'
 import test from 'ava'
@@ -17,15 +16,23 @@ test.beforeEach((t) => {
     t.context.sandbox.stub(t.context.command.config, 'get').returns('.versions')
   }
 
-  // Mock console methods for all tests
-  t.context.consoleDebugMock = mock.method(console, 'debug')
-  t.context.consoleInfoMock = mock.method(console, 'info')
-  t.context.consoleWarnMock = mock.method(console, 'warn')
+  // Stub console methods to suppress output during tests
+  if (!console.debug.restore) {
+    t.context.consoleDebugStub = t.context.sandbox.stub(console, 'debug')
+    t.context.consoleInfoStub = t.context.sandbox.stub(console, 'info')
+    t.context.consoleWarnStub = t.context.sandbox.stub(console, 'warn')
+  } else {
+    t.context.consoleDebugStub = console.debug
+    t.context.consoleDebugStub.resetHistory()
+    t.context.consoleInfoStub = console.info
+    t.context.consoleInfoStub.resetHistory()
+    t.context.consoleWarnStub = console.warn
+    t.context.consoleWarnStub.resetHistory()
+  }
 })
 
 test.afterEach((t) => {
   t.context.sandbox.restore()
-  mock.restoreAll()
 })
 
 test('command should be instantiated with correct definition', (t) => {
@@ -49,8 +56,11 @@ test('command should have a debug option defined', (t) => {
   t.is(debugOption[1], 'include os versions in output')
 })
 
-test('command options are output when the debug flag is set', async (t) => {
-  const { command, consoleDebugMock, consoleInfoMock } = t.context
+test.serial('command options are output when the debug flag is set', async (t) => {
+  const { command, consoleDebugStub, consoleInfoStub } = t.context
+
+  // Import mock only for fs operations
+  const { mock } = await import('node:test')
 
   const readFileMock = mock.method(fs, 'readFileSync', () => {
     if (readFileMock.mock.calls.length === 1) {
@@ -64,18 +74,23 @@ test('command options are output when the debug flag is set', async (t) => {
   await command.action({ debug: true }, command)
 
   // Wait a bit for async forEach to complete
-  await new Promise(resolve => setTimeout(resolve, 100))
+  await new Promise((resolve) => setTimeout(resolve, 100))
 
-  t.true(consoleDebugMock.mock.calls.some(call =>
-    call.arguments[0] === '[CLI] Command \'%s\' called with options %o' &&
-    call.arguments[1] === 'info' &&
-    JSON.stringify(call.arguments[2]) === JSON.stringify({ debug: true })
+  t.true(consoleDebugStub.calledWith(
+    '[CLI] Command \'%s\' called with options %o',
+    'info',
+    { debug: true }
   ))
-  t.true(consoleInfoMock.mock.calls.length > 0)
+  t.true(consoleInfoStub.called)
+
+  mock.restoreAll()
 })
 
-test('command should create a version file when missing', async (t) => {
-  const { command, consoleWarnMock } = t.context
+test.serial('command should create a version file when missing', async (t) => {
+  const { command, consoleWarnStub } = t.context
+
+  // Import mock only for fs operations
+  const { mock } = await import('node:test')
 
   const readFileMock = mock.method(fs, 'readFileSync', (filePath) => {
     // First call is for .versions file - throw error
@@ -90,17 +105,22 @@ test('command should create a version file when missing', async (t) => {
 
   await command.action({}, command)
 
-  t.is(consoleWarnMock.mock.calls.length, 1)
-  const warnMessage = consoleWarnMock.mock.calls[0].arguments[0]
-  t.true(warnMessage.includes('prior to version 1.0.0.rc-8'))
+  t.is(consoleWarnStub.callCount, 1)
+  const warnCall = consoleWarnStub.getCall(0)
+  t.true(warnCall.args[0].includes('prior to version 1.0.0.rc-8'))
   t.true(writeFileMock.mock.calls.some(call =>
     call.arguments[0] === '.versions' &&
     call.arguments[1] === JSON.stringify({ cli: '<=1.0.0.rc-7' })
   ))
+
+  mock.restoreAll()
 })
 
-test('command should read information from version file', async (t) => {
+test.serial('command should read information from version file', async (t) => {
   const { command } = t.context
+
+  // Import mock only for fs operations
+  const { mock } = await import('node:test')
 
   const readFileMock = mock.method(fs, 'readFileSync', () => {
     if (readFileMock.mock.calls.length === 1) {
@@ -114,4 +134,6 @@ test('command should read information from version file', async (t) => {
   await command.action({}, command)
 
   t.true(readFileMock.mock.calls.some((call) => call.arguments[0] === '.versions'))
+
+  mock.restoreAll()
 })

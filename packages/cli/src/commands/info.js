@@ -111,16 +111,16 @@ export default class InfoCommand extends Command {
     ]
 
     /**
-     * Filter the command output based on `debug` settings
+     * Filter the command output based on debug settings,
+     * a for..of loop ensures each promise resolves in sequence
      */
-    versions.forEach(async ({ items, title }) => {
+    for (const { items, title } of versions) {
+      const filteredItems = items.filter(({ debug }) => !debug || (options.debug && debug))
       const versions = await Promise.all(
-        items
-          .filter(({ debug }) => !debug || (options.debug && debug))
-          .map(async ({ name, get }) => `${name} ${await get()}`)
+        filteredItems.map(async ({ name, get }) => `${name} ${await get()}`)
       )
       console.info(`${title}\n ${versions.join('\n ')}`)
-    })
+    }
   }
 
   preAction(command) {

@@ -1,4 +1,3 @@
-import { mock } from 'node:test'
 import CreateCommand from '#src/commands/create.js'
 import test from 'ava'
 import semver from 'semver'
@@ -13,14 +12,20 @@ test.beforeEach((t) => {
     t.context.sandbox.stub(t.context.command.config, 'get').returns('default-starter')
   }
 
-  // Mock console methods
-  t.context.consoleInfoMock = mock.method(console, 'info')
-  t.context.consoleErrorMock = mock.method(console, 'error')
+  // Stub console methods to suppress output during tests
+  if (!console.info.restore) {
+    t.context.consoleInfoStub = t.context.sandbox.stub(console, 'info')
+    t.context.consoleErrorStub = t.context.sandbox.stub(console, 'error')
+  } else {
+    t.context.consoleInfoStub = console.info
+    t.context.consoleInfoStub.resetHistory()
+    t.context.consoleErrorStub = console.error
+    t.context.consoleErrorStub.resetHistory()
+  }
 })
 
 test.afterEach((t) => {
   t.context.sandbox.restore()
-  mock.restoreAll()
 })
 
 test('command should be instantiated with correct definition', (t) => {

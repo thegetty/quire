@@ -1,4 +1,3 @@
-import { mock } from 'node:test'
 import CleanCommand from '#src/commands/clean.js'
 import test from 'ava'
 import semver from 'semver'
@@ -11,13 +10,17 @@ test.beforeEach((t) => {
   // Stub the name method since it comes from Commander.js
   t.context.command.name = t.context.sandbox.stub().returns('clean')
 
-  // Mock console methods
-  t.context.consoleDebugMock = mock.method(console, 'debug')
+  // Stub console.debug to suppress output during tests
+  if (!console.debug.restore) {
+    t.context.consoleDebugStub = t.context.sandbox.stub(console, 'debug')
+  } else {
+    t.context.consoleDebugStub = console.debug
+    t.context.consoleDebugStub.resetHistory()
+  }
 })
 
 test.afterEach((t) => {
   t.context.sandbox.restore()
-  mock.restoreAll()
 })
 
 test('command should be instantiated with correct definition', (t) => {
