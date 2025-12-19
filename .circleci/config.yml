@@ -88,7 +88,9 @@ commands:
       - restore_cache:
           keys:
             - *choco-cache_key
-      - run: choco install .circleci/packages.config --ignore-checksums
+      - run:
+          name: Install Chocolatey packages
+          command: choco install .circleci/packages.config --ignore-checksums
       - save_cache:
           key: *choco-cache_key
           paths:
