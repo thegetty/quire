@@ -26,7 +26,7 @@ executors:
         PUPPETEER_EXECUTABLE_PATH: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
   win: 
     machine:
-      image: windows-server-2019-vs2019:current
+      image: windows-server-2022-gui:current
       resource_class: windows.medium
     environment:
         PUPPETEER_EXECUTABLE_PATH: 'C:\Program Files\Google\Chrome\Application\chrome.exe'
