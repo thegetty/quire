@@ -33,8 +33,10 @@ executors:
 
 anchors:
 
-  # TODO: Need the release ver as a var for use in npm pack
+  # TODO: Need the release version as a variable for use in npm pack
   - &npm_cache_key package-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ .Environment.CACHE_VERSION }}
+  # Chocolatey cache key for Windows installs
+  - &choco-cache_key choco-cache-{{ .Branch }}-{{ checksum ".circleci/packages.config" }}-{{ .Environment.CACHE_VERSION }}
 
   - &os_param
     parameters:
@@ -65,7 +67,6 @@ commands:
           node-version: "22.14.0"
       - browser-tools/install_chrome
       # @TODO: Replace this hack that force-disables sandboxing
-      # 
       # On linux chrome requires disabling sandboxing (or using deprecated suid containers) if run as root
       # See https://pptr.dev/troubleshooting#setting-up-chrome-linux-sandbox
       - run:
@@ -84,9 +85,16 @@ commands:
 
   build_install_cli-win:
     steps:
-      # Zip to package the test-built site
-      - run: choco install zip
-      - run: choco install googlechrome chromedriver --ignore-checksums
+      - restore_cache:
+          keys:
+            - *choco-cache_key
+      - run: choco install .circleci/packages.config
+      - save_cache:
+          key: *choco-cache_key
+          paths:
+            - C:\ProgramData\chocolatey\cache
+            - C:\Program Files\Google\Chrome
+            - C:\tools\selenium
       - build_install_cli
 
   install_deps-linux:
@@ -215,4 +223,3 @@ workflows:
           name: browser_test-win
           requires:
             - build_install_test-win
-
