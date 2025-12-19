@@ -2,6 +2,7 @@ import test from 'ava'
 import { Volume, createFsFromVolume } from 'memfs'
 import sinon from 'sinon'
 import esmock from 'esmock'
+import path from 'node:path'
 
 test.beforeEach((t) => {
   // Create sinon sandbox for mocking
@@ -43,9 +44,11 @@ test.serial('pdf command should generate PDF using pagedjs library', async (t) =
   // Mock the pdf library module
   const mockPdfGenerator = sandbox.stub().callsFake(async (input, covers, output) => {
     // Simulate PDF generation by creating output file
-    const outputDir = output.substring(0, output.lastIndexOf('/'))
+    // Ensure we use POSIX paths for memfs (always use forward slashes)
+    const outputPosix = output.split(path.sep).join('/')
+    const outputDir = outputPosix.substring(0, outputPosix.lastIndexOf('/'))
     fs.mkdirSync(outputDir, { recursive: true })
-    fs.writeFileSync(output, Buffer.from('PDF_BINARY_DATA'))
+    fs.writeFileSync(outputPosix, Buffer.from('PDF_BINARY_DATA'))
   })
 
   const mockLibPdf = sandbox.stub().returns(mockPdfGenerator)
@@ -93,9 +96,11 @@ test.serial('pdf command should generate PDF using prince library', async (t) =>
   // Mock the pdf library module
   const mockPdfGenerator = sandbox.stub().callsFake(async (input, covers, output) => {
     // Simulate PDF generation by creating output file
-    const outputDir = output.substring(0, output.lastIndexOf('/'))
+    // Ensure we use POSIX paths for memfs (always use forward slashes)
+    const outputPosix = output.split(path.sep).join('/')
+    const outputDir = outputPosix.substring(0, outputPosix.lastIndexOf('/'))
     fs.mkdirSync(outputDir, { recursive: true })
-    fs.writeFileSync(output, Buffer.from('PRINCE_PDF_DATA'))
+    fs.writeFileSync(outputPosix, Buffer.from('PRINCE_PDF_DATA'))
   })
 
   const mockLibPdf = sandbox.stub().returns(mockPdfGenerator)
@@ -142,9 +147,11 @@ test.serial('pdf command should open PDF when --open flag is provided', async (t
 
   // Mock the pdf library module
   const mockPdfGenerator = sandbox.stub().callsFake(async (input, covers, output) => {
-    const outputDir = output.substring(0, output.lastIndexOf('/'))
+    // Ensure we use POSIX paths for memfs (always use forward slashes)
+    const outputPosix = output.split(path.sep).join('/')
+    const outputDir = outputPosix.substring(0, outputPosix.lastIndexOf('/'))
     fs.mkdirSync(outputDir, { recursive: true })
-    fs.writeFileSync(output, Buffer.from('PDF_DATA'))
+    fs.writeFileSync(outputPosix, Buffer.from('PDF_DATA'))
   })
 
   const mockLibPdf = sandbox.stub().returns(mockPdfGenerator)
@@ -198,9 +205,11 @@ test.serial('pdf command should pass PDF configuration to library', async (t) =>
 
   // Mock the pdf library module
   const mockPdfGenerator = sandbox.stub().callsFake(async (input, covers, output) => {
-    const outputDir = output.substring(0, output.lastIndexOf('/'))
+    // Ensure we use POSIX paths for memfs (always use forward slashes)
+    const outputPosix = output.split(path.sep).join('/')
+    const outputDir = outputPosix.substring(0, outputPosix.lastIndexOf('/'))
     fs.mkdirSync(outputDir, { recursive: true })
-    fs.writeFileSync(output, Buffer.from('PDF_DATA'))
+    fs.writeFileSync(outputPosix, Buffer.from('PDF_DATA'))
   })
 
   const mockLibPdf = sandbox.stub().returns(mockPdfGenerator)
