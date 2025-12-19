@@ -120,13 +120,12 @@ commands:
       - run:
           name: Set git email
           command: git config --global user.email quire@getty.edu 
-      # Install test dependencies only
       - run:
-          name: Install deps
+          name: Install test dependencies only
           command: npm install --ignore-scripts --foreground-scripts
       - run:
-          name: Run integration tests
-          command: mkdir -p reports && npm run test:integration
+          name: Run end-to-end tests
+          command: mkdir -p reports && npm run test:e2e
 
       # Persist the site build for browser testing and submit test reports
       - persist_to_workspace:
@@ -146,7 +145,7 @@ commands:
       - store_artifacts:
           path: publication.zip
 
-      # Run core package tests - @TODO: Consider moving this above the integration test
+      # Run core package tests - @TODO: run these before the e2e tests
       - run:
           name: Run CLI tests
           command: npm -w packages/cli run test
