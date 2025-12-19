@@ -125,6 +125,7 @@ commands:
           command: npm install --ignore-scripts --foreground-scripts
       - run:
           name: Run end-to-end tests
+          no_output_timeout: 30m
           command: mkdir -p reports && npm run test:e2e
 
       # Persist the site build for browser testing and submit test reports
