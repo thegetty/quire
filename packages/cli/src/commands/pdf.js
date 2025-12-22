@@ -60,8 +60,6 @@ export default class PDFCommand extends Command {
     description: 'Generate publication PDF',
     summary: 'run build pdf',
     version: '1.0.0',
-    args: [
-    ],
     options: [
       [
         '--lib <module>', 'use the specified pdf module', 'pagedjs',
