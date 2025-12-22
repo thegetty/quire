@@ -1,4 +1,179 @@
-## Quire CLI Commands
+# Quire CLI Commands
+
+This directory contains the Quire CLI command implementations and their corresponding tests.
+
+## Command Class Pattern
+
+All Quire CLI commands extend the base `Command` class and follow a consistent pattern:
+
+### Command Structure
+
+```javascript
+import Command from '#src/Command.js'
+
+export default class MyCommand extends Command {
+  static definition = {
+    name: 'my-command',
+    description: 'Description of what the command does',
+    summary: 'short summary for help text',
+    version: '1.0.0',
+    args: [
+      ['<required-arg>', 'description of required argument'],
+      ['[optional-arg]', 'description of optional argument', 'default-value']
+    ],
+    options: [
+      ['-f', '--flag', 'description of flag'],
+      ['-o', '--option <value>', 'description of option with value', 'default']
+    ]
+  }
+
+  constructor() {
+    super(MyCommand.definition)
+  }
+
+  async action(args, options, command) {
+    // Command implementation
+  }
+
+  preAction(command) {
+    // Optional: runs before action()
+  }
+
+  postAction(command) {
+    // Optional: runs after action()
+  }
+}
+```
+
+### File Organization
+
+For each command, you'll find up to three types of files:
+
+```
+src/commands/
+├── my-command.js        # Command implementation
+├── my-command.spec.js   # Unit tests (structure, options, definitions)
+└── my-command.test.js   # Integration tests (functionality with mocked deps)
+```
+
+## Three-Tier Testing Strategy
+
+The Quire CLI uses a comprehensive testing strategy with three test types:
+
+| Test Type | Pattern | Purpose | Speed |
+|-----------|---------|---------|-------|
+| **Unit** | `*.spec.js` | Command structure validation | Very Fast |
+| **Integration** | `*.test.js` | Functionality with mocked dependencies | Fast |
+| **E2E** | `*.e2e.js` | Complete workflows with real dependencies | Slow |
+
+### Unit Tests (`*.spec.js`)
+
+Validate command structure and configuration:
+- Command name, description, version
+- Arguments and options are properly defined
+- No actual functionality testing
+
+**Example:**
+```javascript
+test('preview command should have correct name', (t) => {
+  const command = new PreviewCommand()
+  t.is(command.name(), 'preview')
+})
+```
+
+### Integration Tests (`*.test.js`)
+
+Test command functionality with mocked dependencies:
+- Uses `memfs` for in-memory file system
+- Uses `esmock` for ES module mocking
+- Uses `sinon` for function stubs
+- Fast execution (seconds)
+
+**Example:**
+```javascript
+test('preview command should call eleventy serve', async (t) => {
+  const mockEleventy = {
+    serve: sandbox.stub().resolves({ exitCode: 0 })
+  }
+
+  const PreviewCommand = await esmock('./preview.js', {
+    '#lib/11ty/index.js': { cli: mockEleventy }
+  })
+
+  await command.action({ port: 8080 }, command)
+  t.true(mockEleventy.serve.called)
+})
+```
+
+### E2E Tests (`*.e2e.js`)
+
+Test complete workflows with real dependencies:
+- Real file system operations
+- Real external processes
+- Actual PDF/EPUB generation
+- Slow execution (minutes)
+
+**Example:**
+```javascript
+test('build command should create _site directory', async (t) => {
+  await exec('quire build')
+  t.true(fs.existsSync('./_site'))
+})
+```
+
+## Testing Dependencies
+
+- **ava** - Test runner with ES module support
+- **esmock** - ES module mocking for imports
+- **memfs** - In-memory file system for fast, isolated tests
+- **sinon** - Stubbing and mocking for function calls
+
+## Running Tests
+
+```sh
+# Run all tests
+npm test
+
+# Run only unit tests (fast)
+npm run test:unit
+
+# Run only integration tests (fast, mocked)
+npm run test:integration
+
+# Run only helper tests
+npm run test:helpers
+
+# Run only e2e tests (slow, real deps)
+npm run test:e2e
+
+# Run with coverage
+npm run test:coverage
+
+# Watch mode
+npm run test:watch
+```
+
+## Creating a New Command
+
+1. **Create the command file** (`src/commands/my-command.js`)
+   - Extend the `Command` class
+   - Define static `definition` object
+   - Implement `action()` method
+
+2. **Create integration tests** (`src/commands/my-command.test.js`)
+   - Test main functionality with mocked dependencies
+   - Test error handling
+   - Test option passing
+
+3. **Create unit tests** (optional, `src/commands/my-command.spec.js`)
+   - Validate command structure and configuration
+
+4. **Create e2e tests** (optional, `test/e2e/my-command.e2e.js`)
+   - Test critical workflows with real dependencies
+
+---
+
+## Command Reference
 
 ### `build`
 
