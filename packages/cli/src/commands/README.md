@@ -56,6 +56,8 @@ src/commands/
 └── my-command.test.js   # Integration tests (functionality with mocked deps)
 ```
 
+# Quire CLI Commands Testing
+
 ## Three-Tier Testing Strategy
 
 The Quire CLI uses a comprehensive testing strategy with three test types:
@@ -175,202 +177,232 @@ npm run test:watch
 
 ## Command Reference
 
-### `build`
+This directory contains the Quire CLI command implementations and their corresponding tests.
 
-Build Quire publication outputs.
+## Three-Tier Testing Strategy
 
-```sh
-quire build
+The Quire CLI uses a comprehensive three-tier testing strategy to ensure robust, reliable command functionality:
+
+| Test Type | Pattern | Purpose | Location | Speed |
+|-----------|---------|---------|----------|-------|
+| **Unit** | `*.spec.js` | Command structure, options, definitions | `src/commands/` | Very Fast (seconds) |
+| **Integration** | `*.test.js` | Command functionality with mocked dependencies | `src/commands/` | Fast (seconds) |
+| **E2E** | `*.e2e.js` | Complete workflows with real dependencies | `test/e2e/` | Slow (minutes) |
+
+### File Organization
+
+For each command, you'll find three types of files:
+
+```
+src/commands/
+├── build.js              # Implementation
+├── build.spec.js         # Unit tests (structure, options)
+├── build.test.js         # Integration tests (mocked functionality)
+├── clean.js
+├── clean.spec.js
+├── clean.test.js
+└── ...
 ```
 
-#### `epub`
+## Test Types Explained
 
-Build Quire publication EPUB format.
+### 1. Unit Tests (`*.spec.js`)
 
-```sh
-quire build epub
+Unit tests verify the command structure and configuration without executing any logic.
+
+**What they test:**
+- Command instantiation
+- Command name, description, and version
+- Options and arguments definitions
+- Method existence (action, preAction)
+
+**Example:**
+```javascript
+test('build command should have a dry-run option', (t) => {
+  const { command } = t.context
+  const dryRunOption = command.options.find(opt => opt.flags.includes('--dry-run'))
+  t.truthy(dryRunOption)
+})
 ```
 
-#### `info`
+**When to run:** On every commit (~5 seconds)
 
-List `quire-11ty`, `quire-cli`, and starter package versions; use the `--debug` option to include node, npm, and os versions.
+### 2. Integration Tests (`*.test.js`)
 
-```sh
-quire build info
+Integration tests verify command functionality with all external dependencies mocked.
+
+**What they test:**
+- Command execution flow
+- Interaction with mocked dependencies
+- Option handling
+- Error scenarios
+
+**Key mocking tools:**
+- `memfs` - In-memory file system
+- `esmock` - ES module mocking
+- `sinon` - Function stubbing and mocking
+
+**Example:**
+```javascript
+test('build command should call eleventy CLI with default options', async (t) => {
+  const { sandbox, fs } = t.context
+
+  const mockEleventyCli = {
+    build: sandbox.stub().resolves({ exitCode: 0 })
+  }
+
+  const BuildCommand = await esmock('./build.js', {
+    '#lib/11ty/index.js': {
+      cli: mockEleventyCli,
+      paths: { output: '_site' },
+      projectRoot: '/project'
+    },
+    'fs-extra': fs
+  })
+
+  const command = new BuildCommand()
+  await command.action({ '11ty': 'cli' }, command)
+
+  t.true(mockEleventyCli.build.called)
+})
 ```
 
-#### `pdf`
+**When to run:** On every commit, PR validation (~30 seconds)
 
-Build Quire publication PDF format.
+### 3. End-to-End Tests (`*.e2e.js`)
 
-```sh
-quire build pdf
-```
+E2E tests verify complete workflows using real dependencies.
 
-#### `site`
+**What they test:**
+- Actual file system operations
+- Real PDF/EPUB generation
+- Complete command workflows
+- Cross-platform compatibility
 
-Build Quire publication HTML format.
+**When to run:** Nightly builds, pre-release validation (minutes)
 
-```sh
-quire build site
-```
-
-### `clean`
-
-Remove build outputs.
-
-Note that this command is distinct from the [quire/11ty package](https://github.com/thegetty/quire/packages/11ty/package.json) script `clean`, to allow different behavoirs for Quire editors and developers.
+## Running Tests
 
 ```sh
-quire clean --dry-run
+# Run all tests (unit + integration + e2e)
+npm test
+
+# Run only unit tests (fast)
+npm run test:unit
+
+# Run only integration tests (fast, mocked)
+npm run test:integration
+
+# Run only E2E tests (slow, real dependencies)
+npm run test:e2e
+
+# Watch mode for development
+npm run test:watch
+
+# Generate coverage report
+npm run test:coverage
 ```
 
-### `configure` **not yet implemented**
+## Writing Tests
 
-Edit the Quire CLI configuration.
+### When to Write Each Type
 
-```sh
-quire configure
+✅ **Always write `*.spec.js`** - Unit tests for every command
+✅ **Always write `*.test.js`** - Integration tests for command logic
+⚠️ **Optionally write `*.e2e.js`** - E2E tests for critical workflows only
+
+### Integration Test Pattern
+
+```javascript
+import test from 'ava'
+import { Volume, createFsFromVolume } from 'memfs'
+import sinon from 'sinon'
+import esmock from 'esmock'
+
+test.beforeEach((t) => {
+  // Create sinon sandbox for mocking
+  t.context.sandbox = sinon.createSandbox()
+
+  // Create in-memory file system
+  t.context.vol = new Volume()
+  t.context.fs = createFsFromVolume(t.context.vol)
+
+  // Setup mock directory structure
+  t.context.vol.fromJSON({
+    '/project/content/_data/config.yaml': 'title: Test Project',
+    '/project/package.json': JSON.stringify({ name: 'test-project' })
+  })
+
+  t.context.projectRoot = '/project'
+})
+
+test.afterEach.always((t) => {
+  // Restore all mocks
+  t.context.sandbox.restore()
+
+  // Clear in-memory file system
+  t.context.vol.reset()
+})
+
+test('command should perform expected operation', async (t) => {
+  const { sandbox, fs } = t.context
+
+  // Mock dependencies
+  const mockDependency = sandbox.stub().resolves()
+
+  // Use esmock to load command with mocked dependencies
+  const MyCommand = await esmock('./mycommand.js', {
+    '#lib/dependency/index.js': mockDependency,
+    'fs-extra': fs
+  })
+
+  const command = new MyCommand()
+  await command.action({}, command)
+
+  t.true(mockDependency.called)
+})
 ```
 
-### `install` **not yet implemented**
+## Testing Dependencies
 
-Clone an existing Quire project from a git repository.
+All testing dependencies are managed in [package.json](../../package.json):
 
-```sh
-quire install <repository>
+```json
+{
+  "devDependencies": {
+    "ava": "^6.2.0",           // Test runner
+    "esmock": "^2.7.3",        // ES module mocking
+    "memfs": "^4.51.1",        // In-memory file system
+    "sinon": "^17.0.1",        // Stubbing and mocking
+  }
+}
 ```
 
-### `new`
+## Test Quality Standards
 
-Start a new Quire publication from a template project or clone an existing project from a git repository (equivalent to `install`).
+- Each command must have integration test scenarios
+- Critical workflows must have end-to-end tests
+- All error paths must be tested
+- Test execution time should be < 5 minutes total (with mocking: < 30 seconds)
+- Code coverage target: 80% for integration paths
 
-Running the `new` without any arguments will start an interactive prompt.
+## Benefits of This Strategy
 
-```sh
-quire new
-```
+### Speed
+- **Unit tests**: ~5 seconds (instant feedback)
+- **Integration tests**: ~30 seconds (mocked dependencies)
+- **E2E tests**: minutes (real dependencies, run less frequently)
 
-To start a new Quire project using the default starter run the following command:
+### Reliability
+- Mocked dependencies eliminate flaky tests
+- Consistent behavior across platforms
+- No external dependencies required for most tests
 
-```sh
-quire new <path>
-```
+### Maintainability
+- Co-located tests are easy to find
+- Clear separation between test types
+- Tests focus on command logic, not infrastructure
 
-To create a new project from a starter template
+## Further Reading
 
-```sh
-quire new <path> <starter>
-```
-
-#### Specifying the `quire-11ty` version
-
-When the `--quire` flag is used the new project will be started using the specified version of `quire-11ty`
-
-```sh
-quire new <path> <starter> --quire <version>
-```
-
-##### Version identifiers
-
-The `--quire` flag must be either a semantic version identifier or a npm distribution tag. For example:
-
-```sh
-quire new ./blargh --quire 1.0.0-rc.5
-```
-
-```sh
-quire new ./blargh --quire latest
-```
-
-### `preview`
-
-Build and server the Quire site in development mode.
-
-```sh
-quire preview --port 8080
-```
-
-#### `epub` **not yet implemented**
-
-Preview the Quire publication epub in the default application.
-
-```sh
-quire preview epub --open
-```
-
-#### `pdf` **not yet implemented**
-
-Preview the Quire publication PDF in the default application.
-
-```sh
-quire preview pdf --open
-```
-
-#### `site` **default subcommand**
-
-Build and serve the Quire site in development mode.
-
-```sh
-quire preview site
-```
-
-### `server` **not yet implemented**
-
-Start a local web server to serve a previously built Quire site.
-
-```sh
-quire server --port 8080
-```
-
-### `version` **partial implementation**
-
-Sets the Quire version to use when running commands on the project.
-
-```sh
-quire version 1.0.0
-```
-
-To set the quire version globally use the `--global` command flag.
-
-```sh
-quire version 1.0.0 --global
-```
-
-#### `install`
-
-```sh
-quire version install <version>
-```
-
-To reinstall a `quire-11ty` version run
-
-```sh
-quire version install <version> --force
-```
-
-#### `list`
-
-List installed versions of `quire-11ty`
-
-```sh
-quire version list
-```
-
-#### `prune`
-
-Remove outdated versions of `quire-11ty`
-
-```sh
-quire version prune
-```
-
-#### `remove` (alias `uninstall`)
-
-```sh
-quire version remove <version>
-```
-
-```sh
-quire version uninstall <version>
-```
+For complete implementation details, see the [Integration Testing Plan](../../docs/integration-testing-plan.md).

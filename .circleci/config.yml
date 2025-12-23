@@ -200,7 +200,7 @@ jobs:
           command: npm i && apt-get update && apt-get install -y zip && npx playwright install
       # test:browsers-circleci follows https://playwright.dev/docs/ci#circleci to correct sharding
       - run: 
-          name: Run browser testing on integration test artifacts
+          name: Run browser testing on end-to-end test artifacts
           command: npm run test:browsers-circleci
       - store_test_results:
           path: reports
