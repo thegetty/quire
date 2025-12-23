@@ -20,7 +20,6 @@ export default class InfoCommand extends Command {
     description: 'List Quire cli, quire-11ty, and node versions',
     summary: 'list info',
     version: '1.0.0',
-    args: [],
     options: [
       ['--debug', 'include os versions in output']
     ],
