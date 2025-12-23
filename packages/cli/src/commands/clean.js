@@ -21,7 +21,6 @@ export default class CleanCommand extends Command {
     description: 'Remove build outputs',
     summary: 'remove build outputs',
     version: '1.0.0',
-    args: [],
     options: [
       [ '-d', '--dry-run', 'show paths to be cleaned without deleting files' ],
       [ '-p', '--progress', 'display progress of removing files' ],

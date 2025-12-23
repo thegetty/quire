@@ -20,7 +20,6 @@ export default class EpubCommand extends Command {
     description: 'Generate publication EPUB',
     summary: 'run build epub',
     version: '1.0.0',
-    args: [],
     options: [
       [
         '--lib <module>', 'use the specified epub library', 'epubjs',

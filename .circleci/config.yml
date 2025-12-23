@@ -33,8 +33,10 @@ executors:
 
 anchors:
 
-  # TODO: Need the release ver as a var for use in npm pack
+  # TODO: Need the release version as a variable for use in npm pack
   - &npm_cache_key package-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ .Environment.CACHE_VERSION }}
+  # Chocolatey cache key for Windows installs
+  - &choco-cache_key choco-cache-{{ .Branch }}-{{ checksum ".circleci/packages.config" }}-{{ .Environment.CACHE_VERSION }}
 
   - &os_param
     parameters:
@@ -65,7 +67,6 @@ commands:
           node-version: "22.14.0"
       - browser-tools/install_chrome
       # @TODO: Replace this hack that force-disables sandboxing
-      # 
       # On linux chrome requires disabling sandboxing (or using deprecated suid containers) if run as root
       # See https://pptr.dev/troubleshooting#setting-up-chrome-linux-sandbox
       - run:
@@ -84,9 +85,18 @@ commands:
 
   build_install_cli-win:
     steps:
-      # Zip to package the test-built site
-      - run: choco install zip
-      - run: choco install googlechrome chromedriver --ignore-checksums
+      - restore_cache:
+          keys:
+            - *choco-cache_key
+      - run:
+          name: Install Chocolatey packages
+          command: choco install .circleci/packages.config --ignore-checksums
+      - save_cache:
+          key: *choco-cache_key
+          paths:
+            - C:\ProgramData\chocolatey\cache
+            - C:\Program Files\Google\Chrome
+            - C:\tools\selenium
       - build_install_cli
 
   install_deps-linux:
@@ -112,13 +122,13 @@ commands:
       - run:
           name: Set git email
           command: git config --global user.email quire@getty.edu 
-      # Install test dependencies only
       - run:
-          name: Install deps
+          name: Install test dependencies only
           command: npm install --ignore-scripts --foreground-scripts
       - run:
-          name: Run integration tests
-          command: mkdir -p reports && npm run test:integration
+          name: Run end-to-end tests
+          no_output_timeout: 30m
+          command: mkdir -p reports && npm run test:e2e
 
       # Persist the site build for browser testing and submit test reports
       - persist_to_workspace:
@@ -138,7 +148,7 @@ commands:
       - store_artifacts:
           path: publication.zip
 
-      # Run core package tests - @TODO: Consider moving this above the integration test
+      # Run core package tests - @TODO: run these before the e2e tests
       - run:
           name: Run CLI tests
           command: npm -w packages/cli run test
@@ -190,7 +200,7 @@ jobs:
           command: npm i && apt-get update && apt-get install -y zip && npx playwright install
       # test:browsers-circleci follows https://playwright.dev/docs/ci#circleci to correct sharding
       - run: 
-          name: Run browser testing on integration test artifacts
+          name: Run browser testing on end-to-end test artifacts
           command: npm run test:browsers-circleci
       - store_test_results:
           path: reports
@@ -215,4 +225,3 @@ workflows:
           name: browser_test-win
           requires:
             - build_install_test-win
-
