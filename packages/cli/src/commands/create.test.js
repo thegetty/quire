@@ -19,9 +19,14 @@ test.beforeEach((t) => {
 
   t.context.projectRoot = '/new-project'
 
-  // Stub console methods to suppress output during tests
-  t.context.consoleInfoStub = t.context.sandbox.stub(console, 'info')
-  t.context.consoleErrorStub = t.context.sandbox.stub(console, 'error')
+  // Create mock logger (no global console stubbing needed!)
+  t.context.mockLogger = {
+    info: t.context.sandbox.stub(),
+    error: t.context.sandbox.stub(),
+    debug: t.context.sandbox.stub(),
+    log: t.context.sandbox.stub(),
+    warn: t.context.sandbox.stub()
+  }
 })
 
 test.afterEach.always((t) => {
@@ -32,12 +37,12 @@ test.afterEach.always((t) => {
   t.context.vol.reset()
 })
 
-test.serial('create command should initialize starter and install quire', async (t) => {
-  const { sandbox, fs } = t.context
+test('create command should initialize starter and install quire', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
 
   // Mock quire library
   const mockQuire = {
-    initStarter: sandbox.stub().callsFake(async (starter, projectPath, options) => {
+    initStarter: sandbox.stub().callsFake(async (starter, projectPath) => {
       // Simulate creating project directory
       fs.mkdirSync(projectPath, { recursive: true })
       fs.writeFileSync(`${projectPath}/package.json`, JSON.stringify({ name: 'new-project' }))
@@ -56,6 +61,9 @@ test.serial('create command should initialize starter and install quire', async 
     '#src/lib/quire/index.js': {
       quire: mockQuire
     },
+    '#src/lib/logger.js': {
+      default: mockLogger
+    },
     'fs-extra': fs
   })
 
@@ -72,12 +80,12 @@ test.serial('create command should initialize starter and install quire', async 
   t.true(mockQuire.installInProject.calledWith('/new-project', '1.0.0'), 'installInProject should be called with project path and version')
 })
 
-test.serial('create command should use default starter from config when not provided', async (t) => {
-  const { sandbox, fs } = t.context
+test('create command should use default starter from config when not provided', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
 
   // Mock quire library
   const mockQuire = {
-    initStarter: sandbox.stub().callsFake(async (starter, projectPath, options) => {
+    initStarter: sandbox.stub().callsFake(async (starter, projectPath) => {
       fs.mkdirSync(projectPath, { recursive: true })
       fs.writeFileSync(`${projectPath}/package.json`, JSON.stringify({ name: 'new-project' }))
       return '1.0.0'
@@ -95,6 +103,9 @@ test.serial('create command should use default starter from config when not prov
     '#src/lib/quire/index.js': {
       quire: mockQuire
     },
+    '#src/lib/logger.js': {
+      default: mockLogger
+    },
     'fs-extra': fs
   })
 
@@ -109,12 +120,12 @@ test.serial('create command should use default starter from config when not prov
   t.true(mockQuire.initStarter.calledWith('https://github.com/thegetty/quire-starter-default', '/new-project'), 'initStarter should use default starter from config')
 })
 
-test.serial('create command should pass quire-version option to installInProject', async (t) => {
-  const { sandbox, fs } = t.context
+test('create command should pass quire-version option to installInProject', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
 
   // Mock quire library
   const mockQuire = {
-    initStarter: sandbox.stub().callsFake(async (starter, projectPath, options) => {
+    initStarter: sandbox.stub().callsFake(async (starter, projectPath) => {
       fs.mkdirSync(projectPath, { recursive: true })
       fs.writeFileSync(`${projectPath}/package.json`, JSON.stringify({ name: 'new-project' }))
       return '1.0.0-rc.10'
@@ -131,6 +142,9 @@ test.serial('create command should pass quire-version option to installInProject
   const CreateCommand = await esmock('./create.js', {
     '#src/lib/quire/index.js': {
       quire: mockQuire
+    },
+    '#src/lib/logger.js': {
+      default: mockLogger
     },
     'fs-extra': fs
   })
@@ -149,8 +163,8 @@ test.serial('create command should pass quire-version option to installInProject
   t.true(installCall.args[2] === options, 'installInProject should receive options object')
 })
 
-test.serial('create command should handle initStarter errors gracefully', async (t) => {
-  const { sandbox, fs } = t.context
+test('create command should handle initStarter errors gracefully', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
 
   const error = new Error('Failed to initialize starter template')
 
@@ -179,6 +193,9 @@ test.serial('create command should handle initStarter errors gracefully', async 
     '#src/lib/quire/index.js': {
       quire: mockQuire
     },
+    '#src/lib/logger.js': {
+      default: mockLogger
+    },
     'fs-extra': fs
   })
 
@@ -192,15 +209,15 @@ test.serial('create command should handle initStarter errors gracefully', async 
   t.true(mockQuire.initStarter.called, 'initStarter should be called')
   t.false(mockQuire.installInProject.called, 'installInProject should not be called when initStarter fails')
   t.true(fs.removeSync.called || !fs.existsSync('/new-project'), 'project directory should be removed on error')
-  t.true(t.context.consoleErrorStub.calledWith(error.message), 'error message should be logged')
+  t.true(mockLogger.error.calledWith(error.message), 'error message should be logged')
 })
 
-test.serial('create command should pass through debug option', async (t) => {
-  const { sandbox, fs } = t.context
+test('create command should pass through debug option', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
 
   // Mock quire library
   const mockQuire = {
-    initStarter: sandbox.stub().callsFake(async (starter, projectPath, options) => {
+    initStarter: sandbox.stub().callsFake(async (starter, projectPath) => {
       fs.mkdirSync(projectPath, { recursive: true })
       fs.writeFileSync(`${projectPath}/package.json`, JSON.stringify({ name: 'new-project' }))
       return '1.0.0'
@@ -216,6 +233,7 @@ test.serial('create command should pass through debug option', async (t) => {
   // Use esmock to replace imports
   const CreateCommand = await esmock('./create.js', {
     '#src/lib/quire/index.js': { quire: mockQuire },
+    '#src/lib/logger.js': { default: mockLogger },
     'fs-extra': fs
   })
 
@@ -226,16 +244,16 @@ test.serial('create command should pass through debug option', async (t) => {
   // Run action with debug option
   await command.action('/new-project', 'starter-template', { debug: true })
 
-  t.true(t.context.consoleInfoStub.called, 'console.info should be called with debug option')
+  t.true(mockLogger.info.called, 'logger.info should be called with debug option')
   t.true(mockQuire.initStarter.called, 'initStarter should be called')
 })
 
-test.serial('create command should pass quire-path option to methods', async (t) => {
-  const { sandbox, fs } = t.context
+test('create command should pass quire-path option to methods', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
 
   // Mock quire library
   const mockQuire = {
-    initStarter: sandbox.stub().callsFake(async (starter, projectPath, options) => {
+    initStarter: sandbox.stub().callsFake(async (starter, projectPath) => {
       fs.mkdirSync(projectPath, { recursive: true })
       fs.writeFileSync(`${projectPath}/package.json`, JSON.stringify({ name: 'new-project' }))
       return '1.0.0'
@@ -252,6 +270,9 @@ test.serial('create command should pass quire-path option to methods', async (t)
   const CreateCommand = await esmock('./create.js', {
     '#src/lib/quire/index.js': {
       quire: mockQuire
+    },
+    '#src/lib/logger.js': {
+      default: mockLogger
     },
     'fs-extra': fs
   })

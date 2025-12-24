@@ -1,4 +1,5 @@
 import Command from '#src/Command.js'
+import logger from '#src/lib/logger.js'
 import { api, cli, paths, projectRoot  } from '#lib/11ty/index.js'
 import testcwd from '#helpers/test-cwd.js'
 
@@ -42,14 +43,14 @@ export default class PreviewCommand extends Command {
 
   async action(options, command) {
     if (options.debug) {
-      console.debug('[CLI] Command \'%s\' called with arguments [%o] and options %o', this.name(), options)
+      logger.debug('[CLI] Command \'%s\' called with arguments [%o] and options %o', this.name(), options)
     }
 
     if (options['11ty'] === 'cli') {
-      console.debug('[CLI] running eleventy using lib/11ty cli')
+      logger.debug('[CLI] running eleventy using lib/11ty cli')
       cli.serve(options)
     } else {
-      console.debug('[CLI] running eleventy using lib/11ty api')
+      logger.debug('[CLI] running eleventy using lib/11ty api')
       api.serve(options)
     }
   }
