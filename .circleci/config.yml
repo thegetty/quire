@@ -100,8 +100,7 @@ commands:
 
   build_install_cli-macos:
     steps:
-      # nvm is pre-installed on macOS Xcode images
-      - run:
+      - run: # nvm is pre-installed on macOS Xcode images
           name: Install Node.js via nvm
           command: |
             nvm install << pipeline.parameters.node_version >>
@@ -112,7 +111,7 @@ commands:
 
   build_install_cli-win:
     steps:
-      - win/install-node: # Windows image does not include Node.js
+      - node/install: # Windows image does not include Node.js
           node-version: << pipeline.parameters.node_version >>
       - restore_cache:
           keys:
