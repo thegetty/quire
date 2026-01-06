@@ -77,13 +77,13 @@ commands:
     description: "Pack and install the Quire CLI globally"
     steps:
       - run:
-          name: Install CLI
+          name: Install quire-cli
           # Force execution of npm lifecycle scripts in the foreground
           command: |
             npm pack --workspace packages/cli && \
             npm install thegetty-quire-cli-*.tgz --global --ignore-scripts --foreground-scripts
       - run:
-          name: Quire Version
+          name: Confirm quire-cli version
           command: quire --version
 
   build_install_cli-linux:
