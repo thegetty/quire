@@ -7,14 +7,17 @@ orbs:
   node: circleci/node@7.1.0
   win: circleci/windows@5.1.0
 
+parameters:
+  node_version:
+    type: string
+    default: "22.14.0"
+
 executors:
-  pw-noble-development:
-    docker:
-      - image: mcr.microsoft.com/playwright:v1.52.0-noble
   linux:
     docker:
-      - image: cimg/base:current-22.04
+      - image: cimg/node:<< pipeline.parameters.node_version >>
         user: root
+    resource_class: medium
     environment:
         PUPPETEER_EXECUTABLE_PATH: '/usr/bin/google-chrome-stable'
 
@@ -24,12 +27,18 @@ executors:
     resource_class: m4pro.medium
     environment:
         PUPPETEER_EXECUTABLE_PATH: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+
+  playwright:
+    docker:
+      - image: mcr.microsoft.com/playwright:v1.52.0-noble
+
   win: 
-    machine:
-      image: windows-server-2019-vs2019:current
-      resource_class: windows.medium
+    executor:
+      name: windows/default
+      size: 'large'
     environment:
-        PUPPETEER_EXECUTABLE_PATH: 'C:\Program Files\Google\Chrome\Application\chrome.exe'
+      PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
+      PUPPETEER_EXECUTABLE_PATH: 'C:\Program Files\Google\Chrome\Application\chrome.exe'
 
 anchors:
 
@@ -37,6 +46,19 @@ anchors:
   - &npm_cache_key package-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ .Environment.CACHE_VERSION }}
   # Chocolatey cache key for Windows installs
   - &choco-cache_key choco-cache-{{ .Branch }}-{{ checksum ".circleci/packages.config" }}-{{ .Environment.CACHE_VERSION }}
+
+  # OS-specific npm cache paths
+  - &npm_cache_paths_unix
+    - node_modules
+    - packages/*/node_modules
+    - ~/.npm
+    - ~/.cache
+
+  - &npm_cache_paths_win
+    - node_modules
+    - packages/*/node_modules
+    - C:\Users\circleci\AppData\Local\npm-cache
+    - C:\Users\circleci\AppData\Roaming\npm
 
   - &os_param
     parameters:
@@ -50,21 +72,22 @@ anchors:
         # TODO: Supported node versions
 
 commands:
-  # Pack and install the CLI globally (NB: uncached puppeteer install takes a while)
-  build_install_cli:
+  install-quire-cli:
+    description: "Pack and install the Quire CLI globally"
     steps:
       - run:
           name: Install CLI
-          no_output_timeout: 30m
-          command: npm pack -w packages/cli && npm install --ignore-scripts --foreground-scripts -g thegetty-quire-cli-*.tgz
+          # Force execution of npm lifecycle scripts in the foreground
+          command: |
+            npm pack --workspace packages/cli && \
+            npm install thegetty-quire-cli-*.tgz --global --ignore-scripts --foreground-scripts
       - run:
           name: Quire Version
           command: quire --version
 
   build_install_cli-linux:
     steps:
-      - node/install:
-          node-version: "22.14.0"
+      # Node.js is pre-installed in the cimg/node Docker image
       - browser-tools/install_chrome
       # @TODO: Replace this hack that force-disables sandboxing
       # On linux chrome requires disabling sandboxing (or using deprecated suid containers) if run as root
@@ -73,18 +96,20 @@ commands:
           name: "Modify chrome app"
           command: sudo sed -i 's|HERE/chrome"|HERE/chrome" --no-sandbox|g' /opt/google/chrome/google-chrome
       - browser-tools/install_chromedriver
-      - build_install_cli
+      - install-quire-cli
 
   build_install_cli-macos:
     steps:
-      - node/install:
-          node-version: "22.14.0"
+      - node/install: # macOS Xcode image does not include Node.js
+          node-version: << pipeline.parameters.node_version >>
       - browser-tools/install_chrome
       - browser-tools/install_chromedriver      
-      - build_install_cli
+      - install-quire-cli
 
   build_install_cli-win:
     steps:
+      - windows/install-node: # Windows image does not include Node.js
+          node-version: << pipeline.parameters.node_version >>
       - restore_cache:
           keys:
             - *choco-cache_key
@@ -94,10 +119,10 @@ commands:
       - save_cache:
           key: *choco-cache_key
           paths:
-            - C:\ProgramData\chocolatey\cache
             - C:\Program Files\Google\Chrome
+            - C:\ProgramData\chocolatey\cache
             - C:\tools\selenium
-      - build_install_cli
+      - install-quire-cli
 
   install_deps-linux:
     steps:
@@ -124,7 +149,7 @@ commands:
           command: git config --global user.email quire@getty.edu 
       - run:
           name: Install test dependencies only
-          command: npm install --ignore-scripts --foreground-scripts
+          command: npm ci --ignore-scripts --foreground-scripts
       - run:
           name: Run end-to-end tests
           no_output_timeout: 30m
@@ -134,11 +159,11 @@ commands:
       - persist_to_workspace:
           root: .
           paths:
-            - playwright.config.js
             - package.json
+            - playwright.config.js
             - reports
-            - test-publication/_site
             - test-publication-pathname/_site
+            - test-publication/_site
             - _tests
 
       - store_test_results:
@@ -151,10 +176,10 @@ commands:
       # Run core package tests - @TODO: run these before the e2e tests
       - run:
           name: Run CLI tests
-          command: npm -w packages/cli run test
+          command: npm run test --workspace packages/cli
       - run:
           name: Run 11ty tests
-          command: npm -w packages/11ty run test
+          command: npm run test --workspace packages/11ty
 
   test-linux:
     steps:
@@ -168,6 +193,24 @@ commands:
     steps:
       - run_tests
 
+  save_npm_cache-linux:
+    steps:
+      - save_cache:
+          key: *npm_cache_key
+          paths: *npm_cache_paths_unix
+
+  save_npm_cache-macos:
+    steps:
+      - save_cache:
+          key: *npm_cache_key
+          paths: *npm_cache_paths_unix
+
+  save_npm_cache-win:
+    steps:
+      - save_cache:
+          key: *npm_cache_key
+          paths: *npm_cache_paths_win
+
 jobs:
   # Builds the CLI, installs it, and tests it by building a publication
   build_install_test:
@@ -180,16 +223,11 @@ jobs:
             - *npm_cache_key
       - build_install_cli-<< parameters.os >>
       - install_deps-<< parameters.os >>
-      - save_cache:
-          key: *npm_cache_key
-          paths:
-            - node_modules
-            - ~/.npm
-            - ~/.cache
+      - save_npm_cache-<< parameters.os >>
       - test-<< parameters.os >>
   # Tests the output of the publication build -- must be separate for the playwright executor
   browser_test:
-    executor: pw-noble-development
+    executor: playwright
     # NB: taken from https://playwright.dev/docs/ci#sharding-in-circleci
     parallelism: 4
     steps:
