@@ -196,7 +196,6 @@ async function installInProject(projectPath, quireVersion, options = {}) {
    * these must be `devDependencies` so that they are not bundled into
    * the final `_site` package when running `quire build`
    */
-  await execaCommand('npm cache clean --force', { cwd: projectPath })
   try {
     await execaCommand('npm install --save-dev', { cwd: projectPath })
   } catch(error) {
