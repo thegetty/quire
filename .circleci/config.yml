@@ -36,6 +36,7 @@ executors:
     machine:
       image: 'windows-server-2022-gui:current'
     resource_class: windows.large
+    shell: bash.exe # Use bash instead of PowerShell for compatibility with node orb
     environment:
       PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
       PUPPETEER_EXECUTABLE_PATH: 'C:\Program Files\Google\Chrome\Application\chrome.exe'
