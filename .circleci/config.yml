@@ -112,7 +112,7 @@ commands:
 
   build_install_cli-win:
     steps:
-      - windows/install-node: # Windows image does not include Node.js
+      - win/install-node: # Windows image does not include Node.js
           node-version: << pipeline.parameters.node_version >>
       - restore_cache:
           keys:
