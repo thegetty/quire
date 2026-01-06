@@ -73,7 +73,7 @@ anchors:
         # TODO: Supported node versions
 
 commands:
-  install-quire-cli:
+  install_quire_cli:
     description: "Pack and install the Quire CLI globally"
     steps:
       - run:
@@ -97,7 +97,7 @@ commands:
           name: "Modify chrome app"
           command: sudo sed -i 's|HERE/chrome"|HERE/chrome" --no-sandbox|g' /opt/google/chrome/google-chrome
       - browser-tools/install_chromedriver
-      - install-quire-cli
+      - install_quire_cli
 
   build_install_cli-macos:
     steps:
@@ -106,7 +106,7 @@ commands:
           node-version: << pipeline.parameters.node_version >>
       - browser-tools/install_chrome
       - browser-tools/install_chromedriver
-      - install-quire-cli
+      - install_quire_cli
 
   build_install_cli-win:
     steps:
@@ -124,25 +124,25 @@ commands:
             - C:\Program Files\Google\Chrome
             - C:\ProgramData\chocolatey\cache
             - C:\tools\selenium
-      - install-quire-cli
+      - install_quire_cli
 
-  install_deps-linux:
+  install_optional-linux:
     steps:
       - run:
-          name: Install External Dependencies -- eg Prince
-          command: exit
+          name: Install optional dependencies
+          command: exit 0
 
-  install_deps-macos:
+  install_optional-macos:
     steps:
       - run:
-          name: Install External Dependencies -- eg Prince
-          command: exit
+          name: Install optional dependencies
+          command: exit 0
 
-  install_deps-win:
+  install_optional-win:
     steps:
       - run:
-          name: Install External Dependencies -- eg Prince
-          command: exit
+          name: Install optional dependencies
+          command: exit 0
 
   install_test_dependencies:
     steps:
@@ -227,7 +227,7 @@ jobs:
           keys:
             - *npm_cache_key
       - build_install_cli-<< parameters.os >>
-      - install_deps-<< parameters.os >>
+      - install_optional-<< parameters.os >>
       - install_test_dependencies
       - save_npm_cache-<< parameters.os >>
       - test-<< parameters.os >>
