@@ -100,10 +100,14 @@ commands:
 
   build_install_cli-macos:
     steps:
-      - node/install: # macOS Xcode image does not include Node.js
-          node-version: << pipeline.parameters.node_version >>
+      # nvm is pre-installed on macOS Xcode images
+      - run:
+          name: Install Node.js via nvm
+          command: |
+            nvm install << pipeline.parameters.node_version >>
+            nvm use << pipeline.parameters.node_version >>
       - browser-tools/install_chrome
-      - browser-tools/install_chromedriver      
+      - browser-tools/install_chromedriver
       - install-quire-cli
 
   build_install_cli-win:
