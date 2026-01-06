@@ -34,7 +34,7 @@ executors:
 
   win:
     machine:
-      image: windows-default
+      image: 'windows-server-2022-gui:current'
     resource_class: windows.large
     environment:
       PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
