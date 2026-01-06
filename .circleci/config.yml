@@ -10,7 +10,7 @@ orbs:
 parameters:
   node_version:
     type: string
-    default: "22.14.0"
+    default: "22.10.0"
 
 executors:
   linux:
@@ -32,10 +32,10 @@ executors:
     docker:
       - image: mcr.microsoft.com/playwright:v1.52.0-noble
 
-  win: 
-    executor:
-      name: windows/default
-      size: 'large'
+  win:
+    machine:
+      image: windows-default
+    resource_class: windows.large
     environment:
       PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
       PUPPETEER_EXECUTABLE_PATH: 'C:\Program Files\Google\Chrome\Application\chrome.exe'
