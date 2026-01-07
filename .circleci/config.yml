@@ -5,12 +5,16 @@ orbs:
   cypress: cypress-io/cypress@3.4.3
   mac: circleci/macos@2.5.2
   node: circleci/node@7.1.0
+  path-filtering: circleci/path-filtering@1.1.0
   win: circleci/windows@5.1.0
 
 parameters:
   node_version:
     type: string
     default: "22.10.0"
+  run-build-test-workflow:
+    type: boolean
+    default: true
 
 executors:
   linux:
@@ -270,9 +274,26 @@ jobs:
           path: reports
 
 workflows:
+  # Setup workflow - checks if code files changed (excludes all markdown files)
+  setup:
+    when:
+      not: << pipeline.parameters.run-build-test-workflow >>
+    jobs:
+      - path-filtering/filter:
+          base-revision: main
+          # Path to configuration file run after path filtering
+          # and pipeline parameter value updates are completed.
+          config-path: .circleci/config.yml
+          # Mapping of path regular expressions to a pipeline parameter value.
+          # One mapping per line, 3-column, whitespace-delimited:
+          # <path-regex> <pipeline-parameter-name> <pipeline-parameter-value>
+          # Pattern matches any file that does not end with .md
+          mapping: |
+            ^.*(?<!\.md)$ run-build-test-workflow true
+
+  # Main build and test workflow - only runs when code files change
   build_install_test:
-    # TODO: don't run for docs/, etc
-    when: true
+    when: << pipeline.parameters.run-build-test-workflow >>
     jobs:
       - build_install_test:
           <<: *matrix_params
