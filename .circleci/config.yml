@@ -76,13 +76,6 @@ commands:
     description: "Pack and install the Quire CLI globally"
     steps:
       - run:
-          name: Configure npm for user-level global installs
-          # this allows quire-cli to be installed globally without using sudo
-          command: |
-            mkdir ~/.npm-global
-            npm config set prefix ~/.npm-global
-            echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.bashrc
-      - run:
           name: Install quire-cli
           # Force execution of npm lifecycle scripts in the foreground
           command: |
@@ -94,7 +87,9 @@ commands:
 
   build_install_cli-linux:
     steps:
-      # Node.js is pre-installed in the cimg/node Docker image
+      # Install Node.js via node orb (uses NVM, handles npm permissions automatically)
+      - node/install:
+          node-version: << pipeline.parameters.node_version >>
       - browser-tools/install_chrome
       - browser-tools/install_chromedriver
       - install_quire_cli
