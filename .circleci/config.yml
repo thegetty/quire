@@ -88,16 +88,12 @@ commands:
           command: |
             npm pack --workspace packages/cli && \
             npm install thegetty-quire-cli-*.tgz --global --ignore-scripts --foreground-scripts
-      - run:
-          name: Confirm quire-cli version
-          command: quire --version
 
   build_install_cli-linux:
     steps:
       # Node.js is pre-installed in the cimg/node Docker image
       - restore_cache:
-          keys:
-            - *chrome_cache_key
+          key: *chrome_cache_key
       - browser-tools/install_chrome:
           channel: stable
       # TODO: Replace this hack to force-disable the chrome sandbox;
@@ -121,10 +117,10 @@ commands:
       - node/install:
           node-version: << pipeline.parameters.node_version >>
       - restore_cache:
-          keys:
-            - *chrome_cache_key
+          key: *chrome_cache_key
       - browser-tools/install_chrome:
           channel: stable
+          replace-existing: true
       - browser-tools/install_chromedriver
       - save_cache:
           key: *chrome_cache_key
@@ -138,8 +134,7 @@ commands:
       - node/install: # Windows image does not include Node.js
           node-version: << pipeline.parameters.node_version >>
       - restore_cache:
-          keys:
-            - *choco-cache_key
+          key: *chrome_cache_key
       - run:
           name: Install Chocolatey packages
           command: choco install .circleci/packages.config --ignore-checksums
@@ -249,8 +244,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys:
-            - *npm_cache_key
+          key: *npm_cache_key
       - build_install_cli-<< parameters.os >>
       - install_optional-<< parameters.os >>
       - install_test_dependencies
