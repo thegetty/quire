@@ -164,6 +164,13 @@ commands:
           command: |
             git config --global user.email quire@getty.edu
             git config --global user.name "Quire CI"
+      # Run core package tests first for fast failure detection
+      - run:
+          name: Run CLI tests
+          command: npm run test --workspace packages/cli
+      - run:
+          name: Run 11ty tests
+          command: npm run test --workspace packages/11ty
       - run:
           name: Run end-to-end tests
           no_output_timeout: 30m
@@ -186,14 +193,6 @@ commands:
       # TODO: Turn this off when we're happy with snapshot coverage of browser tests
       - store_artifacts:
           path: publication.zip
-
-      # Run core package tests - TODO: run these before the e2e tests
-      - run:
-          name: Run CLI tests
-          command: npm run test --workspace packages/cli
-      - run:
-          name: Run 11ty tests
-          command: npm run test --workspace packages/11ty
 
   test-linux:
     steps:
