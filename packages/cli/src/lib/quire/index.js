@@ -195,6 +195,10 @@ async function installInProject(projectPath, quireVersion, options = {}) {
    * Manually install necessary dev dependencies to run 11ty;
    * these must be `devDependencies` so that they are not bundled into
    * the final `_site` package when running `quire build`
+   *
+   * Installing with --prefer-offline prioritizes local cache,
+   * falling back to network only when necessary.
+   * @see https://docs.npmjs.com/cli/v11/using-npm/config#prefer-offline
    */
   try {
     await execaCommand('npm install --prefer-offline --save-dev', { cwd: projectPath })
