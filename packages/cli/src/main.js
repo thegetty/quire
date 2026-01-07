@@ -64,7 +64,11 @@ commands.forEach((command) => {
    */
   if (Array.isArray(options)) {
     options.forEach((entry) => {
-      if (Array.isArray(entry)) {
+      if (entry instanceof Option) {
+        // Handle Option objects directly for advanced configurations
+        // @see https://github.com/tj/commander.js/#more-configuration
+        subCommand.addOption(entry)
+      } else if (Array.isArray(entry)) {
         // ensure we can join the first two attributes as the option name
         // when only the short or the long flag is defined in the array
         if (entry[0].startsWith('--')) entry.unshift('\u0020'.repeat(4))
@@ -79,16 +83,7 @@ commands.forEach((command) => {
           : [short, long].join('')
         subCommand.option(name, description, defaultValue)
       } else {
-        /**
-         * @todo allow options to be defined by a configuration object
-         * @see https://github.com/tj/commander.js/#more-configuration
-         */
-        // const option = new Option(name, description)
-        // for (const property of configuration) {
-        //   option[property](configuration[property])
-        // }
-        // subCommand.addOption(option)
-        console.error('@TODO please use an array to define option attributes')
+        console.error('Options must be defined as arrays or Option instances')
       }
     })
   }
