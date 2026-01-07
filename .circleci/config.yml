@@ -20,7 +20,7 @@ executors:
     environment:
         # Configure npm for user-level global installs to a user-writable location
         NPM_CONFIG_PREFIX: "$HOME/.npm-global"
-        PATH: "$HOME/.npm-global/bin:$PATH"
+        PATH: "$HOME/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
         PUPPETEER_EXECUTABLE_PATH: '/usr/bin/google-chrome-stable'
 
   macos:
