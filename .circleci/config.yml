@@ -43,20 +43,21 @@ executors:
 
 anchors:
 
-  # TODO: Need the release version as a variable for use in npm pack
+  # TODO: Integrate the release version as a variable for use in npm pack
   - &npm_cache_key package-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ .Environment.CACHE_VERSION }}
   # Chocolatey cache key for Windows installs
   - &choco-cache_key choco-cache-{{ .Branch }}-{{ checksum ".circleci/packages.config" }}-{{ .Environment.CACHE_VERSION }}
   # Chrome/ChromeDriver cache key for Unix systems (Linux/macOS)
   - &chrome_cache_key chrome-cache-v1-{{ arch }}-{{ .Environment.CACHE_VERSION }}
 
-  # OS-specific npm cache paths
+  # nix-specific npm cache paths
   - &npm_cache_paths_unix
     - node_modules
     - packages/*/node_modules
     - ~/.npm
     - ~/.cache
 
+  # Windows-specific npm cache paths
   - &npm_cache_paths_win
     - node_modules
     - packages/*/node_modules
@@ -72,7 +73,7 @@ anchors:
     matrix:
       parameters:
         os: [ 'linux', 'macos', 'win' ]
-        # TODO: Supported node versions
+        # TODO: add paremeter for supported node versions
 
 commands:
   install_quire_cli:
@@ -95,6 +96,12 @@ commands:
           keys:
             - *chrome_cache_key
       - browser-tools/install_chrome
+      # TODO: Replace this hack to force-disable the chrome sandbox;
+      # On linux chrome, if run as root, requires disabling sandboxing (or using deprecated suid containers)
+      # see https://pptr.dev/troubleshooting#setting-up-chrome-linux-sandbox
+      - run:
+          name: "Modify chrome app"
+          command: sudo sed -i 's|HERE/chrome"|HERE/chrome" --no-sandbox|g' /opt/google/chrome/google-chrome
       - browser-tools/install_chromedriver
       - save_cache:
           key: *chrome_cache_key
@@ -187,11 +194,11 @@ commands:
       - store_test_results:
           path: reports
 
-      # @TODO: Turn this off when we're happy with snapshot coverage of browser tests
+      # TODO: Turn this off when we're happy with snapshot coverage of browser tests
       - store_artifacts:
           path: publication.zip
 
-      # Run core package tests - @TODO: run these before the e2e tests
+      # Run core package tests - TODO: run these before the e2e tests
       - run:
           name: Run CLI tests
           command: npm run test --workspace packages/cli
@@ -247,7 +254,7 @@ jobs:
   # Tests the output of the publication build -- must be separate for the playwright executor
   browser_test:
     executor: playwright
-    # NB: taken from https://playwright.dev/docs/ci#sharding-in-circleci
+    # Nota bene: taken from https://playwright.dev/docs/ci#sharding-in-circleci
     parallelism: 4
     steps:
       - attach_workspace:
@@ -264,7 +271,7 @@ jobs:
 
 workflows:
   build_install_test:
-    # @TODO: don't run for docs/, etc
+    # TODO: don't run for docs/, etc
     when: true
     jobs:
       - build_install_test:
