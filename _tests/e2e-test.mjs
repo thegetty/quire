@@ -99,8 +99,6 @@ test.serial('Confirm quire-cli is installed and accessible', async (t) => {
 
 test.serial('Create the default publication and build the site, epub, pdf', async (t) => {
   const newCmd = await execa('quire', ['new', '--debug', '--quire-path', eleventyPath, publicationName ])
-  console.log('quire new stdout:', newCmd.stdout)
-  console.log('quire new stderr:', newCmd.stderr)
 
   process.chdir(publicationName)
   await buildSitePdfEpub(t)
