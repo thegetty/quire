@@ -51,7 +51,8 @@ anchors:
   # Chocolatey cache key for Windows installs
   - &choco-cache_key choco-cache-{{ .Branch }}-{{ checksum ".circleci/packages.config" }}-{{ .Environment.CACHE_VERSION }}
   # Chrome/ChromeDriver cache key for Unix systems (Linux/macOS)
-  - &chrome_cache_key chrome-cache-v2-{{ arch }}-{{ .Environment.CACHE_VERSION }}
+  # Note: browser-tools orb prepends "chrome-" and appends chrome version and arch automatically
+  - &chrome_cache_key cache-v2-{{ .Branch }}-{{ .Environment.CACHE_VERSION }}
 
   # nix-specific npm cache paths
   - &npm_cache_paths_unix
@@ -92,23 +93,16 @@ commands:
   build_install_cli-linux:
     steps:
       # Node.js is pre-installed in the cimg/node Docker image
-      - restore_cache:
-          key: *chrome_cache_key
       - browser-tools/install_chrome:
-          channel: stable
+          cache-key: *chrome_cache_key
+          use_cache: true
       # TODO: Replace this hack to force-disable the chrome sandbox;
       # On linux chrome, if run as root, requires disabling sandboxing (or using deprecated suid containers)
       # see https://pptr.dev/troubleshooting#setting-up-chrome-linux-sandbox
       - run:
           name: "Modify chrome app"
           command: sudo sed -i 's|HERE/chrome"|HERE/chrome" --no-sandbox|g' /opt/google/chrome/google-chrome
-      - browser-tools/install_chromedriver # Automatically matches Chrome version
-      - save_cache:
-          key: *chrome_cache_key
-          paths:
-            - /usr/bin/google-chrome-stable
-            - /usr/bin/chromedriver
-            - /opt/google
+      - browser-tools/install_chromedriver
       - install_quire_cli
 
   build_install_cli-macos:
@@ -116,16 +110,10 @@ commands:
       # macOS Xcode image includes Node however the version may not be the same
       - node/install:
           node-version: << pipeline.parameters.node_version >>
-      - restore_cache:
-          key: *chrome_cache_key
       - browser-tools/install_chrome:
-          channel: stable
-      - browser-tools/install_chromedriver # Automatically matches Chrome version
-      - save_cache:
-          key: *chrome_cache_key
-          paths:
-            - /Applications/Google Chrome.app
-            - /usr/local/bin/chromedriver
+          cache-key: *chrome_cache_key
+          use_cache: true
+      - browser-tools/install_chromedriver
       - install_quire_cli
 
   build_install_cli-win:
