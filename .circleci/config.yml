@@ -172,8 +172,10 @@ commands:
   run_tests:
     steps:
       - run:
-          name: Set git email
-          command: git config --global user.email quire@getty.edu
+          name: Set git user identity
+          command: |
+            git config --global user.email quire@getty.edu
+            git config --global user.name "Quire CI"
       - run:
           name: Run end-to-end tests
           no_output_timeout: 30m
