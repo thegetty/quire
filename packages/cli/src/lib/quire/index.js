@@ -139,10 +139,10 @@ async function initStarter (starter, projectPath, options) {
 
   /**
    * Create an initial commit of files in new repository
+   * Using '.' respects .gitignore and avoids attempting to add ignored directories
    * @todo use a localized string for the commit message
    */
-  const projectFiles = fs.readdirSync(projectPath)
-  await git.init().add(projectFiles).commit('Initial Commit')
+  await git.init().add('.').commit('Initial Commit')
   return quireVersion
 }
 
@@ -212,17 +212,12 @@ async function installInProject(projectPath, quireVersion, options = {}) {
     return
   }
 
-  const eleventyFilesToCommit = fs
-    .readdirSync(tempDir)
-    .filter((filePath) => filePath !== 'node_modules')
-
-  eleventyFilesToCommit.push('package-lock.json')
-
   /**
    * Create an additional commit of new `@thegetty/quire-11ty` files in repository
+   * Using '.' respects .gitignore and avoids attempting to add ignored directories
    * @todo use a localized string for the commit message
    */
-  await git.add(eleventyFilesToCommit).commit('Adds `@thegetty/quire-11ty` files')
+  await git.add('.').commit('Adds `@thegetty/quire-11ty` files')
 
   // remove temporary 11ty install directory
   fs.removeSync(path.join(projectPath, temp11tyDirectory))
