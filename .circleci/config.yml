@@ -94,7 +94,7 @@ commands:
     steps:
       # Node.js is pre-installed in the cimg/node Docker image
       - browser-tools/install_chrome:
-          cache-key: *chrome_cache_key
+          cache_key: *chrome_cache_key
           use_cache: true
       # TODO: Replace this hack to force-disable the chrome sandbox;
       # On linux chrome, if run as root, requires disabling sandboxing (or using deprecated suid containers)
@@ -111,7 +111,7 @@ commands:
       - node/install:
           node-version: << pipeline.parameters.node_version >>
       - browser-tools/install_chrome:
-          cache-key: *chrome_cache_key
+          cache_key: *chrome_cache_key
           use_cache: true
       - browser-tools/install_chromedriver
       - install_quire_cli
