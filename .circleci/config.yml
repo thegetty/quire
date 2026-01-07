@@ -76,6 +76,13 @@ commands:
     description: "Pack and install the Quire CLI globally"
     steps:
       - run:
+          name: Configure npm for user-level global installs
+          # this allows quire-cli to be installed globally without using sudo
+          command: |
+            mkdir ~/.npm-global
+            npm config set prefix ~/.npm-global
+            echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.bashrc
+      - run:
           name: Install quire-cli
           # Force execution of npm lifecycle scripts in the foreground
           command: |
