@@ -197,7 +197,7 @@ async function installInProject(projectPath, quireVersion, options = {}) {
    * the final `_site` package when running `quire build`
    */
   try {
-    await execaCommand('npm install --save-dev', { cwd: projectPath })
+    await execaCommand('npm install --prefer-offline --save-dev', { cwd: projectPath })
   } catch(error) {
     console.warn(`[CLI:error]`, error)
     fs.removeSync(projectPath)
