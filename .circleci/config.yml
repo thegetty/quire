@@ -134,7 +134,7 @@ commands:
       - node/install: # Windows image does not include Node.js
           node-version: << pipeline.parameters.node_version >>
       - restore_cache:
-          key: *chrome_cache_key
+          key: *choco-cache_key
       - run:
           name: Install Chocolatey packages
           command: choco install .circleci/packages.config --ignore-checksums
