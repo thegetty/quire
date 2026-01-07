@@ -120,7 +120,6 @@ commands:
           key: *chrome_cache_key
       - browser-tools/install_chrome:
           channel: stable
-          replace-existing: true
       - browser-tools/install_chromedriver
       - save_cache:
           key: *chrome_cache_key
