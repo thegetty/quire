@@ -154,17 +154,22 @@ commands:
       - run:
           name: Set git email
           command: git config --global user.email quire@getty.edu
+      # - run:
+      #     name: Debug PATH and npm config
+      #     command: |
+      #       echo "PATH=$PATH"
+      #       echo "NPM_CONFIG_PREFIX=$NPM_CONFIG_PREFIX"
+      #       which quire || echo "quire not found in PATH"
+      #       ls -la ~/.npm-global/bin/ || echo "~/.npm-global/bin/ does not exist"
       - run:
-          name: Debug PATH and npm config
-          command: |
-            echo "PATH=$PATH"
-            echo "NPM_CONFIG_PREFIX=$NPM_CONFIG_PREFIX"
-            which quire || echo "quire not found in PATH"
-            ls -la ~/.npm-global/bin/ || echo "~/.npm-global/bin/ does not exist"
-      - run:
-          name: Run end-to-end tests
+          name: Run end-to-end tests (verbose debug)
           no_output_timeout: 30m
-          command: mkdir -p reports && npm run test:e2e
+          command: mkdir -p reports && npx ava --verbose --timeout 360s
+      - run:
+          name: Run end-to-end tests (TAP output for reports)
+          no_output_timeout: 30m
+          command: npx ava --tap --timeout 360s | tap-xunit > reports/publication-build.xml
+          when: always
 
       # Persist the site build for browser testing and submit test reports
       - persist_to_workspace:
