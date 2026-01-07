@@ -53,13 +53,15 @@ test('command should have correct options defined', (t) => {
   const { command } = t.context
 
   t.true(Array.isArray(command.options))
+  const cleanCache = command.options.find((opt) => opt[0] === '--clean-cache')
+  const debug = command.options.find((opt) => opt[0] === '--debug')
   const path = command.options.find((opt) => opt[0].includes('--quire-path'))
   const version = command.options.find((opt) => opt[0].includes('--quire-version'))
-  const debug = command.options.find((opt) => opt[0] === '--debug')
 
+  t.truthy(cleanCache)
+  t.truthy(debug)
   t.truthy(path)
   t.truthy(version)
-  t.truthy(debug)
 })
 
 test('action method should be defined and async', (t) => {
