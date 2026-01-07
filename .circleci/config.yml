@@ -37,8 +37,8 @@ executors:
     resource_class: windows.large
     shell: bash.exe # Use bash instead of PowerShell for compatibility with node orb
     environment:
-      PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
       PUPPETEER_EXECUTABLE_PATH: 'C:\Program Files\Google\Chrome\Application\chrome.exe'
+      PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
 
 anchors:
 
@@ -85,13 +85,24 @@ commands:
           name: Confirm quire-cli version
           command: quire --version
 
+  configure_npm_prefix:
+    description: "Configure npm for user-level global installs (Linux only)"
+    steps:
+      - run:
+          name: Configure npm for user-level global installs
+          # This allows quire-cli to be installed globally without sudo on Linux
+          # (not necessary on macOS/Windows as the node orb handles permissions)
+          command: |
+            mkdir -p ~/.npm-global
+            npm config set prefix ~/.npm-global
+            echo 'export PATH=~/.npm-global/bin:$PATH' >> $BASH_ENV
+
   build_install_cli-linux:
     steps:
-      # Install Node.js via node orb (uses NVM, handles npm permissions automatically)
-      - node/install:
-          node-version: << pipeline.parameters.node_version >>
+      # Node.js is pre-installed in the cimg/node Docker image
       - browser-tools/install_chrome
       - browser-tools/install_chromedriver
+      - configure_npm_prefix
       - install_quire_cli
 
   build_install_cli-macos:
