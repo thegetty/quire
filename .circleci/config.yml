@@ -51,7 +51,7 @@ anchors:
   # Chocolatey cache key for Windows installs
   - &choco-cache_key choco-cache-{{ .Branch }}-{{ checksum ".circleci/packages.config" }}-{{ .Environment.CACHE_VERSION }}
   # Chrome/ChromeDriver cache key for Unix systems (Linux/macOS)
-  - &chrome_cache_key chrome-cache-v1-{{ arch }}-{{ .Environment.CACHE_VERSION }}
+  - &chrome_cache_key chrome-cache-v2-{{ arch }}-{{ .Environment.CACHE_VERSION }}
 
   # nix-specific npm cache paths
   - &npm_cache_paths_unix
