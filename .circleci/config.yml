@@ -102,7 +102,7 @@ commands:
       - run:
           name: "Modify chrome app"
           command: sudo sed -i 's|HERE/chrome"|HERE/chrome" --no-sandbox|g' /opt/google/chrome/google-chrome
-      - browser-tools/install_chromedriver
+      - browser-tools/install_chromedriver # Automatically matches Chrome version
       - save_cache:
           key: *chrome_cache_key
           paths:
@@ -116,13 +116,11 @@ commands:
       # macOS Xcode image includes Node however the version may not be the same
       - node/install:
           node-version: << pipeline.parameters.node_version >>
-      # Remove any existing Chrome installation to force fresh install
-      - run:
-          name: Remove existing Chrome
-          command: sudo rm -rf "/Applications/Google Chrome.app" "/Applications/Google Chrome Beta.app" || true
+      - restore_cache:
+          key: *chrome_cache_key
       - browser-tools/install_chrome:
           channel: stable
-      - browser-tools/install_chromedriver
+      - browser-tools/install_chromedriver # Automatically matches Chrome version
       - save_cache:
           key: *chrome_cache_key
           paths:
