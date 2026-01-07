@@ -18,7 +18,9 @@ executors:
       - image: cimg/node:<< pipeline.parameters.node_version >>
     resource_class: medium
     environment:
-        NPM_CONFIG_PREFIX: '/home/circleci/.npm-global'
+        # Configure npm for user-level global installs to a user-writable location
+        NPM_CONFIG_PREFIX: "$HOME/.npm-global"
+        PATH: "$HOME/.npm-global/bin:$PATH"
         PUPPETEER_EXECUTABLE_PATH: '/usr/bin/google-chrome-stable'
 
   macos:
@@ -86,22 +88,12 @@ commands:
           name: Confirm quire-cli version
           command: quire --version
 
-  configure_npm_prefix:
-    description: "Configure npm for user-level global installs (Linux only)"
-    steps:
-      - run:
-          name: Add npm global bin directory to PATH
-          command: | # NPM_CONFIG_PREFIX is set in the executor environment
-            mkdir -p $NPM_CONFIG_PREFIX
-            echo 'export PATH=$NPM_CONFIG_PREFIX/bin:$PATH' >> $BASH_ENV
-            source $BASH_ENV
-
   build_install_cli-linux:
     steps:
       # Node.js is pre-installed in the cimg/node Docker image
+      # NPM_CONFIG_PREFIX and PATH are set in executor environment
       - browser-tools/install_chrome
       - browser-tools/install_chromedriver
-      - configure_npm_prefix
       - install_quire_cli
 
   build_install_cli-macos:
