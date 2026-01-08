@@ -26,9 +26,9 @@ config.yml (Setup)
 Setup Workflow (path-filtering)
   ↓
   ├─ Only markdown, mise, mise-tasks files → Skip Build
-  └─ Code changes → Proceed with continue-config.yml
+  └─ Code changes → Proceed with build.yml
        ↓
-    continue-config.yml (Continuation)
+    build.yml (Build & Test)
        ↓
     build_install_test workflow
        ↓
@@ -43,13 +43,13 @@ Setup Workflow (path-filtering)
 
 **Execution flow:**
 1. **Setup configuration** ([config.yml](.circleci/config.yml)) - Path filtering decides whether to continue
-2. **Continuation configuration** ([continue-config.yml](.circleci/continue-config.yml)) - Contains all build/test jobs
+2. **Build & test configuration** ([build.yml](.circleci/build.yml)) - Contains all build/test jobs
 3. **Build jobs** run in parallel across 3 platforms (~5-9 min each)
 4. **Browser test jobs** run only after corresponding build job completes (4 parallel shards per platform = 12 total jobs, ~2-3 min per shard)
 
 **Total pipeline time:** ~7-12 minutes (bottlenecked by slowest platform's build + browser tests)
 
-**Configuration Split:** CircleCI dynamic configuration requires separate setup and continuation files. The setup file (config.yml) contains `setup: true` and uses the path-filtering orb. When code files change, it continues to continue-config.yml which contains all the actual build and test workflows.
+**Configuration Split:** CircleCI dynamic configuration requires separate setup and continuation files. The setup file (config.yml) contains `setup: true` and uses the path-filtering orb. When code files change, it continues to build.yml which contains all the actual build and test workflows.
 
 ## Architecture Patterns
 
@@ -59,7 +59,7 @@ Uses [`path-filtering` orb v3.0.0](https://circleci.com/developer/orbs/orb/circl
 
 **Configuration files:**
 - **Setup:** [config.yml](.circleci/config.yml) - Contains `setup: true` and path-filtering logic
-- **Continuation:** [continue-config.yml](.circleci/continue-config.yml) - Contains all build/test workflows
+- **Build & Test:** [build.yml](.circleci/build.yml) - Contains all build/test workflows
 
 **Pattern:**
 ```regex
@@ -79,8 +79,8 @@ This single regex pattern matches files that:
 2. `setup` workflow runs the `path-filtering/filter` job with `run-build-test-workflow: false` (default)
 3. Path filtering examines changed files against `main` branch (see `base-revision`)
 4. If ANY changed file matches the pattern, `run-build-test-workflow` is set to `true`
-5. Path filtering continues pipeline to `continue-config.yml` with the updated parameter
-6. In `continue-config.yml`, the `build_install_test` workflow runs only when `run-build-test-workflow: true`
+5. Path filtering continues pipeline to `build.yml` with the updated parameter
+6. In `build.yml`, the `build_install_test` workflow runs only when `run-build-test-workflow: true`
 
 **Examples:**
 

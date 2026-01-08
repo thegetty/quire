@@ -19,7 +19,7 @@ workflows:
       - path-filtering/filter:
           base-revision: main
           # Path to continuation configuration file
-          config-path: .circleci/continue-config.yml
+          config-path: .circleci/build.yml
           # Mapping of path regular expressions to pipeline parameter values
           # One mapping per line, 3-column, whitespace-delimited:
           # <path-regex> <pipeline-parameter-name> <pipeline-parameter-value>
