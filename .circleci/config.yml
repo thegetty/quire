@@ -163,7 +163,6 @@ commands:
           command: |
             git config --global user.email quire@getty.edu
             git config --global user.name "Quire CI"
-      # Run core package tests first for fast failure detection
       - run:
           name: Run CLI tests
           command: npm run test --workspace packages/cli

@@ -1,4 +1,5 @@
 import Command from '#src/Command.js'
+import logger from '#src/lib/logger.js'
 import { YAMLException } from 'js-yaml'
 import YamlValidationError from '../errors/validation/yaml-validation-error.js'
 import fs from 'fs-extra'
@@ -31,7 +32,7 @@ export default class ValidateCommand extends Command {
 
   action(options, command){
     if(options.debug) {
-      console.debug('[CLI] Command \'%s\' called with options %o', this.name(), options)
+      logger.debug('[CLI] Command \'%s\' called with options %o', this.name(), options)
     }
     
     const dataPath = path.join(projectRoot, 'content', '_data')
@@ -41,7 +42,7 @@ export default class ValidateCommand extends Command {
       )
 
     let errorList = []
-    console.log('Validating YAML files..')
+    logger.log('Validating YAML files..')
 
     for (const file of files) {
       try {
@@ -52,9 +53,9 @@ export default class ValidateCommand extends Command {
     }
 
     if(errorList.length > 0) {
-      errorList.forEach(err => { console.error(`${err.reason}`) })
+      errorList.forEach(err => { logger.error(`${err.reason}`) })
     } else {
-      console.log('Validation complete.')
+      logger.log('Validation complete.')
     }
   }
 

@@ -1,4 +1,5 @@
 import Command from '#src/Command.js'
+import logger from '#src/lib/logger.js'
 import { clean } from '#helpers/clean.js'
 import { paths, projectRoot  } from '#lib/11ty/index.js'
 import testcwd from '#helpers/test-cwd.js'
@@ -34,7 +35,7 @@ export default class CleanCommand extends Command {
 
   async action(options, command) {
     if (options.debug) {
-      console.debug('[CLI] Command \'%s\' called with options %o', this.name(), options)
+      logger.debug('[CLI] Command \'%s\' called with options %o', this.name(), options)
     }
 
     const deletedPaths = await clean(projectRoot, paths, options)
@@ -43,7 +44,7 @@ export default class CleanCommand extends Command {
       ? `the following files ${options.dryRun ? 'will be' : 'have been'} deleted:`
       : 'no files to delete'
 
-    console.debug(`[CLI] ${message}\n${deletedPaths.join('\n')}`)
+    logger.debug(`[CLI] ${message}\n${deletedPaths.join('\n')}`)
   }
 
   preAction(command) {
