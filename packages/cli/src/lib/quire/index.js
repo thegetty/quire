@@ -204,6 +204,10 @@ async function installInProject(projectPath, quireVersion, options = {}) {
    * @see https://docs.npmjs.com/cli/v11/using-npm/config#prefer-offline
    */
   try {
+    if (options.cleanCache) {
+      // Nota bene: cache is self-healing, this should not be necessary.
+      await execaCommand('npm cache clean --force', { cwd: projectPath })
+    }
     await execaCommand('npm install --prefer-offline --save-dev', { cwd: projectPath })
   } catch(error) {
     console.warn(`[CLI:error]`, error)
