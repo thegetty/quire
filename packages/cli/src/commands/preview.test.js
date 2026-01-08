@@ -21,7 +21,14 @@ test.beforeEach((t) => {
   t.context.projectRoot = '/project'
 
   // Stub console methods to suppress output during tests
-  t.context.consoleDebugStub = t.context.sandbox.stub(console, 'debug')
+  // Create mock logger (no global console stubbing needed!)
+  t.context.mockLogger = {
+    info: t.context.sandbox.stub(),
+    error: t.context.sandbox.stub(),
+    debug: t.context.sandbox.stub(),
+    log: t.context.sandbox.stub(),
+    warn: t.context.sandbox.stub()
+  }
 })
 
 test.afterEach.always((t) => {
@@ -32,8 +39,8 @@ test.afterEach.always((t) => {
   t.context.vol.reset()
 })
 
-test.serial('preview command should call eleventy CLI serve with default options', async (t) => {
-  const { sandbox, fs } = t.context
+test('preview command should call eleventy CLI serve with default options', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
 
   // Mock eleventy CLI module
   const mockEleventyCli = {
@@ -58,6 +65,9 @@ test.serial('preview command should call eleventy CLI serve with default options
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd
+    },
+    '#src/lib/logger.js': {
+      default: mockLogger
     },
     'fs-extra': fs
   })
@@ -76,8 +86,8 @@ test.serial('preview command should call eleventy CLI serve with default options
   t.false(mockEleventyApi.serve.called, 'eleventy API serve should not be called')
 })
 
-test.serial('preview command should call eleventy API when 11ty option is "api"', async (t) => {
-  const { sandbox, fs } = t.context
+test('preview command should call eleventy API when 11ty option is "api"', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
 
   // Mock eleventy CLI module
   const mockEleventyCli = {
@@ -102,6 +112,9 @@ test.serial('preview command should call eleventy API when 11ty option is "api"'
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd
+    },
+    '#src/lib/logger.js': {
+      default: mockLogger
     },
     'fs-extra': fs
   })
@@ -116,8 +129,8 @@ test.serial('preview command should call eleventy API when 11ty option is "api"'
   t.true(mockEleventyApi.serve.called, 'eleventy API serve should be called')
 })
 
-test.serial('preview command should pass port option to eleventy serve', async (t) => {
-  const { sandbox, fs } = t.context
+test('preview command should pass port option to eleventy serve', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
 
   // Mock eleventy CLI module
   const mockEleventyCli = {
@@ -142,6 +155,9 @@ test.serial('preview command should pass port option to eleventy serve', async (
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd
+    },
+    '#src/lib/logger.js': {
+      default: mockLogger
     },
     'fs-extra': fs
   })
@@ -157,8 +173,8 @@ test.serial('preview command should pass port option to eleventy serve', async (
   t.true(mockEleventyCli.serve.calledWith(options), 'eleventy CLI serve should be called with port option')
 })
 
-test.serial('preview command should pass quiet and verbose options', async (t) => {
-  const { sandbox, fs } = t.context
+test('preview command should pass quiet and verbose options', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
 
   // Mock eleventy CLI module
   const mockEleventyCli = {
@@ -184,6 +200,9 @@ test.serial('preview command should pass quiet and verbose options', async (t) =
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
+    '#src/lib/logger.js': {
+      default: mockLogger
+    },
     'fs-extra': fs
   })
 
@@ -198,8 +217,8 @@ test.serial('preview command should pass quiet and verbose options', async (t) =
   t.true(mockEleventyCli.serve.calledWith(options), 'eleventy CLI serve should be called with all options')
 })
 
-test.serial('preview command should call testcwd in preAction', async (t) => {
-  const { sandbox, fs } = t.context
+test('preview command should call testcwd in preAction', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
 
   // Mock eleventy modules
   const mockEleventyCli = {
@@ -223,6 +242,9 @@ test.serial('preview command should call testcwd in preAction', async (t) => {
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd
+    },
+    '#src/lib/logger.js': {
+      default: mockLogger
     },
     'fs-extra': fs
   })

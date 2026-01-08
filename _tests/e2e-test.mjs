@@ -84,10 +84,17 @@ const buildSitePdfEpub = async (t) => {
 
 test.before('Mirror user package environment.', (t) => {
   // Remove lockfile to ensure dependency resolution runs as from npm package
-  const lockfile = path.join('packages','11ty','package-lock.json')
+  const lockfile = path.join('packages', '11ty', 'package-lock.json')
   if (fs.existsSync(lockfile)) {
     fs.rmSync(lockfile)
   }
+})
+
+test.serial('Confirm quire-cli is installed and accessible', async (t) => {
+  const {stdout, stderr} = await execa('quire', ['--version'])
+  console.log('quire version:', stdout)
+  t.truthy(stdout, 'quire --version should return output')
+  t.pass()
 })
 
 test.serial('Create the default publication and build the site, epub, pdf', async (t) => {

@@ -179,16 +179,19 @@ async function installInProject(projectPath, quireVersion, options = {}) {
 
   // Copy if passed a path and it exists, otherwise attempt to download the tarball for this pathspec
   if (fs.existsSync(quirePath)) {
-    fs.copySync(quirePath, tempDir)
+    fs.cpSync(quirePath, tempDir, {recursive: true})
   } else {
-    await execaCommand(`npm pack ${ options.debug ? '--debug' : '--quiet' } ${quire11tyPackage}`)
+    await execaCommand(`npm pack ${ options.debug ? '--debug' : '--quiet' } --pack-destination ${tempDir} ${quire11tyPackage}`)
 
     // Extract only the package dir from the tar bar and strip it from the extracted path
-    await execaCommand(`tar -xzf thegetty-quire-11ty-${quireVersion}.tgz -C ${tempDir} --strip-components=1 package/`)
+    const tarballPath = path.join(tempDir, `thegetty-quire-11ty-${quireVersion}.tgz`)
+    await execaCommand(`tar -xzf ${tarballPath} -C ${tempDir} --strip-components=1 package/`)
+
+    fs.rmSync(tarballPath)
   }
 
   // Copy `.temp` to projectPath
-  fs.copySync(tempDir, projectPath)
+  fs.cpSync(tempDir, projectPath, {recursive: true})
 
   console.debug('[CLI:quire] installing dev dependencies into quire project')
   /**
@@ -208,7 +211,7 @@ async function installInProject(projectPath, quireVersion, options = {}) {
     await execaCommand('npm install --prefer-offline --save-dev', { cwd: projectPath })
   } catch(error) {
     console.warn(`[CLI:error]`, error)
-    fs.removeSync(projectPath)
+    fs.rmSync(projectPath, {recursive: true})
     return
   }
 
@@ -220,7 +223,7 @@ async function installInProject(projectPath, quireVersion, options = {}) {
   await git.add('.').commit('Adds `@thegetty/quire-11ty` files')
 
   // remove temporary 11ty install directory
-  fs.removeSync(path.join(projectPath, temp11tyDirectory))
+  fs.rmSync(path.join(projectPath, temp11tyDirectory), {recursive: true})
 }
 
 /**

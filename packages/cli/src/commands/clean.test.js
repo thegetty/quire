@@ -22,7 +22,14 @@ test.beforeEach((t) => {
   t.context.projectRoot = '/project'
 
   // Stub console methods to suppress output during tests
-  t.context.consoleDebugStub = t.context.sandbox.stub(console, 'debug')
+  // Create mock logger (no global console stubbing needed!)
+  t.context.mockLogger = {
+    info: t.context.sandbox.stub(),
+    error: t.context.sandbox.stub(),
+    debug: t.context.sandbox.stub(),
+    log: t.context.sandbox.stub(),
+    warn: t.context.sandbox.stub()
+  }
 })
 
 test.afterEach.always((t) => {
@@ -33,8 +40,8 @@ test.afterEach.always((t) => {
   t.context.vol.reset()
 })
 
-test.serial('clean command should call clean helper with correct parameters', async (t) => {
-  const { sandbox, fs } = t.context
+test('clean command should call clean helper with correct parameters', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
 
   // Mock clean helper
   const mockClean = sandbox.stub().resolves(['/project/_site'])
@@ -54,6 +61,9 @@ test.serial('clean command should call clean helper with correct parameters', as
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
+    '#src/lib/logger.js': {
+      default: mockLogger
+    },
     'fs-extra': fs
   })
 
@@ -68,8 +78,8 @@ test.serial('clean command should call clean helper with correct parameters', as
   t.true(mockClean.calledWith('/project', { output: '_site' }, options), 'clean should be called with correct parameters')
 })
 
-test.serial('clean command should handle dry-run option', async (t) => {
-  const { sandbox, fs } = t.context
+test('clean command should handle dry-run option', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
 
   // Mock clean helper to return paths that would be deleted
   const mockClean = sandbox.stub().resolves(['/project/_site/index.html', '/project/_site/styles.css'])
@@ -89,6 +99,9 @@ test.serial('clean command should handle dry-run option', async (t) => {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
+    '#src/lib/logger.js': {
+      default: mockLogger
+    },
     'fs-extra': fs
   })
 
@@ -103,8 +116,8 @@ test.serial('clean command should handle dry-run option', async (t) => {
   t.true(mockClean.calledWith('/project', { output: '_site' }, options), 'clean should receive dry-run option')
 })
 
-test.serial('clean command should call testcwd in preAction', async (t) => {
-  const { sandbox, fs } = t.context
+test('clean command should call testcwd in preAction', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
 
   // Mock clean helper
   const mockClean = sandbox.stub().resolves([])
@@ -124,6 +137,9 @@ test.serial('clean command should call testcwd in preAction', async (t) => {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
+    '#src/lib/logger.js': {
+      default: mockLogger
+    },
     'fs-extra': fs
   })
 
@@ -137,8 +153,8 @@ test.serial('clean command should call testcwd in preAction', async (t) => {
   t.true(mockTestcwd.calledWith(command), 'testcwd should be called with command object')
 })
 
-test.serial('clean command should handle empty deletedPaths', async (t) => {
-  const { sandbox, fs } = t.context
+test('clean command should handle empty deletedPaths', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
 
   // Mock clean helper to return empty array (no files to delete)
   const mockClean = sandbox.stub().resolves([])
@@ -158,6 +174,9 @@ test.serial('clean command should handle empty deletedPaths', async (t) => {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
+    '#src/lib/logger.js': {
+      default: mockLogger
+    },
     'fs-extra': fs
   })
 
@@ -173,8 +192,8 @@ test.serial('clean command should handle empty deletedPaths', async (t) => {
   t.pass()
 })
 
-test.serial('clean command should pass all options to clean helper', async (t) => {
-  const { sandbox, fs } = t.context
+test('clean command should pass all options to clean helper', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
 
   // Mock clean helper
   const mockClean = sandbox.stub().resolves(['/project/_site'])
@@ -193,6 +212,9 @@ test.serial('clean command should pass all options to clean helper', async (t) =
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd
+    },
+    '#src/lib/logger.js': {
+      default: mockLogger
     },
     'fs-extra': fs
   })
