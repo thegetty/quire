@@ -27,7 +27,7 @@ export default class CreateCommand extends Command {
       [ '--quire-version <version>', 'quire-11ty version to install' ],
       [ '--debug', 'debug the `quire new` command', false ],
       // Use Option object syntax to configure this as a hidden option
-      new Option('--clean-cache', 'force clean the npm cache')..default(false).hideHelp(),
+      new Option('--clean-cache', 'force clean the npm cache').default(false).hideHelp(),
     ],
   }
 
