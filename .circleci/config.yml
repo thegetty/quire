@@ -228,8 +228,8 @@ commands:
           paths: *npm_cache_paths_win
 
 jobs:
-  # Builds the CLI, installs it, and tests it by building a publication
   build_install_test:
+    description: "Builds the CLI, installs it, and tests it by building a publication"
     <<: *os_param
     executor: << parameters.os >>
     steps:
@@ -241,10 +241,10 @@ jobs:
       - install_test_dependencies
       - save_npm_cache-<< parameters.os >>
       - test-<< parameters.os >>
-  # Tests the output of the publication build -- must be separate for the playwright executor
   browser_test:
+    description: "Tests the output of the publication build -- must be separate for the playwright executor"
     executor: playwright
-    # Nota bene: taken from https://playwright.dev/docs/ci#sharding-in-circleci
+    # Sharding documentation https://playwright.dev/docs/ci#sharding-in-circleci
     parallelism: 4
     steps:
       - attach_workspace:
@@ -252,7 +252,6 @@ jobs:
       - run:
           name: Install browser testing dependencies
           command: npm i && apt-get update && apt-get install -y zip && npx playwright install
-      # test:browsers-circleci follows https://playwright.dev/docs/ci#circleci to correct sharding
       - run: 
           name: Run browser testing on end-to-end test artifacts
           command: npm run test:browsers-circleci
