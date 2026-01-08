@@ -2,19 +2,25 @@ version: 2.1
 
 orbs:
   browser-tools: circleci/browser-tools@2.1.2
-  cypress: cypress-io/cypress@3.4.3
   mac: circleci/macos@2.5.2
   node: circleci/node@7.1.0
+  path-filtering: circleci/path-filtering@1.1.0
   win: circleci/windows@5.1.0
 
+parameters:
+  node_version:
+    type: string
+    default: "22.10.0"
+  run-build-test-workflow:
+    type: boolean
+    default: true
+
 executors:
-  pw-noble-development:
-    docker:
-      - image: mcr.microsoft.com/playwright:v1.52.0-noble
   linux:
     docker:
-      - image: cimg/base:current-22.04
+      - image: cimg/node:<< pipeline.parameters.node_version >>
         user: root
+    resource_class: medium
     environment:
         PUPPETEER_EXECUTABLE_PATH: '/usr/bin/google-chrome-stable'
 
@@ -24,19 +30,43 @@ executors:
     resource_class: m4pro.medium
     environment:
         PUPPETEER_EXECUTABLE_PATH: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
-  win: 
+
+  playwright:
+    docker:
+      - image: mcr.microsoft.com/playwright:v1.52.0-noble
+
+  win:
     machine:
-      image: windows-server-2019-vs2019:current
-      resource_class: windows.medium
+      image: 'windows-server-2022-gui:current'
+    resource_class: windows.large
+    shell: bash.exe # Use bash instead of PowerShell for compatibility with node orb
     environment:
-        PUPPETEER_EXECUTABLE_PATH: 'C:\Program Files\Google\Chrome\Application\chrome.exe'
+      PUPPETEER_EXECUTABLE_PATH: 'C:\Program Files\Google\Chrome\Application\chrome.exe'
+      PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
 
 anchors:
 
-  # TODO: Need the release version as a variable for use in npm pack
+  # TODO: Integrate the release version as a variable for use in npm pack
   - &npm_cache_key package-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ .Environment.CACHE_VERSION }}
   # Chocolatey cache key for Windows installs
   - &choco-cache_key choco-cache-{{ .Branch }}-{{ checksum ".circleci/packages.config" }}-{{ .Environment.CACHE_VERSION }}
+  # Chrome/ChromeDriver cache key for Unix systems (Linux/macOS)
+  # Note: browser-tools orb prepends "chrome-" and appends chrome version and arch automatically
+  - &chrome_cache_key cache-v3-{{ .Branch }}-{{ .Environment.CACHE_VERSION }}
+
+  # nix-specific npm cache paths
+  - &npm_cache_paths_unix
+    - node_modules
+    - packages/*/node_modules
+    - ~/.npm
+    - ~/.cache
+
+  # Windows-specific npm cache paths
+  - &npm_cache_paths_win
+    - node_modules
+    - packages/*/node_modules
+    - C:\Users\circleci\AppData\Local\npm-cache
+    - C:\Users\circleci\AppData\Roaming\npm
 
   - &os_param
     parameters:
@@ -47,84 +77,100 @@ anchors:
     matrix:
       parameters:
         os: [ 'linux', 'macos', 'win' ]
-        # TODO: Supported node versions
+        # TODO: add paremeter for supported node versions
 
 commands:
-  # Pack and install the CLI globally (NB: uncached puppeteer install takes a while)
-  build_install_cli:
+  install_quire_cli:
+    description: "Pack and install the Quire CLI globally"
     steps:
       - run:
-          name: Install CLI
-          no_output_timeout: 30m
-          command: npm pack -w packages/cli && npm install --ignore-scripts --foreground-scripts -g thegetty-quire-cli-*.tgz
-      - run:
-          name: Quire Version
-          command: quire --version
+          name: Install quire-cli
+          # Force execution of npm lifecycle scripts in the foreground
+          command: |
+            npm pack --workspace packages/cli && \
+            npm install thegetty-quire-cli-*.tgz --global --ignore-scripts --foreground-scripts
 
   build_install_cli-linux:
     steps:
-      - node/install:
-          node-version: "22.14.0"
-      - browser-tools/install_chrome
-      # @TODO: Replace this hack that force-disables sandboxing
-      # On linux chrome requires disabling sandboxing (or using deprecated suid containers) if run as root
-      # See https://pptr.dev/troubleshooting#setting-up-chrome-linux-sandbox
+      # Node.js is pre-installed in the cimg/node Docker image
+      - browser-tools/install_chrome:
+          cache_key: *chrome_cache_key
+          use_cache: true
+      # TODO: Replace this hack to force-disable the chrome sandbox;
+      # On linux chrome, if run as root, requires disabling sandboxing (or using deprecated suid containers)
+      # see https://pptr.dev/troubleshooting#setting-up-chrome-linux-sandbox
       - run:
           name: "Modify chrome app"
           command: sudo sed -i 's|HERE/chrome"|HERE/chrome" --no-sandbox|g' /opt/google/chrome/google-chrome
       - browser-tools/install_chromedriver
-      - build_install_cli
+      - install_quire_cli
 
   build_install_cli-macos:
     steps:
+      # macOS Xcode image includes Node however the version may not be the same
       - node/install:
-          node-version: "22.14.0"
-      - browser-tools/install_chrome
-      - browser-tools/install_chromedriver      
-      - build_install_cli
+          node-version: << pipeline.parameters.node_version >>
+      - browser-tools/install_chrome:
+          cache_key: *chrome_cache_key
+          use_cache: true
+      - browser-tools/install_chromedriver
+      - install_quire_cli
 
   build_install_cli-win:
     steps:
+      - node/install: # Windows image does not include Node.js
+          node-version: << pipeline.parameters.node_version >>
       - restore_cache:
-          keys:
-            - *choco-cache_key
+          key: *choco-cache_key
       - run:
           name: Install Chocolatey packages
           command: choco install .circleci/packages.config --ignore-checksums
       - save_cache:
           key: *choco-cache_key
           paths:
-            - C:\ProgramData\chocolatey\cache
             - C:\Program Files\Google\Chrome
+            - C:\ProgramData\chocolatey\cache
             - C:\tools\selenium
-      - build_install_cli
+      - install_quire_cli
 
-  install_deps-linux:
+  install_optional-linux:
     steps:
       - run:
-          name: Install External Dependencies -- eg Prince
-          command: exit
+          name: Install optional dependencies
+          command: exit 0
 
-  install_deps-macos:
+  install_optional-macos:
     steps:
       - run:
-          name: Install External Dependencies -- eg Prince
-          command: exit
+          name: Install optional dependencies
+          command: exit 0
 
-  install_deps-win:
+  install_optional-win:
     steps:
       - run:
-          name: Install External Dependencies -- eg Prince
-          command: exit
+          name: Install optional dependencies
+          command: exit 0
+
+  install_test_dependencies:
+    steps:
+      - run:
+          name: Install test dependencies
+          command: npm ci --ignore-scripts --foreground-scripts
 
   run_tests:
     steps:
       - run:
-          name: Set git email
-          command: git config --global user.email quire@getty.edu 
+          name: Set git user identity
+          command: |
+            git config --global user.email quire@getty.edu
+            git config --global user.name "Quire CI"
+      # Run core package tests first for fast failure detection
       - run:
-          name: Install test dependencies only
-          command: npm install --ignore-scripts --foreground-scripts
+          name: Run CLI tests
+          command: npm run test --workspace packages/cli
+      - run:
+          name: Run 11ty tests
+          command: npm run test --workspace packages/11ty
       - run:
           name: Run end-to-end tests
           no_output_timeout: 30m
@@ -134,27 +180,19 @@ commands:
       - persist_to_workspace:
           root: .
           paths:
-            - playwright.config.js
             - package.json
+            - playwright.config.js
             - reports
-            - test-publication/_site
             - test-publication-pathname/_site
+            - test-publication/_site
             - _tests
 
       - store_test_results:
           path: reports
 
-      # @TODO: Turn this off when we're happy with snapshot coverage of browser tests
+      # TODO: Turn this off when we're happy with snapshot coverage of browser tests
       - store_artifacts:
           path: publication.zip
-
-      # Run core package tests - @TODO: run these before the e2e tests
-      - run:
-          name: Run CLI tests
-          command: npm -w packages/cli run test
-      - run:
-          name: Run 11ty tests
-          command: npm -w packages/11ty run test
 
   test-linux:
     steps:
@@ -168,6 +206,24 @@ commands:
     steps:
       - run_tests
 
+  save_npm_cache-linux:
+    steps:
+      - save_cache:
+          key: *npm_cache_key
+          paths: *npm_cache_paths_unix
+
+  save_npm_cache-macos:
+    steps:
+      - save_cache:
+          key: *npm_cache_key
+          paths: *npm_cache_paths_unix
+
+  save_npm_cache-win:
+    steps:
+      - save_cache:
+          key: *npm_cache_key
+          paths: *npm_cache_paths_win
+
 jobs:
   # Builds the CLI, installs it, and tests it by building a publication
   build_install_test:
@@ -176,21 +232,16 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys:
-            - *npm_cache_key
-      - build_install_cli-<< parameters.os >>
-      - install_deps-<< parameters.os >>
-      - save_cache:
           key: *npm_cache_key
-          paths:
-            - node_modules
-            - ~/.npm
-            - ~/.cache
+      - build_install_cli-<< parameters.os >>
+      - install_optional-<< parameters.os >>
+      - install_test_dependencies
+      - save_npm_cache-<< parameters.os >>
       - test-<< parameters.os >>
   # Tests the output of the publication build -- must be separate for the playwright executor
   browser_test:
-    executor: pw-noble-development
-    # NB: taken from https://playwright.dev/docs/ci#sharding-in-circleci
+    executor: playwright
+    # Nota bene: taken from https://playwright.dev/docs/ci#sharding-in-circleci
     parallelism: 4
     steps:
       - attach_workspace:
@@ -206,9 +257,26 @@ jobs:
           path: reports
 
 workflows:
+  # Setup workflow - checks if code files changed (excludes all markdown files)
+  setup:
+    when:
+      not: << pipeline.parameters.run-build-test-workflow >>
+    jobs:
+      - path-filtering/filter:
+          base-revision: main
+          # Path to configuration file run after path filtering
+          # and pipeline parameter value updates are completed.
+          config-path: .circleci/config.yml
+          # Mapping of path regular expressions to a pipeline parameter value.
+          # One mapping per line, 3-column, whitespace-delimited:
+          # <path-regex> <pipeline-parameter-name> <pipeline-parameter-value>
+          # Pattern matches any file that does not end with .md
+          mapping: |
+            ^.*(?<!\.md)$ run-build-test-workflow true
+
+  # Main build and test workflow - only runs when code files change
   build_install_test:
-    # @TODO: don't run for docs/, etc
-    when: true
+    when: << pipeline.parameters.run-build-test-workflow >>
     jobs:
       - build_install_test:
           <<: *matrix_params
