@@ -1,4 +1,5 @@
 import Command from '#src/Command.js'
+import { Option } from 'commander'
 import fs from 'fs-extra'
 import logger from '#src/lib/logger.js'
 import { quire } from '#src/lib/quire/index.js'

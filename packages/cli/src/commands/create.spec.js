@@ -53,15 +53,25 @@ test('command should have correct options defined', (t) => {
   const { command } = t.context
 
   t.true(Array.isArray(command.options))
-  const cleanCache = command.options.find((opt) => opt[0] === '--clean-cache')
-  const debug = command.options.find((opt) => opt[0] === '--debug')
+
   const path = command.options.find((opt) => opt[0].includes('--quire-path'))
   const version = command.options.find((opt) => opt[0].includes('--quire-version'))
+  const debug = command.options.find((opt) => opt[0] === '--debug')
 
-  t.truthy(cleanCache)
-  t.truthy(debug)
+  // Nota bene: this is correct but shows that the unit tests are fragile,
+  // the current spec implementation test the intermediate definition format,
+  // not what users actually interact with, which is the public API.
+  // Specs should verify the structure and configuration of the command definition,
+  // as well as the command's public contract/API, *without testing behavior*.
+  // @TODO refactor the command specs to test that the registered Commander.js
+  // command is actually a contract/interface, the integration between
+  // Command class → Commander.js creates Command, Argument, and Options instances.
+  const cleanCache = command.options.find((opt) => opt.flags === '--clean-cache')
+
   t.truthy(path)
   t.truthy(version)
+  t.truthy(debug)
+  t.truthy(cleanCache)
 })
 
 test('action method should be defined and async', (t) => {

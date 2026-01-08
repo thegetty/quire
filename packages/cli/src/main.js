@@ -61,12 +61,12 @@ commands.forEach((command) => {
 
   /**
    * @see https://github.com/tj/commander.js/#options
+   * @see https://github.com/tj/commander.js/#more-configuration
    */
   if (Array.isArray(options)) {
     options.forEach((entry) => {
       if (entry instanceof Option) {
         // Handle Option objects directly for advanced configurations
-        // @see https://github.com/tj/commander.js/#more-configuration
         subCommand.addOption(entry)
       } else if (Array.isArray(entry)) {
         // ensure we can join the first two attributes as the option name
