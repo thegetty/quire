@@ -46,17 +46,36 @@ Setup Workflow (path-filtering)
 
 ### Path Filtering
 
-Uses [`path-filtering` orb](https://circleci.com/developer/orbs/orb/circleci/path-filtering) (see `orbs.path-filtering` and `workflows.setup` in config.yml) to skip builds when only markdown files change.
+Uses [`path-filtering` orb](https://circleci.com/developer/orbs/orb/circleci/path-filtering) (see `orbs.path-filtering` and `workflows.setup` in config.yml) to skip builds when only documentation or developer tooling changes.
 
-**Pattern:** `^.*(?<!\.md)$` matches any file that does not end with `.md`
+**Pattern:**
+```regex
+^(?!mise\.toml$)(?!\.mise/).*(?<!\.md)$
+```
 
-**Why:** Saves CI credits and time for documentation-only changes. Markdown file changes do not affect build output or test results.
+This single regex pattern matches files that:
+- ✅ Are NOT `mise.toml` (negative lookahead: `(?!mise\.toml$)`)
+- ✅ Are NOT in `.mise/` directory (negative lookahead: `(?!\.mise/)`)
+- ✅ Do NOT end with `.md` (negative lookbehind: `(?<!\.md)`)
+
+**Why:** Saves CI credits and time for documentation-only changes and local development tool configuration. These changes do not affect build output or test results.
 
 **How it works:**
 1. On every push, `setup` [workflow](https://circleci.com/docs/workflows) runs with `run-build-test-workflow: false` (default from `parameters.run-build-test-workflow`)
 2. `path-filtering/filter` job examines changed files against `main` branch (see `base-revision` in setup workflow)
-3. If ANY non-markdown file changed, `run-build-test-workflow` is set to `true` (see `mapping` in setup workflow)
+3. If ANY changed file matches the pattern, `run-build-test-workflow` is set to `true` (see `mapping` in setup workflow)
 4. `build_install_test` workflow runs only when pipeline parameter is `true` (see `workflows.build_install_test.when`)
+
+**Examples:**
+
+| Files Changed | Workflow? |
+|---------------|-----------|
+| `README.md` | ❌ Skip |
+| `mise.toml` | ❌ Skip |
+| `.mise/tasks/blargh.sh` | ❌ Skip |
+| `packages/cli/docs/README.md` | ❌ Skip |
+| `packages/cli/src/index.js` | ✅ Run |
+| `README.md`, `src/index.js` | ✅ Run |
 
 ### Branch Filtering
 
@@ -339,17 +358,21 @@ npm run test --workspace packages/cli -- --match "*test name*"
 # Branches starting with "docs/" are ignored
 # Example: docs/update-readme → workflow skipped
 
-# 2. Check setup workflow ran
+# 2. Check path-filtering decision (check this BEFORE setup workflow)
+# Only *.md, mise.toml, or .mise/ files changed → workflow skipped
+# Examples that skip: README.md, mise.toml, .mise/tasks/test.sh
+
+# 3. Check setup workflow ran
 # Pipeline page → "setup" workflow should show
 
-# 3. Check path-filtering decision
-# setup → path-filtering/filter job → Look for "No code files changed"
+# 4. Check path-filtering output
+# setup → path-filtering/filter job → Look for which files triggered/skipped
 
-# 4. Verify workflow conditional
+# 5. Verify workflow conditional
 circleci config process .circleci/config.yml | grep -A 3 "when:"
 # Look for: when: << pipeline.parameters.run-build-test-workflow >>
 
-# 5. Force trigger via API
+# 6. Force trigger via API
 curl -X POST https://circleci.com/api/v2/project/github/thegetty/quire/pipeline \
   -H "Circle-Token: $CIRCLECI_TOKEN" \
   -H "Content-Type: application/json" \

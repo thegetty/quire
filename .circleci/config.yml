@@ -13,7 +13,7 @@ parameters:
     default: "22.10.0"
   run-build-test-workflow:
     type: boolean
-    default: true
+    default: false
 
 executors:
   linux:
@@ -261,7 +261,7 @@ jobs:
           path: reports
 
 workflows:
-  # Setup workflow - checks if code files changed (excludes all markdown files)
+  # Setup workflow - checks if code file changed (excludes docs/dev-only changes)
   setup:
     when:
       not: << pipeline.parameters.run-build-test-workflow >>
@@ -274,9 +274,8 @@ workflows:
           # Mapping of path regular expressions to a pipeline parameter value.
           # One mapping per line, 3-column, whitespace-delimited:
           # <path-regex> <pipeline-parameter-name> <pipeline-parameter-value>
-          # Pattern matches any file that does not end with .md
           mapping: |
-            ^.*(?<!\.md)$ run-build-test-workflow true
+            ^(?!mise\.toml$)(?!\.mise/).*(?<!\.md)$ run-build-test-workflow true
 
   # Main build and test workflow - only runs when code files change
   build_install_test:
