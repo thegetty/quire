@@ -19,9 +19,13 @@ executors:
   linux:
     docker:
       - image: cimg/node:<< pipeline.parameters.node_version >>
-        user: root
     resource_class: medium
     environment:
+        # Configure npm for user-level global installs to a user-writable location
+        # Nota bene: variable expansion within the environment block is not supported,
+        # we cannot use $HOME or $PATH and must explicitly list the system paths here.
+        NPM_CONFIG_PREFIX: '/home/circleci/.npm-global'
+        PATH: '/home/circleci/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
         PUPPETEER_EXECUTABLE_PATH: '/usr/bin/google-chrome-stable'
 
   macos:
@@ -52,7 +56,7 @@ anchors:
   - &choco-cache_key choco-cache-{{ .Branch }}-{{ checksum ".circleci/packages.config" }}-{{ .Environment.CACHE_VERSION }}
   # Chrome/ChromeDriver cache key for Unix systems (Linux/macOS)
   # Note: browser-tools orb prepends "chrome-" and appends chrome version and arch automatically
-  - &chrome_cache_key cache-v3-{{ .Branch }}-{{ .Environment.CACHE_VERSION }}
+  - &chrome_cache_key cache-v4-{{ .Branch }}-{{ .Environment.CACHE_VERSION }}
 
   # nix-specific npm cache paths
   - &npm_cache_paths_unix
@@ -93,15 +97,10 @@ commands:
   build_install_cli-linux:
     steps:
       # Node.js is pre-installed in the cimg/node Docker image
+      # NPM_CONFIG_PREFIX and PATH are set in executor environment
       - browser-tools/install_chrome:
           cache_key: *chrome_cache_key
           use_cache: true
-      # TODO: Replace this hack to force-disable the chrome sandbox;
-      # On linux chrome, if run as root, requires disabling sandboxing (or using deprecated suid containers)
-      # see https://pptr.dev/troubleshooting#setting-up-chrome-linux-sandbox
-      - run:
-          name: "Modify chrome app"
-          command: sudo sed -i 's|HERE/chrome"|HERE/chrome" --no-sandbox|g' /opt/google/chrome/google-chrome
       - browser-tools/install_chromedriver
       - install_quire_cli
 
@@ -164,7 +163,6 @@ commands:
           command: |
             git config --global user.email quire@getty.edu
             git config --global user.name "Quire CI"
-      # Run core package tests first for fast failure detection
       - run:
           name: Run CLI tests
           command: npm run test --workspace packages/cli
