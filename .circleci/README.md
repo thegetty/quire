@@ -86,12 +86,12 @@ This single regex pattern matches files that:
 
 | Files Changed | Workflow? |
 |---------------|-----------|
-| `README.md` | ❌ Skip |
-| `mise.toml` | ❌ Skip |
-| `.mise/tasks/blargh.sh` | ❌ Skip |
-| `.mise-tasks/test.sh` | ❌ Skip |
-| `mise-tasks/build.sh` | ❌ Skip |
-| `packages/cli/docs/README.md` | ❌ Skip |
+| `README.md` | Skip |
+| `mise.toml` | Skip |
+| `.mise/tasks/blargh.sh` | Skip |
+| `.mise-tasks/test.sh` | Skip |
+| `mise-tasks/build.sh` | Skip |
+| `packages/cli/docs/README.md` | Skip |
 | `packages/cli/src/index.js` | ✅ Run |
 | `README.md`, `src/index.js` | ✅ Run |
 
@@ -104,10 +104,10 @@ The `build_install_test` workflow ignores branches starting with `docs/` (see `f
 **Why:** Documentation-only branches (e.g., `docs/update-readme`, `docs/api-reference`) don't need to run the full test suite. This works in combination with path filtering to skip builds for documentation work.
 
 **Examples:**
-- ✅ `main` - runs workflow
-- ✅ `feature/new-command` - runs workflow
-- ❌ `docs/update-guide` - skips workflow
-- ❌ `docs/circleci-readme` - skips workflow
+- `main` - runs workflow
+- `feature/new-command` - runs workflow
+- `docs/update-guide` - skips workflow
+- `docs/circleci-readme` - skips workflow
 
 ### Matrix Builds
 
