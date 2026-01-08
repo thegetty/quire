@@ -58,9 +58,6 @@ anchors:
   - &npm_cache_key package-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ .Environment.CACHE_VERSION }}
   # Chocolatey cache key for Windows installs
   - &choco-cache_key choco-cache-{{ .Branch }}-{{ checksum ".circleci/packages.config" }}-{{ .Environment.CACHE_VERSION }}
-  # Chrome/ChromeDriver cache key for Unix systems (Linux/macOS)
-  # Note: browser-tools orb prepends "chrome-" and appends chrome version and arch automatically
-  - &chrome_cache_key cache-v4-{{ .Branch }}-{{ .Environment.CACHE_VERSION }}
 
   # nix-specific npm cache paths
   - &npm_cache_paths_unix
@@ -102,10 +99,7 @@ commands:
     steps:
       # Node.js is pre-installed in the cimg/node Docker image
       # NPM_CONFIG_PREFIX and PATH are set in executor environment
-      - browser-tools/install_chrome:
-          cache_key: *chrome_cache_key
-          use_cache: true
-      - browser-tools/install_chromedriver
+      - browser-tools/install_chrome_for_testing
       - install_quire_cli
 
   build_install_cli-macos:
@@ -113,10 +107,7 @@ commands:
       # macOS Xcode image includes Node however the version may not be the same
       - node/install:
           node-version: << pipeline.parameters.node_version >>
-      - browser-tools/install_chrome:
-          cache_key: *chrome_cache_key
-          use_cache: true
-      - browser-tools/install_chromedriver
+      - browser-tools/install_chrome_for_testing
       - install_quire_cli
 
   build_install_cli-win:

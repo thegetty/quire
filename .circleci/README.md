@@ -25,8 +25,8 @@ config.yml (Setup)
   ↓
 Setup Workflow (path-filtering)
   ↓
-  ├─ Only .md/mise/mise-tasks files → Skip Build
-  └─ Code changes → Continue to continue-config.yml
+  ├─ Only markdown, mise, mise-tasks files → Skip Build
+  └─ Code changes → Proceed with continue-config.yml
        ↓
     continue-config.yml (Continuation)
        ↓
@@ -221,33 +221,20 @@ Tests run in this sequence (see `commands.run_tests` around [config.yml:153-170]
 
 **Why platform-specific:** Windows and Unix use completely different cache directory locations. Using Unix paths on Windows would result in cache misses.
 
-### Chrome Cache (Linux/macOS)
+### Chrome Installation (Linux/macOS)
 
-**Key:** `cache-v3-{{ .Branch }}-{{ .Environment.CACHE_VERSION }}` (see `&chrome_cache_key` anchor around [config.yml:52](config.yml#L52))
+**Method:** Uses `browser-tools/install_chrome_for_testing` which installs both Chrome and ChromeDriver in a single step (see `build_install_cli-linux` and `build_install_cli-macos` commands).
 
-**Important:** The browser-tools orb automatically:
-- prepends `"chrome-"`
-- appends Chrome version (e.g., `131.0.6778.85`)
-- appends architecture (e.g., `arm64`)
-
-**Final cache key example:** `chrome-cache-v3-feature/logger-abstraction-v1-131.0.6778.85-amd64`
-
-**Why NOT include "chrome-" prefix:** The orb adds it automatically. Including it in our anchor would result in `chrome-chrome-...`.
-
-**Implementation:** Uses browser-tools orb's built-in caching (see `browser-tools/install_chrome` steps in `commands.build_install_cli-linux` and `commands.build_install_cli-macos` around [config.yml:94-96](config.yml#L94-L96) and [config.yml:105-107](config.yml#L105-L107)):
 ```yaml
-- browser-tools/install_chrome:
-    cache_key: *chrome_cache_key
-    use_cache: true
+- browser-tools/install_chrome_for_testing
 ```
 
-**Nota bene:** ChromeDriver installation does NOT support caching parameters (see `browser-tools/install_chromedriver` steps in build commands). ChromeDriver downloads fresh each time (~10 seconds) to version-match the cached Chrome installation.
+Uses defaults: `install_chromedriver: true`, `version: stable`.
 
-**Benefits:**
-- Saves 30-60 seconds per Linux build
-- Saves 60-90 seconds per macOS build
-- Reduces network bandwidth usage
-- More reliable builds (less dependency on external downloads)
+```yaml
+**Why no caching:** Chrome caching was removed due to reliability issues where Chrome would be cached without system dependencies, causing `libnspr4.so: cannot open shared object file` errors and incorrect Chrome versions (Beta instead of stable).
+
+**Trade-off:** Each build downloads Chrome fresh (~2 minutes) but guarantees correct Chrome version with all dependencies.
 
 ### Chocolatey Cache (Windows)
 
@@ -310,7 +297,7 @@ SHARD="$((${CIRCLE_NODE_INDEX}+1))"
 npx playwright test --shard=${SHARD}/${CIRCLE_NODE_TOTAL}
 ```
 
-**Cache keys** (see `anchors` section for `&npm_cache_key`, `&chrome_cache_key`, `&choco-cache_key` around [config.yml:46-52](config.yml#L46-L52)):
+**Cache keys** (see `anchors` section for `&npm_cache_key`, `&choco-cache_key` around [config.yml:46-52](config.yml#L46-L52)):
 ```yaml
 - &npm_cache_key package-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ .Environment.CACHE_VERSION }}
 ```
@@ -451,10 +438,7 @@ circleci config process .circleci/config.yml | grep -A 5 "requires:"
 
 **Invalidate cache:**
 ```bash
-# Via code (recommended):
-# Edit config.yml: change cache-v3 to cache-v4 in &chrome_cache_key anchor
-
-# Via UI (emergency):
+# Via UI:
 # Project Settings → Environment Variables → Set CACHE_VERSION=2
 ```
 
@@ -488,7 +472,6 @@ cat expanded.yml | grep -A 5 "your-change"
 2. Find breaking commit: `git log --oneline -10`
 3. Quick fixes:
    - Cache: Set `CACHE_VERSION=2` in Project Settings
-   - Chrome: Update `&chrome_cache_key` to `cache-v4`
    - Dependencies: Revert `package-lock.json`
 4. Emergency revert: `git revert <sha> && git push`
 
@@ -504,9 +487,7 @@ cat expanded.yml | grep -A 5 "your-change"
 
 | Symptom | Solution |
 |---------|----------|
-| Chrome Beta instead of stable | Invalidate cache: change `cache-v3` → `cache-v4` in `&chrome_cache_key` |
-| `libnspr4.so: cannot open shared object file` | Same as above (Chrome cached without dependencies) |
-| macOS Chrome install > 3 min | Check logs for `"Cache not found"` / verify `use_cache: true` in config |
+| Chrome installation slow (>3 min) | Normal - Chrome downloads fresh each build (~2 min) |
 | Chrome won't start | Verify `PUPPETEER_EXECUTABLE_PATH` set and Chrome installed |
 
 ### npm/Dependencies
