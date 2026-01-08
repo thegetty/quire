@@ -21,8 +21,15 @@ test.beforeEach((t) => {
   t.context.projectRoot = '/project'
 
   // Stub console methods to suppress output during tests
-  t.context.consoleDebugStub = t.context.sandbox.stub(console, 'debug')
-  t.context.consoleErrorStub = t.context.sandbox.stub(console, 'error')
+  // Create mock logger (no global console stubbing needed!)
+  t.context.mockLogger = {
+    info: t.context.sandbox.stub(),
+    error: t.context.sandbox.stub(),
+    debug: t.context.sandbox.stub(),
+    log: t.context.sandbox.stub(),
+    warn: t.context.sandbox.stub()
+  }
+  // mockLogger already created above
 })
 
 test.afterEach.always((t) => {
@@ -33,8 +40,8 @@ test.afterEach.always((t) => {
   t.context.vol.reset()
 })
 
-test.serial('epub command should generate EPUB using epubjs library', async (t) => {
-  const { sandbox, fs } = t.context
+test('epub command should generate EPUB using epubjs library', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
 
   // Mock the epub generator
   const mockEpubGenerator = sandbox.stub().callsFake(async (input, output) => {
@@ -71,8 +78,8 @@ test.serial('epub command should generate EPUB using epubjs library', async (t) 
   t.true(mockEpubGenerator.called, 'EPUB generator should be called')
 })
 
-test.serial('epub command should generate EPUB using pandoc library', async (t) => {
-  const { sandbox, fs } = t.context
+test('epub command should generate EPUB using pandoc library', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
 
   // Mock the epub generator
   const mockEpubGenerator = sandbox.stub().callsFake(async (input, output) => {
@@ -109,8 +116,8 @@ test.serial('epub command should generate EPUB using pandoc library', async (t) 
   t.true(mockEpubGenerator.called, 'EPUB generator should be called')
 })
 
-test.serial('epub command should open EPUB when --open flag is provided', async (t) => {
-  const { sandbox, fs } = t.context
+test('epub command should open EPUB when --open flag is provided', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
 
   // Mock the epub generator
   const mockEpubGenerator = sandbox.stub().callsFake(async (input, output) => {
@@ -148,8 +155,8 @@ test.serial('epub command should open EPUB when --open flag is provided', async 
   t.true(mockOpen.called, 'open should be called when --open flag is provided')
 })
 
-test.serial('epub command should pass debug option to library', async (t) => {
-  const { sandbox, fs } = t.context
+test('epub command should pass debug option to library', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
 
   // Mock the epub generator
   const mockEpubGenerator = sandbox.stub().callsFake(async (input, output) => {
@@ -168,6 +175,9 @@ test.serial('epub command should pass debug option to library', async (t) => {
       paths: { epub: '_site/epub' },
       projectRoot: '/project'
     },
+    '#src/lib/logger.js': {
+      default: mockLogger
+    },
     'fs-extra': fs,
     open: {
       default: sandbox.stub()
@@ -185,8 +195,8 @@ test.serial('epub command should pass debug option to library', async (t) => {
   t.true(libEpubCall.args[1].debug === true, 'debug option should be passed to library')
 })
 
-test.serial('epub command should handle missing build output gracefully', async (t) => {
-  const { sandbox, fs, vol } = t.context
+test('epub command should handle missing build output gracefully', async (t) => {
+  const { sandbox, fs, vol, mockLogger } = t.context
 
   // Remove the built EPUB input by resetting and setting up minimal structure
   vol.reset()
@@ -208,6 +218,9 @@ test.serial('epub command should handle missing build output gracefully', async 
       paths: { epub: '_site/epub' },
       projectRoot: '/project'
     },
+    '#src/lib/logger.js': {
+      default: mockLogger
+    },
     'fs-extra': fs,
     open: {
       default: sandbox.stub()
@@ -223,8 +236,8 @@ test.serial('epub command should handle missing build output gracefully', async 
   t.false(mockEpubGenerator.called, 'EPUB generator should not be called when input is missing')
 })
 
-test.serial('epub command should use correct output path', async (t) => {
-  const { sandbox, fs } = t.context
+test('epub command should use correct output path', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
 
   // Mock the epub generator
   const mockEpubGenerator = sandbox.stub().callsFake(async (input, output) => {
