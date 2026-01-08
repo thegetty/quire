@@ -61,7 +61,7 @@ anchors:
   - &choco-cache_key choco-cache-{{ .Branch }}-{{ checksum ".circleci/packages.config" }}-{{ .Environment.CACHE_VERSION }}
   # Chrome/ChromeDriver cache key for Unix systems (Linux/macOS)
   # Note: browser-tools orb prepends "chrome-" and appends chrome version and arch automatically
-  - &chrome_cache_key cache-v3-{{ .Branch }}-{{ .Environment.CACHE_VERSION }}
+  - &chrome_cache_key cache-v4-{{ .Branch }}-{{ .Environment.CACHE_VERSION }}
 
   # nix-specific npm cache paths
   - &npm_cache_paths_unix
@@ -168,7 +168,6 @@ commands:
           command: |
             git config --global user.email quire@getty.edu
             git config --global user.name "Quire CI"
-      # Run core package tests first for fast failure detection
       - run:
           name: Run CLI tests
           command: npm run test --workspace packages/cli
