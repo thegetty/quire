@@ -1,7 +1,5 @@
 version: 2.1
 
-setup: true
-
 orbs:
   browser-tools: circleci/browser-tools@2.1.2
   mac: circleci/macos@2.5.2
