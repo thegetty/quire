@@ -263,8 +263,8 @@ jobs:
           path: reports
 
 workflows:
-  # Setup workflow - checks if code file changed (excludes docs/dev-only changes)
   setup:
+    description: "Setup workflow - checks if code file changed (excludes docs/dev-only changes)"
     when:
       not: << pipeline.parameters.run-build-test-workflow >>
     jobs:
@@ -279,8 +279,8 @@ workflows:
           mapping: |
             ^(?!mise\.toml$)(?!\.mise/).*(?<!\.md)$ run-build-test-workflow true
 
-  # Main build and test workflow - only runs when code files change
   build_install_test:
+    description: "Main build and test workflow - only runs when code files change"
     when: << pipeline.parameters.run-build-test-workflow >>
     jobs:
       - build_install_test:
