@@ -1,5 +1,7 @@
 version: 2.1
 
+setup: true
+
 orbs:
   browser-tools: circleci/browser-tools@2.1.2
   mac: circleci/macos@2.5.2
@@ -266,9 +268,6 @@ workflows:
     jobs:
       - path-filtering/filter:
           base-revision: main
-          # Path to configuration file run after path filtering
-          # and pipeline parameter value updates are completed.
-          config-path: .circleci/config.yml
           # Mapping of path regular expressions to a pipeline parameter value.
           # One mapping per line, 3-column, whitespace-delimited:
           # <path-regex> <pipeline-parameter-name> <pipeline-parameter-value>
