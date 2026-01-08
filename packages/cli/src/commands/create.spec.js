@@ -58,14 +58,14 @@ test('command should have correct options defined', (t) => {
   const version = command.options.find((opt) => opt[0].includes('--quire-version'))
   const debug = command.options.find((opt) => opt[0] === '--debug')
 
-  // Nota bene: this is correct but shows that the unit tests are fragile,
-  // the current spec implementation test the intermediate definition format,
+  // Nota bene: this is correct but shows that the unit tests are fragile;
+  // the current spec implementation tests the intermediate definition format,
   // not what users actually interact with, which is the public API.
   // Specs should verify the structure and configuration of the command definition,
   // as well as the command's public contract/API, *without testing behavior*.
   // @TODO refactor the command specs to test that the registered Commander.js
-  // command is actually a contract/interface, the integration between
-  // Command class → Commander.js creates Command, Argument, and Options instances.
+  // command is actually a contract/interface, the integration between each
+  // Command class → Commander creates Command, Argument, and Option instances.
   const cleanCache = command.options.find((opt) => opt.flags === '--clean-cache')
 
   t.truthy(path)
