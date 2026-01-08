@@ -58,6 +58,20 @@ Uses [`path-filtering` orb](https://circleci.com/developer/orbs/orb/circleci/pat
 3. If ANY non-markdown file changed, `run-build-test-workflow` is set to `true` (see `mapping` in setup workflow)
 4. `build_install_test` workflow runs only when pipeline parameter is `true` (see `workflows.build_install_test.when`)
 
+### Branch Filtering
+
+The `build_install_test` workflow ignores branches starting with `docs/` (see `filters.branches.ignore` in workflow jobs).
+
+**Pattern:** `/^docs\/.*/` matches any branch name starting with `docs/`
+
+**Why:** Documentation-only branches (e.g., `docs/update-readme`, `docs/api-reference`) don't need to run the full test suite. This works in combination with path filtering to skip builds for documentation work.
+
+**Examples:**
+- ✅ `main` - runs workflow
+- ✅ `feature/new-command` - runs workflow
+- ❌ `docs/update-guide` - skips workflow
+- ❌ `docs/circleci-readme` - skips workflow
+
 ### Matrix Builds
 
 Single `build_install_test` job definition (see `jobs.build_install_test` around [config.yml:220-232](config.yml#L220-L232)) runs across all platforms using [matrix parameters](https://circleci.com/docs/configuration-reference#matrix-requires-version-21) (see `&matrix_params` anchor around [config.yml:73-76](config.yml#L73-L76)).
@@ -321,17 +335,21 @@ npm run test --workspace packages/cli -- --match "*test name*"
 
 **Workflow didn't trigger:**
 ```bash
-# 1. Check setup workflow ran
+# 1. Check if branch is filtered
+# Branches starting with "docs/" are ignored
+# Example: docs/update-readme → workflow skipped
+
+# 2. Check setup workflow ran
 # Pipeline page → "setup" workflow should show
 
-# 2. Check path-filtering decision
+# 3. Check path-filtering decision
 # setup → path-filtering/filter job → Look for "No code files changed"
 
-# 3. Verify workflow conditional
+# 4. Verify workflow conditional
 circleci config process .circleci/config.yml | grep -A 3 "when:"
 # Look for: when: << pipeline.parameters.run-build-test-workflow >>
 
-# 4. Force trigger via API
+# 5. Force trigger via API
 curl -X POST https://circleci.com/api/v2/project/github/thegetty/quire/pipeline \
   -H "Circle-Token: $CIRCLECI_TOKEN" \
   -H "Content-Type: application/json" \
@@ -535,5 +553,5 @@ curl -X POST https://circleci.com/api/v2/project/github/thegetty/quire/pipeline 
 - [x] Run core package tests before e2e tests (fixed: reordered test execution for faster failure detection)
 - [ ] Remove publication.zip artifact storage when browser test coverage is complete
 - [x] Replace Chrome `--no-sandbox` hack on Linux with proper sandboxing (fixed: removed `user: root` and enabled Chrome SUID sandbox)
-- [x] Do not run CI for documentation-only changes (fixed: added `path-filtering` orb)
+- [x] Do not run CI for documentation-only changes (fixed: added `path-filtering` orb and `docs/*` branch filtering)
 - [ ] Parameterize release version for `npm pack` commands

@@ -49,6 +49,11 @@ executors:
       PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
 
 anchors:
+  # Branch filter for skipping docs-only branches
+  - &docs_branch_filter
+    branches:
+      ignore:
+        - /^docs\/.*/
 
   # TODO: Integrate the release version as a variable for use in npm pack
   - &npm_cache_key package-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ .Environment.CACHE_VERSION }}
@@ -280,6 +285,7 @@ workflows:
       - build_install_test:
           <<: *matrix_params
           name: build_install_test-<< matrix.os >>
+          filters: *docs_branch_filter
       - browser_test:
           name: browser_test-linux
           requires:
