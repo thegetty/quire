@@ -1,12 +1,9 @@
 version: 2.1
 
-setup: true
-
 orbs:
   browser-tools: circleci/browser-tools@2.1.2
   mac: circleci/macos@2.5.2
   node: circleci/node@7.1.0
-  path-filtering: circleci/path-filtering@3.0.0
   win: circleci/windows@5.1.0
 
 parameters:
@@ -254,29 +251,13 @@ jobs:
       - run:
           name: Install browser testing dependencies
           command: npm i && apt-get update && apt-get install -y zip && npx playwright install
-      - run: 
+      - run:
           name: Run browser testing on end-to-end test artifacts
           command: npm run test:browsers-circleci
       - store_test_results:
           path: reports
 
 workflows:
-  setup:
-    description: "Setup workflow - checks if code file changed (excludes docs/dev-only changes)"
-    when:
-      not: << pipeline.parameters.run-build-test-workflow >>
-    jobs:
-      - path-filtering/filter:
-          base-revision: main
-          # Path to configuration file run after path filtering
-          # and pipeline parameter value updates are completed.
-          config-path: .circleci/config.yml
-          # Mapping of path regular expressions to a pipeline parameter value.
-          # One mapping per line, 3-column, whitespace-delimited:
-          # <path-regex> <pipeline-parameter-name> <pipeline-parameter-value>
-          mapping: |
-            ^(?!mise\.toml$)(?!\.mise/).*(?<!\.md)$ run-build-test-workflow true
-
   build_install_test:
     description: "Main build and test workflow - only runs when code files change"
     when: << pipeline.parameters.run-build-test-workflow >>

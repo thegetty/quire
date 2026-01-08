@@ -21,10 +21,16 @@ Cross-platform test pipeline for Quire on Linux, macOS, and Windows.
 ```
 Push to GitHub
   ↓
+setup.yml (Setup)
+  ↓
 Setup Workflow (path-filtering)
   ↓
-  ├─ Only .md files → Skip Build
-  └─ Code changes → build_install_test workflow
+  ├─ Only .md/mise/mise-tasks files → Skip Build
+  └─ Code changes → Continue to config.yml
+       ↓
+    config.yml (Continuation)
+       ↓
+    build_install_test workflow
        ↓
        ├─ build_install_test-linux   (parallel)
        ├─ build_install_test-macos   (parallel)
@@ -36,35 +42,45 @@ Setup Workflow (path-filtering)
 ```
 
 **Execution flow:**
-1. **Setup workflow** (see `workflows.setup` in config.yml) - Path filtering decides whether to run tests
-2. **Build jobs** run in parallel across 3 platforms (~5-9 min each)
-3. **Browser test jobs** run only after corresponding build job completes (4 parallel shards per platform = 12 total jobs, ~2-3 min per shard)
+1. **Setup configuration** ([setup.yml](.circleci/setup.yml)) - Path filtering decides whether to continue
+2. **Main configuration** ([config.yml](.circleci/config.yml)) - Contains all build/test jobs
+3. **Build jobs** run in parallel across 3 platforms (~5-9 min each)
+4. **Browser test jobs** run only after corresponding build job completes (4 parallel shards per platform = 12 total jobs, ~2-3 min per shard)
 
 **Total pipeline time:** ~7-12 minutes (bottlenecked by slowest platform's build + browser tests)
+
+**Configuration Split:** CircleCI dynamic configuration requires separate setup and continuation files. The setup file (setup.yml) contains `setup: true` and uses the path-filtering orb. When code files change, it continues to config.yml which contains all the actual build and test workflows.
 
 ## Architecture Patterns
 
 ### Path Filtering
 
-Uses [`path-filtering` orb](https://circleci.com/developer/orbs/orb/circleci/path-filtering) (see `orbs.path-filtering` and `workflows.setup` in config.yml) to skip builds when only documentation or developer tooling changes.
+Uses [`path-filtering` orb v3.0.0](https://circleci.com/developer/orbs/orb/circleci/path-filtering) to skip builds when only documentation or developer tooling changes.
+
+**Configuration files:**
+- **Setup:** [setup.yml](.circleci/setup.yml) - Contains `setup: true` and path-filtering logic
+- **Main:** [config.yml](.circleci/config.yml) - Contains all build/test workflows
 
 **Pattern:**
 ```regex
-^(?!mise\.toml$)(?!\.mise/).*(?<!\.md)$
+^(?!mise\.toml$)(?!\.?mise(-tasks)?/).*(?<!\.md)$
 ```
 
 This single regex pattern matches files that:
 - ✅ Are NOT `mise.toml` (negative lookahead: `(?!mise\.toml$)`)
-- ✅ Are NOT in `.mise/` directory (negative lookahead: `(?!\.mise/)`)
+- ✅ Are NOT in mise directories (negative lookahead: `(?!\.?mise(-tasks)?/)`)
+  - Excludes: `mise/`, `.mise/`, `mise-tasks/`, `.mise-tasks/`
 - ✅ Do NOT end with `.md` (negative lookbehind: `(?<!\.md)`)
 
 **Why:** Saves CI credits and time for documentation-only changes and local development tool configuration. These changes do not affect build output or test results.
 
 **How it works:**
-1. On every push, `setup` [workflow](https://circleci.com/docs/workflows) runs with `run-build-test-workflow: false` (default from `parameters.run-build-test-workflow`)
-2. `path-filtering/filter` job examines changed files against `main` branch (see `base-revision` in setup workflow)
-3. If ANY changed file matches the pattern, `run-build-test-workflow` is set to `true` (see `mapping` in setup workflow)
-4. `build_install_test` workflow runs only when pipeline parameter is `true` (see `workflows.build_install_test.when`)
+1. On every push, CircleCI loads `setup.yml` (setup configuration)
+2. `setup` workflow runs the `path-filtering/filter` job with `run-build-test-workflow: false` (default)
+3. Path filtering examines changed files against `main` branch (see `base-revision`)
+4. If ANY changed file matches the pattern, `run-build-test-workflow` is set to `true`
+5. Path filtering continues pipeline to `config.yml` with the updated parameter
+6. In `config.yml`, the `build_install_test` workflow runs only when `run-build-test-workflow: true`
 
 **Examples:**
 
@@ -73,6 +89,8 @@ This single regex pattern matches files that:
 | `README.md` | ❌ Skip |
 | `mise.toml` | ❌ Skip |
 | `.mise/tasks/blargh.sh` | ❌ Skip |
+| `.mise-tasks/test.sh` | ❌ Skip |
+| `mise-tasks/build.sh` | ❌ Skip |
 | `packages/cli/docs/README.md` | ❌ Skip |
 | `packages/cli/src/index.js` | ✅ Run |
 | `README.md`, `src/index.js` | ✅ Run |

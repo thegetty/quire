@@ -1,0 +1,27 @@
+version: 2.1
+
+setup: true
+
+orbs:
+  path-filtering: circleci/path-filtering@3.0.0
+
+parameters:
+  run-build-test-workflow:
+    type: boolean
+    default: false
+
+workflows:
+  setup:
+    description: "Setup workflow - checks if code files changed (excludes docs/dev-only changes)"
+    when:
+      not: << pipeline.parameters.run-build-test-workflow >>
+    jobs:
+      - path-filtering/filter:
+          base-revision: main
+          # Path to continuation configuration file
+          config-path: .circleci/config.yml
+          # Mapping of path regular expressions to pipeline parameter values
+          # One mapping per line, 3-column, whitespace-delimited:
+          # <path-regex> <pipeline-parameter-name> <pipeline-parameter-value>
+          mapping: |
+            ^(?!mise\.toml$)(?!\.?mise(-tasks)?/).*(?<!\.md)$ run-build-test-workflow true
