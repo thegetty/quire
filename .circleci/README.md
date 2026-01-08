@@ -21,14 +21,14 @@ Cross-platform test pipeline for Quire on Linux, macOS, and Windows.
 ```
 Push to GitHub
   ↓
-setup.yml (Setup)
+config.yml (Setup)
   ↓
 Setup Workflow (path-filtering)
   ↓
   ├─ Only .md/mise/mise-tasks files → Skip Build
-  └─ Code changes → Continue to config.yml
+  └─ Code changes → Continue to continue-config.yml
        ↓
-    config.yml (Continuation)
+    continue-config.yml (Continuation)
        ↓
     build_install_test workflow
        ↓
@@ -42,14 +42,14 @@ Setup Workflow (path-filtering)
 ```
 
 **Execution flow:**
-1. **Setup configuration** ([setup.yml](.circleci/setup.yml)) - Path filtering decides whether to continue
-2. **Main configuration** ([config.yml](.circleci/config.yml)) - Contains all build/test jobs
+1. **Setup configuration** ([config.yml](.circleci/config.yml)) - Path filtering decides whether to continue
+2. **Continuation configuration** ([continue-config.yml](.circleci/continue-config.yml)) - Contains all build/test jobs
 3. **Build jobs** run in parallel across 3 platforms (~5-9 min each)
 4. **Browser test jobs** run only after corresponding build job completes (4 parallel shards per platform = 12 total jobs, ~2-3 min per shard)
 
 **Total pipeline time:** ~7-12 minutes (bottlenecked by slowest platform's build + browser tests)
 
-**Configuration Split:** CircleCI dynamic configuration requires separate setup and continuation files. The setup file (setup.yml) contains `setup: true` and uses the path-filtering orb. When code files change, it continues to config.yml which contains all the actual build and test workflows.
+**Configuration Split:** CircleCI dynamic configuration requires separate setup and continuation files. The setup file (config.yml) contains `setup: true` and uses the path-filtering orb. When code files change, it continues to continue-config.yml which contains all the actual build and test workflows.
 
 ## Architecture Patterns
 
@@ -58,8 +58,8 @@ Setup Workflow (path-filtering)
 Uses [`path-filtering` orb v3.0.0](https://circleci.com/developer/orbs/orb/circleci/path-filtering) to skip builds when only documentation or developer tooling changes.
 
 **Configuration files:**
-- **Setup:** [setup.yml](.circleci/setup.yml) - Contains `setup: true` and path-filtering logic
-- **Main:** [config.yml](.circleci/config.yml) - Contains all build/test workflows
+- **Setup:** [config.yml](.circleci/config.yml) - Contains `setup: true` and path-filtering logic
+- **Continuation:** [continue-config.yml](.circleci/continue-config.yml) - Contains all build/test workflows
 
 **Pattern:**
 ```regex
@@ -75,12 +75,12 @@ This single regex pattern matches files that:
 **Why:** Saves CI credits and time for documentation-only changes and local development tool configuration. These changes do not affect build output or test results.
 
 **How it works:**
-1. On every push, CircleCI loads `setup.yml` (setup configuration)
+1. On every push, CircleCI loads `config.yml` (setup configuration)
 2. `setup` workflow runs the `path-filtering/filter` job with `run-build-test-workflow: false` (default)
 3. Path filtering examines changed files against `main` branch (see `base-revision`)
 4. If ANY changed file matches the pattern, `run-build-test-workflow` is set to `true`
-5. Path filtering continues pipeline to `config.yml` with the updated parameter
-6. In `config.yml`, the `build_install_test` workflow runs only when `run-build-test-workflow: true`
+5. Path filtering continues pipeline to `continue-config.yml` with the updated parameter
+6. In `continue-config.yml`, the `build_install_test` workflow runs only when `run-build-test-workflow: true`
 
 **Examples:**
 
