@@ -23,12 +23,11 @@ export default function (eleventyConfig) {
     const sassOptions = {
       api: 'modern-compiler',
       loadPaths: [path.resolve('node_modules')],
+      quietDeps: true,
       silenceDeprecations: [
         'color-functions',
         'global-builtin',
-        'import',
-        'legacy-js-api',
-        'mixed-decls'
+        'import'
       ]
     }
     lightboxCSS = sass.compile(lightboxStylesPath, sassOptions)
