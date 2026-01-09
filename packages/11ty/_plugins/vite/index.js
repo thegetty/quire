@@ -84,12 +84,11 @@ export default function (eleventyConfig, { directoryConfig, publication }) {
         preprocessorOptions: {
           scss: {
             api: 'modern-compiler',
+            quietDeps: true,
             silenceDeprecations: [
               'color-functions',
               'global-builtin',
-              'import',
-              'legacy-js-api',
-              'mixed-decls'
+              'import'
             ]
           }
         }
