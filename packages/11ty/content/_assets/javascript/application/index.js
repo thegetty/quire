@@ -65,38 +65,56 @@ window.toggleSearch = () => {
 
 /**
  * search
- * @description makes a search query using Lunr
+ * @description makes a search query using Pagefind
  */
-window.search = async () => {
+window.search = () => {
   const searchInput = document.getElementById('js-search-input')
   const searchQuery = searchInput.value
+  const resultsContainer = document.getElementById('js-search-results-list'
+  resultsContainer.innerText = ''
+  updateSearchResults(searchQuery)
+}
+
+/**
+ * updateSearchResults
+ * @description fetch and display search results from Pagefind
+ * @param {string} query The search query string
+ */
+async function updateSearchResults (query) {
+  if (window._searchResults) {
+    await window._searchResults
+  }
   const searchInstance = window.QUIRE_SEARCH
+  window._searchResults = searchInstance.search(query)
+    .then((searchResults) => {
+      return displaySearchResults(searchResults)
+    })
+    .finally(() => {
+      window._searchResults = undefined
+    })
+}
+
+/**
+ * displaySearchResults
+ * @description add search results items to the results container
+ * @param {object} pageFindResults The search results object from Pagefind
+ */
+async function displaySearchResults ({ results }) {
   const resultsContainer = document.getElementById('js-search-results-list')
   const resultsTemplate = document.getElementById('js-search-results-template')
-  if (searchQuery.length >= 3) {
-    const searchResults = await searchInstance.search(searchQuery)
-    displayResults(searchResults)
-  }
 
-  function clearResults () {
-    resultsContainer.innerText = ''
-  }
-
-  function displayResults ({ results }) {
-    clearResults()
-    results.forEach(async rawResult => {
-      const result = await rawResult.data()
-      const clone = document.importNode(resultsTemplate.content, true)
-      const item = clone.querySelector('.js-search-results-item')
-      const title = clone.querySelector('.js-search-results-item-title')
-      const type = clone.querySelector('.js-search-results-item-type')
-      const length = clone.querySelector('.js-search-results-item-length')
-      item.href = result.url
-      title.textContent = result.meta.title
-      type.textContent = result.meta.type
-      length.textContent = result.word_count
-      resultsContainer.appendChild(clone)
-    })
+  for (const rawResult of results) {
+    const result = await rawResult.data()
+    const clone = document.importNode(resultsTemplate.content, true)
+    const item = clone.querySelector('.js-search-results-item')
+    const title = clone.querySelector('.js-search-results-item-title')
+    const type = clone.querySelector('.js-search-results-item-type')
+    const length = clone.querySelector('.js-search-results-item-length')
+    item.href = result.url
+    title.textContent = result.meta.title
+    type.textContent = result.meta.type
+    length.textContent = result.word_count
+    resultsContainer.appendChild(clone)
   }
 }
 
