@@ -29,7 +29,7 @@ executors:
 
   macos:
     macos:
-      xcode: '16.3.0'
+      xcode: '26.2.0'
     resource_class: m4pro.medium
     environment:
         PUPPETEER_EXECUTABLE_PATH: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
