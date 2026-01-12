@@ -24,3 +24,12 @@ npm install quire-cli --install-strategy=nested
 ```sh
 npx quire-cli --help
 ```
+
+### Testing
+
+The CLI uses two types of test files for commands:
+
+- **`*.spec.js`** - Contract/interface tests that verify the command definition is correctly transformed into Commander.js Command object instance and the public API is correct
+- **`*.test.js`** - Integration/behavior tests that verify command execution with real dependencies
+
+See [docs/testing-commands.md](docs/testing-commands.md) for the complete testing guide and patterns.
