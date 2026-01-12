@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  browser-tools: circleci/browser-tools@2.1.2
+  browser-tools: circleci/browser-tools@2.3.2
   mac: circleci/macos@2.5.2
   node: circleci/node@7.1.0
   win: circleci/windows@5.1.0
