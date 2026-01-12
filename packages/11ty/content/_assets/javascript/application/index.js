@@ -70,7 +70,7 @@ window.toggleSearch = () => {
 window.search = () => {
   const searchInput = document.getElementById('js-search-input')
   const searchQuery = searchInput.value
-  const resultsContainer = document.getElementById('js-search-results-list'
+  const resultsContainer = document.getElementById('js-search-results-list')
   resultsContainer.innerText = ''
   updateSearchResults(searchQuery)
 }
