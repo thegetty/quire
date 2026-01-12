@@ -25,14 +25,16 @@ executors:
         # we cannot use $HOME or $PATH and must explicitly list the system paths here.
         NPM_CONFIG_PREFIX: '/home/circleci/.npm-global'
         PATH: '/home/circleci/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
-        PUPPETEER_EXECUTABLE_PATH: '/usr/bin/google-chrome-stable'
+        # Chrome for Testing install is symlinked to /usr/local/bin/chrome
+        PUPPETEER_EXECUTABLE_PATH: '/usr/local/bin/chrome'
 
   macos:
     macos:
       xcode: '16.3.0'
     resource_class: m4pro.medium
     environment:
-        PUPPETEER_EXECUTABLE_PATH: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+        # Chrome for Testing install is symlinked to /usr/local/bin/chrome
+        PUPPETEER_EXECUTABLE_PATH: '/usr/local/bin/chrome'
 
   playwright:
     docker:
