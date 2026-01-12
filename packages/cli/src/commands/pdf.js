@@ -1,4 +1,5 @@
 import { paths, projectRoot  } from '#lib/11ty/index.js'
+import logger from '#src/lib/logger.js'
 import Command from '#src/Command.js'
 import fs from 'fs-extra'
 import libPdf from '#lib/pdf/index.js'
@@ -38,7 +39,7 @@ async function loadConfig(configPath) {
     try {
       config = validateUserConfig('config', config, { config: schema })
     } catch (error) {
-      console.error(error)
+      logger.error(error)
       process.exit(1)
     }
   }
@@ -60,8 +61,6 @@ export default class PDFCommand extends Command {
     description: 'Generate publication PDF',
     summary: 'run build pdf',
     version: '1.0.0',
-    args: [
-    ],
     options: [
       [
         '--lib <module>', 'use the specified pdf module', 'pagedjs',
@@ -78,7 +77,7 @@ export default class PDFCommand extends Command {
 
   async action(options, command) {
     if (options.debug) {
-      console.debug('[CLI] Command \'%s\' called with options %o', this.name(), options)
+      logger.debug('[CLI] Command \'%s\' called with options %o', this.name(), options)
     }
 
     const publicationInput = path.join(projectRoot, paths.output, 'pdf.html')
@@ -87,12 +86,12 @@ export default class PDFCommand extends Command {
     const quireConfig = await loadConfig(path.join(projectRoot,'content','_data','config.yaml'))
 
     if (quireConfig === undefined) {
-      console.error(`[quire pdf]: ERROR Unable to find a configuration file at ${path.join(projectRoot,'content','_data','config.yaml')}\nIs the command being run in a quire project?`)
+      logger.error(`[quire pdf]: ERROR Unable to find a configuration file at ${path.join(projectRoot,'content','_data','config.yaml')}\nIs the command being run in a quire project?`)
       process.exit(1)
     }
 
     if (!fs.existsSync(publicationInput)) {
-      console.error(`[quire pdf]: ERROR Unable to find PDF input at ${publicationInput}\nPlease first run the 'quire build' command.`)
+      logger.error(`[quire pdf]: ERROR Unable to find PDF input at ${publicationInput}\nPlease first run the 'quire build' command.`)
       process.exit(1)
     }
 
@@ -106,7 +105,7 @@ export default class PDFCommand extends Command {
     try {
       if (fs.existsSync(output) && options.open) open(output)
     } catch (error) {
-      console.error(`[quire pdf]: ERROR`,error)
+      logger.error(`[quire pdf]: ERROR`,error)
       process.exit(1)
     }
   }

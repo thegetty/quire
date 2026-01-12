@@ -38,7 +38,12 @@
     "docs": "jsdoc2md --configure jsdoc.json --files src/**/*.js > docs/cli.md",
     "lint": "eslint src --ext .js",
     "lint:fix": "npm run lint -- --fix",
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "ava",
+    "test:watch": "ava --watch",
+    "test:unit": "ava src/commands/**/*.spec.js",
+    "test:integration": "ava src/commands/**/*.test.js src/helpers/**/*.test.js",
+    "test:e2e": "ava test/e2e/**/*.e2e.js",
+    "test:coverage": "c8 ava"
   },
   "imports": {
     "#root/*": "./*",
@@ -72,8 +77,12 @@
     "update-notifier": "^7.3.1"
   },
   "devDependencies": {
+    "ava": "^6.2.0",
     "eslint": "^8.32.0",
-    "jsdoc-to-markdown": "^9.1.1"
+    "esmock": "^2.7.3",
+    "jsdoc-to-markdown": "^9.1.1",
+    "memfs": "^4.51.1",
+    "sinon": "^17.0.1"
   },
   "engines": {
     "node": ">=22"

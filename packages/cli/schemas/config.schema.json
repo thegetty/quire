@@ -1,0 +1,215 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Quire Config Schema",
+  "type": "object",
+  "properties": {
+    "accordion": {
+      "type": "object",
+      "properties": {
+        "controls": {
+          "type": "string",
+          "enum": ["arrow", "plus-minus"]
+        },
+        "copyButton": {
+          "type": "object",
+          "properties": {
+            "ariaLabel": { "type": "string" },
+            "successText": { "type": "string" },
+            "symbol": { "type": "string" }
+          },
+          "required": ["ariaLabel", "successText", "symbol"]
+        },
+        "globalControls": {
+          "type": "object",
+          "properties": {
+            "collapseText": { "type": "string" },
+            "expandText": { "type": "string" }
+          },
+          "required": ["collapseText", "expandText"]
+        }
+      },
+      "required": ["controls", "copyButton", "globalControls"]
+    },
+
+    "analytics": {
+      "type": "object",
+      "properties": {
+        "googleId": { "type": "string" }
+      },
+      "required": ["googleId"]
+    },
+
+    "bylineFormat": {
+      "oneOf": [
+        { "type": "string", "enum": ["name", "name-title"] },
+        { "type": "boolean", "enum": [false] }
+      ]
+    },
+
+    "bibliography": {
+      "type": "object",
+      "properties": {
+        "displayOnPage": { "type": "boolean" },
+        "displayShort": { "type": "boolean" },
+        "heading": { "type": "string" }
+      },
+      "required": ["displayOnPage", "displayShort", "heading"]
+    },
+
+    "citations": {
+      "type": "object",
+      "properties": {
+        "divider": { "type": "string" },
+        "popupStyle": {
+          "type": "string",
+          "enum": ["text", "icon"]
+        }
+      },
+      "required": ["divider", "popupStyle"]
+    },
+
+    "entryPage": {
+      "type": "object",
+      "properties": {
+        "sideBySide": { "type": "boolean" },
+        "objectLinkText": { "type": "string" }
+      },
+      "required": ["sideBySide", "objectLinkText"]
+    },
+
+    "epub": {
+      "type": "object",
+      "properties": {
+        "defaultCoverImage": { "type": "string" },
+        "outputDir": { "type": "string" }
+      },
+      "required": ["defaultCoverImage", "outputDir"]
+    },
+
+    "footnotes": {
+      "type": "object",
+      "properties": {
+        "backlinkSymbol": { "type": "string" }
+      },
+      "required": ["backlinkSymbol"]
+    },
+
+    "figures": {
+      "type": "object",
+      "properties": {
+        "assetDir": { "type": "string" },
+        "enableModal": { "type": "boolean" },
+        "imageDir": { "type": "string" }
+      },
+      "required": ["assetDir", "enableModal", "imageDir"]
+    },
+
+    "licenseIcons": { "type": "boolean" },
+
+    "localization": {
+      "type": "object",
+      "properties": {
+        "defaultLocale": { "type": "string" }
+      },
+      "required": ["defaultLocale"]
+    },
+
+    "menuType": {
+      "type": "string",
+      "enum": ["full", "brief"]
+    },
+
+    "navigation": {
+      "type": "object",
+      "properties": {
+        "nextButtonText": { "type": "string" },
+        "prevButtonText": { "type": "string" }
+      },
+      "required": ["nextButtonText", "prevButtonText"]
+    },
+
+    "pageTitle": {
+      "type": "object",
+      "properties": {
+        "labelDivider": { "type": "string" }
+      },
+      "required": ["labelDivider"]
+    },
+
+    "pdf": {
+      "type": "object",
+      "properties": {
+        "filename": { "type": "string" },
+        "outputDir": { "type": "string" },
+
+        "pagePDF": {
+          "type": "object",
+          "properties": {
+            "accessLinks": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "header": { "type": "boolean" },
+                  "footer": { "type": "boolean" },
+                  "label": { "type": "string" }
+                }
+              }
+            },
+            "coverPage": { "type": "boolean" },
+            "output": { "type": "boolean" }
+          },
+          "required": ["accessLinks", "coverPage", "output"]
+        },
+
+        "publicationPDF": {
+          "type": "object",
+          "properties": {
+            "output": { "type": "boolean" }
+          },
+          "required": ["output"]
+        }
+      },
+      "required": ["filename", "outputDir", "pagePDF", "publicationPDF"]
+    },
+
+    "ref": {
+      "type": "object",
+      "properties": {
+        "sequenceTransition": { "type": "number" }
+      },
+      "required": ["sequenceTransition"]
+    },
+
+    "searchEnabled": { "type": "boolean" },
+
+    "tableOfContents": {
+      "type": "object",
+      "properties": {
+        "contributorDivider": { "type": "string" }
+      },
+      "required": ["contributorDivider"]
+    }
+  },
+
+  "required": [
+    "accordion",
+    "analytics",
+    "bylineFormat",
+    "bibliography",
+    "citations",
+    "entryPage",
+    "epub",
+    "footnotes",
+    "figures",
+    "licenseIcons",
+    "localization",
+    "menuType",
+    "navigation",
+    "pageTitle",
+    "pdf",
+    "ref",
+    "searchEnabled",
+    "tableOfContents"
+  ]
+}
