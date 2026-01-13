@@ -18,6 +18,7 @@ class Modal extends LitElement {
     super()
     this.setupKeyboardControls()
     this.setupModalTriggers()
+    this.setupBackdropClick()
   }
 
   close () {
@@ -78,6 +79,16 @@ class Modal extends LitElement {
         event.preventDefault()
         this.open(event)
       })
+    })
+  }
+
+  setupBackdropClick () {
+    this.addEventListener('click', (event) => {
+      if (!this.active) return
+      const modalContainer = this.renderRoot.querySelector('.q-modal')
+      if (modalContainer) {
+        this.close()
+      }
     })
   }
 
