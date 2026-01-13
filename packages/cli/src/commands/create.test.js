@@ -318,20 +318,11 @@ test('create command should remove temp dir and package artifacts', async (t) =>
       default: mockNpm
     },
     '#lib/git/index.js': {
-      add: () => {
-        return {
-          commit: sandbox.stub()
-        }
+      default: {
+        add: sandbox.stub().resolves(),
+        commit: sandbox.stub().resolves(),
+        rm: sandbox.stub().resolves(),
       },
-      cwd: () => {
-        return {
-          rm: () => {
-            return {
-              catch: sandbox.stub()
-            }
-          }
-        }
-      }
     },
     'execa': {
       // Mock tar extraction command

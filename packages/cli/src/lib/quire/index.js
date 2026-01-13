@@ -99,10 +99,11 @@ async function initStarter (starter, projectPath, options) {
    * Clone starter project repository
    * @todo pipe `git clone` status to stdout for better UX
    */
-  await git
-    .cwd(projectPath)
-    .clone(starter, '.')
-    .catch((error) => console.error('[CLI:error] ', error))
+  try {
+    await git.clone(starter, '.', projectPath)
+  } catch (error) {
+    console.error('[CLI:error] ', error)
+  }
 
   /**
    * Determine the quire-11ty version to use in the new project,
@@ -141,7 +142,9 @@ async function initStarter (starter, projectPath, options) {
    * Using '.' respects .gitignore and avoids attempting to add ignored directories
    * @todo use a localized string for the commit message
    */
-  await git.init().add('.').commit('Initial Commit')
+  await git.init(projectPath)
+  await git.add('.', projectPath)
+  await git.commit('Initial Commit', projectPath)
   return quireVersion
 }
 
@@ -167,10 +170,11 @@ async function installInProject(projectPath, quireVersion, options = {}) {
    * @TODO If a user runs quire eject at a later date we may want to merge their
    * package.json with the `quire-11ty` dev dependencies, scripts, etc
    */
-  await git
-    .cwd(projectPath)
-    .rm(['package.json'])
-    .catch((error) => console.error('[CLI:error] ', error))
+  try {
+    await git.rm(['package.json'], projectPath)
+  } catch (error) {
+    console.error('[CLI:error] ', error)
+  }
 
   const temp11tyDirectory = '.temp'
   const tempDir = path.join(projectPath,temp11tyDirectory)
@@ -219,7 +223,8 @@ async function installInProject(projectPath, quireVersion, options = {}) {
    * Using '.' respects .gitignore and avoids attempting to add ignored directories
    * @todo use a localized string for the commit message
    */
-  await git.add('.').commit('Adds `@thegetty/quire-11ty` files')
+  await git.add('.', projectPath)
+  await git.commit('Adds `@thegetty/quire-11ty` files', projectPath)
 
   // remove temporary 11ty install directory
   fs.rmSync(path.join(projectPath, temp11tyDirectory), {recursive: true})
