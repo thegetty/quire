@@ -312,7 +312,7 @@ npx playwright test --shard=${SHARD}/${CIRCLE_NODE_TOTAL}
 
 ```bash
 # Install dependencies (same as CI)
-npm ci --ignore-scripts --foreground-scripts
+npm ci --foreground-scripts
 
 # Run tests in same order as CI
 npm run test --workspace packages/cli    # ~2s
@@ -326,7 +326,7 @@ npm run test:browsers                    # Playwright tests
 **Linux (Docker):**
 ```bash
 docker run -it --rm -v $(pwd):/workspace -w /workspace cimg/node:22.10.0 bash
-# Inside container: npm ci --ignore-scripts --foreground-scripts && npm test
+# Inside container: npm ci --foreground-scripts && npm test
 ```
 
 **Validate config changes:**
@@ -349,7 +349,7 @@ npx playwright test _tests/publication.spec.js  # Single file
 ```bash
 npm run test:clean
 rm -rf node_modules packages/*/node_modules
-npm ci --ignore-scripts --foreground-scripts
+npm ci --foreground-scripts
 npm run test --workspace packages/cli -- --match "*test name*"
 ```
 
@@ -539,7 +539,7 @@ circleci config validate .circleci/config.yml
 circleci config process .circleci/config.yml
 
 # Run tests locally
-npm ci --ignore-scripts --foreground-scripts
+npm ci --foreground-scripts
 npm run test --workspace packages/cli
 npm run test:e2e
 npm run test:browsers
