@@ -9,8 +9,6 @@ import { html } from '#lib/common-tags/index.js'
 export default function (eleventyConfig) {
   const icon = eleventyConfig.getFilter('icon')
   return (params) => {
-    const { url } = params.publication
-    const searchIndex = new URL('search-index.json', url)
     return html`
       <template id="js-search-results-template">
         <li class="quire-search__inner__list-item">
@@ -23,7 +21,6 @@ export default function (eleventyConfig) {
       <div
         aria-expanded="false"
         class="quire-search"
-        data-search-index="${searchIndex}"
         id="js-search"
       >
         <div class="quire-search__close-button">
