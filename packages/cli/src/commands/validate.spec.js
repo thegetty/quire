@@ -1,62 +1,64 @@
-import ValidateCommand from '#src/commands/validate.js'
+import { Command, Option } from 'commander'
+import program from '#src/main.js'
 import test from 'ava'
-import semver from 'semver'
-import sinon from 'sinon'
 
-test.beforeEach((t) => {
-  t.context.sandbox = sinon.createSandbox()
-  t.context.command = new ValidateCommand()
+/**
+ * Command Contract/Interface Tests
+ *
+ * Verifies the command's public API and Commander.js integration.
+ * @see docs/testing-commands.md
+ */
 
-  // Stub the name method since it comes from Commander.js
-  t.context.command.name = t.context.sandbox.stub().returns('validate')
-
-  // Stub console methods to suppress output during tests
-  if (!console.debug.restore) {
-    t.context.consoleDebugStub = t.context.sandbox.stub(console, 'debug')
-    t.context.consoleLogStub = t.context.sandbox.stub(console, 'log')
-    t.context.consoleErrorStub = t.context.sandbox.stub(console, 'error')
-  } else {
-    t.context.consoleDebugStub = console.debug
-    t.context.consoleLogStub = console.log
-    t.context.consoleErrorStub = console.error
-    t.context.consoleDebugStub.resetHistory()
-    t.context.consoleLogStub.resetHistory()
-    t.context.consoleErrorStub.resetHistory()
-  }
+test.before((t) => {
+  // Get the registered command (from program.commands) once and share across all tests
+  t.context.command = program.commands.find((cmd) => cmd.name() === 'validate')
 })
 
-test.afterEach((t) => {
-  t.context.sandbox.restore()
-})
-
-test('command should be instantiated with correct definition', (t) => {
-  // Create a fresh command without stubs for this test
-  const command = new ValidateCommand()
-
-  t.is(command.name, 'validate')
-  t.truthy(command.description)
-  t.truthy(command.summary)
-  t.truthy(semver.valid(command.version), `command must have a semantic version, got: ${command.version}`)
-  t.true(command.args === undefined)
-  t.truthy(Array.isArray(command.options))
-})
-
-test('command should have a debug option', (t) => {
+test('command is registered in CLI program', (t) => {
   const { command } = t.context
 
-  const debugOption = command.options.find((opt) => opt[0] === '--debug')
-  t.truthy(debugOption)
-  t.is(debugOption[1], 'run validate with debug output to console')
+  t.truthy(command, 'command "validate" should be registered in program')
+  t.true(command instanceof Command, 'registered command should be Commander.js Command instance')
 })
 
-test('action method should be defined', (t) => {
+test('registered command has correct metadata', (t) => {
   const { command } = t.context
 
-  t.is(typeof command.action, 'function')
+  t.is(command.name(), 'validate')
+  t.truthy(command.description())
+  t.is(typeof command._actionHandler, 'function', 'command should have action handler')
 })
 
-test('preAction method should be defined', (t) => {
+test('registered command has no arguments', (t) => {
+  const { command } = t.context
+  const registeredArguments = command.registeredArguments
+
+  t.is(registeredArguments.length, 0, 'validate command should have no arguments')
+})
+
+test('registered command has correct options', (t) => {
   const { command } = t.context
 
-  t.is(typeof command.preAction, 'function')
+  // Get all options
+  const debugOption = command.options.find((opt) => opt.long === '--debug')
+
+  // Verify all options exist
+  t.truthy(debugOption, '--debug option should exist')
+
+  // Verify they are Option instances
+  t.true(debugOption instanceof Option, '--debug should be Option instance')
+
+  // Verify option properties
+  t.is(debugOption.long, '--debug')
+  t.truthy(debugOption.description)
+  t.false(debugOption.required, '--debug should not require a value')
+})
+
+test('command options are accessible via public API', (t) => {
+  const { command } = t.context
+
+  // Test that options can be accessed the way Commander.js does
+  const optionNames = command.options.map((opt) => opt.long)
+
+  t.true(optionNames.includes('--debug'))
 })

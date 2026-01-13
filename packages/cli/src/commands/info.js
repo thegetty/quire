@@ -114,14 +114,14 @@ export default class InfoCommand extends Command {
     /**
      * Filter the command output based on `debug` settings
      */
-    versions.forEach(async ({ items, title }) => {
-      const versions = await Promise.all(
+    for (const { items, title } of versions) {
+      const versionList = await Promise.all(
         items
           .filter(({ debug }) => !debug || (options.debug && debug))
           .map(async ({ name, get }) => `${name} ${await get()}`)
       )
-      logger.info(`${title}\n ${versions.join('\n ')}`)
-    })
+      logger.info(`${title}\n ${versionList.join('\n ')}`)
+    }
   }
 
   preAction(command) {

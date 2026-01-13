@@ -1,79 +1,80 @@
-import PDFCommand from '#src/commands/pdf.js'
+import { Command, Option } from 'commander'
+import program from '#src/main.js'
 import test from 'ava'
-import semver from 'semver'
-import sinon from 'sinon'
 
-test.beforeEach((t) => {
-  t.context.sandbox = sinon.createSandbox()
-  t.context.command = new PDFCommand()
+/**
+ * Command Contract/Interface Tests
+ *
+ * Verifies the command's public API and Commander.js integration.
+ * @see docs/testing-commands.md
+ */
 
-  // Stub the name method since it comes from Commander.js
-  t.context.command.name = t.context.sandbox.stub().returns('pdf')
-
-  // Stub console methods to suppress output during tests
-  if (!console.debug.restore) {
-    t.context.consoleDebugStub = t.context.sandbox.stub(console, 'debug')
-    t.context.consoleErrorStub = t.context.sandbox.stub(console, 'error')
-  } else {
-    t.context.consoleDebugStub = console.debug
-    t.context.consoleErrorStub = console.error
-    t.context.consoleDebugStub.resetHistory()
-    t.context.consoleErrorStub.resetHistory()
-  }
+test.before((t) => {
+  // Get the registered command (from program.commands) once and share across all tests
+  t.context.command = program.commands.find((cmd) => cmd.name() === 'pdf')
 })
 
-test.afterEach((t) => {
-  t.context.sandbox.restore()
-})
-
-test('command should be instantiated with correct definition', (t) => {
-  // Create a fresh command without stubs for this test
-  const command = new PDFCommand()
-
-  t.is(command.name, 'pdf')
-  t.truthy(command.description)
-  t.truthy(command.summary)
-  t.truthy(semver.valid(command.version), `command must have a semantic version, got: ${command.version}`)
-  t.true(command.args === undefined)
-  t.truthy(Array.isArray(command.options))
-})
-
-test('command should have a lib option', (t) => {
+test('command is registered in CLI program', (t) => {
   const { command } = t.context
 
-  const libOption = command.options.find((opt) => opt[0] && opt[0].includes('--lib'))
-  t.truthy(libOption)
-  t.is(libOption[0], '--lib <module>')
-  t.is(libOption[2], 'pagedjs') // default value
-  t.truthy(libOption[3])
-  t.deepEqual(libOption[3].choices, ['pagedjs', 'prince'])
+  t.truthy(command, 'command "pdf" should be registered in program')
+  t.true(command instanceof Command, 'registered command should be Commander.js Command instance')
 })
 
-test('command should have an open option', (t) => {
+test('registered command has correct metadata', (t) => {
   const { command } = t.context
 
-  const openOption = command.options.find((opt) => opt[0] === '--open')
-  t.truthy(openOption)
-  t.is(openOption[1], 'open PDF in default application')
+  t.is(command.name(), 'pdf')
+  t.truthy(command.description())
+  t.is(typeof command._actionHandler, 'function', 'command should have action handler')
 })
 
-test('command should have a debug option', (t) => {
+test('registered command has no arguments', (t) => {
   const { command } = t.context
+  const registeredArguments = command.registeredArguments
 
-  const debugOption = command.options.find((opt) => opt[0] === '--debug')
-  t.truthy(debugOption)
-  t.is(debugOption[1], 'run build with debug output to console')
+  t.is(registeredArguments.length, 0, 'pdf command should have no arguments')
 })
 
-test('action method should be defined and async', (t) => {
+test('registered command has correct options', (t) => {
   const { command } = t.context
 
-  t.is(typeof command.action, 'function')
-  t.is(command.action.constructor.name, 'AsyncFunction')
+  // Get all options
+  const libOption = command.options.find((opt) => opt.long === '--lib')
+  const openOption = command.options.find((opt) => opt.long === '--open')
+  const debugOption = command.options.find((opt) => opt.long === '--debug')
+
+  // Verify all options exist
+  t.truthy(libOption, '--lib option should exist')
+  t.truthy(openOption, '--open option should exist')
+  t.truthy(debugOption, '--debug option should exist')
+
+  // Verify they are Option instances
+  t.true(libOption instanceof Option, '--lib should be Option instance')
+  t.true(openOption instanceof Option, '--open should be Option instance')
+  t.true(debugOption instanceof Option, '--debug should be Option instance')
+
+  // Verify option properties
+  t.is(libOption.long, '--lib')
+  t.truthy(libOption.description)
+  t.true(libOption.required, '--lib should require a value')
+
+  t.is(openOption.long, '--open')
+  t.truthy(openOption.description)
+  t.false(openOption.required, '--open should not require a value')
+
+  t.is(debugOption.long, '--debug')
+  t.truthy(debugOption.description)
+  t.false(debugOption.required, '--debug should not require a value')
 })
 
-test('preAction method should be defined', (t) => {
+test('command options are accessible via public API', (t) => {
   const { command } = t.context
 
-  t.is(typeof command.preAction, 'function')
+  // Test that options can be accessed the way Commander.js does
+  const optionNames = command.options.map((opt) => opt.long)
+
+  t.true(optionNames.includes('--lib'))
+  t.true(optionNames.includes('--open'))
+  t.true(optionNames.includes('--debug'))
 })

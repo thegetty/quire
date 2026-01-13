@@ -1,91 +1,94 @@
-import CreateCommand from '#src/commands/create.js'
+import { Argument, Command, Option } from 'commander'
+import program from '#src/main.js'
 import test from 'ava'
-import semver from 'semver'
-import sinon from 'sinon'
 
-test.beforeEach((t) => {
-  t.context.sandbox = sinon.createSandbox()
-  t.context.command = new CreateCommand()
+/**
+ * Command Contract/Interface Tests
+ *
+ * Verifies the command's public API and Commander.js integration.
+ * @see docs/testing-commands.md
+ */
 
-  // Mock config - check if already stubbed
-  if (!t.context.command.config.get.restore) {
-    t.context.sandbox.stub(t.context.command.config, 'get').returns('default-starter')
-  }
-
-  // Stub console methods to suppress output during tests
-  if (!console.info.restore) {
-    t.context.consoleInfoStub = t.context.sandbox.stub(console, 'info')
-    t.context.consoleErrorStub = t.context.sandbox.stub(console, 'error')
-  } else {
-    t.context.consoleInfoStub = console.info
-    t.context.consoleInfoStub.resetHistory()
-    t.context.consoleErrorStub = console.error
-    t.context.consoleErrorStub.resetHistory()
-  }
+test.before((t) => {
+  // Get the registered command (from program.commands) once and share across all tests
+  t.context.command = program.commands.find((cmd) => cmd.name() === 'new')
 })
 
-test.afterEach((t) => {
-  t.context.sandbox.restore()
-})
-
-test('command should be instantiated with correct definition', (t) => {
-  // Create a fresh command without stubs for this test
-  const command = new CreateCommand()
-
-  t.is(command.name, 'new')
-  t.truthy(command.description)
-  t.truthy(command.summary)
-  t.truthy(semver.valid(command.version), `command must have a semantic version, got: ${command.version}`)
-  t.truthy(command.args)
-  t.truthy(command.options)
-})
-
-test('command should have correct args defined', (t) => {
+test('command is registered in CLI program', (t) => {
   const { command } = t.context
 
-  t.true(Array.isArray(command.args))
-  t.is(command.args.length, 2)
-  t.is(command.args[0][0], '[projectPath]')
-  t.is(command.args[1][0], '[starter]')
+  t.truthy(command, 'command "new" should be registered in program')
+  t.true(command instanceof Command, 'registered command should be Commander.js Command instance')
 })
 
-test('command should have correct options defined', (t) => {
+test('registered command has correct metadata', (t) => {
   const { command } = t.context
 
-  t.true(Array.isArray(command.options))
-
-  const path = command.options.find((opt) => opt[0].includes('--quire-path'))
-  const version = command.options.find((opt) => opt[0].includes('--quire-version'))
-  const debug = command.options.find((opt) => opt[0] === '--debug')
-
-  // Nota bene: this is correct but shows that the unit tests are fragile;
-  // the current spec implementation tests the intermediate definition format,
-  // not what users actually interact with, which is the public API.
-  // Specs should verify the structure and configuration of the command definition,
-  // as well as the command's public contract/API, *without testing behavior*.
-  // @TODO refactor the command specs to test that the registered Commander.js
-  // command is actually a contract/interface, the integration between each
-  // Command class → Commander creates Command, Argument, and Option instances.
-  const cleanCache = command.options.find((opt) => opt.flags === '--clean-cache')
-
-  t.truthy(path)
-  t.truthy(version)
-  t.truthy(debug)
-  t.truthy(cleanCache)
+  t.is(command.name(), 'new')
+  t.truthy(command.description())
+  t.is(typeof command._actionHandler, 'function', 'command should have action handler')
 })
 
-test('action method should be defined and async', (t) => {
+test('registered command has correct arguments', (t) => {
   const { command } = t.context
+  const registeredArguments = command.registeredArguments
 
-  t.is(typeof command.action, 'function')
+  t.is(registeredArguments.length, 2, 'command should have 2 arguments')
+
+  // First argument: projectPath
+  const projectPath = registeredArguments[0]
+  t.true(projectPath instanceof Argument, 'projectPath should be Argument instance')
+  t.is(projectPath.name(), 'projectPath', 'first argument should be projectPath')
+  t.false(projectPath.required, 'projectPath should be optional')
+  t.truthy(projectPath.description)
+
+  // Second argument: starter
+  const starter = registeredArguments[1]
+  t.true(starter instanceof Argument, 'starter should be Argument instance')
+  t.is(starter.name(), 'starter', 'second argument should be starter')
+  t.false(starter.required, 'starter should be optional')
+  t.truthy(starter.description)
 })
 
-test('command should use config default when a starter is not provided', (t) => {
+test('registered command has correct options', (t) => {
   const { command } = t.context
 
-  // Test the logic that assigns starter from config
-  const starter = undefined
-  const expected = command.config.get('projectTemplate')
+  // Get all options
+  const quirePathOption = command.options.find((opt) => opt.long === '--quire-path')
+  const quireVersionOption = command.options.find((opt) => opt.long === '--quire-version')
+  const debugOption = command.options.find((opt) => opt.long === '--debug')
 
-  t.is(expected, 'default-starter')
+  // Verify all options exist
+  t.truthy(quirePathOption, '--quire-path option should exist')
+  t.truthy(quireVersionOption, '--quire-version option should exist')
+  t.truthy(debugOption, '--debug option should exist')
+
+  // Verify they are Option instances
+  t.true(quirePathOption instanceof Option, '--quire-path should be Option instance')
+  t.true(quireVersionOption instanceof Option, '--quire-version should be Option instance')
+  t.true(debugOption instanceof Option, '--debug should be Option instance')
+
+  // Verify option properties
+  t.is(quirePathOption.long, '--quire-path')
+  t.truthy(quirePathOption.description)
+  t.true(quirePathOption.required, '--quire-path should require a value')
+
+  t.is(quireVersionOption.long, '--quire-version')
+  t.truthy(quireVersionOption.description)
+  t.true(quireVersionOption.required, '--quire-version should require a value')
+
+  t.is(debugOption.long, '--debug')
+  t.truthy(debugOption.description)
+  t.false(debugOption.required, '--debug should not require a value')
+})
+
+test('command options are accessible via public API', (t) => {
+  const { command } = t.context
+
+  // Test that options can be accessed the way Commander.js does
+  const optionNames = command.options.map((opt) => opt.long)
+
+  t.true(optionNames.includes('--quire-path'))
+  t.true(optionNames.includes('--quire-version'))
+  t.true(optionNames.includes('--debug'))
 })

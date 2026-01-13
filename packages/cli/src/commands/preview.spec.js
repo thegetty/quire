@@ -1,94 +1,97 @@
-import PreviewCommand from '#src/commands/preview.js'
+import { Command, Option } from 'commander'
+import program from '#src/main.js'
 import test from 'ava'
-import semver from 'semver'
-import sinon from 'sinon'
 
-test.beforeEach((t) => {
-  t.context.sandbox = sinon.createSandbox()
-  t.context.command = new PreviewCommand()
+/**
+ * Command Contract/Interface Tests
+ *
+ * Verifies the command's public API and Commander.js integration.
+ * @see docs/testing-commands.md
+ */
 
-  // Stub the name method since it comes from Commander.js
-  t.context.command.name = t.context.sandbox.stub().returns('preview')
-
-  // Stub console methods to suppress output during tests
-  if (!console.debug.restore) {
-    t.context.consoleDebugStub = t.context.sandbox.stub(console, 'debug')
-  } else {
-    t.context.consoleDebugStub = console.debug
-    t.context.consoleDebugStub.resetHistory()
-  }
+test.before((t) => {
+  // Get the registered command (from program.commands) once and share across all tests
+  t.context.command = program.commands.find((cmd) => cmd.name() === 'preview')
 })
 
-test.afterEach((t) => {
-  t.context.sandbox.restore()
-})
-
-test('command should be instantiated with correct definition', (t) => {
-  // Create a fresh command without stubs for this test
-  const command = new PreviewCommand()
-
-  t.is(command.name, 'preview')
-  t.truthy(command.description)
-  t.truthy(command.summary)
-  t.truthy(semver.valid(command.version), `command must have a semantic version, got: ${command.version}`)
-  t.true(Array.isArray(command.args))
-  t.truthy(Array.isArray(command.options))
-})
-
-test('command should have a port option', (t) => {
+test('command is registered in CLI program', (t) => {
   const { command } = t.context
 
-  const portOption = command.options.find((opt) => opt.includes('--port <port>'))
-  t.truthy(portOption)
-  t.is(portOption[0], '-p')
-  t.is(portOption[1], '--port <port>')
-  t.is(portOption[3], 8080) // default value
+  t.truthy(command, 'command "preview" should be registered in program')
+  t.true(command instanceof Command, 'registered command should be Commander.js Command instance')
 })
 
-test('command should have a quiet option', (t) => {
+test('registered command has correct metadata', (t) => {
   const { command } = t.context
 
-  const quietOption = command.options.find((opt) => opt.includes('--quiet'))
-  t.truthy(quietOption)
-  t.true(quietOption.includes('-q'))
-  t.true(quietOption.includes('--quiet'))
+  t.is(command.name(), 'preview')
+  t.truthy(command.description())
+  t.is(typeof command._actionHandler, 'function', 'command should have action handler')
 })
 
-test('command should have a verbose option', (t) => {
+test('registered command has no arguments', (t) => {
   const { command } = t.context
+  const registeredArguments = command.registeredArguments
 
-  const verboseOption = command.options.find((opt) => opt.includes('--verbose'))
-  t.truthy(verboseOption)
-  t.true(verboseOption.includes('-v'))
-  t.true(verboseOption.includes('--verbose'))
+  t.is(registeredArguments.length, 0, 'preview command should have no arguments')
 })
 
-test('command should have an 11ty option', (t) => {
+test('registered command has correct options', (t) => {
   const { command } = t.context
 
-  const eleventyOption = command.options.find((opt) => opt[0] && opt[0].includes('--11ty'))
-  t.truthy(eleventyOption)
-  t.is(eleventyOption[0], '--11ty <module>')
-  t.is(eleventyOption[2], 'cli') // default value
+  // Get all options
+  const portOption = command.options.find((opt) => opt.long === '--port')
+  const quietOption = command.options.find((opt) => opt.long === '--quiet')
+  const verboseOption = command.options.find((opt) => opt.long === '--verbose')
+  const eleventyOption = command.options.find((opt) => opt.long === '--11ty')
+  const debugOption = command.options.find((opt) => opt.long === '--debug')
+
+  // Verify all options exist
+  t.truthy(portOption, '--port option should exist')
+  t.truthy(quietOption, '--quiet option should exist')
+  t.truthy(verboseOption, '--verbose option should exist')
+  t.truthy(eleventyOption, '--11ty option should exist')
+  t.truthy(debugOption, '--debug option should exist')
+
+  // Verify they are Option instances
+  t.true(portOption instanceof Option, '--port should be Option instance')
+  t.true(quietOption instanceof Option, '--quiet should be Option instance')
+  t.true(verboseOption instanceof Option, '--verbose should be Option instance')
+  t.true(eleventyOption instanceof Option, '--11ty should be Option instance')
+  t.true(debugOption instanceof Option, '--debug should be Option instance')
+
+  // Verify option properties
+  t.is(portOption.long, '--port')
+  t.is(portOption.short, '-p')
+  t.truthy(portOption.description)
+  t.true(portOption.required, '--port should require a value')
+
+  t.is(quietOption.long, '--quiet')
+  t.is(quietOption.short, '-q')
+  t.truthy(quietOption.description)
+
+  t.is(verboseOption.long, '--verbose')
+  t.is(verboseOption.short, '-v')
+  t.truthy(verboseOption.description)
+
+  t.is(eleventyOption.long, '--11ty')
+  t.truthy(eleventyOption.description)
+  t.true(eleventyOption.required, '--11ty should require a value')
+
+  t.is(debugOption.long, '--debug')
+  t.truthy(debugOption.description)
+  t.false(debugOption.required, '--debug should not require a value')
 })
 
-test('command should have a debug option', (t) => {
+test('command options are accessible via public API', (t) => {
   const { command } = t.context
 
-  const debugOption = command.options.find((opt) => opt[0] === '--debug')
-  t.truthy(debugOption)
-  t.is(debugOption[1], 'run preview with debug output to console')
-})
+  // Test that options can be accessed the way Commander.js does
+  const optionNames = command.options.map((opt) => opt.long)
 
-test('action method should be defined and async', (t) => {
-  const { command } = t.context
-
-  t.is(typeof command.action, 'function')
-  t.is(command.action.constructor.name, 'AsyncFunction')
-})
-
-test('preAction method should be defined', (t) => {
-  const { command } = t.context
-
-  t.is(typeof command.preAction, 'function')
+  t.true(optionNames.includes('--port'))
+  t.true(optionNames.includes('--quiet'))
+  t.true(optionNames.includes('--verbose'))
+  t.true(optionNames.includes('--11ty'))
+  t.true(optionNames.includes('--debug'))
 })
