@@ -154,7 +154,7 @@ commands:
     steps:
       - run:
           name: Install test dependencies
-          command: npm ci --ignore-scripts --foreground-scripts
+          command: npm ci --foreground-scripts
 
   run_tests:
     steps:
