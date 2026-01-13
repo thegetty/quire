@@ -67,12 +67,13 @@ window.toggleSearch = () => {
  * search
  * @description makes a search query using Pagefind
  */
-window.search = () => {
+window.search = async () => {
   const searchInput = document.getElementById('js-search-input')
   const searchQuery = searchInput.value
-  const resultsContainer = document.getElementById('js-search-results-list')
-  resultsContainer.innerText = ''
-  updateSearchResults(searchQuery)
+  if (window._searchResults) {
+    await window._searchResults
+  }
+  window._searchResults = updateSearchResults(searchQuery)
 }
 
 /**
@@ -81,17 +82,10 @@ window.search = () => {
  * @param {string} query The search query string
  */
 async function updateSearchResults (query) {
-  if (window._searchResults) {
-    await window._searchResults
-  }
   const searchInstance = window.QUIRE_SEARCH
-  window._searchResults = searchInstance.search(query)
-    .then((searchResults) => {
-      return displaySearchResults(searchResults)
-    })
-    .finally(() => {
-      window._searchResults = undefined
-    })
+  const searchResults = await searchInstance.search(query)
+  await displaySearchResults(searchResults)
+  window._searchResults = undefined
 }
 
 /**
@@ -102,6 +96,7 @@ async function updateSearchResults (query) {
 async function displaySearchResults ({ results }) {
   const resultsContainer = document.getElementById('js-search-results-list')
   const resultsTemplate = document.getElementById('js-search-results-template')
+  resultsContainer.innerText = ''
 
   for (const rawResult of results) {
     const result = await rawResult.data()
