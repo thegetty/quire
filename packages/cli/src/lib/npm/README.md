@@ -6,10 +6,10 @@ A façade module that abstracts npm command-line operations for the Quire CLI.
 
 This module provides a unified interface for npm operations with:
 
+- Encapsulation of npm implementation details
 - Consistent logging prefixed with `[CLI:lib/npm]`
 - Unified error handling
 - Easy mockability for testing
-- Encapsulation of npm implementation details
 
 ## Usage
 
