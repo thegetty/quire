@@ -261,7 +261,6 @@ workflows:
       - build_install_test:
           <<: *matrix_params
           name: build_install_test-<< matrix.os >>
-          filters: *docs_branch_filter
       - browser_test:
           name: browser_test-linux
           requires:
