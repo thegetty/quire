@@ -310,24 +310,29 @@ test('create command should remove temp dir and package artifacts', async (t) =>
     install: sandbox.stub().resolves()
   }
 
-  // Mock fs (adding copySync) and git (with mocked chainable stubs)
+  // Mock Git class that returns instances with stubbed methods
+  const MockGit = class {
+    constructor() {
+      this.add = sandbox.stub().resolves()
+      this.commit = sandbox.stub().resolves()
+      this.rm = sandbox.stub().resolves()
+    }
+  }
+
+  // Mock fs (adding copySync) and git
   // Nota bene: Pass `vol` here as fs because memfs only provides cpSync there
   const { quire } = await esmock('../lib/quire/index.js', {
     'fs-extra': vol,
     '#lib/npm/index.js': {
-      default: mockNpm
+      default: mockNpm,
     },
     '#lib/git/index.js': {
-      default: {
-        add: sandbox.stub().resolves(),
-        commit: sandbox.stub().resolves(),
-        rm: sandbox.stub().resolves(),
-      },
+      Git: MockGit,
     },
     'execa': {
       // Mock tar extraction command
-      execaCommand: sandbox.stub().resolves()
-    }
+      execaCommand: sandbox.stub().resolves(),
+    },
   })
 
   await quire.installInProject(projectRoot, '1.0.0')
