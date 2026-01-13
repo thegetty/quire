@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  browser-tools: circleci/browser-tools@2.1.2
+  browser-tools: circleci/browser-tools@2.3.2
   mac: circleci/macos@2.5.2
   node: circleci/node@7.1.0
   win: circleci/windows@5.1.0
@@ -25,14 +25,19 @@ executors:
         # we cannot use $HOME or $PATH and must explicitly list the system paths here.
         NPM_CONFIG_PREFIX: '/home/circleci/.npm-global'
         PATH: '/home/circleci/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
-        PUPPETEER_EXECUTABLE_PATH: '/usr/bin/google-chrome-stable'
+        # Chrome for Testing install is symlinked to /usr/local/bin/chrome
+        PUPPETEER_EXECUTABLE_PATH: '/usr/local/bin/chrome'
 
   macos:
     macos:
-      xcode: '16.3.0'
+      xcode: '26.2.0'
     resource_class: m4pro.medium
     environment:
-        PUPPETEER_EXECUTABLE_PATH: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+        # Chrome for Testing on macOS uses an .app bundle structure,
+        # which is not accounted for when browser-tools orb command creates a
+        # symlink to /opt/chrome-for-testing/chrome, so the symlink is broken;
+        # see https://github.com/CircleCI-Public/browser-tools-orb/issues
+        PUPPETEER_EXECUTABLE_PATH: '/opt/chrome-for-testing/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing'
 
   playwright:
     docker:
