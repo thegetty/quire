@@ -33,9 +33,9 @@ executors:
       xcode: '26.2.0'
     resource_class: m4pro.medium
     environment:
-        # Chrome for Testing on macOS uses an .app bundle structure, which is
-        # not accouted for in the browser-tools orb when it creates a symlink to
-        # /opt/chrome-for-testing/chrome is created, so the symlink is broken;
+        # Chrome for Testing on macOS uses an .app bundle structure,
+        # which is not accounted for when browser-tools orb command creates a
+        # symlink to /opt/chrome-for-testing/chrome, so the symlink is broken;
         # see https://github.com/CircleCI-Public/browser-tools-orb/issues
         PUPPETEER_EXECUTABLE_PATH: '/opt/chrome-for-testing/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing'
 
