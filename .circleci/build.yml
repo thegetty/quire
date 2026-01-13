@@ -154,7 +154,7 @@ commands:
     steps:
       - run:
           name: Install test dependencies
-          command: npm ci --ignore-scripts --foreground-scripts
+          command: npm ci --foreground-scripts
 
   run_tests:
     steps:
@@ -261,7 +261,6 @@ workflows:
       - build_install_test:
           <<: *matrix_params
           name: build_install_test-<< matrix.os >>
-          filters: *docs_branch_filter
       - browser_test:
           name: browser_test-linux
           requires:
