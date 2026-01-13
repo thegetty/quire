@@ -1,5 +1,6 @@
 import Command from '#src/Command.js'
 import logger from '#src/lib/logger.js'
+import npm from '#lib/npm/index.js'
 import { execaCommand } from 'execa'
 import fs from 'node:fs'
 import os from 'node:os'
@@ -97,10 +98,7 @@ export default class InfoCommand extends Command {
           {
             debug: true,
             name: 'npm',
-            get: async () => {
-              const { stdout } = await execaCommand('npm --version')
-              return stdout
-            },
+            get: async () => await npm.version(),
           },
           {
             debug: true,

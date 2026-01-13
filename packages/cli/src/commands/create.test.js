@@ -300,10 +300,23 @@ test('create command should remove temp dir and package artifacts', async (t) =>
   // Setup project directory
   fs.mkdirSync(projectRoot)
 
+  // Mock npm façade to simulate npm pack behavior
+  const mockNpm = {
+    pack: sandbox.stub().callsFake(() => {
+      // Simulate npm pack creating a tarball in .temp
+      fs.writeFileSync(path.join(projectRoot, '.temp', 'thegetty-quire-11ty-1.0.0.tgz'), '')
+    }),
+    cacheClean: sandbox.stub().resolves(),
+    install: sandbox.stub().resolves()
+  }
+
   // Mock fs (adding copySync) and git (with mocked chainable stubs)
-  // NB: Passing `vol` here as fs because memfs only provides the cpSync there 
+  // Nota bene: Pass `vol` here as fs because memfs only provides cpSync there
   const { quire } = await esmock('../lib/quire/index.js', {
     'fs-extra': vol,
+    '#lib/npm/index.js': {
+      default: mockNpm
+    },
     '#lib/git/index.js': {
       add: () => {
         return {
@@ -321,10 +334,8 @@ test('create command should remove temp dir and package artifacts', async (t) =>
       }
     },
     'execa': {
-      // Mock `npm pack` behvaior of creating a file in .temp
-      execaCommand: sandbox.stub().withArgs(/npm pack/).callsFake(() => {
-        fs.writeFileSync(path.join(projectRoot, '.temp', 'thegetty-quire-11ty-1.0.0.tgz'), '')
-      })
+      // Mock tar extraction command
+      execaCommand: sandbox.stub().resolves()
     }
   })
 
