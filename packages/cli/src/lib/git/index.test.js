@@ -17,7 +17,8 @@ test.afterEach.always((t) => {
   t.context.sandbox.restore()
 })
 
-test('add() stages single file', async (t) => {
+// Singleton tests (default export, no cwd)
+test('singleton add() stages files without cwd', async (t) => {
   const { sandbox } = t.context
 
   const mockExeca = sandbox.stub().resolves({})
@@ -28,62 +29,13 @@ test('add() stages single file', async (t) => {
     '#helpers/which.js': { default: mockWhich },
   })
 
-  await git.add('file.js', '/path/to/project')
+  await git.add('file.js')
 
   t.true(mockExeca.calledOnce)
-  t.true(mockExeca.calledWith('git', ['add', 'file.js'], { cwd: '/path/to/project' }))
+  t.true(mockExeca.calledWith('git', ['add', 'file.js'], {}))
 })
 
-test('add() stages multiple files', async (t) => {
-  const { sandbox } = t.context
-
-  const mockExeca = sandbox.stub().resolves({})
-  const mockWhich = sandbox.stub().returns('/usr/bin/git')
-
-  const git = await esmock('./index.js', {
-    execa: { execa: mockExeca },
-    '#helpers/which.js': { default: mockWhich },
-  })
-
-  await git.add(['file1.js', 'file2.js'], '/path/to/project')
-
-  t.true(mockExeca.calledWith('git', ['add', 'file1.js', 'file2.js'], { cwd: '/path/to/project' }))
-})
-
-test('add() stages all files with dot notation', async (t) => {
-  const { sandbox } = t.context
-
-  const mockExeca = sandbox.stub().resolves({})
-  const mockWhich = sandbox.stub().returns('/usr/bin/git')
-
-  const git = await esmock('./index.js', {
-    execa: { execa: mockExeca },
-    '#helpers/which.js': { default: mockWhich },
-  })
-
-  await git.add('.', '/path/to/project')
-
-  t.true(mockExeca.calledWith('git', ['add', '.'], { cwd: '/path/to/project' }))
-})
-
-test('clone() clones repository to destination', async (t) => {
-  const { sandbox } = t.context
-
-  const mockExeca = sandbox.stub().resolves({})
-  const mockWhich = sandbox.stub().returns('/usr/bin/git')
-
-  const git = await esmock('./index.js', {
-    execa: { execa: mockExeca },
-    '#helpers/which.js': { default: mockWhich },
-  })
-
-  await git.clone('https://github.com/user/repo', 'dest', '/path/to/parent')
-
-  t.true(mockExeca.calledOnce)
-  t.true(mockExeca.calledWith('git', ['clone', 'https://github.com/user/repo', 'dest'], { cwd: '/path/to/parent' }))
-})
-
-test('clone() uses current directory as default destination', async (t) => {
+test('singleton clone() uses empty options', async (t) => {
   const { sandbox } = t.context
 
   const mockExeca = sandbox.stub().resolves({})
@@ -99,41 +51,7 @@ test('clone() uses current directory as default destination', async (t) => {
   t.true(mockExeca.calledWith('git', ['clone', 'https://github.com/user/repo', '.'], {}))
 })
 
-test('commit() creates commit with message', async (t) => {
-  const { sandbox } = t.context
-
-  const mockExeca = sandbox.stub().resolves({})
-  const mockWhich = sandbox.stub().returns('/usr/bin/git')
-
-  const git = await esmock('./index.js', {
-    execa: { execa: mockExeca },
-    '#helpers/which.js': { default: mockWhich },
-  })
-
-  await git.commit('Initial commit', '/path/to/project')
-
-  t.true(mockExeca.calledOnce)
-  t.true(mockExeca.calledWith('git', ['commit', '-m', 'Initial commit'], { cwd: '/path/to/project' }))
-})
-
-test('init() initializes repository', async (t) => {
-  const { sandbox } = t.context
-
-  const mockExeca = sandbox.stub().resolves({})
-  const mockWhich = sandbox.stub().returns('/usr/bin/git')
-
-  const git = await esmock('./index.js', {
-    execa: { execa: mockExeca },
-    '#helpers/which.js': { default: mockWhich },
-  })
-
-  await git.init('/path/to/project')
-
-  t.true(mockExeca.calledOnce)
-  t.true(mockExeca.calledWith('git', ['init'], { cwd: '/path/to/project' }))
-})
-
-test('init() works without cwd parameter', async (t) => {
+test('singleton init() uses empty options', async (t) => {
   const { sandbox } = t.context
 
   const mockExeca = sandbox.stub().resolves({})
@@ -149,39 +67,166 @@ test('init() works without cwd parameter', async (t) => {
   t.true(mockExeca.calledWith('git', ['init'], {}))
 })
 
-test('rm() removes single file', async (t) => {
+// Git class instance tests (with cwd)
+test('instance add() stages single file with cwd', async (t) => {
   const { sandbox } = t.context
 
   const mockExeca = sandbox.stub().resolves({})
   const mockWhich = sandbox.stub().returns('/usr/bin/git')
 
-  const git = await esmock('./index.js', {
+  const { Git } = await esmock('./index.js', {
     execa: { execa: mockExeca },
     '#helpers/which.js': { default: mockWhich },
   })
 
-  await git.rm('package.json', '/path/to/project')
+  const repo = new Git('/path/to/project')
+  await repo.add('file.js')
+
+  t.true(mockExeca.calledOnce)
+  t.true(mockExeca.calledWith('git', ['add', 'file.js'], { cwd: '/path/to/project' }))
+})
+
+test('instance add() stages multiple files', async (t) => {
+  const { sandbox } = t.context
+
+  const mockExeca = sandbox.stub().resolves({})
+  const mockWhich = sandbox.stub().returns('/usr/bin/git')
+
+  const { Git } = await esmock('./index.js', {
+    execa: { execa: mockExeca },
+    '#helpers/which.js': { default: mockWhich },
+  })
+
+  const repo = new Git('/path/to/project')
+  await repo.add(['file1.js', 'file2.js'])
+
+  t.true(mockExeca.calledWith('git', ['add', 'file1.js', 'file2.js'], { cwd: '/path/to/project' }))
+})
+
+test('instance add() stages all files with dot notation', async (t) => {
+  const { sandbox } = t.context
+
+  const mockExeca = sandbox.stub().resolves({})
+  const mockWhich = sandbox.stub().returns('/usr/bin/git')
+
+  const { Git } = await esmock('./index.js', {
+    execa: { execa: mockExeca },
+    '#helpers/which.js': { default: mockWhich },
+  })
+
+  const repo = new Git('/path/to/project')
+  await repo.add('.')
+
+  t.true(mockExeca.calledWith('git', ['add', '.'], { cwd: '/path/to/project' }))
+})
+
+test('instance clone() clones repository to destination', async (t) => {
+  const { sandbox } = t.context
+
+  const mockExeca = sandbox.stub().resolves({})
+  const mockWhich = sandbox.stub().returns('/usr/bin/git')
+
+  const { Git } = await esmock('./index.js', {
+    execa: { execa: mockExeca },
+    '#helpers/which.js': { default: mockWhich },
+  })
+
+  const repo = new Git('/path/to/parent')
+  await repo.clone('https://github.com/user/repo', 'dest')
+
+  t.true(mockExeca.calledOnce)
+  t.true(mockExeca.calledWith('git', ['clone', 'https://github.com/user/repo', 'dest'], { cwd: '/path/to/parent' }))
+})
+
+test('instance clone() uses current directory as default destination', async (t) => {
+  const { sandbox } = t.context
+
+  const mockExeca = sandbox.stub().resolves({})
+  const mockWhich = sandbox.stub().returns('/usr/bin/git')
+
+  const { Git } = await esmock('./index.js', {
+    execa: { execa: mockExeca },
+    '#helpers/which.js': { default: mockWhich },
+  })
+
+  const repo = new Git('/path/to/parent')
+  await repo.clone('https://github.com/user/repo')
+
+  t.true(mockExeca.calledWith('git', ['clone', 'https://github.com/user/repo', '.'], { cwd: '/path/to/parent' }))
+})
+
+test('instance commit() creates commit with message', async (t) => {
+  const { sandbox } = t.context
+
+  const mockExeca = sandbox.stub().resolves({})
+  const mockWhich = sandbox.stub().returns('/usr/bin/git')
+
+  const { Git } = await esmock('./index.js', {
+    execa: { execa: mockExeca },
+    '#helpers/which.js': { default: mockWhich },
+  })
+
+  const repo = new Git('/path/to/project')
+  await repo.commit('Initial commit')
+
+  t.true(mockExeca.calledOnce)
+  t.true(mockExeca.calledWith('git', ['commit', '-m', 'Initial commit'], { cwd: '/path/to/project' }))
+})
+
+test('instance init() initializes repository', async (t) => {
+  const { sandbox } = t.context
+
+  const mockExeca = sandbox.stub().resolves({})
+  const mockWhich = sandbox.stub().returns('/usr/bin/git')
+
+  const { Git } = await esmock('./index.js', {
+    execa: { execa: mockExeca },
+    '#helpers/which.js': { default: mockWhich },
+  })
+
+  const repo = new Git('/path/to/project')
+  await repo.init()
+
+  t.true(mockExeca.calledOnce)
+  t.true(mockExeca.calledWith('git', ['init'], { cwd: '/path/to/project' }))
+})
+
+test('instance rm() removes single file', async (t) => {
+  const { sandbox } = t.context
+
+  const mockExeca = sandbox.stub().resolves({})
+  const mockWhich = sandbox.stub().returns('/usr/bin/git')
+
+  const { Git } = await esmock('./index.js', {
+    execa: { execa: mockExeca },
+    '#helpers/which.js': { default: mockWhich },
+  })
+
+  const repo = new Git('/path/to/project')
+  await repo.rm('package.json')
 
   t.true(mockExeca.calledOnce)
   t.true(mockExeca.calledWith('git', ['rm', 'package.json'], { cwd: '/path/to/project' }))
 })
 
-test('rm() removes multiple files', async (t) => {
+test('instance rm() removes multiple files', async (t) => {
   const { sandbox } = t.context
 
   const mockExeca = sandbox.stub().resolves({})
   const mockWhich = sandbox.stub().returns('/usr/bin/git')
 
-  const git = await esmock('./index.js', {
+  const { Git } = await esmock('./index.js', {
     execa: { execa: mockExeca },
     '#helpers/which.js': { default: mockWhich },
   })
 
-  await git.rm(['file1.js', 'file2.js'], '/path/to/project')
+  const repo = new Git('/path/to/project')
+  await repo.rm(['file1.js', 'file2.js'])
 
   t.true(mockExeca.calledWith('git', ['rm', 'file1.js', 'file2.js'], { cwd: '/path/to/project' }))
 })
 
+// Global methods (work same on singleton or instance)
 test('version() returns git version string', async (t) => {
   const { sandbox } = t.context
 

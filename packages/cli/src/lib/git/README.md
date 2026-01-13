@@ -13,6 +13,8 @@ This module provides a unified interface for git operations with:
 
 ## Usage
 
+### Singleton (for global operations)
+
 ```javascript
 import git from '#lib/git/index.js'
 
@@ -24,97 +26,127 @@ if (!git.isAvailable()) {
 // Get git version
 // @see https://git-scm.com/docs/git-version
 const version = await git.version()
+```
+
+### Git Class (for repository-scoped operations)
+
+```javascript
+import { Git } from '#lib/git/index.js'
+
+// Create instance with working directory
+const repo = new Git('/path/to/project')
 
 // Clone a repository
 // @see https://git-scm.com/docs/git-clone
-await git.clone('https://github.com/user/repo', '/path/to/dest')
+await repo.clone('https://github.com/user/repo', '.')
 
 // Initialize a repository
 // @see https://git-scm.com/docs/git-init
-await git.init('/path/to/project')
+await repo.init()
 
 // Stage files
 // @see https://git-scm.com/docs/git-add
-await git.add('.', '/path/to/project')
-await git.add(['file1.js', 'file2.js'], '/path/to/project')
+await repo.add('.')
+await repo.add(['file1.js', 'file2.js'])
 
 // Create a commit
 // @see https://git-scm.com/docs/git-commit
-await git.commit('Initial commit', '/path/to/project')
+await repo.commit('Initial commit')
 
 // Remove files from tracking
 // @see https://git-scm.com/docs/git-rm
-await git.rm('package.json', '/path/to/project')
-await git.rm(['file1.js', 'file2.js'], '/path/to/project')
+await repo.rm('package.json')
+await repo.rm(['file1.js', 'file2.js'])
 ```
 
 ## API
 
-### `isAvailable()`
+### Constructor
+
+#### `new Git(cwd)`
+
+Create a Git façade instance scoped to a working directory.
+
+**Parameters:**
+- `cwd` (string, optional) - Working directory for all operations
+
+### Methods
+
+#### `isAvailable()`
 
 Check if git is available in PATH.
 
-### `version()`
+#### `version()`
 
 Get the installed git version.
 
-### `add(files, cwd)`
+#### `add(files)`
 
 Stage files for commit.
 
 **Parameters:**
 - `files` (string|string[]) - Files to stage (use `'.'` for all)
-- `cwd` (string, optional) - Working directory
 
-### `clone(url, destination, cwd)`
+#### `clone(url, destination)`
 
 Clone a repository.
 
 **Parameters:**
 - `url` (string) - Repository URL
 - `destination` (string, default: `'.'`) - Destination directory
-- `cwd` (string, optional) - Working directory for clone operation
 
-### `commit(message, cwd)`
+#### `commit(message)`
 
 Create a commit with staged changes.
 
 **Parameters:**
 - `message` (string) - Commit message
-- `cwd` (string, optional) - Working directory
 
-### `init(cwd)`
+#### `init()`
 
 Initialize a new git repository.
 
-**Parameters:**
-- `cwd` (string, optional) - Working directory
-
-### `rm(files, cwd)`
+#### `rm(files)`
 
 Remove files from the working tree and index.
 
 **Parameters:**
 - `files` (string|string[]) - Files to remove
-- `cwd` (string, optional) - Working directory
 
 ## Testing
 
-The module exports a singleton instance which can be mocked in tests:
+### Mocking the singleton
 
 ```javascript
 import esmock from 'esmock'
 
 const mockGit = {
-  add: sandbox.stub().resolves(),
-  clone: sandbox.stub().resolves(),
-  commit: sandbox.stub().resolves(),
-  init: sandbox.stub().resolves(),
   isAvailable: sandbox.stub().returns(true),
-  rm: sandbox.stub().resolves(),
+  version: sandbox.stub().resolves('2.39.0'),
 }
 
 const MyCommand = await esmock('./mycommand.js', {
   '#lib/git/index.js': { default: mockGit }
+})
+```
+
+### Mocking the Git class
+
+```javascript
+import esmock from 'esmock'
+
+const MockGit = class {
+  constructor(cwd) {
+    this.cwd = cwd
+    this.add = sandbox.stub().resolves()
+    this.clone = sandbox.stub().resolves()
+    this.commit = sandbox.stub().resolves()
+    this.init = sandbox.stub().resolves()
+    this.rm = sandbox.stub().resolves()
+  }
+}
+
+const MyCommand = await esmock('./mycommand.js', {
+  '#lib/git/index.js': { Git: MockGit }
 })
 ```
