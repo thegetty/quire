@@ -56,7 +56,7 @@ export default (eleventyConfig, collections) => {
         'color-functions',
         'global-builtin',
         'if-function',
-        'import',
+        'import'
       ]
     }
 

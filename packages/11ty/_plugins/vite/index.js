@@ -89,7 +89,7 @@ export default function (eleventyConfig, { directoryConfig, publication }) {
               'color-functions',
               'global-builtin',
               'if-function',
-              'import',
+              'import'
             ]
           }
         }

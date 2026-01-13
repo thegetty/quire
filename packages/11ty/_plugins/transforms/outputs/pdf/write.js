@@ -61,7 +61,7 @@ export default function (eleventyConfig) {
         'color-functions',
         'global-builtin',
         'if-function',
-        'import',
+        'import'
       ]
     }
 
