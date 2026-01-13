@@ -32,7 +32,7 @@ export default class Command {
    * @param {CommandDefinition}  definition  The definition
    */
   constructor(definition) {
-    if (this.constructor.prototype === Command) {
+    if (this.constructor === Command) {
       throw new Error('Command is an *abstract* class')
     }
 
