@@ -2,14 +2,21 @@
  * Git façade providing abstracted git operations
  *
  * Provides a consistent interface for git commands with unified
- * logging, error handling, and testability. Follows the singleton
- * pattern like lib/npm/index.js for easy mocking in tests.
+ * logging, error handling, and testability.
  *
- * @example in production code
+ * @example using default singleton for global operations
  * import git from '#lib/git/index.js'
- * await git.clone('https://github.com/user/repo', '/path/to/dest')
+ * const version = await git.version()
+ * if (!git.isAvailable()) { ... }
  *
- * @example in test code
+ * @example using Git class for repository-scoped operations
+ * import { Git } from '#lib/git/index.js'
+ * const repo = new Git('/path/to/project')
+ * await repo.init()
+ * await repo.add('.')
+ * await repo.commit('Initial commit')
+ *
+ * @example mocking in tests
  * const mockGit = {
  *   clone: sandbox.stub().resolves(),
  *   commit: sandbox.stub().resolves(),
@@ -31,17 +38,32 @@ const LOG_PREFIX = '[CLI:lib/git]'
  */
 class Git {
   /**
+   * Create a Git façade instance
+   * @param {string} [cwd] - Working directory for all operations
+   */
+  constructor(cwd) {
+    this.cwd = cwd
+  }
+
+  /**
+   * Get execa options with working directory
+   * @private
+   * @returns {Object} Options object for execa
+   */
+  #getOptions() {
+    return this.cwd ? { cwd: this.cwd } : {}
+  }
+
+  /**
    * Stage files for commit
    * @see https://git-scm.com/docs/git-add
    * @param {string|string[]} files - Files to stage (use '.' for all)
-   * @param {string} [cwd] - Working directory
    * @returns {Promise<void>}
    */
-  async add(files, cwd) {
+  async add(files) {
     const fileList = Array.isArray(files) ? files : [files]
     console.debug(`${LOG_PREFIX} staging files: ${fileList.join(', ')}`)
-    const options = cwd ? { cwd } : {}
-    await execa('git', ['add', ...fileList], options)
+    await execa('git', ['add', ...fileList], this.#getOptions())
   }
 
   /**
@@ -49,38 +71,32 @@ class Git {
    * @see https://git-scm.com/docs/git-clone
    * @param {string} url - Repository URL
    * @param {string} [destination='.'] - Destination directory
-   * @param {string} [cwd] - Working directory for clone operation
    * @returns {Promise<void>}
    */
-  async clone(url, destination = '.', cwd) {
+  async clone(url, destination = '.') {
     console.debug(`${LOG_PREFIX} cloning ${url} to ${destination}`)
-    const options = cwd ? { cwd } : {}
-    await execa('git', ['clone', url, destination], options)
+    await execa('git', ['clone', url, destination], this.#getOptions())
   }
 
   /**
    * Create a commit
    * @see https://git-scm.com/docs/git-commit
    * @param {string} message - Commit message
-   * @param {string} [cwd] - Working directory
    * @returns {Promise<void>}
    */
-  async commit(message, cwd) {
+  async commit(message) {
     console.debug(`${LOG_PREFIX} committing: ${message.substring(0, 50)}...`)
-    const options = cwd ? { cwd } : {}
-    await execa('git', ['commit', '-m', message], options)
+    await execa('git', ['commit', '-m', message], this.#getOptions())
   }
 
   /**
    * Initialize a new repository
    * @see https://git-scm.com/docs/git-init
-   * @param {string} [cwd] - Working directory
    * @returns {Promise<void>}
    */
-  async init(cwd) {
+  async init() {
     console.debug(`${LOG_PREFIX} initializing repository`)
-    const options = cwd ? { cwd } : {}
-    await execa('git', ['init'], options)
+    await execa('git', ['init'], this.#getOptions())
   }
 
   /**
@@ -95,14 +111,12 @@ class Git {
    * Remove files from the working tree and index
    * @see https://git-scm.com/docs/git-rm
    * @param {string|string[]} files - Files to remove
-   * @param {string} [cwd] - Working directory
    * @returns {Promise<void>}
    */
-  async rm(files, cwd) {
+  async rm(files) {
     const fileList = Array.isArray(files) ? files : [files]
     console.debug(`${LOG_PREFIX} removing files: ${fileList.join(', ')}`)
-    const options = cwd ? { cwd } : {}
-    await execa('git', ['rm', ...fileList], options)
+    await execa('git', ['rm', ...fileList], this.#getOptions())
   }
 
   /**
@@ -116,5 +130,8 @@ class Git {
   }
 }
 
-// Export singleton instance
+// Export class for repository-scoped operations
+export { Git }
+
+// Export singleton instance for global operations
 export default new Git()
