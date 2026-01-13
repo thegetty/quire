@@ -22,8 +22,8 @@ import test from 'ava'
  * Sanitize a string for safe inclusion in XML/TAP output;
  * removes ANSI escape codes and replaces control characters.
  *
- * Nota bene: Puppeteer and (headless) Chrome contain escape codes and/or
- * control characters, these must be cleaned before inclusion in XML output.
+ * Nota bene: Errors thrown by Puppeteer/Chrome may contain escape codes and/or
+ * control characters that must be removed before inclusion in XML output.
  */
 const sanitizeForXml = (str) => {
   if (!str) return ''
