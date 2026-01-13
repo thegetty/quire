@@ -22,6 +22,10 @@ program
     helpWidth: 80,
     sortOptions: false,
     sortSubcommands: false,
+    styleOptionTerm: (term) => {
+      // Add spacing to long-only options to align with short-flag options
+      return /^-\w/.test(term) ? term : term.padStart(term.length + 4)
+    },
   })
 
 /**
@@ -69,19 +73,14 @@ commands.forEach((command) => {
         // Handle Option objects directly for advanced configurations
         subCommand.addOption(entry)
       } else if (Array.isArray(entry)) {
-        // ensure we can join the first two attributes as the option name
-        // when only the short or the long flag is defined in the array
-        if (entry[0].startsWith('--')) entry.unshift('\u0020'.repeat(4))
-        if (entry[0].startsWith('-') && !entry[1].startsWith('--')) {
-          entry.splice(1, 0, '')
+        if (entry[0]?.startsWith('-') && entry[1]?.startsWith('--')) {
+          // option flags are defined separately: ['-s', '--long', ...]
+          const [short, long, ...rest] = entry
+          subCommand.option(`${short}, ${long}`, ...rest)
+        } else {
+          // option flags defined in a single string: ['-s --long', ...]
+          subCommand.option(...entry)
         }
-        // assign attribute names to the array of option attributes
-        const [ short, long, description, defaultValue ] = entry
-        // join short and long flags as the option name attribute
-        const name = /^-\w/.test(short) && /^--\w/.test(long)
-          ? [short, long].join(', ')
-          : [short, long].join('')
-        subCommand.option(name, description, defaultValue)
       } else {
         console.error('Options must be defined as arrays or Option instances')
       }
