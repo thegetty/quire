@@ -1,139 +1,64 @@
-import fs from 'node:fs'
-import InfoCommand from '#src/commands/info.js'
+import { Command, Option } from 'commander'
+import program from '#src/main.js'
 import test from 'ava'
-import semver from 'semver'
-import sinon from 'sinon'
 
-test.beforeEach((t) => {
-  t.context.sandbox = sinon.createSandbox()
-  t.context.command = new InfoCommand()
+/**
+ * Command Contract/Interface Tests
+ *
+ * Verifies the command's public API and Commander.js integration.
+ * @see docs/testing-commands.md
+ */
 
-  // Stub the name method since it comes from Commander.js
-  t.context.command.name = t.context.sandbox.stub().returns('info')
-
-  // Check if get is already stubbed before stubbing
-  if (!t.context.command.config.get.restore) {
-    t.context.sandbox.stub(t.context.command.config, 'get').returns('.versions')
-  }
-
-  // Stub console methods to suppress output during tests
-  if (!console.debug.restore) {
-    t.context.consoleDebugStub = t.context.sandbox.stub(console, 'debug')
-    t.context.consoleInfoStub = t.context.sandbox.stub(console, 'info')
-    t.context.consoleWarnStub = t.context.sandbox.stub(console, 'warn')
-  } else {
-    t.context.consoleDebugStub = console.debug
-    t.context.consoleDebugStub.resetHistory()
-    t.context.consoleInfoStub = console.info
-    t.context.consoleInfoStub.resetHistory()
-    t.context.consoleWarnStub = console.warn
-    t.context.consoleWarnStub.resetHistory()
-  }
+test.before((t) => {
+  // Get the registered command (from program.commands) once and share across all tests
+  t.context.command = program.commands.find((cmd) => cmd.name() === 'info')
 })
 
-test.afterEach((t) => {
-  t.context.sandbox.restore()
-})
-
-test('command should be instantiated with correct definition', (t) => {
-  // Create a fresh command without stubs for this test
-  const command = new InfoCommand()
-
-  t.is(command.name, 'info')
-  t.truthy(command.description)
-  t.truthy(command.summary)
-  t.truthy(semver.valid(command.version), `command must have a semantic version, got: ${command.version}`)
-  t.true(command.args === undefined)
-  t.truthy(Array.isArray(command.options))
-})
-
-test('command should have a debug option defined', (t) => {
+test('command is registered in CLI program', (t) => {
   const { command } = t.context
 
-  t.true(Array.isArray(command.options))
-  const debugOption = command.options.find((opt) => opt[0] === '--debug')
-  t.truthy(debugOption)
-  t.is(debugOption[1], 'include os versions in output')
+  t.truthy(command, 'command "info" should be registered in program')
+  t.true(command instanceof Command, 'registered command should be Commander.js Command instance')
 })
 
-test.serial('command options are output when the debug flag is set', async (t) => {
-  const { command, consoleDebugStub, consoleInfoStub } = t.context
-
-  // Import mock only for fs operations
-  const { mock } = await import('node:test')
-
-  const readFileMock = mock.method(fs, 'readFileSync', () => {
-    if (readFileMock.mock.calls.length === 1) {
-      return JSON.stringify({ cli: '1.0.0', starter: '2.0.0' })
-    }
-    return JSON.stringify({ version: '3.0.0' })
-  })
-
-  mock.method(fs, 'writeFileSync', () => {})
-
-  await command.action({ debug: true }, command)
-
-  // Wait a bit for async forEach to complete
-  await new Promise((resolve) => setTimeout(resolve, 100))
-
-  t.true(consoleDebugStub.calledWith(
-    '[CLI] Command \'%s\' called with options %o',
-    'info',
-    { debug: true }
-  ))
-  t.true(consoleInfoStub.called)
-
-  mock.restoreAll()
-})
-
-test.serial('command should create a version file when missing', async (t) => {
-  const { command, consoleWarnStub } = t.context
-
-  // Import mock only for fs operations
-  const { mock } = await import('node:test')
-
-  const readFileMock = mock.method(fs, 'readFileSync', (filePath) => {
-    // First call is for .versions file - throw error
-    if (filePath === '.versions') {
-      throw new Error('File not found')
-    }
-    // Subsequent calls are for package.json
-    return JSON.stringify({ version: '3.0.0' })
-  })
-
-  const writeFileMock = mock.method(fs, 'writeFileSync')
-
-  await command.action({}, command)
-
-  t.is(consoleWarnStub.callCount, 1)
-  const warnCall = consoleWarnStub.getCall(0)
-  t.true(warnCall.args[0].includes('prior to version 1.0.0.rc-8'))
-  t.true(writeFileMock.mock.calls.some(call =>
-    call.arguments[0] === '.versions' &&
-    call.arguments[1] === JSON.stringify({ cli: '<=1.0.0.rc-7' })
-  ))
-
-  mock.restoreAll()
-})
-
-test.serial('command should read information from version file', async (t) => {
+test('registered command has correct metadata', (t) => {
   const { command } = t.context
 
-  // Import mock only for fs operations
-  const { mock } = await import('node:test')
+  t.is(command.name(), 'info')
+  t.truthy(command.description())
+  t.is(typeof command._actionHandler, 'function', 'command should have action handler')
+})
 
-  const readFileMock = mock.method(fs, 'readFileSync', () => {
-    if (readFileMock.mock.calls.length === 1) {
-      return JSON.stringify({ cli: '1.2.3', starter: '4.5.6' })
-    }
-    return JSON.stringify({ version: '7.8.9' })
-  })
+test('registered command has no arguments', (t) => {
+  const { command } = t.context
+  const registeredArguments = command.registeredArguments
 
-  mock.method(fs, 'writeFileSync', () => {})
+  t.is(registeredArguments.length, 0, 'info command should have no arguments')
+})
 
-  await command.action({}, command)
+test('registered command has correct options', (t) => {
+  const { command } = t.context
 
-  t.true(readFileMock.mock.calls.some((call) => call.arguments[0] === '.versions'))
+  // Get all options
+  const debugOption = command.options.find((opt) => opt.long === '--debug')
 
-  mock.restoreAll()
+  // Verify all options exist
+  t.truthy(debugOption, '--debug option should exist')
+
+  // Verify they are Option instances
+  t.true(debugOption instanceof Option, '--debug should be Option instance')
+
+  // Verify option properties
+  t.is(debugOption.long, '--debug')
+  t.truthy(debugOption.description)
+  t.false(debugOption.required, '--debug should not require a value')
+})
+
+test('command options are accessible via public API', (t) => {
+  const { command } = t.context
+
+  // Test that options can be accessed the way Commander.js does
+  const optionNames = command.options.map((opt) => opt.long)
+
+  t.true(optionNames.includes('--debug'))
 })

@@ -1,56 +1,61 @@
-import VersionCommand from '#src/commands/version.js'
+import { Argument, Command, Option } from 'commander'
+import program from '#src/main.js'
 import test from 'ava'
-import semver from 'semver'
-import sinon from 'sinon'
 
-test.beforeEach((t) => {
-  t.context.sandbox = sinon.createSandbox()
-  t.context.command = new VersionCommand()
+/**
+ * Command Contract/Interface Tests
+ *
+ * Verifies the command's public API and Commander.js integration.
+ * @see docs/testing-commands.md
+ */
 
-  // Stub the name method since it comes from Commander.js
-  t.context.command.name = t.context.sandbox.stub().returns('version')
-
-  // Stub console methods to suppress output during tests
-  if (!console.info.restore) {
-    t.context.consoleInfoStub = t.context.sandbox.stub(console, 'info')
-  } else {
-    t.context.consoleInfoStub = console.info
-    t.context.consoleInfoStub.resetHistory()
-  }
+test.before((t) => {
+  // Get the registered command (from program.commands) once and share across all tests
+  t.context.command = program.commands.find((cmd) => cmd.name() === 'version')
 })
 
-test.afterEach((t) => {
-  t.context.sandbox.restore()
-})
-
-test('command should be instantiated with correct definition', (t) => {
-  // Create a fresh command without stubs for this test
-  const command = new VersionCommand()
-
-  t.is(command.name, 'version')
-  t.truthy(command.description)
-  t.truthy(command.summary)
-  t.truthy(semver.valid(command.version), `command must have a semantic version, got: ${command.version}`)
-  t.truthy(Array.isArray(command.args))
-  t.truthy(Array.isArray(command.options))
-})
-
-test('command should have a version argument', (t) => {
+test('command is registered in CLI program', (t) => {
   const { command } = t.context
 
-  t.is(command.args.length, 1)
-  t.is(command.args[0][0], '<version>')
-  t.is(command.args[0][1], 'the local quire version to use')
+  t.truthy(command, 'command "version" should be registered in program')
+  t.true(command instanceof Command, 'registered command should be Commander.js Command instance')
 })
 
-test('action method should be defined', (t) => {
+test('registered command has correct metadata', (t) => {
   const { command } = t.context
 
-  t.is(typeof command.action, 'function')
+  t.is(command.name(), 'version')
+  t.truthy(command.description())
+  t.is(typeof command._actionHandler, 'function', 'command should have action handler')
 })
 
-test('preAction method should be defined', (t) => {
+test('registered command has correct arguments', (t) => {
+  const { command } = t.context
+  const registeredArguments = command.registeredArguments
+
+  t.is(registeredArguments.length, 1, 'command should have 1 argument')
+
+  // First argument: version
+  const version = registeredArguments[0]
+  t.true(version instanceof Argument, 'version should be Argument instance')
+  t.is(version.name(), 'version', 'first argument should be version')
+  t.true(version.required, 'version should be required')
+  t.truthy(version.description)
+})
+
+test('registered command has no options', (t) => {
   const { command } = t.context
 
-  t.is(typeof command.preAction, 'function')
+  // Version command should have no custom options (only inherited help options)
+  const options = command.options.filter((opt) => !opt.long.includes('help'))
+  t.is(options.length, 0, 'version command should have no custom options')
+})
+
+test('command arguments are accessible via public API', (t) => {
+  const { command } = t.context
+
+  // Test that arguments can be accessed the way Commander.js does
+  const argumentNames = command.registeredArguments.map((arg) => arg.name())
+
+  t.true(argumentNames.includes('version'))
 })

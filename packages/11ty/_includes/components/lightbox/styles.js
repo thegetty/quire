@@ -27,7 +27,8 @@ export default function (eleventyConfig) {
       silenceDeprecations: [
         'color-functions',
         'global-builtin',
-        'import'
+        'if-function',
+        'import',
       ]
     }
     lightboxCSS = sass.compile(lightboxStylesPath, sassOptions)

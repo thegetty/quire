@@ -88,7 +88,8 @@ export default function (eleventyConfig, { directoryConfig, publication }) {
             silenceDeprecations: [
               'color-functions',
               'global-builtin',
-              'import'
+              'if-function',
+              'import',
             ]
           }
         }

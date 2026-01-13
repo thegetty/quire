@@ -1,8 +1,6 @@
 name: 🐛 Bug Report
 description: Create a bug report to help us improve Quire
 labels: ['status:triage needed']
-assignees:
-- erin-cecele
 body:
 - type: markdown
   attributes:

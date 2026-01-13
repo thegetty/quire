@@ -60,7 +60,8 @@ export default function (eleventyConfig) {
       silenceDeprecations: [
         'color-functions',
         'global-builtin',
-        'import'
+        'if-function',
+        'import',
       ]
     }
 

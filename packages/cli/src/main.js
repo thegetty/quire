@@ -22,6 +22,10 @@ program
     helpWidth: 80,
     sortOptions: false,
     sortSubcommands: false,
+    styleOptionTerm: (term) => {
+      // Add spacing to long-only options to align with short-flag options
+      return /^-\w/.test(term) ? term : term.padStart(term.length + 4)
+    },
   })
 
 /**
@@ -61,34 +65,24 @@ commands.forEach((command) => {
 
   /**
    * @see https://github.com/tj/commander.js/#options
+   * @see https://github.com/tj/commander.js/#more-configuration
    */
   if (Array.isArray(options)) {
     options.forEach((entry) => {
-      if (Array.isArray(entry)) {
-        // ensure we can join the first two attributes as the option name
-        // when only the short or the long flag is defined in the array
-        if (entry[0].startsWith('--')) entry.unshift('\u0020'.repeat(4))
-        if (entry[0].startsWith('-') && !entry[1].startsWith('--')) {
-          entry.splice(1, 0, '')
+      if (entry instanceof Option) {
+        // Handle Option objects directly for advanced configurations
+        subCommand.addOption(entry)
+      } else if (Array.isArray(entry)) {
+        if (entry[0]?.startsWith('-') && entry[1]?.startsWith('--')) {
+          // option flags are defined separately: ['-s', '--long', ...]
+          const [short, long, ...rest] = entry
+          subCommand.option(`${short}, ${long}`, ...rest)
+        } else {
+          // option flags defined in a single string: ['-s --long', ...]
+          subCommand.option(...entry)
         }
-        // assign attribute names to the array of option attributes
-        const [ short, long, description, defaultValue ] = entry
-        // join short and long flags as the option name attribute
-        const name = /^-\w/.test(short) && /^--\w/.test(long)
-          ? [short, long].join(', ')
-          : [short, long].join('')
-        subCommand.option(name, description, defaultValue)
       } else {
-        /**
-         * @todo allow options to be defined by a configuration object
-         * @see https://github.com/tj/commander.js/#more-configuration
-         */
-        // const option = new Option(name, description)
-        // for (const property of configuration) {
-        //   option[property](configuration[property])
-        // }
-        // subCommand.addOption(option)
-        console.error('@TODO please use an array to define option attributes')
+        console.error('Options must be defined as arrays or Option instances')
       }
     })
   }

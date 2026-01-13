@@ -1,227 +1,27 @@
 version: 2.1
 
+setup: true
+
 orbs:
-  browser-tools: circleci/browser-tools@2.1.2
-  cypress: cypress-io/cypress@3.4.3
-  mac: circleci/macos@2.5.2
-  node: circleci/node@7.1.0
-  win: circleci/windows@5.1.0
+  path-filtering: circleci/path-filtering@3.0.0
 
-executors:
-  pw-noble-development:
-    docker:
-      - image: mcr.microsoft.com/playwright:v1.52.0-noble
-  linux:
-    docker:
-      - image: cimg/base:current-22.04
-        user: root
-    environment:
-        PUPPETEER_EXECUTABLE_PATH: '/usr/bin/google-chrome-stable'
-
-  macos:
-    macos:
-      xcode: '16.3.0'
-    resource_class: m4pro.medium
-    environment:
-        PUPPETEER_EXECUTABLE_PATH: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
-  win: 
-    machine:
-      image: windows-server-2019-vs2019:current
-      resource_class: windows.medium
-    environment:
-        PUPPETEER_EXECUTABLE_PATH: 'C:\Program Files\Google\Chrome\Application\chrome.exe'
-
-anchors:
-
-  # TODO: Need the release version as a variable for use in npm pack
-  - &npm_cache_key package-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ .Environment.CACHE_VERSION }}
-  # Chocolatey cache key for Windows installs
-  - &choco-cache_key choco-cache-{{ .Branch }}-{{ checksum ".circleci/packages.config" }}-{{ .Environment.CACHE_VERSION }}
-
-  - &os_param
-    parameters:
-      os:
-        type: string
-
-  - &matrix_params
-    matrix:
-      parameters:
-        os: [ 'linux', 'macos', 'win' ]
-        # TODO: Supported node versions
-
-commands:
-  # Pack and install the CLI globally (NB: uncached puppeteer install takes a while)
-  build_install_cli:
-    steps:
-      - run:
-          name: Install CLI
-          no_output_timeout: 30m
-          command: npm pack -w packages/cli && npm install --ignore-scripts --foreground-scripts -g thegetty-quire-cli-*.tgz
-      - run:
-          name: Quire Version
-          command: quire --version
-
-  build_install_cli-linux:
-    steps:
-      - node/install:
-          node-version: "22.14.0"
-      - browser-tools/install_chrome
-      # @TODO: Replace this hack that force-disables sandboxing
-      # On linux chrome requires disabling sandboxing (or using deprecated suid containers) if run as root
-      # See https://pptr.dev/troubleshooting#setting-up-chrome-linux-sandbox
-      - run:
-          name: "Modify chrome app"
-          command: sudo sed -i 's|HERE/chrome"|HERE/chrome" --no-sandbox|g' /opt/google/chrome/google-chrome
-      - browser-tools/install_chromedriver
-      - build_install_cli
-
-  build_install_cli-macos:
-    steps:
-      - node/install:
-          node-version: "22.14.0"
-      - browser-tools/install_chrome
-      - browser-tools/install_chromedriver      
-      - build_install_cli
-
-  build_install_cli-win:
-    steps:
-      - restore_cache:
-          keys:
-            - *choco-cache_key
-      - run:
-          name: Install Chocolatey packages
-          command: choco install .circleci/packages.config --ignore-checksums
-      - save_cache:
-          key: *choco-cache_key
-          paths:
-            - C:\ProgramData\chocolatey\cache
-            - C:\Program Files\Google\Chrome
-            - C:\tools\selenium
-      - build_install_cli
-
-  install_deps-linux:
-    steps:
-      - run:
-          name: Install External Dependencies -- eg Prince
-          command: exit
-
-  install_deps-macos:
-    steps:
-      - run:
-          name: Install External Dependencies -- eg Prince
-          command: exit
-
-  install_deps-win:
-    steps:
-      - run:
-          name: Install External Dependencies -- eg Prince
-          command: exit
-
-  run_tests:
-    steps:
-      - run:
-          name: Set git email
-          command: git config --global user.email quire@getty.edu 
-      - run:
-          name: Install test dependencies only
-          command: npm install --ignore-scripts --foreground-scripts
-      - run:
-          name: Run end-to-end tests
-          no_output_timeout: 30m
-          command: mkdir -p reports && npm run test:e2e
-
-      # Persist the site build for browser testing and submit test reports
-      - persist_to_workspace:
-          root: .
-          paths:
-            - playwright.config.js
-            - package.json
-            - reports
-            - test-publication/_site
-            - test-publication-pathname/_site
-            - _tests
-
-      - store_test_results:
-          path: reports
-
-      # @TODO: Turn this off when we're happy with snapshot coverage of browser tests
-      - store_artifacts:
-          path: publication.zip
-
-      # Run core package tests - @TODO: run these before the e2e tests
-      - run:
-          name: Run CLI tests
-          command: npm -w packages/cli run test
-      - run:
-          name: Run 11ty tests
-          command: npm -w packages/11ty run test
-
-  test-linux:
-    steps:
-      - run_tests
-
-  test-macos:
-    steps:
-      - run_tests
-
-  test-win:
-    steps:
-      - run_tests
-
-jobs:
-  # Builds the CLI, installs it, and tests it by building a publication
-  build_install_test:
-    <<: *os_param
-    executor: << parameters.os >>
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - *npm_cache_key
-      - build_install_cli-<< parameters.os >>
-      - install_deps-<< parameters.os >>
-      - save_cache:
-          key: *npm_cache_key
-          paths:
-            - node_modules
-            - ~/.npm
-            - ~/.cache
-      - test-<< parameters.os >>
-  # Tests the output of the publication build -- must be separate for the playwright executor
-  browser_test:
-    executor: pw-noble-development
-    # NB: taken from https://playwright.dev/docs/ci#sharding-in-circleci
-    parallelism: 4
-    steps:
-      - attach_workspace:
-          at: .
-      - run:
-          name: Install browser testing dependencies
-          command: npm i && apt-get update && apt-get install -y zip && npx playwright install
-      # test:browsers-circleci follows https://playwright.dev/docs/ci#circleci to correct sharding
-      - run: 
-          name: Run browser testing on end-to-end test artifacts
-          command: npm run test:browsers-circleci
-      - store_test_results:
-          path: reports
+parameters:
+  run-build-test-workflow:
+    type: boolean
+    default: false
 
 workflows:
-  build_install_test:
-    # @TODO: don't run for docs/, etc
-    when: true
+  setup:
+    description: "Setup workflow - checks if code files changed (excludes docs/dev-only changes)"
+    when:
+      not: << pipeline.parameters.run-build-test-workflow >>
     jobs:
-      - build_install_test:
-          <<: *matrix_params
-          name: build_install_test-<< matrix.os >>
-      - browser_test:
-          name: browser_test-linux
-          requires:
-            - build_install_test-linux
-      - browser_test:
-          name: browser_test-macos
-          requires:
-            - build_install_test-macos
-      - browser_test:
-          name: browser_test-win
-          requires:
-            - build_install_test-win
+      - path-filtering/filter:
+          base-revision: main
+          # Path to continuation configuration file
+          config-path: .circleci/build.yml
+          # Mapping of path regular expressions to pipeline parameter values
+          # One mapping per line, 3-column, whitespace-delimited:
+          # <path-regex> <pipeline-parameter-name> <pipeline-parameter-value>
+          mapping: |
+            ^(?!mise\.toml$)(?!\.?mise(-tasks)?/).*(?<!\.md)$ run-build-test-workflow true

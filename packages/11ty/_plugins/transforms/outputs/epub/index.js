@@ -55,7 +55,8 @@ export default (eleventyConfig, collections) => {
       silenceDeprecations: [
         'color-functions',
         'global-builtin',
-        'import'
+        'if-function',
+        'import',
       ]
     }
 
