@@ -182,7 +182,7 @@ async function installInProject(projectPath, quireVersion, options = {}) {
   } else {
     await npm.pack(quire11tyPackage, tempDir, { debug: options.debug, quiet: !options.debug })
 
-    // Extract only the package dir from the tar bar and strip it from the extracted path
+    // Extract only the package dir from the archive and strip it from the extracted path
     const tarballPath = path.join(tempDir, `thegetty-quire-11ty-${quireVersion}.tgz`)
     await execaCommand(`tar -xzf ${tarballPath} -C ${tempDir} --strip-components=1 package/`)
 
