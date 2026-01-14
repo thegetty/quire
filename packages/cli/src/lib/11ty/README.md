@@ -1,22 +1,80 @@
 ## CLI 11ty Module
 
-The `quire-cli/lib/11ty` module is a façade for interacting with Eleventy, the static site generator for Quire projects.
+The `lib/11ty` module is a façade for interacting with Eleventy, the static site generator for Quire projects. It follows the singleton pattern established by `lib/npm` and `lib/git`.
 
-### 11ty/API module
+### Usage
 
-The `api` module allows the Quire CLI to programmatically configure an instance of Eleventy on which it can call methods.
+**Recommended: Default export**
 
-See [Eleventy Documentation: Programmatic API](https://www.11ty.dev/docs/programmatic/)
+```javascript
+import eleventy from '#lib/11ty/index.js'
 
-### 11ty/CLI module
+// Run production build
+await eleventy.build({ debug: true })
 
-The `cli` module is a wrapper around the Eleventy CLI to run `@11ty/eleventy` commands.
+// Run development server
+await eleventy.serve({ port: 8080 })
 
-See [Eleventy Documentation: Command Line Usage](https://www.11ty.dev/docs/usage/#command-line-usage)
+// Access paths through the façade
+const outputDir = eleventy.paths.getOutputDir()
+```
 
-### Paths module
+**Path-only consumers**
 
-The `paths` module provides a `Paths` class with accessor methods for Eleventy path configuration. Values are computed on access to reflect the current working directory state.
+```javascript
+import { paths } from '#lib/11ty/index.js'
+
+const projectRoot = paths.getProjectRoot()
+const outputDir = paths.getOutputDir()
+```
+
+**Legacy usage (deprecated)**
+
+```javascript
+// Deprecated - use default export instead
+import { api, cli, paths } from '#lib/11ty/index.js'
+await api.build(options)
+```
+
+### Test Mocking
+
+```javascript
+const mockEleventy = {
+  build: sandbox.stub().resolves(),
+  serve: sandbox.stub().resolves(),
+  paths: {
+    getProjectRoot: () => '/project',
+    getOutputDir: () => '_site'
+  }
+}
+const MyCommand = await esmock('./mycommand.js', {
+  '#lib/11ty/index.js': { default: mockEleventy }
+})
+```
+
+### Quire11ty Façade
+
+The `Quire11ty` class provides abstracted Eleventy operations:
+
+| Method | Description |
+|--------|-------------|
+| `build(options)` | Run Eleventy production build |
+| `serve(options)` | Run Eleventy development server |
+| `paths` | Access to `Paths` instance for path resolution |
+
+**Build options:**
+- `debug` - Enable debug output
+- `dryRun` - Perform dry run without writing files
+- `quiet` - Suppress output
+
+**Serve options:**
+- `debug` - Enable debug output
+- `port` - Server port
+- `quiet` - Suppress output
+
+### Paths Module
+
+The `paths` property provides a `Paths` instance with accessor methods for Eleventy path configuration. Values are computed on access to reflect the current working directory state.
 
 #### Naming Convention
 
@@ -57,45 +115,37 @@ Method names encode the return type:
 |--------|-------------|
 | `toObject()` | Returns all paths as an object (for logging/debugging) |
 
-#### Usage
+### Environment Variables
 
-```javascript
-import { paths } from '#lib/11ty/index.js'
-
-// Get absolute paths
-const projectRoot = paths.getProjectRoot()
-const configPath = paths.getConfigPath()
-
-// Get relative directories
-const outputDir = paths.getOutputDir()  // '_site'
-const inputDir = paths.getInputDir()    // 'content'
-
-// Debug all paths
-console.log(paths.toObject())
-```
-
-#### Environment Variables
-
-The `api` and `cli` modules set environment variables before creating the Eleventy instance:
+The façade sets environment variables before creating the Eleventy instance:
 
 | Variable | Source |
 |----------|--------|
 | `ELEVENTY_DATA` | `paths.getDataDir()` |
+| `ELEVENTY_ENV` | `'production'` or `'development'` |
 | `ELEVENTY_INCLUDES` | `paths.getIncludesDir()` |
 | `ELEVENTY_LAYOUTS` | `paths.getLayoutsDir()` |
 
 These environment variables **must be set before** the Eleventy instance is created and the `.eleventy.js` configuration is parsed.
 
-#### Design Notes
+### Design Notes
 
-**Why environment variables instead of Eleventy API methods?**
+**Why a unified façade?**
 
-Eleventy 3.x provides `setIncludesDirectory()` and `setLayoutsDirectory()` API methods, but environment variables are preferred because:
+The façade pattern provides:
+1. **Single point of control** - Eleventy configuration in one place
+2. **Consistent logging** - All operations use `[CLI:lib/11ty]` prefix
+3. **Easy mocking** - Single object to mock in tests
+4. **Implementation hiding** - Consumers don't need to know if we use API or CLI
 
-1. **cli.js compatibility** - The `cli` module runs Eleventy as a subprocess via `execa`. API methods cannot be called on a subprocess; only arguments and environment variables can be passed.
+**Why programmatic API instead of CLI subprocess?**
 
-2. **Same path restriction** - The API methods have the same limitation: paths must be relative to the input directory. Using `../_includes` works identically with either approach.
+The façade uses Eleventy's programmatic API internally rather than spawning a subprocess:
+1. **Event access** - Direct access to `eleventy.after` and other hooks
+2. **Better error handling** - Native try/catch with full stack traces
+3. **No spawn overhead** - Eliminates ~100-200ms process startup time
+4. **Debugging** - Easier to trace issues in-process
 
-3. **Consistent implementation** - Environment variables work for both `api.js` and `cli.js`, avoiding code divergence between the two modules.
+The `cli.js` module is retained for backwards compatibility but is deprecated.
 
 **Known limitation:** The Eleventy `TemplatePathResolver` requires layouts and includes directories to be within the input directory, which prevents fully decoupling Quire project content from `quire-11ty` code. See [eleventy#2655](https://github.com/11ty/eleventy/issues/2655) (still open).
