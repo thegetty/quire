@@ -29,6 +29,7 @@
  * @module git
  */
 import { execa } from 'execa'
+import path from 'node:path'
 import which from '#helpers/which.js'
 
 const LOG_PREFIX = '[CLI:lib/git]'
@@ -55,6 +56,15 @@ class Git {
   }
 
   /**
+   * Get resolved working directory for logging
+   * @private
+   * @returns {string} Resolved absolute path
+   */
+  #resolvedCwd() {
+    return path.resolve(this.cwd || process.cwd())
+  }
+
+  /**
    * Stage files for commit
    * @see https://git-scm.com/docs/git-add
    * @param {string|string[]} files - Files to stage (use '.' for all)
@@ -62,7 +72,7 @@ class Git {
    */
   async add(files) {
     const fileList = Array.isArray(files) ? files : [files]
-    console.debug(`${LOG_PREFIX} staging files: ${fileList.join(', ')}`)
+    console.debug(`${LOG_PREFIX} staging files in ${this.#resolvedCwd()}: ${fileList.join(', ')}`)
     await execa('git', ['add', ...fileList], this.#getOptions())
   }
 
@@ -74,7 +84,8 @@ class Git {
    * @returns {Promise<void>}
    */
   async clone(url, destination = '.') {
-    console.debug(`${LOG_PREFIX} cloning ${url} to ${destination}`)
+    const resolvedDest = path.resolve(this.#resolvedCwd(), destination)
+    console.debug(`${LOG_PREFIX} cloning ${url} to ${resolvedDest}`)
     await execa('git', ['clone', url, destination], this.#getOptions())
   }
 
@@ -85,7 +96,7 @@ class Git {
    * @returns {Promise<void>}
    */
   async commit(message) {
-    console.debug(`${LOG_PREFIX} committing: ${message.substring(0, 50)}...`)
+    console.debug(`${LOG_PREFIX} committing in ${this.#resolvedCwd()}: ${message.substring(0, 50)}...`)
     await execa('git', ['commit', '-m', message], this.#getOptions())
   }
 
@@ -95,7 +106,7 @@ class Git {
    * @returns {Promise<void>}
    */
   async init() {
-    console.debug(`${LOG_PREFIX} initializing repository`)
+    console.debug(`${LOG_PREFIX} initializing repository in ${this.#resolvedCwd()}`)
     await execa('git', ['init'], this.#getOptions())
   }
 
@@ -115,7 +126,7 @@ class Git {
    */
   async rm(files) {
     const fileList = Array.isArray(files) ? files : [files]
-    console.debug(`${LOG_PREFIX} removing files: ${fileList.join(', ')}`)
+    console.debug(`${LOG_PREFIX} removing files in ${this.#resolvedCwd()}: ${fileList.join(', ')}`)
     await execa('git', ['rm', ...fileList], this.#getOptions())
   }
 
