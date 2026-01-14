@@ -6,98 +6,179 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 /**
- * Eleventy configuration paths
+ * Eleventy path configuration
+ *
+ * Provides accessor methods for Eleventy paths, computing values on access
+ * to ensure they reflect the current working directory state.
+ *
+ * Naming convention:
+ * - Methods ending in `Path` or `Root` return absolute paths
+ * - Methods ending in `Dir` return relative directory names
+ *
  * @see https://www.11ty.dev/docs/config/#configuration-options
- *
- * Resolve the absolute path to the Eleventy configuration module,
- * `eleventyRoot` is _relative_ to `main.js`, the CLI entry point.
- * Both `input` and `output` are _relative_ to the `config` module.
- *
- * @todo
- * - refactor the paths module as a concern of the `lib/quire` module
- * - refactor resolving an absolute path to the correct eleventy version root;
- *   this needs to use the correct `quire-11ty` version for the project
- *   and correctly resolve the path to the target of the 'latest' symlink
  */
-const cliRoot = path.resolve(__dirname, path.join('..', '..'))
-const eleventyConfig = '.eleventy.js'
-const version = 'latest'
+class Paths {
+  /**
+   * @param {Object} options
+   * @param {string} [options.version='latest'] - quire-11ty version to use
+   */
+  constructor(options = {}) {
+    this.cliRoot = path.resolve(__dirname, path.join('..', '..'))
+    this.eleventyConfig = '.eleventy.js'
+    this.version = options.version || 'latest'
+  }
 
-export const projectRoot = process.cwd()
+  // ─────────────────────────────────────────────────────────────────────────
+  // Absolute paths (method names ends with Path or Root)
+  // ─────────────────────────────────────────────────────────────────────────
 
-/**
- * Absolute path to the latest installed version of `quire-11ty`
- * @todo use version read from the project `.quire-version` file
- */
-const libQuirePath = path.resolve(__dirname, path.join(cliRoot, 'lib', 'quire', 'versions', version))
+  /**
+   * Get the absolute path to eleventy config module
+   * @returns {string} Absolute path to .eleventy.js
+   */
+  getConfigPath() {
+    return path.join(this.getEleventyRoot(), this.eleventyConfig)
+  }
 
-/**
- * Absolute path to the current version of `quire-11ty`
- * Nota bene: to get a relative path to the `eleventyRoot`,
- * for example when the version is specified is 'latest',
- * it must be set to the real path to the symlink target.
- *
- * @todo refactor how and *when* the eleventyRoot is determined:
- *  - we only need eleventyRoot for cli commands that run 11ty
- *  - paths module is a concern of the `quire` module
- *  - global quire-cli installation
- *  - local quire-cli installation
- *
- *  For an excellent developer experience, the quire-11ty code should be
- *  installed into an `11ty` or `quire-11ty` directory in the `projectRoot`
- *  this will allow us to more easily manage symlinks for local development
- *  using unpublished `quire-11ty` code.
- *  @example
- *  ```sh
- *  blargh/
- *    .git/
- *    .gitignore
- *    .node-version
- *    .quire-version
- *    11ty@ --> /Users/mph/Code/Getty/quire/packages/11ty
- *    content/
- *    CHANGELOG.md
- *    LICENSE
- *    README.md
- *    package.json
- *    package-lock.json
- *  ```
- *  Installing to a directory will allow more cleanly `eject` and `uneject`
- *  using a symlink or single directory `rm -rf`.
- *  Should the `11ty` directory be a dot directory to hide the complexity from
- *  users or should it be visible to be more explicit when project is ejected?
- */
-const getEleventyRoot = () => {
-  // try {
-  //   return fs.readdirSync(projectRoot).includes(eleventyConfig)
-  //     ? projectRoot
-  //     : fs.realpathSync(libQuirePath)
-  // } catch (error) {
-  //   throw new Error(`[CLI:11ty] Unable to read project directory for eleventy config ${error}`)
-  // }
-  return projectRoot
+  /**
+   * Get the Eleventy root directory
+   *
+   * @todo refactor how and *when* the eleventyRoot is determined:
+   *  - we only need eleventyRoot for cli commands that run 11ty
+   *  - paths module is a concern of the `quire` module
+   *  - global quire-cli installation
+   *  - local quire-cli installation
+   *
+   * @returns {string} Absolute path to Eleventy root
+   */
+  getEleventyRoot() {
+    return this.getProjectRoot()
+  }
+
+  /**
+   * Get the absolute path to content input directory
+   * @returns {string} Absolute path to content directory
+   */
+  getInputPath() {
+    return path.join(this.getProjectRoot(), 'content')
+  }
+
+  /**
+   * Get the path to installed quire-11ty version
+   * @returns {string} Absolute path to quire-11ty installation
+   */
+  getLibQuirePath() {
+    return path.resolve(
+      __dirname,
+      path.join(this.cliRoot, 'lib', 'quire', 'versions', this.version)
+    )
+  }
+
+  /**
+   * Get the current project root directory
+   * @returns {string} Absolute path to project root
+   */
+  getProjectRoot() {
+    return process.cwd()
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Relative directory names (method names ends with Dir)
+  // ─────────────────────────────────────────────────────────────────────────
+
+  /**
+   * Get data directory relative to input
+   * @returns {string} Relative directory name for computed data
+   */
+  getDataDir() {
+    return '_computed'
+  }
+
+  /**
+   * Get epub output directory relative to eleventy config
+   * @returns {string} Relative directory name for epub output (_epub)
+   */
+  getEpubDir() {
+    return path.relative(
+      this.getEleventyRoot(),
+      path.join(this.getProjectRoot(), '_epub')
+    )
+  }
+
+  /**
+   * Get includes directory relative to input
+   * @returns {string} Relative directory name for _includes
+   */
+  getIncludesDir() {
+    return path.relative(
+      this.getInputPath(),
+      path.join(this.getEleventyRoot(), '_includes')
+    )
+  }
+
+  /**
+   * Get input directory relative to eleventy config
+   * @returns {string} Relative directory name for 11ty input
+   */
+  getInputDir() {
+    return path.relative(this.getEleventyRoot(), this.getInputPath())
+  }
+
+  /**
+   * Get layouts directory relative to input
+   * @returns {string} Relative directory name for _layouts
+   */
+  getLayoutsDir() {
+    return path.relative(
+      this.getInputPath(),
+      path.join(this.getEleventyRoot(), '_layouts')
+    )
+  }
+
+  /**
+   * Get output directory relative to eleventy config
+   * @returns {string} Relative directory name for 11ty output (_site)
+   */
+  getOutputDir() {
+    return path.relative(
+      this.getEleventyRoot(),
+      path.join(this.getProjectRoot(), '_site')
+    )
+  }
+
+  /**
+   * Get public assets directory
+   * @returns {string} Relative directory name for public assets
+   */
+  getPublicDir() {
+    return './public'
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Utility methods
+  // ─────────────────────────────────────────────────────────────────────────
+
+  /**
+   * Get all paths as an object (for backward compatibility and logging)
+   * @returns {Object} Object containing all path values
+   */
+  toObject() {
+    return {
+      config: this.getConfigPath(),
+      data: this.getDataDir(),
+      epub: this.getEpubDir(),
+      includes: this.getIncludesDir(),
+      input: this.getInputDir(),
+      layouts: this.getLayoutsDir(),
+      output: this.getOutputDir(),
+      public: this.getPublicDir(),
+    }
+  }
 }
 
-export const eleventyRoot = getEleventyRoot()
+/**
+ * Default Paths instance
+ */
+const paths = new Paths()
 
-const inputDir = path.join(projectRoot, 'content')
-
-export default {
-  /**
-   * An abolsute path to eleventy config module
-   */
-  config: path.join(eleventyRoot, '.eleventy.js'),
-  /**
-   * Paths _relative to_ the eleventy config module
-   */
-  input: path.relative(eleventyRoot, inputDir),
-  output: path.relative(eleventyRoot, path.join(projectRoot, '_site')),
-  epub: path.relative(eleventyRoot, path.join(projectRoot, '_epub')),
-  /**
-   * Paths _relative to_ the `input` directory
-   */
-  data: '_computed',
-  includes: path.relative(inputDir, path.join(eleventyRoot, '_includes')),
-  layouts: path.relative(inputDir, path.join(eleventyRoot, '_layouts')),
-  public: './public',
-}
+export { Paths, paths as default }
