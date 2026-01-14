@@ -1,6 +1,6 @@
 import { dynamicImport } from '#helpers/os-utils.js'
 import path from 'node:path'
-import paths from './paths.js'
+import paths from '#lib/project/index.js'
 
 /**
  * Configure environment variables required for Eleventy.

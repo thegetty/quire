@@ -1,7 +1,7 @@
 import { execa } from 'execa'
 import fs from 'node:fs'
 import path from 'node:path'
-import paths from './paths.js'
+import paths from '#lib/project/index.js'
 
 /**
  * A factory function to configure an Eleventy CLI command

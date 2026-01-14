@@ -1,6 +1,6 @@
 import cli from './cli.js'
 import api from './api.js'
-import paths, { Paths } from './paths.js'
+import paths, { Paths } from '#lib/project/index.js'
 
 export {
   api,
