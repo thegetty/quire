@@ -1,4 +1,4 @@
-import { paths, projectRoot  } from '#lib/11ty/index.js'
+import { paths } from '#lib/11ty/index.js'
 import logger from '#src/lib/logger.js'
 import Command from '#src/Command.js'
 import fs from 'fs-extra'
@@ -10,11 +10,11 @@ import yaml from 'js-yaml'
 
 /**
  * @function loadConfig(path) - loads and validates quire config, returns an empty object if not found
- *  
+ *
  * @param {path} string - file path to config file
- * 
+ *
  * @return {Object|undefined} User configuration object or undefined
- * 
+ *
  * @todo consider hardcoding a version check against .quire / project's package.json ver
  */
 async function loadConfig(configPath) {
@@ -26,13 +26,14 @@ async function loadConfig(configPath) {
   let config = yaml.load(data)
 
   // NB: Schemas and validators are specific to the 11ty version of the project being built
+  const projectRoot = paths.getProjectRoot()
   const schemaPath = path.join(projectRoot,'_plugins','schemas','config.json')
   const validatorPath = path.join(projectRoot, '_plugins', 'globalData', 'validator.js')
 
   if (fs.existsSync(schemaPath) && fs.existsSync(validatorPath)) {
 
     const { validateUserConfig } = await import(pathToFileURL(validatorPath))
-  
+
     const schemaJSON = fs.readFileSync(schemaPath)
     const schema = JSON.parse(schemaJSON)
 
@@ -80,8 +81,11 @@ export default class PDFCommand extends Command {
       logger.debug('[CLI] Command \'%s\' called with options %o', this.name(), options)
     }
 
-    const publicationInput = path.join(projectRoot, paths.output, 'pdf.html')
-    const coversInput = path.join(projectRoot, paths.output, 'pdf-covers.html')
+    const projectRoot = paths.getProjectRoot()
+    const outputDir = paths.getOutputDir()
+
+    const publicationInput = path.join(projectRoot, outputDir, 'pdf.html')
+    const coversInput = path.join(projectRoot, outputDir, 'pdf-covers.html')
 
     const quireConfig = await loadConfig(path.join(projectRoot,'content','_data','config.yaml'))
 
@@ -96,7 +100,7 @@ export default class PDFCommand extends Command {
     }
 
     const output = quireConfig.pdf !== undefined
-      ? path.join(paths.output, quireConfig.pdf.outputDir, `${quireConfig.pdf.filename}.pdf`)
+      ? path.join(outputDir, quireConfig.pdf.outputDir, `${quireConfig.pdf.filename}.pdf`)
       : path.join(projectRoot, `${options.lib}.pdf`)
 
     const pdfLib = await libPdf(options.lib, { ...options, pdfConfig: quireConfig.pdf })

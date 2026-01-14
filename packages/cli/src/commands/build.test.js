@@ -62,8 +62,10 @@ test('build command should call eleventy CLI with default options', async (t) =>
     '#lib/11ty/index.js': {
       api: mockEleventyApi,
       cli: mockEleventyCli,
-      paths: { output: '_site' },
-      projectRoot: '/project'
+      paths: {
+        getProjectRoot: () => '/project',
+        toObject: () => ({ output: '_site' })
+      }
     },
     '#helpers/clean.js': {
       clean: mockClean
@@ -117,8 +119,10 @@ test('build command should call eleventy API when 11ty option is "api"', async (
     '#lib/11ty/index.js': {
       cli: mockEleventyCli,
       api: mockEleventyApi,
-      paths: { output: '_site' },
-      projectRoot: '/project'
+      paths: {
+        getProjectRoot: () => '/project',
+        toObject: () => ({ output: '_site' })
+      }
     },
     '#helpers/clean.js': {
       clean: mockClean
@@ -165,8 +169,10 @@ test('build command should call clean with correct parameters in preAction', asy
     '#lib/11ty/index.js': {
       cli: mockEleventyCli,
       api: mockEleventyApi,
-      paths: { output: '_site' },
-      projectRoot: '/project'
+      paths: {
+        getProjectRoot: () => '/project',
+        toObject: () => ({ output: '_site' })
+      }
     },
     '#helpers/clean.js': {
       clean: mockClean
@@ -216,8 +222,10 @@ test('build command should pass options to eleventy build', async (t) => {
     '#lib/11ty/index.js': {
       cli: mockEleventyCli,
       api: mockEleventyApi,
-      paths: { output: '_site' },
-      projectRoot: '/project'
+      paths: {
+        getProjectRoot: () => '/project',
+        toObject: () => ({ output: '_site' })
+      }
     },
     '#helpers/clean.js': {
       clean: mockClean

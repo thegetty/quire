@@ -1,7 +1,7 @@
 import Command from '#src/Command.js'
 import logger from '#src/lib/logger.js'
 import { clean } from '#helpers/clean.js'
-import { paths, projectRoot  } from '#lib/11ty/index.js'
+import { paths } from '#lib/11ty/index.js'
 import testcwd from '#helpers/test-cwd.js'
 
 /**
@@ -38,7 +38,7 @@ export default class CleanCommand extends Command {
       logger.debug('[CLI] Command \'%s\' called with options %o', this.name(), options)
     }
 
-    const deletedPaths = await clean(projectRoot, paths, options)
+    const deletedPaths = await clean(paths.getProjectRoot(), paths.toObject(), options)
 
     const message = deletedPaths && deletedPaths.length
       ? `the following files ${options.dryRun ? 'will be' : 'have been'} deleted:`
