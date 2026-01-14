@@ -5,5 +5,6 @@
  */
 import paths, { Paths } from './paths.js'
 import detect from './detect.js'
+import { loadProjectConfig } from './config.js'
 
-export { detect, Paths, paths as default }
+export { detect, loadProjectConfig, Paths, paths as default }
