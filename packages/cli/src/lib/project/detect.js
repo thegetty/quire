@@ -1,6 +1,9 @@
 /**
- * A helper module to test if a directory is a Quire project root
- * @module is-quire
+ * Project detection module
+ *
+ * Detects if a directory is a Quire project root by checking for marker files.
+ *
+ * @module lib/project/detect
  */
 import fs from 'node:fs'
 
@@ -28,4 +31,3 @@ export default function (dirpath) {
   return fs.readdirSync(dirpath)
     .find((entry) => QUIRE_DOT_FILES.includes(entry))
 }
-
