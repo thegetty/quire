@@ -220,6 +220,9 @@ async function installInProject(projectPath, quireVersion, options = {}) {
     return
   }
 
+  // Remove the temp install directories *before* staging files
+  fs.rmSync(path.join(projectPath, temp11tyDirectory), {recursive: true})
+
   /**
    * Create an additional commit of new `@thegetty/quire-11ty` files in repository
    * Using '.' respects .gitignore and avoids attempting to add ignored directories
@@ -227,9 +230,6 @@ async function installInProject(projectPath, quireVersion, options = {}) {
    */
   await repo.add('.')
   await repo.commit('Adds `@thegetty/quire-11ty` files')
-
-  // remove temporary 11ty install directory
-  fs.rmSync(path.join(projectPath, temp11tyDirectory), {recursive: true})
 }
 
 /**
