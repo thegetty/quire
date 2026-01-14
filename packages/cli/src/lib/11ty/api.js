@@ -114,7 +114,7 @@ export default {
 
     const eleventy = await factory(options)
 
-    eleventy.setDryRun(options.dryrun)
+    eleventy.setDryRun(options.dryRun)
 
     await eleventy.write()
   },
