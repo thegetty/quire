@@ -4,7 +4,7 @@ import { YAMLException } from 'js-yaml'
 import YamlValidationError from '../errors/validation/yaml-validation-error.js'
 import fs from 'fs-extra'
 import path from 'node:path'
-import { projectRoot  } from '#lib/11ty/index.js'
+import { paths } from '#lib/11ty/index.js'
 import testcwd from '../helpers/test-cwd.js'
 import yamlValidation from '../validators/validate-yaml.js'
 
@@ -35,7 +35,7 @@ export default class ValidateCommand extends Command {
       logger.debug('[CLI] Command \'%s\' called with options %o', this.name(), options)
     }
     
-    const dataPath = path.join(projectRoot, 'content', '_data')
+    const dataPath = path.join(paths.getProjectRoot(), 'content', '_data')
     const files = fs.readdirSync(dataPath)
       .filter(file => file.endsWith('.yaml') || file.endsWith('.yml'))
       .map(file => path.join(dataPath, file)

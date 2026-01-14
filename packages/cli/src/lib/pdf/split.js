@@ -51,7 +51,7 @@ export async function splitPdf(file,coversFile,pageMap,pdfConfig) {
 
     const sectionId = pageId.replace(/^page-/g,'')
     const sectionFn = `${filename}-${sectionId}.pdf`
-    const sectionFp = path.join( paths.output, outputDir, sectionFn )
+    const sectionFp = path.join( paths.getOutputDir(), outputDir, sectionFn )
 
     resultFiles[sectionFp] = section
   }

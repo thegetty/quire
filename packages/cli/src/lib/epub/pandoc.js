@@ -1,7 +1,6 @@
 import { execa } from 'execa'
 import fs from 'fs-extra'
 import path from 'node:path'
-import paths, { projectRoot } from '#lib/11ty/paths.js'
 import which from '#helpers/which.js'
 
 /**

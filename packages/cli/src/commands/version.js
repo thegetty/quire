@@ -1,6 +1,5 @@
 import Command from '#src/Command.js'
 import logger from '#src/lib/logger.js'
-import { paths, projectRoot  } from '#lib/11ty/index.js'
 import * as quire from '#lib/quire/index.js'
 import testcwd from '#helpers/test-cwd.js'
 

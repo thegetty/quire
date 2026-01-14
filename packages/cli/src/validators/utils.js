@@ -2,7 +2,7 @@ import YamlDuplicateIdError from '../errors/validation/yaml-duplicate-error.js'
 import { fileURLToPath } from 'url'
 import fs from 'node:fs'
 import path from 'path'
-import { projectRoot  } from '#lib/11ty/index.js'
+import { paths as eleventyPaths } from '#lib/11ty/index.js'
 
 const IMAGE_KEYS = new Set(['src', 'image', 'logo'])
 
@@ -37,6 +37,7 @@ function collectImagePaths(node, paths=[]) {
 function validateImage(label, src) {
   if(!src) return
 
+  const projectRoot = eleventyPaths.getProjectRoot()
   let assetPath = ''
   if(src.endsWith('.html')) {
     assetPath = path.join(projectRoot, 'content', '_assets', src)

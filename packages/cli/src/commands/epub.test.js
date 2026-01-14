@@ -58,8 +58,10 @@ test('epub command should generate EPUB using epubjs library', async (t) => {
       default: mockLibEpub
     },
     '#lib/11ty/index.js': {
-      paths: { epub: '_site/epub' },
-      projectRoot: '/project'
+      paths: {
+        getProjectRoot: () => '/project',
+        getEpubDir: () => '_site/epub'
+      }
     },
     'fs-extra': fs,
     open: {
@@ -96,8 +98,10 @@ test('epub command should generate EPUB using pandoc library', async (t) => {
       default: mockLibEpub
     },
     '#lib/11ty/index.js': {
-      paths: { epub: '_site/epub' },
-      projectRoot: '/project'
+      paths: {
+        getProjectRoot: () => '/project',
+        getEpubDir: () => '_site/epub'
+      }
     },
     'fs-extra': fs,
     open: {
@@ -136,8 +140,10 @@ test('epub command should open EPUB when --open flag is provided', async (t) => 
       default: mockLibEpub
     },
     '#lib/11ty/index.js': {
-      paths: { epub: '_site/epub' },
-      projectRoot: '/project'
+      paths: {
+        getProjectRoot: () => '/project',
+        getEpubDir: () => '_site/epub'
+      }
     },
     'fs-extra': fs,
     open: {
@@ -172,8 +178,10 @@ test('epub command should pass debug option to library', async (t) => {
       default: mockLibEpub
     },
     '#lib/11ty/index.js': {
-      paths: { epub: '_site/epub' },
-      projectRoot: '/project'
+      paths: {
+        getProjectRoot: () => '/project',
+        getEpubDir: () => '_site/epub'
+      }
     },
     '#src/lib/logger.js': {
       default: mockLogger
@@ -215,8 +223,10 @@ test('epub command should handle missing build output gracefully', async (t) => 
       default: mockLibEpub
     },
     '#lib/11ty/index.js': {
-      paths: { epub: '_site/epub' },
-      projectRoot: '/project'
+      paths: {
+        getProjectRoot: () => '/project',
+        getEpubDir: () => '_site/epub'
+      }
     },
     '#src/lib/logger.js': {
       default: mockLogger
@@ -253,8 +263,10 @@ test('epub command should use correct output path', async (t) => {
       default: mockLibEpub
     },
     '#lib/11ty/index.js': {
-      paths: { epub: '_site/epub' },
-      projectRoot: '/project'
+      paths: {
+        getProjectRoot: () => '/project',
+        getEpubDir: () => '_site/epub'
+      }
     },
     'fs-extra': fs,
     open: {

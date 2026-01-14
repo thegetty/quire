@@ -1,6 +1,6 @@
 import Command from '#src/Command.js'
 import logger from '#src/lib/logger.js'
-import { api, cli, paths, projectRoot  } from '#lib/11ty/index.js'
+import { api, cli, paths } from '#lib/11ty/index.js'
 import { clean } from '#helpers/clean.js'
 import testcwd from '#helpers/test-cwd.js'
 
@@ -63,6 +63,6 @@ export default class BuildCommand extends Command {
     if (options.debug) {
       logger.debug('[CLI] Calling \'build\' command pre-action with options', options)
     }
-    clean(projectRoot, paths, options)
+    clean(paths.getProjectRoot(), paths.toObject(), options)
   }
 }

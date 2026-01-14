@@ -1,6 +1,6 @@
 import Command from '#src/Command.js'
 import logger from '#src/lib/logger.js'
-import { paths, projectRoot  } from '#lib/11ty/index.js'
+import { paths } from '#lib/11ty/index.js'
 import fs from 'fs-extra'
 import libEpub from '#lib/epub/index.js'
 import open from 'open'
@@ -39,7 +39,8 @@ export default class EpubCommand extends Command {
       logger.debug('[CLI] Command \'%s\' called with options %o', this.name(), options)
     }
 
-    const input = path.join(projectRoot, paths.epub)
+    const projectRoot = paths.getProjectRoot()
+    const input = path.join(projectRoot, paths.getEpubDir())
 
     if (!fs.existsSync(input)) {
       logger.error(`Unable to find Epub input at ${input}\nPlease first run the 'quire build' command.`)

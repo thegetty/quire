@@ -66,8 +66,10 @@ test('pdf command should generate PDF using pagedjs library', async (t) => {
       default: mockLibPdf
     },
     '#lib/11ty/index.js': {
-      paths: { output: '_site' },
-      projectRoot: '/project'
+      paths: {
+        getProjectRoot: () => '/project',
+        getOutputDir: () => '_site'
+      }
     },
     'fs-extra': fs,
     'js-yaml': {
@@ -118,8 +120,10 @@ test('pdf command should generate PDF using prince library', async (t) => {
       default: mockLibPdf
     },
     '#lib/11ty/index.js': {
-      paths: { output: '_site' },
-      projectRoot: '/project'
+      paths: {
+        getProjectRoot: () => '/project',
+        getOutputDir: () => '_site'
+      }
     },
     'fs-extra': fs,
     'js-yaml': {
@@ -172,8 +176,10 @@ test('pdf command should open PDF when --open flag is provided', async (t) => {
       default: mockLibPdf
     },
     '#lib/11ty/index.js': {
-      paths: { output: '_site' },
-      projectRoot: '/project'
+      paths: {
+        getProjectRoot: () => '/project',
+        getOutputDir: () => '_site'
+      }
     },
     'fs-extra': fs,
     'js-yaml': {
@@ -227,8 +233,10 @@ test('pdf command should pass PDF configuration to library', async (t) => {
       default: mockLibPdf
     },
     '#lib/11ty/index.js': {
-      paths: { output: '_site' },
-      projectRoot: '/project'
+      paths: {
+        getProjectRoot: () => '/project',
+        getOutputDir: () => '_site'
+      }
     },
     'fs-extra': fs,
     'js-yaml': {
@@ -275,8 +283,10 @@ test('pdf command should handle missing build output gracefully', async (t) => {
       default: mockLibPdf
     },
     '#lib/11ty/index.js': {
-      paths: { output: '_site' },
-      projectRoot: '/project'
+      paths: {
+        getProjectRoot: () => '/project',
+        getOutputDir: () => '_site'
+      }
     },
     'fs-extra': fs,
     'js-yaml': {

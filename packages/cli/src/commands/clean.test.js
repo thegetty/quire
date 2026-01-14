@@ -55,8 +55,10 @@ test('clean command should call clean helper with correct parameters', async (t)
       clean: mockClean
     },
     '#lib/11ty/index.js': {
-      paths: { output: '_site' },
-      projectRoot: '/project'
+      paths: {
+        getProjectRoot: () => '/project',
+        toObject: () => ({ output: '_site' })
+      }
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd
@@ -93,8 +95,10 @@ test('clean command should handle dry-run option', async (t) => {
       clean: mockClean
     },
     '#lib/11ty/index.js': {
-      paths: { output: '_site' },
-      projectRoot: '/project'
+      paths: {
+        getProjectRoot: () => '/project',
+        toObject: () => ({ output: '_site' })
+      }
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd
@@ -131,8 +135,10 @@ test('clean command should call testcwd in preAction', async (t) => {
       clean: mockClean
     },
     '#lib/11ty/index.js': {
-      paths: { output: '_site' },
-      projectRoot: '/project'
+      paths: {
+        getProjectRoot: () => '/project',
+        toObject: () => ({ output: '_site' })
+      }
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd
@@ -168,8 +174,10 @@ test('clean command should handle empty deletedPaths', async (t) => {
       clean: mockClean
     },
     '#lib/11ty/index.js': {
-      paths: { output: '_site' },
-      projectRoot: '/project'
+      paths: {
+        getProjectRoot: () => '/project',
+        toObject: () => ({ output: '_site' })
+      }
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd
@@ -207,8 +215,10 @@ test('clean command should pass all options to clean helper', async (t) => {
       clean: mockClean
     },
     '#lib/11ty/index.js': {
-      paths: { output: '_site' },
-      projectRoot: '/project'
+      paths: {
+        getProjectRoot: () => '/project',
+        toObject: () => ({ output: '_site' })
+      }
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd

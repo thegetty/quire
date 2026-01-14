@@ -1,7 +1,33 @@
 import { dynamicImport } from '#helpers/os-utils.js'
-import { pathToFileURL } from 'node:url'
 import path from 'node:path'
-import paths, { eleventyRoot, projectRoot } from './paths.js'
+import paths from './paths.js'
+
+/**
+ * Configure environment variables required for Eleventy.
+ *
+ * These must be set before the Eleventy instance is created and the
+ * `.eleventy.js` configuration file is parsed.
+ *
+ * @see https://github.com/11ty/eleventy/issues/2655
+ *
+ * @param {Object} options
+ * @param {'production'|'development'} options.mode - Build mode
+ * @param {boolean} options.debug - Enable Eleventy debug output
+ */
+const configureEleventyEnv = ({ mode = 'production', debug = false } = {}) => {
+  // Path configuration for decoupling quire-11ty from project input directory
+  process.env.ELEVENTY_DATA = paths.getDataDir()
+  process.env.ELEVENTY_INCLUDES = paths.getIncludesDir()
+  process.env.ELEVENTY_LAYOUTS = paths.getLayoutsDir()
+
+  // Build mode
+  process.env.ELEVENTY_ENV = mode
+
+  // Debug output
+  if (debug) {
+    process.env.DEBUG = 'Eleventy*'
+  }
+}
 
 /**
  * A factory function to configure an instance of Eleventy
@@ -11,10 +37,14 @@ import paths, { eleventyRoot, projectRoot } from './paths.js'
  * @return  {Eleventy}  A configured instance of Eleventy
  */
 const factory = async (options = {}) => {
-  const { config, input, output } = paths
+  const config = paths.getConfigPath()
+  const eleventyRoot = paths.getEleventyRoot()
+  const input = paths.getInputDir()
+  const output = paths.getOutputDir()
+  const projectRoot = paths.getProjectRoot()
 
   if (options.debug) {
-    console.debug('[CLI:11ty] projectRoot %s\n%o', projectRoot, paths)
+    console.debug('[CLI:11ty] projectRoot %s\n%o', projectRoot, paths.toObject())
   }
 
   /**
@@ -31,17 +61,6 @@ const factory = async (options = {}) => {
   const copyOptions = {
     debug: options.debug || false
   }
-
-  /**
-   * Set environment variables for paths relative to eleventy `input` dir,
-   * to allow `quire-11ty` to be decouple from the project input directory.
-   * Nota bene: environment variables read into the eleventy configuration
-   * file _must_ be set before the eleventy configuration file is parsed.
-   * @see https://github.com/11ty/eleventy/issues/2655
-   */
-  process.env.ELEVENTY_DATA = paths.data
-  process.env.ELEVENTY_INCLUDES = paths.includes
-  process.env.ELEVENTY_LAYOUTS = paths.layouts
 
   /**
    * Get an instance of the runtime of eleventy.
@@ -66,17 +85,14 @@ const factory = async (options = {}) => {
       const addPassthroughCopy = eleventyConfig.addPassthroughCopy.bind(eleventyConfig)
       eleventyConfig.addPassthroughCopy = (entry) => {
         if (typeof entry === 'string') {
-          const filePath = path.resolve(entry) //path.join(projectRoot, file)
-          // console.debug('[11ty:API] passthrough copy %s', filePath)
+          const filePath = path.resolve(entry)
           return addPassthroughCopy(filePath, copyOptions)
         } else {
-          // console.debug('[11ty:API] passthrough copy %o', entry)
           entry = Object.fromEntries(
             Object.entries(entry).map(([ src, dest ]) => {
               return [ path.join(eleventyRoot, src), path.resolve(dest) ]
             })
           )
-          // console.debug('[11ty:API] passthrough copy %o', entry)
           return addPassthroughCopy(entry, copyOptions)
         }
       }
@@ -105,26 +121,26 @@ const factory = async (options = {}) => {
  */
 export default {
   build: async (options = {}) => {
+    const projectRoot = paths.getProjectRoot()
     process.cwd(projectRoot)
 
     console.info('[CLI:11ty] running eleventy build')
 
-    process.env.ELEVENTY_ENV = 'production'
-    if (options.debug) process.env.DEBUG = 'Eleventy*'
+    configureEleventyEnv({ mode: 'production', debug: options.debug })
 
     const eleventy = await factory(options)
 
-    eleventy.setDryRun(options.dryrun)
+    eleventy.setDryRun(options.dryRun)
 
     await eleventy.write()
   },
   serve: async (options = {}) => {
+    const projectRoot = paths.getProjectRoot()
     process.cwd(projectRoot)
 
     console.info('[CLI:11ty] running development server')
 
-    process.env.ELEVENTY_ENV = 'development'
-    if (options.debug) process.env.DEBUG = 'Eleventy*'
+    configureEleventyEnv({ mode: 'development', debug: options.debug })
 
     const eleventy = await factory(options)
 
