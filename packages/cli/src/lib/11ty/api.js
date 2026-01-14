@@ -3,6 +3,33 @@ import path from 'node:path'
 import paths from './paths.js'
 
 /**
+ * Configure environment variables required for Eleventy.
+ *
+ * These must be set before the Eleventy instance is created and the
+ * `.eleventy.js` configuration file is parsed.
+ *
+ * @see https://github.com/11ty/eleventy/issues/2655
+ *
+ * @param {Object} options
+ * @param {'production'|'development'} options.mode - Build mode
+ * @param {boolean} options.debug - Enable Eleventy debug output
+ */
+const configureEleventyEnv = ({ mode = 'production', debug = false } = {}) => {
+  // Path configuration for decoupling quire-11ty from project input directory
+  process.env.ELEVENTY_DATA = paths.getDataDir()
+  process.env.ELEVENTY_INCLUDES = paths.getIncludesDir()
+  process.env.ELEVENTY_LAYOUTS = paths.getLayoutsDir()
+
+  // Build mode
+  process.env.ELEVENTY_ENV = mode
+
+  // Debug output
+  if (debug) {
+    process.env.DEBUG = 'Eleventy*'
+  }
+}
+
+/**
  * A factory function to configure an instance of Eleventy
  * @see https://www.11ty.dev/docs/config/#configuration-options
  *
@@ -34,17 +61,6 @@ const factory = async (options = {}) => {
   const copyOptions = {
     debug: options.debug || false
   }
-
-  /**
-   * Set environment variables for paths relative to eleventy `input` dir,
-   * to allow `quire-11ty` to be decouple from the project input directory.
-   * Nota bene: environment variables read into the eleventy configuration
-   * file _must_ be set before the eleventy configuration file is parsed.
-   * @see https://github.com/11ty/eleventy/issues/2655
-   */
-  process.env.ELEVENTY_DATA = paths.getDataDir()
-  process.env.ELEVENTY_INCLUDES = paths.getIncludesDir()
-  process.env.ELEVENTY_LAYOUTS = paths.getLayoutsDir()
 
   /**
    * Get an instance of the runtime of eleventy.
@@ -110,8 +126,7 @@ export default {
 
     console.info('[CLI:11ty] running eleventy build')
 
-    process.env.ELEVENTY_ENV = 'production'
-    if (options.debug) process.env.DEBUG = 'Eleventy*'
+    configureEleventyEnv({ mode: 'production', debug: options.debug })
 
     const eleventy = await factory(options)
 
@@ -125,8 +140,7 @@ export default {
 
     console.info('[CLI:11ty] running development server')
 
-    process.env.ELEVENTY_ENV = 'development'
-    if (options.debug) process.env.DEBUG = 'Eleventy*'
+    configureEleventyEnv({ mode: 'development', debug: options.debug })
 
     const eleventy = await factory(options)
 
