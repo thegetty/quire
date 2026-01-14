@@ -1,7 +1,7 @@
 import { execa } from 'execa'
 import fs from 'node:fs'
 import path from 'node:path'
-import paths, { eleventyRoot, projectRoot } from './paths.js'
+import paths from './paths.js'
 
 /**
  * A factory function to configure an Eleventy CLI command
@@ -10,20 +10,22 @@ import paths, { eleventyRoot, projectRoot } from './paths.js'
  * @return  {Array} Eleventy CLI options
  */
 const factory = (options = {}) => {
-  const { config, input, output } = paths
+  const config = paths.getConfigPath()
+  const eleventyRoot = paths.getEleventyRoot()
+  const input = paths.getInputDir()
+  const output = paths.getOutputDir()
+  const projectRoot = paths.getProjectRoot()
 
   if (options.debug) {
-    console.debug('[CLI:11ty] projectRoot %s\n%o', projectRoot, paths)
+    console.debug('[CLI:11ty] projectRoot %s\n%o', projectRoot, paths.toObject())
   }
 
   /**
    * Use the version of Eleventy installed to `lib/quire/versions`
-   * 
-   * NB: in eleventy v3 the CLI extension (".cjs") is load-bearing but v2 is simply ".js"
-   * 
+   * Nota bene: in eleventy v3 the CLI extension (".cjs") is load-bearing but v2 is simply ".js"
    */
   const eleventyModuleDir = path.join(eleventyRoot, 'node_modules', '@11ty', 'eleventy')
-  const packagePath = path.join(eleventyModuleDir,'package.json')  
+  const packagePath = path.join(eleventyModuleDir,'package.json')
 
   const pack = JSON.parse(fs.readFileSync(packagePath))
 
@@ -59,14 +61,14 @@ const factory = (options = {}) => {
    * @see https://github.com/11ty/eleventy/issues/2655
    */
   const env = {
-    ELEVENTY_DATA: paths.data,
-    ELEVENTY_INCLUDES: paths.includes,
-    ELEVENTY_LAYOUTS: paths.layouts,
+    ELEVENTY_DATA: paths.getDataDir(),
+    ELEVENTY_INCLUDES: paths.getIncludesDir(),
+    ELEVENTY_LAYOUTS: paths.getLayoutsDir(),
   }
 
   if (options.debug) env.DEBUG = 'Eleventy*'
 
-  return { command, env }
+  return { command, env, projectRoot }
 }
 
 /**
@@ -77,7 +79,7 @@ export default {
   build: async (options = {}) => {
     console.info('[CLI:11ty] running eleventy build')
 
-    const { command, env } = factory(options)
+    const { command, env, projectRoot } = factory(options)
 
     if (options.dryRun) command.push('--dryrun')
 
@@ -100,7 +102,7 @@ export default {
   serve: async (options = {}) => {
     console.info(`[CLI:11ty] running eleventy serve`)
 
-    const { command, env } = factory(options)
+    const { command, env, projectRoot } = factory(options)
 
     command.push('--serve')
 
