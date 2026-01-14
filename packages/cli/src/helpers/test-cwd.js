@@ -1,8 +1,8 @@
 /**
  * A helper module to test the current working directory
- * @module test-csd
+ * @module test-cwd
  */
-import isQuire from '#helpers/is-quire.js'
+import { detect as isQuire } from '#lib/project/index.js'
 
 /**
  * Test current working directory is a Quire project directory
