@@ -61,8 +61,10 @@ test('build command should call eleventy CLI with default options', async (t) =>
   const BuildCommand = await esmock('./build.js', {
     '#lib/11ty/index.js': {
       api: mockEleventyApi,
-      cli: mockEleventyCli,
-      paths: {
+      cli: mockEleventyCli
+    },
+    '#lib/project/index.js': {
+      default: {
         getProjectRoot: () => '/project',
         toObject: () => ({ output: '_site' })
       }
@@ -118,8 +120,10 @@ test('build command should call eleventy API when 11ty option is "api"', async (
   const BuildCommand = await esmock('./build.js', {
     '#lib/11ty/index.js': {
       cli: mockEleventyCli,
-      api: mockEleventyApi,
-      paths: {
+      api: mockEleventyApi
+    },
+    '#lib/project/index.js': {
+      default: {
         getProjectRoot: () => '/project',
         toObject: () => ({ output: '_site' })
       }
@@ -168,8 +172,10 @@ test('build command should call clean with correct parameters in preAction', asy
   const BuildCommand = await esmock('./build.js', {
     '#lib/11ty/index.js': {
       cli: mockEleventyCli,
-      api: mockEleventyApi,
-      paths: {
+      api: mockEleventyApi
+    },
+    '#lib/project/index.js': {
+      default: {
         getProjectRoot: () => '/project',
         toObject: () => ({ output: '_site' })
       }
@@ -221,8 +227,10 @@ test('build command should pass options to eleventy build', async (t) => {
   const BuildCommand = await esmock('./build.js', {
     '#lib/11ty/index.js': {
       cli: mockEleventyCli,
-      api: mockEleventyApi,
-      paths: {
+      api: mockEleventyApi
+    },
+    '#lib/project/index.js': {
+      default: {
         getProjectRoot: () => '/project',
         toObject: () => ({ output: '_site' })
       }

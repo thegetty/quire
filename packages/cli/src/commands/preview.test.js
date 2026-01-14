@@ -59,9 +59,7 @@ test('preview command should call eleventy CLI serve with default options', asyn
   const PreviewCommand = await esmock('./preview.js', {
     '#lib/11ty/index.js': {
       api: mockEleventyApi,
-      cli: mockEleventyCli,
-      paths: { output: '_site' },
-      projectRoot: '/project'
+      cli: mockEleventyCli
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd
@@ -106,9 +104,7 @@ test('preview command should call eleventy API when 11ty option is "api"', async
   const PreviewCommand = await esmock('./preview.js', {
     '#lib/11ty/index.js': {
       api: mockEleventyApi,
-      cli: mockEleventyCli,
-      paths: { output: '_site' },
-      projectRoot: '/project'
+      cli: mockEleventyCli
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd
@@ -149,9 +145,7 @@ test('preview command should pass port option to eleventy serve', async (t) => {
   const PreviewCommand = await esmock('./preview.js', {
     '#lib/11ty/index.js': {
       api: mockEleventyApi,
-      cli: mockEleventyCli,
-      paths: { output: '_site' },
-      projectRoot: '/project'
+      cli: mockEleventyCli
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd
@@ -193,9 +187,7 @@ test('preview command should pass quiet and verbose options', async (t) => {
   const PreviewCommand = await esmock('./preview.js', {
     '#lib/11ty/index.js': {
       api: mockEleventyApi,
-      cli: mockEleventyCli,
-      paths: { output: '_site' },
-      projectRoot: '/project'
+      cli: mockEleventyCli
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd
@@ -236,9 +228,7 @@ test('preview command should call testcwd in preAction', async (t) => {
   const PreviewCommand = await esmock('./preview.js', {
     '#lib/11ty/index.js': {
       api: mockEleventyApi,
-      cli: mockEleventyCli,
-      paths: { output: '_site' },
-      projectRoot: '/project'
+      cli: mockEleventyCli
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd

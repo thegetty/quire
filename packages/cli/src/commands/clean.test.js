@@ -54,8 +54,8 @@ test('clean command should call clean helper with correct parameters', async (t)
     '#helpers/clean.js': {
       clean: mockClean
     },
-    '#lib/11ty/index.js': {
-      paths: {
+    '#lib/project/index.js': {
+      default: {
         getProjectRoot: () => '/project',
         toObject: () => ({ output: '_site' })
       }
@@ -94,8 +94,8 @@ test('clean command should handle dry-run option', async (t) => {
     '#helpers/clean.js': {
       clean: mockClean
     },
-    '#lib/11ty/index.js': {
-      paths: {
+    '#lib/project/index.js': {
+      default: {
         getProjectRoot: () => '/project',
         toObject: () => ({ output: '_site' })
       }
@@ -134,8 +134,8 @@ test('clean command should call testcwd in preAction', async (t) => {
     '#helpers/clean.js': {
       clean: mockClean
     },
-    '#lib/11ty/index.js': {
-      paths: {
+    '#lib/project/index.js': {
+      default: {
         getProjectRoot: () => '/project',
         toObject: () => ({ output: '_site' })
       }
@@ -173,8 +173,8 @@ test('clean command should handle empty deletedPaths', async (t) => {
     '#helpers/clean.js': {
       clean: mockClean
     },
-    '#lib/11ty/index.js': {
-      paths: {
+    '#lib/project/index.js': {
+      default: {
         getProjectRoot: () => '/project',
         toObject: () => ({ output: '_site' })
       }
@@ -214,8 +214,8 @@ test('clean command should pass all options to clean helper', async (t) => {
     '#helpers/clean.js': {
       clean: mockClean
     },
-    '#lib/11ty/index.js': {
-      paths: {
+    '#lib/project/index.js': {
+      default: {
         getProjectRoot: () => '/project',
         toObject: () => ({ output: '_site' })
       }

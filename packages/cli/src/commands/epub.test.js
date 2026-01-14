@@ -57,8 +57,8 @@ test('epub command should generate EPUB using epubjs library', async (t) => {
     '#lib/epub/index.js': {
       default: mockLibEpub
     },
-    '#lib/11ty/index.js': {
-      paths: {
+    '#lib/project/index.js': {
+      default: {
         getProjectRoot: () => '/project',
         getEpubDir: () => '_site/epub'
       }
@@ -97,8 +97,8 @@ test('epub command should generate EPUB using pandoc library', async (t) => {
     '#lib/epub/index.js': {
       default: mockLibEpub
     },
-    '#lib/11ty/index.js': {
-      paths: {
+    '#lib/project/index.js': {
+      default: {
         getProjectRoot: () => '/project',
         getEpubDir: () => '_site/epub'
       }
@@ -139,8 +139,8 @@ test('epub command should open EPUB when --open flag is provided', async (t) => 
     '#lib/epub/index.js': {
       default: mockLibEpub
     },
-    '#lib/11ty/index.js': {
-      paths: {
+    '#lib/project/index.js': {
+      default: {
         getProjectRoot: () => '/project',
         getEpubDir: () => '_site/epub'
       }
@@ -177,8 +177,8 @@ test('epub command should pass debug option to library', async (t) => {
     '#lib/epub/index.js': {
       default: mockLibEpub
     },
-    '#lib/11ty/index.js': {
-      paths: {
+    '#lib/project/index.js': {
+      default: {
         getProjectRoot: () => '/project',
         getEpubDir: () => '_site/epub'
       }
@@ -222,8 +222,8 @@ test('epub command should handle missing build output gracefully', async (t) => 
     '#lib/epub/index.js': {
       default: mockLibEpub
     },
-    '#lib/11ty/index.js': {
-      paths: {
+    '#lib/project/index.js': {
+      default: {
         getProjectRoot: () => '/project',
         getEpubDir: () => '_site/epub'
       }
@@ -262,8 +262,8 @@ test('epub command should use correct output path', async (t) => {
     '#lib/epub/index.js': {
       default: mockLibEpub
     },
-    '#lib/11ty/index.js': {
-      paths: {
+    '#lib/project/index.js': {
+      default: {
         getProjectRoot: () => '/project',
         getEpubDir: () => '_site/epub'
       }

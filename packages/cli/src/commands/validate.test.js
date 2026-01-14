@@ -55,8 +55,8 @@ test('validate command should find and validate YAML files', async (t) => {
     '../validators/validate-yaml.js': {
       default: mockYamlValidation
     },
-    '#lib/11ty/index.js': {
-      paths: { getProjectRoot: () => '/project' }
+    '#lib/project/index.js': {
+      default: { getProjectRoot: () => '/project' }
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd
@@ -93,8 +93,8 @@ test('validate command should handle validation errors', async (t) => {
     '../validators/validate-yaml.js': {
       default: mockYamlValidation
     },
-    '#lib/11ty/index.js': {
-      paths: { getProjectRoot: () => '/project' }
+    '#lib/project/index.js': {
+      default: { getProjectRoot: () => '/project' }
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd
@@ -129,8 +129,8 @@ test('validate command should call testcwd in preAction', async (t) => {
     '../validators/validate-yaml.js': {
       default: mockYamlValidation
     },
-    '#lib/11ty/index.js': {
-      paths: { getProjectRoot: () => '/project' }
+    '#lib/project/index.js': {
+      default: { getProjectRoot: () => '/project' }
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd
@@ -171,8 +171,8 @@ test('validate command should filter YAML files correctly', async (t) => {
     '../validators/validate-yaml.js': {
       default: mockYamlValidation
     },
-    '#lib/11ty/index.js': {
-      paths: { getProjectRoot: () => '/project' }
+    '#lib/project/index.js': {
+      default: { getProjectRoot: () => '/project' }
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd
@@ -207,8 +207,8 @@ test('validate command should pass debug option through', async (t) => {
     '../validators/validate-yaml.js': {
       default: mockYamlValidation
     },
-    '#lib/11ty/index.js': {
-      paths: { getProjectRoot: () => '/project' }
+    '#lib/project/index.js': {
+      default: { getProjectRoot: () => '/project' }
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd

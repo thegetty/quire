@@ -4,7 +4,7 @@ import { YAMLException } from 'js-yaml'
 import YamlValidationError from '../errors/validation/yaml-validation-error.js'
 import fs from 'fs-extra'
 import path from 'node:path'
-import { paths } from '#lib/11ty/index.js'
+import paths from '#lib/project/index.js'
 import testcwd from '../helpers/test-cwd.js'
 import yamlValidation from '../validators/validate-yaml.js'
 
