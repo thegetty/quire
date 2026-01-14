@@ -88,6 +88,14 @@ These environment variables **must be set before** the Eleventy instance is crea
 
 #### Design Notes
 
-Eleventy does not expose an API to set the relative `includes` and `layouts` paths on the instance. To decouple the Eleventy configuration file from a specific project path, the `api` and `cli` modules use environment variables that can be read in `.eleventy.js`.
+**Why environment variables instead of Eleventy API methods?**
 
-**Known limitation:** The Eleventy `TemplatePathResolver` assumes the `layouts` directory is a child of the `input` directory, which prevents fully decoupling Quire project content from `quire-11ty` code. See [eleventy#2655](https://github.com/11ty/eleventy/issues/2655).
+Eleventy 3.x provides `setIncludesDirectory()` and `setLayoutsDirectory()` API methods, but environment variables are preferred because:
+
+1. **cli.js compatibility** - The `cli` module runs Eleventy as a subprocess via `execa`. API methods cannot be called on a subprocess; only arguments and environment variables can be passed.
+
+2. **Same path restriction** - The API methods have the same limitation: paths must be relative to the input directory. Using `../_includes` works identically with either approach.
+
+3. **Consistent implementation** - Environment variables work for both `api.js` and `cli.js`, avoiding code divergence between the two modules.
+
+**Known limitation:** The Eleventy `TemplatePathResolver` requires layouts and includes directories to be within the input directory, which prevents fully decoupling Quire project content from `quire-11ty` code. See [eleventy#2655](https://github.com/11ty/eleventy/issues/2655) (still open).
