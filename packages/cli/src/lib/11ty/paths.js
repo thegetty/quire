@@ -29,6 +29,46 @@ class Paths {
   }
 
   // ─────────────────────────────────────────────────────────────────────────
+  // Implicit getters for domain-specific grouping of paths
+  // ─────────────────────────────────────────────────────────────────────────
+
+  /**
+   * Eleventy configuration paths
+   */
+  get eleventy() {
+    return {
+      config: this.getConfigPath(),
+      data: this.getDataDir(),
+      includes: this.getIncludesDir(),
+      input: this.getInputDir(),
+      layouts: this.getLayoutsDir(),
+      output: this.getOutputDir(),
+      root: this.getEleventyRoot(),
+    }
+  }
+
+  /**
+   * Output format-specific paths
+   */
+  get output() {
+    return {
+      site: this.getOutputDir(),
+      epub: this.getEpubDir(),
+      public: this.getPublicDir(),
+    }
+  }
+
+  /**
+   * Project root paths (general)
+   */
+  get project() {
+    return {
+      content: this.getInputPath(),
+      root: this.getProjectRoot(),
+    }
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────
   // Absolute paths (method names ends with Path or Root)
   // ─────────────────────────────────────────────────────────────────────────
 
