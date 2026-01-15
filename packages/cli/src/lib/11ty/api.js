@@ -155,7 +155,7 @@ class Quire11ty {
    */
   async build(options = {}) {
     const projectRoot = this.paths.getProjectRoot()
-    process.cwd(projectRoot)
+    process.chdir(projectRoot)
 
     console.info(`${LOG_PREFIX} running eleventy build`)
 
@@ -179,7 +179,7 @@ class Quire11ty {
    */
   async serve(options = {}) {
     const projectRoot = this.paths.getProjectRoot()
-    process.cwd(projectRoot)
+    process.chdir(projectRoot)
 
     console.info(`${LOG_PREFIX} running development server`)
 
