@@ -71,8 +71,17 @@ export default class CreateCommand extends Command {
         quireVersion = await installer.initStarter(starter, projectPath, options)
       } catch (error) {
         logger.error(error.message)
+        // Only remove directory if it wasn't pre-existing user content
+        if (!error.message.includes('not empty')) {
+          fs.removeSync(projectPath)
+        }
+        process.exit(1)
+      }
+
+      // Check if initStarter returned without a version
+      if (!quireVersion) {
         fs.removeSync(projectPath)
-        return
+        process.exit(1)
       }
 
       await installer.installInProject(projectPath, quireVersion, options)

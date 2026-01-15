@@ -77,8 +77,7 @@ export async function initStarter(starter, projectPath, options = {}) {
   // If the target directory exists it must be empty
   if (!isEmpty(projectPath)) {
     const location = projectPath === '.' ? 'the current directory' : projectPath
-    console.error(`[CLI:installer] cannot create a starter project in ${location} because it is not empty`)
-    return
+    throw new Error(`[CLI:installer] cannot create project in a non-empty directory ${location}`)
   }
 
   console.debug('[CLI:installer] init-starter',
@@ -92,7 +91,6 @@ export async function initStarter(starter, projectPath, options = {}) {
   await git
     .cwd(projectPath)
     .clone(starter, '.')
-    .catch((error) => console.error('[CLI:installer] ', error))
 
   /**
    * Determine the quire-11ty version to use in the new project,
