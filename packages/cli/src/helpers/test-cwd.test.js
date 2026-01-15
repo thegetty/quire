@@ -44,13 +44,17 @@ test.serial('testcwd should not error when called in a Quire project directory',
     exit: processExitStub
   }
 
+  // Mock detect module with memfs
+  const mockDetect = await esmock('../lib/project/detect.js', {
+    'node:fs': fs
+  })
+
   // Mock node:fs and node:process to use memfs and stubbed process
   const testcwd = await esmock('./test-cwd.js', {
     'node:process': mockProcess,
-    '#helpers/is-quire.js': await esmock('../helpers/is-quire.js', {
-      'node:fs': fs,
-      'node:process': mockProcess
-    })
+    '#lib/project/index.js': {
+      detect: mockDetect
+    }
   })
 
   // Create mock command
@@ -89,13 +93,17 @@ test.serial('testcwd should error when called outside a Quire project directory'
     exit: processExitStub
   }
 
+  // Mock detect module with memfs
+  const mockDetect = await esmock('../lib/project/detect.js', {
+    'node:fs': fs
+  })
+
   // Mock node:fs and node:process to use memfs and stubbed process
   const testcwd = await esmock('./test-cwd.js', {
     'node:process': mockProcess,
-    '#helpers/is-quire.js': await esmock('../helpers/is-quire.js', {
-      'node:fs': fs,
-      'node:process': mockProcess
-    })
+    '#lib/project/index.js': {
+      detect: mockDetect
+    }
   })
 
   // Create mock command
@@ -136,13 +144,17 @@ test.serial('testcwd should include command name in error message', async (t) =>
     exit: processExitStub
   }
 
+  // Mock detect module with memfs
+  const mockDetect = await esmock('../lib/project/detect.js', {
+    'node:fs': fs
+  })
+
   // Mock node:fs and node:process to use memfs and stubbed process
   const testcwd = await esmock('./test-cwd.js', {
     'node:process': mockProcess,
-    '#helpers/is-quire.js': await esmock('../helpers/is-quire.js', {
-      'node:fs': fs,
-      'node:process': mockProcess
-    })
+    '#lib/project/index.js': {
+      detect: mockDetect
+    }
   })
 
   // Create mock command with specific name
@@ -183,13 +195,17 @@ test.serial('testcwd should work when command is null', async (t) => {
     exit: processExitStub
   }
 
+  // Mock detect module with memfs
+  const mockDetect = await esmock('../lib/project/detect.js', {
+    'node:fs': fs
+  })
+
   // Mock node:fs and node:process to use memfs and stubbed process
   const testcwd = await esmock('./test-cwd.js', {
     'node:process': mockProcess,
-    '#helpers/is-quire.js': await esmock('../helpers/is-quire.js', {
-      'node:fs': fs,
-      'node:process': mockProcess
-    })
+    '#lib/project/index.js': {
+      detect: mockDetect
+    }
   })
 
   // Call testcwd with null command

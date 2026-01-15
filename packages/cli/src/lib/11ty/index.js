@@ -20,7 +20,7 @@
  */
 import { Quire11ty } from './api.js'
 import cli from './cli.js'
-import paths, { Paths } from './paths.js'
+import paths, { Paths } from '#lib/project/index.js'
 
 /**
  * Legacy API export for backwards compatibility

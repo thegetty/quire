@@ -32,7 +32,7 @@
  */
 import { dynamicImport } from '#helpers/os-utils.js'
 import path from 'node:path'
-import paths from './paths.js'
+import paths from '#lib/project/index.js'
 
 const LOG_PREFIX = '[CLI:lib/11ty]'
 

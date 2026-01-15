@@ -6,14 +6,14 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 /**
- * Eleventy path configuration
+ * Project path configuration
  *
- * Provides accessor methods for Eleventy paths, computing values on access
+ * Provides accessor methods for project paths, computing values on access
  * to ensure they reflect the current working directory state.
  *
  * Naming convention:
- * - Methods ending in `Path` or `Root` return absolute paths
- * - Methods ending in `Dir` return relative directory names
+ * - methods ending in `Path` or `Root` return absolute paths
+ * - methods ending in `Dir` return relative directory names
  *
  * @see https://www.11ty.dev/docs/config/#configuration-options
  */
@@ -23,7 +23,7 @@ class Paths {
    * @param {string} [options.version='latest'] - quire-11ty version to use
    */
   constructor(options = {}) {
-    this.cliRoot = path.resolve(__dirname, path.join('..', '..'))
+    this.cliRoot = path.resolve(__dirname, '..')
     this.eleventyConfig = '.eleventy.js'
     this.version = options.version || 'latest'
   }

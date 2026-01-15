@@ -13,7 +13,7 @@ test.afterEach.always((t) => {
   t.context.vol.reset()
 })
 
-test('isQuire should recognize .eleventy.js marker file', async (t) => {
+test('detect should recognize .eleventy.js marker file', async (t) => {
   const { fs, vol } = t.context
 
   // Setup a Quire project directory with .eleventy.js
@@ -23,17 +23,17 @@ test('isQuire should recognize .eleventy.js marker file', async (t) => {
   })
 
   // Mock node:fs to use memfs
-  const isQuire = await esmock('./is-quire.js', {
+  const detect = await esmock('./detect.js', {
     'node:fs': fs
   })
 
-  const result = isQuire('/quire-project')
+  const result = detect('/quire-project')
 
   t.truthy(result, 'should return truthy value for directory with .eleventy.js')
   t.is(result, '.eleventy.js', 'should return the marker file name')
 })
 
-test('isQuire should recognize eleventy.config.js marker file', async (t) => {
+test('detect should recognize eleventy.config.js marker file', async (t) => {
   const { fs, vol } = t.context
 
   // Setup a Quire project directory with eleventy.config.js
@@ -43,17 +43,17 @@ test('isQuire should recognize eleventy.config.js marker file', async (t) => {
   })
 
   // Mock node:fs to use memfs
-  const isQuire = await esmock('./is-quire.js', {
+  const detect = await esmock('./detect.js', {
     'node:fs': fs
   })
 
-  const result = isQuire('/quire-project')
+  const result = detect('/quire-project')
 
   t.truthy(result, 'should return truthy value for directory with eleventy.config.js')
   t.is(result, 'eleventy.config.js', 'should return the marker file name')
 })
 
-test('isQuire should recognize .quire marker file', async (t) => {
+test('detect should recognize .quire marker file', async (t) => {
   const { fs, vol } = t.context
 
   // Setup a Quire project directory with .quire marker
@@ -63,17 +63,17 @@ test('isQuire should recognize .quire marker file', async (t) => {
   })
 
   // Mock node:fs to use memfs
-  const isQuire = await esmock('./is-quire.js', {
+  const detect = await esmock('./detect.js', {
     'node:fs': fs
   })
 
-  const result = isQuire('/quire-project')
+  const result = detect('/quire-project')
 
   t.truthy(result, 'should return truthy value for directory with .quire')
   t.is(result, '.quire', 'should return the marker file name')
 })
 
-test('isQuire should recognize .quire-11ty marker file', async (t) => {
+test('detect should recognize .quire-11ty marker file', async (t) => {
   const { fs, vol } = t.context
 
   // Setup a Quire project directory with .quire-11ty marker
@@ -83,17 +83,17 @@ test('isQuire should recognize .quire-11ty marker file', async (t) => {
   })
 
   // Mock node:fs to use memfs
-  const isQuire = await esmock('./is-quire.js', {
+  const detect = await esmock('./detect.js', {
     'node:fs': fs
   })
 
-  const result = isQuire('/quire-project')
+  const result = detect('/quire-project')
 
   t.truthy(result, 'should return truthy value for directory with .quire-11ty')
   t.is(result, '.quire-11ty', 'should return the marker file name')
 })
 
-test('isQuire should recognize .quire-version marker file', async (t) => {
+test('detect should recognize .quire-version marker file', async (t) => {
   const { fs, vol } = t.context
 
   // Setup a Quire project directory with .quire-version marker
@@ -103,17 +103,17 @@ test('isQuire should recognize .quire-version marker file', async (t) => {
   })
 
   // Mock node:fs to use memfs
-  const isQuire = await esmock('./is-quire.js', {
+  const detect = await esmock('./detect.js', {
     'node:fs': fs
   })
 
-  const result = isQuire('/quire-project')
+  const result = detect('/quire-project')
 
   t.truthy(result, 'should return truthy value for directory with .quire-version')
   t.is(result, '.quire-version', 'should return the marker file name')
 })
 
-test('isQuire should return falsy for non-Quire directory', async (t) => {
+test('detect should return falsy for non-Quire directory', async (t) => {
   const { fs, vol } = t.context
 
   // Setup a non-Quire directory (no marker files)
@@ -123,16 +123,16 @@ test('isQuire should return falsy for non-Quire directory', async (t) => {
   })
 
   // Mock node:fs to use memfs
-  const isQuire = await esmock('./is-quire.js', {
+  const detect = await esmock('./detect.js', {
     'node:fs': fs
   })
 
-  const result = isQuire('/non-quire-directory')
+  const result = detect('/non-quire-directory')
 
   t.falsy(result, 'should return falsy value for directory without marker files')
 })
 
-test('isQuire should return first marker file found when multiple exist', async (t) => {
+test('detect should return first marker file found when multiple exist', async (t) => {
   const { fs, vol } = t.context
 
   // Setup a Quire project directory with multiple markers
@@ -143,11 +143,11 @@ test('isQuire should return first marker file found when multiple exist', async 
   })
 
   // Mock node:fs to use memfs
-  const isQuire = await esmock('./is-quire.js', {
+  const detect = await esmock('./detect.js', {
     'node:fs': fs
   })
 
-  const result = isQuire('/quire-project')
+  const result = detect('/quire-project')
 
   t.truthy(result, 'should return truthy value for directory with multiple markers')
   t.true(

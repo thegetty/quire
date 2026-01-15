@@ -1,6 +1,7 @@
 import Command from '#src/Command.js'
 import logger from '#src/lib/logger.js'
-import { api, cli, paths } from '#lib/11ty/index.js'
+import { api, cli } from '#lib/11ty/index.js'
+import paths from '#lib/project/index.js'
 import { clean } from '#helpers/clean.js'
 import testcwd from '#helpers/test-cwd.js'
 

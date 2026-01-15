@@ -41,7 +41,7 @@
     "test": "ava",
     "test:watch": "ava --watch",
     "test:unit": "ava src/commands/**/*.spec.js",
-    "test:integration": "ava src/commands/**/*.test.js src/helpers/**/*.test.js",
+    "test:integration": "ava src/commands/**/*.test.js src/helpers/**/*.test.js src/lib/**/*.test.js",
     "test:e2e": "ava test/e2e/**/*.e2e.js",
     "test:coverage": "c8 ava"
   },
