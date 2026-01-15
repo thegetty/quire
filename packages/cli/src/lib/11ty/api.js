@@ -1,6 +1,40 @@
+/**
+ * Quire11ty façade for Eleventy integration
+ *
+ * Provides a unified interface for Eleventy operations with path resolution.
+ * Follows the singleton pattern like lib/npm and lib/git for consistency
+ * and easy mocking in tests.
+ *
+ * @example Production usage
+ * import eleventy from '#lib/11ty/index.js'
+ * await eleventy.build({ debug: true })
+ * const outputDir = eleventy.paths.getOutputDir()
+ *
+ * @example Path-only usage
+ * import { paths } from '#lib/11ty/index.js'
+ * const projectRoot = paths.getProjectRoot()
+ *
+ * @example Test mocking
+ * const mockEleventy = {
+ *   build: sandbox.stub().resolves(),
+ *   serve: sandbox.stub().resolves(),
+ *   paths: {
+ *     getProjectRoot: () => '/project',
+ *     getOutputDir: () => '_site'
+ *   }
+ * }
+ * const MyCommand = await esmock('./mycommand.js', {
+ *   '#lib/11ty/index.js': { default: mockEleventy }
+ * })
+ *
+ * @see https://www.11ty.dev/docs/programmatic/
+ * @module lib/11ty
+ */
 import { dynamicImport } from '#helpers/os-utils.js'
 import path from 'node:path'
 import paths from '#lib/project/index.js'
+
+const LOG_PREFIX = '[CLI:lib/11ty]'
 
 /**
  * Configure environment variables required for Eleventy.
@@ -30,13 +64,16 @@ const configureEleventyEnv = ({ mode = 'production', debug = false } = {}) => {
 }
 
 /**
- * A factory function to configure an instance of Eleventy
- * @see https://www.11ty.dev/docs/config/#configuration-options
+ * Create an instance of Eleventy configured for Quire projects
  *
- * @param  {Object}  options  Eleventy configuration options
- * @return  {Eleventy}  A configured instance of Eleventy
+ * @param {Object} options - Eleventy configuration options
+ * @param {boolean} [options.debug=false] - Enable debug output
+ * @param {boolean} [options.quiet=false] - Suppress output
+ * @param {string} [options.config] - Custom config path override
+ * @param {'build'|'serve'|'watch'} [options.runMode='build'] - Eleventy run mode
+ * @returns {Promise<Eleventy>} Configured Eleventy instance
  */
-const factory = async (options = {}) => {
+const createEleventyInstance = async (options = {}) => {
   const config = paths.getConfigPath()
   const eleventyRoot = paths.getEleventyRoot()
   const input = paths.getInputDir()
@@ -44,106 +81,97 @@ const factory = async (options = {}) => {
   const projectRoot = paths.getProjectRoot()
 
   if (options.debug) {
-    console.debug('[CLI:11ty] projectRoot %s\n%o', projectRoot, paths.toObject())
+    console.debug(`${LOG_PREFIX} projectRoot %s\n%o`, projectRoot, paths.toObject())
   }
 
-  /**
-   * Dynamically import the correct version of Eleventy
-   */
+  // Dynamically import the correct version of Eleventy
   const modulePath = path.join(eleventyRoot, 'node_modules', '@11ty', 'eleventy', 'src', 'Eleventy.js')
   const { default: Eleventy } = await dynamicImport(modulePath)
 
-  /**
-   * Set Eleventy passthrough copy options
-   * @see https://www.11ty.dev/docs/copy/#advanced-options
-   * @see https://github.com/timkendrick/recursive-copy
-   */
-  const copyOptions = {
-    debug: options.debug || false
-  }
-
-  /**
-   * Get an instance of the runtime of eleventy.
-   * @see https://github.com/11ty/eleventy/blob/src/Eleventy.js
-   *
-   * @param {String} input  Path from which to read content templates
-   * @param {String} output  Path where rendered files will be written
-   * @param {Object} options  Options are merged with the Eleventy UserConfig
-   * @param {Object} config  An eleventy configurtion object
-   *
-   * @returns {module:11ty/eleventy/Eleventy~Eleventy}
-   */
+  // Create Eleventy instance
+  // @see https://github.com/11ty/eleventy/blob/src/Eleventy.js
   const eleventy = new Eleventy(input, output, {
     config: (eleventyConfig) => {
-      /**
-       * Override addPassthroughCopy to use _absolute_ system paths.
-       * @see https://www.11ty.dev/docs/copy/#passthrough-file-copy
-       * Nota bene: Eleventy addPassthroughCopy assumes paths are _relative_
-       * to the `config` file however the quire-cli separates 11ty from the
-       * project directory (`input`) and needs to use absolute system paths.
-       */
-      const addPassthroughCopy = eleventyConfig.addPassthroughCopy.bind(eleventyConfig)
-      eleventyConfig.addPassthroughCopy = (entry) => {
-        if (typeof entry === 'string') {
-          const filePath = path.resolve(entry)
-          return addPassthroughCopy(filePath, copyOptions)
-        } else {
-          entry = Object.fromEntries(
-            Object.entries(entry).map(([ src, dest ]) => {
-              return [ path.join(eleventyRoot, src), path.resolve(dest) ]
-            })
-          )
-          return addPassthroughCopy(entry, copyOptions)
-        }
-      }
-
-      /**
-       * Event callback when a build completes
-       * @see https://www.11ty.dev/docs/events/#eleventy.after
-       */
+      // Event callback when a build completes
+      // @see https://www.11ty.dev/docs/events/#eleventy.after
       eleventyConfig.on('eleventy.after', async () => {
-        console.debug('[11ty:API] build complete')
+        console.debug(`${LOG_PREFIX} build complete`)
       })
 
       return eleventyConfig
     },
     configPath: options.config || config,
     quietMode: options.quiet || false,
+    runMode: options.runMode || 'build',
   })
 
   return eleventy
 }
 
 /**
- * A wrapper module for using the Eleventy programmatic API
- * @see https://www.11ty.dev/docs/programmatic/
- * @todo read paths from the Quire project configuration
+ * Quire11ty façade class
+ *
+ * Provides abstracted Eleventy operations with unified logging,
+ * error handling, and path resolution.
  */
-export default {
-  build: async (options = {}) => {
-    const projectRoot = paths.getProjectRoot()
-    process.cwd(projectRoot)
+class Quire11ty {
+  /**
+   * Create Quire11ty instance
+   * @param {Object} pathsInstance - Paths instance for path resolution
+   */
+  constructor(pathsInstance) {
+    this.paths = pathsInstance
+  }
 
-    console.info('[CLI:11ty] running eleventy build')
+  /**
+   * Run Eleventy production build
+   *
+   * @param {Object} options - Build options
+   * @param {boolean} [options.debug=false] - Enable debug output
+   * @param {boolean} [options.dryRun=false] - Perform dry run without writing files
+   * @param {boolean} [options.quiet=false] - Suppress output
+   * @returns {Promise<void>}
+   */
+  async build(options = {}) {
+    const projectRoot = this.paths.getProjectRoot()
+    process.chdir(projectRoot)
+
+    console.info(`${LOG_PREFIX} running eleventy build`)
 
     configureEleventyEnv({ mode: 'production', debug: options.debug })
 
-    const eleventy = await factory(options)
+    const eleventy = await createEleventyInstance(options)
 
     eleventy.setDryRun(options.dryRun)
 
     await eleventy.write()
-  },
-  serve: async (options = {}) => {
-    const projectRoot = paths.getProjectRoot()
-    process.cwd(projectRoot)
+  }
 
-    console.info('[CLI:11ty] running development server')
+  /**
+   * Run Eleventy development server
+   *
+   * @param {Object} options - Serve options
+   * @param {boolean} [options.debug=false] - Enable debug output
+   * @param {number} [options.port] - Server port
+   * @param {boolean} [options.quiet=false] - Suppress output
+   * @returns {Promise<void>}
+   */
+  async serve(options = {}) {
+    const projectRoot = this.paths.getProjectRoot()
+    process.chdir(projectRoot)
+
+    console.info(`${LOG_PREFIX} running development server`)
 
     configureEleventyEnv({ mode: 'development', debug: options.debug })
 
-    const eleventy = await factory(options)
+    const eleventy =
+      await createEleventyInstance({ ...options, runMode: 'serve' })
+
+    // Initialize Eleventy before serving (required for eleventyServe)
+    await eleventy.init()
 
     await eleventy.serve(options.port)
   }
 }
+
+export { Quire11ty, createEleventyInstance, configureEleventyEnv }
