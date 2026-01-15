@@ -36,6 +36,8 @@ import paths from '#lib/project/index.js'
 
 const LOG_PREFIX = '[CLI:lib/11ty]'
 
+const LOG_PREFIX = '[CLI:lib/11ty]'
+
 /**
  * Configure environment variables required for Eleventy.
  *
