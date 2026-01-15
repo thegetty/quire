@@ -16,22 +16,14 @@ export default class PreviewCommand extends Command {
     name: 'preview',
     description: 'Run the development server and watch on file changes',
     summary: 'run the development server',
-    version: '1.0.0',
-    args: [
-      // [
-      //   '[formats...]', 'output formats',
-      //   {
-      //     choices: ['pdf', 'epub'],
-      //   }
-      // ],
-    ],
+    version: '1.1.0',
     options: [
       [ '-p', '--port <port>', 'configure development server port', 8080 ],
       [ '-q', '--quiet', 'run preview in silent mode' ],
       [ '-v', '--verbose', 'run preview with verbose console messages' ],
       [
-        '--11ty <module>', 'use the specified 11ty module', 'cli',
-        // { choices: ['api', 'cli'], default: 'cli' }
+        '--11ty <module>', 'use the specified 11ty module', 'api',
+        { choices: ['api', 'cli'], default: 'api' }
       ],
       [ '--debug', 'run preview with debug output to console' ],
     ],
@@ -46,12 +38,12 @@ export default class PreviewCommand extends Command {
       logger.debug('[CLI] Command \'%s\' called with arguments [%o] and options %o', this.name(), options)
     }
 
-    if (options['11ty'] === 'cli') {
-      logger.debug('[CLI] running eleventy using lib/11ty cli')
-      cli.serve(options)
-    } else {
+    if (options['11ty'] === 'api') {
       logger.debug('[CLI] running eleventy using lib/11ty api')
       api.serve(options)
+    } else {
+      logger.debug('[CLI] running eleventy using lib/11ty cli')
+      cli.serve(options)
     }
   }
 

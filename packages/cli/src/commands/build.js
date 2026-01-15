@@ -17,22 +17,14 @@ export default class BuildCommand extends Command {
     name: 'build',
     description: 'Generate publication outputs',
     summary: 'run build',
-    version: '1.0.0',
-    args: [
-      // [
-      //   '[formats...]', 'output formats',
-      //   {
-      //     choices: ['pdf', 'epub'],
-      //   }
-      // ],
-    ],
+    version: '1.1.0',
     options: [
       [ '-d', '--dry-run', 'run build without writing files' ],
       [ '-q', '--quiet', 'run build with no console messages' ],
       [ '-v', '--verbose', 'run build with verbose console messages' ],
       [
-        '--11ty <module>', 'use the specified 11ty module', 'cli',
-        // { choices: ['api', 'cli'], default: 'cli' }
+        '--11ty <module>', 'use the specified 11ty module', 'api',
+        { choices: ['api', 'cli'], default: 'api' }
       ],
       [ '--debug', 'run build with debug output to console' ],
     ],
@@ -47,12 +39,12 @@ export default class BuildCommand extends Command {
       logger.debug('[CLI] Command \'%s\' called with options %o', this.name(), options)
     }
 
-    if (options['11ty'] === 'cli') {
-      logger.debug('[CLI] running eleventy using lib/11ty cli')
-      cli.build(options)
-    } else {
+    if (options['11ty'] === 'api') {
       logger.debug('[CLI] running eleventy using lib/11ty api')
       api.build(options)
+    } else {
+      logger.debug('[CLI] running eleventy using lib/11ty cli')
+      cli.build(options)
     }
   }
 
