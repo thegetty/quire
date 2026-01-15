@@ -31,7 +31,9 @@ test('loadProjectConfig should log an error and exit when config file does not e
   })
 
   const mockLogger = { error: sandbox.stub() }
-  const mockExit = sandbox.stub(process, 'exit')
+  // Stub process.exit to throw so execution stops (mimics real exit behavior)
+  const exitError = new Error('process.exit called')
+  const mockExit = sandbox.stub(process, 'exit').throws(exitError)
 
   const { loadProjectConfig } = await esmock('./config.js', {
     'fs-extra': {
@@ -48,7 +50,7 @@ test('loadProjectConfig should log an error and exit when config file does not e
     }
   })
 
-  await loadProjectConfig('/project')
+  await t.throwsAsync(() => loadProjectConfig('/project'), { message: 'process.exit called' })
 
   t.true(mockLogger.error.called, 'should log error')
   t.true(mockLogger.error.firstCall.args[0].includes('config.yaml'), 'error should include config path')
