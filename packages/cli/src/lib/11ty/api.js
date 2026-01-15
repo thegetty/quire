@@ -87,33 +87,10 @@ const createEleventyInstance = async (options = {}) => {
   const modulePath = path.join(eleventyRoot, 'node_modules', '@11ty', 'eleventy', 'src', 'Eleventy.js')
   const { default: Eleventy } = await dynamicImport(modulePath)
 
-  // Set Eleventy passthrough copy options
-  // @see https://www.11ty.dev/docs/copy/#advanced-options
-  const copyOptions = {
-    debug: options.debug || false
-  }
-
   // Create Eleventy instance
   // @see https://github.com/11ty/eleventy/blob/src/Eleventy.js
   const eleventy = new Eleventy(input, output, {
     config: (eleventyConfig) => {
-      // Override addPassthroughCopy to use absolute system paths
-      // @see https://www.11ty.dev/docs/copy/#passthrough-file-copy
-      const addPassthroughCopy = eleventyConfig.addPassthroughCopy.bind(eleventyConfig)
-      eleventyConfig.addPassthroughCopy = (entry) => {
-        if (typeof entry === 'string') {
-          const filePath = path.resolve(entry)
-          return addPassthroughCopy(filePath, copyOptions)
-        } else {
-          entry = Object.fromEntries(
-            Object.entries(entry).map(([ src, dest ]) => {
-              return [ path.join(eleventyRoot, src), path.resolve(dest) ]
-            })
-          )
-          return addPassthroughCopy(entry, copyOptions)
-        }
-      }
-
       // Event callback when a build completes
       // @see https://www.11ty.dev/docs/events/#eleventy.after
       eleventyConfig.on('eleventy.after', async () => {
