@@ -102,7 +102,7 @@ export async function initStarter(starter, projectPath, options = {}) {
    */
   const { quire11tyVersion, starterVersion } = await getVersionsFromStarter(projectPath)
   const quireVersion = await latest(options.quireVersion || quire11tyVersion)
-  setVersion(projectPath, quireVersion)
+  setVersion(quireVersion, projectPath)
 
   /**
    * Write quire-11ty, quire-cli, starter versions to the version file

@@ -30,11 +30,34 @@ export function getVersion(projectPath) {
 /**
  * Sets the quire-11ty version for a project
  *
- * @param {string} projectPath - Absolute system path to the project root
+ * Updates the version file with the new quire-11ty version while
+ * preserving other metadata (cli version, starter info).
+ *
  * @param {string} version - A version identifier or distribution tag
+ * @param {string} [projectPath] - Absolute path to project root (defaults to cwd)
  */
-export function setVersion(projectPath, version) {
+export function setVersion(version, projectPath) {
+  projectPath = projectPath || paths.getProjectRoot()
   const projectName = path.basename(projectPath)
+  const versionFilePath = path.join(projectPath, VERSION_FILE)
+
+  // Read existing version info or create new
+  let versionInfo = {}
+  if (fs.existsSync(versionFilePath)) {
+    const content = fs.readFileSync(versionFilePath, { encoding: 'utf8' })
+    try {
+      versionInfo = JSON.parse(content)
+    } catch {
+      // Legacy format or invalid JSON, start fresh
+      versionInfo = {}
+    }
+  }
+
+  // Update the quire-11ty version
+  versionInfo.quire11ty = version
+
+  // Write updated version info
+  fs.writeFileSync(versionFilePath, JSON.stringify(versionInfo, null, 2))
   console.info(`${projectName} set to use quire-11ty@${version}`)
 }
 
