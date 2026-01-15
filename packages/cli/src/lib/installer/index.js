@@ -200,14 +200,15 @@ export async function installInProject(projectPath, quireVersion, options = {}) 
     return
   }
 
+  // Remove temporary 11ty install directory before committing
+  // to avoid including install artifacts in the commit
+  fs.rmSync(path.join(projectPath, temp11tyDirectory), { recursive: true })
+
   /**
    * Create an additional commit of new @thegetty/quire-11ty files in repository
    * Using '.' respects .gitignore and avoids attempting to add ignored directories
    */
   await git.add('.').commit('Adds `@thegetty/quire-11ty` files')
-
-  // Remove temporary 11ty install directory
-  fs.rmSync(path.join(projectPath, temp11tyDirectory), { recursive: true })
 }
 
 /**

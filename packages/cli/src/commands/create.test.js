@@ -59,8 +59,8 @@ test('create command should initialize starter and install quire', async (t) => 
 
   // Use esmock to replace imports
   const CreateCommand = await esmock('./create.js', {
-    '#src/lib/quire/index.js': {
-      quire: mockQuire
+    '#lib/installer/index.js': {
+      installer: mockQuire
     },
     '#src/lib/logger.js': {
       default: mockLogger
@@ -101,8 +101,8 @@ test('create command should use default starter from config when not provided', 
 
   // Use esmock to replace imports
   const CreateCommand = await esmock('./create.js', {
-    '#src/lib/quire/index.js': {
-      quire: mockQuire
+    '#lib/installer/index.js': {
+      installer: mockQuire
     },
     '#src/lib/logger.js': {
       default: mockLogger
@@ -141,8 +141,8 @@ test('create command should pass quire-version option to installInProject', asyn
 
   // Use esmock to replace imports
   const CreateCommand = await esmock('./create.js', {
-    '#src/lib/quire/index.js': {
-      quire: mockQuire
+    '#lib/installer/index.js': {
+      installer: mockQuire
     },
     '#src/lib/logger.js': {
       default: mockLogger
@@ -191,8 +191,8 @@ test('create command should handle initStarter errors gracefully', async (t) => 
 
   // Use esmock to replace imports
   const CreateCommand = await esmock('./create.js', {
-    '#src/lib/quire/index.js': {
-      quire: mockQuire
+    '#lib/installer/index.js': {
+      installer: mockQuire
     },
     '#src/lib/logger.js': {
       default: mockLogger
@@ -233,7 +233,7 @@ test('create command should pass through debug option', async (t) => {
 
   // Use esmock to replace imports
   const CreateCommand = await esmock('./create.js', {
-    '#src/lib/quire/index.js': { quire: mockQuire },
+    '#lib/installer/index.js': { installer: mockQuire },
     '#src/lib/logger.js': { default: mockLogger },
     'fs-extra': fs
   })
@@ -269,8 +269,8 @@ test('create command should pass quire-path option to methods', async (t) => {
 
   // Use esmock to replace imports
   const CreateCommand = await esmock('./create.js', {
-    '#src/lib/quire/index.js': {
-      quire: mockQuire
+    '#lib/installer/index.js': {
+      installer: mockQuire
     },
     '#src/lib/logger.js': {
       default: mockLogger
@@ -317,32 +317,31 @@ test('create command initial commit does not include temporary install artifacts
     install: sandbox.stub().resolves()
   }
 
-  // Mock Git class that captures filesystem state when methods are called
-  const MockGit = class {
-    constructor() {
-      this.add = sandbox.stub().callsFake(() => {
-        // Capture filesystem state at the moment add() is called
-        tempDirExistedAtAdd = fs.existsSync(tempDir)
-        return Promise.resolve()
-      })
-      this.commit = sandbox.stub().callsFake(() => {
-        // Capture filesystem state at the moment commit() is called
-        tempDirExistedAtCommit = fs.existsSync(tempDir)
-        return Promise.resolve()
-      })
-      this.rm = sandbox.stub().resolves()
-    }
+  // Mock git singleton that captures filesystem state when methods are called
+  const mockGit = {
+    add: sandbox.stub().callsFake(function() {
+      // Capture filesystem state at the moment add() is called
+      tempDirExistedAtAdd = fs.existsSync(tempDir)
+      return this
+    }),
+    commit: sandbox.stub().callsFake(function() {
+      // Capture filesystem state at the moment commit() is called
+      tempDirExistedAtCommit = fs.existsSync(tempDir)
+      return Promise.resolve()
+    }),
+    rm: sandbox.stub().callsFake(function() { return Promise.resolve() }),
+    cwd: sandbox.stub().callsFake(function() { return this }),
   }
 
   // Mock fs and git
   // Nota bene: Pass `vol` here as fs because memfs only provides cpSync there
-  const { quire } = await esmock('../lib/quire/index.js', {
+  const { installer } = await esmock('#lib/installer/index.js', {
     'fs-extra': vol,
     '#lib/npm/index.js': {
       default: mockNpm,
     },
     '#lib/git/index.js': {
-      Git: MockGit,
+      default: mockGit,
     },
     'execa': {
       // Mock tar extraction command
@@ -350,7 +349,7 @@ test('create command initial commit does not include temporary install artifacts
     },
   })
 
-  await quire.installInProject(projectRoot, '1.0.0')
+  await installer.installInProject(projectRoot, '1.0.0')
 
   // Verify that temp dir was removed BEFORE git add was called
   t.false(tempDirExistedAtAdd, '.temp directory should be removed before git add')
