@@ -70,6 +70,7 @@ const configureEleventyEnv = ({ mode = 'production', debug = false } = {}) => {
  * @param {boolean} [options.debug=false] - Enable debug output
  * @param {boolean} [options.quiet=false] - Suppress output
  * @param {string} [options.config] - Custom config path override
+ * @param {'build'|'serve'|'watch'} [options.runMode='build'] - Eleventy run mode
  * @returns {Promise<Eleventy>} Configured Eleventy instance
  */
 const createEleventyInstance = async (options = {}) => {
@@ -101,6 +102,7 @@ const createEleventyInstance = async (options = {}) => {
     },
     configPath: options.config || config,
     quietMode: options.quiet || false,
+    runMode: options.runMode || 'build',
   })
 
   return eleventy
@@ -162,7 +164,11 @@ class Quire11ty {
 
     configureEleventyEnv({ mode: 'development', debug: options.debug })
 
-    const eleventy = await createEleventyInstance(options)
+    const eleventy =
+      await createEleventyInstance({ ...options, runMode: 'serve' })
+
+    // Initialize Eleventy before serving (required for eleventyServe)
+    await eleventy.init()
 
     await eleventy.serve(options.port)
   }
