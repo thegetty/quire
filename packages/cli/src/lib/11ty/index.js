@@ -19,6 +19,7 @@
  * @module lib/11ty
  */
 import { Quire11ty } from './api.js'
+import cli from './cli.js'
 import paths, { Paths } from '#lib/project/index.js'
 
 /**
