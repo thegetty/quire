@@ -294,54 +294,67 @@ test('create command should pass quire-path option to methods', async (t) => {
   t.true(installCall.args[2] === options, 'installInProject should receive options with quire-path')
 })
 
-test('create command should remove temp dir and package artifacts', async (t) => {
+test('create command initial commit does not include temporary install artifacts', async (t) => {
   const { sandbox, fs, projectRoot, vol } = t.context
 
   // Setup project directory
   fs.mkdirSync(projectRoot)
 
+  // Track filesystem state at the time of git operations
+  let tempDirExistedAtAdd = null
+  let tempDirExistedAtCommit = null
+
+  const tempDir = path.join(projectRoot, '.temp')
+  const tarballPath = path.join(tempDir, 'thegetty-quire-11ty-1.0.0.tgz')
+
   // Mock npm façade to simulate npm pack behavior
   const mockNpm = {
     pack: sandbox.stub().callsFake(() => {
       // Simulate npm pack creating a tarball in .temp
-      fs.writeFileSync(path.join(projectRoot, '.temp', 'thegetty-quire-11ty-1.0.0.tgz'), '')
+      fs.writeFileSync(tarballPath, '')
     }),
     cacheClean: sandbox.stub().resolves(),
     install: sandbox.stub().resolves()
   }
 
-  // Mock fs (adding copySync) and git (with mocked chainable stubs)
+  // Mock Git class that captures filesystem state when methods are called
+  const MockGit = class {
+    constructor() {
+      this.add = sandbox.stub().callsFake(() => {
+        // Capture filesystem state at the moment add() is called
+        tempDirExistedAtAdd = fs.existsSync(tempDir)
+        return Promise.resolve()
+      })
+      this.commit = sandbox.stub().callsFake(() => {
+        // Capture filesystem state at the moment commit() is called
+        tempDirExistedAtCommit = fs.existsSync(tempDir)
+        return Promise.resolve()
+      })
+      this.rm = sandbox.stub().resolves()
+    }
+  }
+
+  // Mock fs and git
   // Nota bene: Pass `vol` here as fs because memfs only provides cpSync there
   const { quire } = await esmock('../lib/quire/index.js', {
     'fs-extra': vol,
     '#lib/npm/index.js': {
-      default: mockNpm
+      default: mockNpm,
     },
     '#lib/git/index.js': {
-      add: () => {
-        return {
-          commit: sandbox.stub()
-        }
-      },
-      cwd: () => {
-        return {
-          rm: () => {
-            return {
-              catch: sandbox.stub()
-            }
-          }
-        }
-      }
+      Git: MockGit,
     },
     'execa': {
       // Mock tar extraction command
-      execaCommand: sandbox.stub().resolves()
-    }
+      execaCommand: sandbox.stub().resolves(),
+    },
   })
 
   await quire.installInProject(projectRoot, '1.0.0')
 
-  // Check that neither the temp dir nor the tarball exist
-  t.false(fs.existsSync(path.join(projectRoot, '.temp')))
-  t.false(fs.existsSync(path.join(projectRoot, 'thegetty-quire-11ty-1.0.0.tgz')))
+  // Verify that temp dir was removed BEFORE git add was called
+  t.false(tempDirExistedAtAdd, '.temp directory should be removed before git add')
+
+  // Verify that temp dir was removed BEFORE git commit was called
+  t.false(tempDirExistedAtCommit, '.temp directory should be removed before git commit')
 })

@@ -1,11 +1,11 @@
+import { Git } from '#lib/git/index.js'
 import { IS_WINDOWS } from '#helpers/os-utils.js'
-import { chdir, cwd } from 'node:process'
+import { cwd } from 'node:process'
 import { execaCommand } from 'execa'
 import { fileURLToPath } from 'node:url'
 import { isEmpty } from '#helpers/is-empty.js'
 import config from '#lib/conf/config.js'
 import fs from 'fs-extra'
-import git from '#lib/git/index.js'
 import npm from '#lib/npm/index.js'
 import packageConfig from '#src/packageConfig.js'
 import path from 'node:path'
@@ -99,10 +99,12 @@ async function initStarter (starter, projectPath, options) {
    * Clone starter project repository
    * @todo pipe `git clone` status to stdout for better UX
    */
-  await git
-    .cwd(projectPath)
-    .clone(starter, '.')
-    .catch((error) => console.error('[CLI:error] ', error))
+  const repo = new Git(projectPath)
+  try {
+    await repo.clone(starter, '.')
+  } catch (error) {
+    console.error('[CLI:error] ', error)
+  }
 
   /**
    * Determine the quire-11ty version to use in the new project,
@@ -141,7 +143,9 @@ async function initStarter (starter, projectPath, options) {
    * Using '.' respects .gitignore and avoids attempting to add ignored directories
    * @todo use a localized string for the commit message
    */
-  await git.init().add('.').commit('Initial Commit')
+  await repo.init()
+  await repo.add('.')
+  await repo.commit('Initial Commit')
   return quireVersion
 }
 
@@ -167,10 +171,12 @@ async function installInProject(projectPath, quireVersion, options = {}) {
    * @TODO If a user runs quire eject at a later date we may want to merge their
    * package.json with the `quire-11ty` dev dependencies, scripts, etc
    */
-  await git
-    .cwd(projectPath)
-    .rm(['package.json'])
-    .catch((error) => console.error('[CLI:error] ', error))
+  const repo = new Git(projectPath)
+  try {
+    await repo.rm(['package.json'])
+  } catch (error) {
+    console.error('[CLI:error] ', error)
+  }
 
   const temp11tyDirectory = '.temp'
   const tempDir = path.join(projectPath,temp11tyDirectory)
@@ -214,15 +220,16 @@ async function installInProject(projectPath, quireVersion, options = {}) {
     return
   }
 
+  // Remove the temp install directories *before* staging files
+  fs.rmSync(path.join(projectPath, temp11tyDirectory), {recursive: true})
+
   /**
    * Create an additional commit of new `@thegetty/quire-11ty` files in repository
    * Using '.' respects .gitignore and avoids attempting to add ignored directories
    * @todo use a localized string for the commit message
    */
-  await git.add('.').commit('Adds `@thegetty/quire-11ty` files')
-
-  // remove temporary 11ty install directory
-  fs.rmSync(path.join(projectPath, temp11tyDirectory), {recursive: true})
+  await repo.add('.')
+  await repo.commit('Adds `@thegetty/quire-11ty` files')
 }
 
 /**
