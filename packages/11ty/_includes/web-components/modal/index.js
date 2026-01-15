@@ -48,8 +48,8 @@ class Modal extends LitElement {
 
   open (event) {
     this.currentId = this.getCurrentFigureId(event)
-    this.active = true
     this.updateLightboxCurrentId()
+    this.active = true
     this.disableScrolling()
   }
 
@@ -80,11 +80,15 @@ class Modal extends LitElement {
     })
   }
 
-  setupBackdropClick () {
+  setupCloseOutsideClick () {
     this.addEventListener('click', (event) => {
-      if (!this.active) return
-      const modalContainer = this.renderRoot.querySelector('.q-modal')
-      if (modalContainer) {
+      const clickedElement = event.target
+
+      const isImage = clickedElement.closest('.q-figure__image')
+      const isButton = clickedElement.closest('button')
+      const isCaption = clickedElement.closest('.q-lightbox-slides__caption-content')
+
+      if (!isImage && !isButton && !isCaption) {
         this.close()
       }
     })
