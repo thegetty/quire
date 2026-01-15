@@ -1,6 +1,7 @@
 import Command from '#src/Command.js'
 import logger from '#src/lib/logger.js'
 import { setVersion } from '#lib/project/index.js'
+import { latest } from '#lib/installer/index.js'
 import testcwd from '#helpers/test-cwd.js'
 
 /**
@@ -34,15 +35,24 @@ export default class VersionCommand extends Command {
   /**
    * Set the quire-11ty version for the current project
    *
+   * Validates the version against npm registry before setting.
+   * Supports exact versions, semver ranges, and 'latest'.
+   *
    * @param {string} version - The quire-11ty version to use
    * @param {Object} options - Command options
    */
-  action(version, options = {}) {
+  async action(version, options = {}) {
     if (options.debug) {
       logger.info('Command \'%s\' called with options %o', this.name, options)
     }
 
-    setVersion(version)
+    try {
+      // Validate and resolve the version against npm registry
+      const resolvedVersion = await latest(version)
+      setVersion(resolvedVersion)
+    } catch (error) {
+      logger.error(error.message)
+    }
   }
 
   preAction(command) {
