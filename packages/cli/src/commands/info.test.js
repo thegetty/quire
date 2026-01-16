@@ -75,8 +75,8 @@ test('info command should validate Quire project in preAction', async (t) => {
   const { mockLogger, mockTestcwd, mockConfig, mockExecaCommand, mockOs, mockFs } = t.context
 
   const InfoCommand = await esmock('./info.js', {
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd
@@ -109,8 +109,8 @@ test('info command should display project version information', async (t) => {
   const { sandbox, mockLogger, mockConfig, mockTestcwd, mockExecaCommand, mockOs, mockFs } = t.context
 
   const InfoCommand = await esmock('./info.js', {
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd
@@ -149,8 +149,8 @@ test('info command should display system information with debug flag', async (t)
   const { sandbox, mockLogger, mockConfig, mockTestcwd, mockExecaCommand, mockOs, mockFs } = t.context
 
   const InfoCommand = await esmock('./info.js', {
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd
@@ -195,8 +195,8 @@ test('info command should hide system details without debug flag', async (t) => 
   const { sandbox, mockLogger, mockConfig, mockTestcwd, mockExecaCommand, mockOs, mockFs } = t.context
 
   const InfoCommand = await esmock('./info.js', {
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd
@@ -242,8 +242,8 @@ test('info command should handle missing version file', async (t) => {
   })
 
   const InfoCommand = await esmock('./info.js', {
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd
@@ -287,8 +287,8 @@ test('info command should handle malformed version file', async (t) => {
   })
 
   const InfoCommand = await esmock('./info.js', {
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd
@@ -338,8 +338,8 @@ test('info command should read quire-11ty version from package.json', async (t) 
   })
 
   const InfoCommand = await esmock('./info.js', {
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd
@@ -372,8 +372,8 @@ test('info command should log debug information when debug flag is set', async (
   const { sandbox, mockLogger, mockConfig, mockTestcwd, mockExecaCommand, mockOs, mockFs } = t.context
 
   const InfoCommand = await esmock('./info.js', {
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd

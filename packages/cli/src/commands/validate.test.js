@@ -61,8 +61,8 @@ test('validate command should find and validate YAML files', async (t) => {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     'fs-extra': fs
   })
@@ -99,8 +99,8 @@ test('validate command should handle validation errors', async (t) => {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     'fs-extra': fs
   })
@@ -135,8 +135,8 @@ test('validate command should call testcwd in preAction', async (t) => {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     'fs-extra': fs
   })
@@ -177,8 +177,8 @@ test('validate command should filter YAML files correctly', async (t) => {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     'fs-extra': fs
   })
@@ -213,8 +213,8 @@ test('validate command should pass debug option through', async (t) => {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     'fs-extra': fs
   })

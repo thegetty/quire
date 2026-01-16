@@ -75,8 +75,8 @@ test('build command should call eleventy CLI with default options', async (t) =>
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     'fs-extra': fs
   })
@@ -134,8 +134,8 @@ test('build command should call eleventy API when 11ty option is "api"', async (
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     'fs-extra': fs
   })
@@ -186,8 +186,8 @@ test('build command should call clean with correct parameters in preAction', asy
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     'fs-extra': fs
   })
@@ -241,8 +241,8 @@ test('build command should pass options to eleventy build', async (t) => {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     'fs-extra': fs
   })

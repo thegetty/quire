@@ -183,8 +183,8 @@ test('epub command should pass debug option to library', async (t) => {
         getEpubDir: () => '_site/epub'
       }
     },
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     'fs-extra': fs,
     open: {
@@ -228,8 +228,8 @@ test('epub command should handle missing build output gracefully', async (t) => 
         getEpubDir: () => '_site/epub'
       }
     },
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     'fs-extra': fs,
     open: {

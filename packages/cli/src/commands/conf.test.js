@@ -45,8 +45,8 @@ test('conf command should display config path', async (t) => {
   const { sandbox, mockLogger, mockConfig } = t.context
 
   const ConfCommand = await esmock('./conf.js', {
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     }
   })
 
@@ -66,8 +66,8 @@ test('conf command should display config values', async (t) => {
   const { sandbox, mockLogger, mockConfig } = t.context
 
   const ConfCommand = await esmock('./conf.js', {
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     }
   })
 
@@ -85,8 +85,8 @@ test('conf command should hide internal config values by default', async (t) => 
   const { sandbox, mockLogger, mockConfig } = t.context
 
   const ConfCommand = await esmock('./conf.js', {
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     }
   })
 
@@ -106,8 +106,8 @@ test('conf command should show internal config values with debug flag', async (t
   const { sandbox, mockLogger, mockConfig } = t.context
 
   const ConfCommand = await esmock('./conf.js', {
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     }
   })
 
@@ -124,8 +124,8 @@ test('conf command options are output when debug flag is set', async (t) => {
   const { sandbox, mockLogger, mockConfig } = t.context
 
   const ConfCommand = await esmock('./conf.js', {
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     }
   })
 
