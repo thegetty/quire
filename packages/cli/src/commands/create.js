@@ -2,7 +2,7 @@ import Command from '#src/Command.js'
 import { Option } from 'commander'
 import fs from 'fs-extra'
 import logger from '#src/lib/logger.js'
-import { quire } from '#src/lib/quire/index.js'
+import { installer } from '#lib/installer/index.js'
 
 /**
  * Quire CLI `new` Command
@@ -52,7 +52,7 @@ export default class CreateCommand extends Command {
 
     if (!projectPath && !starter) {
       // @TODO implement this case of interactively selecting starter templates
-      // from available subtrees in `lib/quire` module
+      // from available subtrees in `lib/installer` module
 
       // await interactivePrompt()
       // list sub-repositories in '@thegetty/quire/packages/starters'
@@ -68,14 +68,23 @@ export default class CreateCommand extends Command {
        */
       let quireVersion
       try {
-        quireVersion = await quire.initStarter(starter, projectPath, options)
+        quireVersion = await installer.initStarter(starter, projectPath, options)
       } catch (error) {
         logger.error(error.message)
-        fs.removeSync(projectPath)
-        return
+        // Only remove directory if it wasn't pre-existing user content
+        if (!error.message.includes('not empty')) {
+          fs.removeSync(projectPath)
+        }
+        process.exit(1)
       }
 
-      await quire.installInProject(projectPath, quireVersion, options)
+      // Check if initStarter returned without a version
+      if (!quireVersion) {
+        fs.removeSync(projectPath)
+        process.exit(1)
+      }
+
+      await installer.installInProject(projectPath, quireVersion, options)
     }
   }
 }

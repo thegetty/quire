@@ -59,8 +59,8 @@ test('create command should initialize starter and install quire', async (t) => 
 
   // Use esmock to replace imports
   const CreateCommand = await esmock('./create.js', {
-    '#src/lib/quire/index.js': {
-      quire: mockQuire
+    '#lib/installer/index.js': {
+      installer: mockQuire
     },
     '#src/lib/logger.js': {
       default: mockLogger
@@ -101,8 +101,8 @@ test('create command should use default starter from config when not provided', 
 
   // Use esmock to replace imports
   const CreateCommand = await esmock('./create.js', {
-    '#src/lib/quire/index.js': {
-      quire: mockQuire
+    '#lib/installer/index.js': {
+      installer: mockQuire
     },
     '#src/lib/logger.js': {
       default: mockLogger
@@ -141,8 +141,8 @@ test('create command should pass quire-version option to installInProject', asyn
 
   // Use esmock to replace imports
   const CreateCommand = await esmock('./create.js', {
-    '#src/lib/quire/index.js': {
-      quire: mockQuire
+    '#lib/installer/index.js': {
+      installer: mockQuire
     },
     '#src/lib/logger.js': {
       default: mockLogger
@@ -189,10 +189,14 @@ test('create command should handle initStarter errors gracefully', async (t) => 
     })
   }
 
+  // Stub process.exit to throw so execution stops (mimics real exit behavior)
+  const exitError = new Error('process.exit called')
+  const mockExit = sandbox.stub(process, 'exit').throws(exitError)
+
   // Use esmock to replace imports
   const CreateCommand = await esmock('./create.js', {
-    '#src/lib/quire/index.js': {
-      quire: mockQuire
+    '#lib/installer/index.js': {
+      installer: mockQuire
     },
     '#src/lib/logger.js': {
       default: mockLogger
@@ -204,13 +208,14 @@ test('create command should handle initStarter errors gracefully', async (t) => 
   command.config = mockConfig
   command.name = sandbox.stub().returns('new')
 
-  // Run action - should handle error without throwing
-  await command.action('/new-project', 'starter-template', {})
+  // Run action - should exit with error
+  await t.throwsAsync(() => command.action('/new-project', 'starter-template', {}), { message: 'process.exit called' })
 
   t.true(mockQuire.initStarter.called, 'initStarter should be called')
   t.false(mockQuire.installInProject.called, 'installInProject should not be called when initStarter fails')
   t.true(fs.removeSync.called || !fs.existsSync('/new-project'), 'project directory should be removed on error')
   t.true(mockLogger.error.calledWith(error.message), 'error message should be logged')
+  t.true(mockExit.calledWith(1), 'should exit with code 1')
 })
 
 test('create command should pass through debug option', async (t) => {
@@ -233,7 +238,7 @@ test('create command should pass through debug option', async (t) => {
 
   // Use esmock to replace imports
   const CreateCommand = await esmock('./create.js', {
-    '#src/lib/quire/index.js': { quire: mockQuire },
+    '#lib/installer/index.js': { installer: mockQuire },
     '#src/lib/logger.js': { default: mockLogger },
     'fs-extra': fs
   })
@@ -269,8 +274,8 @@ test('create command should pass quire-path option to methods', async (t) => {
 
   // Use esmock to replace imports
   const CreateCommand = await esmock('./create.js', {
-    '#src/lib/quire/index.js': {
-      quire: mockQuire
+    '#lib/installer/index.js': {
+      installer: mockQuire
     },
     '#src/lib/logger.js': {
       default: mockLogger
@@ -318,25 +323,25 @@ test('create command initial commit does not include temporary install artifacts
   }
 
   // Mock Git class that captures filesystem state when methods are called
-  const MockGit = class {
-    constructor() {
-      this.add = sandbox.stub().callsFake(() => {
-        // Capture filesystem state at the moment add() is called
-        tempDirExistedAtAdd = fs.existsSync(tempDir)
-        return Promise.resolve()
-      })
-      this.commit = sandbox.stub().callsFake(() => {
-        // Capture filesystem state at the moment commit() is called
-        tempDirExistedAtCommit = fs.existsSync(tempDir)
-        return Promise.resolve()
-      })
-      this.rm = sandbox.stub().resolves()
+  class MockGit {
+    add() {
+      // Capture filesystem state at the moment add() is called
+      tempDirExistedAtAdd = fs.existsSync(tempDir)
+      return Promise.resolve()
+    }
+    commit() {
+      // Capture filesystem state at the moment commit() is called
+      tempDirExistedAtCommit = fs.existsSync(tempDir)
+      return Promise.resolve()
+    }
+    rm() {
+      return Promise.resolve()
     }
   }
 
   // Mock fs and git
   // Nota bene: Pass `vol` here as fs because memfs only provides cpSync there
-  const { quire } = await esmock('../lib/quire/index.js', {
+  const { installer } = await esmock('#lib/installer/index.js', {
     'fs-extra': vol,
     '#lib/npm/index.js': {
       default: mockNpm,
@@ -350,7 +355,7 @@ test('create command initial commit does not include temporary install artifacts
     },
   })
 
-  await quire.installInProject(projectRoot, '1.0.0')
+  await installer.installInProject(projectRoot, '1.0.0')
 
   // Verify that temp dir was removed BEFORE git add was called
   t.false(tempDirExistedAtAdd, '.temp directory should be removed before git add')
