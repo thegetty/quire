@@ -131,6 +131,8 @@ Creates instances based on runtime conditions:
 ### High-Level Component Architecture
 
 ```mermaid
+%% Nota bene: subgraph direction is not respected when there are external links
+%% see https://github.com/mermaid-js/mermaid/issues/2509
 graph TB
     subgraph Entry["Entry"]
         CLI[bin/cli.js] --> Main[main.js]
