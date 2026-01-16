@@ -85,7 +85,7 @@ The Quire CLI is a command-line interface for creating and managing Quire digita
 
 | Module | Purpose |
 |--------|---------|
-| `lib/logger` | Console abstraction for testability |
+| `lib/logger` | Logging facade with loglevel + chalk (log levels, colors, prefixes) |
 | `lib/i18n` | Internationalization (in development) |
 
 ## Helpers
@@ -104,7 +104,7 @@ The Quire CLI is a command-line interface for creating and managing Quire digita
 Used for global operations where a single instance is shared:
 - `config` - CLI configuration
 - `git` (default export) - global git operations
-- `logger` - console logging
+- `logger` - logging facade (also supports factory pattern for module-specific loggers)
 - `npm` - npm CLI operations
 
 ### Class Pattern
@@ -123,6 +123,7 @@ Provides unified interfaces over complex subsystems:
 Creates instances based on runtime conditions:
 - `commands/index.js` - dynamically imports and instantiates commands
 - `lib/11ty/cli.js` factory() - constructs Eleventy CLI arguments
+- `lib/logger` createLogger() - creates module-specific loggers with custom prefixes
 
 ---
 
@@ -435,7 +436,7 @@ graph TB
         MockFS[Mock fs-extra]
         MockNPM[Mock lib/npm]
         MockGit[Mock lib/git]
-        MockLogger[Mock lib/logger]
+        MockLogger[Mock lib/logger<br/>{ logger: mockLogger }]
     end
 
     subgraph RealCode["Real Code Under Test"]
@@ -460,7 +461,7 @@ const CreateCommand = await esmock('./create.js', {
   '#lib/installer/index.js': { installer: mockInstaller },
   '#lib/git/index.js': { Git: MockGit },
   '#lib/npm/index.js': { default: mockNpm },
-  '#src/lib/logger.js': { default: mockLogger },
+  '#lib/logger/index.js': { logger: mockLogger },
   'fs-extra': mockFs
 })
 ```
