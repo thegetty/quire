@@ -105,8 +105,9 @@ commands.forEach((command) => {
     })
   }
 
-  // subCommand.action((args) => action.apply(command, args))
-  subCommand.action(action)
+  // Bind the action to the command instance to preserve `this` context
+  // Without binding, `this.debug` and `this.logger` would be undefined
+  subCommand.action(action.bind(command))
 
   /**
    * Inject the CLI configuration into commands
