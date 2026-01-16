@@ -1,5 +1,4 @@
 import Command from '#src/Command.js'
-import { logger } from '#lib/logger/index.js'
 import npm from '#lib/npm/index.js'
 import { execaCommand } from 'execa'
 import fs from 'node:fs'
@@ -31,15 +30,7 @@ export default class InfoCommand extends Command {
   }
 
   async action(options, command) {
-    if (options.debug) {
-      logger.debug(
-        '[CLI] Command \'%s\' called with options %o',
-        this.name(),
-        options
-      )
-    } else {
-      logger.debug('[CLI] Command \'%s\' called', this.name())
-    }
+    this.debug('called with options %O', options)
 
     // Load filename from config with a default constraint if it doesn't exist
     const versionFileName = this.config.get('versionFile')
@@ -50,7 +41,7 @@ export default class InfoCommand extends Command {
 
       versionInfo = JSON.parse(versionFileData)      
     } catch (error) {
-      logger.warn(
+      this.logger.warn(
         `This project was generated with the quire-cli prior to version 1.0.0.rc-8. Updating the version file to the new format, though this project's version file will not contain specific starter version information.`
       )
 
@@ -118,7 +109,7 @@ export default class InfoCommand extends Command {
           .filter(({ debug }) => !debug || (options.debug && debug))
           .map(async ({ name, get }) => `${name} ${await get()}`)
       )
-      logger.info(`${title}\n ${versionList.join('\n ')}`)
+      this.logger.info(`${title}\n ${versionList.join('\n ')}`)
     }
   }
 

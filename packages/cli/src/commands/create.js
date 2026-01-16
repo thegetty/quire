@@ -1,7 +1,6 @@
 import Command from '#src/Command.js'
 import { Option } from 'commander'
 import fs from 'fs-extra'
-import { logger } from '#lib/logger/index.js'
 import { installer } from '#lib/installer/index.js'
 
 /**
@@ -44,9 +43,7 @@ export default class CreateCommand extends Command {
    * @return     {Promise}
    */
   async action(projectPath, starter, options = {}) {
-    if (options.debug) {
-      logger.info('Command \'%s\' called with options %o', CreateCommand.name, options)
-    }
+    this.debug('called with options %O', options)
 
     starter = starter || this.config.get('projectTemplate')
 
@@ -70,7 +67,7 @@ export default class CreateCommand extends Command {
       try {
         quireVersion = await installer.initStarter(starter, projectPath, options)
       } catch (error) {
-        logger.error(error.message)
+        this.logger.error(error.message)
         // Only remove directory if it wasn't pre-existing user content
         if (!error.message.includes('not empty')) {
           fs.removeSync(projectPath)
