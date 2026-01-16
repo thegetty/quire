@@ -34,6 +34,39 @@ const debug = createDebug('lib:pdf')
 debug('printer options: %O', opts)  // Only developers care about this
 ```
 
+## Command Integration
+
+The base `Command` class provides inherited `logger` and `debug` properties to all commands:
+
+```javascript
+// In a command class - use inherited properties
+export default class BuildCommand extends Command {
+  async action(options, command) {
+    // Debug output (via DEBUG env var)
+    this.debug('called with options %O', options)
+
+    // User-facing logger
+    this.logger.info('Building publication...')
+    this.logger.warn('Deprecated option used')
+    this.logger.error('Build failed')
+  }
+}
+```
+
+Each command automatically gets:
+- `this.logger` - A logger with prefix `commands:{name}` (e.g., `commands:build`)
+- `this.debug` - A debug instance with namespace `quire:commands:{name}`
+
+This ensures consistent prefixes and makes it easy to filter debug output:
+
+```bash
+# Debug all commands
+DEBUG=quire:commands:* quire build
+
+# Debug specific command
+DEBUG=quire:commands:build quire build
+```
+
 ## Usage
 
 ### Simple Usage (Singleton)

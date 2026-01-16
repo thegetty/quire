@@ -32,6 +32,12 @@ export default class MyCommand extends Command {
   }
 
   async action(args, options, command) {
+    // Use this.debug for developer debugging (controlled by DEBUG env var)
+    this.debug('called with options %O', options)
+
+    // Use this.logger for user-facing output
+    this.logger.info('Starting operation...')
+
     // Command implementation
   }
 
@@ -43,6 +49,29 @@ export default class MyCommand extends Command {
     // Optional: runs after action()
   }
 }
+```
+
+### Inherited Properties
+
+The base `Command` class provides these properties to all commands:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `this.logger` | Logger | User-facing output with prefix `commands:{name}` |
+| `this.debug` | Function | Developer debugging via `DEBUG` env var |
+| `this.config` | Conf | CLI configuration store |
+
+#### Using Logger vs Debug
+
+```javascript
+// Developer debugging - only shown when DEBUG=quire:commands:* is set
+this.debug('processing file: %s', filename)
+this.debug('options: %O', options)
+
+// User-facing output - always shown (unless silenced by log level)
+this.logger.info('Building PDF...')
+this.logger.warn('Deprecated option used')
+this.logger.error('Build failed: %s', error.message)
 ```
 
 ### File Organization
