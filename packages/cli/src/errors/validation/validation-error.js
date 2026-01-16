@@ -1,13 +1,21 @@
-export default class ValidationError extends Error {
-  constructor(message, {filePath, reason, code} = {}) {
-    super(message)
-    this.name = this.constructor.name
-    this.filePath = filePath
-    this.reason = reason
-    this.code = code
+import QuireError from '../quire-error.js'
 
-    if ('captureStackTrace' in Error) {
-      Error.captureStackTrace(this, this.constructor)
-    }
+/**
+ * Base validation error class (exit code: 4)
+ *
+ * Used for YAML validation, schema violations, and configuration errors.
+ * Maintains backward compatibility with existing properties (filePath, reason, code).
+ */
+export default class ValidationError extends QuireError {
+  constructor(message, { filePath, reason, code, suggestion, docsUrl } = {}) {
+    super(message, {
+      code,
+      exitCode: 4,
+      filePath,
+      suggestion: suggestion || (reason ? `Fix: ${reason}` : undefined),
+      docsUrl: docsUrl || `${QuireError.DOCS_BASE}/troubleshooting/`
+    })
+    // Maintain backward compatibility
+    this.reason = reason
   }
 }
