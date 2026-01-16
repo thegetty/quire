@@ -10,7 +10,7 @@ import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import yaml from 'js-yaml'
 import paths from './paths.js'
-import logger from '#src/lib/logger.js'
+import { logger } from '#lib/logger/index.js'
 
 /**
  * Load and validate Quire project configuration
