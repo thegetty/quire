@@ -1,6 +1,7 @@
 import { Argument, Command, Option } from 'commander'
 import commands from '#src/commands/index.js'
 import config from '#lib/conf/config.js'
+import { handleError } from '#lib/error/handler.js'
 import packageConfig from '#src/packageConfig.js'
 
 const { version } = packageConfig
@@ -105,8 +106,14 @@ commands.forEach((command) => {
     })
   }
 
-  // subCommand.action((args) => action.apply(command, args))
-  subCommand.action(action)
+  // Wrap action in centralized error handler
+  subCommand.action(async (...args) => {
+    try {
+      await action.apply(command, args)
+    } catch (error) {
+      handleError(error)
+    }
+  })
 
   /**
    * Inject the CLI configuration into commands
