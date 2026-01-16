@@ -44,15 +44,16 @@ test.afterEach.always((t) => {
 test('conf command should display config path', async (t) => {
   const { sandbox, mockLogger, mockConfig } = t.context
 
-  const ConfCommand = await esmock('./conf.js', {
+  const { default: ConfCommand } = await esmock('./conf.js', {}, {
     '#lib/logger/index.js': {
-      logger: mockLogger
+      default: () => mockLogger
     }
   })
 
   const command = new ConfCommand()
   command.config = mockConfig
-  command.name = sandbox.stub().returns('conf')
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
 
   await command.action(undefined, undefined, {})
 
@@ -65,15 +66,16 @@ test('conf command should display config path', async (t) => {
 test('conf command should display config values', async (t) => {
   const { sandbox, mockLogger, mockConfig } = t.context
 
-  const ConfCommand = await esmock('./conf.js', {
+  const { default: ConfCommand } = await esmock('./conf.js', {}, {
     '#lib/logger/index.js': {
-      logger: mockLogger
+      default: () => mockLogger
     }
   })
 
   const command = new ConfCommand()
   command.config = mockConfig
-  command.name = sandbox.stub().returns('conf')
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
 
   await command.action(undefined, undefined, {})
 
@@ -84,15 +86,16 @@ test('conf command should display config values', async (t) => {
 test('conf command should hide internal config values by default', async (t) => {
   const { sandbox, mockLogger, mockConfig } = t.context
 
-  const ConfCommand = await esmock('./conf.js', {
+  const { default: ConfCommand } = await esmock('./conf.js', {}, {
     '#lib/logger/index.js': {
-      logger: mockLogger
+      default: () => mockLogger
     }
   })
 
   const command = new ConfCommand()
   command.config = mockConfig
-  command.name = sandbox.stub().returns('conf')
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
 
   await command.action(undefined, undefined, {})
 
@@ -105,15 +108,16 @@ test('conf command should hide internal config values by default', async (t) => 
 test('conf command should show internal config values with debug flag', async (t) => {
   const { sandbox, mockLogger, mockConfig } = t.context
 
-  const ConfCommand = await esmock('./conf.js', {
+  const { default: ConfCommand } = await esmock('./conf.js', {}, {
     '#lib/logger/index.js': {
-      logger: mockLogger
+      default: () => mockLogger
     }
   })
 
   const command = new ConfCommand()
   command.config = mockConfig
-  command.name = sandbox.stub().returns('conf')
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
 
   await command.action(undefined, undefined, { debug: true })
 
@@ -123,24 +127,22 @@ test('conf command should show internal config values with debug flag', async (t
 test('conf command options are output when debug flag is set', async (t) => {
   const { sandbox, mockLogger, mockConfig } = t.context
 
-  const ConfCommand = await esmock('./conf.js', {
+  const mockDebug = sandbox.stub()
+
+  const { default: ConfCommand } = await esmock('./conf.js', {}, {
     '#lib/logger/index.js': {
-      logger: mockLogger
+      default: () => mockLogger
     }
   })
 
   const command = new ConfCommand()
   command.config = mockConfig
-  command.name = sandbox.stub().returns('conf')
+  command.logger = mockLogger
+  command.debug = mockDebug
 
   await command.action(undefined, undefined, { debug: true })
 
-  // Check that the debug message about command options was logged
-  const calls = mockLogger.info.getCalls()
-  const hasDebugMessage = calls.some((call) =>
-    call.args[0] &&
-    call.args[0].includes('Command') &&
-    call.args[0].includes('called with options')
-  )
-  t.true(hasDebugMessage)
+  // Check that debug was called with options
+  t.true(mockDebug.called, 'debug should be called')
+  t.true(mockDebug.calledWith('called with options %O', { debug: true }))
 })
