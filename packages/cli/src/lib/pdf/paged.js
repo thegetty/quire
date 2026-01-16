@@ -5,14 +5,13 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import { splitPdf } from './split.js'
+import { PdfGenerationError } from '#src/errors/index.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-// FIXME: This module swallows errors currently.
-
 /**
- * A façade module for interacting with Paged.js and pagedjs-cli  
+ * A façade module for interacting with Paged.js and pagedjs-cli
  * @see https://gitlab.coko.foundation/pagedjs/
  */
 export default async (publicationInput, coversInput, output, options = {}) => {
@@ -22,7 +21,7 @@ export default async (publicationInput, coversInput, output, options = {}) => {
    */
 
   let additionalScripts = []
-  
+
   const { pdfConfig } = options
 
   additionalScripts.push( path.join(__dirname, 'pagedPlugin.js') )
@@ -45,7 +44,7 @@ export default async (publicationInput, coversInput, output, options = {}) => {
   printer.on('page', (page,pageElement,breakToken) => {
     if (page.position === 0) {
       console.info(`[CLI:lib/pdf/pagedjs] loaded`)
-    } 
+    }
   })
 
   printer.on('rendered', (msg) => {
@@ -61,7 +60,6 @@ export default async (publicationInput, coversInput, output, options = {}) => {
    * @see
    *
    * @todo verify options before setting them
-   * @todo catch errors thrown by the printer
    */
   const pdfOptions = {
     outlineTags: options.outlineTags || ['h1'],
@@ -72,79 +70,81 @@ export default async (publicationInput, coversInput, output, options = {}) => {
     console.debug(`[CLI:lib/pdf/pagedjs] PDF options\n${optionsOutput}`)
   }
 
+  console.info(`[CLI:lib/pdf/pagedjs] printing ${publicationInput}`)
+
+  let file
   try {
-    console.info(`[CLI:lib/pdf/pagedjs] printing ${publicationInput}`)
+    file = await printer.pdf(publicationInput, pdfOptions)
+  } catch (error) {
+    throw new PdfGenerationError('Paged.js', 'PDF rendering', error.message)
+  }
 
-    const file = await printer.pdf(publicationInput, pdfOptions)
-      .catch((error) => console.error(error))
+  let pageMap
 
-    let pageMap
+  // Now it's printed, create the pageMap by running JS in the printer's context
+  let coversFile
 
-    // Now it's printed, create the pageMap by running JS in the printer's context
-    let coversFile
+  console.info(`[CLI:lib/pdf/pagedjs] generating page map`)
+  const pages = await printer.browser.pages()
 
-    console.info(`[CLI:lib/pdf/pagedjs] generating page map`)
-    const pages = await printer.browser.pages()
+  if (pages.length > 0) {
+    pageMap = await pages[pages.length - 1].evaluate(() => {
+      // Retrieves the pageMap from our plugin
+      return window.pageMap ?? {} // eslint-disable-line no-undef
+    })
+  }
 
-    if (pages.length > 0) {
-      pageMap = await pages[pages.length - 1].evaluate(() => {
+  if ( pdfConfig?.pagePDF?.coverPage===true && fs.existsSync(coversInput) ) {
+    console.info(`[CLI:lib/pdf/pagedjs] printing ${coversInput}`)
+
+    const coverPrinter = new Printer(printerOptions)
+
+    try {
+      coversFile = await coverPrinter.pdf(coversInput, pdfOptions)
+    } catch (error) {
+      throw new PdfGenerationError('Paged.js', 'cover PDF rendering', error.message)
+    }
+
+    const coverPages = await coverPrinter.browser.pages()
+
+    if (coverPages.length > 0) {
+      const coversMap = await coverPages[coverPages.length - 1].evaluate(() => {
         // Retrieves the pageMap from our plugin
         return window.pageMap ?? {} // eslint-disable-line no-undef
       })
-    }
 
-    if ( pdfConfig?.pagePDF?.coverPage===true && fs.existsSync(coversInput) ) {
-      console.info(`[CLI:lib/pdf/pagedjs] printing ${coversInput}`)
-
-      const coverPrinter = new Printer(printerOptions)
-
-      coversFile = await coverPrinter.pdf(coversInput, pdfOptions)
-        .catch((error) => console.error(error))
-
-      const coverPages = await coverPrinter.browser.pages()
-
-      if (coverPages.length > 0) {
-        const coversMap = await coverPages[coverPages.length - 1].evaluate(() => {
-          // Retrieves the pageMap from our plugin
-          return window.pageMap ?? {} // eslint-disable-line no-undef
-        })
-
-        Object.values(coversMap).forEach( cov => {
-          if (cov.id in pageMap) {
-            pageMap[cov.id].coverPage = cov.startPage           
-          }
-        })
-
-      }
-
-      coverPrinter.close()
-    }      
-
-    // Leave the printer open for debug logs
-    if (!options.debug) {
-      printer.close()    
-    }
-
-    if (file && output) {
-      console.info(`[CLI:lib/pdf/pagedjs] writing file(s)`)
-
-      const { dir } = path.parse(output)
-      if (!fs.existsSync(dir)) { 
-        fs.mkdirsSync(dir)
-      }
-
-      await fs.promises.writeFile(output, file)
-        .catch((error) => console.error(error))
-
-      const files = await splitPdf(file,coversFile,pageMap,options.pdfConfig)
-
-      Object.entries(files).forEach( async ([filePath,pagePdf]) => {
-        await fs.promises.writeFile(filePath,pagePdf)
-          .catch((error) => console.error(error))
+      Object.values(coversMap).forEach( cov => {
+        if (cov.id in pageMap) {
+          pageMap[cov.id].coverPage = cov.startPage
+        }
       })
+
     }
 
-  } catch (ERR_FILE_NOT_FOUND) {
-    console.error(`[CLI:lib/pdf/pagedjs] file not found ${publicationInput}`)
+    coverPrinter.close()
+  }
+
+  // Leave the printer open for debug logs
+  if (!options.debug) {
+    printer.close()
+  }
+
+  if (file && output) {
+    console.info(`[CLI:lib/pdf/pagedjs] writing file(s)`)
+
+    const { dir } = path.parse(output)
+    if (!fs.existsSync(dir)) {
+      fs.mkdirsSync(dir)
+    }
+
+    await fs.promises.writeFile(output, file)
+
+    const files = await splitPdf(file,coversFile,pageMap,options.pdfConfig)
+
+    await Promise.all(
+      Object.entries(files).map(([filePath, pagePdf]) =>
+        fs.promises.writeFile(filePath, pagePdf)
+      )
+    )
   }
 }
