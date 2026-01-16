@@ -11,7 +11,7 @@ import { execaCommand } from 'execa'
 import { fileURLToPath } from 'node:url'
 import { isEmpty } from '#helpers/is-empty.js'
 import fs from 'fs-extra'
-import git from '#lib/git/index.js'
+import { Git } from '#lib/git/index.js'
 import npm from '#lib/npm/index.js'
 import packageConfig from '#src/packageConfig.js'
 import path from 'node:path'
@@ -88,9 +88,8 @@ export async function initStarter(starter, projectPath, options = {}) {
   /**
    * Clone starter project repository
    */
-  await git
-    .cwd(projectPath)
-    .clone(starter, '.')
+  const repo = new Git(projectPath)
+  await repo.clone(starter, '.')
 
   /**
    * Determine the quire-11ty version to use in the new project,
@@ -126,7 +125,9 @@ export async function initStarter(starter, projectPath, options = {}) {
    * Create an initial commit of files in new repository
    * Using '.' respects .gitignore and avoids attempting to add ignored directories
    */
-  await git.init().add('.').commit('Initial Commit')
+  await repo.init()
+  await repo.add('.')
+  await repo.commit('Initial Commit')
   return quireVersion
 }
 
@@ -151,10 +152,12 @@ export async function installInProject(projectPath, quireVersion, options = {}) 
    * Delete the starter project package configuration so that it can be replaced
    * with the @thegetty/quire-11ty configuration
    */
-  await git
-    .cwd(projectPath)
-    .rm(['package.json'])
-    .catch((error) => console.error('[CLI:installer] ', error))
+  const repo = new Git(projectPath)
+  try {
+    await repo.rm(['package.json'])
+  } catch (error) {
+    console.error('[CLI:installer] ', error)
+  }
 
   const temp11tyDirectory = '.temp'
   const tempDir = path.join(projectPath, temp11tyDirectory)
@@ -206,7 +209,8 @@ export async function installInProject(projectPath, quireVersion, options = {}) 
    * Create an additional commit of new @thegetty/quire-11ty files in repository
    * Using '.' respects .gitignore and avoids attempting to add ignored directories
    */
-  await git.add('.').commit('Adds `@thegetty/quire-11ty` files')
+  await repo.add('.')
+  await repo.commit('Adds `@thegetty/quire-11ty` files')
 }
 
 /**

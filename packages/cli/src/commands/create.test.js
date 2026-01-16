@@ -322,20 +322,21 @@ test('create command initial commit does not include temporary install artifacts
     install: sandbox.stub().resolves()
   }
 
-  // Mock git singleton that captures filesystem state when methods are called
-  const mockGit = {
-    add: sandbox.stub().callsFake(function() {
+  // Mock Git class that captures filesystem state when methods are called
+  class MockGit {
+    add() {
       // Capture filesystem state at the moment add() is called
       tempDirExistedAtAdd = fs.existsSync(tempDir)
-      return this
-    }),
-    commit: sandbox.stub().callsFake(function() {
+      return Promise.resolve()
+    }
+    commit() {
       // Capture filesystem state at the moment commit() is called
       tempDirExistedAtCommit = fs.existsSync(tempDir)
       return Promise.resolve()
-    }),
-    rm: sandbox.stub().callsFake(function() { return Promise.resolve() }),
-    cwd: sandbox.stub().callsFake(function() { return this }),
+    }
+    rm() {
+      return Promise.resolve()
+    }
   }
 
   // Mock fs and git
@@ -346,7 +347,7 @@ test('create command initial commit does not include temporary install artifacts
       default: mockNpm,
     },
     '#lib/git/index.js': {
-      default: mockGit,
+      Git: MockGit,
     },
     'execa': {
       // Mock tar extraction command
