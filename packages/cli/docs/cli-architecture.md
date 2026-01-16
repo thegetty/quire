@@ -132,65 +132,34 @@ Creates instances based on runtime conditions:
 
 ```mermaid
 graph TB
-    subgraph Entry["Entry Layer"]
-        CLI[bin/cli.js]
-        Main[src/main.js]
-        Cmd[src/Command.js]
+    subgraph Entry["Entry"]
+        CLI[bin/cli.js] --> Main[main.js]
+        Main --> Cmd[Command.js]
     end
 
-    subgraph Commands["Command Layer"]
-        Create[create]
-        Build[build]
-        Preview[preview]
-        PDF[pdf]
-        EPUB[epub]
-        Clean[clean]
-        Info[info]
-        Validate[validate]
-        Version[version]
-        Conf[conf]
+    subgraph Commands["Commands"]
+        direction LR
+        C1[create<br/>build<br/>preview]
+        C2[pdf<br/>epub<br/>clean]
+        C3[info<br/>validate<br/>version]
     end
 
-    subgraph Libraries["Library Layer"]
-        Installer[lib/installer]
-        Project[lib/project]
-        Eleventy[lib/11ty]
-        PDFLib[lib/pdf]
-        EPUBLib[lib/epub]
-        NPM[lib/npm]
-        Git[lib/git]
-        Config[lib/conf]
-        Logger[lib/logger]
+    subgraph Libraries["Libraries"]
+        direction LR
+        L1[installer<br/>project<br/>11ty]
+        L2[pdf<br/>epub<br/>conf]
+        L3[npm<br/>git<br/>logger]
     end
 
-    subgraph Helpers["Helper Layer"]
-        CleanHelper[helpers/clean]
-        TestCwd[helpers/test-cwd]
-        OSUtils[helpers/os-utils]
-        IsEmpty[helpers/is-empty]
-        Which[helpers/which]
+    subgraph Helpers["Helpers"]
+        direction LR
+        H1[clean<br/>test-cwd]
+        H2[os-utils<br/>is-empty<br/>which]
     end
 
-    CLI --> Main
-    Main --> Cmd
-    Main --> Commands
-
-    Create --> Installer
-    Build --> Eleventy
-    Preview --> Eleventy
-    PDF --> PDFLib
-    EPUB --> EPUBLib
-    Clean --> CleanHelper
-    Info --> NPM
-    Validate --> Project
-    Version --> Installer
-
-    Installer --> Git
-    Installer --> NPM
-    Installer --> Project
-    Eleventy --> Project
-    PDFLib --> Project
-    EPUBLib --> Project
+    Entry --> Commands
+    Commands --> Libraries
+    Libraries --> Helpers
 ```
 
 ### Project Module Structure
