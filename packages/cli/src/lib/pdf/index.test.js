@@ -1,4 +1,5 @@
 import esmock from 'esmock'
+import path from 'node:path'
 import sinon from 'sinon'
 import test from 'ava'
 
@@ -284,7 +285,7 @@ test('generatePdf uses pdf config for output path when available', async (t) => 
 
   const output = await generatePdf.default({ lib: 'pagedjs' })
 
-  t.is(output, '/project/_site/_downloads/my-publication.pdf')
+  t.is(output, path.join('/project', '_site', '_downloads', 'my-publication.pdf'))
 })
 
 test('generatePdf uses fallback output path when no pdf config', async (t) => {
@@ -319,7 +320,7 @@ test('generatePdf uses fallback output path when no pdf config', async (t) => {
 
   const output = await generatePdf.default({ lib: 'pagedjs' })
 
-  t.is(output, '/project/pagedjs.pdf')
+  t.is(output, path.join('/project', 'pagedjs.pdf'))
 })
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -365,9 +366,9 @@ test('generatePdf passes correct arguments to PDF library', async (t) => {
 
   t.true(mockPdfLib.calledOnce)
   const [input, covers, output, options] = mockPdfLib.firstCall.args
-  t.is(input, '/project/_site/pdf.html')
-  t.is(covers, '/project/_site/pdf-covers.html')
-  t.is(output, '/project/_site/_downloads/publication.pdf')
+  t.is(input, path.join('/project', '_site', 'pdf.html'))
+  t.is(covers, path.join('/project', '_site', 'pdf-covers.html'))
+  t.is(output, path.join('/project', '_site', '_downloads', 'publication.pdf'))
   t.true(options.debug)
   t.deepEqual(options.pdfConfig, pdfConfig)
 })
