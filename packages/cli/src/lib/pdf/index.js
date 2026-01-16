@@ -4,6 +4,7 @@ import path from 'node:path'
 import fs from 'fs-extra'
 import paths, { loadProjectConfig } from '#lib/project/index.js'
 import { logger } from '#lib/logger/index.js'
+import { InvalidPdfLibraryError, MissingBuildOutputError } from '#src/errors/index.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -48,8 +49,7 @@ export default async function generatePdf(options = {}) {
   const lib = resolveLibrary(libName)
 
   if (!lib) {
-    logger.error(`[CLI:lib/pdf] Unrecognized PDF library '${libName}'`)
-    process.exit(1)
+    throw new InvalidPdfLibraryError(libName)
   }
 
   const projectRoot = paths.getProjectRoot()
@@ -60,11 +60,7 @@ export default async function generatePdf(options = {}) {
   const coversInput = path.join(projectRoot, outputDir, 'pdf-covers.html')
 
   if (!fs.existsSync(publicationInput)) {
-    logger.error(
-      `Unable to find PDF input at '${publicationInput}'\n` +
-      `Please first run the 'quire build' command.`
-    )
-    process.exit(1)
+    throw new MissingBuildOutputError('pdf.html', publicationInput)
   }
 
   const output = getOutputPath(projectRoot, outputDir, config.pdf, libName)

@@ -2,6 +2,7 @@ import { execa } from 'execa'
 import fs from 'node:fs'
 import path from 'node:path'
 import paths from '#lib/project/index.js'
+import { BuildFailedError } from '#src/errors/index.js'
 
 /**
  * A factory function to configure an Eleventy CLI command
@@ -95,7 +96,7 @@ export default {
     await build
 
     if (build.exitCode !== 0) {
-      process.exit(build.exitCode)
+      throw new BuildFailedError(`Eleventy exited with code ${build.exitCode}`)
     }
   },
 
