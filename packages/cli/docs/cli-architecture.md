@@ -128,7 +128,7 @@ Creates instances based on runtime conditions:
 
 ## Appendix A: Component Diagrams
 
-### A.1 High-Level Component Architecture
+### High-Level Component Architecture
 
 ```mermaid
 graph TB
@@ -193,7 +193,7 @@ graph TB
     EPUBLib --> Project
 ```
 
-### A.2 Project Module Structure
+### Project Module Structure
 
 ```mermaid
 graph TB
@@ -223,66 +223,9 @@ graph TB
     Version --> |setVersion| FS
 ```
 
-### A.3 External Process Façades
-
-```mermaid
-graph LR
-    subgraph Facades["Process Facades"]
-        NPM[lib/npm<br/>Npm class]
-        Git[lib/git<br/>Git class]
-    end
-
-    subgraph External["External Processes"]
-        NPMProc[npm CLI]
-        GitProc[git CLI]
-    end
-
-    NPM --> |execa| NPMProc
-    Git --> |execa| GitProc
-
-    NPM --> |init| NPMProc
-    NPM --> |install| NPMProc
-    NPM --> |pack| NPMProc
-    NPM --> |view| NPMProc
-
-    Git --> |clone| GitProc
-    Git --> |init| GitProc
-    Git --> |add| GitProc
-    Git --> |commit| GitProc
-    Git --> |rm| GitProc
-```
-
-### A.4 Output Generation Backends
-
-```mermaid
-graph TB
-    subgraph PDF["lib/pdf"]
-        PDFIndex[index.js<br/>Facade]
-        Paged[paged.js<br/>Paged.js backend]
-        Prince[prince.js<br/>PrinceXML backend]
-        Split[split.js]
-    end
-
-    subgraph EPUB["lib/epub"]
-        EPUBIndex[index.js<br/>Facade]
-        EPUBjs[epub.js<br/>EPUB.js backend]
-        Pandoc[pandoc.js<br/>Pandoc backend]
-    end
-
-    PDFIndex --> |lib=paged| Paged
-    PDFIndex --> |lib=prince| Prince
-    Paged --> Split
-    Prince --> Split
-
-    EPUBIndex --> |lib=epubjs| EPUBjs
-    EPUBIndex --> |lib=pandoc| Pandoc
-```
-
----
-
 ## Appendix B: Data Flow Diagrams
 
-### B.1 Project Creation Flow (`quire new`)
+### Project Creation Flow (`quire new`)
 
 ```mermaid
 sequenceDiagram
@@ -333,7 +276,7 @@ sequenceDiagram
     CLI-->>User: Project created
 ```
 
-### B.2 Build Flow (`quire build`)
+### Build Flow (`quire build`)
 
 ```mermaid
 sequenceDiagram
@@ -377,7 +320,7 @@ sequenceDiagram
     CLI-->>User: Build complete
 ```
 
-### B.3 PDF Generation Flow (`quire pdf`)
+### PDF Generation Flow (`quire pdf`)
 
 ```mermaid
 sequenceDiagram
@@ -417,7 +360,7 @@ sequenceDiagram
     CLI-->>User: PDF generated
 ```
 
-### B.4 Validation Flow (`quire validate`)
+### Validation Flow (`quire validate`)
 
 ```mermaid
 sequenceDiagram
@@ -465,127 +408,9 @@ sequenceDiagram
 
 ---
 
-## Appendix C: Module Dependency Graph
+## Appendix C: Module Dependencies
 
-### C.1 Complete Dependency Graph
-
-```mermaid
-graph TB
-    subgraph Commands
-        create[create.js]
-        build[build.js]
-        preview[preview.js]
-        pdf[pdf.js]
-        epub[epub.js]
-        clean[clean.js]
-        info[info.js]
-        validate[validate.js]
-        version[version.js]
-        conf[conf.js]
-    end
-
-    subgraph CoreLibs["Core Libraries"]
-        installer[lib/installer]
-        project[lib/project]
-        eleventy[lib/11ty]
-        pdfLib[lib/pdf]
-        epubLib[lib/epub]
-        cliConf[lib/conf]
-    end
-
-    subgraph Facades["Process Facades"]
-        npm[lib/npm]
-        git[lib/git]
-    end
-
-    subgraph Utils["Utilities"]
-        logger[lib/logger]
-        i18n[lib/i18n]
-    end
-
-    subgraph Helpers
-        cleanHelper[helpers/clean]
-        testCwd[helpers/test-cwd]
-        osUtils[helpers/os-utils]
-        isEmpty[helpers/is-empty]
-        which[helpers/which]
-    end
-
-    subgraph ProjectSub["lib/project submodules"]
-        paths[paths.js]
-        config[config.js]
-        detect[detect.js]
-        versionMod[version.js]
-    end
-
-    %% Command dependencies
-    create --> installer
-    create --> logger
-
-    build --> eleventy
-    build --> cleanHelper
-    build --> testCwd
-
-    preview --> eleventy
-    preview --> testCwd
-
-    pdf --> pdfLib
-    pdf --> testCwd
-
-    epub --> epubLib
-    epub --> testCwd
-
-    clean --> cleanHelper
-    clean --> testCwd
-    clean --> project
-
-    info --> npm
-    info --> project
-    info --> testCwd
-
-    validate --> project
-    validate --> testCwd
-
-    version --> installer
-    version --> project
-    version --> testCwd
-
-    conf --> cliConf
-
-    %% Library dependencies
-    installer --> git
-    installer --> npm
-    installer --> project
-
-    eleventy --> project
-    eleventy --> osUtils
-
-    pdfLib --> project
-    pdfLib --> osUtils
-
-    epubLib --> project
-    epubLib --> osUtils
-
-    %% Project submodule structure
-    project --> paths
-    project --> config
-    project --> detect
-    project --> versionMod
-
-    %% Helper dependencies
-    testCwd --> detect
-    cleanHelper --> project
-
-    %% Facade dependencies
-    npm --> which
-    git --> which
-
-    %% Cross-cutting
-    installer -.-> logger
-    eleventy -.-> logger
-```
-
-### C.2 Dependency Matrix
+### Dependency Matrix
 
 | Module | Dependencies |
 |--------|--------------|
@@ -606,7 +431,7 @@ graph TB
 | `npm` | helpers/which, execa |
 | `git` | helpers/which, execa |
 
-### C.3 Import Alias Reference
+### Import Alias Reference
 
 The CLI uses subpath imports defined in `package.json`:
 
@@ -620,14 +445,14 @@ The CLI uses subpath imports defined in `package.json`:
 
 ## Appendix D: Testing Architecture
 
-### D.1 Test File Conventions
+### Test File Conventions
 
 | Pattern | Purpose |
 |---------|---------|
 | `*.spec.js` | Unit tests (command registration, API surface) |
 | `*.test.js` | Integration tests (full command execution with mocks) |
 
-### D.2 Mocking Strategy
+### Mocking Strategy
 
 ```mermaid
 graph TB
@@ -656,7 +481,7 @@ graph TB
     Command --> Lib
 ```
 
-### D.3 Test Example Pattern
+### Test Example Pattern
 
 ```javascript
 // Example: Mocking for create.test.js
