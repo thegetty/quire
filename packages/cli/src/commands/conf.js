@@ -1,5 +1,5 @@
 import Command from '#src/Command.js'
-import logger from '#src/lib/logger.js'
+import { logger } from '#lib/logger/index.js'
 
 /**
  * Quire CLI `conf` Command

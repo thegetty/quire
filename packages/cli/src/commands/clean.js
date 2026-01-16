@@ -1,5 +1,5 @@
 import Command from '#src/Command.js'
-import logger from '#src/lib/logger.js'
+import { logger } from '#lib/logger/index.js'
 import { clean } from '#helpers/clean.js'
 import paths from '#lib/project/index.js'
 import testcwd from '#helpers/test-cwd.js'

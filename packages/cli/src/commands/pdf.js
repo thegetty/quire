@@ -1,7 +1,7 @@
 import Command from '#src/Command.js'
 import generatePdf from '#lib/pdf/index.js'
 import open from 'open'
-import logger from '#src/lib/logger.js'
+import { logger } from '#lib/logger/index.js'
 
 /**
  * Quire CLI `pdf` Command
