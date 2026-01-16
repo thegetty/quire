@@ -1,6 +1,7 @@
 import { dynamicImport } from '#helpers/os-utils.js'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
+import { InvalidEpubLibraryError } from '#src/errors/index.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -27,8 +28,7 @@ export default async (name = 'epubjs', options = {}) => {
       break
     }
     default:
-      console.error(`[CLI:lib/pdf] Unrecognized EPUB library '${name}'`)
-      return
+      throw new InvalidEpubLibraryError(name)
   }
 
   const { default: epubLib } = await dynamicImport(lib.path)

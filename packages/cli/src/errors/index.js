@@ -28,6 +28,7 @@ export {
 // Output errors (exit code: 5)
 export {
   EpubGenerationError,
+  InvalidEpubLibraryError,
   InvalidPdfLibraryError,
   MissingBuildOutputError,
   PdfGenerationError,

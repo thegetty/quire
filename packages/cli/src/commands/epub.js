@@ -5,6 +5,7 @@ import fs from 'fs-extra'
 import libEpub from '#lib/epub/index.js'
 import open from 'open'
 import path from 'node:path'
+import { MissingBuildOutputError } from '#src/errors/index.js'
 
 /**
  * Quire CLI `build epub` Command
@@ -43,8 +44,7 @@ export default class EpubCommand extends Command {
     const input = path.join(projectRoot, paths.getEpubDir())
 
     if (!fs.existsSync(input)) {
-      logger.error(`Unable to find Epub input at ${input}\nPlease first run the 'quire build' command.`)
-      return
+      throw new MissingBuildOutputError('epub', input)
     }
 
     const output = path.join(projectRoot, `${options.lib}.epub`)

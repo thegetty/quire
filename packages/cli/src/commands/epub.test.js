@@ -2,6 +2,7 @@ import test from 'ava'
 import { Volume, createFsFromVolume } from 'memfs'
 import sinon from 'sinon'
 import esmock from 'esmock'
+import { MissingBuildOutputError } from '#src/errors/index.js'
 
 test.beforeEach((t) => {
   // Create sinon sandbox for mocking
@@ -240,8 +241,11 @@ test('epub command should handle missing build output gracefully', async (t) => 
   const command = new EPUBCommand()
   command.name = sandbox.stub().returns('epub')
 
-  // Run action - should return early when input doesn't exist
-  await command.action({ lib: 'epubjs' }, command)
+  // Run action - should throw MissingBuildOutputError when input doesn't exist
+  await t.throwsAsync(
+    () => command.action({ lib: 'epubjs' }, command),
+    { instanceOf: MissingBuildOutputError }
+  )
 
   t.false(mockEpubGenerator.called, 'EPUB generator should not be called when input is missing')
 })
