@@ -59,7 +59,18 @@ const styles = {
 }
 
 /**
+ * Environment variable for log level configuration
+ * Set by CLI startup from config, can be overridden by CLI flags
+ */
+export const LOG_LEVEL_ENV_VAR = 'QUIRE_LOG_LEVEL'
+
+/**
  * Resolve log level from various sources
+ *
+ * Priority order:
+ * 1. Explicit level parameter (for createLogger calls with specific level)
+ * 2. QUIRE_LOG_LEVEL environment variable (set by CLI from config/flags)
+ * 3. Default to 'info'
  *
  * @param {string|number} [level] - Explicit level override
  * @returns {number} Numeric log level
@@ -71,14 +82,14 @@ function resolveLevel(level) {
     return LOG_LEVELS[level] ?? LOG_LEVELS.info
   }
 
-  // Try to read from config (lazy import to avoid circular deps)
-  try {
-    // Dynamic import would be async, so we check if config module is available
-    // For now, default to 'info' - config integration will be added via setLevel
-    return LOG_LEVELS.info
-  } catch {
-    return LOG_LEVELS.info
+  // Check environment variable (set by CLI startup from config)
+  const envVar = process.env[LOG_LEVEL_ENV_VAR]
+  if (envVar) {
+    return LOG_LEVELS[envVar] ?? LOG_LEVELS.info
   }
+
+  // Default to info
+  return LOG_LEVELS.info
 }
 
 /**

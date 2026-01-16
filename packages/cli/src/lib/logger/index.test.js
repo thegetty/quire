@@ -1,6 +1,6 @@
 import sinon from 'sinon'
 import test from 'ava'
-import createLogger, { logger, LOG_LEVELS } from './index.js'
+import createLogger, { logger, LOG_LEVELS, LOG_LEVEL_ENV_VAR } from './index.js'
 
 /**
  * Logger Module Integration Tests
@@ -232,4 +232,93 @@ test('special characters in prefix are allowed', (t) => {
 test('undefined level defaults to info', (t) => {
   const log = createLogger('test:undefined')
   t.is(log.getLevel(), LOG_LEVELS.info)
+})
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Environment variable tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+test('LOG_LEVEL_ENV_VAR constant is exported', (t) => {
+  t.is(LOG_LEVEL_ENV_VAR, 'QUIRE_LOG_LEVEL')
+})
+
+test.serial('logger reads level from QUIRE_LOG_LEVEL env var', async (t) => {
+  const originalEnv = process.env[LOG_LEVEL_ENV_VAR]
+
+  try {
+    // Set env var to debug
+    process.env[LOG_LEVEL_ENV_VAR] = 'debug'
+
+    // Re-import to get fresh module that reads env var
+    // Note: We need to use a unique prefix so loglevel creates a new instance
+    const { default: freshCreateLogger } = await import('./index.js?env-debug')
+    const log = freshCreateLogger('env:debug:test')
+
+    t.is(log.getLevel(), LOG_LEVELS.debug)
+  } finally {
+    // Restore original env
+    if (originalEnv === undefined) {
+      delete process.env[LOG_LEVEL_ENV_VAR]
+    } else {
+      process.env[LOG_LEVEL_ENV_VAR] = originalEnv
+    }
+  }
+})
+
+test.serial('logger reads error level from QUIRE_LOG_LEVEL env var', async (t) => {
+  const originalEnv = process.env[LOG_LEVEL_ENV_VAR]
+
+  try {
+    process.env[LOG_LEVEL_ENV_VAR] = 'error'
+
+    const { default: freshCreateLogger } = await import('./index.js?env-error')
+    const log = freshCreateLogger('env:error:test')
+
+    t.is(log.getLevel(), LOG_LEVELS.error)
+  } finally {
+    if (originalEnv === undefined) {
+      delete process.env[LOG_LEVEL_ENV_VAR]
+    } else {
+      process.env[LOG_LEVEL_ENV_VAR] = originalEnv
+    }
+  }
+})
+
+test.serial('explicit level parameter overrides env var', async (t) => {
+  const originalEnv = process.env[LOG_LEVEL_ENV_VAR]
+
+  try {
+    process.env[LOG_LEVEL_ENV_VAR] = 'error'
+
+    const { default: freshCreateLogger } = await import('./index.js?env-override')
+    // Explicitly pass 'debug' which should override env var 'error'
+    const log = freshCreateLogger('env:override:test', 'debug')
+
+    t.is(log.getLevel(), LOG_LEVELS.debug)
+  } finally {
+    if (originalEnv === undefined) {
+      delete process.env[LOG_LEVEL_ENV_VAR]
+    } else {
+      process.env[LOG_LEVEL_ENV_VAR] = originalEnv
+    }
+  }
+})
+
+test.serial('invalid env var value falls back to info', async (t) => {
+  const originalEnv = process.env[LOG_LEVEL_ENV_VAR]
+
+  try {
+    process.env[LOG_LEVEL_ENV_VAR] = 'not-a-valid-level'
+
+    const { default: freshCreateLogger } = await import('./index.js?env-invalid')
+    const log = freshCreateLogger('env:invalid:test')
+
+    t.is(log.getLevel(), LOG_LEVELS.info)
+  } finally {
+    if (originalEnv === undefined) {
+      delete process.env[LOG_LEVEL_ENV_VAR]
+    } else {
+      process.env[LOG_LEVEL_ENV_VAR] = originalEnv
+    }
+  }
 })

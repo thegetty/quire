@@ -1,10 +1,25 @@
 #!/usr/bin/env -S node --no-warnings
-import cli from '#src/main.js'
 import config from '#src/lib/conf/config.js'
 import packageConfig from '#src/packageConfig.js'
 import updateNotifier from 'update-notifier'
 
 process.removeAllListeners('warning')
+
+/**
+ * Set log level from config before importing CLI modules
+ *
+ * This env var is read by the logger at module creation time.
+ * Setting it here ensures all loggers (including module-level ones)
+ * use the configured level.
+ *
+ * @see lib/logger/index.js
+ */
+process.env.QUIRE_LOG_LEVEL = config.get('logLevel') || 'info'
+
+/**
+ * Dynamic import ensures env var is set before logger modules are loaded
+ */
+const { default: cli } = await import('#src/main.js')
 
 /**
  * Interval constants in milliseconds
