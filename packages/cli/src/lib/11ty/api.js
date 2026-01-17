@@ -33,8 +33,10 @@
 import { dynamicImport } from '#helpers/os-utils.js'
 import path from 'node:path'
 import paths from '#lib/project/index.js'
+import { logger } from '#lib/logger/index.js'
+import createDebug from '#debug'
 
-const LOG_PREFIX = '[CLI:lib/11ty]'
+const debug = createDebug('lib:11ty:api')
 
 /**
  * Configure environment variables required for Eleventy.
@@ -80,9 +82,8 @@ const createEleventyInstance = async (options = {}) => {
   const output = paths.getOutputDir()
   const projectRoot = paths.getProjectRoot()
 
-  if (options.debug) {
-    console.debug(`${LOG_PREFIX} projectRoot %s\n%o`, projectRoot, paths.toObject())
-  }
+  debug('projectRoot: %s', projectRoot)
+  debug('paths: %O', paths.toObject())
 
   // Dynamically import the correct version of Eleventy
   const modulePath = path.join(eleventyRoot, 'node_modules', '@11ty', 'eleventy', 'src', 'Eleventy.js')
@@ -95,7 +96,7 @@ const createEleventyInstance = async (options = {}) => {
       // Event callback when a build completes
       // @see https://www.11ty.dev/docs/events/#eleventy.after
       eleventyConfig.on('eleventy.after', async () => {
-        console.debug(`${LOG_PREFIX} build complete`)
+        debug('build complete')
       })
 
       return eleventyConfig
@@ -171,7 +172,7 @@ class Quire11ty {
     const projectRoot = this.paths.getProjectRoot()
     process.chdir(projectRoot)
 
-    console.info(`${LOG_PREFIX} running eleventy build`)
+    logger.info('Building site...')
 
     configureEleventyEnv({ mode: 'production', debug: options.debug })
 
@@ -195,7 +196,7 @@ class Quire11ty {
     const projectRoot = this.paths.getProjectRoot()
     process.chdir(projectRoot)
 
-    console.info(`${LOG_PREFIX} running development server`)
+    logger.info('Starting development server...')
 
     configureEleventyEnv({ mode: 'development', debug: options.debug })
 
