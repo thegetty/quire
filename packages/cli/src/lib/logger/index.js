@@ -59,7 +59,7 @@ const EMOJI_MAP = {
   build: '🔨',
   cli: '⚡',
   conf: '⚙️',
-  epub: '📚'
+  epub: '📚',
   pdf: '📄',
   quire: '📖',
 }
