@@ -44,6 +44,15 @@ export default class ConfCommand extends Command {
     description: 'Manage the Quire CLI configuration.',
     summary: 'read/write quire-cli configuration options',
     docsLink: 'quire-commands/',
+    helpText: `
+Examples:
+  quire conf                    Show all configuration
+  quire conf get <key>          Get a single value
+  quire conf set <key> <value>  Set a value
+  quire conf delete <key>       Delete (reset to default)
+  quire conf reset [key]        Reset all or single key
+  quire conf path               Show config file path
+`,
     version: '2.0.0',
     args: [
       ['[operation]', `operation to perform (${OPERATIONS.join(', ')})`],
