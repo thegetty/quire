@@ -16,7 +16,7 @@ import testcwd from '#helpers/test-cwd.js'
 export default class VersionCommand extends Command {
   static definition = {
     name: 'version',
-    description: 'Sets the Quire version to use when running commands on the project.',
+    description: 'Sets the Quire version to use when running commands on the project.\n\nDocs: https://quire.getty.edu/docs/quire-commands/',
     summary: 'set the @thegetty/quire-11ty version',
     version: '1.0.0',
     args: [
